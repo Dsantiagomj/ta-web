@@ -116,6 +116,7 @@ Context for every verdict: about 1 800 server-rendered guide pages that must sta
 
 | Pattern | Verdict | Why |
 |---|---|---|
+| Sentence-case titles | Skip | Decided 2026-11-02: page and section titles are uppercase Barlow Condensed, as on Dofus Tools and Torre's site; card titles and body stay in normal case |
 | One family, Barlow | Adapt | Decided 2026-11-02: we keep the Dofus Tools families, Barlow Condensed for display, Barlow for body, Lilita One only for accents such as big step numbers. Barlow is what duffus uses for body, so the two sit well together |
 | The type scale, weights and rhythm | Adopt | Tight, heavy titles over a 16px body at 1.5, uppercase spaced micro labels. We take the scale and apply it to our families (`DESIGN.md`, type tokens) |
 | Last word of a page title in accent | Adopt | Cheap, readable hierarchy on list pages ("Todas las misiones") |
@@ -156,7 +157,7 @@ Context for every verdict: about 1 800 server-rendered guide pages that must sta
 | White secondary call to action | Skip | A pure white block is the loudest thing on the page in dark mode and fights the game art |
 | Floating support pill | Skip | It covers content on phones. Ko-fi goes in the header menu and footer |
 | Scroll-to-top button | Adopt | Quest pages run to 16 000px |
-| "Mode compact" switch | Adapt | Useful for players who already know a quest; start as a per-viewer preference, decide later if it is premium |
+| "Mode compact" switch | Adapt | Useful for players who already know a quest. Decided 2026-11-02: it is a premium feature, enforced on the server; the free view is the full guide |
 | Empty slots in grayscale | Adopt | Clear "not yet" state for items and achievements without extra color |
 
 ### Motion
