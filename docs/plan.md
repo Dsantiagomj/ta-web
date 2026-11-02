@@ -137,7 +137,7 @@ Member data (Better Auth plus our tables): members, sessions, organizations (gro
 ## 7. Visual direction
 
 - Reference: duffus.fr. Observed: a React single-page app with Framer Motion, dark by default with a light toggle, Barlow typeface, ads injected by script. Take the motion vocabulary (page transitions, staggered reveals, hover depth, smooth tab and filter changes), not its palette or layout.
-- Keep Dofus Tools' identity: our tokens, the egg theme switch, real game art only, header B, the collection cards shipped today in the guías embed.
+- Keep Dofus Tools' identity: our tokens, the egg theme switch, real game art only, the collection cards shipped today in the guías embed.
 - Motion rules: one shared set of durations and easings, `prefers-reduced-motion` everywhere, animate transform and opacity only, no layout animation on content pages.
 - Budgets, enforced by Lighthouse CI on every PR: LCP under 2.5 s on mobile 4G, CLS under 0.1, JS under 150 KB compressed on guide pages, every image with explicit size and an AVIF or WebP source.
 
