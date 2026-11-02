@@ -192,7 +192,7 @@ Side gutters: 16px under 640px, 24px up to 1024px, 48px above. Backgrounds alway
 
 ## Layout
 
-- **Header**: 64px, sticky. Transparent over the hero art at the top of the page, then `--color-bg` at 92 percent with `backdrop-filter: blur(16px) saturate(1.4)` once the page scrolls (solid fallback without `backdrop-filter`). Brand left; nav groups as dropdowns with game icons; search trigger with its `Ctrl K` hint; the egg theme switch; the account button (solid ocre pill when signed out). Under 768px: a floating bar inset 12px from the edges with 16px radius, and a burger that opens a full-height sheet of 48px rows.
+- **Header** (decided 2026-11-02: the duffus-style header, not the Dofus Tools "header B"): 64px, sticky. Transparent over the hero art at the top of the page, then `--color-bg` at 92 percent with `backdrop-filter: blur(16px) saturate(1.4)` once the page scrolls (solid fallback without `backdrop-filter`). Brand left; nav groups as dropdowns with game icons; search trigger with its `Ctrl K` hint; the egg theme switch; the account button (solid ocre pill when signed out). Under 768px: a floating bar inset 12px from the edges with 16px radius, and a burger that opens a full-height sheet of 48px rows.
 - **Footer**: legal links, Ko-fi, socials (YouTube, Kick, Instagram), the Twitch live card. No floating support button.
 - **Quest guide**: hero card at `--width-hero` (NPC render, eyebrow with breadcrumb, title, summary, level and zone, start map with coordinates and zaap chips, rewards); "Antes de empezar" block (level, prerequisites, achievement, dungeon, items needed with quantities); then the steps at `--width-prose` with a type badge in a 48px left gutter on wide screens, inside the card on phones.
 - **Dofus guide and checklist**: title block, summary strip (level range, prerequisites done, quests done, dungeons, segmented progress), chapters as numbered sections of checkable rows; from 1024px a sticky side column with the Dofus card and tabs (Capítulos, Objetos necesarios).
@@ -336,9 +336,8 @@ Carried over from Dofus Tools reviews, plus what the duffus study ruled out.
 
 1. Titles in sentence case (duffus) or uppercase display (Dofus Tools)? This file assumes sentence case.
 2. The primary button is a solid ocre fill. Dofus Tools had a rule that gold is never a button fill; confirm that ocre fills for the single primary action are acceptable.
-3. Header: the Dofus Tools "header B" zone strip (84px, zone art behind) or the duffus-style transparent header proposed here?
-4. Do per-section colors (Misiones gold, Guías Dofus green, Checklists teal, Clases coral…) come back as card accents, or does the site use the single palette above?
-5. Collection cards in Marfil: keep the art with a dark shade (as the Dofus Tools home did) or lighten the shade?
-6. "Modo compacto" on quest pages: per-viewer preference for everyone, or a premium feature?
-7. Lilita One beyond step numbers (prices, big counts)?
-8. Exact variant widths for images, to settle with the import script once the image sizes are measured.
+3. Do per-section colors (Misiones gold, Guías Dofus green, Checklists teal, Clases coral…) come back as card accents, or does the site use the single palette above?
+4. Collection cards in Marfil: keep the art with a dark shade (as the Dofus Tools home did) or lighten the shade?
+5. "Modo compacto" on quest pages: per-viewer preference for everyone, or a premium feature?
+6. Lilita One beyond step numbers (prices, big counts)?
+7. Exact variant widths for images, to settle with the import script once the image sizes are measured.
