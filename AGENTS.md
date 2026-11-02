@@ -105,6 +105,7 @@ CI runs all of them on every PR (planned). The repo is private, so Actions minut
 | Use the local API (`getPayload`) from server code; never call our own REST API from the server | One process, no HTTP round trip, typed results |
 | Every schema change ships with a migration (`npx payload migrate:create`), committed and reviewed. Schema push is for local development only | Production applies migrations; nothing changes the schema by hand |
 | Paywalled pages emit Google's paywalled-content structured data | The plan requires it for search |
+| Premium view modes, such as "Modo compacto" on quest pages, are entitlements like any other: the server picks the layout, and the free view is the full guide | A client-side toggle would hand the feature to everyone |
 | Drafts, versions and live preview stay on for editorial collections | Torre edits in the panel (plan section 5) |
 | Derived checklist data is computed in TypeScript at publish time (`src/lib/derive/`), from relationships, not from parsing text | It replaces the old Python pipeline |
 | Game data (quests, items, monsters from DofusDB) is read-only in the panel and refreshed by a script | Torre picks it through relationship fields |
