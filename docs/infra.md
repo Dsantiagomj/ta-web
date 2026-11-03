@@ -34,8 +34,8 @@ US East, decided 2026-11-02. The audience is mostly Latin America with a share i
 | Media | Cloudflare R2 | Two buckets. Public through `media.torrentearcano.com` and a dev twin once the domain is on Cloudflare |
 | DNS, CDN, TLS | Cloudflare | Needs the domain transfer out of Squarespace (plan, decision 1) |
 | Email | Resend | Pending. Prod sender on the domain with SPF, DKIM and DMARC |
-| Errors | Sentry (free tier) | Pending. One project, environments `dev` and `production` |
-| Uptime | Better Stack or UptimeRobot (free) | Pending. Ping `/api/health` on prod and dev every minute |
+| Errors | Sentry (free tier) | Project `ta-web` in org `dsmjdev`. Server errors only (`src/instrumentation.ts`), no browser SDK. Environments `dev` and `production` appear with their first events |
+| Uptime | Better Stack (free) | Pending. Check `/api/health` on prod and dev every 3 minutes (the free plan's interval) |
 | Analytics | Plausible or self-hosted Umami | Prod only, later |
 | AI review | `gga` with Codex in CI | Advisory |
 
@@ -84,7 +84,8 @@ feature branch ──PR──▶ CI: lint, types, unit, integration,─┐
 | `DEV_BASIC_AUTH_USER`, `DEV_BASIC_AUTH_PASSWORD` | unset | set (user `torre`) | unset | Railway |
 | `GIT_COMMIT_SHA` | unset | unset (Railway injects `RAILWAY_GIT_COMMIT_SHA`) | set by `release.yml` on each deploy | Railway |
 | `EMAIL_API_KEY` (planned) | unset | sandbox key | prod key | Railway |
-| `SENTRY_DSN`, `SENTRY_AUTH_TOKEN` (planned) | unset | set | set | Railway; GitHub secret for source maps |
+| `SENTRY_DSN` | unset | set | set | Railway |
+| `SENTRY_AUTH_TOKEN` (source maps at build time) | unset | pending | pending | Railway (both builds run on Railway, so no GitHub secret) |
 | `RAILWAY_TOKEN` | n/a | n/a | project token `prod`, scoped to `production` | GitHub environment `production` (secret) |
 | `PROD_URL` | n/a | n/a | prod domain | GitHub environment `production` (variable) |
 | `SMOKE_BASIC_AUTH_USER`, `SMOKE_BASIC_AUTH_PASSWORD` | n/a | the dev credentials | n/a | GitHub repo secrets |
@@ -117,6 +118,12 @@ Every variable the app reads goes in `.env.example` in the same PR (AGENTS.md). 
 - Account `DSMJ`, buckets `ta-media-dev` and `ta-media-prod`, location ENAM.
 - One account API token per bucket, named `ta-web R2 <bucket>`, limited to Object Read & Write on that bucket.
 - `S3_REGION` is not set; `MEDIA_BASE_URL` stays empty until the media domain exists.
+
+### Sentry
+
+- Organization `dsmjdev` (US region), project `ta-web` with its default DSN, set as `SENTRY_DSN` on `web` in both Railway environments.
+- Only the server SDK runs (`@sentry/nextjs`, `src/instrumentation.ts`). It sends events only when `SENTRY_DSN` is set and the environment is `dev` or `production`; each event's release is the deployed commit.
+- `SENTRY_AUTH_TOKEN` (an organization token) is not set yet, so source maps are not uploaded.
 
 ### GitHub
 
@@ -168,6 +175,8 @@ Checked against the real accounts on 2026-11-03:
 - `railway up` from `release.yml` deploys to a `production` that has no GitHub source, and the release waits for the health check before the smoke runs (release `v0.1.0`).
 - A wrong `RAILWAY_TOKEN` fails the release at "Fijar el commit desplegado" ("Invalid RAILWAY_TOKEN"), before anything is deployed. After fixing the secret, re-running the failed release with the same version works; the tag and GitHub release from the first attempt are reused.
 - Sentry members of the `dsmjdev` organization cannot create projects (the API answers 403, "Your organization has disabled this feature for members"). An owner or manager creates them, or enables project creation for members.
+- Sentry Uptime cannot monitor `*.railway.app`. Creating the monitor answered 400: "The domain \*.railway.app has already been used in 1000 uptime monitoring alerts, which is the limit." The cap is per domain across all Sentry customers. Uptime runs on Better Stack until the app has its own domain.
+- `preserve()` on a variable that does not exist yet (`SENTRY_AUTH_TOKEN`) plans no change and no error, so a secret can be declared before it is set.
 
 ## 10. Status and what is left
 
@@ -180,12 +189,12 @@ Checked against the real accounts on 2026-11-03:
 | Dev smoke workflow | Done |
 | Release workflow and first prod deploy | Done (`v0.1.0`, 2026-11-03) |
 | Branch protection | Done (ruleset `Proteger main`) |
-| Sentry | In progress: organization `dsmjdev` (US region) exists; the project `ta-web` needs an owner or manager to create it |
-| Uptime | Pending: the monitoring service is not chosen yet |
+| Sentry | Done for server errors. Source maps wait on `SENTRY_AUTH_TOKEN` |
+| Uptime | Pending: Better Stack monitors for both domains |
 
 What is left:
-1. Sentry: create the project `ta-web` (Next.js) in `dsmjdev`, then add the SDK, declare `SENTRY_DSN` and `SENTRY_AUTH_TOKEN` in `.railway/railway.ts` before setting them, and tag events with the environment (`dev`, `production`). Sentry creates environments from the first events that carry them.
-2. Uptime monitors on `/api/health` for both domains. They need no credentials.
+1. Sentry source maps: an organization auth token in Sentry, set as `SENTRY_AUTH_TOKEN` on `web` in both Railway environments (already declared in `.railway/railway.ts`).
+2. Better Stack monitors on `/api/health` for both domains, alerting by email. They need no credentials.
 3. `/api/health` reports `version` from `package.json` (`0.0.0`), not the release tag. Bump it in the release, or report the tag, if the version should match.
 4. Resend.
 5. Domain transfer to Cloudflare, then `dev.torrentearcano.com`, the media domains and Cloudflare Access.
