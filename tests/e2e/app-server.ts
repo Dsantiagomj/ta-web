@@ -54,7 +54,8 @@ export function appWebServers({
     {
       command: app,
       url: `http://localhost:${port}`,
-      env: { DATABASE_URL: databaseUrl, ...env },
+      // También la URL directa, que `pnpm migrate` prefiere: nunca una base real del shell.
+      env: { DATABASE_URL: databaseUrl, DATABASE_URL_DIRECT: databaseUrl, ...env },
       reuseExistingServer: false,
       timeout: 300_000,
     },

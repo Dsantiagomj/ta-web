@@ -13,8 +13,12 @@ export function usesEmbeddedDatabase(env: Env): boolean {
 
 /** Las variables con las que arrancan Payload y `pnpm migrate` en estas pruebas. */
 export function integrationEnv(env: Env): Record<string, string> {
+  const databaseUrl = env.DATABASE_URL?.trim() || INTEGRATION_DATABASE_URL
   return {
-    DATABASE_URL: env.DATABASE_URL?.trim() || INTEGRATION_DATABASE_URL,
+    DATABASE_URL: databaseUrl,
+    // `pnpm migrate` prefiere la URL directa: sin fijarla aquí, una del shell mandaría
+    // las migraciones de las pruebas a una base real.
+    DATABASE_URL_DIRECT: databaseUrl,
     PAYLOAD_SECRET: env.PAYLOAD_SECRET || 'integracion-local-no-secreto',
     // Sin R2: los archivos van al disco local (./media) aunque el shell tenga las S3_*.
     S3_ENDPOINT: '',

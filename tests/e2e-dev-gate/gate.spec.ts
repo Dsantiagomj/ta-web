@@ -25,8 +25,10 @@ test.describe('sin credenciales', () => {
   })
 })
 
-test('con credenciales incorrectas sigue en 401', async ({ playwright }) => {
+test('con credenciales incorrectas sigue en 401', async ({ playwright, baseURL }) => {
+  // Un contexto propio no hereda el baseURL del proyecto: se pasa explícito.
   const request = await playwright.request.newContext({
+    baseURL,
     httpCredentials: { username: DEV_GATE_TEST_CREDENTIALS.username, password: 'otra' },
   })
   const response = await request.get('/')
