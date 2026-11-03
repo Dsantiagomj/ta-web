@@ -1,0 +1,77 @@
+name: Smoke
+
+# Smoke tests (@smoke) contra una URL desplegada: portada, /admin y /api/health. Solo
+# leen, así que valen para dev y prod. Todavía no lo llama ningún despliegue; los
+# workflows de despliegue de dev y de release lo llamarán con `uses:` al terminar.
+
+on:
+  workflow_call:
+    inputs:
+      base_url:
+        description: URL del entorno, sin barra final (https://dev.torrentearcano.com)
+        required: true
+        type: string
+    secrets:
+      SMOKE_BASIC_AUTH_USER:
+        description: Usuario de basic auth del entorno, si lo tiene
+        required: false
+      SMOKE_BASIC_AUTH_PASSWORD:
+        description: Contraseña de basic auth del entorno, si lo tiene
+        required: false
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: URL del entorno, sin barra final (https://dev.torrentearcano.com)
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+
+jobs:
+  smoke:
+    name: Smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: ./.github/actions/setup
+
+      - name: Versión de Playwright
+        id: playwright
+        run: echo "version=$(pnpm exec playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
+
+      - name: Caché de los navegadores de Playwright
+        id: browsers
+        uses: actions/cache@v6.1.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
+
+      - name: Instalar Chromium
+        if: steps.browsers.outputs.cache-hit != 'true'
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Instalar las dependencias del sistema de Chromium
+        if: steps.browsers.outputs.cache-hit == 'true'
+        run: pnpm exec playwright install-deps chromium
+
+      # Con SMOKE_BASE_URL, Playwright no compila ni arranca nada en local. En
+      # workflow_dispatch se usan los secretos del repo con estos nombres; sin ellos,
+      # las pruebas van sin basic auth.
+      - run: pnpm test:smoke
+        env:
+          SMOKE_BASE_URL: ${{ inputs.base_url }}
+          SMOKE_BASIC_AUTH_USER: ${{ secrets.SMOKE_BASIC_AUTH_USER }}
+          SMOKE_BASIC_AUTH_PASSWORD: ${{ secrets.SMOKE_BASIC_AUTH_PASSWORD }}
+
+      - name: Informe de Playwright
+        if: failure()
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: playwright-report-smoke
+          path: playwright-report/
+          retention-days: 7
