@@ -34,19 +34,27 @@ jobs:
         env:
           ENVIRONMENT: ${{ github.event.deployment.environment }}
           ENVIRONMENT_URL: ${{ github.event.deployment_status.environment_url }}
+          DEV_URL: ${{ vars.DEV_URL }}
         run: |
+          # Las credenciales de dev solo viajan a la URL de dev configurada y por HTTPS:
+          # cualquier deployment cuyo entorno diga "dev" podría traer otra URL.
           url="${ENVIRONMENT_URL%/}"
-          case "$url" in
-            https://* | http://*)
-              echo "Smoke contra $url ($ENVIRONMENT)."
-              echo "base_url=$url" >> "$GITHUB_OUTPUT"
-              ;;
-            *)
-              # Sin URL no hay smoke: se falla en vez de dar el despliegue por bueno sin probarlo.
-              echo "::error title=Smoke de dev::El despliegue de $ENVIRONMENT no trae URL (environment_url vacío), así que el smoke no puede correr. Revisa el dominio del servicio en Railway."
-              exit 1
-              ;;
-          esac
+          trusted="${DEV_URL%/}"
+          if [ -z "$url" ]; then
+            # Sin URL no hay smoke: se falla en vez de dar el despliegue por bueno sin probarlo.
+            echo "::error title=Smoke de dev::El despliegue de $ENVIRONMENT no trae URL (environment_url vacío), así que el smoke no puede correr. Revisa el dominio del servicio en Railway."
+            exit 1
+          fi
+          if [[ "$trusted" != https://* ]]; then
+            echo "::error title=Smoke de dev::Falta la variable de repo DEV_URL (https://…, sin barra final), así que no se envían las credenciales de dev."
+            exit 1
+          fi
+          if [ "$url" != "$trusted" ]; then
+            echo "::error title=Smoke de dev::El despliegue de $ENVIRONMENT apunta a $url, que no es DEV_URL ($trusted). No se envían las credenciales."
+            exit 1
+          fi
+          echo "Smoke contra $url ($ENVIRONMENT)."
+          echo "base_url=$url" >> "$GITHUB_OUTPUT"
 
   smoke:
     name: Smoke

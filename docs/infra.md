@@ -99,6 +99,7 @@ Details:
 | `RAILWAY_TOKEN` | n/a | n/a | project token | GitHub environment `production` |
 | `PROD_URL` | n/a | n/a | prod URL | GitHub environment `production` (variable) |
 | `SMOKE_BASIC_AUTH_USER`, `SMOKE_BASIC_AUTH_PASSWORD` | n/a | the dev credentials | n/a | GitHub repo secrets |
+| `DEV_URL` | n/a | dev URL | n/a | GitHub repo variable |
 | `CODEX_AUTH_JSON` | n/a | n/a | n/a | GitHub repo secret (CI review) |
 
 Every new variable is added to `.env.example` in the same PR (AGENTS.md rule). Each environment has its own R2 token limited to its bucket, and its own `PAYLOAD_SECRET`.
@@ -219,7 +220,7 @@ railway config apply
 1. The environment `production` exists (created 2026-11-03) and only accepts deployments from `main` (a deployment branch policy, available on GitHub Pro). Required reviewers are not available for private repos below GitHub Enterprise (the API answers 422), so `release.yml` refuses to run unless the repository owner triggers it. While Daniel is the only person with write access, that is equivalent to his approval. Add:
    - secret `RAILWAY_TOKEN`: the project token from Railway step 6;
    - variable `PROD_URL`: the prod Railway domain, `https://…`, no trailing slash.
-2. Add the repo secrets `SMOKE_BASIC_AUTH_USER` and `SMOKE_BASIC_AUTH_PASSWORD`, the same values as the dev credentials. `Smoke de dev` uses them.
+2. Add the repo secrets `SMOKE_BASIC_AUTH_USER` and `SMOKE_BASIC_AUTH_PASSWORD`, the same values as the dev credentials, and the repo variable `DEV_URL`: the dev Railway domain, `https://…`, no trailing slash. `Smoke de dev` sends the credentials only when the deployment URL equals `DEV_URL`.
 3. Protect `main` (section 4).
 
 ### First deploys
