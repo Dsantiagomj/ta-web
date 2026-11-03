@@ -35,7 +35,7 @@ US East, decided 2026-11-02. The audience is mostly Latin America with a share i
 | DNS, CDN, TLS | Cloudflare | Needs the domain transfer out of Squarespace (plan, decision 1) |
 | Email | Resend | Pending. Prod sender on the domain with SPF, DKIM and DMARC |
 | Errors | Sentry (free tier) | Project `ta-web` in org `dsmjdev`. Server errors only (`src/instrumentation.ts`), no browser SDK. Environments `dev` and `production` appear with their first events |
-| Uptime | Better Stack (free) | Pending. Check `/api/health` on prod and dev every 3 minutes (the free plan's interval) |
+| Uptime | Better Stack (free) | Two monitors on `/api/health`, prod and dev, every 3 minutes (the free plan's interval). Down when the body lacks `"db":"ok"`. Alerts by email |
 | Analytics | Plausible or self-hosted Umami | Prod only, later |
 | AI review | `gga` with Codex in CI | Advisory |
 
@@ -85,7 +85,7 @@ feature branch ──PR──▶ CI: lint, types, unit, integration,─┐
 | `GIT_COMMIT_SHA` | unset | unset (Railway injects `RAILWAY_GIT_COMMIT_SHA`) | set by `release.yml` on each deploy | Railway |
 | `EMAIL_API_KEY` (planned) | unset | sandbox key | prod key | Railway |
 | `SENTRY_DSN` | unset | set | set | Railway |
-| `SENTRY_AUTH_TOKEN` (source maps at build time) | unset | pending | pending | Railway (both builds run on Railway, so no GitHub secret) |
+| `SENTRY_AUTH_TOKEN` (source maps at build time) | unset | set | staged, not applied yet | Railway (both builds run on Railway, so no GitHub secret) |
 | `RAILWAY_TOKEN` | n/a | n/a | project token `prod`, scoped to `production` | GitHub environment `production` (secret) |
 | `PROD_URL` | n/a | n/a | prod domain | GitHub environment `production` (variable) |
 | `SMOKE_BASIC_AUTH_USER`, `SMOKE_BASIC_AUTH_PASSWORD` | n/a | the dev credentials | n/a | GitHub repo secrets |
@@ -123,7 +123,7 @@ Every variable the app reads goes in `.env.example` in the same PR (AGENTS.md). 
 
 - Organization `dsmjdev` (US region), project `ta-web` with its default DSN, set as `SENTRY_DSN` on `web` in both Railway environments.
 - Only the server SDK runs (`@sentry/nextjs`, `src/instrumentation.ts`). It sends events only when `SENTRY_DSN` is set and the environment is `dev` or `production`; each event's release is the deployed commit.
-- `SENTRY_AUTH_TOKEN` (an organization token) is not set yet, so source maps are not uploaded.
+- `SENTRY_AUTH_TOKEN` is an organization token. It is set in dev. In production it is staged in Railway and takes effect once that change is deployed, so apply it before the next release.
 
 ### GitHub
 
@@ -177,6 +177,7 @@ Checked against the real accounts on 2026-11-03:
 - Sentry members of the `dsmjdev` organization cannot create projects (the API answers 403, "Your organization has disabled this feature for members"). An owner or manager creates them, or enables project creation for members.
 - Sentry Uptime cannot monitor `*.railway.app`. Creating the monitor answered 400: "The domain \*.railway.app has already been used in 1000 uptime monitoring alerts, which is the limit." The cap is per domain across all Sentry customers. Uptime runs on Better Stack until the app has its own domain.
 - `preserve()` on a variable that does not exist yet (`SENTRY_AUTH_TOKEN`) plans no change and no error, so a secret can be declared before it is set.
+- Dev waits for every GitHub check on the commit, not only `Pruebas`. A failed Dependabot security update (it could not lift `glob` past 13.x) made Railway skip the deploy of that commit, and a later redeploy of the same commit is skipped too. Dismissing the alert as an accepted risk stops the job; the next commit deploys.
 
 ## 10. Status and what is left
 
@@ -189,14 +190,13 @@ Checked against the real accounts on 2026-11-03:
 | Dev smoke workflow | Done |
 | Release workflow and first prod deploy | Done (`v0.1.0`, 2026-11-03) |
 | Branch protection | Done (ruleset `Proteger main`) |
-| Sentry | Done for server errors. Source maps wait on `SENTRY_AUTH_TOKEN` |
-| Uptime | Pending: Better Stack monitors for both domains |
+| Sentry | Done for server errors. Auth token set in dev, staged in production |
+| Uptime | Done (Better Stack, both domains) |
 
 What is left:
-1. Sentry source maps: an organization auth token in Sentry, set as `SENTRY_AUTH_TOKEN` on `web` in both Railway environments (already declared in `.railway/railway.ts`).
-2. Better Stack monitors on `/api/health` for both domains, alerting by email. They need no credentials.
-3. `/api/health` reports `version` from `package.json` (`0.0.0`), not the release tag. Bump it in the release, or report the tag, if the version should match.
-4. Resend.
-5. Domain transfer to Cloudflare, then `dev.torrentearcano.com`, the media domains and Cloudflare Access.
-6. Neon Launch plan, if `main` has to be protected or 6 hours of point-in-time history is too short.
-7. Optionally, `sslmode=verify-full` in the Neon URLs: `pg` warns that `require` changes meaning in `pg` v9.
+1. Apply the staged `SENTRY_AUTH_TOKEN` in production, then release, so prod runs the Sentry SDK and uploads source maps.
+2. `/api/health` reports `version` from `package.json` (`0.0.0`), not the release tag. Bump it in the release, or report the tag, if the version should match.
+3. Resend.
+4. Domain transfer to Cloudflare, then `dev.torrentearcano.com`, the media domains and Cloudflare Access.
+5. Neon Launch plan, if `main` has to be protected or 6 hours of point-in-time history is too short.
+6. Optionally, `sslmode=verify-full` in the Neon URLs: `pg` warns that `require` changes meaning in `pg` v9.
