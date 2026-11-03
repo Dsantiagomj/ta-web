@@ -33,11 +33,15 @@ Media uploads go to `./media` unless the four `S3_*` variables point at an R2 bu
 
 To reset the local database, stop `pnpm db:dev` and delete `.postgres/`.
 
-The local database is called `ta_web` (it was `torrente_arcano` before the repo was renamed). If you have data in the old one, keep it by renaming it once, with `pnpm db:dev` running and nothing else connected:
+The local database is called `ta_web` (it was `torrente_arcano` before the repo was renamed). `pnpm db:dev` creates an empty `ta_web` when it is missing, so to keep data from the old one, drop that empty database and rename the old one into its place, once, with `pnpm db:dev` running and the app stopped:
 
 ```bash
-psql postgres://postgres:postgres@127.0.0.1:54329/postgres -c 'ALTER DATABASE torrente_arcano RENAME TO ta_web'
+psql postgres://postgres:postgres@127.0.0.1:54329/postgres \
+  -c 'DROP DATABASE IF EXISTS ta_web' \
+  -c 'ALTER DATABASE torrente_arcano RENAME TO ta_web'
 ```
+
+Only do this if `ta_web` is the empty database `pnpm db:dev` just created; dropping it deletes whatever it holds.
 
 Without `psql`, start over instead: stop `pnpm db:dev`, delete `.postgres/` and run `pnpm migrate`.
 
