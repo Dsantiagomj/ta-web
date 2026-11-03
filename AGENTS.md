@@ -2,7 +2,7 @@
 
 Rules for any agent that changes this repo. It is the new torrentearcano.com: Torre's Dofus quest guides, achievements, classes, Dofus guides and checklists, with member accounts, per-member progress and premium features. It replaces the Squarespace site and the embeds served from `silvestre-checklist`. The plan, decisions and phases are in `docs/plan.md`; visual rules are in `DESIGN.md`.
 
-Most of what this file describes is **planned**: the repo holds docs only until phase 0 creates the app. When a rule names a path or command that does not exist yet, create it that way.
+The app skeleton exists: Next.js with Payload, the design tokens, the test suites, the git hooks and CI. Most of the rest is **planned**. When a rule names a path or command that does not exist yet, create it that way. How to run it locally is in the Development section of `README.md`.
 
 ## When this applies
 
@@ -13,7 +13,7 @@ Every change: code, content model, migrations, data, docs, CI. Read this file be
 1. One branch per change, in a worktree under `../torrente-arcano-worktrees/<name>`.
 2. Strict TDD: write or adjust the test, watch it fail, then implement.
 3. Schema change: generate and commit the migration in the same branch.
-4. Run every suite locally (see Testing). Report failures verbatim.
+4. Run every suite locally (see Testing). Report failures verbatim. The pre-commit hook runs Prettier, ESLint and the `gga` review on staged files; do not skip it (`--no-verify`, `LEFTHOOK=0`, `LEFTHOOK_EXCLUDE`) unless the user asks.
 5. UI change: screenshots at 1440, 1024 and 390 px, Arcano dark and light (plus any theme the change touches), in `tmp/shots/`, next to the approved mockup.
 6. Open the PR: conventional commit title, Spanish body. No auto-merge unless asked.
 
@@ -31,7 +31,9 @@ Every change: code, content model, migrations, data, docs, CI. Read this file be
 | Search | Postgres full text (`spanish` config plus `unaccent`) |
 | Hosting | one long-running Node container (Railway, Fly or a VPS) |
 
-## Repo layout (planned)
+## Repo layout
+
+`src/globals/`, `src/blocks/`, `src/migrations/` and `scripts/import/` do not exist yet.
 
 | Path | What |
 |---|---|
@@ -41,11 +43,11 @@ Every change: code, content model, migrations, data, docs, CI. Read this file be
 | `src/collections/` | One file per collection (quest guides, achievements, Dofus guides, checklists, classes, dungeons, pages, media), with its fields, access and hooks |
 | `src/globals/` | Site settings: navigation, socials, Ko-fi, Twitch card, announcement bar |
 | `src/blocks/` | Payload blocks for guide bodies (rich text, image, video, callout, dialogue, step) |
-| `src/lib/` | Server code shared across routes: `auth/` (Better Auth), `access/` (entitlement checks), `progress/` (member progress tables and merge), `media/` (variant URLs), `search/`, `derive/` (checklist derived data) |
-| `src/components/` | React components. Server components by default; client islands carry `"use client"` and live next to what uses them |
-| `src/styles/` | `theme.css` with the `@theme` tokens, global CSS |
+| `src/lib/` | Server code shared across routes: `db/` (database URL), `theme/` (theme and mode), `media/` (storage, variant URLs), `auth/` (Better Auth), `access/` (entitlement checks), `progress/` (member progress tables and merge), `search/`, `derive/` (checklist derived data) |
+| `src/components/` | React components (`mode-toggle/` today). Server components by default; client islands carry `"use client"` and live next to what uses them |
+| `src/styles/` | `theme.css` with the `@theme` tokens, `globals.css`, `fonts.ts` (`next/font`) |
 | `src/migrations/` | Payload and Drizzle migrations, committed |
-| `scripts/import/` | The Squarespace import pipeline (phase 1) |
+| `scripts/` | `db-dev.ts` (embedded Postgres for `pnpm db:dev`), `hooks/` (git hook scripts run by `lefthook.yml`), `import/` (the Squarespace import pipeline, phase 1) |
 | `tests/unit/` | Vitest |
 | `tests/e2e/` | Playwright |
 | `docs/` | Plan, research, decisions |
@@ -83,17 +85,17 @@ Spanish only at launch, ready for more: Payload localization is on with `es` as 
 
 Access control and entitlements are tested at the data layer: a test calls the Payload local API as an anonymous user, a free member and a premium member, and asserts what each one receives.
 
-## Testing (planned)
+## Testing
 
 | Suite | Command | Covers |
 |---|---|---|
-| Unit | `npm run test:unit` (Vitest) | `src/lib/` (progress merge, entitlements, derived data, media URLs), collection access functions, hooks |
-| E2E | `npm run test:e2e` (Playwright) | rendered pages against a seeded database: guides, checklists, search, theme, sign-in, progress, premium gating; the suites ported from `silvestre-checklist` in phase 2a |
-| Budgets | `npm run test:lhci` (Lighthouse CI) | the budgets in `DESIGN.md` on a fixed set of pages (home, a quest guide, an achievement, a checklist) |
-| Types and lint | `npm run typecheck`, `npm run lint` | the whole repo |
-| Import | `npm run test:import` | golden pages of the Squarespace import (phase 1) |
+| Unit | `pnpm test` (Vitest) | `src/lib/` (progress merge, entitlements, derived data, media URLs), collection access functions, hooks |
+| E2E | `pnpm test:e2e` (Playwright; starts `pnpm db:dev` and `pnpm dev` when they are not running) | rendered pages against a seeded database: guides, checklists, search, theme, sign-in, progress, premium gating; the suites ported from `silvestre-checklist` in phase 2a |
+| Budgets (planned) | `pnpm test:lhci` (Lighthouse CI) | the budgets in `DESIGN.md` on a fixed set of pages (home, a quest guide, an achievement, a checklist) |
+| Types, lint and format | `pnpm typecheck`, `pnpm lint`, `pnpm format:check` | the whole repo |
+| Import (planned) | `pnpm test:import` | golden pages of the Squarespace import (phase 1) |
 
-CI runs all of them on every PR (planned). The repo is private, so Actions minutes are limited: keep jobs cached and skip what a change cannot affect.
+CI (`.github/workflows/ci.yml`) runs lint, types, unit, build and E2E on every PR and push to `main`; the `Pruebas` job requires all of them. Budgets and import join when they exist. The `Revisión GGA` job reviews the PR with `gga` and Codex; it is advisory and not part of `Pruebas`. The repo is private, so Actions minutes are limited: keep jobs cached and skip what a change cannot affect.
 
 ## Payload rules
 
@@ -103,7 +105,7 @@ CI runs all of them on every PR (planned). The repo is private, so Actions minut
 | Never hide gated content with CSS or client logic | Hidden content still ships in the HTML and the React Server Components payload |
 | The local API skips access control unless told otherwise. When rendering for a visitor, pass `overrideAccess: false` and the current `user` | The default (`overrideAccess: true`) is for trusted server jobs only, such as the import |
 | Use the local API (`getPayload`) from server code; never call our own REST API from the server | One process, no HTTP round trip, typed results |
-| Every schema change ships with a migration (`npx payload migrate:create`), committed and reviewed. Schema push is for local development only | Production applies migrations; nothing changes the schema by hand |
+| Every schema change ships with a migration (`pnpm payload migrate:create`), committed and reviewed. Schema push is for local development only | Production applies migrations; nothing changes the schema by hand |
 | Paywalled pages emit Google's paywalled-content structured data | The plan requires it for search |
 | Premium themes (Amakna, Bonta, Brâkmar, Ocre) are an entitlement: the server renders a premium `data-theme` only when the member's entitlement allows it, and saving one is rejected otherwise. A theme value from the client, a cookie or `localStorage` is never trusted on its own. Arcano is the free default | Hiding a premium theme behind a client switch would hand it to everyone |
 | Premium view modes, such as "Modo compacto" on quest pages, are entitlements like any other: the server picks the layout, and the free view is the full guide | A client-side toggle would hand the feature to everyone |
@@ -144,7 +146,8 @@ CI runs all of them on every PR (planned). The repo is private, so Actions minut
 - `.env.example` lists every variable with an empty or dummy value and a comment. Add a line there in the same change that reads a new variable.
 - Never commit secrets. `.env*` is git-ignored except `.env.example`.
 - Server-only variables never get the `NEXT_PUBLIC_` prefix.
-- Expected variables (planned): `DATABASE_URL`, `PAYLOAD_SECRET`, `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `DISCORD_CLIENT_ID`, `DISCORD_CLIENT_SECRET`, `S3_ENDPOINT`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `MEDIA_BASE_URL`, `EMAIL_API_KEY`, and the payment keys in phase 5.
+- Read today: `DATABASE_URL`, `PAYLOAD_SECRET`, `NEXT_PUBLIC_SITE_URL`, `S3_ENDPOINT`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_REGION`, `MEDIA_BASE_URL`.
+- Planned: `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `DISCORD_CLIENT_ID`, `DISCORD_CLIENT_SECRET`, `EMAIL_API_KEY`, and the payment keys in phase 5.
 
 ## Design process
 

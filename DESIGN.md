@@ -1,6 +1,6 @@
 # Design language
 
-The visual rules for the new torrentearcano.com. Structure, density and motion follow the study of duffus.fr in `docs/research/duffus-visual.md`. Color, art and the theme switch are our own. Nothing here is implemented yet; once the tokens ship in `src/styles/`, the CSS wins and this file gets fixed when they disagree.
+The visual rules for the new torrentearcano.com. Structure, density and motion follow the study of duffus.fr in `docs/research/duffus-visual.md`. Color, art and the theme switch are our own. The tokens ship in `src/styles/theme.css`; when it and this file disagree, the CSS wins and this file gets fixed.
 
 ## Principles
 
@@ -13,7 +13,7 @@ The visual rules for the new torrentearcano.com. Structure, density and motion f
 
 ## Tokens
 
-Tokens are CSS custom properties declared in a Tailwind v4 `@theme` block in `src/styles/theme.css` (planned). Why Tailwind v4 names:
+Tokens are CSS custom properties declared in a Tailwind v4 `@theme` block in `src/styles/theme.css`. Why Tailwind v4 names:
 
 - `@theme` emits every token as a plain CSS variable on `:root`, so the same names work as utilities (`bg-surface`, `text-ink-2`, `rounded-card`) and in hand-written CSS (`var(--color-surface)`). The checklist app we lift in phase 2a has 3 400 lines of plain CSS; it can switch to these variables without adopting utilities.
 - The namespaces (`--color-*`, `--font-*`, `--text-*`, `--radius-*`, `--shadow-*`, `--ease-*`, `--breakpoint-*`, `--spacing`) are Tailwind's, so utilities are generated without config.
