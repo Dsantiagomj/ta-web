@@ -1,0 +1,314 @@
+/*
+ * Tokens de DESIGN.md. Si este archivo y DESIGN.md no coinciden, gana el CSS y se
+ * corrige DESIGN.md.
+ *
+ * Cada tema y modo define sus valores crudos (--t-*) bajo su selector; los tokens
+ * semánticos (--color-*) apuntan a ellos con @theme inline, así que las utilidades
+ * de Tailwind (bg-surface, text-ink-2) y el CSS a mano (var(--color-surface)) leen
+ * los mismos nombres.
+ */
+
+@theme static {
+  /* Sin la paleta ni las escalas por defecto de Tailwind: solo existen las nuestras. */
+  --color-*: initial;
+  --font-*: initial;
+  --text-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --ease-*: initial;
+  --breakpoint-*: initial;
+
+  --spacing: 0.25rem;
+
+  --text-hero: clamp(3rem, 2rem + 4vw, 5.5rem);
+  --text-hero--line-height: 0.92;
+  --text-hero--font-weight: 800;
+  --text-hero--letter-spacing: 0.01em;
+  --text-4xl: clamp(2.25rem, 1.75rem + 2vw, 3rem);
+  --text-4xl--line-height: 1;
+  --text-4xl--font-weight: 800;
+  --text-4xl--letter-spacing: 0.02em;
+  --text-3xl: 2.25rem;
+  --text-3xl--line-height: 1.05;
+  --text-3xl--font-weight: 800;
+  --text-3xl--letter-spacing: 0.02em;
+  --text-2xl: 1.875rem;
+  --text-2xl--line-height: 1.1;
+  --text-2xl--font-weight: 800;
+  --text-2xl--letter-spacing: 0.02em;
+  --text-xl: 1.375rem;
+  --text-xl--line-height: 1.2;
+  --text-xl--font-weight: 700;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.4;
+  --text-lg--font-weight: 600;
+  --text-base: 1rem;
+  --text-base--line-height: 1.5;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.5;
+  --text-xs: 0.78rem;
+  --text-xs--line-height: 1.45;
+  --text-eyebrow: 0.8125rem;
+  --text-eyebrow--line-height: 1.4;
+  --text-eyebrow--font-weight: 700;
+  --text-eyebrow--letter-spacing: 0.16em;
+  --text-micro: 0.6875rem;
+  --text-micro--line-height: 1.4;
+  --text-micro--font-weight: 700;
+  --text-micro--letter-spacing: 0.12em;
+  --text-figure-lg: 2.5rem;
+  --text-figure-lg--line-height: 1;
+  --text-figure: 1.375rem;
+  --text-figure--line-height: 1;
+
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-card: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in: cubic-bezier(0.5, 0, 0.75, 0);
+  --ease-standard: cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+
+  /* Cada sección fija --color-section en su raíz (p. ej. var(--color-sec-logros));
+     sin sección, el acento del tema. */
+  --color-section: var(--color-accent);
+}
+
+@theme static inline {
+  --color-bg: var(--t-bg);
+  --color-surface: var(--t-surface);
+  --color-raised: var(--t-raised);
+  --color-line: var(--t-line);
+  --color-ink: var(--t-ink);
+  --color-ink-2: var(--t-ink-2);
+  --color-muted: var(--t-muted);
+  --color-accent: var(--t-accent);
+  --color-accent-2: var(--t-accent-2);
+
+  --color-success: var(--t-success);
+  --color-warning: var(--t-warning);
+  --color-danger: var(--t-danger);
+  --color-info: var(--t-info);
+
+  --color-sec-misiones: var(--t-sec-misiones);
+  --color-sec-logros: var(--t-sec-logros);
+  --color-sec-dofus: var(--t-sec-dofus);
+  --color-sec-checklists: var(--t-sec-checklists);
+  --color-sec-clases: var(--t-sec-clases);
+  --color-sec-mazmorras: var(--t-sec-mazmorras);
+  --color-sec-herramientas: var(--t-sec-herramientas);
+
+  /* Las variables --font-barlow* las define next/font en <html>. */
+  --font-display:
+    var(--font-barlow-condensed), 'Barlow Condensed', 'Barlow', 'Arial Narrow', system-ui,
+    sans-serif;
+  --font-body: var(--font-barlow), 'Barlow', system-ui, -apple-system, sans-serif;
+  --font-accent: var(--font-lilita-one), 'Lilita One', 'Barlow Condensed', system-ui, sans-serif;
+
+  --shadow-art:
+    0 2px 6px rgb(0 0 0 / var(--t-shadow-alpha-1)), 0 14px 32px rgb(0 0 0 / var(--t-shadow-alpha-2));
+  --shadow-float: 0 12px 32px rgb(0 0 0 / var(--t-shadow-alpha-3));
+  --shadow-dialog: 0 24px 64px rgb(0 0 0 / var(--t-shadow-alpha-4));
+  --shadow-glow:
+    0 0 0 1px color-mix(in srgb, var(--t-accent) 55%, transparent), 0 0 18px -4px var(--t-accent);
+}
+
+/* Tokens sin espacio de nombres en Tailwind: variables normales. */
+:root {
+  --z-base: 0;
+  --z-raised: 10;
+  --z-header: 50;
+  --z-menu: 60;
+  --z-overlay: 70;
+  --z-dialog: 80;
+  --z-toast: 90;
+
+  --duration-press: 100ms;
+  --duration-fast: 160ms;
+  --duration-base: 220ms;
+  --duration-slow: 320ms;
+  --duration-enter: 400ms;
+
+  --width-wide: 1400px;
+  --width-page: 1200px;
+  --width-hero: 1100px;
+  --width-prose: 800px;
+}
+
+/* Paletas: cinco temas, cada uno con modo oscuro y claro. Arcano oscuro también es el
+   valor de :root, para que una página sin atributos o con uno desconocido se vea bien. */
+
+:root,
+[data-theme='arcano'][data-mode='dark'] {
+  --t-bg: #0f0d1a;
+  --t-surface: #17142a;
+  --t-raised: #221e3b;
+  --t-line: #363160;
+  --t-ink: #ece9ff;
+  --t-ink-2: #bdb6e6;
+  --t-muted: #9089ba;
+  --t-accent: #6fe3ff;
+  --t-accent-2: #c79bff;
+}
+
+[data-theme='arcano'][data-mode='light'] {
+  --t-bg: #f4f2fb;
+  --t-surface: #ffffff;
+  --t-raised: #e9e5f7;
+  --t-line: #c9c2e6;
+  --t-ink: #1b1630;
+  --t-ink-2: #3f3763;
+  --t-muted: #5f5782;
+  --t-accent: #0a6a85;
+  --t-accent-2: #6b3fc0;
+}
+
+[data-theme='amakna'][data-mode='dark'] {
+  --t-bg: #0c120e;
+  --t-surface: #131c16;
+  --t-raised: #1c2a21;
+  --t-line: #2c4033;
+  --t-ink: #eef3e8;
+  --t-ink-2: #c3d1bd;
+  --t-muted: #90a48b;
+  --t-accent: #a3dd5e;
+  --t-accent-2: #f2c86b;
+}
+
+[data-theme='amakna'][data-mode='light'] {
+  --t-bg: #f3f5ec;
+  --t-surface: #fdfef9;
+  --t-raised: #e6ecdb;
+  --t-line: #c3cfb2;
+  --t-ink: #172014;
+  --t-ink-2: #34452d;
+  --t-muted: #54644c;
+  --t-accent: #3a6812;
+  --t-accent-2: #875a0c;
+}
+
+[data-theme='bonta'][data-mode='dark'] {
+  --t-bg: #0c1220;
+  --t-surface: #131b2e;
+  --t-raised: #1b2640;
+  --t-line: #2c3b5c;
+  --t-ink: #eef2fb;
+  --t-ink-2: #bfc9de;
+  --t-muted: #8c99b5;
+  --t-accent: #8fb8ff;
+  --t-accent-2: #f0c75e;
+}
+
+[data-theme='bonta'][data-mode='light'] {
+  --t-bg: #f3f5fa;
+  --t-surface: #ffffff;
+  --t-raised: #e5eaf4;
+  --t-line: #c3cde0;
+  --t-ink: #111a2c;
+  --t-ink-2: #33415c;
+  --t-muted: #55627d;
+  --t-accent: #1f4fa8;
+  --t-accent-2: #8a5d00;
+}
+
+[data-theme='brakmar'][data-mode='dark'] {
+  --t-bg: #130c0c;
+  --t-surface: #1c1212;
+  --t-raised: #281a19;
+  --t-line: #42292a;
+  --t-ink: #f6ecea;
+  --t-ink-2: #d6c1be;
+  --t-muted: #a8908c;
+  --t-accent: #ff5f52;
+  --t-accent-2: #ffb347;
+}
+
+[data-theme='brakmar'][data-mode='light'] {
+  --t-bg: #f7f1ef;
+  --t-surface: #ffffff;
+  --t-raised: #efe3e0;
+  --t-line: #d6c1bc;
+  --t-ink: #22120f;
+  --t-ink-2: #4b2c27;
+  --t-muted: #6e4f49;
+  --t-accent: #a8231a;
+  --t-accent-2: #8a4f00;
+}
+
+[data-theme='ocre'][data-mode='dark'] {
+  --t-bg: #14100a;
+  --t-surface: #1d170e;
+  --t-raised: #281f12;
+  --t-line: #43341d;
+  --t-ink: #f7efe0;
+  --t-ink-2: #d9c9a8;
+  --t-muted: #a8977a;
+  --t-accent: #ffb534;
+  --t-accent-2: #ff8a5c;
+}
+
+[data-theme='ocre'][data-mode='light'] {
+  --t-bg: #f8f1e2;
+  --t-surface: #fffaf0;
+  --t-raised: #efe2c6;
+  --t-line: #d4bf95;
+  --t-ink: #23190a;
+  --t-ink-2: #4a3a1f;
+  --t-muted: #6b5838;
+  --t-accent: #8a5300;
+  --t-accent-2: #a3410f;
+}
+
+:root,
+[data-mode='dark'] {
+  --t-success: #a9d266;
+  --t-warning: #f2c14e;
+  --t-danger: #f28466;
+  --t-info: #8fc3e8;
+  --t-sec-misiones: #e3c565;
+  --t-sec-logros: #f0b45a;
+  --t-sec-dofus: #b7dc69;
+  --t-sec-checklists: #7fd6c2;
+  --t-sec-clases: #ef8a6a;
+  --t-sec-mazmorras: #b99af2;
+  --t-sec-herramientas: #9fc7f0;
+}
+
+[data-mode='light'] {
+  --t-success: #3d6914;
+  --t-warning: #7a5600;
+  --t-danger: #a8381f;
+  --t-info: #1d5f86;
+  --t-sec-misiones: #77600f;
+  --t-sec-logros: #8f560a;
+  --t-sec-dofus: #4b6e12;
+  --t-sec-checklists: #17695a;
+  --t-sec-clases: #a23c22;
+  --t-sec-mazmorras: #6a43b8;
+  --t-sec-herramientas: #2a5f93;
+}
+
+/* Sombras: en modo claro, la mitad de alfa. */
+:root,
+[data-mode='dark'] {
+  --t-shadow-alpha-1: 0.3;
+  --t-shadow-alpha-2: 0.35;
+  --t-shadow-alpha-3: 0.45;
+  --t-shadow-alpha-4: 0.55;
+}
+
+[data-mode='light'] {
+  --t-shadow-alpha-1: 0.15;
+  --t-shadow-alpha-2: 0.175;
+  --t-shadow-alpha-3: 0.225;
+  --t-shadow-alpha-4: 0.275;
+}

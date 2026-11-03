@@ -1,0 +1,47 @@
+import { defineConfig, devices } from '@playwright/test'
+
+import { DEV_DATABASE } from './src/lib/db/dev-database'
+
+const port = Number(process.env.PORT ?? 3000)
+const baseURL = `http://localhost:${port}`
+// Sin DATABASE_URL, las pruebas arrancan también la base embebida de pnpm db:dev.
+const useEmbeddedDatabase = !process.env.DATABASE_URL
+
+export default defineConfig({
+  testDir: './tests/e2e',
+  forbidOnly: !!process.env.CI,
+  retries: process.env.CI ? 1 : 0,
+  workers: process.env.CI ? 1 : undefined,
+  reporter: process.env.CI ? [['github'], ['html', { open: 'never' }]] : 'list',
+  use: {
+    baseURL,
+    trace: 'on-first-retry',
+  },
+  projects: [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+    },
+  ],
+  webServer: [
+    ...(useEmbeddedDatabase
+      ? [
+          {
+            command: 'pnpm db:dev',
+            port: DEV_DATABASE.port,
+            reuseExistingServer: true,
+            timeout: 120_000,
+          },
+        ]
+      : []),
+    {
+      // Sin migraciones todavía, el servidor de desarrollo es el que crea el esquema
+      // (push de Payload) en una base vacía. Cuando llegue la primera migración, esto
+      // pasa a build + start con payload migrate.
+      command: `pnpm dev --port ${port}`,
+      url: baseURL,
+      reuseExistingServer: !process.env.CI,
+      timeout: 180_000,
+    },
+  ],
+})

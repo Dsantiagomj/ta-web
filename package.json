@@ -18,6 +18,8 @@
     "format:check": "prettier --check .",
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test",
     "db:dev": "node scripts/db-dev.ts",
     "payload": "NODE_OPTIONS=--no-deprecation payload",
     "generate:types": "NODE_OPTIONS=--no-deprecation payload generate:types",
@@ -38,6 +40,8 @@
     "sharp": "0.35.4"
   },
   "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "@tailwindcss/postcss": "4.3.3",
     "@types/node": "24.19.2",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.7",
@@ -45,6 +49,7 @@
     "eslint": "9.39.5",
     "eslint-config-next": "16.3.8",
     "prettier": "3.9.10",
+    "tailwindcss": "4.3.3",
     "typescript": "5.9.3",
     "vite-tsconfig-paths": "6.0.5",
     "vitest": "4.1.12"

@@ -1,0 +1,48 @@
+@import 'tailwindcss';
+@import './theme.css';
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background: var(--color-bg);
+    color: var(--color-ink);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  html[data-mode='light'] {
+    color-scheme: light;
+  }
+
+  body {
+    min-height: 100dvh;
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    /* Las palabras nunca se parten a mitad. */
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: manual;
+    font-synthesis: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+  }
+
+  a {
+    color: var(--color-accent);
+    text-underline-offset: 0.2em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
