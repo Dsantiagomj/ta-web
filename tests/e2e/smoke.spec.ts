@@ -119,6 +119,26 @@ test('el panel de Payload responde en /admin @smoke', async ({ page }) => {
   await expect(page).toHaveURL(/\/admin(\/create-first-user|\/login)?/)
 })
 
+// Con la base vacía de E2E. No es smoke: en un entorno desplegado ya hay usuarios.
+test('el panel de Payload hidrata el formulario del primer usuario sin errores', async ({
+  page,
+}) => {
+  const errors: string[] = []
+  page.on('pageerror', (error) => errors.push(error.message))
+
+  await page.goto('/admin/create-first-user')
+  await expect(page.locator('input[name="email"]')).toBeVisible()
+
+  // La validación del formulario vacío corre en el cliente: solo aparece si React
+  // hidrató el panel.
+  await page.getByRole('button', { name: 'Crear' }).click()
+
+  await expect(page.getByText('Por favor, introduce un correo electrónico válido.')).toBeVisible()
+  await expect(page.getByText('Este campo es obligatorio.')).toHaveCount(2)
+  await expect(page).toHaveURL(/\/admin\/create-first-user$/)
+  expect(errors).toEqual([])
+})
+
 // Solo lectura: los smoke tests corren también contra entornos desplegados.
 test('la comprobación de salud responde ok en /api/health @smoke', async ({ request }) => {
   const response = await request.get('/api/health')
