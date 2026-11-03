@@ -54,4 +54,16 @@ describe('commit-msg', () => {
     expect(result.ok).toBe(false)
     expect(result.output).toMatch(/Co-Authored-By/)
   })
+
+  it.each([
+    "Merge branch 'main' into chore/setup-proyecto",
+    'Revert "feat: algo"',
+    'fixup! feat: algo',
+    'squash! feat: algo',
+    'amend! feat: algo',
+  ])('rechaza Co-Authored-By también en los mensajes exentos: %s', (subject) => {
+    const result = check(`${subject}\n\nCo-Authored-By: Alguien <alguien@example.com>`)
+    expect(result.ok).toBe(false)
+    expect(result.output).toMatch(/Co-Authored-By/)
+  })
 })

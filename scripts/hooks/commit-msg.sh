@@ -4,6 +4,13 @@
 set -eu
 
 message_file="$1"
+
+# Primero la atribución: ningún mensaje, ni los que genera git, puede llevarla.
+if grep -v '^#' "$message_file" | grep -iq '^co-authored-by:'; then
+  echo "Sin líneas Co-Authored-By en los commits (AGENTS.md)." >&2
+  exit 1
+fi
+
 # La primera línea que no es comentario es el título.
 subject=$(grep -v '^#' "$message_file" | sed -n '/[^[:space:]]/{p;q;}')
 
@@ -17,10 +24,5 @@ if ! printf '%s\n' "$subject" | grep -Eq "^($types)(\([^()[:space:]][^()]*\))?!?
   echo "  $subject" >&2
   echo "Formato: tipo(ámbito): descripción, con tipo en $types." >&2
   echo "Ejemplo: feat(guias): añade la guía de Aprendizaje escudero" >&2
-  exit 1
-fi
-
-if grep -v '^#' "$message_file" | grep -iq '^co-authored-by:'; then
-  echo "Sin líneas Co-Authored-By en los commits (AGENTS.md)." >&2
   exit 1
 fi
