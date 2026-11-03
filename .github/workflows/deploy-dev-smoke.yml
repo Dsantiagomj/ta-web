@@ -1,8 +1,9 @@
 name: Smoke de dev
 
 # Railway despliega main en el entorno dev por su integración con GitHub y publica el
-# resultado como un deployment de GitHub ("<proyecto> / dev"). Cuando termina bien, se
-# pasa la suite smoke contra la URL del despliegue, con el basic auth de dev.
+# resultado como un deployment de GitHub ("ta-web / dev"). Cuando termina bien, se espera
+# a que DEV_URL sirva ese commit y se pasa la suite smoke contra DEV_URL, con el basic
+# auth de dev.
 
 on:
   deployment_status:
@@ -22,39 +23,51 @@ concurrency:
 
 jobs:
   url:
-    name: URL del despliegue
+    name: Esperar al despliegue en DEV_URL
     if: github.event.deployment_status.state == 'success' && contains(github.event.deployment.environment, 'dev')
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    # El sondeo dura hasta 5 minutos más lo que tarde cada curl.
+    timeout-minutes: 12
     outputs:
       base_url: ${{ steps.url.outputs.base_url }}
     steps:
-      - name: Leer la URL del despliegue
+      - name: Comprobar DEV_URL
         id: url
         env:
           ENVIRONMENT: ${{ github.event.deployment.environment }}
           ENVIRONMENT_URL: ${{ github.event.deployment_status.environment_url }}
           DEV_URL: ${{ vars.DEV_URL }}
         run: |
-          # Las credenciales de dev solo viajan a la URL de dev configurada y por HTTPS:
-          # cualquier deployment cuyo entorno diga "dev" podría traer otra URL.
-          url="${ENVIRONMENT_URL%/}"
-          trusted="${DEV_URL%/}"
-          if [ -z "$url" ]; then
-            # Sin URL no hay smoke: se falla en vez de dar el despliegue por bueno sin probarlo.
-            echo "::error title=Smoke de dev::El despliegue de $ENVIRONMENT no trae URL (environment_url vacío), así que el smoke no puede correr. Revisa el dominio del servicio en Railway."
+          # El environment_url que manda Railway es la URL de su panel, no la de la app,
+          # así que el smoke siempre va contra DEV_URL. Las credenciales de dev solo
+          # viajan a DEV_URL y por HTTPS.
+          url="${DEV_URL%/}"
+          if [[ "$url" != https://* ]]; then
+            echo "::error title=Smoke de dev::Falta la variable de repo DEV_URL (https://…, sin barra final), así que el smoke no puede correr ni se envían las credenciales de dev."
             exit 1
           fi
-          if [[ "$trusted" != https://* ]]; then
-            echo "::error title=Smoke de dev::Falta la variable de repo DEV_URL (https://…, sin barra final), así que no se envían las credenciales de dev."
-            exit 1
-          fi
-          if [ "$url" != "$trusted" ]; then
-            echo "::error title=Smoke de dev::El despliegue de $ENVIRONMENT apunta a $url, que no es DEV_URL ($trusted). No se envían las credenciales."
-            exit 1
-          fi
-          echo "Smoke contra $url ($ENVIRONMENT)."
+          echo "Despliegue de $ENVIRONMENT (Railway informa ${ENVIRONMENT_URL:-sin environment_url}). Smoke contra $url."
           echo "base_url=$url" >> "$GITHUB_OUTPUT"
+
+      # Railway marca el deployment como correcto, pero DEV_URL puede seguir sirviendo la
+      # versión anterior unos segundos. /api/health no pide credenciales y dice qué
+      # commit sirve, igual que en release.yml.
+      - name: Comprobar que dev sirve el commit desplegado
+        env:
+          DEV_URL: ${{ steps.url.outputs.base_url }}
+          SHA: ${{ github.event.deployment.sha }}
+        run: |
+          for attempt in $(seq 1 30); do
+            commit=$(curl --silent --max-time 10 "$DEV_URL/api/health" | jq -r '.commit // empty' || true)
+            if [ "$commit" = "$SHA" ]; then
+              echo "Dev sirve $SHA."
+              exit 0
+            fi
+            echo "Intento $attempt: /api/health dice commit '${commit:-ninguno}'; se espera $SHA."
+            sleep 10
+          done
+          echo "::error title=Smoke de dev::$DEV_URL no sirve $SHA tras 5 minutos, así que el smoke no corre. Revisa el despliegue en Railway y que DEV_URL sea el dominio de dev."
+          exit 1
 
   smoke:
     name: Smoke
