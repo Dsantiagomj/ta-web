@@ -101,7 +101,8 @@ export function ModeToggle({ initialMode }: { initialMode: Mode }) {
           <img
             data-part="egg"
             data-egg={egg}
-            src={`${modeEggs[egg].file}.png`}
+            src={`${modeEggs[egg].file}-${EGG_SIZE}.webp`}
+            srcSet={eggSrcSet(modeEggs[egg], 'webp')}
             width={EGG_SIZE}
             height={EGG_SIZE}
             alt=""
