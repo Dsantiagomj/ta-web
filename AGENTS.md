@@ -43,6 +43,7 @@ Every change: code, content model, migrations, data, docs, CI. Read this file be
 | `src/collections/` | One file per collection (quest guides, achievements, Dofus guides, checklists, classes, dungeons, pages, media), with its fields, access and hooks |
 | `src/globals/` | Site settings: navigation, socials, Ko-fi, Twitch card, announcement bar |
 | `src/blocks/` | Payload blocks for guide bodies (rich text, image, video, callout, dialogue, step) |
+| `src/endpoints/` | Payload custom endpoints, mounted under `/api` by Payload's catch-all route (`health.ts`: `GET /api/health`) |
 | `src/lib/` | Server code shared across routes: `db/` (database URL), `theme/` (theme and mode), `media/` (storage, variant URLs), `auth/` (Better Auth), `access/` (entitlement checks), `progress/` (member progress tables and merge), `search/`, `derive/` (checklist derived data) |
 | `src/components/` | React components (`mode-toggle/` today). Server components by default; client islands carry `"use client"` and live next to what uses them |
 | `src/styles/` | `theme.css` with the `@theme` tokens, `globals.css`, `fonts.ts` (`next/font`) |
@@ -148,7 +149,7 @@ CI (`.github/workflows/ci.yml`) runs lint, types, unit, build and E2E on every P
 - `.env.example` lists every variable with an empty or dummy value and a comment. Add a line there in the same change that reads a new variable.
 - Never commit secrets. `.env*` is git-ignored except `.env.example`.
 - Server-only variables never get the `NEXT_PUBLIC_` prefix.
-- Read today: `DATABASE_URL`, `PAYLOAD_SECRET`, `NEXT_PUBLIC_SITE_URL`, `S3_ENDPOINT`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_REGION`, `MEDIA_BASE_URL`.
+- Read today: `DATABASE_URL`, `PAYLOAD_SECRET`, `NEXT_PUBLIC_SITE_URL`, `S3_ENDPOINT`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_REGION`, `MEDIA_BASE_URL`, `GIT_COMMIT_SHA` (after Railway's `RAILWAY_GIT_COMMIT_SHA`).
 - Planned: `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `DISCORD_CLIENT_ID`, `DISCORD_CLIENT_SECRET`, `EMAIL_API_KEY`, and the payment keys in phase 5.
 
 ## Design process

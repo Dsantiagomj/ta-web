@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url'
 
 import { Media } from './collections/Media'
 import { Users } from './collections/Users'
+import { healthEndpoint } from './endpoints/health'
 import { resolveDatabaseUrl, shouldPushSchema } from './lib/db/database-url'
 import { mediaStorage } from './lib/media/storage'
 
@@ -23,6 +24,8 @@ export default buildConfig({
   },
   collections: [Users, Media],
   editor: lexicalEditor(),
+  // GET /api/health, para los smoke tests tras un despliegue.
+  endpoints: [healthEndpoint],
   // Panel en español.
   i18n: {
     fallbackLanguage: 'es',
