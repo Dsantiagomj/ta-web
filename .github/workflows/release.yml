@@ -36,8 +36,8 @@ jobs:
     outputs:
       tag: ${{ steps.version.outputs.tag }}
     steps:
-      # GitHub Free no admite aprobadores obligatorios en ambientes de repos privados:
-      # mientras tanto, solo el dueño del repo puede lanzar una release a producción.
+      # GitHub no admite aprobadores obligatorios en ambientes de repos privados (ni con
+      # Pro ni con Team): solo el dueño del repo puede lanzar una release a producción.
       - name: Solo el dueño del repo lanza releases
         env:
           ACTOR: ${{ github.actor }}
