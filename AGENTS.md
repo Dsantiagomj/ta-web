@@ -44,7 +44,7 @@ Every change: code, content model, migrations, data, docs, CI. Read this file be
 | `src/globals/` | Site settings: navigation, socials, Ko-fi, Twitch card, announcement bar |
 | `src/blocks/` | Payload blocks for guide bodies (rich text, image, video, callout, dialogue, step) |
 | `src/endpoints/` | Payload custom endpoints, mounted under `/api` by Payload's catch-all route (`health.ts`: `GET /api/health`) |
-| `src/lib/` | Server code shared across routes: `db/` (database URL), `theme/` (theme and mode), `media/` (storage, variant URLs), `auth/` (Better Auth), `access/` (entitlement checks), `progress/` (member progress tables and merge), `search/`, `derive/` (checklist derived data) |
+| `src/lib/` | Server code shared across routes: `db/` (database URL), `dev-gate/` (basic auth and `robots.txt` per environment, used by `src/proxy.ts`), `theme/` (theme and mode), `media/` (storage, variant URLs), `auth/` (Better Auth), `access/` (entitlement checks), `progress/` (member progress tables and merge), `search/`, `derive/` (checklist derived data) |
 | `src/components/` | React components (`mode-toggle/` today). Server components by default; client islands carry `"use client"` and live next to what uses them |
 | `src/styles/` | `theme.css` with the `@theme` tokens, `globals.css`, `fonts.ts` (`next/font`) |
 | `src/migrations/` | Payload and Drizzle migrations, committed |
@@ -96,12 +96,13 @@ Access control and entitlements are tested at the data layer, in `tests/integrat
 | Unit | `pnpm test` (Vitest) | `src/lib/` (progress merge, entitlements, derived data, media URLs), collection access functions, hooks |
 | Integration | `pnpm test:integration` (Vitest; boots Payload with `getPayload` against Postgres after `pnpm migrate`) | access control and entitlements through the local API with `overrideAccess: false`: what an anonymous visitor, a panel user and, later, free and premium members can read and write |
 | E2E | `pnpm test:e2e` (Playwright on the production path: `pnpm build`, `pnpm migrate` on an empty database, `pnpm start`) | rendered pages against a seeded database: guides, checklists, search, theme, sign-in, progress, premium gating; the suites ported from `silvestre-checklist` in phase 2a |
+| Dev gate | `pnpm test:e2e:dev-gate` (`playwright.dev-gate.config.ts`, specs in `tests/e2e-dev-gate/`; `E2E_SKIP_BUILD=1` reuses the build of `pnpm test:e2e`) | the app with `APP_ENV=dev`: basic auth everywhere except `/api/health`, `X-Robots-Tag: noindex, nofollow`, `robots.txt` disallowing everything, and the 503 when the credentials are missing |
 | Smoke | `pnpm test:smoke` (the `@smoke` Playwright subset; `SMOKE_BASE_URL` points it at a deployed URL and skips the local server) | read-only checks after a deploy: home renders, `/admin` responds, `/api/health` is ok. `.github/workflows/smoke.yml` runs it against a URL; deploys will call it. Smoke tests never write data |
 | Budgets (planned) | `pnpm test:lhci` (Lighthouse CI) | the budgets in `DESIGN.md` on a fixed set of pages (home, a quest guide, an achievement, a checklist) |
 | Types, lint and format | `pnpm typecheck`, `pnpm lint`, `pnpm format:check` | the whole repo |
 | Import (planned) | `pnpm test:import` | golden pages of the Squarespace import (phase 1) |
 
-CI (`.github/workflows/ci.yml`) runs lint, types, unit, integration, build, E2E and the dependency audit (`docs/security.md`) on every PR and push to `main`; the `Pruebas` job requires all of them. Budgets and import join when they exist. The `Revisión GGA` job reviews the PR with `gga` and Codex; it is advisory and not part of `Pruebas`. The repo is private, so Actions minutes are limited: keep jobs cached and skip what a change cannot affect.
+CI (`.github/workflows/ci.yml`) runs lint, types, unit, integration, build, E2E, the dev gate suite and the dependency audit (`docs/security.md`) on every PR and push to `main`; the `Pruebas` job requires all of them. Budgets and import join when they exist. The `Revisión GGA` job reviews the PR with `gga` and Codex; it is advisory and not part of `Pruebas`. The repo is private, so Actions minutes are limited: keep jobs cached and skip what a change cannot affect.
 
 ## Payload rules
 
@@ -152,7 +153,7 @@ CI (`.github/workflows/ci.yml`) runs lint, types, unit, integration, build, E2E 
 - `.env.example` lists every variable with an empty or dummy value and a comment. Add a line there in the same change that reads a new variable.
 - Never commit secrets. `.env*` is git-ignored except `.env.example`.
 - Server-only variables never get the `NEXT_PUBLIC_` prefix.
-- Read today: `DATABASE_URL`, `PAYLOAD_SECRET`, `NEXT_PUBLIC_SITE_URL`, `S3_ENDPOINT`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_REGION`, `MEDIA_BASE_URL`, `GIT_COMMIT_SHA` (after Railway's `RAILWAY_GIT_COMMIT_SHA`). The smoke tests read `SMOKE_BASE_URL`, `SMOKE_BASIC_AUTH_USER` and `SMOKE_BASIC_AUTH_PASSWORD`.
+- Read today: `DATABASE_URL`, `DATABASE_URL_DIRECT` (only `pnpm migrate`, which sets `DATABASE_CONNECTION=direct`), `PAYLOAD_SECRET`, `APP_ENV` (`dev` turns on the dev gate; Railway's `RAILWAY_ENVIRONMENT_NAME=dev` does too), `DEV_BASIC_AUTH_USER`, `DEV_BASIC_AUTH_PASSWORD`, `NEXT_PUBLIC_SITE_URL`, `S3_ENDPOINT`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_REGION`, `MEDIA_BASE_URL`, `GIT_COMMIT_SHA` (after Railway's `RAILWAY_GIT_COMMIT_SHA`). The smoke tests read `SMOKE_BASE_URL`, `SMOKE_BASIC_AUTH_USER` and `SMOKE_BASIC_AUTH_PASSWORD`; the E2E configs read `E2E_PORT`, `E2E_DEV_GATE_PORT` and `E2E_SKIP_BUILD`.
 - Planned: `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `DISCORD_CLIENT_ID`, `DISCORD_CLIENT_SECRET`, `EMAIL_API_KEY`, and the payment keys in phase 5.
 
 ## Design process

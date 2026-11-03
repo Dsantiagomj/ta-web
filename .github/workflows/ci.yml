@@ -151,6 +151,11 @@ jobs:
 
       - run: pnpm test:e2e
 
+      # La app en modo dev (basic auth y noindex), sobre el mismo build.
+      - run: pnpm test:e2e:dev-gate
+        env:
+          E2E_SKIP_BUILD: '1'
+
       - name: Informe de Playwright
         if: failure()
         uses: actions/upload-artifact@v7.0.2
