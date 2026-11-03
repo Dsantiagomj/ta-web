@@ -85,7 +85,7 @@ feature branch ──PR──▶ CI: lint, types, unit, integration,─┐
 | `GIT_COMMIT_SHA` | unset | unset (Railway injects `RAILWAY_GIT_COMMIT_SHA`) | set by `release.yml` on each deploy | Railway |
 | `EMAIL_API_KEY` (planned) | unset | sandbox key | prod key | Railway |
 | `SENTRY_DSN`, `SENTRY_AUTH_TOKEN` (planned) | unset | set | set | Railway; GitHub secret for source maps |
-| `RAILWAY_TOKEN` | n/a | n/a | project token, **missing** | GitHub environment `production` (secret) |
+| `RAILWAY_TOKEN` | n/a | n/a | project token `prod`, scoped to `production` | GitHub environment `production` (secret) |
 | `PROD_URL` | n/a | n/a | prod domain | GitHub environment `production` (variable) |
 | `SMOKE_BASIC_AUTH_USER`, `SMOKE_BASIC_AUTH_PASSWORD` | n/a | the dev credentials | n/a | GitHub repo secrets |
 | `DEV_URL` | n/a | dev domain | n/a | GitHub repo variable |
@@ -103,6 +103,7 @@ Every variable the app reads goes in `.env.example` in the same PR (AGENTS.md). 
 - `dev` has the GitHub source `main` with `checkSuites`: it deploys after the checks pass. `production` has no source; only `release.yml` deploys it, with `railway up`.
 - Config comes from `.railway/railway.ts`, applied to both environments with `railway config plan` and `railway config apply` on 2026-11-03.
 - First dev deploy succeeded on 2026-11-03: the pre-deploy applied migration `20261103_030359_initial`, `/api/health` answered ok, and basic auth and `X-Robots-Tag` behaved as expected.
+- First prod deploy succeeded on 2026-11-03 with release `v0.1.0` (commit `172686b`): the pre-deploy applied `20261103_030359_initial` to Neon `main`, `/api/health` reported the commit, and the smoke suite passed. Prod serves without basic auth, and `robots.txt` allows everything except `/admin`.
 
 ### Neon
 
@@ -120,7 +121,7 @@ Every variable the app reads goes in `.env.example` in the same PR (AGENTS.md). 
 ### GitHub
 
 - Ruleset `Proteger main` on the default branch, active, no bypass: PR required with 0 approvals, rebase or squash merges, required status check `Pruebas`, linear history, no force-push, no deletion.
-- Environment `production`: deployments only from `main` (custom branch policy), variable `PROD_URL`. The secret `RAILWAY_TOKEN` is still missing. Required reviewers need GitHub Enterprise on private repos, so the approval is the owner-only guard in `release.yml`. While Daniel is the only person with write access, that is the same thing.
+- Environment `production`: deployments only from `main` (custom branch policy), variable `PROD_URL`, secret `RAILWAY_TOKEN` (the Railway project token `prod`, scoped to `production`). Required reviewers need GitHub Enterprise on private repos, so the approval is the owner-only guard in `release.yml`. While Daniel is the only person with write access, that is the same thing.
 - Environment `ta-web / dev`: created by Railway's deployments.
 - Repo secrets `SMOKE_BASIC_AUTH_USER` and `SMOKE_BASIC_AUTH_PASSWORD` (the dev basic-auth credentials) and `CODEX_AUTH_JSON`; repo variable `DEV_URL`.
 
@@ -163,11 +164,10 @@ Checked against the real accounts on 2026-11-03:
 - `railway config apply` deletes Railway variables that `.railway/railway.ts` does not declare. The plan marks them as destructive; the first apply removed `S3_REGION`. Always read `railway config plan` first.
 - `preserve()` for a variable that does not exist yet (prod `GIT_COMMIT_SHA`) does nothing: it creates no variable.
 - `production` without a GitHub source did not auto-deploy.
-- Railway project tokens cannot be created from the CLI or the OAuth session (the API answers "Not Authorized"). Create them in the dashboard.
-
-Still unverified:
-- `railway up` from `release.yml` against production.
-- Whether attached `railway up` waits for the health check. The release checks the commit on `/api/health` anyway, so a stale deploy fails the run either way.
+- Railway project tokens cannot be created from the CLI or the OAuth session (the API answers "Not Authorized"). Create them in the dashboard; Railway shows the value only once.
+- `railway up` from `release.yml` deploys to a `production` that has no GitHub source, and the release waits for the health check before the smoke runs (release `v0.1.0`).
+- A wrong `RAILWAY_TOKEN` fails the release at "Fijar el commit desplegado" ("Invalid RAILWAY_TOKEN"), before anything is deployed. After fixing the secret, re-running the failed release with the same version works; the tag and GitHub release from the first attempt are reused.
+- Sentry members of the `dsmjdev` organization cannot create projects (the API answers 403, "Your organization has disabled this feature for members"). An owner or manager creates them, or enables project creation for members.
 
 ## 10. Status and what is left
 
@@ -178,16 +178,16 @@ Still unverified:
 | Pre-deploy migrations | Done |
 | Dev basic auth and `noindex` | Done |
 | Dev smoke workflow | Done |
-| Release workflow | Ready. The first prod deploy waits on `RAILWAY_TOKEN` |
+| Release workflow and first prod deploy | Done (`v0.1.0`, 2026-11-03) |
 | Branch protection | Done (ruleset `Proteger main`) |
-| Sentry and uptime | Pending |
+| Sentry | In progress: organization `dsmjdev` (US region) exists; the project `ta-web` needs an owner or manager to create it |
+| Uptime | Pending: the monitoring service is not chosen yet |
 
 What is left:
-1. `RAILWAY_TOKEN`: in the Railway dashboard, project `ta-web`, Settings, Tokens, create a project token scoped to `production`. Then `gh secret set RAILWAY_TOKEN --env production`.
-2. The first `Release`, version `0.1.0`, from `main`.
-3. Sentry: one project with environments `dev` and `production`, then `SENTRY_DSN` and `SENTRY_AUTH_TOKEN` (declared in `.railway/railway.ts` first).
-4. Uptime monitors on `/api/health` for both domains. They need no credentials.
-5. Resend.
-6. Domain transfer to Cloudflare, then `dev.torrentearcano.com`, the media domains and Cloudflare Access.
-7. Neon Launch plan, if `main` has to be protected or 6 hours of point-in-time history is too short.
-8. Optionally, `sslmode=verify-full` in the Neon URLs: `pg` warns that `require` changes meaning in `pg` v9.
+1. Sentry: create the project `ta-web` (Next.js) in `dsmjdev`, then add the SDK, declare `SENTRY_DSN` and `SENTRY_AUTH_TOKEN` in `.railway/railway.ts` before setting them, and tag events with the environment (`dev`, `production`). Sentry creates environments from the first events that carry them.
+2. Uptime monitors on `/api/health` for both domains. They need no credentials.
+3. `/api/health` reports `version` from `package.json` (`0.0.0`), not the release tag. Bump it in the release, or report the tag, if the version should match.
+4. Resend.
+5. Domain transfer to Cloudflare, then `dev.torrentearcano.com`, the media domains and Cloudflare Access.
+6. Neon Launch plan, if `main` has to be protected or 6 hours of point-in-time history is too short.
+7. Optionally, `sslmode=verify-full` in the Neon URLs: `pg` warns that `require` changes meaning in `pg` v9.
