@@ -56,6 +56,8 @@ export default defineRailway((ctx) => {
       S3_ACCESS_KEY_ID: preserve(),
       S3_SECRET_ACCESS_KEY: preserve(),
       MEDIA_BASE_URL: preserve(),
+      // Errores del servidor a Sentry (src/instrumentation.ts). Sin ella, Sentry no arranca.
+      SENTRY_DSN: preserve(),
       ...(dev
         ? {
             APP_ENV: 'dev',
