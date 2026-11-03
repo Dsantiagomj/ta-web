@@ -39,12 +39,15 @@ jobs:
       # GitHub no admite aprobadores obligatorios en ambientes de repos privados (ni con
       # Pro ni con Team): solo el dueño del repo puede lanzar una release a producción.
       - name: Solo el dueño del repo lanza releases
+        # actor es quien lanzó la ejecución original y triggering_actor quien la lanzó o
+        # la reejecutó: los dos tienen que ser el dueño, o una reejecución lo saltaría.
         env:
           ACTOR: ${{ github.actor }}
+          TRIGGERING_ACTOR: ${{ github.triggering_actor }}
           OWNER: ${{ github.repository_owner }}
         run: |
-          if [ "$ACTOR" != "$OWNER" ]; then
-            echo "::error::Solo $OWNER puede lanzar una release a producción (la lanzó $ACTOR)."
+          if [ "$ACTOR" != "$OWNER" ] || [ "$TRIGGERING_ACTOR" != "$OWNER" ]; then
+            echo "::error::Solo $OWNER puede lanzar o reejecutar una release a producción (la lanzó $ACTOR, la ejecuta $TRIGGERING_ACTOR)."
             exit 1
           fi
 
@@ -116,6 +119,19 @@ jobs:
     outputs:
       prod_url: ${{ steps.config.outputs.prod_url }}
     steps:
+      - name: Solo el dueño del repo despliega a producción
+        # actor es quien lanzó la ejecución original y triggering_actor quien la lanzó o
+        # la reejecutó: los dos tienen que ser el dueño, o una reejecución lo saltaría.
+        env:
+          ACTOR: ${{ github.actor }}
+          TRIGGERING_ACTOR: ${{ github.triggering_actor }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          if [ "$ACTOR" != "$OWNER" ] || [ "$TRIGGERING_ACTOR" != "$OWNER" ]; then
+            echo "::error::Solo $OWNER puede lanzar o reejecutar una release a producción (la lanzó $ACTOR, la ejecuta $TRIGGERING_ACTOR)."
+            exit 1
+          fi
+
       - name: Comprobar RAILWAY_TOKEN y PROD_URL
         id: config
         env:
