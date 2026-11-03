@@ -1,0 +1,50 @@
+{
+  "name": "torrente-arcano",
+  "version": "0.0.0",
+  "private": true,
+  "description": "La web nueva de torrentearcano.com: Next.js con Payload CMS 3",
+  "type": "module",
+  "packageManager": "pnpm@11.24.0",
+  "engines": {
+    "node": ">=24.0.0 <25",
+    "pnpm": ">=11.24.0 <12"
+  },
+  "scripts": {
+    "dev": "NODE_OPTIONS=--no-deprecation next dev",
+    "build": "NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" next build",
+    "start": "NODE_OPTIONS=--no-deprecation next start",
+    "lint": "NODE_OPTIONS=--no-deprecation eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "vitest run",
+    "payload": "NODE_OPTIONS=--no-deprecation payload",
+    "generate:types": "NODE_OPTIONS=--no-deprecation payload generate:types",
+    "generate:importmap": "NODE_OPTIONS=--no-deprecation payload generate:importmap"
+  },
+  "dependencies": {
+    "@payloadcms/db-postgres": "3.91.0",
+    "@payloadcms/next": "3.91.0",
+    "@payloadcms/richtext-lexical": "3.91.0",
+    "@payloadcms/storage-s3": "3.91.0",
+    "@payloadcms/translations": "3.91.0",
+    "@payloadcms/ui": "3.91.0",
+    "graphql": "16.14.2",
+    "next": "16.3.8",
+    "payload": "3.91.0",
+    "react": "19.2.9",
+    "react-dom": "19.2.9",
+    "sharp": "0.35.4"
+  },
+  "devDependencies": {
+    "@types/node": "24.19.2",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.7",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.3.8",
+    "prettier": "3.9.10",
+    "typescript": "5.9.3",
+    "vite-tsconfig-paths": "6.0.5",
+    "vitest": "4.1.12"
+  }
+}

@@ -1,0 +1,16 @@
+pnpm-lock.yaml
+.next/
+next-env.d.ts
+src/payload-types.ts
+src/payload-generated-schema.ts
+src/app/(payload)/admin/importMap.js
+src/migrations/
+media/
+.postgres/
+tmp/
+playwright-report/
+test-results/
+docs/research/
+
+# Los docs se escriben a mano; Prettier rellena las tablas y ensucia los diffs
+*.md

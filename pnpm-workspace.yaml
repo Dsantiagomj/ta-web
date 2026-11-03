@@ -1,0 +1,3 @@
+# Paquetes que pueden ejecutar scripts de instalación (pnpm 11 los bloquea por defecto).
+allowBuilds:
+  esbuild: true
