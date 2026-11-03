@@ -26,7 +26,8 @@
     "migrate:create": "NODE_OPTIONS=--no-deprecation payload migrate:create",
     "payload": "NODE_OPTIONS=--no-deprecation payload",
     "generate:types": "NODE_OPTIONS=--no-deprecation payload generate:types",
-    "generate:importmap": "NODE_OPTIONS=--no-deprecation payload generate:importmap"
+    "generate:importmap": "NODE_OPTIONS=--no-deprecation payload generate:importmap",
+    "test:integration": "vitest run --config vitest.integration.config.mts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.92.1",
