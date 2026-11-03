@@ -94,7 +94,7 @@ Access control and entitlements are tested at the data layer: a test calls the P
 |---|---|---|
 | Unit | `pnpm test` (Vitest) | `src/lib/` (progress merge, entitlements, derived data, media URLs), collection access functions, hooks |
 | E2E | `pnpm test:e2e` (Playwright on the production path: `pnpm build`, `pnpm migrate` on an empty database, `pnpm start`) | rendered pages against a seeded database: guides, checklists, search, theme, sign-in, progress, premium gating; the suites ported from `silvestre-checklist` in phase 2a |
-| Smoke | `pnpm test:smoke` (the `@smoke` Playwright subset; `SMOKE_BASE_URL` points it at a deployed URL and skips the local server) | read-only checks after a deploy: home renders, `/admin` responds, `/api/health` is ok. Smoke tests never write data |
+| Smoke | `pnpm test:smoke` (the `@smoke` Playwright subset; `SMOKE_BASE_URL` points it at a deployed URL and skips the local server) | read-only checks after a deploy: home renders, `/admin` responds, `/api/health` is ok. `.github/workflows/smoke.yml` runs it against a URL; deploys will call it. Smoke tests never write data |
 | Budgets (planned) | `pnpm test:lhci` (Lighthouse CI) | the budgets in `DESIGN.md` on a fixed set of pages (home, a quest guide, an achievement, a checklist) |
 | Types, lint and format | `pnpm typecheck`, `pnpm lint`, `pnpm format:check` | the whole repo |
 | Import (planned) | `pnpm test:import` | golden pages of the Squarespace import (phase 1) |
