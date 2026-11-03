@@ -49,6 +49,7 @@ Every change: code, content model, migrations, data, docs, CI. Read this file be
 | `src/styles/` | `theme.css` with the `@theme` tokens, `globals.css`, `fonts.ts` (`next/font`) |
 | `src/migrations/` | Payload and Drizzle migrations, committed |
 | `scripts/` | `db-dev.ts` (embedded Postgres for `pnpm db:dev`), `hooks/` (git hook scripts run by `lefthook.yml`), `import/` (the Squarespace import pipeline, phase 1) |
+| `.railway/railway.ts` | Railway infrastructure as code: the `web` service for the `dev` and `production` environments (build, start, pre-deploy migrations, health check, restart policy, region, variable names). Applied by hand with `railway config apply`; Railway does not read it on deploy. Secrets stay in Railway (`preserve()`) |
 | `tests/unit/` | Vitest |
 | `tests/integration/` | Vitest against real Payload and Postgres (`vitest.integration.config.mts`) |
 | `tests/e2e/` | Playwright |
