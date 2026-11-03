@@ -37,14 +37,28 @@ describe('sentryServerOptions', () => {
     )
   })
 
-  it('usa el DSN sin espacios y no envía datos personales', () => {
+  it('usa el DSN sin espacios y no recoge datos de los visitantes ni del contenido', () => {
     const options = sentryServerOptions({
       SENTRY_DSN: ` ${DSN}\n`,
       RAILWAY_ENVIRONMENT_NAME: 'production',
     })
 
     expect(options?.dsn).toBe(DSN)
-    expect(options?.sendDefaultPii).toBe(false)
+    // Sentry 11 quitó sendDefaultPii: lo que se recoge se decide con dataCollection, que
+    // por defecto lo recoge todo (cookies, cabeceras, cuerpos, query params, usuario).
+    expect(options).not.toHaveProperty('sendDefaultPii')
+    expect(options?.dataCollection).toEqual({
+      userInfo: false,
+      cookies: false,
+      httpHeaders: false,
+      httpBodies: [],
+      urlQueryParams: false,
+      graphQL: { document: false, variables: false },
+      genAI: { inputs: false, outputs: false },
+      databaseQueryData: false,
+      queues: false,
+      stackFrameVariables: false,
+    })
   })
 
   it('no graba trazas de rendimiento: solo errores', () => {
