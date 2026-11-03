@@ -2,10 +2,12 @@ import { defineRailway, github, preserve, project, service } from 'railway/iac'
 
 // Infraestructura como código de Railway (docs/infra.md). Railway no la lee al
 // desplegar: se aplica a mano, una vez por entorno, con `railway config plan` y
-// `railway config apply` (README, "Go-live checklist" de docs/infra.md).
+// `railway config apply`.
 //
-// Los secretos nunca van aquí: preserve() conserva el valor que ya tiene Railway, así
-// que hay que crearlos en el panel antes de aplicar.
+// Los secretos nunca van aquí: preserve() conserva el valor que ya tiene Railway y no
+// crea nada, así que hay que crearlos en el panel. Toda variable de Railway se declara
+// aquí antes de crearla: `railway config apply` borra las que no estén (docs/infra.md,
+// sección 9).
 
 const REPO = 'Dsantiagomj/ta-web'
 // US East (Virginia), junto a Neon en AWS us-east-1.
