@@ -99,7 +99,7 @@ Access control and entitlements are tested at the data layer: a test calls the P
 | Types, lint and format | `pnpm typecheck`, `pnpm lint`, `pnpm format:check` | the whole repo |
 | Import (planned) | `pnpm test:import` | golden pages of the Squarespace import (phase 1) |
 
-CI (`.github/workflows/ci.yml`) runs lint, types, unit, build and E2E on every PR and push to `main`; the `Pruebas` job requires all of them. Budgets and import join when they exist. The `Revisión GGA` job reviews the PR with `gga` and Codex; it is advisory and not part of `Pruebas`. The repo is private, so Actions minutes are limited: keep jobs cached and skip what a change cannot affect.
+CI (`.github/workflows/ci.yml`) runs lint, types, unit, build, E2E and the dependency audit (`docs/security.md`) on every PR and push to `main`; the `Pruebas` job requires all of them. Budgets and import join when they exist. The `Revisión GGA` job reviews the PR with `gga` and Codex; it is advisory and not part of `Pruebas`. The repo is private, so Actions minutes are limited: keep jobs cached and skip what a change cannot affect.
 
 ## Payload rules
 

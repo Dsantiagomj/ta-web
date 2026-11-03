@@ -74,6 +74,6 @@ Playwright reads these variables from the shell, never from `.env`, so a leftove
 
 ### CI
 
-`.github/workflows/ci.yml` runs on every pull request and on pushes to `main`. Lint, types, unit tests, build and E2E run in parallel after the install job. E2E builds the app, runs `pnpm migrate` against an empty Postgres 17 service and tests `pnpm start`. The `Pruebas` job passes only when all of them pass; branch protection will require it.
+`.github/workflows/ci.yml` runs on every pull request and on pushes to `main`. Lint, types, unit tests, build and E2E run in parallel after the install job. E2E builds the app, runs `pnpm migrate` against an empty Postgres 17 service and tests `pnpm start`. `Auditoría` runs `pnpm audit --prod` from the lockfile alone: it fails on a critical advisory and warns on a high one (`docs/security.md`). The `Pruebas` job passes only when all of them pass; branch protection will require it.
 
 `Revisión GGA` runs on pull requests only. It reviews the PR diff with `gga run --pr-mode --diff-only` and the Codex CLI, logged in from the `CODEX_AUTH_JSON` secret. It is advisory for now and not part of `Pruebas`, until we see how its verdicts hold up. Without the secret, as on a PR from a fork, it skips with a notice. Runs queue on one concurrency group, so two of them never refresh the Codex token at the same time.
