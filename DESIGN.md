@@ -8,8 +8,8 @@ The visual rules for the new torrentearcano.com. Structure, density and motion f
 2. **Reading first.** Most visits are a player with the game open beside the browser, following one quest. Body text stays at 16px, steps are easy to scan, coordinates copy in one click.
 3. **Dense, not cramped.** Lists of 50 quests and checklists of 100 steps must fit on a screen without feeling like a spreadsheet. Small gaps inside components, generous gaps between sections.
 4. **Fast by default.** Guide pages are server-rendered with no client JavaScript beyond the shell. Motion is CSS unless it lives inside a client island.
-5. **One accent job per color.** Gold marks and frames, ocre fills progress, green confirms, and the section accent marks details. The primary action is an outline in `--color-action`. Gold and ocre are never button fills.
-6. **Dark by default.** Ébano is the default theme; Marfil is the light theme. Both pass WCAG AA.
+5. **One job per color.** `accent` marks progress, links, coordinates and the primary action; `accent-2` marks featured numbers and tags; the section accent marks details. No color is ever a button fill.
+6. **Arcano, dark, by default.** Six themes, each with a dark and a light mode. Arcano is free for everyone; Amakna, Frigost, Bonta, Brâkmar and Ocre are premium. Every text pair passes WCAG AA in every theme and mode.
 
 ## Tokens
 
@@ -19,86 +19,280 @@ Tokens are CSS custom properties declared in a Tailwind v4 `@theme` block in `sr
 - The namespaces (`--color-*`, `--font-*`, `--text-*`, `--radius-*`, `--shadow-*`, `--ease-*`, `--breakpoint-*`, `--spacing`) are Tailwind's, so utilities are generated without config.
 - Tokens Tailwind has no namespace for (z-index, durations, containers for content width) are plain variables with the same naming style: `--z-*`, `--duration-*`, `--width-*`.
 
-Theme switching: semantic colors point at theme variables through `@theme inline`, and the theme blocks only override those variables.
+### Themes
+
+Decided 2026-11-02. Six themes named after Dofus places and the Dofus Ocre, each with a dark and a light mode:
+
+| Theme | Access |
+|---|---|
+| Arcano | free, the default for everyone |
+| Amakna, Frigost, Bonta, Brâkmar, Ocre | premium |
+
+The **theme** and the **mode** are two separate settings.
+
+- **Theme** lives on `<html data-theme="arcano|amakna|frigost|bonta|brakmar|ocre">`. The server renders it from the member's saved setting, and only renders a premium theme when the member's entitlement allows it. Visitors, free members and members whose entitlement lapsed get `arcano`. A client-side switch to a premium theme is never honored without the entitlement: the server ignores the value and the page renders Arcano.
+- **Mode** lives on `<html data-mode="dark|light">` and is free for everyone. It is stored in a cookie (so the server can render it) and mirrored in `localStorage`. A small inline `<head>` script sets `data-mode` before first paint, for the mode only; it never sets the theme. Default `dark`.
+
+Tokens are CSS custom properties under one selector per theme and mode. Semantic tokens point at them through `@theme inline`, so utilities and plain CSS read the same names:
 
 ```css
 @theme inline {
   --color-bg: var(--t-bg);
   --color-surface: var(--t-surface);
-  /* … one line per semantic color */
+  --color-accent: var(--t-accent);
+  /* one line per semantic color */
 }
-:root, [data-theme="ebano"] { --t-bg: #0e0f0c; --t-surface: #171914; /* … */ }
-[data-theme="marfil"] { --t-bg: #f6f0e3; --t-surface: #fffaf0; /* … */ }
+[data-theme="arcano"][data-mode="dark"] { --t-bg: #0f0d1a; --t-surface: #17142a; /* … */ }
+[data-theme="arcano"][data-mode="light"] { --t-bg: #f4f2fb; --t-surface: #ffffff; /* … */ }
+/* the same two blocks for amakna, frigost, bonta, brakmar, ocre */
 ```
+
+The Arcano dark block is also the fallback on `:root`, so a page with a missing or unknown attribute still renders correctly.
 
 ### Color
 
-Contrast ratios are WCAG 2.x, computed against each background. AA needs 4.5:1 for body text, 3:1 for large text (24px, or 18.66px bold) and for UI parts such as control borders and progress fills.
+Contrast ratios are WCAG 2.x. AA needs 4.5:1 for body text, 3:1 for large text (24px, or 18.66px bold) and for UI parts such as control borders, progress fills and check marks. All twelve palettes below were checked as given and pass; no hex needed adjusting.
 
-**Ébano (dark, default)**
+Roles:
 
-| Token | Hex | Use | On bg | On surface | On raised |
-|---|---|---|---|---|---|
-| `--color-bg` | `#0e0f0c` | page background, under the art | | | |
-| `--color-surface` | `#171914` | cards, step cards, panels | | | |
-| `--color-raised` | `#21241d` | hover fill, inputs, segmented track | | | |
-| `--color-line` | `#34372e` | hairlines between rows (decorative, no ratio needed) | | | |
-| `--color-control` | `#6f6b5d` | checkbox and input borders | 3.60 | 3.32 | |
-| `--color-ink` | `#f1efe6` | titles, body | 16.69 | 15.38 | 13.66 |
-| `--color-ink-2` | `#c9c4b4` | lead text, secondary body | 11.02 | 10.15 | 9.02 |
-| `--color-muted` | `#9a9483` | meta, counts, micro labels | 6.35 | 5.85 | 5.20 |
-| `--color-gold` | `#e2b95e` | eyebrows, NPC names, focus frame, active tab text | 10.38 | 9.56 | 8.49 |
-| `--color-ocre` | `#f0a336` | progress fills, done stamps | 9.15 | 8.43 | 7.49 |
-| `--color-action` | `#f0a336` | primary action: text and 1.5px border (same hex as ocre in Ébano) | 9.15 | 8.43 | 7.49 |
-| `--color-on-ocre` | `#1a1408` | text on an ocre fill (done stamps, the percentage inside a full bar) | 8.71 on ocre | | |
-| `--color-success` | `#a9d266` | completed, archmonster | 11.08 | 10.20 | 9.06 |
-| `--color-danger` | `#f28466` | destructive actions, errors | 7.57 | 6.97 | 6.19 |
-| `--color-info` | `#8fc3e8` | tips, links inside callouts | 10.20 | 9.40 | 8.35 |
-| `--color-focus` | `#f6d48a` | focus ring | 13.46 | | |
+| Token | Role |
+|---|---|
+| `--color-bg` | page background, under the art |
+| `--color-surface` | cards, step cards, panels |
+| `--color-raised` | hover fill, inputs, segmented track |
+| `--color-line` | hairlines between rows (decorative, no ratio needed) |
+| `--color-ink` | titles, body |
+| `--color-ink-2` | lead text, secondary body |
+| `--color-muted` | meta, counts, micro labels; also checkbox and input borders (at least 4.92:1 everywhere, well over 3:1) |
+| `--color-accent` | progress fills, links and coordinates, the checked checkbox (with a check mark in `--color-bg`), the primary button outline (accent text and border, transparent fill), the eyebrow, the theme switch knob, the current nav item, the active tab, focus rings on accent controls |
+| `--color-accent-2` | Lilita One featured numbers, tag pills (outline) |
 
-**Marfil (light)**
+Focus rings use `--color-ink` (at least 13:1 on bg in every mode) unless the control itself is accent-colored.
 
-| Token | Hex | Use | On bg | On surface | On raised |
-|---|---|---|---|---|---|
-| `--color-bg` | `#f6f0e3` | page background | | | |
-| `--color-surface` | `#fffaf0` | cards, step cards, panels | | | |
-| `--color-raised` | `#efe5d1` | hover fill, inputs, segmented track | | | |
-| `--color-line` | `#cbbb9b` | hairlines | | | |
-| `--color-control` | `#8c7a5c` | checkbox and input borders | 3.66 | 3.99 | |
-| `--color-ink` | `#241c11` | titles, body | 14.80 | 16.16 | 13.45 |
-| `--color-ink-2` | `#4a3d2c` | lead text | 9.27 | 10.12 | 8.42 |
-| `--color-muted` | `#6a5c47` | meta, counts | 5.72 | 6.24 | 5.19 |
-| `--color-gold` | `#8a5a0c` | eyebrows, NPC names, active tab text | 5.21 | 5.69 | 4.73 |
-| `--color-ocre` | `#c47210` | progress fills and done stamps only, never text | 3.21 (UI) | 3.50 (UI) | 2.92 |
-| `--color-action` | `#94520a` | primary action: text and 1.5px border; a darker ocre because `#c47210` fails as text | 5.33 | 5.82 | 4.84 |
-| `--color-on-ocre` | `#241c11` | text on an ocre fill | 4.61 on ocre | | |
-| `--color-success` | `#3d6914` | completed | 5.73 | 6.25 | 5.20 |
-| `--color-danger` | `#a8381f` | destructive actions, errors | 5.69 | 6.21 | 5.17 |
-| `--color-info` | `#1d5f86` | tips | 6.10 | 6.65 | 5.54 |
-| `--color-focus` | `#241c11` | focus ring | 14.80 | | |
+#### Arcano (`arcano`, free, the default for everyone)
+
+| Token | Dark | Light |
+|---|---|---|
+| `--color-bg` | `#0f0d1a` | `#f4f2fb` |
+| `--color-surface` | `#17142a` | `#ffffff` |
+| `--color-raised` | `#221e3b` | `#e9e5f7` |
+| `--color-line` | `#363160` | `#c9c2e6` |
+| `--color-ink` | `#ece9ff` | `#1b1630` |
+| `--color-ink-2` | `#bdb6e6` | `#3f3763` |
+| `--color-muted` | `#9089ba` | `#5f5782` |
+| `--color-accent` | `#6fe3ff` | `#0a6a85` |
+| `--color-accent-2` | `#c79bff` | `#6b3fc0` |
+
+| Pair | Dark | Light |
+|---|---|---|
+| ink on bg | 16.17 | 15.73 |
+| ink on surface | 15.10 | 17.44 |
+| ink on raised | 13.42 | 14.13 |
+| ink-2 on bg | 10.06 | 9.77 |
+| ink-2 on surface | 9.40 | 10.84 |
+| ink-2 on raised | 8.35 | 8.78 |
+| muted on bg | 5.92 | 5.97 |
+| muted on surface | 5.53 | 6.62 |
+| muted on raised | 4.92 | 5.36 |
+| accent on surface | 12.06 | 6.15 |
+| accent on raised | 10.71 | 4.99 |
+| accent-2 on surface | 8.17 | 6.78 |
+| accent-2 on raised | 7.26 | 5.49 |
+| accent as a border on surface (3:1) | 12.06 | 6.15 |
+| bg check mark on an accent fill (3:1) | 12.91 | 5.55 |
+
+#### Amakna (`amakna`, premium)
+
+| Token | Dark | Light |
+|---|---|---|
+| `--color-bg` | `#0c120e` | `#f3f5ec` |
+| `--color-surface` | `#131c16` | `#fdfef9` |
+| `--color-raised` | `#1c2a21` | `#e6ecdb` |
+| `--color-line` | `#2c4033` | `#c3cfb2` |
+| `--color-ink` | `#eef3e8` | `#172014` |
+| `--color-ink-2` | `#c3d1bd` | `#34452d` |
+| `--color-muted` | `#90a48b` | `#54644c` |
+| `--color-accent` | `#a3dd5e` | `#3a6812` |
+| `--color-accent-2` | `#f2c86b` | `#875a0c` |
+
+| Pair | Dark | Light |
+|---|---|---|
+| ink on bg | 16.80 | 15.23 |
+| ink on surface | 15.45 | 16.54 |
+| ink on raised | 13.28 | 13.87 |
+| ink-2 on bg | 11.89 | 9.38 |
+| ink-2 on surface | 10.93 | 10.18 |
+| ink-2 on raised | 9.39 | 8.54 |
+| muted on bg | 7.10 | 5.78 |
+| muted on surface | 6.53 | 6.27 |
+| muted on raised | 5.61 | 5.26 |
+| accent on surface | 10.84 | 6.54 |
+| accent on raised | 9.31 | 5.49 |
+| accent-2 on surface | 10.99 | 5.92 |
+| accent-2 on raised | 9.45 | 4.97 |
+| accent as a border on surface (3:1) | 10.84 | 6.54 |
+| bg check mark on an accent fill (3:1) | 11.78 | 6.02 |
+
+#### Frigost (`frigost`, premium)
+
+| Token | Dark | Light |
+|---|---|---|
+| `--color-bg` | `#0b1118` | `#eef3f8` |
+| `--color-surface` | `#111a24` | `#ffffff` |
+| `--color-raised` | `#192535` | `#e1e9f2` |
+| `--color-line` | `#27384b` | `#bccbda` |
+| `--color-ink` | `#e8f1fa` | `#0f1a26` |
+| `--color-ink-2` | `#b6c8da` | `#2f4357` |
+| `--color-muted` | `#8499ae` | `#516477` |
+| `--color-accent` | `#7fd3f2` | `#0b5f86` |
+| `--color-accent-2` | `#f5b84a` | `#865300` |
+
+| Pair | Dark | Light |
+|---|---|---|
+| ink on bg | 16.61 | 15.73 |
+| ink on surface | 15.37 | 17.56 |
+| ink on raised | 13.55 | 14.33 |
+| ink-2 on bg | 11.07 | 9.13 |
+| ink-2 on surface | 10.24 | 10.19 |
+| ink-2 on raised | 9.03 | 8.31 |
+| muted on bg | 6.45 | 5.47 |
+| muted on surface | 5.97 | 6.11 |
+| muted on raised | 5.27 | 4.98 |
+| accent on surface | 10.44 | 7.01 |
+| accent on raised | 9.21 | 5.72 |
+| accent-2 on surface | 9.89 | 6.46 |
+| accent-2 on raised | 8.72 | 5.27 |
+| accent as a border on surface (3:1) | 10.44 | 7.01 |
+| bg check mark on an accent fill (3:1) | 11.29 | 6.28 |
+
+#### Bonta (`bonta`, premium)
+
+| Token | Dark | Light |
+|---|---|---|
+| `--color-bg` | `#0c1220` | `#f3f5fa` |
+| `--color-surface` | `#131b2e` | `#ffffff` |
+| `--color-raised` | `#1b2640` | `#e5eaf4` |
+| `--color-line` | `#2c3b5c` | `#c3cde0` |
+| `--color-ink` | `#eef2fb` | `#111a2c` |
+| `--color-ink-2` | `#bfc9de` | `#33415c` |
+| `--color-muted` | `#8c99b5` | `#55627d` |
+| `--color-accent` | `#8fb8ff` | `#1f4fa8` |
+| `--color-accent-2` | `#f0c75e` | `#8a5d00` |
+
+| Pair | Dark | Light |
+|---|---|---|
+| ink on bg | 16.68 | 15.94 |
+| ink on surface | 15.30 | 17.38 |
+| ink on raised | 13.40 | 14.41 |
+| ink-2 on bg | 11.24 | 9.38 |
+| ink-2 on surface | 10.32 | 10.24 |
+| ink-2 on raised | 9.03 | 8.49 |
+| muted on bg | 6.53 | 5.61 |
+| muted on surface | 6.00 | 6.12 |
+| muted on raised | 5.25 | 5.08 |
+| accent on surface | 8.55 | 7.66 |
+| accent on raised | 7.49 | 6.35 |
+| accent-2 on surface | 10.65 | 5.76 |
+| accent-2 on raised | 9.33 | 4.77 |
+| accent as a border on surface (3:1) | 8.55 | 7.66 |
+| bg check mark on an accent fill (3:1) | 9.32 | 7.02 |
+
+#### Brâkmar (`brakmar`, premium)
+
+| Token | Dark | Light |
+|---|---|---|
+| `--color-bg` | `#130c0c` | `#f7f1ef` |
+| `--color-surface` | `#1c1212` | `#ffffff` |
+| `--color-raised` | `#281a19` | `#efe3e0` |
+| `--color-line` | `#42292a` | `#d6c1bc` |
+| `--color-ink` | `#f6ecea` | `#22120f` |
+| `--color-ink-2` | `#d6c1be` | `#4b2c27` |
+| `--color-muted` | `#a8908c` | `#6e4f49` |
+| `--color-accent` | `#ff5f52` | `#a8231a` |
+| `--color-accent-2` | `#ffb347` | `#8a4f00` |
+
+| Pair | Dark | Light |
+|---|---|---|
+| ink on bg | 16.68 | 16.17 |
+| ink on surface | 15.82 | 18.08 |
+| ink on raised | 14.46 | 14.41 |
+| ink-2 on bg | 11.27 | 11.12 |
+| ink-2 on surface | 10.69 | 12.44 |
+| ink-2 on raised | 9.77 | 9.91 |
+| muted on bg | 6.48 | 6.53 |
+| muted on surface | 6.14 | 7.30 |
+| muted on raised | 5.62 | 5.82 |
+| accent on surface | 6.12 | 7.19 |
+| accent on raised | 5.60 | 5.73 |
+| accent-2 on surface | 10.30 | 6.56 |
+| accent-2 on raised | 9.42 | 5.23 |
+| accent as a border on surface (3:1) | 6.12 | 7.19 |
+| bg check mark on an accent fill (3:1) | 6.46 | 6.43 |
+
+#### Ocre (`ocre`, premium, after the Dofus Ocre)
+
+| Token | Dark | Light |
+|---|---|---|
+| `--color-bg` | `#14100a` | `#f8f1e2` |
+| `--color-surface` | `#1d170e` | `#fffaf0` |
+| `--color-raised` | `#281f12` | `#efe2c6` |
+| `--color-line` | `#43341d` | `#d4bf95` |
+| `--color-ink` | `#f7efe0` | `#23190a` |
+| `--color-ink-2` | `#d9c9a8` | `#4a3a1f` |
+| `--color-muted` | `#a8977a` | `#6b5838` |
+| `--color-accent` | `#ffb534` | `#8a5300` |
+| `--color-accent-2` | `#ff8a5c` | `#a3410f` |
+
+| Pair | Dark | Light |
+|---|---|---|
+| ink on bg | 16.58 | 15.37 |
+| ink on surface | 15.56 | 16.61 |
+| ink on raised | 14.19 | 13.47 |
+| ink-2 on bg | 11.61 | 9.74 |
+| ink-2 on surface | 10.90 | 10.53 |
+| ink-2 on raised | 9.94 | 8.54 |
+| muted on bg | 6.65 | 6.07 |
+| muted on surface | 6.24 | 6.56 |
+| muted on raised | 5.69 | 5.32 |
+| accent on surface | 10.08 | 6.08 |
+| accent on raised | 9.20 | 4.93 |
+| accent-2 on surface | 7.66 | 6.08 |
+| accent-2 on raised | 6.98 | 4.93 |
+| accent as a border on surface (3:1) | 10.08 | 6.08 |
+| bg check mark on an accent fill (3:1) | 10.75 | 5.63 |
 
 Rules that follow from the numbers:
 
-- Light ocre is a fill, not text, and its progress track sits on `surface` or `bg`, not on `raised` (2.92:1 is under the 3:1 UI minimum).
-- Gold on `raised` in Marfil is 4.73:1; fine for text, so the active tab can keep gold text on a raised track.
-- Text over game art always sits on a shade (`--color-bg` at 70 to 90 percent through a gradient or a pill). Never put text straight on an image.
-- The egg medallion in the theme switch keeps its own dark fill and gold ring in both themes.
+- The lowest muted pair is Arcano dark muted on raised at 4.92:1, so muted text works on every surface in every theme.
+- Accent and accent-2 pass as text on surface and raised everywhere (lowest: Bonta light accent-2 on raised at 4.77:1), so the eyebrow, links, tags and numbers need no theme-specific exceptions.
+- Text over game art always sits on a shade. Never put text straight on an image, and never use `--color-muted` on art cards (see Imagery).
+
+### Shared colors
+
+Status colors and section accents are fixed per mode and shared by all six themes. That is the simpler option, and it passes: each hex was checked against `bg`, `surface` and `raised` of every theme in its mode, and the table gives the worst case.
+
+| Token | Dark | Worst case | Light | Worst case |
+|---|---|---|---|---|
+| `--color-success` | `#a9d266` | 8.63 (Amakna raised) | `#3d6914` | 5.07 (Ocre raised) |
+| `--color-warning` | `#f2c14e` | 8.92 (Amakna raised) | `#7a5600` | 5.18 (Ocre raised) |
+| `--color-danger` | `#f28466` | 5.89 (Amakna raised) | `#a8381f` | 5.03 (Ocre raised) |
+| `--color-info` | `#8fc3e8` | 7.94 (Amakna raised) | `#1d5f86` | 5.39 (Ocre raised) |
 
 ### Section accents
 
-Decided 2026-11-02: each section gets a subtle accent of its own; the base palette stays shared. The accent is used only for details: the card border, the ring of the icon well in the menu, and the section label (eyebrow or micro label). It never fills a button, never colors body text and never replaces gold or ocre in their jobs. Pages set it once with `--color-section` on the section's root, so components read one variable.
+Decided 2026-11-02: each section gets a subtle accent of its own. It is used only for details: the card border, the ring of the icon well in the menu, and the section label. It never fills a button, never colors body text and never replaces `accent` or `accent-2` in their jobs. Pages set it once with `--color-section` on the section's root, so components read one variable.
 
-| Section | Token | Ébano | On bg | On surface | On raised | Marfil | On bg | On surface | On raised |
-|---|---|---|---|---|---|---|---|---|---|
-| Misiones | `--color-sec-misiones` | `#e3c565` | 11.39 | 10.49 | 9.32 | `#77600f` | 5.34 | 5.83 | 4.85 |
-| Logros | `--color-sec-logros` | `#f0b45a` | 10.42 | 9.60 | 8.53 | `#8f560a` | 5.28 | 5.76 | 4.79 |
-| Guías de Dofus | `--color-sec-dofus` | `#b7dc69` | 12.32 | 11.35 | 10.08 | `#4b6e12` | 5.23 | 5.70 | 4.75 |
-| Checklists | `--color-sec-checklists` | `#7fd6c2` | 11.26 | 10.37 | 9.22 | `#17695a` | 5.77 | 6.30 | 5.24 |
-| Clases | `--color-sec-clases` | `#ef8a6a` | 7.79 | 7.18 | 6.38 | `#a23c22` | 5.77 | 6.30 | 5.24 |
-| Mazmorras | `--color-sec-mazmorras` | `#b99af2` | 8.21 | 7.56 | 6.72 | `#6a43b8` | 5.95 | 6.49 | 5.41 |
-| Herramientas | `--color-sec-herramientas` | `#9fc7f0` | 10.90 | 10.04 | 8.92 | `#2a5f93` | 5.86 | 6.39 | 5.32 |
+| Section | Token | Dark | Worst case | Light | Worst case |
+|---|---|---|---|---|---|
+| Misiones | `--color-sec-misiones` | `#e3c565` | 8.87 | `#77600f` | 4.72 |
+| Logros | `--color-sec-logros` | `#f0b45a` | 8.11 | `#8f560a` | 4.67 |
+| Guías de Dofus | `--color-sec-dofus` | `#b7dc69` | 9.59 | `#4b6e12` | 4.62 |
+| Checklists | `--color-sec-checklists` | `#7fd6c2` | 8.77 | `#17695a` | 5.11 |
+| Clases | `--color-sec-clases` | `#ef8a6a` | 6.07 | `#a23c22` | 5.10 |
+| Mazmorras | `--color-sec-mazmorras` | `#b99af2` | 6.39 | `#6a43b8` | 5.27 |
+| Herramientas | `--color-sec-herramientas` | `#9fc7f0` | 8.49 | `#2a5f93` | 5.18 |
 
-Every pair is at least 4.5:1, so the same hex works as label text and as a border (which needs 3:1). Ébano values come from the Dofus Tools section colors, with Clases and Mazmorras lightened to pass on `raised`. Marfil values are the same hues darkened to ink strength. A new section gets its pair checked on `bg`, `surface` and `raised` before it ships.
+Worst cases are on `raised` of Amakna dark and Ocre light. Every value is at least 4.5:1, so the same hex works as label text and as a border (which needs 3:1). A new section, or a new theme, gets these pairs rechecked before it ships.
 
 ### Typography
 
@@ -133,7 +327,7 @@ Rules:
 - Page and section titles (`h1`, `h2`, home sections) are uppercase Barlow Condensed with slight positive tracking, as on Dofus Tools and Torre's site (decided 2026-11-02). Write them in normal case in the source and apply `text-transform: uppercase` in CSS, so screen readers and search snippets get normal text.
 - Card titles, step titles and body text stay in normal case. Eyebrows and micro labels are uppercase as in the table.
 - Lilita One is for featured numbers and the words that belong to them ("30 guías"), never for titles or labels. In tables and aligned columns, numbers stay in Barlow with tabular figures.
-- The last word of a list page title may go in gold ("Todas las *misiones*").
+- The last word of a list page title may go in `--color-accent` ("Todas las *misiones*").
 - Measure: guide prose at most 72ch; step cards cap at `--width-prose`.
 - Numbers in tables, counts and progress use `font-variant-numeric: tabular-nums`.
 - Words never split mid-word: `overflow-wrap: normal; word-break: normal; hyphens: manual` on `body`.
@@ -173,9 +367,9 @@ The interface is mostly flat; depth comes from surface steps. Shadows go under g
 | `--shadow-art` | `0 2px 6px rgb(0 0 0 / .3), 0 14px 32px rgb(0 0 0 / .35)` | map and step screenshots |
 | `--shadow-float` | `0 12px 32px rgb(0 0 0 / .45)` | dropdowns, popovers, the search dialog |
 | `--shadow-dialog` | `0 24px 64px rgb(0 0 0 / .55)` | modal dialogs |
-| `--shadow-glow` | `0 0 0 1px color-mix(in srgb, var(--color-gold) 55%, transparent), 0 0 18px -4px var(--color-gold)` | active or selected card |
+| `--shadow-glow` | `0 0 0 1px color-mix(in srgb, var(--color-accent) 55%, transparent), 0 0 18px -4px var(--color-accent)` | active or selected card |
 
-In Marfil, shadows drop to half their alpha.
+In light mode, shadows drop to half their alpha.
 
 ### Z-index
 
@@ -211,7 +405,7 @@ Side gutters: 16px under 640px, 24px up to 1024px, 48px above. Backgrounds alway
 
 ## Layout
 
-- **Header** (decided 2026-11-02: the duffus-style header, not the Dofus Tools "header B"): 64px, sticky. Transparent over the hero art at the top of the page, then `--color-bg` at 92 percent with `backdrop-filter: blur(16px) saturate(1.4)` once the page scrolls (solid fallback without `backdrop-filter`). Brand left; nav groups as dropdowns with game icons; search trigger with its `Ctrl K` hint; the egg theme switch; the account button ("Entrar" as the primary action, ocre outline, when signed out). Under 768px: a floating bar inset 12px from the edges with 16px radius, and a burger that opens a full-height sheet of 48px rows.
+- **Header** (decided 2026-11-02: the duffus-style header, not the Dofus Tools "header B"): 64px, sticky. Transparent over the hero art at the top of the page, then `--color-bg` at 92 percent with `backdrop-filter: blur(16px) saturate(1.4)` once the page scrolls (solid fallback without `backdrop-filter`). Brand left; nav groups as dropdowns with game icons; search trigger with its `Ctrl K` hint; the egg theme switch; the account button ("Entrar" as the primary action, accent outline, when signed out). Under 768px: a floating bar inset 12px from the edges with 16px radius, and a burger that opens a full-height sheet of 48px rows.
 - **Footer**: legal links, Ko-fi, socials (YouTube, Kick, Instagram), the Twitch live card. No floating support button.
 - **Quest guide**: the free view is the full guide. "Modo compacto" (decided 2026-11-02) is a premium feature that trims the hero and the long dialogue blocks; it is enforced on the server like every premium feature (see `AGENTS.md`), so a visitor without the entitlement never receives the compact layout or its toggle. Hero card at `--width-hero` (NPC render, eyebrow with breadcrumb, title, summary, level and zone, start map with coordinates and zaap chips, rewards); "Antes de empezar" block (level, prerequisites, achievement, dungeon, items needed with quantities); then the steps at `--width-prose` with a type badge in a 48px left gutter on wide screens, inside the card on phones.
 - **Dofus guide and checklist**: title block, summary strip (level range, prerequisites done, quests done, dungeons, segmented progress), chapters as numbered sections of checkable rows; from 1024px a sticky side column with the Dofus card and tabs (Capítulos, Objetos necesarios).
@@ -224,38 +418,40 @@ Every interactive component has these states: default, hover (mouse only), focus
 
 | Component | Anatomy | States |
 |---|---|---|
-| Button, primary | pill, 44px high, 24px side padding, display 700 at `--text-sm`, transparent fill, 1.5px `--color-action` border, `--color-action` text (Ébano 8.43:1 on surface, Marfil 5.82:1). One per view. Gold and ocre are never fills | hover: `--color-raised` fill behind the same text and border (Ébano 7.49:1, Marfil 4.84:1); pressed: `scale(.96)`; disabled: 40 percent opacity, no pointer |
+| Button, primary | pill, 44px high, 24px side padding, display 700 at `--text-sm`, transparent fill, 1.5px `--color-accent` border, `--color-accent` text (at least 6.08:1 on surface in every theme and mode). One per view. No color is ever a button fill | hover: `--color-raised` fill behind the same text and border (at least 4.93:1); pressed: `scale(.96)`; disabled: 40 percent opacity, no pointer |
 | Button, secondary | pill, 40px, `--color-raised` fill, `--color-ink` text, optional leading icon | hover: fill one step up; pressed: scale |
 | Button, ghost | pill, 36px, no fill, `--color-ink-2` text | hover: `--color-raised` fill |
 | Icon button | 40px circle (44px under `pointer: coarse`), `aria-label` required | as secondary |
-| Nav link | pill, 36px, `6px 14px` padding | hover: faint fill; current page: gold text plus `aria-current="page"` |
+| Nav link | pill, 36px, `6px 14px` padding | hover: faint fill; current page: `--color-accent` text plus `aria-current="page"` |
 | Dropdown panel | 16px radius, `--color-surface` at 92 percent with blur, 12px padding, rows of 40px with a 24px game icon | enter and exit per the motion table; Esc and outside click close; arrow keys move |
 | Search dialog | native `<dialog>`, 640px wide, input at top, results grouped by type (misión, logro, Dofus, clase) with icons, keyboard selection | opens on `Ctrl K` or `/`; empty state with recent searches; no-results state with a suggestion |
-| Card, collection (Dofus, class, dungeon) | the whole card is one `<a>`; art layer, shade, name in display 700 normal case, one line of meta; 1px border in `--color-section`; optional progress ring top right with the percentage in Lilita One. Marfil treatment below | hover: a soft glow in `--color-section` around the border, art settles from `scale(1.04)` to 1; done: success ring; locked premium: lock badge and the meta says why |
+| Card, collection (Dofus, class, dungeon) | the whole card is one `<a>`; art layer, shade, name in display 700 normal case, one line of meta; 1px border in `--color-section`; optional progress ring top right in `--color-accent` with the percentage in Lilita One and `--color-accent-2`. Light-mode treatment below | hover: a soft glow in `--color-section` around the border, art settles from `scale(1.04)` to 1; done: success ring; locked premium: lock badge and the meta says why |
 | Card, step | `--color-surface`, `--radius-card`, `18px 22px` padding; type badge (32px circle with a game icon) in the gutter; title; body blocks; optional NPC render and numbered dialogue choices | done: check in the badge, title in `--color-muted`, the card stays in place |
-| Stat tile | 14px radius, icon, number in Lilita One at `--text-figure`, micro label | static |
+| Stat tile | 14px radius, icon, number in Lilita One at `--text-figure` in `--color-accent-2`, micro label | static |
 | Chip | 22 to 26px pill, `--text-xs`, `--color-raised` fill | coordinates chip copies `/travel x,y` on click and shows a toast "Copiado"; pressed: scale |
-| Segmented tabs | pill track in `--color-raised`; active segment gold text on gold at 16 percent | selected uses `aria-selected`; arrow keys move between tabs |
-| Checkbox | 22px, `--radius-sm`, `--color-control` border | checked: ocre fill with an `--color-on-ocre` tick; pressed: `scale(.9)` for 100ms |
-| Progress bar | 10 to 14px track in `--color-bg` (dark) or `--color-raised` with a hairline (light), ochre fill, optional chapter ticks, percentage beside it in tabular numbers | animates `transform: scaleX()` on the fill, never `width` |
-| Callout | 12px radius, fill of its color at 10 percent over `--color-surface`, icon from game art, title in its color, text in `--color-ink` | tip (info), warning (gold), stop (danger) |
+| Segmented tabs | pill track in `--color-raised`; active segment `--color-surface` with `--color-accent` text | selected uses `aria-selected`; arrow keys move between tabs |
+| Checkbox | 22px, `--radius-sm`, `--color-muted` border | checked: `--color-accent` fill with a `--color-bg` check mark (at least 5.55:1); pressed: `scale(.9)` for 100ms |
+| Progress bar | 10 to 14px track in `--color-bg` (dark) or `--color-raised` with a hairline (light), `--color-accent` fill (at least 4.93:1 against raised, over the 3:1 a fill needs), optional chapter ticks, percentage beside it in Lilita One and `--color-accent-2` | animates `transform: scaleX()` on the fill, never `width` |
+| Callout | 12px radius, fill of its color at 10 percent over `--color-surface`, icon from game art, title in its color, text in `--color-ink` | tip (info), warning (warning), stop (danger) |
 | Table | 44px rows, 1px `--color-line` between rows, sticky head row in micro labels, checkbox column first, numbers right-aligned | row hover: `--color-raised`; done rows keep their place and tick |
 | Tooltip | `--color-raised`, 12px radius, `--text-xs`, 8px offset | shows on hover after 300ms and on focus; never holds the only copy of information |
 | Dialog | native `<dialog>` with `showModal()`, 16px radius, `--shadow-dialog`, title in display 700, actions bottom right | confirm destructive actions with a dialog, never `confirm()`; offer "Deshacer" in a toast for 8 seconds after |
 | Toast | bottom center, pill or 12px radius, `--color-raised` | auto-dismiss 4 seconds (8 with an undo action); `role="status"` |
-| Theme switch | the egg medallion from Dofus Tools: dark medallion, gold ring, Marfil and Ébano states | page theme change uses the corner reveal of the old site where View Transitions exist; plain swap otherwise |
+| Mode switch | the egg medallion from Dofus Tools, now the dark and light toggle within the chosen theme. The ivory and ebony egg art stay as its two icons; the medallion keeps its own dark fill in both modes, so the art reads the same on every theme. The knob ring is `--color-accent` | `role="switch"` with `aria-checked`; the mode change uses the corner reveal of the old site where View Transitions exist, a plain swap otherwise |
+| Theme picker | six swatch cards in a grid (three per row from 640px, two below): a strip of the theme's bg, surface, accent and accent-2, the theme name in display 700, and on the five premium ones a lock icon and a "Premium" label. The current theme has a `--color-accent` border and a check | entitled member: choosing saves the theme to the profile and the server re-renders the page with it. Everyone else: hover or focus shows a preview inside the card (a mini page in that theme's colors, scoped to the card with its own `data-theme`) without changing the page; choosing a premium theme opens the premium explainer, and nothing is saved |
+| Tag pill | 22 to 26px pill, `--text-xs`, transparent fill, 1px `--color-accent-2` border and text | static, or a link with a hover fill of `--color-raised` |
 | Skeleton | blocks in `--color-raised` matching the final layout, used only in client islands and `loading.tsx` | a 1.2s opacity pulse; static under reduced motion |
 | Empty state | game art (an NPC or icon), one sentence, one action | e.g. "Aún no has marcado ninguna misión" with "Ver la guía" |
 
-### Art cards in Marfil
+### Art cards in light mode
 
-Decided 2026-11-02: in Marfil the art cards are lightened, not kept dark.
+Decided 2026-11-02: in light mode the art cards are lightened, not kept dark, in every theme.
 
-- **Card**: `--color-surface` (`#fffaf0`) under the art, 1px border in `--color-section` (Marfil value, at least 4.75:1 on surface, so well over the 3:1 a border needs).
+- **Card**: `--color-surface` under the art, 1px border in `--color-section` (light value, at least 4.62:1 on any light surface, well over the 3:1 a border needs).
 - **Art**: zone backgrounds at full color but 55 percent opacity, so they read as a light wash; NPC, boss and egg renders stay at full opacity on top.
-- **Shade**: a gradient from transparent to `--color-surface` at 90 percent, covering the part where text sits (bottom on wide cards, left half on mid cards). It replaces the near-black shade of Ébano.
-- **Egg and render glow**: `drop-shadow(0 0 10px color-mix(in srgb, var(--color-section) 35%, transparent))`, about half the Ébano strength (`0 0 18px` at 55 percent). The renders also get `drop-shadow(0 4px 8px rgb(36 28 17 / .18))` so they sit on the card instead of floating.
-- **Text on the card**: name in `--color-ink`, meta in `--color-ink-2`. Worst case measured with black art under a 90 percent surface shade: ink 12.91:1, ink-2 8.08:1. `--color-muted` drops to 4.99:1 there and to 4.40:1 at an 85 percent shade, so muted text is not used on art cards and the shade never goes under 90 percent.
+- **Shade**: a gradient from transparent to `--color-surface` at 90 percent, covering the part where text sits (bottom on wide cards, left half on mid cards). It replaces the near-black shade of dark mode.
+- **Egg and render glow**: `drop-shadow(0 0 10px color-mix(in srgb, var(--color-section) 35%, transparent))`, about half the dark-mode strength (`0 0 18px` at 55 percent). The renders also get `drop-shadow(0 4px 8px rgb(0 0 0 / .18))` so they sit on the card instead of floating.
+- **Text on the card**: name in `--color-ink`, meta in `--color-ink-2`. Worst case, black art under a 90 percent surface shade: ink at least 13.23:1 and ink-2 at least 8.15:1 in every light theme. `--color-muted` falls to 4.89:1 there, so muted text is never used on art cards, and the shade never goes under 90 percent. In dark mode the same rule holds: with white art under an 85 percent bg shade, ink stays above 10.7:1 and ink-2 above 6.6:1, while muted drops under 4.5:1.
 - **Pills over art** (kicker, level): `--color-surface` at 92 percent with `--color-ink` text, never a dark pill.
 
 ## Motion
@@ -314,8 +510,8 @@ Exits run at about 70 percent of the enter duration (a 220ms dropdown closes in 
 
 ## Accessibility
 
-- WCAG 2.2 AA in both themes. The color tables above list every text pair; new pairs get a ratio before they ship.
-- Focus: `outline: 2px solid var(--color-focus); outline-offset: 2px` on every interactive element, `:focus-visible` only. Cards use a 3px outline with 4px offset.
+- WCAG 2.2 AA in every theme and mode. The color tables above list every text pair; new pairs get a ratio before they ship.
+- Focus: `outline: 2px solid var(--color-ink); outline-offset: 2px` on every interactive element, `:focus-visible` only. Cards use a 3px outline with 4px offset.
 - Targets: 40px minimum, 44px under `pointer: coarse`.
 - One `h1` per page; headings in order. `lang="es"` on `<html>`.
 - Never nest interactive elements: a card is one `<a>`; a checkbox next to a link is a sibling, not a child.
@@ -343,7 +539,7 @@ What keeps them: server components, fonts through `next/font` with fallback metr
 2. The user picks. Nothing gets implemented before that.
 3. A functional prototype outside `src/` when a flow is unclear (sticky behavior, a multi-step interaction).
 4. Implementation, test first (see `AGENTS.md`).
-5. Screenshots at 1440, 1024 and 390 px, in Ébano and Marfil, in `tmp/shots/`, each next to its approved mockup in the PR report.
+5. Screenshots at 1440, 1024 and 390 px, in Arcano dark and light (plus any theme the change touches), in `tmp/shots/`, each next to its approved mockup in the PR report.
 
 ## Anti-patterns
 
@@ -352,7 +548,7 @@ Carried over from Dofus Tools reviews, plus what the duffus study ruled out.
 | Rejected | Do instead |
 |---|---|
 | A side border accent on the active item | a raised fill or the `--shadow-glow` frame |
-| Gradient pill buttons, or gold or ocre fills on any button | the ocre outline for the primary action; gold as frame or text |
+| Gradient pill buttons, or any color as a button fill | the accent outline for the primary action |
 | "Entrar →" text on a card that is already a link | the whole card is the link; the meta line says where it goes |
 | Emoji or generic icons when a game asset exists | the game asset in an icon well |
 | The same motif on two neighboring cards | one motif per card |
