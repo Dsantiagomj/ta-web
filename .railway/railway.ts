@@ -44,7 +44,7 @@ export default defineRailway((ctx) => {
     },
     env: {
       // Node 24, como .nvmrc y engines.
-      RAILPACK_NODE_VERSION: '24',
+      RAILPACK_NODE_VERSION: '24.22.2',
       DATABASE_URL: preserve(),
       DATABASE_URL_DIRECT: preserve(),
       PAYLOAD_SECRET: preserve(),

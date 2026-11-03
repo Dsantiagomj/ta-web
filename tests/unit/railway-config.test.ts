@@ -28,7 +28,7 @@ describe.each(['dev', 'production'])('servicio web en %s', (environment) => {
     expect(web.build).toMatchObject({ builder: 'RAILPACK', buildCommand: 'pnpm build' })
     expect(web.deploy.startCommand).toBe('pnpm start')
     // Node 24, el de .nvmrc y engines; explícito para que Railpack no elija otro.
-    expect(web.variables.RAILPACK_NODE_VERSION).toEqual({ type: 'literal', value: '24' })
+    expect(web.variables.RAILPACK_NODE_VERSION).toEqual({ type: 'literal', value: '24.22.2' })
   })
 
   it('migra antes de cada despliegue, con plazo', async () => {
