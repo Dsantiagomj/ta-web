@@ -14,7 +14,7 @@ Every change: code, content model, migrations, data, docs, CI. Read this file be
 2. Strict TDD: write or adjust the test, watch it fail, then implement.
 3. Schema change: generate and commit the migration in the same branch.
 4. Run every suite locally (see Testing). Report failures verbatim.
-5. UI change: screenshots at 1440, 1024 and 390 px, Ébano and Marfil, in `tmp/shots/`, next to the approved mockup.
+5. UI change: screenshots at 1440, 1024 and 390 px, Arcano dark and light (plus any theme the change touches), in `tmp/shots/`, next to the approved mockup.
 6. Open the PR: conventional commit title, Spanish body. No auto-merge unless asked.
 
 ## Stack
@@ -72,7 +72,7 @@ Spanish only at launch, ready for more: Payload localization is on with `es` as 
 | All suites before push | See Testing. Re-run a suspected flake alone (`--retries 0`) before calling it a flake |
 | Auto-merge | Only when the user asks |
 | Ask, do not guess | A blocked decision gets one question, then stop |
-| Screenshots | `tmp/shots/`, 1440, 1024 and 390 px wide, both themes |
+| Screenshots | `tmp/shots/`, 1440, 1024 and 390 px wide, Arcano dark and light |
 
 ## Strict TDD
 
@@ -105,6 +105,7 @@ CI runs all of them on every PR (planned). The repo is private, so Actions minut
 | Use the local API (`getPayload`) from server code; never call our own REST API from the server | One process, no HTTP round trip, typed results |
 | Every schema change ships with a migration (`npx payload migrate:create`), committed and reviewed. Schema push is for local development only | Production applies migrations; nothing changes the schema by hand |
 | Paywalled pages emit Google's paywalled-content structured data | The plan requires it for search |
+| Premium themes (Amakna, Frigost, Bonta, Brâkmar, Ocre) are an entitlement: the server renders a premium `data-theme` only when the member's entitlement allows it, and saving one is rejected otherwise. A theme value from the client, a cookie or `localStorage` is never trusted on its own. Arcano is the free default | Hiding a premium theme behind a client switch would hand it to everyone |
 | Premium view modes, such as "Modo compacto" on quest pages, are entitlements like any other: the server picks the layout, and the free view is the full guide | A client-side toggle would hand the feature to everyone |
 | Drafts, versions and live preview stay on for editorial collections | Torre edits in the panel (plan section 5) |
 | Derived checklist data is computed in TypeScript at publish time (`src/lib/derive/`), from relationships, not from parsing text | It replaces the old Python pipeline |
@@ -119,7 +120,7 @@ CI runs all of them on every PR (planned). The repo is private, so Actions minut
 | Fetch data on the server | In server components or route handlers through the local API; no client-side fetching of content |
 | Entitlement checks happen per request on the server | A premium block is not rendered, and not serialized, for a visitor without the entitlement |
 | Revalidate on publish | Payload `afterChange` hooks call `revalidateTag`/`revalidatePath` for what changed (planned) |
-| Theme before first paint | An inline `<head>` script sets `data-theme` from `localStorage` (default `ebano`), so pages stay cacheable; `<html suppressHydrationWarning>` |
+| Theme and mode | The server renders `data-theme` on `<html>` from the member's saved setting, checked against the entitlement; anyone without it gets `arcano`. The mode (`data-mode`, dark or light) is free: a cookie plus `localStorage`, and an inline `<head>` script sets the mode only before first paint (default `dark`); `<html suppressHydrationWarning>` |
 | Fonts through `next/font/google` | Barlow, Barlow Condensed, Lilita One; self-hosted, no layout shift |
 
 ## Members and progress
