@@ -8,6 +8,9 @@ runs:
     - uses: actions/setup-node@v7.1.0
       with:
         node-version-file: .nvmrc
+        # Sin esto, setup-node usa el Node 24 que traiga la imagen del runner, que puede
+        # ser anterior a engines.node (>=24.22.1, versión de seguridad).
+        check-latest: true
         cache: pnpm
 
     - name: Instalar dependencias

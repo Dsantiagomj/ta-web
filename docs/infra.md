@@ -42,7 +42,7 @@ Railway wins on effort: two environments, deploys and migrations without writing
 
 | Service | Provider | Notes |
 |---|---|---|
-| App | Railway (Nixpacks or a Dockerfile, Node 24, `pnpm build` then `pnpm start`) | Health check on `/api/health` (to add) |
+| App | Railway (Nixpacks or a Dockerfile, Node 24 from `engines.node`, at least 24.22.1, `pnpm build` then `pnpm start`) | Health check on `/api/health` (to add) |
 | Postgres | Neon | One project, branches `main` (prod) and `dev`. Point-in-time recovery on `main`. Pooled connection string for the app, direct one for migrations |
 | Media | Cloudflare R2 | Two buckets, public through a Cloudflare custom domain (`media.torrentearcano.com`, `media-dev...`) once the domain is on Cloudflare |
 | DNS, CDN, TLS | Cloudflare | Requires the domain transfer out of Squarespace (plan, decision 1) |
