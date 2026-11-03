@@ -1,0 +1,244 @@
+/*
+ * El medallón de huevos de Dofus Tools (DESIGN.md, Mode switch): Dofus Marfil para el
+ * modo claro y Dofus Ébano para el oscuro. El huevo del modo actual va grande a la
+ * izquierda, dentro del aro en --color-accent; el otro, pequeño y apagado. El fondo del
+ * medallón es oscuro en los dos modos, para que el arte se lea igual en todos los temas.
+ * Solo se animan transform y opacity; el borde cambia de color al pasar el ratón.
+ */
+.mode-switch {
+  position: relative;
+  flex-shrink: 0;
+  width: 72px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: none;
+  cursor: pointer;
+  transition: transform var(--duration-press) var(--ease-out);
+  /* Grupo propio en la View Transition: se ve en vivo mientras la página cambia. */
+  view-transition-name: mode-switch;
+}
+
+@media (pointer: coarse) {
+  .mode-switch {
+    height: 44px;
+  }
+}
+
+.mode-switch:active {
+  transform: scale(0.96);
+}
+
+.mode-switch [data-part='track'] {
+  position: absolute;
+  inset: 0;
+  border: 1px solid #3d2a30;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(180deg, #1b1418 0%, #0c0a0b 100%);
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+
+.mode-switch [data-part='knob'] {
+  position: absolute;
+  top: 50%;
+  left: 4px;
+  width: 32px;
+  height: 32px;
+  margin-top: -16px;
+  border: 2px solid var(--color-accent);
+  border-radius: 50%;
+}
+
+.mode-switch [data-part='egg'] {
+  position: absolute;
+  top: 50%;
+  left: 6px;
+  width: 28px;
+  height: 28px;
+  margin-top: -14px;
+  object-fit: contain;
+  user-select: none;
+  transition:
+    transform var(--duration-slow) cubic-bezier(0.65, 0, 0.35, 1),
+    opacity var(--duration-slow) ease;
+}
+
+/* El huevo inactivo: pequeño y apagado a la derecha. */
+.mode-switch [data-egg='light'],
+.mode-switch[aria-checked='true'] [data-egg='dark'] {
+  z-index: 1;
+  transform: translateX(34px) scale(0.55);
+  opacity: 0.45;
+  filter: grayscale(0.6);
+}
+
+/* El huevo activo: grande, dentro del aro, con su brillo. */
+.mode-switch [data-egg='dark'] {
+  z-index: 2;
+  transform: none;
+  opacity: 1;
+  filter: drop-shadow(0 0 6px rgb(255 90 130 / 0.55));
+}
+
+.mode-switch[aria-checked='true'] [data-egg='light'] {
+  z-index: 2;
+  transform: none;
+  opacity: 1;
+  filter: drop-shadow(0 0 5px rgb(255 226 130 / 0.85));
+}
+
+/* Al cambiar: el que se va sube en arco, el que llega baja y rebota. */
+.mode-switch [data-part='egg'].arc-up {
+  animation: mode-switch-arc-up var(--duration-slow) cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.mode-switch [data-part='egg'].hatch {
+  animation:
+    mode-switch-arc-down var(--duration-slow) cubic-bezier(0.65, 0, 0.35, 1),
+    mode-switch-hatch 420ms cubic-bezier(0.3, 1.6, 0.5, 1) var(--duration-slow);
+}
+
+@keyframes mode-switch-arc-up {
+  50% {
+    translate: 0 -9px;
+  }
+}
+
+@keyframes mode-switch-arc-down {
+  50% {
+    translate: 0 9px;
+  }
+}
+
+@keyframes mode-switch-hatch {
+  45% {
+    scale: 1.28;
+  }
+}
+
+/* Chispas del huevo que llega. */
+.mode-switch [data-part='spark'] {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  width: 4px;
+  height: 4px;
+  margin: -2px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  background: #ff9fb8;
+  box-shadow: 0 0 6px #ff5a82;
+}
+
+.mode-switch[aria-checked='true'] [data-part='spark'] {
+  background: #ffe8a3;
+  box-shadow: 0 0 6px #ffd76a;
+}
+
+.mode-switch.pop [data-part='spark'] {
+  animation: mode-switch-spark 550ms ease-out var(--duration-slow) forwards;
+}
+
+@keyframes mode-switch-spark {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) scale(0.3);
+  }
+}
+
+/* Hover solo con ratón: borde en el acento y el huevo activo se acerca un poco. */
+@media (hover: hover) and (pointer: fine) {
+  .mode-switch:hover [data-part='track'] {
+    border-color: var(--color-accent);
+  }
+
+  .mode-switch:hover[aria-checked='false'] [data-egg='dark'],
+  .mode-switch:hover[aria-checked='true'] [data-egg='light'] {
+    transform: scale(1.06);
+  }
+}
+
+/* El cambio de modo entra en diagonal desde la esquina del interruptor (View Transitions).
+   Siempre se anima la captura oscura: al ir a oscuro entra la nueva; al volver a claro, la
+   vieja se recoge hacia la esquina. */
+@property --mode-reveal {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 0%;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+html.vt-to-dark::view-transition-new(root),
+html.vt-to-light::view-transition-old(root) {
+  mask-image: linear-gradient(
+    225deg,
+    #000 calc(var(--mode-reveal) - 16%),
+    transparent var(--mode-reveal)
+  );
+}
+
+html.vt-to-dark::view-transition-new(root) {
+  animation: mode-reveal 1s cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+
+html.vt-to-light::view-transition-old(root) {
+  z-index: 2;
+  animation: mode-reveal 1s cubic-bezier(0.65, 0, 0.35, 1) reverse both;
+}
+
+@keyframes mode-reveal {
+  from {
+    --mode-reveal: 0%;
+  }
+  to {
+    --mode-reveal: 122%;
+  }
+}
+
+::view-transition-old(mode-switch) {
+  display: none;
+}
+
+::view-transition-new(mode-switch) {
+  animation: none;
+}
+
+::view-transition-group(mode-switch) {
+  z-index: 3;
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mode-switch,
+  .mode-switch [data-part='track'],
+  .mode-switch [data-part='egg'] {
+    transition: none;
+  }
+
+  .mode-switch:active {
+    transform: none;
+  }
+
+  .mode-switch [data-part='egg'].arc-up,
+  .mode-switch [data-part='egg'].hatch,
+  .mode-switch.pop [data-part='spark'] {
+    animation: none;
+  }
+
+  .mode-switch:hover[aria-checked='false'] [data-egg='dark'],
+  .mode-switch:hover[aria-checked='true'] [data-egg='light'] {
+    transform: none;
+  }
+}

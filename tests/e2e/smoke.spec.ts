@@ -36,6 +36,47 @@ test.describe('portada', () => {
     )
   })
 
+  test('el interruptor es el medallón de huevos: Ébano en oscuro, Marfil en claro', async ({
+    page,
+  }) => {
+    await page.goto('/')
+    const toggle = page.getByRole('switch', { name: 'Modo claro' })
+    const eggs = toggle.locator('img')
+
+    await expect(eggs).toHaveCount(2)
+    // Arte real del juego, cargado, con tamaño explícito para no mover el contenido.
+    for (const egg of await eggs.all()) {
+      await expect(egg).toHaveAttribute('width', '28')
+      await expect(egg).toHaveAttribute('height', '28')
+      expect(await egg.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0)
+    }
+    await expect(toggle).toHaveAttribute('title', /Dofus Ébano/)
+
+    const box = await toggle.boundingBox()
+    await toggle.click()
+    await expect(toggle).toHaveAttribute('title', /Dofus Marfil/)
+    expect(await toggle.boundingBox()).toEqual(box)
+  })
+
+  test('el medallón tiene un estado hover con el ratón', async ({ page }) => {
+    await page.goto('/')
+    const toggle = page.getByRole('switch', { name: 'Modo claro' })
+    const track = toggle.locator('[data-part="track"]')
+    const border = () => track.evaluate((el) => getComputedStyle(el).borderColor)
+    const accent = await page.evaluate(() => {
+      const probe = document.createElement('span')
+      probe.style.color = 'var(--color-accent)'
+      document.body.append(probe)
+      const color = getComputedStyle(probe).color
+      probe.remove()
+      return color
+    })
+
+    expect(await border()).not.toBe(accent)
+    await toggle.hover()
+    await expect.poll(border).toBe(accent)
+  })
+
   test('el script del head recupera el modo de localStorage si falta la cookie', async ({
     page,
     context,
