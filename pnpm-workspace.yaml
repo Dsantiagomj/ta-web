@@ -9,3 +9,16 @@ allowBuilds:
   '@embedded-postgres/linux-arm64': true
   '@embedded-postgres/linux-x64': true
   '@embedded-postgres/windows-x64': true
+
+# Parches de seguridad de dependencias transitivas sin arreglo en el paquete que las trae
+# (pnpm 11 ya no lee `pnpm.overrides` de package.json). Ver docs/security.md.
+overrides:
+  # monaco-editor (editor de código del panel) fija 3.4.15.
+  dompurify: 3.4.17
+  # @lexical/headless pide ^20; la migración parseará HTML no confiable con él.
+  happy-dom: 21.0.4
+  # El cargador antiguo de drizzle-kit (@esbuild-kit) trae esbuild 0.18.
+  '@esbuild-kit/core-utils>esbuild': 0.25.12
+  # Solo la rama 10 (typescript-eslint). La rama 3 la usan plugins de ESLint que llaman
+  # a minimatch como función, y la 11 ya no lo permite.
+  minimatch@10: 11.0.1
