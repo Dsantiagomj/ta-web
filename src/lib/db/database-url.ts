@@ -9,8 +9,16 @@ type Env = Record<string, string | undefined>
  * Sin ella, desarrollo y pruebas usan la base embebida de `pnpm db:dev`; producción
  * falla en vez de conectar a una base local. `next build` no abre conexiones, así que
  * compila sin la variable.
+ *
+ * `pnpm migrate` fija DATABASE_CONNECTION=direct: las migraciones van por
+ * DATABASE_URL_DIRECT (la URL de Neon sin pooler, que admite las sesiones largas y los
+ * bloqueos de una migración) si existe, y si no por DATABASE_URL. La app en marcha
+ * usa siempre DATABASE_URL, la del pooler.
  */
 export function resolveDatabaseUrl(env: Env): string {
+  const direct = env.DATABASE_CONNECTION === 'direct' ? env.DATABASE_URL_DIRECT?.trim() : undefined
+  if (direct) return direct
+
   const url = env.DATABASE_URL?.trim()
   if (url) return url
 
