@@ -62,8 +62,11 @@ describe('checkHealth', () => {
     const [a, b] = await both
 
     expect(pingDatabase).toHaveBeenCalledOnce()
-    expect(a.status).toBe(200)
-    expect(b.status).toBe(200)
+    expect(a).not.toBe(b)
+    for (const response of [a, b]) {
+      expect(response.status).toBe(200)
+      expect(await response.json()).toMatchObject({ status: 'ok', db: 'ok' })
+    }
   })
 })
 

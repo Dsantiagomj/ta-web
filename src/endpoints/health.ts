@@ -16,30 +16,34 @@ type CheckHealthOptions = {
   timeoutMs?: number
 }
 
-// Una sola comprobación a la vez: si la base se cuelga, los monitores que siguen
-// preguntando esperan a la que ya está en marcha en vez de abrir más conexiones.
-let inFlight: Promise<Response> | undefined
+// Una sola comprobación de la base a la vez: si se cuelga, los monitores que siguen
+// preguntando esperan a la que ya está en marcha en vez de abrir más conexiones. Se
+// comparte el resultado, no la Response: su cuerpo solo se puede leer una vez.
+let inFlight: Promise<boolean> | undefined
 
-export function checkHealth(options: CheckHealthOptions): Promise<Response> {
-  inFlight ??= runCheck(options).finally(() => {
-    inFlight = undefined
-  })
-  return inFlight
-}
-
-async function runCheck({
+export async function checkHealth({
   pingDatabase,
   version,
   commit,
   timeoutMs = DEFAULT_TIMEOUT_MS,
 }: CheckHealthOptions): Promise<Response> {
+  inFlight ??= databaseIsUp(pingDatabase, timeoutMs).finally(() => {
+    inFlight = undefined
+  })
   const headers = { 'Cache-Control': 'no-store' }
+  if (await inFlight) {
+    return Response.json({ status: 'ok', db: 'ok', version, commit }, { status: 200, headers })
+  }
+  // El detalle del fallo se queda fuera: puede llevar la URL de la base.
+  return Response.json({ status: 'error', db: 'error' }, { status: 503, headers })
+}
+
+async function databaseIsUp(pingDatabase: () => Promise<unknown>, timeoutMs: number) {
   try {
     await withTimeout(pingDatabase(), timeoutMs)
-    return Response.json({ status: 'ok', db: 'ok', version, commit }, { status: 200, headers })
+    return true
   } catch {
-    // El detalle del fallo se queda fuera: puede llevar la URL de la base.
-    return Response.json({ status: 'error', db: 'error' }, { status: 503, headers })
+    return false
   }
 }
 
