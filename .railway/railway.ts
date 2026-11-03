@@ -7,7 +7,7 @@ import { defineRailway, github, preserve, project, service } from 'railway/iac'
 // Los secretos nunca van aquí: preserve() conserva el valor que ya tiene Railway, así
 // que hay que crearlos en el panel antes de aplicar.
 
-const REPO = 'Dsantiagomj/torrente-arcano'
+const REPO = 'Dsantiagomj/ta-web'
 // US East (Virginia), junto a Neon en AWS us-east-1.
 const REGION = 'us-east4-eqdc4a'
 
@@ -68,5 +68,5 @@ export default defineRailway((ctx) => {
     },
   })
 
-  return project('torrente-arcano', { resources: [web] })
+  return project('ta-web', { resources: [web] })
 })

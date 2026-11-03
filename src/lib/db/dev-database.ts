@@ -5,11 +5,11 @@ export const DEV_DATABASE = {
   port: 54329,
   user: 'postgres',
   password: 'postgres',
-  database: 'torrente_arcano',
+  database: 'ta_web',
   // Base aparte para las pruebas E2E: se borra y se migra en cada ejecución.
-  e2eDatabase: 'torrente_arcano_e2e',
+  e2eDatabase: 'ta_web_e2e',
   // Base aparte para las pruebas de integración: también se borra y se migra en cada ejecución.
-  integrationDatabase: 'torrente_arcano_integration',
+  integrationDatabase: 'ta_web_integration',
   dataDir: '.postgres/data',
 } as const
 

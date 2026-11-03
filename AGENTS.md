@@ -1,4 +1,4 @@
-# Agent contract for torrente-arcano
+# Agent contract for ta-web
 
 Rules for any agent that changes this repo. It is the new torrentearcano.com: Torre's Dofus quest guides, achievements, classes, Dofus guides and checklists, with member accounts, per-member progress and premium features. It replaces the Squarespace site and the embeds served from `silvestre-checklist`. The plan, decisions and phases are in `docs/plan.md`; visual rules are in `DESIGN.md`.
 
@@ -10,7 +10,7 @@ Every change: code, content model, migrations, data, docs, CI. Read this file be
 
 ## Quick path
 
-1. One branch per change, in a worktree under `../torrente-arcano-worktrees/<name>`.
+1. One branch per change, in a worktree under `../ta-web-worktrees/<name>`.
 2. Strict TDD: write or adjust the test, watch it fail, then implement.
 3. Schema change: generate and commit the migration in the same branch.
 4. Run every suite locally (see Testing). Report failures verbatim. The pre-commit hook runs Prettier, ESLint and the `gga` review on staged files; do not skip it (`--no-verify`, `LEFTHOOK=0`, `LEFTHOOK_EXCLUDE`) unless the user asks.
@@ -72,7 +72,7 @@ Spanish only at launch, ready for more: Payload localization is on with `es` as 
 
 | Rule | Detail |
 |---|---|
-| One branch per change | Worktrees under `../torrente-arcano-worktrees/<name>`, never inside the repo |
+| One branch per change | Worktrees under `../ta-web-worktrees/<name>`, never inside the repo |
 | One concern per PR | Chain PRs when a change mixes concerns or passes about 400 changed lines |
 | All suites before push | See Testing. Re-run a suspected flake alone (`--retries 0`) before calling it a flake |
 | Auto-merge | Only when the user asks |

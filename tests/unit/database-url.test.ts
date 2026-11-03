@@ -6,7 +6,7 @@ import { DEV_DATABASE_URL, resolveDatabaseUrl, shouldPushSchema } from '@/lib/db
 describe('resolveDatabaseUrl', () => {
   it('usa la base embebida de pnpm db:dev en desarrollo si no hay DATABASE_URL', () => {
     expect(resolveDatabaseUrl({ NODE_ENV: 'development' })).toBe(DEV_DATABASE_URL)
-    expect(DEV_DATABASE_URL).toBe('postgres://postgres:postgres@127.0.0.1:54329/torrente_arcano')
+    expect(DEV_DATABASE_URL).toBe('postgres://postgres:postgres@127.0.0.1:54329/ta_web')
   })
 
   it('respeta cualquier DATABASE_URL, por ejemplo una rama de Neon', () => {

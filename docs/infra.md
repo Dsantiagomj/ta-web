@@ -105,8 +105,8 @@ Every new variable is added to `.env.example` in the same PR (AGENTS.md rule). E
 
 ## 6. Accounts to create (Daniel, before or during implementation)
 
-1. Railway: project `torrente-arcano`, connect the GitHub repo.
-2. Neon: project `torrente-arcano`, region AWS `us-east-1`, branches `main` and `dev`.
+1. Railway: project `ta-web`, connect the GitHub repo.
+2. Neon: project `ta-web`, region AWS `us-east-1`, branches `main` and `dev`.
 3. Cloudflare: account (needed for R2 now; DNS after the domain transfer). Two R2 buckets and two scoped API tokens.
 4. Resend and Sentry: free accounts (can wait until members and errors matter; Sentry is cheap to add from day one).
 5. GitHub: environment `production` with Daniel as reviewer; branch protection on `main`.
@@ -172,7 +172,7 @@ Everything in the repo is ready. What is left needs the accounts, in this order.
 
 ### Neon
 
-1. Create the project `torrente-arcano` in AWS `us-east-1`, with the branches `main` (prod) and `dev`.
+1. Create the project `ta-web` in AWS `us-east-1`, with the branches `main` (prod) and `dev`.
 2. For each branch, copy two connection strings: the pooled one (host with `-pooler`) and the direct one. They become `DATABASE_URL` and `DATABASE_URL_DIRECT`.
 
 ### Cloudflare R2
@@ -181,7 +181,7 @@ Everything in the repo is ready. What is left needs the accounts, in this order.
 
 ### Railway
 
-1. Create the project `torrente-arcano` with the environments `dev` and `production`, and install the Railway GitHub app on `Dsantiagomj/torrente-arcano`.
+1. Create the project `ta-web` with the environments `dev` and `production`, and install the Railway GitHub app on `Dsantiagomj/ta-web`.
 2. Create the empty service `web` in both environments.
 3. Set these variables on `web` in each environment, before applying the config:
 
@@ -203,7 +203,7 @@ Everything in the repo is ready. What is left needs the accounts, in this order.
 ```sh
 pnpm install
 railway login
-railway link          # project torrente-arcano, environment dev
+railway link          # project ta-web, environment dev
 railway config plan
 railway config apply
 railway environment production

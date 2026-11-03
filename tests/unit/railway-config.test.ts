@@ -8,7 +8,7 @@ import railway from '../../.railway/railway'
 async function webService(environment: string) {
   const ctx = createRailwayContext({ environment } as RailwayContextInput)
   const definition = await railway(ctx, project)
-  expect(definition.name).toBe('torrente-arcano')
+  expect(definition.name).toBe('ta-web')
   const web = (definition.resources ?? []).find(
     (resource) => 'address' in resource && resource.address === 'service.web',
   )
@@ -79,7 +79,7 @@ describe('dev', () => {
 
     expect(web.source).toMatchObject({
       type: 'github',
-      repo: 'Dsantiagomj/torrente-arcano',
+      repo: 'Dsantiagomj/ta-web',
       branch: 'main',
       checkSuites: true,
     })
