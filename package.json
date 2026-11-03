@@ -18,6 +18,7 @@
     "format:check": "prettier --check .",
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
+    "db:dev": "node scripts/db-dev.ts",
     "payload": "NODE_OPTIONS=--no-deprecation payload",
     "generate:types": "NODE_OPTIONS=--no-deprecation payload generate:types",
     "generate:importmap": "NODE_OPTIONS=--no-deprecation payload generate:importmap"
@@ -40,6 +41,7 @@
     "@types/node": "24.19.2",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.7",
+    "embedded-postgres": "17.10.0-beta.17",
     "eslint": "9.39.5",
     "eslint-config-next": "16.3.8",
     "prettier": "3.9.10",

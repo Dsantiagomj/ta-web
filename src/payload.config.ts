@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url'
 
 import { Media } from './collections/Media'
 import { Users } from './collections/Users'
+import { resolveDatabaseUrl } from './lib/db/database-url'
 import { mediaStorage } from './lib/media/storage'
 
 const filename = fileURLToPath(import.meta.url)
@@ -40,7 +41,7 @@ export default buildConfig({
   },
   db: postgresAdapter({
     pool: {
-      connectionString: process.env.DATABASE_URL || '',
+      connectionString: resolveDatabaseUrl(process.env),
     },
   }),
   sharp,

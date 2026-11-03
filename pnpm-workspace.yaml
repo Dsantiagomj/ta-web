@@ -1,3 +1,9 @@
 # Paquetes que pueden ejecutar scripts de instalación (pnpm 11 los bloquea por defecto).
 allowBuilds:
   esbuild: true
+  # Postgres embebido de `pnpm db:dev`: restaura los enlaces simbólicos de sus binarios.
+  '@embedded-postgres/darwin-arm64': true
+  '@embedded-postgres/darwin-x64': true
+  '@embedded-postgres/linux-arm64': true
+  '@embedded-postgres/linux-x64': true
+  '@embedded-postgres/windows-x64': true
