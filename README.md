@@ -10,7 +10,7 @@ The plan, decisions and phases are in [docs/plan.md](docs/plan.md). Agent rules 
 
 ### Prerequisites
 
-- Node 24 (`.nvmrc`) and pnpm 11 (`corepack enable` picks the version in `package.json`).
+- Node 24.22.1 or later in the 24 line (`engines.node` in `package.json`; `.nvmrc` says `24`) and pnpm 11 (`corepack enable` picks the version in `package.json`).
 - No Docker and no local Postgres. `pnpm db:dev` runs Postgres 17 from the `embedded-postgres` package.
 - Optional, for the AI review in the pre-commit hook: [`gga`](https://github.com/Gentleman-Programming/gentleman-guardian-angel) (`brew install gentleman-programming/tap/gga`) and the Claude Code CLI, logged in.
 
