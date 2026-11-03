@@ -67,6 +67,8 @@ describe.each(['dev', 'production'])('servicio web en %s', (environment) => {
       'S3_ACCESS_KEY_ID',
       'S3_SECRET_ACCESS_KEY',
       'MEDIA_BASE_URL',
+      // `railway config apply` borra las variables que no están aquí.
+      'SENTRY_DSN',
     ]) {
       expect(web.variables[name], name).toEqual({ type: 'preserve' })
     }
