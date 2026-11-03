@@ -69,6 +69,7 @@ describe.each(['dev', 'production'])('servicio web en %s', (environment) => {
       'MEDIA_BASE_URL',
       // `railway config apply` borra las variables que no están aquí.
       'SENTRY_DSN',
+      'SENTRY_AUTH_TOKEN',
     ]) {
       expect(web.variables[name], name).toEqual({ type: 'preserve' })
     }
