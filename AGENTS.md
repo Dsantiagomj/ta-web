@@ -50,6 +50,7 @@ Every change: code, content model, migrations, data, docs, CI. Read this file be
 | `src/migrations/` | Payload and Drizzle migrations, committed |
 | `scripts/` | `db-dev.ts` (embedded Postgres for `pnpm db:dev`), `hooks/` (git hook scripts run by `lefthook.yml`), `import/` (the Squarespace import pipeline, phase 1) |
 | `tests/unit/` | Vitest |
+| `tests/integration/` | Vitest against real Payload and Postgres (`vitest.integration.config.mts`) |
 | `tests/e2e/` | Playwright |
 | `docs/` | Plan, research, decisions |
 | `tmp/` | Git-ignored scratch: mockups, screenshots, research captures |
@@ -86,20 +87,21 @@ Spanish only at launch, ready for more: Payload localization is on with `es` as 
 
 The `localStorage` try/catch rule and the imagery rules (`DESIGN.md`, Imagery) apply to app code. Tests may touch storage directly if they handle the failure with a clear message.
 
-Access control and entitlements are tested at the data layer: a test calls the Payload local API as an anonymous user, a free member and a premium member, and asserts what each one receives.
+Access control and entitlements are tested at the data layer, in `tests/integration/`: a test calls the Payload local API as an anonymous user, a free member and a premium member, and asserts what each one receives.
 
 ## Testing
 
 | Suite | Command | Covers |
 |---|---|---|
 | Unit | `pnpm test` (Vitest) | `src/lib/` (progress merge, entitlements, derived data, media URLs), collection access functions, hooks |
+| Integration | `pnpm test:integration` (Vitest; boots Payload with `getPayload` against Postgres after `pnpm migrate`) | access control and entitlements through the local API with `overrideAccess: false`: what an anonymous visitor, a panel user and, later, free and premium members can read and write |
 | E2E | `pnpm test:e2e` (Playwright on the production path: `pnpm build`, `pnpm migrate` on an empty database, `pnpm start`) | rendered pages against a seeded database: guides, checklists, search, theme, sign-in, progress, premium gating; the suites ported from `silvestre-checklist` in phase 2a |
 | Smoke | `pnpm test:smoke` (the `@smoke` Playwright subset; `SMOKE_BASE_URL` points it at a deployed URL and skips the local server) | read-only checks after a deploy: home renders, `/admin` responds, `/api/health` is ok. `.github/workflows/smoke.yml` runs it against a URL; deploys will call it. Smoke tests never write data |
 | Budgets (planned) | `pnpm test:lhci` (Lighthouse CI) | the budgets in `DESIGN.md` on a fixed set of pages (home, a quest guide, an achievement, a checklist) |
 | Types, lint and format | `pnpm typecheck`, `pnpm lint`, `pnpm format:check` | the whole repo |
 | Import (planned) | `pnpm test:import` | golden pages of the Squarespace import (phase 1) |
 
-CI (`.github/workflows/ci.yml`) runs lint, types, unit, build, E2E and the dependency audit (`docs/security.md`) on every PR and push to `main`; the `Pruebas` job requires all of them. Budgets and import join when they exist. The `Revisión GGA` job reviews the PR with `gga` and Codex; it is advisory and not part of `Pruebas`. The repo is private, so Actions minutes are limited: keep jobs cached and skip what a change cannot affect.
+CI (`.github/workflows/ci.yml`) runs lint, types, unit, integration, build, E2E and the dependency audit (`docs/security.md`) on every PR and push to `main`; the `Pruebas` job requires all of them. Budgets and import join when they exist. The `Revisión GGA` job reviews the PR with `gga` and Codex; it is advisory and not part of `Pruebas`. The repo is private, so Actions minutes are limited: keep jobs cached and skip what a change cannot affect.
 
 ## Payload rules
 

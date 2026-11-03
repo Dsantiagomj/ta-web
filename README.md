@@ -55,6 +55,7 @@ Playwright reads these variables from the shell, never from `.env`, so a leftove
 | `pnpm lint`, `pnpm format`, `pnpm format:check` | ESLint (Next config) and Prettier. Prettier skips Markdown, so doc tables stay hand-aligned |
 | `pnpm typecheck` | `next typegen`, then `tsc --noEmit` |
 | `pnpm test` | Vitest unit tests in `tests/unit/` |
+| `pnpm test:integration` | Vitest tests in `tests/integration/` that boot Payload with `getPayload` and check access rules through the local API. A global setup runs `pnpm migrate` first. With `DATABASE_URL` empty it starts `pnpm db:dev` if needed (and stops it afterwards) and recreates the separate `torrente_arcano_integration` database. Uploads go to `./media`; the `S3_*` variables are ignored |
 | `pnpm test:e2e` | Playwright tests in `tests/e2e/`, on the production path: `pnpm build`, `pnpm migrate` on an empty database, then `pnpm start` on port 3100. With `DATABASE_URL` empty it starts `pnpm db:dev` if needed and recreates the separate `torrente_arcano_e2e` database, so your dev data is untouched. `E2E_SKIP_BUILD=1` reuses the last build. Install the browser once with `pnpm exec playwright install chromium` |
 | `pnpm test:smoke` | The `@smoke` Playwright subset: home, `/admin` and `/api/health`. Without `SMOKE_BASE_URL` it runs against the local server, like `pnpm test:e2e`. With it, it tests that URL and starts nothing locally (see below) |
 | `pnpm db:dev` | Embedded Postgres in the foreground; `--verbose` prints its log |
@@ -74,6 +75,6 @@ Playwright reads these variables from the shell, never from `.env`, so a leftove
 
 ### CI
 
-`.github/workflows/ci.yml` runs on every pull request and on pushes to `main`. Lint, types, unit tests, build and E2E run in parallel after the install job. E2E builds the app, runs `pnpm migrate` against an empty Postgres 17 service and tests `pnpm start`. `Auditoría` runs `pnpm audit --prod` from the lockfile alone: it fails on a critical advisory and warns on a high one (`docs/security.md`). The `Pruebas` job passes only when all of them pass; branch protection will require it.
+`.github/workflows/ci.yml` runs on every pull request and on pushes to `main`. Lint, types, unit tests, integration tests, build and E2E run in parallel after the install job. Integration runs `pnpm test:integration` against an empty Postgres 17 service. E2E builds the app, runs `pnpm migrate` against an empty Postgres 17 service and tests `pnpm start`. `Auditoría` runs `pnpm audit --prod` from the lockfile alone: it fails on a critical advisory and warns on a high one (`docs/security.md`). The `Pruebas` job passes only when all of them pass; branch protection on `main` requires it.
 
 `Revisión GGA` runs on pull requests only. It reviews the PR diff with `gga run --pr-mode --diff-only` and the Codex CLI, logged in from the `CODEX_AUTH_JSON` secret. It is advisory for now and not part of `Pruebas`, until we see how its verdicts hold up. Without the secret, as on a PR from a fork, it skips with a notice. Runs queue on one concurrency group, so two of them never refresh the Codex token at the same time.
