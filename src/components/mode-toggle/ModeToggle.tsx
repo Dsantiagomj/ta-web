@@ -1,10 +1,12 @@
 'use client'
 
-import { useSyncExternalStore } from 'react'
+import { type CSSProperties, useRef, useSyncExternalStore } from 'react'
+import { flushSync } from 'react-dom'
 
 import { MODE_COOKIE, type Mode, modeCookie, resolveMode } from '@/lib/theme/theme'
 
-import { modeToggleStrings } from './strings'
+import './mode-toggle.css'
+import { modeEggs, modeSwitchTitle, modeToggleStrings } from './strings'
 
 // El modo vive en <html data-mode>. El servidor lo pinta desde la cookie y el script
 // inline del <head> lo corrige antes del primer pintado; este interruptor lo lee de ahí.
@@ -29,28 +31,92 @@ function applyMode(mode: Mode) {
   } catch {
     // Modo privado estricto: la cookie basta.
   }
-  listeners.forEach((listener) => listener())
+  flushSync(() => listeners.forEach((listener) => listener()))
 }
+
+const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches
+
+/** Reinicia una animación CSS quitando y volviendo a poner su clase. */
+function restartClass(element: Element | null, className: string) {
+  if (!element) return
+  element.classList.remove(className)
+  void (element as HTMLElement).offsetWidth
+  element.classList.add(className)
+}
+
+/** Cambia el modo con la entrada en diagonal donde hay View Transitions; si no, sin más. */
+function changeMode(next: Mode) {
+  if (reducedMotion() || !document.startViewTransition) return applyMode(next)
+  const root = document.documentElement
+  const className = next === 'dark' ? 'vt-to-dark' : 'vt-to-light'
+  root.classList.add(className)
+  document
+    .startViewTransition(() => applyMode(next))
+    .finished.finally(() => root.classList.remove(className))
+}
+
+// Desplazamiento final de cada chispa, en px.
+const SPARKS = [
+  [0, -14],
+  [12, -8],
+  [13, 7],
+  [0, 14],
+  [-12, 8],
+  [-13, -7],
+] as const
 
 export function ModeToggle({ initialMode }: { initialMode: Mode }) {
   const mode = useSyncExternalStore(subscribe, currentMode, () => initialMode)
+  const button = useRef<HTMLButtonElement>(null)
   const light = mode === 'light'
+
+  function toggle() {
+    const next: Mode = light ? 'dark' : 'light'
+    if (!reducedMotion() && button.current) {
+      restartClass(button.current.querySelector(`[data-egg="${mode}"]`), 'arc-up')
+      restartClass(button.current.querySelector(`[data-egg="${next}"]`), 'hatch')
+      restartClass(button.current, 'pop')
+    }
+    changeMode(next)
+  }
 
   return (
     <button
+      ref={button}
       type="button"
       role="switch"
       aria-checked={light}
-      onClick={() => applyMode(light ? 'dark' : 'light')}
-      className="group inline-flex h-10 cursor-pointer items-center gap-3 rounded-pill bg-raised px-4 text-sm font-semibold text-ink transition-transform duration-(--duration-press) ease-out active:scale-96 pointer-coarse:h-11"
+      aria-label={modeToggleStrings.label}
+      title={modeSwitchTitle(mode)}
+      onClick={toggle}
+      className="mode-switch"
     >
-      <span
-        aria-hidden="true"
-        className="relative h-5 w-9 rounded-pill border border-line bg-bg transition-colors duration-(--duration-fast)"
-      >
-        <span className="absolute top-0.5 left-0.5 size-3.5 rounded-full border-2 border-accent bg-ink transition-transform duration-(--duration-fast) ease-out group-aria-checked:translate-x-4" />
-      </span>
-      {modeToggleStrings.label}
+      <span data-part="track" aria-hidden="true" />
+      <span data-part="knob" aria-hidden="true" />
+      {(['light', 'dark'] as const).map((egg) => (
+        // Icono fijo de public/: sin optimización de imágenes (AGENTS.md, Media).
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          key={egg}
+          data-part="egg"
+          data-egg={egg}
+          src={modeEggs[egg].src}
+          width={28}
+          height={28}
+          alt=""
+          aria-hidden="true"
+          draggable={false}
+          decoding="async"
+        />
+      ))}
+      {SPARKS.map(([dx, dy]) => (
+        <span
+          key={`${dx},${dy}`}
+          data-part="spark"
+          aria-hidden="true"
+          style={{ '--dx': `${dx}px`, '--dy': `${dy}px` } as CSSProperties}
+        />
+      ))}
     </button>
   )
 }
