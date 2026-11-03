@@ -45,7 +45,19 @@ test.describe('portada', () => {
 
     await expect(eggs).toHaveCount(2)
     // Arte real del juego, cargado, con tamaño explícito para no mover el contenido.
+    // Cada huevo es un <picture> con AVIF y WebP a 1x y 2x, y el PNG de respaldo.
+    for (const picture of await toggle.locator('picture').all()) {
+      await expect(picture.locator('source[type="image/avif"]')).toHaveAttribute(
+        'srcset',
+        /\.avif 1x, .*\.avif 2x/,
+      )
+      await expect(picture.locator('source[type="image/webp"]')).toHaveAttribute(
+        'srcset',
+        /\.webp 1x, .*\.webp 2x/,
+      )
+    }
     for (const egg of await eggs.all()) {
+      expect(await egg.evaluate((img: HTMLImageElement) => img.currentSrc)).toMatch(/\.avif$/)
       await expect(egg).toHaveAttribute('width', '28')
       await expect(egg).toHaveAttribute('height', '28')
       expect(await egg.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0)
