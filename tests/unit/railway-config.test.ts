@@ -9,7 +9,7 @@ async function webService(environment: string) {
   const ctx = createRailwayContext({ environment } as RailwayContextInput)
   const definition = await railway(ctx, project)
   expect(definition.name).toBe('torrente-arcano')
-  const web = definition.resources.find(
+  const web = (definition.resources ?? []).find(
     (resource) => 'address' in resource && resource.address === 'service.web',
   )
   expect(web, 'falta el servicio web').toBeDefined()
