@@ -1,5 +1,31 @@
+# Dependencias
 node_modules/
-tmp/
+
+# Next.js y TypeScript
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# Variables de entorno: solo se versiona el ejemplo
 .env*
 !.env.example
-.next/
+
+# Archivos subidos en local (sin R2) y base de datos embebida
+/media/
+/.postgres/
+
+# Pruebas
+/coverage/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Borradores, capturas y mockups
+tmp/
+
+# Sistema
+.DS_Store
+*.pem
+npm-debug.log*
