@@ -118,3 +118,12 @@ test('el panel de Payload responde en /admin', async ({ page }) => {
   // Con la base vacía, Payload pide crear el primer usuario del panel.
   await expect(page).toHaveURL(/\/admin(\/create-first-user|\/login)?/)
 })
+
+// Solo lectura: los smoke tests corren también contra entornos desplegados.
+test('la comprobación de salud responde ok en /api/health @smoke', async ({ request }) => {
+  const response = await request.get('/api/health')
+
+  expect(response.status()).toBe(200)
+  expect(response.headers()['cache-control']).toBe('no-store')
+  expect(await response.json()).toMatchObject({ status: 'ok', db: 'ok' })
+})
