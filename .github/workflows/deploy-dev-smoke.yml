@@ -10,8 +10,14 @@ on:
 permissions:
   contents: read
 
+# Solo los despliegues correctos de dev comparten grupo: uno nuevo reemplaza al smoke de
+# uno anterior. Cualquier otro evento (prod, pendiente, fallido) va a un grupo propio y
+# nunca cancela el smoke de un despliegue de dev que sí terminó bien.
 concurrency:
-  group: smoke-dev
+  group: >-
+    ${{ github.event.deployment_status.state == 'success'
+    && contains(github.event.deployment.environment, 'dev')
+    && 'smoke-dev' || format('smoke-otro-{0}', github.run_id) }}
   cancel-in-progress: true
 
 jobs:
