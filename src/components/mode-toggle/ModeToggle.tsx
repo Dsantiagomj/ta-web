@@ -73,6 +73,9 @@ export function ModeToggle({ initialMode }: { initialMode: Mode }) {
   function toggle() {
     const next: Mode = light ? 'dark' : 'light'
     if (!reducedMotion() && button.current) {
+      // Cada huevo lleva solo la animación de este cambio: la del anterior no puede pisarla
+      for (const egg of button.current.querySelectorAll('[data-egg]'))
+        egg.classList.remove('arc-up', 'hatch')
       restartClass(button.current.querySelector(`[data-egg="${mode}"]`), 'arc-up')
       restartClass(button.current.querySelector(`[data-egg="${next}"]`), 'hatch')
       restartClass(button.current, 'pop')
