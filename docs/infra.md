@@ -42,7 +42,7 @@ Railway wins on effort: two environments, deploys and migrations without writing
 
 | Service | Provider | Notes |
 |---|---|---|
-| App | Railway (Nixpacks or a Dockerfile, Node 24 from `engines.node`, at least 24.22.1, `pnpm build` then `pnpm start`) | Health check on `/api/health` (to add) |
+| App | Railway (Railpack, Node 24 from `engines.node`, at least 24.22.1, `pnpm build` then `pnpm start`), configured in `.railway/railway.ts` | Health check on `/api/health` |
 | Postgres | Neon | One project, branches `main` (prod) and `dev`. Point-in-time recovery on `main`. Pooled connection string for the app, direct one for migrations |
 | Media | Cloudflare R2 | Two buckets, public through a Cloudflare custom domain (`media.torrentearcano.com`, `media-dev...`) once the domain is on Cloudflare |
 | DNS, CDN, TLS | Cloudflare | Requires the domain transfer out of Squarespace (plan, decision 1) |
@@ -92,7 +92,12 @@ Details:
 | `NEXT_PUBLIC_SITE_URL` | localhost | dev URL | prod URL | Railway env |
 | `EMAIL_API_KEY` (Resend key) | unset | sandbox key | prod key | Railway env |
 | `SENTRY_DSN`, `SENTRY_AUTH_TOKEN` | unset | set | set | Railway env, GitHub secret for source maps |
+| `APP_ENV` | unset | `dev` | unset | `.railway/railway.ts` |
+| `DEV_BASIC_AUTH_USER`, `DEV_BASIC_AUTH_PASSWORD` | unset | set | unset | Railway env |
+| `GIT_COMMIT_SHA` | unset | unset (Railway injects `RAILWAY_GIT_COMMIT_SHA`) | set by `release.yml` on each deploy | Railway env |
 | `RAILWAY_TOKEN` | n/a | n/a | project token | GitHub environment `production` |
+| `PROD_URL` | n/a | n/a | prod URL | GitHub environment `production` (variable) |
+| `SMOKE_BASIC_AUTH_USER`, `SMOKE_BASIC_AUTH_PASSWORD` | n/a | the dev credentials | n/a | GitHub repo secrets |
 | `CODEX_AUTH_JSON` | n/a | n/a | n/a | GitHub repo secret (CI review) |
 
 Every new variable is added to `.env.example` in the same PR (AGENTS.md rule). Each environment has its own R2 token limited to its bucket, and its own `PAYLOAD_SECRET`.
@@ -109,12 +114,12 @@ Cost while only dev and prod run with little traffic: Railway about 10 to 25 USD
 
 ## 7. Implementation order
 
-1. `/api/health` route and the `@smoke` e2e subset (small PR, tests first).
-2. Railway project with `dev` and `production` environments; Neon project with `main` and `dev`; R2 buckets and tokens. Variables loaded per environment.
-3. Pre-deploy migration command and the direct DB URL; first dev deploy from `main`.
-4. Basic auth and `noindex` on dev (env vars `DEV_BASIC_AUTH_USER`, `DEV_BASIC_AUTH_PASSWORD`, added to `.env.example`).
-5. Post-deploy smoke workflow against dev.
-6. Release workflow with the `production` environment and required reviewer; first prod deploy to the Railway domain.
+1. Done. `/api/health` route and the `@smoke` e2e subset.
+2. Waiting on the accounts. Railway project with `dev` and `production` environments; Neon project with `main` and `dev`; R2 buckets and tokens. Variables loaded per environment. Section 9 lists every step.
+3. Prepared. Pre-deploy migration command (`pnpm migrate` in `.railway/railway.ts`) and the direct DB URL (`DATABASE_URL_DIRECT`). The first dev deploy from `main` waits on step 2.
+4. Prepared. Basic auth and `noindex` on dev (`src/proxy.ts`, `src/app/robots.ts`; `APP_ENV`, `DEV_BASIC_AUTH_USER`, `DEV_BASIC_AUTH_PASSWORD` in `.env.example`).
+5. Prepared. Post-deploy smoke workflow against dev (`.github/workflows/deploy-dev-smoke.yml`). It runs once Railway reports its first dev deploy.
+6. Prepared. Release workflow (`.github/workflows/release.yml`) with the `production` environment. The required reviewer and the first prod deploy wait on step 2.
 7. Branch protection on `main` (`Pruebas` required).
 8. Sentry and uptime checks.
 
@@ -126,3 +131,72 @@ Cost while only dev and prod run with little traffic: Railway about 10 to 25 USD
 | Prod deploy mechanism | Railway CLI from the release workflow, behind the GitHub environment `production` |
 | Dev access gate | Basic auth in the Next middleware, active only when the app runs in the dev environment, plus `noindex`. After the domain transfer, Cloudflare Access on `dev.torrentearcano.com` replaces it |
 | Prod approvers | Daniel only |
+
+## 9. Go-live checklist
+
+Everything in the repo is ready. What is left needs the accounts, in this order. Nothing here goes in git.
+
+### Neon
+
+1. Create the project `torrente-arcano` in AWS `us-east-1`, with the branches `main` (prod) and `dev`.
+2. For each branch, copy two connection strings: the pooled one (host with `-pooler`) and the direct one. They become `DATABASE_URL` and `DATABASE_URL_DIRECT`.
+
+### Cloudflare R2
+
+1. Create the buckets `ta-media-dev` and `ta-media-prod`, and one API token per bucket, scoped to it.
+
+### Railway
+
+1. Create the project `torrente-arcano` with the environments `dev` and `production`, and install the Railway GitHub app on `Dsantiagomj/torrente-arcano`.
+2. Create the empty service `web` in both environments.
+3. Set these variables on `web` in each environment, before applying the config:
+
+| Variable | `dev` | `production` |
+|---|---|---|
+| `DATABASE_URL` | Neon `dev`, pooled | Neon `main`, pooled |
+| `DATABASE_URL_DIRECT` | Neon `dev`, direct | Neon `main`, direct |
+| `PAYLOAD_SECRET` | `openssl rand -hex 32` | another one |
+| `NEXT_PUBLIC_SITE_URL` | the dev Railway domain | the prod Railway domain |
+| `S3_ENDPOINT`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY` | `ta-media-dev` and its token | `ta-media-prod` and its token |
+| `MEDIA_BASE_URL` | empty until the media domain exists | empty until the media domain exists |
+| `DEV_BASIC_AUTH_USER`, `DEV_BASIC_AUTH_PASSWORD` | the dev credentials | not set |
+| `GIT_COMMIT_SHA` | not set | any value; `release.yml` overwrites it on each deploy |
+
+`.railway/railway.ts` sets `APP_ENV=dev` on dev and `RAILPACK_NODE_VERSION=24` on both.
+
+4. Apply the config to each environment. Then check that the plan creates or changes only `web` and deletes no variable:
+
+```sh
+pnpm install
+railway login
+railway link          # project torrente-arcano, environment dev
+railway config plan
+railway config apply
+railway environment production
+railway config plan
+railway config apply
+```
+
+5. Generate a Railway domain for `web` in both environments.
+6. In `production`, create a project token scoped to that environment. It becomes `RAILWAY_TOKEN` below.
+
+### GitHub
+
+1. Create the environment `production`. Set Daniel as the only required reviewer and limit it to the `main` branch. Add:
+   - secret `RAILWAY_TOKEN`: the project token from Railway step 6;
+   - variable `PROD_URL`: the prod Railway domain, `https://…`, no trailing slash.
+2. Add the repo secrets `SMOKE_BASIC_AUTH_USER` and `SMOKE_BASIC_AUTH_PASSWORD`, the same values as the dev credentials. `Smoke de dev` uses them.
+3. Protect `main` (section 4).
+
+### First deploys
+
+1. Push or merge to `main`. Railway deploys dev once the checks pass, and `Smoke de dev` runs against the deploy URL. Check in that run's log that Railway sent an `environment_url`. Without one, the smoke skips with a notice.
+2. Run `Release` from `main` with version `0.1.0` and approve the `production` deployment.
+3. Point an uptime monitor at `/api/health` in both environments. It needs no credentials.
+
+### Not verified before the accounts existed
+
+- Railway's `deployment_status` payload: the environment name is `<project> / <environment>` according to Railway's forum, not its docs, and `environment_url` may be empty. `deploy-dev-smoke.yml` matches any environment name that contains `dev` and skips without a URL.
+- Whether `railway config apply` deletes Railway variables that `.railway/railway.ts` does not declare, and how `preserve()` behaves for a variable that does not exist yet. That is why the variables go in first and the plan gets read before applying.
+- That a `production` service without a GitHub source accepts `railway up` and has no auto-deploy.
+- That attached `railway up` (without `--ci`) waits for the health check. The release also checks the commit on `/api/health` before the smoke, so a stale deploy fails the run either way.
