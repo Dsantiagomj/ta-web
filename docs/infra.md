@@ -162,7 +162,7 @@ Everything in the repo is ready. What is left needs the accounts, in this order.
 | `DEV_BASIC_AUTH_USER`, `DEV_BASIC_AUTH_PASSWORD` | the dev credentials | not set |
 | `GIT_COMMIT_SHA` | not set | any value; `release.yml` overwrites it on each deploy |
 
-`.railway/railway.ts` sets `APP_ENV=dev` on dev and `RAILPACK_NODE_VERSION=24` on both.
+`.railway/railway.ts` sets `APP_ENV=dev` on dev and `RAILPACK_NODE_VERSION=24.22.2` (the Node security release floor, see `docs/security.md`) on both.
 
 4. Apply the config to each environment. Then check that the plan creates or changes only `web` and deletes no variable:
 
