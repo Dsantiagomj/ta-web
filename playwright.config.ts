@@ -1,6 +1,19 @@
 import { defineConfig, devices } from '@playwright/test'
+import { existsSync, readFileSync } from 'node:fs'
+import { parseEnv } from 'node:util'
 
 import { DEV_DATABASE, E2E_DATABASE_URL } from './src/lib/db/dev-database'
+
+// De .env solo se leen las variables E2E_*: DATABASE_URL de .env podría apuntar a una
+// base real, y las pruebas la migrarían. El entorno del proceso siempre gana.
+if (existsSync('.env')) {
+  const fromFile = parseEnv(readFileSync('.env', 'utf8'))
+  for (const name of ['E2E_PORT', 'E2E_SKIP_BUILD']) {
+    if (process.env[name] === undefined && fromFile[name] !== undefined) {
+      process.env[name] = fromFile[name]
+    }
+  }
+}
 
 // Puerto propio, para no reutilizar por error un `pnpm dev` abierto en el 3000.
 const port = Number(process.env.E2E_PORT ?? 3100)
