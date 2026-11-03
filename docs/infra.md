@@ -18,7 +18,7 @@ Status: draft for review (2026-11-02). Implementation starts in the next work se
 
 Rules:
 - Dev never sends real email to members and never charges money: payments run in Stripe/Lemon Squeezy test mode there.
-- Dev is password-protected (basic auth at the edge or Payload's admin-only gate) until the cutover, so the half-built site is not public.
+- Dev is password-protected with basic auth in the Next middleware (Cloudflare Access after the domain transfer), so the half-built site and its admin panel are not public.
 - Prod content is the source of truth; dev gets a fresh copy by resetting its Neon branch from `main`. Never the other way around.
 
 ## 2. Hosting choice
@@ -75,7 +75,7 @@ feature branch ──PR──▶ CI: lint, types, unit, build, e2e  ─┐
 Details:
 - **Branch protection on `main`**: PR required, `Pruebas` required, linear history, no force-push. `Revisión GGA` stays advisory until it has been stable for a while on small PRs.
 - **Dev deploys** on every push to `main`, through Railway's GitHub integration. No manual step.
-- **Prod deploys** only from a version tag created by a `release` workflow (`workflow_dispatch` or a merged release PR), behind the GitHub environment `production` with Daniel as the only required reviewer (decided 2026-11-03). Railway's production environment is set to deploy from the tag (or the workflow calls the Railway CLI with a project token stored as an environment secret). **Open**: tag-triggered Railway deploy vs a workflow step with the Railway CLI; decide when wiring it.
+- **Prod deploys** only from a version tag created by a `release` workflow (`workflow_dispatch` or a merged release PR), behind the GitHub environment `production` with Daniel as the only required reviewer (decided 2026-11-03). **Decided (2026-11-03)**: the release workflow deploys with the Railway CLI, using a project token stored as a secret of the GitHub environment `production`. Railway's own auto-deploy stays off for production, so nothing reaches prod without the approval, `Pruebas` green on the tagged commit, and the post-deploy smoke test in the same run.
 - **Migrations** run as the pre-deploy command in both environments, against the direct (non-pooled) Neon URL. A failed migration stops the deploy; the previous version keeps serving.
 - **Rollback**: redeploy the previous Railway deployment (one click) for code. Schema changes are forward-only: a bad migration gets a new migration, and Neon point-in-time recovery is the last resort for data.
 - **Smoke tests after deploy**: a small Playwright subset (`@smoke` tag) against the deployed URL: home renders, `/admin` responds, `/api/health` is OK.
@@ -112,13 +112,17 @@ Cost while only dev and prod run with little traffic: Railway about 10 to 25 USD
 1. `/api/health` route and the `@smoke` e2e subset (small PR, tests first).
 2. Railway project with `dev` and `production` environments; Neon project with `main` and `dev`; R2 buckets and tokens. Variables loaded per environment.
 3. Pre-deploy migration command and the direct DB URL; first dev deploy from `main`.
-4. `noindex` and the access gate on dev.
+4. Basic auth and `noindex` on dev (env vars `DEV_BASIC_AUTH_USER`, `DEV_BASIC_AUTH_PASSWORD`, added to `.env.example`).
 5. Post-deploy smoke workflow against dev.
 6. Release workflow with the `production` environment and required reviewer; first prod deploy to the Railway domain.
 7. Branch protection on `main` (`Pruebas` required).
 8. Sentry and uptime checks.
 
-## 8. Open questions
+## 8. Decisions on the former open questions (2026-11-03)
 
-1. Railway deploy on tag vs Railway CLI from the release workflow (section 4).
-2. Access gate for dev: Cloudflare Access (free for small teams, needs the domain on Cloudflare) or basic auth in the app until then.
+| Question | Decision |
+|---|---|
+| Region | US East: Railway US East (Virginia), Neon AWS `us-east-1` |
+| Prod deploy mechanism | Railway CLI from the release workflow, behind the GitHub environment `production` |
+| Dev access gate | Basic auth in the Next middleware, active only when the app runs in the dev environment, plus `noindex`. After the domain transfer, Cloudflare Access on `dev.torrentearcano.com` replaces it |
+| Prod approvers | Daniel only |
