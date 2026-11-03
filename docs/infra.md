@@ -1,237 +1,193 @@
-# Infrastructure and delivery plan
+# Infrastructure reference
 
-Status: decided and prepared in the repo (2026-11-03). Deploying waits on the accounts in section 6; section 10 is the go-live checklist.
+What runs where, the decisions in force and what is left. Inventory as of 2026-11-03. The repo files named here (`.railway/railway.ts` and the workflows in `.github/workflows/`) are the source of truth when they disagree with this page.
 
 ## 1. Environments
 
 | | Local | Dev (staging) | Prod |
 |---|---|---|---|
 | Purpose | Daily work | Every merge to `main`, visible to Torre for review | torrentearcano.com |
-| App | `pnpm dev` on the laptop | Railway service, environment `dev` | Railway service, environment `production` |
+| App | `pnpm dev` on the laptop | Railway service `web`, environment `dev` | Railway service `web`, environment `production` |
 | Database | Embedded Postgres 17 (`pnpm db:dev`) | Neon branch `dev` (child of `main`) | Neon branch `main` |
 | Media | Local disk | R2 bucket `ta-media-dev` | R2 bucket `ta-media-prod` |
-| Domain | `localhost:3000` | Railway default domain now; `dev.torrentearcano.com` after the domain transfer | Railway default domain until cutover; `torrentearcano.com` at cutover |
-| Email | Logged to the console | Resend, sandbox sender | Resend, verified domain |
+| Domain | `localhost:3000` | `ta-web-dev.up.railway.app`; `dev.torrentearcano.com` after the domain transfer | `ta-web-production-7f45.up.railway.app`; `torrentearcano.com` at cutover |
+| Email | Logged to the console | Resend, sandbox sender (planned) | Resend, verified domain (planned) |
 | Indexing | n/a | `noindex` header and `robots.txt` disallow | Indexed |
-| Data | Seed script | Copy of prod content refreshed on demand (Neon branch reset) | Real |
+| Data | Seed script | Copy of prod content, refreshed by resetting the Neon branch from `main` | Real |
 | Secrets | `.env.local` (never committed) | Railway variables of `dev` | Railway variables of `production` |
 
 Rules:
-- Dev never sends real email to members and never charges money: payments run in Stripe/Lemon Squeezy test mode there.
-- Dev is password-protected with basic auth in the Next middleware (Cloudflare Access after the domain transfer), so the half-built site and its admin panel are not public.
-- Prod content is the source of truth; dev gets a fresh copy by resetting its Neon branch from `main`. Never the other way around.
+- Dev never sends real email to members and never charges money: payments run in test mode there.
+- Dev is behind basic auth in the Next proxy (`src/proxy.ts`), so the half-built site and its admin panel are not public. Cloudflare Access replaces it after the domain transfer.
+- Prod content is the source of truth. Dev gets a fresh copy by resetting its Neon branch from `main`, never the other way around.
 
-## 2. Hosting choice
+## 2. Region and host
 
-**Recommendation: Railway.**
+US East, decided 2026-11-02. The audience is mostly Latin America with a share in Europe, and US East sits between both: roughly 50 to 150 ms from most of Latin America and 80 to 100 ms from Western Europe (estimates). The app runs in Railway US East (Virginia) and the database in Neon AWS `us-east-1`, side by side. Cloudflare serves images and static files from the edge, so only page renders and API calls travel to Virginia. Railway won over Fly.io and a VPS on effort: environments, GitHub deploys and a pre-deploy command for migrations come built in.
 
-| | Railway | Fly.io | Hetzner + Coolify |
-|---|---|---|---|
-| Environments built in | Yes (dev, production, PR environments) | Separate apps per environment | Manual |
-| Deploy from GitHub | Native, per environment and branch | GitHub Action with `flyctl` | Coolify webhook |
-| Pre-deploy command (migrations) | Yes | `release_command` | Script |
-| Long-running Node, no cold starts | Yes | Yes (keep one machine on) | Yes |
-| Ops work | Lowest | Medium | Highest (OS updates, backups, TLS) |
-| Cost at launch (two environments) | About 10 to 25 USD/month, usage based | Similar | 5 to 10 EUR/month |
-
-Railway wins on effort: two environments, deploys and migrations without writing deployment scripts. Fly is the fallback if Railway's pricing or regions don't fit; Hetzner if cost has to be minimal and Daniel accepts the ops work.
-
-**Decided (2026-11-02)**: US East. The audience is mostly Latin America with a share in Europe, and US East sits between both: roughly 50 to 150 ms from most of Latin America and 80 to 100 ms from Western Europe (estimates). Railway region US East (Virginia) and Neon in AWS `us-east-1`, so the app and the database are in the same place. Cloudflare serves images and static files from the edge closest to each visitor, so only page renders and API calls travel to Virginia.
-
-## 3. Services per environment
+## 3. Services
 
 | Service | Provider | Notes |
 |---|---|---|
-| App | Railway (Railpack, Node 24.22.2 pinned in Railpack, the security floor, `pnpm build` then `pnpm start`), configured in `.railway/railway.ts` | Health check on `/api/health` |
-| Postgres | Neon | One project, branches `main` (prod) and `dev`. Point-in-time recovery on `main`. Pooled connection string for the app, direct one for migrations |
-| Media | Cloudflare R2 | Two buckets, public through a Cloudflare custom domain (`media.torrentearcano.com`, `media-dev...`) once the domain is on Cloudflare |
-| DNS, CDN, TLS | Cloudflare | Requires the domain transfer out of Squarespace (plan, decision 1) |
-| Email | Resend | Prod sender on the domain with SPF, DKIM and DMARC |
-| Errors | Sentry (free tier) | Separate environments `dev` and `production` in one project |
-| Uptime | Better Stack or UptimeRobot (free) | Ping prod and dev every minute |
-| Analytics | Plausible or self-hosted Umami | Prod only |
-| AI review | GGA with Codex in CI | Already configured, advisory |
+| App | Railway: Railpack, Node 24.22.2 (the security floor), `pnpm build`, `pnpm start`, configured in `.railway/railway.ts` | Health check on `/api/health` |
+| Postgres | Neon | Branches `main` (prod) and `dev`. Pooled URL for the app, direct URL for migrations |
+| Media | Cloudflare R2 | Two buckets. Public through `media.torrentearcano.com` and a dev twin once the domain is on Cloudflare |
+| DNS, CDN, TLS | Cloudflare | Needs the domain transfer out of Squarespace (plan, decision 1) |
+| Email | Resend | Pending. Prod sender on the domain with SPF, DKIM and DMARC |
+| Errors | Sentry (free tier) | Pending. One project, environments `dev` and `production` |
+| Uptime | Better Stack or UptimeRobot (free) | Pending. Ping `/api/health` on prod and dev every minute |
+| Analytics | Plausible or self-hosted Umami | Prod only, later |
+| AI review | `gga` with Codex in CI | Advisory |
 
-## 4. CI/CD flow
+## 4. CI/CD
 
 ```
 feature branch ──PR──▶ CI: lint, types, unit, integration,─┐
                         build, e2e, dev gate, audit        │
                         GGA review (advisory)              │ "Pruebas" required
                                                            ▼
-                                   merge (rebase) to main
+                                   merge (rebase or squash) to main
                                                            │
                          Railway deploys main to DEV ◀─────┘
-                         pre-deploy: payload migrate (Neon dev)
-                         smoke test against dev URL (GitHub Action)
+                         pre-deploy: pnpm migrate (Neon dev)
+                         "Smoke de dev": waits for DEV_URL to
+                         serve the commit, then smoke tests it
                                                            │
-                    git tag vX.Y.Z  /  "Release" workflow  │
-                    (GitHub environment "production",       ▼
-                     required reviewer: Daniel)
-                         Railway deploys the tag to PROD
-                         pre-deploy: payload migrate (Neon main)
-                         smoke test against prod URL
+                    "Release" workflow, run by the owner   │
+                    from main with a semver version         ▼
+                         tag vX.Y.Z, railway up to PROD
+                         pre-deploy: pnpm migrate (Neon main)
+                         checks the commit on /api/health
+                         smoke test against PROD_URL
 ```
 
-Details:
-- **Branch protection on `main`**: PR required, `Pruebas` required, linear history, no force-push. `Revisión GGA` stays advisory until it has been stable for a while on small PRs.
-- **Dev deploys** on every push to `main`, through Railway's GitHub integration. No manual step.
-- **Prod deploys** only from a version tag created by a `release` workflow (`workflow_dispatch` or a merged release PR), behind the GitHub environment `production` with Daniel as the only approver (decided 2026-11-03). GitHub offers required reviewers on private repos only on Enterprise (not Free, Pro or Team), so `release.yml` only runs when the repository owner triggers it, and the environment only accepts deployments from `main` (section 10). **Decided (2026-11-03)**: the release workflow deploys with the Railway CLI, using a project token stored as a secret of the GitHub environment `production`. Railway's own auto-deploy stays off for production, so nothing reaches prod without the approval, `Pruebas` green on the tagged commit, and the post-deploy smoke test in the same run.
-- **Migrations** run as the pre-deploy command in both environments, against the direct (non-pooled) Neon URL. A failed migration stops the deploy; the previous version keeps serving.
-- **Rollback**: redeploy the previous Railway deployment (one click) for code. Schema changes are forward-only: a bad migration gets a new migration, and Neon point-in-time recovery is the last resort for data.
-- **Smoke tests after deploy**: a small Playwright subset (`@smoke` tag) against the deployed URL: home renders, `/admin` responds, `/api/health` is OK.
-- **PR preview environments**: optional, later. Railway can spin one per PR with a Neon branch per PR; worth it once Torre reviews content changes in PRs.
+- **Branch protection.** The ruleset `Proteger main` (section 6). `Revisión GGA` stays advisory.
+- **Dev deploys.** Every push to `main`, through Railway's GitHub integration, once the GitHub checks pass. No manual step. Then `deploy-dev-smoke.yml` polls `$DEV_URL/api/health` for up to 5 minutes until it reports the deployment's commit, and runs the smoke suite against `DEV_URL` with the dev basic-auth credentials. It never uses the deployment's `environment_url` (section 9).
+- **Prod deploys.** Only `release.yml`, run by hand from `main` with a semver version. It refuses to run unless the repository owner triggered it, checks that `Pruebas` passed on the commit, creates the tag and GitHub release, sets `GIT_COMMIT_SHA`, deploys with `railway up` and the `RAILWAY_TOKEN` of the GitHub environment `production`, waits until `/api/health` reports the commit, then runs the smoke suite. Railway's `production` has no GitHub source, so nothing else deploys it.
+- **Migrations.** `pnpm migrate` is the pre-deploy command in both environments, against the direct Neon URL. A failed migration stops the deploy and the previous version keeps serving.
+- **Rollback.** For code, redeploy the previous Railway deployment. Schema changes are forward-only: a bad migration gets a new migration. Neon point-in-time restore is the last resort for data, and the Free plan keeps only 6 hours of history.
+- **Smoke tests.** The `@smoke` Playwright subset against the deployed URL: home renders, `/admin` responds, `/api/health` is ok. Read-only.
+- **PR preview environments.** Later, once Torre reviews content changes in PRs. Railway can create one per PR with a Neon branch each.
 
 ## 5. Secrets and variables
 
 | Variable | Local | Dev | Prod | Stored in |
 |---|---|---|---|---|
-| `DATABASE_URL` (pooled) | embedded | Neon `dev` | Neon `main` | Railway env |
-| `DATABASE_URL_DIRECT` (migrations) | embedded | Neon `dev` | Neon `main` | Railway env |
-| `PAYLOAD_SECRET` | dummy | random, unique | random, unique | Railway env |
-| `S3_ENDPOINT`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `MEDIA_BASE_URL` | unset (disk) | R2 dev token scoped to its bucket | R2 prod token scoped to its bucket | Railway env |
-| `NEXT_PUBLIC_SITE_URL` | localhost | dev URL | prod URL | Railway env |
-| `EMAIL_API_KEY` (Resend key) | unset | sandbox key | prod key | Railway env |
-| `SENTRY_DSN`, `SENTRY_AUTH_TOKEN` | unset | set | set | Railway env, GitHub secret for source maps |
+| `DATABASE_URL` (pooled) | embedded | Neon `dev` | Neon `main` | Railway |
+| `DATABASE_URL_DIRECT` (migrations) | embedded | Neon `dev` | Neon `main` | Railway |
+| `PAYLOAD_SECRET` | dummy | random, unique | random, unique | Railway |
+| `S3_ENDPOINT`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY` | unset (disk) | `ta-media-dev` and its token | `ta-media-prod` and its token | Railway |
+| `S3_REGION` | unset | unset (the app defaults to `auto`) | unset | not declared |
+| `MEDIA_BASE_URL` | unset | empty until the media domain exists | empty until the media domain exists | Railway |
+| `NEXT_PUBLIC_SITE_URL` | localhost | dev domain | prod domain | Railway |
 | `APP_ENV` | unset | `dev` | unset | `.railway/railway.ts` |
-| `DEV_BASIC_AUTH_USER`, `DEV_BASIC_AUTH_PASSWORD` | unset | set | unset | Railway env |
-| `GIT_COMMIT_SHA` | unset | unset (Railway injects `RAILWAY_GIT_COMMIT_SHA`) | set by `release.yml` on each deploy | Railway env |
-| `RAILWAY_TOKEN` | n/a | n/a | project token | GitHub environment `production` |
-| `PROD_URL` | n/a | n/a | prod URL | GitHub environment `production` (variable) |
+| `DEV_BASIC_AUTH_USER`, `DEV_BASIC_AUTH_PASSWORD` | unset | set (user `torre`) | unset | Railway |
+| `GIT_COMMIT_SHA` | unset | unset (Railway injects `RAILWAY_GIT_COMMIT_SHA`) | set by `release.yml` on each deploy | Railway |
+| `EMAIL_API_KEY` (planned) | unset | sandbox key | prod key | Railway |
+| `SENTRY_DSN`, `SENTRY_AUTH_TOKEN` (planned) | unset | set | set | Railway; GitHub secret for source maps |
+| `RAILWAY_TOKEN` | n/a | n/a | project token, **missing** | GitHub environment `production` (secret) |
+| `PROD_URL` | n/a | n/a | prod domain | GitHub environment `production` (variable) |
 | `SMOKE_BASIC_AUTH_USER`, `SMOKE_BASIC_AUTH_PASSWORD` | n/a | the dev credentials | n/a | GitHub repo secrets |
-| `DEV_URL` | n/a | dev URL | n/a | GitHub repo variable |
+| `DEV_URL` | n/a | dev domain | n/a | GitHub repo variable |
 | `CODEX_AUTH_JSON` | n/a | n/a | n/a | GitHub repo secret (CI review) |
 
-Every new variable is added to `.env.example` in the same PR (AGENTS.md rule). Each environment has its own R2 token limited to its bucket, and its own `PAYLOAD_SECRET`.
+Every variable the app reads goes in `.env.example` in the same PR (AGENTS.md). A Railway variable must be declared in `.railway/railway.ts` (a value, or `preserve()` for secrets) before it is set in Railway, or the next `railway config apply` deletes it (section 9).
 
-## 6. Accounts to create (Daniel, before or during implementation)
-
-1. Railway: project `ta-web`, connect the GitHub repo.
-2. Neon: project `ta-web`, region AWS `us-east-1`, branches `main` and `dev`.
-3. Cloudflare: account (needed for R2 now; DNS after the domain transfer). Two R2 buckets and two scoped API tokens.
-4. Resend and Sentry: free accounts (can wait until members and errors matter; Sentry is cheap to add from day one).
-5. GitHub: environment `production` with Daniel as reviewer; branch protection on `main`.
-
-Cost while only dev and prod run with little traffic: Railway about 10 to 25 USD, Neon free tier (upgrade when PITR retention matters), R2 under 1 USD, the rest free (estimates).
-
-## 7. Implementation order
-
-1. Done. `/api/health` route and the `@smoke` e2e subset.
-2. Waiting on the accounts. Railway project with `dev` and `production` environments; Neon project with `main` and `dev`; R2 buckets and tokens. Variables loaded per environment. Section 9 lists every step.
-3. Prepared. Pre-deploy migration command (`pnpm migrate` in `.railway/railway.ts`) and the direct DB URL (`DATABASE_URL_DIRECT`). The first dev deploy from `main` waits on step 2.
-4. Prepared. Basic auth and `noindex` on dev (`src/proxy.ts`, `src/app/robots.ts`; `APP_ENV`, `DEV_BASIC_AUTH_USER`, `DEV_BASIC_AUTH_PASSWORD` in `.env.example`).
-5. Prepared. Post-deploy smoke workflow against dev (`.github/workflows/deploy-dev-smoke.yml`). It runs once Railway reports its first dev deploy.
-6. Prepared. Release workflow (`.github/workflows/release.yml`) with the `production` environment. The first prod deploy waits on step 2. The approval is the owner-only guard in `release.yml`, because required reviewers on private repos need GitHub Enterprise (section 10).
-7. Branch protection on `main` (`Pruebas` required).
-8. Sentry and uptime checks.
-
-## 8. Decisions on the former open questions (2026-11-03)
-
-| Question | Decision |
-|---|---|
-| Region | US East: Railway US East (Virginia), Neon AWS `us-east-1` |
-| Prod deploy mechanism | Railway CLI from the release workflow, behind the GitHub environment `production` |
-| Dev access gate | Basic auth in the Next middleware, active only when the app runs in the dev environment, plus `noindex`. After the domain transfer, Cloudflare Access on `dev.torrentearcano.com` replaces it |
-| Prod approvers | Daniel only |
-
-## 9. Agent access to infrastructure
-
-Goal: Daniel provides the tools once, and the coding agent operates the infrastructure from the same session that writes the code: reads logs, checks deploys, creates Neon branches, manages variables, investigates errors. Daniel keeps the accounts and approves anything destructive.
-
-### Tools
-
-| Service | Preferred | Fallback | What the agent does with it |
-|---|---|---|---|
-| GitHub | `gh` CLI (already logged in) | GitHub MCP | PRs, checks, rulesets, environments, secrets |
-| Railway | Railway MCP (official remote server, `mcp.railway.com`, OAuth) | `railway` CLI (`railway login`, project linked) | Deploy status, logs, variables, `config plan`/`apply`, redeploys |
-| Neon | Neon MCP (official; verify the endpoint in Neon's docs when installing) | `neonctl` CLI (`neonctl auth`) | Branches (create, reset dev from main, delete PR branches), connection strings, query plans |
-| Cloudflare | Cloudflare MCP (official remote server, OAuth or API token) | `wrangler` CLI (`wrangler login`) | R2 buckets and tokens, DNS after the domain transfer, cache purges, Access policies |
-| Sentry | Sentry MCP (official hosted server, `mcp.sentry.dev/mcp`, OAuth) | `sentry-cli` | Read issues and stack traces, link errors to commits |
-| Resend | Resend API key in a local env file | none | Domain records, test sends (phase 4) |
-
-MCP servers go in the project's Claude Code config (`claude mcp add --scope project …` for servers without secrets in the file; user scope for anything holding a token), so they load only in this repo. OAuth servers keep their tokens in the client, not in the repo.
-
-### Access rules
-
-- **Least privilege per environment.** The agent gets full access to dev and read access to prod by default. Prod writes (variables, redeploys, database changes) go through the release workflow or need Daniel's explicit "yes" in the conversation for that one action.
-- **Destructive actions always ask first:** deleting a service, bucket, database branch or DNS record, rotating secrets, restoring a Neon point in time, force redeploys of prod. The agent states what will change and waits.
-- **Secrets never pass through the chat.** Tokens are entered through a private secret prompt or a CLI login on Daniel's machine; the agent never prints them, never commits them, and never copies them into files outside the tool's own config.
-- **Scoped tokens.** Where a service supports it, the agent's token is separate from Daniel's personal one and limited to this project: a Railway project token, a Neon API key for the one project, a Cloudflare API token limited to the account's R2 and the zone, a Sentry auth token for the one org. Each can be revoked without touching Daniel's login.
-- **Audit.** Infra changes the agent makes are summarized in the PR or the conversation (what, where, when). Changes to Railway configuration go through `.railway/railway.ts` and a PR, not ad hoc edits.
-
-### Setup order (when the accounts exist)
-
-1. Railway: create the project, then connect the Railway MCP (OAuth) or run `railway login` and `railway link` in the repo.
-2. Neon: create the project, then connect the Neon MCP or run `neonctl auth`.
-3. Cloudflare: connect the Cloudflare MCP with a token scoped to R2 (and the zone, later).
-4. Sentry: connect the Sentry MCP once the project exists.
-5. The agent verifies each connection with a read-only call (list projects, branches, buckets, issues) and reports what it can see.
-
-## 10. Go-live checklist
-
-Everything in the repo is ready. What is left needs the accounts, in this order. Nothing here goes in git.
-
-### Neon
-
-1. Create the project `ta-web` in AWS `us-east-1`, with the branches `main` (prod) and `dev`.
-2. For each branch, copy two connection strings: the pooled one (host with `-pooler`) and the direct one. They become `DATABASE_URL` and `DATABASE_URL_DIRECT`.
-
-### Cloudflare R2
-
-1. Create the buckets `ta-media-dev` and `ta-media-prod`, and one API token per bucket, scoped to it.
+## 6. Inventory
 
 ### Railway
 
-1. Create the project `ta-web` with the environments `dev` and `production`, and install the Railway GitHub app on `Dsantiagomj/ta-web`.
-2. Create the empty service `web` in both environments.
-3. Set these variables on `web` in each environment, before applying the config:
+- Workspace `DSMJProjects`, project `ta-web` (`e7259c49-dfaa-4d86-9c5c-e2461681fdf5`), service `web`.
+- Environments `dev` and `production`, region `us-east4-eqdc4a` (US East, Virginia).
+- Domains: dev `https://ta-web-dev.up.railway.app`, prod `https://ta-web-production-7f45.up.railway.app`.
+- `dev` has the GitHub source `main` with `checkSuites`: it deploys after the checks pass. `production` has no source; only `release.yml` deploys it, with `railway up`.
+- Config comes from `.railway/railway.ts`, applied to both environments with `railway config plan` and `railway config apply` on 2026-11-03.
+- First dev deploy succeeded on 2026-11-03: the pre-deploy applied migration `20261103_030359_initial`, `/api/health` answered ok, and basic auth and `X-Robots-Tag` behaved as expected.
 
-| Variable | `dev` | `production` |
-|---|---|---|
-| `DATABASE_URL` | Neon `dev`, pooled | Neon `main`, pooled |
-| `DATABASE_URL_DIRECT` | Neon `dev`, direct | Neon `main`, direct |
-| `PAYLOAD_SECRET` | `openssl rand -hex 32` | another one |
-| `NEXT_PUBLIC_SITE_URL` | the dev Railway domain | the prod Railway domain |
-| `S3_ENDPOINT`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY` | `ta-media-dev` and its token | `ta-media-prod` and its token |
-| `MEDIA_BASE_URL` | empty until the media domain exists | empty until the media domain exists |
-| `DEV_BASIC_AUTH_USER`, `DEV_BASIC_AUTH_PASSWORD` | the dev credentials | not set |
-| `GIT_COMMIT_SHA` | not set | any value; `release.yml` overwrites it on each deploy |
+### Neon
 
-`.railway/railway.ts` sets `APP_ENV=dev` on dev and `RAILPACK_NODE_VERSION=24.22.2` (the Node security release floor, see `docs/security.md`) on both.
+- Organization on the Free plan, project `ta-web` (`holy-cake-31058356`), AWS `us-east-1`, Postgres 17.
+- Branches `main` (default, prod) and `dev` (child of `main`).
+- `main` is not protected: the Free plan has no protected branches (Launch allows 2, Scale 5). Point-in-time history on Free is 6 hours.
+- Each branch's pooled URL is `DATABASE_URL`; its direct URL is `DATABASE_URL_DIRECT`.
 
-4. Apply the config to each environment. Then check that the plan creates or changes only `web` and deletes no variable:
+### Cloudflare R2
 
-```sh
-pnpm install
-railway login
-railway link          # project ta-web, environment dev
-railway config plan
-railway config apply
-railway environment production
-railway config plan
-railway config apply
-```
-
-5. Generate a Railway domain for `web` in both environments.
-6. In `production`, create a project token scoped to that environment. It becomes `RAILWAY_TOKEN` below.
+- Account `DSMJ`, buckets `ta-media-dev` and `ta-media-prod`, location ENAM.
+- One account API token per bucket, named `ta-web R2 <bucket>`, limited to Object Read & Write on that bucket.
+- `S3_REGION` is not set; `MEDIA_BASE_URL` stays empty until the media domain exists.
 
 ### GitHub
 
-1. The environment `production` exists (created 2026-11-03) and only accepts deployments from `main` (a deployment branch policy, available on GitHub Pro). Required reviewers are not available for private repos below GitHub Enterprise (the API answers 422), so `release.yml` refuses to run unless the repository owner triggers it. While Daniel is the only person with write access, that is equivalent to his approval. Add:
-   - secret `RAILWAY_TOKEN`: the project token from Railway step 6;
-   - variable `PROD_URL`: the prod Railway domain, `https://…`, no trailing slash.
-2. Add the repo secrets `SMOKE_BASIC_AUTH_USER` and `SMOKE_BASIC_AUTH_PASSWORD`, the same values as the dev credentials, and the repo variable `DEV_URL`: the dev Railway domain, `https://…`, no trailing slash. `Smoke de dev` sends the credentials only when the deployment URL equals `DEV_URL`.
-3. Protect `main` (section 4).
+- Ruleset `Proteger main` on the default branch, active, no bypass: PR required with 0 approvals, rebase or squash merges, required status check `Pruebas`, linear history, no force-push, no deletion.
+- Environment `production`: deployments only from `main` (custom branch policy), variable `PROD_URL`. The secret `RAILWAY_TOKEN` is still missing. Required reviewers need GitHub Enterprise on private repos, so the approval is the owner-only guard in `release.yml`. While Daniel is the only person with write access, that is the same thing.
+- Environment `ta-web / dev`: created by Railway's deployments.
+- Repo secrets `SMOKE_BASIC_AUTH_USER` and `SMOKE_BASIC_AUTH_PASSWORD` (the dev basic-auth credentials) and `CODEX_AUTH_JSON`; repo variable `DEV_URL`.
 
-### First deploys
+## 7. Decisions
 
-1. Push or merge to `main`. Railway deploys dev once the checks pass, and `Smoke de dev` runs against the deploy URL. Check in that run's log that Railway sent an `environment_url`. Without one, the smoke fails with an error, so a deploy is never reported as checked when it was not.
-2. Run `Release` from `main` with version `0.1.0` and approve the `production` deployment.
-3. Point an uptime monitor at `/api/health` in both environments. It needs no credentials.
+| Question | Decision |
+|---|---|
+| Host | Railway, both environments (section 2) |
+| Region | US East: Railway US East (Virginia), Neon AWS `us-east-1` |
+| Prod deploy mechanism | Railway CLI (`railway up`) from `release.yml`, with a project token in the GitHub environment `production`. No auto-deploy on prod |
+| Prod approval | The repository owner (Daniel) runs or re-runs `release.yml`; anyone else is refused |
+| Dev deploy | Railway's GitHub integration on `main`, after the checks pass |
+| Dev access gate | Basic auth in the Next proxy, active only in the dev environment, plus `noindex`. Cloudflare Access on `dev.torrentearcano.com` replaces it after the domain transfer. `/api/health` stays open |
+| Dev smoke target | Always `DEV_URL`, after `/api/health` reports the deployed commit |
+| Schema changes | Forward-only migrations, applied by the pre-deploy command |
 
-### Not verified before the accounts existed
+## 8. Agent access
 
-- Railway's `deployment_status` payload: the environment name is `<project> / <environment>` according to Railway's forum, not its docs, and `environment_url` may be empty. `deploy-dev-smoke.yml` matches any environment name that contains `dev` and fails without a URL.
-- Whether `railway config apply` deletes Railway variables that `.railway/railway.ts` does not declare, and how `preserve()` behaves for a variable that does not exist yet. That is why the variables go in first and the plan gets read before applying.
-- That a `production` service without a GitHub source accepts `railway up` and has no auto-deploy.
-- That attached `railway up` (without `--ci`) waits for the health check. The release also checks the commit on `/api/health` before the smoke, so a stale deploy fails the run either way.
+Daniel provides the tools once, and the coding agent operates the infrastructure from the session that writes the code. Daniel keeps the accounts and approves anything destructive.
+
+| Service | Preferred | Fallback | What the agent does with it |
+|---|---|---|---|
+| GitHub | `gh` CLI | GitHub MCP | PRs, checks, rulesets, environments, secrets |
+| Railway | Railway MCP (OAuth) | `railway` CLI, project linked | Deploy status, logs, variables, `config plan`/`apply`, redeploys |
+| Neon | Neon MCP | `neonctl` | Branches (reset dev from main, PR branches), connection strings, query plans |
+| Cloudflare | Cloudflare MCP | `wrangler` | R2 buckets and tokens; DNS, cache and Access after the domain transfer |
+| Sentry | Sentry MCP (`mcp.sentry.dev/mcp`) | `sentry-cli` | Issues, stack traces, errors linked to commits |
+
+Access rules:
+- **Least privilege.** Full access to dev, read access to prod. Prod writes (variables, redeploys, database changes) go through `release.yml` or need Daniel's explicit yes for that one action.
+- **Destructive actions ask first.** Deleting a service, bucket, database branch or DNS record, rotating secrets, a Neon point-in-time restore, a forced prod redeploy. The agent states what will change and waits.
+- **Secrets never pass through the chat.** Tokens go in through a private prompt or a CLI login on Daniel's machine. The agent never prints, commits or copies them.
+- **Scoped tokens.** Where a service supports it, the agent's token is limited to this project and revocable on its own.
+- **Audit.** The PR or the conversation records each infra change the agent makes. Railway configuration changes go through `.railway/railway.ts` and a PR.
+
+## 9. Verified behavior
+
+Checked against the real accounts on 2026-11-03:
+- Railway's GitHub deployment for dev has the environment `ta-web / dev`, and its `environment_url` is the Railway dashboard URL (`https://railway.com/project/<id>?environmentId=<id>`), not the app. That is why `deploy-dev-smoke.yml` targets `DEV_URL`.
+- `railway config apply` deletes Railway variables that `.railway/railway.ts` does not declare. The plan marks them as destructive; the first apply removed `S3_REGION`. Always read `railway config plan` first.
+- `preserve()` for a variable that does not exist yet (prod `GIT_COMMIT_SHA`) does nothing: it creates no variable.
+- `production` without a GitHub source did not auto-deploy.
+- Railway project tokens cannot be created from the CLI or the OAuth session (the API answers "Not Authorized"). Create them in the dashboard.
+
+Still unverified:
+- `railway up` from `release.yml` against production.
+- Whether attached `railway up` waits for the health check. The release checks the commit on `/api/health` anyway, so a stale deploy fails the run either way.
+
+## 10. Status and what is left
+
+| Item | Status |
+|---|---|
+| `/api/health` and the `@smoke` suite | Done |
+| Railway, Neon and R2 accounts, resources and variables | Done |
+| Pre-deploy migrations | Done |
+| Dev basic auth and `noindex` | Done |
+| Dev smoke workflow | Done |
+| Release workflow | Ready. The first prod deploy waits on `RAILWAY_TOKEN` |
+| Branch protection | Done (ruleset `Proteger main`) |
+| Sentry and uptime | Pending |
+
+What is left:
+1. `RAILWAY_TOKEN`: in the Railway dashboard, project `ta-web`, Settings, Tokens, create a project token scoped to `production`. Then `gh secret set RAILWAY_TOKEN --env production`.
+2. The first `Release`, version `0.1.0`, from `main`.
+3. Sentry: one project with environments `dev` and `production`, then `SENTRY_DSN` and `SENTRY_AUTH_TOKEN` (declared in `.railway/railway.ts` first).
+4. Uptime monitors on `/api/health` for both domains. They need no credentials.
+5. Resend.
+6. Domain transfer to Cloudflare, then `dev.torrentearcano.com`, the media domains and Cloudflare Access.
+7. Neon Launch plan, if `main` has to be protected or 6 hours of point-in-time history is too short.
+8. Optionally, `sslmode=verify-full` in the Neon URLs: `pg` warns that `require` changes meaning in `pg` v9.

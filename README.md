@@ -73,7 +73,7 @@ APP_ENV=dev DEV_BASIC_AUTH_USER=torre DEV_BASIC_AUTH_PASSWORD=clave pnpm dev
 
 ### Deploys
 
-Railway hosts both environments; `docs/infra.md` has the plan and the go-live checklist.
+Railway hosts both environments; `docs/infra.md` has the inventory, the decisions and what is left.
 
 - `.railway/railway.ts` is the service config as code: Railpack with Node 24, `pnpm build`, `pnpm start`, `pnpm migrate` as the pre-deploy command, the `/api/health` health check, restart on failure, US East. Railway does not read it on deploy. Apply it per environment with `railway config plan` and `railway config apply`. `tests/unit/railway-config.test.ts` evaluates it for both environments.
 - Dev: Railway deploys every push to `main` once the GitHub checks pass. `.github/workflows/deploy-dev-smoke.yml` then waits until `/api/health` on `DEV_URL` reports the deployed commit and runs the smoke suite against `DEV_URL`. Railway's deployment `environment_url` points at its dashboard, not the app, so the workflow does not use it.
