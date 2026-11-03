@@ -94,6 +94,7 @@ Access control and entitlements are tested at the data layer: a test calls the P
 |---|---|---|
 | Unit | `pnpm test` (Vitest) | `src/lib/` (progress merge, entitlements, derived data, media URLs), collection access functions, hooks |
 | E2E | `pnpm test:e2e` (Playwright on the production path: `pnpm build`, `pnpm migrate` on an empty database, `pnpm start`) | rendered pages against a seeded database: guides, checklists, search, theme, sign-in, progress, premium gating; the suites ported from `silvestre-checklist` in phase 2a |
+| Smoke | `pnpm test:smoke` (the `@smoke` Playwright subset; `SMOKE_BASE_URL` points it at a deployed URL and skips the local server) | read-only checks after a deploy: home renders, `/admin` responds, `/api/health` is ok. Smoke tests never write data |
 | Budgets (planned) | `pnpm test:lhci` (Lighthouse CI) | the budgets in `DESIGN.md` on a fixed set of pages (home, a quest guide, an achievement, a checklist) |
 | Types, lint and format | `pnpm typecheck`, `pnpm lint`, `pnpm format:check` | the whole repo |
 | Import (planned) | `pnpm test:import` | golden pages of the Squarespace import (phase 1) |
@@ -149,7 +150,7 @@ CI (`.github/workflows/ci.yml`) runs lint, types, unit, build and E2E on every P
 - `.env.example` lists every variable with an empty or dummy value and a comment. Add a line there in the same change that reads a new variable.
 - Never commit secrets. `.env*` is git-ignored except `.env.example`.
 - Server-only variables never get the `NEXT_PUBLIC_` prefix.
-- Read today: `DATABASE_URL`, `PAYLOAD_SECRET`, `NEXT_PUBLIC_SITE_URL`, `S3_ENDPOINT`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_REGION`, `MEDIA_BASE_URL`, `GIT_COMMIT_SHA` (after Railway's `RAILWAY_GIT_COMMIT_SHA`).
+- Read today: `DATABASE_URL`, `PAYLOAD_SECRET`, `NEXT_PUBLIC_SITE_URL`, `S3_ENDPOINT`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_REGION`, `MEDIA_BASE_URL`, `GIT_COMMIT_SHA` (after Railway's `RAILWAY_GIT_COMMIT_SHA`). The smoke tests read `SMOKE_BASE_URL`, `SMOKE_BASIC_AUTH_USER` and `SMOKE_BASIC_AUTH_PASSWORD`.
 - Planned: `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `DISCORD_CLIENT_ID`, `DISCORD_CLIENT_SECRET`, `EMAIL_API_KEY`, and the payment keys in phase 5.
 
 ## Design process

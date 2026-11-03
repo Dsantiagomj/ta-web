@@ -33,6 +33,20 @@ Media uploads go to `./media` unless the four `S3_*` variables point at an R2 bu
 
 To reset the local database, stop `pnpm db:dev` and delete `.postgres/`.
 
+### Smoke tests against a deployed URL
+
+The `@smoke` tests only read, so they can run against dev or prod after a deploy. Set `SMOKE_BASE_URL` and Playwright skips the build, the migrations and the local database:
+
+```sh
+SMOKE_BASE_URL=https://dev.example.com pnpm test:smoke
+# Behind basic auth, both variables or neither:
+SMOKE_BASE_URL=https://dev.example.com SMOKE_BASIC_AUTH_USER=… SMOKE_BASIC_AUTH_PASSWORD=… pnpm test:smoke
+```
+
+Playwright reads these variables from the shell, never from `.env`, so a leftover value cannot point `pnpm test:e2e` at a deployment.
+
+`GET /api/health` returns `200` with `{ status, db, version, commit }` when the database answers within 2 s, and `503` with `{ status: 'error', db: 'error' }` when it does not. It needs no auth and is never cached.
+
 ### Scripts
 
 | Script | What it does |
@@ -42,6 +56,7 @@ To reset the local database, stop `pnpm db:dev` and delete `.postgres/`.
 | `pnpm typecheck` | `next typegen`, then `tsc --noEmit` |
 | `pnpm test` | Vitest unit tests in `tests/unit/` |
 | `pnpm test:e2e` | Playwright tests in `tests/e2e/`, on the production path: `pnpm build`, `pnpm migrate` on an empty database, then `pnpm start` on port 3100. With `DATABASE_URL` empty it starts `pnpm db:dev` if needed and recreates the separate `torrente_arcano_e2e` database, so your dev data is untouched. `E2E_SKIP_BUILD=1` reuses the last build. Install the browser once with `pnpm exec playwright install chromium` |
+| `pnpm test:smoke` | The `@smoke` Playwright subset: home, `/admin` and `/api/health`. Without `SMOKE_BASE_URL` it runs against the local server, like `pnpm test:e2e`. With it, it tests that URL and starts nothing locally (see below) |
 | `pnpm db:dev` | Embedded Postgres in the foreground; `--verbose` prints its log |
 | `pnpm migrate` | Applies pending migrations from `src/migrations/` to `DATABASE_URL` |
 | `pnpm migrate:create <name>` | Writes a migration for the schema changes since the last one |
