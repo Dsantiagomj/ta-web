@@ -72,6 +72,33 @@ jobs:
           restore-keys: next-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-
       - run: pnpm build
 
+  integration:
+    name: Integración
+    needs: install
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17.11
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: torrente_arcano
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      # Base vacía: el global setup aplica las migraciones con `pnpm migrate` y Payload
+      # arranca con getPayload contra ella. Sin push de esquema.
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/torrente_arcano
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: ./.github/actions/setup
+      - run: pnpm test:integration
+
   e2e:
     name: E2E
     needs: install
@@ -159,7 +186,7 @@ jobs:
   pruebas:
     name: Pruebas
     if: always()
-    needs: [install, lint, typecheck, unit, build, e2e, audit]
+    needs: [install, lint, typecheck, unit, integration, build, e2e, audit]
     runs-on: ubuntu-latest
     steps:
       - name: Comprobar los jobs
