@@ -2,6 +2,7 @@ import type { PostgresAdapter } from '@payloadcms/db-postgres'
 import type { Endpoint } from 'payload'
 
 import packageJson from '../../package.json'
+import { deployedCommit } from '../lib/deploy/commit'
 
 // Comprobación de salud para los smoke tests tras un despliegue y los monitores de
 // disponibilidad. Pública: no lleva autenticación, así que nunca devuelve secretos,
@@ -91,13 +92,9 @@ export async function pingPool(pool: PoolLike, timeoutMs: number): Promise<void>
   }
 }
 
-// El commit desplegado: Railway lo inyecta; en otros entornos se pasa a mano.
+// El commit desplegado; "dev" si no se conoce (en local).
 export function resolveCommit(env: Record<string, string | undefined>): string {
-  for (const name of ['RAILWAY_GIT_COMMIT_SHA', 'GIT_COMMIT_SHA']) {
-    const value = env[name]?.trim()
-    if (value) return value
-  }
-  return 'dev'
+  return deployedCommit(env) ?? 'dev'
 }
 
 async function withTimeout<T>(
