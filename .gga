@@ -1,0 +1,23 @@
+# Gentleman Guardian Angel: revisión con IA de los archivos del commit contra AGENTS.md.
+# https://github.com/Gentleman-Programming/gentleman-guardian-angel
+#
+# Proveedor local: el CLI de Claude Code. GGA_PROVIDER lo sustituye sin tocar este
+# archivo (CI usa GGA_PROVIDER=codex).
+PROVIDER="claude"
+
+# Lo que se revisa: código, estilos y docs.
+FILE_PATTERNS="*.ts,*.tsx,*.js,*.mjs,*.css,*.md"
+
+# Lo generado no se revisa: lockfile, tipos e import map de Payload, migraciones,
+# tipos de Next y archivos minificados. GGA compara los patrones sin barra con el
+# nombre del archivo y los demás con la ruta completa.
+EXCLUDE_PATTERNS="pnpm-lock.yaml,payload-types.ts,payload-generated-schema.ts,importMap.js,src/migrations/*,next-env.d.ts,*.d.ts,*.min.js,*.min.css,.next/*"
+
+RULES_FILE="AGENTS.md"
+
+# Una respuesta ambigua del modelo cuenta como fallo.
+STRICT_MODE="true"
+TIMEOUT="300"
+
+# Rama base de --pr-mode.
+PR_BASE_BRANCH="main"
