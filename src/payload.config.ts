@@ -1,4 +1,4 @@
-import { postgresAdapter } from '@payloadcms/db-postgres'
+import { postgresAdapter, type PostgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { es } from '@payloadcms/translations/languages/es'
 import path from 'path'
@@ -47,8 +47,17 @@ export default buildConfig({
     push: shouldPushSchema(process.env),
     pool: {
       connectionString: resolveDatabaseUrl(process.env),
+      // Conseguir una conexión nunca espera sin límite, aunque la base esté colgada
+      connectionTimeoutMillis: 5000,
     },
   }),
+  // Una conexión inactiva que se cae (Neon las reinicia) se registra y el pool la
+  // sustituye; sin este manejador, el error tumbaría el proceso
+  onInit: async (payload) => {
+    ;(payload.db as unknown as PostgresAdapter).pool.on('error', (error) => {
+      payload.logger.error({ err: error }, 'Conexión de Postgres perdida en el pool')
+    })
+  },
   sharp,
   plugins: [mediaStorage()],
 })
