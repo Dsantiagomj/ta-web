@@ -33,6 +33,14 @@ Media uploads go to `./media` unless the four `S3_*` variables point at an R2 bu
 
 To reset the local database, stop `pnpm db:dev` and delete `.postgres/`.
 
+The local database is called `ta_web` (it was `torrente_arcano` before the repo was renamed). If you have data in the old one, keep it by renaming it once, with `pnpm db:dev` running and nothing else connected:
+
+```bash
+psql postgres://postgres:postgres@127.0.0.1:54329/postgres -c 'ALTER DATABASE torrente_arcano RENAME TO ta_web'
+```
+
+Without `psql`, start over instead: stop `pnpm db:dev`, delete `.postgres/` and run `pnpm migrate`.
+
 ### Smoke tests against a deployed URL
 
 The `@smoke` tests only read, so they can run against dev or prod after a deploy. Set `SMOKE_BASE_URL` and Playwright skips the build, the migrations and the local database:

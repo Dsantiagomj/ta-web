@@ -224,13 +224,13 @@ railway config apply
 
 ### First deploys
 
-1. Push or merge to `main`. Railway deploys dev once the checks pass, and `Smoke de dev` runs against the deploy URL. Check in that run's log that Railway sent an `environment_url`. Without one, the smoke skips with a notice.
+1. Push or merge to `main`. Railway deploys dev once the checks pass, and `Smoke de dev` runs against the deploy URL. Check in that run's log that Railway sent an `environment_url`. Without one, the smoke fails with an error, so a deploy is never reported as checked when it was not.
 2. Run `Release` from `main` with version `0.1.0` and approve the `production` deployment.
 3. Point an uptime monitor at `/api/health` in both environments. It needs no credentials.
 
 ### Not verified before the accounts existed
 
-- Railway's `deployment_status` payload: the environment name is `<project> / <environment>` according to Railway's forum, not its docs, and `environment_url` may be empty. `deploy-dev-smoke.yml` matches any environment name that contains `dev` and skips without a URL.
+- Railway's `deployment_status` payload: the environment name is `<project> / <environment>` according to Railway's forum, not its docs, and `environment_url` may be empty. `deploy-dev-smoke.yml` matches any environment name that contains `dev` and fails without a URL.
 - Whether `railway config apply` deletes Railway variables that `.railway/railway.ts` does not declare, and how `preserve()` behaves for a variable that does not exist yet. That is why the variables go in first and the plan gets read before applying.
 - That a `production` service without a GitHub source accepts `railway up` and has no auto-deploy.
 - That attached `railway up` (without `--ci`) waits for the health check. The release also checks the commit on `/api/health` before the smoke, so a stale deploy fails the run either way.
