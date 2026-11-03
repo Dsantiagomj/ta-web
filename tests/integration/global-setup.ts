@@ -31,7 +31,13 @@ async function waitForPort(port: number, host: string, timeoutMs: number) {
 async function ensureDevDatabase(): Promise<ChildProcess | undefined> {
   if (await portIsOpen(DEV_DATABASE.port, DEV_DATABASE.host)) return undefined
   const child = spawn('node', ['scripts/db-dev.ts'], { stdio: 'inherit' })
-  await waitForPort(DEV_DATABASE.port, DEV_DATABASE.host, 120_000)
+  try {
+    await waitForPort(DEV_DATABASE.port, DEV_DATABASE.host, 120_000)
+  } catch (error) {
+    // Si no llega a responder, el proceso que arrancamos no se queda colgado
+    await stop(child)
+    throw error
+  }
   return child
 }
 
@@ -45,15 +51,21 @@ function stop(child: ChildProcess): Promise<void> {
 
 export default async function setup() {
   let database: ChildProcess | undefined
-  if (usesEmbeddedDatabase(process.env)) {
-    database = await ensureDevDatabase()
-    await resetDevDatabase(DEV_DATABASE.integrationDatabase)
-  }
+  try {
+    if (usesEmbeddedDatabase(process.env)) {
+      database = await ensureDevDatabase()
+      await resetDevDatabase(DEV_DATABASE.integrationDatabase)
+    }
 
-  execFileSync('pnpm', ['migrate'], {
-    env: { ...process.env, ...integrationEnv(process.env) },
-    stdio: 'inherit',
-  })
+    execFileSync('pnpm', ['migrate'], {
+      env: { ...process.env, ...integrationEnv(process.env) },
+      stdio: 'inherit',
+    })
+  } catch (error) {
+    // Vitest no llama al teardown si setup falla: se para aquí el Postgres que arrancamos
+    if (database) await stop(database)
+    throw error
+  }
 
   return async () => {
     if (database) await stop(database)
