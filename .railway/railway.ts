@@ -58,6 +58,8 @@ export default defineRailway((ctx) => {
       MEDIA_BASE_URL: preserve(),
       // Errores del servidor a Sentry (src/instrumentation.ts). Sin ella, Sentry no arranca.
       SENTRY_DSN: preserve(),
+      // Sube los source maps a Sentry durante el build (next.config.ts). Sin ella, no se suben.
+      SENTRY_AUTH_TOKEN: preserve(),
       ...(dev
         ? {
             APP_ENV: 'dev',
