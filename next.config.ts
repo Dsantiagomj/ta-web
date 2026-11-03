@@ -1,4 +1,5 @@
 import { withPayload } from '@payloadcms/next/withPayload'
+import { withSentryConfig } from '@sentry/nextjs/config'
 import type { NextConfig } from 'next'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -26,4 +27,25 @@ const nextConfig: NextConfig = {
   },
 }
 
-export default withPayload(nextConfig, { devBundleServerPackages: false })
+const sentryAuthToken = process.env.SENTRY_AUTH_TOKEN?.trim() || undefined
+
+// Sentry solo en el servidor (src/instrumentation.ts). Sin SENTRY_AUTH_TOKEN no se suben
+// mapas de código: el build no habla con Sentry y no hace falta ninguna variable suya.
+const config = withSentryConfig(withPayload(nextConfig, { devBundleServerPackages: false }), {
+  org: 'dsmjdev',
+  project: 'ta-web',
+  sentryUrl: 'https://us.sentry.io',
+  authToken: sentryAuthToken,
+  sourcemaps: { disable: !sentryAuthToken },
+  // Sin SDK de navegador: el manifiesto de rutas solo serviría al cliente y listaría /admin.
+  routeManifestInjection: false,
+  // El plugin no envía a Sentry sus propios errores ni tiempos de compilación.
+  telemetry: false,
+  silent: !process.env.CI,
+})
+
+// withSentryConfig añade las metas sentry-trace y baggage a cada página para que el SDK de
+// navegador continúe la traza. Sin ese SDK no sirven y publicarían la clave del DSN.
+delete config.experimental?.clientTraceMetadata
+
+export default config

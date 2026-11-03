@@ -29,6 +29,7 @@ After the change, `pnpm audit` reports 2 advisories (1 moderate, 1 low) and `pnp
 | Advisory | Severity | Where | Why we accept it |
 |---|---|---|---|
 | [GHSA-gcqx-w48m-w2h4](https://github.com/advisories/GHSA-gcqx-w48m-w2h4), `deepmerge` prototype poisoning | low | `payload` > `deepmerge` 4.3.1, production | No patched version exists. Payload merges its own config with it, not visitor input. Drop it from this list when Payload or deepmerge ships a fix |
+| [GHSA-3g3m-2fjr-6pw4](https://github.com/advisories/GHSA-3g3m-2fjr-6pw4), `glob` AbortSignal cancellation bypass | moderate | `@sentry/nextjs` > `@sentry/bundler-plugins` > `glob` 13.0.6, production dependency used at build time | The fix is glob 14.0.2, a major version the Sentry plugins do not declare (`^13.0.6`, still in `@sentry/nextjs` 11.10.0). The plugins glob our own `.next` output to find source maps, with no attacker-controlled patterns or signals, and the upload is off until `SENTRY_AUTH_TOKEN` exists. Drop it when the Sentry plugins move to glob 14 |
 | [GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249), `minimatch` globparts DoS | moderate | `minimatch` 3.1.5 via ESLint and its plugins, dev only | The only fix is 11.x, and 11.x no longer exports a callable function. `eslint-plugin-react`, `eslint-plugin-jsx-a11y` and `eslint-plugin-import` call `require('minimatch')(…)`, so a global override breaks those rules at runtime (`m is not a function`). It only runs on our own lint globs. Revisit when ESLint 10 and the plugins move off minimatch 3 |
 
 ## CI rule
