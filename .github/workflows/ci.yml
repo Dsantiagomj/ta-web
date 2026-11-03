@@ -91,11 +91,17 @@ jobs:
           --health-timeout 5s
           --health-retries 10
     env:
-      # Base vacía: sin migraciones todavía, `pnpm dev` crea el esquema (push de Payload).
+      # Base vacía: Playwright compila, aplica las migraciones con `pnpm migrate` y
+      # arranca `pnpm start`, como en producción. Sin push de esquema.
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/torrente_arcano
     steps:
       - uses: actions/checkout@v7.0.1
       - uses: ./.github/actions/setup
+      - uses: actions/cache@v6.1.0
+        with:
+          path: .next/cache
+          key: next-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-${{ hashFiles('src/**') }}
+          restore-keys: next-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-
 
       - name: Versión de Playwright
         id: playwright

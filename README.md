@@ -23,7 +23,9 @@ pnpm db:dev           # terminal 1: Postgres on 127.0.0.1:54329, data in .postgr
 pnpm dev              # terminal 2: http://localhost:3000, panel at /admin
 ```
 
-On an empty database, `pnpm dev` creates the schema (Payload's schema push, development only) and `/admin` asks for the first panel user.
+`pnpm dev` keeps the local database in sync with the collections through Payload's schema push. Push runs only under `next dev`. Everywhere else, including E2E and CI, the schema comes from the committed migrations in `src/migrations/`, applied with `pnpm migrate`. On an empty database, `/admin` asks for the first panel user.
+
+After changing a collection, run `pnpm migrate:create <name>` and `pnpm generate:types`, and commit both results with the change.
 
 With `DATABASE_URL` empty, the app connects to the `pnpm db:dev` database. Set `DATABASE_URL` to use another one, such as a Neon branch; it always wins. In production the app refuses to start without it.
 
@@ -39,8 +41,10 @@ To reset the local database, stop `pnpm db:dev` and delete `.postgres/`.
 | `pnpm lint`, `pnpm format`, `pnpm format:check` | ESLint (Next config) and Prettier. Prettier skips Markdown, so doc tables stay hand-aligned |
 | `pnpm typecheck` | `next typegen`, then `tsc --noEmit` |
 | `pnpm test` | Vitest unit tests in `tests/unit/` |
-| `pnpm test:e2e` | Playwright tests in `tests/e2e/`. Starts `pnpm db:dev` (when `DATABASE_URL` is empty) and `pnpm dev` if they are not running. Install the browser once with `pnpm exec playwright install chromium` |
+| `pnpm test:e2e` | Playwright tests in `tests/e2e/`, on the production path: `pnpm build`, `pnpm migrate` on an empty database, then `pnpm start` on port 3100. With `DATABASE_URL` empty it starts `pnpm db:dev` if needed and recreates the separate `torrente_arcano_e2e` database, so your dev data is untouched. `E2E_SKIP_BUILD=1` reuses the last build. Install the browser once with `pnpm exec playwright install chromium` |
 | `pnpm db:dev` | Embedded Postgres in the foreground; `--verbose` prints its log |
+| `pnpm migrate` | Applies pending migrations from `src/migrations/` to `DATABASE_URL` |
+| `pnpm migrate:create <name>` | Writes a migration for the schema changes since the last one |
 | `pnpm generate:types` | Regenerates `src/payload-types.ts`. Run it after changing a collection and commit the result; CI fails when the file is stale |
 | `pnpm generate:importmap` | Regenerates Payload's admin import map after adding admin components |
 
@@ -55,6 +59,6 @@ To reset the local database, stop `pnpm db:dev` and delete `.postgres/`.
 
 ### CI
 
-`.github/workflows/ci.yml` runs on every pull request and on pushes to `main`. Lint, types, unit tests, build and E2E (against a Postgres 17 service) run in parallel after the install job. The `Pruebas` job passes only when all of them pass; branch protection will require it.
+`.github/workflows/ci.yml` runs on every pull request and on pushes to `main`. Lint, types, unit tests, build and E2E run in parallel after the install job. E2E builds the app, runs `pnpm migrate` against an empty Postgres 17 service and tests `pnpm start`. The `Pruebas` job passes only when all of them pass; branch protection will require it.
 
 `Revisión GGA` runs on pull requests only. It reviews the PR diff with `gga run --pr-mode --diff-only` and the Codex CLI, logged in from the `CODEX_AUTH_JSON` secret. It is advisory for now and not part of `Pruebas`, until we see how its verdicts hold up. Without the secret, as on a PR from a fork, it skips with a notice. Runs queue on one concurrency group, so two of them never refresh the Codex token at the same time.

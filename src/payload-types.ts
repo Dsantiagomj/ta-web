@@ -150,6 +150,22 @@ export interface User {
 export interface Media {
   id: number;
   alt: string;
+  credits?: string | null;
+  /**
+   * Variantes AVIF y WebP pregeneradas en R2. Las rellena la importación.
+   */
+  variants?:
+    | {
+        key: string;
+        width: number;
+        format: 'avif' | 'webp';
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Solo en las imágenes migradas.
+   */
+  originalUrl?: string | null;
   prefix?: string | null;
   _objectKey?: string | null;
   updatedAt: string;
@@ -267,6 +283,16 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  credits?: T;
+  variants?:
+    | T
+    | {
+        key?: T;
+        width?: T;
+        format?: T;
+        id?: T;
+      };
+  originalUrl?: T;
   prefix?: T;
   _objectKey?: T;
   updatedAt?: T;

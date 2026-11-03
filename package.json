@@ -21,6 +21,8 @@
     "test:unit": "vitest run",
     "test:e2e": "playwright test",
     "db:dev": "node scripts/db-dev.ts",
+    "migrate": "NODE_OPTIONS=--no-deprecation payload migrate",
+    "migrate:create": "NODE_OPTIONS=--no-deprecation payload migrate:create",
     "payload": "NODE_OPTIONS=--no-deprecation payload",
     "generate:types": "NODE_OPTIONS=--no-deprecation payload generate:types",
     "generate:importmap": "NODE_OPTIONS=--no-deprecation payload generate:importmap"

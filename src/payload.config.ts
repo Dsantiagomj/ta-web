@@ -8,7 +8,7 @@ import { fileURLToPath } from 'url'
 
 import { Media } from './collections/Media'
 import { Users } from './collections/Users'
-import { resolveDatabaseUrl } from './lib/db/database-url'
+import { resolveDatabaseUrl, shouldPushSchema } from './lib/db/database-url'
 import { mediaStorage } from './lib/media/storage'
 
 const filename = fileURLToPath(import.meta.url)
@@ -40,6 +40,8 @@ export default buildConfig({
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: postgresAdapter({
+    migrationDir: path.resolve(dirname, 'migrations'),
+    push: shouldPushSchema(process.env),
     pool: {
       connectionString: resolveDatabaseUrl(process.env),
     },
