@@ -9,7 +9,7 @@ The visual rules for the new torrentearcano.com. Structure, density and motion f
 3. **Dense, not cramped.** Lists of 50 quests and checklists of 100 steps must fit on a screen without feeling like a spreadsheet. Small gaps inside components, generous gaps between sections.
 4. **Fast by default.** Guide pages are server-rendered with no client JavaScript beyond the shell. Motion is CSS unless it lives inside a client island.
 5. **One job per color.** `accent` marks progress, links, coordinates and the primary action; `accent-2` marks featured numbers and tags; the section accent marks details. No color is ever a button fill.
-6. **Arcano, dark, by default.** Six themes, each with a dark and a light mode. Arcano is free for everyone; Amakna, Frigost, Bonta, Brâkmar and Ocre are premium. Every text pair passes WCAG AA in every theme and mode.
+6. **Arcano, dark, by default.** Five themes, each with a dark and a light mode. Arcano is free for everyone; Amakna, Bonta, Brâkmar and Ocre are premium. Every text pair passes WCAG AA in every theme and mode.
 
 ## Tokens
 
@@ -21,16 +21,16 @@ Tokens are CSS custom properties declared in a Tailwind v4 `@theme` block in `sr
 
 ### Themes
 
-Decided 2026-11-02. Six themes named after Dofus places and the Dofus Ocre, each with a dark and a light mode:
+Decided 2026-11-02. Five themes named after Dofus places and the Dofus Ocre, each with a dark and a light mode:
 
 | Theme | Access |
 |---|---|
 | Arcano | free, the default for everyone |
-| Amakna, Frigost, Bonta, Brâkmar, Ocre | premium |
+| Amakna, Bonta, Brâkmar, Ocre | premium |
 
 The **theme** and the **mode** are two separate settings.
 
-- **Theme** lives on `<html data-theme="arcano|amakna|frigost|bonta|brakmar|ocre">`. The server renders it from the member's saved setting, and only renders a premium theme when the member's entitlement allows it. Visitors, free members and members whose entitlement lapsed get `arcano`. A client-side switch to a premium theme is never honored without the entitlement: the server ignores the value and the page renders Arcano.
+- **Theme** lives on `<html data-theme="arcano|amakna|bonta|brakmar|ocre">`. The server renders it from the member's saved setting, and only renders a premium theme when the member's entitlement allows it. Visitors, free members and members whose entitlement lapsed get `arcano`. A client-side switch to a premium theme is never honored without the entitlement: the server ignores the value and the page renders Arcano.
 - **Mode** lives on `<html data-mode="dark|light">` and is free for everyone. It is stored in a cookie (so the server can render it) and mirrored in `localStorage`. A small inline `<head>` script sets `data-mode` before first paint, for the mode only; it never sets the theme. Default `dark`.
 
 Tokens are CSS custom properties under one selector per theme and mode. Semantic tokens point at them through `@theme inline`, so utilities and plain CSS read the same names:
@@ -44,7 +44,7 @@ Tokens are CSS custom properties under one selector per theme and mode. Semantic
 }
 [data-theme="arcano"][data-mode="dark"] { --t-bg: #0f0d1a; --t-surface: #17142a; /* … */ }
 [data-theme="arcano"][data-mode="light"] { --t-bg: #f4f2fb; --t-surface: #ffffff; /* … */ }
-/* the same two blocks for amakna, frigost, bonta, brakmar, ocre */
+/* the same two blocks for amakna, bonta, brakmar, ocre */
 ```
 
 The Arcano dark block is also the fallback on `:root`, so a page with a missing or unknown attribute still renders correctly.
@@ -132,38 +132,6 @@ Focus rings use `--color-ink` (at least 13:1 on bg in every mode) unless the con
 | accent-2 on raised | 9.45 | 4.97 |
 | accent as a border on surface (3:1) | 10.84 | 6.54 |
 | bg check mark on an accent fill (3:1) | 11.78 | 6.02 |
-
-#### Frigost (`frigost`, premium)
-
-| Token | Dark | Light |
-|---|---|---|
-| `--color-bg` | `#0b1118` | `#eef3f8` |
-| `--color-surface` | `#111a24` | `#ffffff` |
-| `--color-raised` | `#192535` | `#e1e9f2` |
-| `--color-line` | `#27384b` | `#bccbda` |
-| `--color-ink` | `#e8f1fa` | `#0f1a26` |
-| `--color-ink-2` | `#b6c8da` | `#2f4357` |
-| `--color-muted` | `#8499ae` | `#516477` |
-| `--color-accent` | `#7fd3f2` | `#0b5f86` |
-| `--color-accent-2` | `#f5b84a` | `#865300` |
-
-| Pair | Dark | Light |
-|---|---|---|
-| ink on bg | 16.61 | 15.73 |
-| ink on surface | 15.37 | 17.56 |
-| ink on raised | 13.55 | 14.33 |
-| ink-2 on bg | 11.07 | 9.13 |
-| ink-2 on surface | 10.24 | 10.19 |
-| ink-2 on raised | 9.03 | 8.31 |
-| muted on bg | 6.45 | 5.47 |
-| muted on surface | 5.97 | 6.11 |
-| muted on raised | 5.27 | 4.98 |
-| accent on surface | 10.44 | 7.01 |
-| accent on raised | 9.21 | 5.72 |
-| accent-2 on surface | 9.89 | 6.46 |
-| accent-2 on raised | 8.72 | 5.27 |
-| accent as a border on surface (3:1) | 10.44 | 7.01 |
-| bg check mark on an accent fill (3:1) | 11.29 | 6.28 |
 
 #### Bonta (`bonta`, premium)
 
@@ -269,7 +237,7 @@ Rules that follow from the numbers:
 
 ### Shared colors
 
-Status colors and section accents are fixed per mode and shared by all six themes. That is the simpler option, and it passes: each hex was checked against `bg`, `surface` and `raised` of every theme in its mode, and the table gives the worst case.
+Status colors and section accents are fixed per mode and shared by all five themes. That is the simpler option, and it passes: each hex was checked against `bg`, `surface` and `raised` of every theme in its mode, and the table gives the worst case.
 
 | Token | Dark | Worst case | Light | Worst case |
 |---|---|---|---|---|
@@ -438,7 +406,7 @@ Every interactive component has these states: default, hover (mouse only), focus
 | Dialog | native `<dialog>` with `showModal()`, 16px radius, `--shadow-dialog`, title in display 700, actions bottom right | confirm destructive actions with a dialog, never `confirm()`; offer "Deshacer" in a toast for 8 seconds after |
 | Toast | bottom center, pill or 12px radius, `--color-raised` | auto-dismiss 4 seconds (8 with an undo action); `role="status"` |
 | Mode switch | the egg medallion from Dofus Tools, now the dark and light toggle within the chosen theme. The ivory and ebony egg art stay as its two icons; the medallion keeps its own dark fill in both modes, so the art reads the same on every theme. The knob ring is `--color-accent` | `role="switch"` with `aria-checked`; the mode change uses the corner reveal of the old site where View Transitions exist, a plain swap otherwise |
-| Theme picker | six swatch cards in a grid (three per row from 640px, two below): a strip of the theme's bg, surface, accent and accent-2, the theme name in display 700, and on the five premium ones a lock icon and a "Premium" label. The current theme has a `--color-accent` border and a check | entitled member: choosing saves the theme to the profile and the server re-renders the page with it. Everyone else: hover or focus shows a preview inside the card (a mini page in that theme's colors, scoped to the card with its own `data-theme`) without changing the page; choosing a premium theme opens the premium explainer, and nothing is saved |
+| Theme picker | five swatch cards in a grid (three per row from 640px, two below): a strip of the theme's bg, surface, accent and accent-2, the theme name in display 700, and on the four premium ones a lock icon and a "Premium" label. The current theme has a `--color-accent` border and a check | entitled member: choosing saves the theme to the profile and the server re-renders the page with it. Everyone else: hover or focus shows a preview inside the card (a mini page in that theme's colors, scoped to the card with its own `data-theme`) without changing the page; choosing a premium theme opens the premium explainer, and nothing is saved |
 | Tag pill | 22 to 26px pill, `--text-xs`, transparent fill, 1px `--color-accent-2` border and text | static, or a link with a hover fill of `--color-raised` |
 | Skeleton | blocks in `--color-raised` matching the final layout, used only in client islands and `loading.tsx` | a 1.2s opacity pulse; static under reduced motion |
 | Empty state | game art (an NPC or icon), one sentence, one action | e.g. "Aún no has marcado ninguna misión" with "Ver la guía" |
