@@ -6,7 +6,7 @@ import { flushSync } from 'react-dom'
 import { MODE_COOKIE, type Mode, modeCookie, resolveMode } from '@/lib/theme/theme'
 
 import './mode-toggle.css'
-import { modeEggs, modeSwitchTitle, modeToggleStrings } from './strings'
+import { EGG_SIZE, eggSrcSet, modeEggs, modeSwitchTitle, modeToggleStrings } from './strings'
 
 // El modo vive en <html data-mode>. El servidor lo pinta desde la cookie y el script
 // inline del <head> lo corrige antes del primer pintado; este interruptor lo lee de ahí.
@@ -94,20 +94,22 @@ export function ModeToggle({ initialMode }: { initialMode: Mode }) {
       <span data-part="track" aria-hidden="true" />
       <span data-part="knob" aria-hidden="true" />
       {(['light', 'dark'] as const).map((egg) => (
-        // Icono fijo de public/: sin optimización de imágenes (AGENTS.md, Media).
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          key={egg}
-          data-part="egg"
-          data-egg={egg}
-          src={modeEggs[egg].src}
-          width={28}
-          height={28}
-          alt=""
-          aria-hidden="true"
-          draggable={false}
-          decoding="async"
-        />
+        <picture key={egg}>
+          <source type="image/avif" srcSet={eggSrcSet(modeEggs[egg], 'avif')} />
+          <source type="image/webp" srcSet={eggSrcSet(modeEggs[egg], 'webp')} />
+          {/* Variantes pregeneradas: sin optimización de imágenes (AGENTS.md, Media). */}
+          <img
+            data-part="egg"
+            data-egg={egg}
+            src={`${modeEggs[egg].file}.png`}
+            width={EGG_SIZE}
+            height={EGG_SIZE}
+            alt=""
+            aria-hidden="true"
+            draggable={false}
+            decoding="async"
+          />
+        </picture>
       ))}
       {SPARKS.map(([dx, dy]) => (
         <span

@@ -6,10 +6,20 @@ export const modeToggleStrings = {
   action: 'Pulsa para cambiar',
 }
 
-// Los huevos del medallón: iconos de objeto del juego (Marfil 23011, Ébano 23007).
-export const modeEggs: Record<Mode, { name: string; src: string }> = {
-  light: { name: 'Dofus Marfil', src: '/img/mode/dofus-marfil.png' },
-  dark: { name: 'Dofus Ébano', src: '/img/mode/dofus-ebano.png' },
+// Los huevos del medallón: iconos de objeto del juego (Marfil 23011, Ébano 23007). En
+// public/img/mode están el PNG original y sus variantes AVIF y WebP a 1x y 2x
+// (scripts/build-mode-eggs.ts).
+export type ModeEgg = { name: string; file: string }
+
+export const EGG_SIZE = 28
+
+export const modeEggs: Record<Mode, ModeEgg> = {
+  light: { name: 'Dofus Marfil', file: '/img/mode/dofus-marfil' },
+  dark: { name: 'Dofus Ébano', file: '/img/mode/dofus-ebano' },
+}
+
+export function eggSrcSet(egg: ModeEgg, format: 'avif' | 'webp') {
+  return [1, 2].map((scale) => `${egg.file}-${EGG_SIZE * scale}.${format} ${scale}x`).join(', ')
 }
 
 export function modeSwitchTitle(mode: Mode) {
