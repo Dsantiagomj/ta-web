@@ -1,0 +1,26 @@
+# Hooks de git, iguales en cada clon: pnpm install los instala. lefthook es un binario
+# de Go, así que los hooks no dependen de un runtime de npm propio.
+# Saltar un paso puntual: LEFTHOOK_EXCLUDE=gga git commit …
+
+pre-commit:
+  # En orden y parando en el primer fallo: formato, lint y la revisión con IA sobre
+  # los archivos ya corregidos.
+  piped: true
+  jobs:
+    - name: formato
+      glob: '*.{ts,tsx,js,mjs,cjs,json,css,yml,yaml}'
+      run: pnpm exec prettier --write --ignore-unknown {staged_files}
+      stage_fixed: true
+
+    - name: lint
+      glob: '*.{ts,tsx,js,mjs,cjs}'
+      run: pnpm exec eslint --fix --no-warn-ignored {staged_files}
+      stage_fixed: true
+
+    - name: gga
+      run: scripts/hooks/gga-review.sh
+
+commit-msg:
+  jobs:
+    - name: commits-convencionales
+      run: scripts/hooks/commit-msg.sh {1}
