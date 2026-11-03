@@ -75,7 +75,7 @@ feature branch ──PR──▶ CI: lint, types, unit, build, e2e  ─┐
 Details:
 - **Branch protection on `main`**: PR required, `Pruebas` required, linear history, no force-push. `Revisión GGA` stays advisory until it has been stable for a while on small PRs.
 - **Dev deploys** on every push to `main`, through Railway's GitHub integration. No manual step.
-- **Prod deploys** only from a version tag created by a `release` workflow (`workflow_dispatch` or a merged release PR), behind the GitHub environment `production` with Daniel as required reviewer. Railway's production environment is set to deploy from the tag (or the workflow calls the Railway CLI with a project token stored as an environment secret). **Open**: tag-triggered Railway deploy vs a workflow step with the Railway CLI; decide when wiring it.
+- **Prod deploys** only from a version tag created by a `release` workflow (`workflow_dispatch` or a merged release PR), behind the GitHub environment `production` with Daniel as the only required reviewer (decided 2026-11-03). Railway's production environment is set to deploy from the tag (or the workflow calls the Railway CLI with a project token stored as an environment secret). **Open**: tag-triggered Railway deploy vs a workflow step with the Railway CLI; decide when wiring it.
 - **Migrations** run as the pre-deploy command in both environments, against the direct (non-pooled) Neon URL. A failed migration stops the deploy; the previous version keeps serving.
 - **Rollback**: redeploy the previous Railway deployment (one click) for code. Schema changes are forward-only: a bad migration gets a new migration, and Neon point-in-time recovery is the last resort for data.
 - **Smoke tests after deploy**: a small Playwright subset (`@smoke` tag) against the deployed URL: home renders, `/admin` responds, `/api/health` is OK.
@@ -122,4 +122,3 @@ Cost while only dev and prod run with little traffic: Railway about 10 to 25 USD
 
 1. Railway deploy on tag vs Railway CLI from the release workflow (section 4).
 2. Access gate for dev: Cloudflare Access (free for small teams, needs the domain on Cloudflare) or basic auth in the app until then.
-3. Who besides Daniel approves prod releases (Torre for content-visible releases?).
