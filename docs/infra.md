@@ -76,7 +76,7 @@ feature branch ──PR──▶ CI: lint, types, unit, integration,─┐
 Details:
 - **Branch protection on `main`**: PR required, `Pruebas` required, linear history, no force-push. `Revisión GGA` stays advisory until it has been stable for a while on small PRs.
 - **Dev deploys** on every push to `main`, through Railway's GitHub integration. No manual step.
-- **Prod deploys** only from a version tag created by a `release` workflow (`workflow_dispatch` or a merged release PR), behind the GitHub environment `production` with Daniel as the only approver (decided 2026-11-03). On GitHub Free the reviewer rule is unavailable for private repos, so `release.yml` only runs when the repository owner triggers it (see section 10); GitHub Pro turns on the real reviewer gate. **Decided (2026-11-03)**: the release workflow deploys with the Railway CLI, using a project token stored as a secret of the GitHub environment `production`. Railway's own auto-deploy stays off for production, so nothing reaches prod without the approval, `Pruebas` green on the tagged commit, and the post-deploy smoke test in the same run.
+- **Prod deploys** only from a version tag created by a `release` workflow (`workflow_dispatch` or a merged release PR), behind the GitHub environment `production` with Daniel as the only approver (decided 2026-11-03). GitHub offers required reviewers on private repos only on Enterprise (not Free, Pro or Team), so `release.yml` only runs when the repository owner triggers it, and the environment only accepts deployments from `main` (section 10). **Decided (2026-11-03)**: the release workflow deploys with the Railway CLI, using a project token stored as a secret of the GitHub environment `production`. Railway's own auto-deploy stays off for production, so nothing reaches prod without the approval, `Pruebas` green on the tagged commit, and the post-deploy smoke test in the same run.
 - **Migrations** run as the pre-deploy command in both environments, against the direct (non-pooled) Neon URL. A failed migration stops the deploy; the previous version keeps serving.
 - **Rollback**: redeploy the previous Railway deployment (one click) for code. Schema changes are forward-only: a bad migration gets a new migration, and Neon point-in-time recovery is the last resort for data.
 - **Smoke tests after deploy**: a small Playwright subset (`@smoke` tag) against the deployed URL: home renders, `/admin` responds, `/api/health` is OK.
@@ -120,7 +120,7 @@ Cost while only dev and prod run with little traffic: Railway about 10 to 25 USD
 3. Prepared. Pre-deploy migration command (`pnpm migrate` in `.railway/railway.ts`) and the direct DB URL (`DATABASE_URL_DIRECT`). The first dev deploy from `main` waits on step 2.
 4. Prepared. Basic auth and `noindex` on dev (`src/proxy.ts`, `src/app/robots.ts`; `APP_ENV`, `DEV_BASIC_AUTH_USER`, `DEV_BASIC_AUTH_PASSWORD` in `.env.example`).
 5. Prepared. Post-deploy smoke workflow against dev (`.github/workflows/deploy-dev-smoke.yml`). It runs once Railway reports its first dev deploy.
-6. Prepared. Release workflow (`.github/workflows/release.yml`) with the `production` environment. The first prod deploy waits on step 2; the required reviewer needs GitHub Pro (section 10).
+6. Prepared. Release workflow (`.github/workflows/release.yml`) with the `production` environment. The first prod deploy waits on step 2. The approval is the owner-only guard in `release.yml`, because required reviewers on private repos need GitHub Enterprise (section 10).
 7. Branch protection on `main` (`Pruebas` required).
 8. Sentry and uptime checks.
 
@@ -216,7 +216,7 @@ railway config apply
 
 ### GitHub
 
-1. The environment `production` exists (created 2026-11-03). Required reviewers and deployment branch rules are not available for private repos on GitHub Free (the API answers 422), so for now `release.yml` refuses to run unless the repository owner triggers it. Upgrading to GitHub Pro (about 4 USD/month) enables the reviewer gate; add Daniel as the only required reviewer and limit the environment to `main` then. Add:
+1. The environment `production` exists (created 2026-11-03) and only accepts deployments from `main` (a deployment branch policy, available on GitHub Pro). Required reviewers are not available for private repos below GitHub Enterprise (the API answers 422), so `release.yml` refuses to run unless the repository owner triggers it. While Daniel is the only person with write access, that is equivalent to his approval. Add:
    - secret `RAILWAY_TOKEN`: the project token from Railway step 6;
    - variable `PROD_URL`: the prod Railway domain, `https://…`, no trailing slash.
 2. Add the repo secrets `SMOKE_BASIC_AUTH_USER` and `SMOKE_BASIC_AUTH_PASSWORD`, the same values as the dev credentials. `Smoke de dev` uses them.
