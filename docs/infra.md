@@ -36,7 +36,7 @@ Rules:
 
 Railway wins on effort: two environments, deploys and migrations without writing deployment scripts. Fly is the fallback if Railway's pricing or regions don't fit; Hetzner if cost has to be minimal and Daniel accepts the ops work.
 
-**Open**: region. Torre's audience is mostly Spain and Latin America; pick the Railway region closest to the Neon region (EU West for Spain, US East as a middle point). Cloudflare caches static assets close to users either way.
+**Decided (2026-11-02)**: US East. The audience is mostly Latin America with a share in Europe, and US East sits between both: roughly 50 to 150 ms from most of Latin America and 80 to 100 ms from Western Europe (estimates). Railway region US East (Virginia) and Neon in AWS `us-east-1`, so the app and the database are in the same place. Cloudflare serves images and static files from the edge closest to each visitor, so only page renders and API calls travel to Virginia.
 
 ## 3. Services per environment
 
@@ -100,7 +100,7 @@ Every new variable is added to `.env.example` in the same PR (AGENTS.md rule). E
 ## 6. Accounts to create (Daniel, before or during implementation)
 
 1. Railway: project `torrente-arcano`, connect the GitHub repo.
-2. Neon: project `torrente-arcano`, region next to Railway's, branches `main` and `dev`.
+2. Neon: project `torrente-arcano`, region AWS `us-east-1`, branches `main` and `dev`.
 3. Cloudflare: account (needed for R2 now; DNS after the domain transfer). Two R2 buckets and two scoped API tokens.
 4. Resend and Sentry: free accounts (can wait until members and errors matter; Sentry is cheap to add from day one).
 5. GitHub: environment `production` with Daniel as reviewer; branch protection on `main`.
@@ -120,7 +120,6 @@ Cost while only dev and prod run with little traffic: Railway about 10 to 25 USD
 
 ## 8. Open questions
 
-1. Region (section 2).
-2. Railway deploy on tag vs Railway CLI from the release workflow (section 4).
-3. Access gate for dev: Cloudflare Access (free for small teams, needs the domain on Cloudflare) or basic auth in the app until then.
-4. Who besides Daniel approves prod releases (Torre for content-visible releases?).
+1. Railway deploy on tag vs Railway CLI from the release workflow (section 4).
+2. Access gate for dev: Cloudflare Access (free for small teams, needs the domain on Cloudflare) or basic auth in the app until then.
+3. Who besides Daniel approves prod releases (Torre for content-visible releases?).
