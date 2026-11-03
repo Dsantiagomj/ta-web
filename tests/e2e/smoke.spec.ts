@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 
 test.describe('portada', () => {
-  test('pinta el título en Arcano oscuro por defecto', async ({ page }) => {
+  test('pinta el título en Arcano oscuro por defecto @smoke', async ({ page }) => {
     await page.goto('/')
 
     await expect(page.getByRole('heading', { level: 1, name: 'Torrente Arcano' })).toBeVisible()
@@ -111,7 +111,7 @@ test.describe('portada', () => {
   })
 })
 
-test('el panel de Payload responde en /admin', async ({ page }) => {
+test('el panel de Payload responde en /admin @smoke', async ({ page }) => {
   const response = await page.goto('/admin')
 
   expect(response?.status()).toBeLessThan(400)

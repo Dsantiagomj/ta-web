@@ -17,7 +17,18 @@ if (existsSync('.env')) {
 
 // Puerto propio, para no reutilizar por error un `pnpm dev` abierto en el 3000.
 const port = Number(process.env.E2E_PORT ?? 3100)
-const baseURL = `http://localhost:${port}`
+
+// Smoke tests contra un entorno desplegado (pnpm test:smoke): con SMOKE_BASE_URL no se
+// arranca nada en local, ni build, ni migraciones, ni base. Solo se lee del entorno del
+// proceso, nunca de .env, para no apuntar las pruebas a un despliegue sin querer.
+const smokeBaseUrl = process.env.SMOKE_BASE_URL?.trim() || undefined
+const baseURL = smokeBaseUrl ?? `http://localhost:${port}`
+
+// El entorno de dev irá detrás de basic auth.
+const smokeUser = process.env.SMOKE_BASIC_AUTH_USER
+const smokePassword = process.env.SMOKE_BASIC_AUTH_PASSWORD
+const httpCredentials =
+  smokeUser && smokePassword ? { username: smokeUser, password: smokePassword } : undefined
 
 // Con DATABASE_URL (CI: un Postgres vacío como servicio) se usa esa base. Sin ella, las
 // pruebas arrancan el Postgres embebido de pnpm db:dev y vacían su base E2E.
@@ -41,6 +52,7 @@ export default defineConfig({
   reporter: process.env.CI ? [['github'], ['html', { open: 'never' }]] : 'list',
   use: {
     baseURL,
+    httpCredentials,
     trace: 'on-first-retry',
   },
   projects: [
@@ -49,23 +61,25 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
   ],
-  webServer: [
-    ...(useEmbeddedDatabase
-      ? [
-          {
-            command: 'pnpm db:dev',
-            port: DEV_DATABASE.port,
-            reuseExistingServer: true,
-            timeout: 120_000,
-          },
-        ]
-      : []),
-    {
-      command: app,
-      url: baseURL,
-      env: { DATABASE_URL: databaseUrl },
-      reuseExistingServer: false,
-      timeout: 300_000,
-    },
-  ],
+  webServer: smokeBaseUrl
+    ? []
+    : [
+        ...(useEmbeddedDatabase
+          ? [
+              {
+                command: 'pnpm db:dev',
+                port: DEV_DATABASE.port,
+                reuseExistingServer: true,
+                timeout: 120_000,
+              },
+            ]
+          : []),
+        {
+          command: app,
+          url: baseURL,
+          env: { DATABASE_URL: databaseUrl },
+          reuseExistingServer: false,
+          timeout: 300_000,
+        },
+      ],
 })

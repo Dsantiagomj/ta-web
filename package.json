@@ -20,6 +20,7 @@
     "test": "vitest run",
     "test:unit": "vitest run",
     "test:e2e": "playwright test",
+    "test:smoke": "playwright test --grep @smoke",
     "db:dev": "node scripts/db-dev.ts",
     "migrate": "NODE_OPTIONS=--no-deprecation payload migrate",
     "migrate:create": "NODE_OPTIONS=--no-deprecation payload migrate:create",
