@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { DEV_DATABASE_URL, resolveDatabaseUrl } from '@/lib/db/database-url'
+import { DEV_DATABASE_URL, resolveDatabaseUrl, shouldPushSchema } from '@/lib/db/database-url'
 
 describe('resolveDatabaseUrl', () => {
   it('usa la base embebida de pnpm db:dev en desarrollo si no hay DATABASE_URL', () => {
@@ -27,5 +27,17 @@ describe('resolveDatabaseUrl', () => {
     expect(
       resolveDatabaseUrl({ NODE_ENV: 'production', NEXT_PHASE: 'phase-production-build' }),
     ).toBe(DEV_DATABASE_URL)
+  })
+})
+
+describe('shouldPushSchema', () => {
+  it('solo empuja el esquema con next dev', () => {
+    expect(shouldPushSchema({ NODE_ENV: 'development' })).toBe(true)
+  })
+
+  it('nunca fuera de desarrollo: producción, pruebas o la CLI de Payload aplican migraciones', () => {
+    expect(shouldPushSchema({ NODE_ENV: 'production' })).toBe(false)
+    expect(shouldPushSchema({ NODE_ENV: 'test' })).toBe(false)
+    expect(shouldPushSchema({})).toBe(false)
   })
 })

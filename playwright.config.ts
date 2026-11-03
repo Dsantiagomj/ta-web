@@ -1,11 +1,24 @@
 import { defineConfig, devices } from '@playwright/test'
 
-import { DEV_DATABASE } from './src/lib/db/dev-database'
+import { DEV_DATABASE, E2E_DATABASE_URL } from './src/lib/db/dev-database'
 
-const port = Number(process.env.PORT ?? 3000)
+// Puerto propio, para no reutilizar por error un `pnpm dev` abierto en el 3000.
+const port = Number(process.env.E2E_PORT ?? 3100)
 const baseURL = `http://localhost:${port}`
-// Sin DATABASE_URL, las pruebas arrancan también la base embebida de pnpm db:dev.
+
+// Con DATABASE_URL (CI: un Postgres vacío como servicio) se usa esa base. Sin ella, las
+// pruebas arrancan el Postgres embebido de pnpm db:dev y vacían su base E2E.
 const useEmbeddedDatabase = !process.env.DATABASE_URL
+const databaseUrl = process.env.DATABASE_URL || E2E_DATABASE_URL
+
+// El camino de producción: build, migraciones versionadas sobre la base vacía y start.
+// Sin push de esquema. E2E_SKIP_BUILD=1 reutiliza un .next ya compilado.
+const app = [
+  ...(process.env.E2E_SKIP_BUILD === '1' ? [] : ['pnpm build']),
+  ...(useEmbeddedDatabase ? ['node scripts/db-e2e-reset.ts'] : []),
+  'pnpm migrate',
+  `pnpm start --port ${port}`,
+].join(' && ')
 
 export default defineConfig({
   testDir: './tests/e2e',
@@ -35,13 +48,11 @@ export default defineConfig({
         ]
       : []),
     {
-      // Sin migraciones todavía, el servidor de desarrollo es el que crea el esquema
-      // (push de Payload) en una base vacía. Cuando llegue la primera migración, esto
-      // pasa a build + start con payload migrate.
-      command: `pnpm dev --port ${port}`,
+      command: app,
       url: baseURL,
-      reuseExistingServer: !process.env.CI,
-      timeout: 180_000,
+      env: { DATABASE_URL: databaseUrl },
+      reuseExistingServer: false,
+      timeout: 300_000,
     },
   ],
 })

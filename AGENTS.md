@@ -33,7 +33,7 @@ Every change: code, content model, migrations, data, docs, CI. Read this file be
 
 ## Repo layout
 
-`src/globals/`, `src/blocks/`, `src/migrations/` and `scripts/import/` do not exist yet.
+`src/globals/`, `src/blocks/` and `scripts/import/` do not exist yet.
 
 | Path | What |
 |---|---|
@@ -90,7 +90,7 @@ Access control and entitlements are tested at the data layer: a test calls the P
 | Suite | Command | Covers |
 |---|---|---|
 | Unit | `pnpm test` (Vitest) | `src/lib/` (progress merge, entitlements, derived data, media URLs), collection access functions, hooks |
-| E2E | `pnpm test:e2e` (Playwright; starts `pnpm db:dev` and `pnpm dev` when they are not running) | rendered pages against a seeded database: guides, checklists, search, theme, sign-in, progress, premium gating; the suites ported from `silvestre-checklist` in phase 2a |
+| E2E | `pnpm test:e2e` (Playwright on the production path: `pnpm build`, `pnpm migrate` on an empty database, `pnpm start`) | rendered pages against a seeded database: guides, checklists, search, theme, sign-in, progress, premium gating; the suites ported from `silvestre-checklist` in phase 2a |
 | Budgets (planned) | `pnpm test:lhci` (Lighthouse CI) | the budgets in `DESIGN.md` on a fixed set of pages (home, a quest guide, an achievement, a checklist) |
 | Types, lint and format | `pnpm typecheck`, `pnpm lint`, `pnpm format:check` | the whole repo |
 | Import (planned) | `pnpm test:import` | golden pages of the Squarespace import (phase 1) |
@@ -105,7 +105,7 @@ CI (`.github/workflows/ci.yml`) runs lint, types, unit, build and E2E on every P
 | Never hide gated content with CSS or client logic | Hidden content still ships in the HTML and the React Server Components payload |
 | The local API skips access control unless told otherwise. When rendering for a visitor, pass `overrideAccess: false` and the current `user` | The default (`overrideAccess: true`) is for trusted server jobs only, such as the import |
 | Use the local API (`getPayload`) from server code; never call our own REST API from the server | One process, no HTTP round trip, typed results |
-| Every schema change ships with a migration (`pnpm payload migrate:create`), committed and reviewed. Schema push is for local development only | Production applies migrations; nothing changes the schema by hand |
+| Every schema change ships with a migration (`pnpm migrate:create <name>`, applied with `pnpm migrate`), committed and reviewed. Schema push is for local development only | Production applies migrations; nothing changes the schema by hand |
 | Paywalled pages emit Google's paywalled-content structured data | The plan requires it for search |
 | Premium themes (Amakna, Bonta, Brâkmar, Ocre) are an entitlement: the server renders a premium `data-theme` only when the member's entitlement allows it, and saving one is rejected otherwise. A theme value from the client, a cookie or `localStorage` is never trusted on its own. Arcano is the free default | Hiding a premium theme behind a client switch would hand it to everyone |
 | Premium view modes, such as "Modo compacto" on quest pages, are entitlements like any other: the server picks the layout, and the free view is the full guide | A client-side toggle would hand the feature to everyone |

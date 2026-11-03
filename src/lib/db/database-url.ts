@@ -21,3 +21,12 @@ export function resolveDatabaseUrl(env: Env): string {
 
   return DEV_DATABASE_URL
 }
+
+/**
+ * El push de esquema de Payload solo en `next dev`. Producción, CI y E2E aplican las
+ * migraciones versionadas con `pnpm migrate`. Payload empuja por defecto con cualquier
+ * NODE_ENV que no sea production (también sin NODE_ENV), por eso se fija aquí.
+ */
+export function shouldPushSchema(env: Env): boolean {
+  return env.NODE_ENV === 'development'
+}
