@@ -83,6 +83,8 @@ Spanish only at launch, ready for more: Payload localization is on with `es` as 
 3. Run the suite the test belongs to, then every suite before pushing.
 4. A refactor PR never edits assertions.
 
+The `localStorage` try/catch rule and the imagery rules (`DESIGN.md`, Imagery) apply to app code. Tests may touch storage directly if they handle the failure with a clear message.
+
 Access control and entitlements are tested at the data layer: a test calls the Payload local API as an anonymous user, a free member and a premium member, and asserts what each one receives.
 
 ## Testing

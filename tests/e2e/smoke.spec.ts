@@ -94,7 +94,15 @@ test.describe('portada', () => {
     context,
   }) => {
     await page.goto('/')
-    await page.evaluate(() => localStorage.setItem('ta-mode', 'light'))
+    const stored = await page.evaluate(() => {
+      try {
+        localStorage.setItem('ta-mode', 'light')
+        return true
+      } catch {
+        return false
+      }
+    })
+    expect(stored, 'localStorage no está disponible en el navegador de pruebas').toBe(true)
     await context.clearCookies()
 
     await page.reload()
