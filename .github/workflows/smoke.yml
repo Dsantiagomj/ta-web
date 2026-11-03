@@ -1,8 +1,8 @@
 name: Smoke
 
 # Smoke tests (@smoke) contra una URL desplegada: portada, /admin y /api/health. Solo
-# leen, así que valen para dev y prod. Todavía no lo llama ningún despliegue; los
-# workflows de despliegue de dev y de release lo llamarán con `uses:` al terminar.
+# leen, así que valen para dev y prod. Lo llaman deploy-dev-smoke.yml tras cada
+# despliegue de dev y release.yml tras desplegar en producción.
 
 on:
   workflow_call:

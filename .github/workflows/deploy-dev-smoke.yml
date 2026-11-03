@@ -1,0 +1,53 @@
+name: Smoke de dev
+
+# Railway despliega main en el entorno dev por su integración con GitHub y publica el
+# resultado como un deployment de GitHub ("<proyecto> / dev"). Cuando termina bien, se
+# pasa la suite smoke contra la URL del despliegue, con el basic auth de dev.
+
+on:
+  deployment_status:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: smoke-dev
+  cancel-in-progress: true
+
+jobs:
+  url:
+    name: URL del despliegue
+    if: github.event.deployment_status.state == 'success' && contains(github.event.deployment.environment, 'dev')
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    outputs:
+      base_url: ${{ steps.url.outputs.base_url }}
+    steps:
+      - name: Leer la URL del despliegue
+        id: url
+        env:
+          ENVIRONMENT: ${{ github.event.deployment.environment }}
+          ENVIRONMENT_URL: ${{ github.event.deployment_status.environment_url }}
+        run: |
+          url="${ENVIRONMENT_URL%/}"
+          case "$url" in
+            https://* | http://*)
+              echo "Smoke contra $url ($ENVIRONMENT)."
+              echo "base_url=$url" >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "::notice title=Smoke de dev::El despliegue de $ENVIRONMENT no trae URL (environment_url vacío). Se salta el smoke."
+              echo "base_url=" >> "$GITHUB_OUTPUT"
+              ;;
+          esac
+
+  smoke:
+    name: Smoke
+    needs: url
+    if: needs.url.outputs.base_url != ''
+    uses: ./.github/workflows/smoke.yml
+    with:
+      base_url: ${{ needs.url.outputs.base_url }}
+    secrets:
+      SMOKE_BASIC_AUTH_USER: ${{ secrets.SMOKE_BASIC_AUTH_USER }}
+      SMOKE_BASIC_AUTH_PASSWORD: ${{ secrets.SMOKE_BASIC_AUTH_PASSWORD }}

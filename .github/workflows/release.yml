@@ -1,0 +1,170 @@
+name: Release
+
+# Despliegue a producción (docs/infra.md, sección 4). Se lanza a mano desde main con una
+# versión semver: comprueba que Pruebas pasó en ese commit, crea la etiqueta vX.Y.Z y su
+# release, despliega la etiqueta en Railway con la aprobación del entorno production de
+# GitHub y pasa la suite smoke contra producción.
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Versión semver, sin la v (1.2.3)
+        required: true
+        type: string
+
+permissions: {}
+
+# Dos releases nunca se pisan: la segunda espera a que acabe la primera.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+env:
+  RAILWAY_CLI_VERSION: 5.71.0
+  RAILWAY_SERVICE: web
+  RAILWAY_ENVIRONMENT: production
+
+jobs:
+  release:
+    name: Etiqueta y release
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      checks: read
+    outputs:
+      tag: ${{ steps.version.outputs.tag }}
+    steps:
+      - name: Comprobar la rama y la versión
+        id: version
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          if [ "$GITHUB_REF" != "refs/heads/main" ]; then
+            echo "::error title=Release::Los releases salen de main, no de $GITHUB_REF."
+            exit 1
+          fi
+          semver='^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$'
+          if ! [[ "$VERSION" =~ $semver ]]; then
+            echo "::error title=Release::\"$VERSION\" no es una versión semver (1.2.3 o 1.2.3-rc.1), sin la v."
+            exit 1
+          fi
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Comprobar que Pruebas pasó en el commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # La última ejecución de Pruebas en este commit (una re-ejecución sustituye a
+          # la anterior).
+          conclusion=$(gh api "repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/check-runs?check_name=Pruebas&filter=latest" \
+            --jq '.check_runs | sort_by(.started_at) | last | if . == null then "ninguna" else (.conclusion // .status) end')
+          if [ "$conclusion" != "success" ]; then
+            echo "::error title=Release::Pruebas no está en verde en $GITHUB_SHA (resultado: $conclusion)."
+            exit 1
+          fi
+          echo "Pruebas en verde en $GITHUB_SHA."
+
+      - name: Crear la etiqueta y el release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          if gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$TAG" >/dev/null 2>&1; then
+            echo "::error title=Release::La etiqueta $TAG ya existe."
+            exit 1
+          fi
+          gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            --title "$TAG" --generate-notes
+
+  deploy:
+    name: Despliegue a producción
+    needs: release
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # El revisor obligatorio (Daniel) se configura en el entorno de GitHub, no aquí.
+    environment:
+      name: production
+      url: ${{ vars.PROD_URL }}
+    permissions:
+      contents: read
+    outputs:
+      prod_url: ${{ steps.config.outputs.prod_url }}
+    steps:
+      - name: Comprobar RAILWAY_TOKEN y PROD_URL
+        id: config
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          PROD_URL: ${{ vars.PROD_URL }}
+        run: |
+          missing=0
+          if [ -z "$RAILWAY_TOKEN" ]; then
+            echo "::error title=Despliegue::Falta el secreto RAILWAY_TOKEN en el entorno production de GitHub (token del proyecto de Railway, entorno production)."
+            missing=1
+          fi
+          url="${PROD_URL%/}"
+          case "$url" in
+            https://*) ;;
+            *)
+              echo "::error title=Despliegue::Falta la variable PROD_URL (https://…) en el entorno production de GitHub."
+              missing=1
+              ;;
+          esac
+          [ "$missing" = 0 ] || exit 1
+          echo "prod_url=$url" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v7.0.1
+        with:
+          ref: refs/tags/${{ needs.release.outputs.tag }}
+
+      - uses: actions/setup-node@v7.1.0
+        with:
+          node-version-file: .nvmrc
+
+      - name: Instalar la CLI de Railway
+        run: npm install --global "@railway/cli@${RAILWAY_CLI_VERSION}"
+
+      # `railway up` sube el código sin git, así que Railway no inyecta
+      # RAILWAY_GIT_COMMIT_SHA: /api/health mostrará este.
+      - name: Fijar el commit desplegado
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          railway variable set "GIT_COMMIT_SHA=$GITHUB_SHA" \
+            --service "$RAILWAY_SERVICE" --environment "$RAILWAY_ENVIRONMENT" --skip-deploys
+
+      # Sin --detach ni --ci: espera al final del despliegue (pre-deploy con las
+      # migraciones y health check) y sale con error si falla.
+      - name: Desplegar en Railway
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          TAG: ${{ needs.release.outputs.tag }}
+        run: |
+          railway up --service "$RAILWAY_SERVICE" --environment "$RAILWAY_ENVIRONMENT" \
+            --message "$TAG ($GITHUB_SHA)"
+
+      - name: Comprobar que producción sirve este commit
+        env:
+          PROD_URL: ${{ steps.config.outputs.prod_url }}
+        run: |
+          for attempt in $(seq 1 30); do
+            commit=$(curl --silent --max-time 10 "$PROD_URL/api/health" | jq -r '.commit // empty' || true)
+            if [ "$commit" = "$GITHUB_SHA" ]; then
+              echo "Producción sirve $GITHUB_SHA."
+              exit 0
+            fi
+            echo "Intento $attempt: /api/health dice commit '${commit:-ninguno}'; se espera $GITHUB_SHA."
+            sleep 10
+          done
+          echo "::error title=Despliegue::Producción no sirve $GITHUB_SHA tras 5 minutos."
+          exit 1
+
+  smoke:
+    name: Smoke de producción
+    needs: deploy
+    permissions:
+      contents: read
+    uses: ./.github/workflows/smoke.yml
+    with:
+      base_url: ${{ needs.deploy.outputs.prod_url }}
