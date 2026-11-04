@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:63b76017c7cb0e3456936ad26bac8020ddeae1951f157c9c163ce54e1a01673b",
+  "claims": [
+    {
+      "id": "claim_be169c6219cf4e229c071dc13c472c68",
+      "statement": "theme.css resets Tailwind's default color, font, text, radius, shadow, ease and breakpoint namespaces so only the project's tokens exist.",
+      "evidence": [
+        {
+          "resource": "repo://src/styles/theme.css#L11-L19",
+          "version": "repo-lines-v1:sha256:5165073b2089d302e3d296a15e103ae6de67213890055fac3666d5ef7c6ca2d3:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTQyMDVhYjdhMjA5NmU2OGQzN2YwODIzNmVmNmZhNTA1ZjdlNzgzYzNmNWFmYWRkODlhYzRlZGY0NGQxMmZiZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmVkOWI1MmIxMmI4MjFkODFhMjIwMTRmOGY3ZGUzOGZiNzlhZGNmNWYxMGU4M2Y3ZjQ5NzcwNjQ0Yjc1Yjc2OCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGViNzAzZGZkMjI2ZjA5MTUxNWFmYWNmYjI2ZjUyY2VmMzM3NjA2MWY4YjE2YzQzMjM1M2E1NzA4NWZkNjVlOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzY1MjYzNmM2NDExYzZjNjY1MmY3ZTUyZDg1YTBhNDk2YmVjYzk2ZWNiZjBlNzBkY2I2N2M2MGE3ZTMxY2JlNiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_e43783d97e2b4db8b92d84f2a88f1729",
+      "statement": "Semantic color, font and shadow tokens are declared in an inline @theme block that points at raw --t-* variables, so utilities resolve to the active palette at use time.",
+      "evidence": [
+        {
+          "resource": "repo://src/styles/theme.css#L86-L123",
+          "version": "repo-lines-v1:sha256:8186cd238ad370b0f466c01afcc86c1532f5af921b17e0c7bfd357e529694efa:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJkMzZmYmIyMzRjNTgzYjI0YWNiNTQyMzFiOTUxMDBkM2I1MDU2NmNlMmNiMjVjODhlMzMxYjE1NWVhMDc0ZTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU4MzNkOWMwMWZhNTNmNjVlYzI2NjEwNjBmNTk5YmQyZWE5ZWUxMjAxMmYwMTNhZTRkYzExYWY3ZmQ2MjZhN2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBkODdjMmQwOTQzZGY5NmMzMzRmODc3YjA2MmExMmVkMjY1Y2NiOWYwZDBiZTA4YTJhOGU4MzMzZGYzYmFmNTYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bb144c3bff884298bb7319b98fbade94",
+      "statement": "Z-index layers, durations and content widths are plain :root variables because Tailwind has no namespace for them.",
+      "evidence": [
+        {
+          "resource": "repo://src/styles/theme.css#L125-L146",
+          "version": "repo-lines-v1:sha256:6741d7456de2f1a89207bcb9467e278d8ed81f9926d64f5969c1925fd1111467:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRiMTQ0NzI4ZTdjNmUwZGJkYjc3ZWE3NWRjYzcxYjRhYTQ2Y2YzZmMwYjRiYTI2ZjdhNzQ0YTlkMTZlYmY5NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFlZTc0ODRhOTEwYzhjNTk3Y2ZhNTFiOWJmYjBkOWY4MzJkOTcyM2Q1OGU2MWJjNmI4M2NhZmNkZGViNmNkZjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYyNTA1NTU5YjRjMDA5ZGE4YzEwMjkyYTkxNGNmYmIxNjUwNmY2MWVjOTVjNGQzMDI5YjJkMGUwYzYzNzQ1NGMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_77de81492dd34133829b907a96389ba5",
+      "statement": "Palettes are defined per theme and mode with [data-theme][data-mode] selectors, and Arcano dark is also the :root default.",
+      "evidence": [
+        {
+          "resource": "repo://src/styles/theme.css#L148-L173",
+          "version": "repo-lines-v1:sha256:19578fd81f2ea2c89278604f41f9a25aad42be8f04ac1d70f5e976ee65a4e34d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwNWI2MjVlMmRjOWQ4NmY1ZWVlNWU0NjI3NTZlMDE1MWRlODI3NWM4ZDc2NDgxOTRiMzU2Y2IxMmRjMDQ5MGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIyNzBlZDZmMDJmMmQyMmY2YmQxNzU3MjgwNDc1YTlkODM4Zjc0YmVlNWI5ZDk4NzViMTI0NmE0NjJmZTNiYmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgyNzc0ZGUyYTFjZDE2YTc5ZDE2YzAxYzRhMWI5NWRiMTNkMjBmNTQxZmY3YjEyZTRmZjU3NzNiNDg0Nzk1ZjgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f252f0723f1c421b99d9db27fdac403a",
+      "statement": "Status colors, section accents and shadow alphas depend only on the mode, with shadow alphas halved in light mode.",
+      "evidence": [
+        {
+          "resource": "repo://src/styles/theme.css#L271-L314",
+          "version": "repo-lines-v1:sha256:3ddb88005fb3ed2b0c946729fb887dd2ee2a83598d12a6617a71ea193666d0f0:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJiNWFjMjU5ODEwN2I3NTA2YjY0YmEwYWU0ZDg3ZWExN2QzYjZhOGU1YzlmNzdlOTM2Y2FkZWRkYjI5MjRiZTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzY2JkNzg4MTZkMDMwOTUzMWE0MTg5Zjk3MTA4YTdjZTVhMGJkMWY2MjIxNTAwMzYxNGQ4ZjQ2MzkwMjA4MDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9f27d07f2a6d46b4a3827065dc930be4",
+      "statement": "Barlow, Barlow Condensed and Lilita One are loaded through next/font/google and exposed as CSS variables joined into fontVariables.",
+      "evidence": [
+        {
+          "resource": "repo://src/styles/fonts.ts#L1-L28",
+          "version": "repo-lines-v1:sha256:3619e208b470f53e0edb942147528482b088178619ccb8fa956cfae601556f6c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyNzM0ODVjMzA1Y2JiYWIwOTQxNjc4NmIwMmEyZDkwNzU2NWFiODdkNzM3NmNmOWNkYjA3OGU1YTNiOTZjYmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b311691d699f469894050cea8ce42140",
+      "statement": "globals.css imports Tailwind and theme.css, sets color-scheme per mode, a focus-visible outline, accent links and near-zero animation durations under prefers-reduced-motion.",
+      "evidence": [
+        {
+          "resource": "repo://src/styles/globals.css#L1-L48",
+          "version": "repo-lines-v1:sha256:a736c4b6e984fd20fc5744fc42496217ffb97ac7e03cff0b709cd263801fafea:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjExYjhlNjllODlhMzFlODdlMjVlYzQzYzkyZmZjZGRkMGNiNzk0ZGI3NTdkNjE2N2FlMzFlZTA1OGY5ZWE0MjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_624510cf1cf94160b606464c9b587a1f",
+      "statement": "PostCSS runs only the Tailwind v4 PostCSS plugin.",
+      "evidence": [
+        {
+          "resource": "repo://postcss.config.mjs#L1-L7",
+          "version": "repo-lines-v1:sha256:6993a1b3cdf21cec2260d0d8ecaaf746f1e79893f0a5e622d3f1b9366469c973:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTZkMmRlNmRiZjcyNGMyZDQ1ODRjZGVkM2IzY2I4M2NiM2E5YmJmNzIwZTBiYjM3NDZkYmFkY2I5MDA2NWQ1MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmFmNjA0MmRhYTZjZmQ4MWNiZWE2ZDUzYzg1ZDRiZjdmMzhkYmQ1ZDZjNDU1YmExZDNjYTQ4MzBlZWI1OWM0OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_3762655a230e484884541f478225a199",
+      "statement": "The frontend layout renders html with lang es, theme, mode, font variables and suppressHydrationWarning, injects the mode script, and renders a header with the brand link and ModeToggle.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/layout.tsx#L20-L50",
+          "version": "repo-lines-v1:sha256:cf35e3b5acdd3bea1fb04c2c2038b7fed80d535973ee4a89cdd54fd577f44ddc:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0YWZiNGRhMmYyMjEzMDdkMDhiMzMyMGI5MTk4YzcwYjAzNTc3MWZjMzUyZjdhZDQxYzFlNThhNjYwNTAxZDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVjMDQ1ZWQ4MjVkMDJlM2VkZWYzMDA1YzkwNjc3MDRkZmIwZTE2YmQxMTQ3NThhYWFlZjg4NGJlNWNkOWI5MDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_008087679913479c8ea69a03371d781b",
+      "statement": "The home page is a construction placeholder that links to the existing torrentearcano.com and reads its copy from homeStrings.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/page.tsx#L1-L18",
+          "version": "repo-lines-v1:sha256:4edbb18e7c3f70f4eda79d1a195b49995ff9841105ff3aaee53e45184c90181d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU1ZmJmYzMyMTQwZmFlYTlhMDY3NTRiNjdlYzhlMGVjZjczZjhlNjUzNThkMjViNDBjMmQ2Y2UxYjg4NWU4MDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/app/(frontend)/strings.ts#L6-L14",
+          "version": "repo-lines-v1:sha256:f789f7290583de24c70bbbaf3635115ad3b2297797676e4e3a46308117e41e9e:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjRhNDc2ZjQ4YmVhOGQ3YmM5MzEwOGNkNWMwODY2YTk2NGViNzZjNGU3MGU5OTczNWUzODlkZjY4Yjg2ZTAxNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTQ1OTJiZWM4MzczNTA3MWZkYmMwNWU5ZmI5NzYxMDI1OWRiYjE2MzEwMTQwNGU2NWNjZmJmYjkzYzRiYzBlNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-04T00:16:52.047Z"
+  }
+}

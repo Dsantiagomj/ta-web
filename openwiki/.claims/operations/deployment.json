@@ -1,0 +1,136 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:bb125cba1e6f903af1df2638829fac08b65549fb9108f20c687fb97f6839e96c",
+  "claims": [
+    {
+      "id": "claim_ef4f404736644b89ae37b4f3e616fbb9",
+      "statement": "The Railway IaC defines one web service built with Railpack and pnpm build, started with pnpm start, running pnpm migrate as a pre-deploy command with a 600 second timeout, health-checked on /api/health with a 120 second timeout, restarting on failure up to 5 times, with one replica in US East.",
+      "evidence": [
+        {
+          "resource": "repo://.railway/railway.ts#L27-L46",
+          "version": "repo-lines-v1:sha256:ed4e139a41e655163142a49dad08bbb406a8248352a83fe4c1c241ef727eb965:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMxYWE4OGQ2ZGE5NjUxMGU4ZjAxOGFkMDFjNDBjMTdjZDdlZWZkMzVmNWNiNjZjOTYzZGVhODE1ZmEwODkzNGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIwNzE1Y2RhNWVjNDEwNjlmMTAxY2JjNDk0OTI2NDMxZTkwNDgwNWNhNjA1NTZlMGM3ZGIxOGJmMjhiM2NkNTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkzYWY5NjhmOWRjZWJhZjZmMGY4Mzg3NTY5N2EwODk0ZGUyNGM3ZDMwMWQ0MTk4YjgxOWRlYWQzNmVjYjE4MWYifQ"
+        },
+        {
+          "resource": "repo://tests/unit/railway-config.test.ts#L25-L55",
+          "version": "repo-lines-v1:sha256:0d3f8163dc20916e49251e731a21f05d0c9b3cd8085e4a9931fc8688231799ce:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg4MWM4OTE1MTAxZjljZGRiZmEyMTE2Y2Q0NGY4YTQyN2NlZjU0MDE1ZDFlYThjZDU1ZjYyOTMyZjE3NDE1M2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMzYjhmYWVjODE3MTU1ZjdiM2YzNjQ0ZjY1NDQ0MjIyNmVkODMwYjBkNTY2MzE5ZmJlYmI3ZjRiNmQ4ZDVmNjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNlNDE0MGViZDIzMjU3ZTg3YTYyMDcxNGNlNmMxMjc4OTY3NDdkZjQ0MDkzN2QyN2Y3MmFiZTY5MTNlNDUzZWMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6383a8b66545494b9a6d88e6debdb8f1",
+      "statement": "The Railway IaC is applied by hand with railway config plan and apply; Railway does not read it on deploy.",
+      "evidence": [
+        {
+          "resource": "repo://.railway/railway.ts#L3-L5",
+          "version": "repo-lines-v1:sha256:7d6d670745ec04e312e6bd7853cafb4cdbfaf89140e159be20718447137a6b21:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTM4N2VjNDI5Mjg2ZDI0OWE1NGFmNDRhNjcyNmI3OWQ3Njg4YWQ3MjdmYTViZDE1NzYwNThhYmJhOGYzNjkwNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmQ2NzQ0Yzc3ZjcyNDUyYWEwZTBjOTQ4ODVhODAzNjQwMzhkMWI3NWRlMzBjMjY3MGU0ZjAzNjExNTA1OTQwZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjIsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGFmYTk5MzRmYzU5Nzg5YzlhNjBhZmViMGI5Y2Q1OWJkYjA2ODFmMDY0YmYwMDA1YjA5MGY5YmI3NTY5NGRmNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmI4N2E0MGJmYjlkZDk1Y2I2YWNlZjQxNjlkYzAwMTliOTE0ZTcwNDkyZmJmMDg4ZThjYzllOWVmMmFlMzZlMiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_e8745a93fc5b4a088430677b321be189",
+      "statement": "Only the dev environment has a GitHub source, deploying main once check suites pass; production has no GitHub source and is deployed only by the release workflow.",
+      "evidence": [
+        {
+          "resource": "repo://.railway/railway.ts#L28-L31",
+          "version": "repo-lines-v1:sha256:bcb0d8e7134aab06a076e24bfe1e4d6460de7410b259e1b28fb0e62bbf580085:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzJmNmJiMWU5MzY1YzZjY2RkNGI0Y2YxNGJhYTg1NjVjY2NkZjg2Y2ZlYjU4YmQ0ZTZhY2JmMzU1MjQ5NTc4ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTQxNzFmMjVmZjUwZTI4YzFlZDYwZGIxZjAzY2IyZGY5ZTc0MTFmM2ZiNTQxM2JjZjQ5YTFlZWU2N2YxZDUzNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTExM2Y0MzAxZGFkNWJkZDJkNmQ1YjU5NWJmMWM0YzljYmUzM2ZkZTRkNjYzNGE1OTQ4YWFkODkxZDdjMGU3MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjZiMmMxNWI1MTNhZGQyOGNlMDE4OWYzZTVjNzNhNmM4ZDQyOTgxYzU1MmNmZWRmYTkxODc5ODdhODk5NDY0MyJ9"
+        },
+        {
+          "resource": "repo://tests/unit/railway-config.test.ts#L79-L114",
+          "version": "repo-lines-v1:sha256:f748308f35e1451888642abdd9ffef34e474715a692d36fad7e93bf18f3282eb:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliMmI2YTVlOTJhMTI3NWRhOTVhNTJjZjM4MGFmYzNiMTk2OTUyNGRhZGI1ZTBjMWU1ZDc5NGM1ZGQyMzM0NzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM1NjAxMTQ4NTU0ZGVhMGJkZDE4NDUzN2IzOGViZTQ3NTY2MWUxODQyMGI4NThlYTBjYjQyZjk1NTkzOTk0ODUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9dda30d99c274821b25b618b562c1867",
+      "statement": "The Railway IaC rejects any environment other than dev or production.",
+      "evidence": [
+        {
+          "resource": "repo://.railway/railway.ts#L16-L24",
+          "version": "repo-lines-v1:sha256:c9d6902c615d096ebb9a4068ee3aca6407c83ac22cd90a9c701a77780a63c2e7:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTIxZTY0ZWJiYmY4MzE0ZGMzM2YwYTEwNWFhMWYzZTU4NzFjZDI5ZGVjMTM1ODQ1OWFmMTIyYjEwZmEwZmZiZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjdlNTc4OGQ1ZDlkNzNkMjRhODFkYmMwYTVhNzRiZmE4MmM5YzNiM2FmOTllNTJhZjc5NmU5MGI0NjhhOGEzZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTI4NTkwMGI2NjU2Mzc1ZDgxOTdiZGJjYmMyNmU2YjBlMzJhMzg3YTQyZWMxMTYwZTIyNGNkNjIyZDZlNTQ2MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTExM2Y0MzAxZGFkNWJkZDJkNmQ1YjU5NWJmMWM0YzljYmUzM2ZkZTRkNjYzNGE1OTQ4YWFkODkxZDdjMGU3MyJ9"
+        },
+        {
+          "resource": "repo://tests/unit/railway-config.test.ts#L116-L119",
+          "version": "repo-lines-v1:sha256:f7978eaac1f063523a5da2e8f9a2918ffc82f5a9e716165942010ba367dca128:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTZhMTg0NGU0NTJhN2JmMDkyNTQ3ZWY3NTdkYjZkMjEzNGM0YmQyNWQ0ZDNkOWU1MDEzMDU3ZmFmZDlmYTRmNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODU4MGI3NjUxOGRhZTk3OWZhZWJkMDIzNjdhMjkyOTJhNTBkOTc2MDkyMjUxYTM4YTZjZTMwODgwYmE0MjgyNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWVmMGI5ZGMyYjVlMWI5YWJlY2JmMmYxMDE1YTQ1MjNjYjJhNzUxZWVkODI0NDJhMGE3MDg4MGZmY2FmOWJmZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_3d214ccf9281401e90b2257da71d0a01",
+      "statement": "The dev smoke workflow runs on successful dev deployment statuses, requires an https DEV_URL repository variable, waits until /api/health reports the deployed SHA, then calls the reusable smoke workflow with basic-auth secrets.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/deploy-dev-smoke.yml#L8-L80",
+          "version": "repo-lines-v1:sha256:a725d15453f4070dd0609f6202fe63bd2ef124b82c087e1f640edb3be03d9a65:eyJzZWxlY3RlZExpbmVDb3VudCI6NzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5NmRjNDgxNDlmNWE4M2QxZWQ2ZGJiMzliYmM3ZTJiOTAyYWEzZDM0ZDZiZDVhZTRiMjkxYjY4ZGYwY2E3OWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI1ZWMwN2FhOTU1ZmMxOWI0NmViMzhmN2U1NmI1NWIyNDlkZWQxMzIzYzc3NDA2N2YzOTcwZDAyNzg2ZmVmMWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5ODg4ZTllNDczZjhiZDI1YzViMDMwMjExODIwNWRkYTZjZGZmNTI2ZjU5NGE4NGQ2YTQwYjAxNDljNzhkNDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4d459b73c5104b2ea32df9a742a97702",
+      "statement": "The release workflow requires both the actor and the triggering actor to be the repository owner, in both the release and deploy jobs.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/release.yml#L130-L141",
+          "version": "repo-lines-v1:sha256:c3f536441117825990b5cb5c04f670822e5c72b37892c8a9a8eec93d87b1884c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU0ZWE1ZWUxNTQyMDljMDA0ZTFiZWJjZTMyYjFhM2Y0ZDYzYmQwZDhmMTU3YmVkZDljZWY2NGI4YTk1Yzc1NTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmNTU5NzljZTczMDIwMzNlNmIyZmQ3ZDg4ZjUzN2EzYjhlMDkxZWEzMDVjODExZmZhMTI3NGJmNTc2NGVhNWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEzZTVjOTY1ZGNhMzQ0YTgxYTdlOGNiMWI3MjE2YzYyNTQ2MWU0NzA1ZDVmNTdjMzg5ZmI4ZDJjZDFlNDRiNDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJlNGMxZDdjZDkyZGRiMzVjNmFmMGZmYzIxNjVjYzZiYzg4ZTA4ODkzNTI3NjExMGRiNWM5ODQwOWE5MTgxOTEifQ"
+        },
+        {
+          "resource": "repo://.github/workflows/release.yml#L41-L52",
+          "version": "repo-lines-v1:sha256:34511b45635cd4e80fa403de08f209feef112e4b6a1976a3fca60d9a37c39cd5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3ODQ3YjFmMjgwY2ZlMTViZDI1ZTMwOWJmYzljNzM3ZGZlNTY3ZDk2Mzk2YTNkZTQ4YWNmZjk4MzYwOWRlYWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmNTU5NzljZTczMDIwMzNlNmIyZmQ3ZDg4ZjUzN2EzYjhlMDkxZWEzMDVjODExZmZhMTI3NGJmNTc2NGVhNWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQzOTVhNGM4NzU0NGFjNzkzZmI1NWY4ZmU5ZGFlNDUzOWVlOGM3NWVhYTY0MjI1NzA0MWI0YTRlOGFhNDQwYTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY2YjlkNmE3M2M5YmIwMGU0NDdjMTNjYmI0NGQwNWM2MDM5OTdhZjFkZjE1YTNhOTUwOWUyM2UyNjUzOTY2ZGYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9cd3ba7a325740b2afd293c0c3a4cf46",
+      "statement": "The release workflow only runs from main, validates the version against the semver.org regex, and marks versions with a prerelease suffix as GitHub prereleases.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/release.yml#L54-L73",
+          "version": "repo-lines-v1:sha256:58572595f44336f316ebcf9441154e62dba228a70d639533421a85515a1a3811:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcxNmYyNGU5MDE4ZjAyZmMyMzcwZWU2ZWQ3YmNiNThmNGMwZDUwYjE2YWY4OTJiZGQ3OTI3YTkyN2EzMTg5ZmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI1M2RiZDMyOGIzOGM2YzI0Y2QzYTIwMGNjYTgwMTQzMTdhYTM0ZjBiYjdlN2FkMDYxYmQ0OTNiNmRkOWQxYWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY3ZGQ2MDMwOTYxYzY2ZWRhNmQ0NjE5MzJiOGFmNjEyNTZhZTI4M2ViNDNlZjZiOTkyZDQ1YWY4NDc5MmEwZWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYwMTZhZDc1YzdjNDllM2MyZTg3YTk1MDJlYWFhZWQzNzU2Yjc4ZmQ1MjRlODJmY2U0ZjBiNjc2ODM0ODgwZTAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_60e57564b67d4eb88e53564f758fd7dc",
+      "statement": "The release workflow fails unless the latest Pruebas check run on the commit succeeded.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/release.yml#L75-L87",
+          "version": "repo-lines-v1:sha256:e5bd27c76583bc4ebc5e152936b0abff751f50a16c96593b99c952fdd2ff7452:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4MDc4Mjc2ZmJmZDAyNmFhMThiYzZjYWY3Yzg4NmViNjMzYzNjNDRmYzM0NmNkZjZhOGU1YjRlZjkxN2ZhYzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRiNWY3YTNmZWMyMGUxNjE5YWQ5MjQ3Njc4N2IzMTg3NDBjYzJhNzY1YTI5NDZlMjI3ZWZiNDVjOGU5OTM5MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEwMjc2ZWMyZjY3OTU2NzFhNTA0NTJkMTE0NWU4YjJhOGJkMjk3NDI0MDg0MWI3NzczM2NiZjFmNjZhMTAwMzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ4OTE2MTAzNmI2NjhkYmE3MjI2MDUxZTY4ZDRkMmY5NWRhYjhjNzFmOTQ1YWJlNGRiNjRiMjIyZmFkNWMwMzEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6e8178d679744097aa99a56ee566b26a",
+      "statement": "An existing release tag is reused only if it points at the same commit; a tag on another commit is never moved.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/release.yml#L89-L113",
+          "version": "repo-lines-v1:sha256:4a329b530d3671cd94f7e8fc9c2dadba39912652d962245df8d10473039f053b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkMGUxNTQ5Yjc5YzVhZjMzNmVlMTA1ZjEzODQ4NjE0ZjM5NzRhOTIxYTlhZGMxMTE1MjZhZWI3NDUxNzMxYjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgwYzYxNTIwZTEwMzM0NDE5ZmZiMWEzZjc2MmE2MmEwODA0NmVjZjkxOTZiZDlmMjM5ZjczNThhMWZmNTkwYWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5ZDhhMDU1N2YwMDA1ZmQ3OTI3ZDI4MTA0ZDcyZWYxZTc1ODhmMDU3NGU1ZmFlMDc1N2U5ZDYwMThhYzJmMmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiM2VmNjRmNjQ4ZjUwOWU0YTQwZTVlM2QzZWFiYmMwN2JlZWVjZDkxNTMyYjhjMDFjNTBmZjUzZGIzNmNkNTAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_80377532b593407da1a04816819c0d85",
+      "statement": "The deploy job sets GIT_COMMIT_SHA without redeploying, runs railway up and waits for it, then polls PROD_URL/api/health until it reports the tagged commit, and finally runs the smoke workflow against production.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/release.yml#L176-L218",
+          "version": "repo-lines-v1:sha256:e7952f59680bf8c2cf22e550dcdd8234fa5355e98bdd78791e45ffb9031ef389:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY0ZmUyNWM1MDcxZWFmOTZjZDFlMTcwN2IyYWIwOTg3ZDA2Zjg2Mjk3NGIwYjI1NWQwMDNjNzc3ZjEyMjM0YjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3NDdmMDg2NmMxODNiMGE4MmIwMWM1YjVjNDFlYzU0ZGI0OThlZGNmMjBmYWIzMDhmNmJiY2JjZWMyOTY5ZjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI3MmMwY2I2MzRkMDc5MWQ5YWIwZDg5YzFkMjYwMjFjYzA3YjRkMzlkOTI5ZGY1MzA3YjA5NGE3ZDljZWNmNmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0fb3ecf8e81e4f24953bd619cd7fd936",
+      "statement": "The reusable smoke workflow runs pnpm test:smoke with SMOKE_BASE_URL set to the given URL and optional basic-auth credentials.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/smoke.yml#L7-L69",
+          "version": "repo-lines-v1:sha256:f916fa8ace2b5d23d603b0d7e3666d6f754c9638ad87f8c9d55492f004404348:eyJzZWxlY3RlZExpbmVDb3VudCI6NjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5NmRjNDgxNDlmNWE4M2QxZWQ2ZGJiMzliYmM3ZTJiOTAyYWEzZDM0ZDZiZDVhZTRiMjkxYjY4ZGYwY2E3OWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk3OTVmMTIxNTFlMGY4MTZmMGMwNjI4ZDE5NWYwMzczZWRjYjgyYjY4ZTUwYTI3NjU1ZWM5YzAyNzgyYjc0YTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA0Mzg2YjRkYWQ5MjllN2NkMDllMDVjOWIwMjg0MmNmZTc0NDk3NmZkZjExMTNmMjZhZTEwNGE2ODZiYWM4ZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZkMzRlMTJmMGVkMjNiNGFjNzBmYjk0ZTA0Mjk1Zjg0MGY3MjkxNGI3NTU0MzI5OTBjYTRjNDY0NzZkMTc0ZTEifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-04T00:16:52.047Z"
+  }
+}

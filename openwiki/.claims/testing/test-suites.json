@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:d56f88aafec6061816918c50b26a9cff57fca117f8b2d16a1df3d0bacdbf8fcb",
+  "claims": [
+    {
+      "id": "claim_764b0485963845c99d60b85472ceccba",
+      "statement": "Unit tests run tests/unit/**/*.test.ts with Vitest in the Node environment using tsconfig path aliases.",
+      "evidence": [
+        {
+          "resource": "repo://vitest.config.mts#L1-L10",
+          "version": "repo-lines-v1:sha256:c6dfd57f69ba4afd41b2ba388d16a687388bcee9c11fa1154c18ac6613d1e9cd:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUyYzBhYjY1OWZmNTYyNWVkOWExNGVlNTBjYzQyZjM4OWI5MTVmMDcyNTcyMDU0NmZlN2NkNTE1YmNkMTk3ZWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_806c14bd9bf641ad9d67d6c3c6e5263a",
+      "statement": "Integration tests run real Payload against Postgres with a global setup, serially across files, with a 30 second test timeout and 120 second hook timeout.",
+      "evidence": [
+        {
+          "resource": "repo://vitest.integration.config.mts#L6-L20",
+          "version": "repo-lines-v1:sha256:d9000e287e0f50086569350f8531c160137547ff7d7664d95e8cb11027ba0465:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQzZjcwMjQxNWJhNTJlOTkxMzVkYTAwMTNjZjBkMGYzOWVhZDNiZjlkNzgwYTNlNjE2MDM1MTY2NTYxMzc0ZGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZjMzM5YjBlOGY1YTI1MzFlOGI2ZTU1YjRhZjkxOTJhYmVjZDJiY2JiYmU1NjZiOTc5NzY1N2JhZmU1YzAzYTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6a8617ec6bac483f9174edb2d4484d42",
+      "statement": "The integration global setup starts the embedded database if needed and resets ta_web_integration when no DATABASE_URL is set, applies migrations with pnpm migrate, and stops any database it started.",
+      "evidence": [
+        {
+          "resource": "repo://tests/integration/global-setup.ts#L30-L73",
+          "version": "repo-lines-v1:sha256:9676124f633629164a80aa6204dcf6456e7dcd6a8357d7ec39228ec4a2654fd2:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMyZDVlOTA1YzlhMWI5MTllNTdiMmE5MmIzODdjYmMwMjBjMmJjZGZkMWFlNTM4ZTMwZThmOGVhZDJjZGU0NzEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwYjQwNDcxOGZlNTNkODNmNmUwYmQzYmM1MWQwMmQzMTA5ZGE3YjYxZGIwZTg3ZWE0MTUzZjcwNGQ4OTI1MjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3478d35936564ec38d8fae1c1182883c",
+      "statement": "Integration helpers start Payload with getPayload, build an in-memory 1x1 PNG, and create and log in a panel user.",
+      "evidence": [
+        {
+          "resource": "repo://tests/integration/payload.ts#L7-L31",
+          "version": "repo-lines-v1:sha256:15bd774fc1b290bf8dbd764cafa98b56156b7683bc12189b80d79ded85e785b7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ0MjgyYWM3NzE0MmEyNzgzM2Q5YzhiMDYxYzllMTI5MDRjOGE2NzY2ZDM5NjMxMjQ2ZWJmNGNlMmMwODU3ZTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ1NDBjY2YwYmMxMGY1ZGIwMzQ1NDU5NDA2MjRmZTczNzkzNDA3MmFlNjcyMzk1YTM3OWRhNTJkNTY5YTExYmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_457c7ccf3adc4e4c82889320022ccb0c",
+      "statement": "E2E servers build the app unless E2E_SKIP_BUILD is 1, reset the E2E database when using the embedded database, run migrations, and start the production server on the configured port.",
+      "evidence": [
+        {
+          "resource": "repo://tests/e2e/app-server.ts#L21-L63",
+          "version": "repo-lines-v1:sha256:5990508358fc9bf319c68e2952ea24eecbba5a1b07eb1a5b44b260dd3e6ed6d4:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7489e6a618a64f2e9a00e235940d12f9",
+      "statement": "The E2E config uses port 3100 by default, Chromium only, and in CI one worker, one retry and forbidOnly.",
+      "evidence": [
+        {
+          "resource": "repo://playwright.config.ts#L7-L40",
+          "version": "repo-lines-v1:sha256:29ab185cd2d88cc66423bdd5aee02497a760803d126a064f2110eb9e782551e4:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4ZmY5ODFiMzE2NjkyN2YwZjQ2MmVkNDk4Y2NlYWUxOTgzODY5OTM2MjBmZWMxNGJiNmY5YTU1NzBkMTE5Y2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI4YTE5YWEyNDIwNmRjZTlmNGEzMzZmMjk1MjA5ZDljM2I0ZGY1ZWQ2M2Y0MTk2ODU4NDg5YzcyN2YwMWQ2N2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d3ee528161ab4a8ca0701142aa382583",
+      "statement": "With SMOKE_BASE_URL set Playwright starts no local servers, and basic-auth credentials are used only when both smoke credential variables are set.",
+      "evidence": [
+        {
+          "resource": "repo://playwright.config.ts#L10-L20",
+          "version": "repo-lines-v1:sha256:ae26c898cd4882cc038b1d9f5f120d18d8a045d452b202f02b6a00dccf978dcd:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlNDhmMWIxMjJkYzgwOTQ0MmU3NjM2M2VjZjM1MmU4NDhmMzk1ZGVlZWFjMjI0MWNkOGY3YzZlYTNmMzY0ZmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYyZTE5ZmMwNGYyNGE5NTNhMzYzN2QzY2MwMmZlYjA5NGM4MDBkYTNhMzMwODUwODQyOGIzYjIzNDBiMDIxOTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRlNDdhMzNiYjE5ZDkwYTkyZmVmNWZjMGY5YTk5OWQ2YzY1NWRmMGM2NjMxNzMzODVlOTUxODYyNDlhMDg3Y2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI1NGJhNmIxYjlkMmY5OTM4YjJlZWRkZTA0ZDA0NTU0ZjRjYTM2MWEyMTMyYjE5ZTUyY2M4NWQ1OTQ4OWQ3YWYifQ"
+        },
+        {
+          "resource": "repo://playwright.config.ts#L39-L39",
+          "version": "repo-lines-v1:sha256:d38387d5d733b51e15feca8a85b3ec18f2ed25d703f779886fac8b8f08614aa6:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDM4Mzg3ZDVkNzMzYjUxZTE1ZmVjYThhODViM2VjMThmMmVkMjVkNzAzZjc3OTg4NmZhYzhiOGYwODYxNGFhNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDM4Mzg3ZDVkNzMzYjUxZTE1ZmVjYThhODViM2VjMThmMmVkMjVkNzAzZjc3OTg4NmZhYzhiOGYwODYxNGFhNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzFkZmE1YjQ0MGRhOTU5NDdhYTYyZmYzODBlNDYzNTk3YzZmMTFmOWM4OGM5MWQ1YWMwYjNiZTY5NmM4M2ExNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODU4MGI3NjUxOGRhZTk3OWZhZWJkMDIzNjdhMjkyOTJhNTBkOTc2MDkyMjUxYTM4YTZjZTMwODgwYmE0MjgyNSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_9754a2db4fff4e819509b15dec4edc47",
+      "statement": "The @smoke subset covers the home page, the Payload admin and /api/health.",
+      "evidence": [
+        {
+          "resource": "repo://tests/e2e/smoke.spec.ts#L114-L121",
+          "version": "repo-lines-v1:sha256:f50ac84885bca6a5e544bd88eb7cc755fa6fe740fa91fea112cc4a2287f37f36:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTI0MjZjNTA5ZGY5YjY2NTc1YWYyMDIwYjc4NWNjNDVhY2Y1YzkzYWVmY2I2YjM3ODhlODY2MzIyNzFhOWYwYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWVmMGI5ZGMyYjVlMWI5YWJlY2JmMmYxMDE1YTQ1MjNjYjJhNzUxZWVkODI0NDJhMGE3MDg4MGZmY2FmOWJmZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjYzYjljN2U5ZTZjZTllZjJhODU5MTVkNDllYTE4MjkzYjM2ZGRkOWUwNjcyOTVlZTdhODhkYzQzZTY5NWNiZiJ9"
+        },
+        {
+          "resource": "repo://tests/e2e/smoke.spec.ts#L142-L148",
+          "version": "repo-lines-v1:sha256:2e9e10e41c976a1de9d32460558e2f548add9dcdf2485eb2f93c644b730c755b:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWE1NDQ0N2Y5MGYzNWU5ZDY3ZjI2ZmZkMmQ3ZWM1ODhhMmI1MzQwMmQ4YjljZjM5OTM3YjhmZDk4MzlkYjA3YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDQ2NzcwM2ZlNTNkYzVmN2Q5MWM5MjcyMThmMmVlNmU4ZWIwNzk5MjQ4YTM3NDU4MzRhN2Q4NDVjYjdlMDE5OCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjhiNTJkMTg0MTEyMzdjMWU0Y2I4NzVhYTgwZmQyNTcwNTBhMWU1ZWViYTUwOTdmNjRiNGYzMGU3ZTJhNTNmMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODU4MGI3NjUxOGRhZTk3OWZhZWJkMDIzNjdhMjkyOTJhNTBkOTc2MDkyMjUxYTM4YTZjZTMwODgwYmE0MjgyNSJ9"
+        },
+        {
+          "resource": "repo://tests/e2e/smoke.spec.ts#L3-L12",
+          "version": "repo-lines-v1:sha256:3e6ccbf3816b56e7585b2d4d52734fb8403b9ac9de641c443ab7fe896543274b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA2ZDg2ZGI0OTg4ZDE4NmY4Y2I2NjMzZTgwNmQ5ZWY3OWIxOTc0MDRhMDBhYmUxNjMwNWIxM2M3Mzg3ODM3MDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoyLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYxODEwMGU2YzJjOTQyNmY4ZWU1YWFjYjZmNjM3MmM5MGI0Y2IzOTg1YTdkMGRlYmNiODkwY2VlMTlkYmRmMGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdhMGJkNDNjY2EyODNkZTgwM2M0ZTE3ZjZiZTQzOTIyODZjMTJlMGU0MDMwZjEwZThiMGRkZTgxYTY3YzVmOWMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6d164bc7ddca47adb929de317f3bcd73",
+      "statement": "Outside dev, robots.txt allows indexing except /admin and the home page carries no X-Robots-Tag.",
+      "evidence": [
+        {
+          "resource": "repo://tests/e2e/robots.spec.ts#L1-L20",
+          "version": "repo-lines-v1:sha256:cede933c9a3716bedeaf01eaec3cf3ede06c0ceca9673853eff8b7f524ebd588:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYzZWZhNTUwYTQ1YjA2NTU3Y2U2MWRjZGY5ZTZkZmQ4ZWExZjA1OGFiMTA2ZTg5MWMwODFhODc5N2ZmMWE0MmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_94163aa246a445f9ad4b348ad2dc3d13",
+      "statement": "The dev gate suite starts a configured dev instance and a second dev instance without credentials, reusing the build when E2E_SKIP_BUILD is set.",
+      "evidence": [
+        {
+          "resource": "repo://playwright.dev-gate.config.ts#L6-L54",
+          "version": "repo-lines-v1:sha256:510d7142bd0991befece830bb955b20a427b6ef2c1ae8b6923f623f717005c19:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE1YjRhMWNjOTcxMDQ4YzYyM2FmNGU2MjMyN2MxMTVjMWViZWFjYmY5OGU0YzJmNDQyZDU2MDU0ZGE2ZDkyYzEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg1NzMyNzlhODdhMTE4MWNjYjY3Zjc0YWVhNjEyZjI3Y2NlNzU5YWVlYTMzNjQzYzg2ZjJmMTFjNDc5MGFiYWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e51f552817904e5abfdf72bf1671465e",
+      "statement": "A unit test pins that integration and E2E environments point DATABASE_URL_DIRECT at the test database.",
+      "evidence": [
+        {
+          "resource": "repo://tests/unit/test-database-env.test.ts#L9-L40",
+          "version": "repo-lines-v1:sha256:7f822a0e76c2a4068cb4a6ac08ff21962cea0a3183c3ff61aea37a0d2a792537:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY4ZGNlZDdlMjNlMmViMjY0M2MyZDQzN2ZmMmM1NTk5YTJhMTllY2QyMjBmOTI3YzdmNzdiNGY1MzhkN2M3NTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU1Y2E0OWIyMTQ2OWU2YTRmODA3NmJjOTQxMjlhZjVhNjA4ZTU0ZGY2MGYwODMzYmE2MmM4NjBjMGQ3NmE0NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-04T00:16:52.047Z"
+  }
+}

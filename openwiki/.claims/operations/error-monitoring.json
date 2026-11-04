@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:d45a702781173ad88bff69d1f1f369773955ed39e58466843f2bd63c2c5da685",
+  "claims": [
+    {
+      "id": "claim_0edc7040f441416aa9ab3f26a3a08546",
+      "statement": "Sentry is initialized only in the Node.js runtime, with its options module imported dynamically, and only when options are returned; request errors are reported through Sentry.captureRequestError.",
+      "evidence": [
+        {
+          "resource": "repo://src/instrumentation.ts#L1-L21",
+          "version": "repo-lines-v1:sha256:7de41f5d5c0390eae38871b4324eca834e4135f480ba030378954d83c8a48a14:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzMmRkNjg3ZWI0MTNmM2QyNGU1ZGIwOGU3ZTJjMzUwY2YzOTNmZmU3M2ExNjk5OWExZDI0Y2RjMGMwZTc1NWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYxMjI1YmUzMmYzMTcyYTU4YjYxZjM1OWFkMzdiMjM4MjIzOWQyMDFkMTIwODEwMzM3MzFlNjc5ZWUxNzc0YWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_521fd7df07ce4c4e93956ad57dffae42",
+      "statement": "sentryServerOptions returns options only when SENTRY_DSN is set and the environment resolves to dev or production via APP_ENV or RAILWAY_ENVIRONMENT_NAME.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/monitoring/sentry.ts#L38-L71",
+          "version": "repo-lines-v1:sha256:4af4cfd59f55dc62a5464593634d63f55bd1480664da98818b8e0f8fe159d533:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg2MGRhN2M5NDRkZDdjZGZhOTY5NDhhNTlkMjZiOTNhZjcxZmI4ZDg2OThhYjRhN2E3YmNlMzEzYjg3YTlmY2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJmODNjMzg0MjE1YjBhNDM4MjhlNjcwMWNlMjQ4MGFhNjljZGM5YzNhYWZlNTNhNWFiM2M0MDUxMjIwYWE2YTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/sentry-options.test.ts#L8-L38",
+          "version": "repo-lines-v1:sha256:3de243acf10c53c98bfd4b6d4e67aa92b00231c777afa947d219b76ea652eed1:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1NDUzMWMyMTc1NGRjMzJhOTRkNWUxZmJlYzlhMGY5ZTRlZjFjMDgzZGNlYzJkZjk5MDVjYjk3NGYzNmMwY2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMzNzcyODVkNzA2OWI2MWMzMjNjNGU5Y2NmNGE1OTkyNGRkZDBkZDBjZTY1ZjMyOTMxYjhmZTVkNWMzYjdjZTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ3NjU0M2ZjZjBkYWRiMTdkYWY2YjE3MjJiMjM1ZWJiZjQyNGYxNDg3YzYzNGNkM2M3ODNlZjVjZDdhYjlmNjYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2426a71c95fa405f99b00c4b3318ed2e",
+      "statement": "The Sentry release is the deployed commit and is omitted when no commit is known.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/monitoring/sentry.ts#L64-L70",
+          "version": "repo-lines-v1:sha256:e6f6221a8ca998ea4c3d3beace76c1c274204f625718a92de33785f247e88826:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTliZWExMDBkZDU1YmIzMWEyM2I4MGYxNmU5MGJhZTdhYzUwZjI3YjdkMGRkYjJhMDhmMWU2NGExZTNhZDcwNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjdlNTc4OGQ1ZDlkNzNkMjRhODFkYmMwYTVhNzRiZmE4MmM5YzNiM2FmOTllNTJhZjc5NmU5MGI0NjhhOGEzZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzRjMDYyODU5MGU3ZWFlNTQwMmI2ZDM5Y2YwMDNhOGJlYzMxOWQ2YTZlZGI1YjdiMjlmNzc0MTQ2YzZjNTkzOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSJ9"
+        },
+        {
+          "resource": "repo://tests/unit/sentry-options.test.ts#L73-L93",
+          "version": "repo-lines-v1:sha256:73e9c1c05b385a716326f0fd427134b2f4231c01c0db96f4e32c14d8db5e0c17:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc5ZDI4MzlkMTk2NDliMDVhYmFiNWI0YjdjZmEzOGQ0MzE0ODI0MTBiY2E0MmIxOGYwNzlmODIwMzk1ZjI5YTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVhZTQzZDQxMzdiMjljY2U3NjNhZDQzMDM1OThjNmUzMDAzNWNmMjM5NjczZTg4YmRhODc3Nzk1YWE0NjI4YTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7712596a4aaf4455a3d6ebc352f690a7",
+      "statement": "Sentry data collection is disabled for user info, cookies, headers, bodies, query params, GraphQL, GenAI, database query data, queues and stack frame variables.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/monitoring/sentry.ts#L21-L36",
+          "version": "repo-lines-v1:sha256:a1ea10e2656e74ae4c0e4d56b0c5463d249ce84810251ed76493dfc1cf7ba5d0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM4MDBiZGY3MjcxMWE2MDdlZjNhMzZjMGU2NDVhNjIyN2JiMDkyNTM2Y2U0ZWZjMTVhZTFkNjAzNTkxYWEyNWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhkNTIyZDU1OWU0NzQ2MzY2N2Y3NTkwMjc5MDU1MWE2ZGQwNTczOTIwZWU0YWU1N2QyYWI1YzhhYWNmNDk3YjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ1OThmMGJmNGZjNWZmNWI0ODJmZDA0ZGViMjRhOWMwNzEzNzg3ZDAzYjYwNWM4ZGI2NzJiZjRmNmE4ODhiMmUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a7cdafe469b94b9eb902a30e98230196",
+      "statement": "No tracesSampleRate is set so the SDK installs no tracing instrumentation and only errors are captured.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/monitoring/sentry.ts#L49-L57",
+          "version": "repo-lines-v1:sha256:52786e2ae513cb8154fc2ed4b1902978e73b1ed5a08d275495cc03e624da159f:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTcyYTQyOTM4MmIyZTE0NzE4ZTBlMzdiMDU3MGE4YTE3MDI5OTFmY2Q4NDk4Y2Q4NDA2MGE4YmY0ZjA1MDE3YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmQ0ODRiYmUwYjIzNjY3OWRmYTgyN2VmNTgwNTQ4MGNmOTVhZGVhNzk3NTljMTFlODUwZmY1YTVhOTZjZWVjZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTY1ODBmZWFlZmQxMjAzNjQ0YzFlODBiZjk5MmU3ZDdlZDNjOGI1MTA2ZTQ1MTZhNmUyODBhODJmODVjMmZlMCJ9"
+        },
+        {
+          "resource": "repo://tests/unit/sentry-options.test.ts#L64-L71",
+          "version": "repo-lines-v1:sha256:b417c7b33d65cf4973a907bebe4ef6031dc87ce14c8aadb78dda493714e648d0:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTg3NDJlNjAzMGZlNDAxZjJmNDdmMTU4ZjhjYzYwMzIxODQzMWYyMjVmYjNhNzI1NWM4ZTE0OGE1Y2Q5N2IzNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjIzNTI1ODljMzRkM2M2MDY4NTkzMWI2ZWNjNGQ1MDk5MWE3YzU2YzhmYmEyODk0MTE0NjU3NjkwMjcyY2FjMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmQwZWM5YjdhZDdhMWFkOTcyNWY0MzRiYzdmMWViYzc2YjAyNTcxZWMyODI5NTYyZTFjN2M2NzVkOGNiYzQyMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTJiNjU0YTRmMjQwNmRlNDAyNmRiNDQ2N2JiODkxYjEwMjdhM2Q0ODA3MTc1ZjViMDJmMjgyODNhMWFjY2M3NiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_4a6c3e918caf48208a53b3baf6daa3d2",
+      "statement": "Sentry option types are derived from the SDK init signature so removed or renamed options fail the type check.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/monitoring/sentry.ts#L10-L19",
+          "version": "repo-lines-v1:sha256:9c54c7cd98280a9c5139b1d6697b3022d8b7791760f338670a185a7c2a00ecee:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIwZGE0ZWFkNDI3ZWJkMzJiMjAyOTFmNTA5YzM3NGI0NmI4MGQzNWE3MDVjZWUyMTFlODJmMzMyZjViMmY5YTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBlODA3ZTE1YzNhMjMxYTg2M2Q5OTk3NTE0ODdiZWE0NGJkYmYzNGRmNTU5OGZjMTA1ZDYyMTdlNTU1YTc4MzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQxMWVmMjZjNDNmM2I3MmE1NzNmMzkwOTE4OGQ5NDYwNGExOGU2ZjU2YzQ1YTE1ZjVlM2Q2NDQxYWVjZGMyZTkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c5d83de7afbf45cc96c457dd11face63",
+      "statement": "Source maps are uploaded only when SENTRY_AUTH_TOKEN is set at build time; route manifest injection and plugin telemetry are disabled for org dsmjdev and project ta-web.",
+      "evidence": [
+        {
+          "resource": "repo://next.config.ts#L30-L45",
+          "version": "repo-lines-v1:sha256:9fde0b46f597b1eae741ec2110997492e69071a7b7666b7c6be764e1904c6be6:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNlNGFhMWRhODdiODg3ODZkZmIwYTgzNjg3MzJiNGIwZWI4NTlmZjg2MWRlZjYwNzc4NDIxMzQ4NTY5OGQ2MzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE0ZjAxMzhlMzI4NmZjNWFjMzVkYTQxMDIzZjQ5ZDdkYjU2YzIwNDc2ZTA2MDI5NGE4ZWEyYjk2MjEzYTdlMGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE3MDMxYzM1ZWY0Mjc4MDJhMzZkNjA1ZWJmZDQ2ZmJhYTllMDFlYWQzODY5ODY4M2E2NjM4YTM4MjNlMmI1ZTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9aab03a983b141a7a89710d873ce8382",
+      "statement": "next.config.ts deletes experimental.clientTraceMetadata so pages do not carry Sentry trace meta tags, and a unit test asserts it is undefined.",
+      "evidence": [
+        {
+          "resource": "repo://next.config.ts#L47-L49",
+          "version": "repo-lines-v1:sha256:a793c3a4ee4971c10d5a35a8ae38c85ac2bdd84b2159ac6ce86ff62e1addd8b0:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWVkOWFhZTdmZTNlMTYyMWIwNDRhYmI0ZmU4MzU1Yzk0ZThjNjllNzk0NzQ5MTc1MDBkNWRkNjVjMGIxOGEwOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDJmODJkYzUyODMxYTkyNTAxMWJjOWQwYjg4ODgxMDE5ZjhhYzc0NjkwNDczOWM1YjA5NWY2OGQ0NzIzN2VkNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2RkNmIzNjMwODlhZjM4YWQ5OTYxOTc3Mzg3NzM5OTkzMTJjN2U0MzJhZjI5NDQxZDM1MjgxZjBlZDc1MDhiNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjIsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWQ4NTY1NGE2MTJhZGU1MWIyMjUwODVlMWYxNzk3YTg0ZjE2N2ZhNTI4Njc2ZjkwNjgxY2ZhMWIxOGExZjRhNiJ9"
+        },
+        {
+          "resource": "repo://tests/unit/next-config.test.ts#L5-L9",
+          "version": "repo-lines-v1:sha256:3af2b35d217b02996fc54c527a5fc6228f551709af6a5335f326ed28d7d1520a:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjVjNjQzNjhjNGFmNzFlOGEwMTQ5ZGNhZmE2N2ZlMDk2ZjNmMTRlOTRkMjljYWFmN2Q2ZmJlODExMTk0NDYwYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODU4MGI3NjUxOGRhZTk3OWZhZWJkMDIzNjdhMjkyOTJhNTBkOTc2MDkyMjUxYTM4YTZjZTMwODgwYmE0MjgyNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTI2NjQ0ZGE5NTAwYjVlYTRiYWRlZDZkNTliOTJmODE5NTE2OThlOWMyNGU0M2M2MjBmYjUwOWM5NDkyZTYzYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-04T00:16:52.047Z"
+  }
+}

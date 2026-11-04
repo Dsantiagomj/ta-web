@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:497dcced271b666e3d1173a30f5f90f62d8c0ac3c1a2b8e0636b3227dc75ba90",
+  "claims": [
+    {
+      "id": "claim_7ea7c2a578564a0784fd3a8664a2173a",
+      "statement": "mediaStorage wraps @payloadcms/storage-s3 and is registered as the only Payload plugin.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/media/storage.ts#L51-L81",
+          "version": "repo-lines-v1:sha256:9d8f35e29aab45d85e08d912c1e205ee42e6ea68010058feeb1fb3adc7210e4d:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjExN2QwYTIxOTJhMjQ1MjQ0OTI2Mjg4ODlmNDVlM2Q2MTlhODA2M2NlZjE5NzllNDZiZTE4Zjk0NTEwNDI5NzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/payload.config.ts#L62-L62",
+          "version": "repo-lines-v1:sha256:b105a65af4c5e414afc188892061d1304c333e291cae423b479a91a40f8d3da8:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjEwNWE2NWFmNGM1ZTQxNGFmYzE4ODg5MjA2MWQxMzA0YzMzM2UyOTFjYWU0MjNiNDc5YTkxYTQwZjhkM2RhOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjEwNWE2NWFmNGM1ZTQxNGFmYzE4ODg5MjA2MWQxMzA0YzMzM2UyOTFjYWU0MjNiNDc5YTkxYTQwZjhkM2RhOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2I1MDI5ZWFiNGVlYjRmMmZlZDMzZTQ1MTcxNTE4MWIyOWJmODU2NmRhM2NiYzAwNTgyMGMzYzljNTBmODVjMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODU4MGI3NjUxOGRhZTk3OWZhZWJkMDIzNjdhMjkyOTJhNTBkOTc2MDkyMjUxYTM4YTZjZTMwODgwYmE0MjgyNSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_b7da7ca9a28c47bcb2a4c5d39bb19df9",
+      "statement": "The four required S3 variables are all-or-nothing: none set returns null (disk storage), a partial set throws an error listing the missing ones, and blank values count as missing.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/media/storage.ts#L15-L40",
+          "version": "repo-lines-v1:sha256:e8294e10a449e5a5c4ed6955ce97656ae4948ed30d38956f0da3c8548b62d2f7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhiNmE3YTYyNWFiZjA1YjRhYzk0M2VhNTI3YWRmMzJhZjcyZDRhYmRmNDk2ZTNlNzA2Y2UwMjhhZmIwMDY3ODUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU1OGY4OWYzYTliMGNkMzFiM2MwZmQ1ZTM4MjM0YzVhYTEwYThiZGJiMGIzMDU5MTljMGFjODg4YzA3Njg1NmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ5NjNiNzg0OThkMjgxMmZkMTMwYTM5NzVlMGIzMDJjZjlmZWQ4YzQwOGY1NTgzN2RmNDExOTkxOTE5YjVhYzkifQ"
+        },
+        {
+          "resource": "repo://tests/unit/media-storage.test.ts#L12-L47",
+          "version": "repo-lines-v1:sha256:1f771a9f17d4f4e275d098f76f9843fba1bcb1384e3830acb94ecd271cd2a782:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJjZjNlNDE4ZDhmMjNmN2Y3NDE5NWEwOGZhMTJlOTM1NDg1MmM5Y2YyM2Y1M2FhZjBlNTE4M2U1MTc1MzkzMjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdiZTYxNGRkZjY3Y2QzZmMwNWU4NWU3MDdhOTBhYWVhNjcyY2FlYWZkYWU0MDQ4ZThmYTlmNTRlMzQ5MjgwNmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZmNTRjYmY0ZmU3MzhiOGI1YWU3MTk2MzBlM2I0NzMwNzIxNTdhMWM0Y2M3ZDVkNzQ1YmU3ZmVjMjRmNDJlNDEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ad37741fa1bb445e828745ef346ba0ef",
+      "statement": "The storage plugin is enabled only when settings exist and always inserts its fields so the schema does not depend on the environment.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/media/storage.ts#L59-L62",
+          "version": "repo-lines-v1:sha256:9ebf3fdf1c8c981f3537a2b84f37d7f069b615c9290fe3aeea0922b4c7571446:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjg2Y2RmOWViNTAxNjQ3ODJkMGYxOTU0OWY0ODhkYTdhYjY0MWRmY2UyMmNlNDQ3NDg1ZmQxMmQxNjlhYzkxZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWVlMzhhYjY5YmQzNGFjYzcxZGE2NzMzMTliOWM4NTUzYjE5OTI2ZmIwYTk2ZjI4NTVjMWQ3ZTgxOWZkNTY4MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGEyYTE3NjMzNTA5OWM2OGM3NDMwZWJkNWEwNWE2MDFkMGE2ODY0YzFkZTQ3MmU2OTlhYWRjYmY5YWNhODllZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDA4YjM1YTU3ZWE4NzRkMjFkNjc4ZjEwNTdhNDU4NDA2NjY1YzFiOGYzNTc5ZjcwZjY5YTc2ZGE2YjUxMGNkYyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_d3db222a32f2412eae67fbe5051eaade",
+      "statement": "With MEDIA_BASE_URL set, media files bypass Payload access control and their URLs are generated from the CDN base URL by mediaFileUrl.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/media/storage.ts#L71-L79",
+          "version": "repo-lines-v1:sha256:b4141319aed38f2d101c48796fc8803ad7caa7f59c99a7380793f11b951bb3a8:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjI3NmFhMDlmMDQ4NWExZTk0ODc3MGU4YmYxNmU2YjE3MWY1ZWNlMDVlYWIyOTUxNzIwNTA1ZjY4MjRmY2JmMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDhmNDVjMzFjYmY3MGFlOTIyN2RlNzA1Y2NiNDIwMzI3ZDEwZmZhMDhhMGYzZDU5ZjljZGJiNmUzNjE5ZjQyMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjIsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjdlMGEwYTI5N2I2ZGVjOWNmN2MzNGJlMmUzODAwN2Y3ZGZiMzA4N2MzNmRiMjE5ODQxOTMxMjc1MWFmYzRhNCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_493320fc0d8b4cd8a62115a33dead84e",
+      "statement": "mediaFileUrl joins the base URL, an optional prefix and the filename, skipping empty parts and URL-encoding each path segment.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/media/storage.ts#L42-L49",
+          "version": "repo-lines-v1:sha256:2bdf0ceb24556aa0c40374edded6796049a69415bb1f63d31f015e456cdc6c81:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmYwYjg2MWEzNDJlMzIyMGI2YzE5YmYxYTdjMGJkZGM4MzdlM2Y1M2RkYTdkODhjNjQ3ZDk4ZDA2ZWM3MDUwZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmI1ODBlOTY0ZjgzYTQ3M2Y0M2Q0NDM4NDYyOTQ5ZDY4YjU2MDBmZGE3ODdmMTYzNzQ1ZDAwZGU4OWNiZjM2YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDljY2U4MDE1ZGI1NmZkMzFlZWM3ZDFmODZjODBjMWFlMjQ5ZDM4YzI2MjgzYWNmMThiNzJkMjkwZWY2MzhmNSJ9"
+        },
+        {
+          "resource": "repo://tests/unit/media-storage.test.ts#L49-L67",
+          "version": "repo-lines-v1:sha256:12929cd5be37eaf8a74313682055442d1e0b99cd7f24c51eb2adce27954b4481:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQwMjA1M2UxNDk1ZDBjZDVhYjE4MzA5NmJlYWYwYzU5NDgwYjc0MTYyZDBiOTdkMjk1N2M5N2Q2NzdiNDhlMzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_65e7a76652e74b438263bd3f22780160",
+      "statement": "Next image optimization is disabled because AVIF and WebP variants are generated before import.",
+      "evidence": [
+        {
+          "resource": "repo://next.config.ts#L12-L15",
+          "version": "repo-lines-v1:sha256:4f455b7c6a05d8e3f62c943a8fa1c8126610f9f82998141a8a970f2756506954:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2I0ZTMxMjk5MTU0NmVmYzcwMDc5YmNlODIzMzcwM2NlZmZjNzY4MzFlYTVmNWZjMmYyZTIwMzExNzIyZWEwOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDBlZTJmN2ExYjNhM2U4N2YxYzQ2MDZhODE3Y2M5NDVjOGI0MTdjOWE0NDAyM2MwNDlmNzE4ZjRhMGM0YmM2OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjViZGJiMGEyYmM3ODVlMWVjODU4YWZkZjEzMWYxNGRhZWIzZmM2YzZhM2FkYzVlMWExN2NjNWU0OTJiMWMxMyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_665b4ae26d0c49448763bfa54e166c05",
+      "statement": "Without R2 configured, uploads are stored under the media static directory.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/Media.ts#L70-L72",
+          "version": "repo-lines-v1:sha256:e21251927bccf80f08254d44ecd7d0ec213856823f0e302ac06afc96d9e41be5:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmRhMzk5M2E3MzE1ZGQ3NWEyNGZkNDI2OWIyMThmYWJiYjVjZjI1ZDAyMTIzZDZhNTI3MTU3MDhhNDMzODQ2YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGVmODczYzU5NTE4YzM2MmQxODZmNjU4ZjMwZmQ0YTk4YzMxZDFiNmZiMTU4ODI5OWUwMmZjZWRkMjllOTg4NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_676b7daffdd644d698f9e5a123a8a0e1",
+      "statement": "build-mode-eggs generates AVIF at quality 70 and WebP at quality 85 at 1x and 2x of a 28px display size.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/build-mode-eggs.ts#L7-L23",
+          "version": "repo-lines-v1:sha256:19bce38259ae81a4857b21ba3f21ffc1ca9b7ffc5f564e38aa477b8a9dc46434:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5NDk4YmJjMTYyZTNmYWQ4NGFiNGYzMTU1ZTFhODZjNGEzMzkyNzFlY2JiOWU3MjM0ZjMwN2M2NmIzNDI3NmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU4YTM5YjA2OTA0NWI2YzRlOThhMWUwODk1NDkzNzRjNTAzMzRhMzM0NDkxMDZhMGJjZDAxY2FjMzcxYTYyNDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIzZTRkNGExMjVkMzdjZTM2NjkwZTM4NDI1ZmNjNWNmODI4N2FjMGExZGQ0NDQxZTI1MTc2ZDA4ZGIyNWQyMTYifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-04T00:16:52.047Z"
+  }
+}

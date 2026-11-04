@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:d36a3e118c63e13116e9d5e9ac16ff4e71e994ef812e1041a8f47e65c1683bfe",
+  "claims": [
+    {
+      "id": "claim_2337c4767f624841a8302780adbb1ac7",
+      "statement": "ta-web is a Next.js app with Payload CMS 3, Postgres, Cloudflare R2 and Better Auth that replaces the Squarespace torrentearcano.com.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L1-L5",
+          "version": "repo-lines-v1:sha256:ff3bd938bef6e9d5917a594372aced671e9c0e67ffa01f1bf491c9326f93bb50:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjZiZmRjZWI0MjE1YTNmMDY5MjhiYTY2OTUxNThkNTMzZDlmNjk1ZjQzZjc2OGUyMDVmODk1ODhlOTgzM2I0NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjc2NWNlNmVhZmQzMDk3NDhmNDc1MzBlOWVkZDQ2NTcwNzE0MGYzNDhlYzBiMTVkOTI0Yjk3OWE4MTBlMGUwYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzNmNmFhODg5NmExNTE0OWU2OGZmZDQzNzhkNGNlN2RjNjhjNjE3ZDMxMDk2NGZlMzFiMjUwNmE4NGMxZDM2MSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_13059d515b3442a39b7a733d9aac7203",
+      "statement": "A local run needs pnpm install, a .env copied from .env.example with PAYLOAD_SECRET, pnpm db:dev for the embedded Postgres and pnpm dev.",
+      "evidence": [
+        {
+          "resource": "repo://.env.example#L4-L13",
+          "version": "repo-lines-v1:sha256:94d2e888a6769677df9851216cf1cd2042c1f4c13f2f7783b4f71f9ce639f89c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJkNjAwYWNmZTE3ZGE3MDFjNzAyNGIyOTBkMmUyOGY1YjQ4ZWZmNzZhODdmODdlMTFkNWFmOGEzM2Y1ZTAzNTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhNzgxODRiZGQ2OWFkN2U0ZmY5MTEwNzdjNWE1ZWFhYWQyNGVkYWIyNGJkOGM2ODMwYjk0NDcwZWYwMWZmZGIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwZGUwMDU4YzI4YTAxNDY2N2JlNTI2OTA0NzEwMzJlNWYyOTk0ZWYxNWJlYjQxY2ViNzg5OTg3OWFjYTRhYzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkxMWM5NWI3Y2IyOTlhOTNhYTE0NjQ4ODA2YTE2Nzc2N2JiMGQyYTNkZDMyY2JhNDg3MDBlNDEzYjIwYjRkMTUifQ"
+        },
+        {
+          "resource": "repo://package.json#L12-L33",
+          "version": "repo-lines-v1:sha256:7bfee9474ad159a8277d297fc0cf222cb54aa620d187b4396f8844d52c65de1d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0ODMzZDU5NDljMDNhNDBjYTk1MjQ5MTYxMGE2NjU5NjQ0YjNhYTQ2NjM2MmY3OTkwMjBkYmYxOTgxNTQ3ZGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJhM2I0NjlkOWUwOTc1NzIyNDY2NjczNGM5ZWY3YjI1NGQ4ODUzNGY1ZDViYjcwOTg5NjA4MDVjNTUzZGMzMDciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU3MzhmMDQyOWU5N2Y0ODI2MWJjZjM1NmYzOWIyZjJlNDVmMWFhZjA2NGY3Yjg2MTQ0YjcxZjE3ODU0NjE4OWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA2NTVhOWQ4ZTM0OWE3ZTIzNTAxMGZjY2ZkMDkxM2ZiNGZhOTU3NmM4MWY1NmUyYjZiOGJiNGZiZjFlZTlkZTIifQ"
+        },
+        {
+          "resource": "repo://scripts/db-dev.ts#L1-L23",
+          "version": "repo-lines-v1:sha256:380e94b0c370ef8cb20133d5cf5f4072edc70fd75c2a378f1c4bee48faf254e8:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI2ZjQ3YTU5OWM5ZDYzOTA4MmY4NzY2ZmJiZDg2OTQzNTUyYjE2MTMwMzhiOWMxNzFlNWI2NWE5ZDQwNWVhNWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg0MzQxMWEzYmMyNmE4YjFjNjRkNGUwNmE1ZDBlMmIzNzZjOWYxZGY2NTFmMzdhN2ZlNjY2ZGY1ZDZjMjI0M2QifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b32ba8711631404baec0f56210680ad4",
+      "statement": "The project requires Node >=24.22.1 <25 and pnpm 11.",
+      "evidence": [
+        {
+          "resource": "repo://package.json#L7-L11",
+          "version": "repo-lines-v1:sha256:9bf0490c3ab75b2b206a173938c8461a9c2a1f097d34a2ceb415fdcb2c65cf5a:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTI5NjdhYWYxMDczNzU2MWJiMzc1NGU2MTQxMWM0MWZmYzY5ZmViOWE5ZTMyOGI3MmFkYzY2ZTdiYWRhNTUxYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTUyMGQ4N2RmNGRlZGFkZGNhZTRiNmE4NzAxOTFkNjhiMDYzNmE2OGJiMmY1ZGZmYjI4MWE4ZTZiYjE3ODJhNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjAwMjIyMzQ2ODgwMzY5MzExMDQ0NGE4N2Q4YTZkNWM2M2UyYjMzNjVjM2NkNDJhODg1NzZjMmQzNmEwMDExMyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_ebfaa1da140e400494c0e7236509b699",
+      "statement": "Schema changes require a new migration and regenerated Payload types, and CI fails on stale types.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml#L47-L50",
+          "version": "repo-lines-v1:sha256:d8524a2f1a70f5d0a63669505e6c314913626456df2865e6ba25bd63a60e34e2:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2VmYWNiZjM4OGJhMmFjNTg4NTE4N2YyNDViOGU1NjcwZjQyNGRlZWYwYTA4MzNlYmE3NGE0ZWY3ODQwOTFjMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDM0NmY2MzZkODkxNDgwNTA4NTUzMzZlZWE2MGZlYzVhZTVhOTdiZmExYjJlZmEzNWQ0MDZlNTA3NGQ4NzdkOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzEyNmYxZjliNDQ1Y2I1ZDhlOTNmNmI2NTA4YzE3ZGRmZDkyNDY0ZDcyZTU1OTJiMDkxOWI1MzBkYjYwYmNjNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzJmOTUxYzg0ODkyMTgzMjI5N2E3OGQyZjQ2NWZhZThmNDZkZDI2ZThkZjAzMjEzZTRiNTQwYWNhMTc0ZjBhZiJ9"
+        },
+        {
+          "resource": "repo://package.json#L26-L30",
+          "version": "repo-lines-v1:sha256:9005424ecdddf0563b833c17df62b0ffa06c4535d10f855087fbc88d561ff9c8:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2JkNTM4ZDIwNmViYzhiZjMzN2E1M2I4NGQwNDdkZWU4ZWI4YzRhMjBkZTM2ZjRmNDY1ODFmYzg4NWIyN2NmZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzFkNzEyOGIzYzE2MTQxYmNlOWNlYTg1YzUyNWI1ZDRmYmQ3ZDczNTVlNDA0NmM1MWIzYTZlNjEzMjU3ZDE5ZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODY0NmFjOWM0ODEzYTA0ZThkNGY2ODc5M2I2YTg2ZmFiOTNiMTU3ZTcyZjE2YzRjOTdhMDU0ZTllNjI2ZGJmYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjFhMzdhYmQ0N2ViZTg0YzcwMTQ4OWQ3OTQ3ZjlmZGQxOTQzYmNmMTU4MjVlNTlmZThhNmEwNDcwNjU3M2E4OSJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-04T00:29:31.647Z"
+  }
+}

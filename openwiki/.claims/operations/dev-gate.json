@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:a697bfae4e3a39061d6331e2e589ce37295dffc501a8ef580a9dd7c2332503fa",
+  "claims": [
+    {
+      "id": "claim_5a2e41aa451746678406db0a76ca60ea",
+      "statement": "The dev gate activates when APP_ENV or RAILWAY_ENVIRONMENT_NAME equals dev, case-insensitively and ignoring surrounding spaces.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/dev-gate/dev-gate.ts#L23-L27",
+          "version": "repo-lines-v1:sha256:187a4e5b4c22b66955f457ccca0c899a147fb5530d59c8aa3a9ae0c6deff93f8:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDUxNzEyMDFiMjYxYjU5Y2NlNjBmZDgxN2IyZGU1MTRhNzA4ZGY1OWM0ZTIwMTlkNjY3YTMyMTZhMTY4MjdjOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTljMzc5ODExOGZkODQyZTRlZDZlNjczNWI5NTQwYTUxYzkwMWNiYjc2ZGYzMTAyOWYwM2FhNGQ1ZjIzNWYyNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWFkYWVlZGY1OGQ0MmFlMTdmZjUxNTBkZjk4NTE1NjNkYmFlYzM0ZDg1NTc2YTdiODgwMmExYzdhZGRlMmYzNyJ9"
+        },
+        {
+          "resource": "repo://tests/unit/dev-gate.test.ts#L19-L38",
+          "version": "repo-lines-v1:sha256:067ed2c5d4322754591919435775aaa40dd633ec9c60b2d01b471d33982c570d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyNzdkZjhjOTRlYmEzZDZmODQ3MDQ1NTczNjM1NzQxMjgwOTViOGY3Nzc4NWJiNzI2MTk3MDg3N2NiYWM3Y2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdkYjM5MTEwODBjYTMzNTYxZjhhOGU4NDJmNzQzYzQ3MjM2NTllMjQxMDVkNzI5ZjRjMTgyYzEyYTMxNTZjN2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkxMTdkMjdiMTExNGUxNzFlMDk1N2YzMWU4OGJjODQ2NTE5NzlmY2NkMWFiMGNhMTQyMGRkYmE2NzZlZWEzYmYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_83cca764b68744ecb9049e7d4624144d",
+      "statement": "decideDevGate returns open outside dev, allow for the exempt path before checking configuration, misconfigured when either credential is blank, and allow or challenge depending on the supplied credentials.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/dev-gate/dev-gate.ts#L29-L52",
+          "version": "repo-lines-v1:sha256:6906e253a1eb0f9af8da535387f9f061ab8cd173abed804f42be49594e02bd09:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM1YzA0Zjg1ODg1NGU0NTZiODc3YWY1NDc1ZmEyNTkxNWU1Y2NlYTU4ZTNiYTkwMTNlZmI4NTFiMGZmNDNiZGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0MGM1ZDNkYzNhNzczMDc5M2M4OTI3OTQ4YjU1OTY2NDIwN2Y3OWJhODc3NzNjMjE1MDA0NDMxOTYyZmQ0ODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMwYzM5Y2RjZjUyOTdiYjU3NmZkNTRhZTg0NmQ1YmE3ZjY5NWE4MjM3Njc5YTYzMDlmZDQzYTVhNTllYTUxNWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b3874493585d4f50a3d4f11aefee2f28",
+      "statement": "The only path exempt from the dev gate is exactly /api/health.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/dev-gate/dev-gate.ts#L13-L15",
+          "version": "repo-lines-v1:sha256:762553786e14d24492886da047f500a66bf44c0b9a565dda8a59f3bf1d734d50:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODZjM2I4YzZjNDlmMmI0YzZjZDY2OTM2Y2JkZWEyOWI0MTFlODE1NGE3OTkwODRjMTcwZGU5NjRkMDAxMzdlYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2FkZTRiMzUwY2QyMDcwODZhNjAyYzUzNmJhOTMyNGIyZTdhOGQwYTMwZjdkMGE0OWE3MzQ1NGViOWNjNWFjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTg3ODA5MGM5NDZkN2FkNWM4NmJlMDQwMTZhYzkxZDc3NjAwZGI3MmY5NjhhYWRhMzM3YThiMDhiNTY5MGQ3OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTU4NGEzZDcxYWE1NDU0Y2RlMDg2MDg0NjU4OGM4MDdkNjE3ZTBlNGU0YzE1NGI0MGM3NjNiYzgxNDBkZWMyNyJ9"
+        },
+        {
+          "resource": "repo://tests/unit/dev-gate.test.ts#L106-L119",
+          "version": "repo-lines-v1:sha256:b5cd588036a0083782518889b0d4690af0a0b147b0b05cecf00eee030f32ae55:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhNzQxYTM1N2I1OTgxNjJlNTc2NjJlMTczNDY0YzQ5MTUwYjM3NGZlYmJjZjkwZmVkYzU0ODI2NDliODNmZTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJkMGVjOWI3YWQ3YTFhZDk3MjVmNDM0YmM3ZjFlYmM3NmIwMjU3MWVjMjgyOTU2MmUxYzdjNjc1ZDhjYmM0MjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgyNzVmYTEwNTRlY2VkMDJlMThiZWQ3MTc0ODdhNDk5NDNiZDhhODgzNmU4OTAwYWJiMWJhYWJkNzBlMGRkNTYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d20cd35b1c8d429693a73efc72a2ecbc",
+      "statement": "The gate always compares both user and password using SHA-256 digests and timingSafeEqual so timing reveals neither which field failed nor length differences.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/dev-gate/dev-gate.ts#L48-L51",
+          "version": "repo-lines-v1:sha256:bd15d8f639fa04f0b2d0e719234a12063b6ca98159dd100f15ebb5481e7a2af0:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmE4MTAyODZjNWFjYTE4MDJlMTExOWJiZTIzZGMxOTc4MzM5ZmEzNGY3NTk3YjYwYjNhMTIwYmZiZDI3YzU3MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTc2NzQxZWNhMjZmOTY5MTVjN2VhZjFmYjA3Mzk1NzQzMzdhMzgyZWIzOTQ5YTkyMTJlZTc5OGM0NGM4MjY0NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWY4OThlZWRmM2RhYzg4NjllZDlmOTkwNmI2YmJkNjMxODQ0Y2IyYmZjNTcxZDg2MTRjYTIxNTY0YTVmZjAxNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmMyNWM5MjdkOTgzMDc5OGE0Y2UwZDc3YjlkYTg4NDE4YmE3ZjI5ODA2MmY1MDk1OWYzMWU5NzljYzZlYWViYyJ9"
+        },
+        {
+          "resource": "repo://src/lib/dev-gate/dev-gate.ts#L81-L86",
+          "version": "repo-lines-v1:sha256:b1f026df09006d8ce81312e2a1fb6999e7227665992b64c2e1b0ccb61c27e4f2:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2I0YmU1NWZkMmY1MjEwZjhkZmViN2Y2NGIxZGY2ZThjYTI0N2UwODE0ZmMzODFhMWFlYTlmMjc0ODJjOTEzNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWU0MThjY2RlZmE3NzY1Mzk2ZjNkZmRmZGZlYjdmZDc4YjMwMzcyMDEzY2ZiYWY0MzdmZjYxODQxY2FhODlmYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_e9a55c2d93a748d7962feda55492ad85",
+      "statement": "Basic auth parsing accepts a case-insensitive scheme, splits at the first colon so passwords may contain colons, and treats malformed headers as missing credentials.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/dev-gate/dev-gate.ts#L67-L79",
+          "version": "repo-lines-v1:sha256:b90e15077d87286a3576ada96c7aff9517217838a71ceb5e354353accdc2ce2d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNlZDAyNGJkOTdhNTU4MTdkN2Q4NWMwZmU3Y2EwN2Y3MjcyYTYwMGU2OGNkNmY3MmViOTcxYzg2OWNjMmVlMzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxOTQ1ODAxYzA5YTU0NWVjYmEwZWE3NGViOTExYTFlN2IzM2I2ZmNkNmY3MzA0ZTExYWQ3NjFlM2VhMzExNzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVmODFhN2JkZTgxMTQxZmRkM2FmYzBmMTBkNGNlNjcxOWEyOTY0OTU0OWNmZTcyMjU2NjYyN2M1MzMwOTIzYzUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/dev-gate.test.ts#L58-L104",
+          "version": "repo-lines-v1:sha256:04fd7b89b75dd56a7c460ca1467a90d8c96e2b1043cb5b7ae649e4c840605572:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkOTQ2Y2Q2ZjcyYWJjZmE4MWE2OGI3NDRkZTY2Yzg3Nzk0N2VlNjA5NDJiZDgzNDViZDEwMzgyZDE0NTAyNjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhZDE3OGNjMzZiMmMyZDRiNmY5ZmY1OWY0Nzk0M2UzNDJhMzY3ZmU5YzVlMGY3Y2ExMzc1ZjA1NzM2MzZkZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNjNGNiNmIyMjk4NjRkZGJjODViZTcyNmFiODViMzEyZjNjZTAyZWQ0OGVkNDcwMmFlMGU1NzhjNDZkYzE0MmIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_164cb3d56b6a4a3d8f48af13170138c6",
+      "statement": "A challenge returns 401 with a Basic WWW-Authenticate realm in Spanish and a misconfiguration returns 503 without WWW-Authenticate; both send no-store, plain text and the noindex header.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/dev-gate/dev-gate.ts#L54-L65",
+          "version": "repo-lines-v1:sha256:0191efa84fd02bf3314c519750b5a41bcce4685d7a0120fdbe97e3a1f66c03b8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVjZDNlMTNlZjk1MDcxYzU1OThjYjNiYWFhNDQxZDlmNDg1YmJmOTQxYWY1YzM0N2ZkY2FkM2ZkMTU1ZDYxZWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA4NWE2YTUzMDQ4ZWM0ODVkMDlhNTI1OGViZGU5ZGI5OWI3ODhlN2IzMDE2MWY5MzYyZTBhOGFiMTYyMGQ3Y2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE1MmQ1MWIyZGEyODRkYTdiZjM5OTQxNTMyNzM0M2RmNzdiZDM3MDM3OTNlZmRjY2I3N2FhYWUxNWU0NTI3NmIifQ"
+        },
+        {
+          "resource": "repo://tests/e2e-dev-gate/unconfigured.spec.ts#L1-L14",
+          "version": "repo-lines-v1:sha256:446d60645682d0fb7d7865ff1bac1d46bac128606dce470828cef62f093508c3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYzZWZhNTUwYTQ1YjA2NTU3Y2U2MWRjZGY5ZTZkZmQ4ZWExZjA1OGFiMTA2ZTg5MWMwODFhODc5N2ZmMWE0MmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_848c5a66b1384bf78e5086e709237aec",
+      "statement": "In dev, allowed responses get X-Robots-Tag noindex, nofollow from the proxy.",
+      "evidence": [
+        {
+          "resource": "repo://src/proxy.ts#L16-L21",
+          "version": "repo-lines-v1:sha256:f08928ab8ec070403a304b67c9c4ed78987d687241a03e1a9e0a910d63505440:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmVmZjdkZjJmOTMwMDdlNzg5NzNiYWIxNTYzNjFlNzM0YmUxZmFkMDBjOGY1NDk5NWNiMjJjZTdmOTRkNjI5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjdlNTc4OGQ1ZDlkNzNkMjRhODFkYmMwYTVhNzRiZmE4MmM5YzNiM2FmOTllNTJhZjc5NmU5MGI0NjhhOGEzZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzk3YzAwMGYzY2M5MmE1OTM0ZjMzYzUzMzFmMTc2NTI2NjM2YmVmNWUzMWZhMzQxZjBjYjdhYzFiMDRmNmY1MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjIsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDgwZjEwNmUwNjliN2I2NjFmZjY0MjEyNzQ4N2M2NDM4OWVmNWU2OTBkZDk5MzFiMDljNDI0MWUzNWJjZDUwZiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_5dc2b814975748099d44237fafb40ea5",
+      "statement": "robots.txt disallows everything in dev and elsewhere allows everything except /admin.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/dev-gate/robots.ts#L7-L12",
+          "version": "repo-lines-v1:sha256:0435d9e930cb183e1fee515ee74737e22911626099a6200c9c6d8b39e7d43965:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTVlNTAyNTZmYzE3N2QzNWY0Y2FmMzQ3MDMwNDgzOTIyMDQ4MjBlZDBjYzA5OGFiNzAxMTJkN2E2ODYzYzE4OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGYyZDliNTZjMTVkNTkxYzljYTQ1YmM2MDY2OGI1NjFiYWNkODNiNjFiMzRlOWRhMWQ5YmViM2JkN2ZhMGRiYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://tests/e2e-dev-gate/gate.spec.ts#L58-L67",
+          "version": "repo-lines-v1:sha256:1dfd8de8cc43c693803c58335cac1f7ee99f75c4435c7e66b1da4301778fe803:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5NDU5NjE4YTBjZGEzOWY2NGFkMTY0MDA5MTZlYTVjZjdmNzJlNzM4MTFjNDA2NzY1YmI4N2EyMjMxYTJkNGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUzY2EyZjc2M2NmOWI1NTkzNjMxZjZmMDI3NzczY2NmZGY0NDYzZmQzZWUxMGIzOTE4YzUyNTZkYWI4N2IxMWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7d5173d1d71043f6b09be23ee2808670",
+      "statement": "Without credentials in dev, /, /admin, /api/users and /robots.txt return 401 while /api/health returns 200.",
+      "evidence": [
+        {
+          "resource": "repo://tests/e2e-dev-gate/gate.spec.ts#L7-L26",
+          "version": "repo-lines-v1:sha256:c9f94d35bccbef9bf4378d193791f0d3732c50fd026a414bcb0b043dc9926f40:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg5YTMwZjQ4ODE3YWU4NDYwMWYzMTI4NDNjOGZjMTU1YzYxYWU2MjgzNWVmMGViNGI1OThiNDY1Y2E4MjBjZGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgyODBiMzZmOTZiZjJiN2JkNzcxMjE4Zjk2ZDg4OWU5NmI2MjBkZmE2YThhMWQ5ZTZkMzBhNDEzZjI0MmU1NmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk1NjNkMjIyMDhhMmEzZDE1MTVmNWIzMTk3Y2YxOTc5ZjQxYzU1ZGY3NGI0NGE3MjM3ZTMwMWM3ZTNiYzg4MWQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_84adb099546b46f8ad4b3daeb1373cc0",
+      "statement": "The dev gate E2E config runs the app with APP_ENV=dev and test credentials, plus a second instance with blank credentials on the next port.",
+      "evidence": [
+        {
+          "resource": "repo://playwright.dev-gate.config.ts#L12-L54",
+          "version": "repo-lines-v1:sha256:fa955c57db98c668eaeb9059a26168b9624a716d3883496b79bde829776039d5:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA1NTVkYThkMDBhYzgyMzFjODhhNmZjYjAyYTJhMzc2MWIwOGU2ZDk1YzQxYmZmNGQwYjAxNGZkNDhjOTY0ODgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjljZTYzZmI3NmEwN2EwOWQ3OGM5ZTMyMzlkMWZmMmZjYTJlNDY2NzNhZTE2MDUzZWIyYTlmNTk0OTEwZDExNDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-04T00:16:52.047Z"
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:564153cf83043a0791f6beea3bb6c569b79ec25fa3e30fba213f91657f1132b8",
+  "claims": [
+    {
+      "id": "claim_c4d0210fcc834f69a874cfcee7b4d598",
+      "statement": "The running app always connects with DATABASE_URL; DATABASE_URL_DIRECT is used only when DATABASE_CONNECTION is direct, which pnpm migrate sets.",
+      "evidence": [
+        {
+          "resource": "repo://package.json#L26-L26",
+          "version": "repo-lines-v1:sha256:7bd538d206ebc8bf337a53b84d047dee8eb8c4a20de36f4f46581fc885b27cff:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2JkNTM4ZDIwNmViYzhiZjMzN2E1M2I4NGQwNDdkZWU4ZWI4YzRhMjBkZTM2ZjRmNDY1ODFmYzg4NWIyN2NmZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2JkNTM4ZDIwNmViYzhiZjMzN2E1M2I4NGQwNDdkZWU4ZWI4YzRhMjBkZTM2ZjRmNDY1ODFmYzg4NWIyN2NmZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODY0NmFjOWM0ODEzYTA0ZThkNGY2ODc5M2I2YTg2ZmFiOTNiMTU3ZTcyZjE2YzRjOTdhMDU0ZTllNjI2ZGJmYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDQxZjI2ZGI3MjIxNzBkMmNiYzc4N2ZlMDk0ZGE2MWFkMzc4MjYyNjdkOTdmODhmMWVmMmI1MDNhYTBkZWJkZiJ9"
+        },
+        {
+          "resource": "repo://src/lib/db/database-url.ts#L7-L23",
+          "version": "repo-lines-v1:sha256:37f352a7f2ef2522712fc22163d93da64207eba58e00ce962abf39e45f417344:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhYzU4NjczMDE5ZGU5NjBiMmY4YzcwNWI5ZGZjZjMzMGEwM2Q4Y2UwZThjNTc5Mzg1MGU5YWQxYmY2MWRjN2YiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBmMmQ5YjU2YzE1ZDU5MWM5Y2E0NWJjNjA2NjhiNTYxYmFjZDgzYjYxYjM0ZTlkYTFkOWJlYjNiZDdmYTBkYmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjExNDdiODU5N2FiMTJiYjQ2ZDFmODM0YmU3OTVjNGI5ODUxYjU3MjA0YmVhOTU3N2EyODE4YWIzYjJiZjg4ODcifQ"
+        },
+        {
+          "resource": "repo://tests/unit/database-url.test.ts#L77-L100",
+          "version": "repo-lines-v1:sha256:edfbc921546e676a1d6ca41df97e6f46527479632e6ad326b147567faa250b62:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFkMDk0OTRiMjc3ZDlhYzZjZjkwMzI0ZjlhNDVjZGM5NGIxMGIyYWM1YzA1MDJlYzgwOGUwZjY3ODAzZmJjYTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNmNmU2ZDdjOTE2MmVkNWZlNGFjZTQ0ZTQ2MWQwZjIwODIwN2MxMTQ5ZjkyMGQ5MTlkZDcxMzdmZjMxNDE2MmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjViMzk4NWNhYTYzMjI3MzIzZjkwODg0MjM5MzdmYjY5YWJhMTQ3OTk0M2ZlZTI3MTZlMmUxNjE5NmYxMjE1NWQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4ce66f97516e4a14b4db2b4515cb4d42",
+      "statement": "Without a database URL, resolveDatabaseUrl throws in production outside the build phase and otherwise returns the embedded development database URL; blank values count as unset.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/db/database-url.ts#L22-L31",
+          "version": "repo-lines-v1:sha256:88e5702c380de129e4baa981763619677e960cd6dccf60bcfc9c921466628c0d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMzYzZjZWVkZGQwM2EyYmFkNTgwMzQwNjQxNjJhZDNkYmNiMWQ4ZGNkM2Y3YTM3NDNkZWExNTUwMDQ1ZWNiZWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE1NDIwZDE3YzNmY2M1MTQ0YjViMDQ3ZjFlYjAzMTBkOWE4NmI3MTczYjk4N2NjNDQ3MDdlNThlYTJhNTk0ZGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFkZTZhNjMxOGRkMmEzYTgzOTZiYjRlN2UzYWI3YzMwZDFlNzBiMDNhNzNlNjQ0MjFiZTJiZGJhZTRlMTcyNGYifQ"
+        },
+        {
+          "resource": "repo://tests/unit/database-url.test.ts#L6-L32",
+          "version": "repo-lines-v1:sha256:48106238f06408e770a5b093a70b2ec0adc015742c5716a06bd687b73336d317:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE1YjY1MjMyYjdkMzkzZWI1YjNlZmM5NGQ3YWNiZmU5NzA0NDU1NzVlYzg5ZDg3YjIxNjhkZjExN2QzMjkyYWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ2Yjk4ZjExYWY1MzQ0OWVkN2FhMGQ4Nzg5OWViMzU5MTUzM2QyOTA1NDMwYWJkNDE2M2M0ZjY3NmI0ZDNiZWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFiMjRjZGVlMzg3MjkyNjEzNzA1YTkyMzU5NzhlMmM3ZmJiODcxMWJjZTBiMmY1MTgzZTUxNjI0NzNmN2UwYzYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6b1cafcd25b740d0a97860a58338d929",
+      "statement": "The embedded development database listens on 127.0.0.1:54329 with user and password postgres, uses ta_web for the app and separate ta_web_e2e and ta_web_integration databases for tests, with data in .postgres/data.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/db/dev-database.ts#L1-L20",
+          "version": "repo-lines-v1:sha256:5341e380f7969e74152bd61cdc53032161eaaa1127dd31b189c4532f83015bee:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUxZmU3OWFkYTNhMmRiZTIwZWE1ZTQ0ZTQ0NDJhMzEyNDc1MjI3MDYxNjA2NDIxMGJjYWI4MjUwOTM1MjM0MzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE4OTY1YTU1ZTNlODlmNjI3MzMyMDAxOTA0ZjQ5Yjk2Yjg5YTVmODIyYTU2OTZhMTg1ZDUzNWZlMzZhNWI2MTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_fc7b4d132b784ae0991750f11fcb38bb",
+      "statement": "pnpm db:dev initializes the cluster only when PG_VERSION is missing, creates the ta_web database if absent, warns when DATABASE_URL is set, and stops Postgres on SIGINT or SIGTERM.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/db-dev.ts#L36-L64",
+          "version": "repo-lines-v1:sha256:27dbed872398d2cdf0a3e4b7395219b353339d14b0dc09f26f19fd3674ba470e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNlODIwMGViZDE3MDliNmE2NzViZWNiM2JlOWYzOWU1M2JiYWMwMmNjOTI3MjM0NjJjMDU0NjhlYjBkYTZhMTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc2OGJlN2MwZGUwMzAyMTRiOTdhOGVkNGZkMmM0MzRlYTllZWQwOGQwODI3N2JhODYwN2JhMzZkNjdkNzM4ODEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_126dbec45ca448039e37caf2a27af987",
+      "statement": "resetDevDatabase force-drops and recreates a single named database inside the embedded cluster.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/reset-dev-database.ts#L7-L23",
+          "version": "repo-lines-v1:sha256:eab3e56627bed9f2f28fb10cee18e5b6a1e8cbf7d016d025cfe05ae46b3d9e75:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA5Yjg5MjQ4NTJkMjlhNzVmYTc1MjI1M2Y3MTkwY2YzOGUzMzBmYzZiOWUyMDFlYTc0MWJhOGVhZjAwYjY3YjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJmMGY3MDRkZTAzZTdlZTBhNWMxODQ4MmFiOTI4MTU4OTdjYjU3ZDIyYjkwZjI3YjAyNjRlZDUxZGYwZmM4MjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b872c89c111645acb6ce9f978cd91a00",
+      "statement": "Payload schema push is enabled only when NODE_ENV is development; all other contexts apply committed migrations.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/db/database-url.ts#L33-L40",
+          "version": "repo-lines-v1:sha256:a8cc723384f8acb9f97b769b5a2372eada1d6b28c3fa332ce3c8b2ccdb53483a:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjlkNDUyNDI0MTlkMjdmMGJlOTA4MTFhNGIxMjY1MjUwYmM0OGYzNDZmZDQ1MWUxMmQxMDI5Mjk1N2RkOTUxZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://tests/unit/database-url.test.ts#L102-L112",
+          "version": "repo-lines-v1:sha256:2d3d0002cf78d4f7a9474727fccb05b13edd1e6f4d74145c6d85512d50e38160:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY3ZjA2ZTEwNmQ4YTYyM2ZiM2Q0MjJjMGZhNmVlNjE5MTAzYzJiOGU0ZGI3MWM1YmNiYmNkNjEyZTkzM2ZiMDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_08141421a97143cc8073d709e4bf1805",
+      "statement": "The only migration today is 20261103_030359_initial, registered in src/migrations/index.ts.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/index.ts#L1-L9",
+          "version": "repo-lines-v1:sha256:79bf854aaed65bf94bc17e82eea43d3840f4bf67e4d0b4b1e3d013ec12c2715e:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTQ1MTY0MmJjNTljYTEwNjI3YzljNWMxNzZhNDUwNDcxNGU4Y2UyNzgwZWE4MzY2YmQ3NmM2MjE3YzExNThhZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjAyZDJjMGQ2ZGM1ZTc0ZDkyZmExNGI5MWRiZWEyNjQwOTBiZWIzNWZkYjkxODhkOWIzNDExODFkY2U5ZjRjZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_8d804d5433154bcc9bb5e081a260961b",
+      "statement": "The initial migration creates the users, users_sessions, media, media_variants and media_locales tables plus Payload system tables.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261103_030359_initial.ts#L3-L110",
+          "version": "repo-lines-v1:sha256:ec377d23e36cb11d8a950275d3e7fc3666197c1889aaed698d446b1f977f4374:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA4LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIxMDI0YzA3OTZjMDQwMDk1N2FjN2Q5OTZmNTQ1YmM3YzY1YmY5OTMyZDc1M2I0ZTdjYWRiYzkxNmFkYTU5MjY4IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJhOGE0ZmM3YjA3ZTE4M2ZiMTFhY2E0OTc0YTFjNzE4MWFiNzIxZDJjYTkwMzVmNGIyMWFkZjAyZGM2NTA0YmY5IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MiwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJjOWYzMzhmYjBiMWMzZDhlNTc3MGE1NjI0MWE1NzQ3NDUwNjEzNmIzODAzOGY3ZWU0YjEyYjY1NTk2MmVkZGQxIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlOWNlY2U0NTEyMGNlZTFiMzBjMmMxNGI4NDQ1NTkzMzRjYzc5ZDU0ZGZhYzkyZjJlMjkzMjQ0YWVmMWI2MWMxIn0"
+        }
+      ]
+    },
+    {
+      "id": "claim_8b48a06e3666410888227d442afa3919",
+      "statement": "Railway runs pnpm migrate as the pre-deploy command with a 600-second timeout, and a failed migration stops the deploy while the previous version keeps serving.",
+      "evidence": [
+        {
+          "resource": "repo://.railway/railway.ts#L34-L46",
+          "version": "repo-lines-v1:sha256:fffb75be440595f712ddebc351587b38e86d5754c51e1cdebb4985ba395a91e1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliOGI4YWFmYjk5NzRiYzE2YWZkMmQ2YWE1YjVlOGViOWQ1ZWEwMDkzZWY1YzU5ZTc2MDNjZGE3ZWYyYzY5N2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ1YzA0YTgxODE0MTVlZTFmMzRlYmZiY2ZiM2ZjZmU1NWYwZGRiMjIxM2IzYmJlZDQwYjkwMmJhNTQzOTEyMWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkzYWY5NjhmOWRjZWJhZjZmMGY4Mzg3NTY5N2EwODk0ZGUyNGM3ZDMwMWQ0MTk4YjgxOWRlYWQzNmVjYjE4MWYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9ff69f067bb54397ae82eb9c62a13220",
+      "statement": "The Postgres pool uses a 5 second connection timeout and logs pool errors instead of crashing.",
+      "evidence": [
+        {
+          "resource": "repo://src/payload.config.ts#L47-L60",
+          "version": "repo-lines-v1:sha256:1bcb37ec3c874a5e2bb870d1b48896a15bca796c87f45c13f4bb0e0065c489b7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMzMTk4MTZiY2MwODBjZmY3NWNkY2Y4OWExMTc4OGVlYTVmNGExMzAyYjYyNDcxNGUzMGU4NWQwOTg5OTY5MjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQyZGQ5NDk1ZGFjYWY0YzgwYTU5OWU4NGJlYWQ3OTRlNTVjNGE1ZTBjYmJjZWY5MzdmYmRiOGUyOTVmYTVkN2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUyNThlMDc1NzNjMmMzODBmMWM4YWFmNmU5M2U1YjZhODdkMzM3OWE3YTY4ZjYyNjNhNDE5NGMxZTA2NTJmM2YifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-04T00:16:52.047Z"
+  }
+}

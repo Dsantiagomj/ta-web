@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:6cba8b351a4ce2293fde8e84948c65f94e28284d858e6ce8072efe647bdee67e",
+  "claims": [
+    {
+      "id": "claim_cb74801dca844af99590395d68fa512d",
+      "statement": "The pre-commit hook runs Prettier, then ESLint with fixes re-staged, then the gga AI review, in order and stopping at the first failure.",
+      "evidence": [
+        {
+          "resource": "repo://lefthook.yml#L5-L21",
+          "version": "repo-lines-v1:sha256:d0182f32f0548c7099a5bde8f15223be1d6a36156eb85859cf9f2a7833e3a548:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE2NGJmNDdhNDNjMzE3MzgxM2Y2NzdmNzRkZjIzZDc3MjdmMTM1YzI1MTUyYzcxZGM5Mjk4ZmFhZGZiZTA0NTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk3YTUxNTc0NGJmZTUwMGZjZDU5MGMxYTQzZjcwN2RjM2ZjM2I3YjdlOTI5YmU3ODY2NWZjNjViYWRjN2UxYzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY5MTIzZDQ4NTJiM2Y1NmNhOWNhMTdkZWE1YjE2NjZjNGIxOTEwODA5NzE0Y2FjMmNhOTZjZDNmZWQzYzcxOGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZjNTU2OTkyZWY2ODRmZWFjNTMzNGJkNDNhODQ2MjE3YTBmMzQ4NThlYTZkMDMzNmMzM2QyZmU3YzllMDJhZjEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c34a7a73bff74f199b5c57e1df31780c",
+      "statement": "The gga hook warns and lets the commit through when gga is not installed.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/hooks/gga-review.sh#L1-L10",
+          "version": "repo-lines-v1:sha256:3557cbe1496f09a6b0a3a6899d23ed2feaa2f4072e05b3acfc0446af16c4c6de:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MDc2ZDNkMjhkMjFlMDIwMTJiMjBlYWY3ZGJmNzU0MDlhNjI3NzEzNDQzOTAyNWYyODJlMzY4ZTMzMDVhYmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3YjQ3MDNiZTNkYTYxYTdiOGVmMmY5Nzk0ZTAzOTg1ZjFlNjY0YzUyMDVjNGI1NGQ3ZjhlMzZmODI4M2YwMDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0bb8ceb92f7a4ada9d202131e09404e3",
+      "statement": "gga reviews code, styles and Markdown against AGENTS.md with the Claude provider by default, excludes generated files, and treats ambiguous verdicts as failures.",
+      "evidence": [
+        {
+          "resource": "repo://.gga#L1-L23",
+          "version": "repo-lines-v1:sha256:99266a7058c6321cfed3131d48cb83fe0ea3a07efbedbbcf614de0031d77e2da:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmMTFkNDFjMThiMmVhYTZiZjBkMmE1YmM0OGE1Y2I5ODhkZjM1OTc1MDdlZTFlNWQ0NzBmY2U2YTFlZWU5YzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4NjE5ZmFmZDFhNDA0M2FmY2MyZWQzMzNiYzZhNDVkZDFmNjc0YjFjODUwODdlZTViNTA3MzRiNDg4MzVkZDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ab97940492f7432589309471458194f4",
+      "statement": "The commit-msg hook rejects Co-Authored-By lines, allows merge, revert, fixup, squash and amend subjects, and otherwise requires a conventional commit subject with an allowed type.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/hooks/commit-msg.sh#L1-L28",
+          "version": "repo-lines-v1:sha256:89665b33c78fbc121f9f415a3a067cec7d5f3a15a026a58b7a1506f1f9bf8fae:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MDc2ZDNkMjhkMjFlMDIwMTJiMjBlYWY3ZGJmNzU0MDlhNjI3NzEzNDQzOTAyNWYyODJlMzY4ZTMzMDVhYmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3NjlkMjM3Y2Q0MjBiOWQzOGI5ODFhMGE0ZjY3NzAxOTBhNGE4M2RjYTFmZTU2YzRmNWJhMWUyY2JjMGVmNzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/commit-msg.test.ts#L1-L69",
+          "version": "repo-lines-v1:sha256:defdfae79f27039b474c4c1da7a17aab3666d7236dbe744119e58cabc0d507c5:eyJzZWxlY3RlZExpbmVDb3VudCI6NjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRmMzE4NzJmMjQ3YjNmODQyZjgzOGQ3ZWNlNWExZGJhMmYwY2JmOTU1MGQxODE2MDkyMmQ4NGQ4NWVhNGZlOWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a0555bbc79de4943934b99be4fa611b4",
+      "statement": "CI runs on pull requests and pushes to main, cancels superseded PR runs only, and uses read-only contents permission with a dummy PAYLOAD_SECRET.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml#L1-L19",
+          "version": "repo-lines-v1:sha256:d77ab1bf7657dadbf4825276dd6bf993407f83385947d2236e66d19da6dae695:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA2ZTFiMzJmYTA5MDc5YWUyZjAwMDFmZmYwZWNhMjdiNDk4NTk1N2Q0ZWI0ODU3OTI5YjNjZjA1OGZhYWU1NDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQyODQ5OWM4NzhhMjk0OGFjNTFkM2YwMTNjYmNhMjdmN2ZiY2U2ODkxNDljZWFiNjZkOWUwYmM0NzNmYTE0ODkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdlZjdhYTEzNzA4YTE0ODEwMjEwMzM2YjJjZDI2NDU3NTI2YmNiMmFjNTM5NDg5Y2EyNzIxMTc1MmQ1MzEyMTcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a847d48f8243428b9b68c870edf17088",
+      "statement": "The setup action installs pnpm and Node from .nvmrc with check-latest and a pnpm cache, then installs with a frozen lockfile.",
+      "evidence": [
+        {
+          "resource": "repo://.github/actions/setup/action.yml#L1-L18",
+          "version": "repo-lines-v1:sha256:81bf4d518d9b9489a81f3acdf2e660434486afa49c36d156084c627f61c673f7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc1NDMzODNkOTRjODdiN2UzYTczOGJiNDViOWQxZjY4NDEyMjhiZjE3YWE2ZTRmZDA0YzI1NjQzMDljZDkxZGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkYTFlYmRkNWI4ZmE1OGI5NjMwY2EyNWM1MTVkOWRhY2VmZTEzNTc3OGM4NzFlYmIyY2UyNGFmMzRkMTBiMGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f2ecd7617e864da78507931afeda79cf",
+      "statement": "CI runs lint and format check, typecheck plus a stale Payload types check, unit tests, build, integration tests and E2E plus dev-gate E2E against empty Postgres 17.11 services.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml#L29-L165",
+          "version": "repo-lines-v1:sha256:f37b1b5d28a6519e015c4a5cb60eb93447ce796c467a041e2ca33145adf5513a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTM3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJmOGZiNzI3N2ZkZDIwZDJmODQ2NmZjNzNiNWU0MjcwNDc4OWIwOTk5MTY2Mjg5ZGNiMTkzNWMwMDQ4NTE2ZWRhIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI5YmY0NWQyYmMyMTA4OTVlNjdiZDFkMjBkYWFhYzFiNTk4MmE3NjY0MDgyOWZkMWYxYmI0YTY5OTU1MjkyOTQyIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmZmU0N2I5NTFhNDA2YTFkYTYxZGZkMjU2MTA4NzY4ZWY5OGRjNzk3ZTczNzBkZjM1YWZlNGJiYWI3NDYxZDEwIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI1MWIxMDYzOTZiOTU5NzUzNDk1Y2E0ZDU4Y2QyZmYzYzIzYmQ0NDI4OGY2YTBlZGNkNmZjMTVkYmVkYzYwYTliIn0"
+        }
+      ]
+    },
+    {
+      "id": "claim_9b875d3dbff74efdba556c2e0374efc5",
+      "statement": "The Pruebas job always runs, depends on every job except the GGA review, and fails unless all results are success.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml#L190-L207",
+          "version": "repo-lines-v1:sha256:209ea43c84fd730f929b92dbea74997d90c28a28a181b7fed5e0070dde852421:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQzNDYyNjkxNzkwZTcyODVmMmVlYTMzNmVhZTFhZGNhOTc4YjU2OTdhYWQ5MTRiM2YyZTNkZjQ2YTQwNjU2OTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM4MTMzM2RmNjZkNTk1YzYyMjM3NDEyZTdkMTYwN2I1Y2ZiMDExNDdmMGYzYTlkYjdiN2FjNGU3MjljNDNkMjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE5ZTk0MWE1NDc2NTliM2Q3ZjYzOTI0ODE5ODYyMmFmNzcyN2ZhOGFhYjdiMjhmNDhkZjQ2NTQ0NzVmMzM3ZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjljODg2YjI0MjU4NTU3N2FjODBkYzllN2RlZjdmODk5MzZiOGVmZDNlMGVhY2RlNmVkYWI3YmUxZjcwZDM4MTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6787e18b0515404d9ec149bfdf143942",
+      "statement": "The audit job fails on critical production advisories and only warns on high ones, reading the lockfile without installing.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml#L167-L188",
+          "version": "repo-lines-v1:sha256:c5e2f0182f916d8dfd1e1261c3a8c91125db9c419e0e4b4d09155fcc7aff7b71:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjZWQ3OTMyZDUzZjQ5ZDc3YzI2ZDkwYTBiZGViN2Y1YjM5MzhlNWNiOGVjMzQ1NTg3MjhjNjc2MjAxNThlZDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmNTU5NzljZTczMDIwMzNlNmIyZmQ3ZDg4ZjUzN2EzYjhlMDkxZWEzMDVjODExZmZhMTI3NGJmNTc2NGVhNWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5NDE4NzgzNDZmMDY3MzZjZDI3NTBjMjkyYWNkOWVjODQ1N2RlOTg0NzllYzg2MzhlZjRhYmE5NGY0NjI2ZjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZlZDNiNzczYTBiMDFlNmIwN2U2MmQyNGMwMTI4YTU0MmJjZWQ4ZGIxYWNjZWNiYTE4YmY2NWYxOTFmNWRiZDgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d76642c3cf7c45c491bab54cf29c4b38",
+      "statement": "Transitive security fixes are applied as pnpm overrides in pnpm-workspace.yaml, including a minimatch override scoped to the 10.x line.",
+      "evidence": [
+        {
+          "resource": "repo://pnpm-workspace.yaml#L13-L24",
+          "version": "repo-lines-v1:sha256:759f0cf3fd96db97f177bd718597c8d0d1f5991385700b3ec250ad72572c075b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3OTNkNGFhMDk4YTAxNWY0NmU1ODQ4YWMzNjgzOTdjMTBiZWRlZTkzNzViNGMwMmExYjFmZjRlNmMwNDc5ZTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4YWRjMWY1NjJiY2JjMWY4ZmVmZTY2NGE3MjIzMmMzODczMWE0ZmRiNmUyMmU5ZWQ5YTY5MThjZmQ3N2U3YTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZkZjM0ZDE4YTdiZTQ4Yjk4Nzk3N2I3NmEwNDk0Y2MyMTc1ODQ4ZmUxMWM4NjNkNjFhMWYxMWZkMTJlYTU5NDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e9a5182cb35a49b89ef1a666c2c134e0",
+      "statement": "The GGA review runs only on pull requests with the Codex provider, skips without the CODEX_AUTH_JSON secret, deletes the credentials afterwards, and serializes runs in one concurrency group.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml#L209-L280",
+          "version": "repo-lines-v1:sha256:c88e952b18adbe2b4cb01ddc3b8f2797553752c1e3b11134bbaba7b352d55d33:eyJzZWxlY3RlZExpbmVDb3VudCI6NzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEyNDJhYjc4OGI3OTFlMjcxODJkODBkNDk4OGFiMmRlZGY5NmNjZjA3MGUyMjRmN2Y1MzIyNzI0M2U4ZmQwNDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmOGNkOTJiM2RkYzdiZmE3ODZhYzM2NTk2NjczNGU1NTAwM2MzNDNhZTU4OGYxNTRmMGIyYWZjNTg4MDg1MGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE4YTE0MTA0NjFhYjQ0MjM3MTkyMmY0MGE2NjNmODUzNWU1YzRjMGNlNTY5YTY5OGZjMmI5ZjU3MDU0MTM0MjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8b7bb4c273d84c77a24dbee9ed2ae755",
+      "statement": "pnpm-workspace.yaml allows lefthook and the embedded Postgres binaries to run install scripts.",
+      "evidence": [
+        {
+          "resource": "repo://pnpm-workspace.yaml#L1-L11",
+          "version": "repo-lines-v1:sha256:07a3ce5447ec653d305843d96b1b743a7f5eba4bdeae377cce4289a6dbdd2463:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY4NmM5ZTM4YjhmNmI4ZGViY2ZhY2RlZDMxMDkzMTM3YTAyYzhhYzdhODI1OTBmMGM1N2UyYWRkZDdmZTU2NTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjNjU0YTcxOTY3ODE0YjRlYjEzNjZhZTJmZWE1ODgwYjA5YmFkMTA3M2ZiZGIxYTgzZjcxZjFiOGE3YzEzNjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2MjYzNDgxYjNkMTJhZTQ2MTg5OWY2OGNkMWViMzlmOTNlZWMzZmJlZjQ3ZTkwNDI2NzRlNDM5ODYwMDg4MGIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5881d6485a664dc0bbf24d5137353535",
+      "statement": "Prettier ignores all Markdown files and the generated openwiki/ directory.",
+      "evidence": [
+        {
+          "resource": "repo://.prettierignore#L15-L19",
+          "version": "repo-lines-v1:sha256:7e33d90423029cfad821bf077e531ea5fa7bb8cac25b2803931415f000fac491:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjk4MTljZjdiMzdhMjU1OGI2YWFkZDBkYTVmOWJkMGM0MWY5OTQ5NjFiZjVmMGE0NmZjNGRlOGEzNDAwMjVlMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGJiYzZkMDJkOTM0MWE5Yzg0ZjEzYmUzOWUwOTM1ODc3YTNmOWZkNTRiOTM5MmU5NDA3NjBlYWZjMGVjZGI1OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzE2ZWUwMjJhYjA5NGVhODM3YmZhNTU0Y2YyNDAwNzQ5ZTljZTRhYzVmNjBhYWU5NGE5ZjhmZmVhNDBlYjgzMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-04T00:29:31.647Z"
+  }
+}

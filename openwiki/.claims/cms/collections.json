@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:834cae701bf4b4a19b6715b638517c9df384a4f1283c859a938fdb3768a90e31",
+  "claims": [
+    {
+      "id": "claim_8f222a8a3ed24bea93d7a2b89fa079b5",
+      "statement": "The Payload config registers exactly two collections, Users and Media.",
+      "evidence": [
+        {
+          "resource": "repo://src/payload.config.ts#L25-L25",
+          "version": "repo-lines-v1:sha256:abc9ee564ae54c3e07fe0098909a5622cbe79131fb782f2381afa5e8b2b12103:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWJjOWVlNTY0YWU1NGMzZTA3ZmUwMDk4OTA5YTU2MjJjYmU3OTEzMWZiNzgyZjIzODFhZmE1ZThiMmIxMjEwMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYWJjOWVlNTY0YWU1NGMzZTA3ZmUwMDk4OTA5YTU2MjJjYmU3OTEzMWZiNzgyZjIzODFhZmE1ZThiMmIxMjEwMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGRkYjU0Y2QxOTVhYzY5NTViNTA5NzE4ZjA4YzE4ZDBhNTRkMjhkYjY1ODVjZGUzOWM0MWNjOTdkNjg1MTA2YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGM1MmRmNTRhNzU2MjE2NmNjNmMwOTNlNjMwN2UwYjNjZGQ1MjFkZGVhNjhlYWYxY2I1YWZhMzIyN2IyOGVkNSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_fb29202845394cb686861dce8d7803ed",
+      "statement": "The users collection holds admin panel accounts with auth enabled, email as the admin title and no custom fields; site members are meant to use Better Auth instead.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/Users.ts#L1-L12",
+          "version": "repo-lines-v1:sha256:c3d4e7e2619b32677f91fc572fa24e6662b59d7e71c8e2c03902fcd774e83127:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyOGFjZWZjNzRmNDY2MGNhYzA0OTgzMTBkMzZiMTQwOGU0MmU5NGFiZjUzOGZlYzYyYWQ3N2ZhNDE5YTQxNzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4607090a4cc1496597144643157c4990",
+      "statement": "An anonymous local API request with overrideAccess false cannot list, read, create, update or delete panel users.",
+      "evidence": [
+        {
+          "resource": "repo://tests/integration/users-access.test.ts#L8-L68",
+          "version": "repo-lines-v1:sha256:1d5c78c8d0c1a82690e6e7e59335b4607834e8a5b3f979b51aef379c620631e4:eyJzZWxlY3RlZExpbmVDb3VudCI6NjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBiMzlmYjIwZDdkNGYwODdhNjgyZTQxMGQ5NjlhYjBhY2U1ZmQyNmM0ODY2YTZlYzAzYzhlMGEwNWQwZTk4NWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzMTU4ODMzNWY3MzA3Yjk4YzkzYjE2NTI4NTRmM2IyYTlhMTRjOTk4MDUwODhkYWFkOGI1NTYxOGY4ODYxM2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9f8f4a4174ba491ea20078c000488eb5",
+      "statement": "The media collection has a required localized alt, a localized credits field, a variants array of key, width and avif/webp format, and an originalUrl validated by validateOptionalUrl, with uploads stored under the media static directory.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/Media.ts#L18-L73",
+          "version": "repo-lines-v1:sha256:afbf53d08adb51f6149f3a3684a2ba8be9e65a461cd5ab1dbf805afdfd4fd3d2:eyJzZWxlY3RlZExpbmVDb3VudCI6NTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMxY2M3NmQ1ZmUyYjg5M2RlNDMwMjg0MGMyODZkZGRiNDFjN2YyMjIwNTZhMzVhYWEyNWNlYzAxZDI5YTIzMzEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJlNGI3ODNjYzY4OGQ1YmI2MmIyYWZhNzc5NWEyNTMyZTYwYzY3ZmFlMTI5ZmRlMTcwMGJmNmE4ZTU0MDA4YTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/media-collection.test.ts#L12-L33",
+          "version": "repo-lines-v1:sha256:b26f4bc5b4f3d6dfc23e5eb90f019b9cb0852a7372cd58a288d52ee54864217d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmYzExNGMxY2U1MjdiY2RkM2RiMjc0NDI4NjJlNmYzYjA4Y2Y4YjZhZDQ1ZTM2ZDIxMjQxMGNmZTg4Mjk3MDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE3MjM4YWRlZDExMzA2Zjg1MzNiYmNlOTM4OTQ5NjlhZTljNTczNTM5ZjhmYmM4ODQzNTFhNTIzNzM5YWEyNzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIzM2Y2ZDFhYjg3YThjYzkwOWFmZDViNDMxZjkzMWRhMjFmMmVjMzcwNmUwZTU1Mjg1YWNhYzA1NTFhMzBmZTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_940dffa7c4d14f709f0ec09bddb4781a",
+      "statement": "validateOptionalUrl accepts empty values and http or https URLs and returns an error message for anything else.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/Media.ts#L3-L13",
+          "version": "repo-lines-v1:sha256:e172f6ede7b7f403219f794fb4b121468e42e6f0e3584ac381ede015548f71b6:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA1ZjYwYWIzMDc0ZDE0M2MwMGY0NzYwYTY4MzFmOTc1ODdkZmIxYjU2ZjgyNTI0ZDg4YjYwN2NlMWU4ZDc1ZjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoyLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIxMGU4ZTAyNzRhNzA2NzgyZWYyMDA5NzRiMzM0NzM2OGVmMmZkNzY2Y2MxNjllZTUwZGE0NDMyZjM4Nzc2ZGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFiOTYwOGQyZmEzOGRhZjBjYWY3YWJkYmYxMWU3ZWFjMTNhYmI3NjRmY2I1ZTgyZDllMTQyNmQyODY4YjcwYmYifQ"
+        },
+        {
+          "resource": "repo://tests/unit/media-collection.test.ts#L35-L52",
+          "version": "repo-lines-v1:sha256:a3726ed036519365f643d13e02a6c3909d5da026959c8f732681d5d1c1b8c7b2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU0NTdmNjY1YjE4YTNhYjNhZTAzMmM1YjEyMDZiYzUzMmExMGJkY2RlMmM0MzAxNTA4NDIxNGIyNTEzNjE2MzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ab9bb8c2950f4f58af7cf1227553751d",
+      "statement": "Media is publicly readable while create, update and delete require a signed-in panel user.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/Media.ts#L21-L23",
+          "version": "repo-lines-v1:sha256:10e2d34e54483a6ff18f7f3dcc1c93eec5eed43324b828eb2db5bb1714458919:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjBhZDVlYjI3MmMzOTg4ZjQzZWU1ODc1MWRmMTBjN2ZlMDFiMjRkOTkzZjc3NTIzYzdiMjU2MjgyZmViNTRiMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGNjMTJiMzk4ZjJhZTdmNTBjMzJmZGJmZTkzMjY1MmY1NmI5MTU3OTM5NWE1YjBiNTMxMWI2NjFiODRhMjk0ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjhlMzczMDQ1YWUwMTcwMWY3OWI0OTgxYzUwYzAxYmQ2OWU3NzVjZTQ0YmQ1MjRiZWIwZWY0OWRmOTFlYTk1ZCJ9"
+        },
+        {
+          "resource": "repo://tests/integration/media-access.test.ts#L30-L111",
+          "version": "repo-lines-v1:sha256:012247b8ce7be5a5d8b6d94c12de405b9ea10fa1b7175f67da1fd89110746348:eyJzZWxlY3RlZExpbmVDb3VudCI6ODIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY4ZDEwMjQwNDk5NGYwZDBlMDBkOTFiMDQ0OTkyZjdjYjZmMzVmOTI2ZGJjYzBjMTdlNzFiNGZhZmRjN2M0YTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYyMWU3ODFmNGE2NDIxYTNmNzk4NWRmMDQ4MGIzNGRhNjE3ZmQ4ZWRjNzlkNTM5MTY4NzBlZjllZmJiYmUyNDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_538fcdb69bc74472b3e14302fb8e0f4f",
+      "statement": "When a public media base URL is configured, the storage plugin disables Payload access control for media files and generates CDN file URLs.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/media/storage.ts#L71-L79",
+          "version": "repo-lines-v1:sha256:b4141319aed38f2d101c48796fc8803ad7caa7f59c99a7380793f11b951bb3a8:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjI3NmFhMDlmMDQ4NWExZTk0ODc3MGU4YmYxNmU2YjE3MWY1ZWNlMDVlYWIyOTUxNzIwNTA1ZjY4MjRmY2JmMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDhmNDVjMzFjYmY3MGFlOTIyN2RlNzA1Y2NiNDIwMzI3ZDEwZmZhMDhhMGYzZDU5ZjljZGJiNmUzNjE5ZjQyMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjIsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjdlMGEwYTI5N2I2ZGVjOWNmN2MzNGJlMmUzODAwN2Y3ZGZiMzA4N2MzNmRiMjE5ODQxOTMxMjc1MWFmYzRhNCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_8b026aa7550a464698850572de91d699",
+      "statement": "The initial migration stores localized media fields in a media_locales table and defines a _locales enum containing only es.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261103_030359_initial.ts#L5-L5",
+          "version": "repo-lines-v1:sha256:52cbca131de8c95a72125d3a41134a417dd7b1733383d849a3fcc7a05fcab2b7:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTJjYmNhMTMxZGU4Yzk1YTcyMTI1ZDNhNDExMzRhNDE3ZGQ3YjE3MzMzODNkODQ5YTNmY2M3YTA1ZmNhYjJiNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTJjYmNhMTMxZGU4Yzk1YTcyMTI1ZDNhNDExMzRhNDE3ZGQ3YjE3MzMzODNkODQ5YTNmY2M3YTA1ZmNhYjJiNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzQ3ZDVkOTFlMTBlMWU3ZTdkMGJiYWExM2Y4YWRmNThkZDU1MGViOWUzNjgwZjY1MDhjYjhhNzYyODcxMWViMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWExMmNmNTQ3MDczZjJhOGZkYWNiOTQ1ZTRhNDIzMjFmMTM1OWVjZGIyM2FjNTlhOGJhYTJiOTI2ZTE0NTMzNCJ9"
+        },
+        {
+          "resource": "repo://src/migrations/20261103_030359_initial.ts#L56-L62",
+          "version": "repo-lines-v1:sha256:68917ac54d29d2b76aea859d0be6baff5a03b549f019e7e0d31f69dcd4f3a591:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDM4MzFiZWZhZTFlYjk0NDMwMDZkNjQ4Njg5MzZlM2Y4MWU1YTZlYzU0NDM2YjcwYzg4YzVkYjFjNDRmZjgwNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTVlZjAxYmMwOGRiYzNiNjNlNGU3NWVhM2QyNmE1Yjk0MTg5MTg3N2UyN2FkODkxMzI5Yzg0MTFkN2Q4ZGM0ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzE5OTQ5YWE0ZDIzM2U2OGY1MWE5MGZlZjdlN2I5ODYwNjNiZWExMzZkNTdmOGI0MzZjMGE3MjJlMzZlNmRhNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWIzMjYzMDA1YmM3ZmUyMzgyZjE1YmRiNmE3OTQyNjU5NzcxY2Y0ZmIyOGQxZTA5NWZkNzFhMWRiNzU0MjdlYiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_88d64cc81cbe4668a22a938a01817bec",
+      "statement": "Spanish is the only configured locale and translatable fields are marked localized so a second language becomes a translation rather than a rewrite.",
+      "evidence": [
+        {
+          "resource": "repo://src/payload.config.ts#L34-L40",
+          "version": "repo-lines-v1:sha256:851298849b6a540f6db5bf254ac8d5da2afcb5a1a66213fbf31c0b8aa09f5347:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTIxMDQ2MTQxMTM0MjVlOWRjYTViODUwMTE3YzNjOWFiMjQ1OTdiMDYyZWNkMDJlZTc5MmRiOTI0YjIwNTFiZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTJlY2VlOTFkMWY1YTZhYzM3ZGYyMTc3Zjc3ODM2Y2ZlMmEwMTc5NWI4MWNjMDZiMTI2NDk4OTZiNmI3ZmE1ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzE1YWRlNjc2NDRiMTllZmQ2MzMxNmQ1ZDc3MmRlM2UxMTRhMWQ3ZDA0ZDI2M2VjMTA2MmI0ZDZjYjVkNmM0OSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_0865a2a67c48480c80ea46298bce5048",
+      "statement": "CI regenerates Payload types and fails when src/payload-types.ts differs from the committed file.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml#L47-L50",
+          "version": "repo-lines-v1:sha256:d8524a2f1a70f5d0a63669505e6c314913626456df2865e6ba25bd63a60e34e2:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2VmYWNiZjM4OGJhMmFjNTg4NTE4N2YyNDViOGU1NjcwZjQyNGRlZWYwYTA4MzNlYmE3NGE0ZWY3ODQwOTFjMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDM0NmY2MzZkODkxNDgwNTA4NTUzMzZlZWE2MGZlYzVhZTVhOTdiZmExYjJlZmEzNWQ0MDZlNTA3NGQ4NzdkOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzEyNmYxZjliNDQ1Y2I1ZDhlOTNmNmI2NTA4YzE3ZGRmZDkyNDY0ZDcyZTU1OTJiMDkxOWI1MzBkYjYwYmNjNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzJmOTUxYzg0ODkyMTgzMjI5N2E3OGQyZjQ2NWZhZThmNDZkZDI2ZThkZjAzMjEzZTRiNTQwYWNhMTc0ZjBhZiJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-04T00:16:52.047Z"
+  }
+}
