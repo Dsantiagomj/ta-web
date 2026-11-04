@@ -198,6 +198,19 @@ describe('neededItems', () => {
     expect(needed[0]!.item.name).toBe('Dofus Esmeralda')
   })
 
+  it('un objeto de misión es el del supertipo 14 de DofusDB, sea cual sea su tipo', () => {
+    // Un tipo de misión que no existía y un tipo de la lista vieja en otro supertipo
+    const newQuestKey = { id: 1, name: 'Llave de un tipo nuevo', typeId: 999, superTypeId: 14 }
+    const resource = { id: 2, name: 'Recurso', typeId: 129, superTypeId: 9 }
+    const needed = neededItems({
+      items: [
+        { item: newQuestKey, quantity: 1 },
+        { item: resource, quantity: 2 },
+      ],
+    })
+    expect(needed.map(({ item }) => item.id)).toEqual([2])
+  })
+
   it('salta los objetos sin poblar', () => {
     expect(neededItems({ items: [{ item: 7, quantity: 1 }] })).toEqual([])
   })
