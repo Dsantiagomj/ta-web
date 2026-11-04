@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:6e69d08d8cb30292697e5d39be8d8b77a6c46675e4517a280816e77134af7549",
+  "pageVersion": "sha256:82bbec1f22f9d5ad4cfa90a4896781226ec205d4760536a1829a9e2c24d0840e",
   "claims": [
     {
       "id": "claim_c4d0210fcc834f69a874cfcee7b4d598",
@@ -80,11 +80,11 @@
     },
     {
       "id": "claim_08141421a97143cc8073d709e4bf1805",
-      "statement": "There are three migrations today, 20261103_030359_initial, 20261104_070541_quests and 20261104_124207_quest_guides, registered in src/migrations/index.ts.",
+      "statement": "There are four migrations today, 20261103_030359_initial, 20261104_070541_quests, 20261104_124207_quest_guides and 20261104_174941_dofusdb_items_rewards, registered in src/migrations/index.ts.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/index.ts#L1-L21",
-          "version": "repo-lines-v1:sha256:8ffe165c12baee327ae985dfbf6fa43f30a82eb9dd00976bbf87d8a3795b0173:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0NTE2NDJiYzU5Y2ExMDYyN2M5YzVjMTc2YTQ1MDQ3MTRlOGNlMjc4MGVhODM2NmJkNzZjNjIxN2MxMTU4YWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/migrations/index.ts#L1-L27",
+          "version": "repo-lines-v1:sha256:ccd058b945fa4c40441eb86f6053f54758ea9ae19d2cd9458bc2b155d21c4611:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0NTE2NDJiYzU5Y2ExMDYyN2M5YzVjMTc2YTQ1MDQ3MTRlOGNlMjc4MGVhODM2NmJkNzZjNjIxN2MxMTU4YWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -113,7 +113,7 @@
       "statement": "The Postgres pool uses a 5 second connection timeout and logs pool errors instead of crashing.",
       "evidence": [
         {
-          "resource": "repo://src/payload.config.ts#L48-L62",
+          "resource": "repo://src/payload.config.ts#L50-L64",
           "version": "repo-lines-v1:sha256:2e69736945af72d4dbed350aae0e9c5a75bb2a4a9e29b762efda7d7ced0fcbd9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0MGM0NGQ4MDg5NWUwMmY4N2E1YzUzMDc4MjkzYTgwYmZhYjFiOTdhNTAyNjJjZDZjNGMwZGFkYWI4MDkzODYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjljZTAzMzVlOWExMWI0N2I5NjU1Njc2MTc0NTlhYWQ4OTMzZjI0YzYxNmUyNDZkZGI0MWMwYzIyMzY1OWJhMDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUyNThlMDc1NzNjMmMzODBmMWM4YWFmNmU5M2U1YjZhODdkMzM3OWE3YTY4ZjYyNjNhNDE5NGMxZTA2NTJmM2YifQ"
         }
       ]
@@ -143,8 +143,8 @@
       "statement": "tests/integration/migrations.test.ts runs pnpm payload migrate:down and then pnpm payload migrate against the integration database with DATABASE_CONNECTION=direct, asserting the latest migration in src/migrations/index.ts is rolled back and re-applied.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/index.ts#L5-L21",
-          "version": "repo-lines-v1:sha256:384a9f4b772d8ea00f1277cb6978c0c53c0894ca7e1f7b90ee639c47f550d72b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMGVkYzRmYjExMzQ3MTVkZmYyYWMxM2VkNzlhODc3YmQzOGQxMTdiNzY0MjViMGJiMzJlMGRhZDgzY2IzNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFkM2MwM2NjMjM4MDUyNGJkOTk3ODhmM2FkYWFkNDJlNGM1NDQ0NzFiODA1ZWJiMzc0YjVhMThhNjNjNWM5MjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/migrations/index.ts#L6-L27",
+          "version": "repo-lines-v1:sha256:75f7bb9c4da56214e363429d4c8a0224f6e6677670877b6c810144dba3ac7790:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMGVkYzRmYjExMzQ3MTVkZmYyYWMxM2VkNzlhODc3YmQzOGQxMTdiNzY0MjViMGJiMzJlMGRhZDgzY2IzNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM5MDQxZjMzNGYxNTgxMzEwMDA0ZmI5YmRhYmFlNzhhYTMyMzFiNzA2MjNkNjIwYjAwYmEzOGE2M2U3ODRlOTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://tests/integration/migrations.test.ts#L8-L39",
@@ -209,10 +209,34 @@
           "version": "repo-lines-v1:sha256:7c6ce74919c8c2f861060e8f3c7e4265a3a804238621794a948dba470d681615:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNThhZmRkMzIwZmFlOWVjYmY1YmZkNmM4OTFkY2Y1ZGM3ZjU0ZWJlNDEwYmJkZDgxMjg5NzkwYzEzOGE5NTQzNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGExZDM4YmQ3YTE3YmMzNmE0MjdiMzU5MzBkMWEyNjExZGY5M2ZkNmE1YTVmOGFjYmM3MTAxYmE4ZDBkYjI5OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjIyMjQwNDYzYzRhM2FlNmIzZDY3ODRjNDVlNGNjODdhY2JjNDkwNTM3NzRlM2I4M2EwMjY3OTY1YTA3NDdhMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODU4MGI3NjUxOGRhZTk3OWZhZWJkMDIzNjdhMjkyOTJhNTBkOTc2MDkyMjUxYTM4YTZjZTMwODgwYmE0MjgyNSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_a381bfa2c3cb49ca9c503ff4b59750f8",
+      "statement": "The dofusdb_items_rewards migration creates items and monsters with unique dofus_id indexes and _locales tables, the quests_rewards_items, quests_needs_items, quests_needs_monsters and quests_numbers tables, the rewards_experience, rewards_kamas and needs_walks_maps columns on quests, and items_id and monsters_id columns on payload_locked_documents_rels; its down drops them.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261104_174941_dofusdb_items_rewards.ts#L111-L138",
+          "version": "repo-lines-v1:sha256:ed19ecf23f438fe6261601f997cda076f15bc544c8fa2104bd755ad690373316:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhNzQ5ZmQxN2MwY2Q2NzlmYmZmYzdmNmYyYzBkY2IxNWE1Mjg0YTc2MTg1NGY3ZWI3YTM4MTAyNjljOGVmZmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAxMTdmNTdhNTAyYjBhNDZkYWM1M2M5MjIyZWI5YmU4OGQyOTJiNTg1YjgyOTczNGE4NzMxZWU0NTQ5ZDI1NzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/migrations/20261104_174941_dofusdb_items_rewards.ts#L3-L109",
+          "version": "repo-lines-v1:sha256:4f5abbb22582ceef5fb6ddd560fb4e945845c24a8926d68a9b83882c1ef662d8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIxMDI0YzA3OTZjMDQwMDk1N2FjN2Q5OTZmNTQ1YmM3YzY1YmY5OTMyZDc1M2I0ZTdjYWRiYzkxNmFkYTU5MjY4IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MiwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJjOWYzMzhmYjBiMWMzZDhlNTc3MGE1NjI0MWE1NzQ3NDUwNjEzNmIzODAzOGY3ZWU0YjEyYjY1NTk2MmVkZGQxIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI1OTBhZjY3OGViNDM0YjUxMjZiMjI0NDQ4YjYxMTEwMTIwYWNlZTYzMTZjYjY3YTJhOTI0Yjc2MjExMjkxODJjIn0"
+        }
+      ]
+    },
+    {
+      "id": "claim_8895f0582a34408c9906db5b4f0ab512",
+      "statement": "The dofusdb_items_rewards migration's down does not drop the payload_locked_documents_rels items and monsters foreign keys separately, because dropping the items and monsters tables with CASCADE already removes them.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261104_174941_dofusdb_items_rewards.ts#L121-L132",
+          "version": "repo-lines-v1:sha256:0e471ecfb386891abc98f968b6295a18250192f15e66d9559b5ff0ebf19306fa:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBmZjJjNGJiZTY2YWQxNDkxZmI4NTc3MGRmNjFjNzYzZGExYjZlYTM0NmI3NWZhNzIwMTBlMTRkZTRhODFlN2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyNDQxMmU4MzI4ZjlhNDhhNDQ2MzZiNmUyYTU0MDY0ODJkZmY5NzFlMDYwYTBjMGFjNjdjYzQ5NzI2MzdkNTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJkNzMyMjk1NTNjYzk1YjMxOWUxMDg2MjkzOGU4YTFlMWZjYzAzNTliNjU2Yjc0ZTYwYTc2N2NlMWMwNGJkYjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM3M2ZjODc2OGNjNjhkNTMyYjk0YzI5ZjVhOWFjNGQ4OTI1NGY1YjExNWExMWVmMzg5NWUzNzJjZWM2NDllYWEifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T15:33:25.988Z"
+    "at": "2026-11-04T18:10:54.480Z"
   }
 }

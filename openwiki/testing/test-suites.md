@@ -16,10 +16,14 @@ sources:
     resource: repo://tests/e2e/robots.spec.ts
   - id: openwiki-source-a493eb920ff6a7f8859a6c69
     resource: repo://tests/e2e/smoke.spec.ts
+  - id: openwiki-source-ba3f0fcedbfe897756d56965
+    resource: repo://tests/fixtures/dofusdb/quests-steps.json
   - id: openwiki-source-f771f456156fbf6bde7862c2
     resource: repo://tests/fixtures/dofusdb/quests.json
   - id: openwiki-source-1c31b10d596a8990b9ccb573
     resource: repo://tests/fixtures/squarespace/el-cazador-cazado.html
+  - id: openwiki-source-46cbabf1b3d2b7c36423da7e
+    resource: repo://tests/integration/game-data-access.test.ts
   - id: openwiki-source-450b6a23d7e25100eadc359f
     resource: repo://tests/integration/global-setup.ts
   - id: openwiki-source-5cd8fc4d5a65c01359ed92e2
@@ -38,6 +42,12 @@ sources:
     resource: repo://tests/unit/dofusdb-fetch-quest-data.test.ts
   - id: openwiki-source-1a4d893bc4ddfe68ab2aff11
     resource: repo://tests/unit/dofusdb-map-quest.test.ts
+  - id: openwiki-source-5168230ef1521672cbb49873
+    resource: repo://tests/unit/dofusdb-quest-needs.test.ts
+  - id: openwiki-source-3da4b4a0b727301694dfca60
+    resource: repo://tests/unit/dofusdb-quest-rewards.test.ts
+  - id: openwiki-source-cd37c5a886e3aa1e214dad74
+    resource: repo://tests/unit/game-data-collections.test.ts
   - id: openwiki-source-bf890cc4722b5033a81aa698
     resource: repo://tests/unit/import-fetch-image.test.ts
   - id: openwiki-source-d5617545465b10f7c4424728
@@ -60,10 +70,10 @@ sources:
     resource: repo://vitest.config.mts
   - id: openwiki-source-57da85ca1bb457973a5594ff
     resource: repo://vitest.integration.config.mts
-generated: { by: "claude-code", at: "2026-11-04T17:27:29.927Z" }
+generated: { by: "claude-code", at: "2026-11-04T18:10:54.480Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T17:27:29.927Z
+    at: 2026-11-04T18:10:54.480Z
 ---
 
 # Test suites
@@ -83,9 +93,9 @@ The repo works test-first (AGENTS.md: strict TDD). There are five suites. All of
 `vitest.config.mts` runs `tests/unit/**/*.test.ts` in the Node environment, with `vite-tsconfig-paths` so `@/…` imports work. Unit tests target the pure resolvers and builders that take an `env` record, which is why most server logic is written that way:
 
 - configuration: `database-url`, `media-storage`, `sentry-options`, `railway-config` (evaluates `.railway/railway.ts` for each environment), `next-config`, `test-database-env`;
-- behavior: `health` (fake pool and timers), `dev-gate`, `robots`, `theme`, `mode-script`, `mode-toggle-strings`, `media-collection`, `quests-collection`;
+- behavior: `health` (fake pool and timers), `dev-gate`, `robots`, `theme`, `mode-script`, `mode-toggle-strings`, `media-collection`, `quests-collection` (including the `rewards` and `needs` groups), `game-data-collections` (the `items` and `monsters` fields and the shared read-only `gameDataAccess`);
 - quest guides: `quest-guides-collection` (fields, versions, `validateSlug` and the access functions) and `quest-guide-blocks` (each body block's fields and `validateVideoUrl`);
-- DofusDB refresh: `dofusdb-client` (paging, ID chunks, pauses and errors through an injected fake `fetch`, never the network), `dofusdb-map-quest` (names, start positions and the prerequisite rule) and `dofusdb-fetch-quest-data` (only the NPCs and maps named in start positions are looked up);
+- DofusDB refresh: `dofusdb-client` (paging, ID chunks, pauses and errors through an injected fake `fetch`, never the network), `dofusdb-map-quest` (names, start positions, rewards and needs from the steps, and the prerequisite rule), `dofusdb-quest-rewards` (the level-200 XP and kamas formula against Torre's and dofusdb.fr's figures, per-step flooring, the last reward entry, items and IDs), `dofusdb-quest-needs` (which objectives count, the larger-quantity rule between `need.items` and deliveries, `walksMaps`) and `dofusdb-fetch-quest-data` (only the NPCs and maps named in start positions, and the items and monsters named in rewards and needs, are looked up);
 - Squarespace import: `import-parse-page` (title, desktop grid order, text, image and unknown blocks), `import-to-quest-guide` (summary, start NPC, what leaves the body, callouts, oddities), `import-rich-text` (HTML to Lexical through Payload's editor), `import-quest-matches` (the slug to DofusDB IDs CSV) and `import-fetch-image` (image downloads only over `https` from Squarespace's CDN, without redirects and only for `image/*` responses, through an injected fake `fetch`). See [Squarespace import](../data/squarespace-import.md);
 - tooling: `commit-msg` (runs the git hook script).
 
@@ -99,7 +109,8 @@ Real Payload (`getPayload`) against a real Postgres with the committed migration
 - Helpers in `tests/integration/payload.ts`: `startPayload`, `tinyPng` (a 1×1 PNG in memory) and `createPanelUser` (creates and logs in a panel user, returning what Payload puts in `req.user`).
 - Access tests call the local API with `overrideAccess: false`; omitting `user` makes the call anonymous. See [Collections and access](../cms/collections.md).
 - `quest-guides-access.test.ts` goes further than the other access tests: besides who may read and write, it checks that anonymous reads hide drafts, that a panel user can publish a draft and get a version, and that a guide with all four [body blocks](../cms/blocks.md), linked quests and an image saves and reads back. When it finishes it deletes every guide, quest and media document in the integration database.
-- `refresh-quests.test.ts` runs `refreshQuests` three times against the integration database: the first run creates the fixture quests and skips missing prerequisites, a second run with the same data changes nothing and keeps `refreshedAt`, and a third run updates only what changed and links a prerequisite that now exists. It deletes its fixture quests before and after. See [DofusDB game data refresh](../data/dofusdb-refresh.md).
+- `game-data-access.test.ts` checks `items` and `monsters` at runtime: an anonymous request can `find` and `findByID`, and a panel user gets `Forbidden` on create, update and delete with the data unchanged.
+- `refresh-quests.test.ts` runs `refreshQuests` three times against the integration database: the first run creates the fixture quests and skips missing prerequisites, a second run with the same data changes nothing and keeps `refreshedAt`, and a third run updates only what changed and links a prerequisite that now exists. A second block does the same for rewards and needs: it creates the fixture items and monsters and links rewards and needs by Payload ID, a rerun changes nothing, and a third run updates only the renamed item and the changed quest and skips an item DofusDB did not return. It deletes its fixture quests, items and monsters before and after. See [DofusDB game data refresh](../data/dofusdb-refresh.md).
 - `import-quest-guides.test.ts` runs the Squarespace loader on the five fixture pages with a fake `fetchImage` that returns a 1×1 PNG. It checks drafts with all four block types and the existing quest linked, one `media` record per image with its URL and alt, the oddities, a second run that changes, downloads and versions nothing, one new draft for a changed guide, a summary field that disappears being cleared without extra versions on the next run, no drafts visible to anonymous readers and an invalid slug skipped. It cleans up its guides, media and quests before and after. See [Squarespace import](../data/squarespace-import.md#loading-into-payload).
 - `migrations.test.ts` checks that the latest migration rolls back and re-applies: it runs the Payload CLI (`pnpm payload migrate:down`, then `pnpm payload migrate`) with `integrationEnv` and `DATABASE_CONNECTION=direct`, leaving the database as it was. It starts the CLI twice, so it has its own 120 s timeout instead of the suite's 30 s. See [Database and migrations](../data/database.md#migrations).
 
@@ -133,7 +144,7 @@ Specs:
 
 ## Fixtures
 
-`tests/fixtures/dofusdb/` holds real DofusDB rows (`quests.json`, `npcs.json`, `map-positions.json`) shared by the DofusDB unit tests and `refresh-quests.test.ts`. The quests cover a plain criterion, several start positions, alternatives joined by `|` and a `Qa=` term.
+`tests/fixtures/dofusdb/` holds real DofusDB rows (`quests.json`, `npcs.json`, `map-positions.json`) shared by the DofusDB unit tests and `refresh-quests.test.ts`. The quests cover a plain criterion, several start positions, alternatives joined by `|` and a `Qa=` term. `quests-steps.json` adds nine quests with their steps, rewards and objectives, and `items.json` and `monsters.json` hold exactly the items and monsters those quests name; they feed the rewards, needs, fetch and refresh tests.
 
 `tests/fixtures/squarespace/` holds trimmed copies of the five demo Squarespace pages, one HTML file per slug, read by the import unit tests. Prettier ignores the directory so the files stay byte for byte as the parser expects.
 
