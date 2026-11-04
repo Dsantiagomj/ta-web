@@ -33,7 +33,7 @@ Every change: code, content model, migrations, data, docs, CI. Read this file be
 
 ## Repo layout
 
-`src/globals/` and `scripts/import/` do not exist yet.
+`src/globals/` does not exist yet.
 
 | Path | What |
 |---|---|

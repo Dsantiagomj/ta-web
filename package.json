@@ -55,6 +55,7 @@
     "embedded-postgres": "17.11.0-beta.19",
     "eslint": "9.39.5",
     "eslint-config-next": "16.4.2",
+    "happy-dom": "21.0.4",
     "lefthook": "2.2.2",
     "prettier": "3.9.10",
     "railway": "3.16.0",
