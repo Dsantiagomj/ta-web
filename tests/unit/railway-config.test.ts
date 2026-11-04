@@ -77,14 +77,16 @@ describe.each(['dev', 'production'])('servicio web en %s', (environment) => {
 })
 
 describe('dev', () => {
-  it('despliega cada push a main cuando pasa CI', async () => {
+  // Los PR ya pasan el mismo CI antes de entrar (rebase, historia lineal). Esperar otra
+  // vez a los checks de GitHub sobre main solo retrasaba el despliegue.
+  it('despliega cada push a main sin esperar al CI de main', async () => {
     const web = await webService('dev')
 
     expect(web.source).toMatchObject({
       type: 'github',
       repo: 'Dsantiagomj/ta-web',
       branch: 'main',
-      checkSuites: true,
+      checkSuites: false,
     })
   })
 

@@ -25,10 +25,11 @@ export default defineRailway((ctx) => {
   const dev = environment === 'dev'
 
   const web = service('web', {
-    // dev despliega cada push a main en cuanto pasan los checks de GitHub. production
-    // no tiene fuente de GitHub: solo despliega el workflow de release con `railway up`,
-    // detrás de la aprobación del entorno production de GitHub.
-    ...(dev ? { source: github(REPO, { branch: 'main', checkSuites: true }) } : {}),
+    // dev despliega cada push a main sin esperar a los checks de GitHub: el PR ya pasó
+    // el mismo CI antes de entrar. production no tiene fuente de GitHub: solo despliega
+    // el workflow de release con `railway up`, detrás de la aprobación del entorno
+    // production de GitHub y de Pruebas en el commit.
+    ...(dev ? { source: github(REPO, { branch: 'main', checkSuites: false }) } : {}),
     build: { builder: 'RAILPACK', buildCommand: 'pnpm build' },
     start: 'pnpm start',
     // Migraciones por la URL directa de Neon; si fallan, el despliegue se para y la

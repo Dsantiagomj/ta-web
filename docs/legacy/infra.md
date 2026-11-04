@@ -62,7 +62,7 @@ feature branch ──PR──▶ CI: lint, types, unit, integration,─┐
 ```
 
 - **Branch protection.** The ruleset `Proteger main` (section 6). `Revisión GGA` stays advisory.
-- **Dev deploys.** Every push to `main`, through Railway's GitHub integration, once the GitHub checks pass. No manual step. Then `deploy-dev-smoke.yml` polls `$DEV_URL/api/health` for up to 5 minutes until it reports the deployment's commit, and runs the smoke suite against `DEV_URL` with the dev basic-auth credentials. It never uses the deployment's `environment_url` (section 9).
+- **Dev deploys.** Every push to `main`, through Railway's GitHub integration, without waiting for the GitHub checks on `main`: each PR already passed the same CI (`Pruebas`) before its rebase merge, and history is linear. No manual step. Then `deploy-dev-smoke.yml` polls `$DEV_URL/api/health` for up to 5 minutes until it reports the deployment's commit, and runs the smoke suite against `DEV_URL` with the dev basic-auth credentials. It never uses the deployment's `environment_url` (section 9).
 - **Prod deploys.** Only `release.yml`, run by hand from `main` with a semver version. It refuses to run unless the repository owner triggered it, checks that `Pruebas` passed on the commit, creates the tag and GitHub release, sets `GIT_COMMIT_SHA`, deploys with `railway up` and the `RAILWAY_TOKEN` of the GitHub environment `production`, waits until `/api/health` reports the commit, then runs the smoke suite. Railway's `production` has no GitHub source, so nothing else deploys it.
 - **Migrations.** `pnpm migrate` is the pre-deploy command in both environments, against the direct Neon URL. A failed migration stops the deploy and the previous version keeps serving.
 - **Rollback.** For code, redeploy the previous Railway deployment. Schema changes are forward-only: a bad migration gets a new migration. Neon point-in-time restore is the last resort for data, and the Free plan keeps only 6 hours of history.
@@ -102,7 +102,7 @@ Every variable the app reads goes in `.env.example` in the same PR (AGENTS.md). 
 - Workspace `DSMJProjects`, project `ta-web` (`e7259c49-dfaa-4d86-9c5c-e2461681fdf5`), service `web`.
 - Environments `dev` and `production`, region `us-east4-eqdc4a` (US East, Virginia).
 - Domains: dev `https://ta-web-dev.up.railway.app`, prod `https://ta-web-production-7f45.up.railway.app`.
-- `dev` has the GitHub source `main` with `checkSuites`: it deploys after the checks pass. `production` has no source; only `release.yml` deploys it, with `railway up`.
+- `dev` has the GitHub source `main` with `checkSuites: false` in `.railway/railway.ts`: it deploys without waiting for the checks. Until `railway config apply` runs for `dev` after that change merges, Railway keeps `checkSuites` on and waits for the checks. `production` has no source; only `release.yml` deploys it, with `railway up`.
 - Config comes from `.railway/railway.ts`, applied to both environments with `railway config plan` and `railway config apply` on 2026-11-03.
 - First dev deploy succeeded on 2026-11-03: the pre-deploy applied migration `20261103_030359_initial`, `/api/health` answered ok, and basic auth and `X-Robots-Tag` behaved as expected.
 - First prod deploy succeeded on 2026-11-03 with release `v0.1.0` (commit `172686b`): the pre-deploy applied `20261103_030359_initial` to Neon `main`, `/api/health` reported the commit, and the smoke suite passed. Prod serves without basic auth, and `robots.txt` allows everything except `/admin`.
@@ -142,7 +142,7 @@ Every variable the app reads goes in `.env.example` in the same PR (AGENTS.md). 
 | Region | US East: Railway US East (Virginia), Neon AWS `us-east-1` |
 | Prod deploy mechanism | Railway CLI (`railway up`) from `release.yml`, with a project token in the GitHub environment `production`. No auto-deploy on prod |
 | Prod approval | The repository owner (Daniel) runs or re-runs `release.yml`; anyone else is refused |
-| Dev deploy | Railway's GitHub integration on `main`, after the checks pass |
+| Dev deploy | Railway's GitHub integration on `main`, without waiting for the checks: the PR already passed them |
 | Dev access gate | Basic auth in the Next proxy, active only in the dev environment, plus `noindex`. Cloudflare Access on `dev.torrentearcano.com` replaces it after the domain transfer. `/api/health` stays open |
 | Dev smoke target | Always `DEV_URL`, after `/api/health` reports the deployed commit |
 | Schema changes | Forward-only migrations, applied by the pre-deploy command |
