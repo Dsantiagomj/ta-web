@@ -1,0 +1,1711 @@
+[
+  {
+    "id": 1977,
+    "name": {
+      "id": "753382",
+      "de": "Wer anderen eine Grube gräbt",
+      "en": "It's a Case of the Biter Bit",
+      "es": "El cazador cazado",
+      "fr": "Tel est pris qui croyait prendre",
+      "pt": "O feitiço se volta contra o feiticeiro"
+    },
+    "levelMin": 25,
+    "levelMax": 25,
+    "categoryId": 3,
+    "startCriterion": "Qf=1976",
+    "startPosition": [
+      {
+        "mapId": 103548416,
+        "npcId": 1901
+      }
+    ],
+    "need": {
+      "items": [],
+      "quantities": [],
+      "quests": [1976],
+      "achievements": []
+    },
+    "steps": [
+      {
+        "id": 2648,
+        "optimalLevel": 25,
+        "duration": 0.5,
+        "rewards": [
+          {
+            "id": 6644,
+            "levelMin": -1,
+            "levelMax": -1,
+            "experienceRatio": 1,
+            "kamasRatio": 1,
+            "kamasScaleWithPlayerLevel": false,
+            "itemsReward": [
+              [2322, 2],
+              [304, 2]
+            ],
+            "emotesReward": [],
+            "spellsReward": [],
+            "titlesReward": [],
+            "jobsReward": []
+          }
+        ],
+        "objectives": [
+          {
+            "id": 14111,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "parameters": {
+              "parameter0": 1574,
+              "parameter1": 19728,
+              "parameter2": 1,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 14112,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 4319,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 14113,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 4315,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 14114,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 4349,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 14115,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 756078,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 14117,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 753386,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 14118,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 4413,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 14119,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 754753,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 14120,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 753390,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 14121,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 4413,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 1976,
+    "name": {
+      "id": "751052",
+      "de": "Unter der Erde",
+      "en": "Six Feet Under",
+      "es": "Seis pies bajo tierra",
+      "fr": "Six pieds sous terre",
+      "pt": "A sete palmos"
+    },
+    "levelMin": 20,
+    "levelMax": 20,
+    "categoryId": 3,
+    "startCriterion": "Qf=1975",
+    "startPosition": [
+      {
+        "mapId": 192415748,
+        "npcId": 4412
+      }
+    ],
+    "need": {
+      "items": [],
+      "quantities": [],
+      "quests": [1975],
+      "achievements": []
+    },
+    "steps": [
+      {
+        "id": 2636,
+        "optimalLevel": 20,
+        "duration": 0.5,
+        "rewards": [
+          {
+            "id": 6643,
+            "levelMin": -1,
+            "levelMax": -1,
+            "experienceRatio": 1,
+            "kamasRatio": 1,
+            "kamasScaleWithPlayerLevel": false,
+            "itemsReward": [
+              [2491, 1],
+              [388, 1],
+              [373, 1],
+              [366, 1]
+            ],
+            "emotesReward": [],
+            "spellsReward": [],
+            "titlesReward": [],
+            "jobsReward": []
+          }
+        ],
+        "objectives": [
+          {
+            "id": 13967,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 751055,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 13968,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 4324,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 13969,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 751056,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 13971,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 4424,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 13970,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 751057,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 13972,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 751061,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 13973,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 4424,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 13974,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 1901,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 332,
+    "name": {
+      "id": "888044",
+      "de": "König Eiland Där",
+      "en": "The O'Antitch King",
+      "es": "El rey Estitch",
+      "fr": "Le roi Estitch",
+      "pt": "Ali em Estitch"
+    },
+    "levelMin": 180,
+    "levelMax": 180,
+    "categoryId": 10,
+    "startCriterion": "Ps=2&Pa=79&PL>169&Qf=331",
+    "startPosition": [
+      {
+        "mapId": 216530944,
+        "npcId": 6401
+      }
+    ],
+    "need": {
+      "items": [],
+      "quantities": [],
+      "quests": [331],
+      "achievements": []
+    },
+    "steps": [
+      {
+        "id": 2324,
+        "optimalLevel": 180,
+        "duration": 2,
+        "rewards": [
+          {
+            "id": 5725,
+            "levelMin": -1,
+            "levelMax": -1,
+            "experienceRatio": 1.2,
+            "kamasRatio": 0,
+            "kamasScaleWithPlayerLevel": false,
+            "itemsReward": [],
+            "emotesReward": [],
+            "spellsReward": [],
+            "titlesReward": [],
+            "jobsReward": []
+          }
+        ],
+        "objectives": [
+          {
+            "id": 10371,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 888045,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10372,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 888046,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10373,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 1161,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10374,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 888047,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10375,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "parameters": {
+              "parameter0": 955,
+              "parameter1": 10424,
+              "parameter2": 1,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10376,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 1013,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10377,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 770,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10378,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 888048,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10379,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 888049,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10380,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 888050,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10381,
+            "className": "QuestObjectiveDiscoverMapData",
+            "parameters": {
+              "parameter0": 591095,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10382,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 3085,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10383,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 4246,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10384,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 3085,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10385,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "parameters": {
+              "parameter0": 6401,
+              "parameter1": 9264,
+              "parameter2": 1,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 1433,
+    "name": {
+      "id": "421809",
+      "de": "Tiefenrausch",
+      "en": "Rapture of the Deep",
+      "es": "Intoxicación profunda",
+      "fr": "L'ivresse des profondeurs",
+      "pt": "Embriaguez profunda"
+    },
+    "levelMin": 200,
+    "levelMax": 200,
+    "categoryId": 30,
+    "startCriterion": "PL>179",
+    "startPosition": [
+      {
+        "mapId": 90708227,
+        "npcId": 2186
+      }
+    ],
+    "need": {
+      "items": [],
+      "quantities": [],
+      "quests": [],
+      "achievements": []
+    },
+    "steps": [
+      {
+        "id": 2053,
+        "optimalLevel": 200,
+        "duration": 0.5,
+        "rewards": [
+          {
+            "id": 6057,
+            "levelMin": -1,
+            "levelMax": -1,
+            "experienceRatio": 0.8,
+            "kamasRatio": 1,
+            "kamasScaleWithPlayerLevel": false,
+            "itemsReward": [],
+            "emotesReward": [],
+            "spellsReward": [],
+            "titlesReward": [],
+            "jobsReward": []
+          }
+        ],
+        "objectives": [
+          {
+            "id": 7946,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "parameters": {
+              "parameter0": 2186,
+              "parameter1": 14808,
+              "parameter2": 10,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2420,
+    "name": {
+      "id": "921485",
+      "de": "Eine Wiedergeburt zwischen den Zeiten",
+      "en": "Meanwhile, a Rebirth",
+      "es": "Entretanto, un renacer",
+      "fr": "Entretemps, une renaissance",
+      "pt": "Enquanto isso, um renascimento"
+    },
+    "levelMin": 200,
+    "levelMax": 200,
+    "categoryId": 4,
+    "startCriterion": "PL>189&OA=1705&Qf=2409&Qf=2138&((Qa=2422&Qo>18280)|Qf=2422)&PO=737&PO=694&PO=739&PO=7754&PO=7115&PO=7114",
+    "startPosition": [
+      {
+        "mapId": 207623176,
+        "npcId": 6167
+      }
+    ],
+    "need": {
+      "items": [737, 694, 739, 7754, 7115, 7114],
+      "quantities": [1, 1, 1, 1, 1, 1],
+      "quests": [2409, 2138, 2422, 2422],
+      "achievements": [1705]
+    },
+    "steps": [
+      {
+        "id": 3077,
+        "optimalLevel": 200,
+        "duration": 1,
+        "rewards": [
+          {
+            "id": 6940,
+            "levelMin": -1,
+            "levelMax": -1,
+            "experienceRatio": 1.2,
+            "kamasRatio": 1.2,
+            "kamasScaleWithPlayerLevel": false,
+            "itemsReward": [],
+            "emotesReward": [],
+            "spellsReward": [],
+            "titlesReward": [],
+            "jobsReward": []
+          }
+        ],
+        "objectives": [
+          {
+            "id": 18298,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 6222,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 18299,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 913758,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 18300,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 913766,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 18301,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 4325,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 18302,
+            "className": "QuestObjectiveDiscoverMapData",
+            "parameters": {
+              "parameter0": 913823,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 18303,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 913826,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 18304,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 913832,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 18305,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 4209,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 18306,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 922022,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 18307,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 913841,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 18308,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 6400,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 18309,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 927874,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 18310,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 6400,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 18311,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 913882,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 241,
+    "name": {
+      "id": "54297",
+      "de": "Auf Safari mit Crocodyll Dundy",
+      "en": "Crocodyl Dandy's Hunting Sessions",
+      "es": "De Safari con Cocodrail Dandi",
+      "fr": "Les Chasses de Crocodaille Dandi",
+      "pt": "Sessões de Caça de Crocodyl Dandy"
+    },
+    "levelMin": 50,
+    "levelMax": 150,
+    "categoryId": 21,
+    "startCriterion": "Qf=232",
+    "startPosition": [
+      {
+        "mapId": 20974080,
+        "npcId": 937
+      }
+    ],
+    "need": {
+      "items": [],
+      "quantities": [],
+      "quests": [232],
+      "achievements": []
+    },
+    "steps": [
+      {
+        "id": 432,
+        "optimalLevel": 50,
+        "duration": 1,
+        "rewards": [
+          {
+            "id": 99,
+            "levelMin": -1,
+            "levelMax": -1,
+            "experienceRatio": 1,
+            "kamasRatio": 1,
+            "kamasScaleWithPlayerLevel": false,
+            "itemsReward": [[8730, 1]],
+            "emotesReward": [],
+            "spellsReward": [],
+            "titlesReward": [],
+            "jobsReward": []
+          }
+        ],
+        "objectives": [
+          {
+            "id": 977,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1022,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 978,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1060,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 979,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1061,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 980,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1063,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 981,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1062,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 982,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1064,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 983,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1065,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 984,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1067,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 985,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1066,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": 433,
+        "optimalLevel": 95,
+        "duration": 1,
+        "rewards": [
+          {
+            "id": 100,
+            "levelMin": -1,
+            "levelMax": -1,
+            "experienceRatio": 1,
+            "kamasRatio": 1,
+            "kamasScaleWithPlayerLevel": false,
+            "itemsReward": [[8767, 3]],
+            "emotesReward": [],
+            "spellsReward": [],
+            "titlesReward": [],
+            "jobsReward": []
+          }
+        ],
+        "objectives": [
+          {
+            "id": 986,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1019,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 987,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1026,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 988,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1025,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 989,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1069,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 990,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1070,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 991,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1068,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": 434,
+        "optimalLevel": 100,
+        "duration": 1,
+        "rewards": [
+          {
+            "id": 101,
+            "levelMin": -1,
+            "levelMax": -1,
+            "experienceRatio": 1,
+            "kamasRatio": 1,
+            "kamasScaleWithPlayerLevel": false,
+            "itemsReward": [[8801, 3]],
+            "emotesReward": [],
+            "spellsReward": [],
+            "titlesReward": [],
+            "jobsReward": []
+          }
+        ],
+        "objectives": [
+          {
+            "id": 993,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1059,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 994,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1057,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 995,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1058,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": 435,
+        "optimalLevel": 120,
+        "duration": 1,
+        "rewards": [
+          {
+            "id": 102,
+            "levelMin": -1,
+            "levelMax": -1,
+            "experienceRatio": 1,
+            "kamasRatio": 1,
+            "kamasScaleWithPlayerLevel": false,
+            "itemsReward": [[8785, 4]],
+            "emotesReward": [],
+            "spellsReward": [],
+            "titlesReward": [],
+            "jobsReward": []
+          }
+        ],
+        "objectives": [
+          {
+            "id": 996,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1077,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 997,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1041,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 998,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1073,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 999,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1076,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 1000,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1029,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 1001,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1075,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 1002,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1074,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": 436,
+        "optimalLevel": 150,
+        "duration": 1,
+        "rewards": [
+          {
+            "id": 103,
+            "levelMin": -1,
+            "levelMax": -1,
+            "experienceRatio": 1,
+            "kamasRatio": 1,
+            "kamasScaleWithPlayerLevel": false,
+            "itemsReward": [[8808, 5]],
+            "emotesReward": [],
+            "spellsReward": [],
+            "titlesReward": [],
+            "jobsReward": []
+          }
+        ],
+        "objectives": [
+          {
+            "id": 1003,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1047,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 1004,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1020,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 1005,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1044,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 1006,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1046,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 1007,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1043,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 880,
+    "name": {
+      "id": "94499",
+      "de": "N.R.Fliegt",
+      "en": "The L.O. Peril",
+      "es": "¡M.O. Pardy!",
+      "fr": "G.O. pardi !",
+      "pt": "G.O. por Deus!"
+    },
+    "levelMin": 20,
+    "levelMax": 200,
+    "categoryId": 26,
+    "startCriterion": "Qf=879&Qa=878",
+    "startPosition": [
+      {
+        "mapId": 66192898,
+        "npcId": 1419
+      }
+    ],
+    "need": {
+      "items": [],
+      "quantities": [],
+      "quests": [879, 878],
+      "achievements": []
+    },
+    "steps": [
+      {
+        "id": 1478,
+        "optimalLevel": 200,
+        "duration": 1,
+        "rewards": [
+          {
+            "id": 780,
+            "levelMin": 20,
+            "levelMax": 20,
+            "experienceRatio": 1.3,
+            "kamasRatio": 1,
+            "kamasScaleWithPlayerLevel": true,
+            "itemsReward": [],
+            "emotesReward": [36],
+            "spellsReward": [],
+            "titlesReward": [],
+            "jobsReward": []
+          },
+          {
+            "id": 959,
+            "levelMin": 199,
+            "levelMax": 199,
+            "experienceRatio": 1.3,
+            "kamasRatio": 1,
+            "kamasScaleWithPlayerLevel": true,
+            "itemsReward": [],
+            "emotesReward": [36],
+            "spellsReward": [],
+            "titlesReward": [],
+            "jobsReward": []
+          },
+          {
+            "id": 960,
+            "levelMin": 200,
+            "levelMax": 200,
+            "experienceRatio": 1.3,
+            "kamasRatio": 1,
+            "kamasScaleWithPlayerLevel": true,
+            "itemsReward": [],
+            "emotesReward": [36],
+            "spellsReward": [],
+            "titlesReward": [],
+            "jobsReward": []
+          }
+        ],
+        "objectives": [
+          {
+            "id": 5359,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 1420,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 5360,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 3221,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 5361,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 1420,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 1665,
+    "name": {
+      "id": "574444",
+      "de": "Der Geist und die Dunkelheit",
+      "en": "The Ghost and the Darkness",
+      "es": "La sombra del reino",
+      "fr": "L'ombre et la proie",
+      "pt": "A sombra e a escuridão"
+    },
+    "levelMin": 140,
+    "levelMax": 140,
+    "categoryId": 4,
+    "startCriterion": "(Qa=1656&Qo>9997)|Qf=1656",
+    "startPosition": [
+      {
+        "mapId": 212732163,
+        "npcId": 2978
+      }
+    ],
+    "need": {
+      "items": [],
+      "quantities": [],
+      "quests": [1656, 1656],
+      "achievements": []
+    },
+    "steps": [
+      {
+        "id": 2291,
+        "optimalLevel": 140,
+        "duration": 2,
+        "rewards": [
+          {
+            "id": 5444,
+            "levelMin": -1,
+            "levelMax": -1,
+            "experienceRatio": 1.2,
+            "kamasRatio": 1.2,
+            "kamasScaleWithPlayerLevel": false,
+            "itemsReward": [],
+            "emotesReward": [],
+            "spellsReward": [],
+            "titlesReward": [200],
+            "jobsReward": []
+          }
+        ],
+        "objectives": [
+          {
+            "id": 10135,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 2935,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10136,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 569119,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10137,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 3003,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10154,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 564805,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10138,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 2935,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10139,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 564794,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10140,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 564832,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10141,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 564834,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10142,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 564828,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10143,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 564830,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10144,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 3007,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10145,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 564825,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10146,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 4164,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10147,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 3004,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10148,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 564818,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10149,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 2935,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10150,
+            "className": "QuestObjectiveDiscoverMapData",
+            "parameters": {
+              "parameter0": 564811,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10151,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 564808,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10152,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 4165,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 10153,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 2935,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 245,
+    "name": {
+      "id": "54722",
+      "de": "Die verfluchte Sense",
+      "en": "The Cursed Scythe",
+      "es": "La hoz maldita",
+      "fr": "La faux Maudite",
+      "pt": "A Gadanha Amaldiçoada"
+    },
+    "levelMin": 200,
+    "levelMax": 200,
+    "categoryId": 55,
+    "startCriterion": "PO=8993",
+    "startPosition": [],
+    "need": {
+      "items": [8993, 7183],
+      "quantities": [2, 1],
+      "quests": [],
+      "achievements": []
+    },
+    "steps": [
+      {
+        "id": 440,
+        "optimalLevel": 200,
+        "duration": 1,
+        "rewards": [
+          {
+            "id": 106,
+            "levelMin": -1,
+            "levelMax": -1,
+            "experienceRatio": 0,
+            "kamasRatio": 0,
+            "kamasScaleWithPlayerLevel": false,
+            "itemsReward": [[8992, 1]],
+            "emotesReward": [],
+            "spellsReward": [],
+            "titlesReward": [],
+            "jobsReward": []
+          }
+        ],
+        "objectives": [
+          {
+            "id": 1013,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "parameters": {
+              "parameter0": 53,
+              "parameter1": 8993,
+              "parameter2": 1,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          },
+          {
+            "id": 1014,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "parameters": {
+              "parameter0": 53,
+              "parameter1": 7183,
+              "parameter2": 1,
+              "parameter3": 0,
+              "parameter4": 0
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

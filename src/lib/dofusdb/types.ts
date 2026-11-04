@@ -12,6 +12,76 @@ export interface RawQuest {
   categoryId?: number | null
   startCriterion?: string | null
   startPosition?: ({ mapId?: number | null; npcId?: number | null } | null)[] | null
+  /** Resumen de DofusDB: objetos que pide la misión, con sus cantidades en el mismo orden. */
+  need?: { items?: number[] | null; quantities?: number[] | null } | null
+  steps?: RawQuestStep[] | null
+}
+
+export interface RawQuestStep {
+  id: number
+  optimalLevel: number
+  duration: number
+  /** Varias entradas por tramos de nivel; la última es la del nivel más alto. */
+  rewards?: RawQuestReward[] | null
+  objectives?: RawQuestObjective[] | null
+}
+
+export interface RawQuestReward {
+  experienceRatio: number
+  kamasRatio: number
+  /** Pares [ID del objeto, cantidad]. */
+  itemsReward?: number[][] | null
+  emotesReward?: number[] | null
+  spellsReward?: number[] | null
+  titlesReward?: number[] | null
+  jobsReward?: number[] | null
+}
+
+/** Un objetivo de etapa. El significado de parameter0… depende de className. */
+export interface RawQuestObjective {
+  id: number
+  className: string
+  parameters?: Partial<Record<`parameter${0 | 1 | 2 | 3 | 4}`, number>> | null
+}
+
+export interface RawItem {
+  id: number
+  name?: LocalizedText | null
+  level?: number | null
+  typeId?: number | null
+  iconId?: number | null
+}
+
+export interface RawMonster {
+  id: number
+  name?: LocalizedText | null
+  /** El ID de su imagen; DofusDB lo llama gfxId. */
+  gfxId?: number | null
+}
+
+/** Un objeto o monstruo por su ID de DofusDB, con su cantidad. */
+export interface QuantityByDofusId {
+  dofusId: number
+  quantity: number
+}
+
+/** Recompensas de una misión para un personaje de nivel 200. */
+export interface QuestRewards {
+  experience: number
+  kamas: number
+  items: QuantityByDofusId[]
+  emoteIds: number[]
+  spellIds: number[]
+  titleIds: number[]
+  jobIds: number[]
+}
+
+/** Lo que pide una misión, sacado de need.items y de los objetivos de sus etapas. */
+export interface QuestNeeds {
+  items: QuantityByDofusId[]
+  monsters: QuantityByDofusId[]
+  /** Algún objetivo pide descubrir un mapa o una zona. */
+  walksMaps: boolean
 }
 
 export interface RawNpc {
