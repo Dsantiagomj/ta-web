@@ -4,7 +4,7 @@ import { validateSlug } from '@/collections/QuestGuides'
 import {
   autofillFromQuest,
   availableSlug,
-  firstQuestId,
+  linkedQuestId,
   seoFromQuest,
   slugFromName,
 } from '@/lib/guides/autofill'
@@ -100,15 +100,15 @@ describe('autofillFromQuest', () => {
   })
 })
 
-describe('firstQuestId', () => {
-  it('lee la primera misión como ID o como documento poblado', () => {
-    expect(firstQuestId([7, 8])).toBe(7)
-    expect(firstQuestId([{ id: 9 }, 10])).toBe(9)
+describe('linkedQuestId', () => {
+  it('lee la misión como ID o como documento poblado', () => {
+    expect(linkedQuestId(7)).toBe(7)
+    expect(linkedQuestId({ id: 9 })).toBe(9)
   })
 
-  it('sin misiones, no hay ID', () => {
-    expect(firstQuestId([])).toBeNull()
-    expect(firstQuestId(null)).toBeNull()
-    expect(firstQuestId(undefined)).toBeNull()
+  it('sin misión, no hay ID', () => {
+    expect(linkedQuestId(null)).toBeNull()
+    expect(linkedQuestId(undefined)).toBeNull()
+    expect(linkedQuestId('')).toBeNull()
   })
 })

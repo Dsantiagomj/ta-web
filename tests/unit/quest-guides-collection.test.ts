@@ -69,20 +69,21 @@ describe('colección quest-guides', () => {
     expect(slug).not.toHaveProperty('localized', true)
   })
 
-  it('relaciona la guía con varias misiones de DofusDB, opcionales', () => {
-    const quests = field('quests')
-    expect(quests).toMatchObject({
+  it('relaciona la guía con una sola misión de DofusDB, opcional', () => {
+    const quest = field('quest')
+    expect(quest).toMatchObject({
       type: 'relationship',
+      label: 'Misión de DofusDB',
       relationTo: 'quests',
-      hasMany: true,
-      admin: { description: guideStrings.admin.questsDescription },
+      admin: { description: guideStrings.admin.questDescription },
     })
-    expect(quests).not.toHaveProperty('required', true)
+    expect(quest).not.toHaveProperty('hasMany', true)
+    expect(quest).not.toHaveProperty('required', true)
   })
 
   it('la misión es el primer campo, en el área principal, y rellena el formulario al elegirla', () => {
     const [first] = QuestGuides.fields
-    expect(first).toMatchObject({ name: 'quests' })
+    expect(first).toMatchObject({ name: 'quest' })
     expect(first.admin).not.toHaveProperty('position')
     expect(first.admin?.components).toEqual({
       Description: '/components/quest-guide-admin/QuestAutofill#QuestAutofill',
@@ -188,8 +189,8 @@ describe('colección quest-guides', () => {
 })
 
 describe('validateGuideTitle', () => {
-  const withQuest = { data: { quests: [1977] } }
-  const withoutQuest = { data: { quests: [] } }
+  const withQuest = { data: { quest: 1977 } }
+  const withoutQuest = { data: { quest: null } }
 
   it('acepta un título escrito', () => {
     expect(validateGuideTitle('El cazador cazado', withoutQuest)).toBe(true)
@@ -208,12 +209,12 @@ describe('validateGuideTitle', () => {
 
 describe('validateGuideSlug', () => {
   it('vacío, lo acepta si hay misión: el slug sale de ella al guardar', () => {
-    expect(validateGuideSlug('', { data: { quests: [1977] } })).toBe(true)
+    expect(validateGuideSlug('', { data: { quest: 1977 } })).toBe(true)
   })
 
   it('vacío y sin misión, o mal escrito, lo rechaza como validateSlug', () => {
     expect(validateGuideSlug('', { data: {} })).toBe(validateSlug(''))
-    expect(validateGuideSlug('La-Misión', { data: { quests: [1977] } })).toBe(
+    expect(validateGuideSlug('La-Misión', { data: { quest: 1977 } })).toBe(
       validateSlug('La-Misión'),
     )
   })

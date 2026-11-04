@@ -14,13 +14,11 @@ export interface AutofillFields {
   metaDescription?: string | null
 }
 
-/** La primera misión de la guía: un ID o un documento poblado. */
-export function firstQuestId(quests: unknown): number | null {
-  if (!Array.isArray(quests) || quests.length === 0) return null
-  const first: unknown = quests[0]
-  if (typeof first === 'number') return first
-  if (first && typeof first === 'object' && 'id' in first && typeof first.id === 'number') {
-    return first.id
+/** El ID de la misión de la guía, venga como ID o como documento poblado. */
+export function linkedQuestId(quest: unknown): number | null {
+  if (typeof quest === 'number') return quest
+  if (quest && typeof quest === 'object' && 'id' in quest && typeof quest.id === 'number') {
+    return quest.id
   }
   return null
 }

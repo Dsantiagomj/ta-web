@@ -151,7 +151,7 @@ describe('carga de guías importadas de Squarespace', () => {
     expect(hunter).toMatchObject({
       title: 'El cazador cazado',
       originalUrl: 'https://www.torrentearcano.com/el-cazador-cazado',
-      quests: [quest.id],
+      quest: quest.id,
       summary: { startNpc: 'Kerubim Crepin', startX: 3, startY: -17 },
     })
     // El texto de Squarespace va a las notas; la lista de objetos sale de DofusDB
@@ -288,5 +288,23 @@ describe('carga de guías importadas de Squarespace', () => {
 
     expect(result.guides).toEqual({ created: 0, updated: 0, unchanged: 0, skipped: 1 })
     expect(result.oddities['Slug_Malo']).toEqual(['Slug no válido: Slug_Malo'])
+  })
+
+  // Una guía enlaza una sola misión: con varias, no se elige una al azar, lo decide Torre.
+  it('con varias misiones de DofusDB no enlaza ninguna y lo anota', async () => {
+    await payload.create({
+      collection: 'quests',
+      data: { dofusId: 1976, name: 'Seis pies bajo tierra' },
+    })
+    const hunter = converted().find(({ guide }) => guide.slug === 'el-cazador-cazado')!
+    hunter.guide.questDofusIds = [EXISTING_QUEST, 1976]
+
+    const result = await loadQuestGuides(payload, [hunter], { fetchImage })
+
+    expect(result.guides).toMatchObject({ updated: 1 })
+    expect(result.oddities['el-cazador-cazado']).toEqual([
+      'Varias misiones de DofusDB (1977, 1976): sin enlazar, elige una en el panel',
+    ])
+    expect((await guidesBySlug()).get('el-cazador-cazado')!.quest ?? null).toBeNull()
   })
 })

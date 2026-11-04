@@ -322,9 +322,9 @@ export interface Monster {
 export interface QuestGuide {
   id: number;
   /**
-   * Elige primero la misión de DofusDB: rellena el título, el slug, el SEO y el resumen. Luego solo te queda escribir la guía.
+   * Elige primero la misión de DofusDB de la guía, solo una: rellena el título, el slug, el SEO y el resumen. Luego solo te queda escribir la guía.
    */
-  quests?: (number | Quest)[] | null;
+  quest?: (number | null) | Quest;
   /**
    * Si lo dejas vacío, se usa el nombre de la misión.
    */
@@ -683,7 +683,7 @@ export interface MonstersSelect<T extends boolean = true> {
  * via the `definition` "quest-guides_select".
  */
 export interface QuestGuidesSelect<T extends boolean = true> {
-  quests?: T;
+  quest?: T;
   title?: T;
   slug?: T;
   summary?:

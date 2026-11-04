@@ -4,7 +4,7 @@ import { CalloutBlock } from '../blocks/CalloutBlock'
 import { ImageBlock } from '../blocks/ImageBlock'
 import { RichTextBlock } from '../blocks/RichTextBlock'
 import { VideoBlock } from '../blocks/VideoBlock'
-import { firstQuestId } from '../lib/guides/autofill'
+import { linkedQuestId } from '../lib/guides/autofill'
 import { guideStrings } from '../lib/guides/strings'
 import type { FillableField, NotedField } from '../lib/guides/summary'
 import { validateOptionalUrl } from './Media'
@@ -19,7 +19,7 @@ export function validateSlug(value: string | null | undefined): true | string {
   return 'El slug solo admite minúsculas sin tildes, cifras y guiones sueltos (aprendizaje-escudero)'
 }
 
-type GuideValidationOptions = { data: { quests?: unknown } }
+type GuideValidationOptions = { data: { quest?: unknown } }
 
 /**
  * Título vacío solo si hay misión: al guardar, fillFromQuest pone su nombre. Sin misión,
@@ -29,7 +29,7 @@ export function validateGuideTitle(
   value: string | null | undefined,
   { data }: GuideValidationOptions,
 ): true | string {
-  if (value?.trim() || firstQuestId(data?.quests) !== null) return true
+  if (value?.trim() || linkedQuestId(data?.quest) !== null) return true
   return guideStrings.admin.titleRequired
 }
 
@@ -38,7 +38,7 @@ export function validateGuideSlug(
   value: string | null | undefined,
   { data }: GuideValidationOptions,
 ): true | string {
-  if (!value && firstQuestId(data?.quests) !== null) return true
+  if (!value && linkedQuestId(data?.quest) !== null) return true
   return validateSlug(value)
 }
 
@@ -151,13 +151,13 @@ export const QuestGuides: CollectionConfig = {
   hooks: { beforeValidate: [fillFromQuest] },
   fields: [
     {
-      name: 'quests',
-      label: 'Misiones',
+      // Una sola misión por guía: es la que rellena el título, el slug, el SEO y el resumen.
+      name: 'quest',
+      label: 'Misión de DofusDB',
       type: 'relationship',
       relationTo: 'quests',
-      hasMany: true,
       admin: {
-        description: guideStrings.admin.questsDescription,
+        description: guideStrings.admin.questDescription,
         // Muestra la descripción y rellena el formulario al elegir la misión.
         components: {
           Description: '/components/quest-guide-admin/QuestAutofill#QuestAutofill',

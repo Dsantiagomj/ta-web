@@ -30,9 +30,9 @@ export const guideStrings = {
   /** Slug de reserva cuando el nombre de la misión no deja ni una letra. */
   fallbackSlug: 'guia',
   admin: {
-    questsDescription:
-      'Elige primero la misión de DofusDB: rellena el título, el slug, el SEO y el resumen. ' +
-      'Luego solo te queda escribir la guía.',
+    questDescription:
+      'Elige primero la misión de DofusDB de la guía, solo una: rellena el título, el slug, ' +
+      'el SEO y el resumen. Luego solo te queda escribir la guía.',
     titleDescription: 'Si lo dejas vacío, se usa el nombre de la misión.',
     slugDescription:
       'La URL de la guía, como aprendizaje-escudero. Si la dejas vacía, sale del nombre de la misión.',
