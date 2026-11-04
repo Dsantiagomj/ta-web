@@ -151,6 +151,17 @@ function withoutClosing(element: TextElement): string | null {
   return dropLeadingText(paragraph, sentenceCut(paragraph.textContent ?? '', 0))
 }
 
+/** Texto comparable: sin tildes, mayúsculas, signos ni la numeración inicial ("29. "). */
+function comparable(text: string): string {
+  return text
+    .normalize('NFD')
+    .replace(/\p{M}/gu, '')
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, ' ')
+    .trim()
+    .replace(/^\d+ /, '')
+}
+
 /**
  * Convierte una página de Squarespace en una guía de misión. Nunca lanza por el
  * contenido: lo que no encaja queda en `oddities` para revisarlo en el panel.
@@ -165,7 +176,8 @@ export function toQuestGuide(
   let prose: string[] = []
   let heading: string | undefined
   let start: Start | undefined
-  let started = false
+  // El H2 del título es el primer elemento de la página; ninguno después lo es.
+  let seenElement = false
 
   const flush = () => {
     if (prose.length) body.push({ blockType: 'richText', html: prose.join('') })
@@ -175,7 +187,7 @@ export function toQuestGuide(
 
   for (const block of page.blocks) {
     if (block.type !== 'text') {
-      started = true
+      seenElement = true
       if (block.type === 'unknown') {
         blockOddities.push(`Bloque de Squarespace sin convertir: ${block.sqspType}`)
         continue
@@ -193,6 +205,8 @@ export function toQuestGuide(
     let summaryField: SummaryField | undefined
     for (let element of block.elements) {
       if (!element.text) continue
+      const first = !seenElement
+      seenElement = true
       // Las etiquetas del resumen van primero: a veces llegan como encabezado.
       const label = summaryLabel(element.text)
       if (label) {
@@ -201,17 +215,19 @@ export function toQuestGuide(
         if (label.rest) fieldLines.push(label.rest)
         continue
       }
-      // Solo el primer H1/H2, antes del contenido, repite el título; los demás son contenido.
-      if (!started && heading === undefined && /^h[12]$/.test(element.tag)) {
-        heading = element.text
-        continue
-      }
       if (summaryField) {
         summaryLines[summaryField]?.push(...lines(element))
         continue
       }
+      if (first && /^h[12]$/.test(element.tag)) {
+        heading = element.text
+        // A veces el H2 es más completo que el título: se anota para revisarlo.
+        if (page.title !== null && comparable(element.text) !== comparable(page.title)) {
+          blockOddities.push(`Encabezado distinto del título: «${element.text}»`)
+        }
+        continue
+      }
 
-      started = true
       // Lo que queda de un párrafo recortado se trata como prosa, aviso incluido.
       const trimmed = (html: string): TextElement => ({
         ...element,
