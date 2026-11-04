@@ -81,8 +81,7 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TABLE "quests" CASCADE;
   DROP TABLE "quests_locales" CASCADE;
   DROP TABLE "quests_rels" CASCADE;
-  ALTER TABLE "payload_locked_documents_rels" DROP CONSTRAINT "payload_locked_documents_rels_quests_fk";
-  
+  -- DROP TABLE "quests" CASCADE ya borró payload_locked_documents_rels_quests_fk.
   DROP INDEX "payload_locked_documents_rels_quests_id_idx";
   ALTER TABLE "payload_locked_documents_rels" DROP COLUMN "quests_id";`)
 }
