@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:3c455d46cc38cf9a7a8044f8057c6287bdaf0b8c89a2555fde7a29581f41d439",
+  "pageVersion": "sha256:b30d9d2f5318776168e084f0274e78236aea0ab726f04bc10f7d1af4dff99e9e",
   "claims": [
     {
       "id": "claim_35fde34cdf674edca408fee7ff5d2483",
@@ -118,11 +118,11 @@
     },
     {
       "id": "claim_8c32bfe129a34152848575e39a97abc4",
-      "statement": "The quest guide collection references its admin components by path string relative to src with an export suffix: QuestAutofill as the quests field description and SummaryNote, with a summaryField client prop, as the description of each summary field and the needs items list.",
+      "statement": "The quest guide collection references its admin components by path string relative to src with an export suffix: QuestAutofill as the quest field description and SummaryNote, with a summaryField client prop, as the description of each summary field and the needs items list.",
       "evidence": [
         {
-          "resource": "repo://src/collections/QuestGuides.ts#L159-L165",
-          "version": "repo-lines-v1:sha256:0954aba1ee74a969ffa426b6f2cacd694cdd084b0409286719edfccbe97866e6:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTdkOTc5NDM0ZGVjMzJhYzQzZDZkODVhNjZjMzZhYzA2YzhhZWY3YjBhN2VmZjUzMDE4ZGU2NzI2MDQxOGI5ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjk3OGUyNTAzYjhjZjM3YTA2ZjdkNmYwYTNhNmI2ZmUzNTY5MWZiY2FiNTBiODc3NWNhYjZmYWJjNzFjNTkyYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjkxNzA4YmMwYWQ5MWViMGY0NzM3NzI2MzJiNjM1OTg5YmFmNDcwNTY3MTdmNjJlZDQ4ZmFmNmFlZjkzNjIzNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2JiNDc4MDQzMGFmODY5YWQ1NzVlOGVhNzAxMWQ5MTg2ODRkNzQ3MWE5NzJkNGQyZTM0MWFkYmEyNTgyMWY5YyJ9"
+          "resource": "repo://src/collections/QuestGuides.ts#L153-L165",
+          "version": "repo-lines-v1:sha256:22f98b74846010f40267bbc9c32f2f50a1d53d40cdd189d2ca98efb80d0f548d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5Y2E4OTFiZmY3YWMxZjdjZWFhZTQwZWYwNTEwNjZiZTllZmU0N2I0ZTQyODFlODZjMzE5YmUyYzU1ZWJjZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5NzhlMjUwM2I4Y2YzN2EwNmY3ZDZmMGEzYTZiNmZlMzU2OTFmYmNhYjUwYjg3NzVjYWI2ZmFiYzcxYzU5MmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg5MTRiOWM3NTU4ZjAwYWFhZjZjMjVmYTE4NGMyYTAxMDM1YzhiODc2NjUzNGI4ZDQxNzc2MDkyZWVkMjZiNzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiYjQ3ODA0MzBhZjg2OWFkNTc1ZThlYTcwMTFkOTE4Njg0ZDc0NzFhOTcyZDRkMmUzNDFhZGJhMjU4MjFmOWMifQ"
         },
         {
           "resource": "repo://src/collections/QuestGuides.ts#L45-L58",
@@ -140,7 +140,7 @@
       "evidence": [
         {
           "resource": "repo://src/components/quest-guide-admin/QuestAutofill.tsx#L1-L22",
-          "version": "repo-lines-v1:sha256:519d30ec4cd81d3a756a66c6dff38f461b1d37834efa05e9da9dbf14b8cf888d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NjRlMDBlYTU3ZWMzOWQ4OGZjM2Y2OTM0YzRiNzA5MWRiMDU2YTZjMmQ1YjExYTk3MTIzMDBkMDZmOGQyM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwNzRlODdjMWIxNDJjMzFmMzQ1NzM4MDU4NGI4NmE3MzE3NGE4ZWIzZDQyY2M5NDA2ZjQzYmU3Yzk1ZTgxOGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZkOGJmNTU1OTE0ODZiMmU4NDJhODNmZDA0ZDAzNWI2ZjUwZTUwMmJhNDc5MDM0YzEzZDQzN2ZhZWQxOTk2YTUifQ"
+          "version": "repo-lines-v1:sha256:d031475d9a910615158d31f70e5d05b3280d52d6d07614aaa943874a22b6f6b6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NjRlMDBlYTU3ZWMzOWQ4OGZjM2Y2OTM0YzRiNzA5MWRiMDU2YTZjMmQ1YjExYTk3MTIzMDBkMDZmOGQyM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwNzRlODdjMWIxNDJjMzFmMzQ1NzM4MDU4NGI4NmE3MzE3NGE4ZWIzZDQyY2M5NDA2ZjQzYmU3Yzk1ZTgxOGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZkOGJmNTU1OTE0ODZiMmU4NDJhODNmZDA0ZDAzNWI2ZjUwZTUwMmJhNDc5MDM0YzEzZDQzN2ZhZWQxOTk2YTUifQ"
         },
         {
           "resource": "repo://src/components/quest-guide-admin/SummaryNote.tsx#L1-L9",
@@ -148,13 +148,13 @@
         },
         {
           "resource": "repo://src/components/quest-guide-admin/linked-quest.ts#L1-L27",
-          "version": "repo-lines-v1:sha256:27554100617fa7e979721ce234cfb4483568859b8a10bb29fb91bcc2300f39de:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NjRlMDBlYTU3ZWMzOWQ4OGZjM2Y2OTM0YzRiNzA5MWRiMDU2YTZjMmQ1YjExYTk3MTIzMDBkMDZmOGQyM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjliMzgzZjVmZTUxY2EzNGI0NjQyMmFmMTNmZTZkNmUyMGNmZTI4OTdmNWE0Yjk5Y2NkYWVkYmEwN2EyZjcyNWMifQ"
+          "version": "repo-lines-v1:sha256:f24e11f02cd1304deb594e22752634176f282cf67d4be0cbc068fe2261779b6f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NjRlMDBlYTU3ZWMzOWQ4OGZjM2Y2OTM0YzRiNzA5MWRiMDU2YTZjMmQ1YjExYTk3MTIzMDBkMDZmOGQyM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjliMzgzZjVmZTUxY2EzNGI0NjQyMmFmMTNmZTZkNmUyMGNmZTI4OTdmNWE0Yjk5Y2NkYWVkYmEwN2EyZjcyNWMifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T20:38:00.762Z"
+    "at": "2026-11-04T21:10:46.028Z"
   }
 }

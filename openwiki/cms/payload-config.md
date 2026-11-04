@@ -28,10 +28,10 @@ sources:
     resource: repo://src/payload.config.ts
   - id: openwiki-source-98d5ddb014a0fd4d678f6f2a
     resource: repo://tsconfig.json
-generated: { by: "claude-code", at: "2026-11-04T20:02:15.357Z" }
+generated: { by: "claude-code", at: "2026-11-04T21:10:46.028Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T20:38:00.762Z
+    at: 2026-11-04T21:10:46.028Z
 ---
 
 # Payload CMS configuration
@@ -90,7 +90,7 @@ The project's own panel components live in `src/components/quest-guide-admin/`, 
 
 | Path | Used by | What it does |
 |---|---|---|
-| `/components/quest-guide-admin/QuestAutofill#QuestAutofill` | `Description` of the quest guide `quests` field | Fills the empty title, slug, SEO and summary in the form when a quest is picked |
+| `/components/quest-guide-admin/QuestAutofill#QuestAutofill` | `Description` of the quest guide `quest` field | Fills the empty title, slug, SEO and summary in the form when a quest is picked |
 | `/components/quest-guide-admin/SummaryNote#SummaryNote` | `Description` of each fillable summary field and of `summary.needs.items`, with `clientProps: { summaryField }` | Shows whether the value comes from DofusDB or was changed |
 
 Both are client components (`'use client'`) that read the form through `@payloadcms/ui` hooks and load the linked quest from the REST API with the session cookie (`linked-quest.ts`). Their logic lives in the pure modules of `src/lib/guides/`, shared with the server hook. See [Writing a quest guide](guide-authoring.md).

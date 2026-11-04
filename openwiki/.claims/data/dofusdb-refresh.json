@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ef8eace4dc983976ccf1e1c3cb082dc8ee54cfb89f6a31fa4654b70446ce3675",
+  "pageVersion": "sha256:2ec8d1f02e13f9a9d5b16ae9d321c914d98c6b2c07a7afb6ac4de6a54d296b0b",
   "claims": [
     {
       "id": "claim_a1981ccc312a49f2aad1295589522c0e",
@@ -573,8 +573,8 @@
       "statement": "A quest guide's summary is copied from the linked quest's prerequisites and PL> level, rewards and first start position, and later refreshes do not change existing guides because only empty guide fields are filled.",
       "evidence": [
         {
-          "resource": "repo://src/collections/quest-guide-autofill.ts#L19-L24",
-          "version": "repo-lines-v1:sha256:500685840872ce0ee0147d6a7705f99b75ebc448e59fa58b3795b33ae4ccc621:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTcyYTQyOTM4MmIyZTE0NzE4ZTBlMzdiMDU3MGE4YTE3MDI5OTFmY2Q4NDk4Y2Q4NDA2MGE4YmY0ZjA1MDE3YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjBhMmY4ODJlMTY3MDkzNWQwZjBhODRhNzRkZGM1OWJiNDhlMDI3NTk0MGY1MTQ3OGU5ODAxMzRkYzE4NDViMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzFhYTRmM2M3YzAxNTAwZmNhZjM0Y2YzNTRjNTJhMDg0ODc4MTBlZDdhYWNjZjhhZjRkZmJhNGYwYjQ4MDdkZiJ9"
+          "resource": "repo://src/collections/quest-guide-autofill.ts#L19-L25",
+          "version": "repo-lines-v1:sha256:82885b320d69662911c196addee92d46f970bbac6f2dfe1be3b74deb1004b61c:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGUwOGMxMWE3Y2UyOWI1ZGIyMDZmZGI3Yzg2N2MxNzJjYWQwZmI4MzZmZjBmYTYwNWYwMzY5NTcxOTYyNmFmYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjBhMmY4ODJlMTY3MDkzNWQwZjBhODRhNzRkZGM1OWJiNDhlMDI3NTk0MGY1MTQ3OGU5ODAxMzRkYzE4NDViMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTEzODY0YTE3MmQ0OTQ3NDUwMWFlNzE3YTA2NDc2NDIwYzI4MDJjNzk5YjVjZjRkMGI0MDdiY2UyN2UyNGVjMyJ9"
         },
         {
           "resource": "repo://src/lib/guides/summary.ts#L102-L127",
@@ -611,6 +611,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T20:43:04.375Z"
+    "at": "2026-11-04T21:10:46.028Z"
   }
 }

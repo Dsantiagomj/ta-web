@@ -76,10 +76,10 @@ sources:
     resource: repo://tests/unit/quest-guides-collection.test.ts
   - id: openwiki-source-6678095e74d244708e64ddd4
     resource: repo://tests/unit/quests-collection.test.ts
-generated: { by: "claude-code", at: "2026-11-04T20:02:15.357Z" }
+generated: { by: "claude-code", at: "2026-11-04T21:10:46.028Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T20:02:15.357Z
+    at: 2026-11-04T21:21:54.398Z
 ---
 
 # Collections and access
@@ -183,7 +183,7 @@ Fields, in the order the panel shows them:
 
 | Field | Type | Notes |
 |---|---|---|
-| `quests` | relationship to `quests`, `hasMany` | Optional; the DofusDB quests the guide covers. First field, in the main area (not the sidebar), with the `QuestAutofill` component as its description |
+| `quest` | relationship to `quests` (single) | Optional; the one DofusDB quest the guide covers, labelled "Misión de DofusDB". First field, in the main area (not the sidebar), with the `QuestAutofill` component as its description |
 | `title` | text | Required, localized; validated by `validateGuideTitle` |
 | `slug` | text | Required, unique and indexed, not localized (the URL is the same in every language); validated by `validateGuideSlug`; in the sidebar |
 | `summary` | group | `prerequisites`, `rewards` (localized textareas), `needs` (group, below), `startNpc` (localized text), `startX`, `startY` (numbers) |
@@ -206,13 +206,13 @@ Each fillable summary field (`prerequisites`, `rewards`, `startNpc`, `startX`, `
 
 ### Filled from the linked quest
 
-The collection's `beforeValidate` hook is `fillFromQuest` (`src/collections/quest-guide-autofill.ts`). When the guide has at least one quest, it loads the first one at `depth: 1` and fills every **empty** field from it: `title` (the quest name), `slug` (the slugified name, with `-2`, `-3`… when another guide already uses it), `seo.metaTitle`, `seo.metaDescription`, and the summary fields, including an empty `needs.items` list. A field that already has a value is never overwritten, which is why guides imported from Squarespace keep their slug. On an update `data` may hold only the changed fields, so the hook reads the rest from the saved document; a field the editor empties is filled again on save. The panel does the same fill live in the form when Torre picks a quest. The rules, formats and notes are in [Writing a quest guide](guide-authoring.md).
+The collection's `beforeValidate` hook is `fillFromQuest` (`src/collections/quest-guide-autofill.ts`). When the guide has a linked quest, it loads it at `depth: 1` and fills every **empty** field from it: `title` (the quest name), `slug` (the slugified name, with `-2`, `-3`… when another guide already uses it), `seo.metaTitle`, `seo.metaDescription`, and the summary fields, including an empty `needs.items` list. A field that already has a value is never overwritten, which is why guides imported from Squarespace keep their slug. On an update `data` may hold only the changed fields, so the hook reads the rest from the saved document; a field the editor empties is filled again on save. The panel does the same fill live in the form when Torre picks a quest. The rules, formats and notes are in [Writing a quest guide](guide-authoring.md).
 
 The title and slug validators follow from that. `validateGuideTitle` accepts an empty title when the guide has a quest, and `validateGuideSlug` accepts an empty slug in the same case and otherwise defers to `validateSlug`. With neither a title nor a quest, the title validator returns the Spanish message "Escribe un título o elige una misión de DofusDB para sacarlo de ella." Payload skips field validation when saving a draft, so the hook also throws a `ValidationError` with that message on the `title` path when the title is still empty after the fill; a draft without title and quest is rejected too.
 
 ### Filled by the Squarespace import
 
-`pnpm import:guides` writes `title`, `slug`, `originalUrl`, `summary`, `quests` and `body` through the local API with `overrideAccess: true`, always as a draft: it finds an existing guide by `slug`, drafts included, and never publishes. The Squarespace "Necesitarás" text goes to `summary.needs.notes`. It sends every `summary` field, `null` for any the page no longer has, and then fills the empty ones from the linked quest exactly as the hook would, so a value removed from Squarespace is replaced by DofusDB's value, or cleared when DofusDB gives none, and a rerun compares equal and saves no new version. A published guide gets a new draft and stays published as it was until someone publishes that draft in the panel. Each image becomes a `media` record with `alt` and `originalUrl` and no `variants`. `seo` is left to the hook. See [Squarespace import](../data/squarespace-import.md#loading-into-payload).
+`pnpm import:guides` writes `title`, `slug`, `originalUrl`, `summary`, `quest` and `body` through the local API with `overrideAccess: true`, always as a draft: it finds an existing guide by `slug`, drafts included, and never publishes. It links a quest only when the page names exactly one DofusDB ID; with several it links none and records an oddity so Torre picks one in the panel. The Squarespace "Necesitarás" text goes to `summary.needs.notes`. It sends every `summary` field, `null` for any the page no longer has, and then fills the empty ones from the linked quest exactly as the hook would, so a value removed from Squarespace is replaced by DofusDB's value, or cleared when DofusDB gives none, and a rerun compares equal and saves no new version. A published guide gets a new draft and stays published as it was until someone publishes that draft in the panel. Each image becomes a `media` record with `alt` and `originalUrl` and no `variants`. `seo` is left to the hook. See [Squarespace import](../data/squarespace-import.md#loading-into-payload).
 
 `validateSlug` accepts only plain ASCII: lowercase letters and digits in runs joined by single hyphens, with no hyphen at either end (`aprendizaje-escudero`, `dofus-ocre-2`). Accents, `ñ`, capitals, spaces, doubled or edge hyphens and empty values return a Spanish error, so a guide's URL never needs percent-encoding.
 
@@ -229,7 +229,7 @@ The title and slug validators follow from that. `validateGuideTitle` accepts an 
 
 Payload sessions belong only to panel accounts (`users`); site members will use Better Auth, so a member never counts as a panel user here.
 
-`tests/unit/quest-guides-collection.test.ts` pins the slug, admin settings, versions, the hook, every field's shape (`quests` first and in the main area, the needs group, the note components), `validateGuideTitle`, `validateGuideSlug`, `validateSlug` and the access functions. `tests/integration/quest-guides-access.test.ts` checks access at runtime: an anonymous request lists and reads the published guide but gets `NotFound` for the draft, and gets `Forbidden` on create, update and delete with the data unchanged; a panel user reads both, creates a draft, publishes it and gets a version; and a guide with quests, summary, all four block types, SEO and `originalUrl` saves and reads back anonymously at `depth: 1`. `tests/integration/quest-guides-autofill.test.ts` checks the fill on save (see [Writing a quest guide](guide-authoring.md#tests)).
+`tests/unit/quest-guides-collection.test.ts` pins the slug, admin settings, versions, the hook, every field's shape (`quest` first, single and in the main area, the needs group, the note components), `validateGuideTitle`, `validateGuideSlug`, `validateSlug` and the access functions. `tests/integration/quest-guides-access.test.ts` checks access at runtime: an anonymous request lists and reads the published guide but gets `NotFound` for the draft, and gets `Forbidden` on create, update and delete with the data unchanged; a panel user reads both, creates a draft, publishes it and gets a version; and a guide with its quest, summary, all four block types, SEO and `originalUrl` saves and reads back anonymously at `depth: 1`. `tests/integration/quest-guides-autofill.test.ts` checks the fill on save (see [Writing a quest guide](guide-authoring.md#tests)).
 
 No public route or live preview reads guides yet.
 

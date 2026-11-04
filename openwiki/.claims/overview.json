@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:594d1ff3324afd90dfa023d8f921590182ee6658bd2874c574cdaa4e4cdc5b52",
+  "pageVersion": "sha256:9ecf159b14a1b2963c6365f448f0b56015cfc76d0cc31376e6537fe51ebe45be",
   "claims": [
     {
       "id": "claim_46a7ecf7c01f4151af666d14fb666d91",
@@ -164,11 +164,11 @@
     },
     {
       "id": "claim_cfca24e2c650490dae201eda92faef01",
-      "statement": "There are six committed migrations today.",
+      "statement": "There are seven committed migrations today.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/index.ts#L8-L39",
-          "version": "repo-lines-v1:sha256:1b7d0b947150d18b49e196841b92ca9cff4ec5bd0498635aab1a57b535c690d2:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMGVkYzRmYjExMzQ3MTVkZmYyYWMxM2VkNzlhODc3YmQzOGQxMTdiNzY0MjViMGJiMzJlMGRhZDgzY2IzNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY5NTFkMWUxYzQ0ZDY0ZDEwZjYyYzE1ZDY5NGFkNzhlOGFiY2JkZTg3ZDQwOWMzOTk2ZWU1ZWVlMWMwOTg2NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/migrations/index.ts#L9-L45",
+          "version": "repo-lines-v1:sha256:06ad922f62a892d149ee694a9d13b1a6ebfb3f0fbdfecf70f670e7109d9e521a:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMGVkYzRmYjExMzQ3MTVkZmYyYWMxM2VkNzlhODc3YmQzOGQxMTdiNzY0MjViMGJiMzJlMGRhZDgzY2IzNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNlMWVmZmEyY2JhNDMwMDZhNzY2MzJiZTNmMzMxNDQ4NThjODI1YWI5ZDYwMzE1ZTUyNjg2Mjc2NDQ3NGRkYzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -202,7 +202,7 @@
     },
     {
       "id": "claim_4a0ceb8df8cf4fa583808194604c90b6",
-      "statement": "pnpm import:guides loads converted guides into quest-guides as drafts, storing each image once in media and linking DofusDB quests already in quests, and a re-run leaves unchanged guides untouched and never publishes.",
+      "statement": "pnpm import:guides loads converted guides into quest-guides as drafts, storing each image once in media and linking the guide's DofusDB quest when the page names exactly one already in quests, and a re-run leaves unchanged guides untouched and never publishes.",
       "evidence": [
         {
           "resource": "repo://README.md#L98-L98",
@@ -211,6 +211,10 @@
         {
           "resource": "repo://package.json#L27-L27",
           "version": "repo-lines-v1:sha256:7516318a60774b7a868197396113d9a520e40590575c41694798f4d6dc317b38:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzUxNjMxOGE2MDc3NGI3YTg2ODE5NzM5NjExM2Q5YTUyMGU0MDU5MDU3NWM0MTY5NDc5OGY0ZDZkYzMxN2IzOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzUxNjMxOGE2MDc3NGI3YTg2ODE5NzM5NjExM2Q5YTUyMGU0MDU5MDU3NWM0MTY5NDc5OGY0ZDZkYzMxN2IzOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmU0NjhlYmZmYzBiOGNhZDJjZDM4ZDIzMjI3NTQ5Mjc3YzkwZWQ3ZjhkOTkxYTc0NDQxYzRiOTI5OWY3N2ExZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDU3MjkxNGYxYjQ1ZjcxOWMzZmExNGVjOTQ0NTI2YjI1N2Q5OGMxNmQ3MjYyMWIwMzY5NTU2ZWJlNzU4YTU4NSJ9"
+        },
+        {
+          "resource": "repo://scripts/import/load-quest-guides.ts#L180-L190",
+          "version": "repo-lines-v1:sha256:36f1eb38424b56bf00abca2b2396cee06eb754ffc8de23b1567524c144a743b7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBiNDAxMTIxNWM3Mzk3M2RmYjU2ZTYwZmRjODgyY2U3YmYzMWY2MmMwNjQ4ZDljZjk2N2Q1NDYzYzdiZWU5NDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU3ZGNhMmM2M2IwOWY4NDQ1ODUzNmE0NTI3NzNkZWRkZGNiYTk1ZTY1YWY0NzY5ZDhmYzgzZTFhNzIwZTk3YmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNiNjU0YmU3MzIyNmViMGQxZThiZDY2MWI1MzJmYWRmYmNmNzVhZjZiMGRkNDY0NTAzZGY4ZDNjMGYzYjUxNTEifQ"
         },
         {
           "resource": "repo://scripts/import/load-quest-guides.ts#L88-L95",
@@ -237,18 +241,28 @@
       "statement": "Picking a DofusDB quest for a guide fills its empty title, slug, SEO fields and summary, live in the panel form and again on save, without overwriting written values.",
       "evidence": [
         {
-          "resource": "repo://src/collections/quest-guide-autofill.ts#L19-L24",
-          "version": "repo-lines-v1:sha256:500685840872ce0ee0147d6a7705f99b75ebc448e59fa58b3795b33ae4ccc621:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTcyYTQyOTM4MmIyZTE0NzE4ZTBlMzdiMDU3MGE4YTE3MDI5OTFmY2Q4NDk4Y2Q4NDA2MGE4YmY0ZjA1MDE3YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjBhMmY4ODJlMTY3MDkzNWQwZjBhODRhNzRkZGM1OWJiNDhlMDI3NTk0MGY1MTQ3OGU5ODAxMzRkYzE4NDViMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzFhYTRmM2M3YzAxNTAwZmNhZjM0Y2YzNTRjNTJhMDg0ODc4MTBlZDdhYWNjZjhhZjRkZmJhNGYwYjQ4MDdkZiJ9"
+          "resource": "repo://src/collections/quest-guide-autofill.ts#L19-L25",
+          "version": "repo-lines-v1:sha256:82885b320d69662911c196addee92d46f970bbac6f2dfe1be3b74deb1004b61c:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGUwOGMxMWE3Y2UyOWI1ZGIyMDZmZGI3Yzg2N2MxNzJjYWQwZmI4MzZmZjBmYTYwNWYwMzY5NTcxOTYyNmFmYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjBhMmY4ODJlMTY3MDkzNWQwZjBhODRhNzRkZGM1OWJiNDhlMDI3NTk0MGY1MTQ3OGU5ODAxMzRkYzE4NDViMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTEzODY0YTE3MmQ0OTQ3NDUwMWFlNzE3YTA2NDc2NDIwYzI4MDJjNzk5YjVjZjRkMGI0MDdiY2UyN2UyNGVjMyJ9"
         },
         {
-          "resource": "repo://src/components/quest-guide-admin/QuestAutofill.tsx#L13-L17",
-          "version": "repo-lines-v1:sha256:2428180c8dc05cf45fe096e453bbb226c96a4f67be8d3ed532160a11e3bd6855:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTcyYTQyOTM4MmIyZTE0NzE4ZTBlMzdiMDU3MGE4YTE3MDI5OTFmY2Q4NDk4Y2Q4NDA2MGE4YmY0ZjA1MDE3YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTFjZmYyNmFlYzc5N2YxYTc4MjExNzc2YzM1MmIxMmExYTIyNGIwYTU0M2RlZjg3NmI3ZTdhOGIwOTY3YmI3YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzY3M2M5NzA2NDBjMmExNzVmNWQxZmFjOGJhZmRmMTBlYmY0OWRjNTU3M2ExYjM2NjdmMTdhZjJiZmNiYmQxMSJ9"
+          "resource": "repo://src/components/quest-guide-admin/QuestAutofill.tsx#L13-L18",
+          "version": "repo-lines-v1:sha256:1343e90f2654dd3aec864370b24f46a78d2779afe4c9018c062d048a5e7a4299:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzMyM2Q2ZTAyZTRjNTRkZGY1ZDhkNDA2YTYyMjA5MzNkMmJhYmQ4YjA5NjQ0NTdlMDUxNjZlMTRjZmRkMjQyZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTFjZmYyNmFlYzc5N2YxYTc4MjExNzc2YzM1MmIxMmExYTIyNGIwYTU0M2RlZjg3NmI3ZTdhOGIwOTY3YmI3YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWUwN2E1OWE0NGNhOTRlOTg2ZmM1ZTljZTI5ZjQzODRlMjU4ZDdjZmY0NDVmNDdkYzE5NGE5ZTU0ZjhmOTEyZCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_0ca3a986bcd243c4898ad038fd719abc",
+      "statement": "A quest guide links at most one DofusDB quest through an optional single relationship.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/QuestGuides.ts#L153-L165",
+          "version": "repo-lines-v1:sha256:22f98b74846010f40267bbc9c32f2f50a1d53d40cdd189d2ca98efb80d0f548d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5Y2E4OTFiZmY3YWMxZjdjZWFhZTQwZWYwNTEwNjZiZTllZmU0N2I0ZTQyODFlODZjMzE5YmUyYzU1ZWJjZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5NzhlMjUwM2I4Y2YzN2EwNmY3ZDZmMGEzYTZiNmZlMzU2OTFmYmNhYjUwYjg3NzVjYWI2ZmFiYzcxYzU5MmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg5MTRiOWM3NTU4ZjAwYWFhZjZjMjVmYTE4NGMyYTAxMDM1YzhiODc2NjUzNGI4ZDQxNzc2MDkyZWVkMjZiNzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiYjQ3ODA0MzBhZjg2OWFkNTc1ZThlYTcwMTFkOTE4Njg0ZDc0NzFhOTcyZDRkMmUzNDFhZGJhMjU4MjFmOWMifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T20:38:00.762Z"
+    "at": "2026-11-04T21:10:46.028Z"
   }
 }
