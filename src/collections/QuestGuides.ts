@@ -1,4 +1,4 @@
-import type { Access, CollectionConfig } from 'payload'
+import type { Access, CollectionConfig, Field } from 'payload'
 
 import { CalloutBlock } from '../blocks/CalloutBlock'
 import { ImageBlock } from '../blocks/ImageBlock'
@@ -6,6 +6,7 @@ import { RichTextBlock } from '../blocks/RichTextBlock'
 import { VideoBlock } from '../blocks/VideoBlock'
 import { firstQuestId } from '../lib/guides/autofill'
 import { guideStrings } from '../lib/guides/strings'
+import type { SummaryField } from '../lib/guides/summary'
 import { validateOptionalUrl } from './Media'
 import { fillFromQuest } from './quest-guide-autofill'
 
@@ -40,6 +41,51 @@ export function validateGuideSlug(
   if (!value && firstQuestId(data?.quests) !== null) return true
   return validateSlug(value)
 }
+
+// Debajo de cada campo del resumen, lo que se muestra si Torre lo deja vacío.
+function inheritedDescription(summaryField: SummaryField) {
+  return {
+    components: {
+      Description: {
+        path: '/components/quest-guide-admin/InheritedValue#InheritedValue',
+        clientProps: { summaryField },
+      },
+    },
+  }
+}
+
+const summaryFields: Field[] = [
+  {
+    name: 'prerequisites',
+    label: 'Prerrequisitos',
+    type: 'textarea',
+    localized: true,
+    admin: inheritedDescription('prerequisites'),
+  },
+  {
+    name: 'needs',
+    label: 'Necesitarás',
+    type: 'textarea',
+    localized: true,
+    admin: inheritedDescription('needs'),
+  },
+  {
+    name: 'rewards',
+    label: 'Recompensas',
+    type: 'textarea',
+    localized: true,
+    admin: inheritedDescription('rewards'),
+  },
+  {
+    name: 'startNpc',
+    label: 'PNJ de inicio',
+    type: 'text',
+    localized: true,
+    admin: inheritedDescription('startNpc'),
+  },
+  { name: 'startX', label: 'X de inicio', type: 'number', admin: inheritedDescription('startX') },
+  { name: 'startY', label: 'Y de inicio', type: 'number', admin: inheritedDescription('startY') },
+]
 
 // Las cuentas del panel son las únicas sesiones de Payload: los miembros usan Better Auth.
 const isPanelUser: Access = ({ req: { user } }) => Boolean(user)
@@ -78,6 +124,10 @@ export const QuestGuides: CollectionConfig = {
       hasMany: true,
       admin: {
         description: guideStrings.admin.questsDescription,
+        // Muestra la descripción y rellena el formulario al elegir la misión.
+        components: {
+          Description: '/components/quest-guide-admin/QuestAutofill#QuestAutofill',
+        },
       },
     },
     {
@@ -108,14 +158,7 @@ export const QuestGuides: CollectionConfig = {
       label: 'Resumen',
       type: 'group',
       admin: { description: guideStrings.admin.summaryDescription },
-      fields: [
-        { name: 'prerequisites', label: 'Prerrequisitos', type: 'textarea', localized: true },
-        { name: 'needs', label: 'Necesitarás', type: 'textarea', localized: true },
-        { name: 'rewards', label: 'Recompensas', type: 'textarea', localized: true },
-        { name: 'startNpc', label: 'PNJ de inicio', type: 'text', localized: true },
-        { name: 'startX', label: 'X de inicio', type: 'number' },
-        { name: 'startY', label: 'Y de inicio', type: 'number' },
-      ],
+      fields: summaryFields,
     },
     {
       name: 'body',
