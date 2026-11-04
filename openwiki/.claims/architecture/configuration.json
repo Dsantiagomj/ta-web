@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:93a45843c8dce289f4d7069c43aa284deec4fd8c18ea30221994677b0519305d",
+  "pageVersion": "sha256:1d06c517cf196f19eb8c22946a4c592105c5ff80aa97701015250f8dd14808ef",
   "claims": [
     {
       "id": "claim_42400d3df44b4e5298904441ab906a39",
@@ -17,8 +17,8 @@
       "statement": "The pnpm migrate script sets DATABASE_CONNECTION=direct so migrations use the direct database URL.",
       "evidence": [
         {
-          "resource": "repo://package.json#L26-L26",
-          "version": "repo-lines-v1:sha256:7bd538d206ebc8bf337a53b84d047dee8eb8c4a20de36f4f46581fc885b27cff:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2JkNTM4ZDIwNmViYzhiZjMzN2E1M2I4NGQwNDdkZWU4ZWI4YzRhMjBkZTM2ZjRmNDY1ODFmYzg4NWIyN2NmZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2JkNTM4ZDIwNmViYzhiZjMzN2E1M2I4NGQwNDdkZWU4ZWI4YzRhMjBkZTM2ZjRmNDY1ODFmYzg4NWIyN2NmZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODY0NmFjOWM0ODEzYTA0ZThkNGY2ODc5M2I2YTg2ZmFiOTNiMTU3ZTcyZjE2YzRjOTdhMDU0ZTllNjI2ZGJmYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDQxZjI2ZGI3MjIxNzBkMmNiYzc4N2ZlMDk0ZGE2MWFkMzc4MjYyNjdkOTdmODhmMWVmMmI1MDNhYTBkZWJkZiJ9"
+          "resource": "repo://package.json#L28-L28",
+          "version": "repo-lines-v1:sha256:7bd538d206ebc8bf337a53b84d047dee8eb8c4a20de36f4f46581fc885b27cff:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2JkNTM4ZDIwNmViYzhiZjMzN2E1M2I4NGQwNDdkZWU4ZWI4YzRhMjBkZTM2ZjRmNDY1ODFmYzg4NWIyN2NmZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2JkNTM4ZDIwNmViYzhiZjMzN2E1M2I4NGQwNDdkZWU4ZWI4YzRhMjBkZTM2ZjRmNDY1ODFmYzg4NWIyN2NmZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDE4NTZjMTcwNWJlZDliOGVlZGFmZGY5MjhlZWIwZmI0NDQwNGU3OWRkNjhiNzI1MmE2ZTFlYWRkN2Y1YTUxNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDQxZjI2ZGI3MjIxNzBkMmNiYzc4N2ZlMDk0ZGE2MWFkMzc4MjYyNjdkOTdmODhmMWVmMmI1MDNhYTBkZWJkZiJ9"
         }
       ]
     },
@@ -149,7 +149,7 @@
       "statement": "resolveVersion returns the trimmed APP_VERSION or, when it is missing or blank, the package.json version.",
       "evidence": [
         {
-          "resource": "repo://.env.example#L60-L62",
+          "resource": "repo://.env.example#L65-L67",
           "version": "repo-lines-v1:sha256:e9d18be5bbab7d8196dd61c9c8ba3712c6f58aa352372f4e150f0c5d72825862:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWM3NTNmOWVlZTBmOWUxZmFiYzYxZThhNDAzNWM1OTY4ZmRmODYwOTkzYjhmN2QxNmY3ZmRiNzIxYjg2OGFhNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTAwZjkzZWZhM2EwZWExZjcxODZiZWZhZWFkMmE1Y2UyZWE2MTRmYTdlMTI2ODE2ODJiZDIyMTA0NjAyMmQ2ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjI1OTBmZjhlNjJlYjlmZDIyZmFjOTgwYTQxMGYwMGViZmZhMGZkNzc2OWJkMTE2MDY1ZTQ1Y2VkY2U4ZmYxZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjA4ZjY4MThhZDk4Yzg4N2FhZjJlNmE2ZDFjMWYyNGZlMDIwZWY2NThhOGYxZmUyMTg2YTk4ZTY5NGJmYTU5YiJ9"
         },
         {
@@ -157,10 +157,52 @@
           "version": "repo-lines-v1:sha256:1d2c5e5ecd3bd034bf730a1c1d883dc503862d83ec111ce0c8be449d4fc862f8:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjc4MWNlY2ZmNjM5ZDk0ODBmMDY0Mjg4YTNiNDYxYWRhMjQ5OTMyMGE0ZTEwZDlhYTFkZmZlOTliMjNiNDM4ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWUxMTNmYjQ2YzE4OTc3MDQ4ZTc5NzE2ZjdmNmM0YWJmZWE2NWZiOGJiMTExMGUxMjczNjkxZjkyNDAwMGY5ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDU0YzFiMTE4YTlkNjRlNjEyMTAwZWUyM2M2YTM4MDBjODU5ZjY2NzRkMGU2NzQ3ZTgyYWE1NzM4ZDUwNzZiMiJ9"
         }
       ]
+    },
+    {
+      "id": "claim_eb0655cbb56c44e49b4480ac21986fdc",
+      "statement": "writeConcurrencyFromEnv returns 8 (DEFAULT_WRITE_CONCURRENCY) when DOFUSDB_WRITE_CONCURRENCY is empty or unset and throws on any value that is not an integer of at least 1.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/dofusdb/refresh-quests.ts#L28-L43",
+          "version": "repo-lines-v1:sha256:819ae37ad5346e8e6e9933177ccf81d7e1a76decc69bf777d3aa07f320cc963c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQyN2MxMDBhNGM4YjU4MDgxYjFmYTc3MDE2YjI4NjZkOTkzNDIzYmU0Njk5ZGRkY2U5MDdhZGNiZDdjYzJmNWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdjZDBkNjM2NjNmOWJjMjlmZmE4OTY3NzU5NzlhZjc3NTdhYTg4NWQ4YWE4YjFlZjJiMjZiZDc0YjcwNTI5ZDkifQ"
+        },
+        {
+          "resource": "repo://tests/unit/dofusdb-write-concurrency.test.ts#L5-L26",
+          "version": "repo-lines-v1:sha256:c629d26b2fcf7058f232566dabddd43f95ccd9cff6db4bbeac7e9f4c00a8e65b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3NDg2NGU4NGQ0ZWEwMGZlYjAwODUxMmM3ZTI4MGEyNWJiYTdlOTAyMjllYjVmNjg1NzU4OTkzNWY5NGVjMDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI2MTUxMjliNTdiMmZmYWEzZmUzM2NiNmJhYzhmMjMxZmRjNWI4NjY1NzQxYmQ1MDg4MzI3ZGM4ODlkODk2MTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_056142c5ffa44779964c8429c7ce3449",
+      "statement": "scripts/refresh-quests.ts reads DOFUSDB_WRITE_CONCURRENCY before starting Payload, so an invalid value fails immediately.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/refresh-quests.ts#L18-L23",
+          "version": "repo-lines-v1:sha256:af0541bf8f69075d166af125e85e2925e40866da644cb1faeedadb200c1f06dd:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWRiZjRkZWYxZjc3YjI1ZDA2ZTI0NzUyNzU1Mjg3M2Y3ODkwYjAzMDhhOTE3ODNkYjhiMTM2YTJhN2MwNzMzYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWZlMzllZGE4ZmVjYWVmYzI3MWZhODg5NmE1ZTk3NWU4YzQ2NWE3ZWNhMmM0MzMzZjIwNWFlNDU4ZTJlMWYzZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWZiM2RkNGJlYjJkZjljOTg5MGNkNTc3YzI1NzA3YWI5Yzg4NmIwMGQzNGZlNzYzNTA4MWE4MmIxYWY2M2FhNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDk2NzQ5OGZhZTZiNzU1Y2Y2ZDUwNjA2NGY1MmEwNDEwMmFjNTYxMWQ1ZjEyOTdhYzczMTljMzZmZGFjYzM4MSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_5437d96a2e4e498a89d01a101e97db8a",
+      "statement": "Each concurrent DofusDB write holds one Postgres pool connection; the pool sets no explicit max, so pg's default of 10 applies and .env.example advises not exceeding 9.",
+      "evidence": [
+        {
+          "resource": "repo://.env.example#L39-L42",
+          "version": "repo-lines-v1:sha256:91ee73e6ec637e225fd98d1fd063e548a8629648c74e3c5647b20c84f704e391:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjMxMzk1NDcwN2I5MDRiNWEwZGI0YjJmMDA2Y2UyYzZjODlhNTIyYjlhZjkwMmY1NTNjMjc1NTBkNDI1MjJkMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNmFjMDZiZDJlNGUwYjI5NjA1YmQxYmE1MTBmYTVhOWM0M2U0ZmFiZjI1MzkwNTUyNzM3Y2JmYTMwODJhNGJkOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDVkMTI1NTE5NWZjNmUyODBmZTQyNTE4Mjg0MjYwNmViODNkYTdkNWZkYjNkNTVkYzU4YjM5MmRhZDUyMTdlOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTJmMzY4MjZiNmY3ZDk5YjYwZTI2ZjkwNjY5Y2NlYWM0ZjY0YmM4YjVmMjliZDVmYjQzYjg1MzcxYmUxMjVhNyJ9"
+        },
+        {
+          "resource": "repo://src/lib/dofusdb/refresh-quests.ts#L28-L32",
+          "version": "repo-lines-v1:sha256:5625d8232885d9257346e231cbabe71ac838082bd002a06c3f39dcbfefff904c:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzk1YWE2ZjkxNzU0MTY1NDE0ZjExYTUxN2ZjNjE3NzQwNzRjNDM3MWQ1MjI2YzU4ZDI3OTZmZjZiMDJjMDIxZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDI3YzEwMGE0YzhiNTgwODFiMWZhNzcwMTZiMjg2NmQ5OTM0MjNiZTQ2OTlkZGRjZTkwN2FkY2JkN2NjMmY1YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzAyMWIzODFjZTc4YzRkYTcxMDIwZmZiYzZhNWViMjUwMTY3OTE4YzgwMThkYmU3YjA2ODAxY2M3YzdmNmRhNSJ9"
+        },
+        {
+          "resource": "repo://src/payload.config.ts#L52-L56",
+          "version": "repo-lines-v1:sha256:ab4901f19e57f3c8aac83fa8ebdbcca304965256d776e5c460488914e43513f9:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDU2YTc2ZDQwYTk1NGI2ODM0ZDM5YTVhODIyMWNhNjcwYmU4Yzg3NmU4NTI5ZDNiYmE2YzFjOTNkMTU3NjY2MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzk0YmM5MzcwYjFiNGMxZjI0ZTNmMzBlZjkyMjYxYTAyZTEwNDZlYjk2NmQ3NjhhMDEyMTgzZjc3ZTEyZjBkMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDliYjNiZmU5YTdkY2UxNjc1Y2VkNmE1MGJlZGYyMmE5MjM0NzM0YmIwNDQzZWZiN2U2OGFhNTY1YjE5MDMzMCJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T01:11:00.817Z"
+    "at": "2026-11-04T18:47:27.432Z"
   }
 }

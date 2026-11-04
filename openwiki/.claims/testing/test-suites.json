@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:7904e21d061f441cce285944a85c9c2c2e26aae589b153abec935ae6ff915dda",
+  "pageVersion": "sha256:ff203d88fd60ed9d2fb46c2a6ab44ce97d7649d2675888d2942011bbd39ab03e",
   "claims": [
     {
       "id": "claim_764b0485963845c99d60b85472ceccba",
@@ -355,10 +355,40 @@
           "version": "repo-lines-v1:sha256:ff61c853de627248edb756998b1c95e78919fbfbf3347094d0fee0d64174c5b1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0MTI0NmQwZTQ0MDU2MGNmMmU3ZDNiNWI1OWRlYzBiZGI1MGE1OTczYzE4NDEzOTg4NGVkZjAwNGM0ZTVjNjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFjNjQ1ZTIwZGU5MDUzNTE3YzUxZGNlOWI3ZDczMzc0NDMxYTMyYjgyMGUzZDhjYTJjZjM1MWI3ZDdjZWUzZDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_7999e0326c8c4a1aacf742395692f9a3",
+      "statement": "The concurrency unit test checks that mapWithConcurrency keeps input order, never exceeds limit running tasks, runs tasks in order with limit 1, rejects with the first error after running tasks settle without starting more, returns an empty list for empty input, and rejects a limit below 1 or not an integer.",
+      "evidence": [
+        {
+          "resource": "repo://tests/unit/concurrency.test.ts#L18-L112",
+          "version": "repo-lines-v1:sha256:ad589d28495b4777fa43051506a22f23021d3bc313be04af6687749e7d65277c:eyJzZWxlY3RlZExpbmVDb3VudCI6OTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVlYzU2ZDVkZGI5ODQ5N2ExNGVhM2NmMjgxYWIyY2FjMzhhZDI1YzZlN2ZmMmFjZGY2YTkyZTRiNzU5Y2E2ZmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUzNzk0ZmU0Zjk5NDJkYzZiNzFiMWY4NWQ2NDJlOWUyNzk4ZWUxNjhhZTU3ZDZiN2RhMjkxY2MzN2VlNTJhZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_43fc631d07994eb58f43552d8625664e",
+      "statement": "The dofusdb-write-concurrency unit test checks that an empty or unset DOFUSDB_WRITE_CONCURRENCY gives a default below 10, that positive integers are read, and that 0, -2, 1.5 and ocho throw.",
+      "evidence": [
+        {
+          "resource": "repo://tests/unit/dofusdb-write-concurrency.test.ts#L5-L26",
+          "version": "repo-lines-v1:sha256:c629d26b2fcf7058f232566dabddd43f95ccd9cff6db4bbeac7e9f4c00a8e65b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3NDg2NGU4NGQ0ZWEwMGZlYjAwODUxMmM3ZTI4MGEyNWJiYTdlOTAyMjllYjVmNjg1NzU4OTkzNWY5NGVjMDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI2MTUxMjliNTdiMmZmYWEzZmUzM2NiNmJhYzhmMjMxZmRjNWI4NjY1NzQxYmQ1MDg4MzI3ZGM4ODlkODk2MTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a7248c01ef524f0b9fd7c0c68121561c",
+      "statement": "A third refresh-quests integration block runs the refresh over both fixtures with concurrency 1 and then with concurrency 8 and expects equal counts and equal stored data, comparing relationships by DofusDB ID.",
+      "evidence": [
+        {
+          "resource": "repo://tests/integration/refresh-quests.test.ts#L300-L400",
+          "version": "repo-lines-v1:sha256:6e28e177ac35e70ec32fa4ef1657d8866b9b5b065eb4ee2d69d35c4a2f7077ae:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI0YzY5NDQ3NTY3OTE3YjBmZTZkMzlkNWNhOTA0MDE1Yjc4OGQ4ZTc2YjQyY2RlYTE2YmFkNjEyNjVkODMwNjI2IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIxZWYwYjlkYzJiNWUxYjlhYmVjYmYyZjEwMTVhNDUyM2NiMmE3NTFlZWQ4MjQ0MmEwYTcwODgwZmZjYWY5YmZmIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T18:10:54.480Z"
+    "at": "2026-11-04T18:47:27.432Z"
   }
 }

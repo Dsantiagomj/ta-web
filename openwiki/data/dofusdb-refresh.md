@@ -1,9 +1,11 @@
 ---
 type: workflow
 title: DofusDB game data refresh
-description: How pnpm data:quests fills the read-only quests, items and monsters collections from the public DofusDB API, how quests, prerequisites, level-200 rewards and needs are derived, why a rerun changes nothing, and how to run it without touching production by accident.
-tags: [dofusdb, game-data, quests, items, monsters, rewards, payload, scripts]
+description: How pnpm data:quests fills the read-only quests, items and monsters collections from the public DofusDB API, how quests, prerequisites, level-200 rewards and needs are derived, why a rerun changes nothing, how writes run several at a time under DOFUSDB_WRITE_CONCURRENCY, and how to run it without touching production by accident.
+tags: [dofusdb, game-data, quests, items, monsters, rewards, payload, scripts, concurrency]
 sources:
+  - id: openwiki-source-5f5b95b3d6a215fa02ceb945
+    resource: repo://.env.example
   - id: openwiki-source-8037e2358a2c4f9b2c722a11
     resource: repo://AGENTS.md
   - id: openwiki-source-2615540ec7553288b52f775d
@@ -24,6 +26,8 @@ sources:
     resource: repo://src/collections/QuestGuides.ts
   - id: openwiki-source-633cb155d38055ddc4af30fc
     resource: repo://src/collections/Quests.ts
+  - id: openwiki-source-6fb0b5f4df5054d4e6c27dc0
+    resource: repo://src/lib/concurrency.ts
   - id: openwiki-source-2ad419cae2f45e97a3ca23d7
     resource: repo://src/lib/db/database-url.ts
   - id: openwiki-source-7b3f34dd948192f72aa88058
@@ -40,10 +44,14 @@ sources:
     resource: repo://src/lib/dofusdb/quest-rewards.ts
   - id: openwiki-source-4ce5bfd40fc86e2e8680d71f
     resource: repo://src/lib/dofusdb/refresh-quests.ts
+  - id: openwiki-source-2c42ff828c6d8e213a2f7416
+    resource: repo://src/payload.config.ts
   - id: openwiki-source-f771f456156fbf6bde7862c2
     resource: repo://tests/fixtures/dofusdb/quests.json
   - id: openwiki-source-cbffdb2343060c99a7477cfa
     resource: repo://tests/integration/refresh-quests.test.ts
+  - id: openwiki-source-3fc2c02c456e1e51768c4446
+    resource: repo://tests/unit/concurrency.test.ts
   - id: openwiki-source-1843fcebd4e1a5a852fbfef6
     resource: repo://tests/unit/dofusdb-client.test.ts
   - id: openwiki-source-5c15ceedf8492ffd0f430eca
@@ -54,10 +62,12 @@ sources:
     resource: repo://tests/unit/dofusdb-quest-needs.test.ts
   - id: openwiki-source-3da4b4a0b727301694dfca60
     resource: repo://tests/unit/dofusdb-quest-rewards.test.ts
-generated: { by: "claude-code", at: "2026-11-04T18:10:54.480Z" }
+  - id: openwiki-source-e73350ef868f2379d51909ed
+    resource: repo://tests/unit/dofusdb-write-concurrency.test.ts
+generated: { by: "claude-code", at: "2026-11-04T18:47:27.432Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T18:10:54.480Z
+    at: 2026-11-04T18:47:27.432Z
 ---
 
 # DofusDB game data refresh
@@ -70,14 +80,16 @@ Nothing loads from DofusDB at runtime. The script copies the data into our Postg
 
 ```
 pnpm data:quests
-  └─ scripts/refresh-quests.ts        getPayload, timing, exit code
+  └─ scripts/refresh-quests.ts        DOFUSDB_WRITE_CONCURRENCY, getPayload, timing, exit code
        ├─ createDofusDbClient()       src/lib/dofusdb/client.ts
        ├─ fetchQuestData(client)      src/lib/dofusdb/fetch-quest-data.ts
        │    quests (all pages) → NPCs and maps named in start positions
        │                       → items and monsters named in rewards and needs
-       └─ refreshQuests(payload, data) src/lib/dofusdb/refresh-quests.ts
+       └─ refreshQuests(payload, data, { concurrency })
+                                      src/lib/dofusdb/refresh-quests.ts
             mapItem / mapMonster      src/lib/dofusdb/map-items-monsters.ts
             items, then monsters: create/update by dofusId
+            (each step: mapWithConcurrency, src/lib/concurrency.ts)
             mapQuest per quest        src/lib/dofusdb/map-quest.ts
               questRewards            src/lib/dofusdb/quest-rewards.ts
               questNeeds              src/lib/dofusdb/quest-needs.ts
@@ -181,13 +193,13 @@ Torre's "Necesitarás" lines in a guide are editorial: which fights to expect, w
 
 ### Writing: items and monsters first, then two passes over quests
 
-`refreshQuests(payload, data, { now, log })` is the only code that writes quests, items and monsters, so every call uses the local API with `overrideAccess: true`; the collections' access rules refuse everyone else.
+`refreshQuests(payload, data, { now, log, concurrency })` is the only code that writes quests, items and monsters, so every call uses the local API with `overrideAccess: true`; the collections' access rules refuse everyone else.
 
 1. **Items, then monsters.** `refreshCatalog` maps the rows, keeps one per DofusDB ID, loads the existing rows in one query, creates the missing ones and updates an existing one only when its stored fields differ under a deep comparison. It returns the counts and a map from DofusDB ID to Payload ID that also covers rows from earlier runs that DofusDB no longer returned. This comes first because quest rewards and needs point at those Payload IDs.
 2. It maps every quest, keeping one entry per DofusDB ID in case a quest repeats across pages, and loads all existing quests in one query. `linkRows` swaps each reward and need item or monster for its Payload ID; an ID with no stored row is dropped from the list and counted as a missing item or monster.
 3. **Pass 1** walks the mapped quests by `dofusId`. A missing quest is created. An existing one is updated only when its stored fields (name, levels, category, criterion, start positions, rewards and needs) differ from the mapped ones under a deep comparison; otherwise it is left alone. Progress is logged every 250 quests.
 4. **Pass 2** resolves each quest's prerequisite DofusDB IDs to Payload IDs, now that every quest exists. A prerequisite that is not in the collection is skipped and counted. The relationship is written only when the resolved list differs from the stored one; a quest unchanged in pass 1 then counts as updated.
-5. It returns `{ created, updated, unchanged }` for each of `quests`, `items` and `monsters`, plus `missingPrerequisites`, `missingItems` and `missingMonsters`.
+5. It returns `{ created, updated, unchanged }` for each of `quests`, `items` and `monsters`, plus `missingPrerequisites`, `missingItems` and `missingMonsters`. Every write returns its own status and missing counts, and the totals are summed from those results afterwards, so no shared counter is updated by concurrent writes. The only shared counter left is the progress count behind the every-250 log line.
 
 Consequences:
 
@@ -196,14 +208,32 @@ Consequences:
 - **Nothing is deleted.** A quest, item or monster that disappears from DofusDB stays in its collection, so relationships pointing at it keep working.
 - A prerequisite that appears in a later run gets linked then: its quest is created in pass 1 and the dependent quest's relationship is filled in pass 2.
 
+### Write concurrency
+
+Each Payload write is several round trips to the database. Written one at a time, a run against Neon took about half an hour (comment on `refreshQuests`). So within each step (items, monsters, quest pass 1, quest pass 2) the refresh writes several rows at a time with `mapWithConcurrency(items, limit, fn)` from `src/lib/concurrency.ts`:
+
+- It returns the results in input order, whatever order the writes finish in.
+- At most `limit` calls run at once.
+- After the first error it starts nothing new, waits for the calls already running to settle, and then rejects with that first error, so no write is left running with an unhandled rejection.
+- A `limit` that is not an integer of at least 1 throws a `RangeError`.
+
+The steps stay in the same order as before: items and monsters finish before any quest is written, and pass 2 starts only once pass 1 has saved every quest. Concurrency only changes how rows inside one step overlap, so a run with 1 write at a time and a run with 8 store the same rows and return the same counts; the integration test checks exactly that.
+
+The limit comes from `options.concurrency`, which defaults to `DEFAULT_WRITE_CONCURRENCY` (8). `pnpm data:quests` sets it from `DOFUSDB_WRITE_CONCURRENCY` through `writeConcurrencyFromEnv`: empty or unset gives 8, and anything that is not an integer of at least 1 throws before Payload starts. See [Environment configuration](../architecture/configuration.md#dofusdb-write-concurrency).
+
+Each concurrent write holds one connection from the Postgres pool. `src/payload.config.ts` sets no `max` on the pool, so pg's default of 10 applies; 8 leaves room for the reads the refresh also makes, and `.env.example` advises not going above 9.
+
+Measured locally, the write phase took 8.3 s with 1 write at a time and 4.5 s with 8. Local writes are CPU-bound, so the gain there is modest. Against Neon each write waits on network round trips, so the gain should be larger, but it has not been measured yet.
+
 ## Running it
 
 ```sh
 pnpm data:quests
 ```
 
-`package.json` runs `payload run scripts/refresh-quests.ts`, which loads `.env` and transpiles TypeScript. The script starts Payload itself with `getPayload`, prints how many quests, NPCs, maps, items and monsters it downloaded, then the created, updated and unchanged counts for quests, items and monsters, the skipped references and the elapsed time. A full run downloads about 2,000 quests, 2,800 items and 1,000 monsters and takes about a minute (README).
+`package.json` runs `payload run scripts/refresh-quests.ts`, which loads `.env` and transpiles TypeScript. The script reads `DOFUSDB_WRITE_CONCURRENCY` before anything else, so a bad value fails at once, then starts Payload itself with `getPayload`. It prints how many quests, NPCs, maps, items and monsters it downloaded, how many writes it runs at once, how long the write phase took (`Escritura: <n> s.`), then the total elapsed time, the created, updated and unchanged counts for quests, items and monsters, and the skipped references. A full run downloads about 2,000 quests, 2,800 items and 1,000 monsters and takes about a minute (README).
 
+- **Write concurrency**: `DOFUSDB_WRITE_CONCURRENCY=4 pnpm data:quests` (or the same line in `.env`) changes how many rows are written at once; empty means 8. See [Write concurrency](#write-concurrency).
 - **Target database**: whatever `DATABASE_URL` points to, or the `ta_web` database of `pnpm db:dev` when it is empty. See [Database and migrations](database.md).
 - **Schema first**: the `quests`, `items` and `monsters` tables must exist. Schema push only happens under `next dev`, so on a fresh database run `pnpm migrate` (or `pnpm dev` once) before the refresh.
 - **Failure**: any error is printed as `El refresco de misiones falló:` with the cause, Payload is shut down, and the process exits with code 1. The explicit exit matters because `payload run` exits 0 whenever the script returns without throwing.
@@ -222,7 +252,9 @@ The script writes to whatever database `DATABASE_URL` names, with no confirmatio
 | `tests/unit/dofusdb-quest-rewards.test.ts` | Torre's and dofusdb.fr's figures for quests 1977 (24,316 XP, 552 kamas) and 1976, the 1.5 × optimum cap (332), the level-200 case (1433), per-step flooring (241), items summed across steps, the last reward entry (880), emote and title IDs, and empty steps |
 | `tests/unit/dofusdb-quest-needs.test.ts` | Delivered items, `need.items` without deliveries, the larger-quantity rule (245), deliveries summed across objectives, every fight objective and souls, `walksMaps` for map and sub-area discovery, and the ignored objectives |
 | `tests/unit/dofusdb-fetch-quest-data.test.ts` | Only the NPCs and maps named in start positions, and only the items and monsters named in rewards and needs, are looked up |
-| `tests/integration/refresh-quests.test.ts` | Against real Payload and Postgres: the first run creates the quests and skips missing prerequisites; a second run changes nothing and keeps `refreshedAt`; a third run updates only the renamed quest and the one whose missing prerequisite now exists, and creates the new quest. A second block creates items and monsters and links rewards and needs by Payload ID, changes nothing on a rerun, and on a third run updates only the renamed item and the changed quest and skips an item DofusDB did not return |
+| `tests/unit/concurrency.test.ts` | `mapWithConcurrency` keeps input order when tasks finish out of order, never has more than `limit` tasks running, runs tasks one after another with `limit` 1, rejects with the first error once running tasks settle without starting more, returns an empty list without calling the function, and rejects a `limit` below 1 or not an integer |
+| `tests/unit/dofusdb-write-concurrency.test.ts` | `DOFUSDB_WRITE_CONCURRENCY`: unset or empty gives the default, which stays below pg's pool of 10; a positive integer (also with spaces) is read; `0`, `-2`, `1.5` and `ocho` throw |
+| `tests/integration/refresh-quests.test.ts` | Against real Payload and Postgres: the first run creates the quests and skips missing prerequisites; a second run changes nothing and keeps `refreshedAt`; a third run updates only the renamed quest and the one whose missing prerequisite now exists, and creates the new quest. A second block creates items and monsters and links rewards and needs by Payload ID, changes nothing on a rerun, and on a third run updates only the renamed item and the changed quest and skips an item DofusDB did not return. A third block runs the refresh over both fixtures with concurrency 1 and then, after deleting the rows, with concurrency 8, and expects equal counts and equal stored data, with relationships compared by DofusDB ID |
 
 The unit and integration tests share real DofusDB rows saved in `tests/fixtures/dofusdb/`: `quests.json`, `npcs.json` and `map-positions.json` for the base quest fields, and `quests-steps.json` (nine quests with their steps), `items.json` and `monsters.json` for rewards and needs. The integration test deletes its fixture rows before and after it runs. See [Test suites](../testing/test-suites.md).
 
