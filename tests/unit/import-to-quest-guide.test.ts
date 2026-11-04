@@ -143,6 +143,33 @@ describe('conversión de una página en guía de misión', () => {
     expect(richTexts(guide.body)).toEqual(['Antes de empezar Primer paso.'])
   })
 
+  it('un encabezado dentro del resumen es parte del resumen, aunque no haya título antes', () => {
+    const page = pageWith('<p>Prerrequisitos:</p><h2>Nivel mínimo 70</h2>', '<p>Primer paso.</p>')
+    const { guide } = toQuestGuide(parsePage(page), { slug: 'prueba', questDofusIds: [1] })
+    expect(guide.summary?.prerequisites).toBe('Nivel mínimo 70')
+    expect(richTexts(guide.body)).toEqual(['Primer paso.'])
+  })
+
+  it('quita el encabezado inicial numerado que repite el título, sin anotarlo', () => {
+    const page = pageWith('<h2>29. PRUEBA</h2><p>Primer paso.</p>')
+    const { guide, oddities } = toQuestGuide(parsePage(page), {
+      slug: 'prueba',
+      questDofusIds: [1],
+    })
+    expect(richTexts(guide.body)).toEqual(['Primer paso.'])
+    expect(oddities.join('\n')).not.toMatch(/encabezado/i)
+  })
+
+  it('un encabezado inicial distinto del título se quita, pero queda anotado con su texto', () => {
+    const page = pageWith('<h2>PRUEBA EN APUROS</h2><p>Primer paso.</p>')
+    const { guide, oddities } = toQuestGuide(parsePage(page), {
+      slug: 'prueba',
+      questDofusIds: [1],
+    })
+    expect(richTexts(guide.body)).toEqual(['Primer paso.'])
+    expect(oddities).toContainEqual(expect.stringContaining('PRUEBA EN APUROS'))
+  })
+
   it('de un párrafo que empieza por la línea de inicio escueta quita solo esa frase', () => {
     const { guide } = guideFor('intoxicacion-profunda')
     expect(guide.summary).toMatchObject({ startNpc: 'Capitán Grog', startX: 22, startY: 22 })
