@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:a1aae9cd17196b763c705071fb7ff9a7c5c71985d1717e3049a1b4fb0a379296",
+  "claims": [
+    {
+      "id": "claim_b918f6d1cc124cf385437a508e649e6b",
+      "statement": "The project requires Node >=24.22.1 <25 and pins pnpm 11.24.0 as its package manager.",
+      "evidence": [
+        {
+          "resource": "repo://package.json#L7-L11",
+          "version": "repo-lines-v1:sha256:9bf0490c3ab75b2b206a173938c8461a9c2a1f097d34a2ceb415fdcb2c65cf5a:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTI5NjdhYWYxMDczNzU2MWJiMzc1NGU2MTQxMWM0MWZmYzY5ZmViOWE5ZTMyOGI3MmFkYzY2ZTdiYWRhNTUxYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTUyMGQ4N2RmNGRlZGFkZGNhZTRiNmE4NzAxOTFkNjhiMDYzNmE2OGJiMmY1ZGZmYjI4MWE4ZTZiYjE3ODJhNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjAwMjIyMzQ2ODgwMzY5MzExMDQ0NGE4N2Q4YTZkNWM2M2UyYjMzNjVjM2NkNDJhODg1NzZjMmQzNmEwMDExMyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_0fd35b662bde41f9bf6b925d7bcdccff",
+      "statement": "pnpm-workspace.yaml allows esbuild, lefthook and the embedded Postgres platform packages to run install scripts.",
+      "evidence": [
+        {
+          "resource": "repo://pnpm-workspace.yaml#L1-L11",
+          "version": "repo-lines-v1:sha256:07a3ce5447ec653d305843d96b1b743a7f5eba4bdeae377cce4289a6dbdd2463:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY4NmM5ZTM4YjhmNmI4ZGViY2ZhY2RlZDMxMDkzMTM3YTAyYzhhYzdhODI1OTBmMGM1N2UyYWRkZDdmZTU2NTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjNjU0YTcxOTY3ODE0YjRlYjEzNjZhZTJmZWE1ODgwYjA5YmFkMTA3M2ZiZGIxYTgzZjcxZjFiOGE3YzEzNjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2MjYzNDgxYjNkMTJhZTQ2MTg5OWY2OGNkMWViMzlmOTNlZWMzZmJlZjQ3ZTkwNDI2NzRlNDM5ODYwMDg4MGIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bd44e78d21bc4c86a0724269ce550b96",
+      "statement": "pnpm db:dev runs an embedded Postgres in the foreground, creating the cluster only on first run and the ta_web database if missing, warning when DATABASE_URL is set, and printing Postgres logs only with --verbose.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/db-dev.ts#L9-L64",
+          "version": "repo-lines-v1:sha256:20af4c2238a8d68e48ed9c33f04d1ba206aed0d29156679a2492e9d3f0037b30:eyJzZWxlY3RlZExpbmVDb3VudCI6NTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZkNzFkZTEwNWJiZGIxYWYwZTYyMTBkM2FkYTY2YWI1OTRkOGI3Y2Y1NDNhODU2YmNlNjM3NDA1MWJjNmJmNjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdkNzdhNGNkNzhmNTEyMDQ3NGJlZWI0OTQ4Mjc5ZjI4ZTkyNDdjNWYwNWZkMmQ4YWMzNWQ5NzA5ZDczYWNiMDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc2OGJlN2MwZGUwMzAyMTRiOTdhOGVkNGZkMmM0MzRlYTllZWQwOGQwODI3N2JhODYwN2JhMzZkNjdkNzM4ODEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e7f09aa863114ce58c70952eec8ca125",
+      "statement": "When pnpm db:dev fails to start, it stops Postgres and notes that a stale postmaster.pid from a hard shutdown can be removed if no other Postgres is running.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/db-dev.ts#L66-L72",
+          "version": "repo-lines-v1:sha256:27ea8415b948a86f163e3fc7c1ae6ec2b0872317d0427275ff9781333b6dd376:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTViYWFiNGZlOTQxOGEwZmFhNjJmYzRhYTc3M2I1MzNjODYxMzljOGM1NjQ3ZTNiZTdlZmI2ODY3ZDgxOGFiNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODU4MGI3NjUxOGRhZTk3OWZhZWJkMDIzNjdhMjkyOTJhNTBkOTc2MDkyMjUxYTM4YTZjZTMwODgwYmE0MjgyNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzFjMDVhYWIzNzJlZTBjNTYzNDhlZTQ2ZDRhMzMxZTIwMWVlZWFjZTZkNTYzNDc0NmM5NzVmZjhiMmFlODc4NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_8571efb5af9941e49928afd36ba57734",
+      "statement": "The package scripts define dev, build, start, lint, format, typecheck, the test suites, db:dev, migrate, migrate:create, payload, generate:types and generate:importmap, with build raising the Node heap to 8000 MB.",
+      "evidence": [
+        {
+          "resource": "repo://package.json#L12-L33",
+          "version": "repo-lines-v1:sha256:7bfee9474ad159a8277d297fc0cf222cb54aa620d187b4396f8844d52c65de1d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0ODMzZDU5NDljMDNhNDBjYTk1MjQ5MTYxMGE2NjU5NjQ0YjNhYTQ2NjM2MmY3OTkwMjBkYmYxOTgxNTQ3ZGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJhM2I0NjlkOWUwOTc1NzIyNDY2NjczNGM5ZWY3YjI1NGQ4ODUzNGY1ZDViYjcwOTg5NjA4MDVjNTUzZGMzMDciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU3MzhmMDQyOWU5N2Y0ODI2MWJjZjM1NmYzOWIyZjJlNDVmMWFhZjA2NGY3Yjg2MTQ0YjcxZjE3ODU0NjE4OWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA2NTVhOWQ4ZTM0OWE3ZTIzNTAxMGZjY2ZkMDkxM2ZiNGZhOTU3NmM4MWY1NmUyYjZiOGJiNGZiZjFlZTlkZTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8691df96e222445ba743bd2522a22511",
+      "statement": ".env.example documents that an empty DATABASE_URL uses the embedded database, PAYLOAD_SECRET is mandatory, and media goes to ./media without the four S3 variables.",
+      "evidence": [
+        {
+          "resource": "repo://.env.example#L4-L37",
+          "version": "repo-lines-v1:sha256:158d7ccca54f1a2928b23fcaf5b949bd51699d7d5d617d3cd9a2567fe5c1d58b:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJkNjAwYWNmZTE3ZGE3MDFjNzAyNGIyOTBkMmUyOGY1YjQ4ZWZmNzZhODdmODdlMTFkNWFmOGEzM2Y1ZTAzNTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhZjMyM2FjZWRlZTE2NzA4N2VjNDRmZDE3NWQ2MDFjNDQ2ZmU0ODIwOGNhM2U4OTQyNTlhNjZhNzVjMzkzYzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwZGUwMDU4YzI4YTAxNDY2N2JlNTI2OTA0NzEwMzJlNWYyOTk0ZWYxNWJlYjQxY2ViNzg5OTg3OWFjYTRhYzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUyZjM2ODI2YjZmN2Q5OWI2MGUyNmY5MDY2OWNjZWFjNGY2NGJjOGI1ZjI5YmQ1ZmI0M2I4NTM3MWJlMTI1YTcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b770920909aa4767851fb7a736fdd498",
+      "statement": "Schema push is used only under next dev; other contexts use committed migrations.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/db/database-url.ts#L33-L40",
+          "version": "repo-lines-v1:sha256:a8cc723384f8acb9f97b769b5a2372eada1d6b28c3fa332ce3c8b2ccdb53483a:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjlkNDUyNDI0MTlkMjdmMGJlOTA4MTFhNGIxMjY1MjUwYmM0OGYzNDZmZDQ1MWUxMmQxMDI5Mjk1N2RkOTUxZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_4ec18fb87d04409aa303673993b91694",
+      "statement": ".nvmrc selects Node 24.",
+      "evidence": [
+        {
+          "resource": "repo://.nvmrc",
+          "version": "repo-file-v1:sha256:68ca3fba3b7e864770cb61aeb306d4bd4354b68ab4dd38450860c5d823e42a53"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-04T00:16:52.047Z"
+  }
+}

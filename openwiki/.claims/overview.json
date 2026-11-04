@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:65ee377d2d6e541aadef13d75d9ef8a39ba35953951a6603b236d75826dc755c",
+  "claims": [
+    {
+      "id": "claim_46a7ecf7c01f4151af666d14fb666d91",
+      "statement": "ta-web is the new torrentearcano.com for Dofus guides, achievements, classes and checklists with member accounts and premium features, replacing the Squarespace site and the silvestre-checklist embeds.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L1-L5",
+          "version": "repo-lines-v1:sha256:ff3bd938bef6e9d5917a594372aced671e9c0e67ffa01f1bf491c9326f93bb50:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjZiZmRjZWI0MjE1YTNmMDY5MjhiYTY2OTUxNThkNTMzZDlmNjk1ZjQzZjc2OGUyMDVmODk1ODhlOTgzM2I0NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjc2NWNlNmVhZmQzMDk3NDhmNDc1MzBlOWVkZDQ2NTcwNzE0MGYzNDhlYzBiMTVkOTI0Yjk3OWE4MTBlMGUwYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzNmNmFhODg5NmExNTE0OWU2OGZmZDQzNzhkNGNlN2RjNjhjNjE3ZDMxMDk2NGZlMzFiMjUwNmE4NGMxZDM2MSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_981ccfcad6bc4ad59de9f8ffa5f1e645",
+      "statement": "The app runs Next.js 16, React 19 and Payload CMS 3.92 with the Postgres adapter, S3 storage and Sentry, on Node 24 and pnpm 11.",
+      "evidence": [
+        {
+          "resource": "repo://package.json#L35-L49",
+          "version": "repo-lines-v1:sha256:2b1d849a765ab664a0f7ef49f5784f6e4604d8e5c33a801220fe9fc96b6b425d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMxNWY4YzA3YTdiYTlmMTZiZjM0ZGRlM2Q2ZjU3OGRlYzRlYWM3MTUxYmY5ODUzZjQ1MGQwYjhhYjRmNjFhZWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA0NmZhYTQ5MDhlNDRlOWFmNzVlNDdjN2UxNTI5YmIxOWViYmQwM2E5NzZhNmUwMDg4YjllY2M5OGE4NTBkZWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYxNGI2MDJmNTVkNzZhMGRmMmNkZTc1OGVlZjNiN2VmOGNlZDIyMjczZDljNzJmYjZmZTVkMTBkZDU5NDJkMjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRkZjljMzA2OWM3OWQyYTVkMzAwNDQ4YzFjYmE5YjRmNzBhNTc1MWY4MjY2YjZiZTY4MDBmN2UzMmQ4ZDBkM2YifQ"
+        },
+        {
+          "resource": "repo://package.json#L7-L11",
+          "version": "repo-lines-v1:sha256:9bf0490c3ab75b2b206a173938c8461a9c2a1f097d34a2ceb415fdcb2c65cf5a:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTI5NjdhYWYxMDczNzU2MWJiMzc1NGU2MTQxMWM0MWZmYzY5ZmViOWE5ZTMyOGI3MmFkYzY2ZTdiYWRhNTUxYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTUyMGQ4N2RmNGRlZGFkZGNhZTRiNmE4NzAxOTFkNjhiMDYzNmE2OGJiMmY1ZGZmYjI4MWE4ZTZiYjE3ODJhNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjAwMjIyMzQ2ODgwMzY5MzExMDQ0NGE4N2Q4YTZkNWM2M2UyYjMzNjVjM2NkNDJhODg1NzZjMmQzNmEwMDExMyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_8d00a571b8534effa8bc53b0fd5ef9e3",
+      "statement": "The target stack adds Better Auth for members, Drizzle for own tables and Postgres full-text search, running as one long-running Node container.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L20-L32",
+          "version": "repo-lines-v1:sha256:5266bf45c68d86832d4d4b6bc760377a6101983667ea0b41771a07400b5291d8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ5NWM5ZjgxZWYwYTMyZTE1YzNiNDcxYjQ1MzQ2MjhiMWE1NmJiYzI2ZjUzMjdlZGUwNDFjMDg0MTNjMjg3ZTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMzYTk3NjRkOWU5MjMwOTZkYWQ3NmQ2NWU4MzU4YzM3MjJmYjZiM2M1ZmQ3OTVhYjY0NGNhZThhMDlmY2JjMWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc5OWMzYWM0MjY4ODgzZTU0ZDE3MWUyZjQ3MGI3MDllNzE1MjdlZmZmNzE5Yzk3ZTcyODljZjI0NWVhNzE5ZGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIxNWRkZDljZTYyMmIxYjlhMmQ5ODhhNGE5Mjc4M2I5NzU1OTczY2M1MmNjZjk0ZDYwOTNkNWM2OTczNDg4YzgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_126af336a3a8413ea2ec01985a1279c5",
+      "statement": "Only the app skeleton exists today and most product features are planned; paths named by rules but missing should be created with those names.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L5-L5",
+          "version": "repo-lines-v1:sha256:70b3d2d49a41884f1d28689312583742c7ad03a914f3cd899ebf7c7d9b5fc633:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzBiM2QyZDQ5YTQxODg0ZjFkMjg2ODkzMTI1ODM3NDJjN2FkMDNhOTE0ZjNjZDg5OWViZjdjN2Q5YjVmYzYzMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzBiM2QyZDQ5YTQxODg0ZjFkMjg2ODkzMTI1ODM3NDJjN2FkMDNhOTE0ZjNjZDg5OWViZjdjN2Q5YjVmYzYzMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjRkOTgzYTliNTc0MTFhNzk1NjMxODNkYzY3ODZiZjIxZjExMDI1MjMwMmM1MjM4MTNmYmYyOTkwYzQ5NDUxNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDAxNDcxMjRkYzdiOTlkNWEyNWM2M2I1OTljZDBjMjg1NGE0YzY4ODRkZDkzMTQ4ZTUwZTMxYjNhMGZjYzdiZSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_5aaf51ac373143478ea8aaa893b86cee",
+      "statement": "The Payload config currently registers only the Users and Media collections and a single Spanish locale.",
+      "evidence": [
+        {
+          "resource": "repo://src/payload.config.ts#L25-L40",
+          "version": "repo-lines-v1:sha256:41fbe4a534036cfe1404e9116740baf9161a4f3e20de85ae6874690ae9e423bd:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiYzllZTU2NGFlNTRjM2UwN2ZlMDA5ODkwOWE1NjIyY2JlNzkxMzFmYjc4MmYyMzgxYWZhNWU4YjJiMTIxMDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRkZGI1NGNkMTk1YWM2OTU1YjUwOTcxOGYwOGMxOGQwYTU0ZDI4ZGI2NTg1Y2RlMzljNDFjYzk3ZDY4NTEwNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxNWFkZTY3NjQ0YjE5ZWZkNjMzMTZkNWQ3NzJkZTNlMTE0YTFkN2QwNGQyNjNlYzEwNjJiNGQ2Y2I1ZDZjNDkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f5524e09350e482ab1125f711cfe86bd",
+      "statement": "The home page is a phase 0 placeholder that sends visitors to the existing site.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/page.tsx#L1-L18",
+          "version": "repo-lines-v1:sha256:4edbb18e7c3f70f4eda79d1a195b49995ff9841105ff3aaee53e45184c90181d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU1ZmJmYzMyMTQwZmFlYTlhMDY3NTRiNjdlYzhlMGVjZjczZjhlNjUzNThkMjViNDBjMmQ2Y2UxYjg4NWU4MDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/app/(frontend)/strings.ts#L6-L14",
+          "version": "repo-lines-v1:sha256:f789f7290583de24c70bbbaf3635115ad3b2297797676e4e3a46308117e41e9e:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjRhNDc2ZjQ4YmVhOGQ3YmM5MzEwOGNkNWMwODY2YTk2NGViNzZjNGU3MGU5OTczNWUzODlkZjY4Yjg2ZTAxNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTQ1OTJiZWM4MzczNTA3MWZkYmMwNWU5ZmI5NzYxMDI1OWRiYjE2MzEwMTQwNGU2NWNjZmJmYjkzYzRiYzBlNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_1007ec5fb8e749799bbb1229bfe2cb4f",
+      "statement": "Railway runs one web service in two environments, dev and production, from the same build.",
+      "evidence": [
+        {
+          "resource": "repo://.railway/railway.ts#L16-L31",
+          "version": "repo-lines-v1:sha256:40e46bdc2da0f4d550384dacafc8dfe25ea308804ace3015cb2ac989a2d01158:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUyMWU2NGViYmJmODMxNGRjMzNmMGExMDVhYTFmM2U1ODcxY2QyOWRlYzEzNTg0NTlhZjEyMmIxMGZhMGZmYmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU0MTcxZjI1ZmY1MGUyOGMxZWQ2MGRiMWYwM2NiMmRmOWU3NDExZjNmYjU0MTNiY2Y0OWExZWVlNjdmMWQ1MzQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUyODU5MDBiNjY1NjM3NWQ4MTk3YmRiY2JjMjZlNmIwZTMyYTM4N2E0MmVjMTE2MGUyMjRjZDYyMmQ2ZTU0NjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY2YjJjMTViNTEzYWRkMjhjZTAxODlmM2U1YzczYTZjOGQ0Mjk4MWM1NTJjZmVkZmE5MTg3OTg3YTg5OTQ2NDMifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-04T00:16:52.047Z"
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:e67f6914f7cc47eab877f16932f5f6f04ca93234c88ec5357dbae6a493c953bb",
+  "claims": [
+    {
+      "id": "claim_92ab8b9517774c839722914f676295d4",
+      "statement": "There are five themes (arcano, amakna, bonta, brakmar, ocre) with arcano as the only free theme and default, and two modes (dark, light) with dark as default stored in the ta-mode cookie for one year site-wide.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/theme/theme.ts#L5-L17",
+          "version": "repo-lines-v1:sha256:2c55ce0997fa94080d0f4e9003859bae9ecc529819130efd2f3cd04cdddb906b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc2MjNhMzRiMjg4OWFkZjFhOWY0ODljOWQwMjNkMTM4MGUyNDdjNmUyMDAwNWM5OTQwYTgzOTlmMzMwYTRkN2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNlMWRhMDRmMDE4Yjc2MWU0NDA0ZWNlYzc2NTIxMmQ4YjU2ODY5OTMxMmU0ZDJhZDdkMjUyY2E2NmM4Mjk2YTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ2Y2Q3MDdmM2I5NTYyY2U4NzZlYTk3MTBmZWNlZjgzNzkxYjM5ZGRhZDQzOGQwMDUwNzQ1MWU5MjlmNzEwMGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZiMmRiMDFjNzA1MDYxYzkwNWEyMzk1NDU4ZWZhZGY3NTEyZjI1MWFhZTQ0OTVlNTY2M2E5YTZkNWRjMjJiM2UifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a5a02733df474152bbde086addf915bc",
+      "statement": "resolveTheme returns a saved premium theme only when the caller has the premium entitlement and otherwise falls back to arcano; unknown values also fall back.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/theme/theme.ts#L27-L35",
+          "version": "repo-lines-v1:sha256:3a0775bbf949aec6d04170635b3824220bc690ecbf2d778836d1ba03eebe5b10:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzMwZTVjNzUyMzQ1OTJkMzJlMzg1ZGJjMmIxMjY0N2VmYjFmMTExN2FiNTU2ZTBmZGFhODY2YzE0N2U2ZDM5YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzc2ZjA1M2U4ZTJlMGNlYWZhZWI4ZWFmZWIyNDIwZTk5YjViZjgyZDFmNjRmMzFkZDI2ZjExYzBhNzkzNTg2YyJ9"
+        },
+        {
+          "resource": "repo://tests/unit/theme.test.ts#L27-L48",
+          "version": "repo-lines-v1:sha256:2fc944fca1daa4208dc8ae5e7f9bd91b238eb3d9d043676546c111f98f5012a0:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVjNDY3NzQ0MzQzZTYyMDZiYzcyNGRmYjYxZjVkYzUzNTdmM2EzMjM4NDIyNzhjNWEwMTVhNzk5ZmU3OWVjNTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQwYTI3ZmU4NzcxMjYxNDkxODNhMzhlMDI0ZGI0Yjg3YTRkOWI3M2NhNjkzZjU3MTE1MDc1MmVhNGIyMTU5NDMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3102a5f60b3645509e51d41289a02aa2",
+      "statement": "resolveMode accepts only dark or light and falls back to dark.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/theme/theme.ts#L23-L25",
+          "version": "repo-lines-v1:sha256:15b3c0244fa590420d2ff3e721452668aea5798b76dc297e86fd2bfaeaac3dcc:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjAyNGUxMWUyNGVkODhhY2ZjYmUwMGQyMGQ5ZjEwYTc1NzBkZGFkOTY5ZDg1N2E1MDYyNDg4ZjkxYmE5ZWNkMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWE0OTllNmNiMTFjN2VkZTQ2MjQ3OGZlMjU5ZGQyMzI4NTI4NzliODI3MDYxMGZmMzgxMWQ0M2VkODc5M2M1YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjliZDZlNWM0YzA3MDJiOTc4MGI4OTkwZmM3YzhhMTM0ODY0NTYxM2U1M2ZiODY5NTk5YWJhNmQ4MjgyOTY0NiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_388a2cad1b2b403db6e7e7166a4dc44a",
+      "statement": "The frontend layout currently resolves the theme with no saved value and no premium entitlement, so every visitor gets arcano.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/layout.tsx#L21-L23",
+          "version": "repo-lines-v1:sha256:89b0ca65c6195fb07177df1204b21d5a2489a2b0bfa3b4cdc1e1dddf4593e8e2:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTdkYTE0MDI4OGQ0ZjE1NGJkZDJiZGRhNGY2OWRjN2MzNGY5N2ZhN2U5YzM4YjEzYTFiNzQ3MTkyZGFmZGI2MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDcwNmZlOGIyZmM0ZGIwMDk3NjI2M2I5NDg5ZjUyZjViYjY2NTkwYWFmZmRlOTlhZWYzZTNiMWNkZmE0M2U3MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTFhYzdjYTAwMjU2NjkxYzY2MGU1ZDRhNDkyMjc0Yjc2ZTIyMmVlODdlOWJmNGJjNWI5OTJjNGY0YjYxOTNiNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWJjNTg3NGI2ZmE1NjIyOTFlNTQxNzUwMjRkZTU1NDAzNTZiZmI3ZTU0ZTE5NGIyYWM3OGZlODczYjYwNjI5MSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_0a231908626e409e826c9fcf906c77bc",
+      "statement": "The inline head script keeps a valid mode cookie, otherwise recovers a valid mode from localStorage and writes it back to the cookie, otherwise uses dark, tolerates localStorage exceptions and never sets the theme.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/theme/mode-script.ts#L1-L21",
+          "version": "repo-lines-v1:sha256:f5aa9d860cdff9caf0328b436b9728a3866e42550583ace93c47ca7b779cdeae:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgzMDg1MzdiNDc3OWI5MWEzZjFhOTg3OGEzYzA5NDQwMGM1YzM1Y2I1OTQ1ODk1N2I3MjY4NzRlODQ4ZmZhMTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVlODUwNjUyY2U4NTZlYzVjNTYyMjk2ZGYwOTYwZTExYzhjNGQ4YjU3MzBmODVjMzg5M2EwYjg2OWNiOGJmMWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/mode-script.test.ts#L32-L58",
+          "version": "repo-lines-v1:sha256:f89a776c1cd590f50296df23534c87e65c2729bb19f70f5d88831ab1adde1922:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3NzJjZTllMjUzZWIwNTg0YjcxMmRiMTQzMzliNjVlNDc1N2JjZWFmZDRkZmJjNjE4ZWRhNzkyYTFhYmNiMjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYzVlNWYwYWEzYmU0YzhkMDdmNmZlMzY5ZDk3MGYxZWVmNDg5MGM4YWMxZTE4OTU4ZGE5ODEzMjNmNjRhZjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_99919817568449fdb82addcd54f8141e",
+      "statement": "ModeToggle reads the mode from the html data-mode attribute via useSyncExternalStore and applyMode writes the attribute, the cookie and localStorage inside try/catch.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/mode-toggle/ModeToggle.tsx#L11-L35",
+          "version": "repo-lines-v1:sha256:66ad2b5502de760b17d0a1bcd27f1ab378b6d392d9a7d250e21b259d12baa16e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEyODUzN2RjMTYyZDcyODkwOTU3ZjZmNDkxMDBlOGYxMzIwZTIwNGMwMzBmYzFiMjU4MGExMjViMjA2OWNiZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI5NWY3NTYyODdkZDhiMDk1MzVhNGEyY2MyZTU0NjkxMDg1MTllN2RmM2Q3Y2RlZWE4YjkxYzU5Njc0NGVlZjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRhNDc4YzU3M2RjMzg0M2Q2MjM0YTFiNzU0MTUyNDk1OThlZjdlYmY1Mjg5Mjk1NmY0M2ZkNzM5ODcyMGQwNGEifQ"
+        },
+        {
+          "resource": "repo://src/components/mode-toggle/ModeToggle.tsx#L68-L69",
+          "version": "repo-lines-v1:sha256:24bbaa060c96a9d8c452e81917b98d98583cc2920c519a908c69247ac7899d51:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2UwM2VkZjZhOTEzNGIwMTk1YzhlODhmMDEzOTc5NGE2MTk4MmU2YzUzYjU2MzdkMWFjOTAxMzlhNTc5NWJlMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGVhODkyODkyNjRiMTcwNjVkY2RiZGQ3MTJiZjk0YWEzOGNjYjM1NzI5YjAwYTk1MzcyMTJkYWUzYjZmN2M1NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTg1YjhjZmI5ZDFjNmY5MjkzODBlZGE0MGVjMjk4MTU5MGEwNDFhZTg0YzA0MDEzNWJkYmI5YjQ0NDJlNzNiZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjlkMWYwZWY5MzdiODY2NDdlOTc3ZDdhNDQ4ZjM4YTRjMzAzZmVkNTc1OWE0NzJhY2RjNjMyMGZjYWQ3NTkyOSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_56f17d3bbf574417ad27b97ac492959e",
+      "statement": "Mode changes use a View Transition with a direction class on html unless reduced motion is requested or the API is unavailable.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/mode-toggle/ModeToggle.tsx#L37-L56",
+          "version": "repo-lines-v1:sha256:46bd6d7354e6dd6766e98fa6697ca5368597f112f7435e282038f016a60f28b7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3MTMxZjU5OGM4OGJlOTg4MzI0YjZlOTUyOTM5YTVjMmUwMzBjODYxOGNhMmM2MTljNGNhNmRhNDAyYTZmMzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ3MDExZjYyNDEyMWY4OTk4NTZlNzFmNWQ0YTEwMTQ5NjVkNjIxYWU0YzQxZjlhMWVlYzAxMWNlMmIwMzBhODkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjViZTk1OWM1NjZhNjUzZWZmYzBjN2VkNDUzNWU2MWIzZTVlODdkYjZiMjlmY2ZlZTUxYmEwMzFlY2NiMTk5Y2IifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_496a63576cc844759bfeed0ea6f2608f",
+      "statement": "The toggle is a switch with aria-checked true in light mode, a fixed accessible label, and picture elements serving pre-generated AVIF and WebP egg variants at 1x and 2x.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/mode-toggle/ModeToggle.tsx#L86-L127",
+          "version": "repo-lines-v1:sha256:c3abe0f7ebd495d4e969deb5c02ec549f442b4aab998e11f6b9a7a16f9b1325e:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3MjE2ZThlOWMwYTFhNjhkMDZjMmZiYWE1ZmQyMTM5NDgyYjhlZmQwYTE5MzE1YjkxNWU2Y2NlODQ5ZDg5ZGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MjY3OTM1ZmM2MzM0NjVkODQ4YjQwYTRlZDY5NjdlN2I3YTMyM2Y4MWNkNTNjMTEwYWUyMTAyOTY4N2FhMTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU3NWIzMDQ0YWVkMGNiYzI2MzNiYzZlMDE5ZGQwOGM5MTM5ODk3ZWJjM2QxMWRiM2NiYTliMWRkNTlkNzhjZjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+        },
+        {
+          "resource": "repo://src/components/mode-toggle/strings.ts#L1-L27",
+          "version": "repo-lines-v1:sha256:d92554d4b6e868abd8172525cb1ee9cd11bd44b6b10dce54de54362af02a22f6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxZjRjZDE5YTEzZjVjOWIxMmU4ZTJkZDQ4MTY1OGI5YWVhMmY4OTBlNjhlN2VlOTFmMDliOTM3MzI4MTNiOGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_de7288bf4c394b2cb2a88000ebf48001",
+      "statement": "scripts/build-mode-eggs.ts generates the AVIF and WebP egg variants at 28px and 56px from the original PNGs.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/build-mode-eggs.ts#L1-L24",
+          "version": "repo-lines-v1:sha256:83b4e4eb7a34718a25d297b8a3e53fd81fbf681f74c60e5e4cd51378f3316cec:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVjMzhlMWI4ZjZjMzY4N2RkOTdkZmYwYTdmOTg4YzEyZTc2Y2Y5NmFkNDlhZGQxZjU2NWFjNjNiOGE2M2FmYjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIzZTRkNGExMjVkMzdjZTM2NjkwZTM4NDI1ZmNjNWNmODI4N2FjMGExZGQ0NDQxZTI1MTc2ZDA4ZGIyNWQyMTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-04T00:16:52.047Z"
+  }
+}

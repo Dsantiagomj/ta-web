@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:b6ef3e19d9bdbadc50f10fd8ab0f2405748b837d1f3b6002a25401e128dd29f1",
+  "claims": [
+    {
+      "id": "claim_42400d3df44b4e5298904441ab906a39",
+      "statement": "resolveDatabaseUrl prefers DATABASE_URL_DIRECT only when DATABASE_CONNECTION is 'direct', then DATABASE_URL, throws in production outside the build phase when neither is set, and otherwise falls back to the embedded development database URL.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/db/database-url.ts#L18-L31",
+          "version": "repo-lines-v1:sha256:4319f471212855ee82ab512c496604a9ec06dd71beba08036705fedc3b1587ce:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3ZGJmNzEyNWNmMDc2Mjk3NzcwMmM1ZDFiYTNiYTg4OTFlMTNiYWIyYmVlNGRiMzM4ZmM4OWVhYzY2ZWQ0NjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMwM2QyZDNmYmUxYTQwZjNjNGUxZmUxNTBjYWVmZmEwYTA1ZjM0Zjc5NGJjYWFiMDUyMmMyNjNkODExMTczMjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFkZTZhNjMxOGRkMmEzYTgzOTZiYjRlN2UzYWI3YzMwZDFlNzBiMDNhNzNlNjQ0MjFiZTJiZGJhZTRlMTcyNGYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b3ae659d5a0a46bbb2a26e3fcb8acc62",
+      "statement": "The pnpm migrate script sets DATABASE_CONNECTION=direct so migrations use the direct database URL.",
+      "evidence": [
+        {
+          "resource": "repo://package.json#L26-L26",
+          "version": "repo-lines-v1:sha256:7bd538d206ebc8bf337a53b84d047dee8eb8c4a20de36f4f46581fc885b27cff:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2JkNTM4ZDIwNmViYzhiZjMzN2E1M2I4NGQwNDdkZWU4ZWI4YzRhMjBkZTM2ZjRmNDY1ODFmYzg4NWIyN2NmZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2JkNTM4ZDIwNmViYzhiZjMzN2E1M2I4NGQwNDdkZWU4ZWI4YzRhMjBkZTM2ZjRmNDY1ODFmYzg4NWIyN2NmZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODY0NmFjOWM0ODEzYTA0ZThkNGY2ODc5M2I2YTg2ZmFiOTNiMTU3ZTcyZjE2YzRjOTdhMDU0ZTllNjI2ZGJmYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDQxZjI2ZGI3MjIxNzBkMmNiYzc4N2ZlMDk0ZGE2MWFkMzc4MjYyNjdkOTdmODhmMWVmMmI1MDNhYTBkZWJkZiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_cf65077317d54977b3037fb561428683",
+      "statement": "readS3Settings returns null when none of the four required S3 variables are set, throws naming the missing variables when only some are set, defaults the region to 'auto' and strips trailing slashes from MEDIA_BASE_URL.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/media/storage.ts#L15-L40",
+          "version": "repo-lines-v1:sha256:e8294e10a449e5a5c4ed6955ce97656ae4948ed30d38956f0da3c8548b62d2f7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhiNmE3YTYyNWFiZjA1YjRhYzk0M2VhNTI3YWRmMzJhZjcyZDRhYmRmNDk2ZTNlNzA2Y2UwMjhhZmIwMDY3ODUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU1OGY4OWYzYTliMGNkMzFiM2MwZmQ1ZTM4MjM0YzVhYTEwYThiZGJiMGIzMDU5MTljMGFjODg4YzA3Njg1NmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ5NjNiNzg0OThkMjgxMmZkMTMwYTM5NzVlMGIzMDJjZjlmZWQ4YzQwOGY1NTgzN2RmNDExOTkxOTE5YjVhYzkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b73eccd7a4d7469c897aba5e84deecba",
+      "statement": "isDevEnvironment treats the environment as dev when APP_ENV or RAILWAY_ENVIRONMENT_NAME equals 'dev' after trimming and lowercasing.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/dev-gate/dev-gate.ts#L23-L27",
+          "version": "repo-lines-v1:sha256:187a4e5b4c22b66955f457ccca0c899a147fb5530d59c8aa3a9ae0c6deff93f8:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDUxNzEyMDFiMjYxYjU5Y2NlNjBmZDgxN2IyZGU1MTRhNzA4ZGY1OWM0ZTIwMTlkNjY3YTMyMTZhMTY4MjdjOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTljMzc5ODExOGZkODQyZTRlZDZlNjczNWI5NTQwYTUxYzkwMWNiYjc2ZGYzMTAyOWYwM2FhNGQ1ZjIzNWYyNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWFkYWVlZGY1OGQ0MmFlMTdmZjUxNTBkZjk4NTE1NjNkYmFlYzM0ZDg1NTc2YTdiODgwMmExYzdhZGRlMmYzNyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_7fc8bd2c08d541c6837ca60a1c12d615",
+      "statement": "In a dev environment with a blank basic-auth user or password, the dev gate decision is 'misconfigured', which responds 503.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/dev-gate/dev-gate.ts#L41-L44",
+          "version": "repo-lines-v1:sha256:ecbe778d3651c321f87beca16660cf57f297a716c8770093b5372e9291d94926:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGJlODMxZjY1OTBlNjg4N2IyMzY3YmEyZmFjYWU1YzhhNTY4ZDg4NGY0OWQ0NTFmNzQ0YTA1Mzk2ZDMyMTc0MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNWY2MTUxZGNiOGIwMmY5M2IyMzZiZDlhMGE0N2Y2NTQxM2FmMGM1Y2Y0YWU5NDQ2ZTQ3ZjlhYTljZmE0N2RhYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzg0YjRiYjRjMDE5ZjU4NTNkZjcyZjlhZTkxMjMwZDRhODJkNTFiNmIyZmMzMzdhOWQ5Zjk0MjFlYWNhYjg5NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWY4OThlZWRmM2RhYzg4NjllZDlmOTkwNmI2YmJkNjMxODQ0Y2IyYmZjNTcxZDg2MTRjYTIxNTY0YTVmZjAxNiJ9"
+        },
+        {
+          "resource": "repo://src/lib/dev-gate/dev-gate.ts#L54-L62",
+          "version": "repo-lines-v1:sha256:9f90b9dc83f3ea91c29bbf08f2364f755e89fa3f2eeb1ba6abae89840b9e5740:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWNkM2UxM2VmOTUwNzFjNTU5OGNiM2JhYWE0NDFkOWY0ODViYmY5NDFhZjVjMzQ3ZmRjYWQzZmQxNTVkNjFlZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjdlNTc4OGQ1ZDlkNzNkMjRhODFkYmMwYTVhNzRiZmE4MmM5YzNiM2FmOTllNTJhZjc5NmU5MGI0NjhhOGEzZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDg1YTZhNTMwNDhlYzQ4NWQwOWE1MjU4ZWJkZTlkYjk5Yjc4OGU3YjMwMTYxZjkzNjJlMGE4YWIxNjIwZDdjYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDI5MjNjZjAwYWZlM2M0YjIzNzZkNGJhM2YwNjBhNzM2N2JiNTE2YWQ0NTQ3NTNmMTA4YjBhMGJhOWYwNTNhMiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_3ccd4d055256472a9c107a0218a696bc",
+      "statement": "sentryServerOptions returns undefined unless SENTRY_DSN is set and the environment resolves to dev or production through APP_ENV or RAILWAY_ENVIRONMENT_NAME.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/monitoring/sentry.ts#L41-L71",
+          "version": "repo-lines-v1:sha256:7eeaea45a4d10bcaaee6483ee23f1084786ed8ea2bd904c70a4137a300d828dc:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQxNjMwNjM3YTIwZjdkNGU0MDRhN2NhYjZlMTZjMzk4NGQxZTAzYmQ4OTNmMDRiYmYyMGUxZWZhYjUyNTgzYWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU2YWQ4NTdkNGU2MzI5YWUyNTg2ZDlmOTI5NTJjMDRlOGU2ODgxYTRhNTMyOTE5MWI3MTg2Y2UxYmU2NjQ4NWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_506d8c787d7d42269b3a46d2ecdac662",
+      "statement": "deployedCommit returns the first non-blank value of RAILWAY_GIT_COMMIT_SHA then GIT_COMMIT_SHA.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/deploy/commit.ts#L5-L11",
+          "version": "repo-lines-v1:sha256:ae6d7a50db92b2307d8d7aa1d5a2e26aae1a9b73d34bc1c6c98c893691af5b4d:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGIzY2Q4YjA1MDgxOGNhM2ViNjI1ZDE5NjdkYTgwM2M1MDkyYjdkYWE0YzJjZDYyMWY0YzNhZjMxZWY3YTgxNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWY1NDIzZmM4YjUzMzY2ZTU0Y2M2MWE5M2JmNTQ1NzZlNTY1OWQyMzVkMDEwMDVmOTM5MDNjOGU2MTdhYTE2YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_89a02cb2f54c4e0cb317770e62ec9591",
+      "statement": "The release workflow sets GIT_COMMIT_SHA on the production Railway service before deploying because railway up does not provide RAILWAY_GIT_COMMIT_SHA.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/release.yml#L176-L183",
+          "version": "repo-lines-v1:sha256:dacc4bea684d60756bd9bb482ff611453482aca389cde7aa9ad5aa48c68bba4f:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjRmZTI1YzUwNzFlYWY5NmNkMWUxNzA3YjJhYjA5ODdkMDZmODYyOTc0YjBiMjU1ZDAwM2M3NzdmMTIyMzRiNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTVlYjgzNWQ1YTljMjg3YWUwOGVjMWQxZjAzYTk5ZDM0NmRiMjg1MTJmZDA3M2RkOTQ0MjU4N2JmZDA5OWYyNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjcyYzBjYjYzNGQwNzkxZDlhYjBkODljMWQyNjAyMWNjMDdiNGQzOWQ5MjlkZjUzMDdiMDk0YTdkOWNlY2Y2YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGY0YTFiMDI1NGYyYWZjYWYwMzQzYzA3Yjg1ZmY5MWJjNWYyMDdjM2I4OTRhODQ4NjE3YzY2YjQ3N2IyY2ZmZSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_56ec99e7362048189ca5003adecf7201",
+      "statement": "The Railway IaC declares secrets with preserve(), sets APP_ENV and the basic-auth variables only for dev and GIT_COMMIT_SHA only for production, and any Railway variable must be declared there first because config apply removes undeclared ones.",
+      "evidence": [
+        {
+          "resource": "repo://.railway/railway.ts#L47-L74",
+          "version": "repo-lines-v1:sha256:83bc080e8daf2f364f732ab0cecb8256646840f9b59c74f173f24d6939dadabd:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmZGZmMjA5OWRkMTY4OTJhZDc2MTg4ZmNkYTBkZjFkMzU1ODdhZmE3ZDc3NjE1ZDVhNDM3M2VjNmJmN2EwOWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhiMGUwMDkyNjFjNWYzNTU1MWJhOGExM2JhNTU5NTU4YjVmNzY5MzdjNzVlMmNkY2E3ZGYyZTNiYWI4OTE3YmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIzZmVkN2ZiNWM3M2ViMzU2YWZhMDNjYjZmYzllNTg1OGUxOWRkOWU0ZjdhMWE1N2VmODJlOWI0MjUwN2YwOWMifQ"
+        },
+        {
+          "resource": "repo://.railway/railway.ts#L7-L10",
+          "version": "repo-lines-v1:sha256:0666f0031a6085a522d136768e330b76ef57894fccb5d4405b7b208fa4b1708b:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTM1NDlmNmMzMzUxODZhODBlNDU4NmFmZGZjNWJiZWQzMTdlNTJkNDBiNzc5NjkwMzc3NTEwMDYzYjFjZGJiZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzk5NTRiNjY1NWJiMzBjZmM0ODM5Y2I1YTk0MjY2ZWZiMTg1N2E0Y2UyYzQxOTNjMzI1ZmMyMDhmYjJkMmUyZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTM3ODk3NDkyNTQ5ZTNhOWJhZDgzYmJmMjFlZGIxMTUzMzg4MGMwMWU3NWNmNDNiMDkzZjhlODgxY2MxYTU5YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzgwMDJmMzk0YTIzODZmMzc4NTJkNjdmYzEzNmUxOWZlZDkwYzkxNTJlZTA0Yjc4YjVlZjg0MzRjM2JhZTNhNyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_ed77b386a2ba4980b15b24d9863a172c",
+      "statement": "The Playwright configs load only E2E_PORT, E2E_DEV_GATE_PORT and E2E_SKIP_BUILD from .env, and E2E servers set DATABASE_URL_DIRECT equal to DATABASE_URL so migrations never target a database inherited from the shell.",
+      "evidence": [
+        {
+          "resource": "repo://tests/e2e/app-server.ts#L54-L61",
+          "version": "repo-lines-v1:sha256:9eec10125317980410ea85ff86584e7b988d46b9553082477c47444af56fccb9:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjljYTg5MWJmZjdhYzFmN2NlYWFlNDBlZjA1MTA2NmJlOWVmZTQ3YjRlNDI4MWU4NmMzMTliZTJjNTVlYmNlNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTU4ZmViYjE0YjQ4MTNjY2RiZGUzMGZjNzlhM2MwZTZkOGRlYmNiZmJmYzBiNzhhMjAyMjRmNWIyNDIyMWVlNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjIsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTdmNjk5NmUzYjE1ZGZiNDM4NjMwMDFjNzJkM2E1MzlkZTcwZTM4ZTJhOWVkMjBkZTU5MTEwNGE4Mjg2NGY2NiJ9"
+        },
+        {
+          "resource": "repo://tests/e2e/app-server.ts#L9-L19",
+          "version": "repo-lines-v1:sha256:a25c46db313b30ecf9e16a446f06685f4d9c38a57aef7d803ed35ba7976f3bdd:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE4MzhjMTdjNjM4MzU0OWY3MDg1OGMzN2UyYzA5NTVmOGY5YzM0MGUzZDkwZDJiZTE4N2VlYzVkMzc1ZjEyYmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA4ZWVjZjcyYmI5Zjc0NDBiODcyYTM4NDNiNGM3Y2NiZDI0Nzk0YjYyMzUwM2JjMTU0MzQzOGZjZjZhMGQ0NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFiMzQ1NjVjZGFhNDVmMDkzOTM0ZjU5NjIxMWJlMTYzMDM3NjkxNmQyOGM1MjNkMTJlZDljMDFjMmU3ZGVlZDAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3bbf00c22ee04266bb28865f66ff6dbc",
+      "statement": "integrationEnv forces DATABASE_URL_DIRECT to the integration database URL and blanks every S3 variable and MEDIA_BASE_URL so integration uploads go to local disk.",
+      "evidence": [
+        {
+          "resource": "repo://tests/integration/env.ts#L15-L30",
+          "version": "repo-lines-v1:sha256:2bdb1c0a09fbd3408dcb0993f68a8248921516d62b1ee436b8837e616e8bfdeb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImExYzk0MzUyN2RlZGZhYTAwMmNjNTA2ZmRmZjUxNmYwMmJkYTRhMzQxNjI3ZTUwMTUyOTU4MzNmN2Q2MzE1NzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5Y2U3YTYyNmY1YzAxMDhhMDYxNTdjZGRmODIxNWUxMDdmNDQxZjhhNmE5ZWMyZTg1ZWU1ZDk5NmJhZTkwZjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_311180c2addc4408b274e4a37ab38811",
+      "statement": "All .env files are git-ignored except .env.example.",
+      "evidence": [
+        {
+          "resource": "repo://.gitignore#L11-L12",
+          "version": "repo-lines-v1:sha256:7a7af38bab700d74c1632e4201d783ec8bba701c77c1340c6c21a7d8403b3103:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjlmYzZmMmEzMjA5NTMwZTkxNjIxMTY5NWQyNGNjM2MyODM3ZjFmODRlOGJlMjAzNTYxODQwMDg3NDlkNzBhZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2MxZDJlMzE4MDc2ZmM5YTBjMGUyNzY2YTc2YTQxMGI0YWYwMGFhNmFkYTYzYzE5YzlkMjY2MDc1ZTM1MzMzNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDUyZDljN2I1YWQ5MDIxOTAyYjE3OTM0YjBiMDVkM2Y1N2VmZGVhMzkzYmQwOGE3NGZjYzcwYmJjMGY0NTA1NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDU1ZGI5NzVmOWRkYzliNDYxZTMxOWE3NzJlOWQ1Y2I1MzYxOTJhMGRhYzNkNGFjMDRkYTA4ZTNlMWFmYjk3YyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_49f179d4f3f94868a77e3d16327dca24",
+      "statement": "The frontend layout builds metadataBase from NEXT_PUBLIC_SITE_URL, defaulting to http://localhost:3000.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/layout.tsx#L14-L18",
+          "version": "repo-lines-v1:sha256:fe0ab6a69340ca3973f862c59776457c2e0098a0ec3992a1d8ff44a87fe679d6:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjhkOTY3ODk3NjVmZTMwODdjOTNmNGQzYTBhNjdiOTU1NWJjODU4YjBmM2NkNGRlYjA0YjM5ZTE2YmZiYzBjMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2Y4YzNmZDA4ODI2YThjMzljOTg1NTY2MTY2MTMzMTQzZTIyNGYwNWZlY2QzMTZiNThhYzhmZjgwMzk3NTdhNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2EwZDc3YmI3M2U2YTVmNDA0ZmZhYjYyNmU5M2RiOTk2YzNiMGI5OGFiOTU4YTQyMjM1OTVjMDZmMTVkZmMxMSJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-04T00:16:52.047Z"
+  }
+}

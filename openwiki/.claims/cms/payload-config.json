@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:15c4ab8f560d5e3051d9a355bf5708677d246fa0ea5fcb13ae1d7047d75e10b8",
+  "claims": [
+    {
+      "id": "claim_35fde34cdf674edca408fee7ff5d2483",
+      "statement": "src/payload.config.ts configures the admin user collection, the import map base directory, the Users and Media collections, the Lexical editor, the health endpoint, Spanish-only i18n and localization, PAYLOAD_SECRET, the generated types output file, sharp and the media storage plugin.",
+      "evidence": [
+        {
+          "resource": "repo://src/payload.config.ts#L18-L63",
+          "version": "repo-lines-v1:sha256:b2ea877626beb0bffa20aaa2c7bb080ea778cafda12fb89b101b02ee49fbc09f:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4MjdlZTRkY2MzY2M0NmQ4ZDU0Njg1M2JmNWRhOTFiYzgzZWE3MWNiOWFjZWUzZmU4MmQxOWQxNzJjMDM4NTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1ZWFiZjM4OTEzMjJkMGMzMTU1NDk0ZDViZjI1OTQxMThkMzViYTBiZmFlNGRhZDI4Mzk0MDcxZDk3ZDk3YWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_289f0c0f9c8843aca1d6038bbc5491c9",
+      "statement": "The @payload-config path alias resolves to src/payload.config.ts and @/* resolves to src/*.",
+      "evidence": [
+        {
+          "resource": "repo://tsconfig.json#L20-L23",
+          "version": "repo-lines-v1:sha256:6904432bee8311247e3d0938d02529051430380ff216c98061d3edc4f813a17a:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzYzZDUzNWNlMzgwNjNkNmI0YzUxZDhjMzg2YTdmOWIzZTU4MGExNGExMGMwN2IxOThkZmFmMTljOTNhM2JmZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzNjZDVmNDU2NzdhOGJhOTA0MTcxM2VlYmUzOGRiYzhmM2JjN2VlYTBlYTE2ODhjNDA5NjAxMzIzNDQwYjEwNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzRkZTJjMWYxM2M0NGU0NDBjZThlMmY0NGRjOTFkMTI4NWU0OGU1NWIwNmMxNDJkOTJmMzZmYTU5NTRjZDI4MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmI4OGEzODliZjQ2NGY5MDU0ZDgzYWQ3MDZiNjJkOGM3Y2RkZjAxN2FiM2IyYjJiYTg3MTRiYTY4NjI2MWFmMyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_187f9ea198534aaca2fc468d68d00cc6",
+      "statement": "The Postgres adapter uses src/migrations as its migration directory, pushes the schema only when shouldPushSchema returns true, and connects with the resolved database URL and a 5 second connection timeout.",
+      "evidence": [
+        {
+          "resource": "repo://src/payload.config.ts#L45-L53",
+          "version": "repo-lines-v1:sha256:99d3e0b14822e5c8421d12c6f9d8f839a4cd876b5d2153fe41fa96e710f9b915:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzQxZWNlZmEwODI1MDEzMTQ1ZjA2MGExOGQ1MWQ3ZDU5MTQ0ZjcwODg2ZDc0MGE4OTBmZmIzMjRmMWM3YzYyMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDJlNmZjZGQ0ZDcyNzQ4N2U4YjhkN2E0Mzc3ZjA2MmNkMWJjZTU5NDQ0ZDZkNzNhYTg4Y2E1ODQ4Zjk0YjRlMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODQ4ZDY3NmM2MmM3MDU4NjA0YTViODUwMTg1NzJkOTk5ZWUxOTU3NjZjYTEzZTU1ZjQ5ZWZhYWI1Y2U4ZWYwNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTI0M2M3NDVhZjdkN2Q4NzlhZjU1MTgxNmU4MjUyYjk0NTNiM2ZkYjg2ZGVmYzhhMDlhYzk2MTZlMWQ5MjRiMyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_43567513ea894eafa2914d1bfd13a5c8",
+      "statement": "shouldPushSchema returns true only when NODE_ENV is development.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/db/database-url.ts#L33-L40",
+          "version": "repo-lines-v1:sha256:a8cc723384f8acb9f97b769b5a2372eada1d6b28c3fa332ce3c8b2ccdb53483a:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjlkNDUyNDI0MTlkMjdmMGJlOTA4MTFhNGIxMjY1MjUwYmM0OGYzNDZmZDQ1MWUxMmQxMDI5Mjk1N2RkOTUxZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_1c22643a04994c87b2895d11403dfb97",
+      "statement": "onInit registers an error listener on the Postgres pool that logs lost idle connections so they do not crash the process.",
+      "evidence": [
+        {
+          "resource": "repo://src/payload.config.ts#L54-L60",
+          "version": "repo-lines-v1:sha256:77795e9d6921746494d6c3ec61b0da1e59426122f02e4995fd2d626d1749e168:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTVlNGU2MmFjNWQ5ZjJiMmEyZDQ0ODMzNjAwYWQ5NTc5ODliMzQ0OWMxM2M5YTZjNjdlZjNhYTZiMTNhNWIwNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTc5YzMwYThjNmQ4NzY3NzgzOWRiMWJlNDcxM2YyNDgzMWY4NzY5OTg1YzZlMjFjZjAwYWNlODNkZjM3MzE1MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTI1OGUwNzU3M2MyYzM4MGYxYzhhYWY2ZTkzZTViNmE4N2QzMzc5YTdhNjhmNjI2M2E0MTk0YzFlMDY1MmYzZiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_0788bbcfc16141f2be648685d5c9d452",
+      "statement": "The generated admin import map registers Payload's CollectionCards and the S3 client upload handler.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(payload)/admin/importMap.js#L1-L8",
+          "version": "repo-lines-v1:sha256:633db373aff3aca065ae80c68088663f31e92dca351574c31ab91fb0e734eb7a:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzA0NDkzODllNjQxZjk5MmEwMTQyODNjMmNmMDE5MzQzZDRiMDFhNzU4MGM0M2ExNWJkYjg2ZWVhYmJiMTUyZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_870e457911504d39b4c2bc95203b5353",
+      "statement": "src/payload-types.ts is generated by Payload and must be regenerated with generate:types rather than edited by hand.",
+      "evidence": [
+        {
+          "resource": "repo://src/payload-types.ts#L1-L7",
+          "version": "repo-lines-v1:sha256:4279135fdd87219e27c816ba21c0268f2a00986ea61cf5a8c1b8ed877ab13602:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTJlNTI3MTU3M2ZhZmQ5MTA1ODEwNzg3MzlkMTQ1ZjZhMzhkYmRjODQzMTY3ZTIzOTI2YjMxZDgyZmVkZjcyMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTcyYTQyOTM4MmIyZTE0NzE4ZTBlMzdiMDU3MGE4YTE3MDI5OTFmY2Q4NDk4Y2Q4NDA2MGE4YmY0ZjA1MDE3YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzU5OGRlZDJhOGExNzg2MGIxNjcxYTVjMGNmMzk1Mzk5NGJiYjMyZWU3ZTFlYmMxODI4MmQ4OGRjNzUwMmU5YSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_c2d65e59174349368789f41647819de9",
+      "statement": "next.config.ts wraps the config with withPayload using devBundleServerPackages false, sets a webpack extensionAlias mapping .js to TypeScript sources, and pins the Turbopack root.",
+      "evidence": [
+        {
+          "resource": "repo://next.config.ts#L16-L34",
+          "version": "repo-lines-v1:sha256:9ddf3d9c86916fd18dc8cc4c8021b68d1c21e7b79c561c2f6088e867f5e90c02:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVmY2Q2Mzg3NjllZTYyMTNkZjlhMzBhZGUyODIzNTc2ZTVjZjg0M2RlNmVlZWNmNWU5YWY5ZDQyMGZhZDIzOWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlYWZlZDAzMmIxNzZjODlhOWVhOWIzNmYzYmY3ZjE4YzNkNWRmMzQwZTFiNDc3ZDIzOTBiNjY0Y2E3MTA4NzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ1NjM4MjVhZGU2NzRhMGFlZmZlOGQ1MmNlMDA2MTkzNWZiNTNkYTNmZTdiMzc2YWVmY2Y4MWRmMDk1NzZkOWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIwNjZiZjUxN2IzMDI2YTRmODA5MzZlNGQ5ZGQ0ZTk4NjM0M2VlZTJmOTU1MTRkNjk3NDM5MjE0MDc3ZGVkYWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_af4fee7896bd43fb874934332e0799d5",
+      "statement": "The GGA review excludes generated Payload types, the import map and migrations.",
+      "evidence": [
+        {
+          "resource": "repo://.gga#L11-L14",
+          "version": "repo-lines-v1:sha256:dafd570e7097c86bf5d3ef2b632759d3041ac61959193b46cd73c2ea67e22466:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjM3ZWNhYmRhNzEzOTU1N2E1MDAwZGRlMjliZDFjYTlhNjU0ZWJhOTBhYTFhOWM4MjdlMGQwNTk3ZjRkY2M3MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzM0OTgxODQwZDFiY2UyOWY1OTdhODk2MGM0NjBmNWQ3MWRkYTlkZTAxMGU4YWMyYTQzM2RhYjQ2ZTA5Y2NkZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDRhMzE1NTE2M2E2OWE5MDc1Zjk2NzE4NDc3MTEzMzU1NzY4NzI0NTBjOWQwZDUxMjYwOGU0ZDA0MmU0ZjQ0YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDQwYzM5YmM2ZDlhNDc4NmM1NmNmNzYxOTlmMzc3N2ZkYzRlOGVlN2JlMDA5NDg0ZWNkMjA0NGE4YzUzOTk2MCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_5b468a7921254d65998b0c4d412995a4",
+      "statement": "The media storage plugin always inserts its fields so the schema is the same with and without R2.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/media/storage.ts#L59-L62",
+          "version": "repo-lines-v1:sha256:9ebf3fdf1c8c981f3537a2b84f37d7f069b615c9290fe3aeea0922b4c7571446:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjg2Y2RmOWViNTAxNjQ3ODJkMGYxOTU0OWY0ODhkYTdhYjY0MWRmY2UyMmNlNDQ3NDg1ZmQxMmQxNjlhYzkxZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWVlMzhhYjY5YmQzNGFjYzcxZGE2NzMzMTliOWM4NTUzYjE5OTI2ZmIwYTk2ZjI4NTVjMWQ3ZTgxOWZkNTY4MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGEyYTE3NjMzNTA5OWM2OGM3NDMwZWJkNWEwNWE2MDFkMGE2ODY0YzFkZTQ3MmU2OTlhYWRjYmY5YWNhODllZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDA4YjM1YTU3ZWE4NzRkMjFkNjc4ZjEwNTdhNDU4NDA2NjY1YzFiOGYzNTc5ZjcwZjY5YTc2ZGE2YjUxMGNkYyJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-04T00:16:52.047Z"
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:c052e73737f6918df759fc9822a08a1f653c11b0c67fa8cd77a2087de069f706",
+  "claims": [
+    {
+      "id": "claim_b78cf4457b46447a93c6a73c33cd0ad5",
+      "statement": "/api/health returns 200 with status ok, db ok, the package version and the commit when the database answers, and 503 with only status error and db error otherwise, always with Cache-Control no-store.",
+      "evidence": [
+        {
+          "resource": "repo://src/endpoints/health.ts#L25-L40",
+          "version": "repo-lines-v1:sha256:a0a998ce9a65e82ff2a8e4103e5d2a5d9936fff637e96cd69dabff1c652fac47:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhlNmZlZTNkZjA3MjhkMGQzYmI0ZjRkZThjMzg0NGQ0MjU4YTNjY2RhNGViNzFiMDliODc1M2QzZTAxYzA3MzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRmOTQ5YmI3MDk0NmE3ZTQ2NGM5MmNjZGFjYWI3ODA0OWEyY2M2MDQzNThkMWU4NTlmZDBlZGYwZDBmMjUzZGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNjMGZjMTNjYzIxODU0MWU0M2QwZDM0ZTZlODc2OGI2OThhMWRkZmExMzRiYmNlOTk0YTgwZmJmMmZkZjBkMzkifQ"
+        },
+        {
+          "resource": "repo://tests/unit/health.test.ts#L7-L51",
+          "version": "repo-lines-v1:sha256:84e68331431de0ddc3225229258cf1329e565bce529067c2e603f799b924467b:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQxMjQ0ZDZhNDI4NTYwNGQ4OTBjMWU3ZDAzZWMwMmFhZTI1NDNlMGU0MWEyYWQyZTdhNTA1MWU1ZjY1MWZlOTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE2NmRjZWU1ZWQzYzkyNmNkZjc2NWM3MWVlNThiYTI0NzBjMzFkNmUwY2M3YmJhYjI2M2ZhOTRjMjA3YzIzYzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM3MDZjNTcyMzA0YmFhODMzMzk0YThkODM2YzUzZmVhMDhjNzVjN2U3Yjg0ZGQwZTFlMTM4MTgzYmZmZmY0YWUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0bc8320efdfb48fe8282b4d8f039121f",
+      "statement": "Concurrent health checks share one in-flight database check, which is cleared once it settles; the shared value is a boolean rather than a Response.",
+      "evidence": [
+        {
+          "resource": "repo://src/endpoints/health.ts#L20-L33",
+          "version": "repo-lines-v1:sha256:dd50fefdd06ae2273a0d7ec0f5353978c8fcf40dadada76e7ce7e3ead85c5e09:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2ZTAxMDVkNjEwMWQxMWNmMTU3ZTQ1OGU1MjZiYTExYmJmNzgyNjc2ODNlMTYzMjU5NWFjNDllZjU1NmI2YTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjViNjU4NzhjM2E2MjAyNzk4OWZkZmFhZjBkYTkzMzg2YmQwNGNkZDJjN2Q4NjdiZGZmMGFiZDU1MjE1MGNjMzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg3ODFlOTZmZjMxNDA4OWY5ZWVlMzQyMTQyYTk0OWFkMGFhOTNhNWE2Y2FkODc1MzkwNmUzMzQ2YzU0NmUxOWQifQ"
+        },
+        {
+          "resource": "repo://tests/unit/health.test.ts#L53-L76",
+          "version": "repo-lines-v1:sha256:673746c35634889a090171841b437a3f3a9271a54737c9ea905928eaf6b4d64d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZhZTdlYTU1YmY2YTBmZThkZTJiYjBiYTc1MjI4MTk4NzA0ZWY0ZTExNDBjNjZjOTkyMWVkNDQ0NWI5YTU0YTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgzMTA4MzI4NjdkYzgxYzczN2RjYWY1YzFlM2VjYmVmMDM1ZjA0OWZiYWRjNmFmNmZkYzE2MDQ5ZmM2YjUyZjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI1YzJmMmVkMGU5MjEyZjE4MmIzNmRhYTc2MjgxMTk5NjkwNDg1OTk4NzkxYTNlNWVjNzJjOGNkNWQzN2RiMDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI0YzA0OTMwNzAzN2UwMTE4ZjcwMTQ5NGZhZWRmNjE0MDY2MjUzYzM0MWJhNDJmZDFkMWE4MDRmMjk0M2I0ODIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5d16983171ed401ea996601ece0abcd3",
+      "statement": "pingPool acquires a client with a timeout, runs select 1 inside a transaction with a local statement_timeout, returns healthy clients to the pool and destroys failed or timed-out clients, including clients that arrive after the acquisition timeout.",
+      "evidence": [
+        {
+          "resource": "repo://src/endpoints/health.ts#L57-L93",
+          "version": "repo-lines-v1:sha256:c757cb2af82512feb5f02d82fe27ef0ec025d1c3f2973c48acb924b66f77d0cb:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM4ZTg4ZDU0YjE5NmY1N2RmOThlNTc5NzQwZjVlM2NjZWJjMzU3MGU0YTQyZmEzZDE5ZjZmYWNjNTkyNDU5ZGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM0NGE5YjMwNWRkNzQzZDE4OTdmY2QyNTdhNjc4ZDI4ZTk1MTg1NjJhMTlhYTY4Y2Y1YTRlMmU4MzFkYjFmYjEifQ"
+        },
+        {
+          "resource": "repo://tests/unit/health.test.ts#L78-L135",
+          "version": "repo-lines-v1:sha256:1e7ffe92548749aa35760a978dd0f2080d41dbc8248f4c487e8c35bdda72e2e8:eyJzZWxlY3RlZExpbmVDb3VudCI6NTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhZjc2Y2UzNGQzNGFmYjRjMGFjYzQwZTdiMWFhODgxN2U3MzMwZTE0ZDQwYjI1MDIzZjhiMmZlNjYwODgyNDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQzZGY0N2UxOGE0YmMwY2M3Y2FlNjZmYzRmZjRjZTZjYzRmMDdmNzE5MmFiNzg4NGE5ZjdhMTM5ZmM5OWFjZDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY5YjQ1NDczNThlZjUyODY1NzFiYTgwZTdiZGE0YmVlZWRkZjBmM2Y3OGIxYzM5ZTliMmY3NjdmZjY0NzU0OTYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ec119736749b45dc9dd65890fb75fad9",
+      "statement": "The health endpoint uses a 2 second timeout for the database ping.",
+      "evidence": [
+        {
+          "resource": "repo://src/endpoints/health.ts#L11-L11",
+          "version": "repo-lines-v1:sha256:403da4fbbe9bdbf8e2cd795a64dc9657f9abfc5a4941683b2d0c351355c89aa2:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDAzZGE0ZmJiZTliZGJmOGUyY2Q3OTVhNjRkYzk2NTdmOWFiZmM1YTQ5NDE2ODNiMmQwYzM1MTM1NWM4OWFhMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDAzZGE0ZmJiZTliZGJmOGUyY2Q3OTVhNjRkYzk2NTdmOWFiZmM1YTQ5NDE2ODNiMmQwYzM1MTM1NWM4OWFhMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzA2M2U3NmMxNDc2OTUxNjYxMWVmMjliNzY4YmYyZDMyMjI4OTI1NjNlYzlhNjg2NmVhZTdiYTg4NDYwODFhMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODhjM2NhMzQxMjgzZTMzMDBlMzY3ZmJiOWY4M2JhMDAwMGQwZTRjMGMwMmY5MmJkNzg0Y2JlZTcwZDUyNGYwNyJ9"
+        },
+        {
+          "resource": "repo://src/endpoints/health.ts#L124-L134",
+          "version": "repo-lines-v1:sha256:5c0ea389cffe42e9c35a5d2d19dfe526987539e2d6af4a9f12f1148e98df4ebb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUxZTcyOWQwMWU1OWZjODJkMmIwM2EwY2IxMDEwNzgxMTM0ZGM5MDU2MDEwMzMzMTAzOTdhM2FlNWMyOTIxZTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY0YTg4N2JhMTA3OTRkNzFlNTJhNGM4N2I0OWU3MzdhM2YxMGFiZDRjOWU0M2Y2YzIyN2NmMmY4NTZmODY5M2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_faaf4d910e7e41aab1685a269c4c88f8",
+      "statement": "resolveCommit returns the deployed commit or 'dev' when none is known.",
+      "evidence": [
+        {
+          "resource": "repo://src/endpoints/health.ts#L95-L98",
+          "version": "repo-lines-v1:sha256:569d0a629079af2bdf6cb679ba33bc62258f15bce575451c426ecbd1dad01b54:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjk5MjFiNmQ0NDE3MzUyZGQ0MzdkZWM5ZGM4NTY2YWE1NjhmNTk0OGI3MzUxMTVkZGY5OTcxZTJhZjZmMTJlNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmI1ODBlOTY0ZjgzYTQ3M2Y0M2Q0NDM4NDYyOTQ5ZDY4YjU2MDBmZGE3ODdmMTYzNzQ1ZDAwZGU4OWNiZjM2YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjg5NDNlMzJhMDM0NjNjZGYwOTQ2ZTY4NDEyYzM0MGY5OTNkMjIwOTg4YWMxNDQ5ZjkzNzM3ZDJjMzFiYmRjNyJ9"
+        },
+        {
+          "resource": "repo://tests/unit/health.test.ts#L137-L152",
+          "version": "repo-lines-v1:sha256:5e18a8d5ffca523ed3a230d16779283be1c209402951652d850bfd1c801c5527:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlYzM1NGU0YTk4MjY1NWJmYWEyNWQyNGU0MzAyNTZhNTI1YjJmMGU4ZWYzMjRhNGJjZDNmNThlZDU0NTBmZDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a76822db01424b1a95f1ab220b5cc859",
+      "statement": "Railway uses /api/health as the service health check with a 120 second timeout.",
+      "evidence": [
+        {
+          "resource": "repo://.railway/railway.ts#L37-L39",
+          "version": "repo-lines-v1:sha256:6585a9f9a1b9a033b6dde25d593e078acc34335ffd625270f79e8db48b36c396:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWQxMzA3YWMzZjVlOTVjZTAzY2Q5MGE5NjI4MjU2NDY4NTM2Y2FmZmExMTY4OGE3OGI3NWNhZDc4YmIzZjcyYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDQ1YmY2MzYzMTIzM2I0Mjg4YjNhM2Y3MzM5MDMwYjIzMzBjODIxYmU3NTMwYWNhNTIwOTZjYWRiY2M0ZDY2YSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGNhN2QwYjQxNmVkNTJjZGU4Y2I4OTI0MDM0OTgxOGViODNmZDYwMjU2Y2FmNGVjYmRmMWI4NjEwMjg2OTJkNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDE4NDAwNjFhNmE5NmMyZWM0NmJlMTZmZWVjOTUxMGM0NmZmOTIzYmZiNGUwZTA3MmMzZjNjNzY2YmJkYWMxNiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_6bd8e0c61742477381c6d9168f2ab35b",
+      "statement": "The smoke test expects /api/health to return 200 with no-store and status and db ok.",
+      "evidence": [
+        {
+          "resource": "repo://tests/e2e/smoke.spec.ts#L142-L148",
+          "version": "repo-lines-v1:sha256:2e9e10e41c976a1de9d32460558e2f548add9dcdf2485eb2f93c644b730c755b:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWE1NDQ0N2Y5MGYzNWU5ZDY3ZjI2ZmZkMmQ3ZWM1ODhhMmI1MzQwMmQ4YjljZjM5OTM3YjhmZDk4MzlkYjA3YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDQ2NzcwM2ZlNTNkYzVmN2Q5MWM5MjcyMThmMmVlNmU4ZWIwNzk5MjQ4YTM3NDU4MzRhN2Q4NDVjYjdlMDE5OCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjhiNTJkMTg0MTEyMzdjMWU0Y2I4NzVhYTgwZmQyNTcwNTBhMWU1ZWViYTUwOTdmNjRiNGYzMGU3ZTJhNTNmMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODU4MGI3NjUxOGRhZTk3OWZhZWJkMDIzNjdhMjkyOTJhNTBkOTc2MDkyMjUxYTM4YTZjZTMwODgwYmE0MjgyNSJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-04T00:16:52.047Z"
+  }
+}
