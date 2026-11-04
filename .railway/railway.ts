@@ -70,6 +70,9 @@ export default defineRailway((ctx) => {
             // `railway up` no trae RAILWAY_GIT_COMMIT_SHA: el workflow de release fija
             // aquí el commit de la etiqueta antes de desplegar.
             GIT_COMMIT_SHA: preserve(),
+            // La versión de la etiqueta, que muestra /api/health. También la fija el
+            // workflow de release.
+            APP_VERSION: preserve(),
           }),
     },
   })

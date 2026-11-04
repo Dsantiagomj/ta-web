@@ -104,12 +104,13 @@ describe('production', () => {
     expect(web.source).toBeUndefined()
   })
 
-  it('no lleva la puerta de dev y conserva el commit que fija el release', async () => {
+  it('no lleva la puerta de dev y conserva el commit y la versión que fija el release', async () => {
     const web = await webService('production')
 
     expect(web.variables.APP_ENV).toBeUndefined()
     expect(web.variables.DEV_BASIC_AUTH_USER).toBeUndefined()
     expect(web.variables.GIT_COMMIT_SHA).toEqual({ type: 'preserve' })
+    expect(web.variables.APP_VERSION).toEqual({ type: 'preserve' })
   })
 })
 

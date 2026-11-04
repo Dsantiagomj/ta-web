@@ -174,12 +174,16 @@ jobs:
         run: npm install --global "@railway/cli@${RAILWAY_CLI_VERSION}"
 
       # `railway up` sube el código sin git, así que Railway no inyecta
-      # RAILWAY_GIT_COMMIT_SHA: /api/health mostrará este.
-      - name: Fijar el commit desplegado
+      # RAILWAY_GIT_COMMIT_SHA: /api/health mostrará este. La versión es la de la
+      # etiqueta, sin la v, porque package.json no se toca en cada release.
+      - name: Fijar el commit y la versión desplegados
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          VERSION: ${{ inputs.version }}
         run: |
           railway variable set "GIT_COMMIT_SHA=$GITHUB_SHA" \
+            --service "$RAILWAY_SERVICE" --environment "$RAILWAY_ENVIRONMENT" --skip-deploys
+          railway variable set "APP_VERSION=$VERSION" \
             --service "$RAILWAY_SERVICE" --environment "$RAILWAY_ENVIRONMENT" --skip-deploys
 
       # Sin --detach ni --ci: espera al final del despliegue (pre-deploy con las

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { checkHealth, pingPool, resolveCommit } from '@/endpoints/health'
+import { checkHealth, pingPool, resolveCommit, resolveVersion } from '@/endpoints/health'
 
 const info = { version: '1.2.3', commit: 'abc123' }
 
@@ -148,5 +148,20 @@ describe('resolveCommit', () => {
   it('devuelve dev sin ninguna de las dos, o si están vacías', () => {
     expect(resolveCommit({})).toBe('dev')
     expect(resolveCommit({ RAILWAY_GIT_COMMIT_SHA: ' ', GIT_COMMIT_SHA: '' })).toBe('dev')
+  })
+})
+
+describe('resolveVersion', () => {
+  it('usa la versión del release que fija APP_VERSION', () => {
+    expect(resolveVersion({ APP_VERSION: '0.2.0' }, '0.0.0')).toBe('0.2.0')
+  })
+
+  it('quita los espacios de APP_VERSION', () => {
+    expect(resolveVersion({ APP_VERSION: ' 1.2.3-rc.1 ' }, '0.0.0')).toBe('1.2.3-rc.1')
+  })
+
+  it('sin APP_VERSION, o vacía, usa la versión de package.json', () => {
+    expect(resolveVersion({}, '0.0.0')).toBe('0.0.0')
+    expect(resolveVersion({ APP_VERSION: ' ' }, '0.0.0')).toBe('0.0.0')
   })
 })

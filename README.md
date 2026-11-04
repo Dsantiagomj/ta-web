@@ -57,7 +57,7 @@ SMOKE_BASE_URL=https://dev.example.com SMOKE_BASIC_AUTH_USER=… SMOKE_BASIC_AUT
 
 Playwright reads these variables from the shell, never from `.env`, so a leftover value cannot point `pnpm test:e2e` at a deployment. The `Smoke` workflow (`.github/workflows/smoke.yml`) runs the same command from Actions, by hand (`workflow_dispatch`) or from another workflow (`workflow_call`) with a `base_url` input. `Smoke de dev` calls it after every successful dev deploy, and `Release` after every prod deploy (see Deploys).
 
-`GET /api/health` returns `200` with `{ status, db, version, commit }` when the database answers within 2 s, and `503` with `{ status: 'error', db: 'error' }` when it does not. It needs no auth and is never cached.
+`GET /api/health` returns `200` with `{ status, db, version, commit }` when the database answers within 2 s (`version` is the release version in production, set by the release workflow as `APP_VERSION`, and the `package.json` version elsewhere), and `503` with `{ status: 'error', db: 'error' }` when it does not. It needs no auth and is never cached.
 
 ### Dev gate
 
