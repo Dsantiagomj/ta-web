@@ -271,7 +271,8 @@ export function toQuestGuide(
   if (!source.questDofusIds.length) oddities.push('Sin misión de DofusDB enlazada')
   for (const [field, label] of Object.entries(SUMMARY_LABELS) as [SummaryField, string][]) {
     const found = summaryLines[field]
-    if (found) summary[field] = found.join('\n')
+    // Una etiqueta sola, sin texto, es un bloque que falta: va a la cola de revisión.
+    if (found?.length) summary[field] = found.join('\n')
     else oddities.push(`Falta el bloque ${label}`)
   }
   if (start) {

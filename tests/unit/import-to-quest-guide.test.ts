@@ -194,6 +194,16 @@ describe('conversión de una página en guía de misión', () => {
     expect(richTexts(guide.body)).toEqual(['Necesitarás hablar con Oto Mustam antes.'])
   })
 
+  it('una etiqueta del resumen sin contenido cuenta como bloque que falta', () => {
+    const page = pageWith('<h2>PRUEBA</h2>', '<p>Recompensas:</p>', '<p>Primer paso.</p>')
+    const { guide, oddities } = toQuestGuide(parsePage(page), {
+      slug: 'prueba',
+      questDofusIds: [1],
+    })
+    expect(guide.summary?.rewards).toBeUndefined()
+    expect(oddities).toContain('Falta el bloque Recompensas')
+  })
+
   it('de un párrafo que empieza por la línea de inicio escueta quita solo esa frase', () => {
     const { guide } = guideFor('intoxicacion-profunda')
     expect(guide.summary).toMatchObject({ startNpc: 'Capitán Grog', startX: 22, startY: 22 })
