@@ -5,16 +5,22 @@ description: The three Payload collections that exist today, Users for panel acc
 tags: [payload, collections, access-control, media, users]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T07:07:46.246Z
+    at: 2026-11-04T12:18:18.185Z
 sources:
   - id: openwiki-source-164e2da859b5277df81c7d94
     resource: repo://.github/workflows/ci.yml
+  - id: openwiki-source-5b54a58d1b51cd490b0e7162
+    resource: repo://package.json
+  - id: openwiki-source-63cbcc482c18e4f9ce5d0888
+    resource: repo://scripts/refresh-quests.ts
   - id: openwiki-source-d58a4d3cf178bb2fa2e94831
     resource: repo://src/collections/Media.ts
   - id: openwiki-source-633cb155d38055ddc4af30fc
     resource: repo://src/collections/Quests.ts
   - id: openwiki-source-c46dfd6e94656494b7d9df7b
     resource: repo://src/collections/Users.ts
+  - id: openwiki-source-4ce5bfd40fc86e2e8680d71f
+    resource: repo://src/lib/dofusdb/refresh-quests.ts
   - id: openwiki-source-47a80445306e82d0ef444872
     resource: repo://src/lib/media/storage.ts
   - id: openwiki-source-4b2f49d061cc7bd95a39ce1a
@@ -33,7 +39,7 @@ sources:
     resource: repo://tests/unit/media-collection.test.ts
   - id: openwiki-source-6678095e74d244708e64ddd4
     resource: repo://tests/unit/quests-collection.test.ts
-generated: { by: "claude-code", at: "2026-11-04T07:07:46.246Z" }
+generated: { by: "claude-code", at: "2026-11-04T12:18:18.185Z" }
 ---
 
 # Collections and access
@@ -82,11 +88,15 @@ When `MEDIA_BASE_URL` is set, the storage plugin also sets `disablePayloadAccess
 | `startCriterion` | text | Optional; DofusDB's raw criterion string (such as `Ps=1&Pa=1&PL>29&Qf=55`), stored as is for derived data later |
 | `prerequisites` | relationship to `quests`, `hasMany` | Quests to finish first |
 | `startPositions` | array of `{ npcId, npcName, mapId, x, y }` | DofusDB can give several, for example one per class; `npcName` is localized, the rest are numbers |
-| `refreshedAt` | date | Optional; set by the refresh script |
+| `refreshedAt` | date | Optional; set by the refresh script on each run that creates or changes the quest |
 
 ### Access
 
-`questsAccess` makes `read` return `true` for anyone, because it is public game data, and makes `create`, `update` and `delete` always return `false`. Nobody, signed in or not, can change quests through the REST API or the panel. Only trusted server code writes them, through the local API with `overrideAccess: true`. That writer is a refresh script that is planned and not in the code yet.
+`questsAccess` makes `read` return `true` for anyone, because it is public game data, and makes `create`, `update` and `delete` always return `false`. Nobody, signed in or not, can change quests through the REST API or the panel. Only trusted server code writes them, through the local API with `overrideAccess: true`.
+
+### How quests are filled
+
+The only writer is the DofusDB refresh, `pnpm data:quests` (`scripts/refresh-quests.ts`). It downloads every quest from the public DofusDB API, looks up the start NPCs and maps, and upserts each quest by `dofusId` with `refreshQuests` from `src/lib/dofusdb/refresh-quests.ts`. A first pass creates or updates the quest fields; a second pass links `prerequisites` once every quest has a Payload ID. A rerun with the same data writes nothing, and the refresh never deletes a quest. The pipeline, the prerequisite rule and how to run it safely are in [DofusDB game data refresh](../data/dofusdb-refresh.md).
 
 `tests/unit/quests-collection.test.ts` pins the slug, the field shapes and the access functions. `tests/integration/quests-access.test.ts` checks the rules at runtime: an anonymous request can `find` and `findByID`; a panel user gets `Forbidden` on create, update and delete, and the data stays unchanged; a create with `overrideAccess: true` stores prerequisites, start positions and `refreshedAt`.
 
@@ -101,3 +111,9 @@ Spanish is the only locale. Translatable fields carry `localized: true` so addin
 3. Run `pnpm migrate:create <name>` and `pnpm generate:types`; commit both. CI fails when `src/payload-types.ts` is stale.
 
 See [Database and migrations](../data/database.md) and [Test suites](../testing/test-suites.md).
+
+## Related pages
+
+- [DofusDB game data refresh](../data/dofusdb-refresh.md)
+- [Database and migrations](../data/database.md)
+- [Test suites](../testing/test-suites.md)

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:b9eff1d61dfa9492d37a77dd99c3d9fb63b55997ef5a9149c37bce168672bc0a",
+  "pageVersion": "sha256:f4fda690c3e592ee0b6181ef06ec0e6ac228b3be2dc779d30fb263ecd9908317",
   "claims": [
     {
       "id": "claim_764b0485963845c99d60b85472ceccba",
@@ -143,10 +143,62 @@
           "version": "repo-lines-v1:sha256:d515c59458cbd7af8cd122854e8814aae022fdc611c7d55a7f78e6b73240e6ae:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0ZjdkOTcyMDJkYTA2YThkYzAwZjU0NWNkODMzOWEyYmU2ZDgzYTc1ODkxMjJjOGUzYWM4ODJkZmJkZjU4ZjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU2NDU4M2IyMjgwZTkzZGY0NTI2YTJiZjA4NjZjNjkxZjg3Mjk3NTM3MDFlNGVlOWUwYWZmOGI0MTRmMzdlYzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_d2b7ba683ffe4aa785a4803034a2d335",
+      "statement": "The DofusDB client unit tests use an injected fake fetch and sleep, so they check paging, ID chunking, pauses and errors without reaching the network.",
+      "evidence": [
+        {
+          "resource": "repo://tests/unit/dofusdb-client.test.ts#L7-L113",
+          "version": "repo-lines-v1:sha256:593770360c44dbab05d42b450ac895f315f66401249d4ca7988ace1ace028695:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlN2IxYWIzZTE2ODhmNTA0YTc2YzAzZGVhZDY2Nzg0ZTE4NjU5MTBkMjMwNGZhNTVjMDExYWIxYzExOGEwNzBiIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiMjM1MjU4OWMzNGQzYzYwNjg1OTMxYjZlY2M0ZDUwOTkxYTdjNTZjOGZiYTI4OTQxMTQ2NTc2OTAyNzJjYWMzIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIxYWU3NDQyZTIyZTM5Zjg0OWQ5YzQ0NTNkYzRmNmYyZTUwY2U2NDgyNjA2ZDNjN2Y4M2E0NGZmZjFkM2Y4NTU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MSwiZm9sbG93aW5nQ29udGV4dEhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_5282c80c097649788d3cf9443f8cf799",
+      "statement": "Unit tests pin quest mapping and the prerequisite rule, and that fetchQuestData looks up only the NPCs and maps named in start positions.",
+      "evidence": [
+        {
+          "resource": "repo://tests/unit/dofusdb-fetch-quest-data.test.ts#L11-L35",
+          "version": "repo-lines-v1:sha256:e37d81ad52ba5221bd06727ef7d6c9561009e9fdb0992981f5d1bf9e0904cf76:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmYzczZjYyOTgxMmVjNTk4ZDZiMjYxYjBkNTY1MzQyMGYwOTE4Njc1OGYzNTE5NDZiNjk1ZDg5ODU3NzAwZGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJhN2ZkMmNkNjYyM2RiZDAyMTFkNWE3OGFlZjEyZWQzNWRiMTE4MjlhMzRhOTgxMTk5YzliMmMyYTgxMjhmZTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/dofusdb-map-quest.test.ts#L19-L99",
+          "version": "repo-lines-v1:sha256:3e48c67b53368b99e6a7d0d576d38fab8d65b5adaa34fe5f1b3b837a8874ab5c:eyJzZWxlY3RlZExpbmVDb3VudCI6ODEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcwNmRlYzZmYzlhY2MwMDA2ZjE0MzkzYjhhNjkyNjc5MTQwNDljZjkxNmM3YTE4MGMzNTYwMjc3NWEzZmU1YzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNWE0NjBlYzQ5YjliNzk4ZGEyYzhmZThjNWE3YjVlODQzMTJiYjY2MjYwNDYxMzdlOTZjNDQ4ZDU2ZDNlMjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2e97a72a38de4b9288601b47dcb6bc43",
+      "statement": "The refresh-quests integration test runs refreshQuests three times: the first creates the fixture quests and skips missing prerequisites, the second changes nothing and keeps refreshedAt, and the third updates only what changed and links a prerequisite that now exists; it removes its fixture quests before and after.",
+      "evidence": [
+        {
+          "resource": "repo://tests/integration/refresh-quests.test.ts#L14-L110",
+          "version": "repo-lines-v1:sha256:59a3f1deb499dafee0471a33f0e3d858ca6312d7b1b4cd7cf47afa32bcd37792:eyJzZWxlY3RlZExpbmVDb3VudCI6OTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU2YTJkNWRiMTFkNDg3ZGIxYzNiNDhjOGIxNjQ5MWEwY2IxNmMzYzg0MTRhZDVkNmQ4ZWMwMjA5MDMxNmE4ZDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ5N2I5NDhiYjIyNmI0YWMyNGZiMTAwZmQwNmZhYzJhMzlmYmQ2MjBjMDM3YzFhZGM0NGMyNjUxMGY0MjkwYWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_94a785a57b51476aafef67d71c0fd863",
+      "statement": "DofusDB fixtures in tests/fixtures/dofusdb hold quests, NPCs and map positions shared by the DofusDB unit tests and the refresh integration test.",
+      "evidence": [
+        {
+          "resource": "repo://tests/fixtures/dofusdb/quests.json",
+          "version": "repo-file-v1:sha256:f3170867e94003ba2be22133f21d1e4bcf05541500516d822b8411e77340c24c"
+        },
+        {
+          "resource": "repo://tests/integration/refresh-quests.test.ts#L8-L10",
+          "version": "repo-lines-v1:sha256:9e725000906f85cc31c63bb15086fb874b72f122b7858bc94e2f952f69af3045:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMThiOTYwODQ5NTRlZTYwMDhhNDEzZDMyMzY3NjEwNzMxZWFjZTUwNGJiODI0YmNhYzkzZDBjMTIzNmM5OTY2OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzBkMmM1YThlNzNiMzY4MjJjM2UzNjhmYTAwZTZlZWI0YWVkOWE0Mjc1MTdjOGY0NTE0NzQ3ODc0NTNmNjhlYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzk4MTgxY2FiNGZiNzgzYzIzNzBhMDRlYTQ2ZjNiOWMxZmUyYTAzNGZmOTdmZjFjMzk2MGM3OWE5Mzc3NjBjMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDk3Yjk0OGJiMjI2YjRhYzI0ZmIxMDBmZDA2ZmFjMmEzOWZiZDYyMGMwMzdjMWFkYzQ0YzI2NTEwZjQyOTBhZiJ9"
+        },
+        {
+          "resource": "repo://tests/unit/dofusdb-map-quest.test.ts#L6-L8",
+          "version": "repo-lines-v1:sha256:9e725000906f85cc31c63bb15086fb874b72f122b7858bc94e2f952f69af3045:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMThiOTYwODQ5NTRlZTYwMDhhNDEzZDMyMzY3NjEwNzMxZWFjZTUwNGJiODI0YmNhYzkzZDBjMTIzNmM5OTY2OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzBkMmM1YThlNzNiMzY4MjJjM2UzNjhmYTAwZTZlZWI0YWVkOWE0Mjc1MTdjOGY0NTE0NzQ3ODc0NTNmNjhlYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTQ0NDliZGY2MjZiZmEwODNjZjIwODM4ZGNiZDU4Y2FhNzY3ODIxZTg5ZDg1MzU3YzE5NzlhZjVhYTE5Zjg5ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzBmOGNmNDVkNTQwMjNlMmY0MmU2Nzk4YjE4ODg1MjA0MzU5ZTMwNWUzZmM1ZTE0NmZlYTAwMWE3MzYzZTBiYyJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T07:16:27.262Z"
+    "at": "2026-11-04T12:18:18.185Z"
   }
 }
