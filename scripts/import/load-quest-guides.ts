@@ -5,7 +5,7 @@ import { validateSlug } from '@/collections/QuestGuides'
 import type { QuestGuide } from '@/payload-types'
 
 import { createHtmlToLexical } from './rich-text'
-import type { ConvertedGuide, GuideBlock } from './squarespace/to-quest-guide'
+import type { ConvertedGuide, GuideBlock, GuideSummary } from './squarespace/to-quest-guide'
 
 export interface ImageFile {
   data: Buffer
@@ -48,6 +48,28 @@ function comparable(value: unknown): unknown {
 }
 
 const COMPARED_FIELDS = ['title', 'slug', 'originalUrl', 'summary', 'quests', 'body'] as const
+
+const SUMMARY_FIELDS = [
+  'prerequisites',
+  'needs',
+  'rewards',
+  'startNpc',
+  'startX',
+  'startY',
+] as const
+
+/**
+ * El resumen con todos sus campos: lo que la conversión no trae va como null. Payload
+ * conserva los campos de un grupo que no se envían, así que sin esto un dato que
+ * desaparece de la página seguiría guardado y cada pasada guardaría otra versión.
+ */
+type FullSummary = { [field in keyof GuideSummary]-?: NonNullable<GuideSummary[field]> | null }
+
+function fullSummary(summary: GuideSummary): FullSummary {
+  return Object.fromEntries(
+    SUMMARY_FIELDS.map((field) => [field, summary[field] ?? null]),
+  ) as FullSummary
+}
 
 function sameGuide(stored: QuestGuide, data: Pick<QuestGuide, (typeof COMPARED_FIELDS)[number]>) {
   return COMPARED_FIELDS.every((field) =>
@@ -163,7 +185,7 @@ export async function loadQuestGuides(
       title: guide.title,
       slug: guide.slug,
       originalUrl: guide.originalUrl,
-      summary: guide.summary,
+      summary: fullSummary(guide.summary),
       quests,
       body,
       _status: 'draft' as const,
