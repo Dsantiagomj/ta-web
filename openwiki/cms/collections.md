@@ -1,11 +1,8 @@
 ---
 type: component
 title: Collections and access
-description: The three Payload collections that exist today, Users for panel accounts, Media for uploads and Quests for read-only DofusDB game data, with their fields, validation, localization, access rules and the tests that pin them down.
-tags: [payload, collections, access-control, media, users]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-04T12:18:18.185Z
+description: The four Payload collections that exist today, Users for panel accounts, Media for uploads, Quests for read-only DofusDB game data and Quest guides for Torre's editorial guides with drafts, with their fields, validation, localization, access rules and the tests that pin them down.
+tags: [payload, collections, access-control, media, users, quest-guides]
 sources:
   - id: openwiki-source-164e2da859b5277df81c7d94
     resource: repo://.github/workflows/ci.yml
@@ -15,6 +12,8 @@ sources:
     resource: repo://scripts/refresh-quests.ts
   - id: openwiki-source-d58a4d3cf178bb2fa2e94831
     resource: repo://src/collections/Media.ts
+  - id: openwiki-source-7a2723ea85824e431ff5eb54
+    resource: repo://src/collections/QuestGuides.ts
   - id: openwiki-source-633cb155d38055ddc4af30fc
     resource: repo://src/collections/Quests.ts
   - id: openwiki-source-c46dfd6e94656494b7d9df7b
@@ -27,24 +26,33 @@ sources:
     resource: repo://src/migrations/20261103_030359_initial.ts
   - id: openwiki-source-a4ca0c9844f6e5f5c7edac75
     resource: repo://src/migrations/20261104_070541_quests.ts
+  - id: openwiki-source-4b8e99ccf872ed7c776196a6
+    resource: repo://src/migrations/20261104_124207_quest_guides.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
     resource: repo://src/payload.config.ts
   - id: openwiki-source-393bf97b0253eba009444ab4
     resource: repo://tests/integration/media-access.test.ts
+  - id: openwiki-source-7b27bf36255a812248aa50e8
+    resource: repo://tests/integration/quest-guides-access.test.ts
   - id: openwiki-source-ec89382e83abd458e1b56d69
     resource: repo://tests/integration/quests-access.test.ts
   - id: openwiki-source-ac8a504ed8af703f20417d32
     resource: repo://tests/integration/users-access.test.ts
   - id: openwiki-source-46725d1a0efabea76f3841c8
     resource: repo://tests/unit/media-collection.test.ts
+  - id: openwiki-source-1970468d3fcc651d5071b312
+    resource: repo://tests/unit/quest-guides-collection.test.ts
   - id: openwiki-source-6678095e74d244708e64ddd4
     resource: repo://tests/unit/quests-collection.test.ts
-generated: { by: "claude-code", at: "2026-11-04T12:18:18.185Z" }
+generated: { by: "claude-code", at: "2026-11-04T12:46:56.619Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-04T12:46:56.619Z
 ---
 
 # Collections and access
 
-Payload collections live one per file in `src/collections/` and are registered in `src/payload.config.ts` as `collections: [Users, Media, Quests]`. Three exist today. The editorial collections listed in AGENTS.md (quest guides, achievements, Dofus guides, checklists, classes, dungeons, pages) are planned and not in the code yet.
+Payload collections live one per file in `src/collections/` and are registered in `src/payload.config.ts` as `collections: [Users, Media, Quests, QuestGuides]`. Four exist today. Quest guides are the first editorial collection; the others listed in AGENTS.md (achievements, Dofus guides, checklists, classes, dungeons, pages) are planned and not in the code yet.
 
 ## Users: panel accounts
 
@@ -100,9 +108,44 @@ The only writer is the DofusDB refresh, `pnpm data:quests` (`scripts/refresh-que
 
 `tests/unit/quests-collection.test.ts` pins the slug, the field shapes and the access functions. `tests/integration/quests-access.test.ts` checks the rules at runtime: an anonymous request can `find` and `findByID`; a panel user gets `Forbidden` on create, update and delete, and the data stays unchanged; a create with `overrideAccess: true` stores prerequisites, start positions and `refreshedAt`.
 
+## Quest guides: editorial guides with drafts
+
+`src/collections/QuestGuides.ts` defines `quest-guides`, Torre's quest guides. It is the first editorial collection: people write it in the panel, unlike `quests`, which only the refresh writes. In the panel it sits under the "Guías" group, uses `title` as the title and shows `title`, `slug`, `_status` and `updatedAt` as default columns.
+
+| Field | Type | Notes |
+|---|---|---|
+| `title` | text | Required, localized |
+| `slug` | text | Required, unique and indexed, not localized (the URL is the same in every language); validated by `validateSlug`; in the sidebar |
+| `quests` | relationship to `quests`, `hasMany` | Optional; the DofusDB quests the guide covers; in the sidebar |
+| `summary` | group | `prerequisites`, `needs`, `rewards` (localized textareas), `startNpc` (localized text), `startX`, `startY` (numbers) |
+| `body` | blocks | Rich text, image, video and callout blocks; see [Guide body blocks](blocks.md) |
+| `seo` | group | `metaTitle` (localized text) and `metaDescription` (localized textarea, at most 160 characters) |
+| `originalUrl` | text | The guide's Squarespace URL; validated by `validateOptionalUrl`, the same validator `media` uses; in the sidebar |
+
+The `summary` group overrides what DofusDB provides. DofusDB has no items or rewards, so the guide keeps its own prerequisites, needs, rewards and start point; the future Squarespace import will fill them. Linked `quests` stay the source for game data.
+
+`validateSlug` accepts only plain ASCII: lowercase letters and digits in runs joined by single hyphens, with no hyphen at either end (`aprendizaje-escudero`, `dofus-ocre-2`). Accents, `ñ`, capitals, spaces, doubled or edge hyphens and empty values return a Spanish error, so a guide's URL never needs percent-encoding.
+
+### Drafts and versions
+
+`versions: { drafts: true, maxPerDoc: 50 }` gives each guide a `_status` of `draft` or `published` (new documents start as drafts) and keeps up to 50 saved versions per guide. Payload stores versions in a parallel set of `_quest_guides_v*` tables. Publishing is an update that sets `_status: 'published'`; the integration test creates a draft, publishes it, and finds a published entry in `findVersions`.
+
+### Access
+
+`questGuidesAccess` splits by whether there is a Payload session:
+
+- `read` returns `true` for a signed-in panel user, who sees drafts too, and the query `{ _status: { equals: 'published' } }` for anyone else, so anonymous reads only ever see published guides.
+- `create`, `update` and `delete` require a signed-in panel user.
+
+Payload sessions belong only to panel accounts (`users`); site members will use Better Auth, so a member never counts as a panel user here.
+
+`tests/unit/quest-guides-collection.test.ts` pins the slug, admin settings, versions, every field's shape, `validateSlug` and the access functions. `tests/integration/quest-guides-access.test.ts` checks them at runtime: an anonymous request lists and reads the published guide but gets `NotFound` for the draft, and gets `Forbidden` on create, update and delete with the data unchanged; a panel user reads both, creates a draft, publishes it and gets a version; and a guide with quests, summary, all four block types, SEO and `originalUrl` saves and reads back anonymously at `depth: 1`.
+
+No public route or live preview reads guides yet.
+
 ## Localization in the schema
 
-Spanish is the only locale. Translatable fields carry `localized: true` so adding a second language later becomes a translation job rather than a schema rewrite. In Postgres, localized fields live in a sibling `<collection>_locales` table keyed by `_locale`; the initial migration creates `media_locales` with `alt` and `credits`, and a `_locales` enum containing only `es`. The quests migration adds `quests_locales` (`name`) and `quests_start_positions_locales` (`npc_name`).
+Spanish is the only locale. Translatable fields carry `localized: true` so adding a second language later becomes a translation job rather than a schema rewrite. In Postgres, localized fields live in a sibling `<collection>_locales` table keyed by `_locale`; the initial migration creates `media_locales` with `alt` and `credits`, and a `_locales` enum containing only `es`. The quests migration adds `quests_locales` (`name`) and `quests_start_positions_locales` (`npc_name`). The quest guides migration adds `quest_guides_locales` (title, the localized summary fields and SEO) plus a `_locales` table for each block type.
 
 ## Adding or changing a collection
 
@@ -114,6 +157,7 @@ See [Database and migrations](../data/database.md) and [Test suites](../testing/
 
 ## Related pages
 
+- [Guide body blocks](blocks.md)
 - [DofusDB game data refresh](../data/dofusdb-refresh.md)
 - [Database and migrations](../data/database.md)
 - [Test suites](../testing/test-suites.md)

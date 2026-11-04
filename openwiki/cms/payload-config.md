@@ -10,6 +10,8 @@ sources:
     resource: repo://next.config.ts
   - id: openwiki-source-098744f35eb292781a6734eb
     resource: repo://src/app/(payload)/admin/importMap.js
+  - id: openwiki-source-7a2723ea85824e431ff5eb54
+    resource: repo://src/collections/QuestGuides.ts
   - id: openwiki-source-2ad419cae2f45e97a3ca23d7
     resource: repo://src/lib/db/database-url.ts
   - id: openwiki-source-47a80445306e82d0ef444872
@@ -20,10 +22,10 @@ sources:
     resource: repo://src/payload.config.ts
   - id: openwiki-source-98d5ddb014a0fd4d678f6f2a
     resource: repo://tsconfig.json
-generated: { by: "claude-code", at: "2026-11-04T07:07:46.246Z" }
+generated: { by: "claude-code", at: "2026-11-04T12:46:56.619Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T07:07:46.246Z
+    at: 2026-11-04T12:46:56.619Z
 ---
 
 # Payload CMS configuration
@@ -36,8 +38,8 @@ Payload 3 runs inside the Next.js process. There is one config, `src/payload.con
 |---|---|---|
 | `admin.user` | `users` | Panel accounts; see [Collections and access](collections.md) |
 | `admin.importMap.baseDir` | `src/` | Where `generate:importmap` resolves admin components |
-| `collections` | `[Users, Media, Quests]` | One file per collection in `src/collections/` |
-| `editor` | `lexicalEditor()` | Rich text editor for future guide bodies |
+| `collections` | `[Users, Media, Quests, QuestGuides]` | One file per collection in `src/collections/` |
+| `editor` | `lexicalEditor()` | Default rich text editor; the guide body blocks use it (see [Guide body blocks](blocks.md)) |
 | `endpoints` | `[healthEndpoint]` | Custom endpoints, mounted under `/api` |
 | `i18n` | Spanish only, fallback `es` | The panel UI is in Spanish |
 | `localization` | One locale, `es`, default and fallback | Content is Spanish; localized fields keep a second language possible |
@@ -70,7 +72,7 @@ Payload writes several files that are committed and must not be edited by hand:
 | File | Regenerate with | Notes |
 |---|---|---|
 | `src/app/(payload)/**` (layout, admin page, API routes) | Payload's Next template | Each file starts with "THIS FILE WAS GENERATED AUTOMATICALLY BY PAYLOAD" |
-| `src/app/(payload)/admin/importMap.js` | `pnpm generate:importmap` | Maps admin component paths to imports; today it holds `CollectionCards` and the S3 client upload handler |
+| `src/app/(payload)/admin/importMap.js` | `pnpm generate:importmap` | Maps admin component paths to imports; today it holds the Lexical rich text components (field, cell, diff and the client feature toolbar entries), `CollectionCards` and the S3 client upload handler. The Lexical entries appeared with the first rich text field, in the guide body blocks |
 | `src/payload-types.ts` | `pnpm generate:types` | CI regenerates it and fails on any diff |
 | `src/migrations/*` | `pnpm migrate:create <name>` | Schema history; see the database page |
 
@@ -87,11 +89,13 @@ Payload writes several files that are committed and must not be edited by hand:
 - **New collection**: add a file under `src/collections/`, add it to `collections`, then create a migration and regenerate types. See [Collections and access](collections.md).
 - **New custom endpoint**: add it under `src/endpoints/` and to `endpoints`. It is served under `/api/<path>` by the generated catch-all route. Remember the dev gate protects it unless it is added to the exempt list.
 - **New admin component**: reference it from a collection or the config, then run `pnpm generate:importmap` and commit `importMap.js`.
-- **Planned**: `src/globals/` (site settings) and `src/blocks/` (guide body blocks) are named in AGENTS.md but do not exist yet.
+- **New guide body block**: add it under `src/blocks/` and to the collection's `blocks` field. See [Guide body blocks](blocks.md).
+- **Planned**: `src/globals/` (site settings) is named in AGENTS.md but does not exist yet.
 
 ## Related pages
 
 - [Collections and access](collections.md)
+- [Guide body blocks](blocks.md)
 - [Database and migrations](../data/database.md)
 - [Media storage](../media/storage.md)
 - [Request pipeline](../architecture/request-pipeline.md)

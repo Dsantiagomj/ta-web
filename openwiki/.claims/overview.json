@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:2ce80533bc88885de4ea3d6784e843a9f7496ed5c591892e067aad7599666b64",
+  "pageVersion": "sha256:3b5e1200a3c8b573c4b637d786926a9fc9deb74c5552de25ac3ae72571e6fe73",
   "claims": [
     {
       "id": "claim_46a7ecf7c01f4151af666d14fb666d91",
@@ -48,11 +48,11 @@
     },
     {
       "id": "claim_5aaf51ac373143478ea8aaa893b86cee",
-      "statement": "The Payload config currently registers the Users, Media and Quests collections and a single Spanish locale.",
+      "statement": "The Payload config currently registers the Users, Media, Quests and QuestGuides collections and a single Spanish locale.",
       "evidence": [
         {
-          "resource": "repo://src/payload.config.ts#L26-L41",
-          "version": "repo-lines-v1:sha256:5fcb188b01e97d5195d7fef4d36bb2a3e9e2a70ffe5eea1cf1fac7a3c0a0fd4d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxNzE1NDBhMjMzOGUxZWRhNmE4NmM4NzRhZWE0MGMyNzBlN2M1OWIyMjg4YTc3Njk5NjQ0ZGRkZDZmYTA4YjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRkZGI1NGNkMTk1YWM2OTU1YjUwOTcxOGYwOGMxOGQwYTU0ZDI4ZGI2NTg1Y2RlMzljNDFjYzk3ZDY4NTEwNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxNWFkZTY3NjQ0YjE5ZWZkNjMzMTZkNWQ3NzJkZTNlMTE0YTFkN2QwNGQyNjNlYzEwNjJiNGQ2Y2I1ZDZjNDkifQ"
+          "resource": "repo://src/payload.config.ts#L27-L42",
+          "version": "repo-lines-v1:sha256:788df8a6154f92c1c104fb865df916b8d8c1edc1507850b29d233c9af359249f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJhN2VjMGRhZjkzMzc2NzM3YjgxMjZiMDYzYjY3NjVjYTZlOTc0ZjdkY2QxODM1MzFjYjA1MjZlY2UwNTZkN2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRkZGI1NGNkMTk1YWM2OTU1YjUwOTcxOGYwOGMxOGQwYTU0ZDI4ZGI2NTg1Y2RlMzljNDFjYzk3ZDY4NTEwNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxNWFkZTY3NjQ0YjE5ZWZkNjMzMTZkNWQ3NzJkZTNlMTE0YTFkN2QwNGQyNjNlYzEwNjJiNGQ2Y2I1ZDZjNDkifQ"
         }
       ]
     },
@@ -131,10 +131,44 @@
           "version": "repo-lines-v1:sha256:610a23b2ea53419bb3694c2861b63b57072d1e2e4f82970052d9e319d03f23e8:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTcyYTQyOTM4MmIyZTE0NzE4ZTBlMzdiMDU3MGE4YTE3MDI5OTFmY2Q4NDk4Y2Q4NDA2MGE4YmY0ZjA1MDE3YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzQwYzVkM2RjM2E3NzMwNzkzYzg5Mjc5NDhiNTU5NjY0MjA3Zjc5YmE4Nzc3M2MyMTUwMDQ0MzE5NjJmZDQ4OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWRmYzkzMTQ1YWMxMzRhZjZmODhhMjFmNmYxOTdmYWRhNzU2MWQwNTc0ZTY0MTAzNjkzMTZmMDQxODcwMmEwMCJ9"
         }
       ]
+    },
+    {
+      "id": "claim_1fd2fd6885b7448dab538f60067d9be2",
+      "statement": "The quest-guides collection keeps drafts and versions, lets anonymous readers see only published guides, and builds guide bodies from rich text, image, video and callout blocks.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/QuestGuides.ts#L21-L43",
+          "version": "repo-lines-v1:sha256:86adc6b20f2532fc96cca023a79da6a68c923cd439f080d53d1359f610a9bdf6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5OTg0MDNlMWU0MjM3MTcxMDY3NWUyZGQ3Yzk2MjcwNzQxMGM4YjhjODkxMDMwY2FmMjAyMTQ1NGRjMTQ2ZWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcwMWRlNzY3NDgxZjJlMjRhZGMyMWYxYmNjZjYwNjkyMzBiMWZmYmQyM2IzNTI3ZGRmYmMzMDFkOGE5YzA4M2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhjZWM4Y2ZlOGU5ZTVhMDUwMjU2YTgyMWM0MjQ0NjJiNDQwOGJjMWRmYjFkOWJhYmY3YTYyYzRmYmQ4YjZiM2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwYjQwY2NiYmY5OGU2NmE3MTY4MmQ3YjAzOWVmYWQ2OWI0ZDhlOWFhNzRkZmM1ZDQ5YmFlMWUxMmEwYjM1MGYifQ"
+        },
+        {
+          "resource": "repo://src/collections/QuestGuides.ts#L93-L99",
+          "version": "repo-lines-v1:sha256:446d258d9f03fbae3e42ff67c16dbc3a907a6f107fcb0dca64b7c37d2f9203b2:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjljYTg5MWJmZjdhYzFmN2NlYWFlNDBlZjA1MTA2NmJlOWVmZTQ3YjRlNDI4MWU4NmMzMTliZTJjNTVlYmNlNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDlkZTRjZmY2NjU1OWRiZDI5NzhjYzVhZTUyMjY5MzUyNDNmNzk1MzI4ODE5YTBjOTZkMGY4NzM0MWYwZTc2OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTEyYzM2NmRjN2IwMjJjNWVlOWY1MTU0NTI1MTYyNDJhMzc0M2NhNzUwY2NkNjA2YjVkMTkyZGI0NGIyMjY3NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_cfca24e2c650490dae201eda92faef01",
+      "statement": "There are three committed migrations today.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/index.ts#L5-L21",
+          "version": "repo-lines-v1:sha256:384a9f4b772d8ea00f1277cb6978c0c53c0894ca7e1f7b90ee639c47f550d72b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMGVkYzRmYjExMzQ3MTVkZmYyYWMxM2VkNzlhODc3YmQzOGQxMTdiNzY0MjViMGJiMzJlMGRhZDgzY2IzNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFkM2MwM2NjMjM4MDUyNGJkOTk3ODhmM2FkYWFkNDJlNGM1NDQ0NzFiODA1ZWJiMzc0YjVhMThhNjNjNWM5MjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_51d2dd79acfe4cffa9bdf147891b7877",
+      "statement": "AGENTS.md lists rich text, image, video and callout blocks as existing today, with dialogue and step blocks still planned.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L45-L45",
+          "version": "repo-lines-v1:sha256:1e337d7f750b4f33f405b3c2ff2af0ba55f36799405dd48a0b5e9faed415e33a:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWUzMzdkN2Y3NTBiNGYzM2Y0MDViM2MyZmYyYWYwYmE1NWYzNjc5OTQwNWRkNDhhMGI1ZTlmYWVkNDE1ZTMzYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWUzMzdkN2Y3NTBiNGYzM2Y0MDViM2MyZmYyYWYwYmE1NWYzNjc5OTQwNWRkNDhhMGI1ZTlmYWVkNDE1ZTMzYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTAzNWVlOGVkMGFjYzc4ZDgwMWMxYWRlMzU0NDgyNDQ4NDM0ZDhkODEwYjQwOTkzNzJlODA3Y2I0YjhkODYzZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjg4Y2YwNzZhZGVjOTgyZjQ5Y2E3MWY3ODc5MTU5OGU0ZjUyMWI2OTAyZjAxYmJhODM5YWIxZjA5OWI0YjczNSJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T12:18:18.185Z"
+    "at": "2026-11-04T12:46:56.619Z"
   }
 }
