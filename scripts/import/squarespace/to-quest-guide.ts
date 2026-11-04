@@ -193,16 +193,17 @@ export function toQuestGuide(
     let summaryField: SummaryField | undefined
     for (let element of block.elements) {
       if (!element.text) continue
-      // El H2 en mayúsculas del principio repite el título.
-      if (!started && /^h[12]$/.test(element.tag)) {
-        heading ??= element.text
-        continue
-      }
+      // Las etiquetas del resumen van primero: a veces llegan como encabezado.
       const label = summaryLabel(element.text)
       if (label) {
         summaryField = label.field
         const fieldLines = (summaryLines[summaryField] ??= [])
         if (label.rest) fieldLines.push(label.rest)
+        continue
+      }
+      // Solo el primer H1/H2, antes del contenido, repite el título; los demás son contenido.
+      if (!started && heading === undefined && /^h[12]$/.test(element.tag)) {
+        heading = element.text
         continue
       }
       if (summaryField) {
