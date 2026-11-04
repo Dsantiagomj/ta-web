@@ -218,6 +218,26 @@ describe('carga de guías importadas de Squarespace', () => {
     expect(changed).toMatchObject({ _status: 'draft', summary: { needs: 'Un objeto nuevo.' } })
   })
 
+  it('un campo del resumen que desaparece se vacía, y repetir no guarda más versiones', async () => {
+    const withoutFields = () => {
+      const guides = converted()
+      delete guides[0]!.guide.summary.needs
+      delete guides[0]!.guide.summary.startX
+      delete guides[0]!.guide.summary.startY
+      return guides
+    }
+
+    const first = await loadQuestGuides(payload, withoutFields(), { fetchImage })
+    expect(first.guides).toMatchObject({ updated: 1, unchanged: 4 })
+    const cleared = (await guidesBySlug()).get(withoutFields()[0]!.guide.slug)!
+    expect(cleared.summary).toMatchObject({ needs: null, startX: null, startY: null })
+
+    const versionsBefore = await versionCount()
+    const second = await loadQuestGuides(payload, withoutFields(), { fetchImage })
+    expect(second.guides).toEqual({ created: 0, updated: 0, unchanged: 5, skipped: 0 })
+    expect(await versionCount()).toBe(versionsBefore)
+  })
+
   it('un visitante anónimo no ve los borradores importados', async () => {
     const found = await payload.find({
       collection: 'quest-guides',
