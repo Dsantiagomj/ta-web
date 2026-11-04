@@ -181,8 +181,8 @@ Context for every verdict: about 1 800 server-rendered guide pages that must sta
 |---|---|---|
 | Lime accent and grey-green palette | Skip | Their identity, not ours |
 | Dark by default with a toggle | Adopt | Already our rule; our toggle is the egg switch |
-| Light theme as a lighter dark | Skip | Each of our six themes has a real light mode |
-| Theme in `localStorage` on `<html data-theme>` | Adapt | Only the dark or light mode works this way for us (cookie plus `localStorage`, set before first paint). The theme itself is rendered by the server, because five of our six themes are premium |
+| Light theme as a lighter dark | Skip | Each of our five themes has a real light mode |
+| Theme in `localStorage` on `<html data-theme>` | Adapt | Only the dark or light mode works this way for us (cookie plus `localStorage`, set before first paint). The theme itself is rendered by the server, because four of our five themes are premium |
 
 ## What this changes in our plan
 
