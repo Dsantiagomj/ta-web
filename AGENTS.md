@@ -42,7 +42,7 @@ Every change: code, content model, migrations, data, docs, CI. Read this file be
 | `src/payload.config.ts` | Payload config: collections, globals, localization, storage, database adapter |
 | `src/collections/` | One file per collection (quest guides, achievements, Dofus guides, checklists, classes, dungeons, pages, media), with its fields, access and hooks |
 | `src/globals/` | Site settings: navigation, socials, Ko-fi, Twitch card, announcement bar |
-| `src/blocks/` | Payload blocks for guide bodies (rich text, image, video, callout, dialogue, step) |
+| `src/blocks/` | Payload blocks for guide bodies: rich text, image, video and callout today; dialogue and step when the guide page design needs them |
 | `src/endpoints/` | Payload custom endpoints, mounted under `/api` by Payload's catch-all route (`health.ts`: `GET /api/health`) |
 | `src/lib/` | Server code shared across routes: `db/` (database URL), `dev-gate/` (basic auth and `robots.txt` per environment, used by `src/proxy.ts`), `deploy/` (the deployed commit), `monitoring/` (Sentry options, used by `src/instrumentation.ts`), `theme/` (theme and mode), `media/` (storage, variant URLs), `auth/` (Better Auth), `access/` (entitlement checks), `progress/` (member progress tables and merge), `search/`, `derive/` (checklist derived data) |
 | `src/components/` | React components (`mode-toggle/` today). Server components by default; client islands carry `"use client"` and live next to what uses them |
