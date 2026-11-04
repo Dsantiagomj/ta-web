@@ -5,7 +5,7 @@ description: The Payload blocks in src/blocks/ that make up a quest guide's body
 tags: [payload, blocks, quest-guides, lexical, content-model]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T12:46:56.619Z
+    at: 2026-11-04T20:02:15.357Z
 sources:
   - id: openwiki-source-8037e2358a2c4f9b2c722a11
     resource: repo://AGENTS.md

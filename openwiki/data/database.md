@@ -26,18 +26,22 @@ sources:
     resource: repo://src/migrations/20261104_174941_dofusdb_items_rewards.ts
   - id: openwiki-source-b34ee7a9d4905baeede4b1a2
     resource: repo://src/migrations/20261104_192809_dofusdb_item_supertype.ts
+  - id: openwiki-source-85d78bb4cb34c9db9944e4d7
+    resource: repo://src/migrations/20261104_195910_needs_list.ts
   - id: openwiki-source-c306fbe28866186a2df852b4
     resource: repo://src/migrations/index.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
     resource: repo://src/payload.config.ts
   - id: openwiki-source-a6cdaab0cfeb9dcfe8511d62
     resource: repo://tests/integration/migrations.test.ts
+  - id: openwiki-source-5753af90697570a0ebcd954f
+    resource: repo://tests/integration/needs-list-migration.test.ts
   - id: openwiki-source-b031ce15fe3cb852929a85bf
     resource: repo://tests/unit/database-url.test.ts
-generated: { by: "claude-code", at: "2026-11-04T19:48:22.282Z" }
+generated: { by: "claude-code", at: "2026-11-04T20:02:15.357Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T19:48:22.282Z
+    at: 2026-11-04T20:02:15.357Z
 ---
 
 # Database and migrations
@@ -95,15 +99,18 @@ This means E2E and CI exercise the same path as production: an empty database pl
 
 ## Migrations
 
-Migrations live in `src/migrations/` and are listed in `src/migrations/index.ts`. Each has a `.ts` file with `up` and `down` (raw SQL through `db.execute(sql\`…\`)`) and a `.json` snapshot Payload uses to compute the next diff. There are five today:
+Migrations live in `src/migrations/` and are listed in `src/migrations/index.ts`. Each has a `.ts` file with `up` and `down` (raw SQL through `db.execute(sql\`…\`)`) and a `.json` snapshot Payload uses to compute the next diff. There are six today:
 
 - `20261103_030359_initial` creates the `users`, `users_sessions`, `media`, `media_variants`, `media_locales` and Payload system tables (`payload_kv`, `payload_locked_documents`, `payload_preferences`, `payload_migrations` and their relation tables).
 - `20261104_070541_quests` adds the [quests collection](../cms/collections.md): `quests` with a unique index on `dofus_id`, `quests_locales`, `quests_rels` (for `prerequisites`), `quests_start_positions` and `quests_start_positions_locales`, plus a `quests_id` column on `payload_locked_documents_rels`. Its `down` drops all of them. It does not drop the `payload_locked_documents_rels_quests_fk` constraint separately, because `DROP TABLE "quests" CASCADE` already removes it and a second drop would make the rollback fail.
 - `20261104_124207_quest_guides` adds the [quest guides collection](../cms/collections.md): `quest_guides` with a unique index on `slug` and a `_status` enum defaulting to `draft`, `quest_guides_locales`, `quest_guides_rels` (for `quests`), one table plus a `_locales` table per [body block](../cms/blocks.md) type (`quest_guides_blocks_rich_text`, `_image`, `_video`, `_callout`), and the matching version tables under `_quest_guides_v*`, plus a `quest_guides_id` column on `payload_locked_documents_rels`. Payload generated its `down` with the same redundant drop of `payload_locked_documents_rels_quest_guides_fk` as the quests migration; it was removed for the same reason, and a comment in the `down` records it.
 - `20261104_174941_dofusdb_items_rewards` adds the [items and monsters collections](../cms/collections.md#items-and-monsters-dofusdb-catalog-data) and the quests' `rewards` and `needs` groups: `items` and `monsters`, each with a unique index on `dofus_id` and a `_locales` table for `name`; the array tables `quests_rewards_items`, `quests_needs_items` and `quests_needs_monsters`, whose `item_id` or `monster_id` references `items` or `monsters`; `quests_numbers`, where Payload stores the `hasMany` number fields (`emoteIds`, `spellIds`, `titleIds`, `jobIds`) keyed by `path`; and the columns `rewards_experience`, `rewards_kamas` and `needs_walks_maps` on `quests`, plus `items_id` and `monsters_id` on `payload_locked_documents_rels`. Payload generated its `down` with redundant drops of `payload_locked_documents_rels_items_fk` and `payload_locked_documents_rels_monsters_fk`; they were removed because `DROP TABLE "items" CASCADE` and `DROP TABLE "monsters" CASCADE` already remove them, and a comment in the `down` records it.
 - `20261104_192809_dofusdb_item_supertype` adds the nullable numeric `super_type_id` column to `items` for the items' DofusDB supertype; its `down` drops the column.
+- `20261104_195910_needs_list` turns a quest guide's "Necesitarás" from text into an item list plus notes (see [Collections and access](../cms/collections.md#the-summary-and-its-needs-list)). It creates `quest_guides_summary_needs_items` and its version twin `_quest_guides_v_version_summary_needs_items` (`_order`, `_parent_id`, `item_id` referencing `items` with `ON DELETE set null`, `quantity` defaulting to 1), and renames the localized text column instead of dropping it: `quest_guides_locales.summary_needs` becomes `summary_needs_notes` and `_quest_guides_v_locales.version_summary_needs` becomes `version_summary_needs_notes`. Existing guides and versions keep their text, per locale, as notes. Its `down` drops both list tables and renames the columns back, so the notes return to the old text column but **the item rows are lost**: the earlier schema has nowhere to store them. A comment at the top of the file says so.
 
-Every migration must roll back cleanly: if a `down` fails, a bad deploy has no way back. `tests/integration/migrations.test.ts` checks this for the latest migration (the last entry in `src/migrations/index.ts`, today `20261104_192809_dofusdb_item_supertype`). It runs the Payload CLI, `pnpm payload migrate:down` and then `pnpm payload migrate`, against the integration database with `DATABASE_CONNECTION=direct`, and asserts the latest migration is rolled back and then re-applied, so the database ends as it started. It uses the CLI because Payload imports migration files with Node, not Vitest. It avoids `migrate:refresh`, which in Payload 3.92 rolls back oldest first and fails. When a command fails, the test rethrows with the CLI's stdout and stderr so the Postgres error is visible. Starting the CLI twice can pass the suite's 30 s default on a loaded machine, so this test has its own 120 s timeout.
+Every migration must roll back cleanly: if a `down` fails, a bad deploy has no way back. `tests/integration/migrations.test.ts` checks this for the latest migration (the last entry in `src/migrations/index.ts`, today `20261104_195910_needs_list`). It runs the Payload CLI, `pnpm payload migrate:down` and then `pnpm payload migrate`, against the integration database with `DATABASE_CONNECTION=direct`, and asserts the latest migration is rolled back and then re-applied, so the database ends as it started. It uses the CLI because Payload imports migration files with Node, not Vitest. It avoids `migrate:refresh`, which in Payload 3.92 rolls back oldest first and fails. When a command fails, the test rethrows with the CLI's stdout and stderr so the Postgres error is visible. Starting the CLI twice can pass the suite's 30 s default on a loaded machine, so this test has its own 120 s timeout.
+
+`tests/integration/needs-list-migration.test.ts` checks the needs list migration on real data rather than an empty schema. It creates a guide with notes, calls that migration's `down` and `up` functions directly on the fully migrated integration database, and in between checks the text is back in `summary_needs` and writes a different text into the old columns of the guide and its versions, as a guide imported before the list would have. After `up`, the guide and its version read that text as `summary.needs.notes`, with an empty item list. `up` runs in a `finally` so a failed assertion never leaves the test database on the old schema.
 
 In deployed environments, Railway runs `pnpm migrate` as the pre-deploy command with a 600-second timeout. If it fails, the deploy stops and the previous version keeps serving. See [Deployment and releases](../operations/deployment.md).
 

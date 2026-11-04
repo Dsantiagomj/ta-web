@@ -44,10 +44,10 @@ sources:
     resource: repo://tests/unit/import-rich-text.test.ts
   - id: openwiki-source-299c190cabc2f0753a302110
     resource: repo://tests/unit/import-to-quest-guide.test.ts
-generated: { by: "claude-code", at: "2026-11-04T17:27:29.927Z" }
+generated: { by: "claude-code", at: "2026-11-04T20:02:15.357Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T17:27:29.927Z
+    at: 2026-11-04T20:02:15.357Z
 ---
 
 # Squarespace import
@@ -94,7 +94,7 @@ The `guide` has `title`, `slug`, `originalUrl` (`https://www.torrentearcano.com/
 
 Rules, in the order the converter applies them to each text element:
 
-1. **Summary.** A line starting with `Prerrequisitos`, `Necesitarás` or `Recompensas` followed by a colon (accents and case ignored) opens that field. The colon is required: "Necesitarás hablar con…" is prose. In the cached pages, all 2469 real labels have the colon and the 11 colonless lines are prose. Labels are checked first, so a label that arrives as an H1 or H2 still opens its field. Text after the label and the following elements of the same text block go into it, one line each, headings included (`<p>Prerrequisitos:</p><h2>Nivel mínimo 70</h2>` fills the prerequisites); a list gives one line per item. The field values are those lines joined with newlines; a label with no text after it and no following lines leaves its field empty, which counts as a missing block. These lines never reach the body.
+1. **Summary.** A line starting with `Prerrequisitos`, `Necesitarás` or `Recompensas` followed by a colon (accents and case ignored) opens that field. The colon is required: "Necesitarás hablar con…" is prose. In the cached pages, all 2469 real labels have the colon and the 11 colonless lines are prose. Labels are checked first, so a label that arrives as an H1 or H2 still opens its field. Text after the label and the following elements of the same text block go into it, one line each, headings included (`<p>Prerrequisitos:</p><h2>Nivel mínimo 70</h2>` fills the prerequisites); a list gives one line per item. The field values are those lines joined with newlines. `Necesitarás` text goes to `summary.needs.notes`, not to the item list, which DofusDB fills when the guide is loaded (see below). A label with no text after it and no following lines leaves its field empty, which counts as a missing block. These lines never reach the body.
 2. **Title heading.** Only an H1 or H2 that is the very first element of the page, with no text element or other block before it, is dropped as the title heading. Every later heading is body content. The dropped heading is compared with the page title ignoring accents, case, punctuation and a leading number such as "29. ". When the page has a title and the two differ, an oddity keeps the heading's full text for review, because the heading is sometimes the fuller name. Measured over the 1272 cached quest pages, the first H2 matched the title in 1029, matched once a leading number was removed in 194, and differed in 48, for example "Coleccionista de publicidad impresa en apuros" against the title "Coleccionista de publicidad".
 3. **Closing sentence.** A paragraph starting with "Aquí termina la misión" (also "¡Y aquí se termina la misión…") loses that first sentence only. A sentence ends at `.`, `!`, `?` or `…`. The rest of the paragraph stays in the body; a paragraph with nothing else disappears.
 4. **Start line.** The first paragraph starting with "Habla con X [x,y]" or "La misión empieza hablando con X [x,y]" fills `summary.startNpc` (without a leading el/la/los/las), `startX` and `startY`. "Habla con" counts only when its sentence says "para empezar", because the phrase appears in the middle of many guides. When the sentence says nothing more than that ("…para empezar la misión."), only that sentence leaves the body and the rest of the paragraph stays. When it carries more (when or where to go), the whole paragraph stays in the body. The trimming walks text nodes, so bold and links in the rest of the paragraph survive.
@@ -129,12 +129,13 @@ The Squarespace inventory in `out/` (outside the repo, described in `docs/legacy
 
 `loadQuestGuides(payload, guides, { fetchImage, log })` saves converted guides. It is a trusted server job, so every local API call passes `overrideAccess: true`. The image download is injected (`fetchImage`), which lets the integration test run without network.
 
-- **Quests.** It looks up every DofusDB ID of the batch in `quests` once and links the matching Payload IDs. An ID missing from `quests` becomes the oddity "Misión de DofusDB … sin importar en quests", so run `pnpm data:quests` first. See [DofusDB game data refresh](dofusdb-refresh.md).
+- **Quests.** It looks up every DofusDB ID of the batch in `quests` once, at `depth: 1` so item and prerequisite names come populated for the summary fill, and links the matching Payload IDs. An ID missing from `quests` becomes the oddity "Misión de DofusDB … sin importar en quests", so run `pnpm data:quests` first. See [DofusDB game data refresh](dofusdb-refresh.md).
 - **Images.** Each image block becomes a `media` record keyed by its original URL. The loader first checks a per-run map, then searches `media` by `originalUrl`, and downloads and creates the record only when neither has it. A re-run or a second guide using the same image reuses the record. New records get the block's alt text and the `originalUrl`. An image that fails to download is dropped from the body and noted ("Imagen sin importar: …"); the guide still loads.
 - **Body.** Rich text and callouts go through `createHtmlToLexical`; videos keep their URL.
 - **Guides.** It finds the guide by `slug` (drafts included) and writes `title`, `slug`, `originalUrl`, `summary`, `quests` and `body` with `_status: 'draft'`. It never publishes: a published guide gets a new draft and stays published as it was until Torre publishes the draft.
-- **Summary.** It sends the whole `summary` group every time: `prerequisites`, `needs`, `rewards`, `startNpc`, `startX` and `startY`, with `null` for whatever the conversion did not bring. Payload keeps group fields that an update leaves out, so without this a value removed from the Squarespace page would stay stored, and every run would see a difference and save another version. A re-import clears the stale value once and then finds the guide unchanged.
-- **Unchanged guides.** Before writing, it compares those six fields with the stored draft, ignoring IDs (block IDs and the random link IDs Lexical adds) and empty values Payload returns as `null`. An equal guide is left alone, so a re-run adds no empty versions.
+- **Summary.** It sends the whole `summary` group every time: `prerequisites`, `rewards`, `startNpc`, `startX`, `startY` and `needs` (`notes` plus an empty `items` list), with `null` for whatever the conversion did not bring. Payload keeps group fields that an update leaves out, so without this a value removed from the Squarespace page would stay stored, and every run would see a difference and save another version.
+- **DofusDB fill before comparing.** The collection's `beforeValidate` hook fills every empty summary field from the guide's first quest on save (see [Writing a quest guide](../cms/guide-authoring.md)), so the stored guide differs from the raw conversion. The loader therefore applies the same pure functions, `summaryToFill` and `applySummaryFill` from `src/lib/guides/summary.ts`, with the first linked quest before comparing and writing. Converted and stored guides then compare equal and a rerun saves no version. A value removed from Squarespace is replaced by DofusDB's value once, or cleared when DofusDB gives none, and the next run finds the guide unchanged. Torre's Squarespace text always wins over DofusDB, because only empty fields are filled. The hook also fills an empty `seo` group from the quest; the loader neither sends nor compares `seo`.
+- **Unchanged guides.** Before writing, it compares the six written fields (`title`, `slug`, `originalUrl`, `summary`, `quests`, `body`) with the stored draft, ignoring IDs (block IDs and the random link IDs Lexical adds) and empty values Payload returns as `null`. An equal guide is left alone, so a re-run adds no empty versions.
 - **Invalid slug.** A guide whose slug fails `validateSlug` is skipped and counted.
 
 It returns counts (`guides`: created, updated, unchanged, skipped; `media`: created, reused) and the oddities per slug, conversion and load together.
@@ -182,12 +183,13 @@ The unit tests run on trimmed copies of those five pages in `tests/fixtures/squa
 - `import-quest-matches.test.ts`: IDs per slug, quoted commas, ambiguous rows, a header with a BOM, a missing column.
 - `import-fetch-image.test.ts`: downloads from the CDN with name and type and without following redirects; refuses `http`, other hosts, an internal IP, `localhost` and a look-alike subdomain without making the request; refuses a non-image response and an HTTP error.
 
-The integration test `tests/integration/import-quest-guides.test.ts` loads the five fixture pages into the integration database with a fake `fetchImage` that returns a 1×1 PNG. It checks drafts with all four block types, the existing quest linked, one `media` record per image with its URL and alt, the oddities (including quests missing from `quests`), a second run that changes, downloads and versions nothing, one new draft for a changed guide, a summary field that disappears being cleared without extra versions on the next run, no drafts visible to anonymous readers, and an invalid slug skipped. It removes its guides, media and quests before and after.
+The integration test `tests/integration/import-quest-guides.test.ts` loads the five fixture pages into the integration database with a fake `fetchImage` that returns a 1×1 PNG. It checks drafts with all four block types, the existing quest linked, one `media` record per image with its URL and alt, the oddities (including quests missing from `quests`), a second run that changes, downloads and versions nothing, one new draft for a changed guide, the `needs` notes saved from the page, a summary field that disappears being filled from the linked quest's start position and needs without extra versions on the next run, no drafts visible to anonymous readers, and an invalid slug skipped. It removes its guides, media and quests before and after.
 
 See [Test suites](../testing/test-suites.md).
 
 ## Related pages
 
+- [Writing a quest guide](../cms/guide-authoring.md)
 - [Collections and access](../cms/collections.md)
 - [Guide body blocks](../cms/blocks.md)
 - [Media storage](../media/storage.md)

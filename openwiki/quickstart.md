@@ -20,10 +20,12 @@ sources:
     resource: repo://scripts/refresh-quests.ts
   - id: openwiki-source-7a2723ea85824e431ff5eb54
     resource: repo://src/collections/QuestGuides.ts
-generated: { by: "claude-code", at: "2026-11-04T19:48:22.282Z" }
+  - id: openwiki-source-2f2b90aba3af4142e443ba84
+    resource: repo://src/lib/guides/strings.ts
+generated: { by: "claude-code", at: "2026-11-04T20:02:15.357Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T19:48:22.282Z
+    at: 2026-11-04T20:02:15.357Z
 ---
 
 # Quickstart
@@ -56,6 +58,7 @@ Node 24 (≥ 24.22.1) and pnpm 11. No Docker. Details in [Local development](wor
 | Know what an environment variable does, or add one | [Environment configuration](architecture/configuration.md) |
 | Change Payload settings, add an endpoint or admin component | [Payload CMS configuration](cms/payload-config.md) |
 | Add or change a collection, or its access rules | [Collections and access](cms/collections.md) |
+| Write a quest guide in the panel, or change what its DofusDB quest fills in (title, slug, SEO, summary, the "Necesitarás" list) and the notes under each field | [Writing a quest guide](cms/guide-authoring.md) |
 | Add or change a block in a guide body (rich text, image, video, callout) | [Guide body blocks](cms/blocks.md) |
 | Change the schema, connect to Neon, reset local data | [Database and migrations](data/database.md) |
 | Load or refresh DofusDB quests, the monsters they name and the whole item catalog, change how quest rewards and needs are computed, or change how DofusDB requests are retried (`pnpm data:quests`) | [DofusDB game data refresh](data/dofusdb-refresh.md) |

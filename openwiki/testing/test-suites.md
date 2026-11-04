@@ -32,10 +32,14 @@ sources:
     resource: repo://tests/integration/import-quest-guides.test.ts
   - id: openwiki-source-a6cdaab0cfeb9dcfe8511d62
     resource: repo://tests/integration/migrations.test.ts
+  - id: openwiki-source-5753af90697570a0ebcd954f
+    resource: repo://tests/integration/needs-list-migration.test.ts
   - id: openwiki-source-dbcd0524c9464e05f7f54ade
     resource: repo://tests/integration/payload.ts
   - id: openwiki-source-7b27bf36255a812248aa50e8
     resource: repo://tests/integration/quest-guides-access.test.ts
+  - id: openwiki-source-cd6b88c691322659e364fdbf
+    resource: repo://tests/integration/quest-guides-autofill.test.ts
   - id: openwiki-source-cbffdb2343060c99a7477cfa
     resource: repo://tests/integration/refresh-quests.test.ts
   - id: openwiki-source-3fc2c02c456e1e51768c4446
@@ -54,6 +58,10 @@ sources:
     resource: repo://tests/unit/dofusdb-write-concurrency.test.ts
   - id: openwiki-source-cd37c5a886e3aa1e214dad74
     resource: repo://tests/unit/game-data-collections.test.ts
+  - id: openwiki-source-bb0747d86ef5cecbc4d85241
+    resource: repo://tests/unit/guide-autofill.test.ts
+  - id: openwiki-source-85e63acb1252624b63be77af
+    resource: repo://tests/unit/guide-summary.test.ts
   - id: openwiki-source-bf890cc4722b5033a81aa698
     resource: repo://tests/unit/import-fetch-image.test.ts
   - id: openwiki-source-d5617545465b10f7c4424728
@@ -76,10 +84,10 @@ sources:
     resource: repo://vitest.config.mts
   - id: openwiki-source-57da85ca1bb457973a5594ff
     resource: repo://vitest.integration.config.mts
-generated: { by: "claude-code", at: "2026-11-04T19:48:22.282Z" }
+generated: { by: "claude-code", at: "2026-11-04T20:02:15.357Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T19:48:22.282Z
+    at: 2026-11-04T20:02:15.357Z
 ---
 
 # Test suites
@@ -100,10 +108,10 @@ The repo works test-first (AGENTS.md: strict TDD). There are five suites. All of
 
 - configuration: `database-url`, `media-storage`, `sentry-options`, `railway-config` (evaluates `.railway/railway.ts` for each environment), `next-config`, `test-database-env`;
 - behavior: `health` (fake pool and timers), `dev-gate`, `robots`, `theme`, `mode-script`, `mode-toggle-strings`, `media-collection`, `quests-collection` (including the `rewards` and `needs` groups), `game-data-collections` (the `items` and `monsters` fields, including the optional `superTypeId` on items, and the shared read-only `gameDataAccess`);
-- quest guides: `quest-guides-collection` (fields, versions, `validateSlug` and the access functions) and `quest-guide-blocks` (each body block's fields and `validateVideoUrl`);
-- DofusDB refresh: `dofusdb-client` (paging, `$select[]` fields, ID chunks, pauses and errors through an injected fake `fetch`, never the network; retries of network errors and 429, 502, 503 and 504 with doubling waits, jitter, `Retry-After` and one log line each, giving up after 5 attempts with the URL in the error, and no retry on 400 or 404, through injected `sleep`, `log` and `random`), `dofusdb-map-quest` (names, start positions, rewards and needs from the steps, and the prerequisite rule), `dofusdb-quest-rewards` (the level-200 XP and kamas formula against Torre's and dofusdb.fr's figures, per-step flooring, the last reward entry, items and IDs), `dofusdb-quest-needs` (which objectives count, the larger-quantity rule between `need.items` and deliveries, `walksMaps`) `dofusdb-fetch-quest-data` (only the NPCs and maps named in start positions and the monsters named in needs are looked up by ID; the whole item catalog comes from `fetchAll` with the stored fields as its select list) and `dofusdb-write-concurrency` (`DOFUSDB_WRITE_CONCURRENCY`: empty gives the default, which stays below pg's pool of 10, a positive integer is read, and `0`, `-2`, `1.5` and `ocho` throw);
+- quest guides: `quest-guides-collection` (fields in order, with `quests` first and in the main area, the needs group and the note components, versions, the `fillFromQuest` hook, `validateGuideTitle`, `validateGuideSlug`, `validateSlug` and the access functions), `quest-guide-blocks` (each body block's fields and `validateVideoUrl`), `guide-summary` (Torre's summary format checked against the parsed Squarespace pages of quests 1977, 1976 and 1433, the needed items without quest items, the fill rules and every note state) and `guide-autofill` (slugs, slug suffixes, the SEO templates and the 160-character cut, never touching written fields). See [Writing a quest guide](../cms/guide-authoring.md#tests);
+- DofusDB refresh: `dofusdb-client` (paging, `$select[]` fields, ID chunks, pauses and errors through an injected fake `fetch`, never the network; retries of network errors and 429, 502, 503 and 504 with doubling waits, jitter, `Retry-After` and one log line each, giving up after 5 attempts with the URL in the error, and no retry on 400 or 404, through injected `sleep`, `log` and `random`), `dofusdb-map-quest` (names, start positions, rewards and needs from the steps, and the prerequisite rule), `dofusdb-quest-rewards` (the level-200 XP and kamas formula against Torre's and dofusdb.fr's figures, per-step flooring, the last reward entry, items and IDs), `dofusdb-quest-needs` (which objectives count, the larger-quantity rule between `need.items` and deliveries, `walksMaps`), `dofusdb-fetch-quest-data` (only the NPCs and maps named in start positions and the monsters named in needs are looked up by ID; the whole item catalog comes from `fetchAll` with the stored fields as its select list) and `dofusdb-write-concurrency` (`DOFUSDB_WRITE_CONCURRENCY`: empty gives the default, which stays below pg's pool of 10, a positive integer is read, and `0`, `-2`, `1.5` and `ocho` throw);
 - shared helpers: `concurrency` (`mapWithConcurrency` keeps input order, never runs more than `limit` tasks, runs them one by one with `limit` 1, rejects with the first error once running tasks settle without starting more, handles an empty list, and rejects a `limit` below 1 or not an integer);
-- Squarespace import: `import-parse-page` (title, desktop grid order, text, image and unknown blocks), `import-to-quest-guide` (summary, start NPC, what leaves the body, callouts, oddities), `import-rich-text` (HTML to Lexical through Payload's editor), `import-quest-matches` (the slug to DofusDB IDs CSV) and `import-fetch-image` (image downloads only over `https` from Squarespace's CDN, without redirects and only for `image/*` responses, through an injected fake `fetch`). See [Squarespace import](../data/squarespace-import.md);
+- Squarespace import: `import-parse-page` (title, desktop grid order, text, image and unknown blocks), `import-to-quest-guide` (summary with the "Necesitarás" text as `needs.notes`, start NPC, what leaves the body, callouts, oddities), `import-rich-text` (HTML to Lexical through Payload's editor), `import-quest-matches` (the slug to DofusDB IDs CSV) and `import-fetch-image` (image downloads only over `https` from Squarespace's CDN, without redirects and only for `image/*` responses, through an injected fake `fetch`). See [Squarespace import](../data/squarespace-import.md);
 - tooling: `commit-msg` (runs the git hook script).
 
 ## Integration
@@ -115,11 +123,13 @@ Real Payload (`getPayload`) against a real Postgres with the committed migration
 - `tests/integration/global-setup.ts`: with no `DATABASE_URL`, it starts `pnpm db:dev` if port 54329 is closed (and stops it afterwards, or on setup failure), recreates `ta_web_integration`, then runs `pnpm migrate`. With `DATABASE_URL` (CI's empty Postgres service) it only migrates.
 - Helpers in `tests/integration/payload.ts`: `startPayload`, `tinyPng` (a 1×1 PNG in memory) and `createPanelUser` (creates and logs in a panel user, returning what Payload puts in `req.user`).
 - Access tests call the local API with `overrideAccess: false`; omitting `user` makes the call anonymous. See [Collections and access](../cms/collections.md).
-- `quest-guides-access.test.ts` goes further than the other access tests: besides who may read and write, it checks that anonymous reads hide drafts, that a panel user can publish a draft and get a version, and that a guide with all four [body blocks](../cms/blocks.md), linked quests and an image saves and reads back. When it finishes it deletes every guide, quest and media document in the integration database.
+- `quest-guides-access.test.ts` goes further than the other access tests: besides who may read and write, it checks that anonymous reads hide drafts, that a panel user can publish a draft and get a version, and that a guide with all four [body blocks](../cms/blocks.md), linked quests, a summary with needs notes and an image saves and reads back. When it finishes it deletes every guide, quest and media document in the integration database.
+- `quest-guides-autofill.test.ts` saves guides as a panel user with only a quest linked and checks the fill on save: title, slug, SEO and the summary from DofusDB (quest items left out of the needs list, notes empty), a `-2` slug on collision, written fields and needs lists kept, a guide without title and quest rejected with the Spanish message, an imported guide keeping its slug on edit, and a summary field emptied on update filled again. It deletes every guide, quest and item afterwards. See [Writing a quest guide](../cms/guide-authoring.md#tests).
 - `game-data-access.test.ts` checks `items` and `monsters` at runtime: an anonymous request can `find` and `findByID`, and a panel user gets `Forbidden` on create, update and delete with the data unchanged.
 - `refresh-quests.test.ts` runs `refreshQuests` three times against the integration database: the first run creates the fixture quests and skips missing prerequisites, a second run with the same data changes nothing and keeps `refreshedAt`, and a third run updates only what changed and links a prerequisite that now exists. A second block does the same for rewards and needs: it creates the fixture items and monsters and links rewards and needs by Payload ID, a rerun changes nothing, and a third run updates only the renamed item and the changed quest and skips an item DofusDB did not return. A third block runs the refresh over both fixtures with 1 write at a time and then, after deleting the rows, with 8, and expects the same counts and the same stored data, with relationships compared by DofusDB ID. A fourth block feeds the whole fixture catalog, including items no quest names, and checks that every item is created with its `superTypeId` and that a second run writes no item and keeps `refreshedAt`. It deletes its fixture quests, items and monsters before and after. See [DofusDB game data refresh](../data/dofusdb-refresh.md).
-- `import-quest-guides.test.ts` runs the Squarespace loader on the five fixture pages with a fake `fetchImage` that returns a 1×1 PNG. It checks drafts with all four block types and the existing quest linked, one `media` record per image with its URL and alt, the oddities, a second run that changes, downloads and versions nothing, one new draft for a changed guide, a summary field that disappears being cleared without extra versions on the next run, no drafts visible to anonymous readers and an invalid slug skipped. It cleans up its guides, media and quests before and after. See [Squarespace import](../data/squarespace-import.md#loading-into-payload).
+- `import-quest-guides.test.ts` runs the Squarespace loader on the five fixture pages with a fake `fetchImage` that returns a 1×1 PNG. It checks drafts with all four block types and the existing quest linked, one `media` record per image with its URL and alt, the oddities, a second run that changes, downloads and versions nothing, one new draft for a changed guide, the "Necesitarás" text saved as `needs.notes`, a summary field that disappears being filled from the linked quest (its start position and needed item) without extra versions on the next run, no drafts visible to anonymous readers and an invalid slug skipped. It cleans up its guides, media, quests and item before and after. See [Squarespace import](../data/squarespace-import.md#loading-into-payload).
 - `migrations.test.ts` checks that the latest migration rolls back and re-applies: it runs the Payload CLI (`pnpm payload migrate:down`, then `pnpm payload migrate`) with `integrationEnv` and `DATABASE_CONNECTION=direct`, leaving the database as it was. It starts the CLI twice, so it has its own 120 s timeout instead of the suite's 30 s. See [Database and migrations](../data/database.md#migrations).
+- `needs-list-migration.test.ts` calls the `20261104_195910_needs_list` migration's `down` and `up` directly on a guide with notes, writes text into the old columns of the guide and its version in between, and checks that after `up` both read it as `summary.needs.notes` with an empty item list. `up` runs in a `finally` so the database never stays on the old schema.
 
 ## E2E
 
@@ -169,4 +179,5 @@ Specs:
 - [DofusDB game data refresh](../data/dofusdb-refresh.md)
 - [Collections and access](../cms/collections.md)
 - [Guide body blocks](../cms/blocks.md)
+- [Writing a quest guide](../cms/guide-authoring.md)
 - [Squarespace import](../data/squarespace-import.md)

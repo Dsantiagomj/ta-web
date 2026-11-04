@@ -22,6 +22,8 @@ sources:
     resource: repo://src/collections/Media.ts
   - id: openwiki-source-7c84c63987b05696c25fe759
     resource: repo://src/collections/Monsters.ts
+  - id: openwiki-source-f6a77b87c2cce3530ab6695f
+    resource: repo://src/collections/quest-guide-autofill.ts
   - id: openwiki-source-7a2723ea85824e431ff5eb54
     resource: repo://src/collections/QuestGuides.ts
   - id: openwiki-source-633cb155d38055ddc4af30fc
@@ -34,6 +36,12 @@ sources:
     resource: repo://src/lib/dofusdb/map-items-monsters.ts
   - id: openwiki-source-4ce5bfd40fc86e2e8680d71f
     resource: repo://src/lib/dofusdb/refresh-quests.ts
+  - id: openwiki-source-4b87b2bd0648fe28c52dc5e5
+    resource: repo://src/lib/guides/autofill.ts
+  - id: openwiki-source-2f2b90aba3af4142e443ba84
+    resource: repo://src/lib/guides/strings.ts
+  - id: openwiki-source-89155127340f422ef94e950a
+    resource: repo://src/lib/guides/summary.ts
   - id: openwiki-source-47a80445306e82d0ef444872
     resource: repo://src/lib/media/storage.ts
   - id: openwiki-source-4b2f49d061cc7bd95a39ce1a
@@ -54,6 +62,8 @@ sources:
     resource: repo://tests/integration/media-access.test.ts
   - id: openwiki-source-7b27bf36255a812248aa50e8
     resource: repo://tests/integration/quest-guides-access.test.ts
+  - id: openwiki-source-cd6b88c691322659e364fdbf
+    resource: repo://tests/integration/quest-guides-autofill.test.ts
   - id: openwiki-source-ec89382e83abd458e1b56d69
     resource: repo://tests/integration/quests-access.test.ts
   - id: openwiki-source-ac8a504ed8af703f20417d32
@@ -66,10 +76,10 @@ sources:
     resource: repo://tests/unit/quest-guides-collection.test.ts
   - id: openwiki-source-6678095e74d244708e64ddd4
     resource: repo://tests/unit/quests-collection.test.ts
-generated: { by: "claude-code", at: "2026-11-04T19:48:22.282Z" }
+generated: { by: "claude-code", at: "2026-11-04T20:02:15.357Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T19:48:22.282Z
+    at: 2026-11-04T20:02:15.357Z
 ---
 
 # Collections and access
@@ -156,8 +166,8 @@ The only writer is the DofusDB refresh, `pnpm data:quests` (`scripts/refresh-que
 | `dofusId` | yes | yes | Required, unique and indexed number |
 | `name` | yes | yes | Required, localized; the refresh falls back to French, then to `Objeto <id>` or `Monstruo <id>` |
 | `level` | yes | no | Optional number |
-| `typeId` | yes | no | Optional DofusDB item type ID. Quest items have their own types (in the fixtures, 129, 133 and 155), so a guide can filter them out of a needs list |
-| `superTypeId` | yes | no | Optional DofusDB item supertype ID, read from the `type` object DofusDB attaches to each item. Supertype 14 is quest items, the whole family those types belong to |
+| `typeId` | yes | no | Optional DofusDB item type ID. Quest items have their own types (in the fixtures, 129, 133 and 155) |
+| `superTypeId` | yes | no | Optional DofusDB item supertype ID, read from the `type` object DofusDB attaches to each item. Supertype 14 is quest items, the whole family those types belong to; the guide fill leaves them out of a guide's needs list |
 | `iconId` | yes | yes | Optional number. For items it is DofusDB's `iconId`; for monsters, DofusDB's `gfxId` |
 | `refreshedAt` | yes | yes | Optional date, set by the refresh |
 
@@ -169,21 +179,40 @@ Only the icon's ID is stored, never the image. Nothing is loaded from DofusDB or
 
 `src/collections/QuestGuides.ts` defines `quest-guides`, Torre's quest guides. It is the first editorial collection: people write it in the panel, unlike `quests`, which only the refresh writes. In the panel it sits under the "Guías" group, uses `title` as the title and shows `title`, `slug`, `_status` and `updatedAt` as default columns.
 
+Fields, in the order the panel shows them:
+
 | Field | Type | Notes |
 |---|---|---|
-| `title` | text | Required, localized |
-| `slug` | text | Required, unique and indexed, not localized (the URL is the same in every language); validated by `validateSlug`; in the sidebar |
-| `quests` | relationship to `quests`, `hasMany` | Optional; the DofusDB quests the guide covers; in the sidebar |
-| `summary` | group | `prerequisites`, `needs`, `rewards` (localized textareas), `startNpc` (localized text), `startX`, `startY` (numbers) |
+| `quests` | relationship to `quests`, `hasMany` | Optional; the DofusDB quests the guide covers. First field, in the main area (not the sidebar), with the `QuestAutofill` component as its description |
+| `title` | text | Required, localized; validated by `validateGuideTitle` |
+| `slug` | text | Required, unique and indexed, not localized (the URL is the same in every language); validated by `validateGuideSlug`; in the sidebar |
+| `summary` | group | `prerequisites`, `rewards` (localized textareas), `needs` (group, below), `startNpc` (localized text), `startX`, `startY` (numbers) |
 | `body` | blocks | Rich text, image, video and callout blocks; see [Guide body blocks](blocks.md) |
 | `seo` | group | `metaTitle` (localized text) and `metaDescription` (localized textarea, at most 160 characters) |
 | `originalUrl` | text | The guide's Squarespace URL; validated by `validateOptionalUrl`, the same validator `media` uses; in the sidebar |
 
-The `summary` group overrides what DofusDB provides. It holds Torre's own prerequisites, needs, rewards and start point as text; the Squarespace import fills them. The linked `quests` now carry computed `rewards` and `needs`, but Torre's "Necesitarás" lines are editorial (fights to win, things to prepare) and mostly cannot be derived from DofusDB, so DofusDB's needs serve only as a suggestion next to the guide's own text. Linked `quests` stay the source for game data.
+### The summary and its needs list
+
+The `summary` group is the guide's own copy of the quest summary: prerequisites, what you need, rewards and start point. "Necesitarás" (`summary.needs`) is a group of two fields:
+
+| Field | Type | Notes |
+|---|---|---|
+| `needs.items` | array of `{ item, quantity }` | `item` is a required relationship to the searchable `items` catalog; `quantity` a required number, at least 1, default 1. Labelled "Objetos" |
+| `needs.notes` | textarea, localized | What the item list cannot hold, such as "1 x Combate (solo)". Never filled automatically |
+
+The item list is not localized: an item relationship is the same in every language. The textual summary fields are.
+
+Each fillable summary field (`prerequisites`, `rewards`, `startNpc`, `startX`, `startY`) and the `needs.items` array get a `SummaryNote` description component with the field name as `clientProps.summaryField`; the fillable text fields also get a placeholder. The note compares the field's value with what DofusDB gives, so Torre sees whether it came from DofusDB or was changed.
+
+### Filled from the linked quest
+
+The collection's `beforeValidate` hook is `fillFromQuest` (`src/collections/quest-guide-autofill.ts`). When the guide has at least one quest, it loads the first one at `depth: 1` and fills every **empty** field from it: `title` (the quest name), `slug` (the slugified name, with `-2`, `-3`… when another guide already uses it), `seo.metaTitle`, `seo.metaDescription`, and the summary fields, including an empty `needs.items` list. A field that already has a value is never overwritten, which is why guides imported from Squarespace keep their slug. On an update `data` may hold only the changed fields, so the hook reads the rest from the saved document; a field the editor empties is filled again on save. The panel does the same fill live in the form when Torre picks a quest. The rules, formats and notes are in [Writing a quest guide](guide-authoring.md).
+
+The title and slug validators follow from that. `validateGuideTitle` accepts an empty title when the guide has a quest, and `validateGuideSlug` accepts an empty slug in the same case and otherwise defers to `validateSlug`. With neither a title nor a quest, the title validator returns the Spanish message "Escribe un título o elige una misión de DofusDB para sacarlo de ella." Payload skips field validation when saving a draft, so the hook also throws a `ValidationError` with that message on the `title` path when the title is still empty after the fill; a draft without title and quest is rejected too.
 
 ### Filled by the Squarespace import
 
-`pnpm import:guides` writes `title`, `slug`, `originalUrl`, `summary`, `quests` and `body` through the local API with `overrideAccess: true`, always as a draft: it finds an existing guide by `slug`, drafts included, and never publishes. It sends every `summary` field, `null` for any the page no longer has, so a value removed from Squarespace is cleared on the next import. A published guide gets a new draft and stays published as it was until someone publishes that draft in the panel. Each image becomes a `media` record with `alt` and `originalUrl` and no `variants`. `seo` is left for the panel. See [Squarespace import](../data/squarespace-import.md#loading-into-payload).
+`pnpm import:guides` writes `title`, `slug`, `originalUrl`, `summary`, `quests` and `body` through the local API with `overrideAccess: true`, always as a draft: it finds an existing guide by `slug`, drafts included, and never publishes. The Squarespace "Necesitarás" text goes to `summary.needs.notes`. It sends every `summary` field, `null` for any the page no longer has, and then fills the empty ones from the linked quest exactly as the hook would, so a value removed from Squarespace is replaced by DofusDB's value, or cleared when DofusDB gives none, and a rerun compares equal and saves no new version. A published guide gets a new draft and stays published as it was until someone publishes that draft in the panel. Each image becomes a `media` record with `alt` and `originalUrl` and no `variants`. `seo` is left to the hook. See [Squarespace import](../data/squarespace-import.md#loading-into-payload).
 
 `validateSlug` accepts only plain ASCII: lowercase letters and digits in runs joined by single hyphens, with no hyphen at either end (`aprendizaje-escudero`, `dofus-ocre-2`). Accents, `ñ`, capitals, spaces, doubled or edge hyphens and empty values return a Spanish error, so a guide's URL never needs percent-encoding.
 
@@ -200,13 +229,13 @@ The `summary` group overrides what DofusDB provides. It holds Torre's own prereq
 
 Payload sessions belong only to panel accounts (`users`); site members will use Better Auth, so a member never counts as a panel user here.
 
-`tests/unit/quest-guides-collection.test.ts` pins the slug, admin settings, versions, every field's shape, `validateSlug` and the access functions. `tests/integration/quest-guides-access.test.ts` checks them at runtime: an anonymous request lists and reads the published guide but gets `NotFound` for the draft, and gets `Forbidden` on create, update and delete with the data unchanged; a panel user reads both, creates a draft, publishes it and gets a version; and a guide with quests, summary, all four block types, SEO and `originalUrl` saves and reads back anonymously at `depth: 1`.
+`tests/unit/quest-guides-collection.test.ts` pins the slug, admin settings, versions, the hook, every field's shape (`quests` first and in the main area, the needs group, the note components), `validateGuideTitle`, `validateGuideSlug`, `validateSlug` and the access functions. `tests/integration/quest-guides-access.test.ts` checks access at runtime: an anonymous request lists and reads the published guide but gets `NotFound` for the draft, and gets `Forbidden` on create, update and delete with the data unchanged; a panel user reads both, creates a draft, publishes it and gets a version; and a guide with quests, summary, all four block types, SEO and `originalUrl` saves and reads back anonymously at `depth: 1`. `tests/integration/quest-guides-autofill.test.ts` checks the fill on save (see [Writing a quest guide](guide-authoring.md#tests)).
 
 No public route or live preview reads guides yet.
 
 ## Localization in the schema
 
-Spanish is the only locale. Translatable fields carry `localized: true` so adding a second language later becomes a translation job rather than a schema rewrite. In Postgres, localized fields live in a sibling `<collection>_locales` table keyed by `_locale`; the initial migration creates `media_locales` with `alt` and `credits`, and a `_locales` enum containing only `es`. The quests migration adds `quests_locales` (`name`) and `quests_start_positions_locales` (`npc_name`); the DofusDB items migration adds `items_locales` and `monsters_locales` (`name`). The quest guides migration adds `quest_guides_locales` (title, the localized summary fields and SEO) plus a `_locales` table for each block type.
+Spanish is the only locale. Translatable fields carry `localized: true` so adding a second language later becomes a translation job rather than a schema rewrite. In Postgres, localized fields live in a sibling `<collection>_locales` table keyed by `_locale`; the initial migration creates `media_locales` with `alt` and `credits`, and a `_locales` enum containing only `es`. The quests migration adds `quests_locales` (`name`) and `quests_start_positions_locales` (`npc_name`); the DofusDB items migration adds `items_locales` and `monsters_locales` (`name`). The quest guides migration adds `quest_guides_locales` (title, the localized summary fields and SEO) plus a `_locales` table for each block type; the needs list migration renames its `summary_needs` column to `summary_needs_notes`.
 
 ## Adding or changing a collection
 
@@ -218,7 +247,9 @@ See [Database and migrations](../data/database.md) and [Test suites](../testing/
 
 ## Related pages
 
+- [Writing a quest guide](guide-authoring.md)
 - [Guide body blocks](blocks.md)
+- [Squarespace import](../data/squarespace-import.md)
 - [DofusDB game data refresh](../data/dofusdb-refresh.md)
 - [Database and migrations](../data/database.md)
 - [Test suites](../testing/test-suites.md)

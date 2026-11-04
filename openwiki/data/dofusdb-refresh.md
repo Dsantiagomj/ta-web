@@ -22,10 +22,10 @@ sources:
     resource: repo://src/collections/Items.ts
   - id: openwiki-source-7c84c63987b05696c25fe759
     resource: repo://src/collections/Monsters.ts
+  - id: openwiki-source-f6a77b87c2cce3530ab6695f
+    resource: repo://src/collections/quest-guide-autofill.ts
   - id: openwiki-source-7a2723ea85824e431ff5eb54
     resource: repo://src/collections/QuestGuides.ts
-  - id: openwiki-source-633cb155d38055ddc4af30fc
-    resource: repo://src/collections/Quests.ts
   - id: openwiki-source-6fb0b5f4df5054d4e6c27dc0
     resource: repo://src/lib/concurrency.ts
   - id: openwiki-source-2ad419cae2f45e97a3ca23d7
@@ -44,6 +44,10 @@ sources:
     resource: repo://src/lib/dofusdb/quest-rewards.ts
   - id: openwiki-source-4ce5bfd40fc86e2e8680d71f
     resource: repo://src/lib/dofusdb/refresh-quests.ts
+  - id: openwiki-source-d5cdfb9f4d8e25639ff82c78
+    resource: repo://src/lib/guides/format.ts
+  - id: openwiki-source-89155127340f422ef94e950a
+    resource: repo://src/lib/guides/summary.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
     resource: repo://src/payload.config.ts
   - id: openwiki-source-f771f456156fbf6bde7862c2
@@ -64,10 +68,10 @@ sources:
     resource: repo://tests/unit/dofusdb-quest-rewards.test.ts
   - id: openwiki-source-e73350ef868f2379d51909ed
     resource: repo://tests/unit/dofusdb-write-concurrency.test.ts
-generated: { by: "claude-code", at: "2026-11-04T19:48:22.282Z" }
+generated: { by: "claude-code", at: "2026-11-04T20:02:15.357Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T19:48:22.282Z
+    at: 2026-11-04T20:15:10.008Z
 ---
 
 # DofusDB game data refresh
@@ -205,9 +209,11 @@ Monsters are summed by monster across all objectives and steps.
 
 **Items take the larger quantity, not the sum.** `need.items` (with `need.quantities` in the same order) is DofusDB's summary of the items a quest asks for, and it already includes the items you deliver. So `questNeeds` starts from `need.items` and, for each delivered item, keeps the larger of the two quantities instead of adding them. Quest 245 lists 2 × item 8993 in `need.items` and delivers 1 × 8993 in an objective: it needs 2, not 3. Deliveries of the same item in several objectives are summed among themselves first. A delivered item missing from `need.items` is appended.
 
-#### What needs mean for a guide
+#### What the refreshed data means for a guide
 
-Torre's "Necesitarás" lines in a guide are editorial: which fights to expect, what to prepare. Most of that cannot be derived from DofusDB. The stored `needs` are a suggestion next to the guide's own `summary.needs` text, not a replacement for it (see [Collections and access](../cms/collections.md#quest-guides-editorial-guides-with-drafts)). Quest items carry their own item types (`typeId` 129, 133 and 155 in the fixtures), all under supertype 14, so a guide can filter them out of a needs list by `superTypeId`. About 3,900 of the catalog's items are quest items.
+A quest guide copies its summary from the linked quest when the guide's fields are empty (see [Writing a quest guide](../cms/guide-authoring.md)). The prerequisites come from `prerequisites` and the `PL>` level in `startCriterion`, the rewards from `rewards`, the start point from the first `startPositions` entry, and the guide's "Necesitarás" item list from `needs.items`. Quest items are left out of that list: they carry their own item types (`typeId` 129, 133 and 155 in the fixtures), all under supertype 14, and the game hands them out during the quest, so the guide filters them by `superTypeId === 14`. About 3,900 of the catalog's items are quest items. Needed monsters and `walksMaps` do not fit an item list and are not copied.
+
+Torre's "Necesitarás" lines are partly editorial (which fights to expect, what to prepare), and that part goes to the guide's own `summary.needs.notes`, which the fill never touches. Because values are copied, a later refresh does not change existing guides; the note under each summary field shows when the guide and DofusDB differ.
 
 ### Writing: items and monsters first, then two passes over quests
 
@@ -281,6 +287,7 @@ The unit and integration tests share real DofusDB rows saved in `tests/fixtures/
 ## Related pages
 
 - [Collections and access](../cms/collections.md)
+- [Writing a quest guide](../cms/guide-authoring.md)
 - [Database and migrations](database.md)
 - [Test suites](../testing/test-suites.md)
 - [Local development](../workflows/local-development.md)
