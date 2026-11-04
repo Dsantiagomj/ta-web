@@ -5,12 +5,14 @@ description: What ta-web is, the stack it runs on, which parts exist in code tod
 tags: [overview, architecture, nextjs, payload, roadmap]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T00:16:52.047Z
+    at: 2026-11-04T00:32:19.388Z
 sources:
   - id: openwiki-source-d60a6f0f1e9b6eab797ff859
     resource: repo://.railway/railway.ts
   - id: openwiki-source-8037e2358a2c4f9b2c722a11
     resource: repo://AGENTS.md
+  - id: openwiki-source-46a5fe0601ecffbcc4ce1280
+    resource: repo://docs/legacy/README.md
   - id: openwiki-source-5b54a58d1b51cd490b0e7162
     resource: repo://package.json
   - id: openwiki-source-23775c3de52f3ab95a13cb8b
@@ -21,7 +23,7 @@ sources:
     resource: repo://src/app/(frontend)/strings.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
     resource: repo://src/payload.config.ts
-generated: { by: "claude-code", at: "2026-11-04T00:16:52.047Z" }
+generated: { by: "claude-code", at: "2026-11-04T00:32:19.388Z" }
 ---
 
 # Project overview
@@ -91,7 +93,9 @@ One build serves both environments. Everything that differs between dev and prod
 | `AGENTS.md` | The contract for anyone changing the repo: workflow, language, stack, layout, rules |
 | `DESIGN.md` | Visual language and tokens |
 | `README.md` | Development, scripts, deploys, hooks, CI |
-| `openwiki/` | This generated wiki |
+| `openwiki/` | This generated wiki, the only generated documentation. AGENTS.md requires refreshing it with the `openwiki` skill in `update` mode before every PR |
+| `docs/legacy/` | The hand-written plan, infrastructure and dependency-security docs this wiki replaced, kept for decisions and infrastructure state the code does not show |
+| `docs/research/` | Research notes, such as the visual study behind `DESIGN.md` |
 
 ## Related pages
 

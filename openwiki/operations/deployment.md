@@ -3,9 +3,6 @@ type: operations
 title: Deployment and releases
 description: How ta-web reaches Railway, from the infrastructure-as-code service definition through dev auto-deploys with a post-deploy smoke to the owner-only production release workflow.
 tags: [deployment, railway, release, github-actions, smoke-tests]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-04T00:16:52.047Z
 sources:
   - id: openwiki-source-e8a8d74e045abdf58230a543
     resource: repo://.github/workflows/deploy-dev-smoke.yml
@@ -18,6 +15,9 @@ sources:
   - id: openwiki-source-6d7290acd85912e8a5ebb6cc
     resource: repo://tests/unit/railway-config.test.ts
 generated: { by: "claude-code", at: "2026-11-04T00:16:52.047Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-04T00:32:19.388Z
 ---
 
 # Deployment and releases

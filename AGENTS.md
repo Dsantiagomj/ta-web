@@ -1,6 +1,6 @@
 # Agent contract for ta-web
 
-Rules for any agent that changes this repo. It is the new torrentearcano.com: Torre's Dofus quest guides, achievements, classes, Dofus guides and checklists, with member accounts, per-member progress and premium features. It replaces the Squarespace site and the embeds served from `silvestre-checklist`. The plan, decisions and phases are in `docs/plan.md`; visual rules are in `DESIGN.md`.
+Rules for any agent that changes this repo. It is the new torrentearcano.com: Torre's Dofus quest guides, achievements, classes, Dofus guides and checklists, with member accounts, per-member progress and premium features. It replaces the Squarespace site and the embeds served from `silvestre-checklist`. The plan, decisions and phases are in `docs/legacy/plan.md`; visual rules are in `DESIGN.md`.
 
 The app skeleton exists: Next.js with Payload, the design tokens, the test suites, the git hooks and CI. Most of the rest is **planned**. When a rule names a path or command that does not exist yet, create it that way. How to run it locally is in the Development section of `README.md`.
 
@@ -53,7 +53,9 @@ Every change: code, content model, migrations, data, docs, CI. Read this file be
 | `tests/unit/` | Vitest |
 | `tests/integration/` | Vitest against real Payload and Postgres (`vitest.integration.config.mts`) |
 | `tests/e2e/` | Playwright |
-| `docs/` | Plan, research, decisions |
+| `openwiki/` | Generated documentation (see Wiki) |
+| `docs/legacy/` | Hand-written docs superseded by `openwiki/`: plan, infrastructure, dependency security. Kept for decisions and infrastructure state the code does not show |
+| `docs/research/` | Research notes |
 | `tmp/` | Git-ignored scratch: mockups, screenshots, research captures |
 
 ## Language
@@ -103,7 +105,7 @@ Access control and entitlements are tested at the data layer, in `tests/integrat
 | Types, lint and format | `pnpm typecheck`, `pnpm lint`, `pnpm format:check` | the whole repo |
 | Import (planned) | `pnpm test:import` | golden pages of the Squarespace import (phase 1) |
 
-CI (`.github/workflows/ci.yml`) runs lint, types, unit, integration, build, E2E, the dev gate suite and the dependency audit (`docs/security.md`) on every PR and push to `main`; the `Pruebas` job requires all of them. Budgets and import join when they exist. The `Revisión GGA` job reviews the PR with `gga` and Codex; it is advisory and not part of `Pruebas`. The repo is private, so Actions minutes are limited: keep jobs cached and skip what a change cannot affect.
+CI (`.github/workflows/ci.yml`) runs lint, types, unit, integration, build, E2E, the dev gate suite and the dependency audit (`docs/legacy/security.md`) on every PR and push to `main`; the `Pruebas` job requires all of them. Budgets and import join when they exist. The `Revisión GGA` job reviews the PR with `gga` and Codex; it is advisory and not part of `Pruebas`. The repo is private, so Actions minutes are limited: keep jobs cached and skip what a change cannot affect.
 
 ## Deploys
 
@@ -178,7 +180,7 @@ Mockups first, the user picks, then implement. Details and screenshot rules are 
 
 ## Wiki
 
-`openwiki/` is the repo's generated documentation, built with the `openwiki` skill. It is the only generated documentation.
+`openwiki/` is the repo's generated documentation, built with the `openwiki` skill. It is the only generated documentation. The hand-written docs it replaced live in `docs/legacy/`, kept for decisions and infrastructure state the code does not show.
 
 - Before opening any PR, run the `openwiki` skill in `update` mode and commit the `openwiki/` changes it makes in that same PR. If it returns `noop`, there is nothing to commit.
 - No hook or workflow runs it. The OpenWiki block below mentions a scheduled workflow; this repo has none on purpose. If the skill creates `.github/workflows/openwiki-update.yml`, delete it and do not commit it.

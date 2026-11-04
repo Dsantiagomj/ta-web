@@ -11,7 +11,7 @@ allowBuilds:
   '@embedded-postgres/windows-x64': true
 
 # Parches de seguridad de dependencias transitivas sin arreglo en el paquete que las trae
-# (pnpm 11 ya no lee `pnpm.overrides` de package.json). Ver docs/security.md.
+# (pnpm 11 ya no lee `pnpm.overrides` de package.json). Ver docs/legacy/security.md.
 overrides:
   # monaco-editor (editor de código del panel) fija 3.4.15.
   dompurify: 3.4.17

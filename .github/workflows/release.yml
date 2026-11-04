@@ -1,6 +1,6 @@
 name: Release
 
-# Despliegue a producción (docs/infra.md, sección 4). Se lanza a mano desde main con una
+# Despliegue a producción (docs/legacy/infra.md, sección 4). Se lanza a mano desde main con una
 # versión semver: comprueba que Pruebas pasó en ese commit, crea la etiqueta vX.Y.Z y su
 # release, despliega la etiqueta en Railway con la aprobación del entorno production de
 # GitHub y pasa la suite smoke contra producción.

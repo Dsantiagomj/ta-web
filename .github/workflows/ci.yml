@@ -164,7 +164,7 @@ jobs:
           path: playwright-report/
           retention-days: 7
 
-  # Avisos de seguridad de las dependencias de producción (docs/security.md). Solo lee
+  # Avisos de seguridad de las dependencias de producción (docs/legacy/security.md). Solo lee
   # pnpm-lock.yaml, así que no instala nada. Un aviso crítico nuevo para todos los PR
   # hasta que se actualice o se acepte; uno alto solo avisa, para no bloquear PR ajenos.
   audit:
@@ -184,7 +184,7 @@ jobs:
       - name: Avisos altos en producción (solo aviso)
         run: |
           if ! pnpm audit --prod --audit-level high; then
-            echo "::warning title=Auditoría::pnpm audit --prod encuentra avisos altos. Revísalos (docs/security.md)."
+            echo "::warning title=Auditoría::pnpm audit --prod encuentra avisos altos. Revísalos (docs/legacy/security.md)."
           fi
 
   # Job agregador que exigirá la protección de main. La revisión GGA no entra todavía.

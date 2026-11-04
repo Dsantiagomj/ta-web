@@ -3,9 +3,6 @@ type: workflow
 title: CI and quality gates
 description: The checks every change passes, from local git hooks (format, lint, AI review, conventional commits) to the CI jobs, the Pruebas aggregator required on main, the dependency audit rule and the advisory GGA review.
 tags: [ci, github-actions, git-hooks, lefthook, security, code-review]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-04T00:29:31.647Z
 sources:
   - id: openwiki-source-1364a33be7315005959b4797
     resource: repo://.gga
@@ -15,6 +12,8 @@ sources:
     resource: repo://.github/workflows/ci.yml
   - id: openwiki-source-f235d856bed1fd44853c5195
     resource: repo://.prettierignore
+  - id: openwiki-source-c8e16e16c743abca9f070b43
+    resource: repo://docs/legacy/security.md
   - id: openwiki-source-72b816a72bb5f72d95b334ea
     resource: repo://lefthook.yml
   - id: openwiki-source-40275cb92c3610938f16ade3
@@ -25,7 +24,10 @@ sources:
     resource: repo://scripts/hooks/gga-review.sh
   - id: openwiki-source-d3495e3108db609ea7dcace0
     resource: repo://tests/unit/commit-msg.test.ts
-generated: { by: "claude-code", at: "2026-11-04T00:29:31.647Z" }
+generated: { by: "claude-code", at: "2026-11-04T00:32:19.388Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-04T00:32:19.388Z
 ---
 
 # CI and quality gates
@@ -91,7 +93,7 @@ The `audit` job reads `pnpm-lock.yaml` only; it does not install anything.
 - `pnpm audit --prod --audit-level high` only adds a warning annotation, so a fresh high advisory does not freeze the repo while it is assessed.
 - Dev-only advisories do not count; they never reach the server.
 
-Transitive security fixes are applied as `overrides` in `pnpm-workspace.yaml` (pnpm 11 ignores the `pnpm` field of `package.json`). Current overrides: `dompurify` (via the admin's Monaco editor), `happy-dom` (via `@lexical/headless`, which the import will use on untrusted HTML), `esbuild` scoped to `@esbuild-kit/core-utils`, and `minimatch@10` scoped to the 10.x line, because ESLint plugins still call minimatch 3 as a function and 11.x no longer allows that. A critical advisory accepted without a fix is listed under `auditConfig.ignoreGhsas` in `pnpm-workspace.yaml`; the reasoning for each accepted risk is recorded in `docs/security.md`.
+Transitive security fixes are applied as `overrides` in `pnpm-workspace.yaml` (pnpm 11 ignores the `pnpm` field of `package.json`). Current overrides: `dompurify` (via the admin's Monaco editor), `happy-dom` (via `@lexical/headless`, which the import will use on untrusted HTML), `esbuild` scoped to `@esbuild-kit/core-utils`, and `minimatch@10` scoped to the 10.x line, because ESLint plugins still call minimatch 3 as a function and 11.x no longer allows that. A critical advisory accepted without a fix is listed under `auditConfig.ignoreGhsas` in `pnpm-workspace.yaml`; the reasoning for each accepted risk is recorded in `docs/legacy/security.md`.
 
 ### Revisión GGA
 
