@@ -83,9 +83,10 @@ feature branch ──PR──▶ CI: lint, types, unit, integration,─┐
 | `APP_ENV` | unset | `dev` | unset | `.railway/railway.ts` |
 | `DEV_BASIC_AUTH_USER`, `DEV_BASIC_AUTH_PASSWORD` | unset | set (user `torre`) | unset | Railway |
 | `GIT_COMMIT_SHA` | unset | unset (Railway injects `RAILWAY_GIT_COMMIT_SHA`) | set by `release.yml` on each deploy | Railway |
+| `APP_VERSION` | unset (`package.json` version) | unset (`package.json` version) | set by `release.yml` to the release version | Railway |
 | `EMAIL_API_KEY` (planned) | unset | sandbox key | prod key | Railway |
 | `SENTRY_DSN` | unset | set | set | Railway |
-| `SENTRY_AUTH_TOKEN` (source maps at build time) | unset | set | staged, not applied yet | Railway (both builds run on Railway, so no GitHub secret) |
+| `SENTRY_AUTH_TOKEN` (source maps at build time) | unset | set | set | Railway (both builds run on Railway, so no GitHub secret) |
 | `RAILWAY_TOKEN` | n/a | n/a | project token `prod`, scoped to `production` | GitHub environment `production` (secret) |
 | `PROD_URL` | n/a | n/a | prod domain | GitHub environment `production` (variable) |
 | `SMOKE_BASIC_AUTH_USER`, `SMOKE_BASIC_AUTH_PASSWORD` | n/a | the dev credentials | n/a | GitHub repo secrets |
@@ -105,6 +106,7 @@ Every variable the app reads goes in `.env.example` in the same PR (AGENTS.md). 
 - Config comes from `.railway/railway.ts`, applied to both environments with `railway config plan` and `railway config apply` on 2026-11-03.
 - First dev deploy succeeded on 2026-11-03: the pre-deploy applied migration `20261103_030359_initial`, `/api/health` answered ok, and basic auth and `X-Robots-Tag` behaved as expected.
 - First prod deploy succeeded on 2026-11-03 with release `v0.1.0` (commit `172686b`): the pre-deploy applied `20261103_030359_initial` to Neon `main`, `/api/health` reported the commit, and the smoke suite passed. Prod serves without basic auth, and `robots.txt` allows everything except `/admin`.
+- Release `v0.1.1` (commit `004de36`) deployed on 2026-11-03 with `SENTRY_AUTH_TOKEN` applied: the build uploaded source maps to Sentry, `/api/health` reported version `0.1.1` and the commit, and the smoke suite passed.
 
 ### Neon
 
@@ -123,7 +125,7 @@ Every variable the app reads goes in `.env.example` in the same PR (AGENTS.md). 
 
 - Organization `dsmjdev` (US region), project `ta-web` with its default DSN, set as `SENTRY_DSN` on `web` in both Railway environments.
 - Only the server SDK runs (`@sentry/nextjs`, `src/instrumentation.ts`). It sends events only when `SENTRY_DSN` is set and the environment is `dev` or `production`; each event's release is the deployed commit.
-- `SENTRY_AUTH_TOKEN` is an organization token. It is set in dev. In production it is staged in Railway and takes effect once that change is deployed, so apply it before the next release.
+- `SENTRY_AUTH_TOKEN` is an organization token, set in both environments. Builds upload source maps with it, starting with release `v0.1.1` in production.
 
 ### GitHub
 
@@ -173,10 +175,11 @@ Checked against the real accounts on 2026-11-03:
 - `production` without a GitHub source did not auto-deploy.
 - Railway project tokens cannot be created from the CLI or the OAuth session (the API answers "Not Authorized"). Create them in the dashboard; Railway shows the value only once.
 - `railway up` from `release.yml` deploys to a `production` that has no GitHub source, and the release waits for the health check before the smoke runs (release `v0.1.0`).
-- A wrong `RAILWAY_TOKEN` fails the release at "Fijar el commit desplegado" ("Invalid RAILWAY_TOKEN"), before anything is deployed. After fixing the secret, re-running the failed release with the same version works; the tag and GitHub release from the first attempt are reused.
+- A wrong `RAILWAY_TOKEN` fails the release at "Fijar el commit y la versión desplegados" ("Invalid RAILWAY_TOKEN"), before anything is deployed. After fixing the secret, re-running the failed release with the same version works; the tag and GitHub release from the first attempt are reused.
 - Sentry members of the `dsmjdev` organization cannot create projects (the API answers 403, "Your organization has disabled this feature for members"). An owner or manager creates them, or enables project creation for members.
 - Sentry Uptime cannot monitor `*.railway.app`. Creating the monitor answered 400: "The domain \*.railway.app has already been used in 1000 uptime monitoring alerts, which is the limit." The cap is per domain across all Sentry customers. Uptime runs on Better Stack until the app has its own domain.
 - `preserve()` on a variable that does not exist yet (`SENTRY_AUTH_TOKEN`) plans no change and no error, so a secret can be declared before it is set.
+- A variable added in the Railway dashboard is only staged. It takes effect after Deploy on the environment's staged changes, which redeploys the current build (prod `SENTRY_AUTH_TOKEN`).
 - Dev waits for every GitHub check on the commit, not only `Pruebas`. A failed Dependabot security update (it could not lift `glob` past 13.x) made Railway skip the deploy of that commit, and a later redeploy of the same commit is skipped too. Dismissing the alert as an accepted risk stops the job; the next commit deploys.
 
 ## 10. Status and what is left
@@ -189,14 +192,13 @@ Checked against the real accounts on 2026-11-03:
 | Dev basic auth and `noindex` | Done |
 | Dev smoke workflow | Done |
 | Release workflow and first prod deploy | Done (`v0.1.0`, 2026-11-03) |
+| Release version in `/api/health` | Done (`APP_VERSION`, `v0.1.1`) |
 | Branch protection | Done (ruleset `Proteger main`) |
-| Sentry | Done for server errors. Auth token set in dev, staged in production |
+| Sentry | Done for server errors. Auth token set in both environments |
 | Uptime | Done (Better Stack, both domains) |
 
 What is left:
-1. Apply the staged `SENTRY_AUTH_TOKEN` in production, then release, so prod runs the Sentry SDK and uploads source maps.
-2. `/api/health` reports `version` from `package.json` (`0.0.0`), not the release tag. Bump it in the release, or report the tag, if the version should match.
-3. Resend.
-4. Domain transfer to Cloudflare, then `dev.torrentearcano.com`, the media domains and Cloudflare Access.
-5. Neon Launch plan, if `main` has to be protected or 6 hours of point-in-time history is too short.
-6. Optionally, `sslmode=verify-full` in the Neon URLs: `pg` warns that `require` changes meaning in `pg` v9.
+1. Resend, together with sign-in and member accounts.
+2. Domain transfer to Cloudflare, then `dev.torrentearcano.com`, the media domains and Cloudflare Access.
+3. Neon Launch plan, if `main` has to be protected or 6 hours of point-in-time history is too short.
+4. Optionally, `sslmode=verify-full` in the Neon URLs: `pg` warns that `require` changes meaning in `pg` v9.
