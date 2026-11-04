@@ -1,4 +1,4 @@
-import type { ArrayField, Field } from 'payload'
+import type { ArrayField, Field, GroupField } from 'payload'
 import { describe, expect, it } from 'vitest'
 
 import { Quests, questsAccess } from '@/collections/Quests'
@@ -59,6 +59,46 @@ describe('colección quests', () => {
     for (const name of ['mapId', 'x', 'y']) {
       expect(field(name, startPositions.fields)).toMatchObject({ type: 'number' })
     }
+  })
+})
+
+describe('recompensas y requisitos de quests', () => {
+  function group(name: string): GroupField {
+    const found = field(name)
+    expect(found.type).toBe('group')
+    return found as GroupField
+  }
+
+  function quantities(list: Field, relation: string, to: string) {
+    const array = list as ArrayField
+    expect(array.type).toBe('array')
+    expect(field(relation, array.fields)).toMatchObject({
+      type: 'relationship',
+      relationTo: to,
+      required: true,
+    })
+    expect(field('quantity', array.fields)).toMatchObject({ type: 'number', required: true })
+  }
+
+  it('guarda experiencia, kamas y objetos de recompensa', () => {
+    const rewards = group('rewards')
+    expect(field('experience', rewards.fields)).toMatchObject({ type: 'number' })
+    expect(field('kamas', rewards.fields)).toMatchObject({ type: 'number' })
+    quantities(field('items', rewards.fields), 'item', 'items')
+  })
+
+  it('guarda los IDs de DofusDB de emotes, hechizos, títulos y oficios como listas de números', () => {
+    const rewards = group('rewards')
+    for (const name of ['emoteIds', 'spellIds', 'titleIds', 'jobIds']) {
+      expect(field(name, rewards.fields)).toMatchObject({ type: 'number', hasMany: true })
+    }
+  })
+
+  it('guarda los objetos y monstruos que pide y si hay que caminar mapas', () => {
+    const needs = group('needs')
+    quantities(field('items', needs.fields), 'item', 'items')
+    quantities(field('monsters', needs.fields), 'monster', 'monsters')
+    expect(field('walksMaps', needs.fields)).toMatchObject({ type: 'checkbox' })
   })
 })
 

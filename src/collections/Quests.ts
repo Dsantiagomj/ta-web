@@ -1,12 +1,31 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, Field } from 'payload'
 
-// Datos públicos del juego: cualquiera los lee. Nadie los cambia por la API ni el panel;
-// el script de refresco escribe con la API local y overrideAccess: true.
-export const questsAccess = {
-  read: () => true,
-  create: () => false,
-  update: () => false,
-  delete: () => false,
+import { gameDataAccess } from './game-data-access'
+
+export const questsAccess = gameDataAccess
+
+/** Una lista de filas { <relación>, cantidad }, para objetos y monstruos. */
+function quantities(name: string, label: string, relation: 'item' | 'monster'): Field {
+  return {
+    name,
+    label,
+    type: 'array',
+    fields: [
+      {
+        name: relation,
+        label: relation === 'item' ? 'Objeto' : 'Monstruo',
+        type: 'relationship',
+        relationTo: relation === 'item' ? 'items' : 'monsters',
+        required: true,
+      },
+      { name: 'quantity', label: 'Cantidad', type: 'number', required: true },
+    ],
+  }
+}
+
+// Listas de IDs de DofusDB: un número con hasMany se valida y se tipa como number[].
+function dofusIds(name: string, label: string): Field {
+  return { name, label, type: 'number', hasMany: true }
 }
 
 // Misiones de DofusDB. Torre las elige desde las guías con campos de relación.
@@ -69,6 +88,41 @@ export const Quests: CollectionConfig = {
         { name: 'mapId', label: 'ID del mapa', type: 'number' },
         { name: 'x', label: 'X', type: 'number' },
         { name: 'y', label: 'Y', type: 'number' },
+      ],
+    },
+    {
+      name: 'rewards',
+      label: 'Recompensas',
+      type: 'group',
+      admin: {
+        description: 'Para un personaje de nivel 200, como en las guías de Torre y en dofusdb.fr.',
+      },
+      fields: [
+        { name: 'experience', label: 'Experiencia', type: 'number' },
+        { name: 'kamas', label: 'Kamas', type: 'number' },
+        quantities('items', 'Objetos', 'item'),
+        dofusIds('emoteIds', 'IDs de emotes'),
+        dofusIds('spellIds', 'IDs de hechizos'),
+        dofusIds('titleIds', 'IDs de títulos'),
+        dofusIds('jobIds', 'IDs de oficios'),
+      ],
+    },
+    {
+      name: 'needs',
+      label: 'Necesitarás',
+      type: 'group',
+      admin: {
+        description: 'Sacado de need.items y de los objetivos de las etapas en DofusDB.',
+      },
+      fields: [
+        quantities('items', 'Objetos', 'item'),
+        quantities('monsters', 'Monstruos', 'monster'),
+        {
+          name: 'walksMaps',
+          label: 'Caminar mapas',
+          type: 'checkbox',
+          admin: { description: 'Algún objetivo pide descubrir un mapa o una zona.' },
+        },
       ],
     },
     {
