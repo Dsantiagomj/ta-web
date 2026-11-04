@@ -73,8 +73,9 @@ function fold(text: string): string {
 function summaryLabel(text: string): { field: SummaryField; rest: string } | null {
   for (const [field, label] of Object.entries(SUMMARY_LABELS) as [SummaryField, string][]) {
     const folded = fold(label)
-    if (fold(text).startsWith(folded) && /^(\s|:|$)/.test(text.slice(label.length))) {
-      return { field, rest: text.slice(label.length).replace(/^\s*:?\s*/, '') }
+    // Con dos puntos: "Necesitarás hablar con…" es prosa, no la etiqueta del resumen.
+    if (fold(text).startsWith(folded) && /^\s*:/.test(text.slice(label.length))) {
+      return { field, rest: text.slice(label.length).replace(/^\s*:\s*/, '') }
     }
   }
   return null
