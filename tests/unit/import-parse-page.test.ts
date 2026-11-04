@@ -46,6 +46,12 @@ describe('lectura de una página de Squarespace', () => {
     expect(parsePage(fixture('operacion-envenenamiento')).title).toBe('Operación «envenenamiento»')
   })
 
+  it('un título con un escape que no es JSON no rompe la página: queda sin título', () => {
+    const html =
+      '<script>Static.SQUARESPACE_CONTEXT = {"collection":{"title":"Mal \\x escape"}};</script>'
+    expect(parsePage(html).title).toBeNull()
+  })
+
   it('sin contexto de Squarespace no hay título', () => {
     expect(parsePage(page([])).title).toBeNull()
   })

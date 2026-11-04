@@ -27,7 +27,12 @@ const CONTEXT_TITLE = /"collection":\{"title":"((?:[^"\\]|\\.)*)"/
 function pageTitle(html: string): string | null {
   const match = CONTEXT_TITLE.exec(html)
   if (!match) return null
-  return (JSON.parse(`"${match[1]}"`) as string).trim() || null
+  try {
+    return (JSON.parse(`"${match[1]}"`) as string).trim() || null
+  } catch {
+    // Un escape que no es JSON no debe tumbar la importación: la página queda sin título.
+    return null
+  }
 }
 
 // Fluid engine coloca cada bloque con `grid-area: fila/columna/…`. La regla dentro de

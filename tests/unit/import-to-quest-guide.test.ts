@@ -183,6 +183,17 @@ describe('conversión de una página en guía de misión', () => {
     expect(guide.summary?.startNpc ?? null).toBeNull()
   })
 
+  it('una frase que empieza por Necesitarás sin dos puntos es prosa, no resumen', () => {
+    const page = pageWith(
+      '<h2>PRUEBA</h2>',
+      '<p>Necesitarás: Caminar mapas.</p>',
+      '<p>Necesitarás hablar con Oto Mustam antes.</p>',
+    )
+    const { guide } = toQuestGuide(parsePage(page), { slug: 'prueba', questDofusIds: [1] })
+    expect(guide.summary?.needs).toBe('Caminar mapas.')
+    expect(richTexts(guide.body)).toEqual(['Necesitarás hablar con Oto Mustam antes.'])
+  })
+
   it('de un párrafo que empieza por la línea de inicio escueta quita solo esa frase', () => {
     const { guide } = guideFor('intoxicacion-profunda')
     expect(guide.summary).toMatchObject({ startNpc: 'Capitán Grog', startX: 22, startY: 22 })
