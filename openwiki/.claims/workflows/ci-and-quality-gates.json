@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:3e9c9cf23eb9946ed3c7bb83b9635f09d50454d4ea0e312397dfa97cd686f76b",
+  "pageVersion": "sha256:48232d22f4d2a03e40a1c2fa77b0662aed1b6c4a14681f5eddd879938b365ebb",
   "claims": [
     {
       "id": "claim_cb74801dca844af99590395d68fa512d",
@@ -24,11 +24,11 @@
     },
     {
       "id": "claim_0bb8ceb92f7a4ada9d202131e09404e3",
-      "statement": "gga reviews code, styles and Markdown against AGENTS.md with the Claude provider by default, excludes generated files, and treats ambiguous verdicts as failures.",
+      "statement": "gga reviews code, styles and Markdown against AGENTS.md with the Claude provider by default, excludes generated files and the third-party agent skills in .claude/skills/, and treats ambiguous verdicts as failures.",
       "evidence": [
         {
-          "resource": "repo://.gga#L1-L23",
-          "version": "repo-lines-v1:sha256:99266a7058c6321cfed3131d48cb83fe0ea3a07efbedbbcf614de0031d77e2da:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmMTFkNDFjMThiMmVhYTZiZjBkMmE1YmM0OGE1Y2I5ODhkZjM1OTc1MDdlZTFlNWQ0NzBmY2U2YTFlZWU5YzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4NjE5ZmFmZDFhNDA0M2FmY2MyZWQzMzNiYzZhNDVkZDFmNjc0YjFjODUwODdlZTViNTA3MzRiNDg4MzVkZDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://.gga#L1-L25",
+          "version": "repo-lines-v1:sha256:c57fc24bd45b6d7c8ed6a22eea5bddb1ac8711c7517c5478d46ce9e8b3eb37a5:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmMTFkNDFjMThiMmVhYTZiZjBkMmE1YmM0OGE1Y2I5ODhkZjM1OTc1MDdlZTFlNWQ0NzBmY2U2YTFlZWU5YzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4NjE5ZmFmZDFhNDA0M2FmY2MyZWQzMzNiYzZhNDVkZDFmNjc0YjFjODUwODdlZTViNTA3MzRiNDg4MzVkZDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -149,6 +149,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T00:32:19.388Z"
+    "at": "2026-11-04T05:03:17.453Z"
   }
 }
