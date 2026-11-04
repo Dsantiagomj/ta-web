@@ -112,6 +112,117 @@ describe('cliente de DofusDB', () => {
     })
   })
 
+  describe('reintentos', () => {
+    const page = { total: 1, data: rows(0, 1) }
+    const url = 'https://api.dofusdb.fr/quests?$limit=50&$skip=0'
+
+    /** Un fetch que sigue el guion: un error lanza, un número responde ese estado. */
+    function scriptedFetch(script: (Error | number | Response)[]) {
+      const calls: string[] = []
+      const fetch: FetchLike = async (requested) => {
+        calls.push(String(requested))
+        const step = script[calls.length - 1] ?? 200
+        if (step instanceof Error) throw step
+        if (step instanceof Response) return step
+        if (step === 200) return Response.json({ limit: 50, skip: 0, ...page })
+        return new Response('{}', { status: step, statusText: `Estado ${step}` })
+      }
+      return { fetch, calls }
+    }
+
+    function retryingClient(fetch: FetchLike) {
+      const sleeps: number[] = []
+      const logs: string[] = []
+      const client = createDofusDbClient({
+        fetch,
+        sleep: async (ms) => {
+          sleeps.push(ms)
+        },
+        log: (message) => logs.push(message),
+        random: () => 0,
+      })
+      return { client, sleeps, logs }
+    }
+
+    it('reintenta los fallos de red y los 502, 503 y 504 con esperas que se doblan', async () => {
+      const { fetch, calls } = scriptedFetch([
+        new TypeError('fetch failed', { cause: new Error('read ECONNRESET') }),
+        502,
+        503,
+        504,
+        200,
+      ])
+      const { client, sleeps, logs } = retryingClient(fetch)
+
+      expect(await client.fetchAll('quests')).toHaveLength(1)
+      expect(calls).toEqual([url, url, url, url, url])
+      expect(sleeps).toEqual([500, 1000, 2000, 4000])
+      expect(logs).toHaveLength(4)
+      expect(logs[0]).toContain('reintento 1 de 4')
+      expect(logs[0]).toContain(url)
+    })
+
+    it('añade a la espera un poco de azar', async () => {
+      const { fetch } = scriptedFetch([503, 200])
+      const sleeps: number[] = []
+      const client = createDofusDbClient({
+        fetch,
+        sleep: async (ms) => {
+          sleeps.push(ms)
+        },
+        random: () => 0.5,
+      })
+
+      await client.fetchAll('quests')
+
+      expect(sleeps[0]).toBeGreaterThan(500)
+      expect(sleeps[0]).toBeLessThan(750)
+    })
+
+    it('se rinde tras 4 reintentos con la URL y los intentos en el error', async () => {
+      const { fetch, calls } = scriptedFetch([503, 503, 503, 503, 503, 200])
+      const { client } = retryingClient(fetch)
+
+      await expect(client.fetchAll('quests')).rejects.toThrow(
+        `DofusDB respondió 503 Estado 503 en ${url} tras 5 intentos`,
+      )
+      expect(calls).toHaveLength(5)
+    })
+
+    it('se rinde también si la red sigue fallando', async () => {
+      const { fetch } = scriptedFetch(
+        Array.from({ length: 5 }, () => new TypeError('fetch failed')),
+      )
+      const { client } = retryingClient(fetch)
+
+      await expect(client.fetchAll('quests')).rejects.toThrow(
+        `DofusDB no respondió en ${url} tras 5 intentos: fetch failed`,
+      )
+    })
+
+    it('no reintenta un 404 ni otro 4xx que no sea 429', async () => {
+      for (const status of [400, 404]) {
+        const { fetch, calls } = scriptedFetch([status, 200])
+        const { client, sleeps } = retryingClient(fetch)
+
+        await expect(client.fetchAll('quests')).rejects.toThrow(`DofusDB respondió ${status}`)
+        expect(calls).toHaveLength(1)
+        expect(sleeps).toEqual([])
+      }
+    })
+
+    it('respeta el Retry-After de un 429', async () => {
+      const { fetch } = scriptedFetch([
+        new Response('{}', { status: 429, headers: { 'Retry-After': '7' } }),
+        200,
+      ])
+      const { client, sleeps } = retryingClient(fetch)
+
+      expect(await client.fetchAll('quests')).toHaveLength(1)
+      expect(sleeps).toEqual([7000])
+    })
+  })
+
   it('falla con un error claro si DofusDB no responde 2xx', async () => {
     const fetch: FetchLike = async () =>
       new Response('{"message":"Page not found"}', { status: 404, statusText: 'Not Found' })

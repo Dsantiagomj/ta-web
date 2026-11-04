@@ -23,7 +23,7 @@ const seconds = (from = started) => ((Date.now() - from) / 1000).toFixed(1)
 const payload = await getPayload({ config })
 try {
   console.log('Descargando misiones de DofusDB…')
-  const data = await fetchQuestData(createDofusDbClient())
+  const data = await fetchQuestData(createDofusDbClient({ log: (message) => console.log(message) }))
   console.log(
     `DofusDB: ${data.quests.length} misiones, ${data.npcs.length} PNJ, ${data.mapPositions.length} mapas, ` +
       `${data.items.length} objetos y ${data.monsters.length} monstruos (${seconds()} s)`,
