@@ -132,7 +132,7 @@ CI (`.github/workflows/ci.yml`) runs lint, types, unit, integration, build, E2E,
 | Paywalled pages emit Google's paywalled-content structured data | The plan requires it for search |
 | Premium themes (Amakna, Bonta, Brâkmar, Ocre) are an entitlement: the server renders a premium `data-theme` only when the member's entitlement allows it, and saving one is rejected otherwise. A theme value from the client, a cookie or `localStorage` is never trusted on its own. Arcano is the free default | Hiding a premium theme behind a client switch would hand it to everyone |
 | Premium view modes, such as "Modo compacto" on quest pages, are entitlements like any other: the server picks the layout, and the free view is the full guide | A client-side toggle would hand the feature to everyone |
-| Drafts, versions and live preview stay on for editorial collections | Torre edits in the panel (plan section 5) |
+| Drafts and versions stay on for editorial collections. Live preview turns on for a collection in the same PR as its public page, because it needs that page to render | Torre edits in the panel (plan section 5) |
 | Derived checklist data is computed in TypeScript at publish time (`src/lib/derive/`), from relationships, not from parsing text | It replaces the old Python pipeline |
 | Game data (quests, items, monsters from DofusDB) is read-only in the panel and refreshed by a script | Torre picks it through relationship fields |
 
