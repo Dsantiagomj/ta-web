@@ -28,10 +28,14 @@ sources:
     resource: repo://src/collections/Items.ts
   - id: openwiki-source-7c84c63987b05696c25fe759
     resource: repo://src/collections/Monsters.ts
+  - id: openwiki-source-f6a77b87c2cce3530ab6695f
+    resource: repo://src/collections/quest-guide-autofill.ts
   - id: openwiki-source-7a2723ea85824e431ff5eb54
     resource: repo://src/collections/QuestGuides.ts
   - id: openwiki-source-633cb155d38055ddc4af30fc
     resource: repo://src/collections/Quests.ts
+  - id: openwiki-source-96b94ee077b0d0a0987ef203
+    resource: repo://src/components/quest-guide-admin/QuestAutofill.tsx
   - id: openwiki-source-54227c78b7c2e57bc6f3d29b
     resource: repo://src/lib/dofusdb/fetch-quest-data.ts
   - id: openwiki-source-593d2c966d67e453d0429c23
@@ -42,10 +46,10 @@ sources:
     resource: repo://src/migrations/index.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
     resource: repo://src/payload.config.ts
-generated: { by: "claude-code", at: "2026-11-04T19:48:22.282Z" }
+generated: { by: "claude-code", at: "2026-11-04T20:02:15.357Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T19:48:22.282Z
+    at: 2026-11-04T20:02:15.357Z
 ---
 
 # Project overview
@@ -75,10 +79,10 @@ Runtime: Node 24 (`>=24.22.1 <25`) and pnpm 11, pinned in `package.json`.
 The repository is at "phase 0": the skeleton is done and most product features are not built yet.
 
 - **Public site**: a root layout with the brand header and dark/light mode switch, and a placeholder home page that points to the current site. See [Styles, tokens and site shell](frontend/styles-and-shell.md) and [Theme and mode](frontend/theme-and-mode.md).
-- **CMS**: Payload with six collections, `users` (panel accounts), `media`, `quests`, `items` and `monsters` (read-only DofusDB game data) and `quest-guides` (Torre's guides, with drafts and versions, readable by the public only once published), Spanish admin UI and a single `es` locale. Guide bodies are built from rich text, image, video and callout blocks. No public page renders guides yet. See [Payload CMS configuration](cms/payload-config.md), [Collections and access](cms/collections.md) and [Guide body blocks](cms/blocks.md).
-- **Data**: five committed migrations; schema push only under `next dev`. See [Database and migrations](data/database.md).
+- **CMS**: Payload with six collections, `users` (panel accounts), `media`, `quests`, `items` and `monsters` (read-only DofusDB game data) and `quest-guides` (Torre's guides, with drafts and versions, readable by the public only once published), Spanish admin UI and a single `es` locale. A guide starts from its DofusDB quest: picking it fills the empty title, slug, SEO fields and summary (prerequisites, the "Necesitarás" item list, rewards, start NPC and coordinates), live in the panel form and again on save, and never overwrites what is already written. Guide bodies are built from rich text, image, video and callout blocks. No public page renders guides yet. See [Writing a quest guide](cms/guide-authoring.md), [Payload CMS configuration](cms/payload-config.md), [Collections and access](cms/collections.md) and [Guide body blocks](cms/blocks.md).
+- **Data**: six committed migrations; schema push only under `next dev`. See [Database and migrations](data/database.md).
 - **Game data**: `pnpm data:quests` copies every quest from the public DofusDB API into `quests`, the monsters their needs name into `monsters` and the whole DofusDB item catalog into `items`, so a guide can point at any item, idempotently and without deleting anything. Each quest stores its rewards for a level-200 character (XP, kamas, items, emote, spell, title and job IDs) and its needs (items, monsters, whether you walk new maps). See [DofusDB game data refresh](data/dofusdb-refresh.md).
-- **Squarespace import**: `scripts/import/` turns a cached Squarespace page into a quest guide draft (summary, start NPC, body blocks) and lists what it could not convert. `pnpm import:guides` loads them into `quest-guides` as drafts, with each image stored once in `media` and the DofusDB quests already in `quests` linked; re-running it changes only what changed and never publishes. Five demo guides are covered by tests. See [Squarespace import](data/squarespace-import.md).
+- **Squarespace import**: `scripts/import/` turns a cached Squarespace page into a quest guide draft (summary, start NPC, body blocks) and lists what it could not convert. `pnpm import:guides` loads them into `quest-guides` as drafts, with each image stored once in `media` and the DofusDB quests already in `quests` linked; the summary gaps are filled from DofusDB as on save, so re-running it changes only what changed and never publishes. Five demo guides are covered by tests. See [Squarespace import](data/squarespace-import.md).
 - **Media**: R2 or disk, chosen by environment. See [Media storage](media/storage.md).
 - **Operations**: `GET /api/health`, a basic-auth gate for the dev environment, server-side Sentry, Railway infrastructure as code, and GitHub workflows for CI, dev smoke tests and production releases. See the operations pages.
 - **Quality**: unit, integration, E2E, dev-gate and smoke suites; lint, format, types and dependency audit in CI; git hooks for formatting, linting, AI review and commit messages.
@@ -129,4 +133,5 @@ One build serves both environments. Everything that differs between dev and prod
 - [Deployment and releases](operations/deployment.md)
 - [DofusDB game data refresh](data/dofusdb-refresh.md)
 - [Collections and access](cms/collections.md)
+- [Writing a quest guide](cms/guide-authoring.md)
 - [Guide body blocks](cms/blocks.md)

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:a8ddd1bb4c59776b5699de1f0786709510fbeab9d821d63ce7f8acd2abe2987c",
+  "pageVersion": "sha256:527b162f273bb5d37f56123e2792f656c9d16ff8126679005b2e69e5cd2ea422",
   "claims": [
     {
       "id": "claim_c4d0210fcc834f69a874cfcee7b4d598",
@@ -80,11 +80,11 @@
     },
     {
       "id": "claim_08141421a97143cc8073d709e4bf1805",
-      "statement": "There are five migrations today, 20261103_030359_initial, 20261104_070541_quests, 20261104_124207_quest_guides, 20261104_174941_dofusdb_items_rewards and 20261104_192809_dofusdb_item_supertype, registered in src/migrations/index.ts.",
+      "statement": "There are six migrations today, 20261103_030359_initial, 20261104_070541_quests, 20261104_124207_quest_guides, 20261104_174941_dofusdb_items_rewards, 20261104_192809_dofusdb_item_supertype and 20261104_195910_needs_list, registered in src/migrations/index.ts.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/index.ts#L1-L33",
-          "version": "repo-lines-v1:sha256:bdd84d04d6a3953e2d215ae8142dd404ab6e5a4ebb4c3f0471cb8ad3f74aed78:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0NTE2NDJiYzU5Y2ExMDYyN2M5YzVjMTc2YTQ1MDQ3MTRlOGNlMjc4MGVhODM2NmJkNzZjNjIxN2MxMTU4YWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/migrations/index.ts#L1-L39",
+          "version": "repo-lines-v1:sha256:23dc8d88c8752893e7702f062c3757155e75e36855af5895ce3bb4bae4af2373:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0NTE2NDJiYzU5Y2ExMDYyN2M5YzVjMTc2YTQ1MDQ3MTRlOGNlMjc4MGVhODM2NmJkNzZjNjIxN2MxMTU4YWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -143,8 +143,8 @@
       "statement": "tests/integration/migrations.test.ts runs pnpm payload migrate:down and then pnpm payload migrate against the integration database with DATABASE_CONNECTION=direct, asserting the latest migration in src/migrations/index.ts is rolled back and re-applied.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/index.ts#L7-L33",
-          "version": "repo-lines-v1:sha256:daa2aa5121742480881144d934d6c6cd43ec06555678be819d6ce63bfd429bd2:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMGVkYzRmYjExMzQ3MTVkZmYyYWMxM2VkNzlhODc3YmQzOGQxMTdiNzY0MjViMGJiMzJlMGRhZDgzY2IzNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJkN2U3NWFjZWNhYzRlZTEzODdhZWViN2RhZjlmZjI0NDEwNDI3ZmFiNjI4YmQxYWRjOGE0NDUyNWU3NTUyNjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/migrations/index.ts#L8-L39",
+          "version": "repo-lines-v1:sha256:1b7d0b947150d18b49e196841b92ca9cff4ec5bd0498635aab1a57b535c690d2:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMGVkYzRmYjExMzQ3MTVkZmYyYWMxM2VkNzlhODc3YmQzOGQxMTdiNzY0MjViMGJiMzJlMGRhZDgzY2IzNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY5NTFkMWUxYzQ0ZDY0ZDEwZjYyYzE1ZDY5NGFkNzhlOGFiY2JkZTg3ZDQwOWMzOTk2ZWU1ZWVlMWMwOTg2NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://tests/integration/migrations.test.ts#L8-L39",
@@ -243,10 +243,44 @@
           "version": "repo-lines-v1:sha256:27346fcff789fef57d0a21b780f2899e62465aca13c3e8e5a03b3aba7fa83f49:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1NWQxYTdmNDMwNmVmNTVlMDVjZjAyMzBlNjQwZjVjZTFlN2MzYTU3MDMwMzBmMjQ1YjE3M2U4ZmE3ODc3NTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_25f21f1a92634798809f0b43d0ab706e",
+      "statement": "The needs_list migration creates quest_guides_summary_needs_items and its version twin with an item_id referencing items (ON DELETE set null) and a quantity defaulting to 1, and renames summary_needs to summary_needs_notes in quest_guides_locales and version_summary_needs to version_summary_needs_notes in _quest_guides_v_locales, keeping existing text per locale.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261104_195910_needs_list.ts#L3-L38",
+          "version": "repo-lines-v1:sha256:2176be7eee995628cbe0b0354324fe02ef866ae442828cb235999d2c613df4fd:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVjMTAzYTQwYTc2MDczMWIyNjQ4OGM3ZmI3ZjY4YTg4NTAyNDdkYTM0YTc5NTRmNjg1ZDIzYmY3YmNiM2IzOTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoyLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5ZjMzOGZiMGIxYzNkOGU1NzcwYTU2MjQxYTU3NDc0NTA2MTM2YjM4MDM4ZjdlZTRiMTJiNjU1OTYyZWRkZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU5MGFmNjc4ZWI0MzRiNTEyNmIyMjQ0NDhiNjExMTAxMjBhY2VlNjMxNmNiNjdhMmE5MjRiNzYyMTEyOTE4MmMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2625f9edcf1c422ca0f9444fde1ea0a5",
+      "statement": "The needs_list migration's down drops the two needs item tables and renames the notes columns back, so the notes return to the old text column and the item rows are lost.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261104_195910_needs_list.ts#L3-L6",
+          "version": "repo-lines-v1:sha256:f89d35ac603794b59f1a5873858bc72cfd86d39064c7ede834c85525cc992a6b:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWMxMDNhNDBhNzYwNzMxYjI2NDg4YzdmYjdmNjhhODg1MDI0N2RhMzRhNzk1NGY2ODVkMjNiZjdiY2IzYjM5MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjBmNzkxYWRlY2JlNjcwYzdjYWI3YTFlYjcxOTE4ODI1NmZhNDU0MGJhNmRjYWNlMWE0MWM1MDQzYzc3NTVlNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjIsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzlmMzM4ZmIwYjFjM2Q4ZTU3NzBhNTYyNDFhNTc0NzQ1MDYxMzZiMzgwMzhmN2VlNGIxMmI2NTU5NjJlZGRkMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTVlMTRhMWMxZjJmMmE1YmMxMWM5ZDUyZGZmNWM4OGQ4NzRmNzdkZDBkODFkMTM1ZTc1YjY3ZmJmMzFmMDdhZCJ9"
+        },
+        {
+          "resource": "repo://src/migrations/20261104_195910_needs_list.ts#L40-L46",
+          "version": "repo-lines-v1:sha256:7b925cf8cb3fd6caf60f7834c0876872be22d745a73c46bd804174f33269a265:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGE3NDlmZDE3YzBjZDY3OWZiZmZjN2Y2ZjJjMGRjYjE1YTUyODRhNzYxODU0ZjdlYjdhMzgxMDI2OWM4ZWZmYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTkxMTA3OTE3ZDc2Mzk4YWZiZmRjNWUyMjQ1ZmM2ODlmM2VhOGQwZjI4ZmRmZWM3ZTc3OTgwZWIwOTk0MGRkZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_5a200f686a9544cc91fb7859986dfd7a",
+      "statement": "tests/integration/needs-list-migration.test.ts calls the needs_list migration's down and up on the migrated integration database with a real guide, checks the text sits in summary_needs after down, and checks after up that the guide and its version read the old text as summary.needs.notes with an empty item list, running up in a finally block.",
+      "evidence": [
+        {
+          "resource": "repo://tests/integration/needs-list-migration.test.ts#L9-L78",
+          "version": "repo-lines-v1:sha256:34c789c558d71c61d5ce8d655c7243d2c4dcb0857a4edfcec547fd8971753b1e:eyJzZWxlY3RlZExpbmVDb3VudCI6NzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYzNjRlNTU0YzBhMTFkMzViNzk5YWYyNDQ3NzQzNWUwMTE2ZDU0N2ZjZDljY2E0ZjA0N2U2MWIwNGM1MjM2ZDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ5N2I5NDhiYjIyNmI0YWMyNGZiMTAwZmQwNmZhYzJhMzlmYmQ2MjBjMDM3YzFhZGM0NGMyNjUxMGY0MjkwYWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T19:48:22.282Z"
+    "at": "2026-11-04T20:02:15.357Z"
   }
 }

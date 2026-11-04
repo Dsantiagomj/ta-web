@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:83340f087c27933934406c7a61db77192a836570e1a21eaee1fbc78187b4cf15",
+  "pageVersion": "sha256:e0a47e2d594df79afabcc5b704fcf39ec708e85bd2c3db2b6909077731c30f17",
   "claims": [
     {
       "id": "claim_764b0485963845c99d60b85472ceccba",
@@ -202,15 +202,15 @@
     },
     {
       "id": "claim_2456aef7c9a84786afc8ff95cbbb140c",
-      "statement": "Unit tests pin the quest-guides collection's fields, versions, validateSlug and access functions, and each guide body block's fields and validateVideoUrl.",
+      "statement": "Unit tests pin the quest-guides collection's fields, versions, autofill hook, validateGuideTitle, validateGuideSlug, validateSlug and access functions, and each guide body block's fields and validateVideoUrl.",
       "evidence": [
         {
           "resource": "repo://tests/unit/quest-guide-blocks.test.ts#L15-L97",
           "version": "repo-lines-v1:sha256:cd22a41a54ee1b44cdf9747ee1cf8429c71d8da1950e12071b86fc75a2e6dc95:eyJzZWxlY3RlZExpbmVDb3VudCI6ODMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwYjg3MGM4MDhiYzA0YjNjYmExYTdkZGQyYjQ4MWM2M2Y2ZGMyZWQxZjBkY2IyZDdjZTYwNDVhNDhmNzczMTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE3MjM4YWRlZDExMzA2Zjg1MzNiYmNlOTM4OTQ5NjlhZTljNTczNTM5ZjhmYmM4ODQzNTFhNTIzNzM5YWEyNzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://tests/unit/quest-guides-collection.test.ts#L24-L159",
-          "version": "repo-lines-v1:sha256:0102ae34caa5c66558d1e6708bd995f74ac053b56d3d546af62b54ed13ab8471:eyJzZWxlY3RlZExpbmVDb3VudCI6MTM2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlMjRjZmM0OTVjZjFjOGYyZWQyNzBkYjY5NjVhMGViZDcyYzU3ZDU2NjI3NDViNjRjYzk0YzA3ZjBiNTlhZDQzIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlOWQ4NzI5ZTVkOWE5YTNiZmJhNjU0ODkyZDM5YjdiMjRjM2IyNzMwZTQyMGFkMzVlZmI2YTM2NzIxOGI1YzkyIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://tests/unit/quest-guides-collection.test.ts#L32-L270",
+          "version": "repo-lines-v1:sha256:8b910d40a13d1af6ff9793896b9656e0a6e8e504bb4a35d85bc1ad53f628c357:eyJzZWxlY3RlZExpbmVDb3VudCI6MjM5LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlMjRjZmM0OTVjZjFjOGYyZWQyNzBkYjY5NjVhMGViZDcyYzU3ZDU2NjI3NDViNjRjYzk0YzA3ZjBiNTlhZDQzIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlOWQ4NzI5ZTVkOWE5YTNiZmJhNjU0ODkyZDM5YjdiMjRjM2IyNzMwZTQyMGFkMzVlZmI2YTM2NzIxOGI1YzkyIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -219,8 +219,8 @@
       "statement": "The quest-guides access integration test checks that anonymous reads hide drafts and cannot write, that a panel user can publish a draft and get a version, and that a guide with all four body blocks, linked quests and an image saves and reads back, deleting all guides, quests and media afterwards.",
       "evidence": [
         {
-          "resource": "repo://tests/integration/quest-guides-access.test.ts#L37-L240",
-          "version": "repo-lines-v1:sha256:d43a8d9777e25ccfbfbec3cd408a70cb57f7dd81d24c975c1c2c9b3a463508da:eyJzZWxlY3RlZExpbmVDb3VudCI6MjA0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIwZTgxOGNlMGMwM2JjNGEyMmMyN2ZiZTRiYjQ4NDkyYjBkODQ0MzQyNjYxNDMzYzUyYzU1ODk5NDMzMzM5NjdlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIwMTI2MmMzNWU1ZTkyYWU5YTIxNzA2NzM1MjM3OTBiYjc1YzliMmY0NDQ1MDM3NmE3MzE3ZTQ3M2ExOGRkNzA3IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://tests/integration/quest-guides-access.test.ts#L37-L242",
+          "version": "repo-lines-v1:sha256:470c05b71d57d10a9e4e604c9ebee0f51a04659f58c0c1c65126fc391a8957f5:eyJzZWxlY3RlZExpbmVDb3VudCI6MjA2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIwZTgxOGNlMGMwM2JjNGEyMmMyN2ZiZTRiYjQ4NDkyYjBkODQ0MzQyNjYxNDMzYzUyYzU1ODk5NDMzMzM5NjdlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI2NDc1ZTk0YTkwNGFjNDliMzE1NGQ0NjcyYTY2ZTg2MjliODZkYWM3NGUzZTI5MzdiZTY5MjdhZTNkYTExYzUzIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIwMTI2MmMzNWU1ZTkyYWU5YTIxNzA2NzM1MjM3OTBiYjc1YzliMmY0NDQ1MDM3NmE3MzE3ZTQ3M2ExOGRkNzA3IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MiwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJmMWIyMDgyYWRkOWEyOWUwNjJlNjBkNDZkYmExZTFmN2M1M2EwZTA1MGI4ODExOGMxMTAyMThiY2NlMDU1MmQwIn0"
         }
       ]
     },
@@ -256,7 +256,7 @@
         },
         {
           "resource": "repo://tests/unit/import-to-quest-guide.test.ts#L58-L383",
-          "version": "repo-lines-v1:sha256:4d9fd9bce767eb7107abad82625cd2305d979d8d9e3c312db80dc7a848486650:eyJzZWxlY3RlZExpbmVDb3VudCI6MzI2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJkODZhMTMxOWQzMWIyMTBmY2VhODBmODAyZmI4ODlmYzlmZTU3NTNhYTk1N2E1OTUyMTM2YTkxMTc5OGUyMTAwIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIzNDBjNWQzZGMzYTc3MzA3OTNjODkyNzk0OGI1NTk2NjQyMDdmNzliYTg3NzczYzIxNTAwNDQzMTk2MmZkNDg4IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "version": "repo-lines-v1:sha256:481918704537d49b5b6be8d402e32c0c644893f6073a292bb13e492b3dbf7ed8:eyJzZWxlY3RlZExpbmVDb3VudCI6MzI2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJkODZhMTMxOWQzMWIyMTBmY2VhODBmODAyZmI4ODlmYzlmZTU3NTNhYTk1N2E1OTUyMTM2YTkxMTc5OGUyMTAwIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIzNDBjNWQzZGMzYTc3MzA3OTNjODkyNzk0OGI1NTk2NjQyMDdmNzliYTg3NzczYzIxNTAwNDQzMTk2MmZkNDg4IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -290,11 +290,11 @@
     },
     {
       "id": "claim_b6ac378fde7c4cb29f9b25439497e174",
-      "statement": "The import-quest-guides integration test runs the loader on the five fixture pages with a fake fetchImage that returns a 1x1 PNG, checks drafts with blocks, images and the existing quest, one media record per image, oddities, an idempotent second run, one new draft for a changed guide, a summary field that disappears being cleared without extra versions on the next run, hidden drafts for anonymous readers and skipping an invalid slug, and cleans up its guides, media and quests before and after.",
+      "statement": "The import-quest-guides integration test runs the loader on the five fixture pages with a fake fetchImage that returns a 1x1 PNG, checks drafts with blocks, images and the existing quest, one media record per image, oddities, an idempotent second run, one new draft for a changed guide, a summary field that disappears being filled from the linked quest without extra versions on the next run, hidden drafts for anonymous readers and skipping an invalid slug, and cleans up its guides, media, quests and item before and after.",
       "evidence": [
         {
-          "resource": "repo://tests/integration/import-quest-guides.test.ts#L55-L267",
-          "version": "repo-lines-v1:sha256:353111ed07ae518764bcb2af47c507bd5abdfb064316b81910b7597e39ea44a8:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJkMjk1ODk4ZjdmNDU3MTZmMGMxMzkxODRkMmEzZGUzM2VlZTM0MDI1OTc0YjYxZDQzNzlmYzUzN2MzY2Y1MWQ1IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIzNDBjNWQzZGMzYTc3MzA3OTNjODkyNzk0OGI1NTk2NjQyMDdmNzliYTg3NzczYzIxNTAwNDQzMTk2MmZkNDg4IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://tests/integration/import-quest-guides.test.ts#L56-L291",
+          "version": "repo-lines-v1:sha256:bb937403c14958bd3e317b28be94f9aa9e81a0e2142ffa3ed48f9139816cd1fd:eyJzZWxlY3RlZExpbmVDb3VudCI6MjM2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJkMjk1ODk4ZjdmNDU3MTZmMGMxMzkxODRkMmEzZGUzM2VlZTM0MDI1OTc0YjYxZDQzNzlmYzUzN2MzY2Y1MWQ1IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiMjM1MjU4OWMzNGQzYzYwNjg1OTMxYjZlY2M0ZDUwOTkxYTdjNTZjOGZiYTI4OTQxMTQ2NTc2OTAyNzJjYWMzIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIzNDBjNWQzZGMzYTc3MzA3OTNjODkyNzk0OGI1NTk2NjQyMDdmNzliYTg3NzczYzIxNTAwNDQzMTk2MmZkNDg4IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MSwiZm9sbG93aW5nQ29udGV4dEhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1In0"
         }
       ]
     },
@@ -409,10 +409,54 @@
           "version": "repo-lines-v1:sha256:ea6144b20d0424ff1c7f17d7edf343bb7b2589ccb1d5512092faed66ff6fd846:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY2MGViNDEyZDFkZGY5M2E2ODViYjNkYWQ0ODljNmY5ODk1NDJkYWExZjY1YWRiYTgxMDdiZDlmYjU1ODgwOGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFhOTg3ODI4YzkxOTc1NTIzZDg3MjkwZThjY2Y2MzE4MGYwOGRkZjNmZDE2Yzc2ZDE4MzQ1MjliNTgzYzllNjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_dc5e34dec44444ca8c844f5414351050",
+      "statement": "The guide-summary unit test builds linked quests from the DofusDB fixtures and checks the generated rewards and prerequisites against Torre's parsed Squarespace pages, the needed items without quest items, the fill rules and every summary note state.",
+      "evidence": [
+        {
+          "resource": "repo://tests/unit/guide-summary.test.ts#L33-L80",
+          "version": "repo-lines-v1:sha256:3b9afe7738de9e34c73910869aa4d29f58e224fab01801588ff34986e7c8f800:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4YWQ0NjM4M2I2MWMyZjY0NDQ2Y2JlNDJlMmMyOTRkN2M5NTcwOTgzM2M0NjA4YWZkNzBjOTM4YmUzNmU2ZjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVmZjRmN2M0NjBkOTg2MzQ4M2NhOWQyMDEwNzE0YjZhMTU0MGQyYzY4ZjYwNjJhNDE5M2VkY2NiYzIwNzBjYWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdjYWM4OGZmZmIxYjJiZDY2MDE1NzAzMGI3ZDZmYzE1ZTIyZDgwZjA0NjZkNzIyYjU2NjEzNTE5NThkMGViYTIifQ"
+        },
+        {
+          "resource": "repo://tests/unit/guide-summary.test.ts#L82-L372",
+          "version": "repo-lines-v1:sha256:cb037e1b146e47cff593b830e5c2c716626af8099de871982e7648cbab0c3392:eyJzZWxlY3RlZExpbmVDb3VudCI6MjkxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlYzI0ZWY4N2NmY2ZhOTE2ZTgyMDJkOWNlOGIzN2ZhMTMxOTZkNzcyY2RkZTY5NGZmNjczNGZiYzU5MGNiYWM1IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiMjM1MjU4OWMzNGQzYzYwNjg1OTMxYjZlY2M0ZDUwOTkxYTdjNTZjOGZiYTI4OTQxMTQ2NTc2OTAyNzJjYWMzIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIzYjVjNTE4MmQ2YmU1MDM5NDY4MGY3MGJjNWI0OTA2YjMzMTA0ODVmNWY2OWVkYjcyMTc0MGFkMjJkNWMwZGYwIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MSwiZm9sbG93aW5nQ29udGV4dEhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_d433a0e376a54fcc953e2c0a62ce73dd",
+      "statement": "The guide-autofill unit test covers slugFromName, availableSlug suffixes, the SEO templates and 160-character cut, autofillFromQuest never touching written fields, and firstQuestId.",
+      "evidence": [
+        {
+          "resource": "repo://tests/unit/guide-autofill.test.ts#L18-L113",
+          "version": "repo-lines-v1:sha256:9c0d7573c1c14f707e7087556176d64997173d15ec0fdb07cf63400c678cb7b0:eyJzZWxlY3RlZExpbmVDb3VudCI6OTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIxMTQ0N2UwOTI0M2ZmMmUzMDNjZWNhMDRkZDE3ZjI3NGZjOTRmNzg3NWMyNWM2YWExZDUzZTM0ZGRlYWViZjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYwZmQ1MjIwYjgyMWJhZTViNjQwMWIzNGExYTNlMjgwZTAyNGJmOTEzZGRjZDQxZTIzNzk2NTdkMjY0OTQxYzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9c6bd3eef65b47d4bd6a9048e3e28581",
+      "statement": "The quest-guides-autofill integration test saves guides through the local API as a panel user and checks the title, slug, SEO and summary fill from DofusDB, the slug suffix, that written values are kept, the Spanish rejection without title and quest, an imported guide keeping its slug, and an emptied summary field being filled again, deleting every guide, quest and item afterwards.",
+      "evidence": [
+        {
+          "resource": "repo://tests/integration/quest-guides-autofill.test.ts#L14-L213",
+          "version": "repo-lines-v1:sha256:d6d7c839c8d3cd0affc2efbd8453c656819420c8a1fb9818eeed5840433f85f0:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAwLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5MDBhNzk1YWJmYWM3OTI2ZWU5NmI3ZmIwNTk3ZWNmM2E1YjNmNTViMWI3Zjk5YmFlN2E0Y2UyYWFjNGI5NzFhIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI0MTllN2QzOGY4Y2ViZDg2MmUyOTZiOTYyNmNiNTNjMmExZGMwZDQ5ZmZhZWY5NzlkMGYyOGNkZWY1NDRlYmJmIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_4e0801d6a2644681a30585ea051b0adf",
+      "statement": "The needs-list-migration integration test calls the needs_list migration's down and up directly on the migrated integration database and checks that text in the old columns of a guide and its version becomes summary.needs.notes with an empty item list.",
+      "evidence": [
+        {
+          "resource": "repo://tests/integration/needs-list-migration.test.ts#L12-L78",
+          "version": "repo-lines-v1:sha256:424b509b2d21c3a0a223855c2f66eec35c8524c1207744f6b4640ae3221b4926:eyJzZWxlY3RlZExpbmVDb3VudCI6NjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMwZjIxODVlNmRiYjgzNDNhOGZhMzlhMTgwZTg2MzcyMDRmYzY4NTg0Y2YxYTU3YjRjMjUwNTkwMzhkODQ5OWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgwMTBhNzkyZGU0Y2NjM2U0ZDg5M2NiM2VlYzNkODBiMmY5YTUwMGVmMDkwYWU4ZDM3YWU3MjA0NjY2NjZiNjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T19:48:22.282Z"
+    "at": "2026-11-04T20:02:15.357Z"
   }
 }

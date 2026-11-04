@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:8597378c9f1a412a1f14756c131ba23018ef513c0fca8fba8471f038a6f036d6",
+  "pageVersion": "sha256:862584aa3daf523390479d81a56c72a824c6f2b84a5c77b5e81dcf1391293e54",
   "claims": [
     {
       "id": "claim_2337c4767f624841a8302780adbb1ac7",
@@ -73,12 +73,12 @@
       "statement": "Quest guide bodies are built from rich text, image, video and callout blocks defined in src/blocks/.",
       "evidence": [
         {
-          "resource": "repo://src/collections/QuestGuides.ts#L3-L6",
-          "version": "repo-lines-v1:sha256:ff8f5769570a99503a39b5a65b2efb1f6d31468c7c67b33cbc299b44c33531ec:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzdhNzg0Nzg4ZTE0ODFkZmI0MzU3MGM5MjdhODk4MzgwMGU3MDU3MTFjNWZlMTQyYmI4MGFhMGI2ZWY0NDIzMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2RmNmJkZmMzMjIyMjc2YzZhZjU0NjUwZTQ2Nzc4YzgzODg2MGE5OWVlZDkzODE2YmU3ZGVlNmQ5MWRiYzE4ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjIsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWVjMWRmOTMxM2NlM2VjZmYzODU1MGFiMzBkODU1OTE1Y2QzYzVhZDJiZTk3NzFmODllYjM5OTE2NTJmMWY1OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzRkYjUyZmEzZDMxNzUxMzU3NThlZmZmZmE5MmRjODg0NzY3YzA4MmI1NTA5MTY2YmY0ZGJkNmU1OWI2MzJkNCJ9"
+          "resource": "repo://src/collections/QuestGuides.ts#L197-L203",
+          "version": "repo-lines-v1:sha256:446d258d9f03fbae3e42ff67c16dbc3a907a6f107fcb0dca64b7c37d2f9203b2:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjljYTg5MWJmZjdhYzFmN2NlYWFlNDBlZjA1MTA2NmJlOWVmZTQ3YjRlNDI4MWU4NmMzMTliZTJjNTVlYmNlNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDk3MzllNTlhODFmZTU4NDRmMTI3NzdhYjQ4MmNmNzQ2ZDNhOThmODEyYjM5MjZkNTVmYTczZDI0YmYxODQ5ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTEyYzM2NmRjN2IwMjJjNWVlOWY1MTU0NTI1MTYyNDJhMzc0M2NhNzUwY2NkNjA2YjVkMTkyZGI0NGIyMjY3NSJ9"
         },
         {
-          "resource": "repo://src/collections/QuestGuides.ts#L93-L99",
-          "version": "repo-lines-v1:sha256:446d258d9f03fbae3e42ff67c16dbc3a907a6f107fcb0dca64b7c37d2f9203b2:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjljYTg5MWJmZjdhYzFmN2NlYWFlNDBlZjA1MTA2NmJlOWVmZTQ3YjRlNDI4MWU4NmMzMTliZTJjNTVlYmNlNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDlkZTRjZmY2NjU1OWRiZDI5NzhjYzVhZTUyMjY5MzUyNDNmNzk1MzI4ODE5YTBjOTZkMGY4NzM0MWYwZTc2OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTEyYzM2NmRjN2IwMjJjNWVlOWY1MTU0NTI1MTYyNDJhMzc0M2NhNzUwY2NkNjA2YjVkMTkyZGI0NGIyMjY3NSJ9"
+          "resource": "repo://src/collections/QuestGuides.ts#L3-L6",
+          "version": "repo-lines-v1:sha256:ff8f5769570a99503a39b5a65b2efb1f6d31468c7c67b33cbc299b44c33531ec:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzdhNzg0Nzg4ZTE0ODFkZmI0MzU3MGM5MjdhODk4MzgwMGU3MDU3MTFjNWZlMTQyYmI4MGFhMGI2ZWY0NDIzMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2RmNmJkZmMzMjIyMjc2YzZhZjU0NjUwZTQ2Nzc4YzgzODg2MGE5OWVlZDkzODE2YmU3ZGVlNmQ5MWRiYzE4ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjIsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODE4MDFmNDA4MTliOTNlNjIyOTNhNDU3OWQ5NWQ1ZGFmMjU3ODJiZTIzMjc3MmY1ZmM4YzFhMjJiODBlNTkwNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTk0Yjc4MmY3ZmE4NDIwZjRiYTE2YTdiNTFjNzM0NTVlM2Q4ODIyMzIyMWQ1ODA3ZTI5MTEyOThhZTczN2NlMSJ9"
         }
       ]
     },
@@ -87,7 +87,7 @@
       "statement": "The Squarespace page to quest guide conversion lives in scripts/import/squarespace/.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L166-L173",
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L167-L174",
           "version": "repo-lines-v1:sha256:54835ca53f77a068904b404709831704a94b685d4588ef717c0f6d1a443fcd1e:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDU4ZGI0NTI1YTUzMWMyMTFiM2ZjYjNmOWM0ZTdlZmY1YzFmYTQ4MGIzOTM0NjI1ZjcwZWQ4YWEzNDdmNTVlNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGExOTA2Njg2MjkzNDJjYmI3NGMyNDA4MjZhODdlN2FkNzU2YjI3M2FjZDA3N2Q3NWVjMTg5ZjhmNjY3MWQzMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTE4NWM2NDI5YzY0NmVjMTkzNjRkNmUxMmJlZTQzYzZlODc2NWQzMzFlOWMxYTU1YjM0YmVlNmFkNTgzNTk0OSJ9"
         }
       ]
@@ -105,10 +105,24 @@
           "version": "repo-lines-v1:sha256:7516318a60774b7a868197396113d9a520e40590575c41694798f4d6dc317b38:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzUxNjMxOGE2MDc3NGI3YTg2ODE5NzM5NjExM2Q5YTUyMGU0MDU5MDU3NWM0MTY5NDc5OGY0ZDZkYzMxN2IzOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzUxNjMxOGE2MDc3NGI3YTg2ODE5NzM5NjExM2Q5YTUyMGU0MDU5MDU3NWM0MTY5NDc5OGY0ZDZkYzMxN2IzOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmU0NjhlYmZmYzBiOGNhZDJjZDM4ZDIzMjI3NTQ5Mjc3YzkwZWQ3ZjhkOTkxYTc0NDQxYzRiOTI5OWY3N2ExZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDU3MjkxNGYxYjQ1ZjcxOWMzZmExNGVjOTQ0NTI2YjI1N2Q5OGMxNmQ3MjYyMWIwMzY5NTU2ZWJlNzU4YTU4NSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_7352f367dedb457995dbd09ad7e602d9",
+      "statement": "Writing a quest guide starts by picking its DofusDB quest, which fills the guide's empty title, slug, SEO and summary fields.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/QuestGuides.ts#L152-L166",
+          "version": "repo-lines-v1:sha256:a6a767c7593d4f3cb78e5a4b8c877d1668e6084b17c9f3b76af6bc300dcfb730:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNjZWY1NjQyYjU0MzZjOTg0YjAzZjAwMWUwMjBmMjlkOWFlZTBkYzIyYTA0ZjU0NmMzMzJlMTllNTA0YmFhZGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk2YWZiOWI3MGVlOTZiMGFjMTRiMDhlMjI0Njc0MjNlN2MwZTYyMjczYjY1Mzk3NzU1M2EyNWU4NDY2NzE3MmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFjNzZiNzQyMTU3N2E5YThlZDFlMzZkZTM3NTg3NjI4MThkZTk3OWZlMzczNDgwOTRkN2FiY2M5OWVjNzNhNzcifQ"
+        },
+        {
+          "resource": "repo://src/lib/guides/strings.ts#L33-L35",
+          "version": "repo-lines-v1:sha256:ce66a4b63b72ed32de1ca637b8e22c0935c6fd91cfa4e2d3d287dfdcdd8351de:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWI3YjI3MmZhZjU1OTZkYWRjYTFiZjQ2N2RiOGRmMWFiYmZmZjkzMTk2ZjRjNDcyM2ZiNDkwOGZmZjc2ZTg4NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWYzMmRjYzhhNWZlNjk1MGNhYmY3NjZlYTVlY2I4ZGY3NmUwZTc4MjY3OGUwNTJiMGM2ZGE3YTEyMTRmMGI0NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTNjN2U0ZDVkZDI4MTU3M2Q2MTVlMjY0YzFlZjkzYTE4NGJkNTViNGU1ODJmOGIzN2E0ZGZjMjEwODE1ODZiYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTVmNTE4MjZjYTE0MTEzMWNjYzRmOGEyNzVkMGNlZDhmMTZmZWI0YjEzZDhkN2EwODljY2ZlOTY5NmM4NjgxZSJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T19:48:22.282Z"
+    "at": "2026-11-04T20:02:15.357Z"
   }
 }

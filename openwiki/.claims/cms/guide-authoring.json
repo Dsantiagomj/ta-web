@@ -1,0 +1,304 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:022468fcb04d3c836e313d09aa53a11491ec8827979a85110c929a82d9e7ad4b",
+  "claims": [
+    {
+      "id": "claim_9936ebd9dea946e4b427e760c2d1f74d",
+      "statement": "The quests relationship is the first field of a quest guide, in the main area, and its description component QuestAutofill fills the form when a quest is picked.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/QuestGuides.ts#L152-L166",
+          "version": "repo-lines-v1:sha256:a6a767c7593d4f3cb78e5a4b8c877d1668e6084b17c9f3b76af6bc300dcfb730:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNjZWY1NjQyYjU0MzZjOTg0YjAzZjAwMWUwMjBmMjlkOWFlZTBkYzIyYTA0ZjU0NmMzMzJlMTllNTA0YmFhZGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk2YWZiOWI3MGVlOTZiMGFjMTRiMDhlMjI0Njc0MjNlN2MwZTYyMjczYjY1Mzk3NzU1M2EyNWU4NDY2NzE3MmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFjNzZiNzQyMTU3N2E5YThlZDFlMzZkZTM3NTg3NjI4MThkZTk3OWZlMzczNDgwOTRkN2FiY2M5OWVjNzNhNzcifQ"
+        },
+        {
+          "resource": "repo://tests/unit/quest-guides-collection.test.ts#L83-L90",
+          "version": "repo-lines-v1:sha256:30bd342b9bc910e6c276db7b5bacb3eb08ebff8ff8b100f7ca80d3f1ac83b91d:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmQ3NTEzNzI0YWI3Nzc3NmVkODI3YjQ0MmYxZTEyNjMzMmE5YzkxYjQxNTM0NjliMDA3NTY0NzIyMzU5ZGFhMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjIzNTI1ODljMzRkM2M2MDY4NTkzMWI2ZWNjNGQ1MDk5MWE3YzU2YzhmYmEyODk0MTE0NjU3NjkwMjcyY2FjMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjlkNzNkNTJlNjU1MWVjNmZkNTYzZTRjNTdmZDcwZWRiYTdiZDk5MzQ1NmQ3ODljYjkxYTkwNDAzNDU0MmEyMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWRhMTNjYjc4ZjkzY2IxNzViYmRlMDMwNGY2YjE3NTA5YTE1NDdkOWQ5ZWNlMWFlNjdkNTFlNmM5ZGQ5NTMwMiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_4d07a7ad11b44612a5e6da1082171f8b",
+      "statement": "QuestAutofill reacts only to a change of the first selected quest, not the quest the guide was opened with, fills empty title, slug, SEO and summary fields and adds one needs.items row per needed item, then marks the form modified, discarding results for a quest that is no longer selected.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/quest-guide-admin/QuestAutofill.tsx#L20-L90",
+          "version": "repo-lines-v1:sha256:4fc0d2f9f55cc4b73fb7bb520de080cae64fdcb45423312865525fa872a6a869:eyJzZWxlY3RlZExpbmVDb3VudCI6NzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMzMjNkNmUwMmU0YzU0ZGRmNWQ4ZDQwNmE2MjIwOTMzZDJiYWJkOGIwOTY0NDU3ZTA1MTY2ZTE0Y2ZkZDI0MmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQxYWI5ZmI3MWU2MTU4ZTMxOGY0N2UyZmZhZTUyNWE3YmUxYWE4YWZlMjM0NTlmYTEyNDU3YTAwNTU5ZTRhMGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiMTkyYTI1YzQ5ZDM3ZWNjZWFmMDE3OWJjZWQ5ZWRhMmUxY2MwMmFmZWYwZjc0MDFhOTViODgxZjUyNjcxOTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNlZTkxMDAyNjE5MGM1YTEzMmJkZWMyZmVhZTZhMDI5ZmY1MmY5Y2I3MzI5MmMxNGNjZjQ1M2Q5OTk2N2ZkZTQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ad0b759279d547ac9bc46f37eacff42f",
+      "statement": "The panel loads the linked quest from the REST API at depth 1 with the session cookie, caching one request per URL and dropping a failed request so it is retried.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/quest-guide-admin/linked-quest.ts#L9-L27",
+          "version": "repo-lines-v1:sha256:d5f22b55ead87029e98a47c00e61d18b43d9df1e8fd67adf294b428678daa692:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY3ZGFiOGMyNDgwMWVjNjU3MTg2ZjQxOTc4MjRkNGJkZmI2NmU5MjRjYjFhMjMwODNhMmY3M2IyNGQ5Y2I2NjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU5NTVkOGFlYmE2ZTdkN2UxNDBiNjNmZTEzNTM2ODEwNjliZjgwYzg2ZThkMDc5ZjQ2ZDE4ODlmMmNlYTNjMmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjliMzgzZjVmZTUxY2EzNGI0NjQyMmFmMTNmZTZkNmUyMGNmZTI4OTdmNWE0Yjk5Y2NkYWVkYmEwN2EyZjcyNWMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_80c01dedd50348d5a988f693108a0d06",
+      "statement": "slugTaken checks other quest guides with the same slug through the REST API, ignoring the guide's own ID, and answers not taken on any error so the server rejects a duplicate.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/quest-guide-admin/linked-quest.ts#L29-L40",
+          "version": "repo-lines-v1:sha256:a95f3a806608e825d8ef67fe431c2529978a5851d84bf5e6b9db583a69749c1b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhMDViMzY2MzAxMjFkYjYyMjMyZmUwNDA1Yzk1MmQzMDQ1M2Q3ZGY2ZmIxNmI1ZTZjMDQyNDljMTkyMDg2ZGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIyYzM5YWRmMmYyOTllYzEyMmQ5MzhkMzM4MGY2YjMxNWEzZjRjM2M1MWMzMTcwYmExM2IwZjgyZmE2MjAzYzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM4YmQ0MTYxNDk5ZTBmNTdmOTdmMDEzYTE0NmI0MzVlNTJiYTQ3Y2E1ZDhlMjJiMjRiOTcwMzkyNDM3YmU1YTkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9be44c1c47024704933e6cd85b2dfcb7",
+      "statement": "The beforeValidate hook fillFromQuest repeats the fill on save using the first linked quest loaded at depth 1, falling back to the saved document for fields the update does not send and keeping the needs notes when merging the summary.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/quest-guide-autofill.ts#L13-L87",
+          "version": "repo-lines-v1:sha256:922abac979becdc3a042650425cbe36a9dd562503cf0397ae632ec564d1441ea:eyJzZWxlY3RlZExpbmVDb3VudCI6NzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBlNTdjYzhkN2I2NzgxNDQ4N2U5YzRiNWU5NmFiNGI1Mjg5MzRkNjc3NjliNWY3YTRjMGQ2YTI4YzU2OTBmZmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUwODgzMDgwMGE2OWJmMWZhNzUzMTdiYWJlM2VlMTJiYmE4MmZhNmU2ODBhNWZkYWQ5YTRjNjc1ZDBlNTgyNGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI1ZTk0ZDVmMzZkZTYxZWU0MzI2ODZmYWJiNTE1NDU2YWIxMWQ1MzkwNGFkMmE0ZjY2Y2NjMzFjYjJlZWQ2OGQifQ"
+        },
+        {
+          "resource": "repo://tests/integration/quest-guides-autofill.test.ts#L198-L212",
+          "version": "repo-lines-v1:sha256:308b0fa90b95bfce68368bf1bb45643ff9ecd59ffed2476b37ee50c998a4e7c1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiZWUzZWEzOTE0OTYzNGIwZTBjNTNiMGJmMWM2ZDNmODY4NWJmMWNiYTI2YjA3YjVlYjMyOWNkNzczN2M0ZjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJkMGVjOWI3YWQ3YTFhZDk3MjVmNDM0YmM3ZjFlYmM3NmIwMjU3MWVjMjgyOTU2MmUxYzdjNjc1ZDhjYmM0MjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8343ca1f8d24423fa9b26f3f9ada0263",
+      "statement": "autofillFromQuest fills only blank title, slug, metaTitle and metaDescription values and fills nothing when the quest has no name.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/guides/autofill.ts#L74-L90",
+          "version": "repo-lines-v1:sha256:df2901e79466da7673427dfc5ac2c375c2e7f3b88b4ca24ad351924598e48b71:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5NjRhNzJiNWVkZmQwMjQwYWY3ZTEzMDc1MDNlMTBkYjU0MTkzYzgwYmZlZjNiMGY5ZDEzMjdhNWZmMjBjZGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/guide-autofill.test.ts#L79-L101",
+          "version": "repo-lines-v1:sha256:816ca5718c8d29eab0cc9ddd997f8b26362b9e20290a93e089d23bca1a2d9a19:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFjZGMxMTFiMmE0YjhkMDM2YWU3MTFlMDFiYjA0NGU4MTRhNWYxY2MwYjQyYTVjZDA0ZWExZjRiZTE0NWVhZjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU4NTdlODljOGJiNWIyZGMxNGE3OWNjMTM1YzgyMzEyMmJhMjNjNDQ3ZDMxM2RlNGVlNjQ0MmYwODkwY2VkNDIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f657a686236e481284b7f54cceabbe8b",
+      "statement": "slugFromName strips accents, lowercases, turns every run of other characters into one hyphen and trims edge hyphens, falling back to guia when nothing is left.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/guides/autofill.ts#L28-L37",
+          "version": "repo-lines-v1:sha256:68f6442e352c91d50ba5d5b14f792eeec0e8f7d7b2bc0e89aced3572e0e78e21:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJjNWZkZDZjNzMzZjFmZGY4MTkzZWU1ODk4YWFmNDhlNjRiNTM2OTE2NDdlOTY1NzZiODFlNjI0MmY3NGI2ZmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ4MDAzMmZkZGViNzBmMTg0NjBlM2JiZGEyMDRmYjg3ZmVkMmU4ZTQ1N2FkZGFkOGFmZDc2NTA1NGY2NGRhODMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMzNjgyZTliOGU0ZjQzYTFiNmFkNjcwYzU2OWRkMmFjNDk2Mzk0YzU3Nzg3ZmYxMDdhYjFlM2M1NmU2NmJjMDYifQ"
+        },
+        {
+          "resource": "repo://src/lib/guides/strings.ts#L30-L31",
+          "version": "repo-lines-v1:sha256:0aedb487809e00194f8e5e5ba24c94531db329d5b5024b9ecdc67db9c9325d18:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTFhM2VmMGRiZmZkYjRmZmFjNTgwNTUyMjI1YjQwNDI2OWRhMTc5Nzc2YjM3MTZjZWZlMTBiN2I5OWI5OTY4ZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGQ2ZWZiZDJlZjVlYmYwZjNjYzI5ZWU5OTgwMTk3ZDFlOWIxODM5MGUzMjU0YjIwMTAwNTVkNTg2YjBlYWMwNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTUzNjdhNjg4Y2RlMWJiYzFiMmRmMjIxYWVlOTQzOWYyYTY1N2ExNjk4MDdlYmI3MGE5NGJkMjc5Mzc5MjdmOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDU2YmQ3NWFjMGMwY2ZlZjQwYmUyZTMzNGY0NjgzMWNiNDEwMTIxNDAxMTdkZjczMmFjMjZhMjY4ZmEzNjZmZCJ9"
+        },
+        {
+          "resource": "repo://tests/unit/guide-autofill.test.ts#L18-L37",
+          "version": "repo-lines-v1:sha256:b7bdc5597b6be83df5336fdc98ad71e219df5e03134fa7ffb71a3d2c252590eb:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIxMTQ0N2UwOTI0M2ZmMmUzMDNjZWNhMDRkZDE3ZjI3NGZjOTRmNzg3NWMyNWM2YWExZDUzZTM0ZGRlYWViZjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYwZmQ1MjIwYjgyMWJhZTViNjQwMWIzNGExYTNlMjgwZTAyNGJmOTEzZGRjZDQxZTIzNzk2NTdkMjY0OTQxYzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU0YTRjOGQyMmFmZjY5NmUzMDlhOWZjN2NkMGI5MjI5YzBjNTlkODBjNTE4YjNhN2VmMTVlMzRhNjIxNjM5YWIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7a6151eb82f848f0b9a1ee2cae3c7861",
+      "statement": "availableSlug returns the base slug when free and otherwise the first free slug with a -2, -3 suffix.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/guides/autofill.ts#L39-L49",
+          "version": "repo-lines-v1:sha256:6beaf0be59a974eaa5ba4e5ee6b029e91baaf86ae1424028fb935e4fdbeec545:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkzYjQ0Njc5YWE2NzdiN2Y2MGY3NWQzZTM1YmI3MmJjYTdhNjBjMGRjY2UwODViZjg4NWFlYWQxZGZhMzg5ZWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY5YzM5ZTIwNGI2ZmQ5MTE0MDExYWIwYTVjNTBhNWIwNmY3NzUwMDQ1NTIzYmZiMzcyNmM3Mjc5YTE1ZmYxYjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU4NmI1N2U0NDgwNzA2Yzk2MTJkMjg3ZjA5MGZjYjVjMjc3ODkzZDdkNDI5NDQzNWNiNWY1M2FmODRkY2QxMzcifQ"
+        },
+        {
+          "resource": "repo://tests/unit/guide-autofill.test.ts#L39-L50",
+          "version": "repo-lines-v1:sha256:7a889519bd64d20efe4e214b6b0247fb97fc1134371bc05a0c4d948b2859304d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBlOWYyNTA3OGY0OTg1ZmY5YTgxNjc3ZWUyODA3OGY4ODNlYjBjMTU3NTU0NmJlNjViYTU1ODhjZjdjYWU0MjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBlNmJjYjJkOGZmZmZjZmE1MDY2M2ZkMDk4MGFkNGUxODY5ZWQyNjJhNzUwY2VlODNlYjg3MGEyMjU3NTU1NzQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_73ac902ad50f422abee4140c90f504bd",
+      "statement": "The SEO fill uses the Spanish templates '<name>: guía de la misión de Dofus' and a description mentioning the level and experience when present, cut at a word boundary with an ellipsis to at most 160 characters.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/guides/autofill.ts#L51-L72",
+          "version": "repo-lines-v1:sha256:2aaa6177626dfd61bf224d673cf3b653172960cbc4e9fe1e8b2e6466bbe95e68:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdkNzE1ZDhhZGJhYmMyOGI0NmM5MzI5MDQwNDhlODU0OTY0NTZkYmY3NGYwMWE0NzgxODBhYTVjYjIyOWYyMmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUyMDQ2NDZlNDRmOWJjZjNiYzMzMzVjM2NjYzZjOGMzMTZlNzkyYWZlMTZhMzY0NTVmNjczZWY3NTIzMzdiYjUifQ"
+        },
+        {
+          "resource": "repo://src/lib/guides/strings.ts#L15-L29",
+          "version": "repo-lines-v1:sha256:f0686a5180d4037a47ba9b4dc06f58e685c164d8f1bc932cffab2fcf13b6a104:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRjZDkxYzhmZmYzZTdjNzBiYzVkZjViZTc2ODMwNDkwMjY5YzgwN2VlNjc3ZDA0YTU2Y2JkYmI0ZDQ0OWJkNzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg5YTk3MGUwNWZiZjYzNDJkNDQzMjNlOThhMGQ3NDI0Mjg5MWVmMzU1MWRkNmE4ZWNmODA2NTcyNWU2YTM0YjQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEzYzdlNGQ1ZGQyODE1NzNkNjE1ZTI2NGMxZWY5M2ExODRiZDU1YjRlNTgyZjhiMzdhNGRmYzIxMDgxNTg2YmEifQ"
+        },
+        {
+          "resource": "repo://tests/unit/guide-autofill.test.ts#L52-L77",
+          "version": "repo-lines-v1:sha256:7e13d51e95d52e4f14c3c2d8f2fe38289d6169f73c04775eeca24b9a47d9f74f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmNjYxYjc2MWE3ZGFhNjgyZGQxNzc2ZTEzMWYwNDZjOTM0MzVkZDc4NDRmZmI3ZWYwYWY4NGZiM2YwMDhhZmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU1NjU5OGY1NjhlNDdlNjI4MDljYzBmNjA1OGZjNmQ4ZjE0YjNmNjY1NGE0OWM3MWQwNGY2MWQ3ZWZiMjkyMjcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_246e5b9c659a43688e1e3c732f3dab94",
+      "statement": "Summary lines end in a full stop unless they already end in punctuation, and thousands are separated by a plain space.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/guides/format.ts#L13-L21",
+          "version": "repo-lines-v1:sha256:ee6eae83d2062f67765f294e9ba72ce14a539a6643f89bf51db5d422e108dab6:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTc3OWExMzdiMGYwMGJlM2JhYzMzNGJkMDhkM2I0M2E5MjNmNTE3YzQ1MTk5MGFiNDM4YjA5OTdmYzZhOWVkNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTAxYzE3NzRkMDMzZTJjOTNmYTBiMTk3NDliYWYxODgxZjEwNjllZTYwYTE2Y2U2OWJhYjE4ZTI1OGJhOGYxYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmMxZmFmODViNjYwMjI0NDhiNmI5YmRkNDFhODIzZjU5NDM5NGM2NGM1NWU1M2Q3NDhiYTI3MDA2ODBlNTMyYSJ9"
+        },
+        {
+          "resource": "repo://src/lib/guides/strings.ts#L6-L11",
+          "version": "repo-lines-v1:sha256:f0f2c63cf8e6fe8f142829a4eeaf3b215e1059faef49065e2ae18fe763c33ae7:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGI2NThmZmIxYzk4YzNhODNmNTExNDJmYzYzMzZiMWFiZDg0MTZiZjM1YTg5MDVkMGY5OGM5YzgzODBmNmE1NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWZlZjgxNGQ3YjkzN2IyMjRjMzVmZmM4MDUwMDQzZTU5MGUxODFiYWI2NzUzMGVkMDFlZjMxNTBmYmQ2ZWQ3MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzBlNzBhZjVhMzBmNTJlYjY4YTQzZDA4YWI2N2E4NzNiNTg2ZGIyODUyNTcyMmU4YjI2YzBjYjZlOTI1YjI4NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODlhOTcwZTA1ZmJmNjM0MmQ0NDMyM2U5OGEwZDc0MjQyODkxZWYzNTUxZGQ2YThlY2Y4MDY1NzI1ZTZhMzRiNCJ9"
+        },
+        {
+          "resource": "repo://tests/unit/guide-summary.test.ts#L82-L88",
+          "version": "repo-lines-v1:sha256:dfdbad2709514119c7f867b42cbaa2f23077191a3c68b281136e0698c21cd069:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWMyNGVmODdjZmNmYTkxNmU4MjAyZDljZThiMzdmYTEzMTk2ZDc3MmNkZGU2OTRmZjY3MzRmYmM1OTBjYmFjNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODU4MGI3NjUxOGRhZTk3OWZhZWJkMDIzNjdhMjkyOTJhNTBkOTc2MDkyMjUxYTM4YTZjZTMwODgwYmE0MjgyNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2I1YzUxODJkNmJlNTAzOTQ2ODBmNzBiYzViNDkwNmIzMzEwNDg1ZjVmNjllZGI3MjE3NDBhZDIyZDVjMGRmMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTUwMmQ0NWJkYWUwMTZjM2EzMmQ1OTQxOTM1NjQ1ODYxOTQ3MTUxNWQ4OWJiMGJiNzA3NzUzZjUzYWE3NzEzMiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_0a584876a8c543d5844a7505b44dc2cc",
+      "statement": "rewardsText lists experience, kamas and then 'N x Item' lines with the reward items in reverse DofusDB order, skipping zero amounts and unpopulated items.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/guides/format.ts#L32-L41",
+          "version": "repo-lines-v1:sha256:7baead8920b37467b3313a911c05800a83fa8c4d11924d0dd8161895801ba15d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZkYTY5MTk1YjFhODE4ZDg4MTVkZTYyNjcxMzU1ZTFjNmM3MDNhZGQzNjgyNGZiODJkYjQzYjZiMjQzYTQzNzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ3YzYwZmEyZGE1NWE1ZWRhNWYzOGRiNDA2MDVhNzE4ZjBjZDA3NzFkZTRmODM4NjBiZjBmYjkyMjk3OGRkN2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ5OTc3YjkzZGYxM2YwODMxMjk1OWU2OGM4MWYxMWIxNGM4NmRlY2JjZTJiM2FkMzRkZDRjZTFkNDIwOTdiNTkifQ"
+        },
+        {
+          "resource": "repo://tests/unit/guide-summary.test.ts#L90-L125",
+          "version": "repo-lines-v1:sha256:c10406e585de2afad7e4c9fcc75fb522df24c0d26946b28cf59595fd53e0e329:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJiMWU0ZDc3MDRkMmJmMDk5ODg1ZWIzN2E1M2VjM2UxNWJjYzIzZmY1MmJlYTU4NWMwZTI1MTM3MjczNWY1OTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM1MjMwNTU5NjgyMTZkMGJjODgyMjcwYTM0MzMwMTA3NjhlYjdkODljZTZkNDIwMDgxN2UyNzVmZWFmYTRjODUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_de9f9101fc0b4d37b92a32639f91478d",
+      "statement": "prerequisitesText puts 'Nivel mínimo N' first, with N one more than the PL> value in the start criterion, followed by the names of the populated prerequisite quests.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/guides/format.ts#L67-L82",
+          "version": "repo-lines-v1:sha256:b348063a7e6ae9a6c583b173d8aa6f964164962e6c4368252d9db367230f8b60:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4ZDQ1MGNjOTdlNTJkMzFlNmY4MTNiYzYwYTBkM2FiYzA3NTkzMWRmYWMyMjJlOTZjZGQ2OGZiYTM2MGVlZjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc0MjY0NzA0ZGI4NGQ0YmQ4ODdmMDc2YWU0MzkyMTU5MGM5ZTAzYWMyOWUxZWZmZTdiYWE5ZjEwYWJlMWVlZmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/guide-summary.test.ts#L127-L169",
+          "version": "repo-lines-v1:sha256:d93025ebb4c2dcc882ff7cabae06c89f90fb734f071c2de2dc2de1f1a3e3fb1f:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA5ZmZjMzZlNzRmNGRiZmJmOGI4NTg3YzNiMWMzOGEyYWJjYTIxMTkzMzZmMmFmNzFiZGUwYzFiMmQzYTNkNjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVmNWQwNThmMmQzMjRkOWI2YWI5MzI3MDI1MzQ5NjFhMWJhOWQzNWE2OTY2NjU2MzFmNjc0NDY0ODljNWFiMmMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_09a7553630ff433d9c15dc712a0979b5",
+      "statement": "neededItems keeps the quest's needed items in DofusDB order with their quantities but drops quest items with superTypeId 14 and unpopulated items, leaving monsters and map walking out.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/guides/format.ts#L49-L60",
+          "version": "repo-lines-v1:sha256:668fb1aa70adb0ffc36b83280269e66a7e6c91662f7ee27c775e5e8cc1a80e26:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBjYTlhOTkxZmNmYWYzNzhhYzkxZDFkOGE5ODM3MjM3NjlmOGM0MDk5ZDJkZTVkYmRhYzViMzhiMjc3MDNmMTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIxNWZlMTExOTMzMTFiYWU0YzIyM2I2ZjhmYzBjNmZiMmI1Njc3ZjhhMzdlNjM1NjgwNDk1MmYyNTVhMzc5OTMifQ"
+        },
+        {
+          "resource": "repo://src/lib/guides/format.ts#L9-L11",
+          "version": "repo-lines-v1:sha256:723f0bc4ed9fc015b4d0f614eda2594049710943d2390b006da18ce87a7f84eb:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWY3MGYyZDc2OTk3MjkwYjk0NmRiOWMwNTI3ZDkxNmQxOTU5NWJhNTk4ZGMwNzhhMTY1ZTM5ZGI0NDI2M2FjYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTc1Y2M4YTc0OWE1MzY1ODM0ZmZhMzA4OWFlNDNhMWFlYTMyNjE2N2Y1NDU3ODIzNThlZTQ3ZmE5ZDFiMjhjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWUxNmM5OGM2NjgzZDVmYWNlNDUyMWUzODc0MGIyYzg5MjJlMjQxZDA1MWI5ODk0ZmQ2Yjc2ZWQwNmYyMmVjOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzRlNDIxOTRjYzdjM2JhN2UyZmEyMzk0OTI5ZDMwMDUwNGMzZjFmOWQyY2ZiOGY3ZmRkYzcyZTE3MzA3NzcyMiJ9"
+        },
+        {
+          "resource": "repo://tests/unit/guide-summary.test.ts#L182-L217",
+          "version": "repo-lines-v1:sha256:d473d60d9a6cf82c07edb0f1e7c53e9b2a635c6b299a36017bd4877a97234e14:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmYTViMWYzMGY1MzJlMGZiOTMxMmRlMDljZDRjOTM1ZjU0Y2NkYmQ1ZDI5YjJmZmFlOTQ0NmIyNWZiMTFiNDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIxOTk4NGI1NTVlMjUwZTZkZjMyNTYxYmFhNzBhNDA1NWZlZDAzOTNmZTdiN2ExNzFjYzA0YmNiNzNlMGE5OGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM4MTRiMzk4Y2Q1OGI0ZmJlYzFiMmViNzNmYmE4ODc3Mzk3MTZhOTU2MTZmZDYwNjk0OTg3NmZiYTQxNjNjNTAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_63f034fc89514cd4a91674bbf9ad4976",
+      "statement": "The start NPC and coordinates come from the quest's first start position.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/guides/summary.ts#L53-L65",
+          "version": "repo-lines-v1:sha256:edd04635f391138fc1edf23f168bbb23da02f462ae0bd4aee4c5f2bbac9e0687:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkzNGJiYWVmODM0MmYxZjc4MDQyODM3MTk0MmM2NTM2YjFlOTFkNDI1MTc1MGQzNjlkNjk0ZGEzNjhlYzMxM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgwZjY1MWI2NzlhOWUyMTk3ZTIyN2Q4ZDNmMGFmNzA5YTljMzdlMTNhNDc0NGJmYjg4YzFmOTUxNjhkMzA3YzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhiZmIyYTVlMDI5NDE1MmM1NWM5ODk5YzM1ZmZhOTBhMGI5YjA1N2MyZTgxZmU4N2I5M2I3ZjU4ZWE4MWQyZDMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_45a947d19a3945b691705b7903442d25",
+      "statement": "summaryToFill fills only empty summary fields for which DofusDB gives a value, treats 0 as a written coordinate and whitespace-only text as empty, fills the needs list only when it has no rows, and never fills the needs notes.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/guides/summary.ts#L96-L127",
+          "version": "repo-lines-v1:sha256:08a672b7a90d0bf08b236631c042e585c21260f460fb902e0af154279165ec3c:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkOThjNjkwNTU3MDcxNzBlYTQxYjEyZWVkMmJmZGZkZGNlMmZiZmNhZWQ2NmY3ZjhjYTdlNWZjMDRhOTYwMjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJjYmM0MDdlMDY2ZDJlMTA4MjM5MWZiZDVhOTJiNWUyN2QwY2ZjYWU0ZmE0MTZkOTllMDk0YmJmZTM5MjVkMzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk4OTQ2N2Y5YmE4ZTM1ZDcxYmU4ZThhMjFiNzViOWRhMmQ5NGQyYzFhODQyN2ZlOTc3ODljZjIwZDI3NTA4MWIifQ"
+        },
+        {
+          "resource": "repo://tests/unit/guide-summary.test.ts#L250-L291",
+          "version": "repo-lines-v1:sha256:363c135a157a914b6ed641c6cbb8ea37333f169deb9923d817fe84a31c1d5510:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY2MzUxYmJlZmZkODQ3YjE2MzgzZWVjYzM1YTdlMGNlNmU3MmMyMWVhMzM2MDFhYTI1ZWIzNjRhM2Q3OWRlOWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYzNzliZTFlNGIwMTc3NWQ0MGI1MTk2YTkzYzNjNWRhNWJkYjE3MjAwOWIwMTM5NjU1NmY4MTc5NjUzODczZWQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_cb2090b14fad4951ad43c4fdd570456e",
+      "statement": "The generated rewards for quests 1977 and 1976 and the prerequisites for 1977 and 1433 equal the summaries the Squarespace import parsed from Torre's own pages.",
+      "evidence": [
+        {
+          "resource": "repo://tests/unit/guide-summary.test.ts#L77-L80",
+          "version": "repo-lines-v1:sha256:fe136b93099047c199f7628497813da82842931c4eb65a06876bf88d0634136d:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDczZmIzNWQ2M2IwMjUyYWE0Mzg1MDQ1Mzc4ZTc1NjU0MDg0MjU4N2Q0NTk1NjRmNzM3ZmM4N2UxMWE2NTQ5YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjFiMGVhYWZkYmU4NTQxN2IwZTc4ZDAwYjgyOTM2MzJmYmYxZWZiYjBlZWMyM2EyZDEyYmYxZWQ4MGMzMTJhYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2NhYzg4ZmZmYjFiMmJkNjYwMTU3MDMwYjdkNmZjMTVlMjJkODBmMDQ2NmQ3MjJiNTY2MTM1MTk1OGQwZWJhMiJ9"
+        },
+        {
+          "resource": "repo://tests/unit/guide-summary.test.ts#L90-L152",
+          "version": "repo-lines-v1:sha256:543c114481e3a1572b1d655b6d32a2549594b6993f4c5832f568084e02ef8476:eyJzZWxlY3RlZExpbmVDb3VudCI6NjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJiMWU0ZDc3MDRkMmJmMDk5ODg1ZWIzN2E1M2VjM2UxNWJjYzIzZmY1MmJlYTU4NWMwZTI1MTM3MjczNWY1OTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFhZjQ3NTcxODA1YTk3ZDYwMGE1NmEwNmY4Y2M4YzRlZGYyOTk3MjI2NmUzOGRkZDc1ZWFhZGE3ZTEwZTE0YTMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_67418e51fff44f64ad9ef22038b4e02a",
+      "statement": "summaryNote tells whether a summary field's value comes from DofusDB, was changed (showing DofusDB's value), is empty and will be filled on save, or has no DofusDB value, and reports missing, loading or failed quest data.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/guides/strings.ts#L49-L57",
+          "version": "repo-lines-v1:sha256:97e8e9cdd48a52da5d03877b1d505b4c9a18c6a61ed533fb2fb25fcba911086f:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzdkZGVjYTcwZDc5OTgwOTg5ZGVkZDA4MGQ2YTczYjRhNjNhMzY3N2JlOTBlNTMzMGMwNWJmZDIxMDViN2E0NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGU1NTFiYjZmYjBmOGVhODY4MzQzNTAyMmUzMTc4ZmE4NzdmYzFhMTNhOGI5N2ZmZGZkNTIzODI3YTAxNjVkZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTU1MDE3ZWQ1NjI5YWVjNzZiNjRkOGIxODEwMzE0ZDM0ZmY1Njg5NGIzZjJiODI5NzI3MTU3Y2FiOTFkODk2YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjIsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzFjNWEzZTAzNWM0MjU4OTliYmIyNzYyMDM2MjkxMGM2NmRlYmI3M2YyNGIzODZlNDA3Nzk2ZTY2MTNhOTUxYiJ9"
+        },
+        {
+          "resource": "repo://src/lib/guides/summary.ts#L167-L196",
+          "version": "repo-lines-v1:sha256:467bfb05103fbafab0ad4412702d6322bd539800599ecc7786d53afa6cbcd3b2:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY5YTk1ZjA1OTRjZDU0ZWZjMWEzMzQxYzcxMDBiMTFmNGY2ZGMxMGM4YWFjOTM4NDE3MzVmYjkzYjY2NDUwYTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/guide-summary.test.ts#L309-L344",
+          "version": "repo-lines-v1:sha256:40688ce92059360c59ae4c9aa2a64e877f1478741949e719936f30adc975d92e:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYTEwYjE3NGE1NjZjNmQwYjJiN2RkNWEzMjVmNzdiMmQ3NWM0YjhhZjBjYThmNTk4ZTVhMGIxZGI5ODAzZDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ0MzE0OGZhMDQ0ZjhkNWM0YjIxMzBmZGI5NmJmNjdkYjgwZGJmMzU0MjZkZjY0MWNlMjFmYWJmZGIyYjZiZjIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_71aa3b4b2a874226878ef667a9f20d71",
+      "statement": "The needs list note compares rows with DofusDB's as a set of item and quantity pairs, so row order and populated items do not matter.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/guides/summary.ts#L156-L162",
+          "version": "repo-lines-v1:sha256:651a3fd23d49570f62c7ca96764f82b40418849650034dd57dbcdc9f06e2f2d3:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWJjNDU1MWQ5MzY4NTk5NTU2OWY0OWQxYzhlNWMxNGVkZWFlY2VkMDQyN2Q4ZTBjMDk2YTQwYjFhMzk4OTE5ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDcxNWE4NzBjNjc4MWM3N2JhZTkwNmFlMmVkZDQwYzUwMTYyNzMzM2E1Mzg3MzEzMzk0YjhiYTlhOTg1YTI0NiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTA1MGVjYTdlYWI0MTQxYWIxMzg0ZmE5MDJmNGY5Mjg4ZTQzYjYwNzlkNTliMDkwMTM3YTQ0MGQzOWVhNzMwNiJ9"
+        },
+        {
+          "resource": "repo://src/lib/guides/summary.ts#L182-L188",
+          "version": "repo-lines-v1:sha256:444aa5c3bec0234ffaa39453f267a0b0a441574c54b27497ecef21930fdb6740:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzc3MjQ2MjllMDFmNzE3NWJiYzk1MWM5NzA3ZTU3NGIwOThmZmU2N2RmZjJmYjI2YjUwM2MxOWI1MWEzN2E2ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjdlNTc4OGQ1ZDlkNzNkMjRhODFkYmMwYTVhNzRiZmE4MmM5YzNiM2FmOTllNTJhZjc5NmU5MGI0NjhhOGEzZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzhlNWQyMWQ4ZjlkMTliZGI4MTM4MDQzZjc2Y2E0ZDMzNWFlOWQzMTdkZDllMjcyMzYxZWRhN2RjZjUxNDdhZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjI5MGZkM2Y4NjFkZDgxNDYyMzE4MWE3MDMxNDgyNjIyNWU4YzUwMmFlNmE0YjVhYTJkOTc3ZGFkMWE1YWMyNCJ9"
+        },
+        {
+          "resource": "repo://tests/unit/guide-summary.test.ts#L346-L372",
+          "version": "repo-lines-v1:sha256:78ab62057d5363c67e106ba557f7689bbe90b797fbf4d0e0344b13f5f4f68bc6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQxYmY5Nzc0MDlkNmNjZTVkNmM1ZDE2Y2MwZDQwZjk1MGE5MzdjYjEwNWNjYmU5YWMwZDJlYTg5NDNiMmIyNWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_fda6bca9660741e189623f5fd0097cb3",
+      "statement": "SummaryNote renders the note for its field from the live form value and the linked quest, keeping line breaks.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/quest-guide-admin/SummaryNote.tsx#L17-L44",
+          "version": "repo-lines-v1:sha256:e0b189a43662a61b68c80de9e61a65fc6698db3a1fda8439b065aa852d3edf6b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NDM4NDE5NjVlMGJlZjYwNjhjNjJiNDZhMTNkMjg5NDRhNGY4ODliMGU4MjBlNDM1MWFmYzgwNmM5ZTE2MTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVmMzU5NTdjMjg5MzRiZTVjMDk4MDE0ODhlMzBiYTc1OTIwYTNlODEwMWY4OTMwMTEyMGRmZGVhYmZhNmMyYzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/components/quest-guide-admin/linked-quest.ts#L52-L72",
+          "version": "repo-lines-v1:sha256:ba26c53915880f42f7c236970c4db6924fb4a8ca73144afa9dc4234338bdab5c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ0ZDQzOWE0YmMxODFlNTM4YTk4Y2RlMTQyOWJmODUwNzZhYjQ3NmM5OGY4YjgwZDVmZDFlOWY1M2MyNzJiZmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJmNjRjZTBlM2E5MmJlOTZhMDE1NWM1MmZiOTY3N2FkZTE0NmZlYmU5NmM3NzY5YzNiYWY3NGE3OTk1MjMxY2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_432d0d72f59d495797fb510fc60eecb8",
+      "statement": "Saving a guide with only its quest stores the title, slug, SEO and a summary filled from DofusDB, with the quest item left out of the needs list and the notes empty, while written fields and non-empty needs lists are kept.",
+      "evidence": [
+        {
+          "resource": "repo://tests/integration/quest-guides-autofill.test.ts#L92-L196",
+          "version": "repo-lines-v1:sha256:076005552d1effc1d34a866c18de4d94c2ca06000716831f9f6146f32335ad76:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJmNjg2YTU0ZWNlMGVkZjBhNDBlMmNkMmNiNjYzZjU4MjIyM2I2YzU1NTgyNTMwMzQ3YTZhMmIzOTQzOTE4NjFmIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiMjM1MjU4OWMzNGQzYzYwNjg1OTMxYjZlY2M0ZDUwOTkxYTdjNTZjOGZiYTI4OTQxMTQ2NTc2OTAyNzJjYWMzIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI5Yzc5ZjY2ZGUxYTBmNjZiMGVlNjM1YTQ3OTkyNjEyYTM2ZDIwNmFhMjM3MTg2NDNhOGUxYzA0MWMzOWEzZGUwIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI0NGNhNTk3ZGRjM2MyNzE4NmExMjg0ZWZkYWFhYTNjNWFlYTllMWJiYmZiZjA5ZmZlNmQzZmE2NDY0NTFjNmVhIn0"
+        }
+      ]
+    },
+    {
+      "id": "claim_9c8ae1098dfc4225bc410e623d00fe8b",
+      "statement": "The guide text strings, including the summary formats, SEO templates and panel notes, live in one module so a second language would translate that module.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/guides/strings.ts#L1-L4",
+          "version": "repo-lines-v1:sha256:f16a76afc92545ef3c62ca1327f0f2835750a04136a61ac617742fb3058f69c9:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWI2NGJkYjgxNjBhOWFlZTY3MTMyNTQ1NTQ1ZmVmYTk4MjdhYzk2OWY1OGMxYWUwZWFhOWQ2OWExMDlkNzM4YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2I3NzUwZTYzM2U5N2UxOTUxMDk1OTdjNjc4NjU2M2M2YjRiZDRhNTJkNTAzYWI4NzY1NmRiNGJmNjMzZDA1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2Y1MTYzZDQ4ZGI1OGU3MjUwMjdjNGYyYThlMDFkNmNiNTYzMzc5ZDlmZDgzYmI5MGFhZTJmMmVmODdmMmZmZCJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-04T20:02:15.357Z"
+  }
+}
