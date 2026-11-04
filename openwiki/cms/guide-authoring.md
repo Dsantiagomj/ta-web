@@ -5,7 +5,7 @@ description: How Torre writes a quest guide in the Payload panel by picking the 
 tags: [quest-guides, payload, admin, dofusdb, autofill, workflow]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T20:02:15.357Z
+    at: 2026-11-04T20:38:00.762Z
 sources:
   - id: openwiki-source-f6a77b87c2cce3530ab6695f
     resource: repo://src/collections/quest-guide-autofill.ts
@@ -17,8 +17,12 @@ sources:
     resource: repo://src/components/quest-guide-admin/QuestAutofill.tsx
   - id: openwiki-source-0a4faad5eab8d765028627d7
     resource: repo://src/components/quest-guide-admin/SummaryNote.tsx
+  - id: openwiki-source-50dfb7dff241d2a5f45927cb
+    resource: repo://src/lib/dofusdb/criterion.ts
   - id: openwiki-source-4b87b2bd0648fe28c52dc5e5
     resource: repo://src/lib/guides/autofill.ts
+  - id: openwiki-source-4afd1b9384e1b61783854c50
+    resource: repo://src/lib/guides/form-fill.ts
   - id: openwiki-source-d5cdfb9f4d8e25639ff82c78
     resource: repo://src/lib/guides/format.ts
   - id: openwiki-source-2f2b90aba3af4142e443ba84
@@ -29,11 +33,13 @@ sources:
     resource: repo://tests/integration/quest-guides-autofill.test.ts
   - id: openwiki-source-bb0747d86ef5cecbc4d85241
     resource: repo://tests/unit/guide-autofill.test.ts
+  - id: openwiki-source-a245227c3cb5565abdfcd27a
+    resource: repo://tests/unit/guide-form-fill.test.ts
   - id: openwiki-source-85e63acb1252624b63be77af
     resource: repo://tests/unit/guide-summary.test.ts
   - id: openwiki-source-1970468d3fcc651d5071b312
     resource: repo://tests/unit/quest-guides-collection.test.ts
-generated: { by: "claude-code", at: "2026-11-04T20:02:15.357Z" }
+generated: { by: "claude-code", at: "2026-11-04T20:38:00.762Z" }
 ---
 
 # Writing a quest guide
@@ -66,6 +72,7 @@ All rules are pure functions in `src/lib/guides/`, without Payload, so the serve
 | `format.ts` | Torre's summary format: thousands, rewards, prerequisites, the needed items |
 | `summary.ts` | `summaryFromQuest`, `summaryToFill`, `applySummaryFill` and `summaryNote` |
 | `autofill.ts` | Title, slug and SEO: `autofillFromQuest`, `slugFromName`, `availableSlug`, `seoFromQuest`, `firstQuestId` |
+| `form-fill.ts` | The live form fill: `plannedFormFill` and `stillEmpty`, read through a field-path reader so they run without React |
 
 ### Title, slug and SEO
 
@@ -86,7 +93,7 @@ Guides migrated from Squarespace already have a slug, so they keep their old URL
 
 | Field | From DofusDB | Example |
 |---|---|---|
-| `prerequisites` | "Nivel mínimo N." when the start criterion has `PL>M` (N = M + 1), then the name of each prerequisite quest. The `prerequisites` relation holds only the mandatory quests (see [DofusDB game data refresh](../data/dofusdb-refresh.md#prerequisite-rule)) | `Nivel mínimo 190.`<br>`Toma de conciencia.` |
+| `prerequisites` | "Nivel mínimo N." when the start criterion always requires `PL>M` (N = M + 1), then the name of each prerequisite quest. "Always requires" means the `PL>` term is joined with `&` at the top level or inside `&`-only brackets, as read by the shared criterion parser `requiredTerms` (see [DofusDB game data refresh](../data/dofusdb-refresh.md#prerequisite-rule)): `PL>189&Qf=123` gives level 190, but `PL>189\|Qf=123` and `(PL>50\|PL>60)&Qf=1` give no level. The `prerequisites` relation holds only the mandatory quests (see [DofusDB game data refresh](../data/dofusdb-refresh.md#prerequisite-rule)) | `Nivel mínimo 190.`<br>`Toma de conciencia.` |
 | `rewards` | Experience, kamas, then `N x Item` lines with the items in the **reverse** of DofusDB's order, as Torre lists them. Zero amounts are skipped | `24 316 XP.`<br>`552 kamas.`<br>`2 x Cuero de miserata strubiense.`<br>`2 x Colmillos de ratas.` |
 | `needs.items` | The quest's needed items with their quantities, in DofusDB's order, **without quest items** (`superTypeId === 14`): the game hands those out during the quest. Monsters and map walking do not fit an item list and are left out | rows `{ item, quantity }` |
 | `startNpc`, `startX`, `startY` | The first start position. DofusDB can give one per class | `Kerubim Crepin`, `3`, `-17` |
@@ -104,11 +111,14 @@ The output matches Torre's own pages. For El cazador cazado (1977) and Seis pies
 `src/components/quest-guide-admin/QuestAutofill.tsx` is the `Description` component of the `quests` field. It watches the first selected quest ID through `useFormFields`. When the ID changes:
 
 1. It loads the quest from the REST API, `GET <serverURL><api>/quests/<id>?depth=1` with the session cookie, through `fetchLinkedQuest` in `linked-quest.ts`. Requests are cached per URL while the page is open; a failed one is dropped from the cache so the next attempt retries.
-2. It runs `autofillFromQuest` and `summaryToFill` on the current form values.
-3. For the slug it calls `availableSlug` with `slugTaken`, which queries `quest-guides` by slug and ignores the guide's own ID. If that query fails it answers "not taken" and lets the server reject a duplicate.
-4. It dispatches an `UPDATE` for each filled value and adds one `summary.needs.items` row per needed item with its item and quantity, then marks the form modified.
+2. It plans the fill with `plannedFormFill(read, quest)`, where `read` is the form's `getDataByPath`. The plan runs `autofillFromQuest` and `summaryToFill` on the current form values and returns the field paths to fill with their values (blank values dropped) plus the rows for an empty "Necesitarás" list (`summary.needs.items`, exported as `NEEDS_PATH`).
+3. For the planned slug it calls `availableSlug` with `slugTaken`, which queries `quest-guides` by slug and ignores the guide's own ID. If that query fails it answers "not taken" and lets the server reject a duplicate.
+4. It re-reads the form with `stillEmpty(planned, read)`: only planned fields that are still blank are kept, and the needs rows only when the list still has no rows. Torre can type while the slug check is in flight, and whatever was typed in that window stays.
+5. It dispatches an `UPDATE` for each remaining value and adds one `summary.needs.items` row per remaining needed item with its item and quantity, then marks the form modified if it filled anything.
 
 The quest the guide was opened with fills nothing: only a change Torre makes in the form triggers it. If Torre picks another quest while a request is in flight, the stale result is discarded.
+
+`plannedFormFill` and `stillEmpty` use the same "blank" rule as the rest of the fill: `null`, `undefined` or whitespace-only text is blank, and a number (such as a `0` coordinate) is written. A needs list that Payload reports as a row count instead of an array is read as that many empty rows.
 
 ### On save: `fillFromQuest`
 
@@ -142,7 +152,8 @@ The Squarespace importer runs the same `summaryToFill` and `applySummaryFill` be
 
 ## Tests
 
-- `tests/unit/guide-summary.test.ts` builds linked quests from the real DofusDB fixtures through `mapQuest` and checks `formatThousands`, `rewardsText` and `prerequisitesText` against Torre's parsed Squarespace pages (1977, 1976, 1433), `requiredLevel`, `neededItems` (quest items dropped by supertype 14 whatever their type, DofusDB order for quest 2420's six Primordial Dofus), `summaryToFill` (never touching written fields, `0` as a coordinate, a filled or empty needs list), `applySummaryFill` keeping the notes, and every `summaryNote` state for text fields and the list.
+- `tests/unit/guide-summary.test.ts` builds linked quests from the real DofusDB fixtures through `mapQuest` and checks `formatThousands`, `rewardsText` and `prerequisitesText` against Torre's parsed Squarespace pages (1977, 1976, 1433), `requiredLevel` (including that a `PL>` among `|` alternatives gives no level), `neededItems` (quest items dropped by supertype 14 whatever their type, DofusDB order for quest 2420's six Primordial Dofus), `summaryToFill` (never touching written fields, `0` as a coordinate, a filled or empty needs list), `applySummaryFill` keeping the notes, and every `summaryNote` state for text fields and the list.
+- `tests/unit/guide-form-fill.test.ts` checks that `plannedFormFill` plans every empty field from quest 1977's data and nothing for fields already written, and that `stillEmpty` drops a title, a rewards text and a needs list Torre typed during the slug check while still filling the slug and the start NPC, treating whitespace-only text and a list with no rows as empty.
 - `tests/unit/guide-autofill.test.ts` covers `slugFromName` on Torre's slugs and odd names, `availableSlug` suffixes, `seoFromQuest` with and without level and XP and the 160-character cut, `autofillFromQuest` never touching written fields, and `firstQuestId`.
 - `tests/integration/quest-guides-autofill.test.ts` saves guides through the local API as a panel user: a guide with only the quest gets title, slug, SEO and the full summary (the quest item left out of the needs list, notes empty); a second one gets `-2`; written title, slug, SEO, summary fields and needs lists stay; a guide without title and quest is rejected with the Spanish message; editing an imported guide keeps its Squarespace slug and SEO title; and a summary field emptied on update is filled again.
 
