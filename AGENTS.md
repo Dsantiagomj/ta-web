@@ -15,7 +15,7 @@ Every change: code, content model, migrations, data, docs, CI. Read this file be
 3. Schema change: generate and commit the migration in the same branch.
 4. Run every suite locally (see Testing). Report failures verbatim. The pre-commit hook runs Prettier, ESLint and the `gga` review on staged files; do not skip it (`--no-verify`, `LEFTHOOK=0`, `LEFTHOOK_EXCLUDE`) unless the user asks.
 5. UI change: screenshots at 1440, 1024 and 390 px, Arcano dark and light (plus any theme the change touches), in `tmp/shots/`, next to the approved mockup.
-6. Open the PR: conventional commit title, Spanish body. No auto-merge unless asked.
+6. Refresh the wiki in the same branch (see Wiki), then open the PR: conventional commit title, Spanish body. No auto-merge unless asked.
 
 ## Stack
 
@@ -60,7 +60,7 @@ Every change: code, content model, migrations, data, docs, CI. Read this file be
 
 | Artifact | Language |
 |---|---|
-| Docs: `AGENTS.md`, `DESIGN.md`, `README.md`, everything under `docs/` | English. Spanish only for quoted UI copy, game names and quoted titles |
+| Docs: `AGENTS.md`, `DESIGN.md`, `README.md`, everything under `docs/` and `openwiki/` | English. Spanish only for quoted UI copy, game names and quoted titles |
 | UI copy, code comments, commit messages, PR titles and bodies, issues | Spanish |
 | Identifiers, file names, collection and field slugs | English |
 | Content slugs and URLs | Spanish, the same flat slugs as today (`/aprendizaje-escudero`) |
@@ -175,3 +175,24 @@ Mockups first, the user picks, then implement. Details and screenshot rules are 
 ## Related repo
 
 `silvestre-checklist` keeps serving the Squarespace embeds until the cutover. Read it for reference (the checklist app, its tests, the data pipeline); do not import from it at runtime. No new embed work after phase 2a starts.
+
+## Wiki
+
+`openwiki/` is the repo's generated documentation, built with the `openwiki` skill. It is the only generated documentation.
+
+- Before opening any PR, run the `openwiki` skill in `update` mode and commit the `openwiki/` changes it makes in that same PR. If it returns `noop`, there is nothing to commit.
+- No hook or workflow runs it. The OpenWiki block below mentions a scheduled workflow; this repo has none on purpose. If the skill creates `.github/workflows/openwiki-update.yml`, delete it and do not commit it.
+- Do not edit generated pages, `openwiki/.claims/`, the indexes or `openwiki/.last-update.json` by hand. Change the source and run the skill again.
+
+<!-- OPENWIKI:START -->
+
+## OpenWiki
+
+This repository has a generated `openwiki/` evidence index. It is optional just-in-time context, not required startup reading.
+
+- Treat source code and tests as authoritative. A brief's unknowns and review items are verification gaps, not automatic requirements.
+- Prefer the narrowest quiet validation that proves the changed behavior. Preserve complete failure output.
+
+The scheduled OpenWiki GitHub Actions workflow refreshes the repository wiki. Do not hand-edit generated OpenWiki pages unless explicitly asked; prefer updating source code/docs and letting OpenWiki regenerate.
+
+<!-- OPENWIKI:END -->
