@@ -10,7 +10,8 @@ import { getPayload } from 'payload'
 
 import config from '@payload-config'
 
-import { loadQuestGuides, type ImageFile } from './load-quest-guides'
+import { loadQuestGuides } from './load-quest-guides'
+import { createImageFetcher } from './squarespace/fetch-image'
 import { parsePage } from './squarespace/parse-page'
 import { parseQuestMatches } from './squarespace/quest-matches'
 import { GUIDE_SLUGS, toQuestGuide } from './squarespace/to-quest-guide'
@@ -24,30 +25,6 @@ if (!sourceDir) {
   process.exit(1)
 }
 const slugs = requested.length ? requested : [...GUIDE_SLUGS]
-
-const ORIGINAL_TYPES: Record<string, string> = {
-  '.png': 'image/png',
-  '.jpg': 'image/jpeg',
-  '.jpeg': 'image/jpeg',
-  '.gif': 'image/gif',
-  '.webp': 'image/webp',
-}
-
-async function fetchImage(url: string): Promise<ImageFile> {
-  // El CDN de Squarespace sirve WebP a quien lo acepte, también con */*. Pidiendo solo
-  // el tipo de la extensión devuelve el archivo original, que es el que se guarda.
-  const accept = ORIGINAL_TYPES[path.extname(new URL(url).pathname).toLowerCase()] ?? '*/*'
-  const response = await fetch(url, {
-    headers: { accept },
-    signal: AbortSignal.timeout(30_000),
-  })
-  if (!response.ok) throw new Error(`HTTP ${response.status}`)
-  const data = Buffer.from(await response.arrayBuffer())
-  // Squarespace codifica los espacios del nombre como "+".
-  const name = decodeURIComponent(path.basename(new URL(url).pathname).replace(/\+/g, ' '))
-  const mimetype = response.headers.get('content-type')?.split(';')[0] ?? 'application/octet-stream'
-  return { data, mimetype, name, size: data.length }
-}
 
 const payload = await getPayload({ config })
 try {
@@ -69,7 +46,7 @@ try {
   console.log(`Leídas ${guides.length} páginas (${seconds()} s). Cargando…`)
 
   const result = await loadQuestGuides(payload, guides, {
-    fetchImage,
+    fetchImage: createImageFetcher(),
     log: (message) => console.log(message),
   })
 
