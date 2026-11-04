@@ -12,7 +12,6 @@ export interface RawQuest {
   categoryId?: number | null
   startCriterion?: string | null
   startPosition?: ({ mapId?: number | null; npcId?: number | null } | null)[] | null
-  need?: { quests?: number[] | null } | null
 }
 
 export interface RawNpc {

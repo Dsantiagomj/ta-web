@@ -50,28 +50,46 @@ describe('mapQuest', () => {
     ])
   })
 
+  // Prerrequisito = misión que hay que haber terminado. Solo cuentan los Qf= obligatorios
+  // del criterio; need.quests de DofusDB mezcla alternativas y misiones en curso (Qa=).
   describe('prerrequisitos', () => {
-    it('une need.quests y cada Qf= del criterio, sin repetir', () => {
-      // need.quests = [871, 878]; el criterio repite 871 (Qf=871&Qa=878)
-      expect(mapQuest(quest(879), lookups).prerequisiteDofusIds).toEqual([871, 878])
+    it('toma los Qf= unidos con & y no need.quests ni Qa=', () => {
+      // Qf=871&Qa=878, need.quests = [871, 878]: 878 solo tiene que estar en curso
+      expect(mapQuest(quest(879), lookups).prerequisiteDofusIds).toEqual([871])
     })
 
-    it('lee los Qf= del criterio aunque need.quests esté vacío', () => {
+    it('no cuenta las alternativas de un grupo con |', () => {
+      // Ps=2&Pa=55&PL>129&(Qf=272|Qf=273|Qf=274): basta con una de las tres
+      expect(mapQuest(quest(275), lookups).prerequisiteDofusIds).toEqual([])
+    })
+
+    it('cuenta el Qf= obligatorio junto a un grupo con |', () => {
+      // PL>99&Qf=631&(PO=11195|PO=11197|DD>8,11198)&Sc=702
+      expect(mapQuest(quest(674), lookups).prerequisiteDofusIds).toEqual([631])
+    })
+
+    it('trata un | sin paréntesis como alternativas', () => {
       const raw = quest(880)
-      raw.need = { quests: [] }
       raw.startCriterion = 'Qf=879&Qa=878|Qf=877'
-      expect(mapQuest(raw, lookups).prerequisiteDofusIds).toEqual([879, 877])
+      expect(mapQuest(raw, lookups).prerequisiteDofusIds).toEqual([])
     })
 
-    it('no se pone a sí misma como prerrequisito', () => {
+    it('trata los grupos anidados como alternativas, sin fallar', () => {
       const raw = quest(880)
-      raw.startCriterion = 'Qf=880&Qf=879'
-      expect(mapQuest(raw, lookups).prerequisiteDofusIds).toEqual([879, 878])
+      raw.startCriterion = '((Qf=934&Pm=76284416)|(Qf=935&Pm=76286989))&Qf=10&(Qf=11&Qf=12)'
+      expect(mapQuest(raw, lookups).prerequisiteDofusIds).toEqual([10, 11, 12])
+      raw.startCriterion = 'Qf=1&((Qf=2|Qf=3)'
+      expect(() => mapQuest(raw, lookups)).not.toThrow()
     })
 
-    it('sin need ni criterio no hay prerrequisitos', () => {
-      const raw = quest(878)
-      delete raw.need
+    it('no repite ni se pone a sí misma como prerrequisito', () => {
+      const raw = quest(880)
+      raw.startCriterion = 'Qf=880&Qf=879&Qf=879&Qf!878'
+      expect(mapQuest(raw, lookups).prerequisiteDofusIds).toEqual([879])
+    })
+
+    it('sin criterio no hay prerrequisitos', () => {
+      const raw = quest(879)
       raw.startCriterion = null
       expect(mapQuest(raw, lookups)).toMatchObject({
         startCriterion: null,

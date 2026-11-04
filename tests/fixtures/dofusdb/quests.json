@@ -110,5 +110,59 @@
       "quests": [88],
       "achievements": []
     }
+  },
+  {
+    "id": 275,
+    "name": {
+      "id": "888163",
+      "de": "Supermilizionäre",
+      "en": "Mighty Militiaman",
+      "es": "El Supermiliciano",
+      "fr": "Supermilicien",
+      "pt": "Supermiliciano"
+    },
+    "levelMin": 136,
+    "levelMax": 136,
+    "categoryId": 10,
+    "startCriterion": "Ps=2&Pa=55&PL>129&(Qf=272|Qf=273|Qf=274)",
+    "startPosition": [
+      {
+        "mapId": 216530944,
+        "npcId": 6401
+      }
+    ],
+    "need": {
+      "items": [34229],
+      "quantities": [1],
+      "quests": [272, 273, 274],
+      "achievements": []
+    }
+  },
+  {
+    "id": 674,
+    "name": {
+      "id": "885857",
+      "de": "Krank heut', aber morgen nicht mehr!",
+      "en": "The Illness",
+      "es": "La enfermedad",
+      "fr": "Le mal a dit",
+      "pt": "Busca doentia"
+    },
+    "levelMin": 120,
+    "levelMax": 120,
+    "categoryId": 27,
+    "startCriterion": "PL>99&Qf=631&(PO=11195|PO=11197|DD>8,11198)&Sc=702",
+    "startPosition": [
+      {
+        "mapId": 54534177,
+        "npcId": 1251
+      }
+    ],
+    "need": {
+      "items": [11226, 11195, 11197],
+      "quantities": [1, 1, 1],
+      "quests": [631],
+      "achievements": []
+    }
   }
 ]
