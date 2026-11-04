@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
+import { E2E_DATABASE_URL } from '../../src/lib/db/dev-database'
 import { appWebServers } from '../e2e/app-server'
 import { integrationEnv } from '../integration/env'
 
@@ -36,5 +37,14 @@ describe('appWebServers', () => {
 
     expect(app?.env?.DATABASE_URL).toBe('postgres://ci@localhost/pruebas')
     expect(app?.env?.DATABASE_URL_DIRECT).toBe('postgres://ci@localhost/pruebas')
+  })
+
+  it('trata una DATABASE_URL en blanco como vacía: base embebida, como pnpm test:lhci', () => {
+    vi.stubEnv('DATABASE_URL', '  ')
+
+    const servers = appWebServers({ port: 3100 })
+
+    expect(servers[0]?.command).toBe('pnpm db:dev')
+    expect(servers.at(-1)?.env?.DATABASE_URL).toBe(E2E_DATABASE_URL)
   })
 })
