@@ -83,7 +83,8 @@ function videoUrl(src: string): string | null {
     return inner ? videoUrl(inner) : null
   }
   url.protocol = 'https:'
-  return url.href
+  // Las URL opacas (javascript:, data:) no cambian de protocolo: no son vídeos.
+  return url.protocol === 'https:' ? url.href : null
 }
 
 function embedBlock(block: Element): PageBlock {

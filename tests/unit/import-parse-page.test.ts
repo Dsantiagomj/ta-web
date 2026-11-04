@@ -123,4 +123,23 @@ describe('lectura de una página de Squarespace', () => {
       { type: 'unknown', sqspType: 'embed' },
     ])
   })
+
+  it('un vídeo que no queda en https es desconocido, aunque venga dentro de Embedly', () => {
+    const iframe = (src: string) => `<iframe src="${src}"></iframe>`
+    const html = page([
+      { id: 'a', area: '1/2/2/10', type: 'embed', inner: iframe('javascript:alert(1)') },
+      { id: 'b', area: '2/2/3/10', type: 'embed', inner: iframe('data:text/html,hola') },
+      {
+        id: 'c',
+        area: '3/2/4/10',
+        type: 'embed',
+        inner: iframe('https://cdn.embedly.com/x?url=javascript%3Aalert(1)'),
+      },
+    ])
+    expect(parsePage(html).blocks).toEqual([
+      { type: 'unknown', sqspType: 'embed' },
+      { type: 'unknown', sqspType: 'embed' },
+      { type: 'unknown', sqspType: 'embed' },
+    ])
+  })
 })
