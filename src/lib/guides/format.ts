@@ -1,6 +1,8 @@
 // Textos del resumen en el formato de las guías de Torre: una línea por dato, con punto
 // final y los miles separados por un espacio.
 
+import { requiredTerms } from '../dofusdb/criterion'
+
 import { guideStrings } from './strings'
 import type { LinkedItem, LinkedNeeds, LinkedQuest, LinkedRewards, NamedDoc } from './summary'
 
@@ -64,10 +66,16 @@ export function itemsText(needed: NeededItem[]): string | null {
   return lines(needed.map(({ item, quantity }) => quantityLine(quantity, item)))
 }
 
-/** El nivel mínimo para empezar, del criterio PL>N de DofusDB (nivel mayor que N). */
+/**
+ * El nivel mínimo para empezar, del criterio PL>N de DofusDB (nivel mayor que N). Solo
+ * si se exige siempre: un PL> entre alternativas con | no es obligatorio.
+ */
 export function requiredLevel(startCriterion: string | null | undefined): number | null {
-  const match = startCriterion?.match(/PL>(\d+)/)
-  return match ? Number(match[1]) + 1 : null
+  for (const term of requiredTerms(startCriterion)) {
+    const match = /^PL>(\d+)$/.exec(term)
+    if (match) return Number(match[1]) + 1
+  }
+  return null
 }
 
 /** El nivel mínimo, si lo hay, y las misiones que hay que terminar antes. */
