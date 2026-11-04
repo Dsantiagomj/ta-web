@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:103771e69bee3900339857d8614269ff246aab934afb1670029b7bac294234f0",
+  "pageVersion": "sha256:56a8c1fb2cee8f45bbad217f86bbfe272ed9fb956979b215035ff2db0fd1fe55",
   "claims": [
     {
       "id": "claim_764b0485963845c99d60b85472ceccba",
@@ -139,8 +139,8 @@
       "statement": "The integration suite includes tests/integration/migrations.test.ts, which runs pnpm payload migrate:down then pnpm payload migrate with integrationEnv and DATABASE_CONNECTION=direct to check the latest migration rolls back and re-applies.",
       "evidence": [
         {
-          "resource": "repo://tests/integration/migrations.test.ts#L8-L38",
-          "version": "repo-lines-v1:sha256:d515c59458cbd7af8cd122854e8814aae022fdc611c7d55a7f78e6b73240e6ae:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0ZjdkOTcyMDJkYTA2YThkYzAwZjU0NWNkODMzOWEyYmU2ZDgzYTc1ODkxMjJjOGUzYWM4ODJkZmJkZjU4ZjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU2NDU4M2IyMjgwZTkzZGY0NTI2YTJiZjA4NjZjNjkxZjg3Mjk3NTM3MDFlNGVlOWUwYWZmOGI0MTRmMzdlYzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://tests/integration/migrations.test.ts#L8-L39",
+          "version": "repo-lines-v1:sha256:125f58f1145ae0bd5a47acc2412aa40daec4bb78ae4da7c79cf5425022b2d4a1:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0ZjdkOTcyMDJkYTA2YThkYzAwZjU0NWNkODMzOWEyYmU2ZDgzYTc1ODkxMjJjOGUzYWM4ODJkZmJkZjU4ZjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU2NDU4M2IyMjgwZTkzZGY0NTI2YTJiZjA4NjZjNjkxZjg3Mjk3NTM3MDFlNGVlOWUwYWZmOGI0MTRmMzdlYzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -219,10 +219,60 @@
           "version": "repo-lines-v1:sha256:d43a8d9777e25ccfbfbec3cd408a70cb57f7dd81d24c975c1c2c9b3a463508da:eyJzZWxlY3RlZExpbmVDb3VudCI6MjA0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIwZTgxOGNlMGMwM2JjNGEyMmMyN2ZiZTRiYjQ4NDkyYjBkODQ0MzQyNjYxNDMzYzUyYzU1ODk5NDMzMzM5NjdlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIwMTI2MmMzNWU1ZTkyYWU5YTIxNzA2NzM1MjM3OTBiYjc1YzliMmY0NDQ1MDM3NmE3MzE3ZTQ3M2ExOGRkNzA3IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
+    },
+    {
+      "id": "claim_171da2e9dd9347d7b0b40b8e231fbe04",
+      "statement": "The migrations integration test sets its own 120-second timeout because it starts the Payload CLI twice.",
+      "evidence": [
+        {
+          "resource": "repo://tests/integration/migrations.test.ts#L35-L38",
+          "version": "repo-lines-v1:sha256:7c6ce74919c8c2f861060e8f3c7e4265a3a804238621794a948dba470d681615:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNThhZmRkMzIwZmFlOWVjYmY1YmZkNmM4OTFkY2Y1ZGM3ZjU0ZWJlNDEwYmJkZDgxMjg5NzkwYzEzOGE5NTQzNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGExZDM4YmQ3YTE3YmMzNmE0MjdiMzU5MzBkMWEyNjExZGY5M2ZkNmE1YTVmOGFjYmM3MTAxYmE4ZDBkYjI5OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjIyMjQwNDYzYzRhM2FlNmIzZDY3ODRjNDVlNGNjODdhY2JjNDkwNTM3NzRlM2I4M2EwMjY3OTY1YTA3NDdhMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODU4MGI3NjUxOGRhZTk3OWZhZWJkMDIzNjdhMjkyOTJhNTBkOTc2MDkyMjUxYTM4YTZjZTMwODgwYmE0MjgyNSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_efdb64356dbc40eb8b8b3d4d852536f9",
+      "statement": "Import unit tests cover page parsing (title, desktop grid order, text, image and unknown blocks), the page-to-guide conversion, HTML to Lexical through Payload's editor and the quest matches CSV.",
+      "evidence": [
+        {
+          "resource": "repo://tests/unit/import-parse-page.test.ts#L43-L126",
+          "version": "repo-lines-v1:sha256:5e839f038f6966db7cf9c97412152d8af2509ca0625295172635ae108f9a585e:eyJzZWxlY3RlZExpbmVDb3VudCI6ODQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3YWU5YWY1ODZkMGMwN2RjMjRlNWJhYTljNzdlNjVkMzA1YjgyNDg4MzE3ZGI3N2YwMTBhYTRhZGI1ZjYwNmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmZmU3MTFkNjRlNTNmZGE4ZjIyMzlkMDM3ZDg3MzI5MTFiOGI1ZWZkZTIzZGQ4OTE2ODA3ZmUwYjk4MTFjYmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/import-quest-matches.test.ts#L14-L29",
+          "version": "repo-lines-v1:sha256:2e886b00abd7ff20fa87a201009d4f0e4276ed632e323c192fb202c42c0048bb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRmZTNkNzM0NzAzMzUzY2E4OWMzNThiMzlhNGMzYWJjN2M0MjNiZTQzZTI4MTk2YmYyZmMzYmU1MTNkMjU2YWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZlYjUwZmFkOGFhNWY3ZmUwZTQ5NDU4ZGNkZmMxMjExMWVjMGM5N2M0OWQ1NTZmN2ZmNzAzYmM5MDE5NTI3YzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/import-rich-text.test.ts#L25-L45",
+          "version": "repo-lines-v1:sha256:eb8d91427d13fd3bd56500d903b9934609b3f59bc63be12f8dd620ceaa4efe29:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4NjNiMzM3ZDFmYWQ1YmJkMmJlMWY1YWE5ZTBmZjVhNDE0Y2ExZjIwNzRhMzQ5ZTAwZDZlMTEyZGMzN2QwMmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY1YzFlZmFhMTZjMDg0ODc4ZjU1NGEzNzg3NzZkZmE5ZjZlYjk1MDhjM2E0MWE4YWQyMWExNzA3YzI4YmQyZDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/import-to-quest-guide.test.ts#L58-L294",
+          "version": "repo-lines-v1:sha256:b65aa13845b598633a12736d6e19de897c8f353b9a83312270ed0912b0a74bcd:eyJzZWxlY3RlZExpbmVDb3VudCI6MjM3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJkODZhMTMxOWQzMWIyMTBmY2VhODBmODAyZmI4ODlmYzlmZTU3NTNhYTk1N2E1OTUyMTM2YTkxMTc5OGUyMTAwIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIzNDBjNWQzZGMzYTc3MzA3OTNjODkyNzk0OGI1NTk2NjQyMDdmNzliYTg3NzczYzIxNTAwNDQzMTk2MmZkNDg4IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_7613ae9aa8af4670b57da0e5da69a8a0",
+      "statement": "tests/fixtures/squarespace holds trimmed copies of the five demo Squarespace pages, one HTML file per slug, and Prettier ignores the directory.",
+      "evidence": [
+        {
+          "resource": "repo://.prettierignore#L21-L22",
+          "version": "repo-lines-v1:sha256:2f5958633f31d93bfe9179f85eead2f67a69ef30c9bed7d80999c2feb78c2dbd:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWMyOGIzMjYzMDJhYWRiMGMxMjk4ZjY1ZWExZGRlODUyNjFlMDI2YzViMWNlM2ZiNGJhNGQ2YzQ4MmE5YzRjNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDg4MzU3YzQzMjgyM2EwNjYyNjExODg4MzhmZGJkYTBiOWQzNjY3NGI3ODMwODQzZmE0MmNkNGJkMWNmZmU2NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzM3YTA2ZWIxNDA0MjhmODYxNTVhYTA0ZTU1OTFmZGUzZDNkZmRjODk0ZWQxZWM1MDc0N2U2YTE5ZTAzNzFmYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://tests/fixtures/squarespace/el-cazador-cazado.html",
+          "version": "repo-file-v1:sha256:6c20917156f08fd25d8ad995f0787009203087eaab8e254cc0e4120e13ef73f1"
+        },
+        {
+          "resource": "repo://tests/unit/import-to-quest-guide.test.ts#L12-L18",
+          "version": "repo-lines-v1:sha256:9970ebcb537f618d56ba1e330d28b7a8cd6f0320a247672af28b0616aba17d04:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmY1MjUyYmU2ODVkYjEwNWJkYWI0OTQ5YzA0ZGVmMjJhYzZkMTVhMTJlYWZlYzM2ZDQwN2MwNmExNzc3MTU1YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTc2Mjc3ZGVmNWM1NTJmM2I4YTNlMzlmNTljYjY3NDgxNjFlM2NhMmEzZTczZDQxMDBiMWI0OTY4MWI2ZmM1MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMGY3OTQ4ODk0MDI2NTNmZGZlODcwMzI4YzMxNGUzMzc0ZjQyNmM1NTgxYmY3MTU3ZmJhZjhmZjIyYmFmNmI2YiJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T12:46:56.619Z"
+    "at": "2026-11-04T15:33:25.988Z"
   }
 }

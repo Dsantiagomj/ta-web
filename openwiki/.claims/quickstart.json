@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:3a87fe6cf3a8d1c13779a08259f808e112b59a2bed6491afaa237b269bce9f34",
+  "pageVersion": "sha256:681583c0e9571deefbb66f5504af4bfe69733b4b00741e78bc837e2233ad5f72",
   "claims": [
     {
       "id": "claim_2337c4767f624841a8302780adbb1ac7",
@@ -81,10 +81,20 @@
           "version": "repo-lines-v1:sha256:446d258d9f03fbae3e42ff67c16dbc3a907a6f107fcb0dca64b7c37d2f9203b2:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjljYTg5MWJmZjdhYzFmN2NlYWFlNDBlZjA1MTA2NmJlOWVmZTQ3YjRlNDI4MWU4NmMzMTliZTJjNTVlYmNlNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDlkZTRjZmY2NjU1OWRiZDI5NzhjYzVhZTUyMjY5MzUyNDNmNzk1MzI4ODE5YTBjOTZkMGY4NzM0MWYwZTc2OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTEyYzM2NmRjN2IwMjJjNWVlOWY1MTU0NTI1MTYyNDJhMzc0M2NhNzUwY2NkNjA2YjVkMTkyZGI0NGIyMjY3NSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_e639cec9bad84ef2808614dfe2aae9c7",
+      "statement": "The Squarespace page to quest guide conversion lives in scripts/import/squarespace/.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L154-L161",
+          "version": "repo-lines-v1:sha256:54835ca53f77a068904b404709831704a94b685d4588ef717c0f6d1a443fcd1e:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDU4ZGI0NTI1YTUzMWMyMTFiM2ZjYjNmOWM0ZTdlZmY1YzFmYTQ4MGIzOTM0NjI1ZjcwZWQ4YWEzNDdmNTVlNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDY3ZTZjYTAwMTc4MjYxMTRkYmE1MjllNDk4OWJjMjI1NWM2YWM3NTg5MWNiZGFhYWY0ODQxZmJjYzRlNjVjYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTE4NWM2NDI5YzY0NmVjMTkzNjRkNmUxMmJlZTQzYzZlODc2NWQzMzFlOWMxYTU1YjM0YmVlNmFkNTgzNTk0OSJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T12:46:56.619Z"
+    "at": "2026-11-04T15:33:25.988Z"
   }
 }

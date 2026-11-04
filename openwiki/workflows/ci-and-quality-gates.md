@@ -16,6 +16,8 @@ sources:
     resource: repo://docs/legacy/security.md
   - id: openwiki-source-72b816a72bb5f72d95b334ea
     resource: repo://lefthook.yml
+  - id: openwiki-source-5b54a58d1b51cd490b0e7162
+    resource: repo://package.json
   - id: openwiki-source-40275cb92c3610938f16ade3
     resource: repo://pnpm-workspace.yaml
   - id: openwiki-source-07c2e95fae4957fea0a4f592
@@ -24,10 +26,10 @@ sources:
     resource: repo://scripts/hooks/gga-review.sh
   - id: openwiki-source-d3495e3108db609ea7dcace0
     resource: repo://tests/unit/commit-msg.test.ts
-generated: { by: "claude-code", at: "2026-11-04T05:03:17.453Z" }
+generated: { by: "claude-code", at: "2026-11-04T15:33:25.988Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T05:03:17.453Z
+    at: 2026-11-04T15:33:25.988Z
 ---
 
 # CI and quality gates
@@ -42,7 +44,7 @@ Checks run in two places: git hooks on the developer's machine, and the `CI` wor
 
 Runs in order (`piped: true`) and stops at the first failure:
 
-1. **formato**: `prettier --write --ignore-unknown` on staged `ts, tsx, js, mjs, cjs, json, css, yml, yaml` files; fixes are re-staged. Markdown is not in the list, so doc tables keep their hand alignment. `.prettierignore` also skips every `*.md` file and the whole `openwiki/` directory, which OpenWiki generates.
+1. **formato**: `prettier --write --ignore-unknown` on staged `ts, tsx, js, mjs, cjs, json, css, yml, yaml` files; fixes are re-staged. Markdown is not in the list, so doc tables keep their hand alignment. `.prettierignore` also skips every `*.md` file, the whole `openwiki/` directory, which OpenWiki generates, and `tests/fixtures/squarespace/`, the saved Squarespace pages the import parser reads as they are.
 2. **lint**: `eslint --fix` on staged JS/TS files; fixes are re-staged.
 3. **gga**: `scripts/hooks/gga-review.sh` runs `gga run`, an AI review of the staged files against `AGENTS.md`. If `gga` is not installed it prints a warning and lets the commit through.
 
@@ -93,7 +95,7 @@ The `audit` job reads `pnpm-lock.yaml` only; it does not install anything.
 - `pnpm audit --prod --audit-level high` only adds a warning annotation, so a fresh high advisory does not freeze the repo while it is assessed.
 - Dev-only advisories do not count; they never reach the server.
 
-Transitive security fixes are applied as `overrides` in `pnpm-workspace.yaml` (pnpm 11 ignores the `pnpm` field of `package.json`). Current overrides: `dompurify` (via the admin's Monaco editor), `happy-dom` (via `@lexical/headless`, which the import will use on untrusted HTML), `esbuild` scoped to `@esbuild-kit/core-utils`, and `minimatch@10` scoped to the 10.x line, because ESLint plugins still call minimatch 3 as a function and 11.x no longer allows that. A critical advisory accepted without a fix is listed under `auditConfig.ignoreGhsas` in `pnpm-workspace.yaml`; the reasoning for each accepted risk is recorded in `docs/legacy/security.md`.
+Transitive security fixes are applied as `overrides` in `pnpm-workspace.yaml` (pnpm 11 ignores the `pnpm` field of `package.json`). Current overrides: `dompurify` (via the admin's Monaco editor), `happy-dom` (via `@lexical/headless`; it is also a direct dev dependency at the same version, because the [Squarespace import](../data/squarespace-import.md) parses untrusted HTML with it), `esbuild` scoped to `@esbuild-kit/core-utils`, and `minimatch@10` scoped to the 10.x line, because ESLint plugins still call minimatch 3 as a function and 11.x no longer allows that. A critical advisory accepted without a fix is listed under `auditConfig.ignoreGhsas` in `pnpm-workspace.yaml`; the reasoning for each accepted risk is recorded in `docs/legacy/security.md`.
 
 ### Revisión GGA
 

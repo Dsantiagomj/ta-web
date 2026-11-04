@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:3b5e1200a3c8b573c4b637d786926a9fc9deb74c5552de25ac3ae72571e6fe73",
+  "pageVersion": "sha256:fc7193ce9cced134458900729926f009b811243a21b5c5e41ddfc6d0b7805585",
   "claims": [
     {
       "id": "claim_46a7ecf7c01f4151af666d14fb666d91",
@@ -165,10 +165,28 @@
           "version": "repo-lines-v1:sha256:1e337d7f750b4f33f405b3c2ff2af0ba55f36799405dd48a0b5e9faed415e33a:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWUzMzdkN2Y3NTBiNGYzM2Y0MDViM2MyZmYyYWYwYmE1NWYzNjc5OTQwNWRkNDhhMGI1ZTlmYWVkNDE1ZTMzYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWUzMzdkN2Y3NTBiNGYzM2Y0MDViM2MyZmYyYWYwYmE1NWYzNjc5OTQwNWRkNDhhMGI1ZTlmYWVkNDE1ZTMzYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTAzNWVlOGVkMGFjYzc4ZDgwMWMxYWRlMzU0NDgyNDQ4NDM0ZDhkODEwYjQwOTkzNzJlODA3Y2I0YjhkODYzZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjg4Y2YwNzZhZGVjOTgyZjQ5Y2E3MWY3ODc5MTU5OGU0ZjUyMWI2OTAyZjAxYmJhODM5YWIxZjA5OWI0YjczNSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_8e401b620f16418c99f9b58d4c6a2919",
+      "statement": "scripts/import/ converts a cached Squarespace page into a quest guide draft with summary, start NPC and body blocks, and collects what it could not convert as oddities; five demo guides are listed in GUIDE_SLUGS.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L51-L51",
+          "version": "repo-lines-v1:sha256:178ff3c5462e3e5c89df2f338848410a84c4a11a1ef9e39981f09187b4526b97:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTc4ZmYzYzU0NjJlM2U1Yzg5ZGYyZjMzODg0ODQxMGE4NGM0YTExYTFlZjllMzk5ODFmMDkxODdiNDUyNmI5NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTc4ZmYzYzU0NjJlM2U1Yzg5ZGYyZjMzODg0ODQxMGE4NGM0YTExYTFlZjllMzk5ODFmMDkxODdiNDUyNmI5NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWM4YTdlMWQzMGI0ZDhhZTAwM2VjOTVlNTQ2NDI4YjZhZjQzNDExMzc5N2MxNjNkZDhiZTY0ODIxMzZmN2M3YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzg2ODdiMGZlYjU1Mjg4Y2I0NDZjOTRjOTFlZmM4NGNhZjMxNmVjM2JmODY1NDRjOGQ4YzBlYmY0MmU4N2JlZSJ9"
+        },
+        {
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L154-L161",
+          "version": "repo-lines-v1:sha256:54835ca53f77a068904b404709831704a94b685d4588ef717c0f6d1a443fcd1e:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDU4ZGI0NTI1YTUzMWMyMTFiM2ZjYjNmOWM0ZTdlZmY1YzFmYTQ4MGIzOTM0NjI1ZjcwZWQ4YWEzNDdmNTVlNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDY3ZTZjYTAwMTc4MjYxMTRkYmE1MjllNDk4OWJjMjI1NWM2YWM3NTg5MWNiZGFhYWY0ODQxZmJjYzRlNjVjYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTE4NWM2NDI5YzY0NmVjMTkzNjRkNmUxMmJlZTQzYzZlODc2NWQzMzFlOWMxYTU1YjM0YmVlNmFkNTgzNTk0OSJ9"
+        },
+        {
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L6-L16",
+          "version": "repo-lines-v1:sha256:0386d96b475e65ae3d9ba46bcb50924c0870ae848a2b0799a5e8c2c92fbce289:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA1MWU5MTk1MzAyMmZiMjBlNTA0ZTg1MjFmOWJiZmJhNTE4Y2VmZTNmNTYwODA0NzU5ZWY1MjczYTY1NTk4ZWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc3NjEyNDU4ZDM3NDBjOGU0MDBlZWE5Y2ZjNTFkMTQ2OGU1OGIxMWJkZWE4MTY1YmFhNmJlMGZlZTAxNGMxOGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMzYWEzYWFjYWIwMjE2MTMyYjY3NWQ0MmIzZTUyN2Q4YzhjYjQyMWUzM2I3ZWRjZGJkNTBhZGI0YTk1MzAxMGYifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T12:46:56.619Z"
+    "at": "2026-11-04T15:33:25.988Z"
   }
 }
