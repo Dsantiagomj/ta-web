@@ -14,6 +14,8 @@ sources:
     resource: repo://package.json
   - id: openwiki-source-23775c3de52f3ab95a13cb8b
     resource: repo://README.md
+  - id: openwiki-source-3fc9f0484081f9ab441d6219
+    resource: repo://scripts/import/load-quest-guides.ts
   - id: openwiki-source-fd0bec8778f0f03626754905
     resource: repo://scripts/import/squarespace/to-quest-guide.ts
   - id: openwiki-source-aafaf952c3fb594c6ce91656
@@ -30,10 +32,10 @@ sources:
     resource: repo://src/migrations/index.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
     resource: repo://src/payload.config.ts
-generated: { by: "claude-code", at: "2026-11-04T15:33:25.988Z" }
+generated: { by: "claude-code", at: "2026-11-04T17:14:51.499Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T15:33:25.988Z
+    at: 2026-11-04T17:14:51.499Z
 ---
 
 # Project overview
@@ -66,7 +68,7 @@ The repository is at "phase 0": the skeleton is done and most product features a
 - **CMS**: Payload with four collections, `users` (panel accounts), `media`, `quests` (read-only DofusDB game data) and `quest-guides` (Torre's guides, with drafts and versions, readable by the public only once published), Spanish admin UI and a single `es` locale. Guide bodies are built from rich text, image, video and callout blocks. No public page renders guides yet. See [Payload CMS configuration](cms/payload-config.md), [Collections and access](cms/collections.md) and [Guide body blocks](cms/blocks.md).
 - **Data**: three committed migrations; schema push only under `next dev`. See [Database and migrations](data/database.md).
 - **Game data**: `pnpm data:quests` copies every quest from the public DofusDB API into `quests`, idempotently and without deleting anything. See [DofusDB game data refresh](data/dofusdb-refresh.md).
-- **Squarespace import**: `scripts/import/` turns a cached Squarespace page into a quest guide draft (summary, start NPC, body blocks) and lists what it could not convert. Five demo guides are covered by tests. Nothing writes the drafts to Payload yet. See [Squarespace import](data/squarespace-import.md).
+- **Squarespace import**: `scripts/import/` turns a cached Squarespace page into a quest guide draft (summary, start NPC, body blocks) and lists what it could not convert. `pnpm import:guides` loads them into `quest-guides` as drafts, with each image stored once in `media` and the DofusDB quests already in `quests` linked; re-running it changes only what changed and never publishes. Five demo guides are covered by tests. See [Squarespace import](data/squarespace-import.md).
 - **Media**: R2 or disk, chosen by environment. See [Media storage](media/storage.md).
 - **Operations**: `GET /api/health`, a basic-auth gate for the dev environment, server-side Sentry, Railway infrastructure as code, and GitHub workflows for CI, dev smoke tests and production releases. See the operations pages.
 - **Quality**: unit, integration, E2E, dev-gate and smoke suites; lint, format, types and dependency audit in CI; git hooks for formatting, linting, AI review and commit messages.
@@ -79,7 +81,7 @@ AGENTS.md describes the target layout and rules. Not yet in the code:
 - The public quest guide page and live preview.
 - `src/globals/` (navigation, socials, Ko-fi, Twitch card, announcement bar), and the dialogue and step blocks in `src/blocks/`.
 - Members with Better Auth, per-member progress in Drizzle tables, entitlement checks, premium themes and view modes.
-- The rest of the Squarespace import (`scripts/import/`): loading guides and images into Payload, AVIF/WebP variants, the review queue and the other page types.
+- The rest of the Squarespace import (`scripts/import/`): AVIF/WebP variants, the review queue and the other page types.
 - Search, revalidation hooks on publish, and the derived checklist data.
 
 When a rule names a path that does not exist yet, create it with that name.

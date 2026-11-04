@@ -8,6 +8,8 @@ sources:
     resource: repo://.github/workflows/ci.yml
   - id: openwiki-source-5b54a58d1b51cd490b0e7162
     resource: repo://package.json
+  - id: openwiki-source-3fc9f0484081f9ab441d6219
+    resource: repo://scripts/import/load-quest-guides.ts
   - id: openwiki-source-63cbcc482c18e4f9ce5d0888
     resource: repo://scripts/refresh-quests.ts
   - id: openwiki-source-d58a4d3cf178bb2fa2e94831
@@ -44,10 +46,10 @@ sources:
     resource: repo://tests/unit/quest-guides-collection.test.ts
   - id: openwiki-source-6678095e74d244708e64ddd4
     resource: repo://tests/unit/quests-collection.test.ts
-generated: { by: "claude-code", at: "2026-11-04T12:46:56.619Z" }
+generated: { by: "claude-code", at: "2026-11-04T17:14:51.499Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T12:46:56.619Z
+    at: 2026-11-04T17:14:51.499Z
 ---
 
 # Collections and access
@@ -70,8 +72,8 @@ With no access functions declared, Payload's default applies: only an authentica
 |---|---|---|
 | `alt` | text | Required, localized |
 | `credits` | text | Localized |
-| `variants` | array of `{ key, width, format }` | Pre-generated AVIF and WebP variants in R2. `key` and `width` are required, `width` ≥ 1, `format` is `avif` or `webp`. Filled by the import, not by hand |
-| `originalUrl` | text | Original Squarespace URL, only on migrated images; validated by `validateOptionalUrl` |
+| `variants` | array of `{ key, width, format }` | Pre-generated AVIF and WebP variants in R2. `key` and `width` are required, `width` ≥ 1, `format` is `avif` or `webp`. Meant to be filled by the import, not by hand; the import does not generate them yet |
+| `originalUrl` | text | Original Squarespace URL, only on migrated images; validated by `validateOptionalUrl`. The import looks images up by it so each one is stored once |
 
 Upload settings are `upload.staticDir: 'media'`. Payload records the original's width and height (the integration test checks a 1×1 PNG comes back with `width: 1, height: 1`). It does not generate sizes: there is no `imageSizes` entry, because variants are produced offline before import. See [Media storage](../media/storage.md).
 
@@ -122,7 +124,11 @@ The only writer is the DofusDB refresh, `pnpm data:quests` (`scripts/refresh-que
 | `seo` | group | `metaTitle` (localized text) and `metaDescription` (localized textarea, at most 160 characters) |
 | `originalUrl` | text | The guide's Squarespace URL; validated by `validateOptionalUrl`, the same validator `media` uses; in the sidebar |
 
-The `summary` group overrides what DofusDB provides. DofusDB has no items or rewards, so the guide keeps its own prerequisites, needs, rewards and start point; the future Squarespace import will fill them. Linked `quests` stay the source for game data.
+The `summary` group overrides what DofusDB provides. DofusDB has no items or rewards, so the guide keeps its own prerequisites, needs, rewards and start point; the Squarespace import fills them. Linked `quests` stay the source for game data.
+
+### Filled by the Squarespace import
+
+`pnpm import:guides` writes `title`, `slug`, `originalUrl`, `summary`, `quests` and `body` through the local API with `overrideAccess: true`, always as a draft: it finds an existing guide by `slug`, drafts included, and never publishes. A published guide gets a new draft and stays published as it was until someone publishes that draft in the panel. Each image becomes a `media` record with `alt` and `originalUrl` and no `variants`. `seo` is left for the panel. See [Squarespace import](../data/squarespace-import.md#loading-into-payload).
 
 `validateSlug` accepts only plain ASCII: lowercase letters and digits in runs joined by single hyphens, with no hyphen at either end (`aprendizaje-escudero`, `dofus-ocre-2`). Accents, `ñ`, capitals, spaces, doubled or edge hyphens and empty values return a Spanish error, so a guide's URL never needs percent-encoding.
 

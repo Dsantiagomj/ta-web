@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:75b5a0d662b9d548cf73eb4074e8307a3b6b0f445502a121c3c2e9c965e8e3e5",
+  "pageVersion": "sha256:d8ffecd66b04f1c783216df39b6bee158cd5a87a3939204eafe704eb9686ce79",
   "claims": [
     {
       "id": "claim_8f222a8a3ed24bea93d7a2b89fa079b5",
@@ -266,8 +266,12 @@
     },
     {
       "id": "claim_f0c45df786a54dee9b329535a071f232",
-      "statement": "The quest guide summary group holds localized prerequisites, needs, rewards and startNpc plus numeric startX and startY that override DofusDB data and are meant to be filled by the Squarespace import.",
+      "statement": "The quest guide summary group holds localized prerequisites, needs, rewards and startNpc plus numeric startX and startY that override DofusDB data and are filled by the Squarespace import.",
       "evidence": [
+        {
+          "resource": "repo://scripts/import/load-quest-guides.ts#L162-L170",
+          "version": "repo-lines-v1:sha256:1ce0a1ddddd24662df276fc2bbb424a4c7f7932311eda04f0961c4f93a704808:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2NkZTE3ODMzNThlYWI2MDA2NTI1MWMyYWM1NDMzMTA4ZjhiZTFjY2YxOTdhNTMzNTdiZDllNzYzZjM0OWViMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDg5M2Y0MGUzNzgxZWI4OTZjODJkMDQ2YTA4MDY3YTExZTM1Y2RmMmYxZGZhZjI2ZmVhOTBiOGRiNjY3NjQxMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWI2YmFlM2NhMGM2ZGEwYmNkMGFhMGQ1ZmUyZTVjN2U1YTlkYzQzMDgzNmY0YzAyZDFhZGRmNmUyYTk3NDYzNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWQzYjFjZjEzOWM0ZDVmYzA5ZGQ4NDRjMTQ4NGNhYzQwOTcyMTgwMThkYmRiNTlhZWFlYTViMTA0N2UwMWMzYSJ9"
+        },
         {
           "resource": "repo://src/collections/QuestGuides.ts#L32-L33",
           "version": "repo-lines-v1:sha256:9b0bb025cc9e26b8037bf36133f687f3e9fc0e022f77dbcda86a024388b56293:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzNlMTczNDk1OWQ4MmZmM2Y3NjZhOTg4MmRjNmJhZmU5OTk4NTBiZWM0MWNhODA4ZDY5MWYzODE1ODMxODM0ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTQ0ODVmZjk4ZDI4NDljOWZiYzE5ODlhYWFiOGU2NGU0NDVhZDFjMzU0NjY5ZDE0YTg5MzZkZGYxN2VmZmRjNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjhkMmZlYjFlOWUyMjcxYWZmYTM1MzA5MzZkODhhZWY1OGVkMjYwNDk2ZTdiMWNlODRkOTE0MTQ3OWQxMjIwNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmM1YjM3NjNmYjBhYjNjMzk3NDc1NDUwZTQyMzU4YjYxN2Q0YWNhNjU3OGQzMDNmMjk5OWU0M2MzMWFmYWQ3ZSJ9"
@@ -335,10 +339,34 @@
           "version": "repo-lines-v1:sha256:da5baa2d0a6bc34e1c21d61ba00588a044bf2f73c2d85577f2cfd75fe8a4db3e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU1Njc0OTg0ZDllNGY3NjMwNjA3NTk4MDhhZjEwYjkzMDZmZDU5MTY2NWYxYjdkNzFlMDk4YWEwMjI2YWI0MTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1ZWYwMWJjMDhkYmMzYjYzZTRlNzVlYTNkMjZhNWI5NDE4OTE4NzdlMjdhZDg5MTMyOWM4NDExZDdkOGRjNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlhZDJhNGE5MDg4YWI1MDIyMjFkOGU5NjIzM2U1Y2IyMWYxNDdmNWFkYWY2YjU2MmY1YjJhMWYzMThjM2FjMTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAyYTg4N2Y1MzFkNjJkMDcwOWZhMzMzNGZjODBiOTFiYjdiYTMyNmVjOTQyMmE4NDliMmUxZWU1NGNmNjQ5MTEifQ"
         }
       ]
+    },
+    {
+      "id": "claim_50ffa0d977144d4ea047b311af4282fe",
+      "statement": "The Squarespace import writes title, slug, originalUrl, summary, quests and body through the local API with overrideAccess true, finding guides by slug including drafts and always saving drafts, so a published guide stays published until its new draft is published.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/load-quest-guides.ts#L162-L204",
+          "version": "repo-lines-v1:sha256:8b4bebc5359d1753ef7ed6f447715f1d38765a3893f39158139010f627383a6f:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNjZGUxNzgzMzU4ZWFiNjAwNjUyNTFjMmFjNTQzMzEwOGY4YmUxY2NmMTk3YTUzMzU3YmQ5ZTc2M2YzNDllYjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImViNmJhZTNjYTBjNmRhMGJjZDBhYTBkNWZlMmU1YzdlNWE5ZGM0MzA4MzZmNGMwMmQxYWRkZjZlMmE5NzQ2MzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQyMjlhZWI5ZTRhZmI1MzAxZDQzZjgyZWNmMzNkMjBiNDg3NTkyODRiMGI4MjY5ZjBmMjc3ODM4NjNhYjg4ZTkifQ"
+        },
+        {
+          "resource": "repo://scripts/import/load-quest-guides.ts#L58-L65",
+          "version": "repo-lines-v1:sha256:95fffb3280b2c1263af66dc61f11346b768f74056e8b314ab24214c6cb111b0c:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTcyYTQyOTM4MmIyZTE0NzE4ZTBlMzdiMDU3MGE4YTE3MDI5OTFmY2Q4NDk4Y2Q4NDA2MGE4YmY0ZjA1MDE3YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzQwYzVkM2RjM2E3NzMwNzkzYzg5Mjc5NDhiNTU5NjY0MjA3Zjc5YmE4Nzc3M2MyMTUwMDQ0MzE5NjJmZDQ4OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWU5NTVhODdhYzMxYWRjNDIxMmRlN2NmNGY3MjU4OGQzMWJiYzI0YTAxM2YxMTcwMjg1Y2ExM2ZjNGE3MmFjNiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_018c0d8f063b44dbbacc34d74c718656",
+      "statement": "Media records created by the import hold the original file with alt and originalUrl and no variants, and are looked up by originalUrl so each image is stored once.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/load-quest-guides.ts#L89-L119",
+          "version": "repo-lines-v1:sha256:1f0a19277881056e0b8ac02d5449c2c5257e11d221cfb97bf035f28638111b7e:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlYmQyNjJjZGUwNTdhNTZiNzhhY2ZjYzEwMWVkZjBjYTlkMTI4YzU3OGVlZDQ5ZTVjYmU3ZGY4YWUyZmNiODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiMDQ1NmIyM2I1YjBjMTRmOWE5ZDViODQ4OGNjZWI4MmM2NmM2MmQzY2FkNDIxNTI3ZDdjNTU3NGYxZTE3NzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNjNjU1ZGQ5ZjhjNTU5N2E0NjI2N2VkYmY1NTM0M2QzNGNjZGZiOTRmZTVhYzg2ZTZhOTJjYWU1NjZmZDY5YjUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T12:46:56.619Z"
+    "at": "2026-11-04T17:14:51.499Z"
   }
 }

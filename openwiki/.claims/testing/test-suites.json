@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:e41b98d91421e3a2c0f2c2d5fc1976a495db21d502f46ea41e0580740eebdbdc",
+  "pageVersion": "sha256:348a4781b7b81770b3e38acacf378f354224ec51bf6f137a7a680d33e349f2c9",
   "claims": [
     {
       "id": "claim_764b0485963845c99d60b85472ceccba",
@@ -232,8 +232,12 @@
     },
     {
       "id": "claim_efdb64356dbc40eb8b8b3d4d852536f9",
-      "statement": "Import unit tests cover page parsing (title, desktop grid order, text, image and unknown blocks), the page-to-guide conversion, HTML to Lexical through Payload's editor and the quest matches CSV.",
+      "statement": "Import unit tests cover page parsing (title, desktop grid order, text, image and unknown blocks), the page-to-guide conversion, HTML to Lexical through Payload's editor, the quest matches CSV and the image download rules.",
       "evidence": [
+        {
+          "resource": "repo://tests/unit/import-fetch-image.test.ts#L11-L41",
+          "version": "repo-lines-v1:sha256:001dbf8ef9d5e10da981556d90a93702d4f21de824ecd2de839736c25651e865:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlN2I0NjlmYzUwYzA4NjIwMjE1YzMwODBjZDVjOWQ1MmQxMjVlMzEyMTAyNjYzMzFkNTE0ZGQ4YzM5ODk3MDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI5OTZhZGM0MWY1MzBhYzk1NzQzZmY4OGUyNDk5OTIwNzQ1NTc5Y2IxZGRlYzI1YTkzN2UyYTNhZGNjZDhmMzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
         {
           "resource": "repo://tests/unit/import-parse-page.test.ts#L43-L151",
           "version": "repo-lines-v1:sha256:1d14b6896efd893222cb23c8468c4bf6e3c1561dd0f8298d3d0e70af09abddc0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA5LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI4N2FlOWFmNTg2ZDBjMDdkYzI0ZTViYWE5Yzc3ZTY1ZDMwNWI4MjQ4ODMxN2RiNzdmMDEwYWE0YWRiNWY2MDZmIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmZmZlNzExZDY0ZTUzZmRhOGYyMjM5ZDAzN2Q4NzMyOTExYjhiNWVmZGUyM2RkODkxNjgwN2ZlMGI5ODExY2JjIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
@@ -269,10 +273,30 @@
           "version": "repo-lines-v1:sha256:9970ebcb537f618d56ba1e330d28b7a8cd6f0320a247672af28b0616aba17d04:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmY1MjUyYmU2ODVkYjEwNWJkYWI0OTQ5YzA0ZGVmMjJhYzZkMTVhMTJlYWZlYzM2ZDQwN2MwNmExNzc3MTU1YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTc2Mjc3ZGVmNWM1NTJmM2I4YTNlMzlmNTljYjY3NDgxNjFlM2NhMmEzZTczZDQxMDBiMWI0OTY4MWI2ZmM1MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMGY3OTQ4ODk0MDI2NTNmZGZlODcwMzI4YzMxNGUzMzc0ZjQyNmM1NTgxYmY3MTU3ZmJhZjhmZjIyYmFmNmI2YiJ9"
         }
       ]
+    },
+    {
+      "id": "claim_1fa0eea7bce9413181071ae5a5e24325",
+      "statement": "The import-fetch-image unit test uses an injected fake fetch to check that the image fetcher refuses http, other hosts, an internal IP, localhost and a look-alike subdomain without making a request, refuses non-image and HTTP error responses, and does not follow redirects.",
+      "evidence": [
+        {
+          "resource": "repo://tests/unit/import-fetch-image.test.ts#L1-L41",
+          "version": "repo-lines-v1:sha256:870219c980fe807c7362032ebb8276af6397d27eaa64d0a5972c8a43f4890c6d:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMyM2JmNTdhMzNmMTE4NWYyNmMzODBhNWYzOTUyYTZkOTgzNzljZTEzYzM5MmUwNzlhMzQyOWFiNDg0NzE2NDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b6ac378fde7c4cb29f9b25439497e174",
+      "statement": "The import-quest-guides integration test runs the loader on the five fixture pages with a fake fetchImage that returns a 1x1 PNG, checks drafts with blocks, images and the existing quest, one media record per image, oddities, an idempotent second run, one new draft for a changed guide, hidden drafts for anonymous readers and skipping an invalid slug, and cleans up its guides, media and quests before and after.",
+      "evidence": [
+        {
+          "resource": "repo://tests/integration/import-quest-guides.test.ts#L55-L247",
+          "version": "repo-lines-v1:sha256:0c530ac2325ae4e2c1d49f8404e1ce20afdf4ca6490c85cb734c5fdc849890a1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTkzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJkMjk1ODk4ZjdmNDU3MTZmMGMxMzkxODRkMmEzZGUzM2VlZTM0MDI1OTc0YjYxZDQzNzlmYzUzN2MzY2Y1MWQ1IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIzNDBjNWQzZGMzYTc3MzA3OTNjODkyNzk0OGI1NTk2NjQyMDdmNzliYTg3NzczYzIxNTAwNDQzMTk2MmZkNDg4IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T16:58:44.479Z"
+    "at": "2026-11-04T17:14:51.499Z"
   }
 }

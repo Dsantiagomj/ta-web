@@ -22,6 +22,8 @@ sources:
     resource: repo://tests/fixtures/squarespace/el-cazador-cazado.html
   - id: openwiki-source-450b6a23d7e25100eadc359f
     resource: repo://tests/integration/global-setup.ts
+  - id: openwiki-source-5cd8fc4d5a65c01359ed92e2
+    resource: repo://tests/integration/import-quest-guides.test.ts
   - id: openwiki-source-a6cdaab0cfeb9dcfe8511d62
     resource: repo://tests/integration/migrations.test.ts
   - id: openwiki-source-dbcd0524c9464e05f7f54ade
@@ -36,6 +38,8 @@ sources:
     resource: repo://tests/unit/dofusdb-fetch-quest-data.test.ts
   - id: openwiki-source-1a4d893bc4ddfe68ab2aff11
     resource: repo://tests/unit/dofusdb-map-quest.test.ts
+  - id: openwiki-source-bf890cc4722b5033a81aa698
+    resource: repo://tests/unit/import-fetch-image.test.ts
   - id: openwiki-source-d5617545465b10f7c4424728
     resource: repo://tests/unit/import-parse-page.test.ts
   - id: openwiki-source-fe4a14de069bb6226ad2a447
@@ -56,10 +60,10 @@ sources:
     resource: repo://vitest.config.mts
   - id: openwiki-source-57da85ca1bb457973a5594ff
     resource: repo://vitest.integration.config.mts
-generated: { by: "claude-code", at: "2026-11-04T15:33:25.988Z" }
+generated: { by: "claude-code", at: "2026-11-04T17:14:51.499Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T16:58:44.479Z
+    at: 2026-11-04T17:14:51.499Z
 ---
 
 # Test suites
@@ -82,7 +86,7 @@ The repo works test-first (AGENTS.md: strict TDD). There are five suites. All of
 - behavior: `health` (fake pool and timers), `dev-gate`, `robots`, `theme`, `mode-script`, `mode-toggle-strings`, `media-collection`, `quests-collection`;
 - quest guides: `quest-guides-collection` (fields, versions, `validateSlug` and the access functions) and `quest-guide-blocks` (each body block's fields and `validateVideoUrl`);
 - DofusDB refresh: `dofusdb-client` (paging, ID chunks, pauses and errors through an injected fake `fetch`, never the network), `dofusdb-map-quest` (names, start positions and the prerequisite rule) and `dofusdb-fetch-quest-data` (only the NPCs and maps named in start positions are looked up);
-- Squarespace import: `import-parse-page` (title, desktop grid order, text, image and unknown blocks), `import-to-quest-guide` (summary, start NPC, what leaves the body, callouts, oddities), `import-rich-text` (HTML to Lexical through Payload's editor) and `import-quest-matches` (the slug to DofusDB IDs CSV). See [Squarespace import](../data/squarespace-import.md);
+- Squarespace import: `import-parse-page` (title, desktop grid order, text, image and unknown blocks), `import-to-quest-guide` (summary, start NPC, what leaves the body, callouts, oddities), `import-rich-text` (HTML to Lexical through Payload's editor), `import-quest-matches` (the slug to DofusDB IDs CSV) and `import-fetch-image` (image downloads only over `https` from Squarespace's CDN, without redirects and only for `image/*` responses, through an injected fake `fetch`). See [Squarespace import](../data/squarespace-import.md);
 - tooling: `commit-msg` (runs the git hook script).
 
 ## Integration
@@ -96,6 +100,7 @@ Real Payload (`getPayload`) against a real Postgres with the committed migration
 - Access tests call the local API with `overrideAccess: false`; omitting `user` makes the call anonymous. See [Collections and access](../cms/collections.md).
 - `quest-guides-access.test.ts` goes further than the other access tests: besides who may read and write, it checks that anonymous reads hide drafts, that a panel user can publish a draft and get a version, and that a guide with all four [body blocks](../cms/blocks.md), linked quests and an image saves and reads back. When it finishes it deletes every guide, quest and media document in the integration database.
 - `refresh-quests.test.ts` runs `refreshQuests` three times against the integration database: the first run creates the fixture quests and skips missing prerequisites, a second run with the same data changes nothing and keeps `refreshedAt`, and a third run updates only what changed and links a prerequisite that now exists. It deletes its fixture quests before and after. See [DofusDB game data refresh](../data/dofusdb-refresh.md).
+- `import-quest-guides.test.ts` runs the Squarespace loader on the five fixture pages with a fake `fetchImage` that returns a 1×1 PNG. It checks drafts with all four block types and the existing quest linked, one `media` record per image with its URL and alt, the oddities, a second run that changes, downloads and versions nothing, one new draft for a changed guide, no drafts visible to anonymous readers and an invalid slug skipped. It cleans up its guides, media and quests before and after. See [Squarespace import](../data/squarespace-import.md#loading-into-payload).
 - `migrations.test.ts` checks that the latest migration rolls back and re-applies: it runs the Payload CLI (`pnpm payload migrate:down`, then `pnpm payload migrate`) with `integrationEnv` and `DATABASE_CONNECTION=direct`, leaving the database as it was. It starts the CLI twice, so it has its own 120 s timeout instead of the suite's 30 s. See [Database and migrations](../data/database.md#migrations).
 
 ## E2E

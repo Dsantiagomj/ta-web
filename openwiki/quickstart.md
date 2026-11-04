@@ -20,10 +20,10 @@ sources:
     resource: repo://scripts/refresh-quests.ts
   - id: openwiki-source-7a2723ea85824e431ff5eb54
     resource: repo://src/collections/QuestGuides.ts
-generated: { by: "claude-code", at: "2026-11-04T15:33:25.988Z" }
+generated: { by: "claude-code", at: "2026-11-04T17:14:51.499Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T15:33:25.988Z
+    at: 2026-11-04T17:14:51.499Z
 ---
 
 # Quickstart
@@ -59,7 +59,7 @@ Node 24 (≥ 24.22.1) and pnpm 11. No Docker. Details in [Local development](wor
 | Add or change a block in a guide body (rich text, image, video, callout) | [Guide body blocks](cms/blocks.md) |
 | Change the schema, connect to Neon, reset local data | [Database and migrations](data/database.md) |
 | Load or refresh DofusDB quests (`pnpm data:quests`) | [DofusDB game data refresh](data/dofusdb-refresh.md) |
-| Change how Squarespace pages become quest guides | [Squarespace import](data/squarespace-import.md) |
+| Change how Squarespace pages become quest guides, or import them (`pnpm import:guides`) | [Squarespace import](data/squarespace-import.md) |
 | Upload files, configure R2, serve images | [Media storage](media/storage.md) |
 | Work on dark/light mode or premium themes | [Theme and mode](frontend/theme-and-mode.md) |
 | Use design tokens, fonts or the page shell | [Styles, tokens and site shell](frontend/styles-and-shell.md) |
