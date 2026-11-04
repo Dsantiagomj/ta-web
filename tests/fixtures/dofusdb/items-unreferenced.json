@@ -1,0 +1,53 @@
+[
+  {
+    "id": 44,
+    "name": {
+      "id": "995824",
+      "de": "Hölzernes Schwert",
+      "en": "Twiggy Sword",
+      "es": "Espada de maderucha",
+      "fr": "Épée de Boisaille",
+      "pt": "Espada de graveto"
+    },
+    "level": 7,
+    "typeId": 6,
+    "iconId": 6007,
+    "type": {
+      "superTypeId": 2
+    }
+  },
+  {
+    "id": 1726,
+    "name": {
+      "id": "43003",
+      "de": "Büschel von Tarches Haar",
+      "en": "Tuft of Tarche's Hair",
+      "es": "Bola de pelos de Tarche",
+      "fr": "Touffe de cheveux de Tarche",
+      "pt": "Tufo de Cabelos de Meavis"
+    },
+    "level": 1,
+    "typeId": 129,
+    "iconId": 24030,
+    "type": {
+      "superTypeId": 14
+    }
+  },
+  {
+    "id": 1727,
+    "name": {
+      "id": "51891",
+      "de": "Drohbrief",
+      "en": "Threatening Letter",
+      "es": "Carta de amenazas",
+      "fr": "Lettre de Menaces",
+      "pt": "Carta de ameaças"
+    },
+    "level": 1,
+    "typeId": 129,
+    "iconId": 24026,
+    "type": {
+      "superTypeId": 14
+    }
+  }
+]

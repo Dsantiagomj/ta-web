@@ -9,6 +9,7 @@ export function mapItem(raw: RawItem): MappedItem {
     name: spanish(raw.name) ?? `Objeto ${raw.id}`,
     level: raw.level ?? null,
     typeId: raw.typeId ?? null,
+    superTypeId: raw.type?.superTypeId ?? null,
     iconId: raw.iconId ?? null,
   }
 }

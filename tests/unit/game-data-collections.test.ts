@@ -56,8 +56,8 @@ describe.each([
 })
 
 describe('colección items', () => {
-  it('guarda nivel y tipo opcionales', () => {
-    for (const name of ['level', 'typeId']) {
+  it('guarda nivel, tipo y supertipo opcionales', () => {
+    for (const name of ['level', 'typeId', 'superTypeId']) {
       expect(field(Items, name)).toMatchObject({ type: 'number' })
       expect(field(Items, name)).not.toHaveProperty('required', true)
     }

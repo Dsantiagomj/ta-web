@@ -11,7 +11,10 @@
     },
     "level": 26,
     "typeId": 56,
-    "iconId": 25157
+    "iconId": 25157,
+    "type": {
+      "superTypeId": 9
+    }
   },
   {
     "id": 366,
@@ -25,7 +28,10 @@
     },
     "level": 13,
     "typeId": 47,
-    "iconId": 47037
+    "iconId": 47037,
+    "type": {
+      "superTypeId": 9
+    }
   },
   {
     "id": 373,
@@ -39,7 +45,10 @@
     },
     "level": 13,
     "typeId": 15,
-    "iconId": 36045
+    "iconId": 36045,
+    "type": {
+      "superTypeId": 9
+    }
   },
   {
     "id": 388,
@@ -53,7 +62,10 @@
     },
     "level": 13,
     "typeId": 54,
-    "iconId": 54060
+    "iconId": 54060,
+    "type": {
+      "superTypeId": 9
+    }
   },
   {
     "id": 694,
@@ -67,7 +79,10 @@
     },
     "level": 110,
     "typeId": 23,
-    "iconId": 23001
+    "iconId": 23001,
+    "type": {
+      "superTypeId": 13
+    }
   },
   {
     "id": 737,
@@ -81,7 +96,10 @@
     },
     "level": 100,
     "typeId": 23,
-    "iconId": 23002
+    "iconId": 23002,
+    "type": {
+      "superTypeId": 13
+    }
   },
   {
     "id": 739,
@@ -95,7 +113,10 @@
     },
     "level": 160,
     "typeId": 23,
-    "iconId": 23003
+    "iconId": 23003,
+    "type": {
+      "superTypeId": 13
+    }
   },
   {
     "id": 2322,
@@ -109,7 +130,10 @@
     },
     "level": 26,
     "typeId": 47,
-    "iconId": 47464
+    "iconId": 47464,
+    "type": {
+      "superTypeId": 9
+    }
   },
   {
     "id": 2491,
@@ -123,7 +147,10 @@
     },
     "level": 13,
     "typeId": 109,
-    "iconId": 109516
+    "iconId": 109516,
+    "type": {
+      "superTypeId": 9
+    }
   },
   {
     "id": 7114,
@@ -137,7 +164,10 @@
     },
     "level": 180,
     "typeId": 23,
-    "iconId": 23007
+    "iconId": 23007,
+    "type": {
+      "superTypeId": 13
+    }
   },
   {
     "id": 7115,
@@ -151,7 +181,10 @@
     },
     "level": 180,
     "typeId": 23,
-    "iconId": 23011
+    "iconId": 23011,
+    "type": {
+      "superTypeId": 13
+    }
   },
   {
     "id": 7183,
@@ -165,7 +198,10 @@
     },
     "level": 88,
     "typeId": 4,
-    "iconId": 4055
+    "iconId": 4055,
+    "type": {
+      "superTypeId": 2
+    }
   },
   {
     "id": 7754,
@@ -179,7 +215,10 @@
     },
     "level": 160,
     "typeId": 23,
-    "iconId": 23012
+    "iconId": 23012,
+    "type": {
+      "superTypeId": 13
+    }
   },
   {
     "id": 8730,
@@ -193,7 +232,10 @@
     },
     "level": 44,
     "typeId": 47,
-    "iconId": 47012
+    "iconId": 47012,
+    "type": {
+      "superTypeId": 9
+    }
   },
   {
     "id": 8767,
@@ -207,7 +249,10 @@
     },
     "level": 103,
     "typeId": 104,
-    "iconId": 104001
+    "iconId": 104001,
+    "type": {
+      "superTypeId": 9
+    }
   },
   {
     "id": 8785,
@@ -221,7 +266,10 @@
     },
     "level": 137,
     "typeId": 58,
-    "iconId": 58001
+    "iconId": 58001,
+    "type": {
+      "superTypeId": 9
+    }
   },
   {
     "id": 8801,
@@ -235,7 +283,10 @@
     },
     "level": 92,
     "typeId": 55,
-    "iconId": 55018
+    "iconId": 55018,
+    "type": {
+      "superTypeId": 9
+    }
   },
   {
     "id": 8808,
@@ -249,7 +300,10 @@
     },
     "level": 196,
     "typeId": 55,
-    "iconId": 55019
+    "iconId": 55019,
+    "type": {
+      "superTypeId": 9
+    }
   },
   {
     "id": 8992,
@@ -263,7 +317,10 @@
     },
     "level": 200,
     "typeId": 22,
-    "iconId": 22003
+    "iconId": 22003,
+    "type": {
+      "superTypeId": 2
+    }
   },
   {
     "id": 8993,
@@ -277,7 +334,10 @@
     },
     "level": 200,
     "typeId": 6,
-    "iconId": 6083
+    "iconId": 6083,
+    "type": {
+      "superTypeId": 2
+    }
   },
   {
     "id": 9264,
@@ -291,7 +351,10 @@
     },
     "level": 180,
     "typeId": 129,
-    "iconId": 24725
+    "iconId": 24725,
+    "type": {
+      "superTypeId": 14
+    }
   },
   {
     "id": 10424,
@@ -305,7 +368,10 @@
     },
     "level": 180,
     "typeId": 129,
-    "iconId": 12754
+    "iconId": 12754,
+    "type": {
+      "superTypeId": 14
+    }
   },
   {
     "id": 14808,
@@ -319,7 +385,10 @@
     },
     "level": 1,
     "typeId": 155,
-    "iconId": 15177
+    "iconId": 15177,
+    "type": {
+      "superTypeId": 14
+    }
   },
   {
     "id": 19728,
@@ -333,6 +402,9 @@
     },
     "level": 20,
     "typeId": 133,
-    "iconId": 100056
+    "iconId": 100056,
+    "type": {
+      "superTypeId": 14
+    }
   }
 ]

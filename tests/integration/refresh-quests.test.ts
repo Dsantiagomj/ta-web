@@ -6,6 +6,7 @@ import { refreshQuests } from '@/lib/dofusdb/refresh-quests'
 import type { RawQuest } from '@/lib/dofusdb/types'
 import type { Item, Monster, Quest } from '@/payload-types'
 
+import unreferencedItems from '../fixtures/dofusdb/items-unreferenced.json'
 import items from '../fixtures/dofusdb/items.json'
 import mapPositions from '../fixtures/dofusdb/map-positions.json'
 import monsters from '../fixtures/dofusdb/monsters.json'
@@ -210,6 +211,7 @@ describe('recompensas y requisitos desde DofusDB', () => {
       name: 'Colmillos de ratas',
       level: 26,
       typeId: 47,
+      superTypeId: 9,
       iconId: 47464,
       refreshedAt: firstRun.toISOString(),
     })
@@ -396,5 +398,88 @@ describe('el resultado no depende de la concurrencia', () => {
     expect(sequentialSnapshot.quests.some((doc) => doc.prerequisites.length > 0)).toBe(true)
     expect(parallel).toEqual(sequential)
     expect(parallelSnapshot).toEqual(sequentialSnapshot)
+  })
+})
+
+// El catálogo entero de DofusDB trae objetos que ninguna misión nombra: una espada (44) y
+// dos objetos de misión (1726 y 1727, supertipo 14). Torre los busca igual en las guías.
+describe('catálogo completo de objetos', () => {
+  const catalog = [...items, ...unreferencedItems]
+  const questIds = (questsWithSteps as RawQuest[]).map((quest) => quest.id)
+  const itemIds = catalog.map((item) => item.id)
+  const monsterIds = monsters.map((monster) => monster.id)
+
+  function catalogData(): QuestData {
+    return structuredClone({
+      quests: questsWithSteps as RawQuest[],
+      npcs: [],
+      mapPositions: [],
+      items: catalog,
+      monsters,
+    })
+  }
+
+  async function savedItems() {
+    const found = await payload.find({
+      collection: 'items',
+      where: { dofusId: { in: itemIds } },
+      pagination: false,
+      depth: 0,
+    })
+    return new Map(found.docs.map((doc) => [doc.dofusId, doc]))
+  }
+
+  async function removeTestData() {
+    await payload.delete({ collection: 'quests', where: { dofusId: { in: questIds } } })
+    await payload.delete({ collection: 'items', where: { dofusId: { in: itemIds } } })
+    await payload.delete({ collection: 'monsters', where: { dofusId: { in: monsterIds } } })
+  }
+
+  beforeAll(async () => {
+    await removeTestData()
+  })
+
+  afterAll(async () => {
+    await removeTestData()
+  })
+
+  const firstRun = new Date('2026-04-01T10:00:00.000Z')
+
+  it('guarda también los objetos que no nombra ninguna misión', async () => {
+    const counts = await refreshQuests(payload, catalogData(), { now: firstRun })
+
+    expect(counts).toMatchObject({
+      items: { created: catalog.length, updated: 0, unchanged: 0 },
+      missingItems: 0,
+    })
+    const saved = await savedItems()
+    expect(saved.size).toBe(catalog.length)
+    expect(saved.get(44)).toMatchObject({
+      name: 'Espada de maderucha',
+      level: 7,
+      typeId: 6,
+      superTypeId: 2,
+      iconId: 6007,
+      refreshedAt: firstRun.toISOString(),
+    })
+    expect(saved.get(1726)).toMatchObject({
+      name: 'Bola de pelos de Tarche',
+      typeId: 129,
+      superTypeId: 14,
+    })
+  })
+
+  it('una segunda pasada con el mismo catálogo no escribe ningún objeto', async () => {
+    const counts = await refreshQuests(payload, catalogData(), {
+      now: new Date('2026-04-02T10:00:00.000Z'),
+    })
+
+    expect(counts).toMatchObject({
+      items: { created: 0, updated: 0, unchanged: catalog.length },
+      quests: { created: 0, updated: 0, unchanged: questIds.length },
+    })
+    for (const item of (await savedItems()).values()) {
+      expect(item.refreshedAt).toBe(firstRun.toISOString())
+    }
   })
 })

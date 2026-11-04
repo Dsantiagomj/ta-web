@@ -10,9 +10,14 @@ export interface DofusDbClientOptions {
   baseUrl?: string
 }
 
+export interface FetchAllOptions {
+  /** Solo estos campos de cada fila ($select de Feathers); sin él, la fila entera. */
+  select?: string[]
+}
+
 export interface DofusDbClient {
   /** Todas las filas de una colección, página a página hasta el total. */
-  fetchAll<T>(collection: string): Promise<T[]>
+  fetchAll<T>(collection: string, options?: FetchAllOptions): Promise<T[]>
   /** Las filas con esos IDs; las que no existen simplemente no vuelven. */
   fetchByIds<T>(collection: string, ids: number[]): Promise<T[]>
 }
@@ -49,10 +54,11 @@ export function createDofusDbClient(options: DofusDbClientOptions = {}): DofusDb
   }
 
   return {
-    async fetchAll<T>(collection: string) {
+    async fetchAll<T>(collection: string, options: FetchAllOptions = {}) {
+      const select = (options.select ?? []).map((field) => `&$select[]=${field}`).join('')
       const rows: T[] = []
       for (let skip = 0; ; skip += PAGE_SIZE) {
-        const page = await get<T>(`${collection}?$limit=${PAGE_SIZE}&$skip=${skip}`)
+        const page = await get<T>(`${collection}?$limit=${PAGE_SIZE}&$skip=${skip}${select}`)
         rows.push(...page.data)
         // Una página vacía corta el bucle aunque el total diga otra cosa.
         if (page.data.length === 0 || skip + PAGE_SIZE >= page.total) return rows

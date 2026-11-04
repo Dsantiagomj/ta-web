@@ -1,5 +1,5 @@
-// Trae todas las misiones de DofusDB, con los objetos y monstruos que nombran, y las
-// guarda en quests, items y monsters, sin duplicar.
+// Trae todas las misiones de DofusDB, con los monstruos que nombran, y todo el catálogo de
+// objetos, y los guarda en quests, items y monsters, sin duplicar.
 // Uso: pnpm data:quests. Escribe en la base de DATABASE_URL (vacía: la de pnpm db:dev).
 // DOFUSDB_WRITE_CONCURRENCY fija cuántas escrituras van a la vez (por defecto 8).
 // Corre con `payload run`, que carga .env y transpila TypeScript; el script arranca

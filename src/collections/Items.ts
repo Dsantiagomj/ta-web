@@ -2,7 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { gameDataAccess } from './game-data-access'
 
-// Objetos de DofusDB que nombran las misiones, en recompensas y requisitos.
+// Todo el catálogo de objetos de DofusDB: los de las misiones y cualquiera que una guía pida.
 export const Items: CollectionConfig = {
   slug: 'items',
   labels: { singular: 'Objeto de DofusDB', plural: 'Objetos de DofusDB' },
@@ -25,6 +25,12 @@ export const Items: CollectionConfig = {
     { name: 'name', label: 'Nombre', type: 'text', required: true, localized: true },
     { name: 'level', label: 'Nivel', type: 'number' },
     { name: 'typeId', label: 'ID de tipo en DofusDB', type: 'number' },
+    {
+      name: 'superTypeId',
+      label: 'ID de supertipo en DofusDB',
+      type: 'number',
+      admin: { description: '14 son los objetos de misión.' },
+    },
     {
       name: 'iconId',
       label: 'ID del icono',

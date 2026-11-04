@@ -50,6 +50,8 @@ export interface RawItem {
   level?: number | null
   typeId?: number | null
   iconId?: number | null
+  /** El tipo del objeto, que DofusDB añade por typeId; de él solo usamos el supertipo. */
+  type?: { superTypeId?: number | null } | null
 }
 
 export interface RawMonster {
@@ -122,6 +124,8 @@ export interface MappedItem {
   name: string
   level: number | null
   typeId: number | null
+  /** 14 son los objetos de misión. */
+  superTypeId: number | null
   iconId: number | null
 }
 

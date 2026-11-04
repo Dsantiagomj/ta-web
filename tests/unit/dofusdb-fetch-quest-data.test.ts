@@ -4,6 +4,7 @@ import type { DofusDbClient } from '@/lib/dofusdb/client'
 import { fetchQuestData } from '@/lib/dofusdb/fetch-quest-data'
 import type { RawQuest } from '@/lib/dofusdb/types'
 
+import unreferencedItems from '../fixtures/dofusdb/items-unreferenced.json'
 import items from '../fixtures/dofusdb/items.json'
 import mapPositions from '../fixtures/dofusdb/map-positions.json'
 import monsters from '../fixtures/dofusdb/monsters.json'
@@ -11,17 +12,24 @@ import npcs from '../fixtures/dofusdb/npcs.json'
 import questsWithSteps from '../fixtures/dofusdb/quests-steps.json'
 import quests from '../fixtures/dofusdb/quests.json'
 
-/** Un cliente que sirve los fixtures y apunta qué IDs le piden de cada colección. */
+/**
+ * Un cliente que sirve los fixtures y apunta qué IDs le piden de cada colección y qué
+ * campos pide en cada fetchAll.
+ */
 function fixtureClient(rows: Record<string, unknown[]>) {
   const lookups: Record<string, number[]> = {}
+  const selects: Record<string, string[] | undefined> = {}
   const client: DofusDbClient = {
-    fetchAll: async <T>(collection: string) => rows[collection] as T[],
+    fetchAll: async <T>(collection: string, options?: { select?: string[] }) => {
+      selects[collection] = options?.select
+      return (rows[collection] ?? []) as T[]
+    },
     fetchByIds: async <T>(collection: string, ids: number[]) => {
       lookups[collection] = ids
       return (rows[collection] ?? []) as T[]
     },
   }
-  return { client, lookups }
+  return { client, lookups, selects }
 }
 
 describe('fetchQuestData', () => {
@@ -38,15 +46,29 @@ describe('fetchQuestData', () => {
     )
   })
 
-  it('busca solo los objetos y monstruos de recompensas y requisitos', async () => {
+  it('busca solo los monstruos de los requisitos', async () => {
     const { client, lookups } = fixtureClient({ quests: questsWithSteps, items, monsters })
 
     const data = await fetchQuestData(client)
 
-    expect(data.items).toEqual(items)
     expect(data.monsters).toEqual(monsters)
-    // Los fixtures traen justo los objetos y monstruos que nombran estas misiones
-    expect(new Set(lookups.items)).toEqual(new Set(items.map((item) => item.id)))
+    // Los fixtures traen justo los monstruos que nombran estas misiones
     expect(new Set(lookups.monsters)).toEqual(new Set(monsters.map((monster) => monster.id)))
+  })
+
+  it('trae todo el catálogo de objetos, también los que no nombra ninguna misión', async () => {
+    const catalog = [...items, ...unreferencedItems]
+    const { client, lookups, selects } = fixtureClient({
+      quests: questsWithSteps,
+      items: catalog,
+      monsters,
+    })
+
+    const data = await fetchQuestData(client)
+
+    expect(data.items).toEqual(catalog)
+    expect(lookups).not.toHaveProperty('items')
+    // Solo los campos que se guardan; DofusDB añade el tipo, con su supertipo, por typeId
+    expect(selects.items).toEqual(['id', 'name', 'level', 'typeId', 'iconId', 'type'])
   })
 })

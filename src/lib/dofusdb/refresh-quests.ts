@@ -72,6 +72,7 @@ function storedItem(doc: Item) {
     name: doc.name,
     level: doc.level ?? null,
     typeId: doc.typeId ?? null,
+    superTypeId: doc.superTypeId ?? null,
     iconId: doc.iconId ?? null,
   }
 }
@@ -95,6 +96,7 @@ async function refreshCatalog<
   stored: (doc: D) => T,
   refreshedAt: string,
   concurrency: number,
+  log: (message: string) => void,
 ): Promise<{ counts: UpsertCounts; ids: Map<number, number> }> {
   const existing = await payload.find({
     collection,
@@ -106,25 +108,31 @@ async function refreshCatalog<
   // Por si DofusDB repite una fila: cuenta una vez.
   const unique = new Map(rows.map((row) => [row.dofusId, row]))
 
-  const results = await mapWithConcurrency(
-    [...unique.values()],
-    concurrency,
-    async (row): Promise<{ dofusId: number; id: number; status: Status }> => {
-      const doc = byDofusId.get(row.dofusId)
-      // Payload no estrecha el tipo de data con una unión de colecciones; las filas ya
-      // tienen la forma de la colección que toca.
-      const data = { ...row, refreshedAt } as never
-      if (!doc) {
-        const created = await payload.create({ collection, data, depth: 0, overrideAccess: true })
-        return { dofusId: row.dofusId, id: created.id, status: 'created' }
-      }
-      if (!isDeepStrictEqual(stored(doc), row)) {
-        await payload.update({ collection, id: doc.id, data, depth: 0, overrideAccess: true })
-        return { dofusId: row.dofusId, id: doc.id, status: 'updated' }
-      }
-      return { dofusId: row.dofusId, id: doc.id, status: 'unchanged' }
-    },
-  )
+  // Payload no estrecha el tipo de data con una unión de colecciones; las filas ya tienen
+  // la forma de la colección que toca.
+  const save = async (row: T): Promise<{ dofusId: number; id: number; status: Status }> => {
+    const doc = byDofusId.get(row.dofusId)
+    const data = { ...row, refreshedAt } as never
+    if (!doc) {
+      const created = await payload.create({ collection, data, depth: 0, overrideAccess: true })
+      return { dofusId: row.dofusId, id: created.id, status: 'created' }
+    }
+    if (!isDeepStrictEqual(stored(doc), row)) {
+      await payload.update({ collection, id: doc.id, data, depth: 0, overrideAccess: true })
+      return { dofusId: row.dofusId, id: doc.id, status: 'updated' }
+    }
+    return { dofusId: row.dofusId, id: doc.id, status: 'unchanged' }
+  }
+
+  // Solo para el progreso: el catálogo de objetos pasa de 20.000 filas.
+  const label = collection === 'items' ? 'Objetos' : 'Monstruos'
+  let done = 0
+  const results = await mapWithConcurrency([...unique.values()], concurrency, async (row) => {
+    const result = await save(row)
+    done += 1
+    if (done % 2000 === 0) log(`${label} guardados: ${done} de ${unique.size}`)
+    return result
+  })
 
   const ids = new Map([...byDofusId].map(([dofusId, doc]) => [dofusId, doc.id]))
   for (const { dofusId, id } of results) ids.set(dofusId, id)
@@ -218,6 +226,7 @@ export async function refreshQuests(
     storedItem,
     refreshedAt,
     concurrency,
+    log,
   )
   log(`Objetos guardados: ${items.ids.size}`)
   const monsters = await refreshCatalog<MappedMonster, Monster>(
@@ -227,6 +236,7 @@ export async function refreshQuests(
     storedMonster,
     refreshedAt,
     concurrency,
+    log,
   )
   log(`Monstruos guardados: ${monsters.ids.size}`)
 
