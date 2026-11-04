@@ -5,7 +5,7 @@ description: Every environment variable the app, the tests and the GitHub workfl
 tags: [configuration, environment, secrets, railway]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T01:11:00.817Z
+    at: 2026-11-04T18:47:27.432Z
 sources:
   - id: openwiki-source-5f5b95b3d6a215fa02ceb945
     resource: repo://.env.example
@@ -17,6 +17,8 @@ sources:
     resource: repo://.railway/railway.ts
   - id: openwiki-source-5b54a58d1b51cd490b0e7162
     resource: repo://package.json
+  - id: openwiki-source-63cbcc482c18e4f9ce5d0888
+    resource: repo://scripts/refresh-quests.ts
   - id: openwiki-source-7a2845694b67f1018000b585
     resource: repo://src/app/(frontend)/layout.tsx
   - id: openwiki-source-e6259e232b376ac021274244
@@ -27,15 +29,21 @@ sources:
     resource: repo://src/lib/deploy/commit.ts
   - id: openwiki-source-6b31d93be9f7026d5af1d752
     resource: repo://src/lib/dev-gate/dev-gate.ts
+  - id: openwiki-source-4ce5bfd40fc86e2e8680d71f
+    resource: repo://src/lib/dofusdb/refresh-quests.ts
   - id: openwiki-source-47a80445306e82d0ef444872
     resource: repo://src/lib/media/storage.ts
   - id: openwiki-source-c31449ae998e78dd836b84bc
     resource: repo://src/lib/monitoring/sentry.ts
+  - id: openwiki-source-2c42ff828c6d8e213a2f7416
+    resource: repo://src/payload.config.ts
   - id: openwiki-source-15d81576125ffd9d62dc8605
     resource: repo://tests/e2e/app-server.ts
   - id: openwiki-source-ba0c02c20c1203ccdd8a9159
     resource: repo://tests/integration/env.ts
-generated: { by: "claude-code", at: "2026-11-04T01:11:00.817Z" }
+  - id: openwiki-source-e73350ef868f2379d51909ed
+    resource: repo://tests/unit/dofusdb-write-concurrency.test.ts
+generated: { by: "claude-code", at: "2026-11-04T18:47:27.432Z" }
 ---
 
 # Environment configuration
@@ -58,6 +66,7 @@ Each group of variables has one small resolver function that takes an `env` reco
 | `S3_ENDPOINT`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_REGION`, `MEDIA_BASE_URL` | `readS3Settings` (`src/lib/media/storage.ts`) | Railway |
 | `SENTRY_DSN` | `sentryServerOptions` (`src/lib/monitoring/sentry.ts`) | Railway |
 | `SENTRY_AUTH_TOKEN` | `next.config.ts`, at build time | Railway (declared, not yet populated) |
+| `DOFUSDB_WRITE_CONCURRENCY` | `writeConcurrencyFromEnv` (`src/lib/dofusdb/refresh-quests.ts`), only for `pnpm data:quests` | `.env` or the shell; empty means 8 |
 | `GIT_COMMIT_SHA` | `deployedCommit` (`src/lib/deploy/commit.ts`) | The release workflow, for production |
 | `APP_VERSION` | `resolveVersion` (`src/endpoints/health.ts`) | The release workflow, for production; falls back to the `package.json` version |
 | `RAILWAY_GIT_COMMIT_SHA`, `RAILWAY_ENVIRONMENT_NAME` | `deployedCommit`, `isDevEnvironment`, Sentry | Injected by Railway |
@@ -99,6 +108,10 @@ Each group of variables has one small resolver function that takes an `env` reco
 ### Deployed version
 
 `resolveVersion` returns `APP_VERSION` (trimmed) or, when it is missing or blank, the `package.json` version. `package.json` stays at `0.0.0` and is not bumped per release; instead the release workflow writes the tag's version, without the `v`, to `APP_VERSION` on the production service next to `GIT_COMMIT_SHA`. Dev and local runs therefore report the `package.json` version.
+
+### DofusDB write concurrency
+
+`writeConcurrencyFromEnv` reads `DOFUSDB_WRITE_CONCURRENCY` for `pnpm data:quests`. Empty or unset gives `DEFAULT_WRITE_CONCURRENCY`, 8. Any value that is not a whole number of at least 1 (`0`, `-2`, `1.5`, `ocho`) throws instead of falling back to the default. The script reads it before starting Payload, so a typo fails at once. Each concurrent write holds one connection from the Postgres pool, which keeps pg's default of 10, so `.env.example` advises staying at 9 or below. See [DofusDB game data refresh](../data/dofusdb-refresh.md#write-concurrency).
 
 ## Railway variable declarations
 
