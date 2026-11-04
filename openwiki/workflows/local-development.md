@@ -8,6 +8,8 @@ sources:
     resource: repo://.env.example
   - id: openwiki-source-7c03237a6b57ffb3e526a51b
     resource: repo://.nvmrc
+  - id: openwiki-source-8037e2358a2c4f9b2c722a11
+    resource: repo://AGENTS.md
   - id: openwiki-source-5b54a58d1b51cd490b0e7162
     resource: repo://package.json
   - id: openwiki-source-40275cb92c3610938f16ade3
@@ -18,10 +20,10 @@ sources:
     resource: repo://scripts/refresh-quests.ts
   - id: openwiki-source-2ad419cae2f45e97a3ca23d7
     resource: repo://src/lib/db/database-url.ts
-generated: { by: "claude-code", at: "2026-11-04T12:18:18.185Z" }
+generated: { by: "claude-code", at: "2026-11-04T14:45:26.893Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T12:18:18.185Z
+    at: 2026-11-04T14:45:26.893Z
 ---
 
 # Local development
@@ -95,7 +97,7 @@ If `pnpm db:dev` fails to start after a hard shutdown, a stale `.postgres/data/p
 
 ## Before committing
 
-The pre-commit hook formats, lints and runs the AI review on staged files; the commit-msg hook enforces conventional commits without `Co-Authored-By`. Run every suite locally first and report failures verbatim. See [CI and quality gates](ci-and-quality-gates.md).
+The pre-commit hook formats, lints and runs the AI review on staged files; the commit-msg hook enforces conventional commits without `Co-Authored-By`. Before each push, run lint, the format check, types, unit and integration tests locally; run E2E and the dev gate suite once, right before opening the PR. Report failures verbatim. See [CI and quality gates](ci-and-quality-gates.md).
 
 ## Related pages
 
