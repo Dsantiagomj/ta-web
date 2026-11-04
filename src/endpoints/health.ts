@@ -97,6 +97,15 @@ export function resolveCommit(env: Record<string, string | undefined>): string {
   return deployedCommit(env) ?? 'dev'
 }
 
+// La versión desplegada: el workflow de release fija APP_VERSION con la versión de la
+// etiqueta; sin ella (dev, local), la de package.json.
+export function resolveVersion(
+  env: Record<string, string | undefined>,
+  packageVersion: string,
+): string {
+  return env.APP_VERSION?.trim() || packageVersion
+}
+
 async function withTimeout<T>(
   promise: Promise<T>,
   timeoutMs: number,
@@ -128,7 +137,7 @@ export const healthEndpoint: Endpoint = {
   handler: (req) =>
     checkHealth({
       pingDatabase: () => pingPool(postgres(req.payload.db).pool, DEFAULT_TIMEOUT_MS),
-      version: packageJson.version,
+      version: resolveVersion(process.env, packageJson.version),
       commit: resolveCommit(process.env),
     }),
 }
