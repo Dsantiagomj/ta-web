@@ -170,6 +170,19 @@ describe('conversión de una página en guía de misión', () => {
     expect(oddities).toContainEqual(expect.stringContaining('PRUEBA EN APUROS'))
   })
 
+  it('las frases de inicio y cierre solo se quitan de párrafos: listas y encabezados quedan enteros', () => {
+    const page = pageWith(
+      '<h2>PRUEBA</h2>',
+      '<ul><li>Habla con Oto Mustam [1,2] para empezar la misión.</li><li>Segundo paso.</li></ul>',
+      '<h3>Aquí termina la misión.</h3>',
+    )
+    const { guide } = toQuestGuide(parsePage(page), { slug: 'prueba', questDofusIds: [1] })
+    expect(richTexts(guide.body)).toEqual([
+      'Habla con Oto Mustam [1,2] para empezar la misión. Segundo paso. Aquí termina la misión.',
+    ])
+    expect(guide.summary?.startNpc ?? null).toBeNull()
+  })
+
   it('de un párrafo que empieza por la línea de inicio escueta quita solo esa frase', () => {
     const { guide } = guideFor('intoxicacion-profunda')
     expect(guide.summary).toMatchObject({ startNpc: 'Capitán Grog', startX: 22, startY: 22 })

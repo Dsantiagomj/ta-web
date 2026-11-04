@@ -234,11 +234,13 @@ export function toQuestGuide(
         html,
         text: normalizedText(parseHtml(html).body),
       })
-      if (CLOSING.test(element.text)) {
+      // Las frases de inicio y cierre son párrafos; en listas o encabezados se respetan.
+      const paragraph = element.tag === 'p'
+      if (paragraph && CLOSING.test(element.text)) {
         const rest = withoutClosing(element)
         if (!rest) continue
         element = trimmed(rest)
-      } else if (!start) {
+      } else if (paragraph && !start) {
         const found = readStart(element)
         if (found) {
           start = found
