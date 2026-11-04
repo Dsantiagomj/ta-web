@@ -4,7 +4,7 @@ The new torrentearcano.com: Dofus quest guides, achievements, classes and checkl
 
 Stack: Next.js + Payload CMS 3, Postgres, Cloudflare R2, Better Auth.
 
-The plan, decisions and phases are in [docs/plan.md](docs/plan.md). Agent rules are in [AGENTS.md](AGENTS.md) and visual rules in [DESIGN.md](DESIGN.md).
+The generated documentation starts at [openwiki/quickstart.md](openwiki/quickstart.md). The original plan, decisions and phases are in [docs/legacy/plan.md](docs/legacy/plan.md). Agent rules are in [AGENTS.md](AGENTS.md) and visual rules in [DESIGN.md](DESIGN.md).
 
 ## Development
 
@@ -73,7 +73,7 @@ APP_ENV=dev DEV_BASIC_AUTH_USER=torre DEV_BASIC_AUTH_PASSWORD=clave pnpm dev
 
 ### Deploys
 
-Railway hosts both environments; `docs/infra.md` has the inventory, the decisions and what is left.
+Railway hosts both environments; `docs/legacy/infra.md` has the inventory, the decisions and what is left.
 
 - `.railway/railway.ts` is the service config as code: Railpack with Node 24, `pnpm build`, `pnpm start`, `pnpm migrate` as the pre-deploy command, the `/api/health` health check, restart on failure, US East. Railway does not read it on deploy. Apply it per environment with `railway config plan` and `railway config apply`. `tests/unit/railway-config.test.ts` evaluates it for both environments.
 - Dev: Railway deploys every push to `main` once the GitHub checks pass. `.github/workflows/deploy-dev-smoke.yml` then waits until `/api/health` on `DEV_URL` reports the deployed commit and runs the smoke suite against `DEV_URL`. Railway's deployment `environment_url` points at its dashboard, not the app, so the workflow does not use it.
@@ -109,6 +109,6 @@ Railway hosts both environments; `docs/infra.md` has the inventory, the decision
 
 ### CI
 
-`.github/workflows/ci.yml` runs on every pull request and on pushes to `main`. Lint, types, unit tests, integration tests, build and E2E run in parallel after the install job. Integration runs `pnpm test:integration` against an empty Postgres 17 service. E2E builds the app, runs `pnpm migrate` against an empty Postgres 17 service and tests `pnpm start`, then runs the dev gate suite on the same build. `Auditoría` runs `pnpm audit --prod` from the lockfile alone: it fails on a critical advisory and warns on a high one (`docs/security.md`). The `Pruebas` job passes only when all of them pass; branch protection on `main` requires it.
+`.github/workflows/ci.yml` runs on every pull request and on pushes to `main`. Lint, types, unit tests, integration tests, build and E2E run in parallel after the install job. Integration runs `pnpm test:integration` against an empty Postgres 17 service. E2E builds the app, runs `pnpm migrate` against an empty Postgres 17 service and tests `pnpm start`, then runs the dev gate suite on the same build. `Auditoría` runs `pnpm audit --prod` from the lockfile alone: it fails on a critical advisory and warns on a high one (`docs/legacy/security.md`). The `Pruebas` job passes only when all of them pass; branch protection on `main` requires it.
 
 `Revisión GGA` runs on pull requests only. It reviews the PR diff with `gga run --pr-mode --diff-only` and the Codex CLI, logged in from the `CODEX_AUTH_JSON` secret. It is advisory for now and not part of `Pruebas`, until we see how its verdicts hold up. Without the secret, as on a PR from a fork, it skips with a notice. Runs queue on one concurrency group, so two of them never refresh the Codex token at the same time.

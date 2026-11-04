@@ -2,7 +2,7 @@
 
 Status: study done on 2026-11-02 with Playwright (Chromium 1248) on ten routes, each at 1440, 1024 and 390 px, in dark and light. Values come from `getComputedStyle`, the site's stylesheets and frame sampling during transitions. Screenshots and recordings stay out of the repo because they are third-party content; they live in the git-ignored `tmp/duffus/` folder of whoever ran the study.
 
-duffus.fr is the visual reference named in `docs/plan.md` section 7. We take its structure, density and motion. We do not take its colors, its wording or its layout pixel for pixel. `DESIGN.md` turns the verdicts below into our rules.
+duffus.fr is the visual reference named in `docs/legacy/plan.md` section 7. We take its structure, density and motion. We do not take its colors, its wording or its layout pixel for pixel. `DESIGN.md` turns the verdicts below into our rules.
 
 ## How the site is built
 

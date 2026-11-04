@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:65ee377d2d6e541aadef13d75d9ef8a39ba35953951a6603b236d75826dc755c",
+  "pageVersion": "sha256:a66efb063d08bee92c2c6821d15c67cceca486a12bb31f1c096805657645e623",
   "claims": [
     {
       "id": "claim_46a7ecf7c01f4151af666d14fb666d91",
@@ -79,10 +79,34 @@
           "version": "repo-lines-v1:sha256:40e46bdc2da0f4d550384dacafc8dfe25ea308804ace3015cb2ac989a2d01158:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUyMWU2NGViYmJmODMxNGRjMzNmMGExMDVhYTFmM2U1ODcxY2QyOWRlYzEzNTg0NTlhZjEyMmIxMGZhMGZmYmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU0MTcxZjI1ZmY1MGUyOGMxZWQ2MGRiMWYwM2NiMmRmOWU3NDExZjNmYjU0MTNiY2Y0OWExZWVlNjdmMWQ1MzQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUyODU5MDBiNjY1NjM3NWQ4MTk3YmRiY2JjMjZlNmIwZTMyYTM4N2E0MmVjMTE2MGUyMjRjZDYyMmQ2ZTU0NjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY2YjJjMTViNTEzYWRkMjhjZTAxODlmM2U1YzczYTZjOGQ0Mjk4MWM1NTJjZmVkZmE5MTg3OTg3YTg5OTQ2NDMifQ"
         }
       ]
+    },
+    {
+      "id": "claim_480d0bb4c9a3438c905ff1fe3fcca310",
+      "statement": "openwiki/ is the only generated documentation and AGENTS.md requires refreshing it with the openwiki skill in update mode before every PR, committing its changes in the same PR.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L181-L187",
+          "version": "repo-lines-v1:sha256:4d7ed99429dfed4dca9086a65a12cbd486ae22a684e77e853e6fd78378a665c5:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmRkY2MwYWVmMzFiNzU2NGVjYWVmMWVkOTY2MWNhZDRjZDllYTk4MWVlYWNiZDEwMjlmY2VkYjgwOTk0ZTEwMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjJkNzdlYjFhNzA3NmM5ZDFjYjUzNjA5OTQ2NDRiNzVkN2M3ZTE3YzU5NzIxYzVkODdmMmQ0MmM0ODJlZjVhYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmIwZDAxNjA3ODUyMTE1ZGVhMWI4NWRmYmM0NGUzZmEyNGMwMmZlNTJkZGRkODE5ZTIyZWRhNmUzMGY1YjBhMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWIxYmM1YmM0YTIzN2Y1NzhlNmFmNGE0MTVkMDY0N2Y5OTEwYjAzYjM2NGUxZTI3YzFmMWRiYWE3NDNkMDNiYSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_cd0ebcba261e48fb9c4245c8d5b7e050",
+      "statement": "The hand-written docs superseded by openwiki/ live in docs/legacy/, kept for decisions and infrastructure state the code does not show.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L57-L57",
+          "version": "repo-lines-v1:sha256:4963b2dcdb6f05798ee8d20b26f29f0d83503f54f997dd7ba4c3d2339f310262:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDk2M2IyZGNkYjZmMDU3OThlZThkMjBiMjZmMjlmMGQ4MzUwM2Y1NGY5OTdkZDdiYTRjM2QyMzM5ZjMxMDI2MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDk2M2IyZGNkYjZmMDU3OThlZThkMjBiMjZmMjlmMGQ4MzUwM2Y1NGY5OTdkZDdiYTRjM2QyMzM5ZjMxMDI2MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzk0OTQ3MGEyYmExZjM4MDcwNGI1NjY2ZjU5ODdlMTgxN2VlNzlkMmY2NzQwMjE0MjRhNmRiMjEyMzY1MDFjZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjRkMmUwM2QwOTIwNjUzYTYzZmE2ZmQzYTI0ZGI3YzVkMTFkMmE1NzI2MDVkNjRiNGU3YTFiZmFhOTFhODQ1ZSJ9"
+        },
+        {
+          "resource": "repo://docs/legacy/README.md",
+          "version": "repo-file-v1:sha256:4569d0518fe4c2c3f98ec7c84dcb5d79097d80740860c54c71aa53d760d5c54e"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T00:16:52.047Z"
+    "at": "2026-11-04T00:32:19.388Z"
   }
 }

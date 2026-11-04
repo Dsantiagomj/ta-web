@@ -4,7 +4,7 @@ import { devGateStrings } from './strings'
 
 type Env = Record<string, string | undefined>
 
-// Puerta del entorno de desarrollo (docs/infra.md, sección 7): basic auth en todo el
+// Puerta del entorno de desarrollo (docs/legacy/infra.md, sección 7): basic auth en todo el
 // sitio y noindex. Se activa con APP_ENV=dev o en el entorno `dev` de Railway; en
 // producción, en local y en CI no hace nada.
 
