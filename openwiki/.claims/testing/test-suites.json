@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:186ab290fd32452e948fa0c62413c3db3fdbc85afce5c96a87b6edd14c175762",
+  "pageVersion": "sha256:b9eff1d61dfa9492d37a77dd99c3d9fb63b55997ef5a9149c37bce168672bc0a",
   "claims": [
     {
       "id": "claim_764b0485963845c99d60b85472ceccba",
@@ -133,10 +133,20 @@
           "version": "repo-lines-v1:sha256:f66b710c0a7820f41daa69074000fc37dcf0a790191ed05c4a1faa85f8639c79:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUzY2FiYWE2NGZlZjYyNGNhOTAxNTVlNzFjZDUyN2IwN2U5MjBiMWJkYjlkMzdlNjE1YzdlN2RhNmVkZGVlNDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE3MjM4YWRlZDExMzA2Zjg1MzNiYmNlOTM4OTQ5NjlhZTljNTczNTM5ZjhmYmM4ODQzNTFhNTIzNzM5YWEyNzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_0c45f31476c24a279f0d882e7b3e5893",
+      "statement": "The integration suite includes tests/integration/migrations.test.ts, which runs pnpm payload migrate:down then pnpm payload migrate with integrationEnv and DATABASE_CONNECTION=direct to check the latest migration rolls back and re-applies.",
+      "evidence": [
+        {
+          "resource": "repo://tests/integration/migrations.test.ts#L8-L38",
+          "version": "repo-lines-v1:sha256:d515c59458cbd7af8cd122854e8814aae022fdc611c7d55a7f78e6b73240e6ae:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0ZjdkOTcyMDJkYTA2YThkYzAwZjU0NWNkODMzOWEyYmU2ZDgzYTc1ODkxMjJjOGUzYWM4ODJkZmJkZjU4ZjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU2NDU4M2IyMjgwZTkzZGY0NTI2YTJiZjA4NjZjNjkxZjg3Mjk3NTM3MDFlNGVlOWUwYWZmOGI0MTRmMzdlYzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T07:07:46.246Z"
+    "at": "2026-11-04T07:16:27.262Z"
   }
 }

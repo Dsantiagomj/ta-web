@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:49ce4164d029c5f8b12915e67fe8ab9078392679a43dfe66b00bc6381cc4863a",
+  "pageVersion": "sha256:a7a7459e19e2611406a2b21183358a14cba7916b0b15714544600f0829d9de4e",
   "claims": [
     {
       "id": "claim_c4d0210fcc834f69a874cfcee7b4d598",
@@ -123,14 +123,62 @@
       "statement": "The quests migration creates the quests, quests_locales, quests_rels, quests_start_positions and quests_start_positions_locales tables, a unique index on quests.dofus_id and a quests_id column on payload_locked_documents_rels, and its down drops them.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/20261104_070541_quests.ts#L3-L88",
-          "version": "repo-lines-v1:sha256:b25b69ea81a37d2df88838ecd8c2f90049f1495663cdd691f7870167879f6576:eyJzZWxlY3RlZExpbmVDb3VudCI6ODYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwMjRjMDc5NmMwNDAwOTU3YWM3ZDk5NmY1NDViYzdjNjViZjk5MzJkNzUzYjRlN2NhZGJjOTE2YWRhNTkyNjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoyLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5ZjMzOGZiMGIxYzNkOGU1NzcwYTU2MjQxYTU3NDc0NTA2MTM2YjM4MDM4ZjdlZTRiMTJiNjU1OTYyZWRkZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/migrations/20261104_070541_quests.ts#L3-L87",
+          "version": "repo-lines-v1:sha256:b65af3b76e14fb1d36896ee3e085e8cb09278af7babf18be7fdf5fc432c45030:eyJzZWxlY3RlZExpbmVDb3VudCI6ODUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwMjRjMDc5NmMwNDAwOTU3YWM3ZDk5NmY1NDViYzdjNjViZjk5MzJkNzUzYjRlN2NhZGJjOTE2YWRhNTkyNjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoyLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5ZjMzOGZiMGIxYzNkOGU1NzcwYTU2MjQxYTU3NDc0NTA2MTM2YjM4MDM4ZjdlZTRiMTJiNjU1OTYyZWRkZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7a106100361b432f81dcc4030da1c7c2",
+      "statement": "The quests migration's down does not drop payload_locked_documents_rels_quests_fk separately, because DROP TABLE \"quests\" CASCADE already removes that foreign key.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261104_070541_quests.ts#L72-L87",
+          "version": "repo-lines-v1:sha256:94cfed49d82e9aa25b217fd7bb80a1da39ad9fd7a297977a4c0362b60a6e7ce0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhNzQ5ZmQxN2MwY2Q2NzlmYmZmYzdmNmYyYzBkY2IxNWE1Mjg0YTc2MTg1NGY3ZWI3YTM4MTAyNjljOGVmZmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ0NTcwZTIxNWUxZjY0YjYzNTBjMTRlOGE0NzkyY2FmZWQ5YmE5N2E2ODgyNThjOWY0MmRjY2JkM2RjMjdjYzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3b03251807784c48ab08eadec2a4d409",
+      "statement": "tests/integration/migrations.test.ts runs pnpm payload migrate:down and then pnpm payload migrate against the integration database with DATABASE_CONNECTION=direct, asserting the latest migration in src/migrations/index.ts is rolled back and re-applied.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/index.ts#L4-L15",
+          "version": "repo-lines-v1:sha256:5c94bc99d4f118b305ccc1ed0e49303dc47e20c4362f85381e5f3d2c524af3e2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMGVkYzRmYjExMzQ3MTVkZmYyYWMxM2VkNzlhODc3YmQzOGQxMTdiNzY0MjViMGJiMzJlMGRhZDgzY2IzNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjliNDRkOTkyYzY1Y2E1NzFlYjllMjdhM2Q0ZjI3NDFiMDg2MzVhZjA4NmJkMzRhZTYxOGFiNjA4MDQyZDQyOGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/integration/migrations.test.ts#L8-L38",
+          "version": "repo-lines-v1:sha256:d515c59458cbd7af8cd122854e8814aae022fdc611c7d55a7f78e6b73240e6ae:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0ZjdkOTcyMDJkYTA2YThkYzAwZjU0NWNkODMzOWEyYmU2ZDgzYTc1ODkxMjJjOGUzYWM4ODJkZmJkZjU4ZjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU2NDU4M2IyMjgwZTkzZGY0NTI2YTJiZjA4NjZjNjkxZjg3Mjk3NTM3MDFlNGVlOWUwYWZmOGI0MTRmMzdlYzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d34b638429274b94b7936781dd9b98fb",
+      "statement": "The migrations test uses the Payload CLI because Payload imports migrations with Node rather than Vitest, and avoids migrate:refresh because in Payload 3.92 it rolls back oldest first and fails.",
+      "evidence": [
+        {
+          "resource": "repo://package.json#L43-L43",
+          "version": "repo-lines-v1:sha256:73cb884a392e05d5835e4c9f3d5e463c40e971b6188e03500910a6146c5f3f09:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzNjYjg4NGEzOTJlMDVkNTgzNWU0YzlmM2Q1ZTQ2M2M0MGU5NzFiNjE4OGUwMzUwMDkxMGE2MTQ2YzVmM2YwOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzNjYjg4NGEzOTJlMDVkNTgzNWU0YzlmM2Q1ZTQ2M2M0MGU5NzFiNjE4OGUwMzUwMDkxMGE2MTQ2YzVmM2YwOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWRlNDkzODM0MzZmMDc4OGVjNDkxNDQ0NjI4MGM3YmU3YjhmNDE3NWQ1OTg2NTM5ZmIxZTAxM2E0OGJlZGRkMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjI4ZDY5OGVkZTMwZmRmZmNiMGZlODViOWY4MDYyMjU4MDEzYTM1OGFjMGI2N2UwNDBlNGQ4NTBhMjdmNjRiNSJ9"
+        },
+        {
+          "resource": "repo://tests/integration/migrations.test.ts#L22-L28",
+          "version": "repo-lines-v1:sha256:78d42c28e4acb67fa646d6628758ad613825d19ee434df2b605eab7c72764bb5:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzg1M2RiNGY2MzY5MDFiN2M1ODZjZjdmNTM3Y2JlYTJhNWU5NzIxNjkzNWZlYTAwZWEzNzEyOWVjOWY2ZTRiNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODhmMWVmZWM4YzRkY2MwNmVlZWZlZDViZjI3YzY0ZDQ0NTk1NjFlY2FlNTRlNDVkZDFkN2FiNTIzM2UxOWRkMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmI1ODBlOTY0ZjgzYTQ3M2Y0M2Q0NDM4NDYyOTQ5ZDY4YjU2MDBmZGE3ODdmMTYzNzQ1ZDAwZGU4OWNiZjM2YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTUzZTMwNzQ0ZjVkMzI1NjhjNjcwMzUzNGViZjM2ZmRmNzIyMTQ5NDRhMjhjZWFiMDY2MWIzYzYxNDgwNWEyZSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_f21b52da406a458781dead5da2e89a78",
+      "statement": "When a Payload CLI command fails, the migrations test rethrows an error that includes the command's stdout and stderr.",
+      "evidence": [
+        {
+          "resource": "repo://tests/integration/migrations.test.ts#L15-L19",
+          "version": "repo-lines-v1:sha256:13485947fcd7bb5ef4e1964efe1bd9af1e00c7b19301df22f08c06c798add6a0:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGVkYmY4Mzg3NTM2ODk2NmYzMTNhZTYzOTUzOWM0MDM3MDA0NWJhNTNlMmUyY2VlOTNiYjY3ZDVkYTE3Yjk4MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjdlNTc4OGQ1ZDlkNzNkMjRhODFkYmMwYTVhNzRiZmE4MmM5YzNiM2FmOTllNTJhZjc5NmU5MGI0NjhhOGEzZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTZhNzY3ODEyMzA1MjJjNTg0ZjM0MTVmNzgyZTliYmE0YmU0Y2M1Y2VmYTIxYjBkNDQyODE0NWM0NmFhYmFhYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzI3YzA3ZGNjMzViZGNkYjFiOGVjOTNlNjA1NzdiNzQ1M2JkOTkzN2ZhODNkYzdiMTUxMmVjNDZkNGViOTY2MiJ9"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T07:07:46.246Z"
+    "at": "2026-11-04T07:16:27.262Z"
   }
 }

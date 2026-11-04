@@ -5,7 +5,7 @@ description: The five test suites (unit, integration, E2E, dev-gate E2E and smok
 tags: [testing, vitest, playwright, integration, e2e]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T07:07:46.246Z
+    at: 2026-11-04T07:16:27.262Z
 sources:
   - id: openwiki-source-5e753d9d77984cb67aae1517
     resource: repo://playwright.config.ts
@@ -19,6 +19,8 @@ sources:
     resource: repo://tests/e2e/smoke.spec.ts
   - id: openwiki-source-450b6a23d7e25100eadc359f
     resource: repo://tests/integration/global-setup.ts
+  - id: openwiki-source-a6cdaab0cfeb9dcfe8511d62
+    resource: repo://tests/integration/migrations.test.ts
   - id: openwiki-source-dbcd0524c9464e05f7f54ade
     resource: repo://tests/integration/payload.ts
   - id: openwiki-source-6678095e74d244708e64ddd4
@@ -29,7 +31,7 @@ sources:
     resource: repo://vitest.config.mts
   - id: openwiki-source-57da85ca1bb457973a5594ff
     resource: repo://vitest.integration.config.mts
-generated: { by: "claude-code", at: "2026-11-04T07:07:46.246Z" }
+generated: { by: "claude-code", at: "2026-11-04T07:16:27.262Z" }
 ---
 
 # Test suites
@@ -61,6 +63,7 @@ Real Payload (`getPayload`) against a real Postgres with the committed migration
 - `tests/integration/global-setup.ts`: with no `DATABASE_URL`, it starts `pnpm db:dev` if port 54329 is closed (and stops it afterwards, or on setup failure), recreates `ta_web_integration`, then runs `pnpm migrate`. With `DATABASE_URL` (CI's empty Postgres service) it only migrates.
 - Helpers in `tests/integration/payload.ts`: `startPayload`, `tinyPng` (a 1×1 PNG in memory) and `createPanelUser` (creates and logs in a panel user, returning what Payload puts in `req.user`).
 - Access tests call the local API with `overrideAccess: false`; omitting `user` makes the call anonymous. See [Collections and access](../cms/collections.md).
+- `migrations.test.ts` checks that the latest migration rolls back and re-applies: it runs the Payload CLI (`pnpm payload migrate:down`, then `pnpm payload migrate`) with `integrationEnv` and `DATABASE_CONNECTION=direct`, leaving the database as it was. See [Database and migrations](../data/database.md#migrations).
 
 ## E2E
 
