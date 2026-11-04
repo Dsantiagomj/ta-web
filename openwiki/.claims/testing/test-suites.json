@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ad4d460ab5b304ad769a750f368cf9948eb4dc81bb6b454e063fa07d92772796",
+  "pageVersion": "sha256:99bef8a3221f93d84b26494de4d1718966da9f5ec3fb97c8d60ba9a82d974db8",
   "claims": [
     {
       "id": "claim_764b0485963845c99d60b85472ceccba",
@@ -235,8 +235,8 @@
       "statement": "Import unit tests cover page parsing (title, desktop grid order, text, image and unknown blocks), the page-to-guide conversion, HTML to Lexical through Payload's editor and the quest matches CSV.",
       "evidence": [
         {
-          "resource": "repo://tests/unit/import-parse-page.test.ts#L43-L126",
-          "version": "repo-lines-v1:sha256:5e839f038f6966db7cf9c97412152d8af2509ca0625295172635ae108f9a585e:eyJzZWxlY3RlZExpbmVDb3VudCI6ODQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3YWU5YWY1ODZkMGMwN2RjMjRlNWJhYTljNzdlNjVkMzA1YjgyNDg4MzE3ZGI3N2YwMTBhYTRhZGI1ZjYwNmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmZmU3MTFkNjRlNTNmZGE4ZjIyMzlkMDM3ZDg3MzI5MTFiOGI1ZWZkZTIzZGQ4OTE2ODA3ZmUwYjk4MTFjYmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://tests/unit/import-parse-page.test.ts#L43-L145",
+          "version": "repo-lines-v1:sha256:4fc1ead17f92663a8f0b86a9defd630bba027b603dc9a8dded1156124210067c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI4N2FlOWFmNTg2ZDBjMDdkYzI0ZTViYWE5Yzc3ZTY1ZDMwNWI4MjQ4ODMxN2RiNzdmMDEwYWE0YWRiNWY2MDZmIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmZmZlNzExZDY0ZTUzZmRhOGYyMjM5ZDAzN2Q4NzMyOTExYjhiNWVmZGUyM2RkODkxNjgwN2ZlMGI5ODExY2JjIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         },
         {
           "resource": "repo://tests/unit/import-quest-matches.test.ts#L14-L29",
@@ -273,6 +273,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T15:51:44.854Z"
+    "at": "2026-11-04T16:22:11.904Z"
   }
 }
