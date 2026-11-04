@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:834cae701bf4b4a19b6715b638517c9df384a4f1283c859a938fdb3768a90e31",
+  "pageVersion": "sha256:98ac565d43a9c2765349990b4ab1a102404afc129bb1f77b53a72a10bcc4510e",
   "claims": [
     {
       "id": "claim_8f222a8a3ed24bea93d7a2b89fa079b5",
-      "statement": "The Payload config registers exactly two collections, Users and Media.",
+      "statement": "The Payload config registers exactly three collections: Users, Media and Quests.",
       "evidence": [
         {
-          "resource": "repo://src/payload.config.ts#L25-L25",
-          "version": "repo-lines-v1:sha256:abc9ee564ae54c3e07fe0098909a5622cbe79131fb782f2381afa5e8b2b12103:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWJjOWVlNTY0YWU1NGMzZTA3ZmUwMDk4OTA5YTU2MjJjYmU3OTEzMWZiNzgyZjIzODFhZmE1ZThiMmIxMjEwMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYWJjOWVlNTY0YWU1NGMzZTA3ZmUwMDk4OTA5YTU2MjJjYmU3OTEzMWZiNzgyZjIzODFhZmE1ZThiMmIxMjEwMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGRkYjU0Y2QxOTVhYzY5NTViNTA5NzE4ZjA4YzE4ZDBhNTRkMjhkYjY1ODVjZGUzOWM0MWNjOTdkNjg1MTA2YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGM1MmRmNTRhNzU2MjE2NmNjNmMwOTNlNjMwN2UwYjNjZGQ1MjFkZGVhNjhlYWYxY2I1YWZhMzIyN2IyOGVkNSJ9"
+          "resource": "repo://src/payload.config.ts#L26-L26",
+          "version": "repo-lines-v1:sha256:0171540a2338e1eda6a86c874aea40c270e7c59b2288a77699644dddd6fa08b4:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDE3MTU0MGEyMzM4ZTFlZGE2YTg2Yzg3NGFlYTQwYzI3MGU3YzU5YjIyODhhNzc2OTk2NDRkZGRkNmZhMDhiNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDE3MTU0MGEyMzM4ZTFlZGE2YTg2Yzg3NGFlYTQwYzI3MGU3YzU5YjIyODhhNzc2OTk2NDRkZGRkNmZhMDhiNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGRkYjU0Y2QxOTVhYzY5NTViNTA5NzE4ZjA4YzE4ZDBhNTRkMjhkYjY1ODVjZGUzOWM0MWNjOTdkNjg1MTA2YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGM1MmRmNTRhNzU2MjE2NmNjNmMwOTNlNjMwN2UwYjNjZGQ1MjFkZGVhNjhlYWYxY2I1YWZhMzIyN2IyOGVkNSJ9"
         }
       ]
     },
@@ -103,7 +103,7 @@
       "statement": "Spanish is the only configured locale and translatable fields are marked localized so a second language becomes a translation rather than a rewrite.",
       "evidence": [
         {
-          "resource": "repo://src/payload.config.ts#L34-L40",
+          "resource": "repo://src/payload.config.ts#L35-L41",
           "version": "repo-lines-v1:sha256:851298849b6a540f6db5bf254ac8d5da2afcb5a1a66213fbf31c0b8aa09f5347:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTIxMDQ2MTQxMTM0MjVlOWRjYTViODUwMTE3YzNjOWFiMjQ1OTdiMDYyZWNkMDJlZTc5MmRiOTI0YjIwNTFiZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTJlY2VlOTFkMWY1YTZhYzM3ZGYyMTc3Zjc3ODM2Y2ZlMmEwMTc5NWI4MWNjMDZiMTI2NDk4OTZiNmI3ZmE1ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzE1YWRlNjc2NDRiMTllZmQ2MzMxNmQ1ZDc3MmRlM2UxMTRhMWQ3ZDA0ZDI2M2VjMTA2MmI0ZDZjYjVkNmM0OSJ9"
         }
       ]
@@ -117,10 +117,86 @@
           "version": "repo-lines-v1:sha256:d8524a2f1a70f5d0a63669505e6c314913626456df2865e6ba25bd63a60e34e2:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2VmYWNiZjM4OGJhMmFjNTg4NTE4N2YyNDViOGU1NjcwZjQyNGRlZWYwYTA4MzNlYmE3NGE0ZWY3ODQwOTFjMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDM0NmY2MzZkODkxNDgwNTA4NTUzMzZlZWE2MGZlYzVhZTVhOTdiZmExYjJlZmEzNWQ0MDZlNTA3NGQ4NzdkOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzEyNmYxZjliNDQ1Y2I1ZDhlOTNmNmI2NTA4YzE3ZGRmZDkyNDY0ZDcyZTU1OTJiMDkxOWI1MzBkYjYwYmNjNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzJmOTUxYzg0ODkyMTgzMjI5N2E3OGQyZjQ2NWZhZThmNDZkZDI2ZThkZjAzMjEzZTRiNTQwYWNhMTc0ZjBhZiJ9"
         }
       ]
+    },
+    {
+      "id": "claim_22e8620ba05a43d6b745b3895bc6ef49",
+      "statement": "The quests collection holds DofusDB quest data in the panel group 'Datos del juego', with name as the admin title and name, dofusId and levelMin as default columns.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/Quests.ts#L12-L21",
+          "version": "repo-lines-v1:sha256:06ee9b6b7ef61a8c398fba78489332d2fb258b60ce5fcb58a81f7f6d22d36a4f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ1MDkwYzE5ODU4ZTJhODdmMzEzYjc4NDZiZmQxMGMwZjEwYjRhMWJmMWFiOTJkMWY1YWQ2ZGY5NTI0YjM5YWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU3Y2Q0NjgzOTI5MTFiNDExMTU3MTNmNzAyNjdlNTdlMmUyNGIwMGUxMTk5YzI3NmFhM2Y5Y2IyNzEwNDgzYTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBlYjVlYmI0OWViMmIxODA3NGUwNDliMDFlZjY5MDZhNmZiZmMwYTA2MmY2ZDk0ODczMTQ0NGI1ZjUxNDIzNjEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f7e81e835d724edab1422c539c23b175",
+      "statement": "Quests have a required, unique and indexed numeric dofusId, a required localized name, optional levelMin, levelMax and categoryId numbers, an optional raw startCriterion text and an optional refreshedAt date.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/Quests.ts#L24-L50",
+          "version": "repo-lines-v1:sha256:f29146ceaeb21baedfa636b10aad876176c83b7f7bef2499348c6717b19cff1a:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5Y2E4OTFiZmY3YWMxZjdjZWFhZTQwZWYwNTEwNjZiZTllZmU0N2I0ZTQyODFlODZjMzE5YmUyYzU1ZWJjZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlmMDE4ZDE0ZmRjNDYzMDNiYmNiODEzNjM3NTQ4NmJkOGVmNGQ0MjVhMjIyNjI2OGUyMzkzNGQxZDhkOGNiNTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMyYTU3MGQ4OGUyYWIwMGMwMzZjNDQ1MmU2ZjdhNTAwOWJkNTNjZTgxNGQyYzAyNDhjNWZmYjMxMzJjZjY3MDEifQ"
+        },
+        {
+          "resource": "repo://src/collections/Quests.ts#L74-L81",
+          "version": "repo-lines-v1:sha256:3a0e7bd4745f480d49ff30ae452a1b3b5992168a9fe0566cced029f1f7bfb964:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjljYTg5MWJmZjdhYzFmN2NlYWFlNDBlZjA1MTA2NmJlOWVmZTQ3YjRlNDI4MWU4NmMzMTliZTJjNTVlYmNlNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWRiYzA5NDk5NTJhNWM4NjM5MTc4MTkyNmZmNzlmN2YyZTIzYWYwMzdkNTBhNzA3YmRiY2Q5MTI4MTE3MmU3ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjIsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzE2NGI2MWZlNWQ2N2EzZGM3MjhiMzdiNGIwZWM3ODBlZDEwMGRiZThkMGQ5ZTk2NzVmZjM1NjM5ZDU4ZmU5YSJ9"
+        },
+        {
+          "resource": "repo://tests/unit/quests-collection.test.ts#L18-L41",
+          "version": "repo-lines-v1:sha256:29ab9f2721f8cd7a6287caabd4d929d73e9982dc635fb92d29be202c76269133:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU1Y2Y1ZGY0OTdlOTQ4MzFhN2ViYTEyMWZjNTRhZmM4MGMyMmRhNTlmYWI2YjZhYjkzZGFmOTRhNjkxODRlMGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNlYWM5YTg5M2NlNzE0MzI0OWY3YzE4MWMzNjUxZmRiN2I3MWRlZjVhNTkzNjFiZmJlMjdjMDE0NjNkZTE3MDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc1MWNjNjdhOWNkOTU0MjI5OGRmYjIzY2FmNWVmNDU5MTNiODg1ZDQ4YjUwZWNhN2NkZjliNjg1ZmRiYTRkYWIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bd16c609e6164920a65e855d58bdc0e0",
+      "statement": "Quest prerequisites are a hasMany relationship to other quests, and startPositions is an array of npcId, localized npcName, mapId, x and y.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/Quests.ts#L51-L73",
+          "version": "repo-lines-v1:sha256:066fc22b1d25fd5dc3282eac3e6660c24a44ea76f23170b027609612ecc37179:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5Y2E4OTFiZmY3YWMxZjdjZWFhZTQwZWYwNTEwNjZiZTllZmU0N2I0ZTQyODFlODZjMzE5YmUyYzU1ZWJjZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY4NGQ3MDQxOTM3MTEzMjJiMGJlZmUwOWQwZDNlZGZmODhjNDdlMzJmZDYxZjI4MjBmODM5YTBkMzhiZjViNWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYwODg5M2ZmNWNlN2QzYjY3NGYwNmFiODIxMmEzYjRlZjk3OTRjNzVmM2U5ZDEyMGI1YjZiNjk4ZGIzNzYwMzUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/quests-collection.test.ts#L43-L62",
+          "version": "repo-lines-v1:sha256:016c184fee6e235ce723af7e4861befbf6159a592bd7ce20183df71b62a68921:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxODU3ZmU0NTc3NTg4Y2VjOWQzOTA5YzYyNjU5NGFlYTljZGIzNzFkMDMzM2QwZTQyOGMzY2Y4YWVmNjM0MjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRmYjYyN2ViNzllMTQ5MTg2MjFlMzE1OGRhYjE0ODNjZjI4NTEyZGYxYjkyYmNiNmExNWIyZjk2ZTAyZjA4MTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI0OGQ0MmY3M2ZlMjM4MDJjOWFiNGQxNDg2ZDA1Y2IzZmNmOTBlYzEwZWRlNWJkNGExZWJkNzU1NGUzNTNkMWQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a0d9fb035ea44480bd37fc5713692a77",
+      "statement": "Quests are readable by anyone, while create, update and delete always return false, so only server code using the local API with overrideAccess true can write them.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/Quests.ts#L3-L10",
+          "version": "repo-lines-v1:sha256:9ae40f98fa673bfaa0d2e8a284de80ad5d4214aba2e0a65a1b25f075b2df3f5a:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTZlMGZjOTZlM2Y0ZGYwN2U2NTI2MTY3ODY0ZTUxMDUwNzZlY2YyYWI1ZWFhMzUwZTI5YmY2MDE1MTdiODlkMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjIsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjEwZThlMDI3NGE3MDY3ODJlZjIwMDk3NGIzMzQ3MzY4ZWYyZmQ3NjZjYzE2OWVlNTBkYTQ0MzJmMzg3NzZkZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTUxODM4Y2RjN2Y1NTk0OTUyNTZiMzYyOWQyYjI5YmI0NjIwNmQ3NWJiNDA3ZGQ3OWJjZGY2NjBhY2U0ZGViZSJ9"
+        },
+        {
+          "resource": "repo://tests/unit/quests-collection.test.ts#L65-L76",
+          "version": "repo-lines-v1:sha256:4999283588d656cd6d18ff82f10e5b80ac90560abd4544e0e529a451d8624855:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIxYzg3MzIxNDdhYmM3OGUwZWY1ZjIyMzkyMjg5NmRlMjkyNmYwZWZhM2IwZmM2YmNhMzA1ZjRlZjBhZWUxZjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_212b42ff9e9242869906921df865db38",
+      "statement": "The quests integration test shows an anonymous request can find and findByID quests, a panel user gets Forbidden on create, update and delete, and a create with overrideAccess true stores prerequisites, start positions and refreshedAt.",
+      "evidence": [
+        {
+          "resource": "repo://tests/integration/quests-access.test.ts#L29-L114",
+          "version": "repo-lines-v1:sha256:e4acf3141172235626c241b6e9b46a5d6b25328fa410447e1b5cab572e7be21b:eyJzZWxlY3RlZExpbmVDb3VudCI6ODYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY4ZDEwMjQwNDk5NGYwZDBlMDBkOTFiMDQ0OTkyZjdjYjZmMzVmOTI2ZGJjYzBjMTdlNzFiNGZhZmRjN2M0YTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0NzVlOTRhOTA0YWM0OWIzMTU0ZDQ2NzJhNjZlODYyOWI4NmRhYzc0ZTNlMjkzN2JlNjkyN2FlM2RhMTFjNTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYyMWU3ODFmNGE2NDIxYTNmNzk4NWRmMDQ4MGIzNGRhNjE3ZmQ4ZWRjNzlkNTM5MTY4NzBlZjllZmJiYmUyNDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYxYjIwODJhZGQ5YTI5ZTA2MmU2MGQ0NmRiYTFlMWY3YzUzYTBlMDUwYjg4MTE4YzExMDIxOGJjY2UwNTUyZDAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b1201cc359d24cb38fdff816adf1f60e",
+      "statement": "The quests migration stores localized quest fields in quests_locales and quests_start_positions_locales.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261104_070541_quests.ts#L15-L39",
+          "version": "repo-lines-v1:sha256:2b0fb82eb7d12d9bad5d2572b263fd44e3ea5e807ba18447bff1540e1f0048b9:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQwNzAyYTNjYzRhZjVkYTkzMjJiNzhlZTIxZmUyMmI4NDc5MzhlNDVkNDNmOTllMzYzNjUyN2JkODhkMzkyNzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1ZWYwMWJjMDhkYmMzYjYzZTRlNzVlYTNkMjZhNWI5NDE4OTE4NzdlMjdhZDg5MTMyOWM4NDExZDdkOGRjNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFjMzE2ODdkOTkyZWMyZjQ5YzQxMDM3MWYwNjZiNTliZTY0YTQ4N2ZjMzhhODQ0YjgyNzZiNmQ4MmY3ODI2NzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjllMWZjMTlmZTFjNzM2MzA5ODU3YmQ4ZTExNDA1ZjVkNzAyMDZjMzFkZTdmODU1MTQ4MzMyNmIzMzk2N2VjOGUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T00:16:52.047Z"
+    "at": "2026-11-04T07:07:46.246Z"
   }
 }

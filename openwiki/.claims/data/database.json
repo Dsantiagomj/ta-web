@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:564153cf83043a0791f6beea3bb6c569b79ec25fa3e30fba213f91657f1132b8",
+  "pageVersion": "sha256:49ce4164d029c5f8b12915e67fe8ab9078392679a43dfe66b00bc6381cc4863a",
   "claims": [
     {
       "id": "claim_c4d0210fcc834f69a874cfcee7b4d598",
@@ -80,11 +80,11 @@
     },
     {
       "id": "claim_08141421a97143cc8073d709e4bf1805",
-      "statement": "The only migration today is 20261103_030359_initial, registered in src/migrations/index.ts.",
+      "statement": "There are two migrations today, 20261103_030359_initial and 20261104_070541_quests, registered in src/migrations/index.ts.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/index.ts#L1-L9",
-          "version": "repo-lines-v1:sha256:79bf854aaed65bf94bc17e82eea43d3840f4bf67e4d0b4b1e3d013ec12c2715e:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTQ1MTY0MmJjNTljYTEwNjI3YzljNWMxNzZhNDUwNDcxNGU4Y2UyNzgwZWE4MzY2YmQ3NmM2MjE3YzExNThhZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjAyZDJjMGQ2ZGM1ZTc0ZDkyZmExNGI5MWRiZWEyNjQwOTBiZWIzNWZkYjkxODhkOWIzNDExODFkY2U5ZjRjZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+          "resource": "repo://src/migrations/index.ts#L1-L15",
+          "version": "repo-lines-v1:sha256:6d2928db12eb710a61d2ef2e0bae89bf4b7cb99d7cd72ff4878565f18426f044:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0NTE2NDJiYzU5Y2ExMDYyN2M5YzVjMTc2YTQ1MDQ3MTRlOGNlMjc4MGVhODM2NmJkNzZjNjIxN2MxMTU4YWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -113,14 +113,24 @@
       "statement": "The Postgres pool uses a 5 second connection timeout and logs pool errors instead of crashing.",
       "evidence": [
         {
-          "resource": "repo://src/payload.config.ts#L47-L60",
+          "resource": "repo://src/payload.config.ts#L48-L61",
           "version": "repo-lines-v1:sha256:1bcb37ec3c874a5e2bb870d1b48896a15bca796c87f45c13f4bb0e0065c489b7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMzMTk4MTZiY2MwODBjZmY3NWNkY2Y4OWExMTc4OGVlYTVmNGExMzAyYjYyNDcxNGUzMGU4NWQwOTg5OTY5MjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQyZGQ5NDk1ZGFjYWY0YzgwYTU5OWU4NGJlYWQ3OTRlNTVjNGE1ZTBjYmJjZWY5MzdmYmRiOGUyOTVmYTVkN2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUyNThlMDc1NzNjMmMzODBmMWM4YWFmNmU5M2U1YjZhODdkMzM3OWE3YTY4ZjYyNjNhNDE5NGMxZTA2NTJmM2YifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c92725a1a2454e39aa9546f4e8db3dd7",
+      "statement": "The quests migration creates the quests, quests_locales, quests_rels, quests_start_positions and quests_start_positions_locales tables, a unique index on quests.dofus_id and a quests_id column on payload_locked_documents_rels, and its down drops them.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261104_070541_quests.ts#L3-L88",
+          "version": "repo-lines-v1:sha256:b25b69ea81a37d2df88838ecd8c2f90049f1495663cdd691f7870167879f6576:eyJzZWxlY3RlZExpbmVDb3VudCI6ODYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwMjRjMDc5NmMwNDAwOTU3YWM3ZDk5NmY1NDViYzdjNjViZjk5MzJkNzUzYjRlN2NhZGJjOTE2YWRhNTkyNjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoyLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5ZjMzOGZiMGIxYzNkOGU1NzcwYTU2MjQxYTU3NDc0NTA2MTM2YjM4MDM4ZjdlZTRiMTJiNjU1OTYyZWRkZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T00:16:52.047Z"
+    "at": "2026-11-04T07:07:46.246Z"
   }
 }
