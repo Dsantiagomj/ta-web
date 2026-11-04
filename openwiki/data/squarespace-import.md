@@ -5,7 +5,7 @@ description: How the Squarespace import reads a cached Squarespace page, orders 
 tags: [import, squarespace, quest-guides, lexical, scripts]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T15:51:44.854Z
+    at: 2026-11-04T16:22:11.904Z
 sources:
   - id: openwiki-source-f235d856bed1fd44853c5195
     resource: repo://.prettierignore
@@ -33,7 +33,7 @@ sources:
     resource: repo://tests/unit/import-rich-text.test.ts
   - id: openwiki-source-299c190cabc2f0753a302110
     resource: repo://tests/unit/import-to-quest-guide.test.ts
-generated: { by: "claude-code", at: "2026-11-04T15:51:44.854Z" }
+generated: { by: "claude-code", at: "2026-11-04T16:22:11.904Z" }
 ---
 
 # Squarespace import
@@ -66,8 +66,8 @@ happy-dom was already in the tree through `@lexical/headless`, pinned by a secur
 |---|---|
 | `text` | `text`, with each top-level element's tag, outer HTML and normalized text |
 | `image` | `image`, with the original URL (`data-image`, else `data-src`) without its query string, and the trimmed `alt` (empty when missing) |
-| `embed` | `video`, with an `https` URL. An Embedly wrapper is unwrapped to the YouTube URL in its `url` (or `src`) parameter |
-| anything else, or an image or embed without a usable URL | `unknown`, keeping the Squarespace type |
+| `embed` | `video`, with an `https` URL. An Embedly wrapper is unwrapped to the YouTube URL in its `url` (or `src`) parameter. A URL that does not end up as `https`, such as `javascript:` or `data:` (also inside Embedly's `url`), is not a video |
+| anything else, or an image or embed without a usable URL | `unknown`, keeping the Squarespace type; the converter lists it as an oddity |
 
 ## From page to guide
 

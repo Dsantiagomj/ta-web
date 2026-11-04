@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:6fa691390429e84b9dec8a32e1eaed1db709eef420832f90b40e6f74d64167bb",
+  "pageVersion": "sha256:bec0ee31c1f780b0ee75946c8b68b1c4c270a5cbc44a9f5f48700a4b76a0729b",
   "claims": [
     {
       "id": "claim_79a6791c5ff4461e9187adf1682ac1eb",
@@ -65,7 +65,7 @@
       "statement": "parsePage orders the blocks of each fluid-engine section by desktop grid row and then column, preferring the rule inside @media (min-width: 768px) over the mobile rule, puts blocks without a position last, and keeps sections in page order.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/squarespace/parse-page.ts#L105-L129",
+          "resource": "repo://scripts/import/squarespace/parse-page.ts#L106-L130",
           "version": "repo-lines-v1:sha256:589db4cc9239009bc1f1b2c0329146078acd0bb0f77db885b80996944372f05b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM1ZjkyNWQ1YmMzZjNiYWEwYmQxMWE0MGRmZjI2NmFlMzRjMTBjYmIzODgxODZkMWZkYWQxNjNhZDdhM2I4OTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
@@ -80,11 +80,15 @@
     },
     {
       "id": "claim_ccdd89d1e01c47ff9eda9531bf844c5b",
-      "statement": "Text blocks are parsed into their top-level elements with tag, outer HTML and normalized text; image blocks keep the data-image or data-src URL without its query string and the trimmed alt; embed blocks become https video URLs, unwrapping Embedly; other types become unknown blocks.",
+      "statement": "Text blocks are parsed into their top-level elements with tag, outer HTML and normalized text; image blocks keep the data-image or data-src URL without its query string and the trimmed alt; embed blocks become https video URLs, unwrapping Embedly, and an embed whose URL does not end up as https, such as javascript: or data: even inside Embedly, becomes an unknown block; other types become unknown blocks.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/squarespace/parse-page.ts#L55-L103",
-          "version": "repo-lines-v1:sha256:cdde2551b9409b1d5f0a5920db5554ee056978b0b944131f98b54963089d8fdd:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNlODNmMjI2MWI2NGVjNTBmNTFiOGM1YWU0OWJjMWFlOTkwMDBlZTg4ZDJjYjg0ZjRlOTRiYWY4MDI1ZWIzYjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM3YTY4ZTAyNWNiZDRjYzFlYTczMzNmM2EyYmQzMGU2OTYxZDEzZjZlZGFiMjI2Y2Q0ZjI3ZmYxOTVmNWIyZTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVhYzdjYzhmOGYxNjNjY2IyNjUyYmE1YWNhZmI2YTA3MjQ4MGMyMTViNTE5NzI3NDE4MzViOWZiNGYzYTExMjQifQ"
+          "resource": "repo://scripts/import/squarespace/parse-page.ts#L55-L104",
+          "version": "repo-lines-v1:sha256:0221ebecf00e6b93c53a5b9bf68f6339d4c9042beeed85985320d32c9d30fd0c:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNlODNmMjI2MWI2NGVjNTBmNTFiOGM1YWU0OWJjMWFlOTkwMDBlZTg4ZDJjYjg0ZjRlOTRiYWY4MDI1ZWIzYjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM3YTY4ZTAyNWNiZDRjYzFlYTczMzNmM2EyYmQzMGU2OTYxZDEzZjZlZGFiMjI2Y2Q0ZjI3ZmYxOTVmNWIyZTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVhYzdjYzhmOGYxNjNjY2IyNjUyYmE1YWNhZmI2YTA3MjQ4MGMyMTViNTE5NzI3NDE4MzViOWZiNGYzYTExMjQifQ"
+        },
+        {
+          "resource": "repo://tests/unit/import-parse-page.test.ts#L127-L144",
+          "version": "repo-lines-v1:sha256:57adfd8636a63bf70905d54cd2953c96c97efe2420ce4af0350ffdcacd42ad33:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRjODE1ZDJhMDAyYmM4OWE3NWNiN2ZiNGUzYTJkOTFkNGU3Y2VlNzJkZmRlZjIxZTc0NjYxZGFiMzQ4ZjE1YzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU4MzdkYzdhZWIyMDcwNzk1NTRlYTdiMDY1MzQ2OGY0Nzk5MjY2ZjE5Njc0ZGM2NzU0YTgwOGJiODc1YzIyYWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUifQ"
         }
       ]
     },
@@ -331,6 +335,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T15:51:44.854Z"
+    "at": "2026-11-04T16:22:11.904Z"
   }
 }
