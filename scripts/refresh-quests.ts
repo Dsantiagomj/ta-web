@@ -1,6 +1,7 @@
 // Trae todas las misiones de DofusDB, con los objetos y monstruos que nombran, y las
 // guarda en quests, items y monsters, sin duplicar.
 // Uso: pnpm data:quests. Escribe en la base de DATABASE_URL (vacía: la de pnpm db:dev).
+// DOFUSDB_WRITE_CONCURRENCY fija cuántas escrituras van a la vez (por defecto 8).
 // Corre con `payload run`, que carga .env y transpila TypeScript; el script arranca
 // Payload por su cuenta.
 import { getPayload } from 'payload'
@@ -8,10 +9,16 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { createDofusDbClient } from '@/lib/dofusdb/client'
 import { fetchQuestData } from '@/lib/dofusdb/fetch-quest-data'
-import { refreshQuests, type UpsertCounts } from '@/lib/dofusdb/refresh-quests'
+import {
+  refreshQuests,
+  type UpsertCounts,
+  writeConcurrencyFromEnv,
+} from '@/lib/dofusdb/refresh-quests'
 
+// Antes de arrancar Payload: un valor mal escrito falla en el acto.
+const concurrency = writeConcurrencyFromEnv(process.env)
 const started = Date.now()
-const seconds = () => ((Date.now() - started) / 1000).toFixed(1)
+const seconds = (from = started) => ((Date.now() - from) / 1000).toFixed(1)
 
 const payload = await getPayload({ config })
 try {
@@ -22,7 +29,13 @@ try {
       `${data.items.length} objetos y ${data.monsters.length} monstruos (${seconds()} s)`,
   )
 
-  const counts = await refreshQuests(payload, data, { log: (message) => console.log(message) })
+  console.log(`Guardando con ${concurrency} escrituras a la vez…`)
+  const writeStarted = Date.now()
+  const counts = await refreshQuests(payload, data, {
+    concurrency,
+    log: (message) => console.log(message),
+  })
+  console.log(`Escritura: ${seconds(writeStarted)} s.`)
   // `ending` concuerda con el género: misiones creadas, objetos creados.
   const summary = (label: string, ending: 'as' | 'os', counts: UpsertCounts) =>
     `${label}: ${counts.created} cread${ending}, ${counts.updated} actualizad${ending}, ` +

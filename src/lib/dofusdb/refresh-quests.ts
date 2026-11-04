@@ -2,6 +2,7 @@ import { isDeepStrictEqual } from 'node:util'
 import type { Payload } from 'payload'
 
 import type { Item, Monster, Quest } from '../../payload-types'
+import { mapWithConcurrency } from '../concurrency'
 import type { QuestData } from './fetch-quest-data'
 import { mapItem, mapMonster } from './map-items-monsters'
 import { indexLookups, mapQuest } from './map-quest'
@@ -24,9 +25,28 @@ export interface RefreshQuestsCounts {
   missingMonsters: number
 }
 
+/**
+ * Escrituras a la vez. Cada una ocupa una conexión del pool de Postgres (10 por defecto
+ * en pg), así que queda por debajo para dejar sitio a las lecturas.
+ */
+export const DEFAULT_WRITE_CONCURRENCY = 8
+
+/** DOFUSDB_WRITE_CONCURRENCY de `pnpm data:quests`; vacía, el valor por defecto. */
+export function writeConcurrencyFromEnv(env: Record<string, string | undefined>): number {
+  const raw = env.DOFUSDB_WRITE_CONCURRENCY?.trim()
+  if (!raw) return DEFAULT_WRITE_CONCURRENCY
+  // Un valor mal escrito falla en vez de caer en silencio al valor por defecto.
+  if (!/^\d+$/.test(raw) || Number(raw) < 1) {
+    throw new Error(`DOFUSDB_WRITE_CONCURRENCY debe ser un entero mayor que 0, no "${raw}"`)
+  }
+  return Number(raw)
+}
+
 export interface RefreshQuestsOptions {
   now?: Date
   log?: (message: string) => void
+  /** Escrituras en marcha a la vez; por defecto DEFAULT_WRITE_CONCURRENCY. */
+  concurrency?: number
 }
 
 type Status = keyof UpsertCounts
@@ -74,6 +94,7 @@ async function refreshCatalog<
   rows: T[],
   stored: (doc: D) => T,
   refreshedAt: string,
+  concurrency: number,
 ): Promise<{ counts: UpsertCounts; ids: Map<number, number> }> {
   const existing = await payload.find({
     collection,
@@ -84,27 +105,30 @@ async function refreshCatalog<
   const byDofusId = new Map(existing.docs.map((doc) => [doc.dofusId, doc as unknown as D]))
   // Por si DofusDB repite una fila: cuenta una vez.
   const unique = new Map(rows.map((row) => [row.dofusId, row]))
-  const statuses: Status[] = []
 
-  for (const row of unique.values()) {
-    const doc = byDofusId.get(row.dofusId)
-    // Payload no estrecha el tipo de data con una unión de colecciones; las filas ya
-    // tienen la forma de la colección que toca.
-    const data = { ...row, refreshedAt } as never
-    if (!doc) {
-      const created = await payload.create({ collection, data, depth: 0, overrideAccess: true })
-      byDofusId.set(row.dofusId, created as unknown as D)
-      statuses.push('created')
-    } else if (!isDeepStrictEqual(stored(doc), row)) {
-      await payload.update({ collection, id: doc.id, data, depth: 0, overrideAccess: true })
-      statuses.push('updated')
-    } else {
-      statuses.push('unchanged')
-    }
-  }
+  const results = await mapWithConcurrency(
+    [...unique.values()],
+    concurrency,
+    async (row): Promise<{ dofusId: number; id: number; status: Status }> => {
+      const doc = byDofusId.get(row.dofusId)
+      // Payload no estrecha el tipo de data con una unión de colecciones; las filas ya
+      // tienen la forma de la colección que toca.
+      const data = { ...row, refreshedAt } as never
+      if (!doc) {
+        const created = await payload.create({ collection, data, depth: 0, overrideAccess: true })
+        return { dofusId: row.dofusId, id: created.id, status: 'created' }
+      }
+      if (!isDeepStrictEqual(stored(doc), row)) {
+        await payload.update({ collection, id: doc.id, data, depth: 0, overrideAccess: true })
+        return { dofusId: row.dofusId, id: doc.id, status: 'updated' }
+      }
+      return { dofusId: row.dofusId, id: doc.id, status: 'unchanged' }
+    },
+  )
 
   const ids = new Map([...byDofusId].map(([dofusId, doc]) => [dofusId, doc.id]))
-  return { counts: countStatuses(statuses), ids }
+  for (const { dofusId, id } of results) ids.set(dofusId, id)
+  return { counts: countStatuses(results.map((result) => result.status)), ids }
 }
 
 // Lo que el script escribe en una misión, salvo prerrequisitos y fecha de refresco.
@@ -153,16 +177,19 @@ function linkRows<K extends 'item' | 'monster'>(
   list: QuantityByDofusId[],
   key: K,
   ids: Map<number, number>,
-  missing: { count: number },
 ) {
-  return list.flatMap(({ dofusId, quantity }) => {
+  const rows: (Record<K, number> & { quantity: number })[] = []
+  let missing = 0
+  for (const { dofusId, quantity } of list) {
     const id = ids.get(dofusId)
-    if (id === undefined) {
-      missing.count += 1
-      return []
-    }
-    return [{ [key]: id, quantity } as Record<K, number> & { quantity: number }]
-  })
+    if (id === undefined) missing += 1
+    else rows.push({ [key]: id, quantity } as Record<K, number> & { quantity: number })
+  }
+  return { rows, missing }
+}
+
+function sum(values: number[]): number {
+  return values.reduce((total, value) => total + value, 0)
 }
 
 /**
@@ -170,7 +197,9 @@ function linkRows<K extends 'item' | 'monster'>(
  * escribe en esas colecciones, por eso usa overrideAccess. Primero objetos y monstruos,
  * porque las recompensas y requisitos de las misiones apuntan a sus IDs de Payload; luego
  * las misiones, y al final los prerrequisitos, que necesitan los IDs de todas. Solo escribe
- * lo que cambia, así que repetirlo con los mismos datos no toca nada.
+ * lo que cambia, así que repetirlo con los mismos datos no toca nada. Dentro de cada paso
+ * escribe varias filas a la vez: cada escritura son varias idas y vueltas a la base, y
+ * una a una tardaban media hora contra Neon.
  */
 export async function refreshQuests(
   payload: Payload,
@@ -179,6 +208,7 @@ export async function refreshQuests(
 ): Promise<RefreshQuestsCounts> {
   const refreshedAt = (options.now ?? new Date()).toISOString()
   const log = options.log ?? (() => {})
+  const concurrency = options.concurrency ?? DEFAULT_WRITE_CONCURRENCY
   const lookups = indexLookups(data.npcs, data.mapPositions)
 
   const items = await refreshCatalog<MappedItem, Item>(
@@ -187,6 +217,7 @@ export async function refreshQuests(
     data.items.map(mapItem),
     storedItem,
     refreshedAt,
+    concurrency,
   )
   log(`Objetos guardados: ${items.ids.size}`)
   const monsters = await refreshCatalog<MappedMonster, Monster>(
@@ -195,6 +226,7 @@ export async function refreshQuests(
     data.monsters.map(mapMonster),
     storedMonster,
     refreshedAt,
+    concurrency,
   )
   log(`Monstruos guardados: ${monsters.ids.size}`)
 
@@ -209,23 +241,21 @@ export async function refreshQuests(
     overrideAccess: true,
   })
   const byDofusId = new Map(existing.docs.map((doc) => [doc.dofusId, doc]))
-  const status = new Map<number, Status>()
-  const missingItems = { count: 0 }
-  const missingMonsters = { count: 0 }
 
+  // Solo para el progreso: los totales salen de lo que devuelve cada escritura.
   let done = 0
-  for (const quest of quests.values()) {
+  const saved = await mapWithConcurrency([...quests.values()], concurrency, async (quest) => {
     const { prerequisiteDofusIds: _prerequisites, rewards, needs, ...rest } = quest
+    const rewardItems = linkRows(rewards.items, 'item', items.ids)
+    const needItems = linkRows(needs.items, 'item', items.ids)
+    const needMonsters = linkRows(needs.monsters, 'monster', monsters.ids)
     const fields = {
       ...rest,
-      rewards: { ...rewards, items: linkRows(rewards.items, 'item', items.ids, missingItems) },
-      needs: {
-        items: linkRows(needs.items, 'item', items.ids, missingItems),
-        monsters: linkRows(needs.monsters, 'monster', monsters.ids, missingMonsters),
-        walksMaps: needs.walksMaps,
-      },
+      rewards: { ...rewards, items: rewardItems.rows },
+      needs: { items: needItems.rows, monsters: needMonsters.rows, walksMaps: needs.walksMaps },
     }
     const doc = byDofusId.get(quest.dofusId)
+    let result: { doc: Quest; status: Status }
     if (!doc) {
       const created = await payload.create({
         collection: 'quests',
@@ -233,8 +263,7 @@ export async function refreshQuests(
         depth: 0,
         overrideAccess: true,
       })
-      byDofusId.set(quest.dofusId, created)
-      status.set(quest.dofusId, 'created')
+      result = { doc: created, status: 'created' }
     } else if (!isDeepStrictEqual(storedFields(doc), fields)) {
       const updated = await payload.update({
         collection: 'quests',
@@ -243,25 +272,31 @@ export async function refreshQuests(
         depth: 0,
         overrideAccess: true,
       })
-      byDofusId.set(quest.dofusId, updated)
-      status.set(quest.dofusId, 'updated')
+      result = { doc: updated, status: 'updated' }
     } else {
-      status.set(quest.dofusId, 'unchanged')
+      result = { doc, status: 'unchanged' }
     }
     done += 1
     if (done % 250 === 0) log(`Misiones guardadas: ${done} de ${quests.size}`)
-  }
+    return {
+      ...result,
+      quest,
+      missingItems: rewardItems.missing + needItems.missing,
+      missingMonsters: needMonsters.missing,
+    }
+  })
+  for (const { doc } of saved) byDofusId.set(doc.dofusId, doc)
 
-  let missingPrerequisites = 0
-  for (const quest of quests.values()) {
+  // Los prerrequisitos van después de crear todas las misiones: apuntan a sus IDs.
+  const linked = await mapWithConcurrency(saved, concurrency, async ({ quest, doc, status }) => {
     const ids: number[] = []
+    let missing = 0
     for (const dofusId of quest.prerequisiteDofusIds) {
       const target = byDofusId.get(dofusId)
       if (target) ids.push(target.id)
-      else missingPrerequisites += 1
+      else missing += 1
     }
-    const doc = byDofusId.get(quest.dofusId)!
-    if (isDeepStrictEqual(prerequisiteIds(doc), ids)) continue
+    if (isDeepStrictEqual(prerequisiteIds(doc), ids)) return { status, missing }
 
     await payload.update({
       collection: 'quests',
@@ -270,15 +305,15 @@ export async function refreshQuests(
       depth: 0,
       overrideAccess: true,
     })
-    if (status.get(quest.dofusId) === 'unchanged') status.set(quest.dofusId, 'updated')
-  }
+    return { status: status === 'unchanged' ? ('updated' as const) : status, missing }
+  })
 
   return {
-    quests: countStatuses(status.values()),
+    quests: countStatuses(linked.map((result) => result.status)),
     items: items.counts,
     monsters: monsters.counts,
-    missingPrerequisites,
-    missingItems: missingItems.count,
-    missingMonsters: missingMonsters.count,
+    missingPrerequisites: sum(linked.map((result) => result.missing)),
+    missingItems: sum(saved.map((result) => result.missingItems)),
+    missingMonsters: sum(saved.map((result) => result.missingMonsters)),
   }
 }

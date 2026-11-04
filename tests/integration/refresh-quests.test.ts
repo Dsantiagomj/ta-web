@@ -296,3 +296,105 @@ describe('recompensas y requisitos desde DofusDB', () => {
     ])
   })
 })
+
+// Las misiones de ambos fixtures, con sus PNJ, mapas, objetos y monstruos: hay
+// prerrequisitos, recompensas y requisitos que enlazar.
+describe('el resultado no depende de la concurrencia', () => {
+  const stepIds = new Set((questsWithSteps as RawQuest[]).map((quest) => quest.id))
+  const allQuests = [
+    ...(questsWithSteps as RawQuest[]),
+    ...(quests as RawQuest[]).filter((quest) => !stepIds.has(quest.id)),
+  ]
+  const questIds = allQuests.map((quest) => quest.id)
+  const itemIds = items.map((item) => item.id)
+  const monsterIds = monsters.map((monster) => monster.id)
+
+  function allData(): QuestData {
+    return structuredClone({ quests: allQuests, npcs, mapPositions, items, monsters })
+  }
+
+  async function removeTestData() {
+    await payload.delete({ collection: 'quests', where: { dofusId: { in: questIds } } })
+    await payload.delete({ collection: 'items', where: { dofusId: { in: itemIds } } })
+    await payload.delete({ collection: 'monsters', where: { dofusId: { in: monsterIds } } })
+  }
+
+  // Lo guardado, sin los IDs de Payload: cada relación pasa a su ID de DofusDB, que no
+  // cambia entre pasadas.
+  async function snapshot() {
+    const find = (collection: 'quests' | 'items' | 'monsters', ids: number[]) =>
+      payload.find({ collection, where: { dofusId: { in: ids } }, pagination: false, depth: 0 })
+    const [savedQuests, savedItems, savedMonsters] = await Promise.all([
+      find('quests', questIds),
+      find('items', itemIds),
+      find('monsters', monsterIds),
+    ])
+    const dofusIdOf = (docs: { id: number; dofusId: number }[]) => {
+      const byId = new Map(docs.map((doc) => [doc.id, doc.dofusId]))
+      return (value: number | { id: number } | null | undefined) =>
+        value == null ? null : byId.get(typeof value === 'number' ? value : value.id)
+    }
+    const quest = dofusIdOf(savedQuests.docs as Quest[])
+    const item = dofusIdOf(savedItems.docs as Item[])
+    const monster = dofusIdOf(savedMonsters.docs as Monster[])
+    const strip = <T extends object>({
+      id: _id,
+      createdAt: _createdAt,
+      updatedAt: _updatedAt,
+      ...rest
+    }: T & { id?: unknown; createdAt?: unknown; updatedAt?: unknown }) => rest
+
+    const byDofusId = <T extends { dofusId: number }>(docs: T[]) =>
+      [...docs].sort((a, b) => a.dofusId - b.dofusId)
+    return {
+      items: byDofusId(savedItems.docs as Item[]).map(strip),
+      monsters: byDofusId(savedMonsters.docs as Monster[]).map(strip),
+      quests: byDofusId(savedQuests.docs as Quest[]).map((doc) => ({
+        ...strip(doc),
+        prerequisites: (doc.prerequisites ?? []).map(quest),
+        startPositions: (doc.startPositions ?? []).map(strip),
+        rewards: {
+          ...doc.rewards,
+          items: (doc.rewards?.items ?? []).map((row) => ({
+            item: item(row.item),
+            quantity: row.quantity,
+          })),
+        },
+        needs: {
+          ...doc.needs,
+          items: (doc.needs?.items ?? []).map((row) => ({
+            item: item(row.item),
+            quantity: row.quantity,
+          })),
+          monsters: (doc.needs?.monsters ?? []).map((row) => ({
+            monster: monster(row.monster),
+            quantity: row.quantity,
+          })),
+        },
+      })),
+    }
+  }
+
+  beforeAll(async () => {
+    await removeTestData()
+  })
+
+  afterAll(async () => {
+    await removeTestData()
+  })
+
+  it('guarda lo mismo y cuenta lo mismo con 1 y con 8 escrituras a la vez', async () => {
+    const now = new Date('2026-03-01T10:00:00.000Z')
+
+    const sequential = await refreshQuests(payload, allData(), { now, concurrency: 1 })
+    const sequentialSnapshot = await snapshot()
+    await removeTestData()
+    const parallel = await refreshQuests(payload, allData(), { now, concurrency: 8 })
+    const parallelSnapshot = await snapshot()
+
+    expect(sequential.quests.created).toBe(questIds.length)
+    expect(sequentialSnapshot.quests.some((doc) => doc.prerequisites.length > 0)).toBe(true)
+    expect(parallel).toEqual(sequential)
+    expect(parallelSnapshot).toEqual(sequentialSnapshot)
+  })
+})
