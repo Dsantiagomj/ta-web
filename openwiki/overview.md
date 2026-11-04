@@ -22,20 +22,28 @@ sources:
     resource: repo://src/app/(frontend)/page.tsx
   - id: openwiki-source-d91bcfe9b85be5b5860292ba
     resource: repo://src/app/(frontend)/strings.ts
+  - id: openwiki-source-c78752655126ed640ba9a6d7
+    resource: repo://src/collections/game-data-access.ts
+  - id: openwiki-source-30fb9110f08cd9302abaca1a
+    resource: repo://src/collections/Items.ts
+  - id: openwiki-source-7c84c63987b05696c25fe759
+    resource: repo://src/collections/Monsters.ts
   - id: openwiki-source-7a2723ea85824e431ff5eb54
     resource: repo://src/collections/QuestGuides.ts
   - id: openwiki-source-633cb155d38055ddc4af30fc
     resource: repo://src/collections/Quests.ts
+  - id: openwiki-source-593d2c966d67e453d0429c23
+    resource: repo://src/lib/dofusdb/map-quest.ts
   - id: openwiki-source-4ce5bfd40fc86e2e8680d71f
     resource: repo://src/lib/dofusdb/refresh-quests.ts
   - id: openwiki-source-c306fbe28866186a2df852b4
     resource: repo://src/migrations/index.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
     resource: repo://src/payload.config.ts
-generated: { by: "claude-code", at: "2026-11-04T17:14:51.499Z" }
+generated: { by: "claude-code", at: "2026-11-04T18:10:54.480Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T17:14:51.499Z
+    at: 2026-11-04T18:10:54.480Z
 ---
 
 # Project overview
@@ -65,9 +73,9 @@ Runtime: Node 24 (`>=24.22.1 <25`) and pnpm 11, pinned in `package.json`.
 The repository is at "phase 0": the skeleton is done and most product features are not built yet.
 
 - **Public site**: a root layout with the brand header and dark/light mode switch, and a placeholder home page that points to the current site. See [Styles, tokens and site shell](frontend/styles-and-shell.md) and [Theme and mode](frontend/theme-and-mode.md).
-- **CMS**: Payload with four collections, `users` (panel accounts), `media`, `quests` (read-only DofusDB game data) and `quest-guides` (Torre's guides, with drafts and versions, readable by the public only once published), Spanish admin UI and a single `es` locale. Guide bodies are built from rich text, image, video and callout blocks. No public page renders guides yet. See [Payload CMS configuration](cms/payload-config.md), [Collections and access](cms/collections.md) and [Guide body blocks](cms/blocks.md).
-- **Data**: three committed migrations; schema push only under `next dev`. See [Database and migrations](data/database.md).
-- **Game data**: `pnpm data:quests` copies every quest from the public DofusDB API into `quests`, idempotently and without deleting anything. See [DofusDB game data refresh](data/dofusdb-refresh.md).
+- **CMS**: Payload with six collections, `users` (panel accounts), `media`, `quests`, `items` and `monsters` (read-only DofusDB game data) and `quest-guides` (Torre's guides, with drafts and versions, readable by the public only once published), Spanish admin UI and a single `es` locale. Guide bodies are built from rich text, image, video and callout blocks. No public page renders guides yet. See [Payload CMS configuration](cms/payload-config.md), [Collections and access](cms/collections.md) and [Guide body blocks](cms/blocks.md).
+- **Data**: four committed migrations; schema push only under `next dev`. See [Database and migrations](data/database.md).
+- **Game data**: `pnpm data:quests` copies every quest from the public DofusDB API into `quests`, with the items and monsters their rewards and needs name into `items` and `monsters`, idempotently and without deleting anything. Each quest stores its rewards for a level-200 character (XP, kamas, items, emote, spell, title and job IDs) and its needs (items, monsters, whether you walk new maps). See [DofusDB game data refresh](data/dofusdb-refresh.md).
 - **Squarespace import**: `scripts/import/` turns a cached Squarespace page into a quest guide draft (summary, start NPC, body blocks) and lists what it could not convert. `pnpm import:guides` loads them into `quest-guides` as drafts, with each image stored once in `media` and the DofusDB quests already in `quests` linked; re-running it changes only what changed and never publishes. Five demo guides are covered by tests. See [Squarespace import](data/squarespace-import.md).
 - **Media**: R2 or disk, chosen by environment. See [Media storage](media/storage.md).
 - **Operations**: `GET /api/health`, a basic-auth gate for the dev environment, server-side Sentry, Railway infrastructure as code, and GitHub workflows for CI, dev smoke tests and production releases. See the operations pages.

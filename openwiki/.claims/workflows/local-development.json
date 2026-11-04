@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:fa22e255bfc6a456164cbf587dddd93b32310f8a08cd50a8b18e26da68bb013d",
+  "pageVersion": "sha256:07b4ba0912ecff38bee44322b856556691a37a3bcb69c1d92879912b7f02db5f",
   "claims": [
     {
       "id": "claim_b918f6d1cc124cf385437a508e649e6b",
@@ -84,15 +84,15 @@
     },
     {
       "id": "claim_5d746bb150be48988747c5610949d99e",
-      "statement": "pnpm data:quests runs the DofusDB quest refresh with payload run against the DATABASE_URL database, or the pnpm db:dev database when DATABASE_URL is empty.",
+      "statement": "pnpm data:quests runs the DofusDB refresh with payload run, writing quests, items and monsters to the DATABASE_URL database, or the pnpm db:dev database when DATABASE_URL is empty.",
       "evidence": [
         {
           "resource": "repo://package.json#L26-L26",
-          "version": "repo-lines-v1:sha256:d8191f11d847cf9c68a0ebab65128423bd3b7a6c6187fde04c56e0d7fc342457:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDgxOTFmMTFkODQ3Y2Y5YzY4YTBlYmFiNjUxMjg0MjNiZDNiN2E2YzYxODdmZGUwNGM1NmUwZDdmYzM0MjQ1NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDgxOTFmMTFkODQ3Y2Y5YzY4YTBlYmFiNjUxMjg0MjNiZDNiN2E2YzYxODdmZGUwNGM1NmUwZDdmYzM0MjQ1NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODY0NmFjOWM0ODEzYTA0ZThkNGY2ODc5M2I2YTg2ZmFiOTNiMTU3ZTcyZjE2YzRjOTdhMDU0ZTllNjI2ZGJmYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDU3MjkxNGYxYjQ1ZjcxOWMzZmExNGVjOTQ0NTI2YjI1N2Q5OGMxNmQ3MjYyMWIwMzY5NTU2ZWJlNzU4YTU4NSJ9"
+          "version": "repo-lines-v1:sha256:d8191f11d847cf9c68a0ebab65128423bd3b7a6c6187fde04c56e0d7fc342457:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDgxOTFmMTFkODQ3Y2Y5YzY4YTBlYmFiNjUxMjg0MjNiZDNiN2E2YzYxODdmZGUwNGM1NmUwZDdmYzM0MjQ1NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDgxOTFmMTFkODQ3Y2Y5YzY4YTBlYmFiNjUxMjg0MjNiZDNiN2E2YzYxODdmZGUwNGM1NmUwZDdmYzM0MjQ1NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODY0NmFjOWM0ODEzYTA0ZThkNGY2ODc5M2I2YTg2ZmFiOTNiMTU3ZTcyZjE2YzRjOTdhMDU0ZTllNjI2ZGJmYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzBiMTY4NTg4ZmU4MmFmYjQ5NmY3NjM5OGQ1NThhZWE0ZDNhNTliNjU2MGIzN2ZkZmIyZmViYjRhOGVlNmMyZSJ9"
         },
         {
-          "resource": "repo://scripts/refresh-quests.ts#L1-L4",
-          "version": "repo-lines-v1:sha256:74f357897a6a5233f1ec7ce19e0b8a49be0081cbd454000240d7991c838302f5:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTQ1Mjg1MmM4MmEyMTYxMzVkZWFjNDVhN2ZjYjljNjFmODQ1ZmJmYzkxOGUxYzJmZDY3NDFhMjJhYjc4ZDQ0YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2VhZmU1NTJkMzg2MDM4YjVjZjc2ZDQ2OTgzZjRhYzZkOTIwMWE1MTVjNjA2MzQ3OTgwZmM2ODllNDljNmM3NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWI1ODI4ZDVkZjg4YTgwNGY4YWFiODcxOTRhYmM3NDc1OWUwNmY1YWViNjhhZmRlYzYxMzY1YmEzOTA1NDY5MiJ9"
+          "resource": "repo://scripts/refresh-quests.ts#L1-L5",
+          "version": "repo-lines-v1:sha256:7f5fd6969815de9c0abb4b258711f74c1cb6db1588869c20ef85fb760cb3064f:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzE3N2M1NmJhZjRjMDVjNDM5OTRiMzYyM2ZjYTFiMzI0N2U5M2MyYWYxN2I4MzI5NmY4OGVmNjY2N2YxZGU3YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2VhZmU1NTJkMzg2MDM4YjVjZjc2ZDQ2OTgzZjRhYzZkOTIwMWE1MTVjNjA2MzQ3OTgwZmM2ODllNDljNmM3NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWI1ODI4ZDVkZjg4YTgwNGY4YWFiODcxOTRhYmM3NDc1OWUwNmY1YWViNjhhZmRlYzYxMzY1YmEzOTA1NDY5MiJ9"
         }
       ]
     },
@@ -123,10 +123,20 @@
           "version": "repo-lines-v1:sha256:9176e018d8475b7c48f3ea547f566e5ac7e536390f8371f56fa745e0aa9a77d3:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzRlMjJjZDdkNjBkMmQxNDM0MjZhOGQ3NTZiYjI1YjgyOWUxOWFkOWVhMTdiNTUxN2ExM2FlM2YzOThkOTJiZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGNjOTk2NTIxMjcwY2NiYmZiMmIzNzliODQyNzJhN2U4ZjM3MGM4ODE4N2E1NzQyZGQ3MTdkNDViM2U1YjBkYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGM0MGU2NDRhYTAwZWY4YWFiY2Q1NjlkYzk2Y2E1Mzk4ZDcxZWFmMjljY2ZjYzBiNGQ3YWZkYTBmZTFjYjZiMCJ9"
         }
       ]
+    },
+    {
+      "id": "claim_4b14bae241a746a98b2ef78dc8cf7a42",
+      "statement": "A full pnpm data:quests run brings about 2,000 quests, 2,800 items and 1,000 monsters and takes about a minute.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L97-L97",
+          "version": "repo-lines-v1:sha256:ab97eb2d78b546afe0c885a0902ef587c081abf80c152e2b4f21440d14da1bfa:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWI5N2ViMmQ3OGI1NDZhZmUwYzg4NWEwOTAyZWY1ODdjMDgxYWJmODBjMTUyZTJiNGYyMTQ0MGQxNGRhMWJmYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYWI5N2ViMmQ3OGI1NDZhZmUwYzg4NWEwOTAyZWY1ODdjMDgxYWJmODBjMTUyZTJiNGYyMTQ0MGQxNGRhMWJmYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzVjMjMyYTVjODE2NzM5ZDNiNDlkMDc3Yjk1YjNkODhiM2JjNGY0NTBkYjBkNTc4ZDRmYzZjN2I2NGUyMmZhYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2EyYjdiNTgwZGNjNTMyZWMzNzJiYmZiNjc1MTY4NTQ3MGRjM2JjNjgwMTE3ODM4YzI0ZWYyMzRmMTBiN2IwYyJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T17:14:51.499Z"
+    "at": "2026-11-04T18:10:54.480Z"
   }
 }
