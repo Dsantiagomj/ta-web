@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:d8ffecd66b04f1c783216df39b6bee158cd5a87a3939204eafe704eb9686ce79",
+  "pageVersion": "sha256:a4de4aca66a443b5a316ba08a399ada8d0c6ea6694be3337d817d9fe06010cf1",
   "claims": [
     {
       "id": "claim_8f222a8a3ed24bea93d7a2b89fa079b5",
@@ -269,8 +269,8 @@
       "statement": "The quest guide summary group holds localized prerequisites, needs, rewards and startNpc plus numeric startX and startY that override DofusDB data and are filled by the Squarespace import.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/load-quest-guides.ts#L162-L170",
-          "version": "repo-lines-v1:sha256:1ce0a1ddddd24662df276fc2bbb424a4c7f7932311eda04f0961c4f93a704808:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2NkZTE3ODMzNThlYWI2MDA2NTI1MWMyYWM1NDMzMTA4ZjhiZTFjY2YxOTdhNTMzNTdiZDllNzYzZjM0OWViMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDg5M2Y0MGUzNzgxZWI4OTZjODJkMDQ2YTA4MDY3YTExZTM1Y2RmMmYxZGZhZjI2ZmVhOTBiOGRiNjY3NjQxMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWI2YmFlM2NhMGM2ZGEwYmNkMGFhMGQ1ZmUyZTVjN2U1YTlkYzQzMDgzNmY0YzAyZDFhZGRmNmUyYTk3NDYzNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWQzYjFjZjEzOWM0ZDVmYzA5ZGQ4NDRjMTQ4NGNhYzQwOTcyMTgwMThkYmRiNTlhZWFlYTViMTA0N2UwMWMzYSJ9"
+          "resource": "repo://scripts/import/load-quest-guides.ts#L184-L192",
+          "version": "repo-lines-v1:sha256:2a29d902d7c3890709a4150d1b517f7f2c4bb299a74c25796eb792009f27a160:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2NkZTE3ODMzNThlYWI2MDA2NTI1MWMyYWM1NDMzMTA4ZjhiZTFjY2YxOTdhNTMzNTdiZDllNzYzZjM0OWViMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDg5M2Y0MGUzNzgxZWI4OTZjODJkMDQ2YTA4MDY3YTExZTM1Y2RmMmYxZGZhZjI2ZmVhOTBiOGRiNjY3NjQxMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWI2YmFlM2NhMGM2ZGEwYmNkMGFhMGQ1ZmUyZTVjN2U1YTlkYzQzMDgzNmY0YzAyZDFhZGRmNmUyYTk3NDYzNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWQzYjFjZjEzOWM0ZDVmYzA5ZGQ4NDRjMTQ4NGNhYzQwOTcyMTgwMThkYmRiNTlhZWFlYTViMTA0N2UwMWMzYSJ9"
         },
         {
           "resource": "repo://src/collections/QuestGuides.ts#L32-L33",
@@ -345,11 +345,11 @@
       "statement": "The Squarespace import writes title, slug, originalUrl, summary, quests and body through the local API with overrideAccess true, finding guides by slug including drafts and always saving drafts, so a published guide stays published until its new draft is published.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/load-quest-guides.ts#L162-L204",
-          "version": "repo-lines-v1:sha256:8b4bebc5359d1753ef7ed6f447715f1d38765a3893f39158139010f627383a6f:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNjZGUxNzgzMzU4ZWFiNjAwNjUyNTFjMmFjNTQzMzEwOGY4YmUxY2NmMTk3YTUzMzU3YmQ5ZTc2M2YzNDllYjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImViNmJhZTNjYTBjNmRhMGJjZDBhYTBkNWZlMmU1YzdlNWE5ZGM0MzA4MzZmNGMwMmQxYWRkZjZlMmE5NzQ2MzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQyMjlhZWI5ZTRhZmI1MzAxZDQzZjgyZWNmMzNkMjBiNDg3NTkyODRiMGI4MjY5ZjBmMjc3ODM4NjNhYjg4ZTkifQ"
+          "resource": "repo://scripts/import/load-quest-guides.ts#L184-L226",
+          "version": "repo-lines-v1:sha256:eb89e4ecc525cfba15a57b9c0658bbf243f1e4c70b36525a9cbcdba2bd74bd46:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNjZGUxNzgzMzU4ZWFiNjAwNjUyNTFjMmFjNTQzMzEwOGY4YmUxY2NmMTk3YTUzMzU3YmQ5ZTc2M2YzNDllYjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImViNmJhZTNjYTBjNmRhMGJjZDBhYTBkNWZlMmU1YzdlNWE5ZGM0MzA4MzZmNGMwMmQxYWRkZjZlMmE5NzQ2MzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQyMjlhZWI5ZTRhZmI1MzAxZDQzZjgyZWNmMzNkMjBiNDg3NTkyODRiMGI4MjY5ZjBmMjc3ODM4NjNhYjg4ZTkifQ"
         },
         {
-          "resource": "repo://scripts/import/load-quest-guides.ts#L58-L65",
+          "resource": "repo://scripts/import/load-quest-guides.ts#L80-L87",
           "version": "repo-lines-v1:sha256:95fffb3280b2c1263af66dc61f11346b768f74056e8b314ab24214c6cb111b0c:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTcyYTQyOTM4MmIyZTE0NzE4ZTBlMzdiMDU3MGE4YTE3MDI5OTFmY2Q4NDk4Y2Q4NDA2MGE4YmY0ZjA1MDE3YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzQwYzVkM2RjM2E3NzMwNzkzYzg5Mjc5NDhiNTU5NjY0MjA3Zjc5YmE4Nzc3M2MyMTUwMDQ0MzE5NjJmZDQ4OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWU5NTVhODdhYzMxYWRjNDIxMmRlN2NmNGY3MjU4OGQzMWJiYzI0YTAxM2YxMTcwMjg1Y2ExM2ZjNGE3MmFjNiJ9"
         }
       ]
@@ -359,14 +359,32 @@
       "statement": "Media records created by the import hold the original file with alt and originalUrl and no variants, and are looked up by originalUrl so each image is stored once.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/load-quest-guides.ts#L89-L119",
+          "resource": "repo://scripts/import/load-quest-guides.ts#L111-L141",
           "version": "repo-lines-v1:sha256:1f0a19277881056e0b8ac02d5449c2c5257e11d221cfb97bf035f28638111b7e:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlYmQyNjJjZGUwNTdhNTZiNzhhY2ZjYzEwMWVkZjBjYTlkMTI4YzU3OGVlZDQ5ZTVjYmU3ZGY4YWUyZmNiODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiMDQ1NmIyM2I1YjBjMTRmOWE5ZDViODQ4OGNjZWI4MmM2NmM2MmQzY2FkNDIxNTI3ZDdjNTU3NGYxZTE3NzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNjNjU1ZGQ5ZjhjNTU5N2E0NjI2N2VkYmY1NTM0M2QzNGNjZGZiOTRmZTVhYzg2ZTZhOTJjYWU1NjZmZDY5YjUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_95d16b6d094847c4a52103a4e5816b17",
+      "statement": "The import sends every summary field, with null for any the conversion did not bring, so a value removed from the Squarespace page is cleared on the next import.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/load-quest-guides.ts#L184-L192",
+          "version": "repo-lines-v1:sha256:2a29d902d7c3890709a4150d1b517f7f2c4bb299a74c25796eb792009f27a160:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2NkZTE3ODMzNThlYWI2MDA2NTI1MWMyYWM1NDMzMTA4ZjhiZTFjY2YxOTdhNTMzNTdiZDllNzYzZjM0OWViMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDg5M2Y0MGUzNzgxZWI4OTZjODJkMDQ2YTA4MDY3YTExZTM1Y2RmMmYxZGZhZjI2ZmVhOTBiOGRiNjY3NjQxMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWI2YmFlM2NhMGM2ZGEwYmNkMGFhMGQ1ZmUyZTVjN2U1YTlkYzQzMDgzNmY0YzAyZDFhZGRmNmUyYTk3NDYzNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWQzYjFjZjEzOWM0ZDVmYzA5ZGQ4NDRjMTQ4NGNhYzQwOTcyMTgwMThkYmRiNTlhZWFlYTViMTA0N2UwMWMzYSJ9"
+        },
+        {
+          "resource": "repo://scripts/import/load-quest-guides.ts#L52-L72",
+          "version": "repo-lines-v1:sha256:83e707e58719065907de81137b9a05b8ba459118c9b74b5dd6a3697780e5455f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYzNzU4N2JkY2VkYzdkOGFiNzJhOTI3NWM4MDczZWVlYzcyMjkzZDdjYTI4Mzg2ZDkzNjM0OTNkYjgyZGNmMzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImViMzY1ZjM2MDNhMjJhNmZhYTZjNWExZGVjZmM3ODVlYjRiODQzODUxMTg5NDhjZTNmNTIxZDQ1Yjg5OGNkZTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIxM2MwNWMzNmU4YWRjYzY1NzVjMGVjMTZhZGU2YjBmYjlhMWQ3YzNlNzA3NjkzN2IxZjgwMGQ2NTQyNmYxY2YifQ"
+        },
+        {
+          "resource": "repo://tests/integration/import-quest-guides.test.ts#L221-L240",
+          "version": "repo-lines-v1:sha256:7202737fd001360e8a6f5032cbb65dacac57512ecfd50bc43d27371e570f8dc9:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMjQ3OTdiYzAzZWU5MDIyZjIwYThmNDUwMWQ0NmE3YTM2ODRkMGI1ZjY5ZWRiNmJmOWExZDU5Yjk0MjAyMWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBkOGVlNWMwYzBiYTIxZjIxMjk3NzQ3ZTIxOTA3NjQwZTkyYTMzMGVmMDZmNDZlMmI1MTBmM2RjMmZkODc1MGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJjMDhjZWQzZGJlNThjZGY3MGRiZGNmY2UxODAyMWYyYjgxYWYyMWNhNTljODY3M2JjOGVlNWMzOTFkOWE4YTIifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T17:14:51.499Z"
+    "at": "2026-11-04T17:27:29.927Z"
   }
 }

@@ -44,10 +44,10 @@ sources:
     resource: repo://tests/unit/import-rich-text.test.ts
   - id: openwiki-source-299c190cabc2f0753a302110
     resource: repo://tests/unit/import-to-quest-guide.test.ts
-generated: { by: "claude-code", at: "2026-11-04T17:14:51.499Z" }
+generated: { by: "claude-code", at: "2026-11-04T17:27:29.927Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T17:14:51.499Z
+    at: 2026-11-04T17:27:29.927Z
 ---
 
 # Squarespace import
@@ -133,6 +133,7 @@ The Squarespace inventory in `out/` (outside the repo, described in `docs/legacy
 - **Images.** Each image block becomes a `media` record keyed by its original URL. The loader first checks a per-run map, then searches `media` by `originalUrl`, and downloads and creates the record only when neither has it. A re-run or a second guide using the same image reuses the record. New records get the block's alt text and the `originalUrl`. An image that fails to download is dropped from the body and noted ("Imagen sin importar: …"); the guide still loads.
 - **Body.** Rich text and callouts go through `createHtmlToLexical`; videos keep their URL.
 - **Guides.** It finds the guide by `slug` (drafts included) and writes `title`, `slug`, `originalUrl`, `summary`, `quests` and `body` with `_status: 'draft'`. It never publishes: a published guide gets a new draft and stays published as it was until Torre publishes the draft.
+- **Summary.** It sends the whole `summary` group every time: `prerequisites`, `needs`, `rewards`, `startNpc`, `startX` and `startY`, with `null` for whatever the conversion did not bring. Payload keeps group fields that an update leaves out, so without this a value removed from the Squarespace page would stay stored, and every run would see a difference and save another version. A re-import clears the stale value once and then finds the guide unchanged.
 - **Unchanged guides.** Before writing, it compares those six fields with the stored draft, ignoring IDs (block IDs and the random link IDs Lexical adds) and empty values Payload returns as `null`. An equal guide is left alone, so a re-run adds no empty versions.
 - **Invalid slug.** A guide whose slug fails `validateSlug` is skipped and counted.
 
@@ -181,7 +182,7 @@ The unit tests run on trimmed copies of those five pages in `tests/fixtures/squa
 - `import-quest-matches.test.ts`: IDs per slug, quoted commas, ambiguous rows, a header with a BOM, a missing column.
 - `import-fetch-image.test.ts`: downloads from the CDN with name and type and without following redirects; refuses `http`, other hosts, an internal IP, `localhost` and a look-alike subdomain without making the request; refuses a non-image response and an HTTP error.
 
-The integration test `tests/integration/import-quest-guides.test.ts` loads the five fixture pages into the integration database with a fake `fetchImage` that returns a 1×1 PNG. It checks drafts with all four block types, the existing quest linked, one `media` record per image with its URL and alt, the oddities (including quests missing from `quests`), a second run that changes, downloads and versions nothing, one new draft for a changed guide, no drafts visible to anonymous readers, and an invalid slug skipped. It removes its guides, media and quests before and after.
+The integration test `tests/integration/import-quest-guides.test.ts` loads the five fixture pages into the integration database with a fake `fetchImage` that returns a 1×1 PNG. It checks drafts with all four block types, the existing quest linked, one `media` record per image with its URL and alt, the oddities (including quests missing from `quests`), a second run that changes, downloads and versions nothing, one new draft for a changed guide, a summary field that disappears being cleared without extra versions on the next run, no drafts visible to anonymous readers, and an invalid slug skipped. It removes its guides, media and quests before and after.
 
 See [Test suites](../testing/test-suites.md).
 

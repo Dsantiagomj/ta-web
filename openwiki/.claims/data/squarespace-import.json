@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:b61f56253daa20d264d55f6eee7960ab49dbb7bdb425666367eed35ba29dc11b",
+  "pageVersion": "sha256:c1dede2e7200ec1561f917d5ab17ffb6105692de8299856c2a9f15ca12e70a8d",
   "claims": [
     {
       "id": "claim_79a6791c5ff4461e9187adf1682ac1eb",
@@ -395,7 +395,7 @@
           "version": "repo-lines-v1:sha256:8317e6f69d9205eeb397924917d66353fb2fb8c2a0afaafd0cb7fcf98fb3bc76:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTU5YzQzMmE0ZDY3YWY5NGYyZTA0ODFhYmNmNDI5ZjkzYzllNjQ2MzU3YTg2NzgyYjA2OWYxODIzM2YwYWIzZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTFmMjllNDQ0MGYxMmQ5ZTZlYWI1OWRmN2QwNDRmNzk2NWFlNmJhMzg5ZWU4YTc0MmIwYzk3OWRjYjYwYjM1NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDQyMWFmNzk2YzMzYzAwOTNkYTgzNWRkZDg3NTU5NDcwM2NiOWRkYTE3YTFlMjZjODlhMmU0ZWNkN2JkNzJlYyJ9"
         },
         {
-          "resource": "repo://scripts/import/load-quest-guides.ts#L58-L86",
+          "resource": "repo://scripts/import/load-quest-guides.ts#L80-L108",
           "version": "repo-lines-v1:sha256:8fab60fe7047a7332833cfacf1ce79cb8e1ebd20d5eaf7b1b5f15ee948f65d81:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0MGM1ZDNkYzNhNzczMDc5M2M4OTI3OTQ4YjU1OTY2NDIwN2Y3OWJhODc3NzNjMjE1MDA0NDMxOTYyZmQ0ODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE0MzQzNDQ1MzRmOTM2MzA5ZjBkOGI4NmZjZDhiN2EzMGYzYzRhMjMwOTI3NzE2YzVhNjAzYmY1ZmFkODM4YjAifQ"
         }
       ]
@@ -405,12 +405,12 @@
       "statement": "The loader links the Payload IDs of DofusDB quests already in the quests collection and records an oddity for each DofusDB ID missing from it.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/load-quest-guides.ts#L149-L154",
-          "version": "repo-lines-v1:sha256:aeb1883d6473d92a21e774e4b6fb06aea6a3308d7eebd708327a32adfb656cc5:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTY3MDFmYjFmMDJiZDk0ZmMzZTI4OTYwM2QzZDRiYzY5MDQxYmNlZTYzOWIwNTMwNDRlMjljMjg3MWVkYmZiMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDg5M2Y0MGUzNzgxZWI4OTZjODJkMDQ2YTA4MDY3YTExZTM1Y2RmMmYxZGZhZjI2ZmVhOTBiOGRiNjY3NjQxMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTdkY2EyYzYzYjA5Zjg0NDU4NTM2YTQ1Mjc3M2RlZGRkY2JhOTVlNjVhZjQ3NjlkOGZjODNlMWE3MjBlOTdiYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2I2NTRiZTczMjI2ZWIwZDFlOGJkNjYxYjUzMmZhZGZiY2Y3NWFmNmIwZGQ0NjQ1MDNkZjhkM2MwZjNiNTE1MSJ9"
+          "resource": "repo://scripts/import/load-quest-guides.ts#L101-L109",
+          "version": "repo-lines-v1:sha256:97a766c044ab66f8c12233b0af0a2324607ee3f5aae604f6541c34d66d476b94:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTI0MTQ4ZTM5YTgyZDYwNGFiOTE5NGM5NjJhOTcwMTZmZDIzZjRiYWM3ODliNzc4MzExMTg4NmQ1N2Y5MDBiZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzdhNmQ5ZWViNmJmMDlkNWJkMDAxNmQ4ODJmYzJlMTYyOTZjMGU2NDkxMGJhZmFjZGQ5OTg3M2Y1ZTYyODI4OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjVkZDVlNTc2Y2ZiNzNjYzBjNzFiZGNjMDE0ZDRhYTEwZDM3YzAwZjdiZDgyNzhmNGZlMGMwNTFhNzk3MzMyZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODcxYjkwMWQwYWMzZWEzNDI5NWQwYzVhNzhiZTcyYmE5MTNkYzZjMDBlYmU3MGRlMDlhOTE3MDZkN2Y1NWYwYSJ9"
         },
         {
-          "resource": "repo://scripts/import/load-quest-guides.ts#L79-L87",
-          "version": "repo-lines-v1:sha256:97a766c044ab66f8c12233b0af0a2324607ee3f5aae604f6541c34d66d476b94:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTI0MTQ4ZTM5YTgyZDYwNGFiOTE5NGM5NjJhOTcwMTZmZDIzZjRiYWM3ODliNzc4MzExMTg4NmQ1N2Y5MDBiZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzdhNmQ5ZWViNmJmMDlkNWJkMDAxNmQ4ODJmYzJlMTYyOTZjMGU2NDkxMGJhZmFjZGQ5OTg3M2Y1ZTYyODI4OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjVkZDVlNTc2Y2ZiNzNjYzBjNzFiZGNjMDE0ZDRhYTEwZDM3YzAwZjdiZDgyNzhmNGZlMGMwNTFhNzk3MzMyZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODcxYjkwMWQwYWMzZWEzNDI5NWQwYzVhNzhiZTcyYmE5MTNkYzZjMDBlYmU3MGRlMDlhOTE3MDZkN2Y1NWYwYSJ9"
+          "resource": "repo://scripts/import/load-quest-guides.ts#L171-L176",
+          "version": "repo-lines-v1:sha256:aeb1883d6473d92a21e774e4b6fb06aea6a3308d7eebd708327a32adfb656cc5:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTY3MDFmYjFmMDJiZDk0ZmMzZTI4OTYwM2QzZDRiYzY5MDQxYmNlZTYzOWIwNTMwNDRlMjljMjg3MWVkYmZiMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDg5M2Y0MGUzNzgxZWI4OTZjODJkMDQ2YTA4MDY3YTExZTM1Y2RmMmYxZGZhZjI2ZmVhOTBiOGRiNjY3NjQxMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTdkY2EyYzYzYjA5Zjg0NDU4NTM2YTQ1Mjc3M2RlZGRkY2JhOTVlNjVhZjQ3NjlkOGZjODNlMWE3MjBlOTdiYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2I2NTRiZTczMjI2ZWIwZDFlOGJkNjYxYjUzMmZhZGZiY2Y3NWFmNmIwZGQ0NjQ1MDNkZjhkM2MwZjNiNTE1MSJ9"
         }
       ]
     },
@@ -419,7 +419,7 @@
       "statement": "Each image is stored once in media keyed by its original URL: the loader checks a per-run map, then searches media by originalUrl, and only downloads and creates a record with alt and originalUrl when neither has it.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/load-quest-guides.ts#L89-L119",
+          "resource": "repo://scripts/import/load-quest-guides.ts#L111-L141",
           "version": "repo-lines-v1:sha256:1f0a19277881056e0b8ac02d5449c2c5257e11d221cfb97bf035f28638111b7e:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlYmQyNjJjZGUwNTdhNTZiNzhhY2ZjYzEwMWVkZjBjYTlkMTI4YzU3OGVlZDQ5ZTVjYmU3ZGY4YWUyZmNiODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiMDQ1NmIyM2I1YjBjMTRmOWE5ZDViODQ4OGNjZWI4MmM2NmM2MmQzY2FkNDIxNTI3ZDdjNTU3NGYxZTE3NzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNjNjU1ZGQ5ZjhjNTU5N2E0NjI2N2VkYmY1NTM0M2QzNGNjZGZiOTRmZTVhYzg2ZTZhOTJjYWU1NjZmZDY5YjUifQ"
         }
       ]
@@ -429,7 +429,7 @@
       "statement": "An image that fails to download is left out of the body and recorded as an oddity, and the guide still loads.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/load-quest-guides.ts#L121-L138",
+          "resource": "repo://scripts/import/load-quest-guides.ts#L143-L160",
           "version": "repo-lines-v1:sha256:f5ea8736086196fe7b7253480dd2a1081210e77e673b0a6f4f52dc580a393fc7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjOTE3Mjg1NzBmNDYwYWM1YzkzYzUxMzczODcyYWQxMjM1ZmJiZmMyMzE1NDZjNmQ3YTI2MDE5ODgwMzY1ZjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY2MjcyOWIxZTFlM2RlMDc5NjAwYzU3NzVjYWUxNzdhOTViZjQ1ODM0YmI0MmYyYTQ5NWE2NmRlMDBmOGQ3MGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU0ODc0MjY1ZThiNzJhYzdmN2UzZTcwZTNmNWQ1MTM5NmY3ZjljYzQ2OTExMjBkNTU4N2M5ODUwY2FlNzBmMmIifQ"
         }
       ]
@@ -439,11 +439,11 @@
       "statement": "The loader finds guides by slug including drafts and creates or updates them with title, slug, originalUrl, summary, quests and body, always as drafts, so a published guide stays published until its new draft is published.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/load-quest-guides.ts#L162-L204",
-          "version": "repo-lines-v1:sha256:8b4bebc5359d1753ef7ed6f447715f1d38765a3893f39158139010f627383a6f:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNjZGUxNzgzMzU4ZWFiNjAwNjUyNTFjMmFjNTQzMzEwOGY4YmUxY2NmMTk3YTUzMzU3YmQ5ZTc2M2YzNDllYjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImViNmJhZTNjYTBjNmRhMGJjZDBhYTBkNWZlMmU1YzdlNWE5ZGM0MzA4MzZmNGMwMmQxYWRkZjZlMmE5NzQ2MzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQyMjlhZWI5ZTRhZmI1MzAxZDQzZjgyZWNmMzNkMjBiNDg3NTkyODRiMGI4MjY5ZjBmMjc3ODM4NjNhYjg4ZTkifQ"
+          "resource": "repo://scripts/import/load-quest-guides.ts#L184-L226",
+          "version": "repo-lines-v1:sha256:eb89e4ecc525cfba15a57b9c0658bbf243f1e4c70b36525a9cbcdba2bd74bd46:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNjZGUxNzgzMzU4ZWFiNjAwNjUyNTFjMmFjNTQzMzEwOGY4YmUxY2NmMTk3YTUzMzU3YmQ5ZTc2M2YzNDllYjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImViNmJhZTNjYTBjNmRhMGJjZDBhYTBkNWZlMmU1YzdlNWE5ZGM0MzA4MzZmNGMwMmQxYWRkZjZlMmE5NzQ2MzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQyMjlhZWI5ZTRhZmI1MzAxZDQzZjgyZWNmMzNkMjBiNDg3NTkyODRiMGI4MjY5ZjBmMjc3ODM4NjNhYjg4ZTkifQ"
         },
         {
-          "resource": "repo://scripts/import/load-quest-guides.ts#L58-L65",
+          "resource": "repo://scripts/import/load-quest-guides.ts#L80-L87",
           "version": "repo-lines-v1:sha256:95fffb3280b2c1263af66dc61f11346b768f74056e8b314ab24214c6cb111b0c:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTcyYTQyOTM4MmIyZTE0NzE4ZTBlMzdiMDU3MGE4YTE3MDI5OTFmY2Q4NDk4Y2Q4NDA2MGE4YmY0ZjA1MDE3YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzQwYzVkM2RjM2E3NzMwNzkzYzg5Mjc5NDhiNTU5NjY0MjA3Zjc5YmE4Nzc3M2MyMTUwMDQ0MzE5NjJmZDQ4OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWU5NTVhODdhYzMxYWRjNDIxMmRlN2NmNGY3MjU4OGQzMWJiYzI0YTAxM2YxMTcwMjg1Y2ExM2ZjNGE3MmFjNiJ9"
         }
       ]
@@ -453,12 +453,16 @@
       "statement": "A guide whose compared fields equal the stored draft, ignoring IDs and null values, is left untouched so a re-run adds no versions.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/load-quest-guides.ts#L179-L184",
+          "resource": "repo://scripts/import/load-quest-guides.ts#L201-L206",
           "version": "repo-lines-v1:sha256:5d232d87dda43bedd88650c34fb628182f8c7a0f47124826a60ddb11438e2c3b:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjE5ZWRjOWI4YWExMWQ2MWRlODE5MTgyYzIzZGY3ODBlNjg5OTE2NWRiZGI1YzcwMDExN2QxYTU3NDk5YWJmZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDg5M2Y0MGUzNzgxZWI4OTZjODJkMDQ2YTA4MDY3YTExZTM1Y2RmMmYxZGZhZjI2ZmVhOTBiOGRiNjY3NjQxMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTlmYmVkNjEwODNmYjQ2MjFiYWM0YTQ1NzA3MWQzZGRiNWRjZDBjYjQ5NTM3YzY2YmUwN2ZjNWIxYzY4ODI2YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTQxM2YyNGVhYTk0ZTNjZjBlYzYzMTc5OWQxNmNmNzUyMTMzZWE1N2IxNTdhMDc2ODBjOTgyMzIxYjA1OTdkMSJ9"
         },
         {
-          "resource": "repo://scripts/import/load-quest-guides.ts#L34-L56",
-          "version": "repo-lines-v1:sha256:94f9988f7c139dd201253ab13b53c20bda304d42d987fd23edb1ce79daaf6cf7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcwYmExZmNhZGUzMTk2MmI1YzRhOTE5ODZiNWQ1MTgwNjc3YTk4OWI1N2E3OGZiOTEwYjY3ZGNmOGJiMDgwNTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJlOTRmNDM4ZTBlN2Y0N2MyOWQ0MDQzNTAxY2NmN2U0MTgwZTMwMTM5YTI4NzdhNTZmYWQ0MjQyZWJiZDFjMDkifQ"
+          "resource": "repo://scripts/import/load-quest-guides.ts#L34-L50",
+          "version": "repo-lines-v1:sha256:ccc9554f8efc83002391b4e12d378fcacf4e69dde952e119218e16ee572fbe75:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxZmRlMzk1ZjAxNGYyMWMyNTQ5N2QwZmNjNjM3NTJmY2NkMzlmM2Y4NTg1ZmJhMmRhZTAwNGVlZDVkNjRiMzUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcwYmExZmNhZGUzMTk2MmI1YzRhOTE5ODZiNWQ1MTgwNjc3YTk4OWI1N2E3OGZiOTEwYjY3ZGNmOGJiMDgwNTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMyM2Y2MGE3YjVmOTEyZjZhYTZjMzNjYmM3MmJiZTIxN2JhMDhiYmE1YWFkNjUzZmQxNTQ4OThhYjI3ZDg1ZWYifQ"
+        },
+        {
+          "resource": "repo://scripts/import/load-quest-guides.ts#L74-L78",
+          "version": "repo-lines-v1:sha256:9a78a9b9b06e384008e9e669bb61b030158090d4e41a109086ae16453d4a4884:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTkyNTQ5ZmQ0YmIyNGY3NTQ1ODdjMmQ0OGQ4OTk2NmEzMzU1ODg4OTViZjkwOTUyYzg2ZGQzN2MyZDZjMWZkNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjRhNDhhMjUyODE0MmI1ZTM0MjdjMTYyZDc3NmJjMTNlOTVmMzBmNWQyNTYyZjcyYzUwZjc2MTBiYTJjNzJjOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmU5NGY0MzhlMGU3ZjQ3YzI5ZDQwNDM1MDFjY2Y3ZTQxODBlMzAxMzlhMjg3N2E1NmZhZDQyNDJlYmJkMWMwOSJ9"
         }
       ]
     },
@@ -467,7 +471,7 @@
       "statement": "A guide with an invalid slug is skipped and counted; the loader returns counts of created, updated, unchanged and skipped guides, created and reused media, and the oddities per slug.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/load-quest-guides.ts#L140-L147",
+          "resource": "repo://scripts/import/load-quest-guides.ts#L162-L169",
           "version": "repo-lines-v1:sha256:16679bee1cac24da2e59842c212cf4ad6a66112eda879c27d9afa9790317413c:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTliMmM4ZDE2NDgxMThjMmExYTRlNDNjYjhjNmE3ZTUwMDg5MjBmNTc3NDJlYzNhODE4NDc1NDI1NGE3OWE1ZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDg5M2Y0MGUzNzgxZWI4OTZjODJkMDQ2YTA4MDY3YTExZTM1Y2RmMmYxZGZhZjI2ZmVhOTBiOGRiNjY3NjQxMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTdkODYzMmU1NGU5Mjk4YWJiOTU4NzI3ZTJkNTE0MDhhYmFmMTM2NjAzNTM3OTEwMTQwYWJmNjViMzBhYjYxMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDkzMjQwOGIxYjA2YjE1MDI4Mjk2YjFhN2RhZGNiY2RkYWMyM2VkMWYyY2VhYTExNWNhOGMyZjM0ZmFhMTMxMiJ9"
         },
         {
@@ -583,7 +587,7 @@
       "statement": "Imported media records hold the original image only; the loader creates them with alt and originalUrl and no variants.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/load-quest-guides.ts#L104-L111",
+          "resource": "repo://scripts/import/load-quest-guides.ts#L126-L133",
           "version": "repo-lines-v1:sha256:47f1362b1ba1addfa04cc18b12f67399f94683b38328abb4528adcc505fb550e:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODkyZGI1NDdhNWZiOWQzN2Q2ZWJiNWU5ZWM5NmVlNzE0NDRjYTE0MmVmOWI0ZWE5YThjMDdjYTk2NWMwMTA1NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTgzNTUyYWI1NzE0OTRiMzk5YjE4MTk5NjIyZGJlM2IzODI2ZWI2MWZjZDFmNzRjZmIxMmFiY2Y4OGU0ZjcyNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODEwYWI0ZmFiNTFjMzFkMzQ2ODQ2NTllNzgxMmIzOWFjZDFlZjE0YWEyZjkwMTU0ZWY3ODBiMzVjNzQzZTk3YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTY5NmQ5MDhlMTlhMjY0MTRiOGI2ZjI5ZTg1ZjY2ZGI0MTU2NDQwM2Y1N2ExN2RkMzExZjFhMTQyOTY5YjFkMiJ9"
         }
       ]
@@ -600,17 +604,35 @@
     },
     {
       "id": "claim_a7f3e5a4655d4426a83eb8b9a9125aed",
-      "statement": "The loader integration test runs on the five fixtures with a fake fetchImage and checks drafts with all four block types, one media record per image with URL and alt, oddities for missing quests, an idempotent second run, one new draft for a changed guide, hidden drafts for anonymous readers and skipping an invalid slug.",
+      "statement": "The loader integration test runs on the five fixtures with a fake fetchImage and checks drafts with all four block types, one media record per image with URL and alt, oddities for missing quests, an idempotent second run, one new draft for a changed guide, a summary field that disappears being cleared without extra versions on the next run, hidden drafts for anonymous readers and skipping an invalid slug.",
       "evidence": [
         {
-          "resource": "repo://tests/integration/import-quest-guides.test.ts#L55-L247",
-          "version": "repo-lines-v1:sha256:0c530ac2325ae4e2c1d49f8404e1ce20afdf4ca6490c85cb734c5fdc849890a1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTkzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJkMjk1ODk4ZjdmNDU3MTZmMGMxMzkxODRkMmEzZGUzM2VlZTM0MDI1OTc0YjYxZDQzNzlmYzUzN2MzY2Y1MWQ1IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIzNDBjNWQzZGMzYTc3MzA3OTNjODkyNzk0OGI1NTk2NjQyMDdmNzliYTg3NzczYzIxNTAwNDQzMTk2MmZkNDg4IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://tests/integration/import-quest-guides.test.ts#L55-L267",
+          "version": "repo-lines-v1:sha256:353111ed07ae518764bcb2af47c507bd5abdfb064316b81910b7597e39ea44a8:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJkMjk1ODk4ZjdmNDU3MTZmMGMxMzkxODRkMmEzZGUzM2VlZTM0MDI1OTc0YjYxZDQzNzlmYzUzN2MzY2Y1MWQ1IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIzNDBjNWQzZGMzYTc3MzA3OTNjODkyNzk0OGI1NTk2NjQyMDdmNzliYTg3NzczYzIxNTAwNDQzMTk2MmZkNDg4IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_9c05c061a6404654bf2259725c73ef3b",
+      "statement": "The loader sends every summary field (prerequisites, needs, rewards, startNpc, startX and startY) with null for those the conversion did not bring, because Payload keeps group fields an update leaves out; a re-import clears a removed value once and then finds the guide unchanged.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/load-quest-guides.ts#L184-L192",
+          "version": "repo-lines-v1:sha256:2a29d902d7c3890709a4150d1b517f7f2c4bb299a74c25796eb792009f27a160:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2NkZTE3ODMzNThlYWI2MDA2NTI1MWMyYWM1NDMzMTA4ZjhiZTFjY2YxOTdhNTMzNTdiZDllNzYzZjM0OWViMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDg5M2Y0MGUzNzgxZWI4OTZjODJkMDQ2YTA4MDY3YTExZTM1Y2RmMmYxZGZhZjI2ZmVhOTBiOGRiNjY3NjQxMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWI2YmFlM2NhMGM2ZGEwYmNkMGFhMGQ1ZmUyZTVjN2U1YTlkYzQzMDgzNmY0YzAyZDFhZGRmNmUyYTk3NDYzNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWQzYjFjZjEzOWM0ZDVmYzA5ZGQ4NDRjMTQ4NGNhYzQwOTcyMTgwMThkYmRiNTlhZWFlYTViMTA0N2UwMWMzYSJ9"
+        },
+        {
+          "resource": "repo://scripts/import/load-quest-guides.ts#L52-L72",
+          "version": "repo-lines-v1:sha256:83e707e58719065907de81137b9a05b8ba459118c9b74b5dd6a3697780e5455f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYzNzU4N2JkY2VkYzdkOGFiNzJhOTI3NWM4MDczZWVlYzcyMjkzZDdjYTI4Mzg2ZDkzNjM0OTNkYjgyZGNmMzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImViMzY1ZjM2MDNhMjJhNmZhYTZjNWExZGVjZmM3ODVlYjRiODQzODUxMTg5NDhjZTNmNTIxZDQ1Yjg5OGNkZTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIxM2MwNWMzNmU4YWRjYzY1NzVjMGVjMTZhZGU2YjBmYjlhMWQ3YzNlNzA3NjkzN2IxZjgwMGQ2NTQyNmYxY2YifQ"
+        },
+        {
+          "resource": "repo://tests/integration/import-quest-guides.test.ts#L221-L240",
+          "version": "repo-lines-v1:sha256:7202737fd001360e8a6f5032cbb65dacac57512ecfd50bc43d27371e570f8dc9:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMjQ3OTdiYzAzZWU5MDIyZjIwYThmNDUwMWQ0NmE3YTM2ODRkMGI1ZjY5ZWRiNmJmOWExZDU5Yjk0MjAyMWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBkOGVlNWMwYzBiYTIxZjIxMjk3NzQ3ZTIxOTA3NjQwZTkyYTMzMGVmMDZmNDZlMmI1MTBmM2RjMmZkODc1MGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJjMDhjZWQzZGJlNThjZGY3MGRiZGNmY2UxODAyMWYyYjgxYWYyMWNhNTljODY3M2JjOGVlNWMzOTFkOWE4YTIifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T17:14:51.499Z"
+    "at": "2026-11-04T17:27:29.927Z"
   }
 }

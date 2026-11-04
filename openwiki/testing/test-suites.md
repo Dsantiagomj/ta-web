@@ -60,10 +60,10 @@ sources:
     resource: repo://vitest.config.mts
   - id: openwiki-source-57da85ca1bb457973a5594ff
     resource: repo://vitest.integration.config.mts
-generated: { by: "claude-code", at: "2026-11-04T17:14:51.499Z" }
+generated: { by: "claude-code", at: "2026-11-04T17:27:29.927Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T17:14:51.499Z
+    at: 2026-11-04T17:27:29.927Z
 ---
 
 # Test suites
@@ -100,7 +100,7 @@ Real Payload (`getPayload`) against a real Postgres with the committed migration
 - Access tests call the local API with `overrideAccess: false`; omitting `user` makes the call anonymous. See [Collections and access](../cms/collections.md).
 - `quest-guides-access.test.ts` goes further than the other access tests: besides who may read and write, it checks that anonymous reads hide drafts, that a panel user can publish a draft and get a version, and that a guide with all four [body blocks](../cms/blocks.md), linked quests and an image saves and reads back. When it finishes it deletes every guide, quest and media document in the integration database.
 - `refresh-quests.test.ts` runs `refreshQuests` three times against the integration database: the first run creates the fixture quests and skips missing prerequisites, a second run with the same data changes nothing and keeps `refreshedAt`, and a third run updates only what changed and links a prerequisite that now exists. It deletes its fixture quests before and after. See [DofusDB game data refresh](../data/dofusdb-refresh.md).
-- `import-quest-guides.test.ts` runs the Squarespace loader on the five fixture pages with a fake `fetchImage` that returns a 1×1 PNG. It checks drafts with all four block types and the existing quest linked, one `media` record per image with its URL and alt, the oddities, a second run that changes, downloads and versions nothing, one new draft for a changed guide, no drafts visible to anonymous readers and an invalid slug skipped. It cleans up its guides, media and quests before and after. See [Squarespace import](../data/squarespace-import.md#loading-into-payload).
+- `import-quest-guides.test.ts` runs the Squarespace loader on the five fixture pages with a fake `fetchImage` that returns a 1×1 PNG. It checks drafts with all four block types and the existing quest linked, one `media` record per image with its URL and alt, the oddities, a second run that changes, downloads and versions nothing, one new draft for a changed guide, a summary field that disappears being cleared without extra versions on the next run, no drafts visible to anonymous readers and an invalid slug skipped. It cleans up its guides, media and quests before and after. See [Squarespace import](../data/squarespace-import.md#loading-into-payload).
 - `migrations.test.ts` checks that the latest migration rolls back and re-applies: it runs the Payload CLI (`pnpm payload migrate:down`, then `pnpm payload migrate`) with `integrationEnv` and `DATABASE_CONNECTION=direct`, leaving the database as it was. It starts the CLI twice, so it has its own 120 s timeout instead of the suite's 30 s. See [Database and migrations](../data/database.md#migrations).
 
 ## E2E
