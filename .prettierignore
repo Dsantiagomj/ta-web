@@ -10,6 +10,7 @@ media/
 tmp/
 playwright-report/
 test-results/
+.lighthouseci/
 docs/research/
 
 # Los docs se escriben a mano; Prettier rellena las tablas y ensucia los diffs

@@ -28,5 +28,6 @@ export default defineConfig([
     'tmp/**',
     'playwright-report/**',
     'test-results/**',
+    '.lighthouseci/**',
   ]),
 ])

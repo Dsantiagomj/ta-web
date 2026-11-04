@@ -21,6 +21,7 @@ next-env.d.ts
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+/.lighthouseci/
 
 # Borradores, capturas y mockups
 tmp/

@@ -10,6 +10,8 @@ export const DEV_DATABASE = {
   e2eDatabase: 'ta_web_e2e',
   // Base aparte para las pruebas de integración: también se borra y se migra en cada ejecución.
   integrationDatabase: 'ta_web_integration',
+  // Base aparte para Lighthouse CI (pnpm test:lhci): también se borra y se migra en cada ejecución.
+  lhciDatabase: 'ta_web_lhci',
   dataDir: '.postgres/data',
 } as const
 
@@ -18,3 +20,5 @@ export const DEV_DATABASE_URL = `postgres://${DEV_DATABASE.user}:${DEV_DATABASE.
 export const E2E_DATABASE_URL = `postgres://${DEV_DATABASE.user}:${DEV_DATABASE.password}@${DEV_DATABASE.host}:${DEV_DATABASE.port}/${DEV_DATABASE.e2eDatabase}`
 
 export const INTEGRATION_DATABASE_URL = `postgres://${DEV_DATABASE.user}:${DEV_DATABASE.password}@${DEV_DATABASE.host}:${DEV_DATABASE.port}/${DEV_DATABASE.integrationDatabase}`
+
+export const LHCI_DATABASE_URL = `postgres://${DEV_DATABASE.user}:${DEV_DATABASE.password}@${DEV_DATABASE.host}:${DEV_DATABASE.port}/${DEV_DATABASE.lhciDatabase}`
