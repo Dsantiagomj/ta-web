@@ -5,7 +5,7 @@ description: How the Squarespace import reads a cached Squarespace page, orders 
 tags: [import, squarespace, quest-guides, lexical, scripts]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T15:33:25.988Z
+    at: 2026-11-04T15:51:44.854Z
 sources:
   - id: openwiki-source-f235d856bed1fd44853c5195
     resource: repo://.prettierignore
@@ -33,7 +33,7 @@ sources:
     resource: repo://tests/unit/import-rich-text.test.ts
   - id: openwiki-source-299c190cabc2f0753a302110
     resource: repo://tests/unit/import-to-quest-guide.test.ts
-generated: { by: "claude-code", at: "2026-11-04T15:33:25.988Z" }
+generated: { by: "claude-code", at: "2026-11-04T15:51:44.854Z" }
 ---
 
 # Squarespace import
@@ -77,8 +77,8 @@ The `guide` has `title`, `slug`, `originalUrl` (`https://www.torrentearcano.com/
 
 Rules, in the order the converter applies them to each text element:
 
-1. **Leading heading.** An H1 or H2 before any content repeats the title and is dropped.
-2. **Summary.** A line starting with `Prerrequisitos`, `Necesitarás` or `Recompensas` (accents and case ignored, optional colon) opens that field. Text after the label and the following elements of the same text block go into it, one line each; a list gives one line per item. The field values are those lines joined with newlines. These lines never reach the body.
+1. **Summary.** A line starting with `Prerrequisitos`, `Necesitarás` or `Recompensas` (accents and case ignored, optional colon) opens that field. Labels are checked before any heading rule, so a label that arrives as an H1 or H2 still opens its field. Text after the label and the following elements of the same text block go into it, one line each; a list gives one line per item. The field values are those lines joined with newlines. These lines never reach the body.
+2. **Title heading.** Only the first H1 or H2 before any content is dropped, because it repeats the title. Any later heading is handled like other text: inside a summary block it adds a line to that field, otherwise it stays in the body as prose.
 3. **Closing sentence.** A paragraph starting with "Aquí termina la misión" (also "¡Y aquí se termina la misión…") loses that first sentence only. The rest of the paragraph stays in the body; a paragraph with nothing else disappears.
 4. **Start line.** The first paragraph starting with "Habla con X [x,y]" or "La misión empieza hablando con X [x,y]" fills `summary.startNpc` (without a leading el/la/los/las), `startX` and `startY`. "Habla con" counts only when its sentence says "para empezar", because the phrase appears in the middle of many guides. When the sentence says nothing more than that ("…para empezar la misión."), only that sentence leaves the body and the rest of the paragraph stays. When it carries more (when or where to go), the whole paragraph stays in the body. The trimming walks text nodes, so bold and links in the rest of the paragraph survive.
 5. **Callouts.** A paragraph starting with all-caps `IMPORTANTE` or `CUIDADO` becomes a `callout` block with variant `warning`; `NOTA` becomes `tip`. Lowercase "Cuidado, …" is plain prose. A paragraph left over after trimming rules 3 and 4 is checked again here.
