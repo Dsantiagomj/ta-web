@@ -1,8 +1,8 @@
 ---
 type: workflow
 title: DofusDB game data refresh
-description: How pnpm data:quests fills the read-only quests, items and monsters collections from the public DofusDB API, how quests, prerequisites, level-200 rewards and needs are derived, why a rerun changes nothing, how writes run several at a time under DOFUSDB_WRITE_CONCURRENCY, and how to run it without touching production by accident.
-tags: [dofusdb, game-data, quests, items, monsters, rewards, payload, scripts, concurrency]
+description: How pnpm data:quests fills the read-only quests, items and monsters collections from the public DofusDB API (every quest, the whole item catalog and the monsters quests name), how the client retries failed requests, how quests, prerequisites, level-200 rewards and needs are derived, why a rerun changes nothing, how writes run several at a time under DOFUSDB_WRITE_CONCURRENCY, and how to run it without touching production by accident.
+tags: [dofusdb, game-data, quests, items, monsters, rewards, payload, scripts, concurrency, retries]
 sources:
   - id: openwiki-source-5f5b95b3d6a215fa02ceb945
     resource: repo://.env.example
@@ -64,10 +64,10 @@ sources:
     resource: repo://tests/unit/dofusdb-quest-rewards.test.ts
   - id: openwiki-source-e73350ef868f2379d51909ed
     resource: repo://tests/unit/dofusdb-write-concurrency.test.ts
-generated: { by: "claude-code", at: "2026-11-04T18:47:27.432Z" }
+generated: { by: "claude-code", at: "2026-11-04T19:48:22.282Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T18:47:27.432Z
+    at: 2026-11-04T19:48:22.282Z
 ---
 
 # DofusDB game data refresh
@@ -81,10 +81,11 @@ Nothing loads from DofusDB at runtime. The script copies the data into our Postg
 ```
 pnpm data:quests
   └─ scripts/refresh-quests.ts        DOFUSDB_WRITE_CONCURRENCY, getPayload, timing, exit code
-       ├─ createDofusDbClient()       src/lib/dofusdb/client.ts
+       ├─ createDofusDbClient({ log })  src/lib/dofusdb/client.ts (retries, timeout)
        ├─ fetchQuestData(client)      src/lib/dofusdb/fetch-quest-data.ts
        │    quests (all pages) → NPCs and maps named in start positions
-       │                       → items and monsters named in rewards and needs
+       │                       → monsters named in needs
+       │    items (all pages, only the stored fields)
        └─ refreshQuests(payload, data, { concurrency })
                                       src/lib/dofusdb/refresh-quests.ts
             mapItem / mapMonster      src/lib/dofusdb/map-items-monsters.ts
@@ -103,15 +104,32 @@ pnpm data:quests
 
 `createDofusDbClient` wraps the public API at `https://api.dofusdb.fr`, a Feathers API paged with `$limit` and `$skip`.
 
-- `fetchAll(collection)` requests pages of 50 (DofusDB never returns more per request) until `skip + 50` reaches the reported `total`. An empty page also stops the loop, whatever the total says.
+- `fetchAll(collection, { select })` requests pages of 50 (DofusDB never returns more per request) until `skip + 50` reaches the reported `total`. An empty page also stops the loop, whatever the total says. With `select`, each page request adds one Feathers `$select[]=<field>` per field, so DofusDB returns only those fields instead of the whole row.
 - `fetchByIds(collection, ids)` drops duplicate IDs and requests them in chunks of 40 with `id[$in][]=…` filters, which keeps URLs short and each answer inside one page. IDs that do not exist simply do not come back.
 - It waits 50 ms between requests, so it does not load a free API, and sends a generic `User-Agent: ta-web/datos-del-juego`.
-- A non-2xx answer throws `DofusDB respondió <status> <statusText> en <url>`. There are no retries: the run fails and you run it again.
-- `fetch`, `sleep` and `baseUrl` are injectable, so the tests never reach the network.
+- Each request has a 30 s timeout (`AbortSignal.timeout`), so a hung connection fails instead of waiting for minutes.
+- `fetch`, `sleep`, `baseUrl`, `log` and `random` are injectable, so the tests never reach the network or wait for real.
+
+#### Retries
+
+A full run makes several hundred requests, mostly for the item catalog, and one network hiccup used to fail the whole run. Every request now goes through a retry loop in `get`:
+
+- **Retried**: network errors (the fetch throws, including a timeout or a failure while reading the body) and HTTP 429, 502, 503 and 504. These usually clear by themselves.
+- **Not retried**: any other non-2xx answer, such as 400, 404 or 500. It throws at once.
+- **Up to 4 retries** (5 attempts in total). The wait doubles from 0.5 s: 0.5, 1, 2 and 4 s, each plus up to 25 % random jitter so retries do not line up.
+- **`Retry-After`**: on a 429, a `Retry-After` header in seconds or as an HTTP date replaces the computed wait, capped at 60 s so an outsized value cannot stall the script. A missing or unreadable header falls back to the backoff.
+- **Final error**: after the last attempt, or on a non-retried status, the client throws `DofusDB respondió <status> <statusText> en <url> tras <n> intentos` or, for a network failure, `DofusDB no respondió en <url> tras <n> intentos: <error>` with the original error as `cause`. The message names the URL and the number of attempts.
+- **Logging**: the optional `log` callback gets one Spanish line per retry, such as `DofusDB respondió 503 … en <url>; reintento 1 de 4 en 0.6 s`. By default nothing is logged; `pnpm data:quests` passes `console.log`.
 
 ### Fetching
 
-`fetchQuestData` loads every quest, collects the distinct `npcId` and `mapId` values from their `startPosition` entries, and fetches only those NPCs (`npcs`) and maps (`map-positions`). It also runs `questRewards` and `questNeeds` on each quest and fetches only the `items` named in rewards or needs and the `monsters` named in needs, not the whole catalog. It returns `{ quests, npcs, mapPositions, items, monsters }`. A full run brings about 2,000 quests, 2,800 items and 1,000 monsters (README).
+`fetchQuestData` loads every quest, collects the distinct `npcId` and `mapId` values from their `startPosition` entries, and fetches only those NPCs (`npcs`) and maps (`map-positions`). It runs `questNeeds` on each quest and fetches by ID only the `monsters` named in needs. It returns `{ quests, npcs, mapPositions, items, monsters }`.
+
+Items are different: `fetchQuestData` downloads the **whole item catalog** with `fetchAll('items', { select })`, not only the items quests name in rewards or needs, because Torre may need any item in a guide. A full run brings about 2,000 quests, 1,000 monsters and 21,500 items (README). The select list is `id`, `name`, `level`, `typeId`, `iconId` and `type`: only the fields the collection stores, plus `type`, the item type object DofusDB attaches through `typeId`, which carries the supertype. The whole row is roughly eight times heavier; with the select a page of 50 items is about 44 KB instead of about 375 KB.
+
+Because items no longer come from quest references, a reward or need item that is missing from the catalog is still dropped and counted as a missing item when quests are written.
+
+There is no index on the item name. Picking an item by name in the panel runs a case-insensitive `like` (`ilike` in Postgres) over the whole table; at about 21,500 rows that full scan took about 2.3 ms locally, so an index was not worth adding.
 
 ### Mapping a quest
 
@@ -123,7 +141,7 @@ pnpm data:quests
 - **`startCriterion`**: the raw DofusDB criterion string, stored unchanged (`null` when empty) so later derived data can reread it.
 - **`rewards` and `needs`**: computed by `questRewards` and `questNeeds`, described below. They carry DofusDB item and monster IDs; the refresh swaps them for Payload IDs when it writes.
 
-`mapItem` and `mapMonster` (`src/lib/dofusdb/map-items-monsters.ts`) do the same for the catalog rows: Spanish name with French fallback, then `Objeto <id>` or `Monstruo <id>`; an item's `level`, `typeId` and `iconId`; a monster's `gfxId` stored as `iconId`.
+`mapItem` and `mapMonster` (`src/lib/dofusdb/map-items-monsters.ts`) do the same for the catalog rows: Spanish name with French fallback, then `Objeto <id>` or `Monstruo <id>`; an item's `level`, `typeId` and `iconId`, plus `superTypeId` read from `type.superTypeId` (`null` when DofusDB sends no type); a monster's `gfxId` stored as `iconId`.
 
 ### Prerequisite rule
 
@@ -189,13 +207,13 @@ Monsters are summed by monster across all objectives and steps.
 
 #### What needs mean for a guide
 
-Torre's "Necesitarás" lines in a guide are editorial: which fights to expect, what to prepare. Most of that cannot be derived from DofusDB. The stored `needs` are a suggestion next to the guide's own `summary.needs` text, not a replacement for it (see [Collections and access](../cms/collections.md#quest-guides-editorial-guides-with-drafts)). Quest items carry their own item types (`typeId` 129, 133 and 155 in the fixtures), so a guide can filter them out of a needs list.
+Torre's "Necesitarás" lines in a guide are editorial: which fights to expect, what to prepare. Most of that cannot be derived from DofusDB. The stored `needs` are a suggestion next to the guide's own `summary.needs` text, not a replacement for it (see [Collections and access](../cms/collections.md#quest-guides-editorial-guides-with-drafts)). Quest items carry their own item types (`typeId` 129, 133 and 155 in the fixtures), all under supertype 14, so a guide can filter them out of a needs list by `superTypeId`. About 3,900 of the catalog's items are quest items.
 
 ### Writing: items and monsters first, then two passes over quests
 
 `refreshQuests(payload, data, { now, log, concurrency })` is the only code that writes quests, items and monsters, so every call uses the local API with `overrideAccess: true`; the collections' access rules refuse everyone else.
 
-1. **Items, then monsters.** `refreshCatalog` maps the rows, keeps one per DofusDB ID, loads the existing rows in one query, creates the missing ones and updates an existing one only when its stored fields differ under a deep comparison. It returns the counts and a map from DofusDB ID to Payload ID that also covers rows from earlier runs that DofusDB no longer returned. This comes first because quest rewards and needs point at those Payload IDs.
+1. **Items, then monsters.** `refreshCatalog` maps the rows, keeps one per DofusDB ID, loads the existing rows in one query, creates the missing ones and updates an existing one only when its stored fields differ under a deep comparison. It returns the counts and a map from DofusDB ID to Payload ID that also covers rows from earlier runs that DofusDB no longer returned. This comes first because quest rewards and needs point at those Payload IDs. Progress is logged every 2,000 rows (`Objetos guardados: <n> de <total>`), which matters for the item catalog of more than 20,000 rows.
 2. It maps every quest, keeping one entry per DofusDB ID in case a quest repeats across pages, and loads all existing quests in one query. `linkRows` swaps each reward and need item or monster for its Payload ID; an ID with no stored row is dropped from the list and counted as a missing item or monster.
 3. **Pass 1** walks the mapped quests by `dofusId`. A missing quest is created. An existing one is updated only when its stored fields (name, levels, category, criterion, start positions, rewards and needs) differ from the mapped ones under a deep comparison; otherwise it is left alone. Progress is logged every 250 quests.
 4. **Pass 2** resolves each quest's prerequisite DofusDB IDs to Payload IDs, now that every quest exists. A prerequisite that is not in the collection is skipped and counted. The relationship is written only when the resolved list differs from the stored one; a quest unchanged in pass 1 then counts as updated.
@@ -231,7 +249,9 @@ Measured locally, the write phase took 8.3 s with 1 write at a time and 4.5 s wi
 pnpm data:quests
 ```
 
-`package.json` runs `payload run scripts/refresh-quests.ts`, which loads `.env` and transpiles TypeScript. The script reads `DOFUSDB_WRITE_CONCURRENCY` before anything else, so a bad value fails at once, then starts Payload itself with `getPayload`. It prints how many quests, NPCs, maps, items and monsters it downloaded, how many writes it runs at once, how long the write phase took (`Escritura: <n> s.`), then the total elapsed time, the created, updated and unchanged counts for quests, items and monsters, and the skipped references. A full run downloads about 2,000 quests, 2,800 items and 1,000 monsters and takes about a minute (README).
+`package.json` runs `payload run scripts/refresh-quests.ts`, which loads `.env` and transpiles TypeScript. The script reads `DOFUSDB_WRITE_CONCURRENCY` before anything else, so a bad value fails at once, then starts Payload itself with `getPayload`. It creates the DofusDB client with `console.log` as its logger, so each retry prints a line. It prints how many quests, NPCs, maps, items and monsters it downloaded, how many writes it runs at once, the item and quest progress lines, how long the write phase took (`Escritura: <n> s.`), then the total elapsed time, the created, updated and unchanged counts for quests, items and monsters, and the skipped references. A full run downloads about 2,000 quests, 1,000 monsters and the whole item catalog of about 21,500 items (README).
+
+The download dominates the run time, and most of it is the item catalog. Measured locally, the download took about two and a half minutes. Writing took about 10 seconds on a first run against `pnpm db:dev`, which creates every item, and under a second on a rerun that changes nothing, so a repeat run still takes about as long as the download.
 
 - **Write concurrency**: `DOFUSDB_WRITE_CONCURRENCY=4 pnpm data:quests` (or the same line in `.env`) changes how many rows are written at once; empty means 8. See [Write concurrency](#write-concurrency).
 - **Target database**: whatever `DATABASE_URL` points to, or the `ta_web` database of `pnpm db:dev` when it is empty. See [Database and migrations](database.md).
@@ -247,16 +267,16 @@ The script writes to whatever database `DATABASE_URL` names, with no confirmatio
 
 | Test | What it pins |
 |---|---|
-| `tests/unit/dofusdb-client.test.ts` | Pages of 50 until the total, a 50 ms pause between pages and none after the last, stop on an empty page, the User-Agent, deduplicated IDs in chunks of 40, no request for an empty ID list, the error message on a 404 |
+| `tests/unit/dofusdb-client.test.ts` | Pages of 50 until the total, a 50 ms pause between pages and none after the last, stop on an empty page, `$select[]` fields in the URL, the User-Agent, deduplicated IDs in chunks of 40, no request for an empty ID list, the error message on a 404. Retries: a network error and 502, 503 and 504 retried with waits of 500, 1,000, 2,000 and 4,000 ms and one log line each, jitter between 500 and 750 ms with `random` 0.5, giving up after 5 attempts with the URL and attempt count in the error (for a status and for repeated network failures), no retry on 400 or 404, and a 429's `Retry-After: 7` waited as 7,000 ms |
 | `tests/unit/dofusdb-map-quest.test.ts` | Spanish name with French fallback, every start position with NPC names and coordinates, `null`s for missing lookups, rewards and needs taken from the steps, and the prerequisite rule: `Qf=` joined by `&`, alternatives, `Qa=`, nested groups, unbalanced parentheses, duplicates and self-references |
 | `tests/unit/dofusdb-quest-rewards.test.ts` | Torre's and dofusdb.fr's figures for quests 1977 (24,316 XP, 552 kamas) and 1976, the 1.5 × optimum cap (332), the level-200 case (1433), per-step flooring (241), items summed across steps, the last reward entry (880), emote and title IDs, and empty steps |
 | `tests/unit/dofusdb-quest-needs.test.ts` | Delivered items, `need.items` without deliveries, the larger-quantity rule (245), deliveries summed across objectives, every fight objective and souls, `walksMaps` for map and sub-area discovery, and the ignored objectives |
-| `tests/unit/dofusdb-fetch-quest-data.test.ts` | Only the NPCs and maps named in start positions, and only the items and monsters named in rewards and needs, are looked up |
+| `tests/unit/dofusdb-fetch-quest-data.test.ts` | Only the NPCs and maps named in start positions and the monsters named in needs are looked up by ID; items come from `fetchAll` with the select list, including items no quest names, and are never looked up by ID |
 | `tests/unit/concurrency.test.ts` | `mapWithConcurrency` keeps input order when tasks finish out of order, never has more than `limit` tasks running, runs tasks one after another with `limit` 1, rejects with the first error once running tasks settle without starting more, returns an empty list without calling the function, and rejects a `limit` below 1 or not an integer |
 | `tests/unit/dofusdb-write-concurrency.test.ts` | `DOFUSDB_WRITE_CONCURRENCY`: unset or empty gives the default, which stays below pg's pool of 10; a positive integer (also with spaces) is read; `0`, `-2`, `1.5` and `ocho` throw |
-| `tests/integration/refresh-quests.test.ts` | Against real Payload and Postgres: the first run creates the quests and skips missing prerequisites; a second run changes nothing and keeps `refreshedAt`; a third run updates only the renamed quest and the one whose missing prerequisite now exists, and creates the new quest. A second block creates items and monsters and links rewards and needs by Payload ID, changes nothing on a rerun, and on a third run updates only the renamed item and the changed quest and skips an item DofusDB did not return. A third block runs the refresh over both fixtures with concurrency 1 and then, after deleting the rows, with concurrency 8, and expects equal counts and equal stored data, with relationships compared by DofusDB ID |
+| `tests/integration/refresh-quests.test.ts` | Against real Payload and Postgres: the first run creates the quests and skips missing prerequisites; a second run changes nothing and keeps `refreshedAt`; a third run updates only the renamed quest and the one whose missing prerequisite now exists, and creates the new quest. A second block creates items and monsters and links rewards and needs by Payload ID, changes nothing on a rerun, and on a third run updates only the renamed item and the changed quest and skips an item DofusDB did not return. A third block runs the refresh over both fixtures with concurrency 1 and then, after deleting the rows, with concurrency 8, and expects equal counts and equal stored data, with relationships compared by DofusDB ID. A fourth block adds catalog items no quest names (a sword and two quest items): the refresh creates them all with `superTypeId`, and a second run with the same catalog writes no item and keeps `refreshedAt` |
 
-The unit and integration tests share real DofusDB rows saved in `tests/fixtures/dofusdb/`: `quests.json`, `npcs.json` and `map-positions.json` for the base quest fields, and `quests-steps.json` (nine quests with their steps), `items.json` and `monsters.json` for rewards and needs. The integration test deletes its fixture rows before and after it runs. See [Test suites](../testing/test-suites.md).
+The unit and integration tests share real DofusDB rows saved in `tests/fixtures/dofusdb/`: `quests.json`, `npcs.json` and `map-positions.json` for the base quest fields, and `quests-steps.json` (nine quests with their steps), `items.json` and `monsters.json` for rewards and needs, and `items-unreferenced.json` with three items no fixture quest names, for the full-catalog cases. The integration test deletes its fixture rows before and after it runs. See [Test suites](../testing/test-suites.md).
 
 ## Related pages
 

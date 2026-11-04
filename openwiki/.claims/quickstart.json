@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:931e728509652fce2efb2308c39ae6851f08ac1e40e59314b89c6fa07940b9f3",
+  "pageVersion": "sha256:8597378c9f1a412a1f14756c131ba23018ef513c0fca8fba8471f038a6f036d6",
   "claims": [
     {
       "id": "claim_2337c4767f624841a8302780adbb1ac7",
@@ -56,7 +56,7 @@
     },
     {
       "id": "claim_844d1de03396400783d6cd24e92d2719",
-      "statement": "pnpm data:quests loads DofusDB quests into the quests collection, with the items and monsters they name into items and monsters.",
+      "statement": "pnpm data:quests loads DofusDB quests into the quests collection, the monsters they name into monsters and the whole DofusDB item catalog into items.",
       "evidence": [
         {
           "resource": "repo://package.json#L26-L26",
@@ -64,7 +64,7 @@
         },
         {
           "resource": "repo://scripts/refresh-quests.ts#L1-L3",
-          "version": "repo-lines-v1:sha256:c25d6a572aa5aa18a7c86dbab73e93181f8fcb5f27e0658eded42862fb711f24:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzE3N2M1NmJhZjRjMDVjNDM5OTRiMzYyM2ZjYTFiMzI0N2U5M2MyYWYxN2I4MzI5NmY4OGVmNjY2N2YxZGU3YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDA0NmE2ZDEzZTA4ZTA3MDUyMTk2NTVmYzU5MTBjZTdlMjZhODY5ZGI4YWY3NjdkYzc1NTEwZTAzNzQzMzU4OCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWE0YWE1Y2EzN2ViMmQ3ODM1ZjVkYWY0ZjBiMjZkZjQ4OWMyYjI4ZDI3YjZkNDBlMTNlOWQ2NjU3MzE1YmJlYiJ9"
+          "version": "repo-lines-v1:sha256:a4e5db3a6341019a637cc9a49c7dea3919e98caaf2ff4d09f102bff312d67893:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDQ4YjViOTIzNjIzMThiM2E4MTQ0NTFhNGVkYzYzNzkwZmI2Nzg1NDNmNTdlZWQ4NDgzODkzNjcyMDZlNzU3NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTE2MzEyODZlMTY3ZmY0Mzk0Mzc0NzQ4NjEzMTE2NGQzYTllZTIzMTIyZDE2MDM4NWFkZjQxMTExODZhNDkwOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWE0YWE1Y2EzN2ViMmQ3ODM1ZjVkYWY0ZjBiMjZkZjQ4OWMyYjI4ZDI3YjZkNDBlMTNlOWQ2NjU3MzE1YmJlYiJ9"
         }
       ]
     },
@@ -109,6 +109,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T18:10:54.480Z"
+    "at": "2026-11-04T19:48:22.282Z"
   }
 }

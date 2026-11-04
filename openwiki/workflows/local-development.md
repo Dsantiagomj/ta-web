@@ -24,12 +24,14 @@ sources:
     resource: repo://scripts/refresh-quests.ts
   - id: openwiki-source-2ad419cae2f45e97a3ca23d7
     resource: repo://src/lib/db/database-url.ts
+  - id: openwiki-source-7b3f34dd948192f72aa88058
+    resource: repo://src/lib/dofusdb/client.ts
   - id: openwiki-source-4ce5bfd40fc86e2e8680d71f
     resource: repo://src/lib/dofusdb/refresh-quests.ts
-generated: { by: "claude-code", at: "2026-11-04T18:47:27.432Z" }
+generated: { by: "claude-code", at: "2026-11-04T19:48:22.282Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T18:47:27.432Z
+    at: 2026-11-04T19:48:22.282Z
 ---
 
 # Local development
@@ -79,7 +81,7 @@ Commit both with the change. CI fails when `src/payload-types.ts` is stale. Afte
 | `pnpm test`, `pnpm test:integration`, `pnpm test:e2e`, `pnpm test:e2e:dev-gate`, `pnpm test:smoke` | The test suites; see [Test suites](../testing/test-suites.md) |
 | `pnpm db:dev` | Embedded Postgres in the foreground; `--verbose` prints its log; Ctrl+C stops it |
 | `pnpm migrate` | Applies pending migrations, using `DATABASE_URL_DIRECT` when set, else `DATABASE_URL` |
-| `pnpm data:quests` | Downloads every quest from the public DofusDB API, with the items and monsters their rewards and needs name, and writes them to `quests`, `items` and `monsters` in the `DATABASE_URL` database (the `pnpm db:dev` one when empty). Takes about a minute. Writes 8 rows at a time; `DOFUSDB_WRITE_CONCURRENCY` changes that. Never against production without the owner's yes; see [DofusDB game data refresh](../data/dofusdb-refresh.md) |
+| `pnpm data:quests` | Downloads every quest from the public DofusDB API (about 2,000), the monsters their needs name (about 1,000) and the whole item catalog (about 21,500), and writes them to `quests`, `items` and `monsters` in the `DATABASE_URL` database (the `pnpm db:dev` one when empty). The download takes about two and a half minutes; writing takes seconds. Failed requests are retried. Writes 8 rows at a time; `DOFUSDB_WRITE_CONCURRENCY` changes that. Never against production without the owner's yes; see [DofusDB game data refresh](../data/dofusdb-refresh.md) |
 | `pnpm import:guides <dir> [slug…]` | Imports Squarespace quest pages from the migration inventory folder into `quest-guides` as drafts, with their images in `media`; without slugs, the five demo guides. Writes to the `DATABASE_URL` database (the `pnpm db:dev` one when empty). Run `pnpm data:quests` first so quests link. Never against production without the owner's yes; see [Squarespace import](../data/squarespace-import.md#running-it) |
 | `pnpm migrate:create <name>` | Writes a new migration |
 | `pnpm generate:types`, `pnpm generate:importmap` | Regenerate Payload's types and admin import map |
