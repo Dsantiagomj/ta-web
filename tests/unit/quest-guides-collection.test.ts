@@ -103,13 +103,16 @@ describe('colección quest-guides', () => {
     expect(field('startY', summary.fields)).toMatchObject({ type: 'number' })
   })
 
-  it('debajo de cada campo del resumen muestra lo que hereda de DofusDB', () => {
+  it('cada campo del resumen lleva una nota que compara su valor con lo que da DofusDB', () => {
     const summary = field('summary') as GroupField
-    for (const name of ['prerequisites', 'needs', 'rewards', 'startNpc', 'startX', 'startY']) {
-      expect(field(name, summary.fields).admin?.components).toEqual({
-        Description: {
-          path: '/components/quest-guide-admin/InheritedValue#InheritedValue',
-          clientProps: { summaryField: name },
+    for (const name of ['prerequisites', 'rewards', 'startNpc', 'startX', 'startY']) {
+      expect(field(name, summary.fields).admin).toEqual({
+        placeholder: guideStrings.admin.summaryPlaceholder,
+        components: {
+          Description: {
+            path: '/components/quest-guide-admin/SummaryNote#SummaryNote',
+            clientProps: { summaryField: name },
+          },
         },
       })
     }

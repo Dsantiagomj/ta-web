@@ -111,7 +111,12 @@ describe('carga de guías importadas de Squarespace', () => {
     await cleanUp()
     quest = await payload.create({
       collection: 'quests',
-      data: { dofusId: EXISTING_QUEST, name: 'El cazador cazado' },
+      data: {
+        dofusId: EXISTING_QUEST,
+        name: 'El cazador cazado',
+        // Distinta de la de la página de Torre, para ver de dónde sale cada dato
+        startPositions: [{ npcName: 'Kerubim Crepin', x: 4, y: -18 }],
+      },
     })
   })
 
@@ -218,7 +223,7 @@ describe('carga de guías importadas de Squarespace', () => {
     expect(changed).toMatchObject({ _status: 'draft', summary: { needs: 'Un objeto nuevo.' } })
   })
 
-  it('un campo del resumen que desaparece se vacía, y repetir no guarda más versiones', async () => {
+  it('un campo del resumen que desaparece se rellena con DofusDB, y repetir no guarda más versiones', async () => {
     const withoutFields = () => {
       const guides = converted()
       delete guides[0]!.guide.summary.needs
@@ -230,7 +235,8 @@ describe('carga de guías importadas de Squarespace', () => {
     const first = await loadQuestGuides(payload, withoutFields(), { fetchImage })
     expect(first.guides).toMatchObject({ updated: 1, unchanged: 4 })
     const cleared = (await guidesBySlug()).get(withoutFields()[0]!.guide.slug)!
-    expect(cleared.summary).toMatchObject({ needs: null, startX: null, startY: null })
+    // DofusDB no da qué llevar; sí las coordenadas de inicio
+    expect(cleared.summary).toMatchObject({ needs: null, startX: 4, startY: -18 })
 
     const versionsBefore = await versionCount()
     const second = await loadQuestGuides(payload, withoutFields(), { fetchImage })

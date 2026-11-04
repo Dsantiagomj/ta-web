@@ -37,15 +37,20 @@ export const guideStrings = {
     slugDescription:
       'La URL de la guía, como aprendizaje-escudero. Si la dejas vacía, sale del nombre de la misión.',
     summaryDescription:
-      'Vacío significa que se muestra lo que da DofusDB, que ves debajo de cada campo. ' +
-      'Escribe solo para cambiarlo.',
+      'Al elegir la misión, cada campo vacío se rellena con lo que da DofusDB. ' +
+      'Cámbialo con libertad: lo que escribas no se sobrescribe.',
+    summaryPlaceholder: 'Se rellena con DofusDB al elegir la misión; si no da nada, escríbelo tú.',
     seoDescription:
       'Se rellena solo desde la misión si lo dejas vacío. Puedes cambiarlo cuando quieras.',
     titleRequired: 'Escribe un título o elige una misión de DofusDB para sacarlo de ella.',
-    inherited: (value: string) => `De DofusDB: ${value}`,
-    inheritedEmpty: 'DofusDB no da nada aquí.',
-    inheritedLoading: 'Cargando los datos de DofusDB…',
-    inheritedUnavailable: 'No se pudieron cargar los datos de DofusDB.',
-    noQuest: 'Sin misión de DofusDB: solo se muestra lo que escribas aquí.',
+    fromDofusDb: 'Viene de DofusDB. Puedes cambiarlo.',
+    changed: (value: string) => `Cambiado. DofusDB da: ${value}`,
+    emptyWillFill: (value: string) =>
+      `Vacío: al guardar se rellena con lo que da DofusDB: ${value}`,
+    dofusDbEmpty: 'DofusDB no da nada aquí; escríbelo tú.',
+    dofusDbEmptyChanged: 'Escrito por ti: DofusDB no da nada aquí.',
+    dofusDbLoading: 'Cargando los datos de DofusDB…',
+    dofusDbUnavailable: 'No se pudieron cargar los datos de DofusDB.',
+    noQuest: 'Sin misión de DofusDB: escribe tú este dato.',
   },
 } as const

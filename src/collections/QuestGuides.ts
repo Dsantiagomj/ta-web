@@ -6,7 +6,7 @@ import { RichTextBlock } from '../blocks/RichTextBlock'
 import { VideoBlock } from '../blocks/VideoBlock'
 import { firstQuestId } from '../lib/guides/autofill'
 import { guideStrings } from '../lib/guides/strings'
-import type { SummaryField } from '../lib/guides/summary'
+import type { FillableField } from '../lib/guides/summary'
 import { validateOptionalUrl } from './Media'
 import { fillFromQuest } from './quest-guide-autofill'
 
@@ -42,12 +42,13 @@ export function validateGuideSlug(
   return validateSlug(value)
 }
 
-// Debajo de cada campo del resumen, lo que se muestra si Torre lo deja vacío.
-function inheritedDescription(summaryField: SummaryField) {
+// Cada campo del resumen lleva una nota que lo compara con lo que da DofusDB.
+function summaryAdmin(summaryField: FillableField) {
   return {
+    placeholder: guideStrings.admin.summaryPlaceholder,
     components: {
       Description: {
-        path: '/components/quest-guide-admin/InheritedValue#InheritedValue',
+        path: '/components/quest-guide-admin/SummaryNote#SummaryNote',
         clientProps: { summaryField },
       },
     },
@@ -60,31 +61,25 @@ const summaryFields: Field[] = [
     label: 'Prerrequisitos',
     type: 'textarea',
     localized: true,
-    admin: inheritedDescription('prerequisites'),
+    admin: summaryAdmin('prerequisites'),
   },
-  {
-    name: 'needs',
-    label: 'Necesitarás',
-    type: 'textarea',
-    localized: true,
-    admin: inheritedDescription('needs'),
-  },
+  { name: 'needs', label: 'Necesitarás', type: 'textarea', localized: true },
   {
     name: 'rewards',
     label: 'Recompensas',
     type: 'textarea',
     localized: true,
-    admin: inheritedDescription('rewards'),
+    admin: summaryAdmin('rewards'),
   },
   {
     name: 'startNpc',
     label: 'PNJ de inicio',
     type: 'text',
     localized: true,
-    admin: inheritedDescription('startNpc'),
+    admin: summaryAdmin('startNpc'),
   },
-  { name: 'startX', label: 'X de inicio', type: 'number', admin: inheritedDescription('startX') },
-  { name: 'startY', label: 'Y de inicio', type: 'number', admin: inheritedDescription('startY') },
+  { name: 'startX', label: 'X de inicio', type: 'number', admin: summaryAdmin('startX') },
+  { name: 'startY', label: 'Y de inicio', type: 'number', admin: summaryAdmin('startY') },
 ]
 
 // Las cuentas del panel son las únicas sesiones de Payload: los miembros usan Better Auth.
@@ -102,8 +97,8 @@ export const questGuidesAccess = {
 }
 
 // Guías de misiones de Torre. Se empieza eligiendo la misión de DofusDB: de ella salen el
-// título, el slug, el SEO y el resumen. El resumen guarda solo lo que Torre cambia; la
-// importación lo rellena con lo que había en Squarespace.
+// título, el slug, el SEO y el resumen, que se guardan en la guía y Torre puede cambiar.
+// La importación trae el resumen de Squarespace y DofusDB rellena lo que falte.
 export const QuestGuides: CollectionConfig = {
   slug: 'quest-guides',
   labels: { singular: 'Guía de misión', plural: 'Guías de misiones' },

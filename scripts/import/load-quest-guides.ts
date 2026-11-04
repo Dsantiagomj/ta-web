@@ -2,7 +2,8 @@ import { isDeepStrictEqual } from 'node:util'
 import type { Payload } from 'payload'
 
 import { validateSlug } from '@/collections/QuestGuides'
-import type { QuestGuide } from '@/payload-types'
+import { summaryToFill } from '@/lib/guides/summary'
+import type { Quest, QuestGuide } from '@/payload-types'
 
 import { createHtmlToLexical } from './rich-text'
 import type { ConvertedGuide, GuideBlock, GuideSummary } from './squarespace/to-quest-guide'
@@ -71,6 +72,16 @@ function fullSummary(summary: GuideSummary): FullSummary {
   ) as FullSummary
 }
 
+/**
+ * El resumen de Squarespace con los huecos rellenos desde DofusDB, igual que hará el hook
+ * de la colección al guardar. Así la guía guardada y la convertida se comparan iguales y
+ * repetir la importación no guarda versiones nuevas.
+ */
+function filledSummary(summary: GuideSummary, quest: Quest | undefined) {
+  const full = fullSummary(summary)
+  return { ...full, ...summaryToFill(full, quest) }
+}
+
 function sameGuide(stored: QuestGuide, data: Pick<QuestGuide, (typeof COMPARED_FIELDS)[number]>) {
   return COMPARED_FIELDS.every((field) =>
     isDeepStrictEqual(comparable(stored[field]), comparable(data[field])),
@@ -103,10 +114,11 @@ export async function loadQuestGuides(
     collection: 'quests',
     where: { dofusId: { in: dofusIds } },
     pagination: false,
-    depth: 0,
+    // depth 1: los nombres de objetos y prerrequisitos con los que se rellena el resumen
+    depth: 1,
     overrideAccess: true,
   })
-  const questIdByDofusId = new Map(quests.docs.map((quest) => [quest.dofusId, quest.id]))
+  const questByDofusId = new Map(quests.docs.map((quest) => [quest.dofusId, quest]))
 
   // URL original → ID en media, para no repetir consultas ni descargas en la misma pasada.
   const mediaIdByUrl = new Map<string, number>()
@@ -168,12 +180,13 @@ export async function loadQuestGuides(
       continue
     }
 
-    const quests: number[] = []
+    const linked: Quest[] = []
     for (const dofusId of guide.questDofusIds) {
-      const id = questIdByDofusId.get(dofusId)
-      if (id === undefined) oddities.push(`Misión de DofusDB ${dofusId} sin importar en quests`)
-      else quests.push(id)
+      const quest = questByDofusId.get(dofusId)
+      if (!quest) oddities.push(`Misión de DofusDB ${dofusId} sin importar en quests`)
+      else linked.push(quest)
     }
+    const quests = linked.map((quest) => quest.id)
 
     const body: BodyBlock[] = []
     for (const block of guide.body) {
@@ -185,7 +198,7 @@ export async function loadQuestGuides(
       title: guide.title,
       slug: guide.slug,
       originalUrl: guide.originalUrl,
-      summary: fullSummary(guide.summary),
+      summary: filledSummary(guide.summary, linked[0]),
       quests,
       body,
       _status: 'draft' as const,

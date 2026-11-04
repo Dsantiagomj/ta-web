@@ -334,7 +334,7 @@ export interface QuestGuide {
    */
   slug: string;
   /**
-   * Vacío significa que se muestra lo que da DofusDB, que ves debajo de cada campo. Escribe solo para cambiarlo.
+   * Al elegir la misión, cada campo vacío se rellena con lo que da DofusDB. Cámbialo con libertad: lo que escribas no se sobrescribe.
    */
   summary?: {
     prerequisites?: string | null;

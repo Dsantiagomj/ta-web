@@ -13,7 +13,12 @@ import {
   rewardsText,
 } from '@/lib/guides/format'
 import { guideStrings } from '@/lib/guides/strings'
-import { inheritedHint, summaryFromQuest, type LinkedQuest } from '@/lib/guides/summary'
+import {
+  summaryFromQuest,
+  summaryNote,
+  summaryToFill,
+  type LinkedQuest,
+} from '@/lib/guides/summary'
 
 import { parsePage } from '../../scripts/import/squarespace/parse-page'
 import { toQuestGuide } from '../../scripts/import/squarespace/to-quest-guide'
@@ -217,23 +222,71 @@ describe('summaryFromQuest', () => {
   })
 })
 
-describe('inheritedHint', () => {
-  it('muestra en el panel lo que DofusDB da para el campo', () => {
-    const ready = { status: 'ready', quest: linkedQuest(1977) } as const
-    expect(inheritedHint(ready, 'prerequisites')).toBe('De DofusDB: Seis pies bajo tierra.')
-    expect(inheritedHint(ready, 'rewards')).toBe(
-      'De DofusDB: 24 316 XP.\n552 kamas.\n2 x Cuero de miserata strubiense.\n2 x Colmillos de ratas.',
-    )
-    expect(inheritedHint(ready, 'startY')).toBe('De DofusDB: -17')
+describe('summaryToFill', () => {
+  it('rellena con DofusDB los campos vacíos de El cazador cazado (1977)', () => {
+    expect(summaryToFill({}, linkedQuest(1977))).toEqual({
+      prerequisites: 'Seis pies bajo tierra.',
+      rewards: '24 316 XP.\n552 kamas.\n2 x Cuero de miserata strubiense.\n2 x Colmillos de ratas.',
+      startNpc: 'Kerubim Crepin',
+      startX: 3,
+      startY: -17,
+    })
   })
 
-  it('avisa cuando DofusDB no da nada, no hay misión, carga o falla', () => {
-    const ready = { status: 'ready', quest: linkedQuest(1977) } as const
-    expect(inheritedHint(ready, 'needs')).toBe(guideStrings.admin.inheritedEmpty)
-    expect(inheritedHint({ status: 'none' }, 'needs')).toBe(guideStrings.admin.noQuest)
-    expect(inheritedHint({ status: 'loading' }, 'needs')).toBe(guideStrings.admin.inheritedLoading)
-    expect(inheritedHint({ status: 'error' }, 'needs')).toBe(
-      guideStrings.admin.inheritedUnavailable,
+  it('nunca toca un campo escrito; el 0 es una coordenada, y solo espacios cuenta como vacío', () => {
+    expect(
+      summaryToFill(
+        {
+          prerequisites: '  ',
+          rewards: 'Lo que diga Torre.',
+          startNpc: null,
+          startX: 0,
+          startY: -17,
+        },
+        linkedQuest(1977),
+      ),
+    ).toEqual({ prerequisites: 'Seis pies bajo tierra.', startNpc: 'Kerubim Crepin' })
+  })
+
+  it('lo que DofusDB no da se queda vacío, y sin misión no rellena nada', () => {
+    expect(summaryToFill({}, { name: 'Sin datos' })).toEqual({})
+    expect(summaryToFill({}, null)).toEqual({})
+  })
+})
+
+describe('summaryNote', () => {
+  const ready = { status: 'ready', quest: linkedQuest(1977) } as const
+  const { admin } = guideStrings
+
+  it('si el campo tiene lo que da DofusDB, avisa de dónde viene y de que se puede cambiar', () => {
+    expect(summaryNote(ready, 'prerequisites', 'Seis pies bajo tierra.')).toBe(admin.fromDofusDb)
+    expect(summaryNote(ready, 'startY', -17)).toBe(admin.fromDofusDb)
+    expect(admin.fromDofusDb).toBe('Viene de DofusDB. Puedes cambiarlo.')
+  })
+
+  it('si Torre lo cambió, muestra también lo que da DofusDB', () => {
+    expect(summaryNote(ready, 'rewards', 'Lo que diga Torre.')).toBe(
+      'Cambiado. DofusDB da: 24 316 XP.\n552 kamas.\n2 x Cuero de miserata strubiense.\n' +
+        '2 x Colmillos de ratas.',
     )
+    expect(summaryNote(ready, 'startX', 0)).toBe('Cambiado. DofusDB da: 3')
+  })
+
+  it('vacío, avisa de que se rellena al guardar', () => {
+    expect(summaryNote(ready, 'startNpc', '')).toBe(
+      'Vacío: al guardar se rellena con lo que da DofusDB: Kerubim Crepin',
+    )
+  })
+
+  it('cuando DofusDB no da nada, pide escribirlo', () => {
+    const empty = { status: 'ready', quest: { name: 'Sin datos' } } as const
+    expect(summaryNote(empty, 'startNpc', null)).toBe('DofusDB no da nada aquí; escríbelo tú.')
+    expect(summaryNote(empty, 'startNpc', 'Oto Mustam')).toBe(admin.dofusDbEmptyChanged)
+  })
+
+  it('avisa cuando no hay misión, carga o falla', () => {
+    expect(summaryNote({ status: 'none' }, 'startNpc', null)).toBe(admin.noQuest)
+    expect(summaryNote({ status: 'loading' }, 'startNpc', null)).toBe(admin.dofusDbLoading)
+    expect(summaryNote({ status: 'error' }, 'startNpc', null)).toBe(admin.dofusDbUnavailable)
   })
 })

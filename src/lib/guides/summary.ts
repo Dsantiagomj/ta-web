@@ -63,6 +63,43 @@ export function summaryFromQuest(quest: LinkedQuest | null | undefined): Summary
   }
 }
 
+/** Los campos del resumen que se rellenan con DofusDB: texto o coordenadas. */
+export type FillableField = 'prerequisites' | 'rewards' | 'startNpc' | 'startX' | 'startY'
+
+export const FILLABLE_FIELDS: FillableField[] = [
+  'prerequisites',
+  'rewards',
+  'startNpc',
+  'startX',
+  'startY',
+]
+
+type FillableValue = string | number | null | undefined
+
+// El 0 es una coordenada válida; un texto con solo espacios cuenta como vacío.
+function isEmpty(value: FillableValue): boolean {
+  if (typeof value === 'number') return false
+  return !value?.trim()
+}
+
+/**
+ * Los campos vacíos del resumen que DofusDB puede rellenar, con su valor. Nunca incluye
+ * uno escrito, ni uno para el que DofusDB no da nada.
+ */
+export function summaryToFill(
+  current: Partial<Record<FillableField, FillableValue>>,
+  quest: LinkedQuest | null | undefined,
+): Partial<Pick<SummaryValues, FillableField>> {
+  if (!quest) return {}
+  const fromQuest = summaryFromQuest(quest)
+  const fill: Partial<Record<FillableField, string | number>> = {}
+  for (const field of FILLABLE_FIELDS) {
+    const value = fromQuest[field]
+    if (value !== null && isEmpty(current[field])) fill[field] = value
+  }
+  return fill as Partial<Pick<SummaryValues, FillableField>>
+}
+
 /** La misión enlazada tal como la ve el panel mientras Torre edita. */
 export type LinkedQuestState =
   | { status: 'none' }
@@ -70,12 +107,26 @@ export type LinkedQuestState =
   | { status: 'error' }
   | { status: 'ready'; quest: LinkedQuest }
 
-/** El texto bajo un campo del resumen: lo que se mostrará si Torre lo deja vacío. */
-export function inheritedHint(state: LinkedQuestState, field: SummaryField): string {
+function sameValue(a: FillableValue, b: string | number): boolean {
+  return typeof a === 'string' && typeof b === 'string' ? a.trim() === b.trim() : a === b
+}
+
+/**
+ * La nota bajo un campo del resumen: si su valor es el de DofusDB, si Torre lo cambió
+ * (y qué da DofusDB) o si está vacío y se rellenará al guardar.
+ */
+export function summaryNote(
+  state: LinkedQuestState,
+  field: FillableField,
+  current: FillableValue,
+): string {
   const { admin } = guideStrings
   if (state.status === 'none') return admin.noQuest
-  if (state.status === 'loading') return admin.inheritedLoading
-  if (state.status === 'error') return admin.inheritedUnavailable
-  const value = summaryFromQuest(state.quest)[field]
-  return value === null ? admin.inheritedEmpty : admin.inherited(String(value))
+  if (state.status === 'loading') return admin.dofusDbLoading
+  if (state.status === 'error') return admin.dofusDbUnavailable
+  const fromQuest = summaryFromQuest(state.quest)[field]
+  if (fromQuest === null) return isEmpty(current) ? admin.dofusDbEmpty : admin.dofusDbEmptyChanged
+  const shown = String(fromQuest)
+  if (isEmpty(current)) return admin.emptyWillFill(shown)
+  return sameValue(current, fromQuest) ? admin.fromDofusDb : admin.changed(shown)
 }
