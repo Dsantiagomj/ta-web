@@ -7,31 +7,30 @@ import { lhciEnv } from '../../scripts/lhci-env.ts'
 // `pnpm test:lhci`. Si cambia un límite, cambia DESIGN.md en el mismo PR.
 // Cada aserción es [nivel, opciones].
 type Assertion = unknown[]
+type MatrixEntry = {
+  matchingUrlPattern?: string
+  preset?: string
+  assertions: Record<string, Assertion | undefined>
+}
 type LighthouseCiConfig = {
   collect: { url: string[]; numberOfRuns: number; settings: Record<string, unknown> }
-  assert: {
-    preset?: string
-    assertMatrix?: unknown[]
-    assertions: Record<string, Assertion | undefined>
-  }
+  assert: { assertMatrix: MatrixEntry[]; assertions?: unknown; preset?: string }
   upload: Record<string, unknown>
 }
 const ci: LighthouseCiConfig = lighthouserc.ci
 const { collect, assert } = ci
 
-const options = (assertion: Assertion | undefined) =>
-  assertion?.[1] as Record<string, unknown> | undefined
+// Todas las aserciones de la matriz, de todas sus entradas: [auditoría, aserción].
+const all = assert.assertMatrix.flatMap((entry) => Object.entries(entry.assertions))
+const assertionsFor = (audit: string) =>
+  all.filter(([id, assertion]) => id === audit && assertion).map(([, assertion]) => assertion)
 
 describe('lighthouserc.cjs', () => {
-  it('mide en móvil con 4G simulado, tres veces por página, y se queda con la mediana', () => {
+  it('mide en móvil con 4G simulado, tres veces por página', () => {
     expect(collect.numberOfRuns).toBe(3)
     expect(collect.settings.preset).toBeUndefined()
     expect(collect.settings.formFactor ?? 'mobile').toBe('mobile')
     expect(collect.settings.throttlingMethod ?? 'simulate').toBe('simulate')
-    expect(assert.assertMatrix ?? []).toEqual([])
-    for (const assertion of Object.values(assert.assertions)) {
-      expect(options(assertion)?.aggregationMethod).toBe('median')
-    }
   })
 
   it('prueba la portada del servidor local', () => {
@@ -39,29 +38,42 @@ describe('lighthouserc.cjs', () => {
     for (const url of collect.url) expect(new URL(url).origin).toBe(new URL(collect.url[0]).origin)
   })
 
-  it('falla con LCP de 2,5 s, CLS de 0,1 o 150 KB de JavaScript comprimido', () => {
-    expect(assert.assertions['largest-contentful-paint']).toEqual([
-      'error',
-      { maxNumericValue: 2500, aggregationMethod: 'median' },
+  it('aplica cada entrada de la matriz a todas las páginas, sin presets', () => {
+    expect(assert.assertMatrix.length).toBeGreaterThan(0)
+    expect(assert.assertions).toBeUndefined()
+    expect(assert.preset).toBeUndefined()
+    for (const entry of assert.assertMatrix) {
+      expect(entry.matchingUrlPattern).toBeUndefined()
+      expect(entry.preset).toBeUndefined()
+    }
+  })
+
+  it('falla si la mejor de las tres ejecuciones pasa de 2,5 s de LCP y avisa con la mediana', () => {
+    expect(assertionsFor('largest-contentful-paint')).toEqual([
+      ['error', { maxNumericValue: 2500, aggregationMethod: 'optimistic' }],
+      ['warn', { maxNumericValue: 2500, aggregationMethod: 'median' }],
     ])
-    expect(assert.assertions['cumulative-layout-shift']).toEqual([
-      'error',
-      { maxNumericValue: 0.1, aggregationMethod: 'median' },
+  })
+
+  it('falla con la mediana de CLS sobre 0,1 o de JavaScript sobre 150 KB comprimido', () => {
+    expect(assertionsFor('cumulative-layout-shift')).toEqual([
+      ['error', { maxNumericValue: 0.1, aggregationMethod: 'median' }],
     ])
-    expect(assert.assertions['resource-summary:script:size']).toEqual([
-      'error',
-      { maxNumericValue: 150_000, aggregationMethod: 'median' },
+    expect(assertionsFor('resource-summary:script:size')).toEqual([
+      ['error', { maxNumericValue: 150_000, aggregationMethod: 'median' }],
     ])
   })
 
   it('falla con imágenes sin tamaño explícito o sin un formato moderno', () => {
-    expect(assert.assertions['unsized-images']?.[0]).toBe('error')
-    expect(assert.assertions['image-delivery-insight']?.[0]).toBe('error')
+    for (const audit of ['unsized-images', 'image-delivery-insight']) {
+      expect(assertionsFor(audit)).toEqual([
+        ['error', { minScore: 1, aggregationMethod: 'median' }],
+      ])
+    }
   })
 
   it('no exige la puntuación de rendimiento, que varía entre ejecuciones', () => {
-    expect(assert.preset).toBeUndefined()
-    expect(assert.assertions['categories:performance']).toBeUndefined()
+    expect(assertionsFor('categories:performance')).toEqual([])
   })
 
   it('guarda los informes en disco y nunca en el almacenamiento público temporal', () => {
