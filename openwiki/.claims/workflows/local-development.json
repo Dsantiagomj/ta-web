@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:888c307252d81f69c0d970cd6c6c30c4a9fd841bc1d65a625c75b56b91acbdfc",
+  "pageVersion": "sha256:25020a5622f6fb304d497f6ba343cae48668078a697d4ff5153960ffe23107e3",
   "claims": [
     {
       "id": "claim_b918f6d1cc124cf385437a508e649e6b",
@@ -95,10 +95,20 @@
           "version": "repo-lines-v1:sha256:74f357897a6a5233f1ec7ce19e0b8a49be0081cbd454000240d7991c838302f5:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTQ1Mjg1MmM4MmEyMTYxMzVkZWFjNDVhN2ZjYjljNjFmODQ1ZmJmYzkxOGUxYzJmZDY3NDFhMjJhYjc4ZDQ0YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2VhZmU1NTJkMzg2MDM4YjVjZjc2ZDQ2OTgzZjRhYzZkOTIwMWE1MTVjNjA2MzQ3OTgwZmM2ODllNDljNmM3NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWI1ODI4ZDVkZjg4YTgwNGY4YWFiODcxOTRhYmM3NDc1OWUwNmY1YWViNjhhZmRlYzYxMzY1YmEzOTA1NDY5MiJ9"
         }
       ]
+    },
+    {
+      "id": "claim_9177ec214a914cef8f3a20ec1546fe3d",
+      "statement": "Before each push, lint, the format check, types, unit and integration tests run locally; E2E and the dev gate suite run once, right before opening the PR.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L16-L16",
+          "version": "repo-lines-v1:sha256:64f2b5421d718ff4e2cda0b16e5ae38d9987c021ea1b6b13433d3b7491d420cf:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjRmMmI1NDIxZDcxOGZmNGUyY2RhMGIxNmU1YWUzOGQ5OTg3YzAyMWVhMWI2YjEzNDMzZDNiNzQ5MWQ0MjBjZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjRmMmI1NDIxZDcxOGZmNGUyY2RhMGIxNmU1YWUzOGQ5OTg3YzAyMWVhMWI2YjEzNDMzZDNiNzQ5MWQ0MjBjZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDdmYzk5ZDE3M2ZjNzI2ZTUzZjM5M2E3ZWM1OTI1OTQ3ZjZhYjFhZTI5OTdmMzA4MGYzYmYwYTkzOWE0MGI3ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzc5N2NmMGVmNmUwNGVjZTYzMzRmZWNkMDQ1YjQ0YTk3OTgwY2M5MGY3MDk0MzkxNmI2NzZiMTkxMWViNjUyNCJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T12:18:18.185Z"
+    "at": "2026-11-04T14:45:26.893Z"
   }
 }
