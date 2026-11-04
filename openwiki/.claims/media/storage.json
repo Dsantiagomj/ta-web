@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:497dcced271b666e3d1173a30f5f90f62d8c0ac3c1a2b8e0636b3227dc75ba90",
+  "pageVersion": "sha256:c49d99d4f0109fe44bb75c0f0c75bb5b1c99ac7dc7d588d79aeaa19a8347371b",
   "claims": [
     {
       "id": "claim_7ea7c2a578564a0784fd3a8664a2173a",
@@ -93,10 +93,20 @@
           "version": "repo-lines-v1:sha256:19bce38259ae81a4857b21ba3f21ffc1ca9b7ffc5f564e38aa477b8a9dc46434:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5NDk4YmJjMTYyZTNmYWQ4NGFiNGYzMTU1ZTFhODZjNGEzMzkyNzFlY2JiOWU3MjM0ZjMwN2M2NmIzNDI3NmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU4YTM5YjA2OTA0NWI2YzRlOThhMWUwODk1NDkzNzRjNTAzMzRhMzM0NDkxMDZhMGJjZDAxY2FjMzcxYTYyNDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIzZTRkNGExMjVkMzdjZTM2NjkwZTM4NDI1ZmNjNWNmODI4N2FjMGExZGQ0NDQxZTI1MTc2ZDA4ZGIyNWQyMTYifQ"
         }
       ]
+    },
+    {
+      "id": "claim_bd83327245e94802a05a4f591874dede",
+      "statement": "The Squarespace import stores each image once in media as the original file with alt and originalUrl, looking it up by originalUrl before downloading, and creates no variants.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/load-quest-guides.ts#L89-L119",
+          "version": "repo-lines-v1:sha256:1f0a19277881056e0b8ac02d5449c2c5257e11d221cfb97bf035f28638111b7e:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlYmQyNjJjZGUwNTdhNTZiNzhhY2ZjYzEwMWVkZjBjYTlkMTI4YzU3OGVlZDQ5ZTVjYmU3ZGY4YWUyZmNiODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiMDQ1NmIyM2I1YjBjMTRmOWE5ZDViODQ4OGNjZWI4MmM2NmM2MmQzY2FkNDIxNTI3ZDdjNTU3NGYxZTE3NzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNjNjU1ZGQ5ZjhjNTU5N2E0NjI2N2VkYmY1NTM0M2QzNGNjZGZiOTRmZTVhYzg2ZTZhOTJjYWU1NjZmZDY5YjUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T00:16:52.047Z"
+    "at": "2026-11-04T17:14:51.499Z"
   }
 }

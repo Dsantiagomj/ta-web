@@ -14,16 +14,20 @@ sources:
     resource: repo://package.json
   - id: openwiki-source-40275cb92c3610938f16ade3
     resource: repo://pnpm-workspace.yaml
+  - id: openwiki-source-23775c3de52f3ab95a13cb8b
+    resource: repo://README.md
   - id: openwiki-source-71c840280649a7620f8e010f
     resource: repo://scripts/db-dev.ts
+  - id: openwiki-source-9e87f9929ce6181cecc80fe9
+    resource: repo://scripts/import/import-guides.ts
   - id: openwiki-source-63cbcc482c18e4f9ce5d0888
     resource: repo://scripts/refresh-quests.ts
   - id: openwiki-source-2ad419cae2f45e97a3ca23d7
     resource: repo://src/lib/db/database-url.ts
-generated: { by: "claude-code", at: "2026-11-04T14:45:26.893Z" }
+generated: { by: "claude-code", at: "2026-11-04T17:14:51.499Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T14:45:26.893Z
+    at: 2026-11-04T17:14:51.499Z
 ---
 
 # Local development
@@ -74,6 +78,7 @@ Commit both with the change. CI fails when `src/payload-types.ts` is stale. Afte
 | `pnpm db:dev` | Embedded Postgres in the foreground; `--verbose` prints its log; Ctrl+C stops it |
 | `pnpm migrate` | Applies pending migrations, using `DATABASE_URL_DIRECT` when set, else `DATABASE_URL` |
 | `pnpm data:quests` | Downloads every quest from the public DofusDB API and writes them to `quests` in the `DATABASE_URL` database (the `pnpm db:dev` one when empty). Never against production without the owner's yes; see [DofusDB game data refresh](../data/dofusdb-refresh.md) |
+| `pnpm import:guides <dir> [slug…]` | Imports Squarespace quest pages from the migration inventory folder into `quest-guides` as drafts, with their images in `media`; without slugs, the five demo guides. Writes to the `DATABASE_URL` database (the `pnpm db:dev` one when empty). Run `pnpm data:quests` first so quests link. Never against production without the owner's yes; see [Squarespace import](../data/squarespace-import.md#running-it) |
 | `pnpm migrate:create <name>` | Writes a new migration |
 | `pnpm generate:types`, `pnpm generate:importmap` | Regenerate Payload's types and admin import map |
 | `pnpm payload …` | The Payload CLI |

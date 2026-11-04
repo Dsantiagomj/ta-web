@@ -1,30 +1,41 @@
 ---
 type: workflow
 title: Squarespace import
-description: How the Squarespace import reads a cached Squarespace page, orders its blocks, and turns it into a quest guide draft (summary, start NPC, body blocks, oddities), and how prose becomes Payload's Lexical rich text. Loading into Payload is not built yet.
+description: How the Squarespace import reads a cached Squarespace page, orders its blocks, and turns it into a quest guide draft (summary, start NPC, body blocks, oddities), how prose becomes Payload's Lexical rich text, and how pnpm import:guides loads the guides and their images into Payload as drafts.
 tags: [import, squarespace, quest-guides, lexical, scripts]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-04T16:58:44.479Z
 sources:
   - id: openwiki-source-f235d856bed1fd44853c5195
     resource: repo://.prettierignore
+  - id: openwiki-source-2615540ec7553288b52f775d
+    resource: repo://docs/legacy/infra.md
   - id: openwiki-source-d2cae621c91b518c9e5f5e6d
     resource: repo://docs/legacy/plan.md
   - id: openwiki-source-c8e16e16c743abca9f070b43
     resource: repo://docs/legacy/security.md
   - id: openwiki-source-5b54a58d1b51cd490b0e7162
     resource: repo://package.json
+  - id: openwiki-source-23775c3de52f3ab95a13cb8b
+    resource: repo://README.md
+  - id: openwiki-source-9e87f9929ce6181cecc80fe9
+    resource: repo://scripts/import/import-guides.ts
+  - id: openwiki-source-3fc9f0484081f9ab441d6219
+    resource: repo://scripts/import/load-quest-guides.ts
   - id: openwiki-source-0e8df94882ff3664a5b6176f
     resource: repo://scripts/import/rich-text.ts
   - id: openwiki-source-db5dc5bd52b38a655df3ff57
     resource: repo://scripts/import/squarespace/dom.ts
+  - id: openwiki-source-28a674deb733b9f3b5db61d2
+    resource: repo://scripts/import/squarespace/fetch-image.ts
   - id: openwiki-source-8705b1c7dce71caa28081c52
     resource: repo://scripts/import/squarespace/parse-page.ts
   - id: openwiki-source-b51400beea5fa80f14019dae
     resource: repo://scripts/import/squarespace/quest-matches.ts
   - id: openwiki-source-fd0bec8778f0f03626754905
     resource: repo://scripts/import/squarespace/to-quest-guide.ts
+  - id: openwiki-source-5cd8fc4d5a65c01359ed92e2
+    resource: repo://tests/integration/import-quest-guides.test.ts
+  - id: openwiki-source-bf890cc4722b5033a81aa698
+    resource: repo://tests/unit/import-fetch-image.test.ts
   - id: openwiki-source-d5617545465b10f7c4424728
     resource: repo://tests/unit/import-parse-page.test.ts
   - id: openwiki-source-fe4a14de069bb6226ad2a447
@@ -33,12 +44,15 @@ sources:
     resource: repo://tests/unit/import-rich-text.test.ts
   - id: openwiki-source-299c190cabc2f0753a302110
     resource: repo://tests/unit/import-to-quest-guide.test.ts
-generated: { by: "claude-code", at: "2026-11-04T16:58:44.479Z" }
+generated: { by: "claude-code", at: "2026-11-04T17:14:51.499Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-04T17:14:51.499Z
 ---
 
 # Squarespace import
 
-Phase 1 moves torrentearcano.com from Squarespace into Payload. The plan in `docs/legacy/plan.md` (section 8) splits it into extract, transform, media, load and review queue. `scripts/import/` holds the first two for quest guides. It reads a cached Squarespace page and returns a guide draft plus a list of oddities. Nothing in this code writes to Payload yet: the loader, image download and media records are still to come.
+Phase 1 moves torrentearcano.com from Squarespace into Payload. The plan in `docs/legacy/plan.md` (section 8) splits it into extract, transform, media, load and review queue. `scripts/import/` covers extract, transform and load for quest guides. It reads a cached Squarespace page, turns it into a guide draft plus a list of oddities, and `pnpm import:guides` saves the drafts and their images in Payload. The image variants, the review queue and the other page types are still to come.
 
 | File | What it does |
 |---|---|
@@ -47,6 +61,9 @@ Phase 1 moves torrentearcano.com from Squarespace into Payload. The plan in `doc
 | `scripts/import/squarespace/to-quest-guide.ts` | Turns a parsed page into a quest guide draft; lists the demo slugs |
 | `scripts/import/squarespace/quest-matches.ts` | Reads the slug to DofusDB quest IDs table |
 | `scripts/import/rich-text.ts` | Converts guide prose HTML into Lexical with the editor from Payload's config |
+| `scripts/import/load-quest-guides.ts` | Saves converted guides and their images in Payload through the local API |
+| `scripts/import/squarespace/fetch-image.ts` | Downloads an image from Squarespace's CDN, refusing any other URL or response |
+| `scripts/import/import-guides.ts` | The `pnpm import:guides` command: reads the inventory, converts and loads |
 
 ## Parsing untrusted HTML
 
@@ -102,11 +119,53 @@ The body and summary match the guide fields in [Collections and access](../cms/c
 
 ## Rich text
 
-The draft keeps prose and callouts as HTML. `createHtmlToLexical(config)` builds the editor config from Payload's sanitized config (`editorConfigFactory.default`) and returns a function that runs Payload's `convertHTMLToLexical` on an HTML string. `convertHTMLToLexical` expects a JSDOM-shaped constructor, so a small class wraps `parseHtml` and exposes `window.document`. Paragraphs, bold, links and lists come out as Lexical nodes from the same editor the panel uses.
+The draft keeps prose and callouts as HTML. `createHtmlToLexical(config)` builds the editor config from Payload's sanitized config (`editorConfigFactory.default`) and returns a function that runs Payload's `convertHTMLToLexical` on an HTML string. `convertHTMLToLexical` expects a JSDOM-shaped constructor, so a small class wraps `parseHtml` and exposes `window.document`. Paragraphs, bold, links and lists come out as Lexical nodes from the same editor the panel uses. The returned state is typed as a `richText` block's `content` from the generated Payload types, so the loader can put it straight into a block.
 
 ## Quest matches
 
 The Squarespace inventory in `out/` (outside the repo, described in `docs/legacy/plan.md`) includes `quest_matches.csv`. `parseQuestMatches(csv)` reads it into a map from slug to `{ questIds, ambiguous }`: `quest_ids` holds space-separated DofusDB IDs and `ambiguous` is true when the column says `True`. The CSV parser handles quoted fields with commas and doubled quotes, and a leading byte order mark (BOM) such as Excel writes is stripped. When the `slug`, `quest_ids` or `ambiguous` column is missing, `parseQuestMatches` throws `quest_matches.csv no tiene la columna «…»` instead of silently losing every match. A slug not in the file has no match.
+
+## Loading into Payload
+
+`loadQuestGuides(payload, guides, { fetchImage, log })` saves converted guides. It is a trusted server job, so every local API call passes `overrideAccess: true`. The image download is injected (`fetchImage`), which lets the integration test run without network.
+
+- **Quests.** It looks up every DofusDB ID of the batch in `quests` once and links the matching Payload IDs. An ID missing from `quests` becomes the oddity "Misión de DofusDB … sin importar en quests", so run `pnpm data:quests` first. See [DofusDB game data refresh](dofusdb-refresh.md).
+- **Images.** Each image block becomes a `media` record keyed by its original URL. The loader first checks a per-run map, then searches `media` by `originalUrl`, and downloads and creates the record only when neither has it. A re-run or a second guide using the same image reuses the record. New records get the block's alt text and the `originalUrl`. An image that fails to download is dropped from the body and noted ("Imagen sin importar: …"); the guide still loads.
+- **Body.** Rich text and callouts go through `createHtmlToLexical`; videos keep their URL.
+- **Guides.** It finds the guide by `slug` (drafts included) and writes `title`, `slug`, `originalUrl`, `summary`, `quests` and `body` with `_status: 'draft'`. It never publishes: a published guide gets a new draft and stays published as it was until Torre publishes the draft.
+- **Unchanged guides.** Before writing, it compares those six fields with the stored draft, ignoring IDs (block IDs and the random link IDs Lexical adds) and empty values Payload returns as `null`. An equal guide is left alone, so a re-run adds no empty versions.
+- **Invalid slug.** A guide whose slug fails `validateSlug` is skipped and counted.
+
+It returns counts (`guides`: created, updated, unchanged, skipped; `media`: created, reused) and the oddities per slug, conversion and load together.
+
+## Running it
+
+```sh
+pnpm import:guides <inventory dir> [slug…]
+```
+
+`package.json` runs `payload run scripts/import/import-guides.ts`, like the DofusDB refresh. `<inventory dir>` is the migration inventory folder: the script reads `raw/pages/<slug>.html` and `out/quest_matches.csv` from it. Without slugs it imports the five in `GUIDE_SLUGS`. An ambiguous match in `quest_matches.csv` links no quest and adds the oddity "Cruce ambiguo con DofusDB, sin enlazar", so Torre decides in the panel. The script prints the number of pages read, one line per guide, every oddity as `Rareza en <slug>: …`, and the totals with the elapsed time. On failure it prints `La importación de guías falló:` and exits with code 1, because `payload run` exits 0 whenever the script returns without throwing.
+
+- **Target database**: whatever `DATABASE_URL` points to, or the `pnpm db:dev` database when it is empty. Run `pnpm migrate` (or `pnpm dev` once) on a fresh database first.
+- **Images**: they go wherever media storage points, local disk or R2. See [Media storage](../media/storage.md).
+- **Variants**: none yet. Records hold the original only; the AVIF/WebP step from the plan is still to come.
+- **Cost**: on a laptop, the five demo guides took about 83 s and uploaded 73 images; a second run found the five guides unchanged and reused the 73 images.
+
+### Downloading images safely
+
+Image URLs come from Squarespace HTML, which is not trusted, so `createImageFetcher()` refuses anything it was not built for. It throws before making any request when the URL:
+
+- does not parse, or is not `https`;
+- is on any host other than `images.squarespace-cdn.com`, the only host the 21 618 images in the inventory use (a look-alike such as `images.squarespace-cdn.com.evil.com` fails too);
+- names a port.
+
+The request does not follow redirects (`redirect: 'error'`), because a redirect could lead to another host, and it times out after 30 s. An HTTP error, or a response whose `content-type` is not `image/*`, throws as well. Each failure reaches the loader, which records the image as an oddity and keeps the guide.
+
+The CDN serves WebP to any client that accepts it, `*/*` included, so the `Accept` header names only the type of the file's extension (PNG, JPEG, GIF or WebP) to get the original file back. The file name comes from the URL path, with Squarespace's `+` turned back into spaces.
+
+### Dev by default; production needs the owner's yes
+
+The command writes to whatever database `DATABASE_URL` names, with no confirmation prompt. The infrastructure access rules (`docs/legacy/infra.md`, section 8) give agents full access to dev and read access to prod: prod writes, database changes included, go through `release.yml` or need Daniel's explicit yes for that one action. Run it locally or against dev. Do not point `DATABASE_URL` at production without that yes.
 
 ## Demo guides
 
@@ -120,6 +179,9 @@ The unit tests run on trimmed copies of those five pages in `tests/fixtures/squa
 - `import-to-quest-guide.test.ts`: the five slugs are valid, summary and start NPC, what leaves the body, prose and image order, callouts, video, oddities.
 - `import-rich-text.test.ts`: paragraphs, bold, links and lists through Payload's editor.
 - `import-quest-matches.test.ts`: IDs per slug, quoted commas, ambiguous rows, a header with a BOM, a missing column.
+- `import-fetch-image.test.ts`: downloads from the CDN with name and type and without following redirects; refuses `http`, other hosts, an internal IP, `localhost` and a look-alike subdomain without making the request; refuses a non-image response and an HTTP error.
+
+The integration test `tests/integration/import-quest-guides.test.ts` loads the five fixture pages into the integration database with a fake `fetchImage` that returns a 1×1 PNG. It checks drafts with all four block types, the existing quest linked, one `media` record per image with its URL and alt, the oddities (including quests missing from `quests`), a second run that changes, downloads and versions nothing, one new draft for a changed guide, no drafts visible to anonymous readers, and an invalid slug skipped. It removes its guides, media and quests before and after.
 
 See [Test suites](../testing/test-suites.md).
 
@@ -127,5 +189,6 @@ See [Test suites](../testing/test-suites.md).
 
 - [Collections and access](../cms/collections.md)
 - [Guide body blocks](../cms/blocks.md)
+- [Media storage](../media/storage.md)
 - [DofusDB game data refresh](dofusdb-refresh.md)
 - [Test suites](../testing/test-suites.md)
