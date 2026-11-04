@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:c052e73737f6918df759fc9822a08a1f653c11b0c67fa8cd77a2087de069f706",
+  "pageVersion": "sha256:f418453d4b7396628ba7e279e6ee0dfde9c9082601f2a93a1f41d953c0afe7b4",
   "claims": [
     {
       "id": "claim_b78cf4457b46447a93c6a73c33cd0ad5",
-      "statement": "/api/health returns 200 with status ok, db ok, the package version and the commit when the database answers, and 503 with only status error and db error otherwise, always with Cache-Control no-store.",
+      "statement": "/api/health returns 200 with status ok, db ok, the deployed version and the commit when the database answers, and 503 with only status error and db error otherwise, always with Cache-Control no-store.",
       "evidence": [
         {
           "resource": "repo://src/endpoints/health.ts#L25-L40",
@@ -53,8 +53,8 @@
           "version": "repo-lines-v1:sha256:403da4fbbe9bdbf8e2cd795a64dc9657f9abfc5a4941683b2d0c351355c89aa2:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDAzZGE0ZmJiZTliZGJmOGUyY2Q3OTVhNjRkYzk2NTdmOWFiZmM1YTQ5NDE2ODNiMmQwYzM1MTM1NWM4OWFhMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDAzZGE0ZmJiZTliZGJmOGUyY2Q3OTVhNjRkYzk2NTdmOWFiZmM1YTQ5NDE2ODNiMmQwYzM1MTM1NWM4OWFhMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzA2M2U3NmMxNDc2OTUxNjYxMWVmMjliNzY4YmYyZDMyMjI4OTI1NjNlYzlhNjg2NmVhZTdiYTg4NDYwODFhMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODhjM2NhMzQxMjgzZTMzMDBlMzY3ZmJiOWY4M2JhMDAwMGQwZTRjMGMwMmY5MmJkNzg0Y2JlZTcwZDUyNGYwNyJ9"
         },
         {
-          "resource": "repo://src/endpoints/health.ts#L124-L134",
-          "version": "repo-lines-v1:sha256:5c0ea389cffe42e9c35a5d2d19dfe526987539e2d6af4a9f12f1148e98df4ebb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUxZTcyOWQwMWU1OWZjODJkMmIwM2EwY2IxMDEwNzgxMTM0ZGM5MDU2MDEwMzMzMTAzOTdhM2FlNWMyOTIxZTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY0YTg4N2JhMTA3OTRkNzFlNTJhNGM4N2I0OWU3MzdhM2YxMGFiZDRjOWU0M2Y2YzIyN2NmMmY4NTZmODY5M2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/endpoints/health.ts#L133-L143",
+          "version": "repo-lines-v1:sha256:16d6f68b34e06b4a0ec1ec34b344bbce4e010e2f55371964df32727f0324a750:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUxZTcyOWQwMWU1OWZjODJkMmIwM2EwY2IxMDEwNzgxMTM0ZGM5MDU2MDEwMzMzMTAzOTdhM2FlNWMyOTIxZTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY0YTg4N2JhMTA3OTRkNzFlNTJhNGM4N2I0OWU3MzdhM2YxMGFiZDRjOWU0M2Y2YzIyN2NmMmY4NTZmODY5M2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -91,10 +91,28 @@
           "version": "repo-lines-v1:sha256:2e9e10e41c976a1de9d32460558e2f548add9dcdf2485eb2f93c644b730c755b:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWE1NDQ0N2Y5MGYzNWU5ZDY3ZjI2ZmZkMmQ3ZWM1ODhhMmI1MzQwMmQ4YjljZjM5OTM3YjhmZDk4MzlkYjA3YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDQ2NzcwM2ZlNTNkYzVmN2Q5MWM5MjcyMThmMmVlNmU4ZWIwNzk5MjQ4YTM3NDU4MzRhN2Q4NDVjYjdlMDE5OCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjhiNTJkMTg0MTEyMzdjMWU0Y2I4NzVhYTgwZmQyNTcwNTBhMWU1ZWViYTUwOTdmNjRiNGYzMGU3ZTJhNTNmMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODU4MGI3NjUxOGRhZTk3OWZhZWJkMDIzNjdhMjkyOTJhNTBkOTc2MDkyMjUxYTM4YTZjZTMwODgwYmE0MjgyNSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_a48d6587fb3b4a8dad5de60d00b11c25",
+      "statement": "The health endpoint reports the version from APP_VERSION, trimmed, falling back to the package.json version when it is missing or blank.",
+      "evidence": [
+        {
+          "resource": "repo://src/endpoints/health.ts#L100-L108",
+          "version": "repo-lines-v1:sha256:1d2c5e5ecd3bd034bf730a1c1d883dc503862d83ec111ce0c8be449d4fc862f8:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjc4MWNlY2ZmNjM5ZDk0ODBmMDY0Mjg4YTNiNDYxYWRhMjQ5OTMyMGE0ZTEwZDlhYTFkZmZlOTliMjNiNDM4ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWUxMTNmYjQ2YzE4OTc3MDQ4ZTc5NzE2ZjdmNmM0YWJmZWE2NWZiOGJiMTExMGUxMjczNjkxZjkyNDAwMGY5ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDU0YzFiMTE4YTlkNjRlNjEyMTAwZWUyM2M2YTM4MDBjODU5ZjY2NzRkMGU2NzQ3ZTgyYWE1NzM4ZDUwNzZiMiJ9"
+        },
+        {
+          "resource": "repo://src/endpoints/health.ts#L140-L140",
+          "version": "repo-lines-v1:sha256:3e998a3c7a99dd794eca4d2e638a20f83e56b73e2634e70803b6531bbc3c8f7d:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2U5OThhM2M3YTk5ZGQ3OTRlY2E0ZDJlNjM4YTIwZjgzZTU2YjczZTI2MzRlNzA4MDNiNjUzMWJiYzNjOGY3ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2U5OThhM2M3YTk5ZGQ3OTRlY2E0ZDJlNjM4YTIwZjgzZTU2YjczZTI2MzRlNzA4MDNiNjUzMWJiYzNjOGY3ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTRjMWY5NGI5MWI4MmIwNDcwMDc0OGVjYTgxYzg4MmEyMTczOWNhMjFlMjlmZjA0MmIzMTUwZjk5MTJmY2EwMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiY2JjZDBmY2IyMjRmNzVmZWM2MjQ0OTQ2YzhiMzI4Y2UwZTgyYjFkMjlhMTUyZjZjNDhmOTc0Y2ZiMDhjMmYwZCJ9"
+        },
+        {
+          "resource": "repo://tests/unit/health.test.ts#L154-L167",
+          "version": "repo-lines-v1:sha256:e2a2a8209667396aadf394c9efab35dc2d7957461a627e3a844167db78ad6112:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYxNDI1ZmI4MjdiNDBiMjU1MTlhNjMxOGRiMzU5NTE2ODZjZGE0MDJhZWM4NTcwZWQyYWI4ODE5ZGExNzI5YTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T00:16:52.047Z"
+    "at": "2026-11-04T01:11:00.817Z"
   }
 }

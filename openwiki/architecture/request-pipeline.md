@@ -3,9 +3,6 @@ type: architecture
 title: Request pipeline
 description: How an HTTP request moves through the Next.js proxy, the frontend and Payload route groups, robots.txt and Payload custom endpoints, and where server errors are reported.
 tags: [architecture, nextjs, payload, routing, proxy]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-04T00:16:52.047Z
 sources:
   - id: openwiki-source-50a18d054b596a7ed0eeffb0
     resource: repo://next.config.ts
@@ -26,6 +23,9 @@ sources:
   - id: openwiki-source-f34ac1e549d94dc3ac475ae4
     resource: repo://src/proxy.ts
 generated: { by: "claude-code", at: "2026-11-04T00:16:52.047Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-04T01:11:00.817Z
 ---
 
 # Request pipeline

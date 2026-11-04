@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ffa463a18eca9240c95db9820f4478942c813e8caffed08ba0c2b7c98de0e046",
+  "pageVersion": "sha256:93a45843c8dce289f4d7069c43aa284deec4fd8c18ea30221994677b0519305d",
   "claims": [
     {
       "id": "claim_42400d3df44b4e5298904441ab906a39",
@@ -78,21 +78,21 @@
     },
     {
       "id": "claim_89a02cb2f54c4e0cb317770e62ec9591",
-      "statement": "The release workflow sets GIT_COMMIT_SHA on the production Railway service before deploying because railway up does not provide RAILWAY_GIT_COMMIT_SHA.",
+      "statement": "The release workflow sets GIT_COMMIT_SHA and APP_VERSION on the production Railway service before deploying because railway up does not provide RAILWAY_GIT_COMMIT_SHA and package.json is not bumped per release.",
       "evidence": [
         {
-          "resource": "repo://.github/workflows/release.yml#L176-L183",
-          "version": "repo-lines-v1:sha256:dacc4bea684d60756bd9bb482ff611453482aca389cde7aa9ad5aa48c68bba4f:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjRmZTI1YzUwNzFlYWY5NmNkMWUxNzA3YjJhYjA5ODdkMDZmODYyOTc0YjBiMjU1ZDAwM2M3NzdmMTIyMzRiNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTVlYjgzNWQ1YTljMjg3YWUwOGVjMWQxZjAzYTk5ZDM0NmRiMjg1MTJmZDA3M2RkOTQ0MjU4N2JmZDA5OWYyNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjcyYzBjYjYzNGQwNzkxZDlhYjBkODljMWQyNjAyMWNjMDdiNGQzOWQ5MjlkZjUzMDdiMDk0YTdkOWNlY2Y2YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGY0YTFiMDI1NGYyYWZjYWYwMzQzYzA3Yjg1ZmY5MWJjNWYyMDdjM2I4OTRhODQ4NjE3YzY2YjQ3N2IyY2ZmZSJ9"
+          "resource": "repo://.github/workflows/release.yml#L176-L187",
+          "version": "repo-lines-v1:sha256:7b8b26d39c1f9a2db6b25f47855cbd7e955cee1e15e56a5095c017053a61ce10:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY0ZmUyNWM1MDcxZWFmOTZjZDFlMTcwN2IyYWIwOTg3ZDA2Zjg2Mjk3NGIwYjI1NWQwMDNjNzc3ZjEyMjM0YjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE1ZWI4MzVkNWE5YzI4N2FlMDhlYzFkMWYwM2E5OWQzNDZkYjI4NTEyZmQwNzNkZDk0NDI1ODdiZmQwOTlmMjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI3MmMwY2I2MzRkMDc5MWQ5YWIwZDg5YzFkMjYwMjFjYzA3YjRkMzlkOTI5ZGY1MzA3YjA5NGE3ZDljZWNmNmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhmNGExYjAyNTRmMmFmY2FmMDM0M2MwN2I4NWZmOTFiYzVmMjA3YzNiODk0YTg0ODYxN2M2NmI0NzdiMmNmZmUifQ"
         }
       ]
     },
     {
       "id": "claim_56ec99e7362048189ca5003adecf7201",
-      "statement": "The Railway IaC declares secrets with preserve(), sets APP_ENV and the basic-auth variables only for dev and GIT_COMMIT_SHA only for production, and any Railway variable must be declared there first because config apply removes undeclared ones.",
+      "statement": "The Railway IaC declares secrets with preserve(), sets APP_ENV and the basic-auth variables only for dev and GIT_COMMIT_SHA and APP_VERSION only for production, and any Railway variable must be declared there first because config apply removes undeclared ones.",
       "evidence": [
         {
-          "resource": "repo://.railway/railway.ts#L47-L74",
-          "version": "repo-lines-v1:sha256:83bc080e8daf2f364f732ab0cecb8256646840f9b59c74f173f24d6939dadabd:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmZGZmMjA5OWRkMTY4OTJhZDc2MTg4ZmNkYTBkZjFkMzU1ODdhZmE3ZDc3NjE1ZDVhNDM3M2VjNmJmN2EwOWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhiMGUwMDkyNjFjNWYzNTU1MWJhOGExM2JhNTU5NTU4YjVmNzY5MzdjNzVlMmNkY2E3ZGYyZTNiYWI4OTE3YmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIzZmVkN2ZiNWM3M2ViMzU2YWZhMDNjYjZmYzllNTg1OGUxOWRkOWU0ZjdhMWE1N2VmODJlOWI0MjUwN2YwOWMifQ"
+          "resource": "repo://.railway/railway.ts#L47-L77",
+          "version": "repo-lines-v1:sha256:5494265230e94ddd0fce3a95efcd2f7c8f5d74efb0f7cea5dd7def80accfc862:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmZGZmMjA5OWRkMTY4OTJhZDc2MTg4ZmNkYTBkZjFkMzU1ODdhZmE3ZDc3NjE1ZDVhNDM3M2VjNmJmN2EwOWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhiMGUwMDkyNjFjNWYzNTU1MWJhOGExM2JhNTU5NTU4YjVmNzY5MzdjNzVlMmNkY2E3ZGYyZTNiYWI4OTE3YmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIzZmVkN2ZiNWM3M2ViMzU2YWZhMDNjYjZmYzllNTg1OGUxOWRkOWU0ZjdhMWE1N2VmODJlOWI0MjUwN2YwOWMifQ"
         },
         {
           "resource": "repo://.railway/railway.ts#L7-L10",
@@ -143,10 +143,24 @@
           "version": "repo-lines-v1:sha256:fe0ab6a69340ca3973f862c59776457c2e0098a0ec3992a1d8ff44a87fe679d6:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjhkOTY3ODk3NjVmZTMwODdjOTNmNGQzYTBhNjdiOTU1NWJjODU4YjBmM2NkNGRlYjA0YjM5ZTE2YmZiYzBjMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2Y4YzNmZDA4ODI2YThjMzljOTg1NTY2MTY2MTMzMTQzZTIyNGYwNWZlY2QzMTZiNThhYzhmZjgwMzk3NTdhNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2EwZDc3YmI3M2U2YTVmNDA0ZmZhYjYyNmU5M2RiOTk2YzNiMGI5OGFiOTU4YTQyMjM1OTVjMDZmMTVkZmMxMSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_3afdcf9615d7465193a0a95fa1bbd23e",
+      "statement": "resolveVersion returns the trimmed APP_VERSION or, when it is missing or blank, the package.json version.",
+      "evidence": [
+        {
+          "resource": "repo://.env.example#L60-L62",
+          "version": "repo-lines-v1:sha256:e9d18be5bbab7d8196dd61c9c8ba3712c6f58aa352372f4e150f0c5d72825862:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWM3NTNmOWVlZTBmOWUxZmFiYzYxZThhNDAzNWM1OTY4ZmRmODYwOTkzYjhmN2QxNmY3ZmRiNzIxYjg2OGFhNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTAwZjkzZWZhM2EwZWExZjcxODZiZWZhZWFkMmE1Y2UyZWE2MTRmYTdlMTI2ODE2ODJiZDIyMTA0NjAyMmQ2ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjI1OTBmZjhlNjJlYjlmZDIyZmFjOTgwYTQxMGYwMGViZmZhMGZkNzc2OWJkMTE2MDY1ZTQ1Y2VkY2U4ZmYxZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjA4ZjY4MThhZDk4Yzg4N2FhZjJlNmE2ZDFjMWYyNGZlMDIwZWY2NThhOGYxZmUyMTg2YTk4ZTY5NGJmYTU5YiJ9"
+        },
+        {
+          "resource": "repo://src/endpoints/health.ts#L100-L108",
+          "version": "repo-lines-v1:sha256:1d2c5e5ecd3bd034bf730a1c1d883dc503862d83ec111ce0c8be449d4fc862f8:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjc4MWNlY2ZmNjM5ZDk0ODBmMDY0Mjg4YTNiNDYxYWRhMjQ5OTMyMGE0ZTEwZDlhYTFkZmZlOTliMjNiNDM4ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWUxMTNmYjQ2YzE4OTc3MDQ4ZTc5NzE2ZjdmNmM0YWJmZWE2NWZiOGJiMTExMGUxMjczNjkxZjkyNDAwMGY5ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDU0YzFiMTE4YTlkNjRlNjEyMTAwZWUyM2M2YTM4MDBjODU5ZjY2NzRkMGU2NzQ3ZTgyYWE1NzM4ZDUwNzZiMiJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T00:32:19.388Z"
+    "at": "2026-11-04T01:11:00.817Z"
   }
 }

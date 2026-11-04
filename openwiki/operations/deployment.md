@@ -14,10 +14,10 @@ sources:
     resource: repo://.railway/railway.ts
   - id: openwiki-source-6d7290acd85912e8a5ebb6cc
     resource: repo://tests/unit/railway-config.test.ts
-generated: { by: "claude-code", at: "2026-11-04T00:16:52.047Z" }
+generated: { by: "claude-code", at: "2026-11-04T01:11:00.817Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T00:32:19.388Z
+    at: 2026-11-04T01:11:00.817Z
 ---
 
 # Deployment and releases
@@ -50,7 +50,7 @@ The service is described as code with `railway/iac`. Railway does not read this 
 
 The function throws for any environment other than `dev` or `production` rather than guessing. Secrets use `preserve()`, which keeps the value stored in Railway and never writes one; `config apply` deletes undeclared variables, so declare a new variable here before creating it. See [Environment configuration](../architecture/configuration.md).
 
-`tests/unit/railway-config.test.ts` evaluates the file for both environments: build and start commands, migration with timeout, health check and restart policy, region, secrets preserved, dev wired to GitHub with the gate on, production without a GitHub source and with `GIT_COMMIT_SHA`, and unknown environments rejected.
+`tests/unit/railway-config.test.ts` evaluates the file for both environments: build and start commands, migration with timeout, health check and restart policy, region, secrets preserved, dev wired to GitHub with the gate on, production without a GitHub source and with `GIT_COMMIT_SHA` and `APP_VERSION`, and unknown environments rejected.
 
 ### What protects a deploy
 
@@ -85,7 +85,7 @@ Railway deploys every push to `main` once GitHub's check suites pass. It reports
 1. Repeats the owner check.
 2. Requires the `RAILWAY_TOKEN` secret and an `https://` `PROD_URL` variable.
 3. Checks out the tag and installs a pinned Railway CLI.
-4. Sets `GIT_COMMIT_SHA` on the production service with `--skip-deploys`. `railway up` uploads files without git metadata, so Railway would not inject `RAILWAY_GIT_COMMIT_SHA`.
+4. Sets `GIT_COMMIT_SHA` and `APP_VERSION` (the tag's version, without the `v`) on the production service with `--skip-deploys`. `railway up` uploads files without git metadata, so Railway would not inject `RAILWAY_GIT_COMMIT_SHA`, and `package.json` is not bumped per release, so `/api/health` takes the version from `APP_VERSION`.
 5. Runs `railway up` without `--detach`, so the job waits for pre-deploy migrations and the health check and fails if they fail.
 6. Polls `PROD_URL/api/health` until it reports the tagged commit (up to 5 minutes).
 

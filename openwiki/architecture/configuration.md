@@ -5,8 +5,10 @@ description: Every environment variable the app, the tests and the GitHub workfl
 tags: [configuration, environment, secrets, railway]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T00:32:19.388Z
+    at: 2026-11-04T01:11:00.817Z
 sources:
+  - id: openwiki-source-5f5b95b3d6a215fa02ceb945
+    resource: repo://.env.example
   - id: openwiki-source-4d1d392666be6dfdd7a91a2e
     resource: repo://.github/workflows/release.yml
   - id: openwiki-source-ea70eb6c045047448e446296
@@ -17,6 +19,8 @@ sources:
     resource: repo://package.json
   - id: openwiki-source-7a2845694b67f1018000b585
     resource: repo://src/app/(frontend)/layout.tsx
+  - id: openwiki-source-e6259e232b376ac021274244
+    resource: repo://src/endpoints/health.ts
   - id: openwiki-source-2ad419cae2f45e97a3ca23d7
     resource: repo://src/lib/db/database-url.ts
   - id: openwiki-source-d71565e37020ac0fe77be60d
@@ -31,7 +35,7 @@ sources:
     resource: repo://tests/e2e/app-server.ts
   - id: openwiki-source-ba0c02c20c1203ccdd8a9159
     resource: repo://tests/integration/env.ts
-generated: { by: "claude-code", at: "2026-11-04T00:16:52.047Z" }
+generated: { by: "claude-code", at: "2026-11-04T01:11:00.817Z" }
 ---
 
 # Environment configuration
@@ -55,6 +59,7 @@ Each group of variables has one small resolver function that takes an `env` reco
 | `SENTRY_DSN` | `sentryServerOptions` (`src/lib/monitoring/sentry.ts`) | Railway |
 | `SENTRY_AUTH_TOKEN` | `next.config.ts`, at build time | Railway (declared, not yet populated) |
 | `GIT_COMMIT_SHA` | `deployedCommit` (`src/lib/deploy/commit.ts`) | The release workflow, for production |
+| `APP_VERSION` | `resolveVersion` (`src/endpoints/health.ts`) | The release workflow, for production; falls back to the `package.json` version |
 | `RAILWAY_GIT_COMMIT_SHA`, `RAILWAY_ENVIRONMENT_NAME` | `deployedCommit`, `isDevEnvironment`, Sentry | Injected by Railway |
 | `E2E_PORT`, `E2E_DEV_GATE_PORT`, `E2E_SKIP_BUILD` | Playwright configs | `.env` or the shell |
 | `SMOKE_BASE_URL`, `SMOKE_BASIC_AUTH_USER`, `SMOKE_BASIC_AUTH_PASSWORD` | `playwright.config.ts` | The shell or the smoke workflow; never `.env` |
@@ -91,9 +96,13 @@ Each group of variables has one small resolver function that takes an `env` reco
 
 `deployedCommit` returns the first non-blank value of `RAILWAY_GIT_COMMIT_SHA` and then `GIT_COMMIT_SHA`. Railway injects the first for git-sourced deploys (dev). Production is deployed with `railway up`, which uploads files without git metadata, so the release workflow writes `GIT_COMMIT_SHA` before deploying. The health endpoint reports `dev` when neither exists.
 
+### Deployed version
+
+`resolveVersion` returns `APP_VERSION` (trimmed) or, when it is missing or blank, the `package.json` version. `package.json` stays at `0.0.0` and is not bumped per release; instead the release workflow writes the tag's version, without the `v`, to `APP_VERSION` on the production service next to `GIT_COMMIT_SHA`. Dev and local runs therefore report the `package.json` version.
+
 ## Railway variable declarations
 
-`.railway/railway.ts` declares every Railway variable for the `web` service. Secrets use `preserve()`, which keeps the value already stored in Railway and never creates one, so secrets are entered in the Railway dashboard. A variable missing from this file is deleted by `railway config apply`, so any new Railway variable must be declared here first. The file sets `APP_ENV=dev` and the basic-auth pair only for `dev`, and `GIT_COMMIT_SHA` only for `production`.
+`.railway/railway.ts` declares every Railway variable for the `web` service. Secrets use `preserve()`, which keeps the value already stored in Railway and never creates one, so secrets are entered in the Railway dashboard. A variable missing from this file is deleted by `railway config apply`, so any new Railway variable must be declared here first. The file sets `APP_ENV=dev` and the basic-auth pair only for `dev`, and `GIT_COMMIT_SHA` and `APP_VERSION` only for `production`.
 
 ## Test isolation from real databases
 
