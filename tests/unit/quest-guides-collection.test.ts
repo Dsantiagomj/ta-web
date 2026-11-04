@@ -6,7 +6,15 @@ import { ImageBlock } from '@/blocks/ImageBlock'
 import { RichTextBlock } from '@/blocks/RichTextBlock'
 import { VideoBlock } from '@/blocks/VideoBlock'
 import { validateOptionalUrl } from '@/collections/Media'
-import { QuestGuides, questGuidesAccess, validateSlug } from '@/collections/QuestGuides'
+import {
+  QuestGuides,
+  questGuidesAccess,
+  validateGuideSlug,
+  validateGuideTitle,
+  validateSlug,
+} from '@/collections/QuestGuides'
+import { fillFromQuest } from '@/collections/quest-guide-autofill'
+import { guideStrings } from '@/lib/guides/strings'
 
 function field(name: string, fields: Field[] = QuestGuides.fields): Field {
   const found = fields.find((candidate) => 'name' in candidate && candidate.name === name)
@@ -35,8 +43,17 @@ describe('colección quest-guides', () => {
     expect(QuestGuides.versions).toEqual({ drafts: true, maxPerDoc: 50 })
   })
 
-  it('guarda el título traducible', () => {
-    expect(field('title')).toMatchObject({ type: 'text', required: true, localized: true })
+  it('guarda el título traducible; vacío, sale de la misión', () => {
+    expect(field('title')).toMatchObject({
+      type: 'text',
+      required: true,
+      localized: true,
+      validate: validateGuideTitle,
+    })
+  })
+
+  it('rellena título, slug y SEO vacíos desde la misión antes de validar', () => {
+    expect(QuestGuides.hooks?.beforeValidate).toEqual([fillFromQuest])
   })
 
   it('guarda un slug único, indexado, no traducible y validado', () => {
@@ -46,7 +63,7 @@ describe('colección quest-guides', () => {
       required: true,
       unique: true,
       index: true,
-      validate: validateSlug,
+      validate: validateGuideSlug,
       admin: { position: 'sidebar' },
     })
     expect(slug).not.toHaveProperty('localized', true)
@@ -58,14 +75,21 @@ describe('colección quest-guides', () => {
       type: 'relationship',
       relationTo: 'quests',
       hasMany: true,
-      admin: { position: 'sidebar' },
+      admin: { description: guideStrings.admin.questsDescription },
     })
     expect(quests).not.toHaveProperty('required', true)
+  })
+
+  it('la misión es el primer campo, en el área principal', () => {
+    const [first] = QuestGuides.fields
+    expect(first).toMatchObject({ name: 'quests' })
+    expect(first.admin).not.toHaveProperty('position')
   })
 
   it('guarda un resumen propio con prerrequisitos, objetos, recompensas e inicio', () => {
     const summary = field('summary') as GroupField
     expect(summary.type).toBe('group')
+    expect(summary.admin?.description).toBe(guideStrings.admin.summaryDescription)
     for (const name of ['prerequisites', 'needs', 'rewards']) {
       const text = field(name, summary.fields)
       expect(text).toMatchObject({ type: 'textarea', localized: true })
@@ -90,6 +114,7 @@ describe('colección quest-guides', () => {
   it('guarda el título y la descripción SEO, traducibles', () => {
     const seo = field('seo') as GroupField
     expect(seo.type).toBe('group')
+    expect(seo.admin?.description).toBe(guideStrings.admin.seoDescription)
     expect(field('metaTitle', seo.fields)).toMatchObject({ type: 'text', localized: true })
     expect(field('metaDescription', seo.fields)).toMatchObject({
       type: 'textarea',
@@ -105,6 +130,38 @@ describe('colección quest-guides', () => {
       admin: { position: 'sidebar' },
     })
     expect(field('originalUrl')).not.toHaveProperty('required', true)
+  })
+})
+
+describe('validateGuideTitle', () => {
+  const withQuest = { data: { quests: [1977] } }
+  const withoutQuest = { data: { quests: [] } }
+
+  it('acepta un título escrito', () => {
+    expect(validateGuideTitle('El cazador cazado', withoutQuest)).toBe(true)
+  })
+
+  it('vacío, lo acepta si hay misión: el título sale de ella al guardar', () => {
+    expect(validateGuideTitle('', withQuest)).toBe(true)
+    expect(validateGuideTitle(undefined, withQuest)).toBe(true)
+  })
+
+  it('vacío y sin misión, lo rechaza con un mensaje en español', () => {
+    expect(validateGuideTitle('', withoutQuest)).toBe(guideStrings.admin.titleRequired)
+    expect(validateGuideTitle('   ', { data: {} })).toBe(guideStrings.admin.titleRequired)
+  })
+})
+
+describe('validateGuideSlug', () => {
+  it('vacío, lo acepta si hay misión: el slug sale de ella al guardar', () => {
+    expect(validateGuideSlug('', { data: { quests: [1977] } })).toBe(true)
+  })
+
+  it('vacío y sin misión, o mal escrito, lo rechaza como validateSlug', () => {
+    expect(validateGuideSlug('', { data: {} })).toBe(validateSlug(''))
+    expect(validateGuideSlug('La-Misión', { data: { quests: [1977] } })).toBe(
+      validateSlug('La-Misión'),
+    )
   })
 })
 
