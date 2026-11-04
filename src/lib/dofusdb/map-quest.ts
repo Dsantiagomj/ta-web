@@ -1,3 +1,4 @@
+import { requiredTerms } from './criterion'
 import { questNeeds } from './quest-needs'
 import { questRewards } from './quest-rewards'
 import type { LocalizedText, MappedQuest, RawMapPosition, RawNpc, RawQuest } from './types'
@@ -22,29 +23,12 @@ export function spanish(text: LocalizedText | null | undefined): string | null {
 // Solo los Qf= obligatorios: las alternativas con | y need.quests (que también trae Qa=) no son "terminar antes".
 const FINISHED_QUEST = /^Qf=(\d+)$/
 
-/** Los Qf= de un nivel del criterio, hasta su ')'. Si ese nivel tiene un |, son alternativas: ninguno. */
-function requiredQuests(tokens: string[], cursor: { index: number }): number[] {
-  const ids: number[] = []
-  let alternatives = false
-  while (cursor.index < tokens.length) {
-    const token = tokens[cursor.index++]
-    if (token === ')') break
-    if (token === '|') alternatives = true
-    else if (token === '(') ids.push(...requiredQuests(tokens, cursor))
-    else {
-      const match = FINISHED_QUEST.exec(token)
-      if (match) ids.push(Number(match[1]))
-    }
-  }
-  return alternatives ? [] : ids
-}
-
 function prerequisites(raw: RawQuest): number[] {
-  const tokens = (raw.startCriterion ?? '')
-    .split(/([()&|])/)
-    .map((token) => token.trim())
-    .filter((token) => token && token !== '&')
-  const unique = new Set(requiredQuests(tokens, { index: 0 }))
+  const ids = requiredTerms(raw.startCriterion).flatMap((term) => {
+    const match = FINISHED_QUEST.exec(term)
+    return match ? [Number(match[1])] : []
+  })
+  const unique = new Set(ids)
   unique.delete(raw.id)
   return [...unique]
 }

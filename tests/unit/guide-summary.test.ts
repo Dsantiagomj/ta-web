@@ -130,6 +130,12 @@ describe('requiredLevel', () => {
     expect(requiredLevel('Ps=2&Pa=79&PL>169&Qf=331')).toBe(170)
   })
 
+  it('solo cuenta un nivel exigido siempre, no uno entre alternativas', () => {
+    expect(requiredLevel('PL>189&Qf=123')).toBe(190)
+    expect(requiredLevel('PL>189|Qf=123')).toBeNull()
+    expect(requiredLevel('(PL>50|PL>60)&Qf=1')).toBeNull()
+  })
+
   it('sin criterio de nivel, no hay nivel mínimo', () => {
     expect(requiredLevel('Qf=1976')).toBeNull()
     expect(requiredLevel(null)).toBeNull()
