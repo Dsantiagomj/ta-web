@@ -3,9 +3,6 @@ type: api
 title: Health check endpoint
 description: The public GET /api/health endpoint, its response contract, how it pings Postgres with bounded time and without poisoning the pool, how concurrent checks share one ping, and who depends on it.
 tags: [operations, health-check, api, postgres, monitoring]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-04T00:16:52.047Z
 sources:
   - id: openwiki-source-d60a6f0f1e9b6eab797ff859
     resource: repo://.railway/railway.ts
@@ -15,7 +12,10 @@ sources:
     resource: repo://tests/e2e/smoke.spec.ts
   - id: openwiki-source-bf91a85433a2b4f753ed6ec4
     resource: repo://tests/unit/health.test.ts
-generated: { by: "claude-code", at: "2026-11-04T00:16:52.047Z" }
+generated: { by: "claude-code", at: "2026-11-04T01:11:00.817Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-04T01:11:00.817Z
 ---
 
 # Health check endpoint
@@ -26,14 +26,14 @@ generated: { by: "claude-code", at: "2026-11-04T00:16:52.047Z" }
 
 | Database | Status | Body |
 |---|---|---|
-| Answers within 2 s | `200` | `{ "status": "ok", "db": "ok", "version": "<package.json version>", "commit": "<sha or dev>" }` |
+| Answers within 2 s | `200` | `{ "status": "ok", "db": "ok", "version": "<release version>", "commit": "<sha or dev>" }` |
 | Fails or times out | `503` | `{ "status": "error", "db": "error" }` |
 
 Every response has `Cache-Control: no-store`.
 
 The endpoint is public, so it never includes error messages, stack traces or anything secret. The failure body is deliberately bare: the underlying error could contain the database URL.
 
-`commit` comes from `resolveCommit`, which returns the deployed commit (`RAILWAY_GIT_COMMIT_SHA`, then `GIT_COMMIT_SHA`) or `dev` when neither is set or both are blank. `version` is the `version` field of `package.json`.
+`commit` comes from `resolveCommit`, which returns the deployed commit (`RAILWAY_GIT_COMMIT_SHA`, then `GIT_COMMIT_SHA`) or `dev` when neither is set or both are blank. `version` comes from `resolveVersion`: `APP_VERSION` (trimmed), which the release workflow sets in production to the tag's version without the `v`, or the `package.json` version (`0.0.0`) when it is missing or blank, as in dev and local runs.
 
 ## Who uses it
 
@@ -68,6 +68,7 @@ A module-level `inFlight` promise holds the database check in progress. Concurre
 - `checkHealth`: `200` with version and commit; `503` without error details on failure; `503` on timeout; one shared check for simultaneous requests.
 - `pingPool`: sets the local statement timeout and returns the client to the pool; destroys the client when the query times out; destroys a client that arrives after the acquisition timeout without running any query.
 - `resolveCommit`: Railway's SHA wins, then `GIT_COMMIT_SHA`, then `dev`; blank values count as missing.
+- `resolveVersion`: `APP_VERSION` wins and is trimmed; missing or blank falls back to the `package.json` version.
 
 ## Related pages
 
