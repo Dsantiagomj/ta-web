@@ -32,6 +32,8 @@ sources:
     resource: repo://src/migrations/20261104_124207_quest_guides.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
     resource: repo://src/payload.config.ts
+  - id: openwiki-source-5cd8fc4d5a65c01359ed92e2
+    resource: repo://tests/integration/import-quest-guides.test.ts
   - id: openwiki-source-393bf97b0253eba009444ab4
     resource: repo://tests/integration/media-access.test.ts
   - id: openwiki-source-7b27bf36255a812248aa50e8
@@ -46,10 +48,10 @@ sources:
     resource: repo://tests/unit/quest-guides-collection.test.ts
   - id: openwiki-source-6678095e74d244708e64ddd4
     resource: repo://tests/unit/quests-collection.test.ts
-generated: { by: "claude-code", at: "2026-11-04T17:14:51.499Z" }
+generated: { by: "claude-code", at: "2026-11-04T17:27:29.927Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T17:14:51.499Z
+    at: 2026-11-04T17:27:29.927Z
 ---
 
 # Collections and access
@@ -128,7 +130,7 @@ The `summary` group overrides what DofusDB provides. DofusDB has no items or rew
 
 ### Filled by the Squarespace import
 
-`pnpm import:guides` writes `title`, `slug`, `originalUrl`, `summary`, `quests` and `body` through the local API with `overrideAccess: true`, always as a draft: it finds an existing guide by `slug`, drafts included, and never publishes. A published guide gets a new draft and stays published as it was until someone publishes that draft in the panel. Each image becomes a `media` record with `alt` and `originalUrl` and no `variants`. `seo` is left for the panel. See [Squarespace import](../data/squarespace-import.md#loading-into-payload).
+`pnpm import:guides` writes `title`, `slug`, `originalUrl`, `summary`, `quests` and `body` through the local API with `overrideAccess: true`, always as a draft: it finds an existing guide by `slug`, drafts included, and never publishes. It sends every `summary` field, `null` for any the page no longer has, so a value removed from Squarespace is cleared on the next import. A published guide gets a new draft and stays published as it was until someone publishes that draft in the panel. Each image becomes a `media` record with `alt` and `originalUrl` and no `variants`. `seo` is left for the panel. See [Squarespace import](../data/squarespace-import.md#loading-into-payload).
 
 `validateSlug` accepts only plain ASCII: lowercase letters and digits in runs joined by single hyphens, with no hyphen at either end (`aprendizaje-escudero`, `dofus-ocre-2`). Accents, `ñ`, capitals, spaces, doubled or edge hyphens and empty values return a Spanish error, so a guide's URL never needs percent-encoding.
 
