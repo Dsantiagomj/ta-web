@@ -9,9 +9,11 @@ PROVIDER="claude"
 FILE_PATTERNS="*.ts,*.tsx,*.js,*.mjs,*.css,*.md"
 
 # Lo generado no se revisa: lockfile, tipos e import map de Payload, migraciones,
-# tipos de Next y archivos minificados. GGA compara los patrones sin barra con el
-# nombre del archivo y los demás con la ruta completa.
-EXCLUDE_PATTERNS="pnpm-lock.yaml,payload-types.ts,payload-generated-schema.ts,importMap.js,src/migrations/*,next-env.d.ts,*.d.ts,*.min.js,*.min.css,.next/*"
+# tipos de Next y archivos minificados. Tampoco las skills de terceros de
+# .claude/skills/: skills-lock.json las fija por hash y no se editan a mano. GGA
+# compara los patrones sin barra con el nombre del archivo y los demás con la ruta
+# completa.
+EXCLUDE_PATTERNS="pnpm-lock.yaml,payload-types.ts,payload-generated-schema.ts,importMap.js,src/migrations/*,next-env.d.ts,*.d.ts,*.min.js,*.min.css,.next/*,.claude/skills/*"
 
 RULES_FILE="AGENTS.md"
 
