@@ -31,8 +31,9 @@ export function appWebServers({
   port: number
   env?: Record<string, string>
 }): WebServer[] {
-  const useEmbeddedDatabase = !process.env.DATABASE_URL
-  const databaseUrl = process.env.DATABASE_URL || E2E_DATABASE_URL
+  const configuredUrl = process.env.DATABASE_URL?.trim()
+  const useEmbeddedDatabase = !configuredUrl
+  const databaseUrl = configuredUrl || E2E_DATABASE_URL
   const app = [
     ...(process.env.E2E_SKIP_BUILD === '1' ? [] : ['pnpm build']),
     ...(useEmbeddedDatabase ? ['node scripts/db-e2e-reset.ts'] : []),
