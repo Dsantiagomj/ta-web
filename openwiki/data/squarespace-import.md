@@ -5,7 +5,7 @@ description: How the Squarespace import reads a cached Squarespace page, orders 
 tags: [import, squarespace, quest-guides, lexical, scripts]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T16:36:11.576Z
+    at: 2026-11-04T16:58:44.479Z
 sources:
   - id: openwiki-source-f235d856bed1fd44853c5195
     resource: repo://.prettierignore
@@ -33,7 +33,7 @@ sources:
     resource: repo://tests/unit/import-rich-text.test.ts
   - id: openwiki-source-299c190cabc2f0753a302110
     resource: repo://tests/unit/import-to-quest-guide.test.ts
-generated: { by: "claude-code", at: "2026-11-04T16:36:11.576Z" }
+generated: { by: "claude-code", at: "2026-11-04T16:58:44.479Z" }
 ---
 
 # Squarespace import
@@ -58,7 +58,7 @@ happy-dom was already in the tree through `@lexical/headless`, pinned by a secur
 
 `parsePage(html)` returns `{ title, blocks }`.
 
-- **Title.** Squarespace embeds a context JSON in a script tag. The title comes from its `"collection":{"title":…}` entry, not from the all-caps H2 at the top of the page. With no context, `title` is `null`.
+- **Title.** Squarespace embeds a context JSON in a script tag. The title comes from its `"collection":{"title":…}` entry, not from the all-caps H2 at the top of the page. With no context, or when the entry has an escape that is not valid JSON, `title` is `null` instead of the import failing.
 - **Order.** Squarespace's fluid engine places each block with a CSS `grid-area: row / column`. The HTML order does not match what readers see. For each `article [data-fluid-engine]` section, `parsePage` reads the section's `<style>`, prefers the desktop rule (inside `@media (min-width: 768px)`, the layout Torre builds) over the mobile one Squarespace generates, and sorts blocks by row and then column. Blocks with no position go last. Sections keep their page order.
 - **Blocks.** Each block has a `data-sqsp-block` type:
 
@@ -77,10 +77,12 @@ The `guide` has `title`, `slug`, `originalUrl` (`https://www.torrentearcano.com/
 
 Rules, in the order the converter applies them to each text element:
 
-1. **Summary.** A line starting with `Prerrequisitos`, `Necesitarás` or `Recompensas` (accents and case ignored, optional colon) opens that field. Labels are checked first, so a label that arrives as an H1 or H2 still opens its field. Text after the label and the following elements of the same text block go into it, one line each, headings included (`<p>Prerrequisitos:</p><h2>Nivel mínimo 70</h2>` fills the prerequisites); a list gives one line per item. The field values are those lines joined with newlines. These lines never reach the body.
+1. **Summary.** A line starting with `Prerrequisitos`, `Necesitarás` or `Recompensas` followed by a colon (accents and case ignored) opens that field. The colon is required: "Necesitarás hablar con…" is prose. In the cached pages, all 2469 real labels have the colon and the 11 colonless lines are prose. Labels are checked first, so a label that arrives as an H1 or H2 still opens its field. Text after the label and the following elements of the same text block go into it, one line each, headings included (`<p>Prerrequisitos:</p><h2>Nivel mínimo 70</h2>` fills the prerequisites); a list gives one line per item. The field values are those lines joined with newlines; a label with no text after it and no following lines leaves its field empty, which counts as a missing block. These lines never reach the body.
 2. **Title heading.** Only an H1 or H2 that is the very first element of the page, with no text element or other block before it, is dropped as the title heading. Every later heading is body content. The dropped heading is compared with the page title ignoring accents, case, punctuation and a leading number such as "29. ". When the page has a title and the two differ, an oddity keeps the heading's full text for review, because the heading is sometimes the fuller name. Measured over the 1272 cached quest pages, the first H2 matched the title in 1029, matched once a leading number was removed in 194, and differed in 48, for example "Coleccionista de publicidad impresa en apuros" against the title "Coleccionista de publicidad".
-3. **Closing sentence.** A paragraph starting with "Aquí termina la misión" (also "¡Y aquí se termina la misión…") loses that first sentence only. The rest of the paragraph stays in the body; a paragraph with nothing else disappears.
+3. **Closing sentence.** A paragraph starting with "Aquí termina la misión" (also "¡Y aquí se termina la misión…") loses that first sentence only. A sentence ends at `.`, `!`, `?` or `…`. The rest of the paragraph stays in the body; a paragraph with nothing else disappears.
 4. **Start line.** The first paragraph starting with "Habla con X [x,y]" or "La misión empieza hablando con X [x,y]" fills `summary.startNpc` (without a leading el/la/los/las), `startX` and `startY`. "Habla con" counts only when its sentence says "para empezar", because the phrase appears in the middle of many guides. When the sentence says nothing more than that ("…para empezar la misión."), only that sentence leaves the body and the rest of the paragraph stays. When it carries more (when or where to go), the whole paragraph stays in the body. The trimming walks text nodes, so bold and links in the rest of the paragraph survive.
+
+   Rules 3 and 4 apply only to `<p>` elements. A list item or heading with the same words stays whole in the body, and a start line inside a list does not fill the summary.
 5. **Callouts.** A paragraph starting with all-caps `IMPORTANTE` or `CUIDADO` becomes a `callout` block with variant `warning`; `NOTA` becomes `tip`. Lowercase "Cuidado, …" is plain prose. A paragraph left over after trimming rules 3 and 4 is checked again here.
 6. **Prose.** Everything else is prose. Consecutive prose elements are joined into one `richText` block, still as HTML.
 
@@ -91,7 +93,7 @@ Oddities, collected rather than thrown:
 - the slug fails the collection's `validateSlug`;
 - the page has no Squarespace title;
 - no DofusDB quest is linked;
-- a `Prerrequisitos`, `Necesitarás` or `Recompensas` block is missing (one entry each);
+- a `Prerrequisitos`, `Necesitarás` or `Recompensas` block is missing or has a label but no text (one entry each);
 - no start line was found;
 - each unknown Squarespace block, by type;
 - a dropped title heading that differs from the page title, with its text.
@@ -104,7 +106,7 @@ The draft keeps prose and callouts as HTML. `createHtmlToLexical(config)` builds
 
 ## Quest matches
 
-The Squarespace inventory in `out/` (outside the repo, described in `docs/legacy/plan.md`) includes `quest_matches.csv`. `parseQuestMatches(csv)` reads it into a map from slug to `{ questIds, ambiguous }`: `quest_ids` holds space-separated DofusDB IDs and `ambiguous` is true when the column says `True`. The CSV parser handles quoted fields with commas and doubled quotes. A slug not in the file has no match.
+The Squarespace inventory in `out/` (outside the repo, described in `docs/legacy/plan.md`) includes `quest_matches.csv`. `parseQuestMatches(csv)` reads it into a map from slug to `{ questIds, ambiguous }`: `quest_ids` holds space-separated DofusDB IDs and `ambiguous` is true when the column says `True`. The CSV parser handles quoted fields with commas and doubled quotes, and a leading byte order mark (BOM) such as Excel writes is stripped. When the `slug`, `quest_ids` or `ambiguous` column is missing, `parseQuestMatches` throws `quest_matches.csv no tiene la columna «…»` instead of silently losing every match. A slug not in the file has no match.
 
 ## Demo guides
 
@@ -114,10 +116,10 @@ The Squarespace inventory in `out/` (outside the repo, described in `docs/legacy
 
 The unit tests run on trimmed copies of those five pages in `tests/fixtures/squarespace/`. Prettier ignores that directory so the parser reads the files exactly as saved.
 
-- `import-parse-page.test.ts`: title from the context, row and column order, top-level text elements, image URL and alt, unknown blocks.
+- `import-parse-page.test.ts`: title from the context (and no title for a bad escape), row and column order, top-level text elements, image URL and alt, unknown blocks.
 - `import-to-quest-guide.test.ts`: the five slugs are valid, summary and start NPC, what leaves the body, prose and image order, callouts, video, oddities.
 - `import-rich-text.test.ts`: paragraphs, bold, links and lists through Payload's editor.
-- `import-quest-matches.test.ts`: IDs per slug, quoted commas, ambiguous rows.
+- `import-quest-matches.test.ts`: IDs per slug, quoted commas, ambiguous rows, a header with a BOM, a missing column.
 
 See [Test suites](../testing/test-suites.md).
 

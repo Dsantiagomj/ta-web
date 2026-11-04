@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:21390689cded2ea9a3b49b79be3f2d50424a9a7a65cab1e0248a0447b3822666",
+  "pageVersion": "sha256:5b2fbf94f2d6c8492a160ea263ee8f3a62bff4ff1476d8b4ed37adacb2309606",
   "claims": [
     {
       "id": "claim_79a6791c5ff4461e9187adf1682ac1eb",
@@ -48,15 +48,15 @@
     },
     {
       "id": "claim_ad774e7db12c4c9e99c25d5fe138fd4d",
-      "statement": "parsePage takes the page title from the collection title in the context JSON Squarespace embeds, returning null when it is missing.",
+      "statement": "parsePage takes the page title from the collection title in the context JSON Squarespace embeds, returning null when it is missing or its escapes are not valid JSON.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/squarespace/parse-page.ts#L24-L31",
-          "version": "repo-lines-v1:sha256:32e5ed7f4141af689d768c6645a2c1869f813b65a3606aaf1c32562d90709a7a:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzljOTMwNmZmYzc1NTk1NmFlYThlZDNiNmI5MDY5OWE5MzgzYThkNDYxM2JlNmJmYjJjZDE3NDgxODk0YjQyYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjdhMzQ2ZDZjYjBkZmUxNjBiY2MzMzI2Y2FiYzFjYWY0N2FiYWMyZDg3MjYxYmJiYmJiNzEwNjRhNmIwZTNhYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDc2YzVmMGQyZWUxOGE0N2Q0Yjc3NmEwYzIxZWRkMjcwOTI1YjZiM2RiNjU4NTBjYjAyMWExMjQ2YzE1MWUxYiJ9"
+          "resource": "repo://scripts/import/squarespace/parse-page.ts#L24-L36",
+          "version": "repo-lines-v1:sha256:b41d2f5224f68a3a2f6f99e95f3e76050aa98f78da8d7fc2f22d196703faf2e5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc5YzkzMDZmZmM3NTU5NTZhZWE4ZWQzYjZiOTA2OTlhOTM4M2E4ZDQ2MTNiZTZiZmIyY2QxNzQ4MTg5NGI0MmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY3YTM0NmQ2Y2IwZGZlMTYwYmNjMzMyNmNhYmMxY2FmNDdhYmFjMmQ4NzI2MWJiYmJiYjcxMDY0YTZiMGUzYWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ3NmM1ZjBkMmVlMThhNDdkNGI3NzZhMGMyMWVkZDI3MDkyNWI2YjNkYjY1ODUwY2IwMjFhMTI0NmMxNTFlMWIifQ"
         },
         {
-          "resource": "repo://tests/unit/import-parse-page.test.ts#L44-L51",
-          "version": "repo-lines-v1:sha256:71841cc3b7399541f892be8192d2adadc726402855e72710d1513e768e46c2ce:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGIxNDA4ZjE1ZGIzN2Y4NmJlMTEwNTJiZDY0N2M3NThlM2VjMThjM2M4M2ExYmMwMzg1Yzg0OGI0MDNiYzIzYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjIzNTI1ODljMzRkM2M2MDY4NTkzMWI2ZWNjNGQ1MDk5MWE3YzU2YzhmYmEyODk0MTE0NjU3NjkwMjcyY2FjMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTUzMDc5NWQ0ZDBkMWY0MjUyOTgwMDEzNWMyMzVjM2E3ODA1M2NjZjJlYzE2MzdjYzdjMmYyNTg0NGZiM2VhOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDQ4ODQzMWMxZDQ1MGJiYzkwMTA1Y2Y5ZGM4NDg2MWI4NjA4MTE0MTIxMjk3OTA4ZmUwYzJlNDg0Nzg3ZTYzNSJ9"
+          "resource": "repo://tests/unit/import-parse-page.test.ts#L44-L57",
+          "version": "repo-lines-v1:sha256:7fc3a2c91962cd327bd4d540810382dfcf9bc258ad9b3a954ea9db2c4e6ec0c6:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRiMTQwOGYxNWRiMzdmODZiZTExMDUyYmQ2NDdjNzU4ZTNlYzE4YzNjODNhMWJjMDM4NWM4NDhiNDAzYmMyM2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk1MzA3OTVkNGQwZDFmNDI1Mjk4MDAxMzVjMjM1YzNhNzgwNTNjY2YyZWMxNjM3Y2M3YzJmMjU4NDRmYjNlYTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ0ODg0MzFjMWQ0NTBiYmM5MDEwNWNmOWRjODQ4NjFiODYwODExNDEyMTI5NzkwOGZlMGMyZTQ4NDc4N2U2MzUifQ"
         }
       ]
     },
@@ -65,15 +65,15 @@
       "statement": "parsePage orders the blocks of each fluid-engine section by desktop grid row and then column, preferring the rule inside @media (min-width: 768px) over the mobile rule, puts blocks without a position last, and keeps sections in page order.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/squarespace/parse-page.ts#L106-L130",
+          "resource": "repo://scripts/import/squarespace/parse-page.ts#L111-L135",
           "version": "repo-lines-v1:sha256:589db4cc9239009bc1f1b2c0329146078acd0bb0f77db885b80996944372f05b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM1ZjkyNWQ1YmMzZjNiYWEwYmQxMWE0MGRmZjI2NmFlMzRjMTBjYmIzODgxODZkMWZkYWQxNjNhZDdhM2I4OTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://scripts/import/squarespace/parse-page.ts#L33-L46",
-          "version": "repo-lines-v1:sha256:7c27756d744169d91d950b9ee566aa0f53b79410273fc72fa7384e6a711332f0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQwNDk1YWI4OTA3YmY0Nzg4MDgxOTY5ZDllM2YxNzJmMzc3NWY4MTIxMjZmYTlkMTMwMTdhNzQzMTkwNTI3YWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUwYjBjMDc0NzhiMTZiZDA5YWE2Yzg2MDJhNzdmYzM5NDBiMmViMTVjMWM3MmUxYmQ4YzJjODE4OGI1MWVmMDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2YjM1MDA2N2ZhM2RjM2YxYjkxMDRkNDZmYTBhODVkZDg0NTEwNzZhMzViMmYwYjgwNTZjMTlhOGQzNjFmNGYifQ"
+          "resource": "repo://scripts/import/squarespace/parse-page.ts#L38-L51",
+          "version": "repo-lines-v1:sha256:7c27756d744169d91d950b9ee566aa0f53b79410273fc72fa7384e6a711332f0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQwNDk1YWI4OTA3YmY0Nzg4MDgxOTY5ZDllM2YxNzJmMzc3NWY4MTIxMjZmYTlkMTMwMTdhNzQzMTkwNTI3YWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2YjM1MDA2N2ZhM2RjM2YxYjkxMDRkNDZmYTBhODVkZDg0NTEwNzZhMzViMmYwYjgwNTZjMTlhOGQzNjFmNGYifQ"
         },
         {
-          "resource": "repo://tests/unit/import-parse-page.test.ts#L53-L81",
+          "resource": "repo://tests/unit/import-parse-page.test.ts#L59-L87",
           "version": "repo-lines-v1:sha256:dc849755cba2b95985dfd70e6c2f6c76e512ded2d0404b306a269cf7032ed643:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk5NDIyOTZlZTIzYTcwZmNmODIxNGQ5Njk1YzJkZDRhZjVlYjRhYzdiYzkzYTc3MDc5MWJjOGEzNzcxNDk1ZmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg5NzA0NWIwZjNkZmEzYmM4YTdiN2VhYWZiYjgyYThmNzNjYzJkNTc3YWE5YWExZTlkMGQ4ZGJkZmJjNjBkM2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMxYjZhOWQxYTFkMTQxZDE2YzRkMDExM2FhZTc2ODg3OWE4ZmZhZTE0MjA1YTZiZWZmYzc4NjU2N2JiZmIzNTcifQ"
         }
       ]
@@ -83,11 +83,11 @@
       "statement": "Text blocks are parsed into their top-level elements with tag, outer HTML and normalized text; image blocks keep the data-image or data-src URL without its query string and the trimmed alt; embed blocks become https video URLs, unwrapping Embedly, and an embed whose URL does not end up as https, such as javascript: or data: even inside Embedly, becomes an unknown block; other types become unknown blocks.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/squarespace/parse-page.ts#L55-L104",
+          "resource": "repo://scripts/import/squarespace/parse-page.ts#L60-L109",
           "version": "repo-lines-v1:sha256:0221ebecf00e6b93c53a5b9bf68f6339d4c9042beeed85985320d32c9d30fd0c:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNlODNmMjI2MWI2NGVjNTBmNTFiOGM1YWU0OWJjMWFlOTkwMDBlZTg4ZDJjYjg0ZjRlOTRiYWY4MDI1ZWIzYjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM3YTY4ZTAyNWNiZDRjYzFlYTczMzNmM2EyYmQzMGU2OTYxZDEzZjZlZGFiMjI2Y2Q0ZjI3ZmYxOTVmNWIyZTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVhYzdjYzhmOGYxNjNjY2IyNjUyYmE1YWNhZmI2YTA3MjQ4MGMyMTViNTE5NzI3NDE4MzViOWZiNGYzYTExMjQifQ"
         },
         {
-          "resource": "repo://tests/unit/import-parse-page.test.ts#L127-L144",
+          "resource": "repo://tests/unit/import-parse-page.test.ts#L133-L150",
           "version": "repo-lines-v1:sha256:57adfd8636a63bf70905d54cd2953c96c97efe2420ce4af0350ffdcacd42ad33:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRjODE1ZDJhMDAyYmM4OWE3NWNiN2ZiNGUzYTJkOTFkNGU3Y2VlNzJkZmRlZjIxZTc0NjYxZGFiMzQ4ZjE1YzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU4MzdkYzdhZWIyMDcwNzk1NTRlYTdiMDY1MzQ2OGY0Nzk5MjY2ZjE5Njc0ZGM2NzU0YTgwOGJiODc1YzIyYWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUifQ"
         }
       ]
@@ -97,12 +97,12 @@
       "statement": "toQuestGuide never throws on page content; what does not fit is collected in oddities for review in the panel.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L165-L172",
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L166-L173",
           "version": "repo-lines-v1:sha256:54835ca53f77a068904b404709831704a94b685d4588ef717c0f6d1a443fcd1e:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDU4ZGI0NTI1YTUzMWMyMTFiM2ZjYjNmOWM0ZTdlZmY1YzFmYTQ4MGIzOTM0NjI1ZjcwZWQ4YWEzNDdmNTVlNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGExOTA2Njg2MjkzNDJjYmI3NGMyNDA4MjZhODdlN2FkNzU2YjI3M2FjZDA3N2Q3NWVjMTg5ZjhmNjY3MWQzMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTE4NWM2NDI5YzY0NmVjMTkzNjRkNmUxMmJlZTQzYzZlODc2NWQzMzFlOWMxYTU1YjM0YmVlNmFkNTgzNTk0OSJ9"
         },
         {
-          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L264-L292",
-          "version": "repo-lines-v1:sha256:4cda18475e4f6c4358d651972549593b17092b7a0ba05cfe216c7929a357ba5c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA2YjMyMTRiMzlkY2RlOGUxZGE3NDIxZTljNzNjYWJjMGExMWFhMGNhY2IwOWIyMTUzMGI4MzhlZTYxOTgxNmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMxMjE5M2YyY2ZiZDRmMGY3YjRmNmRiMzg3NzE3M2Y4ZDVlNzBlMmNkYjQ2YmQ1OTcwZGIzOTJkZDdkNTIwMzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L267-L296",
+          "version": "repo-lines-v1:sha256:d146cfc8ccd0371a2bb4f290f219f410409a017e4284dd51c1d1eaae1efc9a7b:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA2YjMyMTRiMzlkY2RlOGUxZGE3NDIxZTljNzNjYWJjMGExMWFhMGNhY2IwOWIyMTUzMGI4MzhlZTYxOTgxNmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMxMjE5M2YyY2ZiZDRmMGY3YjRmNmRiMzg3NzE3M2Y4ZDVlNzBlMmNkYjQ2YmQ1OTcwZGIzOTJkZDdkNTIwMzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
         }
       ]
     },
@@ -115,11 +115,11 @@
           "version": "repo-lines-v1:sha256:1bd195b5b4872ab39d32c846fdc9375e64105afe54cf18a83d47ca2edfdc5679:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWJkMTk1YjViNDg3MmFiMzlkMzJjODQ2ZmRjOTM3NWU2NDEwNWFmZTU0Y2YxOGE4M2Q0N2NhMmVkZmRjNTY3OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWJkMTk1YjViNDg3MmFiMzlkMzJjODQ2ZmRjOTM3NWU2NDEwNWFmZTU0Y2YxOGE4M2Q0N2NhMmVkZmRjNTY3OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGJjNjVkOGU2MDAzODViYzA2MjZjNmNiZmM3NWU2MjlmYzYyMzk2OWRjNjdmZDc1ZWMzMWY0MTk0OTU3Njk5ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTJlY2U5YzczNDRiMzhkNDIwOTRmNmJkYmUxNWI1NDNjNjc2YzNmMDYyODI2YmNmYzE2MmVhOWMyMzliYzU2NiJ9"
         },
         {
-          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L186-L186",
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L187-L187",
           "version": "repo-lines-v1:sha256:827877242543d01329e399db993f4c46b0daed43ea9f31b177a998212aa02ad8:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODI3ODc3MjQyNTQzZDAxMzI5ZTM5OWRiOTkzZjRjNDZiMGRhZWQ0M2VhOWYzMWIxNzdhOTk4MjEyYWEwMmFkOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODI3ODc3MjQyNTQzZDAxMzI5ZTM5OWRiOTkzZjRjNDZiMGRhZWQ0M2VhOWYzMWIxNzdhOTk4MjEyYWEwMmFkOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTM3MDYyOGM2MGQ1YjI1NGE0ZDIzNzE2MzhhZDk5MjQ1NGNiZmI3NmM2Y2VmMWUyYTA1NmViNjg3NWM1MjFjZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzEwNGQ2OWE1M2I1MTg3OTJiYzM3YzI0MWVlMTY1NGM5MjA3MmFlMzZjYjJkOTJhNzUxODUzZGJhOTIwMjk1NyJ9"
         },
         {
-          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L282-L291",
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L286-L295",
           "version": "repo-lines-v1:sha256:60e802cc54f104692296027f61d84e6876570e87aa4fc9c9ab00d047d2c5bf1d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA5NWZhMGYxMTE3YjVlYTQwNDM0MTQwZGRlMWEzNDBjNzIwZGRiZjMyNjIxMmUxOTE4MzhkNGIxNTZkMzE2YmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ5YWEyNzI3M2QwMjExMjFkZWI5OGUwZDg3ZmFkMWQzMWYxYzFlZTk2MWM2YzhhNjlhMjFmZDJlNmY2YmM1MjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY2NzM5NGQ4ODMyYzRhMWQzNTJjZTA2NDA5OWFiNDU1NjhkNzFlMGQ3NTgyYTE3MDUwODg0NGMwOTQyYTZiNGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRmNzM5YTA2YzFjYmIxMjQ0ZTMzNjNkMzhiY2Y5ZmE1MGNlODRmZWQzOTljMjE5M2EzYzdmMDhkNTk5MThiMmEifQ"
         }
       ]
@@ -129,15 +129,15 @@
       "statement": "Only an H1 or H2 that is the very first element of the page, with no earlier text element or other block, is dropped as the title heading; every later heading is body content. When the page has a title that differs from the dropped heading after ignoring accents, case, punctuation and a leading number, an oddity keeps the heading's full text.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L154-L163",
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L155-L164",
           "version": "repo-lines-v1:sha256:c8982ed8bcf2ebdb0a8af6bba8a2e9093fa1f7f3781547633fffaa8a92ca4015:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0Zjg4MjAwOTg3NmU2ZDZlMjk3ZjBhM2JhMWQyZjA0ODRlMDlkNDBmODI1ZWEyZjU3Y2E0NGJhOWYxMTgxYWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA2N2U2Y2EwMDE3ODI2MTE0ZGJhNTI5ZTQ5ODliYzIyNTVjNmFjNzU4OTFjYmRhYWFmNDg0MWZiY2M0ZTY1Y2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI1OTY2MDBkZTAzNTkyMzQ4M2JhYmZiYmQ5OWI4OTM5YWNjM2UxMzgzMTNjZDk3ZjMwYmY4YmQ4ZTE0ZTg3NTMifQ"
         },
         {
-          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L179-L190",
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L180-L191",
           "version": "repo-lines-v1:sha256:a6a7b15c0bc3eca5e210bb9fbf823c64ff8c670612c2b081d20d2b57792e7b2f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0ZDJiMmEwN2UwYzlmZjhmMjM3YmM4YzFhOGY4MDM0NTZjZGNlYTg0ZjUyNjI2N2E5M2M2ZjgzYmIzMWY1MTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMyYWY5MjEwMTM2NjA3ZGIyYmM4MDFiMzIyZWE5Zjc2NGI2ODQ4Nzc4ODQ4MWMxZTY4ZGQ3NWQ5MzhhMzhkYjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZiODYxZGJlYmRkYzlhNjRhMTFiMDE1YjY0NThlNDNkNDFkMDIwOTEyYjUwNjJiNWUyZDE3YmQxMmY0Nzg5YzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY3NzAwN2M0NTc5YmVjYzkwZDM2M2VkMmRjZmJlMjI4Yjg2ZjllYWZmYzA0N2JlM2I4ZGEwNDcwMGU4Yjk1ZTkifQ"
         },
         {
-          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L206-L229",
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L207-L230",
           "version": "repo-lines-v1:sha256:bb1ef80878eef6892eae9f5da2734b6e0a5454d7e201f416ec3e8947df5dcca7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhYmYwOTY0MTQ4YmRhZTI3MzAyNjQxYWYxMGE2NGMwZTJlZWUwZmVlN2VkODgxYWVlODEzYjdlNzhhNTdiNzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliNjJmNjBkODU5MGE1NzljZjQ2ZjhkNjczNzhjNGM1NzJiOTYyY2VjY2RiOTBjN2E1ZjdiNDJiOTYwNzgyYTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAxNzYzMWVlMGZiNjlhY2NjYTE3MjYzM2MxNTA5OTc3ODdkYTE0YjEyOTlhMDMzNWQzMTFkNzcwNGFiYTQ3MzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVlYTI1MjllMTkwZGI1YTAwZjRhZmQ2OTdmZjA2NDBmZmE5NjY2Yjk3Y2UyOWRjNzg3YzhmNDFiZGM4MmE5NmMifQ"
         },
         {
@@ -146,25 +146,25 @@
         },
         {
           "resource": "repo://tests/unit/import-to-quest-guide.test.ts#L153-L171",
-          "version": "repo-lines-v1:sha256:53e580f56e103f18d2a0c3ee150239c602828296fabb3c54474da967d23318aa:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE1ZDhiMTUyODc0M2ZjYTgyMDA3ZDQ5YzA2MjA0YTRiNTRmNzk0MDJhMGE0NzgyYmNjNzk0YzZkNjg1ZDM3YjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQxOWJiMGEzZmMyZjc4Njc3YTc3NjgzZTE5NzlhNjc0ZTMwOWIxOTRkZmQ5ZjUxOWUyODBkY2U1ODdiY2U1MjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM3ZDRiNWMxZWIzNmI2MjhjMDdiMWY3OTAzZTYxYzYzMjY5MmFkZjUzMGM4MzQxOGVhODgzNTMyNGYxZjliZDMifQ"
+          "version": "repo-lines-v1:sha256:53e580f56e103f18d2a0c3ee150239c602828296fabb3c54474da967d23318aa:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE1ZDhiMTUyODc0M2ZjYTgyMDA3ZDQ5YzA2MjA0YTRiNTRmNzk0MDJhMGE0NzgyYmNjNzk0YzZkNjg1ZDM3YjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQxOWJiMGEzZmMyZjc4Njc3YTc3NjgzZTE5NzlhNjc0ZTMwOWIxOTRkZmQ5ZjUxOWUyODBkY2U1ODdiY2U1MjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI0YTUzMGM0OWU5YzNmOTcxOWQ0MTliODk3ZDg2ZGJkNTEzNDNkOTI4ODUxYzMxYTcxOGY4N2U2NWRmZTlmYTYifQ"
         }
       ]
     },
     {
       "id": "claim_1fc3816eb62c4d899d149c29c0f2e23c",
-      "statement": "Lines starting with Prerrequisitos, Necesitáras or Recompensas, compared without accents or case and checked first so a label sent as a heading still counts, fill the matching summary field with the rest of the line and the following elements of the same text block, headings included, one line per list item, joined by newlines, and stay out of the body.",
+      "statement": "Lines starting with Prerrequisitos, Necesitarás or Recompensas followed by a colon, compared without accents or case and checked first so a label sent as a heading still counts, fill the matching summary field with the rest of the line and the following elements of the same text block, headings included, one line per list item, joined by newlines, and stay out of the body; without the colon the line is prose.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L204-L221",
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L205-L222",
           "version": "repo-lines-v1:sha256:1ecbd590a418e0789e45d59a0c25fdebfbf6291d218ea3a408df286b55e26baf:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZiYjlkZDJkZjNkMGJmMTVjOTlkODAyYTE2YTdlZWNiOWZkYWY2ZTRiZDgzYjljYzhhMzY0ZDA3MTk5Mjc1ZjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliNjJmNjBkODU5MGE1NzljZjQ2ZjhkNjczNzhjNGM1NzJiOTYyY2VjY2RiOTBjN2E1ZjdiNDJiOTYwNzgyYTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU3ZGNhMmM2M2IwOWY4NDQ1ODUzNmE0NTI3NzNkZWRkZGNiYTk1ZTY1YWY0NzY5ZDhmYzgzZTFhNzIwZTk3YmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAzY2IwMzYwYzRkYjkwZDEwOTk3MGM1MDFmZTIzYjIzOTI5NWU1ZThjNzAxZGM0ZTIzNjM1ZDA0NTRjMTQ3YTIifQ"
         },
         {
-          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L269-L273",
-          "version": "repo-lines-v1:sha256:f777f4a38d4d25798837f8952a1da36595e4577e02f50f45797bb69bcfd7809d:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTdjYmIxZGMyMzc0OGIzZDUzMDhhM2M4YWU1ZDg2MDIxNmI0OGVkMGFiZDJjOTRkNjNmM2NiODRlYjA1MjgyMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjdlNTc4OGQ1ZDlkNzNkMjRhODFkYmMwYTVhNzRiZmE4MmM5YzNiM2FmOTllNTJhZjc5NmU5MGI0NjhhOGEzZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2M2YmE3YzU0YmYwN2FiMzJkZjhmNTRlYTM2NmNmOGJiYzIyMWRjOGExNDEyODkxNGYxYzNmYTRkNGFkNDJiMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTJmY2Y0NzBkZTE5YmUzOWZmNTAxYzA5YWQxYTNlNGZhZGQ4N2Q1YjkwNjNiYWNiMjM5Yzg0YWU1MmI3ZWZiZCJ9"
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L272-L277",
+          "version": "repo-lines-v1:sha256:caa07331ce1fa33171de546624efb9cc0ef01f043cc1f40a43eaf2035c180b89:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTdjYmIxZGMyMzc0OGIzZDUzMDhhM2M4YWU1ZDg2MDIxNmI0OGVkMGFiZDJjOTRkNjNmM2NiODRlYjA1MjgyMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjdlNTc4OGQ1ZDlkNzNkMjRhODFkYmMwYTVhNzRiZmE4MmM5YzNiM2FmOTllNTJhZjc5NmU5MGI0NjhhOGEzZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2M2YmE3YzU0YmYwN2FiMzJkZjhmNTRlYTM2NmNmOGJiYzIyMWRjOGExNDEyODkxNGYxYzNmYTRkNGFkNDJiMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTJmY2Y0NzBkZTE5YmUzOWZmNTAxYzA5YWQxYTNlNGZhZGQ4N2Q1YjkwNjNiYWNiMjM5Yzg0YWU1MmI3ZWZiZCJ9"
         },
         {
-          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L50-L87",
-          "version": "repo-lines-v1:sha256:e2599c8b9f5c73416260b30a57d2ae80c3f6eba89384f4a61e13b5c11d309751:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ4NGI1ZGE3NWMxNWVkY2JkOGM3NDZkYjVjY2UzNDU5NzYwNTRmYmVlYjg1NGYyZjkwYzg4MzhiNWY5NGEzM2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY3ZjA3ZDA3NDJmNTNkMzJmMzkyMzBhMmUwYmFlMTExNDcwOWIwODYxYTlhOTYxOTBiZDdhN2NmNTRkOTQyOTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFkODI5ODVhZjkzNGE3ZDMzODgyMWJmMTk1YjU1OTkxNTkwYzM1MDhiMTQ3NDNiZDMyN2E0YzJjOThmZjZlYTMifQ"
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L50-L88",
+          "version": "repo-lines-v1:sha256:b55e7ee33f39e64915d0a7b8c541de2406ca547ff717df5557592fa4188188f5:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ4NGI1ZGE3NWMxNWVkY2JkOGM3NDZkYjVjY2UzNDU5NzYwNTRmYmVlYjg1NGYyZjkwYzg4MzhiNWY5NGEzM2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY3ZjA3ZDA3NDJmNTNkMzJmMzkyMzBhMmUwYmFlMTExNDcwOWIwODYxYTlhOTYxOTBiZDdhN2NmNTRkOTQyOTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFkODI5ODVhZjkzNGE3ZDMzODgyMWJmMTk1YjU1OTkxNTkwYzM1MDhiMTQ3NDNiZDMyN2E0YzJjOThmZjZlYTMifQ"
         },
         {
           "resource": "repo://tests/unit/import-to-quest-guide.test.ts#L128-L138",
@@ -173,50 +173,66 @@
         {
           "resource": "repo://tests/unit/import-to-quest-guide.test.ts#L146-L151",
           "version": "repo-lines-v1:sha256:42f7d1f29ae8c753fa1f555b366f16b59543ea5d1659f465a2195718ce282e0a:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmNmMzhjMzUyMWJiNDg4MWQ0ZWRlZDMwZjYyZDAxZmQ2MDdmMGNiZmY3NzFjYTg3YTc5MjE0NThiYThiNzQxMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjIzNTI1ODljMzRkM2M2MDY4NTkzMWI2ZWNjNGQ1MDk5MWE3YzU2YzhmYmEyODk0MTE0NjU3NjkwMjcyY2FjMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmVjMjJkZTQyYmFkYTE4MjNmMzc2Njg0NDY3YzllMDczZTkxYzNkZGQzMjhlMjE2MDQyN2Y0ZGQzNWIzMGJhYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWRmYjJiZmNhNWQ4MTc3NTNhNTdkYmU5NzhlNzFjOTRhMWRkMzBiM2MzNGQ5ZThlOTkwZGYzZDFkNmRiNjEzYiJ9"
+        },
+        {
+          "resource": "repo://tests/unit/import-to-quest-guide.test.ts#L186-L195",
+          "version": "repo-lines-v1:sha256:1e0403bc5ae41d886cd8149192935d4f936bbc22b5ba278f549a40a28aa9f609:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkzZDA0MjFmOGUwZjQ5NzUyODg5YWUzYWIzZDgzMTkyOTNjZDk5NTYwNTE0OGNkOTM3YzY2OWU2YzI1N2ViZmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNmYTFlNWQwY2MyMmY2NjJhNDUzZTRhYWQ0NmI5NWVlYjA4NDA3YjQwYTVhZDFlNzQ4OWE4NjlkZjdlZGE5MTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI3YTE4ZWQxZTAyZjQ2ZWRlNGE4OGFlOTQ4ODI1MzA0OTkwYjVjMWYyZTg3M2FiZjA3NjM3Yjg2YzJkYTRhYzgifQ"
         }
       ]
     },
     {
       "id": "claim_5bdcb5f279514aa2ab1fcfeaf91b89e2",
-      "statement": "A paragraph starting with the closing sentence Aquí termina la misión loses only that sentence; the rest of the paragraph stays, and a paragraph with nothing else is dropped.",
+      "statement": "A <p> paragraph starting with the closing sentence Aquí termina la misión loses only that sentence, which can end at . ! ? or an ellipsis; the rest of the paragraph stays, a paragraph with nothing else is dropped, and lists and headings with those words stay whole.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L147-L152",
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L148-L153",
           "version": "repo-lines-v1:sha256:cd48a9735cb620184475372df901a68fc236ee853e06c1cd492d373b6a93ce61:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2U0NmY4YTBiZmJmYTg5ZTU0YThiOWFmMDFhMDRlODUzYjI1ZDZhNDY1OGRjYzc0NjdkMzViOGY1MzRiNjg5MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmI1ODBlOTY0ZjgzYTQ3M2Y0M2Q0NDM4NDYyOTQ5ZDY4YjU2MDBmZGE3ODdmMTYzNzQ1ZDAwZGU4OWNiZjM2YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMGM1YWU4OTIwMmM0NGNlMDlmNDliZTU4MmUyNzhmZGY3MjRkZDBjZGQ3NTcyZDI0YjdjZWJhODUxYjlhZTBlYiJ9"
         },
         {
-          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L237-L240",
-          "version": "repo-lines-v1:sha256:84e211ec9c4b0d4b9ed07bfd0eaadc1b2a342d5a5e42d611980df24ea648c18f:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2M3ZWVkMDgxZWNiNDkxYWMxOGE2ZjdmY2M5NTg5NDdlZTU5YTFmYmIyMTg2M2ZhYTNhNmRmNWQ1MTg0MzI2OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTBhNDliMjllMTcxYzQ3YzY1MWY3MWViYzg4MzcxMTA4MzAxNTFmNGQwZWQ5NDNiMDVhN2NmNGZjMGViNWUxMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTE2ODU5NjQ3Y2YyMGIxOGVlOWM4NDVjYmFhM2I5MWM0MWIzYzVmZWRlYTM3NmI3YzA4MTFmNmM2YzBkMDM0NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTFjYTJlMzM5MzU3OWMzZTMzZDM1ZTJjMWM5YTBkYjIzY2E3NDc1MjI3YzJkNDFhNzRhM2ExNTc3YTliNjUyOCJ9"
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L238-L243",
+          "version": "repo-lines-v1:sha256:776a7becd74cecbe759b59ff9483ffa2e15d3e30fb3f80c67d7e13d20e4eefec:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTRjODYzYTg1YTY4OTI5OGNhNGJkNDIwMjk4OTljZTYxNmM3YjRmZDc0ODk1NTI3YzZiYjU2ODkxMDQyYmYzMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTBhNDliMjllMTcxYzQ3YzY1MWY3MWViYzg4MzcxMTA4MzAxNTFmNGQwZWQ5NDNiMDVhN2NmNGZjMGViNWUxMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTE2ODU5NjQ3Y2YyMGIxOGVlOWM4NDVjYmFhM2I5MWM0MWIzYzVmZWRlYTM3NmI3YzA4MTFmNmM2YzBkMDM0NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWZiYzg3MTYzMTEwMWM5MjVjNDYzOGQ3N2Y0N2U3MzEwNzM0NjYzMTAyYWFhNjcyMTEwN2U1NGI1MzMyODZkYSJ9"
         },
         {
-          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L64-L64",
-          "version": "repo-lines-v1:sha256:ff1735ba13153012e7a19d8797cf3f9ccc9df4f5b6ed8bd6743538d35c6f2920:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmYxNzM1YmExMzE1MzAxMmU3YTE5ZDg3OTdjZjNmOWNjYzlkZjRmNWI2ZWQ4YmQ2NzQzNTM4ZDM1YzZmMjkyMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmYxNzM1YmExMzE1MzAxMmU3YTE5ZDg3OTdjZjNmOWNjYzlkZjRmNWI2ZWQ4YmQ2NzQzNTM4ZDM1YzZmMjkyMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2VkODcxZjk5NzA4NGIzMmY5ODMzOTY0Njg5ODczM2UyMjU1YjE0YmY0NmRhOTMwZjQ5NjE4ZjYwNWJkOTEyZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjQyMDZlNzFhODVhM2MwMGEyMjA1Y2RhZGI0NTA1Y2NkMmE3MTJkNGFlMDk5MTM5ODc3ZGJlOTEyMzY0OGE5OCJ9"
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L63-L64",
+          "version": "repo-lines-v1:sha256:ae2d3f1381005c9bc1e544423c9c7f74b1291ba26071869eac4ff1bdc9862e54:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTIwYWVjMGYyZTFhOWEyYWFkY2NhZjE5ODhmNTAyZWFkMjE5ODNjOWMxOGVjNDllYzdhMTM2ODUxZjFhNzRiNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmYxNzM1YmExMzE1MzAxMmU3YTE5ZDg3OTdjZjNmOWNjYzlkZjRmNWI2ZWQ4YmQ2NzQzNTM4ZDM1YzZmMjkyMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjlmMWNkNjhkN2M2Y2ZhMGNiMjg4NDcxYTQ5Y2IxYjY2NjQ4MjllYzMzYWI2NDY1Mjg4YjRlZjA1ODMwNGNhNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjQyMDZlNzFhODVhM2MwMGEyMjA1Y2RhZGI0NTA1Y2NkMmE3MTJkNGFlMDk5MTM5ODc3ZGJlOTEyMzY0OGE5OCJ9"
         },
         {
-          "resource": "repo://tests/unit/import-to-quest-guide.test.ts#L183-L219",
-          "version": "repo-lines-v1:sha256:fe8e6b05bfc169e419eeb4c19596a4cfb110cf2b61fb04031800e67bfb7c9fd8:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhkNTI5MDEzMGZhMmU5NGFlOTdhNDEwNTIyNjk5NWY0NTQ1ZWYyN2E1ZTJkOWQwZDViMzIzNjg1YzZhMmIzM2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNmNDU4NjZiZDllNzJkNDVlNDRhODNjMGI1NTJkY2Q4Nzk5MWYwZWQyYTBiOGU2OTIyMDljNDA1ZWI3NzdhYzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOTU2ODIxNGRjOWRjMWMxMGI0YWU4OTk3ZDFmYmIxYjM0OWE2NDAyYjFmMTZiNGNmOGQxNGIyZmMyY2FkZjkifQ"
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L90-L95",
+          "version": "repo-lines-v1:sha256:d3a6701a0c4d0bfaad32a758a2b0c17188ca483d6c2bafee42f22f4190281f86:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzJkODYyNDI5ZDJmOTMwOGUyMGIzZTQxNWNiZDExZDFmZGNlMThlYmRjYmI5NDc4MjUyNGZjODljNmExYzQ0OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTBhOWU0ZDBjY2E4YWNjMjExM2YyN2IxMjQ0NmMyMTJkNGZlNzUyODY1NmU4N2U2NTVhY2YzMDY5MzZlNDczYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTZlNzY5NjZlNGEyNGYxZjg0NjgzNTk5MTZmMTk5N2U1N2I4YzgxZTc5ZDY5ODA4MzM2OTA2NDkxNTU4ZjYzYiJ9"
+        },
+        {
+          "resource": "repo://tests/unit/import-to-quest-guide.test.ts#L173-L184",
+          "version": "repo-lines-v1:sha256:b242f52178910f1638c8fd8cae9121a13e7d0400e039cba121a00ec651499ab6:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMyN2E2MGQ1YmUwZjMxYTY5NWFjNGFjYzE1YTFkMWQ2NDg1ZWQxZTA1OTdmMDIzNTFlOWViNTQ2MjZkYmU4NDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE1OWU4ZThhM2E1ZDliMmE4NzdiZGY3MmY0MDg5OGM3MWQzOWNkMjgwOTU3NDM2ZGFiZGNlYTYxZGVkNDJjYTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY3YTYwZThhZjg0M2Q4OWNmNzc1ZjFjYWJiZDFlZWY2M2FiOThhYzM2NjFjM2FmMGNjMTc3MzM0NDg2YzczZjMifQ"
+        },
+        {
+          "resource": "repo://tests/unit/import-to-quest-guide.test.ts#L217-L263",
+          "version": "repo-lines-v1:sha256:7570458fefaee8bd096f22af6e63814b8e45588e4b22730ed971a3d50be4f8fa:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhkNTI5MDEzMGZhMmU5NGFlOTdhNDEwNTIyNjk5NWY0NTQ1ZWYyN2E1ZTJkOWQwZDViMzIzNjg1YzZhMmIzM2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNmNDU4NjZiZDllNzJkNDVlNDRhODNjMGI1NTJkY2Q4Nzk5MWYwZWQyYTBiOGU2OTIyMDljNDA1ZWI3NzdhYzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiOTU2ODIxNGRjOWRjMWMxMGI0YWU4OTk3ZDFmYmIxYjM0OWE2NDAyYjFmMTZiNGNmOGQxNGIyZmMyY2FkZjkifQ"
         }
       ]
     },
     {
       "id": "claim_aacc655e2b6945bfb35514a144f9bdc4",
-      "statement": "The first paragraph starting with Habla con X [x,y] (only when its sentence says para empezar) or La misión empieza hablando con X [x,y] fills startNpc without a leading article, startX and startY.",
+      "statement": "The first <p> paragraph starting with Habla con X [x,y] (only when its sentence says para empezar) or La misión empieza hablando con X [x,y] fills startNpc without a leading article, startX and startY; a start line in a list or heading does not count.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L121-L145",
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L122-L146",
           "version": "repo-lines-v1:sha256:f21c4651de2d5647578b97f77f5c5a0ac43302b6a01a2e5a7ec40fd655c1a57c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdiMTkwZWMwNDMxMjg4MTc4OTg3YmJkNGI3NmY4Mzc4YTc3NzU2MThiZDJkNGQyZTMyODcxODNjNGI0ODJhNTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE2NmVlZjI4YmI3YWNiM2VkMjg5M2JiMjBjZTIwYWQwNmVhMTg2M2I3ZTUwODI4ZTQ0NGFkMzYwZmMyMTFmODIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQxZjEzOWE5Y2Y1YmNjYTgwMTYyNjc4NzJlNThiZjUxZjA1YThmZjllNzc5YzNmNjI1NzU5ZmFiMThiYThmZjQifQ"
         },
         {
-          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L241-L248",
-          "version": "repo-lines-v1:sha256:f17ed125d4f29ac0e3f37612f4c67473e3954fda44bc553da7cbf607adc29cd8:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzM0NzE1ODk0ZjQzNzM4M2IwYmExN2IzYWI1NmI0MWRlZjY0Y2ZlNTNjNGZjNTg0MzhmOTVmNjg4NmQxMzc0YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWI2MmY2MGQ4NTkwYTU3OWNmNDZmOGQ2NzM3OGM0YzU3MmI5NjJjZWNjZGI5MGM3YTVmN2I0MmI5NjA3ODJhNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWYxNjk5ZmZkYjBhOWI3Y2YyNGJhMWJmZDM4Y2Q1ZTNlNzg0MDc4YjEzYjEyNjliYWJlMDc3ZmIyMzkyOTQ4ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDdiMjE4N2ZlNmIyODczNDVmZDVjOTE5NzU3YTczNzQ0MDBhODdjMzJkNGExZmQ1YmJmZGYxNWUzMjg2MDY4MyJ9"
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L238-L251",
+          "version": "repo-lines-v1:sha256:fe9a0ca9cf73034a67dc2ddd7188701d5207e38f6760dfe0f49e998c13ad7859:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU0Yzg2M2E4NWE2ODkyOThjYTRiZDQyMDI5ODk5Y2U2MTZjN2I0ZmQ3NDg5NTUyN2M2YmI1Njg5MTA0MmJmMzEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliNjJmNjBkODU5MGE1NzljZjQ2ZjhkNjczNzhjNGM1NzJiOTYyY2VjY2RiOTBjN2E1ZjdiNDJiOTYwNzgyYTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUxNjg1OTY0N2NmMjBiMThlZTljODQ1Y2JhYTNiOTFjNDFiM2M1ZmVkZWEzNzZiN2MwODExZjZjNmMwZDAzNDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ3YjIxODdmZTZiMjg3MzQ1ZmQ1YzkxOTc1N2E3Mzc0NDAwYTg3YzMyZDRhMWZkNWJiZmRmMTVlMzI4NjA2ODMifQ"
         },
         {
-          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L274-L280",
-          "version": "repo-lines-v1:sha256:64f79f51c65ae609d3dcc417fc6e103c5ceb2190bb80b64f561cf0d3b765512f:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDcxOTE3NzRjZDA1Y2M4NTk3YTBhNmI5MzQ3OGVlMzRlY2M0OTFkMTgxNmYzZTQyNTBjNzM2YWQ4YWNhODQxMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjdlNTc4OGQ1ZDlkNzNkMjRhODFkYmMwYTVhNzRiZmE4MmM5YzNiM2FmOTllNTJhZjc5NmU5MGI0NjhhOGEzZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2Y4MTYzZDRjYzRjZjczMGI0MTM3MjdhNWViODAzMjBlNzExZjBkMzkzNTJmODJiMjM4MTVhZWNjNWI4MzNmNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzI5ZmNjYmZlZDE3YmZiMDZjMzNmY2ZkYjQ4YzkzNWM2OWQ2YmIwZjI4NmMxZDA2OWU4MTY0NjI0ZjMyYTFmNCJ9"
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L278-L284",
+          "version": "repo-lines-v1:sha256:64f79f51c65ae609d3dcc417fc6e103c5ceb2190bb80b64f561cf0d3b765512f:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDcxOTE3NzRjZDA1Y2M4NTk3YTBhNmI5MzQ3OGVlMzRlY2M0OTFkMTgxNmYzZTQyNTBjNzM2YWQ4YWNhODQxMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjdlNTc4OGQ1ZDlkNzNkMjRhODFkYmMwYTVhNzRiZmE4MmM5YzNiM2FmOTllNTJhZjc5NmU5MGI0NjhhOGEzZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDMwYzQ0YTQ4YjBlZTc2ZmI2MmQ2MTMyOTQ1ZDg4MzEyYzgwOGJjMzA3NGQ3MDNhOWUyZmQyZTUxNGYxNmQwYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzI5ZmNjYmZlZDE3YmZiMDZjMzNmY2ZkYjQ4YzkzNWM2OWQ2YmIwZjI4NmMxZDA2OWU4MTY0NjI0ZjMyYTFmNCJ9"
         },
         {
           "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L58-L62",
-          "version": "repo-lines-v1:sha256:5c444cd31d8f434bd2a4491062b2d2328383c7d4bcfc17122bc4b3d316e9d706:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2ZiY2NjOTVmM2ZiNTI5NjUyZGM0NzY4MGIyMWMxNGIwNGVkNzUxOTExNDQ0ZmM2MTU4MzFmM2NlMzJlNmJhYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmY3NDE0ZGI0ZjQzYzk1ZDIyNmQ4MDg1YWQ4OTBjOTBhNDk1MzI1YzMxNjAzNzRjZTI5NjZhNTg1ODRkNmFmNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzIxZWZkODA2YTRkZDExZDgxYWE3NGFiNzE4ZWZmZDZkNWVkODA2MjhhNTJmYzg5NzQyZjM2YTI1MTYxZWY5MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDU1ODQ0OTAzNjdiNDRhMWJhOGY1ZjU0ODM1NTFjMGY4NGIyNTQ3OTgwZDU1MjYxZTg1M2I3ZTM1MWM3MGE4MCJ9"
+          "version": "repo-lines-v1:sha256:5c444cd31d8f434bd2a4491062b2d2328383c7d4bcfc17122bc4b3d316e9d706:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2ZiY2NjOTVmM2ZiNTI5NjUyZGM0NzY4MGIyMWMxNGIwNGVkNzUxOTExNDQ0ZmM2MTU4MzFmM2NlMzJlNmJhYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmY3NDE0ZGI0ZjQzYzk1ZDIyNmQ4MDg1YWQ4OTBjOTBhNDk1MzI1YzMxNjAzNzRjZTI5NjZhNTg1ODRkNmFmNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzIxZWZkODA2YTRkZDExZDgxYWE3NGFiNzE4ZWZmZDZkNWVkODA2MjhhNTJmYzg5NzQyZjM2YTI1MTYxZWY5MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWU4MjIyNjIxMmFmYjhhMDJiNzNjMjk5MmY0NjNkODkyYjBjMGM4ZWQ4NmY0MzAwZjNhM2JlYmNkMWMxM2I3ZSJ9"
+        },
+        {
+          "resource": "repo://tests/unit/import-to-quest-guide.test.ts#L173-L184",
+          "version": "repo-lines-v1:sha256:b242f52178910f1638c8fd8cae9121a13e7d0400e039cba121a00ec651499ab6:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMyN2E2MGQ1YmUwZjMxYTY5NWFjNGFjYzE1YTFkMWQ2NDg1ZWQxZTA1OTdmMDIzNTFlOWViNTQ2MjZkYmU4NDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE1OWU4ZThhM2E1ZDliMmE4NzdiZGY3MmY0MDg5OGM3MWQzOWNkMjgwOTU3NDM2ZGFiZGNlYTYxZGVkNDJjYTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY3YTYwZThhZjg0M2Q4OWNmNzc1ZjFjYWJiZDFlZWY2M2FiOThhYzM2NjFjM2FmMGNjMTc3MzM0NDg2YzczZjMifQ"
         }
       ]
     },
@@ -225,11 +241,11 @@
       "statement": "A bare start sentence is removed from the body while the rest of its paragraph is kept with its formatting; a start line with more information stays whole in the body.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L139-L144",
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L140-L145",
           "version": "repo-lines-v1:sha256:b6a492af3f26777699a544288eb6e1790141563b194394c6ea2c487ae6917ca8:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDk1ZmEwZjExMTdiNWVhNDA0MzQxNDBkZGUxYTM0MGM3MjBkZGJmMzI2MjEyZTE5MTgzOGQ0YjE1NmQzMTZiYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjdlNTc4OGQ1ZDlkNzNkMjRhODFkYmMwYTVhNzRiZmE4MmM5YzNiM2FmOTllNTJhZjc5NmU5MGI0NjhhOGEzZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjkxZDFlNTgyNjc4ZmE1MmFlZjBiNDkwZjIwYmMzM2IwMjgzYWI5M2QyZjk5MjBlNTYxY2JkODRmNDc5MTA4MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWEzZjBiZTc1NDFmOGJmMGMyNzA0NjVhNjA4MTRhMWZjN2RhMGZhZDg0YzBhZjUyZTRjM2ExNmIxYzI5YmE2ZCJ9"
         },
         {
-          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L96-L119",
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L97-L120",
           "version": "repo-lines-v1:sha256:645c6e31bf042ce63b60422f2851fb7056232542f17c9b717381e66e338756ef:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFmYTdlODMxODg2Mzg1YmY1MTFhMTE4ZDc0ZWY3NDk5MTY2MDEyNjZjM2ZhOWQxNjY3NWU1YjdkNDQ2YWMzZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMwMDBkNGMzZjgyYTEzODFjZjg1YjUxYzY2YzdlY2JlNDQxYzIzY2JkODBkOWNkYzA0NGE4ZDRlMDkyYjdhNDYifQ"
         },
         {
@@ -237,8 +253,8 @@
           "version": "repo-lines-v1:sha256:720112738b287ff30f86ecd82aa52c4cfb2a2e27e857ff0750760d84756d9da0:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE2NmE3YmIyOTZjZWNhN2M4NWJjNzUxOWViNWFmOWRjZGRhNGU4NjA0MDdmZmFkZTllMjRiMzEyMDMxYzc2MjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFjNjQ1ZTIwZGU5MDUzNTE3YzUxZGNlOWI3ZDczMzc0NDMxYTMyYjgyMGUzZDhjYTJjZjM1MWI3ZDdjZWUzZDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkyZjFlZjc0NWJhOGM5ZjhmY2VjOWJmNjk4MzQ5MzU0NzA1MDQxZmU2YzRkYjBlYzAwZDdhNTM2OWZlZTM0OWEifQ"
         },
         {
-          "resource": "repo://tests/unit/import-to-quest-guide.test.ts#L173-L181",
-          "version": "repo-lines-v1:sha256:22cd5d98532356f9cba190b27ab016a2084d703962f79a0cbd3145796262c598:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjVhMjdmZmE2NzRjNTQ0YjAwYzlmYTE2ZGQ4NGJlYjY1ODg3NWRmOTk0Nzc5M2M2ZjU3Y2U5NDM5N2I0NDMzNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjIzNTI1ODljMzRkM2M2MDY4NTkzMWI2ZWNjNGQ1MDk5MWE3YzU2YzhmYmEyODk0MTE0NjU3NjkwMjcyY2FjMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTU5ZThlOGEzYTVkOWIyYTg3N2JkZjcyZjQwODk4YzcxZDM5Y2QyODA5NTc0MzZkYWJkY2VhNjFkZWQ0MmNhMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYThkMzUwODlkOGZlZDg5MjRmNzRlZDc5ZTUwNGVmOTNjYWQyODU0ZDgwMzgyMzYwMzMxNzY3ZTljYzZhMmEzNyJ9"
+          "resource": "repo://tests/unit/import-to-quest-guide.test.ts#L207-L215",
+          "version": "repo-lines-v1:sha256:22cd5d98532356f9cba190b27ab016a2084d703962f79a0cbd3145796262c598:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjVhMjdmZmE2NzRjNTQ0YjAwYzlmYTE2ZGQ4NGJlYjY1ODg3NWRmOTk0Nzc5M2M2ZjU3Y2U5NDM5N2I0NDMzNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjIzNTI1ODljMzRkM2M2MDY4NTkzMWI2ZWNjNGQ1MDk5MWE3YzU2YzhmYmEyODk0MTE0NjU3NjkwMjcyY2FjMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjMyNjk3OTk4NmFkZWUzOTVkNTk1NjRkZTE2YTg3NzFiOTY3Yzk0ZWY0ZmViZjk5MmNjNGI1OTM4ZDMyYzc2YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYThkMzUwODlkOGZlZDg5MjRmNzRlZDc5ZTUwNGVmOTNjYWQyODU0ZDgwMzgyMzYwMzMxNzY3ZTljYzZhMmEzNyJ9"
         }
       ]
     },
@@ -247,12 +263,12 @@
       "statement": "Paragraphs starting with all-caps IMPORTANTE or CUIDADO become warning callouts and NOTA becomes a tip callout, including what is left of a trimmed paragraph.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L231-L258",
-          "version": "repo-lines-v1:sha256:c5cc43e031a8e10120c656e4d4d70cc80ae58b0d4f0ba4675358408ee143fac6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVjYmI3ZGQ4ZTU5NDIxZmJiMDEwZGM0ZmM1YmY2NjFlYzAwNjM4NGJkZDVhN2M1M2NiMmI4YTY3M2VmNzhmMjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliNjJmNjBkODU5MGE1NzljZjQ2ZjhkNjczNzhjNGM1NzJiOTYyY2VjY2RiOTBjN2E1ZjdiNDJiOTYwNzgyYTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJmNjA0YTlhZjIzY2EyMGFlYWQ1ODg0MWRmMjNiNzE3YWI2YzNjZDY4NmQ4NzBlNWVmNjI1MWMxMmY5MWE4NDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjczOWMwZTU5Y2NiOGU0ODA0ZThiYzE2MDRkZmNkNDQ2ZDU5NzMzZjJhNWI3NzU4NDJjYTY4MjQ1MTRiODlmN2QifQ"
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L232-L261",
+          "version": "repo-lines-v1:sha256:180f4427a1a70ba5b86671c843dd94cfa48df4079fac3eaaa917e62c31eff3ec:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVjYmI3ZGQ4ZTU5NDIxZmJiMDEwZGM0ZmM1YmY2NjFlYzAwNjM4NGJkZDVhN2M1M2NiMmI4YTY3M2VmNzhmMjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliNjJmNjBkODU5MGE1NzljZjQ2ZjhkNjczNzhjNGM1NzJiOTYyY2VjY2RiOTBjN2E1ZjdiNDJiOTYwNzgyYTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJmNjA0YTlhZjIzY2EyMGFlYWQ1ODg0MWRmMjNiNzE3YWI2YzNjZDY4NmQ4NzBlNWVmNjI1MWMxMmY5MWE4NDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjczOWMwZTU5Y2NiOGU0ODA0ZThiYzE2MDRkZmNkNDQ2ZDU5NzMzZjJhNWI3NzU4NDJjYTY4MjQ1MTRiODlmN2QifQ"
         },
         {
           "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L65-L66",
-          "version": "repo-lines-v1:sha256:05347fbfef8c03b3a7ac7978620e08a9503390466242ed64586329fead9d586e:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmMxNGRkYTkwMzljNzk3ZDk0MDRkZGNiYWVmMWY1Y2ViZmFmN2FmYmQzMjQ1NjRhNzdiODI0YTQ4MWFhMDVkYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWVkNTllNmVjMzAyZDFkYzAwNTg5MzQ3N2U2N2U2NTA2NGNlYzNlMTVhNDg3NjlmZDJhYWQxZDJhZWRkY2U2OCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGNlNTk0ZDM5Y2ExNmI3N2VlOTFjNjg5ZGI3NjA5NDczMDQ4ZTM0NDZjM2NiZDgzOTFhN2M3ZTM3NjY2OWQ2NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWYwNGM5Y2JmNjViODdjZDcxODE3N2VlYWM4M2I4ZDc2NzE2MGExZTEzZDEyYWU5N2I5MzkzNTNkMjg1YzBkNyJ9"
+          "version": "repo-lines-v1:sha256:05347fbfef8c03b3a7ac7978620e08a9503390466242ed64586329fead9d586e:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmMxNGRkYTkwMzljNzk3ZDk0MDRkZGNiYWVmMWY1Y2ViZmFmN2FmYmQzMjQ1NjRhNzdiODI0YTQ4MWFhMDVkYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWVkNTllNmVjMzAyZDFkYzAwNTg5MzQ3N2U2N2U2NTA2NGNlYzNlMTVhNDg3NjlmZDJhYWQxZDJhZWRkY2U2OCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmQ0NzY5NDljNGMyMzJmNjY1OGU0MTFjMzRmODM5ZmE4ZDQ5M2EwM2EyYzU2MTU4Y2FiYWQ2Mzc5MDQxNmJlMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWYwNGM5Y2JmNjViODdjZDcxODE3N2VlYWM4M2I4ZDc2NzE2MGExZTEzZDEyYWU5N2I5MzkzNTNkMjg1YzBkNyJ9"
         }
       ]
     },
@@ -261,7 +277,7 @@
       "statement": "Consecutive prose elements are joined into one richText block that keeps HTML until the loader converts it to Lexical; images become image blocks with the guide title as fallback alt, videos become video blocks, and unknown blocks are left out of the body.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L182-L202",
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L183-L203",
           "version": "repo-lines-v1:sha256:be6a194575a3cede2750e15c48e65ec4ec4c1762892d48bdccaec108fe859309:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRmZGFkMDlmZGQyNDVhOWJlMDdjYzgyOGEzN2E5M2QzZTFiNzQ5Zjc3NGI4NjEwNWIwZTBlNWQ3N2IxMzAzN2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRlY2RlY2QyZTk2YTRlOTE4NTlmZjFmMTgzNzdkNmY4NzdhYmNiZjI5NzA1YjNlODJkMmUzNzJiN2E0MTAxNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAxNzYzMWVlMGZiNjlhY2NjYTE3MjYzM2MxNTA5OTc3ODdkYTE0YjEyOTlhMDMzNWQzMTFkNzcwNGFiYTQ3MzQifQ"
         },
         {
@@ -269,33 +285,37 @@
           "version": "repo-lines-v1:sha256:94a3acff7731fb405e220d27992a61e371e8ab2ea4e2861bd9164689ce11b320:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc5Yjg0YjQxNjM5NTEyZWU0YzkxZDM1Mjg1OWY2NTJlNzhlYzgyNWQ1MGFmYTA3Y2IyOGI3MDQ4OWFhNmEzMmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMzYWEzYWFjYWIwMjE2MTMyYjY3NWQ0MmIzZTUyN2Q4YzhjYjQyMWUzM2I3ZWRjZGJkNTBhZGI0YTk1MzAxMGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRmZjcyN2M2OGY0YWI4ODY0Yjg0OTk5OWJlMjg3MmZlOWMzMTg3OWRhNDVkYWViNzA4N2IzMDE1NGRhMzc4NzAifQ"
         },
         {
-          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L259-L262",
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L262-L265",
           "version": "repo-lines-v1:sha256:ba90507d03216afbace73dd40046a339c2bbf16970ec1dd7ebafd8fdc541cfe6:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjEzNDFmNzNkYmJlN2EzNjY3ZTQwNmRjZjkzNjJjZmZlZmQxYmU3ODhiMTVhZGExNjM3ODhkODJhN2I1NDU5MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMmE0MTgyZDQ3OGEzM2JlNzVkZjliMWM0ZjY2ZGZiOGViNzAzYjJhZjk4ODY2ZjY5NDFiZDMwZmViYzc2MzEyZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2QxZmY0MzE0YmYwYzQ2Y2U4MjExYTY4NTFhYmM1ZWM5OGZkZjIxYzUyODgxMWI0Y2Y2OTQzODc0OTdkNTExMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODk4YWU0NDJkNDQwMjlmMDY1ZWU5ZmQ4NDUwNzk0MzQzMzFmNTJkZGZmYThhNDNhZTdiMGNhM2U1ZjZmZmE3YSJ9"
         }
       ]
     },
     {
       "id": "claim_be74d05cf2b94bd7a0065bc9517443aa",
-      "statement": "Oddities record an invalid slug, a missing page title, a missing DofusDB quest, each missing summary block, a missing start line, each unknown Squarespace block and a dropped title heading that differs from the page title.",
+      "statement": "Oddities record an invalid slug, a missing page title, a missing DofusDB quest, each missing summary block (including a label with no text), a missing start line, each unknown Squarespace block and a dropped title heading that differs from the page title.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L188-L194",
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L189-L195",
           "version": "repo-lines-v1:sha256:a31c39f2eb6b74baf3a80069969531d1ced4cfa58d7da003686654a698acae4a:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODc0ZmM3NjU4MWUyZjBiMjZlNWJmNGNmNTRjZTczY2U2NzZjYzM2NGI0MWVkMjFkYWQxZDIzZDgwNmMyYWRjZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWI2MmY2MGQ4NTkwYTU3OWNmNDZmOGQ2NzM3OGM0YzU3MmI5NjJjZWNjZGI5MGM3YTVmN2I0MmI5NjA3ODJhNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2U1OGJiMGE3MWNmZDNiYTg5M2JhYmUyN2RiMDIyOTg1M2RmMjE1MmU0MWY5Zjc3NWQzODA4NDgyZTJkY2EwOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODc3MmY1OTU5NGMzM2ZkOTMyOWM2NjMxMzI1ZGRmYzRlMzBhZDI5NDgzMWU1ZjFhYWVmZWQ5MDYzODU0NWIxYyJ9"
         },
         {
-          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L222-L228",
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L223-L229",
           "version": "repo-lines-v1:sha256:1ce9813e136a1cf23389d57716283d518e90c17d3d85aa8e43d1b948e69cd1ad:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODA1MWI3ZjhlMTFkYzVhNWI1MGE1MjgxOWNkMzZlYjNmYzRjZWRmYjcwNGYxYTQ0OWQ2NjJmOTRhZWFhMWRlZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzQ5OTk1OTI2ZTRlMGVjMGNjNTk1ZjVhM2E2YzIyMTk4ZTgxYWM3ZGYwNDUwNjY5YWY5ZGYyZDk2ZmM0MDFlMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGY0N2Y4YTdkMzZkMTRlYTNkZmZlOTlhOWUwZmY4OTIwOWI3NDJmZWQ4OGUxMDI2Zjg0ZGRiYTE2ODY0MTQ4YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzJkMTk0MTYxMDg0ZTY5NGJmOGNjZjgyNGU3ODMwNzgwNDY4MDFlZTVjYzQ4OGE2NDk4MmY3NmIzNGJlNmY5MiJ9"
         },
         {
-          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L264-L280",
-          "version": "repo-lines-v1:sha256:1a15066504e1c58794e3310f67901605c975ad0f8d5120534ce95c5d79b50a6b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA2YjMyMTRiMzlkY2RlOGUxZGE3NDIxZTljNzNjYWJjMGExMWFhMGNhY2IwOWIyMTUzMGI4MzhlZTYxOTgxNmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMxMjE5M2YyY2ZiZDRmMGY3YjRmNmRiMzg3NzE3M2Y4ZDVlNzBlMmNkYjQ2YmQ1OTcwZGIzOTJkZDdkNTIwMzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMyOWZjY2JmZWQxN2JmYjA2YzMzZmNmZGI0OGM5MzVjNjlkNmJiMGYyODZjMWQwNjllODE2NDYyNGYzMmExZjQifQ"
+          "resource": "repo://scripts/import/squarespace/to-quest-guide.ts#L267-L284",
+          "version": "repo-lines-v1:sha256:09c431aa20eb6209b78947e9b8eea976c58aca8df19f9ddcfa605e8c4af12847:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA2YjMyMTRiMzlkY2RlOGUxZGE3NDIxZTljNzNjYWJjMGExMWFhMGNhY2IwOWIyMTUzMGI4MzhlZTYxOTgxNmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMxMjE5M2YyY2ZiZDRmMGY3YjRmNmRiMzg3NzE3M2Y4ZDVlNzBlMmNkYjQ2YmQ1OTcwZGIzOTJkZDdkNTIwMzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMyOWZjY2JmZWQxN2JmYjA2YzMzZmNmZGI0OGM5MzVjNjlkNmJiMGYyODZjMWQwNjllODE2NDYyNGYzMmExZjQifQ"
         },
         {
           "resource": "repo://tests/unit/import-to-quest-guide.test.ts#L163-L171",
-          "version": "repo-lines-v1:sha256:be25b38d0fe31e155b5e94adad997d5b45fc4d8626edd53b1d19fac34d9f3251:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDZhMTQ5ZWYzYzk0ZWI5N2Q4YzMzMmQ0MmUyMGZhYjA5MDY1NzQ0NjdiMDFjZmE2ODdiYThhMDQ4NDcwMzdiMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjIzNTI1ODljMzRkM2M2MDY4NTkzMWI2ZWNjNGQ1MDk5MWE3YzU2YzhmYmEyODk0MTE0NjU3NjkwMjcyY2FjMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDljOGFhNDY5ZGNhMGYyMDVmMDgyNGViMDAzZGUyZGM2MmQ5YmNhMTRmYzg4NTgyZmVkODI1NmMzYzkyYTE3MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzdkNGI1YzFlYjM2YjYyOGMwN2IxZjc5MDNlNjFjNjMyNjkyYWRmNTMwYzgzNDE4ZWE4ODM1MzI0ZjFmOWJkMyJ9"
+          "version": "repo-lines-v1:sha256:be25b38d0fe31e155b5e94adad997d5b45fc4d8626edd53b1d19fac34d9f3251:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDZhMTQ5ZWYzYzk0ZWI5N2Q4YzMzMmQ0MmUyMGZhYjA5MDY1NzQ0NjdiMDFjZmE2ODdiYThhMDQ4NDcwMzdiMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjIzNTI1ODljMzRkM2M2MDY4NTkzMWI2ZWNjNGQ1MDk5MWE3YzU2YzhmYmEyODk0MTE0NjU3NjkwMjcyY2FjMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDljOGFhNDY5ZGNhMGYyMDVmMDgyNGViMDAzZGUyZGM2MmQ5YmNhMTRmYzg4NTgyZmVkODI1NmMzYzkyYTE3MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjRhNTMwYzQ5ZTljM2Y5NzE5ZDQxOWI4OTdkODZkYmQ1MTM0M2Q5Mjg4NTFjMzFhNzE4Zjg3ZTY1ZGZlOWZhNiJ9"
         },
         {
-          "resource": "repo://tests/unit/import-to-quest-guide.test.ts#L316-L339",
+          "resource": "repo://tests/unit/import-to-quest-guide.test.ts#L197-L205",
+          "version": "repo-lines-v1:sha256:02c202c7ebb5f5f5bef7cb61c759b001f8eee46fdb23aed7a9acb4b798e2983d:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWEyYTFmNzYxOTFkYWI3YjJlZWQ0ZmJlMWZlNTMzODFjYWYzYjY4MGUwMmIyMDY2MmM4YjMyMTQ2MTE1YTY0MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjIzNTI1ODljMzRkM2M2MDY4NTkzMWI2ZWNjNGQ1MDk5MWE3YzU2YzhmYmEyODk0MTE0NjU3NjkwMjcyY2FjMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWNiNjJhZmI3MjBhODU2Nzc1NjY0MmU5ZTFmMzY5Mzk0MDAyNjBkN2JiN2M0ZDU3YjBhZTcxZDVkMTliMTcxZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzdkNGI1YzFlYjM2YjYyOGMwN2IxZjc5MDNlNjFjNjMyNjkyYWRmNTMwYzgzNDE4ZWE4ODM1MzI0ZjFmOWJkMyJ9"
+        },
+        {
+          "resource": "repo://tests/unit/import-to-quest-guide.test.ts#L360-L383",
           "version": "repo-lines-v1:sha256:f21842c0b084df76e72240de6a222f2213dda7649beb804c72f3d5e9cf697b00:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5OWNjZjFmNTI2ODhhZjNiM2YxOWE5MDNhYzYzNzQyMzhiYmVmY2Q3MjljY2E5NjgzNjNkYTg1NGNjMDE2NTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU4MzdkYzdhZWIyMDcwNzk1NTRlYTdiMDY1MzQ2OGY0Nzk5MjY2ZjE5Njc0ZGM2NzU0YTgwOGJiODc1YzIyYWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
@@ -316,19 +336,19 @@
     },
     {
       "id": "claim_7afd9cff874f4e0aa609336f842194a2",
-      "statement": "parseQuestMatches reads quest_matches.csv from the migration inventory into a map from slug to space-separated DofusDB quest IDs and an ambiguous flag set when the column is True, handling quoted fields.",
+      "statement": "parseQuestMatches reads quest_matches.csv from the migration inventory into a map from slug to space-separated DofusDB quest IDs and an ambiguous flag set when the column is True, handling quoted fields and a leading BOM, and throws when the slug, quest_ids or ambiguous column is missing.",
       "evidence": [
         {
           "resource": "repo://docs/legacy/plan.md#L58-L58",
           "version": "repo-lines-v1:sha256:f10cc59b02c1bde8cfb3fa96b8b3ac2939aa20e33cff9288d871382c9d4a67a1:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjEwY2M1OWIwMmMxYmRlOGNmYjNmYTk2YjhiM2FjMjkzOWFhMjBlMzNjZmY5Mjg4ZDg3MTM4MmM5ZDRhNjdhMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjEwY2M1OWIwMmMxYmRlOGNmYjNmYTk2YjhiM2FjMjkzOWFhMjBlMzNjZmY5Mjg4ZDg3MTM4MmM5ZDRhNjdhMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWFhYTM0ZjNhMDhiMDRhNjMyYzQ3YzdmZjk3MmI2N2QwZmMwZDAzZTQ3OGRlMzkxYjVkODY0MjkzMzUwYzQ1YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjhlN2Q2MmRlNmFkNjQxMzRmZjQzNjA1OGI2NTY1N2UwNTRjZThjN2FhNDU5MzAzODA2MTk3ZjBiNGMxMWNmOSJ9"
         },
         {
-          "resource": "repo://scripts/import/squarespace/quest-matches.ts#L1-L54",
-          "version": "repo-lines-v1:sha256:7a2ac5755d4f78bed4ff731b581b273f0597e458d50305b1414363a054a915ab:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgzZmJiY2QyYjA4OTRlZjI0MmNjZjgwYTRlNTQyNTg3OTQ1MzIzMjYyZmRkZWFkNDA0ZDljMGQzNTQ0M2I4MWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://scripts/import/squarespace/quest-matches.ts#L1-L60",
+          "version": "repo-lines-v1:sha256:2080f82293265b46d7033a8a02f690e6bc7942dbc4eddfd5826b620f63558a1b:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgzZmJiY2QyYjA4OTRlZjI0MmNjZjgwYTRlNTQyNTg3OTQ1MzIzMjYyZmRkZWFkNDA0ZDljMGQzNTQ0M2I4MWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://tests/unit/import-quest-matches.test.ts#L14-L29",
-          "version": "repo-lines-v1:sha256:2e886b00abd7ff20fa87a201009d4f0e4276ed632e323c192fb202c42c0048bb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRmZTNkNzM0NzAzMzUzY2E4OWMzNThiMzlhNGMzYWJjN2M0MjNiZTQzZTI4MTk2YmYyZmMzYmU1MTNkMjU2YWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZlYjUwZmFkOGFhNWY3ZmUwZTQ5NDU4ZGNkZmMxMjExMWVjMGM5N2M0OWQ1NTZmN2ZmNzAzYmM5MDE5NTI3YzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://tests/unit/import-quest-matches.test.ts#L14-L40",
+          "version": "repo-lines-v1:sha256:f0bd5d0c66f4370a6f28f9e73c9aac1e51e4ab0b1db44a4d8de53dc07229874c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRmZTNkNzM0NzAzMzUzY2E4OWMzNThiMzlhNGMzYWJjN2M0MjNiZTQzZTI4MTk2YmYyZmMzYmU1MTNkMjU2YWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZlYjUwZmFkOGFhNWY3ZmUwZTQ5NDU4ZGNkZmMxMjExMWVjMGM5N2M0OWQ1NTZmN2ZmNzAzYmM5MDE5NTI3YzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -359,6 +379,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T16:36:11.576Z"
+    "at": "2026-11-04T16:58:44.479Z"
   }
 }
