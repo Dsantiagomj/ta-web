@@ -26,4 +26,15 @@ describe('cruce de páginas con misiones de DofusDB', () => {
   it('un slug que no está no tiene cruce', () => {
     expect(parseQuestMatches(CSV).get('no-existe')).toBeUndefined()
   })
+
+  it('acepta la cabecera con BOM', () => {
+    const matches = parseQuestMatches('\uFEFFslug,quest_ids,ambiguous\nla-mision,42,False\n')
+    expect(matches.get('la-mision')).toEqual({ questIds: [42], ambiguous: false })
+  })
+
+  it('falla con un mensaje claro si falta una columna obligatoria', () => {
+    expect(() => parseQuestMatches('pagina,quest_ids,ambiguous\nla-mision,42,False\n')).toThrow(
+      /slug/,
+    )
+  })
 })
