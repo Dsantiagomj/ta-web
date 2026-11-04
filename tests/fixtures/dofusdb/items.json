@@ -1,0 +1,338 @@
+[
+  {
+    "id": 304,
+    "name": {
+      "id": "750850",
+      "de": "Krankes Kanalkrattenleder",
+      "en": "Strubian Sickrat Leather",
+      "es": "Cuero de miserata strubiense",
+      "fr": "Cuir de Scélérat Strubien",
+      "pt": "Couro de Celerrato Strubiano"
+    },
+    "level": 26,
+    "typeId": 56,
+    "iconId": 25157
+  },
+  {
+    "id": 366,
+    "name": {
+      "id": "213593",
+      "de": "Tofuschnabel",
+      "en": "Tofu Beak",
+      "es": "Pico de tofu",
+      "fr": "Bec du Tofu",
+      "pt": "Bico do Tofu"
+    },
+    "level": 13,
+    "typeId": 47,
+    "iconId": 47037
+  },
+  {
+    "id": 373,
+    "name": {
+      "id": "723725",
+      "de": "Arachmonsta-Gedärm",
+      "en": "Araknoxious Intestine",
+      "es": "Intestino de araknáusea",
+      "fr": "Intestin d'Araknosé",
+      "pt": "Intestino de Araknáusea"
+    },
+    "level": 13,
+    "typeId": 15,
+    "iconId": 36045
+  },
+  {
+    "id": 388,
+    "name": {
+      "id": "723714",
+      "de": "Haare von Kranken Arachneen",
+      "en": "Sick Arachnee Hairs",
+      "es": "Pelos de arakna enferma",
+      "fr": "Poils d'Arakne Malade",
+      "pt": "Pelos de Arakne Doente"
+    },
+    "level": 13,
+    "typeId": 54,
+    "iconId": 54060
+  },
+  {
+    "id": 694,
+    "name": {
+      "id": "39487",
+      "de": "Purpur-Dofus",
+      "en": "Crimson Dofus",
+      "es": "Dofus Púrpura",
+      "fr": "Dofus Pourpre",
+      "pt": "Dofus Púrpura"
+    },
+    "level": 110,
+    "typeId": 23,
+    "iconId": 23001
+  },
+  {
+    "id": 737,
+    "name": {
+      "id": "292605",
+      "de": "Smaragd-Dofus",
+      "en": "Emerald Dofus",
+      "es": "Dofus Esmeralda",
+      "fr": "Dofus Émeraude",
+      "pt": "Dofus Esmeralda"
+    },
+    "level": 100,
+    "typeId": 23,
+    "iconId": 23002
+  },
+  {
+    "id": 739,
+    "name": {
+      "id": "42795",
+      "de": "Türkis-Dofus",
+      "en": "Turquoise Dofus",
+      "es": "Dofus Turquesa",
+      "fr": "Dofus Turquoise",
+      "pt": "Dofus Turquesa"
+    },
+    "level": 160,
+    "typeId": 23,
+    "iconId": 23003
+  },
+  {
+    "id": 2322,
+    "name": {
+      "id": "50983",
+      "de": "Rattenfangzähne",
+      "en": "Rat Fang",
+      "es": "Colmillos de ratas",
+      "fr": "Crocs de Rats",
+      "pt": "Presas de Rato"
+    },
+    "level": 26,
+    "typeId": 47,
+    "iconId": 47464
+  },
+  {
+    "id": 2491,
+    "name": {
+      "id": "723723",
+      "de": "Arachmutanten-Auge",
+      "en": "Arachmutated Eye",
+      "es": "Ojo de arakmutada",
+      "fr": "Œil d'Arakmuté",
+      "pt": "Olho de Arakmutado"
+    },
+    "level": 13,
+    "typeId": 109,
+    "iconId": 109516
+  },
+  {
+    "id": 7114,
+    "name": {
+      "id": "292607",
+      "de": "Ebenholz-Dofus",
+      "en": "Ebony Dofus",
+      "es": "Dofus Ébano",
+      "fr": "Dofus Ébène",
+      "pt": "Dofus Ébano"
+    },
+    "level": 180,
+    "typeId": 23,
+    "iconId": 23007
+  },
+  {
+    "id": 7115,
+    "name": {
+      "id": "49353",
+      "de": "Elfenbein-Dofus",
+      "en": "Ivory Dofus",
+      "es": "Dofus Marfil",
+      "fr": "Dofus Ivoire",
+      "pt": "Dofus Marfim"
+    },
+    "level": 180,
+    "typeId": 23,
+    "iconId": 23011
+  },
+  {
+    "id": 7183,
+    "name": {
+      "id": "507792",
+      "de": "Sinusoidalgewurzel",
+      "en": "Lady Root",
+      "es": "Raíz atractiva",
+      "fr": "Racine Huzohide",
+      "pt": "Raiz sinuosa"
+    },
+    "level": 88,
+    "typeId": 4,
+    "iconId": 4055
+  },
+  {
+    "id": 7754,
+    "name": {
+      "id": "30635",
+      "de": "Ocker-Dofus",
+      "en": "Ochre Dofus",
+      "es": "Dofus Ocre",
+      "fr": "Dofus Ocre",
+      "pt": "Dofus Ocre"
+    },
+    "level": 160,
+    "typeId": 23,
+    "iconId": 23012
+  },
+  {
+    "id": 8730,
+    "name": {
+      "id": "267085",
+      "de": "Steißbein des Korallators",
+      "en": "Coralator Coccyx",
+      "es": "Coxis de coralador",
+      "fr": "Coccyx du Corailleur",
+      "pt": "Cóccix  de Coralador"
+    },
+    "level": 44,
+    "typeId": 47,
+    "iconId": 47012
+  },
+  {
+    "id": 8767,
+    "name": {
+      "id": "157057",
+      "de": "Flügel des Bitoufs der Ebenen",
+      "en": "Plain Pikoko Wing",
+      "es": "Ala de tufo de las llanuras",
+      "fr": "Aile du Bitouf des Plaines",
+      "pt": "Asa do Bitufo das Planícies"
+    },
+    "level": 103,
+    "typeId": 104,
+    "iconId": 104001
+  },
+  {
+    "id": 8785,
+    "name": {
+      "id": "42565",
+      "de": "Same des dunklen Astakrachlers",
+      "en": "Dark Treeckler Seed",
+      "es": "Grano de abrajidor oscuro",
+      "fr": "Graine de l'Abrakleur sombre",
+      "pt": "Semente de Arvorador Sombrio"
+    },
+    "level": 137,
+    "typeId": 58,
+    "iconId": 58001
+  },
+  {
+    "id": 8801,
+    "name": {
+      "id": "145780",
+      "de": "Morph-Fell",
+      "en": "Ouassingue Fabric",
+      "es": "Tejido de stropajo",
+      "fr": "Étoffe de Ouassingue",
+      "pt": "Tecido de Nojoso"
+    },
+    "level": 92,
+    "typeId": 55,
+    "iconId": 55018
+  },
+  {
+    "id": 8808,
+    "name": {
+      "id": "145781",
+      "de": "King Morphs Pelz",
+      "en": "Mopy King Fabric",
+      "es": "Tejido de rey stropajo",
+      "fr": "Étoffe du Roissingue",
+      "pt": "Tecido do Rei Nojoso"
+    },
+    "level": 196,
+    "typeId": 55,
+    "iconId": 55019
+  },
+  {
+    "id": 8992,
+    "name": {
+      "id": "224887",
+      "de": "Verfluchte Sense des Blutkriegers",
+      "en": "Blord Warrior's Cursed Scythe",
+      "es": "Hoz maldita del gran Desangrador Guerrero",
+      "fr": "Faux Maudite du Saigneur Guerrier",
+      "pt": "Foice maldita do Guerreiro Sangrento"
+    },
+    "level": 200,
+    "typeId": 22,
+    "iconId": 22003
+  },
+  {
+    "id": 8993,
+    "name": {
+      "id": "995863",
+      "de": "Verfluchtes Schwert des Blutkriegers",
+      "en": "Blord Warrior's Cursed Sword",
+      "es": "Espada maldita del gran Desangrador Guerrero",
+      "fr": "Épée Maudite du Saigneur Guerrier",
+      "pt": "Espada Maldita do Guerreiro Sangrento"
+    },
+    "level": 200,
+    "typeId": 6,
+    "iconId": 6083
+  },
+  {
+    "id": 9264,
+    "name": {
+      "id": "590129",
+      "de": "Unheilvolles imprägniertes Schwert",
+      "en": "Imbued Evil Sword",
+      "es": "Espada maléfica impregnada",
+      "fr": "Épée Maléfique Imprégnée",
+      "pt": "Espada maléfica impregnada"
+    },
+    "level": 180,
+    "typeId": 129,
+    "iconId": 24725
+  },
+  {
+    "id": 10424,
+    "name": {
+      "id": "590203",
+      "de": "Blutprobe des Sidimot-Trools",
+      "en": "Sidimote Trool Blood Sample",
+      "es": "Muestra de sangre de trool de Sidimote",
+      "fr": "Échantillon de sang de Trooll Sidimote",
+      "pt": "Amostra de sangue de Trool de Sidimote"
+    },
+    "level": 180,
+    "typeId": 129,
+    "iconId": 12754
+  },
+  {
+    "id": 14808,
+    "name": {
+      "id": "421254",
+      "de": "Rum der Meerkatoren",
+      "en": "Mariner Rum",
+      "es": "Ron marino",
+      "fr": "Rhum Marin",
+      "pt": "Rum marinho"
+    },
+    "level": 1,
+    "typeId": 155,
+    "iconId": 15177
+  },
+  {
+    "id": 19728,
+    "name": {
+      "id": "756270",
+      "de": "Kerubims Geldbörse",
+      "en": "Kerub's Purse",
+      "es": "Bolsa de Kerubim",
+      "fr": "Bourse de Kerubim",
+      "pt": "Bolsa de Kerubim"
+    },
+    "level": 20,
+    "typeId": 133,
+    "iconId": 100056
+  }
+]

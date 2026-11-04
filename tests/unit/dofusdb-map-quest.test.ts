@@ -5,6 +5,7 @@ import type { RawQuest } from '@/lib/dofusdb/types'
 
 import mapPositions from '../fixtures/dofusdb/map-positions.json'
 import npcs from '../fixtures/dofusdb/npcs.json'
+import questsWithSteps from '../fixtures/dofusdb/quests-steps.json'
 import quests from '../fixtures/dofusdb/quests.json'
 
 const lookups = indexLookups(npcs, mapPositions)
@@ -27,6 +28,25 @@ describe('mapQuest', () => {
       startCriterion: 'PL>19',
       startPositions: [{ npcId: 1545, npcName: 'Paco Dekarbón', mapId: 66062340, x: -30, y: -84 }],
       prerequisiteDofusIds: [],
+      // Estos fixtures no traen etapas
+      rewards: {
+        experience: 0,
+        kamas: 0,
+        items: [],
+        emoteIds: [],
+        spellIds: [],
+        titleIds: [],
+        jobIds: [],
+      },
+      needs: { items: [], monsters: [], walksMaps: false },
+    })
+  })
+
+  it('añade recompensas y requisitos desde las etapas', () => {
+    const raw = (questsWithSteps as RawQuest[]).find((candidate) => candidate.id === 1977)!
+    expect(mapQuest(raw, noLookups)).toMatchObject({
+      rewards: { experience: 24_316, kamas: 552 },
+      needs: { items: [{ dofusId: 19728, quantity: 1 }], monsters: [], walksMaps: false },
     })
   })
 
