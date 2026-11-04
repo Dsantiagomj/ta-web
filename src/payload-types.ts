@@ -280,6 +280,10 @@ export interface Item {
   level?: number | null;
   typeId?: number | null;
   /**
+   * 14 son los objetos de misión.
+   */
+  superTypeId?: number | null;
+  /**
    * ID de la imagen en DofusDB.
    */
   iconId?: number | null;
@@ -638,6 +642,7 @@ export interface ItemsSelect<T extends boolean = true> {
   name?: T;
   level?: T;
   typeId?: T;
+  superTypeId?: T;
   iconId?: T;
   refreshedAt?: T;
   updatedAt?: T;

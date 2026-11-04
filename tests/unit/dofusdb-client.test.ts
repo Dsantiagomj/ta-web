@@ -60,6 +60,17 @@ describe('cliente de DofusDB', () => {
       expect(calls).toHaveLength(2)
     })
 
+    it('pide solo los campos de select, si los hay', async () => {
+      const { fetch, calls } = fakeFetch([{ total: 1, data: rows(0, 1) }])
+      const client = createDofusDbClient({ fetch, sleep: noSleep })
+
+      await client.fetchAll('items', { select: ['id', 'name'] })
+
+      expect(calls.map((call) => call.url)).toEqual([
+        'https://api.dofusdb.fr/items?$limit=50&$skip=0&$select[]=id&$select[]=name',
+      ])
+    })
+
     it('se identifica con un User-Agent genérico', async () => {
       const { fetch, calls } = fakeFetch([{ total: 0, data: [] }])
       const client = createDofusDbClient({ fetch, sleep: noSleep })
