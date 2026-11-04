@@ -94,6 +94,7 @@ Railway hosts both environments; `docs/legacy/infra.md` has the inventory, the d
 | `pnpm test:smoke` | The `@smoke` Playwright subset: home, `/admin` and `/api/health`. Without `SMOKE_BASE_URL` it runs against the local server, like `pnpm test:e2e`. With it, it tests that URL and starts nothing locally (see below) |
 | `pnpm db:dev` | Embedded Postgres in the foreground; `--verbose` prints its log |
 | `pnpm migrate` | Applies pending migrations from `src/migrations/` to `DATABASE_URL_DIRECT` (Neon's non-pooled URL) when it is set, otherwise to `DATABASE_URL` |
+| `pnpm data:quests` | Downloads every quest from the public DofusDB API (about 2,000, 20 to 30 s) and writes them to the `quests` collection of the `DATABASE_URL` database, or the `pnpm db:dev` one when it is empty. Runs with `payload run`. Re-running it changes only what DofusDB changed and never deletes a quest |
 | `pnpm migrate:create <name>` | Writes a migration for the schema changes since the last one |
 | `pnpm generate:types` | Regenerates `src/payload-types.ts`. Run it after changing a collection and commit the result; CI fails when the file is stale |
 | `pnpm generate:importmap` | Regenerates Payload's admin import map after adding admin components |

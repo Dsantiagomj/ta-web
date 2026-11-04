@@ -23,6 +23,7 @@
     "test:e2e:dev-gate": "playwright test --config playwright.dev-gate.config.ts",
     "test:smoke": "playwright test --grep @smoke",
     "db:dev": "node scripts/db-dev.ts",
+    "data:quests": "NODE_OPTIONS=--no-deprecation payload run scripts/refresh-quests.ts",
     "migrate": "NODE_OPTIONS=--no-deprecation DATABASE_CONNECTION=direct payload migrate",
     "migrate:create": "NODE_OPTIONS=--no-deprecation payload migrate:create",
     "payload": "NODE_OPTIONS=--no-deprecation payload",
