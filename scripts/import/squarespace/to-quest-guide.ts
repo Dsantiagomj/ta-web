@@ -60,7 +60,7 @@ const START =
   /^\s*(Habla con|La misión empieza hablando con)\s+(.+?)\s*\[\s*(-?\d+)\s*,\s*(-?\d+)\s*\]/
 // Lo que puede seguir a las coordenadas en una línea de inicio sin más información.
 const BARE_START_TAIL = /^\s*(?:para empezar (?:la|esta) misión)?\s*[.!]?\s*$/i
-const SENTENCE_END = /[.!?](?=\s|$)/
+const SENTENCE_END = /[.!?…](?=\s|$)/
 const CLOSING = /^[¡¿]?\s*(?:y\s+)?aquí\s+(?:se\s+)?termina\s+la\s+misión/i
 // En mayúsculas: "Cuidado, …" en minúscula es prosa normal.
 const CALLOUT = /^(IMPORTANTE|CUIDADO|NOTA)\b/

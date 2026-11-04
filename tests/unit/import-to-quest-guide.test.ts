@@ -225,6 +225,16 @@ describe('conversión de una página en guía de misión', () => {
     expect(JSON.stringify(intoxication)).toContain('<a href=\\"/test-de-impermeabilidad\\">')
   })
 
+  it('una frase de cierre con puntos suspensivos solo se lleva esa frase', () => {
+    const page = pageWith(
+      '<h2>PRUEBA</h2>',
+      '<p>Primer paso.</p>',
+      '<p>Aquí termina la misión… Texto que debe conservarse.</p>',
+    )
+    const { guide } = toQuestGuide(parsePage(page), { slug: 'prueba', questDofusIds: [1] })
+    expect(richTexts(guide.body)).toEqual(['Primer paso. Texto que debe conservarse.'])
+  })
+
   it('un párrafo de cierre sin nada más desaparece', () => {
     const page = parsePage(pageWith('<p>Último paso.</p><p>Aquí termina la misión.</p>'))
     const { guide } = toQuestGuide(page, { slug: 'prueba', questDofusIds: [1] })
