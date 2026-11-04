@@ -114,7 +114,7 @@ describe('carga de guías importadas de Squarespace', () => {
     await cleanUp()
     tofuBeak = await payload.create({
       collection: 'items',
-      data: { dofusId: TOFU_BEAK, name: 'Pico de tofu', typeId: 47 },
+      data: { dofusId: TOFU_BEAK, name: 'Pico de tofu', typeId: 47, superTypeId: 9 },
     })
     quest = await payload.create({
       collection: 'quests',

@@ -34,13 +34,13 @@ describe('guía de misión rellenada desde DofusDB', () => {
     })
     const tofuBeak = await payload.create({
       collection: 'items',
-      data: { dofusId: 366, name: 'Pico de tofu', typeId: 47 },
+      data: { dofusId: 366, name: 'Pico de tofu', typeId: 47, superTypeId: 9 },
     })
     tofuBeakId = tofuBeak.id
     // Objeto de misión (supertipo 14): lo da el juego, no hay que llevarlo
     const bag = await payload.create({
       collection: 'items',
-      data: { dofusId: 19728, name: 'Bolsa de Kerubim', typeId: 133 },
+      data: { dofusId: 19728, name: 'Bolsa de Kerubim', typeId: 133, superTypeId: 14 },
     })
     hunter = await payload.create({
       collection: 'quests',

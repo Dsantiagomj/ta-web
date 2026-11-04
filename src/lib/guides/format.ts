@@ -6,13 +6,9 @@ import type { LinkedItem, LinkedNeeds, LinkedQuest, LinkedRewards, NamedDoc } fr
 
 const text = guideStrings.summary
 
-// Tipos de objeto del supertipo 14 de DofusDB, «Objetos de misión» (api.dofusdb.fr/item-types).
-// El juego los da durante la misión: no son algo que haya que llevar.
-const QUEST_ITEM_TYPE_IDS = new Set([
-  24, 126, 127, 128, 129, 131, 132, 133, 136, 137, 139, 140, 141, 142, 143, 144, 146, 147, 148, 149,
-  150, 155, 156, 168, 171, 198, 201, 202, 205, 213, 215, 220, 225, 242, 253, 254, 260, 268, 272,
-  287, 289, 305, 307, 308, 325, 334, 338,
-])
+// Supertipo 14 de DofusDB, «Objetos de misión»: el juego los da durante la misión, no
+// son algo que haya que llevar.
+const QUEST_ITEM_SUPER_TYPE_ID = 14
 
 /** Separa los miles con un espacio normal, como escribe Torre: 24 316. */
 export function formatThousands(value: number): string {
@@ -58,7 +54,7 @@ export function neededItems(needs: LinkedNeeds | null | undefined): NeededItem[]
   return (needs?.items ?? []).flatMap(({ item, quantity }) => {
     const doc = populated<LinkedItem>(item)
     if (typeof doc?.id !== 'number') return []
-    if (doc.typeId != null && QUEST_ITEM_TYPE_IDS.has(doc.typeId)) return []
+    if (doc.superTypeId === QUEST_ITEM_SUPER_TYPE_ID) return []
     return [{ item: { ...doc, id: doc.id }, quantity }]
   })
 }

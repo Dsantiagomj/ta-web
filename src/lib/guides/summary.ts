@@ -13,7 +13,7 @@ export interface NamedDoc {
 
 export interface LinkedItem extends NamedDoc {
   id?: number
-  typeId?: number | null
+  superTypeId?: number | null
 }
 
 export interface LinkedRewards {
