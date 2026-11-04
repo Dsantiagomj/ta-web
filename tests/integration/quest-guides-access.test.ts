@@ -189,7 +189,7 @@ describe('permisos de quest-guides', () => {
           quests: [quest.id],
           summary: {
             prerequisites: 'Ninguno',
-            needs: '10 Alas de Tofu',
+            needs: { notes: '10 Alas de Tofu' },
             rewards: '1000 PX',
             startNpc: 'Maestro de armas',
             startX: 5,
@@ -219,7 +219,11 @@ describe('permisos de quest-guides', () => {
         overrideAccess: false,
       })
       expect(readBack.quests).toEqual([expect.objectContaining({ id: quest.id })])
-      expect(readBack.summary).toMatchObject({ needs: '10 Alas de Tofu', startX: 5, startY: -18 })
+      expect(readBack.summary).toMatchObject({
+        needs: { notes: '10 Alas de Tofu' },
+        startX: 5,
+        startY: -18,
+      })
       expect(readBack.body?.map((block) => block.blockType)).toEqual([
         'richText',
         'image',

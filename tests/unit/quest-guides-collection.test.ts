@@ -1,4 +1,4 @@
-import type { AccessArgs, BlocksField, Field, GroupField } from 'payload'
+import type { AccessArgs, ArrayField, BlocksField, Field, GroupField } from 'payload'
 import { describe, expect, it } from 'vitest'
 
 import { CalloutBlock } from '@/blocks/CalloutBlock'
@@ -93,7 +93,7 @@ describe('colección quest-guides', () => {
     const summary = field('summary') as GroupField
     expect(summary.type).toBe('group')
     expect(summary.admin?.description).toBe(guideStrings.admin.summaryDescription)
-    for (const name of ['prerequisites', 'needs', 'rewards']) {
+    for (const name of ['prerequisites', 'rewards']) {
       const text = field(name, summary.fields)
       expect(text).toMatchObject({ type: 'textarea', localized: true })
       expect(text).not.toHaveProperty('required', true)
@@ -101,6 +101,42 @@ describe('colección quest-guides', () => {
     expect(field('startNpc', summary.fields)).toMatchObject({ type: 'text', localized: true })
     expect(field('startX', summary.fields)).toMatchObject({ type: 'number' })
     expect(field('startY', summary.fields)).toMatchObject({ type: 'number' })
+  })
+
+  it('Necesitarás es una lista de objetos del juego con su cantidad, más notas libres', () => {
+    const needs = field('needs', (field('summary') as GroupField).fields) as GroupField
+    expect(needs).toMatchObject({ type: 'group', label: 'Necesitarás' })
+
+    const items = field('items', needs.fields) as ArrayField
+    expect(items).toMatchObject({
+      type: 'array',
+      labels: { singular: 'Objeto', plural: 'Objetos' },
+      admin: {
+        components: {
+          Description: {
+            path: '/components/quest-guide-admin/SummaryNote#SummaryNote',
+            clientProps: { summaryField: 'needs' },
+          },
+        },
+      },
+    })
+    expect(field('item', items.fields)).toMatchObject({
+      type: 'relationship',
+      relationTo: 'items',
+      required: true,
+    })
+    expect(field('quantity', items.fields)).toMatchObject({
+      type: 'number',
+      required: true,
+      min: 1,
+      defaultValue: 1,
+    })
+
+    expect(field('notes', needs.fields)).toMatchObject({
+      type: 'textarea',
+      localized: true,
+      admin: { description: guideStrings.admin.needsNotesDescription },
+    })
   })
 
   it('cada campo del resumen lleva una nota que compara su valor con lo que da DofusDB', () => {

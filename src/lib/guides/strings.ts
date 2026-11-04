@@ -40,6 +40,9 @@ export const guideStrings = {
       'Al elegir la misión, cada campo vacío se rellena con lo que da DofusDB. ' +
       'Cámbialo con libertad: lo que escribas no se sobrescribe.',
     summaryPlaceholder: 'Se rellena con DofusDB al elegir la misión; si no da nada, escríbelo tú.',
+    needsNotesDescription:
+      'Lo que la lista de objetos no recoge, como «1 x Combate (solo)» o «Literalmente nada». ' +
+      'No se rellena solo.',
     seoDescription:
       'Se rellena solo desde la misión si lo dejas vacío. Puedes cambiarlo cuando quieras.',
     titleRequired: 'Escribe un título o elige una misión de DofusDB para sacarlo de ella.',

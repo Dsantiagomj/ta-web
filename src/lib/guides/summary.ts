@@ -1,7 +1,7 @@
 // Resumen de una guía sacado de su misión de DofusDB.
 // Código puro, sin Payload: lo usan el servidor y los componentes del panel.
 
-import { needsText, prerequisitesText, rewardsText } from './format'
+import { itemsText, neededItems, prerequisitesText, rewardsText, type NeededItem } from './format'
 import { guideStrings } from './strings'
 
 /** Una relación de Payload: el ID sin poblar o el documento poblado. */
@@ -12,6 +12,7 @@ export interface NamedDoc {
 }
 
 export interface LinkedItem extends NamedDoc {
+  id?: number
   typeId?: number | null
 }
 
@@ -40,7 +41,7 @@ export interface LinkedQuest {
 
 export interface SummaryValues {
   prerequisites: string | null
-  needs: string | null
+  needs: NeededItem[]
   rewards: string | null
   startNpc: string | null
   startX: number | null
@@ -55,7 +56,7 @@ export function summaryFromQuest(quest: LinkedQuest | null | undefined): Summary
   const start = quest?.startPositions?.[0]
   return {
     prerequisites: quest ? prerequisitesText(quest) : null,
-    needs: needsText(quest?.needs),
+    needs: neededItems(quest?.needs),
     rewards: rewardsText(quest?.rewards),
     startNpc: start?.npcName || null,
     startX: start?.x ?? null,
@@ -76,6 +77,22 @@ export const FILLABLE_FIELDS: FillableField[] = [
 
 type FillableValue = string | number | null | undefined
 
+/** Una fila de la lista de Necesitarás, guardada o del formulario. */
+export interface NeedRow {
+  item: number | { id: number } | null | undefined
+  quantity: number | null | undefined
+}
+
+/** Lo que hay en el resumen de la guía, tal como lo leen el hook, el panel y la importación. */
+export type CurrentSummary = Partial<Record<FillableField, FillableValue>> & {
+  needs?: { items?: NeedRow[] | null } | null
+}
+
+/** Lo que DofusDB rellena en el resumen. La lista de objetos guarda IDs de items. */
+export type SummaryFill = Partial<Pick<SummaryValues, FillableField>> & {
+  needs?: { items: { item: number; quantity: number }[] }
+}
+
 // El 0 es una coordenada válida; un texto con solo espacios cuenta como vacío.
 function isEmpty(value: FillableValue): boolean {
   if (typeof value === 'number') return false
@@ -84,12 +101,13 @@ function isEmpty(value: FillableValue): boolean {
 
 /**
  * Los campos vacíos del resumen que DofusDB puede rellenar, con su valor. Nunca incluye
- * uno escrito, ni uno para el que DofusDB no da nada.
+ * uno escrito, ni uno para el que DofusDB no da nada. La lista de Necesitarás solo se
+ * rellena si está vacía; sus notas, nunca.
  */
 export function summaryToFill(
-  current: Partial<Record<FillableField, FillableValue>>,
+  current: CurrentSummary,
   quest: LinkedQuest | null | undefined,
-): Partial<Pick<SummaryValues, FillableField>> {
+): SummaryFill {
   if (!quest) return {}
   const fromQuest = summaryFromQuest(quest)
   const fill: Partial<Record<FillableField, string | number>> = {}
@@ -97,7 +115,28 @@ export function summaryToFill(
     const value = fromQuest[field]
     if (value !== null && isEmpty(current[field])) fill[field] = value
   }
-  return fill as Partial<Pick<SummaryValues, FillableField>>
+  const needs = !current.needs?.items?.length && fromQuest.needs.length
+  return {
+    ...(fill as SummaryFill),
+    ...(needs && {
+      needs: {
+        items: fromQuest.needs.map(({ item, quantity }) => ({ item: item.id, quantity })),
+      },
+    }),
+  }
+}
+
+/** El resumen con lo rellenado encima. Las notas de Necesitarás se conservan. */
+export function applySummaryFill<T extends { needs?: object | null }>(
+  summary: T,
+  fill: SummaryFill,
+): T {
+  const { needs, ...fields } = fill
+  return {
+    ...summary,
+    ...fields,
+    ...(needs && { needs: { ...summary.needs, items: needs.items } }),
+  }
 }
 
 /** La misión enlazada tal como la ve el panel mientras Torre edita. */
@@ -107,9 +146,23 @@ export type LinkedQuestState =
   | { status: 'error' }
   | { status: 'ready'; quest: LinkedQuest }
 
+/** Los campos que llevan nota en el panel: los rellenables y la lista de Necesitarás. */
+export type NotedField = FillableField | 'needs'
+
 function sameValue(a: FillableValue, b: string | number): boolean {
   return typeof a === 'string' && typeof b === 'string' ? a.trim() === b.trim() : a === b
 }
+
+// La lista se compara como conjunto de objeto y cantidad: el orden no importa.
+function rowsKey(rows: { item: NeedRow['item']; quantity: NeedRow['quantity'] }[]): string {
+  return rows
+    .map(({ item, quantity }) => `${typeof item === 'object' ? item?.id : item}x${quantity}`)
+    .sort()
+    .join(',')
+}
+
+/** El valor del campo para la nota: texto o número, o las filas de la lista. */
+export type NotedValue = FillableValue | NeedRow[]
 
 /**
  * La nota bajo un campo del resumen: si su valor es el de DofusDB, si Torre lo cambió
@@ -117,16 +170,27 @@ function sameValue(a: FillableValue, b: string | number): boolean {
  */
 export function summaryNote(
   state: LinkedQuestState,
-  field: FillableField,
-  current: FillableValue,
+  field: NotedField,
+  current: NotedValue,
 ): string {
   const { admin } = guideStrings
   if (state.status === 'none') return admin.noQuest
   if (state.status === 'loading') return admin.dofusDbLoading
   if (state.status === 'error') return admin.dofusDbUnavailable
-  const fromQuest = summaryFromQuest(state.quest)[field]
-  if (fromQuest === null) return isEmpty(current) ? admin.dofusDbEmpty : admin.dofusDbEmptyChanged
-  const shown = String(fromQuest)
-  if (isEmpty(current)) return admin.emptyWillFill(shown)
-  return sameValue(current, fromQuest) ? admin.fromDofusDb : admin.changed(shown)
+  const fromQuest = summaryFromQuest(state.quest)
+
+  if (field === 'needs') {
+    const rows = Array.isArray(current) ? current : []
+    const shown = itemsText(fromQuest.needs)
+    if (shown === null) return rows.length ? admin.dofusDbEmptyChanged : admin.dofusDbEmpty
+    if (!rows.length) return admin.emptyWillFill(shown)
+    return rowsKey(rows) === rowsKey(fromQuest.needs) ? admin.fromDofusDb : admin.changed(shown)
+  }
+
+  const value = Array.isArray(current) ? null : current
+  const given = fromQuest[field]
+  if (given === null) return isEmpty(value) ? admin.dofusDbEmpty : admin.dofusDbEmptyChanged
+  const shown = String(given)
+  if (isEmpty(value)) return admin.emptyWillFill(shown)
+  return sameValue(value, given) ? admin.fromDofusDb : admin.changed(shown)
 }

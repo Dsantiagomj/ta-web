@@ -6,7 +6,7 @@ import { RichTextBlock } from '../blocks/RichTextBlock'
 import { VideoBlock } from '../blocks/VideoBlock'
 import { firstQuestId } from '../lib/guides/autofill'
 import { guideStrings } from '../lib/guides/strings'
-import type { FillableField } from '../lib/guides/summary'
+import type { FillableField, NotedField } from '../lib/guides/summary'
 import { validateOptionalUrl } from './Media'
 import { fillFromQuest } from './quest-guide-autofill'
 
@@ -43,15 +43,17 @@ export function validateGuideSlug(
 }
 
 // Cada campo del resumen lleva una nota que lo compara con lo que da DofusDB.
+function noteComponent(summaryField: NotedField) {
+  return {
+    path: '/components/quest-guide-admin/SummaryNote#SummaryNote',
+    clientProps: { summaryField },
+  }
+}
+
 function summaryAdmin(summaryField: FillableField) {
   return {
     placeholder: guideStrings.admin.summaryPlaceholder,
-    components: {
-      Description: {
-        path: '/components/quest-guide-admin/SummaryNote#SummaryNote',
-        clientProps: { summaryField },
-      },
-    },
+    components: { Description: noteComponent(summaryField) },
   }
 }
 
@@ -63,7 +65,44 @@ const summaryFields: Field[] = [
     localized: true,
     admin: summaryAdmin('prerequisites'),
   },
-  { name: 'needs', label: 'Necesitarás', type: 'textarea', localized: true },
+  {
+    name: 'needs',
+    label: 'Necesitarás',
+    type: 'group',
+    fields: [
+      {
+        name: 'items',
+        label: 'Objetos',
+        labels: { singular: 'Objeto', plural: 'Objetos' },
+        type: 'array',
+        admin: { components: { Description: noteComponent('needs') } },
+        fields: [
+          {
+            name: 'item',
+            label: 'Objeto',
+            type: 'relationship',
+            relationTo: 'items',
+            required: true,
+          },
+          {
+            name: 'quantity',
+            label: 'Cantidad',
+            type: 'number',
+            required: true,
+            min: 1,
+            defaultValue: 1,
+          },
+        ],
+      },
+      {
+        name: 'notes',
+        label: 'Notas',
+        type: 'textarea',
+        localized: true,
+        admin: { description: guideStrings.admin.needsNotesDescription },
+      },
+    ],
+  },
   {
     name: 'rewards',
     label: 'Recompensas',

@@ -338,7 +338,19 @@ export interface QuestGuide {
    */
   summary?: {
     prerequisites?: string | null;
-    needs?: string | null;
+    needs?: {
+      items?:
+        | {
+            item: number | Item;
+            quantity: number;
+            id?: string | null;
+          }[]
+        | null;
+      /**
+       * Lo que la lista de objetos no recoge, como «1 x Combate (solo)» o «Literalmente nada». No se rellena solo.
+       */
+      notes?: string | null;
+    };
     rewards?: string | null;
     startNpc?: string | null;
     startX?: number | null;
@@ -678,7 +690,18 @@ export interface QuestGuidesSelect<T extends boolean = true> {
     | T
     | {
         prerequisites?: T;
-        needs?: T;
+        needs?:
+          | T
+          | {
+              items?:
+                | T
+                | {
+                    item?: T;
+                    quantity?: T;
+                    id?: T;
+                  };
+              notes?: T;
+            };
         rewards?: T;
         startNpc?: T;
         startX?: T;
