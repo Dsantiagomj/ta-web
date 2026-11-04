@@ -39,8 +39,14 @@ function csvRows(csv: string): string[][] {
  * DofusDB que le corresponden (separados por espacios) y si el cruce es ambiguo.
  */
 export function parseQuestMatches(csv: string): Map<string, QuestMatch> {
-  const [header = [], ...rows] = csvRows(csv)
-  const column = (name: string) => header.indexOf(name)
+  // Sin el BOM que deja Excel, y fallando claro si falta una columna: un índice -1
+  // perdería todos los cruces en silencio.
+  const [header = [], ...rows] = csvRows(csv.replace(/^\uFEFF/, ''))
+  const column = (name: string) => {
+    const index = header.indexOf(name)
+    if (index === -1) throw new Error(`quest_matches.csv no tiene la columna «${name}»`)
+    return index
+  }
   const [slug, questIds, ambiguous] = [column('slug'), column('quest_ids'), column('ambiguous')]
   return new Map(
     rows.map((row) => [
