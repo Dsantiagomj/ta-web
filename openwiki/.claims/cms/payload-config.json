@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:04955960a632bb30a7e34286133868bcc8dbf67ea7d8bec69f21ca66cf265efb",
+  "pageVersion": "sha256:3c455d46cc38cf9a7a8044f8057c6287bdaf0b8c89a2555fde7a29581f41d439",
   "claims": [
     {
       "id": "claim_35fde34cdf674edca408fee7ff5d2483",
@@ -139,8 +139,8 @@
       "statement": "QuestAutofill and SummaryNote are client components that read the form through @payloadcms/ui hooks and load the linked quest from the REST API with the session cookie.",
       "evidence": [
         {
-          "resource": "repo://src/components/quest-guide-admin/QuestAutofill.tsx#L1-L24",
-          "version": "repo-lines-v1:sha256:afcae48a7757e3c0f9830f75c69d51d9840ae2edfc5c5c1a97c1e29b451a49ae:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NjRlMDBlYTU3ZWMzOWQ4OGZjM2Y2OTM0YzRiNzA5MWRiMDU2YTZjMmQ1YjExYTk3MTIzMDBkMDZmOGQyM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwNzRlODdjMWIxNDJjMzFmMzQ1NzM4MDU4NGI4NmE3MzE3NGE4ZWIzZDQyY2M5NDA2ZjQzYmU3Yzk1ZTgxOGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZkOGJmNTU1OTE0ODZiMmU4NDJhODNmZDA0ZDAzNWI2ZjUwZTUwMmJhNDc5MDM0YzEzZDQzN2ZhZWQxOTk2YTUifQ"
+          "resource": "repo://src/components/quest-guide-admin/QuestAutofill.tsx#L1-L22",
+          "version": "repo-lines-v1:sha256:519d30ec4cd81d3a756a66c6dff38f461b1d37834efa05e9da9dbf14b8cf888d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NjRlMDBlYTU3ZWMzOWQ4OGZjM2Y2OTM0YzRiNzA5MWRiMDU2YTZjMmQ1YjExYTk3MTIzMDBkMDZmOGQyM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwNzRlODdjMWIxNDJjMzFmMzQ1NzM4MDU4NGI4NmE3MzE3NGE4ZWIzZDQyY2M5NDA2ZjQzYmU3Yzk1ZTgxOGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZkOGJmNTU1OTE0ODZiMmU4NDJhODNmZDA0ZDAzNWI2ZjUwZTUwMmJhNDc5MDM0YzEzZDQzN2ZhZWQxOTk2YTUifQ"
         },
         {
           "resource": "repo://src/components/quest-guide-admin/SummaryNote.tsx#L1-L9",
@@ -155,6 +155,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T20:02:15.357Z"
+    "at": "2026-11-04T20:38:00.762Z"
   }
 }

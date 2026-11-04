@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:e0a47e2d594df79afabcc5b704fcf39ec708e85bd2c3db2b6909077731c30f17",
+  "pageVersion": "sha256:e541d81a7e14e319c713b3f5c9d930d4d9a95e25056d9c32859d84fbfa2dacd9",
   "claims": [
     {
       "id": "claim_764b0485963845c99d60b85472ceccba",
@@ -419,8 +419,8 @@
           "version": "repo-lines-v1:sha256:3b9afe7738de9e34c73910869aa4d29f58e224fab01801588ff34986e7c8f800:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4YWQ0NjM4M2I2MWMyZjY0NDQ2Y2JlNDJlMmMyOTRkN2M5NTcwOTgzM2M0NjA4YWZkNzBjOTM4YmUzNmU2ZjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVmZjRmN2M0NjBkOTg2MzQ4M2NhOWQyMDEwNzE0YjZhMTU0MGQyYzY4ZjYwNjJhNDE5M2VkY2NiYzIwNzBjYWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdjYWM4OGZmZmIxYjJiZDY2MDE1NzAzMGI3ZDZmYzE1ZTIyZDgwZjA0NjZkNzIyYjU2NjEzNTE5NThkMGViYTIifQ"
         },
         {
-          "resource": "repo://tests/unit/guide-summary.test.ts#L82-L372",
-          "version": "repo-lines-v1:sha256:cb037e1b146e47cff593b830e5c2c716626af8099de871982e7648cbab0c3392:eyJzZWxlY3RlZExpbmVDb3VudCI6MjkxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlYzI0ZWY4N2NmY2ZhOTE2ZTgyMDJkOWNlOGIzN2ZhMTMxOTZkNzcyY2RkZTY5NGZmNjczNGZiYzU5MGNiYWM1IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiMjM1MjU4OWMzNGQzYzYwNjg1OTMxYjZlY2M0ZDUwOTkxYTdjNTZjOGZiYTI4OTQxMTQ2NTc2OTAyNzJjYWMzIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIzYjVjNTE4MmQ2YmU1MDM5NDY4MGY3MGJjNWI0OTA2YjMzMTA0ODVmNWY2OWVkYjcyMTc0MGFkMjJkNWMwZGYwIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MSwiZm9sbG93aW5nQ29udGV4dEhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1In0"
+          "resource": "repo://tests/unit/guide-summary.test.ts#L82-L378",
+          "version": "repo-lines-v1:sha256:f1869b6c6623d799850a19217134e06256132966b2eff494e654bc05e7948c73:eyJzZWxlY3RlZExpbmVDb3VudCI6Mjk3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlYzI0ZWY4N2NmY2ZhOTE2ZTgyMDJkOWNlOGIzN2ZhMTMxOTZkNzcyY2RkZTY5NGZmNjczNGZiYzU5MGNiYWM1IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiMjM1MjU4OWMzNGQzYzYwNjg1OTMxYjZlY2M0ZDUwOTkxYTdjNTZjOGZiYTI4OTQxMTQ2NTc2OTAyNzJjYWMzIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIzYjVjNTE4MmQ2YmU1MDM5NDY4MGY3MGJjNWI0OTA2YjMzMTA0ODVmNWY2OWVkYjcyMTc0MGFkMjJkNWMwZGYwIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MSwiZm9sbG93aW5nQ29udGV4dEhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1In0"
         }
       ]
     },
@@ -453,10 +453,40 @@
           "version": "repo-lines-v1:sha256:424b509b2d21c3a0a223855c2f66eec35c8524c1207744f6b4640ae3221b4926:eyJzZWxlY3RlZExpbmVDb3VudCI6NjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMwZjIxODVlNmRiYjgzNDNhOGZhMzlhMTgwZTg2MzcyMDRmYzY4NTg0Y2YxYTU3YjRjMjUwNTkwMzhkODQ5OWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgwMTBhNzkyZGU0Y2NjM2U0ZDg5M2NiM2VlYzNkODBiMmY5YTUwMGVmMDkwYWU4ZDM3YWU3MjA0NjY2NjZiNjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_20614c1d75b54c09b96b19125feb9875",
+      "statement": "The guide-summary unit test checks that requiredLevel gives a level for a PL> joined by & and none for a PL> among | alternatives.",
+      "evidence": [
+        {
+          "resource": "repo://tests/unit/guide-summary.test.ts#L127-L143",
+          "version": "repo-lines-v1:sha256:ebc38bd5a8598ec76f8fe2e405c9b0a8649e5bde99590f947a6d40ffddad4074:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA5ZmZjMzZlNzRmNGRiZmJmOGI4NTg3YzNiMWMzOGEyYWJjYTIxMTkzMzZmMmFmNzFiZGUwYzFiMmQzYTNkNjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjliODI4NDYzMmMzMGM0YWU5Nzk5ZTczOWM4MjYzYTg4ZDJjNTNlYTcwODhmNTI2MDUyM2E4ZDYxOGFmYzhjMmUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b28a4f896ecf4df186f894ce80109be0",
+      "statement": "The guide-form-fill unit test checks that plannedFormFill plans every empty field from the quest and nothing for written fields, and that stillEmpty drops fields and a needs list typed during the slug check while still filling what stays empty, treating whitespace-only text and an empty list as empty.",
+      "evidence": [
+        {
+          "resource": "repo://tests/unit/guide-form-fill.test.ts#L19-L72",
+          "version": "repo-lines-v1:sha256:762e66a1946d642ab800a238d362c4fe8869d63083cc5e189186214be7bb4064:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0MTg3OWY2NDA2N2Q2OTcxM2I4MGFhYzM5MTFiNmQwOGI1ZGUyMmRkODAzOTcxZGM2YjJlNDc4YWJiZDgzMTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjViZWU1MzNkNmVhYzlkNTRiMmM3YjhkMzI2OWJkNWQ0ZTFhMzI4MzQzZmMwODFjZjU2NThmMGUzYTEwODg2YzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_db0a42e2f53c471eae2b7742a994c0d0",
+      "statement": "The dofusdb-criterion unit test checks that requiredTerms returns the terms joined by &, nothing from a level with |, the terms inside &-only brackets, and nothing for a null or empty criterion.",
+      "evidence": [
+        {
+          "resource": "repo://tests/unit/dofusdb-criterion.test.ts#L1-L27",
+          "version": "repo-lines-v1:sha256:678f9055eea7a9a539c512b2dcfe65feb60ff37be339ec412a263b3efc0339a7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI2MDM3NzM4NmIzNjVjOTI0NzIyYzU0MzRhZDQ0ZTk1YzM0YmQ5MGEzZTk4ZjlkMzA5NjdiYmM2ODRkY2Y1ZDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T20:02:15.357Z"
+    "at": "2026-11-04T20:38:00.762Z"
   }
 }

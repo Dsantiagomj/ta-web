@@ -49,7 +49,7 @@ sources:
 generated: { by: "claude-code", at: "2026-11-04T20:02:15.357Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T20:02:15.357Z
+    at: 2026-11-04T20:38:00.762Z
 ---
 
 # Project overview

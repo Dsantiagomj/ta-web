@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:85b1a47cab3defe8e9f7ddb8c7491609f31f1bfc8be4a69116ae5daed10df1ae",
+  "pageVersion": "sha256:ef8eace4dc983976ccf1e1c3cb082dc8ee54cfb89f6a31fa4654b70446ce3675",
   "claims": [
     {
       "id": "claim_a1981ccc312a49f2aad1295589522c0e",
@@ -67,11 +67,11 @@
       "statement": "mapQuest names a quest in Spanish, falling back to French and then to 'Misión <id>', keeps the raw startCriterion, and builds start positions with NPC names and map coordinates, leaving nulls when a lookup is missing instead of failing.",
       "evidence": [
         {
-          "resource": "repo://src/lib/dofusdb/map-quest.ts#L17-L20",
+          "resource": "repo://src/lib/dofusdb/map-quest.ts#L18-L21",
           "version": "repo-lines-v1:sha256:613cb521ac3653cb77a9a59521d6cc00deb4c14692cbf885365d8e5a5050afd0:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmUxMzE5Mzg0YmYyZGU0NjAzY2UyMWY1ZTI2NTRmY2U1ZDY2NWJhZWEzOTY0N2FlZTUyNGRiM2EzNTg4NTM3OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmI1ODBlOTY0ZjgzYTQ3M2Y0M2Q0NDM4NDYyOTQ5ZDY4YjU2MDBmZGE3ODdmMTYzNzQ1ZDAwZGU4OWNiZjM2YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGNhODMzNDU1YjYzMDRmOGQyZTNkNThmMzc5MmU0NjA0ZDkwMzY4YjBmOGZhOGIxNjFkNjg2MjZhMGE1YzhlNCJ9"
         },
         {
-          "resource": "repo://src/lib/dofusdb/map-quest.ts#L52-L84",
+          "resource": "repo://src/lib/dofusdb/map-quest.ts#L36-L68",
           "version": "repo-lines-v1:sha256:e3f9b12fe5e960e0d3f60d99f64b2b0f14acb4d04816a9c2948da7f722807fce:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBmMzZiZGU4ZTAxNjFhOTBjOGZlMDA3ODEwNDJiZTcyMGRlOGQ0NmM1NjU4MDBlMmU1MDBkMzljNjNiOTBjNGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdkMmJiZWUwYmEyNmVkMGU0M2EwNWFjNGM2NWRmYmEwODEzNmEwNjc0YmNmNWIxMGYyZWM2MTMzYzk2YjJkZDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
@@ -89,8 +89,12 @@
       "statement": "Quest prerequisites are only the Qf=<id> terms joined by & in startCriterion; a level containing | is treated as alternatives and contributes none, other terms such as Qa= are ignored, and the result is deduplicated and excludes the quest itself.",
       "evidence": [
         {
-          "resource": "repo://src/lib/dofusdb/map-quest.ts#L22-L50",
-          "version": "repo-lines-v1:sha256:1a71a7b89f59a4f7ed824dc2e947bbef0e154a5664373cea749311d6b9e3ebea:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRmNWMxNzZhMzkxNTA5MjE1ODVkNTg4ZTg3ZmFiODAwZWYyNDQ0NzI1NjkxMzUwOTU5MWE5NWM5NTNhMDc1MWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJlZDAwMDBiMzU1OTZiOGNiNmY5MTg5YmE2NDNiOTg0ZWZhZGRkYmM2ODI0ZTQ2MTczMWUxNmQ3Y2I0MGU2NzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFiMDFlMDI3ZDUzNDliY2IzMWMzNGU0OTA2N2IxZDIxYzJlMDc0YTc3ZTRlNTU0NmFiMDUxYTY5ZTMwMjdiNTUifQ"
+          "resource": "repo://src/lib/dofusdb/criterion.ts#L1-L28",
+          "version": "repo-lines-v1:sha256:067eaf8c2863d24140b7eb5e73fb9424ff815daf6227d04fbd65506789fc24d1:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyZGI2N2Q3ZWJjZWJlNmNmMjk4ODVmM2JlZWM4MzE4MmMzZGI1ODhkY2UyMDgyOGY0MDg0NDJiY2U3MWQ2MGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/dofusdb/map-quest.ts#L23-L34",
+          "version": "repo-lines-v1:sha256:fbc576b5c65d1b32549309f62d2b1918e8dedeeedb38661467c9eb2d67f216cd:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRmNWMxNzZhMzkxNTA5MjE1ODVkNTg4ZTg3ZmFiODAwZWYyNDQ0NzI1NjkxMzUwOTU5MWE5NWM5NTNhMDc1MWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJlZDAwMDBiMzU1OTZiOGNiNmY5MTg5YmE2NDNiOTg0ZWZhZGRkYmM2ODI0ZTQ2MTczMWUxNmQ3Y2I0MGU2NzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFiMDFlMDI3ZDUzNDliY2IzMWMzNGU0OTA2N2IxZDIxYzJlMDc0YTc3ZTRlNTU0NmFiMDUxYTY5ZTMwMjdiNTUifQ"
         },
         {
           "resource": "repo://tests/unit/dofusdb-map-quest.test.ts#L75-L119",
@@ -103,8 +107,8 @@
       "statement": "DofusDB's need.quests is not used for prerequisites because it lists every quest mentioned in the criterion: quest 275 lists 272, 273 and 274 for (Qf=272|Qf=273|Qf=274) and gets no prerequisites, and quest 879 lists 871 and 878 for Qf=871&Qa=878 and gets only 871.",
       "evidence": [
         {
-          "resource": "repo://src/lib/dofusdb/map-quest.ts#L22-L23",
-          "version": "repo-lines-v1:sha256:5fc69c110a1e62f20422b314d5335dac562869ffb21ba21da2a6e197c7df5f2a:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGY1YzE3NmEzOTE1MDkyMTU4NWQ1ODhlODdmYWI4MDBlZjI0NDQ3MjU2OTEzNTA5NTkxYTk1Yzk1M2EwNzUxZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTIzNjM0OGRjZWNjMzBkYzBiYWNmOTY3MzU1N2ZlY2M0MTBlYzAzOGViNGYxZGY4NDAyNWMwMWU5NTlmMjFmNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmVkMDAwMGIzNTU5NmI4Y2I2ZjkxODliYTY0M2I5ODRlZmFkZGRiYzY4MjRlNDYxNzMxZTE2ZDdjYjQwZTY3NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzU2ZWRkYWZlYmU0YzgxYTYzNjAzZTAxNDRkZDkwOTFhYjRiZTA1YmFmMGY2OTJlNTMyZTEzMmEwMjQ5M2IyMiJ9"
+          "resource": "repo://src/lib/dofusdb/map-quest.ts#L23-L24",
+          "version": "repo-lines-v1:sha256:5fc69c110a1e62f20422b314d5335dac562869ffb21ba21da2a6e197c7df5f2a:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGY1YzE3NmEzOTE1MDkyMTU4NWQ1ODhlODdmYWI4MDBlZjI0NDQ3MjU2OTEzNTA5NTkxYTk1Yzk1M2EwNzUxZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTIzNjM0OGRjZWNjMzBkYzBiYWNmOTY3MzU1N2ZlY2M0MTBlYzAzOGViNGYxZGY4NDAyNWMwMWU5NTlmMjFmNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmVkMDAwMGIzNTU5NmI4Y2I2ZjkxODliYTY0M2I5ODRlZmFkZGRiYzY4MjRlNDYxNzMxZTE2ZDdjYjQwZTY3NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmI1ZjVjOGUyOTZmMjFhNDk5MmM3YWU1Y2Y0Y2JiMGNiYmZhNTYxMTZlZGY3M2JhZjdjYWFiOWRmODQ1NTMzZSJ9"
         },
         {
           "resource": "repo://tests/fixtures/dofusdb/quests.json#L115-L137",
@@ -335,12 +339,12 @@
           "version": "repo-lines-v1:sha256:34cbb9b3e3b58437c10c097c37f8561e2f0b22405ac23f82626e6af917ec345c:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIxMTFmMjM5YWM2NWM5ZmVjZDRmNzk3NWQ0ZWUwYzY3N2I1OGE4ZWE2Nzg1MmVhMjVkMjc5MjM5MjUxOGQyZjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg3YWI4M2QwMTU1MjYwMGUyYjZhMWQ2MzY2NWZlZjgwNmJkYzQ5YThhNjNiOTFkOWE3ODU2MDhhYzRiMzM2NzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ4YjFmYjEzY2RlN2I0OWQ2NDMyZDE3MzY4NzY2YzEzZWVmNDQ3MGEzYjAxNWJiM2I5YjMxN2U3ODI4OTFmN2QifQ"
         },
         {
-          "resource": "repo://src/lib/guides/format.ts#L49-L60",
-          "version": "repo-lines-v1:sha256:668fb1aa70adb0ffc36b83280269e66a7e6c91662f7ee27c775e5e8cc1a80e26:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBjYTlhOTkxZmNmYWYzNzhhYzkxZDFkOGE5ODM3MjM3NjlmOGM0MDk5ZDJkZTVkYmRhYzViMzhiMjc3MDNmMTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIxNWZlMTExOTMzMTFiYWU0YzIyM2I2ZjhmYzBjNmZiMmI1Njc3ZjhhMzdlNjM1NjgwNDk1MmYyNTVhMzc5OTMifQ"
+          "resource": "repo://src/lib/guides/format.ts#L11-L13",
+          "version": "repo-lines-v1:sha256:723f0bc4ed9fc015b4d0f614eda2594049710943d2390b006da18ce87a7f84eb:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWY3MGYyZDc2OTk3MjkwYjk0NmRiOWMwNTI3ZDkxNmQxOTU5NWJhNTk4ZGMwNzhhMTY1ZTM5ZGI0NDI2M2FjYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTc1Y2M4YTc0OWE1MzY1ODM0ZmZhMzA4OWFlNDNhMWFlYTMyNjE2N2Y1NDU3ODIzNThlZTQ3ZmE5ZDFiMjhjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWUxNmM5OGM2NjgzZDVmYWNlNDUyMWUzODc0MGIyYzg5MjJlMjQxZDA1MWI5ODk0ZmQ2Yjc2ZWQwNmYyMmVjOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzRlNDIxOTRjYzdjM2JhN2UyZmEyMzk0OTI5ZDMwMDUwNGMzZjFmOWQyY2ZiOGY3ZmRkYzcyZTE3MzA3NzcyMiJ9"
         },
         {
-          "resource": "repo://src/lib/guides/format.ts#L9-L11",
-          "version": "repo-lines-v1:sha256:723f0bc4ed9fc015b4d0f614eda2594049710943d2390b006da18ce87a7f84eb:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWY3MGYyZDc2OTk3MjkwYjk0NmRiOWMwNTI3ZDkxNmQxOTU5NWJhNTk4ZGMwNzhhMTY1ZTM5ZGI0NDI2M2FjYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTc1Y2M4YTc0OWE1MzY1ODM0ZmZhMzA4OWFlNDNhMWFlYTMyNjE2N2Y1NDU3ODIzNThlZTQ3ZmE5ZDFiMjhjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWUxNmM5OGM2NjgzZDVmYWNlNDUyMWUzODc0MGIyYzg5MjJlMjQxZDA1MWI5ODk0ZmQ2Yjc2ZWQwNmYyMmVjOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzRlNDIxOTRjYzdjM2JhN2UyZmEyMzk0OTI5ZDMwMDUwNGMzZjFmOWQyY2ZiOGY3ZmRkYzcyZTE3MzA3NzcyMiJ9"
+          "resource": "repo://src/lib/guides/format.ts#L51-L62",
+          "version": "repo-lines-v1:sha256:668fb1aa70adb0ffc36b83280269e66a7e6c91662f7ee27c775e5e8cc1a80e26:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBjYTlhOTkxZmNmYWYzNzhhYzkxZDFkOGE5ODM3MjM3NjlmOGM0MDk5ZDJkZTVkYmRhYzViMzhiMjc3MDNmMTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIxNWZlMTExOTMzMTFiYWU0YzIyM2I2ZjhmYzBjNmZiMmI1Njc3ZjhhMzdlNjM1NjgwNDk1MmYyNTVhMzc5OTMifQ"
         },
         {
           "resource": "repo://src/lib/guides/summary.ts#L102-L127",
@@ -581,10 +585,32 @@
           "version": "repo-lines-v1:sha256:edd04635f391138fc1edf23f168bbb23da02f462ae0bd4aee4c5f2bbac9e0687:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkzNGJiYWVmODM0MmYxZjc4MDQyODM3MTk0MmM2NTM2YjFlOTFkNDI1MTc1MGQzNjlkNjk0ZGEzNjhlYzMxM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgwZjY1MWI2NzlhOWUyMTk3ZTIyN2Q4ZDNmMGFmNzA5YTljMzdlMTNhNDc0NGJmYjg4YzFmOTUxNjhkMzA3YzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhiZmIyYTVlMDI5NDE1MmM1NWM5ODk5YzM1ZmZhOTBhMGI5YjA1N2MyZTgxZmU4N2I5M2I3ZjU4ZWE4MWQyZDMifQ"
         }
       ]
+    },
+    {
+      "id": "claim_0194de1e491c4b98bd272b864e10398d",
+      "statement": "requiredTerms in src/lib/dofusdb/criterion.ts returns the criterion terms joined by & at the top level or inside &-only brackets, in order, returns nothing for a level containing |, and returns an empty list for a missing or empty criterion; mapQuest prerequisites and the guide's requiredLevel both use it.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/dofusdb/criterion.ts#L1-L28",
+          "version": "repo-lines-v1:sha256:067eaf8c2863d24140b7eb5e73fb9424ff815daf6227d04fbd65506789fc24d1:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyZGI2N2Q3ZWJjZWJlNmNmMjk4ODVmM2JlZWM4MzE4MmMzZGI1ODhkY2UyMDgyOGY0MDg0NDJiY2U3MWQ2MGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/dofusdb/map-quest.ts#L1-L1",
+          "version": "repo-lines-v1:sha256:3b0f9b87d3aa8b568de73113179c8f1bd8b4817fcd24a18321464f233abcc962:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2IwZjliODdkM2FhOGI1NjhkZTczMTEzMTc5YzhmMWJkOGI0ODE3ZmNkMjRhMTgzMjE0NjRmMjMzYWJjYzk2MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2IwZjliODdkM2FhOGI1NjhkZTczMTEzMTc5YzhmMWJkOGI0ODE3ZmNkMjRhMTgzMjE0NjRmMjMzYWJjYzk2MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiY2Q2MDk4ZDI4NTEwZTkzNjUzNDY4NzlkMWVkMzc4OGViNjdmZmQ0M2M4MmNlODhmZGZmOGUzN2I3NzZiNjRjNiJ9"
+        },
+        {
+          "resource": "repo://src/lib/guides/format.ts#L4-L4",
+          "version": "repo-lines-v1:sha256:6b58569d9dfe597a3af30b447d8d2eda44df319447e094d1503c2a6c4feee776:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmI1ODU2OWQ5ZGZlNTk3YTNhZjMwYjQ0N2Q4ZDJlZGE0NGRmMzE5NDQ3ZTA5NGQxNTAzYzJhNmM0ZmVlZTc3NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNmI1ODU2OWQ5ZGZlNTk3YTNhZjMwYjQ0N2Q4ZDJlZGE0NGRmMzE5NDQ3ZTA5NGQxNTAzYzJhNmM0ZmVlZTc3NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjEzZThhYjIyM2FmZTM4Zjc4ZmU3MzIzMTlmY2ZiYTViODc2MDM0M2Q4NDExZDY3ZmRjZmFkNzAzMmI1ZGQ2YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDQyZmVlNzBkYjdjZTdiNjczMjE3MmNhMjFjNzc5YWE3MjFmYTc0MzBiYWNhZDdiZjY2YWYyODRjOTMwZGIxMSJ9"
+        },
+        {
+          "resource": "repo://tests/unit/dofusdb-criterion.test.ts#L5-L27",
+          "version": "repo-lines-v1:sha256:a7a4eaa68a37f57982c530ebfcb8a8c686615b7cc808f02846db832be875c3bb:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRhZGZjMGY5NjNjMGE5NGQ3N2VjMTU2YTg2Y2U1NzVmYzk0NmM0NDcxOGNmNjQ2YjExNTQ0MGM1YmM2ZWUxNTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIyNjQyZTk4ZWY5ZDc3ODJkMmUzZDFjMmFlODJlNmUyOWMwMDQ2NzM5NWZkYzIwZDZmZDNjNzAwNGY2MzBkNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T20:15:10.008Z"
+    "at": "2026-11-04T20:43:04.375Z"
   }
 }

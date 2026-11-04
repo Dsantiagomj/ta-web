@@ -46,6 +46,8 @@ sources:
     resource: repo://tests/unit/concurrency.test.ts
   - id: openwiki-source-1843fcebd4e1a5a852fbfef6
     resource: repo://tests/unit/dofusdb-client.test.ts
+  - id: openwiki-source-5abe1ccdc91bc1443cbb73d2
+    resource: repo://tests/unit/dofusdb-criterion.test.ts
   - id: openwiki-source-5c15ceedf8492ffd0f430eca
     resource: repo://tests/unit/dofusdb-fetch-quest-data.test.ts
   - id: openwiki-source-1a4d893bc4ddfe68ab2aff11
@@ -60,6 +62,8 @@ sources:
     resource: repo://tests/unit/game-data-collections.test.ts
   - id: openwiki-source-bb0747d86ef5cecbc4d85241
     resource: repo://tests/unit/guide-autofill.test.ts
+  - id: openwiki-source-a245227c3cb5565abdfcd27a
+    resource: repo://tests/unit/guide-form-fill.test.ts
   - id: openwiki-source-85e63acb1252624b63be77af
     resource: repo://tests/unit/guide-summary.test.ts
   - id: openwiki-source-bf890cc4722b5033a81aa698
@@ -84,10 +88,10 @@ sources:
     resource: repo://vitest.config.mts
   - id: openwiki-source-57da85ca1bb457973a5594ff
     resource: repo://vitest.integration.config.mts
-generated: { by: "claude-code", at: "2026-11-04T20:02:15.357Z" }
+generated: { by: "claude-code", at: "2026-11-04T20:38:00.762Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T20:02:15.357Z
+    at: 2026-11-04T20:38:00.762Z
 ---
 
 # Test suites
@@ -108,8 +112,8 @@ The repo works test-first (AGENTS.md: strict TDD). There are five suites. All of
 
 - configuration: `database-url`, `media-storage`, `sentry-options`, `railway-config` (evaluates `.railway/railway.ts` for each environment), `next-config`, `test-database-env`;
 - behavior: `health` (fake pool and timers), `dev-gate`, `robots`, `theme`, `mode-script`, `mode-toggle-strings`, `media-collection`, `quests-collection` (including the `rewards` and `needs` groups), `game-data-collections` (the `items` and `monsters` fields, including the optional `superTypeId` on items, and the shared read-only `gameDataAccess`);
-- quest guides: `quest-guides-collection` (fields in order, with `quests` first and in the main area, the needs group and the note components, versions, the `fillFromQuest` hook, `validateGuideTitle`, `validateGuideSlug`, `validateSlug` and the access functions), `quest-guide-blocks` (each body block's fields and `validateVideoUrl`), `guide-summary` (Torre's summary format checked against the parsed Squarespace pages of quests 1977, 1976 and 1433, the needed items without quest items, the fill rules and every note state) and `guide-autofill` (slugs, slug suffixes, the SEO templates and the 160-character cut, never touching written fields). See [Writing a quest guide](../cms/guide-authoring.md#tests);
-- DofusDB refresh: `dofusdb-client` (paging, `$select[]` fields, ID chunks, pauses and errors through an injected fake `fetch`, never the network; retries of network errors and 429, 502, 503 and 504 with doubling waits, jitter, `Retry-After` and one log line each, giving up after 5 attempts with the URL in the error, and no retry on 400 or 404, through injected `sleep`, `log` and `random`), `dofusdb-map-quest` (names, start positions, rewards and needs from the steps, and the prerequisite rule), `dofusdb-quest-rewards` (the level-200 XP and kamas formula against Torre's and dofusdb.fr's figures, per-step flooring, the last reward entry, items and IDs), `dofusdb-quest-needs` (which objectives count, the larger-quantity rule between `need.items` and deliveries, `walksMaps`), `dofusdb-fetch-quest-data` (only the NPCs and maps named in start positions and the monsters named in needs are looked up by ID; the whole item catalog comes from `fetchAll` with the stored fields as its select list) and `dofusdb-write-concurrency` (`DOFUSDB_WRITE_CONCURRENCY`: empty gives the default, which stays below pg's pool of 10, a positive integer is read, and `0`, `-2`, `1.5` and `ocho` throw);
+- quest guides: `quest-guides-collection` (fields in order, with `quests` first and in the main area, the needs group and the note components, versions, the `fillFromQuest` hook, `validateGuideTitle`, `validateGuideSlug`, `validateSlug` and the access functions), `quest-guide-blocks` (each body block's fields and `validateVideoUrl`), `guide-summary` (Torre's summary format checked against the parsed Squarespace pages of quests 1977, 1976 and 1433, the minimum level read only from a `PL>` the criterion always requires, the needed items without quest items, the fill rules and every note state), `guide-form-fill` (the live form fill planned from the empty fields, and only the fields still empty after the slug check filled, so what Torre types meanwhile stays) and `guide-autofill` (slugs, slug suffixes, the SEO templates and the 160-character cut, never touching written fields). See [Writing a quest guide](../cms/guide-authoring.md#tests);
+- DofusDB refresh: `dofusdb-client` (paging, `$select[]` fields, ID chunks, pauses and errors through an injected fake `fetch`, never the network; retries of network errors and 429, 502, 503 and 504 with doubling waits, jitter, `Retry-After` and one log line each, giving up after 5 attempts with the URL in the error, and no retry on 400 or 404, through injected `sleep`, `log` and `random`), `dofusdb-criterion` (`requiredTerms`: the terms joined by `&` at the top level or inside `&`-only brackets, nothing from a level with `|`, nothing for an empty criterion), `dofusdb-map-quest` (names, start positions, rewards and needs from the steps, and the prerequisite rule), `dofusdb-quest-rewards` (the level-200 XP and kamas formula against Torre's and dofusdb.fr's figures, per-step flooring, the last reward entry, items and IDs), `dofusdb-quest-needs` (which objectives count, the larger-quantity rule between `need.items` and deliveries, `walksMaps`), `dofusdb-fetch-quest-data` (only the NPCs and maps named in start positions and the monsters named in needs are looked up by ID; the whole item catalog comes from `fetchAll` with the stored fields as its select list) and `dofusdb-write-concurrency` (`DOFUSDB_WRITE_CONCURRENCY`: empty gives the default, which stays below pg's pool of 10, a positive integer is read, and `0`, `-2`, `1.5` and `ocho` throw);
 - shared helpers: `concurrency` (`mapWithConcurrency` keeps input order, never runs more than `limit` tasks, runs them one by one with `limit` 1, rejects with the first error once running tasks settle without starting more, handles an empty list, and rejects a `limit` below 1 or not an integer);
 - Squarespace import: `import-parse-page` (title, desktop grid order, text, image and unknown blocks), `import-to-quest-guide` (summary with the "Necesitarás" text as `needs.notes`, start NPC, what leaves the body, callouts, oddities), `import-rich-text` (HTML to Lexical through Payload's editor), `import-quest-matches` (the slug to DofusDB IDs CSV) and `import-fetch-image` (image downloads only over `https` from Squarespace's CDN, without redirects and only for `image/*` responses, through an injected fake `fetch`). See [Squarespace import](../data/squarespace-import.md);
 - tooling: `commit-msg` (runs the git hook script).

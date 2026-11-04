@@ -32,6 +32,8 @@ sources:
     resource: repo://src/lib/db/database-url.ts
   - id: openwiki-source-7b3f34dd948192f72aa88058
     resource: repo://src/lib/dofusdb/client.ts
+  - id: openwiki-source-50dfb7dff241d2a5f45927cb
+    resource: repo://src/lib/dofusdb/criterion.ts
   - id: openwiki-source-54227c78b7c2e57bc6f3d29b
     resource: repo://src/lib/dofusdb/fetch-quest-data.ts
   - id: openwiki-source-1addf1a05f8d53fe7dea95d6
@@ -58,6 +60,8 @@ sources:
     resource: repo://tests/unit/concurrency.test.ts
   - id: openwiki-source-1843fcebd4e1a5a852fbfef6
     resource: repo://tests/unit/dofusdb-client.test.ts
+  - id: openwiki-source-5abe1ccdc91bc1443cbb73d2
+    resource: repo://tests/unit/dofusdb-criterion.test.ts
   - id: openwiki-source-5c15ceedf8492ffd0f430eca
     resource: repo://tests/unit/dofusdb-fetch-quest-data.test.ts
   - id: openwiki-source-1a4d893bc4ddfe68ab2aff11
@@ -68,10 +72,10 @@ sources:
     resource: repo://tests/unit/dofusdb-quest-rewards.test.ts
   - id: openwiki-source-e73350ef868f2379d51909ed
     resource: repo://tests/unit/dofusdb-write-concurrency.test.ts
-generated: { by: "claude-code", at: "2026-11-04T20:02:15.357Z" }
+generated: { by: "claude-code", at: "2026-11-04T20:38:00.762Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T20:15:10.008Z
+    at: 2026-11-04T20:43:04.375Z
 ---
 
 # DofusDB game data refresh
@@ -149,13 +153,15 @@ There is no index on the item name. Picking an item by name in the panel runs a 
 
 ### Prerequisite rule
 
-A prerequisite here means a quest you must have **finished** before starting this one. `mapQuest` derives `prerequisiteDofusIds` from `startCriterion` alone:
+A prerequisite here means a quest you must have **finished** before starting this one. `mapQuest` derives `prerequisiteDofusIds` from `startCriterion` alone. It reads the criterion with `requiredTerms` from `src/lib/dofusdb/criterion.ts`, a small shared parser that returns the conditions the criterion always requires, and keeps the `Qf=` ones:
 
-- The criterion is split into tokens on `(`, `)`, `&` and `|`. Only tokens that are exactly `Qf=<id>` (quest finished) count.
+- The criterion is split into tokens on `(`, `)`, `&` and `|`. Of the required terms, only tokens that are exactly `Qf=<id>` (quest finished) count.
 - A level of the expression that contains a `|` is a set of alternatives: it contributes nothing, including what its nested groups would have given. So `(Qf=272|Qf=273|Qf=274)` yields no prerequisites, and a bare `Qf=879&Qa=878|Qf=877` yields none either.
 - `Qf=` terms joined by `&`, at the top level or inside groups that are themselves joined by `&` and contain no `|`, all count. `PL>99&Qf=631&(PO=11195|PO=11197|DD>8,11198)&Sc=702` yields `[631]`.
 - Other terms are ignored: `Qa=` (quest in progress), `Qf!` (quest not finished), `Qc=` and every non-quest condition.
 - The result is deduplicated and never includes the quest itself. Unbalanced parentheses do not throw.
+
+`requiredTerms` itself knows nothing about quests: it returns every term joined by `&` at the top level or inside `&`-only brackets, in order (`Ps=1&Pa=1&PL>29&Qf=55` gives all four), and nothing for a level that has a `|`. A missing or empty criterion gives an empty list. The quest guide summary uses the same parser for its minimum level, so a `PL>` among `|` alternatives gives no "Nivel mínimo" (see [Writing a quest guide](../cms/guide-authoring.md#the-summary)).
 
 DofusDB's own `need.quests` field is not used, because it lists every quest the criterion mentions, whatever the condition: `Qf=` alternatives joined by `|`, `Qa=` (in progress) and `Qc=` terms alike. Reading it as "finish these first" would invent prerequisites. Two quests in the test fixtures show the difference:
 
@@ -211,7 +217,7 @@ Monsters are summed by monster across all objectives and steps.
 
 #### What the refreshed data means for a guide
 
-A quest guide copies its summary from the linked quest when the guide's fields are empty (see [Writing a quest guide](../cms/guide-authoring.md)). The prerequisites come from `prerequisites` and the `PL>` level in `startCriterion`, the rewards from `rewards`, the start point from the first `startPositions` entry, and the guide's "Necesitarás" item list from `needs.items`. Quest items are left out of that list: they carry their own item types (`typeId` 129, 133 and 155 in the fixtures), all under supertype 14, and the game hands them out during the quest, so the guide filters them by `superTypeId === 14`. About 3,900 of the catalog's items are quest items. Needed monsters and `walksMaps` do not fit an item list and are not copied.
+A quest guide copies its summary from the linked quest when the guide's fields are empty (see [Writing a quest guide](../cms/guide-authoring.md)). The prerequisites come from `prerequisites` and the `PL>` level that `startCriterion` always requires, the rewards from `rewards`, the start point from the first `startPositions` entry, and the guide's "Necesitarás" item list from `needs.items`. Quest items are left out of that list: they carry their own item types (`typeId` 129, 133 and 155 in the fixtures), all under supertype 14, and the game hands them out during the quest, so the guide filters them by `superTypeId === 14`. About 3,900 of the catalog's items are quest items. Needed monsters and `walksMaps` do not fit an item list and are not copied.
 
 Torre's "Necesitarás" lines are partly editorial (which fights to expect, what to prepare), and that part goes to the guide's own `summary.needs.notes`, which the fill never touches. Because values are copied, a later refresh does not change existing guides; the note under each summary field shows when the guide and DofusDB differ.
 
@@ -275,6 +281,7 @@ The script writes to whatever database `DATABASE_URL` names, with no confirmatio
 |---|---|
 | `tests/unit/dofusdb-client.test.ts` | Pages of 50 until the total, a 50 ms pause between pages and none after the last, stop on an empty page, `$select[]` fields in the URL, the User-Agent, deduplicated IDs in chunks of 40, no request for an empty ID list, the error message on a 404. Retries: a network error and 502, 503 and 504 retried with waits of 500, 1,000, 2,000 and 4,000 ms and one log line each, jitter between 500 and 750 ms with `random` 0.5, giving up after 5 attempts with the URL and attempt count in the error (for a status and for repeated network failures), no retry on 400 or 404, and a 429's `Retry-After: 7` waited as 7,000 ms |
 | `tests/unit/dofusdb-map-quest.test.ts` | Spanish name with French fallback, every start position with NPC names and coordinates, `null`s for missing lookups, rewards and needs taken from the steps, and the prerequisite rule: `Qf=` joined by `&`, alternatives, `Qa=`, nested groups, unbalanced parentheses, duplicates and self-references |
+| `tests/unit/dofusdb-criterion.test.ts` | `requiredTerms`: terms joined by `&` in order, a level with `\|` giving nothing (`PL>189\|Qf=123` gives none, `(PL>50\|PL>60)&Qf=1` gives `Qf=1`), `&`-only brackets entered while `\|` groups are skipped, and no terms for a `null` or empty criterion |
 | `tests/unit/dofusdb-quest-rewards.test.ts` | Torre's and dofusdb.fr's figures for quests 1977 (24,316 XP, 552 kamas) and 1976, the 1.5 × optimum cap (332), the level-200 case (1433), per-step flooring (241), items summed across steps, the last reward entry (880), emote and title IDs, and empty steps |
 | `tests/unit/dofusdb-quest-needs.test.ts` | Delivered items, `need.items` without deliveries, the larger-quantity rule (245), deliveries summed across objectives, every fight objective and souls, `walksMaps` for map and sub-area discovery, and the ignored objectives |
 | `tests/unit/dofusdb-fetch-quest-data.test.ts` | Only the NPCs and maps named in start positions and the monsters named in needs are looked up by ID; items come from `fetchAll` with the select list, including items no quest names, and are never looked up by ID |
