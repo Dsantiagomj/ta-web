@@ -13,7 +13,7 @@ Every change: code, content model, migrations, data, docs, CI. Read this file be
 1. One branch per change, in a worktree under `../ta-web-worktrees/<name>`.
 2. Strict TDD: write or adjust the test, watch it fail, then implement.
 3. Schema change: generate and commit the migration in the same branch.
-4. Run every suite locally (see Testing). Report failures verbatim. The pre-commit hook runs Prettier, ESLint and the `gga` review on staged files; do not skip it (`--no-verify`, `LEFTHOOK=0`, `LEFTHOOK_EXCLUDE`) unless the user asks.
+4. Run lint, format check, types, unit and integration locally before each push; run E2E and the dev gate suite once, right before opening the PR, not per commit or per fix (see Testing). Report failures verbatim. The pre-commit hook runs Prettier, ESLint and the `gga` review on staged files; do not skip it (`--no-verify`, `LEFTHOOK=0`, `LEFTHOOK_EXCLUDE`) unless the user asks.
 5. UI change: screenshots at 1440, 1024 and 390 px, Arcano dark and light (plus any theme the change touches), in `tmp/shots/`, next to the approved mockup.
 6. Refresh the wiki in the same branch (see Wiki), then open the PR: conventional commit title, Spanish body. No auto-merge unless asked.
 
@@ -78,7 +78,7 @@ Spanish only at launch, ready for more: Payload localization is on with `es` as 
 |---|---|
 | One branch per change | Worktrees under `../ta-web-worktrees/<name>`, never inside the repo |
 | One concern per PR | Chain PRs when a change mixes concerns or passes about 400 changed lines |
-| All suites before push | See Testing. Re-run a suspected flake alone (`--retries 0`) before calling it a flake |
+| Suites before push | Lint, format check, types, unit and integration before each push; E2E and dev gate once, right before opening the PR. See Testing. Re-run a suspected flake alone (`--retries 0`) before calling it a flake |
 | Auto-merge | Only when the user asks |
 | Ask, do not guess | A blocked decision gets one question, then stop |
 | Screenshots | `tmp/shots/`, 1440, 1024 and 390 px wide, Arcano dark and light |
@@ -87,7 +87,7 @@ Spanish only at launch, ready for more: Payload localization is on with `es` as 
 
 1. Write the test (or change the assertion) first. Run it and watch it fail for the right reason.
 2. Implement the smallest change that passes.
-3. Run the suite the test belongs to, then every suite before pushing.
+3. Run the suite the test belongs to, then the push suites (Workflow). E2E waits until the PR is about to open.
 4. A refactor PR never edits assertions.
 
 The `localStorage` try/catch rule and the imagery rules (`DESIGN.md`, Imagery) apply to app code. Tests may touch storage directly if they handle the failure with a clear message.
