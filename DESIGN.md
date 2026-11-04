@@ -268,7 +268,7 @@ Families (decided 2026-11-02, kept from Dofus Tools), loaded with `next/font/goo
 
 | Token | Family | Weights | Fallback stack | Use |
 |---|---|---|---|---|
-| `--font-display` | Barlow Condensed | 500, 600, 700, 800 | `'Barlow Condensed', 'Barlow', 'Arial Narrow', system-ui, sans-serif` | titles, card names, eyebrows, labels, buttons |
+| `--font-display` | Barlow Condensed | 700, 800 | `'Barlow Condensed', 'Barlow', 'Arial Narrow', system-ui, sans-serif` | titles, card names, eyebrows, labels, buttons |
 | `--font-body` | Barlow | 400, 500, 600, 700 | `'Barlow', system-ui, -apple-system, sans-serif` | body, controls, tables |
 | `--font-accent` | Lilita One | 400 | `'Lilita One', 'Barlow Condensed', system-ui, sans-serif` | featured numbers only: step numbers, levels, percentages, big counters ("30 guías", "0/100"). Never titles |
 
