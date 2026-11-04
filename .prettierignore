@@ -17,3 +17,6 @@ docs/research/
 
 # Lo genera OpenWiki (páginas, claims e índices); no se formatea a mano
 openwiki/
+
+# Páginas de Squarespace recortadas: el parser las lee tal cual
+tests/fixtures/squarespace/

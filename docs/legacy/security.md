@@ -13,7 +13,7 @@ How we track advisories in our dependencies, and which ones we accept for now.
 | `sharp` | 0.35.4 | 0.35.5 | Direct upgrade (librsvg) |
 | `embedded-postgres` | 17.10.0-beta.17 | 17.11.0-beta.19 | Direct upgrade. Postgres 17.11 for `pnpm db:dev` and E2E; CI uses `postgres:17.11` |
 | `dompurify` (via `monaco-editor` in the admin) | 3.4.15 | 3.4.17 | Override |
-| `happy-dom` (via `@lexical/headless`) | 20.14.6 | 21.0.4 | Override. The import will parse untrusted Squarespace HTML with it |
+| `happy-dom` (via `@lexical/headless`) | 20.14.6 | 21.0.4 | Override, and a direct dev dependency at the same version: the import (`scripts/import/`) parses untrusted Squarespace HTML with it, with scripts and resource loading off |
 | `esbuild` (via `drizzle-kit` > `@esbuild-kit/core-utils`) | 0.18.20 | 0.25.12 | Override scoped to `@esbuild-kit/core-utils`. drizzle-kit 0.31.7 declares the old loader but its bundles never load it |
 | `minimatch` 10.x (via `typescript-eslint`) | 10.2.6 | 11.0.1 | Override scoped to `minimatch@10` |
 | Node | `>=24.0.0` | `>=24.22.1` | `engines.node`; 24.22.1 is a security release |
