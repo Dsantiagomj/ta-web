@@ -112,4 +112,22 @@ export interface MappedQuest {
     y: number | null
   }[]
   prerequisiteDofusIds: number[]
+  rewards: QuestRewards
+  needs: QuestNeeds
+}
+
+/** Los datos de un objeto para la colección items. */
+export interface MappedItem {
+  dofusId: number
+  name: string
+  level: number | null
+  typeId: number | null
+  iconId: number | null
+}
+
+/** Los datos de un monstruo para la colección monsters. */
+export interface MappedMonster {
+  dofusId: number
+  name: string
+  iconId: number | null
 }

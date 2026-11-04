@@ -1,0 +1,410 @@
+[
+  {
+    "id": 1019,
+    "name": {
+      "id": "7074",
+      "de": "Bitouf der Ebenen",
+      "en": "Plain Pikoko",
+      "es": "Tufo de las llanuras",
+      "fr": "Bitouf des Plaines",
+      "pt": "Bitufo das Planícies"
+    },
+    "gfxId": 558
+  },
+  {
+    "id": 1020,
+    "name": {
+      "id": "6812",
+      "de": "Luft-Bitouf",
+      "en": "Air Pikoko",
+      "es": "Tufo aéreo",
+      "fr": "Bitouf Aérien",
+      "pt": "Bitufo Aéreo"
+    },
+    "gfxId": 559
+  },
+  {
+    "id": 1022,
+    "name": {
+      "id": "7062",
+      "de": "Korallator",
+      "en": "Coralator",
+      "es": "Coralador",
+      "fr": "Corailleur",
+      "pt": "Coralador"
+    },
+    "gfxId": 560
+  },
+  {
+    "id": 1025,
+    "name": {
+      "id": "7159",
+      "de": "Geschliffener Krachler",
+      "en": "Polished Crackler",
+      "es": "Crujidor pulío",
+      "fr": "Craqueleur Poli",
+      "pt": "Smagador Polido"
+    },
+    "gfxId": 561
+  },
+  {
+    "id": 1026,
+    "name": {
+      "id": "6063",
+      "de": "Geschliffener Krachlklotz",
+      "en": "Polished Crackrock",
+      "es": "Crujibola pulío",
+      "fr": "Craqueboule Poli",
+      "pt": "Smagabola Polido"
+    },
+    "gfxId": 562
+  },
+  {
+    "id": 1029,
+    "name": {
+      "id": "6282",
+      "de": "Floribond",
+      "en": "Floramor",
+      "es": "Floribundo",
+      "fr": "Floribonde",
+      "pt": "Floramor"
+    },
+    "gfxId": 564
+  },
+  {
+    "id": 1041,
+    "name": {
+      "id": "6630",
+      "de": "Schatten-Bitouf",
+      "en": "Dark Pikoko",
+      "es": "Tufo oscuro",
+      "fr": "Bitouf Sombre",
+      "pt": "Bitufo Sombrio"
+    },
+    "gfxId": 566
+  },
+  {
+    "id": 1043,
+    "name": {
+      "id": "5407",
+      "de": "Heenchen",
+      "en": "Cheeken",
+      "es": "Pohoyo",
+      "fr": "Poolay",
+      "pt": "Phrango"
+    },
+    "gfxId": 567
+  },
+  {
+    "id": 1044,
+    "name": {
+      "id": "7018",
+      "de": "Schnelm",
+      "en": "Snailmet",
+      "es": "Kasrakol",
+      "fr": "Kaskargo",
+      "pt": "Krakol"
+    },
+    "gfxId": 568
+  },
+  {
+    "id": 1046,
+    "name": {
+      "id": "6231",
+      "de": "Muhpett",
+      "en": "Moopet",
+      "es": "Mopet",
+      "fr": "Meupette",
+      "pt": "Mopete"
+    },
+    "gfxId": 570
+  },
+  {
+    "id": 1047,
+    "name": {
+      "id": "6065",
+      "de": "Heller Astakrachler",
+      "en": "Light Treeckler",
+      "es": "Abrajidor claro",
+      "fr": "Abrakleur Clair",
+      "pt": "Arvorador Claro"
+    },
+    "gfxId": 571
+  },
+  {
+    "id": 1057,
+    "name": {
+      "id": "7167",
+      "de": "King Morph",
+      "en": "Mopy King",
+      "es": "Rey stropajo",
+      "fr": "Roissingue",
+      "pt": "Rei Nojoso"
+    },
+    "gfxId": 581
+  },
+  {
+    "id": 1058,
+    "name": {
+      "id": "5415",
+      "de": "Torfmorph",
+      "en": "Mopeat",
+      "es": "Barrostropajo",
+      "fr": "Tourbassingue",
+      "pt": "Mopeat"
+    },
+    "gfxId": 582
+  },
+  {
+    "id": 1059,
+    "name": {
+      "id": "6066",
+      "de": "Schlammmorph",
+      "en": "Miremop",
+      "es": "Lodostropajo",
+      "fr": "Bourbassingue",
+      "pt": "Pantanoso"
+    },
+    "gfxId": 583
+  },
+  {
+    "id": 1060,
+    "name": {
+      "id": "7118",
+      "de": "Blaukrustoralle",
+      "en": "Kurasso Craboral",
+      "es": "Crustoral kuraçao",
+      "fr": "Crustorail Kouraçao",
+      "pt": "Crustocana Kuraçal"
+    },
+    "gfxId": 584
+  },
+  {
+    "id": 1061,
+    "name": {
+      "id": "7127",
+      "de": "Grünkrustoralle",
+      "en": "Mahlibuh Craboral",
+      "es": "Crustoral malibut",
+      "fr": "Crustorail Malibout",
+      "pt": "Crustocana Maliboo"
+    },
+    "gfxId": 585
+  },
+  {
+    "id": 1062,
+    "name": {
+      "id": "5855",
+      "de": "Braunkrustoralle",
+      "en": "Passaoh Craboral",
+      "es": "Crustoral passaoh",
+      "fr": "Crustorail Passaoh",
+      "pt": "Crustocana Passaoh"
+    },
+    "gfxId": 586
+  },
+  {
+    "id": 1063,
+    "name": {
+      "id": "5851",
+      "de": "Fahlkrustoralle",
+      "en": "Mojeeto Craboral",
+      "es": "Crustoral mohito",
+      "fr": "Crustorail Morito",
+      "pt": "Crustocana Morrito"
+    },
+    "gfxId": 587
+  },
+  {
+    "id": 1064,
+    "name": {
+      "id": "6657",
+      "de": "Blaupalmiflor",
+      "en": "Kurasso Palmflower",
+      "es": "Palmiflor kuraçao",
+      "fr": "Palmifleur Kouraçao",
+      "pt": "Palmiflor Kuraçal"
+    },
+    "gfxId": 588
+  },
+  {
+    "id": 1065,
+    "name": {
+      "id": "5853",
+      "de": "Grünpalmiflor",
+      "en": "Mahlibuh Palmflower",
+      "es": "Palmiflor malibut",
+      "fr": "Palmifleur Malibout",
+      "pt": "Palmiflor Maliboo"
+    },
+    "gfxId": 589
+  },
+  {
+    "id": 1066,
+    "name": {
+      "id": "7281",
+      "de": "Braunpalmiflor",
+      "en": "Passaoh Palmflower",
+      "es": "Palmiflor passaoh",
+      "fr": "Palmifleur Passaoh",
+      "pt": "Palmiflor Passaoh"
+    },
+    "gfxId": 590
+  },
+  {
+    "id": 1067,
+    "name": {
+      "id": "5854",
+      "de": "Fahlpalmiflor",
+      "en": "Mojeeto Palmflower",
+      "es": "Palmiflor mohito",
+      "fr": "Palmifleur Morito",
+      "pt": "Palmiflor Morrito"
+    },
+    "gfxId": 591
+  },
+  {
+    "id": 1068,
+    "name": {
+      "id": "6346",
+      "de": "Mufafah",
+      "en": "Mufafah",
+      "es": "Mufafah",
+      "fr": "Mufafah",
+      "pt": "Mufafah"
+    },
+    "gfxId": 592
+  },
+  {
+    "id": 1069,
+    "name": {
+      "id": "6059",
+      "de": "Kido",
+      "en": "Kido",
+      "es": "Kido",
+      "fr": "Kido",
+      "pt": "Kido"
+    },
+    "gfxId": 593
+  },
+  {
+    "id": 1070,
+    "name": {
+      "id": "131884",
+      "de": "Killibri",
+      "en": "Kilibriss",
+      "es": "Kilibris",
+      "fr": "Kilibriss",
+      "pt": "Kilibriss"
+    },
+    "gfxId": 594
+  },
+  {
+    "id": 1073,
+    "name": {
+      "id": "6803",
+      "de": "Rindefix",
+      "en": "Rotaflor",
+      "es": "Esquejika",
+      "fr": "Brouture",
+      "pt": "Rotaflor"
+    },
+    "gfxId": 597
+  },
+  {
+    "id": 1074,
+    "name": {
+      "id": "6357",
+      "de": "Nerbig",
+      "en": "Gwass",
+      "es": "Nierba",
+      "fr": "Nerbe",
+      "pt": "Nerva"
+    },
+    "gfxId": 598
+  },
+  {
+    "id": 1075,
+    "name": {
+      "id": "7004",
+      "de": "Rindent",
+      "en": "Barkritter",
+      "es": "Diente pe-león",
+      "fr": "Fécorce",
+      "pt": "Tronks"
+    },
+    "gfxId": 599
+  },
+  {
+    "id": 1076,
+    "name": {
+      "id": "5421",
+      "de": "Rindenhund",
+      "en": "Warguerite",
+      "es": "Marguerrita",
+      "fr": "Chiendent",
+      "pt": "Maerva"
+    },
+    "gfxId": 600
+  },
+  {
+    "id": 1077,
+    "name": {
+      "id": "6433",
+      "de": "Dunkler Astakrachler",
+      "en": "Dark Treeckler",
+      "es": "Abrajidor oscuro",
+      "fr": "Abrakleur Sombre",
+      "pt": "Arvorador Sombrio"
+    },
+    "gfxId": 601
+  },
+  {
+    "id": 3221,
+    "name": {
+      "id": "94676",
+      "de": "N.R.Enegat",
+      "en": "L.O. Athsome",
+      "es": "M.O. Elmen Delsako",
+      "fr": "G.O. Vans",
+      "pt": "G.O. Vah"
+    },
+    "gfxId": 911
+  },
+  {
+    "id": 4164,
+    "name": {
+      "id": "565475",
+      "de": "Schatten-Omnischlund",
+      "en": "Dark Greedovore",
+      "es": "Zampávoro oscuro",
+      "fr": "Gloutovore Obscur",
+      "pt": "Glutonívoro obscuro"
+    },
+    "gfxId": 1327
+  },
+  {
+    "id": 4165,
+    "name": {
+      "id": "581573",
+      "de": "Elender Schatten",
+      "en": "Baleful Shadow",
+      "es": "Sombra Funesta",
+      "fr": "Ombre Funeste",
+      "pt": "Sombra Funesta"
+    },
+    "gfxId": 1003
+  },
+  {
+    "id": 4246,
+    "name": {
+      "id": "591216",
+      "de": "Rob Mirbelec",
+      "en": "Rob Mirbelec",
+      "es": "Rob Mirbelec",
+      "fr": "Rob Mirbelec",
+      "pt": "Rob Mirbelec"
+    },
+    "gfxId": 1339
+  }
+]

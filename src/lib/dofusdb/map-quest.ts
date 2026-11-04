@@ -1,3 +1,5 @@
+import { questNeeds } from './quest-needs'
+import { questRewards } from './quest-rewards'
 import type { LocalizedText, MappedQuest, RawMapPosition, RawNpc, RawQuest } from './types'
 
 export interface QuestLookups {
@@ -13,7 +15,7 @@ export function indexLookups(npcs: RawNpc[], mapPositions: RawMapPosition[]): Qu
 }
 
 // Solo español al lanzar; el francés es el idioma original de DofusDB y cubre los huecos.
-function spanish(text: LocalizedText | null | undefined): string | null {
+export function spanish(text: LocalizedText | null | undefined): string | null {
   return text?.es || text?.fr || null
 }
 
@@ -76,5 +78,7 @@ export function mapQuest(raw: RawQuest, lookups: QuestLookups): MappedQuest {
     startCriterion: raw.startCriterion || null,
     startPositions,
     prerequisiteDofusIds: prerequisites(raw),
+    rewards: questRewards(raw),
+    needs: questNeeds(raw),
   }
 }
