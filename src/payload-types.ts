@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    quests: Quest;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,6 +79,7 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    quests: QuestsSelect<false> | QuestsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -181,6 +183,44 @@ export interface Media {
   focalY?: number | null;
 }
 /**
+ * Datos de DofusDB, de solo lectura. Los actualiza un script.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "quests".
+ */
+export interface Quest {
+  id: number;
+  dofusId: number;
+  name: string;
+  levelMin?: number | null;
+  levelMax?: number | null;
+  categoryId?: number | null;
+  /**
+   * Criterio en bruto de DofusDB, como Ps=1&Pa=1&PL>29&Qf=55.
+   */
+  startCriterion?: string | null;
+  /**
+   * Misiones que hay que terminar antes.
+   */
+  prerequisites?: (number | Quest)[] | null;
+  startPositions?:
+    | {
+        npcId?: number | null;
+        npcName?: string | null;
+        mapId?: number | null;
+        x?: number | null;
+        y?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * La pone el script de refresco.
+   */
+  refreshedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -211,6 +251,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'quests';
+        value: number | Quest;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -306,6 +350,32 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "quests_select".
+ */
+export interface QuestsSelect<T extends boolean = true> {
+  dofusId?: T;
+  name?: T;
+  levelMin?: T;
+  levelMax?: T;
+  categoryId?: T;
+  startCriterion?: T;
+  prerequisites?: T;
+  startPositions?:
+    | T
+    | {
+        npcId?: T;
+        npcName?: T;
+        mapId?: T;
+        x?: T;
+        y?: T;
+        id?: T;
+      };
+  refreshedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

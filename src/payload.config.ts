@@ -7,6 +7,7 @@ import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
 import { Media } from './collections/Media'
+import { Quests } from './collections/Quests'
 import { Users } from './collections/Users'
 import { healthEndpoint } from './endpoints/health'
 import { resolveDatabaseUrl, shouldPushSchema } from './lib/db/database-url'
@@ -22,7 +23,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
+  collections: [Users, Media, Quests],
   editor: lexicalEditor(),
   // GET /api/health, para los smoke tests tras un despliegue.
   endpoints: [healthEndpoint],
