@@ -79,7 +79,7 @@ describe('conversión de una página en guía de misión', () => {
     const { guide, oddities } = guideFor('el-cazador-cazado')
     expect(guide.summary).toEqual({
       prerequisites: 'Seis pies bajo tierra.',
-      needs: 'Literalmente nada xD.',
+      needs: { notes: 'Literalmente nada xD.' },
       rewards: '24 316 XP.\n552 kamas.\n2 x Cuero de miserata strubiense.\n2 x Colmillos de ratas.',
       startNpc: 'Kerubim Crepin',
       startX: 3,
@@ -190,7 +190,7 @@ describe('conversión de una página en guía de misión', () => {
       '<p>Necesitarás hablar con Oto Mustam antes.</p>',
     )
     const { guide } = toQuestGuide(parsePage(page), { slug: 'prueba', questDofusIds: [1] })
-    expect(guide.summary?.needs).toBe('Caminar mapas.')
+    expect(guide.summary?.needs).toEqual({ notes: 'Caminar mapas.' })
     expect(richTexts(guide.body)).toEqual(['Necesitarás hablar con Oto Mustam antes.'])
   })
 

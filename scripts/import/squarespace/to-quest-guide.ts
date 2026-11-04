@@ -25,7 +25,8 @@ export type GuideBlock =
 
 export interface GuideSummary {
   prerequisites?: string
-  needs?: string
+  /** El texto de Necesitarás va a las notas; la lista de objetos la rellena DofusDB. */
+  needs?: { notes: string }
   rewards?: string
   startNpc?: string
   startX?: number
@@ -272,8 +273,9 @@ export function toQuestGuide(
   for (const [field, label] of Object.entries(SUMMARY_LABELS) as [SummaryField, string][]) {
     const found = summaryLines[field]
     // Una etiqueta sola, sin texto, es un bloque que falta: va a la cola de revisión.
-    if (found?.length) summary[field] = found.join('\n')
-    else oddities.push(`Falta el bloque ${label}`)
+    if (!found?.length) oddities.push(`Falta el bloque ${label}`)
+    else if (field === 'needs') summary.needs = { notes: found.join('\n') }
+    else summary[field] = found.join('\n')
   }
   if (start) {
     summary.startNpc = start.npc

@@ -6,9 +6,11 @@ import { useEffect, useRef } from 'react'
 
 import { autofillFromQuest, availableSlug } from '@/lib/guides/autofill'
 import { guideStrings } from '@/lib/guides/strings'
-import { FILLABLE_FIELDS, summaryToFill } from '@/lib/guides/summary'
+import { FILLABLE_FIELDS, summaryToFill, type NeedRow } from '@/lib/guides/summary'
 
 import { fetchLinkedQuest, slugTaken, useApiUrl, useSelectedQuestId } from './linked-quest'
+
+const NEEDS_PATH = 'summary.needs.items'
 
 /**
  * Descripción del campo de misiones. Al elegir otra misión, rellena en el formulario el
@@ -19,7 +21,7 @@ export function QuestAutofill({ path }: FieldDescriptionClientProps) {
   const questId = useSelectedQuestId()
   const apiUrl = useApiUrl()
   const { id: docId } = useDocumentInfo()
-  const { dispatchFields, getDataByPath, setModified } = useForm()
+  const { addFieldRow, dispatchFields, getDataByPath, setModified } = useForm()
   // La misión con la que se abrió la guía no rellena nada: solo un cambio de Torre.
   const lastQuestId = useRef(questId)
 
@@ -44,10 +46,13 @@ export function QuestAutofill({ path }: FieldDescriptionClientProps) {
         fill.slug && (await availableSlug(fill.slug, (slug) => slugTaken(apiUrl, slug, docId)))
       if (lastQuestId.current !== questId) return
 
-      const summaryFill = summaryToFill(
-        Object.fromEntries(
-          FILLABLE_FIELDS.map((field) => [field, getDataByPath<string>(`summary.${field}`)]),
-        ),
+      const { needs, ...summaryFill } = summaryToFill(
+        {
+          ...Object.fromEntries(
+            FILLABLE_FIELDS.map((field) => [field, getDataByPath<string>(`summary.${field}`)]),
+          ),
+          needs: { items: getDataByPath<NeedRow[] | null>(NEEDS_PATH) },
+        },
         quest,
       )
 
@@ -67,9 +72,22 @@ export function QuestAutofill({ path }: FieldDescriptionClientProps) {
         dispatchFields({ type: 'UPDATE', path: fieldPath, value, valid: true })
         changed = true
       }
+      // Una fila por objeto, ya con su objeto y su cantidad.
+      needs?.items.forEach(({ item, quantity }, rowIndex) => {
+        addFieldRow({
+          path: NEEDS_PATH,
+          rowIndex,
+          schemaPath: NEEDS_PATH,
+          subFieldState: {
+            item: { initialValue: item, value: item, valid: true },
+            quantity: { initialValue: quantity, value: quantity, valid: true },
+          },
+        })
+        changed = true
+      })
       if (changed) setModified(true)
     })()
-  }, [apiUrl, docId, dispatchFields, getDataByPath, questId, setModified])
+  }, [addFieldRow, apiUrl, docId, dispatchFields, getDataByPath, questId, setModified])
 
   return <FieldDescription path={path} description={guideStrings.admin.questsDescription} />
 }

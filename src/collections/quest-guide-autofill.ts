@@ -2,7 +2,12 @@ import { ValidationError, type CollectionBeforeValidateHook, type Where } from '
 
 import { autofillFromQuest, availableSlug, firstQuestId } from '../lib/guides/autofill'
 import { guideStrings } from '../lib/guides/strings'
-import { FILLABLE_FIELDS, summaryToFill } from '../lib/guides/summary'
+import {
+  applySummaryFill,
+  FILLABLE_FIELDS,
+  summaryToFill,
+  type CurrentSummary,
+} from '../lib/guides/summary'
 import type { QuestGuide } from '../payload-types'
 
 // Lo que llega en `data` manda, aunque sea null (la importación vacía así un campo); lo
@@ -31,9 +36,12 @@ export const fillFromQuest: CollectionBeforeValidateHook<QuestGuide> = async ({
     metaTitle: sent(data.seo?.metaTitle, saved?.seo?.metaTitle),
     metaDescription: sent(data.seo?.metaDescription, saved?.seo?.metaDescription),
   }
-  const summary = Object.fromEntries(
-    FILLABLE_FIELDS.map((field) => [field, sent(data.summary?.[field], saved?.summary?.[field])]),
-  )
+  const summary: CurrentSummary = {
+    ...Object.fromEntries(
+      FILLABLE_FIELDS.map((field) => [field, sent(data.summary?.[field], saved?.summary?.[field])]),
+    ),
+    needs: { items: sent(data.summary?.needs?.items, saved?.summary?.needs?.items) },
+  }
   const questId = firstQuestId(sent(data.quests, saved?.quests))
 
   if (questId !== null) {
@@ -69,7 +77,12 @@ export const fillFromQuest: CollectionBeforeValidateHook<QuestGuide> = async ({
     }
     const summaryFill = summaryToFill(summary, quest)
     if (Object.keys(summaryFill).length) {
-      data.summary = { ...saved?.summary, ...data.summary, ...summaryFill }
+      const merged = {
+        ...saved?.summary,
+        ...data.summary,
+        needs: { ...saved?.summary?.needs, ...data.summary?.needs },
+      }
+      data.summary = applySummaryFill(merged, summaryFill)
     }
   }
 

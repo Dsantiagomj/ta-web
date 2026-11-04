@@ -44,24 +44,28 @@ export function rewardsText(rewards: LinkedRewards | null | undefined): string |
   ])
 }
 
+/** Un objeto que pide la misión, poblado, con su cantidad. */
+export interface NeededItem {
+  item: LinkedItem & { id: number }
+  quantity: number
+}
+
 /**
- * Una sugerencia de lo que hay que llevar: objetos (sin los de misión), monstruos y si hay
- * que caminar mapas. Lo que escribe Torre aquí suele ser editorial, como «Literalmente nada».
+ * Los objetos que pide la misión, en el orden de DofusDB, sin los de misión: esos los da
+ * el propio juego. Los monstruos y los mapas no caben en la lista de objetos.
  */
-export function needsText(needs: LinkedNeeds | null | undefined): string | null {
-  if (!needs) return null
-  const items = (needs.items ?? []).flatMap(({ item, quantity }) => {
+export function neededItems(needs: LinkedNeeds | null | undefined): NeededItem[] {
+  return (needs?.items ?? []).flatMap(({ item, quantity }) => {
     const doc = populated<LinkedItem>(item)
-    if (!doc || (doc.typeId != null && QUEST_ITEM_TYPE_IDS.has(doc.typeId))) return []
-    return [quantityLine(quantity, doc)]
+    if (typeof doc?.id !== 'number') return []
+    if (doc.typeId != null && QUEST_ITEM_TYPE_IDS.has(doc.typeId)) return []
+    return [{ item: { ...doc, id: doc.id }, quantity }]
   })
-  return lines([
-    ...items,
-    ...(needs.monsters ?? []).map(({ monster, quantity }) =>
-      quantityLine(quantity, populated(monster)),
-    ),
-    needs.walksMaps ? text.walksMaps : null,
-  ])
+}
+
+/** Una línea por objeto, «2 x Nombre.», para mostrar la lista en una nota. */
+export function itemsText(needed: NeededItem[]): string | null {
+  return lines(needed.map(({ item, quantity }) => quantityLine(quantity, item)))
 }
 
 /** El nivel mínimo para empezar, del criterio PL>N de DofusDB (nivel mayor que N). */

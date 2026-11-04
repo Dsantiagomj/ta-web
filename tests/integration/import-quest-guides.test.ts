@@ -3,7 +3,7 @@ import path from 'node:path'
 import { NotFound, type Payload } from 'payload'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
-import type { Media, Quest, QuestGuide } from '@/payload-types'
+import type { Item, Media, Quest, QuestGuide } from '@/payload-types'
 
 import { loadQuestGuides, type FetchImage } from '../../scripts/import/load-quest-guides'
 import { parsePage } from '../../scripts/import/squarespace/parse-page'
@@ -25,6 +25,7 @@ const QUEST_IDS: Record<string, number[]> = {
   'seis-pies-bajo-tierra': [1976],
 }
 const EXISTING_QUEST = 1977
+const TOFU_BEAK = 366
 const MISSING_QUESTS = [1433, 2420, 1976]
 
 function converted(): ConvertedGuide[] {
@@ -55,6 +56,7 @@ function imageUrls(guides: ConvertedGuide[]): Set<string> {
 describe('carga de guías importadas de Squarespace', () => {
   let payload: Payload
   let quest: Quest
+  let tofuBeak: Item
   const downloads: string[] = []
   // Sin red: cada imagen es un PNG de 1×1 px.
   const fetchImage: FetchImage = async (url) => {
@@ -104,11 +106,16 @@ describe('carga de guías importadas de Squarespace', () => {
       collection: 'quests',
       where: { dofusId: { in: [EXISTING_QUEST, ...MISSING_QUESTS] } },
     })
+    await payload.delete({ collection: 'items', where: { dofusId: { equals: TOFU_BEAK } } })
   }
 
   beforeAll(async () => {
     payload = await startPayload()
     await cleanUp()
+    tofuBeak = await payload.create({
+      collection: 'items',
+      data: { dofusId: TOFU_BEAK, name: 'Pico de tofu', typeId: 47 },
+    })
     quest = await payload.create({
       collection: 'quests',
       data: {
@@ -116,6 +123,7 @@ describe('carga de guías importadas de Squarespace', () => {
         name: 'El cazador cazado',
         // Distinta de la de la página de Torre, para ver de dónde sale cada dato
         startPositions: [{ npcName: 'Kerubim Crepin', x: 4, y: -18 }],
+        needs: { items: [{ item: tofuBeak.id, quantity: 3 }] },
       },
     })
   })
@@ -145,6 +153,11 @@ describe('carga de guías importadas de Squarespace', () => {
       originalUrl: 'https://www.torrentearcano.com/el-cazador-cazado',
       quests: [quest.id],
       summary: { startNpc: 'Kerubim Crepin', startX: 3, startY: -17 },
+    })
+    // El texto de Squarespace va a las notas; la lista de objetos sale de DofusDB
+    expect(hunter.summary?.needs).toMatchObject({
+      notes: 'Literalmente nada xD.',
+      items: [{ item: tofuBeak.id, quantity: 3 }],
     })
 
     const blockTypes = new Set(
@@ -213,14 +226,17 @@ describe('carga de guías importadas de Squarespace', () => {
   it('una guía que cambia guarda un borrador nuevo; las demás no se tocan', async () => {
     const versionsBefore = await versionCount()
     const guides = converted()
-    guides[0]!.guide.summary.needs = 'Un objeto nuevo.'
+    guides[0]!.guide.summary.needs = { notes: 'Un objeto nuevo.' }
 
     const result = await loadQuestGuides(payload, guides, { fetchImage })
 
     expect(result.guides).toEqual({ created: 0, updated: 1, unchanged: 4, skipped: 0 })
     expect(await versionCount()).toBe(versionsBefore + 1)
     const changed = (await guidesBySlug()).get(guides[0]!.guide.slug)!
-    expect(changed).toMatchObject({ _status: 'draft', summary: { needs: 'Un objeto nuevo.' } })
+    expect(changed).toMatchObject({
+      _status: 'draft',
+      summary: { needs: { notes: 'Un objeto nuevo.' } },
+    })
   })
 
   it('un campo del resumen que desaparece se rellena con DofusDB, y repetir no guarda más versiones', async () => {
@@ -235,8 +251,11 @@ describe('carga de guías importadas de Squarespace', () => {
     const first = await loadQuestGuides(payload, withoutFields(), { fetchImage })
     expect(first.guides).toMatchObject({ updated: 1, unchanged: 4 })
     const cleared = (await guidesBySlug()).get(withoutFields()[0]!.guide.slug)!
-    // DofusDB no da qué llevar; sí las coordenadas de inicio
-    expect(cleared.summary).toMatchObject({ needs: null, startX: 4, startY: -18 })
+    expect(cleared.summary).toMatchObject({
+      needs: { notes: null, items: [{ item: tofuBeak.id, quantity: 3 }] },
+      startX: 4,
+      startY: -18,
+    })
 
     const versionsBefore = await versionCount()
     const second = await loadQuestGuides(payload, withoutFields(), { fetchImage })

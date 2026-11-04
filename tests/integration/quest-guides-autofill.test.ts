@@ -15,6 +15,7 @@ describe('guía de misión rellenada desde DofusDB', () => {
   let payload: Payload
   let editor: User
   let hunter: Quest
+  let tofuBeakId: number
 
   beforeAll(async () => {
     payload = await startPayload()
@@ -31,6 +32,16 @@ describe('guía de misión rellenada desde DofusDB', () => {
       collection: 'items',
       data: { dofusId: 304, name: 'Cuero de miserata strubiense', typeId: 56 },
     })
+    const tofuBeak = await payload.create({
+      collection: 'items',
+      data: { dofusId: 366, name: 'Pico de tofu', typeId: 47 },
+    })
+    tofuBeakId = tofuBeak.id
+    // Objeto de misión (supertipo 14): lo da el juego, no hay que llevarlo
+    const bag = await payload.create({
+      collection: 'items',
+      data: { dofusId: 19728, name: 'Bolsa de Kerubim', typeId: 133 },
+    })
     hunter = await payload.create({
       collection: 'quests',
       data: {
@@ -40,6 +51,12 @@ describe('guía de misión rellenada desde DofusDB', () => {
         startCriterion: 'Qf=1976',
         prerequisites: [previous.id],
         startPositions: [{ npcName: 'Kerubim Crepin', x: 3, y: -17 }],
+        needs: {
+          items: [
+            { item: bag.id, quantity: 1 },
+            { item: tofuBeak.id, quantity: 3 },
+          ],
+        },
         // En el orden de DofusDB; Torre los lista al revés
         rewards: {
           experience: 24_316,
@@ -65,6 +82,8 @@ describe('guía de misión rellenada desde DofusDB', () => {
       collection: 'quest-guides',
       data,
       draft: true,
+      // Relaciones como ID, para comparar las filas de Necesitarás
+      depth: 0,
       overrideAccess: false,
       user: editor,
     })
@@ -145,6 +164,22 @@ describe('guía de misión rellenada desde DofusDB', () => {
       startNpc: 'Kerubim Crepin',
       startX: 3,
       startY: -17,
+    })
+    // Sin la Bolsa de Kerubim, y sin notas: esas las escribe Torre
+    expect(guide.summary?.needs?.items?.map(({ item, quantity }) => ({ item, quantity }))).toEqual([
+      { item: tofuBeakId, quantity: 3 },
+    ])
+    expect(guide.summary?.needs?.notes ?? null).toBeNull()
+  })
+
+  it('nunca toca una lista de Necesitarás con objetos', async () => {
+    const guide = await createGuide({
+      quests: [hunter.id],
+      summary: { needs: { items: [{ item: tofuBeakId, quantity: 10 }], notes: 'Y paciencia.' } },
+    })
+    expect(guide.summary?.needs).toMatchObject({
+      items: [{ item: tofuBeakId, quantity: 10 }],
+      notes: 'Y paciencia.',
     })
   })
 

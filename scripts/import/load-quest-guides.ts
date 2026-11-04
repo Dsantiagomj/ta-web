@@ -2,7 +2,7 @@ import { isDeepStrictEqual } from 'node:util'
 import type { Payload } from 'payload'
 
 import { validateSlug } from '@/collections/QuestGuides'
-import { summaryToFill } from '@/lib/guides/summary'
+import { applySummaryFill, summaryToFill } from '@/lib/guides/summary'
 import type { Quest, QuestGuide } from '@/payload-types'
 
 import { createHtmlToLexical } from './rich-text'
@@ -50,26 +50,23 @@ function comparable(value: unknown): unknown {
 
 const COMPARED_FIELDS = ['title', 'slug', 'originalUrl', 'summary', 'quests', 'body'] as const
 
-const SUMMARY_FIELDS = [
-  'prerequisites',
-  'needs',
-  'rewards',
-  'startNpc',
-  'startX',
-  'startY',
-] as const
+const SUMMARY_FIELDS = ['prerequisites', 'rewards', 'startNpc', 'startX', 'startY'] as const
 
 /**
  * El resumen con todos sus campos: lo que la conversión no trae va como null. Payload
  * conserva los campos de un grupo que no se envían, así que sin esto un dato que
  * desaparece de la página seguiría guardado y cada pasada guardaría otra versión.
  */
-type FullSummary = { [field in keyof GuideSummary]-?: NonNullable<GuideSummary[field]> | null }
+type FullSummary = {
+  [field in (typeof SUMMARY_FIELDS)[number]]-?: NonNullable<GuideSummary[field]> | null
+}
 
-function fullSummary(summary: GuideSummary): FullSummary {
-  return Object.fromEntries(
+function fullSummary(summary: GuideSummary) {
+  const full = Object.fromEntries(
     SUMMARY_FIELDS.map((field) => [field, summary[field] ?? null]),
   ) as FullSummary
+  // La lista de objetos va vacía: la rellena DofusDB (filledSummary y el hook al guardar).
+  return { ...full, needs: { notes: summary.needs?.notes ?? null, items: [] } }
 }
 
 /**
@@ -79,7 +76,7 @@ function fullSummary(summary: GuideSummary): FullSummary {
  */
 function filledSummary(summary: GuideSummary, quest: Quest | undefined) {
   const full = fullSummary(summary)
-  return { ...full, ...summaryToFill(full, quest) }
+  return applySummaryFill(full, summaryToFill(full, quest))
 }
 
 function sameGuide(stored: QuestGuide, data: Pick<QuestGuide, (typeof COMPARED_FIELDS)[number]>) {
