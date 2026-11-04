@@ -5,7 +5,7 @@ description: How Payload CMS 3 is embedded in the Next.js app through src/payloa
 tags: [payload, cms, configuration, nextjs]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T00:16:52.047Z
+    at: 2026-11-04T05:03:17.453Z
 sources:
   - id: openwiki-source-1364a33be7315005959b4797
     resource: repo://.gga

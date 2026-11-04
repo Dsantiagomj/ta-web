@@ -24,10 +24,10 @@ sources:
     resource: repo://scripts/hooks/gga-review.sh
   - id: openwiki-source-d3495e3108db609ea7dcace0
     resource: repo://tests/unit/commit-msg.test.ts
-generated: { by: "claude-code", at: "2026-11-04T00:32:19.388Z" }
+generated: { by: "claude-code", at: "2026-11-04T05:03:17.453Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T00:32:19.388Z
+    at: 2026-11-04T05:03:17.453Z
 ---
 
 # CI and quality gates
@@ -46,7 +46,7 @@ Runs in order (`piped: true`) and stops at the first failure:
 2. **lint**: `eslint --fix` on staged JS/TS files; fixes are re-staged.
 3. **gga**: `scripts/hooks/gga-review.sh` runs `gga run`, an AI review of the staged files against `AGENTS.md`. If `gga` is not installed it prints a warning and lets the commit through.
 
-`.gga` configures the review: provider `claude` (the Claude Code CLI), overridable per run with `GGA_PROVIDER`; it reviews `ts, tsx, js, mjs, css, md`; it excludes generated files (lockfile, Payload types and import map, migrations, `.d.ts`, minified files, `.next`); `STRICT_MODE` treats an ambiguous verdict as a failure; timeout 300 s; PR base branch `main`.
+`.gga` configures the review: provider `claude` (the Claude Code CLI), overridable per run with `GGA_PROVIDER`; it reviews `ts, tsx, js, mjs, css, md`; it excludes generated files (lockfile, Payload types and import map, migrations, `.d.ts`, minified files, `.next`) and the third-party agent skills in `.claude/skills/`, which `skills-lock.json` pins by hash; `STRICT_MODE` treats an ambiguous verdict as a failure; timeout 300 s; PR base branch `main`.
 
 `LEFTHOOK_EXCLUDE=gga git commit …` skips the review once. AGENTS.md forbids skipping hooks (`--no-verify`, `LEFTHOOK=0`, `LEFTHOOK_EXCLUDE`) unless the user asks.
 
