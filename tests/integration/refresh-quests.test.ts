@@ -11,9 +11,10 @@ import quests from '../fixtures/dofusdb/quests.json'
 
 import { startPayload } from './payload'
 
-// Las misiones de los fixtures (878, 879, 880 y 89) y la 871, que aparece en la última
-// prueba. 879 pide la 871 y 89 pide la 88, que no están: prerrequisitos que faltan.
-const DOFUS_IDS = [878, 879, 880, 89, 871]
+// Las misiones de los fixtures (878, 879, 880, 89, 275 y 674) y la 871, que aparece en la
+// última prueba. 879 pide la 871, 89 la 88 y 674 la 631, que no están: prerrequisitos que
+// faltan. 275 solo tiene alternativas, así que no tiene prerrequisitos.
+const DOFUS_IDS = [878, 879, 880, 89, 275, 674, 871]
 
 function fixtureData(): QuestData {
   return structuredClone({ quests: quests as RawQuest[], npcs, mapPositions })
@@ -51,20 +52,22 @@ describe('refresco de misiones desde DofusDB', () => {
   it('crea las misiones y enlaza los prerrequisitos por ID de Payload', async () => {
     const counts = await refreshQuests(payload, fixtureData(), { now: firstRun })
 
-    expect(counts).toEqual({ created: 4, updated: 0, unchanged: 0, missingPrerequisites: 2 })
+    expect(counts).toEqual({ created: 6, updated: 0, unchanged: 0, missingPrerequisites: 3 })
 
     const saved = await questsByDofusId()
-    expect([...saved.keys()].sort((a, b) => a - b)).toEqual([89, 878, 879, 880])
+    expect([...saved.keys()].sort((a, b) => a - b)).toEqual([89, 275, 674, 878, 879, 880])
     expect(saved.get(880)).toMatchObject({
       name: '¡M.O. Pardy!',
       startCriterion: 'Qf=879&Qa=878',
-      prerequisites: [saved.get(879)?.id, saved.get(878)?.id],
+      // Qa=878 pide la 878 en curso, no terminada
+      prerequisites: [saved.get(879)?.id],
       startPositions: [{ npcId: 1419, npcName: 'Balt Azaw', mapId: 66192898, x: -37, y: -86 }],
       refreshedAt: firstRun.toISOString(),
     })
     // 871 no existe todavía: se omite sin fallar
-    expect(saved.get(879)?.prerequisites).toEqual([saved.get(878)?.id])
+    expect(saved.get(879)?.prerequisites).toEqual([])
     expect(saved.get(89)?.prerequisites).toEqual([])
+    expect(saved.get(275)?.prerequisites).toEqual([])
     expect(saved.get(89)?.startPositions).toHaveLength(2)
   })
 
@@ -73,10 +76,10 @@ describe('refresco de misiones desde DofusDB', () => {
       now: new Date('2026-01-02T10:00:00.000Z'),
     })
 
-    expect(counts).toEqual({ created: 0, updated: 0, unchanged: 4, missingPrerequisites: 2 })
+    expect(counts).toEqual({ created: 0, updated: 0, unchanged: 6, missingPrerequisites: 3 })
 
     const saved = await questsByDofusId()
-    expect(saved.size).toBe(4)
+    expect(saved.size).toBe(6)
     for (const quest of saved.values()) {
       expect(quest.refreshedAt).toBe(firstRun.toISOString())
     }
@@ -92,7 +95,7 @@ describe('refresco de misiones desde DofusDB', () => {
 
     const counts = await refreshQuests(payload, data, { now: thirdRun })
 
-    expect(counts).toEqual({ created: 1, updated: 2, unchanged: 2, missingPrerequisites: 1 })
+    expect(counts).toEqual({ created: 1, updated: 2, unchanged: 4, missingPrerequisites: 2 })
 
     const saved = await questsByDofusId()
     expect(saved.get(878)).toMatchObject({
@@ -100,7 +103,7 @@ describe('refresco de misiones desde DofusDB', () => {
       refreshedAt: thirdRun.toISOString(),
     })
     expect(saved.get(879)).toMatchObject({
-      prerequisites: [saved.get(871)?.id, saved.get(878)?.id],
+      prerequisites: [saved.get(871)?.id],
       refreshedAt: thirdRun.toISOString(),
     })
     expect(saved.get(880)?.refreshedAt).toBe(firstRun.toISOString())
