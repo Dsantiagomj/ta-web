@@ -5,7 +5,7 @@ description: How the Squarespace import reads a cached Squarespace page, orders 
 tags: [import, squarespace, quest-guides, lexical, scripts]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T16:22:11.904Z
+    at: 2026-11-04T16:36:11.576Z
 sources:
   - id: openwiki-source-f235d856bed1fd44853c5195
     resource: repo://.prettierignore
@@ -33,7 +33,7 @@ sources:
     resource: repo://tests/unit/import-rich-text.test.ts
   - id: openwiki-source-299c190cabc2f0753a302110
     resource: repo://tests/unit/import-to-quest-guide.test.ts
-generated: { by: "claude-code", at: "2026-11-04T16:22:11.904Z" }
+generated: { by: "claude-code", at: "2026-11-04T16:36:11.576Z" }
 ---
 
 # Squarespace import
@@ -77,8 +77,8 @@ The `guide` has `title`, `slug`, `originalUrl` (`https://www.torrentearcano.com/
 
 Rules, in the order the converter applies them to each text element:
 
-1. **Summary.** A line starting with `Prerrequisitos`, `Necesitarás` or `Recompensas` (accents and case ignored, optional colon) opens that field. Labels are checked before any heading rule, so a label that arrives as an H1 or H2 still opens its field. Text after the label and the following elements of the same text block go into it, one line each; a list gives one line per item. The field values are those lines joined with newlines. These lines never reach the body.
-2. **Title heading.** Only the first H1 or H2 before any content is dropped, because it repeats the title. Any later heading is handled like other text: inside a summary block it adds a line to that field, otherwise it stays in the body as prose.
+1. **Summary.** A line starting with `Prerrequisitos`, `Necesitarás` or `Recompensas` (accents and case ignored, optional colon) opens that field. Labels are checked first, so a label that arrives as an H1 or H2 still opens its field. Text after the label and the following elements of the same text block go into it, one line each, headings included (`<p>Prerrequisitos:</p><h2>Nivel mínimo 70</h2>` fills the prerequisites); a list gives one line per item. The field values are those lines joined with newlines. These lines never reach the body.
+2. **Title heading.** Only an H1 or H2 that is the very first element of the page, with no text element or other block before it, is dropped as the title heading. Every later heading is body content. The dropped heading is compared with the page title ignoring accents, case, punctuation and a leading number such as "29. ". When the page has a title and the two differ, an oddity keeps the heading's full text for review, because the heading is sometimes the fuller name. Measured over the 1272 cached quest pages, the first H2 matched the title in 1029, matched once a leading number was removed in 194, and differed in 48, for example "Coleccionista de publicidad impresa en apuros" against the title "Coleccionista de publicidad".
 3. **Closing sentence.** A paragraph starting with "Aquí termina la misión" (also "¡Y aquí se termina la misión…") loses that first sentence only. The rest of the paragraph stays in the body; a paragraph with nothing else disappears.
 4. **Start line.** The first paragraph starting with "Habla con X [x,y]" or "La misión empieza hablando con X [x,y]" fills `summary.startNpc` (without a leading el/la/los/las), `startX` and `startY`. "Habla con" counts only when its sentence says "para empezar", because the phrase appears in the middle of many guides. When the sentence says nothing more than that ("…para empezar la misión."), only that sentence leaves the body and the rest of the paragraph stays. When it carries more (when or where to go), the whole paragraph stays in the body. The trimming walks text nodes, so bold and links in the rest of the paragraph survive.
 5. **Callouts.** A paragraph starting with all-caps `IMPORTANTE` or `CUIDADO` becomes a `callout` block with variant `warning`; `NOTA` becomes `tip`. Lowercase "Cuidado, …" is plain prose. A paragraph left over after trimming rules 3 and 4 is checked again here.
@@ -93,7 +93,8 @@ Oddities, collected rather than thrown:
 - no DofusDB quest is linked;
 - a `Prerrequisitos`, `Necesitarás` or `Recompensas` block is missing (one entry each);
 - no start line was found;
-- each unknown Squarespace block, by type.
+- each unknown Squarespace block, by type;
+- a dropped title heading that differs from the page title, with its text.
 
 The body and summary match the guide fields in [Collections and access](../cms/collections.md#quest-guides-editorial-guides-with-drafts) and the blocks in [Guide body blocks](../cms/blocks.md).
 
