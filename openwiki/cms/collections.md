@@ -28,6 +28,8 @@ sources:
     resource: repo://src/collections/Quests.ts
   - id: openwiki-source-c46dfd6e94656494b7d9df7b
     resource: repo://src/collections/Users.ts
+  - id: openwiki-source-54227c78b7c2e57bc6f3d29b
+    resource: repo://src/lib/dofusdb/fetch-quest-data.ts
   - id: openwiki-source-1addf1a05f8d53fe7dea95d6
     resource: repo://src/lib/dofusdb/map-items-monsters.ts
   - id: openwiki-source-4ce5bfd40fc86e2e8680d71f
@@ -64,10 +66,10 @@ sources:
     resource: repo://tests/unit/quest-guides-collection.test.ts
   - id: openwiki-source-6678095e74d244708e64ddd4
     resource: repo://tests/unit/quests-collection.test.ts
-generated: { by: "claude-code", at: "2026-11-04T18:10:54.480Z" }
+generated: { by: "claude-code", at: "2026-11-04T19:48:22.282Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T18:47:27.432Z
+    at: 2026-11-04T19:48:22.282Z
 ---
 
 # Collections and access
@@ -141,13 +143,13 @@ The item and monster rows point at Payload IDs, so a guide can show names and ic
 
 ### How quests are filled
 
-The only writer is the DofusDB refresh, `pnpm data:quests` (`scripts/refresh-quests.ts`). It downloads every quest from the public DofusDB API, looks up the start NPCs and maps and the items and monsters the quests name, and upserts each quest by `dofusId` with `refreshQuests` from `src/lib/dofusdb/refresh-quests.ts`. Items and monsters are written first, because rewards and needs point at their Payload IDs. A first pass over the quests creates or updates the quest fields; a second pass links `prerequisites` once every quest has a Payload ID. A rerun with the same data writes nothing, and the refresh never deletes a quest. The pipeline, the prerequisite rule and how to run it safely are in [DofusDB game data refresh](../data/dofusdb-refresh.md).
+The only writer is the DofusDB refresh, `pnpm data:quests` (`scripts/refresh-quests.ts`). It downloads every quest from the public DofusDB API, looks up the start NPCs and maps and the monsters the quests name, downloads the whole item catalog, and upserts each quest by `dofusId` with `refreshQuests` from `src/lib/dofusdb/refresh-quests.ts`. Items and monsters are written first, because rewards and needs point at their Payload IDs. A first pass over the quests creates or updates the quest fields; a second pass links `prerequisites` once every quest has a Payload ID. A rerun with the same data writes nothing, and the refresh never deletes a quest. The pipeline, the prerequisite rule and how to run it safely are in [DofusDB game data refresh](../data/dofusdb-refresh.md).
 
 `tests/unit/quests-collection.test.ts` pins the slug, the field shapes (the `rewards` and `needs` groups included) and the access functions. `tests/integration/quests-access.test.ts` checks the rules at runtime: an anonymous request can `find` and `findByID`; a panel user gets `Forbidden` on create, update and delete, and the data stays unchanged; a create with `overrideAccess: true` stores prerequisites, start positions and `refreshedAt`.
 
 ## Items and monsters: DofusDB catalog data
 
-`src/collections/Items.ts` defines `items` and `src/collections/Monsters.ts` defines `monsters`. They hold only the DofusDB items and monsters that some quest names in its rewards or needs, not the whole game catalog. Both sit under "Datos del juego", use `name` as the title, are read-only through `gameDataAccess` and are written only by the refresh.
+`src/collections/Items.ts` defines `items` and `src/collections/Monsters.ts` defines `monsters`. `items` holds the whole DofusDB item catalog (about 21,500 items), not only the ones quests name, so a guide can point at any item. `monsters` holds only the monsters that some quest names in its needs. Both sit under "Datos del juego", use `name` as the title, are read-only through `gameDataAccess` and are written only by the refresh.
 
 | Field | `items` | `monsters` | Notes |
 |---|---|---|---|
@@ -155,6 +157,7 @@ The only writer is the DofusDB refresh, `pnpm data:quests` (`scripts/refresh-que
 | `name` | yes | yes | Required, localized; the refresh falls back to French, then to `Objeto <id>` or `Monstruo <id>` |
 | `level` | yes | no | Optional number |
 | `typeId` | yes | no | Optional DofusDB item type ID. Quest items have their own types (in the fixtures, 129, 133 and 155), so a guide can filter them out of a needs list |
+| `superTypeId` | yes | no | Optional DofusDB item supertype ID, read from the `type` object DofusDB attaches to each item. Supertype 14 is quest items, the whole family those types belong to |
 | `iconId` | yes | yes | Optional number. For items it is DofusDB's `iconId`; for monsters, DofusDB's `gfxId` |
 | `refreshedAt` | yes | yes | Optional date, set by the refresh |
 

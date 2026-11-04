@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:82bbec1f22f9d5ad4cfa90a4896781226ec205d4760536a1829a9e2c24d0840e",
+  "pageVersion": "sha256:a8ddd1bb4c59776b5699de1f0786709510fbeab9d821d63ce7f8acd2abe2987c",
   "claims": [
     {
       "id": "claim_c4d0210fcc834f69a874cfcee7b4d598",
@@ -80,11 +80,11 @@
     },
     {
       "id": "claim_08141421a97143cc8073d709e4bf1805",
-      "statement": "There are four migrations today, 20261103_030359_initial, 20261104_070541_quests, 20261104_124207_quest_guides and 20261104_174941_dofusdb_items_rewards, registered in src/migrations/index.ts.",
+      "statement": "There are five migrations today, 20261103_030359_initial, 20261104_070541_quests, 20261104_124207_quest_guides, 20261104_174941_dofusdb_items_rewards and 20261104_192809_dofusdb_item_supertype, registered in src/migrations/index.ts.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/index.ts#L1-L27",
-          "version": "repo-lines-v1:sha256:ccd058b945fa4c40441eb86f6053f54758ea9ae19d2cd9458bc2b155d21c4611:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0NTE2NDJiYzU5Y2ExMDYyN2M5YzVjMTc2YTQ1MDQ3MTRlOGNlMjc4MGVhODM2NmJkNzZjNjIxN2MxMTU4YWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/migrations/index.ts#L1-L33",
+          "version": "repo-lines-v1:sha256:bdd84d04d6a3953e2d215ae8142dd404ab6e5a4ebb4c3f0471cb8ad3f74aed78:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0NTE2NDJiYzU5Y2ExMDYyN2M5YzVjMTc2YTQ1MDQ3MTRlOGNlMjc4MGVhODM2NmJkNzZjNjIxN2MxMTU4YWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -143,8 +143,8 @@
       "statement": "tests/integration/migrations.test.ts runs pnpm payload migrate:down and then pnpm payload migrate against the integration database with DATABASE_CONNECTION=direct, asserting the latest migration in src/migrations/index.ts is rolled back and re-applied.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/index.ts#L6-L27",
-          "version": "repo-lines-v1:sha256:75f7bb9c4da56214e363429d4c8a0224f6e6677670877b6c810144dba3ac7790:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMGVkYzRmYjExMzQ3MTVkZmYyYWMxM2VkNzlhODc3YmQzOGQxMTdiNzY0MjViMGJiMzJlMGRhZDgzY2IzNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM5MDQxZjMzNGYxNTgxMzEwMDA0ZmI5YmRhYmFlNzhhYTMyMzFiNzA2MjNkNjIwYjAwYmEzOGE2M2U3ODRlOTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/migrations/index.ts#L7-L33",
+          "version": "repo-lines-v1:sha256:daa2aa5121742480881144d934d6c6cd43ec06555678be819d6ce63bfd429bd2:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMGVkYzRmYjExMzQ3MTVkZmYyYWMxM2VkNzlhODc3YmQzOGQxMTdiNzY0MjViMGJiMzJlMGRhZDgzY2IzNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJkN2U3NWFjZWNhYzRlZTEzODdhZWViN2RhZjlmZjI0NDEwNDI3ZmFiNjI4YmQxYWRjOGE0NDUyNWU3NTUyNjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://tests/integration/migrations.test.ts#L8-L39",
@@ -233,10 +233,20 @@
           "version": "repo-lines-v1:sha256:0e471ecfb386891abc98f968b6295a18250192f15e66d9559b5ff0ebf19306fa:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBmZjJjNGJiZTY2YWQxNDkxZmI4NTc3MGRmNjFjNzYzZGExYjZlYTM0NmI3NWZhNzIwMTBlMTRkZTRhODFlN2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyNDQxMmU4MzI4ZjlhNDhhNDQ2MzZiNmUyYTU0MDY0ODJkZmY5NzFlMDYwYTBjMGFjNjdjYzQ5NzI2MzdkNTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJkNzMyMjk1NTNjYzk1YjMxOWUxMDg2MjkzOGU4YTFlMWZjYzAzNTliNjU2Yjc0ZTYwYTc2N2NlMWMwNGJkYjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM3M2ZjODc2OGNjNjhkNTMyYjk0YzI5ZjVhOWFjNGQ4OTI1NGY1YjExNWExMWVmMzg5NWUzNzJjZWM2NDllYWEifQ"
         }
       ]
+    },
+    {
+      "id": "claim_986cac9269be41119266e6a9bb918774",
+      "statement": "The dofusdb_item_supertype migration adds a nullable numeric super_type_id column to items, and its down drops that column.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261104_192809_dofusdb_item_supertype.ts#L1-L11",
+          "version": "repo-lines-v1:sha256:27346fcff789fef57d0a21b780f2899e62465aca13c3e8e5a03b3aba7fa83f49:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1NWQxYTdmNDMwNmVmNTVlMDVjZjAyMzBlNjQwZjVjZTFlN2MzYTU3MDMwMzBmMjQ1YjE3M2U4ZmE3ODc3NTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T18:10:54.480Z"
+    "at": "2026-11-04T19:48:22.282Z"
   }
 }

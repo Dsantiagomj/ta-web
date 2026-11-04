@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:fc29d09321be4da467b97b023ae6cffa23e8bc12fd2a1322e88dd096b6e45d31",
+  "pageVersion": "sha256:92a717d1465eaf1e5282661b2002be0b4138f430860c547ed8c520004a44f879",
   "claims": [
     {
       "id": "claim_46a7ecf7c01f4151af666d14fb666d91",
@@ -110,7 +110,7 @@
       "evidence": [
         {
           "resource": "repo://src/collections/Items.ts#L5-L15",
-          "version": "repo-lines-v1:sha256:4a23c3596987fbc7a04bc4a0f1eea8bd6db560d67efdd0b02bb7f3e5fed0cd5e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc0MWY1ODJkZmE3YjgwNTY4MzMwYmFmMjJlOGIwMGQ3MmUxOGYxYmU2MjE2OTc4MmJkNjFmMjQ0MzlhZWE2NGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQyZDQ5OGMwMDQ5OWY3YTE4NjBjMDlhNTdkNjQ5ZmU3M2U2MTdlODNhMTU2NzIzOGQzZGM4YjY2N2Y0YWU3N2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNkYTQyNDlmMTgxNWMwNjkyYWEzNWUyM2ZjNWUyNDkyMTE1YzYyOTk5ZTUwMThkZGVkNzdmNzNhODI5ZDk5NDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRhZmNkMjc1Nzg0YWZhYTI3MGM3MzhhMzkyMzM3NmY5NWI4N2RlZDVjZDE0NjllOWVkZWU0NTYyYTc4N2EyM2MifQ"
+          "version": "repo-lines-v1:sha256:a93b18de5654e12d4c765603ab22f16127c91c34e2a5566b2bcae8768d5fc9a5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmYmI1ZmZhOGQ5YTJlMWFlMWY0OWNiNmJkNmU4N2E5Nzc2MzVmOGRmMzk0YTFjMDg4M2M4ZGJjZWMyMTI4MTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQyZDQ5OGMwMDQ5OWY3YTE4NjBjMDlhNTdkNjQ5ZmU3M2U2MTdlODNhMTU2NzIzOGQzZGM4YjY2N2Y0YWU3N2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNkYTQyNDlmMTgxNWMwNjkyYWEzNWUyM2ZjNWUyNDkyMTE1YzYyOTk5ZTUwMThkZGVkNzdmNzNhODI5ZDk5NDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRhZmNkMjc1Nzg0YWZhYTI3MGM3MzhhMzkyMzM3NmY5NWI4N2RlZDVjZDE0NjllOWVkZWU0NTYyYTc4N2EyM2MifQ"
         },
         {
           "resource": "repo://src/collections/Monsters.ts#L5-L15",
@@ -128,18 +128,22 @@
     },
     {
       "id": "claim_fff54ea2fe6d43b58836a155bb41be05",
-      "statement": "pnpm data:quests copies every DofusDB quest into the quests collection, with the items and monsters they name into items and monsters, writing only what changed and never deleting a row.",
+      "statement": "pnpm data:quests copies every DofusDB quest into the quests collection, the monsters they name into monsters and the whole DofusDB item catalog into items, writing only what changed and never deleting a row.",
       "evidence": [
         {
           "resource": "repo://README.md#L97-L97",
-          "version": "repo-lines-v1:sha256:ab97eb2d78b546afe0c885a0902ef587c081abf80c152e2b4f21440d14da1bfa:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWI5N2ViMmQ3OGI1NDZhZmUwYzg4NWEwOTAyZWY1ODdjMDgxYWJmODBjMTUyZTJiNGYyMTQ0MGQxNGRhMWJmYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYWI5N2ViMmQ3OGI1NDZhZmUwYzg4NWEwOTAyZWY1ODdjMDgxYWJmODBjMTUyZTJiNGYyMTQ0MGQxNGRhMWJmYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzVjMjMyYTVjODE2NzM5ZDNiNDlkMDc3Yjk1YjNkODhiM2JjNGY0NTBkYjBkNTc4ZDRmYzZjN2I2NGUyMmZhYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2EyYjdiNTgwZGNjNTMyZWMzNzJiYmZiNjc1MTY4NTQ3MGRjM2JjNjgwMTE3ODM4YzI0ZWYyMzRmMTBiN2IwYyJ9"
+          "version": "repo-lines-v1:sha256:31e207e4a646e58f4a05e006fbeed70386c266c8d5b560b0dda7e59da3c13f55:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzFlMjA3ZTRhNjQ2ZTU4ZjRhMDVlMDA2ZmJlZWQ3MDM4NmMyNjZjOGQ1YjU2MGIwZGRhN2U1OWRhM2MxM2Y1NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzFlMjA3ZTRhNjQ2ZTU4ZjRhMDVlMDA2ZmJlZWQ3MDM4NmMyNjZjOGQ1YjU2MGIwZGRhN2U1OWRhM2MxM2Y1NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzVjMjMyYTVjODE2NzM5ZDNiNDlkMDc3Yjk1YjNkODhiM2JjNGY0NTBkYjBkNTc4ZDRmYzZjN2I2NGUyMmZhYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2EyYjdiNTgwZGNjNTMyZWMzNzJiYmZiNjc1MTY4NTQ3MGRjM2JjNjgwMTE3ODM4YzI0ZWYyMzRmMTBiN2IwYyJ9"
         },
         {
           "resource": "repo://package.json#L26-L26",
           "version": "repo-lines-v1:sha256:d8191f11d847cf9c68a0ebab65128423bd3b7a6c6187fde04c56e0d7fc342457:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDgxOTFmMTFkODQ3Y2Y5YzY4YTBlYmFiNjUxMjg0MjNiZDNiN2E2YzYxODdmZGUwNGM1NmUwZDdmYzM0MjQ1NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDgxOTFmMTFkODQ3Y2Y5YzY4YTBlYmFiNjUxMjg0MjNiZDNiN2E2YzYxODdmZGUwNGM1NmUwZDdmYzM0MjQ1NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODY0NmFjOWM0ODEzYTA0ZThkNGY2ODc5M2I2YTg2ZmFiOTNiMTU3ZTcyZjE2YzRjOTdhMDU0ZTllNjI2ZGJmYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzBiMTY4NTg4ZmU4MmFmYjQ5NmY3NjM5OGQ1NThhZWE0ZDNhNTliNjU2MGIzN2ZkZmIyZmViYjRhOGVlNmMyZSJ9"
         },
         {
-          "resource": "repo://src/lib/dofusdb/refresh-quests.ts#L195-L203",
+          "resource": "repo://src/lib/dofusdb/fetch-quest-data.ts#L17-L39",
+          "version": "repo-lines-v1:sha256:6b2a356262fe07369bd19f9f9ba9634dba2fe29785831c8d0490afed84cab42f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZkM2E3MGViZTFiZTk5ZWQwN2VmZDJlYTExMDgxM2EzOGJlMWRkNTQ2ZDE5MTE5N2FkYjAyYjRkNjk0OTQxYmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/dofusdb/refresh-quests.ts#L203-L211",
           "version": "repo-lines-v1:sha256:b420c379e4e4373cd672241a58cd2fbd7cd3c2df4fc5ddba5a1b88464d59b8fd:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTcyYTQyOTM4MmIyZTE0NzE4ZTBlMzdiMDU3MGE4YTE3MDI5OTFmY2Q4NDk4Y2Q4NDA2MGE4YmY0ZjA1MDE3YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTRmNDg0MmM3ZDZlMGY1NWM0MTM3NDM5YTRmMjk0NmFlMDdjZTU3ZmRkZjcyMDZmNGEyOTM2NTBiZGY2M2FlZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWRmYzkzMTQ1YWMxMzRhZjZmODhhMjFmNmYxOTdmYWRhNzU2MWQwNTc0ZTY0MTAzNjkzMTZmMDQxODcwMmEwMCJ9"
         }
       ]
@@ -160,11 +164,11 @@
     },
     {
       "id": "claim_cfca24e2c650490dae201eda92faef01",
-      "statement": "There are four committed migrations today.",
+      "statement": "There are five committed migrations today.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/index.ts#L6-L27",
-          "version": "repo-lines-v1:sha256:75f7bb9c4da56214e363429d4c8a0224f6e6677670877b6c810144dba3ac7790:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMGVkYzRmYjExMzQ3MTVkZmYyYWMxM2VkNzlhODc3YmQzOGQxMTdiNzY0MjViMGJiMzJlMGRhZDgzY2IzNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM5MDQxZjMzNGYxNTgxMzEwMDA0ZmI5YmRhYmFlNzhhYTMyMzFiNzA2MjNkNjIwYjAwYmEzOGE2M2U3ODRlOTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/migrations/index.ts#L7-L33",
+          "version": "repo-lines-v1:sha256:daa2aa5121742480881144d934d6c6cd43ec06555678be819d6ce63bfd429bd2:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMGVkYzRmYjExMzQ3MTVkZmYyYWMxM2VkNzlhODc3YmQzOGQxMTdiNzY0MjViMGJiMzJlMGRhZDgzY2IzNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJkN2U3NWFjZWNhYzRlZTEzODdhZWViN2RhZjlmZjI0NDEwNDI3ZmFiNjI4YmQxYWRjOGE0NDUyNWU3NTUyNjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -231,6 +235,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T18:47:27.432Z"
+    "at": "2026-11-04T19:48:22.282Z"
   }
 }
