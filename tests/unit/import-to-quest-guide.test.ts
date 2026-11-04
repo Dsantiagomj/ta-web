@@ -125,6 +125,24 @@ describe('conversión de una página en guía de misión', () => {
     )
   })
 
+  it('reconoce las etiquetas del resumen aunque vengan como encabezado', () => {
+    const page = pageWith(
+      '<h2>PRUEBA</h2>',
+      '<h2>Prerrequisitos:</h2><ul><li>Misión A</li><li>Misión B</li></ul>',
+      '<p>Habla con Oto Mustam [-25,33] para empezar la misión.</p>',
+      '<p>Primer paso.</p>',
+    )
+    const { guide } = toQuestGuide(parsePage(page), { slug: 'prueba', questDofusIds: [1] })
+    expect(guide.summary?.prerequisites).toBe('Misión A\nMisión B')
+    expect(richTexts(guide.body)).toEqual(['Primer paso.'])
+  })
+
+  it('solo quita el primer encabezado, el que repite el título; los demás quedan en el cuerpo', () => {
+    const page = pageWith('<h2>PRUEBA</h2>', '<h2>Antes de empezar</h2><p>Primer paso.</p>')
+    const { guide } = toQuestGuide(parsePage(page), { slug: 'prueba', questDofusIds: [1] })
+    expect(richTexts(guide.body)).toEqual(['Antes de empezar Primer paso.'])
+  })
+
   it('de un párrafo que empieza por la línea de inicio escueta quita solo esa frase', () => {
     const { guide } = guideFor('intoxicacion-profunda')
     expect(guide.summary).toMatchObject({ startNpc: 'Capitán Grog', startX: 22, startY: 22 })
