@@ -13,12 +13,7 @@ import {
   rewardsText,
 } from '@/lib/guides/format'
 import { guideStrings } from '@/lib/guides/strings'
-import {
-  inheritedHint,
-  inheritedSummary,
-  resolveSummary,
-  type LinkedQuest,
-} from '@/lib/guides/summary'
+import { inheritedHint, summaryFromQuest, type LinkedQuest } from '@/lib/guides/summary'
 
 import { parsePage } from '../../scripts/import/squarespace/parse-page'
 import { toQuestGuide } from '../../scripts/import/squarespace/to-quest-guide'
@@ -198,9 +193,9 @@ describe('needsText', () => {
   })
 })
 
-describe('inheritedSummary', () => {
+describe('summaryFromQuest', () => {
   it('saca de DofusDB todo el resumen de El cazador cazado (1977)', () => {
-    expect(inheritedSummary(linkedQuest(1977))).toEqual({
+    expect(summaryFromQuest(linkedQuest(1977))).toEqual({
       prerequisites: 'Seis pies bajo tierra.',
       needs: null,
       rewards: '24 316 XP.\n552 kamas.\n2 x Cuero de miserata strubiense.\n2 x Colmillos de ratas.',
@@ -211,7 +206,7 @@ describe('inheritedSummary', () => {
   })
 
   it('sin misión, todo vacío', () => {
-    expect(inheritedSummary(null)).toEqual({
+    expect(summaryFromQuest(null)).toEqual({
       prerequisites: null,
       needs: null,
       rewards: null,
@@ -219,37 +214,6 @@ describe('inheritedSummary', () => {
       startX: null,
       startY: null,
     })
-  })
-})
-
-describe('resolveSummary', () => {
-  it('un resumen vacío hereda cada campo de DofusDB', () => {
-    const resolved = resolveSummary({}, linkedQuest(1977))
-    expect(resolved.rewards).toEqual({
-      value: '24 316 XP.\n552 kamas.\n2 x Cuero de miserata strubiense.\n2 x Colmillos de ratas.',
-      inherited: true,
-    })
-    expect(resolved.startNpc).toEqual({ value: 'Kerubim Crepin', inherited: true })
-    expect(resolved.startX).toEqual({ value: 3, inherited: true })
-  })
-
-  it('lo que escribe Torre gana, campo a campo', () => {
-    const resolved = resolveSummary(
-      { needs: 'Literalmente nada xD.', startX: 0, prerequisites: '  ', startY: null },
-      linkedQuest(1977),
-    )
-    expect(resolved.needs).toEqual({ value: 'Literalmente nada xD.', inherited: false })
-    // El 0 es una coordenada válida, no un campo vacío
-    expect(resolved.startX).toEqual({ value: 0, inherited: false })
-    // Solo espacios cuenta como vacío
-    expect(resolved.prerequisites).toEqual({ value: 'Seis pies bajo tierra.', inherited: true })
-    expect(resolved.startY).toEqual({ value: -17, inherited: true })
-  })
-
-  it('sin misión, solo queda lo que escribió Torre', () => {
-    const resolved = resolveSummary({ rewards: '1000 PX' }, null)
-    expect(resolved.rewards).toEqual({ value: '1000 PX', inherited: false })
-    expect(resolved.needs).toEqual({ value: null, inherited: true })
   })
 })
 
