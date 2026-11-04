@@ -115,7 +115,7 @@ CI (`.github/workflows/ci.yml`) runs lint, types, unit, integration, build, E2E,
 |---|---|
 | Service config lives in `.railway/railway.ts` | Railway's infrastructure as code. Railway retired `railway.json` for new services. Change it with a unit test in `tests/unit/railway-config.test.ts`, then `railway config plan` and `railway config apply` per environment |
 | Secrets never go in `.railway/railway.ts` | Declare the name with `preserve()` and set the value in Railway |
-| Dev deploys `main` on its own | Railway's GitHub integration, after the GitHub checks pass |
+| Dev deploys `main` on its own | Railway's GitHub integration deploys every push to `main` without waiting for the GitHub checks (`checkSuites: false`): each PR already passed the same CI before its rebase merge. The dev smoke runs after the deploy |
 | Prod deploys only from `release.yml` | Run by hand from `main` with a semver version; needs `Pruebas` green on the commit, and only the repository owner can start or re-run it (private repos get no required reviewers on GitHub environments; `production` only accepts deployments from `main`). Railway's production environment has no GitHub source |
 | Migrations run before each deploy | `pnpm migrate` is the pre-deploy command; a failed migration stops the deploy |
 | Dev is never public | The dev gate (`src/proxy.ts`) needs `DEV_BASIC_AUTH_USER` and `DEV_BASIC_AUTH_PASSWORD`; without them dev answers `503`. Only `/api/health` is exempt |
