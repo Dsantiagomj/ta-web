@@ -5,7 +5,7 @@ description: The five test suites (unit, integration, E2E, dev-gate E2E and smok
 tags: [testing, vitest, playwright, integration, e2e]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T00:16:52.047Z
+    at: 2026-11-04T07:07:46.246Z
 sources:
   - id: openwiki-source-5e753d9d77984cb67aae1517
     resource: repo://playwright.config.ts
@@ -21,13 +21,15 @@ sources:
     resource: repo://tests/integration/global-setup.ts
   - id: openwiki-source-dbcd0524c9464e05f7f54ade
     resource: repo://tests/integration/payload.ts
+  - id: openwiki-source-6678095e74d244708e64ddd4
+    resource: repo://tests/unit/quests-collection.test.ts
   - id: openwiki-source-56eed4e45701ea6820d33662
     resource: repo://tests/unit/test-database-env.test.ts
   - id: openwiki-source-b58f839a189d87a7e1f37d39
     resource: repo://vitest.config.mts
   - id: openwiki-source-57da85ca1bb457973a5594ff
     resource: repo://vitest.integration.config.mts
-generated: { by: "claude-code", at: "2026-11-04T00:16:52.047Z" }
+generated: { by: "claude-code", at: "2026-11-04T07:07:46.246Z" }
 ---
 
 # Test suites
@@ -47,7 +49,7 @@ The repo works test-first (AGENTS.md: strict TDD). There are five suites. All of
 `vitest.config.mts` runs `tests/unit/**/*.test.ts` in the Node environment, with `vite-tsconfig-paths` so `@/…` imports work. Unit tests target the pure resolvers and builders that take an `env` record, which is why most server logic is written that way:
 
 - configuration: `database-url`, `media-storage`, `sentry-options`, `railway-config` (evaluates `.railway/railway.ts` for each environment), `next-config`, `test-database-env`;
-- behavior: `health` (fake pool and timers), `dev-gate`, `robots`, `theme`, `mode-script`, `mode-toggle-strings`, `media-collection`;
+- behavior: `health` (fake pool and timers), `dev-gate`, `robots`, `theme`, `mode-script`, `mode-toggle-strings`, `media-collection`, `quests-collection`;
 - tooling: `commit-msg` (runs the git hook script).
 
 ## Integration

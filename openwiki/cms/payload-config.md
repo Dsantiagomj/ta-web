@@ -3,9 +3,6 @@ type: architecture
 title: Payload CMS configuration
 description: How Payload CMS 3 is embedded in the Next.js app through src/payload.config.ts, which files Payload generates, and where to extend collections, endpoints and plugins.
 tags: [payload, cms, configuration, nextjs]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-04T05:03:17.453Z
 sources:
   - id: openwiki-source-1364a33be7315005959b4797
     resource: repo://.gga
@@ -23,7 +20,10 @@ sources:
     resource: repo://src/payload.config.ts
   - id: openwiki-source-98d5ddb014a0fd4d678f6f2a
     resource: repo://tsconfig.json
-generated: { by: "claude-code", at: "2026-11-04T00:16:52.047Z" }
+generated: { by: "claude-code", at: "2026-11-04T07:07:46.246Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-04T07:07:46.246Z
 ---
 
 # Payload CMS configuration
@@ -36,7 +36,7 @@ Payload 3 runs inside the Next.js process. There is one config, `src/payload.con
 |---|---|---|
 | `admin.user` | `users` | Panel accounts; see [Collections and access](collections.md) |
 | `admin.importMap.baseDir` | `src/` | Where `generate:importmap` resolves admin components |
-| `collections` | `[Users, Media]` | One file per collection in `src/collections/` |
+| `collections` | `[Users, Media, Quests]` | One file per collection in `src/collections/` |
 | `editor` | `lexicalEditor()` | Rich text editor for future guide bodies |
 | `endpoints` | `[healthEndpoint]` | Custom endpoints, mounted under `/api` |
 | `i18n` | Spanish only, fallback `es` | The panel UI is in Spanish |

@@ -3,9 +3,6 @@ type: overview
 title: Project overview
 description: What ta-web is, the stack it runs on, which parts exist in code today and which are still planned, and how the subsystems connect.
 tags: [overview, architecture, nextjs, payload, roadmap]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-04T00:32:19.388Z
 sources:
   - id: openwiki-source-d60a6f0f1e9b6eab797ff859
     resource: repo://.railway/railway.ts
@@ -21,9 +18,14 @@ sources:
     resource: repo://src/app/(frontend)/page.tsx
   - id: openwiki-source-d91bcfe9b85be5b5860292ba
     resource: repo://src/app/(frontend)/strings.ts
+  - id: openwiki-source-633cb155d38055ddc4af30fc
+    resource: repo://src/collections/Quests.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
     resource: repo://src/payload.config.ts
-generated: { by: "claude-code", at: "2026-11-04T00:32:19.388Z" }
+generated: { by: "claude-code", at: "2026-11-04T07:07:46.246Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-04T07:07:46.246Z
 ---
 
 # Project overview
@@ -53,8 +55,8 @@ Runtime: Node 24 (`>=24.22.1 <25`) and pnpm 11, pinned in `package.json`.
 The repository is at "phase 0": the skeleton is done and most product features are not built yet.
 
 - **Public site**: a root layout with the brand header and dark/light mode switch, and a placeholder home page that points to the current site. See [Styles, tokens and site shell](frontend/styles-and-shell.md) and [Theme and mode](frontend/theme-and-mode.md).
-- **CMS**: Payload with two collections, `users` (panel accounts) and `media`, Spanish admin UI and a single `es` locale. See [Payload CMS configuration](cms/payload-config.md) and [Collections and access](cms/collections.md).
-- **Data**: one committed migration; schema push only under `next dev`. See [Database and migrations](data/database.md).
+- **CMS**: Payload with three collections, `users` (panel accounts), `media` and `quests` (read-only DofusDB game data), Spanish admin UI and a single `es` locale. See [Payload CMS configuration](cms/payload-config.md) and [Collections and access](cms/collections.md).
+- **Data**: two committed migrations; schema push only under `next dev`. See [Database and migrations](data/database.md).
 - **Media**: R2 or disk, chosen by environment. See [Media storage](media/storage.md).
 - **Operations**: `GET /api/health`, a basic-auth gate for the dev environment, server-side Sentry, Railway infrastructure as code, and GitHub workflows for CI, dev smoke tests and production releases. See the operations pages.
 - **Quality**: unit, integration, E2E, dev-gate and smoke suites; lint, format, types and dependency audit in CI; git hooks for formatting, linting, AI review and commit messages.

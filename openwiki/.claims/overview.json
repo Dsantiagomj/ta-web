@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:a66efb063d08bee92c2c6821d15c67cceca486a12bb31f1c096805657645e623",
+  "pageVersion": "sha256:14a05f25b6cbc07b979cc9ba846b65da04fde894e7ecbe8a87e63d8d7c42bb0f",
   "claims": [
     {
       "id": "claim_46a7ecf7c01f4151af666d14fb666d91",
@@ -48,11 +48,11 @@
     },
     {
       "id": "claim_5aaf51ac373143478ea8aaa893b86cee",
-      "statement": "The Payload config currently registers only the Users and Media collections and a single Spanish locale.",
+      "statement": "The Payload config currently registers the Users, Media and Quests collections and a single Spanish locale.",
       "evidence": [
         {
-          "resource": "repo://src/payload.config.ts#L25-L40",
-          "version": "repo-lines-v1:sha256:41fbe4a534036cfe1404e9116740baf9161a4f3e20de85ae6874690ae9e423bd:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiYzllZTU2NGFlNTRjM2UwN2ZlMDA5ODkwOWE1NjIyY2JlNzkxMzFmYjc4MmYyMzgxYWZhNWU4YjJiMTIxMDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRkZGI1NGNkMTk1YWM2OTU1YjUwOTcxOGYwOGMxOGQwYTU0ZDI4ZGI2NTg1Y2RlMzljNDFjYzk3ZDY4NTEwNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxNWFkZTY3NjQ0YjE5ZWZkNjMzMTZkNWQ3NzJkZTNlMTE0YTFkN2QwNGQyNjNlYzEwNjJiNGQ2Y2I1ZDZjNDkifQ"
+          "resource": "repo://src/payload.config.ts#L26-L41",
+          "version": "repo-lines-v1:sha256:5fcb188b01e97d5195d7fef4d36bb2a3e9e2a70ffe5eea1cf1fac7a3c0a0fd4d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxNzE1NDBhMjMzOGUxZWRhNmE4NmM4NzRhZWE0MGMyNzBlN2M1OWIyMjg4YTc3Njk5NjQ0ZGRkZDZmYTA4YjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRkZGI1NGNkMTk1YWM2OTU1YjUwOTcxOGYwOGMxOGQwYTU0ZDI4ZGI2NTg1Y2RlMzljNDFjYzk3ZDY4NTEwNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxNWFkZTY3NjQ0YjE5ZWZkNjMzMTZkNWQ3NzJkZTNlMTE0YTFkN2QwNGQyNjNlYzEwNjJiNGQ2Y2I1ZDZjNDkifQ"
         }
       ]
     },
@@ -103,10 +103,20 @@
           "version": "repo-file-v1:sha256:4569d0518fe4c2c3f98ec7c84dcb5d79097d80740860c54c71aa53d760d5c54e"
         }
       ]
+    },
+    {
+      "id": "claim_2965e30bed3848c0b6e0cc6705bbf546",
+      "statement": "The quests collection holds read-only DofusDB game data.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/Quests.ts#L3-L20",
+          "version": "repo-lines-v1:sha256:2ac06b1748641ac78f926db2d6a316d6ad0daf92b01c4e1e010be8cc28cbc3d3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE2ZTBmYzk2ZTNmNGRmMDdlNjUyNjE2Nzg2NGU1MTA1MDc2ZWNmMmFiNWVhYTM1MGUyOWJmNjAxNTE3Yjg5ZDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZiMWQ1MWY0NzhmMWJjZjM3ODlkYjUzMWQyM2M4MGFjNzcwZTQ5ZjExZjMyZDUyMzJjMGYwZjRkZjg3MjQzNzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoyLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIxMGU4ZTAyNzRhNzA2NzgyZWYyMDA5NzRiMzM0NzM2OGVmMmZkNzY2Y2MxNjllZTUwZGE0NDMyZjM4Nzc2ZGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlmMDE4ZDE0ZmRjNDYzMDNiYmNiODEzNjM3NTQ4NmJkOGVmNGQ0MjVhMjIyNjI2OGUyMzkzNGQxZDhkOGNiNTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T00:32:19.388Z"
+    "at": "2026-11-04T07:07:46.246Z"
   }
 }
