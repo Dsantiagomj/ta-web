@@ -24,12 +24,14 @@ sources:
     resource: repo://src/migrations/index.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
     resource: repo://src/payload.config.ts
+  - id: openwiki-source-a6cdaab0cfeb9dcfe8511d62
+    resource: repo://tests/integration/migrations.test.ts
   - id: openwiki-source-b031ce15fe3cb852929a85bf
     resource: repo://tests/unit/database-url.test.ts
-generated: { by: "claude-code", at: "2026-11-04T07:07:46.246Z" }
+generated: { by: "claude-code", at: "2026-11-04T07:16:27.262Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T07:07:46.246Z
+    at: 2026-11-04T07:16:27.262Z
 ---
 
 # Database and migrations
@@ -90,7 +92,9 @@ This means E2E and CI exercise the same path as production: an empty database pl
 Migrations live in `src/migrations/` and are listed in `src/migrations/index.ts`. Each has a `.ts` file with `up` and `down` (raw SQL through `db.execute(sql\`…\`)`) and a `.json` snapshot Payload uses to compute the next diff. There are two today:
 
 - `20261103_030359_initial` creates the `users`, `users_sessions`, `media`, `media_variants`, `media_locales` and Payload system tables (`payload_kv`, `payload_locked_documents`, `payload_preferences`, `payload_migrations` and their relation tables).
-- `20261104_070541_quests` adds the [quests collection](../cms/collections.md): `quests` with a unique index on `dofus_id`, `quests_locales`, `quests_rels` (for `prerequisites`), `quests_start_positions` and `quests_start_positions_locales`, plus a `quests_id` column on `payload_locked_documents_rels`. Its `down` drops all of them.
+- `20261104_070541_quests` adds the [quests collection](../cms/collections.md): `quests` with a unique index on `dofus_id`, `quests_locales`, `quests_rels` (for `prerequisites`), `quests_start_positions` and `quests_start_positions_locales`, plus a `quests_id` column on `payload_locked_documents_rels`. Its `down` drops all of them. It does not drop the `payload_locked_documents_rels_quests_fk` constraint separately, because `DROP TABLE "quests" CASCADE` already removes it and a second drop would make the rollback fail.
+
+Every migration must roll back cleanly: if a `down` fails, a bad deploy has no way back. `tests/integration/migrations.test.ts` checks this for the latest migration (the last entry in `src/migrations/index.ts`). It runs the Payload CLI, `pnpm payload migrate:down` and then `pnpm payload migrate`, against the integration database with `DATABASE_CONNECTION=direct`, and asserts the latest migration is rolled back and then re-applied, so the database ends as it started. It uses the CLI because Payload imports migration files with Node, not Vitest. It avoids `migrate:refresh`, which in Payload 3.92 rolls back oldest first and fails. When a command fails, the test rethrows with the CLI's stdout and stderr so the Postgres error is visible.
 
 In deployed environments, Railway runs `pnpm migrate` as the pre-deploy command with a 600-second timeout. If it fails, the deploy stops and the previous version keeps serving. See [Deployment and releases](../operations/deployment.md).
 
@@ -99,7 +103,7 @@ In deployed environments, Railway runs `pnpm migrate` as the pre-deploy command 
 1. Edit the collection (TDD: test first).
 2. `pnpm migrate:create <name>` writes the migration for the changes since the last one.
 3. `pnpm generate:types` regenerates `src/payload-types.ts`.
-4. Commit both with the change. CI fails when the types are stale, and the integration and E2E suites run the migrations from scratch.
+4. Commit both with the change. CI fails when the types are stale, and the integration and E2E suites run the migrations from scratch. The integration suite also rolls back and re-applies the latest migration, so a broken `down` fails it.
 
 ## Connection resilience
 
