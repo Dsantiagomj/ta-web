@@ -19,13 +19,36 @@ describe('guía de misión rellenada desde DofusDB', () => {
   beforeAll(async () => {
     payload = await startPayload()
     editor = await createPanelUser(payload)
+    const previous = await payload.create({
+      collection: 'quests',
+      data: { dofusId: 1976, name: 'Seis pies bajo tierra' },
+    })
+    const fangs = await payload.create({
+      collection: 'items',
+      data: { dofusId: 2322, name: 'Colmillos de ratas', typeId: 47 },
+    })
+    const leather = await payload.create({
+      collection: 'items',
+      data: { dofusId: 304, name: 'Cuero de miserata strubiense', typeId: 56 },
+    })
     hunter = await payload.create({
       collection: 'quests',
       data: {
         dofusId: 1977,
         name: 'El cazador cazado',
         levelMin: 25,
-        rewards: { experience: 24_316, kamas: 552 },
+        startCriterion: 'Qf=1976',
+        prerequisites: [previous.id],
+        startPositions: [{ npcName: 'Kerubim Crepin', x: 3, y: -17 }],
+        // En el orden de DofusDB; Torre los lista al revés
+        rewards: {
+          experience: 24_316,
+          kamas: 552,
+          items: [
+            { item: fangs.id, quantity: 2 },
+            { item: leather.id, quantity: 2 },
+          ],
+        },
       },
     })
   })
@@ -33,6 +56,7 @@ describe('guía de misión rellenada desde DofusDB', () => {
   afterAll(async () => {
     await payload.delete({ collection: 'quest-guides', where: { id: { exists: true } } })
     await payload.delete({ collection: 'quests', where: { id: { exists: true } } })
+    await payload.delete({ collection: 'items', where: { id: { exists: true } } })
     await payload.destroy()
   })
 
@@ -110,6 +134,45 @@ describe('guía de misión rellenada desde DofusDB', () => {
       slug: 'el-cazador-cazado-de-squarespace',
       // Solo se rellena lo que faltaba
       seo: { metaTitle: 'SEO importado', metaDescription: hunterDescription },
+    })
+  })
+
+  it('con solo la misión elegida, guarda el resumen relleno con los datos de DofusDB', async () => {
+    const guide = await createGuide({ quests: [hunter.id] })
+    expect(guide.summary).toMatchObject({
+      prerequisites: 'Seis pies bajo tierra.',
+      rewards: '24 316 XP.\n552 kamas.\n2 x Cuero de miserata strubiense.\n2 x Colmillos de ratas.',
+      startNpc: 'Kerubim Crepin',
+      startX: 3,
+      startY: -17,
+    })
+  })
+
+  it('nunca sobrescribe un campo del resumen escrito', async () => {
+    const guide = await createGuide({
+      quests: [hunter.id],
+      summary: { rewards: 'Lo que diga Torre.', startX: 0 },
+    })
+    expect(guide.summary).toMatchObject({
+      rewards: 'Lo que diga Torre.',
+      startX: 0,
+      startNpc: 'Kerubim Crepin',
+    })
+  })
+
+  it('un campo del resumen que se vacía se rellena de nuevo al guardar', async () => {
+    const guide = await createGuide({ quests: [hunter.id] })
+    const updated = await payload.update({
+      collection: 'quest-guides',
+      id: guide.id,
+      data: { summary: { startNpc: '' } },
+      draft: true,
+      overrideAccess: false,
+      user: editor,
+    })
+    expect(updated.summary).toMatchObject({
+      startNpc: 'Kerubim Crepin',
+      prerequisites: 'Seis pies bajo tierra.',
     })
   })
 })

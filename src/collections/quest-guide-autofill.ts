@@ -2,12 +2,20 @@ import { ValidationError, type CollectionBeforeValidateHook, type Where } from '
 
 import { autofillFromQuest, availableSlug, firstQuestId } from '../lib/guides/autofill'
 import { guideStrings } from '../lib/guides/strings'
+import { FILLABLE_FIELDS, summaryToFill } from '../lib/guides/summary'
 import type { QuestGuide } from '../payload-types'
 
+// Lo que llega en `data` manda, aunque sea null (la importación vacía así un campo); lo
+// que no llega se toma del documento guardado.
+function sent<T>(value: T | undefined, saved: T | undefined): T | undefined {
+  return value === undefined ? saved : value
+}
+
 /**
- * Rellena el título, el slug y el SEO vacíos desde la primera misión de DofusDB. Nunca
- * cambia lo que ya hay: las guías importadas conservan su slug de Squarespace. Al editar,
- * `data` puede venir a medias, así que lo que falta se busca en el documento guardado.
+ * Rellena el título, el slug, el SEO y el resumen vacíos desde la primera misión de
+ * DofusDB. Nunca cambia lo que ya hay: las guías importadas conservan su slug y su
+ * resumen de Squarespace. Al editar, `data` puede venir a medias, así que lo que falta se
+ * busca en el documento guardado.
  */
 export const fillFromQuest: CollectionBeforeValidateHook<QuestGuide> = async ({
   collection,
@@ -18,18 +26,22 @@ export const fillFromQuest: CollectionBeforeValidateHook<QuestGuide> = async ({
   if (!data) return data
   const saved = originalDoc as Partial<QuestGuide> | undefined
   const current = {
-    title: data.title ?? saved?.title,
-    slug: data.slug ?? saved?.slug,
-    metaTitle: data.seo?.metaTitle ?? saved?.seo?.metaTitle,
-    metaDescription: data.seo?.metaDescription ?? saved?.seo?.metaDescription,
+    title: sent(data.title, saved?.title),
+    slug: sent(data.slug, saved?.slug),
+    metaTitle: sent(data.seo?.metaTitle, saved?.seo?.metaTitle),
+    metaDescription: sent(data.seo?.metaDescription, saved?.seo?.metaDescription),
   }
-  const questId = firstQuestId(data.quests ?? saved?.quests)
+  const summary = Object.fromEntries(
+    FILLABLE_FIELDS.map((field) => [field, sent(data.summary?.[field], saved?.summary?.[field])]),
+  )
+  const questId = firstQuestId(sent(data.quests, saved?.quests))
 
   if (questId !== null) {
     const quest = await req.payload.findByID({
       collection: 'quests',
       id: questId,
-      depth: 0,
+      // depth 1: los nombres de objetos y prerrequisitos del resumen
+      depth: 1,
       disableErrors: true,
       req,
     })
@@ -49,10 +61,15 @@ export const fillFromQuest: CollectionBeforeValidateHook<QuestGuide> = async ({
     }
     if (fill.metaTitle || fill.metaDescription) {
       data.seo = {
+        ...saved?.seo,
         ...data.seo,
         ...(fill.metaTitle && { metaTitle: fill.metaTitle }),
         ...(fill.metaDescription && { metaDescription: fill.metaDescription }),
       }
+    }
+    const summaryFill = summaryToFill(summary, quest)
+    if (Object.keys(summaryFill).length) {
+      data.summary = { ...saved?.summary, ...data.summary, ...summaryFill }
     }
   }
 
