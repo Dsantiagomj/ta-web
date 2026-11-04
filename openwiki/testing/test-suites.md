@@ -3,10 +3,9 @@ type: testing
 title: Test suites
 description: The five test suites (unit, integration, E2E, dev-gate E2E and smoke), what each one covers, how each provisions its database and app server, and the guards that keep tests away from real databases.
 tags: [testing, vitest, playwright, integration, e2e]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-04T12:46:56.619Z
 sources:
+  - id: openwiki-source-f235d856bed1fd44853c5195
+    resource: repo://.prettierignore
   - id: openwiki-source-5e753d9d77984cb67aae1517
     resource: repo://playwright.config.ts
   - id: openwiki-source-e97ce5e3668d477e63c70413
@@ -19,6 +18,8 @@ sources:
     resource: repo://tests/e2e/smoke.spec.ts
   - id: openwiki-source-f771f456156fbf6bde7862c2
     resource: repo://tests/fixtures/dofusdb/quests.json
+  - id: openwiki-source-1c31b10d596a8990b9ccb573
+    resource: repo://tests/fixtures/squarespace/el-cazador-cazado.html
   - id: openwiki-source-450b6a23d7e25100eadc359f
     resource: repo://tests/integration/global-setup.ts
   - id: openwiki-source-a6cdaab0cfeb9dcfe8511d62
@@ -35,6 +36,14 @@ sources:
     resource: repo://tests/unit/dofusdb-fetch-quest-data.test.ts
   - id: openwiki-source-1a4d893bc4ddfe68ab2aff11
     resource: repo://tests/unit/dofusdb-map-quest.test.ts
+  - id: openwiki-source-d5617545465b10f7c4424728
+    resource: repo://tests/unit/import-parse-page.test.ts
+  - id: openwiki-source-fe4a14de069bb6226ad2a447
+    resource: repo://tests/unit/import-quest-matches.test.ts
+  - id: openwiki-source-7c48f921336671c0ca29e644
+    resource: repo://tests/unit/import-rich-text.test.ts
+  - id: openwiki-source-299c190cabc2f0753a302110
+    resource: repo://tests/unit/import-to-quest-guide.test.ts
   - id: openwiki-source-ae7421f61722d14d3413a918
     resource: repo://tests/unit/quest-guide-blocks.test.ts
   - id: openwiki-source-1970468d3fcc651d5071b312
@@ -47,7 +56,10 @@ sources:
     resource: repo://vitest.config.mts
   - id: openwiki-source-57da85ca1bb457973a5594ff
     resource: repo://vitest.integration.config.mts
-generated: { by: "claude-code", at: "2026-11-04T12:46:56.619Z" }
+generated: { by: "claude-code", at: "2026-11-04T15:33:25.988Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-04T15:33:25.988Z
 ---
 
 # Test suites
@@ -70,6 +82,7 @@ The repo works test-first (AGENTS.md: strict TDD). There are five suites. All of
 - behavior: `health` (fake pool and timers), `dev-gate`, `robots`, `theme`, `mode-script`, `mode-toggle-strings`, `media-collection`, `quests-collection`;
 - quest guides: `quest-guides-collection` (fields, versions, `validateSlug` and the access functions) and `quest-guide-blocks` (each body block's fields and `validateVideoUrl`);
 - DofusDB refresh: `dofusdb-client` (paging, ID chunks, pauses and errors through an injected fake `fetch`, never the network), `dofusdb-map-quest` (names, start positions and the prerequisite rule) and `dofusdb-fetch-quest-data` (only the NPCs and maps named in start positions are looked up);
+- Squarespace import: `import-parse-page` (title, desktop grid order, text, image and unknown blocks), `import-to-quest-guide` (summary, start NPC, what leaves the body, callouts, oddities), `import-rich-text` (HTML to Lexical through Payload's editor) and `import-quest-matches` (the slug to DofusDB IDs CSV). See [Squarespace import](../data/squarespace-import.md);
 - tooling: `commit-msg` (runs the git hook script).
 
 ## Integration
@@ -83,7 +96,7 @@ Real Payload (`getPayload`) against a real Postgres with the committed migration
 - Access tests call the local API with `overrideAccess: false`; omitting `user` makes the call anonymous. See [Collections and access](../cms/collections.md).
 - `quest-guides-access.test.ts` goes further than the other access tests: besides who may read and write, it checks that anonymous reads hide drafts, that a panel user can publish a draft and get a version, and that a guide with all four [body blocks](../cms/blocks.md), linked quests and an image saves and reads back. When it finishes it deletes every guide, quest and media document in the integration database.
 - `refresh-quests.test.ts` runs `refreshQuests` three times against the integration database: the first run creates the fixture quests and skips missing prerequisites, a second run with the same data changes nothing and keeps `refreshedAt`, and a third run updates only what changed and links a prerequisite that now exists. It deletes its fixture quests before and after. See [DofusDB game data refresh](../data/dofusdb-refresh.md).
-- `migrations.test.ts` checks that the latest migration rolls back and re-applies: it runs the Payload CLI (`pnpm payload migrate:down`, then `pnpm payload migrate`) with `integrationEnv` and `DATABASE_CONNECTION=direct`, leaving the database as it was. See [Database and migrations](../data/database.md#migrations).
+- `migrations.test.ts` checks that the latest migration rolls back and re-applies: it runs the Payload CLI (`pnpm payload migrate:down`, then `pnpm payload migrate`) with `integrationEnv` and `DATABASE_CONNECTION=direct`, leaving the database as it was. It starts the CLI twice, so it has its own 120 s timeout instead of the suite's 30 s. See [Database and migrations](../data/database.md#migrations).
 
 ## E2E
 
@@ -117,6 +130,8 @@ Specs:
 
 `tests/fixtures/dofusdb/` holds real DofusDB rows (`quests.json`, `npcs.json`, `map-positions.json`) shared by the DofusDB unit tests and `refresh-quests.test.ts`. The quests cover a plain criterion, several start positions, alternatives joined by `|` and a `Qa=` term.
 
+`tests/fixtures/squarespace/` holds trimmed copies of the five demo Squarespace pages, one HTML file per slug, read by the import unit tests. Prettier ignores the directory so the files stay byte for byte as the parser expects.
+
 ## Guards against touching real data
 
 - Playwright reads only `E2E_PORT`, `E2E_DEV_GATE_PORT` and `E2E_SKIP_BUILD` from `.env` (`loadE2eEnvFromFile`); a `DATABASE_URL` in `.env` never reaches the tests, and the smoke variables come only from the shell. The process environment always wins.
@@ -131,3 +146,4 @@ Specs:
 - [DofusDB game data refresh](../data/dofusdb-refresh.md)
 - [Collections and access](../cms/collections.md)
 - [Guide body blocks](../cms/blocks.md)
+- [Squarespace import](../data/squarespace-import.md)

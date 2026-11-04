@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:48232d22f4d2a03e40a1c2fa77b0662aed1b6c4a14681f5eddd879938b365ebb",
+  "pageVersion": "sha256:15ee3dc3e3a15c7efdaf4a69ec982afd60be7cdb42ef73680d17ebf6184a715d",
   "claims": [
     {
       "id": "claim_cb74801dca844af99590395d68fa512d",
@@ -128,11 +128,11 @@
     },
     {
       "id": "claim_5881d6485a664dc0bbf24d5137353535",
-      "statement": "Prettier ignores all Markdown files and the generated openwiki/ directory.",
+      "statement": "Prettier ignores all Markdown files, the generated openwiki/ directory and the saved Squarespace pages in tests/fixtures/squarespace/.",
       "evidence": [
         {
-          "resource": "repo://.prettierignore#L15-L19",
-          "version": "repo-lines-v1:sha256:7e33d90423029cfad821bf077e531ea5fa7bb8cac25b2803931415f000fac491:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjk4MTljZjdiMzdhMjU1OGI2YWFkZDBkYTVmOWJkMGM0MWY5OTQ5NjFiZjVmMGE0NmZjNGRlOGEzNDAwMjVlMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGJiYzZkMDJkOTM0MWE5Yzg0ZjEzYmUzOWUwOTM1ODc3YTNmOWZkNTRiOTM5MmU5NDA3NjBlYWZjMGVjZGI1OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzE2ZWUwMjJhYjA5NGVhODM3YmZhNTU0Y2YyNDAwNzQ5ZTljZTRhYzVmNjBhYWU5NGE5ZjhmZmVhNDBlYjgzMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+          "resource": "repo://.prettierignore#L15-L22",
+          "version": "repo-lines-v1:sha256:8d578331ea486c05d6b5881b8cb930718dd012599937d202e8fbfc2432a05d01:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjk4MTljZjdiMzdhMjU1OGI2YWFkZDBkYTVmOWJkMGM0MWY5OTQ5NjFiZjVmMGE0NmZjNGRlOGEzNDAwMjVlMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDg4MzU3YzQzMjgyM2EwNjYyNjExODg4MzhmZGJkYTBiOWQzNjY3NGI3ODMwODQzZmE0MmNkNGJkMWNmZmU2NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzE2ZWUwMjJhYjA5NGVhODM3YmZhNTU0Y2YyNDAwNzQ5ZTljZTRhYzVmNjBhYWU5NGE5ZjhmZmVhNDBlYjgzMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         }
       ]
     },
@@ -145,10 +145,28 @@
           "version": "repo-lines-v1:sha256:b9e426e72b7ce6bfae385ae3ae0008b92f0cc5371d2efdcf3f2bbf8249e9b6d5:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODFjODM1Njc2NjU4NjUzYmY5NjllM2RmNDNhYTliODgzMmRmNzM2NWFkMzU5MDU2NWZmODAyOGU3ODllMzQ4NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGU5MTU1MDEwYTEyMzMzOGYwYTEyZGJiZjA1YjFjY2RmNDY3M2Q3NmFmZDUxM2E3YzMyYjMyNzY4ZDZlNDc5ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTYxNzg1YTEyNWI4ZGY4MjU5ZTQ3OGFiNzZkYzlhNjQ3NWZiOGNhMDAwMDVhOWUyMjkwZTdiNmZkNDAzMWMxZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmRhYTRkYjNlZDBkMDZkODg4MTE0NWJkNmU2NGEyZGMzM2VhOTAxOGY0N2U5ZTNjMDcyYWFlNjBkN2FlYzMyMCJ9"
         }
       ]
+    },
+    {
+      "id": "claim_659f35e553f64aa19b16908971a9ff62",
+      "statement": "happy-dom is pinned by an override for @lexical/headless and is also a direct dev dependency at the same version because the Squarespace import parses untrusted HTML with it.",
+      "evidence": [
+        {
+          "resource": "repo://docs/legacy/security.md#L16-L16",
+          "version": "repo-lines-v1:sha256:681a2ab45df376853d35360d90c85e406f34334e52337ba22122c1d4482278cf:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjgxYTJhYjQ1ZGYzNzY4NTNkMzUzNjBkOTBjODVlNDA2ZjM0MzM0ZTUyMzM3YmEyMjEyMmMxZDQ0ODIyNzhjZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjgxYTJhYjQ1ZGYzNzY4NTNkMzUzNjBkOTBjODVlNDA2ZjM0MzM0ZTUyMzM3YmEyMjEyMmMxZDQ0ODIyNzhjZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTFjNGI0ZjhjYWRjZjM1MjM1MTY1MjExOWY4Mjk4ZmExZDBkNjRmOTQzOGUyMzFiOTJiYzA5MWFhMzkxMDkxNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTBiZWJmYWRjYmJhNDA3OTBjZGYxMDgyMzVjY2IxY2IzYmE0ZDVhOTdkOWI5YmIxZjg4YzRkYTQ5NDhlZjJmMyJ9"
+        },
+        {
+          "resource": "repo://package.json#L58-L58",
+          "version": "repo-lines-v1:sha256:f76c7d72bbb6a2cc73b1d8c43f3eb767482679b7ad350f6079ad2dc3935f68c9:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjc2YzdkNzJiYmI2YTJjYzczYjFkOGM0M2YzZWI3Njc0ODI2NzliN2FkMzUwZjYwNzlhZDJkYzM5MzVmNjhjOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjc2YzdkNzJiYmI2YTJjYzczYjFkOGM0M2YzZWI3Njc0ODI2NzliN2FkMzUwZjYwNzlhZDJkYzM5MzVmNjhjOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWUxYTdlMWQ3OWE1ODkxYWJmNzllNDZkOTc1ZjkyNjkyMjViYzkyODFiNWRkMDRlMWY5NThkN2EwOWE4NjFjMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTQwMDM4ZGM4MzQ1NWM2ZGZjMTYzM2UxZDkwMTNjNDZmNzM1ZmRmNTA5MzU4MTMxODQ2OWI2MDEwMjMyMTNkMSJ9"
+        },
+        {
+          "resource": "repo://pnpm-workspace.yaml#L18-L19",
+          "version": "repo-lines-v1:sha256:c6e2985c3176bdda73c6a8db92f1ce1dd1f3443c3d1ab52d91e2e8d6560eb59b:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWE3OTEzNWJlZmJiODBlYjRlODBmYzk1ZjA3MmE4YjJjYjU2MWVkZjgxMjVjYTVjMWIwNzhiOGJjNGZiYzQ0NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzIzNzlmMTM2OGVlY2IzY2Q1NjFiNTY5NmQ5ZWU0MGYyMTNlOTg1M2EwNjg2OWMzMjY2ODE4NzczODJkNDljZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjYyYjYzMzM2MzQzNWJkNWU2NDAwZTUxODY5YTUwYmE2YjczNDMyNWNlM2QzMjQ1YzQyOGRiMmM0ZGNmMmQzZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzRiYWY0YjQ0YmEyOTExMGJlNDQ1YTkyYzdlZjE0ZGUxM2EyZDI3MmIwMzNhZDJlNDNiNmM1Y2E5NTBjNDI3MiJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T05:03:17.453Z"
+    "at": "2026-11-04T15:33:25.988Z"
   }
 }
