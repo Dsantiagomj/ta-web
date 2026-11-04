@@ -156,6 +156,26 @@ jobs:
         env:
           E2E_SKIP_BUILD: '1'
 
+      # Los presupuestos de DESIGN.md con Lighthouse CI, sobre el mismo build, la misma base
+      # y el Chromium de Playwright. Va aquí y no en un job propio para no compilar otra vez.
+      - name: Presupuestos (Lighthouse CI)
+        run: pnpm test:lhci
+        env:
+          E2E_SKIP_BUILD: '1'
+
+      - name: Informes de Lighthouse
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: lighthouse
+          # Los informes HTML y JSON de cada ejecución y el resultado de las aserciones.
+          path: |
+            .lighthouseci/reports/
+            .lighthouseci/assertion-results.json
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 7
+
       - name: Informe de Playwright
         if: failure()
         uses: actions/upload-artifact@v7.0.2

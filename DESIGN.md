@@ -490,7 +490,7 @@ Exits run at about 70 percent of the enter duration (a 220ms dropdown closes in 
 
 ## Performance budgets
 
-From `docs/legacy/plan.md` section 7, enforced by Lighthouse CI on every PR (planned):
+From `docs/legacy/plan.md` section 7, enforced by Lighthouse CI on every PR (`pnpm test:lhci`, assertions in `lighthouserc.cjs`):
 
 | Budget | Limit |
 |---|---|

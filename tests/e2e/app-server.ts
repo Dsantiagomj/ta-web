@@ -2,7 +2,7 @@ import type { PlaywrightTestConfig } from '@playwright/test'
 import { existsSync, readFileSync } from 'node:fs'
 import { parseEnv } from 'node:util'
 
-import { DEV_DATABASE, E2E_DATABASE_URL } from '../../src/lib/db/dev-database'
+import { DEV_DATABASE, E2E_DATABASE_URL } from '../../src/lib/db/dev-database.ts'
 
 type WebServer = Extract<PlaywrightTestConfig['webServer'], unknown[]>[number]
 
