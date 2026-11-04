@@ -3,9 +3,6 @@ type: workflow
 title: Local development
 description: How to set up and run ta-web on a laptop with no Docker or system Postgres, the scripts you use day to day, how to change the schema, and how to reset local data.
 tags: [development, setup, pnpm, postgres, workflow]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-04T00:16:52.047Z
 sources:
   - id: openwiki-source-5f5b95b3d6a215fa02ceb945
     resource: repo://.env.example
@@ -17,9 +14,14 @@ sources:
     resource: repo://pnpm-workspace.yaml
   - id: openwiki-source-71c840280649a7620f8e010f
     resource: repo://scripts/db-dev.ts
+  - id: openwiki-source-63cbcc482c18e4f9ce5d0888
+    resource: repo://scripts/refresh-quests.ts
   - id: openwiki-source-2ad419cae2f45e97a3ca23d7
     resource: repo://src/lib/db/database-url.ts
-generated: { by: "claude-code", at: "2026-11-04T00:16:52.047Z" }
+generated: { by: "claude-code", at: "2026-11-04T12:18:18.185Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-04T12:18:18.185Z
 ---
 
 # Local development
@@ -69,6 +71,7 @@ Commit both with the change. CI fails when `src/payload-types.ts` is stale. Afte
 | `pnpm test`, `pnpm test:integration`, `pnpm test:e2e`, `pnpm test:e2e:dev-gate`, `pnpm test:smoke` | The test suites; see [Test suites](../testing/test-suites.md) |
 | `pnpm db:dev` | Embedded Postgres in the foreground; `--verbose` prints its log; Ctrl+C stops it |
 | `pnpm migrate` | Applies pending migrations, using `DATABASE_URL_DIRECT` when set, else `DATABASE_URL` |
+| `pnpm data:quests` | Downloads every quest from the public DofusDB API and writes them to `quests` in the `DATABASE_URL` database (the `pnpm db:dev` one when empty). Never against production without the owner's yes; see [DofusDB game data refresh](../data/dofusdb-refresh.md) |
 | `pnpm migrate:create <name>` | Writes a new migration |
 | `pnpm generate:types`, `pnpm generate:importmap` | Regenerate Payload's types and admin import map |
 | `pnpm payload …` | The Payload CLI |
@@ -100,3 +103,4 @@ The pre-commit hook formats, lints and runs the AI review on staged files; the c
 - [Test suites](../testing/test-suites.md)
 - [CI and quality gates](ci-and-quality-gates.md)
 - [Environment configuration](../architecture/configuration.md)
+- [DofusDB game data refresh](../data/dofusdb-refresh.md)

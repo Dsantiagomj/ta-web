@@ -3,9 +3,6 @@ type: guide
 title: Quickstart
 description: Entry point to the ta-web wiki. What the repo is, the four commands to get it running, and which page to read for each kind of task.
 tags: [quickstart, onboarding, navigation]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-04T00:29:31.647Z
 sources:
   - id: openwiki-source-5f5b95b3d6a215fa02ceb945
     resource: repo://.env.example
@@ -17,7 +14,12 @@ sources:
     resource: repo://README.md
   - id: openwiki-source-71c840280649a7620f8e010f
     resource: repo://scripts/db-dev.ts
-generated: { by: "claude-code", at: "2026-11-04T00:29:31.647Z" }
+  - id: openwiki-source-63cbcc482c18e4f9ce5d0888
+    resource: repo://scripts/refresh-quests.ts
+generated: { by: "claude-code", at: "2026-11-04T12:18:18.185Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-04T12:18:18.185Z
 ---
 
 # Quickstart
@@ -51,6 +53,7 @@ Node 24 (≥ 24.22.1) and pnpm 11. No Docker. Details in [Local development](wor
 | Change Payload settings, add an endpoint or admin component | [Payload CMS configuration](cms/payload-config.md) |
 | Add or change a collection, or its access rules | [Collections and access](cms/collections.md) |
 | Change the schema, connect to Neon, reset local data | [Database and migrations](data/database.md) |
+| Load or refresh DofusDB quests (`pnpm data:quests`) | [DofusDB game data refresh](data/dofusdb-refresh.md) |
 | Upload files, configure R2, serve images | [Media storage](media/storage.md) |
 | Work on dark/light mode or premium themes | [Theme and mode](frontend/theme-and-mode.md) |
 | Use design tokens, fonts or the page shell | [Styles, tokens and site shell](frontend/styles-and-shell.md) |

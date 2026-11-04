@@ -20,12 +20,14 @@ sources:
     resource: repo://src/app/(frontend)/strings.ts
   - id: openwiki-source-633cb155d38055ddc4af30fc
     resource: repo://src/collections/Quests.ts
+  - id: openwiki-source-4ce5bfd40fc86e2e8680d71f
+    resource: repo://src/lib/dofusdb/refresh-quests.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
     resource: repo://src/payload.config.ts
-generated: { by: "claude-code", at: "2026-11-04T07:07:46.246Z" }
+generated: { by: "claude-code", at: "2026-11-04T12:18:18.185Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T07:07:46.246Z
+    at: 2026-11-04T12:18:18.185Z
 ---
 
 # Project overview
@@ -57,6 +59,7 @@ The repository is at "phase 0": the skeleton is done and most product features a
 - **Public site**: a root layout with the brand header and dark/light mode switch, and a placeholder home page that points to the current site. See [Styles, tokens and site shell](frontend/styles-and-shell.md) and [Theme and mode](frontend/theme-and-mode.md).
 - **CMS**: Payload with three collections, `users` (panel accounts), `media` and `quests` (read-only DofusDB game data), Spanish admin UI and a single `es` locale. See [Payload CMS configuration](cms/payload-config.md) and [Collections and access](cms/collections.md).
 - **Data**: two committed migrations; schema push only under `next dev`. See [Database and migrations](data/database.md).
+- **Game data**: `pnpm data:quests` copies every quest from the public DofusDB API into `quests`, idempotently and without deleting anything. See [DofusDB game data refresh](data/dofusdb-refresh.md).
 - **Media**: R2 or disk, chosen by environment. See [Media storage](media/storage.md).
 - **Operations**: `GET /api/health`, a basic-auth gate for the dev environment, server-side Sentry, Railway infrastructure as code, and GitHub workflows for CI, dev smoke tests and production releases. See the operations pages.
 - **Quality**: unit, integration, E2E, dev-gate and smoke suites; lint, format, types and dependency audit in CI; git hooks for formatting, linting, AI review and commit messages.
@@ -104,3 +107,4 @@ One build serves both environments. Everything that differs between dev and prod
 - [Quickstart](quickstart.md)
 - [Request pipeline](architecture/request-pipeline.md)
 - [Deployment and releases](operations/deployment.md)
+- [DofusDB game data refresh](data/dofusdb-refresh.md)
