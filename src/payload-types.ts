@@ -70,6 +70,8 @@ export interface Config {
     users: User;
     media: Media;
     quests: Quest;
+    items: Item;
+    monsters: Monster;
     'quest-guides': QuestGuide;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -81,6 +83,8 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     quests: QuestsSelect<false> | QuestsSelect<true>;
+    items: ItemsSelect<false> | ItemsSelect<true>;
+    monsters: MonstersSelect<false> | MonstersSelect<true>;
     'quest-guides': QuestGuidesSelect<false> | QuestGuidesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -215,6 +219,91 @@ export interface Quest {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Para un personaje de nivel 200, como en las guías de Torre y en dofusdb.fr.
+   */
+  rewards?: {
+    experience?: number | null;
+    kamas?: number | null;
+    items?:
+      | {
+          item: number | Item;
+          quantity: number;
+          id?: string | null;
+        }[]
+      | null;
+    emoteIds?: number[] | null;
+    spellIds?: number[] | null;
+    titleIds?: number[] | null;
+    jobIds?: number[] | null;
+  };
+  /**
+   * Sacado de need.items y de los objetivos de las etapas en DofusDB.
+   */
+  needs?: {
+    items?:
+      | {
+          item: number | Item;
+          quantity: number;
+          id?: string | null;
+        }[]
+      | null;
+    monsters?:
+      | {
+          monster: number | Monster;
+          quantity: number;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Algún objetivo pide descubrir un mapa o una zona.
+     */
+    walksMaps?: boolean | null;
+  };
+  /**
+   * La pone el script de refresco.
+   */
+  refreshedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Datos de DofusDB, de solo lectura. Los actualiza un script.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "items".
+ */
+export interface Item {
+  id: number;
+  dofusId: number;
+  name: string;
+  level?: number | null;
+  typeId?: number | null;
+  /**
+   * ID de la imagen en DofusDB.
+   */
+  iconId?: number | null;
+  /**
+   * La pone el script de refresco.
+   */
+  refreshedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Datos de DofusDB, de solo lectura. Los actualiza un script.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "monsters".
+ */
+export interface Monster {
+  id: number;
+  dofusId: number;
+  name: string;
+  /**
+   * ID de la imagen en DofusDB (gfxId).
+   */
+  iconId?: number | null;
   /**
    * La pone el script de refresco.
    */
@@ -372,6 +461,14 @@ export interface PayloadLockedDocument {
         value: number | Quest;
       } | null)
     | ({
+        relationTo: 'items';
+        value: number | Item;
+      } | null)
+    | ({
+        relationTo: 'monsters';
+        value: number | Monster;
+      } | null)
+    | ({
         relationTo: 'quest-guides';
         value: number | QuestGuide;
       } | null);
@@ -492,6 +589,68 @@ export interface QuestsSelect<T extends boolean = true> {
         y?: T;
         id?: T;
       };
+  rewards?:
+    | T
+    | {
+        experience?: T;
+        kamas?: T;
+        items?:
+          | T
+          | {
+              item?: T;
+              quantity?: T;
+              id?: T;
+            };
+        emoteIds?: T;
+        spellIds?: T;
+        titleIds?: T;
+        jobIds?: T;
+      };
+  needs?:
+    | T
+    | {
+        items?:
+          | T
+          | {
+              item?: T;
+              quantity?: T;
+              id?: T;
+            };
+        monsters?:
+          | T
+          | {
+              monster?: T;
+              quantity?: T;
+              id?: T;
+            };
+        walksMaps?: T;
+      };
+  refreshedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "items_select".
+ */
+export interface ItemsSelect<T extends boolean = true> {
+  dofusId?: T;
+  name?: T;
+  level?: T;
+  typeId?: T;
+  iconId?: T;
+  refreshedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "monsters_select".
+ */
+export interface MonstersSelect<T extends boolean = true> {
+  dofusId?: T;
+  name?: T;
+  iconId?: T;
   refreshedAt?: T;
   updatedAt?: T;
   createdAt?: T;
