@@ -321,17 +321,20 @@ export interface Monster {
  */
 export interface QuestGuide {
   id: number;
-  title: string;
   /**
-   * La URL de la guía, como aprendizaje-escudero.
-   */
-  slug: string;
-  /**
-   * Las misiones de DofusDB que cubre esta guía.
+   * Elige primero la misión de DofusDB: rellena el título, el slug, el SEO y el resumen. Luego solo te queda escribir la guía.
    */
   quests?: (number | Quest)[] | null;
   /**
-   * Sustituye lo que da DofusDB. La importación lo rellena desde Squarespace.
+   * Si lo dejas vacío, se usa el nombre de la misión.
+   */
+  title: string;
+  /**
+   * La URL de la guía, como aprendizaje-escudero. Si la dejas vacía, sale del nombre de la misión.
+   */
+  slug: string;
+  /**
+   * Vacío significa que se muestra lo que da DofusDB, que ves debajo de cada campo. Escribe solo para cambiarlo.
    */
   summary?: {
     prerequisites?: string | null;
@@ -342,6 +345,9 @@ export interface QuestGuide {
     startY?: number | null;
   };
   body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock)[] | null;
+  /**
+   * Se rellena solo desde la misión si lo dejas vacío. Puedes cambiarlo cuando quieras.
+   */
   seo?: {
     metaTitle?: string | null;
     metaDescription?: string | null;
@@ -665,9 +671,9 @@ export interface MonstersSelect<T extends boolean = true> {
  * via the `definition` "quest-guides_select".
  */
 export interface QuestGuidesSelect<T extends boolean = true> {
+  quests?: T;
   title?: T;
   slug?: T;
-  quests?: T;
   summary?:
     | T
     | {
