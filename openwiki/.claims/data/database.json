@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:527b162f273bb5d37f56123e2792f656c9d16ff8126679005b2e69e5cd2ea422",
+  "pageVersion": "sha256:ebc5908faa17467297ea4e5c394fd80116bb8b1e1530de45e2f50d01d946a139",
   "claims": [
     {
       "id": "claim_c4d0210fcc834f69a874cfcee7b4d598",
@@ -80,11 +80,11 @@
     },
     {
       "id": "claim_08141421a97143cc8073d709e4bf1805",
-      "statement": "There are six migrations today, 20261103_030359_initial, 20261104_070541_quests, 20261104_124207_quest_guides, 20261104_174941_dofusdb_items_rewards, 20261104_192809_dofusdb_item_supertype and 20261104_195910_needs_list, registered in src/migrations/index.ts.",
+      "statement": "There are seven migrations today, 20261103_030359_initial, 20261104_070541_quests, 20261104_124207_quest_guides, 20261104_174941_dofusdb_items_rewards, 20261104_192809_dofusdb_item_supertype, 20261104_195910_needs_list and 20261104_210644_guide_single_quest, registered in src/migrations/index.ts.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/index.ts#L1-L39",
-          "version": "repo-lines-v1:sha256:23dc8d88c8752893e7702f062c3757155e75e36855af5895ce3bb4bae4af2373:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0NTE2NDJiYzU5Y2ExMDYyN2M5YzVjMTc2YTQ1MDQ3MTRlOGNlMjc4MGVhODM2NmJkNzZjNjIxN2MxMTU4YWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/migrations/index.ts#L1-L45",
+          "version": "repo-lines-v1:sha256:80fafb8d13958ae175c97f1704ae7b23a0c825cc09773c197de3e73630bf7961:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0NTE2NDJiYzU5Y2ExMDYyN2M5YzVjMTc2YTQ1MDQ3MTRlOGNlMjc4MGVhODM2NmJkNzZjNjIxN2MxMTU4YWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -143,8 +143,8 @@
       "statement": "tests/integration/migrations.test.ts runs pnpm payload migrate:down and then pnpm payload migrate against the integration database with DATABASE_CONNECTION=direct, asserting the latest migration in src/migrations/index.ts is rolled back and re-applied.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/index.ts#L8-L39",
-          "version": "repo-lines-v1:sha256:1b7d0b947150d18b49e196841b92ca9cff4ec5bd0498635aab1a57b535c690d2:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMGVkYzRmYjExMzQ3MTVkZmYyYWMxM2VkNzlhODc3YmQzOGQxMTdiNzY0MjViMGJiMzJlMGRhZDgzY2IzNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY5NTFkMWUxYzQ0ZDY0ZDEwZjYyYzE1ZDY5NGFkNzhlOGFiY2JkZTg3ZDQwOWMzOTk2ZWU1ZWVlMWMwOTg2NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/migrations/index.ts#L9-L45",
+          "version": "repo-lines-v1:sha256:06ad922f62a892d149ee694a9d13b1a6ebfb3f0fbdfecf70f670e7109d9e521a:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMGVkYzRmYjExMzQ3MTVkZmYyYWMxM2VkNzlhODc3YmQzOGQxMTdiNzY0MjViMGJiMzJlMGRhZDgzY2IzNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNlMWVmZmEyY2JhNDMwMDZhNzY2MzJiZTNmMzMxNDQ4NThjODI1YWI5ZDYwMzE1ZTUyNjg2Mjc2NDQ3NGRkYzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://tests/integration/migrations.test.ts#L8-L39",
@@ -277,10 +277,40 @@
           "version": "repo-lines-v1:sha256:34c789c558d71c61d5ce8d655c7243d2c4dcb0857a4edfcec547fd8971753b1e:eyJzZWxlY3RlZExpbmVDb3VudCI6NzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYzNjRlNTU0YzBhMTFkMzViNzk5YWYyNDQ3NzQzNWUwMTE2ZDU0N2ZjZDljY2E0ZjA0N2U2MWIwNGM1MjM2ZDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ5N2I5NDhiYjIyNmI0YWMyNGZiMTAwZmQwNmZhYzJhMzlmYmQ2MjBjMDM3YzFhZGM0NGMyNjUxMGY0MjkwYWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_7ed1404e38014e5bbb07ea71b2990654",
+      "statement": "The guide_single_quest migration's up adds quest_guides.quest_id and _quest_guides_v.version_quest_id, copies into them each guide's and each version's linked quest with the lowest order from quest_guides_rels and _quest_guides_v_rels, then drops both relation tables and adds foreign keys to quests with ON DELETE set null and an index on each column.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261104_210644_guide_single_quest.ts#L3-L33",
+          "version": "repo-lines-v1:sha256:c753daf6643503cbb594ee6ef499f471c8db406ce7f4efbfc78e498f749237db:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhNzBlZjY0OTlmMjk5NDEzNmVjYjQwYTcwOTQxNDYwY2RlZmFiYWFmN2ZkZDk1MDU5ZTk1ZWY3Yzc5Mjk5MzEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoyLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5ZjMzOGZiMGIxYzNkOGU1NzcwYTU2MjQxYTU3NDc0NTA2MTM2YjM4MDM4ZjdlZTRiMTJiNjU1OTYyZWRkZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU5MGFmNjc4ZWI0MzRiNTEyNmIyMjQ0NDhiNjExMTAxMjBhY2VlNjMxNmNiNjdhMmE5MjRiNzYyMTEyOTE4MmMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a9ce415a0ee84e95a5f552f7797ecb7f",
+      "statement": "The guide_single_quest migration's down recreates quest_guides_rels and _quest_guides_v_rels, writes each linked quest back as a relation row with order 1, and drops the quest_id and version_quest_id columns.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261104_210644_guide_single_quest.ts#L35-L79",
+          "version": "repo-lines-v1:sha256:1308b487465ffa32865979c2a510f23e4126c21cc2c7acdb248129240282a281:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhNzQ5ZmQxN2MwY2Q2NzlmYmZmYzdmNmYyYzBkY2IxNWE1Mjg0YTc2MTg1NGY3ZWI3YTM4MTAyNjljOGVmZmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBjNTBkZTg0YTkzZWYwYjg2MDg3ZjQ2NDc5NzNkMjgxMmI0YmJkOTZlNjIwN2E0ZWEwZTdhYjdmOGRmYzU1OWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_653651d0323744cd94d2c467f7137742",
+      "statement": "tests/integration/guide-single-quest-migration.test.ts calls the guide_single_quest migration's down on a guide linked to one quest, checks the quest is a relation row for the guide and its version, adds a second quest with order 2, runs up in a finally block, and checks that quest_id, version_quest_id and Payload's quest field on the guide and its versions hold the first quest.",
+      "evidence": [
+        {
+          "resource": "repo://tests/integration/guide-single-quest-migration.test.ts#L15-L107",
+          "version": "repo-lines-v1:sha256:bf9288774453186dfc78bbf89dcbab0eb9da6b5d4d8c1f0b11564e6157d1fdc9:eyJzZWxlY3RlZExpbmVDb3VudCI6OTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM5NDgxNTM2NDI4OTI4ZTU3MTIzODRhYWZiNjI5ODkyNWE2OGM1YTNkNDhhMzM2ZTMzZGQyMTAxYjA4OWFhOGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZkY2Q3NGExMzlkNTgzNDMzMmExOWVlMzUyNjQxNWM4ZjhlZDQ0ZGNhYWRmYzQ1M2MxMzllMjY5NGM3NDg1MjQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T20:02:15.357Z"
+    "at": "2026-11-04T21:10:46.028Z"
   }
 }

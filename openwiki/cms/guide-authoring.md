@@ -3,10 +3,9 @@ type: workflow
 title: Writing a quest guide
 description: How Torre writes a quest guide in the Payload panel by picking the DofusDB quest first, which empty fields the quest fills (title, slug, SEO and the summary) and in which format, how the live form fill and the save hook share the same pure rules, what the note under each summary field says, and why the copied values do not follow later DofusDB changes.
 tags: [quest-guides, payload, admin, dofusdb, autofill, workflow]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-04T20:38:00.762Z
 sources:
+  - id: openwiki-source-3fc9f0484081f9ab441d6219
+    resource: repo://scripts/import/load-quest-guides.ts
   - id: openwiki-source-f6a77b87c2cce3530ab6695f
     resource: repo://src/collections/quest-guide-autofill.ts
   - id: openwiki-source-7a2723ea85824e431ff5eb54
@@ -39,12 +38,15 @@ sources:
     resource: repo://tests/unit/guide-summary.test.ts
   - id: openwiki-source-1970468d3fcc651d5071b312
     resource: repo://tests/unit/quest-guides-collection.test.ts
-generated: { by: "claude-code", at: "2026-11-04T20:38:00.762Z" }
+generated: { by: "claude-code", at: "2026-11-04T21:10:46.028Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-04T21:10:46.028Z
 ---
 
 # Writing a quest guide
 
-A quest guide starts from its DofusDB quest. `quests` is the first field of the guide form, in the main area. Once Torre picks a quest, every empty field the quest can answer is filled: the title, the slug, the two SEO fields and the summary (prerequisites, the "Necesitarás" item list, rewards, start NPC and coordinates). What is left to write is the guide itself: the body blocks, the "Necesitarás" notes, and anything DofusDB does not give.
+A quest guide starts from its DofusDB quest. `quest`, labelled "Misión de DofusDB", is the first field of the guide form, in the main area. It is an optional single relationship to `quests`: a guide links one quest or none. Once Torre picks a quest, every empty field the quest can answer is filled: the title, the slug, the two SEO fields and the summary (prerequisites, the "Necesitarás" item list, rewards, start NPC and coordinates). What is left to write is the guide itself: the body blocks, the "Necesitarás" notes, and anything DofusDB does not give.
 
 The fill happens twice with the same rules: live in the form when the quest is picked, and again on the server when the guide is saved. Both only fill **empty** fields. A value that is already there, typed by Torre or brought by the Squarespace import, is never overwritten.
 
@@ -52,13 +54,13 @@ The collection schema itself (field types, validators, access) is in [Collection
 
 ## The flow in the panel
 
-1. Create a guide under "Guías" and pick the quest in "Misiones". The description under the field reads "Elige primero la misión de DofusDB: rellena el título, el slug, el SEO y el resumen. Luego solo te queda escribir la guía."
+1. Create a guide under "Guías" and pick the quest in "Misión de DofusDB". The description under the field reads "Elige primero la misión de DofusDB de la guía, solo una: rellena el título, el slug, el SEO y el resumen. Luego solo te queda escribir la guía."
 2. The form fills the empty title, slug, SEO and summary fields right away, without saving, and marks the form as modified.
 3. Under each summary field, a note says where its value comes from (see [The notes under the summary](#the-notes-under-the-summary)). Torre edits whatever reads wrong; nothing typed is replaced later.
 4. Write the "Necesitarás" notes and the body. See [Guide body blocks](blocks.md).
 5. Save a draft or publish. The save hook fills anything still empty, such as a field Torre cleared on purpose.
 
-A guide can have several quests. Only the first one feeds the fill and the notes.
+A guide links a single quest, and that quest feeds the fill and the notes. One quest per guide fits the existing content: of Torre's 1,272 Squarespace guides, 1,234 match exactly one DofusDB quest, 29 match none and 9 are ambiguous, and none matches more than one. The [Squarespace import](../data/squarespace-import.md#loading-into-payload) leaves a guide that names several quest IDs unlinked for Torre to choose.
 
 A guide with neither a title nor a quest cannot be saved, not even as a draft. The panel shows "Escribe un título o elige una misión de DofusDB para sacarlo de ella."
 
@@ -71,7 +73,7 @@ All rules are pure functions in `src/lib/guides/`, without Payload, so the serve
 | `strings.ts` | Every Spanish text: summary line formats, SEO templates, panel descriptions and notes. A second language would mean translating this module |
 | `format.ts` | Torre's summary format: thousands, rewards, prerequisites, the needed items |
 | `summary.ts` | `summaryFromQuest`, `summaryToFill`, `applySummaryFill` and `summaryNote` |
-| `autofill.ts` | Title, slug and SEO: `autofillFromQuest`, `slugFromName`, `availableSlug`, `seoFromQuest`, `firstQuestId` |
+| `autofill.ts` | Title, slug and SEO: `autofillFromQuest`, `slugFromName`, `availableSlug`, `seoFromQuest`, `linkedQuestId` (the quest's ID, whether the field holds an ID or a populated document) |
 | `form-fill.ts` | The live form fill: `plannedFormFill` and `stillEmpty`, read through a field-path reader so they run without React |
 
 ### Title, slug and SEO
@@ -108,7 +110,7 @@ The output matches Torre's own pages. For El cazador cazado (1977) and Seis pies
 
 ### Live in the form: `QuestAutofill`
 
-`src/components/quest-guide-admin/QuestAutofill.tsx` is the `Description` component of the `quests` field. It watches the first selected quest ID through `useFormFields`. When the ID changes:
+`src/components/quest-guide-admin/QuestAutofill.tsx` is the `Description` component of the `quest` field. It watches the selected quest ID through `useFormFields`. When the ID changes:
 
 1. It loads the quest from the REST API, `GET <serverURL><api>/quests/<id>?depth=1` with the session cookie, through `fetchLinkedQuest` in `linked-quest.ts`. Requests are cached per URL while the page is open; a failed one is dropped from the cache so the next attempt retries.
 2. It plans the fill with `plannedFormFill(read, quest)`, where `read` is the form's `getDataByPath`. The plan runs `autofillFromQuest` and `summaryToFill` on the current form values and returns the field paths to fill with their values (blank values dropped) plus the rows for an empty "Necesitarás" list (`summary.needs.items`, exported as `NEEDS_PATH`).
@@ -122,7 +124,7 @@ The quest the guide was opened with fills nothing: only a change Torre makes in 
 
 ### On save: `fillFromQuest`
 
-`src/collections/quest-guide-autofill.ts` is the collection's `beforeValidate` hook. It runs on every create and update through any API, the importer included. It builds the current values from `data`, falling back to the saved document for fields `data` does not carry (an update may send only what changed; an explicit `null` in `data` wins). It loads the first quest with `payload.findByID` at `depth: 1`, fills the empty title, slug and SEO fields, checks the slug against other guides with `payload.count`, and merges the summary fill into the saved and sent summary, keeping the needs notes.
+`src/collections/quest-guide-autofill.ts` is the collection's `beforeValidate` hook. It runs on every create and update through any API, the importer included. It builds the current values from `data`, falling back to the saved document for fields `data` does not carry (an update may send only what changed; an explicit `null` in `data` wins). It loads the linked quest with `payload.findByID` at `depth: 1`, fills the empty title, slug and SEO fields, checks the slug against other guides with `payload.count`, and merges the summary fill into the saved and sent summary, keeping the needs notes.
 
 The hook is the backstop: it covers guides created outside the panel, a form where the client fill never ran, and fields cleared before saving. After the fill, if the title is still empty it throws a `ValidationError` on `title`, because Payload saves drafts without field validation.
 
@@ -154,7 +156,7 @@ The Squarespace importer runs the same `summaryToFill` and `applySummaryFill` be
 
 - `tests/unit/guide-summary.test.ts` builds linked quests from the real DofusDB fixtures through `mapQuest` and checks `formatThousands`, `rewardsText` and `prerequisitesText` against Torre's parsed Squarespace pages (1977, 1976, 1433), `requiredLevel` (including that a `PL>` among `|` alternatives gives no level), `neededItems` (quest items dropped by supertype 14 whatever their type, DofusDB order for quest 2420's six Primordial Dofus), `summaryToFill` (never touching written fields, `0` as a coordinate, a filled or empty needs list), `applySummaryFill` keeping the notes, and every `summaryNote` state for text fields and the list.
 - `tests/unit/guide-form-fill.test.ts` checks that `plannedFormFill` plans every empty field from quest 1977's data and nothing for fields already written, and that `stillEmpty` drops a title, a rewards text and a needs list Torre typed during the slug check while still filling the slug and the start NPC, treating whitespace-only text and a list with no rows as empty.
-- `tests/unit/guide-autofill.test.ts` covers `slugFromName` on Torre's slugs and odd names, `availableSlug` suffixes, `seoFromQuest` with and without level and XP and the 160-character cut, `autofillFromQuest` never touching written fields, and `firstQuestId`.
+- `tests/unit/guide-autofill.test.ts` covers `slugFromName` on Torre's slugs and odd names, `availableSlug` suffixes, `seoFromQuest` with and without level and XP and the 160-character cut, `autofillFromQuest` never touching written fields, and `linkedQuestId` reading an ID or a populated document and returning `null` without a quest.
 - `tests/integration/quest-guides-autofill.test.ts` saves guides through the local API as a panel user: a guide with only the quest gets title, slug, SEO and the full summary (the quest item left out of the needs list, notes empty); a second one gets `-2`; written title, slug, SEO, summary fields and needs lists stay; a guide without title and quest is rejected with the Spanish message; editing an imported guide keeps its Squarespace slug and SEO title; and a summary field emptied on update is filled again.
 
 ## Related pages
