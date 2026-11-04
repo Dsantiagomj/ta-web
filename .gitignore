@@ -32,3 +32,6 @@ npm-debug.log*
 
 # Registro de skills que generan los agentes locales
 .atl/
+
+# Ajustes locales de Claude Code (aprobaciones de MCP y permisos de cada persona)
+.claude/settings.local.json
