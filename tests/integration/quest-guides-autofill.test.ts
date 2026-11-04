@@ -90,7 +90,7 @@ describe('guía de misión rellenada desde DofusDB', () => {
   }
 
   it('con solo la misión elegida, rellena título, slug y SEO', async () => {
-    const guide = await createGuide({ quests: [hunter.id] })
+    const guide = await createGuide({ quest: hunter.id })
     expect(guide).toMatchObject({
       title: 'El cazador cazado',
       slug: 'el-cazador-cazado',
@@ -102,13 +102,13 @@ describe('guía de misión rellenada desde DofusDB', () => {
   })
 
   it('si el slug ya existe, le añade un sufijo', async () => {
-    const guide = await createGuide({ quests: [hunter.id] })
+    const guide = await createGuide({ quest: hunter.id })
     expect(guide.slug).toBe('el-cazador-cazado-2')
   })
 
   it('no sobrescribe lo que Torre ya escribió', async () => {
     const guide = await createGuide({
-      quests: [hunter.id],
+      quest: hunter.id,
       title: 'Cazador, versión de Torre',
       slug: 'cazador-de-torre',
       seo: { metaTitle: 'Mi título SEO' },
@@ -134,7 +134,7 @@ describe('guía de misión rellenada desde DofusDB', () => {
       data: {
         title: 'El cazador cazado (importada)',
         slug: 'el-cazador-cazado-de-squarespace',
-        quests: [hunter.id],
+        quest: hunter.id,
         seo: { metaTitle: 'SEO importado' },
       },
       draft: true,
@@ -157,7 +157,7 @@ describe('guía de misión rellenada desde DofusDB', () => {
   })
 
   it('con solo la misión elegida, guarda el resumen relleno con los datos de DofusDB', async () => {
-    const guide = await createGuide({ quests: [hunter.id] })
+    const guide = await createGuide({ quest: hunter.id })
     expect(guide.summary).toMatchObject({
       prerequisites: 'Seis pies bajo tierra.',
       rewards: '24 316 XP.\n552 kamas.\n2 x Cuero de miserata strubiense.\n2 x Colmillos de ratas.',
@@ -174,7 +174,7 @@ describe('guía de misión rellenada desde DofusDB', () => {
 
   it('nunca toca una lista de Necesitarás con objetos', async () => {
     const guide = await createGuide({
-      quests: [hunter.id],
+      quest: hunter.id,
       summary: { needs: { items: [{ item: tofuBeakId, quantity: 10 }], notes: 'Y paciencia.' } },
     })
     expect(guide.summary?.needs).toMatchObject({
@@ -185,7 +185,7 @@ describe('guía de misión rellenada desde DofusDB', () => {
 
   it('nunca sobrescribe un campo del resumen escrito', async () => {
     const guide = await createGuide({
-      quests: [hunter.id],
+      quest: hunter.id,
       summary: { rewards: 'Lo que diga Torre.', startX: 0 },
     })
     expect(guide.summary).toMatchObject({
@@ -196,7 +196,7 @@ describe('guía de misión rellenada desde DofusDB', () => {
   })
 
   it('un campo del resumen que se vacía se rellena de nuevo al guardar', async () => {
-    const guide = await createGuide({ quests: [hunter.id] })
+    const guide = await createGuide({ quest: hunter.id })
     const updated = await payload.update({
       collection: 'quest-guides',
       id: guide.id,

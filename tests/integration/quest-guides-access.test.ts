@@ -169,7 +169,7 @@ describe('permisos de quest-guides', () => {
       expect(visible.title).toBe('La sombra de Incarnam')
     })
 
-    it('guarda una guía con los cuatro bloques, misiones e imagen', async () => {
+    it('guarda una guía con los cuatro bloques, su misión e imagen', async () => {
       const image: Media = await payload.create({
         collection: 'media',
         data: { alt: 'Mapa de Astrub' },
@@ -186,7 +186,7 @@ describe('permisos de quest-guides', () => {
           title: 'Guía completa',
           slug: 'guia-completa',
           _status: 'published',
-          quests: [quest.id],
+          quest: quest.id,
           summary: {
             prerequisites: 'Ninguno',
             needs: { notes: '10 Alas de Tofu' },
@@ -218,7 +218,7 @@ describe('permisos de quest-guides', () => {
         depth: 1,
         overrideAccess: false,
       })
-      expect(readBack.quests).toEqual([expect.objectContaining({ id: quest.id })])
+      expect(readBack.quest).toEqual(expect.objectContaining({ id: quest.id }))
       expect(readBack.summary).toMatchObject({
         needs: { notes: '10 Alas de Tofu' },
         startX: 5,

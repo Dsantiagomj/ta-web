@@ -1,6 +1,6 @@
 import { ValidationError, type CollectionBeforeValidateHook, type Where } from 'payload'
 
-import { autofillFromQuest, availableSlug, firstQuestId } from '../lib/guides/autofill'
+import { autofillFromQuest, availableSlug, linkedQuestId } from '../lib/guides/autofill'
 import { guideStrings } from '../lib/guides/strings'
 import {
   applySummaryFill,
@@ -17,8 +17,8 @@ function sent<T>(value: T | undefined, saved: T | undefined): T | undefined {
 }
 
 /**
- * Rellena el título, el slug, el SEO y el resumen vacíos desde la primera misión de
- * DofusDB. Nunca cambia lo que ya hay: las guías importadas conservan su slug y su
+ * Rellena el título, el slug, el SEO y el resumen vacíos desde la misión de DofusDB
+ * enlazada. Nunca cambia lo que ya hay: las guías importadas conservan su slug y su
  * resumen de Squarespace. Al editar, `data` puede venir a medias, así que lo que falta se
  * busca en el documento guardado.
  */
@@ -42,7 +42,7 @@ export const fillFromQuest: CollectionBeforeValidateHook<QuestGuide> = async ({
     ),
     needs: { items: sent(data.summary?.needs?.items, saved?.summary?.needs?.items) },
   }
-  const questId = firstQuestId(sent(data.quests, saved?.quests))
+  const questId = linkedQuestId(sent(data.quest, saved?.quest))
 
   if (questId !== null) {
     const quest = await req.payload.findByID({

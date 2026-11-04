@@ -48,7 +48,7 @@ function comparable(value: unknown): unknown {
   return value
 }
 
-const COMPARED_FIELDS = ['title', 'slug', 'originalUrl', 'summary', 'quests', 'body'] as const
+const COMPARED_FIELDS = ['title', 'slug', 'originalUrl', 'summary', 'quest', 'body'] as const
 
 const SUMMARY_FIELDS = ['prerequisites', 'rewards', 'startNpc', 'startX', 'startY'] as const
 
@@ -177,13 +177,17 @@ export async function loadQuestGuides(
       continue
     }
 
-    const linked: Quest[] = []
-    for (const dofusId of guide.questDofusIds) {
-      const quest = questByDofusId.get(dofusId)
-      if (!quest) oddities.push(`Misión de DofusDB ${dofusId} sin importar en quests`)
-      else linked.push(quest)
+    // Una guía enlaza una sola misión. Con varias no se elige ninguna al azar: lo decide Torre.
+    const dofusIds = [...new Set(guide.questDofusIds)]
+    let linked: Quest | undefined
+    if (dofusIds.length > 1) {
+      oddities.push(
+        `Varias misiones de DofusDB (${dofusIds.join(', ')}): sin enlazar, elige una en el panel`,
+      )
+    } else if (dofusIds.length === 1) {
+      linked = questByDofusId.get(dofusIds[0]!)
+      if (!linked) oddities.push(`Misión de DofusDB ${dofusIds[0]} sin importar en quests`)
     }
-    const quests = linked.map((quest) => quest.id)
 
     const body: BodyBlock[] = []
     for (const block of guide.body) {
@@ -195,8 +199,8 @@ export async function loadQuestGuides(
       title: guide.title,
       slug: guide.slug,
       originalUrl: guide.originalUrl,
-      summary: filledSummary(guide.summary, linked[0]),
-      quests,
+      summary: filledSummary(guide.summary, linked),
+      quest: linked?.id ?? null,
       body,
       _status: 'draft' as const,
     }

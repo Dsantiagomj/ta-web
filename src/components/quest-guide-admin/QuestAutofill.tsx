@@ -11,7 +11,7 @@ import { guideStrings } from '@/lib/guides/strings'
 import { fetchLinkedQuest, slugTaken, useApiUrl, useSelectedQuestId } from './linked-quest'
 
 /**
- * Descripción del campo de misiones. Al elegir otra misión, rellena en el formulario el
+ * Descripción del campo de la misión. Al elegir otra misión, rellena en el formulario el
  * título, el slug, el SEO y el resumen que estén vacíos, sin esperar a guardar. Al
  * guardar, el hook fillFromQuest hace lo mismo en el servidor por si esto no llegó a correr.
  */
@@ -62,5 +62,5 @@ export function QuestAutofill({ path }: FieldDescriptionClientProps) {
     })()
   }, [addFieldRow, apiUrl, docId, dispatchFields, getDataByPath, questId, setModified])
 
-  return <FieldDescription path={path} description={guideStrings.admin.questsDescription} />
+  return <FieldDescription path={path} description={guideStrings.admin.questDescription} />
 }

@@ -3,7 +3,7 @@
 import { useConfig, useFormFields } from '@payloadcms/ui'
 import { useEffect, useState } from 'react'
 
-import { firstQuestId } from '@/lib/guides/autofill'
+import { linkedQuestId } from '@/lib/guides/autofill'
 import type { LinkedQuest, LinkedQuestState } from '@/lib/guides/summary'
 
 // El panel lee la misión por la API REST: aquí corre en el navegador, no en el servidor.
@@ -44,12 +44,12 @@ export function useApiUrl(): string {
   return `${config.serverURL}${config.routes.api}`
 }
 
-/** El ID de la primera misión elegida en el formulario, en vivo. */
+/** El ID de la misión elegida en el formulario, en vivo. */
 export function useSelectedQuestId(): number | null {
-  return useFormFields(([fields]) => firstQuestId(fields.quests?.value))
+  return useFormFields(([fields]) => linkedQuestId(fields.quest?.value))
 }
 
-/** La primera misión elegida en el formulario, cargada de la API. */
+/** La misión elegida en el formulario, cargada de la API. */
 export function useLinkedQuest(): LinkedQuestState {
   const id = useSelectedQuestId()
   const apiUrl = useApiUrl()

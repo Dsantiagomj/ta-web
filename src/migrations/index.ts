@@ -4,6 +4,7 @@ import * as migration_20261104_124207_quest_guides from './20261104_124207_quest
 import * as migration_20261104_174941_dofusdb_items_rewards from './20261104_174941_dofusdb_items_rewards';
 import * as migration_20261104_192809_dofusdb_item_supertype from './20261104_192809_dofusdb_item_supertype';
 import * as migration_20261104_195910_needs_list from './20261104_195910_needs_list';
+import * as migration_20261104_210644_guide_single_quest from './20261104_210644_guide_single_quest';
 
 export const migrations = [
   {
@@ -34,6 +35,11 @@ export const migrations = [
   {
     up: migration_20261104_195910_needs_list.up,
     down: migration_20261104_195910_needs_list.down,
-    name: '20261104_195910_needs_list'
+    name: '20261104_195910_needs_list',
+  },
+  {
+    up: migration_20261104_210644_guide_single_quest.up,
+    down: migration_20261104_210644_guide_single_quest.down,
+    name: '20261104_210644_guide_single_quest'
   },
 ];
