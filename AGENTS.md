@@ -15,7 +15,7 @@ Every change: code, content model, migrations, data, docs, CI. Read this file be
 3. Schema change: generate and commit the migration in the same branch.
 4. Run lint, format check, types, unit and integration locally before each push; run E2E and the dev gate suite once, right before opening the PR, not per commit or per fix (see Testing). Report failures verbatim. The pre-commit hook runs Prettier, ESLint and the `gga` review on staged files; do not skip it (`--no-verify`, `LEFTHOOK=0`, `LEFTHOOK_EXCLUDE`) unless the user asks.
 5. UI change: screenshots at 1440, 1024 and 390 px, Arcano dark and light (plus any theme the change touches), in `tmp/shots/`, next to the approved mockup.
-6. Refresh the wiki in the same branch (see Wiki), then open the PR: conventional commit title, Spanish body. No auto-merge unless asked.
+6. Open the PR: conventional commit title, Spanish body. Leave `openwiki/` alone; a daily task refreshes it (see Wiki). No auto-merge unless asked.
 
 ## Stack
 
@@ -184,9 +184,10 @@ Mockups first, the user picks, then implement. Details and screenshot rules are 
 
 `openwiki/` is the repo's generated documentation, built with the `openwiki` skill. It is the only generated documentation. The hand-written docs it replaced live in `docs/legacy/`, kept for decisions and infrastructure state the code does not show.
 
-- Before opening any PR, run the `openwiki` skill in `update` mode and commit the `openwiki/` changes it makes in that same PR. If it returns `noop`, there is nothing to commit.
-- No hook or workflow runs it. The OpenWiki block below mentions a scheduled workflow; this repo has none on purpose. If the skill creates `.github/workflows/openwiki-update.yml`, delete it and do not commit it.
-- Do not edit generated pages, `openwiki/.claims/`, the indexes or `openwiki/.last-update.json` by hand. Change the source and run the skill again.
+- A scheduled agent task outside the repo refreshes the wiki once a day. It is a T3 Code scheduled task on the maintainer's machine. It runs the `openwiki` skill in `update` mode on `main`, opens a docs PR with the `openwiki/` changes and rebase-merges it when `Pruebas` passes. If the skill returns `noop`, there is no PR.
+- Feature PRs do not run the skill and do not touch `openwiki/`. If a day has no run, the next run picks up every change since the last update.
+- No hook or workflow in the repo runs it. The OpenWiki block below mentions a scheduled GitHub Actions workflow; this repo has none on purpose. If the skill creates `.github/workflows/openwiki-update.yml`, delete it and do not commit it.
+- Do not edit generated pages, `openwiki/.claims/`, the indexes or `openwiki/.last-update.json` by hand. Change the source; the next daily run regenerates them.
 
 <!-- OPENWIKI:START -->
 
