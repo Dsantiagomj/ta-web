@@ -1,0 +1,114 @@
+[
+  {
+    "id": 878,
+    "name": {
+      "id": "94523",
+      "de": "Die Weißnachtssterne",
+      "en": "The Kwismas Stars",
+      "es": "Las estrellas de Nawidad",
+      "fr": "Les Étoiles de Nowel",
+      "pt": "As Estrelas de Nataw"
+    },
+    "levelMin": 20,
+    "levelMax": 200,
+    "categoryId": 26,
+    "startCriterion": "PL>19",
+    "startPosition": [
+      {
+        "mapId": 66062340,
+        "npcId": 1545
+      }
+    ],
+    "need": {
+      "items": [],
+      "quantities": [],
+      "quests": [],
+      "achievements": []
+    }
+  },
+  {
+    "id": 879,
+    "name": {
+      "id": "886466",
+      "de": "Wie ein geölter Blitz",
+      "en": "Grease Is the Word",
+      "es": "Engrasar bien para tirar mejor",
+      "fr": "Bien lubrifier pour mieux tirer",
+      "pt": "Lubrificar bem para atirar melhor"
+    },
+    "levelMin": 20,
+    "levelMax": 200,
+    "categoryId": 26,
+    "startCriterion": "Qf=871&Qa=878",
+    "startPosition": [
+      {
+        "mapId": 85986816,
+        "npcId": 1531
+      }
+    ],
+    "need": {
+      "items": [1750],
+      "quantities": [50],
+      "quests": [871, 878],
+      "achievements": []
+    }
+  },
+  {
+    "id": 880,
+    "name": {
+      "id": "94499",
+      "de": "N.R.Fliegt",
+      "en": "The L.O. Peril",
+      "es": "¡M.O. Pardy!",
+      "fr": "G.O. pardi !",
+      "pt": "G.O. por Deus!"
+    },
+    "levelMin": 20,
+    "levelMax": 200,
+    "categoryId": 26,
+    "startCriterion": "Qf=879&Qa=878",
+    "startPosition": [
+      {
+        "mapId": 66192898,
+        "npcId": 1419
+      }
+    ],
+    "need": {
+      "items": [],
+      "quantities": [],
+      "quests": [879, 878],
+      "achievements": []
+    }
+  },
+  {
+    "id": 89,
+    "name": {
+      "id": "520093",
+      "de": "Tabi la Rasa?",
+      "en": "Tablop",
+      "es": "Mami, ¿qué será lo que quiere el tabi?",
+      "fr": "Tabi t'a fleuri ?",
+      "pt": "Tabi em apuros"
+    },
+    "levelMin": 95,
+    "levelMax": 95,
+    "categoryId": 9,
+    "startCriterion": "Ps=1&Pa=34&PL>89&Qf=88",
+    "startPosition": [
+      {
+        "mapId": 212730368,
+        "npcId": 201
+      },
+      {
+        "mapId": 219153408,
+        "npcId": 6364
+      }
+    ],
+    "need": {
+      "items": [2356],
+      "quantities": [1],
+      "quests": [88],
+      "achievements": []
+    }
+  }
+]
