@@ -102,7 +102,7 @@ Every variable the app reads goes in `.env.example` in the same PR (AGENTS.md). 
 - Workspace `DSMJProjects`, project `ta-web` (`e7259c49-dfaa-4d86-9c5c-e2461681fdf5`), service `web`.
 - Environments `dev` and `production`, region `us-east4-eqdc4a` (US East, Virginia).
 - Domains: dev `https://ta-web-dev.up.railway.app`, prod `https://ta-web-production-7f45.up.railway.app`.
-- `dev` has the GitHub source `main` with `checkSuites: false` in `.railway/railway.ts`: it deploys without waiting for the checks. Until `railway config apply` runs for `dev` after that change merges, Railway keeps `checkSuites` on and waits for the checks. `production` has no source; only `release.yml` deploys it, with `railway up`.
+- `dev` has the GitHub source `main` with `checkSuites: false` in `.railway/railway.ts`: it deploys without waiting for the checks (applied to `dev` with `railway config apply` on 2026-11-04). `production` has no source; only `release.yml` deploys it, with `railway up`.
 - Config comes from `.railway/railway.ts`, applied to both environments with `railway config plan` and `railway config apply` on 2026-11-03.
 - First dev deploy succeeded on 2026-11-03: the pre-deploy applied migration `20261103_030359_initial`, `/api/health` answered ok, and basic auth and `X-Robots-Tag` behaved as expected.
 - First prod deploy succeeded on 2026-11-03 with release `v0.1.0` (commit `172686b`): the pre-deploy applied `20261103_030359_initial` to Neon `main`, `/api/health` reported the commit, and the smoke suite passed. Prod serves without basic auth, and `robots.txt` allows everything except `/admin`.
@@ -178,9 +178,10 @@ Checked against the real accounts on 2026-11-03:
 - A wrong `RAILWAY_TOKEN` fails the release at "Fijar el commit y la versión desplegados" ("Invalid RAILWAY_TOKEN"), before anything is deployed. After fixing the secret, re-running the failed release with the same version works; the tag and GitHub release from the first attempt are reused.
 - Sentry members of the `dsmjdev` organization cannot create projects (the API answers 403, "Your organization has disabled this feature for members"). An owner or manager creates them, or enables project creation for members.
 - Sentry Uptime cannot monitor `*.railway.app`. Creating the monitor answered 400: "The domain \*.railway.app has already been used in 1000 uptime monitoring alerts, which is the limit." The cap is per domain across all Sentry customers. Uptime runs on Better Stack until the app has its own domain.
+- `railway config plan` always shows `deploy.restartPolicyType (null → "ON_FAILURE")` for both environments, even right after an apply: Railway stores the default policy `ON_FAILURE` as `null`. The diff is harmless; the applied policy is `ON_FAILURE`.
 - `preserve()` on a variable that does not exist yet (`SENTRY_AUTH_TOKEN`) plans no change and no error, so a secret can be declared before it is set.
 - A variable added in the Railway dashboard is only staged. It takes effect after Deploy on the environment's staged changes, which redeploys the current build (prod `SENTRY_AUTH_TOKEN`).
-- Dev waits for every GitHub check on the commit, not only `Pruebas`. A failed Dependabot security update (it could not lift `glob` past 13.x) made Railway skip the deploy of that commit, and a later redeploy of the same commit is skipped too. Dismissing the alert as an accepted risk stops the job; the next commit deploys.
+- Dev used to wait for every GitHub check on the commit, not only `Pruebas`. A failed Dependabot security update (it could not lift `glob` past 13.x) made Railway skip the deploy of that commit, and a later redeploy of the same commit was skipped too; dismissing the alert as an accepted risk stopped the job. That, plus the time CI on `main` added to every dev deploy, is why `checkSuites: false` was applied to `dev` on 2026-11-04.
 
 ## 10. Status and what is left
 
