@@ -80,10 +80,13 @@ describe('colección quest-guides', () => {
     expect(quests).not.toHaveProperty('required', true)
   })
 
-  it('la misión es el primer campo, en el área principal', () => {
+  it('la misión es el primer campo, en el área principal, y rellena el formulario al elegirla', () => {
     const [first] = QuestGuides.fields
     expect(first).toMatchObject({ name: 'quests' })
     expect(first.admin).not.toHaveProperty('position')
+    expect(first.admin?.components).toEqual({
+      Description: '/components/quest-guide-admin/QuestAutofill#QuestAutofill',
+    })
   })
 
   it('guarda un resumen propio con prerrequisitos, objetos, recompensas e inicio', () => {
@@ -98,6 +101,18 @@ describe('colección quest-guides', () => {
     expect(field('startNpc', summary.fields)).toMatchObject({ type: 'text', localized: true })
     expect(field('startX', summary.fields)).toMatchObject({ type: 'number' })
     expect(field('startY', summary.fields)).toMatchObject({ type: 'number' })
+  })
+
+  it('debajo de cada campo del resumen muestra lo que hereda de DofusDB', () => {
+    const summary = field('summary') as GroupField
+    for (const name of ['prerequisites', 'needs', 'rewards', 'startNpc', 'startX', 'startY']) {
+      expect(field(name, summary.fields).admin?.components).toEqual({
+        Description: {
+          path: '/components/quest-guide-admin/InheritedValue#InheritedValue',
+          clientProps: { summaryField: name },
+        },
+      })
+    }
   })
 
   it('arma el cuerpo con bloques de texto, imagen, vídeo y aviso', () => {
