@@ -34,5 +34,6 @@ describe('migraciones', () => {
 
     const up = payloadCli('migrate')
     expect(up).toContain(`Migrated:  ${latest}`)
-  })
+    // Arranca la CLI de Payload dos veces; con la máquina cargada pasa de los 30 s por defecto.
+  }, 120_000)
 })
