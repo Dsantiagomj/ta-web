@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:0f1e45e36b76a5a4de09538c14e8df1ee90089ef0eff82396c115b376e1dfca5",
+  "pageVersion": "sha256:3a87fe6cf3a8d1c13779a08259f808e112b59a2bed6491afaa237b269bce9f34",
   "claims": [
     {
       "id": "claim_2337c4767f624841a8302780adbb1ac7",
@@ -67,10 +67,24 @@
           "version": "repo-lines-v1:sha256:af473321b0ab91fb608621b141a17f38fcc77bda390562403de28abb4fb20bde:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTQ1Mjg1MmM4MmEyMTYxMzVkZWFjNDVhN2ZjYjljNjFmODQ1ZmJmYzkxOGUxYzJmZDY3NDFhMjJhYjc4ZDQ0YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDA0NmE2ZDEzZTA4ZTA3MDUyMTk2NTVmYzU5MTBjZTdlMjZhODY5ZGI4YWY3NjdkYzc1NTEwZTAzNzQzMzU4OCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWE0YWE1Y2EzN2ViMmQ3ODM1ZjVkYWY0ZjBiMjZkZjQ4OWMyYjI4ZDI3YjZkNDBlMTNlOWQ2NjU3MzE1YmJlYiJ9"
         }
       ]
+    },
+    {
+      "id": "claim_cf50a696afb34424bc00a0d0f0515448",
+      "statement": "Quest guide bodies are built from rich text, image, video and callout blocks defined in src/blocks/.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/QuestGuides.ts#L3-L6",
+          "version": "repo-lines-v1:sha256:ff8f5769570a99503a39b5a65b2efb1f6d31468c7c67b33cbc299b44c33531ec:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzdhNzg0Nzg4ZTE0ODFkZmI0MzU3MGM5MjdhODk4MzgwMGU3MDU3MTFjNWZlMTQyYmI4MGFhMGI2ZWY0NDIzMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2RmNmJkZmMzMjIyMjc2YzZhZjU0NjUwZTQ2Nzc4YzgzODg2MGE5OWVlZDkzODE2YmU3ZGVlNmQ5MWRiYzE4ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjIsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWVjMWRmOTMxM2NlM2VjZmYzODU1MGFiMzBkODU1OTE1Y2QzYzVhZDJiZTk3NzFmODllYjM5OTE2NTJmMWY1OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzRkYjUyZmEzZDMxNzUxMzU3NThlZmZmZmE5MmRjODg0NzY3YzA4MmI1NTA5MTY2YmY0ZGJkNmU1OWI2MzJkNCJ9"
+        },
+        {
+          "resource": "repo://src/collections/QuestGuides.ts#L93-L99",
+          "version": "repo-lines-v1:sha256:446d258d9f03fbae3e42ff67c16dbc3a907a6f107fcb0dca64b7c37d2f9203b2:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjljYTg5MWJmZjdhYzFmN2NlYWFlNDBlZjA1MTA2NmJlOWVmZTQ3YjRlNDI4MWU4NmMzMTliZTJjNTVlYmNlNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDlkZTRjZmY2NjU1OWRiZDI5NzhjYzVhZTUyMjY5MzUyNDNmNzk1MzI4ODE5YTBjOTZkMGY4NzM0MWYwZTc2OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTEyYzM2NmRjN2IwMjJjNWVlOWY1MTU0NTI1MTYyNDJhMzc0M2NhNzUwY2NkNjA2YjVkMTkyZGI0NGIyMjY3NSJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T12:18:18.185Z"
+    "at": "2026-11-04T12:46:56.619Z"
   }
 }

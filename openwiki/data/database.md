@@ -20,6 +20,8 @@ sources:
     resource: repo://src/migrations/20261103_030359_initial.ts
   - id: openwiki-source-a4ca0c9844f6e5f5c7edac75
     resource: repo://src/migrations/20261104_070541_quests.ts
+  - id: openwiki-source-4b8e99ccf872ed7c776196a6
+    resource: repo://src/migrations/20261104_124207_quest_guides.ts
   - id: openwiki-source-c306fbe28866186a2df852b4
     resource: repo://src/migrations/index.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
@@ -28,10 +30,10 @@ sources:
     resource: repo://tests/integration/migrations.test.ts
   - id: openwiki-source-b031ce15fe3cb852929a85bf
     resource: repo://tests/unit/database-url.test.ts
-generated: { by: "claude-code", at: "2026-11-04T07:16:27.262Z" }
+generated: { by: "claude-code", at: "2026-11-04T12:46:56.619Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T07:16:27.262Z
+    at: 2026-11-04T12:46:56.619Z
 ---
 
 # Database and migrations
@@ -89,12 +91,13 @@ This means E2E and CI exercise the same path as production: an empty database pl
 
 ## Migrations
 
-Migrations live in `src/migrations/` and are listed in `src/migrations/index.ts`. Each has a `.ts` file with `up` and `down` (raw SQL through `db.execute(sql\`…\`)`) and a `.json` snapshot Payload uses to compute the next diff. There are two today:
+Migrations live in `src/migrations/` and are listed in `src/migrations/index.ts`. Each has a `.ts` file with `up` and `down` (raw SQL through `db.execute(sql\`…\`)`) and a `.json` snapshot Payload uses to compute the next diff. There are three today:
 
 - `20261103_030359_initial` creates the `users`, `users_sessions`, `media`, `media_variants`, `media_locales` and Payload system tables (`payload_kv`, `payload_locked_documents`, `payload_preferences`, `payload_migrations` and their relation tables).
 - `20261104_070541_quests` adds the [quests collection](../cms/collections.md): `quests` with a unique index on `dofus_id`, `quests_locales`, `quests_rels` (for `prerequisites`), `quests_start_positions` and `quests_start_positions_locales`, plus a `quests_id` column on `payload_locked_documents_rels`. Its `down` drops all of them. It does not drop the `payload_locked_documents_rels_quests_fk` constraint separately, because `DROP TABLE "quests" CASCADE` already removes it and a second drop would make the rollback fail.
+- `20261104_124207_quest_guides` adds the [quest guides collection](../cms/collections.md): `quest_guides` with a unique index on `slug` and a `_status` enum defaulting to `draft`, `quest_guides_locales`, `quest_guides_rels` (for `quests`), one table plus a `_locales` table per [body block](../cms/blocks.md) type (`quest_guides_blocks_rich_text`, `_image`, `_video`, `_callout`), and the matching version tables under `_quest_guides_v*`, plus a `quest_guides_id` column on `payload_locked_documents_rels`. Payload generated its `down` with the same redundant drop of `payload_locked_documents_rels_quest_guides_fk` as the quests migration; it was removed for the same reason, and a comment in the `down` records it.
 
-Every migration must roll back cleanly: if a `down` fails, a bad deploy has no way back. `tests/integration/migrations.test.ts` checks this for the latest migration (the last entry in `src/migrations/index.ts`). It runs the Payload CLI, `pnpm payload migrate:down` and then `pnpm payload migrate`, against the integration database with `DATABASE_CONNECTION=direct`, and asserts the latest migration is rolled back and then re-applied, so the database ends as it started. It uses the CLI because Payload imports migration files with Node, not Vitest. It avoids `migrate:refresh`, which in Payload 3.92 rolls back oldest first and fails. When a command fails, the test rethrows with the CLI's stdout and stderr so the Postgres error is visible.
+Every migration must roll back cleanly: if a `down` fails, a bad deploy has no way back. `tests/integration/migrations.test.ts` checks this for the latest migration (the last entry in `src/migrations/index.ts`, today `20261104_124207_quest_guides`). It runs the Payload CLI, `pnpm payload migrate:down` and then `pnpm payload migrate`, against the integration database with `DATABASE_CONNECTION=direct`, and asserts the latest migration is rolled back and then re-applied, so the database ends as it started. It uses the CLI because Payload imports migration files with Node, not Vitest. It avoids `migrate:refresh`, which in Payload 3.92 rolls back oldest first and fails. When a command fails, the test rethrows with the CLI's stdout and stderr so the Postgres error is visible.
 
 In deployed environments, Railway runs `pnpm migrate` as the pre-deploy command with a 600-second timeout. If it fails, the deploy stops and the previous version keeps serving. See [Deployment and releases](../operations/deployment.md).
 

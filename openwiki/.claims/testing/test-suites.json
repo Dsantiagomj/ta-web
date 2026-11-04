@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:f4fda690c3e592ee0b6181ef06ec0e6ac228b3be2dc779d30fb263ecd9908317",
+  "pageVersion": "sha256:103771e69bee3900339857d8614269ff246aab934afb1670029b7bac294234f0",
   "claims": [
     {
       "id": "claim_764b0485963845c99d60b85472ceccba",
@@ -195,10 +195,34 @@
           "version": "repo-lines-v1:sha256:9e725000906f85cc31c63bb15086fb874b72f122b7858bc94e2f952f69af3045:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMThiOTYwODQ5NTRlZTYwMDhhNDEzZDMyMzY3NjEwNzMxZWFjZTUwNGJiODI0YmNhYzkzZDBjMTIzNmM5OTY2OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzBkMmM1YThlNzNiMzY4MjJjM2UzNjhmYTAwZTZlZWI0YWVkOWE0Mjc1MTdjOGY0NTE0NzQ3ODc0NTNmNjhlYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTQ0NDliZGY2MjZiZmEwODNjZjIwODM4ZGNiZDU4Y2FhNzY3ODIxZTg5ZDg1MzU3YzE5NzlhZjVhYTE5Zjg5ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzBmOGNmNDVkNTQwMjNlMmY0MmU2Nzk4YjE4ODg1MjA0MzU5ZTMwNWUzZmM1ZTE0NmZlYTAwMWE3MzYzZTBiYyJ9"
         }
       ]
+    },
+    {
+      "id": "claim_2456aef7c9a84786afc8ff95cbbb140c",
+      "statement": "Unit tests pin the quest-guides collection's fields, versions, validateSlug and access functions, and each guide body block's fields and validateVideoUrl.",
+      "evidence": [
+        {
+          "resource": "repo://tests/unit/quest-guide-blocks.test.ts#L15-L97",
+          "version": "repo-lines-v1:sha256:cd22a41a54ee1b44cdf9747ee1cf8429c71d8da1950e12071b86fc75a2e6dc95:eyJzZWxlY3RlZExpbmVDb3VudCI6ODMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwYjg3MGM4MDhiYzA0YjNjYmExYTdkZGQyYjQ4MWM2M2Y2ZGMyZWQxZjBkY2IyZDdjZTYwNDVhNDhmNzczMTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE3MjM4YWRlZDExMzA2Zjg1MzNiYmNlOTM4OTQ5NjlhZTljNTczNTM5ZjhmYmM4ODQzNTFhNTIzNzM5YWEyNzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/quest-guides-collection.test.ts#L24-L159",
+          "version": "repo-lines-v1:sha256:0102ae34caa5c66558d1e6708bd995f74ac053b56d3d546af62b54ed13ab8471:eyJzZWxlY3RlZExpbmVDb3VudCI6MTM2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlMjRjZmM0OTVjZjFjOGYyZWQyNzBkYjY5NjVhMGViZDcyYzU3ZDU2NjI3NDViNjRjYzk0YzA3ZjBiNTlhZDQzIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlOWQ4NzI5ZTVkOWE5YTNiZmJhNjU0ODkyZDM5YjdiMjRjM2IyNzMwZTQyMGFkMzVlZmI2YTM2NzIxOGI1YzkyIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_4084890f74c5493893f4b425b0774013",
+      "statement": "The quest-guides access integration test checks that anonymous reads hide drafts and cannot write, that a panel user can publish a draft and get a version, and that a guide with all four body blocks, linked quests and an image saves and reads back, deleting all guides, quests and media afterwards.",
+      "evidence": [
+        {
+          "resource": "repo://tests/integration/quest-guides-access.test.ts#L37-L240",
+          "version": "repo-lines-v1:sha256:d43a8d9777e25ccfbfbec3cd408a70cb57f7dd81d24c975c1c2c9b3a463508da:eyJzZWxlY3RlZExpbmVDb3VudCI6MjA0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIwZTgxOGNlMGMwM2JjNGEyMmMyN2ZiZTRiYjQ4NDkyYjBkODQ0MzQyNjYxNDMzYzUyYzU1ODk5NDMzMzM5NjdlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIwMTI2MmMzNWU1ZTkyYWU5YTIxNzA2NzM1MjM3OTBiYjc1YzliMmY0NDQ1MDM3NmE3MzE3ZTQ3M2ExOGRkNzA3IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T12:18:18.185Z"
+    "at": "2026-11-04T12:46:56.619Z"
   }
 }

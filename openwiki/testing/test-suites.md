@@ -5,7 +5,7 @@ description: The five test suites (unit, integration, E2E, dev-gate E2E and smok
 tags: [testing, vitest, playwright, integration, e2e]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T12:18:18.185Z
+    at: 2026-11-04T12:46:56.619Z
 sources:
   - id: openwiki-source-5e753d9d77984cb67aae1517
     resource: repo://playwright.config.ts
@@ -25,6 +25,8 @@ sources:
     resource: repo://tests/integration/migrations.test.ts
   - id: openwiki-source-dbcd0524c9464e05f7f54ade
     resource: repo://tests/integration/payload.ts
+  - id: openwiki-source-7b27bf36255a812248aa50e8
+    resource: repo://tests/integration/quest-guides-access.test.ts
   - id: openwiki-source-cbffdb2343060c99a7477cfa
     resource: repo://tests/integration/refresh-quests.test.ts
   - id: openwiki-source-1843fcebd4e1a5a852fbfef6
@@ -33,6 +35,10 @@ sources:
     resource: repo://tests/unit/dofusdb-fetch-quest-data.test.ts
   - id: openwiki-source-1a4d893bc4ddfe68ab2aff11
     resource: repo://tests/unit/dofusdb-map-quest.test.ts
+  - id: openwiki-source-ae7421f61722d14d3413a918
+    resource: repo://tests/unit/quest-guide-blocks.test.ts
+  - id: openwiki-source-1970468d3fcc651d5071b312
+    resource: repo://tests/unit/quest-guides-collection.test.ts
   - id: openwiki-source-6678095e74d244708e64ddd4
     resource: repo://tests/unit/quests-collection.test.ts
   - id: openwiki-source-56eed4e45701ea6820d33662
@@ -41,7 +47,7 @@ sources:
     resource: repo://vitest.config.mts
   - id: openwiki-source-57da85ca1bb457973a5594ff
     resource: repo://vitest.integration.config.mts
-generated: { by: "claude-code", at: "2026-11-04T12:18:18.185Z" }
+generated: { by: "claude-code", at: "2026-11-04T12:46:56.619Z" }
 ---
 
 # Test suites
@@ -62,6 +68,7 @@ The repo works test-first (AGENTS.md: strict TDD). There are five suites. All of
 
 - configuration: `database-url`, `media-storage`, `sentry-options`, `railway-config` (evaluates `.railway/railway.ts` for each environment), `next-config`, `test-database-env`;
 - behavior: `health` (fake pool and timers), `dev-gate`, `robots`, `theme`, `mode-script`, `mode-toggle-strings`, `media-collection`, `quests-collection`;
+- quest guides: `quest-guides-collection` (fields, versions, `validateSlug` and the access functions) and `quest-guide-blocks` (each body block's fields and `validateVideoUrl`);
 - DofusDB refresh: `dofusdb-client` (paging, ID chunks, pauses and errors through an injected fake `fetch`, never the network), `dofusdb-map-quest` (names, start positions and the prerequisite rule) and `dofusdb-fetch-quest-data` (only the NPCs and maps named in start positions are looked up);
 - tooling: `commit-msg` (runs the git hook script).
 
@@ -74,6 +81,7 @@ Real Payload (`getPayload`) against a real Postgres with the committed migration
 - `tests/integration/global-setup.ts`: with no `DATABASE_URL`, it starts `pnpm db:dev` if port 54329 is closed (and stops it afterwards, or on setup failure), recreates `ta_web_integration`, then runs `pnpm migrate`. With `DATABASE_URL` (CI's empty Postgres service) it only migrates.
 - Helpers in `tests/integration/payload.ts`: `startPayload`, `tinyPng` (a 1×1 PNG in memory) and `createPanelUser` (creates and logs in a panel user, returning what Payload puts in `req.user`).
 - Access tests call the local API with `overrideAccess: false`; omitting `user` makes the call anonymous. See [Collections and access](../cms/collections.md).
+- `quest-guides-access.test.ts` goes further than the other access tests: besides who may read and write, it checks that anonymous reads hide drafts, that a panel user can publish a draft and get a version, and that a guide with all four [body blocks](../cms/blocks.md), linked quests and an image saves and reads back. When it finishes it deletes every guide, quest and media document in the integration database.
 - `refresh-quests.test.ts` runs `refreshQuests` three times against the integration database: the first run creates the fixture quests and skips missing prerequisites, a second run with the same data changes nothing and keeps `refreshedAt`, and a third run updates only what changed and links a prerequisite that now exists. It deletes its fixture quests before and after. See [DofusDB game data refresh](../data/dofusdb-refresh.md).
 - `migrations.test.ts` checks that the latest migration rolls back and re-applies: it runs the Payload CLI (`pnpm payload migrate:down`, then `pnpm payload migrate`) with `integrationEnv` and `DATABASE_CONNECTION=direct`, leaving the database as it was. See [Database and migrations](../data/database.md#migrations).
 
@@ -121,3 +129,5 @@ Specs:
 - [Database and migrations](../data/database.md)
 - [Dev environment gate](../operations/dev-gate.md)
 - [DofusDB game data refresh](../data/dofusdb-refresh.md)
+- [Collections and access](../cms/collections.md)
+- [Guide body blocks](../cms/blocks.md)

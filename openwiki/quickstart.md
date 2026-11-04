@@ -16,10 +16,12 @@ sources:
     resource: repo://scripts/db-dev.ts
   - id: openwiki-source-63cbcc482c18e4f9ce5d0888
     resource: repo://scripts/refresh-quests.ts
-generated: { by: "claude-code", at: "2026-11-04T12:18:18.185Z" }
+  - id: openwiki-source-7a2723ea85824e431ff5eb54
+    resource: repo://src/collections/QuestGuides.ts
+generated: { by: "claude-code", at: "2026-11-04T12:46:56.619Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T12:18:18.185Z
+    at: 2026-11-04T12:46:56.619Z
 ---
 
 # Quickstart
@@ -52,6 +54,7 @@ Node 24 (≥ 24.22.1) and pnpm 11. No Docker. Details in [Local development](wor
 | Know what an environment variable does, or add one | [Environment configuration](architecture/configuration.md) |
 | Change Payload settings, add an endpoint or admin component | [Payload CMS configuration](cms/payload-config.md) |
 | Add or change a collection, or its access rules | [Collections and access](cms/collections.md) |
+| Add or change a block in a guide body (rich text, image, video, callout) | [Guide body blocks](cms/blocks.md) |
 | Change the schema, connect to Neon, reset local data | [Database and migrations](data/database.md) |
 | Load or refresh DofusDB quests (`pnpm data:quests`) | [DofusDB game data refresh](data/dofusdb-refresh.md) |
 | Upload files, configure R2, serve images | [Media storage](media/storage.md) |

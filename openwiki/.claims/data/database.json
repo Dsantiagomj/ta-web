@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:a7a7459e19e2611406a2b21183358a14cba7916b0b15714544600f0829d9de4e",
+  "pageVersion": "sha256:b60f57e630c9a0d77e5fa734bda4c7f73882c7427006b38cfd633c355febf49a",
   "claims": [
     {
       "id": "claim_c4d0210fcc834f69a874cfcee7b4d598",
@@ -80,11 +80,11 @@
     },
     {
       "id": "claim_08141421a97143cc8073d709e4bf1805",
-      "statement": "There are two migrations today, 20261103_030359_initial and 20261104_070541_quests, registered in src/migrations/index.ts.",
+      "statement": "There are three migrations today, 20261103_030359_initial, 20261104_070541_quests and 20261104_124207_quest_guides, registered in src/migrations/index.ts.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/index.ts#L1-L15",
-          "version": "repo-lines-v1:sha256:6d2928db12eb710a61d2ef2e0bae89bf4b7cb99d7cd72ff4878565f18426f044:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0NTE2NDJiYzU5Y2ExMDYyN2M5YzVjMTc2YTQ1MDQ3MTRlOGNlMjc4MGVhODM2NmJkNzZjNjIxN2MxMTU4YWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/migrations/index.ts#L1-L21",
+          "version": "repo-lines-v1:sha256:8ffe165c12baee327ae985dfbf6fa43f30a82eb9dd00976bbf87d8a3795b0173:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0NTE2NDJiYzU5Y2ExMDYyN2M5YzVjMTc2YTQ1MDQ3MTRlOGNlMjc4MGVhODM2NmJkNzZjNjIxN2MxMTU4YWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -113,8 +113,8 @@
       "statement": "The Postgres pool uses a 5 second connection timeout and logs pool errors instead of crashing.",
       "evidence": [
         {
-          "resource": "repo://src/payload.config.ts#L48-L61",
-          "version": "repo-lines-v1:sha256:1bcb37ec3c874a5e2bb870d1b48896a15bca796c87f45c13f4bb0e0065c489b7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMzMTk4MTZiY2MwODBjZmY3NWNkY2Y4OWExMTc4OGVlYTVmNGExMzAyYjYyNDcxNGUzMGU4NWQwOTg5OTY5MjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQyZGQ5NDk1ZGFjYWY0YzgwYTU5OWU4NGJlYWQ3OTRlNTVjNGE1ZTBjYmJjZWY5MzdmYmRiOGUyOTVmYTVkN2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUyNThlMDc1NzNjMmMzODBmMWM4YWFmNmU5M2U1YjZhODdkMzM3OWE3YTY4ZjYyNjNhNDE5NGMxZTA2NTJmM2YifQ"
+          "resource": "repo://src/payload.config.ts#L48-L62",
+          "version": "repo-lines-v1:sha256:2e69736945af72d4dbed350aae0e9c5a75bb2a4a9e29b762efda7d7ced0fcbd9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0MGM0NGQ4MDg5NWUwMmY4N2E1YzUzMDc4MjkzYTgwYmZhYjFiOTdhNTAyNjJjZDZjNGMwZGFkYWI4MDkzODYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjljZTAzMzVlOWExMWI0N2I5NjU1Njc2MTc0NTlhYWQ4OTMzZjI0YzYxNmUyNDZkZGI0MWMwYzIyMzY1OWJhMDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUyNThlMDc1NzNjMmMzODBmMWM4YWFmNmU5M2U1YjZhODdkMzM3OWE3YTY4ZjYyNjNhNDE5NGMxZTA2NTJmM2YifQ"
         }
       ]
     },
@@ -143,8 +143,8 @@
       "statement": "tests/integration/migrations.test.ts runs pnpm payload migrate:down and then pnpm payload migrate against the integration database with DATABASE_CONNECTION=direct, asserting the latest migration in src/migrations/index.ts is rolled back and re-applied.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/index.ts#L4-L15",
-          "version": "repo-lines-v1:sha256:5c94bc99d4f118b305ccc1ed0e49303dc47e20c4362f85381e5f3d2c524af3e2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMGVkYzRmYjExMzQ3MTVkZmYyYWMxM2VkNzlhODc3YmQzOGQxMTdiNzY0MjViMGJiMzJlMGRhZDgzY2IzNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjliNDRkOTkyYzY1Y2E1NzFlYjllMjdhM2Q0ZjI3NDFiMDg2MzVhZjA4NmJkMzRhZTYxOGFiNjA4MDQyZDQyOGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/migrations/index.ts#L5-L21",
+          "version": "repo-lines-v1:sha256:384a9f4b772d8ea00f1277cb6978c0c53c0894ca7e1f7b90ee639c47f550d72b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMGVkYzRmYjExMzQ3MTVkZmYyYWMxM2VkNzlhODc3YmQzOGQxMTdiNzY0MjViMGJiMzJlMGRhZDgzY2IzNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFkM2MwM2NjMjM4MDUyNGJkOTk3ODhmM2FkYWFkNDJlNGM1NDQ0NzFiODA1ZWJiMzc0YjVhMThhNjNjNWM5MjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://tests/integration/migrations.test.ts#L8-L38",
@@ -175,10 +175,34 @@
           "version": "repo-lines-v1:sha256:13485947fcd7bb5ef4e1964efe1bd9af1e00c7b19301df22f08c06c798add6a0:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGVkYmY4Mzg3NTM2ODk2NmYzMTNhZTYzOTUzOWM0MDM3MDA0NWJhNTNlMmUyY2VlOTNiYjY3ZDVkYTE3Yjk4MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjdlNTc4OGQ1ZDlkNzNkMjRhODFkYmMwYTVhNzRiZmE4MmM5YzNiM2FmOTllNTJhZjc5NmU5MGI0NjhhOGEzZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTZhNzY3ODEyMzA1MjJjNTg0ZjM0MTVmNzgyZTliYmE0YmU0Y2M1Y2VmYTIxYjBkNDQyODE0NWM0NmFhYmFhYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzI3YzA3ZGNjMzViZGNkYjFiOGVjOTNlNjA1NzdiNzQ1M2JkOTkzN2ZhODNkYzdiMTUxMmVjNDZkNGViOTY2MiJ9"
         }
       ]
+    },
+    {
+      "id": "claim_c0ac3c608ed5436e9298e589cb94aac3",
+      "statement": "The quest_guides migration creates quest_guides with a unique slug index and a _status enum defaulting to draft, quest_guides_locales, quest_guides_rels, a table and _locales table per body block type, the _quest_guides_v version tables, and a quest_guides_id column on payload_locked_documents_rels; its down drops them.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261104_124207_quest_guides.ts#L3-L307",
+          "version": "repo-lines-v1:sha256:19904affaf53cc7348f538b202c437e93b097eff13faf0b45f6df588e5060ef1:eyJzZWxlY3RlZExpbmVDb3VudCI6MzA1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIxMDI0YzA3OTZjMDQwMDk1N2FjN2Q5OTZmNTQ1YmM3YzY1YmY5OTMyZDc1M2I0ZTdjYWRiYzkxNmFkYTU5MjY4IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIwMWJhNDcxOWM4MGI2ZmU5MTFiMDkxYTdjMDUxMjRiNjRlZWVjZTk2NGUwOWMwNThlZjhmOTgwNWRhY2E1NDZiIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MiwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJjOWYzMzhmYjBiMWMzZDhlNTc3MGE1NjI0MWE1NzQ3NDUwNjEzNmIzODAzOGY3ZWU0YjEyYjY1NTk2MmVkZGQxIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIwYTJkN2UzMDkxMzczMTQ1ZTQ2NDNiOWExNGJmYjUzNzViNGY0M2U3ZGY5ZmM5YWU4NjJhOWRmNTcxNGY4Y2I1In0"
+        },
+        {
+          "resource": "repo://src/migrations/20261104_124207_quest_guides.ts#L308-L362",
+          "version": "repo-lines-v1:sha256:468230f7cef1028a8a2c1307c92e87b2eb196dbe426566d7b5175fc7812010bf:eyJzZWxlY3RlZExpbmVDb3VudCI6NTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhNzQ5ZmQxN2MwY2Q2NzlmYmZmYzdmNmYyYzBkY2IxNWE1Mjg0YTc2MTg1NGY3ZWI3YTM4MTAyNjljOGVmZmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM4NDc5MDcxNjc5MDE1N2I2Y2QxMjVjN2RhYzIwODVhNzc0NGY2NmRhNjA2NWJjNmViNzdiYTgxZTFlM2FlNjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_253fe05a22fd47b6865829bda3559713",
+      "statement": "The quest_guides migration's down does not drop payload_locked_documents_rels_quest_guides_fk separately, because DROP TABLE \"quest_guides\" CASCADE already removes it.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261104_124207_quest_guides.ts#L340-L356",
+          "version": "repo-lines-v1:sha256:84248c72ba3920b46cdbe66bf40d6609feb174a95b6d27299d4af34b5d8b3fce:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhNjBhMTkxYzA5MGNmNDJhZjEwMjEzMDA4M2FmOThjYTQyNTRkOGI0YTRiM2JlNzkyMzRmOGFlZDJhYjA1MTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4YWNkY2JlMDY0ZWUyMDdlYTRjOGJiMjI5ZjAwYzJiYTIwZWRiODU5MTRhMmY0MDc0N2MyZjQzODFhMmM2ZDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ0MjdiZDRlYWI5OTJkYTA2N2YwYzhkMjQ1NmVmZmViZDQ2NGU4ZjZkNGZlNjUyMTI2MWJlMDg5MzllMjZlODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg5OTEwM2NiYmMyYmU4YWFjMWFjOGJkMGZkMWNlYzE5MjEwYTc3NzI3YWMyODY5MDdlMDA0ZGZhMTQ3YTA5NGQifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T07:16:27.262Z"
+    "at": "2026-11-04T12:46:56.619Z"
   }
 }

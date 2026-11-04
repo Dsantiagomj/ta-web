@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:85086550a887a19e6cfe34a5e5e78f42b93fb805615cd70890ee1dd5b1748f8e",
+  "claims": [
+    {
+      "id": "claim_086b43e60ca94f619d0317b56fb97b44",
+      "statement": "A quest guide's body field is a Payload blocks field that offers exactly RichTextBlock, ImageBlock, VideoBlock and CalloutBlock, labelled Contenido with items labelled Bloque.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/QuestGuides.ts#L93-L99",
+          "version": "repo-lines-v1:sha256:446d258d9f03fbae3e42ff67c16dbc3a907a6f107fcb0dca64b7c37d2f9203b2:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjljYTg5MWJmZjdhYzFmN2NlYWFlNDBlZjA1MTA2NmJlOWVmZTQ3YjRlNDI4MWU4NmMzMTliZTJjNTVlYmNlNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDlkZTRjZmY2NjU1OWRiZDI5NzhjYzVhZTUyMjY5MzUyNDNmNzk1MzI4ODE5YTBjOTZkMGY4NzM0MWYwZTc2OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTEyYzM2NmRjN2IwMjJjNWVlOWY1MTU0NTI1MTYyNDJhMzc0M2NhNzUwY2NkNjA2YjVkMTkyZGI0NGIyMjY3NSJ9"
+        },
+        {
+          "resource": "repo://tests/unit/quest-guides-collection.test.ts#L79-L89",
+          "version": "repo-lines-v1:sha256:4e1a9e4af6241d779f3fd1330ba0a7ae98ce7e5e3f78713e3598e39adcd8f8f1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUyYTAzZGMwYTM0ZmFhNTU0NDc5YTUwMDRlZWFkNWNjMTI3ZTg0ZGM5ZGNiNjZkN2YzZWE4Nzc5NjJmMDAyNjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI4MWVhYmNiMTZkNTQ1NzRhNTQ1ZGY1ODU3YjI4ZGZlM2UwY2UxMTJmMDAwZmRkODk2NjIxYjRhNTMyM2Y5NzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ4NTE1ZGViZWFhZDc2YTlmYjRkM2M2ZjEzYmQwMWQ0Y2E5YTZkYjlkMWJkZmZhM2I5OTQ2NDI0ZmU1ZjZiMGMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_fe0ee9ad04bd409b9863f6488a808863",
+      "statement": "RichTextBlock uses the blockType richText and has one required, localized rich text field named content.",
+      "evidence": [
+        {
+          "resource": "repo://src/blocks/RichTextBlock.ts#L4-L17",
+          "version": "repo-lines-v1:sha256:08e19bdcf8089e243285fe56a1e13984755df15af9cf156cc179126786931850:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxMDNlOWFiNGU2NDdhMmQ1YzY2OGFkNjdhY2E5ZWI0YWYwYTQxODkwZDk3MzBjYTI3YWI5NjQ0OWM5ZWJmNDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkyYzJjMGJjZmZlYmE2MTI3ZWU3ODIzMWE4ZjYzY2E5ZGIwYzVlOTI4NDkxYTE5YmJhODRlZjYzNGY1NmVhY2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b32428b8bfae458f850afe0cce195f4d",
+      "statement": "ImageBlock uses the blockType image, requires an upload to the media collection and adds an optional localized caption; the alternative text lives on the media document, where alt is required.",
+      "evidence": [
+        {
+          "resource": "repo://src/blocks/ImageBlock.ts#L3-L23",
+          "version": "repo-lines-v1:sha256:77c3d984f332e21e373c82daca9693f1bb1372e9800ccbebabb42fddc59ae273:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMyNjAwMjhhNjU0MWRlMTkyMTdmZTkxMGYzMjU3YmU4YmRhOWUyNmY5NWExYTQwMzA4NzgxZDhlODg5M2M3M2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoyLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA2NzRmZTNjYWQxMzdiY2ZiZmFlYjkwYjcwYWI1NTJkNGU5MTFkNDFjOTE5MzZlYWIzZTI3MWQ4OWI4ZWYzNGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/collections/Media.ts#L25-L31",
+          "version": "repo-lines-v1:sha256:4a686e5c1f39516def9035d1b5e37c41a0577988e55ba8d7babbb0b1f6cae5f3:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjljYTg5MWJmZjdhYzFmN2NlYWFlNDBlZjA1MTA2NmJlOWVmZTQ3YjRlNDI4MWU4NmMzMTliZTJjNTVlYmNlNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2E1OTFjOTg5ZjRjN2U1ZWM3ZmE2Yjc0OWZlNTM0M2UzNjFmOTY4ZDkwYzVlYzZkMmE0YTZjMzM0ZDYwNjdjMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzRjNDNmM2JmOWU4NzgyMDdkMjBhMDQyOTVlOTU4ZTNjMmEzODMyYzUxNmFhNmIwNTA3NzM4NzczZjY5OGM4MCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_01980ecf2beb406195bb7dfde37c60c5",
+      "statement": "VideoBlock uses the blockType video, with a required url validated by validateVideoUrl and an optional localized title.",
+      "evidence": [
+        {
+          "resource": "repo://src/blocks/VideoBlock.ts#L17-L39",
+          "version": "repo-lines-v1:sha256:80d271af73584b906eb0b49d78c1a0c6672dae80b5962a1dac32639d95e471e1:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhiZGQxZDI1MjVhZGZiNTg3MTM3M2UwNzUxMWE2MzhmZjM2ZDI0ZDYwMmU2MjZkNjRhODNlMzNiZmMzY2EzYjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmOTYyZDE4OTk3ZjFkMDIxZWE1YjNlZDMzNjdhMjEyMGMxMDMwY2NlMzQ3YzVlN2VhMmQ0MjQwM2U1MDI0ZTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_eb07d3b1c3ed48c0986ba08c6d4297d2",
+      "statement": "validateVideoUrl rejects empty values and unparseable strings and accepts a URL only when its protocol is https:, returning the same Spanish error message for every failure.",
+      "evidence": [
+        {
+          "resource": "repo://src/blocks/VideoBlock.ts#L4-L14",
+          "version": "repo-lines-v1:sha256:65b52c792f3beca67e58984b9a985c3931a114bfb86e617ba21b5968574b85ab:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjczMjg0NDNlOTk5ZDFkNTdmZjAyNGFjZTliOTRiYzkxN2NkYTExODE0N2UzOWFiMTI3NzA4OGEzNmYzYjQ4MmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI0YWZlMzk0OTNlNDQxZjhiNDgzOTY5MWNiOTFiZWRkZmNmNmYwMTk0YTIzODIyZTQwZDY3NzA5ZDliODYxMGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIyY2E2NWI3M2JiNDQ2NTBlNWI2YzU0YjBhM2QwYjZhNWNkNjU3NGYzODNhMWEwMzg0ODg4NmY4NmI0ODMzMDUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/quest-guide-blocks.test.ts#L60-L76",
+          "version": "repo-lines-v1:sha256:bf59e4e702d11ccb0a47cf712d41a95d980cb234e4fdeeddd92b9a37df5d1622:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjExMzJlMWNmNDc4MjVkNzRlMGQzNmI5M2E1YjlmNDljOTc1MTJlYzc0YTMzYzg4MjMyNmRjMzdmYzMyZWQxM2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY1ZDVhNTI2MmVjNWVhODc0YjhmZTY3OTU3NTBiMTRhYTBlYjg5YzQ0OGI5YTRmNzYwOGY4MDhjZWE0MzY4MzkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_05df8c441ebf4d2fa8014107c3b2eda7",
+      "statement": "CalloutBlock uses the blockType callout, with a required variant select of tip, warning or stop defaulting to tip, and required localized rich text content.",
+      "evidence": [
+        {
+          "resource": "repo://src/blocks/CalloutBlock.ts#L4-L29",
+          "version": "repo-lines-v1:sha256:136cebd2317d61098884677d8dfa81480384dfc8478a0a2df743854e2075aa22:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYwN2NmMzYyOTBlNzdiOTQ3MmU3YTQxN2VkNTM0MWFmMDU5ZDNkYTJkZmU0NmViZmMwNDQ0NzIwZDFmNDc3NjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM5NDRmMGU2YTM3NzJkOGQ5NjQ0YTkxNzg0NzAyOTdiYjJkZTBiNmM0NGJlYjAyODI0MDU2NmE2YjEwNzQxNTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/quest-guide-blocks.test.ts#L78-L97",
+          "version": "repo-lines-v1:sha256:f820f71a37c22fac676121f6197fce355a4ca246d209ad7ad93981cfff22378b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFiMDc5YTdlZTYxNmE2MDAxNTU4ZDJjZDYzYzEyOWQwNGQxOTQ5MTE3ODE0ZTg3YzMyM2NjN2M0MDVmODViM2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b8ca991a2d234e07933b25c363dbca4d",
+      "statement": "Each block sets an interfaceName so generated types expose named RichTextBlock, ImageBlock, VideoBlock and CalloutBlock interfaces.",
+      "evidence": [
+        {
+          "resource": "repo://src/blocks/RichTextBlock.ts#L4-L7",
+          "version": "repo-lines-v1:sha256:9a503fa78c53f459e5f191fae29c6ff98e5e60e56c99c1677728cd2704be6bf2:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTEwM2U5YWI0ZTY0N2EyZDVjNjY4YWQ2N2FjYTllYjRhZjBhNDE4OTBkOTczMGNhMjdhYjk2NDQ5YzllYmY0OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNmRmNDRlNzZmMmM1ZTMwNzIwOGQ5ZGZkMTJmYTNjNTBmNTYxY2EyNWNiYjUxMDZkMzNmM2Q1OGIwMjZjNWNlYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTJjMmMwYmNmZmViYTYxMjdlZTc4MjMxYThmNjNjYTlkYjBjNWU5Mjg0OTFhMTliYmE4NGVmNjM0ZjU2ZWFjZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDk4OTQwOTQ3ZjlkN2M0M2MwNGFlOTQ1MjM5NWQyODcxZGMzZmFhOTE4YTdjYmQ2ODBjODg5MTU1M2E0YzFkZSJ9"
+        },
+        {
+          "resource": "repo://src/payload-types.ts#L268-L330",
+          "version": "repo-lines-v1:sha256:b5c9ae80727c9d3332f05823cb4fe48dc56d71533ecbd43eb13f052be40030de:eyJzZWxlY3RlZExpbmVDb3VudCI6NjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQwMzZlM2RjMTk0MTEwZGIxNGJkNTJlZjY0YzZhMTBhODE4ZWJlOGZiODVlMmEzZjZhMzFkZmUyNzY5MjdmYWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk4NjUxMzk3MTM0Y2I4OTEwYWM3ZTNjMDFhZGVjOTgxNmJjMGRmZGNkNzViMGJlMTEzYzBkMjk4ZTNhZDViMjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVmNjFmMzJkYWJhODExNmY1YmZhMTkyNDQ2MWMwZDAzZTdkMWVmZjdhZmY0NjZhZjgxZDcyODJjNWVkMTE0NjQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFiOWJjNDZmN2I0NWM5YWEyOWEwNTE4MDg2NTMyOWE2ODA3Y2RhMWVmZDEzMDgxMWNiNjFmMzUyMGI3YWM1MmUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e910ca0e099746d6b2f07682d60967b1",
+      "statement": "The rich text block fields declare no editor of their own and therefore use the global lexicalEditor() from the Payload config.",
+      "evidence": [
+        {
+          "resource": "repo://src/blocks/RichTextBlock.ts#L3-L16",
+          "version": "repo-lines-v1:sha256:1874acdd2d85a2cd387d05ecc30d471af4bc2030ec5be0902f8190b1cb039878:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwZDhjYzdmYzA0YjhjODk5YTE5OTBlOWRkYmVlN2M4YzQwZjAxZDM2NGIwY2VmMThmZTJjNjlmOTRmOTUzZjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2NGQ4YzA3MzQyOTg5MzEwMTU3NmQ4OGQ5OTEyN2U4OWQ2ODkxZDNiMTdlODlkZjAyZWM5YWU3MDcwNWQ4YmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoyLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA2NzRmZTNjYWQxMzdiY2ZiZmFlYjkwYjcwYWI1NTJkNGU5MTFkNDFjOTE5MzZlYWIzZTI3MWQ4OWI4ZWYzNGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+        },
+        {
+          "resource": "repo://src/payload.config.ts#L28-L28",
+          "version": "repo-lines-v1:sha256:fcf98d9ef2bdd8f1e88b1cf80205f67bda9c573380464c052da31ef4e0b38c70:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmNmOThkOWVmMmJkZDhmMWU4OGIxY2Y4MDIwNWY2N2JkYTljNTczMzgwNDY0YzA1MmRhMzFlZjRlMGIzOGM3MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmNmOThkOWVmMmJkZDhmMWU4OGIxY2Y4MDIwNWY2N2JkYTljNTczMzgwNDY0YzA1MmRhMzFlZjRlMGIzOGM3MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWI1MDFhNjM5NDg3ZGI1N2Q3MzYwMTUxM2U1MjdkZDI3MWY1NWY2MTM4NmQ1OGQ5NmM2ZGEyM2VjMzhjMGM2MiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmJmMDZjM2RhOTYyMzIxNDkzOWEzMzg4OGMxZjkxNTU4OGFkZDlkODJlY2Y3ZjU3NjBlMDVmNTZlMjIyYjM1YiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_cbe6f8accce241949142b3dab1fac5bd",
+      "statement": "The quest_guides migration stores each block type in its own table with _order, _parent_id, _path, a string id and block_name, puts localized fields in matching _locales tables, and stores rich text as jsonb.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261104_124207_quest_guides.ts#L10-L71",
+          "version": "repo-lines-v1:sha256:f08d1d0d534dc84fd6d9caf440a0b8ac36cce175468d930255ed6c918f09c7a6:eyJzZWxlY3RlZExpbmVDb3VudCI6NjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY2NTcyNjIwZTQzNDFhNTM5Mjg5NDg1OTljYTk2NjM4YmUzMDdmOTM2ZmQyMTQ4NjY3MTU2Y2IzNjBjYjlmYWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1ZWYwMWJjMDhkYmMzYjYzZTRlNzVlYTNkMjZhNWI5NDE4OTE4NzdlMjdhZDg5MTMyOWM4NDExZDdkOGRjNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ3Y2MzN2ZhZWJmNDc0YzMxMzQwM2VlYmYzOTBjZTQxYWRlNmY3MGJjMDRmNGY5Y2ViMWFhMDU5MmRlOGY0NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBhNjQ3ZjkwNWYyM2FmZTViZDFlMzc2YWY1OGEyOThhZjZlZGE0MmU4NjY0ODY0MzRjNThmMWEzZmE3MTA0NTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d391a458e94d457983070b6f72c28af5",
+      "statement": "quest_guides_blocks_image.image_id references media.id with ON DELETE set null, so deleting a media file leaves the block without an image.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261104_124207_quest_guides.ts#L213-L213",
+          "version": "repo-lines-v1:sha256:93cd2a2175cadfbd4e7f8b2e010e2ebb9f406c3984381492042ff1b05460bfef:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTNjZDJhMjE3NWNhZGZiZDRlN2Y4YjJlMDEwZTJlYmI5ZjQwNmMzOTg0MzgxNDkyMDQyZmYxYjA1NDYwYmZlZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTNjZDJhMjE3NWNhZGZiZDRlN2Y4YjJlMDEwZTJlYmI5ZjQwNmMzOTg0MzgxNDkyMDQyZmYxYjA1NDYwYmZlZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGRiNzVkZDVjNGM2MTdiZTMxZTgwNWM2ZjA0M2ZlNGIwOWE5YzFjYzAyMDA0YjZjYTZmZDFiMGQwYTZiNGQ1MiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTVmNzRkMjc1NmNjMWNhNzU3ODEwN2QwNmI1ODE1YzZiNzgzNzFlOWVhMzFhMGU1OTZkN2QyMDUyNDcwNGQwMCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_1a60cdb5399e418abb43f047c82669e7",
+      "statement": "Every block table has a _quest_guides_v_blocks_* twin that stores the body of each saved version.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261104_124207_quest_guides.ts#L105-L171",
+          "version": "repo-lines-v1:sha256:b98eaa5a3616b7e09ca486761acb2755dbbbc6e380c22ac884450c9da5ad4521:eyJzZWxlY3RlZExpbmVDb3VudCI6NjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAyOTRkZTFkMGRhYTExZjdiZWYxZWFiMjgxZDhlODMwYzQwMDc1NzIwMDE1MGYwMDk2YjYxZjA4MTI3NmY2MjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg4NTVjNjExOTY2MGM2MTRkMjg1NTU0ZTUxNzY5MDY2ZTk0ZmNiNzVmZjIxNWNjYzJmYTZiNDgzOGIxODc1NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMxM2UxZTFjYTYxY2Y5MTVkYzgzOWRjZTMxZDQ5ZWVlNmQ2YzZiYTZkZmVhNWQ2MTk2ZjMwNGNjYjg3YjQ2YjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYyNzAyOWM0ZGI2NGU5NzJhOTM0ZTZmYjYzNTFhNDg5ZGUzNjExNjVjYTIzYTRlYzQwNzRkNGEwNGQ2NWE0NDgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_82714ebeadff42429c46fb94f315ffdf",
+      "statement": "The integration test saves a published guide with one block of each type and reads it back anonymously at depth 1, checking block order, the populated image with its alt, the video URL and the callout variant.",
+      "evidence": [
+        {
+          "resource": "repo://tests/integration/quest-guides-access.test.ts#L172-L239",
+          "version": "repo-lines-v1:sha256:f28612a481cdd67cb7ac8b9426d147691a92941d282478ca8adae951bae3b79c:eyJzZWxlY3RlZExpbmVDb3VudCI6NjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhkZmUwOWE4YWU1NmU3Mjk3NzUyOGUxYTVkYTZhM2YzYTBhMzRlNTJmNzFkMWM3NzFjOTRlZWI0MGM4ZDE1NjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFmZDBmMDJiZmY0YmMzMjZhMjRiZjQ3NzRlMDcwYWNmZmEwMTE0NDRhNGRhYTY3OGUxMGMwMjFmMDFhZDNmYzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_cd0989818b924296b1b9c1372fa22c29",
+      "statement": "AGENTS.md plans dialogue and step blocks for when the guide page design needs them.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L45-L45",
+          "version": "repo-lines-v1:sha256:1e337d7f750b4f33f405b3c2ff2af0ba55f36799405dd48a0b5e9faed415e33a:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWUzMzdkN2Y3NTBiNGYzM2Y0MDViM2MyZmYyYWYwYmE1NWYzNjc5OTQwNWRkNDhhMGI1ZTlmYWVkNDE1ZTMzYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWUzMzdkN2Y3NTBiNGYzM2Y0MDViM2MyZmYyYWYwYmE1NWYzNjc5OTQwNWRkNDhhMGI1ZTlmYWVkNDE1ZTMzYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTAzNWVlOGVkMGFjYzc4ZDgwMWMxYWRlMzU0NDgyNDQ4NDM0ZDhkODEwYjQwOTkzNzJlODA3Y2I0YjhkODYzZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjg4Y2YwNzZhZGVjOTgyZjQ5Y2E3MWY3ODc5MTU5OGU0ZjUyMWI2OTAyZjAxYmJhODM5YWIxZjA5OWI0YjczNSJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-04T12:46:56.619Z"
+  }
+}
