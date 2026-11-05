@@ -79,6 +79,14 @@ describe('GuideRichText', () => {
     expect(html(<GuideRichText content={root(heading)} />)).toBe('<h2>Combate</h2>')
   })
 
+  it('con un nivel mínimo, los títulos del texto bajan por debajo del título que los contiene', () => {
+    const h2 = { type: 'heading', tag: 'h2', version: 1, children: [text('Recomendaciones')] }
+    const h5 = { type: 'heading', tag: 'h5', version: 1, children: [text('Nota')] }
+    expect(html(<GuideRichText content={root(h2, h5)} minHeading={4} />)).toBe(
+      '<h4>Recomendaciones</h4><h5>Nota</h5>',
+    )
+  })
+
   it('con priorityImage, solo la primera imagen subida va sin diferir y con prioridad alta', () => {
     const media = {
       id: 5,
@@ -161,6 +169,30 @@ describe('GuideSteps', () => {
     // El chip del paso va en la cabecera; la prosa queda tal cual, sin envoltorio.
     expect(markup).toContain('Hupe Esse</h3><span class="coord" data-copy="/travel 7,-19"')
     expect(markup).toContain('<div class="prose-guide"><p>En la biblioteca.</p></div>')
+    // Un título dentro del texto de un paso queda por debajo del h3 del paso.
+    const withHeading = html(
+      <GuideSteps
+        steps={[
+          {
+            key: 'p',
+            title: 'Combate',
+            blocks: [
+              {
+                kind: 'richText',
+                key: 'r',
+                content: root({
+                  type: 'heading',
+                  tag: 'h2',
+                  version: 1,
+                  children: [text('Consejos')],
+                }),
+              },
+            ],
+          },
+        ]}
+      />,
+    )
+    expect(withHeading).toContain('<h4>Consejos</h4>')
     expect(markup).toContain('role="note"')
     expect(markup).toContain('Paso 2 hecho')
     expect(markup).toContain('class="pill"')

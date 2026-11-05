@@ -68,6 +68,8 @@ test.describe('página de guía', () => {
       const card = cards.nth(index)
       await expect(card.locator('.stage__num')).toHaveText(String(index + 1))
       await expect(card.getByRole('heading', { level: 3 })).toHaveText(step.title)
+      // Un título dentro del texto del paso queda por debajo de su h3.
+      await expect(card.getByRole('heading', { level: 2 })).toHaveCount(0)
       const head = card.locator('.stage__head')
       if (step.coordinates) {
         await expect(
@@ -190,7 +192,10 @@ test.describe('página de guía', () => {
   test('un chip de coordenadas de la prosa copia su /travel', async ({ page, context }) => {
     await context.grantPermissions(['clipboard-read', 'clipboard-write'])
     await page.goto(url)
-    await page.getByRole('button', { name: '[7,-19], copiar /travel 7,-19' }).click()
+    await page
+      .locator('p', { hasText: seedGuide.startLine })
+      .getByRole('button', { name: '[7,-19], copiar /travel 7,-19' })
+      .click()
     await expect(page.getByRole('status')).toHaveText('Copiado: /travel 7,-19')
   })
 

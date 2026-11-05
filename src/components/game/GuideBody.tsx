@@ -9,8 +9,17 @@ import { GuideRichText } from './GuideRichText'
 import { StagesTimeline } from './StagesTimeline'
 import { VideoFacade } from './VideoFacade'
 
-/** Los bloques en orden, sin envoltorio: prosa, capturas, vídeos y avisos. */
-export function GuideBlocks({ blocks }: { blocks: GuideBlock[] }) {
+/**
+ * Los bloques en orden, sin envoltorio: prosa, capturas, vídeos y avisos. minHeading es el
+ * nivel más alto de los títulos del texto: 4 dentro de un paso, bajo su h3.
+ */
+export function GuideBlocks({
+  blocks,
+  minHeading = 2,
+}: {
+  blocks: GuideBlock[]
+  minHeading?: 2 | 4
+}) {
   return blocks.map((block) => {
     switch (block.kind) {
       case 'richText':
@@ -19,6 +28,7 @@ export function GuideBlocks({ blocks }: { blocks: GuideBlock[] }) {
             key={block.key}
             content={block.content}
             priorityImage={block.priorityImage}
+            minHeading={minHeading}
           />
         )
       case 'image':
@@ -36,7 +46,11 @@ export function GuideBlocks({ blocks }: { blocks: GuideBlock[] }) {
       case 'callout':
         return (
           <Callout key={block.key} variant={block.variant}>
-            <GuideRichText content={block.content} priorityImage={block.priorityImage} />
+            <GuideRichText
+              content={block.content}
+              priorityImage={block.priorityImage}
+              minHeading={minHeading}
+            />
           </Callout>
         )
     }
@@ -69,7 +83,7 @@ export function GuideSteps({ steps, children }: { steps: GuideStep[]; children?:
       stages={steps.map((step) => ({
         title: step.title,
         coordinates: step.coordinates,
-        content: <GuideBlocks blocks={step.blocks} />,
+        content: <GuideBlocks blocks={step.blocks} minHeading={4} />,
       }))}
     >
       {children}
