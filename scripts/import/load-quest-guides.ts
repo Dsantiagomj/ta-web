@@ -6,7 +6,12 @@ import { applySummaryFill, summaryToFill } from '@/lib/guides/summary'
 import type { Quest, QuestGuide } from '@/payload-types'
 
 import { createHtmlToLexical } from './rich-text'
-import type { ConvertedGuide, GuideBlock, GuideSummary } from './squarespace/to-quest-guide'
+import type {
+  ContentBlock,
+  ConvertedGuide,
+  GuideBlock,
+  GuideSummary,
+} from './squarespace/to-quest-guide'
 
 export interface ImageFile {
   data: Buffer
@@ -31,6 +36,7 @@ export interface LoadQuestGuidesResult {
 }
 
 type BodyBlock = NonNullable<QuestGuide['body']>[number]
+type StepBody = NonNullable<Extract<BodyBlock, { blockType: 'step' }>['body']>[number]
 
 /**
  * Para comparar con lo guardado: sin IDs (de bloque y los aleatorios de los enlaces de
@@ -149,7 +155,7 @@ export async function loadQuestGuides(
     return id
   }
 
-  async function toBodyBlock(block: GuideBlock, oddities: string[]): Promise<BodyBlock | null> {
+  async function toContentBlock(block: ContentBlock, oddities: string[]): Promise<StepBody | null> {
     switch (block.blockType) {
       case 'richText':
         return { blockType: 'richText', content: toLexical(block.html) }
@@ -165,6 +171,27 @@ export async function loadQuestGuides(
           oddities.push(`Imagen sin importar: ${block.url} (${(error as Error).message})`)
           return null
         }
+    }
+  }
+
+  async function toContentBlocks(blocks: ContentBlock[], oddities: string[]) {
+    const converted: StepBody[] = []
+    for (const block of blocks) {
+      const content = await toContentBlock(block, oddities)
+      if (content) converted.push(content)
+    }
+    return converted
+  }
+
+  // Un paso guarda sus bloques como el cuerpo; sin coordenadas, x e y van vacías.
+  async function toBodyBlock(block: GuideBlock, oddities: string[]): Promise<BodyBlock | null> {
+    if (block.blockType !== 'step') return toContentBlock(block, oddities)
+    return {
+      blockType: 'step',
+      title: block.title,
+      x: block.x ?? null,
+      y: block.y ?? null,
+      body: await toContentBlocks(block.body, oddities),
     }
   }
 

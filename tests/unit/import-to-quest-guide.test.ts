@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import { describe, expect, it } from 'vitest'
 
-import { parsePage } from '../../scripts/import/squarespace/parse-page'
+import { parsePage, type SquarespacePage } from '../../scripts/import/squarespace/parse-page'
 import {
   GUIDE_SLUGS,
   toQuestGuide,
@@ -55,6 +55,20 @@ function pageWith(...fragments: string[]): string {
   )
 }
 
+/** Una página con un bloque por parte: cada texto es un bloque de texto, `{ image }` una captura. */
+function pageOf(...parts: (string | { image: string })[]): SquarespacePage {
+  return {
+    title: 'Prueba',
+    blocks: parts.map((part) =>
+      typeof part === 'string'
+        ? parsePage(pageWith(part)).blocks[0]!
+        : { type: 'image', url: part.image, alt: '' },
+    ),
+  }
+}
+
+const NO_STEPS = 'Sin pasos marcados («ETAPA n: título»): la guía queda como prosa'
+
 describe('conversión de una página en guía de misión', () => {
   it('las cinco guías elegidas tienen slugs válidos', () => {
     expect(GUIDE_SLUGS).toHaveLength(5)
@@ -85,7 +99,7 @@ describe('conversión de una página en guía de misión', () => {
       startX: 3,
       startY: -17,
     })
-    expect(oddities).toEqual([])
+    expect(oddities).toEqual([NO_STEPS])
   })
 
   it('una lista de prerrequisitos queda en una línea por elemento', () => {
@@ -411,6 +425,7 @@ describe('conversión de una página en guía de misión', () => {
       'Falta el bloque Necesitarás',
       'Falta el bloque Recompensas',
       'No se encontró la línea de inicio (PNJ y coordenadas)',
+      NO_STEPS,
     ])
   })
 
@@ -421,7 +436,97 @@ describe('conversión de una página en guía de misión', () => {
       slug: 'el-cazador-cazado',
       questDofusIds: [1977],
     })
-    expect(oddities).toEqual(['Bloque de Squarespace sin convertir: button'])
+    expect(oddities).toEqual([NO_STEPS, 'Bloque de Squarespace sin convertir: button'])
     expect(guide.body).toEqual(guideFor('el-cazador-cazado', [1977]).guide.body)
+  })
+})
+
+describe('pasos de la guía', () => {
+  const convert = (page: SquarespacePage) =>
+    toQuestGuide(page, { slug: 'prueba', questDofusIds: [1] })
+
+  it('ninguna de las cinco guías marca sus pasos: quedan como prosa y se anota', () => {
+    for (const slug of GUIDE_SLUGS) {
+      const { guide, oddities } = guideFor(slug)
+      expect(types(guide.body), slug).not.toContain('step')
+      expect(oddities, slug).toContain(NO_STEPS)
+    }
+  })
+
+  it('un párrafo «ETAPA n: título» abre un paso con ese título y el primer [x,y] del paso', () => {
+    const { guide, oddities } = convert(
+      pageOf(
+        '<p>Básicamente la misión la agarras de Nevark [-47,42].</p>',
+        '<p>ETAPA 1: El safari de las almas ancebas:</p><ul><li>1 x Alma de Cascacreta.</li></ul>',
+        '<p>ETAPA 2: El safari de las almas jaras:</p><p>Ve a [-50,40] y luego a [1,2].</p>',
+      ),
+    )
+    expect(oddities).not.toContain(NO_STEPS)
+    expect(guide.body.map((block) => block.blockType)).toEqual(['richText', 'step', 'step'])
+    const [, first, second] = guide.body
+    expect(first).toMatchObject({ title: 'El safari de las almas ancebas' })
+    expect(first).not.toHaveProperty('x')
+    if (first?.blockType !== 'step' || second?.blockType !== 'step') return
+    expect(first.body).toHaveLength(1)
+    expect(plain(first.body[0]!.blockType === 'richText' ? first.body[0]!.html : '')).toBe(
+      '1 x Alma de Cascacreta.',
+    )
+    expect(second).toMatchObject({ title: 'El safari de las almas jaras', x: -50, y: 40 })
+  })
+
+  it('todo lo que hay entre dos marcadores es del paso anterior, capturas y avisos incluidos', () => {
+    const { guide } = convert(
+      pageOf(
+        '<p>ETAPA 1: Uno</p><p>Primero esto.</p>',
+        { image: 'https://images.squarespace-cdn.com/a.png' },
+        '<p>Luego lo otro.</p><p>IMPORTANTE: no mueras.</p>',
+        '<p>ETAPA 2: Dos</p>',
+      ),
+    )
+    const [first] = guide.body
+    if (first?.blockType !== 'step') throw new Error('falta el paso')
+    expect(first.body.map((block) => block.blockType)).toEqual([
+      'richText',
+      'image',
+      'richText',
+      'callout',
+    ])
+  })
+
+  it('el último paso acaba con su bloque de texto y sus capturas; lo que sigue es el cierre', () => {
+    const { guide } = convert(
+      pageOf(
+        '<p>ETAPA 1: Uno</p>',
+        '<p>ETAPA 2: Dos</p><p>Entrega las almas.</p>',
+        { image: 'https://images.squarespace-cdn.com/b.png' },
+        '<p>Una vez entregadas, terminarás la misión.</p>',
+        { image: 'https://images.squarespace-cdn.com/c.png' },
+      ),
+    )
+    expect(guide.body.map((block) => block.blockType)).toEqual([
+      'step',
+      'step',
+      'richText',
+      'image',
+    ])
+    const last = guide.body[1]
+    if (last?.blockType !== 'step') throw new Error('falta el paso')
+    expect(last.body.map((block) => block.blockType)).toEqual(['richText', 'image'])
+  })
+
+  it('un marcador sin título lleva su número y se anota; en minúsculas o en mitad de una frase es prosa', () => {
+    const { guide, oddities } = convert(
+      pageOf(
+        '<p>ETAPA 1:</p><p>Haz esto.</p><p>Etapa 2: en minúsculas no cuenta.</p><p>La ETAPA 3: tampoco.</p>',
+      ),
+    )
+    expect(guide.body.map((block) => block.blockType)).toEqual(['step'])
+    expect(guide.body[0]).toMatchObject({ title: 'Paso 1' })
+    const [step] = guide.body
+    if (step?.blockType !== 'step') throw new Error('falta el paso')
+    expect(step.body.map((block) => ('html' in block ? plain(block.html) : ''))).toEqual([
+      'Haz esto. Etapa 2: en minúsculas no cuenta. La ETAPA 3: tampoco.',
+    ])
+    expect(oddities).toContain('Paso 1 sin título: escríbelo en el panel')
   })
 })
