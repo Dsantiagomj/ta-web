@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
+import packageJson from '../../package.json'
 import { regenerationRefusal } from '@/lib/media/regenerate'
 
 describe('regenerationRefusal', () => {
@@ -42,5 +43,14 @@ describe('regenerationRefusal', () => {
 
   it('una DATABASE_URL que no se entiende cuenta como remota', () => {
     expect(regenerationRefusal({ DATABASE_URL: 'no es una url' }, [])).toMatch(/--remote/)
+  })
+})
+
+describe('pnpm media:sizes', () => {
+  // `payload run` reescribe process.argv con minimist y solo conserva los argumentos sueltos:
+  // --remote y --production se pierden salvo que lleguen detrás de `--`. pnpm añade los del
+  // usuario al final del script, así que el script termina en `--`.
+  it('pasa --remote y --production al script detrás de --', () => {
+    expect(packageJson.scripts['media:sizes']).toMatch(/payload run scripts\/media-sizes\.ts --$/)
   })
 })
