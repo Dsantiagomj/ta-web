@@ -38,7 +38,7 @@ type ContentBlockDoc =
 type StepBlockDoc = {
   blockType: 'step'
   id?: string | null
-  title: string
+  title?: string | null
   x?: number | null
   y?: number | null
   body?: ContentBlockDoc[] | null
@@ -227,7 +227,8 @@ function hasImage(content: RichTextState): boolean {
 /** Un paso de la guía listo para su tarjeta (DESIGN.md, Step card). */
 export interface GuideStep {
   key: string
-  title: string
+  /** Sin título, la tarjeta pone «Paso N». */
+  title?: string
   /** Solo con X e Y: el chip junto al título. */
   coordinates?: Coordinates
   blocks: GuideBlock[]
@@ -313,11 +314,11 @@ export function guideContent(guide: GuideDoc): GuideContent {
       else current.blocks.push(...blocks)
       return
     }
-    const number = content.steps.length + 1
     const coordinates = block.x != null && block.y != null ? { x: block.x, y: block.y } : null
+    const title = block.title?.trim()
     content.steps.push({
       key,
-      title: block.title?.trim() || guideStrings.page.untitledStep(number),
+      ...(title && { title }),
       ...(coordinates && { coordinates }),
       blocks: (block.body ?? []).flatMap((inner, innerIndex) =>
         toBlocks(inner, inner.id ?? `${key}-${innerIndex}`),

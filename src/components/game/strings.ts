@@ -35,6 +35,8 @@ export const gameStrings = {
     title: 'Pasos',
     hint: 'Marca cada paso al terminarlo. Por ahora no se guarda al salir.',
     done: (number: number) => `Paso ${number} hecho`,
+    /** El título de un paso que no tiene uno propio. */
+    untitled: (number: number) => `Paso ${number}`,
     progress: 'Pasos',
   },
   botin: {

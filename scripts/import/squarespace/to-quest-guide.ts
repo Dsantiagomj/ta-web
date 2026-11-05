@@ -1,6 +1,5 @@
 import { validateSlug } from '@/collections/QuestGuides'
 import { splitCoordinates } from '@/lib/guides/coordinates'
-import { guideStrings } from '@/lib/guides/strings'
 
 import { normalizedText, parseHtml } from './dom'
 import type { SquarespacePage, TextElement } from './parse-page'
@@ -29,7 +28,8 @@ export type ContentBlock =
 /** Un paso (bloque Paso): título, coordenadas si las tiene y su propio contenido. */
 export interface StepBlock {
   blockType: 'step'
-  title: string
+  /** Sin título, la página pone «Paso N». */
+  title?: string
   x?: number
   y?: number
   body: ContentBlock[]
@@ -115,7 +115,7 @@ type Draft = ContentBlock | { blockType: 'stepStart'; title: string } | { blockT
  * Agrupa los bloques en pasos según las marcas: lo de antes del primero es la entrada; el
  * último paso se cierra al acabar su bloque de texto y las capturas o vídeos que lo siguen.
  */
-function nestSteps(drafts: Draft[], oddities: string[]): GuideBlock[] {
+function nestSteps(drafts: Draft[]): GuideBlock[] {
   const intro: GuideBlock[] = []
   const steps: StepBlock[] = []
   const outro: ContentBlock[] = []
@@ -127,13 +127,8 @@ function nestSteps(drafts: Draft[], oddities: string[]): GuideBlock[] {
   let last: 'open' | 'media' | 'outro' = 'open'
   drafts.forEach((draft, index) => {
     if (draft.blockType === 'stepStart') {
-      const number = steps.length + 1
-      if (!draft.title) oddities.push(`Paso ${number} sin título: escríbelo en el panel`)
-      steps.push({
-        blockType: 'step',
-        title: draft.title || guideStrings.page.untitledStep(number),
-        body: [],
-      })
+      // Sin título, el paso no lleva: la página pone «Paso N».
+      steps.push({ blockType: 'step', ...(draft.title && { title: draft.title }), body: [] })
       return
     }
     if (draft.blockType === 'textEnd') {
@@ -151,7 +146,7 @@ function nestSteps(drafts: Draft[], oddities: string[]): GuideBlock[] {
     }
   })
   for (const step of steps) {
-    const coordinates = firstCoordinates(`${step.title} ${stepText(step.body)}`)
+    const coordinates = firstCoordinates(`${step.title ?? ''} ${stepText(step.body)}`)
     if (coordinates) Object.assign(step, coordinates)
   }
   return [...intro, ...steps, ...outro]
@@ -423,8 +418,7 @@ export function toQuestGuide(
     oddities.push('No se encontró la línea de inicio (PNJ y coordenadas)')
   }
   if (steps === 0) oddities.push('Sin pasos marcados («ETAPA n: título»): la guía queda como prosa')
-  const stepOddities: string[] = []
-  const nested = nestSteps(body, stepOddities)
+  const nested = nestSteps(body)
 
   return {
     guide: {
@@ -435,6 +429,6 @@ export function toQuestGuide(
       body: nested,
       questDofusIds: source.questDofusIds,
     },
-    oddities: [...oddities, ...stepOddities, ...blockOddities],
+    oddities: [...oddities, ...blockOddities],
   }
 }

@@ -230,6 +230,13 @@ describe('StagesTimeline', () => {
     expect(markup).toContain('<h3')
   })
 
+  it('un paso sin título lleva «Paso N» como título y su casilla sigue siendo «Paso N hecho»', () => {
+    const markup = html(<StagesTimeline id="sin" stages={[stages[0]!, { content: 'c' }]} ticks />)
+    expect(markup).toMatch(/<h3 class="stage__title">Paso 2<\/h3>/)
+    expect(markup).toContain('Paso 2 hecho')
+    expect(markup).toContain('>/2<')
+  })
+
   it('sin marcas, ni casillas ni píldora', () => {
     const markup = html(<StagesTimeline id="corta" stages={stages} />)
     expect(markup).not.toContain('type="checkbox"')

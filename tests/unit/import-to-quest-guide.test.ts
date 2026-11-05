@@ -514,19 +514,19 @@ describe('pasos de la guía', () => {
     expect(last.body.map((block) => block.blockType)).toEqual(['richText', 'image'])
   })
 
-  it('un marcador sin título lleva su número y se anota; en minúsculas o en mitad de una frase es prosa', () => {
+  it('un marcador sin título da un paso sin título; en minúsculas o en mitad de una frase es prosa', () => {
     const { guide, oddities } = convert(
       pageOf(
         '<p>ETAPA 1:</p><p>Haz esto.</p><p>Etapa 2: en minúsculas no cuenta.</p><p>La ETAPA 3: tampoco.</p>',
       ),
     )
     expect(guide.body.map((block) => block.blockType)).toEqual(['step'])
-    expect(guide.body[0]).toMatchObject({ title: 'Paso 1' })
+    expect(guide.body[0]).not.toHaveProperty('title')
     const [step] = guide.body
     if (step?.blockType !== 'step') throw new Error('falta el paso')
     expect(step.body.map((block) => ('html' in block ? plain(block.html) : ''))).toEqual([
       'Haz esto. Etapa 2: en minúsculas no cuenta. La ETAPA 3: tampoco.',
     ])
-    expect(oddities).toContain('Paso 1 sin título: escríbelo en el panel')
+    expect(oddities.join('\n')).not.toMatch(/sin título/)
   })
 })

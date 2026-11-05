@@ -410,16 +410,18 @@ describe('guideContent con pasos', () => {
     expect(outro[0]).toMatchObject({ kind: 'image', priority: false })
   })
 
-  it('sin X e Y juntas no hay chip; un paso sin título (borrador) lleva su número', () => {
+  it('sin X e Y juntas no hay chip; un paso sin título no lleva título (la tarjeta pone su número)', () => {
     const { steps } = guideContent({
       ...guide,
       body: [
         { blockType: 'step', title: 'Solo X', x: 3, y: null },
         { blockType: 'step', title: '  ', x: 0, y: 0 },
+        { blockType: 'step', title: null },
       ],
     })
     expect(steps[0]).not.toHaveProperty('coordinates')
-    expect(steps[1]).toMatchObject({ key: '1', title: 'Paso 2', coordinates: { x: 0, y: 0 } })
+    expect(steps[1]).toEqual({ key: '1', coordinates: { x: 0, y: 0 }, blocks: [] })
+    expect(steps[2]).not.toHaveProperty('title')
   })
 })
 

@@ -67,7 +67,11 @@ test.describe('página de guía', () => {
     for (const [index, step] of seedGuide.steps.entries()) {
       const card = cards.nth(index)
       await expect(card.locator('.stage__num')).toHaveText(String(index + 1))
-      await expect(card.getByRole('heading', { level: 3 })).toHaveText(step.title)
+      // Un paso sin título lleva su número como título; su casilla, «Paso N hecho».
+      await expect(card.getByRole('heading', { level: 3 })).toHaveText(
+        step.title ?? `Paso ${index + 1}`,
+      )
+      await expect(card.getByRole('checkbox', { name: `Paso ${index + 1} hecho` })).toBeAttached()
       // Un título dentro del texto del paso queda por debajo de su h3.
       await expect(card.getByRole('heading', { level: 2 })).toHaveCount(0)
       const head = card.locator('.stage__head')

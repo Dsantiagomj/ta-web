@@ -40,7 +40,7 @@ export const catalogStrings = {
     ribbon: 'Seis pies bajo tierra; Entretanto, un renacer, con objetos; y solo la recompensa.',
     coordinates:
       'Los [x,y] de la prosa se convierten en chips; pulsar copia /travel x,y. Sin JavaScript son texto.',
-    stages: 'El paso 1 sale marcado. Las marcas no se guardan.',
+    stages: 'El paso 1 sale marcado y el 4 no tiene título. Las marcas no se guardan.',
     video: 'Con portada y sin portada. Nada de YouTube carga hasta pulsar.',
     image:
       'Pulsa la captura para verla a pantalla completa; Esc, Cerrar o un clic fuera la cierran. Sin JavaScript abre el archivo.',

@@ -507,9 +507,9 @@ export interface CalloutBlock {
  */
 export interface StepBlock {
   /**
-   * Lo que hay que hacer en el paso, corto: «Habla con Hupe Esse».
+   * Opcional. Lo que hay que hacer en el paso, corto: «Habla con Hupe Esse». Sin título, la tarjeta muestra solo su número («Paso 3»).
    */
-  title: string;
+  title?: string | null;
   /**
    * La posición principal del paso, si la tiene: sale como chip junto al título.
    */

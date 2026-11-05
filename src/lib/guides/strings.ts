@@ -30,8 +30,6 @@ export const guideStrings = {
   /** La página pública de la guía, /<slug>. */
   page: {
     videoTitle: (title: string) => `Vídeo de la guía: ${title}`,
-    /** Un paso sin título, que solo puede pasar en un borrador. */
-    untitledStep: (number: number) => `Paso ${number}`,
     preview: {
       label: 'Vista previa',
       note: 'Vista previa del borrador. Los visitantes ven la versión publicada.',
@@ -76,7 +74,9 @@ export const guideStrings = {
       singular: 'Paso',
       plural: 'Pasos',
       title: 'Título',
-      titleDescription: 'Lo que hay que hacer en el paso, corto: «Habla con Hupe Esse».',
+      titleDescription:
+        'Opcional. Lo que hay que hacer en el paso, corto: «Habla con Hupe Esse». ' +
+        'Sin título, la tarjeta muestra solo su número («Paso 3»).',
       x: 'X',
       y: 'Y',
       coordinatesDescription:

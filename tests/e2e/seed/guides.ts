@@ -36,7 +36,8 @@ export const seedGuide = {
   steps: [
     { title: 'Habla con Hupe Esse', coordinates: '[7,-19]' },
     { title: 'Combate: protege a las anutrof', coordinates: '[3,-17]' },
-    { title: 'Escolta a las anutrof', coordinates: null },
+    // Sin título, como los pasos importados: la tarjeta pone «Paso 3».
+    { title: null, coordinates: null },
   ],
   outro: 'Aquí termina la misión. Espero haberte ayudado.',
   image: {
@@ -283,7 +284,6 @@ export async function seedGuides(payload: Payload): Promise<void> {
           },
           {
             blockType: 'step',
-            title: seedGuide.steps[2]!.title,
             body: [
               {
                 blockType: 'richText',
