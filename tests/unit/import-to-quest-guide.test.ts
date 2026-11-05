@@ -66,13 +66,15 @@ function pageWith(...fragments: string[]): string {
 }
 
 /** Una página con un bloque por parte: cada texto es un bloque de texto, `{ image }` una captura. */
-function pageOf(...parts: (string | { image: string })[]): SquarespacePage {
+function pageOf(...parts: (string | { image: string } | { video: string })[]): SquarespacePage {
   return {
     title: 'Prueba',
     blocks: parts.map((part) =>
       typeof part === 'string'
         ? parsePage(pageWith(part)).blocks[0]!
-        : { type: 'image', url: part.image, alt: '' },
+        : 'image' in part
+          ? { type: 'image', url: part.image, alt: '' }
+          : { type: 'video', url: part.video },
     ),
   }
 }
@@ -557,6 +559,29 @@ describe('pasos de la guía', () => {
       'richText',
       'richText',
       'image',
+    ])
+  })
+
+  it('las capturas y vídeos de la entrada siguen siendo entrada, no pasos', () => {
+    const { guide } = convert(
+      pageOf(
+        '<p>Esta misión forma parte de un grupo.</p>',
+        shot('mapa'),
+        '<p>Mira antes este vídeo.</p>',
+        { video: 'https://www.youtube.com/watch?v=VaY3tyYTq4A' },
+        '<p>Habla con Ana [1,2] para empezar la misión.</p>',
+        shot('a'),
+        '<p>Ve a [3,4].</p>',
+        shot('b'),
+      ),
+    )
+    expect(outline(guide.body)).toEqual([
+      'richText',
+      'image',
+      'richText',
+      'video',
+      'step [1,2]: image',
+      'step [3,4]: richText+image',
     ])
   })
 

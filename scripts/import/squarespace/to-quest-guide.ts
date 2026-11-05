@@ -180,7 +180,10 @@ function markedSteps(drafts: Draft[]): GuideBlock[] {
 
 /** Pasos sin título por unidades de texto y capturas, o null si no hay al menos dos. */
 function unitSteps(drafts: Draft[]): GuideBlock[] | null {
-  const intro: ContentBlock[] = []
+  // Lo de antes del bloque con la línea de inicio es la entrada, capturas y vídeos
+  // incluidos: se aparta antes de agrupar, para que no cuente como paso.
+  const startBlock = drafts.findIndex((draft) => draft.blockType === 'textBlock' && draft.start)
+  const intro = drafts.slice(0, Math.max(startBlock, 0)).filter(isContent)
   const units: Unit[] = []
   const outro: ContentBlock[] = []
   let unit = newUnit()
@@ -191,7 +194,7 @@ function unitSteps(drafts: Draft[]): GuideBlock[] | null {
     else outro.push(...unit.body)
     unit = newUnit()
   }
-  for (const draft of drafts) {
+  for (const draft of drafts.slice(Math.max(startBlock, 0))) {
     if (ending) {
       if (isContent(draft)) outro.push(draft)
     } else if (draft.blockType === 'closing') {
@@ -200,10 +203,6 @@ function unitSteps(drafts: Draft[]): GuideBlock[] | null {
     } else if (draft.blockType === 'textBlock') {
       if (unit.media) {
         units.push(unit)
-        unit = newUnit()
-      } else if (draft.start && units.length === 0) {
-        // Lo de antes de la línea de inicio es la entrada.
-        intro.push(...unit.body)
         unit = newUnit()
       }
     } else if (draft.blockType === 'source') {
