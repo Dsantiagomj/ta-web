@@ -20,6 +20,8 @@ sources:
     resource: repo://src/lib/dofusdb/criterion.ts
   - id: openwiki-source-4b87b2bd0648fe28c52dc5e5
     resource: repo://src/lib/guides/autofill.ts
+  - id: openwiki-source-c2c770807aee2aa0cc927079
+    resource: repo://src/lib/guides/display.ts
   - id: openwiki-source-4afd1b9384e1b61783854c50
     resource: repo://src/lib/guides/form-fill.ts
   - id: openwiki-source-d5cdfb9f4d8e25639ff82c78
@@ -38,10 +40,10 @@ sources:
     resource: repo://tests/unit/guide-summary.test.ts
   - id: openwiki-source-1970468d3fcc651d5071b312
     resource: repo://tests/unit/quest-guides-collection.test.ts
-generated: { by: "claude-code", at: "2026-11-04T21:10:46.028Z" }
+generated: { by: "claude-code", at: "2026-11-05T11:00:19.182Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T21:10:46.028Z
+    at: 2026-11-05T11:00:19.182Z
 ---
 
 # Writing a quest guide
@@ -71,7 +73,8 @@ All rules are pure functions in `src/lib/guides/`, without Payload, so the serve
 | Module | Role |
 |---|---|
 | `strings.ts` | Every Spanish text: summary line formats, SEO templates, panel descriptions and notes. A second language would mean translating this module |
-| `format.ts` | Torre's summary format: thousands, rewards, prerequisites, the needed items |
+| `format.ts` | Torre's summary format: rewards, prerequisites, the needed items. It re-exports `formatThousands` |
+| `display.ts` | Figures as guide pages print them, with no dependencies: `formatThousands` lives here so the guide page island can import it without pulling in `format.ts`; also `formatAmount` and `chainWindow` (see [Design system components](../frontend/design-system-components.md)) |
 | `summary.ts` | `summaryFromQuest`, `summaryToFill`, `applySummaryFill` and `summaryNote` |
 | `autofill.ts` | Title, slug and SEO: `autofillFromQuest`, `slugFromName`, `availableSlug`, `seoFromQuest`, `linkedQuestId` (the quest's ID, whether the field holds an ID or a populated document) |
 | `form-fill.ts` | The live form fill: `plannedFormFill` and `stillEmpty`, read through a field-path reader so they run without React |

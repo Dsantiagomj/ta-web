@@ -26,10 +26,10 @@ sources:
     resource: repo://scripts/hooks/gga-review.sh
   - id: openwiki-source-d3495e3108db609ea7dcace0
     resource: repo://tests/unit/commit-msg.test.ts
-generated: { by: "claude-code", at: "2026-11-04T15:33:25.988Z" }
+generated: { by: "claude-code", at: "2026-11-05T11:00:19.182Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T15:33:25.988Z
+    at: 2026-11-05T11:00:19.182Z
 ---
 
 # CI and quality gates
@@ -76,12 +76,14 @@ Each job uses the composite action `.github/actions/setup`: pnpm, Node from `.nv
 | `unit` | Unitarias | `pnpm test` |
 | `build` | Build | `pnpm build`, with `.next/cache` cached by lockfile and `src/**` hashes |
 | `integration` | Integración | `pnpm test:integration` against an empty `postgres:17.11` service |
-| `e2e` | E2E | `pnpm test:e2e` against an empty `postgres:17.11` service, then `pnpm test:e2e:dev-gate` on the same build; Playwright report uploaded on failure |
+| `e2e` | E2E | `pnpm test:e2e` against an empty `postgres:17.11` service, then `pnpm test:e2e:dev-gate` and `pnpm test:lhci` (the Lighthouse CI budgets) on the same build; the Lighthouse reports are uploaded as the `lighthouse` artifact (7 days) unless the run was cancelled, and the Playwright report on failure |
 | `audit` | Auditoría | Dependency audit, see below |
 | `pruebas` | Pruebas | Aggregator |
 | `gga` | Revisión GGA | Advisory AI review, PRs only |
 
 All test jobs depend only on `install` and run in parallel. The integration and E2E jobs apply the committed migrations to an empty database; nothing uses schema push.
+
+The budgets run inside the E2E job rather than in a job of their own so the app is not compiled twice: `pnpm test:lhci` runs with `E2E_SKIP_BUILD=1` and reuses that job's build, Postgres service and Playwright Chromium. A budget failure therefore fails `e2e` and `Pruebas`. See [Performance budgets](../testing/performance-budgets.md).
 
 ### Pruebas
 
@@ -95,7 +97,7 @@ The `audit` job reads `pnpm-lock.yaml` only; it does not install anything.
 - `pnpm audit --prod --audit-level high` only adds a warning annotation, so a fresh high advisory does not freeze the repo while it is assessed.
 - Dev-only advisories do not count; they never reach the server.
 
-Transitive security fixes are applied as `overrides` in `pnpm-workspace.yaml` (pnpm 11 ignores the `pnpm` field of `package.json`). Current overrides: `dompurify` (via the admin's Monaco editor), `happy-dom` (via `@lexical/headless`; it is also a direct dev dependency at the same version, because the [Squarespace import](../data/squarespace-import.md) parses untrusted HTML with it), `esbuild` scoped to `@esbuild-kit/core-utils`, and `minimatch@10` scoped to the 10.x line, because ESLint plugins still call minimatch 3 as a function and 11.x no longer allows that. A critical advisory accepted without a fix is listed under `auditConfig.ignoreGhsas` in `pnpm-workspace.yaml`; the reasoning for each accepted risk is recorded in `docs/legacy/security.md`.
+Transitive security fixes are applied as `overrides` in `pnpm-workspace.yaml` (pnpm 11 ignores the `pnpm` field of `package.json`). Current overrides: `dompurify` (via the admin's Monaco editor), `happy-dom` (via `@lexical/headless`; it is also a direct dev dependency at the same version, because the [Squarespace import](../data/squarespace-import.md) parses untrusted HTML with it), `esbuild` scoped to `@esbuild-kit/core-utils`, and `minimatch@10` scoped to the 10.x line, because ESLint plugins still call minimatch 3 as a function and 11.x no longer allows that. A critical advisory accepted without a fix is listed under `auditConfig.ignoreGhsas` in `pnpm-workspace.yaml`; the reasoning for each accepted risk is recorded in `docs/legacy/security.md`. Its accepted list today: `deepmerge` (low, via Payload, no patched version), `glob` 13 (moderate, via the Sentry build plugins), `basic-ftp` (high, dev only, via `@lhci/cli`; only reachable when fetching a PAC file over `ftp://`, which Lighthouse CI against `localhost` never does) and `minimatch` 3 (moderate, dev only, via ESLint plugins).
 
 ### Revisión GGA
 
@@ -106,3 +108,4 @@ Runs only on pull requests and is not part of `Pruebas`. It writes the `CODEX_AU
 - [Test suites](../testing/test-suites.md)
 - [Deployment and releases](../operations/deployment.md)
 - [Local development](local-development.md)
+- [Performance budgets](../testing/performance-budgets.md)

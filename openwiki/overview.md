@@ -4,12 +4,16 @@ title: Project overview
 description: What ta-web is, the stack it runs on, which parts exist in code today and which are still planned, and how the subsystems connect.
 tags: [overview, architecture, nextjs, payload, roadmap]
 sources:
+  - id: openwiki-source-164e2da859b5277df81c7d94
+    resource: repo://.github/workflows/ci.yml
   - id: openwiki-source-d60a6f0f1e9b6eab797ff859
     resource: repo://.railway/railway.ts
   - id: openwiki-source-8037e2358a2c4f9b2c722a11
     resource: repo://AGENTS.md
   - id: openwiki-source-46a5fe0601ecffbcc4ce1280
     resource: repo://docs/legacy/README.md
+  - id: openwiki-source-7382aecd8b46a81ca66efc96
+    resource: repo://lighthouserc.cjs
   - id: openwiki-source-5b54a58d1b51cd490b0e7162
     resource: repo://package.json
   - id: openwiki-source-23775c3de52f3ab95a13cb8b
@@ -20,6 +24,8 @@ sources:
     resource: repo://scripts/import/squarespace/to-quest-guide.ts
   - id: openwiki-source-aafaf952c3fb594c6ce91656
     resource: repo://src/app/(frontend)/page.tsx
+  - id: openwiki-source-102ac9d3e731f9c02830d89f
+    resource: repo://src/app/(frontend)/sistema/page.tsx
   - id: openwiki-source-d91bcfe9b85be5b5860292ba
     resource: repo://src/app/(frontend)/strings.ts
   - id: openwiki-source-c78752655126ed640ba9a6d7
@@ -36,6 +42,8 @@ sources:
     resource: repo://src/collections/Quests.ts
   - id: openwiki-source-96b94ee077b0d0a0987ef203
     resource: repo://src/components/quest-guide-admin/QuestAutofill.tsx
+  - id: openwiki-source-cbc6ab52e896365649760a9f
+    resource: repo://src/lib/dev-gate/design-catalog.ts
   - id: openwiki-source-54227c78b7c2e57bc6f3d29b
     resource: repo://src/lib/dofusdb/fetch-quest-data.ts
   - id: openwiki-source-593d2c966d67e453d0429c23
@@ -46,10 +54,10 @@ sources:
     resource: repo://src/migrations/index.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
     resource: repo://src/payload.config.ts
-generated: { by: "claude-code", at: "2026-11-04T21:10:46.028Z" }
+generated: { by: "claude-code", at: "2026-11-05T11:00:19.182Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T21:10:46.028Z
+    at: 2026-11-05T11:00:19.182Z
 ---
 
 # Project overview
@@ -79,13 +87,14 @@ Runtime: Node 24 (`>=24.22.1 <25`) and pnpm 11, pinned in `package.json`.
 The repository is at "phase 0": the skeleton is done and most product features are not built yet.
 
 - **Public site**: a root layout with the brand header and dark/light mode switch, and a placeholder home page that points to the current site. See [Styles, tokens and site shell](frontend/styles-and-shell.md) and [Theme and mode](frontend/theme-and-mode.md).
-- **CMS**: Payload with six collections, `users` (panel accounts), `media`, `quests`, `items` and `monsters` (read-only DofusDB game data) and `quest-guides` (Torre's guides, with drafts and versions, readable by the public only once published), Spanish admin UI and a single `es` locale. A guide starts from its DofusDB quest, one per guide: picking it fills the empty title, slug, SEO fields and summary (prerequisites, the "Necesitarás" item list, rewards, start NPC and coordinates), live in the panel form and again on save, and never overwrites what is already written. Guide bodies are built from rich text, image, video and callout blocks. No public page renders guides yet. See [Writing a quest guide](cms/guide-authoring.md), [Payload CMS configuration](cms/payload-config.md), [Collections and access](cms/collections.md) and [Guide body blocks](cms/blocks.md).
+- **Design system**: the generic components (`src/components/ui/`) and the quest guide components (`src/components/game/`) from `DESIGN.md`, with one client island, `PageEnhancements`, that copies coordinates, plays videos on click and opens images fullscreen. They render today only on `/sistema`, a catalog of every component in the five themes and both modes that answers 404 in production. See [Design system components](frontend/design-system-components.md) and [Component catalog (/sistema)](frontend/component-catalog.md).
+- **CMS**: Payload with six collections, `users` (panel accounts), `media`, `quests`, `items` and `monsters` (read-only DofusDB game data) and `quest-guides` (Torre's guides, with drafts and versions, readable by the public only once published), Spanish admin UI and a single `es` locale. A guide starts from its DofusDB quest, one per guide: picking it fills the empty title, slug, SEO fields and summary (prerequisites, the "Necesitarás" item list, rewards, start NPC and coordinates), live in the panel form and again on save, and never overwrites what is already written. Guide bodies are built from rich text, image, video (YouTube only) and callout blocks. No public page renders guides yet. See [Writing a quest guide](cms/guide-authoring.md), [Payload CMS configuration](cms/payload-config.md), [Collections and access](cms/collections.md) and [Guide body blocks](cms/blocks.md).
 - **Data**: seven committed migrations; schema push only under `next dev`. See [Database and migrations](data/database.md).
 - **Game data**: `pnpm data:quests` copies every quest from the public DofusDB API into `quests`, the monsters their needs name into `monsters` and the whole DofusDB item catalog into `items`, so a guide can point at any item, idempotently and without deleting anything. Each quest stores its rewards for a level-200 character (XP, kamas, items, emote, spell, title and job IDs) and its needs (items, monsters, whether you walk new maps). See [DofusDB game data refresh](data/dofusdb-refresh.md).
 - **Squarespace import**: `scripts/import/` turns a cached Squarespace page into a quest guide draft (summary, start NPC, body blocks) and lists what it could not convert. `pnpm import:guides` loads them into `quest-guides` as drafts, with each image stored once in `media` and the guide's DofusDB quest linked when the page names exactly one that is already in `quests`; the summary gaps are filled from DofusDB as on save, so re-running it changes only what changed and never publishes. Five demo guides are covered by tests. See [Squarespace import](data/squarespace-import.md).
 - **Media**: R2 or disk, chosen by environment. See [Media storage](media/storage.md).
 - **Operations**: `GET /api/health`, a basic-auth gate for the dev environment, server-side Sentry, Railway infrastructure as code, and GitHub workflows for CI, dev smoke tests and production releases. See the operations pages.
-- **Quality**: unit, integration, E2E, dev-gate and smoke suites; lint, format, types and dependency audit in CI; git hooks for formatting, linting, AI review and commit messages.
+- **Quality**: unit, integration, E2E (including axe WCAG 2.2 AA on `/sistema`), dev-gate and smoke suites; Lighthouse CI performance budgets on the home page; lint, format, types and dependency audit in CI; git hooks for formatting, linting, AI review and commit messages. See [Test suites](testing/test-suites.md) and [Performance budgets](testing/performance-budgets.md).
 
 ## What is planned
 
@@ -122,7 +131,7 @@ One build serves both environments. Everything that differs between dev and prod
 | `AGENTS.md` | The contract for anyone changing the repo: workflow, language, stack, layout, rules |
 | `DESIGN.md` | Visual language and tokens |
 | `README.md` | Development, scripts, deploys, hooks, CI |
-| `openwiki/` | This generated wiki, the only generated documentation. AGENTS.md requires refreshing it with the `openwiki` skill in `update` mode before every PR |
+| `openwiki/` | This generated wiki, the only generated documentation. A daily scheduled task outside the repo refreshes it with the `openwiki` skill in `update` mode and opens a docs PR; feature PRs leave it alone |
 | `docs/legacy/` | The hand-written plan, infrastructure and dependency-security docs this wiki replaced, kept for decisions and infrastructure state the code does not show |
 | `docs/research/` | Research notes, such as the visual study behind `DESIGN.md` |
 
@@ -135,3 +144,5 @@ One build serves both environments. Everything that differs between dev and prod
 - [Collections and access](cms/collections.md)
 - [Writing a quest guide](cms/guide-authoring.md)
 - [Guide body blocks](cms/blocks.md)
+- [Design system components](frontend/design-system-components.md)
+- [Performance budgets](testing/performance-budgets.md)

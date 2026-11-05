@@ -5,10 +5,12 @@ description: How the dev deployment is kept private and out of search engines wi
 tags: [security, dev-environment, basic-auth, proxy, seo]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T00:16:52.047Z
+    at: 2026-11-05T11:00:19.182Z
 sources:
   - id: openwiki-source-e97ce5e3668d477e63c70413
     resource: repo://playwright.dev-gate.config.ts
+  - id: openwiki-source-cbc6ab52e896365649760a9f
+    resource: repo://src/lib/dev-gate/design-catalog.ts
   - id: openwiki-source-6b31d93be9f7026d5af1d752
     resource: repo://src/lib/dev-gate/dev-gate.ts
   - id: openwiki-source-2ce84534e6026072681beb8b
@@ -21,7 +23,7 @@ sources:
     resource: repo://tests/e2e-dev-gate/unconfigured.spec.ts
   - id: openwiki-source-cd6d0cbf6430870fd37a8762
     resource: repo://tests/unit/dev-gate.test.ts
-generated: { by: "claude-code", at: "2026-11-04T00:16:52.047Z" }
+generated: { by: "claude-code", at: "2026-11-05T11:00:19.182Z" }
 ---
 
 # Dev environment gate
@@ -72,6 +74,10 @@ Two layers keep dev out of search engines:
 - Every response the gate lets through or rejects in dev carries `X-Robots-Tag: noindex, nofollow`.
 - `robotsFor(env)` returns `Disallow: /` for everyone in dev. Outside dev it allows everything except `/admin`. `src/app/robots.ts` is `force-dynamic` so the rule follows the runtime environment.
 
+## The component catalog
+
+`src/lib/dev-gate/design-catalog.ts` reuses `isDevEnvironment` for a second decision: whether `/sistema`, the design system catalog, renders or answers 404. It opens in the dev environment because the gate already puts basic auth in front of it there, and also under `pnpm dev` and in the E2E run (`E2E_DESIGN_CATALOG=1`). Production never serves it. See [Component catalog (/sistema)](../frontend/component-catalog.md).
+
 ## Tests
 
 - `tests/unit/dev-gate.test.ts`: detection, every decision branch (non-ASCII credentials, passwords with colons, wrong user or password, malformed headers, lowercase scheme, exact exempt path, fail-closed with and without the exempt path) and both responses.
@@ -89,3 +95,4 @@ APP_ENV=dev DEV_BASIC_AUTH_USER=torre DEV_BASIC_AUTH_PASSWORD=clave pnpm dev
 - [Request pipeline](../architecture/request-pipeline.md)
 - [Health check endpoint](health-check.md)
 - [Test suites](../testing/test-suites.md)
+- [Component catalog (/sistema)](../frontend/component-catalog.md)

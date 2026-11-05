@@ -10,6 +10,10 @@ sources:
     resource: repo://package.json
   - id: openwiki-source-71c840280649a7620f8e010f
     resource: repo://scripts/db-dev.ts
+  - id: openwiki-source-79d3d2760afd733db53a957b
+    resource: repo://scripts/dev-database-process.ts
+  - id: openwiki-source-95f46342bb37caacc4ce1dbc
+    resource: repo://scripts/lhci.ts
   - id: openwiki-source-3fe9a34acf3018511853df91
     resource: repo://scripts/reset-dev-database.ts
   - id: openwiki-source-2ad419cae2f45e97a3ca23d7
@@ -34,6 +38,8 @@ sources:
     resource: repo://src/migrations/index.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
     resource: repo://src/payload.config.ts
+  - id: openwiki-source-450b6a23d7e25100eadc359f
+    resource: repo://tests/integration/global-setup.ts
   - id: openwiki-source-8f0065e4504cfadc651f72a5
     resource: repo://tests/integration/guide-single-quest-migration.test.ts
   - id: openwiki-source-a6cdaab0cfeb9dcfe8511d62
@@ -42,10 +48,10 @@ sources:
     resource: repo://tests/integration/needs-list-migration.test.ts
   - id: openwiki-source-b031ce15fe3cb852929a85bf
     resource: repo://tests/unit/database-url.test.ts
-generated: { by: "claude-code", at: "2026-11-04T21:10:46.028Z" }
+generated: { by: "claude-code", at: "2026-11-05T11:00:19.182Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T21:10:46.028Z
+    at: 2026-11-05T11:00:19.182Z
 ---
 
 # Database and migrations
@@ -82,11 +88,16 @@ A blank or whitespace-only value counts as unset. `tests/unit/database-url.test.
 | App database | `ta_web` |
 | E2E database | `ta_web_e2e`, dropped and migrated on every E2E run |
 | Integration database | `ta_web_integration`, dropped and migrated on every integration run |
+| Lighthouse CI database | `ta_web_lhci`, dropped and migrated on every `pnpm test:lhci` run |
 | Data directory | `.postgres/data` (git-ignored) |
 
 `scripts/db-dev.ts` runs `initdb` only when `.postgres/data/PG_VERSION` is missing, starts the server in the foreground, creates `ta_web` if absent, warns when `DATABASE_URL` is set (the app would use that one instead), and stops cleanly on `SIGINT`/`SIGTERM`. `--verbose` prints Postgres's log.
 
-`scripts/reset-dev-database.ts` exports `resetDevDatabase(name)`, which runs `DROP DATABASE IF EXISTS … WITH (FORCE)` and `CREATE DATABASE` for one named database inside that cluster. The E2E and integration setups use it; it never touches `ta_web`.
+`scripts/reset-dev-database.ts` exports `resetDevDatabase(name)`, which runs `DROP DATABASE IF EXISTS … WITH (FORCE)` and `CREATE DATABASE` for one named database inside that cluster. The E2E, integration and Lighthouse CI setups use it; it never touches `ta_web`.
+
+The module also builds one URL per database: `DEV_DATABASE_URL`, `E2E_DATABASE_URL`, `INTEGRATION_DATABASE_URL` and `LHCI_DATABASE_URL`.
+
+`scripts/dev-database-process.ts` is shared by the suites that need the cluster but are not run by Playwright (integration and Lighthouse CI). `ensureDevDatabase()` checks whether something already listens on the embedded port; if not, it spawns `scripts/db-dev.ts`, waits up to 120 seconds for the port to open, and returns the child process so the caller can stop it afterwards. If the port never opens it stops the child before rethrowing, so no Postgres is left running. `stopProcess(child)` sends `SIGTERM` and resolves on exit, or at once when the process has already exited or been killed by a signal. A Postgres that was already running is reused and left alone. See [Performance budgets](../testing/performance-budgets.md) and [Test suites](../testing/test-suites.md).
 
 To start over locally, stop `pnpm db:dev` and delete `.postgres/`.
 

@@ -1,19 +1,27 @@
 ---
 type: testing
 title: Test suites
-description: The five test suites (unit, integration, E2E, dev-gate E2E and smoke), what each one covers, how each provisions its database and app server, and the guards that keep tests away from real databases.
+description: The six test suites (unit, integration, E2E, dev-gate E2E, smoke and the Lighthouse CI budgets), what each one covers, how each provisions its database and app server, and the guards that keep tests away from real databases.
 tags: [testing, vitest, playwright, integration, e2e]
 sources:
   - id: openwiki-source-f235d856bed1fd44853c5195
     resource: repo://.prettierignore
+  - id: openwiki-source-5b54a58d1b51cd490b0e7162
+    resource: repo://package.json
   - id: openwiki-source-5e753d9d77984cb67aae1517
     resource: repo://playwright.config.ts
   - id: openwiki-source-e97ce5e3668d477e63c70413
     resource: repo://playwright.dev-gate.config.ts
+  - id: openwiki-source-79d3d2760afd733db53a957b
+    resource: repo://scripts/dev-database-process.ts
+  - id: openwiki-source-f0b0dfee6a793bb5e8050714
+    resource: repo://scripts/lhci-env.ts
   - id: openwiki-source-15d81576125ffd9d62dc8605
     resource: repo://tests/e2e/app-server.ts
   - id: openwiki-source-c04b26872daa30d9d3f5983e
     resource: repo://tests/e2e/robots.spec.ts
+  - id: openwiki-source-8b0b9cc5ebf1012175c3d759
+    resource: repo://tests/e2e/sistema.spec.ts
   - id: openwiki-source-a493eb920ff6a7f8859a6c69
     resource: repo://tests/e2e/smoke.spec.ts
   - id: openwiki-source-ffbd2a66dcd49833dd7094eb
@@ -60,6 +68,8 @@ sources:
     resource: repo://tests/unit/dofusdb-quest-rewards.test.ts
   - id: openwiki-source-e73350ef868f2379d51909ed
     resource: repo://tests/unit/dofusdb-write-concurrency.test.ts
+  - id: openwiki-source-0dce08d52a9be6f19ead446b
+    resource: repo://tests/unit/game-components.test.tsx
   - id: openwiki-source-cd37c5a886e3aa1e214dad74
     resource: repo://tests/unit/game-data-collections.test.ts
   - id: openwiki-source-bb0747d86ef5cecbc4d85241
@@ -86,19 +96,21 @@ sources:
     resource: repo://tests/unit/quests-collection.test.ts
   - id: openwiki-source-56eed4e45701ea6820d33662
     resource: repo://tests/unit/test-database-env.test.ts
+  - id: openwiki-source-ec6f86966a8f8c08cdb73603
+    resource: repo://tests/unit/ui-components.test.tsx
   - id: openwiki-source-b58f839a189d87a7e1f37d39
     resource: repo://vitest.config.mts
   - id: openwiki-source-57da85ca1bb457973a5594ff
     resource: repo://vitest.integration.config.mts
-generated: { by: "claude-code", at: "2026-11-04T21:10:46.028Z" }
+generated: { by: "claude-code", at: "2026-11-05T11:00:19.182Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T21:10:46.028Z
+    at: 2026-11-05T11:16:25.753Z
 ---
 
 # Test suites
 
-The repo works test-first (AGENTS.md: strict TDD). There are five suites. All of them run in CI except smoke, which runs after deploys.
+The repo works test-first (AGENTS.md: strict TDD). There are six suites. All of them run in CI except smoke, which runs after deploys.
 
 | Suite | Command | Runner | Location | Needs |
 |---|---|---|---|---|
@@ -107,18 +119,20 @@ The repo works test-first (AGENTS.md: strict TDD). There are five suites. All of
 | E2E | `pnpm test:e2e` | Playwright | `tests/e2e/` | Production build, Postgres, migrations |
 | Dev gate | `pnpm test:e2e:dev-gate` | Playwright | `tests/e2e-dev-gate/` | Same build, `APP_ENV=dev` |
 | Smoke | `pnpm test:smoke` | Playwright (`@smoke` subset) | `tests/e2e/` | A local server, or a deployed URL |
+| Budgets | `pnpm test:lhci` | Lighthouse CI (`scripts/lhci.ts`) | `lighthouserc.cjs` | Production build, Postgres, migrations, Chromium |
 
 ## Unit
 
-`vitest.config.mts` runs `tests/unit/**/*.test.ts` in the Node environment, with `vite-tsconfig-paths` so `@/…` imports work. Unit tests target the pure resolvers and builders that take an `env` record, which is why most server logic is written that way:
+`vitest.config.mts` runs `tests/unit/**/*.test.{ts,tsx}` in the Node environment, with `vite-tsconfig-paths` so `@/…` imports work. Unit tests target the pure resolvers and builders that take an `env` record, which is why most server logic is written that way:
 
 - configuration: `database-url`, `media-storage`, `sentry-options`, `railway-config` (evaluates `.railway/railway.ts` for each environment), `next-config`, `test-database-env`;
 - behavior: `health` (fake pool and timers), `dev-gate`, `robots`, `theme`, `mode-script`, `mode-toggle-strings`, `media-collection`, `quests-collection` (including the `rewards` and `needs` groups), `game-data-collections` (the `items` and `monsters` fields, including the optional `superTypeId` on items, and the shared read-only `gameDataAccess`);
-- quest guides: `quest-guides-collection` (fields in order, with the single, optional `quest` relationship first and in the main area, the needs group and the note components, versions, the `fillFromQuest` hook, `validateGuideTitle`, `validateGuideSlug`, `validateSlug` and the access functions), `quest-guide-blocks` (each body block's fields and `validateVideoUrl`), `guide-summary` (Torre's summary format checked against the parsed Squarespace pages of quests 1977, 1976 and 1433, the minimum level read only from a `PL>` the criterion always requires, the needed items without quest items, the fill rules and every note state), `guide-form-fill` (the live form fill planned from the empty fields, and only the fields still empty after the slug check filled, so what Torre types meanwhile stays) and `guide-autofill` (slugs, slug suffixes, the SEO templates and the 160-character cut, never touching written fields, and `linkedQuestId`). See [Writing a quest guide](../cms/guide-authoring.md#tests);
+- quest guides: `quest-guides-collection` (fields in order, with the single, optional `quest` relationship first and in the main area, the needs group and the note components, versions, the `fillFromQuest` hook, `validateGuideTitle`, `validateGuideSlug`, `validateSlug` and the access functions), `quest-guide-blocks` (each body block's fields and `validateVideoUrl`, which accepts only YouTube video links), `guide-summary` (Torre's summary format checked against the parsed Squarespace pages of quests 1977, 1976 and 1433, the minimum level read only from a `PL>` the criterion always requires, the needed items without quest items, the fill rules and every note state), `guide-form-fill` (the live form fill planned from the empty fields, and only the fields still empty after the slug check filled, so what Torre types meanwhile stays) and `guide-autofill` (slugs, slug suffixes, the SEO templates and the 160-character cut, never touching written fields, and `linkedQuestId`). See [Writing a quest guide](../cms/guide-authoring.md#tests);
 - DofusDB refresh: `dofusdb-client` (paging, `$select[]` fields, ID chunks, pauses and errors through an injected fake `fetch`, never the network; retries of network errors and 429, 502, 503 and 504 with doubling waits, jitter, `Retry-After` and one log line each, giving up after 5 attempts with the URL in the error, and no retry on 400 or 404, through injected `sleep`, `log` and `random`), `dofusdb-criterion` (`requiredTerms`: the terms joined by `&` at the top level or inside `&`-only brackets, nothing from a level with `|`, nothing for an empty criterion), `dofusdb-map-quest` (names, start positions, rewards and needs from the steps, and the prerequisite rule), `dofusdb-quest-rewards` (the level-200 XP and kamas formula against Torre's and dofusdb.fr's figures, per-step flooring, the last reward entry, items and IDs), `dofusdb-quest-needs` (which objectives count, the larger-quantity rule between `need.items` and deliveries, `walksMaps`), `dofusdb-fetch-quest-data` (only the NPCs and maps named in start positions and the monsters named in needs are looked up by ID; the whole item catalog comes from `fetchAll` with the stored fields as its select list) and `dofusdb-write-concurrency` (`DOFUSDB_WRITE_CONCURRENCY`: empty gives the default, which stays below pg's pool of 10, a positive integer is read, and `0`, `-2`, `1.5` and `ocho` throw);
 - shared helpers: `concurrency` (`mapWithConcurrency` keeps input order, never runs more than `limit` tasks, runs them one by one with `limit` 1, rejects with the first error once running tasks settle without starting more, handles an empty list, and rejects a `limit` below 1 or not an integer);
 - Squarespace import: `import-parse-page` (title, desktop grid order, text, image and unknown blocks), `import-to-quest-guide` (summary with the "Necesitarás" text as `needs.notes`, start NPC, what leaves the body, callouts, oddities), `import-rich-text` (HTML to Lexical through Payload's editor), `import-quest-matches` (the slug to DofusDB IDs CSV) and `import-fetch-image` (image downloads only over `https` from Squarespace's CDN, without redirects and only for `image/*` responses, through an injected fake `fetch`). See [Squarespace import](../data/squarespace-import.md);
-- tooling: `commit-msg` (runs the git hook script).
+- design system: `ui-components` and `game-components` (`.test.tsx` files that render each component with `renderToStaticMarkup` and check its markup, accessible names, hit targets and empty states; see [Design system components](../frontend/design-system-components.md)), `coordinates`, `display-format` and `video-url` (the guide display helpers), `theme-css` (every semantic token is re-declared for nested `data-theme`/`data-mode`), `fonts` (preloads and weights, with `next/font/google` mocked) and `design-catalog` (when `/sistema` opens);
+- tooling: `commit-msg` (runs the git hook script), `lighthouse-ci` (the `lighthouserc.cjs` assertions and `lhciEnv`; see [Performance budgets](performance-budgets.md)).
 
 ## Integration
 
@@ -126,7 +140,7 @@ Real Payload (`getPayload`) against a real Postgres with the committed migration
 
 - `vitest.integration.config.mts` runs `tests/integration/**/*.test.ts` with a global setup, `fileParallelism: false` (all files share one database), a 30 s test timeout and a 120 s hook timeout.
 - `integrationEnv` sets the environment: `DATABASE_URL` from the shell or the embedded `ta_web_integration` database, `DATABASE_URL_DIRECT` forced to the same URL, a dummy `PAYLOAD_SECRET` when none is set, and every `S3_*` and `MEDIA_BASE_URL` blanked so uploads go to `./media`.
-- `tests/integration/global-setup.ts`: with no `DATABASE_URL`, it starts `pnpm db:dev` if port 54329 is closed (and stops it afterwards, or on setup failure), recreates `ta_web_integration`, then runs `pnpm migrate`. With `DATABASE_URL` (CI's empty Postgres service) it only migrates.
+- `tests/integration/global-setup.ts`: with no `DATABASE_URL`, it starts `pnpm db:dev` if port 54329 is closed (and stops it afterwards, or on setup failure), recreates `ta_web_integration`, then runs `pnpm migrate`. With `DATABASE_URL` (CI's empty Postgres service) it only migrates. Starting and stopping Postgres goes through `ensureDevDatabase` and `stopProcess` in `scripts/dev-database-process.ts`, shared with `pnpm test:lhci`.
 - Helpers in `tests/integration/payload.ts`: `startPayload`, `tinyPng` (a 1×1 PNG in memory) and `createPanelUser` (creates and logs in a panel user, returning what Payload puts in `req.user`).
 - Access tests call the local API with `overrideAccess: false`; omitting `user` makes the call anonymous. See [Collections and access](../cms/collections.md).
 - `quest-guides-access.test.ts` goes further than the other access tests: besides who may read and write, it checks that anonymous reads hide drafts, that a panel user can publish a draft and get a version, and that a guide with all four [body blocks](../cms/blocks.md), its linked quest, a summary with needs notes and an image saves and reads back. When it finishes it deletes every guide, quest and media document in the integration database.
@@ -143,16 +157,17 @@ Real Payload (`getPayload`) against a real Postgres with the committed migration
 `playwright.config.ts` tests the app on the production path, never `next dev`:
 
 1. `pnpm build` (skipped with `E2E_SKIP_BUILD=1`).
-2. With no `DATABASE_URL`: start `pnpm db:dev` (reusing a running one) and reset `ta_web_e2e` with `scripts/db-e2e-reset.ts`.
+2. With no `DATABASE_URL` (a blank or whitespace-only value counts as none, as in `pnpm test:lhci`): start `pnpm db:dev` (reusing a running one) and reset `ta_web_e2e` with `scripts/db-e2e-reset.ts`.
 3. `pnpm migrate` on the empty database.
 4. `pnpm start --port 3100` (`E2E_PORT`), a port of its own so a running `pnpm dev` on 3000 is never reused by mistake.
 
-`appWebServers` in `tests/e2e/app-server.ts` builds that server list and passes `DATABASE_URL_DIRECT` equal to `DATABASE_URL`, because `pnpm migrate` prefers the direct URL. Only Chromium runs. In CI: one worker, one retry, traces on first retry, GitHub and HTML reporters, and `forbidOnly`.
+`appWebServers` in `tests/e2e/app-server.ts` builds that server list and passes `DATABASE_URL_DIRECT` equal to `DATABASE_URL`, because `pnpm migrate` prefers the direct URL. `playwright.config.ts` adds `E2E_DESIGN_CATALOG=1` to the app's environment, which opens the `/sistema` catalog on this production build; no deployed environment sets it. Only Chromium runs. In CI: one worker, one retry, traces on first retry, GitHub and HTML reporters, and `forbidOnly`.
 
 Specs:
 
 - `smoke.spec.ts`: home renders in Arcano dark; the toggle switches to light and the mode survives reload; the egg medallion per mode and its hover state; the head script recovers the mode from `localStorage` without a cookie; `/admin` responds and hydrates the first-user form without errors; `/api/health` is ok.
 - `robots.spec.ts`: outside dev, `robots.txt` allows indexing except `/admin`, and the home page has no `X-Robots-Tag`.
+- `sistema.spec.ts`: the `/sistema` component catalog in all five themes and both modes: every component group visible, hand-written CSS following each section's theme, coordinate copy, 40px hit targets, the 30-stage progress pill at 390px, no YouTube request before a video click, the fullscreen image viewer (open, close, focus return, theme), and axe (`@axe-core/playwright`, WCAG 2.2 AA tags) on the open viewer and the whole page. See [Component catalog (/sistema)](../frontend/component-catalog.md).
 
 ## Dev gate
 
@@ -166,6 +181,10 @@ Specs:
 - With `SMOKE_BASE_URL` it tests that URL and starts nothing: no build, no migrations, no database.
 - `SMOKE_BASIC_AUTH_USER` and `SMOKE_BASIC_AUTH_PASSWORD` become Playwright `httpCredentials` only when both are set.
 
+## Budgets
+
+`pnpm test:lhci` runs Lighthouse CI against the production path on its own `ta_web_lhci` database, three mobile runs per page against the `DESIGN.md` budgets (LCP, CLS, compressed JavaScript, image size and format). In CI it runs inside the E2E job on that job's build. See [Performance budgets](performance-budgets.md).
+
 ## Fixtures
 
 `tests/fixtures/dofusdb/` holds real DofusDB rows (`quests.json`, `npcs.json`, `map-positions.json`) shared by the DofusDB unit tests and `refresh-quests.test.ts`. The quests cover a plain criterion, several start positions, alternatives joined by `|` and a `Qa=` term. `quests-steps.json` adds nine quests with their steps, rewards and objectives, and `items.json` and `monsters.json` hold exactly the items and monsters those quests name; they feed the rewards, needs, fetch and refresh tests. `items-unreferenced.json` adds three items no fixture quest names (a sword and two quest items of supertype 14), so the fetch and refresh tests can check that the whole catalog is stored.
@@ -175,8 +194,8 @@ Specs:
 ## Guards against touching real data
 
 - Playwright reads only `E2E_PORT`, `E2E_DEV_GATE_PORT` and `E2E_SKIP_BUILD` from `.env` (`loadE2eEnvFromFile`); a `DATABASE_URL` in `.env` never reaches the tests, and the smoke variables come only from the shell. The process environment always wins.
-- E2E and integration use their own databases (`ta_web_e2e`, `ta_web_integration`), dropped and recreated per run, so local dev data in `ta_web` is untouched.
-- Both force `DATABASE_URL_DIRECT` to the test database so `pnpm migrate` cannot follow a direct URL inherited from the shell. `tests/unit/test-database-env.test.ts` pins this.
+- E2E, integration and Lighthouse CI use their own databases (`ta_web_e2e`, `ta_web_integration`, `ta_web_lhci`), dropped and recreated per run, so local dev data in `ta_web` is untouched.
+- All three force `DATABASE_URL_DIRECT` to the test database so `pnpm migrate` cannot follow a direct URL inherited from the shell. `tests/unit/test-database-env.test.ts` pins this for integration and E2E, and that E2E treats a blank `DATABASE_URL` as empty; `tests/unit/lighthouse-ci.test.ts` pins it for `lhciEnv`.
 
 ## Related pages
 
@@ -188,3 +207,5 @@ Specs:
 - [Guide body blocks](../cms/blocks.md)
 - [Writing a quest guide](../cms/guide-authoring.md)
 - [Squarespace import](../data/squarespace-import.md)
+- [Performance budgets](performance-budgets.md)
+- [Component catalog (/sistema)](../frontend/component-catalog.md)

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:63fd72de97dc241e6f206128090878453921c953ee32976de1ca00422f0741a1",
+  "pageVersion": "sha256:862ad70a9e4f2aba012dbeee87bb042cbe01609905e010c7c505f97fd64dc713",
   "claims": [
     {
       "id": "claim_9936ebd9dea946e4b427e760c2d1f74d",
@@ -129,8 +129,12 @@
       "statement": "Summary lines end in a full stop unless they already end in punctuation, and thousands are separated by a plain space.",
       "evidence": [
         {
-          "resource": "repo://src/lib/guides/format.ts#L15-L23",
-          "version": "repo-lines-v1:sha256:ee6eae83d2062f67765f294e9ba72ce14a539a6643f89bf51db5d422e108dab6:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTc3OWExMzdiMGYwMGJlM2JhYzMzNGJkMDhkM2I0M2E5MjNmNTE3YzQ1MTk5MGFiNDM4YjA5OTdmYzZhOWVkNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTAxYzE3NzRkMDMzZTJjOTNmYTBiMTk3NDliYWYxODgxZjEwNjllZTYwYTE2Y2U2OWJhYjE4ZTI1OGJhOGYxYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmMxZmFmODViNjYwMjI0NDhiNmI5YmRkNDFhODIzZjU5NDM5NGM2NGM1NWU1M2Q3NDhiYTI3MDA2ODBlNTMyYSJ9"
+          "resource": "repo://src/lib/guides/display.ts#L4-L6",
+          "version": "repo-lines-v1:sha256:dd09193cf6920a1adefddabab4604170763cfd87082738f838e6a8ad3abd3640:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTc3OWExMzdiMGYwMGJlM2JhYzMzNGJkMDhkM2I0M2E5MjNmNTE3YzQ1MTk5MGFiNDM4YjA5OTdmYzZhOWVkNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWI1NzA2MjE3OGQ2ZGZhOTczNzU4MmE4MjM5NTI4ZWJiYTIxNmJiMTM0YmY0YTc2YmI0NGUzZjQ4ZTE4OGY5NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDYwMzJkZDhlZmRhY2Q4MWIzYmE2MzIxYWIxZjU4OTkyZjhhMDYxNDgzODhjYzJiZTNiNWI4YmQwMzRjMzk1YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzYzOTdiZDg3NmQ0YTQ0ZmU0Y2ZjOThjYmYxMzgwODcxMWEyMmFmM2FmZDc3OWY5YjAyY2FhN2Q3YzI5NTNjOCJ9"
+        },
+        {
+          "resource": "repo://src/lib/guides/format.ts#L19-L22",
+          "version": "repo-lines-v1:sha256:b6ec2581f5c6fba2a68a48725fec43fbe2d71355dbcc18a4899b79eebd95200c:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWJhNzBjNjVjZTk5NzRhZDgyNTBhMmRlY2U2ODVjNDNkODU1NDc5YjliZjMwN2ZiMzZhNTJmNzM4Y2Q4OGM4MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTAxYzE3NzRkMDMzZTJjOTNmYTBiMTk3NDliYWYxODgxZjEwNjllZTYwYTE2Y2U2OWJhYjE4ZTI1OGJhOGYxYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmMxZmFmODViNjYwMjI0NDhiNmI5YmRkNDFhODIzZjU5NDM5NGM2NGM1NWU1M2Q3NDhiYTI3MDA2ODBlNTMyYSJ9"
         },
         {
           "resource": "repo://src/lib/guides/strings.ts#L6-L11",
@@ -147,7 +151,7 @@
       "statement": "rewardsText lists experience, kamas and then 'N x Item' lines with the reward items in reverse DofusDB order, skipping zero amounts and unpopulated items.",
       "evidence": [
         {
-          "resource": "repo://src/lib/guides/format.ts#L34-L43",
+          "resource": "repo://src/lib/guides/format.ts#L33-L42",
           "version": "repo-lines-v1:sha256:7baead8920b37467b3313a911c05800a83fa8c4d11924d0dd8161895801ba15d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZkYTY5MTk1YjFhODE4ZDg4MTVkZTYyNjcxMzU1ZTFjNmM3MDNhZGQzNjgyNGZiODJkYjQzYjZiMjQzYTQzNzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ3YzYwZmEyZGE1NWE1ZWRhNWYzOGRiNDA2MDVhNzE4ZjBjZDA3NzFkZTRmODM4NjBiZjBmYjkyMjk3OGRkN2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ5OTc3YjkzZGYxM2YwODMxMjk1OWU2OGM4MWYxMWIxNGM4NmRlY2JjZTJiM2FkMzRkZDRjZTFkNDIwOTdiNTkifQ"
         },
         {
@@ -161,7 +165,7 @@
       "statement": "prerequisitesText puts 'Nivel mínimo N' first, with N one more than a PL> value the start criterion always requires, followed by the names of the populated prerequisite quests.",
       "evidence": [
         {
-          "resource": "repo://src/lib/guides/format.ts#L69-L90",
+          "resource": "repo://src/lib/guides/format.ts#L68-L89",
           "version": "repo-lines-v1:sha256:2cf0c947fc0153c97a172ab9668155632c8e72f74e7e5e1938dc93eea2851985:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc0MjY0NzA0ZGI4NGQ0YmQ4ODdmMDc2YWU0MzkyMTU5MGM5ZTAzYWMyOWUxZWZmZTdiYWE5ZjEwYWJlMWVlZmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
@@ -175,11 +179,11 @@
       "statement": "neededItems keeps the quest's needed items in DofusDB order with their quantities but drops quest items with superTypeId 14 and unpopulated items, leaving monsters and map walking out.",
       "evidence": [
         {
-          "resource": "repo://src/lib/guides/format.ts#L11-L13",
-          "version": "repo-lines-v1:sha256:723f0bc4ed9fc015b4d0f614eda2594049710943d2390b006da18ce87a7f84eb:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWY3MGYyZDc2OTk3MjkwYjk0NmRiOWMwNTI3ZDkxNmQxOTU5NWJhNTk4ZGMwNzhhMTY1ZTM5ZGI0NDI2M2FjYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTc1Y2M4YTc0OWE1MzY1ODM0ZmZhMzA4OWFlNDNhMWFlYTMyNjE2N2Y1NDU3ODIzNThlZTQ3ZmE5ZDFiMjhjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWUxNmM5OGM2NjgzZDVmYWNlNDUyMWUzODc0MGIyYzg5MjJlMjQxZDA1MWI5ODk0ZmQ2Yjc2ZWQwNmYyMmVjOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzRlNDIxOTRjYzdjM2JhN2UyZmEyMzk0OTI5ZDMwMDUwNGMzZjFmOWQyY2ZiOGY3ZmRkYzcyZTE3MzA3NzcyMiJ9"
+          "resource": "repo://src/lib/guides/format.ts#L15-L17",
+          "version": "repo-lines-v1:sha256:723f0bc4ed9fc015b4d0f614eda2594049710943d2390b006da18ce87a7f84eb:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWY3MGYyZDc2OTk3MjkwYjk0NmRiOWMwNTI3ZDkxNmQxOTU5NWJhNTk4ZGMwNzhhMTY1ZTM5ZGI0NDI2M2FjYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTc1Y2M4YTc0OWE1MzY1ODM0ZmZhMzA4OWFlNDNhMWFlYTMyNjE2N2Y1NDU3ODIzNThlZTQ3ZmE5ZDFiMjhjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWUxNmM5OGM2NjgzZDVmYWNlNDUyMWUzODc0MGIyYzg5MjJlMjQxZDA1MWI5ODk0ZmQ2Yjc2ZWQwNmYyMmVjOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmUyYThjMDY0MmZmYWViOWY0NjlmMGUxMDRjMGU3NWVhMDNmNWNjMzUxNGU0YzQzMThiNzYyZjQxOWFhZDU2ZiJ9"
         },
         {
-          "resource": "repo://src/lib/guides/format.ts#L51-L62",
+          "resource": "repo://src/lib/guides/format.ts#L50-L61",
           "version": "repo-lines-v1:sha256:668fb1aa70adb0ffc36b83280269e66a7e6c91662f7ee27c775e5e8cc1a80e26:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBjYTlhOTkxZmNmYWYzNzhhYzkxZDFkOGE5ODM3MjM3NjlmOGM0MDk5ZDJkZTVkYmRhYzViMzhiMjc3MDNmMTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIxNWZlMTExOTMzMTFiYWU0YzIyM2I2ZjhmYzBjNmZiMmI1Njc3ZjhhMzdlNjM1NjgwNDk1MmYyNTVhMzc5OTMifQ"
         },
         {
@@ -309,7 +313,7 @@
           "version": "repo-lines-v1:sha256:54fbd9654b0163a130c01f09862f23573a6ff12edec8a44fec3f05caf0853d6e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYyMThiMzUxOWQyMWI1YzQ1YThhMDAxZWUzMjMwOWFhNGY1YmYxMzdjNjFkZDRhY2U1NGQ1NWI0ODk1OWFmNjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://src/lib/guides/format.ts#L69-L79",
+          "resource": "repo://src/lib/guides/format.ts#L68-L78",
           "version": "repo-lines-v1:sha256:0cb5659f88254b695d976051613ab58e82c42d4bb5795fefa4c08760f3c95672:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc0MjY0NzA0ZGI4NGQ0YmQ4ODdmMDc2YWU0MzkyMTU5MGM5ZTAzYWMyOWUxZWZmZTdiYWE5ZjEwYWJlMWVlZmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIxMmRlMDIxMjEyOGYwMDc5MGYyY2IxMzViNTlmYWY1NzUxYzhkMTQ3NTk4ZmUyNjg1MmE1N2U3MTE2NmNkMWQifQ"
         },
         {
@@ -405,10 +409,24 @@
           "version": "repo-lines-v1:sha256:36f1eb38424b56bf00abca2b2396cee06eb754ffc8de23b1567524c144a743b7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBiNDAxMTIxNWM3Mzk3M2RmYjU2ZTYwZmRjODgyY2U3YmYzMWY2MmMwNjQ4ZDljZjk2N2Q1NDYzYzdiZWU5NDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU3ZGNhMmM2M2IwOWY4NDQ1ODUzNmE0NTI3NzNkZWRkZGNiYTk1ZTY1YWY0NzY5ZDhmYzgzZTFhNzIwZTk3YmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNiNjU0YmU3MzIyNmViMGQxZThiZDY2MWI1MzJmYWRmYmNmNzVhZjZiMGRkNDY0NTAzZGY4ZDNjMGYzYjUxNTEifQ"
         }
       ]
+    },
+    {
+      "id": "claim_b287ca438daf4030a4fdb3e19c6b6b19",
+      "statement": "formatThousands lives in the dependency-free src/lib/guides/display.ts and format.ts re-exports it, so the guide page island can use it without importing format.ts.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/guides/display.ts#L1-L6",
+          "version": "repo-lines-v1:sha256:378b365cc94289bed3882c018151eb5d7f2c153359c66f7bfe90453203ab949c:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTdhMWIxYjdjNTNiM2UwNGQ2MGI5NmMyMTg1ZTAxZmM1ZWQ3M2NhZTI3NTM4MTY4ZjQzOTk3MWJhM2I5MDA2OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWI1NzA2MjE3OGQ2ZGZhOTczNzU4MmE4MjM5NTI4ZWJiYTIxNmJiMTM0YmY0YTc2YmI0NGUzZjQ4ZTE4OGY5NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzYzOTdiZDg3NmQ0YTQ0ZmU0Y2ZjOThjYmYxMzgwODcxMWEyMmFmM2FmZDc3OWY5YjAyY2FhN2Q3YzI5NTNjOCJ9"
+        },
+        {
+          "resource": "repo://src/lib/guides/format.ts#L6-L11",
+          "version": "repo-lines-v1:sha256:620c6ca9eb6cd6e22a946a46a4de651fc048a9a4aad2ad1feed6dfdb9a1d2e7d:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTU4OWRiNmQzYjA0OGE5NWUwYWQwMjQ1MzExYmMxMDJjMGI1MDgzMjM4NGU5YzEyMWQ0MjAxYTU3ODZjOTUwNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2IwMzY1YTQ0OTgxOTgyMjgwYWMzZDI4MGFlMTJlNzE0MmZmM2U5YTM3NjE1ZDYwZjNhZjUzZDRkYzQxNWFjNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjhiNGEzOTNmYzBhZDY0NmE2NWFmZDIzMmM0OTMyM2Y2OWRmZTJhYzYwOGU4MjhiYTU1Y2FhYWUyMzY5NWFjNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWUxNmM5OGM2NjgzZDVmYWNlNDUyMWUzODc0MGIyYzg5MjJlMjQxZDA1MWI5ODk0ZmQ2Yjc2ZWQwNmYyMmVjOCJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T21:10:46.028Z"
+    "at": "2026-11-05T11:00:19.182Z"
   }
 }

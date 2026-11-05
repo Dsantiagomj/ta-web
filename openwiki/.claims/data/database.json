@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ebc5908faa17467297ea4e5c394fd80116bb8b1e1530de45e2f50d01d946a139",
+  "pageVersion": "sha256:05519b7055833d7b44a859705cd158a1687635e1aba2d1321f4eb6e3dab288ae",
   "claims": [
     {
       "id": "claim_c4d0210fcc834f69a874cfcee7b4d598",
@@ -36,11 +36,11 @@
     },
     {
       "id": "claim_6b1cafcd25b740d0a97860a58338d929",
-      "statement": "The embedded development database listens on 127.0.0.1:54329 with user and password postgres, uses ta_web for the app and separate ta_web_e2e and ta_web_integration databases for tests, with data in .postgres/data.",
+      "statement": "The embedded development database listens on 127.0.0.1:54329 with user and password postgres, uses ta_web for the app and separate ta_web_e2e, ta_web_integration and ta_web_lhci databases for tests and Lighthouse CI, with data in .postgres/data.",
       "evidence": [
         {
-          "resource": "repo://src/lib/db/dev-database.ts#L1-L20",
-          "version": "repo-lines-v1:sha256:5341e380f7969e74152bd61cdc53032161eaaa1127dd31b189c4532f83015bee:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUxZmU3OWFkYTNhMmRiZTIwZWE1ZTQ0ZTQ0NDJhMzEyNDc1MjI3MDYxNjA2NDIxMGJjYWI4MjUwOTM1MjM0MzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE4OTY1YTU1ZTNlODlmNjI3MzMyMDAxOTA0ZjQ5Yjk2Yjg5YTVmODIyYTU2OTZhMTg1ZDUzNWZlMzZhNWI2MTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/lib/db/dev-database.ts#L1-L24",
+          "version": "repo-lines-v1:sha256:0b28a7daf7958b242223d1eea0275f1d59802e7957970b4e13668a2627831d3e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUxZmU3OWFkYTNhMmRiZTIwZWE1ZTQ0ZTQ0NDJhMzEyNDc1MjI3MDYxNjA2NDIxMGJjYWI4MjUwOTM1MjM0MzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRmNTUzNGJhY2M1YTllZjVhZThkZjIyZWNiZWFiYTMyNGZjNTdjYTdlMjkxMmZlZWQwMjA2OGJjMzY5OWMzM2EiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -103,8 +103,8 @@
       "statement": "Railway runs pnpm migrate as the pre-deploy command with a 600-second timeout, and a failed migration stops the deploy while the previous version keeps serving.",
       "evidence": [
         {
-          "resource": "repo://.railway/railway.ts#L34-L46",
-          "version": "repo-lines-v1:sha256:fffb75be440595f712ddebc351587b38e86d5754c51e1cdebb4985ba395a91e1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliOGI4YWFmYjk5NzRiYzE2YWZkMmQ2YWE1YjVlOGViOWQ1ZWEwMDkzZWY1YzU5ZTc2MDNjZGE3ZWYyYzY5N2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ1YzA0YTgxODE0MTVlZTFmMzRlYmZiY2ZiM2ZjZmU1NWYwZGRiMjIxM2IzYmJlZDQwYjkwMmJhNTQzOTEyMWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkzYWY5NjhmOWRjZWJhZjZmMGY4Mzg3NTY5N2EwODk0ZGUyNGM3ZDMwMWQ0MTk4YjgxOWRlYWQzNmVjYjE4MWYifQ"
+          "resource": "repo://.railway/railway.ts#L35-L47",
+          "version": "repo-lines-v1:sha256:fffb75be440595f712ddebc351587b38e86d5754c51e1cdebb4985ba395a91e1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliOGI4YWFmYjk5NzRiYzE2YWZkMmQ2YWE1YjVlOGViOWQ1ZWEwMDkzZWY1YzU5ZTc2MDNjZGE3ZWYyYzY5N2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhkZTE2MzliYTNkZmU4MjIyYTRmZmE5ZDkzNmI4NzcwYTFmZmNiZWEzM2Y2NGM4MDA1NWQxNTlkMDE1NzYxMmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkzYWY5NjhmOWRjZWJhZjZmMGY4Mzg3NTY5N2EwODk0ZGUyNGM3ZDMwMWQ0MTk4YjgxOWRlYWQzNmVjYjE4MWYifQ"
         }
       ]
     },
@@ -307,10 +307,38 @@
           "version": "repo-lines-v1:sha256:bf9288774453186dfc78bbf89dcbab0eb9da6b5d4d8c1f0b11564e6157d1fdc9:eyJzZWxlY3RlZExpbmVDb3VudCI6OTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM5NDgxNTM2NDI4OTI4ZTU3MTIzODRhYWZiNjI5ODkyNWE2OGM1YTNkNDhhMzM2ZTMzZGQyMTAxYjA4OWFhOGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZkY2Q3NGExMzlkNTgzNDMzMmExOWVlMzUyNjQxNWM4ZjhlZDQ0ZGNhYWRmYzQ1M2MxMzllMjY5NGM3NDg1MjQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_84c49be5db064fee89cd05bb2f68a81d",
+      "statement": "ensureDevDatabase reuses a Postgres already listening on the embedded port, otherwise spawns scripts/db-dev.ts, waits up to 120 seconds for the port and stops the spawned process before rethrowing if it never opens; integration and Lighthouse CI setups share it.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/dev-database-process.ts#L19-L40",
+          "version": "repo-lines-v1:sha256:641c1507bf659ac409838b6288138f3d6714095f4fb78abbdd3650f177af59b4:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2NmJkZmE5NjUyNTFlM2EwNTA2NDFhYjllODFmMWE4YmQ3ZjQ4NTYzY2Y1Y2Q5NjdmZjk3MzJiNWRmOTc2YzEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRjZjk1ZjJhMmZmNDU0NDJlMTM1ZDA0ZjY2ZmIyNTRiYTcwMTBlZTMyYmU4YjNhY2EwMDI3M2UxNzdkMDlmMjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImExMTY5YjExZjkxYTMzMmVmMmJjZmMwZWNhZTBlNjc4ZDg2YzRmOWU3NzFmY2E2ODg4YWEwYTY4NWNiYTk0ZDYifQ"
+        },
+        {
+          "resource": "repo://scripts/lhci.ts#L74-L77",
+          "version": "repo-lines-v1:sha256:fbc3c5db443d435ab011dee4ac4bdaef54e2463c3f24207ae337c67a7d0b75d0:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmY0Nzg4ZWJmZDdhZTk0MTgwYzk5Yjg2ZGQ2NjliNmU3NTU5ZDE2NWE0NDQzMTQzNGMyMDg4YmM1MjA4MmY5YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDIzMGM2MzI5ZDg3NTcwMzkyMzFlZjJmYjQ4MzFlZjcwMDVhZTZlNGJkYzkwYjE0MDE5MjQxYTQ3ZjczYjg5MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzdhYWIxZmIzOTRkNDkxNzE3MzhhY2RlNjUyYTUyYTE2MjdkYzczYjgzYTM4ZDE3NTYyYmE4OTY2NzQxYzM0ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWY5NjY4ZGZhNzkyOTVlM2MyMWVkZGJmZDc5NDA0ZGE5NTBmMTk0YjljMTg2NDZhMDliNzEzNTA1ZDQ1OGIwNiJ9"
+        },
+        {
+          "resource": "repo://tests/integration/global-setup.ts#L1-L31",
+          "version": "repo-lines-v1:sha256:917feb324289a365d888451292e0fc1bb92f4d3a5580ff565737892d184f0904:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MjUyNTBlMDE4NjMxOGU4YmUxMDIzZGY0OTIxODVhZmNiMmNiYjZiZDAzNWIzOTY3N2Q0ZTJjZmRmNzc5YmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_87b1958462994c6b83145b86f12a41ba",
+      "statement": "stopProcess resolves immediately when the child has already exited or was killed by a signal, and otherwise sends SIGTERM and resolves on exit.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/dev-database-process.ts#L42-L48",
+          "version": "repo-lines-v1:sha256:4700dfd910cdfb066b6cf604f2b04bdd6a3a89d9d286639a9e6f937d8e562fc7:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDM5YzYyYzZlMmVlYTJkNDIxMmFhMWYwMDU0Y2MyZDQ3OTc2NGVkYzUwOGMwMjg5NTVkODQzMTc4OTg3MjkxZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTlmY2EyYjFhMmE0NDMwMThmZDc1NjA5OTljNmE4ZmJiYmE0NDFhNmVmNWM0YTdhOTY3NTViNmIwZjVmODUwNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T21:10:46.028Z"
+    "at": "2026-11-05T11:00:19.182Z"
   }
 }

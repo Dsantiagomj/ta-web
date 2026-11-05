@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:15ee3dc3e3a15c7efdaf4a69ec982afd60be7cdb42ef73680d17ebf6184a715d",
+  "pageVersion": "sha256:e101576195b0bfd116cc93edff01f5640ae7570b423e99bebdc96e208ae98ca4",
   "claims": [
     {
       "id": "claim_cb74801dca844af99590395d68fa512d",
@@ -68,11 +68,11 @@
     },
     {
       "id": "claim_f2ecd7617e864da78507931afeda79cf",
-      "statement": "CI runs lint and format check, typecheck plus a stale Payload types check, unit tests, build, integration tests and E2E plus dev-gate E2E against empty Postgres 17.11 services.",
+      "statement": "CI runs lint and format check, typecheck plus a stale Payload types check, unit tests, build, integration tests and E2E plus dev-gate E2E and Lighthouse CI budgets against empty Postgres 17.11 services.",
       "evidence": [
         {
-          "resource": "repo://.github/workflows/ci.yml#L29-L165",
-          "version": "repo-lines-v1:sha256:f37b1b5d28a6519e015c4a5cb60eb93447ce796c467a041e2ca33145adf5513a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTM3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJmOGZiNzI3N2ZkZDIwZDJmODQ2NmZjNzNiNWU0MjcwNDc4OWIwOTk5MTY2Mjg5ZGNiMTkzNWMwMDQ4NTE2ZWRhIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI5YmY0NWQyYmMyMTA4OTVlNjdiZDFkMjBkYWFhYzFiNTk4MmE3NjY0MDgyOWZkMWYxYmI0YTY5OTU1MjkyOTQyIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmZmU0N2I5NTFhNDA2YTFkYTYxZGZkMjU2MTA4NzY4ZWY5OGRjNzk3ZTczNzBkZjM1YWZlNGJiYWI3NDYxZDEwIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI1MWIxMDYzOTZiOTU5NzUzNDk1Y2E0ZDU4Y2QyZmYzYzIzYmQ0NDI4OGY2YTBlZGNkNmZjMTVkYmVkYzYwYTliIn0"
+          "resource": "repo://.github/workflows/ci.yml#L29-L184",
+          "version": "repo-lines-v1:sha256:0f48451dfb3990b4e5ae698306b5fde3a89ab27d39f542165f6b6a193135d2fb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTU2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJmOGZiNzI3N2ZkZDIwZDJmODQ2NmZjNzNiNWU0MjcwNDc4OWIwOTk5MTY2Mjg5ZGNiMTkzNWMwMDQ4NTE2ZWRhIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0NDcxZThiZjM0MDY2ZGFlMmViNTI5MDVjNzEyNjc0MDg2ZWRlYjdmOWU3Nzk3ZGMzMDJmMWRkOGEyOWI5ZjBkIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmZmU0N2I5NTFhNDA2YTFkYTYxZGZkMjU2MTA4NzY4ZWY5OGRjNzk3ZTczNzBkZjM1YWZlNGJiYWI3NDYxZDEwIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI3ZDQzNGIwZDhkN2RlZWNiZjkwMGYzMmE0YmU2MGJjMTY2ZjQzOTUwNTBjMTY5Y2Y3YjQ3ZTgxM2MwMzk1NDRhIn0"
         }
       ]
     },
@@ -81,8 +81,8 @@
       "statement": "The Pruebas job always runs, depends on every job except the GGA review, and fails unless all results are success.",
       "evidence": [
         {
-          "resource": "repo://.github/workflows/ci.yml#L190-L207",
-          "version": "repo-lines-v1:sha256:209ea43c84fd730f929b92dbea74997d90c28a28a181b7fed5e0070dde852421:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQzNDYyNjkxNzkwZTcyODVmMmVlYTMzNmVhZTFhZGNhOTc4YjU2OTdhYWQ5MTRiM2YyZTNkZjQ2YTQwNjU2OTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM4MTMzM2RmNjZkNTk1YzYyMjM3NDEyZTdkMTYwN2I1Y2ZiMDExNDdmMGYzYTlkYjdiN2FjNGU3MjljNDNkMjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE5ZTk0MWE1NDc2NTliM2Q3ZjYzOTI0ODE5ODYyMmFmNzcyN2ZhOGFhYjdiMjhmNDhkZjQ2NTQ0NzVmMzM3ZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjljODg2YjI0MjU4NTU3N2FjODBkYzllN2RlZjdmODk5MzZiOGVmZDNlMGVhY2RlNmVkYWI3YmUxZjcwZDM4MTEifQ"
+          "resource": "repo://.github/workflows/ci.yml#L210-L227",
+          "version": "repo-lines-v1:sha256:209ea43c84fd730f929b92dbea74997d90c28a28a181b7fed5e0070dde852421:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQzNDYyNjkxNzkwZTcyODVmMmVlYTMzNmVhZTFhZGNhOTc4YjU2OTdhYWQ5MTRiM2YyZTNkZjQ2YTQwNjU2OTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM4MTMzM2RmNjZkNTk1YzYyMjM3NDEyZTdkMTYwN2I1Y2ZiMDExNDdmMGYzYTlkYjdiN2FjNGU3MjljNDNkMjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1N2MzMTkzYmYzNTIxNmExNjVlNTdiYmEyNmEyNzFkMjI3OTUyNWNjM2YxNmI2YTU2MWU0YzFjMjA2MjRlOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjljODg2YjI0MjU4NTU3N2FjODBkYzllN2RlZjdmODk5MzZiOGVmZDNlMGVhY2RlNmVkYWI3YmUxZjcwZDM4MTEifQ"
         }
       ]
     },
@@ -91,8 +91,8 @@
       "statement": "The audit job fails on critical production advisories and only warns on high ones, reading the lockfile without installing.",
       "evidence": [
         {
-          "resource": "repo://.github/workflows/ci.yml#L167-L188",
-          "version": "repo-lines-v1:sha256:2fcffc72abd2e0939138e3fc57f8b4de1e2b1b6cf83781c491fe8395d9c47d2d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdhZjgwMGE5NDY3ZDZmZTAxM2I3YjJlODk0YTZkYTkzZmJjYWMwYTNkYTdmMjMzYzExZDU5NDBiODMwNTEwYmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmNTU5NzljZTczMDIwMzNlNmIyZmQ3ZDg4ZjUzN2EzYjhlMDkxZWEzMDVjODExZmZhMTI3NGJmNTc2NGVhNWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5NDE4NzgzNDZmMDY3MzZjZDI3NTBjMjkyYWNkOWVjODQ1N2RlOTg0NzllYzg2MzhlZjRhYmE5NGY0NjI2ZjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZlZDNiNzczYTBiMDFlNmIwN2U2MmQyNGMwMTI4YTU0MmJjZWQ4ZGIxYWNjZWNiYTE4YmY2NWYxOTFmNWRiZDgifQ"
+          "resource": "repo://.github/workflows/ci.yml#L186-L208",
+          "version": "repo-lines-v1:sha256:f1051b36d64ff30a12cd520276ce68587d12e14b3ec2f6c541de48b3705bfb7f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmNTU5NzljZTczMDIwMzNlNmIyZmQ3ZDg4ZjUzN2EzYjhlMDkxZWEzMDVjODExZmZhMTI3NGJmNTc2NGVhNWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM0YmM2MWMxMjA0ODIxYTBlMmI1NjZiMjE0M2EyZDI4MTQ4ZTBlN2FkMDY5YmI1MWQ4NTFlOGIzNTZiNTc2OWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZlZDNiNzczYTBiMDFlNmIwN2U2MmQyNGMwMTI4YTU0MmJjZWQ4ZGIxYWNjZWNiYTE4YmY2NWYxOTFmNWRiZDgifQ"
         }
       ]
     },
@@ -111,7 +111,7 @@
       "statement": "The GGA review runs only on pull requests with the Codex provider, skips without the CODEX_AUTH_JSON secret, deletes the credentials afterwards, and serializes runs in one concurrency group.",
       "evidence": [
         {
-          "resource": "repo://.github/workflows/ci.yml#L209-L280",
+          "resource": "repo://.github/workflows/ci.yml#L229-L300",
           "version": "repo-lines-v1:sha256:c88e952b18adbe2b4cb01ddc3b8f2797553752c1e3b11134bbaba7b352d55d33:eyJzZWxlY3RlZExpbmVDb3VudCI6NzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEyNDJhYjc4OGI3OTFlMjcxODJkODBkNDk4OGFiMmRlZGY5NmNjZjA3MGUyMjRmN2Y1MzIyNzI0M2U4ZmQwNDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmOGNkOTJiM2RkYzdiZmE3ODZhYzM2NTk2NjczNGU1NTAwM2MzNDNhZTU4OGYxNTRmMGIyYWZjNTg4MDg1MGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE4YTE0MTA0NjFhYjQ0MjM3MTkyMmY0MGE2NjNmODUzNWU1YzRjMGNlNTY5YTY5OGZjMmI5ZjU3MDU0MTM0MjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
@@ -131,8 +131,8 @@
       "statement": "Prettier ignores all Markdown files, the generated openwiki/ directory and the saved Squarespace pages in tests/fixtures/squarespace/.",
       "evidence": [
         {
-          "resource": "repo://.prettierignore#L15-L22",
-          "version": "repo-lines-v1:sha256:8d578331ea486c05d6b5881b8cb930718dd012599937d202e8fbfc2432a05d01:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjk4MTljZjdiMzdhMjU1OGI2YWFkZDBkYTVmOWJkMGM0MWY5OTQ5NjFiZjVmMGE0NmZjNGRlOGEzNDAwMjVlMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDg4MzU3YzQzMjgyM2EwNjYyNjExODg4MzhmZGJkYTBiOWQzNjY3NGI3ODMwODQzZmE0MmNkNGJkMWNmZmU2NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzE2ZWUwMjJhYjA5NGVhODM3YmZhNTU0Y2YyNDAwNzQ5ZTljZTRhYzVmNjBhYWU5NGE5ZjhmZmVhNDBlYjgzMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+          "resource": "repo://.prettierignore#L16-L23",
+          "version": "repo-lines-v1:sha256:8d578331ea486c05d6b5881b8cb930718dd012599937d202e8fbfc2432a05d01:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjk4MTljZjdiMzdhMjU1OGI2YWFkZDBkYTVmOWJkMGM0MWY5OTQ5NjFiZjVmMGE0NmZjNGRlOGEzNDAwMjVlMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDg4MzU3YzQzMjgyM2EwNjYyNjExODg4MzhmZGJkYTBiOWQzNjY3NGI3ODMwODQzZmE0MmNkNGJkMWNmZmU2NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDNhNGY5NzE3M2Q0NzQ5ZjVkNWYwNjFlMzJiYTZiNGNiODg4YzUzZTdjNzllOTIwMjc1Mjg5NDUzYjk1MDM1NiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         }
       ]
     },
@@ -141,8 +141,8 @@
       "statement": "The accepted dependency risks and the reasoning for each are recorded in docs/legacy/security.md.",
       "evidence": [
         {
-          "resource": "repo://docs/legacy/security.md#L27-L33",
-          "version": "repo-lines-v1:sha256:b9e426e72b7ce6bfae385ae3ae0008b92f0cc5371d2efdcf3f2bbf8249e9b6d5:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODFjODM1Njc2NjU4NjUzYmY5NjllM2RmNDNhYTliODgzMmRmNzM2NWFkMzU5MDU2NWZmODAyOGU3ODllMzQ4NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGU5MTU1MDEwYTEyMzMzOGYwYTEyZGJiZjA1YjFjY2RmNDY3M2Q3NmFmZDUxM2E3YzMyYjMyNzY4ZDZlNDc5ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTYxNzg1YTEyNWI4ZGY4MjU5ZTQ3OGFiNzZkYzlhNjQ3NWZiOGNhMDAwMDVhOWUyMjkwZTdiNmZkNDAzMWMxZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmRhYTRkYjNlZDBkMDZkODg4MTE0NWJkNmU2NGEyZGMzM2VhOTAxOGY0N2U5ZTNjMDcyYWFlNjBkN2FlYzMyMCJ9"
+          "resource": "repo://docs/legacy/security.md#L27-L34",
+          "version": "repo-lines-v1:sha256:3669102906550302cb555da5312312f24b2f5563145e27b87749b2b2ddf3ab17:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODFjODM1Njc2NjU4NjUzYmY5NjllM2RmNDNhYTliODgzMmRmNzM2NWFkMzU5MDU2NWZmODAyOGU3ODllMzQ4NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGU5MTU1MDEwYTEyMzMzOGYwYTEyZGJiZjA1YjFjY2RmNDY3M2Q3NmFmZDUxM2E3YzMyYjMyNzY4ZDZlNDc5ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTYxNzg1YTEyNWI4ZGY4MjU5ZTQ3OGFiNzZkYzlhNjQ3NWZiOGNhMDAwMDVhOWUyMjkwZTdiNmZkNDAzMWMxZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmRhYTRkYjNlZDBkMDZkODg4MTE0NWJkNmU2NGEyZGMzM2VhOTAxOGY0N2U5ZTNjMDcyYWFlNjBkN2FlYzMyMCJ9"
         }
       ]
     },
@@ -155,7 +155,7 @@
           "version": "repo-lines-v1:sha256:681a2ab45df376853d35360d90c85e406f34334e52337ba22122c1d4482278cf:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjgxYTJhYjQ1ZGYzNzY4NTNkMzUzNjBkOTBjODVlNDA2ZjM0MzM0ZTUyMzM3YmEyMjEyMmMxZDQ0ODIyNzhjZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjgxYTJhYjQ1ZGYzNzY4NTNkMzUzNjBkOTBjODVlNDA2ZjM0MzM0ZTUyMzM3YmEyMjEyMmMxZDQ0ODIyNzhjZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTFjNGI0ZjhjYWRjZjM1MjM1MTY1MjExOWY4Mjk4ZmExZDBkNjRmOTQzOGUyMzFiOTJiYzA5MWFhMzkxMDkxNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTBiZWJmYWRjYmJhNDA3OTBjZGYxMDgyMzVjY2IxY2IzYmE0ZDVhOTdkOWI5YmIxZjg4YzRkYTQ5NDhlZjJmMyJ9"
         },
         {
-          "resource": "repo://package.json#L58-L58",
+          "resource": "repo://package.json#L62-L62",
           "version": "repo-lines-v1:sha256:f76c7d72bbb6a2cc73b1d8c43f3eb767482679b7ad350f6079ad2dc3935f68c9:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjc2YzdkNzJiYmI2YTJjYzczYjFkOGM0M2YzZWI3Njc0ODI2NzliN2FkMzUwZjYwNzlhZDJkYzM5MzVmNjhjOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjc2YzdkNzJiYmI2YTJjYzczYjFkOGM0M2YzZWI3Njc0ODI2NzliN2FkMzUwZjYwNzlhZDJkYzM5MzVmNjhjOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWUxYTdlMWQ3OWE1ODkxYWJmNzllNDZkOTc1ZjkyNjkyMjViYzkyODFiNWRkMDRlMWY5NThkN2EwOWE4NjFjMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTQwMDM4ZGM4MzQ1NWM2ZGZjMTYzM2UxZDkwMTNjNDZmNzM1ZmRmNTA5MzU4MTMxODQ2OWI2MDEwMjMyMTNkMSJ9"
         },
         {
@@ -163,10 +163,30 @@
           "version": "repo-lines-v1:sha256:c6e2985c3176bdda73c6a8db92f1ce1dd1f3443c3d1ab52d91e2e8d6560eb59b:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWE3OTEzNWJlZmJiODBlYjRlODBmYzk1ZjA3MmE4YjJjYjU2MWVkZjgxMjVjYTVjMWIwNzhiOGJjNGZiYzQ0NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzIzNzlmMTM2OGVlY2IzY2Q1NjFiNTY5NmQ5ZWU0MGYyMTNlOTg1M2EwNjg2OWMzMjY2ODE4NzczODJkNDljZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjYyYjYzMzM2MzQzNWJkNWU2NDAwZTUxODY5YTUwYmE2YjczNDMyNWNlM2QzMjQ1YzQyOGRiMmM0ZGNmMmQzZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzRiYWY0YjQ0YmEyOTExMGJlNDQ1YTkyYzdlZjE0ZGUxM2EyZDI3MmIwMzNhZDJlNDNiNmM1Y2E5NTBjNDI3MiJ9"
         }
       ]
+    },
+    {
+      "id": "claim_072dd2cc012d40d48c3b4102230cd346",
+      "statement": "The E2E job runs pnpm test:lhci with E2E_SKIP_BUILD=1 on its own build and uploads the Lighthouse reports and assertion results as the lighthouse artifact for 7 days unless the run was cancelled.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml#L159-L177",
+          "version": "repo-lines-v1:sha256:120f723daaa71e61cae7d440f7784f2f6e14bcacc043f574399df9e8536f5076:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiMDU4YzU4NDQ4MTBkNGVkNzE4YTgwZTk5OTI4OTYxMzYwMWQ1Y2QzNDE0ODEzOGMwZWU3MDVkNTJjNGJmNWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliZjQ1ZDJiYzIxMDg5NWU2N2JkMWQyMGRhYWFjMWI1OTgyYTc2NjQwODI5ZmQxZjFiYjRhNjk5NTUyOTI5NDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVjZDQ0MWE1MDQzZjg1NzU1YTBhNzQ5NmY1MzY0NzYxMDMyZTFjMmI4ODkyZjY4MzI1Y2I0MDM3MWYzNjEwNGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZkMzRlMTJmMGVkMjNiNGFjNzBmYjk0ZTA0Mjk1Zjg0MGY3MjkxNGI3NTU0MzI5OTBjYTRjNDY0NzZkMTc0ZTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2d1c72dc4dab45809734ccfe3aef9c6e",
+      "statement": "The accepted dependency risks are deepmerge via Payload, glob 13 via the Sentry build plugins, basic-ftp via @lhci/cli (dev only, reachable only through a PAC file over ftp://) and minimatch 3 via ESLint plugins.",
+      "evidence": [
+        {
+          "resource": "repo://docs/legacy/security.md#L31-L34",
+          "version": "repo-lines-v1:sha256:71660df9e08643de8998a1126c922a3ce529edfd5773060d0f5f81bd13b4f909:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWQzNTBmZGVhNTVjOWZmNDU2MDUyMmI2ZmU0Mzk4M2I0NTBjNzI0MmE1ZjU2NzRmZjAyNGM1YWEzM2Q3YTE0ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGU5MTU1MDEwYTEyMzMzOGYwYTEyZGJiZjA1YjFjY2RmNDY3M2Q3NmFmZDUxM2E3YzMyYjMyNzY4ZDZlNDc5ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGQ0MGJlMGZiYmU4NDBiOGIwZDUwNGM3ZWZkNzRlNjI4MjI5YjFiYzVlMGZiYmExMWI5NzRjZjk4ZDg3Yzc1MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmRhYTRkYjNlZDBkMDZkODg4MTE0NWJkNmU2NGEyZGMzM2VhOTAxOGY0N2U5ZTNjMDcyYWFlNjBkN2FlYzMyMCJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T15:33:25.988Z"
+    "at": "2026-11-05T11:00:19.182Z"
   }
 }

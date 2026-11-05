@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:1d06c517cf196f19eb8c22946a4c592105c5ff80aa97701015250f8dd14808ef",
+  "pageVersion": "sha256:1ba0d570537a5befce84f99fecb09e8f5b5e7aa6d4a6dfb821b3e0d64b86c0c9",
   "claims": [
     {
       "id": "claim_42400d3df44b4e5298904441ab906a39",
@@ -91,7 +91,7 @@
       "statement": "The Railway IaC declares secrets with preserve(), sets APP_ENV and the basic-auth variables only for dev and GIT_COMMIT_SHA and APP_VERSION only for production, and any Railway variable must be declared there first because config apply removes undeclared ones.",
       "evidence": [
         {
-          "resource": "repo://.railway/railway.ts#L47-L77",
+          "resource": "repo://.railway/railway.ts#L48-L78",
           "version": "repo-lines-v1:sha256:5494265230e94ddd0fce3a95efcd2f7c8f5d74efb0f7cea5dd7def80accfc862:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmZGZmMjA5OWRkMTY4OTJhZDc2MTg4ZmNkYTBkZjFkMzU1ODdhZmE3ZDc3NjE1ZDVhNDM3M2VjNmJmN2EwOWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhiMGUwMDkyNjFjNWYzNTU1MWJhOGExM2JhNTU5NTU4YjVmNzY5MzdjNzVlMmNkY2E3ZGYyZTNiYWI4OTE3YmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIzZmVkN2ZiNWM3M2ViMzU2YWZhMDNjYjZmYzllNTg1OGUxOWRkOWU0ZjdhMWE1N2VmODJlOWI0MjUwN2YwOWMifQ"
         },
         {
@@ -149,7 +149,7 @@
       "statement": "resolveVersion returns the trimmed APP_VERSION or, when it is missing or blank, the package.json version.",
       "evidence": [
         {
-          "resource": "repo://.env.example#L65-L67",
+          "resource": "repo://.env.example#L73-L75",
           "version": "repo-lines-v1:sha256:e9d18be5bbab7d8196dd61c9c8ba3712c6f58aa352372f4e150f0c5d72825862:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWM3NTNmOWVlZTBmOWUxZmFiYzYxZThhNDAzNWM1OTY4ZmRmODYwOTkzYjhmN2QxNmY3ZmRiNzIxYjg2OGFhNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTAwZjkzZWZhM2EwZWExZjcxODZiZWZhZWFkMmE1Y2UyZWE2MTRmYTdlMTI2ODE2ODJiZDIyMTA0NjAyMmQ2ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjI1OTBmZjhlNjJlYjlmZDIyZmFjOTgwYTQxMGYwMGViZmZhMGZkNzc2OWJkMTE2MDY1ZTQ1Y2VkY2U4ZmYxZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjA4ZjY4MThhZDk4Yzg4N2FhZjJlNmE2ZDFjMWYyNGZlMDIwZWY2NThhOGYxZmUyMTg2YTk4ZTY5NGJmYTU5YiJ9"
         },
         {
@@ -199,10 +199,44 @@
           "version": "repo-lines-v1:sha256:ab4901f19e57f3c8aac83fa8ebdbcca304965256d776e5c460488914e43513f9:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDU2YTc2ZDQwYTk1NGI2ODM0ZDM5YTVhODIyMWNhNjcwYmU4Yzg3NmU4NTI5ZDNiYmE2YzFjOTNkMTU3NjY2MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzk0YmM5MzcwYjFiNGMxZjI0ZTNmMzBlZjkyMjYxYTAyZTEwNDZlYjk2NmQ3NjhhMDEyMTgzZjc3ZTEyZjBkMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDliYjNiZmU5YTdkY2UxNjc1Y2VkNmE1MGJlZGYyMmE5MjM0NzM0YmIwNDQzZWZiN2U2OGFhNTY1YjE5MDMzMCJ9"
         }
       ]
+    },
+    {
+      "id": "claim_ffc54b36039f4be3a78057abc525abc7",
+      "statement": "isDesignCatalogEnabled opens the /sistema catalog when NODE_ENV is development, when the environment is dev, or when E2E_DESIGN_CATALOG is exactly '1'; playwright.config.ts sets E2E_DESIGN_CATALOG=1 for the E2E app server.",
+      "evidence": [
+        {
+          "resource": "repo://playwright.config.ts#L39-L41",
+          "version": "repo-lines-v1:sha256:67405c468b417cea65c4376f231f6aff6e21e32fcb43819ce0928fc8ef2905dc:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzVmMjBiYTUxZWYzYjkzZWRlNDY3ZTY0YWQ0MDczNzgxZjViYWNhZDJkMzRhNGZhNTM0MmM0NWVmYzg2NTQ0OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWJhZTM1MTg0ZTI3YmRkZjgwMzAxYTA0YTA3ZmNiNjg2NWY2ODBiMDRhMDYwODVmZjUyOTRkODcxOGNmZmI4NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzFkZmE1YjQ0MGRhOTU5NDdhYTYyZmYzODBlNDYzNTk3YzZmMTFmOWM4OGM5MWQ1YWMwYjNiZTY5NmM4M2ExNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODU4MGI3NjUxOGRhZTk3OWZhZWJkMDIzNjdhMjkyOTJhNTBkOTc2MDkyMjUxYTM4YTZjZTMwODgwYmE0MjgyNSJ9"
+        },
+        {
+          "resource": "repo://src/lib/dev-gate/design-catalog.ts#L1-L13",
+          "version": "repo-lines-v1:sha256:a7cbdb6bff0d5f755f29b1968252412d50bc61ed230741fdb356af1691927173:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhMjg5ZDk4YTYxNTNkNTQ4YWRiM2U1ZGM0NDk4MmRlYjU3Nzc2MTAwMjdkNDVkYjUzNmVjNmRhMjJkM2FjZjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e5f9a86db9c84967b5a327875072cca9",
+      "statement": "lhciEnv points both DATABASE_URL and DATABASE_URL_DIRECT at the configured DATABASE_URL or the ta_web_lhci embedded database, supplies a dummy PAYLOAD_SECRET when none is set, blanks APP_ENV, and blanks every S3 variable and MEDIA_BASE_URL.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/lhci-env.ts#L1-L27",
+          "version": "repo-lines-v1:sha256:b2b68662b8d3b79daf531e0b3f7d127f7898c906d5bdbe4022989badf1f680e1:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRhZWI2NGYyZWRhODk1NGI4NmQzN2IzMjUyY2RjOTcyOWZhNmYxMjQ0Mjc3MDM5YjQwNjA3NTUxYTgzZGU4MzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8b39d2bcc2464ff98e0c226cf7a6f010",
+      "statement": "scripts/lhci.ts measures with CHROME_PATH from the process environment when set, otherwise with Playwright's Chromium executable, and stops with an error when that browser file does not exist.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/lhci.ts#L62-L68",
+          "version": "repo-lines-v1:sha256:6fdaa4e31becd8c83dacc67f720945cf1116b2b3b119a2cc05711d0e2749a5ee:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2E1M2JhMzUwOTY2NzZjNTI0MGNjMDg0NDgzZmUwMzU2MTdmOTRmMDkwYzJhMDlhMjg2N2MwNDBhYTM2MTllOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjdlNTc4OGQ1ZDlkNzNkMjRhODFkYmMwYTVhNzRiZmE4MmM5YzNiM2FmOTllNTJhZjc5NmU5MGI0NjhhOGEzZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODQ5ZjVhMWU3MmQzMDZmYTMzNjllY2FlOWZjYWI2YmYwYTM2OTVhMjNkOGFiMWU0ZDJmNzA1OGY0YTk4YTUzMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjgxNzcxMTM0MDc5MjI1MjI4MTQ4OGFkMjBjMDM0Zjc2YWM0NzJjOTA0ZjVhMGExYjNhYTZjOTQzMjEzMGI4ZiJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T18:47:27.432Z"
+    "at": "2026-11-05T11:00:19.182Z"
   }
 }
