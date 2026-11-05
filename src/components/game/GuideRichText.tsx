@@ -76,7 +76,9 @@ function linkHref(fields: LinkFields): string | null {
   return typeof slug === 'string' ? `/${slug}` : null
 }
 
-function converters(priorityImage: boolean): JSXConvertersFunction {
+type HeadingLevel = 2 | 3 | 4 | 5 | 6
+
+function converters(priorityImage: boolean, minHeading: HeadingLevel): JSXConvertersFunction {
   return ({ defaultConverters }) => {
     // La prioridad es para la primera imagen que se pinta, y solo para esa.
     let pendingPriority = priorityImage
@@ -101,9 +103,11 @@ function converters(priorityImage: boolean): JSXConvertersFunction {
       text: ({ node, parent }) => formattedText(node.text, node.format ?? 0, parent),
       link,
       autolink: link,
-      // El único h1 de la página es el título de la guía.
+      // El único h1 de la página es el título de la guía; dentro de un paso, los títulos
+      // del texto quedan por debajo del h3 del paso.
       heading: ({ node, nodesToJSX }) => {
-        const Tag = node.tag === 'h1' ? 'h2' : node.tag
+        const level = Math.min(6, Math.max(minHeading, Number(node.tag.slice(1))))
+        const Tag = `h${level}` as `h${HeadingLevel}`
         return <Tag>{nodesToJSX({ nodes: node.children })}</Tag>
       },
       // Una imagen subida dentro del texto se pinta como las del bloque Imagen.
@@ -122,19 +126,22 @@ function converters(priorityImage: boolean): JSXConvertersFunction {
 
 /**
  * Prosa de la guía (bloques Texto y Aviso), en el servidor: no manda JavaScript. Con
- * priorityImage, su primera imagen es la primera del cuerpo y va sin diferir.
+ * priorityImage, su primera imagen es la primera del cuerpo y va sin diferir. minHeading
+ * es el nivel más alto que puede tener un título del texto.
  */
 export function GuideRichText({
   content,
   priorityImage = false,
+  minHeading = 2,
 }: {
   content: RichTextState
   priorityImage?: boolean
+  minHeading?: HeadingLevel
 }) {
   return (
     <RichText
       data={content as Parameters<typeof RichText>[0]['data']}
-      converters={converters(priorityImage)}
+      converters={converters(priorityImage, minHeading)}
       disableContainer
       disableTextAlign
     />
