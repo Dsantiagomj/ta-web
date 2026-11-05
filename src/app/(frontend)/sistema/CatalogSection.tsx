@@ -18,6 +18,7 @@ import { Checkbox } from '@/components/ui/Checkbox'
 import { Chip } from '@/components/ui/Chip'
 import { Figure } from '@/components/ui/Figure'
 import { IconButton } from '@/components/ui/IconButton'
+import { IMAGE_SIZES } from '@/components/ui/image-sizes'
 import { Picture } from '@/components/ui/Picture'
 import { ProgressBar } from '@/components/ui/ProgressBar'
 import { StatTile } from '@/components/ui/StatTile'
@@ -143,6 +144,7 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
                 <Picture
                   image={images.kerubim}
                   alt=""
+                  sizes={IMAGE_SIZES.card}
                   className="size-full scale-104 object-cover transition-transform duration-600 ease-out group-hover:scale-100"
                 />
               </span>

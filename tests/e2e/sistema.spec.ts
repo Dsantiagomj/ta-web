@@ -237,3 +237,25 @@ test.describe('catálogo /sistema', () => {
     ).toEqual([])
   })
 })
+
+// DESIGN.md, Imagery: srcset y sizes eligen el ancho que necesita la pantalla; el visor
+// abre siempre el archivo más ancho.
+test.describe('catálogo /sistema en un móvil', () => {
+  test.use({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1 })
+
+  test('la captura carga su ancho de 480 y el visor abre el más ancho', async ({ page }) => {
+    await page.goto('/sistema?tema=arcano&modo=dark')
+    const figure = page.locator('[data-component="image"]')
+    const image = figure.locator('figure img')
+    await image.scrollIntoViewIfNeeded()
+    await expect
+      .poll(() => image.evaluate((img: HTMLImageElement) => img.currentSrc))
+      .toMatch(/\/seis-pies-hupe-esse-480\.avif$/)
+
+    await figure.getByRole('link', { name: /^Ver imagen a pantalla completa/ }).click()
+    const viewer = page.getByRole('dialog', { name: 'Imagen a pantalla completa' })
+    await expect
+      .poll(() => viewer.locator('img').evaluate((img: HTMLImageElement) => img.currentSrc))
+      .toMatch(/\/seis-pies-hupe-esse\.avif$/)
+  })
+})

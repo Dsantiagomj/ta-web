@@ -9,21 +9,34 @@ import type { ImageAsset } from '@/components/ui/types'
 // Contenido real del catálogo: la guía de Torre «Seis pies bajo tierra» (DofusDB 1976),
 // «Entretanto, un renacer» (2420) y el vídeo de «Intoxicación profunda» (1433), con el arte
 // del juego de las maquetas de la guía. Las imágenes de public/img/sistema son variantes
-// AVIF y WebP generadas una vez desde esas maquetas.
+// AVIF y WebP generadas una vez desde esas maquetas; las capturas tienen además anchos
+// menores (scripts/build-catalog-images.ts), «nombre-480.webp», para srcset.
 
 const DIR = '/img/sistema'
 
-function art(name: string, width: number, height: number): ImageAsset {
-  return { src: `${DIR}/${name}.webp`, avif: `${DIR}/${name}.avif`, width, height }
+/** Una imagen del catálogo; con `narrower`, los anchos menores que tiene en disco. */
+function art(name: string, width: number, height: number, narrower: number[] = []): ImageAsset {
+  const image: ImageAsset = {
+    src: `${DIR}/${name}.webp`,
+    avif: `${DIR}/${name}.avif`,
+    width,
+    height,
+  }
+  if (narrower.length === 0) return image
+  const set = (format: 'avif' | 'webp') => [
+    ...narrower.map((w) => ({ src: `${DIR}/${name}-${w}.${format}`, width: w })),
+    { src: `${DIR}/${name}.${format}`, width },
+  ]
+  return { ...image, srcSet: set('webp'), avifSrcSet: set('avif') }
 }
 
 const icon = (name: string) => art(name, 96, 96)
 
 export const images = {
-  combat: art('seis-pies-combate', 960, 656),
-  hupeEsse: art('seis-pies-hupe-esse', 800, 551),
+  combat: art('seis-pies-combate', 960, 656, [480, 800]),
+  hupeEsse: art('seis-pies-hupe-esse', 800, 551, [480]),
   kerubim: art('seis-pies-kerubim', 480, 345),
-  video: art('video-ron-marino', 800, 450),
+  video: art('video-ron-marino', 800, 450, [480]),
 }
 
 export const imageAlt = {
