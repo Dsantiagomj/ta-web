@@ -80,6 +80,21 @@ describe('HeroHeader', () => {
     expect(markup).not.toContain('Nivel')
   })
 
+  it('la sección se nombra con su título, con un id distinto en cada cabecera', () => {
+    const markup = html(
+      <>
+        <HeroHeader title="Uno" crumbs={[]} />
+        <HeroHeader title="Dos" crumbs={[]} />
+      </>,
+    )
+    const labelled = [...markup.matchAll(/<section [^>]*aria-labelledby="([^"]+)"/g)].map(
+      (m) => m[1],
+    )
+    expect(labelled).toHaveLength(2)
+    expect(new Set(labelled).size).toBe(2)
+    for (const id of labelled) expect(markup).toMatch(new RegExp(`<h1 [^>]*id="${id}"`))
+  })
+
   it('acepta otro nivel de título, para el catálogo', () => {
     expect(html(<HeroHeader title="X" crumbs={[]} headingLevel={3} />)).toContain('<h3')
   })
