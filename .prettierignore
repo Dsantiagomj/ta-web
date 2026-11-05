@@ -21,3 +21,6 @@ openwiki/
 
 # Páginas de Squarespace recortadas: el parser las lee tal cual
 tests/fixtures/squarespace/
+
+# Skills de terceros: se copian tal cual y skills-lock.json fija su hash
+.claude/skills/
