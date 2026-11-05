@@ -27,11 +27,20 @@ const assertionsFor = (audit: string) =>
   all.filter(([id, assertion]) => id === audit && assertion).map(([, assertion]) => assertion)
 
 describe('lighthouserc.cjs', () => {
-  it('mide en móvil con 4G simulado, tres veces por página', () => {
+  it('mide en móvil con 4G lento y la CPU 4 veces más lenta aplicados de verdad, tres veces por página', () => {
     expect(collect.numberOfRuns).toBe(3)
     expect(collect.settings.preset).toBeUndefined()
     expect(collect.settings.formFactor ?? 'mobile').toBe('mobile')
-    expect(collect.settings.throttlingMethod ?? 'simulate').toBe('simulate')
+    // DevTools frena la red y la CPU de verdad; la simulación (Lantern) carga todo el
+    // JavaScript del hilo principal a la imagen LCP.
+    expect(collect.settings.throttlingMethod).toBe('devtools')
+    // Los valores de móvil 4G lento de Lighthouse, ajustados para DevTools.
+    expect(collect.settings.throttling).toMatchObject({
+      requestLatencyMs: 562.5,
+      downloadThroughputKbps: 1474.56,
+      uploadThroughputKbps: 675,
+      cpuSlowdownMultiplier: 4,
+    })
   })
 
   it('prueba la portada del servidor local', () => {
@@ -70,12 +79,16 @@ describe('lighthouserc.cjs', () => {
     ])
   })
 
-  it('falla con imágenes sin tamaño explícito o sin un formato moderno', () => {
-    for (const audit of ['unsized-images', 'image-delivery-insight']) {
-      expect(assertionsFor(audit)).toEqual([
-        ['error', { minScore: 1, aggregationMethod: 'median' }],
-      ])
-    }
+  it('falla con imágenes sin tamaño explícito', () => {
+    expect(assertionsFor('unsized-images')).toEqual([
+      ['error', { minScore: 1, aggregationMethod: 'median' }],
+    ])
+  })
+
+  it('la entrega de imágenes (anchos responsive, formato) solo avisa', () => {
+    expect(assertionsFor('image-delivery-insight')).toEqual([
+      ['warn', { minScore: 1, aggregationMethod: 'median' }],
+    ])
   })
 
   it('no exige la puntuación de rendimiento, que varía entre ejecuciones', () => {

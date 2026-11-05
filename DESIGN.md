@@ -635,6 +635,7 @@ Exits run at about 70 percent of the enter duration (a 220ms dropdown closes in 
 - Real game art only, imported once and served from R2 behind the CDN domain. Nothing loads from DofusDB or Ankama at runtime.
 - Every image has AVIF and WebP variants at fixed widths, generated once when the file is uploaded, in the panel or by the importer (decided 2026-11-05, replacing the offline conversion before the import). Payload makes them with sharp (`src/lib/media/sizes.ts`) and stores them next to the original. The app never optimizes images on request.
 - Widths: 480, 800, 1200 and 1600 px, each in AVIF (quality 50) and WebP (quality 80). They come from the layout. 480 covers phones at 1x and the 240px card art at 2x. 800 is `--width-prose` at 1x and phones at 2x. 1200 covers phones at 3x and the hero on tablets. 1600 is `--width-prose` at 2x and the full-bleed hero on desktops up to 1600px wide. A width larger than the original is never produced, so nothing is upscaled; 480 is the exception and comes out at the original width, so a 96px icon still gets one AVIF and one WebP. Uploading a 1920px PNG screenshot with all eight variants took about 0.6 s on an Apple M5 (about 2.2 s for a worst-case noise image).
+- Lighthouse's image delivery check only warns (decided 2026-11-05). Lighthouse emulates a phone at 1.75 DPR: a 380px screenshot then needs 665 device pixels, the browser picks the 800w candidate, and the check counts the difference from the 380 CSS px as waste. Real phones at 2x to 3x get the right width from 480/800/1200/1600. In Lighthouse 13 that check also covers formats, so the AVIF and WebP rule is held by `Picture` and the media variants and their tests, not by Lighthouse.
 - Markup: `<picture>` with an AVIF `<source>`, then the WebP `<img>`. Both carry `srcset` with `w` descriptors and the same `sizes`. The `<img>` `src`, `width` and `height` are those of the widest WebP, which reserves the space (no layout shift) and is the file the fullscreen viewer opens. An image with a single width gets no `srcset` or `sizes`. `mediaImageAsset` (`src/lib/media/image-asset.ts`) builds this from a media record; without variants yet, it falls back to the original. Next's `<Image>` only with a loader that maps to these variants and `unoptimized` set.
 - `sizes` per component (`IMAGE_SIZES` in `src/components/ui/image-sizes.ts`):
 
@@ -686,6 +687,8 @@ From `docs/legacy/plan.md` section 7, enforced by Lighthouse CI on every PR (`pn
 | CLS | under 0.1 |
 | JavaScript on guide pages | under 150 KB compressed |
 | Images | every image has explicit size and an AVIF or WebP source |
+
+Measured on a phone emulated at 412px and 1.75 DPR, with a slow 4G network (150 ms RTT, 1.6 Mbps) and a 4x slower CPU applied through DevTools, not simulated (decided 2026-11-05). The simulated mode (Lantern) charges every main-thread script that runs before the LCP to the LCP image: a guide whose first screenshot paints at about 150 ms scored about 3 s. Applied throttling measures when it paints.
 
 What keeps them: server components, fonts through `next/font` with fallback metrics, CSS motion, no on-request image work, and the Motion library confined to client islands.
 
