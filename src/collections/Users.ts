@@ -7,6 +7,9 @@ export const Users: CollectionConfig = {
   admin: {
     useAsTitle: 'email',
   },
-  auth: true,
+  // El panel de dev es público: tras 5 intentos fallidos, la cuenta queda bloqueada 10
+  // minutos. Son los valores por defecto de Payload, fijados aquí para que no cambien
+  // sin que nadie lo note.
+  auth: { maxLoginAttempts: 5, lockTime: 10 * 60 * 1000 },
   fields: [],
 }
