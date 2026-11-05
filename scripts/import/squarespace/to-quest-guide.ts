@@ -1,4 +1,6 @@
 import { validateSlug } from '@/collections/QuestGuides'
+import { splitCoordinates } from '@/lib/guides/coordinates'
+import { guideStrings } from '@/lib/guides/strings'
 
 import { normalizedText, parseHtml } from './dom'
 import type { SquarespacePage, TextElement } from './parse-page'
@@ -17,11 +19,23 @@ export const GUIDE_SLUGS = [
 
 export const SITE_URL = 'https://www.torrentearcano.com'
 
-export type GuideBlock =
+/** Un bloque de contenido: el cuerpo de la guía o el de un paso. */
+export type ContentBlock =
   | { blockType: 'richText'; html: string }
   | { blockType: 'image'; url: string; alt: string }
   | { blockType: 'video'; url: string }
   | { blockType: 'callout'; variant: 'warning' | 'tip'; html: string }
+
+/** Un paso (bloque Paso): título, coordenadas si las tiene y su propio contenido. */
+export interface StepBlock {
+  blockType: 'step'
+  title: string
+  x?: number
+  y?: number
+  body: ContentBlock[]
+}
+
+export type GuideBlock = ContentBlock | StepBlock
 
 export interface GuideSummary {
   prerequisites?: string
@@ -71,6 +85,77 @@ const CALLOUT_LABELS: Record<'warning' | 'tip', string[]> = {
   tip: ['NOTA'],
 }
 const CALLOUT = new RegExp(`^¡?(${Object.values(CALLOUT_LABELS).flat().join('|')})(?!\\p{L})`, 'u')
+
+// Pasos. En las 1272 guías de misiones de Squarespace, Torre no marca los pasos con
+// encabezados: cada bloque de texto va seguido de sus capturas, sin título. Solo una
+// guía (el-safari-de-almas) los marca, con un párrafo «ETAPA 1: El safari de las almas
+// ancebas:». Ese párrafo, en mayúsculas y al principio, es la única marca que se
+// reconoce: abre un paso con ese título, y el primer [x,y] del paso son sus coordenadas.
+// El paso sigue hasta el siguiente marcador; el último acaba con su bloque de texto y las
+// capturas que lo siguen, y lo demás es el cierre. Sin marcadores, la guía queda como
+// prosa: un título nunca se inventa.
+const STEP_MARKER = /^ETAPA\s+\d+\s*:\s*(.*?)\s*:?$/u
+
+/** Las primeras coordenadas de un texto, o null. */
+function firstCoordinates(text: string): { x: number; y: number } | null {
+  return splitCoordinates(text).find((part) => typeof part !== 'string') ?? null
+}
+
+/** Texto plano de los bloques de texto de un paso, en orden. */
+function stepText(body: ContentBlock[]): string {
+  return body
+    .map((block) => ('html' in block ? normalizedText(parseHtml(block.html).body) : ''))
+    .join(' ')
+}
+
+/** Marca interna mientras se recorre la página: dónde empieza un paso y dónde acaba un bloque de texto. */
+type Draft = ContentBlock | { blockType: 'stepStart'; title: string } | { blockType: 'textEnd' }
+
+/**
+ * Agrupa los bloques en pasos según las marcas: lo de antes del primero es la entrada; el
+ * último paso se cierra al acabar su bloque de texto y las capturas o vídeos que lo siguen.
+ */
+function nestSteps(drafts: Draft[], oddities: string[]): GuideBlock[] {
+  const intro: GuideBlock[] = []
+  const steps: StepBlock[] = []
+  const outro: ContentBlock[] = []
+  let lastStart = -1
+  drafts.forEach((draft, index) => {
+    if (draft.blockType === 'stepStart') lastStart = index
+  })
+  // 'open': el último paso aún lee su texto; 'media': solo admite sus capturas; 'outro': cierre.
+  let last: 'open' | 'media' | 'outro' = 'open'
+  drafts.forEach((draft, index) => {
+    if (draft.blockType === 'stepStart') {
+      const number = steps.length + 1
+      if (!draft.title) oddities.push(`Paso ${number} sin título: escríbelo en el panel`)
+      steps.push({
+        blockType: 'step',
+        title: draft.title || guideStrings.page.untitledStep(number),
+        body: [],
+      })
+      return
+    }
+    if (draft.blockType === 'textEnd') {
+      if (index > lastStart && last === 'open') last = 'media'
+      return
+    }
+    const step = steps.at(-1)
+    if (!step) intro.push(draft)
+    else if (index < lastStart || last === 'open') step.body.push(draft)
+    else if (last === 'media' && (draft.blockType === 'image' || draft.blockType === 'video')) {
+      step.body.push(draft)
+    } else {
+      last = 'outro'
+      outro.push(draft)
+    }
+  })
+  for (const step of steps) {
+    const coordinates = firstCoordinates(`${step.title} ${stepText(step.body)}`)
+    if (coordinates) Object.assign(step, coordinates)
+  }
+  return [...intro, ...steps, ...outro]
+}
 
 /** Sin tildes y en minúsculas, para comparar etiquetas escritas de varias formas. */
 function fold(text: string): string {
@@ -212,7 +297,8 @@ export function toQuestGuide(
 ): ConvertedGuide {
   const blockOddities: string[] = []
   const summaryLines: Partial<Record<SummaryField, string[]>> = {}
-  const body: GuideBlock[] = []
+  const body: Draft[] = []
+  let steps = 0
   let prose: string[] = []
   let heading: string | undefined
   let start: Start | undefined
@@ -274,6 +360,14 @@ export function toQuestGuide(
         html,
         text: normalizedText(parseHtml(html).body),
       })
+      // Un párrafo «ETAPA n: título» abre un paso; no es prosa.
+      const marker = element.tag !== 'ul' && element.tag !== 'ol' && STEP_MARKER.exec(element.text)
+      if (marker) {
+        flush()
+        body.push({ blockType: 'stepStart', title: marker[1]! })
+        steps += 1
+        continue
+      }
       // Las frases de inicio y cierre son párrafos; en listas o encabezados se respetan.
       const paragraph = element.tag === 'p'
       if (paragraph && CLOSING.test(element.text)) {
@@ -301,6 +395,11 @@ export function toQuestGuide(
       }
       prose.push(element.html)
     }
+    // Con pasos, cada bloque de texto se cierra aparte: el último paso acaba con el suyo.
+    if (steps > 0) {
+      flush()
+      body.push({ blockType: 'textEnd' })
+    }
   }
   flush()
 
@@ -323,6 +422,9 @@ export function toQuestGuide(
   } else {
     oddities.push('No se encontró la línea de inicio (PNJ y coordenadas)')
   }
+  if (steps === 0) oddities.push('Sin pasos marcados («ETAPA n: título»): la guía queda como prosa')
+  const stepOddities: string[] = []
+  const nested = nestSteps(body, stepOddities)
 
   return {
     guide: {
@@ -330,9 +432,9 @@ export function toQuestGuide(
       slug: source.slug,
       originalUrl: `${SITE_URL}/${source.slug}`,
       summary,
-      body,
+      body: nested,
       questDofusIds: source.questDofusIds,
     },
-    oddities: [...oddities, ...blockOddities],
+    oddities: [...oddities, ...stepOddities, ...blockOddities],
   }
 }

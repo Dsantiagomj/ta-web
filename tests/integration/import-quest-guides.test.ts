@@ -10,6 +10,7 @@ import { parsePage } from '../../scripts/import/squarespace/parse-page'
 import {
   GUIDE_SLUGS,
   toQuestGuide,
+  type ContentBlock,
   type ConvertedGuide,
 } from '../../scripts/import/squarespace/to-quest-guide'
 
@@ -199,10 +200,14 @@ describe('carga de guías importadas de Squarespace', () => {
     const result = await loadQuestGuides(payload, converted(), { fetchImage })
 
     expect(result.oddities['operacion-envenenamiento']).toContain('Sin misión de DofusDB enlazada')
+    // Ninguna de las cinco marca sus pasos: quedan como prosa.
     expect(result.oddities['intoxicacion-profunda']).toEqual([
+      'Sin pasos marcados («ETAPA n: título»): la guía queda como prosa',
       'Misión de DofusDB 1433 sin importar en quests',
     ])
-    expect(result.oddities['el-cazador-cazado']).toEqual([])
+    expect(result.oddities['el-cazador-cazado']).toEqual([
+      'Sin pasos marcados («ETAPA n: título»): la guía queda como prosa',
+    ])
   })
 
   it('una segunda pasada no duplica, no descarga ni guarda versiones de guías sin cambios', async () => {
@@ -303,8 +308,55 @@ describe('carga de guías importadas de Squarespace', () => {
 
     expect(result.guides).toMatchObject({ updated: 1 })
     expect(result.oddities['el-cazador-cazado']).toEqual([
+      'Sin pasos marcados («ETAPA n: título»): la guía queda como prosa',
       'Varias misiones de DofusDB (1977, 1976): sin enlazar, elige una en el panel',
     ])
     expect((await guidesBySlug()).get('el-cazador-cazado')!.quest ?? null).toBeNull()
+  })
+
+  it('guarda los pasos con sus capturas y repetir la carga no guarda otra versión', async () => {
+    const withSteps = () => {
+      const six = converted().find(({ guide }) => guide.slug === 'seis-pies-bajo-tierra')!
+      // Las cinco guías no marcan pasos: se forman a mano con sus dos primeros bloques.
+      const [first, second, ...rest] = six.guide.body as ContentBlock[]
+      six.guide.body = [
+        {
+          blockType: 'step',
+          title: 'Habla con la Aventurera',
+          x: 5,
+          y: -18,
+          body: [first!, second!],
+        },
+        { blockType: 'step', title: 'Sin coordenadas', body: [] },
+        ...rest,
+      ]
+      return [six]
+    }
+    const downloadsBefore = downloads.length
+
+    const first = await loadQuestGuides(payload, withSteps(), { fetchImage })
+    expect(first.guides).toEqual({ created: 0, updated: 1, unchanged: 0, skipped: 0 })
+    // Las capturas del paso ya estaban en media: no se descargan otra vez.
+    expect(downloads).toHaveLength(downloadsBefore)
+
+    const saved = (await guidesBySlug()).get('seis-pies-bajo-tierra')!
+    const [step, empty] = saved.body ?? []
+    expect(step).toMatchObject({
+      blockType: 'step',
+      title: 'Habla con la Aventurera',
+      x: 5,
+      y: -18,
+    })
+    expect(empty).toMatchObject({ blockType: 'step', title: 'Sin coordenadas' })
+    if (step?.blockType !== 'step') return
+    expect(step.body?.map((block) => block.blockType)).toEqual(['image', 'richText'])
+    expect(step.body?.find((block) => block.blockType === 'image')).toMatchObject({
+      image: expect.any(Number),
+    })
+
+    const versionsBefore = await versionCount()
+    const again = await loadQuestGuides(payload, withSteps(), { fetchImage })
+    expect(again.guides).toEqual({ created: 0, updated: 0, unchanged: 1, skipped: 0 })
+    expect(await versionCount()).toBe(versionsBefore)
   })
 })

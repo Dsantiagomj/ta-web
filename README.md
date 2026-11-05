@@ -100,6 +100,13 @@ Railway hosts both environments; `docs/legacy/infra.md` has the inventory, the d
 | `pnpm generate:types` | Regenerates `src/payload-types.ts`. Run it after changing a collection and commit the result; CI fails when the file is stale |
 | `pnpm generate:importmap` | Regenerates Payload's admin import map after adding admin components |
 
+### Guide import notes
+
+How `pnpm import:guides` reads a Squarespace page, beyond the summary and the start line:
+
+- **Steps.** Torre does not mark steps with headings: in the 1272 quest pages each text block is followed by its screenshots, with no title. Only one page (`el-safari-de-almas`) marks them, with a paragraph "ETAPA 1: El safari de las almas ancebas:". That paragraph, uppercase and at the start, is the only marker the importer recognises. It opens a step block ("Paso" in the panel) titled with the text after the colon; the first `[x,y]` in the step becomes its coordinates. A step runs until the next marker; the last one ends with its text block and the screenshots right after it, and the rest is outro prose. A page without markers stays prose and gets the oddity "Sin pasos marcados", because a title is never made up. None of the five guides in `GUIDE_SLUGS` has markers, so Torre writes their steps in the panel.
+- **Callouts.** A paragraph that starts with an uppercase label becomes a callout: `IMPORTANTE`, `CUIDADO` and `ATENCIÓN` (with or without `¡…!`) a warning, `NOTA` a tip. The label leaves the text when a colon or an exclamation mark follows it ("IMPORTANTE:", "¡ATENCIÓN!", "¡ATENCIÓN, ATENCIÓN!"), since the callout title already says it, and the rest starts with a capital. "CUIDADO CON EL MISSCLICK" keeps its words.
+
 ### Git hooks and gga
 
 `lefthook.yml` defines the hooks and `pnpm install` installs them.
