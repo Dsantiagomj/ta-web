@@ -15,7 +15,7 @@ export function Chip({
   return (
     <span
       className={cx(
-        'inline-flex h-[26px] items-center gap-1.5 rounded-pill bg-raised px-2.5 text-xs font-semibold whitespace-nowrap text-ink-2 [&>img]:size-4',
+        'inline-flex h-[26px] items-center gap-1.5 rounded-pill bg-raised px-2.5 text-xs font-semibold whitespace-nowrap text-ink-2 [&_img]:size-4',
         className,
       )}
     >
