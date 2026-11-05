@@ -1,7 +1,12 @@
 import { describe, expect, it } from 'vitest'
 
 import packageJson from '../../package.json'
-import { DEV_DATABASE_URL, resolveDatabaseUrl, shouldPushSchema } from '@/lib/db/database-url'
+import {
+  DEV_DATABASE_URL,
+  isLocalDatabaseUrl,
+  resolveDatabaseUrl,
+  shouldPushSchema,
+} from '@/lib/db/database-url'
 
 describe('resolveDatabaseUrl', () => {
   it('usa la base embebida de pnpm db:dev en desarrollo si no hay DATABASE_URL', () => {
@@ -108,5 +113,19 @@ describe('shouldPushSchema', () => {
     expect(shouldPushSchema({ NODE_ENV: 'production' })).toBe(false)
     expect(shouldPushSchema({ NODE_ENV: 'test' })).toBe(false)
     expect(shouldPushSchema({})).toBe(false)
+  })
+})
+
+describe('isLocalDatabaseUrl', () => {
+  it('acepta las bases locales de las pruebas: la embebida y la del servicio de CI', () => {
+    expect(isLocalDatabaseUrl('postgres://postgres:postgres@127.0.0.1:54329/ta_web_e2e')).toBe(true)
+    expect(isLocalDatabaseUrl('postgres://postgres:postgres@localhost:5432/ta_web')).toBe(true)
+  })
+
+  it('rechaza cualquier otra, para no sembrar datos de prueba en una base real', () => {
+    expect(isLocalDatabaseUrl('postgres://u:p@ep-x.eu-central-1.aws.neon.tech/ta_web')).toBe(false)
+    expect(isLocalDatabaseUrl('postgres://u:p@localhost.evil.example/ta_web')).toBe(false)
+    expect(isLocalDatabaseUrl('no es una url')).toBe(false)
+    expect(isLocalDatabaseUrl('')).toBe(false)
   })
 })

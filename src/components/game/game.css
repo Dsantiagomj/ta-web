@@ -444,6 +444,82 @@ label.stage__badge:active {
   font-weight: 700;
 }
 
+/* ---------- cuerpo de la guía ---------- */
+
+/* La guía como prosa, mientras no haya bloque de etapa: 72ch, 16px entre párrafos y 32px
+   alrededor de capturas, vídeos y avisos (DESIGN.md, Spacing). */
+.guide-body > * + * {
+  margin-top: 16px;
+}
+
+.guide-body > :is(figure, aside),
+.guide-body > :is(figure, aside) + * {
+  margin-top: 32px;
+}
+
+.guide-body :is(p, ul, ol, blockquote) {
+  max-width: 72ch;
+}
+
+.guide-body :is(ul, ol) {
+  padding-left: 1.25em;
+}
+
+.guide-body ul {
+  list-style: disc;
+}
+
+.guide-body ol {
+  list-style: decimal;
+}
+
+.guide-body li + li {
+  margin-top: 4px;
+}
+
+.guide-body li::marker {
+  color: var(--color-muted);
+}
+
+.guide-body strong {
+  font-weight: 700;
+}
+
+.guide-body > :is(h2, h3, h4, h5, h6) {
+  margin-top: 40px;
+  font-family: var(--font-display);
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+
+.guide-body > h2 {
+  font-size: var(--text-2xl);
+  line-height: var(--text-2xl--line-height);
+  font-weight: var(--text-2xl--font-weight);
+  letter-spacing: var(--text-2xl--letter-spacing);
+  text-transform: uppercase;
+}
+
+.guide-body > h3 {
+  font-size: var(--text-xl);
+  line-height: var(--text-xl--line-height);
+  font-weight: var(--text-xl--font-weight);
+}
+
+.guide-body > :is(h4, h5, h6) {
+  font-size: var(--text-lg);
+  line-height: var(--text-lg--line-height);
+  font-weight: var(--text-lg--font-weight);
+}
+
+.guide-body hr {
+  border-color: var(--color-line);
+}
+
+.guide-body .callout__body > * + * {
+  margin-top: 8px;
+}
+
 /* ---------- píldora de progreso ---------- */
 
 .pill {

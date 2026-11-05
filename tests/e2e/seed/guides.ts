@@ -1,0 +1,287 @@
+// Guías de prueba para las E2E y Lighthouse CI: «Seis pies bajo tierra» (DofusDB 1976)
+// publicada con los cuatro bloques, la guía publicada de su prerrequisito y un borrador
+// sin publicar. Las pruebas leen de aquí lo que esperan ver. Se siembra con
+// scripts/seed-e2e.ts sobre la base vacía de las pruebas, nunca sobre una real.
+import path from 'node:path'
+import type { Payload } from 'payload'
+
+import type { RichTextBlock } from '../../../src/payload-types.ts'
+
+/** Un usuario del panel de las pruebas, para la vista previa. Solo existe en la base local. */
+export const E2E_PANEL_USER = {
+  email: 'e2e@torrentearcano.test',
+  password: 'e2e-clave-solo-local',
+}
+
+export const seedGuide = {
+  slug: 'seis-pies-bajo-tierra',
+  title: 'Seis pies bajo tierra',
+  level: 20,
+  start: { npc: 'Hupe Esse', x: 7, y: -19 },
+  prerequisite: { title: 'Esto hace aguas', slug: 'esto-hace-aguas' },
+  needsNote: '1 x Combate (solo).',
+  reward: { xp: 16380, kamas: 390 },
+  rewardItems: [
+    'Pico de tofu',
+    'Intestino de araknáusea',
+    'Pelos de arakna enferma',
+    'Ojo de arakmutada',
+  ],
+  intro: 'para empezar la misión.',
+  image: {
+    file: 'public/img/sistema/seis-pies-hupe-esse.webp',
+    alt: 'El personaje humanoide recibe un paquete en una biblioteca de madera, con una librería llena de libros y una escalera de madera.',
+    caption: 'Hupe Esse, en la Biblioteca de Astrub.',
+  },
+  callout: 'Debes ganar esta lucha sin que se muera ninguna de ellas.',
+  video: {
+    url: 'https://www.youtube.com/watch?v=VaY3tyYTq4A',
+    title: 'El camino hacia los ron marino | DOFUS 3.0',
+  },
+  seo: {
+    metaTitle: 'Seis pies bajo tierra: guía de la misión de Dofus',
+    metaDescription:
+      'Guía paso a paso de la misión Seis pies bajo tierra de Dofus, de nivel 20: requisitos, recompensas (16 380 XP) y cómo completarla.',
+  },
+}
+
+/** Un borrador que nunca se publicó: 404 para un visitante, visible en la vista previa. */
+export const draftGuide = {
+  slug: 'el-cazador-cazado',
+  title: 'El cazador cazado',
+  body: 'Este borrador todavía no se ha publicado.',
+}
+
+// ---------- Lexical ----------
+
+type LexicalNode = Record<string, unknown>
+
+const text = (value: string, format = 0): LexicalNode => ({
+  type: 'text',
+  text: value,
+  format,
+  style: '',
+  mode: 'normal',
+  detail: 0,
+  version: 1,
+})
+
+const element = (type: string, children: LexicalNode[], extra: LexicalNode = {}): LexicalNode => ({
+  type,
+  children,
+  format: '',
+  indent: 0,
+  version: 1,
+  direction: 'ltr',
+  ...extra,
+})
+
+const paragraph = (...children: LexicalNode[]) =>
+  element('paragraph', children, { textFormat: 0, textStyle: '' })
+
+const heading = (tag: 'h2' | 'h3', value: string) => element('heading', [text(value)], { tag })
+
+const bullets = (...items: string[]) =>
+  element(
+    'list',
+    items.map((item, index) => element('listitem', [text(item)], { value: index + 1 })),
+    { listType: 'bullet', tag: 'ul', start: 1 },
+  )
+
+const richText = (...children: LexicalNode[]) =>
+  ({ root: element('root', children) }) as unknown as RichTextBlock['content']
+
+const BOLD = 1
+
+// ---------- siembra ----------
+
+async function findOrCreate<T extends { id: number }>(
+  find: () => Promise<{ docs: T[] }>,
+  create: () => Promise<T>,
+): Promise<T> {
+  return (await find()).docs[0] ?? create()
+}
+
+async function quest(
+  payload: Payload,
+  data: { dofusId: number; name: string } & Record<string, unknown>,
+) {
+  return findOrCreate(
+    () =>
+      payload.find({
+        collection: 'quests',
+        where: { dofusId: { equals: data.dofusId } },
+        limit: 1,
+      }),
+    () => payload.create({ collection: 'quests', data }),
+  )
+}
+
+async function item(payload: Payload, dofusId: number, name: string) {
+  return findOrCreate(
+    () => payload.find({ collection: 'items', where: { dofusId: { equals: dofusId } }, limit: 1 }),
+    () => payload.create({ collection: 'items', data: { dofusId, name, superTypeId: 9 } }),
+  )
+}
+
+async function guideExists(payload: Payload, slug: string) {
+  const { totalDocs } = await payload.count({
+    collection: 'quest-guides',
+    where: { slug: { equals: slug } },
+  })
+  return totalDocs > 0
+}
+
+/** Siembra las guías de prueba; repetirla no duplica nada. */
+export async function seedGuides(payload: Payload): Promise<void> {
+  const users = await payload.count({
+    collection: 'users',
+    where: { email: { equals: E2E_PANEL_USER.email } },
+  })
+  if (users.totalDocs === 0) {
+    await payload.create({ collection: 'users', data: E2E_PANEL_USER })
+  }
+
+  const previous = await quest(payload, {
+    dofusId: 1975,
+    name: seedGuide.prerequisite.title,
+    levelMin: 20,
+  })
+  const rewardIds = await Promise.all(
+    [
+      [366, 'Pico de tofu'],
+      [373, 'Intestino de araknáusea'],
+      [388, 'Pelos de arakna enferma'],
+      [2491, 'Ojo de arakmutada'],
+    ].map(([dofusId, name]) => item(payload, dofusId as number, name as string)),
+  )
+  const main = await quest(payload, {
+    dofusId: 1976,
+    name: seedGuide.title,
+    levelMin: seedGuide.level,
+    prerequisites: [previous.id],
+    rewards: {
+      experience: seedGuide.reward.xp,
+      kamas: seedGuide.reward.kamas,
+      // En el orden de DofusDB: Torre los lista al revés.
+      items: [...rewardIds].reverse().map((reward) => ({ item: reward.id, quantity: 1 })),
+    },
+  })
+  const hunter = await quest(payload, { dofusId: 1977, name: draftGuide.title, levelMin: 25 })
+
+  // Por el texto alternativo: si ./media ya tiene el archivo, Payload sube la copia con otro nombre.
+  const image = await findOrCreate(
+    () =>
+      payload.find({
+        collection: 'media',
+        where: { alt: { equals: seedGuide.image.alt } },
+        limit: 1,
+      }),
+    () =>
+      payload.create({
+        collection: 'media',
+        data: { alt: seedGuide.image.alt },
+        filePath: path.resolve(seedGuide.image.file),
+      }),
+  )
+
+  if (!(await guideExists(payload, seedGuide.prerequisite.slug))) {
+    await payload.create({
+      collection: 'quest-guides',
+      data: {
+        title: seedGuide.prerequisite.title,
+        slug: seedGuide.prerequisite.slug,
+        quest: previous.id,
+        _status: 'published',
+        body: [
+          { blockType: 'richText', content: richText(paragraph(text('Habla con Hupe Esse.'))) },
+        ],
+      },
+    })
+  }
+
+  if (!(await guideExists(payload, seedGuide.slug))) {
+    await payload.create({
+      collection: 'quest-guides',
+      data: {
+        title: seedGuide.title,
+        slug: seedGuide.slug,
+        quest: main.id,
+        _status: 'published',
+        summary: {
+          prerequisites: `${seedGuide.prerequisite.title}.`,
+          needs: { items: [], notes: seedGuide.needsNote },
+          startNpc: seedGuide.start.npc,
+          startX: seedGuide.start.x,
+          startY: seedGuide.start.y,
+        },
+        seo: seedGuide.seo,
+        body: [
+          {
+            blockType: 'richText',
+            content: richText(
+              paragraph(
+                text('Habla con '),
+                text(seedGuide.start.npc, BOLD),
+                text(` [7,-19] ${seedGuide.intro}`),
+              ),
+            ),
+          },
+          { blockType: 'image', image: image.id, caption: seedGuide.image.caption },
+          {
+            blockType: 'richText',
+            content: richText(
+              heading('h2', 'Combate: protege a las anutrof'),
+              paragraph(
+                text('Habla con '),
+                text('Luci', BOLD),
+                text(' [3,-17]. Vas a empezar una lucha contra:'),
+              ),
+              bullets('1 x Ramán famélico', '1 x Milirrata famélica', '1 x Miserata famélica'),
+            ),
+          },
+          {
+            blockType: 'callout',
+            variant: 'warning',
+            content: richText(
+              paragraph(
+                text('Las anutrof '),
+                text('NO', BOLD),
+                text(` deben morir. ${seedGuide.callout}`),
+              ),
+            ),
+          },
+          {
+            blockType: 'richText',
+            content: richText(
+              paragraph(
+                text(
+                  'Una vez terminado el combate, vuelve a hablar con cualquiera de las anutrof y te acompañarán. Deberás escoltarlas fuera de allí.',
+                ),
+              ),
+            ),
+          },
+          { blockType: 'video', url: seedGuide.video.url, title: seedGuide.video.title },
+          {
+            blockType: 'richText',
+            content: richText(paragraph(text('Aquí termina la misión. Espero haberte ayudado.'))),
+          },
+        ],
+      },
+    })
+  }
+
+  if (!(await guideExists(payload, draftGuide.slug))) {
+    await payload.create({
+      collection: 'quest-guides',
+      data: {
+        title: draftGuide.title,
+        slug: draftGuide.slug,
+        quest: hunter.id,
+        _status: 'draft',
+        body: [{ blockType: 'richText', content: richText(paragraph(text(draftGuide.body))) }],
+      },
+      draft: true,
+    })
+  }
+}

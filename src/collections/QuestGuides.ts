@@ -5,6 +5,8 @@ import { ImageBlock } from '../blocks/ImageBlock'
 import { RichTextBlock } from '../blocks/RichTextBlock'
 import { VideoBlock } from '../blocks/VideoBlock'
 import { linkedQuestId } from '../lib/guides/autofill'
+import { guidePreviewUrl, previewOrigin } from '../lib/guides/preview'
+import { isReservedSlug, isSlugFormat } from '../lib/guides/slug'
 import { guideStrings } from '../lib/guides/strings'
 import type { FillableField, NotedField } from '../lib/guides/summary'
 import { validateOptionalUrl } from './Media'
@@ -16,11 +18,14 @@ import {
 
 /**
  * Slug plano en ASCII: minúsculas, cifras y guiones sueltos, sin guiones en los extremos.
- * Sin tildes ni eñes, para que la URL no se codifique. Devuelve true o el mensaje de error.
+ * Sin tildes ni eñes, para que la URL no se codifique, y sin chocar con una ruta del
+ * sitio (/sistema, /admin…). Devuelve true o el mensaje de error.
  */
 export function validateSlug(value: string | null | undefined): true | string {
-  if (value && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value)) return true
-  return 'El slug solo admite minúsculas sin tildes, cifras y guiones sueltos (aprendizaje-escudero)'
+  if (!isSlugFormat(value)) {
+    return 'El slug solo admite minúsculas sin tildes, cifras y guiones sueltos (aprendizaje-escudero)'
+  }
+  return isReservedSlug(value) ? guideStrings.admin.slugReserved(value) : true
 }
 
 type GuideValidationOptions = { data: { quest?: unknown } }
@@ -149,6 +154,12 @@ export const QuestGuides: CollectionConfig = {
     useAsTitle: 'title',
     group: 'Guías',
     defaultColumns: ['title', 'slug', '_status', 'updatedAt'],
+    // La página pública en el panel, borrador incluido (src/lib/guides/preview.ts).
+    livePreview: {
+      url: ({ data, req }) => guidePreviewUrl(data?.slug, previewOrigin(process.env, req.origin)),
+      breakpoints: [{ name: 'movil', label: 'Móvil', width: 390, height: 844 }],
+    },
+    preview: (doc, { req }) => guidePreviewUrl(doc?.slug, previewOrigin(process.env, req.origin)),
   },
   access: questGuidesAccess,
   versions: { drafts: true, maxPerDoc: 50 },

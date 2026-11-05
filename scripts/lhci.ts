@@ -1,6 +1,6 @@
 // pnpm test:lhci: Lighthouse CI con los presupuestos de DESIGN.md (lighthouserc.cjs) sobre
 // la app por el camino de producción, como las pruebas E2E: pnpm build, pnpm migrate
-// sobre una base vacía y pnpm start. E2E_SKIP_BUILD=1 (del entorno o de .env, como en
+// sobre una base vacía, las guías de prueba (pnpm seed:e2e) y pnpm start. E2E_SKIP_BUILD=1 (del entorno o de .env, como en
 // las E2E) reutiliza el último build. Mide con el Chromium de Playwright salvo que
 // CHROME_PATH, del entorno del proceso, diga otro.
 import { chromium } from '@playwright/test'
@@ -10,6 +10,7 @@ import { createRequire } from 'node:module'
 
 import { DEV_DATABASE } from '../src/lib/db/dev-database.ts'
 import { loadE2eEnvFromFile } from '../tests/e2e/app-server.ts'
+import { clearDataCache } from './clear-data-cache.ts'
 import { ensureDevDatabase, portIsOpen, stopProcess } from './dev-database-process.ts'
 import { lhciEnv } from './lhci-env.ts'
 import { resetDevDatabase } from './reset-dev-database.ts'
@@ -76,6 +77,10 @@ try {
   }
   if (process.env.E2E_SKIP_BUILD !== '1') run('pnpm', ['build'])
   run('pnpm', ['migrate'])
+  // La guía que mide lighthouserc.cjs; en CI la base ya la tiene de las E2E y no se duplica.
+  run('pnpm', ['seed:e2e'])
+  // Sin guías en caché de una ejecución anterior: se mide lo que acaba de sembrarse.
+  clearDataCache()
 
   // Sin informes de ejecuciones anteriores: el directorio solo guarda los de esta.
   rmSync('.lighthouseci', { recursive: true, force: true })

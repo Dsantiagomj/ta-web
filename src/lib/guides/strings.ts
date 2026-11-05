@@ -27,6 +27,18 @@ export const guideStrings = {
       `requisitos, recompensas${experience ? ` (${experience} XP)` : ''} ` +
       'y cómo completarla.',
   },
+  /** La página pública de la guía, /<slug>. */
+  page: {
+    videoTitle: (title: string) => `Vídeo de la guía: ${title}`,
+    preview: {
+      label: 'Vista previa',
+      note: 'Vista previa del borrador. Los visitantes ven la versión publicada.',
+      exit: 'Salir de la vista previa',
+      badSlug: 'Esa dirección no es la de una guía.',
+      signIn: 'Inicia sesión en el panel para ver la vista previa.',
+      notFound: 'No hay ninguna guía con ese slug.',
+    },
+  },
   /** Slug de reserva cuando el nombre de la misión no deja ni una letra. */
   fallbackSlug: 'guia',
   admin: {
@@ -45,6 +57,8 @@ export const guideStrings = {
       'No se rellena solo.',
     seoDescription:
       'Se rellena solo desde la misión si lo dejas vacío. Puedes cambiarlo cuando quieras.',
+    slugReserved: (slug: string) =>
+      `/${slug} es una página del sitio: elige otro slug para la guía.`,
     titleRequired: 'Escribe un título o elige una misión de DofusDB para sacarlo de ella.',
     fromDofusDb: 'Viene de DofusDB. Puedes cambiarlo.',
     changed: (value: string) => `Cambiado. DofusDB da: ${value}`,
