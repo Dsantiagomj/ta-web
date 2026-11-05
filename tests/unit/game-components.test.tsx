@@ -279,4 +279,10 @@ describe('PageEnhancements', () => {
   it('deja preparada la región de estado del aviso «Copiado»', () => {
     expect(html(<PageEnhancements />)).toContain('role="status"')
   })
+
+  it('deja preparado el visor de imágenes: un <dialog> cerrado y con nombre', () => {
+    const markup = html(<PageEnhancements />)
+    expect(markup).toMatch(/<dialog [^>]*aria-label="Imagen a pantalla completa"/)
+    expect(markup).not.toMatch(/<dialog [^>]*\bopen\b/)
+  })
 })

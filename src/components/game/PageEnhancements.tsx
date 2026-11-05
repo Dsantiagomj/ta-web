@@ -1,20 +1,46 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
+import { IconButton } from '@/components/ui/IconButton'
+import { uiStrings } from '@/components/ui/strings'
+
+import { CloseIcon } from './icons'
 import { gameStrings } from './strings'
 
 const s = gameStrings.coordinates
+const f = uiStrings.figure
 const TOAST_MS = 4000
 
+/** La imagen que enseña el visor, leída del enlace de la captura (Figure). */
+interface Viewed {
+  src: string
+  avif?: string
+  alt: string
+  width?: string
+  height?: string
+  caption?: string
+  theme?: string
+  mode?: string
+}
+
 /**
- * La única isla de las páginas de guía (DESIGN.md, Coordinates chip y Video facade). Se
- * pinta una vez por página y escucha con delegación: copia el data-copy de los chips de
- * coordenadas y cambia el enlace de un vídeo por su reproductor. Sin ella, los chips son
- * texto y el vídeo un enlace.
+ * La única isla de las páginas de guía (DESIGN.md, Coordinates chip, Video facade y
+ * Figure). Se pinta una vez por página y escucha con delegación: copia el data-copy de los
+ * chips de coordenadas, cambia el enlace de un vídeo por su reproductor y abre las capturas
+ * en un visor a pantalla completa. Sin ella, los chips son texto, el vídeo un enlace y la
+ * captura un enlace a su archivo.
  */
 export function PageEnhancements() {
   const [message, setMessage] = useState('')
+  const [viewed, setViewed] = useState<Viewed | null>(null)
+  const viewer = useRef<HTMLDialogElement>(null)
+  // El enlace que abrió el visor: recupera el foco al cerrarlo.
+  const opener = useRef<HTMLElement | null>(null)
+
+  useEffect(() => {
+    if (viewed && !viewer.current?.open) viewer.current?.showModal()
+  }, [viewed])
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | undefined
@@ -54,6 +80,23 @@ export function PageEnhancements() {
       player.focus()
     }
 
+    const view = (link: HTMLAnchorElement) => {
+      const image = link.querySelector('img')
+      // El visor toma el tema y el modo de donde está la captura (las secciones de /sistema).
+      const scope = link.closest<HTMLElement>('[data-theme]')
+      opener.current = link
+      setViewed({
+        src: link.href,
+        avif: link.dataset.imageAvif,
+        alt: image?.alt ?? '',
+        width: image?.getAttribute('width') ?? undefined,
+        height: image?.getAttribute('height') ?? undefined,
+        caption: link.closest('figure')?.querySelector('figcaption')?.textContent ?? undefined,
+        theme: scope?.dataset.theme,
+        mode: scope?.dataset.mode,
+      })
+    }
+
     const onClick = (event: MouseEvent) => {
       const target = event.target instanceof Element ? event.target : null
       const copyNode = target?.closest<HTMLElement>('[data-copy]')
@@ -62,11 +105,18 @@ export function PageEnhancements() {
         void copy(copyNode)
         return
       }
+      // Con una tecla modificadora, los enlaces abren su destino como cualquier otro.
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
       const video = target?.closest<HTMLAnchorElement>('a[data-video-embed]')
-      // Con una tecla modificadora, el enlace abre YouTube como cualquier otro.
-      if (video && !(event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)) {
+      if (video) {
         event.preventDefault()
         play(video)
+        return
+      }
+      const figure = target?.closest<HTMLAnchorElement>('a[data-image-viewer]')
+      if (figure) {
+        event.preventDefault()
+        view(figure)
       }
     }
 
@@ -88,9 +138,52 @@ export function PageEnhancements() {
     }
   }, [])
 
+  const close = () => viewer.current?.close()
+
   return (
-    <p role="status" className="toast" data-visible={message ? '' : undefined}>
-      {message}
-    </p>
+    <>
+      <p role="status" className="toast" data-visible={message ? '' : undefined}>
+        {message}
+      </p>
+      {/* Esc lo cierra el navegador; el clic fuera de la imagen cae en el propio <dialog>. */}
+      <dialog
+        ref={viewer}
+        className="viewer"
+        aria-label={f.viewer}
+        data-theme={viewed?.theme}
+        data-mode={viewed?.mode}
+        onClick={(event) => {
+          if (event.target === event.currentTarget) close()
+        }}
+        onClose={() => {
+          setViewed(null)
+          opener.current?.focus()
+        }}
+      >
+        {viewed && (
+          <>
+            <IconButton
+              label={f.close}
+              icon={<CloseIcon />}
+              className="viewer__close"
+              onClick={close}
+            />
+            <figure className="viewer__figure">
+              <picture>
+                {viewed.avif && <source type="image/avif" srcSet={viewed.avif} />}
+                <img
+                  src={viewed.src}
+                  alt={viewed.alt}
+                  width={viewed.width}
+                  height={viewed.height}
+                  className="viewer__image"
+                />
+              </picture>
+              {viewed.caption && <figcaption>{viewed.caption}</figcaption>}
+            </figure>
+          </>
+        )}
+      </dialog>
+    </>
   )
 }

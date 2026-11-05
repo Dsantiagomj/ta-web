@@ -1,5 +1,5 @@
-// Iconos de interfaz dibujados a mano solo donde no hay arte del juego que encaje: copiar
-// y la marca de hecho. Decorativos siempre.
+// Iconos de interfaz dibujados a mano solo donde no hay arte del juego que encaje: copiar,
+// la marca de hecho y cerrar. Decorativos siempre.
 
 export function CopyIcon({ className }: { className?: string }) {
   return (
@@ -30,6 +30,22 @@ export function CheckIcon({ className }: { className?: string }) {
       className={className}
     >
       <path d="M3.5 8.5l3 3 6-7" />
+    </svg>
+  )
+}
+
+export function CloseIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      className={className}
+    >
+      <path d="M4 4l8 8M12 4l-8 8" />
     </svg>
   )
 }

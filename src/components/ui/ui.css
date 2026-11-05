@@ -156,3 +156,85 @@
     height: max(100%, 44px);
   }
 }
+
+/* ---------- captura y visor a pantalla completa (DESIGN.md, Figure) ---------- */
+
+.figure__link {
+  display: block;
+  border-radius: var(--radius-card);
+  cursor: zoom-in;
+}
+
+/* El <dialog> ocupa toda la pantalla y es transparente: un clic fuera de la imagen, del pie
+   y del botón cae en él y lo cierra (PageEnhancements). */
+.viewer {
+  --viewer-pad: 16px;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 64px var(--viewer-pad) var(--viewer-pad);
+  border: 0;
+  background: transparent;
+  color: var(--color-ink);
+}
+
+@media (min-width: 768px) {
+  .viewer {
+    --viewer-pad: 32px;
+  }
+}
+
+.viewer[open] {
+  display: grid;
+  place-content: center;
+}
+
+.viewer::backdrop {
+  background: color-mix(in srgb, var(--color-bg) 92%, transparent);
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+.viewer__close {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+}
+
+.viewer__figure {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  transition:
+    opacity var(--duration-slow) var(--ease-out),
+    transform var(--duration-slow) var(--ease-out);
+}
+
+/* Hasta el tamaño de la pantalla, nunca más que el archivo; el pie se reserva 4rem. */
+.viewer__image {
+  width: auto;
+  height: auto;
+  max-width: calc(100vw - 2 * var(--viewer-pad));
+  max-height: calc(100dvh - 64px - var(--viewer-pad) - 4rem);
+  object-fit: contain;
+  border-radius: var(--radius-md);
+  background: var(--color-raised);
+}
+
+.viewer__figure figcaption {
+  max-width: 72ch;
+  font-size: var(--text-sm);
+  text-align: center;
+}
+
+@starting-style {
+  .viewer[open]::backdrop {
+    opacity: 0;
+  }
+
+  .viewer[open] .viewer__figure {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+}
