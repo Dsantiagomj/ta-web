@@ -377,8 +377,8 @@ Side gutters: 16px under 640px, 24px up to 1024px, 48px above. Backgrounds alway
 
 - **Header** (decided 2026-11-02: the duffus-style header, not the Dofus Tools "header B"): 64px, sticky. Transparent over the hero art at the top of the page, then `--color-bg` at 92 percent with `backdrop-filter: blur(16px) saturate(1.4)` once the page scrolls (solid fallback without `backdrop-filter`). Brand left; nav groups as dropdowns with game icons; search trigger with its `Ctrl K` hint; the egg theme switch; the account button ("Entrar" as the primary action, accent outline, when signed out). Under 768px: a floating bar inset 12px from the edges with 16px radius, and a burger that opens a full-height sheet of 48px rows.
 - **Footer**: legal links, Ko-fi, socials (YouTube, Kick, Instagram), the Twitch live card. No floating support button.
-- **Quest guide** (decided 2026-11-04: option 3, variant B, "Diario de misiones", mockup `tmp/mockups/guia/opcion-3b.html`, published at https://ta-prototipos.netlify.app/guia/): the free view is the full guide. From top to bottom: the hero header with the level medallion; the summary ribbon at `--width-hero` (Empieza, Requiere, Necesitarás, and a "Recompensa … ↓" link to the Botín card); "Etapas", the stages timeline at `--width-prose` with the number badges in a 48px gutter from 768px and inside the card below, and the progress pill above it; the Botín card as the last node of the timeline; the outro prose and the video; the next quest card. Every part is specified under Quest guide components. "Modo compacto" (decided 2026-11-02) is a premium feature that trims the hero and the long dialogue blocks; it is enforced on the server like every premium feature (see `AGENTS.md`), so a visitor without the entitlement never receives the compact layout or its toggle.
-  - **What renders today** (the page at `/<slug>`, 2026-11-05): only what the guide stores. The hero header with the title and the medallion, no art, no breadcrumb and no subtitle; the summary ribbon from the guide's summary and the quest's rewards; then, at `--width-prose` plus the 48px gutter, the body blocks in order as prose (rich text, Figure, Video facade, Callout) and the Botín card after them. With no step block there is no "Etapas" timeline: the page never invents stages from the prose. The fight block, the achievement chain and the next quest card are left out. Each missing part is listed under Content model gaps.
+- **Quest guide** (decided 2026-11-04: option 3, variant B, "Diario de misiones", mockup `tmp/mockups/guia/opcion-3b.html`, published at https://ta-prototipos.netlify.app/guia/): the free view is the full guide. From top to bottom: the hero header with the level medallion; the summary ribbon at `--width-hero` (Empieza, Requiere, Necesitarás, and a "Recompensa … ↓" link to the Botín card); "Pasos", the steps timeline at `--width-prose` with the number badges in a 48px gutter from 768px and inside the card below, and the progress pill above it; the Botín card as the last node of the timeline; the outro prose and the video; the next quest card. Every part is specified under Quest guide components. "Modo compacto" (decided 2026-11-02) is a premium feature that trims the hero and the long dialogue blocks; it is enforced on the server like every premium feature (see `AGENTS.md`), so a visitor without the entitlement never receives the compact layout or its toggle.
+  - **What renders today** (the page at `/<slug>`, 2026-11-05): only what the guide stores. The hero header with the title and the medallion, no art, no breadcrumb and no subtitle; the summary ribbon from the guide's summary and the quest's rewards; then, at `--width-prose` plus the 48px gutter, the body. A body with step blocks (the "Paso" block in the panel) renders the blocks before the first step as intro prose, then the "Pasos" timeline with the Botín card as its last node, then the blocks after the last step as outro prose; a block placed between two steps stays at the end of the step before it, so the reading order never changes. A body without step blocks renders all its blocks in order as prose (rich text, Figure, Video facade, Callout) with the Botín card after them: the page never invents steps from the prose. Ticks and the progress pill are CSS only; the guide page ships no new client JavaScript for them. The fight block, the achievement chain and the next quest card are left out. Each missing part is listed under Content model gaps.
   - **Draft preview**: in draft mode (opened from the panel, see `AGENTS.md`) a bar in `--color-raised` sits above the hero with "Vista previa del borrador. Los visitantes ven la versión publicada." and a ghost button "Salir de la vista previa"; the page is `noindex`.
 - **Dofus guide and checklist**: title block, summary strip (level range, prerequisites done, quests done, dungeons, segmented progress), chapters as numbered sections of checkable rows; from 1024px a sticky side column with the Dofus card and tabs (Capítulos, Objetos necesarios).
 - **List pages** (achievements, quests, dungeons, classes): centered title and subtitle, a toolbar (search with live count, filter pills, "Ocultar hechas"), then a table or card grid.
@@ -398,7 +398,7 @@ Every interactive component has these states: default, hover (mouse only), focus
 | Dropdown panel | 16px radius, `--color-surface` at 92 percent with blur, 12px padding, rows of 40px with a 24px game icon | enter and exit per the motion table; Esc and outside click close; arrow keys move |
 | Search dialog | native `<dialog>`, 640px wide, input at top, results grouped by type (misión, logro, Dofus, clase) with icons, keyboard selection | opens on `Ctrl K` or `/`; empty state with recent searches; no-results state with a suggestion |
 | Card, collection (Dofus, class, dungeon) | the whole card is one `<a>`; art layer, shade, name in display 700 normal case, one line of meta; 1px border in `--color-section`; optional progress ring top right in `--color-accent` with the percentage in Lilita One and `--color-accent-2`. Light-mode treatment below | hover: a soft glow in `--color-section` around the border, art settles from `scale(1.04)` to 1; done: success ring; locked premium: lock badge and the meta says why |
-| Card, step | see Stage card under Quest guide components. A type badge (32px circle with a game icon) can replace the number when the step block gets a type; optional NPC render and numbered dialogue choices | done: check in the badge, title in `--color-muted`, the card stays in place |
+| Card, step | see Step card under Quest guide components. A type badge (32px circle with a game icon) can replace the number when the step block gets a type; optional NPC render and numbered dialogue choices | done: check in the badge, title in `--color-muted`, the card stays in place |
 | Stat tile | 14px radius, `--color-raised` fill, optional game icon, number in Lilita One at `--text-figure` in `--color-accent-2` (`white-space: nowrap`), micro label in `--color-ink-2`. XP and kamas have no game icon we can use, so their tiles are typographic: number and label only, never a stand-in glyph | static |
 | Chip | 22 to 26px pill, `--text-xs`, `--color-raised` fill, `--color-ink-2` text, optional 16px game icon | static; the coordinates chip is its own component (Quest guide components) |
 | Segmented tabs | pill track in `--color-raised`; active segment `--color-surface` with `--color-accent` text | selected uses `aria-selected`; arrow keys move between tabs |
@@ -433,7 +433,7 @@ Decided 2026-11-04, from the approved mockup (option 3, variant B). They are ser
 Rules shared by all of them:
 
 - **Text over art or over scrolling content** (the medallion, the breadcrumb pill, the progress pill) sits on `--color-surface` at 92 percent and uses `--color-ink`, `--color-ink-2`, `--color-accent` or `--color-accent-2`, never `--color-muted`: muted drops to 4.47:1 there (Arcano dark, white art under the 8 percent that shows through).
-- **Focus** follows Accessibility: a 2px `--color-ink` outline, or `--color-accent` on accent-colored controls (the coordinates chip, the copy button, the stage badge).
+- **Focus** follows Accessibility: a 2px `--color-ink` outline, or `--color-accent` on accent-colored controls (the coordinates chip, the copy button, the step badge).
 - **Motion** is CSS only. Every transition below drops to 0.01ms under `prefers-reduced-motion: reduce` through the global rule in `globals.css`.
 
 #### New contrast pairs
@@ -448,7 +448,7 @@ Worst case over the five themes, in WCAG 2.x ratios. "Over art" assumes white ar
 | ink on surface 92% over art | 12.21 Arcano | 13.82 Amakna | 4.5 |
 | muted on surface 92% over art (not used) | 4.47 Arcano | 5.12 Bonta | fails |
 | accent-2 on bg (Botín border, medallion ring) | 8.16 Ocre | 5.28 Bonta | 3 |
-| muted on bg (stage badge ring in the gutter) | 5.92 Arcano | 5.61 Bonta | 3 |
+| muted on bg (step badge ring in the gutter) | 5.92 Arcano | 5.61 Bonta | 3 |
 | info title on its callout fill | 7.46 Bonta | 5.74 Ocre | 4.5 |
 | warning title on its callout fill | 8.37 Bonta | 5.53 Ocre | 4.5 |
 | danger title on its callout fill | 5.84 Bonta | 5.33 Ocre | 4.5 |
@@ -457,7 +457,7 @@ Worst case over the five themes, in WCAG 2.x ratios. "Over art" assumes white ar
 | ink on bg 82% over the video poster (play glyph) | 9.60 Arcano | 10.02 Amakna | 3 |
 | ink on bg 92% over the page (viewer caption on the backdrop) | 13.42 Arcano | 12.75 Amakna | 4.5 |
 
-Pairs already in the theme tables: accent on raised (coordinates chip, filled progress segments, at least 4.93), accent-2 on raised (stage number, slot quantity, stat figures, at least 4.77), ink-2 and muted on raised (chips, monster level), bg check mark on an accent fill (done badge, at least 5.55), accent on surface (copy button, at least 6.08).
+Pairs already in the theme tables: accent on raised (coordinates chip, filled progress segments, at least 4.93), accent-2 on raised (step number, slot quantity, stat figures, at least 4.77), ink-2 and muted on raised (chips, monster level), bg check mark on an accent fill (done badge, at least 5.55), accent on surface (copy button, at least 6.08).
 
 #### Level medallion
 
@@ -509,34 +509,36 @@ Two sizes of the same thing: a game item with its icon, quantity and name. Item 
 
 - **Anatomy**: an inline 26px pill, `--color-raised`, 1px transparent border, `--text-xs` 600 Barlow with tabular figures in `--color-accent` (at least 4.93 on raised), a 12px copy icon after the text. The label is the game's notation, `[7,-19]`.
 - **What it copies**: `/travel 7,-19`. Pasted in the game chat it sets the autopilot, which is what a reader following a guide wants. The `[x,y]` map link stays as the visible label only; there is no second control to copy it. The start position uses the larger primary button ("Copiar /travel 7,-19") instead of a chip.
-- **Coordinates in prose**: the renderer of the guide body turns every `[x,y]` written in a text node into a chip. The pattern is two signed integers in square brackets with optional spaces (`[7,-19]`, `[ -1 , 17 ]`); anything else stays text: decimals, a single number, three numbers, or coordinates inside a link or code. Step titles do not convert; a stage that has a main position shows it as a chip in its head.
+- **Coordinates in prose**: the renderer of the guide body turns every `[x,y]` written in a text node into a chip. The pattern is two signed integers in square brackets with optional spaces (`[7,-19]`, `[ -1 , 17 ]`); anything else stays text: decimals, a single number, three numbers, or coordinates inside a link or code. Step titles do not convert; a step that has a main position shows it as a chip in its head.
 - **Without JavaScript**: the chip renders as plain text, readable and selectable. The island then turns each chip into a button (`role="button"`, `tabindex="0"`, Enter and Space) and gives it the name `[7,-19], copiar /travel 7,-19`, which starts with the visible text.
 - **Feedback**: on copy, a toast "Copiado: /travel 7,-19" in a `role="status"` region (Toast). If the clipboard is refused, the toast says "Escribe /travel 7,-19 en el chat".
 - **States**: hover (mouse only) shows the border in `--color-accent`; pressed `scale(.96)` over `--duration-press`; focus-visible a 2px `--color-accent` outline. A transparent `::after` grows the target to at least 40px tall (44px under `pointer: coarse`), centered on the chip, without changing the drawn chip or the line height, so the 26px pill still meets the Accessibility target rule.
 - **Motion**: border color over `--duration-fast`; the toast enters per the motion table.
 
-#### Stage card and stages timeline
+#### Step card and steps timeline
 
-- **Stage card**: `--color-surface`, `--radius-card`, `18px 22px` padding (`18px 16px` under 640px). A head row with the title (`--text-lg` 600 `--color-ink`, an `h3`) and, at the end, the stage's coordinates chip when it has one; then the body blocks (prose, screenshots, callouts, fight block, video), with prose capped at 72ch.
+Decided 2026-11-05: the section is called "Pasos" (not "Etapas") everywhere a reader or Torre sees it. In code the components keep their names, `StagesTimeline` and `StageCard`; the panel block is `step` ("Paso").
+
+- **Step card**: `--color-surface`, `--radius-card`, `18px 22px` padding (`18px 16px` under 640px). A head row with the title (`--text-lg` 600 `--color-ink`, an `h3`) and, at the end, the step's coordinates chip when it has one; then the body blocks (prose, screenshots, callouts, fight block, video), with prose capped at 72ch. Lists, bold and callouts look as in the guide prose; a heading inside a step's text is a `--text-lg` subheading, never larger than the step title.
 - **Number badge**: a 40px circle (44px under `pointer: coarse`), 2px `--color-muted` ring, `--color-raised` fill, the number in Lilita One 1.25rem `--color-accent-2`. From 768px it sits in a 48px gutter left of the card, and a 2px `--color-line` rule joins it to the next badge; under 768px it sits inside the card, top left, and the head makes room for it.
-- **Tick** (optional per page): the badge is the `<label>` of a visually hidden checkbox, "Etapa 1 hecha". Checked: the ring and fill turn `--color-accent`, the number fades out and a 20px check mark in `--color-bg` scales in; the title turns `--color-muted`; the card stays in place. Hover (mouse only) shows the ring in `--color-accent`; pressed `scale(.9)`. Without ticks the badge is a plain number.
-- **Ticks are not saved yet**: until members and progress exist, a tick lives only in the open page, and the timeline head says so ("Marca cada etapa al terminarla. Por ahora no se guarda al salir."). Progress will be keyed by the step's stable UUID (`AGENTS.md`, Members and progress).
-- **Stages timeline**: the "Etapas" `h2` and that hint, the progress pill, then an `<ol>` of stage cards with 16px gaps, then the Botín card as the last node, at `--width-prose` plus the 48px gutter. It needs the planned step block (title, optional coordinates, body) in the guide body.
+- **Tick** (optional per page): the badge is the `<label>` of a visually hidden checkbox, "Paso 1 hecho". Checked: the ring and fill turn `--color-accent`, the number fades out and a 20px check mark in `--color-bg` scales in; the title turns `--color-muted`; the card stays in place. Hover (mouse only) shows the ring in `--color-accent`; pressed `scale(.9)`. Without ticks the badge is a plain number.
+- **Ticks are not saved yet**: until members and progress exist, a tick lives only in the open page, and the timeline head says so ("Marca cada paso al terminarlo. Por ahora no se guarda al salir."). Progress will be keyed by the step's stable UUID (`AGENTS.md`, Members and progress).
+- **Steps timeline**: the "Pasos" `h2` and that hint, the progress pill, then an `<ol>` of step cards with 16px gaps, then the Botín card as the last node, at `--width-prose` plus the 48px gutter. It comes from the step blocks of the guide body (title, optional X and Y, its own rich text, image, video and callout blocks); a guide page always has ticks.
 - **Accessibility**: the list is an `<ol>`; each checkbox has its own label; state is never color alone (the check mark and the label text).
 - **Motion**: ring and fill over `--duration-fast`; the check mark from `scale(.6)`, opacity 0, over `--duration-fast` `--ease-out`; press over `--duration-press`.
 
 #### Progress pill
 
-- **Anatomy**: a pill centered above the stages, `--color-surface` at 92 percent with `backdrop-filter: blur(16px) saturate(1.4)` (solid surface without it), 1px `--color-line` border, `--shadow-float`, `8px 18px` padding. Inside: the count in Lilita One `--text-figure` `--color-accent-2` with the total in 1rem `--color-ink-2` ("1/8"), one 14 by 10px segment per stage (`--radius-xs`, `--color-raised` with a 1px `--color-line` outline), and the micro label "Etapas" in `--color-ink-2`.
-- **Behavior without JavaScript**: the count is a CSS counter of checked ticks, so the pill comes after the list in the DOM and `order: -1` draws it above. Each segment lights through a `:has()` rule on its stage's checkbox; the page renders those rules with the stage ids. It is sticky 88px from the top while the stages are on screen.
-- **Layout**: the pill never grows past the column; with many stages the segments wrap to more rows instead of overflowing a 390px screen.
+- **Anatomy**: a pill centered above the steps, `--color-surface` at 92 percent with `backdrop-filter: blur(16px) saturate(1.4)` (solid surface without it), 1px `--color-line` border, `--shadow-float`, `8px 18px` padding. Inside: the count in Lilita One `--text-figure` `--color-accent-2` with the total in 1rem `--color-ink-2` ("1/8"), one 14 by 10px segment per step (`--radius-xs`, `--color-raised` with a 1px `--color-line` outline), and the micro label "Pasos" in `--color-ink-2`.
+- **Behavior without JavaScript**: the count is a CSS counter of checked ticks, so the pill comes after the list in the DOM and `order: -1` draws it above. Each segment lights through a `:has()` rule on its step's checkbox; the page renders those rules with the step ids. It is sticky 88px from the top while the steps are on screen.
+- **Layout**: the pill never grows past the column; with many steps the segments wrap to more rows instead of overflowing a 390px screen.
 - **States**: a lit segment is `--color-accent` at full height; an unlit one is scaled to 60 percent height.
 - **Accessibility**: `aria-hidden`, because the checkboxes already carry the state and a CSS counter is not reliably announced. It only appears on pages with ticks.
 - **Motion**: segments animate `transform: scaleY()` and their fill over `--duration-base`, never `height`.
 
-#### Screenshots and callouts inside a stage
+#### Screenshots and callouts inside a step
 
-- **Screenshot**: a Figure (next section); as Imagery (source ratio, `--radius-card`, or `--radius-md` inside a stage card, `--shadow-art`, `--color-raised` behind it while it loads); the caption under it in `--text-sm` `--color-muted`.
+- **Screenshot**: a Figure (next section); as Imagery (source ratio, `--radius-card`, or `--radius-md` inside a step card, `--shadow-art`, `--color-raised` behind it while it loads); the caption under it in `--text-sm` `--color-muted`.
 - **Callout**: as the Callout row of the components table.
 
 #### Figure and fullscreen viewer
@@ -564,7 +566,7 @@ Decided 2026-11-05: every guide image opens fullscreen. The component is `Figure
 
 #### Botín card
 
-- **Anatomy**: the last node of the stages timeline. A 40px badge in the gutter (2px `--color-accent-2` ring, `--color-raised` fill) with the first reward item's icon, or "XP" in Lilita One when the quest gives no items; then a `--color-surface` card with a 1px `--color-accent-2` border, `--radius-card`, `18px 22px` padding: the micro label "Al terminar la misión", the `h2` "Botín" (`--text-2xl` uppercase), a row of slots, and the achievement chain line under a hairline.
+- **Anatomy**: the last node of the steps timeline. A 40px badge in the gutter (2px `--color-accent-2` ring, `--color-raised` fill) with the first reward item's icon, or "XP" in Lilita One when the quest gives no items; then a `--color-surface` card with a 1px `--color-accent-2` border, `--radius-card`, `18px 22px` padding: the micro label "Al terminar la misión", the `h2` "Botín" (`--text-2xl` uppercase), a row of slots, and the achievement chain line under a hairline.
 - **Slots**: the XP and kamas stat tiles first (typographic, see Stat tile), then one item slot per reward item. Under 640px stat tiles take half a row and item slots a third, so "1 000 000" never wraps; from 768px they flow in a wrapping row.
 - **Optional parts**: no items, no item slots; no kamas, no kamas tile; no achievement, no chain line. The tiles and slots come from the linked quest's DofusDB rewards. With no linked quest, or one with no rewards, the card lists the guide's rewards text instead, one line per reward in `--color-ink`, with no tiles or slots made up from it. With nothing at all the card is not rendered.
 - **Accessibility**: a `<section aria-labelledby>` the `h2`, with `id="botin"` for the ribbon link and `scroll-margin-top: 96px` under the sticky header. The slots are a `<ul>`.
@@ -589,7 +591,6 @@ The components above need data the guide does not store yet:
 | Hero art | an image field on the guide, prefilled from a per-zone image library (Hero header) |
 | Breadcrumb and subtitle | the quests hub page, the quest's zone and subzone, and the achievement relation |
 | Start place ("Biblioteca de Astrub") | the subzone name from DofusDB, editable in the panel, like the start NPC and position that the guide already fills from DofusDB |
-| Stage card | the planned step block: title, optional coordinates, body blocks |
 | Fight block | a block with monsters (from the Monsters collection) and quantities; monster level is optional |
 | Achievement chain and next quest card | the achievement relation and the order of its quests |
 | Video poster | the thumbnail stored as media at import |

@@ -32,20 +32,20 @@ test.describe('página de guía', () => {
     ).toHaveAttribute('href', `/${seedGuide.prerequisite.slug}`)
     await expect(ribbon.getByText(seedGuide.needsNote)).toBeVisible()
     const reward = ribbon.getByRole('link', { name: /Recompensa/ })
-    // Los miles van con un espacio que no se parte.
     // El texto de recompensas de la guía, en una línea.
     await expect(reward).toHaveText(/16 380 XP · 390 kamas · 4 objetos del Botín/)
 
-    // El cuerpo en orden, con los [x,y] de la prosa como chips.
+    // El cuerpo en orden: la entrada, los pasos y el cierre, con los [x,y] de la prosa como chips.
     await expect(page.getByText(seedGuide.intro)).toBeVisible()
-    await expect(page.getByRole('button', { name: '[3,-17], copiar /travel 3,-17' })).toBeVisible()
+    await expect(page.getByText(seedGuide.startLine)).toBeVisible()
     await expect(
-      page.getByRole('heading', { level: 2, name: /protege a las anutrof/ }),
+      page.getByRole('heading', { level: 3, name: /protege a las anutrof/ }),
     ).toBeVisible()
     await expect(page.getByRole('note')).toContainText(seedGuide.callout)
     await expect(
       page.getByRole('link', { name: `Ver el vídeo: ${seedGuide.video.title}` }),
     ).toBeVisible()
+    await expect(page.getByText(seedGuide.outro)).toBeVisible()
 
     const botin = page.getByRole('region', { name: 'Botín' })
     await expect(botin.getByText(/^16\s380$/)).toBeVisible()
@@ -53,6 +53,75 @@ test.describe('página de guía', () => {
 
     await reward.click()
     await expect(page).toHaveURL(/#botin$/)
+  })
+
+  test('pinta los pasos numerados, con su título y sus coordenadas, y el Botín al final', async ({
+    page,
+  }) => {
+    await page.goto(url)
+    const steps = page.getByRole('region', { name: 'Pasos' })
+    await expect(steps.getByRole('heading', { level: 2, name: 'Pasos' })).toBeVisible()
+    const cards = steps.locator('ol > li')
+    await expect(cards).toHaveCount(seedGuide.steps.length)
+
+    for (const [index, step] of seedGuide.steps.entries()) {
+      const card = cards.nth(index)
+      await expect(card.locator('.stage__num')).toHaveText(String(index + 1))
+      await expect(card.getByRole('heading', { level: 3 })).toHaveText(step.title)
+      const head = card.locator('.stage__head')
+      if (step.coordinates) {
+        await expect(
+          head.getByRole('button', {
+            name: `${step.coordinates}, copiar /travel ${step.coordinates.slice(1, -1)}`,
+          }),
+        ).toBeVisible()
+      } else {
+        await expect(head.locator('.coord')).toHaveCount(0)
+      }
+    }
+
+    // La primera captura, dentro del primer paso, es la única con prioridad.
+    await expect(page.locator('img[fetchpriority="high"]')).toHaveCount(1)
+    await expect(cards.first().locator('img[fetchpriority="high"]')).toHaveCount(1)
+
+    // El Botín es el último nodo de la línea de pasos; el cierre va después.
+    await expect(steps.getByRole('region', { name: 'Botín' })).toBeVisible()
+  })
+
+  test('marcar un paso enciende su segmento de la píldora, sin JavaScript', async ({
+    browser,
+    baseURL,
+  }) => {
+    // Sin JavaScript: la casilla, el título apagado y la píldora son solo CSS.
+    const context = await browser.newContext({ javaScriptEnabled: false, baseURL })
+    const page = await context.newPage()
+    await page.goto(url)
+    const checkbox = page.getByRole('checkbox', { name: 'Paso 2 hecho' })
+    const segment = page.locator('.pill [data-seg="2"]')
+    const lit = () => segment.evaluate((el) => getComputedStyle(el).transform === 'none')
+
+    await expect(checkbox).not.toBeChecked()
+    expect(await lit()).toBe(false)
+    await expect(page.locator('.pill')).toContainText(`/${seedGuide.steps.length}`)
+
+    await page.locator('label[for="pasos-e2"]').click()
+    await expect(checkbox).toBeChecked()
+    await expect.poll(lit).toBe(true)
+    expect(
+      await page.locator('.pill [data-seg="1"]').evaluate((el) => getComputedStyle(el).transform),
+    ).not.toBe('none')
+
+    await page.locator('label[for="pasos-e2"]').click()
+    await expect(checkbox).not.toBeChecked()
+    await expect.poll(lit).toBe(false)
+    await context.close()
+  })
+
+  test('una guía sin bloques Paso se lee como prosa, sin línea de pasos', async ({ page }) => {
+    await page.goto(`/${seedGuide.prerequisite.slug}`)
+    await expect(page.getByText('Habla con Hupe Esse.')).toBeVisible()
+    await expect(page.getByRole('region', { name: 'Pasos' })).toHaveCount(0)
+    await expect(page.locator('.pill')).toHaveCount(0)
   })
 
   test('lleva el SEO de la guía, su URL canónica y Open Graph', async ({ page }) => {

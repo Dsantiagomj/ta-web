@@ -1,9 +1,9 @@
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 
-import { GuideBody } from '@/components/game/GuideBody'
+import { GuideBody, GuideSteps } from '@/components/game/GuideBody'
 import { GuideRichText } from '@/components/game/GuideRichText'
-import type { RichTextState } from '@/lib/guides/page'
+import type { GuideStep, RichTextState } from '@/lib/guides/page'
 
 type Node = Record<string, unknown>
 
@@ -133,5 +133,46 @@ describe('GuideBody', () => {
 
   it('sin bloques, nada', () => {
     expect(html(<GuideBody blocks={[]} />)).toBe('')
+  })
+})
+
+describe('GuideSteps', () => {
+  const steps: GuideStep[] = [
+    {
+      key: 'p1',
+      title: 'Habla con Hupe Esse',
+      coordinates: { x: 7, y: -19 },
+      blocks: [{ kind: 'richText', key: 'a', content: root(paragraph(text('En la biblioteca.'))) }],
+    },
+    {
+      key: 'p2',
+      title: 'Vuelve con Luci',
+      blocks: [
+        { kind: 'callout', key: 'b', variant: 'warning', content: root(paragraph(text('Ojo.'))) },
+      ],
+    },
+  ]
+
+  it('pinta cada paso numerado, con su título, su chip y sus bloques, y la píldora', () => {
+    const markup = html(<GuideSteps steps={steps} />)
+    expect(markup).toContain('<ol')
+    expect(markup).toMatch(/<h3 class="stage__title">Habla con Hupe Esse<\/h3>/)
+    expect(markup).toMatch(/<h3 class="stage__title">Vuelve con Luci<\/h3>/)
+    // El chip del paso va en la cabecera; la prosa queda tal cual, sin envoltorio.
+    expect(markup).toContain('Hupe Esse</h3><span class="coord" data-copy="/travel 7,-19"')
+    expect(markup).toContain('<div class="prose-guide"><p>En la biblioteca.</p></div>')
+    expect(markup).toContain('role="note"')
+    expect(markup).toContain('Paso 2 hecho')
+    expect(markup).toContain('class="pill"')
+    expect(markup).toContain('>/2<')
+  })
+
+  it('el Botín va dentro, como último nodo de la línea', () => {
+    const markup = html(
+      <GuideSteps steps={steps}>
+        <p id="botin">Botín</p>
+      </GuideSteps>,
+    )
+    expect(markup).toMatch(/<\/ol>[^]*<p id="botin">Botín<\/p><\/section>$/)
   })
 })

@@ -446,8 +446,9 @@ label.stage__badge:active {
 
 /* ---------- cuerpo de la guía ---------- */
 
-/* La guía como prosa, mientras no haya bloque de etapa: 72ch, 16px entre párrafos y 32px
-   alrededor de capturas, vídeos y avisos (DESIGN.md, Spacing). */
+/* La prosa fuera de los pasos (entrada, cierre o la guía entera sin bloques Paso): 72ch,
+   16px entre párrafos y 32px alrededor de capturas, vídeos y avisos (DESIGN.md, Spacing).
+   Listas, negritas, títulos y avisos se ven igual dentro de un paso (.prose-guide). */
 .guide-body > * + * {
   margin-top: 16px;
 }
@@ -461,23 +462,23 @@ label.stage__badge:active {
   max-width: 72ch;
 }
 
-.guide-body :is(ul, ol) {
+:is(.guide-body, .prose-guide) :is(ul, ol) {
   padding-left: 1.25em;
 }
 
-.guide-body ul {
+:is(.guide-body, .prose-guide) ul {
   list-style: disc;
 }
 
-.guide-body ol {
+:is(.guide-body, .prose-guide) ol {
   list-style: decimal;
 }
 
-.guide-body li + li {
+:is(.guide-body, .prose-guide) li + li {
   margin-top: 4px;
 }
 
-.guide-body li::marker {
+:is(.guide-body, .prose-guide) li::marker {
   color: var(--color-muted);
 }
 
@@ -512,11 +513,23 @@ label.stage__badge:active {
   font-weight: var(--text-lg--font-weight);
 }
 
-.guide-body hr {
+/* Dentro de un paso, bajo su título h3, un título del texto es un subtítulo: un paso
+   más pequeño, sin mayúsculas. */
+.prose-guide > :is(h2, h3, h4, h5, h6) {
+  margin-top: 24px;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  line-height: var(--text-lg--line-height);
+  font-weight: 700;
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+
+:is(.guide-body, .prose-guide) hr {
   border-color: var(--color-line);
 }
 
-.guide-body .callout__body > * + * {
+:is(.guide-body, .prose-guide) .callout__body > * + * {
   margin-top: 8px;
 }
 
