@@ -63,9 +63,8 @@ export default defineRailway((ctx) => {
       SENTRY_AUTH_TOKEN: preserve(),
       ...(dev
         ? {
+            // Público pero sin indexar: noindex y robots.txt que prohíbe rastrear.
             APP_ENV: 'dev',
-            DEV_BASIC_AUTH_USER: preserve(),
-            DEV_BASIC_AUTH_PASSWORD: preserve(),
           }
         : {
             // `railway up` no trae RAILWAY_GIT_COMMIT_SHA: el workflow de release fija

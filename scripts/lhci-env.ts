@@ -15,7 +15,7 @@ export function lhciEnv(env: Env): Record<string, string> {
     // las migraciones a una base real.
     DATABASE_URL_DIRECT: databaseUrl,
     PAYLOAD_SECRET: env.PAYLOAD_SECRET || 'lhci-local-no-secreto',
-    // Se mide el sitio público, no la puerta de basic auth del entorno dev.
+    // Se mide el sitio de producción, sin la cabecera noindex del entorno dev.
     APP_ENV: '',
     // Sin R2: los archivos van al disco local (./media) aunque el shell tenga las S3_*.
     S3_ENDPOINT: '',

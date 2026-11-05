@@ -90,12 +90,12 @@ describe('dev', () => {
     })
   })
 
-  it('activa la puerta de dev y conserva sus credenciales', async () => {
+  it('marca el entorno como dev y ya no declara credenciales de basic auth', async () => {
     const web = await webService('dev')
 
     expect(web.variables.APP_ENV).toEqual({ type: 'literal', value: 'dev' })
-    expect(web.variables.DEV_BASIC_AUTH_USER).toEqual({ type: 'preserve' })
-    expect(web.variables.DEV_BASIC_AUTH_PASSWORD).toEqual({ type: 'preserve' })
+    expect(web.variables.DEV_BASIC_AUTH_USER).toBeUndefined()
+    expect(web.variables.DEV_BASIC_AUTH_PASSWORD).toBeUndefined()
   })
 })
 
@@ -106,7 +106,7 @@ describe('production', () => {
     expect(web.source).toBeUndefined()
   })
 
-  it('no lleva la puerta de dev y conserva el commit y la versión que fija el release', async () => {
+  it('no se marca como dev y conserva el commit y la versión que fija el release', async () => {
     const web = await webService('production')
 
     expect(web.variables.APP_ENV).toBeUndefined()

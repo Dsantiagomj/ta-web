@@ -597,7 +597,7 @@ The components above need data the guide does not store yet:
 
 ### Component catalog
 
-Every component above, and the generic ones in the components table that already exist in code, render on `/sistema` with real content, in the five themes and both modes (each section carries its own `data-theme` and `data-mode`). The page answers 404 in production: it renders only in development (`NODE_ENV=development`), on the dev environment (`APP_ENV=dev`, behind the dev gate) and in the E2E run (`E2E_DESIGN_CATALOG=1`, set only by `playwright.config.ts`). `?tema=` and `?modo=` keep a single section, for screenshots. It is not in the Lighthouse list. A new component, or a new state, is added there in the same PR.
+Every component above, and the generic ones in the components table that already exist in code, render on `/sistema` with real content, in the five themes and both modes (each section carries its own `data-theme` and `data-mode`). The page answers 404 in production: it renders only in development (`NODE_ENV=development`), on the dev environment (`APP_ENV=dev`, public but not indexed) and in the E2E run (`E2E_DESIGN_CATALOG=1`, set only by `playwright.config.ts`). `?tema=` and `?modo=` keep a single section, for screenshots. It is not in the Lighthouse list. A new component, or a new state, is added there in the same PR.
 
 ## Motion
 

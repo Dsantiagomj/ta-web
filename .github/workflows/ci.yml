@@ -151,7 +151,7 @@ jobs:
 
       - run: pnpm test:e2e
 
-      # La app en modo dev (basic auth y noindex), sobre el mismo build.
+      # La app en modo dev (pública, con noindex), sobre el mismo build.
       - run: pnpm test:e2e:dev-gate
         env:
           E2E_SKIP_BUILD: '1'

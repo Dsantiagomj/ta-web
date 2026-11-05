@@ -1,68 +1,79 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type APIResponse } from '@playwright/test'
 
-import { DEV_GATE_TEST_CREDENTIALS } from './credentials'
+import { seedGuide } from '../e2e/seed/guides'
 
-const realm = /^Basic realm="Torrente Arcano: entorno de desarrollo"/
+// El entorno dev (APP_ENV=dev) es público pero no se indexa: nada pide credenciales, cada
+// respuesta lleva noindex y robots.txt prohíbe rastrear todo.
 
-test.describe('sin credenciales', () => {
-  for (const path of ['/', '/admin', '/api/users', '/robots.txt']) {
-    test(`${path} pide basic auth`, async ({ request }) => {
-      const response = await request.get(path, { maxRedirects: 0 })
+const NOINDEX = 'noindex, nofollow'
 
-      expect(response.status()).toBe(401)
-      expect(response.headers()['www-authenticate']).toMatch(realm)
-      expect(response.headers()['x-robots-tag']).toBe('noindex, nofollow')
-      expect(await response.text()).toMatch(/usuario y la contraseña/)
-    })
-  }
+function expectPublicAndNoindex(response: APIResponse | null) {
+  expect(response).not.toBeNull()
+  expect(response!.status()).toBeLessThan(500)
+  expect(response!.status()).not.toBe(401)
+  expect(response!.headers()['www-authenticate']).toBeUndefined()
+  expect(response!.headers()['x-robots-tag']).toBe(NOINDEX)
+}
 
-  test('/api/health responde sin credenciales, con noindex', async ({ request }) => {
-    const response = await request.get('/api/health')
+test('la portada se ve sin credenciales y lleva noindex', async ({ page }) => {
+  const response = await page.goto('/')
 
-    expect(response.status()).toBe(200)
-    expect(await response.json()).toMatchObject({ status: 'ok', db: 'ok' })
-    expect(response.headers()['x-robots-tag']).toBe('noindex, nofollow')
-  })
+  expect(response?.status()).toBe(200)
+  expect(response?.headers()['www-authenticate']).toBeUndefined()
+  expect(response?.headers()['x-robots-tag']).toBe(NOINDEX)
+  await expect(page.getByRole('heading', { level: 1, name: 'Torrente Arcano' })).toBeVisible()
 })
 
-test('con credenciales incorrectas sigue en 401', async ({ playwright, baseURL }) => {
-  // Un contexto propio no hereda el baseURL del proyecto: se pasa explícito.
-  const request = await playwright.request.newContext({
-    baseURL,
-    httpCredentials: { username: DEV_GATE_TEST_CREDENTIALS.username, password: 'otra' },
-  })
-  const response = await request.get('/')
+test('una guía se ve sin credenciales y lleva noindex', async ({ page }) => {
+  const response = await page.goto(`/${seedGuide.slug}`)
 
-  expect(response.status()).toBe(401)
-  await request.dispose()
+  expect(response?.status()).toBe(200)
+  expect(response?.headers()['x-robots-tag']).toBe(NOINDEX)
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
 })
 
-test.describe('con credenciales', () => {
-  test.use({ httpCredentials: DEV_GATE_TEST_CREDENTIALS })
+test('el panel carga sin credenciales de basic auth: pide su propio inicio de sesión', async ({
+  page,
+}) => {
+  const response = await page.goto('/admin')
 
-  test('la portada se ve y lleva noindex', async ({ page }) => {
-    const response = await page.goto('/')
+  expect(response?.status()).toBeLessThan(400)
+  expect(response?.headers()['x-robots-tag']).toBe(NOINDEX)
+  // La base de E2E ya tiene el usuario del panel sembrado: Payload pide iniciar sesión.
+  await expect(page).toHaveURL(/\/admin\/login/)
+  await expect(page.locator('input[name="email"]')).toBeVisible()
+})
 
-    expect(response?.status()).toBe(200)
-    expect(response?.headers()['x-robots-tag']).toBe('noindex, nofollow')
-    await expect(page.getByRole('heading', { level: 1, name: 'Torrente Arcano' })).toBeVisible()
-  })
+test('los estáticos de Next llevan noindex', async ({ page, request }) => {
+  await page.goto('/')
+  const scripts = await page
+    .locator('script[src^="/_next/static/"]')
+    .evaluateAll((elements) => elements.map((element) => element.getAttribute('src')!))
+  expect(scripts.length).toBeGreaterThan(0)
 
-  test('el panel responde', async ({ page }) => {
-    const response = await page.goto('/admin')
+  const response = await request.get(scripts[0])
 
-    expect(response?.status()).toBeLessThan(400)
-    await expect(page).toHaveURL(/\/admin(\/create-first-user|\/login)?/)
-  })
+  expect(response.status()).toBe(200)
+  expectPublicAndNoindex(response)
+})
 
-  test('robots.txt prohíbe rastrear todo', async ({ request }) => {
-    const response = await request.get('/robots.txt')
+test('las respuestas de la API llevan noindex', async ({ request }) => {
+  const health = await request.get('/api/health')
+  expect(health.status()).toBe(200)
+  expect(await health.json()).toMatchObject({ status: 'ok', db: 'ok' })
+  expectPublicAndNoindex(health)
 
-    expect(response.status()).toBe(200)
-    expect(response.headers()['x-robots-tag']).toBe('noindex, nofollow')
-    const body = await response.text()
-    expect(body).toMatch(/^User-Agent: \*$/m)
-    expect(body).toMatch(/^Disallow: \/$/m)
-    expect(body).not.toMatch(/^Allow:/m)
-  })
+  // Un anónimo no lista los usuarios del panel, pero la respuesta también lleva noindex.
+  expectPublicAndNoindex(await request.get('/api/users'))
+})
+
+test('robots.txt prohíbe rastrear todo', async ({ request }) => {
+  const response = await request.get('/robots.txt')
+
+  expect(response.status()).toBe(200)
+  expectPublicAndNoindex(response)
+  const body = await response.text()
+  expect(body).toMatch(/^User-Agent: \*$/m)
+  expect(body).toMatch(/^Disallow: \/$/m)
+  expect(body).not.toMatch(/^Allow:/m)
 })
