@@ -1,7 +1,8 @@
-import type { ArrayField, Field, SelectField } from 'payload'
+import type { Field } from 'payload'
 import { describe, expect, it } from 'vitest'
 
 import { Media, validateOptionalUrl } from '@/collections/Media'
+import { mediaImageSizes } from '@/lib/media/sizes'
 
 function field(name: string, fields: Field[] = Media.fields): Field {
   const found = fields.find((candidate) => 'name' in candidate && candidate.name === name)
@@ -15,16 +16,17 @@ describe('colección media', () => {
     expect(field('credits')).toMatchObject({ type: 'text', localized: true })
   })
 
-  it('guarda las variantes pregeneradas en R2 con clave, ancho y formato', () => {
-    const variants = field('variants') as ArrayField
-    expect(variants.type).toBe('array')
-    expect(field('key', variants.fields)).toMatchObject({ type: 'text', required: true })
-    expect(field('width', variants.fields)).toMatchObject({ type: 'number', required: true })
-    const format = field('format', variants.fields) as SelectField
-    expect(format).toMatchObject({ type: 'select', required: true })
-    expect(
-      format.options.map((option) => (typeof option === 'string' ? option : option.value)),
-    ).toEqual(['avif', 'webp'])
+  it('genera las variantes AVIF y WebP al subir el archivo, no al pedirlo', () => {
+    expect(Media.upload).toMatchObject({ imageSizes: mediaImageSizes })
+  })
+
+  it('ya no guarda una lista de variantes a mano: las variantes son los sizes de Payload', () => {
+    const names = Media.fields.map((candidate) => ('name' in candidate ? candidate.name : null))
+    expect(names).not.toContain('variants')
+  })
+
+  it('la miniatura del panel es la variante WebP más estrecha', () => {
+    expect(Media.upload).toMatchObject({ adminThumbnail: 'webp-480' })
   })
 
   it('guarda la URL original de Squarespace de las imágenes migradas', () => {
