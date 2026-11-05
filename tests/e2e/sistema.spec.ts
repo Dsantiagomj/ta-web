@@ -111,6 +111,21 @@ test.describe('catálogo /sistema', () => {
     expect(height).toBeGreaterThanOrEqual(40)
   })
 
+  test('la píldora de progreso con 30 etapas cabe en 390px', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/sistema?tema=arcano&modo=dark')
+    const pill = page.locator('.pill').first()
+    // Una guía larga: se rellenan los segmentos hasta 30 sobre el mismo marcado.
+    await pill.evaluate((el) => {
+      const segs = el.querySelector('.pill__segs')!
+      const seg = segs.firstElementChild!
+      while (segs.children.length < 30) segs.append(seg.cloneNode())
+    })
+    const box = (await pill.boundingBox())!
+    expect(box.x).toBeGreaterThanOrEqual(0)
+    expect(box.x + box.width).toBeLessThanOrEqual(390)
+  })
+
   test('el vídeo no carga nada de YouTube hasta pulsar', async ({ page }) => {
     const youtube: string[] = []
     page.on('request', (request) => {
