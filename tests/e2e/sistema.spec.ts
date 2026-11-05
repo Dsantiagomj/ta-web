@@ -111,7 +111,7 @@ test.describe('catálogo /sistema', () => {
     expect(height).toBeGreaterThanOrEqual(40)
   })
 
-  test('la píldora de progreso con 30 etapas cabe en 390px', async ({ page }) => {
+  test('la píldora de progreso con 30 pasos cabe en 390px', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 })
     await page.goto('/sistema?tema=arcano&modo=dark')
     const pill = page.locator('.pill').first()

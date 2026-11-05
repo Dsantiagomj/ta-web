@@ -12,7 +12,7 @@ const s = gameStrings.botin
 type HeadingLevel = 2 | 3 | 4
 
 /**
- * La recompensa al final de las etapas (DESIGN.md, Botín card): fichas de XP y kamas,
+ * La recompensa al final de los pasos (DESIGN.md, Botín card): fichas de XP y kamas,
  * una casilla por objeto y la cadena del logro. Sin fichas, las líneas de recompensa que
  * escribió la guía (`notes`). Lo que falta no se pinta; sin nada, nada.
  */

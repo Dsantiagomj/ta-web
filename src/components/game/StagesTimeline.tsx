@@ -25,8 +25,8 @@ function cssId(id: string): string {
 }
 
 /**
- * Una etapa (DESIGN.md, Stage card): insignia con el número, que con ticks es la etiqueta
- * de una casilla oculta, y la tarjeta con el título, el chip de la etapa y el contenido.
+ * Un paso (DESIGN.md, Step card): insignia con el número, que con ticks es la etiqueta
+ * de una casilla oculta, y la tarjeta con el título, el chip del paso y el contenido.
  */
 export function StageCard({
   number,
@@ -36,7 +36,7 @@ export function StageCard({
 }: {
   number: number
   stage: Stage
-  /** Con id, la etapa se puede marcar como hecha. */
+  /** Con id, el paso se puede marcar como hecho. */
   checkboxId?: string
   headingLevel?: 3 | 4 | 5
 }) {
@@ -79,7 +79,7 @@ export function StageCard({
 }
 
 /**
- * Las etapas de la guía (DESIGN.md, Stages timeline), con la píldora de progreso si se
+ * Los pasos de la guía (DESIGN.md, Steps timeline), con la píldora de progreso si se
  * pueden marcar. La píldora va después de la lista en el DOM, para que el contador CSS ya
  * tenga su valor, y se dibuja encima. Los segmentos se encienden con :has(), sin JavaScript.
  * Los hijos van al final de la línea: el Botín.
