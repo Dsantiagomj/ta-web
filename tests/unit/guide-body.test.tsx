@@ -79,6 +79,26 @@ describe('GuideRichText', () => {
     expect(html(<GuideRichText content={root(heading)} />)).toBe('<h2>Combate</h2>')
   })
 
+  it('con priorityImage, solo la primera imagen subida va sin diferir y con prioridad alta', () => {
+    const media = {
+      id: 5,
+      alt: 'Hupe Esse',
+      url: '/api/media/file/hupe.webp',
+      width: 800,
+      height: 551,
+      updatedAt: '2026-11-05T00:00:00.000Z',
+      createdAt: '2026-11-05T00:00:00.000Z',
+    }
+    const upload = { type: 'upload', version: 1, relationTo: 'media', value: media, fields: null }
+    const content = root(paragraph(text('Mira.')), upload, upload)
+    const first = html(<GuideRichText content={content} priorityImage />)
+    expect(first.match(/fetchPriority="high"/g)).toHaveLength(1)
+    expect(first.match(/loading="lazy"/g)).toHaveLength(1)
+    // Sin priorityImage, todas diferidas.
+    const lazy = html(<GuideRichText content={content} />)
+    expect(lazy).not.toContain('fetchPriority')
+  })
+
   it('un nodo desconocido no pinta nada', () => {
     expect(html(<GuideRichText content={root({ type: 'misterio', version: 1 })} />)).toBe('')
   })

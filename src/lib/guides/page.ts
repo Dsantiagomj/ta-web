@@ -57,7 +57,13 @@ export interface QuestGuideLink {
 
 /** Un bloque del cuerpo listo para su componente. */
 export type GuideBlock =
-  | { kind: 'richText'; key: string; content: RichTextState }
+  | {
+      kind: 'richText'
+      key: string
+      content: RichTextState
+      /** Su primera imagen subida es la primera imagen del cuerpo: va con prioridad. */
+      priorityImage?: true
+    }
   | {
       kind: 'image'
       key: string
@@ -71,7 +77,13 @@ export type GuideBlock =
       priority: boolean
     }
   | { kind: 'video'; key: string; url: string; title: string }
-  | { kind: 'callout'; key: string; variant: CalloutVariant; content: RichTextState }
+  | {
+      kind: 'callout'
+      key: string
+      variant: CalloutVariant
+      content: RichTextState
+      priorityImage?: true
+    }
 
 function linkedQuest(guide: GuideDoc): GuideQuest | null {
   return guide.quest && typeof guide.quest === 'object' ? guide.quest : null
@@ -185,9 +197,23 @@ export function ribbonProps(guide: GuideDoc, linked: QuestGuideLink[]) {
   }
 }
 
+type LexicalNode = { type?: string; value?: unknown; children?: LexicalNode[] }
+
+/** Si un texto tiene una imagen subida que se pinta (con archivo y tamaño). */
+function hasImage(content: RichTextState): boolean {
+  const visit = (nodes: LexicalNode[] = []): boolean =>
+    nodes.some(
+      (node) =>
+        (node.type === 'upload' && mediaImageAsset(node.value as Media | number) !== null) ||
+        visit(node.children),
+    )
+  return visit(content.root.children as LexicalNode[])
+}
+
 /**
  * Los bloques del cuerpo, en orden. Una imagen sin archivo se salta; las que tienen sus
- * variantes llevan srcset. Un vídeo sin título usa el de la guía.
+ * variantes llevan srcset. Un vídeo sin título usa el de la guía. La primera imagen del
+ * cuerpo, sea un bloque Imagen o una imagen dentro de un texto, va con prioridad.
  */
 export function guideBlocks(guide: GuideDoc): GuideBlock[] {
   let firstImage = true
@@ -195,9 +221,14 @@ export function guideBlocks(guide: GuideDoc): GuideBlock[] {
     const key = block.id ?? String(index)
     switch (block.blockType) {
       case 'richText':
-        return [{ kind: 'richText', key, content: block.content }]
-      case 'callout':
-        return [{ kind: 'callout', key, variant: block.variant, content: block.content }]
+      case 'callout': {
+        const priority = firstImage && hasImage(block.content)
+        if (priority) firstImage = false
+        const extra = priority ? { priorityImage: true as const } : {}
+        return block.blockType === 'richText'
+          ? [{ kind: 'richText', key, content: block.content, ...extra }]
+          : [{ kind: 'callout', key, variant: block.variant, content: block.content, ...extra }]
+      }
       case 'video':
         return [
           {
