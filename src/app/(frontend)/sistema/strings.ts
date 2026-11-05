@@ -17,6 +17,7 @@ export const catalogStrings = {
   modes: { dark: 'oscuro', light: 'claro' } satisfies Record<Mode, string>,
   section: (theme: string, mode: string) => `${theme} · ${mode}`,
   groups: {
+    brand: 'Marca',
     buttons: 'Botones',
     chips: 'Chips y etiquetas',
     callouts: 'Avisos',
@@ -36,6 +37,8 @@ export const catalogStrings = {
     image: 'Captura',
   },
   notes: {
+    brand:
+      'El emblema a 16, 30, 36 y 64 px; a 16 px, la versión simplificada. Toma los colores del tema y el modo de la sección.',
     hero: 'Con arte y sin arte.',
     ribbon: 'Seis pies bajo tierra; Entretanto, un renacer, con objetos; y solo la recompensa.',
     coordinates:
@@ -46,6 +49,7 @@ export const catalogStrings = {
       'Pulsa la captura para verla a pantalla completa; Esc, Cerrar o un clic fuera la cierran. Sin JavaScript abre el archivo.',
   },
   demo: {
+    brand: 'Torrente Arcano',
     primary: 'Entrar',
     copy: 'Copiar',
     secondary: 'Ver la guía',

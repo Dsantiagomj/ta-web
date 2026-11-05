@@ -3,6 +3,7 @@ import { cookies } from 'next/headers'
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 
+import { Emblem } from '@/components/brand/Emblem'
 import { ModeToggle } from '@/components/mode-toggle/ModeToggle'
 import { modeScript } from '@/lib/theme/mode-script'
 import { MODE_COOKIE, resolveMode, resolveTheme } from '@/lib/theme/theme'
@@ -37,8 +38,9 @@ export default async function FrontendLayout({ children }: { children: ReactNode
         <header className="mx-auto flex h-16 max-w-(--width-wide) items-center justify-between gap-4 px-4 sm:px-6 lg:px-12">
           <Link
             href="/"
-            className="font-display text-xl font-bold tracking-[0.02em] text-ink uppercase no-underline"
+            className="flex items-center gap-2 font-display text-xl font-bold tracking-[0.02em] text-ink uppercase no-underline md:gap-2.5"
           >
+            <Emblem size={36} className="size-[30px] md:size-9" />
             {siteStrings.brand}
           </Link>
           <ModeToggle initialMode={mode} />
