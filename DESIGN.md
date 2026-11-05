@@ -7,7 +7,7 @@ The visual rules for the new torrentearcano.com. Structure, density and motion f
 1. **The game art carries the page.** Real Dofus art only: zone landscapes, NPC renders, monster images, class symbols, item, job and achievement icons. No emoji, stock illustration or hand-drawn generic icons. The interface stays quiet around the art.
 2. **Reading first.** Most visits are a player with the game open beside the browser, following one quest. Body text stays at 16px, steps are easy to scan, coordinates copy in one click.
 3. **Dense, not cramped.** Lists of 50 quests and checklists of 100 steps must fit on a screen without feeling like a spreadsheet. Small gaps inside components, generous gaps between sections.
-4. **Fast by default.** Guide pages are server-rendered with no client JavaScript beyond the shell and one small island that copies coordinates and loads videos on click. Motion is CSS unless it lives inside a client island.
+4. **Fast by default.** Guide pages are server-rendered with no client JavaScript beyond the shell and one small island that copies coordinates, loads videos on click and opens guide images fullscreen. Motion is CSS unless it lives inside a client island.
 5. **One job per color.** `accent` marks progress, links, coordinates and the primary action; `accent-2` marks featured numbers and tags; the section accent marks details. No color is ever a button fill.
 6. **Arcano, dark, by default.** Five themes, each with a dark and a light mode. Arcano is free for everyone; Amakna, Bonta, Brâkmar and Ocre are premium. Every text pair passes WCAG AA in every theme and mode.
 
@@ -424,7 +424,7 @@ Decided 2026-11-02: in light mode the art cards are lightened, not kept dark, in
 
 ### Quest guide components
 
-Decided 2026-11-04, from the approved mockup (option 3, variant B). They are server components; the only client code is the copy and video island (see Coordinates chip and Video facade). Generic parts live in `src/components/ui/`, game parts in `src/components/game/`. The page root sets `--color-section: var(--color-sec-misiones)`.
+Decided 2026-11-04, from the approved mockup (option 3, variant B). They are server components; the only client code is one island that copies coordinates, plays videos and opens images fullscreen (see Coordinates chip, Video facade and Figure and fullscreen viewer). Generic parts live in `src/components/ui/`, game parts in `src/components/game/`. The page root sets `--color-section: var(--color-sec-misiones)`.
 
 Rules shared by all of them:
 
@@ -451,6 +451,7 @@ Worst case over the five themes, in WCAG 2.x ratios. "Over art" assumes white ar
 | ink on any callout fill | 12.46 Arcano | 14.18 Amakna | 4.5 |
 | sec-misiones on surface (Recompensa label) | 10.16 Bonta | 5.83 Ocre | 4.5 |
 | ink on bg 82% over the video poster (play glyph) | 9.60 Arcano | 10.02 Amakna | 3 |
+| ink on bg 92% over the page (viewer caption on the backdrop) | 13.42 Arcano | 12.75 Amakna | 4.5 |
 
 Pairs already in the theme tables: accent on raised (coordinates chip, filled progress segments, at least 4.93), accent-2 on raised (stage number, slot quantity, stat figures, at least 4.77), ink-2 and muted on raised (chips, monster level), bg check mark on an accent fill (done badge, at least 5.55), accent on surface (copy button, at least 6.08).
 
@@ -531,8 +532,21 @@ Two sizes of the same thing: a game item with its icon, quantity and name. Item 
 
 #### Screenshots and callouts inside a stage
 
-- **Screenshot**: as Imagery (source ratio, `--radius-card`, or `--radius-md` inside a stage card, `--shadow-art`, `--color-raised` behind it while it loads); the caption under it in `--text-sm` `--color-muted`.
+- **Screenshot**: a Figure (next section); as Imagery (source ratio, `--radius-card`, or `--radius-md` inside a stage card, `--shadow-art`, `--color-raised` behind it while it loads); the caption under it in `--text-sm` `--color-muted`.
 - **Callout**: as the Callout row of the components table.
+
+#### Figure and fullscreen viewer
+
+Decided 2026-11-05: every guide image opens fullscreen. The component is `Figure` in `src/components/ui/`; the viewer lives in the guide island (`PageEnhancements`).
+
+- **Anatomy**: a `<figure>` holding a link around the image (`<picture>`, AVIF then WebP) and the optional `<figcaption>`. The link is a block with the image's `--radius-card` and a `zoom-in` cursor; nothing else is drawn on it.
+- **Without JavaScript**: the link points at the WebP file (`src`), the largest variant, so the image still opens, in the same tab.
+- **Viewer**: with the island, a click (no modifier key) opens a native `<dialog>` with `showModal()`. The dialog covers the viewport and is transparent; its `::backdrop` is `--color-bg` at 92 percent. Inside: the image as a `<picture>` (AVIF, then WebP) at up to the viewport size and never past its file size (`max-width` and `max-height`, `object-fit: contain`, `--radius-md`, `--color-raised` while it loads), the caption under it in `--text-sm` `--color-ink`, centered, at most 72ch, and an Icon button "Cerrar" 12px from the top right corner. The page reserves 64px on top for the button, 16px on the other sides (32px from 768px) and 4rem under the image for the caption. The dialog copies `data-theme` and `data-mode` from the nearest ancestor that has them, so it matches the theme of the image it shows (the `/sistema` sections; on guide pages that is `<html>`).
+- **States**: link default and focus-visible (the global 2px `--color-ink` outline, following the radius); viewer closed and open. No hover change on the link beyond the cursor.
+- **Closing**: Esc (native), the "Cerrar" button, or a click anywhere outside the image, the caption and the button (the click lands on the dialog itself). Focus then returns to the link that opened it.
+- **Accessibility**: the link's name is "Ver imagen a pantalla completa: {alt}" ("Ver imagen a pantalla completa" when the alt is empty), from `uiStrings.figure`. The dialog is named "Imagen a pantalla completa"; the image inside keeps the media record's alt. `showModal()` makes the page inert and moves focus to "Cerrar". The caption, `--color-ink` on the backdrop, keeps at least 12.75:1 (New contrast pairs).
+- **Motion**: the backdrop fades in over `--duration-fast`; the image and caption enter from `opacity: 0; transform: translateY(12px) scale(.98)` over `--duration-slow` `--ease-out` (Motion, Dialogs), through `@starting-style`. Closing is instant. Under reduced motion the global rule, which also covers `::backdrop`, drops both to 0.01ms.
+- **Budget**: the viewer adds a few hundred bytes to the island and no dependency. Image widths stay flexible (Open questions); `srcset` on `Picture` is a logged follow-up.
 
 #### Video facade
 

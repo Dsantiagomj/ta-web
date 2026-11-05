@@ -47,7 +47,7 @@ Every change: code, content model, migrations, data, docs, CI. Read this file be
 | `src/lib/` | Server code shared across routes: `db/` (database URL), `dev-gate/` (basic auth and `robots.txt` per environment, used by `src/proxy.ts`), `deploy/` (the deployed commit), `monitoring/` (Sentry options, used by `src/instrumentation.ts`), `theme/` (theme and mode), `media/` (storage, variant URLs), `auth/` (Better Auth), `access/` (entitlement checks), `progress/` (member progress tables and merge), `search/`, `derive/` (checklist derived data) |
 | `src/components/` | React components. Server components by default; client islands carry `"use client"` and live next to what uses them |
 | `src/components/ui/` | Generic components from `DESIGN.md` (button, chip, tag pill, callout, stat tile, progress bar, checkbox, card, picture, figure), styled with the token utilities plus `ui.css` |
-| `src/components/game/` | Quest guide components from `DESIGN.md` (hero header, level medallion, summary ribbon, item chip and slot, monster chip and fight block, coordinates chip, stages timeline, Botín card, achievement chain, video facade), plus `PageEnhancements`, the one client island of guide pages: it copies coordinates and loads videos on click |
+| `src/components/game/` | Quest guide components from `DESIGN.md` (hero header, level medallion, summary ribbon, item chip and slot, monster chip and fight block, coordinates chip, stages timeline, Botín card, achievement chain, video facade), plus `PageEnhancements`, the one client island of guide pages: it copies coordinates, loads videos on click and opens guide images fullscreen |
 | `src/styles/` | `theme.css` with the `@theme` tokens, `globals.css`, `fonts.ts` (`next/font`) |
 | `src/migrations/` | Payload and Drizzle migrations, committed |
 | `scripts/` | `db-dev.ts` (embedded Postgres for `pnpm db:dev`), `hooks/` (git hook scripts run by `lefthook.yml`), `import/` (the Squarespace import pipeline, phase 1), `lhci.ts` (`pnpm test:lhci`) |
@@ -142,8 +142,8 @@ CI (`.github/workflows/ci.yml`) runs lint, types, unit, integration, build, E2E,
 
 | Rule | Detail |
 |---|---|
-| Server components by default | `"use client"` only for islands: the checklist app, search dialog, theme switch, member menu, dialogs, and the copy and video island of guide pages |
-| No client JavaScript on guide pages beyond the shell | The one exception is a single small island, rendered once per page, that copies coordinates and swaps the video link for its player (`DESIGN.md`, Quest guide components). Both work without it. Lighthouse CI enforces the 150 KB budget |
+| Server components by default | `"use client"` only for islands: the checklist app, search dialog, theme switch, member menu, dialogs, and the one island of guide pages (copy, video, image viewer) |
+| No client JavaScript on guide pages beyond the shell | The one exception is a single small island, rendered once per page, that copies coordinates, swaps the video link for its player and opens guide images in a fullscreen viewer (`DESIGN.md`, Quest guide components). All three work without it. Lighthouse CI enforces the 150 KB budget |
 | Fetch data on the server | In server components or route handlers through the local API; no client-side fetching of content |
 | Entitlement checks happen per request on the server | A premium block is not rendered, and not serialized, for a visitor without the entitlement |
 | Revalidate on publish | Payload `afterChange` hooks call `revalidateTag`/`revalidatePath` for what changed (planned) |

@@ -149,6 +149,77 @@ test.describe('catálogo /sistema', () => {
     )
   })
 
+  test('una captura se abre a pantalla completa y Esc la cierra', async ({ page }) => {
+    await page.goto('/sistema?tema=arcano&modo=dark')
+    const link = page
+      .locator('[data-component="image"]')
+      .getByRole('link', { name: /^Ver imagen a pantalla completa/ })
+    await link.click()
+
+    const viewer = page.getByRole('dialog', { name: 'Imagen a pantalla completa' })
+    await expect(viewer).toBeVisible()
+    await expect(viewer.locator('img')).toBeVisible()
+    expect(await viewer.locator('img').evaluate((img: HTMLImageElement) => img.complete)).toBe(true)
+    await expect(viewer.getByText('Hupe Esse, en la Biblioteca de Astrub.')).toBeVisible()
+    // El visor toma el tema y el modo de la sección de la captura.
+    await expect(viewer).toHaveAttribute('data-theme', 'arcano')
+
+    await page.keyboard.press('Escape')
+    await expect(viewer).toBeHidden()
+    await expect(link).toBeFocused()
+  })
+
+  test('el visor se cierra con el botón Cerrar y con un clic fuera de la imagen', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/sistema?tema=bonta&modo=light')
+    const link = page
+      .locator('[data-component="image"]')
+      .getByRole('link', { name: /^Ver imagen a pantalla completa/ })
+    const viewer = page.getByRole('dialog', { name: 'Imagen a pantalla completa' })
+
+    await link.click()
+    await expect(viewer).toBeVisible()
+    await expect(viewer).toHaveAttribute('data-theme', 'bonta')
+    // La imagen nunca pasa del ancho de la pantalla.
+    const box = (await viewer.locator('img').boundingBox())!
+    expect(box.x).toBeGreaterThanOrEqual(0)
+    expect(box.x + box.width).toBeLessThanOrEqual(390)
+
+    await viewer.getByRole('button', { name: 'Cerrar' }).click()
+    await expect(viewer).toBeHidden()
+    await expect(link).toBeFocused()
+
+    await link.click()
+    await expect(viewer).toBeVisible()
+    // Un clic en el fondo, lejos de la imagen y del pie.
+    await page.mouse.click(195, 830)
+    await expect(viewer).toBeHidden()
+    await expect(link).toBeFocused()
+  })
+
+  test('el visor abierto pasa axe (WCAG 2.2 AA)', async ({ page }) => {
+    await page.goto('/sistema?tema=arcano&modo=light')
+    await page
+      .locator('[data-component="image"]')
+      .getByRole('link', { name: /^Ver imagen a pantalla completa/ })
+      .click()
+    await expect(page.getByRole('dialog', { name: 'Imagen a pantalla completa' })).toBeVisible()
+    await page.waitForFunction(() =>
+      document.getAnimations().every((animation) => animation.playState === 'finished'),
+    )
+
+    const results = await new AxeBuilder({ page })
+      .include('dialog')
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
+      .analyze()
+
+    expect(
+      results.violations.map(({ id, nodes }) => ({ id, targets: nodes.map((n) => n.target) })),
+    ).toEqual([])
+  })
+
   test('pasa axe (WCAG 2.2 AA) en todos los temas y modos', async ({ page }) => {
     await page.goto('/sistema')
     // El contraste se mide en reposo: durante la entrada escalonada de la cabecera

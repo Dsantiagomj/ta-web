@@ -9,4 +9,10 @@ export const uiStrings = {
     stop: 'Alto',
   } satisfies Record<CalloutVariant, string>,
   percent: (value: number) => `${value}%`,
+  figure: {
+    open: (alt: string) =>
+      alt ? `Ver imagen a pantalla completa: ${alt}` : 'Ver imagen a pantalla completa',
+    viewer: 'Imagen a pantalla completa',
+    close: 'Cerrar',
+  },
 }

@@ -259,7 +259,7 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
             </div>
           </Group>
 
-          <Group name="image" wide>
+          <Group name="image" note={s.notes.image} wide>
             <div className="w-full max-w-(--width-prose)">
               <Figure
                 image={images.hupeEsse}

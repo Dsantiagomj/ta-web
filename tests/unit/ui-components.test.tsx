@@ -141,6 +141,25 @@ describe('Figure', () => {
     expect(withCaption).toContain('<figcaption')
     expect(html(<Figure image={image} alt="Hupe Esse" />)).not.toContain('<figcaption')
   })
+
+  it('sin JavaScript, la imagen es un enlace al archivo más grande, el WebP', () => {
+    const markup = html(<Figure image={image} alt="Hupe Esse" />)
+    expect(markup).toMatch(/<a [^>]*href="\/img\/a\.webp"/)
+    expect(markup).toMatch(/<a [^>]*>\s*<picture/)
+  })
+
+  it('el enlace dice que abre la imagen a pantalla completa y lleva lo que usa la isla', () => {
+    const markup = html(<Figure image={image} alt="Hupe Esse" />)
+    expect(markup).toContain('aria-label="Ver imagen a pantalla completa: Hupe Esse"')
+    expect(markup).toContain('data-image-viewer=""')
+    expect(markup).toContain('data-image-avif="/img/a.avif"')
+  })
+
+  it('sin texto alternativo, el nombre del enlace sigue diciendo qué hace', () => {
+    const markup = html(<Figure image={{ src: '/img/b.webp', width: 10, height: 10 }} alt="" />)
+    expect(markup).toContain('aria-label="Ver imagen a pantalla completa"')
+    expect(markup).not.toContain('data-image-avif')
+  })
 })
 
 // DESIGN.md, Accessibility: objetivo de 40px (44px con puntero grueso). Lo que se dibuja más
