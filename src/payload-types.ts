@@ -411,7 +411,7 @@ export interface QuestGuide {
     startX?: number | null;
     startY?: number | null;
   };
-  body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock)[] | null;
+  body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock | StepBlock)[] | null;
   /**
    * Se rellena solo desde la misión si lo dejas vacío. Puedes cambiarlo cuando quieras.
    */
@@ -500,6 +500,25 @@ export interface CalloutBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'callout';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StepBlock".
+ */
+export interface StepBlock {
+  /**
+   * Lo que hay que hacer en el paso, corto: «Habla con Hupe Esse».
+   */
+  title: string;
+  /**
+   * La posición principal del paso, si la tiene: sale como chip junto al título.
+   */
+  x?: number | null;
+  y?: number | null;
+  body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'step';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -845,6 +864,7 @@ export interface QuestGuidesSelect<T extends boolean = true> {
         image?: T | ImageBlockSelect<T>;
         video?: T | VideoBlockSelect<T>;
         callout?: T | CalloutBlockSelect<T>;
+        step?: T | StepBlockSelect<T>;
       };
   seo?:
     | T
@@ -893,6 +913,25 @@ export interface VideoBlockSelect<T extends boolean = true> {
 export interface CalloutBlockSelect<T extends boolean = true> {
   variant?: T;
   content?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StepBlock_select".
+ */
+export interface StepBlockSelect<T extends boolean = true> {
+  title?: T;
+  x?: T;
+  y?: T;
+  body?:
+    | T
+    | {
+        richText?: T | RichTextBlockSelect<T>;
+        image?: T | ImageBlockSelect<T>;
+        video?: T | VideoBlockSelect<T>;
+        callout?: T | CalloutBlockSelect<T>;
+      };
   id?: T;
   blockName?: T;
 }

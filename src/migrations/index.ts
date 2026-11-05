@@ -6,6 +6,7 @@ import * as migration_20261104_192809_dofusdb_item_supertype from './20261104_19
 import * as migration_20261104_195910_needs_list from './20261104_195910_needs_list';
 import * as migration_20261104_210644_guide_single_quest from './20261104_210644_guide_single_quest';
 import * as migration_20261105_103713_media_image_sizes from './20261105_103713_media_image_sizes';
+import * as migration_20261105_135506_guide_step_block from './20261105_135506_guide_step_block';
 
 export const migrations = [
   {
@@ -46,6 +47,11 @@ export const migrations = [
   {
     up: migration_20261105_103713_media_image_sizes.up,
     down: migration_20261105_103713_media_image_sizes.down,
-    name: '20261105_103713_media_image_sizes'
+    name: '20261105_103713_media_image_sizes',
+  },
+  {
+    up: migration_20261105_135506_guide_step_block.up,
+    down: migration_20261105_135506_guide_step_block.down,
+    name: '20261105_135506_guide_step_block'
   },
 ];
