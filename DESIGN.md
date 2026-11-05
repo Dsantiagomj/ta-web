@@ -637,6 +637,7 @@ Exits run at about 70 percent of the enter duration (a 220ms dropdown closes in 
 - WCAG 2.2 AA in every theme and mode. The color tables above list every text pair; new pairs get a ratio before they ship.
 - Focus: `outline: 2px solid var(--color-ink); outline-offset: 2px` on every interactive element, `:focus-visible` only. Cards use a 3px outline with 4px offset.
 - Targets: 40px minimum, 44px under `pointer: coarse`.
+- A control drawn smaller than the target (linked tag, secondary or ghost button, checkbox row) carries the `hit-target` class: a transparent `::after` grows the hit area to the target height without changing what is drawn.
 - One `h1` per page; headings in order. `lang="es"` on `<html>`.
 - Never nest interactive elements: a card is one `<a>`; a checkbox next to a link is a sibling, not a child.
 - Menus, tabs and the search dialog follow the WAI-ARIA patterns (arrow keys, Esc, focus return).

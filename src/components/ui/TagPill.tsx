@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 
 import { cx } from './cx'
+import './ui.css'
 
 const TAG =
   'inline-flex h-6 items-center rounded-pill border border-accent-2 px-2.5 text-xs leading-none font-semibold whitespace-nowrap text-accent-2 no-underline'
@@ -13,7 +14,7 @@ export function TagPill({ href, children }: { href?: string; children: ReactNode
       href={href}
       className={cx(
         TAG,
-        'transition-colors duration-(--duration-fast) ease-standard hover:bg-raised',
+        'hit-target relative transition-colors duration-(--duration-fast) ease-standard hover:bg-raised',
       )}
     >
       {children}

@@ -138,3 +138,21 @@
   transform-origin: left;
   transition: transform var(--duration-slow) var(--ease-out);
 }
+
+/* Objetivo de 40px (44px con puntero grueso) para lo que se dibuja más pequeño: un ::after
+   transparente, centrado en vertical, agranda el área que se pulsa sin cambiar el dibujo ni
+   la altura de línea. El elemento lleva `relative` (utilidad, para que className la pise). */
+.hit-target::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  height: max(100%, 40px);
+  transform: translateY(-50%);
+}
+
+@media (pointer: coarse) {
+  .hit-target::after {
+    height: max(100%, 44px);
+  }
+}
