@@ -1,10 +1,12 @@
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 
+import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import type { Payload } from 'payload'
 
 import type { Media } from '../../payload-types'
 import { missingImageSizes } from './sizes'
+import { mediaObjectKey, readS3Settings, s3ClientConfig } from './storage'
 
 type Env = Record<string, string | undefined>
 
@@ -47,12 +49,26 @@ export interface RegenerationResult {
 
 type ReadOriginal = (media: Media) => Promise<Buffer>
 
+/** Lo que el lector usa del cliente de S3: solo pedir un objeto. */
+export interface ObjectGetter {
+  send(
+    command: GetObjectCommand,
+  ): Promise<{ Body?: { transformToByteArray(): Promise<Uint8Array> } }>
+}
+
 /**
- * El archivo original: por su URL pública si la tiene (R2 tras el dominio CDN) o del
- * disco, en el staticDir de la colección.
+ * El archivo original, de donde esté: de su URL pública si la tiene (R2 tras el dominio
+ * CDN de MEDIA_BASE_URL), del bucket de R2 con su API si solo hay credenciales (la URL es
+ * entonces la ruta relativa de Payload), o del disco, en el staticDir de la colección.
  */
-export function originalReader(payload: Payload): ReadOriginal {
+export function originalReader(
+  payload: Payload,
+  { env = process.env, s3 }: { env?: Env; s3?: ObjectGetter } = {},
+): ReadOriginal {
   const staticDir = payload.collections.media.config.upload.staticDir ?? 'media'
+  const settings = readS3Settings(env)
+  const bucket = settings && (s3 ?? new S3Client(s3ClientConfig(settings)))
+
   return async (media) => {
     if (media.url && /^https?:\/\//.test(media.url)) {
       const response = await fetch(media.url)
@@ -64,12 +80,22 @@ export function originalReader(payload: Payload): ReadOriginal {
     if (!filename || path.basename(filename) !== filename) {
       throw new Error(`Nombre de archivo no válido: «${filename}»`)
     }
+    if (settings && bucket) {
+      const key = mediaObjectKey({ ...media, filename })
+      // Los errores del SDK no llevan las credenciales; el mensaje solo nombra bucket y clave.
+      try {
+        const object = await bucket.send(new GetObjectCommand({ Bucket: settings.bucket, Key: key }))
+        if (!object.Body) throw new Error('respuesta sin contenido')
+        return Buffer.from(await object.Body.transformToByteArray())
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : String(error)
+        throw new Error(`No se pudo leer ${settings.bucket}/${key} de R2: ${reason}`)
+      }
+    }
     try {
       return await readFile(path.resolve(staticDir, filename))
     } catch {
-      throw new Error(
-        `No está en ${staticDir}/${filename}. Con R2, define MEDIA_BASE_URL para leerlo de su URL pública.`,
-      )
+      throw new Error(`No está en ${staticDir}/${filename}.`)
     }
   }
 }

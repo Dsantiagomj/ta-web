@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { mediaFileUrl, readS3Settings } from '@/lib/media/storage'
+import { mediaFileUrl, mediaObjectKey, readS3Settings } from '@/lib/media/storage'
 
 const r2 = {
   S3_ENDPOINT: 'https://cuenta.r2.cloudflarestorage.com',
@@ -63,5 +63,25 @@ describe('mediaFileUrl', () => {
     expect(mediaFileUrl('https://media.torrentearcano.com', undefined, 'Brâkmar 1.png')).toBe(
       'https://media.torrentearcano.com/Br%C3%A2kmar%201.png',
     )
+  })
+})
+
+describe('mediaObjectKey', () => {
+  it('sin prefijo, la clave es el nombre del archivo', () => {
+    expect(mediaObjectKey({ filename: 'mapa.png' })).toBe('mapa.png')
+    expect(mediaObjectKey({ filename: 'mapa.png', prefix: null, _objectKey: null })).toBe(
+      'mapa.png',
+    )
+  })
+
+  it('une el prefijo y _objectKey como el adaptador de storage-s3', () => {
+    expect(mediaObjectKey({ filename: 'mapa.png', prefix: 'guias' })).toBe('guias/mapa.png')
+    expect(mediaObjectKey({ filename: 'mapa.png', prefix: '/guias/', _objectKey: 'abc' })).toBe(
+      'guias/abc/mapa.png',
+    )
+  })
+
+  it('un prefijo con .. no sale de su carpeta', () => {
+    expect(mediaObjectKey({ filename: 'mapa.png', prefix: '../otra' })).toBe('otra/mapa.png')
   })
 })
