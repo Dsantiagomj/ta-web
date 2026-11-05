@@ -9,7 +9,8 @@ import type { Coordinates } from '@/lib/guides/coordinates'
 const s = gameStrings.stages
 
 export interface Stage {
-  title: string
+  /** Sin título, la tarjeta pone «Paso N». */
+  title?: string
   coordinates?: Coordinates
   /** Marcada al cargar; solo para el catálogo hasta que exista el progreso de miembros. */
   done?: boolean
@@ -69,7 +70,7 @@ export function StageCard({
       )}
       <div className="stage__card">
         <div className="stage__head">
-          <Heading className="stage__title">{stage.title}</Heading>
+          <Heading className="stage__title">{stage.title || s.untitled(number)}</Heading>
           {stage.coordinates && <CoordinatesChip {...stage.coordinates} />}
         </div>
         <div className="prose-guide">{stage.content}</div>

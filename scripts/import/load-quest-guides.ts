@@ -188,7 +188,7 @@ export async function loadQuestGuides(
     if (block.blockType !== 'step') return toContentBlock(block, oddities)
     return {
       blockType: 'step',
-      title: block.title,
+      title: block.title ?? null,
       x: block.x ?? null,
       y: block.y ?? null,
       body: await toContentBlocks(block.body, oddities),

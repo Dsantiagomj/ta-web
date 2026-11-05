@@ -138,13 +138,12 @@ describe('bloque de paso', () => {
     expect(StepBlock.labels).toEqual({ singular: s.singular, plural: s.plural })
   })
 
-  it('guarda un título obligatorio y traducible', () => {
-    expect(field(StepBlock, 'title')).toMatchObject({
-      type: 'text',
-      required: true,
-      localized: true,
-      label: s.title,
-    })
+  it('guarda un título opcional y traducible: sin él, la tarjeta solo lleva su número', () => {
+    const title = field(StepBlock, 'title')
+    expect(title).toMatchObject({ type: 'text', localized: true, label: s.title })
+    expect(title).not.toHaveProperty('required', true)
+    expect(title).toMatchObject({ admin: { description: s.titleDescription } })
+    expect(s.titleDescription).toMatch(/número/)
   })
 
   it('guarda unas coordenadas opcionales, X e Y, como las de inicio del resumen', () => {

@@ -146,6 +146,16 @@ export const stages: Stage[] = [
       </p>
     ),
   },
+  // Sin título, como los pasos que trae la importación: la tarjeta pone «Paso 4».
+  {
+    coordinates: { x: 1, y: -17 },
+    content: (
+      <p>
+        Para ello, dirígete a <CoordinatesChip x={1} y={-17} />, en la entrada de la mina. Allí
+        deberás volver a hablar con <strong>Luci</strong>.
+      </p>
+    ),
+  },
 ]
 
 /** «Entretanto, un renacer»: solo el resumen, con la lista de objetos de Necesitarás. */

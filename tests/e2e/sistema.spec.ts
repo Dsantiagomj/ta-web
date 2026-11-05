@@ -111,6 +111,13 @@ test.describe('catálogo /sistema', () => {
     expect(height).toBeGreaterThanOrEqual(40)
   })
 
+  test('un paso sin título enseña su número como título', async ({ page }) => {
+    await page.goto('/sistema?tema=arcano&modo=dark')
+    const step = page.locator('.stage').nth(3)
+    await expect(step.getByRole('heading', { name: 'Paso 4' })).toBeVisible()
+    await expect(step.getByRole('checkbox', { name: 'Paso 4 hecho' })).toBeAttached()
+  })
+
   test('la píldora de progreso con 30 pasos cabe en 390px', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 })
     await page.goto('/sistema?tema=arcano&modo=dark')
