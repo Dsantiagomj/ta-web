@@ -47,4 +47,26 @@ describe('appWebServers', () => {
     expect(servers[0]?.command).toBe('pnpm db:dev')
     expect(servers.at(-1)?.env?.DATABASE_URL).toBe(E2E_DATABASE_URL)
   })
+
+  it('siembra las guías de prueba después de migrar y vacía la caché de datos antes de arrancar', () => {
+    vi.stubEnv('DATABASE_URL', 'postgres://ci@localhost/pruebas')
+
+    const command = appWebServers({ port: 3100 }).at(-1)?.command ?? ''
+
+    expect(command).toMatch(
+      /pnpm migrate && pnpm seed:e2e && node scripts\/clear-data-cache.ts && pnpm start --port 3100$/,
+    )
+  })
+
+  it('sin R2: los archivos sembrados van al disco local aunque el shell tenga las S3_*', () => {
+    vi.stubEnv('S3_BUCKET', 'real')
+    vi.stubEnv('MEDIA_BASE_URL', 'https://cdn')
+
+    const env = appWebServers({ port: 3100 }).at(-1)?.env ?? {}
+
+    for (const name of ['S3_ENDPOINT', 'S3_BUCKET', 'S3_ACCESS_KEY_ID', 'S3_SECRET_ACCESS_KEY']) {
+      expect(env[name], name).toBe('')
+    }
+    expect(env.MEDIA_BASE_URL).toBe('')
+  })
 })

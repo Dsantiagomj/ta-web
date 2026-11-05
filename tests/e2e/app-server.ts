@@ -21,8 +21,8 @@ export function loadE2eEnvFromFile(): void {
 /**
  * Los servidores de las pruebas E2E: el Postgres embebido si no hay DATABASE_URL (CI usa
  * un Postgres vacío como servicio) y la app por el camino de producción: build,
- * migraciones versionadas sobre la base vacía y start. Sin push de esquema.
- * E2E_SKIP_BUILD=1 reutiliza un .next ya compilado.
+ * migraciones versionadas sobre la base vacía, las guías de prueba (pnpm seed:e2e) y
+ * start. Sin push de esquema. E2E_SKIP_BUILD=1 reutiliza un .next ya compilado.
  */
 export function appWebServers({
   port,
@@ -38,6 +38,9 @@ export function appWebServers({
     ...(process.env.E2E_SKIP_BUILD === '1' ? [] : ['pnpm build']),
     ...(useEmbeddedDatabase ? ['node scripts/db-e2e-reset.ts'] : []),
     'pnpm migrate',
+    'pnpm seed:e2e',
+    // La base es nueva: ninguna guía en caché de una ejecución anterior puede taparla.
+    'node scripts/clear-data-cache.ts',
     `pnpm start --port ${port}`,
   ].join(' && ')
 
@@ -55,8 +58,18 @@ export function appWebServers({
     {
       command: app,
       url: `http://localhost:${port}`,
-      // También la URL directa, que `pnpm migrate` prefiere: nunca una base real del shell.
-      env: { DATABASE_URL: databaseUrl, DATABASE_URL_DIRECT: databaseUrl, ...env },
+      env: {
+        // También la URL directa, que `pnpm migrate` prefiere: nunca una base real del shell.
+        DATABASE_URL: databaseUrl,
+        DATABASE_URL_DIRECT: databaseUrl,
+        // Sin R2: la imagen sembrada va al disco local (./media) aunque el shell tenga las S3_*.
+        S3_ENDPOINT: '',
+        S3_BUCKET: '',
+        S3_ACCESS_KEY_ID: '',
+        S3_SECRET_ACCESS_KEY: '',
+        MEDIA_BASE_URL: '',
+        ...env,
+      },
       reuseExistingServer: false,
       timeout: 300_000,
     },

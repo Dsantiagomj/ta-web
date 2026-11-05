@@ -17,10 +17,13 @@ export function Figure({
   image,
   alt,
   caption,
+  priority = false,
 }: {
   image: ImageAsset
   alt: string
   caption?: string
+  /** La captura que puede ser la LCP: sin diferir y con prioridad alta (DESIGN.md, Imagery). */
+  priority?: boolean
 }) {
   return (
     <figure>
@@ -34,6 +37,7 @@ export function Figure({
         <Picture
           image={image}
           alt={alt}
+          priority={priority}
           sizes={IMAGE_SIZES.prose}
           className="block w-full rounded-card bg-raised shadow-art"
         />

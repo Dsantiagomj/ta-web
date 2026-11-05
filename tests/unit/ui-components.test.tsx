@@ -195,6 +195,13 @@ describe('Figure', () => {
     expect(markup).toContain(`sizes="${IMAGE_SIZES.prose}"`)
   })
 
+  it('diferida por defecto; con priority, la posible LCP, sin diferir y con prioridad alta', () => {
+    expect(html(<Figure image={image} alt="Hupe Esse" />)).toContain('loading="lazy"')
+    const first = html(<Figure image={image} alt="Hupe Esse" priority />)
+    expect(first).not.toContain('loading="lazy"')
+    expect(first).toContain('fetchPriority="high"')
+  })
+
   it('sin texto alternativo, el nombre del enlace sigue diciendo qué hace', () => {
     const markup = html(<Figure image={{ src: '/img/b.webp', width: 10, height: 10 }} alt="" />)
     expect(markup).toContain('aria-label="Ver imagen a pantalla completa"')

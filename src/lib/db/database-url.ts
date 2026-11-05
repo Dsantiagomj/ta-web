@@ -38,3 +38,17 @@ export function resolveDatabaseUrl(env: Env): string {
 export function shouldPushSchema(env: Env): boolean {
   return env.NODE_ENV === 'development'
 }
+
+const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1', '[::1]'])
+
+/**
+ * Si la URL apunta a una base de esta máquina: la embebida de `pnpm db:dev` o el Postgres
+ * de servicio de CI. Los scripts que siembran datos de prueba se niegan con cualquier otra.
+ */
+export function isLocalDatabaseUrl(url: string): boolean {
+  try {
+    return LOCAL_HOSTS.has(new URL(url).hostname)
+  } catch {
+    return false
+  }
+}

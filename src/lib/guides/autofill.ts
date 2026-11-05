@@ -2,6 +2,7 @@
 // lo vacío: lo que escribe Torre, o lo que trajo la importación, no se toca nunca.
 
 import { formatThousands } from './format'
+import { isReservedSlug } from './slug'
 import { guideStrings } from './strings'
 import type { LinkedQuest } from './summary'
 
@@ -34,12 +35,12 @@ export function slugFromName(name: string): string {
   return slug || guideStrings.fallbackSlug
 }
 
-/** El slug si está libre; si no, el primero libre con -2, -3… */
+/** El slug si está libre; si no, el primero libre con -2, -3… Uno reservado cuenta como ocupado. */
 export async function availableSlug(
   base: string,
   isTaken: (slug: string) => Promise<boolean>,
 ): Promise<string> {
-  if (!(await isTaken(base))) return base
+  if (!isReservedSlug(base) && !(await isTaken(base))) return base
   for (let suffix = 2; ; suffix += 1) {
     const candidate = `${base}-${suffix}`
     if (!(await isTaken(candidate))) return candidate
