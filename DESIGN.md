@@ -546,7 +546,7 @@ Decided 2026-11-05: every guide image opens fullscreen. The component is `Figure
 - **Closing**: Esc (native), the "Cerrar" button, or a click anywhere outside the image, the caption and the button (the click lands on the dialog itself). Focus then returns to the link that opened it.
 - **Accessibility**: the link's name is "Ver imagen a pantalla completa: {alt}" ("Ver imagen a pantalla completa" when the alt is empty), from `uiStrings.figure`. The dialog is named "Imagen a pantalla completa"; the image inside keeps the media record's alt. `showModal()` makes the page inert and moves focus to "Cerrar". The caption, `--color-ink` on the backdrop, keeps at least 12.75:1 (New contrast pairs).
 - **Motion**: the backdrop fades in over `--duration-fast`; the image and caption enter from `opacity: 0; transform: translateY(12px) scale(.98)` over `--duration-slow` `--ease-out` (Motion, Dialogs), through `@starting-style`. Closing is instant. Under reduced motion the global rule, which also covers `::backdrop`, drops both to 0.01ms.
-- **Budget**: the viewer adds a few hundred bytes to the island and no dependency. Image widths stay flexible (Open questions); `srcset` on `Picture` is a logged follow-up.
+- **Budget**: the viewer adds a few hundred bytes to the island and no dependency. On the page the browser picks the width the column needs through `srcset` and `sizes`; the viewer always loads the widest variant (Imagery).
 
 #### Video facade
 
@@ -629,8 +629,20 @@ Exits run at about 70 percent of the enter duration (a 220ms dropdown closes in 
 ## Imagery
 
 - Real game art only, imported once and served from R2 behind the CDN domain. Nothing loads from DofusDB or Ankama at runtime.
-- Every image has pre-built AVIF and WebP variants, generated offline before the import (plan section 8). Widths are flexible (decided 2026-11-05): no fixed list; 320, 640, 960 and 1600 are the starting point, and icons come at 1x and 2x. The app never optimizes images on request.
-- Markup: `<picture>` with AVIF, then WebP, then the WebP `<img>` with explicit `width` and `height` from the media record, `srcset` and `sizes`. Next's `<Image>` only with a loader that maps to the pre-built variants and `unoptimized` set.
+- Every image has AVIF and WebP variants at fixed widths, generated once when the file is uploaded, in the panel or by the importer (decided 2026-11-05, replacing the offline conversion before the import). Payload makes them with sharp (`src/lib/media/sizes.ts`) and stores them next to the original. The app never optimizes images on request.
+- Widths: 480, 800, 1200 and 1600 px, each in AVIF (quality 50) and WebP (quality 80). They come from the layout. 480 covers phones at 1x and the 240px card art at 2x. 800 is `--width-prose` at 1x and phones at 2x. 1200 covers phones at 3x and the hero on tablets. 1600 is `--width-prose` at 2x and the full-bleed hero on desktops up to 1600px wide. A width larger than the original is never produced, so nothing is upscaled; 480 is the exception and comes out at the original width, so a 96px icon still gets one AVIF and one WebP. Uploading a 1920px PNG screenshot with all eight variants took about 0.6 s on an Apple M5 (about 2.2 s for a worst-case noise image).
+- Markup: `<picture>` with an AVIF `<source>`, then the WebP `<img>`. Both carry `srcset` with `w` descriptors and the same `sizes`. The `<img>` `src`, `width` and `height` are those of the widest WebP, which reserves the space (no layout shift) and is the file the fullscreen viewer opens. An image with a single width gets no `srcset` or `sizes`. `mediaImageAsset` (`src/lib/media/image-asset.ts`) builds this from a media record; without variants yet, it falls back to the original. Next's `<Image>` only with a loader that maps to these variants and `unoptimized` set.
+- `sizes` per component (`IMAGE_SIZES` in `src/components/ui/image-sizes.ts`):
+
+| Component | `sizes` | Why |
+|---|---|---|
+| Figure (step screenshot) and the video poster | `(min-width: 53rem) 800px, calc(100vw - 2rem)` | the prose column, capped at `--width-prose` once the 24px gutters fit (848px); below that, the viewport minus the 16px gutters |
+| Hero art, including its 4:3 phone crop | `100vw` | full bleed |
+| Next quest card art | `(min-width: 40rem) 240px, calc(100vw - 2rem)` | 240px beside the text from 640px; full card width above the text below |
+| Icons (items, monsters, achievements) | none | one width; the icon well fixes the size |
+
+- Changing a width or a format only affects new uploads. `pnpm media:sizes` generates what older records are missing (see `AGENTS.md`, Media).
+- The `/sistema` catalog images are static files in `public/img/sistema`. Its screenshots have 480 and 800 widths made once by `scripts/build-catalog-images.ts`, so the catalog exercises `srcset` like real media; its icons keep one width.
 - `loading="lazy"` and `decoding="async"` on everything below the first screen; the LCP image gets `fetchpriority="high"` and no lazy loading.
 - Aspect ratios:
 
@@ -702,7 +714,7 @@ Carried over from Dofus Tools reviews, plus what the duffus study ruled out.
 
 None open. Answered on 2026-11-05:
 
-1. **Image widths**: flexible, with no fixed width list. The widths under Imagery are a starting point that the import script may change once the image sizes are measured; `srcset` on `Picture` is a logged follow-up. Guide images open fullscreen (Figure and fullscreen viewer).
+1. **Image widths**: flexible widths, generated at upload by Payload: 480, 800, 1200 and 1600 px in AVIF and WebP, served with `srcset` and `sizes` (Imagery). Guide images open fullscreen at the widest variant (Figure and fullscreen viewer).
 2. **Hero art**: prefilled with a representative image of the quest's zone, editable by Torre. DofusDB has no zone images, so it needs a per-zone image library. It is implemented with the guide page and stays open as implementation work, not as a design question (Hero header).
 3. **Callout icons**: game art may replace the `i`, `!` and `×` glyphs only if it clearly conveys the same meaning (tip or info, warning, stop); otherwise the glyphs stay (Callout row).
 4. **Start place**: from DofusDB, editable in the panel. Already implemented for the start NPC and position (`startNpc`, `startX`, `startY`, filled through `src/lib/guides/summary.ts`).

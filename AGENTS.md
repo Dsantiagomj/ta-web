@@ -44,13 +44,13 @@ Every change: code, content model, migrations, data, docs, CI. Read this file be
 | `src/globals/` | Site settings: navigation, socials, Ko-fi, Twitch card, announcement bar |
 | `src/blocks/` | Payload blocks for guide bodies: rich text, image, video and callout today; dialogue and step when the guide page design needs them |
 | `src/endpoints/` | Payload custom endpoints, mounted under `/api` by Payload's catch-all route (`health.ts`: `GET /api/health`) |
-| `src/lib/` | Server code shared across routes: `db/` (database URL), `dev-gate/` (basic auth and `robots.txt` per environment, used by `src/proxy.ts`), `deploy/` (the deployed commit), `monitoring/` (Sentry options, used by `src/instrumentation.ts`), `theme/` (theme and mode), `media/` (storage, variant URLs), `auth/` (Better Auth), `access/` (entitlement checks), `progress/` (member progress tables and merge), `search/`, `derive/` (checklist derived data) |
+| `src/lib/` | Server code shared across routes: `db/` (database URL), `dev-gate/` (basic auth and `robots.txt` per environment, used by `src/proxy.ts`), `deploy/` (the deployed commit), `monitoring/` (Sentry options, used by `src/instrumentation.ts`), `theme/` (theme and mode), `media/` (storage, image sizes, media to `ImageAsset`, size regeneration), `auth/` (Better Auth), `access/` (entitlement checks), `progress/` (member progress tables and merge), `search/`, `derive/` (checklist derived data) |
 | `src/components/` | React components. Server components by default; client islands carry `"use client"` and live next to what uses them |
 | `src/components/ui/` | Generic components from `DESIGN.md` (button, chip, tag pill, callout, stat tile, progress bar, checkbox, card, picture, figure), styled with the token utilities plus `ui.css` |
 | `src/components/game/` | Quest guide components from `DESIGN.md` (hero header, level medallion, summary ribbon, item chip and slot, monster chip and fight block, coordinates chip, stages timeline, Botín card, achievement chain, video facade), plus `PageEnhancements`, the one client island of guide pages: it copies coordinates, loads videos on click and opens guide images fullscreen |
 | `src/styles/` | `theme.css` with the `@theme` tokens, `globals.css`, `fonts.ts` (`next/font`) |
 | `src/migrations/` | Payload and Drizzle migrations, committed |
-| `scripts/` | `db-dev.ts` (embedded Postgres for `pnpm db:dev`), `hooks/` (git hook scripts run by `lefthook.yml`), `import/` (the Squarespace import pipeline, phase 1), `lhci.ts` (`pnpm test:lhci`) |
+| `scripts/` | `db-dev.ts` (embedded Postgres for `pnpm db:dev`), `hooks/` (git hook scripts run by `lefthook.yml`), `import/` (the Squarespace import pipeline, phase 1), `lhci.ts` (`pnpm test:lhci`), `media-sizes.ts` (`pnpm media:sizes`) |
 | `.railway/railway.ts` | Railway infrastructure as code: the `web` service for the `dev` and `production` environments (build, start, pre-deploy migrations, health check, restart policy, region, variable names). Applied by hand with `railway config apply`; Railway does not read it on deploy. Secrets stay in Railway (`preserve()`) |
 | `.mcp.json` | Project MCP servers shared by every agent session: Neon and Cloudflare |
 | `.claude/skills/` | Third-party agent skills (Neon), pinned by hash in `skills-lock.json`. Do not hand-edit; update them with `npx skills update` |
@@ -162,8 +162,9 @@ CI (`.github/workflows/ci.yml`) runs lint, types, unit, integration, build, E2E,
 
 ## Media
 
-- Images are converted offline before the import into fixed AVIF and WebP variants and uploaded to R2 with the originals. The app never optimizes images on request; no Next image optimization, no Vercel image billing.
-- Every media record keeps its alt text, credits, width and height, the variant keys and the original Squarespace URL.
+- Variants are generated once, at upload. Payload's `upload.imageSizes` (`src/lib/media/sizes.ts`) makes AVIF and WebP copies at 480, 800, 1200 and 1600 px wide with sharp, for files uploaded in the panel and by the importer alike, and stores them next to the original (R2 or local disk). A width larger than the original is skipped, except 480, which comes out at the original width. The app never optimizes images on request; no Next image optimization, no Vercel image billing.
+- Every media record keeps its alt text, credits, width and height, its generated `sizes` and the original Squarespace URL. `mediaImageAsset` (`src/lib/media/image-asset.ts`) turns a record into the `ImageAsset` that `Picture` and `Figure` render.
+- A width or format change only applies to new uploads. `pnpm media:sizes` fills in what older records are missing by re-uploading their originals through Payload. It refuses a remote database without `--remote` and production without `--production`.
 - Real game art only (see `DESIGN.md`). Nothing loads from DofusDB or Ankama at runtime.
 
 ## Secrets and environment
