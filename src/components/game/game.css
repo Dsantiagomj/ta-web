@@ -230,11 +230,16 @@
   }
 }
 
-/* 44px de objetivo sin cambiar el chip dibujado. */
+/* Objetivo de 40px (44px con puntero grueso) sin cambiar el chip dibujado ni la
+   altura de línea: el chip mide 26px. */
+.coord::after {
+  content: '';
+  position: absolute;
+  inset: -7px -2px;
+}
+
 @media (pointer: coarse) {
   .coord::after {
-    content: '';
-    position: absolute;
     inset: -9px -2px;
   }
 }
