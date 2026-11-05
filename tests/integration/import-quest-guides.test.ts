@@ -10,7 +10,6 @@ import { parsePage } from '../../scripts/import/squarespace/parse-page'
 import {
   GUIDE_SLUGS,
   toQuestGuide,
-  type ContentBlock,
   type ConvertedGuide,
 } from '../../scripts/import/squarespace/to-quest-guide'
 
@@ -46,10 +45,17 @@ function lexicalText(value: unknown): string {
     .join('')
 }
 
+/** Los bloques de un cuerpo en orden de lectura, con los de cada paso en su sitio. */
+function flat<T extends { blockType: string }>(body: T[] | null | undefined): T[] {
+  return (body ?? []).flatMap((block) =>
+    block.blockType === 'step' ? ((block as unknown as { body?: T[] | null }).body ?? []) : [block],
+  )
+}
+
 function imageUrls(guides: ConvertedGuide[]): Set<string> {
   return new Set(
     guides.flatMap(({ guide }) =>
-      guide.body.flatMap((block) => (block.blockType === 'image' ? [block.url] : [])),
+      flat(guide.body).flatMap((block) => (block.blockType === 'image' ? [block.url] : [])),
     ),
   )
 }
@@ -161,8 +167,13 @@ describe('carga de guías importadas de Squarespace', () => {
       items: [{ item: tofuBeak.id, quantity: 3 }],
     })
 
-    const blockTypes = new Set(
+    // Las cinco se parten en pasos sin título; dentro van los cuatro bloques de contenido.
+    const topTypes = new Set(
       [...saved.values()].flatMap((guide) => guide.body?.map((block) => block.blockType) ?? []),
+    )
+    expect(topTypes).toContain('step')
+    const blockTypes = new Set(
+      [...saved.values()].flatMap((guide) => flat(guide.body).map((block) => block.blockType)),
     )
     expect([...blockTypes].sort()).toEqual(['callout', 'image', 'richText', 'video'])
 
@@ -172,13 +183,13 @@ describe('carga de guías importadas de Squarespace', () => {
       url: 'https://www.youtube.com/watch?v=VaY3tyYTq4A',
     })
 
-    const callout = saved
-      .get('seis-pies-bajo-tierra')!
-      .body?.find((block) => block.blockType === 'callout')
+    const callout = flat(saved.get('seis-pies-bajo-tierra')!.body).find(
+      (block) => block.blockType === 'callout',
+    )
     expect(callout).toMatchObject({ variant: 'warning' })
     expect(lexicalText(callout)).toMatch(/^Las anutrof NO deben morir/)
 
-    const firstText = hunter.body?.find((block) => block.blockType === 'richText')
+    const firstText = flat(hunter.body).find((block) => block.blockType === 'richText')
     expect(lexicalText(firstText)).toContain('Dirígete a la Biblioteca de Astrub')
   })
 
@@ -192,7 +203,7 @@ describe('carga de guías importadas de Squarespace', () => {
     expect(withoutAlt?.alt).toBe('Operación «envenenamiento»')
 
     const hunter = (await guidesBySlug()).get('el-cazador-cazado')!
-    const image = hunter.body?.find((block) => block.blockType === 'image')
+    const image = flat(hunter.body).find((block) => block.blockType === 'image')
     expect(media.map((doc) => doc.id)).toContain(image?.blockType === 'image' && image.image)
   })
 
@@ -200,14 +211,10 @@ describe('carga de guías importadas de Squarespace', () => {
     const result = await loadQuestGuides(payload, converted(), { fetchImage })
 
     expect(result.oddities['operacion-envenenamiento']).toContain('Sin misión de DofusDB enlazada')
-    // Ninguna de las cinco marca sus pasos: quedan como prosa.
     expect(result.oddities['intoxicacion-profunda']).toEqual([
-      'Sin pasos marcados («ETAPA n: título»): la guía queda como prosa',
       'Misión de DofusDB 1433 sin importar en quests',
     ])
-    expect(result.oddities['el-cazador-cazado']).toEqual([
-      'Sin pasos marcados («ETAPA n: título»): la guía queda como prosa',
-    ])
+    expect(result.oddities['el-cazador-cazado']).toEqual([])
   })
 
   it('una segunda pasada no duplica, no descarga ni guarda versiones de guías sin cambios', async () => {
@@ -308,55 +315,34 @@ describe('carga de guías importadas de Squarespace', () => {
 
     expect(result.guides).toMatchObject({ updated: 1 })
     expect(result.oddities['el-cazador-cazado']).toEqual([
-      'Sin pasos marcados («ETAPA n: título»): la guía queda como prosa',
       'Varias misiones de DofusDB (1977, 1976): sin enlazar, elige una en el panel',
     ])
     expect((await guidesBySlug()).get('el-cazador-cazado')!.quest ?? null).toBeNull()
   })
 
-  it('guarda los pasos con sus capturas y repetir la carga no guarda otra versión', async () => {
-    const withSteps = () => {
-      const six = converted().find(({ guide }) => guide.slug === 'seis-pies-bajo-tierra')!
-      // Las cinco guías no marcan pasos: se forman a mano con sus dos primeros bloques.
-      const [first, second, ...rest] = six.guide.body as ContentBlock[]
-      six.guide.body = [
-        {
-          blockType: 'step',
-          title: 'Habla con la Aventurera',
-          x: 5,
-          y: -18,
-          body: [first!, second!],
-        },
-        { blockType: 'step', title: 'Sin coordenadas', body: [] },
-        ...rest,
-      ]
-      return [six]
-    }
-    const downloadsBefore = downloads.length
-
-    const first = await loadQuestGuides(payload, withSteps(), { fetchImage })
-    expect(first.guides).toEqual({ created: 0, updated: 1, unchanged: 0, skipped: 0 })
-    // Las capturas del paso ya estaban en media: no se descargan otra vez.
-    expect(downloads).toHaveLength(downloadsBefore)
-
+  it('guarda los pasos sin título con sus coordenadas y sus capturas', async () => {
     const saved = (await guidesBySlug()).get('seis-pies-bajo-tierra')!
-    const [step, empty] = saved.body ?? []
-    expect(step).toMatchObject({
-      blockType: 'step',
-      title: 'Habla con la Aventurera',
-      x: 5,
-      y: -18,
-    })
-    expect(empty).toMatchObject({ blockType: 'step', title: 'Sin coordenadas' })
-    if (step?.blockType !== 'step') return
-    expect(step.body?.map((block) => block.blockType)).toEqual(['image', 'richText'])
-    expect(step.body?.find((block) => block.blockType === 'image')).toMatchObject({
-      image: expect.any(Number),
-    })
+    const steps = (saved.body ?? []).filter((block) => block.blockType === 'step')
+    expect(steps).toHaveLength(8)
+    expect(steps[0]).toMatchObject({ x: 7, y: -19 })
+    for (const step of steps) expect(step.title ?? null).toBeNull()
+    const image = flat(steps[0]!.body).find((block) => block.blockType === 'image')
+    expect(image).toMatchObject({ image: expect.any(Number) })
+    // Repetir la carga sin cambios no guarda versiones: lo prueba «una segunda pasada…».
+  })
 
-    const versionsBefore = await versionCount()
-    const again = await loadQuestGuides(payload, withSteps(), { fetchImage })
-    expect(again.guides).toEqual({ created: 0, updated: 0, unchanged: 1, skipped: 0 })
-    expect(await versionCount()).toBe(versionsBefore)
+  it('un paso con título de una marca «ETAPA n:» se guarda con él', async () => {
+    const six = converted().find(({ guide }) => guide.slug === 'seis-pies-bajo-tierra')!
+    const [first] = six.guide.body
+    if (first?.blockType !== 'step') throw new Error('falta el paso')
+    first.title = 'Habla con Hupe Esse'
+
+    const result = await loadQuestGuides(payload, [six], { fetchImage })
+    expect(result.guides).toMatchObject({ updated: 1 })
+    const saved = (await guidesBySlug()).get('seis-pies-bajo-tierra')!
+    expect(saved.body?.[0]).toMatchObject({ blockType: 'step', title: 'Habla con Hupe Esse' })
+
+    const again = await loadQuestGuides(payload, [six], { fetchImage })
+    expect(again.guides).toMatchObject({ unchanged: 1 })
   })
 })

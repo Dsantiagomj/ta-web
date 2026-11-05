@@ -87,69 +87,146 @@ const CALLOUT_LABELS: Record<'warning' | 'tip', string[]> = {
 const CALLOUT = new RegExp(`^¡?(${Object.values(CALLOUT_LABELS).flat().join('|')})(?!\\p{L})`, 'u')
 
 // Pasos. En las 1272 guías de misiones de Squarespace, Torre no marca los pasos con
-// encabezados: cada bloque de texto va seguido de sus capturas, sin título. Solo una
-// guía (el-safari-de-almas) los marca, con un párrafo «ETAPA 1: El safari de las almas
-// ancebas:». Ese párrafo, en mayúsculas y al principio, es la única marca que se
-// reconoce: abre un paso con ese título, y el primer [x,y] del paso son sus coordenadas.
-// El paso sigue hasta el siguiente marcador; el último acaba con su bloque de texto y las
-// capturas que lo siguen, y lo demás es el cierre. Sin marcadores, la guía queda como
-// prosa: un título nunca se inventa.
+// encabezados: cada bloque de texto va seguido de sus capturas. Esa unidad, un bloque de
+// texto con las capturas que lo siguen, es un paso sin título; un bloque de texto sin
+// capturas va con el siguiente. El primer [x,y] de la unidad, contando la línea de
+// inicio que sale al resumen, son sus coordenadas. Lo que va antes del bloque con la
+// línea de inicio («Habla con … para empezar») es la entrada. La frase de cierre («Aquí
+// termina la misión…») y lo que la sigue, o el texto que queda tras las últimas capturas,
+// es el final. Con menos de dos unidades (sin capturas, o un solo bloque) la guía queda
+// como prosa. Solo una guía (el-safari-de-almas) marca sus pasos, con un párrafo «ETAPA 1:
+// El safari de las almas ancebas:»; si hay marcas, mandan ellas: cada una abre un paso con
+// ese título que sigue hasta la siguiente, y la última, como una unidad, se queda con el
+// texto que le sigue hasta sus capturas. Un título nunca se inventa.
 const STEP_MARKER = /^ETAPA\s+\d+\s*:\s*(.*?)\s*:?$/u
+
+const NO_STEPS =
+  'Sin pasos: ni marcas «ETAPA n:» ni bloques de texto con sus capturas; la guía queda como prosa'
 
 /** Las primeras coordenadas de un texto, o null. */
 function firstCoordinates(text: string): { x: number; y: number } | null {
   return splitCoordinates(text).find((part) => typeof part !== 'string') ?? null
 }
 
-/** Texto plano de los bloques de texto de un paso, en orden. */
-function stepText(body: ContentBlock[]): string {
-  return body
-    .map((block) => ('html' in block ? normalizedText(parseHtml(block.html).body) : ''))
-    .join(' ')
+/**
+ * Marcas internas mientras se recorre la página: el principio de cada bloque de texto
+ * (`start`: lleva la línea de inicio), el texto de cada elemento tal como venía (para las
+ * coordenadas), un marcador «ETAPA n:» y la frase de cierre.
+ */
+type Marker =
+  | { blockType: 'textBlock'; start: boolean }
+  | { blockType: 'source'; text: string }
+  | { blockType: 'stepStart'; title: string }
+  | { blockType: 'closing' }
+type Draft = ContentBlock | Marker
+
+function isContent(draft: Draft): draft is ContentBlock {
+  return ['richText', 'image', 'video', 'callout'].includes(draft.blockType)
 }
 
-/** Marca interna mientras se recorre la página: dónde empieza un paso y dónde acaba un bloque de texto. */
-type Draft = ContentBlock | { blockType: 'stepStart'; title: string } | { blockType: 'textEnd' }
+function isMedia(draft: Draft): boolean {
+  return draft.blockType === 'image' || draft.blockType === 'video'
+}
+
+/** Un paso en construcción: sus bloques, su texto original y si ya tiene capturas. */
+interface Unit {
+  title?: string
+  text: string[]
+  body: ContentBlock[]
+  media: boolean
+}
+
+const newUnit = (title?: string): Unit => ({ title, text: [], body: [], media: false })
+
+function toStep(unit: Unit): StepBlock {
+  const coordinates = firstCoordinates(unit.text.join(' '))
+  return {
+    blockType: 'step',
+    ...(unit.title && { title: unit.title }),
+    ...coordinates,
+    body: unit.body,
+  }
+}
+
+/** Pasos por marcas «ETAPA n:»: cada una hasta la siguiente; la última, como una unidad. */
+function markedSteps(drafts: Draft[]): GuideBlock[] {
+  const intro: ContentBlock[] = []
+  const units: Unit[] = []
+  const outro: ContentBlock[] = []
+  const markers = drafts.filter((draft) => draft.blockType === 'stepStart').length
+  let ending = false
+  for (const draft of drafts) {
+    const unit = units.at(-1)
+    if (ending || draft.blockType === 'closing') {
+      ending = true
+      if (isContent(draft)) outro.push(draft)
+    } else if (draft.blockType === 'stepStart') {
+      units.push(newUnit(draft.title))
+      units.at(-1)!.text.push(draft.title)
+    } else if (!unit) {
+      if (isContent(draft)) intro.push(draft)
+    } else if (draft.blockType === 'textBlock') {
+      // El último paso acaba al empezar un bloque de texto después de sus capturas.
+      if (units.length === markers && unit.media) ending = true
+    } else if (draft.blockType === 'source') {
+      unit.text.push(draft.text)
+    } else if (isContent(draft)) {
+      unit.body.push(draft)
+      unit.media ||= isMedia(draft)
+    }
+  }
+  return [...intro, ...units.map(toStep), ...outro]
+}
+
+/** Pasos sin título por unidades de texto y capturas, o null si no hay al menos dos. */
+function unitSteps(drafts: Draft[]): GuideBlock[] | null {
+  const intro: ContentBlock[] = []
+  const units: Unit[] = []
+  const outro: ContentBlock[] = []
+  let unit = newUnit()
+  let ending = false
+  // Una unidad sin capturas no es un paso: lo suyo pasa al final.
+  const close = () => {
+    if (unit.media) units.push(unit)
+    else outro.push(...unit.body)
+    unit = newUnit()
+  }
+  for (const draft of drafts) {
+    if (ending) {
+      if (isContent(draft)) outro.push(draft)
+    } else if (draft.blockType === 'closing') {
+      close()
+      ending = true
+    } else if (draft.blockType === 'textBlock') {
+      if (unit.media) {
+        units.push(unit)
+        unit = newUnit()
+      } else if (draft.start && units.length === 0) {
+        // Lo de antes de la línea de inicio es la entrada.
+        intro.push(...unit.body)
+        unit = newUnit()
+      }
+    } else if (draft.blockType === 'source') {
+      unit.text.push(draft.text)
+    } else if (isContent(draft)) {
+      unit.body.push(draft)
+      unit.media ||= isMedia(draft)
+    }
+  }
+  if (!ending) close()
+  return units.length >= 2 ? [...intro, ...units.map(toStep), ...outro] : null
+}
 
 /**
- * Agrupa los bloques en pasos según las marcas: lo de antes del primero es la entrada; el
- * último paso se cierra al acabar su bloque de texto y las capturas o vídeos que lo siguen.
+ * Reparte el cuerpo en entrada, pasos y final: por las marcas «ETAPA n:» si las hay, si no
+ * por unidades de texto y capturas. Sin pasos, el cuerpo en orden y la rareza.
  */
-function nestSteps(drafts: Draft[]): GuideBlock[] {
-  const intro: GuideBlock[] = []
-  const steps: StepBlock[] = []
-  const outro: ContentBlock[] = []
-  let lastStart = -1
-  drafts.forEach((draft, index) => {
-    if (draft.blockType === 'stepStart') lastStart = index
-  })
-  // 'open': el último paso aún lee su texto; 'media': solo admite sus capturas; 'outro': cierre.
-  let last: 'open' | 'media' | 'outro' = 'open'
-  drafts.forEach((draft, index) => {
-    if (draft.blockType === 'stepStart') {
-      // Sin título, el paso no lleva: la página pone «Paso N».
-      steps.push({ blockType: 'step', ...(draft.title && { title: draft.title }), body: [] })
-      return
-    }
-    if (draft.blockType === 'textEnd') {
-      if (index > lastStart && last === 'open') last = 'media'
-      return
-    }
-    const step = steps.at(-1)
-    if (!step) intro.push(draft)
-    else if (index < lastStart || last === 'open') step.body.push(draft)
-    else if (last === 'media' && (draft.blockType === 'image' || draft.blockType === 'video')) {
-      step.body.push(draft)
-    } else {
-      last = 'outro'
-      outro.push(draft)
-    }
-  })
-  for (const step of steps) {
-    const coordinates = firstCoordinates(`${step.title ?? ''} ${stepText(step.body)}`)
-    if (coordinates) Object.assign(step, coordinates)
-  }
-  return [...intro, ...steps, ...outro]
+function nestSteps(drafts: Draft[], oddities: string[]): GuideBlock[] {
+  if (drafts.some((draft) => draft.blockType === 'stepStart')) return markedSteps(drafts)
+  const steps = unitSteps(drafts)
+  if (steps) return steps
+  oddities.push(NO_STEPS)
+  return drafts.filter(isContent)
 }
 
 /** Sin tildes y en minúsculas, para comparar etiquetas escritas de varias formas. */
@@ -293,7 +370,6 @@ export function toQuestGuide(
   const blockOddities: string[] = []
   const summaryLines: Partial<Record<SummaryField, string[]>> = {}
   const body: Draft[] = []
-  let steps = 0
   let prose: string[] = []
   let heading: string | undefined
   let start: Start | undefined
@@ -322,6 +398,10 @@ export function toQuestGuide(
       continue
     }
 
+    // Cada bloque de texto empieza aparte: un paso es un bloque con sus capturas.
+    flush()
+    const textBlock = { blockType: 'textBlock' as const, start: false }
+    body.push(textBlock)
     // Prerrequisitos, Necesitarás y Recompensas ocupan cada uno su bloque de texto.
     let summaryField: SummaryField | undefined
     for (let element of block.elements) {
@@ -360,19 +440,23 @@ export function toQuestGuide(
       if (marker) {
         flush()
         body.push({ blockType: 'stepStart', title: marker[1]! })
-        steps += 1
         continue
       }
       // Las frases de inicio y cierre son párrafos; en listas o encabezados se respetan.
       const paragraph = element.tag === 'p'
       if (paragraph && CLOSING.test(element.text)) {
+        flush()
+        body.push({ blockType: 'closing' })
         const rest = withoutClosing(element)
         if (!rest) continue
         element = trimmed(rest)
-      } else if (paragraph && !start) {
-        const found = readStart(element)
+      } else {
+        // El texto tal como venía, línea de inicio incluida: de él salen las coordenadas.
+        body.push({ blockType: 'source', text: element.text })
+        const found = paragraph && !start ? readStart(element) : null
         if (found) {
           start = found
+          textBlock.start = true
           if (!found.html) continue
           element = trimmed(found.html)
         }
@@ -389,11 +473,6 @@ export function toQuestGuide(
         continue
       }
       prose.push(element.html)
-    }
-    // Con pasos, cada bloque de texto se cierra aparte: el último paso acaba con el suyo.
-    if (steps > 0) {
-      flush()
-      body.push({ blockType: 'textEnd' })
     }
   }
   flush()
@@ -417,8 +496,8 @@ export function toQuestGuide(
   } else {
     oddities.push('No se encontró la línea de inicio (PNJ y coordenadas)')
   }
-  if (steps === 0) oddities.push('Sin pasos marcados («ETAPA n: título»): la guía queda como prosa')
-  const nested = nestSteps(body)
+  const stepOddities: string[] = []
+  const nested = nestSteps(body, stepOddities)
 
   return {
     guide: {
@@ -429,6 +508,6 @@ export function toQuestGuide(
       body: nested,
       questDofusIds: source.questDofusIds,
     },
-    oddities: [...oddities, ...blockOddities],
+    oddities: [...oddities, ...stepOddities, ...blockOddities],
   }
 }

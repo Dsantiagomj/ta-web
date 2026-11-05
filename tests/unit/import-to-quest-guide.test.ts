@@ -6,6 +6,7 @@ import { parsePage, type SquarespacePage } from '../../scripts/import/squarespac
 import {
   GUIDE_SLUGS,
   toQuestGuide,
+  type ContentBlock,
   type GuideBlock,
 } from '../../scripts/import/squarespace/to-quest-guide'
 
@@ -26,12 +27,21 @@ function plain(html: string): string {
     .trim()
 }
 
+/** Los bloques en orden de lectura, con los de cada paso en su sitio. */
+function flat(body: GuideBlock[]): ContentBlock[] {
+  return body.flatMap((block) => (block.blockType === 'step' ? block.body : [block]))
+}
+
 function types(body: GuideBlock[]): string[] {
-  return body.map((block) => block.blockType)
+  return flat(body).map((block) => block.blockType)
 }
 
 function richTexts(body: GuideBlock[]): string[] {
-  return body.flatMap((block) => (block.blockType === 'richText' ? [plain(block.html)] : []))
+  return flat(body).flatMap((block) => (block.blockType === 'richText' ? [plain(block.html)] : []))
+}
+
+function hasSteps(body: GuideBlock[]): boolean {
+  return body.some((block) => block.blockType === 'step')
 }
 
 /** Una página mínima con un bloque de texto por cada fragmento, en ese orden. */
@@ -67,7 +77,8 @@ function pageOf(...parts: (string | { image: string })[]): SquarespacePage {
   }
 }
 
-const NO_STEPS = 'Sin pasos marcados («ETAPA n: título»): la guía queda como prosa'
+const NO_STEPS =
+  'Sin pasos: ni marcas «ETAPA n:» ni bloques de texto con sus capturas; la guía queda como prosa'
 
 describe('conversión de una página en guía de misión', () => {
   it('las cinco guías elegidas tienen slugs válidos', () => {
@@ -99,7 +110,7 @@ describe('conversión de una página en guía de misión', () => {
       startX: 3,
       startY: -17,
     })
-    expect(oddities).toEqual([NO_STEPS])
+    expect(oddities).toEqual([])
   })
 
   it('una lista de prerrequisitos queda en una línea por elemento', () => {
@@ -192,7 +203,8 @@ describe('conversión de una página en guía de misión', () => {
     )
     const { guide } = toQuestGuide(parsePage(page), { slug: 'prueba', questDofusIds: [1] })
     expect(richTexts(guide.body)).toEqual([
-      'Habla con Oto Mustam [1,2] para empezar la misión. Segundo paso. Aquí termina la misión.',
+      'Habla con Oto Mustam [1,2] para empezar la misión. Segundo paso.',
+      'Aquí termina la misión.',
     ])
     expect(guide.summary?.startNpc ?? null).toBeNull()
   })
@@ -225,7 +237,9 @@ describe('conversión de una página en guía de misión', () => {
       'Simplemente te va a pedir entregarle 10 “ron marino” que puedes encontrar en las 3 bases.',
     )
     // Sin el espacio que separaba las dos frases.
-    expect(guide.body[0]).toMatchObject({ html: expect.stringMatching(/^<p[^>]*>Simplemente/) })
+    expect(flat(guide.body)[0]).toMatchObject({
+      html: expect.stringMatching(/^<p[^>]*>Simplemente/),
+    })
   })
 
   it('del párrafo de cierre quita solo la frase de cierre y conserva el resto', () => {
@@ -267,7 +281,7 @@ describe('conversión de una página en guía de misión', () => {
       '<p>Aquí termina la misión… Texto que debe conservarse.</p>',
     )
     const { guide } = toQuestGuide(parsePage(page), { slug: 'prueba', questDofusIds: [1] })
-    expect(richTexts(guide.body)).toEqual(['Primer paso. Texto que debe conservarse.'])
+    expect(richTexts(guide.body)).toEqual(['Primer paso.', 'Texto que debe conservarse.'])
   })
 
   it('un párrafo de cierre sin nada más desaparece', () => {
@@ -276,24 +290,25 @@ describe('conversión de una página en guía de misión', () => {
     expect(richTexts(guide.body)).toEqual(['Último paso.'])
   })
 
-  it('alterna texto e imágenes en el orden de la página y junta la prosa seguida', () => {
+  it('alterna texto e imágenes en el orden de la página; cada bloque de texto va aparte', () => {
     const { guide } = guideFor('intoxicacion-profunda')
     expect(types(guide.body)).toEqual([
       'richText',
       'image',
       'richText',
+      'richText',
       'image',
+      'richText',
       'richText',
       'video',
     ])
-    expect(richTexts(guide.body)[1]).toMatch(
-      /^Para más información .* Una vez tengas los 10 ron marino/,
-    )
+    expect(richTexts(guide.body)[1]).toMatch(/^Para más información /)
+    expect(richTexts(guide.body)[2]).toMatch(/^Una vez tengas los 10 ron marino/)
   })
 
   it('conserva negritas y enlaces en el HTML de la prosa', () => {
     const [, second] = richTexts(guideFor('intoxicacion-profunda').guide.body)
-    const block = guideFor('intoxicacion-profunda').guide.body.find(
+    const block = flat(guideFor('intoxicacion-profunda').guide.body).find(
       (candidate) => candidate.blockType === 'richText' && plain(candidate.html) === second,
     )
     expect(block).toMatchObject({ blockType: 'richText' })
@@ -302,7 +317,7 @@ describe('conversión de una página en guía de misión', () => {
   })
 
   it('cada imagen es un bloque con su URL y su texto alternativo, o el título si no lo tiene', () => {
-    const withAlt = guideFor('intoxicacion-profunda').guide.body.find(
+    const withAlt = flat(guideFor('intoxicacion-profunda').guide.body).find(
       (block) => block.blockType === 'image',
     )
     expect(withAlt).toMatchObject({
@@ -311,7 +326,7 @@ describe('conversión de una página en guía de misión', () => {
       alt: expect.stringMatching(/^Pantalla de diálogo/),
     })
 
-    const withoutAlt = guideFor('operacion-envenenamiento').guide.body.find(
+    const withoutAlt = flat(guideFor('operacion-envenenamiento').guide.body).find(
       (block) => block.blockType === 'image',
     )
     expect(withoutAlt).toMatchObject({ alt: 'Operación «envenenamiento»' })
@@ -319,7 +334,9 @@ describe('conversión de una página en guía de misión', () => {
 
   it('las imágenes en la misma fila quedan seguidas, de izquierda a derecha', () => {
     const { guide } = guideFor('entretanto-un-renacer')
-    const urls = guide.body.flatMap((block) => (block.blockType === 'image' ? [block.url] : []))
+    const urls = flat(guide.body).flatMap((block) =>
+      block.blockType === 'image' ? [block.url] : [],
+    )
     const row = ['235335', '235344', '235351'].map((stamp) =>
       urls.findIndex((url) => url.includes(stamp)),
     )
@@ -336,18 +353,18 @@ describe('conversión de una página en guía de misión', () => {
   })
 
   it('un párrafo que empieza por IMPORTANTE es un aviso de cuidado, separado de la prosa', () => {
-    const { guide } = guideFor('seis-pies-bajo-tierra')
-    const index = guide.body.findIndex((block) => block.blockType === 'callout')
-    const callout = guide.body[index]
+    const body = flat(guideFor('seis-pies-bajo-tierra').guide.body)
+    const index = body.findIndex((block) => block.blockType === 'callout')
+    const callout = body[index]
     expect(callout).toMatchObject({ blockType: 'callout', variant: 'warning' })
     if (callout?.blockType !== 'callout') return
     // El título del aviso ya dice «Importante»: la etiqueta no se repite en el texto.
     expect(plain(callout.html)).toMatch(/^Las anutrof NO deben morir/)
-    const before = guide.body[index - 1]
+    const before = body[index - 1]
     expect(before?.blockType === 'richText' && plain(before.html)).toMatch(
       /Básicamente tienen los mismos hechizos/,
     )
-    expect(guide.body[index + 1]?.blockType).toBe('image')
+    expect(body[index + 1]?.blockType).toBe('image')
   })
 
   it('CUIDADO es un aviso de cuidado y NOTA un consejo; los vacíos desaparecen', () => {
@@ -436,7 +453,7 @@ describe('conversión de una página en guía de misión', () => {
       slug: 'el-cazador-cazado',
       questDofusIds: [1977],
     })
-    expect(oddities).toEqual([NO_STEPS, 'Bloque de Squarespace sin convertir: button'])
+    expect(oddities).toEqual(['Bloque de Squarespace sin convertir: button'])
     expect(guide.body).toEqual(guideFor('el-cazador-cazado', [1977]).guide.body)
   })
 })
@@ -444,12 +461,113 @@ describe('conversión de una página en guía de misión', () => {
 describe('pasos de la guía', () => {
   const convert = (page: SquarespacePage) =>
     toQuestGuide(page, { slug: 'prueba', questDofusIds: [1] })
+  const shot = (name: string) => ({ image: `https://images.squarespace-cdn.com/${name}.png` })
 
-  it('ninguna de las cinco guías marca sus pasos: quedan como prosa y se anota', () => {
-    for (const slug of GUIDE_SLUGS) {
-      const { guide, oddities } = guideFor(slug)
-      expect(types(guide.body), slug).not.toContain('step')
-      expect(oddities, slug).toContain(NO_STEPS)
+  /** Cada bloque del cuerpo en una línea: el tipo y, en un paso, su título, chip y bloques. */
+  function outline(body: GuideBlock[]): string[] {
+    return body.map((block) => {
+      if (block.blockType !== 'step') return block.blockType
+      const chip = block.x !== undefined ? ` [${block.x},${block.y}]` : ''
+      const title = block.title ? ` «${block.title}»` : ''
+      return `step${title}${chip}: ${block.body.map((inner) => inner.blockType).join('+')}`
+    })
+  }
+
+  it('«Seis pies bajo tierra» se parte en los 8 pasos del prototipo, sin títulos', () => {
+    const { guide, oddities } = guideFor('seis-pies-bajo-tierra')
+    expect(outline(guide.body)).toEqual([
+      // La línea de inicio sale al resumen: el paso 1 se queda con su captura y su [x,y].
+      'step [7,-19]: image',
+      'step [5,-18]: richText+image',
+      'step [1,-17]: richText+image',
+      'step [4,-15]: richText+image',
+      // Un bloque de texto sin capturas va con el siguiente: la lucha y el aviso.
+      'step [3,-17]: richText+richText+callout+image',
+      'step: richText+richText+image',
+      'step [1,-17]: richText+image',
+      'step [3,-17]: richText+image',
+      // Lo que queda del cierre («Aquí termina la misión…»).
+      'richText',
+    ])
+    expect(oddities).not.toContain(NO_STEPS)
+  })
+
+  it('las cinco guías se parten en pasos sin título, sin rareza de prosa', () => {
+    const counts = Object.fromEntries(
+      GUIDE_SLUGS.map((slug) => {
+        const { guide, oddities } = guideFor(slug)
+        expect(oddities, slug).not.toContain(NO_STEPS)
+        const steps = guide.body.filter((block) => block.blockType === 'step')
+        expect(
+          steps.every((step) => !('title' in step)),
+          slug,
+        ).toBe(true)
+        return [slug, steps.length]
+      }),
+    )
+    expect(counts).toEqual({
+      'el-cazador-cazado': 9,
+      'intoxicacion-profunda': 2,
+      'operacion-envenenamiento': 6,
+      // El fixture es un recorte: la página entera da 24.
+      'entretanto-un-renacer': 6,
+      'seis-pies-bajo-tierra': 8,
+    })
+  })
+
+  it('un bloque de texto con sus capturas es un paso; texto sin capturas va con el siguiente', () => {
+    const { guide } = convert(
+      pageOf(
+        '<p>Habla con Ana [1,2] para empezar la misión.</p>',
+        shot('a'),
+        '<p>Ve a la mina.</p>',
+        '<p>Habla con Luci [3,-17].</p>',
+        shot('b'),
+        shot('c'),
+        '<p>Vuelve a [5,5].</p>',
+        shot('d'),
+      ),
+    )
+    expect(outline(guide.body)).toEqual([
+      'step [1,2]: image',
+      'step [3,-17]: richText+richText+image+image',
+      'step [5,5]: richText+image',
+    ])
+  })
+
+  it('lo de antes de la línea de inicio es la entrada; el cierre y lo que sigue a las últimas capturas, el final', () => {
+    const { guide } = convert(
+      pageOf(
+        '<p>Esta misión forma parte de un grupo de misiones.</p>',
+        '<p>Habla con Ana [1,2] para empezar la misión.</p>',
+        shot('a'),
+        '<p>Ve a [3,4].</p>',
+        shot('b'),
+        '<p>Un consejo sin captura.</p>',
+        '<p>Aquí termina la misión. Espero haberte ayudado.</p>',
+        '<p>Si no te queda claro, mira el vídeo.</p>',
+        { image: 'https://images.squarespace-cdn.com/e.png' },
+      ),
+    )
+    expect(outline(guide.body)).toEqual([
+      'richText',
+      'step [1,2]: image',
+      'step [3,4]: richText+image',
+      'richText',
+      'richText',
+      'richText',
+      'image',
+    ])
+  })
+
+  it('sin capturas o con un solo bloque no hay pasos: queda como prosa y se anota', () => {
+    for (const page of [
+      pageOf('<p>Solo prosa.</p>', '<p>Más prosa.</p>'),
+      pageOf('<p>Habla con Ana [1,2].</p>', shot('a')),
+    ]) {
+      const { guide, oddities } = convert(page)
+      expect(hasSteps(guide.body)).toBe(false)
+      expect(oddities).toContain(NO_STEPS)
     }
   })
 
@@ -462,56 +580,33 @@ describe('pasos de la guía', () => {
       ),
     )
     expect(oddities).not.toContain(NO_STEPS)
-    expect(guide.body.map((block) => block.blockType)).toEqual(['richText', 'step', 'step'])
-    const [, first, second] = guide.body
-    expect(first).toMatchObject({ title: 'El safari de las almas ancebas' })
-    expect(first).not.toHaveProperty('x')
-    if (first?.blockType !== 'step' || second?.blockType !== 'step') return
-    expect(first.body).toHaveLength(1)
-    expect(plain(first.body[0]!.blockType === 'richText' ? first.body[0]!.html : '')).toBe(
-      '1 x Alma de Cascacreta.',
-    )
-    expect(second).toMatchObject({ title: 'El safari de las almas jaras', x: -50, y: 40 })
-  })
-
-  it('todo lo que hay entre dos marcadores es del paso anterior, capturas y avisos incluidos', () => {
-    const { guide } = convert(
-      pageOf(
-        '<p>ETAPA 1: Uno</p><p>Primero esto.</p>',
-        { image: 'https://images.squarespace-cdn.com/a.png' },
-        '<p>Luego lo otro.</p><p>IMPORTANTE: no mueras.</p>',
-        '<p>ETAPA 2: Dos</p>',
-      ),
-    )
-    const [first] = guide.body
-    if (first?.blockType !== 'step') throw new Error('falta el paso')
-    expect(first.body.map((block) => block.blockType)).toEqual([
+    expect(outline(guide.body)).toEqual([
       'richText',
-      'image',
-      'richText',
-      'callout',
+      'step «El safari de las almas ancebas»: richText',
+      'step «El safari de las almas jaras» [-50,40]: richText',
     ])
   })
 
-  it('el último paso acaba con su bloque de texto y sus capturas; lo que sigue es el cierre', () => {
+  it('un marcador solo en su bloque se queda con el texto y las capturas que le siguen', () => {
     const { guide } = convert(
       pageOf(
         '<p>ETAPA 1: Uno</p>',
-        '<p>ETAPA 2: Dos</p><p>Entrega las almas.</p>',
-        { image: 'https://images.squarespace-cdn.com/b.png' },
-        '<p>Una vez entregadas, terminarás la misión.</p>',
-        { image: 'https://images.squarespace-cdn.com/c.png' },
+        '<p>Primero esto en [1,1].</p>',
+        shot('a'),
+        '<p>Y luego lo otro.</p>',
+        '<p>ETAPA 2: Dos</p>',
+        '<p>Entrega las almas en [2,2].</p>',
+        shot('b'),
+        '<p>Espero que te haya servido.</p>',
       ),
     )
-    expect(guide.body.map((block) => block.blockType)).toEqual([
-      'step',
-      'step',
+    expect(outline(guide.body)).toEqual([
+      // Un paso del medio sigue hasta el siguiente marcador.
+      'step «Uno» [1,1]: richText+image+richText',
+      // El último acaba con sus capturas; el texto de después es el final.
+      'step «Dos» [2,2]: richText+image',
       'richText',
-      'image',
     ])
-    const last = guide.body[1]
-    if (last?.blockType !== 'step') throw new Error('falta el paso')
-    expect(last.body.map((block) => block.blockType)).toEqual(['richText', 'image'])
   })
 
   it('un marcador sin título da un paso sin título; en minúsculas o en mitad de una frase es prosa', () => {
@@ -520,13 +615,8 @@ describe('pasos de la guía', () => {
         '<p>ETAPA 1:</p><p>Haz esto.</p><p>Etapa 2: en minúsculas no cuenta.</p><p>La ETAPA 3: tampoco.</p>',
       ),
     )
-    expect(guide.body.map((block) => block.blockType)).toEqual(['step'])
+    expect(outline(guide.body)).toEqual(['step: richText'])
     expect(guide.body[0]).not.toHaveProperty('title')
-    const [step] = guide.body
-    if (step?.blockType !== 'step') throw new Error('falta el paso')
-    expect(step.body.map((block) => ('html' in block ? plain(block.html) : ''))).toEqual([
-      'Haz esto. Etapa 2: en minúsculas no cuenta. La ETAPA 3: tampoco.',
-    ])
-    expect(oddities.join('\n')).not.toMatch(/sin título/)
+    expect(oddities.join('\n')).not.toMatch(/título/)
   })
 })
