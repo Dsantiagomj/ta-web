@@ -12,6 +12,7 @@ import { PageEnhancements } from '@/components/game/PageEnhancements'
 import { StagesTimeline } from '@/components/game/StagesTimeline'
 import { SummaryRibbon } from '@/components/game/SummaryRibbon'
 import { VideoFacade } from '@/components/game/VideoFacade'
+import { IMAGE_SIZES } from '@/components/ui/image-sizes'
 
 const html = (node: React.ReactNode) => renderToStaticMarkup(node)
 const icon = { src: '/img/item-366.webp', width: 96, height: 96 }
@@ -71,6 +72,40 @@ describe('HeroHeader', () => {
     expect(markup).toMatch(/<h1[^>]*>Seis pies bajo tierra<\/h1>/)
     expect(markup).toContain('aria-label="Migas de pan"')
     expect(markup).toContain('Nivel')
+  })
+
+  it('el arte ofrece cada ancho a lo ancho de la ventana, también el recorte de móvil', () => {
+    const set = (name: string, format: string) => [
+      { src: `/img/${name}-480.${format}`, width: 480 },
+      { src: `/img/${name}-1600.${format}`, width: 1600 },
+    ]
+    const asset = (name: string) => ({
+      src: `/img/${name}-1600.webp`,
+      avif: `/img/${name}-1600.avif`,
+      width: 1600,
+      height: 686,
+      srcSet: set(name, 'webp'),
+      avifSrcSet: set(name, 'avif'),
+    })
+    const markup = html(
+      <HeroHeader
+        title="Seis pies bajo tierra"
+        crumbs={crumbs}
+        art={{ image: asset('ancho'), mobile: asset('movil') }}
+      />,
+    )
+    expect(markup).toContain(
+      '<source media="(max-width: 47.99rem)" type="image/avif" srcSet="/img/movil-480.avif 480w, /img/movil-1600.avif 1600w" sizes="100vw"/>',
+    )
+    expect(markup).toContain(
+      '<source media="(max-width: 47.99rem)" type="image/webp" srcSet="/img/movil-480.webp 480w, /img/movil-1600.webp 1600w" sizes="100vw"/>',
+    )
+    expect(markup).toContain(
+      '<source type="image/avif" srcSet="/img/ancho-480.avif 480w, /img/ancho-1600.avif 1600w" sizes="100vw"/>',
+    )
+    expect(markup).toMatch(
+      /<img [^>]*srcSet="\/img\/ancho-480\.webp 480w, \/img\/ancho-1600\.webp 1600w"[^>]*sizes="100vw"/,
+    )
   })
 
   it('sin arte: la misma cabecera sin imagen', () => {
@@ -266,6 +301,27 @@ describe('VideoFacade', () => {
     )
     expect(markup).toContain('aria-label="Ver el vídeo: El camino"')
     expect(markup).not.toContain('ytimg')
+  })
+
+  it('la portada ocupa la columna de lectura: sizes de la columna', () => {
+    const poster = {
+      src: '/img/v-800.webp',
+      width: 800,
+      height: 450,
+      srcSet: [
+        { src: '/img/v-480.webp', width: 480 },
+        { src: '/img/v-800.webp', width: 800 },
+      ],
+    }
+    const markup = html(
+      <VideoFacade
+        url="https://www.youtube.com/watch?v=VaY3tyYTq4A"
+        title="El camino"
+        poster={poster}
+      />,
+    )
+    expect(markup).toContain('srcSet="/img/v-480.webp 480w, /img/v-800.webp 800w"')
+    expect(markup).toContain(`sizes="${IMAGE_SIZES.prose}"`)
   })
 
   it('un dato guardado que no es de YouTube: un enlace normal, solo por si acaso', () => {

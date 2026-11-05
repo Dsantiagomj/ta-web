@@ -1,3 +1,4 @@
+import { IMAGE_SIZES } from '@/components/ui/image-sizes'
 import { Picture } from '@/components/ui/Picture'
 import type { ImageAsset } from '@/components/ui/types'
 import { youtubeEmbedUrl, youtubeId, youtubeWatchUrl } from '@/lib/guides/video'
@@ -42,7 +43,7 @@ export function VideoFacade({
           aria-label={s.watch(title)}
         >
           {poster ? (
-            <Picture image={poster} alt="" className="video__poster" />
+            <Picture image={poster} alt="" sizes={IMAGE_SIZES.prose} className="video__poster" />
           ) : (
             <span className="video__title">{title}</span>
           )}

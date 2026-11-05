@@ -8,6 +8,7 @@ import { Checkbox } from '@/components/ui/Checkbox'
 import { Chip } from '@/components/ui/Chip'
 import { Figure } from '@/components/ui/Figure'
 import { IconButton } from '@/components/ui/IconButton'
+import { IMAGE_SIZES } from '@/components/ui/image-sizes'
 import { Picture } from '@/components/ui/Picture'
 import { ProgressBar } from '@/components/ui/ProgressBar'
 import { StatTile } from '@/components/ui/StatTile'
@@ -15,6 +16,20 @@ import { TagPill } from '@/components/ui/TagPill'
 
 const html = (node: React.ReactNode) => renderToStaticMarkup(node)
 const image = { src: '/img/a.webp', avif: '/img/a.avif', width: 96, height: 64 }
+const responsive = {
+  src: '/img/b-800.webp',
+  avif: '/img/b-800.avif',
+  width: 800,
+  height: 400,
+  srcSet: [
+    { src: '/img/b-480.webp', width: 480 },
+    { src: '/img/b-800.webp', width: 800 },
+  ],
+  avifSrcSet: [
+    { src: '/img/b-480.avif', width: 480 },
+    { src: '/img/b-800.avif', width: 800 },
+  ],
+}
 
 describe('Button', () => {
   it('es un <button type="button"> con la variante en un atributo', () => {
@@ -132,6 +147,24 @@ describe('Picture', () => {
     expect(markup).toContain('fetchPriority="high"')
     expect(markup).not.toContain('loading="lazy"')
   })
+
+  it('con varios anchos, srcset con descriptores w en AVIF y en WebP, y sizes en los dos', () => {
+    const markup = html(<Picture image={responsive} alt="" sizes="100vw" />)
+    expect(markup).toContain(
+      '<source type="image/avif" srcSet="/img/b-480.avif 480w, /img/b-800.avif 800w" sizes="100vw"/>',
+    )
+    expect(markup).toMatch(
+      /<img [^>]*srcSet="\/img\/b-480\.webp 480w, \/img\/b-800\.webp 800w"[^>]*sizes="100vw"/,
+    )
+    // El tamaño explícito es el del archivo principal: reserva su sitio (sin CLS).
+    expect(markup).toMatch(/<img [^>]*src="\/img\/b-800\.webp"[^>]*width="800"[^>]*height="400"/)
+  })
+
+  it('con un solo ancho no escribe srcset ni sizes', () => {
+    const markup = html(<Picture image={image} alt="" sizes="100vw" />)
+    expect(markup).not.toMatch(/srcSet="[^"]* \d+w/)
+    expect(markup).not.toContain('sizes=')
+  })
 })
 
 describe('Figure', () => {
@@ -153,6 +186,13 @@ describe('Figure', () => {
     expect(markup).toContain('aria-label="Ver imagen a pantalla completa: Hupe Esse"')
     expect(markup).toContain('data-image-viewer=""')
     expect(markup).toContain('data-image-avif="/img/a.avif"')
+  })
+
+  it('con varios anchos, el enlace lleva al más grande y la imagen ocupa la columna de lectura', () => {
+    const markup = html(<Figure image={responsive} alt="Hupe Esse" />)
+    expect(markup).toMatch(/<a [^>]*href="\/img\/b-800\.webp"/)
+    expect(markup).toContain('data-image-avif="/img/b-800.avif"')
+    expect(markup).toContain(`sizes="${IMAGE_SIZES.prose}"`)
   })
 
   it('sin texto alternativo, el nombre del enlace sigue diciendo qué hace', () => {
