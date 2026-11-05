@@ -87,6 +87,21 @@ test.describe('catálogo /sistema', () => {
     await expect(page.getByRole('status')).toHaveText('Copiado: /travel 5,-18')
   })
 
+  test('el objetivo de un chip de coordenadas mide al menos 40px de alto', async ({ page }) => {
+    await page.goto('/sistema?tema=arcano&modo=dark')
+    // El chip dibujado mide 26px; el ::after transparente agranda el área que se pulsa.
+    const height = await page
+      .locator('.coord')
+      .first()
+      .evaluate((chip) => {
+        const after = getComputedStyle(chip, '::after')
+        return (
+          chip.getBoundingClientRect().height - parseFloat(after.top) - parseFloat(after.bottom)
+        )
+      })
+    expect(height).toBeGreaterThanOrEqual(40)
+  })
+
   test('el vídeo no carga nada de YouTube hasta pulsar', async ({ page }) => {
     const youtube: string[] = []
     page.on('request', (request) => {
