@@ -7,6 +7,7 @@ import { MODES, THEMES } from '../../src/lib/theme/theme.ts'
 // servidor de estas pruebas lo abre con E2E_DESIGN_CATALOG=1 (playwright.config.ts).
 
 const COMPONENTS = [
+  'brand',
   'buttons',
   'chips',
   'callouts',

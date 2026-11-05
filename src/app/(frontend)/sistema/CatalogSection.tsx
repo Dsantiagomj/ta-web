@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 
+import { Emblem } from '@/components/brand/Emblem'
 import { AchievementChain } from '@/components/game/AchievementChain'
 import { BotinCard } from '@/components/game/BotinCard'
 import { CoordinatesText, TravelButton } from '@/components/game/Coordinates'
@@ -85,6 +86,17 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
           {label}
         </h2>
         <div className="grid gap-x-8 gap-y-12 lg:grid-cols-2">
+          <Group name="brand" note={s.notes.brand} wide>
+            <Emblem variant="simple" size={16} />
+            <Emblem size={30} />
+            <Emblem size={36} />
+            <Emblem size={64} />
+            <span className="flex items-center gap-2.5 font-display text-xl font-bold tracking-[0.02em] text-ink uppercase">
+              <Emblem size={36} />
+              {s.demo.brand}
+            </span>
+          </Group>
+
           <Group name="buttons">
             <Button>{d.primary}</Button>
             <Button compact icon={<CopyIcon />}>
