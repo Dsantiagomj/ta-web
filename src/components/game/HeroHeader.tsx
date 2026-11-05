@@ -1,3 +1,5 @@
+import { useId } from 'react'
+
 import type { ImageAsset } from '@/components/ui/types'
 
 import './game.css'
@@ -40,8 +42,10 @@ export function HeroHeader({
   headingLevel?: HeadingLevel
 }) {
   const Heading = `h${headingLevel}` as const
+  // Único aunque haya varias cabeceras, como en el catálogo.
+  const titleId = useId()
   return (
-    <section className="hero" data-art={art ? '' : undefined}>
+    <section className="hero" aria-labelledby={titleId} data-art={art ? '' : undefined}>
       {art && (
         <picture>
           {art.mobile?.avif && (
@@ -83,7 +87,9 @@ export function HeroHeader({
           </nav>
         )}
         <div className="hero__body">
-          <Heading className="hero__title">{title}</Heading>
+          <Heading id={titleId} className="hero__title">
+            {title}
+          </Heading>
           {subtitle && (
             <p
               className="enter text-lg font-medium text-ink-2"

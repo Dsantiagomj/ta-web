@@ -524,6 +524,7 @@ Two sizes of the same thing: a game item with its icon, quantity and name. Item 
 
 - **Anatomy**: a pill centered above the stages, `--color-surface` at 92 percent with `backdrop-filter: blur(16px) saturate(1.4)` (solid surface without it), 1px `--color-line` border, `--shadow-float`, `8px 18px` padding. Inside: the count in Lilita One `--text-figure` `--color-accent-2` with the total in 1rem `--color-ink-2` ("1/8"), one 14 by 10px segment per stage (`--radius-xs`, `--color-raised` with a 1px `--color-line` outline), and the micro label "Etapas" in `--color-ink-2`.
 - **Behavior without JavaScript**: the count is a CSS counter of checked ticks, so the pill comes after the list in the DOM and `order: -1` draws it above. Each segment lights through a `:has()` rule on its stage's checkbox; the page renders those rules with the stage ids. It is sticky 88px from the top while the stages are on screen.
+- **Layout**: the pill never grows past the column; with many stages the segments wrap to more rows instead of overflowing a 390px screen.
 - **States**: a lit segment is `--color-accent` at full height; an unlit one is scaled to 60 percent height.
 - **Accessibility**: `aria-hidden`, because the checkboxes already carry the state and a CSS counter is not reliably announced. It only appears on pages with ticks.
 - **Motion**: segments animate `transform: scaleY()` and their fill over `--duration-base`, never `height`.
