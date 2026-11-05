@@ -12,12 +12,14 @@ sources:
     resource: repo://.github/workflows/smoke.yml
   - id: openwiki-source-d60a6f0f1e9b6eab797ff859
     resource: repo://.railway/railway.ts
+  - id: openwiki-source-2615540ec7553288b52f775d
+    resource: repo://docs/legacy/infra.md
   - id: openwiki-source-6d7290acd85912e8a5ebb6cc
     resource: repo://tests/unit/railway-config.test.ts
-generated: { by: "claude-code", at: "2026-11-04T01:11:00.817Z" }
+generated: { by: "claude-code", at: "2026-11-05T11:00:19.182Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T01:11:00.817Z
+    at: 2026-11-05T11:00:19.182Z
 ---
 
 # Deployment and releases
@@ -27,7 +29,7 @@ The app runs as one long-lived Node container per environment on Railway: servic
 ```
 PR ──▶ CI (Pruebas required) ──▶ merge to main
                                    │
-                                   ├─▶ Railway dev: GitHub source, deploys main after checks pass
+                                   ├─▶ Railway dev: GitHub source, deploys main without waiting for checks
                                    │      └─▶ deployment_status ─▶ "Smoke de dev" workflow
                                    │
                                    └─▶ "Release" workflow (manual, owner only)
@@ -36,7 +38,7 @@ PR ──▶ CI (Pruebas required) ──▶ merge to main
 
 ## Service definition: `.railway/railway.ts`
 
-The service is described as code with `railway/iac`. Railway does not read this file on deploy; it is applied by hand per environment with `railway config plan` and `railway config apply`.
+The service is described as code with `railway/iac`. Railway does not read this file on deploy; it is applied by hand per environment with `railway config plan` and `railway config apply`. `railway config plan` always shows `deploy.restartPolicyType (null → "ON_FAILURE")` for both environments, even right after an apply, because Railway stores its default policy `ON_FAILURE` as `null`; the diff is harmless (`docs/legacy/infra.md`).
 
 | Setting | Value |
 |---|---|
@@ -46,11 +48,11 @@ The service is described as code with `railway/iac`. Railway does not read this 
 | Health check | `/api/health`, timeout 120 s (room for a Neon compute waking up) |
 | Restart policy | `ON_FAILURE`, up to 5 retries |
 | Replicas | 1, in `us-east4-eqdc4a` (US East, next to Neon `us-east-1`) |
-| Source | `dev`: GitHub `main` with `checkSuites: true`. `production`: none |
+| Source | `dev`: GitHub `main` with `checkSuites: false`. `production`: none |
 
 The function throws for any environment other than `dev` or `production` rather than guessing. Secrets use `preserve()`, which keeps the value stored in Railway and never writes one; `config apply` deletes undeclared variables, so declare a new variable here before creating it. See [Environment configuration](../architecture/configuration.md).
 
-`tests/unit/railway-config.test.ts` evaluates the file for both environments: build and start commands, migration with timeout, health check and restart policy, region, secrets preserved, dev wired to GitHub with the gate on, production without a GitHub source and with `GIT_COMMIT_SHA` and `APP_VERSION`, and unknown environments rejected.
+`tests/unit/railway-config.test.ts` evaluates the file for both environments: build and start commands, migration with timeout, health check and restart policy, region, secrets preserved, dev wired to GitHub `main` with `checkSuites: false` and the gate on, production without a GitHub source and with `GIT_COMMIT_SHA` and `APP_VERSION`, and unknown environments rejected.
 
 ### What protects a deploy
 
@@ -62,7 +64,9 @@ There is no automatic down-migration. A bad migration is fixed by a new forward 
 
 ## Dev: continuous deploys
 
-Railway deploys every push to `main` once GitHub's check suites pass. It reports the result as a GitHub deployment, and `.github/workflows/deploy-dev-smoke.yml` listens to `deployment_status`:
+Railway deploys every push to `main` without waiting for GitHub's check suites (`checkSuites: false`). Branch protection already requires `Pruebas` on each PR, history is linear, and the PR's CI runs on the same code, so running CI again on `main` only delayed every dev deploy. Waiting also had a failure mode: Railway waited for every check on the commit, not only `Pruebas`, so one failed unrelated job (a Dependabot security update, in `docs/legacy/infra.md`) skipped that commit's deploy and any redeploy of it. The setting was applied to `dev` with `railway config apply` on 2026-11-04. Production is unaffected: it has no GitHub source and the release workflow still requires `Pruebas` on the commit.
+
+Railway reports each deploy as a GitHub deployment, and `.github/workflows/deploy-dev-smoke.yml` listens to `deployment_status`:
 
 1. It runs only for a `success` state on an environment containing `dev`. Successful dev deploys share one concurrency group, so a newer deploy cancels an older smoke; other events get their own group and never cancel it.
 2. It takes the app URL from the `DEV_URL` repository variable, not from the event: Railway's `environment_url` points at its dashboard. `DEV_URL` must start with `https://`, otherwise the job fails before any credentials are sent.

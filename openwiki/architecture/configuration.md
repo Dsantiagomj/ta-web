@@ -5,7 +5,7 @@ description: Every environment variable the app, the tests and the GitHub workfl
 tags: [configuration, environment, secrets, railway]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T18:47:27.432Z
+    at: 2026-11-05T11:00:19.182Z
 sources:
   - id: openwiki-source-5f5b95b3d6a215fa02ceb945
     resource: repo://.env.example
@@ -17,6 +17,12 @@ sources:
     resource: repo://.railway/railway.ts
   - id: openwiki-source-5b54a58d1b51cd490b0e7162
     resource: repo://package.json
+  - id: openwiki-source-5e753d9d77984cb67aae1517
+    resource: repo://playwright.config.ts
+  - id: openwiki-source-f0b0dfee6a793bb5e8050714
+    resource: repo://scripts/lhci-env.ts
+  - id: openwiki-source-95f46342bb37caacc4ce1dbc
+    resource: repo://scripts/lhci.ts
   - id: openwiki-source-63cbcc482c18e4f9ce5d0888
     resource: repo://scripts/refresh-quests.ts
   - id: openwiki-source-7a2845694b67f1018000b585
@@ -27,6 +33,8 @@ sources:
     resource: repo://src/lib/db/database-url.ts
   - id: openwiki-source-d71565e37020ac0fe77be60d
     resource: repo://src/lib/deploy/commit.ts
+  - id: openwiki-source-cbc6ab52e896365649760a9f
+    resource: repo://src/lib/dev-gate/design-catalog.ts
   - id: openwiki-source-6b31d93be9f7026d5af1d752
     resource: repo://src/lib/dev-gate/dev-gate.ts
   - id: openwiki-source-4ce5bfd40fc86e2e8680d71f
@@ -43,7 +51,7 @@ sources:
     resource: repo://tests/integration/env.ts
   - id: openwiki-source-e73350ef868f2379d51909ed
     resource: repo://tests/unit/dofusdb-write-concurrency.test.ts
-generated: { by: "claude-code", at: "2026-11-04T18:47:27.432Z" }
+generated: { by: "claude-code", at: "2026-11-05T11:00:19.182Z" }
 ---
 
 # Environment configuration
@@ -70,7 +78,9 @@ Each group of variables has one small resolver function that takes an `env` reco
 | `GIT_COMMIT_SHA` | `deployedCommit` (`src/lib/deploy/commit.ts`) | The release workflow, for production |
 | `APP_VERSION` | `resolveVersion` (`src/endpoints/health.ts`) | The release workflow, for production; falls back to the `package.json` version |
 | `RAILWAY_GIT_COMMIT_SHA`, `RAILWAY_ENVIRONMENT_NAME` | `deployedCommit`, `isDevEnvironment`, Sentry | Injected by Railway |
-| `E2E_PORT`, `E2E_DEV_GATE_PORT`, `E2E_SKIP_BUILD` | Playwright configs | `.env` or the shell |
+| `E2E_PORT`, `E2E_DEV_GATE_PORT`, `E2E_SKIP_BUILD` | Playwright configs; `pnpm test:lhci` also reads `E2E_SKIP_BUILD` | `.env` or the shell |
+| `E2E_DESIGN_CATALOG` | `isDesignCatalogEnabled` (`src/lib/dev-gate/design-catalog.ts`): `1` opens `/sistema` on a production build | Only `playwright.config.ts`, for the `pnpm test:e2e` app; never a deployed environment |
+| `CHROME_PATH` | `scripts/lhci.ts`: the browser Lighthouse measures with; Playwright's Chromium when empty | The process environment only, not `.env` |
 | `SMOKE_BASE_URL`, `SMOKE_BASIC_AUTH_USER`, `SMOKE_BASIC_AUTH_PASSWORD` | `playwright.config.ts` | The shell or the smoke workflow; never `.env` |
 | `RAILWAY_TOKEN`, `PROD_URL`, `DEV_URL` | GitHub workflows only | GitHub environment secrets and repository variables |
 
@@ -122,6 +132,7 @@ Each group of variables has one small resolver function that takes an `env` reco
 Tests never trust a `DATABASE_URL` that might come from `.env`:
 
 - The Playwright configs load only the three `E2E_*` keys from `.env` (`loadE2eEnvFromFile` in `tests/e2e/app-server.ts`), and the smoke variables only from the process environment.
+- `pnpm test:lhci` loads the same three keys through `loadE2eEnvFromFile`, then overrides the app's environment with `lhciEnv` (`scripts/lhci-env.ts`): its own database for both URLs, a dummy `PAYLOAD_SECRET` when none is set, `APP_ENV` blank so it measures the public site rather than the dev gate, and every `S3_*` variable and `MEDIA_BASE_URL` blank. See [Performance budgets](../testing/performance-budgets.md).
 - E2E servers and the integration setup set `DATABASE_URL_DIRECT` to the same value as `DATABASE_URL`, because `pnpm migrate` prefers the direct URL and a value inherited from the shell would migrate a real database.
 - `integrationEnv` blanks every `S3_*` variable and `MEDIA_BASE_URL`, so integration uploads go to local disk.
 

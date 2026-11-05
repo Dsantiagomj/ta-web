@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ea5c2bb3837ad9524b5e6fcfd2e6eb944ae83357f5882b90c47de333f21c3083",
+  "pageVersion": "sha256:34551cb4d8d79b737771c210e0f77201845695beee9086456be913d11986ef4f",
   "claims": [
     {
       "id": "claim_ef4f404736644b89ae37b4f3e616fbb9",
       "statement": "The Railway IaC defines one web service built with Railpack and pnpm build, started with pnpm start, running pnpm migrate as a pre-deploy command with a 600 second timeout, health-checked on /api/health with a 120 second timeout, restarting on failure up to 5 times, with one replica in US East.",
       "evidence": [
         {
-          "resource": "repo://.railway/railway.ts#L27-L46",
-          "version": "repo-lines-v1:sha256:ed4e139a41e655163142a49dad08bbb406a8248352a83fe4c1c241ef727eb965:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMxYWE4OGQ2ZGE5NjUxMGU4ZjAxOGFkMDFjNDBjMTdjZDdlZWZkMzVmNWNiNjZjOTYzZGVhODE1ZmEwODkzNGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIwNzE1Y2RhNWVjNDEwNjlmMTAxY2JjNDk0OTI2NDMxZTkwNDgwNWNhNjA1NTZlMGM3ZGIxOGJmMjhiM2NkNTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkzYWY5NjhmOWRjZWJhZjZmMGY4Mzg3NTY5N2EwODk0ZGUyNGM3ZDMwMWQ0MTk4YjgxOWRlYWQzNmVjYjE4MWYifQ"
+          "resource": "repo://.railway/railway.ts#L27-L47",
+          "version": "repo-lines-v1:sha256:ecfc180cd9b0d848faa069365b0ba76f7cb47637eb1812ae03af2804226e7ed9:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMxYWE4OGQ2ZGE5NjUxMGU4ZjAxOGFkMDFjNDBjMTdjZDdlZWZkMzVmNWNiNjZjOTYzZGVhODE1ZmEwODkzNGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIwNzE1Y2RhNWVjNDEwNjlmMTAxY2JjNDk0OTI2NDMxZTkwNDgwNWNhNjA1NTZlMGM3ZGIxOGJmMjhiM2NkNTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkzYWY5NjhmOWRjZWJhZjZmMGY4Mzg3NTY5N2EwODk0ZGUyNGM3ZDMwMWQ0MTk4YjgxOWRlYWQzNmVjYjE4MWYifQ"
         },
         {
           "resource": "repo://tests/unit/railway-config.test.ts#L25-L55",
@@ -28,15 +28,15 @@
     },
     {
       "id": "claim_e8745a93fc5b4a088430677b321be189",
-      "statement": "Only the dev environment has a GitHub source, deploying main once check suites pass; production has no GitHub source and is deployed only by the release workflow.",
+      "statement": "Only the dev environment has a GitHub source, deploying every push to main without waiting for check suites (checkSuites false); production has no GitHub source and is deployed only by the release workflow.",
       "evidence": [
         {
-          "resource": "repo://.railway/railway.ts#L28-L31",
-          "version": "repo-lines-v1:sha256:bcb0d8e7134aab06a076e24bfe1e4d6460de7410b259e1b28fb0e62bbf580085:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzJmNmJiMWU5MzY1YzZjY2RkNGI0Y2YxNGJhYTg1NjVjY2NkZjg2Y2ZlYjU4YmQ0ZTZhY2JmMzU1MjQ5NTc4ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTQxNzFmMjVmZjUwZTI4YzFlZDYwZGIxZjAzY2IyZGY5ZTc0MTFmM2ZiNTQxM2JjZjQ5YTFlZWU2N2YxZDUzNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTExM2Y0MzAxZGFkNWJkZDJkNmQ1YjU5NWJmMWM0YzljYmUzM2ZkZTRkNjYzNGE1OTQ4YWFkODkxZDdjMGU3MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjZiMmMxNWI1MTNhZGQyOGNlMDE4OWYzZTVjNzNhNmM4ZDQyOTgxYzU1MmNmZWRmYTkxODc5ODdhODk5NDY0MyJ9"
+          "resource": "repo://.railway/railway.ts#L28-L32",
+          "version": "repo-lines-v1:sha256:e6f5393e1e1ed414abf0e9a7484b513e8d81ebdb9b60840a80aee4ca5eda72ed:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWM0Yjg5MTMzMTJmMzZiODZjOWZlOTRmYzEzNzUyNTZjNjYzYmJlOTMyYTZjNzNmZTFkMjExZTUwMjFkZTNkMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTE2MjFkOWQyMzRiNDg2OGQzMzYxZWYwN2ZiNWI2MTc1MDQ5ZDYwZDhmZWExOWE3ZTBhNTZhMWQ0MGFkYTRlNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTExM2Y0MzAxZGFkNWJkZDJkNmQ1YjU5NWJmMWM0YzljYmUzM2ZkZTRkNjYzNGE1OTQ4YWFkODkxZDdjMGU3MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjZiMmMxNWI1MTNhZGQyOGNlMDE4OWYzZTVjNzNhNmM4ZDQyOTgxYzU1MmNmZWRmYTkxODc5ODdhODk5NDY0MyJ9"
         },
         {
-          "resource": "repo://tests/unit/railway-config.test.ts#L79-L115",
-          "version": "repo-lines-v1:sha256:b1f9c72efd59f2e6d69764c14639029880543248b1641d393fff8598474097af:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliMmI2YTVlOTJhMTI3NWRhOTVhNTJjZjM4MGFmYzNiMTk2OTUyNGRhZGI1ZTBjMWU1ZDc5NGM1ZGQyMzM0NzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM1NjAxMTQ4NTU0ZGVhMGJkZDE4NDUzN2IzOGViZTQ3NTY2MWUxODQyMGI4NThlYTBjYjQyZjk1NTkzOTk0ODUifQ"
+          "resource": "repo://tests/unit/railway-config.test.ts#L79-L108",
+          "version": "repo-lines-v1:sha256:b65397e61d84e572adcd6aed1c75886989c36579b59f7828479b49dec82e9b44:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliMmI2YTVlOTJhMTI3NWRhOTVhNTJjZjM4MGFmYzNiMTk2OTUyNGRhZGI1ZTBjMWU1ZDc5NGM1ZGQyMzM0NzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE4MTFiODgwMzI5Nzc3NzE3NzIxOGY4MTBhNjUxOGFiY2ExZGJiZTIyODBkMDJjODkxYmJkZjMzMGU0Y2IyOTUifQ"
         }
       ]
     },
@@ -127,10 +127,38 @@
           "version": "repo-lines-v1:sha256:f916fa8ace2b5d23d603b0d7e3666d6f754c9638ad87f8c9d55492f004404348:eyJzZWxlY3RlZExpbmVDb3VudCI6NjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5NmRjNDgxNDlmNWE4M2QxZWQ2ZGJiMzliYmM3ZTJiOTAyYWEzZDM0ZDZiZDVhZTRiMjkxYjY4ZGYwY2E3OWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk3OTVmMTIxNTFlMGY4MTZmMGMwNjI4ZDE5NWYwMzczZWRjYjgyYjY4ZTUwYTI3NjU1ZWM5YzAyNzgyYjc0YTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA0Mzg2YjRkYWQ5MjllN2NkMDllMDVjOWIwMjg0MmNmZTc0NDk3NmZkZjExMTNmMjZhZTEwNGE2ODZiYWM4ZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZkMzRlMTJmMGVkMjNiNGFjNzBmYjk0ZTA0Mjk1Zjg0MGY3MjkxNGI3NTU0MzI5OTBjYTRjNDY0NzZkMTc0ZTEifQ"
         }
       ]
+    },
+    {
+      "id": "claim_718ec39dfc1041159c5acd51c08e3789",
+      "statement": "Dev stopped waiting for GitHub checks on 2026-11-04 because each PR already passed Pruebas before its rebase merge, and because Railway waited for every check on the commit so an unrelated failed Dependabot job skipped the deploy.",
+      "evidence": [
+        {
+          "resource": "repo://docs/legacy/infra.md#L105-L105",
+          "version": "repo-lines-v1:sha256:15f7acb4dffe5464cbfec7a2ac1009255a35ea6ac93484812145ecab74731025:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTVmN2FjYjRkZmZlNTQ2NGNiZmVjN2EyYWMxMDA5MjU1YTM1ZWE2YWM5MzQ4NDgxMjE0NWVjYWI3NDczMTAyNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTVmN2FjYjRkZmZlNTQ2NGNiZmVjN2EyYWMxMDA5MjU1YTM1ZWE2YWM5MzQ4NDgxMjE0NWVjYWI3NDczMTAyNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDRjNWM5OGFhOTE0NmIxMmYzZDJmYjkzNzhlNmRiNzAyN2Q0MzE3NDE3NTI2NjIwYjNhMWMxY2ViMTBjYzAyNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjFkNmVjOWZiNjZiNWE5NzM0MWQ1NWVjMjc4MDU3NGY4M2U5NzE0MDE1NjYzNGUxNTJhNmY1NDk3MjI3M2NiZCJ9"
+        },
+        {
+          "resource": "repo://docs/legacy/infra.md#L184-L184",
+          "version": "repo-lines-v1:sha256:8962c1291526e2f514ed7cd87a354ca1ab1767e6ef687d5e3763486a8ddf63d0:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODk2MmMxMjkxNTI2ZTJmNTE0ZWQ3Y2Q4N2EzNTRjYTFhYjE3NjdlNmVmNjg3ZDVlMzc2MzQ4NmE4ZGRmNjNkMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODk2MmMxMjkxNTI2ZTJmNTE0ZWQ3Y2Q4N2EzNTRjYTFhYjE3NjdlNmVmNjg3ZDVlMzc2MzQ4NmE4ZGRmNjNkMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWU2ZmQwZTI3N2E4NDZlODMwZjU2NzE5NzViNzhiY2E5MmJmMGEzYWZmZTU4YjUyNWM3OGIwYWRjODE5ZWViMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDhmZGQ3YWEwNDViZTZkNWZiMTAzYjczZDRmMmY5NDlhY2JiNGRjYWVlZjc1NjIyYzNiMzAyNGYzZmUzZDUzMyJ9"
+        },
+        {
+          "resource": "repo://docs/legacy/infra.md#L65-L65",
+          "version": "repo-lines-v1:sha256:6e4326c5aea31a01c7f98a9eb7d587bfd183b9b2da0329654438007105826980:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmU0MzI2YzVhZWEzMWEwMWM3Zjk4YTllYjdkNTg3YmZkMTgzYjliMmRhMDMyOTY1NDQzODAwNzEwNTgyNjk4MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNmU0MzI2YzVhZWEzMWEwMWM3Zjk4YTllYjdkNTg3YmZkMTgzYjliMmRhMDMyOTY1NDQzODAwNzEwNTgyNjk4MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjJjM2QxZjYwNGY4ZDAwZWYyMGM1NDI0ZWZiZWUwMjkwNGI3OTI3OWUwNWYzMzIzMTQ3YmI0ODkzNDQzM2QxNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTg0NmRkNzgxZGMzZmUxNjEwZGViMTk3NDlkZGU0ODEwNTA2YjliMTgxMGIzN2Y1NmI2M2QxYTk1M2MzMzE5ZCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_1b79ad5f912948019a1f20bb16226008",
+      "statement": "railway config plan always shows a restartPolicyType change from null to ON_FAILURE because Railway stores the default ON_FAILURE policy as null; the diff is harmless.",
+      "evidence": [
+        {
+          "resource": "repo://docs/legacy/infra.md#L181-L181",
+          "version": "repo-lines-v1:sha256:9df8577388c797038f8b4a40bb8f8d9b8a7336889a9c5b51e85f88f2b53fba74:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWRmODU3NzM4OGM3OTcwMzhmOGI0YTQwYmI4ZjhkOWI4YTczMzY4ODlhOWM1YjUxZTg1Zjg4ZjJiNTNmYmE3NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWRmODU3NzM4OGM3OTcwMzhmOGI0YTQwYmI4ZjhkOWI4YTczMzY4ODlhOWM1YjUxZTg1Zjg4ZjJiNTNmYmE3NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGM3NThkOWRjZjM2MWQ1NTVjNGQwMGExZWMyNDEwODAxZGUzZGNkOGE1YzIyMDZhMDgyZDE1NDJhYzE1MDhmMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjZlMmFjYWMyMzdiOGM5NzYzYjFlNDJlOTJmYzBhNTI3YTEwYzgxYmRhNjFhZWQwYzQ1YmNmNzM1YjNiYWUzYyJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T01:11:00.817Z"
+    "at": "2026-11-05T11:00:19.182Z"
   }
 }

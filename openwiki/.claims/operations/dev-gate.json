@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:a697bfae4e3a39061d6331e2e589ce37295dffc501a8ef580a9dd7c2332503fa",
+  "pageVersion": "sha256:0d1a3a72836b45b674879e8bf38a6ba0053358b3a295039d201ebdeefe83159d",
   "claims": [
     {
       "id": "claim_5a2e41aa451746678406db0a76ca60ea",
@@ -125,10 +125,20 @@
           "version": "repo-lines-v1:sha256:fa955c57db98c668eaeb9059a26168b9624a716d3883496b79bde829776039d5:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA1NTVkYThkMDBhYzgyMzFjODhhNmZjYjAyYTJhMzc2MWIwOGU2ZDk1YzQxYmZmNGQwYjAxNGZkNDhjOTY0ODgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjljZTYzZmI3NmEwN2EwOWQ3OGM5ZTMyMzlkMWZmMmZjYTJlNDY2NzNhZTE2MDUzZWIyYTlmNTk0OTEwZDExNDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_ebb4c70b49ca4111b06ecea51dc7f02d",
+      "statement": "isDesignCatalogEnabled reuses isDevEnvironment, so the /sistema catalog renders in the dev environment behind the basic-auth gate, as well as under NODE_ENV=development and with E2E_DESIGN_CATALOG=1.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/dev-gate/design-catalog.ts#L1-L13",
+          "version": "repo-lines-v1:sha256:a7cbdb6bff0d5f755f29b1968252412d50bc61ed230741fdb356af1691927173:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhMjg5ZDk4YTYxNTNkNTQ4YWRiM2U1ZGM0NDk4MmRlYjU3Nzc2MTAwMjdkNDVkYjUzNmVjNmRhMjJkM2FjZjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T00:16:52.047Z"
+    "at": "2026-11-05T11:00:19.182Z"
   }
 }

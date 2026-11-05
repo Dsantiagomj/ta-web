@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:902d6862417ba94dec76d279bcb00a56ed37a6d96af5c930334b0795b5a086c3",
+  "pageVersion": "sha256:dab4a797c9f11528cff1209c769656e9d59a8bd910c61f83fa37b5ad50745e47",
   "claims": [
     {
       "id": "claim_764b0485963845c99d60b85472ceccba",
-      "statement": "Unit tests run tests/unit/**/*.test.ts with Vitest in the Node environment using tsconfig path aliases.",
+      "statement": "Unit tests run tests/unit/**/*.test.{ts,tsx} with Vitest in the Node environment using tsconfig path aliases.",
       "evidence": [
         {
           "resource": "repo://vitest.config.mts#L1-L10",
-          "version": "repo-lines-v1:sha256:c6dfd57f69ba4afd41b2ba388d16a687388bcee9c11fa1154c18ac6613d1e9cd:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUyYzBhYjY1OWZmNTYyNWVkOWExNGVlNTBjYzQyZjM4OWI5MTVmMDcyNTcyMDU0NmZlN2NkNTE1YmNkMTk3ZWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:0a807e2946c4cd5a98e1db287ce65b0574ff0729dd9ee4daa55a5dd3e15ec99b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUyYzBhYjY1OWZmNTYyNWVkOWExNGVlNTBjYzQyZjM4OWI5MTVmMDcyNTcyMDU0NmZlN2NkNTE1YmNkMTk3ZWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -27,8 +27,12 @@
       "statement": "The integration global setup starts the embedded database if needed and resets ta_web_integration when no DATABASE_URL is set, applies migrations with pnpm migrate, and stops any database it started.",
       "evidence": [
         {
-          "resource": "repo://tests/integration/global-setup.ts#L30-L73",
-          "version": "repo-lines-v1:sha256:9676124f633629164a80aa6204dcf6456e7dcd6a8357d7ec39228ec4a2654fd2:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMyZDVlOTA1YzlhMWI5MTllNTdiMmE5MmIzODdjYmMwMjBjMmJjZGZkMWFlNTM4ZTMwZThmOGVhZDJjZGU0NzEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwYjQwNDcxOGZlNTNkODNmNmUwYmQzYmM1MWQwMmQzMTA5ZGE3YjYxZGIwZTg3ZWE0MTUzZjcwNGQ4OTI1MjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://scripts/dev-database-process.ts#L29-L48",
+          "version": "repo-lines-v1:sha256:be08950bb43f3eceb7c151da70ea8f731a45a44ebe6e8a4e0cd6eb53539157a9:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5OWYwZjY0NTBiOWZlYTNkYzViZTJhMzk3OGM1NDlkYTMwNzBmNTQyN2I2NDNkMDVjYjk4NTdhYzI1OTg3YzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkwMzRlM2IzNTJkNmM3YjQyZDZiYjcyOTkxMjhmMDgzODE1YmMwNGM0ZjA2NDQwMjU2ZDA0ZDcxMGY3MWQ2MWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/integration/global-setup.ts#L10-L31",
+          "version": "repo-lines-v1:sha256:182b9c9cd5923729e478d8e52a92bcc2cddfe12ad1a7d78257c4c2f807aa3857:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQyNjA1ZmJmNDRlYjI3M2NmYzk4YWI0NDlmMDAxNzgxNWJmNWJiZmEzZWEzNDJlYTkzNjQxNzA3MzIyZTQzYjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIxMWMxNDVjOTA4YmRiZDU3NTdmMjQzNWRjMjZkOGJjNmE1ZmE1MmZjYzA5NGUxODZkNWZjYTgxZmM3NGNkZTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -47,8 +51,8 @@
       "statement": "E2E servers build the app unless E2E_SKIP_BUILD is 1, reset the E2E database when using the embedded database, run migrations, and start the production server on the configured port.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/app-server.ts#L21-L63",
-          "version": "repo-lines-v1:sha256:5990508358fc9bf319c68e2952ea24eecbba5a1b07eb1a5b44b260dd3e6ed6d4:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://tests/e2e/app-server.ts#L21-L64",
+          "version": "repo-lines-v1:sha256:a725fd0ff88dde54e3ff870ecf3c1e3518ebe81e38e9b039a52a3fad1b333c16:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -57,8 +61,8 @@
       "statement": "The E2E config uses port 3100 by default, Chromium only, and in CI one worker, one retry and forbidOnly.",
       "evidence": [
         {
-          "resource": "repo://playwright.config.ts#L7-L40",
-          "version": "repo-lines-v1:sha256:29ab185cd2d88cc66423bdd5aee02497a760803d126a064f2110eb9e782551e4:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4ZmY5ODFiMzE2NjkyN2YwZjQ2MmVkNDk4Y2NlYWUxOTgzODY5OTM2MjBmZWMxNGJiNmY5YTU1NzBkMTE5Y2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI4YTE5YWEyNDIwNmRjZTlmNGEzMzZmMjk1MjA5ZDljM2I0ZGY1ZWQ2M2Y0MTk2ODU4NDg5YzcyN2YwMWQ2N2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://playwright.config.ts#L7-L42",
+          "version": "repo-lines-v1:sha256:da31428902d4259453bc65742e8100440fdec12d932bc688e1204be8d318e91a:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4ZmY5ODFiMzE2NjkyN2YwZjQ2MmVkNDk4Y2NlYWUxOTgzODY5OTM2MjBmZWMxNGJiNmY5YTU1NzBkMTE5Y2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI4YTE5YWEyNDIwNmRjZTlmNGEzMzZmMjk1MjA5ZDljM2I0ZGY1ZWQ2M2Y0MTk2ODU4NDg5YzcyN2YwMWQ2N2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -71,8 +75,8 @@
           "version": "repo-lines-v1:sha256:ae26c898cd4882cc038b1d9f5f120d18d8a045d452b202f02b6a00dccf978dcd:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlNDhmMWIxMjJkYzgwOTQ0MmU3NjM2M2VjZjM1MmU4NDhmMzk1ZGVlZWFjMjI0MWNkOGY3YzZlYTNmMzY0ZmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYyZTE5ZmMwNGYyNGE5NTNhMzYzN2QzY2MwMmZlYjA5NGM4MDBkYTNhMzMwODUwODQyOGIzYjIzNDBiMDIxOTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRlNDdhMzNiYjE5ZDkwYTkyZmVmNWZjMGY5YTk5OWQ2YzY1NWRmMGM2NjMxNzMzODVlOTUxODYyNDlhMDg3Y2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI1NGJhNmIxYjlkMmY5OTM4YjJlZWRkZTA0ZDA0NTU0ZjRjYTM2MWEyMTMyYjE5ZTUyY2M4NWQ1OTQ4OWQ3YWYifQ"
         },
         {
-          "resource": "repo://playwright.config.ts#L39-L39",
-          "version": "repo-lines-v1:sha256:d38387d5d733b51e15feca8a85b3ec18f2ed25d703f779886fac8b8f08614aa6:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDM4Mzg3ZDVkNzMzYjUxZTE1ZmVjYThhODViM2VjMThmMmVkMjVkNzAzZjc3OTg4NmZhYzhiOGYwODYxNGFhNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDM4Mzg3ZDVkNzMzYjUxZTE1ZmVjYThhODViM2VjMThmMmVkMjVkNzAzZjc3OTg4NmZhYzhiOGYwODYxNGFhNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzFkZmE1YjQ0MGRhOTU5NDdhYTYyZmYzODBlNDYzNTk3YzZmMTFmOWM4OGM5MWQ1YWMwYjNiZTY5NmM4M2ExNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODU4MGI3NjUxOGRhZTk3OWZhZWJkMDIzNjdhMjkyOTJhNTBkOTc2MDkyMjUxYTM4YTZjZTMwODgwYmE0MjgyNSJ9"
+          "resource": "repo://playwright.config.ts#L41-L41",
+          "version": "repo-lines-v1:sha256:ebae35184e27bddf80301a04a07fcb6865f680b04a06085ff5294d8718cffb84:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWJhZTM1MTg0ZTI3YmRkZjgwMzAxYTA0YTA3ZmNiNjg2NWY2ODBiMDRhMDYwODVmZjUyOTRkODcxOGNmZmI4NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWJhZTM1MTg0ZTI3YmRkZjgwMzAxYTA0YTA3ZmNiNjg2NWY2ODBiMDRhMDYwODVmZjUyOTRkODcxOGNmZmI4NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmQzODhmZDg5MTk5MmYzNjVkZTNlYTNiNmUxYWU4M2JkODM5ODU3MTZiMGYyYmE3NWY1MDRlYTVmY2Y5ZWY1YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODU4MGI3NjUxOGRhZTk3OWZhZWJkMDIzNjdhMjkyOTJhNTBkOTc2MDkyMjUxYTM4YTZjZTMwODgwYmE0MjgyNSJ9"
         }
       ]
     },
@@ -116,11 +120,11 @@
     },
     {
       "id": "claim_e51f552817904e5abfdf72bf1671465e",
-      "statement": "A unit test pins that integration and E2E environments point DATABASE_URL_DIRECT at the test database.",
+      "statement": "A unit test pins that integration and E2E environments point DATABASE_URL_DIRECT at the test database, and that E2E treats a blank DATABASE_URL as empty.",
       "evidence": [
         {
-          "resource": "repo://tests/unit/test-database-env.test.ts#L9-L40",
-          "version": "repo-lines-v1:sha256:7f822a0e76c2a4068cb4a6ac08ff21962cea0a3183c3ff61aea37a0d2a792537:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY4ZGNlZDdlMjNlMmViMjY0M2MyZDQzN2ZmMmM1NTk5YTJhMTllY2QyMjBmOTI3YzdmNzdiNGY1MzhkN2M3NTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU1Y2E0OWIyMTQ2OWU2YTRmODA3NmJjOTQxMjlhZjVhNjA4ZTU0ZGY2MGYwODMzYmE2MmM4NjBjMGQ3NmE0NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://tests/unit/test-database-env.test.ts#L10-L49",
+          "version": "repo-lines-v1:sha256:6f5f1a9b28b39c56b42d2eaf14eafc6bdd997f59576c7f5f8f0490bfda427162:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY4ZGNlZDdlMjNlMmViMjY0M2MyZDQzN2ZmMmM1NTk5YTJhMTllY2QyMjBmOTI3YzdmNzdiNGY1MzhkN2M3NTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU1Y2E0OWIyMTQ2OWU2YTRmODA3NmJjOTQxMjlhZjVhNjA4ZTU0ZGY2MGYwODMzYmE2MmM4NjBjMGQ3NmE0NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUifQ"
         }
       ]
     },
@@ -205,8 +209,8 @@
       "statement": "Unit tests pin the quest-guides collection's fields, versions, autofill hook, validateGuideTitle, validateGuideSlug, validateSlug and access functions, and each guide body block's fields and validateVideoUrl.",
       "evidence": [
         {
-          "resource": "repo://tests/unit/quest-guide-blocks.test.ts#L15-L97",
-          "version": "repo-lines-v1:sha256:cd22a41a54ee1b44cdf9747ee1cf8429c71d8da1950e12071b86fc75a2e6dc95:eyJzZWxlY3RlZExpbmVDb3VudCI6ODMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwYjg3MGM4MDhiYzA0YjNjYmExYTdkZGQyYjQ4MWM2M2Y2ZGMyZWQxZjBkY2IyZDdjZTYwNDVhNDhmNzczMTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE3MjM4YWRlZDExMzA2Zjg1MzNiYmNlOTM4OTQ5NjlhZTljNTczNTM5ZjhmYmM4ODQzNTFhNTIzNzM5YWEyNzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://tests/unit/quest-guide-blocks.test.ts#L15-L120",
+          "version": "repo-lines-v1:sha256:91952aec10b7e1eead2c5a73915f4a08e0a9e890f34beb0dcf4d204e0c1856f5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJiMGI4NzBjODA4YmMwNGIzY2JhMWE3ZGRkMmI0ODFjNjNmNmRjMmVkMWYwZGNiMmQ3Y2U2MDQ1YTQ4Zjc3MzE0IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIxNzIzOGFkZWQxMTMwNmY4NTMzYmJjZTkzODk0OTY5YWU5YzU3MzUzOWY4ZmJjODg0MzUxYTUyMzczOWFhMjc1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         },
         {
           "resource": "repo://tests/unit/quest-guides-collection.test.ts#L32-L271",
@@ -265,7 +269,7 @@
       "statement": "tests/fixtures/squarespace holds trimmed copies of the five demo Squarespace pages, one HTML file per slug, and Prettier ignores the directory.",
       "evidence": [
         {
-          "resource": "repo://.prettierignore#L21-L22",
+          "resource": "repo://.prettierignore#L22-L23",
           "version": "repo-lines-v1:sha256:2f5958633f31d93bfe9179f85eead2f67a69ef30c9bed7d80999c2feb78c2dbd:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWMyOGIzMjYzMDJhYWRiMGMxMjk4ZjY1ZWExZGRlODUyNjFlMDI2YzViMWNlM2ZiNGJhNGQ2YzQ4MmE5YzRjNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDg4MzU3YzQzMjgyM2EwNjYyNjExODg4MzhmZGJkYTBiOWQzNjY3NGI3ODMwODQzZmE0MmNkNGJkMWNmZmU2NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzM3YTA2ZWIxNDA0MjhmODYxNTVhYTA0ZTU1OTFmZGUzZDNkZmRjODk0ZWQxZWM1MDc0N2U2YTE5ZTAzNzFmYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         },
         {
@@ -493,10 +497,72 @@
           "version": "repo-lines-v1:sha256:bf9288774453186dfc78bbf89dcbab0eb9da6b5d4d8c1f0b11564e6157d1fdc9:eyJzZWxlY3RlZExpbmVDb3VudCI6OTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM5NDgxNTM2NDI4OTI4ZTU3MTIzODRhYWZiNjI5ODkyNWE2OGM1YTNkNDhhMzM2ZTMzZGQyMTAxYjA4OWFhOGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZkY2Q3NGExMzlkNTgzNDMzMmExOWVlMzUyNjQxNWM4ZjhlZDQ0ZGNhYWRmYzQ1M2MxMzllMjY5NGM3NDg1MjQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_d1c7b580d9654d91b6e7fe1d962b69fd",
+      "statement": "appWebServers treats a blank or whitespace-only DATABASE_URL as unset and then uses the embedded Postgres and the ta_web_e2e database.",
+      "evidence": [
+        {
+          "resource": "repo://tests/e2e/app-server.ts#L34-L36",
+          "version": "repo-lines-v1:sha256:e5f705edf7f9862ea6ae709161c0faaa40ca5eb253ca04aa13da502f02578af9:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTlmYzlkY2Y5YWZiZDc0NGU4MGE0ZTRiMmEwNDM2MmM2MjJmNGEzNDI1OTU4NjAzZjhlMWE5ZjI3YTJkYzhiOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTkyMWI1MDUzYjNjMGVlNjY5M2I5ZjMxZTIyZWFhNThkMjUyMGQ0MjVlMDJmZGE0ZDM3ZDNlODkwOWM3Y2IzZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmUwNDZjMzMwZDJjNzRmNTZiOWE3NTZlMmU5YmIwY2JmNjE4MTViYzQ3MThkNWYwZjRkNjQ0OWIyODVjZWFiMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjYwMzQwOWM5YmE3ZTM2YzU1MzZjMDNjODhhZWU2ODgxYzQyOTExYjhkY2RiZmJjMjMxZmVhNGI2ZGM2ZDMyMSJ9"
+        },
+        {
+          "resource": "repo://tests/unit/test-database-env.test.ts#L42-L49",
+          "version": "repo-lines-v1:sha256:2aee5494a12b2c24f12b95c3d31e1399d71aac266ff473b09f5bb11726476c87:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWZiMDU2YzgwOGE2YWZjZDgwNGQ0Y2JjNjE2YTI1ZmFmZWJlMzY5NzJiOGY2NzdhYzk1YmI3M2FjN2Q4ZTlhMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjIzNTI1ODljMzRkM2M2MDY4NTkzMWI2ZWNjNGQ1MDk5MWE3YzU2YzhmYmEyODk0MTE0NjU3NjkwMjcyY2FjMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTI4ZjI1YWZiYzU0ZDA4ZDkxY2I4MzM2MDk5YTIwY2QzYzE2OGIyNTE5NzhkODExYjY5OWIxNmE1ZmJmNmE5NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODU4MGI3NjUxOGRhZTk3OWZhZWJkMDIzNjdhMjkyOTJhNTBkOTc2MDkyMjUxYTM4YTZjZTMwODgwYmE0MjgyNSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_080414af0b004290942ab64f044f02ca",
+      "statement": "playwright.config.ts passes E2E_DESIGN_CATALOG=1 to the E2E app server so the production build serves the /sistema catalog during the tests.",
+      "evidence": [
+        {
+          "resource": "repo://playwright.config.ts#L39-L41",
+          "version": "repo-lines-v1:sha256:67405c468b417cea65c4376f231f6aff6e21e32fcb43819ce0928fc8ef2905dc:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzVmMjBiYTUxZWYzYjkzZWRlNDY3ZTY0YWQ0MDczNzgxZjViYWNhZDJkMzRhNGZhNTM0MmM0NWVmYzg2NTQ0OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWJhZTM1MTg0ZTI3YmRkZjgwMzAxYTA0YTA3ZmNiNjg2NWY2ODBiMDRhMDYwODVmZjUyOTRkODcxOGNmZmI4NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzFkZmE1YjQ0MGRhOTU5NDdhYTYyZmYzODBlNDYzNTk3YzZmMTFmOWM4OGM5MWQ1YWMwYjNiZTY5NmM4M2ExNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODU4MGI3NjUxOGRhZTk3OWZhZWJkMDIzNjdhMjkyOTJhNTBkOTc2MDkyMjUxYTM4YTZjZTMwODgwYmE0MjgyNSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_2f1ee4886e2e405580ae3b8f4cd5bdfe",
+      "statement": "tests/e2e/sistema.spec.ts checks the /sistema catalog in every theme and mode, including coordinate copy, hit targets, the video facade, the fullscreen viewer and axe WCAG 2.2 AA checks.",
+      "evidence": [
+        {
+          "resource": "repo://tests/e2e/sistema.spec.ts#L43-L239",
+          "version": "repo-lines-v1:sha256:375673152eaf9f5672d3e9454709584e6db53fd86a816072c5348f86c5f381b3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTk3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIwOGY5YWI0ZDJiMDEyZjk5MzlmYjYxZTQzMjI4MjBkMDdlZjM4YzBjY2NhNTBmNzIxYzAyYjZjOWQ0ZDYxOGJmIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI2NjAxYTAxYmE3OWJmNmQyMTY4ZGI5ZjEyZjQ2NDA3OWI4ODQ4NjUxZDUwNDRkMDhhMjhkNGQwMzQ4MzdmZjI0IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_49e548827b3640f3bc3b16c52b9ead37",
+      "statement": "pnpm test:lhci is a sixth suite that runs Lighthouse CI on the production path with its own ta_web_lhci database.",
+      "evidence": [
+        {
+          "resource": "repo://package.json#L25-L25",
+          "version": "repo-lines-v1:sha256:41337da7426b3eaa72b362d2fc78be0ce7f2f53ca45b798ce3c8bf5b96f5375b:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEzMzdkYTc0MjZiM2VhYTcyYjM2MmQyZmM3OGJlMGNlN2YyZjUzY2E0NWI3OThjZTNjOGJmNWI5NmY1Mzc1YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEzMzdkYTc0MjZiM2VhYTcyYjM2MmQyZmM3OGJlMGNlN2YyZjUzY2E0NWI3OThjZTNjOGJmNWI5NmY1Mzc1YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODM0OTAwOTA3ZTczZjIzOGQ2ZGFlMzgzMTRlMGFhMDFkYzNlOWNlYjQ2YTlkMGY0ZTI4MmFlNzU1NTg4ZTUzNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDE4NTZjMTcwNWJlZDliOGVlZGFmZGY5MjhlZWIwZmI0NDQwNGU3OWRkNjhiNzI1MmE2ZTFlYWRkN2Y1YTUxNSJ9"
+        },
+        {
+          "resource": "repo://scripts/lhci-env.ts#L1-L27",
+          "version": "repo-lines-v1:sha256:b2b68662b8d3b79daf531e0b3f7d127f7898c906d5bdbe4022989badf1f680e1:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRhZWI2NGYyZWRhODk1NGI4NmQzN2IzMjUyY2RjOTcyOWZhNmYxMjQ0Mjc3MDM5YjQwNjA3NTUxYTgzZGU4MzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_fdfefd027e914ed881dbb68384d06c27",
+      "statement": "The ui-components and game-components unit tests render the design system components with renderToStaticMarkup and check their markup.",
+      "evidence": [
+        {
+          "resource": "repo://tests/unit/game-components.test.tsx#L21-L30",
+          "version": "repo-lines-v1:sha256:f04e9cb8560e2e83542cb7eb774d0ba60a133134b7938bf518cd3049e3d17f29:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3NjVmODc4OWU4OWZlMWUzMWYyMDU5NTc5OWI2NDUyYWQ1ODY2ODNiODI0MjVjMGM3ZGZhYzhjNWQ2MDE0NmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZkZjEzNjRjY2YzNjMyMWI2NTcwMDI0Zjc2MTdjMTE5NWZlZDgyMGNjOTczOWZhMGIwOWRlN2YxZGU5M2RkNDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjViOWI4MmE5Yzk3ZjI4YWUyMDA1OWQ0NGM0Mjc5NjczOTllYzcwOGQ1MzRjYmYyYWI1M2NmYzVkMjcxMWZkZmMifQ"
+        },
+        {
+          "resource": "repo://tests/unit/ui-components.test.tsx#L1-L19",
+          "version": "repo-lines-v1:sha256:c7527ee37d0994dbea5251486b5c34ea65c5ecf0db8a4e8e8092e237f1a44fea:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRiOWYyNWVhZTk3M2ZlNDhkOTBjMzBmZDdlNTEwMzliZTAxM2IxZjFmNTc5ZGRiN2I2NGVkMTQwMTlhZDI3NmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc5ODUxNTdlZjZmMDc4Y2U4MDlkNzA0YzdkYzE0YTkyODAyZThlNDMxMWE2YmRmMTY2MGY5NTgzMWVlM2FjNmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIzMjRiZDhmYzg4MTBiNmJhNzBiYzI5NmVmMzU3NDBjYWM1OTBmMDdmYzhiNjcxODNmODc1ZjM3MWQ0MWUyOWIifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T21:10:46.028Z"
+    "at": "2026-11-05T11:16:25.753Z"
   }
 }

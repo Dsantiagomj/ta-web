@@ -3,9 +3,6 @@ type: component
 title: Guide body blocks
 description: The Payload blocks in src/blocks/ that make up a quest guide's body (rich text, image, video and callout), their fields and validation, how Postgres stores them, and the tests that pin them down.
 tags: [payload, blocks, quest-guides, lexical, content-model]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-04T21:21:54.398Z
 sources:
   - id: openwiki-source-8037e2358a2c4f9b2c722a11
     resource: repo://AGENTS.md
@@ -21,6 +18,8 @@ sources:
     resource: repo://src/collections/Media.ts
   - id: openwiki-source-7a2723ea85824e431ff5eb54
     resource: repo://src/collections/QuestGuides.ts
+  - id: openwiki-source-5d625b6c9ec96bb42f058c48
+    resource: repo://src/lib/guides/video.ts
   - id: openwiki-source-4b8e99ccf872ed7c776196a6
     resource: repo://src/migrations/20261104_124207_quest_guides.ts
   - id: openwiki-source-dfda0f9810a7fbac89e48a40
@@ -33,14 +32,19 @@ sources:
     resource: repo://tests/unit/quest-guide-blocks.test.ts
   - id: openwiki-source-1970468d3fcc651d5071b312
     resource: repo://tests/unit/quest-guides-collection.test.ts
-generated: { by: "claude-code", at: "2026-11-04T12:46:56.619Z" }
+  - id: openwiki-source-d474a682c3ea9ebeaa53059c
+    resource: repo://tests/unit/video-url.test.ts
+generated: { by: "claude-code", at: "2026-11-05T11:00:19.182Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-05T11:00:19.182Z
 ---
 
 # Guide body blocks
 
 A quest guide's body is a Payload `blocks` field: an ordered list where each item is one of a fixed set of block types. The block definitions live one per file in `src/blocks/`, and `src/collections/QuestGuides.ts` puts four of them in its `body` field, in this order: `RichTextBlock`, `ImageBlock`, `VideoBlock`, `CalloutBlock`. An editor in `/admin` adds, reorders and removes blocks freely; the panel labels the list "Contenido" and each item "Bloque".
 
-The blocks only exist in the content model today. No public route renders a guide yet, so nothing on the site reads them.
+The blocks only exist in the content model today. No public route renders a guide yet, so nothing on the site reads them. The components meant to render them (`Callout`, `Figure`, `VideoFacade`) exist and are shown on the `/sistema` catalog with sample data.
 
 ## The four blocks
 
@@ -63,13 +67,15 @@ Each block sets a `slug` (stored as the item's `blockType`), Spanish panel label
 
 ### Video
 
-`VideoBlock` stores a URL to embed, for YouTube or any other site that allows embedding. `validateVideoUrl` follows Payload's validator contract (return `true` or an error string):
+`VideoBlock` stores a link to a YouTube video. Guides carry YouTube videos only: DESIGN.md records that all 44 video embeds in the legacy Squarespace pages are YouTube. The panel description reads "Enlace al vídeo en YouTube (youtube.com o youtu.be)". `validateVideoUrl` follows Payload's validator contract (return `true` or an error string):
 
 - an empty value (`undefined`, `null`, `''`) fails, because the URL is required;
-- a value that `new URL()` cannot parse fails;
-- a parsed URL passes only when its protocol is `https:`. Plain `http:` is rejected because the site is served over https and the browser would block a mixed-content embed.
+- a value that does not start with `https://` fails, so plain `http:` links and bare `youtube.com/...` strings are rejected;
+- otherwise the value passes only when `youtubeId` (`src/lib/guides/video.ts`) extracts an 11-character video ID from it. That accepts `youtube.com/watch?v=`, `youtu.be/`, `/embed/` and `/shorts/` links on the YouTube and `youtube-nocookie.com` hosts, and rejects other sites (Vimeo) and YouTube links that do not point at a video (a channel page, a `v=` value of the wrong length).
 
-Every failure returns the same Spanish message, "Tiene que ser una URL que empiece por https://".
+Every failure returns the same Spanish message, "Tiene que ser un enlace https a un vídeo de YouTube".
+
+The block is meant to be rendered by `VideoFacade`, which loads nothing from YouTube until the reader clicks. See [Design system components](../frontend/design-system-components.md).
 
 ### Callout
 
@@ -85,7 +91,7 @@ Because the collection has drafts and versions, every block table has a twin und
 
 ## Tests
 
-- `tests/unit/quest-guide-blocks.test.ts` pins each block's slug and field shapes (type, `required`, `localized`, the upload's `relationTo: 'media'`), the callout options and default, and `validateVideoUrl`: YouTube and Vimeo https URLs pass; empty values, `http:` and a URL with no scheme fail.
+- `tests/unit/quest-guide-blocks.test.ts` pins each block's slug and field shapes (type, `required`, `localized`, the upload's `relationTo: 'media'`), the video field's YouTube-only description, the callout options and default, and `validateVideoUrl`: `watch`, `youtu.be`, `embed` and `shorts` links pass; Vimeo links, YouTube links that are not a video, empty values, `http:` and a URL with no scheme fail.
 - `tests/unit/quest-guides-collection.test.ts` checks that the collection's `body` offers exactly `richText`, `image`, `video` and `callout`.
 - `tests/integration/quest-guides-access.test.ts` saves a published guide with one block of each type through the local API, reads it back anonymously at `depth: 1`, and checks the block order, the populated image (with its `alt`), the video URL and the callout variant.
 
@@ -104,3 +110,4 @@ AGENTS.md names two more blocks, dialogue and step, to be added when the guide p
 - [Payload CMS configuration](payload-config.md)
 - [Media storage](../media/storage.md)
 - [Database and migrations](../data/database.md)
+- [Design system components](../frontend/design-system-components.md)

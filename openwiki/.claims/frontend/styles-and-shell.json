@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:63b76017c7cb0e3456936ad26bac8020ddeae1951f157c9c163ce54e1a01673b",
+  "pageVersion": "sha256:9277a148eb5399960b8c4cfd11cbf29b0a74d6ed07c9842b818df68f3996c817",
   "claims": [
     {
       "id": "claim_be169c6219cf4e229c071dc13c472c68",
@@ -57,18 +57,18 @@
       "statement": "Barlow, Barlow Condensed and Lilita One are loaded through next/font/google and exposed as CSS variables joined into fontVariables.",
       "evidence": [
         {
-          "resource": "repo://src/styles/fonts.ts#L1-L28",
-          "version": "repo-lines-v1:sha256:3619e208b470f53e0edb942147528482b088178619ccb8fa956cfae601556f6c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyNzM0ODVjMzA1Y2JiYWIwOTQxNjc4NmIwMmEyZDkwNzU2NWFiODdkNzM3NmNmOWNkYjA3OGU1YTNiOTZjYmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/styles/fonts.ts#L1-L37",
+          "version": "repo-lines-v1:sha256:70950158d52fe4d3de26b47cc913d3921b96fdde5a661c7e025800a7e967e294:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyNzM0ODVjMzA1Y2JiYWIwOTQxNjc4NmIwMmEyZDkwNzU2NWFiODdkNzM3NmNmOWNkYjA3OGU1YTNiOTZjYmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
     {
       "id": "claim_b311691d699f469894050cea8ce42140",
-      "statement": "globals.css imports Tailwind and theme.css, sets color-scheme per mode, a focus-visible outline, accent links and near-zero animation durations under prefers-reduced-motion.",
+      "statement": "globals.css imports Tailwind and theme.css, sets color-scheme per mode, a focus-visible outline, accent links and near-zero animation durations under prefers-reduced-motion, including for ::backdrop.",
       "evidence": [
         {
-          "resource": "repo://src/styles/globals.css#L1-L48",
-          "version": "repo-lines-v1:sha256:a736c4b6e984fd20fc5744fc42496217ffb97ac7e03cff0b709cd263801fafea:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjExYjhlNjllODlhMzFlODdlMjVlYzQzYzkyZmZjZGRkMGNiNzk0ZGI3NTdkNjE2N2FlMzFlZTA1OGY5ZWE0MjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/styles/globals.css#L1-L49",
+          "version": "repo-lines-v1:sha256:5a26e818e501ddf69b3ca2b91aa2a4cf580d596da1dbfa740c80202c5b7e7c0f:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjExYjhlNjllODlhMzFlODdlMjVlYzQzYzkyZmZjZGRkMGNiNzk0ZGI3NTdkNjE2N2FlMzFlZTA1OGY5ZWE0MjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -105,10 +105,38 @@
           "version": "repo-lines-v1:sha256:f789f7290583de24c70bbbaf3635115ad3b2297797676e4e3a46308117e41e9e:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjRhNDc2ZjQ4YmVhOGQ3YmM5MzEwOGNkNWMwODY2YTk2NGViNzZjNGU3MGU5OTczNWUzODlkZjY4Yjg2ZTAxNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTQ1OTJiZWM4MzczNTA3MWZkYmMwNWU5ZmI5NzYxMDI1OWRiYjE2MzEwMTQwNGU2NWNjZmJmYjkzYzRiYzBlNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_037725b53d7b45229a6a654fa8d10581",
+      "statement": "theme.css re-declares every semantic color token, --color-section and the shadow tokens on any [data-theme] or [data-mode] element inside @layer base, so hand-written CSS using var(--color-*) follows a nested theme while a utility on the same element still wins.",
+      "evidence": [
+        {
+          "resource": "repo://src/styles/theme.css#L316-L354",
+          "version": "repo-lines-v1:sha256:380204cceecc2abfb9751944b4368799dae1d9dbb07cb1aeec73fb3165dbd07c:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzMmRjZTBjNmMwYjZiYjU2NjUxYzU5ZjAxZjc0MzVjMGM1ODgzMGM2MGU2ZTczOWRmODgyNjJiMGJmMjRjYzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVlNWIyMjc0ZjllY2FiMmQyM2Q4ZjNiMWUwMzAzNTQ0YzMyYmMwYzMzYmY3YmUxYjY0YmUzYWFjZWJmMmFiODYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/theme-css.test.ts#L11-L28",
+          "version": "repo-lines-v1:sha256:2fa3a585c87baf935c4fa546a2a0b755494138fba495b391fed6a62a4d40ab92:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmZjY0NjYwMmYzMDIwOGY5YTFjMDllZjA5YTAxMWE4MGRlOTk5ZGJmMmIwN2VhZGY1ODFmNjhmNjQ1N2JhY2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU0ZWRmN2U0NjQ4OWUzMTZjZWM4ZTRlODU5YThmOTE3MmY4MDk4ZWVhNWUwNGJhOTRhZDI5YjQyZjE3ZmI1NzIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bbf55986b6e444758a83e5c7d3d89fce",
+      "statement": "Only Barlow and Barlow Condensed are preloaded; Lilita One sets preload false, and Barlow Condensed loads only weights 700 and 800 while Barlow loads 400 to 700.",
+      "evidence": [
+        {
+          "resource": "repo://src/styles/fonts.ts#L5-L33",
+          "version": "repo-lines-v1:sha256:a9b4c73726fd998c2ac94756084b532932b71acd023de58285e5c4b060798d35:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwMWVhZDkzNmEyMjgxZDUzZGNjMDY0YjdlMmEyYWIwZDUzYjkyZWYzZWY3YjM0YjY2ODY3MzAwNzg5NWM4NjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI0NWJkNDdkOTRiOTJjZWM2YmRkMDYyMGRjYzk1MzQ4Mjg2ZWI4M2M3NmZmNDFkZGUzY2M4YWE5NTQ3ZTU3ZTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY3NzJiMDg2NGFjNTYwYmNmM2IyMGE4OGIyN2VjNzk3MjVhNDY3ODQ1NWYyMTRmMDEzYmUxMDczZDhiNWVhNWYifQ"
+        },
+        {
+          "resource": "repo://tests/unit/fonts.test.ts#L38-L56",
+          "version": "repo-lines-v1:sha256:99d3cb66ee77f6ebc6af8874a1dde5d05a11c70d470885d65616e6b1cdb06df8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjNjBiYjI1NjE0ODM5MzJhZTUzYzI5MTgzOGI3NDZmZjY1OGQ3MTkxZjhjYzY0ZTAzNDdjMWFlNzU0ZTA2ZjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE3MjM4YWRlZDExMzA2Zjg1MzNiYmNlOTM4OTQ5NjlhZTljNTczNTM5ZjhmYmM4ODQzNTFhNTIzNzM5YWEyNzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc5OGZhNWZiNDlhYjU4YzA0YjZkZGUzMGJlOGFkOTE3ZGIwMzMyNDRlMjI5NGY1MDc1MDlhNDZkNjdmN2I5NWQifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T00:16:52.047Z"
+    "at": "2026-11-05T11:00:19.182Z"
   }
 }
