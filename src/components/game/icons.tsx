@@ -1,0 +1,35 @@
+// Iconos de interfaz dibujados a mano solo donde no hay arte del juego que encaje: copiar
+// y la marca de hecho. Decorativos siempre.
+
+export function CopyIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      className={className}
+    >
+      <rect x="5.5" y="5.5" width="8" height="8" rx="1.5" />
+      <path d="M3 10.5v-7a1 1 0 0 1 1-1h6.5" />
+    </svg>
+  )
+}
+
+export function CheckIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M3.5 8.5l3 3 6-7" />
+    </svg>
+  )
+}

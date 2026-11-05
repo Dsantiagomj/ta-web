@@ -3,19 +3,18 @@
 
 import { requiredTerms } from '../dofusdb/criterion'
 
+import { formatThousands } from './display'
 import { guideStrings } from './strings'
 import type { LinkedItem, LinkedNeeds, LinkedQuest, LinkedRewards, NamedDoc } from './summary'
+
+// Vive en display.ts, sin dependencias, para que la isla de las guías no arrastre este módulo.
+export { formatThousands }
 
 const text = guideStrings.summary
 
 // Supertipo 14 de DofusDB, «Objetos de misión»: el juego los da durante la misión, no
 // son algo que haya que llevar.
 const QUEST_ITEM_SUPER_TYPE_ID = 14
-
-/** Separa los miles con un espacio normal, como escribe Torre: 24 316. */
-export function formatThousands(value: number): string {
-  return String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
-}
 
 function lines(entries: (string | null)[]): string | null {
   const present = entries.filter((entry): entry is string => Boolean(entry))

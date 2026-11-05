@@ -1,6 +1,10 @@
-// Cifras y listas tal como se pintan en las páginas de guía.
+// Cifras y listas tal como se pintan en las páginas de guía. Sin dependencias: lo importa
+// la isla de las guías (PageEnhancements) a través de sus textos.
 
-import { formatThousands } from './format'
+/** Separa los miles con un espacio normal, como escribe Torre: 24 316. */
+export function formatThousands(value: number): string {
+  return String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
+}
 
 /** Miles separados por un espacio que no se parte: 16 380 nunca queda en dos líneas. */
 export function formatAmount(value: number): string {
