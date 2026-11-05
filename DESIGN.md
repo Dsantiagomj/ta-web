@@ -387,7 +387,7 @@ Every interactive component has these states: default, hover (mouse only), focus
 | Component | Anatomy | States |
 |---|---|---|
 | Button, primary | pill, 44px high, 24px side padding, display 700 at `--text-sm`, transparent fill, 1.5px `--color-accent` border, `--color-accent` text (at least 6.08:1 on surface in every theme and mode). One per view. No color is ever a button fill | hover: `--color-raised` fill behind the same text and border (at least 4.93:1); pressed: `scale(.96)`; disabled: 40 percent opacity, no pointer |
-| Button, secondary | pill, 40px, `--color-raised` fill, `--color-ink` text, optional leading icon | hover: fill one step up; pressed: scale |
+| Button, secondary | pill, 40px, `--color-raised` fill, `--color-ink` text, optional leading icon | hover: `--color-line` fill (ink on line at least 9.62); pressed: scale |
 | Button, ghost | pill, 36px, no fill, `--color-ink-2` text | hover: `--color-raised` fill |
 | Icon button | 40px circle (44px under `pointer: coarse`), `aria-label` required | as secondary |
 | Nav link | pill, 36px, `6px 14px` padding | hover: faint fill; current page: `--color-accent` text plus `aria-current="page"` |
