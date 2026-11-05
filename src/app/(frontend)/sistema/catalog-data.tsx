@@ -148,11 +148,11 @@ export const stages: Stage[] = [
   },
   // Sin título, como los pasos que trae la importación: la tarjeta pone «Paso 4».
   {
-    coordinates: { x: 1, y: -17 },
+    coordinates: { x: 4, y: -15 },
     content: (
       <p>
-        Para ello, dirígete a <CoordinatesChip x={1} y={-17} />, en la entrada de la mina. Allí
-        deberás volver a hablar con <strong>Luci</strong>.
+        Adéntrate en la mina y sigue el camino hasta las anutrof perdidas, en{' '}
+        <CoordinatesChip x={4} y={-15} />.
       </p>
     ),
   },
