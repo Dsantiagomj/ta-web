@@ -175,7 +175,7 @@ describe('carga de guías importadas de Squarespace', () => {
       .get('seis-pies-bajo-tierra')!
       .body?.find((block) => block.blockType === 'callout')
     expect(callout).toMatchObject({ variant: 'warning' })
-    expect(lexicalText(callout)).toContain('IMPORTANTE: las anutrof NO deben morir')
+    expect(lexicalText(callout)).toMatch(/^Las anutrof NO deben morir/)
 
     const firstText = hunter.body?.find((block) => block.blockType === 'richText')
     expect(lexicalText(firstText)).toContain('Dirígete a la Biblioteca de Astrub')

@@ -63,8 +63,14 @@ const START =
 const BARE_START_TAIL = /^\s*(?:para empezar (?:la|esta) misión)?\s*[.!]?\s*$/i
 const SENTENCE_END = /[.!?…](?=\s|$)/
 const CLOSING = /^[¡¿]?\s*(?:y\s+)?aquí\s+(?:se\s+)?termina\s+la\s+misión/i
-// En mayúsculas: "Cuidado, …" en minúscula es prosa normal.
-const CALLOUT = /^(IMPORTANTE|CUIDADO|NOTA)\b/
+// Avisos: un párrafo que empieza por una de estas etiquetas en mayúsculas ("Cuidado, …"
+// en minúscula es prosa normal). Son las que usa Torre en las 1272 guías de misiones:
+// «¡ATENCIÓN!» (60 párrafos), «IMPORTANTE:», «NOTA:» y «CUIDADO». Cada una da un tipo.
+const CALLOUT_LABELS: Record<'warning' | 'tip', string[]> = {
+  warning: ['IMPORTANTE', 'CUIDADO', 'ATENCIÓN'],
+  tip: ['NOTA'],
+}
+const CALLOUT = new RegExp(`^¡?(${Object.values(CALLOUT_LABELS).flat().join('|')})(?!\\p{L})`, 'u')
 
 /** Sin tildes y en minúsculas, para comparar etiquetas escritas de varias formas. */
 function fold(text: string): string {
@@ -151,6 +157,38 @@ function withoutClosing(element: TextElement): string | null {
   const paragraph = parseHtml(element.html).body.firstElementChild
   if (!paragraph) return null
   return dropLeadingText(paragraph, sentenceCut(paragraph.textContent ?? '', 0))
+}
+
+/** Pone en mayúscula la primera letra del texto de un nodo. */
+function capitalizeFirst(node: Element): void {
+  const walker = node.ownerDocument.createTreeWalker(node, 4 /* SHOW_TEXT */)
+  for (let text = walker.nextNode(); text; text = walker.nextNode()) {
+    const value = text.textContent ?? ''
+    const first = value.search(/\S/)
+    if (first === -1) continue
+    text.textContent =
+      value.slice(0, first) + value.charAt(first).toLocaleUpperCase('es') + value.slice(first + 1)
+    return
+  }
+}
+
+/**
+ * Quita la etiqueta del principio de un aviso («IMPORTANTE:», «¡ATENCIÓN, ATENCIÓN!»): el
+ * título del aviso ya la dice. Solo con dos puntos o exclamación detrás, porque
+ * «CUIDADO CON EL MISSCLICK» es la frase, no una etiqueta. Lo que queda empieza en
+ * mayúscula; sin nada detrás de la etiqueta, el aviso se queda como estaba.
+ */
+function withoutCalloutLabel(html: string, variant: keyof typeof CALLOUT_LABELS): string {
+  const paragraph = parseHtml(html).body.firstElementChild
+  if (!paragraph) return html
+  const words = CALLOUT_LABELS[variant].join('|')
+  const label = new RegExp(
+    `^\\s*¡?\\s*(?:${words})(?:\\s*,\\s*¡?\\s*(?:${words}))*\\s*[!:]+\\s*`,
+    'u',
+  ).exec(paragraph.textContent ?? '')
+  if (!label || !dropLeadingText(paragraph, label[0].length)) return html
+  capitalizeFirst(paragraph)
+  return paragraph.outerHTML
 }
 
 /** Texto comparable: sin tildes, mayúsculas, signos ni la numeración inicial ("29. "). */
@@ -253,10 +291,11 @@ export function toQuestGuide(
       const callout = CALLOUT.exec(element.text)
       if (callout) {
         flush()
+        const variant = CALLOUT_LABELS.tip.includes(callout[1]!) ? 'tip' : 'warning'
         body.push({
           blockType: 'callout',
-          variant: callout[1] === 'NOTA' ? 'tip' : 'warning',
-          html: element.html,
+          variant,
+          html: withoutCalloutLabel(element.html, variant),
         })
         continue
       }
