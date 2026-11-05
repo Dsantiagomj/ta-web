@@ -312,3 +312,43 @@
   --t-shadow-alpha-3: 0.225;
   --t-shadow-alpha-4: 0.275;
 }
+
+/* Un elemento con su propio data-theme o data-mode (las secciones de /sistema, la vista
+   previa del selector de temas) vuelve a resolver los tokens semánticos. Una variable que
+   apunta a otra se resuelve donde se declara (:root) y se hereda ya resuelta, así que sin
+   esto var(--color-accent) seguiría en Arcano oscuro dentro de data-theme="bonta". Las
+   utilidades no lo necesitan (usan --t-* directamente); el CSS a mano sí. En la capa base,
+   para que una utilidad que fije --color-section en el mismo elemento gane. */
+@layer base {
+  [data-theme],
+  [data-mode] {
+    --color-bg: var(--t-bg);
+    --color-surface: var(--t-surface);
+    --color-raised: var(--t-raised);
+    --color-line: var(--t-line);
+    --color-ink: var(--t-ink);
+    --color-ink-2: var(--t-ink-2);
+    --color-muted: var(--t-muted);
+    --color-accent: var(--t-accent);
+    --color-accent-2: var(--t-accent-2);
+    --color-success: var(--t-success);
+    --color-warning: var(--t-warning);
+    --color-danger: var(--t-danger);
+    --color-info: var(--t-info);
+    --color-sec-misiones: var(--t-sec-misiones);
+    --color-sec-logros: var(--t-sec-logros);
+    --color-sec-dofus: var(--t-sec-dofus);
+    --color-sec-checklists: var(--t-sec-checklists);
+    --color-sec-clases: var(--t-sec-clases);
+    --color-sec-mazmorras: var(--t-sec-mazmorras);
+    --color-sec-herramientas: var(--t-sec-herramientas);
+    --color-section: var(--t-accent);
+    --shadow-art:
+      0 2px 6px rgb(0 0 0 / var(--t-shadow-alpha-1)),
+      0 14px 32px rgb(0 0 0 / var(--t-shadow-alpha-2));
+    --shadow-float: 0 12px 32px rgb(0 0 0 / var(--t-shadow-alpha-3));
+    --shadow-dialog: 0 24px 64px rgb(0 0 0 / var(--t-shadow-alpha-4));
+    --shadow-glow:
+      0 0 0 1px color-mix(in srgb, var(--t-accent) 55%, transparent), 0 0 18px -4px var(--t-accent);
+  }
+}

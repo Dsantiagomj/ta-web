@@ -1,0 +1,140 @@
+/*
+ * Lo que las utilidades no expresan bien: el fondo mezclado del aviso, la casilla y la
+ * barra de progreso (DESIGN.md, Components). Solo tokens; el movimiento solo transform,
+ * opacity y colores, y la regla global de reduced motion lo apaga.
+ */
+
+/* Aviso: su color al 10 % sobre surface, borde al 35 %, título en su color, texto en ink. */
+.callout {
+  --c: var(--color-info);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  padding: 16px 18px;
+  border: 1px solid color-mix(in srgb, var(--c) 35%, transparent);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--c) 10%, var(--color-surface));
+  color: var(--color-ink);
+}
+
+.callout[data-variant='warning'] {
+  --c: var(--color-warning);
+}
+
+.callout[data-variant='stop'] {
+  --c: var(--color-danger);
+}
+
+.callout__icon {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--c);
+  border-radius: 50%;
+  color: var(--c);
+  font: 800 1rem / 1 var(--font-display);
+}
+
+.callout__title {
+  font-family: var(--font-display);
+  font-size: var(--text-eyebrow);
+  line-height: var(--text-eyebrow--line-height);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c);
+}
+
+.callout__body {
+  margin-top: 4px;
+  max-width: 72ch;
+}
+
+/* Casilla: 22px, --radius-sm, borde muted; marcada, relleno accent y marca en bg. */
+.checkbox {
+  appearance: none;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  border: 2px solid var(--color-muted);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-press) var(--ease-out);
+}
+
+.checkbox::after {
+  content: '';
+  width: 6px;
+  height: 11px;
+  margin-top: -3px;
+  border: solid var(--color-bg);
+  border-width: 0 2.5px 2.5px 0;
+  opacity: 0;
+  transform: rotate(45deg) scale(0.6);
+  transition:
+    opacity var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+.checkbox:checked {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+}
+
+.checkbox:checked::after {
+  opacity: 1;
+  transform: rotate(45deg);
+}
+
+.checkbox:active {
+  transform: scale(0.9);
+}
+
+.checkbox:focus-visible {
+  outline-color: var(--color-accent);
+}
+
+.checkbox:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* Barra de progreso: pista en bg (oscuro) o raised con filete (claro), relleno accent.
+   El modo se lee de variables puestas en [data-mode], no de un selector de ancestro, para
+   que una sección clara dentro de una página oscura (y al revés) acierte. */
+:root,
+[data-mode='dark'] {
+  --progress-track: var(--color-bg);
+  --progress-hairline: transparent;
+}
+
+[data-mode='light'] {
+  --progress-track: var(--color-raised);
+  --progress-hairline: var(--color-line);
+}
+
+.progress {
+  position: relative;
+  flex: 1;
+  height: 12px;
+  overflow: hidden;
+  border-radius: var(--radius-xs);
+  background: var(--progress-track);
+  box-shadow: inset 0 0 0 1px var(--progress-hairline);
+}
+
+.progress__fill {
+  position: absolute;
+  inset: 0;
+  background: var(--color-accent);
+  transform-origin: left;
+  transition: transform var(--duration-slow) var(--ease-out);
+}
