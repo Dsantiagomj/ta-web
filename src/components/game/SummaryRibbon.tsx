@@ -117,13 +117,16 @@ export function SummaryRibbon({
           </dl>
         )}
         {rewardText && (
+          // Bajo 1024px la etiqueta va en la columna de 96px de los demás segmentos: así el
+          // texto no se recoloca cuando llega la fuente de la etiqueta, que se carga aparte.
           <a
             href={rewardHref}
-            className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1 px-4 py-2.5 [&:not(:first-child)]:border-t [&:not(:first-child)]:border-line text-sm text-ink-2 no-underline transition-colors duration-(--duration-fast) ease-standard hover:bg-raised focus-visible:-outline-offset-2 lg:rounded-b-card lg:px-5"
+            className="grid grid-cols-[96px_minmax(0,1fr)] items-baseline gap-3 px-4 py-2.5 [&:not(:first-child)]:border-t [&:not(:first-child)]:border-line text-sm text-ink-2 no-underline transition-colors duration-(--duration-fast) ease-standard hover:bg-raised focus-visible:-outline-offset-2 lg:flex lg:gap-x-2.5 lg:rounded-b-card lg:px-5"
           >
             <span className="font-display text-micro text-section uppercase">{s.reward}</span>
-            {rewardText}
-            <span aria-hidden="true">↓</span>
+            <span>
+              {rewardText} <span aria-hidden="true">↓</span>
+            </span>
           </a>
         )}
       </div>

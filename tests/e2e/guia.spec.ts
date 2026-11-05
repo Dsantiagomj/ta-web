@@ -189,6 +189,20 @@ test.describe('página de guía', () => {
     expect(t.y + t.height).toBeLessThanOrEqual(f.y + f.height)
   })
 
+  test('en el móvil, la etiqueta Recompensa ocupa la columna de 96px de los segmentos', async ({
+    page,
+  }) => {
+    // Con el ancho fijo, el texto no se recoloca al llegar la fuente de la etiqueta (CLS).
+    await page.setViewportSize({ width: 412, height: 823 })
+    await page.goto(url)
+    const ribbon = page.getByRole('region', { name: 'Antes de empezar' })
+    const label = ribbon.getByRole('link', { name: /Recompensa/ }).getByText('Recompensa')
+    const term = ribbon.locator('dt').first()
+    const [labelBox, termBox] = [(await label.boundingBox())!, (await term.boundingBox())!]
+    expect(labelBox.width).toBe(96)
+    expect(labelBox.x).toBe(termBox.x)
+  })
+
   test('un chip de coordenadas de la prosa copia su /travel', async ({ page, context }) => {
     await context.grantPermissions(['clipboard-read', 'clipboard-write'])
     await page.goto(url)
