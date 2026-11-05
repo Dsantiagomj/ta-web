@@ -227,7 +227,7 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
 
           <Group name="stages" note={s.notes.stages} wide>
             <div className="w-full">
-              <StagesTimeline id={`${key}-etapas`} stages={stages} ticks headingLevel={4}>
+              <StagesTimeline id={`${key}-pasos`} stages={stages} ticks headingLevel={4}>
                 <BotinCard
                   id={`${key}-botin`}
                   headingLevel={4}

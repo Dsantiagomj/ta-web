@@ -216,13 +216,14 @@ describe('StagesTimeline', () => {
     { title: 'Escolta a las anutrof', content: 'b' },
   ]
 
-  it('es una lista ordenada de etapas que se pueden marcar', () => {
+  it('es una lista ordenada de pasos que se pueden marcar', () => {
     const markup = html(<StagesTimeline id="seis-pies" stages={stages} ticks />)
     expect(markup).toContain('<ol')
     expect(markup).toContain('id="seis-pies-e1"')
     expect(markup).toMatch(/<input [^>]*id="seis-pies-e1"[^>]*checked=""/)
     expect(markup).not.toMatch(/<input [^>]*id="seis-pies-e2"[^>]*checked=""/)
-    expect(markup).toContain('Etapa 1 hecha')
+    expect(markup).toContain('Paso 1 hecho')
+    expect(markup).toContain('>Pasos<')
     expect(markup).toContain('Por ahora no se guarda al salir.')
     // La píldora de progreso enciende cada segmento con su casilla, sin JavaScript.
     expect(markup).toContain('#seis-pies:has(#seis-pies-e2:checked) [data-seg="2"]')

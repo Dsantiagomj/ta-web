@@ -32,10 +32,10 @@ export const gameStrings = {
         .join(' · '),
   },
   stages: {
-    title: 'Etapas',
-    hint: 'Marca cada etapa al terminarla. Por ahora no se guarda al salir.',
-    done: (number: number) => `Etapa ${number} hecha`,
-    progress: 'Etapas',
+    title: 'Pasos',
+    hint: 'Marca cada paso al terminarlo. Por ahora no se guarda al salir.',
+    done: (number: number) => `Paso ${number} hecho`,
+    progress: 'Pasos',
   },
   botin: {
     eyebrow: 'Al terminar la misión',
