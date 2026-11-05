@@ -717,6 +717,9 @@ label.stage__badge:active {
   inset: 0;
   display: grid;
   place-items: center;
+  align-content: center;
+  gap: 12px;
+  padding: 16px 18px;
   text-decoration: none;
 }
 
@@ -733,15 +736,28 @@ label.stage__badge:active {
   object-fit: cover;
 }
 
+/* Sin portada: el título va centrado bajo la insignia, nunca encima de ella. */
 .video__title {
-  position: absolute;
-  bottom: 16px;
-  left: 18px;
-  right: 18px;
+  order: 1;
+  max-width: 100%;
   font-family: var(--font-display);
-  font-size: var(--text-xl);
+  font-size: var(--text-lg);
+  line-height: var(--text-lg--line-height);
   font-weight: 700;
+  text-align: center;
+  text-wrap: balance;
   color: var(--color-ink);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+@media (min-width: 40rem) {
+  .video__title {
+    font-size: var(--text-xl);
+    line-height: var(--text-xl--line-height);
+  }
 }
 
 .video__badge {
