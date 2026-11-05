@@ -170,3 +170,20 @@ export const longChain = [
   'Bajo el puente',
   'La huida',
 ].map((title, index) => ({ title, href: index === 3 ? undefined : `#cadena-${index}` }))
+
+// Textos de muestra del catálogo: contenido como el de una guía, no textos de la interfaz.
+export const samples = {
+  callouts: {
+    tip: '¡Atención, esta misión es diaria y da buenas kamas!',
+    warning: (
+      <>
+        Las anutrof <strong>NO</strong> deben morir.
+      </>
+    ),
+    stop: 'No hables con Kerubim antes de terminar el combate.',
+  },
+  stats: { xp: 'XP', kamas: 'Kamas' },
+  heroNoArt: { title: 'Intoxicación profunda', subtitle: 'Misión de Sufokia · Diaria' },
+  otherVideoTitle: 'Un vídeo de otro sitio',
+  hupeEsseCaption: 'Hupe Esse, en la Biblioteca de Astrub.',
+}

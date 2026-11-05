@@ -34,6 +34,7 @@ import {
   longChain,
   needsGuide,
   prose,
+  samples,
   stages,
   video,
 } from './catalog-data'
@@ -114,17 +115,15 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
 
           <Group name="callouts" wide>
             <div className="grid w-full gap-3 md:grid-cols-3">
-              <Callout variant="tip">¡Atención, esta misión es diaria y da buenas kamas!</Callout>
-              <Callout variant="warning">
-                Las anutrof <strong>NO</strong> deben morir.
-              </Callout>
-              <Callout variant="stop">No hables con Kerubim antes de terminar el combate.</Callout>
+              <Callout variant="tip">{samples.callouts.tip}</Callout>
+              <Callout variant="warning">{samples.callouts.warning}</Callout>
+              <Callout variant="stop">{samples.callouts.stop}</Callout>
             </div>
           </Group>
 
           <Group name="figures">
-            <StatTile value={guide.reward.xp} label="XP" />
-            <StatTile value={needsGuide.reward.kamas} label="Kamas" />
+            <StatTile value={guide.reward.xp} label={samples.stats.xp} />
+            <StatTile value={needsGuide.reward.kamas} label={samples.stats.kamas} />
             <div className="grid w-full gap-3">
               <ProgressBar value={3} max={8} label={d.progress} />
               <ProgressBar value={8} max={8} label={d.progress} />
@@ -184,8 +183,8 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
               />
               <HeroHeader
                 headingLevel={4}
-                title="Intoxicación profunda"
-                subtitle="Misión de Sufokia · Diaria"
+                title={samples.heroNoArt.title}
+                subtitle={samples.heroNoArt.subtitle}
                 level={200}
                 crumbs={guide.crumbs.slice(0, 2)}
               />
@@ -257,7 +256,7 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
             <div className="grid w-full gap-6 md:grid-cols-2">
               <VideoFacade url={video.url} title={video.title} poster={images.video} />
               <VideoFacade url={video.url} title={video.title} />
-              <VideoFacade url="https://vimeo.com/76979871" title="Un vídeo de otro sitio" />
+              <VideoFacade url="https://vimeo.com/76979871" title={samples.otherVideoTitle} />
             </div>
           </Group>
 
@@ -266,7 +265,7 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
               <Figure
                 image={images.hupeEsse}
                 alt={imageAlt.hupeEsse}
-                caption="Hupe Esse, en la Biblioteca de Astrub."
+                caption={samples.hupeEsseCaption}
               />
             </div>
           </Group>
