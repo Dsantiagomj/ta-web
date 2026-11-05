@@ -1,5 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
+import { IMAGE_WIDTHS, imageSizeName, mediaImageSizes } from '../lib/media/sizes'
+
 /** Vacío o una URL http(s). Devuelve true o el mensaje de error, como espera Payload. */
 export function validateOptionalUrl(value: string | null | undefined): true | string {
   if (!value) return true
@@ -13,8 +15,8 @@ export function validateOptionalUrl(value: string | null | undefined): true | st
 }
 
 // Imágenes y archivos. Van a Cloudflare R2 cuando está configurado y al disco local si no.
-// Payload guarda el ancho y el alto del original; las variantes AVIF y WebP se generan
-// antes de importar (ver AGENTS.md, Media).
+// Payload guarda el ancho y el alto del original y, al subirlo (panel o importación), genera
+// sus variantes AVIF y WebP junto a él (ver AGENTS.md, Media). Nunca al pedir la imagen.
 export const Media: CollectionConfig = {
   slug: 'media',
   labels: { singular: 'Archivo', plural: 'Archivos' },
@@ -36,28 +38,6 @@ export const Media: CollectionConfig = {
       localized: true,
     },
     {
-      name: 'variants',
-      label: 'Variantes',
-      type: 'array',
-      admin: {
-        description: 'Variantes AVIF y WebP pregeneradas en R2. Las rellena la importación.',
-      },
-      fields: [
-        { name: 'key', label: 'Clave en R2', type: 'text', required: true },
-        { name: 'width', label: 'Ancho (px)', type: 'number', required: true, min: 1 },
-        {
-          name: 'format',
-          label: 'Formato',
-          type: 'select',
-          required: true,
-          options: [
-            { label: 'AVIF', value: 'avif' },
-            { label: 'WebP', value: 'webp' },
-          ],
-        },
-      ],
-    },
-    {
       name: 'originalUrl',
       label: 'URL original en Squarespace',
       type: 'text',
@@ -69,5 +49,7 @@ export const Media: CollectionConfig = {
   ],
   upload: {
     staticDir: 'media',
+    imageSizes: mediaImageSizes,
+    adminThumbnail: imageSizeName('webp', IMAGE_WIDTHS[0]),
   },
 }
