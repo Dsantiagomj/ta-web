@@ -29,6 +29,8 @@ After changing a collection, run `pnpm migrate:create <name>` and `pnpm generate
 
 With `DATABASE_URL` empty, the app connects to the `pnpm db:dev` database. Set `DATABASE_URL` to use another one, such as a Neon branch; it always wins. In production the app refuses to start without it.
 
+The component catalog is at `/sistema` under `pnpm dev`: every component from `DESIGN.md` in the five themes and both modes. `?tema=bonta&modo=light` keeps one section. In production it answers 404.
+
 Media uploads go to `./media` unless the four `S3_*` variables point at an R2 bucket. `.env.example` explains every variable.
 
 To reset the local database, stop `pnpm db:dev` and delete `.postgres/`.

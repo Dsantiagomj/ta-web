@@ -36,5 +36,7 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
   ],
-  webServer: smokeBaseUrl ? [] : appWebServers({ port }),
+  // E2E_DESIGN_CATALOG=1 abre el catálogo /sistema en el build de producción de las pruebas
+  // (src/lib/dev-gate/design-catalog.ts). Nunca se pone en un entorno desplegado.
+  webServer: smokeBaseUrl ? [] : appWebServers({ port, env: { E2E_DESIGN_CATALOG: '1' } }),
 })
