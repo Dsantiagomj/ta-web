@@ -201,6 +201,13 @@ describe('SummaryRibbon', () => {
   it('no pinta nada sin ningún dato', () => {
     expect(html(<SummaryRibbon />)).toBe('')
   })
+
+  it('una recompensa en texto se enseña tal cual: es la que escribió la guía', () => {
+    const markup = html(<SummaryRibbon reward="2 000 XP · 1 x Pico de tofu" />)
+    expect(markup).toContain('Recompensa')
+    expect(markup).toContain('2 000 XP · 1 x Pico de tofu')
+    expect(markup).toContain('href="#botin"')
+  })
 })
 
 describe('StagesTimeline', () => {
@@ -259,6 +266,15 @@ describe('BotinCard', () => {
 
   it('no pinta nada sin recompensas', () => {
     expect(html(<BotinCard />)).toBe('')
+  })
+
+  it('sin fichas, enseña las líneas de recompensa de la guía, sin casillas inventadas', () => {
+    const markup = html(<BotinCard notes={['2 000 XP.', '1 x Pico de tofu.']} />)
+    expect(markup).toContain('id="botin"')
+    expect(markup).toContain('2 000 XP.')
+    expect(markup).toContain('1 x Pico de tofu.')
+    expect(markup).not.toContain('botin__slots')
+    expect(markup).not.toContain('botin__stat')
   })
 })
 

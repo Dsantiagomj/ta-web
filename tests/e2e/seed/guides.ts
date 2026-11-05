@@ -21,6 +21,8 @@ export const seedGuide = {
   prerequisite: { title: 'Esto hace aguas', slug: 'esto-hace-aguas' },
   needsNote: '1 x Combate (solo).',
   reward: { xp: 16380, kamas: 390 },
+  // Las recompensas como las escribe Torre: mandan sobre DofusDB en la línea del resumen.
+  rewardsText: '16 380 XP.\n390 kamas.\n4 objetos del Botín.',
   rewardItems: [
     'Pico de tofu',
     'Intestino de araknáusea',
@@ -210,6 +212,7 @@ export async function seedGuides(payload: Payload): Promise<void> {
         _status: 'published',
         summary: {
           prerequisites: `${seedGuide.prerequisite.title}.`,
+          rewards: seedGuide.rewardsText,
           needs: { items: [], notes: seedGuide.needsNote },
           startNpc: seedGuide.start.npc,
           startX: seedGuide.start.x,

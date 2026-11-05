@@ -482,7 +482,7 @@ Pairs already in the theme tables: accent on raised (coordinates chip, filled pr
   - **Empieza**: the start NPC in `--color-ink` 600 and the place in `--color-ink-2` (`Hupe Esse · Biblioteca de Astrub`), then the primary button "Copiar /travel 7,-19" (Button, primary, in its compact 40px size so it fits the row, with a copy icon). The place is optional.
   - **Requiere**: one line per prerequisite, as the summary text gives them; a prerequisite quest with a published guide is a link.
   - **Necesitarás**: the needed items as item chips, then the note lines ("1 x Combate (solo)."). Quest items (DofusDB super type 14) never appear: the game hands them over during the quest.
-  - **Reward link**: `<a href="#botin">` with the micro label "Recompensa" in `--color-section`, then `16 380 XP · 390 kamas · 4 objetos` in `--color-ink-2` and an `aria-hidden` "↓".
+  - **Reward link**: `<a href="#botin">` with the micro label "Recompensa" in `--color-section`, then the rewards in `--color-ink-2` and an `aria-hidden` "↓". The guide's own rewards text (`summary.rewards`, prefilled from DofusDB and editable in the panel) wins, its lines joined with ` · ` and without the final periods (`16 380 XP · 390 kamas · 1 x Pico de tofu`). Only when it is empty does the line come from the quest's DofusDB rewards (`16 380 XP · 390 kamas · 4 objetos`).
 - **No level segment**: the level lives in the medallion only.
 - **Layout**: from 1024px the segments sit in one row, split by vertical hairlines, Empieza taking the free width (`flex: 1 1 380px`) and labels above values. Below 1024px each segment is a row with a 96px label column and the value beside it, split by horizontal hairlines. Below 640px Empieza stacks and its button takes the full width.
 - **Empty segments** are left out, never shown with a dash. With no segment at all the ribbon keeps only the reward link; with no rewards either, it is not rendered.
@@ -566,7 +566,7 @@ Decided 2026-11-05: every guide image opens fullscreen. The component is `Figure
 
 - **Anatomy**: the last node of the stages timeline. A 40px badge in the gutter (2px `--color-accent-2` ring, `--color-raised` fill) with the first reward item's icon, or "XP" in Lilita One when the quest gives no items; then a `--color-surface` card with a 1px `--color-accent-2` border, `--radius-card`, `18px 22px` padding: the micro label "Al terminar la misión", the `h2` "Botín" (`--text-2xl` uppercase), a row of slots, and the achievement chain line under a hairline.
 - **Slots**: the XP and kamas stat tiles first (typographic, see Stat tile), then one item slot per reward item. Under 640px stat tiles take half a row and item slots a third, so "1 000 000" never wraps; from 768px they flow in a wrapping row.
-- **Optional parts**: no items, no item slots; no kamas, no kamas tile; no achievement, no chain line. With nothing at all the card is not rendered.
+- **Optional parts**: no items, no item slots; no kamas, no kamas tile; no achievement, no chain line. The tiles and slots come from the linked quest's DofusDB rewards. With no linked quest, or one with no rewards, the card lists the guide's rewards text instead, one line per reward in `--color-ink`, with no tiles or slots made up from it. With nothing at all the card is not rendered.
 - **Accessibility**: a `<section aria-labelledby>` the `h2`, with `id="botin"` for the ribbon link and `scroll-margin-top: 96px` under the sticky header. The slots are a `<ul>`.
 - **Motion**: none.
 

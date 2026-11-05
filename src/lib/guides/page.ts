@@ -39,6 +39,7 @@ export interface GuideDoc {
   quest?: Relation<GuideQuest>
   summary?: {
     prerequisites?: string | null
+    rewards?: string | null
     needs?: { items?: LinkedNeeds['items']; notes?: string | null }
     startNpc?: string | null
     startX?: number | null
@@ -117,15 +118,34 @@ function rewardItems(guide: GuideDoc): Quantity<GameItem>[] {
   )
 }
 
-/** El Botín, de las recompensas de la misión (DESIGN.md, Botín card); sin misión, null. */
+/**
+ * El Botín (DESIGN.md, Botín card): las fichas de XP, kamas y objetos de la misión de
+ * DofusDB. Sin esos datos, las líneas de recompensa que escribió Torre en el resumen, sin
+ * fichas inventadas. Sin ninguna de las dos cosas, null.
+ */
 export function botinProps(guide: GuideDoc) {
   const quest = linkedQuest(guide)
-  if (!quest) return null
-  return {
-    xp: positive(quest.rewards?.experience),
-    kamas: positive(quest.rewards?.kamas),
-    items: rewardItems(guide),
-  }
+  const xp = positive(quest?.rewards?.experience)
+  const kamas = positive(quest?.rewards?.kamas)
+  const items = rewardItems(guide)
+  if (xp || kamas || items.length) return { xp, kamas, items }
+  const notes = lines(guide.summary?.rewards)
+  return notes.length ? { items: [], notes } : null
+}
+
+/**
+ * La línea de recompensa del resumen: el texto de la guía manda, como en el resto del
+ * resumen (DofusDB solo rellena lo vacío). Sus líneas van juntas, sin el punto final.
+ */
+function rewardSummary(guide: GuideDoc) {
+  const text = lines(guide.summary?.rewards)
+    .map((line) => line.replace(/\.$/, ''))
+    .join(' · ')
+  if (text) return text
+  const botin = botinProps(guide)
+  return botin && (botin.xp || botin.kamas || botin.items.length)
+    ? { xp: botin.xp, kamas: botin.kamas, items: botin.items.length }
+    : undefined
 }
 
 /**
@@ -151,12 +171,6 @@ export function ribbonProps(guide: GuideDoc, linked: QuestGuideLink[]) {
     return slug ? { label, href: `/${slug}` } : { label }
   })
 
-  const botin = botinProps(guide)
-  const reward =
-    botin && (botin.xp || botin.kamas || botin.items.length)
-      ? { xp: botin.xp, kamas: botin.kamas, items: botin.items.length }
-      : undefined
-
   return {
     start,
     requires,
@@ -167,7 +181,7 @@ export function ribbonProps(guide: GuideDoc, linked: QuestGuideLink[]) {
       })),
       notes: lines(summary.needs?.notes),
     },
-    reward,
+    reward: rewardSummary(guide),
   }
 }
 

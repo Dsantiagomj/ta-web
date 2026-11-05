@@ -59,13 +59,15 @@ export function SummaryRibbon({
   start?: RibbonStart
   requires?: { label: string; href?: string }[]
   needs?: { items?: Quantity<GameItem>[]; notes?: string[] }
-  reward?: RibbonReward
+  /** Resumen de XP, kamas y objetos, o el texto de la recompensa tal como lo escribe la guía. */
+  reward?: RibbonReward | string
   rewardHref?: string
 }) {
   const needItems = needs?.items ?? []
   const needNotes = needs?.notes ?? []
   const hasNeeds = needItems.length > 0 || needNotes.length > 0
-  const rewardText = reward ? s.rewardSummary(reward) : ''
+  const rewardText =
+    typeof reward === 'string' ? reward.trim() : reward ? s.rewardSummary(reward) : ''
   const hasSegments = Boolean(start) || requires.length > 0 || hasNeeds
   if (!hasSegments && !rewardText) return null
 
