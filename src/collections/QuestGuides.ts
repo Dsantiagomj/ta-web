@@ -3,6 +3,7 @@ import type { Access, CollectionConfig, Field } from 'payload'
 import { CalloutBlock } from '../blocks/CalloutBlock'
 import { ImageBlock } from '../blocks/ImageBlock'
 import { RichTextBlock } from '../blocks/RichTextBlock'
+import { StepBlock } from '../blocks/StepBlock'
 import { VideoBlock } from '../blocks/VideoBlock'
 import { linkedQuestId } from '../lib/guides/autofill'
 import { guidePreviewUrl, previewOrigin } from '../lib/guides/preview'
@@ -219,7 +220,7 @@ export const QuestGuides: CollectionConfig = {
       label: 'Contenido',
       labels: { singular: 'Bloque', plural: 'Bloques' },
       type: 'blocks',
-      blocks: [RichTextBlock, ImageBlock, VideoBlock, CalloutBlock],
+      blocks: [RichTextBlock, ImageBlock, VideoBlock, CalloutBlock, StepBlock],
     },
     {
       name: 'seo',

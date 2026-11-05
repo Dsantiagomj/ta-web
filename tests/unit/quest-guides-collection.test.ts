@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest'
 import { CalloutBlock } from '@/blocks/CalloutBlock'
 import { ImageBlock } from '@/blocks/ImageBlock'
 import { RichTextBlock } from '@/blocks/RichTextBlock'
+import { StepBlock } from '@/blocks/StepBlock'
 import { VideoBlock } from '@/blocks/VideoBlock'
 import { validateOptionalUrl } from '@/collections/Media'
 import {
@@ -155,7 +156,7 @@ describe('colección quest-guides', () => {
     }
   })
 
-  it('arma el cuerpo con bloques de texto, imagen, vídeo y aviso', () => {
+  it('arma el cuerpo con bloques de texto, imagen, vídeo, aviso y paso', () => {
     const body = field('body') as BlocksField
     expect(body.type).toBe('blocks')
     // Sin labels, el panel muestra «Añadir Body» al elegir un bloque.
@@ -163,7 +164,7 @@ describe('colección quest-guides', () => {
       label: 'Contenido',
       labels: { singular: 'Bloque', plural: 'Bloques' },
     })
-    expect(body.blocks).toEqual([RichTextBlock, ImageBlock, VideoBlock, CalloutBlock])
+    expect(body.blocks).toEqual([RichTextBlock, ImageBlock, VideoBlock, CalloutBlock, StepBlock])
   })
 
   it('guarda el título y la descripción SEO, traducibles', () => {

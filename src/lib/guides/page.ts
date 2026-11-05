@@ -26,11 +26,23 @@ interface GuideQuest {
   rewards?: LinkedRewards | null
 }
 
-type BodyBlockDoc =
+type ContentBlockDoc =
   | { blockType: 'richText'; id?: string | null; content: RichTextState }
   | { blockType: 'image'; id?: string | null; image: number | Media; caption?: string | null }
   | { blockType: 'video'; id?: string | null; url: string; title?: string | null }
   | { blockType: 'callout'; id?: string | null; variant: CalloutVariant; content: RichTextState }
+
+/** Un paso: título, coordenadas si las tiene y sus propios bloques (DESIGN.md, Step card). */
+type StepBlockDoc = {
+  blockType: 'step'
+  id?: string | null
+  title: string
+  x?: number | null
+  y?: number | null
+  body?: ContentBlockDoc[] | null
+}
+
+type BodyBlockDoc = ContentBlockDoc | StepBlockDoc
 
 /** Lo que la página lee de una guía de quest-guides; QuestGuide encaja. */
 export interface GuideDoc {

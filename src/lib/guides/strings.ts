@@ -69,5 +69,19 @@ export const guideStrings = {
     dofusDbLoading: 'Cargando los datos de DofusDB…',
     dofusDbUnavailable: 'No se pudieron cargar los datos de DofusDB.',
     noQuest: 'Sin misión de DofusDB: escribe tú este dato.',
+    /** El bloque Paso del contenido (DESIGN.md, Step card). */
+    step: {
+      singular: 'Paso',
+      plural: 'Pasos',
+      title: 'Título',
+      titleDescription: 'Lo que hay que hacer en el paso, corto: «Habla con Hupe Esse».',
+      x: 'X',
+      y: 'Y',
+      coordinatesDescription:
+        'La posición principal del paso, si la tiene: sale como chip junto al título.',
+      coordinatesPair: 'Pon X e Y, o deja las dos vacías.',
+      coordinatesInteger: 'Las coordenadas del juego son números enteros.',
+      body: 'Contenido del paso',
+    },
   },
 } as const

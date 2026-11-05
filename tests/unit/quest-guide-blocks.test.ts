@@ -1,13 +1,24 @@
-import type { Block, Field, SelectField } from 'payload'
+import type { BlocksField, Block, Field, SelectField } from 'payload'
 import { describe, expect, it } from 'vitest'
 
 import { CalloutBlock } from '@/blocks/CalloutBlock'
 import { ImageBlock } from '@/blocks/ImageBlock'
 import { RichTextBlock } from '@/blocks/RichTextBlock'
+import { StepBlock, validateStepCoordinate } from '@/blocks/StepBlock'
 import { validateVideoUrl, VideoBlock } from '@/blocks/VideoBlock'
+import { guideStrings } from '@/lib/guides/strings'
+
+/** Los campos del bloque, con los de las filas (row) sacados a su nivel, como los guarda Payload. */
+function flat(fields: Field[]): Field[] {
+  return fields.flatMap((candidate) =>
+    candidate.type === 'row' ? flat(candidate.fields) : [candidate],
+  )
+}
 
 function field(block: Block, name: string): Field {
-  const found = block.fields.find((candidate) => 'name' in candidate && candidate.name === name)
+  const found = flat(block.fields).find(
+    (candidate) => 'name' in candidate && candidate.name === name,
+  )
   if (!found) throw new Error(`Falta el campo ${name} en el bloque ${block.slug}`)
   return found
 }
@@ -116,5 +127,61 @@ describe('bloque de aviso', () => {
       required: true,
       localized: true,
     })
+  })
+})
+
+describe('bloque de paso', () => {
+  const s = guideStrings.admin.step
+
+  it('usa el slug step y se llama Paso en el panel', () => {
+    expect(StepBlock.slug).toBe('step')
+    expect(StepBlock.labels).toEqual({ singular: s.singular, plural: s.plural })
+  })
+
+  it('guarda un título obligatorio y traducible', () => {
+    expect(field(StepBlock, 'title')).toMatchObject({
+      type: 'text',
+      required: true,
+      localized: true,
+      label: s.title,
+    })
+  })
+
+  it('guarda unas coordenadas opcionales, X e Y, como las de inicio del resumen', () => {
+    for (const name of ['x', 'y']) {
+      const coordinate = field(StepBlock, name)
+      expect(coordinate).toMatchObject({ type: 'number', validate: validateStepCoordinate })
+      expect(coordinate).not.toHaveProperty('required', true)
+      expect(coordinate).not.toHaveProperty('localized', true)
+    }
+  })
+
+  it('su contenido son los bloques de texto, imagen, vídeo y aviso, sin pasos dentro', () => {
+    const body = field(StepBlock, 'body') as BlocksField
+    expect(body).toMatchObject({ type: 'blocks', label: s.body })
+    expect(body.blocks).toEqual([RichTextBlock, ImageBlock, VideoBlock, CalloutBlock])
+  })
+})
+
+describe('validateStepCoordinate', () => {
+  const check = (value: number | null | undefined, siblingData: { x?: unknown; y?: unknown }) =>
+    validateStepCoordinate(value, { siblingData })
+
+  it('acepta las dos coordenadas o ninguna', () => {
+    expect(check(7, { x: 7, y: -19 })).toBe(true)
+    expect(check(-19, { x: 7, y: -19 })).toBe(true)
+    expect(check(null, { x: null, y: null })).toBe(true)
+    expect(check(undefined, {})).toBe(true)
+  })
+
+  it('con solo una de las dos pide la que falta: el chip necesita X e Y', () => {
+    expect(check(null, { x: 7, y: null })).toBe(guideStrings.admin.step.coordinatesPair)
+    expect(check(undefined, { x: 7 })).toBe(guideStrings.admin.step.coordinatesPair)
+    // La que sí está no lleva el error.
+    expect(check(7, { x: 7, y: null })).toBe(true)
+  })
+
+  it('rechaza decimales: las coordenadas del juego son enteras', () => {
+    expect(check(7.5, { x: 7.5, y: 1 })).toBe(guideStrings.admin.step.coordinatesInteger)
   })
 })

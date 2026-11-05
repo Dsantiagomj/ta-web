@@ -1,6 +1,7 @@
 import { Forbidden, NotFound, type Payload } from 'payload'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
+import { guideStrings } from '@/lib/guides/strings'
 import type { Media, Quest, QuestGuide, User } from '@/payload-types'
 
 import { createPanelUser, startPayload, tinyPng } from './payload'
@@ -239,6 +240,92 @@ describe('permisos de quest-guides', () => {
       })
       expect(readBack.body?.[3]).toMatchObject({ variant: 'warning' })
       expect(readBack.seo?.metaDescription).toBe('Cómo hacer la misión.')
+    })
+
+    it('guarda pasos con título, coordenadas y sus propios bloques entre la prosa', async () => {
+      const image: Media = await payload.create({
+        collection: 'media',
+        data: { alt: 'Hupe Esse en la biblioteca' },
+        file: tinyPng(),
+      })
+      const created = await payload.create({
+        collection: 'quest-guides',
+        data: {
+          title: 'Guía por pasos',
+          slug: 'guia-por-pasos',
+          _status: 'published',
+          body: [
+            { blockType: 'richText', content: paragraph('Una guía corta.') },
+            {
+              blockType: 'step',
+              title: 'Habla con Hupe Esse',
+              x: 7,
+              y: -19,
+              body: [
+                { blockType: 'richText', content: paragraph('Está en la biblioteca.') },
+                { blockType: 'image', image: image.id, caption: 'Hupe Esse' },
+                { blockType: 'callout', variant: 'tip', content: paragraph('Lleva pan.') },
+              ],
+            },
+            {
+              blockType: 'step',
+              title: 'Vuelve con Luci',
+              body: [{ blockType: 'richText', content: paragraph('Sin coordenadas.') }],
+            },
+            { blockType: 'richText', content: paragraph('Aquí termina la misión.') },
+          ],
+        },
+        overrideAccess: false,
+        user: editor,
+      })
+
+      const readBack = await payload.findByID({
+        collection: 'quest-guides',
+        id: created.id,
+        depth: 1,
+        overrideAccess: false,
+      })
+      expect(readBack.body?.map((block) => block.blockType)).toEqual([
+        'richText',
+        'step',
+        'step',
+        'richText',
+      ])
+      const [, first, second] = readBack.body ?? []
+      expect(first).toMatchObject({ title: 'Habla con Hupe Esse', x: 7, y: -19 })
+      if (first?.blockType !== 'step' || second?.blockType !== 'step') return
+      expect(first.body?.map((block) => block.blockType)).toEqual(['richText', 'image', 'callout'])
+      expect(first.body?.[1]).toMatchObject({
+        image: expect.objectContaining({ id: image.id }),
+        caption: 'Hupe Esse',
+      })
+      expect(second).toMatchObject({ title: 'Vuelve con Luci' })
+      expect(second.x ?? null).toBeNull()
+    })
+
+    it('no publica un paso con solo una coordenada', async () => {
+      await expect(
+        payload.create({
+          collection: 'quest-guides',
+          data: {
+            title: 'Guía coja',
+            slug: 'guia-coja',
+            _status: 'published',
+            body: [{ blockType: 'step', title: 'A medias', x: 7 }],
+          },
+          overrideAccess: false,
+          user: editor,
+        }),
+      ).rejects.toMatchObject({
+        data: {
+          errors: [
+            expect.objectContaining({
+              path: 'body.0.y',
+              message: guideStrings.admin.step.coordinatesPair,
+            }),
+          ],
+        },
+      })
     })
   })
 })
