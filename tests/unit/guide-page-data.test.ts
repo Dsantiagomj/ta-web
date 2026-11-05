@@ -208,6 +208,61 @@ describe('guideBlocks', () => {
     ])
   })
 
+  const upload = {
+    type: 'upload',
+    version: 1,
+    relationTo: 'media',
+    value: image,
+    fields: null,
+  }
+  const textWithImage = {
+    root: {
+      ...richText('Mira la captura.').root,
+      children: [...richText('Mira la captura.').root.children, upload],
+    },
+  }
+
+  it('la primera imagen del cuerpo va con prioridad aunque esté dentro de un texto', () => {
+    const blocks = guideBlocks({
+      ...guide,
+      body: [
+        { blockType: 'richText', id: 'a', content: richText('Sin imagen.') },
+        { blockType: 'richText', id: 'b', content: textWithImage },
+        { blockType: 'image', id: 'c', image },
+      ],
+    })
+    expect(blocks[0]).not.toHaveProperty('priorityImage')
+    expect(blocks[1]).toMatchObject({ kind: 'richText', priorityImage: true })
+    expect(blocks[2]).toMatchObject({ kind: 'image', priority: false })
+  })
+
+  it('si el bloque Imagen va antes, la imagen del texto ya no va con prioridad', () => {
+    const blocks = guideBlocks({
+      ...guide,
+      body: [
+        { blockType: 'image', id: 'a', image },
+        { blockType: 'richText', id: 'b', content: textWithImage },
+      ],
+    })
+    expect(blocks[0]).toMatchObject({ kind: 'image', priority: true })
+    expect(blocks[1]).not.toHaveProperty('priorityImage')
+  })
+
+  it('una imagen sin archivo dentro de un texto no se lleva la prioridad', () => {
+    const unpopulated = {
+      root: { ...richText('x').root, children: [{ ...upload, value: 5 }] },
+    }
+    const blocks = guideBlocks({
+      ...guide,
+      body: [
+        { blockType: 'richText', id: 'a', content: unpopulated },
+        { blockType: 'image', id: 'b', image },
+      ],
+    })
+    expect(blocks[0]).not.toHaveProperty('priorityImage')
+    expect(blocks[1]).toMatchObject({ priority: true })
+  })
+
   it('solo la primera captura va con prioridad', () => {
     const blocks = guideBlocks({
       ...guide,

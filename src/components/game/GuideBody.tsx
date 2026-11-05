@@ -18,7 +18,13 @@ export function GuideBody({ blocks }: { blocks: GuideBlock[] }) {
       {blocks.map((block) => {
         switch (block.kind) {
           case 'richText':
-            return <GuideRichText key={block.key} content={block.content} />
+            return (
+              <GuideRichText
+                key={block.key}
+                content={block.content}
+                priorityImage={block.priorityImage}
+              />
+            )
           case 'image':
             return (
               <Figure
@@ -34,7 +40,7 @@ export function GuideBody({ blocks }: { blocks: GuideBlock[] }) {
           case 'callout':
             return (
               <Callout key={block.key} variant={block.variant}>
-                <GuideRichText content={block.content} />
+                <GuideRichText content={block.content} priorityImage={block.priorityImage} />
               </Callout>
             )
         }

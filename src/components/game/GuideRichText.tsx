@@ -76,8 +76,10 @@ function linkHref(fields: LinkFields): string | null {
   return typeof slug === 'string' ? `/${slug}` : null
 }
 
-function converters(): JSXConvertersFunction {
+function converters(priorityImage: boolean): JSXConvertersFunction {
   return ({ defaultConverters }) => {
+    // La prioridad es para la primera imagen que se pinta, y solo para esa.
+    let pendingPriority = priorityImage
     const link = ({
       node,
       nodesToJSX,
@@ -109,19 +111,30 @@ function converters(): JSXConvertersFunction {
         const media = node.value as Media | number
         const image = mediaImageAsset(media)
         if (!image || typeof media !== 'object') return null
-        return <Figure image={image} alt={media.alt ?? ''} />
+        const priority = pendingPriority
+        pendingPriority = false
+        return <Figure image={image} alt={media.alt ?? ''} priority={priority} />
       },
       unknown: () => null,
     }
   }
 }
 
-/** Prosa de la guía (bloques Texto y Aviso), en el servidor: no manda JavaScript. */
-export function GuideRichText({ content }: { content: RichTextState }) {
+/**
+ * Prosa de la guía (bloques Texto y Aviso), en el servidor: no manda JavaScript. Con
+ * priorityImage, su primera imagen es la primera del cuerpo y va sin diferir.
+ */
+export function GuideRichText({
+  content,
+  priorityImage = false,
+}: {
+  content: RichTextState
+  priorityImage?: boolean
+}) {
   return (
     <RichText
       data={content as Parameters<typeof RichText>[0]['data']}
-      converters={converters()}
+      converters={converters(priorityImage)}
       disableContainer
       disableTextAlign
     />
