@@ -87,6 +87,15 @@ test.describe('catálogo /sistema', () => {
     await expect(page.getByRole('status')).toHaveText('Copiado: /travel 5,-18')
   })
 
+  test('todo control con hit-target tiene al menos 40px de objetivo', async ({ page }) => {
+    await page.goto('/sistema?tema=arcano&modo=dark')
+    const heights = await page
+      .locator('.hit-target')
+      .evaluateAll((els) => els.map((el) => parseFloat(getComputedStyle(el, '::after').height)))
+    expect(heights.length).toBeGreaterThan(0)
+    for (const height of heights) expect(height).toBeGreaterThanOrEqual(40)
+  })
+
   test('el objetivo de un chip de coordenadas mide al menos 40px de alto', async ({ page }) => {
     await page.goto('/sistema?tema=arcano&modo=dark')
     // El chip dibujado mide 26px; el ::after transparente agranda el área que se pulsa.
