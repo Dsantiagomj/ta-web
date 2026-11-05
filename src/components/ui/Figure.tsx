@@ -1,3 +1,4 @@
+import { IMAGE_SIZES } from './image-sizes'
 import { Picture } from './Picture'
 import { uiStrings } from './strings'
 import type { ImageAsset } from './types'
@@ -9,7 +10,8 @@ const s = uiStrings.figure
 /**
  * Captura de la guía con su pie: proporción del archivo, --radius-card, --shadow-art.
  * Se abre a pantalla completa (DESIGN.md, Figure): sin JavaScript el enlace lleva al
- * WebP, el archivo más grande; con PageEnhancements, el clic abre el visor.
+ * WebP más ancho (src); con PageEnhancements, el clic abre el visor con ese mismo archivo
+ * y su AVIF. En la página, el navegador elige el ancho que necesita la columna.
  */
 export function Figure({
   image,
@@ -32,7 +34,7 @@ export function Figure({
         <Picture
           image={image}
           alt={alt}
-          sizes="(min-width: 50rem) 800px, 100vw"
+          sizes={IMAGE_SIZES.prose}
           className="block w-full rounded-card bg-raised shadow-art"
         />
       </a>
