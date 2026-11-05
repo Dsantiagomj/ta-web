@@ -9,6 +9,10 @@ import { guideStrings } from '../lib/guides/strings'
 import type { FillableField, NotedField } from '../lib/guides/summary'
 import { validateOptionalUrl } from './Media'
 import { fillFromQuest } from './quest-guide-autofill'
+import {
+  revalidateGuidePagesAfterChange,
+  revalidateGuidePagesAfterDelete,
+} from './revalidate-guides'
 
 /**
  * Slug plano en ASCII: minúsculas, cifras y guiones sueltos, sin guiones en los extremos.
@@ -148,7 +152,12 @@ export const QuestGuides: CollectionConfig = {
   },
   access: questGuidesAccess,
   versions: { drafts: true, maxPerDoc: 50 },
-  hooks: { beforeValidate: [fillFromQuest] },
+  hooks: {
+    beforeValidate: [fillFromQuest],
+    // Borradores incluidos: es barato y cubre despublicar.
+    afterChange: [revalidateGuidePagesAfterChange],
+    afterDelete: [revalidateGuidePagesAfterDelete],
+  },
   fields: [
     {
       // Una sola misión por guía: es la que rellena el título, el slug, el SEO y el resumen.

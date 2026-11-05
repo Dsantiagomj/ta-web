@@ -1,6 +1,10 @@
 import type { CollectionConfig } from 'payload'
 
 import { IMAGE_WIDTHS, imageSizeName, mediaImageSizes } from '../lib/media/sizes'
+import {
+  revalidateGuidePagesAfterChange,
+  revalidateGuidePagesAfterDelete,
+} from './revalidate-guides'
 
 /** Vacío o una URL http(s). Devuelve true o el mensaje de error, como espera Payload. */
 export function validateOptionalUrl(value: string | null | undefined): true | string {
@@ -22,6 +26,11 @@ export const Media: CollectionConfig = {
   labels: { singular: 'Archivo', plural: 'Archivos' },
   access: {
     read: () => true,
+  },
+  // Las guías pintan el texto alternativo y el tamaño de sus imágenes.
+  hooks: {
+    afterChange: [revalidateGuidePagesAfterChange],
+    afterDelete: [revalidateGuidePagesAfterDelete],
   },
   fields: [
     {
