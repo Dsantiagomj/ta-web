@@ -268,7 +268,7 @@ describe('VideoFacade', () => {
     expect(markup).not.toContain('ytimg')
   })
 
-  it('otro sitio: un enlace normal', () => {
+  it('un dato guardado que no es de YouTube: un enlace normal, solo por si acaso', () => {
     const markup = html(<VideoFacade url="https://vimeo.com/1" title="Otro" />)
     expect(markup).toContain('href="https://vimeo.com/1"')
     expect(markup).not.toContain('data-video-embed')

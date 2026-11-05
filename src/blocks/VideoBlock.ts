@@ -1,19 +1,18 @@
 import type { Block } from 'payload'
 
-/** Una URL https obligatoria. Devuelve true o el mensaje de error, como espera Payload. */
+import { youtubeId } from '../lib/guides/video'
+
+/**
+ * Un enlace https a un vídeo de YouTube, obligatorio: las guías solo llevan vídeos de
+ * YouTube. Devuelve true o el mensaje de error, como espera Payload.
+ */
 export function validateVideoUrl(value: string | null | undefined): true | string {
-  const message = 'Tiene que ser una URL que empiece por https://'
-  if (!value) return message
-  try {
-    // Solo https: la página es https y un embed http lo bloquearía el navegador.
-    if (new URL(value).protocol === 'https:') return true
-  } catch {
-    // Cae al mensaje de error.
-  }
-  return message
+  const message = 'Tiene que ser un enlace https a un vídeo de YouTube'
+  if (!value || !/^https:\/\//i.test(value)) return message
+  return youtubeId(value) ? true : message
 }
 
-// Vídeo incrustado: YouTube o cualquier embed https.
+// Vídeo de YouTube; la página lo muestra con la fachada (DESIGN.md, Video facade).
 export const VideoBlock: Block = {
   slug: 'video',
   interfaceName: 'VideoBlock',
@@ -26,7 +25,7 @@ export const VideoBlock: Block = {
       required: true,
       validate: validateVideoUrl,
       admin: {
-        description: 'Enlace https de YouTube o de otro sitio que se pueda incrustar.',
+        description: 'Enlace al vídeo en YouTube (youtube.com o youtu.be).',
       },
     },
     {

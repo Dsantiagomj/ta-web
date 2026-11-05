@@ -184,6 +184,5 @@ export const samples = {
   },
   stats: { xp: 'XP', kamas: 'Kamas' },
   heroNoArt: { title: 'Intoxicación profunda', subtitle: 'Misión de Sufokia · Diaria' },
-  otherVideoTitle: 'Un vídeo de otro sitio',
   hupeEsseCaption: 'Hupe Esse, en la Biblioteca de Astrub.',
 }

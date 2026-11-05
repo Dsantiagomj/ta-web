@@ -1,5 +1,5 @@
-// Vídeos de las guías (DESIGN.md, Video facade): solo YouTube lleva fachada. El
-// reproductor se carga del dominio sin cookies y solo al pulsar.
+// Vídeos de las guías (DESIGN.md, Video facade): solo YouTube. El reproductor se carga
+// del dominio sin cookies y solo al pulsar.
 
 const YOUTUBE_HOSTS = new Set([
   'youtube.com',
