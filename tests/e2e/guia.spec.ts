@@ -100,6 +100,23 @@ test.describe('página de guía', () => {
     await expect(link).toBeFocused()
   })
 
+  test('el vídeo sin portada no pisa el título con el botón a 390px', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto(url)
+    const frame = page.locator('.video__frame').first()
+    const title = await frame.locator('.video__title').boundingBox()
+    const badge = await frame.locator('.video__badge').boundingBox()
+    const box = await frame.boundingBox()
+    expect(title && badge && box).toBeTruthy()
+    const [t, b, f] = [title!, badge!, box!]
+    const overlap =
+      t.x < b.x + b.width && b.x < t.x + t.width && t.y < b.y + b.height && b.y < t.y + t.height
+    expect(overlap).toBe(false)
+    // El título cabe entero en el marco.
+    expect(t.y).toBeGreaterThanOrEqual(f.y)
+    expect(t.y + t.height).toBeLessThanOrEqual(f.y + f.height)
+  })
+
   test('un chip de coordenadas de la prosa copia su /travel', async ({ page, context }) => {
     await context.grantPermissions(['clipboard-read', 'clipboard-write'])
     await page.goto(url)
