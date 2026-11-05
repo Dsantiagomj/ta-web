@@ -50,6 +50,13 @@ describe('bloque de vídeo', () => {
     })
   })
 
+  it('la ayuda del panel pide un enlace de YouTube y no ofrece otros sitios', () => {
+    const description = (field(VideoBlock, 'url') as { admin?: { description?: unknown } }).admin
+      ?.description
+    expect(description).toMatch(/YouTube/)
+    expect(description).not.toMatch(/otro sitio/)
+  })
+
   it('guarda un título opcional y traducible', () => {
     const title = field(VideoBlock, 'title')
     expect(title).toMatchObject({ type: 'text', localized: true })
@@ -58,20 +65,36 @@ describe('bloque de vídeo', () => {
 })
 
 describe('validateVideoUrl', () => {
-  it('acepta una URL https de YouTube o de otro sitio', () => {
-    expect(validateVideoUrl('https://www.youtube.com/watch?v=dQw4w9WgXcQ')).toBe(true)
-    expect(validateVideoUrl('https://player.vimeo.com/video/123')).toBe(true)
+  it('acepta los enlaces de YouTube que se pegan en el panel', () => {
+    for (const url of [
+      'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      'https://youtu.be/dQw4w9WgXcQ',
+      'https://www.youtube.com/embed/dQw4w9WgXcQ',
+      'https://www.youtube.com/shorts/dQw4w9WgXcQ',
+    ]) {
+      expect(validateVideoUrl(url), url).toBe(true)
+    }
+  })
+
+  it('rechaza los vídeos de otros sitios: los vídeos son solo de YouTube', () => {
+    expect(validateVideoUrl('https://player.vimeo.com/video/123')).toMatch(/YouTube/)
+    expect(validateVideoUrl('https://vimeo.com/76979871')).toMatch(/YouTube/)
+  })
+
+  it('rechaza un enlace de YouTube que no lleva a un vídeo', () => {
+    expect(validateVideoUrl('https://www.youtube.com/channel/UC123')).toMatch(/YouTube/)
+    expect(validateVideoUrl('https://www.youtube.com/watch?v=corto')).toMatch(/YouTube/)
   })
 
   it('rechaza una URL vacía, porque el vídeo es obligatorio', () => {
-    expect(validateVideoUrl(undefined)).toMatch(/URL/)
-    expect(validateVideoUrl(null)).toMatch(/URL/)
-    expect(validateVideoUrl('')).toMatch(/URL/)
+    expect(validateVideoUrl(undefined)).toMatch(/YouTube/)
+    expect(validateVideoUrl(null)).toMatch(/YouTube/)
+    expect(validateVideoUrl('')).toMatch(/YouTube/)
   })
 
   it('rechaza http y lo que no es una URL', () => {
-    expect(validateVideoUrl('http://www.youtube.com/watch?v=dQw4w9WgXcQ')).toMatch(/https/)
-    expect(validateVideoUrl('youtube.com/watch?v=dQw4w9WgXcQ')).toMatch(/https/)
+    expect(validateVideoUrl('http://www.youtube.com/watch?v=dQw4w9WgXcQ')).toMatch(/YouTube/)
+    expect(validateVideoUrl('youtube.com/watch?v=dQw4w9WgXcQ')).toMatch(/YouTube/)
   })
 })
 

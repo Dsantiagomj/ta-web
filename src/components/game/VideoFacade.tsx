@@ -22,6 +22,8 @@ export function VideoFacade({
   poster?: ImageAsset
 }) {
   const id = youtubeId(url)
+  // Defensa ante datos inesperados: el panel solo acepta YouTube, pero un vídeo guardado
+  // que no lo sea se queda en un enlace en vez de romper la página.
   if (!id) {
     return (
       <p>

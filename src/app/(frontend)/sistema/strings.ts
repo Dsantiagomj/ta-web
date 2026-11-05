@@ -41,7 +41,7 @@ export const catalogStrings = {
     coordinates:
       'Los [x,y] de la prosa se convierten en chips; pulsar copia /travel x,y. Sin JavaScript son texto.',
     stages: 'La etapa 1 sale marcada. Las marcas no se guardan.',
-    video: 'Con portada, sin portada y de otro sitio. Nada de YouTube carga hasta pulsar.',
+    video: 'Con portada y sin portada. Nada de YouTube carga hasta pulsar.',
   },
   demo: {
     primary: 'Entrar',

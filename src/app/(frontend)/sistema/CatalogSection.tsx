@@ -256,7 +256,6 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
             <div className="grid w-full gap-6 md:grid-cols-2">
               <VideoFacade url={video.url} title={video.title} poster={images.video} />
               <VideoFacade url={video.url} title={video.title} />
-              <VideoFacade url="https://vimeo.com/76979871" title={samples.otherVideoTitle} />
             </div>
           </Group>
 

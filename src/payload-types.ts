@@ -413,7 +413,7 @@ export interface ImageBlock {
  */
 export interface VideoBlock {
   /**
-   * Enlace https de YouTube o de otro sitio que se pueda incrustar.
+   * Enlace al vídeo en YouTube (youtube.com o youtu.be).
    */
   url: string;
   title?: string | null;
