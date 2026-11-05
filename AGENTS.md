@@ -140,8 +140,8 @@ CI (`.github/workflows/ci.yml`) runs lint, types, unit, integration, build, E2E,
 
 | Rule | Detail |
 |---|---|
-| Server components by default | `"use client"` only for islands: the checklist app, search dialog, theme switch, member menu, dialogs |
-| No client JavaScript on guide pages beyond the shell | Lighthouse CI enforces the 150 KB budget |
+| Server components by default | `"use client"` only for islands: the checklist app, search dialog, theme switch, member menu, dialogs, and the copy and video island of guide pages |
+| No client JavaScript on guide pages beyond the shell | The one exception is a single small island, rendered once per page, that copies coordinates and swaps the video link for its player (`DESIGN.md`, Quest guide components). Both work without it. Lighthouse CI enforces the 150 KB budget |
 | Fetch data on the server | In server components or route handlers through the local API; no client-side fetching of content |
 | Entitlement checks happen per request on the server | A premium block is not rendered, and not serialized, for a visitor without the entitlement |
 | Revalidate on publish | Payload `afterChange` hooks call `revalidateTag`/`revalidatePath` for what changed (planned) |
