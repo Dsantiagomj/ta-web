@@ -108,8 +108,18 @@ describe('ribbonProps', () => {
     })
   })
 
-  it('la recompensa resume XP, kamas y cuántos objetos hay en el Botín', () => {
+  it('sin texto de recompensas, resume XP, kamas y cuántos objetos hay en el Botín', () => {
     expect(ribbonProps(guide, []).reward).toEqual({ xp: 16380, kamas: 390, items: 2 })
+  })
+
+  it('el texto de recompensas de la guía manda sobre DofusDB, en una línea', () => {
+    const edited = {
+      ...guide,
+      summary: { ...guide.summary, rewards: '16 380 XP.\n390 kamas.\n1 x Ala de tofu.' },
+    }
+    expect(ribbonProps(edited, []).reward).toBe('16 380 XP · 390 kamas · 1 x Ala de tofu')
+    const noQuest = { ...edited, quest: null }
+    expect(ribbonProps(noQuest, []).reward).toBe('16 380 XP · 390 kamas · 1 x Ala de tofu')
   })
 
   it('sin resumen ni misión, nada', () => {
@@ -141,8 +151,23 @@ describe('botinProps', () => {
     })
   })
 
-  it('sin misión no hay Botín', () => {
+  it('sin misión ni recompensas escritas no hay Botín', () => {
     expect(botinProps({ ...guide, quest: null })).toBeNull()
+  })
+
+  it('sin misión, las recompensas que escribió Torre, línea a línea y sin fichas', () => {
+    const noQuest = {
+      ...guide,
+      quest: null,
+      summary: { rewards: '2 000 XP.\n\n1 x Pico de tofu.\n' },
+    }
+    expect(botinProps(noQuest)).toEqual({ items: [], notes: ['2 000 XP.', '1 x Pico de tofu.'] })
+  })
+
+  it('con misión, las fichas de DofusDB aunque Torre haya escrito el texto', () => {
+    const edited = { ...guide, summary: { ...guide.summary, rewards: '16 380 XP.' } }
+    expect(botinProps(edited)).toMatchObject({ xp: 16380, kamas: 390 })
+    expect(botinProps(edited)).not.toHaveProperty('notes')
   })
 })
 

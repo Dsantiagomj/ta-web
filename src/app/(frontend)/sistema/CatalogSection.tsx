@@ -207,6 +207,10 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
                 reward={{ xp: 1000000, kamas: 21990 }}
                 rewardHref={`#${key}-botin-xp`}
               />
+              <SummaryRibbon
+                reward={samples.rewardNotes.map((line) => line.replace(/\.$/, '')).join(' · ')}
+                rewardHref={`#${key}-botin-texto`}
+              />
             </div>
           </Group>
 
@@ -244,6 +248,7 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
                 xp={needsGuide.reward.xp}
                 kamas={needsGuide.reward.kamas}
               />
+              <BotinCard id={`${key}-botin-texto`} headingLevel={4} notes={samples.rewardNotes} />
             </div>
           </Group>
 

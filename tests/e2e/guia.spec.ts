@@ -33,7 +33,8 @@ test.describe('página de guía', () => {
     await expect(ribbon.getByText(seedGuide.needsNote)).toBeVisible()
     const reward = ribbon.getByRole('link', { name: /Recompensa/ })
     // Los miles van con un espacio que no se parte.
-    await expect(reward).toHaveText(/16\s380 XP · 390 kamas · 4 objetos/)
+    // El texto de recompensas de la guía, en una línea.
+    await expect(reward).toHaveText(/16 380 XP · 390 kamas · 4 objetos del Botín/)
 
     // El cuerpo en orden, con los [x,y] de la prosa como chips.
     await expect(page.getByText(seedGuide.intro)).toBeVisible()

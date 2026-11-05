@@ -198,4 +198,6 @@ export const samples = {
   stats: { xp: 'XP', kamas: 'Kamas' },
   heroNoArt: { title: 'Intoxicación profunda', subtitle: 'Misión de Sufokia · Diaria' },
   hupeEsseCaption: 'Hupe Esse, en la Biblioteca de Astrub.',
+  // Una guía sin misión de DofusDB: la recompensa es el texto que escribió Torre.
+  rewardNotes: ['24 316 XP.', '552 kamas.', '1 x Escudo de Kerubim.'],
 }
