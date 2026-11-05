@@ -400,7 +400,7 @@ Every interactive component has these states: default, hover (mouse only), focus
 | Segmented tabs | pill track in `--color-raised`; active segment `--color-surface` with `--color-accent` text | selected uses `aria-selected`; arrow keys move between tabs |
 | Checkbox | 22px, `--radius-sm`, `--color-muted` border | checked: `--color-accent` fill with a `--color-bg` check mark (at least 5.55:1); pressed: `scale(.9)` for 100ms |
 | Progress bar | 10 to 14px track in `--color-bg` (dark) or `--color-raised` with a hairline (light), `--color-accent` fill (at least 4.93:1 against raised, over the 3:1 a fill needs), optional chapter ticks, percentage beside it in Lilita One and `--color-accent-2` | animates `transform: scaleX()` on the fill, never `width` |
-| Callout | 12px radius, fill of its color at 10 percent over `--color-surface`, 1px border of its color at 35 percent, 28px ring icon, title in its color (display 700, `--text-eyebrow`, uppercase), text in `--color-ink`; `role="note"`. Until game art is picked for the three kinds, the icon is a typographic glyph in a 2px ring of its color (`i`, `!`, `×`), `aria-hidden`; the title carries the meaning | tip (info, "Consejo"), warning (warning, "Importante"), stop (danger, "Alto"). Ratios under Quest guide components |
+| Callout | 12px radius, fill of its color at 10 percent over `--color-surface`, 1px border of its color at 35 percent, 28px ring icon, title in its color (display 700, `--text-eyebrow`, uppercase), text in `--color-ink`; `role="note"`. The icon is a typographic glyph in a 2px ring of its color (`i`, `!`, `×`), `aria-hidden`; the title carries the meaning. Game art may replace a glyph only if the art clearly conveys the same meaning (tip or info, warning, stop); otherwise the glyph stays (decided 2026-11-05) | tip (info, "Consejo"), warning (warning, "Importante"), stop (danger, "Alto"). Ratios under Quest guide components |
 | Table | 44px rows, 1px `--color-line` between rows, sticky head row in micro labels, checkbox column first, numbers right-aligned | row hover: `--color-raised`; done rows keep their place and tick |
 | Tooltip | `--color-raised`, 12px radius, `--text-xs`, 8px offset | shows on hover after 300ms and on focus; never holds the only copy of information |
 | Dialog | native `<dialog>` with `showModal()`, 16px radius, `--shadow-dialog`, title in display 700, actions bottom right | confirm destructive actions with a dialog, never `confirm()`; offer "Deshacer" in a toast for 8 seconds after |
@@ -467,7 +467,7 @@ Pairs already in the theme tables: accent on raised (coordinates chip, filled pr
 - **Anatomy**: full-bleed section; inside, a grid at `--width-hero` with three areas: the breadcrumb pill on top, then the body (the `h1` in `--text-4xl` and a subtitle in `--text-lg` 500 `--color-ink-2`, "Misión de Astrub · Ciudad de Astrub") and the level medallion at the end of the row, aligned to the bottom.
 - **With art**: the art fills the section with `object-fit: cover` and a `mask-image` fade to transparent at the bottom (21:9 on desktop, 4:3 on phones through `<source media>`, see Imagery). A shade sits between art and text: a gradient from `--color-bg` to `--color-bg` at 85 percent (dark) or 90 percent (light) to transparent, plus a 120px top band at 70 percent for the site header. In light mode the art is at 55 percent opacity. Height: at least 300px on phones, `clamp(380px, 38vw, 540px)` from 768px. The art is the LCP candidate: `fetchpriority="high"`, never lazy, `alt=""` (decorative).
 - **Without art**: the same grid on `--color-bg`, with no shade and no minimum height; only the top padding stays. Nothing stands in for the art.
-- **Art source**: an optional image Torre picks for the guide (a planned upload field on the guide). It is never picked automatically: many guides only have dialogue screenshots, which make poor heroes. No field, or no value, means the no-art header.
+- **Art source** (decided 2026-11-05): an image field on the guide, prefilled with a representative image of the quest's zone, which Torre can change or clear. It is never taken from the guide's screenshots: many guides only have dialogue screenshots, which make poor heroes. DofusDB has no zone images, so the prefill needs our own library of one image per zone. It ships with the guide page; until then there is no field and the header renders without art. No value means the no-art header.
 - **Breadcrumb**: a `<nav aria-label="Migas de pan">` with an `<ol>`; pill in `--color-surface` at 92 percent, `--text-xs`, links in `--color-accent`, `/` separators in `--color-ink-2`. The achievement crumb carries its 20px icon. Under 640px the first crumb ("Misiones") is hidden, because the menu already has it.
 - **Accessibility**: the section is `aria-labelledby` the `h1`. The title is written in normal case and uppercased in CSS.
 - **Motion**: the breadcrumb, the subtitle and the medallion enter with the 40ms stagger (Motion, Enter). The title and the art never animate in.
@@ -581,8 +581,8 @@ The components above need data the guide does not store yet:
 
 | Part | Needs |
 |---|---|
-| Hero art | an optional image field on the guide |
-| Start place ("Biblioteca de Astrub") | a text field next to the start NPC, or the subzone from DofusDB |
+| Hero art | an image field on the guide, prefilled from a per-zone image library (Hero header) |
+| Start place ("Biblioteca de Astrub") | the subzone name from DofusDB, editable in the panel, like the start NPC and position that the guide already fills from DofusDB |
 | Stage card | the planned step block: title, optional coordinates, body blocks |
 | Fight block | a block with monsters (from the Monsters collection) and quantities; monster level is optional |
 | Achievement chain | the achievement relation and the order of its quests |
@@ -629,7 +629,7 @@ Exits run at about 70 percent of the enter duration (a 220ms dropdown closes in 
 ## Imagery
 
 - Real game art only, imported once and served from R2 behind the CDN domain. Nothing loads from DofusDB or Ankama at runtime.
-- Every image has pre-built AVIF and WebP variants at fixed widths (320, 640, 960, 1600; icons at 1x and 2x), generated offline before the import (plan section 8). The app never optimizes images on request.
+- Every image has pre-built AVIF and WebP variants, generated offline before the import (plan section 8). Widths are flexible (decided 2026-11-05): no fixed list; 320, 640, 960 and 1600 are the starting point, and icons come at 1x and 2x. The app never optimizes images on request.
 - Markup: `<picture>` with AVIF, then WebP, then the WebP `<img>` with explicit `width` and `height` from the media record, `srcset` and `sizes`. Next's `<Image>` only with a loader that maps to the pre-built variants and `unoptimized` set.
 - `loading="lazy"` and `decoding="async"` on everything below the first screen; the LCP image gets `fetchpriority="high"` and no lazy loading.
 - Aspect ratios:
@@ -700,8 +700,10 @@ Carried over from Dofus Tools reviews, plus what the duffus study ruled out.
 
 ## Open questions
 
-1. Exact variant widths for images, to settle with the import script once the image sizes are measured. The widths listed under Imagery are a starting point, not a decision.
-2. Hero art: should the import pre-fill the guide's hero image from one of its screenshots for Torre to confirm, or leave it empty until Torre picks one? Until decided, it stays empty and the header renders without art.
-3. Callout icons: which game art replaces the typographic `i`, `!` and `×` glyphs.
-4. Start place: a text field Torre writes, or the subzone name from DofusDB.
-5. Video hosts other than YouTube: keep the plain link card, or add facades per host when a guide needs one.
+None open. Answered on 2026-11-05:
+
+1. **Image widths**: flexible, with no fixed width list. The widths under Imagery are a starting point that the import script may change once the image sizes are measured; `srcset` on `Picture` is a logged follow-up. Guide images open fullscreen (Figure and fullscreen viewer).
+2. **Hero art**: prefilled with a representative image of the quest's zone, editable by Torre. DofusDB has no zone images, so it needs a per-zone image library. It is implemented with the guide page and stays open as implementation work, not as a design question (Hero header).
+3. **Callout icons**: game art may replace the `i`, `!` and `×` glyphs only if it clearly conveys the same meaning (tip or info, warning, stop); otherwise the glyphs stay (Callout row).
+4. **Start place**: from DofusDB, editable in the panel. Already implemented for the start NPC and position (`startNpc`, `startX`, `startY`, filled through `src/lib/guides/summary.ts`).
+5. **Video hosts**: YouTube only. All 44 video embeds in the 1796 legacy Squarespace pages are YouTube (Video facade).
