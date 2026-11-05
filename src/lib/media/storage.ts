@@ -1,3 +1,5 @@
+import type { S3ClientConfig } from '@aws-sdk/client-s3'
+import { buildStoragePathData, sanitizePrefix } from '@payloadcms/plugin-cloud-storage/utilities'
 import { s3Storage } from '@payloadcms/storage-s3'
 import type { Plugin } from 'payload'
 
@@ -39,6 +41,31 @@ export function readS3Settings(env: Env): S3Settings | null {
   }
 }
 
+/** La conexión al bucket: la misma para el adaptador de Payload y para los scripts. */
+export function s3ClientConfig(settings: S3Settings): S3ClientConfig {
+  return {
+    endpoint: settings.endpoint,
+    region: settings.region,
+    credentials: { accessKeyId: settings.accessKeyId, secretAccessKey: settings.secretAccessKey },
+  }
+}
+
+/**
+ * La clave de un archivo en el bucket, calculada como la calcula storage-s3 al servirlo:
+ * el prefijo del registro, su `_objectKey` y el nombre, saneados con sus mismas utilidades.
+ */
+export function mediaObjectKey(doc: {
+  filename: string
+  prefix?: string | null
+  _objectKey?: string | null
+}) {
+  const docPrefix = [doc.prefix, doc._objectKey]
+    .map((part) => sanitizePrefix(part ?? ''))
+    .filter(Boolean)
+    .join('/')
+  return buildStoragePathData({ docPrefix, filename: doc.filename }).storageFilePath
+}
+
 /** URL pública de un archivo servido desde el dominio CDN de R2. */
 export function mediaFileUrl(baseUrl: string, prefix: string | undefined, filename: string) {
   const path = [prefix, filename]
@@ -61,13 +88,7 @@ export function mediaStorage(env: Env = process.env): Plugin {
     // Mismo esquema con y sin R2, para que las migraciones no dependan del entorno.
     alwaysInsertFields: true,
     bucket: settings?.bucket ?? '',
-    config: {
-      endpoint: settings?.endpoint,
-      region: settings?.region ?? 'auto',
-      credentials: settings
-        ? { accessKeyId: settings.accessKeyId, secretAccessKey: settings.secretAccessKey }
-        : undefined,
-    },
+    config: settings ? s3ClientConfig(settings) : { region: 'auto' },
     collections: {
       media: publicBaseUrl
         ? {
