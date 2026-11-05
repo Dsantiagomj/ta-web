@@ -327,7 +327,8 @@ describe('conversión de una página en guía de misión', () => {
     const callout = guide.body[index]
     expect(callout).toMatchObject({ blockType: 'callout', variant: 'warning' })
     if (callout?.blockType !== 'callout') return
-    expect(plain(callout.html)).toMatch(/^IMPORTANTE: las anutrof NO deben morir/)
+    // El título del aviso ya dice «Importante»: la etiqueta no se repite en el texto.
+    expect(plain(callout.html)).toMatch(/^Las anutrof NO deben morir/)
     const before = guide.body[index - 1]
     expect(before?.blockType === 'richText' && plain(before.html)).toMatch(
       /Básicamente tienen los mismos hechizos/,
@@ -347,13 +348,56 @@ describe('conversión de una página en guía de misión', () => {
       guide.body.map((block) => [block.blockType, 'html' in block ? plain(block.html) : '']),
     ).toEqual([
       ['richText', 'Primero.'],
-      ['callout', 'CUIDADO: el jefe pega fuerte.'],
-      ['callout', 'NOTA: puedes volver luego.'],
+      ['callout', 'El jefe pega fuerte.'],
+      ['callout', 'Puedes volver luego.'],
       ['richText', 'Cuidado, en minúsculas, es prosa.'],
     ])
     expect(guide.body.filter((block) => block.blockType === 'callout')).toMatchObject([
       { variant: 'warning' },
       { variant: 'tip' },
+    ])
+  })
+
+  it('ATENCIÓN, con o sin exclamaciones, es un aviso de cuidado sin la etiqueta', () => {
+    const page = parsePage(
+      pageWith(
+        '<p><strong>¡ATENCIÓN!</strong> En la forma encapuchada, solo te mueves en línea recta.</p>',
+        '<p><strong>ATENCIÓN: </strong>puedes evitar este combate.</p>',
+        '<p><strong>¡ATENCIÓN, ATENCIÓN!</strong> Esta misión es muy larga.</p>',
+      ),
+    )
+    const { guide } = toQuestGuide(page, { slug: 'prueba', questDofusIds: [1] })
+    expect(guide.body).toMatchObject([
+      { blockType: 'callout', variant: 'warning' },
+      { blockType: 'callout', variant: 'warning' },
+      { blockType: 'callout', variant: 'warning' },
+    ])
+    expect(guide.body.map((block) => ('html' in block ? plain(block.html) : ''))).toEqual([
+      'En la forma encapuchada, solo te mueves en línea recta.',
+      'Puedes evitar este combate.',
+      'Esta misión es muy larga.',
+    ])
+  })
+
+  it('quita la etiqueta sin perder el formato del resto del aviso', () => {
+    const page = parsePage(
+      pageWith('<p><strong>IMPORTANTE</strong>: el tutorial es <strong>CRUCIAL</strong>.</p>'),
+    )
+    const [callout] = toQuestGuide(page, { slug: 'prueba', questDofusIds: [1] }).guide.body
+    expect(callout).toMatchObject({ blockType: 'callout', variant: 'warning' })
+    if (callout?.blockType !== 'callout') return
+    expect(callout.html).toMatch(/^<p[^>]*>El tutorial es <strong>CRUCIAL<\/strong>\.<\/p>$/)
+  })
+
+  it('sin dos puntos ni exclamación no hay etiqueta: el aviso se queda entero', () => {
+    const page = parsePage(
+      pageWith('<p>CUIDADO CON EL MISSCLICK. Luego habla con él.</p>', '<p>IMPORTANTE:</p>'),
+    )
+    const { guide } = toQuestGuide(page, { slug: 'prueba', questDofusIds: [1] })
+    expect(guide.body.map((block) => ('html' in block ? plain(block.html) : ''))).toEqual([
+      'CUIDADO CON EL MISSCLICK. Luego habla con él.',
+      // Sin texto detrás, la etiqueta se queda: un aviso vacío no dice nada.
+      'IMPORTANTE:',
     ])
   })
 
