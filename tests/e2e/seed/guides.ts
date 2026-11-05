@@ -1,7 +1,8 @@
 // Guías de prueba para las E2E y Lighthouse CI: «Seis pies bajo tierra» (DofusDB 1976)
-// publicada con los cuatro bloques, la guía publicada de su prerrequisito y un borrador
-// sin publicar. Las pruebas leen de aquí lo que esperan ver. Se siembra con
-// scripts/seed-e2e.ts sobre la base vacía de las pruebas, nunca sobre una real.
+// publicada con una entrada, tres pasos (texto, imagen y aviso dentro) y un cierre con el
+// vídeo; la guía publicada de su prerrequisito, solo prosa; y un borrador sin publicar.
+// Las pruebas leen de aquí lo que esperan ver. Se siembra con scripts/seed-e2e.ts sobre
+// la base vacía de las pruebas, nunca sobre una real.
 import path from 'node:path'
 import type { Payload } from 'payload'
 
@@ -29,7 +30,15 @@ export const seedGuide = {
     'Pelos de arakna enferma',
     'Ojo de arakmutada',
   ],
-  intro: 'para empezar la misión.',
+  intro: 'Tres pasos en la mina de Astrub para rescatar a las anutrof.',
+  startLine: 'para empezar la misión.',
+  // Los pasos, en orden. La captura del primero es la primera imagen: va con prioridad.
+  steps: [
+    { title: 'Habla con Hupe Esse', coordinates: '[7,-19]' },
+    { title: 'Combate: protege a las anutrof', coordinates: '[3,-17]' },
+    { title: 'Escolta a las anutrof', coordinates: null },
+  ],
+  outro: 'Aquí termina la misión. Espero haberte ayudado.',
   image: {
     file: 'public/img/sistema/seis-pies-hupe-esse.webp',
     alt: 'El personaje humanoide recibe un paquete en una biblioteca de madera, con una librería llena de libros y una escalera de madera.',
@@ -220,55 +229,76 @@ export async function seedGuides(payload: Payload): Promise<void> {
         },
         seo: seedGuide.seo,
         body: [
+          { blockType: 'richText', content: richText(paragraph(text(seedGuide.intro))) },
           {
-            blockType: 'richText',
-            content: richText(
-              paragraph(
-                text('Habla con '),
-                text(seedGuide.start.npc, BOLD),
-                text(` [7,-19] ${seedGuide.intro}`),
-              ),
-            ),
-          },
-          { blockType: 'image', image: image.id, caption: seedGuide.image.caption },
-          {
-            blockType: 'richText',
-            content: richText(
-              heading('h2', 'Combate: protege a las anutrof'),
-              paragraph(
-                text('Habla con '),
-                text('Luci', BOLD),
-                text(' [3,-17]. Vas a empezar una lucha contra:'),
-              ),
-              bullets('1 x Ramán famélico', '1 x Milirrata famélica', '1 x Miserata famélica'),
-            ),
-          },
-          {
-            blockType: 'callout',
-            variant: 'warning',
-            content: richText(
-              paragraph(
-                text('Las anutrof '),
-                text('NO', BOLD),
-                text(` deben morir. ${seedGuide.callout}`),
-              ),
-            ),
-          },
-          {
-            blockType: 'richText',
-            content: richText(
-              paragraph(
-                text(
-                  'Una vez terminado el combate, vuelve a hablar con cualquiera de las anutrof y te acompañarán. Deberás escoltarlas fuera de allí.',
+            blockType: 'step',
+            title: seedGuide.steps[0]!.title,
+            x: seedGuide.start.x,
+            y: seedGuide.start.y,
+            body: [
+              {
+                blockType: 'richText',
+                content: richText(
+                  paragraph(
+                    text('Habla con '),
+                    text(seedGuide.start.npc, BOLD),
+                    text(` [7,-19] ${seedGuide.startLine}`),
+                  ),
                 ),
-              ),
-            ),
+              },
+              { blockType: 'image', image: image.id, caption: seedGuide.image.caption },
+            ],
+          },
+          {
+            blockType: 'step',
+            title: seedGuide.steps[1]!.title,
+            x: 3,
+            y: -17,
+            body: [
+              {
+                blockType: 'richText',
+                content: richText(
+                  paragraph(
+                    text('Habla con '),
+                    text('Luci', BOLD),
+                    text(' [3,-17]. Vas a empezar una lucha contra:'),
+                  ),
+                  bullets('1 x Ramán famélico', '1 x Milirrata famélica', '1 x Miserata famélica'),
+                  heading('h3', 'Recomendaciones'),
+                  paragraph(text('Intenta vencer primero al Ramán.')),
+                ),
+              },
+              {
+                blockType: 'callout',
+                variant: 'warning',
+                content: richText(
+                  paragraph(
+                    text('Las anutrof '),
+                    text('NO', BOLD),
+                    text(` deben morir. ${seedGuide.callout}`),
+                  ),
+                ),
+              },
+            ],
+          },
+          {
+            blockType: 'step',
+            title: seedGuide.steps[2]!.title,
+            body: [
+              {
+                blockType: 'richText',
+                content: richText(
+                  paragraph(
+                    text(
+                      'Una vez terminado el combate, vuelve a hablar con cualquiera de las anutrof y te acompañarán. Deberás escoltarlas fuera de allí.',
+                    ),
+                  ),
+                ),
+              },
+            ],
           },
           { blockType: 'video', url: seedGuide.video.url, title: seedGuide.video.title },
-          {
-            blockType: 'richText',
-            content: richText(paragraph(text('Aquí termina la misión. Espero haberte ayudado.'))),
-          },
+          { blockType: 'richText', content: richText(paragraph(text(seedGuide.outro))) },
         ],
       },
     })

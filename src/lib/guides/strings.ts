@@ -30,6 +30,8 @@ export const guideStrings = {
   /** La página pública de la guía, /<slug>. */
   page: {
     videoTitle: (title: string) => `Vídeo de la guía: ${title}`,
+    /** Un paso sin título, que solo puede pasar en un borrador. */
+    untitledStep: (number: number) => `Paso ${number}`,
     preview: {
       label: 'Vista previa',
       note: 'Vista previa del borrador. Los visitantes ven la versión publicada.',

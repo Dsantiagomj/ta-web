@@ -1,10 +1,12 @@
 // De la guía guardada a lo que pintan los componentes de la página (DESIGN.md, Quest guide).
 // Código puro, sin Payload ni React: la página carga la guía con depth 2 y esto decide qué
-// se enseña. Lo que la guía aún no guarda (arte, zona, etapas, logro) no se inventa.
+// se enseña. Lo que la guía aún no guarda (arte, zona, logro) no se inventa, y sin bloques
+// Paso no hay pasos: la prosa nunca se parte en pasos aquí.
 
 import type { GameItem, Quantity } from '@/components/game/types'
 import type { CalloutVariant } from '@/components/ui/strings'
 import type { ImageAsset } from '@/components/ui/types'
+import type { Coordinates } from '@/lib/guides/coordinates'
 import { mediaImageAsset } from '@/lib/media/image-asset'
 import type { Media, RichTextBlock } from '@/payload-types'
 
@@ -222,15 +224,37 @@ function hasImage(content: RichTextState): boolean {
   return visit(content.root.children as LexicalNode[])
 }
 
+/** Un paso de la guía listo para su tarjeta (DESIGN.md, Step card). */
+export interface GuideStep {
+  key: string
+  title: string
+  /** Solo con X e Y: el chip junto al título. */
+  coordinates?: Coordinates
+  blocks: GuideBlock[]
+}
+
 /**
- * Los bloques del cuerpo, en orden. Una imagen sin archivo se salta; las que tienen sus
- * variantes llevan srcset. Un vídeo sin título usa el de la guía. La primera imagen del
- * cuerpo, sea un bloque Imagen o una imagen dentro de un texto, va con prioridad.
+ * El cuerpo partido como lo pinta la página: la prosa antes del primer paso, los pasos y
+ * la prosa después del último. Sin pasos, todo el cuerpo es la entrada.
  */
-export function guideBlocks(guide: GuideDoc): GuideBlock[] {
+export interface GuideContent {
+  intro: GuideBlock[]
+  steps: GuideStep[]
+  outro: GuideBlock[]
+}
+
+/**
+ * Los bloques del cuerpo, en orden, repartidos en entrada, pasos y cierre. Un bloque
+ * suelto entre dos pasos se queda al final del paso anterior, para no cambiar el orden
+ * de lectura. Una imagen sin archivo se salta; las que tienen sus variantes llevan
+ * srcset. Un vídeo sin título usa el de la guía. La primera imagen en el orden del
+ * documento, sea un bloque Imagen o una imagen dentro de un texto, y esté o no dentro de
+ * un paso, va con prioridad.
+ */
+export function guideContent(guide: GuideDoc): GuideContent {
   let firstImage = true
-  return (guide.body ?? []).flatMap((block, index): GuideBlock[] => {
-    const key = block.id ?? String(index)
+
+  const toBlocks = (block: ContentBlockDoc, key: string): GuideBlock[] => {
     switch (block.blockType) {
       case 'richText':
       case 'callout': {
@@ -270,7 +294,37 @@ export function guideBlocks(guide: GuideDoc): GuideBlock[] {
       default:
         return []
     }
+  }
+
+  const body = guide.body ?? []
+  let lastStep = -1
+  body.forEach((block, index) => {
+    if (block.blockType === 'step') lastStep = index
   })
+
+  const content: GuideContent = { intro: [], steps: [], outro: [] }
+  body.forEach((block, index) => {
+    const key = block.id ?? String(index)
+    if (block.blockType !== 'step') {
+      const blocks = toBlocks(block, key)
+      const current = content.steps.at(-1)
+      if (!current) content.intro.push(...blocks)
+      else if (index > lastStep) content.outro.push(...blocks)
+      else current.blocks.push(...blocks)
+      return
+    }
+    const number = content.steps.length + 1
+    const coordinates = block.x != null && block.y != null ? { x: block.x, y: block.y } : null
+    content.steps.push({
+      key,
+      title: block.title?.trim() || guideStrings.page.untitledStep(number),
+      ...(coordinates && { coordinates }),
+      blocks: (block.body ?? []).flatMap((inner, innerIndex) =>
+        toBlocks(inner, inner.id ?? `${key}-${innerIndex}`),
+      ),
+    })
+  })
+  return content
 }
 
 /** Título y descripción para buscadores; sin los de la guía, los del autorrelleno. */

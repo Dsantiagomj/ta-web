@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import type { Media } from '@/payload-types'
 import {
   botinProps,
-  guideBlocks,
+  guideContent,
   guideLevel,
   guideSeo,
   prerequisiteQuestIds,
@@ -171,7 +171,15 @@ describe('botinProps', () => {
   })
 })
 
-describe('guideBlocks', () => {
+/** Los bloques de una guía sin pasos: todo el cuerpo es prosa, en la entrada. */
+function guideBlocks(doc: GuideDoc) {
+  const content = guideContent(doc)
+  expect(content.steps).toEqual([])
+  expect(content.outro).toEqual([])
+  return content.intro
+}
+
+describe('guideContent sin pasos', () => {
   const image = {
     id: 5,
     alt: 'Hupe Esse en la biblioteca',
@@ -318,6 +326,100 @@ describe('guideBlocks', () => {
         ],
       },
     })
+  })
+})
+
+describe('guideContent con pasos', () => {
+  const image = {
+    id: 5,
+    alt: 'Hupe Esse en la biblioteca',
+    url: '/api/media/file/hupe.webp',
+    width: 800,
+    height: 551,
+    updatedAt: '2026-11-05T00:00:00.000Z',
+    createdAt: '2026-11-05T00:00:00.000Z',
+  } satisfies Media
+
+  it('parte el cuerpo en entrada, pasos y cierre', () => {
+    const content = guideContent({
+      ...guide,
+      body: [
+        { blockType: 'richText', id: 'a', content: richText('Una misión corta.') },
+        {
+          blockType: 'step',
+          id: 'p1',
+          title: 'Habla con Hupe Esse',
+          x: 7,
+          y: -19,
+          body: [{ blockType: 'richText', id: 'p1a', content: richText('En la biblioteca.') }],
+        },
+        { blockType: 'step', id: 'p2', title: 'Vuelve con Luci', x: null, y: null, body: [] },
+        { blockType: 'richText', id: 'z', content: richText('Aquí termina la misión.') },
+      ],
+    })
+    expect(content).toEqual({
+      intro: [{ kind: 'richText', key: 'a', content: richText('Una misión corta.') }],
+      steps: [
+        {
+          key: 'p1',
+          title: 'Habla con Hupe Esse',
+          coordinates: { x: 7, y: -19 },
+          blocks: [{ kind: 'richText', key: 'p1a', content: richText('En la biblioteca.') }],
+        },
+        { key: 'p2', title: 'Vuelve con Luci', blocks: [] },
+      ],
+      outro: [{ kind: 'richText', key: 'z', content: richText('Aquí termina la misión.') }],
+    })
+  })
+
+  it('un bloque suelto entre dos pasos se queda al final del paso anterior, en su orden', () => {
+    const { steps, outro } = guideContent({
+      ...guide,
+      body: [
+        { blockType: 'step', id: 'p1', title: 'Uno', body: [] },
+        { blockType: 'callout', id: 'c', variant: 'tip', content: richText('Ojo.') },
+        { blockType: 'step', id: 'p2', title: 'Dos', body: [] },
+      ],
+    })
+    expect(steps.map((step) => step.blocks.map((block) => block.key))).toEqual([['c'], []])
+    expect(outro).toEqual([])
+  })
+
+  it('la primera imagen en el orden del documento va con prioridad, también dentro de un paso', () => {
+    const { intro, steps, outro } = guideContent({
+      ...guide,
+      body: [
+        { blockType: 'richText', id: 'a', content: richText('Sin imagen.') },
+        {
+          blockType: 'step',
+          id: 'p1',
+          title: 'Uno',
+          body: [
+            { blockType: 'image', id: 'i1', image },
+            { blockType: 'image', id: 'i2', image },
+          ],
+        },
+        { blockType: 'image', id: 'i3', image },
+      ],
+    })
+    expect(intro[0]).not.toHaveProperty('priorityImage')
+    expect(steps[0]?.blocks.map((block) => block.kind === 'image' && block.priority)).toEqual([
+      true,
+      false,
+    ])
+    expect(outro[0]).toMatchObject({ kind: 'image', priority: false })
+  })
+
+  it('sin X e Y juntas no hay chip; un paso sin título (borrador) lleva su número', () => {
+    const { steps } = guideContent({
+      ...guide,
+      body: [
+        { blockType: 'step', title: 'Solo X', x: 3, y: null },
+        { blockType: 'step', title: '  ', x: 0, y: 0 },
+      ],
+    })
+    expect(steps[0]).not.toHaveProperty('coordinates')
+    expect(steps[1]).toMatchObject({ key: '1', title: 'Paso 2', coordinates: { x: 0, y: 0 } })
   })
 })
 
