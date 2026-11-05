@@ -142,3 +142,20 @@ describe('Figure', () => {
     expect(html(<Figure image={image} alt="Hupe Esse" />)).not.toContain('<figcaption')
   })
 })
+
+// DESIGN.md, Accessibility: objetivo de 40px (44px con puntero grueso). Lo que se dibuja más
+// pequeño agranda el área que se pulsa con la clase hit-target.
+describe('Objetivos táctiles', () => {
+  it('todo botón, la etiqueta enlazada y la casilla agrandan su objetivo', () => {
+    for (const variant of ['primary', 'secondary', 'ghost'] as const) {
+      expect(html(<Button variant={variant}>Entrar</Button>)).toMatch(/class="[^"]*\bhit-target\b/)
+    }
+    expect(html(<ButtonLink href="/a">Entrar</ButtonLink>)).toMatch(/class="[^"]*\bhit-target\b/)
+    expect(html(<TagPill href="/a">Frigost</TagPill>)).toMatch(/class="[^"]*\bhit-target\b/)
+    expect(html(<Checkbox label="Hecha" />)).toMatch(/^<label class="[^"]*\bhit-target\b/)
+  })
+
+  it('la etiqueta sin enlace no es un objetivo', () => {
+    expect(html(<TagPill>Frigost</TagPill>)).not.toContain('hit-target')
+  })
+})
