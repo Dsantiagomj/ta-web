@@ -507,7 +507,7 @@ Two sizes of the same thing: a game item with its icon, quantity and name. Item 
 - **Coordinates in prose**: the renderer of the guide body turns every `[x,y]` written in a text node into a chip. The pattern is two signed integers in square brackets with optional spaces (`[7,-19]`, `[ -1 , 17 ]`); anything else stays text: decimals, a single number, three numbers, or coordinates inside a link or code. Step titles do not convert; a stage that has a main position shows it as a chip in its head.
 - **Without JavaScript**: the chip renders as plain text, readable and selectable. The island then turns each chip into a button (`role="button"`, `tabindex="0"`, Enter and Space) and gives it the name `[7,-19], copiar /travel 7,-19`, which starts with the visible text.
 - **Feedback**: on copy, a toast "Copiado: /travel 7,-19" in a `role="status"` region (Toast). If the clipboard is refused, the toast says "Escribe /travel 7,-19 en el chat".
-- **States**: hover (mouse only) shows the border in `--color-accent`; pressed `scale(.96)` over `--duration-press`; focus-visible a 2px `--color-accent` outline. Under `pointer: coarse` a transparent `::after` grows the target to 44px without changing the drawn chip.
+- **States**: hover (mouse only) shows the border in `--color-accent`; pressed `scale(.96)` over `--duration-press`; focus-visible a 2px `--color-accent` outline. A transparent `::after` grows the target to at least 40px tall (44px under `pointer: coarse`), centered on the chip, without changing the drawn chip or the line height, so the 26px pill still meets the Accessibility target rule.
 - **Motion**: border color over `--duration-fast`; the toast enters per the motion table.
 
 #### Stage card and stages timeline
