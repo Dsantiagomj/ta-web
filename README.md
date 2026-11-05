@@ -53,8 +53,6 @@ The `@smoke` tests only read, so they can run against dev or prod after a deploy
 
 ```sh
 SMOKE_BASE_URL=https://dev.example.com pnpm test:smoke
-# Behind basic auth, both variables or neither:
-SMOKE_BASE_URL=https://dev.example.com SMOKE_BASIC_AUTH_USER=… SMOKE_BASIC_AUTH_PASSWORD=… pnpm test:smoke
 ```
 
 Playwright reads these variables from the shell, never from `.env`, so a leftover value cannot point `pnpm test:e2e` at a deployment. The `Smoke` workflow (`.github/workflows/smoke.yml`) runs the same command from Actions, by hand (`workflow_dispatch`) or from another workflow (`workflow_call`) with a `base_url` input. `Smoke de dev` calls it after every successful dev deploy, and `Release` after every prod deploy (see Deploys).
@@ -63,14 +61,12 @@ Playwright reads these variables from the shell, never from `.env`, so a leftove
 
 ### Dev gate
 
-With `APP_ENV=dev`, or on Railway's `dev` environment (`RAILWAY_ENVIRONMENT_NAME=dev`), `src/proxy.ts` puts the whole site behind HTTP basic auth with `DEV_BASIC_AUTH_USER` and `DEV_BASIC_AUTH_PASSWORD`. Every response carries `X-Robots-Tag: noindex, nofollow` and `robots.txt` disallows everything. If either credential is missing, every page answers `503` instead of serving the site open.
+Dev is public but never indexed. With `APP_ENV=dev`, or on Railway's `dev` environment (`RAILWAY_ENVIRONMENT_NAME=dev`), `src/proxy.ts` adds `X-Robots-Tag: noindex, nofollow` to every response (pages, `/admin`, the API and static files) and `robots.txt` disallows everything, so search engines never list dev as a copy of production. There is no basic auth. The panel is protected by its own Payload login, which locks an account for 10 minutes after 5 failed attempts (`src/collections/Users.ts`).
 
-`/api/health` is the one path without auth. It returns only `ok` or `error` plus the version and commit, so uptime monitors can ping dev without the password. Everything else, `/admin`, the REST API, `robots.txt` and static files included, needs the credentials. The smoke suite sends them through `SMOKE_BASIC_AUTH_*`.
-
-Outside dev the proxy does nothing and `robots.txt` allows indexing, except `/admin`. To try the gate locally:
+Outside dev the proxy does nothing and `robots.txt` allows indexing, except `/admin`. To try dev mode locally:
 
 ```sh
-APP_ENV=dev DEV_BASIC_AUTH_USER=torre DEV_BASIC_AUTH_PASSWORD=clave pnpm dev
+APP_ENV=dev pnpm dev
 ```
 
 ### Deploys
@@ -92,7 +88,7 @@ Railway hosts both environments; `docs/legacy/infra.md` has the inventory, the d
 | `pnpm test` | Vitest unit tests in `tests/unit/` |
 | `pnpm test:integration` | Vitest tests in `tests/integration/` that boot Payload with `getPayload` and check access rules through the local API. A global setup runs `pnpm migrate` first. With `DATABASE_URL` empty it starts `pnpm db:dev` if needed (and stops it afterwards) and recreates the separate `ta_web_integration` database. Uploads go to `./media`; the `S3_*` variables are ignored |
 | `pnpm test:e2e` | Playwright tests in `tests/e2e/`, on the production path: `pnpm build`, `pnpm migrate` on an empty database, then `pnpm start` on port 3100. With `DATABASE_URL` empty it starts `pnpm db:dev` if needed and recreates the separate `ta_web_e2e` database, so your dev data is untouched. `E2E_SKIP_BUILD=1` reuses the last build. Install the browser once with `pnpm exec playwright install chromium` |
-| `pnpm test:e2e:dev-gate` | Playwright tests in `tests/e2e-dev-gate/` against the app with `APP_ENV=dev` on port 3101 (and a second instance without credentials on 3102). `E2E_SKIP_BUILD=1` reuses the build of `pnpm test:e2e` |
+| `pnpm test:e2e:dev-gate` | Playwright tests in `tests/e2e-dev-gate/` against the app with `APP_ENV=dev` on port 3101. `E2E_SKIP_BUILD=1` reuses the build of `pnpm test:e2e` |
 | `pnpm test:lhci` | Lighthouse CI (`lighthouserc.cjs`) against the production path, like `pnpm test:e2e`: `pnpm build`, `pnpm migrate` on an empty database, then `pnpm start` on port 3110. Three mobile runs per page with simulated 4G, against the budgets in `DESIGN.md`: the median must meet each one, except LCP, which fails only when the best run misses it and warns when the median does, because simulated LCP on localhost swings between about 0.9 and 2.8 s. With `DATABASE_URL` empty it starts `pnpm db:dev` if needed and recreates the separate `ta_web_lhci` database. `E2E_SKIP_BUILD=1` reuses the last build. It measures with Playwright's Chromium unless `CHROME_PATH` names another browser. Reports go to `.lighthouseci/` and never leave the machine. Pages are listed in `lighthouserc.cjs`, one line each: the home today |
 | `pnpm test:smoke` | The `@smoke` Playwright subset: home, `/admin` and `/api/health`. Without `SMOKE_BASE_URL` it runs against the local server, like `pnpm test:e2e`. With it, it tests that URL and starts nothing locally (see below) |
 | `pnpm db:dev` | Embedded Postgres in the foreground; `--verbose` prints its log |

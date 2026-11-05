@@ -11,13 +11,6 @@ on:
         description: URL del entorno, sin barra final (https://dev.torrentearcano.com)
         required: true
         type: string
-    secrets:
-      SMOKE_BASIC_AUTH_USER:
-        description: Usuario de basic auth del entorno, si lo tiene
-        required: false
-      SMOKE_BASIC_AUTH_PASSWORD:
-        description: Contraseña de basic auth del entorno, si lo tiene
-        required: false
   workflow_dispatch:
     inputs:
       base_url:
@@ -59,14 +52,10 @@ jobs:
         if: steps.browsers.outputs.cache-hit == 'true'
         run: pnpm exec playwright install-deps chromium
 
-      # Con SMOKE_BASE_URL, Playwright no compila ni arranca nada en local. En
-      # workflow_dispatch se usan los secretos del repo con estos nombres; sin ellos,
-      # las pruebas van sin basic auth.
+      # Con SMOKE_BASE_URL, Playwright no compila ni arranca nada en local.
       - run: pnpm test:smoke
         env:
           SMOKE_BASE_URL: ${{ inputs.base_url }}
-          SMOKE_BASIC_AUTH_USER: ${{ secrets.SMOKE_BASIC_AUTH_USER }}
-          SMOKE_BASIC_AUTH_PASSWORD: ${{ secrets.SMOKE_BASIC_AUTH_PASSWORD }}
 
       - name: Informe de Playwright
         if: failure()

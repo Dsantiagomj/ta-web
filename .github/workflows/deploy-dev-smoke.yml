@@ -75,6 +75,3 @@ jobs:
     uses: ./.github/workflows/smoke.yml
     with:
       base_url: ${{ needs.url.outputs.base_url }}
-    secrets:
-      SMOKE_BASIC_AUTH_USER: ${{ secrets.SMOKE_BASIC_AUTH_USER }}
-      SMOKE_BASIC_AUTH_PASSWORD: ${{ secrets.SMOKE_BASIC_AUTH_PASSWORD }}

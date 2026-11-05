@@ -13,12 +13,6 @@ const port = Number(process.env.E2E_PORT ?? 3100)
 const smokeBaseUrl = process.env.SMOKE_BASE_URL?.trim() || undefined
 const baseURL = smokeBaseUrl ?? `http://localhost:${port}`
 
-// El entorno de dev está detrás de basic auth.
-const smokeUser = process.env.SMOKE_BASIC_AUTH_USER
-const smokePassword = process.env.SMOKE_BASIC_AUTH_PASSWORD
-const httpCredentials =
-  smokeUser && smokePassword ? { username: smokeUser, password: smokePassword } : undefined
-
 export default defineConfig({
   testDir: './tests/e2e',
   forbidOnly: !!process.env.CI,
@@ -27,7 +21,6 @@ export default defineConfig({
   reporter: process.env.CI ? [['github'], ['html', { open: 'never' }]] : 'list',
   use: {
     baseURL,
-    httpCredentials,
     trace: 'on-first-retry',
   },
   projects: [

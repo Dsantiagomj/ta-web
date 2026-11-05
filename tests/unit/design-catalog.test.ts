@@ -7,7 +7,7 @@ describe('isDesignCatalogEnabled', () => {
     expect(isDesignCatalogEnabled({ NODE_ENV: 'development' })).toBe(true)
   })
 
-  it('abre /sistema en el entorno dev, que está detrás de la puerta de basic auth', () => {
+  it('abre /sistema en el entorno dev, que no se indexa', () => {
     expect(isDesignCatalogEnabled({ NODE_ENV: 'production', APP_ENV: 'dev' })).toBe(true)
     expect(
       isDesignCatalogEnabled({ NODE_ENV: 'production', RAILWAY_ENVIRONMENT_NAME: 'dev' }),
