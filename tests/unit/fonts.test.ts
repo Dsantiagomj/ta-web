@@ -11,11 +11,11 @@ type FontOptions = {
   adjustFontFallback?: boolean
 }
 
-const calls = vi.hoisted(() => new Map<string, FontOptions>())
+const calls = vi.hoisted(() => [] as { family: string; options: FontOptions }[])
 
 vi.mock('next/font/google', () => {
   const loader = (family: string) => (options: FontOptions) => {
-    calls.set(family, options)
+    calls.push({ family, options })
     return { variable: `variable-${family}`, className: '', style: { fontFamily: family } }
   }
   return {
@@ -29,39 +29,45 @@ beforeAll(async () => {
   await import('@/styles/fonts')
 })
 
-const options = (family: string) => {
-  const found = calls.get(family)
-  if (!found) throw new Error(`fonts.ts no carga ${family}`)
-  return found
-}
+const weights = (options: FontOptions) =>
+  Array.isArray(options.weight) ? options.weight : [options.weight]
+
+/** Los pesos de una familia, juntando todas sus instancias. */
+const familyWeights = (family: string) =>
+  calls
+    .filter((call) => call.family === family)
+    .flatMap((call) => weights(call.options))
+    .sort()
 
 describe('fuentes', () => {
-  it('precarga solo las familias del primer pintado: Barlow y Barlow Condensed', () => {
-    const preloaded = [...calls].filter(([, o]) => o.preload !== false).map(([family]) => family)
+  it('precarga solo dos archivos: Barlow 400 (texto) y Barlow Condensed 800 (titulares)', () => {
+    const preloaded = calls
+      .filter(({ options }) => options.preload !== false)
+      .map(({ family, options }) => `${family} ${weights(options).join(',')}`)
 
-    expect(preloaded.sort()).toEqual(['Barlow', 'Barlow Condensed'])
-  })
-
-  it('Barlow Condensed trae solo los pesos de la escala de DESIGN.md: 700 y 800', () => {
-    expect(options('Barlow Condensed').weight).toEqual(['700', '800'])
+    expect(preloaded.sort()).toEqual(['Barlow 400', 'Barlow Condensed 800'])
   })
 
   it('Barlow trae 400 a 700: texto, controles, chips y negritas del cuerpo', () => {
-    expect(options('Barlow').weight).toEqual(['400', '500', '600', '700'])
+    expect(familyWeights('Barlow')).toEqual(['400', '500', '600', '700'])
   })
 
-  it('Lilita One trae solo el 400', () => {
-    expect(options('Lilita One').weight).toBe('400')
+  it('Barlow Condensed trae solo los pesos de la escala de DESIGN.md: 700 y 800', () => {
+    expect(familyWeights('Barlow Condensed')).toEqual(['700', '800'])
   })
 
-  it.each(['Barlow', 'Barlow Condensed', 'Lilita One'])(
-    '%s: solo latin, display swap y respaldo con métricas ajustadas',
-    (family) => {
-      const font = options(family)
+  it('Lilita One trae solo el 400, sin precargar', () => {
+    const lilita = calls.filter(({ family }) => family === 'Lilita One')
+    expect(lilita.map(({ options }) => options.weight)).toEqual(['400'])
+    expect(lilita[0].options.preload).toBe(false)
+  })
 
-      expect(font.subsets).toEqual(['latin'])
-      expect(font.display).toBe('swap')
-      expect(font.adjustFontFallback).not.toBe(false)
-    },
-  )
+  it('cada instancia: solo latin, display swap y respaldo con métricas ajustadas', () => {
+    expect(calls.length).toBeGreaterThan(0)
+    for (const { family, options } of calls) {
+      expect(options.subsets, family).toEqual(['latin'])
+      expect(options.display, family).toBe('swap')
+      expect(options.adjustFontFallback, family).not.toBe(false)
+    }
+  })
 })
