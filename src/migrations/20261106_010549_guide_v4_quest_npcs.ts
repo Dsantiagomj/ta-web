@@ -50,7 +50,8 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   ALTER TABLE "npcs_locales" DISABLE ROW LEVEL SECURITY;
   DROP TABLE "npcs" CASCADE;
   DROP TABLE "npcs_locales" CASCADE;
-  ALTER TABLE "payload_locked_documents_rels" DROP CONSTRAINT "payload_locked_documents_rels_npcs_fk";
+  -- DROP TABLE "npcs" CASCADE ya quita esta clave foránea.
+  ALTER TABLE "payload_locked_documents_rels" DROP CONSTRAINT IF EXISTS "payload_locked_documents_rels_npcs_fk";
   
   DROP INDEX "media_game_asset_idx";
   DROP INDEX "payload_locked_documents_rels_npcs_id_idx";
