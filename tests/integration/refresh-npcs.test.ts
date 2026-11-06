@@ -149,7 +149,9 @@ describe('refreshNpcs', () => {
     expect((await npc(4412))?.renderRight).toBeTruthy()
   })
 
-  it('con un look nuevo sube los renders nuevos y borra los viejos', async () => {
+  // Los renders viejos siguen en Media: un editor puede haberlos usado en una guía, y
+  // borrarlos rompería esa imagen.
+  it('con un look nuevo sube los renders nuevos y conserva los viejos', async () => {
     const renders = renderFetcher()
     await refreshNpcs(payload, [HUPE_ESSE], { fetchRender: renders.fetchRender })
     const old = await renderMedia()
@@ -162,8 +164,8 @@ describe('refreshNpcs', () => {
       renders: { imported: 2, reused: 0, failed: 0 },
     })
     const now = await renderMedia()
-    expect(now).toHaveLength(2)
-    expect(now.map((media) => media.id)).not.toContain(old[0].id)
+    expect(now).toHaveLength(4)
+    expect(now.map((media) => media.id)).toEqual(expect.arrayContaining(old.map(({ id }) => id)))
     expect(((await npc(4412))?.renderRight as Media).gameAsset).toBe(
       npcRenderKey(4412, 'right', changed.look),
     )
