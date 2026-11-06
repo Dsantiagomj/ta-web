@@ -560,11 +560,11 @@ export interface CalloutBlock {
  */
 export interface StepBlock {
   /**
-   * Opcional. Lo que hay que hacer en el paso, corto: «Habla con Hupe Esse». Sin título, la tarjeta muestra solo su número («Paso 3»).
+   * Opcional y solo para el panel: la guía no lo enseña. En la lista «Pasos» de la guía, cada paso lleva la primera negrita de su texto, o «Paso 3» sin ella.
    */
   title?: string | null;
   /**
-   * La posición principal del paso, si la tiene: sale como chip junto al título.
+   * La posición principal del paso, si la tiene: sale en la lista «Pasos» y, si el texto no la nombra, como chip al principio del paso.
    */
   x?: number | null;
   y?: number | null;
