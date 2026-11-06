@@ -70,6 +70,8 @@ export interface QuantityByDofusId {
 /** Recompensas de una misión para un personaje de nivel 200. */
 export interface QuestRewards {
   experience: number
+  /** La XP en el nivel óptimo de cada etapa: el principio del rango. */
+  experienceMin: number
   kamas: number
   items: QuantityByDofusId[]
   emoteIds: number[]
@@ -89,6 +91,8 @@ export interface QuestNeeds {
 export interface RawNpc {
   id: number
   name?: LocalizedText | null
+  /** Su apariencia, como «{74||3=12993798,4=16707303}»: lo que pinta el renderizador. */
+  look?: string | null
 }
 
 /** Un mapa del juego: `id` es el mapId y posX/posY sus coordenadas. */
@@ -96,6 +100,44 @@ export interface RawMapPosition {
   id: number
   posX?: number | null
   posY?: number | null
+  subAreaId?: number | null
+}
+
+/** Una subzona («Ciudad de Astrub»); de ella solo usamos su área. */
+export interface RawSubArea {
+  id: number
+  areaId?: number | null
+}
+
+/** Un área («Astrub»): la zona de la misión. */
+export interface RawArea {
+  id: number
+  name?: LocalizedText | null
+}
+
+/** Un logro; need.quests son sus misiones, en el orden del juego. */
+export interface RawAchievement {
+  id: number
+  name?: LocalizedText | null
+  slug?: LocalizedText | null
+  need?: { quests?: number[] | null } | null
+}
+
+/** El logro de una misión y su posición en él (misión 2 de 3). */
+export interface QuestAchievement {
+  dofusId: number
+  name: string
+  /** El slug de su página, como en la web de Torre: la-ocasion-hace-al-ladron. */
+  slug: string
+  position: number
+  total: number
+}
+
+/** Los datos de un PNJ para la colección npcs. */
+export interface MappedNpc {
+  dofusId: number
+  name: string
+  look: string | null
 }
 
 /** Los datos de una misión para la colección quests, más sus prerrequisitos por ID de DofusDB. */
@@ -113,6 +155,9 @@ export interface MappedQuest {
     x: number | null
     y: number | null
   }[]
+  /** El área del mapa de inicio («Astrub»), o null. */
+  zone: string | null
+  achievement: QuestAchievement | null
   prerequisiteDofusIds: number[]
   rewards: QuestRewards
   needs: QuestNeeds

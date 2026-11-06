@@ -29,8 +29,11 @@ describe('mapQuest', () => {
       startPositions: [{ npcId: 1545, npcName: 'Paco Dekarbón', mapId: 66062340, x: -30, y: -84 }],
       prerequisiteDofusIds: [],
       // Estos fixtures no traen etapas
+      zone: null,
+      achievement: null,
       rewards: {
         experience: 0,
+        experienceMin: 0,
         kamas: 0,
         items: [],
         emoteIds: [],
@@ -68,6 +71,80 @@ describe('mapQuest', () => {
       { npcId: 201, npcName: null, mapId: 212730368, x: null, y: null },
       { npcId: 6364, npcName: null, mapId: 219153408, x: null, y: null },
     ])
+  })
+
+  describe('zona', () => {
+    it('es el área de la subzona del mapa de inicio', () => {
+      const withZone = indexLookups(npcs, mapPositions, {
+        subAreas: [{ id: 95, areaId: 18 }],
+        areas: [{ id: 18, name: { es: 'Astrub', fr: 'Astrub' } }],
+      })
+      const raw = quest(878)
+      raw.startPosition = [{ mapId: 192415748, npcId: 4412 }]
+      const lookups = indexLookups(npcs, [{ id: 192415748, posX: 7, posY: -19, subAreaId: 95 }], {
+        subAreas: [{ id: 95, areaId: 18 }],
+        areas: [{ id: 18, name: { es: 'Astrub' } }],
+      })
+      expect(mapQuest(raw, lookups).zone).toBe('Astrub')
+      // El mapa de los fixtures no trae subzona: sin zona.
+      expect(mapQuest(quest(878), withZone).zone).toBeNull()
+    })
+
+    it('sin subzona o sin área conocida no hay zona', () => {
+      const raw = quest(878)
+      raw.startPosition = [{ mapId: 192415748, npcId: 4412 }]
+      const positions = [{ id: 192415748, posX: 7, posY: -19, subAreaId: 95 }]
+      expect(mapQuest(raw, indexLookups([], positions)).zone).toBeNull()
+      expect(
+        mapQuest(raw, indexLookups([], positions, { subAreas: [{ id: 95, areaId: 18 }] })).zone,
+      ).toBeNull()
+    })
+  })
+
+  describe('logro', () => {
+    const achievements = [
+      {
+        id: 1671,
+        name: { es: 'La ocasión hace al ladrón' },
+        slug: { es: 'la ocasion hace al ladron' },
+        need: { quests: [1975, 878, 1977] },
+      },
+      {
+        id: 2000,
+        name: { es: 'Otro logro' },
+        slug: { es: 'otro logro' },
+        need: { quests: [878] },
+      },
+    ]
+
+    it('da el logro y la posición de la misión en él, en el orden de DofusDB', () => {
+      expect(mapQuest(quest(878), indexLookups([], [], { achievements })).achievement).toEqual({
+        dofusId: 1671,
+        name: 'La ocasión hace al ladrón',
+        slug: 'la-ocasion-hace-al-ladron',
+        position: 2,
+        total: 3,
+      })
+    })
+
+    it('si la misión está en varios logros, toma el de ID más bajo', () => {
+      const reversed = [...achievements].reverse()
+      expect(
+        mapQuest(quest(878), indexLookups([], [], { achievements: reversed })).achievement?.dofusId,
+      ).toBe(1671)
+    })
+
+    it('el slug sale del nombre si DofusDB no lo trae, sin acentos ni signos', () => {
+      const [first] = achievements
+      const noSlug = [{ ...first, slug: null, name: { es: '¡La ocasión, hace al ladrón!' } }]
+      expect(
+        mapQuest(quest(878), indexLookups([], [], { achievements: noSlug })).achievement?.slug,
+      ).toBe('la-ocasion-hace-al-ladron')
+    })
+
+    it('sin logro, null', () => {
+      expect(mapQuest(quest(879), indexLookups([], [], { achievements })).achievement).toBeNull()
+    })
   })
 
   // Prerrequisito = misión que hay que haber terminado. Solo cuentan los Qf= obligatorios

@@ -1,5 +1,7 @@
-// Trae todas las misiones de DofusDB, con los monstruos que nombran, y todo el catálogo de
-// objetos, y los guarda en quests, items y monsters, sin duplicar.
+// Trae todas las misiones de DofusDB, con los monstruos que nombran, sus zonas y logros, y
+// todo el catálogo de objetos, y los guarda en quests, items y monsters, sin duplicar.
+// Luego guarda los PNJ que dan las misiones en npcs e importa sus renders a Media, solo
+// los que aún no están (la primera vez tarda: dos imágenes por PNJ).
 // Uso: pnpm data:quests. Escribe en la base de DATABASE_URL (vacía: la de pnpm db:dev).
 // DOFUSDB_WRITE_CONCURRENCY fija cuántas escrituras van a la vez (por defecto 8).
 // Corre con `payload run`, que carga .env y transpila TypeScript; el script arranca
@@ -9,6 +11,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { createDofusDbClient } from '@/lib/dofusdb/client'
 import { fetchQuestData } from '@/lib/dofusdb/fetch-quest-data'
+import { refreshNpcs } from '@/lib/dofusdb/refresh-npcs'
 import {
   refreshQuests,
   type UpsertCounts,
@@ -26,6 +29,8 @@ try {
   const data = await fetchQuestData(createDofusDbClient({ log: (message) => console.log(message) }))
   console.log(
     `DofusDB: ${data.quests.length} misiones, ${data.npcs.length} PNJ, ${data.mapPositions.length} mapas, ` +
+      `${data.subAreas?.length ?? 0} subzonas, ${data.areas?.length ?? 0} áreas, ` +
+      `${data.achievements?.length ?? 0} logros, ` +
       `${data.items.length} objetos y ${data.monsters.length} monstruos (${seconds()} s)`,
   )
 
@@ -36,6 +41,13 @@ try {
     log: (message) => console.log(message),
   })
   console.log(`Escritura: ${seconds(writeStarted)} s.`)
+
+  console.log('Guardando los PNJ e importando sus renders…')
+  const npcsStarted = Date.now()
+  const npcCounts = await refreshNpcs(payload, data.npcs, {
+    log: (message) => console.log(message),
+  })
+  console.log(`PNJ: ${seconds(npcsStarted)} s.`)
   // `ending` concuerda con el género: misiones creadas, objetos creados.
   const summary = (label: string, ending: 'as' | 'os', counts: UpsertCounts) =>
     `${label}: ${counts.created} cread${ending}, ${counts.updated} actualizad${ending}, ` +
@@ -44,6 +56,11 @@ try {
   console.log(summary('Misiones', 'as', counts.quests))
   console.log(summary('Objetos', 'os', counts.items))
   console.log(summary('Monstruos', 'os', counts.monsters))
+  console.log(summary('PNJ', 'os', npcCounts.npcs))
+  console.log(
+    `Renders de PNJ: ${npcCounts.renders.imported} importados, ${npcCounts.renders.reused} ` +
+      `recuperados de Media y ${npcCounts.renders.failed} sin render.`,
+  )
   console.log(
     `Referencias omitidas: ${counts.missingPrerequisites} prerrequisitos, ` +
       `${counts.missingItems} objetos y ${counts.missingMonsters} monstruos que no existen.`,

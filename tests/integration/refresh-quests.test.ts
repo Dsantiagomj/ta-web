@@ -271,6 +271,42 @@ describe('recompensas y requisitos desde DofusDB', () => {
     }
   })
 
+  it('guarda la zona, el logro y la XP mínima, y repetirlo no cambia nada', async () => {
+    const withExtras = (): QuestData => ({
+      ...stepData(),
+      mapPositions: [{ id: 192415748, posX: 7, posY: -19, subAreaId: 95 }],
+      subAreas: [{ id: 95, areaId: 18 }],
+      areas: [{ id: 18, name: { es: 'Astrub' } }],
+      achievements: [
+        {
+          id: 1671,
+          name: { es: 'La ocasión hace al ladrón' },
+          slug: { es: 'la ocasion hace al ladron' },
+          need: { quests: [1975, 1976, 1977] },
+        },
+      ],
+    })
+    await refreshQuests(payload, withExtras())
+    const quest = (await byDofusId<Quest>('quests', [1976])).get(1976)
+    expect(quest).toMatchObject({
+      zone: 'Astrub',
+      achievement: {
+        dofusId: 1671,
+        name: 'La ocasión hace al ladrón',
+        slug: 'la-ocasion-hace-al-ladron',
+        position: 2,
+        total: 3,
+      },
+      rewards: { experience: 16_380, experienceMin: 9_800 },
+    })
+
+    const again = await refreshQuests(payload, withExtras())
+    expect(again.quests).toMatchObject({ created: 0, updated: 0 })
+
+    // Vuelve a los datos sin zona ni logro para las pruebas siguientes.
+    await refreshQuests(payload, stepData())
+  })
+
   it('actualiza solo lo que cambia y omite los objetos que no existen', async () => {
     const data = stepData()
     data.items.find((item) => item.id === 2322)!.name!.es = 'Colmillos de rata'

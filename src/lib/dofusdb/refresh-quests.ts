@@ -6,7 +6,13 @@ import { mapWithConcurrency } from '../concurrency'
 import type { QuestData } from './fetch-quest-data'
 import { mapItem, mapMonster } from './map-items-monsters'
 import { indexLookups, mapQuest } from './map-quest'
-import type { MappedItem, MappedMonster, MappedQuest, QuantityByDofusId } from './types'
+import type {
+  MappedItem,
+  MappedMonster,
+  MappedQuest,
+  QuantityByDofusId,
+  QuestAchievement,
+} from './types'
 
 export interface UpsertCounts {
   created: number
@@ -139,6 +145,17 @@ async function refreshCatalog<
   return { counts: countStatuses(results.map((result) => result.status)), ids }
 }
 
+/** El grupo achievement de la colección: sin logro, todos sus campos vacíos. */
+function achievementGroup(achievement: QuestAchievement | null) {
+  return {
+    dofusId: achievement?.dofusId ?? null,
+    name: achievement?.name ?? null,
+    slug: achievement?.slug ?? null,
+    position: achievement?.position ?? null,
+    total: achievement?.total ?? null,
+  }
+}
+
 // Lo que el script escribe en una misión, salvo prerrequisitos y fecha de refresco.
 function storedFields(doc: Quest) {
   const rows = <K extends 'item' | 'monster'>(
@@ -159,8 +176,21 @@ function storedFields(doc: Quest) {
       x: position.x ?? null,
       y: position.y ?? null,
     })),
+    zone: doc.zone ?? null,
+    achievement: achievementGroup(
+      doc.achievement?.dofusId != null
+        ? {
+            dofusId: doc.achievement.dofusId,
+            name: doc.achievement.name ?? '',
+            slug: doc.achievement.slug ?? '',
+            position: doc.achievement.position ?? 0,
+            total: doc.achievement.total ?? 0,
+          }
+        : null,
+    ),
     rewards: {
       experience: doc.rewards?.experience ?? null,
+      experienceMin: doc.rewards?.experienceMin ?? null,
       kamas: doc.rewards?.kamas ?? null,
       items: rows(doc.rewards?.items, 'item'),
       emoteIds: doc.rewards?.emoteIds ?? [],
@@ -217,7 +247,7 @@ export async function refreshQuests(
   const refreshedAt = (options.now ?? new Date()).toISOString()
   const log = options.log ?? (() => {})
   const concurrency = options.concurrency ?? DEFAULT_WRITE_CONCURRENCY
-  const lookups = indexLookups(data.npcs, data.mapPositions)
+  const lookups = indexLookups(data.npcs, data.mapPositions, data)
 
   const items = await refreshCatalog<MappedItem, Item>(
     payload,
@@ -255,12 +285,13 @@ export async function refreshQuests(
   // Solo para el progreso: los totales salen de lo que devuelve cada escritura.
   let done = 0
   const saved = await mapWithConcurrency([...quests.values()], concurrency, async (quest) => {
-    const { prerequisiteDofusIds: _prerequisites, rewards, needs, ...rest } = quest
+    const { prerequisiteDofusIds: _prerequisites, rewards, needs, achievement, ...rest } = quest
     const rewardItems = linkRows(rewards.items, 'item', items.ids)
     const needItems = linkRows(needs.items, 'item', items.ids)
     const needMonsters = linkRows(needs.monsters, 'monster', monsters.ids)
     const fields = {
       ...rest,
+      achievement: achievementGroup(achievement),
       rewards: { ...rewards, items: rewardItems.rows },
       needs: { items: needItems.rows, monsters: needMonsters.rows, walksMaps: needs.walksMaps },
     }

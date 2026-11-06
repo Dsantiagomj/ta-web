@@ -71,4 +71,31 @@ describe('fetchQuestData', () => {
     // Solo los campos que se guardan; DofusDB añade el tipo, con su supertipo, por typeId
     expect(selects.items).toEqual(['id', 'name', 'level', 'typeId', 'iconId', 'type'])
   })
+
+  it('busca las subzonas de los mapas de inicio y las áreas de esas subzonas', async () => {
+    const positions = [{ id: 66062340, posX: -30, posY: -84, subAreaId: 95 }]
+    const { client, lookups } = fixtureClient({
+      quests,
+      'map-positions': positions,
+      subareas: [{ id: 95, areaId: 18 }],
+      areas: [{ id: 18, name: { es: 'Astrub' } }],
+    })
+
+    const data = await fetchQuestData(client)
+
+    expect(lookups.subareas).toEqual([95])
+    expect(lookups.areas).toEqual([18])
+    expect(data.subAreas).toEqual([{ id: 95, areaId: 18 }])
+    expect(data.areas).toEqual([{ id: 18, name: { es: 'Astrub' } }])
+  })
+
+  it('trae todos los logros, solo con los campos que se usan', async () => {
+    const achievements = [{ id: 1671, name: { es: 'La ocasión hace al ladrón' }, need: {} }]
+    const { client, selects } = fixtureClient({ quests, achievements })
+
+    const data = await fetchQuestData(client)
+
+    expect(data.achievements).toEqual(achievements)
+    expect(selects.achievements).toEqual(['id', 'name', 'slug', 'need'])
+  })
 })

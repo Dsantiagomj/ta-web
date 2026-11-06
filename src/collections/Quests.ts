@@ -91,6 +91,26 @@ export const Quests: CollectionConfig = {
       ],
     },
     {
+      name: 'zone',
+      label: 'Zona',
+      type: 'text',
+      localized: true,
+      admin: { description: 'El área del mapa de inicio, como Astrub.' },
+    },
+    {
+      name: 'achievement',
+      label: 'Logro',
+      type: 'group',
+      admin: { description: 'El logro de la misión y su posición en él.' },
+      fields: [
+        { name: 'dofusId', label: 'ID en DofusDB', type: 'number' },
+        { name: 'name', label: 'Nombre', type: 'text', localized: true },
+        { name: 'slug', label: 'Slug', type: 'text' },
+        { name: 'position', label: 'Posición', type: 'number' },
+        { name: 'total', label: 'Misiones del logro', type: 'number' },
+      ],
+    },
+    {
       name: 'rewards',
       label: 'Recompensas',
       type: 'group',
@@ -99,6 +119,12 @@ export const Quests: CollectionConfig = {
       },
       fields: [
         { name: 'experience', label: 'Experiencia', type: 'number' },
+        {
+          name: 'experienceMin',
+          label: 'Experiencia en el nivel óptimo',
+          type: 'number',
+          admin: { description: 'El principio del rango de XP que enseña la guía.' },
+        },
         { name: 'kamas', label: 'Kamas', type: 'number' },
         quantities('items', 'Objetos', 'item'),
         dofusIds('emoteIds', 'IDs de emotes'),

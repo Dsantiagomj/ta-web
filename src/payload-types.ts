@@ -72,6 +72,7 @@ export interface Config {
     quests: Quest;
     items: Item;
     monsters: Monster;
+    npcs: Npc;
     'quest-guides': QuestGuide;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -85,6 +86,7 @@ export interface Config {
     quests: QuestsSelect<false> | QuestsSelect<true>;
     items: ItemsSelect<false> | ItemsSelect<true>;
     monsters: MonstersSelect<false> | MonstersSelect<true>;
+    npcs: NpcsSelect<false> | NpcsSelect<true>;
     'quest-guides': QuestGuidesSelect<false> | QuestGuidesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -159,6 +161,10 @@ export interface Media {
   id: number;
   alt: string;
   credits?: string | null;
+  /**
+   * Solo en el arte importado de DofusDB, como los renders de PNJ.
+   */
+  gameAsset?: string | null;
   /**
    * Solo en las imágenes migradas.
    */
@@ -275,10 +281,28 @@ export interface Quest {
       }[]
     | null;
   /**
+   * El área del mapa de inicio, como Astrub.
+   */
+  zone?: string | null;
+  /**
+   * El logro de la misión y su posición en él.
+   */
+  achievement?: {
+    dofusId?: number | null;
+    name?: string | null;
+    slug?: string | null;
+    position?: number | null;
+    total?: number | null;
+  };
+  /**
    * Para un personaje de nivel 200, como en las guías de Torre y en dofusdb.fr.
    */
   rewards?: {
     experience?: number | null;
+    /**
+     * El principio del rango de XP que enseña la guía.
+     */
+    experienceMin?: number | null;
     kamas?: number | null;
     items?:
       | {
@@ -363,6 +387,35 @@ export interface Monster {
    * ID de la imagen en DofusDB (gfxId).
    */
   iconId?: number | null;
+  /**
+   * La pone el script de refresco.
+   */
+  refreshedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Datos de DofusDB, de solo lectura. Los actualiza un script.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "npcs".
+ */
+export interface Npc {
+  id: number;
+  dofusId: number;
+  name: string;
+  /**
+   * Su apariencia en DofusDB, de la que sale el render.
+   */
+  look?: string | null;
+  /**
+   * Junto al título de la guía, en escritorio.
+   */
+  renderRight?: (number | null) | Media;
+  /**
+   * A la derecha del título, en el móvil.
+   */
+  renderLeft?: (number | null) | Media;
   /**
    * La pone el script de refresco.
    */
@@ -565,6 +618,10 @@ export interface PayloadLockedDocument {
         value: number | Monster;
       } | null)
     | ({
+        relationTo: 'npcs';
+        value: number | Npc;
+      } | null)
+    | ({
         relationTo: 'quest-guides';
         value: number | QuestGuide;
       } | null);
@@ -640,6 +697,7 @@ export interface UsersSelect<T extends boolean = true> {
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   credits?: T;
+  gameAsset?: T;
   originalUrl?: T;
   prefix?: T;
   _objectKey?: T;
@@ -761,10 +819,21 @@ export interface QuestsSelect<T extends boolean = true> {
         y?: T;
         id?: T;
       };
+  zone?: T;
+  achievement?:
+    | T
+    | {
+        dofusId?: T;
+        name?: T;
+        slug?: T;
+        position?: T;
+        total?: T;
+      };
   rewards?:
     | T
     | {
         experience?: T;
+        experienceMin?: T;
         kamas?: T;
         items?:
           | T
@@ -824,6 +893,20 @@ export interface MonstersSelect<T extends boolean = true> {
   dofusId?: T;
   name?: T;
   iconId?: T;
+  refreshedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "npcs_select".
+ */
+export interface NpcsSelect<T extends boolean = true> {
+  dofusId?: T;
+  name?: T;
+  look?: T;
+  renderRight?: T;
+  renderLeft?: T;
   refreshedAt?: T;
   updatedAt?: T;
   createdAt?: T;

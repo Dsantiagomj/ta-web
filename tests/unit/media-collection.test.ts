@@ -29,6 +29,10 @@ describe('colección media', () => {
     expect(Media.upload).toMatchObject({ adminThumbnail: 'webp-480' })
   })
 
+  it('guarda la clave del arte del juego importado, única: el refresco no duplica archivos', () => {
+    expect(field('gameAsset')).toMatchObject({ type: 'text', unique: true, index: true })
+  })
+
   it('guarda la URL original de Squarespace de las imágenes migradas', () => {
     expect(field('originalUrl')).toMatchObject({ type: 'text', validate: validateOptionalUrl })
   })
