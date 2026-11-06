@@ -24,6 +24,21 @@ export interface ImageFile {
 /** Descarga una imagen del CDN de Squarespace. Inyectable para probar sin red. */
 export type FetchImage = (url: string) => Promise<ImageFile>
 
+class ImageDownloadError extends Error {}
+
+// Drizzle envuelve los errores del cliente en `cause`. No convertir un fallo de
+// base de datos en una imagen omitida y una guía marcada como importada.
+function connectionFailed(error: unknown): boolean {
+  if (!(error instanceof Error)) return false
+  const code = (error as Error & { code?: string }).code ?? ''
+  return (
+    /^(08|57P0)/.test(code) ||
+    ['ECONNRESET', 'ETIMEDOUT', 'EADDRNOTAVAIL', 'EPIPE', 'ECONNREFUSED'].includes(code) ||
+    /not queryable|connection (?:terminated|closed)/i.test(error.message) ||
+    connectionFailed(error.cause)
+  )
+}
+
 export interface LoadQuestGuidesOptions {
   fetchImage: FetchImage
   log?: (message: string) => void
@@ -143,7 +158,12 @@ export async function loadQuestGuides(
       const created = await payload.create({
         collection: 'media',
         data: { alt, originalUrl: url },
-        file: await options.fetchImage(url),
+        file: await options.fetchImage(url).catch((cause: unknown) => {
+          // El transporte del CDN puede fallar con los mismos códigos que Postgres.
+          throw new ImageDownloadError(cause instanceof Error ? cause.message : String(cause), {
+            cause,
+          })
+        }),
         depth: 0,
         overrideAccess: true,
       })
@@ -168,6 +188,7 @@ export async function loadQuestGuides(
         try {
           return { blockType: 'image', image: await mediaFor(block.url, block.alt) }
         } catch (error) {
+          if (!(error instanceof ImageDownloadError) && connectionFailed(error)) throw error
           // Una imagen caída no tumba la guía: queda anotada para revisarla.
           oddities.push(`Imagen sin importar: ${block.url} (${(error as Error).message})`)
           return null
