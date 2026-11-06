@@ -58,20 +58,12 @@ function mediaId(value: number | Media | null | undefined): number | null {
   return typeof value === 'number' ? value : value.id
 }
 
-function isNpcRender(media: number | Media | null | undefined): media is Media {
-  return (
-    typeof media === 'object' &&
-    media !== null &&
-    !!media.gameAsset?.startsWith('dofusdb-npc-render:')
-  )
-}
-
 /**
  * Crea o actualiza los PNJ por su ID de DofusDB e importa sus renders (mirando a la
  * derecha y a la izquierda) a Media, una sola vez: cada archivo lleva su clave
  * (npcRenderKey) y se busca por ella antes de descargar nada, así que repetirlo no
  * duplica archivos aunque una pasada anterior se cortara a medias. Un look nuevo sube
- * renders nuevos y borra los viejos. Sin look, o si el renderizador falla, el PNJ se
+ * renders nuevos y conserva los viejos, que una guía puede usar. Sin look, o si el renderizador falla, el PNJ se
  * guarda sin ese render: la página no pinta su columna, y el siguiente refresco lo reintenta.
  */
 export async function refreshNpcs(
@@ -189,13 +181,9 @@ export async function refreshNpcs(
       status = 'updated'
     }
 
-    // Los renders que este PNJ ya no usa (un look anterior) no los enlaza nadie más.
-    for (const direction of RENDER_DIRECTIONS) {
-      const previous = doc?.[FIELD[direction]]
-      if (isNpcRender(previous) && previous.id !== ids[direction]) {
-        await payload.delete({ collection: 'media', id: previous.id, overrideAccess: true })
-      }
-    }
+    // Los renders de un look anterior se quedan en Media: son registros que un editor puede
+    // haber elegido en una guía, y borrarlos rompería esa imagen. Un look cambia muy pocas
+    // veces, así que lo que sobra es poco.
     return status
   })
 
