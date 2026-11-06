@@ -86,6 +86,12 @@ const CALLOUT_LABELS: Record<'warning' | 'tip', string[]> = {
 }
 const CALLOUT = new RegExp(`^¡?(${Object.values(CALLOUT_LABELS).flat().join('|')})(?!\\p{L})`, 'u')
 
+// La etiqueta abre un consejo hasta su primera lista; las recomendaciones al inicio
+// de un bloque continúan en el paso de la lucha. Las etiquetas ampliadas se conservan.
+const RECOMMENDATIONS = /^RECOMENDACI(?:ÓN|ON|ONES)(?!\p{L})/u
+const BARE_RECOMMENDATIONS = /^RECOMENDACI(?:ÓN|ON|ONES)\s*:?$/u
+const RECOMMENDATIONS_LABEL = /^\s*RECOMENDACI(?:ÓN|ON|ONES)\s*:\s*/u
+
 // Pasos. En las 1272 guías de misiones de Squarespace, Torre no marca los pasos con
 // encabezados: cada bloque de texto va seguido de sus capturas. Esa unidad, un bloque de
 // texto con las capturas que lo siguen, es un paso sin título; un bloque de texto sin
@@ -114,7 +120,7 @@ function firstCoordinates(text: string): { x: number; y: number } | null {
  * coordenadas), un marcador «ETAPA n:» y la frase de cierre.
  */
 type Marker =
-  | { blockType: 'textBlock'; start: boolean }
+  | { blockType: 'textBlock'; start: boolean; continues: boolean }
   | { blockType: 'source'; text: string }
   | { blockType: 'stepStart'; title: string }
   | { blockType: 'closing' }
@@ -167,7 +173,7 @@ function markedSteps(drafts: Draft[]): GuideBlock[] {
       if (isContent(draft)) intro.push(draft)
     } else if (draft.blockType === 'textBlock') {
       // El último paso acaba al empezar un bloque de texto después de sus capturas.
-      if (units.length === markers && unit.media) ending = true
+      if (units.length === markers && unit.media && !draft.continues) ending = true
     } else if (draft.blockType === 'source') {
       unit.text.push(draft.text)
     } else if (isContent(draft)) {
@@ -201,7 +207,7 @@ function unitSteps(drafts: Draft[]): GuideBlock[] | null {
       close()
       ending = true
     } else if (draft.blockType === 'textBlock') {
-      if (unit.media) {
+      if (unit.media && !draft.continues) {
         units.push(unit)
         unit = newUnit()
       }
@@ -347,6 +353,34 @@ function withoutCalloutLabel(html: string, variant: keyof typeof CALLOUT_LABELS)
   return paragraph.outerHTML
 }
 
+/** Recomendaciones en construcción: el párrafo de la etiqueta y lo que llevan. */
+interface Recommendations {
+  heading: string
+  html: string[]
+  /** Hasta su primera lista, las recomendaciones se quedan también con los párrafos. */
+  takesParagraphs: boolean
+}
+
+/**
+ * Abre las recomendaciones con su párrafo: la etiqueta sola no aporta texto; detrás de
+ * «RECOMENDACIONES:», el consejo en mayúscula; si la etiqueta dice más («RECOMENDACIONES
+ * PARA LA TERCERA LUCHA:»), el párrafo entero.
+ */
+function openRecommendations(element: TextElement): Recommendations {
+  const open = (html: string[], takesParagraphs: boolean) => ({
+    heading: element.html,
+    html,
+    takesParagraphs,
+  })
+  if (BARE_RECOMMENDATIONS.test(element.text)) return open([], true)
+  const paragraph = parseHtml(element.html).body.firstElementChild
+  const label = RECOMMENDATIONS_LABEL.exec(paragraph?.textContent ?? '')
+  if (!paragraph || !label) return open([element.html], true)
+  if (!dropLeadingText(paragraph, label[0].length)) return open([], true)
+  capitalizeFirst(paragraph)
+  return open([paragraph.outerHTML], false)
+}
+
 /** Texto comparable: sin tildes, mayúsculas, signos ni la numeración inicial ("29. "). */
 function comparable(text: string): string {
   return text
@@ -379,6 +413,15 @@ export function toQuestGuide(
     if (prose.length) body.push({ blockType: 'richText', html: prose.join('') })
     prose = []
   }
+  let tip: Recommendations | undefined
+  const closeTip = () => {
+    if (!tip) return
+    // Una etiqueta sin nada detrás se queda como prosa: un consejo vacío no dice nada.
+    if (tip.html.length)
+      body.push({ blockType: 'callout', variant: 'tip', html: tip.html.join('') })
+    else prose.push(tip.heading)
+    tip = undefined
+  }
   const title = () => page.title ?? heading ?? source.slug
 
   for (const block of page.blocks) {
@@ -399,14 +442,17 @@ export function toQuestGuide(
 
     // Cada bloque de texto empieza aparte: un paso es un bloque con sus capturas.
     flush()
-    const textBlock = { blockType: 'textBlock' as const, start: false }
+    const textBlock = { blockType: 'textBlock' as const, start: false, continues: false }
     body.push(textBlock)
+    let blockText = false
     // Prerrequisitos, Necesitarás y Recompensas ocupan cada uno su bloque de texto.
     let summaryField: SummaryField | undefined
     for (let element of block.elements) {
       if (!element.text) continue
       const first = !seenElement
       seenElement = true
+      const firstInBlock = !blockText
+      blockText = true
       // Las etiquetas del resumen van primero: a veces llegan como encabezado.
       const label = summaryLabel(element.text)
       if (label) {
@@ -425,6 +471,23 @@ export function toQuestGuide(
         if (page.title !== null && comparable(element.text) !== comparable(page.title)) {
           blockOddities.push(`Encabezado distinto del título: «${element.text}»`)
         }
+        continue
+      }
+
+      const list = element.tag === 'ul' || element.tag === 'ol'
+      if (tip && (list || tip.takesParagraphs)) {
+        body.push({ blockType: 'source', text: element.text })
+        tip.html.push(element.html)
+        tip.takesParagraphs &&= !list
+        continue
+      }
+      closeTip()
+      if (!list && RECOMMENDATIONS.test(element.text)) {
+        flush()
+        body.push({ blockType: 'source', text: element.text })
+        // Al principio de un bloque, el bloque sigue en el paso de la lucha.
+        textBlock.continues ||= firstInBlock
+        tip = openRecommendations(element)
         continue
       }
 
@@ -473,6 +536,7 @@ export function toQuestGuide(
       }
       prose.push(element.html)
     }
+    closeTip()
   }
   flush()
 

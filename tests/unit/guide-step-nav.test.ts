@@ -65,6 +65,51 @@ describe('stepNav', () => {
     expect(nav[0].label).toBe('Luci')
   })
 
+  it('quita las coordenadas de la negrita y la puntuación que las rodea', () => {
+    const nav = stepNav([
+      step('a', [prose('a1', text('Ve al '), bold('zaap de Astrub [5,-18]'))]),
+      step('b', [prose('b1', bold('Luci [3,-17]:'))]),
+      step('c', [prose('c1', bold('Kerubim Crepin ( [3, -17] ).'))]),
+      step('d', [prose('d1', bold('Dina Tapia en [-46,44]'))]),
+      step('e', [prose('e1', bold('[-28,33] Taller de herreros'))]),
+      step('f', [prose('f1', bold('el Rey Galdarion [-36,-60] en el Palacio de Bonta'))]),
+      step('g', [prose('g1', bold('Kerubim, en [3,-17], con Luci'))]),
+      step('h', [prose('h1', bold('SOLO SIRVEN LOS MAPAS [-68,29] y [-66,29]'))]),
+    ])
+    expect(nav.map((entry) => entry.label)).toEqual([
+      'zaap de Astrub',
+      'Luci',
+      'Kerubim Crepin',
+      // El «en» de delante de las coordenadas se va con ellas.
+      'Dina Tapia',
+      'Taller de herreros',
+      'el Rey Galdarion en el Palacio de Bonta',
+      'Kerubim con Luci',
+      // Lo que queda entre dos coordenadas sin una palabra («y», «,») se va con ellas.
+      'SOLO SIRVEN LOS MAPAS',
+    ])
+  })
+
+  it('sin coordenadas, los paréntesis de la negrita se quedan', () => {
+    const nav = stepNav([
+      step('a', [prose('a1', bold('Pandora (la buena)'))]),
+      step('b', [prose('b1', bold('Ve a [3,-17] y habla con Luci (la anutrof)'))]),
+    ])
+    expect(nav.map((entry) => entry.label)).toEqual([
+      'Pandora (la buena)',
+      'Ve y habla con Luci (la anutrof)',
+    ])
+  })
+
+  it('una negrita que sin coordenadas no dice nada da paso a la siguiente, o a «Paso N»', () => {
+    const nav = stepNav([
+      step('a', [prose('a1', bold('[3,-17]:'), text(' Habla con '), bold('Luci'))]),
+      step('b', [prose('b1', bold('( [3,-17] ) -'), text(' y vuelve.'))]),
+      step('c', [prose('c1', bold('[19,29], [19,30] y [21,30].'))]),
+    ])
+    expect(nav.map((entry) => entry.label)).toEqual(['Luci', 'Paso 2', 'Paso 3'])
+  })
+
   it('no mira dentro de los avisos ni de las capturas', () => {
     const callout: GuideBlock = {
       kind: 'callout',

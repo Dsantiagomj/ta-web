@@ -483,9 +483,10 @@ describe('pasos de la guía', () => {
       'step [5,-18]: richText+image',
       'step [1,-17]: richText+image',
       'step [4,-15]: richText+image',
-      // Un bloque de texto sin capturas va con el siguiente: la lucha y el aviso.
-      'step [3,-17]: richText+richText+callout+image',
-      'step: richText+richText+image',
+      // Un bloque de texto sin capturas va con el siguiente: la lucha y el aviso. Las
+      // recomendaciones de después de la lucha son de ese paso, no abren otro.
+      'step [3,-17]: richText+richText+callout+image+callout',
+      'step: richText+image',
       'step [1,-17]: richText+image',
       'step [3,-17]: richText+image',
       // Lo que queda del cierre («Aquí termina la misión…»).
@@ -643,5 +644,185 @@ describe('pasos de la guía', () => {
     expect(outline(guide.body)).toEqual(['step: richText'])
     expect(guide.body[0]).not.toHaveProperty('title')
     expect(oddities.join('\n')).not.toMatch(/título/)
+  })
+})
+
+describe('recomendaciones de Torre', () => {
+  const convert = (page: SquarespacePage) =>
+    toQuestGuide(page, { slug: 'prueba', questDofusIds: [1] })
+  const shot = (name: string) => ({ image: `https://images.squarespace-cdn.com/${name}.png` })
+
+  /** El texto de cada consejo de la guía, en orden. */
+  function tips(body: GuideBlock[]): string[] {
+    return flat(body).flatMap((block) =>
+      block.blockType === 'callout' && block.variant === 'tip' ? [plain(block.html)] : [],
+    )
+  }
+
+  /** Todo el texto del cuerpo, prosa y avisos, para comprobar que no se pierde nada. */
+  function allText(body: GuideBlock[]): string {
+    return flat(body)
+      .flatMap((block) => ('html' in block ? [plain(block.html)] : []))
+      .join(' ')
+  }
+
+  /** El texto de cada elemento de la página, como lo lee el importador. */
+  function sourceTexts(slug: string): string[] {
+    return parsePage(fixture(slug)).blocks.flatMap((block) =>
+      block.type === 'text' ? block.elements.map((element) => plain(element.html)) : [],
+    )
+  }
+
+  const REAL = [
+    'seis-pies-bajo-tierra',
+    'el-juramento-del-ambar',
+    'memorias-de-un-amnesico',
+    'el-fin-o-el-comienzo',
+    'la-eterna-cosecha',
+    'en-la-boca-del-infierno',
+    'una-caja-para-someterlos-a-todos',
+  ]
+
+  it('en las páginas reales, ningún texto se queda como prosa con la etiqueta RECOMENDACIONES', () => {
+    for (const slug of REAL) {
+      const { guide } = guideFor(slug)
+      expect(tips(guide.body).length, slug).toBeGreaterThan(0)
+      expect(richTexts(guide.body).join('\n'), slug).not.toMatch(/RECOMENDACI/)
+    }
+  })
+
+  it('no se pierde texto: todo lo de la página sigue en el cuerpo, salvo la etiqueta sola', () => {
+    for (const slug of REAL.slice(1)) {
+      const body = allText(guideFor(slug).guide.body)
+      for (const text of sourceTexts(slug)) {
+        if (!text || /^RECOMENDACI(?:ÓN|ONES):?$/u.test(text)) continue
+        const rest = text.replace(/^RECOMENDACIONES: /u, '')
+        // Lo que sigue a la etiqueta empieza en mayúscula; el resto, tal cual.
+        expect(body, `${slug}: ${rest.slice(0, 40)}`).toContain(rest.slice(1))
+      }
+    }
+  })
+
+  it('«Seis pies bajo tierra»: el párrafo «RECOMENDACIONES:» y su lista son un consejo del paso de la lucha', () => {
+    const { guide } = guideFor('seis-pies-bajo-tierra')
+    const steps = guide.body.filter((block) => block.blockType === 'step')
+    const fight = steps[4]!
+    expect(fight.body.at(-1)).toMatchObject({ blockType: 'callout', variant: 'tip' })
+    const [tip] = tips(fight.body)
+    expect(tip).toMatch(/^En la preparación del combate, puedes ordenarlas/)
+    expect(tip).not.toMatch(/RECOMENDACIONES/)
+  })
+
+  it('el consejo abarca los párrafos de antes de la lista y la lista; lo que sigue a la lista es prosa', () => {
+    const amber = flat(guideFor('el-juramento-del-ambar').guide.body)
+    const index = amber.findIndex((block) => block.blockType === 'callout')
+    const tip = amber[index]
+    expect(tip).toMatchObject({ variant: 'tip' })
+    if (tip?.blockType !== 'callout') return
+    expect(plain(tip.html)).toMatch(/^No explicaré cada hechizo.*Lo que debes hacer es moverte/)
+    expect(plain(tip.html)).not.toMatch(/Intuición Fósil/)
+    const after = amber[index + 1]
+    expect(after?.blockType === 'richText' && plain(after.html)).toMatch(
+      /^El hechizo Intuición Fósil puede ser útil.*Por ahora hay un bug/,
+    )
+
+    // La vuelta a hablar con el PNJ, después de la lista, es el siguiente paso de la guía.
+    const memories = flat(guideFor('memorias-de-un-amnesico').guide.body)
+    const at = memories.findIndex((block) => block.blockType === 'callout')
+    expect(plain((memories[at] as { html: string }).html)).toMatch(/^Intenta ordenar las torretas/)
+    expect(memories[at + 1]).toMatchObject({ blockType: 'richText' })
+    expect(plain((memories[at + 1] as { html: string }).html)).toMatch(
+      /^Una vez ganado el combate, vuelve a hablar con Jack Donmul/,
+    )
+  })
+
+  it('la etiqueta con el consejo en el mismo párrafo se quita y el texto empieza en mayúscula', () => {
+    const [inline, list] = tips(guideFor('el-fin-o-el-comienzo').guide.body)
+    expect(inline).toMatch(/^Intenta llevar 6 PM y Dofus abisal/)
+    expect(list).toMatch(/^Así que intenta jugar inteligentemente/)
+  })
+
+  it('RECOMENDACIÓN en singular, sin negrita o en mitad de un bloque también es un consejo', () => {
+    expect(tips(guideFor('la-eterna-cosecha').guide.body)[0]).toMatch(
+      /^Hay mazmorras en las que puedes capturar varios jefes.*Los 4 Tynril/,
+    )
+    const box = flat(guideFor('una-caja-para-someterlos-a-todos').guide.body)
+    const index = box.findIndex((block) => block.blockType === 'callout')
+    expect(plain((box[index] as { html: string }).html)).toMatch(/^Intenta vencer lo antes posible/)
+    expect(plain((box[index - 1] as { html: string }).html)).toMatch(/Pandora NO DEBE MORIR/)
+  })
+
+  it('con el consejo en el mismo párrafo, solo una lista justo detrás sigue en él', () => {
+    const { guide } = convert(
+      pageOf(
+        '<p>RECOMENDACIONES: lleva 6 PM.</p><p>Luego habla con Ana.</p>',
+        '<p>RECOMENDACIONES: pega de lejos.</p><ul><li>Y con un arco.</li></ul><p>Fin.</p>',
+      ),
+    )
+    expect(tips(guide.body)).toEqual(['Lleva 6 PM.', 'Pega de lejos. Y con un arco.'])
+    expect(richTexts(guide.body)).toEqual(['Luego habla con Ana.', 'Fin.'])
+  })
+
+  it('una etiqueta con más información («PARA LA TERCERA LUCHA», «GOD») se queda en el consejo', () => {
+    expect(tips(guideFor('en-la-boca-del-infierno').guide.body)).toEqual([
+      expect.stringMatching(/^RECOMENDACIONES PARA LAS DOS PRIMERAS LUCHAS: Siempre que puedas/),
+      expect.stringMatching(/^RECOMENDACIONES PARA LA TERCERA LUCHA: ABSOLUTAMENTE CRUCIAL/),
+    ])
+    const { guide } = convert(
+      pageOf(
+        '<p><strong>RECOMENDACIONES GOD:</strong></p><ul><li>Pega con la mini lanza.</li></ul>',
+      ),
+    )
+    expect(tips(guide.body)).toEqual(['RECOMENDACIONES GOD: Pega con la mini lanza.'])
+  })
+
+  it('un bloque que empieza por RECOMENDACIONES sigue en el paso anterior, con las capturas que le siguen', () => {
+    const { guide } = convert(
+      pageOf(
+        '<p>Habla con Ana [1,2] para empezar la misión.</p>',
+        shot('a'),
+        '<p>Lucha contra el jefe en [5,5].</p>',
+        shot('b'),
+        '<p><strong>RECOMENDACIONES:</strong></p><ul><li>Pega de lejos.</li></ul>',
+        shot('c'),
+        '<p>Vuelve a [3,3].</p>',
+        shot('d'),
+      ),
+    )
+    const steps = guide.body.filter((block) => block.blockType === 'step')
+    expect(
+      steps.map((step) => [step.x, step.body.map((block) => block.blockType).join('+')]),
+    ).toEqual([
+      [1, 'image'],
+      [5, 'richText+image+callout+image'],
+      [3, 'richText+image'],
+    ])
+  })
+
+  it('con marcas «ETAPA n:», las recomendaciones tras las capturas del último paso siguen en él', () => {
+    const { guide } = convert(
+      pageOf(
+        '<p>ETAPA 1: Uno</p><p>Lucha en [1,1].</p>',
+        shot('a'),
+        '<p>RECOMENDACIONES:</p><ul><li>Pega de lejos.</li></ul>',
+        '<p>Espero que te haya servido.</p>',
+      ),
+    )
+    expect(guide.body.map((block) => block.blockType)).toEqual(['step', 'richText'])
+    expect(tips(guide.body)).toEqual(['Pega de lejos.'])
+  })
+
+  it('en minúsculas, en una lista o una etiqueta sola sin nada detrás no es un consejo', () => {
+    const { guide } = convert(
+      pageOf(
+        '<p>Recomendaciones: en minúsculas es prosa.</p><ul><li>RECOMENDACIONES: en una lista.</li></ul>',
+        '<p>RECOMENDACIONES:</p>',
+      ),
+    )
+    expect(tips(guide.body)).toEqual([])
+    expect(richTexts(guide.body)).toEqual([
+      'Recomendaciones: en minúsculas es prosa. RECOMENDACIONES: en una lista.',
+      'RECOMENDACIONES:',
+    ])
   })
 })
