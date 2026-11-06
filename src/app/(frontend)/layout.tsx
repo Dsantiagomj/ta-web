@@ -38,7 +38,7 @@ export default async function FrontendLayout({ children }: { children: ReactNode
         <header className="mx-auto flex h-16 max-w-(--width-wide) items-center justify-between gap-4 px-4 sm:px-6 lg:px-12">
           <Link
             href="/"
-            className="flex items-center gap-2 font-display text-xl font-bold tracking-[0.02em] text-ink uppercase no-underline md:gap-2.5"
+            className="flex items-center gap-2 font-display text-xl text-ink no-underline md:gap-2.5"
           >
             <Emblem size={36} className="size-[30px] md:size-9" />
             {siteStrings.brand}

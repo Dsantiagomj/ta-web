@@ -27,7 +27,7 @@ function fontFaces(page: Page) {
 }
 
 for (const path of ['/', `/${seedGuide.slug}`]) {
-  test(`${path} precarga solo Barlow 400 y Barlow Condensed 800`, async ({ page }) => {
+  test(`${path} precarga solo Nunito 400 y Fredoka 600`, async ({ page }) => {
     await page.goto(path)
     const preloads = await page
       .locator('link[rel="preload"][as="font"]')
@@ -37,28 +37,28 @@ for (const path of ['/', `/${seedGuide.slug}`]) {
       .map((url) => faces.find((face) => face.url === url))
       .map((face) => face && `${face.family} ${face.weight}`)
 
-    expect(preloaded.sort()).toEqual(['Barlow 400', 'Barlow Condensed 800'])
+    expect(preloaded.sort()).toEqual(['Fredoka 600', 'Nunito 400'])
   })
 }
 
-test('cada peso de Barlow sale de su propio archivo, en una sola familia', async ({ page }) => {
+test('cada peso de Nunito sale de su propio archivo, en una sola familia', async ({ page }) => {
   await page.goto(`/${seedGuide.slug}`)
   const faces = await fontFaces(page)
   const weightsOf = (family: string) =>
     [...new Set(faces.filter((face) => face.family === family).map((face) => face.weight))].sort()
-  expect(weightsOf('Barlow')).toEqual(['400', '500', '600', '700'])
-  expect(weightsOf('Barlow Condensed')).toEqual(['700', '800'])
+  expect(weightsOf('Nunito')).toEqual(['400', '500', '600', '700', '800'])
+  expect(weightsOf('Fredoka')).toEqual(['500', '600'])
   // Los estilos nombran la familia entera, no la de una instancia.
   const body = await page.evaluate(() => getComputedStyle(document.body).fontFamily)
-  expect(body).toMatch(/^"?Barlow"?,/)
+  expect(body).toMatch(/^"?Nunito"?,/)
 
-  // La guía usa 600 (el PNJ del resumen) y 700 (las negritas de la prosa): el navegador
-  // carga esos archivos en vez de sintetizar la negrita del 400.
+  // La guía usa 700 (las negritas de la prosa) y 800 (las cantidades del resumen): el
+  // navegador carga esos archivos en vez de sintetizar la negrita del 400.
   await page.evaluate(() => document.fonts.ready)
   const loaded = await page.evaluate(() =>
     [...document.fonts]
-      .filter((face) => face.family.replaceAll('"', '') === 'Barlow' && face.status === 'loaded')
+      .filter((face) => face.family.replaceAll('"', '') === 'Nunito' && face.status === 'loaded')
       .map((face) => face.weight),
   )
-  expect(loaded).toEqual(expect.arrayContaining(['400', '600', '700']))
+  expect(loaded).toEqual(expect.arrayContaining(['400', '700', '800']))
 })

@@ -19,8 +19,8 @@ vi.mock('next/font/google', () => {
     return { variable: `variable-${family}`, className: '', style: { fontFamily: family } }
   }
   return {
-    Barlow: loader('Barlow'),
-    Barlow_Condensed: loader('Barlow Condensed'),
+    Nunito: loader('Nunito'),
+    Fredoka: loader('Fredoka'),
     Lilita_One: loader('Lilita One'),
   }
 })
@@ -40,20 +40,20 @@ const familyWeights = (family: string) =>
     .sort()
 
 describe('fuentes', () => {
-  it('precarga solo dos archivos: Barlow 400 (texto) y Barlow Condensed 800 (titulares)', () => {
+  it('precarga solo dos archivos: Nunito 400 (texto) y Fredoka 600 (titulares)', () => {
     const preloaded = calls
       .filter(({ options }) => options.preload !== false)
       .map(({ family, options }) => `${family} ${weights(options).join(',')}`)
 
-    expect(preloaded.sort()).toEqual(['Barlow 400', 'Barlow Condensed 800'])
+    expect(preloaded.sort()).toEqual(['Fredoka 600', 'Nunito 400'])
   })
 
-  it('Barlow trae 400 a 700: texto, controles, chips y negritas del cuerpo', () => {
-    expect(familyWeights('Barlow')).toEqual(['400', '500', '600', '700'])
+  it('Nunito trae 400 a 800: texto, controles, chips, negritas y cantidades', () => {
+    expect(familyWeights('Nunito')).toEqual(['400', '500', '600', '700', '800'])
   })
 
-  it('Barlow Condensed trae solo los pesos de la escala de DESIGN.md: 700 y 800', () => {
-    expect(familyWeights('Barlow Condensed')).toEqual(['700', '800'])
+  it('Fredoka trae solo los pesos de la escala de DESIGN.md: 500 y 600', () => {
+    expect(familyWeights('Fredoka')).toEqual(['500', '600'])
   })
 
   it('Lilita One trae solo el 400, sin precargar', () => {

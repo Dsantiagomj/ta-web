@@ -27,7 +27,7 @@ export function buttonClass({
   className,
 }: ButtonLook & { className?: string }): string {
   return cx(
-    'hit-target relative inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-pill font-display text-sm font-bold tracking-[0.04em] whitespace-nowrap uppercase no-underline',
+    'hit-target relative inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-pill font-display text-sm font-semibold whitespace-nowrap no-underline',
     'transition-[background-color,transform] duration-(--duration-fast) ease-standard active:scale-96 active:duration-(--duration-press)',
     'disabled:pointer-events-none disabled:opacity-40 [&>svg]:size-4',
     VARIANTS[variant],
