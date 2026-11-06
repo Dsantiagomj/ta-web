@@ -281,11 +281,13 @@ Families (decided 2026-11-05 with guide v4, replacing Barlow and Barlow Condense
 
 | Token | Family | Weights | Fallback stack | Use |
 |---|---|---|---|---|
-| `--font-display` | Fredoka | 500, 600 | `'Fredoka', 'Nunito', system-ui, sans-serif` | titles, the wordmark, card names, eyebrows, labels, buttons |
-| `--font-body` | Nunito | 400, 500, 600, 700, 800 | `'Nunito', system-ui, -apple-system, sans-serif` | body, controls, tables; 800 for amounts and coordinates |
-| `--font-accent` | Lilita One | 400 | `'Lilita One', 'Fredoka', system-ui, sans-serif` | featured numbers in the catalog components that still use it (stat tile, item slot quantity, progress bar). Never titles |
+| `--font-display` | Fredoka | 500, 600 | `'Fredoka Fallback Linux', 'Fredoka', 'Nunito', system-ui, sans-serif` | titles, the wordmark, card names, eyebrows, labels, buttons |
+| `--font-body` | Nunito | 400, 500, 600, 700, 800 | `'Nunito Fallback Linux', 'Nunito', system-ui, -apple-system, sans-serif` | body, controls, tables; 800 for amounts and coordinates |
+| `--font-accent` | Lilita One | 400 | `'Lilita One Fallback Linux', 'Lilita One', 'Fredoka', system-ui, sans-serif` | featured numbers in the catalog components that still use it (stat tile, item slot quantity, progress bar). Never titles |
 
 Only two files are preloaded (decided 2026-11-05): Nunito 400 for body text and Fredoka 600 for titles. Every other weight, and Lilita One, loads when the page first uses it and shows the metric-adjusted fallback until then (`display: swap`). A preloaded font always downloads and competes with the CSS and the LCP image. With six weights preloaded, a guide's first screenshot took 1.8 s to arrive on slow 4G, and its LCP was about 3.0 s; with two preloads it was 2.2 s. `next/font` preloads per instance, not per weight, so `src/styles/fonts.ts` splits each typeface into a preloaded instance and an on-demand one. Turbopack gives both the same family name, so the browser sees one family with every weight and never synthesizes a bold. `tests/e2e/fonts.spec.ts` checks the two preloads and the single family.
+
+The metric-adjusted fallback that `next/font` generates (`Fredoka Fallback`, `Nunito Fallback`) loads `local(Arial)`, which Linux and Android do not have. There the browser painted the system sans, which is wider, and the guide header changed line breaks when the web fonts arrived (CLS 0.19 in Lighthouse CI, decided 2026-11-05). `src/styles/fonts-fallback.css` adds `Fredoka Fallback Linux`, `Nunito Fallback Linux` and `Lilita One Fallback Linux`: the same overrides on Liberation Sans and Arimo, which share Arial's metrics, and on Roboto, the closest on Android. The values are copied from the compiled `next/font` CSS; change them together when a family changes.
 
 The scale and rhythm come from duffus.fr (study, typography). Sizes are rem on a 16px root. Fredoka tops out at 700, and every display size uses 600.
 
