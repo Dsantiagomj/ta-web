@@ -120,8 +120,15 @@ test.describe('página de guía', () => {
       await expect(link).toContainText(step.label)
       if (step.coordinates) await expect(link).toContainText(step.coordinates)
     }
-    // La isla marca el paso que se está leyendo.
+    // La isla marca el paso que se está leyendo, también al bajar a los siguientes.
     await expect(links.first()).toHaveAttribute('aria-current', 'step')
+    // Deja el borde superior del paso 2 al 32 % de la altura, dentro de la franja.
+    await page.evaluate(() => {
+      const top = document.getElementById('paso-2')!.getBoundingClientRect().top
+      window.scrollBy(0, top - window.innerHeight * 0.32)
+    })
+    await expect(links.nth(1)).toHaveAttribute('aria-current', 'step')
+    await expect(links.first()).not.toHaveAttribute('aria-current', 'step')
 
     await page.setViewportSize({ width: 1024, height: 900 })
     await expect(tracker).toBeHidden()

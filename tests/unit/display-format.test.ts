@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { chainWindow, formatAmount } from '@/lib/guides/display'
+import { chainWindow, formatAmount, stepBandMargin } from '@/lib/guides/display'
 
 describe('formatAmount', () => {
   it('separa los miles con un espacio que no parte la cifra', () => {
@@ -27,5 +27,16 @@ describe('chainWindow', () => {
     expect(chainWindow(quests, 0)).toEqual(['a', 'b', null, 'h'])
     expect(chainWindow(quests, 1)).toEqual(['a', 'b', 'c', null, 'h'])
     expect(chainWindow(quests, 7)).toEqual(['a', null, 'g', 'h'])
+  })
+})
+
+describe('stepBandMargin', () => {
+  it('deja la franja del 30 % al 40 % de la altura de la ventana, en píxeles', () => {
+    expect(stepBandMargin(900)).toBe('-270px 0px -540px 0px')
+    expect(stepBandMargin(1000)).toBe('-300px 0px -600px 0px')
+  })
+
+  it('redondea a píxeles enteros', () => {
+    expect(stepBandMargin(845)).toBe('-254px 0px -507px 0px')
   })
 })

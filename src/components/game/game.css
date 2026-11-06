@@ -120,9 +120,10 @@
   color: var(--color-ink-2);
 }
 
-/* El logro conserva su texto de enlace; el trofeo del juego va delante, nada más. */
+/* El logro conserva su texto de enlace; el trofeo del juego va delante, nada más. El nombre
+   se parte en varias líneas cuando no cabe junto al PNJ. */
 .qhead__ach {
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 
 .qhead__ach img {
