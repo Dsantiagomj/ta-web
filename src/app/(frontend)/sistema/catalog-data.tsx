@@ -179,7 +179,7 @@ export const steps = (prefix: string) => [
   },
   {
     id: `${prefix}-paso-3`,
-    pin: { x: 1, y: -17 },
+    pin: { x: 4, y: -15 },
     content: (
       <p>
         Una vez terminado el combate, vuelve a hablar con cualquiera de las anutrof y te
@@ -193,7 +193,7 @@ export const steps = (prefix: string) => [
 export const stepEntries = (prefix: string): StepNavEntry[] => [
   { id: `${prefix}-paso-1`, label: 'Hupe Esse', coordinates: { x: 7, y: -19 } },
   { id: `${prefix}-paso-2`, label: 'Luci', coordinates: { x: 3, y: -17 } },
-  { id: `${prefix}-paso-3`, label: 'Paso 3', coordinates: { x: 1, y: -17 } },
+  { id: `${prefix}-paso-3`, label: 'Paso 3', coordinates: { x: 4, y: -15 } },
 ]
 
 export const prose =

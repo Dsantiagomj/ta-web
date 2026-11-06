@@ -119,11 +119,15 @@ test.describe('catálogo /sistema', () => {
       expect(await well.evaluate((node) => getComputedStyle(node).backgroundColor)).not.toBe(
         await rawToken(section, '--t-bg'),
       )
-      const [r, g, b] = (await well.evaluate((node) => getComputedStyle(node).backgroundColor))
-        .match(/\d+/g)!
-        .map(Number)
-      // Oscuro: la luminancia del hueco queda muy por debajo de la del fondo claro.
-      expect((r + g + b) / 3).toBeLessThan(90)
+      // El color del hueco en 0-255, sea rgb() o color(srgb …), que da color-mix.
+      const [r, g, b] = await well.evaluate((node) => {
+        const canvas = document.createElement('canvas').getContext('2d')!
+        canvas.fillStyle = getComputedStyle(node).backgroundColor
+        canvas.fillRect(0, 0, 1, 1)
+        return [...canvas.getImageData(0, 0, 1, 1).data]
+      })
+      // Oscuro: muy por debajo del fondo claro de la sección.
+      expect((r! + g! + b!) / 3).toBeLessThan(90)
     }
   })
 

@@ -165,6 +165,8 @@ export function PageEnhancements() {
       // El paso que cruza la franja entre el 30 % y el 40 % de la altura de la ventana.
       { rootMargin: '-30% 0px -60% 0px' },
     )
+    // Hasta que el lector baja a los pasos, el actual es el primero.
+    mark(steps[0]!.id)
     for (const step of steps) observer.observe(step)
     return () => observer.disconnect()
   }, [])
