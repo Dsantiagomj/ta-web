@@ -17,117 +17,121 @@ async function settled(page: Page) {
 }
 
 test.describe('página de guía', () => {
-  test('pinta la cabecera, el resumen, el cuerpo y el Botín', async ({ page }) => {
+  test('pinta la cabecera: PNJ, título, subtítulo y las tres columnas', async ({ page }) => {
     const response = await page.goto(url)
     expect(response?.status()).toBe(200)
 
-    await expect(page.getByRole('heading', { level: 1, name: seedGuide.title })).toBeVisible()
-    await expect(page.getByText(`Nivel${seedGuide.level}`, { exact: true })).toBeVisible()
+    const header = page.locator('header.qhead')
+    await expect(header.getByRole('heading', { level: 1, name: seedGuide.title })).toBeVisible()
+    await expect(header.locator('.qhead__meta')).toHaveText(seedGuide.subtitle)
+    await expect(header.getByRole('link', { name: seedGuide.achievement.name })).toHaveAttribute(
+      'href',
+      `https://www.torrentearcano.com/${seedGuide.achievement.slug}`,
+    )
 
-    const ribbon = page.getByRole('region', { name: 'Antes de empezar' })
-    await expect(ribbon.getByText(seedGuide.start.npc)).toBeVisible()
-    await expect(ribbon.getByRole('button', { name: /Copiar \/travel 7,-19/ })).toBeVisible()
+    // El PNJ que da la misión, con su render importado y su nombre como texto.
+    const giver = header.locator('figure.giver')
+    await expect(giver.getByText(seedGuide.start.npc, { exact: true })).toBeVisible()
+    await expect(giver.locator('img')).toHaveAttribute('alt', '')
+    expect(
+      await giver.locator('img').evaluate((img: HTMLImageElement) => img.naturalWidth),
+    ).toBeGreaterThan(0)
+    await expect(giver.getByRole('button', { name: '[7,-19], copiar /travel 7,-19' })).toBeVisible()
+
+    const prerequisites = header.getByRole('region', { name: 'Prerrequisitos' })
     await expect(
-      ribbon.getByRole('link', { name: `${seedGuide.prerequisite.title}.` }),
+      prerequisites.getByRole('link', { name: seedGuide.prerequisite.title }),
     ).toHaveAttribute('href', `/${seedGuide.prerequisite.slug}`)
-    await expect(ribbon.getByText(seedGuide.needsNote)).toBeVisible()
-    const reward = ribbon.getByRole('link', { name: /Recompensa/ })
-    // El texto de recompensas de la guía, en una línea.
-    await expect(reward).toHaveText(/16 380 XP · 390 kamas · 4 objetos del Botín/)
+    await expect(header.getByRole('region', { name: 'Necesitarás' })).toContainText(
+      '1 × Combate (solo)',
+    )
+    const rewards = header.getByRole('region', { name: 'Recompensas' })
+    await expect(rewards).toContainText(/9\s800 a 16\s380 XP/)
+    await expect(rewards).toContainText(/390 kamas/)
+    for (const name of seedGuide.rewardItems) await expect(rewards.getByText(name)).toBeVisible()
+    // Los iconos del juego, en sus huecos.
+    for (const icon of ['mision', 'combate', 'xp', 'kamas']) {
+      await expect(header.locator(`img[src="/img/game/${icon}.webp"]`)).toHaveCount(1)
+    }
+  })
 
-    // El cuerpo en orden: la entrada, los pasos y el cierre, con los [x,y] de la prosa como chips.
+  test('en el móvil, el PNJ mira a la izquierda junto al título, solo con su nombre', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto(url)
+    const title = (await page.getByRole('heading', { level: 1 }).boundingBox())!
+    const render = page.locator('figure.giver img')
+    const box = (await render.boundingBox())!
+    expect(box.x).toBeGreaterThan(title.x + title.width - 1)
+    expect(Math.round(box.width)).toBe(64)
+    // El render que mira a la izquierda (dirección 3).
+    expect(await render.evaluate((img: HTMLImageElement) => img.currentSrc)).toContain('left')
+    await expect(page.locator('figure.giver .coord')).toBeHidden()
+  })
+
+  test('pinta la entrada, los pasos numerados sin títulos ni casillas y el cierre', async ({
+    page,
+  }) => {
+    await page.goto(url)
     await expect(page.getByText(seedGuide.intro)).toBeVisible()
-    await expect(page.getByText(seedGuide.startLine)).toBeVisible()
+    const steps = page.getByRole('region', { name: 'Pasos' })
+    const items = steps.locator('ol > li')
+    await expect(items).toHaveCount(seedGuide.steps.length)
+    for (const index of seedGuide.steps.keys()) {
+      await expect(items.nth(index)).toHaveAttribute('id', `paso-${index + 1}`)
+      await expect(items.nth(index).locator('.qstep__n')).toHaveText(String(index + 1))
+    }
+    await expect(steps.getByRole('checkbox')).toHaveCount(0)
     await expect(
-      page.getByRole('heading', { level: 3, name: /protege a las anutrof/ }),
-    ).toBeVisible()
+      steps.getByRole('heading', { level: 3, name: /protege a las anutrof/ }),
+    ).toHaveCount(0)
+
     await expect(page.getByRole('note')).toContainText(seedGuide.callout)
+    await expect(
+      page.getByRole('note').getByRole('heading', { name: '¡Importante!' }),
+    ).toBeVisible()
+    const tips = page.getByRole('complementary', { name: 'Recomendaciones de Torre' })
+    await expect(tips).toContainText(seedGuide.tips)
+    await expect(tips.locator('img')).toHaveAttribute('src', '/img/torre/avatar.webp')
+
     await expect(
       page.getByRole('link', { name: `Ver el vídeo: ${seedGuide.video.title}` }),
     ).toBeVisible()
     await expect(page.getByText(seedGuide.outro)).toBeVisible()
 
-    const botin = page.getByRole('region', { name: 'Botín' })
-    await expect(botin.getByText(/^16\s380$/)).toBeVisible()
-    for (const name of seedGuide.rewardItems) await expect(botin.getByText(name)).toBeVisible()
-
-    await reward.click()
-    await expect(page).toHaveURL(/#botin$/)
-  })
-
-  test('pinta los pasos numerados, con su título y sus coordenadas, y el Botín al final', async ({
-    page,
-  }) => {
-    await page.goto(url)
-    const steps = page.getByRole('region', { name: 'Pasos' })
-    await expect(steps.getByRole('heading', { level: 2, name: 'Pasos' })).toBeVisible()
-    const cards = steps.locator('ol > li')
-    await expect(cards).toHaveCount(seedGuide.steps.length)
-
-    for (const [index, step] of seedGuide.steps.entries()) {
-      const card = cards.nth(index)
-      await expect(card.locator('.stage__num')).toHaveText(String(index + 1))
-      // Un paso sin título lleva su número como título; su casilla, «Paso N hecho».
-      await expect(card.getByRole('heading', { level: 3 })).toHaveText(
-        step.title ?? `Paso ${index + 1}`,
-      )
-      await expect(card.getByRole('checkbox', { name: `Paso ${index + 1} hecho` })).toBeAttached()
-      // Un título dentro del texto del paso queda por debajo de su h3.
-      await expect(card.getByRole('heading', { level: 2 })).toHaveCount(0)
-      const head = card.locator('.stage__head')
-      if (step.coordinates) {
-        await expect(
-          head.getByRole('button', {
-            name: `${step.coordinates}, copiar /travel ${step.coordinates.slice(1, -1)}`,
-          }),
-        ).toBeVisible()
-      } else {
-        await expect(head.locator('.coord')).toHaveCount(0)
-      }
-    }
-
     // La primera captura, dentro del primer paso, es la única con prioridad.
     await expect(page.locator('img[fetchpriority="high"]')).toHaveCount(1)
-    await expect(cards.first().locator('img[fetchpriority="high"]')).toHaveCount(1)
-
-    // El Botín es el último nodo de la línea de pasos; el cierre va después.
-    await expect(steps.getByRole('region', { name: 'Botín' })).toBeVisible()
+    await expect(items.first().locator('img[fetchpriority="high"]')).toHaveCount(1)
   })
 
-  test('marcar un paso enciende su segmento de la píldora, sin JavaScript', async ({
-    browser,
-    baseURL,
+  test('desde 1152px, la lista «Pasos» enlaza cada paso con su etiqueta y sus coordenadas', async ({
+    page,
   }) => {
-    // Sin JavaScript: la casilla, el título apagado y la píldora son solo CSS.
-    const context = await browser.newContext({ javaScriptEnabled: false, baseURL })
-    const page = await context.newPage()
+    await page.setViewportSize({ width: 1440, height: 900 })
     await page.goto(url)
-    const checkbox = page.getByRole('checkbox', { name: 'Paso 2 hecho' })
-    const segment = page.locator('.pill [data-seg="2"]')
-    const lit = () => segment.evaluate((el) => getComputedStyle(el).transform === 'none')
+    const tracker = page.getByRole('navigation', { name: 'Pasos' })
+    await expect(tracker).toBeVisible()
+    const links = tracker.getByRole('link')
+    await expect(links).toHaveCount(seedGuide.steps.length)
+    for (const [index, step] of seedGuide.steps.entries()) {
+      const link = links.nth(index)
+      await expect(link).toHaveAttribute('href', `#paso-${index + 1}`)
+      await expect(link).toContainText(step.label)
+      if (step.coordinates) await expect(link).toContainText(step.coordinates)
+    }
+    // La isla marca el paso que se está leyendo.
+    await expect(links.first()).toHaveAttribute('aria-current', 'step')
 
-    await expect(checkbox).not.toBeChecked()
-    expect(await lit()).toBe(false)
-    await expect(page.locator('.pill')).toContainText(`/${seedGuide.steps.length}`)
-
-    await page.locator('label[for="pasos-e2"]').click()
-    await expect(checkbox).toBeChecked()
-    await expect.poll(lit).toBe(true)
-    expect(
-      await page.locator('.pill [data-seg="1"]').evaluate((el) => getComputedStyle(el).transform),
-    ).not.toBe('none')
-
-    await page.locator('label[for="pasos-e2"]').click()
-    await expect(checkbox).not.toBeChecked()
-    await expect.poll(lit).toBe(false)
-    await context.close()
+    await page.setViewportSize({ width: 1024, height: 900 })
+    await expect(tracker).toBeHidden()
   })
 
-  test('una guía sin bloques Paso se lee como prosa, sin línea de pasos', async ({ page }) => {
+  test('una guía sin bloques Paso se lee como prosa, sin pasos ni lista', async ({ page }) => {
     await page.goto(`/${seedGuide.prerequisite.slug}`)
     await expect(page.getByText('Habla con Hupe Esse.')).toBeVisible()
     await expect(page.getByRole('region', { name: 'Pasos' })).toHaveCount(0)
-    await expect(page.locator('.pill')).toHaveCount(0)
+    await expect(page.getByRole('navigation', { name: 'Pasos' })).toHaveCount(0)
   })
 
   test('lleva el SEO de la guía, su URL canónica y Open Graph', async ({ page }) => {
@@ -191,20 +195,6 @@ test.describe('página de guía', () => {
     // El título cabe entero en el marco.
     expect(t.y).toBeGreaterThanOrEqual(f.y)
     expect(t.y + t.height).toBeLessThanOrEqual(f.y + f.height)
-  })
-
-  test('en el móvil, la etiqueta Recompensa ocupa la columna de 96px de los segmentos', async ({
-    page,
-  }) => {
-    // Con el ancho fijo, el texto no se recoloca al llegar la fuente de la etiqueta (CLS).
-    await page.setViewportSize({ width: 412, height: 823 })
-    await page.goto(url)
-    const ribbon = page.getByRole('region', { name: 'Antes de empezar' })
-    const label = ribbon.getByRole('link', { name: /Recompensa/ }).getByText('Recompensa')
-    const term = ribbon.locator('dt').first()
-    const [labelBox, termBox] = [(await label.boundingBox())!, (await term.boundingBox())!]
-    expect(labelBox.width).toBe(96)
-    expect(labelBox.x).toBe(termBox.x)
   })
 
   test('un chip de coordenadas de la prosa copia su /travel', async ({ page, context }) => {

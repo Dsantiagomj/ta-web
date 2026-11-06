@@ -1,10 +1,12 @@
 import { CoordinatesChip } from '@/components/game/Coordinates'
 import { FightBlock } from '@/components/game/MonsterChip'
-import type { Stage } from '@/components/game/StagesTimeline'
+import { TorreTips } from '@/components/game/TorreTips'
 import type { Achievement, GameItem, Monster } from '@/components/game/types'
 import { Callout } from '@/components/ui/Callout'
 import { Figure } from '@/components/ui/Figure'
 import type { ImageAsset } from '@/components/ui/types'
+import type { QuestHeaderData } from '@/lib/guides/page'
+import type { StepNavEntry } from '@/lib/guides/step-nav'
 
 // Contenido real del catálogo: la guía de Torre «Seis pies bajo tierra» (DofusDB 1976),
 // «Entretanto, un renacer» (2420) y el vídeo de «Intoxicación profunda» (1433), con el arte
@@ -33,6 +35,9 @@ function art(name: string, width: number, height: number, narrower: number[] = [
 const icon = (name: string) => art(name, 96, 96)
 
 export const images = {
+  // El PNJ de la misión, del renderizador de DofusDB, recortado como en el refresco.
+  npcRight: art('npc-4412-right', 331, 720),
+  npcLeft: art('npc-4412-left', 331, 720),
   combat: art('seis-pies-combate', 960, 656, [480, 800]),
   hupeEsse: art('seis-pies-hupe-esse', 800, 551, [480]),
   kerubim: art('seis-pies-kerubim', 480, 345),
@@ -67,23 +72,8 @@ export const achievement: Achievement = {
 
 export const guide = {
   title: 'Seis pies bajo tierra',
-  subtitle: 'Misión de Astrub · Ciudad de Astrub',
-  level: 20,
-  crumbs: [
-    { label: 'Misiones', href: '#misiones' },
-    { label: 'Astrub', href: '#astrub' },
-    { label: `Logro: ${achievement.name}`, href: '#logro', icon: achievement.icon },
-  ],
-  start: { npc: 'Hupe Esse', place: 'Biblioteca de Astrub', x: 7, y: -19 },
-  requires: [{ label: 'Esto hace aguas.', href: '#esto-hace-aguas' }],
-  needs: { notes: ['1 x Combate (solo).'] },
-  reward: { xp: 16380, kamas: 390, items: 4 },
-  rewards: [
-    { item: items.pico, quantity: 1 },
-    { item: items.intestino, quantity: 1 },
-    { item: items.pelos, quantity: 1 },
-    { item: items.ojo, quantity: 1 },
-  ],
+  start: { x: 7, y: -19 },
+  reward: { xp: 16380, kamas: 390 },
   chain: {
     achievement,
     quests: [
@@ -101,11 +91,52 @@ export const fight = [
   { monster: monsters.miserata, quantity: 1 },
 ]
 
-export const stages: Stage[] = [
-  {
-    title: 'Habla con Hupe Esse',
+/** La cabecera de «Seis pies bajo tierra», con el PNJ, el logro y el rango de XP. */
+export const header: QuestHeaderData = {
+  meta: {
+    zone: 'Astrub',
+    level: 20,
+    achievement: { name: achievement.name, href: '#logro', position: 2 },
+  },
+  giver: {
+    name: 'Hupe Esse',
+    right: images.npcRight,
+    left: images.npcLeft,
     coordinates: { x: 7, y: -19 },
-    done: true,
+  },
+  prerequisites: [{ label: 'Esto hace aguas', href: '#esto-hace-aguas', quest: true }],
+  needs: { items: [], notes: [{ quantity: 1, label: 'Combate (solo)', combat: true }] },
+  rewards: {
+    xp: { min: 9800, max: 16380 },
+    kamas: 390,
+    items: [
+      { item: items.pico, quantity: 1 },
+      { item: items.intestino, quantity: 1 },
+      { item: items.pelos, quantity: 1 },
+      { item: items.ojo, quantity: 1 },
+    ],
+    notes: [],
+  },
+}
+
+/**
+ * «Intoxicación profunda» sin PNJ ni logro, y con un objeto sin icono importado: el hueco
+ * queda vacío. Las líneas de Torre sin icono no llevan hueco.
+ */
+export const headerWithout: QuestHeaderData = {
+  meta: { zone: 'Sufokia', level: 200 },
+  prerequisites: [{ label: 'Nivel mínimo 200', quest: false }],
+  needs: {
+    items: [{ item: { name: 'Ron marino' }, quantity: 10 }],
+    notes: [{ label: 'Literalmente nada más', combat: false }],
+  },
+  rewards: { xp: { max: 1000000 }, kamas: 21990, items: [], notes: [] },
+}
+
+/** Los pasos del catálogo: el número, el contenido y, en el 3, una chincheta del paso. */
+export const steps = (prefix: string) => [
+  {
+    id: `${prefix}-paso-1`,
     content: (
       <>
         <p>
@@ -121,8 +152,7 @@ export const stages: Stage[] = [
     ),
   },
   {
-    title: 'Combate: protege a las anutrof',
-    coordinates: { x: 3, y: -17 },
+    id: `${prefix}-paso-2`,
     content: (
       <>
         <p>
@@ -131,14 +161,25 @@ export const stages: Stage[] = [
         </p>
         <FightBlock monsters={fight} />
         <Callout variant="warning">
-          Las anutrof <strong>NO</strong> deben morir. Debes ganar esta lucha sin que se muera
+          Las anutrof <strong>no</strong> deben morir. Debes ganar esta lucha sin que se muera
           ninguna de ellas.
         </Callout>
+        <TorreTips>
+          <ul>
+            <li>
+              En la preparación del combate, puedes ordenarlas para que estén lo más lejos posible.
+            </li>
+            <li>
+              Intenta vencer primero al <strong>Ramán</strong>: pega de lejos y te puede quitar PA.
+            </li>
+          </ul>
+        </TorreTips>
       </>
     ),
   },
   {
-    title: 'Escolta a las anutrof',
+    id: `${prefix}-paso-3`,
+    pin: { x: 1, y: -17 },
     content: (
       <p>
         Una vez terminado el combate, vuelve a hablar con cualquiera de las anutrof y te
@@ -146,35 +187,14 @@ export const stages: Stage[] = [
       </p>
     ),
   },
-  // Sin título, como los pasos que trae la importación: la tarjeta pone «Paso 4».
-  {
-    coordinates: { x: 4, y: -15 },
-    content: (
-      <p>
-        Adéntrate en la mina y sigue el camino hasta las anutrof perdidas, en{' '}
-        <CoordinatesChip x={4} y={-15} />.
-      </p>
-    ),
-  },
 ]
 
-/** «Entretanto, un renacer»: solo el resumen, con la lista de objetos de Necesitarás. */
-export const needsGuide = {
-  start: { npc: 'Draconiros', place: 'Airedala', x: 21, y: -33 },
-  requires: [
-    { label: 'Nivel mínimo 190.' },
-    { label: 'A la vuelta de un sueño perdido.', href: '#a-la-vuelta' },
-    { label: 'Toma de conciencia.', href: '#toma-de-conciencia' },
-  ],
-  needs: {
-    items: [
-      { item: items.esmeralda, quantity: 1 },
-      { item: items.purpura, quantity: 1 },
-    ],
-    notes: ['2 x Combates solitarios.'],
-  },
-  reward: { xp: 3000000, kamas: 52776 },
-}
+/** La lista «Pasos» de esos pasos: la etiqueta es la primera negrita, o «Paso N». */
+export const stepEntries = (prefix: string): StepNavEntry[] => [
+  { id: `${prefix}-paso-1`, label: 'Hupe Esse', coordinates: { x: 7, y: -19 } },
+  { id: `${prefix}-paso-2`, label: 'Luci', coordinates: { x: 3, y: -17 } },
+  { id: `${prefix}-paso-3`, label: 'Paso 3', coordinates: { x: 1, y: -17 } },
+]
 
 export const prose =
   'A continuación, dirígete a [1,-17] para hablar con Gasdora. Si te pierdes, el zaap está en [ 5 , -18 ]. Nivel [20] no es una coordenada.'
@@ -206,8 +226,7 @@ export const samples = {
     stop: 'No hables con Kerubim antes de terminar el combate.',
   },
   stats: { xp: 'XP', kamas: 'Kamas' },
-  heroNoArt: { title: 'Intoxicación profunda', subtitle: 'Misión de Sufokia · Diaria' },
+  headerWithout: 'Intoxicación profunda',
   hupeEsseCaption: 'Hupe Esse, en la Biblioteca de Astrub.',
-  // Una guía sin misión de DofusDB: la recompensa es el texto que escribió Torre.
-  rewardNotes: ['24 316 XP.', '552 kamas.', '1 x Escudo de Kerubim.'],
+  tips: 'Intenta vencer primero al Ramán: pega de lejos y te puede quitar PA.',
 }

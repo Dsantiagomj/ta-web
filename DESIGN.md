@@ -262,43 +262,56 @@ Decided 2026-11-02: each section gets a subtle accent of its own. It is used onl
 
 Worst cases are on `raised` of Amakna dark and Ocre light. Every value is at least 4.5:1, so the same hex works as label text and as a border (which needs 3:1). A new section, or a new theme, gets these pairs rechecked before it ships.
 
+### Icon wells
+
+Decided 2026-11-05 with guide v4. Game icons sit in wells, like the slots of the game's inventory. Two pairs of tokens, set per mode in `theme.css` from the theme's own colors:
+
+| Token | Dark | Light | Use |
+|---|---|---|---|
+| `--color-well` | `bg` 55 % over `surface` | `raised` | step numbers, the coordinates chip |
+| `--color-well-line` | `line` 80 % over `ink` | `line` | their 1px border, Torre's bubble and avatar ring |
+| `--color-slot` | same as `--color-well` | `ink` 84 % over `bg` | the well behind a full-colour game icon |
+| `--color-slot-line` | same as `--color-well-line` | `ink` | its border |
+
+Slots stay dark in the light modes. The game draws its icons for a dark slot, and a pale XP arrow or a gold coin disappears on cream. Wells and slots are decorative (`aria-hidden`, icons with `alt=""`); the text next to them carries the meaning, so their edges need no ratio. Text on a well: ink at least 13.47:1 (Ocre light) and accent at least 4.93:1 (Ocre light, the coordinates chip).
+
 ### Typography
 
-Families (decided 2026-11-02, kept from Dofus Tools), loaded with `next/font/google` so the files are self-hosted and the fallback metrics prevent layout shift:
+Families (decided 2026-11-05 with guide v4, replacing Barlow and Barlow Condensed), loaded with `next/font/google` so the files are self-hosted and the fallback metrics prevent layout shift:
 
 | Token | Family | Weights | Fallback stack | Use |
 |---|---|---|---|---|
-| `--font-display` | Barlow Condensed | 700, 800 | `'Barlow Condensed', 'Barlow', 'Arial Narrow', system-ui, sans-serif` | titles, card names, eyebrows, labels, buttons |
-| `--font-body` | Barlow | 400, 500, 600, 700 | `'Barlow', system-ui, -apple-system, sans-serif` | body, controls, tables |
-| `--font-accent` | Lilita One | 400 | `'Lilita One', 'Barlow Condensed', system-ui, sans-serif` | featured numbers only: step numbers, levels, percentages, big counters ("30 guías", "0/100"). Never titles |
+| `--font-display` | Fredoka | 500, 600 | `'Fredoka', 'Nunito', system-ui, sans-serif` | titles, the wordmark, card names, eyebrows, labels, buttons |
+| `--font-body` | Nunito | 400, 500, 600, 700, 800 | `'Nunito', system-ui, -apple-system, sans-serif` | body, controls, tables; 800 for amounts and coordinates |
+| `--font-accent` | Lilita One | 400 | `'Lilita One', 'Fredoka', system-ui, sans-serif` | featured numbers in the catalog components that still use it (stat tile, item slot quantity, progress bar). Never titles |
 
-Only two files are preloaded (decided 2026-11-05): Barlow 400 for body text and Barlow Condensed 800 for titles. Every other weight, and Lilita One, loads when the page first uses it and shows the metric-adjusted fallback until then (`display: swap`). A preloaded font always downloads and competes with the CSS and the LCP image. With all six weights preloaded, a guide's first screenshot took 1.8 s to arrive on slow 4G, and its LCP was about 3.0 s; with two preloads it was 2.2 s. `next/font` preloads per instance, not per weight, so `src/styles/fonts.ts` splits each typeface into a preloaded instance and an on-demand one. Turbopack gives both the same family name, so the browser sees one family with every weight and never synthesizes a bold. `tests/e2e/fonts.spec.ts` checks the two preloads and the single family.
+Only two files are preloaded (decided 2026-11-05): Nunito 400 for body text and Fredoka 600 for titles. Every other weight, and Lilita One, loads when the page first uses it and shows the metric-adjusted fallback until then (`display: swap`). A preloaded font always downloads and competes with the CSS and the LCP image. With six weights preloaded, a guide's first screenshot took 1.8 s to arrive on slow 4G, and its LCP was about 3.0 s; with two preloads it was 2.2 s. `next/font` preloads per instance, not per weight, so `src/styles/fonts.ts` splits each typeface into a preloaded instance and an on-demand one. Turbopack gives both the same family name, so the browser sees one family with every weight and never synthesizes a bold. `tests/e2e/fonts.spec.ts` checks the two preloads and the single family.
 
-The scale and rhythm come from duffus.fr (study, typography). Sizes are rem on a 16px root. Condensed faces read smaller than Barlow at the same size, so display sizes are about one step above what duffus uses in regular Barlow.
+The scale and rhythm come from duffus.fr (study, typography). Sizes are rem on a 16px root. Fredoka tops out at 700, and every display size uses 600.
 
 | Token | Size | Line height | Weight | Tracking | Family | Use |
 |---|---|---|---|---|---|---|
-| `--text-hero` | `clamp(3rem, 2rem + 4vw, 5.5rem)` | 0.92 | 800 | 0.01em | display, uppercase | home wordmark only |
-| `--text-4xl` | `clamp(2.25rem, 1.75rem + 2vw, 3rem)` | 1 | 800 | 0.02em | display, uppercase | guide and quest title (`h1`) |
-| `--text-3xl` | 2.25rem | 1.05 | 800 | 0.02em | display, uppercase | home section title |
-| `--text-2xl` | 1.875rem | 1.1 | 800 | 0.02em | display, uppercase | list page title, `h2` in guides |
-| `--text-xl` | 1.375rem | 1.2 | 700 | 0 | display, normal case | card and block title, `h3` |
+| `--text-hero` | `clamp(3rem, 2rem + 4vw, 5.5rem)` | 0.92 | 600 | 0 | display | home title only |
+| `--text-4xl` | `clamp(2.25rem, 1.75rem + 2vw, 3rem)` | 1 | 600 | 0 | display | page title (`h1`); the guide title has its own size (Quest header) |
+| `--text-3xl` | 2.25rem | 1.05 | 600 | 0 | display | home section title |
+| `--text-2xl` | 1.875rem | 1.1 | 600 | 0 | display | list page title, `h2` in guide prose |
+| `--text-xl` | 1.375rem | 1.2 | 600 | 0 | display | card and block title, `h3`, the wordmark |
 | `--text-lg` | 1.125rem | 1.4 | 600 | 0 | body | lead paragraph, step title |
 | `--text-base` | 1rem | 1.5 | 400 | 0 | body | body text, never smaller in guide content |
 | `--text-sm` | 0.875rem | 1.5 | 400 to 600 | 0 | body | secondary text, controls, table cells |
 | `--text-xs` | 0.78rem | 1.45 | 500 to 600 | 0 | body | chips, meta, tab labels |
-| `--text-eyebrow` | 0.8125rem | 1.4 | 700 | 0.16em | display, uppercase | eyebrow above a title |
-| `--text-micro` | 0.6875rem | 1.4 | 700 | 0.12em | display, uppercase | section labels, table heads, stat labels |
+| `--text-eyebrow` | 0.8125rem | 1.4 | 600 | 0.16em | display, uppercase | eyebrow above a title |
+| `--text-micro` | 0.6875rem | 1.4 | 600 | 0.12em | display, uppercase | section labels, table heads, stat labels |
 | `--text-figure-lg` | 2.5rem | 1 | 400 | 0 | accent | step numbers, hero counters ("30 guías") |
 | `--text-figure` | 1.375rem | 1 | 400 | 0 | accent | levels, percentages, stat tile numbers, "0/100" |
 
 Rules:
 
-- Page and section titles (`h1`, `h2`, home sections) are uppercase Barlow Condensed with slight positive tracking, as on Dofus Tools and Torre's site (decided 2026-11-02). Write them in normal case in the source and apply `text-transform: uppercase` in CSS, so screen readers and search snippets get normal text.
-- Card titles, step titles and body text stay in normal case. Eyebrows and micro labels are uppercase as in the table.
-- Lilita One is for featured numbers and the words that belong to them ("30 guías"), never for titles or labels. In tables and aligned columns, numbers stay in Barlow with tabular figures.
+- Titles, the wordmark and buttons are Fredoka 600 in normal case, with no tracking (decided 2026-11-05 with guide v4; until then titles were uppercase Barlow Condensed). Eyebrows and micro labels stay uppercase as in the table, written in normal case in the source.
+- Guide pages set body text at 1.0625rem with a 1.6 line height; elsewhere it stays at `--text-base`.
+- Lilita One is for featured numbers and the words that belong to them ("30 guías"), never for titles or labels. In tables and aligned columns, numbers stay in Nunito with tabular figures.
 - The last word of a list page title may go in `--color-accent` ("Todas las *misiones*").
-- Measure: guide prose at most 72ch; step cards cap at `--width-prose`.
+- Measure: guide prose at most 72ch; step text at most 68ch.
 - Numbers in tables, counts and progress use `font-variant-numeric: tabular-nums`.
 - Words never split mid-word: `overflow-wrap: normal; word-break: normal; hyphens: manual` on `body`.
 
@@ -314,7 +327,7 @@ Tailwind v4's single `--spacing: 0.25rem` base, so `p-4` is 16px. The steps in u
 | 8, 10, 12 | 32, 40, 48 | between blocks in a guide, desktop side gutter (48px) |
 | 16, 20 | 64, 80 | between page sections |
 
-Step cards use `18px 22px` padding (4.5 and 5.5) as on duffus; everything else stays on the scale.
+Torre's tips bubble uses `18px 22px 20px` padding; everything else stays on the scale.
 
 ### Radii
 
@@ -323,7 +336,7 @@ Step cards use `18px 22px` padding (4.5 and 5.5) as on duffus; everything else s
 | `--radius-xs` | 4px | progress track, tiny thumbnails |
 | `--radius-sm` | 8px | icon wells, table rows on hover, checkboxes (7 to 8px) |
 | `--radius-md` | 12px | list rows, inputs that are not pills, tooltips, secondary buttons |
-| `--radius-card` | 16px | step cards, panels, dropdowns, step screenshots |
+| `--radius-card` | 16px | panels, dropdowns, Torre's tips bubble |
 | `--radius-lg` | 20px | dungeon and class cards |
 | `--radius-xl` | 28px | hero cards, Dofus cards |
 | `--radius-pill` | 999px | buttons, chips, search, nav items, tabs |
@@ -393,9 +406,9 @@ Decided 2026-11-05: Torre chose proposal C, "Emblema" (https://ta-prototipos.net
 
 - **Header** (decided 2026-11-02: the duffus-style header, not the Dofus Tools "header B"): 64px, sticky. Transparent over the hero art at the top of the page, then `--color-bg` at 92 percent with `backdrop-filter: blur(16px) saturate(1.4)` once the page scrolls (solid fallback without `backdrop-filter`). Brand left (the emblem and the wordmark, see Brand); nav groups as dropdowns with game icons; search trigger with its `Ctrl K` hint; the egg theme switch; the account button ("Entrar" as the primary action, accent outline, when signed out). Under 768px: a floating bar inset 12px from the edges with 16px radius, and a burger that opens a full-height sheet of 48px rows.
 - **Footer**: legal links, Ko-fi, socials (YouTube, Kick, Instagram), the Twitch live card. No floating support button.
-- **Quest guide** (decided 2026-11-04: option 3, variant B, "Diario de misiones", mockup `tmp/mockups/guia/opcion-3b.html`, published at https://ta-prototipos.netlify.app/guia/): the free view is the full guide. From top to bottom: the hero header with the level medallion; the summary ribbon at `--width-hero` (Empieza, Requiere, Necesitarás, and a "Recompensa … ↓" link to the Botín card); "Pasos", the steps timeline at `--width-prose` with the number badges in a 48px gutter from 768px and inside the card below, and the progress pill above it; the Botín card as the last node of the timeline; the outro prose and the video; the next quest card. Every part is specified under Quest guide components. "Modo compacto" (decided 2026-11-02) is a premium feature that trims the hero and the long dialogue blocks; it is enforced on the server like every premium feature (see `AGENTS.md`), so a visitor without the entitlement never receives the compact layout or its toggle.
-  - **What renders today** (the page at `/<slug>`, 2026-11-05): only what the guide stores. The hero header with the title and the medallion, no art, no breadcrumb and no subtitle; the summary ribbon from the guide's summary and the quest's rewards; then, at `--width-prose` plus the 48px gutter, the body. A body with step blocks (the "Paso" block in the panel) renders the blocks before the first step as intro prose, then the "Pasos" timeline with the Botín card as its last node, then the blocks after the last step as outro prose; a block placed between two steps stays at the end of the step before it, so the reading order never changes. A body without step blocks renders all its blocks in order as prose (rich text, Figure, Video facade, Callout) with the Botín card after them: the page never invents steps from the prose. Ticks and the progress pill are CSS only; the guide page ships no new client JavaScript for them. The fight block, the achievement chain and the next quest card are left out. Each missing part is listed under Content model gaps.
-  - **Draft preview**: in draft mode (opened from the panel, see `AGENTS.md`) a bar in `--color-raised` sits above the hero with "Vista previa del borrador. Los visitantes ven la versión publicada." and a ghost button "Salir de la vista previa"; the page is `noindex`.
+- **Quest guide** (decided 2026-11-05: guide v4, prototype `tmp/mockups/guia-v4/`, published at https://ta-prototipos.netlify.app/guia-v4/, replacing option 3 variant B): a flat page, with the content straight on `--color-bg` and no card around it. The free view is the full guide. From top to bottom: the quest header (the quest giver's render, the title, the subtitle, then Prerrequisitos, Necesitarás and Recompensas); the intro prose; the numbered steps; the outro prose and the video. From 1152px the "Pasos" side list docks to the right at 272px, sticky. The column is 1240px plus the gutters (16px, 24px from 640px, 48px from 1024px). Every part is specified under Quest guide components. There are no achievement tabs, no ticks and no step titles on the page. "Modo compacto" (decided 2026-11-02) is a premium feature that trims the header and the long dialogue blocks; it is enforced on the server like every premium feature (see `AGENTS.md`), so a visitor without the entitlement never receives the compact layout or its toggle.
+  - **What renders today** (the page at `/<slug>`, 2026-11-05): only what the guide and its DofusDB quest store. A body with step blocks (the "Paso" block in the panel) renders the blocks before the first step as intro prose, then the steps, then the blocks after the last step as outro prose; a block placed between two steps stays at the end of the step before it, so the reading order never changes. A body without step blocks renders all its blocks in order as prose, with no steps and no side list: the page never invents steps from the prose. The next quest card and the fight block are left out. Each missing part is listed under Content model gaps.
+  - **Draft preview**: in draft mode (opened from the panel, see `AGENTS.md`) a bar in `--color-raised` sits above the header with "Vista previa del borrador. Los visitantes ven la versión publicada." and a ghost button "Salir de la vista previa"; the page is `noindex`.
 - **Dofus guide and checklist**: title block, summary strip (level range, prerequisites done, quests done, dungeons, segmented progress), chapters as numbered sections of checkable rows; from 1024px a sticky side column with the Dofus card and tabs (Capítulos, Objetos necesarios).
 - **List pages** (achievements, quests, dungeons, classes): centered title and subtitle, a toolbar (search with live count, filter pills, "Ocultar hechas"), then a table or card grid.
 - **Home**: hero card with the wordmark and a character render, stat tiles from the database, the Dofus guides grid, the tools grid.
@@ -406,27 +419,26 @@ Every interactive component has these states: default, hover (mouse only), focus
 
 | Component | Anatomy | States |
 |---|---|---|
-| Button, primary | pill, 44px high, 24px side padding, display 700 at `--text-sm`, transparent fill, 1.5px `--color-accent` border, `--color-accent` text (at least 6.08:1 on surface in every theme and mode). One per view. No color is ever a button fill | hover: `--color-raised` fill behind the same text and border (at least 4.93:1); pressed: `scale(.96)`; disabled: 40 percent opacity, no pointer |
+| Button, primary | pill, 44px high, 24px side padding, display 600 at `--text-sm` in normal case, transparent fill, 1.5px `--color-accent` border, `--color-accent` text (at least 6.08:1 on surface in every theme and mode). One per view. No color is ever a button fill | hover: `--color-raised` fill behind the same text and border (at least 4.93:1); pressed: `scale(.96)`; disabled: 40 percent opacity, no pointer |
 | Button, secondary | pill, 40px, `--color-raised` fill, `--color-ink` text, optional leading icon | hover: `--color-line` fill (ink on line at least 9.62); pressed: scale |
 | Button, ghost | pill, 36px, no fill, `--color-ink-2` text | hover: `--color-raised` fill |
 | Icon button | 40px circle (44px under `pointer: coarse`), `aria-label` required | as secondary |
 | Nav link | pill, 36px, `6px 14px` padding | hover: faint fill; current page: `--color-accent` text plus `aria-current="page"` |
 | Dropdown panel | 16px radius, `--color-surface` at 92 percent with blur, 12px padding, rows of 40px with a 24px game icon | enter and exit per the motion table; Esc and outside click close; arrow keys move |
 | Search dialog | native `<dialog>`, 640px wide, input at top, results grouped by type (misión, logro, Dofus, clase) with icons, keyboard selection | opens on `Ctrl K` or `/`; empty state with recent searches; no-results state with a suggestion |
-| Card, collection (Dofus, class, dungeon) | the whole card is one `<a>`; art layer, shade, name in display 700 normal case, one line of meta; 1px border in `--color-section`; optional progress ring top right in `--color-accent` with the percentage in Lilita One and `--color-accent-2`. Light-mode treatment below | hover: a soft glow in `--color-section` around the border, art settles from `scale(1.04)` to 1; done: success ring; locked premium: lock badge and the meta says why |
-| Card, step | see Step card under Quest guide components. A type badge (32px circle with a game icon) can replace the number when the step block gets a type; optional NPC render and numbered dialogue choices | done: check in the badge, title in `--color-muted`, the card stays in place |
-| Stat tile | 14px radius, `--color-raised` fill, optional game icon, number in Lilita One at `--text-figure` in `--color-accent-2` (`white-space: nowrap`), micro label in `--color-ink-2`. XP and kamas have no game icon we can use, so their tiles are typographic: number and label only, never a stand-in glyph | static |
+| Card, collection (Dofus, class, dungeon) | the whole card is one `<a>`; art layer, shade, name in display 600, one line of meta; 1px border in `--color-section`; optional progress ring top right in `--color-accent` with the percentage in Lilita One and `--color-accent-2`. Light-mode treatment below | hover: a soft glow in `--color-section` around the border, art settles from `scale(1.04)` to 1; done: success ring; locked premium: lock badge and the meta says why |
+| Stat tile | 14px radius, `--color-raised` fill, optional game icon, number in Lilita One at `--text-figure` in `--color-accent-2` (`white-space: nowrap`), micro label in `--color-ink-2`. The guide page no longer uses it (the XP and kamas rows of Recompensas replaced the Botín tiles); it stays in the catalog for the achievement and checklist pages | static |
 | Chip | 22 to 26px pill, `--text-xs`, `--color-raised` fill, `--color-ink-2` text, optional 16px game icon | static; the coordinates chip is its own component (Quest guide components) |
 | Segmented tabs | pill track in `--color-raised`; active segment `--color-surface` with `--color-accent` text | selected uses `aria-selected`; arrow keys move between tabs |
 | Checkbox | 22px, `--radius-sm`, `--color-muted` border | checked: `--color-accent` fill with a `--color-bg` check mark (at least 5.55:1); pressed: `scale(.9)` for 100ms |
 | Progress bar | 10 to 14px track in `--color-bg` (dark) or `--color-raised` with a hairline (light), `--color-accent` fill (at least 4.93:1 against raised, over the 3:1 a fill needs), optional chapter ticks, percentage beside it in Lilita One and `--color-accent-2` | animates `transform: scaleX()` on the fill, never `width` |
-| Callout | 12px radius, fill of its color at 10 percent over `--color-surface`, 1px border of its color at 35 percent, 28px ring icon, title in its color (display 700, `--text-eyebrow`, uppercase), text in `--color-ink`; `role="note"`. The icon is a typographic glyph in a 2px ring of its color (`i`, `!`, `×`), `aria-hidden`; the title carries the meaning. Game art may replace a glyph only if the art clearly conveys the same meaning (tip or info, warning, stop); otherwise the glyph stays (decided 2026-11-05) | tip (info, "Consejo"), warning (warning, "Importante"), stop (danger, "Alto"). Ratios under Quest guide components |
+| Callout | `--radius-md`, 2px border in its color, its color at 9 percent over `--color-bg`, `16px 20px 18px` padding, `role="note"` named by its title. The title is a plain heading inside the box (Fredoka 600, 1.25rem, `--color-ink`): no ribbon, no tab, no glyph (decided 2026-11-05, guide v4). Text in `--color-ink` (at least 13.31:1 on every fill). In guides, the tip variant renders as Torre's tips instead (Quest guide components) | warning ("¡Importante!"), stop ("¡Alto!"), tip ("Consejo", outside guides) |
 | Table | 44px rows, 1px `--color-line` between rows, sticky head row in micro labels, checkbox column first, numbers right-aligned | row hover: `--color-raised`; done rows keep their place and tick |
 | Tooltip | `--color-raised`, 12px radius, `--text-xs`, 8px offset | shows on hover after 300ms and on focus; never holds the only copy of information |
-| Dialog | native `<dialog>` with `showModal()`, 16px radius, `--shadow-dialog`, title in display 700, actions bottom right | confirm destructive actions with a dialog, never `confirm()`; offer "Deshacer" in a toast for 8 seconds after |
+| Dialog | native `<dialog>` with `showModal()`, 16px radius, `--shadow-dialog`, title in display 600, actions bottom right | confirm destructive actions with a dialog, never `confirm()`; offer "Deshacer" in a toast for 8 seconds after |
 | Toast | bottom center, pill or 12px radius, `--color-raised` | auto-dismiss 4 seconds (8 with an undo action); `role="status"` |
 | Mode switch | the egg medallion from Dofus Tools, now the dark and light toggle within the chosen theme. The ivory and ebony egg art stay as its two icons; the medallion keeps its own dark fill in both modes, so the art reads the same on every theme. The knob ring is `--color-accent` | `role="switch"` with `aria-checked`; the mode change uses the corner reveal of the old site where View Transitions exist, a plain swap otherwise |
-| Theme picker | five swatch cards in a grid (three per row from 640px, two below): a strip of the theme's bg, surface, accent and accent-2, the theme name in display 700, and on the four premium ones a lock icon and a "Premium" label. The current theme has a `--color-accent` border and a check | entitled member: choosing saves the theme to the profile and the server re-renders the page with it. Everyone else: hover or focus shows a preview inside the card (a mini page in that theme's colors, scoped to the card with its own `data-theme`) without changing the page; choosing a premium theme opens the premium explainer, and nothing is saved |
+| Theme picker | five swatch cards in a grid (three per row from 640px, two below): a strip of the theme's bg, surface, accent and accent-2, the theme name in display 600, and on the four premium ones a lock icon and a "Premium" label. The current theme has a `--color-accent` border and a check | entitled member: choosing saves the theme to the profile and the server re-renders the page with it. Everyone else: hover or focus shows a preview inside the card (a mini page in that theme's colors, scoped to the card with its own `data-theme`) without changing the page; choosing a premium theme opens the premium explainer, and nothing is saved |
 | Tag pill | 22 to 26px pill, `--text-xs`, transparent fill, 1px `--color-accent-2` border and text | static, or a link with a hover fill of `--color-raised` |
 | Skeleton | blocks in `--color-raised` matching the final layout, used only in client islands and `loading.tsx` | a 1.2s opacity pulse; static under reduced motion |
 | Empty state | game art (an NPC or icon), one sentence, one action | e.g. "Aún no has marcado ninguna misión" with "Ver la guía" |
@@ -444,73 +456,66 @@ Decided 2026-11-02: in light mode the art cards are lightened, not kept dark, in
 
 ### Quest guide components
 
-Decided 2026-11-04, from the approved mockup (option 3, variant B). They are server components; the only client code is one island that copies coordinates, plays videos and opens images fullscreen (see Coordinates chip, Video facade and Figure and fullscreen viewer). Generic parts live in `src/components/ui/`, game parts in `src/components/game/`. The page root sets `--color-section: var(--color-sec-misiones)`.
+Decided 2026-11-05, from the approved guide v4 prototype (it replaced the option 3 variant B components: hero header, level medallion, summary ribbon, step cards with ticks, progress pill and Botín card). They are server components; the only client code is one island that copies coordinates, plays videos, opens images fullscreen and marks the current step in the side list (see Coordinates chip, Video facade, Figure and fullscreen viewer, and Steps side list). Generic parts live in `src/components/ui/`, game parts in `src/components/game/`. The page root sets `--color-section: var(--color-sec-misiones)`.
 
 Rules shared by all of them:
 
-- **Text over art or over scrolling content** (the medallion, the breadcrumb pill, the progress pill) sits on `--color-surface` at 92 percent and uses `--color-ink`, `--color-ink-2`, `--color-accent` or `--color-accent-2`, never `--color-muted`: muted drops to 4.47:1 there (Arcano dark, white art under the 8 percent that shows through).
-- **Focus** follows Accessibility: a 2px `--color-ink` outline, or `--color-accent` on accent-colored controls (the coordinates chip, the copy button, the step badge).
+- **Text never sits on art.** The quest giver's render stands beside the title, and its name is text under it.
+- **Links** in the header and the prose are underlined, so they never rely on color alone.
+- **Focus** follows Accessibility: a 2px `--color-ink` outline, or `--color-accent` on accent-colored controls (the coordinates chip, the copy button).
 - **Motion** is CSS only. Every transition below drops to 0.01ms under `prefers-reduced-motion: reduce` through the global rule in `globals.css`.
 
 #### New contrast pairs
 
-Worst case over the five themes, in WCAG 2.x ratios. "Over art" assumes white art in dark mode and black art in light mode under the 92 percent surface.
+Worst case over the five themes, in WCAG 2.x ratios.
 
 | Pair | Dark | Light | Needs |
 |---|---|---|---|
-| accent-2 on surface 92% over art (medallion and pill figures) | 6.16 Ocre | 4.81 Bonta | 4.5 |
-| ink-2 on surface 92% over art (medallion label, pill total and label) | 7.60 Arcano | 8.51 Amakna | 4.5 |
-| accent on surface 92% over art (breadcrumb links) | 4.98 Brâkmar | 5.09 Ocre | 4.5 |
-| ink on surface 92% over art | 12.21 Arcano | 13.82 Amakna | 4.5 |
-| muted on surface 92% over art (not used) | 4.47 Arcano | 5.12 Bonta | fails |
-| accent-2 on bg (Botín border, medallion ring) | 8.16 Ocre | 5.28 Bonta | 3 |
-| muted on bg (step badge ring in the gutter) | 5.92 Arcano | 5.61 Bonta | 3 |
-| info title on its callout fill | 7.46 Bonta | 5.74 Ocre | 4.5 |
-| warning title on its callout fill | 8.37 Bonta | 5.53 Ocre | 4.5 |
-| danger title on its callout fill | 5.84 Bonta | 5.33 Ocre | 4.5 |
-| ink on any callout fill | 12.46 Arcano | 14.18 Amakna | 4.5 |
-| sec-misiones on surface (Recompensa label) | 10.16 Bonta | 5.83 Ocre | 4.5 |
+| accent on well (coordinates chip text) | 6.32 Brâkmar | 4.93 Ocre | 4.5 |
+| accent on bg (chip border, links) | 6.46 Brâkmar | 5.55 Arcano | 3 / 4.5 |
+| ink on well (step number) | 15.72 Arcano | 13.47 Ocre | 4.5 |
+| ink-2 on bg (subtitle) | 10.06 Arcano | 9.38 Amakna | 4.5 |
+| muted on bg (side list number and coordinates) | 5.92 Arcano | 5.61 Bonta | 4.5 |
+| muted on raised (side list row on hover) | 4.92 Arcano | 5.08 Bonta | 4.5 |
+| ink on warning, danger or info at 9 % over bg (callouts) | 13.91 Arcano | 13.31 Amakna | 4.5 |
 | ink on bg 82% over the video poster (play glyph) | 9.60 Arcano | 10.02 Amakna | 3 |
 | ink on bg 92% over the page (viewer caption on the backdrop) | 13.42 Arcano | 12.75 Amakna | 4.5 |
 
-Pairs already in the theme tables: accent on raised (coordinates chip, filled progress segments, at least 4.93), accent-2 on raised (step number, slot quantity, stat figures, at least 4.77), ink-2 and muted on raised (chips, monster level), bg check mark on an accent fill (done badge, at least 5.55), accent on surface (copy button, at least 6.08).
+#### Quest header
 
-#### Level medallion
+- **Anatomy**: a `<header>` with the `h1` (Fredoka 600, `clamp(2.125rem, 1.5rem + 2.4vw, 3.25rem)`, line height 1.02, `--color-ink`, `text-wrap: balance`), the subtitle in `--color-ink-2`, and the three fact columns, closed by a 1px `--color-line` rule with 32px above it. The quest giver stands in a column to the left: 140px wide (160px from 1024px), a 40px gap (48px from 1024px), vertically centered on the text, so it adds no height to the top of the page.
+- **Subtitle**: exactly "Misión de {zona} - Nivel {n} - Misión {k} del logro {logro}", the parts joined with " - ". The zone is the area of the quest's start map in DofusDB (`quests.zone`, "Astrub"); the level is the quest's minimum level; the position is the quest's place in its achievement's quest list (`quests.achievement`). The achievement is a link with the game's trophy in front of it (22px). A missing part is left out ("Nivel 20" alone when the quest has no zone and no achievement); with no part at all there is no subtitle.
+- **Achievement link**: the achievement pages still live on Torre's current site, at the same flat slug they will have here (`https://www.torrentearcano.com/la-ocasion-hace-al-ladron`, from DofusDB's Spanish slug). The link becomes relative when the app has achievement pages (`ACHIEVEMENT_PAGES_ORIGIN` in `src/lib/guides/page.ts`).
+- **Quest giver**: the NPC that starts the quest, rendered by DofusDB and imported once into Media (see Imagery). From 576px: the render facing right (direction 1) at 120px wide (128px from 1024px), on a flat oval "floor" in `--color-raised` fading to transparent; under it the NPC name (Fredoka 600, 1.1875rem, `--color-ink`) and the coordinates chip of the start position. Under 576px the header flips: the render facing left (direction 3), 64px wide, stands right of the title and subtitle, with the name only (0.9375rem); step 1 right below carries the same chip. The picture uses `<source media="(max-width: 35.99rem)">` for the left-facing render. The render is decorative (`alt=""`); a visually hidden "Empieza con " precedes the name. No render, no column: never a placeholder.
+- **Facts**: three `<section>`s named by their `h2` (Fredoka 600, 1.25rem, `--color-ink`): Prerrequisitos and Necesitarás side by side (`auto 1fr`, 48px gap), Recompensas below at full width with its rows in an `auto-fill` grid of 250px columns. Under 576px they stack. Each line is a row: a 44px slot with the icon, then the text in `--color-ink`, the amounts in Nunito 800 with tabular figures ("**1 ×** Pico de tofu", "**9 800** a **16 380** XP").
+  - **Prerrequisitos**: one row per line of the guide's summary, without the final period. A line that names one of the quest's prerequisite quests gets the quest book icon, and links to that quest's guide when it is published. Other lines ("Nivel mínimo 20") are plain text rows with no slot.
+  - **Necesitarás**: the needed items (never quest items, DofusDB super type 14) with their item icon, then the note lines. A note that starts with a quantity ("1 x Combate (solo).") shows it apart; a note about a combat gets the combat icon. Other notes are plain rows.
+  - **Recompensas**: from the linked quest's DofusDB rewards: the XP range with the XP arrow, the kamas with the coin stack, then the items in Torre's order (the reverse of DofusDB's). Without DofusDB rewards, the guide's rewards text, one plain row per line, never rows made up from it.
+- **XP range** (decided 2026-11-05): "9 800 a 16 380 XP" is the XP at the step's optimal level up to the XP at the cap, 1.5 times the optimal level, summed over the quest's steps with the game client's formula (`src/lib/dofusdb/quest-rewards.ts`, as DofusDB and Ganymede compute it). The quest stores both: `rewards.experienceMin` and `rewards.experience` (the level 200 value, which is the cap). When they are equal, or the minimum is missing, one figure. Kamas stay a single figure, the optimal level's, as on DofusDB.
+- **Empty parts** are left out: a column with no rows is not rendered, and with no column at all there is no facts block.
+- **Motion**: none. The title never animates in.
 
-- **Anatomy**: a circle, 76px under 768px and 104px from 768px, 2px `--color-accent-2` ring, `--color-surface` at 92 percent fill. Micro label "Nivel" in `--color-ink-2` above the number in Lilita One, `--color-accent-2`, 1.75rem on phones and `--text-figure-lg` from 768px.
-- **States**: static. A level range ("190 a 200") is not shown in the medallion; the medallion takes the quest's minimum level.
-- **Accessibility**: a `<p>`, so it reads "Nivel 20". Not a heading, not interactive.
-- **Motion**: enters with the hero pieces (see Hero header).
+#### Icon slots and game icons
 
-#### Hero header
+- **Slot**: 44px, 10px radius, `--color-slot` with a 1px `--color-slot-line` border, `aria-hidden`. The icon inside is drawn at 32px, or at its file size when the file is smaller, never upscaled. A missing item icon leaves the slot empty.
+- **Game icons**: a fixed set of original game files, converted losslessly to WebP in `public/img/game/` and listed with their source in `src/components/game/game-icons.ts`. Never copies from fan sites.
 
-- **Anatomy**: full-bleed section; inside, a grid at `--width-hero` with three areas: the breadcrumb pill on top, then the body (the `h1` in `--text-4xl` and a subtitle in `--text-lg` 500 `--color-ink-2`, "Misión de Astrub · Ciudad de Astrub") and the level medallion at the end of the row, aligned to the bottom.
-- **With art**: the art fills the section with `object-fit: cover` and a `mask-image` fade to transparent at the bottom (21:9 on desktop, 4:3 on phones through `<source media>`, see Imagery). A shade sits between art and text: a gradient from `--color-bg` to `--color-bg` at 85 percent (dark) or 90 percent (light) to transparent, plus a 120px top band at 70 percent for the site header. In light mode the art is at 55 percent opacity. Height: at least 300px on phones, `clamp(380px, 38vw, 540px)` from 768px. The art is the LCP candidate: `fetchpriority="high"`, never lazy, `alt=""` (decorative).
-- **Without art**: the same grid on `--color-bg`, with no shade and no minimum height; only the top padding stays. Nothing stands in for the art.
-- **Art source** (decided 2026-11-05): an image field on the guide, prefilled with a representative image of the quest's zone, which Torre can change or clear. It is never taken from the guide's screenshots: many guides only have dialogue screenshots, which make poor heroes. DofusDB has no zone images, so the prefill needs our own library of one image per zone. The guide page shipped without it; the field and the library come in their own change, and until then every guide renders the no-art header. No value means the no-art header.
-- **Breadcrumb**: a `<nav aria-label="Migas de pan">` with an `<ol>`; pill in `--color-surface` at 92 percent, `--text-xs`, links in `--color-accent`, `/` separators in `--color-ink-2`. The achievement crumb carries its 20px icon. Under 640px the first crumb ("Misiones") is hidden, because the menu already has it. Every crumb links to a real page: until the quests hub, the zone and the achievement exist, the guide page renders no breadcrumb, and the subtitle (zone and subzone) is left out for the same reason.
-- **Accessibility**: the section is `aria-labelledby` the `h1`. The title is written in normal case and uppercased in CSS.
-- **Motion**: the breadcrumb, the subtitle and the medallion enter with the 40ms stagger (Motion, Enter). The title and the art never animate in.
+| Icon | File | Source | Size |
+|---|---|---|---|
+| Combat | `combate.webp` | Dofus 3 client, `statistics/2x/21-96.png` (dofusdude/dofus3-main 3.7.13.17, `statistics_images_96`) | 96px |
+| Kamas | `kamas.webp` | Dofus 3 client, `statistics/2x/78-96.png` (same export) | 96px |
+| Quest book | `mision.webp` | `dofusdb.fr/icons/icon_quests.png` (game UI) | 70px |
+| XP arrow | `xp.webp` | Dofus 3 client, `ui/guidebook/feature_494-24.png` (`ui_guidebook_images`) | 24px |
+| Achievement trophy | `logro.webp` | Dofus 3 client, `misc/guildrank/87-28.png` (`misc_images`) | 28px |
 
-#### Summary ribbon
-
-- **Anatomy**: a `--color-surface` box at `--width-hero` (plus the gutters), `--radius-card`, holding a `<dl>` of segments and, under a hairline, the reward link.
-  - **Empieza**: the start NPC in `--color-ink` 600 and the place in `--color-ink-2` (`Hupe Esse · Biblioteca de Astrub`), then the primary button "Copiar /travel 7,-19" (Button, primary, in its compact 40px size so it fits the row, with a copy icon). The place is optional.
-  - **Requiere**: one line per prerequisite, as the summary text gives them; a prerequisite quest with a published guide is a link.
-  - **Necesitarás**: the needed items as item chips, then the note lines ("1 x Combate (solo)."). Quest items (DofusDB super type 14) never appear: the game hands them over during the quest.
-  - **Reward link**: `<a href="#botin">` with the micro label "Recompensa" in `--color-section`, then the rewards in `--color-ink-2` and an `aria-hidden` "↓". The guide's own rewards text (`summary.rewards`, prefilled from DofusDB and editable in the panel) wins, its lines joined with ` · ` and without the final periods (`16 380 XP · 390 kamas · 1 x Pico de tofu`). Only when it is empty does the line come from the quest's DofusDB rewards (`16 380 XP · 390 kamas · 4 objetos`).
-- **No level segment**: the level lives in the medallion only.
-- **Layout**: from 1024px the segments sit in one row, split by vertical hairlines, Empieza taking the free width (`flex: 1 1 380px`) and labels above values. Below 1024px each segment is a row with a 96px label column and the value beside it, split by horizontal hairlines; the reward link uses the same column, so its text never reflows when the label's on-demand font arrives (that reflow cost the guide a CLS of 0.27 on a 412px phone). Below 640px Empieza stacks and its button takes the full width.
-- **Empty segments** are left out, never shown with a dash. With no segment at all the ribbon keeps only the reward link; with no rewards either, it is not rendered.
-- **States**: the reward link gets a `--color-raised` fill on hover (`--duration-fast`, `--ease-standard`) and an inset focus outline (`outline-offset: -2px`).
-- **Accessibility**: the section is `aria-label="Antes de empezar"`; labels are `<dt>` micro labels in `--color-muted` on surface (at least 5.53).
+The XP arrow and the trophy only exist at 24 and 28px in the client exports, so they render at that size: the arrow at 24px in its slot, the trophy at 22px in the subtitle. Torre's avatar for his tips is `public/img/torre/avatar.webp`, 144px, from his own avatar.
 
 #### Item chip and item slot
 
 Two sizes of the same thing: a game item with its icon, quantity and name. Item icons come from our own media (Imagery); a missing icon leaves an empty well, never a placeholder glyph.
 
 - **Item chip** (ribbon, prose): 32px pill, `--color-raised`, 24px icon inset 4px from the left edge, name in `--text-xs` 600 `--color-ink`, then `× 1` in `--color-ink-2` 500. Static.
-- **Item slot** (Botín): a 72px well (`--radius-sm`, `--color-raised`, 1px `--color-line`) with the 48px icon; the quantity in Lilita One 0.9375rem `--color-accent-2` in the bottom-right corner, as in the game's inventory; the name under the well, centered, `--text-xs` `--color-ink-2`. Slots are 104 to 112px wide.
+- **Item slot** (catalog; the guide page uses the row of Quest header): a 72px well (`--radius-sm`, `--color-raised`, 1px `--color-line`) with the 48px icon; the quantity in Lilita One 0.9375rem `--color-accent-2` in the bottom-right corner, as in the game's inventory; the name under the well, centered, `--text-xs` `--color-ink-2`. Slots are 104 to 112px wide.
 - **Quantities**: always shown, also `1`; thousands split with a space (`1 000`).
 - **Accessibility**: icons have `alt=""` because the name is text next to them. The slot puts the quantity in a visually hidden prefix so it reads "1 × Pico de tofu"; the drawn quantity is `aria-hidden`.
 - **Missing or not-owned items** (checklists later): the icon in `grayscale(1)` at 60 percent opacity, as Imagery says.
@@ -523,40 +528,37 @@ Two sizes of the same thing: a game item with its icon, quantity and name. Item 
 
 #### Coordinates chip
 
-- **Anatomy**: an inline 26px pill, `--color-raised`, 1px transparent border, `--text-xs` 600 Barlow with tabular figures in `--color-accent` (at least 4.93 on raised), a 12px copy icon after the text. The label is the game's notation, `[7,-19]`.
-- **What it copies**: `/travel 7,-19`. Pasted in the game chat it sets the autopilot, which is what a reader following a guide wants. The `[x,y]` map link stays as the visible label only; there is no second control to copy it. The start position uses the larger primary button ("Copiar /travel 7,-19") instead of a chip.
-- **Coordinates in prose**: the renderer of the guide body turns every `[x,y]` written in a text node into a chip. The pattern is two signed integers in square brackets with optional spaces (`[7,-19]`, `[ -1 , 17 ]`); anything else stays text: decimals, a single number, three numbers, or coordinates inside a link or code. Step titles do not convert; a step that has a main position shows it as a chip in its head.
+- **Anatomy**: an inline 32px chip, 8px radius, `--color-well` fill, a 1.5px `--color-accent` border, a 16px pin icon then the coordinates in Nunito 800 at 0.9375rem with tabular figures, in `--color-accent` (at least 4.93:1 on the well). The label is the game's notation, `[7,-19]`.
+- **What it copies**: `/travel 7,-19`. Pasted in the game chat it sets the autopilot, which is what a reader following a guide wants. The `[x,y]` map link stays as the visible label only; there is no second control to copy it. The start position uses the same chip, under the quest giver.
+- **Coordinates in prose**: the renderer of the guide body turns every `[x,y]` written in a text node into a chip. The pattern is two signed integers in square brackets with optional spaces (`[7,-19]`, `[ -1 , 17 ]`); anything else stays text: decimals, a single number, three numbers, or coordinates inside a link or code. A step whose own X and Y do not appear in its text shows them as a chip on the first line of the step.
 - **Without JavaScript**: the chip renders as plain text, readable and selectable. The island then turns each chip into a button (`role="button"`, `tabindex="0"`, Enter and Space) and gives it the name `[7,-19], copiar /travel 7,-19`, which starts with the visible text.
 - **Feedback**: on copy, a toast "Copiado: /travel 7,-19" in a `role="status"` region (Toast). If the clipboard is refused, the toast says "Escribe /travel 7,-19 en el chat".
-- **States**: hover (mouse only) shows the border in `--color-accent`; pressed `scale(.96)` over `--duration-press`; focus-visible a 2px `--color-accent` outline. A transparent `::after` grows the target to at least 40px tall (44px under `pointer: coarse`), centered on the chip, without changing the drawn chip or the line height, so the 26px pill still meets the Accessibility target rule.
-- **Motion**: border color over `--duration-fast`; the toast enters per the motion table.
+- **States**: hover (mouse only) fills it with `--color-raised`; pressed `scale(.95)` over `--duration-press`; focus-visible a 2px `--color-accent` outline. A transparent `::after` grows the target to 44px tall, centered on the chip, without changing the drawn chip or the line height.
+- **Motion**: fill over `--duration-fast`; the toast enters per the motion table.
 
-#### Step card and steps timeline
+#### Steps
 
-Decided 2026-11-05: the section is called "Pasos" (not "Etapas") everywhere a reader or Torre sees it. In code the components keep their names, `StagesTimeline` and `StageCard`; the panel block is `step` ("Paso").
+Decided 2026-11-05 (guide v4): the section is called "Pasos" everywhere a reader or Torre sees it; the panel block is `step` ("Paso"). Steps have no title and no tick on the page.
 
-- **Step card**: `--color-surface`, `--radius-card`, `18px 22px` padding (`18px 16px` under 640px). A head row with the title (`--text-lg` 600 `--color-ink`, an `h3`) and, at the end, the step's coordinates chip when it has one; then the body blocks (prose, screenshots, callouts, fight block, video), with prose capped at 72ch. Lists, bold and callouts look as in the guide prose; a heading inside a step's text is a `--text-lg` subheading, never larger than the step title.
-- **Untitled step** (decided 2026-11-05): the title is optional. Without one, the card's `h3` reads "Paso 3" in the same style, so the heading order and the outline stay intact, and the tick label stays "Paso 3 hecho"; the coordinates chip, the badge, the timeline and the pill do not change. The importer creates untitled steps (`README.md`, Guide import notes); Torre can add a title in the panel.
-- **Number badge**: a 40px circle (44px under `pointer: coarse`), 2px `--color-muted` ring, `--color-raised` fill, the number in Lilita One 1.25rem `--color-accent-2`. From 768px it sits in a 48px gutter left of the card, and a 2px `--color-line` rule joins it to the next badge; under 768px it sits inside the card, top left, and the head makes room for it.
-- **Tick** (optional per page): the badge is the `<label>` of a visually hidden checkbox, "Paso 1 hecho". Checked: the ring and fill turn `--color-accent`, the number fades out and a 20px check mark in `--color-bg` scales in; the title turns `--color-muted`; the card stays in place. Hover (mouse only) shows the ring in `--color-accent`; pressed `scale(.9)`. Without ticks the badge is a plain number.
-- **Ticks are not saved yet**: until members and progress exist, a tick lives only in the open page, and the timeline head says so ("Marca cada paso al terminarlo. Por ahora no se guarda al salir."). Progress will be keyed by the step's stable UUID (`AGENTS.md`, Members and progress).
-- **Steps timeline**: the "Pasos" `h2` and that hint, the progress pill, then an `<ol>` of step cards with 16px gaps, then the Botín card as the last node, at `--width-prose` plus the 48px gutter. It comes from the step blocks of the guide body (optional title, optional X and Y, its own rich text, image, video and callout blocks); a guide page always has ticks.
-- **Accessibility**: the list is an `<ol>`; each checkbox has its own label; state is never color alone (the check mark and the label text).
-- **Motion**: ring and fill over `--duration-fast`; the check mark from `scale(.6)`, opacity 0, over `--duration-fast` `--ease-out`; press over `--duration-press`.
+- **Anatomy**: a `<section>` named by a visually hidden `h2` "Pasos", holding an `<ol>` of steps 56px apart, 36px under the header. Each step is a two-column grid: the number in a 40px well (10px radius, `--color-well`, 1px `--color-well-line`, Fredoka 600 1.25rem `--color-ink`), sticky 24px from the top while its step is on screen, then the step's blocks 20px to the right, 18px apart, prose capped at 68ch in `--color-ink`. The number is `aria-hidden`; the `<ol>` gives screen readers the count.
+- **Under 640px** the step is one column: the number (34px) floats left of the first line and screenshots, lists and callouts clear it, at full width.
+- **Screenshots** take the full width of the column, 14px radius, `--shadow-art`.
+- **Anchor**: each step is `id="paso-N"`, with `scroll-margin-top: 88px`.
+- **Step title** (the optional field of the block) is not rendered in v4; the side list takes its label from the text. The block's X and Y show as a chip on the first line only when the text does not already name them.
+- **Current step**: with the island, the step crossing the band between 30 and 40 percent of the viewport height gets `data-current`, and its number turns `--color-accent` (border and text) over `--duration-fast`.
 
-#### Progress pill
+#### Steps side list
 
-- **Anatomy**: a pill centered above the steps, `--color-surface` at 92 percent with `backdrop-filter: blur(16px) saturate(1.4)` (solid surface without it), 1px `--color-line` border, `--shadow-float`, `8px 18px` padding. Inside: the count in Lilita One `--text-figure` `--color-accent-2` with the total in 1rem `--color-ink-2` ("1/8"), one 14 by 10px segment per step (`--radius-xs`, `--color-raised` with a 1px `--color-line` outline), and the micro label "Pasos" in `--color-ink-2`.
-- **Behavior without JavaScript**: the count is a CSS counter of checked ticks, so the pill comes after the list in the DOM and `order: -1` draws it above. Each segment lights through a `:has()` rule on its step's checkbox; the page renders those rules with the step ids. It is sticky 88px from the top while the steps are on screen.
-- **Layout**: the pill never grows past the column; with many steps the segments wrap to more rows instead of overflowing a 390px screen.
-- **States**: a lit segment is `--color-accent` at full height; an unlit one is scaled to 60 percent height.
-- **Accessibility**: `aria-hidden`, because the checkboxes already carry the state and a CSS counter is not reliably announced. It only appears on pages with ticks.
-- **Motion**: segments animate `transform: scaleY()` and their fill over `--duration-base`, never `height`.
+- **Anatomy**: from 1152px, a `<nav>` named by its `h2` "Pasos" (Fredoka 600, 1.25rem), sticky 24px from the top, 272px wide. An `<ol>` of links to `#paso-N`, 44px rows, 10px radius: the number (Fredoka 600, `--color-muted`), the label in `--color-ink-2` 0.9375rem, the coordinates without brackets in `--color-muted` 700 with tabular figures ("7,-19").
+- **Label**: the first bold term in the step's prose (not its callouts), with trailing punctuation removed and skipping bold text that is only coordinates. Without one, "Paso N". Labels are never invented. Coordinates: the step's own X and Y, else the first `[x,y]` in its text, else none (`src/lib/guides/step-nav.ts`).
+- **States**: hover fills the row with `--color-raised` and turns the label `--color-ink`. The current step (set by the island with `aria-current="step"`) keeps that fill, its label in 700, its number in `--color-accent` and its coordinates in `--color-ink-2`.
+- **Without JavaScript** it is a plain list of in-page links. Below 1152px it is not rendered visible (`display: none`).
 
-#### Screenshots and callouts inside a step
+#### Callouts and Torre's tips
 
-- **Screenshot**: a Figure (next section); as Imagery (source ratio, `--radius-card`, or `--radius-md` inside a step card, `--shadow-art`, `--color-raised` behind it while it loads); the caption under it in `--text-sm` `--color-muted`.
-- **Callout**: as the Callout row of the components table.
+- **Callout** ("¡Importante!", "¡Alto!"): as the Callout row of the components table, 18px from the blocks around it inside a step.
+- **Torre's tips** (`TorreTips`): the tip callout of a guide is Torre speaking. His avatar in a 72px circle (2px `--color-well-line` ring, `alt=""`, lazy), then a speech bubble 18px away: `--color-surface`, 1px `--color-well-line`, 16px radius, `18px 22px 20px` padding, with a caret pointing at the avatar. Inside, the heading "Recomendaciones de Torre" (Fredoka 600, 1.25rem, `--color-ink`) and the text in `--color-ink`, list markers in `--color-accent`. An `<aside>` named by that heading. Under 640px the avatar (56px) sits above the bubble and the caret points up.
+- The importer turns "NOTA" paragraphs into tips. The "RECOMENDACIONES:" paragraph and list of the Squarespace guides still import as prose; Torre or an editor turns them into a tip block in the panel.
 
 #### Figure and fullscreen viewer
 
@@ -569,7 +571,7 @@ Decided 2026-11-05: every guide image opens fullscreen. The component is `Figure
 - **Closing**: Esc (native), the "Cerrar" button, or a click anywhere outside the image, the caption and the button (the click lands on the dialog itself). Focus then returns to the link that opened it.
 - **Accessibility**: the link's name is "Ver imagen a pantalla completa: {alt}" ("Ver imagen a pantalla completa" when the alt is empty), from `uiStrings.figure`. The dialog is named "Imagen a pantalla completa"; the image inside keeps the media record's alt. `showModal()` makes the page inert and moves focus to "Cerrar". The caption, `--color-ink` on the backdrop, keeps at least 12.75:1 (New contrast pairs).
 - **Motion**: the backdrop fades in over `--duration-fast`; the image and caption enter from `opacity: 0; transform: translateY(12px) scale(.98)` over `--duration-slow` `--ease-out` (Motion, Dialogs), through `@starting-style`. Closing is instant. Under reduced motion the global rule, which also covers `::backdrop`, drops both to 0.01ms.
-- **Priority**: the first image of a guide body, in document order, loads with `fetchpriority="high"` and no lazy loading, whether it is an Image block or an image inside a text or callout block. Exactly one image gets it. With no hero art it lands in the first screen on phones and is the LCP; the rest stay lazy. When the hero gets its art, the art takes over as the LCP.
+- **Priority**: the first image of a guide body, in document order, loads with `fetchpriority="high"` and no lazy loading, whether it is an Image block or an image inside a text or callout block. Exactly one image gets it. On phones it is usually below the header, and the LCP is the title; the rest stay lazy. The quest giver's render loads eagerly without `fetchpriority`.
 - **Budget**: the viewer adds a few hundred bytes to the island and no dependency. On the page the browser picks the width the column needs through `srcset` and `sizes`; the viewer always loads the widest variant (Imagery).
 
 #### Video facade
@@ -580,14 +582,6 @@ Decided 2026-11-05: every guide image opens fullscreen. The component is `Figure
 - **YouTube only** (decided 2026-11-05): guide videos are YouTube videos. All 44 video embeds in the 1796 legacy Squarespace pages are YouTube (21 of them wrapped in Embedly), so the video block in the panel accepts only an https link that resolves to a YouTube video ID (`youtube.com/watch`, `youtu.be`, `/embed/`, `/shorts/`). If stored data ever holds another URL, the component renders a plain link with the title as a defensive fallback; it is not a supported case.
 - **States**: hover (mouse only) scales the badge to 1.06 over `--duration-fast`; focus-visible is a 3px `--color-ink` outline offset -3px inside the frame.
 - **Accessibility**: the link's name is "Ver el vídeo: {title}"; the iframe gets the video title.
-
-#### Botín card
-
-- **Anatomy**: the last node of the steps timeline. A 40px badge in the gutter (2px `--color-accent-2` ring, `--color-raised` fill) with the first reward item's icon, or "XP" in Lilita One when the quest gives no items; then a `--color-surface` card with a 1px `--color-accent-2` border, `--radius-card`, `18px 22px` padding: the micro label "Al terminar la misión", the `h2` "Botín" (`--text-2xl` uppercase), a row of slots, and the achievement chain line under a hairline.
-- **Slots**: the XP and kamas stat tiles first (typographic, see Stat tile), then one item slot per reward item. Under 640px stat tiles take half a row and item slots a third, so "1 000 000" never wraps; from 768px they flow in a wrapping row.
-- **Optional parts**: no items, no item slots; no kamas, no kamas tile; no achievement, no chain line. The tiles and slots come from the linked quest's DofusDB rewards. With no linked quest, or one with no rewards, the card lists the guide's rewards text instead, one line per reward in `--color-ink`, with no tiles or slots made up from it. With nothing at all the card is not rendered.
-- **Accessibility**: a `<section aria-labelledby>` the `h2`, with `id="botin"` for the ribbon link and `scroll-margin-top: 96px` under the sticky header. The slots are a `<ul>`.
-- **Motion**: none.
 
 #### Achievement chain
 
@@ -605,13 +599,11 @@ The components above need data the guide does not store yet:
 
 | Part | Needs |
 |---|---|
-| Hero art | an image field on the guide, prefilled from a per-zone image library (Hero header) |
-| Breadcrumb and subtitle | the quests hub page, the quest's zone and subzone, and the achievement relation |
-| Start place ("Biblioteca de Astrub") | the subzone name from DofusDB, editable in the panel, like the start NPC and position that the guide already fills from DofusDB |
 | Fight block | a block with monsters (from the Monsters collection) and quantities; monster level is optional |
-| Achievement chain and next quest card | the achievement relation and the order of its quests |
+| Next quest card and achievement pages | the achievement pages; the quest stores its achievement and position, but not the other quests' guides |
 | Video poster | the thumbnail stored as media at import |
-| Item and monster icons | the icon files imported from DofusDB into media |
+| Item and monster icons | the icon files imported from DofusDB into media; until then item slots in Necesitarás and Recompensas are empty |
+| Torre's tips in imported guides | the importer turning "RECOMENDACIONES:" and its list into a tip block |
 
 ### Component catalog
 
@@ -653,6 +645,7 @@ Exits run at about 70 percent of the enter duration (a 220ms dropdown closes in 
 ## Imagery
 
 - Real game art only, imported once and served from R2 behind the CDN domain. Nothing loads from DofusDB or Ankama at runtime.
+- Quest giver renders (decided 2026-11-05): `pnpm data:quests` saves each quest-starting NPC in the `npcs` collection with its `look` from DofusDB, then imports two renders into Media: `https://renderer.dofusdb.fr/look/{look as hex}/full/{1|3}/300_300.png`, direction 1 facing right and 3 facing left (`src/lib/dofusdb/npc-render.ts`). The 1000 × 1000 PNG is trimmed to the figure and capped at 720px high before upload; Payload makes its AVIF and WebP. Each file carries a key in `media.gameAsset` (NPC, direction and a hash of the look), so a rerun finds what it uploaded and never duplicates it; a new look uploads new renders and deletes the old ones. A missing look or a renderer failure leaves the NPC without that render, and the next run retries.
 - Every image has AVIF and WebP variants at fixed widths, generated once when the file is uploaded, in the panel or by the importer (decided 2026-11-05, replacing the offline conversion before the import). Payload makes them with sharp (`src/lib/media/sizes.ts`) and stores them next to the original. The app never optimizes images on request.
 - Widths: 480, 800, 1200 and 1600 px, each in AVIF (quality 50) and WebP (quality 80). They come from the layout. 480 covers phones at 1x and the 240px card art at 2x. 800 is `--width-prose` at 1x and phones at 2x. 1200 covers phones at 3x and the hero on tablets. 1600 is `--width-prose` at 2x and the full-bleed hero on desktops up to 1600px wide. A width larger than the original is never produced, so nothing is upscaled; 480 is the exception and comes out at the original width, so a 96px icon still gets one AVIF and one WebP. Uploading a 1920px PNG screenshot with all eight variants took about 0.6 s on an Apple M5 (about 2.2 s for a worst-case noise image).
 - Lighthouse's image delivery check only warns (decided 2026-11-05). Lighthouse emulates a phone at 1.75 DPR: a 380px screenshot then needs 665 device pixels, the browser picks the 800w candidate, and the check counts the difference from the 380 CSS px as waste. Real phones at 2x to 3x get the right width from 480/800/1200/1600. In Lighthouse 13 that check also covers formats, so the AVIF and WebP rule is held by `Picture` and the media variants and their tests, not by Lighthouse.
@@ -661,8 +654,7 @@ Exits run at about 70 percent of the enter duration (a 220ms dropdown closes in 
 
 | Component | `sizes` | Why |
 |---|---|---|
-| Figure (step screenshot) and the video poster | `(min-width: 53rem) 800px, calc(100vw - 2rem)` | the prose column, capped at `--width-prose` once the 24px gutters fit (848px); below that, the viewport minus the 16px gutters |
-| Hero art, including its 4:3 phone crop | `100vw` | full bleed |
+| Figure (step screenshot) and the video poster | `(min-width: 72rem) 852px, (min-width: 40rem) calc(100vw - 108px), calc(100vw - 2rem)` | the step column next to the side list from 1152px; below, the viewport minus the gutters and the step number; on phones, where the screenshot takes the full width, the viewport minus the 16px gutters |
 | Next quest card art | `(min-width: 40rem) 240px, calc(100vw - 2rem)` | 240px beside the text from 640px; full card width above the text below |
 | Icons (items, monsters, achievements) | none | one width; the icon well fixes the size |
 
@@ -678,6 +670,7 @@ Exits run at about 70 percent of the enter duration (a 220ms dropdown closes in 
 | Hero zone art | 21:9 on desktop, 4:3 on phones (art direction through `<source media>`) | fades into `--color-bg` with a `mask-image` gradient |
 | Collection card art | card ratio (1:1 for Dofus, 1:1.1 for dungeons) | the NPC or boss render on top keeps its alpha |
 | NPC and monster renders | transparent, natural ratio | `drop-shadow` filter as a static style, never animated |
+| Quest giver render | transparent, natural ratio (about 1:2.2 once trimmed) | 120 to 128px wide beside the title, 64px on phones; one width, so no `srcset` |
 | Icons (items, quests, jobs) | 1:1 | 24, 32 or 48px, inside an icon well (`--radius-sm`, `--color-raised`) |
 
 - Missing or not-yet-owned items show the icon in `grayscale(1)` at 60 percent opacity.
@@ -742,7 +735,7 @@ Carried over from Dofus Tools reviews, plus what the duffus study ruled out.
 None open. Answered on 2026-11-05:
 
 1. **Image widths**: flexible widths, generated at upload by Payload: 480, 800, 1200 and 1600 px in AVIF and WebP, served with `srcset` and `sizes` (Imagery). Guide images open fullscreen at the widest variant (Figure and fullscreen viewer).
-2. **Hero art**: prefilled with a representative image of the quest's zone, editable by Torre. DofusDB has no zone images, so it needs a per-zone image library. It is implemented with the guide page and stays open as implementation work, not as a design question (Hero header).
+2. **Hero art**: guide v4 (2026-11-05) has no hero art; the quest giver's render stands beside the title instead (Quest header). A per-zone image library is no longer needed for the guide page.
 3. **Callout icons**: game art may replace the `i`, `!` and `×` glyphs only if it clearly conveys the same meaning (tip or info, warning, stop); otherwise the glyphs stay (Callout row).
 4. **Start place**: from DofusDB, editable in the panel. Already implemented for the start NPC and position (`startNpc`, `startX`, `startY`, filled through `src/lib/guides/summary.ts`).
 5. **Video hosts**: YouTube only. All 44 video embeds in the 1796 legacy Squarespace pages are YouTube (Video facade).

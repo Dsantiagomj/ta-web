@@ -2,15 +2,15 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 
 import { AchievementChain } from '@/components/game/AchievementChain'
-import { BotinCard } from '@/components/game/BotinCard'
 import { CoordinatesChip, CoordinatesText, TravelButton } from '@/components/game/Coordinates'
 import { FightBlock, MonsterChip } from '@/components/game/MonsterChip'
-import { HeroHeader } from '@/components/game/HeroHeader'
 import { ItemChip, ItemSlot } from '@/components/game/Item'
-import { LevelMedallion } from '@/components/game/LevelMedallion'
+import { IconWell } from '@/components/game/IconWell'
 import { PageEnhancements } from '@/components/game/PageEnhancements'
-import { StagesTimeline } from '@/components/game/StagesTimeline'
-import { SummaryRibbon } from '@/components/game/SummaryRibbon'
+import { QuestHeader } from '@/components/game/QuestHeader'
+import { QuestSteps, StepTracker } from '@/components/game/QuestSteps'
+import { TorreTips } from '@/components/game/TorreTips'
+import type { QuestHeaderData } from '@/lib/guides/page'
 import { VideoFacade } from '@/components/game/VideoFacade'
 import { IMAGE_SIZES } from '@/components/ui/image-sizes'
 
@@ -20,7 +20,7 @@ const pico = { name: 'Pico de tofu', icon }
 const achievement = { name: 'La ocasión hace al ladrón', href: '/logros/la-ocasion' }
 
 describe('Coordenadas', () => {
-  it('el chip enseña [x,y] y copia /travel x,y', () => {
+  it('el chip enseña una chincheta y [x,y], y copia /travel x,y', () => {
     const markup = html(<CoordinatesChip x={7} y={-19} />)
     expect(markup).toContain('data-copy="/travel 7,-19"')
     expect(markup).toContain('[7,-19]')
@@ -41,97 +41,6 @@ describe('Coordenadas', () => {
     expect(markup).toContain('data-copy="/travel 7,-19"')
     expect(markup).toContain('Copiar')
     expect(markup).toContain('/travel 7,-19')
-  })
-})
-
-describe('LevelMedallion', () => {
-  it('se lee «Nivel 20»', () => {
-    expect(html(<LevelMedallion level={20} />).replace(/<[^>]+>/g, '')).toBe('Nivel20')
-  })
-})
-
-describe('HeroHeader', () => {
-  const crumbs = [
-    { label: 'Misiones', href: '/misiones' },
-    { label: 'Astrub', href: '/astrub' },
-  ]
-
-  it('con arte: el arte decorativo va primero y sin carga diferida', () => {
-    const markup = html(
-      <HeroHeader
-        title="Seis pies bajo tierra"
-        subtitle="Misión de Astrub"
-        level={20}
-        crumbs={crumbs}
-        art={{ image: { src: '/img/sp-5.webp', width: 960, height: 656 } }}
-      />,
-    )
-    expect(markup).toContain('data-art=""')
-    expect(markup).toMatch(/<img [^>]*alt=""[^>]*fetchPriority="high"/)
-    expect(markup).not.toContain('loading="lazy"')
-    expect(markup).toMatch(/<h1[^>]*>Seis pies bajo tierra<\/h1>/)
-    expect(markup).toContain('aria-label="Migas de pan"')
-    expect(markup).toContain('Nivel')
-  })
-
-  it('el arte ofrece cada ancho a lo ancho de la ventana, también el recorte de móvil', () => {
-    const set = (name: string, format: string) => [
-      { src: `/img/${name}-480.${format}`, width: 480 },
-      { src: `/img/${name}-1600.${format}`, width: 1600 },
-    ]
-    const asset = (name: string) => ({
-      src: `/img/${name}-1600.webp`,
-      avif: `/img/${name}-1600.avif`,
-      width: 1600,
-      height: 686,
-      srcSet: set(name, 'webp'),
-      avifSrcSet: set(name, 'avif'),
-    })
-    const markup = html(
-      <HeroHeader
-        title="Seis pies bajo tierra"
-        crumbs={crumbs}
-        art={{ image: asset('ancho'), mobile: asset('movil') }}
-      />,
-    )
-    expect(markup).toContain(
-      '<source media="(max-width: 47.99rem)" type="image/avif" srcSet="/img/movil-480.avif 480w, /img/movil-1600.avif 1600w" sizes="100vw"/>',
-    )
-    expect(markup).toContain(
-      '<source media="(max-width: 47.99rem)" type="image/webp" srcSet="/img/movil-480.webp 480w, /img/movil-1600.webp 1600w" sizes="100vw"/>',
-    )
-    expect(markup).toContain(
-      '<source type="image/avif" srcSet="/img/ancho-480.avif 480w, /img/ancho-1600.avif 1600w" sizes="100vw"/>',
-    )
-    expect(markup).toMatch(
-      /<img [^>]*srcSet="\/img\/ancho-480\.webp 480w, \/img\/ancho-1600\.webp 1600w"[^>]*sizes="100vw"/,
-    )
-  })
-
-  it('sin arte: la misma cabecera sin imagen', () => {
-    const markup = html(<HeroHeader title="Intoxicación profunda" crumbs={crumbs} />)
-    expect(markup).not.toContain('<img')
-    expect(markup).not.toContain('data-art')
-    expect(markup).not.toContain('Nivel')
-  })
-
-  it('la sección se nombra con su título, con un id distinto en cada cabecera', () => {
-    const markup = html(
-      <>
-        <HeroHeader title="Uno" crumbs={[]} />
-        <HeroHeader title="Dos" crumbs={[]} />
-      </>,
-    )
-    const labelled = [...markup.matchAll(/<section [^>]*aria-labelledby="([^"]+)"/g)].map(
-      (m) => m[1],
-    )
-    expect(labelled).toHaveLength(2)
-    expect(new Set(labelled).size).toBe(2)
-    for (const id of labelled) expect(markup).toMatch(new RegExp(`<h1 [^>]*id="${id}"`))
-  })
-
-  it('acepta otro nivel de título, para el catálogo', () => {
-    expect(html(<HeroHeader title="X" crumbs={[]} headingLevel={3} />)).toContain('<h3')
   })
 })
 
@@ -171,118 +80,170 @@ describe('Combate', () => {
   })
 })
 
-describe('SummaryRibbon', () => {
-  const full = {
-    start: { npc: 'Hupe Esse', place: 'Biblioteca de Astrub', x: 7, y: -19 },
-    requires: [{ label: 'Esto hace aguas.', href: '/esto-hace-aguas' }],
-    needs: { items: [{ item: pico, quantity: 1 }], notes: ['1 x Combate (solo).'] },
-    reward: { xp: 16380, kamas: 390, items: 4 },
+describe('QuestHeader', () => {
+  const render = { src: '/img/pnj-derecha.webp', width: 334, height: 720 }
+  const left = {
+    src: '/img/pnj-izquierda.webp',
+    avif: '/img/pnj-izquierda.avif',
+    width: 186,
+    height: 400,
   }
+  const data: QuestHeaderData = {
+    meta: {
+      zone: 'Astrub',
+      level: 20,
+      achievement: {
+        name: 'La ocasión hace al ladrón',
+        href: 'https://www.torrentearcano.com/la-ocasion-hace-al-ladron',
+        position: 2,
+      },
+    },
+    giver: { name: 'Hupe Esse', right: render, left, coordinates: { x: 7, y: -19 } },
+    prerequisites: [
+      { label: 'Esto hace aguas', href: '/esto-hace-aguas', quest: true },
+      { label: 'Nivel mínimo 20', quest: false },
+    ],
+    needs: { items: [], notes: [{ quantity: 1, label: 'Combate (solo)', combat: true }] },
+    rewards: {
+      xp: { min: 9800, max: 16380 },
+      kamas: 390,
+      items: [{ item: { name: 'Pico de tofu' }, quantity: 1 }],
+      notes: [],
+    },
+  }
+  // Las cifras separan los miles con un espacio que no se parte.
+  const text = (markup: string) => markup.replace(/<[^>]+>/g, '').replaceAll('\u00a0', ' ')
 
-  it('lleva Empieza, Requiere, Necesitarás y el enlace a la recompensa, sin nivel', () => {
-    const markup = html(<SummaryRibbon {...full} />)
-    for (const label of ['Empieza', 'Requiere', 'Necesitarás', 'Recompensa']) {
-      expect(markup).toContain(label)
-    }
-    expect(markup).not.toContain('Nivel')
-    expect(markup).toContain('href="#botin"')
-    expect(markup).toContain('16 380 XP · 390 kamas · 4 objetos')
+  it('el título es el h1 y el subtítulo nombra zona, nivel y logro, con su enlace', () => {
+    const markup = html(<QuestHeader title="Seis pies bajo tierra" data={data} />)
+    expect(markup).toContain('<h1 class="qhead__title">Seis pies bajo tierra</h1>')
+    expect(text(markup)).toContain(
+      'Misión de Astrub - Nivel 20 - Misión 2 del logro La ocasión hace al ladrón',
+    )
+    expect(markup).toContain('href="https://www.torrentearcano.com/la-ocasion-hace-al-ladron"')
+    expect(markup).toContain('src="/img/game/logro.webp"')
+  })
+
+  it('sin logro ni zona, el subtítulo solo lleva lo que hay', () => {
+    const markup = html(<QuestHeader title="x" data={{ ...data, meta: { level: 20 } }} />)
+    expect(text(markup)).toContain('Nivel 20')
+    expect(markup).not.toContain('del logro')
+    expect(html(<QuestHeader title="x" data={{ ...data, meta: {} }} />)).not.toContain(
+      'qhead__meta',
+    )
+  })
+
+  it('el PNJ: su render a la derecha, el de la izquierda en el móvil, y su nombre como texto', () => {
+    const markup = html(<QuestHeader title="x" data={data} />)
+    expect(markup).toContain('data-giver=""')
+    expect(markup).toContain('media="(max-width: 35.99rem)"')
+    expect(markup).toContain('srcSet="/img/pnj-izquierda.webp"')
+    expect(markup).toMatch(/<img src="\/img\/pnj-derecha.webp" width="334" height="720" alt=""/)
+    expect(text(markup)).toContain('Empieza con Hupe Esse')
     expect(markup).toContain('data-copy="/travel 7,-19"')
   })
 
-  it('deja fuera lo que falta y dice «1 objeto» en singular', () => {
-    const markup = html(<SummaryRibbon reward={{ xp: 10, items: 1 }} />)
-    expect(markup).not.toContain('Empieza')
-    expect(markup).not.toContain('Requiere')
-    expect(markup).not.toContain('Necesitarás')
-    expect(markup).toContain('10 XP · 1 objeto')
+  it('sin PNJ no hay columna ni sustituto', () => {
+    const { giver: _giver, ...noGiver } = data
+    const markup = html(<QuestHeader title="x" data={noGiver} />)
+    expect(markup).not.toContain('data-giver')
+    expect(markup).not.toContain('<figure')
   })
 
-  it('no pinta nada sin ningún dato', () => {
-    expect(html(<SummaryRibbon />)).toBe('')
+  it('las tres columnas con sus títulos, los iconos del juego y el rango de XP', () => {
+    const markup = html(<QuestHeader title="x" data={data} />)
+    for (const title of ['Prerrequisitos', 'Necesitarás', 'Recompensas']) {
+      expect(markup).toMatch(new RegExp(`<h2 id="[^"]+">${title}</h2>`))
+    }
+    expect(markup).toContain('src="/img/game/mision.webp"')
+    expect(markup).toContain('src="/img/game/combate.webp"')
+    // La flecha de XP solo existe a 24px: no se amplía.
+    expect(markup).toContain('src="/img/game/xp.webp" width="24" height="24"')
+    expect(markup).toContain('src="/img/game/kamas.webp" width="32" height="32"')
+    expect(text(markup)).toContain('9 800 a 16 380 XP')
+    expect(text(markup)).toContain('390 kamas')
+    expect(text(markup)).toContain('1 × Pico de tofu')
+    expect(text(markup)).toContain('1 × Combate (solo)')
+    expect(markup).toContain('<a href="/esto-hace-aguas">Esto hace aguas</a>')
   })
 
-  it('una recompensa en texto se enseña tal cual: es la que escribió la guía', () => {
-    const markup = html(<SummaryRibbon reward="2 000 XP · 1 x Pico de tofu" />)
-    expect(markup).toContain('Recompensa')
-    expect(markup).toContain('2 000 XP · 1 x Pico de tofu')
-    expect(markup).toContain('href="#botin"')
-  })
-})
-
-describe('StagesTimeline', () => {
-  const stages = [
-    { title: 'Habla con Hupe Esse', coordinates: { x: 7, y: -19 }, done: true, content: 'a' },
-    { title: 'Escolta a las anutrof', content: 'b' },
-  ]
-
-  it('es una lista ordenada de pasos que se pueden marcar', () => {
-    const markup = html(<StagesTimeline id="seis-pies" stages={stages} ticks />)
-    expect(markup).toContain('<ol')
-    expect(markup).toContain('id="seis-pies-e1"')
-    expect(markup).toMatch(/<input [^>]*id="seis-pies-e1"[^>]*checked=""/)
-    expect(markup).not.toMatch(/<input [^>]*id="seis-pies-e2"[^>]*checked=""/)
-    expect(markup).toContain('Paso 1 hecho')
-    expect(markup).toContain('>Pasos<')
-    expect(markup).toContain('Por ahora no se guarda al salir.')
-    // La píldora de progreso enciende cada segmento con su casilla, sin JavaScript.
-    expect(markup).toContain('#seis-pies:has(#seis-pies-e2:checked) [data-seg="2"]')
-    expect(markup).toContain('<h3')
+  it('un objeto sin icono deja el hueco vacío; una línea sin icono no lleva hueco', () => {
+    const markup = html(<QuestHeader title="x" data={data} />)
+    expect(markup).toContain('<span class="well" aria-hidden="true"></span>')
+    expect(markup).toMatch(/<li class="row"><span>Nivel mínimo 20<\/span><\/li>/)
   })
 
-  it('un paso sin título lleva «Paso N» como título y su casilla sigue siendo «Paso N hecho»', () => {
-    const markup = html(<StagesTimeline id="sin" stages={[stages[0]!, { content: 'c' }]} ticks />)
-    expect(markup).toMatch(/<h3 class="stage__title">Paso 2<\/h3>/)
-    expect(markup).toContain('Paso 2 hecho')
-    expect(markup).toContain('>/2<')
-  })
-
-  it('sin marcas, ni casillas ni píldora', () => {
-    const markup = html(<StagesTimeline id="corta" stages={stages} />)
-    expect(markup).not.toContain('type="checkbox"')
-    expect(markup).not.toContain('data-seg')
-    expect(markup).not.toContain('no se guarda')
-  })
-
-  it('limpia el id antes de usarlo en un selector', () => {
-    expect(html(<StagesTimeline id='a"b c' stages={stages} ticks />)).toContain('id="a-b-c-e1"')
-    // Un selector #id no puede empezar por una cifra.
-    expect(html(<StagesTimeline id="1976" stages={stages} ticks />)).toContain('id="e-1976-e1"')
+  it('sin datos no pinta las columnas', () => {
+    const empty: QuestHeaderData = {
+      meta: {},
+      prerequisites: [],
+      needs: { items: [], notes: [] },
+      rewards: { items: [], notes: [] },
+    }
+    expect(html(<QuestHeader title="x" data={empty} />)).not.toContain('qhead__facts')
   })
 })
 
-describe('BotinCard', () => {
-  it('fichas de XP y kamas, una casilla por objeto y la cadena del logro', () => {
+describe('IconWell', () => {
+  it('el icono del juego a 32px como mucho, decorativo', () => {
+    expect(html(<IconWell icon="combat" />)).toContain(
+      '<img src="/img/game/combate.webp" width="32" height="32" alt=""',
+    )
+    expect(html(<IconWell icon="achievement" />)).toContain('width="28" height="28"')
+  })
+})
+
+describe('QuestSteps', () => {
+  it('una lista ordenada de pasos con su número y su ancla, sin títulos ni casillas', () => {
     const markup = html(
-      <BotinCard
-        xp={16380}
-        kamas={390}
-        items={[{ item: pico, quantity: 1 }]}
-        chain={{ achievement, quests: [{ title: 'A', href: '/a' }, { title: 'B' }], current: 1 }}
+      <QuestSteps
+        steps={[
+          { id: 'paso-1', content: <p>Habla con Hupe Esse.</p> },
+          { id: 'paso-2', pin: { x: 5, y: -18 }, content: <p>Ve al zaap.</p> },
+        ]}
       />,
     )
-    expect(markup).toContain('id="botin"')
-    expect(markup).toContain('16 380')
-    expect(markup).toContain('Kamas')
-    expect(markup).toContain('Pico de tofu')
-    expect(markup).toContain('aria-label="Cadena del logro"')
+    expect(markup).toMatch(/<h2 id="[^"]+" class="sr-only">Pasos<\/h2>/)
+    expect(markup.match(/<li id="paso-\d"/g)).toHaveLength(2)
+    expect(markup).toContain('<span class="qstep__n" aria-hidden="true">2</span>')
+    expect(markup).not.toContain('<h3')
+    expect(markup).not.toContain('type="checkbox"')
+    expect(markup).toContain('data-copy="/travel 5,-18"')
+  })
+})
+
+describe('StepTracker', () => {
+  it('enlaza cada paso con su etiqueta y sus coordenadas', () => {
+    const markup = html(
+      <StepTracker
+        entries={[
+          { id: 'paso-1', label: 'Hupe Esse', coordinates: { x: 7, y: -19 } },
+          { id: 'paso-2', label: 'Paso 2' },
+        ]}
+      />,
+    )
+    expect(markup).toMatch(/<nav class="tracker" aria-labelledby="[^"]+">/)
+    expect(markup).toContain('href="#paso-1"')
+    expect(markup).toContain('Hupe Esse')
+    expect(markup).toContain('7,-19')
   })
 
-  it('sin objetos, la insignia dice XP', () => {
-    expect(html(<BotinCard xp={1000} />)).toMatch(/aria-hidden="true"[^>]*>.*XP/)
+  it('sin pasos no pinta nada', () => {
+    expect(html(<StepTracker entries={[]} />)).toBe('')
   })
+})
 
-  it('no pinta nada sin recompensas', () => {
-    expect(html(<BotinCard />)).toBe('')
-  })
-
-  it('sin fichas, enseña las líneas de recompensa de la guía, sin casillas inventadas', () => {
-    const markup = html(<BotinCard notes={['2 000 XP.', '1 x Pico de tofu.']} />)
-    expect(markup).toContain('id="botin"')
-    expect(markup).toContain('2 000 XP.')
-    expect(markup).toContain('1 x Pico de tofu.')
-    expect(markup).not.toContain('botin__slots')
-    expect(markup).not.toContain('botin__stat')
+describe('TorreTips', () => {
+  it('el avatar de Torre, decorativo, y el bocadillo con su título', () => {
+    const markup = html(
+      <TorreTips>
+        <p>Intenta vencer primero al Ramán.</p>
+      </TorreTips>,
+    )
+    expect(markup).toMatch(/<aside class="torre" aria-labelledby="[^"]+">/)
+    expect(markup).toContain('src="/img/torre/avatar.webp"')
+    expect(markup).toContain('alt=""')
+    expect(markup).toMatch(/<h3 id="[^"]+">Recomendaciones de Torre<\/h3>/)
   })
 })
 

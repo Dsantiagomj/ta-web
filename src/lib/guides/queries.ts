@@ -3,7 +3,7 @@
 
 import type { Payload } from 'payload'
 
-import type { QuestGuide, User } from '@/payload-types'
+import type { Npc, QuestGuide, User } from '@/payload-types'
 
 import type { QuestGuideLink } from './page'
 import { isGuideSlug } from './slug'
@@ -55,4 +55,24 @@ export async function findPublishedGuideLinks(
   return docs.flatMap((doc) =>
     typeof doc.quest === 'number' ? [{ questId: doc.quest, slug: doc.slug }] : [],
   )
+}
+
+/**
+ * El PNJ que da la misión, por su ID de DofusDB, con sus renders poblados (depth 1). Son
+ * datos públicos del juego; aun así, con los permisos de quien mira.
+ */
+export async function findQuestGiver(
+  payload: Payload,
+  npcDofusId: number | null | undefined,
+): Promise<Npc | null> {
+  if (npcDofusId == null) return null
+  const { docs } = await payload.find({
+    collection: 'npcs',
+    where: { dofusId: { equals: npcDofusId } },
+    depth: 1,
+    limit: 1,
+    pagination: false,
+    overrideAccess: false,
+  })
+  return docs[0] ?? null
 }

@@ -2,12 +2,12 @@ import { describe, expect, it } from 'vitest'
 
 import type { Media } from '@/payload-types'
 import {
-  botinProps,
   guideContent,
   guideLevel,
   guideSeo,
   prerequisiteQuestIds,
-  ribbonProps,
+  questGiverId,
+  questHeaderProps,
   type GuideDoc,
 } from '@/lib/guides/page'
 
@@ -23,6 +23,27 @@ const richText = (text: string) => ({
 })
 
 const item = (id: number, name: string, superTypeId = 9) => ({ id, name, superTypeId })
+
+/** Un render de PNJ subido a Media, sin variantes: solo el original. */
+const render = (id: number, name: string): Media => ({
+  id,
+  alt: 'Hupe Esse',
+  url: `/api/media/file/${name}.png`,
+  filename: `${name}.png`,
+  mimeType: 'image/png',
+  width: 334,
+  height: 720,
+  sizes: {
+    'webp-480': {
+      url: `/api/media/file/${name}.webp`,
+      width: 334,
+      height: 720,
+      filename: `${name}.webp`,
+    },
+  },
+  updatedAt: '',
+  createdAt: '',
+})
 
 // «Seis pies bajo tierra» (DofusDB 1976), leída con depth 2 como la carga la página.
 const guide: GuideDoc = {
@@ -74,61 +95,130 @@ describe('guideLevel', () => {
   })
 })
 
-describe('ribbonProps', () => {
-  it('Empieza con el PNJ y la posición de inicio', () => {
-    expect(ribbonProps(guide, []).start).toEqual({ npc: 'Hupe Esse', x: 7, y: -19 })
-  })
+describe('questHeaderProps', () => {
+  const withData: GuideDoc = {
+    ...guide,
+    quest: {
+      ...(guide.quest as object as Exclude<GuideDoc['quest'], number | null | undefined>),
+      zone: 'Astrub',
+      achievement: {
+        dofusId: 1671,
+        name: 'La ocasión hace al ladrón',
+        slug: 'la-ocasion-hace-al-ladron',
+        position: 2,
+        total: 3,
+      },
+      rewards: {
+        ...(guide.quest as { rewards: object }).rewards,
+        experience: 16380,
+        experienceMin: 9800,
+      },
+    },
+  }
 
-  it('sin PNJ o sin las dos coordenadas no hay Empieza', () => {
-    const noY = { ...guide, summary: { ...guide.summary, startY: null } }
-    expect(ribbonProps(noY, []).start).toBeUndefined()
-    const noNpc = { ...guide, summary: { ...guide.summary, startNpc: ' ' } }
-    expect(ribbonProps(noNpc, []).start).toBeUndefined()
-  })
-
-  it('Requiere: una línea por prerrequisito, como las escribe el resumen', () => {
-    expect(ribbonProps(guide, []).requires).toEqual([
-      { label: 'Nivel mínimo 20.' },
-      { label: 'Esto hace aguas.' },
-    ])
-  })
-
-  it('un prerrequisito con guía publicada es un enlace a ella', () => {
-    const linked = [{ questId: 1975, slug: 'esto-hace-aguas' }]
-    expect(ribbonProps(guide, linked).requires).toEqual([
-      { label: 'Nivel mínimo 20.' },
-      { label: 'Esto hace aguas.', href: '/esto-hace-aguas' },
-    ])
-  })
-
-  it('Necesitarás: los objetos sin los de misión, y las notas línea a línea', () => {
-    expect(ribbonProps(guide, []).needs).toEqual({
-      items: [{ item: { name: 'Dofus Esmeralda' }, quantity: 1 }],
-      notes: ['1 x Combate (solo).'],
+  it('el subtítulo: zona, nivel y la posición en el logro, con su enlace', () => {
+    expect(questHeaderProps(withData, []).meta).toEqual({
+      zone: 'Astrub',
+      level: 20,
+      achievement: {
+        name: 'La ocasión hace al ladrón',
+        href: 'https://www.torrentearcano.com/la-ocasion-hace-al-ladron',
+        position: 2,
+      },
     })
   })
 
-  it('sin texto de recompensas, resume XP, kamas y cuántos objetos hay en el Botín', () => {
-    expect(ribbonProps(guide, []).reward).toEqual({ xp: 16380, kamas: 390, items: 2 })
+  it('sin zona ni logro, solo el nivel; sin misión, nada', () => {
+    expect(questHeaderProps(guide, []).meta).toEqual({ level: 20 })
+    expect(questHeaderProps({ ...guide, quest: null }, []).meta).toEqual({})
   })
 
-  it('el texto de recompensas de la guía manda sobre DofusDB, en una línea', () => {
-    const edited = {
-      ...guide,
-      summary: { ...guide.summary, rewards: '16 380 XP.\n390 kamas.\n1 x Ala de tofu.' },
+  it('el PNJ con sus dos renders, su nombre del resumen y la posición de inicio', () => {
+    const giver = {
+      name: 'Hupe Esse (DofusDB)',
+      renderRight: render(10, 'derecha'),
+      renderLeft: render(11, 'izquierda'),
     }
-    expect(ribbonProps(edited, []).reward).toBe('16 380 XP · 390 kamas · 1 x Ala de tofu')
-    const noQuest = { ...edited, quest: null }
-    expect(ribbonProps(noQuest, []).reward).toBe('16 380 XP · 390 kamas · 1 x Ala de tofu')
+    expect(questHeaderProps(guide, [], giver).giver).toMatchObject({
+      name: 'Hupe Esse',
+      right: { src: '/api/media/file/derecha.webp' },
+      left: { src: '/api/media/file/izquierda.webp' },
+      coordinates: { x: 7, y: -19 },
+    })
   })
 
-  it('sin resumen ni misión, nada', () => {
-    expect(ribbonProps({ ...guide, quest: null, summary: {} }, [])).toEqual({
-      start: undefined,
-      requires: [],
-      needs: { items: [], notes: [] },
-      reward: undefined,
+  it('sin render mirando a la derecha no hay PNJ; sin el de la izquierda, el móvil usa el otro', () => {
+    expect(questHeaderProps(guide, [], { name: 'x', renderRight: null }).giver).toBeUndefined()
+    expect(questHeaderProps(guide, []).giver).toBeUndefined()
+    const onlyRight = { name: 'x', renderRight: render(10, 'derecha'), renderLeft: null }
+    expect(questHeaderProps(guide, [], onlyRight).giver?.left).toBeUndefined()
+  })
+
+  it('Prerrequisitos: una fila por línea, sin punto final; la misión previa lleva su icono y su guía', () => {
+    const linked = [{ questId: 1975, slug: 'esto-hace-aguas' }]
+    expect(questHeaderProps(guide, linked).prerequisites).toEqual([
+      { label: 'Nivel mínimo 20', quest: false },
+      { label: 'Esto hace aguas', href: '/esto-hace-aguas', quest: true },
+    ])
+    expect(questHeaderProps(guide, []).prerequisites[1]).toEqual({
+      label: 'Esto hace aguas',
+      quest: true,
     })
+  })
+
+  it('Necesitarás: los objetos sin los de misión y las notas, con su cantidad aparte', () => {
+    expect(questHeaderProps(guide, []).needs).toEqual({
+      items: [{ item: { name: 'Dofus Esmeralda' }, quantity: 1 }],
+      notes: [{ quantity: 1, label: 'Combate (solo)', combat: true }],
+    })
+    const other = {
+      ...guide,
+      summary: { ...guide.summary, needs: { notes: 'Literalmente nada.\n2 x Combates.' } },
+    }
+    expect(questHeaderProps(other, []).needs.notes).toEqual([
+      { label: 'Literalmente nada', combat: false },
+      { quantity: 2, label: 'Combates', combat: true },
+    ])
+  })
+
+  it('Recompensas: el rango de XP, los kamas y los objetos en el orden de Torre', () => {
+    expect(questHeaderProps(withData, []).rewards).toEqual({
+      xp: { min: 9800, max: 16380 },
+      kamas: 390,
+      items: [
+        { item: { name: 'Pico de tofu' }, quantity: 2 },
+        { item: { name: 'Intestino de araknáusea' }, quantity: 1 },
+      ],
+      notes: [],
+    })
+  })
+
+  it('sin XP mínima, o igual a la máxima, una sola cifra', () => {
+    expect(questHeaderProps(guide, []).rewards.xp).toEqual({ max: 16380 })
+    const same = structuredClone(withData)
+    ;(same.quest as { rewards: { experienceMin: number } }).rewards.experienceMin = 16380
+    expect(questHeaderProps(same, []).rewards.xp).toEqual({ max: 16380 })
+  })
+
+  it('sin recompensas de DofusDB, las líneas que escribió Torre, sin inventar filas', () => {
+    const noQuest = {
+      ...guide,
+      quest: null,
+      summary: { rewards: '2 000 XP.\n\n1 x Pico de tofu.\n' },
+    }
+    expect(questHeaderProps(noQuest, []).rewards).toEqual({
+      items: [],
+      notes: ['2 000 XP', '1 x Pico de tofu'],
+    })
+  })
+})
+
+describe('questGiverId', () => {
+  it('el PNJ de la primera posición de inicio que lo tiene', () => {
+    const quest = { id: 1976, startPositions: [{ npcId: null }, { npcId: 4412 }, { npcId: 1 }] }
+    expect(questGiverId({ ...guide, quest })).toBe(4412)
+    expect(questGiverId(guide)).toBeNull()
+    expect(questGiverId({ ...guide, quest: null })).toBeNull()
   })
 })
 
@@ -136,38 +226,6 @@ describe('prerequisiteQuestIds', () => {
   it('las misiones previas pobladas, para buscar sus guías', () => {
     expect(prerequisiteQuestIds(guide)).toEqual([1975])
     expect(prerequisiteQuestIds({ ...guide, quest: null })).toEqual([])
-  })
-})
-
-describe('botinProps', () => {
-  it('XP, kamas y los objetos en el orden de Torre, al revés que DofusDB', () => {
-    expect(botinProps(guide)).toEqual({
-      xp: 16380,
-      kamas: 390,
-      items: [
-        { item: { name: 'Pico de tofu' }, quantity: 2 },
-        { item: { name: 'Intestino de araknáusea' }, quantity: 1 },
-      ],
-    })
-  })
-
-  it('sin misión ni recompensas escritas no hay Botín', () => {
-    expect(botinProps({ ...guide, quest: null })).toBeNull()
-  })
-
-  it('sin misión, las recompensas que escribió Torre, línea a línea y sin fichas', () => {
-    const noQuest = {
-      ...guide,
-      quest: null,
-      summary: { rewards: '2 000 XP.\n\n1 x Pico de tofu.\n' },
-    }
-    expect(botinProps(noQuest)).toEqual({ items: [], notes: ['2 000 XP.', '1 x Pico de tofu.'] })
-  })
-
-  it('con misión, las fichas de DofusDB aunque Torre haya escrito el texto', () => {
-    const edited = { ...guide, summary: { ...guide.summary, rewards: '16 380 XP.' } }
-    expect(botinProps(edited)).toMatchObject({ xp: 16380, kamas: 390 })
-    expect(botinProps(edited)).not.toHaveProperty('notes')
   })
 })
 
@@ -410,7 +468,7 @@ describe('guideContent con pasos', () => {
     expect(outro[0]).toMatchObject({ kind: 'image', priority: false })
   })
 
-  it('sin X e Y juntas no hay chip; un paso sin título no lleva título (la tarjeta pone su número)', () => {
+  it('sin X e Y juntas no hay chip; un paso sin título no lleva título (la página no enseña el título)', () => {
     const { steps } = guideContent({
       ...guide,
       body: [

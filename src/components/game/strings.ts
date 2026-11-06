@@ -4,9 +4,7 @@
 import { formatAmount } from '@/lib/guides/display'
 
 export const gameStrings = {
-  level: 'Nivel',
   levelValue: (level: number) => `Nivel ${level}`,
-  breadcrumb: 'Migas de pan',
   quantity: (quantity: number, name: string) => `${formatAmount(quantity)} × ${name}`,
   quantityPrefix: (quantity: number) => `${formatAmount(quantity)} × `,
   quantitySuffix: (quantity: number) => `× ${formatAmount(quantity)}`,
@@ -16,34 +14,29 @@ export const gameStrings = {
     copied: (command: string) => `Copiado: ${command}`,
     copyFailed: (command: string) => `Escribe ${command} en el chat`,
   },
-  ribbon: {
-    label: 'Antes de empezar',
-    start: 'Empieza',
-    requires: 'Requiere',
+  header: {
+    /** Las partes del subtítulo, unidas con « - ». */
+    zone: (zone: string) => `Misión de ${zone}`,
+    level: (level: number) => `Nivel ${level}`,
+    achievement: (position: number) => `Misión ${position} del logro`,
+    separator: ' - ',
+    giver: 'Empieza con ',
+    prerequisites: 'Prerrequisitos',
     needs: 'Necesitarás',
-    reward: 'Recompensa',
-    rewardSummary: ({ xp, kamas, items }: { xp?: number; kamas?: number; items?: number }) =>
-      [
-        xp ? `${formatAmount(xp)} XP` : null,
-        kamas ? `${formatAmount(kamas)} kamas` : null,
-        items ? `${items} ${items === 1 ? 'objeto' : 'objetos'}` : null,
-      ]
-        .filter(Boolean)
-        .join(' · '),
-  },
-  stages: {
-    title: 'Pasos',
-    hint: 'Marca cada paso al terminarlo. Por ahora no se guarda al salir.',
-    done: (number: number) => `Paso ${number} hecho`,
-    /** El título de un paso que no tiene uno propio. */
-    untitled: (number: number) => `Paso ${number}`,
-    progress: 'Pasos',
-  },
-  botin: {
-    eyebrow: 'Al terminar la misión',
-    title: 'Botín',
+    rewards: 'Recompensas',
+    quantity: (quantity: number) => `${formatAmount(quantity)} ×`,
+    kamas: 'kamas',
     xp: 'XP',
-    kamas: 'Kamas',
+    /** «9 800 a 16 380 XP»: de la XP del nivel óptimo a la del tope. */
+    xpRangeJoin: 'a',
+  },
+  steps: {
+    title: 'Pasos',
+    /** La lista de pasos junto a la guía. */
+    tracker: 'Pasos',
+  },
+  torre: {
+    title: 'Recomendaciones de Torre',
   },
   chain: {
     label: 'Cadena del logro',

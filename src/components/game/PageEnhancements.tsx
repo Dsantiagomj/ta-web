@@ -25,11 +25,12 @@ interface Viewed {
 }
 
 /**
- * La única isla de las páginas de guía (DESIGN.md, Coordinates chip, Video facade y
- * Figure). Se pinta una vez por página y escucha con delegación: copia el data-copy de los
- * chips de coordenadas, cambia el enlace de un vídeo por su reproductor y abre las capturas
- * en un visor a pantalla completa. Sin ella, los chips son texto, el vídeo un enlace y la
- * captura un enlace a su archivo.
+ * La única isla de las páginas de guía (DESIGN.md, Coordinates chip, Video facade, Figure
+ * y Steps side list). Se pinta una vez por página y escucha con delegación: copia el
+ * data-copy de los chips de coordenadas, cambia el enlace de un vídeo por su reproductor,
+ * abre las capturas en un visor a pantalla completa y marca en la lista «Pasos» el paso que
+ * se está leyendo. Sin ella, los chips son texto, el vídeo un enlace, la captura un enlace
+ * a su archivo y la lista «Pasos» una lista de enlaces.
  */
 export function PageEnhancements() {
   const [message, setMessage] = useState('')
@@ -38,10 +39,12 @@ export function PageEnhancements() {
   // El enlace que abrió el visor: recupera el foco al cerrarlo.
   const opener = useRef<HTMLElement | null>(null)
 
+  // Sincroniza el visor con el <dialog> nativo: showModal() al elegir una imagen.
   useEffect(() => {
     if (viewed && !viewer.current?.open) viewer.current?.showModal()
   }, [viewed])
 
+  // Escucha los clics y las teclas del documento (delegación) y usa el portapapeles.
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | undefined
     const say = (text: string) => {
@@ -136,6 +139,34 @@ export function PageEnhancements() {
       document.removeEventListener('click', onClick)
       document.removeEventListener('keydown', onKeyDown)
     }
+  }, [])
+
+  // Sincroniza la lista «Pasos» con el paso visible, mediante IntersectionObserver.
+  useEffect(() => {
+    const steps = [...document.querySelectorAll<HTMLElement>('[data-step]')]
+    const links = new Map(
+      [...document.querySelectorAll<HTMLAnchorElement>('[data-tracker]')].map((link) => [
+        link.dataset.tracker,
+        link,
+      ]),
+    )
+    if (steps.length === 0 || !('IntersectionObserver' in window)) return
+    const mark = (id: string) => {
+      for (const [key, link] of links) {
+        if (key === id) link.setAttribute('aria-current', 'step')
+        else link.removeAttribute('aria-current')
+      }
+      for (const step of steps) step.toggleAttribute('data-current', step.id === id)
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) if (entry.isIntersecting) mark(entry.target.id)
+      },
+      // El paso que cruza la franja entre el 30 % y el 40 % de la altura de la ventana.
+      { rootMargin: '-30% 0px -60% 0px' },
+    )
+    for (const step of steps) observer.observe(step)
+    return () => observer.disconnect()
   }, [])
 
   const close = () => viewer.current?.close()

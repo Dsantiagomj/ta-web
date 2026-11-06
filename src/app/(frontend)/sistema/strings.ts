@@ -24,14 +24,13 @@ export const catalogStrings = {
     figures: 'Fichas y progreso',
     checkbox: 'Casilla',
     cards: 'Tarjetas',
-    medallion: 'Medallón de nivel',
-    hero: 'Cabecera',
-    ribbon: 'Resumen',
+    torre: 'Recomendaciones de Torre',
+    header: 'Cabecera de la misión',
+    wells: 'Huecos de iconos',
     items: 'Objetos',
     fight: 'Combate',
     coordinates: 'Coordenadas',
-    stages: 'Pasos y Botín',
-    botin: 'Botín sin objetos',
+    steps: 'Pasos',
     chain: 'Cadena del logro',
     video: 'Vídeo',
     image: 'Captura',
@@ -39,11 +38,15 @@ export const catalogStrings = {
   notes: {
     brand:
       'El emblema a 16, 30, 36 y 64 px; a 16 px, la versión simplificada. Toma los colores del tema y el modo de la sección.',
-    hero: 'Con arte y sin arte.',
-    ribbon: 'Seis pies bajo tierra; Entretanto, un renacer, con objetos; y solo la recompensa.',
+    torre: 'El consejo de una guía: Torre hablando, con su avatar y un bocadillo.',
+    header:
+      'Seis pies bajo tierra, con el PNJ, el logro y el rango de XP; Intoxicación profunda, sin PNJ ni logro y con un objeto sin icono.',
+    wells:
+      'Los iconos del juego en sus huecos, oscuros también en modo claro; el último, sin icono, queda vacío.',
     coordinates:
       'Los [x,y] de la prosa se convierten en chips; pulsar copia /travel x,y. Sin JavaScript son texto.',
-    stages: 'El paso 1 sale marcado y el 4 no tiene título. Las marcas no se guardan.',
+    steps:
+      'Numerados, sin títulos ni casillas; el 3 lleva la chincheta del paso. Desde 1152px, la lista «Pasos» al lado.',
     video: 'Con portada y sin portada. Nada de YouTube carga hasta pulsar.',
     image:
       'Pulsa la captura para verla a pantalla completa; Esc, Cerrar o un clic fuera la cierran. Sin JavaScript abre el archivo.',

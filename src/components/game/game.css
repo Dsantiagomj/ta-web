@@ -1,212 +1,314 @@
 /*
  * Lo que las utilidades no expresan bien en las piezas de la página de guía (DESIGN.md,
- * Quest guide components): el arte de la cabecera con su máscara y su sombra, el chip de
- * coordenadas, la línea de etapas con su casilla, la píldora de progreso con su contador,
- * el Botín, la cadena del logro, el vídeo y el aviso «Copiado». Solo tokens. El movimiento
- * es transform, opacity y colores; la regla global de reduced motion lo apaga.
+ * Quest guide components): la cabecera con el PNJ y sus tres columnas, los huecos de los
+ * iconos, el chip de coordenadas, los pasos, la lista «Pasos», el bocadillo de Torre, la
+ * cadena del logro, el vídeo y el aviso «Copiado». Solo tokens. El movimiento es
+ * transform, opacity y colores; la regla global de reduced motion lo apaga.
  *
- * Lo que cambia con el modo se lee de variables puestas en [data-mode], no de un selector
- * de ancestro, para que una sección clara dentro de una página oscura acierte.
+ * Lo que cambia con el modo se lee de variables puestas en [data-mode] (theme.css), no de
+ * un selector de ancestro, para que una sección clara dentro de una página oscura acierte.
  */
 
-:root,
-[data-mode='dark'] {
-  --hero-shade: 85%;
-  --hero-art-opacity: 1;
-}
+/* ---------- página ---------- */
 
-[data-mode='light'] {
-  --hero-shade: 90%;
-  --hero-art-opacity: 0.55;
-}
-
-/* ---------- entrada escalonada (nunca el título ni el arte) ---------- */
-
-.enter {
-  animation: enter var(--duration-enter) var(--ease-out) both;
-  animation-delay: calc(var(--i, 0) * 40ms);
-}
-
-@keyframes enter {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-}
-
-/* ---------- cabecera ---------- */
-
-.hero {
-  position: relative;
-  isolation: isolate;
-  display: flex;
-  align-items: flex-end;
-  padding: 32px 16px 20px;
-  overflow: hidden;
-}
-
-.hero[data-art] {
-  min-height: 300px;
-  padding-top: 96px;
+/* Una página plana: el contenido sobre el fondo, sin tarjeta alrededor. Desde 1152px, la
+   lista «Pasos» al lado (272px). */
+.quest {
+  --gutter: 16px;
+  display: grid;
+  gap: 40px;
+  box-sizing: content-box;
+  max-width: 1240px;
+  margin-inline: auto;
+  padding: 28px var(--gutter) 80px;
+  font-size: 1.0625rem;
+  line-height: 1.6;
 }
 
 @media (min-width: 40rem) {
-  .hero {
-    padding-inline: 24px;
-  }
-}
-
-@media (min-width: 48rem) {
-  .hero {
-    padding-bottom: 28px;
-  }
-
-  .hero[data-art] {
-    min-height: clamp(380px, 38vw, 540px);
+  .quest {
+    --gutter: 24px;
   }
 }
 
 @media (min-width: 64rem) {
-  .hero {
-    padding-inline: 48px;
+  .quest {
+    --gutter: 48px;
   }
 }
 
-.hero__art {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 35% 30%;
-  opacity: var(--hero-art-opacity);
-  mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
-}
-
-/* La sombra bajo el texto: bg al 85 % (oscuro) o al 90 % (claro), nunca menos. */
-.hero[data-art]::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background:
-    linear-gradient(
-      to top,
-      var(--color-bg) 0%,
-      color-mix(in srgb, var(--color-bg) var(--hero-shade), transparent) 50%,
-      transparent 85%
-    ),
-    linear-gradient(
-      to bottom,
-      color-mix(in srgb, var(--color-bg) 70%, transparent),
-      transparent 120px
-    );
-}
-
-.hero__grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  grid-template-areas: 'crumbs crumbs' 'body medal';
-  align-items: end;
-  gap: 10px 16px;
-  width: 100%;
-  max-width: var(--width-hero);
-  margin-inline: auto;
-}
-
-.hero__crumbs {
-  grid-area: crumbs;
-}
-
-.hero__crumbs ol {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 4px 8px;
-  width: fit-content;
-  margin: 0;
-  padding: 4px 12px;
-  list-style: none;
-  border-radius: var(--radius-pill);
-  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
-  font-size: var(--text-xs);
-}
-
-.hero__crumbs li + li::before {
-  content: '/';
-  margin-right: 8px;
-  color: var(--color-ink-2);
-}
-
-.hero__crumbs a {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  text-decoration: none;
-}
-
-.hero__crumbs a:hover {
-  text-decoration: underline;
-}
-
-/* Móvil: «Misiones» ya está en el menú; la píldora cabe en una línea. */
-@media (max-width: 39.99rem) {
-  .hero__crumbs li:first-child {
-    display: none;
-  }
-
-  .hero__crumbs li:nth-child(2)::before {
-    display: none;
+@media (min-width: 72rem) {
+  .quest {
+    grid-template-columns: minmax(0, 1fr) 272px;
+    gap: 56px;
+    padding-top: 36px;
   }
 }
 
-.hero__body {
-  grid-area: body;
-  display: grid;
-  gap: 10px;
+.quest__main {
   min-width: 0;
 }
 
-.hero__title {
-  font-family: var(--font-display);
-  font-size: var(--text-4xl);
-  line-height: var(--text-4xl--line-height);
-  font-weight: 800;
-  letter-spacing: var(--text-4xl--letter-spacing);
-  text-transform: uppercase;
+/* Los enlaces de la cabecera y de la prosa van subrayados: el color solo no basta. */
+:is(.qhead, .prose-guide, .guide-body, .torre__body)
+  a:not(.coord, .video__link, [data-image-viewer]) {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+:is(.qhead, .prose-guide, .guide-body, .torre__body)
+  a:not(.coord, .video__link, [data-image-viewer]):hover {
+  text-decoration-thickness: 2px;
+}
+
+.quest__intro,
+.quest__outro {
+  margin-top: 36px;
+}
+
+.quest__outro {
+  margin-top: 56px;
+}
+
+/* ---------- cabecera de la misión ---------- */
+
+/* El título, el subtítulo y las tres columnas a un lado y el PNJ al otro, a lo alto del
+   texto: no añade altura arriba. En el móvil, el PNJ (mirando a la izquierda) va a la
+   derecha del título, pequeño, y las columnas bajo los dos. */
+.qhead {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: 'title' 'meta' 'facts';
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.qhead[data-giver] {
+  grid-template-columns: minmax(0, 1fr) 72px;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas: 'title npc' 'meta npc' 'facts facts';
+  column-gap: 12px;
+}
+
+@media (min-width: 36rem) {
+  .qhead[data-giver] {
+    grid-template-columns: 140px minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas: 'npc title' 'npc meta' 'npc facts';
+    column-gap: 40px;
+  }
+}
+
+@media (min-width: 64rem) {
+  .qhead[data-giver] {
+    grid-template-columns: 160px minmax(0, 1fr);
+    column-gap: 48px;
+  }
+}
+
+.qhead__title {
+  grid-area: title;
   color: var(--color-ink);
+  font: 600 clamp(2.125rem, 1.5rem + 2.4vw, 3.25rem) / 1.02 var(--font-display);
   text-wrap: balance;
 }
 
-.hero[data-art] .hero__title {
-  text-shadow: 0 2px 12px color-mix(in srgb, var(--color-bg) 60%, transparent);
+.qhead__meta {
+  grid-area: meta;
+  margin-top: 8px;
+  color: var(--color-ink-2);
 }
 
-.hero__medal {
-  grid-area: medal;
+/* El logro conserva su texto de enlace; el trofeo del juego va delante, nada más. */
+.qhead__ach {
+  white-space: nowrap;
+}
+
+.qhead__ach img {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  margin: 0 4px 0 2px;
+  vertical-align: -5px;
+}
+
+.giver {
+  grid-area: npc;
+  display: grid;
+  align-self: start;
+  justify-items: center;
+  margin: 0;
+}
+
+@media (min-width: 36rem) {
+  .giver {
+    align-self: center;
+    gap: 10px;
+  }
+}
+
+.giver picture {
+  position: relative;
+  display: block;
+}
+
+/* Un suelo plano bajo los pies, del color de los huecos: el render trae su propia sombra
+   y esto solo lo asienta en la página. */
+.giver picture::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 130%;
+  height: 16px;
+  translate: -50% 40%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--color-raised) 35%, transparent);
+}
+
+.giver img {
+  position: relative;
+  display: block;
+  width: 64px;
+  height: auto;
+}
+
+.giver figcaption {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  text-align: center;
+}
+
+.giver__name {
+  color: var(--color-ink);
+  font: 600 0.9375rem / 1.15 var(--font-display);
+}
+
+/* En el móvil, el paso 1, justo debajo, ya lleva la misma chincheta. */
+.giver__pin {
+  display: none;
+}
+
+@media (min-width: 36rem) {
+  .giver picture::before {
+    height: 34px;
+  }
+
+  .giver img {
+    width: 120px;
+  }
+
+  .giver figcaption {
+    margin-top: 8px;
+  }
+
+  .giver__name {
+    font-size: 1.1875rem;
+  }
+
+  .giver__pin {
+    display: inline;
+  }
+}
+
+@media (min-width: 64rem) {
+  .giver img {
+    width: 128px;
+  }
+}
+
+/* ---------- Prerrequisitos, Necesitarás y Recompensas ---------- */
+
+.qhead__facts {
+  grid-area: facts;
+  display: grid;
+  gap: 24px 48px;
+  margin-top: 28px;
+}
+
+@media (min-width: 36rem) {
+  .qhead__facts {
+    grid-template-columns: auto 1fr;
+  }
+
+  .qhead__rewards {
+    grid-column: 1 / -1;
+  }
+}
+
+.qhead__facts :is(h2, h3) {
+  margin-bottom: 10px;
+  color: var(--color-ink);
+  font: 600 1.25rem / 1.2 var(--font-display);
+}
+
+.qhead__facts ul {
+  display: grid;
+  gap: 8px;
+}
+
+.qhead__rew {
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  column-gap: 24px;
+}
+
+/* Una fila: el icono del juego en su hueco y el texto. La cantidad es texto («1 ×»), no
+   una insignia sobre el icono. */
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  color: var(--color-ink);
+}
+
+.row b {
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+/* El hueco de un icono a todo color, como una casilla del inventario: oscuro también en
+   modo claro (theme.css, --color-slot). El icono nunca se recolorea. */
+.well {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--color-slot-line);
+  border-radius: 10px;
+  background: var(--color-slot);
+}
+
+.well img {
+  object-fit: contain;
 }
 
 /* ---------- chip de coordenadas ---------- */
 
+/* Una chincheta y [x,y] en accent sobre el hueco, con borde accent: se lee de un vistazo.
+   Copia /travel x,y. */
 .coord {
   position: relative;
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  height: 26px;
-  margin: 0 1px;
-  padding: 0 8px 0 9px;
-  border: 1px solid transparent;
-  border-radius: var(--radius-pill);
-  background: var(--color-raised);
+  height: 32px;
+  margin: 0 2px;
+  padding: 0 10px 0 7px;
+  border: 1.5px solid var(--color-accent);
+  border-radius: 8px;
+  background: var(--color-well);
   color: var(--color-accent);
-  font: 600 var(--text-xs) / 1 var(--font-body);
+  font: 800 0.9375rem / 1 var(--font-body);
   font-variant-numeric: tabular-nums;
-  vertical-align: 0.05em;
+  vertical-align: -0.12em;
   white-space: nowrap;
   transition:
-    border-color var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard),
     transform var(--duration-press) var(--ease-out);
 }
 
@@ -216,7 +318,7 @@
 }
 
 .coord:active {
-  transform: scale(0.96);
+  transform: scale(0.95);
 }
 
 .coord:focus-visible,
@@ -226,204 +328,252 @@
 
 @media (hover: hover) and (pointer: fine) {
   .coord[role='button']:hover {
-    border-color: var(--color-accent);
+    background: var(--color-raised);
   }
 }
 
-/* Objetivo de 40px (44px con puntero grueso) sin cambiar el chip dibujado ni la
-   altura de línea: el chip mide 26px. */
+/* Objetivo de 44px sin cambiar el chip dibujado ni la altura de línea: el chip mide 32px. */
 .coord::after {
   content: '';
   position: absolute;
-  inset: -7px -2px;
+  inset: -6px -2px;
 }
 
-@media (pointer: coarse) {
-  .coord::after {
-    inset: -9px -2px;
-  }
-}
+/* ---------- pasos ---------- */
 
-/* ---------- etapas ---------- */
-
-.stages {
-  width: 100%;
-  max-width: calc(var(--width-prose) + 64px);
-  margin-inline: auto;
-}
-
-.stages__track {
-  display: flex;
-  flex-direction: column;
-  counter-reset: done;
-}
-
-.stages__list {
+.qsteps > ol {
   display: grid;
-  gap: 16px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  gap: 56px;
+  margin-top: 36px;
 }
 
-.stage {
-  position: relative;
+.qstep {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 0 20px;
+  scroll-margin-top: 88px;
 }
 
-.stage__check:checked {
-  counter-increment: done;
-}
-
-.stage__badge {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  z-index: 1;
+/* El número en su hueco, pegado arriba mientras se lee el paso. */
+.qstep__n {
+  position: sticky;
+  top: 24px;
   display: grid;
   place-items: center;
   width: 40px;
   height: 40px;
-  border: 2px solid var(--color-muted);
-  border-radius: 50%;
-  background: var(--color-raised);
-  transition:
-    background-color var(--duration-fast) var(--ease-standard),
-    border-color var(--duration-fast) var(--ease-standard),
-    transform var(--duration-press) var(--ease-out);
-}
-
-label.stage__badge {
-  cursor: pointer;
-}
-
-label.stage__badge:active {
-  transform: scale(0.9);
-}
-
-@media (pointer: coarse) {
-  .stage__badge {
-    width: 44px;
-    height: 44px;
-  }
-}
-
-@media (hover: hover) and (pointer: fine) {
-  label.stage__badge:hover {
-    border-color: var(--color-accent);
-  }
-}
-
-.stage__num {
-  grid-area: 1 / 1;
-  font-family: var(--font-accent);
-  font-size: 1.25rem;
-  line-height: 1;
-  color: var(--color-accent-2);
-  transition: opacity var(--duration-fast) var(--ease-standard);
-}
-
-.stage__check-mark {
-  grid-area: 1 / 1;
-  width: 20px;
-  height: 20px;
-  color: var(--color-bg);
-  opacity: 0;
-  transform: scale(0.6);
-  transition:
-    opacity var(--duration-fast) var(--ease-out),
-    transform var(--duration-fast) var(--ease-out);
-}
-
-.stage__check:focus-visible + .stage__badge {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
-}
-
-/* Hecha: relleno accent con marca en bg (12.91 / 5.55), título muted, la tarjeta no se mueve. */
-.stage__check:checked + .stage__badge {
-  border-color: var(--color-accent);
-  background: var(--color-accent);
-}
-
-.stage__check:checked + .stage__badge .stage__num {
-  opacity: 0;
-}
-
-.stage__check:checked + .stage__badge .stage__check-mark {
-  opacity: 1;
-  transform: none;
-}
-
-.stage:has(.stage__check:checked) .stage__title {
-  color: var(--color-muted);
-}
-
-.stage__card {
-  padding: 18px 16px;
-  border-radius: var(--radius-card);
-  background: var(--color-surface);
-}
-
-@media (min-width: 40rem) {
-  .stage__card {
-    padding: 18px 22px;
-  }
-}
-
-.stage__head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px 12px;
-  min-height: 40px;
-  margin-bottom: 12px;
-  padding-left: 52px;
-}
-
-.stage__title {
-  font-size: var(--text-lg);
-  line-height: var(--text-lg--line-height);
-  font-weight: 600;
+  border: 1px solid var(--color-well-line);
+  border-radius: 10px;
+  background: var(--color-well);
   color: var(--color-ink);
-  transition: color var(--duration-fast) var(--ease-standard);
+  font: 600 1.25rem / 1 var(--font-display);
+  font-variant-numeric: tabular-nums;
+  transition:
+    border-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard);
 }
 
-/* Desde 768px: la insignia en un margen de 48px, unida a la siguiente por un filete. */
-@media (min-width: 48rem) {
-  .stage {
-    display: grid;
-    grid-template-columns: 48px minmax(0, 1fr);
-    gap: 16px;
+.qstep[data-current] .qstep__n {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.qstep__body {
+  min-width: 0;
+}
+
+.qstep__body > * + * {
+  margin-top: 18px;
+}
+
+.qstep__body p {
+  max-width: 68ch;
+  color: var(--color-ink);
+}
+
+/* Las capturas, tan anchas como la columna. */
+.qstep__body > figure img {
+  width: 100%;
+  border-radius: 14px;
+  box-shadow: var(--shadow-art);
+}
+
+/* Móvil: el número junto a la primera línea y la captura a todo el ancho. */
+@media (max-width: 40rem) {
+  .qstep {
+    display: block;
   }
 
-  .stage__badge {
-    position: relative;
-    top: 8px;
-    left: 0;
-    justify-self: center;
+  .qstep__n {
+    position: static;
+    float: left;
+    width: 34px;
+    height: 34px;
+    margin: 0 12px 4px 0;
+    font-size: 1.125rem;
   }
 
-  .stage::before {
-    content: '';
-    position: absolute;
-    top: 56px;
-    bottom: -16px;
-    left: 23px;
-    width: 2px;
-    background: var(--color-line);
+  .qstep__body > p:first-child {
+    min-height: 34px;
+    padding-top: 2px;
   }
 
-  .stage:last-child::before {
-    display: none;
-  }
-
-  .stage__head {
-    padding-left: 0;
+  .qstep__body > :not(p) {
+    clear: left;
   }
 }
 
-/* Prosa dentro de una etapa: 72ch, bloques separados, capturas con radio md. */
+/* ---------- lista «Pasos» al lado, desde 1152px ---------- */
+
+.tracker {
+  display: none;
+}
+
+@media (min-width: 72rem) {
+  .tracker {
+    display: block;
+    position: sticky;
+    top: 24px;
+    align-self: start;
+    padding-top: 6px;
+  }
+}
+
+.tracker :is(h2, h3) {
+  margin: 0 0 10px 10px;
+  color: var(--color-ink);
+  font: 600 1.25rem / 1.2 var(--font-display);
+}
+
+.tracker ol {
+  display: grid;
+  gap: 2px;
+}
+
+.tracker a {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  color: var(--color-ink-2);
+  font-size: 0.9375rem;
+  line-height: 1.25;
+  text-decoration: none;
+}
+
+.tracker__n {
+  text-align: center;
+  color: var(--color-muted);
+  font: 600 1rem / 1 var(--font-display);
+}
+
+.tracker__c {
+  color: var(--color-muted);
+  font-size: 0.875rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.tracker a:hover,
+.tracker a[aria-current='step'] {
+  background: var(--color-raised);
+  color: var(--color-ink);
+}
+
+.tracker a[aria-current='step'] {
+  font-weight: 700;
+}
+
+.tracker a[aria-current='step'] .tracker__n {
+  color: var(--color-accent);
+}
+
+.tracker a[aria-current='step'] .tracker__c {
+  color: var(--color-ink-2);
+}
+
+/* ---------- recomendaciones de Torre ---------- */
+
+/* Torre hablando: su avatar y un bocadillo con el título dentro. */
+.torre {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 0 18px;
+}
+
+.torre__face {
+  width: 72px;
+  height: 72px;
+  overflow: hidden;
+  border: 2px solid var(--color-well-line);
+  border-radius: 50%;
+}
+
+.torre__face img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.torre__box {
+  position: relative;
+  padding: 18px 22px 20px;
+  border: 1px solid var(--color-well-line);
+  border-radius: 16px;
+  background: var(--color-surface);
+  color: var(--color-ink);
+}
+
+.torre__box::before {
+  content: '';
+  position: absolute;
+  top: 26px;
+  left: -9px;
+  width: 16px;
+  height: 16px;
+  border-bottom: 1px solid var(--color-well-line);
+  border-left: 1px solid var(--color-well-line);
+  background: var(--color-surface);
+  transform: rotate(45deg);
+}
+
+.torre__box > :is(h2, h3, h4) {
+  margin-bottom: 10px;
+  color: var(--color-ink);
+  font: 600 1.25rem / 1.2 var(--font-display);
+}
+
+.torre__body > * + * {
+  margin-top: 10px;
+}
+
+.torre__body li::marker {
+  color: var(--color-accent);
+}
+
+@media (max-width: 40rem) {
+  .torre {
+    grid-template-columns: 1fr;
+  }
+
+  .torre__face {
+    width: 56px;
+    height: 56px;
+    margin: 0 0 12px 14px;
+  }
+
+  .torre__box::before {
+    top: -9px;
+    left: 34px;
+    transform: rotate(135deg);
+  }
+}
+
+/* Prosa dentro de un paso: bloques separados. */
 .prose-guide > * + * {
   margin-top: 16px;
 }
@@ -498,7 +648,6 @@ label.stage__badge:active {
   line-height: var(--text-2xl--line-height);
   font-weight: var(--text-2xl--font-weight);
   letter-spacing: var(--text-2xl--letter-spacing);
-  text-transform: uppercase;
 }
 
 .guide-body > h3 {
@@ -513,14 +662,14 @@ label.stage__badge:active {
   font-weight: var(--text-lg--font-weight);
 }
 
-/* Dentro de un paso, bajo su título h3, un título del texto es un subtítulo: un paso
+/* Dentro de un paso, bajo el h2 «Pasos», un título del texto es un subtítulo: un paso
    más pequeño, sin mayúsculas. */
 .prose-guide > :is(h2, h3, h4, h5, h6) {
   margin-top: 24px;
   font-family: var(--font-display);
   font-size: var(--text-lg);
   line-height: var(--text-lg--line-height);
-  font-weight: 700;
+  font-weight: 600;
   color: var(--color-ink);
   text-wrap: balance;
 }
@@ -531,168 +680,6 @@ label.stage__badge:active {
 
 :is(.guide-body, .prose-guide) .callout__body > * + * {
   margin-top: 8px;
-}
-
-/* ---------- píldora de progreso ---------- */
-
-.pill {
-  order: -1;
-  position: sticky;
-  top: 88px;
-  z-index: var(--z-raised);
-  display: flex;
-  align-items: center;
-  align-self: center;
-  gap: 12px;
-  max-width: 100%;
-  margin-bottom: 16px;
-  padding: 8px 18px;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-pill);
-  background: var(--color-surface);
-  box-shadow: var(--shadow-float);
-}
-
-@supports (backdrop-filter: blur(16px)) {
-  .pill {
-    background: color-mix(in srgb, var(--color-surface) 92%, transparent);
-    backdrop-filter: blur(16px) saturate(1.4);
-  }
-}
-
-.pill__count {
-  font-family: var(--font-accent);
-  font-size: var(--text-figure);
-  line-height: 1;
-  color: var(--color-accent-2);
-}
-
-.pill__done::before {
-  content: counter(done);
-}
-
-.pill__total {
-  font-size: 1rem;
-  color: var(--color-ink-2);
-}
-
-/* Con muchas etapas los segmentos pasan a otra fila en vez de desbordar a 390px. */
-.pill__segs {
-  display: flex;
-  flex-wrap: wrap;
-  min-width: 0;
-  gap: 3px;
-}
-
-/* La regla :has() que cada línea de etapas pinta para sus casillas enciende el segmento:
-   altura entera y relleno accent. */
-.pill__seg {
-  width: 14px;
-  height: 10px;
-  border-radius: var(--radius-xs);
-  outline: 1px solid var(--color-line);
-  background: var(--color-raised);
-  transform: scaleY(0.6);
-  transition:
-    transform var(--duration-base) var(--ease-out),
-    background-color var(--duration-base) var(--ease-standard);
-}
-
-/* ---------- Botín ---------- */
-
-.botin {
-  position: relative;
-  margin-top: 16px;
-  scroll-margin-top: 96px;
-}
-
-.botin__badge {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  z-index: 1;
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border: 2px solid var(--color-accent-2);
-  border-radius: 50%;
-  background: var(--color-raised);
-}
-
-.botin__card {
-  display: grid;
-  gap: 4px;
-  padding: 16px 16px 18px;
-  border: 1px solid var(--color-accent-2);
-  border-radius: var(--radius-card);
-  background: var(--color-surface);
-}
-
-.botin__eyebrow,
-.botin__title {
-  padding-left: 52px;
-}
-
-.botin__title {
-  margin-bottom: 10px;
-}
-
-/* Móvil: las fichas ocupan media fila y las casillas un tercio; «1 000 000» no se parte. */
-.botin__slots {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 12px 10px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.botin__slots > li {
-  grid-column: span 2;
-  width: auto;
-}
-
-.botin__slots > .botin__stat {
-  grid-column: span 3;
-}
-
-@media (min-width: 48rem) {
-  .botin {
-    display: grid;
-    grid-template-columns: 48px minmax(0, 1fr);
-    gap: 16px;
-  }
-
-  .botin__badge {
-    position: relative;
-    top: 8px;
-    left: 0;
-    justify-self: center;
-  }
-
-  .botin__card {
-    padding: 18px 22px 20px;
-  }
-
-  .botin__eyebrow,
-  .botin__title {
-    padding-left: 0;
-  }
-
-  .botin__slots {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .botin__slots > li {
-    width: 104px;
-  }
-
-  .botin__slots > .botin__stat {
-    width: auto;
-    min-width: 120px;
-  }
 }
 
 /* ---------- cadena del logro ---------- */
@@ -756,7 +743,7 @@ label.stage__badge:active {
   font-family: var(--font-display);
   font-size: var(--text-lg);
   line-height: var(--text-lg--line-height);
-  font-weight: 700;
+  font-weight: 600;
   text-align: center;
   text-wrap: balance;
   color: var(--color-ink);

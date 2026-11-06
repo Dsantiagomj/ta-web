@@ -1,5 +1,16 @@
 // Iconos de interfaz dibujados a mano solo donde no hay arte del juego que encaje: copiar,
-// la marca de hecho y cerrar. Decorativos siempre.
+// la chincheta de las coordenadas, la marca de hecho y cerrar. Decorativos siempre.
+
+export function PinIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 16 16" aria-hidden="true" className={className}>
+      <path
+        fill="currentColor"
+        d="M8 1.2a5 5 0 0 0-5 5c0 3.6 5 8.6 5 8.6s5-5 5-8.6a5 5 0 0 0-5-5zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"
+      />
+    </svg>
+  )
+}
 
 export function CopyIcon({ className }: { className?: string }) {
   return (

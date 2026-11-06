@@ -4,16 +4,14 @@
  * opacity y colores, y la regla global de reduced motion lo apaga.
  */
 
-/* Aviso: su color al 10 % sobre surface, borde al 35 %, título en su color, texto en ink. */
+/* Aviso: borde de 2px en su color y su color al 9 % sobre bg; el título dentro de la caja,
+   en ink, sin cinta ni glifo (guía v4). El texto, en ink. */
 .callout {
   --c: var(--color-info);
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 12px;
-  padding: 16px 18px;
-  border: 1px solid color-mix(in srgb, var(--c) 35%, transparent);
+  padding: 16px 20px 18px;
+  border: 2px solid var(--c);
   border-radius: var(--radius-md);
-  background: color-mix(in srgb, var(--c) 10%, var(--color-surface));
+  background: color-mix(in srgb, var(--c) 9%, var(--color-bg));
   color: var(--color-ink);
 }
 
@@ -25,29 +23,16 @@
   --c: var(--color-danger);
 }
 
-.callout__icon {
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  border: 2px solid var(--c);
-  border-radius: 50%;
-  color: var(--c);
-  font: 800 1rem / 1 var(--font-display);
-}
-
 .callout__title {
+  margin-bottom: 4px;
   font-family: var(--font-display);
-  font-size: var(--text-eyebrow);
-  line-height: var(--text-eyebrow--line-height);
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--c);
+  font-size: 1.25rem;
+  line-height: 1.2;
+  font-weight: 600;
+  color: var(--color-ink);
 }
 
 .callout__body {
-  margin-top: 4px;
   max-width: 72ch;
 }
 

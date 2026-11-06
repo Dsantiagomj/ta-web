@@ -2,14 +2,13 @@ import type { ReactNode } from 'react'
 
 import { Emblem } from '@/components/brand/Emblem'
 import { AchievementChain } from '@/components/game/AchievementChain'
-import { BotinCard } from '@/components/game/BotinCard'
 import { CoordinatesText, TravelButton } from '@/components/game/Coordinates'
-import { HeroHeader } from '@/components/game/HeroHeader'
+import { IconWell } from '@/components/game/IconWell'
 import { ItemChip, ItemSlot } from '@/components/game/Item'
-import { LevelMedallion } from '@/components/game/LevelMedallion'
 import { FightBlock } from '@/components/game/MonsterChip'
-import { StagesTimeline } from '@/components/game/StagesTimeline'
-import { SummaryRibbon } from '@/components/game/SummaryRibbon'
+import { QuestHeader } from '@/components/game/QuestHeader'
+import { QuestSteps, StepTracker } from '@/components/game/QuestSteps'
+import { TorreTips } from '@/components/game/TorreTips'
 import { VideoFacade } from '@/components/game/VideoFacade'
 import { CopyIcon } from '@/components/game/icons'
 import { Button, ButtonLink } from '@/components/ui/Button'
@@ -30,14 +29,16 @@ import {
   achievement,
   fight,
   guide,
+  header,
+  headerWithout,
   imageAlt,
   images,
   items,
   longChain,
-  needsGuide,
   prose,
   samples,
-  stages,
+  stepEntries,
+  steps,
   video,
 } from './catalog-data'
 import { catalogStrings as s } from './strings'
@@ -82,7 +83,7 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
       className="bg-bg px-4 py-12 text-ink [--color-section:var(--color-sec-misiones)] sm:px-6 lg:px-12"
     >
       <div className="mx-auto max-w-(--width-page)">
-        <h2 id={`${key}-h`} className="mb-8 font-display text-2xl text-ink uppercase">
+        <h2 id={`${key}-h`} className="mb-8 font-display text-2xl text-ink">
           {label}
         </h2>
         <div className="grid gap-x-8 gap-y-12 lg:grid-cols-2">
@@ -91,7 +92,7 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
             <Emblem size={30} />
             <Emblem size={36} />
             <Emblem size={64} />
-            <span className="flex items-center gap-2.5 font-display text-xl font-bold tracking-[0.02em] text-ink uppercase">
+            <span className="flex items-center gap-2.5 font-display text-xl text-ink">
               <Emblem size={36} />
               {s.demo.brand}
             </span>
@@ -134,9 +135,17 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
             </div>
           </Group>
 
+          <Group name="torre" note={s.notes.torre} wide>
+            <div className="w-full max-w-(--width-prose)">
+              <TorreTips>
+                <p>{samples.tips}</p>
+              </TorreTips>
+            </div>
+          </Group>
+
           <Group name="figures">
             <StatTile value={guide.reward.xp} label={samples.stats.xp} />
-            <StatTile value={needsGuide.reward.kamas} label={samples.stats.kamas} />
+            <StatTile value={guide.reward.kamas} label={samples.stats.kamas} />
             <div className="grid w-full gap-3">
               <ProgressBar value={3} max={8} label={d.progress} />
               <ProgressBar value={8} max={8} label={d.progress} />
@@ -164,15 +173,10 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
                 <span className="font-display text-micro text-muted uppercase">
                   {d.nextEyebrow}
                 </span>
-                <span className="font-display text-2xl text-ink uppercase">El cazador cazado</span>
+                <span className="font-display text-2xl text-ink">El cazador cazado</span>
                 <span className="text-sm text-ink-2">{d.nextMeta}</span>
               </span>
             </Card>
-          </Group>
-
-          <Group name="medallion">
-            <LevelMedallion level={guide.level} />
-            <LevelMedallion level={200} />
           </Group>
 
           <Group name="items">
@@ -185,45 +189,21 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
             </ul>
           </Group>
 
-          <Group name="hero" note={s.notes.hero} wide>
-            <div className="grid w-full gap-6">
-              <HeroHeader
-                headingLevel={4}
-                title={guide.title}
-                subtitle={guide.subtitle}
-                level={guide.level}
-                crumbs={guide.crumbs}
-                art={{ image: images.combat, position: '50% 38%' }}
-              />
-              <HeroHeader
-                headingLevel={4}
-                title={samples.heroNoArt.title}
-                subtitle={samples.heroNoArt.subtitle}
-                level={200}
-                crumbs={guide.crumbs.slice(0, 2)}
-              />
+          <Group name="header" note={s.notes.header} wide>
+            <div className="grid w-full gap-10">
+              <QuestHeader headingLevel={2} title={guide.title} data={header} />
+              <QuestHeader headingLevel={2} title={samples.headerWithout} data={headerWithout} />
             </div>
           </Group>
 
-          <Group name="ribbon" note={s.notes.ribbon} wide>
-            <div className="grid w-full gap-4">
-              <SummaryRibbon
-                start={guide.start}
-                requires={guide.requires}
-                needs={guide.needs}
-                reward={guide.reward}
-                rewardHref={`#${key}-botin`}
-              />
-              <SummaryRibbon {...needsGuide} rewardHref={`#${key}-botin-xp`} />
-              <SummaryRibbon
-                reward={{ xp: 1000000, kamas: 21990 }}
-                rewardHref={`#${key}-botin-xp`}
-              />
-              <SummaryRibbon
-                reward={samples.rewardNotes.map((line) => line.replace(/\.$/, '')).join(' · ')}
-                rewardHref={`#${key}-botin-texto`}
-              />
-            </div>
+          <Group name="wells" note={s.notes.wells}>
+            <IconWell icon="quest" />
+            <IconWell icon="combat" />
+            <IconWell icon="xp" />
+            <IconWell icon="kamas" />
+            <IconWell icon="achievement" />
+            <IconWell image={items.pico.icon} />
+            <IconWell />
           </Group>
 
           <Group name="fight">
@@ -237,30 +217,12 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
             <TravelButton x={guide.start.x} y={guide.start.y} />
           </Group>
 
-          <Group name="stages" note={s.notes.stages} wide>
-            <div className="w-full">
-              <StagesTimeline id={`${key}-pasos`} stages={stages} ticks headingLevel={4}>
-                <BotinCard
-                  id={`${key}-botin`}
-                  headingLevel={4}
-                  xp={guide.reward.xp}
-                  kamas={guide.reward.kamas}
-                  items={guide.rewards}
-                  chain={guide.chain}
-                />
-              </StagesTimeline>
-            </div>
-          </Group>
-
-          <Group name="botin" wide>
-            <div className="w-full max-w-[calc(var(--width-prose)+64px)]">
-              <BotinCard
-                id={`${key}-botin-xp`}
-                headingLevel={4}
-                xp={needsGuide.reward.xp}
-                kamas={needsGuide.reward.kamas}
-              />
-              <BotinCard id={`${key}-botin-texto`} headingLevel={4} notes={samples.rewardNotes} />
+          <Group name="steps" note={s.notes.steps} wide>
+            <div className="quest w-full !p-0">
+              <div className="min-w-0">
+                <QuestSteps headingLevel={3} steps={steps(key)} />
+              </div>
+              <StepTracker headingLevel={3} entries={stepEntries(key)} />
             </div>
           </Group>
 

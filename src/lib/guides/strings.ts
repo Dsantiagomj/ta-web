@@ -30,6 +30,8 @@ export const guideStrings = {
   /** La página pública de la guía, /<slug>. */
   page: {
     videoTitle: (title: string) => `Vídeo de la guía: ${title}`,
+    /** Un paso sin etiqueta propia en la lista «Pasos». */
+    untitledStep: (number: number) => `Paso ${number}`,
     preview: {
       label: 'Vista previa',
       note: 'Vista previa del borrador. Los visitantes ven la versión publicada.',
@@ -69,18 +71,19 @@ export const guideStrings = {
     dofusDbLoading: 'Cargando los datos de DofusDB…',
     dofusDbUnavailable: 'No se pudieron cargar los datos de DofusDB.',
     noQuest: 'Sin misión de DofusDB: escribe tú este dato.',
-    /** El bloque Paso del contenido (DESIGN.md, Step card). */
+    /** El bloque Paso del contenido (DESIGN.md, Steps). */
     step: {
       singular: 'Paso',
       plural: 'Pasos',
       title: 'Título',
       titleDescription:
-        'Opcional. Lo que hay que hacer en el paso, corto: «Habla con Hupe Esse». ' +
-        'Sin título, la tarjeta muestra solo su número («Paso 3»).',
+        'Opcional y solo para el panel: la guía no lo enseña. En la lista «Pasos» de la ' +
+        'guía, cada paso lleva la primera negrita de su texto, o «Paso 3» sin ella.',
       x: 'X',
       y: 'Y',
       coordinatesDescription:
-        'La posición principal del paso, si la tiene: sale como chip junto al título.',
+        'La posición principal del paso, si la tiene: sale en la lista «Pasos» y, si el ' +
+        'texto no la nombra, como chip al principio del paso.',
       coordinatesPair: 'Pon X e Y, o deja las dos vacías.',
       coordinatesInteger: 'Las coordenadas del juego son números enteros.',
       body: 'Contenido del paso',

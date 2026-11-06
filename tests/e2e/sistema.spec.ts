@@ -14,14 +14,13 @@ const COMPONENTS = [
   'figures',
   'checkbox',
   'cards',
-  'medallion',
-  'hero',
-  'ribbon',
+  'torre',
+  'header',
+  'wells',
   'items',
   'fight',
   'coordinates',
-  'stages',
-  'botin',
+  'steps',
   'chain',
   'video',
   'image',
@@ -63,7 +62,7 @@ test.describe('catálogo /sistema', () => {
 
     for (const { theme, mode } of sections) {
       const section = page.locator(`#${theme}-${mode}`)
-      const card = section.locator('.stage__card').first()
+      const card = section.locator('.torre__box').first()
       const chip = section.locator('.coord').first()
       expect(await card.evaluate((node) => getComputedStyle(node).backgroundColor)).toBe(
         await rawToken(section, '--t-surface'),
@@ -99,7 +98,7 @@ test.describe('catálogo /sistema', () => {
 
   test('el objetivo de un chip de coordenadas mide al menos 40px de alto', async ({ page }) => {
     await page.goto('/sistema?tema=arcano&modo=dark')
-    // El chip dibujado mide 26px; el ::after transparente agranda el área que se pulsa.
+    // El chip dibujado mide 32px; el ::after transparente agranda el área que se pulsa.
     const height = await page
       .locator('.coord')
       .first()
@@ -112,26 +111,20 @@ test.describe('catálogo /sistema', () => {
     expect(height).toBeGreaterThanOrEqual(40)
   })
 
-  test('un paso sin título enseña su número como título', async ({ page }) => {
-    await page.goto('/sistema?tema=arcano&modo=dark')
-    const step = page.locator('.stage').nth(3)
-    await expect(step.getByRole('heading', { name: 'Paso 4' })).toBeVisible()
-    await expect(step.getByRole('checkbox', { name: 'Paso 4 hecho' })).toBeAttached()
-  })
-
-  test('la píldora de progreso con 30 pasos cabe en 390px', async ({ page }) => {
-    await page.setViewportSize({ width: 390, height: 844 })
-    await page.goto('/sistema?tema=arcano&modo=dark')
-    const pill = page.locator('.pill').first()
-    // Una guía larga: se rellenan los segmentos hasta 30 sobre el mismo marcado.
-    await pill.evaluate((el) => {
-      const segs = el.querySelector('.pill__segs')!
-      const seg = segs.firstElementChild!
-      while (segs.children.length < 30) segs.append(seg.cloneNode())
-    })
-    const box = (await pill.boundingBox())!
-    expect(box.x).toBeGreaterThanOrEqual(0)
-    expect(box.x + box.width).toBeLessThanOrEqual(390)
+  test('los huecos de los iconos siguen oscuros en modo claro', async ({ page }) => {
+    await page.goto('/sistema')
+    for (const theme of THEMES) {
+      const section = page.locator(`#${theme}-light`)
+      const well = section.locator('[data-component="wells"] .well').first()
+      expect(await well.evaluate((node) => getComputedStyle(node).backgroundColor)).not.toBe(
+        await rawToken(section, '--t-bg'),
+      )
+      const [r, g, b] = (await well.evaluate((node) => getComputedStyle(node).backgroundColor))
+        .match(/\d+/g)!
+        .map(Number)
+      // Oscuro: la luminancia del hueco queda muy por debajo de la del fondo claro.
+      expect((r + g + b) / 3).toBeLessThan(90)
+    }
   })
 
   test('el vídeo no carga nada de YouTube hasta pulsar', async ({ page }) => {
