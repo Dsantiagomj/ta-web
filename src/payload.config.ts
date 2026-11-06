@@ -54,6 +54,14 @@ export default buildConfig({
       connectionString: resolveDatabaseUrl(process.env),
       // Conseguir una conexión nunca espera sin límite, aunque la base esté colgada
       connectionTimeoutMillis: 5000,
+      // pg retira el manejador del pool mientras Drizzle tiene la conexión prestada.
+      // El dueño de la transacción propaga el fallo y libera el cliente; pg descarta
+      // los clientes no consultables al liberarlos. No reintentamos la transacción.
+      onConnect: (client) => {
+        client.on('error', (error) => {
+          console.error('Conexión de Postgres prestada perdida:', error)
+        })
+      },
     },
   }),
   // Una conexión inactiva que se cae (Neon las reinicia) se registra y el pool la
