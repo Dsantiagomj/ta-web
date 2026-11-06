@@ -334,7 +334,7 @@ Torre's tips bubble uses `18px 22px 20px` padding; everything else stays on the 
 | Token | Value | Use |
 |---|---|---|
 | `--radius-xs` | 4px | progress track, tiny thumbnails |
-| `--radius-sm` | 8px | icon wells, table rows on hover, checkboxes (7 to 8px) |
+| `--radius-sm` | 8px | item chip icons, table rows on hover, checkboxes (7 to 8px); the guide's icon slots and step numbers use 10px (Icon slots and game icons) |
 | `--radius-md` | 12px | list rows, inputs that are not pills, tooltips, secondary buttons |
 | `--radius-card` | 16px | panels, dropdowns, Torre's tips bubble |
 | `--radius-lg` | 20px | dungeon and class cards |
@@ -551,7 +551,7 @@ Decided 2026-11-05 (guide v4): the section is called "Pasos" everywhere a reader
 
 - **Anatomy**: from 1152px, a `<nav>` named by its `h2` "Pasos" (Fredoka 600, 1.25rem), sticky 24px from the top, 272px wide. An `<ol>` of links to `#paso-N`, 44px rows, 10px radius: the number (Fredoka 600, `--color-muted`), the label in `--color-ink-2` 0.9375rem, the coordinates without brackets in `--color-muted` 700 with tabular figures ("7,-19").
 - **Label**: the first bold term in the step's prose (not its callouts), with trailing punctuation removed and skipping bold text that is only coordinates. Without one, "Paso N". Labels are never invented. Coordinates: the step's own X and Y, else the first `[x,y]` in its text, else none (`src/lib/guides/step-nav.ts`).
-- **States**: hover fills the row with `--color-raised` and turns the label `--color-ink`. The current step (set by the island with `aria-current="step"`) keeps that fill, its label in 700, its number in `--color-accent` and its coordinates in `--color-ink-2`.
+- **States**: hover (mouse only) fills the row with `--color-raised` and turns the label `--color-ink`. The current step (set by the island with `aria-current="step"`) keeps that fill, its label in 700, its number in `--color-accent` and its coordinates in `--color-ink-2`.
 - **Without JavaScript** it is a plain list of in-page links. Below 1152px it is not rendered visible (`display: none`).
 
 #### Callouts and Torre's tips
@@ -671,7 +671,7 @@ Exits run at about 70 percent of the enter duration (a 220ms dropdown closes in 
 | Collection card art | card ratio (1:1 for Dofus, 1:1.1 for dungeons) | the NPC or boss render on top keeps its alpha |
 | NPC and monster renders | transparent, natural ratio | `drop-shadow` filter as a static style, never animated |
 | Quest giver render | transparent, natural ratio (about 1:2.2 once trimmed) | 120 to 128px wide beside the title, 64px on phones; one width, so no `srcset` |
-| Icons (items, quests, jobs) | 1:1 | 24, 32 or 48px, inside an icon well (`--radius-sm`, `--color-raised`) |
+| Icons (items, quests, jobs) | 1:1 | 24, 32 or 48px, inside an icon slot (10px radius, `--color-slot`) |
 
 - Missing or not-yet-owned items show the icon in `grayscale(1)` at 60 percent opacity.
 - Picking a zone background for a character: the character must read against the area where it sits. Avoid a zone in the same hue as the character; keep text over the darker part of the image or on a shade.

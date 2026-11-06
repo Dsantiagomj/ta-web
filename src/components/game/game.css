@@ -317,7 +317,7 @@
   cursor: pointer;
 }
 
-.coord:active {
+.coord[role='button']:active {
   transform: scale(0.95);
 }
 
@@ -386,7 +386,7 @@
   margin-top: 18px;
 }
 
-.qstep__body p {
+.qstep__body.prose-guide p {
   max-width: 68ch;
   color: var(--color-ink);
 }
@@ -477,14 +477,17 @@
   font-variant-numeric: tabular-nums;
 }
 
-.tracker a:hover,
 .tracker a[aria-current='step'] {
   background: var(--color-raised);
   color: var(--color-ink);
+  font-weight: 700;
 }
 
-.tracker a[aria-current='step'] {
-  font-weight: 700;
+@media (hover: hover) and (pointer: fine) {
+  .tracker a:hover {
+    background: var(--color-raised);
+    color: var(--color-ink);
+  }
 }
 
 .tracker a[aria-current='step'] .tracker__n {
@@ -587,7 +590,7 @@
 }
 
 .prose-guide > figure img {
-  border-radius: var(--radius-md);
+  border-radius: 14px;
 }
 
 .prose-guide strong {
