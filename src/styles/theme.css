@@ -112,10 +112,15 @@
   --color-sec-mazmorras: var(--t-sec-mazmorras);
   --color-sec-herramientas: var(--t-sec-herramientas);
 
-  /* Las variables --font-nunito y --font-fredoka las define next/font en <html>. */
-  --font-display: var(--font-fredoka), 'Fredoka', 'Nunito', system-ui, sans-serif;
-  --font-body: var(--font-nunito), 'Nunito', system-ui, -apple-system, sans-serif;
-  --font-accent: var(--font-lilita-one), 'Lilita One', 'Fredoka', system-ui, sans-serif;
+  /* Las variables --font-nunito y --font-fredoka las define next/font en <html>. Detrás
+     van los respaldos sin Arial de fonts-fallback.css (ver allí). */
+  --font-display:
+    var(--font-fredoka), 'Fredoka Fallback Linux', 'Fredoka', 'Nunito', system-ui, sans-serif;
+  --font-body:
+    var(--font-nunito), 'Nunito Fallback Linux', 'Nunito', system-ui, -apple-system, sans-serif;
+  --font-accent:
+    var(--font-lilita-one), 'Lilita One Fallback Linux', 'Lilita One', 'Fredoka', system-ui,
+    sans-serif;
 
   --shadow-art:
     0 2px 6px rgb(0 0 0 / var(--t-shadow-alpha-1)), 0 14px 32px rgb(0 0 0 / var(--t-shadow-alpha-2));

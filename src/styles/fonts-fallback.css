@@ -1,0 +1,40 @@
+/*
+ * Respaldos de métricas ajustadas para los sistemas sin Arial.
+ *
+ * next/font genera «Fredoka Fallback» y «Nunito Fallback» sobre local(Arial), con
+ * size-adjust y los overrides de ascent y descent calculados contra Arial. Linux y Android
+ * no traen Arial: allí esa @font-face no carga y el texto se pinta con la sans del sistema,
+ * más ancha, hasta que llega la fuente web. El cambio de líneas mueve la página (CLS 0,19
+ * en la guía en CI). Estas caras usan los mismos valores sobre fuentes con las métricas de
+ * Arial (Liberation Sans, Arimo) y, en Android, Roboto, la más cercana.
+ *
+ * Los valores son los que next/font escribe en el CSS compilado para cada familia: si se
+ * cambia de familia, se copian de ahí.
+ */
+
+@font-face {
+  font-family: 'Fredoka Fallback Linux';
+  src: local('Liberation Sans'), local('Arimo'), local('Roboto');
+  ascent-override: 95.64%;
+  descent-override: 23.17%;
+  line-gap-override: 0%;
+  size-adjust: 101.84%;
+}
+
+@font-face {
+  font-family: 'Nunito Fallback Linux';
+  src: local('Liberation Sans'), local('Arimo'), local('Roboto');
+  ascent-override: 99.71%;
+  descent-override: 34.82%;
+  line-gap-override: 0%;
+  size-adjust: 101.39%;
+}
+
+@font-face {
+  font-family: 'Lilita One Fallback Linux';
+  src: local('Liberation Sans'), local('Arimo'), local('Roboto');
+  ascent-override: 96.14%;
+  descent-override: 22.91%;
+  line-gap-override: 0%;
+  size-adjust: 96.01%;
+}
