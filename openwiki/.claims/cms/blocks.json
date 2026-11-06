@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:98eb46d6bcfbcd494ed1359d4f34e7f708e1f319a724c10690bbf0c416de37d7",
+  "pageVersion": "sha256:d5481bcd048e032fa49dd9ec1192c81158a0bed8162228ebc8fb2593af26e7d5",
   "claims": [
     {
       "id": "claim_086b43e60ca94f619d0317b56fb97b44",
-      "statement": "A quest guide's body field is a Payload blocks field that offers exactly RichTextBlock, ImageBlock, VideoBlock and CalloutBlock, labelled Contenido with items labelled Bloque.",
+      "statement": "A quest guide's body field is a Payload blocks field that offers exactly RichTextBlock, ImageBlock, VideoBlock, CalloutBlock and StepBlock, labelled Contenido with items labelled Bloque.",
       "evidence": [
         {
-          "resource": "repo://src/collections/QuestGuides.ts#L197-L203",
-          "version": "repo-lines-v1:sha256:446d258d9f03fbae3e42ff67c16dbc3a907a6f107fcb0dca64b7c37d2f9203b2:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjljYTg5MWJmZjdhYzFmN2NlYWFlNDBlZjA1MTA2NmJlOWVmZTQ3YjRlNDI4MWU4NmMzMTliZTJjNTVlYmNlNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDk3MzllNTlhODFmZTU4NDRmMTI3NzdhYjQ4MmNmNzQ2ZDNhOThmODEyYjM5MjZkNTVmYTczZDI0YmYxODQ5ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTEyYzM2NmRjN2IwMjJjNWVlOWY1MTU0NTI1MTYyNDJhMzc0M2NhNzUwY2NkNjA2YjVkMTkyZGI0NGIyMjY3NSJ9"
+          "resource": "repo://src/collections/QuestGuides.ts#L218-L224",
+          "version": "repo-lines-v1:sha256:c8eb4635e1f7723f2ec948d987f70db6f2cdc29308e57b707c38667a3439b266:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjljYTg5MWJmZjdhYzFmN2NlYWFlNDBlZjA1MTA2NmJlOWVmZTQ3YjRlNDI4MWU4NmMzMTliZTJjNTVlYmNlNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDk3MzllNTlhODFmZTU4NDRmMTI3NzdhYjQ4MmNmNzQ2ZDNhOThmODEyYjM5MjZkNTVmYTczZDI0YmYxODQ5ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTEyYzM2NmRjN2IwMjJjNWVlOWY1MTU0NTI1MTYyNDJhMzc0M2NhNzUwY2NkNjA2YjVkMTkyZGI0NGIyMjY3NSJ9"
         },
         {
-          "resource": "repo://tests/unit/quest-guides-collection.test.ts#L158-L167",
-          "version": "repo-lines-v1:sha256:db9b593555ead8e9805eb764e493e5ef193ce3290b12b21af2fb101d09dda9a1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUyYTAzZGMwYTM0ZmFhNTU0NDc5YTUwMDRlZWFkNWNjMTI3ZTg0ZGM5ZGNiNjZkN2YzZWE4Nzc5NjJmMDAyNjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhZDE3OGNjMzZiMmMyZDRiNmY5ZmY1OWY0Nzk0M2UzNDJhMzY3ZmU5YzVlMGY3Y2ExMzc1ZjA1NzM2MzZkZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMzNzA1ZmYwNzUxMWNlMDhjMjcxOTRhMDk1MmY4OThjODhjNjlhOTcyZGRjODY2YWUwNzkxMTAwNzk2Yzc1YTMifQ"
+          "resource": "repo://tests/unit/quest-guides-collection.test.ts#L160-L168",
+          "version": "repo-lines-v1:sha256:404946c566a3cc7212a586db443efd6d56d606d3493efa536a0078f3ea09fe7b:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjEzOTc4YTVmMTU0NzliMjcxZWJlNDI2NTVhOWVkYTIxMWIyOTQ2ODAxMWE1Yzk2ZDcwYzM2NThmNWNiZTRmZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjIzNTI1ODljMzRkM2M2MDY4NTkzMWI2ZWNjNGQ1MDk5MWE3YzU2YzhmYmEyODk0MTE0NjU3NjkwMjcyY2FjMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYThiMTk1MjM1YjgwOTk2N2M4NDdlYjNiZWViZDI1Zjk2NTBlNWY1OGQzZTg3MmJkYTkzYTU1NGRjMzM0NjkzMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzM3MDVmZjA3NTExY2UwOGMyNzE5NGEwOTUyZjg5OGM4OGM2OWE5NzJkZGM4NjZhZTA3OTExMDA3OTZjNzVhMyJ9"
         }
       ]
     },
@@ -148,11 +148,11 @@
     },
     {
       "id": "claim_cd0989818b924296b1b9c1372fa22c29",
-      "statement": "AGENTS.md plans dialogue and step blocks for when the guide page design needs them.",
+      "statement": "AGENTS.md plans a dialogue block for when the guide page design needs it.",
       "evidence": [
         {
-          "resource": "repo://AGENTS.md#L45-L45",
-          "version": "repo-lines-v1:sha256:1e337d7f750b4f33f405b3c2ff2af0ba55f36799405dd48a0b5e9faed415e33a:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWUzMzdkN2Y3NTBiNGYzM2Y0MDViM2MyZmYyYWYwYmE1NWYzNjc5OTQwNWRkNDhhMGI1ZTlmYWVkNDE1ZTMzYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWUzMzdkN2Y3NTBiNGYzM2Y0MDViM2MyZmYyYWYwYmE1NWYzNjc5OTQwNWRkNDhhMGI1ZTlmYWVkNDE1ZTMzYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTAzNWVlOGVkMGFjYzc4ZDgwMWMxYWRlMzU0NDgyNDQ4NDM0ZDhkODEwYjQwOTkzNzJlODA3Y2I0YjhkODYzZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjg4Y2YwNzZhZGVjOTgyZjQ5Y2E3MWY3ODc5MTU5OGU0ZjUyMWI2OTAyZjAxYmJhODM5YWIxZjA5OWI0YjczNSJ9"
+          "resource": "repo://AGENTS.md#L44-L46",
+          "version": "repo-lines-v1:sha256:5750afcea168565a169f37b8d690fc3f17047b530093af1d6bdfbb4dadd56cea:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzk4NzU3YTg5ZTA4NTcxN2ZjMGU1NDA4MzljZTdkOWRlZWFlZDlmMDA0NjZiZWExMGUxZWM1ODhkMzkyMmQwOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTE5NjYxODc5NjAwZTMzOWViOTY3Y2YwYjJlYWE4ZmYxY2E5ZGZjNWI3M2ZiNjZiMTQxODE4NmVjNDMxZWMwYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWRlMWQ5YjdlYmY3YzQwYmE1MDNiY2E0MGZhMmM3NGY4NThmNjQ5MWE5Yjk0MmQ5NGU4MTk5ODlhMDg2NTUwMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTFkYzlmOGIwOTg2MDI4NWQzY2E4YWVjN2M5OGEwZjIyYWNlOGRmZWU0MWVhZGU0M2QyODVkZjQ0OTBlYWZlOSJ9"
         }
       ]
     },
@@ -169,10 +169,58 @@
           "version": "repo-file-v1:sha256:f9e741d2d7e9c0e7c013d4b0772847ad26ff8593f2c50311697ac65a47492b0a"
         }
       ]
+    },
+    {
+      "id": "claim_3526bbff83f84f52a930e8ec0a230060",
+      "statement": "StepBlock uses the blockType step, with an optional localized title, optional x and y numbers, and a nested body that offers rich text, image, video and callout blocks but no steps.",
+      "evidence": [
+        {
+          "resource": "repo://src/blocks/StepBlock.ts#L28-L67",
+          "version": "repo-lines-v1:sha256:69ce73feb12fb9dec560f4025860d003f2191efb444f2a6873b85f32a7521536:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI0ZDdlZTA5YmMyZmFiODI4MGRlYzFkYTY2ODRkOTgzMjI4YjlmYTQ1MGY2MTM4NGZhZDhkMDA4NjhhNTc4MTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJkYjNjZDI5MWM1ODA3NTVhZjMwZDAwMjM1OGU1MzExNjAxY2JiNWVkMWVjOWRjYmJmZDk5MzIzNjY4MWNmMzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/quest-guide-blocks.test.ts#L133-L163",
+          "version": "repo-lines-v1:sha256:b86ebd8447691e78af9e7f7847a36e866e3ab60db08c038ef9a20d0fc3a8a20f:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc5OGYwMzJlZWNjMDAwMmYwMjkxNDdmZDA2ODFjOTU2M2IyNmYxODEyODNlOGZkNGUyMmM1MGEyMTk4ZGQ0NzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2YjA3ZGEyY2M2NjJlZTZjOTk2MDk3MzkwZjU1MjgyMDJiZjY3NWQxNjU3OTM5ZDQzODMwMjZmYzZlNWE4N2YifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_137b73fc37fe4eda894e1b8377bdef3b",
+      "statement": "validateStepCoordinate requires both step coordinates or neither, and rejects non-integer values, reporting the error on the missing field.",
+      "evidence": [
+        {
+          "resource": "repo://src/blocks/StepBlock.ts#L13-L24",
+          "version": "repo-lines-v1:sha256:515b6017a2f72d8dbff9dec9a7e049d06c1d4c2073ebad63571878d123e924b0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAyYmRiY2U2YTg2ZmU2NTNmZDA1NTBkMTBkYTRkNDlmZWI0M2FiNzFjZTdmMjg5YmNmYjJhOTgyYWJlNDgxZjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJkYjNjZDI5MWM1ODA3NTVhZjMwZDAwMjM1OGU1MzExNjAxY2JiNWVkMWVjOWRjYmJmZDk5MzIzNjY4MWNmMzAifQ"
+        },
+        {
+          "resource": "repo://src/lib/guides/strings.ts#L87-L88",
+          "version": "repo-lines-v1:sha256:287b3ee718c5a437b4728111f173f7947d26a39da39f904bb1f01d1b6116b373:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjhkNDIwNzc5YmE5NzNmOTUwMmRkZGQxMzM5ODE3YTcwNWU1Zjk5OTc2ZDIzM2U3MGViNDE4ZTc5NDE5ZWRmZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODUxYTlkYjA5MjEzOTljZmI4ZmRkNzQ5Mzg4YTcxMzc0Zjk2NzAwYjZiZmQyZWM2MGJhMmQyODdjM2MzYmMzMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDNlN2FiYjY1YzE5NjU4ODFhNzMxMTUzNzNmOWNkZjE2YzViYTdkYzI0Mjc2MWUzNmFkNTY3MWQ4Nzk5YTIxNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDRlNDRiOTVkYjUxNDliMDA2YmVmZmQ4Y2Y2ZDQ1ZjU2ODVjZmM1Y2M0YzZmMTVmZDYwNTQ2ZGNkYzBlYzBmNCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_e567146384db4155af088f56e4d9b1b7",
+      "statement": "The step title is panel-only: the guide page does not show it, and the Pasos side list labels each step with the first bold text of its body or a numbered fallback.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/guides/strings.ts#L75-L86",
+          "version": "repo-lines-v1:sha256:6e930ea890d0e10dccaa80cddc489eec601f56e977827fa9d2cabff981b0f934:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQwMTcxM2RmMDYzZjM4MjQ1NmQ1Y2EwNTI4Yzc5ODNlZWMxZDEyMmIzNGZkZWU3ZWU4ODAyZGU5MTRjZjljMjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJiNmIxN2FhMzE0M2E4ZDIyZjZkZGEwMmVlNzFiNTM4ZDAwMzk5N2ZlYTlhMzEzYzlmMzNiZmVlYzY1ZTRlMDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY3MmQ4ZTU3MWFjZWM3ODQxNmJkYTE2MTU4NTA0MWM0NzFlMzY0Y2QwZDMxNjZkZTVmYjc1MGM0MDdkNGE5ZWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg5YjJjY2ViYzEyOTMxMjYzMjc3NTVjZDJhNzZhMjMyZTY3NTNkNWFkM2NjOGNiYTc2YmI4YTUzMDk5ODVmZTAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7c098fe0d90b4f6ab66343df1662a1a7",
+      "statement": "The guide_step_block migration adds quest_guides_blocks_step with numeric x and y, a locales table for the title, and version twins.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261105_135506_guide_step_block.ts#L3-L53",
+          "version": "repo-lines-v1:sha256:163ca10e416dd5cc9a16215a834a06fa1881b8850756d89b181975ac85e95c50:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwMjRjMDc5NmMwNDAwOTU3YWM3ZDk5NmY1NDViYzdjNjViZjk5MzJkNzUzYjRlN2NhZGJjOTE2YWRhNTkyNjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0OTkzZGVlNWNiN2Y5ZDJlNzJjZmQzYWE1MzMwNDUwMGVlNjFkYjljNjJiNjE5M2E4NTYyN2U5YjMzMjU1NGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoyLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5ZjMzOGZiMGIxYzNkOGU1NzcwYTU2MjQxYTU3NDc0NTA2MTM2YjM4MDM4ZjdlZTRiMTJiNjU1OTYyZWRkZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1NjBmOTlkNjBjOWU3NWE4YzYzZDEzNmViNjgxYmVmNjA5ZDVjZTc1NmYyNzkyNDhhOGU2NDNkYzk4YTVkNGMifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-05T11:00:19.182Z"
+    "at": "2026-11-06T15:25:11.354Z"
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:34551cb4d8d79b737771c210e0f77201845695beee9086456be913d11986ef4f",
+  "pageVersion": "sha256:2422b819fa6500c5b319ac3537872e09600fa43d4959846d68f5e9372825f3fc",
   "claims": [
     {
       "id": "claim_ef4f404736644b89ae37b4f3e616fbb9",
@@ -31,12 +31,12 @@
       "statement": "Only the dev environment has a GitHub source, deploying every push to main without waiting for check suites (checkSuites false); production has no GitHub source and is deployed only by the release workflow.",
       "evidence": [
         {
-          "resource": "repo://.railway/railway.ts#L28-L32",
-          "version": "repo-lines-v1:sha256:e6f5393e1e1ed414abf0e9a7484b513e8d81ebdb9b60840a80aee4ca5eda72ed:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWM0Yjg5MTMzMTJmMzZiODZjOWZlOTRmYzEzNzUyNTZjNjYzYmJlOTMyYTZjNzNmZTFkMjExZTUwMjFkZTNkMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTE2MjFkOWQyMzRiNDg2OGQzMzYxZWYwN2ZiNWI2MTc1MDQ5ZDYwZDhmZWExOWE3ZTBhNTZhMWQ0MGFkYTRlNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTExM2Y0MzAxZGFkNWJkZDJkNmQ1YjU5NWJmMWM0YzljYmUzM2ZkZTRkNjYzNGE1OTQ4YWFkODkxZDdjMGU3MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjZiMmMxNWI1MTNhZGQyOGNlMDE4OWYzZTVjNzNhNmM4ZDQyOTgxYzU1MmNmZWRmYTkxODc5ODdhODk5NDY0MyJ9"
+          "resource": "repo://.railway/railway.ts#L27-L32",
+          "version": "repo-lines-v1:sha256:f146c1215323e01159a9469f28c847e84847dbea9f06400953fa42bc349c14dd:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzFhYTg4ZDZkYTk2NTEwZThmMDE4YWQwMWM0MGMxN2NkN2VlZmQzNWY1Y2I2NmM5NjNkZWE4MTVmYTA4OTM0YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTE2MjFkOWQyMzRiNDg2OGQzMzYxZWYwN2ZiNWI2MTc1MDQ5ZDYwZDhmZWExOWE3ZTBhNTZhMWQ0MGFkYTRlNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjA3MTVjZGE1ZWM0MTA2OWYxMDFjYmM0OTQ5MjY0MzFlOTA0ODA1Y2E2MDU1NmUwYzdkYjE4YmYyOGIzY2Q1NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjZiMmMxNWI1MTNhZGQyOGNlMDE4OWYzZTVjNzNhNmM4ZDQyOTgxYzU1MmNmZWRmYTkxODc5ODdhODk5NDY0MyJ9"
         },
         {
           "resource": "repo://tests/unit/railway-config.test.ts#L79-L108",
-          "version": "repo-lines-v1:sha256:b65397e61d84e572adcd6aed1c75886989c36579b59f7828479b49dec82e9b44:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliMmI2YTVlOTJhMTI3NWRhOTVhNTJjZjM4MGFmYzNiMTk2OTUyNGRhZGI1ZTBjMWU1ZDc5NGM1ZGQyMzM0NzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE4MTFiODgwMzI5Nzc3NzE3NzIxOGY4MTBhNjUxOGFiY2ExZGJiZTIyODBkMDJjODkxYmJkZjMzMGU0Y2IyOTUifQ"
+          "version": "repo-lines-v1:sha256:40feaf218ac185b5306c341588edc0ceb8857adbf753e0b4fb97c6e5a09be828:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliMmI2YTVlOTJhMTI3NWRhOTVhNTJjZjM4MGFmYzNiMTk2OTUyNGRhZGI1ZTBjMWU1ZDc5NGM1ZGQyMzM0NzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZiNDIwYjQ2MGFmMTJiZjM3OTE3MDllOThjZWU4MDNkY2E3NjRjZDJjMjMzZWFiMmRhNjQ3Yzg3ZTE3M2ZjNGUifQ"
         }
       ]
     },
@@ -56,11 +56,11 @@
     },
     {
       "id": "claim_3d214ccf9281401e90b2257da71d0a01",
-      "statement": "The dev smoke workflow runs on successful dev deployment statuses, requires an https DEV_URL repository variable, waits until /api/health reports the deployed SHA, then calls the reusable smoke workflow with basic-auth secrets.",
+      "statement": "The dev smoke workflow runs on successful dev deployment statuses, requires an https DEV_URL repository variable, waits until /api/health reports the deployed SHA, then calls the reusable smoke workflow against DEV_URL without credentials.",
       "evidence": [
         {
-          "resource": "repo://.github/workflows/deploy-dev-smoke.yml#L8-L80",
-          "version": "repo-lines-v1:sha256:a725d15453f4070dd0609f6202fe63bd2ef124b82c087e1f640edb3be03d9a65:eyJzZWxlY3RlZExpbmVDb3VudCI6NzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5NmRjNDgxNDlmNWE4M2QxZWQ2ZGJiMzliYmM3ZTJiOTAyYWEzZDM0ZDZiZDVhZTRiMjkxYjY4ZGYwY2E3OWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI1ZWMwN2FhOTU1ZmMxOWI0NmViMzhmN2U1NmI1NWIyNDlkZWQxMzIzYzc3NDA2N2YzOTcwZDAyNzg2ZmVmMWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5ODg4ZTllNDczZjhiZDI1YzViMDMwMjExODIwNWRkYTZjZGZmNTI2ZjU5NGE4NGQ2YTQwYjAxNDljNzhkNDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://.github/workflows/deploy-dev-smoke.yml#L8-L77",
+          "version": "repo-lines-v1:sha256:65c3ae6622f90f8c5b94aabf45535d6455e3f00cc05cfebe0fee6a63c80aeef5:eyJzZWxlY3RlZExpbmVDb3VudCI6NzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5NmRjNDgxNDlmNWE4M2QxZWQ2ZGJiMzliYmM3ZTJiOTAyYWEzZDM0ZDZiZDVhZTRiMjkxYjY4ZGYwY2E3OWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjYzg3MGRhNWQ3ZTA0OTgyNmU0ZjQ5YjYyYmRmZmE4NTc0NmU2ZGZkMjMwNzU2N2MyNmQ5YjMxYzQ2MDlmMjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5ODg4ZTllNDczZjhiZDI1YzViMDMwMjExODIwNWRkYTZjZGZmNTI2ZjU5NGE4NGQ2YTQwYjAxNDljNzhkNDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -120,11 +120,11 @@
     },
     {
       "id": "claim_0fb3ecf8e81e4f24953bd619cd7fd936",
-      "statement": "The reusable smoke workflow runs pnpm test:smoke with SMOKE_BASE_URL set to the given URL and optional basic-auth credentials.",
+      "statement": "The reusable smoke workflow runs pnpm test:smoke with SMOKE_BASE_URL set to the given URL.",
       "evidence": [
         {
-          "resource": "repo://.github/workflows/smoke.yml#L7-L69",
-          "version": "repo-lines-v1:sha256:f916fa8ace2b5d23d603b0d7e3666d6f754c9638ad87f8c9d55492f004404348:eyJzZWxlY3RlZExpbmVDb3VudCI6NjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5NmRjNDgxNDlmNWE4M2QxZWQ2ZGJiMzliYmM3ZTJiOTAyYWEzZDM0ZDZiZDVhZTRiMjkxYjY4ZGYwY2E3OWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk3OTVmMTIxNTFlMGY4MTZmMGMwNjI4ZDE5NWYwMzczZWRjYjgyYjY4ZTUwYTI3NjU1ZWM5YzAyNzgyYjc0YTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA0Mzg2YjRkYWQ5MjllN2NkMDllMDVjOWIwMjg0MmNmZTc0NDk3NmZkZjExMTNmMjZhZTEwNGE2ODZiYWM4ZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZkMzRlMTJmMGVkMjNiNGFjNzBmYjk0ZTA0Mjk1Zjg0MGY3MjkxNGI3NTU0MzI5OTBjYTRjNDY0NzZkMTc0ZTEifQ"
+          "resource": "repo://.github/workflows/smoke.yml#L7-L66",
+          "version": "repo-lines-v1:sha256:4d43cad9f6509d8584aff8b257e20642152b1db665766c80f4956bef92e85a7b:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5NmRjNDgxNDlmNWE4M2QxZWQ2ZGJiMzliYmM3ZTJiOTAyYWEzZDM0ZDZiZDVhZTRiMjkxYjY4ZGYwY2E3OWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliZjQ1ZDJiYzIxMDg5NWU2N2JkMWQyMGRhYWFjMWI1OTgyYTc2NjQwODI5ZmQxZjFiYjRhNjk5NTUyOTI5NDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA0Mzg2YjRkYWQ5MjllN2NkMDllMDVjOWIwMjg0MmNmZTc0NDk3NmZkZjExMTNmMjZhZTEwNGE2ODZiYWM4ZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -133,16 +133,16 @@
       "statement": "Dev stopped waiting for GitHub checks on 2026-11-04 because each PR already passed Pruebas before its rebase merge, and because Railway waited for every check on the commit so an unrelated failed Dependabot job skipped the deploy.",
       "evidence": [
         {
-          "resource": "repo://docs/legacy/infra.md#L105-L105",
+          "resource": "repo://docs/legacy/infra.md#L103-L103",
           "version": "repo-lines-v1:sha256:15f7acb4dffe5464cbfec7a2ac1009255a35ea6ac93484812145ecab74731025:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTVmN2FjYjRkZmZlNTQ2NGNiZmVjN2EyYWMxMDA5MjU1YTM1ZWE2YWM5MzQ4NDgxMjE0NWVjYWI3NDczMTAyNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTVmN2FjYjRkZmZlNTQ2NGNiZmVjN2EyYWMxMDA5MjU1YTM1ZWE2YWM5MzQ4NDgxMjE0NWVjYWI3NDczMTAyNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDRjNWM5OGFhOTE0NmIxMmYzZDJmYjkzNzhlNmRiNzAyN2Q0MzE3NDE3NTI2NjIwYjNhMWMxY2ViMTBjYzAyNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjFkNmVjOWZiNjZiNWE5NzM0MWQ1NWVjMjc4MDU3NGY4M2U5NzE0MDE1NjYzNGUxNTJhNmY1NDk3MjI3M2NiZCJ9"
         },
         {
-          "resource": "repo://docs/legacy/infra.md#L184-L184",
+          "resource": "repo://docs/legacy/infra.md#L182-L182",
           "version": "repo-lines-v1:sha256:8962c1291526e2f514ed7cd87a354ca1ab1767e6ef687d5e3763486a8ddf63d0:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODk2MmMxMjkxNTI2ZTJmNTE0ZWQ3Y2Q4N2EzNTRjYTFhYjE3NjdlNmVmNjg3ZDVlMzc2MzQ4NmE4ZGRmNjNkMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODk2MmMxMjkxNTI2ZTJmNTE0ZWQ3Y2Q4N2EzNTRjYTFhYjE3NjdlNmVmNjg3ZDVlMzc2MzQ4NmE4ZGRmNjNkMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWU2ZmQwZTI3N2E4NDZlODMwZjU2NzE5NzViNzhiY2E5MmJmMGEzYWZmZTU4YjUyNWM3OGIwYWRjODE5ZWViMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDhmZGQ3YWEwNDViZTZkNWZiMTAzYjczZDRmMmY5NDlhY2JiNGRjYWVlZjc1NjIyYzNiMzAyNGYzZmUzZDUzMyJ9"
         },
         {
           "resource": "repo://docs/legacy/infra.md#L65-L65",
-          "version": "repo-lines-v1:sha256:6e4326c5aea31a01c7f98a9eb7d587bfd183b9b2da0329654438007105826980:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmU0MzI2YzVhZWEzMWEwMWM3Zjk4YTllYjdkNTg3YmZkMTgzYjliMmRhMDMyOTY1NDQzODAwNzEwNTgyNjk4MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNmU0MzI2YzVhZWEzMWEwMWM3Zjk4YTllYjdkNTg3YmZkMTgzYjliMmRhMDMyOTY1NDQzODAwNzEwNTgyNjk4MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjJjM2QxZjYwNGY4ZDAwZWYyMGM1NDI0ZWZiZWUwMjkwNGI3OTI3OWUwNWYzMzIzMTQ3YmI0ODkzNDQzM2QxNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTg0NmRkNzgxZGMzZmUxNjEwZGViMTk3NDlkZGU0ODEwNTA2YjliMTgxMGIzN2Y1NmI2M2QxYTk1M2MzMzE5ZCJ9"
+          "version": "repo-lines-v1:sha256:5772fe140198ffdfe64241a34020eb5dcffec322fe439556f1d00a781dd1c8a4:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTc3MmZlMTQwMTk4ZmZkZmU2NDI0MWEzNDAyMGViNWRjZmZlYzMyMmZlNDM5NTU2ZjFkMDBhNzgxZGQxYzhhNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTc3MmZlMTQwMTk4ZmZkZmU2NDI0MWEzNDAyMGViNWRjZmZlYzMyMmZlNDM5NTU2ZjFkMDBhNzgxZGQxYzhhNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjJjM2QxZjYwNGY4ZDAwZWYyMGM1NDI0ZWZiZWUwMjkwNGI3OTI3OWUwNWYzMzIzMTQ3YmI0ODkzNDQzM2QxNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTg0NmRkNzgxZGMzZmUxNjEwZGViMTk3NDlkZGU0ODEwNTA2YjliMTgxMGIzN2Y1NmI2M2QxYTk1M2MzMzE5ZCJ9"
         }
       ]
     },
@@ -159,6 +159,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-05T11:00:19.182Z"
+    "at": "2026-11-06T15:25:11.354Z"
   }
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:e101576195b0bfd116cc93edff01f5640ae7570b423e99bebdc96e208ae98ca4",
+  "pageVersion": "sha256:733e26505fb7529672b82e4bd39acd91ec559509c763beb4041307d88ec3b9d0",
   "claims": [
     {
       "id": "claim_cb74801dca844af99590395d68fa512d",
@@ -68,11 +68,11 @@
     },
     {
       "id": "claim_f2ecd7617e864da78507931afeda79cf",
-      "statement": "CI runs lint and format check, typecheck plus a stale Payload types check, unit tests, build, integration tests and E2E plus dev-gate E2E and Lighthouse CI budgets against empty Postgres 17.11 services.",
+      "statement": "CI runs lint and format check, typecheck plus a stale Payload types check, unit tests, build, integration tests and E2E plus the dev environment E2E and Lighthouse CI budgets against empty Postgres 17.11 services.",
       "evidence": [
         {
           "resource": "repo://.github/workflows/ci.yml#L29-L184",
-          "version": "repo-lines-v1:sha256:0f48451dfb3990b4e5ae698306b5fde3a89ab27d39f542165f6b6a193135d2fb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTU2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJmOGZiNzI3N2ZkZDIwZDJmODQ2NmZjNzNiNWU0MjcwNDc4OWIwOTk5MTY2Mjg5ZGNiMTkzNWMwMDQ4NTE2ZWRhIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0NDcxZThiZjM0MDY2ZGFlMmViNTI5MDVjNzEyNjc0MDg2ZWRlYjdmOWU3Nzk3ZGMzMDJmMWRkOGEyOWI5ZjBkIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmZmU0N2I5NTFhNDA2YTFkYTYxZGZkMjU2MTA4NzY4ZWY5OGRjNzk3ZTczNzBkZjM1YWZlNGJiYWI3NDYxZDEwIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI3ZDQzNGIwZDhkN2RlZWNiZjkwMGYzMmE0YmU2MGJjMTY2ZjQzOTUwNTBjMTY5Y2Y3YjQ3ZTgxM2MwMzk1NDRhIn0"
+          "version": "repo-lines-v1:sha256:d2bc8d5b8fd3c3630325e05e9ee13d49adfac39f437983baeb85f9c0a2d8111a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTU2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJmOGZiNzI3N2ZkZDIwZDJmODQ2NmZjNzNiNWU0MjcwNDc4OWIwOTk5MTY2Mjg5ZGNiMTkzNWMwMDQ4NTE2ZWRhIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0NDcxZThiZjM0MDY2ZGFlMmViNTI5MDVjNzEyNjc0MDg2ZWRlYjdmOWU3Nzk3ZGMzMDJmMWRkOGEyOWI5ZjBkIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmZmU0N2I5NTFhNDA2YTFkYTYxZGZkMjU2MTA4NzY4ZWY5OGRjNzk3ZTczNzBkZjM1YWZlNGJiYWI3NDYxZDEwIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI3ZDQzNGIwZDhkN2RlZWNiZjkwMGYzMmE0YmU2MGJjMTY2ZjQzOTUwNTBjMTY5Y2Y3YjQ3ZTgxM2MwMzk1NDRhIn0"
         }
       ]
     },
@@ -187,6 +187,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-05T11:00:19.182Z"
+    "at": "2026-11-06T15:25:11.354Z"
   }
 }

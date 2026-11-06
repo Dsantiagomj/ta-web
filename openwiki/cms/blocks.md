@@ -12,16 +12,22 @@ sources:
     resource: repo://src/blocks/ImageBlock.ts
   - id: openwiki-source-27363e3cad65dad5db477db7
     resource: repo://src/blocks/RichTextBlock.ts
+  - id: openwiki-source-ad08ffda0491e36563bfa2bc
+    resource: repo://src/blocks/StepBlock.ts
   - id: openwiki-source-f39acc8c60346c7f65fe191c
     resource: repo://src/blocks/VideoBlock.ts
   - id: openwiki-source-d58a4d3cf178bb2fa2e94831
     resource: repo://src/collections/Media.ts
   - id: openwiki-source-7a2723ea85824e431ff5eb54
     resource: repo://src/collections/QuestGuides.ts
+  - id: openwiki-source-2f2b90aba3af4142e443ba84
+    resource: repo://src/lib/guides/strings.ts
   - id: openwiki-source-5d625b6c9ec96bb42f058c48
     resource: repo://src/lib/guides/video.ts
   - id: openwiki-source-4b8e99ccf872ed7c776196a6
     resource: repo://src/migrations/20261104_124207_quest_guides.ts
+  - id: openwiki-source-8815e507ece46280f40fa33f
+    resource: repo://src/migrations/20261105_135506_guide_step_block.ts
   - id: openwiki-source-dfda0f9810a7fbac89e48a40
     resource: repo://src/payload-types.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
@@ -34,21 +40,21 @@ sources:
     resource: repo://tests/unit/quest-guides-collection.test.ts
   - id: openwiki-source-d474a682c3ea9ebeaa53059c
     resource: repo://tests/unit/video-url.test.ts
-generated: { by: "claude-code", at: "2026-11-05T11:00:19.182Z" }
+generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-05T11:00:19.182Z
+    at: 2026-11-06T15:25:11.354Z
 ---
 
 # Guide body blocks
 
-A quest guide's body is a Payload `blocks` field: an ordered list where each item is one of a fixed set of block types. The block definitions live one per file in `src/blocks/`, and `src/collections/QuestGuides.ts` puts four of them in its `body` field, in this order: `RichTextBlock`, `ImageBlock`, `VideoBlock`, `CalloutBlock`. An editor in `/admin` adds, reorders and removes blocks freely; the panel labels the list "Contenido" and each item "Bloque".
+A quest guide's body is a Payload `blocks` field: an ordered list where each item is one of a fixed set of block types. The block definitions live one per file in `src/blocks/`, and `src/collections/QuestGuides.ts` puts five of them in its `body` field, in this order: `RichTextBlock`, `ImageBlock`, `VideoBlock`, `CalloutBlock`, `StepBlock`. An editor in `/admin` adds, reorders and removes blocks freely; the panel labels the list "Contenido" and each item "Bloque".
 
-The blocks only exist in the content model today. No public route renders a guide yet, so nothing on the site reads them. The components meant to render them (`Callout`, `Figure`, `VideoFacade`) exist and are shown on the `/sistema` catalog with sample data.
+The public guide page at `/[slug]` renders them: `GuideBody` maps each block to a component (`Callout`, `Figure`, `VideoFacade`, the rich text renderer), and runs of consecutive steps become the numbered step line. See [Public quest guide page](../frontend/guide-page.md).
 
-## The four blocks
+## The blocks
 
-Each block sets a `slug` (stored as the item's `blockType`), Spanish panel labels, and an `interfaceName`, so `pnpm generate:types` emits a named TypeScript interface (`RichTextBlock`, `ImageBlock`, `VideoBlock`, `CalloutBlock` in `src/payload-types.ts`) instead of an inline type.
+Each block sets a `slug` (stored as the item's `blockType`), Spanish panel labels, and an `interfaceName`, so `pnpm generate:types` emits a named TypeScript interface (`RichTextBlock`, `ImageBlock`, `VideoBlock`, `CalloutBlock`, `StepBlock` in `src/payload-types.ts`) instead of an inline type.
 
 | Block | `blockType` | Fields |
 |---|---|---|
@@ -56,6 +62,7 @@ Each block sets a `slug` (stored as the item's `blockType`), Spanish panel label
 | `ImageBlock` ("Imagen") | `image` | `image`: upload to `media`, required; `caption`: text, localized |
 | `VideoBlock` ("Vídeo") | `video` | `url`: text, required, validated by `validateVideoUrl`; `title`: text, localized |
 | `CalloutBlock` ("Aviso") | `callout` | `variant`: select `tip` ("Consejo"), `warning` ("Cuidado") or `stop` ("Alto"), required, default `tip`; `content`: rich text, required, localized |
+| `StepBlock` ("Paso") | `step` | `title`: text, optional, localized; `x`, `y`: numbers validated by `validateStepCoordinate`; `body`: its own blocks field with the four blocks above, no nested steps |
 
 ### Rich text
 
@@ -81,9 +88,15 @@ The block is meant to be rendered by `VideoFacade`, which loads nothing from You
 
 `CalloutBlock` is a highlighted notice inside the guide. `variant` picks its tone; the database stores it as a Postgres enum with the same three values and the `tip` default.
 
+### Step
+
+`StepBlock` is one step of the quest walkthrough (DESIGN.md, Steps). Its `body` offers rich text, image, video and callout, but not another step, so steps never nest. The title is optional and panel-only: the panel description says the guide does not show it, and the "Pasos" side list labels each step with the first bold text of its body, or "Paso 3" when there is none. `x` and `y` are the step's main map position: they appear in the side list and, when the step text does not already name them, as a coordinates chip at the start of the step.
+
+`validateStepCoordinate` enforces "both or neither" and whole numbers. A filled value that is not an integer fails with "Las coordenadas del juego son números enteros."; an empty value fails with "Pon X e Y, o deja las dos vacías." only when its sibling is filled, so the error lands on the missing field.
+
 ## How blocks are stored
 
-The `20261104_124207_quest_guides` migration gives each block type its own table, named after the collection and the block slug: `quest_guides_blocks_rich_text`, `quest_guides_blocks_image`, `quest_guides_blocks_video` and `quest_guides_blocks_callout`. Each row carries `_order` (position in the list), `_parent_id` (the guide), `_path` (the field path, `body`), a string `id` and an optional `block_name`. Localized fields go to a matching `_locales` table keyed by `_locale`; rich text is stored there as `jsonb`.
+The `20261104_124207_quest_guides` migration gives each block type its own table, named after the collection and the block slug: `quest_guides_blocks_rich_text`, `quest_guides_blocks_image`, `quest_guides_blocks_video` and `quest_guides_blocks_callout`. The `20261105_135506_guide_step_block` migration added `quest_guides_blocks_step` (with numeric `x` and `y`) and its `_locales` table for the title. Each row carries `_order` (position in the list), `_parent_id` (the guide), `_path` (the field path, `body`), a string `id` and an optional `block_name`. Localized fields go to a matching `_locales` table keyed by `_locale`; rich text is stored there as `jsonb`.
 
 `quest_guides_blocks_image.image_id` references `media.id` with `ON DELETE set null`, so deleting a media file leaves the block in place with no image rather than deleting it.
 
@@ -92,7 +105,8 @@ Because the collection has drafts and versions, every block table has a twin und
 ## Tests
 
 - `tests/unit/quest-guide-blocks.test.ts` pins each block's slug and field shapes (type, `required`, `localized`, the upload's `relationTo: 'media'`), the video field's YouTube-only description, the callout options and default, and `validateVideoUrl`: `watch`, `youtu.be`, `embed` and `shorts` links pass; Vimeo links, YouTube links that are not a video, empty values, `http:` and a URL with no scheme fail.
-- `tests/unit/quest-guides-collection.test.ts` checks that the collection's `body` offers exactly `richText`, `image`, `video` and `callout`.
+- The same file covers the step block: slug and labels, the optional localized title, the coordinate fields, a body of the four other blocks with no steps inside, and `validateStepCoordinate` (both or neither, integers only).
+- `tests/unit/quest-guides-collection.test.ts` checks that the collection's `body` offers exactly `RichTextBlock`, `ImageBlock`, `VideoBlock`, `CalloutBlock` and `StepBlock`.
 - `tests/integration/quest-guides-access.test.ts` saves a published guide with one block of each type through the local API, reads it back anonymously at `depth: 1`, and checks the block order, the populated image (with its `alt`), the video URL and the callout variant.
 
 ## Adding a block
@@ -102,11 +116,13 @@ Because the collection has drafts and versions, every block table has a twin und
 3. Add it to the `blocks` array of the collection that should offer it.
 4. Run `pnpm migrate:create <name>` (each block adds tables, plus their version twins), `pnpm generate:types`, and `pnpm generate:importmap` if the block brings new admin components. Commit all of them.
 
-AGENTS.md names two more blocks, dialogue and step, to be added when the guide page design needs them.
+AGENTS.md names one more block, dialogue, to be added when the guide page design needs it.
 
 ## Related pages
 
 - [Collections and access](collections.md)
+- [Guide authoring](guide-authoring.md)
+- [Public quest guide page](../frontend/guide-page.md)
 - [Payload CMS configuration](payload-config.md)
 - [Media storage](../media/storage.md)
 - [Database and migrations](../data/database.md)

@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:5e6c4e416fd61b841809404f0ea49aa8e688f1bc66f4abd8062919b72c384009",
+  "pageVersion": "sha256:f975147e0b77d2ad7af02029e28fc5a42f427a0abe5b092fe7665fb349aa2771",
   "claims": [
     {
       "id": "claim_f3ff1b5273ca4d9da69117d030c9914e",
       "statement": "isDesignCatalogEnabled returns true only when NODE_ENV is development, when isDevEnvironment detects the dev environment, or when E2E_DESIGN_CATALOG is exactly '1'; production, NODE_ENV=test and E2E_DESIGN_CATALOG=true get false.",
       "evidence": [
         {
-          "resource": "repo://src/lib/dev-gate/design-catalog.ts#L1-L13",
-          "version": "repo-lines-v1:sha256:a7cbdb6bff0d5f755f29b1968252412d50bc61ed230741fdb356af1691927173:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhMjg5ZDk4YTYxNTNkNTQ4YWRiM2U1ZGM0NDk4MmRlYjU3Nzc2MTAwMjdkNDVkYjUzNmVjNmRhMjJkM2FjZjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/lib/dev-gate/design-catalog.ts#L11-L13",
+          "version": "repo-lines-v1:sha256:9839991af3b00654fb45436293bca6a0a79d0e63bec1b6399730c28db6550646:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjY3MDkxNTNmYzJhNWFlNTkyMGU2ODYwYTM4ZGY2MzhlMWMzOGZmMGNhZDEzNTY1NTU3YTcyYzMwYjU1NTY0MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiYWU3M2ZkMDk1MTU3NGQyMjA3Nzc2OTg4ODg0MDIwOTViZmRlNjY2NzU1NWEwNmVkZTJiMTMzMTI4ZmUyMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         },
         {
           "resource": "repo://tests/unit/design-catalog.test.ts#L5-L30",
-          "version": "repo-lines-v1:sha256:aa894883df8c06b611d6d71c079d34c385191faade3573713b843f9407d0c489:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyNWEyMTU5ODZjMWJjOWQ1NjUwZjk2ZWNkNDk5NTE0MDA1ODk2MjVmZmQ3OGE0NWVjZDI2MDg5Y2JlMzRmMjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI3ZDc2N2Y2N2U0MTVjNmI4YzBhNmQ2NTk1ZTkxM2VkYTYxMmNiNDQxMjMxYTBlMDY5MjVmZGVlZWU4ZDBjN2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:7c49921dfb3dfbad1cf69d09817f0ba3eb10aa15349c3cac17ee15c63aa3c5fd:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyNWEyMTU5ODZjMWJjOWQ1NjUwZjk2ZWNkNDk5NTE0MDA1ODk2MjVmZmQ3OGE0NWVjZDI2MDg5Y2JlMzRmMjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI3ZDc2N2Y2N2U0MTVjNmI4YzBhNmQ2NTk1ZTkxM2VkYTYxMmNiNDQxMjMxYTBlMDY5MjVmZGVlZWU4ZDBjN2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -41,7 +41,7 @@
       "statement": "playwright.config.ts passes E2E_DESIGN_CATALOG=1 to the app web server unless smoke tests target a deployed URL.",
       "evidence": [
         {
-          "resource": "repo://playwright.config.ts#L39-L41",
+          "resource": "repo://playwright.config.ts#L32-L34",
           "version": "repo-lines-v1:sha256:67405c468b417cea65c4376f231f6aff6e21e32fcb43819ce0928fc8ef2905dc:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzVmMjBiYTUxZWYzYjkzZWRlNDY3ZTY0YWQ0MDczNzgxZjViYWNhZDJkMzRhNGZhNTM0MmM0NWVmYzg2NTQ0OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWJhZTM1MTg0ZTI3YmRkZjgwMzAxYTA0YTA3ZmNiNjg2NWY2ODBiMDRhMDYwODVmZjUyOTRkODcxOGNmZmI4NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzFkZmE1YjQ0MGRhOTU5NDdhYTYyZmYzODBlNDYzNTk3YzZmMTFmOWM4OGM5MWQ1YWMwYjNiZTY5NmM4M2ExNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODU4MGI3NjUxOGRhZTk3OWZhZWJkMDIzNjdhMjkyOTJhNTBkOTc2MDkyMjUxYTM4YTZjZTMwODgwYmE0MjgyNSJ9"
         }
       ]
@@ -52,7 +52,7 @@
       "evidence": [
         {
           "resource": "repo://src/app/(frontend)/sistema/page.tsx#L31-L59",
-          "version": "repo-lines-v1:sha256:e3eea61b4182caea9ddb4111a394884c034eb192bb58c64d8a759cfb9bc37d39:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2Y2U1Yzg0MzRlY2JmNDU0ODljZjk1ZWMzNDFiNTQxNGEyN2MyYWNlNTBkNzM0YTI1OGFlMDAzYWRkNjBiNzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MjY3OTM1ZmM2MzM0NjVkODQ4YjQwYTRlZDY5NjdlN2I3YTMyM2Y4MWNkNTNjMTEwYWUyMTAyOTY4N2FhMTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgyZmFhOWU1NDVlOWNjOGQ1Mzg4ZDUwZTlhODQ2NDdjYTRiODkwMWRhZDA3ZjhmZmQ0M2ExOTY4MjkwNGVmZTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+          "version": "repo-lines-v1:sha256:df7dcc6f5b6234034a94cd948065ca262d769c16475e610c98111fc8b71009f4:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2Y2U1Yzg0MzRlY2JmNDU0ODljZjk1ZWMzNDFiNTQxNGEyN2MyYWNlNTBkNzM0YTI1OGFlMDAzYWRkNjBiNzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MjY3OTM1ZmM2MzM0NjVkODQ4YjQwYTRlZDY5NjdlN2I3YTMyM2Y4MWNkNTNjMTEwYWUyMTAyOTY4N2FhMTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgyZmFhOWU1NDVlOWNjOGQ1Mzg4ZDUwZTlhODQ2NDdjYTRiODkwMWRhZDA3ZjhmZmQ0M2ExOTY4MjkwNGVmZTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
         }
       ]
     },
@@ -72,11 +72,11 @@
     },
     {
       "id": "claim_a48b38bfd1ed447db1f4c3a990ff7acc",
-      "statement": "The catalog's sample content comes from Torre's guides for DofusDB quests 1976 and 2420 and the video of quest 1433, with AVIF and WebP image pairs under public/img/sistema described with their width and height.",
+      "statement": "The catalog's sample content comes from Torre's guides for DofusDB quests 1976 and 2420, the video of quest 1433 and the renders of NPC 4412, with AVIF and WebP image pairs under public/img/sistema described with their width and height and narrower screenshot widths for srcset.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/sistema/catalog-data.tsx#L9-L27",
-          "version": "repo-lines-v1:sha256:22b3fae31e58726df8820c11ae695dc95bb058e1d8f6bce6f5be60098546e4c5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdkNDIyYjc1MGQ2ODM4ZDVkNjUxM2JhOGZjMGQzY2JmNTdlN2JhMzI3YjIyYTJkODIxOWM5YjZiZjgxOGQ3ZjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI4NWNhMDI4ZWViMGUyNTM4YzQyYzZlMGZiNzdjNmJiOWMzNzNmZGNjNTgxMmY0MWZmZWEwZjY5MjY1ZGJkNzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVkYjY0MDQzZjUwYzQ1NWRjNzBmYTJmN2EwOWY0ZWY5OTgwMzJmNzNkNjU0MjdjMDVjZGIyYWVmNDZmYTZhMjEifQ"
+          "resource": "repo://src/app/(frontend)/sistema/catalog-data.tsx#L11-L40",
+          "version": "repo-lines-v1:sha256:d560e6d29a80448a6cbeb2e534fa41b9d56fed03c5976858ce892a31baa4706e:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdkNDIyYjc1MGQ2ODM4ZDVkNjUxM2JhOGZjMGQzY2JmNTdlN2JhMzI3YjIyYTJkODIxOWM5YjZiZjgxOGQ3ZjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2NGRjYjM5MGY3MGI4MjIwMmM1OGZlNjc0NzJkMjI3OGJhMGU2NWYzMTMwMzM5MjUwNzAzMDhlMTcwZGZiYWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIyY2M4NzJiZGI0YTMxYjRkZDYwZjdlY2Y5YmZiZTIyNjQxZjNlOTNkYWM0MmUxOGIwM2Q5MTQ4NzJkOTM0OGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRhMjkxYzczNGMzNDIyOGQxMTNlNmJlY2QyNjJiOGRiOTllNGU1ZWEwNzllOWYwMWVlYTE1ZjU1OTA3YTg4ODcifQ"
         }
       ]
     },
@@ -86,17 +86,17 @@
       "evidence": [
         {
           "resource": "repo://tests/e2e/sistema.spec.ts#L9-L74",
-          "version": "repo-lines-v1:sha256:74ebbac3a63a3c16f96458be8912d11b89ae29bde85879c14ba3d3f1871adce9:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUzMmIyOWM3NzQwNGNmZjBkMjAzZGU5MGM3M2I3YmQ2NzZlNDA2NTZhMTNkMmMwNWUyZjI1YTgwMjFmNDA0NzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQxNmU5MjFhMDhjNTdkNTMyYTRmYjA0NDJmYjVhYWFhNTY5NDgzNGY4YmY1M2FiNzY4ZGEyNmYzOTZiMTZiYmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYyMTUwM2UxMjUwYWIwZWYzNzdmYTVmOWYzNTgyMGM5MWU4MWExMDI3YjBhZmUyZjg5MWNhZjJjMTUyMGY5MDYifQ"
+          "version": "repo-lines-v1:sha256:f8cd2693399017420d5da9bad387d4f80ced901b51921cc46b865144400af665:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUzMmIyOWM3NzQwNGNmZjBkMjAzZGU5MGM3M2I3YmQ2NzZlNDA2NTZhMTNkMmMwNWUyZjI1YTgwMjFmNDA0NzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQxNmU5MjFhMDhjNTdkNTMyYTRmYjA0NDJmYjVhYWFhNTY5NDgzNGY4YmY1M2FiNzY4ZGEyNmYzOTZiMTZiYmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYyMTUwM2UxMjUwYWIwZWYzNzdmYTVmOWYzNTgyMGM5MWU4MWExMDI3YjBhZmUyZjg5MWNhZjJjMTUyMGY5MDYifQ"
         }
       ]
     },
     {
       "id": "claim_96edae5e33924f68926bf88dbdafbaef",
-      "statement": "The E2E spec checks that a coordinates chip copies /travel x,y and announces it in the status region on click and on Enter, that every hit-target control has at least a 40px target, and that a 30-stage progress pill fits a 390px viewport.",
+      "statement": "The E2E spec checks that a coordinates chip copies /travel x,y and announces it in the status region on click and on Enter, that every hit-target control and the coordinates chip have at least a 40px target, and that icon wells stay dark in light mode.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/sistema.spec.ts#L76-L127",
-          "version": "repo-lines-v1:sha256:b17f9860498477fe455113d69b259fed8fc654d1fcc027cae85f2cb6e333f964:eyJzZWxlY3RlZExpbmVDb3VudCI6NTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxZGM2NzEyMDJlMGI3YTgxODIzNThjMTM1MDY4MTEzMzM2MTE1NTAzMGZlYmM0NTIzZWQ4OTc5NDliNjkyZGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhZDE3OGNjMzZiMmMyZDRiNmY5ZmY1OWY0Nzk0M2UzNDJhMzY3ZmU5YzVlMGY3Y2ExMzc1ZjA1NzM2MzZkZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE4MjE3ZDU2Y2VmYTJhMGY1ZWQ1MTczNWUzOGEyMGNhNTk3MTc0YzAwZWUwZWU4YmRmM2EyNmQxMDgzMzZjMDgifQ"
+          "resource": "repo://tests/e2e/sistema.spec.ts#L76-L132",
+          "version": "repo-lines-v1:sha256:3e211f6a027cadd504c79fac0f076af56025da059fd1c5278cf4c6146603eeb2:eyJzZWxlY3RlZExpbmVDb3VudCI6NTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxZGM2NzEyMDJlMGI3YTgxODIzNThjMTM1MDY4MTEzMzM2MTE1NTAzMGZlYmM0NTIzZWQ4OTc5NDliNjkyZGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhZDE3OGNjMzZiMmMyZDRiNmY5ZmY1OWY0Nzk0M2UzNDJhMzY3ZmU5YzVlMGY3Y2ExMzc1ZjA1NzM2MzZkZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE4MjE3ZDU2Y2VmYTJhMGY1ZWQ1MTczNWUzOGEyMGNhNTk3MTc0YzAwZWUwZWU4YmRmM2EyNmQxMDgzMzZjMDgifQ"
         }
       ]
     },
@@ -132,17 +132,45 @@
     },
     {
       "id": "claim_f154317670f740e493112640a67ecef0",
-      "statement": "lighthouserc.cjs measures only the home page, so /sistema is not part of the Lighthouse CI budgets.",
+      "statement": "lighthouserc.cjs measures the home page and the seeded quest guide, so /sistema is not part of the Lighthouse CI budgets.",
       "evidence": [
         {
-          "resource": "repo://lighthouserc.cjs#L8-L12",
-          "version": "repo-lines-v1:sha256:20fa2f1b1e04a62208e865056858f6e8771f4f92c2eacf6f7cb4aa5c437ef3ef:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDZhMWRlYzA2ZGEyMzg0OGZmM2UwYjA4MDdmOWE0NWRjYzA1N2M4NmQyNGY3MzAyMThmM2QyNTJiMjkxODQ3ZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjhiNjcwN2QxOWM2NmIwODM4ZWQ2OWI3MzRkNTI3NDk3OTczMDNkYWEzYjJkZGU1ZjY2NmY4OGVhNmY4ZDg4NiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTA5YjJlMTNhOWJkYjIwZDY2MTk5OTJiMGFlYjc1M2ZmZjY4ZjFhNmY4ZWZhOWM3Zjg5MWY5NmQxZmU2Zjk2MSJ9"
+          "resource": "repo://lighthouserc.cjs#L7-L12",
+          "version": "repo-lines-v1:sha256:3940700e46c9a416d0ade2afde1a14148a876b0b3691759d4e83cf1d3f763a9a:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmJiZDhiN2M0MWQxODQ5MTZlOTc5YjA4MWY1MjdjYzFlZTI2OTA0YjNhMmI0NjZhMTk0OTkzMDAzM2EwMWJkZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjk0MTZlMDlmNzhiYTMxNmMwMzI1NjgyMTNiODU1ZWU3NTZlNDE1NjVkOTE4ZjA5NTE5YzgxZmQ2MjBmNDA2MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWNiMTZjYWE1ZGEzMzk3NjdkOTRlYWU3YTE0N2E1NzUyMDYzZGZkZGZiODFhOTVmNDIyYjU4NGExM2Y0M2JlNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTQ4YTA5MTdiNTJiMzY1OTA0YjcwMzIyYjczNTQ0NzlmYTZmNDhkM2E4NWVkOTJmZDlhZDRmNGVjOTk2ODYxOSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_4039938161414c15898cb094958dba01",
+      "statement": "The catalog shows the Torre emblem, the quest header with and without NPC data, the game icon wells, and the numbered steps next to the Pasos side list among its component groups.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L192-L227",
+          "version": "repo-lines-v1:sha256:45252eef887550f2d8707c19eb4535254b50dd93877f662731c86c1d25c7ad24:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3ODNhOTk4NmJmMWMzOTUxOWNlOWVjYTU5YzZlMjcwOTI1OGMyOWVjNDJhODBhOTk5MjY3M2JmMzA5M2YzODYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmNzRkY2QxYTY4ZGVlY2ZmNmNjM2E1NDFhMzhmZTU2NzRjYmMyZGY0Y2U4MTA5ZDEwNmMwYTQyY2Y3NjMzNWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI1MzNhYzExNzVkOTliYWY4ZWQ2ZWQ5ZWU3OTIzZWFjZWFmMjI2YjM3MzJhZDU5MjI1YjBlOWQwYzU1NzM2ZDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM1OGZlNjFkMDQ0YmExYmI5OTc5ZDMzMmQ1ZTYxNGI4MWVkOTJjMDM5ZGY0NjZlZDkyYzM2YjFiN2JhMjdlYzAifQ"
+        },
+        {
+          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L90-L100",
+          "version": "repo-lines-v1:sha256:1c5b3b0707708275e62b6f3d64f89dfce349639b5ff3bb8f2f5cc1ff4f1b053e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjczYjJlMzk5ZGVmZmMxODVmYjRlNmNkZjljYmQzMTlkYWRhOTE3Y2IxNzIxMzQ0NGY2ODY0MDc2Yjc5MmZkYzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1ZTFjZTk1N2VjNGIwM2Y4NmE0ZWQ0MzA1NTYzMjM0NmZhMTUwYzg4OTJkYWYzOWQzMGE3NTk2YjFjODhiNTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE5ZDZjMDNjYzhkYjMxMmUxMmNkNGViMmQzOTA0NTcwMGU0YjQzNjIzOTlhNGZkZmExODFjNmYxZDJlNzYxMDgifQ"
+        },
+        {
+          "resource": "repo://tests/e2e/sistema.spec.ts#L9-L27",
+          "version": "repo-lines-v1:sha256:421dfde57f059aca9fe6903cc678b7bfb0e7dd360209457aabc8c92dbac7ed50:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUzMmIyOWM3NzQwNGNmZjBkMjAzZGU5MGM3M2I3YmQ2NzZlNDA2NTZhMTNkMmMwNWUyZjI1YTgwMjFmNDA0NzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5NDE2ZTA5Zjc4YmEzMTZjMDMyNTY4MjEzYjg1NWVlNzU2ZTQxNTY1ZDkxOGYwOTUxOWM4MWZkNjIwZjQwNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQxNmU5MjFhMDhjNTdkNTMyYTRmYjA0NDJmYjVhYWFhNTY5NDgzNGY4YmY1M2FiNzY4ZGEyNmYzOTZiMTZiYmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhkNjFiOTAxZTI3ODE0NmE3MzhmNjBhOTk4YTEwZGNhOTEwYmM5MzgzYmQ2NWZhNjAzMmQzY2RlMjA1NzVlZmUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5af24cef6b164674b1c38c123a66b6ee",
+      "statement": "On a 390px viewport the catalog screenshot loads its 480px AVIF and the fullscreen viewer opens the widest one.",
+      "evidence": [
+        {
+          "resource": "repo://tests/e2e/sistema.spec.ts#L248-L266",
+          "version": "repo-lines-v1:sha256:f434f4f18fa0c76720d04780dde58ef504a914358a4686e2eab98cd2f1d6aa75:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkzNzM0NGU1MDcwNmY5Zjg5M2VjOGEwMmJmMWU2N2NmZDBlNTFiYWQ0N2VhOTA1NTQ2MDQ4YmVkNmMxNDUzZWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIxOTk5YzQ1OTJmMmRkMGI3M2QyNDYzY2E1ZWQ3ZTZlNDVhNzVjMTU5YTY4OTlmMzhhNDNjNmZhNTFmYTI1MDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-05T11:00:19.182Z"
+    "at": "2026-11-06T15:25:11.354Z"
   }
 }

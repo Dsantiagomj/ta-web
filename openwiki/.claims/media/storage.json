@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:c49d99d4f0109fe44bb75c0f0c75bb5b1c99ac7dc7d588d79aeaa19a8347371b",
+  "pageVersion": "sha256:eb72ce4f8337ff0b7c00137e08ae529eafc7fb54c5a7d4bb4856ec90d4832ba1",
   "claims": [
     {
       "id": "claim_7ea7c2a578564a0784fd3a8664a2173a",
       "statement": "mediaStorage wraps @payloadcms/storage-s3 and is registered as the only Payload plugin.",
       "evidence": [
         {
-          "resource": "repo://src/lib/media/storage.ts#L51-L81",
-          "version": "repo-lines-v1:sha256:9d8f35e29aab45d85e08d912c1e205ee42e6ea68010058feeb1fb3adc7210e4d:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjExN2QwYTIxOTJhMjQ1MjQ0OTI2Mjg4ODlmNDVlM2Q2MTlhODA2M2NlZjE5NzllNDZiZTE4Zjk0NTEwNDI5NzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/lib/media/storage.ts#L78-L102",
+          "version": "repo-lines-v1:sha256:3202c34bd79c019c13528c4d9d5a5c6cadc799fe6eb367dd89ab3b9d90387c1c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjExN2QwYTIxOTJhMjQ1MjQ0OTI2Mjg4ODlmNDVlM2Q2MTlhODA2M2NlZjE5NzllNDZiZTE4Zjk0NTEwNDI5NzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://src/payload.config.ts#L62-L62",
+          "resource": "repo://src/payload.config.ts#L67-L67",
           "version": "repo-lines-v1:sha256:b105a65af4c5e414afc188892061d1304c333e291cae423b479a91a40f8d3da8:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjEwNWE2NWFmNGM1ZTQxNGFmYzE4ODg5MjA2MWQxMzA0YzMzM2UyOTFjYWU0MjNiNDc5YTkxYTQwZjhkM2RhOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjEwNWE2NWFmNGM1ZTQxNGFmYzE4ODg5MjA2MWQxMzA0YzMzM2UyOTFjYWU0MjNiNDc5YTkxYTQwZjhkM2RhOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2I1MDI5ZWFiNGVlYjRmMmZlZDMzZTQ1MTcxNTE4MWIyOWJmODU2NmRhM2NiYzAwNTgyMGMzYzljNTBmODVjMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODU4MGI3NjUxOGRhZTk3OWZhZWJkMDIzNjdhMjkyOTJhNTBkOTc2MDkyMjUxYTM4YTZjZTMwODgwYmE0MjgyNSJ9"
         }
       ]
@@ -66,11 +66,15 @@
     },
     {
       "id": "claim_65e7a76652e74b438263bd3f22780160",
-      "statement": "Next image optimization is disabled because AVIF and WebP variants are generated before import.",
+      "statement": "Next image optimization is disabled because Payload generates the AVIF and WebP variants when a file is uploaded.",
       "evidence": [
         {
           "resource": "repo://next.config.ts#L12-L15",
-          "version": "repo-lines-v1:sha256:4f455b7c6a05d8e3f62c943a8fa1c8126610f9f82998141a8a970f2756506954:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2I0ZTMxMjk5MTU0NmVmYzcwMDc5YmNlODIzMzcwM2NlZmZjNzY4MzFlYTVmNWZjMmYyZTIwMzExNzIyZWEwOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDBlZTJmN2ExYjNhM2U4N2YxYzQ2MDZhODE3Y2M5NDVjOGI0MTdjOWE0NDAyM2MwNDlmNzE4ZjRhMGM0YmM2OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjViZGJiMGEyYmM3ODVlMWVjODU4YWZkZjEzMWYxNGRhZWIzZmM2YzZhM2FkYzVlMWExN2NjNWU0OTJiMWMxMyJ9"
+          "version": "repo-lines-v1:sha256:eb52b29a8eba829caa0d109d7a2603c2a811d7ef6fce8a650a1f4a303dbe5050:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzUzNWM3NTQ3MWVmZGVlOWVkZjgzZTlmNmM0ZTk2M2EzMTE4YjhlNzBlYTcwODQyMDVlZGQyNTM3OGM4MmM5ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDBlZTJmN2ExYjNhM2U4N2YxYzQ2MDZhODE3Y2M5NDVjOGI0MTdjOWE0NDAyM2MwNDlmNzE4ZjRhMGM0YmM2OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjViZGJiMGEyYmM3ODVlMWVjODU4YWZkZjEzMWYxNGRhZWIzZmM2YzZhM2FkYzVlMWExN2NjNWU0OTJiMWMxMyJ9"
+        },
+        {
+          "resource": "repo://src/lib/media/sizes.ts#L33-L52",
+          "version": "repo-lines-v1:sha256:147d149edb3b67ba61768c10c30e19aade6abf406c4aa4a2e82d38e216d68a12:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFmN2ZkNWI4Zjk4NThjNTEyYTlmOTdjNmMzMTkzYmY5OWY5ZDA2N2IyNmZlOWY2M2ZjNmY3ZGEyZTY2ZWY4ZDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY4ODJmNmYwNTQ4M2Q2NWI1OGFhNzlhNDU5ZTFmYjQ5YzQxZTIzYWRkYjA2YzE3OTkxM2NmMmI2NTU0NmM5N2IifQ"
         }
       ]
     },
@@ -79,8 +83,8 @@
       "statement": "Without R2 configured, uploads are stored under the media static directory.",
       "evidence": [
         {
-          "resource": "repo://src/collections/Media.ts#L70-L72",
-          "version": "repo-lines-v1:sha256:e21251927bccf80f08254d44ecd7d0ec213856823f0e302ac06afc96d9e41be5:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmRhMzk5M2E3MzE1ZGQ3NWEyNGZkNDI2OWIyMThmYWJiYjVjZjI1ZDAyMTIzZDZhNTI3MTU3MDhhNDMzODQ2YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGVmODczYzU5NTE4YzM2MmQxODZmNjU4ZjMwZmQ0YTk4YzMxZDFiNmZiMTU4ODI5OWUwMmZjZWRkMjllOTg4NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSJ9"
+          "resource": "repo://src/collections/Media.ts#L71-L75",
+          "version": "repo-lines-v1:sha256:40c26fa76858a09dd68cf4badfc6b7bf8e3f4dcf8cd3406a2828f2d5f469d6d6:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmRhMzk5M2E3MzE1ZGQ3NWEyNGZkNDI2OWIyMThmYWJiYjVjZjI1ZDAyMTIzZDZhNTI3MTU3MDhhNDMzODQ2YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGVmODczYzU5NTE4YzM2MmQxODZmNjU4ZjMwZmQ0YTk4YzMxZDFiNmZiMTU4ODI5OWUwMmZjZWRkMjllOTg4NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSJ9"
         }
       ]
     },
@@ -96,17 +100,91 @@
     },
     {
       "id": "claim_bd83327245e94802a05a4f591874dede",
-      "statement": "The Squarespace import stores each image once in media as the original file with alt and originalUrl, looking it up by originalUrl before downloading, and creates no variants.",
+      "statement": "The Squarespace import stores each image once in media as the original file with alt and originalUrl, looking it up by originalUrl before downloading, and Payload generates its sizes on that upload.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/load-quest-guides.ts#L89-L119",
-          "version": "repo-lines-v1:sha256:1f0a19277881056e0b8ac02d5449c2c5257e11d221cfb97bf035f28638111b7e:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlYmQyNjJjZGUwNTdhNTZiNzhhY2ZjYzEwMWVkZjBjYTlkMTI4YzU3OGVlZDQ5ZTVjYmU3ZGY4YWUyZmNiODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiMDQ1NmIyM2I1YjBjMTRmOWE5ZDViODQ4OGNjZWI4MmM2NmM2MmQzY2FkNDIxNTI3ZDdjNTU3NGYxZTE3NzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNjNjU1ZGQ5ZjhjNTU5N2E0NjI2N2VkYmY1NTM0M2QzNGNjZGZiOTRmZTVhYzg2ZTZhOTJjYWU1NjZmZDY5YjUifQ"
+          "resource": "repo://scripts/import/load-quest-guides.ts#L130-L153",
+          "version": "repo-lines-v1:sha256:398409655096ce8e233ca1045b9214807d20fa4d60ceea6ae44a6fa969347e05:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNiNGFjMGI1MWMyOGM2ZWM2OTIxNWUwOWJkZGY0NDFhZTNiZWExNzI4NGRjOGU5NTQ4MTEzYzkzZjY4M2I0ZmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwZDY4MTlmZjJjYmIzNDZlZjk2NjkxNGY3MWQ1ODgzNzhmNzAyZWFmNzgyMTZhYWZiMjU2YzMwMGIyMGQ5NWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUyZGNkNmU4ZmJiNzE3ODY2OWZiMDYzNDc4ZjdkMmZiMjc1OTRlOTkxNzYzOTc2YTc4ZWQ3NzE2OTc1NWJiZDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE0OTQ0MDU2OGViNzBkMDYzOWI5ZTJmYjEyNTgzNmUzY2E1YmUyOWVhMDliYTExY2VlZmRlN2VhZmJkZTE1ZDAifQ"
+        },
+        {
+          "resource": "repo://src/collections/Media.ts#L21-L23",
+          "version": "repo-lines-v1:sha256:1a5ad0ce25560a08117e1d1da5776f41979f80f7133871f15ea62b4e26690953:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTZkMTA4NjkwODEyNDM0ZDExNzFhNWNiYTI5Mzc1OTkxNzk3YjA5YmMzODFlMzMyZGQ2NDVjODZiYmE3YWM1MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDJmNWYwNjFlYjI0NGYxNGFjNjU2ZGJmMzEwNDdhMDVkZGI0OGUxM2NhYTcxMzlmZDc4NzlhZjc2N2Y5MjY0ZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2FmNGQ3NzA3YTJiN2MzMDA2YjdkODlmN2E3ZjI5OWIwMTI2ZTVhN2Q5YjU1NWUwOGQzOGM3Njk1NzAyNjNhOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGNjMTJiMzk4ZjJhZTdmNTBjMzJmZGJmZTkzMjY1MmY1NmI5MTU3OTM5NWE1YjBiNTMxMWI2NjFiODRhMjk0ZCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_eaa8c00e9d7b4374b382cfbd77fa56a4",
+      "statement": "mediaImageSizes defines AVIF at quality 50 and WebP at quality 80 for widths 480, 800, 1200 and 1600, fixing only the width, and the 480 size uses withoutEnlargement so every image gets at least one variant of each format.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/media/sizes.ts#L3-L52",
+          "version": "repo-lines-v1:sha256:4b2ab8f6ae261f31414beb3f9e2dc2ff9a7ca980bbb5f39ce12a47ef7607cf43:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoyLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUyZmRhMWQyY2E3MzU1NjFkNTdiNjZlYmQxNjk5YTQ1YTcyYjY2MDRkNDc4MmM1Y2E2OTJjZGY1ZTdlMjQxNTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY4ODJmNmYwNTQ4M2Q2NWI1OGFhNzlhNDU5ZTFmYjQ5YzQxZTIzYWRkYjA2YzE3OTkxM2NmMmI2NTU0NmM5N2IifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f6672592f7d545c48c4961143687c8e3",
+      "statement": "mediaImageAsset uses the widest WebP variant as the main file, the widest AVIF and srcset lists when a format has several widths, and falls back to the original when no variant exists.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/media/image-asset.ts#L11-L50",
+          "version": "repo-lines-v1:sha256:d52c4aa34a06c4b8054bec82ea3eae137f46fbee4f76e8e56fb2f01472410f46:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3MmY1ZTk5ZTJjM2Q1MjFhNGVmNDBkZDllOThiMzkxNzAxOWUyMzQzYTY1YmVhMThlMzQ3MWZhZDU2NmZlYzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3ZTc1MmI5Mzk3NzIxOTJlODg2ZDQzOWIxYjViYzQ3M2EwODc3M2ZiMTgwMGI2MzFmMjM5Mzg5MWQ2MzEzYTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY5MDg0ZjNjNGQ4NjRhMDUwMDkxZTkzNDY2OWI3MDE4MThiMTM2OGZhMGNmNGQyODI0OGQxMmZhNjY1MTA4YWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f7317214cc0a4765a7db7c070ffd96c3",
+      "statement": "pnpm media:sizes re-uploads the original of each media record missing sizes through Payload with the same filename, leaves complete records alone and exits with code 1 when any file fails.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/media-sizes.ts#L1-L37",
+          "version": "repo-lines-v1:sha256:c239e7d12dda1ce22fbc7e46a5bb653b3acae6424fd2d86181c6071fb494ef90:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmOTkyY2FmNzU1NTc1MWJmZTgwNTg1NGU1Mjg0NDU3ZjNhZGU5N2I4NWFiOTI0YmViZjA1YjI2ODVlMWU3MmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/media/regenerate.ts#L103-L155",
+          "version": "repo-lines-v1:sha256:48eec94448be9ad1e306ad70dde5f33d3d450f444a7f7744eb5e6032d1f8c45b:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI4OTEwYmQyNDM3MDNjNWExZmFmMDRiZDNjODk0NDBlZjZmNDI1MjRkODM1MDg2MTJmY2I2MWRiZTFlN2YwMWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/media/sizes.ts#L62-L73",
+          "version": "repo-lines-v1:sha256:810f76d0425b1e75462dda2e642b912b5bcc48264d4bfd1aeb3b8e0f3c435478:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjllN2UwMWRkZTEzZTlmM2NlZGFkNGFhMzgyNDI1OTkzMTZjNTEyNGU2NmZkYWUyMjNjMjMwNjcwZjE2MmUxZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1c46632d7d2f4d44bb04b40430f924ce",
+      "statement": "The regeneration reads each original from its public URL, from the R2 bucket by its computed object key when only credentials are set, or from disk, and an R2 failure message names the bucket and key but not the credentials.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/media/regenerate.ts#L50-L101",
+          "version": "repo-lines-v1:sha256:e3e06d83d4e6f82a52001629a44d88236d826d0c07b2a9dd9b8b6ac81aed730d:eyJzZWxlY3RlZExpbmVDb3VudCI6NTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU3ZGE4N2Y0MzE2MTk5ZTc4NzU0YWM5MDFkNThhYjNhNzZlZjY1MjgzYzA0OGJkYzA3MWNjZWU4ODM1MDQ5ZTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJmYzdiNGM1OGMxMDk1MTAzY2JlZThkNzMxOGE3NmNjYjMwNGE2MjYxMTEzZjhiMDFmNGRlY2RkMTYwYzJhYjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQwY2JhOTRiMDI0ODM2YjJhZGRjMGY5ZDNjOTE4NDVjNGU0MmYyMmE2MGJkNThhMmUxYjYwMmE5NmNhOTczMGEifQ"
+        },
+        {
+          "resource": "repo://src/lib/media/storage.ts#L44-L67",
+          "version": "repo-lines-v1:sha256:bd19063c43c49623aa989ca2aed92ce607b4181515546622e5d6c0207ca0627e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg5ZjM2NGU1ZGVkMmEwY2JkNjk2NzE5ZmEzNjEyZTQ1ZTZmNjg3Zjc3NjI2Y2UzYzU0YjRlZDI5NWUyNTBmZTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ5NjNiNzg0OThkMjgxMmZkMTMwYTM5NzVlMGIzMDJjZjlmZWQ4YzQwOGY1NTgzN2RmNDExOTkxOTE5YjVhYzkifQ"
+        },
+        {
+          "resource": "repo://tests/unit/media-regenerate.test.ts#L95-L151",
+          "version": "repo-lines-v1:sha256:afe1a8d57e401991e36531074d39cdeef195e961b36629647a7f6fdfa4a8737e:eyJzZWxlY3RlZExpbmVDb3VudCI6NTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhlYjEzYTE2ZDdmYWU2NWJiYzdhYjRlZDkyNzBiOGYzMDMyODUwNzlhMWNhZDI2MGJiM2E5YThiY2Y0NjVjMDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQzNmIyZjk2N2ExZGQ5ZDIzMDA5M2ZjMGM0NmEwODY0NmZkOTUxM2RkYzE5MWZmNGMwMWRmMWY2NGIzZTUzZjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_13c22d3ac96445ca900b93583c05f18e",
+      "statement": "regenerationRefusal requires --production in production and --remote against a non-local database URL, treating an unreadable URL as remote.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/media/regenerate.ts#L13-L40",
+          "version": "repo-lines-v1:sha256:33bde8a277197c6f3dbf80497dd35130abddbf8546fe5607a9ea863e5550ca59:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0ZjU1ZmNmZmMxY2VhYmRiZDU2OWExZDY4M2RjNDhiYWJhNzkxMTBlZmU1NDQyMjIwMGNlZThhYTM1ODkyMzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBmMmQ5YjU2YzE1ZDU5MWM5Y2E0NWJjNjA2NjhiNTYxYmFjZDgzYjYxYjM0ZTlkYTFkOWJlYjNiZDdmYTBkYmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVkNmRiZjc0M2FiMDlhZjM2Y2JjYTc5NDA5ZmY1YjY2NDg0NDcyZGVmYmJmNjNmOTdkZjZhN2Y1OTQ0OGVlM2MifQ"
+        },
+        {
+          "resource": "repo://tests/unit/media-regenerate.test.ts#L14-L66",
+          "version": "repo-lines-v1:sha256:37775c835f51be31a2637b4fc5264f25416e54b8a5c4e5c74464551f4557d6e4:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg2Yzg1NzIwN2ZlZTRmNDZjNzEzMTM1NjYyZDZiOTQ5MDUyYzBkM2U2YTIwMjA1NDNhMTQyNjVlODk4YTJjYWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM2MjQ2NzRiMjc4NzI5Yjc3ZmEyNDJhNWUyODRjYjJlYTM3YzU0YTM4NmQ3M2RkMmExZTJlNGM5YWM5Yjc3NmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdkNDg1ZDc3NWMxYzkzODIwNWY4YWQyNGI0ODkzYjZlZTMyOTljNjc3MWRmNzcyODIyMTUxYTIzNWYyZDZjY2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI2NDljZTZmOTcyNGZlMTU5MWFjYmRmMDE2YzUzNGEzZGQyNWEzNmIzYWFmYzk1Mjk2NzdhN2ZiOTJmZDg3YmUifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T17:14:51.499Z"
+    "at": "2026-11-06T15:25:11.354Z"
   }
 }

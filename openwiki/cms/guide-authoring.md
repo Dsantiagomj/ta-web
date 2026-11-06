@@ -26,6 +26,8 @@ sources:
     resource: repo://src/lib/guides/form-fill.ts
   - id: openwiki-source-d5cdfb9f4d8e25639ff82c78
     resource: repo://src/lib/guides/format.ts
+  - id: openwiki-source-cde7522eeadf7a5a854bc2c8
+    resource: repo://src/lib/guides/preview.ts
   - id: openwiki-source-2f2b90aba3af4142e443ba84
     resource: repo://src/lib/guides/strings.ts
   - id: openwiki-source-89155127340f422ef94e950a
@@ -36,14 +38,18 @@ sources:
     resource: repo://tests/unit/guide-autofill.test.ts
   - id: openwiki-source-a245227c3cb5565abdfcd27a
     resource: repo://tests/unit/guide-form-fill.test.ts
+  - id: openwiki-source-250fb42cacc6ce02770de93a
+    resource: repo://tests/unit/guide-preview.test.ts
+  - id: openwiki-source-60b5620a7aca41939ea7e46c
+    resource: repo://tests/unit/guide-slug.test.ts
   - id: openwiki-source-85e63acb1252624b63be77af
     resource: repo://tests/unit/guide-summary.test.ts
   - id: openwiki-source-1970468d3fcc651d5071b312
     resource: repo://tests/unit/quest-guides-collection.test.ts
-generated: { by: "claude-code", at: "2026-11-05T11:00:19.182Z" }
+generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-05T11:00:19.182Z
+    at: 2026-11-06T15:25:11.354Z
 ---
 
 # Writing a quest guide
@@ -59,8 +65,9 @@ The collection schema itself (field types, validators, access) is in [Collection
 1. Create a guide under "Guías" and pick the quest in "Misión de DofusDB". The description under the field reads "Elige primero la misión de DofusDB de la guía, solo una: rellena el título, el slug, el SEO y el resumen. Luego solo te queda escribir la guía."
 2. The form fills the empty title, slug, SEO and summary fields right away, without saving, and marks the form as modified.
 3. Under each summary field, a note says where its value comes from (see [The notes under the summary](#the-notes-under-the-summary)). Torre edits whatever reads wrong; nothing typed is replaced later.
-4. Write the "Necesitarás" notes and the body. See [Guide body blocks](blocks.md).
-5. Save a draft or publish. The save hook fills anything still empty, such as a field Torre cleared on purpose.
+4. Write the "Necesitarás" notes and the body: an introduction, the walkthrough as "Paso" blocks (each with an optional panel-only title, optional X and Y, and its own text, images, videos and callouts) and a closing. See [Guide body blocks](blocks.md).
+5. Check the draft with the panel's live preview (desktop or the 390 px "Móvil" breakpoint) or the preview button, both of which open the public page through `/vista-previa` with the current draft. See [Public quest guide page](../frontend/guide-page.md#draft-preview).
+6. Save a draft or publish. The save hook fills anything still empty, such as a field Torre cleared on purpose. Every save expires the cached guide pages, so a published change shows on the next visit.
 
 A guide links a single quest, and that quest feeds the fill and the notes. One quest per guide fits the existing content: of Torre's 1,272 Squarespace guides, 1,234 match exactly one DofusDB quest, 29 match none and 9 are ambiguous, and none matches more than one. The [Squarespace import](../data/squarespace-import.md#loading-into-payload) leaves a guide that names several quest IDs unlinked for Torre to choose.
 
@@ -88,7 +95,7 @@ All rules are pure functions in `src/lib/guides/`, without Payload, so the serve
 | `seo.metaTitle` | `<name>: guía de la misión de Dofus` |
 | `seo.metaDescription` | `Guía paso a paso de la misión <name> de Dofus, de nivel <levelMin>: requisitos, recompensas (<XP> XP) y cómo completarla.` The level and XP parts are dropped when missing. Cut at a word boundary with `…` so it never exceeds 160 characters |
 
-If the slug is taken by another guide, `availableSlug` tries `-2`, `-3`… until one is free. The guide being edited does not count as a collision. A quest with an empty name fills nothing.
+If the slug is taken by another guide, or is one of the reserved top-level routes (`admin`, `api`, `sistema`, `vista-previa`), `availableSlug` tries `-2`, `-3`… until one is free. The guide being edited does not count as a collision. A quest with an empty name fills nothing.
 
 Guides migrated from Squarespace already have a slug, so they keep their old URL.
 
@@ -160,11 +167,14 @@ The Squarespace importer runs the same `summaryToFill` and `applySummaryFill` be
 - `tests/unit/guide-summary.test.ts` builds linked quests from the real DofusDB fixtures through `mapQuest` and checks `formatThousands`, `rewardsText` and `prerequisitesText` against Torre's parsed Squarespace pages (1977, 1976, 1433), `requiredLevel` (including that a `PL>` among `|` alternatives gives no level), `neededItems` (quest items dropped by supertype 14 whatever their type, DofusDB order for quest 2420's six Primordial Dofus), `summaryToFill` (never touching written fields, `0` as a coordinate, a filled or empty needs list), `applySummaryFill` keeping the notes, and every `summaryNote` state for text fields and the list.
 - `tests/unit/guide-form-fill.test.ts` checks that `plannedFormFill` plans every empty field from quest 1977's data and nothing for fields already written, and that `stillEmpty` drops a title, a rewards text and a needs list Torre typed during the slug check while still filling the slug and the start NPC, treating whitespace-only text and a list with no rows as empty.
 - `tests/unit/guide-autofill.test.ts` covers `slugFromName` on Torre's slugs and odd names, `availableSlug` suffixes, `seoFromQuest` with and without level and XP and the 160-character cut, `autofillFromQuest` never touching written fields, and `linkedQuestId` reading an ID or a populated document and returning `null` without a quest.
+- `tests/unit/guide-slug.test.ts` checks that reserved slugs are rejected with their own message and count as taken, so `sistema` becomes `sistema-2`.
 - `tests/integration/quest-guides-autofill.test.ts` saves guides through the local API as a panel user: a guide with only the quest gets title, slug, SEO and the full summary (the quest item left out of the needs list, notes empty); a second one gets `-2`; written title, slug, SEO, summary fields and needs lists stay; a guide without title and quest is rejected with the Spanish message; editing an imported guide keeps its Squarespace slug and SEO title; and a summary field emptied on update is filled again.
 
 ## Related pages
 
 - [Collections and access](collections.md)
+- [Guide body blocks](blocks.md)
+- [Public quest guide page](../frontend/guide-page.md)
 - [Payload CMS configuration](payload-config.md)
 - [DofusDB game data refresh](../data/dofusdb-refresh.md)
 - [Squarespace import](../data/squarespace-import.md)

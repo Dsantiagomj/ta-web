@@ -16,10 +16,20 @@ sources:
     resource: repo://scripts/dev-database-process.ts
   - id: openwiki-source-f0b0dfee6a793bb5e8050714
     resource: repo://scripts/lhci-env.ts
+  - id: openwiki-source-b8d2cb44b5c8224f8b87d0ce
+    resource: repo://scripts/seed-e2e.ts
   - id: openwiki-source-15d81576125ffd9d62dc8605
     resource: repo://tests/e2e/app-server.ts
+  - id: openwiki-source-df563b1c48e3697f45171c21
+    resource: repo://tests/e2e/brand.spec.ts
+  - id: openwiki-source-29d77f6ec30639b62aac4359
+    resource: repo://tests/e2e/fonts.spec.ts
+  - id: openwiki-source-870648cc3288ecf5c87bb3a4
+    resource: repo://tests/e2e/guia.spec.ts
   - id: openwiki-source-c04b26872daa30d9d3f5983e
     resource: repo://tests/e2e/robots.spec.ts
+  - id: openwiki-source-bd7392d65e8fc186a24c242a
+    resource: repo://tests/e2e/seed/guides.ts
   - id: openwiki-source-8b0b9cc5ebf1012175c3d759
     resource: repo://tests/e2e/sistema.spec.ts
   - id: openwiki-source-a493eb920ff6a7f8859a6c69
@@ -36,6 +46,8 @@ sources:
     resource: repo://tests/integration/game-data-access.test.ts
   - id: openwiki-source-450b6a23d7e25100eadc359f
     resource: repo://tests/integration/global-setup.ts
+  - id: openwiki-source-c1a763f1b73857b38a438dd8
+    resource: repo://tests/integration/guide-page-queries.test.ts
   - id: openwiki-source-8f0065e4504cfadc651f72a5
     resource: repo://tests/integration/guide-single-quest-migration.test.ts
   - id: openwiki-source-5cd8fc4d5a65c01359ed92e2
@@ -50,8 +62,12 @@ sources:
     resource: repo://tests/integration/quest-guides-access.test.ts
   - id: openwiki-source-cd6b88c691322659e364fdbf
     resource: repo://tests/integration/quest-guides-autofill.test.ts
+  - id: openwiki-source-b851e65e44a5d48a33bfb854
+    resource: repo://tests/integration/refresh-npcs.test.ts
   - id: openwiki-source-cbffdb2343060c99a7477cfa
     resource: repo://tests/integration/refresh-quests.test.ts
+  - id: openwiki-source-cb15629b981f292fdc846429
+    resource: repo://tests/integration/users-lockout.test.ts
   - id: openwiki-source-3fc2c02c456e1e51768c4446
     resource: repo://tests/unit/concurrency.test.ts
   - id: openwiki-source-1843fcebd4e1a5a852fbfef6
@@ -78,6 +94,8 @@ sources:
     resource: repo://tests/unit/guide-form-fill.test.ts
   - id: openwiki-source-85e63acb1252624b63be77af
     resource: repo://tests/unit/guide-summary.test.ts
+  - id: openwiki-source-8131ce8fe0d39424d006607a
+    resource: repo://tests/unit/import-dom.test.ts
   - id: openwiki-source-bf890cc4722b5033a81aa698
     resource: repo://tests/unit/import-fetch-image.test.ts
   - id: openwiki-source-d5617545465b10f7c4424728
@@ -102,10 +120,10 @@ sources:
     resource: repo://vitest.config.mts
   - id: openwiki-source-57da85ca1bb457973a5594ff
     resource: repo://vitest.integration.config.mts
-generated: { by: "claude-code", at: "2026-11-05T11:00:19.182Z" }
+generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-05T11:16:25.753Z
+    at: 2026-11-06T15:25:11.354Z
 ---
 
 # Test suites
@@ -117,7 +135,7 @@ The repo works test-first (AGENTS.md: strict TDD). There are six suites. All of 
 | Unit | `pnpm test` | Vitest | `tests/unit/` | Nothing |
 | Integration | `pnpm test:integration` | Vitest | `tests/integration/` | Postgres, migrations |
 | E2E | `pnpm test:e2e` | Playwright | `tests/e2e/` | Production build, Postgres, migrations |
-| Dev gate | `pnpm test:e2e:dev-gate` | Playwright | `tests/e2e-dev-gate/` | Same build, `APP_ENV=dev` |
+| Dev environment | `pnpm test:e2e:dev-gate` | Playwright | `tests/e2e-dev-gate/` | Same build, `APP_ENV=dev` |
 | Smoke | `pnpm test:smoke` | Playwright (`@smoke` subset) | `tests/e2e/` | A local server, or a deployed URL |
 | Budgets | `pnpm test:lhci` | Lighthouse CI (`scripts/lhci.ts`) | `lighthouserc.cjs` | Production build, Postgres, migrations, Chromium |
 
@@ -125,13 +143,14 @@ The repo works test-first (AGENTS.md: strict TDD). There are six suites. All of 
 
 `vitest.config.mts` runs `tests/unit/**/*.test.{ts,tsx}` in the Node environment, with `vite-tsconfig-paths` so `@/…` imports work. Unit tests target the pure resolvers and builders that take an `env` record, which is why most server logic is written that way:
 
-- configuration: `database-url`, `media-storage`, `sentry-options`, `railway-config` (evaluates `.railway/railway.ts` for each environment), `next-config`, `test-database-env`;
-- behavior: `health` (fake pool and timers), `dev-gate`, `robots`, `theme`, `mode-script`, `mode-toggle-strings`, `media-collection`, `quests-collection` (including the `rewards` and `needs` groups), `game-data-collections` (the `items` and `monsters` fields, including the optional `superTypeId` on items, and the shared read-only `gameDataAccess`);
-- quest guides: `quest-guides-collection` (fields in order, with the single, optional `quest` relationship first and in the main area, the needs group and the note components, versions, the `fillFromQuest` hook, `validateGuideTitle`, `validateGuideSlug`, `validateSlug` and the access functions), `quest-guide-blocks` (each body block's fields and `validateVideoUrl`, which accepts only YouTube video links), `guide-summary` (Torre's summary format checked against the parsed Squarespace pages of quests 1977, 1976 and 1433, the minimum level read only from a `PL>` the criterion always requires, the needed items without quest items, the fill rules and every note state), `guide-form-fill` (the live form fill planned from the empty fields, and only the fields still empty after the slug check filled, so what Torre types meanwhile stays) and `guide-autofill` (slugs, slug suffixes, the SEO templates and the 160-character cut, never touching written fields, and `linkedQuestId`). See [Writing a quest guide](../cms/guide-authoring.md#tests);
-- DofusDB refresh: `dofusdb-client` (paging, `$select[]` fields, ID chunks, pauses and errors through an injected fake `fetch`, never the network; retries of network errors and 429, 502, 503 and 504 with doubling waits, jitter, `Retry-After` and one log line each, giving up after 5 attempts with the URL in the error, and no retry on 400 or 404, through injected `sleep`, `log` and `random`), `dofusdb-criterion` (`requiredTerms`: the terms joined by `&` at the top level or inside `&`-only brackets, nothing from a level with `|`, nothing for an empty criterion), `dofusdb-map-quest` (names, start positions, rewards and needs from the steps, and the prerequisite rule), `dofusdb-quest-rewards` (the level-200 XP and kamas formula against Torre's and dofusdb.fr's figures, per-step flooring, the last reward entry, items and IDs), `dofusdb-quest-needs` (which objectives count, the larger-quantity rule between `need.items` and deliveries, `walksMaps`), `dofusdb-fetch-quest-data` (only the NPCs and maps named in start positions and the monsters named in needs are looked up by ID; the whole item catalog comes from `fetchAll` with the stored fields as its select list) and `dofusdb-write-concurrency` (`DOFUSDB_WRITE_CONCURRENCY`: empty gives the default, which stays below pg's pool of 10, a positive integer is read, and `0`, `-2`, `1.5` and `ocho` throw);
+- configuration: `database-url` (including `isLocalDatabaseUrl`), `media-storage`, `sentry-options`, `railway-config` (evaluates `.railway/railway.ts` for each environment), `next-config`, `test-database-env`;
+- behavior: `health` (fake pool and timers), `dev-gate` (dev detection and the proxy's `noindex`), `robots`, `theme`, `mode-script`, `mode-toggle-strings`, `users-collection` (the pinned login lockout), `media-collection` (sizes and `gameAsset`), `media-regenerate` (`pnpm media:sizes`: refusals and where originals are read from), `quests-collection` (including the zone, achievement, `rewards` and `needs` groups), `game-data-collections` (the `items`, `monsters` and `npcs` fields, including the optional `superTypeId` on items, and the shared read-only `gameDataAccess`);
+- quest guides: `quest-guides-collection` (fields in order, with the single, optional `quest` relationship first and in the main area, the needs group and the note components, versions, the `fillFromQuest` hook, `validateGuideTitle`, `validateGuideSlug`, `validateSlug` and the access functions), `quest-guide-blocks` (each body block's fields, `validateVideoUrl`, which accepts only YouTube video links, and the step block with `validateStepCoordinate`), `guide-slug` (reserved slugs), `guide-preview` (preview URLs and origin), `revalidate-guides` (the cache-expiring hooks), `guide-summary` (Torre's summary format checked against the parsed Squarespace pages of quests 1977, 1976 and 1433, the minimum level read only from a `PL>` the criterion always requires, the needed items without quest items, the fill rules and every note state), `guide-form-fill` (the live form fill planned from the empty fields, and only the fields still empty after the slug check filled, so what Torre types meanwhile stays) and `guide-autofill` (slugs, slug suffixes, the SEO templates and the 160-character cut, never touching written fields, and `linkedQuestId`). See [Writing a quest guide](../cms/guide-authoring.md#tests);
+- guide page: `guide-page-data` (header data, the body split into introduction, steps and closing, image priority, SEO), `guide-step-nav` (side list labels, coordinates, anchors and the step pin) and `guide-body` (`.test.tsx`: rich text rendering, blocks and steps). See [Public quest guide page](../frontend/guide-page.md#tests);
+- DofusDB refresh: `dofusdb-client` (paging, `$select[]` fields, ID chunks, pauses and errors through an injected fake `fetch`, never the network; retries of network errors and 429, 502, 503 and 504 with doubling waits, jitter, `Retry-After` and one log line each, giving up after 5 attempts with the URL in the error, and no retry on 400 or 404, through injected `sleep`, `log` and `random`), `dofusdb-criterion` (`requiredTerms`: the terms joined by `&` at the top level or inside `&`-only brackets, nothing from a level with `|`, nothing for an empty criterion), `dofusdb-map-quest` (names, start positions, zone, achievement, rewards and needs from the steps, and the prerequisite rule), `dofusdb-quest-rewards` (the level-200 XP and kamas formula against Torre's and dofusdb.fr's figures, the XP range, per-step flooring, the last reward entry, items and IDs), `dofusdb-npc-render` (render URLs and keys), `dofusdb-quest-needs` (which objectives count, the larger-quantity rule between `need.items` and deliveries, `walksMaps`), `dofusdb-fetch-quest-data` (only the NPCs and maps named in start positions and the monsters named in needs are looked up by ID; the sub-areas and areas of the start maps; the whole item catalog and every achievement come from `fetchAll` with only the fields used) and `dofusdb-write-concurrency` (`DOFUSDB_WRITE_CONCURRENCY`: empty gives the default, which stays below pg's pool of 10, a positive integer is read, and `0`, `-2`, `1.5` and `ocho` throw);
 - shared helpers: `concurrency` (`mapWithConcurrency` keeps input order, never runs more than `limit` tasks, runs them one by one with `limit` 1, rejects with the first error once running tasks settle without starting more, handles an empty list, and rejects a `limit` below 1 or not an integer);
-- Squarespace import: `import-parse-page` (title, desktop grid order, text, image and unknown blocks), `import-to-quest-guide` (summary with the "Necesitarás" text as `needs.notes`, start NPC, what leaves the body, callouts, oddities), `import-rich-text` (HTML to Lexical through Payload's editor), `import-quest-matches` (the slug to DofusDB IDs CSV) and `import-fetch-image` (image downloads only over `https` from Squarespace's CDN, without redirects and only for `image/*` responses, through an injected fake `fetch`). See [Squarespace import](../data/squarespace-import.md);
-- design system: `ui-components` and `game-components` (`.test.tsx` files that render each component with `renderToStaticMarkup` and check its markup, accessible names, hit targets and empty states; see [Design system components](../frontend/design-system-components.md)), `coordinates`, `display-format` and `video-url` (the guide display helpers), `theme-css` (every semantic token is re-declared for nested `data-theme`/`data-mode`), `fonts` (preloads and weights, with `next/font/google` mocked) and `design-catalog` (when `/sistema` opens);
+- Squarespace import: `import-parse-page` (title, desktop grid order, text, image and unknown blocks), `import-to-quest-guide` (summary with the "Necesitarás" text as `needs.notes`, start NPC, what leaves the body, callouts, steps, Torre's recommendations, oddities), `import-dom` (`releaseDom`), `import-rich-text` (HTML to Lexical through Payload's editor), `import-quest-matches` (the slug to DofusDB IDs CSV) and `import-fetch-image` (image downloads only over `https` from Squarespace's CDN, without redirects and only for `image/*` responses, through an injected fake `fetch`). See [Squarespace import](../data/squarespace-import.md);
+- design system: `ui-components` and `game-components` (`.test.tsx` files that render each component with `renderToStaticMarkup` and check its markup, accessible names, hit targets and empty states; see [Design system components](../frontend/design-system-components.md)), `coordinates`, `display-format` and `video-url` (the guide display helpers), `theme-css` (every semantic token is re-declared for nested `data-theme`/`data-mode`), `fonts` (preloads and weights, with `next/font/google` mocked), `emblem` (`.test.tsx`: the emblem, its standalone SVG and the committed favicon) and `design-catalog` (when `/sistema` opens);
 - tooling: `commit-msg` (runs the git hook script), `lighthouse-ci` (the `lighthouserc.cjs` assertions and `lhciEnv`; see [Performance budgets](performance-budgets.md)).
 
 ## Integration
@@ -143,11 +162,14 @@ Real Payload (`getPayload`) against a real Postgres with the committed migration
 - `tests/integration/global-setup.ts`: with no `DATABASE_URL`, it starts `pnpm db:dev` if port 54329 is closed (and stops it afterwards, or on setup failure), recreates `ta_web_integration`, then runs `pnpm migrate`. With `DATABASE_URL` (CI's empty Postgres service) it only migrates. Starting and stopping Postgres goes through `ensureDevDatabase` and `stopProcess` in `scripts/dev-database-process.ts`, shared with `pnpm test:lhci`.
 - Helpers in `tests/integration/payload.ts`: `startPayload`, `tinyPng` (a 1×1 PNG in memory) and `createPanelUser` (creates and logs in a panel user, returning what Payload puts in `req.user`).
 - Access tests call the local API with `overrideAccess: false`; omitting `user` makes the call anonymous. See [Collections and access](../cms/collections.md).
-- `quest-guides-access.test.ts` goes further than the other access tests: besides who may read and write, it checks that anonymous reads hide drafts, that a panel user can publish a draft and get a version, and that a guide with all four [body blocks](../cms/blocks.md), its linked quest, a summary with needs notes and an image saves and reads back. When it finishes it deletes every guide, quest and media document in the integration database.
+- `quest-guides-access.test.ts` goes further than the other access tests: besides who may read and write, it checks that anonymous reads hide drafts, that a panel user can publish a draft and get a version, and that a guide with its [body blocks](../cms/blocks.md), its linked quest, a summary with needs notes and an image saves and reads back. When it finishes it deletes every guide, quest and media document in the integration database.
 - `quest-guides-autofill.test.ts` saves guides as a panel user with only a quest linked and checks the fill on save: title, slug, SEO and the summary from DofusDB (quest items left out of the needs list, notes empty), a `-2` slug on collision, written fields and needs lists kept, a guide without title and quest rejected with the Spanish message, an imported guide keeping its slug on edit, and a summary field emptied on update filled again. It deletes every guide, quest and item afterwards. See [Writing a quest guide](../cms/guide-authoring.md#tests).
+- `users-lockout.test.ts` checks that five wrong passwords lock a panel account, even for the right password, and that four do not.
+- `guide-page-queries.test.ts` runs the guide page queries: published guide with its quest populated, no draft for a visitor, no result for unknown, malformed or reserved slugs, drafts only in preview with a user, links only to published prerequisite guides, and the quest giver with its renders. See [Public quest guide page](../frontend/guide-page.md#tests).
+- `refresh-npcs.test.ts` runs `refreshNpcs` with a fake renderer: renders imported trimmed with the name as alt, nothing downloaded on a rerun, an unlinked render in `media` reused, a new look adding renders and keeping the old ones, no look meaning no request, and a failing renderer retried on the next run. See [DofusDB game data refresh](../data/dofusdb-refresh.md#npcs-and-their-renders).
 - `game-data-access.test.ts` checks `items` and `monsters` at runtime: an anonymous request can `find` and `findByID`, and a panel user gets `Forbidden` on create, update and delete with the data unchanged.
 - `refresh-quests.test.ts` runs `refreshQuests` three times against the integration database: the first run creates the fixture quests and skips missing prerequisites, a second run with the same data changes nothing and keeps `refreshedAt`, and a third run updates only what changed and links a prerequisite that now exists. A second block does the same for rewards and needs: it creates the fixture items and monsters and links rewards and needs by Payload ID, a rerun changes nothing, and a third run updates only the renamed item and the changed quest and skips an item DofusDB did not return. A third block runs the refresh over both fixtures with 1 write at a time and then, after deleting the rows, with 8, and expects the same counts and the same stored data, with relationships compared by DofusDB ID. A fourth block feeds the whole fixture catalog, including items no quest names, and checks that every item is created with its `superTypeId` and that a second run writes no item and keeps `refreshedAt`. It deletes its fixture quests, items and monsters before and after. See [DofusDB game data refresh](../data/dofusdb-refresh.md).
-- `import-quest-guides.test.ts` runs the Squarespace loader on the five fixture pages with a fake `fetchImage` that returns a 1×1 PNG. It checks drafts with all four block types and the existing quest linked, one `media` record per image with its URL and alt, the oddities, a second run that changes, downloads and versions nothing, one new draft for a changed guide, the "Necesitarás" text saved as `needs.notes`, a summary field that disappears being filled from the linked quest (its start position and needed item) without extra versions on the next run, no drafts visible to anonymous readers, an invalid slug skipped, and a guide with two DofusDB IDs saved with no quest and the "Varias misiones de DofusDB" oddity. It cleans up its guides, media, quests and item before and after. See [Squarespace import](../data/squarespace-import.md#loading-into-payload).
+- `import-quest-guides.test.ts` runs the Squarespace loader on the five fixture pages with a fake `fetchImage` that returns a 1×1 PNG. It checks drafts with their blocks and the existing quest linked, untitled steps with their coordinates and screenshots, a titled step from an `ETAPA n:` marker, one `media` record per image with its URL and alt, the oddities, a second run that changes, downloads and versions nothing, one new draft for a changed guide, the "Necesitarás" text saved as `needs.notes`, a summary field that disappears being filled from the linked quest (its start position and needed item) without extra versions on the next run, no drafts visible to anonymous readers, an invalid slug skipped, and a guide with two DofusDB IDs saved with no quest and the "Varias misiones de DofusDB" oddity. It cleans up its guides, media, quests and item before and after. See [Squarespace import](../data/squarespace-import.md#loading-into-payload).
 - `migrations.test.ts` checks that the latest migration rolls back and re-applies: it runs the Payload CLI (`pnpm payload migrate:down`, then `pnpm payload migrate`) with `integrationEnv` and `DATABASE_CONNECTION=direct`, leaving the database as it was. It starts the CLI twice, so it has its own 120 s timeout instead of the suite's 30 s. See [Database and migrations](../data/database.md#migrations).
 - `needs-list-migration.test.ts` calls the `20261104_195910_needs_list` migration's `down` and `up` directly on a guide with notes, writes text into the old columns of the guide and its version in between, and checks that after `up` both read it as `summary.needs.notes` with an empty item list. `up` runs in a `finally` so the database never stays on the old schema.
 - `guide-single-quest-migration.test.ts` calls the `20261104_210644_guide_single_quest` migration's `down` and `up` directly on a guide linked to one quest. After `down` it checks the quest is a relation row for the guide and its version, then adds a second quest behind it; after `up` (in a `finally`) it checks that `quest_id`, `version_quest_id` and Payload's `quest` on the guide and its versions hold the first quest.
@@ -159,19 +181,24 @@ Real Payload (`getPayload`) against a real Postgres with the committed migration
 1. `pnpm build` (skipped with `E2E_SKIP_BUILD=1`).
 2. With no `DATABASE_URL` (a blank or whitespace-only value counts as none, as in `pnpm test:lhci`): start `pnpm db:dev` (reusing a running one) and reset `ta_web_e2e` with `scripts/db-e2e-reset.ts`.
 3. `pnpm migrate` on the empty database.
-4. `pnpm start --port 3100` (`E2E_PORT`), a port of its own so a running `pnpm dev` on 3000 is never reused by mistake.
+4. `pnpm seed:e2e`: the test guides from `tests/e2e/seed/guides.ts` ("Seis pies bajo tierra" published with an introduction, three steps and a closing, its zone, achievement, XP range and the NPC with renders; its prerequisite's published guide; an unpublished draft) and a panel user for the preview tests. `scripts/seed-e2e.ts` refuses any database that is not local (`isLocalDatabaseUrl`).
+5. `scripts/clear-data-cache.ts` empties Next's data cache, so no guide cached by an earlier run hides the fresh database.
+6. `pnpm start --port 3100` (`E2E_PORT`), a port of its own so a running `pnpm dev` on 3000 is never reused by mistake.
 
-`appWebServers` in `tests/e2e/app-server.ts` builds that server list and passes `DATABASE_URL_DIRECT` equal to `DATABASE_URL`, because `pnpm migrate` prefers the direct URL. `playwright.config.ts` adds `E2E_DESIGN_CATALOG=1` to the app's environment, which opens the `/sistema` catalog on this production build; no deployed environment sets it. Only Chromium runs. In CI: one worker, one retry, traces on first retry, GitHub and HTML reporters, and `forbidOnly`.
+`appWebServers` in `tests/e2e/app-server.ts` builds that server list and passes `DATABASE_URL_DIRECT` equal to `DATABASE_URL`, because `pnpm migrate` prefers the direct URL, and blanks every `S3_*` variable and `MEDIA_BASE_URL` so the seeded image goes to local disk. `playwright.config.ts` adds `E2E_DESIGN_CATALOG=1` to the app's environment, which opens the `/sistema` catalog on this production build; no deployed environment sets it. Only Chromium runs. In CI: one worker, one retry, traces on first retry, GitHub and HTML reporters, and `forbidOnly`.
 
 Specs:
 
-- `smoke.spec.ts`: home renders in Arcano dark; the toggle switches to light and the mode survives reload; the egg medallion per mode and its hover state; the head script recovers the mode from `localStorage` without a cookie; `/admin` responds and hydrates the first-user form without errors; `/api/health` is ok.
+- `smoke.spec.ts`: home renders in Arcano dark; the toggle switches to light and the mode survives reload; the egg medallion per mode and its hover state; the head script recovers the mode from `localStorage` without a cookie; `/admin` responds and hydrates the login form without errors (the seeded panel user exists); `/api/health` is ok.
 - `robots.spec.ts`: outside dev, `robots.txt` allows indexing except `/admin`, and the home page has no `X-Robots-Tag`.
-- `sistema.spec.ts`: the `/sistema` component catalog in all five themes and both modes: every component group visible, hand-written CSS following each section's theme, coordinate copy, 40px hit targets, the 30-stage progress pill at 390px, no YouTube request before a video click, the fullscreen image viewer (open, close, focus return, theme), and axe (`@axe-core/playwright`, WCAG 2.2 AA tags) on the open viewer and the whole page. See [Component catalog (/sistema)](../frontend/component-catalog.md).
+- `guia.spec.ts`: the public guide page on the seeded guides (header, mobile NPC, steps, side list, prose-only guide, SEO, 404, reserved routes, viewer, video at 390px, coordinate copy, axe in Arcano dark and light) and draft preview. See [Public quest guide page](../frontend/guide-page.md#tests).
+- `brand.spec.ts`: the favicon SVG, PNG fallback and iOS icon links, the emblem left of the name in the header with the theme colors, 30px on phones, and axe on the header in Arcano dark and light.
+- `fonts.spec.ts`: the home page and the guide preload only Nunito 400 and Fredoka 600, and each Nunito weight comes from its own file in one family.
+- `sistema.spec.ts`: the `/sistema` component catalog in all five themes and both modes: every component group visible, hand-written CSS following each section's theme, coordinate copy, 40px hit targets, dark icon wells in light mode, no YouTube request before a video click, the 480px screenshot on a phone, the fullscreen image viewer (open, close, focus return, theme), and axe (`@axe-core/playwright`, WCAG 2.2 AA tags) on the open viewer and the whole page. See [Component catalog (/sistema)](../frontend/component-catalog.md).
 
-## Dev gate
+## Dev environment
 
-`playwright.dev-gate.config.ts` starts two instances of the same build: one with `APP_ENV=dev` and the test credentials on port 3101 (`E2E_DEV_GATE_PORT`), and one with `APP_ENV=dev` and blank credentials on the next port, waited for by port because it answers `503` everywhere. With `E2E_SKIP_BUILD=1` it reuses the E2E build, which works because the gate reads the environment at startup, not at build. Cases are in [Dev environment gate](../operations/dev-gate.md).
+`playwright.dev-gate.config.ts` starts one instance of the same build with `APP_ENV=dev` on port 3101 (`E2E_DEV_GATE_PORT`), seeded like the E2E app. With `E2E_SKIP_BUILD=1` it reuses the E2E build, which works because the proxy reads the environment at startup, not at build. The cases (public pages, `noindex` everywhere, no basic-auth challenge, `robots.txt`) are in [Dev environment](../operations/dev-gate.md#tests).
 
 ## Smoke
 
@@ -179,7 +206,6 @@ Specs:
 
 - Without `SMOKE_BASE_URL` it behaves like E2E and starts a local server.
 - With `SMOKE_BASE_URL` it tests that URL and starts nothing: no build, no migrations, no database.
-- `SMOKE_BASIC_AUTH_USER` and `SMOKE_BASIC_AUTH_PASSWORD` become Playwright `httpCredentials` only when both are set.
 
 ## Budgets
 
@@ -189,7 +215,7 @@ Specs:
 
 `tests/fixtures/dofusdb/` holds real DofusDB rows (`quests.json`, `npcs.json`, `map-positions.json`) shared by the DofusDB unit tests and `refresh-quests.test.ts`. The quests cover a plain criterion, several start positions, alternatives joined by `|` and a `Qa=` term. `quests-steps.json` adds nine quests with their steps, rewards and objectives, and `items.json` and `monsters.json` hold exactly the items and monsters those quests name; they feed the rewards, needs, fetch and refresh tests. `items-unreferenced.json` adds three items no fixture quest names (a sword and two quest items of supertype 14), so the fetch and refresh tests can check that the whole catalog is stored.
 
-`tests/fixtures/squarespace/` holds trimmed copies of the five demo Squarespace pages, one HTML file per slug, read by the import unit tests. Prettier ignores the directory so the files stay byte for byte as the parser expects.
+`tests/fixtures/squarespace/` holds trimmed copies of the five demo Squarespace pages and six more real pages used by the recommendations tests, one HTML file per slug, read by the import unit tests. Prettier ignores the directory so the files stay byte for byte as the parser expects.
 
 ## Guards against touching real data
 
@@ -201,7 +227,8 @@ Specs:
 
 - [CI and quality gates](../workflows/ci-and-quality-gates.md)
 - [Database and migrations](../data/database.md)
-- [Dev environment gate](../operations/dev-gate.md)
+- [Dev environment](../operations/dev-gate.md)
+- [Public quest guide page](../frontend/guide-page.md)
 - [DofusDB game data refresh](../data/dofusdb-refresh.md)
 - [Collections and access](../cms/collections.md)
 - [Guide body blocks](../cms/blocks.md)

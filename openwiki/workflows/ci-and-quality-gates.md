@@ -26,10 +26,10 @@ sources:
     resource: repo://scripts/hooks/gga-review.sh
   - id: openwiki-source-d3495e3108db609ea7dcace0
     resource: repo://tests/unit/commit-msg.test.ts
-generated: { by: "claude-code", at: "2026-11-05T11:00:19.182Z" }
+generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-05T11:00:19.182Z
+    at: 2026-11-06T15:25:11.354Z
 ---
 
 # CI and quality gates
@@ -76,7 +76,7 @@ Each job uses the composite action `.github/actions/setup`: pnpm, Node from `.nv
 | `unit` | Unitarias | `pnpm test` |
 | `build` | Build | `pnpm build`, with `.next/cache` cached by lockfile and `src/**` hashes |
 | `integration` | Integración | `pnpm test:integration` against an empty `postgres:17.11` service |
-| `e2e` | E2E | `pnpm test:e2e` against an empty `postgres:17.11` service, then `pnpm test:e2e:dev-gate` and `pnpm test:lhci` (the Lighthouse CI budgets) on the same build; the Lighthouse reports are uploaded as the `lighthouse` artifact (7 days) unless the run was cancelled, and the Playwright report on failure |
+| `e2e` | E2E | `pnpm test:e2e` against an empty `postgres:17.11` service, then `pnpm test:e2e:dev-gate` (the app in dev mode: public, with `noindex`) and `pnpm test:lhci` (the Lighthouse CI budgets) on the same build; the Lighthouse reports are uploaded as the `lighthouse` artifact (7 days) unless the run was cancelled, and the Playwright report on failure |
 | `audit` | Auditoría | Dependency audit, see below |
 | `pruebas` | Pruebas | Aggregator |
 | `gga` | Revisión GGA | Advisory AI review, PRs only |

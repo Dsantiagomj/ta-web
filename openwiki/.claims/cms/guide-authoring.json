@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:862ad70a9e4f2aba012dbeee87bb042cbe01609905e010c7c505f97fd64dc713",
+  "pageVersion": "sha256:216fa774cf0a84e75f09b05d99ab43a6974759b0e12b84b24edf6cdcf5d2cbc7",
   "claims": [
     {
       "id": "claim_9936ebd9dea946e4b427e760c2d1f74d",
@@ -94,15 +94,19 @@
     },
     {
       "id": "claim_7a6151eb82f848f0b9a1ee2cae3c7861",
-      "statement": "availableSlug returns the base slug when free and otherwise the first free slug with a -2, -3 suffix.",
+      "statement": "availableSlug returns the base slug when it is free and not reserved, and otherwise the first free slug with a -2, -3 suffix.",
       "evidence": [
         {
-          "resource": "repo://src/lib/guides/autofill.ts#L37-L47",
-          "version": "repo-lines-v1:sha256:6beaf0be59a974eaa5ba4e5ee6b029e91baaf86ae1424028fb935e4fdbeec545:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkzYjQ0Njc5YWE2NzdiN2Y2MGY3NWQzZTM1YmI3MmJjYTdhNjBjMGRjY2UwODViZjg4NWFlYWQxZGZhMzg5ZWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY5YzM5ZTIwNGI2ZmQ5MTE0MDExYWIwYTVjNTBhNWIwNmY3NzUwMDQ1NTIzYmZiMzcyNmM3Mjc5YTE1ZmYxYjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU4NmI1N2U0NDgwNzA2Yzk2MTJkMjg3ZjA5MGZjYjVjMjc3ODkzZDdkNDI5NDQzNWNiNWY1M2FmODRkY2QxMzcifQ"
+          "resource": "repo://src/lib/guides/autofill.ts#L38-L48",
+          "version": "repo-lines-v1:sha256:bbb08b37803110786745c52aca01338cb6ce32540ab4e3b76f58294c09aa975d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1YWE2ZGY5NTg1MzhjYjNlY2ZkYTM0OGYyYzA1OTQ3YjFiMjkwZDhkYzY4ZDNlMzUwNTgwNGYzODZiZjAyZGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY5YzM5ZTIwNGI2ZmQ5MTE0MDExYWIwYTVjNTBhNWIwNmY3NzUwMDQ1NTIzYmZiMzcyNmM3Mjc5YTE1ZmYxYjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU4NmI1N2U0NDgwNzA2Yzk2MTJkMjg3ZjA5MGZjYjVjMjc3ODkzZDdkNDI5NDQzNWNiNWY1M2FmODRkY2QxMzcifQ"
         },
         {
           "resource": "repo://tests/unit/guide-autofill.test.ts#L39-L50",
           "version": "repo-lines-v1:sha256:7a889519bd64d20efe4e214b6b0247fb97fc1134371bc05a0c4d948b2859304d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBlOWYyNTA3OGY0OTg1ZmY5YTgxNjc3ZWUyODA3OGY4ODNlYjBjMTU3NTU0NmJlNjViYTU1ODhjZjdjYWU0MjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBlNmJjYjJkOGZmZmZjZmE1MDY2M2ZkMDk4MGFkNGUxODY5ZWQyNjJhNzUwY2VlODNlYjg3MGEyMjU3NTU1NzQifQ"
+        },
+        {
+          "resource": "repo://tests/unit/guide-slug.test.ts#L35-L37",
+          "version": "repo-lines-v1:sha256:3f531ec8eb189fae0fad6b82347384cf9b6d9a4efbf24f7deba86eee26799426:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzI0MmUxZmJlNDdiMGU2OGJlNjYyZTQ2OTE2MjA4MjYwNWVhZmQxMTQyZDhjODRlMjI5OGU2NGEzMGI3MmNjZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjIzNTI1ODljMzRkM2M2MDY4NTkzMWI2ZWNjNGQ1MDk5MWE3YzU2YzhmYmEyODk0MTE0NjU3NjkwMjcyY2FjMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTQ5ZGRiZWM0OGIwN2RjMDQ4ZDY4OTg2MjIwNWM4OTc1NmRjMTdkZGE2ZmEzNjJlMTVkZmRhN2VlNWE3YTVmMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODU4MGI3NjUxOGRhZTk3OWZhZWJkMDIzNjdhMjkyOTJhNTBkOTc2MDkyMjUxYTM4YTZjZTMwODgwYmE0MjgyNSJ9"
         }
       ]
     },
@@ -423,10 +427,24 @@
           "version": "repo-lines-v1:sha256:620c6ca9eb6cd6e22a946a46a4de651fc048a9a4aad2ad1feed6dfdb9a1d2e7d:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTU4OWRiNmQzYjA0OGE5NWUwYWQwMjQ1MzExYmMxMDJjMGI1MDgzMjM4NGU5YzEyMWQ0MjAxYTU3ODZjOTUwNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2IwMzY1YTQ0OTgxOTgyMjgwYWMzZDI4MGFlMTJlNzE0MmZmM2U5YTM3NjE1ZDYwZjNhZjUzZDRkYzQxNWFjNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjhiNGEzOTNmYzBhZDY0NmE2NWFmZDIzMmM0OTMyM2Y2OWRmZTJhYzYwOGU4MjhiYTU1Y2FhYWUyMzY5NWFjNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWUxNmM5OGM2NjgzZDVmYWNlNDUyMWUzODc0MGIyYzg5MjJlMjQxZDA1MWI5ODk0ZmQ2Yjc2ZWQwNmYyMmVjOCJ9"
         }
       ]
+    },
+    {
+      "id": "claim_03551f6a74ef417e941b2bbed865bf4b",
+      "statement": "The panel's preview opens /vista-previa?slug=… on the origin from NEXT_PUBLIC_SITE_URL, or the request origin when it is unset, and offers no preview URL until the guide has a valid, non-reserved slug.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/guides/preview.ts#L7-L23",
+          "version": "repo-lines-v1:sha256:41205c9177b9d6074c6c8e0d204636e7b7cc879564c1ee382ea0528c6c1c9ca3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwZjk0NTE4ZjRhZWU1NmI2YjU0YzE5MTViYzI5NmJiNzljOGY3MDg3YTI3MzJjZTU3OTFkNDY0YjVmMjZmYzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdiZjkwYWQwYzcyMDUzYjgwYTQ1NDMzNWQ4MDZmOWExZjFhMDkwNjE5YjhlZmQ5NzhmYzZmOGY2YTFkZDU5OTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/guide-preview.test.ts#L7-L35",
+          "version": "repo-lines-v1:sha256:6c93faf2d8e7698aeb77cbb0b6d417aa518be603fb562f296b04931cb1f8f4ca:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjMjY2NjA2YzFkODBkMzc2ZmUwMmE0NmQ1YjA2YmJmMjU0NTg3OWNjZjkyMzJiMTFjMDE0YTdmMDIxNTM5ODkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ3ODk1YmRkZjA5ODIzYTk0MDI2NDc3OTBmNTQ2ZDgzNWYwMzcyYTExY2I4NjZjMzQwZjE5NGJiOGJiNTE4ZGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRjM2Y5ZmZmNDBiM2QzNzRmMzdiNmQwZGM5MGQ3NWVhYmM2NjJhMDQwNTdlN2U2Y2E4NDc0MWRkZjQ4NDI1ZmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRjZGFmNWQ3YzQ5MjNlNmVhYTE0MjhlZDQwYTBjZmVhMTcwNTQ2ZjNkZDliMzQ0ZDlmNTc3Yjg5ODFmZTM3ZWUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-05T11:00:19.182Z"
+    "at": "2026-11-06T15:25:11.354Z"
   }
 }

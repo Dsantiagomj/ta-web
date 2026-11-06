@@ -28,10 +28,10 @@ sources:
     resource: repo://src/payload.config.ts
   - id: openwiki-source-98d5ddb014a0fd4d678f6f2a
     resource: repo://tsconfig.json
-generated: { by: "claude-code", at: "2026-11-04T21:10:46.028Z" }
+generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T21:10:46.028Z
+    at: 2026-11-06T15:25:11.354Z
 ---
 
 # Payload CMS configuration
@@ -44,7 +44,7 @@ Payload 3 runs inside the Next.js process. There is one config, `src/payload.con
 |---|---|---|
 | `admin.user` | `users` | Panel accounts; see [Collections and access](collections.md) |
 | `admin.importMap.baseDir` | `src/` | Where `generate:importmap` resolves admin components |
-| `collections` | `[Users, Media, Quests, Items, Monsters, QuestGuides]` | One file per collection in `src/collections/`; `quests`, `items` and `monsters` are read-only DofusDB game data |
+| `collections` | `[Users, Media, Quests, Items, Monsters, Npcs, QuestGuides]` | One file per collection in `src/collections/`; `quests`, `items`, `monsters` and `npcs` are read-only DofusDB game data |
 | `editor` | `lexicalEditor()` | Default rich text editor; the guide body blocks use it (see [Guide body blocks](blocks.md)) |
 | `endpoints` | `[healthEndpoint]` | Custom endpoints, mounted under `/api` |
 | `i18n` | Spanish only, fallback `es` | The panel UI is in Spanish |

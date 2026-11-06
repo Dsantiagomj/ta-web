@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:9277a148eb5399960b8c4cfd11cbf29b0a74d6ed07c9842b818df68f3996c817",
+  "pageVersion": "sha256:a48c063282499c5c061a29f4f7953608ab0d3f4944ba20aff065446c34fd88bd",
   "claims": [
     {
       "id": "claim_be169c6219cf4e229c071dc13c472c68",
@@ -17,8 +17,8 @@
       "statement": "Semantic color, font and shadow tokens are declared in an inline @theme block that points at raw --t-* variables, so utilities resolve to the active palette at use time.",
       "evidence": [
         {
-          "resource": "repo://src/styles/theme.css#L86-L123",
-          "version": "repo-lines-v1:sha256:8186cd238ad370b0f466c01afcc86c1532f5af921b17e0c7bfd357e529694efa:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJkMzZmYmIyMzRjNTgzYjI0YWNiNTQyMzFiOTUxMDBkM2I1MDU2NmNlMmNiMjVjODhlMzMxYjE1NWVhMDc0ZTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU4MzNkOWMwMWZhNTNmNjVlYzI2NjEwNjBmNTk5YmQyZWE5ZWUxMjAxMmYwMTNhZTRkYzExYWY3ZmQ2MjZhN2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBkODdjMmQwOTQzZGY5NmMzMzRmODc3YjA2MmExMmVkMjY1Y2NiOWYwZDBiZTA4YTJhOGU4MzMzZGYzYmFmNTYifQ"
+          "resource": "repo://src/styles/theme.css#L86-L131",
+          "version": "repo-lines-v1:sha256:3bbd88c92c12b88814f36c0ac075b80f55defe486d490a34cad4631d7fa2dc61:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJkMzZmYmIyMzRjNTgzYjI0YWNiNTQyMzFiOTUxMDBkM2I1MDU2NmNlMmNiMjVjODhlMzMxYjE1NWVhMDc0ZTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU4MzNkOWMwMWZhNTNmNjVlYzI2NjEwNjBmNTk5YmQyZWE5ZWUxMjAxMmYwMTNhZTRkYzExYWY3ZmQ2MjZhN2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBkODdjMmQwOTQzZGY5NmMzMzRmODc3YjA2MmExMmVkMjY1Y2NiOWYwZDBiZTA4YTJhOGU4MzMzZGYzYmFmNTYifQ"
         }
       ]
     },
@@ -54,21 +54,21 @@
     },
     {
       "id": "claim_9f27d07f2a6d46b4a3827065dc930be4",
-      "statement": "Barlow, Barlow Condensed and Lilita One are loaded through next/font/google and exposed as CSS variables joined into fontVariables.",
+      "statement": "Nunito, Fredoka and Lilita One are loaded through next/font/google, each family split into preloaded and on-demand instances where needed, and exposed as CSS variables joined into fontVariables.",
       "evidence": [
         {
-          "resource": "repo://src/styles/fonts.ts#L1-L37",
-          "version": "repo-lines-v1:sha256:70950158d52fe4d3de26b47cc913d3921b96fdde5a661c7e025800a7e967e294:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyNzM0ODVjMzA1Y2JiYWIwOTQxNjc4NmIwMmEyZDkwNzU2NWFiODdkNzM3NmNmOWNkYjA3OGU1YTNiOTZjYmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/styles/fonts.ts#L1-L66",
+          "version": "repo-lines-v1:sha256:80fe5d2813262d6a73c069d6ae7c7b3a01939c1236d7df9684ff31175870edb3:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg4YmU0ODI2OTNlMGJkNjNjYjE0Mjg1YjljNDBkNzVmOGM2MGRlMzBiYjc5ODlmYjU3OWE3NTM0ZjE1MTU2ZTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3OGIwYmZmMjJiZTgzZWI1M2M0YjAwYTFmNjY3MDQwYWFlODg2OGE4NzgyYmM5ZTZkODc0NmIxOTUxZGU1NTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
     {
       "id": "claim_b311691d699f469894050cea8ce42140",
-      "statement": "globals.css imports Tailwind and theme.css, sets color-scheme per mode, a focus-visible outline, accent links and near-zero animation durations under prefers-reduced-motion, including for ::backdrop.",
+      "statement": "globals.css imports Tailwind, theme.css and fonts-fallback.css, sets color-scheme per mode, a focus-visible outline, accent links and near-zero animation durations under prefers-reduced-motion, including for ::backdrop.",
       "evidence": [
         {
-          "resource": "repo://src/styles/globals.css#L1-L49",
-          "version": "repo-lines-v1:sha256:5a26e818e501ddf69b3ca2b91aa2a4cf580d596da1dbfa740c80202c5b7e7c0f:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjExYjhlNjllODlhMzFlODdlMjVlYzQzYzkyZmZjZGRkMGNiNzk0ZGI3NTdkNjE2N2FlMzFlZTA1OGY5ZWE0MjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/styles/globals.css#L1-L50",
+          "version": "repo-lines-v1:sha256:093f088ddd5706d133c506cd854b83ce7b7a3fedfa50cce52711ca4c2543d515:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjExYjhlNjllODlhMzFlODdlMjVlYzQzYzkyZmZjZGRkMGNiNzk0ZGI3NTdkNjE2N2FlMzFlZTA1OGY5ZWE0MjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -84,11 +84,11 @@
     },
     {
       "id": "claim_3762655a230e484884541f478225a199",
-      "statement": "The frontend layout renders html with lang es, theme, mode, font variables and suppressHydrationWarning, injects the mode script, and renders a header with the brand link and ModeToggle.",
+      "statement": "The frontend layout renders html with lang es, theme, mode, font variables and suppressHydrationWarning, injects the mode script, and renders a header with the brand link, which carries the Torre emblem, and ModeToggle.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/layout.tsx#L20-L50",
-          "version": "repo-lines-v1:sha256:cf35e3b5acdd3bea1fb04c2c2038b7fed80d535973ee4a89cdd54fd577f44ddc:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0YWZiNGRhMmYyMjEzMDdkMDhiMzMyMGI5MTk4YzcwYjAzNTc3MWZjMzUyZjdhZDQxYzFlNThhNjYwNTAxZDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVjMDQ1ZWQ4MjVkMDJlM2VkZWYzMDA1YzkwNjc3MDRkZmIwZTE2YmQxMTQ3NThhYWFlZjg4NGJlNWNkOWI5MDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/app/(frontend)/layout.tsx#L21-L52",
+          "version": "repo-lines-v1:sha256:6aea3b00e396edac9c68abd8a9afd39dfdcaf5729a49be7e5d4053cefe3fc70c:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0YWZiNGRhMmYyMjEzMDdkMDhiMzMyMGI5MTk4YzcwYjAzNTc3MWZjMzUyZjdhZDQxYzFlNThhNjYwNTAxZDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVjMDQ1ZWQ4MjVkMDJlM2VkZWYzMDA1YzkwNjc3MDRkZmIwZTE2YmQxMTQ3NThhYWFlZjg4NGJlNWNkOWI5MDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -98,7 +98,7 @@
       "evidence": [
         {
           "resource": "repo://src/app/(frontend)/page.tsx#L1-L18",
-          "version": "repo-lines-v1:sha256:4edbb18e7c3f70f4eda79d1a195b49995ff9841105ff3aaee53e45184c90181d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU1ZmJmYzMyMTQwZmFlYTlhMDY3NTRiNjdlYzhlMGVjZjczZjhlNjUzNThkMjViNDBjMmQ2Y2UxYjg4NWU4MDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:949711626e3d6e84a7bf46ca2dc107df99a2f6c0a1e28f38e17204f28998129d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU1ZmJmYzMyMTQwZmFlYTlhMDY3NTRiNjdlYzhlMGVjZjczZjhlNjUzNThkMjViNDBjMmQ2Y2UxYjg4NWU4MDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://src/app/(frontend)/strings.ts#L6-L14",
@@ -111,8 +111,8 @@
       "statement": "theme.css re-declares every semantic color token, --color-section and the shadow tokens on any [data-theme] or [data-mode] element inside @layer base, so hand-written CSS using var(--color-*) follows a nested theme while a utility on the same element still wins.",
       "evidence": [
         {
-          "resource": "repo://src/styles/theme.css#L316-L354",
-          "version": "repo-lines-v1:sha256:380204cceecc2abfb9751944b4368799dae1d9dbb07cb1aeec73fb3165dbd07c:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzMmRjZTBjNmMwYjZiYjU2NjUxYzU5ZjAxZjc0MzVjMGM1ODgzMGM2MGU2ZTczOWRmODgyNjJiMGJmMjRjYzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVlNWIyMjc0ZjllY2FiMmQyM2Q4ZjNiMWUwMzAzNTQ0YzMyYmMwYzMzYmY3YmUxYjY0YmUzYWFjZWJmMmFiODYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/styles/theme.css#L343-L385",
+          "version": "repo-lines-v1:sha256:eb3fbce684c0f585f7d1462e7a56ed3bdbd140a72a498189cec953d1d277b6e9:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzMmRjZTBjNmMwYjZiYjU2NjUxYzU5ZjAxZjc0MzVjMGM1ODgzMGM2MGU2ZTczOWRmODgyNjJiMGJmMjRjYzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMxMzRjNGU2YTg4ODViNDk1Y2Y2YWIwYmFjNjU3ZDAyYjRhNzk3MjlhZDg2NzIzOTI5ZjA0YjIyNDg1ZmI3NjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://tests/unit/theme-css.test.ts#L11-L28",
@@ -122,21 +122,63 @@
     },
     {
       "id": "claim_bbf55986b6e444758a83e5c7d3d89fce",
-      "statement": "Only Barlow and Barlow Condensed are preloaded; Lilita One sets preload false, and Barlow Condensed loads only weights 700 and 800 while Barlow loads 400 to 700.",
+      "statement": "Only Nunito 400 and Fredoka 600 are preloaded; Nunito 500 to 800, Fredoka 500 and Lilita One load on demand with preload false.",
       "evidence": [
         {
-          "resource": "repo://src/styles/fonts.ts#L5-L33",
-          "version": "repo-lines-v1:sha256:a9b4c73726fd998c2ac94756084b532932b71acd023de58285e5c4b060798d35:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwMWVhZDkzNmEyMjgxZDUzZGNjMDY0YjdlMmEyYWIwZDUzYjkyZWYzZWY3YjM0YjY2ODY3MzAwNzg5NWM4NjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI0NWJkNDdkOTRiOTJjZWM2YmRkMDYyMGRjYzk1MzQ4Mjg2ZWI4M2M3NmZmNDFkZGUzY2M4YWE5NTQ3ZTU3ZTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY3NzJiMDg2NGFjNTYwYmNmM2IyMGE4OGIyN2VjNzk3MjVhNDY3ODQ1NWYyMTRmMDEzYmUxMDczZDhiNWVhNWYifQ"
+          "resource": "repo://src/styles/fonts.ts#L7-L59",
+          "version": "repo-lines-v1:sha256:b260b187bd6b3ad9cc00ebdb9ba1755ba3d55538608d19cd6ac54aabe19019c2:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2YTE1OTcyNzA1MmE4NGI5MzVlYzQyYzE5N2I2ODk3NTVlOTk2N2YzNDg0M2UwZTM5NmE5ZjBkZTYzZTkzOTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ2YzQyZmNjYWJjYTgwNTQ4ZjBjMzJkM2I4NjFiNWZlMzhiZDMzYjg5NDJjMjZlNzRkODljMmU4ZWU4NGQ1OWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM4MDMxYmVmMTk4Yjg5ZDRhOTkxMTk4Y2FlZGMxZmRiNzk1NWRiZDQ1ZGRlNWRhNzJiY2VjMjdhYmEzY2JiNDMifQ"
         },
         {
-          "resource": "repo://tests/unit/fonts.test.ts#L38-L56",
-          "version": "repo-lines-v1:sha256:99d3cb66ee77f6ebc6af8874a1dde5d05a11c70d470885d65616e6b1cdb06df8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjNjBiYjI1NjE0ODM5MzJhZTUzYzI5MTgzOGI3NDZmZjY1OGQ3MTkxZjhjYzY0ZTAzNDdjMWFlNzU0ZTA2ZjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE3MjM4YWRlZDExMzA2Zjg1MzNiYmNlOTM4OTQ5NjlhZTljNTczNTM5ZjhmYmM4ODQzNTFhNTIzNzM5YWEyNzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc5OGZhNWZiNDlhYjU4YzA0YjZkZGUzMGJlOGFkOTE3ZGIwMzMyNDRlMjI5NGY1MDc1MDlhNDZkNjdmN2I5NWQifQ"
+          "resource": "repo://tests/unit/fonts.test.ts#L43-L64",
+          "version": "repo-lines-v1:sha256:7511caf2ec6c4cb9188ced1c23a58b46444155f3ab12213d4ced943ef19a3078:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRmM2ExNGUzOGU5NGUwODAwMzZhNzYwZDUyOGMyMjIzZDgyNDlmNjI4ODI5YWYxZGE3N2VhYTc4NDQ3YmZiYmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM2MTZiMzFmM2M1ODRkNzgwY2VmMmYwN2M2MWIzM2RkNDRlMTYzYzY5ZTg3ZmM4MWFhNTRlNmY3ZjA1OWU1OGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI1Yjc2Y2Y4ZWY5MjgwZTAyMDVlNmRmNWVjYzNhOTIwYjBiODliNTllM2Y1MWQyM2JhMmZmN2QxYjcwOWJmMjAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_993c7a4e6ea744fea49ee7f507dfef29",
+      "statement": "fonts-fallback.css declares Linux fallback faces for Fredoka, Nunito and Lilita One over Liberation Sans, Arimo or Roboto with next/font's size and metric overrides, because systems without Arial ignore next/font's Arial-based fallbacks.",
+      "evidence": [
+        {
+          "resource": "repo://src/styles/fonts-fallback.css#L1-L40",
+          "version": "repo-lines-v1:sha256:369ea9f6b83da8a492f9af7764c783f11f691cfbef71796d7aff9b91f41abaf4:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3MzI3NzVlZWU3NzAwMThkYjdkNzlkMDM1YTAxNjMwMTVhMDE2ZGUxN2ViYmY4ODg0OTAyZWM2ZDFkOWZjZjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/styles/theme.css#L115-L123",
+          "version": "repo-lines-v1:sha256:61f90d9297bb8872ca45dbb2dfb19951c89cacf74ca124da7eb3cfd6fc1ea599:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGJkNTA3MTJlYjY4YzU2NzU0MDNmZWQzOGUwZThkYzUwMmM5NGVkM2RhMWYxNGJmNzQzMDkzZDBhYjI1NWY0ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTQyOTFjODNiNjdlNzBmMTY3YzllOGE2MTU3OWNkY2YzNjhjOTJmYmNlNmQ3MWYzMDk2ODk2ZDkwYTQwN2NmNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDlmMzk1MjlmNGM5OTE1ZTVkN2MxZmI5ZGJmZmQyMDhmZGUyOGM3MDgyOGIwM2E0NGU1YWFkYzVmZmM5ZmZkMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDVmMWE4YmU1YTdhNDZhZGZjYTI3NzE3NDZmOGE4ZjY5ZWQwZmNkMTAzN2VhY2MzYWRhYzZkM2UxMDJmYTAzZiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_6c3691d69bc649b8bf2aa689c906b568",
+      "statement": "Game icon wells and slots take mode-dependent colors: in light mode the slot behind a full-color icon stays dark while the step-number well uses the raised color.",
+      "evidence": [
+        {
+          "resource": "repo://src/styles/theme.css#L324-L341",
+          "version": "repo-lines-v1:sha256:a25d468ee9ba509e178d5135997b9c833ec79bb4978fb88c93bfd1b3982aeb31:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBlZTJlN2UyZjcwYjQ2YzA3MzU5ZGVmOGFiNzc1YzQ5ZjQ1OGU1NmNkNjg2Y2YzZmE1Y2ZkNTIwMTVkMjJmMDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVlNWIyMjc0ZjllY2FiMmQyM2Q4ZjNiMWUwMzAzNTQ0YzMyYmMwYzMzYmY3YmUxYjY0YmUzYWFjZWJmMmFiODYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ5MGUyMmMxMmU0YjI4MzMyY2IxMTM4NjRmOTJhYThjZTMyNmM3ODQ0NGY0NjkwYzY0MDUxYjAwNGRkMDYzZTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_40ced92c809a40c4b5d5ad4236f577ab",
+      "statement": "scripts/build-icons.ts generates icon2.svg, icon1.png and apple-icon.png in the frontend route group from the emblem drawing and the Arcano palette read from theme.css, and a unit test checks the committed icon2.svg matches.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/build-icons.ts#L1-L37",
+          "version": "repo-lines-v1:sha256:cd3e26c6701347046409b4600fd0d0b2a5fa7f86ec934ce5459899ac038c9596:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMyYWJlODJiZDljNGUxMzE4OTcxZjkwYjBiNTM4ZGE3Yjc2ZWI5YjE1MjAyY2MzZGEyOWNhZjQwNzczZGUwYzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3NDA2OWQzMmIyZDkyMGViYzg3MDJhZGY3N2ViMGQyMGYwODM2MmI0MDRlZjdhODVjZjk2YzZkZTI3MDI4NDkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/theme/palette.ts#L1-L20",
+          "version": "repo-lines-v1:sha256:b072f5a0311d9def6df338cd98355ba4a6a51a2da838cd658dd6b17ecfd6bff3:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImViNzkxZmMyMzA1NmUxYWNlMWUyZTFlNmJjMmUyOTI1OWZlMjA0M2IxODQ2OTUxMjg2OWM1YzY5NWYwZWZjMzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/emblem.test.tsx#L92-L108",
+          "version": "repo-lines-v1:sha256:26025112caeb845eaa4996bdb3dc22153a18e7c33e0fb83aca0f7d72ff3e3385:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQyZTU2YmY5ZjAzYzRhMWE2ODU1MWI0NmM3MjM0OTg2NWYxNWZhNmJkM2I1ZWZiOTIzYTdkMmMwNzBhM2Q1ZmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-05T11:00:19.182Z"
+    "at": "2026-11-06T15:25:11.354Z"
   }
 }
