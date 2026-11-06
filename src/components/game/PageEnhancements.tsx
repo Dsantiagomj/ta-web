@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 
 import { IconButton } from '@/components/ui/IconButton'
 import { uiStrings } from '@/components/ui/strings'
+import { stepBandMargin } from '@/lib/guides/display'
 
 import { CloseIcon } from './icons'
 import { gameStrings } from './strings'
@@ -158,17 +159,30 @@ export function PageEnhancements() {
       }
       for (const step of steps) step.toggleAttribute('data-current', step.id === id)
     }
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) if (entry.isIntersecting) mark(entry.target.id)
-      },
-      // El paso que cruza la franja entre el 30 % y el 40 % de la altura de la ventana.
-      { rootMargin: '-30% 0px -60% 0px' },
-    )
+    // El paso que cruza la franja entre el 30 % y el 40 % de la altura de la ventana. La
+    // franja va en píxeles, así que el observador se rehace cuando cambia la altura.
+    let observer: IntersectionObserver | null = null
+    let height = 0
+    const observe = () => {
+      if (window.innerHeight === height) return
+      height = window.innerHeight
+      observer?.disconnect()
+      observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) if (entry.isIntersecting) mark(entry.target.id)
+        },
+        { rootMargin: stepBandMargin(height) },
+      )
+      for (const step of steps) observer.observe(step)
+    }
     // Hasta que el lector baja a los pasos, el actual es el primero.
     mark(steps[0]!.id)
-    for (const step of steps) observer.observe(step)
-    return () => observer.disconnect()
+    observe()
+    window.addEventListener('resize', observe)
+    return () => {
+      window.removeEventListener('resize', observe)
+      observer?.disconnect()
+    }
   }, [])
 
   const close = () => viewer.current?.close()
