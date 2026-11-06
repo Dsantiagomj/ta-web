@@ -6,6 +6,7 @@ import { applySummaryFill, summaryToFill } from '@/lib/guides/summary'
 import type { Quest, QuestGuide } from '@/payload-types'
 
 import { createHtmlToLexical } from './rich-text'
+import { releaseDom } from './squarespace/dom'
 import type {
   ContentBlock,
   ConvertedGuide,
@@ -221,6 +222,8 @@ export async function loadQuestGuides(
       const converted = await toBodyBlock(block, oddities)
       if (converted) body.push(converted)
     }
+    // El cuerpo ya está en Lexical: se suelta el DOM de la conversión antes de la siguiente.
+    await releaseDom()
 
     const data = {
       title: guide.title,

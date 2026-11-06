@@ -11,6 +11,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 
 import { loadQuestGuides } from './load-quest-guides'
+import { releaseDom } from './squarespace/dom'
 import { createImageFetcher } from './squarespace/fetch-image'
 import { parsePage } from './squarespace/parse-page'
 import { parseQuestMatches } from './squarespace/quest-matches'
@@ -42,6 +43,8 @@ try {
     })
     if (match?.ambiguous) converted.oddities.push('Cruce ambiguo con DofusDB, sin enlazar')
     guides.push(converted)
+    // La guía convertida ya es texto: se suelta el DOM de la página antes de leer otra.
+    await releaseDom()
   }
   console.log(`Leídas ${guides.length} páginas (${seconds()} s). Cargando…`)
 

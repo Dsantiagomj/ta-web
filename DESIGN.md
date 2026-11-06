@@ -552,7 +552,7 @@ Decided 2026-11-05 (guide v4): the section is called "Pasos" everywhere a reader
 #### Steps side list
 
 - **Anatomy**: from 1152px, a `<nav>` named by its `h2` "Pasos" (Fredoka 600, 1.25rem), sticky 24px from the top, 272px wide. An `<ol>` of links to `#paso-N`, 44px rows, 10px radius: the number (Fredoka 600, `--color-muted`), the label in `--color-ink-2` 0.9375rem, the coordinates without brackets in `--color-muted` 700 with tabular figures ("7,-19").
-- **Label**: the first bold term in the step's prose (not its callouts), with trailing punctuation removed and skipping bold text that is only coordinates. Without one, "Paso N". Labels are never invented. Coordinates: the step's own X and Y, else the first `[x,y]` in its text, else none (`src/lib/guides/step-nav.ts`).
+- **Label**: the first bold term in the step's prose (not its callouts), with trailing punctuation removed. Any `[x,y]` inside it goes, together with what touches it (brackets, punctuation, an "en" or "a" right before it), since the coordinates column already shows them: "Dina Tapia en [-46,44]" reads "Dina Tapia". A bold run left without a word of two or more letters (only coordinates, "[19,29], [19,30] y [21,30]", a lone "S" or "1 x") is skipped for the next one. Without one, "Paso N". Labels are never invented. Coordinates: the step's own X and Y, else the first `[x,y]` in its text, else none (`src/lib/guides/step-nav.ts`).
 - **States**: hover (mouse only) fills the row with `--color-raised` and turns the label `--color-ink`. The current step (set by the island with `aria-current="step"`) keeps that fill, its label in 700, its number in `--color-accent` and its coordinates in `--color-ink-2`.
 - **Without JavaScript** it is a plain list of in-page links. Below 1152px it is not rendered visible (`display: none`).
 
@@ -560,7 +560,7 @@ Decided 2026-11-05 (guide v4): the section is called "Pasos" everywhere a reader
 
 - **Callout** ("¡Importante!", "¡Alto!"): as the Callout row of the components table, 18px from the blocks around it inside a step.
 - **Torre's tips** (`TorreTips`): the tip callout of a guide is Torre speaking. His avatar in a 72px circle (2px `--color-well-line` ring, `alt=""`, lazy), then a speech bubble 18px away: `--color-surface`, 1px `--color-well-line`, 16px radius, `18px 22px 20px` padding, with a caret pointing at the avatar. Inside, the heading "Recomendaciones de Torre" (Fredoka 600, 1.25rem, `--color-ink`) and the text in `--color-ink`, list markers in `--color-accent`. An `<aside>` named by that heading. Under 640px the avatar (56px) sits above the bubble and the caret points up.
-- The importer turns "NOTA" paragraphs into tips. The "RECOMENDACIONES:" paragraph and list of the Squarespace guides still import as prose; Torre or an editor turns them into a tip block in the panel.
+- The importer turns "NOTA" paragraphs and Torre's "RECOMENDACIONES" sections into tips (`README.md`, Guide import notes).
 
 #### Figure and fullscreen viewer
 
@@ -605,7 +605,6 @@ The components above need data the guide does not store yet:
 | Next quest card and achievement pages | the achievement pages; the quest stores its achievement and position, but not the other quests' guides |
 | Video poster | the thumbnail stored as media at import |
 | Item and monster icons | the icon files imported from DofusDB into media; until then item slots in Necesitarás and Recompensas are empty |
-| Torre's tips in imported guides | the importer turning "RECOMENDACIONES:" and its list into a tip block |
 
 ### Component catalog
 

@@ -1,7 +1,7 @@
 // La lista «Pasos» que acompaña a la guía desde 1152px (DESIGN.md, Steps side list).
 // Código puro: cada paso con una etiqueta sacada de su propio texto y sus coordenadas.
 
-import { type Coordinates, parseCoordinates, splitCoordinates } from './coordinates'
+import { type Coordinates, splitCoordinates } from './coordinates'
 import type { GuideStep } from './page'
 import { guideStrings } from './strings'
 
@@ -56,18 +56,48 @@ export function stepAnchor(index: number): string {
   return `paso-${index + 1}`
 }
 
+// Lo que rodea a unas coordenadas en una negrita: espacios, signos y paréntesis. Solo se
+// quita del lado que toca las coordenadas; «Pandora (la buena)» conserva su paréntesis.
+const BEFORE_COORDINATES = /(?:\s+(?:en|a)(?!\p{L})|[\s.,:;(\-–—])*$/u
+const AFTER_COORDINATES = /^[\s.,:;)\-–—]*/u
+// Un trozo de etiqueta dice algo si tiene una palabra: «y» o «1 x» no cuentan.
+const MEANINGFUL = /\p{L}{2,}/u
+
+/**
+ * Una negrita como etiqueta: sin sus coordenadas, que ya van en el chip, ni lo que las
+ * rodea («en [x,y]», «( [x,y] ).»). Los trozos con alguna palabra se unen con un
+ * espacio; si no queda ninguno, null.
+ */
+function labelText(text: string): string | null {
+  const parts = splitCoordinates(text)
+  const label = parts
+    .flatMap((part, index) => {
+      if (typeof part !== 'string') return []
+      let kept = part
+      // «Dina Tapia en [-46,44]»: el «en» de delante de las coordenadas se va con ellas.
+      if (typeof parts[index + 1] === 'object') kept = kept.replace(BEFORE_COORDINATES, '')
+      if (typeof parts[index - 1] === 'object') kept = kept.replace(AFTER_COORDINATES, '')
+      // Un trozo sin una palabra («y» entre dos coordenadas) no aporta nada.
+      return MEANINGFUL.test(kept) ? [kept.trim()] : []
+    })
+    .join(' ')
+    .replace(/[\s.,:;]+$/u, '')
+  return label || null
+}
+
 /**
  * Una entrada por paso. La etiqueta es el primer término en negrita de su prosa (sin los
- * avisos): un PNJ o un lugar, como Torre los marca. Sin negrita, «Paso N»; nunca se
- * inventa. Las coordenadas son las del paso o, sin ellas, las primeras de su texto.
+ * avisos): un PNJ o un lugar, como Torre los marca, sin sus coordenadas. Sin negrita, o
+ * si a ninguna le queda una palabra, «Paso N»; nunca se inventa. Las coordenadas son las
+ * del paso o, sin ellas, las primeras de su texto.
  */
 export function stepNav(steps: GuideStep[]): StepNavEntry[] {
   return steps.map((step, index) => {
     const nodes = stepTextNodes(step)
     const label = nodes
       .filter((node) => typeof node.format === 'number' && (node.format & BOLD) !== 0)
-      .map((node) => (node.text ?? '').trim().replace(/[\s.,:;]+$/u, ''))
-      .find((text) => text && !parseCoordinates(text))
+      .map((node) => labelText(node.text ?? ''))
+      .find(Boolean)
     const coordinates = step.coordinates ?? textCoordinates(nodes)[0]
     return {
       id: stepAnchor(index),
