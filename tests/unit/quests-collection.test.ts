@@ -87,6 +87,20 @@ describe('recompensas y requisitos de quests', () => {
     quantities(field('items', rewards.fields), 'item', 'items')
   })
 
+  it('guarda la XP en el nivel óptimo, el principio del rango de la guía', () => {
+    expect(field('experienceMin', group('rewards').fields)).toMatchObject({ type: 'number' })
+  })
+
+  it('guarda la zona traducible y el logro con la posición de la misión en él', () => {
+    expect(field('zone')).toMatchObject({ type: 'text', localized: true })
+    const achievement = group('achievement')
+    expect(field('dofusId', achievement.fields)).toMatchObject({ type: 'number' })
+    expect(field('name', achievement.fields)).toMatchObject({ type: 'text', localized: true })
+    expect(field('slug', achievement.fields)).toMatchObject({ type: 'text' })
+    expect(field('position', achievement.fields)).toMatchObject({ type: 'number' })
+    expect(field('total', achievement.fields)).toMatchObject({ type: 'number' })
+  })
+
   it('guarda los IDs de DofusDB de emotes, hechizos, títulos y oficios como listas de números', () => {
     const rewards = group('rewards')
     for (const name of ['emoteIds', 'spellIds', 'titleIds', 'jobIds']) {

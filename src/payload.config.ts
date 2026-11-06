@@ -9,6 +9,7 @@ import { fileURLToPath } from 'url'
 import { Items } from './collections/Items'
 import { Media } from './collections/Media'
 import { Monsters } from './collections/Monsters'
+import { Npcs } from './collections/Npcs'
 import { QuestGuides } from './collections/QuestGuides'
 import { Quests } from './collections/Quests'
 import { Users } from './collections/Users'
@@ -26,7 +27,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Quests, Items, Monsters, QuestGuides],
+  collections: [Users, Media, Quests, Items, Monsters, Npcs, QuestGuides],
   editor: lexicalEditor(),
   // GET /api/health, para los smoke tests tras un despliegue.
   endpoints: [healthEndpoint],

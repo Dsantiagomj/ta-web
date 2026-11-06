@@ -1,23 +1,98 @@
 import { requiredTerms } from './criterion'
 import { questNeeds } from './quest-needs'
 import { questRewards } from './quest-rewards'
-import type { LocalizedText, MappedQuest, RawMapPosition, RawNpc, RawQuest } from './types'
+import type {
+  LocalizedText,
+  MappedQuest,
+  QuestAchievement,
+  RawAchievement,
+  RawArea,
+  RawMapPosition,
+  RawNpc,
+  RawQuest,
+  RawSubArea,
+} from './types'
 
 export interface QuestLookups {
   npcs: Map<number, RawNpc>
   mapPositions: Map<number, RawMapPosition>
+  subAreas: Map<number, RawSubArea>
+  areas: Map<number, RawArea>
+  /** El logro de cada misión, por su ID de DofusDB. */
+  achievements: Map<number, QuestAchievement>
 }
 
-export function indexLookups(npcs: RawNpc[], mapPositions: RawMapPosition[]): QuestLookups {
-  return {
-    npcs: new Map(npcs.map((npc) => [npc.id, npc])),
-    mapPositions: new Map(mapPositions.map((map) => [map.id, map])),
-  }
+export interface ExtraLookups {
+  subAreas?: RawSubArea[]
+  areas?: RawArea[]
+  achievements?: RawAchievement[]
 }
 
 // Solo español al lanzar; el francés es el idioma original de DofusDB y cubre los huecos.
 export function spanish(text: LocalizedText | null | undefined): string | null {
   return text?.es || text?.fr || null
+}
+
+/** Un slug como los de la web de Torre: minúsculas, sin acentos ni signos, con guiones. */
+export function slugify(text: string): string {
+  return text
+    .normalize('NFD')
+    .replace(/\p{M}/gu, '')
+    .toLocaleLowerCase('es')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+}
+
+/**
+ * El logro de cada misión y su posición en él. Una misión que está en varios logros se
+ * queda con el de ID más bajo, para que el resultado no dependa del orden de DofusDB.
+ */
+function achievementsByQuest(achievements: RawAchievement[]): Map<number, QuestAchievement> {
+  const byQuest = new Map<number, QuestAchievement>()
+  const sorted = [...achievements].sort((a, b) => a.id - b.id)
+  for (const achievement of sorted) {
+    const quests = achievement.need?.quests ?? []
+    const name = spanish(achievement.name)
+    if (!name) continue
+    const slug = slugify(spanish(achievement.slug) ?? name)
+    quests.forEach((questId, index) => {
+      if (byQuest.has(questId)) return
+      byQuest.set(questId, {
+        dofusId: achievement.id,
+        name,
+        slug,
+        position: index + 1,
+        total: quests.length,
+      })
+    })
+  }
+  return byQuest
+}
+
+export function indexLookups(
+  npcs: RawNpc[],
+  mapPositions: RawMapPosition[],
+  extra: ExtraLookups = {},
+): QuestLookups {
+  return {
+    npcs: new Map(npcs.map((npc) => [npc.id, npc])),
+    mapPositions: new Map(mapPositions.map((map) => [map.id, map])),
+    subAreas: new Map((extra.subAreas ?? []).map((subArea) => [subArea.id, subArea])),
+    areas: new Map((extra.areas ?? []).map((area) => [area.id, area])),
+    achievements: achievementsByQuest(extra.achievements ?? []),
+  }
+}
+
+/** El área del primer mapa de inicio que la tiene, o null. */
+function questZone(raw: RawQuest, lookups: QuestLookups): string | null {
+  for (const position of raw.startPosition ?? []) {
+    const map = position?.mapId == null ? undefined : lookups.mapPositions.get(position.mapId)
+    const subArea = map?.subAreaId == null ? undefined : lookups.subAreas.get(map.subAreaId)
+    const area = subArea?.areaId == null ? undefined : lookups.areas.get(subArea.areaId)
+    const name = spanish(area?.name)
+    if (name) return name
+  }
+  return null
 }
 
 // Solo los Qf= obligatorios: las alternativas con | y need.quests (que también trae Qa=) no son "terminar antes".
@@ -61,6 +136,8 @@ export function mapQuest(raw: RawQuest, lookups: QuestLookups): MappedQuest {
     categoryId: raw.categoryId ?? null,
     startCriterion: raw.startCriterion || null,
     startPositions,
+    zone: questZone(raw, lookups),
+    achievement: lookups.achievements.get(raw.id) ?? null,
     prerequisiteDofusIds: prerequisites(raw),
     rewards: questRewards(raw),
     needs: questNeeds(raw),

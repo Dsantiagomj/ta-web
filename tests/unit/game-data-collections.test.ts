@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest'
 import { gameDataAccess } from '@/collections/game-data-access'
 import { Items } from '@/collections/Items'
 import { Monsters } from '@/collections/Monsters'
+import { Npcs } from '@/collections/Npcs'
 
 function field(collection: CollectionConfig, name: string): Field {
   const found = collection.fields.find(
@@ -60,6 +61,33 @@ describe('colección items', () => {
     for (const name of ['level', 'typeId', 'superTypeId']) {
       expect(field(Items, name)).toMatchObject({ type: 'number' })
       expect(field(Items, name)).not.toHaveProperty('required', true)
+    }
+  })
+})
+
+describe('colección npcs', () => {
+  it('usa su slug, el nombre como título y el grupo de datos del juego', () => {
+    expect(Npcs.slug).toBe('npcs')
+    expect(Npcs.admin?.useAsTitle).toBe('name')
+    expect(Npcs.admin?.group).toBe('Datos del juego')
+    expect(Npcs.access).toBe(gameDataAccess)
+  })
+
+  it('identifica cada PNJ por su ID de DofusDB y guarda su nombre y su look', () => {
+    expect(field(Npcs, 'dofusId')).toMatchObject({
+      type: 'number',
+      required: true,
+      unique: true,
+      index: true,
+    })
+    expect(field(Npcs, 'name')).toMatchObject({ type: 'text', required: true, localized: true })
+    expect(field(Npcs, 'look')).toMatchObject({ type: 'text' })
+  })
+
+  it('enlaza sus dos renders importados a Media, opcionales', () => {
+    for (const name of ['renderRight', 'renderLeft']) {
+      expect(field(Npcs, name)).toMatchObject({ type: 'upload', relationTo: 'media' })
+      expect(field(Npcs, name)).not.toHaveProperty('required', true)
     }
   })
 })

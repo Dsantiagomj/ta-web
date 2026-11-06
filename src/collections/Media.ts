@@ -47,6 +47,18 @@ export const Media: CollectionConfig = {
       localized: true,
     },
     {
+      // El refresco de datos del juego busca por ella lo que ya subió: nunca duplica.
+      name: 'gameAsset',
+      label: 'Arte del juego',
+      type: 'text',
+      unique: true,
+      index: true,
+      admin: {
+        readOnly: true,
+        description: 'Solo en el arte importado de DofusDB, como los renders de PNJ.',
+      },
+    },
+    {
       name: 'originalUrl',
       label: 'URL original en Squarespace',
       type: 'text',

@@ -7,6 +7,7 @@ import * as migration_20261104_195910_needs_list from './20261104_195910_needs_l
 import * as migration_20261104_210644_guide_single_quest from './20261104_210644_guide_single_quest';
 import * as migration_20261105_103713_media_image_sizes from './20261105_103713_media_image_sizes';
 import * as migration_20261105_135506_guide_step_block from './20261105_135506_guide_step_block';
+import * as migration_20261106_010549_guide_v4_quest_npcs from './20261106_010549_guide_v4_quest_npcs';
 
 export const migrations = [
   {
@@ -52,6 +53,11 @@ export const migrations = [
   {
     up: migration_20261105_135506_guide_step_block.up,
     down: migration_20261105_135506_guide_step_block.down,
-    name: '20261105_135506_guide_step_block'
+    name: '20261105_135506_guide_step_block',
+  },
+  {
+    up: migration_20261106_010549_guide_v4_quest_npcs.up,
+    down: migration_20261106_010549_guide_v4_quest_npcs.down,
+    name: '20261106_010549_guide_v4_quest_npcs'
   },
 ];
