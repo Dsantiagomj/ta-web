@@ -5,10 +5,11 @@ import { getPayload } from 'payload'
 import { cache } from 'react'
 
 import { GUIDE_PAGES_REVALIDATE, GUIDE_PAGES_TAG } from '@/lib/guides/cache'
-import { prerequisiteQuestIds } from '@/lib/guides/page'
+import { prerequisiteQuestIds, questGiverId } from '@/lib/guides/page'
 import {
   findGuideBySlug,
   findPublishedGuideLinks,
+  findQuestGiver,
   type FindGuideOptions,
 } from '@/lib/guides/queries'
 import type { User } from '@/payload-types'
@@ -17,8 +18,11 @@ async function readGuide(slug: string, options: FindGuideOptions = {}) {
   const payload = await getPayload({ config })
   const guide = await findGuideBySlug(payload, slug, options)
   if (!guide) return null
-  const links = await findPublishedGuideLinks(payload, prerequisiteQuestIds(guide))
-  return { guide, links }
+  const [links, giver] = await Promise.all([
+    findPublishedGuideLinks(payload, prerequisiteQuestIds(guide)),
+    findQuestGiver(payload, questGiverId(guide)),
+  ])
+  return { guide, links, giver }
 }
 
 // Lo publicado se guarda en caché con la etiqueta de las guías: los hooks de la colección

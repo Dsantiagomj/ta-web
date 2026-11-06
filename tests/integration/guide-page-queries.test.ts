@@ -1,10 +1,10 @@
 import type { Payload } from 'payload'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
-import { findGuideBySlug, findPublishedGuideLinks } from '@/lib/guides/queries'
+import { findGuideBySlug, findPublishedGuideLinks, findQuestGiver } from '@/lib/guides/queries'
 import type { Quest, User } from '@/payload-types'
 
-import { createPanelUser, startPayload } from './payload'
+import { createPanelUser, startPayload, tinyPng } from './payload'
 
 // Lo que lee la página pública /<slug>: siempre con overrideAccess: false. Un visitante
 // solo ve lo publicado; la vista previa de un usuario del panel ve el último borrador.
@@ -82,6 +82,8 @@ describe('consultas de la página de guía', () => {
     await payload.delete({ collection: 'quest-guides', where: { id: { exists: true } } })
     await payload.delete({ collection: 'quests', where: { id: { exists: true } } })
     await payload.delete({ collection: 'items', where: { id: { exists: true } } })
+    await payload.delete({ collection: 'npcs', where: { id: { exists: true } } })
+    await payload.delete({ collection: 'media', where: { gameAsset: { exists: true } } })
     await payload.destroy()
   })
 
@@ -132,6 +134,25 @@ describe('consultas de la página de guía', () => {
       const links = await findPublishedGuideLinks(payload, [previousQuest.id, draftOnlyQuest.id])
       expect(links).toEqual([{ questId: previousQuest.id, slug: 'esto-hace-aguas' }])
       expect(await findPublishedGuideLinks(payload, [])).toEqual([])
+    })
+  })
+
+  describe('el PNJ de la misión', () => {
+    it('un visitante lee el PNJ por su ID de DofusDB, con sus renders poblados', async () => {
+      const render = await payload.create({
+        collection: 'media',
+        data: { alt: 'Hupe Esse', gameAsset: 'dofusdb-npc-render:4412:right:prueba' },
+        file: tinyPng(),
+      })
+      await payload.create({
+        collection: 'npcs',
+        data: { dofusId: 4412, name: 'Hupe Esse', look: '{74}', renderRight: render.id },
+      })
+
+      const giver = await findQuestGiver(payload, 4412)
+      expect(giver).toMatchObject({ name: 'Hupe Esse', renderRight: { id: render.id } })
+      expect(await findQuestGiver(payload, 999_999)).toBeNull()
+      expect(await findQuestGiver(payload, null)).toBeNull()
     })
   })
 })

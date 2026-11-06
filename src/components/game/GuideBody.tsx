@@ -1,24 +1,25 @@
-import type { ReactNode } from 'react'
-
 import { Callout } from '@/components/ui/Callout'
 import { Figure } from '@/components/ui/Figure'
 import type { GuideBlock, GuideStep } from '@/lib/guides/page'
+import { stepAnchor, stepPin } from '@/lib/guides/step-nav'
 
 import './game.css'
 import { GuideRichText } from './GuideRichText'
-import { StagesTimeline } from './StagesTimeline'
+import { QuestSteps } from './QuestSteps'
+import { TorreTips } from './TorreTips'
 import { VideoFacade } from './VideoFacade'
 
 /**
  * Los bloques en orden, sin envoltorio: prosa, capturas, vídeos y avisos. minHeading es el
- * nivel más alto de los títulos del texto: 4 dentro de un paso, bajo su h3.
+ * nivel más alto de los títulos del texto: 3 dentro de un paso, bajo el h2 «Pasos»; 4
+ * dentro de un aviso, bajo su h3.
  */
 export function GuideBlocks({
   blocks,
   minHeading = 2,
 }: {
   blocks: GuideBlock[]
-  minHeading?: 2 | 4
+  minHeading?: 2 | 3
 }) {
   return blocks.map((block) => {
     switch (block.kind) {
@@ -43,16 +44,23 @@ export function GuideBlocks({
         )
       case 'video':
         return <VideoFacade key={block.key} url={block.url} title={block.title} />
-      case 'callout':
-        return (
+      case 'callout': {
+        const text = (
+          <GuideRichText
+            content={block.content}
+            priorityImage={block.priorityImage}
+            minHeading={4}
+          />
+        )
+        // Un consejo es Torre hablando: su avatar y su bocadillo (DESIGN.md, Torre's tips).
+        return block.variant === 'tip' ? (
+          <TorreTips key={block.key}>{text}</TorreTips>
+        ) : (
           <Callout key={block.key} variant={block.variant}>
-            <GuideRichText
-              content={block.content}
-              priorityImage={block.priorityImage}
-              minHeading={minHeading}
-            />
+            {text}
           </Callout>
         )
+      }
     }
   })
 }
@@ -72,21 +80,17 @@ export function GuideBody({ blocks }: { blocks: GuideBlock[] }) {
 }
 
 /**
- * Los pasos de la guía (DESIGN.md, Steps timeline): tarjetas numeradas que se marcan al
- * terminarlas y la píldora de progreso, todo con CSS. Los hijos, el Botín, cierran la línea.
+ * Los pasos de la guía (DESIGN.md, Steps): numerados, sin títulos ni casillas, con su
+ * contenido. Las coordenadas del paso que su texto no nombra van como chip al principio.
  */
-export function GuideSteps({ steps, children }: { steps: GuideStep[]; children?: ReactNode }) {
+export function GuideSteps({ steps }: { steps: GuideStep[] }) {
   return (
-    <StagesTimeline
-      id="pasos"
-      ticks
-      stages={steps.map((step) => ({
-        title: step.title,
-        coordinates: step.coordinates,
-        content: <GuideBlocks blocks={step.blocks} minHeading={4} />,
+    <QuestSteps
+      steps={steps.map((step, index) => ({
+        id: stepAnchor(index),
+        pin: stepPin(step),
+        content: <GuideBlocks blocks={step.blocks} minHeading={3} />,
       }))}
-    >
-      {children}
-    </StagesTimeline>
+    />
   )
 }

@@ -1,12 +1,12 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
-import { BotinCard } from '@/components/game/BotinCard'
 import { GuideBody, GuideSteps } from '@/components/game/GuideBody'
-import { HeroHeader } from '@/components/game/HeroHeader'
 import { PageEnhancements } from '@/components/game/PageEnhancements'
-import { SummaryRibbon } from '@/components/game/SummaryRibbon'
-import { botinProps, guideContent, guideLevel, guideSeo, ribbonProps } from '@/lib/guides/page'
+import { QuestHeader } from '@/components/game/QuestHeader'
+import { StepTracker } from '@/components/game/QuestSteps'
+import { guideContent, guideSeo, questHeaderProps } from '@/lib/guides/page'
+import { stepNav } from '@/lib/guides/step-nav'
 
 import { siteStrings } from '../strings'
 import { loadGuidePage } from './data'
@@ -39,47 +39,41 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 /**
- * Guía de misión, variante B (DESIGN.md, Quest guide), con lo que la guía guarda hoy:
- * cabecera con el medallón y resumen; con bloques Paso, la entrada, los pasos con el Botín
- * como último nodo y el cierre; sin ellos, el cuerpo como prosa y el Botín. Las partes sin
- * datos (arte, migas, logro, siguiente misión) no se pintan. Una sola isla de cliente; la
- * de la vista previa solo en draft mode. Marcar los pasos es CSS, sin JavaScript.
+ * Guía de misión, v4 (DESIGN.md, Quest guide): una página plana con la cabecera (el PNJ
+ * que da la misión, el título, el subtítulo y Prerrequisitos, Necesitarás y Recompensas),
+ * la entrada, los pasos numerados y el cierre; desde 1152px, la lista «Pasos» al lado.
+ * Lo que la guía no guarda no se pinta. Una sola isla de cliente; la de la vista previa
+ * solo en draft mode.
  */
 export default async function QuestGuidePage({ params }: Props) {
   const page = await loadGuidePage((await params).slug)
   if (!page) notFound()
 
-  const { guide, links, preview } = page
-  const botin = botinProps(guide)
+  const { guide, links, giver, preview } = page
   const { intro, steps, outro } = guideContent(guide)
-  const botinCard = botin && <BotinCard {...botin} />
 
   return (
-    <main className="pb-20 [--color-section:var(--color-sec-misiones)]">
+    <div className="[--color-section:var(--color-sec-misiones)]">
       {preview && <PreviewBar slug={guide.slug} />}
-      <HeroHeader title={guide.title} level={guideLevel(guide)} crumbs={[]} />
-      <div className="px-4 sm:px-6 lg:px-12">
-        <SummaryRibbon {...ribbonProps(guide, links)} />
-        <div className="mx-auto mt-12 w-full max-w-[calc(var(--width-prose)+64px)]">
-          <GuideBody blocks={intro} />
-          {steps.length > 0 ? (
-            <>
-              <div className={intro.length > 0 ? 'mt-12' : undefined}>
-                <GuideSteps steps={steps}>{botinCard}</GuideSteps>
-              </div>
-              {outro.length > 0 && (
-                <div className="mt-8">
-                  <GuideBody blocks={outro} />
-                </div>
-              )}
-            </>
-          ) : (
-            botinCard && <div className="mt-12">{botinCard}</div>
+      <main className="quest">
+        <article className="quest__main">
+          <QuestHeader title={guide.title} data={questHeaderProps(guide, links, giver)} />
+          {intro.length > 0 && (
+            <div className="quest__intro">
+              <GuideBody blocks={intro} />
+            </div>
           )}
-        </div>
-      </div>
+          {steps.length > 0 && <GuideSteps steps={steps} />}
+          {outro.length > 0 && (
+            <div className="quest__outro">
+              <GuideBody blocks={outro} />
+            </div>
+          )}
+        </article>
+        <StepTracker entries={stepNav(steps)} />
+      </main>
       <PageEnhancements />
       {preview && <LivePreviewRefresh />}
-    </main>
+    </div>
   )
 }

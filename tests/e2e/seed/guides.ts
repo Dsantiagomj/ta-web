@@ -1,6 +1,7 @@
 // Guías de prueba para las E2E y Lighthouse CI: «Seis pies bajo tierra» (DofusDB 1976)
-// publicada con una entrada, tres pasos (texto, imagen y aviso dentro) y un cierre con el
-// vídeo; la guía publicada de su prerrequisito, solo prosa; y un borrador sin publicar.
+// publicada con una entrada, tres pasos (texto, imagen, aviso y consejo dentro) y un cierre
+// con el vídeo, con su zona, su logro, el rango de XP y el PNJ con sus renders; la guía
+// publicada de su prerrequisito, solo prosa; y un borrador sin publicar.
 // Las pruebas leen de aquí lo que esperan ver. Se siembra con scripts/seed-e2e.ts sobre
 // la base vacía de las pruebas, nunca sobre una real.
 import path from 'node:path'
@@ -18,11 +19,25 @@ export const seedGuide = {
   slug: 'seis-pies-bajo-tierra',
   title: 'Seis pies bajo tierra',
   level: 20,
+  zone: 'Astrub',
+  achievement: {
+    name: 'La ocasión hace al ladrón',
+    slug: 'la-ocasion-hace-al-ladron',
+    position: 2,
+  },
+  subtitle: 'Misión de Astrub - Nivel 20 - Misión 2 del logro La ocasión hace al ladrón',
   start: { npc: 'Hupe Esse', x: 7, y: -19 },
+  // Los renders del PNJ, como los importa pnpm data:quests (los del catálogo).
+  giver: {
+    npcId: 4412,
+    right: 'public/img/sistema/npc-4412-right.webp',
+    left: 'public/img/sistema/npc-4412-left.webp',
+  },
   prerequisite: { title: 'Esto hace aguas', slug: 'esto-hace-aguas' },
   needsNote: '1 x Combate (solo).',
-  reward: { xp: 16380, kamas: 390 },
-  // Las recompensas como las escribe Torre: mandan sobre DofusDB en la línea del resumen.
+  reward: { xp: 16380, xpMin: 9800, kamas: 390 },
+  // Las recompensas como las escribe Torre. Con recompensas de DofusDB, la cabecera usa
+  // las de DofusDB (rango de XP incluido); este texto solo sale sin ellas.
   rewardsText: '16 380 XP.\n390 kamas.\n4 objetos del Botín.',
   rewardItems: [
     'Pico de tofu',
@@ -32,13 +47,16 @@ export const seedGuide = {
   ],
   intro: 'Tres pasos en la mina de Astrub para rescatar a las anutrof.',
   startLine: 'para empezar la misión.',
-  // Los pasos, en orden. La captura del primero es la primera imagen: va con prioridad.
+  // Los pasos, en orden, con la etiqueta y las coordenadas que les da la lista «Pasos»
+  // (la primera negrita de su texto, o «Paso N»). La captura del primero es la primera
+  // imagen: va con prioridad.
   steps: [
-    { title: 'Habla con Hupe Esse', coordinates: '[7,-19]' },
-    { title: 'Combate: protege a las anutrof', coordinates: '[3,-17]' },
-    // Sin título, como los pasos importados: la tarjeta pone «Paso 3».
-    { title: null, coordinates: null },
+    { title: 'Habla con Hupe Esse', label: 'Hupe Esse', coordinates: '7,-19' },
+    { title: 'Combate: protege a las anutrof', label: 'Luci', coordinates: '3,-17' },
+    // Sin título ni negrita, como muchos pasos importados.
+    { title: null, label: 'Paso 3', coordinates: '' },
   ],
+  tips: 'En la preparación del combate, ordénalas lo más lejos posible.',
   outro: 'Aquí termina la misión. Espero haberte ayudado.',
   image: {
     file: 'public/img/sistema/seis-pies-hupe-esse.webp',
@@ -136,6 +154,19 @@ async function item(payload: Payload, dofusId: number, name: string) {
   )
 }
 
+async function media(payload: Payload, gameAsset: string, file: string, alt: string) {
+  return findOrCreate(
+    () =>
+      payload.find({ collection: 'media', where: { gameAsset: { equals: gameAsset } }, limit: 1 }),
+    () =>
+      payload.create({
+        collection: 'media',
+        data: { alt, gameAsset },
+        filePath: path.resolve(file),
+      }),
+  )
+}
+
 async function guideExists(payload: Payload, slug: string) {
   const { totalDocs } = await payload.count({
     collection: 'quest-guides',
@@ -171,15 +202,55 @@ export async function seedGuides(payload: Payload): Promise<void> {
     dofusId: 1976,
     name: seedGuide.title,
     levelMin: seedGuide.level,
+    zone: seedGuide.zone,
+    achievement: { dofusId: 1671, ...seedGuide.achievement, total: 3 },
     prerequisites: [previous.id],
+    startPositions: [
+      {
+        npcId: seedGuide.giver.npcId,
+        npcName: seedGuide.start.npc,
+        mapId: 192415748,
+        x: 7,
+        y: -19,
+      },
+    ],
     rewards: {
       experience: seedGuide.reward.xp,
+      experienceMin: seedGuide.reward.xpMin,
       kamas: seedGuide.reward.kamas,
       // En el orden de DofusDB: Torre los lista al revés.
       items: [...rewardIds].reverse().map((reward) => ({ item: reward.id, quantity: 1 })),
     },
   })
   const hunter = await quest(payload, { dofusId: 1977, name: draftGuide.title, levelMin: 25 })
+
+  const { npcId, right, left } = seedGuide.giver
+  const renderRight = await media(
+    payload,
+    `dofusdb-npc-render:${npcId}:right:e2e`,
+    right,
+    seedGuide.start.npc,
+  )
+  const renderLeft = await media(
+    payload,
+    `dofusdb-npc-render:${npcId}:left:e2e`,
+    left,
+    seedGuide.start.npc,
+  )
+  await findOrCreate(
+    () => payload.find({ collection: 'npcs', where: { dofusId: { equals: npcId } }, limit: 1 }),
+    () =>
+      payload.create({
+        collection: 'npcs',
+        data: {
+          dofusId: npcId,
+          name: seedGuide.start.npc,
+          look: '{74||3=12993798,4=16707303}',
+          renderRight: renderRight.id,
+          renderLeft: renderLeft.id,
+        },
+      }),
+  )
 
   // Por el texto alternativo: si ./media ya tiene el archivo, Payload sube la copia con otro nombre.
   const image = await findOrCreate(
@@ -279,6 +350,11 @@ export async function seedGuides(payload: Payload): Promise<void> {
                     text(` deben morir. ${seedGuide.callout}`),
                   ),
                 ),
+              },
+              {
+                blockType: 'callout',
+                variant: 'tip',
+                content: richText(paragraph(text(seedGuide.tips))),
               },
             ],
           },

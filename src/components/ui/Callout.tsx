@@ -1,30 +1,31 @@
-import type { ReactNode } from 'react'
+import { useId, type ReactNode } from 'react'
 
 import { type CalloutVariant, uiStrings } from './strings'
 import './ui.css'
 
-// Hasta que se elija arte del juego para los tres tipos, un glifo dentro de un aro
-// (DESIGN.md, Callout). El título lleva el significado; el glifo es decorativo.
-const GLYPH: Record<CalloutVariant, string> = { tip: 'i', warning: '!', stop: '×' }
-
+/**
+ * Aviso (DESIGN.md, Callout): una caja con el borde de su color y un título sencillo
+ * dentro, sin cinta ni glifo. El título lleva el significado («¡Importante!»).
+ */
 export function Callout({
   variant,
   title = uiStrings.callout[variant],
+  headingLevel = 3,
   children,
 }: {
   variant: CalloutVariant
   title?: string
+  headingLevel?: 2 | 3 | 4
   children: ReactNode
 }) {
+  const id = useId()
+  const Heading = `h${headingLevel}` as const
   return (
-    <aside role="note" className="callout" data-variant={variant}>
-      <span className="callout__icon" aria-hidden="true">
-        {GLYPH[variant]}
-      </span>
-      <div>
-        <p className="callout__title">{title}</p>
-        <div className="callout__body">{children}</div>
-      </div>
+    <aside role="note" className="callout" data-variant={variant} aria-labelledby={id}>
+      <Heading id={id} className="callout__title">
+        {title}
+      </Heading>
+      <div className="callout__body">{children}</div>
     </aside>
   )
 }

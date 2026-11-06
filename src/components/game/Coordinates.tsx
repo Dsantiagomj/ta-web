@@ -2,13 +2,13 @@ import { buttonClass } from '@/components/ui/Button'
 import { formatCoordinates, splitCoordinates, travelCommand } from '@/lib/guides/coordinates'
 
 import './game.css'
-import { CopyIcon } from './icons'
+import { CopyIcon, PinIcon } from './icons'
 import { gameStrings } from './strings'
 
 const s = gameStrings.coordinates
 
 /**
- * Chip de coordenadas (DESIGN.md, Coordinates chip): enseña [x,y] y copia /travel x,y.
+ * Chip de coordenadas (DESIGN.md, Coordinates chip): una chincheta y [x,y]; copia /travel x,y.
  * Sin JavaScript es texto que se puede leer y seleccionar; PageEnhancements lo convierte
  * en botón y le da el nombre de data-copy-label.
  */
@@ -17,8 +17,8 @@ export function CoordinatesChip({ x, y }: { x: number; y: number }) {
   const command = travelCommand({ x, y })
   return (
     <span className="coord" data-copy={command} data-copy-label={s.copyLabel(label, command)}>
+      <PinIcon className="size-4" />
       {label}
-      <CopyIcon className="size-3 opacity-85" />
     </span>
   )
 }

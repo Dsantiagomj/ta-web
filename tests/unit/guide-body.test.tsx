@@ -150,32 +150,54 @@ describe('GuideSteps', () => {
       key: 'p1',
       title: 'Habla con Hupe Esse',
       coordinates: { x: 7, y: -19 },
-      blocks: [{ kind: 'richText', key: 'a', content: root(paragraph(text('En la biblioteca.'))) }],
+      blocks: [
+        {
+          kind: 'richText',
+          key: 'a',
+          content: root(paragraph(text('Habla con Hupe Esse [7,-19].'))),
+        },
+      ],
     },
     {
       key: 'p2',
-      title: 'Vuelve con Luci',
+      coordinates: { x: 3, y: -17 },
       blocks: [
-        { kind: 'callout', key: 'b', variant: 'warning', content: root(paragraph(text('Ojo.'))) },
+        { kind: 'richText', key: 'b', content: root(paragraph(text('Vuelve con Luci.'))) },
+        { kind: 'callout', key: 'c', variant: 'warning', content: root(paragraph(text('Ojo.'))) },
+        { kind: 'callout', key: 'd', variant: 'tip', content: root(paragraph(text('Ve lejos.'))) },
       ],
     },
   ]
 
-  it('pinta cada paso numerado, con su título, su chip y sus bloques, y la píldora', () => {
+  it('pinta cada paso numerado con su ancla y sus bloques, sin títulos ni casillas', () => {
     const markup = html(<GuideSteps steps={steps} />)
-    expect(markup).toContain('<ol')
-    expect(markup).toMatch(/<h3 class="stage__title">Habla con Hupe Esse<\/h3>/)
-    expect(markup).toMatch(/<h3 class="stage__title">Vuelve con Luci<\/h3>/)
-    // El chip del paso va en la cabecera; la prosa queda tal cual, sin envoltorio.
-    expect(markup).toContain('Hupe Esse</h3><span class="coord" data-copy="/travel 7,-19"')
-    expect(markup).toContain('<div class="prose-guide"><p>En la biblioteca.</p></div>')
-    // Un título dentro del texto de un paso queda por debajo del h3 del paso.
+    expect(markup).toContain('<li id="paso-1" class="qstep" data-step="true">')
+    expect(markup).toContain('<li id="paso-2" class="qstep" data-step="true">')
+    // El título del bloque Paso no se pinta en v4: la lista «Pasos» saca su etiqueta del texto.
+    expect(markup).not.toContain('Habla con Hupe Esse</h3>')
+    expect(markup).not.toContain('type="checkbox"')
+  })
+
+  it('las coordenadas del paso van como chip solo si su texto no las nombra', () => {
+    const markup = html(<GuideSteps steps={steps} />)
+    expect(markup.match(/data-copy="\/travel 7,-19"/g)).toHaveLength(1)
+    expect(markup).toContain('<p><span class="coord" data-copy="/travel 3,-17"')
+  })
+
+  it('un aviso es «¡Importante!» y un consejo, las recomendaciones de Torre', () => {
+    const markup = html(<GuideSteps steps={steps} />)
+    expect(markup).toContain('role="note"')
+    expect(markup).toMatch(/<h3 id="[^"]+" class="callout__title">¡Importante!<\/h3>/)
+    expect(markup).toContain('class="torre"')
+    expect(markup).toContain('Recomendaciones de Torre')
+  })
+
+  it('un título dentro del texto de un paso baja a h3, bajo el h2 «Pasos»', () => {
     const withHeading = html(
       <GuideSteps
         steps={[
           {
             key: 'p',
-            title: 'Combate',
             blocks: [
               {
                 kind: 'richText',
@@ -192,19 +214,6 @@ describe('GuideSteps', () => {
         ]}
       />,
     )
-    expect(withHeading).toContain('<h4>Consejos</h4>')
-    expect(markup).toContain('role="note"')
-    expect(markup).toContain('Paso 2 hecho')
-    expect(markup).toContain('class="pill"')
-    expect(markup).toContain('>/2<')
-  })
-
-  it('el Botín va dentro, como último nodo de la línea', () => {
-    const markup = html(
-      <GuideSteps steps={steps}>
-        <p id="botin">Botín</p>
-      </GuideSteps>,
-    )
-    expect(markup).toMatch(/<\/ol>[^]*<p id="botin">Botín<\/p><\/section>$/)
+    expect(withHeading).toContain('<h3>Consejos</h3>')
   })
 })

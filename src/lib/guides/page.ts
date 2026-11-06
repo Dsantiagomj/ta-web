@@ -1,6 +1,6 @@
 // De la guía guardada a lo que pintan los componentes de la página (DESIGN.md, Quest guide).
 // Código puro, sin Payload ni React: la página carga la guía con depth 2 y esto decide qué
-// se enseña. Lo que la guía aún no guarda (arte, zona, logro) no se inventa, y sin bloques
+// se enseña. Lo que la guía y su misión no guardan (render del PNJ, zona, logro) no se inventa, y sin bloques
 // Paso no hay pasos: la prosa nunca se parte en pasos aquí.
 
 import type { GameItem, Quantity } from '@/components/game/types'
@@ -14,6 +14,12 @@ import { formatThousands, neededItems } from './format'
 import { guideStrings } from './strings'
 import type { LinkedRewards, LinkedNeeds } from './summary'
 
+/**
+ * Las páginas de logro aún viven en la web de Torre, con el mismo slug que tendrán aquí
+ * (docs/legacy/plan.md). Cuando la app tenga las suyas, el enlace pasa a ser relativo.
+ */
+export const ACHIEVEMENT_PAGES_ORIGIN = 'https://www.torrentearcano.com'
+
 /** El estado de Lexical de un campo richText. */
 export type RichTextState = RichTextBlock['content']
 
@@ -24,8 +30,24 @@ interface GuideQuest {
   id: number
   name?: string | null
   levelMin?: number | null
+  zone?: string | null
+  achievement?: {
+    dofusId?: number | null
+    name?: string | null
+    slug?: string | null
+    position?: number | null
+    total?: number | null
+  } | null
   prerequisites?: Relation<{ id: number; name?: string | null }>[] | null
-  rewards?: LinkedRewards | null
+  startPositions?: { npcId?: number | null }[] | null
+  rewards?: (LinkedRewards & { experienceMin?: number | null }) | null
+}
+
+/** El PNJ que da la misión, de la colección npcs con sus renders poblados. */
+export interface GiverDoc {
+  name?: string | null
+  renderRight?: number | Media | null
+  renderLeft?: number | Media | null
 }
 
 type ContentBlockDoc =
@@ -34,7 +56,7 @@ type ContentBlockDoc =
   | { blockType: 'video'; id?: string | null; url: string; title?: string | null }
   | { blockType: 'callout'; id?: string | null; variant: CalloutVariant; content: RichTextState }
 
-/** Un paso: título, coordenadas si las tiene y sus propios bloques (DESIGN.md, Step card). */
+/** Un paso: título, coordenadas si las tiene y sus propios bloques (DESIGN.md, Steps). */
 type StepBlockDoc = {
   blockType: 'step'
   id?: string | null
@@ -124,9 +146,15 @@ function positive(value: number | null | undefined): number | undefined {
   return value && value > 0 ? value : undefined
 }
 
-/** El nivel del medallón: el mínimo de la misión enlazada (DESIGN.md, Level medallion). */
+/** El nivel del subtítulo: el mínimo de la misión enlazada (DESIGN.md, Quest header). */
 export function guideLevel(guide: GuideDoc): number | undefined {
   return positive(linkedQuest(guide)?.levelMin)
+}
+
+/** El ID de DofusDB del PNJ que da la misión: el de su primera posición de inicio. */
+export function questGiverId(guide: GuideDoc): number | null {
+  const positions = linkedQuest(guide)?.startPositions ?? []
+  return positions.find((position) => position.npcId != null)?.npcId ?? null
 }
 
 /** Las misiones previas pobladas: la página busca cuáles tienen guía publicada. */
@@ -136,7 +164,7 @@ export function prerequisiteQuestIds(guide: GuideDoc): number[] {
   )
 }
 
-/** Los objetos del Botín, con nombre, en el orden en que Torre los lista (al revés que DofusDB). */
+/** Los objetos de Recompensas, con nombre, en el orden en que Torre los lista (al revés que DofusDB). */
 function rewardItems(guide: GuideDoc): Quantity<GameItem>[] {
   const items = [...(linkedQuest(guide)?.rewards?.items ?? [])].reverse()
   return items.flatMap(({ item, quantity }) =>
@@ -144,71 +172,131 @@ function rewardItems(guide: GuideDoc): Quantity<GameItem>[] {
   )
 }
 
+/** Una línea del resumen como fila: sin el punto final. */
+function rowText(line: string): string {
+  return line.replace(/\.$/, '')
+}
+
+// «1 x Combate (solo).»: la cantidad va aparte, en negrita, como en el juego.
+const QUANTITY_NOTE = /^(\d+)\s*[x×]\s+(.+)$/u
+
+/** Una nota de Necesitarás. combat: es un combate, y lleva el icono del juego. */
+export interface NeedNote {
+  quantity?: number
+  label: string
+  combat: boolean
+}
+
+function needNote(line: string): NeedNote {
+  const text = rowText(line)
+  const match = QUANTITY_NOTE.exec(text)
+  const label = match ? match[2]! : text
+  const combat = /\bcombates?\b/iu.test(label)
+  return match ? { quantity: Number(match[1]), label, combat } : { label, combat }
+}
+
+/** Datos de la cabecera de la guía (DESIGN.md, Quest header). */
+export interface QuestHeaderData {
+  /** El subtítulo: «Misión de {zona} - Nivel {n} - Misión {k} del logro {logro}». */
+  meta: {
+    zone?: string
+    level?: number
+    achievement?: { name: string; href: string; position: number }
+  }
+  /** El PNJ que da la misión: solo con su render. */
+  giver?: { name: string; right: ImageAsset; left?: ImageAsset; coordinates?: Coordinates }
+  prerequisites: { label: string; href?: string; quest: boolean }[]
+  needs: { items: Quantity<GameItem>[]; notes: NeedNote[] }
+  rewards: {
+    /** La XP del nivel óptimo (min) a la del tope (max), si son distintas. */
+    xp?: { min?: number; max: number }
+    kamas?: number
+    items: Quantity<GameItem>[]
+    /** Sin recompensas de DofusDB, las líneas que escribió Torre. */
+    notes: string[]
+  }
+}
+
 /**
- * El Botín (DESIGN.md, Botín card): las fichas de XP, kamas y objetos de la misión de
- * DofusDB. Sin esos datos, las líneas de recompensa que escribió Torre en el resumen, sin
- * fichas inventadas. Sin ninguna de las dos cosas, null.
+ * La cabecera de la guía: subtítulo, PNJ y las tres columnas (Prerrequisitos, Necesitarás,
+ * Recompensas). Lo que falta no se pinta ni se inventa: sin logro no hay «Misión k del
+ * logro», sin render no hay PNJ. `linked` son las guías publicadas de las misiones previas.
  */
-export function botinProps(guide: GuideDoc) {
+export function questHeaderProps(
+  guide: GuideDoc,
+  linked: QuestGuideLink[],
+  giverDoc?: GiverDoc | null,
+): QuestHeaderData {
   const quest = linkedQuest(guide)
-  const xp = positive(quest?.rewards?.experience)
-  const kamas = positive(quest?.rewards?.kamas)
-  const items = rewardItems(guide)
-  if (xp || kamas || items.length) return { xp, kamas, items }
-  const notes = lines(guide.summary?.rewards)
-  return notes.length ? { items: [], notes } : null
-}
-
-/**
- * La línea de recompensa del resumen: el texto de la guía manda, como en el resto del
- * resumen (DofusDB solo rellena lo vacío). Sus líneas van juntas, sin el punto final.
- */
-function rewardSummary(guide: GuideDoc) {
-  const text = lines(guide.summary?.rewards)
-    .map((line) => line.replace(/\.$/, ''))
-    .join(' · ')
-  if (text) return text
-  const botin = botinProps(guide)
-  return botin && (botin.xp || botin.kamas || botin.items.length)
-    ? { xp: botin.xp, kamas: botin.kamas, items: botin.items.length }
-    : undefined
-}
-
-/**
- * El resumen bajo la cabecera (DESIGN.md, Summary ribbon). Sin la zona del PNJ, que la guía
- * aún no guarda. `linked` son las guías publicadas de las misiones previas.
- */
-export function ribbonProps(guide: GuideDoc, linked: QuestGuideLink[]) {
   const summary = guide.summary ?? {}
-  const npc = summary.startNpc?.trim()
-  const start =
-    npc && summary.startX != null && summary.startY != null
-      ? { npc, x: summary.startX, y: summary.startY }
-      : undefined
+
+  const meta: QuestHeaderData['meta'] = {}
+  const zone = quest?.zone?.trim()
+  if (zone) meta.zone = zone
+  const level = guideLevel(guide)
+  if (level) meta.level = level
+  const achievement = quest?.achievement
+  if (achievement?.name && achievement.slug && achievement.position) {
+    meta.achievement = {
+      name: achievement.name,
+      href: `${ACHIEVEMENT_PAGES_ORIGIN}/${achievement.slug}`,
+      position: achievement.position,
+    }
+  }
+
+  let giver: QuestHeaderData['giver']
+  const right = mediaImageAsset(giverDoc?.renderRight)
+  if (giverDoc && right) {
+    const left = mediaImageAsset(giverDoc.renderLeft)
+    const coordinates =
+      summary.startX != null && summary.startY != null
+        ? { x: summary.startX, y: summary.startY }
+        : undefined
+    giver = {
+      name: summary.startNpc?.trim() || giverDoc.name?.trim() || '',
+      right,
+      ...(left && { left }),
+      ...(coordinates && { coordinates }),
+    }
+  }
 
   const slugByQuest = new Map(linked.map((link) => [link.questId, link.slug]))
-  const prerequisites = (linkedQuest(guide)?.prerequisites ?? []).flatMap((quest) =>
-    quest && typeof quest === 'object' && quest.name
-      ? [{ name: comparable(quest.name), slug: slugByQuest.get(quest.id) }]
+  const previous = (quest?.prerequisites ?? []).flatMap((prerequisite) =>
+    prerequisite && typeof prerequisite === 'object' && prerequisite.name
+      ? [{ name: comparable(prerequisite.name), slug: slugByQuest.get(prerequisite.id) }]
       : [],
   )
-  const requires = lines(summary.prerequisites).map((label) => {
-    const slug = prerequisites.find((quest) => quest.name === comparable(label))?.slug
-    return slug ? { label, href: `/${slug}` } : { label }
+  const prerequisites = lines(summary.prerequisites).map((line) => {
+    const match = previous.find((candidate) => candidate.name === comparable(line))
+    const label = rowText(line)
+    return match?.slug
+      ? { label, href: `/${match.slug}`, quest: true }
+      : { label, quest: Boolean(match) }
   })
 
-  return {
-    start,
-    requires,
-    needs: {
-      items: neededItems(summary.needs).map(({ item, quantity }) => ({
-        item: { name: item.name ?? '' },
-        quantity,
-      })),
-      notes: lines(summary.needs?.notes),
-    },
-    reward: rewardSummary(guide),
+  const needs = {
+    items: neededItems(summary.needs).map(({ item, quantity }) => ({
+      item: { name: item.name ?? '' },
+      quantity,
+    })),
+    notes: lines(summary.needs?.notes).map(needNote),
   }
+
+  const max = positive(quest?.rewards?.experience)
+  const min = positive(quest?.rewards?.experienceMin)
+  const kamas = positive(quest?.rewards?.kamas)
+  const items = rewardItems(guide)
+  const rewards: QuestHeaderData['rewards'] =
+    max || kamas || items.length
+      ? {
+          ...(max && { xp: min && min < max ? { min, max } : { max } }),
+          ...(kamas && { kamas }),
+          items,
+          notes: [],
+        }
+      : { items: [], notes: lines(summary.rewards).map(rowText) }
+
+  return { meta, ...(giver && { giver }), prerequisites, needs, rewards }
 }
 
 type LexicalNode = { type?: string; value?: unknown; children?: LexicalNode[] }
@@ -224,12 +312,12 @@ function hasImage(content: RichTextState): boolean {
   return visit(content.root.children as LexicalNode[])
 }
 
-/** Un paso de la guía listo para su tarjeta (DESIGN.md, Step card). */
+/** Un paso de la guía listo para su componente (DESIGN.md, Steps). */
 export interface GuideStep {
   key: string
-  /** Sin título, la tarjeta pone «Paso N». */
+  /** Solo para el panel: la página no lo enseña (DESIGN.md, Steps). */
   title?: string
-  /** Solo con X e Y: el chip junto al título. */
+  /** Solo con X e Y: la lista «Pasos» y, si el texto no las nombra, un chip al principio del paso. */
   coordinates?: Coordinates
   blocks: GuideBlock[]
 }
