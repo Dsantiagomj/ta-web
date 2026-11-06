@@ -1,0 +1,196 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:56de80a38859b14e9b9ff603e32844eb01b365567b0343103f8b8d3d05566846",
+  "claims": [
+    {
+      "id": "claim_7b28f62adc5e40749aa22aeb92186936",
+      "statement": "Quest guides are served at /[slug] by a server component that loads the guide once per request and calls notFound() when no visible guide matches the slug.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/data.ts#L35-L51",
+          "version": "repo-lines-v1:sha256:2672508f7e5e0fa26c7d38dcc7749720ca56c6fb92f8d5ce3698cef2b680a2d9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA2N2FjOThiNGVmNzBmYmU1NzYxNjhhMjgzMmUyMjUzNzhhODc2YzY0MDc3Y2NjNjRhYzI0NGRmMmFhNjYxZWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/page.tsx#L41-L79",
+          "version": "repo-lines-v1:sha256:97f23d83a57c4eecedb7d1e87c605b198791d8187c8ba15d65cc3bb0a81c4aec:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_401da7e589794c27bef8029adc62d3cb",
+      "statement": "The guide page queries run through the Payload local API with overrideAccess false, find the guide by a valid non-reserved slug at depth 2, link only prerequisites that have a published guide, and load the quest giver NPC by DofusDB ID with its renders.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/guides/queries.ts#L1-L78",
+          "version": "repo-lines-v1:sha256:ba44cb301d4557745e3ca6736871d173f43fe636877b39792969e1ad38e993d6:eyJzZWxlY3RlZExpbmVDb3VudCI6NzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYzMGI1ZGNiMzZiNDFjYmQyMWM1NTUzOGE1ZmI5MTkwMmJhNzg2ZjZmMWM2ZDVhM2FhNTI4MWFkMjk3N2IzN2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/integration/guide-page-queries.test.ts#L91-L158",
+          "version": "repo-lines-v1:sha256:07cfdcd699309c9915fd9b2351420ef71e97825fe3c48ba9f274feb43c374061:eyJzZWxlY3RlZExpbmVDb3VudCI6NjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5MGI2OTU1M2NiYzRmYjA5YzY4MDQyMTVjZTNiMWE5MTMxYWQxYTA1NDk5ZDg3NDczOTdlNTkxMDQwYjAzOGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIxNDhiNzkzMjBlZTBkYjNjNWQ1ZTU3MDYyN2EzNWY0ZGZjYTM4NjIxNjYxOGI1MTBmOWNhZDk5ZGUyZjIzYzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_63e9af5c8f2a46029af9447d19e8718b",
+      "statement": "In Next draft mode with a panel session the page reads the latest draft without cache; otherwise it reads the published guide through unstable_cache tagged guide-pages with a 600-second revalidate.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/data.ts#L17-L51",
+          "version": "repo-lines-v1:sha256:b3e0c86d4a92f604b08efd4b772f827e0cbeda644318aa7cdd7701abbb476213:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwYmFlNDRlNjU3MzIxYTkxYzNmNmQxMGQxOWI3ZDRiOWEzNWQ3MzRmNTEyY2EwY2NlNmZhNTExODBjOTMzYTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg5OWY1OTdkOGI1MTcxNDQ4YWRiMzdjZGQ0Y2NmN2NlNDBmNzlhMWMwZjdjYjc5N2FmYjQ3ZWM5M2U2ZGVmNTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/guides/cache.ts#L1-L12",
+          "version": "repo-lines-v1:sha256:d494f32b7880f21b6750b2bcb8c1fe09535792c5cc796b07e24225cde55e6296:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI1YTIyYWQyYjBkYjNkNWMyMTBhYzEyNzJiMjM5MWRhODk3ZGQzOWYzZjNmYmQ1NmMxNGMxMzBmYTkxMjAxODIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE1ZjNiMWY3MDIxN2U2NGZkYTk0YzRhN2JmMmZhYzU1MGVkMWUyZmJkMzI3MjYxNTg3ODZiZmNmMDVmM2JkM2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7bde77bd4fac4b9dae547561fd86d490",
+      "statement": "Saving or deleting a quest guide or media document expires the guide-pages tag; outside a Next request the missing static generation store error is ignored, so imports and scripts show up after at most the revalidate period.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/revalidate-guides.ts#L6-L31",
+          "version": "repo-lines-v1:sha256:faceba549beeaafc0e2fe50f285cc9a909fc20c1b101796288418620c8c5f2bb:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEyZjZmMjczMjBiNGUzNGM1MDI1MjNkZWMxZDJkYmM0NWUyMGE2NWU5OTU5ZDEwZmM0ZTgxNDljMjRjYmYzZTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/guides/cache.ts#L3-L12",
+          "version": "repo-lines-v1:sha256:ad0d301ae5c1ac3b7e4a6d51571f81bce5e3792f2ede06d3435f5e1a23626332:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjczOTE4YzhkNDBlNzUyZWVkODRlOGI2YjVjMzY3NTZjNDNmM2M2N2UyNjFhZmY5NmI0NDcyNjVkNDlmN2E3NDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE1ZjNiMWY3MDIxN2U2NGZkYTk0YzRhN2JmMmZhYzU1MGVkMWUyZmJkMzI3MjYxNTg3ODZiZmNmMDVmM2JkM2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoyLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI3MjYwOTY5MjlkYjZmN2YxMjMwMzNkMzViNmFkMjY3YTBkYmNkZWVjNDg2NzBhMzFkZWRkOWI3MjRhMmQxYTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/revalidate-guides.test.ts#L17-L58",
+          "version": "repo-lines-v1:sha256:f9b1a6838064fa619775b46a5248f0021632659c739230d4e19bda2a3a108ed3:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVlMTIyN2RlNDI2YmU0ODM2YWI1NWY0MGM3MmZmZTBkYWRjODc3YjIwODdmZDFkOTkwZjg1MzU5Zjg3MjM3MmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNlYmVmYTk5ZGQ4ZWFiNTBjZjc1NjgzNzhjNDMxNDk1NjNkZTRjYTFiY2IzMzA1MTljNjFjNzYxMzgzYjNlMDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2815d8da20874ba295cd757b98994c42",
+      "statement": "questHeaderProps builds the subtitle from the quest's zone, minimum level and achievement position with an absolute link to the achievement page, includes the quest giver only when it has a right-facing render, and shows the XP as a range when experienceMin is lower than experience.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/guides/page.ts#L17-L21",
+          "version": "repo-lines-v1:sha256:7ccea61b50cc104bd1ab42106d981dba7b0f87e9086d8c85aa6a027016cb9bdd:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYWFmYmZlMDI0MWFhZDI4MmFjNmY3YThmOTAwNDhhOWRiNzdiZmUyZjJkMjE1Y2JjZjc5ZDhmYTJhZDA4ZjI1MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDZhYjBkNGNjNmQyYmVjYWEwYTZkZWZjMzFiZTBkZDA4MWZkYzZiZGI2OWIwY2E2Zjc5ZjcxNWRjMzVlZWJlMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODE1ODgwZDA2YjljN2RlM2RhNWNkMDVmMzNmYWJhYjg5MzVmMDRkNzE2ZDFhYzIwNmQ5ZmJlZTdlMDUzMGQ1MyJ9"
+        },
+        {
+          "resource": "repo://src/lib/guides/page.ts#L225-L300",
+          "version": "repo-lines-v1:sha256:7118a58d7c6c83dd09b298bc76f096700c1f1fa1cc7164af2b6a151dea0865a7:eyJzZWxlY3RlZExpbmVDb3VudCI6NzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2NDNiYWQ4NDIwOWM2ZGQ5ZGZiM2RkMmFiMjZhYTQ5ZWZmOWE3ZGY2MmYxYWU0MjBhNDYxOGQ5MDQ1Y2Y0YzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI5NWQyMjk2ZWM5Yzc2NTRiNDMyMjkzMDAxZmIxYjdlMjMzNTA4MWJhOTJhMmU1YTVjOWFiZWVjYWRiNjQzOWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjljY2I0ZThiNDE0MzliYTgyNzIxMDEwMTgzMWE1MzI3NmRhYzM1MzVlNWE1NWI1ODJiNzU3ZDMzZDI1YWI4OTIifQ"
+        },
+        {
+          "resource": "repo://tests/unit/guide-page-data.test.ts#L98-L214",
+          "version": "repo-lines-v1:sha256:d64f80d49ad2c08ed92ddada77cf7341f342538d4153fb230e3604bec9ececd3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTE3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5ZWQ3Njk4NTIyMDE3MjNlNWExMGJkYWJiNDgwZjRlZDU2MWE5YTVmYjg3ZmU4YjExNjNmYjc0Y2U4NTdkZmZhIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIxZWYwYjlkYzJiNWUxYjlhYmVjYmYyZjEwMTVhNDUyM2NiMmE3NTFlZWQ4MjQ0MmEwYTcwODgwZmZjYWY5YmZmIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIwZTk4ODE3MTdlN2FiNDFiMzRmM2NmYTJhMThhYmE3MzliODNiMjlhNTE2M2Q2YjczZWQ5MTRkZTNkMTc3Nzk5In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_72a6fcf0619d410da93336930e5f8ed9",
+      "statement": "Prerequisite lines that match a prerequisite quest's name get the quest icon and link to its published guide, and needs notes split a leading quantity and mark fights with the combat icon.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/guides/page.ts#L181-L196",
+          "version": "repo-lines-v1:sha256:26adb9431952b4e39cd1d7b6dd4b30305c659619fd44243bd4e60769a86aa46d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVlYmJlZGNlYTY3M2JmMWQ5NGI3NDMwZTNlMjBlYTZlZGMwYzhkNGEyZTA5MmM2NTIxNTI3NmExZWY3YjA2ZjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJkNDU0ZmY0NzllZDc0ZTllZWE2ZjZlMjkzYjQ0NDc2OWJhZThkNDVlZDE0YmJlNWFjZTI5ZGUwZmQ3NDhhNjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM2ODBhYzhjYmRmOWFhNmRkNTMzYzU2N2UzY2Y5ODI2N2FlYzk4MDQ5OTMzNDFkZjBjYjVjY2Q1ZTQ2NTg3NDYifQ"
+        },
+        {
+          "resource": "repo://src/lib/guides/page.ts#L268-L282",
+          "version": "repo-lines-v1:sha256:82a7b6caf201885c1c98614bbf0c0508af0f8f8615795999875bd4064c0ca9b8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MjY3OTM1ZmM2MzM0NjVkODQ4YjQwYTRlZDY5NjdlN2I3YTMyM2Y4MWNkNTNjMTEwYWUyMTAyOTY4N2FhMTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRmMjFkMWFlOTMxZWE1ZTcwZDQ1NzFkNGNmOWY2N2ExYWEyMjVmMzg5MTQ0MzIyZmJjYmEyMzFjNjBlYmQ3ZWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU4YTcyMDcwMGQ5YmEyYWZiZDM0NjFiYjY1ZmRiMjA1MzEwOGE4YTM4MjA1NzIxNzdmN2JkNDE0NTczYTNiYTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNiYTg1ODNmOGIwNGRlM2FkNDVmYjFjZjc5NTFmMGI4ZGMyMjVmY2ExZjc2MjY1ZDE3NzE0NTkzMGFlMjIyYWIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6d8bea9bdb6f461f9c69aba124086691",
+      "statement": "guideContent splits the body into the blocks before the first step, the steps and the blocks after the last step, keeps a loose block between steps at the end of the previous step, and gives priority only to the first image in document order.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/guides/page.ts#L325-L417",
+          "version": "repo-lines-v1:sha256:1e114fab44f239288679fc83d98d5babadbf043de80fd3dcf37d14f6f1167ed5:eyJzZWxlY3RlZExpbmVDb3VudCI6OTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc3MjliNTU2ZTliMTUyNTc4YWZhNzdkYTdlZjA5ZGM0YWI2MTg1ODMwNzY3YzQzNGY1ZDU4YWJkYTRjOGQxMGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY1OTA2NDNhN2UyYjhhOGMxNGE2MGUyNzg1NjZjM2QwMTZkZTllNjU5YmI5OTkwNmIzOTQ0OGMwOWY0NjM5YzkifQ"
+        },
+        {
+          "resource": "repo://tests/unit/guide-page-data.test.ts#L240-L484",
+          "version": "repo-lines-v1:sha256:3f093034f1c38a51bc07089a819dfc941f6a73ed640fde80961b87a27787e770:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQ1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI4MjZkZmYzN2E0YTIwOWUyMjE5YWEyYWY0OGQ5M2I4M2I5OGEzOWUzOTNhZmRjMTQyYWNkZDliYWI4YmQxMTc4IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJiZTU4Y2Q3M2ZkNWY4YzJjOWNjYTBkMzBjZjRiNTdkZWE1NTU3MTVkMzQ0NjU3ODNmMTNiZjI0YWE2ZmQ0OGFlIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI3NmRlNWMwNTgwZjAwMjQ1ZGFmZjczNjNiMDYwNWJmMjM1Njk4ZDcyYzg0ZWRjM2ZkOGE4MjM0NjJjZWRhOWQxIn0"
+        }
+      ]
+    },
+    {
+      "id": "claim_107e317d39654615b31260feec18647b",
+      "statement": "stepNav labels each step with the first bold text of its prose, stripped of coordinates and the words and punctuation around them, falling back to Paso N, uses the step's coordinates or the first ones in its text, and stepPin shows the step's coordinates only when its text does not name them.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/guides/step-nav.ts#L41-L108",
+          "version": "repo-lines-v1:sha256:2fef266bf5026d8fb2ec87e0594dca82d26f85007634207dcc4a640e30c9f358:eyJzZWxlY3RlZExpbmVDb3VudCI6NjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0MGM1ZDNkYzNhNzczMDc5M2M4OTI3OTQ4YjU1OTY2NDIwN2Y3OWJhODc3NzNjMjE1MDA0NDMxOTYyZmQ0ODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/guide-step-nav.test.ts#L42-L153",
+          "version": "repo-lines-v1:sha256:bc46a190d43cc924bca4eef6fe0a3a9d231041be711cfb427ff23cc3adb06bc8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEyLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIwY2U2ZGJlNGM1ODU1MjZiYjYwNTMzYTEzNjgyNmEzMGFkODBlYmRhYWFlNmY1ZTdkODc5NTRhZjBmZWI1Y2QyIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI2NzZhNzAxNmVhMDdiZjI4YWY0NjA0MGE0Mjk1OWZlNTM1OTkyNjhlY2U4MmY1N2U1M2Q5MDI5MTYxMGE4ZjI3IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_6285498b2bd6424db0adceac5ead854d",
+      "statement": "generateMetadata uses the guide's SEO fields or the autofill templates, sets the canonical URL and Open Graph, and marks a preview noindex.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/page.tsx#L18-L39",
+          "version": "repo-lines-v1:sha256:de92a2f5dbf3e6aba803f92ebcfb6f0cf0242ec262f995d00a03aa6827dc15b9:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVjNzJjZGJjNzI3NmYyM2EwZjIwYzJlNzRkYmVmYWU3OGNjYmIxZDA4YmNmMGE1NDVjNjc2ZDVjM2E4YzNkM2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEyYjQ1ZGFmOGIwZjlmNzBkMWZlODNkOTYyY2U5NzllNDc3MDk4ZjAzYTc5NDRlZDUyMDU1MWZjMWQzYzY1MmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM3OTJlNDA1MDI1YmQ2M2UwNDYwNDA4YjJjMzlmM2EwZDUzY2I0M2I1NmZhMjhiNDVkMWJhNDQ2MDAyOTg4ZjUifQ"
+        },
+        {
+          "resource": "repo://src/lib/guides/page.ts#L419-L432",
+          "version": "repo-lines-v1:sha256:73064d94872ac42d572b5e22caa85b7ed9775e8825acdbfbc7d47d402e92af3e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVmYTg3OGZiN2QxMGI4ZDMyNTE1MmUzNzNmNWY4ZDcxNGVmMmU4MDUwMjIzNjYwNmJkMDYyZDY3YjVkZDIwMzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdmODI4NTJiODJhZmFhYjNjZTc5OWJjNDE1ODcwOTc0ODhhZDZhZTE2MjEzNGE0ODY5Zjc2ZGU0MGY2Yjc3NzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e5d336e7ce444af294dabf5b19f87af3",
+      "statement": "GET /vista-previa enables draft mode only for a valid guide slug, a panel user and a guide that user can see, answering 400, 401 or 404 otherwise, and redirects only to that guide; POST /vista-previa/salir disables draft mode and redirects back with 303.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/vista-previa/route.ts#L21-L39",
+          "version": "repo-lines-v1:sha256:6fd823f74ab1caf9d590a60350c90f071d1da36f230dfda5d319e1425642f0df:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRjZjk1ZjJhMmZmNDU0NDJlMTM1ZDA0ZjY2ZmIyNTRiYTcwMTBlZTMyYmU4YjNhY2EwMDI3M2UxNzdkMDlmMjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/app/(frontend)/vista-previa/salir/route.ts#L6-L16",
+          "version": "repo-lines-v1:sha256:66a92c41620fc939c807322720dbf3113392a5d5a9507fc521e7e598710236e9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzMzc0MzdiYjUyMzk4ZGVmODcwOTg1MzNmOTg1YzU5YmEzOTU4YjBjZTZiMGZhYTg5Zjg0MWU0MzgzMTVjMzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ3OTUxOGZkMzliOWM0MDMyMGZiNjA0ODZjNmJkYTE0YmMyYTg4ZmE0ZjE0MTYxNTEzODUyZDdjMjE3ZGM4MWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c2d0b3c915ae46a2a96b8a010c3c9d14",
+      "statement": "In preview the page renders a PreviewBar with an exit form and LivePreviewRefresh, which refreshes the server render on each panel save; both render only in draft mode.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/LivePreviewRefresh.tsx#L9-L25",
+          "version": "repo-lines-v1:sha256:c275661932503ccc022d03616cbbdeaa3d415c2f188d9ba7ba137e53f446ea97:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImViNWExOTQ3MDUzYTQzOWNhMzQ3ZDdmYzc2NjRhMzIzN2Q3YWMwZjIyOGU2NTIwMTU5YjM4Zjc4MmIyYTM2NzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/PreviewBar.tsx#L7-L23",
+          "version": "repo-lines-v1:sha256:4d7db396ba6a4980d7355989e00ab49c77a6689c56f3dc9ff39ce6ae85a2b2db:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiOTg0NjE5NTk2YmMwNGNjMmI5ODQ2NTAwODcwZTg0NGVmMjI0ZWM0YTQ5Njc3MDNjYmQ4OTc3NzIwMDA1NGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYwY2UwYTY1YzM4NjE4Nzg3MTJkNGEzOWQ2YWVmMjBhNDMxMTk5NzY2ZDYzZjlkNzU2ZjlmMDc4YTM0YWM3OTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/page.tsx#L55-L78",
+          "version": "repo-lines-v1:sha256:b69a384c8705d751c2f3e9a23be2d261399bf11b9e598fa2093dd60d9265c8da:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3MjE2ZThlOWMwYTFhNjhkMDZjMmZiYWE1ZmQyMTM5NDgyYjhlZmQwYTE5MzE1YjkxNWU2Y2NlODQ5ZDg5ZGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MjY3OTM1ZmM2MzM0NjVkODQ4YjQwYTRlZDY5NjdlN2I3YTMyM2Y4MWNkNTNjMTEwYWUyMTAyOTY4N2FhMTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI3Y2VjZGZiNzY5ZTYwYzFlMTFjMGMyZjY2N2MyYjgwNTI3NzQ1YzU2YTY3ODU5MGJkODU4MzMyNGFhZDBlZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1a765fb015dc4187a62c1963e3cb388c",
+      "statement": "The E2E app server clears Next's data cache before starting so a cached guide from an earlier run never hides the freshly seeded database.",
+      "evidence": [
+        {
+          "resource": "repo://tests/e2e/app-server.ts#L37-L45",
+          "version": "repo-lines-v1:sha256:895ab9b2b08cc952b6f343183fba0c4bac810edf5e44b4d6259ea30831402c3a:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGNhN2FiN2Q4ZTBhYmU4YzFmYjFkOTYyZDlmNGZjYTUyYTJkODg5N2VkZjg5ODg2NDk1MDkwMjg5Yjc2NDBmNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGMyYzZhMGRiZjc0NWRkZWE0Yjk1NmYwMTJmZTRiOWZjMzFiNzdjNWEzYTA5MGZmNzdiNTg3YzRlNjRhYTE5OCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTVmNzA1ZWRmN2Y5ODYyZWE2YWU3MDkxNjFjMGZhYWE0MGNhNWViMjUzY2EwNGFhMTNkYTUwMmYwMjU3OGFmOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWJkNTgwNWE0YmQxZmY4M2U5NTBkYzU0MmNiZTY4YzAzN2NkZTExYWFlZTNiOGM1YzgxMDg0MjM1ZjIzYjdkOCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_77a21e6aec75430ebe02718216d2cedd",
+      "statement": "The guide E2E spec checks the header, steps, side list, SEO, 404 with noindex, reserved routes winning over /[slug], accessibility in Arcano dark and light, and that preview JavaScript never reaches visitors.",
+      "evidence": [
+        {
+          "resource": "repo://tests/e2e/guia.spec.ts#L20-L266",
+          "version": "repo-lines-v1:sha256:06f9e0c28cd8e13323e433c5564d180fc18aa47bfdda4604f556c6b44d078d8a:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQ3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlNzIwNmU2M2ZmOTQ0YzJiYzExYjY1NjA0Njk5NTg1OGMwZTE0NTgxYjFiZTdkOWMwMDcyNmI1OWIyMzM2N2JkIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIxMWJhMDEzMzI2OTM0ZWFiOGRiNDY4NWY4YmM5OWI0YWQ1M2JmMTg3MjE4NjVkYjM0MGY3NjM5MjRjNDY4M2UwIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-06T15:25:11.354Z"
+  }
+}

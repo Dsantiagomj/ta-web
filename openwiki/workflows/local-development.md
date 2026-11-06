@@ -6,6 +6,8 @@ tags: [development, setup, pnpm, postgres, workflow]
 sources:
   - id: openwiki-source-5f5b95b3d6a215fa02ceb945
     resource: repo://.env.example
+  - id: openwiki-source-f5a489e5822d87c0b8fc66ef
+    resource: repo://.mcp.json
   - id: openwiki-source-7c03237a6b57ffb3e526a51b
     resource: repo://.nvmrc
   - id: openwiki-source-8037e2358a2c4f9b2c722a11
@@ -24,6 +26,8 @@ sources:
     resource: repo://scripts/import/import-guides.ts
   - id: openwiki-source-95f46342bb37caacc4ce1dbc
     resource: repo://scripts/lhci.ts
+  - id: openwiki-source-52bd7f492006181f268b8ce3
+    resource: repo://scripts/media-sizes.ts
   - id: openwiki-source-63cbcc482c18e4f9ce5d0888
     resource: repo://scripts/refresh-quests.ts
   - id: openwiki-source-102ac9d3e731f9c02830d89f
@@ -34,10 +38,12 @@ sources:
     resource: repo://src/lib/dofusdb/client.ts
   - id: openwiki-source-4ce5bfd40fc86e2e8680d71f
     resource: repo://src/lib/dofusdb/refresh-quests.ts
-generated: { by: "claude-code", at: "2026-11-05T11:00:19.182Z" }
+  - id: openwiki-source-f34ac1e549d94dc3ac475ae4
+    resource: repo://src/proxy.ts
+generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-05T11:00:19.182Z
+    at: 2026-11-06T15:25:11.354Z
 ---
 
 # Local development
@@ -85,27 +91,38 @@ Commit both with the change. CI fails when `src/payload-types.ts` is stale. Afte
 | `pnpm lint`, `pnpm format`, `pnpm format:check` | ESLint and Prettier |
 | `pnpm typecheck` | `next typegen`, then `tsc --noEmit` |
 | `pnpm test`, `pnpm test:integration`, `pnpm test:e2e`, `pnpm test:e2e:dev-gate`, `pnpm test:smoke` | The test suites; see [Test suites](../testing/test-suites.md) |
+| `pnpm seed:e2e` | Seeds the E2E test guides and a panel user (`tests/e2e/seed/guides.ts`); refuses any database that is not local. The E2E and Lighthouse runs call it themselves |
 | `pnpm test:lhci` | Lighthouse CI against the `DESIGN.md` budgets on the production path (port 3110, its own `ta_web_lhci` database); needs Playwright's Chromium (`pnpm exec playwright install chromium`) or `CHROME_PATH`. See [Performance budgets](../testing/performance-budgets.md) |
 | `pnpm db:dev` | Embedded Postgres in the foreground; `--verbose` prints its log; Ctrl+C stops it |
 | `pnpm migrate` | Applies pending migrations, using `DATABASE_URL_DIRECT` when set, else `DATABASE_URL` |
-| `pnpm data:quests` | Downloads every quest from the public DofusDB API (about 2,000), the monsters their needs name (about 1,000) and the whole item catalog (about 21,500), and writes them to `quests`, `items` and `monsters` in the `DATABASE_URL` database (the `pnpm db:dev` one when empty). The download takes about two and a half minutes; writing takes seconds. Failed requests are retried. Writes 8 rows at a time; `DOFUSDB_WRITE_CONCURRENCY` changes that. Never against production without the owner's yes; see [DofusDB game data refresh](../data/dofusdb-refresh.md) |
+| `pnpm data:quests` | Downloads every quest from the public DofusDB API (about 2,000), the monsters their needs name (about 1,000) and the whole item catalog (about 21,500), and writes them to `quests`, `items` and `monsters` in the `DATABASE_URL` database (the `pnpm db:dev` one when empty), then saves the quest-giving NPCs to `npcs` and imports their renders into `media` (the first run takes a while: two images per NPC). The quest download takes about two and a half minutes; writing takes seconds. Failed requests are retried. Writes 8 rows at a time; `DOFUSDB_WRITE_CONCURRENCY` changes that. Never against production without the owner's yes; see [DofusDB game data refresh](../data/dofusdb-refresh.md) |
 | `pnpm import:guides <dir> [slug…]` | Imports Squarespace quest pages from the migration inventory folder into `quest-guides` as drafts, with their images in `media`; without slugs, the five demo guides. Writes to the `DATABASE_URL` database (the `pnpm db:dev` one when empty). Run `pnpm data:quests` first so quests link. Never against production without the owner's yes; see [Squarespace import](../data/squarespace-import.md#running-it) |
+| `pnpm media:sizes [--remote] [--production]` | Generates the missing AVIF/WebP sizes of `media` files uploaded before Payload generated them; safe to rerun. Against a non-local database it needs `--remote`, in production `--production`. See [Media storage](../media/storage.md#backfilling-missing-sizes-pnpm-mediasizes) |
 | `pnpm migrate:create <name>` | Writes a new migration |
 | `pnpm generate:types`, `pnpm generate:importmap` | Regenerate Payload's types and admin import map |
 | `pnpm payload …` | The Payload CLI |
 | `node scripts/build-mode-eggs.ts` | Regenerates the AVIF/WebP variants of the mode toggle icons |
+| `node scripts/build-icons.ts` | Regenerates the favicon and iOS icon from the emblem and the Arcano colors |
 
 ## The component catalog
 
 Under `pnpm dev`, `/sistema` shows every component from `DESIGN.md` in the five themes and both modes. `?tema=bonta&modo=light` keeps one section, which is handy for screenshots. A production build answers 404 there. See [Component catalog (/sistema)](../frontend/component-catalog.md).
 
-## Trying the dev gate locally
+## Previewing a guide
+
+Quest guides render at `http://localhost:3000/<slug>` once published. To see a draft, sign in to `/admin` and use the guide's live preview or preview button, which go through `/vista-previa`. The preview origin comes from `NEXT_PUBLIC_SITE_URL` (`http://localhost:3000` in `.env.example`), or the request's own when it is empty. See [Public quest guide page](../frontend/guide-page.md#draft-preview).
+
+## Trying dev mode locally
 
 ```sh
-APP_ENV=dev DEV_BASIC_AUTH_USER=torre DEV_BASIC_AUTH_PASSWORD=clave pnpm dev
+APP_ENV=dev pnpm dev
 ```
 
-See [Dev environment gate](../operations/dev-gate.md).
+Every response then carries `X-Robots-Tag: noindex, nofollow` and `robots.txt` disallows everything. See [Dev environment](../operations/dev-gate.md).
+
+## Agent tooling
+
+`.mcp.json` declares the project MCP servers every agent session shares: Neon, Cloudflare and `next-devtools` (pinned to an exact version), which reads errors, routes and logs from the running `pnpm dev`. Third-party agent skills live in `.claude/skills/`, pinned by hash in `skills-lock.json` and updated with `npx skills update`, never by hand (AGENTS.md, Repo layout).
 
 ## Resetting local data
 
@@ -117,7 +134,7 @@ If `pnpm db:dev` fails to start after a hard shutdown, a stale `.postgres/data/p
 
 ## Before committing
 
-The pre-commit hook formats, lints and runs the AI review on staged files; the commit-msg hook enforces conventional commits without `Co-Authored-By`. Before each push, run lint, the format check, types, unit and integration tests locally; run E2E and the dev gate suite once, right before opening the PR. Report failures verbatim. See [CI and quality gates](ci-and-quality-gates.md).
+The pre-commit hook formats, lints and runs the AI review on staged files; the commit-msg hook enforces conventional commits without `Co-Authored-By`. Before each push, run lint, the format check, types, unit and integration tests locally; run E2E and the dev environment suite once, right before opening the PR. Report failures verbatim. See [CI and quality gates](ci-and-quality-gates.md).
 
 Feature branches do not touch `openwiki/`. A scheduled task outside the repo refreshes the wiki once a day and opens its own docs PR (AGENTS.md, Wiki).
 

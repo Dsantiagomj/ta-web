@@ -3,9 +3,6 @@ type: component
 title: Media storage
 description: How Payload uploads go to Cloudflare R2 or to local disk, why the S3 settings are all-or-nothing, how public CDN URLs are built, and why the app never resizes images on request.
 tags: [media, storage, cloudflare-r2, s3, images]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-04T17:14:51.499Z
 sources:
   - id: openwiki-source-50a18d054b596a7ed0eeffb0
     resource: repo://next.config.ts
@@ -13,15 +10,28 @@ sources:
     resource: repo://scripts/build-mode-eggs.ts
   - id: openwiki-source-3fc9f0484081f9ab441d6219
     resource: repo://scripts/import/load-quest-guides.ts
+  - id: openwiki-source-52bd7f492006181f268b8ce3
+    resource: repo://scripts/media-sizes.ts
   - id: openwiki-source-d58a4d3cf178bb2fa2e94831
     resource: repo://src/collections/Media.ts
+  - id: openwiki-source-8dfc57c57c9b90054e3c47fe
+    resource: repo://src/lib/media/image-asset.ts
+  - id: openwiki-source-8b2827e4ec1d6adb07aad1c1
+    resource: repo://src/lib/media/regenerate.ts
+  - id: openwiki-source-ea297fb6a1a94e91662773e5
+    resource: repo://src/lib/media/sizes.ts
   - id: openwiki-source-47a80445306e82d0ef444872
     resource: repo://src/lib/media/storage.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
     resource: repo://src/payload.config.ts
+  - id: openwiki-source-35c9ea6f75f53bd3fad443d0
+    resource: repo://tests/unit/media-regenerate.test.ts
   - id: openwiki-source-034e7fb4a132a9270c2ca2d0
     resource: repo://tests/unit/media-storage.test.ts
-generated: { by: "claude-code", at: "2026-11-04T17:14:51.499Z" }
+generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-06T15:25:11.354Z
 ---
 
 # Media storage
@@ -60,25 +70,44 @@ With `MEDIA_BASE_URL` (the bucket's CDN domain), the plugin config for `media` s
 
 `mediaFileUrl` joins the base URL, an optional prefix and the filename, dropping empty parts and URL-encoding each path segment while keeping `/` separators, so names with spaces or accents still produce valid URLs. Media is publicly readable anyway (see [Collections and access](../cms/collections.md)), so bypassing Payload for file bytes does not expose anything new.
 
-## Image variants: generated offline, never on request
+## Image sizes: generated on upload, never on request
 
-The app does not optimize images when they are requested:
+The app does not optimize images when they are requested. `next.config.ts` sets `images.unoptimized: true`, so there is no Next image optimizer and no per-request resizing bill. Instead Payload generates the variants with `sharp` when a file is uploaded, from the panel or from the import, and stores them next to the original in R2 or on disk.
 
-- `next.config.ts` sets `images.unoptimized: true`, so there is no Next image optimizer and no per-request resizing bill.
-- The `media` collection defines no `imageSizes`. Payload stores the original and records its width and height through `sharp`.
-- AVIF and WebP variants are meant to be produced before import and listed in the record's `variants` array (`key`, `width`, `format`). Nothing fills that array yet: generating the variants is a later step of the Squarespace import (phase 1).
+`mediaImageSizes` (`src/lib/media/sizes.ts`) is the collection's `imageSizes`: every width in `IMAGE_WIDTHS` (480, 800, 1200 and 1600) in AVIF (quality 50) and WebP (quality 80), named `<format>-<width>` (`avif-480`, `webp-1600`). Only the width is fixed, so the height follows the original's proportions. Payload skips a size wider than the original; the 480 size sets `withoutEnlargement`, so even a 96px icon gets one AVIF and one WebP at its own width. The panel thumbnail is the narrowest WebP. Each size adds URL, width, height, MIME type, file size and filename columns on `media` (migration `20261105_103713_media_image_sizes`).
 
-The one example in the repo today is `scripts/build-mode-eggs.ts`, which turns the two PNG icons in `public/img/mode/` into AVIF (quality 70) and WebP (quality 85) at 28px and 56px for the mode toggle.
+`mediaImageAsset(media)` (`src/lib/media/image-asset.ts`) turns a populated media document into the `ImageAsset` that `Picture` and `Figure` render: the widest WebP as the main file with its size, the widest AVIF, and `srcSet` and `avifSrcSet` lists when a format has more than one width. A record without variants falls back to the original; an unpopulated relation or a file without URL or size gives `null`. See [Design system components](../frontend/design-system-components.md).
+
+### Backfilling missing sizes: `pnpm media:sizes`
+
+Files uploaded before Payload generated sizes have none. `pnpm media:sizes` (`scripts/media-sizes.ts`) pages through `media`, asks `missingImageSizes` which sizes a record should have for its width and MIME type but has no file for, and re-uploads the original through Payload with the same filename and `overwriteExistingFiles`, so Payload creates the sizes and guides that link the file do not change. Records that are complete, or are not images `sharp` converts, are left alone, so the command can be rerun at no cost. It prints counts and exits with code 1 when any file failed.
+
+`originalReader` finds each original where it lives:
+
+- with an absolute URL (R2 behind the `MEDIA_BASE_URL` CDN domain), it downloads it;
+- with R2 credentials but no `MEDIA_BASE_URL`, the URL is Payload's relative path, so it reads the object from the bucket with the AWS S3 SDK, using `s3ClientConfig` and the key `mediaObjectKey` computes the way `storage-s3` does (the record's prefix and `_objectKey`, sanitized); a failure names the bucket and key but never the credentials;
+- otherwise it reads `staticDir/<filename>` from disk, rejecting a filename that would leave that directory.
+
+Before Payload starts, `regenerationRefusal` stops the run in the wrong place: in production (`APP_ENV`, `RAILWAY_ENVIRONMENT_NAME` or `NODE_ENV` set to `production`) it requires `--production`, and against a `DATABASE_URL` whose host is not local it requires `--remote` (or `--production`), because a remote dev database cannot be told apart from production. An unreadable URL counts as remote. The package script ends in `--`, so `pnpm media:sizes --remote` reaches the script.
+
+### Other generated images
+
+`scripts/build-mode-eggs.ts` turns the two PNG icons in `public/img/mode/` into AVIF (quality 70) and WebP (quality 85) at 28px and 56px for the mode toggle. `scripts/build-catalog-images.ts` produced the AVIF and WebP widths of the `/sistema` sample images, and `scripts/build-icons.ts` the favicon and iOS icon.
 
 ## Images from the Squarespace import
 
-`pnpm import:guides` stores each guide image as one `media` record holding the original file, with the block's alt text and `originalUrl` set to the image's Squarespace URL. Before downloading, the loader looks the URL up in `media`, so a re-run or a second guide using the same image reuses the record instead of uploading it again. The files go to whichever backend this page describes, local disk or R2. The records have no variants yet. See [Squarespace import](../data/squarespace-import.md#loading-into-payload).
+`pnpm import:guides` stores each guide image as one `media` record holding the original file, with the block's alt text and `originalUrl` set to the image's Squarespace URL; Payload generates its sizes on that upload. Before downloading, the loader looks the URL up in `media`, so a re-run or a second guide using the same image reuses the record instead of uploading it again. The files go to whichever backend this page describes, local disk or R2. See [Squarespace import](../data/squarespace-import.md#loading-into-payload).
+
+## Game art from DofusDB
+
+NPC renders are the one piece of game art imported from DofusDB. `pnpm data:quests` uploads each render once with `gameAsset` set to a key built from the NPC, the direction and a hash of its look; `gameAsset` is unique, so the refresh looks the key up before downloading and never stores a file twice. See [DofusDB game data refresh](../data/dofusdb-refresh.md#npcs-and-their-renders).
 
 Media records also keep alt text and credits (both localized) and the original Squarespace URL. Images come from the real game only; nothing loads from DofusDB or Ankama at runtime (AGENTS.md, Media).
 
 ## Tests
 
-- `tests/unit/media-storage.test.ts`: `null` with no variables, full settings, region and base URL handling, the error listing missing variables, blanks treated as missing, and `mediaFileUrl` joining and encoding.
+- `tests/unit/media-storage.test.ts`: `null` with no variables, full settings, region and base URL handling, the error listing missing variables, blanks treated as missing, `mediaFileUrl` joining and encoding, and `mediaObjectKey` (no prefix, prefix plus `_objectKey`, a `..` prefix kept inside its folder).
+- `tests/unit/media-regenerate.test.ts`: `regenerationRefusal` (local runs, `--production` in production, `--remote` for a remote database, an unreadable URL, the flags passed through `--`), `originalReader` reading from the bucket, the public URL or disk, an R2 error that names the key and not the credentials, and a filename that leaves its folder.
 - The integration suite forces the disk backend by blanking every `S3_*` variable and `MEDIA_BASE_URL` (`tests/integration/env.ts`), then uploads a 1×1 PNG through the local API.
 
 ## Related pages
@@ -86,3 +115,5 @@ Media records also keep alt text and credits (both localized) and the original S
 - [Collections and access](../cms/collections.md)
 - [Environment configuration](../architecture/configuration.md)
 - [Squarespace import](../data/squarespace-import.md)
+- [DofusDB game data refresh](../data/dofusdb-refresh.md)
+- [Public quest guide page](../frontend/guide-page.md)

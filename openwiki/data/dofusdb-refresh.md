@@ -40,10 +40,14 @@ sources:
     resource: repo://src/lib/dofusdb/map-items-monsters.ts
   - id: openwiki-source-593d2c966d67e453d0429c23
     resource: repo://src/lib/dofusdb/map-quest.ts
+  - id: openwiki-source-ed9a92056975b16479786c60
+    resource: repo://src/lib/dofusdb/npc-render.ts
   - id: openwiki-source-be0176b7862d0ea0cc7e2df7
     resource: repo://src/lib/dofusdb/quest-needs.ts
   - id: openwiki-source-018693ba041711bee3e7aaeb
     resource: repo://src/lib/dofusdb/quest-rewards.ts
+  - id: openwiki-source-021869cfa5f88cdea6c24dce
+    resource: repo://src/lib/dofusdb/refresh-npcs.ts
   - id: openwiki-source-4ce5bfd40fc86e2e8680d71f
     resource: repo://src/lib/dofusdb/refresh-quests.ts
   - id: openwiki-source-d5cdfb9f4d8e25639ff82c78
@@ -54,6 +58,8 @@ sources:
     resource: repo://src/payload.config.ts
   - id: openwiki-source-f771f456156fbf6bde7862c2
     resource: repo://tests/fixtures/dofusdb/quests.json
+  - id: openwiki-source-b851e65e44a5d48a33bfb854
+    resource: repo://tests/integration/refresh-npcs.test.ts
   - id: openwiki-source-cbffdb2343060c99a7477cfa
     resource: repo://tests/integration/refresh-quests.test.ts
   - id: openwiki-source-3fc2c02c456e1e51768c4446
@@ -72,17 +78,17 @@ sources:
     resource: repo://tests/unit/dofusdb-quest-rewards.test.ts
   - id: openwiki-source-e73350ef868f2379d51909ed
     resource: repo://tests/unit/dofusdb-write-concurrency.test.ts
-generated: { by: "claude-code", at: "2026-11-04T20:38:00.762Z" }
+generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T21:10:46.028Z
+    at: 2026-11-06T15:25:11.354Z
 ---
 
 # DofusDB game data refresh
 
-Game data in ta-web (quests, items and monsters today; achievements, NPCs, maps and the rest later) comes from DofusDB, is read-only in the panel and is refreshed by a script. Torre picks it from guides through relationship fields (AGENTS.md). The quest refresh is the first of these scripts and the only writer of the `quests`, `items` and `monsters` collections described in [Collections and access](../cms/collections.md#quests-dofusdb-game-data).
+Game data in ta-web (quests, items, monsters and quest-giver NPCs today; the rest later) comes from DofusDB, is read-only in the panel and is refreshed by a script. Torre picks it from guides through relationship fields (AGENTS.md). The quest refresh is the first of these scripts and the only writer of the `quests`, `items`, `monsters` and `npcs` collections described in [Collections and access](../cms/collections.md#quests-dofusdb-game-data).
 
-Nothing loads from DofusDB at runtime. The script copies the data into our Postgres; the site reads only that copy. Item and monster icons are stored as DofusDB image IDs only, never fetched when a page is served.
+Nothing loads from DofusDB at runtime. The script copies the data into our Postgres; the site reads only that copy. Item and monster icons are stored as DofusDB image IDs only, never fetched when a page is served. NPC renders are the one piece of art the refresh downloads: it imports them into `media` once, and the site serves that copy.
 
 ## Pipeline
 
@@ -92,9 +98,11 @@ pnpm data:quests
        ├─ createDofusDbClient({ log })  src/lib/dofusdb/client.ts (retries, timeout)
        ├─ fetchQuestData(client)      src/lib/dofusdb/fetch-quest-data.ts
        │    quests (all pages) → NPCs and maps named in start positions
+       │                       → sub-areas of those maps → their areas
        │                       → monsters named in needs
+       │    achievements (all pages, id/name/slug/need)
        │    items (all pages, only the stored fields)
-       └─ refreshQuests(payload, data, { concurrency })
+       ├─ refreshQuests(payload, data, { concurrency })
                                       src/lib/dofusdb/refresh-quests.ts
             mapItem / mapMonster      src/lib/dofusdb/map-items-monsters.ts
             items, then monsters: create/update by dofusId
@@ -104,9 +112,12 @@ pnpm data:quests
               questNeeds              src/lib/dofusdb/quest-needs.ts
             pass 1: create/update quest fields by dofusId
             pass 2: link prerequisites by Payload ID
+       └─ refreshNpcs(payload, data.npcs)   src/lib/dofusdb/refresh-npcs.ts
+            npcRenderUrl / npcRenderKey      src/lib/dofusdb/npc-render.ts
+            per NPC: renders (right, left) → media, then create/update by dofusId
 ```
 
-`src/lib/dofusdb/types.ts` types only the fields the pipeline reads from DofusDB rows (`RawQuest` with its `need` summary and `steps`, `RawQuestStep`, `RawQuestReward`, `RawQuestObjective`, `RawItem`, `RawMonster`, `RawNpc`, `RawMapPosition`, and `LocalizedText` for the `{ es, fr, en, de, pt }` texts) and the `MappedQuest`, `MappedItem` and `MappedMonster` shapes written to the collections.
+`src/lib/dofusdb/types.ts` types only the fields the pipeline reads from DofusDB rows (`RawQuest` with its `need` summary and `steps`, `RawQuestStep`, `RawQuestReward`, `RawQuestObjective`, `RawItem`, `RawMonster`, `RawNpc`, `RawMapPosition`, `RawSubArea`, `RawArea`, `RawAchievement`, and `LocalizedText` for the `{ es, fr, en, de, pt }` texts) and the `MappedQuest`, `MappedItem` and `MappedMonster` shapes written to the collections.
 
 ### Client
 
@@ -131,7 +142,7 @@ A full run makes several hundred requests, mostly for the item catalog, and one 
 
 ### Fetching
 
-`fetchQuestData` loads every quest, collects the distinct `npcId` and `mapId` values from their `startPosition` entries, and fetches only those NPCs (`npcs`) and maps (`map-positions`). It runs `questNeeds` on each quest and fetches by ID only the `monsters` named in needs. It returns `{ quests, npcs, mapPositions, items, monsters }`.
+`fetchQuestData` loads every quest, collects the distinct `npcId` and `mapId` values from their `startPosition` entries, and fetches only those NPCs (`npcs`) and maps (`map-positions`). It then fetches the `subareas` of those maps and the `areas` of those sub-areas, which give each quest its zone. It downloads every achievement with `fetchAll('achievements', { select })`, keeping `id`, `name`, `slug` and `need`, because a quest's achievement can only be found by looking through the achievements' quest lists. It runs `questNeeds` on each quest and fetches by ID only the `monsters` named in needs. It returns `{ quests, npcs, mapPositions, items, monsters, subAreas, areas, achievements }`.
 
 Items are different: `fetchQuestData` downloads the **whole item catalog** with `fetchAll('items', { select })`, not only the items quests name in rewards or needs, because Torre may need any item in a guide. A full run brings about 2,000 quests, 1,000 monsters and 21,500 items (README). The select list is `id`, `name`, `level`, `typeId`, `iconId` and `type`: only the fields the collection stores, plus `type`, the item type object DofusDB attaches through `typeId`, which carries the supertype. The whole row is roughly eight times heavier; with the select a page of 50 items is about 44 KB instead of about 375 KB.
 
@@ -141,11 +152,13 @@ There is no index on the item name. Picking an item by name in the panel runs a 
 
 ### Mapping a quest
 
-`mapQuest(raw, lookups)` turns one DofusDB quest into the collection's fields; `indexLookups` builds the NPC and map lookup maps by ID.
+`mapQuest(raw, lookups)` turns one DofusDB quest into the collection's fields; `indexLookups` builds the NPC, map, sub-area and area lookup maps by ID, plus a map from quest ID to its achievement.
 
 - **Name**: Spanish, falling back to French (DofusDB's original language), and to `Misión <id>` when both are missing, because `name` is required.
 - **Levels and category**: `levelMin`, `levelMax` and `categoryId` copied as is, `null` when absent.
 - **Start positions**: one entry per DofusDB start position with `npcId`, the NPC's Spanish (or French) name, `mapId` and the map's `posX`/`posY` as `x`/`y`. A missing NPC or map leaves those values `null`; mapping never fails over a missing lookup.
+- **Zone**: the Spanish (or French) name of the area of the first start map whose sub-area and area are known, such as Astrub; `null` when none is.
+- **Achievement**: the achievement whose `need.quests` lists the quest, with its DofusDB ID, Spanish name, a slug (DofusDB's slug, or the name slugified without accents or signs when DofusDB has none), the quest's 1-based `position` in that list and the list's `total`. A quest in several achievements takes the one with the lowest ID, so the result does not depend on DofusDB's order. `null` when no achievement lists it.
 - **`startCriterion`**: the raw DofusDB criterion string, stored unchanged (`null` when empty) so later derived data can reread it.
 - **`rewards` and `needs`**: computed by `questRewards` and `questNeeds`, described below. They carry DofusDB item and monster IDs; the refresh swaps them for Payload IDs when it writes.
 
@@ -192,6 +205,8 @@ kamas    = (opt² + 20 × opt − 20) × kamasRatio × duration
 - XP and kamas are floored **per step** and then summed, as DofusDB does. Flooring only the total gives a different number: quest 241 (five steps) gives 5,679,336 XP, not 5,679,337.
 - A step with no `rewards` entry adds nothing; a quest with no steps gets zeros and empty lists.
 
+`questRewards` also computes `experienceMin`, the XP of a character at each step's optimal level (capped at 200), floored per step and summed. It is the start of the XP range the guide page shows ("9 800 a 16 380" for quest 1976); the level-200 `experience` is already the top of that range, because the reward level stops rising at 1.5 times the optimum. For a step whose optimum is 200, both values match.
+
 Worked example, quest 1977 (*El cazador cazado*): one step, optimum 25, duration 0.5, both ratios 1. `fixe(25) = 14,062.5` and `fixe(37.5) = 28,710.94`, so XP is `0.3 × 14,062.5 + 0.7 × 28,710.94 = 24,316.4`, floored to **24,316**; kamas are `(625 + 500 − 20) × 0.5 = 552.5`, floored to **552**. Torre's guide gives the same figures.
 
 The same last entry also gives:
@@ -227,7 +242,7 @@ Torre's "Necesitarás" lines are partly editorial (which fights to expect, what 
 
 1. **Items, then monsters.** `refreshCatalog` maps the rows, keeps one per DofusDB ID, loads the existing rows in one query, creates the missing ones and updates an existing one only when its stored fields differ under a deep comparison. It returns the counts and a map from DofusDB ID to Payload ID that also covers rows from earlier runs that DofusDB no longer returned. This comes first because quest rewards and needs point at those Payload IDs. Progress is logged every 2,000 rows (`Objetos guardados: <n> de <total>`), which matters for the item catalog of more than 20,000 rows.
 2. It maps every quest, keeping one entry per DofusDB ID in case a quest repeats across pages, and loads all existing quests in one query. `linkRows` swaps each reward and need item or monster for its Payload ID; an ID with no stored row is dropped from the list and counted as a missing item or monster.
-3. **Pass 1** walks the mapped quests by `dofusId`. A missing quest is created. An existing one is updated only when its stored fields (name, levels, category, criterion, start positions, rewards and needs) differ from the mapped ones under a deep comparison; otherwise it is left alone. Progress is logged every 250 quests.
+3. **Pass 1** walks the mapped quests by `dofusId`. A missing quest is created. An existing one is updated only when its stored fields (name, levels, category, criterion, start positions, zone, achievement, rewards and needs) differ from the mapped ones under a deep comparison; otherwise it is left alone. Progress is logged every 250 quests.
 4. **Pass 2** resolves each quest's prerequisite DofusDB IDs to Payload IDs, now that every quest exists. A prerequisite that is not in the collection is skipped and counted. The relationship is written only when the resolved list differs from the stored one; a quest unchanged in pass 1 then counts as updated.
 5. It returns `{ created, updated, unchanged }` for each of `quests`, `items` and `monsters`, plus `missingPrerequisites`, `missingItems` and `missingMonsters`. Every write returns its own status and missing counts, and the totals are summed from those results afterwards, so no shared counter is updated by concurrent writes. The only shared counter left is the progress count behind the every-250 log line.
 
@@ -237,6 +252,19 @@ Consequences:
 - **`refreshedAt`** is set to the run's time only on rows that were created or changed (fields or prerequisites), so it records when DofusDB last changed that row for us, not when the script last ran.
 - **Nothing is deleted.** A quest, item or monster that disappears from DofusDB stays in its collection, so relationships pointing at it keep working.
 - A prerequisite that appears in a later run gets linked then: its quest is created in pass 1 and the dependent quest's relationship is filled in pass 2.
+
+### NPCs and their renders
+
+After the quests, `pnpm data:quests` runs `refreshNpcs(payload, data.npcs)`, the only writer of `npcs`. It loads every stored NPC once and processes the DofusDB NPCs four at a time (each one downloads, trims and uploads two images).
+
+For each NPC with a look, and for each direction (right and left), it resolves a `media` document:
+
+1. `npcRenderKey(npcId, direction, look)` builds the key `dofusdb-npc-render:<id>:<direction>:<hash>`, where the hash is the first 12 hex characters of the look's SHA-1. A new look is a new key.
+2. If the NPC already links a render with that key, it keeps it. Otherwise it looks up `media` by `gameAsset`; a match (for example from a run cut short before the NPC was saved) is reused without downloading.
+3. Otherwise it downloads `npcRenderUrl(look, direction)` from `renderer.dofusdb.fr` (the look hex-encoded, full body, direction 1 for right and 3 for left), with a 30 s timeout and only accepting an image. sharp trims the transparent margin and caps the height at 720 px, and the PNG is uploaded to `media` with the NPC's name as `alt` and the key as `gameAsset`.
+4. If the download fails, it logs one line, counts a failure and keeps the render the NPC already had, so an old look's render beats none; the next refresh tries again.
+
+An NPC without a look is saved without renders and nothing is requested. The NPC row (`dofusId`, Spanish name with `PNJ <id>` as fallback, `look`, `renderRight`, `renderLeft`) is created, or updated only when it differs, with `refreshedAt`. Renders from an earlier look stay in `media`: an editor may have picked one in a guide, and deleting it would break that image. The script prints NPC counts and how many renders were imported, reused from `media` or missing.
 
 ### Write concurrency
 
@@ -280,11 +308,13 @@ The script writes to whatever database `DATABASE_URL` names, with no confirmatio
 | Test | What it pins |
 |---|---|
 | `tests/unit/dofusdb-client.test.ts` | Pages of 50 until the total, a 50 ms pause between pages and none after the last, stop on an empty page, `$select[]` fields in the URL, the User-Agent, deduplicated IDs in chunks of 40, no request for an empty ID list, the error message on a 404. Retries: a network error and 502, 503 and 504 retried with waits of 500, 1,000, 2,000 and 4,000 ms and one log line each, jitter between 500 and 750 ms with `random` 0.5, giving up after 5 attempts with the URL and attempt count in the error (for a status and for repeated network failures), no retry on 400 or 404, and a 429's `Retry-After: 7` waited as 7,000 ms |
-| `tests/unit/dofusdb-map-quest.test.ts` | Spanish name with French fallback, every start position with NPC names and coordinates, `null`s for missing lookups, rewards and needs taken from the steps, and the prerequisite rule: `Qf=` joined by `&`, alternatives, `Qa=`, nested groups, unbalanced parentheses, duplicates and self-references |
+| `tests/unit/dofusdb-map-quest.test.ts` | Spanish name with French fallback, every start position with NPC names and coordinates, `null`s for missing lookups, rewards and needs taken from the steps, the zone (the area of the start map's sub-area, `null` when unknown), the achievement (position in DofusDB order, the lowest ID when several, a slug from the name when DofusDB has none, `null` without one), and the prerequisite rule: `Qf=` joined by `&`, alternatives, `Qa=`, nested groups, unbalanced parentheses, duplicates and self-references |
 | `tests/unit/dofusdb-criterion.test.ts` | `requiredTerms`: terms joined by `&` in order, a level with `\|` giving nothing (`PL>189\|Qf=123` gives none, `(PL>50\|PL>60)&Qf=1` gives `Qf=1`), `&`-only brackets entered while `\|` groups are skipped, and no terms for a `null` or empty criterion |
-| `tests/unit/dofusdb-quest-rewards.test.ts` | Torre's and dofusdb.fr's figures for quests 1977 (24,316 XP, 552 kamas) and 1976, the 1.5 × optimum cap (332), the level-200 case (1433), per-step flooring (241), items summed across steps, the last reward entry (880), emote and title IDs, and empty steps |
+| `tests/unit/dofusdb-quest-rewards.test.ts` | Torre's and dofusdb.fr's figures for quests 1977 (24,316 XP, 552 kamas) and 1976, the 1.5 × optimum cap (332), the level-200 case (1433), the XP range of 1976 (9,800 to 16,380) and a minimum equal to the maximum for 1433, per-step flooring (241), items summed across steps, the last reward entry (880), emote and title IDs, and empty steps |
 | `tests/unit/dofusdb-quest-needs.test.ts` | Delivered items, `need.items` without deliveries, the larger-quantity rule (245), deliveries summed across objectives, every fight objective and souls, `walksMaps` for map and sub-area discovery, and the ignored objectives |
-| `tests/unit/dofusdb-fetch-quest-data.test.ts` | Only the NPCs and maps named in start positions and the monsters named in needs are looked up by ID; items come from `fetchAll` with the select list, including items no quest names, and are never looked up by ID |
+| `tests/unit/dofusdb-fetch-quest-data.test.ts` | Only the NPCs and maps named in start positions and the monsters named in needs are looked up by ID; items come from `fetchAll` with the select list, including items no quest names, and are never looked up by ID; the sub-areas of the start maps and their areas are looked up by ID; every achievement comes from `fetchAll` with only the fields used |
+| `tests/unit/dofusdb-npc-render.test.ts` | `npcRenderUrl` hex-encodes the look and asks for the full body facing right (1) or left (3), and gives no URL without a look; `npcRenderKey` changes with the look or the direction |
+| `tests/integration/refresh-npcs.test.ts` | Saves an NPC and imports its trimmed renders with the name as `alt`; a rerun downloads and uploads nothing; a render already in `media` but not linked is reused, not duplicated; a new look uploads new renders and keeps the old ones; no look means no renders and no request; a failing renderer saves the NPC without a render and retries next time |
 | `tests/unit/concurrency.test.ts` | `mapWithConcurrency` keeps input order when tasks finish out of order, never has more than `limit` tasks running, runs tasks one after another with `limit` 1, rejects with the first error once running tasks settle without starting more, returns an empty list without calling the function, and rejects a `limit` below 1 or not an integer |
 | `tests/unit/dofusdb-write-concurrency.test.ts` | `DOFUSDB_WRITE_CONCURRENCY`: unset or empty gives the default, which stays below pg's pool of 10; a positive integer (also with spaces) is read; `0`, `-2`, `1.5` and `ocho` throw |
 | `tests/integration/refresh-quests.test.ts` | Against real Payload and Postgres: the first run creates the quests and skips missing prerequisites; a second run changes nothing and keeps `refreshedAt`; a third run updates only the renamed quest and the one whose missing prerequisite now exists, and creates the new quest. A second block creates items and monsters and links rewards and needs by Payload ID, changes nothing on a rerun, and on a third run updates only the renamed item and the changed quest and skips an item DofusDB did not return. A third block runs the refresh over both fixtures with concurrency 1 and then, after deleting the rows, with concurrency 8, and expects equal counts and equal stored data, with relationships compared by DofusDB ID. A fourth block adds catalog items no quest names (a sword and two quest items): the refresh creates them all with `superTypeId`, and a second run with the same catalog writes no item and keeps `refreshedAt` |

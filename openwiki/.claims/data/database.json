@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:05519b7055833d7b44a859705cd158a1687635e1aba2d1321f4eb6e3dab288ae",
+  "pageVersion": "sha256:3d2e6ede340631beaa33badcae27b30bd5c0bec530fa42bd869a217fc293beae",
   "claims": [
     {
       "id": "claim_c4d0210fcc834f69a874cfcee7b4d598",
@@ -80,11 +80,11 @@
     },
     {
       "id": "claim_08141421a97143cc8073d709e4bf1805",
-      "statement": "There are seven migrations today, 20261103_030359_initial, 20261104_070541_quests, 20261104_124207_quest_guides, 20261104_174941_dofusdb_items_rewards, 20261104_192809_dofusdb_item_supertype, 20261104_195910_needs_list and 20261104_210644_guide_single_quest, registered in src/migrations/index.ts.",
+      "statement": "There are ten migrations today, 20261103_030359_initial, 20261104_070541_quests, 20261104_124207_quest_guides, 20261104_174941_dofusdb_items_rewards, 20261104_192809_dofusdb_item_supertype, 20261104_195910_needs_list, 20261104_210644_guide_single_quest, 20261105_103713_media_image_sizes, 20261105_135506_guide_step_block and 20261106_010549_guide_v4_quest_npcs, registered in src/migrations/index.ts.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/index.ts#L1-L45",
-          "version": "repo-lines-v1:sha256:80fafb8d13958ae175c97f1704ae7b23a0c825cc09773c197de3e73630bf7961:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0NTE2NDJiYzU5Y2ExMDYyN2M5YzVjMTc2YTQ1MDQ3MTRlOGNlMjc4MGVhODM2NmJkNzZjNjIxN2MxMTU4YWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/migrations/index.ts#L1-L63",
+          "version": "repo-lines-v1:sha256:d7acf03f08eda829b7236094edb5a1f496509255ee9e97e252bc648bb290607e:eyJzZWxlY3RlZExpbmVDb3VudCI6NjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0NTE2NDJiYzU5Y2ExMDYyN2M5YzVjMTc2YTQ1MDQ3MTRlOGNlMjc4MGVhODM2NmJkNzZjNjIxN2MxMTU4YWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -143,8 +143,8 @@
       "statement": "tests/integration/migrations.test.ts runs pnpm payload migrate:down and then pnpm payload migrate against the integration database with DATABASE_CONNECTION=direct, asserting the latest migration in src/migrations/index.ts is rolled back and re-applied.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/index.ts#L9-L45",
-          "version": "repo-lines-v1:sha256:06ad922f62a892d149ee694a9d13b1a6ebfb3f0fbdfecf70f670e7109d9e521a:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMGVkYzRmYjExMzQ3MTVkZmYyYWMxM2VkNzlhODc3YmQzOGQxMTdiNzY0MjViMGJiMzJlMGRhZDgzY2IzNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNlMWVmZmEyY2JhNDMwMDZhNzY2MzJiZTNmMzMxNDQ4NThjODI1YWI5ZDYwMzE1ZTUyNjg2Mjc2NDQ3NGRkYzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/migrations/index.ts#L12-L63",
+          "version": "repo-lines-v1:sha256:7c18559078becbcaf9ae2d1d4f2208c0da8f76eb4792380f881661d4bc5cd8da:eyJzZWxlY3RlZExpbmVDb3VudCI6NTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMGVkYzRmYjExMzQ3MTVkZmYyYWMxM2VkNzlhODc3YmQzOGQxMTdiNzY0MjViMGJiMzJlMGRhZDgzY2IzNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1ZDM4MmI4MTcxZWE2MzgyYWFlZDkwOGI2NmE3MDdmZmY2NTlmOWNkNDkxYzY1NzZmMjBmYzE2NGQzMmEzODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://tests/integration/migrations.test.ts#L8-L39",
@@ -335,10 +335,52 @@
           "version": "repo-lines-v1:sha256:4700dfd910cdfb066b6cf604f2b04bdd6a3a89d9d286639a9e6f937d8e562fc7:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDM5YzYyYzZlMmVlYTJkNDIxMmFhMWYwMDU0Y2MyZDQ3OTc2NGVkYzUwOGMwMjg5NTVkODQzMTc4OTg3MjkxZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTlmY2EyYjFhMmE0NDMwMThmZDc1NjA5OTljNmE4ZmJiYmE0NDFhNmVmNWM0YTdhOTY3NTViNmIwZjVmODUwNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_c87593ab09734c6b830427a2aa1a25ab",
+      "statement": "The media_image_sizes migration drops media_variants and adds per-size URL, dimension, MIME type, file size and filename columns with filename indexes to media; its down recreates media_variants.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261105_103713_media_image_sizes.ts#L3-L64",
+          "version": "repo-lines-v1:sha256:da5d2628282011c3f4195bf08d8cb172b388e510ad35cc8d3413ce26a3280cb3:eyJzZWxlY3RlZExpbmVDb3VudCI6NjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwMjRjMDc5NmMwNDAwOTU3YWM3ZDk5NmY1NDViYzdjNjViZjk5MzJkNzUzYjRlN2NhZGJjOTE2YWRhNTkyNjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoyLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5ZjMzOGZiMGIxYzNkOGU1NzcwYTU2MjQxYTU3NDc0NTA2MTM2YjM4MDM4ZjdlZTRiMTJiNjU1OTYyZWRkZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU5MGFmNjc4ZWI0MzRiNTEyNmIyMjQ0NDhiNjExMTAxMjBhY2VlNjMxNmNiNjdhMmE5MjRiNzYyMTEyOTE4MmMifQ"
+        },
+        {
+          "resource": "repo://src/migrations/20261105_103713_media_image_sizes.ts#L66-L76",
+          "version": "repo-lines-v1:sha256:824ac2fec140d0d639b3cc469bc37d7b741c48305f54f302093d98ad0ee6b8f3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBhNzQ5ZmQxN2MwY2Q2NzlmYmZmYzdmNmYyYzBkY2IxNWE1Mjg0YTc2MTg1NGY3ZWI3YTM4MTAyNjljOGVmZmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1ZWYwMWJjMDhkYmMzYjYzZTRlNzVlYTNkMjZhNWI5NDE4OTE4NzdlMjdhZDg5MTMyOWM4NDExZDdkOGRjNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYxYzgyOGJlZWE4NzU4OTRjZjY3ZDQ4OTFjZGY1OTc1MDUzOGMzNjkxMWQ3MmE3OWU4YTZjOTQ2YzU4MWUxMjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI2NTg2ZDdhNGY0OWUyNmY1YzFmYzBmZWQ3YWU4ZjNhZTFkNmNiYzA1Yzg3ZDkxZmVjMWNjMzVlYzFhMTUyMTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7bbfbbfe090b46ff8688ca1dc613a12c",
+      "statement": "The guide_v4_quest_npcs migration creates npcs and npcs_locales with render foreign keys to media, adds media.game_asset, the quest achievement and experience_min columns and the localized zone and achievement name, and its down drops them.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261106_010549_guide_v4_quest_npcs.ts#L3-L67",
+          "version": "repo-lines-v1:sha256:c4f2b0399bd151db0cd65fb2003efe374fc8557ea3ac76aef8b7d06a5fb24938:eyJzZWxlY3RlZExpbmVDb3VudCI6NjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwMjRjMDc5NmMwNDAwOTU3YWM3ZDk5NmY1NDViYzdjNjViZjk5MzJkNzUzYjRlN2NhZGJjOTE2YWRhNTkyNjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoyLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5ZjMzOGZiMGIxYzNkOGU1NzcwYTU2MjQxYTU3NDc0NTA2MTM2YjM4MDM4ZjdlZTRiMTJiNjU1OTYyZWRkZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a2ecaf669b4b474799ab14cdb9c85753",
+      "statement": "isLocalDatabaseUrl accepts only localhost, 127.0.0.1 and [::1] hosts, and pnpm seed:e2e exits with an error when the resolved database URL is not local.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/seed-e2e.ts#L11-L15",
+          "version": "repo-lines-v1:sha256:af7e9be669fc18406cd50ba56ed38073368cb5bd118b0477f537acbe62d9bb85:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzlkZjhjMzRjYmZkOTFmYzBjMDIxMTdiZTc5MGI0NmFjNzJhYTI5OWEwZTlkNTVkZWZkMDExNWNhYWZjYmU1YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjYyNTczOTMwOGNkMmM2YjNlMmE5NzU3YjU0MmRkOWVhZGFjZmVmY2RlOWI1NmZhYTNkYWZhZmM0ZWZhYmMwNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWI4Yjk3MWZkMzNlMjVmZTZlZjE1M2Q0ZjI4NjA0MDBjMTVmN2RjZDlmMWE1MTBlZWY5NjU0ZjJjODhkY2U4NiJ9"
+        },
+        {
+          "resource": "repo://src/lib/db/database-url.ts#L42-L54",
+          "version": "repo-lines-v1:sha256:1629097e4dde8ce97ac4fc877b881fc07e10db3ff6f8eaaadfbe761678b61f0f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmZWJiOTRjY2E0ZWFjNTAwYTVlMmI5NDVhOTgyOGZlMmZlMmJjYWEzOWRmZTI2NTc0YWEyYTlmMmFjMjhhNDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI0ZjcxNDRhZTE4NWJhZmY3NmRiNTczY2RiY2RmMGE2NzM4YzE1NzdhM2ViODIzMTkwZjA4OTE2NzUzZjVjZDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/database-url.test.ts#L119-L131",
+          "version": "repo-lines-v1:sha256:015ea7d725626a0996a0fba2b6f0ce405d8ac8415023332f56104b27fcb3b9c6:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA0MzMyZjMyOWRjNTM3YmI1NDU0OWIyMDhmZGE3YjRkNjI5ODEwNGMyMzYxNjU2ZWMwMWM2Y2JjYTJmNGQ2MTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-05T11:00:19.182Z"
+    "at": "2026-11-06T15:25:11.354Z"
   }
 }

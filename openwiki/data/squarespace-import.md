@@ -32,6 +32,8 @@ sources:
     resource: repo://scripts/import/squarespace/quest-matches.ts
   - id: openwiki-source-fd0bec8778f0f03626754905
     resource: repo://scripts/import/squarespace/to-quest-guide.ts
+  - id: openwiki-source-d58a4d3cf178bb2fa2e94831
+    resource: repo://src/collections/Media.ts
   - id: openwiki-source-5cd8fc4d5a65c01359ed92e2
     resource: repo://tests/integration/import-quest-guides.test.ts
   - id: openwiki-source-bf890cc4722b5033a81aa698
@@ -44,19 +46,19 @@ sources:
     resource: repo://tests/unit/import-rich-text.test.ts
   - id: openwiki-source-299c190cabc2f0753a302110
     resource: repo://tests/unit/import-to-quest-guide.test.ts
-generated: { by: "claude-code", at: "2026-11-04T21:10:46.028Z" }
+generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T21:10:46.028Z
+    at: 2026-11-06T15:25:11.354Z
 ---
 
 # Squarespace import
 
-Phase 1 moves torrentearcano.com from Squarespace into Payload. The plan in `docs/legacy/plan.md` (section 8) splits it into extract, transform, media, load and review queue. `scripts/import/` covers extract, transform and load for quest guides. It reads a cached Squarespace page, turns it into a guide draft plus a list of oddities, and `pnpm import:guides` saves the drafts and their images in Payload. The image variants, the review queue and the other page types are still to come.
+Phase 1 moves torrentearcano.com from Squarespace into Payload. The plan in `docs/legacy/plan.md` (section 8) splits it into extract, transform, media, load and review queue. `scripts/import/` covers extract, transform and load for quest guides. It reads a cached Squarespace page, turns it into a guide draft (introduction, steps and closing) plus a list of oddities, and `pnpm import:guides` saves the drafts and their images in Payload; Payload generates each image's AVIF and WebP sizes on upload. The review queue and the other page types are still to come.
 
 | File | What it does |
 |---|---|
-| `scripts/import/squarespace/dom.ts` | Parses HTML with happy-dom, with scripts and loading turned off |
+| `scripts/import/squarespace/dom.ts` | Parses HTML with happy-dom, with scripts and loading turned off; `releaseDom` frees the shared window between pages |
 | `scripts/import/squarespace/parse-page.ts` | Reads a page: its title and its blocks in reading order |
 | `scripts/import/squarespace/to-quest-guide.ts` | Turns a parsed page into a quest guide draft; lists the demo slugs |
 | `scripts/import/squarespace/quest-matches.ts` | Reads the slug to DofusDB quest IDs table |
@@ -67,7 +69,7 @@ Phase 1 moves torrentearcano.com from Squarespace into Payload. The plan in `doc
 
 ## Parsing untrusted HTML
 
-Squarespace HTML is not trusted. `dom.ts` keeps one happy-dom `Window` for the whole process, with JavaScript evaluation, script, CSS and iframe loading, computed styles and all navigation disabled. `parseHtml` parses a full document or a fragment (a fragment lands inside `body`). `normalizedText` returns an element's text with all whitespace, non-breaking spaces included, collapsed to single spaces. The import compares markers such as "Prerrequisitos" against that text.
+Squarespace HTML is not trusted. `dom.ts` keeps one shared happy-dom `Window`, with JavaScript evaluation, script, CSS and iframe loading, computed styles and all navigation disabled. happy-dom keeps every document it parses in that window (about 8 MB per page), so `releaseDom()` closes it and the next parse opens a fresh one. `pnpm import:guides` calls it after converting each page, and the loader after turning each guide's body into Lexical; documents parsed before the call are no longer valid. `parseHtml` parses a full document or a fragment (a fragment lands inside `body`). `normalizedText` returns an element's text with all whitespace, non-breaking spaces included, collapsed to single spaces. The import compares markers such as "Prerrequisitos" against that text.
 
 happy-dom was already in the tree through `@lexical/headless`, pinned by a security override. It is now also a direct dev dependency at the same version (`docs/legacy/security.md`).
 
@@ -100,10 +102,20 @@ Rules, in the order the converter applies them to each text element:
 4. **Start line.** The first paragraph starting with "Habla con X [x,y]" or "La misión empieza hablando con X [x,y]" fills `summary.startNpc` (without a leading el/la/los/las), `startX` and `startY`. "Habla con" counts only when its sentence says "para empezar", because the phrase appears in the middle of many guides. When the sentence says nothing more than that ("…para empezar la misión."), only that sentence leaves the body and the rest of the paragraph stays. When it carries more (when or where to go), the whole paragraph stays in the body. The trimming walks text nodes, so bold and links in the rest of the paragraph survive.
 
    Rules 3 and 4 apply only to `<p>` elements. A list item or heading with the same words stays whole in the body, and a start line inside a list does not fill the summary.
-5. **Callouts.** A paragraph starting with all-caps `IMPORTANTE` or `CUIDADO` becomes a `callout` block with variant `warning`; `NOTA` becomes `tip`. Lowercase "Cuidado, …" is plain prose. A paragraph left over after trimming rules 3 and 4 is checked again here.
-6. **Prose.** Everything else is prose. Consecutive prose elements are joined into one `richText` block, still as HTML.
+5. **Step markers.** A paragraph (not a list) matching `ETAPA <n>: <title>` opens a titled step and leaves the body; see [Steps](#steps).
+6. **Recommendations.** A paragraph starting with all-caps `RECOMENDACIÓN`, `RECOMENDACION` or `RECOMENDACIONES` opens a `tip` callout. A bare label ("RECOMENDACIONES:") adds no text and the callout takes the following paragraphs up to and including the first list. A label with the advice in the same paragraph is stripped, the advice starts with a capital letter, and only a list right after it joins the callout. A label that says more ("RECOMENDACIONES PARA LA TERCERA LUCHA:") stays in the callout whole. A bare label with nothing after it stays as prose. When the label opens a text block, that block continues the previous step, so the advice lands in the step of the fight it is about.
+7. **Callouts.** A paragraph starting with all-caps `IMPORTANTE`, `CUIDADO` or `ATENCIÓN` (with or without a leading `¡`) becomes a `callout` block with variant `warning`; `NOTA` becomes `tip`. The label is removed when a colon or exclamation mark follows it ("IMPORTANTE:", "¡ATENCIÓN, ATENCIÓN!"), without losing the formatting of the rest, and the remaining text starts with a capital letter; "CUIDADO CON EL MISSCLICK", with no colon or exclamation, is the sentence itself and stays whole. Lowercase "Cuidado, …" is plain prose. A paragraph left over after trimming rules 3 and 4 is checked again here.
+8. **Prose.** Everything else is prose. Consecutive prose elements of the same Squarespace text block are joined into one `richText` block, still as HTML; each text block starts a new one.
 
 Image blocks become `image` blocks with the original URL; an image without alt text takes the guide title as alt. Video blocks become `video` blocks. Unknown blocks are left out of the body.
+
+### Steps
+
+After the walk, `nestSteps` splits the body into an introduction, `step` blocks and a closing. A step carries an optional `title`, the first `[x,y]` found in its original text as `x` and `y` (the start line counts, even though it left the body), and its own content blocks. A title is never invented.
+
+- **Marked steps.** When the page has `ETAPA n:` markers (only `el-safari-de-almas` does), they decide: each opens a step titled with the text after the colon, running until the next marker. The last one ends at the first text block that starts after its screenshots, unless a recommendations block continues it. Content before the first marker is the introduction; the closing sentence and what follows it are the closing. A marker with no title gives an untitled step; lowercase or mid-sentence "etapa" is prose.
+- **Unit steps.** Otherwise Torre's pages mark nothing, but each text block is followed by its screenshots. A text block plus the screenshots and videos after it is one untitled step; a text block with no screenshots joins the next. Everything before the text block holding the start line is the introduction, screenshots and videos included. The closing sentence and what follows it, or text left after the last screenshots, is the closing.
+- **No steps.** With fewer than two units (no screenshots, or a single block), the body stays as prose in page order and an oddity says so: "Sin pasos: ni marcas «ETAPA n:» ni bloques de texto con sus capturas; la guía queda como prosa". The five demo guides all split into untitled steps; "Seis pies bajo tierra" gives the eight steps of the design prototype.
 
 Oddities, collected rather than thrown:
 
@@ -112,6 +124,7 @@ Oddities, collected rather than thrown:
 - no DofusDB quest is linked;
 - a `Prerrequisitos`, `Necesitarás` or `Recompensas` block is missing or has a label but no text (one entry each);
 - no start line was found;
+- the body could not be split into steps;
 - each unknown Squarespace block, by type;
 - a dropped title heading that differs from the page title, with its text.
 
@@ -131,7 +144,7 @@ The Squarespace inventory in `out/` (outside the repo, described in `docs/legacy
 
 - **Quest.** A guide links a single quest. The loader looks up every DofusDB ID of the batch in `quests` once, at `depth: 1` so item and prerequisite names come populated for the summary fill. When a guide names exactly one DofusDB ID (repeats count once), it links that quest's Payload ID; an ID missing from `quests` becomes the oddity "Misión de DofusDB … sin importar en quests", so run `pnpm data:quests` first. When a guide names several IDs, it links none rather than pick one at random, and records the oddity "Varias misiones de DofusDB (a, b): sin enlazar, elige una en el panel" so Torre chooses. No guide in the Squarespace inventory matches more than one quest, so this is a safeguard. See [DofusDB game data refresh](dofusdb-refresh.md).
 - **Images.** Each image block becomes a `media` record keyed by its original URL. The loader first checks a per-run map, then searches `media` by `originalUrl`, and downloads and creates the record only when neither has it. A re-run or a second guide using the same image reuses the record. New records get the block's alt text and the `originalUrl`. An image that fails to download is dropped from the body and noted ("Imagen sin importar: …"); the guide still loads.
-- **Body.** Rich text and callouts go through `createHtmlToLexical`; videos keep their URL.
+- **Body.** Rich text and callouts go through `createHtmlToLexical`; videos keep their URL. A step becomes a `step` block with its `title`, `x` and `y` (`null` when absent) and its own content blocks converted the same way.
 - **Guides.** It finds the guide by `slug` (drafts included) and writes `title`, `slug`, `originalUrl`, `summary`, `quest` and `body` with `_status: 'draft'`. It never publishes: a published guide gets a new draft and stays published as it was until Torre publishes the draft.
 - **Summary.** It sends the whole `summary` group every time: `prerequisites`, `rewards`, `startNpc`, `startX`, `startY` and `needs` (`notes` plus an empty `items` list), with `null` for whatever the conversion did not bring. Payload keeps group fields that an update leaves out, so without this a value removed from the Squarespace page would stay stored, and every run would see a difference and save another version.
 - **DofusDB fill before comparing.** The collection's `beforeValidate` hook fills every empty summary field from the guide's linked quest on save (see [Writing a quest guide](../cms/guide-authoring.md)), so the stored guide differs from the raw conversion. The loader therefore applies the same pure functions, `summaryToFill` and `applySummaryFill` from `src/lib/guides/summary.ts`, with the linked quest before comparing and writing. Converted and stored guides then compare equal and a rerun saves no version. A value removed from Squarespace is replaced by DofusDB's value once, or cleared when DofusDB gives none, and the next run finds the guide unchanged. Torre's Squarespace text always wins over DofusDB, because only empty fields are filled. The hook also fills an empty `seo` group from the quest; the loader neither sends nor compares `seo`.
@@ -150,7 +163,7 @@ pnpm import:guides <inventory dir> [slug…]
 
 - **Target database**: whatever `DATABASE_URL` points to, or the `pnpm db:dev` database when it is empty. Run `pnpm migrate` (or `pnpm dev` once) on a fresh database first.
 - **Images**: they go wherever media storage points, local disk or R2. See [Media storage](../media/storage.md).
-- **Variants**: none yet. Records hold the original only; the AVIF/WebP step from the plan is still to come.
+- **Sizes**: Payload generates the AVIF and WebP sizes when the loader uploads the original. See [Media storage](../media/storage.md).
 - **Cost**: on a laptop, the five demo guides took about 83 s and uploaded 73 images; a second run found the five guides unchanged and reused the 73 images.
 
 ### Downloading images safely
@@ -178,12 +191,12 @@ The command writes to whatever database `DATABASE_URL` names, with no confirmati
 The unit tests run on trimmed copies of those five pages in `tests/fixtures/squarespace/`. Prettier ignores that directory so the parser reads the files exactly as saved.
 
 - `import-parse-page.test.ts`: title from the context (and no title for a bad escape), row and column order, top-level text elements, image URL and alt, unknown blocks.
-- `import-to-quest-guide.test.ts`: the five slugs are valid, summary and start NPC, what leaves the body, prose and image order, callouts, video, oddities.
+- `import-to-quest-guide.test.ts`: the five slugs are valid, summary and start NPC, what leaves the body, prose and image order, callouts and their labels (`ATENCIÓN` included), video, oddities; steps (the eight untitled steps of "Seis pies bajo tierra", every demo guide split without the prose oddity, intro screenshots staying in the introduction, `ETAPA n:` markers with and without a title); and Torre's recommendations (no real page keeps the label as prose, no text is lost, the callout's extent, singular and unbolded labels, continuing the previous step).
 - `import-rich-text.test.ts`: paragraphs, bold, links and lists through Payload's editor.
 - `import-quest-matches.test.ts`: IDs per slug, quoted commas, ambiguous rows, a header with a BOM, a missing column.
 - `import-fetch-image.test.ts`: downloads from the CDN with name and type and without following redirects; refuses `http`, other hosts, an internal IP, `localhost` and a look-alike subdomain without making the request; refuses a non-image response and an HTTP error.
 
-The integration test `tests/integration/import-quest-guides.test.ts` loads the five fixture pages into the integration database with a fake `fetchImage` that returns a 1×1 PNG. It checks drafts with all four block types, the existing quest linked, one `media` record per image with its URL and alt, the oddities (including quests missing from `quests`), a second run that changes, downloads and versions nothing, one new draft for a changed guide, the `needs` notes saved from the page, a summary field that disappears being filled from the linked quest's start position and needs without extra versions on the next run, no drafts visible to anonymous readers, an invalid slug skipped, and a guide with two DofusDB IDs saved with no quest and the "Varias misiones de DofusDB" oddity. It removes its guides, media and quests before and after.
+The integration test `tests/integration/import-quest-guides.test.ts` loads the five fixture pages into the integration database with a fake `fetchImage` that returns a 1×1 PNG. It checks drafts with the content block types, untitled steps saved with their coordinates and screenshots, a titled step from an `ETAPA n:` marker, the existing quest linked, one `media` record per image with its URL and alt, the oddities (including quests missing from `quests`), a second run that changes, downloads and versions nothing, one new draft for a changed guide, the `needs` notes saved from the page, a summary field that disappears being filled from the linked quest's start position and needs without extra versions on the next run, no drafts visible to anonymous readers, an invalid slug skipped, and a guide with two DofusDB IDs saved with no quest and the "Varias misiones de DofusDB" oddity. It removes its guides, media and quests before and after.
 
 See [Test suites](../testing/test-suites.md).
 

@@ -22,12 +22,16 @@ sources:
     resource: repo://src/collections/Media.ts
   - id: openwiki-source-7c84c63987b05696c25fe759
     resource: repo://src/collections/Monsters.ts
+  - id: openwiki-source-8a13b77dbed01e200022d669
+    resource: repo://src/collections/Npcs.ts
   - id: openwiki-source-f6a77b87c2cce3530ab6695f
     resource: repo://src/collections/quest-guide-autofill.ts
   - id: openwiki-source-7a2723ea85824e431ff5eb54
     resource: repo://src/collections/QuestGuides.ts
   - id: openwiki-source-633cb155d38055ddc4af30fc
     resource: repo://src/collections/Quests.ts
+  - id: openwiki-source-4f2e53306895c158accd92ec
+    resource: repo://src/collections/revalidate-guides.ts
   - id: openwiki-source-c46dfd6e94656494b7d9df7b
     resource: repo://src/collections/Users.ts
   - id: openwiki-source-54227c78b7c2e57bc6f3d29b
@@ -38,6 +42,8 @@ sources:
     resource: repo://src/lib/dofusdb/refresh-quests.ts
   - id: openwiki-source-4b87b2bd0648fe28c52dc5e5
     resource: repo://src/lib/guides/autofill.ts
+  - id: openwiki-source-66d7fca83a6f05e9ffb3f658
+    resource: repo://src/lib/guides/slug.ts
   - id: openwiki-source-2f2b90aba3af4142e443ba84
     resource: repo://src/lib/guides/strings.ts
   - id: openwiki-source-89155127340f422ef94e950a
@@ -68,6 +74,8 @@ sources:
     resource: repo://tests/integration/quests-access.test.ts
   - id: openwiki-source-ac8a504ed8af703f20417d32
     resource: repo://tests/integration/users-access.test.ts
+  - id: openwiki-source-cb15629b981f292fdc846429
+    resource: repo://tests/integration/users-lockout.test.ts
   - id: openwiki-source-cd37c5a886e3aa1e214dad74
     resource: repo://tests/unit/game-data-collections.test.ts
   - id: openwiki-source-46725d1a0efabea76f3841c8
@@ -76,23 +84,25 @@ sources:
     resource: repo://tests/unit/quest-guides-collection.test.ts
   - id: openwiki-source-6678095e74d244708e64ddd4
     resource: repo://tests/unit/quests-collection.test.ts
-generated: { by: "claude-code", at: "2026-11-04T21:10:46.028Z" }
+generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-04T21:21:54.398Z
+    at: 2026-11-06T15:25:11.354Z
 ---
 
 # Collections and access
 
-Payload collections live one per file in `src/collections/` and are registered in `src/payload.config.ts` as `collections: [Users, Media, Quests, Items, Monsters, QuestGuides]`. Six exist today: three of them (`quests`, `items`, `monsters`) are read-only game data copied from DofusDB. Quest guides are the first editorial collection; the others listed in AGENTS.md (achievements, Dofus guides, checklists, classes, dungeons, pages) are planned and not in the code yet.
+Payload collections live one per file in `src/collections/` and are registered in `src/payload.config.ts` as `collections: [Users, Media, Quests, Items, Monsters, Npcs, QuestGuides]`. Seven exist today: four of them (`quests`, `items`, `monsters`, `npcs`) are read-only game data copied from DofusDB. Quest guides are the first editorial collection; the others listed in AGENTS.md (achievements, Dofus guides, checklists, classes, dungeons, pages) are planned and not in the code yet.
 
 ## Users: panel accounts
 
-`src/collections/Users.ts` defines `users`, the accounts that sign in to `/admin` (Torre and editors). It sets `auth: true`, uses `email` as the admin title and adds no fields of its own, so its columns are the ones Payload's auth adds (email, hash, salt, reset tokens, login attempts, lock) plus a `users_sessions` table.
+`src/collections/Users.ts` defines `users`, the accounts that sign in to `/admin` (Torre and editors). It enables auth with `maxLoginAttempts: 5` and `lockTime` of ten minutes, uses `email` as the admin title and adds no fields of its own, so its columns are the ones Payload's auth adds (email, hash, salt, reset tokens, login attempts, lock) plus a `users_sessions` table.
 
 Site members are a different population. They will use Better Auth, not this collection; that is still planned.
 
 With no access functions declared, Payload's default applies: only an authenticated panel user can read or change users. `tests/integration/users-access.test.ts` checks this through the local API with `overrideAccess: false` and no `user`, which is how an anonymous request is evaluated. An anonymous caller cannot list, read, create, update or delete panel users. On an empty database, `/admin` asks for the first user.
+
+The dev panel is public (dev has no basic auth), so an account locks for ten minutes after five failed logins. Those are Payload's defaults, pinned in the collection so they cannot change unnoticed. `tests/integration/users-lockout.test.ts` checks that five wrong passwords lock the account even for the right password, and that four do not.
 
 ## Media: images and files
 
@@ -102,10 +112,12 @@ With no access functions declared, Payload's default applies: only an authentica
 |---|---|---|
 | `alt` | text | Required, localized |
 | `credits` | text | Localized |
-| `variants` | array of `{ key, width, format }` | Pre-generated AVIF and WebP variants in R2. `key` and `width` are required, `width` ≥ 1, `format` is `avif` or `webp`. Meant to be filled by the import, not by hand; the import does not generate them yet |
+| `gameAsset` | text | Unique, indexed, read-only in the panel. Set only on art imported from DofusDB (NPC renders); the refresh looks files up by it so it never uploads one twice |
 | `originalUrl` | text | Original Squarespace URL, only on migrated images; validated by `validateOptionalUrl`. The import looks images up by it so each one is stored once |
 
-Upload settings are `upload.staticDir: 'media'`. Payload records the original's width and height (the integration test checks a 1×1 PNG comes back with `width: 1, height: 1`). It does not generate sizes: there is no `imageSizes` entry, because variants are produced offline before import. See [Media storage](../media/storage.md).
+Upload settings are `staticDir: 'media'`, `imageSizes: mediaImageSizes` and the narrowest WebP size as the admin thumbnail. Payload records the original's width and height and generates the AVIF and WebP sizes on upload (panel or import), never on request. See [Media storage](../media/storage.md).
+
+After a change or delete, the collection's hooks expire the cached guide pages, because guides render each image's alt text and dimensions. See [Public quest guide page](../frontend/guide-page.md#caching-and-revalidation).
 
 `validateOptionalUrl` accepts an empty value (`undefined`, `null`, `''`) and any URL whose protocol is `http:` or `https:`. Anything else returns the Spanish error message Payload shows in the panel. `tests/unit/media-collection.test.ts` covers the field shapes and the validator.
 
@@ -128,6 +140,8 @@ When `MEDIA_BASE_URL` is set, the storage plugin also sets `disablePayloadAccess
 | `startCriterion` | text | Optional; DofusDB's raw criterion string (such as `Ps=1&Pa=1&PL>29&Qf=55`), stored as is for derived data later |
 | `prerequisites` | relationship to `quests`, `hasMany` | Quests to finish first |
 | `startPositions` | array of `{ npcId, npcName, mapId, x, y }` | DofusDB can give several, for example one per class; `npcName` is localized, the rest are numbers |
+| `zone` | text, localized | The area of the start map, such as Astrub |
+| `achievement` | group of `dofusId`, `name` (localized), `slug`, `position`, `total` | The quest's achievement and the quest's position in it |
 | `rewards` | group | What the quest gives a level-200 character, as in Torre's guides and on dofusdb.fr (see below) |
 | `needs` | group | What the quest asks for, labelled "Necesitarás" in the panel (see below) |
 | `refreshedAt` | date | Optional; set by the refresh script on each run that creates or changes the quest |
@@ -139,6 +153,7 @@ Both groups are computed by the refresh from the quest's steps; the formula and 
 | Group | Field | Type |
 |---|---|---|
 | `rewards` | `experience`, `kamas` | number |
+| `rewards` | `experienceMin` | number: the XP at the optimal level, the start of the XP range the guide shows |
 | `rewards` | `items` | array of `{ item, quantity }`: `item` is a required relationship to `items`, `quantity` a required number |
 | `rewards` | `emoteIds`, `spellIds`, `titleIds`, `jobIds` | number with `hasMany`: plain DofusDB IDs, validated and typed as `number[]`, with no collection behind them |
 | `needs` | `items` | array of `{ item, quantity }`, relationship to `items` |
@@ -149,11 +164,11 @@ The item and monster rows point at Payload IDs, so a guide can show names and ic
 
 ### Access
 
-`questsAccess` is the shared `gameDataAccess` from `src/collections/game-data-access.ts`: `read` returns `true` for anyone, because it is public game data, and `create`, `update` and `delete` always return `false`. Nobody, signed in or not, can change quests through the REST API or the panel. Only trusted server code writes them, through the local API with `overrideAccess: true`. `items` and `monsters` use the same object.
+`questsAccess` is the shared `gameDataAccess` from `src/collections/game-data-access.ts`: `read` returns `true` for anyone, because it is public game data, and `create`, `update` and `delete` always return `false`. Nobody, signed in or not, can change quests through the REST API or the panel. Only trusted server code writes them, through the local API with `overrideAccess: true`. `items`, `monsters` and `npcs` use the same object.
 
 ### How quests are filled
 
-The only writer is the DofusDB refresh, `pnpm data:quests` (`scripts/refresh-quests.ts`). It downloads every quest from the public DofusDB API, looks up the start NPCs and maps and the monsters the quests name, downloads the whole item catalog, and upserts each quest by `dofusId` with `refreshQuests` from `src/lib/dofusdb/refresh-quests.ts`. Items and monsters are written first, because rewards and needs point at their Payload IDs. A first pass over the quests creates or updates the quest fields; a second pass links `prerequisites` once every quest has a Payload ID. A rerun with the same data writes nothing, and the refresh never deletes a quest. The pipeline, the prerequisite rule and how to run it safely are in [DofusDB game data refresh](../data/dofusdb-refresh.md).
+The only writer is the DofusDB refresh, `pnpm data:quests` (`scripts/refresh-quests.ts`). It downloads every quest from the public DofusDB API, looks up the start NPCs, maps, sub-areas, areas, achievements and the monsters the quests name, downloads the whole item catalog, and upserts each quest by `dofusId` with `refreshQuests` from `src/lib/dofusdb/refresh-quests.ts`. Items and monsters are written first, because rewards and needs point at their Payload IDs. A first pass over the quests creates or updates the quest fields; a second pass links `prerequisites` once every quest has a Payload ID. A rerun with the same data writes nothing, and the refresh never deletes a quest. The pipeline, the prerequisite rule and how to run it safely are in [DofusDB game data refresh](../data/dofusdb-refresh.md).
 
 `tests/unit/quests-collection.test.ts` pins the slug, the field shapes (the `rewards` and `needs` groups included) and the access functions. `tests/integration/quests-access.test.ts` checks the rules at runtime: an anonymous request can `find` and `findByID`; a panel user gets `Forbidden` on create, update and delete, and the data stays unchanged; a create with `overrideAccess: true` stores prerequisites, start positions and `refreshedAt`.
 
@@ -175,6 +190,20 @@ Only the icon's ID is stored, never the image. Nothing is loaded from DofusDB or
 
 `tests/unit/game-data-collections.test.ts` pins both collections' slugs, titles, group, field shapes and the shared access object. `tests/integration/game-data-access.test.ts` checks the rules at runtime for both: an anonymous request can `find` and `findByID`; a panel user gets `Forbidden` on create, update and delete, and the data stays unchanged.
 
+## NPCs: quest givers and their renders
+
+`src/collections/Npcs.ts` defines `npcs`, the DofusDB NPCs that give quests. It sits under "Datos del juego", uses `name` as the title, shares `gameDataAccess` and is written only by the refresh, after the quests.
+
+| Field | Type | Notes |
+|---|---|---|
+| `dofusId` | number | Required, unique and indexed |
+| `name` | text | Required, localized |
+| `look` | text | The NPC's DofusDB look string, from which the render is made |
+| `renderRight`, `renderLeft` | upload to `media` | The NPC render facing right (next to the guide title on desktop) and facing left (right of the title on mobile) |
+| `refreshedAt` | date | Set by the refresh |
+
+The renders are imported into `media` once, keyed by `gameAsset`; nothing is loaded from DofusDB when a page is served. A new look imports new renders and keeps the old ones. See [DofusDB game data refresh](../data/dofusdb-refresh.md).
+
 ## Quest guides: editorial guides with drafts
 
 `src/collections/QuestGuides.ts` defines `quest-guides`, Torre's quest guides. It is the first editorial collection: people write it in the panel, unlike `quests`, which only the refresh writes. In the panel it sits under the "Guías" group, uses `title` as the title and shows `title`, `slug`, `_status` and `updatedAt` as default columns.
@@ -187,7 +216,7 @@ Fields, in the order the panel shows them:
 | `title` | text | Required, localized; validated by `validateGuideTitle` |
 | `slug` | text | Required, unique and indexed, not localized (the URL is the same in every language); validated by `validateGuideSlug`; in the sidebar |
 | `summary` | group | `prerequisites`, `rewards` (localized textareas), `needs` (group, below), `startNpc` (localized text), `startX`, `startY` (numbers) |
-| `body` | blocks | Rich text, image, video and callout blocks; see [Guide body blocks](blocks.md) |
+| `body` | blocks | Rich text, image, video, callout and step blocks; see [Guide body blocks](blocks.md) |
 | `seo` | group | `metaTitle` (localized text) and `metaDescription` (localized textarea, at most 160 characters) |
 | `originalUrl` | text | The guide's Squarespace URL; validated by `validateOptionalUrl`, the same validator `media` uses; in the sidebar |
 
@@ -206,7 +235,7 @@ Each fillable summary field (`prerequisites`, `rewards`, `startNpc`, `startX`, `
 
 ### Filled from the linked quest
 
-The collection's `beforeValidate` hook is `fillFromQuest` (`src/collections/quest-guide-autofill.ts`). When the guide has a linked quest, it loads it at `depth: 1` and fills every **empty** field from it: `title` (the quest name), `slug` (the slugified name, with `-2`, `-3`… when another guide already uses it), `seo.metaTitle`, `seo.metaDescription`, and the summary fields, including an empty `needs.items` list. A field that already has a value is never overwritten, which is why guides imported from Squarespace keep their slug. On an update `data` may hold only the changed fields, so the hook reads the rest from the saved document; a field the editor empties is filled again on save. The panel does the same fill live in the form when Torre picks a quest. The rules, formats and notes are in [Writing a quest guide](guide-authoring.md).
+The collection's `beforeValidate` hook is `fillFromQuest` (`src/collections/quest-guide-autofill.ts`). When the guide has a linked quest, it loads it at `depth: 1` and fills every **empty** field from it: `title` (the quest name), `slug` (the slugified name, with `-2`, `-3`… when another guide already uses it or the name is a reserved route), `seo.metaTitle`, `seo.metaDescription`, and the summary fields, including an empty `needs.items` list. A field that already has a value is never overwritten, which is why guides imported from Squarespace keep their slug. On an update `data` may hold only the changed fields, so the hook reads the rest from the saved document; a field the editor empties is filled again on save. The panel does the same fill live in the form when Torre picks a quest. The rules, formats and notes are in [Writing a quest guide](guide-authoring.md).
 
 The title and slug validators follow from that. `validateGuideTitle` accepts an empty title when the guide has a quest, and `validateGuideSlug` accepts an empty slug in the same case and otherwise defers to `validateSlug`. With neither a title nor a quest, the title validator returns the Spanish message "Escribe un título o elige una misión de DofusDB para sacarlo de ella." Payload skips field validation when saving a draft, so the hook also throws a `ValidationError` with that message on the `title` path when the title is still empty after the fill; a draft without title and quest is rejected too.
 
@@ -214,11 +243,15 @@ The title and slug validators follow from that. `validateGuideTitle` accepts an 
 
 `pnpm import:guides` writes `title`, `slug`, `originalUrl`, `summary`, `quest` and `body` through the local API with `overrideAccess: true`, always as a draft: it finds an existing guide by `slug`, drafts included, and never publishes. It links a quest only when the page names exactly one DofusDB ID; with several it links none and records an oddity so Torre picks one in the panel. The Squarespace "Necesitarás" text goes to `summary.needs.notes`. It sends every `summary` field, `null` for any the page no longer has, and then fills the empty ones from the linked quest exactly as the hook would, so a value removed from Squarespace is replaced by DofusDB's value, or cleared when DofusDB gives none, and a rerun compares equal and saves no new version. A published guide gets a new draft and stays published as it was until someone publishes that draft in the panel. Each image becomes a `media` record with `alt` and `originalUrl` and no `variants`. `seo` is left to the hook. See [Squarespace import](../data/squarespace-import.md#loading-into-payload).
 
-`validateSlug` accepts only plain ASCII: lowercase letters and digits in runs joined by single hyphens, with no hyphen at either end (`aprendizaje-escudero`, `dofus-ocre-2`). Accents, `ñ`, capitals, spaces, doubled or edge hyphens and empty values return a Spanish error, so a guide's URL never needs percent-encoding.
+`validateSlug` accepts only plain ASCII: lowercase letters and digits in runs joined by single hyphens, with no hyphen at either end (`aprendizaje-escudero`, `dofus-ocre-2`). Accents, `ñ`, capitals, spaces, doubled or edge hyphens and empty values return a Spanish error, so a guide's URL never needs percent-encoding. It also rejects the reserved slugs in `src/lib/guides/slug.ts` (`admin`, `api`, `sistema`, `vista-previa`): those top-level routes win over `/[slug]`, so a guide with one of them would never be reachable. Each new top-level route is added to that list.
 
 ### Drafts and versions
 
 `versions: { drafts: true, maxPerDoc: 50 }` gives each guide a `_status` of `draft` or `published` (new documents start as drafts) and keeps up to 50 saved versions per guide. Payload stores versions in a parallel set of `_quest_guides_v*` tables. Publishing is an update that sets `_status: 'published'`; the integration test creates a draft, publishes it, and finds a published entry in `findVersions`.
+
+### Preview and revalidation
+
+The admin config sets `livePreview` (with a 390 × 844 "Móvil" breakpoint) and `preview` to `guidePreviewUrl`, which points at `/vista-previa?slug=…` so editors see the public page with the current draft. `afterChange` and `afterDelete` hooks expire the cached guide pages on every save, drafts included, which also covers unpublishing. See [Public quest guide page](../frontend/guide-page.md).
 
 ### Access
 
@@ -231,11 +264,9 @@ Payload sessions belong only to panel accounts (`users`); site members will use 
 
 `tests/unit/quest-guides-collection.test.ts` pins the slug, admin settings, versions, the hook, every field's shape (`quest` first, single and in the main area, the needs group, the note components), `validateGuideTitle`, `validateGuideSlug`, `validateSlug` and the access functions. `tests/integration/quest-guides-access.test.ts` checks access at runtime: an anonymous request lists and reads the published guide but gets `NotFound` for the draft, and gets `Forbidden` on create, update and delete with the data unchanged; a panel user reads both, creates a draft, publishes it and gets a version; and a guide with its quest, summary, all four block types, SEO and `originalUrl` saves and reads back anonymously at `depth: 1`. `tests/integration/quest-guides-autofill.test.ts` checks the fill on save (see [Writing a quest guide](guide-authoring.md#tests)).
 
-No public route or live preview reads guides yet.
-
 ## Localization in the schema
 
-Spanish is the only locale. Translatable fields carry `localized: true` so adding a second language later becomes a translation job rather than a schema rewrite. In Postgres, localized fields live in a sibling `<collection>_locales` table keyed by `_locale`; the initial migration creates `media_locales` with `alt` and `credits`, and a `_locales` enum containing only `es`. The quests migration adds `quests_locales` (`name`) and `quests_start_positions_locales` (`npc_name`); the DofusDB items migration adds `items_locales` and `monsters_locales` (`name`). The quest guides migration adds `quest_guides_locales` (title, the localized summary fields and SEO) plus a `_locales` table for each block type; the needs list migration renames its `summary_needs` column to `summary_needs_notes`.
+Spanish is the only locale. Translatable fields carry `localized: true` so adding a second language later becomes a translation job rather than a schema rewrite. In Postgres, localized fields live in a sibling `<collection>_locales` table keyed by `_locale`; the initial migration creates `media_locales` with `alt` and `credits`, and a `_locales` enum containing only `es`. The quests migration adds `quests_locales` (`name`) and `quests_start_positions_locales` (`npc_name`); the DofusDB items migration adds `items_locales` and `monsters_locales` (`name`). The quest guides migration adds `quest_guides_locales` (title, the localized summary fields and SEO) plus a `_locales` table for each block type; the step block and quest NPC migrations add `quest_guides_blocks_step_locales`, `quests` zone and achievement name columns and `npcs_locales`; the needs list migration renames its `summary_needs` column to `summary_needs_notes`.
 
 ## Adding or changing a collection
 

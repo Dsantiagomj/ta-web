@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:10178e2c8973191df90996c6361b5afd85114290a8a3fe2dcabc425a30097d27",
+  "pageVersion": "sha256:73f1fd9db744d5cea9b1329995a9e11c330c5cfe24f1a98021d3664553b668a1",
   "claims": [
     {
       "id": "claim_2f6535236bd34c0a96b8ef8fea40832d",
-      "statement": "The Next proxy runs on every request without a matcher, reads the environment per request and maps the dev gate decision to pass-through, pass-through with a noindex header, or a 401/503 response.",
+      "statement": "The Next proxy runs on every request without a matcher, reads the environment per request, never blocks, and only adds an X-Robots-Tag noindex header when the environment is dev.",
       "evidence": [
         {
-          "resource": "repo://src/proxy.ts#L1-L23",
-          "version": "repo-lines-v1:sha256:26b01b7e2f46c59da1000f2222ea618e7eed6ee1e7e781fb22e5c95c747c7d87:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQyZGMxMGJlYzEwNjE1OGZlMjhjNWQ4ZjNkYzQzODA4ZjM1OTc0ODU0ODZlZWViMTc5NDZmNTYwNGNjOTZjMWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/proxy.ts#L1-L13",
+          "version": "repo-lines-v1:sha256:70176c96672604a2bcf03cb7dd4a6b6f647f9b5a9507f233ed5ca174fbf8155b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYyMWFmZGMxMmYxMGZiZDRiOWJiMmExMmRhN2ZkZGJiMGM4Y2JmNGVmMWY3YWU4ZjNhMzAyODYxYTM5NTJlYjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -86,13 +86,27 @@
         },
         {
           "resource": "repo://next.config.ts#L9-L15",
-          "version": "repo-lines-v1:sha256:7c3b184c76f021e00052f777a902159a286cdf0b46c50076dd822d4acf32b35d:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWRjMzEyM2Q4NzBkZDA2ODkyYTZhNWQxMjcxYmIyOWRkNjdiMjhkMzM2Njk1YjQyMzJhNmUzNTFmMTY4OTQ2OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTMzZGI3MjE5ODFjZWZlZDg5YThkZDNjMzM0MmU1MDg4OWViYzg5MGIxN2Y1Y2ZiYjYzOWEzNGQ0NmJlN2VjOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjViZGJiMGEyYmM3ODVlMWVjODU4YWZkZjEzMWYxNGRhZWIzZmM2YzZhM2FkYzVlMWExN2NjNWU0OTJiMWMxMyJ9"
+          "version": "repo-lines-v1:sha256:77ed1a33fed5df6d5d1f90175e1021894958d9052f614981c930f63db6b0d6bd:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWRjMzEyM2Q4NzBkZDA2ODkyYTZhNWQxMjcxYmIyOWRkNjdiMjhkMzM2Njk1YjQyMzJhNmUzNTFmMTY4OTQ2OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTMzZGI3MjE5ODFjZWZlZDg5YThkZDNjMzM0MmU1MDg4OWViYzg5MGIxN2Y1Y2ZiYjYzOWEzNGQ0NmJlN2VjOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjViZGJiMGEyYmM3ODVlMWVjODU4YWZkZjEzMWYxNGRhZWIzZmM2YzZhM2FkYzVlMWExN2NjNWU0OTJiMWMxMyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_8fcd7a628f1e4644b43d7e2ae4ca8873",
+      "statement": "The public route group serves quest guides at /[slug], loading each guide once per request; the page calls notFound() when no guide matches the slug.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/data.ts#L40-L51",
+          "version": "repo-lines-v1:sha256:4734a90c955970635112a3e5f8a9256912fd3d26136c46a1c50325d55359daf9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRmMjU2ODAzZDk0YmVmMDNlN2UyMjg4YTIxMTk2M2M5NzNiM2JkMjBmNzVhZGM2MTY0MzM5NTU2ODRmMTZjZDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNjOWM4YTY2MzhmYWExOTJiOWM0MzBmYjQzNGQ5ODVjYzRmNjNjMjg5ZjU1YmI4OTQwNzU2OWZmMWM4NjYxNzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/page.tsx#L48-L50",
+          "version": "repo-lines-v1:sha256:75628809920fa5a585dcd9adb88949ec5c1d47f733ebeb070f1dfb9ea1ad4f27:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2ExZGI3OGI1ZmZhM2UxNTNlOWVhMzgzNjk5NDRmNDI5YTdkYTMwOTQ4ODQ4MTE1N2FjMWZlMTdiZTQ0Nzk0MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjRmMGY0OGViNzljZTUwNDc3MjdhMmIxMTRmYWQ3M2MyZDZhYjQxNzQ0OWRjNmYyZGE1Y2ZkYTIxNzU0NmNmMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2QxZWQ0Y2RhZDVlNTZlODlhMzZkNWZlMTA5NmVmMzczYThhODYyNTY2MDQ2OTM0MmJmZTY3NTRhYjVmYmU2OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzYxNGE4NWUyYTZmODMwODI3OTk5YzY5MmE4ZWY4MWFlNjE0M2M2YWJjY2VjMDcwOWNkZTNmYTZiNmQ4ZjdhZiJ9"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-04T01:11:00.817Z"
+    "at": "2026-11-06T15:25:11.354Z"
   }
 }

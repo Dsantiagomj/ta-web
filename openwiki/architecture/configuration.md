@@ -5,7 +5,7 @@ description: Every environment variable the app, the tests and the GitHub workfl
 tags: [configuration, environment, secrets, railway]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-05T11:00:19.182Z
+    at: 2026-11-06T15:25:11.354Z
 sources:
   - id: openwiki-source-5f5b95b3d6a215fa02ceb945
     resource: repo://.env.example
@@ -37,6 +37,8 @@ sources:
     resource: repo://src/lib/dev-gate/design-catalog.ts
   - id: openwiki-source-6b31d93be9f7026d5af1d752
     resource: repo://src/lib/dev-gate/dev-gate.ts
+  - id: openwiki-source-2ce84534e6026072681beb8b
+    resource: repo://src/lib/dev-gate/robots.ts
   - id: openwiki-source-4ce5bfd40fc86e2e8680d71f
     resource: repo://src/lib/dofusdb/refresh-quests.ts
   - id: openwiki-source-47a80445306e82d0ef444872
@@ -45,13 +47,15 @@ sources:
     resource: repo://src/lib/monitoring/sentry.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
     resource: repo://src/payload.config.ts
+  - id: openwiki-source-f34ac1e549d94dc3ac475ae4
+    resource: repo://src/proxy.ts
   - id: openwiki-source-15d81576125ffd9d62dc8605
     resource: repo://tests/e2e/app-server.ts
   - id: openwiki-source-ba0c02c20c1203ccdd8a9159
     resource: repo://tests/integration/env.ts
   - id: openwiki-source-e73350ef868f2379d51909ed
     resource: repo://tests/unit/dofusdb-write-concurrency.test.ts
-generated: { by: "claude-code", at: "2026-11-05T11:00:19.182Z" }
+generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
 ---
 
 # Environment configuration
@@ -69,8 +73,7 @@ Each group of variables has one small resolver function that takes an `env` reco
 | `DATABASE_CONNECTION` | `resolveDatabaseUrl` | The `pnpm migrate` script sets it to `direct`; never set by hand |
 | `PAYLOAD_SECRET` | `src/payload.config.ts` | `.env`, Railway, CI (a dummy value) |
 | `NEXT_PUBLIC_SITE_URL` | `metadataBase` in `src/app/(frontend)/layout.tsx` | `.env`, Railway |
-| `APP_ENV` | `isDevEnvironment`, `sentryServerOptions` | Railway `dev` sets `dev`; empty locally and in production |
-| `DEV_BASIC_AUTH_USER`, `DEV_BASIC_AUTH_PASSWORD` | `decideDevGate` | Railway `dev` only |
+| `APP_ENV` | `isDevEnvironment` (the `noindex` header, `robots.txt`, the `/sistema` catalog), `sentryServerOptions` | Railway `dev` sets `dev`; empty locally and in production |
 | `S3_ENDPOINT`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_REGION`, `MEDIA_BASE_URL` | `readS3Settings` (`src/lib/media/storage.ts`) | Railway |
 | `SENTRY_DSN` | `sentryServerOptions` (`src/lib/monitoring/sentry.ts`) | Railway |
 | `SENTRY_AUTH_TOKEN` | `next.config.ts`, at build time | Railway (declared, not yet populated) |
@@ -81,7 +84,7 @@ Each group of variables has one small resolver function that takes an `env` reco
 | `E2E_PORT`, `E2E_DEV_GATE_PORT`, `E2E_SKIP_BUILD` | Playwright configs; `pnpm test:lhci` also reads `E2E_SKIP_BUILD` | `.env` or the shell |
 | `E2E_DESIGN_CATALOG` | `isDesignCatalogEnabled` (`src/lib/dev-gate/design-catalog.ts`): `1` opens `/sistema` on a production build | Only `playwright.config.ts`, for the `pnpm test:e2e` app; never a deployed environment |
 | `CHROME_PATH` | `scripts/lhci.ts`: the browser Lighthouse measures with; Playwright's Chromium when empty | The process environment only, not `.env` |
-| `SMOKE_BASE_URL`, `SMOKE_BASIC_AUTH_USER`, `SMOKE_BASIC_AUTH_PASSWORD` | `playwright.config.ts` | The shell or the smoke workflow; never `.env` |
+| `SMOKE_BASE_URL` | `playwright.config.ts` | The shell or the smoke workflow; never `.env` |
 | `RAILWAY_TOKEN`, `PROD_URL`, `DEV_URL` | GitHub workflows only | GitHub environment secrets and repository variables |
 
 `NODE_ENV`, `NEXT_PHASE` and `CI` come from Next.js and GitHub Actions and are not listed in `.env.example`.
@@ -105,7 +108,7 @@ Each group of variables has one small resolver function that takes an `env` reco
 
 ### Dev environment detection
 
-`isDevEnvironment` returns true when either `APP_ENV` or `RAILWAY_ENVIRONMENT_NAME` equals `dev`, ignoring case and surrounding spaces. The dev gate, `robots.txt` and the Sentry environment all use it. When dev is detected but either basic-auth credential is blank, the gate answers `503` to everything instead of serving the site open. See [Dev environment gate](../operations/dev-gate.md).
+`isDevEnvironment` returns true when either `APP_ENV` or `RAILWAY_ENVIRONMENT_NAME` equals `dev`, ignoring case and surrounding spaces. The proxy, `robots.txt`, the design catalog and the Sentry environment all use it. Dev is public, with no basic auth: when dev is detected, the proxy adds `X-Robots-Tag: noindex, nofollow` to every response and `robots.txt` disallows everything. See [Dev environment gate](../operations/dev-gate.md).
 
 ### Sentry
 
@@ -125,7 +128,7 @@ Each group of variables has one small resolver function that takes an `env` reco
 
 ## Railway variable declarations
 
-`.railway/railway.ts` declares every Railway variable for the `web` service. Secrets use `preserve()`, which keeps the value already stored in Railway and never creates one, so secrets are entered in the Railway dashboard. A variable missing from this file is deleted by `railway config apply`, so any new Railway variable must be declared here first. The file sets `APP_ENV=dev` and the basic-auth pair only for `dev`, and `GIT_COMMIT_SHA` and `APP_VERSION` only for `production`.
+`.railway/railway.ts` declares every Railway variable for the `web` service. Secrets use `preserve()`, which keeps the value already stored in Railway and never creates one, so secrets are entered in the Railway dashboard. A variable missing from this file is deleted by `railway config apply`, so any new Railway variable must be declared here first. The file sets `APP_ENV=dev` only for `dev`, and `GIT_COMMIT_SHA` and `APP_VERSION` only for `production`.
 
 ## Test isolation from real databases
 
@@ -133,7 +136,7 @@ Tests never trust a `DATABASE_URL` that might come from `.env`:
 
 - The Playwright configs load only the three `E2E_*` keys from `.env` (`loadE2eEnvFromFile` in `tests/e2e/app-server.ts`), and the smoke variables only from the process environment.
 - `pnpm test:lhci` loads the same three keys through `loadE2eEnvFromFile`, then overrides the app's environment with `lhciEnv` (`scripts/lhci-env.ts`): its own database for both URLs, a dummy `PAYLOAD_SECRET` when none is set, `APP_ENV` blank so it measures the public site rather than the dev gate, and every `S3_*` variable and `MEDIA_BASE_URL` blank. See [Performance budgets](../testing/performance-budgets.md).
-- E2E servers and the integration setup set `DATABASE_URL_DIRECT` to the same value as `DATABASE_URL`, because `pnpm migrate` prefers the direct URL and a value inherited from the shell would migrate a real database.
+- E2E servers and the integration setup set `DATABASE_URL_DIRECT` to the same value as `DATABASE_URL`, because `pnpm migrate` prefers the direct URL and a value inherited from the shell would migrate a real database. The E2E app server also blanks every `S3_*` variable and `MEDIA_BASE_URL`, so the seeded image goes to local disk.
 - `integrationEnv` blanks every `S3_*` variable and `MEDIA_BASE_URL`, so integration uploads go to local disk.
 
 See [Test suites](../testing/test-suites.md).

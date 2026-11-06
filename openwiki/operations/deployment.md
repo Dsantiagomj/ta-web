@@ -16,15 +16,15 @@ sources:
     resource: repo://docs/legacy/infra.md
   - id: openwiki-source-6d7290acd85912e8a5ebb6cc
     resource: repo://tests/unit/railway-config.test.ts
-generated: { by: "claude-code", at: "2026-11-05T11:00:19.182Z" }
+generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-05T11:00:19.182Z
+    at: 2026-11-06T15:25:11.354Z
 ---
 
 # Deployment and releases
 
-The app runs as one long-lived Node container per environment on Railway: service `web`, environments `dev` and `production`. The same build serves both; behavior that differs (dev gate, robots, Sentry environment) is read from the environment at runtime.
+The app runs as one long-lived Node container per environment on Railway: service `web`, environments `dev` and `production`. The same build serves both; behavior that differs (the dev `noindex` header, robots, the `/sistema` catalog, the Sentry environment) is read from the environment at runtime.
 
 ```
 PR ──▶ CI (Pruebas required) ──▶ merge to main
@@ -52,7 +52,7 @@ The service is described as code with `railway/iac`. Railway does not read this 
 
 The function throws for any environment other than `dev` or `production` rather than guessing. Secrets use `preserve()`, which keeps the value stored in Railway and never writes one; `config apply` deletes undeclared variables, so declare a new variable here before creating it. See [Environment configuration](../architecture/configuration.md).
 
-`tests/unit/railway-config.test.ts` evaluates the file for both environments: build and start commands, migration with timeout, health check and restart policy, region, secrets preserved, dev wired to GitHub `main` with `checkSuites: false` and the gate on, production without a GitHub source and with `GIT_COMMIT_SHA` and `APP_VERSION`, and unknown environments rejected.
+`tests/unit/railway-config.test.ts` evaluates the file for both environments: build and start commands, migration with timeout, health check and restart policy, region, secrets preserved, dev wired to GitHub `main` with `checkSuites: false`, `APP_ENV=dev` and no basic-auth variables, production without a GitHub source and with `GIT_COMMIT_SHA` and `APP_VERSION`, and unknown environments rejected.
 
 ### What protects a deploy
 
@@ -71,7 +71,7 @@ Railway reports each deploy as a GitHub deployment, and `.github/workflows/deplo
 1. It runs only for a `success` state on an environment containing `dev`. Successful dev deploys share one concurrency group, so a newer deploy cancels an older smoke; other events get their own group and never cancel it.
 2. It takes the app URL from the `DEV_URL` repository variable, not from the event: Railway's `environment_url` points at its dashboard. `DEV_URL` must start with `https://`, otherwise the job fails before any credentials are sent.
 3. It polls `DEV_URL/api/health` every 10 s, up to 30 times, until the reported `commit` equals the deployed SHA. Railway can mark the deploy done while the old version still serves for a few seconds.
-4. It calls the reusable smoke workflow with `DEV_URL` and the `SMOKE_BASIC_AUTH_*` secrets.
+4. It calls the reusable smoke workflow with `DEV_URL`. Dev is public since 2026-11-05, so no credentials are passed.
 
 ## Production: the Release workflow
 
@@ -97,7 +97,7 @@ Railway reports each deploy as a GitHub deployment, and `.github/workflows/deplo
 
 ## Reusable smoke workflow
 
-`.github/workflows/smoke.yml` runs on `workflow_call` (with `base_url` and optional basic-auth secrets) or by hand. It installs dependencies and Chromium (cached by Playwright version) and runs `pnpm test:smoke` with `SMOKE_BASE_URL` set, which makes Playwright test the remote URL without building or starting anything locally. The `@smoke` tests only read: home page, `/admin` and `/api/health`. See [Test suites](../testing/test-suites.md).
+`.github/workflows/smoke.yml` runs on `workflow_call` (with `base_url`) or by hand. It installs dependencies and Chromium (cached by Playwright version) and runs `pnpm test:smoke` with `SMOKE_BASE_URL` set, which makes Playwright test the remote URL without building or starting anything locally. The `@smoke` tests only read: home page, `/admin` and `/api/health`. See [Test suites](../testing/test-suites.md).
 
 ## Related pages
 

@@ -18,19 +18,21 @@ sources:
     resource: repo://scripts/import/squarespace/to-quest-guide.ts
   - id: openwiki-source-63cbcc482c18e4f9ce5d0888
     resource: repo://scripts/refresh-quests.ts
+  - id: openwiki-source-cb49e3c4d1015b8673e71275
+    resource: repo://src/app/(frontend)/%5Bslug%5D/page.tsx
   - id: openwiki-source-7a2723ea85824e431ff5eb54
     resource: repo://src/collections/QuestGuides.ts
   - id: openwiki-source-2f2b90aba3af4142e443ba84
     resource: repo://src/lib/guides/strings.ts
-generated: { by: "claude-code", at: "2026-11-05T11:00:19.182Z" }
+generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-05T11:00:19.182Z
+    at: 2026-11-06T15:25:11.354Z
 ---
 
 # Quickstart
 
-ta-web is the new torrentearcano.com: a Next.js 16 app with Payload CMS 3 inside it, Postgres, Cloudflare R2 and Railway. The skeleton is built; most product features are still planned. Start with the [Project overview](overview.md).
+ta-web is the new torrentearcano.com: a Next.js 16 app with Payload CMS 3 inside it, Postgres, Cloudflare R2 and Railway. The skeleton and the public quest guide page are built; most other product features are still planned. Start with the [Project overview](overview.md).
 
 ## Run it
 
@@ -59,20 +61,21 @@ Node 24 (≥ 24.22.1) and pnpm 11. No Docker. Details in [Local development](wor
 | Change Payload settings, add an endpoint or admin component | [Payload CMS configuration](cms/payload-config.md) |
 | Add or change a collection, or its access rules | [Collections and access](cms/collections.md) |
 | Write a quest guide in the panel, or change what its DofusDB quest fills in (title, slug, SEO, summary, the "Necesitarás" list) and the notes under each field | [Writing a quest guide](cms/guide-authoring.md) |
-| Add or change a block in a guide body (rich text, image, YouTube video, callout) | [Guide body blocks](cms/blocks.md) |
+| Add or change a block in a guide body (rich text, image, YouTube video, callout, step) | [Guide body blocks](cms/blocks.md) |
+| Change how a published guide renders at `/<slug>`, its header, steps and "Pasos" list, draft preview or cache revalidation | [Public quest guide page](frontend/guide-page.md) |
 | Change the schema, connect to Neon, reset local data | [Database and migrations](data/database.md) |
-| Load or refresh DofusDB quests, the monsters they name and the whole item catalog, change how quest rewards and needs are computed, or change how DofusDB requests are retried (`pnpm data:quests`) | [DofusDB game data refresh](data/dofusdb-refresh.md) |
+| Load or refresh DofusDB quests, the monsters they name, the whole item catalog and the quest-giving NPCs with their renders, change how quest rewards, needs, zone and achievement are computed, or change how DofusDB requests are retried (`pnpm data:quests`) | [DofusDB game data refresh](data/dofusdb-refresh.md) |
 | Change how Squarespace pages become quest guides, or import them (`pnpm import:guides`) | [Squarespace import](data/squarespace-import.md) |
-| Upload files, configure R2, serve images | [Media storage](media/storage.md) |
+| Upload files, configure R2, serve images, backfill image sizes (`pnpm media:sizes`) | [Media storage](media/storage.md) |
 | Work on dark/light mode or premium themes | [Theme and mode](frontend/theme-and-mode.md) |
-| Use design tokens, fonts or the page shell | [Styles, tokens and site shell](frontend/styles-and-shell.md) |
-| Use or change a button, callout, figure or a quest guide component (hero, ribbon, stages, Botín, video), or the island that copies coordinates and opens images fullscreen | [Design system components](frontend/design-system-components.md) |
+| Use design tokens, fonts, the page shell, the emblem or the favicon | [Styles, tokens and site shell](frontend/styles-and-shell.md) |
+| Use or change a button, callout, figure or a quest guide component (quest header, icon wells, steps, side list, Torre's tips, video), or the island that copies coordinates, opens images fullscreen and marks the current step | [Design system components](frontend/design-system-components.md) |
 | See every component in every theme, or add a new one to the catalog (`/sistema`) | [Component catalog (/sistema)](frontend/component-catalog.md) |
 | Run or write tests | [Test suites](testing/test-suites.md) |
 | Fix a failing Lighthouse budget (LCP, CLS, JavaScript, images) or add a page to `pnpm test:lhci` | [Performance budgets](testing/performance-budgets.md) |
 | Fix a failing CI job or a git hook | [CI and quality gates](workflows/ci-and-quality-gates.md) |
 | Deploy to dev or release to production | [Deployment and releases](operations/deployment.md) |
 | Check or monitor app health | [Health check endpoint](operations/health-check.md) |
-| Access or debug the password-protected dev site | [Dev environment gate](operations/dev-gate.md) |
+| Understand why dev is public but never indexed | [Dev environment](operations/dev-gate.md) |
 | Find a server error | [Error monitoring with Sentry](operations/error-monitoring.md) |
 | Set up a laptop | [Local development](workflows/local-development.md) |
