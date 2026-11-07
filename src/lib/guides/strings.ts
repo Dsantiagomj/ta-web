@@ -34,9 +34,9 @@ export const guideStrings = {
       label: 'Vista previa',
       note: 'Vista previa del borrador. Los visitantes ven la versión publicada.',
       exit: 'Salir de la vista previa',
-      badSlug: 'Esa dirección no es la de una guía.',
+      badSlug: 'Esa dirección no es la de una guía ni la de un logro.',
       signIn: 'Inicia sesión en el panel para ver la vista previa.',
-      notFound: 'No hay ninguna guía con ese slug.',
+      notFound: 'No hay ninguna guía ni ningún logro con ese slug.',
     },
   },
   /** Slug de reserva cuando el nombre de la misión no deja ni una letra. */

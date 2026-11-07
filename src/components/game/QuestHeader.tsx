@@ -1,15 +1,11 @@
-import { useId } from 'react'
-
 import { srcSetValue } from '@/components/ui/srcset'
 import type { ImageAsset } from '@/components/ui/types'
-import { formatAmount } from '@/lib/guides/display'
 import type { QuestHeaderData } from '@/lib/guides/page'
 
 import { CoordinatesChip } from './Coordinates'
 import './game.css'
 import { GAME_ICONS } from './game-icons'
-import { ChevronIcon } from './icons'
-import { IconWell } from './IconWell'
+import { QuestFacts } from './QuestFacts'
 import { gameStrings } from './strings'
 
 const s = gameStrings.header
@@ -97,41 +93,6 @@ function Subtitle({ meta }: { meta: QuestHeaderData['meta'] }) {
 }
 
 /**
- * Los objetos de la recompensa en la bolsa del inventario (DESIGN.md, Quest header): un
- * botón de divulgación con la bolsa del juego y «4 objetos» que abre su lista. Sin
- * JavaScript la lista se ve debajo; con él (data-js en <html>), empieza cerrada y la isla
- * de la página la abre y la cierra.
- */
-function RewardBag({ id, items }: { id: string; items: QuestHeaderData['rewards']['items'] }) {
-  return (
-    <li className="bag" data-bag="">
-      <button type="button" className="bag__btn" aria-expanded="false" aria-controls={id}>
-        <IconWell icon="bag" />
-        <span>
-          <Amount value={items.length} /> {s.bagCount(items.length)}
-        </span>
-        <ChevronIcon className="bag__chev" />
-      </button>
-      <ul role="list" id={id} className="bag__list" aria-label={s.bagList}>
-        {items.map(({ item, quantity }) => (
-          <li key={item.name} className="row">
-            <IconWell image={item.icon} />
-            <span>
-              <b>{s.quantity(quantity)}</b> {item.name}
-            </span>
-          </li>
-        ))}
-      </ul>
-    </li>
-  )
-}
-
-/** Una cifra en negrita, con los miles separados por un espacio que no se parte. */
-function Amount({ value }: { value: number }) {
-  return <b>{formatAmount(value)}</b>
-}
-
-/**
  * La cabecera de la guía (DESIGN.md, Quest header): el PNJ que da la misión junto al
  * título, el subtítulo y las tres columnas con los iconos del juego en sus huecos. Lo que
  * falta no se pinta: sin render no hay columna del PNJ, sin datos no hay columna.
@@ -146,94 +107,14 @@ export function QuestHeader({
   headingLevel?: 1 | 2
 }) {
   const Heading = `h${headingLevel}` as const
-  const Sub = `h${headingLevel + 1}` as 'h2' | 'h3'
-  const id = useId()
   const { meta, giver, prerequisites, needs, rewards } = data
-  const hasNeeds = needs.items.length > 0 || needs.notes.length > 0
-  const xp = rewards.xp
-  const hasRewards =
-    Boolean(xp || rewards.kamas) || rewards.items.length > 0 || rewards.notes.length > 0
 
   return (
     <header className="qhead" data-giver={giver ? '' : undefined}>
       <Heading className="qhead__title">{title}</Heading>
       <Subtitle meta={meta} />
       {giver && <Giver giver={giver} />}
-      {(prerequisites.length > 0 || hasNeeds || hasRewards) && (
-        <div className="qhead__facts">
-          {prerequisites.length > 0 && (
-            <section aria-labelledby={`${id}-pre`}>
-              <Sub id={`${id}-pre`}>{s.prerequisites}</Sub>
-              <ul role="list">
-                {prerequisites.map((line) => (
-                  <li key={line.label} className="row">
-                    {line.quest && <IconWell icon="quest" />}
-                    {line.href ? <a href={line.href}>{line.label}</a> : <span>{line.label}</span>}
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
-          {hasNeeds && (
-            <section aria-labelledby={`${id}-nec`}>
-              <Sub id={`${id}-nec`}>{s.needs}</Sub>
-              <ul role="list">
-                {needs.items.map(({ item, quantity }) => (
-                  <li key={item.name} className="row">
-                    <IconWell image={item.icon} />
-                    <span>
-                      <b>{s.quantity(quantity)}</b> {item.name}
-                    </span>
-                  </li>
-                ))}
-                {needs.notes.map((note) => (
-                  <li key={note.label} className="row">
-                    {note.combat && <IconWell icon="combat" />}
-                    <span>
-                      {note.quantity != null && <b>{s.quantity(note.quantity)} </b>}
-                      {note.label}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
-          {hasRewards && (
-            <section aria-labelledby={`${id}-rec`} className="qhead__rewards">
-              <Sub id={`${id}-rec`}>{s.rewards}</Sub>
-              <ul role="list" className="qhead__rew">
-                {xp && (
-                  <li className="row">
-                    <IconWell icon="xp" />
-                    <span>
-                      {xp.min != null && (
-                        <>
-                          <Amount value={xp.min} /> {s.xpRangeJoin}{' '}
-                        </>
-                      )}
-                      <Amount value={xp.max} /> {s.xp}
-                    </span>
-                  </li>
-                )}
-                {rewards.kamas != null && (
-                  <li className="row">
-                    <IconWell icon="kamas" />
-                    <span>
-                      <Amount value={rewards.kamas} /> {s.kamas}
-                    </span>
-                  </li>
-                )}
-                {rewards.items.length > 0 && <RewardBag id={`${id}-bag`} items={rewards.items} />}
-                {rewards.notes.map((note) => (
-                  <li key={note} className="row">
-                    <span>{note}</span>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
-        </div>
-      )}
+      <QuestFacts facts={{ prerequisites, needs, rewards }} headingLevel={headingLevel} />
     </header>
   )
 }

@@ -1,4 +1,4 @@
-// Siembra las guías de prueba (tests/e2e/seed/guides.ts) en la base de las E2E o de
+// Siembra las guías y el logro de prueba (tests/e2e/seed/) en la base de las E2E o de
 // Lighthouse CI, después de `pnpm migrate`. Corre con `payload run`; se niega con una base
 // que no sea de esta máquina. Repetirlo no duplica nada.
 import { getPayload } from 'payload'
@@ -6,6 +6,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { isLocalDatabaseUrl, resolveDatabaseUrl } from '@/lib/db/database-url'
 
+import { seedAchievements } from '../tests/e2e/seed/achievements'
 import { seedGuides } from '../tests/e2e/seed/guides'
 
 const databaseUrl = resolveDatabaseUrl(process.env)
@@ -17,7 +18,8 @@ if (!isLocalDatabaseUrl(databaseUrl)) {
 const payload = await getPayload({ config })
 try {
   await seedGuides(payload)
-  console.log('Guías de prueba sembradas.')
+  await seedAchievements(payload)
+  console.log('Guías y logro de prueba sembrados.')
 } finally {
   await payload.destroy()
 }
