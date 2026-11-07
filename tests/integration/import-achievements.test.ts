@@ -36,14 +36,15 @@ const zones = [
     href: `${TORRE}/metalogro-astrub`,
     done: true,
     pnj: { id: 4356, name: 'Paula Sepe', chosen: true },
+    // Un enlace sin logro delante: no debe correr el orden de los demás.
     achievements: [
+      { name: 'Nada con este nombre', href: `${TORRE}/nada`, ready: true },
       { name: 'Un ciudadano modelo', href: `${TORRE}/un-ciudadano-modelo`, ready: true },
       {
         name: 'La ocasión hace al ladrón',
         href: `${TORRE}/la-ocasion-hace-al-ladron`,
         ready: true,
       },
-      { name: 'Nada con este nombre', href: `${TORRE}/nada`, ready: true },
     ],
     guides: [{ name: 'Guía suelta', href: `${TORRE}/prueba-importar-guia` }],
   },
@@ -115,7 +116,10 @@ describe('importar los metalogros de Torre', () => {
       apply: false,
       ensureNpc: async () => paula.id,
     })
+    // Cuenta lo mismo que haría con --apply.
     expect(report.groups).toEqual({ updated: 1, created: 1 })
+    expect(report.pages).toEqual({ updated: 0, created: 2 })
+    expect(report.unmatched).toEqual([{ group: 'Astrub', name: 'Nada con este nombre' }])
     // Solo la página que creó el refresco.
     const { totalDocs } = await payload.count({ collection: 'achievement-pages' })
     expect(totalDocs).toBe(1)
@@ -165,8 +169,8 @@ describe('importar los metalogros de Torre', () => {
           ...zones[0]!,
           done: false,
           achievements: [
-            { ...zones[0]!.achievements[0]!, ready: true },
-            { ...zones[0]!.achievements[1]!, ready: false },
+            { ...zones[0]!.achievements[1]!, ready: true },
+            { ...zones[0]!.achievements[2]!, ready: false },
           ],
         },
       ],
