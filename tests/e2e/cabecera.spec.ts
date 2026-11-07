@@ -163,7 +163,8 @@ test.describe('cabecera', () => {
     const status = page.getByRole('dialog', { name: 'Buscar en el sitio' }).getByRole('status')
     await expect(status).toHaveText('Cargando las misiones…')
     release()
-    await expect(status).toHaveText('')
+    // Vacía, la línea de estado se oculta (.sdlg__st:empty) y deja de tener rol.
+    await expect(page.locator('#buscar-st')).toBeEmpty()
   })
 
   test('si el índice no carga, lo dice y lo reintenta al abrir otra vez', async ({ page }) => {
