@@ -298,7 +298,7 @@ The scale and rhythm come from duffus.fr (study, typography). Sizes are rem on a
 | `--text-3xl` | 2.25rem | 1.05 | 600 | 0 | display | home section title |
 | `--text-2xl` | 1.875rem | 1.1 | 600 | 0 | display | list page title, `h2` in guide prose |
 | `--text-xl` | 1.375rem | 1.2 | 600 | 0 | display | card and block title, `h3`, the wordmark |
-| `--text-lg` | 1.125rem | 1.4 | 600 | 0 | body | lead paragraph, step title |
+| `--text-lg` | 1.125rem | 1.4 | 600 | 0 | body | lead paragraph |
 | `--text-base` | 1rem | 1.5 | 400 | 0 | body | body text, never smaller in guide content |
 | `--text-sm` | 0.875rem | 1.5 | 400 to 600 | 0 | body | secondary text, controls, table cells |
 | `--text-xs` | 0.78rem | 1.45 | 500 to 600 | 0 | body | chips, meta, tab labels |
@@ -548,7 +548,7 @@ Decided 2026-11-05 (guide v4), revised 2026-11-06 (guide v5): the section is cal
 - **Anatomy**: a `<section>` named by a visually hidden `h2` "Pasos", holding an `<ol>` 8px under the header. Each step has 40px of padding above and below (32px under 640px) and a 1px `--color-line` rule on top; the first step has no rule and 32px on top. Inside, the step's blocks are 18px apart, prose capped at 68ch in `--color-ink`. The `<ol>` gives screen readers the count.
 - **Screenshots** take the full width of the column, 14px radius, `--shadow-art`.
 - **Anchor**: each step is `id="paso-N"`, with `scroll-margin-top: 88px`.
-- **Step title** (the optional field of the block) is not rendered. The block's X and Y show as a chip on the first line only when the text does not already name them.
+- **Fields**: the block has no title, only X, Y and its blocks (the optional panel-only title was removed on 2026-11-07; the migration moved the 4 imported titles into their steps as a first bold paragraph). The block's X and Y show as a chip on the first line only when the text does not already name them.
 - **Start sentence**: the importer moves a bare start line ("Habla con Hupe Esse [7,-19] para empezar la misión.") from the body to `summary.startNpc`, `startX` and `startY`, which left step 1 with only its chip. When the first step has no text, the guide has a start NPC and the step's X and Y equal the start coordinates, the page writes that line back around the chip: "Habla con **{NPC}** [x,y] para empezar la misión." Any other step 1 renders as usual (`startSentenceNpc` in `src/lib/guides/step-nav.ts`).
 
 #### Callouts and Torre's tips

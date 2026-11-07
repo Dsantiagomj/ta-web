@@ -24,20 +24,13 @@ export function validateStepCoordinate(
   return siblingData?.x != null || siblingData?.y != null ? s.coordinatesPair : true
 }
 
-// Un paso de la guía (DESIGN.md, Steps): título si lo tiene, la posición principal si
-// la tiene y su propio contenido. La página pinta los pasos seguidos como una línea numerada.
+// Un paso de la guía (DESIGN.md, Steps): la posición principal si la tiene y su propio
+// contenido. La página pinta los pasos seguidos, separados por una línea.
 export const StepBlock: Block = {
   slug: 'step',
   interfaceName: 'StepBlock',
   labels: { singular: s.singular, plural: s.plural },
   fields: [
-    {
-      name: 'title',
-      label: s.title,
-      type: 'text',
-      localized: true,
-      admin: { description: s.titleDescription },
-    },
     {
       type: 'row',
       fields: [

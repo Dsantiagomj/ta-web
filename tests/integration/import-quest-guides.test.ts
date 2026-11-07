@@ -9,9 +9,11 @@ import { loadQuestGuides, type FetchImage } from '../../scripts/import/load-ques
 import { parsePage } from '../../scripts/import/squarespace/parse-page'
 import {
   GUIDE_SLUGS,
+  stepTitleBlock,
   toQuestGuide,
   type ConvertedGuide,
 } from '../../scripts/import/squarespace/to-quest-guide'
+import { stepTitleContent } from '@/migrations/20261107_143215_remove_step_title'
 
 import { startPayload, tinyPng } from './payload'
 
@@ -332,27 +334,32 @@ describe('carga de guías importadas de Squarespace', () => {
     expect((await guidesBySlug()).get('el-cazador-cazado')!.quest ?? null).toBeNull()
   })
 
-  it('guarda los pasos sin título con sus coordenadas y sus capturas', async () => {
+  it('guarda los pasos con sus coordenadas y sus capturas', async () => {
     const saved = (await guidesBySlug()).get('seis-pies-bajo-tierra')!
     const steps = (saved.body ?? []).filter((block) => block.blockType === 'step')
     expect(steps).toHaveLength(8)
     expect(steps[0]).toMatchObject({ x: 7, y: -19 })
-    for (const step of steps) expect(step.title ?? null).toBeNull()
     const image = flat(steps[0]!.body).find((block) => block.blockType === 'image')
     expect(image).toMatchObject({ image: expect.any(Number) })
     // Repetir la carga sin cambios no guarda versiones: lo prueba «una segunda pasada…».
   })
 
-  it('un paso con título de una marca «ETAPA n:» se guarda con él', async () => {
+  it('el título de una marca «ETAPA n:» se guarda como el primer párrafo del paso, en negrita', async () => {
     const six = converted().find(({ guide }) => guide.slug === 'seis-pies-bajo-tierra')!
     const [first] = six.guide.body
     if (first?.blockType !== 'step') throw new Error('falta el paso')
-    first.title = 'Habla con Hupe Esse'
+    first.body.unshift(stepTitleBlock('Habla con Hupe Esse'))
 
     const result = await loadQuestGuides(payload, [six], { fetchImage })
     expect(result.guides).toMatchObject({ updated: 1 })
     const saved = (await guidesBySlug()).get('seis-pies-bajo-tierra')!
-    expect(saved.body?.[0]).toMatchObject({ blockType: 'step', title: 'Habla con Hupe Esse' })
+    const step = saved.body?.[0]
+    if (step?.blockType !== 'step') throw new Error('falta el paso guardado')
+    // El mismo Lexical que deja la migración que quitó el título del paso.
+    expect(step.body?.[0]).toMatchObject({
+      blockType: 'richText',
+      content: stepTitleContent('Habla con Hupe Esse'),
+    })
 
     const again = await loadQuestGuides(payload, [six], { fetchImage })
     expect(again.guides).toMatchObject({ unchanged: 1 })

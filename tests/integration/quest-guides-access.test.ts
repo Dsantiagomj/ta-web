@@ -242,7 +242,7 @@ describe('permisos de quest-guides', () => {
       expect(readBack.seo?.metaDescription).toBe('Cómo hacer la misión.')
     })
 
-    it('guarda pasos con título, coordenadas y sus propios bloques entre la prosa', async () => {
+    it('guarda pasos con coordenadas y sus propios bloques entre la prosa', async () => {
       const image: Media = await payload.create({
         collection: 'media',
         data: { alt: 'Hupe Esse en la biblioteca' },
@@ -258,7 +258,6 @@ describe('permisos de quest-guides', () => {
             { blockType: 'richText', content: paragraph('Una guía corta.') },
             {
               blockType: 'step',
-              title: 'Habla con Hupe Esse',
               x: 7,
               y: -19,
               body: [
@@ -269,7 +268,6 @@ describe('permisos de quest-guides', () => {
             },
             {
               blockType: 'step',
-              title: 'Vuelve con Luci',
               body: [{ blockType: 'richText', content: paragraph('Sin coordenadas.') }],
             },
             { blockType: 'richText', content: paragraph('Aquí termina la misión.') },
@@ -292,14 +290,14 @@ describe('permisos de quest-guides', () => {
         'richText',
       ])
       const [, first, second] = readBack.body ?? []
-      expect(first).toMatchObject({ title: 'Habla con Hupe Esse', x: 7, y: -19 })
+      expect(first).toMatchObject({ x: 7, y: -19 })
       if (first?.blockType !== 'step' || second?.blockType !== 'step') return
       expect(first.body?.map((block) => block.blockType)).toEqual(['richText', 'image', 'callout'])
       expect(first.body?.[1]).toMatchObject({
         image: expect.objectContaining({ id: image.id }),
         caption: 'Hupe Esse',
       })
-      expect(second).toMatchObject({ title: 'Vuelve con Luci' })
+      expect(second.body?.map((block) => block.blockType)).toEqual(['richText'])
       expect(second.x ?? null).toBeNull()
     })
 
@@ -311,7 +309,7 @@ describe('permisos de quest-guides', () => {
             title: 'Guía coja',
             slug: 'guia-coja',
             _status: 'published',
-            body: [{ blockType: 'step', title: 'A medias', x: 7 }],
+            body: [{ blockType: 'step', x: 7 }],
           },
           overrideAccess: false,
           user: editor,

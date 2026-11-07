@@ -69,7 +69,6 @@ export const guideStrings = {
     dofusDbLoading: 'Cargando los datos de DofusDB…',
     dofusDbUnavailable: 'No se pudieron cargar los datos de DofusDB.',
     noQuest: 'Sin misión de DofusDB: escribe tú este dato.',
-    /** El bloque Paso del contenido (DESIGN.md, Steps). */
     /** El bloque Combate del contenido (DESIGN.md, Monster chip and fight block). */
     fight: {
       singular: 'Combate',
@@ -78,11 +77,10 @@ export const guideStrings = {
       monster: 'Monstruo',
       quantity: 'Cantidad',
     },
+    /** El bloque Paso del contenido (DESIGN.md, Steps). */
     step: {
       singular: 'Paso',
       plural: 'Pasos',
-      title: 'Título',
-      titleDescription: 'Opcional y solo para el panel: la guía no lo enseña.',
       x: 'X',
       y: 'Y',
       coordinatesDescription:

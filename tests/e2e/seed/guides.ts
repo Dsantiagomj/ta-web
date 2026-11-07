@@ -53,14 +53,10 @@ export const seedGuide = {
   ],
   intro: 'Tres pasos en la mina de Astrub para rescatar a las anutrof.',
   startLine: 'para empezar la misión.',
-  // Los pasos, en orden. El título del bloque no se pinta. La captura del primero es la
-  // primera imagen: va con prioridad.
-  steps: [
-    { title: 'Habla con Hupe Esse' },
-    { title: 'Combate: protege a las anutrof' },
-    // Sin título ni negrita, como muchos pasos importados.
-    { title: null },
-  ],
+  // Lo que hace cada paso, en orden; el bloque Paso no guarda título. La captura del
+  // primero es la primera imagen: va con prioridad. El tercero no lleva negrita, como
+  // muchos pasos importados.
+  steps: ['Habla con Hupe Esse', 'Combate: protege a las anutrof', 'Escolta a las anutrof'],
   tips: 'En la preparación del combate, ordénalas lo más lejos posible.',
   outro: 'Aquí termina la misión. Espero haberte ayudado.',
   image: {
@@ -342,7 +338,6 @@ export async function seedGuides(payload: Payload): Promise<void> {
           { blockType: 'richText', content: richText(paragraph(text(seedGuide.intro))) },
           {
             blockType: 'step',
-            title: seedGuide.steps[0]!.title,
             x: seedGuide.start.x,
             y: seedGuide.start.y,
             body: [
@@ -361,7 +356,6 @@ export async function seedGuides(payload: Payload): Promise<void> {
           },
           {
             blockType: 'step',
-            title: seedGuide.steps[1]!.title,
             x: 3,
             y: -17,
             body: [

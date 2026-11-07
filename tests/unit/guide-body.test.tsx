@@ -148,7 +148,6 @@ describe('GuideSteps', () => {
   const steps: GuideStep[] = [
     {
       key: 'p1',
-      title: 'Habla con Hupe Esse',
       coordinates: { x: 7, y: -19 },
       blocks: [
         {
