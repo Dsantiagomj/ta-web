@@ -98,8 +98,8 @@ const RECOMMENDATIONS_LABEL = /^\s*RECOMENDACI(?:ÓN|ON|ONES)\s*:\s*/u
 // capturas va con el siguiente. El primer [x,y] de la unidad, contando la línea de
 // inicio que sale al resumen, son sus coordenadas. Lo que va antes del bloque con la
 // línea de inicio («Habla con … para empezar») es la entrada. La frase de cierre («Aquí
-// termina la misión…») y lo que la sigue, o el texto que queda tras las últimas capturas,
-// es el final. Con menos de dos unidades (sin capturas, o un solo bloque) la guía queda
+// termina la misión…», que se conserva) y lo que la sigue, o el texto que queda tras las
+// últimas capturas, es el final. Con menos de dos unidades (sin capturas, o un solo bloque) la guía queda
 // como prosa. Solo una guía (el-safari-de-almas) marca sus pasos, con un párrafo «ETAPA 1:
 // El safari de las almas ancebas:»; si hay marcas, mandan ellas: cada una abre un paso con
 // ese título que sigue hasta la siguiente, y la última, como una unidad, se queda con el
@@ -314,11 +314,23 @@ function readStart(element: TextElement): Start | null {
   }
 }
 
-/** Quita la frase de cierre ("Aquí termina la misión…") y deja el resto del párrafo. */
-function withoutClosing(element: TextElement): string | null {
-  const paragraph = parseHtml(element.html).body.firstElementChild
-  if (!paragraph) return null
-  return dropLeadingText(paragraph, sentenceCut(paragraph.textContent ?? '', 0))
+/**
+ * El párrafo de cierre de una página («Aquí termina la misión. Espero haberte ayudado…»)
+ * y su primera frase, que el importador quitaba antes. Lo usa la restauración de las guías
+ * ya importadas (scripts/import/restore-closings.ts). Sin cierre, null.
+ */
+export function closingParagraph(
+  page: SquarespacePage,
+): { html: string; text: string; sentence: string } | null {
+  for (const block of page.blocks) {
+    if (block.type !== 'text') continue
+    for (const element of block.elements) {
+      if (element.tag !== 'p' || !CLOSING.test(element.text)) continue
+      const sentence = element.text.slice(0, sentenceCut(element.text, 0)).trim()
+      return { html: element.html, text: element.text, sentence }
+    }
+  }
+  return null
 }
 
 /** Pone en mayúscula la primera letra del texto de un nodo. */
@@ -507,11 +519,10 @@ export function toQuestGuide(
       // Las frases de inicio y cierre son párrafos; en listas o encabezados se respetan.
       const paragraph = element.tag === 'p'
       if (paragraph && CLOSING.test(element.text)) {
+        // El cierre marca dónde acaban los pasos; el párrafo se queda entero, como lo
+        // escribió Torre, al principio del final.
         flush()
         body.push({ blockType: 'closing' })
-        const rest = withoutClosing(element)
-        if (!rest) continue
-        element = trimmed(rest)
       } else {
         // El texto tal como venía, línea de inicio incluida: de él salen las coordenadas.
         body.push({ blockType: 'source', text: element.text })

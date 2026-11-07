@@ -129,12 +129,12 @@ describe('conversión de una página en guía de misión', () => {
     )
   })
 
-  it('quita del cuerpo el título, el resumen, la línea de inicio escueta y la frase de cierre', () => {
+  it('quita del cuerpo el título, el resumen y la línea de inicio escueta, no la frase de cierre', () => {
     const { guide } = guideFor('el-cazador-cazado')
     const prose = richTexts(guide.body).join('\n')
     expect(prose).not.toMatch(/EL CAZADOR CAZADO|Prerrequisitos|Necesitarás|Recompensas/)
     expect(prose).not.toContain('Habla con Kerubim Crepin')
-    expect(prose).not.toContain('Aquí termina la misión')
+    expect(prose).toContain('Aquí termina la misión')
     expect(types(guide.body)[0]).toBe('image')
   })
 
@@ -244,7 +244,7 @@ describe('conversión de una página en guía de misión', () => {
     })
   })
 
-  it('del párrafo de cierre quita solo la frase de cierre y conserva el resto', () => {
+  it('el párrafo de cierre se conserva entero, con la frase de cierre de Torre al principio', () => {
     const closings: [string, string][] = [
       [
         'el-cazador-cazado',
@@ -268,28 +268,36 @@ describe('conversión de una página en guía de misión', () => {
       ],
     ]
     for (const [slug, rest] of closings) {
-      const prose = richTexts(guideFor(slug).guide.body).join('\n')
-      expect(prose, slug).toContain(rest)
-      expect(prose, slug).not.toMatch(/aquí (se )?termina la misión/i)
+      const prose = richTexts(guideFor(slug).guide.body)
+      // El cierre abre el final: el primer texto después del último paso.
+      const outro = prose.find((text) => text.includes(rest))
+      expect(outro, slug).toMatch(
+        new RegExp(
+          `^(Y )?[Aa]quí (se )?termina la misión[^.…]*[.…]+ ${rest.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`,
+        ),
+      )
     }
     const intoxication = guideFor('intoxicacion-profunda').guide.body
     expect(JSON.stringify(intoxication)).toContain('<a href=\\"/test-de-impermeabilidad\\">')
   })
 
-  it('una frase de cierre con puntos suspensivos solo se lleva esa frase', () => {
+  it('una frase de cierre con puntos suspensivos se queda con el resto del párrafo', () => {
     const page = pageWith(
       '<h2>PRUEBA</h2>',
       '<p>Primer paso.</p>',
       '<p>Aquí termina la misión… Texto que debe conservarse.</p>',
     )
     const { guide } = toQuestGuide(parsePage(page), { slug: 'prueba', questDofusIds: [1] })
-    expect(richTexts(guide.body)).toEqual(['Primer paso.', 'Texto que debe conservarse.'])
+    expect(richTexts(guide.body)).toEqual([
+      'Primer paso.',
+      'Aquí termina la misión… Texto que debe conservarse.',
+    ])
   })
 
-  it('un párrafo de cierre sin nada más desaparece', () => {
+  it('un párrafo de cierre sin nada más se queda, como lo escribió Torre', () => {
     const page = parsePage(pageWith('<p>Último paso.</p><p>Aquí termina la misión.</p>'))
     const { guide } = toQuestGuide(page, { slug: 'prueba', questDofusIds: [1] })
-    expect(richTexts(guide.body)).toEqual(['Último paso.'])
+    expect(richTexts(guide.body)).toEqual(['Último paso.', 'Aquí termina la misión.'])
   })
 
   it('alterna texto e imágenes en el orden de la página; cada bloque de texto va aparte', () => {
@@ -489,7 +497,7 @@ describe('pasos de la guía', () => {
       'step: richText+image',
       'step [1,-17]: richText+image',
       'step [3,-17]: richText+image',
-      // Lo que queda del cierre («Aquí termina la misión…»).
+      // El párrafo de cierre («Aquí termina la misión…»).
       'richText',
     ])
     expect(oddities).not.toContain(NO_STEPS)
