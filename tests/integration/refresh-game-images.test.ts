@@ -205,6 +205,32 @@ describe('gameImageTargets', () => {
     }
   })
 
+  it('los objetos que Torre pone en las recompensas de una página de logro, borradores incluidos', async () => {
+    const achievement = await payload.create({
+      collection: 'achievements',
+      data: { dofusId: 990_302, name: 'Logro con página de prueba' },
+      depth: 0,
+    })
+    const page = await payload.create({
+      collection: 'achievement-pages',
+      data: {
+        achievement: achievement.id,
+        name: 'Página de prueba de imágenes',
+        slug: 'pagina-prueba-imagenes',
+        state: 'preparing',
+        rewards: { items: [{ item: items[1]!.id, quantity: 1 }] },
+      },
+      draft: true,
+      depth: 0,
+    })
+    try {
+      expect((await gameImageTargets(payload)).items).toContain(items[1]!.id)
+    } finally {
+      await payload.delete({ collection: 'achievement-pages', id: page.id })
+      await payload.delete({ collection: 'achievements', id: achievement.id })
+    }
+  })
+
   it('el monstruo que representa a un metalogro', async () => {
     const group = await payload.create({
       collection: 'achievement-groups',
