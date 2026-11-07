@@ -50,12 +50,20 @@ const EVENTS_CATEGORY = 9
 // orden 0 a 10) y luego las zonas, desde Archipiélago de las escamas (11).
 const LAST_STORY_ORDER = 10
 
-/** La parte del índice de una categoría de DofusDB. Torre puede cambiarla. */
+/**
+ * La parte del índice de una categoría de DofusDB. Torre puede cambiarla. Lo que cuelga de
+ * Eventos, a cualquier profundidad, es de temporada; de las hijas directas de Misiones, las
+ * primeras son historias y el resto zonas; lo que cuelga de una de ellas, una zona.
+ */
 export function groupSection(category: {
   order?: number | null
   parentDofusId?: number | null
+  /** La categoría raíz; sin ella, la madre. */
+  rootDofusId?: number | null
 }): GroupSection {
-  if (category.parentDofusId === EVENTS_CATEGORY) return 'seasonal'
+  const root = category.rootDofusId ?? category.parentDofusId
+  if (root === EVENTS_CATEGORY) return 'seasonal'
+  if (category.parentDofusId !== root) return 'zones'
   return (category.order ?? 0) <= LAST_STORY_ORDER ? 'stories' : 'zones'
 }
 
@@ -149,9 +157,11 @@ function key(field: string, value: unknown): string {
       .join(',')
   }
   if (field === 'quests') {
-    // Las misiones, en orden; las alternativas de una fila, como conjunto.
-    return (value as { quests?: Relation[] | null }[])
-      .map((row) => (row.quests ?? []).map(relationId).sort().join('|'))
+    // Las misiones, en orden, con el nombre de cada fila; sus alternativas, como conjunto.
+    return (value as { name?: string | null; quests?: Relation[] | null }[])
+      .map(
+        (row) => `${row.name?.trim() ?? ''}:${(row.quests ?? []).map(relationId).sort().join('|')}`,
+      )
       .join(',')
   }
   if (value && typeof value === 'object' && 'relationTo' in value) {

@@ -45,6 +45,14 @@ describe('groupSection', () => {
     expect(groupSection({ order: 0, parentDofusId: 9 })).toBe('seasonal')
   })
 
+  it('una categoría que cuelga de un evento también es de temporada, a cualquier profundidad', () => {
+    expect(groupSection({ order: 0, parentDofusId: 60, rootDofusId: 9 })).toBe('seasonal')
+  })
+
+  it('una que cuelga de una zona es una zona', () => {
+    expect(groupSection({ order: 1, parentDofusId: 45, rootDofusId: 8 })).toBe('zones')
+  })
+
   it('en Misiones, las primeras del juego son historias y el resto, zonas', () => {
     expect(groupSection({ order: 2, parentDofusId: 8 })).toBe('stories') // Misiones de mundo
     expect(groupSection({ order: 10, parentDofusId: 8 })).toBe('stories') // Dimensiones divinas
@@ -115,6 +123,11 @@ describe('dofusDbNote', () => {
       { name: 'Misión de clase', quests: [2, 3] },
     ]
     expect(dofusDbNote('achievement', ready, 'quests', rows)).toBe(admin.fromDofusDb)
+    // Un nombre de fila cambiado también es un cambio de Torre.
+    const renamed = [rows[0]!, { ...rows[1]!, name: 'Tu misión de clase' }]
+    expect(dofusDbNote('achievement', ready, 'quests', renamed)).toBe(
+      admin.changed('Esto hace aguas → Misión de clase (una de 2)'),
+    )
     expect(dofusDbNote('achievement', ready, 'quests', [...rows].reverse())).toBe(
       admin.changed('Esto hace aguas → Misión de clase (una de 2)'),
     )
