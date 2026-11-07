@@ -62,8 +62,8 @@ export function stepTitleContent(title: string) {
 type Db = MigrateUpArgs['db']
 
 interface TitledStep {
-  /** El ID del paso en la guía; en las versiones, su _uuid. */
-  uuid: string
+  /** El ID del paso en la guía; en las versiones, su _uuid (null si no lo tiene). */
+  uuid: string | null
   /** La fila de la guía o de la versión de la que cuelgan sus bloques. */
   parent: number
   path: string
@@ -85,7 +85,7 @@ async function titledSteps(db: Db, versions: boolean): Promise<TitledStep[]> {
   for (const row of rows as Record<string, string | number>[]) {
     const key = `${row.parent} ${row.path}`
     const step = steps.get(key) ?? {
-      uuid: String(row.uuid),
+      uuid: row.uuid == null ? null : String(row.uuid),
       parent: Number(row.parent),
       path: String(row.path),
       titles: [],
@@ -105,10 +105,10 @@ async function moveTitles(db: Db, versions: boolean, ids: Map<string, string>): 
         UPDATE ${sql.identifier(`${prefix}_blocks_${table}`)} SET "_order" = "_order" + 1
         WHERE "_parent_id" = ${step.parent} AND "_path" = ${step.path}`)
     }
-    let id = ids.get(step.uuid)
+    let id = step.uuid ? ids.get(step.uuid) : undefined
     if (!id) {
       id = blockId()
-      ids.set(step.uuid, id)
+      if (step.uuid) ids.set(step.uuid, id)
     }
     const richText = sql.identifier(`${prefix}_blocks_rich_text`)
     let parent: string | number = id
