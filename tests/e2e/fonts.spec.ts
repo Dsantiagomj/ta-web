@@ -2,8 +2,8 @@ import { expect, test, type Page } from '@playwright/test'
 
 import { seedGuide } from './seed/guides.ts'
 
-// Las fuentes de src/styles/fonts.ts: solo dos archivos precargados y una sola familia por
-// tipografía, para que cada peso use su propio archivo y nunca una negrita sintetizada.
+// Las fuentes de src/styles/fonts.ts: un solo archivo precargado, Montserrat, una fuente
+// variable de la que salen todos los pesos, sin negritas sintetizadas.
 
 /** Las @font-face de la página: URL del archivo, familia y peso. */
 function fontFaces(page: Page) {
@@ -27,37 +27,45 @@ function fontFaces(page: Page) {
 }
 
 for (const path of ['/', `/${seedGuide.slug}`]) {
-  test(`${path} precarga solo Nunito 400 y Fredoka 600`, async ({ page }) => {
+  test(`${path} precarga solo el archivo de Montserrat`, async ({ page }) => {
     await page.goto(path)
     const preloads = await page
       .locator('link[rel="preload"][as="font"]')
       .evaluateAll((links) => links.map((link) => new URL((link as HTMLLinkElement).href).pathname))
     const faces = await fontFaces(page)
-    const preloaded = preloads
-      .map((url) => faces.find((face) => face.url === url))
-      .map((face) => face && `${face.family} ${face.weight}`)
+    const preloaded = preloads.map((url) => faces.find((face) => face.url === url)?.family)
 
-    expect(preloaded.sort()).toEqual(['Fredoka 600', 'Nunito 400'])
+    expect(preloaded).toEqual(['Montserrat'])
   })
 }
 
-test('cada peso de Nunito sale de su propio archivo, en una sola familia', async ({ page }) => {
+test('todos los pesos de Montserrat salen de su archivo, en una sola familia', async ({ page }) => {
   await page.goto(`/${seedGuide.slug}`)
-  const faces = await fontFaces(page)
-  const weightsOf = (family: string) =>
-    [...new Set(faces.filter((face) => face.family === family).map((face) => face.weight))].sort()
-  expect(weightsOf('Nunito')).toEqual(['400', '500', '600', '700', '800'])
-  expect(weightsOf('Fredoka')).toEqual(['500', '600'])
-  // Los estilos nombran la familia entera, no la de una instancia.
+  const faces = (await fontFaces(page)).filter((face) => face.family === 'Montserrat')
+  expect([...new Set(faces.map((face) => face.weight))].sort()).toEqual([
+    '400',
+    '500',
+    '600',
+    '700',
+    '800',
+  ])
+  // Es una fuente variable: un solo archivo latin para todos los pesos.
+  expect(new Set(faces.map((face) => face.url)).size).toBe(1)
+  // Los estilos nombran la familia entera, no la de una instancia; Nunito y Fredoka ya no están.
   const body = await page.evaluate(() => getComputedStyle(document.body).fontFamily)
-  expect(body).toMatch(/^"?Nunito"?,/)
+  expect(body).toMatch(/^"?Montserrat"?,/)
+  expect(await fontFaces(page)).not.toContainEqual(
+    expect.objectContaining({ family: expect.stringMatching(/^(Nunito|Fredoka)$/) }),
+  )
 
-  // La guía usa 700 (las negritas de la prosa) y 800 (las cantidades del resumen): el
-  // navegador carga esos archivos en vez de sintetizar la negrita del 400.
+  // La guía usa 700 (el título y las negritas) y 800 (las cantidades): el navegador los
+  // pinta con el archivo variable en vez de sintetizar la negrita del 400.
   await page.evaluate(() => document.fonts.ready)
   const loaded = await page.evaluate(() =>
     [...document.fonts]
-      .filter((face) => face.family.replaceAll('"', '') === 'Nunito' && face.status === 'loaded')
+      .filter(
+        (face) => face.family.replaceAll('"', '') === 'Montserrat' && face.status === 'loaded',
+      )
       .map((face) => face.weight),
   )
   expect(loaded).toEqual(expect.arrayContaining(['400', '700', '800']))
