@@ -29,3 +29,31 @@ export const achievementStrings = {
       `/${slug} ya es la página de ${owner}: elige otro slug.`,
   },
 } as const
+
+/** La página del logro, /<slug> (DESIGN.md, Achievement page). */
+export const achievementPageStrings = {
+  quests: (count: number) => (count === 1 ? '1 misión' : `${count} misiones`),
+  levels: (min: number, max: number) => (min === max ? `Nivel ${min}` : `Niveles ${min} a ${max}`),
+  points: (count: number) => (count === 1 ? '1 punto' : `${count} puntos`),
+  metaSeparator: ' - ',
+  breadcrumb: 'Ruta de navegación',
+  index: 'Metalogros',
+  needsTotal: 'Necesitarás en total',
+  rewards: 'Recompensas del logro',
+  questsHeading: 'Las misiones, en orden',
+  questKicker: (position: number, level?: number) =>
+    level ? `Misión ${position} - Nivel ${level}` : `Misión ${position}`,
+  group: (name: string) => `Metalogro ${name}`,
+  countsFor: 'Cuenta para',
+  countsForLine: (achievements: number) => `Pide ${achievements} logros.`,
+  previous: 'Logro anterior',
+  next: 'Siguiente logro',
+  navLabel: (group: string) => `Logros de ${group}`,
+  preparing: 'En preparación',
+  seo: {
+    title: (name: string) => `${name}: logro de Dofus`,
+    description: (name: string, quests: number) =>
+      `Las ${quests} misiones del logro ${name} de Dofus, en orden, con la guía de cada una, ` +
+      'lo que necesitas y las recompensas.',
+  },
+} as const

@@ -8,6 +8,10 @@ import {
   stateField,
 } from './achievement-fields'
 import { isPanelUser, readPublishedOrAll } from './editorial-access'
+import {
+  revalidateAchievementPagesAfterChange,
+  revalidateAchievementPagesAfterDelete,
+} from './revalidate-guides'
 import { rejectSharedSlug } from './root-slug'
 
 const note = (field: string) => dofusDbNote('achievement', field)
@@ -32,6 +36,9 @@ export const AchievementPages: CollectionConfig = {
   versions: { drafts: true, maxPerDoc: 50 },
   hooks: {
     beforeValidate: [fillAchievementPage, rejectSharedSlug('achievement-pages')],
+    // Borradores incluidos: es barato y cubre despublicar.
+    afterChange: [revalidateAchievementPagesAfterChange],
+    afterDelete: [revalidateAchievementPagesAfterDelete],
   },
   fields: [
     {
