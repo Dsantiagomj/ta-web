@@ -12,6 +12,10 @@
 import { GAME_ICONS } from '@/components/game/game-icons'
 import { legacyHref } from '@/lib/site/legacy'
 
+import { siteShellStrings } from './strings'
+
+const t = siteShellStrings
+
 export interface GameImage {
   src: string
   /** El tamaño del archivo, el máximo al que se pinta. */
@@ -70,19 +74,19 @@ export const CHECKLISTS: NavLink[] = [
     name: 'Dofus Silvestre',
     href: legacyHref('checklist-silvestre'),
     image: { src: '/img/game/checklists/silvestre.webp', size: 200 },
-    description: '100 pasos con la guía de Sandglass',
+    description: t.checklists.silvestre,
   },
   {
     name: 'Dofus de los Hielos',
     href: legacyHref('checklist-dofus-de-los-hielos'),
     image: { src: '/img/game/checklists/hielos.webp', size: 200 },
-    description: '70 pasos, de la isla de Frigost al final',
+    description: t.checklists.hielos,
   },
   {
     name: 'Almas del Ocre',
     href: legacyHref('lista-ocre'),
     image: { src: '/img/game/checklists/ocre.webp', size: 128 },
-    description: 'Las almas de la eterna cosecha, una a una',
+    description: t.checklists.ocre,
   },
 ]
 
@@ -129,40 +133,35 @@ export const DUNGEONS: NavLink[] = [
 export const SECTIONS: Section[] = [
   {
     key: 'misiones',
-    label: 'Misiones',
-    title: 'Misiones y logros',
+    ...t.sections.misiones,
     href: legacyHref('metalogros'),
     icon: GAME_ICONS.quest,
     accent: 'var(--color-sec-misiones)',
   },
   {
     key: 'dofus',
-    label: 'Dofus',
-    title: 'Dofus',
+    ...t.sections.dofus,
     href: legacyHref('guias-dofus'),
     icon: egg('dofus-esmeralda'),
     accent: 'var(--color-sec-dofus)',
   },
   {
     key: 'checklists',
-    label: 'Checklists',
-    title: 'Checklists',
+    ...t.sections.checklists,
     href: legacyHref('checklists'),
     icon: CHECKLISTS[0].image!,
     accent: 'var(--color-sec-checklists)',
   },
   {
     key: 'clases',
-    label: 'Clases',
-    title: 'Clases',
+    ...t.sections.clases,
     href: legacyHref('clases-1'),
     icon: head('feca'),
     accent: 'var(--color-sec-clases)',
   },
   {
     key: 'mazmorras',
-    label: 'Mazmorras',
-    title: 'Mazmorras',
+    ...t.sections.mazmorras,
     href: DUNGEONS[1].href,
     icon: DUNGEONS[1].image!,
     accent: 'var(--color-sec-mazmorras)',
@@ -194,7 +193,12 @@ export const SOCIALS: Social[] = [
     href: 'https://www.youtube.com/@TorrenteArcano',
     handle: '@TorrenteArcano',
   },
-  { key: 'discord', name: 'Discord', href: 'https://discord.gg/wgCxwd7b3r', handle: 'Comunidad' },
+  {
+    key: 'discord',
+    name: 'Discord',
+    href: 'https://discord.gg/wgCxwd7b3r',
+    handle: 'discord.gg/wgCxwd7b3r',
+  },
 ]
 
 export const social = (key: SocialKey) => SOCIALS.find((s) => s.key === key)!
@@ -202,9 +206,9 @@ export const social = (key: SocialKey) => SOCIALS.find((s) => s.key === key)!
 export const KOFI_URL = 'https://ko-fi.com/torrentearcano'
 
 export const LEGAL_LINKS: NavLink[] = [
-  { name: 'Aviso legal', href: legacyHref('aviso-legal') },
-  { name: 'Política de cookies', href: legacyHref('politica-de-cookies') },
-  { name: 'Política de privacidad', href: legacyHref('politica-de-privacidad') },
+  { name: t.legal.notice, href: legacyHref('aviso-legal') },
+  { name: t.legal.cookies, href: legacyHref('politica-de-cookies') },
+  { name: t.legal.privacy, href: legacyHref('politica-de-privacidad') },
 ]
 
 export type SearchType = 'seccion' | 'dofus' | 'checklist' | 'clase' | 'mazmorra'

@@ -1,7 +1,24 @@
-import type { SearchType } from './nav'
+import type { SearchType, SectionKey } from './nav'
 
 // Los textos de la cabecera y el pie del sitio (AGENTS.md, Language).
 export const siteShellStrings = {
+  sections: {
+    misiones: { label: 'Misiones', title: 'Misiones y logros' },
+    dofus: { label: 'Dofus', title: 'Dofus' },
+    checklists: { label: 'Checklists', title: 'Checklists' },
+    clases: { label: 'Clases', title: 'Clases' },
+    mazmorras: { label: 'Mazmorras', title: 'Mazmorras' },
+  } satisfies Record<SectionKey, { label: string; title: string }>,
+  checklists: {
+    silvestre: '100 pasos con la guía de Sandglass',
+    hielos: '70 pasos, de la isla de Frigost al final',
+    ocre: 'Las almas de la eterna cosecha, una a una',
+  },
+  legal: {
+    notice: 'Aviso legal',
+    cookies: 'Política de cookies',
+    privacy: 'Política de privacidad',
+  },
   skip: 'Saltar al contenido',
   brand: 'Torrente Arcano',
   brandTop: 'Torrente',
