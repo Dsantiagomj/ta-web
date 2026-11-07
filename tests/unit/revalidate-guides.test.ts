@@ -6,9 +6,12 @@ vi.mock('next/cache', async (importOriginal) => ({
   revalidateTag,
 }))
 
+import { AchievementGroups } from '@/collections/AchievementGroups'
+import { AchievementPages } from '@/collections/AchievementPages'
 import { Media } from '@/collections/Media'
 import { QuestGuides } from '@/collections/QuestGuides'
 import { revalidateGuidePages } from '@/collections/revalidate-guides'
+import { ACHIEVEMENT_PAGES_TAG } from '@/lib/achievements/cache'
 import { GUIDE_PAGES_TAG } from '@/lib/guides/cache'
 
 afterEach(() => revalidateTag.mockReset())
@@ -54,5 +57,34 @@ describe('hooks de revalidación', () => {
     expect(Media.hooks?.afterDelete).toHaveLength(1)
     await Media.hooks?.afterChange?.[0](hookArgs)
     expect(revalidateTag).toHaveBeenCalledWith(GUIDE_PAGES_TAG, { expire: 0 })
+  })
+})
+
+describe('páginas de logro', () => {
+  const hookArgs = { doc: { id: 1 } } as never
+
+  it('una guía o un archivo cambiados también caducan las páginas de logro: las enlazan', async () => {
+    await QuestGuides.hooks?.afterChange?.[0](hookArgs)
+    expect(revalidateTag).toHaveBeenCalledWith(ACHIEVEMENT_PAGES_TAG, { expire: 0 })
+    revalidateTag.mockReset()
+    await Media.hooks?.afterDelete?.[0](hookArgs)
+    expect(revalidateTag).toHaveBeenCalledWith(ACHIEVEMENT_PAGES_TAG, { expire: 0 })
+  })
+
+  it.each([
+    ['achievement-pages', AchievementPages],
+    ['achievement-groups', AchievementGroups],
+  ])('%s guardado o borrado caduca las páginas de logro, no las guías', async (_, collection) => {
+    for (const hook of [
+      ...(collection.hooks?.afterChange ?? []),
+      ...(collection.hooks?.afterDelete ?? []),
+    ]) {
+      revalidateTag.mockReset()
+      expect(await hook(hookArgs)).toEqual({ id: 1 })
+      expect(revalidateTag).toHaveBeenCalledWith(ACHIEVEMENT_PAGES_TAG, { expire: 0 })
+      expect(revalidateTag).not.toHaveBeenCalledWith(GUIDE_PAGES_TAG, expect.anything())
+    }
+    expect(collection.hooks?.afterChange).toHaveLength(1)
+    expect(collection.hooks?.afterDelete).toHaveLength(1)
   })
 })
