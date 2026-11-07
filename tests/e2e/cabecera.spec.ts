@@ -496,13 +496,13 @@ test.describe('volver arriba', () => {
     await page.goto(`${url}#paso-2`)
     const top = (id: string) =>
       page.locator(`#${id}`).evaluate((step) => step.getBoundingClientRect().top)
-    await expect.poll(() => top('paso-2')).toBeGreaterThanOrEqual(64)
-    expect(await top('paso-2')).toBeLessThanOrEqual(200)
+    await expect.poll(() => top('paso-2')).toBeLessThanOrEqual(200)
+    expect(await top('paso-2')).toBeGreaterThanOrEqual(64)
 
     await page.evaluate(() => {
       location.hash = '#paso-3'
     })
-    await expect.poll(() => top('paso-3')).toBeGreaterThanOrEqual(64)
     await expect.poll(() => top('paso-3')).toBeLessThanOrEqual(200)
+    expect(await top('paso-3')).toBeGreaterThanOrEqual(64)
   })
 })
