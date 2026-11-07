@@ -34,6 +34,10 @@ sources:
     resource: repo://scripts/import/squarespace/to-quest-guide.ts
   - id: openwiki-source-d58a4d3cf178bb2fa2e94831
     resource: repo://src/collections/Media.ts
+  - id: openwiki-source-b099772c2f58d976c651450a
+    resource: repo://tests/integration/fixtures/import-disconnect.ts
+  - id: openwiki-source-6d63967683e8fb611f26b906
+    resource: repo://tests/integration/import-disconnect.test.ts
   - id: openwiki-source-5cd8fc4d5a65c01359ed92e2
     resource: repo://tests/integration/import-quest-guides.test.ts
   - id: openwiki-source-bf890cc4722b5033a81aa698
@@ -46,10 +50,10 @@ sources:
     resource: repo://tests/unit/import-rich-text.test.ts
   - id: openwiki-source-299c190cabc2f0753a302110
     resource: repo://tests/unit/import-to-quest-guide.test.ts
-generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
+generated: { by: "claude-code", at: "2026-11-07T00:10:43.955Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-06T15:25:11.354Z
+    at: 2026-11-07T00:10:43.955Z
 ---
 
 # Squarespace import
@@ -144,6 +148,7 @@ The Squarespace inventory in `out/` (outside the repo, described in `docs/legacy
 
 - **Quest.** A guide links a single quest. The loader looks up every DofusDB ID of the batch in `quests` once, at `depth: 1` so item and prerequisite names come populated for the summary fill. When a guide names exactly one DofusDB ID (repeats count once), it links that quest's Payload ID; an ID missing from `quests` becomes the oddity "Misión de DofusDB … sin importar en quests", so run `pnpm data:quests` first. When a guide names several IDs, it links none rather than pick one at random, and records the oddity "Varias misiones de DofusDB (a, b): sin enlazar, elige una en el panel" so Torre chooses. No guide in the Squarespace inventory matches more than one quest, so this is a safeguard. See [DofusDB game data refresh](dofusdb-refresh.md).
 - **Images.** Each image block becomes a `media` record keyed by its original URL. The loader first checks a per-run map, then searches `media` by `originalUrl`, and downloads and creates the record only when neither has it. A re-run or a second guide using the same image reuses the record. New records get the block's alt text and the `originalUrl`. An image that fails to download is dropped from the body and noted ("Imagen sin importar: …"); the guide still loads.
+- **Database failures.** A lost Postgres connection is not treated as a broken image. The loader wraps any `fetchImage` error in an internal `ImageDownloadError`, because the CDN transport can fail with the same codes as Postgres (`ECONNRESET`, `ETIMEDOUT`, `ECONNREFUSED`). Any other error from saving an image is checked by `connectionFailed`, which follows the `cause` chain (Drizzle wraps client errors) and matches SQLSTATE classes `08` and `57P0`, the socket codes `ECONNRESET`, `ETIMEDOUT`, `EADDRNOTAVAIL`, `EPIPE` and `ECONNREFUSED`, and messages such as "not queryable" or "connection terminated". On a match the error is rethrown and the load stops, so the guide is not saved without its image and marked as imported. The failed transaction leaves no `media` record, and the next run creates the missing guide and image and leaves finished guides unchanged.
 - **Body.** Rich text and callouts go through `createHtmlToLexical`; videos keep their URL. A step becomes a `step` block with its `title`, `x` and `y` (`null` when absent) and its own content blocks converted the same way.
 - **Guides.** It finds the guide by `slug` (drafts included) and writes `title`, `slug`, `originalUrl`, `summary`, `quest` and `body` with `_status: 'draft'`. It never publishes: a published guide gets a new draft and stays published as it was until Torre publishes the draft.
 - **Summary.** It sends the whole `summary` group every time: `prerequisites`, `rewards`, `startNpc`, `startX`, `startY` and `needs` (`notes` plus an empty `items` list), with `null` for whatever the conversion did not bring. Payload keeps group fields that an update leaves out, so without this a value removed from the Squarespace page would stay stored, and every run would see a difference and save another version.
@@ -174,7 +179,7 @@ Image URLs come from Squarespace HTML, which is not trusted, so `createImageFetc
 - is on any host other than `images.squarespace-cdn.com`, the only host the 21 618 images in the inventory use (a look-alike such as `images.squarespace-cdn.com.evil.com` fails too);
 - names a port.
 
-The request does not follow redirects (`redirect: 'error'`), because a redirect could lead to another host, and it times out after 30 s. An HTTP error, or a response whose `content-type` is not `image/*`, throws as well. Each failure reaches the loader, which records the image as an oddity and keeps the guide.
+The request does not follow redirects (`redirect: 'error'`), because a redirect could lead to another host, and it times out after 30 s. An HTTP error, or a response whose `content-type` is not `image/*`, throws as well. Each failure reaches the loader, which records the image as an oddity and keeps the guide, even when the error carries a network code that a Postgres failure could also have.
 
 The CDN serves WebP to any client that accepts it, `*/*` included, so the `Accept` header names only the type of the file's extension (PNG, JPEG, GIF or WebP) to get the original file back. The file name comes from the URL path, with Squarespace's `+` turned back into spaces.
 
@@ -197,6 +202,8 @@ The unit tests run on trimmed copies of those five pages in `tests/fixtures/squa
 - `import-fetch-image.test.ts`: downloads from the CDN with name and type and without following redirects; refuses `http`, other hosts, an internal IP, `localhost` and a look-alike subdomain without making the request; refuses a non-image response and an HTTP error.
 
 The integration test `tests/integration/import-quest-guides.test.ts` loads the five fixture pages into the integration database with a fake `fetchImage` that returns a 1×1 PNG. It checks drafts with the content block types, untitled steps saved with their coordinates and screenshots, a titled step from an `ETAPA n:` marker, the existing quest linked, one `media` record per image with its URL and alt, the oddities (including quests missing from `quests`), a second run that changes, downloads and versions nothing, one new draft for a changed guide, the `needs` notes saved from the page, a summary field that disappears being filled from the linked quest's start position and needs without extra versions on the next run, no drafts visible to anonymous readers, an invalid slug skipped, and a guide with two DofusDB IDs saved with no quest and the "Varias misiones de DofusDB" oddity. It removes its guides, media and quests before and after.
+
+`tests/integration/import-disconnect.test.ts` runs `tests/integration/fixtures/import-disconnect.ts` through `pnpm payload run`. The fixture first checks that `fetchImage` failures with `ECONNRESET`, `ETIMEDOUT` and `ECONNREFUSED` still become "Imagen sin importar" oddities. It then adds a `media` `beforeChange` hook that kills the importer's own Postgres backend (`pg_terminate_backend`) in the middle of the image transaction. It asserts that the load rejects, no transaction session is left open, neither the image nor the unfinished guide was saved, the next load creates one guide and leaves the finished one unchanged, a third load finds both unchanged, and the killed backend is gone. The fixture refuses to run against a non-local database or any database other than `ta_web_integration` or `ta_web`, and the test checks both refusals.
 
 See [Test suites](../testing/test-suites.md).
 

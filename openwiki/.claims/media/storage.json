@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:eb72ce4f8337ff0b7c00137e08ae529eafc7fb54c5a7d4bb4856ec90d4832ba1",
+  "pageVersion": "sha256:6bc13cc5020d6f2067b42e105c2a71e07abe6c9f34198a2dc5a21444492b01a9",
   "claims": [
     {
       "id": "claim_7ea7c2a578564a0784fd3a8664a2173a",
@@ -103,8 +103,8 @@
       "statement": "The Squarespace import stores each image once in media as the original file with alt and originalUrl, looking it up by originalUrl before downloading, and Payload generates its sizes on that upload.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/load-quest-guides.ts#L130-L153",
-          "version": "repo-lines-v1:sha256:398409655096ce8e233ca1045b9214807d20fa4d60ceea6ae44a6fa969347e05:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNiNGFjMGI1MWMyOGM2ZWM2OTIxNWUwOWJkZGY0NDFhZTNiZWExNzI4NGRjOGU5NTQ4MTEzYzkzZjY4M2I0ZmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwZDY4MTlmZjJjYmIzNDZlZjk2NjkxNGY3MWQ1ODgzNzhmNzAyZWFmNzgyMTZhYWZiMjU2YzMwMGIyMGQ5NWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUyZGNkNmU4ZmJiNzE3ODY2OWZiMDYzNDc4ZjdkMmZiMjc1OTRlOTkxNzYzOTc2YTc4ZWQ3NzE2OTc1NWJiZDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE0OTQ0MDU2OGViNzBkMDYzOWI5ZTJmYjEyNTgzNmUzY2E1YmUyOWVhMDliYTExY2VlZmRlN2VhZmJkZTE1ZDAifQ"
+          "resource": "repo://scripts/import/load-quest-guides.ts#L142-L177",
+          "version": "repo-lines-v1:sha256:4666057b0766669fcea2dd952badcd323fd722ad4ef95bc7e6bedc4bcfe4a75e:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlYmQyNjJjZGUwNTdhNTZiNzhhY2ZjYzEwMWVkZjBjYTlkMTI4YzU3OGVlZDQ5ZTVjYmU3ZGY4YWUyZmNiODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYzNmYyYTYyODMyNDRhMTkwMDZkMDU5ZTllOGIwMDY2ZTU1YmM1MjBlZThlMmRlNmZhNWJjZTRjM2IwZTIxOWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI3NDYyYTk1ZmJhNjUyY2QyY2Y2MmZkOTkxMWI0M2NlOWVkMGRmNWMwNDhhZGVmOTMyMGNkYzU4ODAxNzUzNDQifQ"
         },
         {
           "resource": "repo://src/collections/Media.ts#L21-L23",
@@ -185,6 +185,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-06T15:25:11.354Z"
+    "at": "2026-11-07T00:10:43.955Z"
   }
 }

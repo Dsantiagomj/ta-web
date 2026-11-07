@@ -81,7 +81,7 @@ sources:
 generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-06T15:25:11.354Z
+    at: 2026-11-07T00:10:43.955Z
 ---
 
 # DofusDB game data refresh

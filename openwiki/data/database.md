@@ -44,6 +44,8 @@ sources:
     resource: repo://src/migrations/index.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
     resource: repo://src/payload.config.ts
+  - id: openwiki-source-b099772c2f58d976c651450a
+    resource: repo://tests/integration/fixtures/import-disconnect.ts
   - id: openwiki-source-450b6a23d7e25100eadc359f
     resource: repo://tests/integration/global-setup.ts
   - id: openwiki-source-8f0065e4504cfadc651f72a5
@@ -54,10 +56,10 @@ sources:
     resource: repo://tests/integration/needs-list-migration.test.ts
   - id: openwiki-source-b031ce15fe3cb852929a85bf
     resource: repo://tests/unit/database-url.test.ts
-generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
+generated: { by: "claude-code", at: "2026-11-07T00:10:43.955Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-06T15:25:11.354Z
+    at: 2026-11-07T00:10:43.955Z
 ---
 
 # Database and migrations
@@ -154,6 +156,7 @@ In deployed environments, Railway runs `pnpm migrate` as the pre-deploy command 
 
 - The pool's `connectionTimeoutMillis` is 5000, so acquiring a connection gives up instead of hanging.
 - An `error` listener on the pool, attached in Payload's `onInit`, logs idle-connection failures (Neon restarts idle connections) so they do not crash the process.
+- `pg` takes the pool's listener off a client while it is checked out, so `pool.onConnect` gives every client its own `error` listener. A connection lost in the middle of a transaction is logged (`Conexión de Postgres prestada perdida`) instead of crashing the process. The code that owns the transaction gets the error and releases the client, `pg` drops a client that can no longer run queries, and nothing retries the transaction. `tests/integration/import-disconnect.test.ts` proves this against a real backend kill; see [Squarespace import](squarespace-import.md).
 - The health check uses its own short-lived transaction with a local `statement_timeout` and discards connections that fail or time out. See [Health check endpoint](../operations/health-check.md).
 
 ## Related pages

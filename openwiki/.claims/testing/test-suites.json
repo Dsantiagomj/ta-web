@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ae10b5b4193b1060dc460839a7776762224662276133d3f3498630452c428f93",
+  "pageVersion": "sha256:06d520a95590f98bef09ded3afc8f39a654cd66f58356edae44ce188df666327",
   "claims": [
     {
       "id": "claim_764b0485963845c99d60b85472ceccba",
@@ -613,10 +613,46 @@
           "version": "repo-lines-v1:sha256:5a3ab92cdf9124a1a767cf76bf5fbb4184836543e93508b1a97454b6c0bc84b9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY3OTcwOTNmYWIzNTNhMTI5YzcwZWI1NTk2Y2JhNTUwNzE2MTc1ZWM1NGQ2MzIwY2I0MDUyZDVhYTRiYmM1N2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhkYjAwOWI5NWU4N2ViM2M3ZjkyZTEyZGYzNTA4ZTc3NGI0MzAxMjQ4Nzk1MDFmY2VhNGE1ZDcwZGI4ZGUyYTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE4NzkyODVlZmVjYTYwYmQ4YTVjMDc1MzhiZjQyMjBjNjk3MWM1NDQ4MTg4MzNmNGEyMjYwNjBhNzgyZTkyMWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYxYjIwODJhZGQ5YTI5ZTA2MmU2MGQ0NmRiYTFlMWY3YzUzYTBlMDUwYjg4MTE4YzExMDIxOGJjY2UwNTUyZDAifQ"
         }
       ]
+    },
+    {
+      "id": "claim_f9aa3038239e42ffa144079c655637bf",
+      "statement": "The import-disconnect integration test runs its fault-injection fixture through pnpm payload run and passes only when the fixture prints RECOVERY_OK after surviving a killed Postgres backend during an import and reconciling on the next load.",
+      "evidence": [
+        {
+          "resource": "repo://tests/integration/fixtures/import-disconnect.ts#L35-L49",
+          "version": "repo-lines-v1:sha256:3ed1522564030399cb5023b7d9f35c5873662473d2ef6300be107787a6ea52ce:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4MTk4ZWY2Yjg1ZjUyMzhlMDNlNjZjNGY2ZDJhOGFkMDQ2OGM5OTFiMmM0YTNkYWZjNDg5NGRjYjZmYjRmNDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyYjI2ZmE3NDM3NzJlNWY3NTA0NmFkYTAzNDBhODkwOTg3ZjAyYzFhNjI0ZjE1ODQ2ZDUwOGM2MmM3ODRmODMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjExZWU2NmJjZTE0NzI4ZmE5ODMwMzEzMTU1NDAyYWUwODg0ZGJlM2Y5NjdkZjliMDFjNTE5NGQyMGU1MjY1NDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFhOGRmZDIwMTFiZjkzZGM3NDBiZjgwY2I3NmM5NTI5OTljOWNlMjJjZWJkMTE3MWYxNGVjZTY4ZGZmZTNmNWIifQ"
+        },
+        {
+          "resource": "repo://tests/integration/fixtures/import-disconnect.ts#L74-L102",
+          "version": "repo-lines-v1:sha256:bb7a1c610ffd4e9075a466716812dee1449d5a56351078f60c974a5a303a1fb5:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0ZTM2ZWU1ODZiOTFkNDE0ZjRhOWVkNzdiOWNhNGNhMGU2ZmYzYTIwMzc4YmRmNmM1ODg0OWU2MjQzMTdmMGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMxMWU1NjU5NTBhZTMyYjRiY2NiOGNhYTcyMjZmOWRkY2MyYzY0NDc4NzBjZTY2NzEwODBhNTQzOWQxM2FhMWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVlYjg3YTY0NGY1ZDUxY2U1YmNjNTg5OGUwYzMzNzA3MGRmMjU5MWU1ODdjZDgwMDM4OTg3NmM5OTMwYmRmNjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAxNWM3ZTZjNTEzODcyM2IwMGNkYTgwY2ZiMWJjMTdmMzMxZWI0NTkwNTRkZDFiOGVhNjg0MDU3MDQ2MzQwM2EifQ"
+        },
+        {
+          "resource": "repo://tests/integration/import-disconnect.test.ts#L5-L19",
+          "version": "repo-lines-v1:sha256:8ce7df3e54538b5afb55acefb7e7a37eaaf478df2de9b6acbad97568ca24df77:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4YmNlODNjN2MwYThjMGRiMDdiMWE5NDZkNzg1NzdmOWY3ZjFkZjM4MDA5MzYyMTZhZTc4ZDU3ZWNjMTBmMjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE0MTVhYWU5YThmNzhlODMxMDQ1NzI3Nzk3Y2U1ZDQ5ZjRmOTJlMDc2YTY0ZDFjNzY1NThmYmVmYWJhZTMwMWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhkYjRhMzM0MjQ5N2IzNzkyZjUwMjA4OTY5ZjBkYzNiODY3ODg4YWM3OGI1OGJkMmIzNDM4NzIwNDE5NDdlYjcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_37ed7c31e36d4fc2b502e659ca278f90",
+      "statement": "The import-disconnect fixture refuses non-local database URLs and any database other than ta_web_integration or CI's ta_web, and the test asserts both refusals.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml#L96-L96",
+          "version": "repo-lines-v1:sha256:4ebe189fdb5190cfadb113b58f6fdea175d773f449cf682c9b2e7b49d61714d8:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGViZTE4OWZkYjUxOTBjZmFkYjExM2I1OGY2ZmRlYTE3NWQ3NzNmNDQ5Y2Y2ODJjOWIyZTdiNDlkNjE3MTRkOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGViZTE4OWZkYjUxOTBjZmFkYjExM2I1OGY2ZmRlYTE3NWQ3NzNmNDQ5Y2Y2ODJjOWIyZTdiNDlkNjE3MTRkOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzE5ZDQ2ZDRlYTllMmQwMGRhYzY2OTgyYzkwZmQ0M2YzOGM4NjAwMTA4MjNiMDg5MWM1Njk1M2IyZTEzNzU0MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTE1YjcyNjAwZDEzMzhhYmFlZjNiNDU1NDAzMWVmZTc4OWEwOWY0YjFmOWUwMmQwMDI5MTI5YTZkYzlmNjQzNyJ9"
+        },
+        {
+          "resource": "repo://tests/integration/fixtures/import-disconnect.ts#L10-L12",
+          "version": "repo-lines-v1:sha256:5660fd076d90ad03202b5c65e772264231142d80b58b4f14c8a9c8342bacc8a6:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWVjZWE2MTQ3NDU5ZmYzYjFhNGRlNjcwZjNkMGU2NThjMmE4ZDIwNTcwODRkYjY1ZTMwYWQxYTFkZTJkZDdlYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODc2OTg1OThhYzZkMTk4ODVjNjRjN2JmNmZkZWM4OTNhMjUyZThjMzQxM2Q3YjZkMWU1ZDMxZWI4MmIwNDJiNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDMxOTkxYmVmOTE5MzU5M2VhOWQzZmYzY2M3Mzg4YzM4NzAwNzIyZGNjN2RjYTczM2E1YjRjNWI1OGQ1MjRlOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWVmMGU3N2Y3ZjdlY2U2MmIzZjMxODY4MDExNDYwMzk5MzMxOWZhYjBmNzliYzQyMWQ2NzkzMmZmNjc2YWJmNCJ9"
+        },
+        {
+          "resource": "repo://tests/integration/import-disconnect.test.ts#L21-L35",
+          "version": "repo-lines-v1:sha256:27815d08e5b043a412eda0e4a839673bee8f3da260777602ed92c49cea258bcc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjczZGZmNDM1OTliN2ZhMGE1MWEzNWQ3YjZlY2JlODQ1ODJjZjQ5ZjM2YjVmNjgzNDU2ZWJhYWMxMWNjZmZkMGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjczZWU1YjVmMTcyZmZlY2QyZDE3YWZjODYzYTI0NzFjMDg0OTc4NmJhYmM5ZGU0MDUwNWU1Y2ExNzhiNGZkY2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-06T15:25:11.354Z"
+    "at": "2026-11-07T00:10:43.955Z"
   }
 }

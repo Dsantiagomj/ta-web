@@ -5,7 +5,7 @@ description: Every environment variable the app, the tests and the GitHub workfl
 tags: [configuration, environment, secrets, railway]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-06T15:25:11.354Z
+    at: 2026-11-07T00:10:43.955Z
 sources:
   - id: openwiki-source-5f5b95b3d6a215fa02ceb945
     resource: repo://.env.example
