@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest'
 
-import { achievementPageView, type AchievementPageData } from '@/lib/achievements/page'
+import {
+  achievementPageView,
+  guideBreadcrumb,
+  type AchievementPageData,
+} from '@/lib/achievements/page'
 import { legacyHref } from '@/lib/site/legacy'
 
 // Una imagen de Media con su archivo, como la devuelve Payload con depth.
@@ -178,5 +182,43 @@ describe('achievementPageView', () => {
     expect(alone.breadcrumb.parents).toHaveLength(1)
     expect(alone.group).toBeNull()
     expect(alone.previous).toBeNull()
+  })
+})
+
+describe('guideBreadcrumb', () => {
+  const found = {
+    page: { name: 'La ocasión hace al ladrón', slug: 'la-ocasion-hace-al-ladron', published: true },
+    group: { name: 'Astrub', slug: 'metalogro-astrub' },
+    position: 2,
+    total: 3,
+  }
+  const guide = { title: 'Seis pies bajo tierra', slug: 'seis-pies-bajo-tierra' }
+
+  it('los padres de la guía: el índice, el metalogro y su logro', () => {
+    const crumbs = guideBreadcrumb(found, guide, 'https://torrentearcano.com')
+    expect(crumbs!.parents).toEqual([
+      { name: 'Metalogros', href: legacyHref('metalogros') },
+      { name: 'Astrub', href: legacyHref('metalogro-astrub') },
+      { name: 'La ocasión hace al ladrón', href: '/la-ocasion-hace-al-ladron' },
+    ])
+    expect(crumbs!.jsonLd.itemListElement.map((item) => item.item)).toEqual([
+      legacyHref('metalogros'),
+      legacyHref('metalogro-astrub'),
+      'https://torrentearcano.com/la-ocasion-hace-al-ladron',
+      'https://torrentearcano.com/seis-pies-bajo-tierra',
+    ])
+  })
+
+  it('un logro En preparación no tiene página: las migas acaban en el metalogro', () => {
+    const crumbs = guideBreadcrumb(
+      { ...found, page: { ...found.page, published: false } },
+      guide,
+      'https://torrentearcano.com',
+    )
+    expect(crumbs!.parents.map((crumb) => crumb.name)).toEqual(['Metalogros', 'Astrub'])
+  })
+
+  it('sin logro, sin migas', () => {
+    expect(guideBreadcrumb(null, guide, 'https://torrentearcano.com')).toBeNull()
   })
 })

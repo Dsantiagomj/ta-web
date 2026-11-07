@@ -25,7 +25,7 @@ export const seedGuide = {
     slug: 'la-ocasion-hace-al-ladron',
     position: 2,
   },
-  subtitle: 'Misión de Astrub - Nivel 20 - Misión 2 del logro La ocasión hace al ladrón',
+  subtitle: 'Misión de Astrub - Nivel 20 - Misión 2 de 3',
   start: { npc: 'Hupe Esse', x: 7, y: -19 },
   // Los renders del PNJ, como los importa pnpm data:quests (los del catálogo).
   giver: {

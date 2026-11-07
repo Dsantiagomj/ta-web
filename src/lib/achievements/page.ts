@@ -11,6 +11,7 @@ import { mediaImageAsset } from '@/lib/media/image-asset'
 import { legacyHref } from '@/lib/site/legacy'
 import type { Media } from '@/payload-types'
 
+import type { GuideAchievement } from './queries'
 import { achievementPageStrings as s, type PageState } from './strings'
 
 type Relation<T> = number | T | null | undefined
@@ -294,27 +295,11 @@ export function achievementPageView(data: AchievementPageData): AchievementPageV
     ]
   })
 
-  // Las migas: solo los padres; la página actual va en el JSON-LD. El índice y los metalogros
-  // aún viven en la web de Torre.
-  const parents = [
-    { name: s.index, href: legacyHref('metalogros') },
-    ...(group ? [{ name: group.name, href: legacyHref(group.slug) }] : []),
-  ]
-  const breadcrumb: BreadcrumbData = {
-    parents,
-    jsonLd: {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [...parents, { name: page.name, href: `${data.siteUrl}/${page.slug}` }].map(
-        (crumb, index) => ({
-          '@type': 'ListItem',
-          position: index + 1,
-          name: crumb.name,
-          item: crumb.href,
-        }),
-      ),
-    },
-  }
+  const breadcrumb = buildBreadcrumb(
+    metalogroParents(group),
+    { name: page.name, href: `/${page.slug}` },
+    data.siteUrl,
+  )
 
   const pageIcon = icon(achievement?.icon)
   return {
@@ -329,4 +314,54 @@ export function achievementPageView(data: AchievementPageData): AchievementPageV
     countsFor,
     breadcrumb,
   }
+}
+
+/** Los primeros padres de las migas: el índice y el metalogro, aún en la web de Torre. */
+function metalogroParents(group: { name: string; slug: string } | null) {
+  return [
+    { name: s.index, href: legacyHref('metalogros') },
+    ...(group ? [{ name: group.name, href: legacyHref(group.slug) }] : []),
+  ]
+}
+
+/**
+ * Las migas: solo los padres, porque el h1 nombra la página; la página actual va en el
+ * JSON-LD. Un enlace del sitio («/la-ocasion…») va con el origen en el JSON-LD.
+ */
+function buildBreadcrumb(
+  parents: { name: string; href: string }[],
+  current: { name: string; href: string },
+  siteUrl: string,
+): BreadcrumbData {
+  const absolute = (href: string) => (href.startsWith('/') ? `${siteUrl}${href}` : href)
+  return {
+    parents,
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [...parents, current].map((crumb, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: crumb.name,
+        item: absolute(crumb.href),
+      })),
+    },
+  }
+}
+
+/**
+ * Las migas de una guía: «Metalogros / Astrub / La ocasión hace al ladrón». Un logro En
+ * preparación no tiene página, así que las migas acaban en el metalogro. Sin logro, null.
+ */
+export function guideBreadcrumb(
+  found: GuideAchievement | null,
+  guide: { title: string; slug: string },
+  siteUrl: string,
+): BreadcrumbData | null {
+  if (!found) return null
+  const parents = [
+    ...metalogroParents(found.group),
+    ...(found.page.published ? [{ name: found.page.name, href: `/${found.page.slug}` }] : []),
+  ]
+  return buildBreadcrumb(parents, { name: guide.title, href: `/${guide.slug}` }, siteUrl)
 }

@@ -4,7 +4,6 @@ import type { QuestHeaderData } from '@/lib/guides/page'
 
 import { CoordinatesChip } from './Coordinates'
 import './game.css'
-import { GAME_ICONS } from './game-icons'
 import { QuestFacts } from './QuestFacts'
 import { gameStrings } from './strings'
 
@@ -61,24 +60,12 @@ function Giver({ giver }: { giver: NonNullable<QuestHeaderData['giver']> }) {
   )
 }
 
-/** El subtítulo: «Misión de Astrub - Nivel 20 - Misión 2 del logro La ocasión…». */
+/** El subtítulo: «Misión de Astrub - Nivel 20 - Misión 2 de 3». El logro va en las migas. */
 function Subtitle({ meta }: { meta: QuestHeaderData['meta'] }) {
   const parts: React.ReactNode[] = []
   if (meta.zone) parts.push(s.zone(meta.zone))
   if (meta.level) parts.push(s.level(meta.level))
-  if (meta.achievement) {
-    const trophy = GAME_ICONS.achievement
-    parts.push(
-      <>
-        {s.achievement(meta.achievement.position)}{' '}
-        <a className="qhead__ach" href={meta.achievement.href}>
-          {/* eslint-disable-next-line @next/next/no-img-element -- archivo estático ya en WebP */}
-          <img src={trophy.src} width={22} height={22} alt="" decoding="async" />
-          {meta.achievement.name}
-        </a>
-      </>,
-    )
-  }
+  if (meta.achievement) parts.push(s.achievement(meta.achievement.position, meta.achievement.total))
   if (parts.length === 0) return null
   return (
     <p className="qhead__meta">
