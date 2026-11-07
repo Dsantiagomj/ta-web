@@ -78,6 +78,17 @@ test.describe('página de guía', () => {
     await expect(page.locator('figure.giver .coord')).toBeHidden()
   })
 
+  test('en el móvil, el logro baja entero a su línea en vez de partirse', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto(url)
+    const link = page.locator('.qhead__ach')
+    // Un nombre que cabe en una línea no se parte: el trofeo y el nombre van juntos.
+    expect(await link.evaluate((a) => a.getClientRects().length)).toBe(1)
+    const meta = (await page.locator('.qhead__meta').boundingBox())!
+    const box = (await link.boundingBox())!
+    expect(box.x + box.width).toBeLessThanOrEqual(meta.x + meta.width + 1)
+  })
+
   test('pinta la entrada, los pasos sin números, títulos ni casillas y el cierre', async ({
     page,
   }) => {
