@@ -963,7 +963,8 @@ html {
 /* ---------- la búsqueda (DESIGN.md, Search dialog) ---------- */
 .sdlg {
   width: min(640px, calc(100vw - 24px));
-  max-height: min(640px, calc(100dvh - 48px));
+  /* 72px de margen arriba y 24px abajo: la caja nunca pasa del borde inferior. */
+  max-height: min(640px, calc(100dvh - 96px));
   margin: 72px auto auto;
   padding: 0;
   overflow: hidden;
