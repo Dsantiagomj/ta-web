@@ -18,7 +18,7 @@ export const gameStrings = {
     /** Las partes del subtítulo, unidas con « - ». */
     zone: (zone: string) => `Misión de ${zone}`,
     level: (level: number) => `Nivel ${level}`,
-    achievement: (position: number) => `Misión ${position} del logro`,
+    achievement: (position: number, total: number) => `Misión ${position} de ${total}`,
     separator: ' - ',
     giver: 'Empieza con ',
     prerequisites: 'Prerrequisitos',

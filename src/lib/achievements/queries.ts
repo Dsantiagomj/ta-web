@@ -118,3 +118,47 @@ export async function readAchievementPage(
     givers: new Map(npcs.map((npc) => [npc.dofusId, npc])),
   }
 }
+
+/** La página de logro de una misión, para las migas y el subtítulo de su guía. */
+export interface GuideAchievement {
+  page: { name: string; slug: string; published: boolean }
+  group: { name: string; slug: string } | null
+  /** Su lugar entre las misiones de la página: la 2 de 3. */
+  position: number
+  total: number
+}
+
+/**
+ * La página de logro en la que está una misión, con su metalogro y el lugar de la misión
+ * en ella. Si está en varias, la primera por orden. Una En preparación también vale, pero
+ * se dice: las migas no la enlazan, porque no tiene página.
+ */
+export async function findGuideAchievement(
+  payload: Payload,
+  questId: number | null | undefined,
+): Promise<GuideAchievement | null> {
+  if (questId == null) return null
+  const { docs } = await payload.find({
+    collection: 'achievement-pages',
+    where: { 'quests.quests': { in: [questId] } },
+    sort: ['order', 'name'],
+    depth: 1,
+    limit: 1,
+    pagination: false,
+    draft: false,
+    overrideAccess: false,
+  })
+  const page = docs[0]
+  if (!page) return null
+  const rows = page.quests ?? []
+  const index = rows.findIndex((row) =>
+    (row.quests ?? []).some((quest) => relationId(quest as number | { id: number }) === questId),
+  )
+  const group = typeof page.group === 'object' && page.group ? page.group : null
+  return {
+    page: { name: page.name, slug: page.slug, published: page.state === 'published' },
+    group: group && { name: group.name, slug: group.slug },
+    position: index + 1,
+    total: rows.length,
+  }
+}
