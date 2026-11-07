@@ -46,7 +46,8 @@ function fightMonsterIds(blocks: FightBlock[]): number[] {
  * Recorre las guías por su última versión. En una guía cuya última versión es la publicada,
  * guarda la conversión publicada; si es un borrador, la guarda como borrador y no publica
  * nada (Torre lo publica cuando revise sus cambios). Con apply, importa también las imágenes
- * de los monstruos enlazados. Repetirlo no cambia nada: las listas convertidas ya no están.
+ * que falten de los monstruos de todos los combates. Repetirlo no convierte nada dos veces y
+ * reintenta las imágenes que fallaron.
  */
 export async function backfillFightLists(
   payload: Payload,
@@ -105,9 +106,11 @@ export async function backfillFightLists(
     result.unmatchedLists += split.unmatchedLists
     result.skipped += split.skipped
     for (const name of split.unmatched) result.unmatched[name] = (result.unmatched[name] ?? 0) + 1
+    // Los monstruos de todos sus combates, también de los ya convertidos: si una pasada
+    // anterior no pudo importar sus imágenes, esta lo reintenta.
+    for (const monster of fightMonsterIds(split.body as FightBlock[])) linked.add(monster)
     if (split.converted === 0) continue
     result.changed += 1
-    for (const monster of fightMonsterIds(split.body as FightBlock[])) linked.add(monster)
     if (!options.apply) {
       log(`Guía ${guide.slug}: ${split.converted} combates por convertir`)
       continue

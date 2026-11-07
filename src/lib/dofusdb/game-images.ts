@@ -66,6 +66,14 @@ export async function refreshGameImages(
   const counts: GameImageCounts = { imported: 0, reused: 0, linked: 0, unchanged: 0, failed: 0 }
   // Una promesa por clave: dos objetos con el mismo icono no lo suben dos veces a la vez.
   const byKey = new Map<string, Promise<number | null>>()
+  // Las subidas van de una en una: dos a la vez pueden elegir el mismo nombre de archivo
+  // libre y chocar con el índice único de media.filename. Las descargas sí van a la vez.
+  let uploads: Promise<unknown> = Promise.resolve()
+  const serially = <T>(task: () => Promise<T>): Promise<T> => {
+    const run = uploads.then(task, task)
+    uploads = run.catch(() => {})
+    return run
+  }
 
   async function mediaFor(kind: GameImageKind, imageId: number, alt: string) {
     const key = gameImageKey(kind, imageId)
@@ -85,13 +93,20 @@ export async function refreshGameImages(
       }
       try {
         const data = await fetchImage(gameImageUrl(kind, imageId))
-        const media = await payload.create({
-          collection: 'media',
-          data: { alt, gameAsset: key },
-          file: { data, mimetype: 'image/png', name: `${kind}-${imageId}.png`, size: data.length },
-          depth: 0,
-          overrideAccess: true,
-        })
+        const media = await serially(() =>
+          payload.create({
+            collection: 'media',
+            data: { alt, gameAsset: key },
+            file: {
+              data,
+              mimetype: 'image/png',
+              name: `${kind}-${imageId}.png`,
+              size: data.length,
+            },
+            depth: 0,
+            overrideAccess: true,
+          }),
+        )
         counts.imported += 1
         return media.id
       } catch (error) {

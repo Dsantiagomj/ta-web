@@ -196,4 +196,25 @@ describe('backfillFightLists', () => {
     expect(saved._status).toBe('draft')
     expect(fights(saved)).toHaveLength(1)
   })
+
+  it('si las imágenes fallaron, repetirlo las importa aunque no quede nada que convertir', async () => {
+    const failing = async (): Promise<Buffer> => {
+      throw new Error('HTTP 503')
+    }
+    const first = await backfillFightLists(payload, {
+      apply: true,
+      slugs: SLUGS,
+      fetchImage: failing,
+    })
+    expect(first).toMatchObject({ converted: 1 })
+    expect(first.images).toMatchObject({ imported: 0, failed: 2 })
+
+    const again = await backfillFightLists(payload, { apply: true, slugs: SLUGS, fetchImage })
+    expect(again).toMatchObject({ converted: 0, changed: 0 })
+    expect(again.images).toMatchObject({ imported: 2, linked: 2 })
+    const image = (
+      await payload.findByID({ collection: 'monsters', id: monsters[1]!.id, depth: 1 })
+    ).image as Media
+    expect(image.gameAsset).toBe('dofusdb-monster-image:239')
+  })
 })
