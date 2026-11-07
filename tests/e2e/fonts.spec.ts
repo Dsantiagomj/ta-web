@@ -49,8 +49,14 @@ test('todos los pesos de Montserrat salen de su archivo, en una sola familia', a
     '700',
     '800',
   ])
-  // Es una fuente variable: un solo archivo latin para todos los pesos.
-  expect(new Set(faces.map((face) => face.url)).size).toBe(1)
+  // Es una fuente variable: todos los pesos usan los mismos archivos (uno por subconjunto
+  // de caracteres; la página solo baja el latin).
+  const filesOf = (weight: string) =>
+    faces
+      .filter((face) => face.weight === weight)
+      .map((face) => face.url)
+      .sort()
+  for (const weight of ['500', '600', '700', '800']) expect(filesOf(weight)).toEqual(filesOf('400'))
   // Los estilos nombran la familia entera, no la de una instancia; Nunito y Fredoka ya no están.
   const body = await page.evaluate(() => getComputedStyle(document.body).fontFamily)
   expect(body).toMatch(/^"?Montserrat"?,/)
