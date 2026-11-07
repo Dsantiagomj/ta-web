@@ -112,14 +112,15 @@
   --color-sec-mazmorras: var(--t-sec-mazmorras);
   --color-sec-herramientas: var(--t-sec-herramientas);
 
-  /* Las variables --font-nunito y --font-fredoka las define next/font en <html>. Detrás
-     van los respaldos sin Arial de fonts-fallback.css (ver allí). */
+  /* La variable --font-montserrat la define next/font en <html>. Detrás van los respaldos
+     sin Arial de fonts-fallback.css (ver allí). Montserrat es a la vez texto y titulares. */
   --font-display:
-    var(--font-fredoka), 'Fredoka Fallback Linux', 'Fredoka', 'Nunito', system-ui, sans-serif;
+    var(--font-montserrat), 'Montserrat Fallback Linux', 'Montserrat', system-ui, sans-serif;
   --font-body:
-    var(--font-nunito), 'Nunito Fallback Linux', 'Nunito', system-ui, -apple-system, sans-serif;
+    var(--font-montserrat), 'Montserrat Fallback Linux', 'Montserrat', system-ui, -apple-system,
+    sans-serif;
   --font-accent:
-    var(--font-lilita-one), 'Lilita One Fallback Linux', 'Lilita One', 'Fredoka', system-ui,
+    var(--font-lilita-one), 'Lilita One Fallback Linux', 'Lilita One', 'Montserrat', system-ui,
     sans-serif;
 
   --shadow-art:

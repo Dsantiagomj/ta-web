@@ -19,8 +19,7 @@ vi.mock('next/font/google', () => {
     return { variable: `variable-${family}`, className: '', style: { fontFamily: family } }
   }
   return {
-    Nunito: loader('Nunito'),
-    Fredoka: loader('Fredoka'),
+    Montserrat: loader('Montserrat'),
     Lilita_One: loader('Lilita One'),
   }
 })
@@ -40,20 +39,21 @@ const familyWeights = (family: string) =>
     .sort()
 
 describe('fuentes', () => {
-  it('precarga solo dos archivos: Nunito 400 (texto) y Fredoka 600 (titulares)', () => {
+  it('Montserrat es el texto y los titulares: una sola instancia, precargada', () => {
+    const montserrat = calls.filter(({ family }) => family === 'Montserrat')
+    expect(montserrat).toHaveLength(1)
+    expect(montserrat[0].options.preload).not.toBe(false)
+    // Es una fuente variable: los cinco pesos salen del mismo archivo, que es lo único
+    // que se precarga.
+    expect(familyWeights('Montserrat')).toEqual(['400', '500', '600', '700', '800'])
+  })
+
+  it('solo se precarga Montserrat; ni Nunito ni Fredoka se cargan ya', () => {
     const preloaded = calls
       .filter(({ options }) => options.preload !== false)
-      .map(({ family, options }) => `${family} ${weights(options).join(',')}`)
-
-    expect(preloaded.sort()).toEqual(['Fredoka 600', 'Nunito 400'])
-  })
-
-  it('Nunito trae 400 a 800: texto, controles, chips, negritas y cantidades', () => {
-    expect(familyWeights('Nunito')).toEqual(['400', '500', '600', '700', '800'])
-  })
-
-  it('Fredoka trae solo los pesos de la escala de DESIGN.md: 500 y 600', () => {
-    expect(familyWeights('Fredoka')).toEqual(['500', '600'])
+      .map(({ family }) => family)
+    expect(preloaded).toEqual(['Montserrat'])
+    expect(calls.map(({ family }) => family).sort()).toEqual(['Lilita One', 'Montserrat'])
   })
 
   it('Lilita One trae solo el 400, sin precargar', () => {
