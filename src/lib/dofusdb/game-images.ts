@@ -202,7 +202,8 @@ function fightMonsters(blocks: BodyBlock[] | null | undefined): number[] {
 /**
  * Lo que pinta alguna página: los objetos de las recompensas y requisitos de las misiones,
  * los de las recompensas de los logros y los que piden las guías en su resumen, y los
- * monstruos de los requisitos de las misiones y de los combates de las guías. Solo esos: el catálogo entero son decenas de miles de objetos.
+ * monstruos de los requisitos de las misiones, de los combates de las guías y los que
+ * representan a un metalogro. Solo esos: el catálogo entero son decenas de miles de objetos.
  */
 export async function gameImageTargets(
   payload: Payload,
@@ -230,6 +231,20 @@ export async function gameImageTargets(
   })
   for (const achievement of achievements.docs) {
     for (const id of relationIds(achievement.rewards?.items, 'item')) items.add(id)
+  }
+  // El representante de un metalogro puede ser un monstruo: su imagen es el arte del índice.
+  const groups = await payload.find({
+    collection: 'achievement-groups',
+    pagination: false,
+    depth: 0,
+    draft: true,
+    select: { representative: true },
+    overrideAccess: true,
+  })
+  for (const group of groups.docs) {
+    const chosen = group.representative
+    if (chosen?.relationTo !== 'monsters') continue
+    monsters.add(typeof chosen.value === 'number' ? chosen.value : chosen.value.id)
   }
   const guides = await payload.find({
     collection: 'quest-guides',

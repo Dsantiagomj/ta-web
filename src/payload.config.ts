@@ -7,6 +7,8 @@ import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
 import { AchievementCategories } from './collections/AchievementCategories'
+import { AchievementGroups } from './collections/AchievementGroups'
+import { AchievementPages } from './collections/AchievementPages'
 import { Achievements } from './collections/Achievements'
 import { Items } from './collections/Items'
 import { Media } from './collections/Media'
@@ -15,6 +17,7 @@ import { Npcs } from './collections/Npcs'
 import { QuestGuides } from './collections/QuestGuides'
 import { Quests } from './collections/Quests'
 import { Users } from './collections/Users'
+import { dofusDbValuesEndpoint } from './endpoints/dofusdb-values'
 import { healthEndpoint } from './endpoints/health'
 import { searchIndexEndpoint } from './endpoints/search-index'
 import { resolveDatabaseUrl, shouldPushSchema } from './lib/db/database-url'
@@ -40,11 +43,14 @@ export default buildConfig({
     AchievementCategories,
     Achievements,
     QuestGuides,
+    AchievementPages,
+    AchievementGroups,
   ],
   editor: lexicalEditor(),
   // GET /api/health, para los smoke tests tras un despliegue; GET /api/search/guides, el
   // índice de la búsqueda de la cabecera.
-  endpoints: [healthEndpoint, searchIndexEndpoint],
+  // GET /api/dofusdb-values/…, lo que da DofusDB para las notas del panel de logros.
+  endpoints: [healthEndpoint, searchIndexEndpoint, dofusDbValuesEndpoint],
   // Panel en español.
   i18n: {
     fallbackLanguage: 'es',

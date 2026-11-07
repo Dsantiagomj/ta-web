@@ -1,4 +1,4 @@
-import type { Access, CollectionConfig, Field } from 'payload'
+import type { CollectionConfig, Field } from 'payload'
 
 import { CalloutBlock } from '../blocks/CalloutBlock'
 import { FightBlock } from '../blocks/FightBlock'
@@ -11,12 +11,14 @@ import { guidePreviewUrl, previewOrigin } from '../lib/guides/preview'
 import { isReservedSlug, isSlugFormat } from '../lib/guides/slug'
 import { guideStrings } from '../lib/guides/strings'
 import type { FillableField, NotedField } from '../lib/guides/summary'
+import { isPanelUser, readPublishedOrAll } from './editorial-access'
 import { validateOptionalUrl } from './Media'
 import { fillFromQuest } from './quest-guide-autofill'
 import {
   revalidateGuidePagesAfterChange,
   revalidateGuidePagesAfterDelete,
 } from './revalidate-guides'
+import { rejectSharedSlug } from './root-slug'
 
 /**
  * Slug plano en ASCII: minúsculas, cifras y guiones sueltos, sin guiones en los extremos.
@@ -132,13 +134,6 @@ const summaryFields: Field[] = [
   { name: 'startY', label: 'Y de inicio', type: 'number', admin: summaryAdmin('startY') },
 ]
 
-// Las cuentas del panel son las únicas sesiones de Payload: los miembros usan Better Auth.
-const isPanelUser: Access = ({ req: { user } }) => Boolean(user)
-
-// Torre ve todo desde el panel, borradores incluidos; el resto solo ve lo publicado.
-const readPublishedOrAll: Access = ({ req: { user } }) =>
-  user ? true : { _status: { equals: 'published' } }
-
 export const questGuidesAccess = {
   read: readPublishedOrAll,
   create: isPanelUser,
@@ -166,7 +161,8 @@ export const QuestGuides: CollectionConfig = {
   access: questGuidesAccess,
   versions: { drafts: true, maxPerDoc: 50 },
   hooks: {
-    beforeValidate: [fillFromQuest],
+    // Primero el slug sale de la misión; luego no puede ser el de un logro o un metalogro.
+    beforeValidate: [fillFromQuest, rejectSharedSlug('quest-guides')],
     // Borradores incluidos: es barato y cubre despublicar.
     afterChange: [revalidateGuidePagesAfterChange],
     afterDelete: [revalidateGuidePagesAfterDelete],
