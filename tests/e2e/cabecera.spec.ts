@@ -158,6 +158,21 @@ test.describe('cabecera a 1120px', () => {
   })
 })
 
+test.describe('cabecera en una pantalla baja', () => {
+  test.use({ viewport: { width: 1440, height: 560 } })
+
+  test('el panel no pasa del borde inferior y se desplaza por dentro', async ({ page }) => {
+    await open(page)
+    await page.getByRole('button', { name: 'Dofus', exact: true }).click()
+    const panel = page.locator('#menu-dofus')
+    const box = (await panel.boundingBox())!
+    expect(box.y + box.height).toBeLessThanOrEqual(560)
+    const last = panel.getByRole('link', { name: 'Dofus Abisal' })
+    await last.scrollIntoViewIfNeeded()
+    await expect(last).toBeInViewport()
+  })
+})
+
 test.describe('cabecera en el móvil', () => {
   test.use({ viewport: { width: 390, height: 844 } })
 

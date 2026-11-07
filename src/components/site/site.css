@@ -295,7 +295,10 @@ html {
   display: grid;
   grid-template-columns: 236px minmax(0, 1fr);
   width: min(var(--panel-w), calc(100vw - 280px));
-  overflow: hidden;
+  /* En una pantalla baja el panel se desplaza por dentro: la cabecera no se mueve. */
+  max-height: calc(100dvh - 64px - 30px);
+  overflow: hidden auto;
+  overscroll-behavior: contain;
   border: 1px solid color-mix(in srgb, var(--color-section) 35%, var(--color-well-line));
   border-radius: var(--radius-lg);
   background: var(--color-surface);
@@ -313,7 +316,24 @@ html {
   left: auto;
   width: 100%;
   max-width: var(--panel-w);
+  max-height: none;
   animation: none !important;
+}
+
+/* El panel del catálogo, en una pantalla estrecha: la ficha encima del arte. */
+@media (max-width: 47.99rem) {
+  .panel.panel--static {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .panel.panel--static .panel__tile {
+    border-right: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-section) 22%, var(--color-line));
+  }
+
+  .panel.panel--static .art-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {
