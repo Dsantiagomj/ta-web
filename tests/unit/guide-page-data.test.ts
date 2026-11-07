@@ -119,15 +119,18 @@ describe('questHeaderProps', () => {
     },
   }
 
-  it('el subtítulo: zona, nivel y la posición en el logro, con su enlace', () => {
+  it('el subtítulo: zona, nivel y «Misión 2 de 3», sin el nombre del logro', () => {
     expect(questHeaderProps(withData, []).meta).toEqual({
       zone: 'Astrub',
       level: 20,
-      achievement: {
-        name: 'La ocasión hace al ladrón',
-        href: 'https://www.torrentearcano.com/la-ocasion-hace-al-ladron',
-        position: 2,
-      },
+      achievement: { position: 2, total: 3 },
+    })
+  })
+
+  it('con página de logro, la posición y el total salen de sus misiones', () => {
+    // Un ciudadano modelo: DofusDB cuenta 24 misiones; la página, 6 (la de clase es una).
+    expect(questHeaderProps(withData, [], null, { position: 4, total: 6 }).meta).toMatchObject({
+      achievement: { position: 4, total: 6 },
     })
   })
 

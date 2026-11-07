@@ -45,12 +45,15 @@ export const revalidateGuidePagesAfterDelete: CollectionAfterDeleteHook = ({ doc
   return doc
 }
 
+// Una página de logro o un metalogro salen también en las guías: sus migas y «Misión 2 de 3».
 export const revalidateAchievementPagesAfterChange: CollectionAfterChangeHook = ({ doc }) => {
   revalidateAchievementPages()
+  revalidateGuidePages()
   return doc
 }
 
 export const revalidateAchievementPagesAfterDelete: CollectionAfterDeleteHook = ({ doc }) => {
   revalidateAchievementPages()
+  revalidateGuidePages()
   return doc
 }
