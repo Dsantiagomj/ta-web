@@ -151,6 +151,21 @@ test.describe('cabecera', () => {
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(seedGuide.title)
   })
 
+  test('al abrirse, antes de escribir, dice que las misiones están cargando', async ({ page }) => {
+    let release = () => {}
+    const held = new Promise<void>((resolve) => (release = resolve))
+    await page.route(`**${INDEX}`, async (route) => {
+      await held
+      await route.continue()
+    })
+    await open(page)
+    await page.keyboard.press('Control+k')
+    const status = page.getByRole('dialog', { name: 'Buscar en el sitio' }).getByRole('status')
+    await expect(status).toHaveText('Cargando las misiones…')
+    release()
+    await expect(status).toHaveText('')
+  })
+
   test('si el índice no carga, lo dice y lo reintenta al abrir otra vez', async ({ page }) => {
     await page.route(`**${INDEX}`, (route) => route.abort())
     await open(page)

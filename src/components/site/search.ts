@@ -1,10 +1,15 @@
+// La búsqueda de la cabecera (DESIGN.md, Layout: Search): en el menú y en las guías de
+// misiones, y la línea de estado. La isla de la cabecera carga este módulo con import() la
+// primera vez que se abre la búsqueda, a la vez que el índice de las guías: así no pesa en
+// el JavaScript inicial de las páginas de guía (150 KB).
+
 import { GAME_ICONS } from '@/components/game/game-icons'
-import type { GuideSearchIndex } from '@/lib/search/guide-index'
+import { GUIDE_SEARCH_INDEX_URL, type GuideSearchIndex } from '@/lib/search/guide-index'
 
 import type { SearchEntry, SearchType } from './nav'
-import { siteShellStrings } from './strings'
+import { searchResultStrings } from './search-result-strings'
 
-const s = siteShellStrings.searchDialog
+const s = searchResultStrings
 
 export interface SearchGroup {
   type: SearchType
@@ -18,9 +23,6 @@ export interface SearchResults {
   /** Las misiones que encajan, se vean o no. */
   questTotal: number
 }
-
-/** Las misiones que se ven a la vez: el resto se cuenta en la línea de estado. */
-export const QUEST_RESULTS_LIMIT = 10
 
 const ORDER: SearchType[] = ['seccion', 'dofus', 'checklist', 'clase', 'mazmorra']
 
@@ -45,6 +47,16 @@ export function searchNav(index: SearchEntry[], query: string): SearchGroup[] {
   return ORDER.map((type) => ({ type, items: found.filter((e) => e.type === type) })).filter(
     (group) => group.items.length > 0,
   )
+}
+
+/** Las misiones que se ven a la vez: el resto se cuenta en la línea de estado. */
+export const QUEST_RESULTS_LIMIT = 10
+
+/** Pide el índice de las guías publicadas y lo convierte en entradas de la búsqueda. */
+export async function loadQuestEntries(): Promise<SearchEntry[]> {
+  const response = await fetch(GUIDE_SEARCH_INDEX_URL)
+  if (!response.ok) throw new Error(`HTTP ${response.status}`)
+  return questEntries((await response.json()) as GuideSearchIndex)
 }
 
 /** Las guías del índice del servidor como entradas de la búsqueda, con su segunda línea. */
@@ -127,30 +139,35 @@ export function searchSite(
 
 export type GuidesState = 'idle' | 'loading' | 'ready' | 'error'
 
-/** La línea de estado del diálogo (role="status"): cuántos hay, si cargan las misiones o si fallaron. */
+/**
+ * La línea de estado del diálogo (role="status"): cuántos hay y la nota de la isla, que
+ * dice si las misiones cargan o fallaron (sus textos están en search-strings.ts, que solo
+ * importa la isla). Mientras cargan, la nota sale también antes de escribir nada
+ * (DESIGN.md, Search) y nunca dice «nada se llama».
+ */
 export function searchStatus({
   query,
   found,
   questTotal,
+  questShown,
   guides,
+  note,
 }: {
   query: string
   found: number
   questTotal: number
+  /** Las misiones que se ven: si son menos que questTotal, lo dice. */
+  questShown: number
   guides: GuidesState
+  /** «Cargando las misiones…» o el error, o nada. */
+  note: string
 }): string {
   const q = query.trim()
-  const failed = guides === 'error' ? s.guidesError : ''
-  if (!q) return failed
-  const loading = guides === 'loading' || guides === 'idle'
+  if (!q) return note
+  const pending = guides === 'loading' || guides === 'idle'
   const parts = [
-    found > 0 ? s.found(found) : loading ? '' : s.none(q),
-    loading
-      ? s.guidesLoading
-      : questTotal > QUEST_RESULTS_LIMIT
-        ? s.moreQuests(QUEST_RESULTS_LIMIT, questTotal)
-        : '',
-    failed,
+    found > 0 ? s.found(found) : pending ? '' : s.none(q),
+    note || (questTotal > questShown ? s.moreQuests(questShown, questTotal) : ''),
   ].filter(Boolean)
   return parts
     .map((part, i) => (i < parts.length - 1 && !/[.…]$/.test(part) ? `${part}.` : part))

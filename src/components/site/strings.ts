@@ -1,4 +1,4 @@
-import type { SearchType, SectionKey } from './nav'
+import type { SectionKey } from './nav'
 
 // Los textos de la cabecera y el pie del sitio (AGENTS.md, Language).
 export const siteShellStrings = {
@@ -124,29 +124,6 @@ export const siteShellStrings = {
   sheet: {
     dofusTitle: 'Dofus y checklists',
     dofusBlurb: ['Las ', ' guías de Dofus y los checklists para conseguirlos.'] as const,
-  },
-  searchDialog: {
-    label: 'Buscar en el sitio',
-    input: 'Buscar una misión, un Dofus, una clase, una mazmorra o un checklist',
-    placeholder: 'Busca una misión, un Dofus o una clase',
-    close: 'Esc',
-    goTo: 'Ir a',
-    none: (q: string) => `Nada se llama «${q}». Prueba con el nombre tal como sale en el juego.`,
-    found: (n: number) => (n === 1 ? '1 resultado' : `${n} resultados`),
-    moreQuests: (shown: number, total: number) =>
-      `Se ven las ${shown} primeras misiones de ${total}: escribe más para afinar.`,
-    guidesLoading: 'Cargando las misiones…',
-    guidesError:
-      'No se pudieron cargar las misiones. Cierra la búsqueda y ábrela otra vez para reintentarlo.',
-    level: (level: number) => `Nivel ${level}`,
-    types: {
-      mision: 'Misiones',
-      seccion: 'Secciones',
-      dofus: 'Dofus',
-      checklist: 'Checklists',
-      clase: 'Clases',
-      mazmorra: 'Mazmorras',
-    } satisfies Record<SearchType, string>,
   },
   footer: {
     torre: 'Torre',

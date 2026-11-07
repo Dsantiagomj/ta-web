@@ -1,13 +1,16 @@
+import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 
 import { GAME_ICONS } from '@/components/game/game-icons'
 import { searchIndex } from '@/components/site/nav'
 import {
+  type GuidesState,
   QUEST_RESULTS_LIMIT,
   questEntries,
   searchSite,
   searchStatus,
 } from '@/components/site/search'
+import { searchDialogStrings } from '@/components/site/search-strings'
 import type { GuideSearchIndex } from '@/lib/search/guide-index'
 
 const index = searchIndex()
@@ -114,44 +117,84 @@ describe('la búsqueda de la cabecera', () => {
 })
 
 describe('la línea de estado de la búsqueda', () => {
-  const base = { query: 'pies', found: 3, questTotal: 3, guides: 'ready' as const }
+  const base = {
+    query: 'pies',
+    found: 3,
+    questTotal: 3,
+    questShown: 3,
+    guides: 'ready' as GuidesState,
+  }
+  // La nota de carga o de error la pone la isla, que tiene esos textos (search-strings.ts).
+  const status = (args: typeof base) =>
+    searchStatus({
+      ...args,
+      note:
+        args.guides === 'loading'
+          ? searchDialogStrings.guidesLoading
+          : args.guides === 'error'
+            ? searchDialogStrings.guidesError
+            : '',
+    })
 
-  it('sin texto no dice nada, salvo que las misiones no cargaran', () => {
-    expect(searchStatus({ ...base, query: ' ' })).toBe('')
-    expect(searchStatus({ ...base, query: '', guides: 'error' })).toBe(
+  it('sin texto no dice nada, salvo que las misiones estén cargando o no cargaran', () => {
+    expect(status({ ...base, query: ' ' })).toBe('')
+    expect(status({ ...base, query: '', guides: 'idle' })).toBe('')
+    // Al abrir la búsqueda, antes de escribir, ya se ve que las misiones vienen en camino.
+    expect(status({ ...base, query: '', guides: 'loading' })).toBe('Cargando las misiones…')
+    expect(status({ ...base, query: '', guides: 'error' })).toBe(
       'No se pudieron cargar las misiones. Cierra la búsqueda y ábrela otra vez para reintentarlo.',
     )
   })
 
   it('cuenta los resultados', () => {
-    expect(searchStatus(base)).toBe('3 resultados')
-    expect(searchStatus({ ...base, found: 1, questTotal: 1 })).toBe('1 resultado')
+    expect(status(base)).toBe('3 resultados')
+    expect(status({ ...base, found: 1, questTotal: 1 })).toBe('1 resultado')
   })
 
   it('avisa de que hay más misiones de las que se ven', () => {
-    expect(searchStatus({ ...base, found: 40, questTotal: 37 })).toBe(
+    expect(status({ ...base, found: 40, questTotal: 37, questShown: QUEST_RESULTS_LIMIT })).toBe(
       `40 resultados. Se ven las ${QUEST_RESULTS_LIMIT} primeras misiones de 37: escribe más para afinar.`,
     )
   })
 
   it('mientras cargan las misiones, lo dice en vez de «nada se llama»', () => {
-    expect(searchStatus({ ...base, found: 0, questTotal: 0, guides: 'loading' })).toBe(
+    expect(status({ ...base, found: 0, questTotal: 0, guides: 'loading' })).toBe(
       'Cargando las misiones…',
     )
-    expect(searchStatus({ ...base, found: 2, questTotal: 0, guides: 'loading' })).toBe(
+    expect(status({ ...base, found: 2, questTotal: 0, guides: 'loading' })).toBe(
       '2 resultados. Cargando las misiones…',
     )
   })
 
   it('sin resultados sugiere escribir el nombre del juego', () => {
-    expect(searchStatus({ ...base, found: 0, questTotal: 0 })).toBe(
+    expect(status({ ...base, found: 0, questTotal: 0 })).toBe(
       'Nada se llama «pies». Prueba con el nombre tal como sale en el juego.',
     )
   })
 
   it('si las misiones no cargaron, lo dice tras lo que encontró en el menú', () => {
-    expect(searchStatus({ ...base, found: 1, questTotal: 0, guides: 'error' })).toBe(
+    expect(status({ ...base, found: 1, questTotal: 0, guides: 'error' })).toBe(
       '1 resultado. No se pudieron cargar las misiones. Cierra la búsqueda y ábrela otra vez para reintentarlo.',
     )
+  })
+})
+
+describe('el peso de la isla de la cabecera', () => {
+  const read = (file: string) => readFileSync(`src/components/site/${file}`, 'utf8')
+  const island = read('HeaderIsland.tsx')
+
+  it('la búsqueda y sus resultados llegan con import() al abrir el diálogo', () => {
+    expect(island).toMatch(/import\('\.\/SearchList'\)/)
+    // Solo tipos: un import de valor los metería en el JavaScript inicial de cada página.
+    expect(island).not.toMatch(/^import (?!type )[^\n]*from '\.\/(search|SearchList|StaticImg)'/m)
+    expect(island).not.toMatch(/from '@\/(components\/game\/game-icons|lib\/search\/guide-index)'/)
+  })
+
+  it('la isla y lo que carga después no comparten módulos de textos ni de iconos', () => {
+    // Un módulo que usan los dos chunks se descarga entero con la isla.
+    expect(island).not.toMatch(/from '\.\/(strings|search-result-strings)'/)
+    for (const file of ['search.ts', 'SearchList.tsx']) {
+      expect(read(file), file).not.toMatch(/from '\.\/(strings|search-strings|icons)'/)
+    }
   })
 })
