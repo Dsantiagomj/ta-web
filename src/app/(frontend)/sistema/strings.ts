@@ -18,6 +18,7 @@ export const catalogStrings = {
   section: (theme: string, mode: string) => `${theme} · ${mode}`,
   groups: {
     brand: 'Marca',
+    site: 'Cabecera y pie del sitio',
     buttons: 'Botones',
     chips: 'Chips y etiquetas',
     callouts: 'Avisos',
@@ -38,7 +39,8 @@ export const catalogStrings = {
   },
   notes: {
     brand:
-      'El emblema a 16, 30, 36 y 64 px; a 16 px, la versión simplificada. Toma los colores del tema y el modo de la sección.',
+      'El emblema a 16, 30, 36 y 64 px; a 16 px, la versión simplificada. Después, el logo Sello de la cabecera y del pie: pasa el ratón y el sombrero se inclina. Toma los colores del tema y el modo de la sección.',
+    site: 'El panel de Dofus y checklists del menú, abierto y quieto, y el pie del sitio.',
     torre: 'El consejo de una guía: Torre hablando, con su avatar y un bocadillo.',
     header:
       'Seis pies bajo tierra, con el PNJ, el logro, el rango de XP y la bolsa de objetos (púlsala); Intoxicación profunda, sin PNJ ni logro y con un objeto sin icono.',
@@ -54,6 +56,7 @@ export const catalogStrings = {
   },
   demo: {
     brand: 'Torrente Arcano',
+    siteCounts: { guides: 1272, achievements: 274 },
     primary: 'Entrar',
     copy: 'Copiar',
     secondary: 'Ver la guía',

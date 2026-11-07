@@ -1,0 +1,97 @@
+/*
+ * El logo «Sello» (DESIGN.md, Brand): emblema a la izquierda y el nombre apretado en dos
+ * líneas. El emblema mide 36px en la cabecera de escritorio y 30px por debajo de 768px.
+ */
+.lockup {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+.lockup__emblem {
+  width: 30px;
+  height: 30px;
+}
+
+.lockup__word {
+  display: grid;
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 0.98;
+  white-space: nowrap;
+}
+
+.lockup__acc {
+  color: var(--color-accent);
+}
+
+@media (min-width: 48rem) {
+  .lockup {
+    gap: 10px;
+  }
+
+  .lockup--header .lockup__emblem {
+    width: 36px;
+    height: 36px;
+  }
+
+  .lockup--header .lockup__word {
+    font-size: 1.0625rem;
+  }
+}
+
+.lockup--footer .lockup__emblem {
+  width: 32px;
+  height: 32px;
+}
+
+.lockup--footer .lockup__word {
+  font-size: 1.125rem;
+}
+
+/* El sombrero se inclina y los ojos parpadean al pasar el ratón o con el foco del teclado;
+   con el dedo, no (el hover se queda pegado en las pantallas táctiles). */
+.lockup [data-part='hat'],
+.lockup [data-part='glyph'] {
+  transform-box: view-box;
+  transform-origin: 32px 37px;
+  transition: transform 420ms var(--ease-out);
+}
+
+.lockup [data-part='eyes'] {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lockup:focus-visible [data-part='hat'],
+  .lockup:focus-visible [data-part='glyph'] {
+    transform: rotate(-9deg) translateY(-1px);
+  }
+
+  .lockup:focus-visible [data-part='eyes'] {
+    animation: lockup-blink 360ms ease 1;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .lockup:hover [data-part='hat'],
+  .lockup:hover [data-part='glyph'] {
+    transform: rotate(-9deg) translateY(-1px);
+  }
+
+  .lockup:hover [data-part='eyes'] {
+    animation: lockup-blink 360ms ease 1;
+  }
+}
+
+@keyframes lockup-blink {
+  40% {
+    transform: scaleY(0.1);
+  }
+}

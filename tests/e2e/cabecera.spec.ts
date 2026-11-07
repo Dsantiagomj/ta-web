@@ -1,0 +1,350 @@
+import AxeBuilder from '@axe-core/playwright'
+import { expect, test, type Page } from '@playwright/test'
+
+import { MODES } from '../../src/lib/theme/theme.ts'
+import { seedGuide } from './seed/guides.ts'
+
+// La cabecera y el pie de todo el sitio (DESIGN.md, Layout: Header y Footer).
+
+const url = `/${seedGuide.slug}`
+const WCAG = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']
+
+/** Espera a la isla de la cabecera: sin ella, los atajos de teclado no hacen nada. */
+async function open(page: Page) {
+  await page.goto(url)
+  await expect(page.locator('[data-site-header][data-ready]')).toHaveCount(1)
+}
+
+async function axe(page: Page, selector: string) {
+  const results = await new AxeBuilder({ page }).include(selector).withTags(WCAG).analyze()
+  return results.violations.map(({ id, nodes }) => ({ id, targets: nodes.map((n) => n.target) }))
+}
+
+test.describe('cabecera', () => {
+  test.use({ viewport: { width: 1440, height: 900 } })
+
+  test('tiene un desplegable por sección y Dofus trae también los checklists', async ({ page }) => {
+    await open(page)
+    const nav = page.getByRole('navigation', { name: 'Principal' })
+    for (const name of ['Misiones', 'Dofus', 'Clases', 'Mazmorras']) {
+      await expect(nav.getByRole('button', { name, exact: true })).toBeVisible()
+    }
+    await expect(nav.getByRole('button', { name: 'Checklists' })).toHaveCount(0)
+
+    const dofus = nav.getByRole('button', { name: 'Dofus', exact: true })
+    await dofus.click()
+    await expect(dofus).toHaveAttribute('aria-expanded', 'true')
+    const panel = page.locator('#menu-dofus')
+    await expect(panel.getByRole('link', { name: /Dofus Silvestre/ })).toBeVisible()
+    await expect(panel.getByRole('link', { name: 'Dofus Ébano' })).toBeVisible()
+    await expect(panel.getByRole('listitem')).toHaveCount(3 + 19)
+    // Las imágenes del juego cargan.
+    for (const img of await panel.locator('img').all()) {
+      await expect
+        .poll(() => img.evaluate((node: HTMLImageElement) => node.complete && node.naturalWidth))
+        .toBeGreaterThan(0)
+    }
+
+    // Esc lo cierra y el foco vuelve a su botón.
+    await page.keyboard.press('Escape')
+    await expect(panel).toBeHidden()
+    await expect(dofus).toBeFocused()
+
+    // Abrir otro cierra el anterior; un clic fuera los cierra todos.
+    await dofus.click()
+    await nav.getByRole('button', { name: 'Clases' }).click()
+    await expect(panel).toBeHidden()
+    await expect(page.locator('#menu-clases').getByRole('link')).toHaveCount(19 + 1)
+    await page.mouse.click(1300, 700)
+    await expect(page.locator('#menu-clases')).toBeHidden()
+  })
+
+  test('con el teclado: Tab entra al panel y salir con Tab lo cierra', async ({ page }) => {
+    await open(page)
+    const button = page.getByRole('button', { name: 'Mazmorras' })
+    await button.focus()
+    await page.keyboard.press('Enter')
+    await expect(page.locator('#menu-mazmorras')).toBeVisible()
+    for (let i = 0; i < 12; i++) await page.keyboard.press('Tab')
+    await expect(page.locator('#menu-mazmorras')).toBeHidden()
+  })
+
+  test('las flechas recorren los enlaces del panel abierto', async ({ page }) => {
+    await open(page)
+    const button = page.getByRole('button', { name: 'Clases' })
+    await button.focus()
+    await page.keyboard.press('Enter')
+    const links = page.locator('#menu-clases a')
+    await page.keyboard.press('ArrowDown')
+    await expect(links.nth(0)).toBeFocused()
+    await page.keyboard.press('ArrowDown')
+    await expect(links.nth(1)).toBeFocused()
+    await page.keyboard.press('ArrowUp')
+    await expect(links.nth(0)).toBeFocused()
+    await page.keyboard.press('End')
+    await expect(links.last()).toBeFocused()
+    await page.keyboard.press('Home')
+    await expect(links.nth(0)).toBeFocused()
+  })
+
+  test('Ctrl K abre la búsqueda, encuentra sin tildes y Esc la cierra', async ({ page }) => {
+    await open(page)
+    await page.keyboard.press('Control+k')
+    const dialog = page.getByRole('dialog', { name: 'Buscar en el sitio' })
+    await expect(dialog).toBeVisible()
+    await expect(dialog.getByRole('searchbox')).toBeFocused()
+    await page.keyboard.type('ebano')
+    await expect(dialog.getByRole('status')).toHaveText('1 resultado')
+    await expect(dialog.getByRole('link', { name: 'Dofus Ébano' })).toBeVisible()
+    await page.keyboard.press('ArrowDown')
+    await expect(dialog.getByRole('link', { name: 'Dofus Ébano' })).toBeFocused()
+    await page.keyboard.press('Escape')
+    await expect(dialog).toBeHidden()
+  })
+
+  test('la búsqueda abierta desde el panel de Misiones devuelve el foco a su botón', async ({
+    page,
+  }) => {
+    await open(page)
+    const misiones = page.getByRole('button', { name: 'Misiones', exact: true })
+    await misiones.click()
+    await page
+      .locator('#menu-misiones')
+      .getByRole('button', { name: /Buscar una sección/ })
+      .click()
+    const search = page.getByRole('dialog', { name: 'Buscar en el sitio' })
+    await expect(search).toBeVisible()
+    await expect(page.locator('#menu-misiones')).toBeHidden()
+    await page.keyboard.press('Escape')
+    await expect(search).toBeHidden()
+    await expect(misiones).toBeFocused()
+  })
+
+  test('los atajos de la búsqueda no abren nada con otro diálogo abierto', async ({ page }) => {
+    await open(page)
+    const link = page.getByRole('link', { name: /^Ver imagen a pantalla completa/ }).first()
+    await link.scrollIntoViewIfNeeded()
+    await link.click()
+    const viewer = page.getByRole('dialog', { name: 'Imagen a pantalla completa' })
+    await expect(viewer).toBeVisible()
+    await page.keyboard.press('/')
+    await page.keyboard.press('Control+k')
+    await expect(page.getByRole('dialog', { name: 'Buscar en el sitio' })).toBeHidden()
+    await expect(viewer).toBeVisible()
+  })
+
+  test('la cabecera se vuelve opaca al bajar la página', async ({ page }) => {
+    await open(page)
+    const header = page.locator('header.site-hdr')
+    await expect(header).not.toHaveClass(/is-scrolled/)
+    await page.mouse.wheel(0, 800)
+    await expect(header).toHaveClass(/is-scrolled/)
+  })
+
+  for (const mode of MODES) {
+    test(`la cabecera abierta y el pie pasan axe en Arcano ${mode}`, async ({
+      page,
+      context,
+      baseURL,
+    }) => {
+      await context.addCookies([{ name: 'ta-mode', value: mode, url: baseURL! }])
+      await open(page)
+      await page.getByRole('button', { name: 'Dofus', exact: true }).click()
+      expect(await axe(page, 'body > header')).toEqual([])
+      expect(await axe(page, 'body > footer')).toEqual([])
+    })
+  }
+})
+
+test.describe('cabecera a 1120px', () => {
+  test.use({ viewport: { width: 1120, height: 800 } })
+
+  test('ningún panel se sale de la pantalla', async ({ page }) => {
+    await open(page)
+    for (const key of ['misiones', 'dofus', 'clases', 'mazmorras']) {
+      await page.locator(`.np[aria-controls="menu-${key}"]`).click()
+      const box = (await page.locator(`#menu-${key}`).boundingBox())!
+      expect(box.x, key).toBeGreaterThanOrEqual(0)
+      expect(box.x + box.width, key).toBeLessThanOrEqual(1120)
+      await page.keyboard.press('Escape')
+    }
+  })
+})
+
+test.describe('cabecera en una pantalla baja', () => {
+  test.use({ viewport: { width: 1440, height: 560 } })
+
+  test('el panel no pasa del borde inferior y se desplaza por dentro', async ({ page }) => {
+    await open(page)
+    await page.getByRole('button', { name: 'Dofus', exact: true }).click()
+    const panel = page.locator('#menu-dofus')
+    const box = (await panel.boundingBox())!
+    expect(box.y + box.height).toBeLessThanOrEqual(560)
+    const last = panel.getByRole('link', { name: 'Dofus Abisal' })
+    await last.scrollIntoViewIfNeeded()
+    await expect(last).toBeInViewport()
+  })
+})
+
+test.describe('cabecera en el móvil', () => {
+  test.use({ viewport: { width: 390, height: 844 } })
+
+  test('la hamburguesa abre el menú con las secciones, que se abren de una en una', async ({
+    page,
+  }) => {
+    await open(page)
+    const burger = page.getByRole('button', { name: 'Menú' })
+    await burger.click()
+    const sheet = page.getByRole('dialog', { name: 'Menú' })
+    await expect(sheet).toBeVisible()
+    const dofus = sheet.getByRole('button', { name: /Dofus y checklists/ })
+    await expect(dofus).toHaveAttribute('aria-expanded', 'false')
+    await dofus.click()
+    await expect(dofus).toHaveAttribute('aria-expanded', 'true')
+    await expect(sheet.getByRole('link', { name: /Almas del Ocre/ })).toBeVisible()
+    await expect(sheet.getByRole('link', { name: 'Dofus Abisal' })).toBeVisible()
+    expect(await axe(page, '#site-sheet')).toEqual([])
+
+    await page.keyboard.press('Escape')
+    await expect(sheet).toBeHidden()
+    await expect(burger).toBeFocused()
+  })
+
+  test('la búsqueda abierta desde el menú devuelve el foco a la hamburguesa', async ({ page }) => {
+    await open(page)
+    const burger = page.getByRole('button', { name: 'Menú' })
+    await burger.click()
+    await page
+      .getByRole('dialog', { name: 'Menú' })
+      .getByRole('button', { name: /Buscar una sección/ })
+      .click()
+    const search = page.getByRole('dialog', { name: 'Buscar en el sitio' })
+    await expect(search).toBeVisible()
+    await expect(page.getByRole('dialog', { name: 'Menú' })).toBeHidden()
+    await page.keyboard.press('Escape')
+    await expect(search).toBeHidden()
+    await expect(burger).toBeFocused()
+  })
+
+  test('el logo del menú lleva a la portada y cierra el menú', async ({ page }) => {
+    await open(page)
+    await page.getByRole('button', { name: 'Menú' }).click()
+    const sheet = page.getByRole('dialog', { name: 'Menú' })
+    await sheet.getByRole('link', { name: 'Torrente Arcano' }).click()
+    await expect(page).toHaveURL(/\/$/)
+    await expect(sheet).toBeHidden()
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+  })
+
+  test('no hay desbordamiento horizontal, tampoco a 320px', async ({ page }) => {
+    await open(page)
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBe(0)
+    await page.setViewportSize({ width: 320, height: 640 })
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBe(0)
+    const bar = (await page.locator('.site-hdr__in').boundingBox())!
+    const burger = (await page.getByRole('button', { name: 'Menú' }).boundingBox())!
+    expect(burger.x + burger.width).toBeLessThanOrEqual(bar.x + bar.width + 1)
+  })
+})
+
+test.describe('cabecera a 320px con el dedo', () => {
+  test.use({ viewport: { width: 320, height: 640 }, hasTouch: true, isMobile: true })
+
+  test('los botones miden 44px y la barra no desborda', async ({ page }) => {
+    await open(page)
+    expect(await page.evaluate(() => matchMedia('(pointer: coarse)').matches)).toBe(true)
+    for (const name of ['Buscar (Ctrl K)', 'Menú']) {
+      const box = (await page.getByRole('button', { name, exact: true }).boundingBox())!
+      expect(box.width, name).toBeGreaterThanOrEqual(44)
+      expect(box.height, name).toBeGreaterThanOrEqual(44)
+    }
+    const bar = (await page.locator('.site-hdr__in').boundingBox())!
+    const burger = (await page.getByRole('button', { name: 'Menú' }).boundingBox())!
+    expect(burger.x + burger.width).toBeLessThanOrEqual(bar.x + bar.width + 1)
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBe(0)
+  })
+})
+
+test.describe('cabecera ancha con el dedo', () => {
+  test.use({ viewport: { width: 1440, height: 900 }, hasTouch: true, isMobile: true })
+
+  test('el botón Buscar y los del menú miden al menos 44px de alto', async ({ page }) => {
+    await open(page)
+    expect(await page.evaluate(() => matchMedia('(pointer: coarse)').matches)).toBe(true)
+    const search = page.locator('.spill')
+    await expect(search).toBeVisible()
+    expect((await search.boundingBox())!.height).toBeGreaterThanOrEqual(44)
+    const dofus = page.getByRole('button', { name: 'Dofus', exact: true })
+    expect((await dofus.boundingBox())!.height).toBeGreaterThanOrEqual(44)
+  })
+})
+
+test.describe('pie', () => {
+  test('Torre, Explorar, Comunidad y la banda legal, sin enlaces repetidos ni Instagram', async ({
+    page,
+  }) => {
+    await open(page)
+    const footer = page.getByRole('contentinfo')
+    await expect(footer.getByRole('heading', { name: 'Torre', exact: true })).toBeVisible()
+    const explore = footer.getByRole('navigation', { name: 'Explorar' })
+    await expect(explore.getByRole('link')).toHaveText([
+      'Misiones y logros',
+      'Dofus',
+      'Checklists',
+      'Clases',
+      'Mazmorras',
+    ])
+    await expect(footer.getByRole('link', { name: /Únete al Discord/ })).toHaveAttribute(
+      'href',
+      'https://discord.gg/wgCxwd7b3r',
+    )
+    await expect(footer.getByRole('link', { name: /Apoya en Ko-fi/ })).toHaveAttribute(
+      'href',
+      'https://ko-fi.com/torrentearcano',
+    )
+    for (const name of ['Twitch', 'Kick', 'YouTube']) {
+      await expect(footer.getByRole('link', { name: new RegExp(`^${name}`) })).toHaveCount(1)
+    }
+    await expect(footer.getByRole('link', { name: 'Aviso legal' })).toBeVisible()
+    await expect(footer).toContainText(`© ${new Date().getFullYear()} Torrente Arcano`)
+
+    const hrefs = await footer
+      .locator('a')
+      .evaluateAll((links) => links.map((a) => a.getAttribute('href')))
+    const external = hrefs.filter((h) => h && h !== '#' && h !== '/')
+    expect(new Set(external).size).toBe(external.length)
+    expect(hrefs.join(' ')).not.toMatch(/instagram/i)
+  })
+
+  test('ningún icono del juego se pinta más grande que su archivo', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await open(page)
+    for (const key of ['misiones', 'dofus', 'clases', 'mazmorras']) {
+      await page.locator(`.np[aria-controls="menu-${key}"]`).click()
+      const panel = page.locator(`#menu-${key}`)
+      for (const img of await panel.locator('img').all()) {
+        await expect
+          .poll(() => img.evaluate((node: HTMLImageElement) => node.complete && node.naturalWidth))
+          .toBeGreaterThan(0)
+      }
+      const sizes = await panel
+        .locator('img')
+        .evaluateAll((imgs) =>
+          (imgs as HTMLImageElement[]).map((img) => [img.clientWidth, img.naturalWidth, img.src]),
+        )
+      for (const [drawn, natural, src] of sizes) {
+        expect(drawn as number, src as string).toBeLessThanOrEqual(natural as number)
+      }
+      await page.keyboard.press('Escape')
+    }
+  })
+
+  test('la imagen de Torre carga', async ({ page }) => {
+    await open(page)
+    const face = page.locator('footer img.ft-torre__face')
+    await face.scrollIntoViewIfNeeded()
+    await expect
+      .poll(() => face.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth))
+      .toBeGreaterThan(0)
+  })
+})

@@ -61,7 +61,7 @@ export default async function QuestGuidePage({ params }: Props) {
   return (
     <div className="[--color-section:var(--color-sec-misiones)]">
       {preview && <PreviewBar slug={guide.slug} />}
-      <main className="quest">
+      <main id="contenido" className="quest">
         <article>
           <QuestHeader title={guide.title} data={questHeaderProps(guide, links, giver)} />
           {intro.length > 0 && (
