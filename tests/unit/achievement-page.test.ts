@@ -69,7 +69,10 @@ function data(overrides: Partial<AchievementPageData['page']> = {}): Achievement
       {
         questId: 3,
         slug: 'seis-pies-bajo-tierra',
-        needs: { notes: '1 x Combate (solo).\nPaciencia.' },
+        needs: {
+          notes: '1 x Combate (solo).\nPaciencia.',
+          items: [{ item: { id: 5, name: 'Pico de tofu', image: media(5, 'pico') }, quantity: 2 }],
+        },
       },
     ],
     givers: new Map([[30, { name: 'Hupe Esse', renderRight: media(30, 'hupe') }]]),
@@ -92,10 +95,11 @@ describe('achievementPageView', () => {
     ])
   })
 
-  it('necesitarás en total: suma las notas con cantidad de las guías publicadas', () => {
-    expect(view.facts.needs.notes).toEqual([
-      { quantity: 2, label: 'Combate (solo)', combat: true },
-      { label: 'Paciencia', combat: false },
+  it('necesitarás en total: suma lo que piden las guías publicadas, con cantidad', () => {
+    // «Paciencia.» es un comentario de una guía, no algo que reunir: no entra en el total.
+    expect(view.facts.needs.notes).toEqual([{ quantity: 2, label: 'Combate (solo)', combat: true }])
+    expect(view.facts.needs.items.map(({ item, quantity }) => [item.name, quantity])).toEqual([
+      ['Pico de tofu', 2],
     ])
   })
 

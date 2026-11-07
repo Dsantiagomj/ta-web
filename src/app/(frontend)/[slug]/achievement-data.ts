@@ -1,0 +1,48 @@
+import config from '@payload-config'
+import { unstable_cache } from 'next/cache'
+import { draftMode, headers } from 'next/headers'
+import { getPayload } from 'payload'
+import { cache } from 'react'
+
+import { ACHIEVEMENT_PAGES_REVALIDATE, ACHIEVEMENT_PAGES_TAG } from '@/lib/achievements/cache'
+import type { AchievementPageData } from '@/lib/achievements/page'
+import { readAchievementPage, type ReadAchievementOptions } from '@/lib/achievements/queries'
+import type { User } from '@/payload-types'
+
+/** El origen público del sitio, para el JSON-LD de las migas (el mismo que metadataBase). */
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000').replace(/\/+$/, '')
+
+// unstable_cache guarda JSON: los PNJ van como pares y se vuelven a juntar al leer.
+async function read(slug: string, options?: ReadAchievementOptions) {
+  const payload = await getPayload({ config })
+  const data = await readAchievementPage(payload, slug, options)
+  return data && { ...data, givers: [...data.givers] }
+}
+
+// Lo publicado, en caché con la etiqueta de las páginas de logro (src/lib/achievements/cache.ts).
+const readPublished = unstable_cache((slug: string) => read(slug), ['achievement-page'], {
+  tags: [ACHIEVEMENT_PAGES_TAG],
+  revalidate: ACHIEVEMENT_PAGES_REVALIDATE,
+})
+
+/**
+ * La página del logro, una vez por petición. Con el draft mode de Next y una sesión del
+ * panel, el último borrador y sin caché, también En preparación; sin sesión, lo publicado.
+ */
+export const loadAchievementPage = cache(
+  async (slug: string): Promise<(AchievementPageData & { preview: boolean }) | null> => {
+    let stored: Awaited<ReturnType<typeof read>> = null
+    let preview = false
+    if ((await draftMode()).isEnabled) {
+      const payload = await getPayload({ config })
+      const { user } = await payload.auth({ headers: await headers() })
+      if (user) {
+        stored = await read(slug, { preview: { user: user as User } })
+        preview = true
+      }
+    }
+    if (!preview) stored = await readPublished(slug)
+    if (!stored) return null
+    return { ...stored, givers: new Map(stored.givers), siteUrl: SITE_URL, preview }
+  },
+)
