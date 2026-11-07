@@ -131,6 +131,23 @@ describe('el refresco crea lo que falta', () => {
     })
   })
 
+  it('también en las categorías que cuelgan de otra, como hace el refresco', async () => {
+    const nested = await payload.create({
+      collection: 'achievement-categories',
+      data: { dofusId: 4501, name: 'Subzona de prueba', order: 1, parent: astrub.id },
+    })
+    await payload.create({
+      collection: 'achievements',
+      data: {
+        dofusId: 1673,
+        name: 'Logro de una subzona',
+        category: nested.id,
+        quests: [{ quests: [quests[0]!.id] }],
+      },
+    })
+    expect(await ensureAchievementPages(payload)).toEqual({ groups: 1, pages: 1 })
+  })
+
   it('repetido no crea ni cambia nada', async () => {
     expect(await ensureAchievementPages(payload)).toEqual({ groups: 0, pages: 0 })
   })
@@ -138,7 +155,12 @@ describe('el refresco crea lo que falta', () => {
 
 describe('lo de Torre manda', () => {
   async function page() {
-    return (await payload.find({ collection: 'achievement-pages', depth: 0 })).docs[0]!
+    const { docs } = await payload.find({
+      collection: 'achievement-pages',
+      where: { achievement: { equals: ocasion.id } },
+      depth: 0,
+    })
+    return docs[0]!
   }
 
   it('el panel cambia nombre, puntos y estado, y DofusDB no lo pisa', async () => {
