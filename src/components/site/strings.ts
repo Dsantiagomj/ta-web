@@ -107,8 +107,8 @@ export const siteShellStrings = {
               : ', ordenadas en sus '),
         achievements === 1 ? ' logro.' : ' logros.',
       ] as const,
-    misionesSearch: 'Buscar una sección',
-    misionesSearchHint: 'Un Dofus, una clase, una mazmorra o un checklist.',
+    misionesSearch: 'Buscar una misión',
+    misionesSearchHint: 'También un Dofus, una clase o una mazmorra.',
     misionesAll: 'Todos los metalogros',
     misionesAchievements: 'Todos los logros',
     dofusFeatured: 'Guías por Dofus',
@@ -127,13 +127,20 @@ export const siteShellStrings = {
   },
   searchDialog: {
     label: 'Buscar en el sitio',
-    input: 'Buscar un Dofus, una clase, una mazmorra o un checklist',
-    placeholder: 'Busca un Dofus, una clase o una mazmorra',
+    input: 'Buscar una misión, un Dofus, una clase, una mazmorra o un checklist',
+    placeholder: 'Busca una misión, un Dofus o una clase',
     close: 'Esc',
     goTo: 'Ir a',
     none: (q: string) => `Nada se llama «${q}». Prueba con el nombre tal como sale en el juego.`,
     found: (n: number) => (n === 1 ? '1 resultado' : `${n} resultados`),
+    moreQuests: (shown: number, total: number) =>
+      `Se ven las ${shown} primeras misiones de ${total}: escribe más para afinar.`,
+    guidesLoading: 'Cargando las misiones…',
+    guidesError:
+      'No se pudieron cargar las misiones. Cierra la búsqueda y ábrela otra vez para reintentarlo.',
+    level: (level: number) => `Nivel ${level}`,
     types: {
+      mision: 'Misiones',
       seccion: 'Secciones',
       dofus: 'Dofus',
       checklist: 'Checklists',

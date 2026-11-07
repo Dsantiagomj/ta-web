@@ -179,13 +179,15 @@ export const LEGAL_LINKS: NavLink[] = [
   { name: t.legal.privacy, href: legacyHref('politica-de-privacidad') },
 ]
 
-export type SearchType = 'seccion' | 'dofus' | 'checklist' | 'clase' | 'mazmorra'
+export type SearchType = 'mision' | 'seccion' | 'dofus' | 'checklist' | 'clase' | 'mazmorra'
 
 export interface SearchEntry {
   type: SearchType
   name: string
   href: string
   image?: GameImage
+  /** La segunda línea del resultado: el nivel y el logro de una misión. */
+  detail?: string
 }
 
 /**
@@ -194,7 +196,7 @@ export interface SearchEntry {
  */
 export const TOP_ANCHOR = 'arriba'
 
-/** Lo que encuentra la búsqueda de la cabecera mientras no hay búsqueda de guías. */
+/** Lo que enlaza el menú, para la búsqueda de la cabecera. Las misiones llegan aparte. */
 export function searchIndex(): SearchEntry[] {
   const of = (type: SearchType, links: NavLink[]) =>
     links.map(({ name, href, image }) => ({ type, name, href, image }))

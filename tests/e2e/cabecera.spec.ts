@@ -2,7 +2,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
 
 import { MODES } from '../../src/lib/theme/theme.ts'
-import { seedGuide } from './seed/guides.ts'
+import { draftGuide, seedGuide } from './seed/guides.ts'
 
 // La cabecera y el pie de todo el sitio (DESIGN.md, Layout: Header y Footer).
 
@@ -14,6 +14,11 @@ async function open(page: Page) {
   await page.goto(url)
   await expect(page.locator('[data-site-header][data-ready]')).toHaveCount(1)
 }
+
+const INDEX = '/api/search/guides'
+
+/** Las guías que encuentra la búsqueda, por slug. */
+type IndexRow = [string, string, string | null, number | null]
 
 async function axe(page: Page, selector: string) {
   const results = await new AxeBuilder({ page }).include(selector).withTags(WCAG).analyze()
@@ -102,6 +107,80 @@ test.describe('cabecera', () => {
     await expect(dialog).toBeHidden()
   })
 
+  test('la búsqueda encuentra las guías publicadas y pide el índice al abrirse', async ({
+    page,
+  }) => {
+    const requests: string[] = []
+    page.on('request', (request) => {
+      if (request.url().includes(INDEX)) requests.push(request.url())
+    })
+    await page.goto('/')
+    await expect(page.locator('[data-site-header][data-ready]')).toHaveCount(1)
+    // Nada se pide al cargar la página: el índice llega al abrir la búsqueda.
+    expect(requests).toHaveLength(0)
+
+    await page.keyboard.press('Control+k')
+    const dialog = page.getByRole('dialog', { name: 'Buscar en el sitio' })
+    const box = dialog.getByRole('searchbox')
+    await page.keyboard.type('SEIS pies')
+    const quests = dialog.getByRole('region', { name: 'Misiones' })
+    const link = quests.getByRole('link', { name: new RegExp(seedGuide.title) })
+    await expect(link).toBeVisible()
+    await expect(link).toHaveAttribute('href', `/${seedGuide.slug}`)
+    await expect(link).toContainText(`Nivel ${seedGuide.level} · ${seedGuide.achievement.name}`)
+    await expect(dialog.getByRole('status')).toHaveText('1 resultado')
+
+    // Un borrador no sale nunca.
+    await box.fill(draftGuide.title)
+    await expect(dialog.getByRole('status')).toHaveText(/^Nada se llama/)
+    await expect(dialog.getByRole('region', { name: 'Misiones' })).toHaveCount(0)
+
+    // Cerrar y abrir no lo pide otra vez.
+    await dialog.getByRole('button', { name: 'Esc' }).click()
+    await expect(dialog).toBeHidden()
+    await page.keyboard.press('Control+k')
+    await box.fill('seis pies')
+    await expect(link).toBeVisible()
+    expect(requests).toHaveLength(1)
+
+    // Las flechas llegan a la misión y Enter la abre.
+    await page.keyboard.press('ArrowDown')
+    await expect(link).toBeFocused()
+    await page.keyboard.press('Enter')
+    await expect(page).toHaveURL(new RegExp(`/${seedGuide.slug}$`))
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(seedGuide.title)
+  })
+
+  test('si el índice no carga, lo dice y lo reintenta al abrir otra vez', async ({ page }) => {
+    await page.route(`**${INDEX}`, (route) => route.abort())
+    await open(page)
+    await page.keyboard.press('Control+k')
+    const dialog = page.getByRole('dialog', { name: 'Buscar en el sitio' })
+    await page.keyboard.type('seis pies')
+    await expect(dialog.getByRole('status')).toContainText('No se pudieron cargar las misiones')
+
+    await page.unroute(`**${INDEX}`)
+    await dialog.getByRole('button', { name: 'Esc' }).click()
+    await expect(dialog).toBeHidden()
+    await page.keyboard.press('Control+k')
+    await expect(
+      dialog.getByRole('region', { name: 'Misiones' }).getByRole('link', { name: /Seis pies/ }),
+    ).toBeVisible()
+    await expect(dialog.getByRole('status')).toHaveText('1 resultado')
+  })
+
+  test('el índice es público, cacheable y solo lleva lo publicado', async ({ request }) => {
+    const response = await request.get(INDEX, { headers: { 'Accept-Encoding': 'gzip' } })
+    expect(response.status()).toBe(200)
+    expect(response.headers()['content-encoding']).toBe('gzip')
+    expect(response.headers()['cache-control']).toMatch(/^public, max-age=\d+/)
+    const { guides } = (await response.json()) as { guides: IndexRow[] }
+    const slugs = guides.map((row) => row[1])
+    expect(slugs).toContain(seedGuide.slug)
+    expect(slugs).toContain(seedGuide.prerequisite.slug)
+    expect(slugs).not.toContain(draftGuide.slug)
+  })
+
   test('el botón de búsqueda mide 44px de alto y es ancho', async ({ page }) => {
     await open(page)
     const pill = (await page.locator('.spill').boundingBox())!
@@ -117,7 +196,7 @@ test.describe('cabecera', () => {
     await misiones.click()
     await page
       .locator('#menu-misiones')
-      .getByRole('button', { name: /Buscar una sección/ })
+      .getByRole('button', { name: /Buscar una misión/ })
       .click()
     const search = page.getByRole('dialog', { name: 'Buscar en el sitio' })
     await expect(search).toBeVisible()
@@ -238,7 +317,7 @@ test.describe('cabecera en el móvil', () => {
     await burger.click()
     await page
       .getByRole('dialog', { name: 'Menú' })
-      .getByRole('button', { name: /Buscar una sección/ })
+      .getByRole('button', { name: /Buscar una misión/ })
       .click()
     const search = page.getByRole('dialog', { name: 'Buscar en el sitio' })
     await expect(search).toBeVisible()

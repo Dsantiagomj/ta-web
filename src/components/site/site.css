@@ -1137,8 +1137,23 @@ html {
 }
 
 .sdlg__list .site-well {
+  flex: none;
   width: 36px;
   height: 36px;
+}
+
+/* Una misión: el título y, debajo, su nivel y su logro. */
+.sdlg__t {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.sdlg__d {
+  color: var(--color-ink-2);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.3;
 }
 
 .sdlg__list .site-well img {

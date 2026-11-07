@@ -14,6 +14,7 @@ import { QuestGuides } from './collections/QuestGuides'
 import { Quests } from './collections/Quests'
 import { Users } from './collections/Users'
 import { healthEndpoint } from './endpoints/health'
+import { searchIndexEndpoint } from './endpoints/search-index'
 import { resolveDatabaseUrl, shouldPushSchema } from './lib/db/database-url'
 import { mediaStorage } from './lib/media/storage'
 
@@ -29,8 +30,9 @@ export default buildConfig({
   },
   collections: [Users, Media, Quests, Items, Monsters, Npcs, QuestGuides],
   editor: lexicalEditor(),
-  // GET /api/health, para los smoke tests tras un despliegue.
-  endpoints: [healthEndpoint],
+  // GET /api/health, para los smoke tests tras un despliegue; GET /api/search/guides, el
+  // índice de la búsqueda de la cabecera.
+  endpoints: [healthEndpoint, searchIndexEndpoint],
   // Panel en español.
   i18n: {
     fallbackLanguage: 'es',
