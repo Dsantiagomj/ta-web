@@ -8,6 +8,7 @@ import {
   toQuestGuide,
   type ContentBlock,
   type GuideBlock,
+  type StepBlock,
 } from '../../scripts/import/squarespace/to-quest-guide'
 
 function fixture(slug: string): string {
@@ -473,15 +474,18 @@ describe('pasos de la guía', () => {
     toQuestGuide(page, { slug: 'prueba', questDofusIds: [1] })
   const shot = (name: string) => ({ image: `https://images.squarespace-cdn.com/${name}.png` })
 
-  /** Cada bloque del cuerpo en una línea: el tipo y, en un paso, su título, chip y bloques. */
+  /** Cada bloque del cuerpo en una línea: el tipo y, en un paso, su chip y sus bloques. */
   function outline(body: GuideBlock[]): string[] {
     return body.map((block) => {
       if (block.blockType !== 'step') return block.blockType
       const chip = block.x !== undefined ? ` [${block.x},${block.y}]` : ''
-      const title = block.title ? ` «${block.title}»` : ''
-      return `step${title}${chip}: ${block.body.map((inner) => inner.blockType).join('+')}`
+      return `step${chip}: ${block.body.map((inner) => inner.blockType).join('+')}`
     })
   }
+
+  /** Los pasos del cuerpo, para mirar su contenido. */
+  const stepsOf = (body: GuideBlock[]) =>
+    body.filter((block): block is StepBlock => block.blockType === 'step')
 
   it('«Seis pies bajo tierra» se parte en los 8 pasos del prototipo, sin títulos', () => {
     const { guide, oddities } = guideFor('seis-pies-bajo-tierra')
@@ -605,7 +609,7 @@ describe('pasos de la guía', () => {
     }
   })
 
-  it('un párrafo «ETAPA n: título» abre un paso con ese título y el primer [x,y] del paso', () => {
+  it('un párrafo «ETAPA n: título» abre un paso que empieza con el título en negrita y el primer [x,y] del paso', () => {
     const { guide, oddities } = convert(
       pageOf(
         '<p>Básicamente la misión la agarras de Nevark [-47,42].</p>',
@@ -616,9 +620,25 @@ describe('pasos de la guía', () => {
     expect(oddities).not.toContain(NO_STEPS)
     expect(outline(guide.body)).toEqual([
       'richText',
-      'step «El safari de las almas ancebas»: richText',
-      'step «El safari de las almas jaras» [-50,40]: richText',
+      'step: richText+richText',
+      'step [-50,40]: richText+richText',
     ])
+    // El título es el primer párrafo del paso, aparte del texto que le sigue; el paso no
+    // guarda título.
+    const steps = stepsOf(guide.body)
+    expect(steps.map((step) => step.body[0])).toEqual([
+      { blockType: 'richText', html: '<p><strong>El safari de las almas ancebas</strong></p>' },
+      { blockType: 'richText', html: '<p><strong>El safari de las almas jaras</strong></p>' },
+    ])
+    for (const step of steps) expect(step).not.toHaveProperty('title')
+  })
+
+  it('el título de una marca se escapa como texto en su párrafo', () => {
+    const { guide } = convert(pageOf('<p>ETAPA 1: Almas &lt;raras&gt; &amp; jaras:</p>'))
+    expect(stepsOf(guide.body)[0]?.body[0]).toEqual({
+      blockType: 'richText',
+      html: '<p><strong>Almas &lt;raras&gt; &amp; jaras</strong></p>',
+    })
   })
 
   it('un marcador solo en su bloque se queda con el texto y las capturas que le siguen', () => {
@@ -636,14 +656,14 @@ describe('pasos de la guía', () => {
     )
     expect(outline(guide.body)).toEqual([
       // Un paso del medio sigue hasta el siguiente marcador.
-      'step «Uno» [1,1]: richText+image+richText',
+      'step [1,1]: richText+richText+image+richText',
       // El último acaba con sus capturas; el texto de después es el final.
-      'step «Dos» [2,2]: richText+image',
+      'step [2,2]: richText+richText+image',
       'richText',
     ])
   })
 
-  it('un marcador sin título da un paso sin título; en minúsculas o en mitad de una frase es prosa', () => {
+  it('un marcador sin título da un paso sin párrafo de título; en minúsculas o en mitad de una frase es prosa', () => {
     const { guide, oddities } = convert(
       pageOf(
         '<p>ETAPA 1:</p><p>Haz esto.</p><p>Etapa 2: en minúsculas no cuenta.</p><p>La ETAPA 3: tampoco.</p>',

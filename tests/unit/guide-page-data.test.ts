@@ -409,12 +409,11 @@ describe('guideContent con pasos', () => {
         {
           blockType: 'step',
           id: 'p1',
-          title: 'Habla con Hupe Esse',
           x: 7,
           y: -19,
           body: [{ blockType: 'richText', id: 'p1a', content: richText('En la biblioteca.') }],
         },
-        { blockType: 'step', id: 'p2', title: 'Vuelve con Luci', x: null, y: null, body: [] },
+        { blockType: 'step', id: 'p2', x: null, y: null, body: [] },
         { blockType: 'richText', id: 'z', content: richText('Aquí termina la misión.') },
       ],
     })
@@ -423,11 +422,10 @@ describe('guideContent con pasos', () => {
       steps: [
         {
           key: 'p1',
-          title: 'Habla con Hupe Esse',
           coordinates: { x: 7, y: -19 },
           blocks: [{ kind: 'richText', key: 'p1a', content: richText('En la biblioteca.') }],
         },
-        { key: 'p2', title: 'Vuelve con Luci', blocks: [] },
+        { key: 'p2', blocks: [] },
       ],
       outro: [{ kind: 'richText', key: 'z', content: richText('Aquí termina la misión.') }],
     })
@@ -437,9 +435,9 @@ describe('guideContent con pasos', () => {
     const { steps, outro } = guideContent({
       ...guide,
       body: [
-        { blockType: 'step', id: 'p1', title: 'Uno', body: [] },
+        { blockType: 'step', id: 'p1', body: [] },
         { blockType: 'callout', id: 'c', variant: 'tip', content: richText('Ojo.') },
-        { blockType: 'step', id: 'p2', title: 'Dos', body: [] },
+        { blockType: 'step', id: 'p2', body: [] },
       ],
     })
     expect(steps.map((step) => step.blocks.map((block) => block.key))).toEqual([['c'], []])
@@ -454,7 +452,6 @@ describe('guideContent con pasos', () => {
         {
           blockType: 'step',
           id: 'p1',
-          title: 'Uno',
           body: [
             { blockType: 'image', id: 'i1', image },
             { blockType: 'image', id: 'i2', image },
@@ -471,18 +468,16 @@ describe('guideContent con pasos', () => {
     expect(outro[0]).toMatchObject({ kind: 'image', priority: false })
   })
 
-  it('sin X e Y juntas no hay chip; un paso sin título no lleva título (la página no enseña el título)', () => {
+  it('sin X e Y juntas no hay chip', () => {
     const { steps } = guideContent({
       ...guide,
       body: [
-        { blockType: 'step', title: 'Solo X', x: 3, y: null },
-        { blockType: 'step', title: '  ', x: 0, y: 0 },
-        { blockType: 'step', title: null },
+        { blockType: 'step', x: 3, y: null },
+        { blockType: 'step', x: 0, y: 0 },
       ],
     })
-    expect(steps[0]).not.toHaveProperty('coordinates')
+    expect(steps[0]).toEqual({ key: '0', blocks: [] })
     expect(steps[1]).toEqual({ key: '1', coordinates: { x: 0, y: 0 }, blocks: [] })
-    expect(steps[2]).not.toHaveProperty('title')
   })
 })
 

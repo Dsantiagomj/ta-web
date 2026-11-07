@@ -25,11 +25,9 @@ export type ContentBlock =
   | { blockType: 'video'; url: string }
   | { blockType: 'callout'; variant: 'warning' | 'tip'; html: string }
 
-/** Un paso (bloque Paso): título, coordenadas si las tiene y su propio contenido. */
+/** Un paso (bloque Paso): coordenadas si las tiene y su propio contenido. */
 export interface StepBlock {
   blockType: 'step'
-  /** Sin título, la página pone «Paso N». */
-  title?: string
   x?: number
   y?: number
   body: ContentBlock[]
@@ -102,8 +100,9 @@ const RECOMMENDATIONS_LABEL = /^\s*RECOMENDACI(?:ÓN|ON|ONES)\s*:\s*/u
 // últimas capturas, es el final. Con menos de dos unidades (sin capturas, o un solo bloque) la guía queda
 // como prosa. Solo una guía (el-safari-de-almas) marca sus pasos, con un párrafo «ETAPA 1:
 // El safari de las almas ancebas:»; si hay marcas, mandan ellas: cada una abre un paso con
-// ese título que sigue hasta la siguiente, y la última, como una unidad, se queda con el
-// texto que le sigue hasta sus capturas. Un título nunca se inventa.
+// ese título en negrita como primer párrafo y sigue hasta la siguiente, y la última, como
+// una unidad, se queda con el texto que le sigue hasta sus capturas. Un título nunca se
+// inventa.
 const STEP_MARKER = /^ETAPA\s+\d+\s*:\s*(.*?)\s*:?$/u
 
 const NO_STEPS =
@@ -136,22 +135,28 @@ function isMedia(draft: Draft): boolean {
 
 /** Un paso en construcción: sus bloques, su texto original y si ya tiene capturas. */
 interface Unit {
-  title?: string
   text: string[]
   body: ContentBlock[]
   media: boolean
 }
 
-const newUnit = (title?: string): Unit => ({ title, text: [], body: [], media: false })
+const newUnit = (): Unit => ({ text: [], body: [], media: false })
+
+const escapeHtml = (text: string) =>
+  text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
+/**
+ * El título de una marca «ETAPA n:» como primer párrafo del paso, en negrita: el bloque
+ * Paso no tiene título. La migración 20261107_143215_remove_step_title hace lo mismo con
+ * los títulos que ya estaban guardados.
+ */
+export function stepTitleBlock(title: string): ContentBlock {
+  return { blockType: 'richText', html: `<p><strong>${escapeHtml(title)}</strong></p>` }
+}
 
 function toStep(unit: Unit): StepBlock {
   const coordinates = firstCoordinates(unit.text.join(' '))
-  return {
-    blockType: 'step',
-    ...(unit.title && { title: unit.title }),
-    ...coordinates,
-    body: unit.body,
-  }
+  return { blockType: 'step', ...coordinates, body: unit.body }
 }
 
 /** Pasos por marcas «ETAPA n:»: cada una hasta la siguiente; la última, como una unidad. */
@@ -167,8 +172,10 @@ function markedSteps(drafts: Draft[]): GuideBlock[] {
       ending = true
       if (isContent(draft)) outro.push(draft)
     } else if (draft.blockType === 'stepStart') {
-      units.push(newUnit(draft.title))
-      units.at(-1)!.text.push(draft.title)
+      const opened = newUnit()
+      if (draft.title) opened.body.push(stepTitleBlock(draft.title))
+      opened.text.push(draft.title)
+      units.push(opened)
     } else if (!unit) {
       if (isContent(draft)) intro.push(draft)
     } else if (draft.blockType === 'textBlock') {

@@ -69,11 +69,10 @@ interface MonsterDoc {
   image?: number | Media | null
 }
 
-/** Un paso: título, coordenadas si las tiene y sus propios bloques (DESIGN.md, Steps). */
+/** Un paso: coordenadas si las tiene y sus propios bloques (DESIGN.md, Steps). */
 type StepBlockDoc = {
   blockType: 'step'
   id?: string | null
-  title?: string | null
   x?: number | null
   y?: number | null
   body?: ContentBlockDoc[] | null
@@ -343,8 +342,6 @@ function hasImage(content: RichTextState): boolean {
 /** Un paso de la guía listo para su componente (DESIGN.md, Steps). */
 export interface GuideStep {
   key: string
-  /** Solo para el panel: la página no lo enseña (DESIGN.md, Steps). */
-  title?: string
   /** Solo con X e Y: si el texto no las nombra, un chip al principio del paso. */
   coordinates?: Coordinates
   blocks: GuideBlock[]
@@ -439,10 +436,8 @@ export function guideContent(guide: GuideDoc): GuideContent {
       return
     }
     const coordinates = block.x != null && block.y != null ? { x: block.x, y: block.y } : null
-    const title = block.title?.trim()
     content.steps.push({
       key,
-      ...(title && { title }),
       ...(coordinates && { coordinates }),
       blocks: (block.body ?? []).flatMap((inner, innerIndex) =>
         toBlocks(inner, inner.id ?? `${key}-${innerIndex}`),

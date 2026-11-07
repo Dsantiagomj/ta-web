@@ -582,10 +582,6 @@ export interface FightBlock {
  */
 export interface StepBlock {
   /**
-   * Opcional y solo para el panel: la guía no lo enseña.
-   */
-  title?: string | null;
-  /**
    * La posición principal del paso, si la tiene: si el texto no la nombra, sale como chip al principio del paso.
    */
   x?: number | null;
@@ -1044,7 +1040,6 @@ export interface FightBlockSelect<T extends boolean = true> {
  * via the `definition` "StepBlock_select".
  */
 export interface StepBlockSelect<T extends boolean = true> {
-  title?: T;
   x?: T;
   y?: T;
   body?:

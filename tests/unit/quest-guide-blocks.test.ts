@@ -159,12 +159,11 @@ describe('bloque de paso', () => {
     expect(StepBlock.labels).toEqual({ singular: s.singular, plural: s.plural })
   })
 
-  it('guarda un título opcional y traducible, que la página no enseña', () => {
-    const title = field(StepBlock, 'title')
-    expect(title).toMatchObject({ type: 'text', localized: true, label: s.title })
-    expect(title).not.toHaveProperty('required', true)
-    expect(title).toMatchObject({ admin: { description: s.titleDescription } })
-    expect(s.titleDescription).toMatch(/no lo enseña/)
+  it('no tiene título: solo coordenadas y contenido', () => {
+    const names = flat(StepBlock.fields).flatMap((candidate) =>
+      'name' in candidate ? [candidate.name] : [],
+    )
+    expect(names).toEqual(['x', 'y', 'body'])
   })
 
   it('guarda unas coordenadas opcionales, X e Y, como las de inicio del resumen', () => {
