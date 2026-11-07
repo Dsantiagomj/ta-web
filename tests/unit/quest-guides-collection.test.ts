@@ -55,7 +55,9 @@ describe('colección quest-guides', () => {
   })
 
   it('rellena título, slug y SEO vacíos desde la misión antes de validar', () => {
-    expect(QuestGuides.hooks?.beforeValidate).toEqual([fillFromQuest])
+    // Después, el slug se compara con el de logros y metalogros (tests/integration).
+    expect(QuestGuides.hooks?.beforeValidate?.[0]).toBe(fillFromQuest)
+    expect(QuestGuides.hooks?.beforeValidate).toHaveLength(2)
   })
 
   it('guarda un slug único, indexado, no traducible y validado', () => {

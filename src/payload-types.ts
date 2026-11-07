@@ -76,6 +76,8 @@ export interface Config {
     'achievement-categories': AchievementCategory;
     achievements: Achievement;
     'quest-guides': QuestGuide;
+    'achievement-pages': AchievementPage;
+    'achievement-groups': AchievementGroup;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -92,6 +94,8 @@ export interface Config {
     'achievement-categories': AchievementCategoriesSelect<false> | AchievementCategoriesSelect<true>;
     achievements: AchievementsSelect<false> | AchievementsSelect<true>;
     'quest-guides': QuestGuidesSelect<false> | QuestGuidesSelect<true>;
+    'achievement-pages': AchievementPagesSelect<false> | AchievementPagesSelect<true>;
+    'achievement-groups': AchievementGroupsSelect<false> | AchievementGroupsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -678,6 +682,148 @@ export interface StepBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "achievement-pages".
+ */
+export interface AchievementPage {
+  id: number;
+  /**
+   * Lo que esté vacío se rellena con sus datos al guardar. Lo que cambies no lo pisa ningún refresco.
+   */
+  achievement: number | Achievement;
+  name: string;
+  /**
+   * La URL del logro, la misma que en la web de Torre: la-ocasion-hace-al-ladron.
+   */
+  slug: string;
+  /**
+   * Publicada: se ve y se puede abrir. En preparación: se ve apagada, sin enlace, con la etiqueta «En preparación». Lo decides tú; el refresco de DofusDB no lo cambia.
+   */
+  state: 'published' | 'preparing';
+  group?: (number | null) | AchievementGroup;
+  order?: number | null;
+  quests?:
+    | {
+        name?: string | null;
+        /**
+         * Varias son alternativas: se hace una (la misión de clase).
+         */
+        quests?: (number | Quest)[] | null;
+        id?: string | null;
+      }[]
+    | null;
+  points?: number | null;
+  /**
+   * Para un personaje de nivel 200, como en tus páginas.
+   */
+  rewards?: {
+    experience?: number | null;
+    kamas?: number | null;
+    items?:
+      | {
+          item: number | Item;
+          quantity: number;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Texto antes de las misiones. Opcional.
+   */
+  intro?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Texto después de las misiones. Opcional.
+   */
+  outro?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "achievement-groups".
+ */
+export interface AchievementGroup {
+  id: number;
+  /**
+   * Sus logros son los de esta categoría. Sin categoría (Misiones de templo), el metalogro tiene solo guías o ninguna página.
+   */
+  category?: (number | null) | AchievementCategory;
+  name: string;
+  /**
+   * El de tu web: metalogro-astrub.
+   */
+  slug: string;
+  /**
+   * Publicada: se ve y se puede abrir. En preparación: se ve apagada, sin enlace, con la etiqueta «En preparación». Lo decides tú; el refresco de DofusDB no lo cambia.
+   */
+  state: 'published' | 'preparing';
+  section?: ('stories' | 'zones' | 'seasonal') | null;
+  order?: number | null;
+  representative?:
+    | ({
+        relationTo: 'npcs';
+        value: number | Npc;
+      } | null)
+    | ({
+        relationTo: 'monsters';
+        value: number | Monster;
+      } | null);
+  /**
+   * Texto antes de los logros. Opcional.
+   */
+  intro?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Guías que no son de ningún logro, en este orden. Un metalogro puede tener solo guías (Alineamiento).
+   */
+  guides?: (number | QuestGuide)[] | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -735,6 +881,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'quest-guides';
         value: number | QuestGuide;
+      } | null)
+    | ({
+        relationTo: 'achievement-pages';
+        value: number | AchievementPage;
+      } | null)
+    | ({
+        relationTo: 'achievement-groups';
+        value: number | AchievementGroup;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1205,6 +1359,62 @@ export interface StepBlockSelect<T extends boolean = true> {
       };
   id?: T;
   blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "achievement-pages_select".
+ */
+export interface AchievementPagesSelect<T extends boolean = true> {
+  achievement?: T;
+  name?: T;
+  slug?: T;
+  state?: T;
+  group?: T;
+  order?: T;
+  quests?:
+    | T
+    | {
+        name?: T;
+        quests?: T;
+        id?: T;
+      };
+  points?: T;
+  rewards?:
+    | T
+    | {
+        experience?: T;
+        kamas?: T;
+        items?:
+          | T
+          | {
+              item?: T;
+              quantity?: T;
+              id?: T;
+            };
+      };
+  intro?: T;
+  outro?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "achievement-groups_select".
+ */
+export interface AchievementGroupsSelect<T extends boolean = true> {
+  category?: T;
+  name?: T;
+  slug?: T;
+  state?: T;
+  section?: T;
+  order?: T;
+  representative?: T;
+  intro?: T;
+  guides?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
