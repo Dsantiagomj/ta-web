@@ -96,6 +96,28 @@ describe('valores de DofusDB', () => {
   })
 })
 
+describe('la sección de un metalogro', () => {
+  it('lo que cuelga de Eventos es de temporada, también más abajo', async () => {
+    const eventos = await payload.create({
+      collection: 'achievement-categories',
+      data: { dofusId: 9, name: 'Eventos', order: 7 },
+    })
+    const vulkania = await payload.create({
+      collection: 'achievement-categories',
+      data: { dofusId: 60, name: 'Archipiélago de Vulkania', order: 0, parent: eventos.id },
+    })
+    const nested = await payload.create({
+      collection: 'achievement-categories',
+      data: { dofusId: 6001, name: 'Subcategoría de Vulkania', order: 0, parent: vulkania.id },
+    })
+    expect((await groupValues(payload, vulkania.id))?.section).toBe('seasonal')
+    expect((await groupValues(payload, nested.id))?.section).toBe('seasonal')
+    for (const doc of [nested, vulkania, eventos]) {
+      await payload.delete({ collection: 'achievement-categories', id: doc.id })
+    }
+  })
+})
+
 describe('el refresco crea lo que falta', () => {
   it('un metalogro por categoría de misiones y una página por logro con misiones', async () => {
     const counts = await ensureAchievementPages(payload)
