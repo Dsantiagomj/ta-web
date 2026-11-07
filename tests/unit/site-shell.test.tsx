@@ -162,6 +162,16 @@ describe('SiteHeader', () => {
   it('enlaza el salto al contenido', () => {
     expect(header()).toContain('href="#contenido"')
   })
+
+  it('el panel de Misiones abre la búsqueda de misiones', () => {
+    const markup = header()
+    const panel = markup.slice(
+      markup.indexOf('id="menu-misiones"'),
+      markup.indexOf('id="menu-dofus"'),
+    )
+    expect(panel).toContain('Buscar una misión')
+    expect(panel).toContain('data-open-search')
+  })
 })
 
 describe('SiteFooter', () => {

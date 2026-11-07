@@ -2,9 +2,11 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 
+import { GUIDE_SEARCH_INDEX_URL, type GuideSearchIndex } from '@/lib/search/guide-index'
+
 import { DoorIcon, SearchIcon } from './icons'
 import type { SearchEntry } from './nav'
-import { searchNav } from './search'
+import { type GuidesState, questEntries, searchSite, searchStatus } from './search'
 import { StaticImg } from './StaticImg'
 import { siteShellStrings } from './strings'
 
@@ -69,24 +71,56 @@ const typing = (target: EventTarget | null) =>
 /**
  * La isla de la cabecera (DESIGN.md, Layout: Header y Search dialog). Escucha con
  * delegación: abre y cierra los paneles del menú (Esc, clic fuera o el foco que sale los
- * cierran), el menú del móvil y sus secciones, y la búsqueda (Ctrl K o /). Mientras no
- * hay búsqueda de guías, busca en lo que enlaza el menú. Marca la cabecera al bajar la
- * página para que pase a opaca.
+ * cierran), el menú del móvil y sus secciones, y la búsqueda (Ctrl K o /). La búsqueda
+ * encuentra lo que enlaza el menú y las guías de misiones publicadas, cuyo índice pide al
+ * servidor la primera vez que se abre (nunca al cargar la página) y guarda en memoria.
+ * Marca la cabecera al bajar la página para que pase a opaca.
  */
 export function HeaderIsland({ index }: { index: SearchEntry[] }) {
   const dialog = useRef<HTMLDialogElement>(null)
   const input = useRef<HTMLInputElement>(null)
   const [query, setQuery] = useState('')
-  const groups = useMemo(() => searchNav(index, query), [index, query])
-  const found = groups.reduce((n, g) => n + g.items.length, 0)
+  const [guides, setGuides] = useState<{ state: GuidesState; entries: SearchEntry[] }>({
+    state: 'idle',
+    entries: [],
+  })
+  const results = useMemo(
+    () => searchSite(index, guides.entries, query),
+    [index, guides.entries, query],
+  )
 
   // Escucha los clics, las teclas, el foco y el scroll del documento (delegación).
   useEffect(() => {
     const header = document.querySelector<HTMLElement>('[data-site-header]')
     const sheet = document.getElementById('site-sheet') as HTMLDialogElement | null
+    let active = true
+
+    // El índice de las guías, una vez: al abrir la búsqueda por primera vez, o de nuevo si
+    // la última vez falló.
+    let request: 'idle' | 'loading' | 'ready' = 'idle'
+    const loadGuides = () => {
+      if (request !== 'idle') return
+      request = 'loading'
+      setGuides((current) => ({ ...current, state: 'loading' }))
+      fetch(GUIDE_SEARCH_INDEX_URL)
+        .then((response) => {
+          if (!response.ok) throw new Error(`HTTP ${response.status}`)
+          return response.json() as Promise<GuideSearchIndex>
+        })
+        .then((data) => {
+          const entries = questEntries(data)
+          request = 'ready'
+          if (active) setGuides({ state: 'ready', entries })
+        })
+        .catch(() => {
+          request = 'idle'
+          if (active) setGuides((current) => ({ ...current, state: 'error' }))
+        })
+    }
 
     const openSearch = (from: HTMLElement | null) => {
       if (!dialog.current || dialog.current.open) return
+      loadGuides()
       closePanels()
       if (sheet?.open) {
         // Lo que abrió la búsqueda queda dentro del menú cerrado: el foco vuelve a lo que
@@ -173,6 +207,7 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
     const search = dialog.current
     search?.addEventListener('close', restoreSearch)
     return () => {
+      active = false
       document.removeEventListener('click', onClick)
       document.removeEventListener('keydown', onKey)
       document.removeEventListener('focusout', onFocusOut)
@@ -196,9 +231,14 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
   }
 
   const shown = query.trim()
-    ? groups
+    ? results.groups
     : [{ type: 'seccion' as const, items: index.filter((e) => e.type === 'seccion') }]
-  const status = !query.trim() ? '' : found === 0 ? s.none(query.trim()) : s.found(found)
+  const status = searchStatus({
+    query,
+    found: results.found,
+    questTotal: results.questTotal,
+    guides: guides.state,
+  })
 
   return (
     <dialog
@@ -252,7 +292,14 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
                         <DoorIcon />
                       )}
                     </span>
-                    <span>{item.name}</span>
+                    {item.detail ? (
+                      <span className="sdlg__t">
+                        <span>{item.name}</span>
+                        <span className="sdlg__d">{item.detail}</span>
+                      </span>
+                    ) : (
+                      <span>{item.name}</span>
+                    )}
                   </a>
                 </li>
               ))}
