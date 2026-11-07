@@ -95,7 +95,11 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
         openers.sheet = null
         sheet.close()
       } else {
-        openers.search = from
+        // Desde un panel, el botón que lo abrió: el panel se cierra y su botón no se ve.
+        const panel = from?.closest('.panel')
+        openers.search = panel
+          ? document.querySelector<HTMLElement>(`.np[aria-controls="${panel.id}"]`)
+          : from
       }
       dialog.current.showModal()
       input.current?.focus()
@@ -234,7 +238,7 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
               {group.items.map((item) => (
                 <li key={item.href + item.name}>
                   <a href={item.href}>
-                    <span className="well" aria-hidden="true">
+                    <span className="site-well" aria-hidden="true">
                       {item.image ? (
                         <StaticImg src={item.image.src} width={26} height={26} alt="" />
                       ) : (

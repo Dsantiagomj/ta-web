@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 
 import { Emblem } from '@/components/brand/Emblem'
+import { Lockup } from '@/components/brand/Lockup'
 import { AchievementChain } from '@/components/game/AchievementChain'
 import { CoordinatesText, TravelButton } from '@/components/game/Coordinates'
 import { IconWell } from '@/components/game/IconWell'
@@ -24,6 +25,8 @@ import { Picture } from '@/components/ui/Picture'
 import { ProgressBar } from '@/components/ui/ProgressBar'
 import { StatTile } from '@/components/ui/StatTile'
 import { TagPill } from '@/components/ui/TagPill'
+import { MenuPanelPreview } from '@/components/site/SiteHeader'
+import { SiteFooter } from '@/components/site/SiteFooter'
 import type { Mode, Theme } from '@/lib/theme/theme'
 
 import {
@@ -93,10 +96,15 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
             <Emblem size={30} />
             <Emblem size={36} />
             <Emblem size={64} />
-            <span className="flex items-center gap-2.5 font-display text-xl text-ink">
-              <Emblem size={36} />
-              {s.demo.brand}
-            </span>
+            <Lockup />
+            <Lockup size="footer" />
+          </Group>
+
+          <Group name="site" note={s.notes.site} wide>
+            <MenuPanelPreview sectionKey="dofus" counts={s.demo.siteCounts} />
+            <div className="w-full">
+              <SiteFooter year={2026} />
+            </div>
           </Group>
 
           <Group name="buttons">

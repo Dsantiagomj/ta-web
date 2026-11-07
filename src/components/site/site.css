@@ -307,6 +307,15 @@ html {
   display: none;
 }
 
+.panel--static {
+  position: relative;
+  top: auto;
+  left: auto;
+  width: 100%;
+  max-width: var(--panel-w);
+  animation: none !important;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .panel:not([hidden]) {
     animation: site-pop var(--duration-base) var(--ease-out);
@@ -386,7 +395,7 @@ html {
 }
 
 /* Iconos del juego en su hueco (DESIGN.md, Icon wells). */
-.well {
+.site-well {
   display: grid;
   flex: none;
   place-items: center;
@@ -398,35 +407,35 @@ html {
   color: var(--color-section);
 }
 
-.well img {
+.site-well img {
   width: 28px;
   height: 28px;
   object-fit: contain;
 }
 
-.well svg {
+.site-well svg {
   width: 20px;
   height: 20px;
 }
 
-.well--lg {
+.site-well--lg {
   width: 48px;
   height: 48px;
 }
 
-.well--lg img {
+.site-well--lg img {
   width: 36px;
   height: 36px;
 }
 
-.well--xl {
+.site-well--xl {
   width: 64px;
   height: 64px;
   border-color: color-mix(in srgb, var(--color-section) 60%, var(--color-slot-line));
   border-radius: 16px;
 }
 
-.well--xl img {
+.site-well--xl img {
   width: 46px;
   height: 46px;
 }
@@ -981,7 +990,7 @@ html {
 }
 
 .sdlg__x {
-  height: 32px;
+  height: 40px;
   padding: 0 10px;
   border: 1px solid var(--color-line);
   border-radius: 8px;
@@ -1043,12 +1052,12 @@ html {
   outline-offset: -2px;
 }
 
-.sdlg__list .well {
+.sdlg__list .site-well {
   width: 36px;
   height: 36px;
 }
 
-.sdlg__list .well img {
+.sdlg__list .site-well img {
   width: 26px;
   height: 26px;
 }
@@ -1428,6 +1437,7 @@ html {
 }
 
 @media (pointer: coarse) {
+  .sdlg__x,
   .np,
   .ft-legal a,
   .ft-explore a,

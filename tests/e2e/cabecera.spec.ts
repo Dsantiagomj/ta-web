@@ -102,6 +102,24 @@ test.describe('cabecera', () => {
     await expect(dialog).toBeHidden()
   })
 
+  test('la búsqueda abierta desde el panel de Misiones devuelve el foco a su botón', async ({
+    page,
+  }) => {
+    await open(page)
+    const misiones = page.getByRole('button', { name: 'Misiones', exact: true })
+    await misiones.click()
+    await page
+      .locator('#menu-misiones')
+      .getByRole('button', { name: /Buscar una sección/ })
+      .click()
+    const search = page.getByRole('dialog', { name: 'Buscar en el sitio' })
+    await expect(search).toBeVisible()
+    await expect(page.locator('#menu-misiones')).toBeHidden()
+    await page.keyboard.press('Escape')
+    await expect(search).toBeHidden()
+    await expect(misiones).toBeFocused()
+  })
+
   test('la cabecera se vuelve opaca al bajar la página', async ({ page }) => {
     await open(page)
     const header = page.locator('header.site-hdr')

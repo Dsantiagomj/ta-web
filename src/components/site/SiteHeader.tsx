@@ -57,7 +57,7 @@ export function Well({
   className?: string
 }) {
   return (
-    <span className={`well${className ? ` ${className}` : ''}`} aria-hidden="true">
+    <span className={`site-well${className ? ` ${className}` : ''}`} aria-hidden="true">
       <StaticImg
         src={image.src}
         width={Math.min(size, image.size)}
@@ -225,7 +225,7 @@ function sectionBody(key: SectionKey): ReactNode {
 function SectionTile({ sec, counts }: { sec: Section; counts: SiteCounts }) {
   return (
     <div className="panel__tile">
-      <Well image={sec.icon} size={46} className="well--xl" />
+      <Well image={sec.icon} size={46} className="site-well--xl" />
       <p className="panel__t">{sec.title}</p>
       <p className="panel__d">{sectionBlurb(sec.key, counts)}</p>
       <AllLink href={sec.href}>{ALL_LABEL[sec.key]}</AllLink>
@@ -271,17 +271,37 @@ function DofusPanel() {
 
 const NAV = SECTIONS.filter((sec) => sec.key !== 'checklists')
 
+function PanelContent({ sec, counts }: { sec: Section; counts: SiteCounts }) {
+  return sec.key === 'dofus' ? (
+    <DofusPanel />
+  ) : (
+    <>
+      <SectionTile sec={sec} counts={counts} />
+      <div className="panel__body">{sectionBody(sec.key)}</div>
+    </>
+  )
+}
+
 function Panel({ sec, counts }: { sec: Section; counts: SiteCounts }) {
   return (
     <div className={`panel panel--${sec.key}`} id={`menu-${sec.key}`} hidden>
-      {sec.key === 'dofus' ? (
-        <DofusPanel />
-      ) : (
-        <>
-          <SectionTile sec={sec} counts={counts} />
-          <div className="panel__body">{sectionBody(sec.key)}</div>
-        </>
-      )}
+      <PanelContent sec={sec} counts={counts} />
+    </div>
+  )
+}
+
+/** Un panel del menú abierto y quieto, para el catálogo /sistema. */
+export function MenuPanelPreview({
+  sectionKey,
+  counts,
+}: {
+  sectionKey: SectionKey
+  counts: SiteCounts
+}) {
+  const sec = section(sectionKey)
+  return (
+    <div className={`panel panel--static panel--${sec.key}`} style={accent(sec)}>
+      <PanelContent sec={sec} counts={counts} />
     </div>
   )
 }
@@ -292,7 +312,7 @@ function SheetSection({ sec, counts, open }: { sec: Section; counts: SiteCounts;
   return (
     <li className="stile" style={accent(sec)}>
       <button type="button" className="stile__b" aria-expanded={open} aria-controls={id}>
-        <Well image={sec.icon} size={36} className="well--lg" />
+        <Well image={sec.icon} size={36} className="site-well--lg" />
         <span className="stile__x">
           <span className="stile__t">{dofus ? s.sheet.dofusTitle : sec.title}</span>
           <span className="stile__d">{sectionBlurb(sec.key, counts)}</span>

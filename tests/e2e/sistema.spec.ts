@@ -8,6 +8,7 @@ import { MODES, THEMES } from '../../src/lib/theme/theme.ts'
 
 const COMPONENTS = [
   'brand',
+  'site',
   'buttons',
   'chips',
   'callouts',

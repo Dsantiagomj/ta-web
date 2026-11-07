@@ -1,3 +1,5 @@
+import { useId } from 'react'
+
 import { Lockup } from '@/components/brand/Lockup'
 
 import { SocialIcon, UpIcon } from './icons'
@@ -17,10 +19,12 @@ const CHANNELS = (['twitch', 'kick', 'youtube'] as const).map(social)
  * Sin estado del directo todavía: la tarjeta dice dónde emite, no si está emitiendo.
  */
 export function SiteFooter({ year }: { year: number }) {
+  // Ids propios: el catálogo /sistema pinta el pie una vez por tema y modo.
+  const id = useId()
   return (
     <footer className="site-ft">
       <div className="site-ft__in">
-        <section className="ft-torre" aria-labelledby="ft-torre">
+        <section className="ft-torre" aria-labelledby={`${id}-ft-torre`}>
           <StaticImg
             className="ft-torre__face"
             src="/img/torre/recorte.webp"
@@ -30,7 +34,7 @@ export function SiteFooter({ year }: { year: number }) {
             loading="lazy"
           />
           <div>
-            <h2 className="ft-torre__name" id="ft-torre">
+            <h2 className="ft-torre__name" id={`${id}-ft-torre`}>
               {s.torre}
             </h2>
             <p className="ft-torre__bio">{s.bio}</p>
@@ -44,8 +48,8 @@ export function SiteFooter({ year }: { year: number }) {
           </div>
         </section>
 
-        <nav className="ft-explore" aria-labelledby="ft-explore">
-          <h2 className="ft-eyebrow" id="ft-explore">
+        <nav className="ft-explore" aria-labelledby={`${id}-ft-explore`}>
+          <h2 className="ft-eyebrow" id={`${id}-ft-explore`}>
             {s.explore}
           </h2>
           <ul role="list">
@@ -57,8 +61,8 @@ export function SiteFooter({ year }: { year: number }) {
           </ul>
         </nav>
 
-        <section className="ft-com" aria-labelledby="ft-com">
-          <h2 className="ft-h" id="ft-com">
+        <section className="ft-com" aria-labelledby={`${id}-ft-com`}>
+          <h2 className="ft-h" id={`${id}-ft-com`}>
             {s.community}
           </h2>
           <a className="ft-join" href={social('discord').href} rel="noopener">
