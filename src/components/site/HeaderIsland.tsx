@@ -2,15 +2,12 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 
-import { GUIDE_SEARCH_INDEX_URL, type GuideSearchIndex } from '@/lib/search/guide-index'
-
 import { DoorIcon, SearchIcon } from './icons'
 import type { SearchEntry } from './nav'
-import { type GuidesState, questEntries, searchSite, searchStatus } from './search'
-import { StaticImg } from './StaticImg'
-import { siteShellStrings } from './strings'
+import type { GuidesState } from './search'
+import { searchDialogStrings } from './search-strings'
 
-const s = siteShellStrings.searchDialog
+const s = searchDialogStrings
 
 /** Lo que tenía el foco al abrir cada diálogo: lo recupera al cerrarlo. */
 const openers: { sheet: HTMLElement | null; search: HTMLElement | null } = {
@@ -72,21 +69,24 @@ const typing = (target: EventTarget | null) =>
  * La isla de la cabecera (DESIGN.md, Layout: Header y Search dialog). Escucha con
  * delegación: abre y cierra los paneles del menú (Esc, clic fuera o el foco que sale los
  * cierran), el menú del móvil y sus secciones, y la búsqueda (Ctrl K o /). La búsqueda
- * encuentra lo que enlaza el menú y las guías de misiones publicadas, cuyo índice pide al
- * servidor la primera vez que se abre (nunca al cargar la página) y guarda en memoria.
- * Marca la cabecera al bajar la página para que pase a opaca.
+ * encuentra lo que enlaza el menú y las guías de misiones publicadas. La primera vez que
+ * se abre (nunca al cargar la página) carga con import() la búsqueda y sus resultados
+ * (SearchList.tsx y search.ts) y pide el índice de las guías; los guarda en memoria. Marca
+ * la cabecera al bajar la página para que pase a opaca.
  */
 export function HeaderIsland({ index }: { index: SearchEntry[] }) {
   const dialog = useRef<HTMLDialogElement>(null)
   const input = useRef<HTMLInputElement>(null)
   const [query, setQuery] = useState('')
-  const [guides, setGuides] = useState<{ state: GuidesState; entries: SearchEntry[] }>({
-    state: 'idle',
-    entries: [],
-  })
+  // La búsqueda (search.ts) y el índice de las guías llegan al abrir el diálogo.
+  const [search, setSearch] = useState<{
+    state: GuidesState
+    run?: typeof import('./SearchList')
+    quests?: SearchEntry[]
+  }>({ state: 'idle' })
   const results = useMemo(
-    () => searchSite(index, guides.entries, query),
-    [index, guides.entries, query],
+    () => search.run?.searchSite(index, search.quests ?? [], query),
+    [search, index, query],
   )
 
   // Escucha los clics, las teclas, el foco y el scroll del documento (delegación).
@@ -95,26 +95,24 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
     const sheet = document.getElementById('site-sheet') as HTMLDialogElement | null
     let active = true
 
-    // El índice de las guías, una vez: al abrir la búsqueda por primera vez, o de nuevo si
-    // la última vez falló.
+    // La búsqueda y el índice de las guías, una vez: al abrir el diálogo por primera vez, o
+    // de nuevo si la última vez falló. Con el módulo ya cargado, el menú se busca aunque el
+    // índice tarde o falle.
     let request: 'idle' | 'loading' | 'ready' = 'idle'
     const loadGuides = () => {
       if (request !== 'idle') return
       request = 'loading'
-      setGuides((current) => ({ ...current, state: 'loading' }))
-      fetch(GUIDE_SEARCH_INDEX_URL)
-        .then((response) => {
-          if (!response.ok) throw new Error(`HTTP ${response.status}`)
-          return response.json() as Promise<GuideSearchIndex>
-        })
-        .then((data) => {
-          const entries = questEntries(data)
+      setSearch((current) => ({ ...current, state: 'loading' }))
+      import('./SearchList')
+        .then(async (run) => {
+          if (active) setSearch({ state: 'loading', run })
+          const quests = await run.loadQuestEntries()
           request = 'ready'
-          if (active) setGuides({ state: 'ready', entries })
+          if (active) setSearch({ state: 'ready', run, quests })
         })
         .catch(() => {
           request = 'idle'
-          if (active) setGuides((current) => ({ ...current, state: 'error' }))
+          if (active) setSearch((current) => ({ ...current, state: 'error' }))
         })
     }
 
@@ -230,15 +228,20 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
     else links[Math.min(next, links.length - 1)].focus()
   }
 
-  const shown = query.trim()
-    ? results.groups
-    : [{ type: 'seccion' as const, items: index.filter((e) => e.type === 'seccion') }]
-  const status = searchStatus({
-    query,
-    found: results.found,
-    questTotal: results.questTotal,
-    guides: guides.state,
-  })
+  // Sin el módulo todavía, la línea solo dice que carga o que falló.
+  const note =
+    search.state === 'loading' ? s.guidesLoading : search.state === 'error' ? s.guidesError : ''
+  const status =
+    results && search.run
+      ? search.run.searchStatus({
+          query,
+          found: results.found,
+          questTotal: results.questTotal,
+          questShown: results.groups.find((g) => g.type === 'mision')?.items.length ?? 0,
+          guides: search.state,
+          note,
+        })
+      : note
 
   return (
     <dialog
@@ -275,38 +278,14 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
       <p className="sdlg__st" id="buscar-st" role="status">
         {status}
       </p>
-      <div className="sdlg__list">
-        {shown.map((group) => (
-          <section key={group.type} aria-labelledby={`buscar-g-${group.type}`}>
-            <h2 className="sdlg__h" id={`buscar-g-${group.type}`}>
-              {query.trim() ? s.types[group.type] : s.goTo}
-            </h2>
-            <ul role="list">
-              {group.items.map((item) => (
-                <li key={item.href + item.name}>
-                  <a href={item.href}>
-                    <span className="site-well" aria-hidden="true">
-                      {item.image ? (
-                        <StaticImg src={item.image.src} width={26} height={26} alt="" />
-                      ) : (
-                        <DoorIcon />
-                      )}
-                    </span>
-                    {item.detail ? (
-                      <span className="sdlg__t">
-                        <span>{item.name}</span>
-                        <span className="sdlg__d">{item.detail}</span>
-                      </span>
-                    ) : (
-                      <span>{item.name}</span>
-                    )}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))}
-      </div>
+      {search.run && (
+        <search.run.SearchList
+          index={index}
+          groups={results?.groups ?? []}
+          query={query}
+          door={<DoorIcon />}
+        />
+      )}
     </dialog>
   )
 }
