@@ -201,7 +201,8 @@ function fightMonsters(blocks: BodyBlock[] | null | undefined): number[] {
 
 /**
  * Lo que pinta alguna página: los objetos de las recompensas y requisitos de las misiones,
- * los de las recompensas de los logros y los que piden las guías en su resumen, y los
+ * los de las recompensas de los logros y de sus páginas, los que piden las guías en su
+ * resumen, y los
  * monstruos de los requisitos de las misiones, de los combates de las guías y los que
  * representan a un metalogro. Solo esos: el catálogo entero son decenas de miles de objetos.
  */
@@ -231,6 +232,18 @@ export async function gameImageTargets(
   })
   for (const achievement of achievements.docs) {
     for (const id of relationIds(achievement.rewards?.items, 'item')) items.add(id)
+  }
+  // Y los que Torre pone en las recompensas de una página de logro, borradores incluidos.
+  const pages = await payload.find({
+    collection: 'achievement-pages',
+    pagination: false,
+    depth: 0,
+    draft: true,
+    select: { rewards: { items: true } },
+    overrideAccess: true,
+  })
+  for (const page of pages.docs) {
+    for (const id of relationIds(page.rewards?.items, 'item')) items.add(id)
   }
   // El representante de un metalogro puede ser un monstruo: su imagen es el arte del índice.
   const groups = await payload.find({

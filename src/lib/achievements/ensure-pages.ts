@@ -15,7 +15,8 @@ const relationId = (value: number | { id: number } | null | undefined) =>
   value == null ? null : typeof value === 'number' ? value : value.id
 
 /**
- * Un metalogro por cada categoría que cuelga de Misiones o Eventos y una página por cada
+ * Un metalogro por cada categoría que cuelga de Misiones o Eventos, a cualquier
+ * profundidad, y una página por cada
  * logro con misiones. Las que ya existen, por su categoría o su logro, no se tocan.
  */
 export async function ensureAchievementPages(
@@ -25,20 +26,28 @@ export async function ensureAchievementPages(
   const log = options.log ?? (() => {})
   const counts: EnsurePagesCounts = { groups: 0, pages: 0 }
 
-  const roots = await payload.find({
+  // Todas las categorías que cuelgan de Misiones o Eventos, a cualquier profundidad, como
+  // las que trae el refresco (src/lib/dofusdb/refresh-achievements.ts).
+  const all = await payload.find({
     collection: 'achievement-categories',
-    where: { dofusId: { in: QUEST_ROOT_CATEGORIES } },
     depth: 0,
     pagination: false,
     overrideAccess: true,
   })
-  const categories = await payload.find({
-    collection: 'achievement-categories',
-    where: { parent: { in: roots.docs.map((root) => root.id) } },
-    depth: 0,
-    pagination: false,
-    overrideAccess: true,
-  })
+  const roots = new Set(
+    all.docs.filter((doc) => QUEST_ROOT_CATEGORIES.includes(doc.dofusId)).map((doc) => doc.id),
+  )
+  const parentOf = new Map(all.docs.map((doc) => [doc.id, relationId(doc.parent)]))
+  const underRoot = (id: number): boolean => {
+    const seen = new Set<number>()
+    for (let parent = parentOf.get(id); parent != null; parent = parentOf.get(parent)) {
+      if (roots.has(parent)) return true
+      if (seen.has(parent)) return false
+      seen.add(parent)
+    }
+    return false
+  }
+  const categories = { docs: all.docs.filter((doc) => underRoot(doc.id)) }
   const groups = await payload.find({
     collection: 'achievement-groups',
     select: { category: true },
