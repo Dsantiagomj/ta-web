@@ -4,11 +4,12 @@
 
 const BASE_URL = 'http://localhost:3110'
 
-// Una línea por página. Cada tipo de página entra cuando exista su ruta: un logro y una
-// checklist. La guía la siembra scripts/seed-e2e.ts (tests/e2e/seed/guides.ts).
+// Una línea por página. Cada tipo de página entra cuando exista su ruta: falta una
+// checklist. La guía y el logro los siembra scripts/seed-e2e.ts (tests/e2e/seed/).
 const PAGES = [
   '/', // Portada
   '/seis-pies-bajo-tierra', // Guía de misión
+  '/la-ocasion-hace-al-ladron', // Logro
 ]
 
 // Mediana o mejor de las tres ejecuciones de cada página.
