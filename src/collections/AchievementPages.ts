@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 
+import { guidePreviewUrl, previewOrigin } from '../lib/guides/preview'
 import { fillAchievementPage } from './achievement-autofill'
 import {
   dofusDbNote,
@@ -26,6 +27,12 @@ export const AchievementPages: CollectionConfig = {
     useAsTitle: 'name',
     group: 'Guías',
     defaultColumns: ['name', 'group', 'state', '_status', 'updatedAt'],
+    // La página pública en el panel, borrador incluido, como las guías.
+    livePreview: {
+      url: ({ data, req }) => guidePreviewUrl(data?.slug, previewOrigin(process.env, req.origin)),
+      breakpoints: [{ name: 'movil', label: 'Móvil', width: 390, height: 844 }],
+    },
+    preview: (doc, { req }) => guidePreviewUrl(doc?.slug, previewOrigin(process.env, req.origin)),
   },
   access: {
     read: readPublishedOrAll,

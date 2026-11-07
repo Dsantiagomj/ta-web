@@ -1,0 +1,71 @@
+/*
+ * La ruta de navegación (DESIGN.md, Breadcrumb): enlaces pequeños en el acento, subrayados,
+ * con «/» en muted entre ellos, 12px encima del h1. En el móvil, solo el padre directo como
+ * enlace de vuelta, que puede partirse pero nunca se corta.
+ */
+.crumbs {
+  margin-bottom: 12px;
+}
+
+.crumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.crumbs li {
+  display: inline-flex;
+  align-items: center;
+}
+
+.crumbs li + li::before {
+  content: '/';
+  margin-inline: 8px;
+  color: var(--color-muted);
+}
+
+.crumbs a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 40px;
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.crumbs a:hover {
+  text-decoration-thickness: 2px;
+}
+
+.crumbs__chev {
+  display: none;
+  flex: none;
+  width: 12px;
+  height: 12px;
+}
+
+@media (max-width: 39.99rem) {
+  .crumbs li:not(:last-child) {
+    display: none;
+  }
+
+  .crumbs li + li::before {
+    content: none;
+  }
+
+  .crumbs a {
+    min-height: 44px;
+    align-items: flex-start;
+    padding-block: 12px;
+  }
+
+  .crumbs__chev {
+    display: block;
+    margin-top: 3px;
+  }
+}
