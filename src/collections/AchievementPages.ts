@@ -1,9 +1,13 @@
 import type { CollectionConfig } from 'payload'
 
 import { fillAchievementPage } from './achievement-autofill'
-import { dofusDbNote, stateField } from './achievement-fields'
+import {
+  dofusDbNote,
+  linkedNameValidator,
+  linkedSlugValidator,
+  stateField,
+} from './achievement-fields'
 import { isPanelUser, readPublishedOrAll } from './editorial-access'
-import { validateSlug } from './QuestGuides'
 import { rejectSharedSlug } from './root-slug'
 
 const note = (field: string) => dofusDbNote('achievement', field)
@@ -49,6 +53,7 @@ export const AchievementPages: CollectionConfig = {
       type: 'text',
       required: true,
       localized: true,
+      validate: linkedNameValidator('achievement'),
       admin: note('name'),
     },
     {
@@ -59,7 +64,7 @@ export const AchievementPages: CollectionConfig = {
       required: true,
       unique: true,
       index: true,
-      validate: validateSlug,
+      validate: linkedSlugValidator('achievement'),
       admin: {
         position: 'sidebar',
         description:

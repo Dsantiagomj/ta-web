@@ -1,7 +1,10 @@
 import type { Field } from 'payload'
 
+import { linkedQuestId } from '../lib/guides/autofill'
+
 import type { ValuesSource } from '../lib/achievements/dofusdb-values'
 import { achievementStrings, type PageState } from '../lib/achievements/strings'
+import { validateSlug } from './QuestGuides'
 
 /**
  * La nota bajo un campo que copia DofusDB: si el valor viene de DofusDB o Torre lo cambió,
@@ -32,4 +35,23 @@ export const stateField: Field = {
   defaultValue: 'preparing',
   options: STATES.map((value) => ({ value, label: achievementStrings.states[value] })),
   admin: { position: 'sidebar', description: achievementStrings.admin.stateDescription },
+}
+
+type LinkedOptions = { data?: Record<string, unknown> }
+const isLinked = (link: string, data?: Record<string, unknown>) =>
+  linkedQuestId(data?.[link]) !== null
+
+/**
+ * El nombre: vacío vale si hay dato de DofusDB enlazado, porque el hook lo rellena al
+ * guardar (como el título de las guías). Sin él, el panel lo pide.
+ */
+export function linkedNameValidator(link: string) {
+  return (value: string | null | undefined, { data }: LinkedOptions): true | string =>
+    value?.trim() || isLinked(link, data) ? true : 'Escribe un nombre o enlaza el dato de DofusDB.'
+}
+
+/** El slug: vacío vale si hay dato de DofusDB, porque sale del nombre; si no, como las guías. */
+export function linkedSlugValidator(link: string) {
+  return (value: string | null | undefined, { data }: LinkedOptions): true | string =>
+    !value && isLinked(link, data) ? true : validateSlug(value)
 }

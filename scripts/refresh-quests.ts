@@ -55,8 +55,6 @@ try {
     { achievements: data.achievements ?? [], categories: data.achievementCategories ?? [] },
     { concurrency, log: (message) => console.log(message) },
   )
-  // Los metalogros y páginas de logro nuevos, «En preparación»; los que existen no se tocan.
-  const pages = await ensureAchievementPages(payload, { log: (message) => console.log(message) })
   console.log(`Logros: ${seconds(achievementsStarted)} s.`)
 
   console.log('Guardando los PNJ e importando sus renders…')
@@ -65,6 +63,10 @@ try {
     log: (message) => console.log(message),
   })
   console.log(`PNJ: ${seconds(npcsStarted)} s.`)
+
+  // Los metalogros y páginas de logro nuevos, «En preparación»; los que existen no se tocan.
+  // Después de los PNJ: el representante por defecto es quien da la primera misión.
+  const pages = await ensureAchievementPages(payload, { log: (message) => console.log(message) })
 
   console.log('Importando los iconos de los objetos y las imágenes de los monstruos…')
   const imagesStarted = Date.now()

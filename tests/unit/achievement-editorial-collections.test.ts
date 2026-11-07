@@ -12,6 +12,9 @@ function field(fields: Field[], name: string): Field {
   return found
 }
 
+/** El validador de un campo, como lo llama Payload: valor y opciones. */
+type Validate = (value: unknown, options: unknown) => true | string
+
 function noteOf(candidate: Field) {
   const admin = candidate.admin as { components?: { Description?: { clientProps?: unknown } } }
   return admin?.components?.Description?.clientProps
@@ -49,11 +52,9 @@ describe.each([
   })
 
   it('guarda un slug único con las reglas de las guías', () => {
-    expect(field(collection.fields, 'slug')).toMatchObject({
-      required: true,
-      unique: true,
-      validate: validateSlug,
-    })
+    expect(field(collection.fields, 'slug')).toMatchObject({ required: true, unique: true })
+    const validate = (field(collection.fields, 'slug') as { validate: Validate }).validate
+    expect(validate('sistema', { data: {} })).toBe(validateSlug('sistema'))
   })
 
   it('tiene un estado de Torre: Publicada o En preparación', () => {
@@ -98,4 +99,23 @@ describe('achievement-pages', () => {
       })
     }
   })
+})
+
+describe('validación en el panel: lo vacío se rellena al guardar', () => {
+  it.each([
+    { collection: AchievementPages, link: 'achievement' },
+    { collection: AchievementGroups, link: 'category' },
+  ])(
+    '$collection.slug acepta nombre y slug vacíos si hay dato de DofusDB',
+    ({ collection, link }) => {
+      const options = (data: Record<string, unknown>) => ({ data }) as never
+      for (const name of ['name', 'slug']) {
+        const validate = (field(collection.fields, name) as { validate: Validate }).validate
+        expect(validate('', options({ [link]: 5 })), name).toBe(true)
+        expect(validate('', options({})), name).not.toBe(true)
+      }
+      const slug = (field(collection.fields, 'slug') as { validate: Validate }).validate
+      expect(slug('Con Mayúsculas', options({ [link]: 5 }))).not.toBe(true)
+    },
+  )
 })
