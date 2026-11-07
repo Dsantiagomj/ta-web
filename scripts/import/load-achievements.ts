@@ -2,7 +2,7 @@
 // índice, sus nombres y slugs, el estado de cada metalogro y de cada logro, los
 // representantes que eligió a mano y las guías sueltas. La fuente es el índice ya calculado
 // del prototipo (tmp/mockups/comun/indice/datos.json): los estados se copian, no se deducen.
-import type { Payload, Where } from 'payload'
+import type { Payload } from 'payload'
 
 import { slugFromName } from '@/lib/guides/autofill'
 
@@ -139,53 +139,58 @@ export async function importTorreAchievements(
 
     if (existing) report.groups.updated += 1
     else report.groups.created += 1
-    if (!apply) continue
 
-    const group = existing
-      ? await payload.update({
-          collection: 'achievement-groups',
-          id: existing.id,
-          data: { ...data, guides: guideIds },
-          depth: 0,
-          overrideAccess: true,
-        })
-      : await payload.create({
-          collection: 'achievement-groups',
-          data: {
-            ...data,
-            slug: data.slug ?? `metalogro-${slugFromName(zone.name)}`,
-            // Sin categoría de DofusDB (Misiones de templo), con las historias.
-            section: 'stories',
-            guides: guideIds,
-            _status: 'published',
-          },
-          depth: 0,
-          overrideAccess: true,
-        })
-    log(`${zone.name}: ${data.state === 'published' ? 'publicado' : 'en preparación'}`)
+    // Sin --apply se cuenta todo igual; solo no se escribe.
+    const group = !apply
+      ? existing
+      : existing
+        ? await payload.update({
+            collection: 'achievement-groups',
+            id: existing.id,
+            data: { ...data, guides: guideIds },
+            depth: 0,
+            overrideAccess: true,
+          })
+        : await payload.create({
+            collection: 'achievement-groups',
+            data: {
+              ...data,
+              slug: data.slug ?? `metalogro-${slugFromName(zone.name)}`,
+              // Sin categoría de DofusDB (Misiones de templo), con las historias.
+              section: 'stories',
+              guides: guideIds,
+              _status: 'published',
+            },
+            depth: 0,
+            overrideAccess: true,
+          })
+    if (apply) log(`${zone.name}: ${data.state === 'published' ? 'publicado' : 'en preparación'}`)
 
+    // El orden cuenta solo los enlaces que casan: uno sin logro no deja hueco ni solapa.
     const listed = new Set<number>()
-    for (const [index, link] of zone.achievements.entries()) {
+    for (const link of zone.achievements) {
       const achievement = achievementByName.get(fold(link.name))
       if (!achievement) {
         report.unmatched.push({ group: zone.name, name: link.name })
         continue
       }
       listed.add(achievement.id)
-      const pageData = {
-        slug: slugOf(link.href),
-        order: index + 1,
-        group: group.id,
-        state: link.ready ? ('published' as const) : ('preparing' as const),
-      }
-      const where: Where = { achievement: { equals: achievement.id } }
       const { docs } = await payload.find({
         collection: 'achievement-pages',
-        where,
+        where: { achievement: { equals: achievement.id } },
         depth: 0,
         limit: 1,
         overrideAccess: true,
       })
+      if (docs[0]) report.pages.updated += 1
+      else report.pages.created += 1
+      if (!apply || !group) continue
+      const pageData = {
+        slug: slugOf(link.href),
+        order: listed.size,
+        group: group.id,
+        state: link.ready ? ('published' as const) : ('preparing' as const),
+      }
       if (docs[0]) {
         await payload.update({
           collection: 'achievement-pages',
@@ -194,7 +199,6 @@ export async function importTorreAchievements(
           depth: 0,
           overrideAccess: true,
         })
-        report.pages.updated += 1
       } else {
         // El nombre y lo demás los rellena el hook desde DofusDB.
         await payload.create({
@@ -203,14 +207,14 @@ export async function importTorreAchievements(
           depth: 0,
           overrideAccess: true,
         })
-        report.pages.created += 1
       }
     }
+    if (!apply || !group) continue
 
     // Las páginas de logros que Torre no lista van detrás de las suyas, en el orden del juego.
     const unlisted = achievements.docs
       .filter((doc) => !listed.has(doc.id))
-      .sort((a, b) => (a.order ?? 0) - (b.order ?? 0) || a.dofusId - b.dofusId)
+      .sort((x, y) => (x.order ?? 0) - (y.order ?? 0) || x.dofusId - y.dofusId)
     for (const [index, achievement] of unlisted.entries()) {
       const { docs } = await payload.find({
         collection: 'achievement-pages',
