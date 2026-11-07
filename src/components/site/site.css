@@ -158,24 +158,37 @@ html {
   height: 20px;
 }
 
+/* La píldora de búsqueda: 44px de alto y 240px de ancho, con Ctrl K al final. */
 .spill {
   display: none;
   flex: none;
   align-items: center;
   gap: 10px;
-  height: 40px;
-  padding: 0 8px 0 14px;
+  min-width: 240px;
+  height: 44px;
+  padding: 0 10px 0 16px;
   border: 1px solid var(--color-line);
   border-radius: var(--radius-pill);
   background: var(--color-surface);
   color: var(--color-ink-2);
-  font: 500 0.9375rem/1 var(--font-body);
+  font: 500 1rem/1 var(--font-body);
   cursor: pointer;
 }
 
 .spill svg {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
+}
+
+.spill > span {
+  flex: 1;
+  text-align: left;
+}
+
+.site-hdr .spill kbd {
+  height: 24px;
+  padding: 0 7px;
+  font-size: 0.8125rem;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -1523,7 +1536,6 @@ html {
 }
 
 @media (pointer: coarse) {
-  .spill,
   .sdlg__x,
   .np,
   .ft-legal a,
