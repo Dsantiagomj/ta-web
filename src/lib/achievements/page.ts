@@ -4,7 +4,9 @@
 
 import type { GameItem, Quantity } from '@/components/game/types'
 import type { ImageAsset } from '@/components/ui/types'
+import { neededItems } from '@/lib/guides/format'
 import { gameItem, needNote, type NeedNote, type QuestHeaderData } from '@/lib/guides/page'
+import type { LinkedNeeds } from '@/lib/guides/summary'
 import { mediaImageAsset } from '@/lib/media/image-asset'
 import { legacyHref } from '@/lib/site/legacy'
 import type { Media } from '@/payload-types'
@@ -153,23 +155,31 @@ function rowLevel(quests: (QuestDoc | null)[]): number | undefined {
   return known.length ? Math.min(...known) : undefined
 }
 
-/** Las notas de Necesitarás de varias guías: las que tienen cantidad, sumadas. */
-function totalNeeds(guides: GuideRef[]): NeedNote[] {
+/**
+ * Lo que hay que reunir para todas las misiones: los objetos y las notas con cantidad
+ * («1 x Combate (solo).») de las guías, sumados. Una nota sin cantidad («Literalmente nada
+ * xD.») es un comentario de esa guía y no entra en el total.
+ */
+function totalNeeds(guides: GuideRef[]): { items: Quantity<GameItem>[]; notes: NeedNote[] } {
   const notes: NeedNote[] = []
+  const items = new Map<number, Quantity<GameItem>>()
   for (const guide of guides) {
-    for (const line of (guide.needs?.notes ?? '')
-      .split('\n')
-      .map((l) => l.trim())
-      .filter(Boolean)) {
+    const lines = (guide.needs?.notes ?? '').split('\n').map((line) => line.trim())
+    for (const line of lines.filter(Boolean)) {
       const note = needNote(line)
-      const same = notes.find(
-        (known) => known.label.toLocaleLowerCase('es') === note.label.toLocaleLowerCase('es'),
-      )
-      if (!same) notes.push({ ...note })
-      else if (same.quantity != null && note.quantity != null) same.quantity += note.quantity
+      if (note.quantity == null) continue
+      const key = note.label.toLocaleLowerCase('es')
+      const same = notes.find((known) => known.label.toLocaleLowerCase('es') === key)
+      if (same) same.quantity! += note.quantity
+      else notes.push({ ...note })
+    }
+    for (const { item, quantity } of neededItems(guide.needs as LinkedNeeds | null)) {
+      const known = items.get(item.id)
+      if (known) known.quantity += quantity
+      else items.set(item.id, { item: gameItem(item), quantity })
     }
   }
-  return notes
+  return { items: [...items.values()], notes }
 }
 
 function groupItem(doc: SiblingDoc, currentId: number): GroupItem {
@@ -225,10 +235,7 @@ export function achievementPageView(data: AchievementPageData): AchievementPageV
   // Lo que hace falta en total: lo que piden las guías publicadas de las misiones sin
   // alternativas (de la misión de clase no se sabe cuál harás).
   const single = rows.flatMap((row) => (row.quests.length === 1 ? [row.quests[0]!] : []))
-  const needs = {
-    items: [] as Quantity<GameItem>[],
-    notes: totalNeeds(single.flatMap((quest) => guideByQuest.get(quest.id) ?? [])),
-  }
+  const needs = totalNeeds(single.flatMap((quest) => guideByQuest.get(quest.id) ?? []))
 
   const max = positive(page.rewards?.experience)
   const kamas = positive(page.rewards?.kamas)

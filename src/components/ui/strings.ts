@@ -3,6 +3,8 @@
 export type CalloutVariant = 'tip' | 'warning' | 'stop'
 
 export const uiStrings = {
+  /** La ruta de navegación de las páginas de logro y de guía. */
+  breadcrumb: 'Ruta de navegación',
   callout: {
     tip: 'Consejo',
     warning: '¡Importante!',

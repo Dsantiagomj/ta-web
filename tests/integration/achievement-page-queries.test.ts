@@ -24,6 +24,7 @@ async function cleanUp() {
   }
   await payload.delete({ collection: 'quests', where: { dofusId: { in: [1975, 1976, 1977] } } })
   await payload.delete({ collection: 'npcs', where: { dofusId: { equals: 4412 } } })
+  await payload.delete({ collection: 'items', where: { dofusId: { equals: 990_366 } } })
 }
 
 beforeAll(async () => {
@@ -31,6 +32,10 @@ beforeAll(async () => {
   await cleanUp()
   editor = await createPanelUser(payload)
   await payload.create({ collection: 'npcs', data: { dofusId: 4412, name: 'Hupe Esse' } })
+  const pico = await payload.create({
+    collection: 'items',
+    data: { dofusId: 990_366, name: 'Pico de tofu' },
+  })
   const [aguas, seis, cazador] = [
     await payload.create({
       collection: 'quests',
@@ -56,7 +61,7 @@ beforeAll(async () => {
       title: 'Seis pies bajo tierra',
       slug: 'seis-pies-bajo-tierra',
       quest: seis.id,
-      summary: { needs: { notes: '1 x Combate (solo).' } },
+      summary: { needs: { notes: '1 x Combate (solo).', items: [{ item: pico.id, quantity: 2 }] } },
       _status: 'published',
     },
   })
@@ -124,6 +129,10 @@ describe('readAchievementPage', () => {
     // Solo la guía publicada; el borrador no se ve.
     expect(data?.guides.map((guide) => guide.slug)).toEqual(['seis-pies-bajo-tierra'])
     expect(data?.guides[0]?.needs?.notes).toBe('1 x Combate (solo).')
+    // Los objetos que pide, con su nombre: la página los suma en «Necesitarás en total».
+    expect(data?.guides[0]?.needs?.items).toMatchObject([
+      { item: { name: 'Pico de tofu' }, quantity: 2 },
+    ])
     expect([...(data?.givers.values() ?? [])].map((npc) => npc.name)).toEqual(['Hupe Esse'])
   })
 

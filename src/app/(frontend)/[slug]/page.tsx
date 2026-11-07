@@ -13,19 +13,35 @@ import {
   questHeaderProps,
 } from '@/lib/guides/page'
 
+import { achievementPageStrings } from '@/lib/achievements/strings'
+
 import { siteStrings } from '../strings'
+import { loadAchievementPage } from './achievement-data'
+import { AchievementView } from './AchievementView'
 import { loadGuidePage } from './data'
 import { LivePreviewRefresh } from './LivePreviewRefresh'
 import { PreviewBar } from './PreviewBar'
 
 type Props = { params: Promise<{ slug: string }> }
 
+/** Título y descripción de un logro: el nombre y cuántas misiones tiene. */
+function achievementSeo(name: string, quests: number) {
+  const s = achievementPageStrings.seo
+  return { title: s.title(name), description: s.description(name, quests) }
+}
+
+// /<slug> es una guía o un logro: los slugs no chocan (src/collections/root-slug.ts).
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const page = await loadGuidePage((await params).slug)
-  // Sin guía, la página llama a notFound() y Next pone noindex.
-  if (!page) return {}
-  const { title, description } = guideSeo(page.guide)
-  const url = `/${page.guide.slug}`
+  const slug = (await params).slug
+  const page = await loadGuidePage(slug)
+  const achievement = page ? null : await loadAchievementPage(slug)
+  // Sin guía ni logro, la página llama a notFound() y Next pone noindex.
+  if (!page && !achievement) return {}
+  const { title, description } = page
+    ? guideSeo(page.guide)
+    : achievementSeo(achievement!.page.name, achievement!.page.quests?.length ?? 0)
+  const url = `/${page ? page.guide.slug : achievement!.page.slug}`
+  const preview = page ? page.preview : achievement!.preview
   return {
     title,
     description,
@@ -39,8 +55,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       locale: 'es_ES',
     },
     // Un borrador nunca se indexa.
-    ...(page.preview && { robots: { index: false, follow: false } }),
+    ...(preview && { robots: { index: false, follow: false } }),
   }
+}
+
+/** Una guía o un logro; si no es ninguno, 404. */
+export default async function SlugPage({ params }: Props) {
+  const slug = (await params).slug
+  const page = await loadGuidePage(slug)
+  if (page) return <QuestGuideView page={page} />
+  // Un logro En preparación no tiene página: la consulta no lo devuelve a un visitante.
+  const achievement = await loadAchievementPage(slug)
+  if (!achievement) notFound()
+  return <AchievementView data={achievement} preview={achievement.preview} />
 }
 
 /**
@@ -50,10 +77,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
  * línea y el cierre. Lo que la guía no guarda no se pinta. Una sola isla de cliente; la de
  * la vista previa solo en draft mode.
  */
-export default async function QuestGuidePage({ params }: Props) {
-  const page = await loadGuidePage((await params).slug)
-  if (!page) notFound()
-
+function QuestGuideView({
+  page,
+}: {
+  page: NonNullable<Awaited<ReturnType<typeof loadGuidePage>>>
+}) {
   const { guide, links, giver, next, preview } = page
   const { intro, steps, outro } = guideContent(guide)
   const card = next && nextQuestCard(next.quest, next.guide)

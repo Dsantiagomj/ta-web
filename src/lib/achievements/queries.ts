@@ -79,17 +79,20 @@ export async function readAchievementPage(
         await payload.find({
           collection: 'quest-guides',
           where: { quest: { in: [...questIds] } },
-          select: { slug: true, quest: true, summary: { needs: { notes: true } } },
-          depth: 0,
+          select: { slug: true, quest: true, summary: { needs: true } },
+          // Los objetos de Necesitarás con su nombre y su icono.
+          populate: { items: { name: true, superTypeId: true, image: true } },
+          depth: 2,
           pagination: false,
           draft: false,
           overrideAccess: false,
         })
-      ).docs.flatMap((doc) =>
-        typeof doc.quest === 'number'
-          ? [{ questId: doc.quest, slug: doc.slug, needs: doc.summary?.needs ?? null }]
-          : [],
-      )
+      ).docs.flatMap((doc) => {
+        const questId = relationId(doc.quest as number | { id: number } | null)
+        return questId === null
+          ? []
+          : [{ questId, slug: doc.slug, needs: doc.summary?.needs ?? null }]
+      })
     : []
 
   const npcIds = quests.flatMap((quest) => {
