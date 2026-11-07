@@ -110,10 +110,6 @@ html {
   .site-hdr__act {
     gap: 0 !important;
   }
-
-  .site-hdr .ib {
-    width: 40px;
-  }
 }
 
 @media (max-width: 47.99rem) {

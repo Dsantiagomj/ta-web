@@ -247,6 +247,24 @@ test.describe('cabecera en el móvil', () => {
   })
 })
 
+test.describe('cabecera a 320px con el dedo', () => {
+  test.use({ viewport: { width: 320, height: 640 }, hasTouch: true, isMobile: true })
+
+  test('los botones miden 44px y la barra no desborda', async ({ page }) => {
+    await open(page)
+    expect(await page.evaluate(() => matchMedia('(pointer: coarse)').matches)).toBe(true)
+    for (const name of ['Buscar (Ctrl K)', 'Menú']) {
+      const box = (await page.getByRole('button', { name, exact: true }).boundingBox())!
+      expect(box.width, name).toBeGreaterThanOrEqual(44)
+      expect(box.height, name).toBeGreaterThanOrEqual(44)
+    }
+    const bar = (await page.locator('.site-hdr__in').boundingBox())!
+    const burger = (await page.getByRole('button', { name: 'Menú' }).boundingBox())!
+    expect(burger.x + burger.width).toBeLessThanOrEqual(bar.x + bar.width + 1)
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBe(0)
+  })
+})
+
 test.describe('pie', () => {
   test('Torre, Explorar, Comunidad y la banda legal, sin enlaces repetidos ni Instagram', async ({
     page,
