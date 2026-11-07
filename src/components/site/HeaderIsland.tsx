@@ -10,8 +10,11 @@ import { siteShellStrings } from './strings'
 
 const s = siteShellStrings.searchDialog
 
-/** El botón que abrió un panel o un diálogo: recupera el foco al cerrarlo. */
-let opener: HTMLElement | null = null
+/** Lo que tenía el foco al abrir cada diálogo: lo recupera al cerrarlo. */
+const openers: { sheet: HTMLElement | null; search: HTMLElement | null } = {
+  sheet: null,
+  search: null,
+}
 
 function closePanels(except?: HTMLButtonElement, restore = false) {
   for (const button of document.querySelectorAll<HTMLButtonElement>('.np[aria-expanded="true"]')) {
@@ -29,6 +32,33 @@ function togglePanel(button: HTMLButtonElement) {
   const panel = document.getElementById(button.getAttribute('aria-controls') ?? '')
   if (open) panel?.removeAttribute('hidden')
   else panel?.setAttribute('hidden', '')
+}
+
+const PANEL_KEYS = ['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Home', 'End']
+
+/**
+ * Flechas, Inicio y Fin dentro del panel abierto (DESIGN.md, Dropdown panel): desde su
+ * botón, abajo entra al primer enlace; dentro, recorren sus enlaces y botones en orden.
+ */
+function movePanelFocus(event: KeyboardEvent, button: HTMLButtonElement) {
+  if (!PANEL_KEYS.includes(event.key)) return
+  const panel = document.getElementById(button.getAttribute('aria-controls') ?? '')
+  if (!panel) return
+  const items = [...panel.querySelectorAll<HTMLElement>('a[href], button')]
+  const at = items.indexOf(document.activeElement as HTMLElement)
+  if (at === -1 && document.activeElement !== button) return
+  if (items.length === 0) return
+  event.preventDefault()
+  const last = items.length - 1
+  const next =
+    event.key === 'Home'
+      ? 0
+      : event.key === 'End'
+        ? last
+        : ['ArrowDown', 'ArrowRight'].includes(event.key)
+          ? Math.min(at + 1, last)
+          : Math.max(at - 1, 0)
+  items[next].focus()
 }
 
 /** El atajo no salta mientras se escribe en un campo. */
@@ -57,9 +87,16 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
 
     const openSearch = (from: HTMLElement | null) => {
       if (!dialog.current || dialog.current.open) return
-      opener = from
       closePanels()
-      if (sheet?.open) sheet.close()
+      if (sheet?.open) {
+        // Lo que abrió la búsqueda queda dentro del menú cerrado: el foco vuelve a lo que
+        // abrió el menú, la hamburguesa.
+        openers.search = openers.sheet
+        openers.sheet = null
+        sheet.close()
+      } else {
+        openers.search = from
+      }
       dialog.current.showModal()
       input.current?.focus()
     }
@@ -72,7 +109,7 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
       if (search) return openSearch(search)
       const burger = target.closest<HTMLElement>('[data-open-sheet]')
       if (burger && sheet) {
-        opener = burger
+        openers.sheet = burger
         return sheet.showModal()
       }
       if (target.closest('[data-close-sheet]')) return sheet?.close()
@@ -94,9 +131,10 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
         event.preventDefault()
         return openSearch(document.activeElement as HTMLElement | null)
       }
-      if (event.key === 'Escape' && document.querySelector('.np[aria-expanded="true"]')) {
-        closePanels(undefined, true)
-      }
+      const open = document.querySelector<HTMLButtonElement>('.np[aria-expanded="true"]')
+      if (!open) return
+      if (event.key === 'Escape') return closePanels(undefined, true)
+      movePanelFocus(event, open)
     }
 
     // Un panel se cierra cuando el foco sale de su elemento del menú.
@@ -106,10 +144,12 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
     }
 
     const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8)
-    const restore = () => {
-      opener?.focus()
-      opener = null
+    const restore = (which: keyof typeof openers) => () => {
+      openers[which]?.focus()
+      openers[which] = null
     }
+    const restoreSheet = restore('sheet')
+    const restoreSearch = restore('search')
 
     onScroll()
     // Las pruebas esperan a esta marca antes de usar el teclado.
@@ -118,16 +158,16 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
     document.addEventListener('keydown', onKey)
     document.addEventListener('focusout', onFocusOut)
     window.addEventListener('scroll', onScroll, { passive: true })
-    sheet?.addEventListener('close', restore)
+    sheet?.addEventListener('close', restoreSheet)
     const search = dialog.current
-    search?.addEventListener('close', restore)
+    search?.addEventListener('close', restoreSearch)
     return () => {
       document.removeEventListener('click', onClick)
       document.removeEventListener('keydown', onKey)
       document.removeEventListener('focusout', onFocusOut)
       window.removeEventListener('scroll', onScroll)
-      sheet?.removeEventListener('close', restore)
-      search?.removeEventListener('close', restore)
+      sheet?.removeEventListener('close', restoreSheet)
+      search?.removeEventListener('close', restoreSearch)
     }
   }, [])
 

@@ -69,6 +69,24 @@ test.describe('cabecera', () => {
     await expect(page.locator('#menu-mazmorras')).toBeHidden()
   })
 
+  test('las flechas recorren los enlaces del panel abierto', async ({ page }) => {
+    await open(page)
+    const button = page.getByRole('button', { name: 'Clases' })
+    await button.focus()
+    await page.keyboard.press('Enter')
+    const links = page.locator('#menu-clases a')
+    await page.keyboard.press('ArrowDown')
+    await expect(links.nth(0)).toBeFocused()
+    await page.keyboard.press('ArrowDown')
+    await expect(links.nth(1)).toBeFocused()
+    await page.keyboard.press('ArrowUp')
+    await expect(links.nth(0)).toBeFocused()
+    await page.keyboard.press('End')
+    await expect(links.last()).toBeFocused()
+    await page.keyboard.press('Home')
+    await expect(links.nth(0)).toBeFocused()
+  })
+
   test('Ctrl K abre la búsqueda, encuentra sin tildes y Esc la cierra', async ({ page }) => {
     await open(page)
     await page.keyboard.press('Control+k')
@@ -107,6 +125,21 @@ test.describe('cabecera', () => {
   }
 })
 
+test.describe('cabecera a 1120px', () => {
+  test.use({ viewport: { width: 1120, height: 800 } })
+
+  test('ningún panel se sale de la pantalla', async ({ page }) => {
+    await open(page)
+    for (const key of ['misiones', 'dofus', 'clases', 'mazmorras']) {
+      await page.locator(`.np[aria-controls="menu-${key}"]`).click()
+      const box = (await page.locator(`#menu-${key}`).boundingBox())!
+      expect(box.x, key).toBeGreaterThanOrEqual(0)
+      expect(box.x + box.width, key).toBeLessThanOrEqual(1120)
+      await page.keyboard.press('Escape')
+    }
+  })
+})
+
 test.describe('cabecera en el móvil', () => {
   test.use({ viewport: { width: 390, height: 844 } })
 
@@ -128,6 +161,22 @@ test.describe('cabecera en el móvil', () => {
 
     await page.keyboard.press('Escape')
     await expect(sheet).toBeHidden()
+    await expect(burger).toBeFocused()
+  })
+
+  test('la búsqueda abierta desde el menú devuelve el foco a la hamburguesa', async ({ page }) => {
+    await open(page)
+    const burger = page.getByRole('button', { name: 'Menú' })
+    await burger.click()
+    await page
+      .getByRole('dialog', { name: 'Menú' })
+      .getByRole('button', { name: /Buscar una sección/ })
+      .click()
+    const search = page.getByRole('dialog', { name: 'Buscar en el sitio' })
+    await expect(search).toBeVisible()
+    await expect(page.getByRole('dialog', { name: 'Menú' })).toBeHidden()
+    await page.keyboard.press('Escape')
+    await expect(search).toBeHidden()
     await expect(burger).toBeFocused()
   })
 

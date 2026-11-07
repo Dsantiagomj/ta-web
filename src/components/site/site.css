@@ -221,7 +221,7 @@ html {
 }
 
 .site-nav__item {
-  position: relative;
+  position: static;
 }
 
 .np {
@@ -283,15 +283,18 @@ html {
   }
 }
 
-/* El panel: la ficha de la sección a la izquierda y su arte a la derecha. */
+/* El panel: la ficha de la sección a la izquierda y su arte a la derecha. Sale del
+   borde izquierdo del menú, no de su botón, y nunca es más ancho que lo que queda de
+   pantalla a su derecha: a 1120px tampoco se sale. */
 .panel {
+  --panel-w: 720px;
   position: absolute;
   z-index: var(--z-menu);
   top: calc(100% + 18px);
   left: -8px;
   display: grid;
   grid-template-columns: 236px minmax(0, 1fr);
-  width: 720px;
+  width: min(var(--panel-w), calc(100vw - 280px));
   overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--color-section) 35%, var(--color-well-line));
   border-radius: var(--radius-lg);
@@ -318,12 +321,12 @@ html {
 }
 
 .panel--dofus {
+  --panel-w: 800px;
   grid-template-columns: 268px minmax(0, 1fr);
-  width: 800px;
 }
 
 .panel--clases {
-  width: 760px;
+  --panel-w: 760px;
 }
 
 .panel__tile {
