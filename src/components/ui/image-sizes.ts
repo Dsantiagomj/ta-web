@@ -8,6 +8,7 @@ export const IMAGE_SIZES = {
   prose: '(min-width: 58rem) 880px, (min-width: 40rem) calc(100vw - 48px), calc(100vw - 32px)',
   // Arte de cabecera: a sangre, de borde a borde.
   hero: '100vw',
-  // Arte de la tarjeta de la siguiente misión: 240px desde 640px; debajo, a lo ancho.
-  card: '(min-width: 40rem) 240px, calc(100vw - 2rem)',
+  // Arte de la tarjeta de la siguiente misión (guía v5): 280px desde 640px; debajo, a lo
+  // ancho de la columna, la ventana menos los márgenes de 16px.
+  card: '(min-width: 40rem) 280px, calc(100vw - 32px)',
 } as const

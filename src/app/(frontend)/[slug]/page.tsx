@@ -2,9 +2,16 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
 import { GuideBody, GuideSteps } from '@/components/game/GuideBody'
+import { NextQuestCard } from '@/components/game/NextQuestCard'
 import { PageEnhancements } from '@/components/game/PageEnhancements'
 import { QuestHeader } from '@/components/game/QuestHeader'
-import { guideContent, guideSeo, guideStart, questHeaderProps } from '@/lib/guides/page'
+import {
+  guideContent,
+  guideSeo,
+  guideStart,
+  nextQuestCard,
+  questHeaderProps,
+} from '@/lib/guides/page'
 
 import { siteStrings } from '../strings'
 import { loadGuidePage } from './data'
@@ -47,8 +54,9 @@ export default async function QuestGuidePage({ params }: Props) {
   const page = await loadGuidePage((await params).slug)
   if (!page) notFound()
 
-  const { guide, links, giver, preview } = page
+  const { guide, links, giver, next, preview } = page
   const { intro, steps, outro } = guideContent(guide)
+  const card = next && nextQuestCard(next.quest, next.guide)
 
   return (
     <div className="[--color-section:var(--color-sec-misiones)]">
@@ -67,6 +75,7 @@ export default async function QuestGuidePage({ params }: Props) {
               <GuideBody blocks={outro} />
             </div>
           )}
+          {card && <NextQuestCard card={card} />}
         </article>
       </main>
       <PageEnhancements />

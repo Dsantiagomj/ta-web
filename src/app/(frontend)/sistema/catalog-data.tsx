@@ -1,11 +1,11 @@
 import { CoordinatesChip } from '@/components/game/Coordinates'
-import { FightBlock } from '@/components/game/MonsterChip'
+import { FightBlock } from '@/components/game/FightBlock'
 import { TorreTips } from '@/components/game/TorreTips'
 import type { Achievement, GameItem, Monster } from '@/components/game/types'
 import { Callout } from '@/components/ui/Callout'
 import { Figure } from '@/components/ui/Figure'
 import type { ImageAsset } from '@/components/ui/types'
-import type { QuestHeaderData } from '@/lib/guides/page'
+import type { NextQuestCardData, QuestHeaderData } from '@/lib/guides/page'
 
 // Contenido real del catálogo: la guía de Torre «Seis pies bajo tierra» (DofusDB 1976),
 // «Entretanto, un renacer» (2420) y el vídeo de «Intoxicación profunda» (1433), con el arte
@@ -58,9 +58,9 @@ export const items = {
 } satisfies Record<string, GameItem>
 
 export const monsters = {
-  raman: { name: 'Ramán famélico', icon: icon('monster-241'), level: 20 },
-  milirrata: { name: 'Milirrata famélica', icon: icon('monster-239'), level: 20 },
-  miserata: { name: 'Miserata famélica', icon: icon('monster-254'), level: 20 },
+  raman: { name: 'Ramán famélico', icon: icon('monster-241') },
+  milirrata: { name: 'Milirrata famélica', icon: icon('monster-239') },
+  miserata: { name: 'Miserata famélica', icon: icon('monster-254') },
 } satisfies Record<string, Monster>
 
 export const achievement: Achievement = {
@@ -85,10 +85,20 @@ export const guide = {
 }
 
 export const fight = [
-  { monster: monsters.raman, quantity: 1 },
-  { monster: monsters.milirrata, quantity: 1 },
-  { monster: monsters.miserata, quantity: 1 },
+  { item: monsters.raman, quantity: 1 },
+  { item: monsters.milirrata, quantity: 1 },
+  { item: monsters.miserata, quantity: 1 },
 ]
+
+/** La tarjeta de la siguiente misión, con arte y sin él. */
+export const nextQuest: NextQuestCardData = {
+  title: 'El cazador cazado',
+  href: '#el-cazador-cazado',
+  level: 25,
+  npc: 'Kerubim Crepin',
+  coordinates: { x: 3, y: -17 },
+  art: images.kerubim,
+}
 
 /** La cabecera de «Seis pies bajo tierra», con el PNJ, el logro y el rango de XP. */
 export const header: QuestHeaderData = {

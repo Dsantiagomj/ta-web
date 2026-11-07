@@ -3,7 +3,7 @@
 // se enseña. Lo que la guía y su misión no guardan (render del PNJ, zona, logro) no se inventa, y sin bloques
 // Paso no hay pasos: la prosa nunca se parte en pasos aquí.
 
-import type { GameItem, Quantity } from '@/components/game/types'
+import type { GameItem, Monster, Quantity } from '@/components/game/types'
 import type { CalloutVariant } from '@/components/ui/strings'
 import type { ImageAsset } from '@/components/ui/types'
 import type { Coordinates } from '@/lib/guides/coordinates'
@@ -56,6 +56,18 @@ type ContentBlockDoc =
   | { blockType: 'image'; id?: string | null; image: number | Media; caption?: string | null }
   | { blockType: 'video'; id?: string | null; url: string; title?: string | null }
   | { blockType: 'callout'; id?: string | null; variant: CalloutVariant; content: RichTextState }
+  | {
+      blockType: 'fight'
+      id?: string | null
+      monsters?: { monster: Relation<MonsterDoc>; quantity: number }[] | null
+    }
+
+/** Un monstruo de DofusDB, con su imagen importada si ya está. */
+interface MonsterDoc {
+  id: number
+  name?: string | null
+  image?: number | Media | null
+}
 
 /** Un paso: título, coordenadas si las tiene y sus propios bloques (DESIGN.md, Steps). */
 type StepBlockDoc = {
@@ -114,6 +126,8 @@ export type GuideBlock =
       priority: boolean
     }
   | { kind: 'video'; key: string; url: string; title: string }
+  /** Un combate: los monstruos con su cantidad (DESIGN.md, Monster chip and fight block). */
+  | { kind: 'fight'; key: string; monsters: Quantity<Monster>[] }
   | {
       kind: 'callout'
       key: string
@@ -158,6 +172,13 @@ export function questGiverId(guide: GuideDoc): number | null {
   return positions.find((position) => position.npcId != null)?.npcId ?? null
 }
 
+/** El logro de la misión enlazada y su posición en él: la página busca la siguiente. */
+export function guideAchievement(
+  guide: GuideDoc,
+): { dofusId?: number | null; position?: number | null } | null {
+  return linkedQuest(guide)?.achievement ?? null
+}
+
 /** Las misiones previas pobladas: la página busca cuáles tienen guía publicada. */
 export function prerequisiteQuestIds(guide: GuideDoc): number[] {
   return (linkedQuest(guide)?.prerequisites ?? []).flatMap((quest) =>
@@ -165,11 +186,17 @@ export function prerequisiteQuestIds(guide: GuideDoc): number[] {
   )
 }
 
+/** Un objeto o monstruo como lo pinta la página: su nombre y, si ya se importó, su icono. */
+function gameItem(doc: { name?: string | null; image?: number | Media | null }): GameItem {
+  const icon = mediaImageAsset(doc.image)
+  return { name: doc.name ?? '', ...(icon && { icon }) }
+}
+
 /** Los objetos de Recompensas, con nombre, en el orden en que Torre los lista (al revés que DofusDB). */
 function rewardItems(guide: GuideDoc): Quantity<GameItem>[] {
   const items = [...(linkedQuest(guide)?.rewards?.items ?? [])].reverse()
   return items.flatMap(({ item, quantity }) =>
-    typeof item === 'object' && item.name ? [{ item: { name: item.name }, quantity }] : [],
+    typeof item === 'object' && item.name ? [{ item: gameItem(item), quantity }] : [],
   )
 }
 
@@ -277,7 +304,7 @@ export function questHeaderProps(
 
   const needs = {
     items: neededItems(summary.needs).map(({ item, quantity }) => ({
-      item: { name: item.name ?? '' },
+      item: gameItem(item),
       quantity,
     })),
     notes: lines(summary.needs?.notes).map(needNote),
@@ -364,6 +391,14 @@ export function guideContent(guide: GuideDoc): GuideContent {
             title: block.title?.trim() || guideStrings.page.videoTitle(guide.title),
           },
         ]
+      case 'fight': {
+        const monsters = (block.monsters ?? []).flatMap(({ monster, quantity }) =>
+          typeof monster === 'object' && monster?.name
+            ? [{ item: gameItem(monster), quantity }]
+            : [],
+        )
+        return monsters.length > 0 ? [{ kind: 'fight', key, monsters }] : []
+      }
       case 'image': {
         const image = mediaImageAsset(block.image)
         if (!image || typeof block.image !== 'object') return []
@@ -423,6 +458,70 @@ export function guideStart(guide: GuideDoc): GuideStart | undefined {
   const npc = summary?.startNpc?.trim()
   if (!npc || summary?.startX == null || summary.startY == null) return undefined
   return { npc, x: summary.startX, y: summary.startY }
+}
+
+/** La tarjeta de la siguiente misión del logro (DESIGN.md, Next quest card). */
+export interface NextQuestCardData {
+  title: string
+  href: string
+  level?: number
+  /** El PNJ que la da y dónde está: el de su primera posición de inicio en DofusDB. */
+  npc?: string
+  coordinates?: Coordinates
+  /** La primera captura de su guía. */
+  art?: ImageAsset
+}
+
+/** La siguiente misión del logro, leída de quests. */
+export interface NextQuestDoc {
+  name?: string | null
+  levelMin?: number | null
+  startPositions?: { npcName?: string | null; x?: number | null; y?: number | null }[] | null
+}
+
+/** Su guía publicada, con las imágenes del cuerpo pobladas. */
+export interface NextGuideDoc {
+  title: string
+  slug: string
+  body?: BodyBlockDoc[] | null
+}
+
+/** La primera imagen de un cuerpo en orden de lectura: un bloque Imagen, también dentro de un paso. */
+function firstImage(body: BodyBlockDoc[] | null | undefined): ImageAsset | undefined {
+  for (const block of body ?? []) {
+    if (block.blockType === 'image') {
+      const image = mediaImageAsset(block.image)
+      if (image) return image
+    }
+    if (block.blockType === 'step') {
+      const image = firstImage(block.body)
+      if (image) return image
+    }
+  }
+  return undefined
+}
+
+/**
+ * La tarjeta de la siguiente misión: solo si su guía está publicada (sin guía, null). Lo que
+ * falta (nivel, PNJ, captura) no se inventa: la tarjeta va sin ello.
+ */
+export function nextQuestCard(
+  quest: NextQuestDoc,
+  guide: NextGuideDoc | null | undefined,
+): NextQuestCardData | undefined {
+  if (!guide) return undefined
+  const level = positive(quest.levelMin)
+  const start = quest.startPositions?.find((position) => position.npcName?.trim())
+  const coordinates = start?.x != null && start.y != null ? { x: start.x, y: start.y } : undefined
+  const art = firstImage(guide.body)
+  return {
+    title: guide.title,
+    href: `/${guide.slug}`,
+    ...(level && { level }),
+    ...(start?.npcName && { npc: start.npcName.trim() }),
+    ...(coordinates && { coordinates }),
+    ...(art && { art }),
+  }
 }
 
 /** Título y descripción para buscadores; sin los de la guía, los del autorrelleno. */

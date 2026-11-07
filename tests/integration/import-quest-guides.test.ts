@@ -27,6 +27,12 @@ const QUEST_IDS: Record<string, number[]> = {
 const EXISTING_QUEST = 1977
 const TOFU_BEAK = 366
 const MISSING_QUESTS = [1433, 2420, 1976]
+// Los monstruos del combate de Seis pies bajo tierra, con sus IDs de DofusDB.
+const FAMISHED = [
+  { dofusId: 5281, name: 'Ramán famélico', iconId: 241 },
+  { dofusId: 5282, name: 'Milirrata famélica', iconId: 239 },
+  { dofusId: 5283, name: 'Miserata famélica', iconId: 254 },
+]
 
 function converted(): ConvertedGuide[] {
   return GUIDE_SLUGS.map((slug) => {
@@ -114,11 +120,16 @@ describe('carga de guías importadas de Squarespace', () => {
       where: { dofusId: { in: [EXISTING_QUEST, ...MISSING_QUESTS] } },
     })
     await payload.delete({ collection: 'items', where: { dofusId: { equals: TOFU_BEAK } } })
+    await payload.delete({
+      collection: 'monsters',
+      where: { dofusId: { in: FAMISHED.map((monster) => monster.dofusId) } },
+    })
   }
 
   beforeAll(async () => {
     payload = await startPayload()
     await cleanUp()
+    for (const data of FAMISHED) await payload.create({ collection: 'monsters', data })
     tofuBeak = await payload.create({
       collection: 'items',
       data: { dofusId: TOFU_BEAK, name: 'Pico de tofu', typeId: 47, superTypeId: 9 },
@@ -167,7 +178,8 @@ describe('carga de guías importadas de Squarespace', () => {
       items: [{ item: tofuBeak.id, quantity: 3 }],
     })
 
-    // Las cinco se parten en pasos sin título; dentro van los cuatro bloques de contenido.
+    // Las cinco se parten en pasos sin título; dentro van los bloques de contenido, y el
+    // combate de Seis pies bajo tierra, cuyos monstruos están en la base.
     const topTypes = new Set(
       [...saved.values()].flatMap((guide) => guide.body?.map((block) => block.blockType) ?? []),
     )
@@ -175,7 +187,7 @@ describe('carga de guías importadas de Squarespace', () => {
     const blockTypes = new Set(
       [...saved.values()].flatMap((guide) => flat(guide.body).map((block) => block.blockType)),
     )
-    expect([...blockTypes].sort()).toEqual(['callout', 'image', 'richText', 'video'])
+    expect([...blockTypes].sort()).toEqual(['callout', 'fight', 'image', 'richText', 'video'])
 
     const video = saved.get('intoxicacion-profunda')!.body?.at(-1)
     expect(video).toMatchObject({
@@ -344,5 +356,39 @@ describe('carga de guías importadas de Squarespace', () => {
 
     const again = await loadQuestGuides(payload, [six], { fetchImage })
     expect(again.guides).toMatchObject({ unchanged: 1 })
+  })
+
+  it('la lista «N x Monstruo» después de «lucha contra» pasa a un bloque Combate', async () => {
+    const saved = (await guidesBySlug()).get('seis-pies-bajo-tierra')!
+    const fights = flat(saved.body).filter((block) => block.blockType === 'fight')
+    expect(fights).toHaveLength(1)
+    const monsters = await payload.find({
+      collection: 'monsters',
+      where: { dofusId: { in: FAMISHED.map((monster) => monster.dofusId) } },
+      depth: 0,
+      sort: 'dofusId',
+    })
+    expect(fights[0]).toMatchObject({
+      monsters: monsters.docs.map((monster) => ({ monster: monster.id, quantity: 1 })),
+    })
+    // La frase que lo presenta se queda en el texto de antes; la lista ya no está.
+    expect(lexicalText(saved.body)).toContain('Vas a empezar una lucha contra:')
+    expect(lexicalText(saved.body)).not.toContain('1 x Ramán famélico')
+  })
+
+  it('un monstruo que no está en la base deja la lista en texto y lo anota', async () => {
+    await payload.delete({ collection: 'monsters', where: { dofusId: { equals: 5283 } } })
+    try {
+      const six = converted().find(({ guide }) => guide.slug === 'seis-pies-bajo-tierra')!
+      const result = await loadQuestGuides(payload, [six], { fetchImage })
+      expect(result.oddities['seis-pies-bajo-tierra']).toContain(
+        'Monstruo sin casar en un combate: Miserata famélica',
+      )
+      const saved = (await guidesBySlug()).get('seis-pies-bajo-tierra')!
+      expect(flat(saved.body).some((block) => block.blockType === 'fight')).toBe(false)
+      expect(lexicalText(saved.body)).toContain('1 x Ramán famélico')
+    } finally {
+      await payload.create({ collection: 'monsters', data: FAMISHED[2]! })
+    }
   })
 })

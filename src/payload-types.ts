@@ -363,9 +363,13 @@ export interface Item {
    */
   superTypeId?: number | null;
   /**
-   * ID de la imagen en DofusDB.
+   * ID de la imagen en DofusDB; el icono importado va en Icono.
    */
   iconId?: number | null;
+  /**
+   * Importada una vez de DofusDB a Media al refrescar los datos del juego.
+   */
+  image?: (number | null) | Media;
   /**
    * La pone el script de refresco.
    */
@@ -387,6 +391,10 @@ export interface Monster {
    * ID de la imagen en DofusDB (gfxId).
    */
   iconId?: number | null;
+  /**
+   * Importada una vez de DofusDB a Media al refrescar los datos del juego.
+   */
+  image?: (number | null) | Media;
   /**
    * La pone el script de refresco.
    */
@@ -464,7 +472,7 @@ export interface QuestGuide {
     startX?: number | null;
     startY?: number | null;
   };
-  body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock | StepBlock)[] | null;
+  body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock | FightBlock | StepBlock)[] | null;
   /**
    * Se rellena solo desde la misión si lo dejas vacío. Puedes cambiarlo cuando quieras.
    */
@@ -556,6 +564,20 @@ export interface CalloutBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FightBlock".
+ */
+export interface FightBlock {
+  monsters: {
+    monster: number | Monster;
+    quantity: number;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'fight';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "StepBlock".
  */
 export interface StepBlock {
@@ -568,7 +590,7 @@ export interface StepBlock {
    */
   x?: number | null;
   y?: number | null;
-  body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock)[] | null;
+  body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock | FightBlock)[] | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'step';
@@ -881,6 +903,7 @@ export interface ItemsSelect<T extends boolean = true> {
   typeId?: T;
   superTypeId?: T;
   iconId?: T;
+  image?: T;
   refreshedAt?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -893,6 +916,7 @@ export interface MonstersSelect<T extends boolean = true> {
   dofusId?: T;
   name?: T;
   iconId?: T;
+  image?: T;
   refreshedAt?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -947,6 +971,7 @@ export interface QuestGuidesSelect<T extends boolean = true> {
         image?: T | ImageBlockSelect<T>;
         video?: T | VideoBlockSelect<T>;
         callout?: T | CalloutBlockSelect<T>;
+        fight?: T | FightBlockSelect<T>;
         step?: T | StepBlockSelect<T>;
       };
   seo?:
@@ -1001,6 +1026,21 @@ export interface CalloutBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FightBlock_select".
+ */
+export interface FightBlockSelect<T extends boolean = true> {
+  monsters?:
+    | T
+    | {
+        monster?: T;
+        quantity?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "StepBlock_select".
  */
 export interface StepBlockSelect<T extends boolean = true> {
@@ -1014,6 +1054,7 @@ export interface StepBlockSelect<T extends boolean = true> {
         image?: T | ImageBlockSelect<T>;
         video?: T | VideoBlockSelect<T>;
         callout?: T | CalloutBlockSelect<T>;
+        fight?: T | FightBlockSelect<T>;
       };
   id?: T;
   blockName?: T;

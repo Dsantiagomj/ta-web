@@ -2,6 +2,7 @@ import type { BlocksField, Block, Field, SelectField } from 'payload'
 import { describe, expect, it } from 'vitest'
 
 import { CalloutBlock } from '@/blocks/CalloutBlock'
+import { FightBlock } from '@/blocks/FightBlock'
 import { ImageBlock } from '@/blocks/ImageBlock'
 import { RichTextBlock } from '@/blocks/RichTextBlock'
 import { StepBlock, validateStepCoordinate } from '@/blocks/StepBlock'
@@ -72,6 +73,26 @@ describe('bloque de vídeo', () => {
     const title = field(VideoBlock, 'title')
     expect(title).toMatchObject({ type: 'text', localized: true })
     expect(title).not.toHaveProperty('required', true)
+  })
+})
+
+describe('bloque de combate', () => {
+  it('usa el slug fight y guarda los monstruos de DofusDB con su cantidad', () => {
+    expect(FightBlock.slug).toBe('fight')
+    expect(FightBlock.interfaceName).toBe('FightBlock')
+    const monsters = field(FightBlock, 'monsters')
+    expect(monsters).toMatchObject({ type: 'array', required: true, minRows: 1 })
+    const rows = (monsters as { fields: Field[] }).fields
+    expect(rows.find((f) => 'name' in f && f.name === 'monster')).toMatchObject({
+      type: 'relationship',
+      relationTo: 'monsters',
+      required: true,
+    })
+    expect(rows.find((f) => 'name' in f && f.name === 'quantity')).toMatchObject({
+      type: 'number',
+      required: true,
+      min: 1,
+    })
   })
 })
 
@@ -158,7 +179,7 @@ describe('bloque de paso', () => {
   it('su contenido son los bloques de texto, imagen, vídeo y aviso, sin pasos dentro', () => {
     const body = field(StepBlock, 'body') as BlocksField
     expect(body).toMatchObject({ type: 'blocks', label: s.body })
-    expect(body.blocks).toEqual([RichTextBlock, ImageBlock, VideoBlock, CalloutBlock])
+    expect(body.blocks).toEqual([RichTextBlock, ImageBlock, VideoBlock, CalloutBlock, FightBlock])
   })
 })
 

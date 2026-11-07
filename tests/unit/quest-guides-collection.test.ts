@@ -2,6 +2,7 @@ import type { AccessArgs, ArrayField, BlocksField, Field, GroupField } from 'pay
 import { describe, expect, it } from 'vitest'
 
 import { CalloutBlock } from '@/blocks/CalloutBlock'
+import { FightBlock } from '@/blocks/FightBlock'
 import { ImageBlock } from '@/blocks/ImageBlock'
 import { RichTextBlock } from '@/blocks/RichTextBlock'
 import { StepBlock } from '@/blocks/StepBlock'
@@ -164,7 +165,14 @@ describe('colección quest-guides', () => {
       label: 'Contenido',
       labels: { singular: 'Bloque', plural: 'Bloques' },
     })
-    expect(body.blocks).toEqual([RichTextBlock, ImageBlock, VideoBlock, CalloutBlock, StepBlock])
+    expect(body.blocks).toEqual([
+      RichTextBlock,
+      ImageBlock,
+      VideoBlock,
+      CalloutBlock,
+      FightBlock,
+      StepBlock,
+    ])
   })
 
   it('guarda el título y la descripción SEO, traducibles', () => {

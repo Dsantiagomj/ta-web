@@ -57,6 +57,11 @@ test.describe('página de guía', () => {
     const list = rewards.getByRole('list', { name: 'Objetos de recompensa' })
     await expect(list).toHaveAttribute('id', (await bag.getAttribute('aria-controls'))!)
     for (const name of seedGuide.rewardItems) await expect(list.getByText(name)).toBeVisible()
+    // Cada objeto con su icono importado, en su hueco.
+    await expect(list.locator('.well img')).toHaveCount(seedGuide.rewardItems.length)
+    for (const img of await list.locator('.well img').all()) {
+      expect(await img.evaluate((node: HTMLImageElement) => node.naturalWidth)).toBeGreaterThan(0)
+    }
     // Los iconos del juego, en sus huecos.
     for (const icon of ['mision', 'combate', 'xp', 'kamas', 'bolsa']) {
       await expect(header.locator(`img[src="/img/game/${icon}.webp"]`)).toHaveCount(1)
@@ -122,6 +127,36 @@ test.describe('página de guía', () => {
     // La primera captura, dentro del primer paso, es la única con prioridad.
     await expect(page.locator('img[fetchpriority="high"]')).toHaveCount(1)
     await expect(items.first().locator('img[fetchpriority="high"]')).toHaveCount(1)
+  })
+
+  test('el combate: una fila por monstruo, con su imagen y «1 × Nombre»', async ({ page }) => {
+    await page.goto(url)
+    const fight = page.locator('ul.mobs')
+    await expect(fight.getByRole('listitem')).toHaveCount(seedGuide.fight.length)
+    for (const { name } of seedGuide.fight) await expect(fight).toContainText(`1 × ${name}`)
+    await expect(fight.locator('.well img')).toHaveCount(seedGuide.fight.length)
+    // La frase que lo presenta se queda en el texto.
+    await expect(page.getByText('Vas a empezar una lucha contra:')).toBeVisible()
+  })
+
+  test('la guía acaba con la tarjeta de la siguiente misión solo si su guía está publicada', async ({
+    page,
+  }) => {
+    await page.goto(`/${seedGuide.prerequisite.slug}`)
+    const card = page.locator('a.nextq')
+    await expect(card).toHaveAttribute('href', url)
+    await expect(card).toContainText('Siguiente misión')
+    await expect(card).toContainText(seedGuide.title)
+    await expect(card).toContainText(
+      `Nivel ${seedGuide.level}. Te la da ${seedGuide.start.npc} [7,-19] al terminar esta.`,
+    )
+    expect(
+      await card.locator('img').evaluate((img: HTMLImageElement) => img.naturalWidth),
+    ).toBeGreaterThan(0)
+
+    // La siguiente de Seis pies bajo tierra solo tiene un borrador: no hay tarjeta.
+    await page.goto(url)
+    await expect(page.locator('a.nextq')).toHaveCount(0)
   })
 
   test('una sola columna de lectura de 880px, con los pasos separados por una línea', async ({

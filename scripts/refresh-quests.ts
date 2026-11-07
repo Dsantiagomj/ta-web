@@ -1,7 +1,8 @@
 // Trae todas las misiones de DofusDB, con los monstruos que nombran, sus zonas y logros, y
 // todo el catálogo de objetos, y los guarda en quests, items y monsters, sin duplicar.
 // Luego guarda los PNJ que dan las misiones en npcs e importa sus renders a Media, solo
-// los que aún no están (la primera vez tarda: dos imágenes por PNJ).
+// los que aún no están (la primera vez tarda: dos imágenes por PNJ), y los iconos de los
+// objetos y las imágenes de los monstruos que pinta alguna guía, también una sola vez.
 // Uso: pnpm data:quests. Escribe en la base de DATABASE_URL (vacía: la de pnpm db:dev).
 // DOFUSDB_WRITE_CONCURRENCY fija cuántas escrituras van a la vez (por defecto 8).
 // Corre con `payload run`, que carga .env y transpila TypeScript; el script arranca
@@ -11,6 +12,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { createDofusDbClient } from '@/lib/dofusdb/client'
 import { fetchQuestData } from '@/lib/dofusdb/fetch-quest-data'
+import { gameImageTargets, refreshGameImages } from '@/lib/dofusdb/game-images'
 import { refreshNpcs } from '@/lib/dofusdb/refresh-npcs'
 import {
   refreshQuests,
@@ -48,6 +50,15 @@ try {
     log: (message) => console.log(message),
   })
   console.log(`PNJ: ${seconds(npcsStarted)} s.`)
+
+  console.log('Importando los iconos de los objetos y las imágenes de los monstruos…')
+  const imagesStarted = Date.now()
+  const targets = await gameImageTargets(payload)
+  const images = await refreshGameImages(payload, {
+    ...targets,
+    log: (message) => console.log(message),
+  })
+  console.log(`Imágenes: ${seconds(imagesStarted)} s.`)
   // `ending` concuerda con el género: misiones creadas, objetos creados.
   const summary = (label: string, ending: 'as' | 'os', counts: UpsertCounts) =>
     `${label}: ${counts.created} cread${ending}, ${counts.updated} actualizad${ending}, ` +
@@ -60,6 +71,11 @@ try {
   console.log(
     `Renders de PNJ: ${npcCounts.renders.imported} importados, ${npcCounts.renders.reused} ` +
       `recuperados de Media y ${npcCounts.renders.failed} sin render.`,
+  )
+  console.log(
+    `Imágenes de objetos y monstruos: ${images.imported} importadas, ${images.reused} ` +
+      `recuperadas de Media, ${images.linked} enlazadas, ${images.unchanged} sin cambios y ` +
+      `${images.failed} sin imagen.`,
   )
   console.log(
     `Referencias omitidas: ${counts.missingPrerequisites} prerrequisitos, ` +

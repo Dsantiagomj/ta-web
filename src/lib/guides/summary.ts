@@ -2,6 +2,7 @@
 // Código puro, sin Payload: lo usan el servidor y los componentes del panel.
 
 import { itemsText, neededItems, prerequisitesText, rewardsText, type NeededItem } from './format'
+import type { Media } from '../../payload-types'
 import { guideStrings } from './strings'
 
 /** Una relación de Payload: el ID sin poblar o el documento poblado. */
@@ -14,6 +15,8 @@ export interface NamedDoc {
 export interface LinkedItem extends NamedDoc {
   id?: number
   superTypeId?: number | null
+  /** El icono importado de DofusDB (Media), si ya está. */
+  image?: number | Media | null
 }
 
 export interface LinkedRewards {

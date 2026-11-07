@@ -5,7 +5,8 @@ import { AchievementChain } from '@/components/game/AchievementChain'
 import { CoordinatesText, TravelButton } from '@/components/game/Coordinates'
 import { IconWell } from '@/components/game/IconWell'
 import { ItemChip, ItemSlot } from '@/components/game/Item'
-import { FightBlock } from '@/components/game/MonsterChip'
+import { FightBlock } from '@/components/game/FightBlock'
+import { NextQuestCard } from '@/components/game/NextQuestCard'
 import { QuestHeader } from '@/components/game/QuestHeader'
 import { QuestSteps } from '@/components/game/QuestSteps'
 import { TorreTips } from '@/components/game/TorreTips'
@@ -28,6 +29,7 @@ import type { Mode, Theme } from '@/lib/theme/theme'
 import {
   achievement,
   fight,
+  nextQuest,
   guide,
   header,
   headerWithout,
@@ -219,6 +221,13 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
           <Group name="steps" note={s.notes.steps} wide>
             <div className="quest w-full !p-0">
               <QuestSteps headingLevel={3} steps={steps(key)} />
+            </div>
+          </Group>
+
+          <Group name="next" wide>
+            <div className="quest grid w-full gap-4 !p-0">
+              <NextQuestCard card={nextQuest} />
+              <NextQuestCard card={{ title: 'Una misión sin captura', href: '#sin-captura' }} />
             </div>
           </Group>
 

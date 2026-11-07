@@ -70,6 +70,14 @@ export const guideStrings = {
     dofusDbUnavailable: 'No se pudieron cargar los datos de DofusDB.',
     noQuest: 'Sin misión de DofusDB: escribe tú este dato.',
     /** El bloque Paso del contenido (DESIGN.md, Steps). */
+    /** El bloque Combate del contenido (DESIGN.md, Monster chip and fight block). */
+    fight: {
+      singular: 'Combate',
+      plural: 'Combates',
+      monsters: 'Monstruos',
+      monster: 'Monstruo',
+      quantity: 'Cantidad',
+    },
     step: {
       singular: 'Paso',
       plural: 'Pasos',

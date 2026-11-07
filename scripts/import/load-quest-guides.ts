@@ -2,6 +2,11 @@ import { isDeepStrictEqual } from 'node:util'
 import type { Payload } from 'payload'
 
 import { validateSlug } from '@/collections/QuestGuides'
+import {
+  comparableMonsterName,
+  splitFightLists,
+  type FightListBlock,
+} from '@/lib/guides/fight-lists'
 import { applySummaryFill, summaryToFill } from '@/lib/guides/summary'
 import type { Quest, QuestGuide } from '@/payload-types'
 
@@ -139,6 +144,21 @@ export async function loadQuestGuides(
   })
   const questByDofusId = new Map(quests.docs.map((quest) => [quest.dofusId, quest]))
 
+  // Los monstruos por nombre, para los combates (el de ID de DofusDB más bajo si se repite).
+  const monsters = await payload.find({
+    collection: 'monsters',
+    pagination: false,
+    depth: 0,
+    sort: 'dofusId',
+    select: { name: true },
+    overrideAccess: true,
+  })
+  const monsterByName = new Map<string, number>()
+  for (const monster of monsters.docs) {
+    const name = comparableMonsterName(monster.name)
+    if (!monsterByName.has(name)) monsterByName.set(name, monster.id)
+  }
+
   // URL original → ID en media, para no repetir consultas ni descargas en la misma pasada.
   const mediaIdByUrl = new Map<string, number>()
 
@@ -238,11 +258,17 @@ export async function loadQuestGuides(
       if (!linked) oddities.push(`Misión de DofusDB ${dofusIds[0]} sin importar en quests`)
     }
 
-    const body: BodyBlock[] = []
+    const blocks: BodyBlock[] = []
     for (const block of guide.body) {
       const converted = await toBodyBlock(block, oddities)
-      if (converted) body.push(converted)
+      if (converted) blocks.push(converted)
     }
+    // Las listas de monstruos de un combate pasan a un bloque Combate; lo que no casa se queda.
+    const fights = splitFightLists(blocks as FightListBlock[], (name) =>
+      monsterByName.get(comparableMonsterName(name)),
+    )
+    const body = fights.body as BodyBlock[]
+    for (const name of fights.unmatched) oddities.push(`Monstruo sin casar en un combate: ${name}`)
     // El cuerpo ya está en Lexical: se suelta el DOM de la conversión antes de la siguiente.
     await releaseDom()
 

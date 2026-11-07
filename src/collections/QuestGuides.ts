@@ -1,6 +1,7 @@
 import type { Access, CollectionConfig, Field } from 'payload'
 
 import { CalloutBlock } from '../blocks/CalloutBlock'
+import { FightBlock } from '../blocks/FightBlock'
 import { ImageBlock } from '../blocks/ImageBlock'
 import { RichTextBlock } from '../blocks/RichTextBlock'
 import { StepBlock } from '../blocks/StepBlock'
@@ -220,7 +221,7 @@ export const QuestGuides: CollectionConfig = {
       label: 'Contenido',
       labels: { singular: 'Bloque', plural: 'Bloques' },
       type: 'blocks',
-      blocks: [RichTextBlock, ImageBlock, VideoBlock, CalloutBlock, StepBlock],
+      blocks: [RichTextBlock, ImageBlock, VideoBlock, CalloutBlock, FightBlock, StepBlock],
     },
     {
       name: 'seo',

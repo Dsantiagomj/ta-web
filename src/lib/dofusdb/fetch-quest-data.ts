@@ -1,5 +1,4 @@
 import type { DofusDbClient } from './client'
-import { questNeeds } from './quest-needs'
 import type {
   RawAchievement,
   RawArea,
@@ -28,28 +27,27 @@ export interface QuestData {
 // el supertipo; la fila entera pesa unas ocho veces más.
 const ITEM_FIELDS = ['id', 'name', 'level', 'typeId', 'iconId', 'type']
 const ACHIEVEMENT_FIELDS = ['id', 'name', 'slug', 'need']
+const MONSTER_FIELDS = ['id', 'name', 'gfxId']
 
 function ids(values: (number | null | undefined)[]): number[] {
   return [...new Set(values.filter((value): value is number => value != null))]
 }
 
 /**
- * Todas las misiones de DofusDB, más los PNJ y mapas de sus posiciones de inicio, las
- * subzonas y áreas de esos mapas y los monstruos de sus requisitos, que se piden por ID.
- * Los objetos y los logros se traen todos: Torre puede necesitar cualquier objeto en una
- * guía, y el logro de una misión solo se sabe mirando los logros.
+ * Todas las misiones de DofusDB, más los PNJ y mapas de sus posiciones de inicio y las
+ * subzonas y áreas de esos mapas, que se piden por ID. Los objetos, los monstruos y los
+ * logros se traen todos: Torre puede nombrar cualquier objeto o monstruo en una guía (los
+ * combates se casan por nombre), y el logro de una misión solo se sabe mirando los logros.
  */
 export async function fetchQuestData(client: DofusDbClient): Promise<QuestData> {
   const quests = await client.fetchAll<RawQuest>('quests')
   const npcIds = new Set<number>()
   const mapIds = new Set<number>()
-  const monsterIds = new Set<number>()
   for (const quest of quests) {
     for (const position of quest.startPosition ?? []) {
       if (position?.npcId != null) npcIds.add(position.npcId)
       if (position?.mapId != null) mapIds.add(position.mapId)
     }
-    for (const { dofusId } of questNeeds(quest).monsters) monsterIds.add(dofusId)
   }
   const npcs = await client.fetchByIds<RawNpc>('npcs', [...npcIds])
   const mapPositions = await client.fetchByIds<RawMapPosition>('map-positions', [...mapIds])
@@ -63,6 +61,6 @@ export async function fetchQuestData(client: DofusDbClient): Promise<QuestData> 
     select: ACHIEVEMENT_FIELDS,
   })
   const items = await client.fetchAll<RawItem>('items', { select: ITEM_FIELDS })
-  const monsters = await client.fetchByIds<RawMonster>('monsters', [...monsterIds])
+  const monsters = await client.fetchAll<RawMonster>('monsters', { select: MONSTER_FIELDS })
   return { quests, npcs, mapPositions, items, monsters, subAreas, areas, achievements }
 }

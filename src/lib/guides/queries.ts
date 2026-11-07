@@ -3,13 +3,14 @@
 
 import type { Payload } from 'payload'
 
-import type { Npc, QuestGuide, User } from '@/payload-types'
+import type { Npc, Quest, QuestGuide, User } from '@/payload-types'
 
 import type { QuestGuideLink } from './page'
 import { isGuideSlug } from './slug'
 
-// La guía, su misión (1) y lo que cuelga de la misión: objetos y misiones previas (2).
-const GUIDE_DEPTH = 2
+// La guía, su misión (1), lo que cuelga de la misión: objetos y misiones previas (2), y los
+// iconos de esos objetos (3). Los monstruos de los combates (1) traen su imagen (2).
+const GUIDE_DEPTH = 3
 
 export interface FindGuideOptions {
   /**
@@ -55,6 +56,47 @@ export async function findPublishedGuideLinks(
   return docs.flatMap((doc) =>
     typeof doc.quest === 'number' ? [{ questId: doc.quest, slug: doc.slug }] : [],
   )
+}
+
+/** La misión siguiente del logro y su guía publicada (o null si no tiene). */
+export interface NextQuest {
+  quest: Quest
+  guide: QuestGuide | null
+}
+
+/**
+ * La misión de la posición siguiente en el mismo logro (el orden de DofusDB, guardado en
+ * cada misión) y su guía publicada, con las imágenes del cuerpo pobladas (depth 1). Sin
+ * logro o sin misión siguiente, null.
+ */
+export async function findNextQuest(
+  payload: Payload,
+  achievement: { dofusId?: number | null; position?: number | null } | null | undefined,
+): Promise<NextQuest | null> {
+  if (achievement?.dofusId == null || achievement.position == null) return null
+  const { docs } = await payload.find({
+    collection: 'quests',
+    where: {
+      'achievement.dofusId': { equals: achievement.dofusId },
+      'achievement.position': { equals: achievement.position + 1 },
+    },
+    depth: 0,
+    limit: 1,
+    pagination: false,
+    overrideAccess: false,
+  })
+  const quest = docs[0]
+  if (!quest) return null
+  const guides = await payload.find({
+    collection: 'quest-guides',
+    where: { quest: { equals: quest.id } },
+    depth: 1,
+    limit: 1,
+    pagination: false,
+    draft: false,
+    overrideAccess: false,
+  })
+  return { quest, guide: guides.docs[0] ?? null }
 }
 
 /**
