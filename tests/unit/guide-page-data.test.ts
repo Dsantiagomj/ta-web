@@ -11,6 +11,7 @@ import {
   questGiverId,
   questHeaderProps,
   type GuideDoc,
+  type NextGuideDoc,
 } from '@/lib/guides/page'
 
 const richText = (text: string) => ({
@@ -606,6 +607,64 @@ describe('nextQuestCard', () => {
       npc: 'Kerubim Crepin',
       coordinates: { x: 3, y: -17 },
       art: { src: '/api/media/file/kerubim.webp', width: 1069, height: 769 },
+    })
+  })
+
+  describe('el arte es la primera imagen en orden de lectura', () => {
+    const other = { ...art, id: 10, url: '/api/media/file/otra.webp' }
+    const withUpload = (image: Media) => ({
+      root: {
+        type: 'root',
+        format: '' as const,
+        indent: 0,
+        version: 1,
+        direction: 'ltr' as const,
+        children: [{ type: 'upload', version: 1, relationTo: 'media', value: image }],
+      },
+    })
+    const card = (body: unknown[]) =>
+      nextQuestCard(quest, { ...nextGuide, body: body as NextGuideDoc['body'] })?.art?.src
+
+    it('una imagen subida dentro de un texto, antes de los bloques Imagen', () => {
+      expect(
+        card([
+          { blockType: 'richText', id: 'a', content: withUpload(other) },
+          { blockType: 'image', id: 'i', image: art },
+        ]),
+      ).toBe('/api/media/file/otra.webp')
+    })
+
+    it('una imagen dentro de un aviso', () => {
+      expect(
+        card([
+          { blockType: 'callout', id: 'c', variant: 'tip', content: withUpload(other) },
+          { blockType: 'image', id: 'i', image: art },
+        ]),
+      ).toBe('/api/media/file/otra.webp')
+    })
+
+    it('una imagen subida en el texto de un paso', () => {
+      expect(
+        card([
+          {
+            blockType: 'step',
+            id: 's',
+            body: [
+              { blockType: 'richText', id: 't', content: withUpload(other) },
+              { blockType: 'image', id: 'i', image: art },
+            ],
+          },
+        ]),
+      ).toBe('/api/media/file/otra.webp')
+    })
+
+    it('una imagen sin archivo no cuenta: pasa a la siguiente', () => {
+      expect(
+        card([
+          { blockType: 'richText', id: 'a', content: withUpload({ ...other, url: null }) },
+          { blockType: 'image', id: 'i', image: art },
+        ]),
+      ).toBe('/api/media/file/kerubim.webp')
     })
   })
 
