@@ -28,10 +28,10 @@ sources:
     resource: repo://src/payload.config.ts
   - id: openwiki-source-98d5ddb014a0fd4d678f6f2a
     resource: repo://tsconfig.json
-generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
+generated: { by: "claude-code", at: "2026-11-07T00:10:43.955Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-06T15:25:11.354Z
+    at: 2026-11-07T00:10:43.955Z
 ---
 
 # Payload CMS configuration
@@ -62,6 +62,7 @@ The Postgres adapter takes its migration directory (`src/migrations`), whether t
 
 - `push: shouldPushSchema(process.env)` is true only when `NODE_ENV` is `development`, which means only under `next dev`. Payload would otherwise push by default whenever `NODE_ENV` is not `production`, including when it is unset.
 - `pool.connectionString: resolveDatabaseUrl(process.env)`, with `connectionTimeoutMillis: 5000` so acquiring a connection never waits forever on a stuck database.
+- `pool.onConnect` attaches an `error` listener to every new client. While Drizzle has a client checked out, `pg` removes the pool's own listener from it, so without this one a connection lost mid-transaction would crash the process. The listener only logs (`Conexión de Postgres prestada perdida`); the code that owns the transaction gets the failure, nothing retries the transaction, and `pg` discards the dead client when it is released.
 
 `onInit` attaches an `error` listener to the `pg` pool. Neon restarts idle connections; without the listener, an error on an idle client would crash the Node process. With it, the error is logged (`Conexión de Postgres perdida en el pool`) and the pool replaces the client.
 

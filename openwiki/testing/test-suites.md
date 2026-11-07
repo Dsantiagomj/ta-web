@@ -4,6 +4,8 @@ title: Test suites
 description: The six test suites (unit, integration, E2E, dev-gate E2E, smoke and the Lighthouse CI budgets), what each one covers, how each provisions its database and app server, and the guards that keep tests away from real databases.
 tags: [testing, vitest, playwright, integration, e2e]
 sources:
+  - id: openwiki-source-164e2da859b5277df81c7d94
+    resource: repo://.github/workflows/ci.yml
   - id: openwiki-source-f235d856bed1fd44853c5195
     resource: repo://.prettierignore
   - id: openwiki-source-5b54a58d1b51cd490b0e7162
@@ -42,6 +44,8 @@ sources:
     resource: repo://tests/fixtures/dofusdb/quests.json
   - id: openwiki-source-1c31b10d596a8990b9ccb573
     resource: repo://tests/fixtures/squarespace/el-cazador-cazado.html
+  - id: openwiki-source-b099772c2f58d976c651450a
+    resource: repo://tests/integration/fixtures/import-disconnect.ts
   - id: openwiki-source-46cbabf1b3d2b7c36423da7e
     resource: repo://tests/integration/game-data-access.test.ts
   - id: openwiki-source-450b6a23d7e25100eadc359f
@@ -50,6 +54,8 @@ sources:
     resource: repo://tests/integration/guide-page-queries.test.ts
   - id: openwiki-source-8f0065e4504cfadc651f72a5
     resource: repo://tests/integration/guide-single-quest-migration.test.ts
+  - id: openwiki-source-6d63967683e8fb611f26b906
+    resource: repo://tests/integration/import-disconnect.test.ts
   - id: openwiki-source-5cd8fc4d5a65c01359ed92e2
     resource: repo://tests/integration/import-quest-guides.test.ts
   - id: openwiki-source-a6cdaab0cfeb9dcfe8511d62
@@ -120,10 +126,10 @@ sources:
     resource: repo://vitest.config.mts
   - id: openwiki-source-57da85ca1bb457973a5594ff
     resource: repo://vitest.integration.config.mts
-generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
+generated: { by: "claude-code", at: "2026-11-07T00:10:43.955Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-06T15:25:11.354Z
+    at: 2026-11-07T00:10:43.955Z
 ---
 
 # Test suites
@@ -170,6 +176,7 @@ Real Payload (`getPayload`) against a real Postgres with the committed migration
 - `game-data-access.test.ts` checks `items` and `monsters` at runtime: an anonymous request can `find` and `findByID`, and a panel user gets `Forbidden` on create, update and delete with the data unchanged.
 - `refresh-quests.test.ts` runs `refreshQuests` three times against the integration database: the first run creates the fixture quests and skips missing prerequisites, a second run with the same data changes nothing and keeps `refreshedAt`, and a third run updates only what changed and links a prerequisite that now exists. A second block does the same for rewards and needs: it creates the fixture items and monsters and links rewards and needs by Payload ID, a rerun changes nothing, and a third run updates only the renamed item and the changed quest and skips an item DofusDB did not return. A third block runs the refresh over both fixtures with 1 write at a time and then, after deleting the rows, with 8, and expects the same counts and the same stored data, with relationships compared by DofusDB ID. A fourth block feeds the whole fixture catalog, including items no quest names, and checks that every item is created with its `superTypeId` and that a second run writes no item and keeps `refreshedAt`. It deletes its fixture quests, items and monsters before and after. See [DofusDB game data refresh](../data/dofusdb-refresh.md).
 - `import-quest-guides.test.ts` runs the Squarespace loader on the five fixture pages with a fake `fetchImage` that returns a 1×1 PNG. It checks drafts with their blocks and the existing quest linked, untitled steps with their coordinates and screenshots, a titled step from an `ETAPA n:` marker, one `media` record per image with its URL and alt, the oddities, a second run that changes, downloads and versions nothing, one new draft for a changed guide, the "Necesitarás" text saved as `needs.notes`, a summary field that disappears being filled from the linked quest (its start position and needed item) without extra versions on the next run, no drafts visible to anonymous readers, an invalid slug skipped, and a guide with two DofusDB IDs saved with no quest and the "Varias misiones de DofusDB" oddity. It cleans up its guides, media, quests and item before and after. See [Squarespace import](../data/squarespace-import.md#loading-into-payload).
+- `import-disconnect.test.ts` runs `tests/integration/fixtures/import-disconnect.ts` with `corepack pnpm payload run` (25 s limit), with `127.0.0.1` in `DATABASE_URL` rewritten to `localhost`, and expects `RECOVERY_OK` on stdout. The fixture checks that image download failures with network codes stay oddities, then kills the importer's own Postgres backend from a `media` `beforeChange` hook and checks that the load fails, no transaction session or half-saved guide or image is left, and the next load reconciles. Because it injects faults, the fixture refuses any non-local URL (`isLocalDatabaseUrl`) and any database other than `ta_web_integration` or CI's `ta_web`; two more cases assert those refusals. See [Squarespace import](../data/squarespace-import.md#tests).
 - `migrations.test.ts` checks that the latest migration rolls back and re-applies: it runs the Payload CLI (`pnpm payload migrate:down`, then `pnpm payload migrate`) with `integrationEnv` and `DATABASE_CONNECTION=direct`, leaving the database as it was. It starts the CLI twice, so it has its own 120 s timeout instead of the suite's 30 s. See [Database and migrations](../data/database.md#migrations).
 - `needs-list-migration.test.ts` calls the `20261104_195910_needs_list` migration's `down` and `up` directly on a guide with notes, writes text into the old columns of the guide and its version in between, and checks that after `up` both read it as `summary.needs.notes` with an empty item list. `up` runs in a `finally` so the database never stays on the old schema.
 - `guide-single-quest-migration.test.ts` calls the `20261104_210644_guide_single_quest` migration's `down` and `up` directly on a guide linked to one quest. After `down` it checks the quest is a relation row for the guide and its version, then adds a second quest behind it; after `up` (in a `finally`) it checks that `quest_id`, `version_quest_id` and Payload's `quest` on the guide and its versions hold the first quest.

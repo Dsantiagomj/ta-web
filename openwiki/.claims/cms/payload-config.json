@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:f35ab70c6526d6ab403e189d73aa9f30f629effa9134b3a3a77dd048e9a3bdc6",
+  "pageVersion": "sha256:796bec2017559794a7a03be9d3d76a1d5b0b48174802311f82cc2e3857960ad7",
   "claims": [
     {
       "id": "claim_35fde34cdf674edca408fee7ff5d2483",
       "statement": "src/payload.config.ts configures the admin user collection, the import map base directory, the Users, Media, Quests, Items, Monsters, Npcs and QuestGuides collections, the Lexical editor, the health endpoint, Spanish-only i18n and localization, PAYLOAD_SECRET, the generated types output file, sharp and the media storage plugin.",
       "evidence": [
         {
-          "resource": "repo://src/payload.config.ts#L23-L68",
-          "version": "repo-lines-v1:sha256:824f5b761dda3c45ef8e9880df50a26482bf7f2e34cb9822a101b2b783a94a75:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4MjdlZTRkY2MzY2M0NmQ4ZDU0Njg1M2JmNWRhOTFiYzgzZWE3MWNiOWFjZWUzZmU4MmQxOWQxNzJjMDM4NTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1ZWFiZjM4OTEzMjJkMGMzMTU1NDk0ZDViZjI1OTQxMThkMzViYTBiZmFlNGRhZDI4Mzk0MDcxZDk3ZDk3YWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/payload.config.ts#L23-L76",
+          "version": "repo-lines-v1:sha256:9f4fa46a05049de4856cfc58c97ce1390a0eeb04e298c88d612be3e0fe6614a6:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4MjdlZTRkY2MzY2M0NmQ4ZDU0Njg1M2JmNWRhOTFiYzgzZWE3MWNiOWFjZWUzZmU4MmQxOWQxNzJjMDM4NTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1ZWFiZjM4OTEzMjJkMGMzMTU1NDk0ZDViZjI1OTQxMThkMzViYTBiZmFlNGRhZDI4Mzk0MDcxZDk3ZDk3YWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -27,8 +27,8 @@
       "statement": "The Postgres adapter uses src/migrations as its migration directory, pushes the schema only when shouldPushSchema returns true, and connects with the resolved database URL and a 5 second connection timeout.",
       "evidence": [
         {
-          "resource": "repo://src/payload.config.ts#L49-L57",
-          "version": "repo-lines-v1:sha256:99d3e0b14822e5c8421d12c6f9d8f839a4cd876b5d2153fe41fa96e710f9b915:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzQxZWNlZmEwODI1MDEzMTQ1ZjA2MGExOGQ1MWQ3ZDU5MTQ0ZjcwODg2ZDc0MGE4OTBmZmIzMjRmMWM3YzYyMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDJlNmZjZGQ0ZDcyNzQ4N2U4YjhkN2E0Mzc3ZjA2MmNkMWJjZTU5NDQ0ZDZkNzNhYTg4Y2E1ODQ4Zjk0YjRlMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODQ4ZDY3NmM2MmM3MDU4NjA0YTViODUwMTg1NzJkOTk5ZWUxOTU3NjZjYTEzZTU1ZjQ5ZWZhYWI1Y2U4ZWYwNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTI0M2M3NDVhZjdkN2Q4NzlhZjU1MTgxNmU4MjUyYjk0NTNiM2ZkYjg2ZGVmYzhhMDlhYzk2MTZlMWQ5MjRiMyJ9"
+          "resource": "repo://src/payload.config.ts#L50-L56",
+          "version": "repo-lines-v1:sha256:8f65d30c41d17730377f0d7cafa9e8a71d0feab9c2a01b5a6813ebd6c0a06689:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzQxZWNlZmEwODI1MDEzMTQ1ZjA2MGExOGQ1MWQ3ZDU5MTQ0ZjcwODg2ZDc0MGE4OTBmZmIzMjRmMWM3YzYyMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmYxMTk2NTk3MTVjMjAwNWU4MDY3N2Q4NjFhMWY3NWZmOTkyMWRhOGZiN2E4NWNlZjFlNzAyY2Q2NTNhMjA5MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODQ4ZDY3NmM2MmM3MDU4NjA0YTViODUwMTg1NzJkOTk5ZWUxOTU3NjZjYTEzZTU1ZjQ5ZWZhYWI1Y2U4ZWYwNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTBlZjAwMjY2M2E0M2Q3MzQ1NDAzZDYzMGVlNTEwYzQzNzRkM2QwZTk3YTE4YmE3ZTU5MjdjOWJiYTU1NGI4ZSJ9"
         }
       ]
     },
@@ -47,8 +47,8 @@
       "statement": "onInit registers an error listener on the Postgres pool that logs lost idle connections so they do not crash the process.",
       "evidence": [
         {
-          "resource": "repo://src/payload.config.ts#L58-L64",
-          "version": "repo-lines-v1:sha256:77795e9d6921746494d6c3ec61b0da1e59426122f02e4995fd2d626d1749e168:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTVlNGU2MmFjNWQ5ZjJiMmEyZDQ0ODMzNjAwYWQ5NTc5ODliMzQ0OWMxM2M5YTZjNjdlZjNhYTZiMTNhNWIwNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTc5YzMwYThjNmQ4NzY3NzgzOWRiMWJlNDcxM2YyNDgzMWY4NzY5OTg1YzZlMjFjZjAwYWNlODNkZjM3MzE1MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTI1OGUwNzU3M2MyYzM4MGYxYzhhYWY2ZTkzZTViNmE4N2QzMzc5YTdhNjhmNjI2M2E0MTk0YzFlMDY1MmYzZiJ9"
+          "resource": "repo://src/payload.config.ts#L67-L73",
+          "version": "repo-lines-v1:sha256:77795e9d6921746494d6c3ec61b0da1e59426122f02e4995fd2d626d1749e168:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTVlNGU2MmFjNWQ5ZjJiMmEyZDQ0ODMzNjAwYWQ5NTc5ODliMzQ0OWMxM2M5YTZjNjdlZjNhYTZiMTNhNWIwNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTMyMWU1MGMyYzY0YzgxYzc2ZTc2ZGE3ZTIzY2NhOTNhOTUwMDMyYzIzNjI0NGI4YjExYzE3MDBkMTI3OGRkYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTI1OGUwNzU3M2MyYzM4MGYxYzhhYWY2ZTkzZTViNmE4N2QzMzc5YTdhNjhmNjI2M2E0MTk0YzFlMDY1MmYzZiJ9"
         }
       ]
     },
@@ -151,10 +151,20 @@
           "version": "repo-lines-v1:sha256:f24e11f02cd1304deb594e22752634176f282cf67d4be0cbc068fe2261779b6f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NjRlMDBlYTU3ZWMzOWQ4OGZjM2Y2OTM0YzRiNzA5MWRiMDU2YTZjMmQ1YjExYTk3MTIzMDBkMDZmOGQyM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjliMzgzZjVmZTUxY2EzNGI0NjQyMmFmMTNmZTZkNmUyMGNmZTI4OTdmNWE0Yjk5Y2NkYWVkYmEwN2EyZjcyNWMifQ"
         }
       ]
+    },
+    {
+      "id": "claim_11f173ce8c2c41329c043ae5ecd79c74",
+      "statement": "The pool's onConnect hook attaches an error listener to every new Postgres client that only logs a lost checked-out connection; the transaction owner receives the failure and the transaction is not retried.",
+      "evidence": [
+        {
+          "resource": "repo://src/payload.config.ts#L57-L64",
+          "version": "repo-lines-v1:sha256:46c713f1c25885edcc8019021498aba8c91ac003e0b70fc36f2c51e50e03155f:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWQ2YTdhYjlhOWNlMDZkNjY4NTBjNTk3Y2ZkOGIyNWRmZWRjNzdmYWNmZGUxYzA3ZjZlYmIyN2FkNmYwMTUxOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjk3OGUyNTAzYjhjZjM3YTA2ZjdkNmYwYTNhNmI2ZmUzNTY5MWZiY2FiNTBiODc3NWNhYjZmYWJjNzFjNTkyYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGU4MDhiY2ZjZTU0OGIxYTkwODgzOWQzNjdlYmNkZGRhNWM2NDEzZjRjMDJhZWU2MjJlY2RmNmUyMmJlZmQwMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzg5ZTBjMDgzNzcyNWI0N2IwODkwNTAyY2EzZTVhYzk3NTUwN2E5Mzg3NGE5NTc3MDMzMmZkNTI0OTA4OWI1MyJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-06T15:25:11.354Z"
+    "at": "2026-11-07T00:10:43.955Z"
   }
 }
