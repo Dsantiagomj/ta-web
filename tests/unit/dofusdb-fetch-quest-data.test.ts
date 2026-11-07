@@ -89,13 +89,34 @@ describe('fetchQuestData', () => {
     expect(data.areas).toEqual([{ id: 18, name: { es: 'Astrub' } }])
   })
 
-  it('trae todos los logros, solo con los campos que se usan', async () => {
+  it('trae todos los logros', async () => {
     const achievements = [{ id: 1671, name: { es: 'La ocasión hace al ladrón' }, need: {} }]
-    const { client, selects } = fixtureClient({ quests, achievements })
+    const { client } = fixtureClient({ quests, achievements })
 
     const data = await fetchQuestData(client)
 
     expect(data.achievements).toEqual(achievements)
-    expect(selects.achievements).toEqual(['id', 'name', 'slug', 'need'])
+  })
+
+  it('trae los logros con lo que necesitan sus páginas y todas sus categorías', async () => {
+    const categories = [{ id: 45, name: { es: 'Astrub' }, parentId: 8, order: 13 }]
+    const { client, selects } = fixtureClient({ quests, 'achievement-categories': categories })
+
+    const data = await fetchQuestData(client)
+
+    expect(data.achievementCategories).toEqual(categories)
+    expect(selects['achievement-categories']).toEqual(['id', 'name', 'parentId', 'order'])
+    // DofusDB añade a cada logro sus objetivos y sus recompensas aunque no se pidan.
+    expect(selects.achievements).toEqual([
+      'id',
+      'name',
+      'slug',
+      'need',
+      'categoryId',
+      'iconId',
+      'points',
+      'level',
+      'order',
+    ])
   })
 })

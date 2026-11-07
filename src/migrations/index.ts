@@ -10,6 +10,7 @@ import * as migration_20261105_135506_guide_step_block from './20261105_135506_g
 import * as migration_20261106_010549_guide_v4_quest_npcs from './20261106_010549_guide_v4_quest_npcs';
 import * as migration_20261107_020402_guide_v5_game_images_fight from './20261107_020402_guide_v5_game_images_fight';
 import * as migration_20261107_143215_remove_step_title from './20261107_143215_remove_step_title';
+import * as migration_20261107_210926_achievements_game_data from './20261107_210926_achievements_game_data';
 
 export const migrations = [
   {
@@ -70,6 +71,11 @@ export const migrations = [
   {
     up: migration_20261107_143215_remove_step_title.up,
     down: migration_20261107_143215_remove_step_title.down,
-    name: '20261107_143215_remove_step_title'
+    name: '20261107_143215_remove_step_title',
+  },
+  {
+    up: migration_20261107_210926_achievements_game_data.up,
+    down: migration_20261107_210926_achievements_game_data.down,
+    name: '20261107_210926_achievements_game_data'
   },
 ];

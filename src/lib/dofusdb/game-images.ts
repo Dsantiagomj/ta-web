@@ -8,10 +8,14 @@ import type { Media } from '../../payload-types'
 import { mapWithConcurrency } from '../concurrency'
 import { fetchRenderFromDofusDb } from './refresh-npcs'
 
-export type GameImageKind = 'item' | 'monster'
+export type GameImageKind = 'item' | 'monster' | 'achievement'
 
 const IMAGES = 'https://api.dofusdb.fr/img'
-const FOLDER: Record<GameImageKind, string> = { item: 'items', monster: 'monsters' }
+const FOLDER: Record<GameImageKind, string> = {
+  item: 'items',
+  monster: 'monsters',
+  achievement: 'achievements',
+}
 const COLLECTION = { item: 'items', monster: 'monsters' } as const
 const DEFAULT_CONCURRENCY = 4
 
@@ -50,20 +54,21 @@ export interface GameImageCounts {
 
 type Row = { id: number; name: string; iconId?: number | null; image?: number | Media | null }
 
+/** Lo que suben y reutilizan las importaciones de imágenes del juego. */
+export type ImportCounts = Pick<GameImageCounts, 'imported' | 'reused' | 'failed'>
+
 /**
- * Importa y enlaza las imágenes de esos objetos y monstruos. Cada archivo se busca por su
- * clave antes de descargar nada, así que repetirlo no duplica archivos aunque una pasada
- * anterior se cortara a medias. Sin iconId no hay imagen; si DofusDB falla, el objeto se
- * queda sin ella (la página deja el hueco vacío) y el siguiente refresco lo reintenta.
+ * El archivo de Media de una imagen de DofusDB: lo busca por su clave y, si no está, lo
+ * descarga y lo sube. Devuelve su ID, o null si DofusDB no la sirve (el siguiente refresco
+ * lo reintenta). Una misma imagen pedida dos veces se sube una sola vez.
  */
-export async function refreshGameImages(
+export function gameImageImporter(
   payload: Payload,
-  options: RefreshGameImagesOptions,
-): Promise<GameImageCounts> {
+  options: { fetchImage?: FetchImage; log?: (message: string) => void },
+) {
   const fetchImage = options.fetchImage ?? fetchRenderFromDofusDb
   const log = options.log ?? (() => {})
-  const concurrency = options.concurrency ?? DEFAULT_CONCURRENCY
-  const counts: GameImageCounts = { imported: 0, reused: 0, linked: 0, unchanged: 0, failed: 0 }
+  const counts: ImportCounts = { imported: 0, reused: 0, failed: 0 }
   // Una promesa por clave: dos objetos con el mismo icono no lo suben dos veces a la vez.
   const byKey = new Map<string, Promise<number | null>>()
   // Las subidas van de una en una: dos a la vez pueden elegir el mismo nombre de archivo
@@ -75,7 +80,7 @@ export async function refreshGameImages(
     return run
   }
 
-  async function mediaFor(kind: GameImageKind, imageId: number, alt: string) {
+  function media(kind: GameImageKind, imageId: number, alt: string) {
     const key = gameImageKey(kind, imageId)
     const known = byKey.get(key)
     if (known) return known
@@ -93,7 +98,7 @@ export async function refreshGameImages(
       }
       try {
         const data = await fetchImage(gameImageUrl(kind, imageId))
-        const media = await serially(() =>
+        const created = await serially(() =>
           payload.create({
             collection: 'media',
             data: { alt, gameAsset: key },
@@ -108,7 +113,7 @@ export async function refreshGameImages(
           }),
         )
         counts.imported += 1
-        return media.id
+        return created.id
       } catch (error) {
         counts.failed += 1
         log(`Imagen de DofusDB ${kind} ${imageId} no disponible: ${String(error)}`)
@@ -118,6 +123,25 @@ export async function refreshGameImages(
     byKey.set(key, pending)
     return pending
   }
+
+  return { media, counts }
+}
+
+/**
+ * Importa y enlaza las imágenes de esos objetos y monstruos. Cada archivo se busca por su
+ * clave antes de descargar nada, así que repetirlo no duplica archivos aunque una pasada
+ * anterior se cortara a medias. Sin iconId no hay imagen; si DofusDB falla, el objeto se
+ * queda sin ella (la página deja el hueco vacío) y el siguiente refresco lo reintenta.
+ */
+export async function refreshGameImages(
+  payload: Payload,
+  options: RefreshGameImagesOptions,
+): Promise<GameImageCounts> {
+  const concurrency = options.concurrency ?? DEFAULT_CONCURRENCY
+  const importer = gameImageImporter(payload, options)
+  let linked = 0
+  let unchanged = 0
+  const mediaFor = importer.media
 
   for (const kind of ['item', 'monster'] as const) {
     const ids = [...new Set(kind === 'item' ? (options.items ?? []) : (options.monsters ?? []))]
@@ -134,7 +158,7 @@ export async function refreshGameImages(
       if (doc.iconId == null) return
       const key = gameImageKey(kind, doc.iconId)
       if (typeof doc.image === 'object' && doc.image?.gameAsset === key) {
-        counts.unchanged += 1
+        unchanged += 1
         return
       }
       const mediaId = await mediaFor(kind, doc.iconId, doc.name)
@@ -146,10 +170,10 @@ export async function refreshGameImages(
         depth: 0,
         overrideAccess: true,
       })
-      counts.linked += 1
+      linked += 1
     })
   }
-  return counts
+  return { ...importer.counts, linked, unchanged }
 }
 
 type Relation = number | { id: number } | null | undefined
@@ -176,9 +200,9 @@ function fightMonsters(blocks: BodyBlock[] | null | undefined): number[] {
 }
 
 /**
- * Lo que pinta alguna página: los objetos de las recompensas y requisitos de las misiones y
- * los que piden las guías en su resumen, y los monstruos de los requisitos de las misiones y
- * de los combates de las guías. Solo esos: el catálogo entero son decenas de miles de objetos.
+ * Lo que pinta alguna página: los objetos de las recompensas y requisitos de las misiones,
+ * los de las recompensas de los logros y los que piden las guías en su resumen, y los
+ * monstruos de los requisitos de las misiones y de los combates de las guías. Solo esos: el catálogo entero son decenas de miles de objetos.
  */
 export async function gameImageTargets(
   payload: Payload,
@@ -196,6 +220,16 @@ export async function gameImageTargets(
     for (const id of relationIds(quest.rewards?.items, 'item')) items.add(id)
     for (const id of relationIds(quest.needs?.items, 'item')) items.add(id)
     for (const id of relationIds(quest.needs?.monsters, 'monster')) monsters.add(id)
+  }
+  const achievements = await payload.find({
+    collection: 'achievements',
+    pagination: false,
+    depth: 0,
+    select: { rewards: { items: true } },
+    overrideAccess: true,
+  })
+  for (const achievement of achievements.docs) {
+    for (const id of relationIds(achievement.rewards?.items, 'item')) items.add(id)
   }
   const guides = await payload.find({
     collection: 'quest-guides',

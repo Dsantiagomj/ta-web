@@ -73,6 +73,8 @@ export interface Config {
     items: Item;
     monsters: Monster;
     npcs: Npc;
+    'achievement-categories': AchievementCategory;
+    achievements: Achievement;
     'quest-guides': QuestGuide;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -87,6 +89,8 @@ export interface Config {
     items: ItemsSelect<false> | ItemsSelect<true>;
     monsters: MonstersSelect<false> | MonstersSelect<true>;
     npcs: NpcsSelect<false> | NpcsSelect<true>;
+    'achievement-categories': AchievementCategoriesSelect<false> | AchievementCategoriesSelect<true>;
+    achievements: AchievementsSelect<false> | AchievementsSelect<true>;
     'quest-guides': QuestGuidesSelect<false> | QuestGuidesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -432,6 +436,87 @@ export interface Npc {
   createdAt: string;
 }
 /**
+ * Datos de DofusDB, de solo lectura. Los actualiza un script.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "achievement-categories".
+ */
+export interface AchievementCategory {
+  id: number;
+  dofusId: number;
+  name: string;
+  /**
+   * Misiones o Eventos, en las categorías de misiones.
+   */
+  parent?: (number | null) | AchievementCategory;
+  order?: number | null;
+  /**
+   * La pone el script de refresco.
+   */
+  refreshedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Datos de DofusDB, de solo lectura. Los actualiza un script.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "achievements".
+ */
+export interface Achievement {
+  id: number;
+  dofusId: number;
+  name: string;
+  icon?: (number | null) | Media;
+  points?: number | null;
+  level?: number | null;
+  order?: number | null;
+  category?: (number | null) | AchievementCategory;
+  /**
+   * Los objetivos del logro, en orden. Varias misiones en una fila son alternativas: se hace una (la misión de clase).
+   */
+  quests?:
+    | {
+        name?: string | null;
+        quests?: (number | Quest)[] | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Para un personaje de nivel 200, como en las páginas de Torre.
+   */
+  rewards?: {
+    experience?: number | null;
+    kamas?: number | null;
+    items?:
+      | {
+          item: number | Item;
+          quantity: number;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Los logros del juego que lo piden, directamente o a través de otro.
+   */
+  countsFor?:
+    | {
+        dofusId?: number | null;
+        name?: string | null;
+        points?: number | null;
+        achievements?: number | null;
+        icon?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * La pone el script de refresco.
+   */
+  refreshedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "quest-guides".
  */
@@ -638,6 +723,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'npcs';
         value: number | Npc;
+      } | null)
+    | ({
+        relationTo: 'achievement-categories';
+        value: number | AchievementCategory;
+      } | null)
+    | ({
+        relationTo: 'achievements';
+        value: number | Achievement;
       } | null)
     | ({
         relationTo: 'quest-guides';
@@ -927,6 +1020,65 @@ export interface NpcsSelect<T extends boolean = true> {
   look?: T;
   renderRight?: T;
   renderLeft?: T;
+  refreshedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "achievement-categories_select".
+ */
+export interface AchievementCategoriesSelect<T extends boolean = true> {
+  dofusId?: T;
+  name?: T;
+  parent?: T;
+  order?: T;
+  refreshedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "achievements_select".
+ */
+export interface AchievementsSelect<T extends boolean = true> {
+  dofusId?: T;
+  name?: T;
+  icon?: T;
+  points?: T;
+  level?: T;
+  order?: T;
+  category?: T;
+  quests?:
+    | T
+    | {
+        name?: T;
+        quests?: T;
+        id?: T;
+      };
+  rewards?:
+    | T
+    | {
+        experience?: T;
+        kamas?: T;
+        items?:
+          | T
+          | {
+              item?: T;
+              quantity?: T;
+              id?: T;
+            };
+      };
+  countsFor?:
+    | T
+    | {
+        dofusId?: T;
+        name?: T;
+        points?: T;
+        achievements?: T;
+        icon?: T;
+        id?: T;
+      };
   refreshedAt?: T;
   updatedAt?: T;
   createdAt?: T;

@@ -121,6 +121,76 @@ export interface RawAchievement {
   name?: LocalizedText | null
   slug?: LocalizedText | null
   need?: { quests?: number[] | null } | null
+  categoryId?: number | null
+  iconId?: number | null
+  points?: number | null
+  level?: number | null
+  /** Su orden dentro de la categoría. */
+  order?: number | null
+  /** Los objetivos, que DofusDB añade a cada logro: lo que el juego cuenta para darlo. */
+  objectives?: (RawAchievementObjective | null)[] | null
+  /** Las recompensas, que DofusDB también añade. */
+  rewards?: (RawAchievementReward | null)[] | null
+}
+
+/** Un objetivo de logro: «(Qf=1975)» es terminar esa misión, «(OA=1671)» tener ese logro. */
+export interface RawAchievementObjective {
+  id: number
+  order?: number | null
+  criterion?: string | null
+  name?: LocalizedText | null
+}
+
+/** Una fila de recompensas; criterions puede limitarla a un tramo de nivel (PL>150&PL<201). */
+export interface RawAchievementReward {
+  id: number
+  criterions?: string | null
+  kamasRatio?: number | null
+  experienceRatio?: number | null
+  itemsReward?: number[] | null
+  itemsQuantityReward?: number[] | null
+}
+
+/** Una categoría de logros («Astrub», dentro de «Misiones»). */
+export interface RawAchievementCategory {
+  id: number
+  name?: LocalizedText | null
+  /** 0 en las categorías de primer nivel. */
+  parentId?: number | null
+  order?: number | null
+}
+
+/** Un logro del juego que pide este, directamente o a través de otro. */
+export interface MappedMetaAchievement {
+  dofusId: number
+  name: string
+  points: number | null
+  /** Cuántos logros pide. */
+  achievements: number
+  iconId: number | null
+}
+
+/** Los datos de un logro para la colección achievements. */
+export interface MappedAchievement {
+  dofusId: number
+  name: string
+  iconId: number | null
+  points: number | null
+  level: number | null
+  order: number | null
+  categoryDofusId: number | null
+  /** Una fila por misión del logro; varias misiones en una fila son alternativas. */
+  quests: { name: string | null; questDofusIds: number[] }[]
+  rewards: { experience: number; kamas: number; items: QuantityByDofusId[] }
+  countsFor: MappedMetaAchievement[]
+}
+
+/** Los datos de una categoría para la colección achievement-categories. */
+export interface MappedAchievementCategory {
+  dofusId: number
+  name: string
+  parentDofusId: number | null
+  order: number | null
 }
 
 /** El logro de una misión y su posición en él (misión 2 de 3). */

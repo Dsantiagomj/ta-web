@@ -6,6 +6,8 @@ import { buildConfig } from 'payload'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
+import { AchievementCategories } from './collections/AchievementCategories'
+import { Achievements } from './collections/Achievements'
 import { Items } from './collections/Items'
 import { Media } from './collections/Media'
 import { Monsters } from './collections/Monsters'
@@ -28,7 +30,17 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Quests, Items, Monsters, Npcs, QuestGuides],
+  collections: [
+    Users,
+    Media,
+    Quests,
+    Items,
+    Monsters,
+    Npcs,
+    AchievementCategories,
+    Achievements,
+    QuestGuides,
+  ],
   editor: lexicalEditor(),
   // GET /api/health, para los smoke tests tras un despliegue; GET /api/search/guides, el
   // índice de la búsqueda de la cabecera.

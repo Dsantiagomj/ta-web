@@ -1,0 +1,56 @@
+[
+  {
+    "id": 8,
+    "name": {
+      "es": "Misiones",
+      "fr": "Quêtes"
+    },
+    "parentId": 0,
+    "order": 4
+  },
+  {
+    "id": 9,
+    "name": {
+      "es": "Eventos",
+      "fr": "Événements"
+    },
+    "parentId": 0,
+    "order": 7
+  },
+  {
+    "id": 15,
+    "name": {
+      "es": "Hazañas",
+      "fr": "Général"
+    },
+    "parentId": 0,
+    "order": 0
+  },
+  {
+    "id": 23,
+    "name": {
+      "es": "Isla de Nawidad",
+      "fr": "Île de Nowel"
+    },
+    "parentId": 9,
+    "order": 1
+  },
+  {
+    "id": 45,
+    "name": {
+      "es": "Astrub",
+      "fr": "Astrub"
+    },
+    "parentId": 8,
+    "order": 13
+  },
+  {
+    "id": 60,
+    "name": {
+      "es": "Archipiélago de Vulkania",
+      "fr": "Archipel de Vulkania"
+    },
+    "parentId": 9,
+    "order": 0
+  }
+]

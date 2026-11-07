@@ -1,6 +1,7 @@
 import type { DofusDbClient } from './client'
 import type {
   RawAchievement,
+  RawAchievementCategory,
   RawArea,
   RawItem,
   RawMapPosition,
@@ -21,12 +22,26 @@ export interface QuestData {
   areas?: RawArea[]
   /** Todos los logros: de ellos sale el logro de cada misión y su posición. */
   achievements?: RawAchievement[]
+  /** Todas las categorías de logros: las zonas y grupos de los metalogros. */
+  achievementCategories?: RawAchievementCategory[]
 }
 
 // Los campos de cada objeto que se guardan. Con typeId, DofusDB añade el tipo, que trae
 // el supertipo; la fila entera pesa unas ocho veces más.
 const ITEM_FIELDS = ['id', 'name', 'level', 'typeId', 'iconId', 'type']
-const ACHIEVEMENT_FIELDS = ['id', 'name', 'slug', 'need']
+// Con cada logro, DofusDB añade sus objetivos y sus recompensas aunque no se pidan.
+const ACHIEVEMENT_FIELDS = [
+  'id',
+  'name',
+  'slug',
+  'need',
+  'categoryId',
+  'iconId',
+  'points',
+  'level',
+  'order',
+]
+const CATEGORY_FIELDS = ['id', 'name', 'parentId', 'order']
 const MONSTER_FIELDS = ['id', 'name', 'gfxId']
 
 function ids(values: (number | null | undefined)[]): number[] {
@@ -60,7 +75,21 @@ export async function fetchQuestData(client: DofusDbClient): Promise<QuestData> 
   const achievements = await client.fetchAll<RawAchievement>('achievements', {
     select: ACHIEVEMENT_FIELDS,
   })
+  const achievementCategories = await client.fetchAll<RawAchievementCategory>(
+    'achievement-categories',
+    { select: CATEGORY_FIELDS },
+  )
   const items = await client.fetchAll<RawItem>('items', { select: ITEM_FIELDS })
   const monsters = await client.fetchAll<RawMonster>('monsters', { select: MONSTER_FIELDS })
-  return { quests, npcs, mapPositions, items, monsters, subAreas, areas, achievements }
+  return {
+    quests,
+    npcs,
+    mapPositions,
+    items,
+    monsters,
+    subAreas,
+    areas,
+    achievements,
+    achievementCategories,
+  }
 }
