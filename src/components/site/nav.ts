@@ -47,43 +47,25 @@ const egg = (slug: string): GameImage => ({ src: `/img/game/dofus/${slug}.webp`,
 const head = (slug: string): GameImage => ({ src: `/img/game/clases/${slug}.webp`, size: 64 })
 
 // El orden de la web de siempre: el de la guía de Dofus de Torre.
-export const DOFUS_GUIDES: NavLink[] = [
-  ['dofawa', 'Dofawa'],
-  ['dofus-plateado', 'Dofus Plateado'],
-  ['dofus-cacao', 'Dofus Cacao'],
-  ['dofus-zanahowia', 'Dofus Zanahowia'],
-  ['dosaurio', 'Dosaurio'],
-  ['dokoko', 'Dokoko'],
-  ['dofus-esmeralda', 'Dofus Esmeralda'],
-  ['dofus-vigilante', 'Dofus de los Vigilantes'],
-  ['dofus-purpura', 'Dofus Púrpura'],
-  ['domakuro', 'Domakuro'],
-  ['dorigami', 'Dorigami'],
-  ['dofus-turquesa', 'Dofus Turquesa'],
-  ['dofus-ocre', 'Dofus Ocre'],
-  ['dofus-vulbis', 'Dofus Vulbis'],
-  ['dofus-de-los-hielos', 'Dofus de los Hielos'],
-  ['dofus-moteado', 'Dofus Moteado'],
-  ['dofus-ebano', 'Dofus Ébano'],
-  ['dofus-marfil', 'Dofus Marfil'],
-  ['dofus-abisal', 'Dofus Abisal'],
-].map(([slug, name]) => ({ name, href: legacyHref(slug), image: egg(slug) }))
+export const DOFUS_GUIDES: NavLink[] = (Object.keys(t.dofus) as (keyof typeof t.dofus)[]).map(
+  (slug) => ({ name: t.dofus[slug], href: legacyHref(slug), image: egg(slug) }),
+)
 
 export const CHECKLISTS: NavLink[] = [
   {
-    name: 'Dofus Silvestre',
+    name: t.checklistNames.silvestre,
     href: legacyHref('checklist-silvestre'),
     image: { src: '/img/game/checklists/silvestre.webp', size: 200 },
     description: t.checklists.silvestre,
   },
   {
-    name: 'Dofus de los Hielos',
+    name: t.checklistNames.hielos,
     href: legacyHref('checklist-dofus-de-los-hielos'),
     image: { src: '/img/game/checklists/hielos.webp', size: 200 },
     description: t.checklists.hielos,
   },
   {
-    name: 'Almas del Ocre',
+    name: t.checklistNames.ocre,
     href: legacyHref('lista-ocre'),
     image: { src: '/img/game/checklists/ocre.webp', size: 128 },
     description: t.checklists.ocre,
@@ -91,41 +73,27 @@ export const CHECKLISTS: NavLink[] = [
 ]
 
 // En la web de siempre, Feca y Yopuka llevan un -1 en el slug.
-export const CLASSES: NavLink[] = [
-  ['aniripsa', 'Aniripsa'],
-  ['anutrof', 'Anutrof'],
-  ['feca-1', 'Feca'],
-  ['forjalanza', 'Forjalanza'],
-  ['hipermago', 'Hipermago'],
-  ['ocra', 'Ocra'],
-  ['osamodas', 'Osamodas'],
-  ['pandawa', 'Pandawa'],
-  ['sacrogrito', 'Sacrógrito'],
-  ['sadida', 'Sadida'],
-  ['selotrop', 'Selotrop'],
-  ['sram', 'Sram'],
-  ['steamer', 'Steamer'],
-  ['tymador', 'Tymador'],
-  ['uginak', 'Uginak'],
-  ['xelor', 'Xelor'],
-  ['yopuka-1', 'Yopuka'],
-  ['zobal', 'Zobal'],
-  ['zurcarak', 'Zurcarák'],
-].map(([slug, name]) => ({ name, href: legacyHref(slug), image: head(slug.replace(/-1$/, '')) }))
+export const CLASSES: NavLink[] = (Object.keys(t.classes) as (keyof typeof t.classes)[]).map(
+  (slug) => ({
+    name: t.classes[slug],
+    href: legacyHref(slug),
+    image: head(slug.replace(/-1$/, '')),
+  }),
+)
 
 export const DUNGEONS: NavLink[] = [
-  { name: 'Acuadomo de Merkator', href: legacyHref('mazmorra-acuadomo-de-merkator') },
+  { name: t.dungeons.acuadomo, href: legacyHref('mazmorra-acuadomo-de-merkator') },
   {
-    name: 'Crocantería',
+    name: t.dungeons.crocanteria,
     href: legacyHref('mazmorra-crunchidor'),
     image: { src: '/img/game/jefes/crunchidor.webp', size: 120 },
   },
-  { name: 'Fundición de los waddictos', href: legacyHref('mazmorra-fundicion-de-los-waddictos') },
-  { name: 'Nave del Capitán Meno', href: legacyHref('mazmorra-nave-del-capitan-meno') },
-  { name: 'Nawidad', href: legacyHref('mazmorras-de-nawidad') },
-  { name: 'Pikabeto', href: legacyHref('pikabeto') },
-  { name: 'Templo de Kutulú', href: legacyHref('mazmorra-templo-de-kutulu') },
-  { name: 'Templo del Dios Kao', href: legacyHref('mazmorra-templo-del-dios-kao') },
+  { name: t.dungeons.fundicion, href: legacyHref('mazmorra-fundicion-de-los-waddictos') },
+  { name: t.dungeons.meno, href: legacyHref('mazmorra-nave-del-capitan-meno') },
+  { name: t.dungeons.nawidad, href: legacyHref('mazmorras-de-nawidad') },
+  { name: t.dungeons.pikabeto, href: legacyHref('pikabeto') },
+  { name: t.dungeons.kutulu, href: legacyHref('mazmorra-templo-de-kutulu') },
+  { name: t.dungeons.kao, href: legacyHref('mazmorra-templo-del-dios-kao') },
 ]
 
 // La web de siempre no tiene una página de mazmorras: el enlace general va a la Crocantería,
@@ -182,20 +150,20 @@ export interface Social {
 export const SOCIALS: Social[] = [
   {
     key: 'twitch',
-    name: 'Twitch',
+    name: t.socials.twitch,
     href: 'https://www.twitch.tv/torrentearcano',
     handle: 'torrentearcano',
   },
-  { key: 'kick', name: 'Kick', href: 'https://kick.com/torretv', handle: 'torretv' },
+  { key: 'kick', name: t.socials.kick, href: 'https://kick.com/torretv', handle: 'torretv' },
   {
     key: 'youtube',
-    name: 'YouTube',
+    name: t.socials.youtube,
     href: 'https://www.youtube.com/@TorrenteArcano',
     handle: '@TorrenteArcano',
   },
   {
     key: 'discord',
-    name: 'Discord',
+    name: t.socials.discord,
     href: 'https://discord.gg/wgCxwd7b3r',
     handle: 'discord.gg/wgCxwd7b3r',
   },

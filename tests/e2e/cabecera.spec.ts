@@ -120,6 +120,19 @@ test.describe('cabecera', () => {
     await expect(misiones).toBeFocused()
   })
 
+  test('los atajos de la búsqueda no abren nada con otro diálogo abierto', async ({ page }) => {
+    await open(page)
+    const link = page.getByRole('link', { name: /^Ver imagen a pantalla completa/ }).first()
+    await link.scrollIntoViewIfNeeded()
+    await link.click()
+    const viewer = page.getByRole('dialog', { name: 'Imagen a pantalla completa' })
+    await expect(viewer).toBeVisible()
+    await page.keyboard.press('/')
+    await page.keyboard.press('Control+k')
+    await expect(page.getByRole('dialog', { name: 'Buscar en el sitio' })).toBeHidden()
+    await expect(viewer).toBeVisible()
+  })
+
   test('la cabecera se vuelve opaca al bajar la página', async ({ page }) => {
     await open(page)
     const header = page.locator('header.site-hdr')

@@ -136,6 +136,9 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
     const onKey = (event: KeyboardEvent) => {
       const k = event.key.toLowerCase()
       if ((k === 'k' && (event.ctrlKey || event.metaKey)) || (k === '/' && !typing(event.target))) {
+        // Con otro diálogo abierto (el visor de capturas, el menú del móvil), el atajo no
+        // abre un segundo diálogo encima.
+        if (document.querySelector('dialog[open]')) return
         event.preventDefault()
         return openSearch(document.activeElement as HTMLElement | null)
       }

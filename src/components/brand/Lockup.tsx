@@ -1,5 +1,6 @@
 import Link from 'next/link'
 
+import { siteShellStrings as s } from '@/components/site/strings'
 import { cx } from '@/components/ui/cx'
 
 import { Emblem } from './Emblem'
@@ -21,7 +22,8 @@ export function Lockup({
     <Link href="/" className={cx('lockup', `lockup--${size}`, className)}>
       <Emblem size={size === 'footer' ? 32 : 36} className="lockup__emblem" />
       <span className="lockup__word">
-        <span className="lockup__top">Torrente</span> <span className="lockup__acc">Arcano</span>
+        <span className="lockup__top">{s.brandTop}</span>{' '}
+        <span className="lockup__acc">{s.brandAccent}</span>
       </span>
     </Link>
   )

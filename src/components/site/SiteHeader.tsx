@@ -358,7 +358,7 @@ function Sheet({ counts }: { counts: SiteCounts }) {
             </li>
           ))}
           <li>
-            <a href={KOFI_URL} rel="noopener" aria-label="Ko-fi">
+            <a href={KOFI_URL} rel="noopener" aria-label={s.socials.kofi}>
               <SocialIcon name="kofi" />
             </a>
           </li>
