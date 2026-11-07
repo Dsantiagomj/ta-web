@@ -187,4 +187,21 @@ describe('gameImageTargets', () => {
       await payload.delete({ collection: 'quests', id: quest.id })
     }
   })
+
+  it('los objetos de las recompensas de los logros', async () => {
+    const achievement = await payload.create({
+      collection: 'achievements',
+      data: {
+        dofusId: 990_301,
+        name: 'Logro de prueba de imágenes',
+        rewards: { items: [{ item: items[2]!.id, quantity: 1 }] },
+      },
+      depth: 0,
+    })
+    try {
+      expect((await gameImageTargets(payload)).items).toContain(items[2]!.id)
+    } finally {
+      await payload.delete({ collection: 'achievements', id: achievement.id })
+    }
+  })
 })

@@ -1,0 +1,498 @@
+[
+  {
+    "id": 1671,
+    "name": {
+      "es": "La ocasión hace al ladrón",
+      "fr": "L'occasion fait le larron"
+    },
+    "slug": {
+      "es": "la ocasion hace al ladron",
+      "fr": "l'occasion fait le larron"
+    },
+    "categoryId": 45,
+    "iconId": 203,
+    "points": 10,
+    "level": 25,
+    "order": 9,
+    "need": {
+      "quests": [1975, 1976, 1977]
+    },
+    "objectives": [
+      {
+        "id": 5336,
+        "order": 0,
+        "criterion": "(Qf=1975)",
+        "name": {
+          "es": "Esto hace aguas",
+          "fr": "Ça tombe à l'eau"
+        }
+      },
+      {
+        "id": 5337,
+        "order": 1,
+        "criterion": "(Qf=1976)",
+        "name": {
+          "es": "Seis pies bajo tierra",
+          "fr": "Six pieds sous terre"
+        }
+      },
+      {
+        "id": 5338,
+        "order": 2,
+        "criterion": "(Qf=1977)",
+        "name": {
+          "es": "El cazador cazado",
+          "fr": "Tel est pris qui croyait prendre"
+        }
+      }
+    ],
+    "rewards": [
+      {
+        "id": 5691,
+        "criterions": "",
+        "kamasRatio": 1,
+        "experienceRatio": 0,
+        "itemsReward": [],
+        "itemsQuantityReward": []
+      },
+      {
+        "id": 5692,
+        "criterions": "",
+        "kamasRatio": 0,
+        "experienceRatio": 2,
+        "itemsReward": [],
+        "itemsQuantityReward": []
+      },
+      {
+        "id": 5713,
+        "criterions": "",
+        "kamasRatio": 0,
+        "experienceRatio": 0,
+        "itemsReward": [1681, 2467, 2574],
+        "itemsQuantityReward": [1, 1, 1]
+      }
+    ]
+  },
+  {
+    "id": 1677,
+    "name": {
+      "es": "Periplo astrubiense",
+      "fr": "Périple astrubien"
+    },
+    "slug": {
+      "es": "periplo astrubiense",
+      "fr": "periple astrubien"
+    },
+    "categoryId": 45,
+    "iconId": 82,
+    "points": 20,
+    "level": 40,
+    "order": 15,
+    "need": {
+      "quests": []
+    },
+    "objectives": [
+      {
+        "id": 5362,
+        "order": 0,
+        "criterion": "(OA=1671)",
+        "name": {
+          "es": "La ocasión hace al ladrón",
+          "fr": "L'occasion fait le larron"
+        }
+      },
+      {
+        "id": 5363,
+        "order": 1,
+        "criterion": "(OA=1672)",
+        "name": {
+          "es": "La gran biblioteca",
+          "fr": "La grande biblioquête"
+        }
+      },
+      {
+        "id": 5364,
+        "order": 2,
+        "criterion": "(OA=1673)",
+        "name": {
+          "es": "Mercenario de acero",
+          "fr": "Mercenaire d'acier"
+        }
+      },
+      {
+        "id": 5365,
+        "order": 3,
+        "criterion": "(OA=1674)",
+        "name": {
+          "es": "No hay tiempo para el descanso",
+          "fr": "Pas le temps de chômer"
+        }
+      },
+      {
+        "id": 5366,
+        "order": 4,
+        "criterion": "(OA=1675)",
+        "name": {
+          "es": "El hábitat urbano",
+          "fr": "L'habitat urbain"
+        }
+      },
+      {
+        "id": 5367,
+        "order": 5,
+        "criterion": "(OA=1676)",
+        "name": {
+          "es": "Escapadas y emboscadas",
+          "fr": "Escapades et embuscades"
+        }
+      }
+    ],
+    "rewards": [
+      {
+        "id": 5703,
+        "criterions": "",
+        "kamasRatio": 2,
+        "experienceRatio": 0,
+        "itemsReward": [],
+        "itemsQuantityReward": []
+      },
+      {
+        "id": 5704,
+        "criterions": "",
+        "kamasRatio": 0,
+        "experienceRatio": 3,
+        "itemsReward": [],
+        "itemsQuantityReward": []
+      },
+      {
+        "id": 5712,
+        "criterions": "",
+        "kamasRatio": 0,
+        "experienceRatio": 0,
+        "itemsReward": [2663, 2662, 2455, 756, 2466, 882],
+        "itemsQuantityReward": [1, 1, 1, 1, 1, 1]
+      }
+    ]
+  },
+  {
+    "id": 1678,
+    "name": {
+      "es": "Un ciudadano modelo",
+      "fr": "Un citoyen modèle"
+    },
+    "slug": {
+      "es": "un ciudadano modelo",
+      "fr": "un citoyen modele"
+    },
+    "categoryId": 45,
+    "iconId": 458,
+    "points": 10,
+    "level": 30,
+    "order": 8,
+    "need": {
+      "quests": [
+        1958, 1959, 2009, 1841, 1677, 1615, 938, 716, 704, 1974, 1973, 1972, 1971, 1970, 1969, 1968,
+        1967, 1966, 1965, 1964, 1963, 2470, 1960, 1962
+      ]
+    },
+    "objectives": [
+      {
+        "id": 5368,
+        "order": 0,
+        "criterion": "(Qf=1958)",
+        "name": {
+          "es": "Archi y sus principios",
+          "fr": "Les principes d'Archie m'aident"
+        }
+      },
+      {
+        "id": 5369,
+        "order": 1,
+        "criterion": "(Qf=1959)",
+        "name": {
+          "es": "Eso va a costar un huevo",
+          "fr": "On marche sur des œufs"
+        }
+      },
+      {
+        "id": 5370,
+        "order": 2,
+        "criterion": "(Qf=2009)",
+        "name": {
+          "es": "Consejo de clase",
+          "fr": "Conseil de classe"
+        }
+      },
+      {
+        "id": 5371,
+        "order": 3,
+        "criterion": "(Qf=1841|Qf=1677|Qf=1615|Qf=938|Qf=716|Qf=704|Qf=1974|Qf=1973|Qf=1972|Qf=1971|Qf=1970|Qf=1969|Qf=1968|Qf=1967|Qf=1966|Qf=1965|Qf=1964|Qf=1963|Qf=2470)",
+        "name": {
+          "es": "Misión de clase",
+          "fr": "Quête de classe"
+        }
+      },
+      {
+        "id": 5372,
+        "order": 4,
+        "criterion": "(Qf=1960)",
+        "name": {
+          "es": "Aquí huele a gas",
+          "fr": "Ça sent le gaz"
+        }
+      },
+      {
+        "id": 5373,
+        "order": 5,
+        "criterion": "(Qf=1962)",
+        "name": {
+          "es": "Paseo por el bosque",
+          "fr": "Balade en forêt"
+        }
+      }
+    ],
+    "rewards": [
+      {
+        "id": 5705,
+        "criterions": "",
+        "kamasRatio": 0,
+        "experienceRatio": 2,
+        "itemsReward": [],
+        "itemsQuantityReward": []
+      },
+      {
+        "id": 5706,
+        "criterions": "",
+        "kamasRatio": 1,
+        "experienceRatio": 0,
+        "itemsReward": [],
+        "itemsQuantityReward": []
+      },
+      {
+        "id": 5711,
+        "criterions": "",
+        "kamasRatio": 0,
+        "experienceRatio": 0,
+        "itemsReward": [],
+        "itemsQuantityReward": []
+      }
+    ]
+  },
+  {
+    "id": 1679,
+    "name": {
+      "es": "De Incarnam a Astrub",
+      "fr": "D'Incarnam à Astrub"
+    },
+    "slug": {
+      "es": "de incarnam a astrub",
+      "fr": "d'incarnam a astrub"
+    },
+    "categoryId": 45,
+    "iconId": 459,
+    "points": 30,
+    "level": 40,
+    "order": 16,
+    "need": {
+      "quests": []
+    },
+    "objectives": [
+      {
+        "id": 5375,
+        "order": 0,
+        "criterion": "(OA=1378)",
+        "name": {
+          "es": "En marcha hacia la aventura",
+          "fr": "En route pour l'aventure"
+        }
+      },
+      {
+        "id": 5376,
+        "order": 1,
+        "criterion": "(OA=644)",
+        "name": {
+          "es": "Un comienzo ejemplar",
+          "fr": "Des débuts exemplaires"
+        }
+      },
+      {
+        "id": 5377,
+        "order": 2,
+        "criterion": "(OA=1678)",
+        "name": {
+          "es": "Un ciudadano modelo",
+          "fr": "Un citoyen modèle"
+        }
+      },
+      {
+        "id": 5378,
+        "order": 3,
+        "criterion": "(OA=1677)",
+        "name": {
+          "es": "Periplo astrubiense",
+          "fr": "Périple astrubien"
+        }
+      },
+      {
+        "id": 5379,
+        "order": 4,
+        "criterion": "(BI=1)",
+        "name": {
+          "es": "Hablar con Rathrosk",
+          "fr": "Parler à Rathrosk"
+        }
+      }
+    ],
+    "rewards": [
+      {
+        "id": 5707,
+        "criterions": "",
+        "kamasRatio": 0,
+        "experienceRatio": 0,
+        "itemsReward": [19629],
+        "itemsQuantityReward": [1]
+      },
+      {
+        "id": 5708,
+        "criterions": "",
+        "kamasRatio": 0,
+        "experienceRatio": 4,
+        "itemsReward": [],
+        "itemsQuantityReward": []
+      },
+      {
+        "id": 5709,
+        "criterions": "",
+        "kamasRatio": 2,
+        "experienceRatio": 0,
+        "itemsReward": [],
+        "itemsQuantityReward": []
+      }
+    ]
+  },
+  {
+    "id": 982,
+    "name": {
+      "es": "Sello de temporada",
+      "fr": "Tampon saisonnier"
+    },
+    "slug": {
+      "es": "sello de temporada",
+      "fr": "tampon saisonnier"
+    },
+    "categoryId": 60,
+    "iconId": 203,
+    "points": 10,
+    "level": 200,
+    "order": 37,
+    "need": {
+      "quests": [720, 721, 722, 723, 724, 725, 726, 741, 742]
+    },
+    "objectives": [
+      {
+        "id": 2965,
+        "order": 0,
+        "criterion": "(Qf=720|Qf=721|Qf=722|Qf=723)",
+        "name": {
+          "es": "Explota Vulkaniano",
+          "fr": "Éklate vulkaine"
+        }
+      },
+      {
+        "id": 2966,
+        "order": 1,
+        "criterion": "(Qf=724)",
+        "name": {
+          "es": "Primer contacto",
+          "fr": "Premier Contact"
+        }
+      },
+      {
+        "id": 2967,
+        "order": 2,
+        "criterion": "(Qf=725)",
+        "name": {
+          "es": "La aventura de la tierra",
+          "fr": "L'Aventure de la terre"
+        }
+      },
+      {
+        "id": 2968,
+        "order": 3,
+        "criterion": "(Qf=726)",
+        "name": {
+          "es": "Recolecta estival",
+          "fr": "Cueillette estivale"
+        }
+      },
+      {
+        "id": 2969,
+        "order": 4,
+        "criterion": "(Qf=741)",
+        "name": {
+          "es": "Cráter de admisión",
+          "fr": "Cratère d'admission"
+        }
+      },
+      {
+        "id": 2970,
+        "order": 5,
+        "criterion": "(Qf=742)",
+        "name": {
+          "es": "Caza de cascasaurios",
+          "fr": "Chasse aux Krokilles"
+        }
+      }
+    ],
+    "rewards": [
+      {
+        "id": 1860,
+        "criterions": "PL>0&PL<51&Ob!982",
+        "kamasRatio": 0,
+        "experienceRatio": 0,
+        "itemsReward": [12448, 12428, 12440, 12436, 12432, 12444],
+        "itemsQuantityReward": [1, 10, 10, 10, 10, 10]
+      },
+      {
+        "id": 1861,
+        "criterions": "PL>50&PL<101&Ob!982",
+        "kamasRatio": 0,
+        "experienceRatio": 0,
+        "itemsReward": [12449, 12429, 12441, 12437, 12433, 12445],
+        "itemsQuantityReward": [1, 10, 10, 10, 10, 10]
+      },
+      {
+        "id": 1862,
+        "criterions": "PL>100&PL<151&Ob!982",
+        "kamasRatio": 0,
+        "experienceRatio": 0,
+        "itemsReward": [12450, 12430, 12442, 12438, 12434, 12446],
+        "itemsQuantityReward": [1, 10, 10, 10, 10, 10]
+      },
+      {
+        "id": 1863,
+        "criterions": "PL>150&PL<201&Ob!982",
+        "kamasRatio": 0,
+        "experienceRatio": 0,
+        "itemsReward": [12451, 12431, 12443, 12439, 12435, 12447],
+        "itemsQuantityReward": [1, 10, 10, 10, 10, 10]
+      },
+      {
+        "id": 3890,
+        "criterions": "",
+        "kamasRatio": 0,
+        "experienceRatio": 1,
+        "itemsReward": [],
+        "itemsQuantityReward": []
+      },
+      {
+        "id": 5497,
+        "criterions": "",
+        "kamasRatio": 1,
+        "experienceRatio": 0,
+        "itemsReward": [],
+        "itemsQuantityReward": []
+      }
+    ]
+  }
+]
