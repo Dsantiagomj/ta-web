@@ -1,8 +1,8 @@
 /*
  * Lo que las utilidades no expresan bien en las piezas de la página de guía (DESIGN.md,
- * Quest guide components): la cabecera con el PNJ y sus tres columnas, los huecos de los
- * iconos, el chip de coordenadas, los pasos, la lista «Pasos», el bocadillo de Torre, la
- * cadena del logro, el vídeo y el aviso «Copiado». Solo tokens. El movimiento es
+ * Quest guide components): la cabecera con el PNJ, sus tres columnas y la bolsa de
+ * recompensas, los huecos de los iconos, el chip de coordenadas, los pasos, el bocadillo de
+ * Torre, la cadena del logro, el vídeo y el aviso «Copiado». Solo tokens. El movimiento es
  * transform, opacity y colores; la regla global de reduced motion lo apaga.
  *
  * Lo que cambia con el modo se lee de variables puestas en [data-mode] (theme.css), no de
@@ -11,18 +11,16 @@
 
 /* ---------- página ---------- */
 
-/* Una página plana: el contenido sobre el fondo, sin tarjeta alrededor. Desde 1152px, la
-   lista «Pasos» al lado (272px). */
+/* Una página plana: el contenido sobre el fondo, sin tarjeta alrededor, en una sola
+   columna de lectura centrada de 880px. */
 .quest {
   --gutter: 16px;
-  display: grid;
-  gap: 40px;
   box-sizing: content-box;
-  max-width: 1240px;
+  max-width: 880px;
   margin-inline: auto;
-  padding: 28px var(--gutter) 80px;
-  font-size: 1.0625rem;
-  line-height: 1.6;
+  padding: 28px var(--gutter) 56px;
+  font-size: 1rem;
+  line-height: 1.65;
 }
 
 @media (min-width: 40rem) {
@@ -34,19 +32,8 @@
 @media (min-width: 64rem) {
   .quest {
     --gutter: 48px;
+    padding-top: 40px;
   }
-}
-
-@media (min-width: 72rem) {
-  .quest {
-    grid-template-columns: minmax(0, 1fr) 272px;
-    gap: 56px;
-    padding-top: 36px;
-  }
-}
-
-.quest__main {
-  min-width: 0;
 }
 
 /* Los enlaces de la cabecera y de la prosa van subrayados: el color solo no basta. */
@@ -85,7 +72,7 @@
 }
 
 .qhead[data-giver] {
-  grid-template-columns: minmax(0, 1fr) 72px;
+  grid-template-columns: minmax(0, 1fr) 56px;
   grid-template-rows: auto 1fr auto;
   grid-template-areas: 'title npc' 'meta npc' 'facts facts';
   column-gap: 12px;
@@ -93,7 +80,7 @@
 
 @media (min-width: 36rem) {
   .qhead[data-giver] {
-    grid-template-columns: 140px minmax(0, 1fr);
+    grid-template-columns: 104px minmax(0, 1fr);
     grid-template-rows: auto auto 1fr;
     grid-template-areas: 'npc title' 'npc meta' 'npc facts';
     column-gap: 40px;
@@ -102,15 +89,16 @@
 
 @media (min-width: 64rem) {
   .qhead[data-giver] {
-    grid-template-columns: 160px minmax(0, 1fr);
-    column-gap: 48px;
+    grid-template-columns: 112px minmax(0, 1fr);
+    column-gap: 44px;
   }
 }
 
 .qhead__title {
   grid-area: title;
   color: var(--color-ink);
-  font: 600 clamp(2.125rem, 1.5rem + 2.4vw, 3.25rem) / 1.02 var(--font-display);
+  font: 700 clamp(2rem, 1.45rem + 2.1vw, 3rem) / 1.06 var(--font-display);
+  letter-spacing: -0.015em;
   text-wrap: balance;
 }
 
@@ -171,7 +159,7 @@
 .giver img {
   position: relative;
   display: block;
-  width: 64px;
+  width: 50px;
   height: auto;
 }
 
@@ -185,7 +173,7 @@
 
 .giver__name {
   color: var(--color-ink);
-  font: 600 0.9375rem / 1.15 var(--font-display);
+  font: 600 0.9375rem / 1.2 var(--font-display);
 }
 
 /* En el móvil, el paso 1, justo debajo, ya lleva la misma chincheta. */
@@ -199,7 +187,7 @@
   }
 
   .giver img {
-    width: 120px;
+    width: 84px;
   }
 
   .giver figcaption {
@@ -207,7 +195,7 @@
   }
 
   .giver__name {
-    font-size: 1.1875rem;
+    font-size: 1.0625rem;
   }
 
   .giver__pin {
@@ -217,7 +205,7 @@
 
 @media (min-width: 64rem) {
   .giver img {
-    width: 128px;
+    width: 92px;
   }
 }
 
@@ -251,9 +239,122 @@
   gap: 8px;
 }
 
-.qhead__rew {
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  column-gap: 24px;
+.qhead__facts .qhead__rew {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 8px 32px;
+}
+
+/* ---------- la bolsa de recompensas ---------- */
+
+/* Los objetos de la recompensa en la bolsa del inventario: una fila como la XP y los kamas
+   que abre la lista. Sin JavaScript la lista se ve debajo; con él (data-js, que pone el
+   script del <head> antes del primer pintado) es un desplegable bajo el botón desde 576px y,
+   en el móvil, una lista bajo él. El estado es el aria-expanded del botón. */
+.bag {
+  position: relative;
+}
+
+.bag__btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  margin: 0;
+  padding: 0 10px 0 0;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  color: var(--color-ink);
+  font: inherit;
+  cursor: pointer;
+}
+
+.bag__btn b {
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.bag__btn > span:nth-child(2) {
+  text-decoration: underline;
+  text-decoration-color: var(--color-muted);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .bag__btn:hover > span:nth-child(2) {
+    text-decoration-color: currentColor;
+    text-decoration-thickness: 2px;
+  }
+
+  .bag__btn:hover .well {
+    border-color: var(--color-accent);
+  }
+}
+
+.bag__chev {
+  width: 16px;
+  height: 16px;
+  color: var(--color-ink-2);
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.bag__btn[aria-expanded='true'] .bag__chev {
+  transform: rotate(180deg);
+}
+
+.qhead__facts .bag__list {
+  gap: 8px;
+  margin-top: 6px;
+  white-space: nowrap;
+}
+
+[data-js] .qhead__facts .bag__list {
+  position: absolute;
+  z-index: var(--z-raised);
+  top: calc(100% + 6px);
+  left: 0;
+  width: max-content;
+  max-width: min(440px, calc(100vw - 32px));
+  margin: 0;
+  padding: 10px 14px 10px 10px;
+  border: 1px solid var(--color-well-line);
+  border-radius: 14px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-float);
+  transform-origin: 22px 0;
+  transition:
+    opacity var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out),
+    visibility 0s;
+}
+
+/* Cerrada: fuera de la vista, del orden del tabulador y del lector de pantalla. */
+[data-js] .bag__btn[aria-expanded='false'] + .bag__list {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-6px) scale(0.97);
+  transition-duration: 150ms, 150ms, 0s;
+  transition-delay: 0s, 0s, 150ms;
+  pointer-events: none;
+}
+
+@media (max-width: 35.99rem) {
+  .qhead__facts .bag__list {
+    white-space: normal;
+  }
+
+  [data-js] .qhead__facts .bag__list {
+    position: static;
+    margin-top: 6px;
+    box-shadow: none;
+  }
+
+  [data-js] .bag__btn[aria-expanded='false'] + .bag__list {
+    display: none;
+  }
 }
 
 /* Una fila: el icono del juego en su hueco y el texto. La cantidad es texto («1 ×»), no
@@ -342,49 +443,36 @@
 
 /* ---------- pasos ---------- */
 
+/* Sin números: los pasos se separan con una línea, sin línea encima del primero. */
 .qsteps > ol {
   display: grid;
-  gap: 56px;
-  margin-top: 36px;
+  margin-top: 8px;
 }
 
 .qstep {
-  display: grid;
-  grid-template-columns: 40px minmax(0, 1fr);
-  gap: 0 20px;
+  padding-block: 40px;
+  border-top: 1px solid var(--color-line);
   scroll-margin-top: 88px;
 }
 
-/* El número en su hueco, pegado arriba mientras se lee el paso. */
-.qstep__n {
-  position: sticky;
-  top: 24px;
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border: 1px solid var(--color-well-line);
-  border-radius: 10px;
-  background: var(--color-well);
-  color: var(--color-ink);
-  font: 600 1.25rem / 1 var(--font-display);
-  font-variant-numeric: tabular-nums;
-  transition:
-    border-color var(--duration-fast) var(--ease-standard),
-    color var(--duration-fast) var(--ease-standard);
+.qstep:first-child {
+  padding-top: 32px;
+  border-top: 0;
 }
 
-.qstep[data-current] .qstep__n {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
+@media (max-width: 40rem) {
+  .qstep {
+    padding-block: 32px;
+  }
 }
 
-.qstep__body {
-  min-width: 0;
-}
-
-.qstep__body > * + * {
+.qstep__body.prose-guide > * + * {
   margin-top: 18px;
+}
+
+/* Las capturas de un paso, a la misma distancia que el resto de sus bloques. */
+.qstep__body.prose-guide > figure {
+  margin-bottom: 0;
 }
 
 .qstep__body.prose-guide p {
@@ -397,106 +485,6 @@
   width: 100%;
   border-radius: 14px;
   box-shadow: var(--shadow-art);
-}
-
-/* Móvil: el número junto a la primera línea y la captura a todo el ancho. */
-@media (max-width: 40rem) {
-  .qstep {
-    display: block;
-  }
-
-  .qstep__n {
-    position: static;
-    float: left;
-    width: 34px;
-    height: 34px;
-    margin: 0 12px 4px 0;
-    font-size: 1.125rem;
-  }
-
-  .qstep__body > p:first-child {
-    min-height: 34px;
-    padding-top: 2px;
-  }
-
-  .qstep__body > :not(p) {
-    clear: left;
-  }
-}
-
-/* ---------- lista «Pasos» al lado, desde 1152px ---------- */
-
-.tracker {
-  display: none;
-}
-
-@media (min-width: 72rem) {
-  .tracker {
-    display: block;
-    position: sticky;
-    top: 24px;
-    align-self: start;
-    padding-top: 6px;
-  }
-}
-
-.tracker :is(h2, h3) {
-  margin: 0 0 10px 10px;
-  color: var(--color-ink);
-  font: 600 1.25rem / 1.2 var(--font-display);
-}
-
-.tracker ol {
-  display: grid;
-  gap: 2px;
-}
-
-.tracker a {
-  display: grid;
-  grid-template-columns: 22px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 10px;
-  min-height: 44px;
-  padding: 6px 10px;
-  border-radius: 10px;
-  color: var(--color-ink-2);
-  font-size: 0.9375rem;
-  line-height: 1.25;
-  text-decoration: none;
-}
-
-.tracker__n {
-  text-align: center;
-  color: var(--color-muted);
-  font: 600 1rem / 1 var(--font-display);
-}
-
-.tracker__c {
-  color: var(--color-muted);
-  font-size: 0.875rem;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-}
-
-.tracker a[aria-current='step'] {
-  background: var(--color-raised);
-  color: var(--color-ink);
-  font-weight: 700;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .tracker a:hover {
-    background: var(--color-raised);
-    color: var(--color-ink);
-  }
-}
-
-.tracker a[aria-current='step'] .tracker__n {
-  color: var(--color-accent);
-}
-
-.tracker a[aria-current='step'] .tracker__c {
-  color: var(--color-ink-2);
 }
 
 /* ---------- recomendaciones de Torre ---------- */

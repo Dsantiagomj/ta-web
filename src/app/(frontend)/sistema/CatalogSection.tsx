@@ -7,7 +7,7 @@ import { IconWell } from '@/components/game/IconWell'
 import { ItemChip, ItemSlot } from '@/components/game/Item'
 import { FightBlock } from '@/components/game/MonsterChip'
 import { QuestHeader } from '@/components/game/QuestHeader'
-import { QuestSteps, StepTracker } from '@/components/game/QuestSteps'
+import { QuestSteps } from '@/components/game/QuestSteps'
 import { TorreTips } from '@/components/game/TorreTips'
 import { VideoFacade } from '@/components/game/VideoFacade'
 import { CopyIcon } from '@/components/game/icons'
@@ -37,7 +37,6 @@ import {
   longChain,
   prose,
   samples,
-  stepEntries,
   steps,
   video,
 } from './catalog-data'
@@ -219,10 +218,7 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
 
           <Group name="steps" note={s.notes.steps} wide>
             <div className="quest w-full !p-0">
-              <div className="min-w-0">
-                <QuestSteps headingLevel={3} steps={steps(key)} />
-              </div>
-              <StepTracker headingLevel={3} entries={stepEntries(key)} />
+              <QuestSteps headingLevel={3} steps={steps(key)} />
             </div>
           </Group>
 

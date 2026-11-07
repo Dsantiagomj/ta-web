@@ -30,8 +30,6 @@ export const guideStrings = {
   /** La página pública de la guía, /<slug>. */
   page: {
     videoTitle: (title: string) => `Vídeo de la guía: ${title}`,
-    /** Un paso sin etiqueta propia en la lista «Pasos». */
-    untitledStep: (number: number) => `Paso ${number}`,
     preview: {
       label: 'Vista previa',
       note: 'Vista previa del borrador. Los visitantes ven la versión publicada.',
@@ -76,14 +74,12 @@ export const guideStrings = {
       singular: 'Paso',
       plural: 'Pasos',
       title: 'Título',
-      titleDescription:
-        'Opcional y solo para el panel: la guía no lo enseña. En la lista «Pasos» de la ' +
-        'guía, cada paso lleva la primera negrita de su texto, o «Paso 3» sin ella.',
+      titleDescription: 'Opcional y solo para el panel: la guía no lo enseña.',
       x: 'X',
       y: 'Y',
       coordinatesDescription:
-        'La posición principal del paso, si la tiene: sale en la lista «Pasos» y, si el ' +
-        'texto no la nombra, como chip al principio del paso.',
+        'La posición principal del paso, si la tiene: si el texto no la nombra, sale como ' +
+        'chip al principio del paso.',
       coordinatesPair: 'Pon X e Y, o deja las dos vacías.',
       coordinatesInteger: 'Las coordenadas del juego son números enteros.',
       body: 'Contenido del paso',

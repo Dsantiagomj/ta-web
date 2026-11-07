@@ -48,9 +48,17 @@ test.describe('página de guía', () => {
     const rewards = header.getByRole('region', { name: 'Recompensas' })
     await expect(rewards).toContainText(/9\s800 a 16\s380 XP/)
     await expect(rewards).toContainText(/390 kamas/)
-    for (const name of seedGuide.rewardItems) await expect(rewards.getByText(name)).toBeVisible()
+    // Los objetos van en la bolsa: cerrada, la lista no se ve; abierta, sí.
+    const bag = rewards.getByRole('button', { name: `${seedGuide.rewardItems.length} objetos` })
+    await expect(bag).toHaveAttribute('aria-expanded', 'false')
+    for (const name of seedGuide.rewardItems) await expect(rewards.getByText(name)).toBeHidden()
+    await bag.click()
+    await expect(bag).toHaveAttribute('aria-expanded', 'true')
+    const list = rewards.getByRole('list', { name: 'Objetos de recompensa' })
+    await expect(list).toHaveAttribute('id', (await bag.getAttribute('aria-controls'))!)
+    for (const name of seedGuide.rewardItems) await expect(list.getByText(name)).toBeVisible()
     // Los iconos del juego, en sus huecos.
-    for (const icon of ['mision', 'combate', 'xp', 'kamas']) {
+    for (const icon of ['mision', 'combate', 'xp', 'kamas', 'bolsa']) {
       await expect(header.locator(`img[src="/img/game/${icon}.webp"]`)).toHaveCount(1)
     }
   })
@@ -64,13 +72,13 @@ test.describe('página de guía', () => {
     const render = page.locator('figure.giver img')
     const box = (await render.boundingBox())!
     expect(box.x).toBeGreaterThan(title.x + title.width - 1)
-    expect(Math.round(box.width)).toBe(64)
+    expect(Math.round(box.width)).toBe(50)
     // El render que mira a la izquierda (dirección 3).
     expect(await render.evaluate((img: HTMLImageElement) => img.currentSrc)).toContain('left')
     await expect(page.locator('figure.giver .coord')).toBeHidden()
   })
 
-  test('pinta la entrada, los pasos numerados sin títulos ni casillas y el cierre', async ({
+  test('pinta la entrada, los pasos sin números, títulos ni casillas y el cierre', async ({
     page,
   }) => {
     await page.goto(url)
@@ -80,8 +88,8 @@ test.describe('página de guía', () => {
     await expect(items).toHaveCount(seedGuide.steps.length)
     for (const index of seedGuide.steps.keys()) {
       await expect(items.nth(index)).toHaveAttribute('id', `paso-${index + 1}`)
-      await expect(items.nth(index).locator('.qstep__n')).toHaveText(String(index + 1))
     }
+    await expect(items.locator('.qstep__n')).toHaveCount(0)
     await expect(steps.getByRole('checkbox')).toHaveCount(0)
     await expect(
       steps.getByRole('heading', { level: 3, name: /protege a las anutrof/ }),
@@ -105,40 +113,97 @@ test.describe('página de guía', () => {
     await expect(items.first().locator('img[fetchpriority="high"]')).toHaveCount(1)
   })
 
-  test('desde 1152px, la lista «Pasos» enlaza cada paso con su etiqueta y sus coordenadas', async ({
+  test('una sola columna de lectura de 880px, con los pasos separados por una línea', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
     await page.goto(url)
-    const tracker = page.getByRole('navigation', { name: 'Pasos' })
-    await expect(tracker).toBeVisible()
-    const links = tracker.getByRole('link')
-    await expect(links).toHaveCount(seedGuide.steps.length)
-    for (const [index, step] of seedGuide.steps.entries()) {
-      const link = links.nth(index)
-      await expect(link).toHaveAttribute('href', `#paso-${index + 1}`)
-      await expect(link).toContainText(step.label)
-      if (step.coordinates) await expect(link).toContainText(step.coordinates)
-    }
-    // La isla marca el paso que se está leyendo, también al bajar a los siguientes.
-    await expect(links.first()).toHaveAttribute('aria-current', 'step')
-    // Deja el borde superior del paso 2 al 32 % de la altura, dentro de la franja.
-    await page.evaluate(() => {
-      const top = document.getElementById('paso-2')!.getBoundingClientRect().top
-      window.scrollBy(0, top - window.innerHeight * 0.32)
-    })
-    await expect(links.nth(1)).toHaveAttribute('aria-current', 'step')
-    await expect(links.first()).not.toHaveAttribute('aria-current', 'step')
+    // Sin la lista «Pasos» al lado.
+    await expect(page.getByRole('navigation', { name: 'Pasos' })).toHaveCount(0)
+    const article = (await page.locator('main.quest > article').boundingBox())!
+    expect(Math.round(article.width)).toBe(880)
+    expect(Math.round(article.x)).toBe((1440 - 880) / 2)
 
-    await page.setViewportSize({ width: 1024, height: 900 })
-    await expect(tracker).toBeHidden()
+    const items = page.getByRole('region', { name: 'Pasos' }).locator('ol > li')
+    const border = (index: number) =>
+      items.nth(index).evaluate((step) => {
+        const style = getComputedStyle(step)
+        return [style.borderTopWidth, style.borderTopStyle, style.paddingBottom]
+      })
+    expect(await border(0)).toEqual(['0px', 'none', '40px'])
+    expect(await border(1)).toEqual(['1px', 'solid', '40px'])
   })
 
-  test('una guía sin bloques Paso se lee como prosa, sin pasos ni lista', async ({ page }) => {
+  test('la bolsa se maneja con el teclado: Enter abre, Esc cierra y Tab fuera cierra', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto(url)
+    const bag = page.getByRole('button', { name: `${seedGuide.rewardItems.length} objetos` })
+    const list = page.getByRole('list', { name: 'Objetos de recompensa' })
+    // Hasta la bolsa con el tabulador, como un lector que no usa el ratón.
+    for (
+      let tab = 0;
+      tab < 40 && !(await bag.evaluate((node) => node === document.activeElement));
+      tab++
+    ) {
+      await page.keyboard.press('Tab')
+    }
+    await expect(bag).toBeFocused()
+
+    await page.keyboard.press('Enter')
+    await expect(bag).toHaveAttribute('aria-expanded', 'true')
+    await expect(list).toBeVisible()
+    // Desde 576px, un desplegable bajo el botón que no empuja el contenido.
+    const [button, popover] = [(await bag.boundingBox())!, (await list.boundingBox())!]
+    expect(popover.y).toBeGreaterThan(button.y + button.height)
+    expect(await list.evaluate((node) => getComputedStyle(node).position)).toBe('absolute')
+
+    await page.keyboard.press('Escape')
+    await expect(bag).toHaveAttribute('aria-expanded', 'false')
+    await expect(list).toBeHidden()
+    await expect(bag).toBeFocused()
+
+    await page.keyboard.press('Enter')
+    await expect(list).toBeVisible()
+    await page.keyboard.press('Tab')
+    await expect(bag).toHaveAttribute('aria-expanded', 'false')
+    await expect(list).toBeHidden()
+
+    // Un segundo clic la cierra, y también un clic fuera.
+    await bag.click()
+    await expect(list).toBeVisible()
+    await bag.click()
+    await expect(list).toBeHidden()
+    await bag.click()
+    await page.getByRole('heading', { level: 1 }).click()
+    await expect(list).toBeHidden()
+  })
+
+  test('en el móvil, la lista de la bolsa se abre debajo, en la página', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto(url)
+    const bag = page.getByRole('button', { name: `${seedGuide.rewardItems.length} objetos` })
+    const list = page.getByRole('list', { name: 'Objetos de recompensa' })
+    await expect(list).toBeHidden()
+    await bag.click()
+    await expect(list).toBeVisible()
+    expect(await list.evaluate((node) => getComputedStyle(node).position)).toBe('static')
+  })
+
+  test('sin JavaScript, la lista de la bolsa se ve', async ({ browser, baseURL }) => {
+    const context = await browser.newContext({ javaScriptEnabled: false, baseURL })
+    const page = await context.newPage()
+    await page.goto(url)
+    const list = page.getByRole('list', { name: 'Objetos de recompensa' })
+    for (const name of seedGuide.rewardItems) await expect(list.getByText(name)).toBeVisible()
+    await context.close()
+  })
+
+  test('una guía sin bloques Paso se lee como prosa, sin pasos', async ({ page }) => {
     await page.goto(`/${seedGuide.prerequisite.slug}`)
     await expect(page.getByText('Habla con Hupe Esse.')).toBeVisible()
     await expect(page.getByRole('region', { name: 'Pasos' })).toHaveCount(0)
-    await expect(page.getByRole('navigation', { name: 'Pasos' })).toHaveCount(0)
   })
 
   test('lleva el SEO de la guía, su URL canónica y Open Graph', async ({ page }) => {
@@ -215,20 +280,30 @@ test.describe('página de guía', () => {
   })
 
   for (const mode of MODES) {
-    test(`pasa axe (WCAG 2.2 AA) en Arcano ${mode}`, async ({ page, context, baseURL }) => {
-      await context.addCookies([{ name: 'ta-mode', value: mode, url: baseURL! }])
-      await page.goto(url)
-      await expect(page.locator('html')).toHaveAttribute('data-mode', mode)
-      await settled(page)
+    for (const bag of ['cerrada', 'abierta'] as const) {
+      test(`pasa axe (WCAG 2.2 AA) en Arcano ${mode}, con la bolsa ${bag}`, async ({
+        page,
+        context,
+        baseURL,
+      }) => {
+        await context.addCookies([{ name: 'ta-mode', value: mode, url: baseURL! }])
+        await page.goto(url)
+        await expect(page.locator('html')).toHaveAttribute('data-mode', mode)
+        if (bag === 'abierta') {
+          await page.locator('.bag__btn').click()
+          await expect(page.getByRole('list', { name: 'Objetos de recompensa' })).toBeVisible()
+        }
+        await settled(page)
 
-      const results = await new AxeBuilder({ page })
-        .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
-        .analyze()
+        const results = await new AxeBuilder({ page })
+          .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
+          .analyze()
 
-      expect(
-        results.violations.map(({ id, nodes }) => ({ id, targets: nodes.map((n) => n.target) })),
-      ).toEqual([])
-    })
+        expect(
+          results.violations.map(({ id, nodes }) => ({ id, targets: nodes.map((n) => n.target) })),
+        ).toEqual([])
+      })
+    }
   }
 })
 

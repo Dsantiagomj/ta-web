@@ -3,10 +3,9 @@
  * Imagery): cuánto ocupa en la ventana, para que el navegador elija el archivo.
  */
 export const IMAGE_SIZES = {
-  // La columna de los pasos (guía v4): 852px desde 1152px, junto a la lista «Pasos»; por
-  // debajo, la ventana menos los márgenes y el número del paso (108px) y, en el móvil, donde
-  // la captura va a todo el ancho, menos los márgenes de 16px.
-  prose: '(min-width: 72rem) 852px, (min-width: 40rem) calc(100vw - 108px), calc(100vw - 2rem)',
+  // La columna de lectura de la guía (guía v5): 880px desde 928px; por debajo, la ventana
+  // menos los márgenes de 24px y, en el móvil, menos los de 16px.
+  prose: '(min-width: 58rem) 880px, (min-width: 40rem) calc(100vw - 48px), calc(100vw - 32px)',
   // Arte de cabecera: a sangre, de borde a borde.
   hero: '100vw',
   // Arte de la tarjeta de la siguiente misión: 240px desde 640px; debajo, a lo ancho.

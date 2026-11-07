@@ -26,10 +26,14 @@ function run(page: Page) {
     },
   }
   new Function('document', 'localStorage', modeScript)(document, localStorage)
-  return { mode: attributes['data-mode'], cookie: document.cookie }
+  return { mode: attributes['data-mode'], cookie: document.cookie, js: attributes['data-js'] }
 }
 
 describe('modeScript', () => {
+  it('marca que hay JavaScript antes del primer pintado (data-js), para la bolsa de la guía', () => {
+    expect(run({ cookie: '', stored: null }).js).toBe('')
+  })
+
   it('respeta la cookie, que es lo que ya pintó el servidor', () => {
     expect(run({ cookie: 'ta-mode=light', stored: 'dark' }).mode).toBe('light')
   })

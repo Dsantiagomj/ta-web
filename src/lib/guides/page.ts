@@ -317,7 +317,7 @@ export interface GuideStep {
   key: string
   /** Solo para el panel: la página no lo enseña (DESIGN.md, Steps). */
   title?: string
-  /** Solo con X e Y: la lista «Pasos» y, si el texto no las nombra, un chip al principio del paso. */
+  /** Solo con X e Y: si el texto no las nombra, un chip al principio del paso. */
   coordinates?: Coordinates
   blocks: GuideBlock[]
 }

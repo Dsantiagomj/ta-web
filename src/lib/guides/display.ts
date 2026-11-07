@@ -28,14 +28,3 @@ export function chainWindow<T>(quests: T[], current: number): (T | null)[] {
   })
   return visible
 }
-
-/**
- * El rootMargin de la lista «Pasos»: deja la franja entre el 30 % y el 40 % de la altura de
- * la ventana. Va en píxeles porque los porcentajes de rootMargin se miden contra el ancho
- * de la ventana, también los de arriba y abajo.
- */
-export function stepBandMargin(viewportHeight: number): string {
-  const top = Math.round(viewportHeight * 0.3)
-  const bottom = Math.round(viewportHeight * 0.6)
-  return `-${top}px 0px -${bottom}px 0px`
-}

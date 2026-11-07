@@ -29,11 +29,12 @@ export const gameStrings = {
     xp: 'XP',
     /** «9 800 a 16 380 XP»: de la XP del nivel óptimo a la del tope. */
     xpRangeJoin: 'a',
+    /** La bolsa con los objetos de la recompensa: «4 objetos», con la cifra aparte. */
+    bagCount: (count: number) => (count === 1 ? 'objeto' : 'objetos'),
+    bagList: 'Objetos de recompensa',
   },
   steps: {
     title: 'Pasos',
-    /** La lista de pasos junto a la guía. */
-    tracker: 'Pasos',
   },
   torre: {
     title: 'Recomendaciones de Torre',

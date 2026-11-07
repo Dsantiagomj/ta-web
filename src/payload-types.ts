@@ -560,11 +560,11 @@ export interface CalloutBlock {
  */
 export interface StepBlock {
   /**
-   * Opcional y solo para el panel: la guía no lo enseña. En la lista «Pasos» de la guía, cada paso lleva la primera negrita de su texto, o «Paso 3» sin ella.
+   * Opcional y solo para el panel: la guía no lo enseña.
    */
   title?: string | null;
   /**
-   * La posición principal del paso, si la tiene: sale en la lista «Pasos» y, si el texto no la nombra, como chip al principio del paso.
+   * La posición principal del paso, si la tiene: si el texto no la nombra, sale como chip al principio del paso.
    */
   x?: number | null;
   y?: number | null;

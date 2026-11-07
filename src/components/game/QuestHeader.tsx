@@ -8,6 +8,7 @@ import type { QuestHeaderData } from '@/lib/guides/page'
 import { CoordinatesChip } from './Coordinates'
 import './game.css'
 import { GAME_ICONS } from './game-icons'
+import { ChevronIcon } from './icons'
 import { IconWell } from './IconWell'
 import { gameStrings } from './strings'
 
@@ -92,6 +93,36 @@ function Subtitle({ meta }: { meta: QuestHeaderData['meta'] }) {
         </span>
       ))}
     </p>
+  )
+}
+
+/**
+ * Los objetos de la recompensa en la bolsa del inventario (DESIGN.md, Quest header): un
+ * botón de divulgación con la bolsa del juego y «4 objetos» que abre su lista. Sin
+ * JavaScript la lista se ve debajo; con él (data-js en <html>), empieza cerrada y la isla
+ * de la página la abre y la cierra.
+ */
+function RewardBag({ id, items }: { id: string; items: QuestHeaderData['rewards']['items'] }) {
+  return (
+    <li className="bag" data-bag="">
+      <button type="button" className="bag__btn" aria-expanded="false" aria-controls={id}>
+        <IconWell icon="bag" />
+        <span>
+          <Amount value={items.length} /> {s.bagCount(items.length)}
+        </span>
+        <ChevronIcon className="bag__chev" />
+      </button>
+      <ul role="list" id={id} className="bag__list" aria-label={s.bagList}>
+        {items.map(({ item, quantity }) => (
+          <li key={item.name} className="row">
+            <IconWell image={item.icon} />
+            <span>
+              <b>{s.quantity(quantity)}</b> {item.name}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </li>
   )
 }
 
@@ -192,14 +223,7 @@ export function QuestHeader({
                     </span>
                   </li>
                 )}
-                {rewards.items.map(({ item, quantity }) => (
-                  <li key={item.name} className="row">
-                    <IconWell image={item.icon} />
-                    <span>
-                      <b>{s.quantity(quantity)}</b> {item.name}
-                    </span>
-                  </li>
-                ))}
+                {rewards.items.length > 0 && <RewardBag id={`${id}-bag`} items={rewards.items} />}
                 {rewards.notes.map((note) => (
                   <li key={note} className="row">
                     <span>{note}</span>

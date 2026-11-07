@@ -5,10 +5,11 @@ import { AchievementChain } from '@/components/game/AchievementChain'
 import { CoordinatesChip, CoordinatesText, TravelButton } from '@/components/game/Coordinates'
 import { FightBlock, MonsterChip } from '@/components/game/MonsterChip'
 import { ItemChip, ItemSlot } from '@/components/game/Item'
+import { GAME_ICONS } from '@/components/game/game-icons'
 import { IconWell } from '@/components/game/IconWell'
 import { PageEnhancements } from '@/components/game/PageEnhancements'
 import { QuestHeader } from '@/components/game/QuestHeader'
-import { QuestSteps, StepTracker } from '@/components/game/QuestSteps'
+import { QuestSteps } from '@/components/game/QuestSteps'
 import { TorreTips } from '@/components/game/TorreTips'
 import type { QuestHeaderData } from '@/lib/guides/page'
 import { VideoFacade } from '@/components/game/VideoFacade'
@@ -107,7 +108,10 @@ describe('QuestHeader', () => {
     rewards: {
       xp: { min: 9800, max: 16380 },
       kamas: 390,
-      items: [{ item: { name: 'Pico de tofu' }, quantity: 1 }],
+      items: [
+        { item: { name: 'Pico de tofu', icon }, quantity: 1 },
+        { item: { name: 'Ojo de arakmutada' }, quantity: 1 },
+      ],
       notes: [],
     },
   }
@@ -159,12 +163,47 @@ describe('QuestHeader', () => {
     expect(markup).toContain('src="/img/game/combate.webp"')
     // La flecha de XP solo existe a 24px: no se amplía.
     expect(markup).toContain('src="/img/game/xp.webp" width="24" height="24"')
-    expect(markup).toContain('src="/img/game/kamas.webp" width="32" height="32"')
+    expect(markup).toContain('src="/img/game/kamas.webp" width="34" height="34"')
     expect(text(markup)).toContain('9 800 a 16 380 XP')
     expect(text(markup)).toContain('390 kamas')
     expect(text(markup)).toContain('1 × Pico de tofu')
     expect(text(markup)).toContain('1 × Combate (solo)')
     expect(markup).toContain('<a href="/esto-hace-aguas">Esto hace aguas</a>')
+  })
+
+  it('los objetos de la recompensa van en la bolsa: un botón que abre su lista', () => {
+    const markup = html(<QuestHeader title="x" data={data} />)
+    const button = markup.match(/<button [^>]*class="bag__btn"[^>]*>/)?.[0] ?? ''
+    expect(button).toContain('type="button"')
+    expect(button).toContain('aria-expanded="false"')
+    const controls = button.match(/aria-controls="([^"]+)"/)?.[1]
+    expect(controls).toBeTruthy()
+    expect(markup).toContain(
+      `<ul role="list" id="${controls}" class="bag__list" aria-label="Objetos de recompensa">`,
+    )
+    // El icono de la bolsa del juego solo existe a 24px: no se amplía.
+    expect(markup).toContain('src="/img/game/bolsa.webp" width="24" height="24" alt=""')
+    expect(text(markup)).toContain('2 objetos')
+    // La XP y los kamas siguen siendo filas; los objetos, solo dentro de la lista.
+    const list = markup.slice(markup.indexOf('class="bag__list"'))
+    expect(text(list)).toContain('1 × Pico de tofu')
+    expect(text(list)).toContain('1 × Ojo de arakmutada')
+    expect(list).toContain('src="/img/item-366.webp"')
+    expect(markup.match(/data-bag=""/g)).toHaveLength(1)
+  })
+
+  it('con un solo objeto, la bolsa dice «1 objeto»', () => {
+    const one = { ...data, rewards: { ...data.rewards, items: [data.rewards.items[0]!] } }
+    expect(text(html(<QuestHeader title="x" data={one} />))).toContain('1 objeto')
+    expect(text(html(<QuestHeader title="x" data={one} />))).not.toContain('1 objetos')
+  })
+
+  it('sin objetos de recompensa no hay bolsa', () => {
+    const none = { ...data, rewards: { ...data.rewards, items: [] } }
+    const markup = html(<QuestHeader title="x" data={none} />)
+    expect(markup).not.toContain('data-bag')
+    expect(markup).not.toContain('bolsa.webp')
+    expect(text(markup)).toContain('390 kamas')
   })
 
   it('un objeto sin icono deja el hueco vacío; una línea sin icono no lleva hueco', () => {
@@ -184,17 +223,31 @@ describe('QuestHeader', () => {
   })
 })
 
+describe('IMAGE_SIZES', () => {
+  it('las capturas ocupan la columna de lectura de 880px, sin lista al lado ni número', () => {
+    expect(IMAGE_SIZES.prose).toBe(
+      '(min-width: 58rem) 880px, (min-width: 40rem) calc(100vw - 48px), calc(100vw - 32px)',
+    )
+  })
+})
+
+describe('GAME_ICONS', () => {
+  it('la bolsa del inventario es el archivo del juego de 24px', () => {
+    expect(GAME_ICONS.bag).toEqual({ src: '/img/game/bolsa.webp', size: 24 })
+  })
+})
+
 describe('IconWell', () => {
-  it('el icono del juego a 32px como mucho, decorativo', () => {
+  it('el icono del juego a 34px como mucho, decorativo', () => {
     expect(html(<IconWell icon="combat" />)).toContain(
-      '<img src="/img/game/combate.webp" width="32" height="32" alt=""',
+      '<img src="/img/game/combate.webp" width="34" height="34" alt=""',
     )
     expect(html(<IconWell icon="achievement" />)).toContain('width="28" height="28"')
   })
 })
 
 describe('QuestSteps', () => {
-  it('una lista ordenada de pasos con su número y su ancla, sin títulos ni casillas', () => {
+  it('una lista ordenada de pasos con su ancla, sin números, títulos ni casillas', () => {
     const markup = html(
       <QuestSteps
         steps={[
@@ -205,31 +258,11 @@ describe('QuestSteps', () => {
     )
     expect(markup).toMatch(/<h2 id="[^"]+" class="sr-only">Pasos<\/h2>/)
     expect(markup.match(/<li id="paso-\d"/g)).toHaveLength(2)
-    expect(markup).toContain('<span class="qstep__n" aria-hidden="true">2</span>')
+    expect(markup).not.toContain('qstep__n')
+    expect(markup).not.toContain('data-step')
     expect(markup).not.toContain('<h3')
     expect(markup).not.toContain('type="checkbox"')
     expect(markup).toContain('data-copy="/travel 5,-18"')
-  })
-})
-
-describe('StepTracker', () => {
-  it('enlaza cada paso con su etiqueta y sus coordenadas', () => {
-    const markup = html(
-      <StepTracker
-        entries={[
-          { id: 'paso-1', label: 'Hupe Esse', coordinates: { x: 7, y: -19 } },
-          { id: 'paso-2', label: 'Paso 2' },
-        ]}
-      />,
-    )
-    expect(markup).toMatch(/<nav class="tracker" aria-labelledby="[^"]+">/)
-    expect(markup).toContain('href="#paso-1"')
-    expect(markup).toContain('Hupe Esse')
-    expect(markup).toContain('7,-19')
-  })
-
-  it('sin pasos no pinta nada', () => {
-    expect(html(<StepTracker entries={[]} />)).toBe('')
   })
 })
 
