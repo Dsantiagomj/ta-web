@@ -13,7 +13,10 @@ import {
   questHeaderProps,
 } from '@/lib/guides/page'
 
+import { Breadcrumb } from '@/components/site/Breadcrumb'
+import { guideBreadcrumb } from '@/lib/achievements/page'
 import { achievementPageStrings } from '@/lib/achievements/strings'
+import { SITE_URL } from '@/lib/site/origin'
 
 import { siteStrings } from '../strings'
 import { loadAchievementPage } from './achievement-data'
@@ -82,7 +85,9 @@ function QuestGuideView({
 }: {
   page: NonNullable<Awaited<ReturnType<typeof loadGuidePage>>>
 }) {
-  const { guide, links, giver, next, preview } = page
+  const { guide, links, giver, next, preview, achievement } = page
+  const crumbs = guideBreadcrumb(achievement, guide, SITE_URL)
+  const place = achievement && { position: achievement.position, total: achievement.total }
   const { intro, steps, outro } = guideContent(guide)
   const card = next && nextQuestCard(next.quest, next.guide)
 
@@ -91,7 +96,8 @@ function QuestGuideView({
       {preview && <PreviewBar slug={guide.slug} />}
       <main id="contenido" className="quest">
         <article>
-          <QuestHeader title={guide.title} data={questHeaderProps(guide, links, giver)} />
+          {crumbs && <Breadcrumb {...crumbs} />}
+          <QuestHeader title={guide.title} data={questHeaderProps(guide, links, giver, place)} />
           {intro.length > 0 && (
             <div className="quest__intro">
               <GuideBody blocks={intro} />

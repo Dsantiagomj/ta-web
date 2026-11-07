@@ -74,17 +74,20 @@ describe('páginas de logro', () => {
   it.each([
     ['achievement-pages', AchievementPages],
     ['achievement-groups', AchievementGroups],
-  ])('%s guardado o borrado caduca las páginas de logro, no las guías', async (_, collection) => {
-    for (const hook of [
-      ...(collection.hooks?.afterChange ?? []),
-      ...(collection.hooks?.afterDelete ?? []),
-    ]) {
-      revalidateTag.mockReset()
-      expect(await hook(hookArgs)).toEqual({ id: 1 })
-      expect(revalidateTag).toHaveBeenCalledWith(ACHIEVEMENT_PAGES_TAG, { expire: 0 })
-      expect(revalidateTag).not.toHaveBeenCalledWith(GUIDE_PAGES_TAG, expect.anything())
-    }
-    expect(collection.hooks?.afterChange).toHaveLength(1)
-    expect(collection.hooks?.afterDelete).toHaveLength(1)
-  })
+  ])(
+    '%s guardado o borrado caduca las páginas de logro y las guías, por sus migas',
+    async (_, collection) => {
+      for (const hook of [
+        ...(collection.hooks?.afterChange ?? []),
+        ...(collection.hooks?.afterDelete ?? []),
+      ]) {
+        revalidateTag.mockReset()
+        expect(await hook(hookArgs)).toEqual({ id: 1 })
+        expect(revalidateTag).toHaveBeenCalledWith(ACHIEVEMENT_PAGES_TAG, { expire: 0 })
+        expect(revalidateTag).toHaveBeenCalledWith(GUIDE_PAGES_TAG, { expire: 0 })
+      }
+      expect(collection.hooks?.afterChange).toHaveLength(1)
+      expect(collection.hooks?.afterDelete).toHaveLength(1)
+    },
+  )
 })
