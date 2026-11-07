@@ -313,7 +313,7 @@ Rules:
 - Guide pages set body text at 1rem with a 1.65 line height; elsewhere it stays at `--text-base`.
 - Lilita One is for featured numbers and the words that belong to them ("30 guías"), never for titles or labels. In tables and aligned columns, numbers stay in Montserrat with tabular figures.
 - The last word of a list page title may go in `--color-accent` ("Todas las *misiones*").
-- Measure: guide prose at most 72ch; step text at most 68ch.
+- Measure: guide prose at most 72ch; step text and the outro at most 68ch.
 - Numbers in tables, counts and progress use `font-variant-numeric: tabular-nums`.
 - Words never split mid-word: `overflow-wrap: normal; word-break: normal; hyphens: manual` on `body`.
 
@@ -409,7 +409,7 @@ Decided 2026-11-05: Torre chose proposal C, "Emblema" (https://ta-prototipos.net
 - **Header** (decided 2026-11-02: the duffus-style header, not the Dofus Tools "header B"): 64px, sticky. Transparent over the hero art at the top of the page, then `--color-bg` at 92 percent with `backdrop-filter: blur(16px) saturate(1.4)` once the page scrolls (solid fallback without `backdrop-filter`). Brand left (the emblem and the wordmark, see Brand); nav groups as dropdowns with game icons; search trigger with its `Ctrl K` hint; the egg theme switch; the account button ("Entrar" as the primary action, accent outline, when signed out). Under 768px: a floating bar inset 12px from the edges with 16px radius, and a burger that opens a full-height sheet of 48px rows.
 - **Footer**: legal links, Ko-fi, socials (YouTube, Kick, Instagram), the Twitch live card. No floating support button.
 - **Quest guide** (decided 2026-11-06: guide v5, prototype `tmp/mockups/guia-v5/`, published at https://ta-prototipos.netlify.app/guia-v5/; guide v4 after Torre's review, which replaced option 3 variant B): a flat page, with the content straight on `--color-bg` and no card around it. The free view is the full guide. From top to bottom: the quest header (the quest giver's render, the title, the subtitle, then Prerrequisitos, Necesitarás and Recompensas with the rewards bag); the intro prose; the steps, split by a line; the outro prose and the video. It is one centered reading column, 880px wide plus the gutters (16px, 24px from 640px, 48px from 1024px), 28px from the header (40px from 1024px) and 56px above the page end. Guide v5 dropped the "Pasos" side list and the step numbers. Every part is specified under Quest guide components. There are no achievement tabs, no ticks and no step titles on the page. "Modo compacto" (decided 2026-11-02) is a premium feature that trims the header and the long dialogue blocks; it is enforced on the server like every premium feature (see `AGENTS.md`), so a visitor without the entitlement never receives the compact layout or its toggle.
-  - **What renders today** (the page at `/<slug>`, 2026-11-05): only what the guide and its DofusDB quest store. A body with step blocks (the "Paso" block in the panel) renders the blocks before the first step as intro prose, then the steps, then the blocks after the last step as outro prose; a block placed between two steps stays at the end of the step before it, so the reading order never changes. A body without step blocks renders all its blocks in order as prose, with no steps: the page never invents steps from the prose. The next quest card and the fight block are left out. Each missing part is listed under Content model gaps.
+  - **What renders today** (the page at `/<slug>`, 2026-11-05): only what the guide and its DofusDB quest store. A body with step blocks (the "Paso" block in the panel) renders the blocks before the first step as intro prose, then the steps, then the blocks after the last step as outro prose; a block placed between two steps stays at the end of the step before it, so the reading order never changes. A body without step blocks renders all its blocks in order as prose, with no steps: the page never invents steps from the prose. Fight blocks render where they stand, and the next quest card closes the page when the next quest of the achievement has a published guide (decided 2026-11-06). What is still missing is listed under Content model gaps.
   - **Draft preview**: in draft mode (opened from the panel, see `AGENTS.md`) a bar in `--color-raised` sits above the header with "Vista previa del borrador. Los visitantes ven la versión publicada." and a ghost button "Salir de la vista previa"; the page is `noindex`.
 - **Dofus guide and checklist**: title block, summary strip (level range, prerequisites done, quests done, dungeons, segmented progress), chapters as numbered sections of checkable rows; from 1024px a sticky side column with the Dofus card and tabs (Capítulos, Objetos necesarios).
 - **List pages** (achievements, quests, dungeons, classes): centered title and subtitle, a toolbar (search with live count, filter pills, "Ocultar hechas"), then a table or card grid.
@@ -524,9 +524,12 @@ Two sizes of the same thing: a game item with its icon, quantity and name. Item 
 
 #### Monster chip and fight block
 
-- **Monster chip**: a `--radius-md` row in `--color-raised`, `4px 14px 4px 4px` padding: a 56px well in `--color-bg` with the 48px monster render, then the quantity and name (`1 × Ramán famélico`, `--text-sm` 600 `--color-ink`) over the level (`Nivel 20`, `--text-xs` `--color-muted`, at least 4.92 on raised). The level is optional.
-- **Fight block**: an intro line in the prose ("Vas a empezar una lucha contra:"), then a `<ul>` of monster chips that wraps with 8px gaps. It needs a planned fight block in the guide body that points at the Monsters collection with quantities; today the import leaves the fight as a text list, which renders as a normal list.
-- **States**: static. **Accessibility**: the list is a list; renders have `alt=""`, since the name is text. **Motion**: none.
+Decided 2026-11-06 with guide v5: a fight is a list of rows like the header's, not raised chips.
+
+- **Fight block** (`fight`, "Combate" in the panel, allowed in the body and inside a step): monsters from the Monsters collection, each with a quantity (at least 1). The intro line stays in the text before it ("Vas a empezar una lucha contra:").
+- **Anatomy**: a `<ul>` that wraps (8px row gap, 28px column gap). Each monster is a row: a 52px slot (`--color-slot`, 10px radius, like Icon slots) with the monster image at 42px, never upscaled, then "**1 ×** Ramán famélico" in `--color-ink`, the quantity in 800 with tabular figures. No level. A monster without an imported image leaves its slot empty.
+- **From the import**: `pnpm import:guides` turns a list right after a paragraph ending in "lucha contra:" into the block when every row reads "N x Name" and every name matches a monster in DofusDB's Spanish names (case, extra spaces and a final period ignored; the lowest DofusDB ID wins a tie). One unmatched name keeps the whole list as text and is reported as an oddity ("Monstruo sin casar en un combate: …"). Guides imported before the block existed are converted by `pnpm guides:fights` (`scripts/backfill-fights.ts`, shared code in `src/lib/guides/fight-lists.ts`).
+- **States**: static. **Accessibility**: the list is a list; images have `alt=""`, since the name is text. **Motion**: none.
 
 #### Coordinates chip
 
@@ -551,7 +554,7 @@ Decided 2026-11-05 (guide v4), revised 2026-11-06 (guide v5): the section is cal
 #### Callouts and Torre's tips
 
 - **Callout** ("¡Importante!", "¡Alto!"): as the Callout row of the components table, 18px from the blocks around it inside a step.
-- **Torre's tips** (`TorreTips`): the tip callout of a guide is Torre speaking. His avatar in a 72px circle (2px `--color-well-line` ring, `alt=""`, lazy), then a speech bubble 18px away: `--color-surface`, 1px `--color-well-line`, 16px radius, `18px 22px 20px` padding, with a caret pointing at the avatar. Inside, the heading "Recomendaciones de Torre" (Montserrat 600, 1.25rem, `--color-ink`) and the text in `--color-ink`; its lists have hollow circle markers in `--color-accent`, items 10px apart. An `<aside>` named by that heading. Under 640px the avatar (56px) sits above the bubble and the caret points up.
+- **Torre's tips** (`TorreTips`): the tip callout of a guide is Torre speaking. His avatar in a 72px circle (2px `--color-well-line` ring, `alt=""`, lazy), then a speech bubble 18px away: `--color-surface`, 1px `--color-well-line`, 16px radius, `18px 22px 20px` padding, with a caret pointing at the avatar. Inside, the heading "Recomendaciones de Torre" (Montserrat 600, 1.25rem, `--color-ink`) and the text in `--color-ink`; its lists have hollow circle markers in `--color-accent`, items 10px apart. Inside a step it sits 32px under the block above it. An `<aside>` named by that heading. Under 640px the avatar (56px) sits above the bubble and the caret points up.
 - The importer turns "NOTA" paragraphs and Torre's "RECOMENDACIONES" sections into tips (`README.md`, Guide import notes).
 
 #### Figure and fullscreen viewer
@@ -585,7 +588,11 @@ Decided 2026-11-05: every guide image opens fullscreen. The component is `Figure
 
 #### Next quest card
 
-Card, collection rules at `--width-prose`: the whole card is one link, art left (240px from 640px, 16:9) and text right (micro label "Siguiente misión del logro", the title in `--text-2xl` uppercase, one meta line). Hover: border in `--color-section` and `translateY(-2px)`, art settles from `scale(1.04)` to 1.
+Decided 2026-11-06 with guide v5. It closes the guide, 24px under the outro.
+
+- **Data**: the quest in the next position of the same achievement (DofusDB's order, stored per quest as `quests.achievement.position`), only when it has a published guide. The title and link are that guide's; "Nivel {n}" is the next quest's minimum level; "Te la da {NPC} [x,y]" is its first start position in DofusDB; the art is the first image of the next guide, in reading order. A missing part is left out; no next quest, or no published guide, no card (`nextQuestCard` in `src/lib/guides/page.ts`, `findNextQuest` in `src/lib/guides/queries.ts`).
+- **Anatomy**: the whole card is one link. `--color-surface`, 1px `--color-well-line`, 16px radius. From 640px the art takes 280px on the left (at least 168px tall, `object-fit: cover`); below it sits on top at 16:10. The text, `20px 24px 22px` padding, 6px apart: "Siguiente misión" (1rem `--color-ink-2`), the title (Montserrat 600, `clamp(1.625rem, 1.3rem + 1.2vw, 2.125rem)`, line height 1.05) and "Nivel **25**. Te la da Kerubim Crepin **[3,-17]** al terminar esta." in `--color-ink-2` with the figures in `--color-ink`. The coordinates are plain text here, since a button cannot sit inside a link.
+- **States**: hover (mouse only) turns the border `--color-accent` and the art settles from `scale(1.04)` to 1 over 600ms; focus-visible is a 3px `--color-ink` outline 4px out.
 
 #### Content model gaps
 
@@ -593,10 +600,8 @@ The components above need data the guide does not store yet:
 
 | Part | Needs |
 |---|---|
-| Fight block | a block with monsters (from the Monsters collection) and quantities; monster level is optional |
-| Next quest card and achievement pages | the achievement pages; the quest stores its achievement and position, but not the other quests' guides |
+| Achievement pages | the achievement link still points at Torre's current site |
 | Video poster | the thumbnail stored as media at import |
-| Item and monster icons | the icon files imported from DofusDB into media; until then item slots in Necesitarás and Recompensas are empty |
 
 ### Component catalog
 
@@ -639,8 +644,9 @@ Exits run at about 70 percent of the enter duration (a 220ms dropdown closes in 
 
 - Real game art only, imported once and served from R2 behind the CDN domain. Nothing loads from DofusDB or Ankama at runtime.
 - Quest giver renders (decided 2026-11-05): `pnpm data:quests` saves each quest-starting NPC in the `npcs` collection with its `look` from DofusDB, then imports two renders into Media: `https://renderer.dofusdb.fr/look/{look as hex}/full/{1|3}/300_300.png`, direction 1 facing right and 3 facing left (`src/lib/dofusdb/npc-render.ts`). The 1000 × 1000 PNG is trimmed to the figure and capped at 720px high before upload; Payload makes its AVIF and WebP. Each file carries a key in `media.gameAsset` (NPC, direction and a hash of the look), so a rerun finds what it uploaded and never duplicates it; a new look uploads new renders and keeps the old ones, because they are ordinary Media records an editor may have used in a guide. A missing look or a renderer failure leaves the NPC without that render, and the next run retries.
+- Item icons and monster images (decided 2026-11-06): `pnpm data:quests` imports the 128px PNG of every item that a quest rewards or needs, or that a guide's Necesitarás lists (`https://api.dofusdb.fr/img/items/{iconId}.png`), and of every monster that a quest needs or a fight block names (`https://api.dofusdb.fr/img/monsters/{gfxId}.png`), into Media, and links it from the item or monster (`image`). One file per image ID, keyed in `media.gameAsset` (`dofusdb-item-image:{iconId}`, `dofusdb-monster-image:{gfxId}`): items that share an icon share the file, and a rerun downloads nothing it already has. A failed download leaves the slot empty and the next run retries (`src/lib/dofusdb/game-images.ts`). `pnpm guides:fights --apply` imports the images of the monsters it links. The whole catalog of tens of thousands of items is not imported.
 - Every image has AVIF and WebP variants at fixed widths, generated once when the file is uploaded, in the panel or by the importer (decided 2026-11-05, replacing the offline conversion before the import). Payload makes them with sharp (`src/lib/media/sizes.ts`) and stores them next to the original. The app never optimizes images on request.
-- Widths: 480, 800, 1200 and 1600 px, each in AVIF (quality 50) and WebP (quality 80). They come from the layout. 480 covers phones at 1x and the 240px card art at 2x. 800 is `--width-prose` at 1x and phones at 2x. 1200 covers phones at 3x and the hero on tablets. 1600 is `--width-prose` at 2x and the full-bleed hero on desktops up to 1600px wide. A width larger than the original is never produced, so nothing is upscaled; 480 is the exception and comes out at the original width, so a 96px icon still gets one AVIF and one WebP. Uploading a 1920px PNG screenshot with all eight variants took about 0.6 s on an Apple M5 (about 2.2 s for a worst-case noise image).
+- Widths: 480, 800, 1200 and 1600 px, each in AVIF (quality 50) and WebP (quality 80). They come from the layout. 480 covers phones at 1x and the 280px card art up to 1.7x. 800 is `--width-prose` at 1x and phones at 2x. 1200 covers phones at 3x and the hero on tablets. 1600 is `--width-prose` at 2x and the full-bleed hero on desktops up to 1600px wide. A width larger than the original is never produced, so nothing is upscaled; 480 is the exception and comes out at the original width, so a 96px icon still gets one AVIF and one WebP. Uploading a 1920px PNG screenshot with all eight variants took about 0.6 s on an Apple M5 (about 2.2 s for a worst-case noise image).
 - Lighthouse's image delivery check only warns (decided 2026-11-05). Lighthouse emulates a phone at 1.75 DPR: a 380px screenshot then needs 665 device pixels, the browser picks the 800w candidate, and the check counts the difference from the 380 CSS px as waste. Real phones at 2x to 3x get the right width from 480/800/1200/1600. In Lighthouse 13 that check also covers formats, so the AVIF and WebP rule is held by `Picture` and the media variants and their tests, not by Lighthouse.
 - Markup: `<picture>` with an AVIF `<source>`, then the WebP `<img>`. Both carry `srcset` with `w` descriptors and the same `sizes`. The `<img>` `src`, `width` and `height` are those of the widest WebP, which reserves the space (no layout shift) and is the file the fullscreen viewer opens. An image with a single width gets no `srcset` or `sizes`. `mediaImageAsset` (`src/lib/media/image-asset.ts`) builds this from a media record; without variants yet, it falls back to the original. Next's `<Image>` only with a loader that maps to these variants and `unoptimized` set.
 - `sizes` per component (`IMAGE_SIZES` in `src/components/ui/image-sizes.ts`):
@@ -648,7 +654,7 @@ Exits run at about 70 percent of the enter duration (a 220ms dropdown closes in 
 | Component | `sizes` | Why |
 |---|---|---|
 | Figure (step screenshot) and the video poster | `(min-width: 58rem) 880px, (min-width: 40rem) calc(100vw - 48px), calc(100vw - 32px)` | the 880px reading column from 928px (880px plus the 24px gutters); below, the viewport minus the 24px gutters, and on phones minus the 16px gutters |
-| Next quest card art | `(min-width: 40rem) 240px, calc(100vw - 2rem)` | 240px beside the text from 640px; full card width above the text below |
+| Next quest card art | `(min-width: 40rem) 280px, calc(100vw - 32px)` | 280px beside the text from 640px; full card width above the text below |
 | Icons (items, monsters, achievements) | none | one width; the icon well fixes the size |
 
 - Changing a width or a format only affects new uploads. `pnpm media:sizes` generates what older records are missing (see `AGENTS.md`, Media).
@@ -664,7 +670,7 @@ Exits run at about 70 percent of the enter duration (a 220ms dropdown closes in 
 | Collection card art | card ratio (1:1 for Dofus, 1:1.1 for dungeons) | the NPC or boss render on top keeps its alpha |
 | NPC and monster renders | transparent, natural ratio | `drop-shadow` filter as a static style, never animated |
 | Quest giver render | transparent, natural ratio (about 1:2.2 once trimmed) | 84 to 92px wide beside the title, 50px on phones; one width, so no `srcset` |
-| Icons (items, quests, jobs) | 1:1 | 24, 32 or 48px, inside an icon slot (10px radius, `--color-slot`) |
+| Icons (items, quests, jobs) and monster images | 1:1, 128px files for items and monsters | 34px in a 44px icon slot, 42px in a 52px monster slot, 24 to 28px for the game UI icons (10px radius, `--color-slot`) |
 
 - Missing or not-yet-owned items show the icon in `grayscale(1)` at 60 percent opacity.
 - Picking a zone background for a character: the character must read against the area where it sits. Avoid a zone in the same hue as the character; keep text over the darker part of the image or on a shade.
