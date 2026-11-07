@@ -1,7 +1,7 @@
 import type { Payload } from 'payload'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
-import { readAchievementPage } from '@/lib/achievements/queries'
+import { findGuideAchievement, readAchievementPage } from '@/lib/achievements/queries'
 import type { User } from '@/payload-types'
 
 import { createPanelUser, startPayload } from './payload'
@@ -150,5 +150,41 @@ describe('readAchievementPage', () => {
   it('un slug que no es de logro, o reservado, no consulta nada', async () => {
     expect(await readAchievementPage(payload, 'no-existe')).toBeNull()
     expect(await readAchievementPage(payload, 'sistema')).toBeNull()
+  })
+})
+
+describe('findGuideAchievement', () => {
+  async function questId(dofusId: number) {
+    const { docs } = await payload.find({
+      collection: 'quests',
+      where: { dofusId: { equals: dofusId } },
+    })
+    return docs[0]!.id
+  }
+
+  it('la página de logro de una misión, su metalogro y su lugar en ella', async () => {
+    // Seis pies bajo tierra está en un solo logro: La ocasión hace al ladrón, la 2 de 3.
+    expect(await findGuideAchievement(payload, await questId(1976))).toEqual({
+      page: {
+        name: 'La ocasión hace al ladrón',
+        slug: 'la-ocasion-hace-al-ladron',
+        published: true,
+      },
+      group: { name: 'Astrub', slug: 'metalogro-astrub' },
+      position: 2,
+      total: 3,
+    })
+  })
+
+  it('si está en varios, el primero del metalogro; uno En preparación se dice', async () => {
+    // El cazador cazado está en La ocasión (publicada) y en La gran biblioteca (en preparación).
+    const found = await findGuideAchievement(payload, await questId(1977))
+    expect(found?.page.slug).toBe('la-ocasion-hace-al-ladron')
+    expect(found?.position).toBe(3)
+  })
+
+  it('sin página de logro, nada', async () => {
+    expect(await findGuideAchievement(payload, 999_999)).toBeNull()
+    expect(await findGuideAchievement(payload, null)).toBeNull()
   })
 })

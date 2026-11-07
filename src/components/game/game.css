@@ -113,23 +113,6 @@
   color: var(--color-ink-2);
 }
 
-/* El logro conserva su texto de enlace; el trofeo del juego va delante, nada más. Si no cabe
-   en la línea, el trofeo y el nombre bajan juntos a la siguiente; solo un nombre más largo
-   que la línea se parte, sin salirse junto al PNJ. */
-.qhead__ach {
-  display: inline-block;
-  max-width: 100%;
-  overflow-wrap: anywhere;
-}
-
-.qhead__ach img {
-  display: inline-block;
-  width: 22px;
-  height: 22px;
-  margin: 0 4px 0 2px;
-  vertical-align: -5px;
-}
-
 .giver {
   grid-area: npc;
   display: grid;
