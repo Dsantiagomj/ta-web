@@ -33,10 +33,12 @@ export const achievementStrings = {
 /** La página del logro, /<slug> (DESIGN.md, Achievement page). */
 export const achievementPageStrings = {
   quests: (count: number) => (count === 1 ? '1 misión' : `${count} misiones`),
+  /** La palabra sola, cuando la cifra va aparte en negrita. */
+  questsWord: (count: number) => (count === 1 ? 'misión' : 'misiones'),
   levels: (min: number, max: number) => (min === max ? `Nivel ${min}` : `Niveles ${min} a ${max}`),
   points: (count: number) => (count === 1 ? '1 punto' : `${count} puntos`),
+  pointsWord: (count: number) => (count === 1 ? 'punto' : 'puntos'),
   metaSeparator: ' - ',
-  breadcrumb: 'Ruta de navegación',
   index: 'Metalogros',
   needsTotal: 'Necesitarás en total',
   rewards: 'Recompensas del logro',

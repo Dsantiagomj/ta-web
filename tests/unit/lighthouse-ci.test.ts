@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import lighthouserc from '../../lighthouserc.cjs'
 import { lhciEnv } from '../../scripts/lhci-env.ts'
 import { seedGuide } from '../e2e/seed/guides.ts'
+import { seedAchievement } from '../e2e/seed/achievements.ts'
 
 // Los presupuestos de DESIGN.md (Performance budgets) tal como los comprueba
 // `pnpm test:lhci`. Si cambia un límite, cambia DESIGN.md en el mismo PR.
@@ -51,6 +52,11 @@ describe('lighthouserc.cjs', () => {
   it('mide una guía de misión publicada, la que siembra scripts/seed-e2e.ts', () => {
     const paths = collect.url.map((url) => new URL(url).pathname)
     expect(paths).toContain(`/${seedGuide.slug}`)
+  })
+
+  it('mide la página del logro que siembra scripts/seed-e2e.ts', () => {
+    const paths = collect.url.map((url) => new URL(url).pathname)
+    expect(paths).toContain(`/${seedAchievement.slug}`)
   })
 
   it('aplica cada entrada de la matriz a todas las páginas, sin presets', () => {
