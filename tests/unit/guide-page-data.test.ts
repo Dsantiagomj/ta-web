@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import type { Media } from '@/payload-types'
 import {
+  guideStart,
   guideContent,
   guideLevel,
   guideSeo,
@@ -480,6 +481,27 @@ describe('guideContent con pasos', () => {
     expect(steps[0]).not.toHaveProperty('coordinates')
     expect(steps[1]).toEqual({ key: '1', coordinates: { x: 0, y: 0 }, blocks: [] })
     expect(steps[2]).not.toHaveProperty('title')
+  })
+})
+
+describe('guideStart', () => {
+  it('el PNJ y las coordenadas del inicio que guarda el resumen', () => {
+    const guide = {
+      title: 'x',
+      slug: 'x',
+      summary: { startNpc: ' Hupe Esse ', startX: 7, startY: -19 },
+    }
+    expect(guideStart(guide)).toEqual({ npc: 'Hupe Esse', x: 7, y: -19 })
+  })
+
+  it('sin PNJ o sin las dos coordenadas, nada', () => {
+    expect(
+      guideStart({ title: 'x', slug: 'x', summary: { startX: 7, startY: -19 } }),
+    ).toBeUndefined()
+    expect(
+      guideStart({ title: 'x', slug: 'x', summary: { startNpc: 'Hupe Esse', startX: 7 } }),
+    ).toBeUndefined()
+    expect(guideStart({ title: 'x', slug: 'x' })).toBeUndefined()
   })
 })
 

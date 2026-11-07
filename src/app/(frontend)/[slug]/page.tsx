@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 import { GuideBody, GuideSteps } from '@/components/game/GuideBody'
 import { PageEnhancements } from '@/components/game/PageEnhancements'
 import { QuestHeader } from '@/components/game/QuestHeader'
-import { guideContent, guideSeo, questHeaderProps } from '@/lib/guides/page'
+import { guideContent, guideSeo, guideStart, questHeaderProps } from '@/lib/guides/page'
 
 import { siteStrings } from '../strings'
 import { loadGuidePage } from './data'
@@ -61,7 +61,7 @@ export default async function QuestGuidePage({ params }: Props) {
               <GuideBody blocks={intro} />
             </div>
           )}
-          {steps.length > 0 && <GuideSteps steps={steps} />}
+          {steps.length > 0 && <GuideSteps steps={steps} start={guideStart(guide)} />}
           {outro.length > 0 && (
             <div className="quest__outro">
               <GuideBody blocks={outro} />

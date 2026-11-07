@@ -35,6 +35,9 @@ export const gameStrings = {
   },
   steps: {
     title: 'Pasos',
+    /** La frase de inicio de un paso 1 sin texto: «Habla con {PNJ} [x,y] para empezar la misión.» */
+    startBefore: 'Habla con ',
+    startAfter: ' para empezar la misión.',
   },
   torre: {
     title: 'Recomendaciones de Torre',
