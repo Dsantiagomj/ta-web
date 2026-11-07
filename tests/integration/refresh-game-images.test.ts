@@ -204,4 +204,22 @@ describe('gameImageTargets', () => {
       await payload.delete({ collection: 'achievements', id: achievement.id })
     }
   })
+
+  it('el monstruo que representa a un metalogro', async () => {
+    const group = await payload.create({
+      collection: 'achievement-groups',
+      data: {
+        name: 'Metalogro de prueba de imágenes',
+        slug: 'metalogro-prueba-imagenes',
+        state: 'preparing',
+        representative: { relationTo: 'monsters', value: monster.id },
+      },
+      depth: 0,
+    })
+    try {
+      expect((await gameImageTargets(payload)).monsters).toContain(monster.id)
+    } finally {
+      await payload.delete({ collection: 'achievement-groups', id: group.id })
+    }
+  })
 })

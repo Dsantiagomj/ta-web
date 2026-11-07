@@ -1,6 +1,7 @@
 // Trae todas las misiones de DofusDB, con los monstruos que nombran, sus zonas y logros, y
 // todo el catálogo de objetos, y los guarda en quests, items y monsters, sin duplicar.
-// Luego guarda las categorías de logros y los logros de misiones y eventos, con sus iconos.
+// Luego guarda las categorías de logros y los logros de misiones y eventos, con sus iconos,
+// y crea los metalogros y páginas de logro que falten (los que existen son de Torre).
 // Luego guarda los PNJ que dan las misiones en npcs e importa sus renders a Media, solo
 // los que aún no están (la primera vez tarda: dos imágenes por PNJ), y los iconos de los
 // objetos y las imágenes de los monstruos que pinta alguna guía, también una sola vez.
@@ -14,6 +15,7 @@ import config from '@payload-config'
 import { createDofusDbClient } from '@/lib/dofusdb/client'
 import { fetchQuestData } from '@/lib/dofusdb/fetch-quest-data'
 import { gameImageTargets, refreshGameImages } from '@/lib/dofusdb/game-images'
+import { ensureAchievementPages } from '@/lib/achievements/ensure-pages'
 import { refreshAchievements } from '@/lib/dofusdb/refresh-achievements'
 import { refreshNpcs } from '@/lib/dofusdb/refresh-npcs'
 import {
@@ -53,6 +55,8 @@ try {
     { achievements: data.achievements ?? [], categories: data.achievementCategories ?? [] },
     { concurrency, log: (message) => console.log(message) },
   )
+  // Los metalogros y páginas de logro nuevos, «En preparación»; los que existen no se tocan.
+  const pages = await ensureAchievementPages(payload, { log: (message) => console.log(message) })
   console.log(`Logros: ${seconds(achievementsStarted)} s.`)
 
   console.log('Guardando los PNJ e importando sus renders…')
@@ -85,6 +89,9 @@ try {
       `${achievementCounts.icons.reused} recuperados de Media y ${achievementCounts.icons.failed} sin icono. ` +
       `Omitidas en los logros: ${achievementCounts.missingQuests} misiones y ` +
       `${achievementCounts.missingItems} objetos que no existen.`,
+  )
+  console.log(
+    `Nuevos en el panel, en preparación: ${pages.groups} metalogros y ${pages.pages} páginas de logro.`,
   )
   console.log(summary('PNJ', 'os', npcCounts.npcs))
   console.log(
