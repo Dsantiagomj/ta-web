@@ -36,6 +36,14 @@
     text-underline-offset: 0.2em;
   }
 
+  /* Las anclas de la página («Volver arriba», un paso) se desplazan suaves; con
+     movimiento reducido, saltan (DESIGN.md, Motion). */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,

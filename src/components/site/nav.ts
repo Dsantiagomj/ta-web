@@ -188,6 +188,12 @@ export interface SearchEntry {
   image?: GameImage
 }
 
+/**
+ * El id del principio de la página, en el <body> del layout: «Volver arriba» enlaza ahí.
+ * Al seguirlo, el foco de teclado vuelve a empezar desde arriba, como al cargar la página.
+ */
+export const TOP_ANCHOR = 'arriba'
+
 /** Lo que encuentra la búsqueda de la cabecera mientras no hay búsqueda de guías. */
 export function searchIndex(): SearchEntry[] {
   const of = (type: SearchType, links: NavLink[]) =>

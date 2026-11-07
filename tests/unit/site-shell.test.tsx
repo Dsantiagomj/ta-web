@@ -9,6 +9,7 @@ import {
   DUNGEONS,
   SECTIONS,
   SOCIALS,
+  TOP_ANCHOR,
   searchIndex,
 } from '@/components/site/nav'
 import { SiteFooter } from '@/components/site/SiteFooter'
@@ -179,6 +180,12 @@ describe('SiteFooter', () => {
     expect(markup).toContain('Política de privacidad')
     expect(markup).toContain('© 2026 Torrente Arcano')
     expect(markup).toContain('no está afiliada ni asociada con Ankama')
+  })
+
+  it('«Volver arriba» lleva al principio de la página, no a un ancla vacía', () => {
+    const markup = footer()
+    expect(markup).toContain(`href="#${TOP_ANCHOR}"`)
+    expect(markup).not.toContain('href="#"')
   })
 
   it('no repite ningún enlace y no enlaza Instagram', () => {
