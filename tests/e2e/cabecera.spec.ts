@@ -102,6 +102,13 @@ test.describe('cabecera', () => {
     await expect(dialog).toBeHidden()
   })
 
+  test('el botón de búsqueda mide 44px de alto y es ancho', async ({ page }) => {
+    await open(page)
+    const pill = (await page.locator('.spill').boundingBox())!
+    expect(pill.height).toBeGreaterThanOrEqual(44)
+    expect(pill.width).toBeGreaterThanOrEqual(240)
+  })
+
   test('la búsqueda abierta desde el panel de Misiones devuelve el foco a su botón', async ({
     page,
   }) => {
@@ -168,6 +175,21 @@ test.describe('cabecera a 1120px', () => {
       expect(box.x + box.width, key).toBeLessThanOrEqual(1120)
       await page.keyboard.press('Escape')
     }
+  })
+})
+
+test.describe('cabecera a 1360px, donde aparece el botón ancho de búsqueda', () => {
+  test.use({ viewport: { width: 1360, height: 800 } })
+
+  test('el menú y la búsqueda caben sin tocarse', async ({ page }) => {
+    await open(page)
+    const nav = (await page.getByRole('navigation', { name: 'Principal' }).boundingBox())!
+    const pill = (await page.locator('.spill').boundingBox())!
+    const mode = (await page.locator('.mode-switch').boundingBox())!
+    expect(nav.x + nav.width).toBeLessThan(pill.x)
+    expect(pill.x + pill.width).toBeLessThanOrEqual(mode.x)
+    expect(mode.x + mode.width).toBeLessThanOrEqual(1360)
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBe(0)
   })
 })
 
