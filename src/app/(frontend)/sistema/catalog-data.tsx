@@ -105,7 +105,7 @@ export const header: QuestHeaderData = {
   meta: {
     zone: 'Astrub',
     level: 20,
-    achievement: { name: achievement.name, href: '#logro', position: 2 },
+    achievement: { position: 2, total: 3 },
   },
   giver: {
     name: 'Hupe Esse',

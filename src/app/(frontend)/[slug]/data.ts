@@ -4,6 +4,7 @@ import { draftMode, headers } from 'next/headers'
 import { getPayload } from 'payload'
 import { cache } from 'react'
 
+import { findGuideAchievement } from '@/lib/achievements/queries'
 import { GUIDE_PAGES_REVALIDATE, GUIDE_PAGES_TAG } from '@/lib/guides/cache'
 import { guideAchievement, prerequisiteQuestIds, questGiverId } from '@/lib/guides/page'
 import {
@@ -19,12 +20,15 @@ async function readGuide(slug: string, options: FindGuideOptions = {}) {
   const payload = await getPayload({ config })
   const guide = await findGuideBySlug(payload, slug, options)
   if (!guide) return null
-  const [links, giver, next] = await Promise.all([
+  const questId = typeof guide.quest === 'object' && guide.quest ? guide.quest.id : null
+  const [links, giver, next, achievement] = await Promise.all([
     findPublishedGuideLinks(payload, prerequisiteQuestIds(guide)),
     findQuestGiver(payload, questGiverId(guide)),
     findNextQuest(payload, guideAchievement(guide)),
+    // Su página de logro: las migas y «Misión 2 de 3».
+    findGuideAchievement(payload, questId),
   ])
-  return { guide, links, giver, next }
+  return { guide, links, giver, next, achievement }
 }
 
 // Lo publicado se guarda en caché con la etiqueta de las guías: los hooks de la colección

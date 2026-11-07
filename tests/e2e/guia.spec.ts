@@ -24,9 +24,17 @@ test.describe('página de guía', () => {
     const header = page.locator('header.qhead')
     await expect(header.getByRole('heading', { level: 1, name: seedGuide.title })).toBeVisible()
     await expect(header.locator('.qhead__meta')).toHaveText(seedGuide.subtitle)
-    await expect(header.getByRole('link', { name: seedGuide.achievement.name })).toHaveAttribute(
+    // El logro va en las migas, no en el subtítulo.
+    await expect(header.getByRole('link', { name: seedGuide.achievement.name })).toHaveCount(0)
+    const crumbs = page.getByRole('navigation', { name: 'Ruta de navegación' })
+    await expect(crumbs.getByRole('link')).toHaveText([
+      'Metalogros',
+      'Astrub',
+      seedGuide.achievement.name,
+    ])
+    await expect(crumbs.getByRole('link', { name: seedGuide.achievement.name })).toHaveAttribute(
       'href',
-      `https://www.torrentearcano.com/${seedGuide.achievement.slug}`,
+      `/${seedGuide.achievement.slug}`,
     )
 
     // El PNJ que da la misión, con su render importado y su nombre como texto.
@@ -83,15 +91,14 @@ test.describe('página de guía', () => {
     await expect(page.locator('figure.giver .coord')).toBeHidden()
   })
 
-  test('en el móvil, el logro baja entero a su línea en vez de partirse', async ({ page }) => {
+  test('en el móvil, las migas son solo el logro, como enlace de vuelta', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 })
     await page.goto(url)
-    const link = page.locator('.qhead__ach')
-    // Un nombre que cabe en una línea no se parte: el trofeo y el nombre van juntos.
-    expect(await link.evaluate((a) => a.getClientRects().length)).toBe(1)
-    const meta = (await page.locator('.qhead__meta').boundingBox())!
-    const box = (await link.boundingBox())!
-    expect(box.x + box.width).toBeLessThanOrEqual(meta.x + meta.width + 1)
+    const crumbs = page.getByRole('navigation', { name: 'Ruta de navegación' })
+    await expect(crumbs.getByRole('link', { name: 'Astrub' })).toBeHidden()
+    const back = crumbs.getByRole('link', { name: seedGuide.achievement.name })
+    await expect(back).toBeVisible()
+    expect((await back.boundingBox())!.height).toBeGreaterThanOrEqual(44)
   })
 
   test('pinta la entrada, los pasos sin números, títulos ni casillas y el cierre', async ({

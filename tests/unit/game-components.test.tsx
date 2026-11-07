@@ -152,11 +152,7 @@ describe('QuestHeader', () => {
     meta: {
       zone: 'Astrub',
       level: 20,
-      achievement: {
-        name: 'La ocasión hace al ladrón',
-        href: 'https://www.torrentearcano.com/la-ocasion-hace-al-ladron',
-        position: 2,
-      },
+      achievement: { position: 2, total: 3 },
     },
     giver: { name: 'Hupe Esse', right: render, left, coordinates: { x: 7, y: -19 } },
     prerequisites: [
@@ -177,20 +173,19 @@ describe('QuestHeader', () => {
   // Las cifras separan los miles con un espacio que no se parte.
   const text = (markup: string) => markup.replace(/<[^>]+>/g, '').replaceAll('\u00a0', ' ')
 
-  it('el título es el h1 y el subtítulo nombra zona, nivel y logro, con su enlace', () => {
+  it('el título es el h1 y el subtítulo dice zona, nivel y «Misión 2 de 3», sin enlace', () => {
     const markup = html(<QuestHeader title="Seis pies bajo tierra" data={data} />)
     expect(markup).toContain('<h1 class="qhead__title">Seis pies bajo tierra</h1>')
-    expect(text(markup)).toContain(
-      'Misión de Astrub - Nivel 20 - Misión 2 del logro La ocasión hace al ladrón',
-    )
-    expect(markup).toContain('href="https://www.torrentearcano.com/la-ocasion-hace-al-ladron"')
-    expect(markup).toContain('src="/img/game/logro.webp"')
+    expect(text(markup)).toContain('Misión de Astrub - Nivel 20 - Misión 2 de 3')
+    // El logro lo nombran las migas: ni trofeo ni enlace en el subtítulo.
+    expect(markup).not.toContain('/img/game/logro.webp')
+    expect(markup).not.toContain('qhead__ach')
   })
 
   it('sin logro ni zona, el subtítulo solo lleva lo que hay', () => {
     const markup = html(<QuestHeader title="x" data={{ ...data, meta: { level: 20 } }} />)
     expect(text(markup)).toContain('Nivel 20')
-    expect(markup).not.toContain('del logro')
+    expect(markup).not.toContain('Misión 2 de')
     expect(html(<QuestHeader title="x" data={{ ...data, meta: {} }} />)).not.toContain(
       'qhead__meta',
     )

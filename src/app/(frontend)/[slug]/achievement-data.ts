@@ -7,10 +7,8 @@ import { cache } from 'react'
 import { ACHIEVEMENT_PAGES_REVALIDATE, ACHIEVEMENT_PAGES_TAG } from '@/lib/achievements/cache'
 import type { AchievementPageData } from '@/lib/achievements/page'
 import { readAchievementPage, type ReadAchievementOptions } from '@/lib/achievements/queries'
+import { SITE_URL } from '@/lib/site/origin'
 import type { User } from '@/payload-types'
-
-/** El origen público del sitio, para el JSON-LD de las migas (el mismo que metadataBase). */
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000').replace(/\/+$/, '')
 
 // unstable_cache guarda JSON: los PNJ van como pares y se vuelven a juntar al leer.
 async function read(slug: string, options?: ReadAchievementOptions) {

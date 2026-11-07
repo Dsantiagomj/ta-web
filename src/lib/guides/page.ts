@@ -8,16 +8,12 @@ import type { CalloutVariant } from '@/components/ui/strings'
 import type { ImageAsset } from '@/components/ui/types'
 import type { Coordinates } from '@/lib/guides/coordinates'
 import { mediaImageAsset } from '@/lib/media/image-asset'
-import { LEGACY_SITE_ORIGIN } from '@/lib/site/legacy'
 import type { Media, RichTextBlock } from '@/payload-types'
 
 import { formatThousands, neededItems } from './format'
 import type { GuideStart } from './step-nav'
 import { guideStrings } from './strings'
 import type { LinkedRewards, LinkedNeeds } from './summary'
-
-/** Las páginas de logro aún viven en la web de Torre (src/lib/site/legacy.ts). */
-export const ACHIEVEMENT_PAGES_ORIGIN = LEGACY_SITE_ORIGIN
 
 /** El estado de Lexical de un campo richText. */
 export type RichTextState = RichTextBlock['content']
@@ -220,13 +216,19 @@ export function needNote(line: string): NeedNote {
   return match ? { quantity: Number(match[1]), label, combat } : { label, combat }
 }
 
+/** El lugar de la misión en su logro: la misión 2 de 3. */
+export interface AchievementPlace {
+  position: number
+  total: number
+}
+
 /** Datos de la cabecera de la guía (DESIGN.md, Quest header). */
 export interface QuestHeaderData {
-  /** El subtítulo: «Misión de {zona} - Nivel {n} - Misión {k} del logro {logro}». */
+  /** El subtítulo: «Misión de {zona} - Nivel {n} - Misión {k} de {total}». */
   meta: {
     zone?: string
     level?: number
-    achievement?: { name: string; href: string; position: number }
+    achievement?: AchievementPlace
   }
   /** El PNJ que da la misión: solo con su render. */
   giver?: { name: string; right: ImageAsset; left?: ImageAsset; coordinates?: Coordinates }
@@ -244,13 +246,16 @@ export interface QuestHeaderData {
 
 /**
  * La cabecera de la guía: subtítulo, PNJ y las tres columnas (Prerrequisitos, Necesitarás,
- * Recompensas). Lo que falta no se pinta ni se inventa: sin logro no hay «Misión k del
- * logro», sin render no hay PNJ. `linked` son las guías publicadas de las misiones previas.
+ * Recompensas). Lo que falta no se pinta ni se inventa: sin logro no hay «Misión k de n»,
+ * sin render no hay PNJ. `linked` son las guías publicadas de las misiones previas. `place`
+ * es el lugar de la misión en su página de logro, cuando la tiene: cuenta las misiones como
+ * Torre (la de clase es una); sin ella, el de DofusDB.
  */
 export function questHeaderProps(
   guide: GuideDoc,
   linked: QuestGuideLink[],
   giverDoc?: GiverDoc | null,
+  place?: AchievementPlace | null,
 ): QuestHeaderData {
   const quest = linkedQuest(guide)
   const summary = guide.summary ?? {}
@@ -261,12 +266,9 @@ export function questHeaderProps(
   const level = guideLevel(guide)
   if (level) meta.level = level
   const achievement = quest?.achievement
-  if (achievement?.name && achievement.slug && achievement.position) {
-    meta.achievement = {
-      name: achievement.name,
-      href: `${ACHIEVEMENT_PAGES_ORIGIN}/${achievement.slug}`,
-      position: achievement.position,
-    }
+  if (place) meta.achievement = place
+  else if (achievement?.position && achievement.total) {
+    meta.achievement = { position: achievement.position, total: achievement.total }
   }
 
   let giver: QuestHeaderData['giver']
