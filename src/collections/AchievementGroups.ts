@@ -2,9 +2,13 @@ import type { CollectionConfig } from 'payload'
 
 import { achievementStrings, type GroupSection } from '../lib/achievements/strings'
 import { fillAchievementGroup } from './achievement-autofill'
-import { dofusDbNote, stateField } from './achievement-fields'
+import {
+  dofusDbNote,
+  linkedNameValidator,
+  linkedSlugValidator,
+  stateField,
+} from './achievement-fields'
 import { isPanelUser, readPublishedOrAll } from './editorial-access'
-import { validateSlug } from './QuestGuides'
 import { rejectSharedSlug } from './root-slug'
 
 const note = (field: string) => dofusDbNote('group', field)
@@ -49,6 +53,7 @@ export const AchievementGroups: CollectionConfig = {
       type: 'text',
       required: true,
       localized: true,
+      validate: linkedNameValidator('category'),
       admin: note('name'),
     },
     {
@@ -58,7 +63,7 @@ export const AchievementGroups: CollectionConfig = {
       required: true,
       unique: true,
       index: true,
-      validate: validateSlug,
+      validate: linkedSlugValidator('category'),
       admin: {
         position: 'sidebar',
         description: 'El de tu web: metalogro-astrub.',
