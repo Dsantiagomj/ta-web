@@ -6,7 +6,6 @@ import { Callout } from '@/components/ui/Callout'
 import { Figure } from '@/components/ui/Figure'
 import type { ImageAsset } from '@/components/ui/types'
 import type { QuestHeaderData } from '@/lib/guides/page'
-import type { StepNavEntry } from '@/lib/guides/step-nav'
 
 // Contenido real del catálogo: la guía de Torre «Seis pies bajo tierra» (DofusDB 1976),
 // «Entretanto, un renacer» (2420) y el vídeo de «Intoxicación profunda» (1433), con el arte
@@ -187,13 +186,6 @@ export const steps = (prefix: string) => [
       </p>
     ),
   },
-]
-
-/** La lista «Pasos» de esos pasos: la etiqueta es la primera negrita, o «Paso N». */
-export const stepEntries = (prefix: string): StepNavEntry[] => [
-  { id: `${prefix}-paso-1`, label: 'Hupe Esse', coordinates: { x: 7, y: -19 } },
-  { id: `${prefix}-paso-2`, label: 'Luci', coordinates: { x: 3, y: -17 } },
-  { id: `${prefix}-paso-3`, label: 'Paso 3', coordinates: { x: 4, y: -15 } },
 ]
 
 export const prose =

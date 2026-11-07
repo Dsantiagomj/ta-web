@@ -4,9 +4,7 @@ import { notFound } from 'next/navigation'
 import { GuideBody, GuideSteps } from '@/components/game/GuideBody'
 import { PageEnhancements } from '@/components/game/PageEnhancements'
 import { QuestHeader } from '@/components/game/QuestHeader'
-import { StepTracker } from '@/components/game/QuestSteps'
 import { guideContent, guideSeo, questHeaderProps } from '@/lib/guides/page'
-import { stepNav } from '@/lib/guides/step-nav'
 
 import { siteStrings } from '../strings'
 import { loadGuidePage } from './data'
@@ -39,11 +37,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 /**
- * Guía de misión, v4 (DESIGN.md, Quest guide): una página plana con la cabecera (el PNJ
- * que da la misión, el título, el subtítulo y Prerrequisitos, Necesitarás y Recompensas),
- * la entrada, los pasos numerados y el cierre; desde 1152px, la lista «Pasos» al lado.
- * Lo que la guía no guarda no se pinta. Una sola isla de cliente; la de la vista previa
- * solo en draft mode.
+ * Guía de misión, v5 (DESIGN.md, Quest guide): una columna de lectura centrada con la
+ * cabecera (el PNJ que da la misión, el título, el subtítulo y Prerrequisitos, Necesitarás
+ * y Recompensas, con los objetos en la bolsa), la entrada, los pasos separados por una
+ * línea y el cierre. Lo que la guía no guarda no se pinta. Una sola isla de cliente; la de
+ * la vista previa solo en draft mode.
  */
 export default async function QuestGuidePage({ params }: Props) {
   const page = await loadGuidePage((await params).slug)
@@ -56,7 +54,7 @@ export default async function QuestGuidePage({ params }: Props) {
     <div className="[--color-section:var(--color-sec-misiones)]">
       {preview && <PreviewBar slug={guide.slug} />}
       <main className="quest">
-        <article className="quest__main">
+        <article>
           <QuestHeader title={guide.title} data={questHeaderProps(guide, links, giver)} />
           {intro.length > 0 && (
             <div className="quest__intro">
@@ -70,7 +68,6 @@ export default async function QuestGuidePage({ params }: Props) {
             </div>
           )}
         </article>
-        <StepTracker entries={stepNav(steps)} />
       </main>
       <PageEnhancements />
       {preview && <LivePreviewRefresh />}

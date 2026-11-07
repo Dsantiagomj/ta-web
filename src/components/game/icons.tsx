@@ -1,5 +1,6 @@
 // Iconos de interfaz dibujados a mano solo donde no hay arte del juego que encaje: copiar,
-// la chincheta de las coordenadas, la marca de hecho y cerrar. Decorativos siempre.
+// la chincheta de las coordenadas, la marca de hecho, cerrar y el chevrón de la bolsa.
+// Decorativos siempre.
 
 export function PinIcon({ className }: { className?: string }) {
   return (
@@ -57,6 +58,23 @@ export function CloseIcon({ className }: { className?: string }) {
       className={className}
     >
       <path d="M4 4l8 8M12 4l-8 8" />
+    </svg>
+  )
+}
+
+export function ChevronIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M4 6l4 4 4-4" />
     </svg>
   )
 }

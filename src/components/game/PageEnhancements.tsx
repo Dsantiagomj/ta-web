@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react'
 
 import { IconButton } from '@/components/ui/IconButton'
 import { uiStrings } from '@/components/ui/strings'
-import { stepBandMargin } from '@/lib/guides/display'
 
 import { CloseIcon } from './icons'
 import { gameStrings } from './strings'
@@ -27,11 +26,11 @@ interface Viewed {
 
 /**
  * La única isla de las páginas de guía (DESIGN.md, Coordinates chip, Video facade, Figure
- * y Steps side list). Se pinta una vez por página y escucha con delegación: copia el
+ * y Quest header). Se pinta una vez por página y escucha con delegación: copia el
  * data-copy de los chips de coordenadas, cambia el enlace de un vídeo por su reproductor,
- * abre las capturas en un visor a pantalla completa y marca en la lista «Pasos» el paso que
- * se está leyendo. Sin ella, los chips son texto, el vídeo un enlace, la captura un enlace
- * a su archivo y la lista «Pasos» una lista de enlaces.
+ * abre las capturas en un visor a pantalla completa y abre y cierra la bolsa de
+ * recompensas. Sin ella, los chips son texto, el vídeo un enlace, la captura un enlace a su
+ * archivo y la lista de la bolsa se ve abierta.
  */
 export function PageEnhancements() {
   const [message, setMessage] = useState('')
@@ -101,8 +100,25 @@ export function PageEnhancements() {
       })
     }
 
+    // La bolsa: un botón de divulgación. El estado vive en su aria-expanded, y el CSS
+    // enseña la lista según él (game.css, data-js).
+    const bagButton = (bag: Element) => bag.querySelector('button')
+    const setBag = (bag: Element, open: boolean) =>
+      bagButton(bag)?.setAttribute('aria-expanded', String(open))
+    const openBags = () =>
+      [...document.querySelectorAll('[data-bag] > [aria-expanded="true"]')].flatMap((button) =>
+        button.parentElement ? [button.parentElement] : [],
+      )
+
     const onClick = (event: MouseEvent) => {
       const target = event.target instanceof Element ? event.target : null
+      // Un clic fuera de una bolsa abierta la cierra; en su botón, la abre o la cierra.
+      const bag = target?.closest('[data-bag]')
+      for (const open of openBags()) if (open !== bag) setBag(open, false)
+      if (bag && target?.closest('.bag__btn')) {
+        setBag(bag, bagButton(bag)?.getAttribute('aria-expanded') !== 'true')
+        return
+      }
       const copyNode = target?.closest<HTMLElement>('[data-copy]')
       if (copyNode) {
         event.preventDefault()
@@ -125,6 +141,14 @@ export function PageEnhancements() {
     }
 
     const onKeyDown = (event: KeyboardEvent) => {
+      // Esc cierra la bolsa; si el foco estaba dentro, vuelve a su botón.
+      if (event.key === 'Escape') {
+        for (const open of openBags()) {
+          setBag(open, false)
+          if (open.contains(document.activeElement)) bagButton(open)?.focus()
+        }
+        return
+      }
       if (event.key !== 'Enter' && event.key !== ' ') return
       const node =
         event.target instanceof Element ? event.target.closest<HTMLElement>('[data-copy]') : null
@@ -133,55 +157,21 @@ export function PageEnhancements() {
       void copy(node)
     }
 
+    // El foco que sale de una bolsa abierta la cierra.
+    const onFocusOut = (event: FocusEvent) => {
+      const bag = event.target instanceof Element ? event.target.closest('[data-bag]') : null
+      const next = event.relatedTarget
+      if (bag && next instanceof Node && !bag.contains(next)) setBag(bag, false)
+    }
+
     document.addEventListener('click', onClick)
     document.addEventListener('keydown', onKeyDown)
+    document.addEventListener('focusout', onFocusOut)
     return () => {
       clearTimeout(timer)
       document.removeEventListener('click', onClick)
       document.removeEventListener('keydown', onKeyDown)
-    }
-  }, [])
-
-  // Sincroniza la lista «Pasos» con el paso visible, mediante IntersectionObserver.
-  useEffect(() => {
-    const steps = [...document.querySelectorAll<HTMLElement>('[data-step]')]
-    const links = new Map(
-      [...document.querySelectorAll<HTMLAnchorElement>('[data-tracker]')].map((link) => [
-        link.dataset.tracker,
-        link,
-      ]),
-    )
-    if (steps.length === 0 || !('IntersectionObserver' in window)) return
-    const mark = (id: string) => {
-      for (const [key, link] of links) {
-        if (key === id) link.setAttribute('aria-current', 'step')
-        else link.removeAttribute('aria-current')
-      }
-      for (const step of steps) step.toggleAttribute('data-current', step.id === id)
-    }
-    // El paso que cruza la franja entre el 30 % y el 40 % de la altura de la ventana. La
-    // franja va en píxeles, así que el observador se rehace cuando cambia la altura.
-    let observer: IntersectionObserver | null = null
-    let height = 0
-    const observe = () => {
-      if (window.innerHeight === height) return
-      height = window.innerHeight
-      observer?.disconnect()
-      observer = new IntersectionObserver(
-        (entries) => {
-          for (const entry of entries) if (entry.isIntersecting) mark(entry.target.id)
-        },
-        { rootMargin: stepBandMargin(height) },
-      )
-      for (const step of steps) observer.observe(step)
-    }
-    // Hasta que el lector baja a los pasos, el actual es el primero.
-    mark(steps[0]!.id)
-    observe()
-    window.addEventListener('resize', observe)
-    return () => {
-      window.removeEventListener('resize', observe)
-      observer?.disconnect()
+      document.removeEventListener('focusout', onFocusOut)
     }
   }, [])
 

@@ -47,14 +47,13 @@ export const seedGuide = {
   ],
   intro: 'Tres pasos en la mina de Astrub para rescatar a las anutrof.',
   startLine: 'para empezar la misión.',
-  // Los pasos, en orden, con la etiqueta y las coordenadas que les da la lista «Pasos»
-  // (la primera negrita de su texto, o «Paso N»). La captura del primero es la primera
-  // imagen: va con prioridad.
+  // Los pasos, en orden. El título del bloque no se pinta. La captura del primero es la
+  // primera imagen: va con prioridad.
   steps: [
-    { title: 'Habla con Hupe Esse', label: 'Hupe Esse', coordinates: '7,-19' },
-    { title: 'Combate: protege a las anutrof', label: 'Luci', coordinates: '3,-17' },
+    { title: 'Habla con Hupe Esse' },
+    { title: 'Combate: protege a las anutrof' },
     // Sin título ni negrita, como muchos pasos importados.
-    { title: null, label: 'Paso 3', coordinates: '' },
+    { title: null },
   ],
   tips: 'En la preparación del combate, ordénalas lo más lejos posible.',
   outro: 'Aquí termina la misión. Espero haberte ayudado.',

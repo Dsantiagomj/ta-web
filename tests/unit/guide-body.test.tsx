@@ -169,11 +169,12 @@ describe('GuideSteps', () => {
     },
   ]
 
-  it('pinta cada paso numerado con su ancla y sus bloques, sin títulos ni casillas', () => {
+  it('pinta cada paso con su ancla y sus bloques, sin números, títulos ni casillas', () => {
     const markup = html(<GuideSteps steps={steps} />)
-    expect(markup).toContain('<li id="paso-1" class="qstep" data-step="true">')
-    expect(markup).toContain('<li id="paso-2" class="qstep" data-step="true">')
-    // El título del bloque Paso no se pinta en v4: la lista «Pasos» saca su etiqueta del texto.
+    expect(markup).toContain('<li id="paso-1" class="qstep">')
+    expect(markup).toContain('<li id="paso-2" class="qstep">')
+    expect(markup).not.toContain('qstep__n')
+    // El título del bloque Paso no se pinta.
     expect(markup).not.toContain('Habla con Hupe Esse</h3>')
     expect(markup).not.toContain('type="checkbox"')
   })
