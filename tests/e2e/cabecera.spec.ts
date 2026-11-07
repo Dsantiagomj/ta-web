@@ -265,6 +265,20 @@ test.describe('cabecera a 320px con el dedo', () => {
   })
 })
 
+test.describe('cabecera ancha con el dedo', () => {
+  test.use({ viewport: { width: 1440, height: 900 }, hasTouch: true, isMobile: true })
+
+  test('el botón Buscar y los del menú miden al menos 44px de alto', async ({ page }) => {
+    await open(page)
+    expect(await page.evaluate(() => matchMedia('(pointer: coarse)').matches)).toBe(true)
+    const search = page.locator('.spill')
+    await expect(search).toBeVisible()
+    expect((await search.boundingBox())!.height).toBeGreaterThanOrEqual(44)
+    const dofus = page.getByRole('button', { name: 'Dofus', exact: true })
+    expect((await dofus.boundingBox())!.height).toBeGreaterThanOrEqual(44)
+  })
+})
+
 test.describe('pie', () => {
   test('Torre, Explorar, Comunidad y la banda legal, sin enlaces repetidos ni Instagram', async ({
     page,

@@ -146,9 +146,11 @@ html {
   cursor: pointer;
 }
 
-.ib:hover {
-  background: var(--color-raised);
-  color: var(--color-ink);
+@media (hover: hover) and (pointer: fine) {
+  .ib:hover {
+    background: var(--color-raised);
+    color: var(--color-ink);
+  }
 }
 
 .ib svg {
@@ -176,9 +178,11 @@ html {
   height: 16px;
 }
 
-.spill:hover {
-  border-color: var(--color-accent);
-  color: var(--color-ink);
+@media (hover: hover) and (pointer: fine) {
+  .spill:hover {
+    border-color: var(--color-accent);
+    color: var(--color-ink);
+  }
 }
 
 .site-hdr kbd,
@@ -257,10 +261,16 @@ html {
   inset: -4px 0;
 }
 
-.np:hover,
 .np[aria-expanded='true'] {
   background: var(--color-raised);
   color: var(--color-ink);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .np:hover {
+    background: var(--color-raised);
+    color: var(--color-ink);
+  }
 }
 
 .np__i {
@@ -493,13 +503,17 @@ html {
   transition: transform var(--duration-fast) var(--ease-out);
 }
 
-.all-link:hover {
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
+@media (hover: hover) and (pointer: fine) {
+  .all-link:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+  }
 }
 
-.all-link:hover svg {
-  transform: translateX(3px);
+@media (hover: hover) and (pointer: fine) {
+  .all-link:hover svg {
+    transform: translateX(3px);
+  }
 }
 
 .art-grid {
@@ -527,8 +541,10 @@ html {
   text-decoration: none;
 }
 
-.art-grid a:hover {
-  background: var(--color-raised);
+@media (hover: hover) and (pointer: fine) {
+  .art-grid a:hover {
+    background: var(--color-raised);
+  }
 }
 
 .art-grid--eggs img {
@@ -558,8 +574,10 @@ html {
   text-decoration: none;
 }
 
-.feat:hover {
-  background: var(--color-raised);
+@media (hover: hover) and (pointer: fine) {
+  .feat:hover {
+    background: var(--color-raised);
+  }
 }
 
 .feat__art {
@@ -618,8 +636,10 @@ html {
   text-decoration: none;
 }
 
-.chk a:hover {
-  border-color: var(--color-section);
+@media (hover: hover) and (pointer: fine) {
+  .chk a:hover {
+    border-color: var(--color-section);
+  }
 }
 
 .chk img {
@@ -643,8 +663,10 @@ html {
   background: var(--color-well);
 }
 
-.chk-mini a:hover {
-  background: var(--color-raised);
+@media (hover: hover) and (pointer: fine) {
+  .chk-mini a:hover {
+    background: var(--color-raised);
+  }
 }
 
 .chk-mini img {
@@ -687,8 +709,10 @@ html {
   text-decoration: none;
 }
 
-.maz-l a:hover {
-  background: var(--color-raised);
+@media (hover: hover) and (pointer: fine) {
+  .maz-l a:hover {
+    background: var(--color-raised);
+  }
 }
 
 .maz-l__w {
@@ -730,8 +754,10 @@ html {
   cursor: pointer;
 }
 
-.scta:hover {
-  border-color: var(--color-accent);
+@media (hover: hover) and (pointer: fine) {
+  .scta:hover {
+    border-color: var(--color-accent);
+  }
 }
 
 .scta > svg {
@@ -778,8 +804,10 @@ html {
   text-decoration: none;
 }
 
-.hub-l a:hover {
-  background: var(--color-raised);
+@media (hover: hover) and (pointer: fine) {
+  .hub-l a:hover {
+    background: var(--color-raised);
+  }
 }
 
 /* ---------- el menú del móvil: un diálogo a toda altura ---------- */
@@ -1081,9 +1109,14 @@ html {
   text-decoration: none;
 }
 
-.sdlg__list a:hover,
 .sdlg__list a:focus-visible {
   background: var(--color-raised);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .sdlg__list a:hover {
+    background: var(--color-raised);
+  }
 }
 
 .sdlg__list a:focus-visible {
@@ -1258,8 +1291,10 @@ html {
   text-decoration: none;
 }
 
-.ft-explore a:hover {
-  text-decoration: underline;
+@media (hover: hover) and (pointer: fine) {
+  .ft-explore a:hover {
+    text-decoration: underline;
+  }
 }
 
 .ft-com {
@@ -1291,8 +1326,10 @@ html {
   background: var(--color-surface);
 }
 
-.ft-join:hover {
-  border-color: var(--color-accent);
+@media (hover: hover) and (pointer: fine) {
+  .ft-join:hover {
+    border-color: var(--color-accent);
+  }
 }
 
 .ft-join__i {
@@ -1333,8 +1370,10 @@ html {
   border: 1.5px solid var(--color-accent);
 }
 
-.ft-kofi:hover {
-  background: var(--color-raised);
+@media (hover: hover) and (pointer: fine) {
+  .ft-kofi:hover {
+    background: var(--color-raised);
+  }
 }
 
 .ft-kofi > svg {
@@ -1429,8 +1468,10 @@ html {
   height: 16px;
 }
 
-.ft-up:hover {
-  color: var(--color-ink);
+@media (hover: hover) and (pointer: fine) {
+  .ft-up:hover {
+    color: var(--color-ink);
+  }
 }
 
 .site-ft__legal {
@@ -1465,8 +1506,10 @@ html {
   color: var(--color-ink-2);
 }
 
-.ft-legal a:hover {
-  color: var(--color-ink);
+@media (hover: hover) and (pointer: fine) {
+  .ft-legal a:hover {
+    color: var(--color-ink);
+  }
 }
 
 .ft-copy,
@@ -1480,6 +1523,7 @@ html {
 }
 
 @media (pointer: coarse) {
+  .spill,
   .sdlg__x,
   .np,
   .ft-legal a,
