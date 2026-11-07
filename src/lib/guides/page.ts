@@ -8,6 +8,7 @@ import type { CalloutVariant } from '@/components/ui/strings'
 import type { ImageAsset } from '@/components/ui/types'
 import type { Coordinates } from '@/lib/guides/coordinates'
 import { mediaImageAsset } from '@/lib/media/image-asset'
+import { LEGACY_SITE_ORIGIN } from '@/lib/site/legacy'
 import type { Media, RichTextBlock } from '@/payload-types'
 
 import { formatThousands, neededItems } from './format'
@@ -15,11 +16,8 @@ import type { GuideStart } from './step-nav'
 import { guideStrings } from './strings'
 import type { LinkedRewards, LinkedNeeds } from './summary'
 
-/**
- * Las páginas de logro aún viven en la web de Torre, con el mismo slug que tendrán aquí
- * (docs/legacy/plan.md). Cuando la app tenga las suyas, el enlace pasa a ser relativo.
- */
-export const ACHIEVEMENT_PAGES_ORIGIN = 'https://www.torrentearcano.com'
+/** Las páginas de logro aún viven en la web de Torre (src/lib/site/legacy.ts). */
+export const ACHIEVEMENT_PAGES_ORIGIN = LEGACY_SITE_ORIGIN
 
 /** El estado de Lexical de un campo richText. */
 export type RichTextState = RichTextBlock['content']

@@ -1,15 +1,15 @@
 import type { Metadata } from 'next'
 import { cookies } from 'next/headers'
-import Link from 'next/link'
 import type { ReactNode } from 'react'
 
-import { Emblem } from '@/components/brand/Emblem'
-import { ModeToggle } from '@/components/mode-toggle/ModeToggle'
+import { SiteFooter } from '@/components/site/SiteFooter'
+import { SiteHeader } from '@/components/site/SiteHeader'
 import { modeScript } from '@/lib/theme/mode-script'
 import { MODE_COOKIE, resolveMode, resolveTheme } from '@/lib/theme/theme'
 import { fontVariables } from '@/styles/fonts'
 import '@/styles/globals.css'
 
+import { loadSiteCounts } from './site-data'
 import { siteStrings } from './strings'
 
 export const metadata: Metadata = {
@@ -22,6 +22,7 @@ export default async function FrontendLayout({ children }: { children: ReactNode
   const mode = resolveMode((await cookies()).get(MODE_COOKIE)?.value)
   // Todavía no hay miembros: nadie tiene el derecho a un tema premium.
   const theme = resolveTheme(undefined, { premium: false })
+  const counts = await loadSiteCounts()
 
   return (
     <html
@@ -35,17 +36,9 @@ export default async function FrontendLayout({ children }: { children: ReactNode
         <script dangerouslySetInnerHTML={{ __html: modeScript }} />
       </head>
       <body>
-        <header className="mx-auto flex h-16 max-w-(--width-wide) items-center justify-between gap-4 px-4 sm:px-6 lg:px-12">
-          <Link
-            href="/"
-            className="flex items-center gap-2 font-display text-xl text-ink no-underline md:gap-2.5"
-          >
-            <Emblem size={36} className="size-[30px] md:size-9" />
-            {siteStrings.brand}
-          </Link>
-          <ModeToggle initialMode={mode} />
-        </header>
+        <SiteHeader counts={counts} initialMode={mode} />
         {children}
+        <SiteFooter year={new Date().getFullYear()} />
       </body>
     </html>
   )

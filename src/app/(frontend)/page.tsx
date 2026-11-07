@@ -2,7 +2,10 @@ import { homeStrings as s } from './strings'
 
 export default function HomePage() {
   return (
-    <main className="mx-auto flex min-h-[calc(100dvh-4rem)] max-w-(--width-page) flex-col justify-center gap-6 px-4 py-16 sm:px-6 lg:px-12">
+    <main
+      id="contenido"
+      className="mx-auto flex min-h-[calc(100dvh-4rem)] max-w-(--width-page) flex-col justify-center gap-6 px-4 py-16 sm:px-6 lg:px-12"
+    >
       <p className="font-display text-eyebrow text-accent uppercase">{s.eyebrow}</p>
       <h1 className="font-display text-hero text-ink">{s.title}</h1>
       <p className="max-w-[60ch] text-lg text-ink-2">{s.lead}</p>
