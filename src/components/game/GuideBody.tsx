@@ -4,6 +4,7 @@ import type { GuideBlock, GuideStep } from '@/lib/guides/page'
 import { type GuideStart, startSentenceNpc, stepAnchor, stepPin } from '@/lib/guides/step-nav'
 
 import './game.css'
+import { FightBlock } from './FightBlock'
 import { GuideRichText } from './GuideRichText'
 import { QuestSteps } from './QuestSteps'
 import { TorreTips } from './TorreTips'
@@ -44,6 +45,8 @@ export function GuideBlocks({
         )
       case 'video':
         return <VideoFacade key={block.key} url={block.url} title={block.title} />
+      case 'fight':
+        return <FightBlock key={block.key} monsters={block.monsters} />
       case 'callout': {
         const text = (
           <GuideRichText

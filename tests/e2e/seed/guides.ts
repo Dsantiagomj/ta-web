@@ -45,6 +45,12 @@ export const seedGuide = {
     'Pelos de arakna enferma',
     'Ojo de arakmutada',
   ],
+  // Los monstruos del combate del paso 2, con la imagen importada (DofusDB, gfxId).
+  fight: [
+    { dofusId: 5281, name: 'Ramán famélico', gfxId: 241 },
+    { dofusId: 5282, name: 'Milirrata famélica', gfxId: 239 },
+    { dofusId: 5283, name: 'Miserata famélica', gfxId: 254 },
+  ],
   intro: 'Tres pasos en la mina de Astrub para rescatar a las anutrof.',
   startLine: 'para empezar la misión.',
   // Los pasos, en orden. El título del bloque no se pinta. La captura del primero es la
@@ -110,13 +116,6 @@ const paragraph = (...children: LexicalNode[]) =>
 
 const heading = (tag: 'h2' | 'h3', value: string) => element('heading', [text(value)], { tag })
 
-const bullets = (...items: string[]) =>
-  element(
-    'list',
-    items.map((item, index) => element('listitem', [text(item)], { value: index + 1 })),
-    { listType: 'bullet', tag: 'ul', start: 1 },
-  )
-
 const richText = (...children: LexicalNode[]) =>
   ({ root: element('root', children) }) as unknown as RichTextBlock['content']
 
@@ -147,9 +146,38 @@ async function quest(
 }
 
 async function item(payload: Payload, dofusId: number, name: string) {
+  // El icono, como lo importa pnpm data:quests: un archivo de Media con su clave.
+  const icon = await media(
+    payload,
+    `dofusdb-item-image:e2e-${dofusId}`,
+    `public/img/sistema/item-${dofusId}.webp`,
+    name,
+  )
   return findOrCreate(
     () => payload.find({ collection: 'items', where: { dofusId: { equals: dofusId } }, limit: 1 }),
-    () => payload.create({ collection: 'items', data: { dofusId, name, superTypeId: 9 } }),
+    () =>
+      payload.create({
+        collection: 'items',
+        data: { dofusId, name, superTypeId: 9, image: icon.id },
+      }),
+  )
+}
+
+async function monster(payload: Payload, dofusId: number, name: string, gfxId: number) {
+  const image = await media(
+    payload,
+    `dofusdb-monster-image:e2e-${gfxId}`,
+    `public/img/sistema/monster-${gfxId}.webp`,
+    name,
+  )
+  return findOrCreate(
+    () =>
+      payload.find({ collection: 'monsters', where: { dofusId: { equals: dofusId } }, limit: 1 }),
+    () =>
+      payload.create({
+        collection: 'monsters',
+        data: { dofusId, name, iconId: gfxId, image: image.id },
+      }),
   )
 }
 
@@ -184,11 +212,17 @@ export async function seedGuides(payload: Payload): Promise<void> {
     await payload.create({ collection: 'users', data: E2E_PANEL_USER })
   }
 
+  // La misión previa es la 1 del mismo logro: su guía acaba con la tarjeta de esta.
   const previous = await quest(payload, {
     dofusId: 1975,
     name: seedGuide.prerequisite.title,
-    levelMin: 20,
+    levelMin: 15,
+    achievement: { dofusId: 1671, position: 1, total: 3 },
   })
+  const fightMonsters = []
+  for (const { dofusId, name, gfxId } of seedGuide.fight) {
+    fightMonsters.push(await monster(payload, dofusId, name, gfxId))
+  }
   const rewardIds = await Promise.all(
     [
       [366, 'Pico de tofu'],
@@ -221,7 +255,12 @@ export async function seedGuides(payload: Payload): Promise<void> {
       items: [...rewardIds].reverse().map((reward) => ({ item: reward.id, quantity: 1 })),
     },
   })
-  const hunter = await quest(payload, { dofusId: 1977, name: draftGuide.title, levelMin: 25 })
+  const hunter = await quest(payload, {
+    dofusId: 1977,
+    name: draftGuide.title,
+    levelMin: 25,
+    achievement: { dofusId: 1671, position: 3, total: 3 },
+  })
 
   const { npcId, right, left } = seedGuide.giver
   const renderRight = await media(
@@ -334,7 +373,15 @@ export async function seedGuides(payload: Payload): Promise<void> {
                     text('Luci', BOLD),
                     text(' [3,-17]. Vas a empezar una lucha contra:'),
                   ),
-                  bullets('1 x Ramán famélico', '1 x Milirrata famélica', '1 x Miserata famélica'),
+                ),
+              },
+              {
+                blockType: 'fight',
+                monsters: fightMonsters.map((found) => ({ monster: found.id, quantity: 1 })),
+              },
+              {
+                blockType: 'richText',
+                content: richText(
                   heading('h3', 'Recomendaciones'),
                   paragraph(text('Intenta vencer primero al Ramán.')),
                 ),

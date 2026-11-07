@@ -58,6 +58,11 @@
   margin-top: 56px;
 }
 
+/* El cierre, a la medida del texto de los pasos. */
+.quest__outro .guide-body p {
+  max-width: 68ch;
+}
+
 /* ---------- cabecera de la misión ---------- */
 
 /* El título, el subtítulo y las tres columnas a un lado y el PNJ al otro, a lo alto del
@@ -392,6 +397,116 @@
   object-fit: contain;
 }
 
+/* ---------- combate ---------- */
+
+/* Los monstruos de un combate: filas como las de la cabecera, con un hueco más grande. Van
+   delante de las reglas de las listas de la prosa (viñeta, sangría, separación). */
+:is(.guide-body, .prose-guide, .quest) .mobs {
+  display: flex;
+  max-width: none;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  padding-left: 0;
+  list-style: none;
+}
+
+:is(.guide-body, .prose-guide, .quest) .mobs li + li {
+  margin-top: 0;
+}
+
+.well--mob {
+  width: 52px;
+  height: 52px;
+}
+
+/* ---------- siguiente misión ---------- */
+
+/* Toda la tarjeta es un enlace a la guía: su primera captura y, al lado, el texto. */
+.nextq {
+  display: grid;
+  margin-top: 24px;
+  overflow: hidden;
+  border: 1px solid var(--color-well-line);
+  border-radius: 16px;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  text-decoration: none;
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+
+@media (min-width: 40rem) {
+  .nextq[data-art] {
+    grid-template-columns: 280px minmax(0, 1fr);
+  }
+}
+
+.nextq__art {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  background: #000;
+}
+
+@media (min-width: 40rem) {
+  .nextq__art {
+    min-height: 168px;
+    aspect-ratio: auto;
+  }
+}
+
+.nextq__art img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 600ms var(--ease-out);
+}
+
+.nextq__txt {
+  display: grid;
+  align-content: center;
+  gap: 6px;
+  padding: 20px 24px 22px;
+}
+
+.nextq__k {
+  color: var(--color-ink-2);
+  font-size: 1rem;
+}
+
+.nextq__t {
+  font: 600 clamp(1.625rem, 1.3rem + 1.2vw, 2.125rem) / 1.05 var(--font-display);
+}
+
+.nextq__m {
+  color: var(--color-ink-2);
+}
+
+.nextq__m b {
+  color: var(--color-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nextq:hover {
+    border-color: var(--color-accent);
+  }
+
+  .nextq .nextq__art img {
+    transform: scale(1.04);
+  }
+
+  .nextq:hover .nextq__art img {
+    transform: none;
+  }
+}
+
+.nextq:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 4px;
+}
+
 /* ---------- chip de coordenadas ---------- */
 
 /* Una chincheta y [x,y] en accent sobre el hueco, con borde accent: se lee de un vistazo.
@@ -471,6 +586,11 @@
 
 .qstep__body.prose-guide > * + * {
   margin-top: 18px;
+}
+
+/* Las recomendaciones de Torre se separan más de lo que tienen encima. */
+.qstep__body.prose-guide > .torre {
+  margin-top: 32px;
 }
 
 /* Las capturas de un paso, a la misma distancia que el resto de sus bloques. */

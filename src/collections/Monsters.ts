@@ -2,7 +2,8 @@ import type { CollectionConfig } from 'payload'
 
 import { gameDataAccess } from './game-data-access'
 
-// Monstruos de DofusDB que piden los objetivos de las misiones.
+// Todo el catálogo de monstruos de DofusDB: los que piden las misiones y los que nombran
+// los combates de las guías.
 export const Monsters: CollectionConfig = {
   slug: 'monsters',
   labels: { singular: 'Monstruo de DofusDB', plural: 'Monstruos de DofusDB' },
@@ -30,6 +31,15 @@ export const Monsters: CollectionConfig = {
       admin: {
         // DofusDB lo llama gfxId. Nada se carga de DofusDB ni de Ankama al servir la web.
         description: 'ID de la imagen en DofusDB (gfxId).',
+      },
+    },
+    {
+      name: 'image',
+      label: 'Imagen',
+      type: 'upload',
+      relationTo: 'media',
+      admin: {
+        description: 'Importada una vez de DofusDB a Media al refrescar los datos del juego.',
       },
     },
     {

@@ -37,7 +37,16 @@ export const Items: CollectionConfig = {
       type: 'number',
       admin: {
         // Nada se carga de DofusDB ni de Ankama al servir la web: solo se guarda el ID.
-        description: 'ID de la imagen en DofusDB.',
+        description: 'ID de la imagen en DofusDB; el icono importado va en Icono.',
+      },
+    },
+    {
+      name: 'image',
+      label: 'Icono',
+      type: 'upload',
+      relationTo: 'media',
+      admin: {
+        description: 'Importada una vez de DofusDB a Media al refrescar los datos del juego.',
       },
     },
     {

@@ -39,6 +39,13 @@ export const gameStrings = {
     startBefore: 'Habla con ',
     startAfter: ' para empezar la misión.',
   },
+  /** La tarjeta de la siguiente misión: «Nivel 25. Te la da Kerubim Crepin [3,-17] al terminar esta.» */
+  next: {
+    eyebrow: 'Siguiente misión',
+    level: 'Nivel',
+    givenBy: 'Te la da',
+    afterThis: 'al terminar esta.',
+  },
   torre: {
     title: 'Recomendaciones de Torre',
   },

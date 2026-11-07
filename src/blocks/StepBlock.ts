@@ -2,6 +2,7 @@ import type { Block } from 'payload'
 
 import { guideStrings } from '../lib/guides/strings'
 import { CalloutBlock } from './CalloutBlock'
+import { FightBlock } from './FightBlock'
 import { ImageBlock } from './ImageBlock'
 import { RichTextBlock } from './RichTextBlock'
 import { VideoBlock } from './VideoBlock'
@@ -61,7 +62,7 @@ export const StepBlock: Block = {
       label: s.body,
       labels: { singular: 'Bloque', plural: 'Bloques' },
       type: 'blocks',
-      blocks: [RichTextBlock, ImageBlock, VideoBlock, CalloutBlock],
+      blocks: [RichTextBlock, ImageBlock, VideoBlock, CalloutBlock, FightBlock],
     },
   ],
 }

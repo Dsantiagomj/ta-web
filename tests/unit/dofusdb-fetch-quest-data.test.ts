@@ -46,14 +46,14 @@ describe('fetchQuestData', () => {
     )
   })
 
-  it('busca solo los monstruos de los requisitos', async () => {
-    const { client, lookups } = fixtureClient({ quests: questsWithSteps, items, monsters })
+  it('trae todo el catálogo de monstruos: los combates de las guías los nombran por su nombre', async () => {
+    const { client, lookups, selects } = fixtureClient({ quests: questsWithSteps, items, monsters })
 
     const data = await fetchQuestData(client)
 
     expect(data.monsters).toEqual(monsters)
-    // Los fixtures traen justo los monstruos que nombran estas misiones
-    expect(new Set(lookups.monsters)).toEqual(new Set(monsters.map((monster) => monster.id)))
+    expect(lookups).not.toHaveProperty('monsters')
+    expect(selects.monsters).toEqual(['id', 'name', 'gfxId'])
   })
 
   it('trae todo el catálogo de objetos, también los que no nombra ninguna misión', async () => {

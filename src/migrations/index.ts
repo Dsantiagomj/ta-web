@@ -8,6 +8,7 @@ import * as migration_20261104_210644_guide_single_quest from './20261104_210644
 import * as migration_20261105_103713_media_image_sizes from './20261105_103713_media_image_sizes';
 import * as migration_20261105_135506_guide_step_block from './20261105_135506_guide_step_block';
 import * as migration_20261106_010549_guide_v4_quest_npcs from './20261106_010549_guide_v4_quest_npcs';
+import * as migration_20261107_020402_guide_v5_game_images_fight from './20261107_020402_guide_v5_game_images_fight';
 
 export const migrations = [
   {
@@ -58,6 +59,11 @@ export const migrations = [
   {
     up: migration_20261106_010549_guide_v4_quest_npcs.up,
     down: migration_20261106_010549_guide_v4_quest_npcs.down,
-    name: '20261106_010549_guide_v4_quest_npcs'
+    name: '20261106_010549_guide_v4_quest_npcs',
+  },
+  {
+    up: migration_20261107_020402_guide_v5_game_images_fight.up,
+    down: migration_20261107_020402_guide_v5_game_images_fight.down,
+    name: '20261107_020402_guide_v5_game_images_fight'
   },
 ];

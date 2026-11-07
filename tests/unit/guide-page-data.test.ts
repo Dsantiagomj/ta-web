@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import type { Media } from '@/payload-types'
 import {
   guideStart,
+  nextQuestCard,
   guideContent,
   guideLevel,
   guideSeo,
@@ -481,6 +482,139 @@ describe('guideContent con pasos', () => {
     expect(steps[0]).not.toHaveProperty('coordinates')
     expect(steps[1]).toEqual({ key: '1', coordinates: { x: 0, y: 0 }, blocks: [] })
     expect(steps[2]).not.toHaveProperty('title')
+  })
+})
+
+describe('iconos de los objetos y monstruos', () => {
+  const icon = (id: number): Media => ({
+    id,
+    alt: 'Pico de tofu',
+    url: `/api/media/file/item-${id}.png`,
+    filename: `item-${id}.png`,
+    mimeType: 'image/png',
+    width: 128,
+    height: 128,
+    updatedAt: '',
+    createdAt: '',
+  })
+
+  it('cada objeto de Recompensas y Necesitarás lleva su icono importado; sin él, nada', () => {
+    const withIcons: GuideDoc = {
+      ...guide,
+      quest: {
+        id: 1976,
+        rewards: {
+          experience: 16380,
+          items: [
+            { item: { ...item(366, 'Pico de tofu'), image: icon(70) }, quantity: 1 },
+            { item: item(373, 'Intestino de araknáusea'), quantity: 1 },
+          ],
+        },
+      },
+      summary: {
+        needs: {
+          items: [{ item: { ...item(737, 'Dofus Esmeralda'), image: icon(71) }, quantity: 1 }],
+        },
+      },
+    }
+    const header = questHeaderProps(withIcons, [])
+    expect(header.rewards.items).toEqual([
+      { item: { name: 'Intestino de araknáusea' }, quantity: 1 },
+      {
+        item: {
+          name: 'Pico de tofu',
+          icon: { src: '/api/media/file/item-70.png', width: 128, height: 128 },
+        },
+        quantity: 1,
+      },
+    ])
+    expect(header.needs.items[0]!.item.icon).toMatchObject({ src: '/api/media/file/item-71.png' })
+  })
+
+  it('un bloque Combate da sus monstruos con nombre, cantidad e imagen', () => {
+    const content = guideContent({
+      ...guide,
+      body: [
+        {
+          blockType: 'fight',
+          id: 'f',
+          monsters: [
+            { monster: { id: 1, name: 'Ramán famélico', image: icon(72) }, quantity: 1 },
+            { monster: { id: 2, name: 'Milirrata famélica' }, quantity: 2 },
+            // Sin poblar: no hay nombre que enseñar.
+            { monster: 3, quantity: 1 },
+          ],
+        },
+        // Sin ningún monstruo poblado, el bloque no se pinta.
+        { blockType: 'fight', id: 'g', monsters: [{ monster: 4, quantity: 1 }] },
+      ],
+    })
+    expect(content.intro).toEqual([
+      {
+        kind: 'fight',
+        key: 'f',
+        monsters: [
+          {
+            item: {
+              name: 'Ramán famélico',
+              icon: { src: '/api/media/file/item-72.png', width: 128, height: 128 },
+            },
+            quantity: 1,
+          },
+          { item: { name: 'Milirrata famélica' }, quantity: 2 },
+        ],
+      },
+    ])
+  })
+})
+
+describe('nextQuestCard', () => {
+  const art = {
+    id: 9,
+    alt: 'Kerubim en su casa',
+    url: '/api/media/file/kerubim.webp',
+    width: 1069,
+    height: 769,
+    updatedAt: '',
+    createdAt: '',
+  } satisfies Media
+  const quest = {
+    name: 'El cazador cazado',
+    levelMin: 25,
+    startPositions: [{ npcName: 'Kerubim Crepin', x: 3, y: -17 }],
+  }
+  const nextGuide = {
+    title: 'El cazador cazado',
+    slug: 'el-cazador-cazado',
+    body: [
+      { blockType: 'richText' as const, id: 'a', content: richText('Habla con Kerubim.') },
+      {
+        blockType: 'step' as const,
+        id: 's',
+        x: 3,
+        y: -17,
+        body: [{ blockType: 'image' as const, id: 'i', image: art }],
+      },
+    ],
+  }
+
+  it('la siguiente misión del logro: título, enlace, nivel, quién la da y dónde, y su primera captura', () => {
+    expect(nextQuestCard(quest, nextGuide)).toEqual({
+      title: 'El cazador cazado',
+      href: '/el-cazador-cazado',
+      level: 25,
+      npc: 'Kerubim Crepin',
+      coordinates: { x: 3, y: -17 },
+      art: { src: '/api/media/file/kerubim.webp', width: 1069, height: 769 },
+    })
+  })
+
+  it('sin guía publicada no hay tarjeta; sin nivel, PNJ o captura, la tarjeta no los lleva', () => {
+    expect(nextQuestCard(quest, null)).toBeUndefined()
+    expect(nextQuestCard({ name: 'x' }, { title: 'X', slug: 'x', body: [] })).toEqual({
+      title: 'X',
+      href: '/x',
+    })
   })
 })
 

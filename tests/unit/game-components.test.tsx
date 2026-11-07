@@ -3,7 +3,8 @@ import { describe, expect, it } from 'vitest'
 
 import { AchievementChain } from '@/components/game/AchievementChain'
 import { CoordinatesChip, CoordinatesText, TravelButton } from '@/components/game/Coordinates'
-import { FightBlock, MonsterChip } from '@/components/game/MonsterChip'
+import { FightBlock } from '@/components/game/FightBlock'
+import { NextQuestCard } from '@/components/game/NextQuestCard'
 import { ItemChip, ItemSlot } from '@/components/game/Item'
 import { GAME_ICONS } from '@/components/game/game-icons'
 import { IconWell } from '@/components/game/IconWell'
@@ -68,16 +69,74 @@ describe('Objetos', () => {
 })
 
 describe('Combate', () => {
-  it('cada monstruo con cantidad, nombre y nivel opcional', () => {
-    const monster = { name: 'Ramán famélico', icon, level: 20 }
-    expect(html(<MonsterChip monster={monster} quantity={1} />)).toContain('1 × Ramán famélico')
-    expect(html(<MonsterChip monster={monster} quantity={1} />)).toContain('Nivel 20')
-    expect(html(<MonsterChip monster={{ name: 'Kólerat' }} quantity={2} />)).not.toContain('Nivel')
+  it('una lista de filas: la imagen del monstruo en su hueco y «1 × Nombre»', () => {
+    const markup = html(
+      <FightBlock
+        monsters={[
+          { item: { name: 'Ramán famélico', icon }, quantity: 1 },
+          { item: { name: 'Kólerat' }, quantity: 2 },
+        ]}
+      />,
+    )
+    expect(markup).toMatch(/^<ul role="list" class="mobs">/)
+    expect(markup.match(/<li class="row">/g)).toHaveLength(2)
+    expect(markup).toContain('<b>1 ×</b> Ramán famélico')
+    expect(markup).toContain('<b>2 ×</b> Kólerat')
+    // La imagen es decorativa y nunca se amplía: el archivo es de 96px, el hueco la pinta a 42.
+    expect(markup).toContain('src="/img/item-366.webp"')
+    expect(markup).toContain('alt=""')
+    // Sin imagen, el hueco queda vacío.
+    expect(markup).toContain('<span class="well well--mob" aria-hidden="true"></span>')
+  })
+})
+
+describe('NextQuestCard', () => {
+  const card = {
+    title: 'El cazador cazado',
+    href: '/el-cazador-cazado',
+    level: 25,
+    npc: 'Kerubim Crepin',
+    coordinates: { x: 3, y: -17 },
+    art: {
+      src: '/img/kerubim-800.webp',
+      width: 800,
+      height: 575,
+      srcSet: [
+        { src: '/img/kerubim-480.webp', width: 480 },
+        { src: '/img/kerubim-800.webp', width: 800 },
+      ],
+    },
+  }
+
+  it('toda la tarjeta es un enlace: arte, «Siguiente misión», título y quién la da', () => {
+    const markup = html(<NextQuestCard card={card} />)
+    expect(markup).toMatch(/^<a class="nextq" href="\/el-cazador-cazado" data-art="">/)
+    expect(markup).toContain('<span class="nextq__k">Siguiente misión</span>')
+    expect(markup).toContain('<span class="nextq__t">El cazador cazado</span>')
+    expect(markup.replace(/<[^>]+>/g, '')).toContain(
+      'Nivel 25. Te la da Kerubim Crepin [3,-17] al terminar esta.',
+    )
+    expect(markup).toContain('<b>25</b>')
+    expect(markup).toContain('<b>[3,-17]</b>')
+    expect(markup).toContain('src="/img/kerubim-800.webp"')
+    expect(markup).toContain(`sizes="${IMAGE_SIZES.card}"`)
+    expect(markup).toContain('loading="lazy"')
   })
 
-  it('el bloque es una lista', () => {
-    const markup = html(<FightBlock monsters={[{ monster: { name: 'A' }, quantity: 1 }]} />)
-    expect(markup).toMatch(/^<ul/)
+  it('sin arte, nivel o PNJ, la tarjeta va sin ellos', () => {
+    const markup = html(<NextQuestCard card={{ title: 'X', href: '/x' }} />)
+    expect(markup).not.toContain('data-art')
+    expect(markup).not.toContain('nextq__m')
+    expect(markup).not.toContain('<img')
+    expect(html(<NextQuestCard card={{ title: 'X', href: '/x', level: 25 }} />)).toContain(
+      'Nivel <b>25</b>.</span>',
+    )
+  })
+})
+
+describe('IMAGE_SIZES de la tarjeta', () => {
+  it('el arte de la tarjeta: 280px desde 640px; debajo, a lo ancho de la columna', () => {
+    expect(IMAGE_SIZES.card).toBe('(min-width: 40rem) 280px, calc(100vw - 32px)')
   })
 })
 

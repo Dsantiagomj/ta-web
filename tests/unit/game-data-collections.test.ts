@@ -46,6 +46,11 @@ describe.each([
     expect(field(collection, 'iconId')).not.toHaveProperty('required', true)
   })
 
+  it('enlaza su imagen importada a Media, opcional', () => {
+    expect(field(collection, 'image')).toMatchObject({ type: 'upload', relationTo: 'media' })
+    expect(field(collection, 'image')).not.toHaveProperty('required', true)
+  })
+
   it('guarda la fecha de refresco, opcional', () => {
     expect(field(collection, 'refreshedAt')).toMatchObject({ type: 'date' })
     expect(field(collection, 'refreshedAt')).not.toHaveProperty('required', true)

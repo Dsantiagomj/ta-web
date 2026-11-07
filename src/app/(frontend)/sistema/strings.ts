@@ -31,6 +31,7 @@ export const catalogStrings = {
     fight: 'Combate',
     coordinates: 'Coordenadas',
     steps: 'Pasos',
+    next: 'Siguiente misión',
     chain: 'Cadena del logro',
     video: 'Vídeo',
     image: 'Captura',
