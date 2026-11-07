@@ -117,6 +117,10 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
         return sheet.showModal()
       }
       if (target.closest('[data-close-sheet]')) return sheet?.close()
+      // Un enlace del menú o de la búsqueda cierra su diálogo: el layout sigue montado al
+      // navegar con Next y el diálogo se quedaría abierto sobre la página nueva.
+      if (target.closest('#site-sheet a')) return sheet?.close()
+      if (target.closest('#buscar a')) return dialog.current?.close()
       const fold = target.closest<HTMLButtonElement>('.stile__b')
       if (fold) {
         const open = fold.getAttribute('aria-expanded') !== 'true'

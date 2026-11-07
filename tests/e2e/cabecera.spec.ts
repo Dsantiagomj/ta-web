@@ -213,6 +213,16 @@ test.describe('cabecera en el móvil', () => {
     await expect(burger).toBeFocused()
   })
 
+  test('el logo del menú lleva a la portada y cierra el menú', async ({ page }) => {
+    await open(page)
+    await page.getByRole('button', { name: 'Menú' }).click()
+    const sheet = page.getByRole('dialog', { name: 'Menú' })
+    await sheet.getByRole('link', { name: 'Torrente Arcano' }).click()
+    await expect(page).toHaveURL(/\/$/)
+    await expect(sheet).toBeHidden()
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+  })
+
   test('no hay desbordamiento horizontal', async ({ page }) => {
     await open(page)
     expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBe(0)
