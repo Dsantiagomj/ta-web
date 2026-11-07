@@ -486,17 +486,35 @@ export interface NextGuideDoc {
   body?: BodyBlockDoc[] | null
 }
 
-/** La primera imagen de un cuerpo en orden de lectura: un bloque Imagen, también dentro de un paso. */
+/** La primera imagen subida de un texto, en orden de lectura, que tiene archivo y tamaño. */
+function richTextImage(content: RichTextState): ImageAsset | undefined {
+  const visit = (nodes: LexicalNode[] = []): ImageAsset | undefined => {
+    for (const node of nodes) {
+      const image =
+        node.type === 'upload' ? mediaImageAsset(node.value as Media | number) : undefined
+      const found = image ?? visit(node.children)
+      if (found) return found
+    }
+    return undefined
+  }
+  return visit(content.root.children as LexicalNode[])
+}
+
+/**
+ * La primera imagen de un cuerpo en orden de lectura, como la pinta la página: un bloque
+ * Imagen o una imagen subida dentro de un texto o un aviso, también dentro de los pasos.
+ */
 function firstImage(body: BodyBlockDoc[] | null | undefined): ImageAsset | undefined {
   for (const block of body ?? []) {
-    if (block.blockType === 'image') {
-      const image = mediaImageAsset(block.image)
-      if (image) return image
-    }
-    if (block.blockType === 'step') {
-      const image = firstImage(block.body)
-      if (image) return image
-    }
+    const image =
+      block.blockType === 'image'
+        ? mediaImageAsset(block.image)
+        : block.blockType === 'richText' || block.blockType === 'callout'
+          ? richTextImage(block.content)
+          : block.blockType === 'step'
+            ? firstImage(block.body)
+            : undefined
+    if (image) return image
   }
   return undefined
 }
