@@ -414,8 +414,11 @@ a.sib__in:focus-visible {
 
 /* ---------- En preparación: se ve, en el orden de lectura, sin enlace ---------- */
 
+/* Del ancho de su texto, también dentro de una rejilla que estira a sus hijos. */
 .ztag {
   display: inline-flex;
+  justify-self: start;
+  width: fit-content;
   align-items: center;
   height: 22px;
   margin-top: 4px;
