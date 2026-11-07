@@ -3,6 +3,7 @@ import { cookies } from 'next/headers'
 import type { ReactNode } from 'react'
 
 import { SiteFooter } from '@/components/site/SiteFooter'
+import { TOP_ANCHOR } from '@/components/site/nav'
 import { SiteHeader } from '@/components/site/SiteHeader'
 import { modeScript } from '@/lib/theme/mode-script'
 import { MODE_COOKIE, resolveMode, resolveTheme } from '@/lib/theme/theme'
@@ -24,18 +25,21 @@ export default async function FrontendLayout({ children }: { children: ReactNode
   const theme = resolveTheme(undefined, { premium: false })
   const counts = await loadSiteCounts()
 
+  // data-scroll-behavior: el desplazamiento suave (globals.css) es para las anclas de la
+  // página; Next lo apaga al cambiar de ruta, que salta arriba sin animación.
   return (
     <html
       lang="es"
       data-theme={theme}
       data-mode={mode}
+      data-scroll-behavior="smooth"
       className={fontVariables}
       suppressHydrationWarning
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: modeScript }} />
       </head>
-      <body>
+      <body id={TOP_ANCHOR}>
         <SiteHeader counts={counts} initialMode={mode} />
         {children}
         <SiteFooter year={new Date().getFullYear()} />

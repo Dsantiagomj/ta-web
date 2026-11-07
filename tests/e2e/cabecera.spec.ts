@@ -348,3 +348,60 @@ test.describe('pie', () => {
       .toBeGreaterThan(0)
   })
 })
+
+test.describe('volver arriba', () => {
+  test.use({ viewport: { width: 1440, height: 900 } })
+
+  /** Va al pie sin animación y apunta cada posición del scroll desde ahí. */
+  async function fromFooter(page: Page) {
+    await open(page)
+    const up = page.getByRole('link', { name: 'Volver arriba' })
+    await up.evaluate((link) => link.scrollIntoView({ block: 'center', behavior: 'instant' }))
+    await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(500)
+    await page.evaluate(() => {
+      const w = window as unknown as { positions: number[] }
+      w.positions = []
+      addEventListener('scroll', () => w.positions.push(scrollY))
+    })
+    await up.focus()
+    return up
+  }
+
+  const positions = (page: Page) =>
+    page.evaluate(() => (window as unknown as { positions: number[] }).positions)
+
+  test('sube con desplazamiento suave y el teclado sigue desde arriba', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'no-preference' })
+    await fromFooter(page)
+    await page.keyboard.press('Enter')
+    await expect.poll(() => page.evaluate(() => scrollY)).toBe(0)
+    // Suave: pasa por posiciones intermedias antes de llegar arriba.
+    expect((await positions(page)).filter((y) => y > 0).length).toBeGreaterThan(1)
+    await page.keyboard.press('Tab')
+    await expect(page.getByRole('link', { name: 'Saltar al contenido' })).toBeFocused()
+  })
+
+  test('con movimiento reducido, salta arriba sin animación', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await fromFooter(page)
+    await page.keyboard.press('Enter')
+    await expect.poll(() => page.evaluate(() => scrollY)).toBe(0)
+    expect((await positions(page)).filter((y) => y > 0)).toEqual([])
+  })
+
+  // El paso queda debajo de la cabecera de 64px y en la parte alta de la pantalla (su
+  // scroll-margin-top y el scroll-padding-top de html se suman).
+  test('un enlace a un paso lo deja debajo de la cabecera', async ({ page }) => {
+    await page.goto(`${url}#paso-2`)
+    const top = (id: string) =>
+      page.locator(`#${id}`).evaluate((step) => step.getBoundingClientRect().top)
+    await expect.poll(() => top('paso-2')).toBeGreaterThanOrEqual(64)
+    expect(await top('paso-2')).toBeLessThanOrEqual(200)
+
+    await page.evaluate(() => {
+      location.hash = '#paso-3'
+    })
+    await expect.poll(() => top('paso-3')).toBeGreaterThanOrEqual(64)
+    await expect.poll(() => top('paso-3')).toBeLessThanOrEqual(200)
+  })
+})

@@ -3,7 +3,7 @@ import { useId } from 'react'
 import { Lockup } from '@/components/brand/Lockup'
 
 import { SocialIcon, UpIcon } from './icons'
-import { KOFI_URL, LEGAL_LINKS, SECTIONS, social } from './nav'
+import { KOFI_URL, LEGAL_LINKS, SECTIONS, social, TOP_ANCHOR } from './nav'
 import { StaticImg } from './StaticImg'
 import { siteShellStrings } from './strings'
 import './site.css'
@@ -95,7 +95,7 @@ export function SiteFooter({ year }: { year: number }) {
               </li>
             ))}
           </ul>
-          <a className="ft-up" href="#">
+          <a className="ft-up" href={`#${TOP_ANCHOR}`}>
             <UpIcon />
             {s.up}
           </a>
