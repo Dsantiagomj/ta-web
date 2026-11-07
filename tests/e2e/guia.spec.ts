@@ -155,6 +155,7 @@ test.describe('página de guía', () => {
     await expect(bag).toHaveAttribute('aria-expanded', 'true')
     await expect(list).toBeVisible()
     // Desde 576px, un desplegable bajo el botón que no empuja el contenido.
+    await settled(page)
     const [button, popover] = [(await bag.boundingBox())!, (await list.boundingBox())!]
     expect(popover.y).toBeGreaterThan(button.y + button.height)
     expect(await list.evaluate((node) => getComputedStyle(node).position)).toBe('absolute')
