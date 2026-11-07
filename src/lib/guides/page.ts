@@ -184,7 +184,7 @@ export function prerequisiteQuestIds(guide: GuideDoc): number[] {
 }
 
 /** Un objeto o monstruo como lo pinta la página: su nombre y, si ya se importó, su icono. */
-function gameItem(doc: { name?: string | null; image?: number | Media | null }): GameItem {
+export function gameItem(doc: { name?: string | null; image?: number | Media | null }): GameItem {
   const icon = mediaImageAsset(doc.image)
   return { name: doc.name ?? '', ...(icon && { icon }) }
 }
@@ -212,7 +212,7 @@ export interface NeedNote {
   combat: boolean
 }
 
-function needNote(line: string): NeedNote {
+export function needNote(line: string): NeedNote {
   const text = rowText(line)
   const match = QUANTITY_NOTE.exec(text)
   const label = match ? match[2]! : text
