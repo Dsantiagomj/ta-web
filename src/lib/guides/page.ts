@@ -11,6 +11,7 @@ import { mediaImageAsset } from '@/lib/media/image-asset'
 import type { Media, RichTextBlock } from '@/payload-types'
 
 import { formatThousands, neededItems } from './format'
+import type { GuideStart } from './step-nav'
 import { guideStrings } from './strings'
 import type { LinkedRewards, LinkedNeeds } from './summary'
 
@@ -414,6 +415,14 @@ export function guideContent(guide: GuideDoc): GuideContent {
     })
   })
   return content
+}
+
+/** El PNJ y las coordenadas de inicio del resumen; sin PNJ o sin las dos coordenadas, nada. */
+export function guideStart(guide: GuideDoc): GuideStart | undefined {
+  const summary = guide.summary
+  const npc = summary?.startNpc?.trim()
+  if (!npc || summary?.startX == null || summary.startY == null) return undefined
+  return { npc, x: summary.startX, y: summary.startY }
 }
 
 /** Título y descripción para buscadores; sin los de la guía, los del autorrelleno. */

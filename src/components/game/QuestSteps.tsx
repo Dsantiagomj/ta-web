@@ -13,6 +13,8 @@ export interface QuestStep {
   id: string
   /** Las coordenadas del paso que su texto no nombra: van como chip al principio. */
   pin?: Coordinates
+  /** Con la chincheta, el PNJ de la frase de inicio de un paso 1 sin texto (startSentenceNpc). */
+  startNpc?: string
   content: ReactNode
 }
 
@@ -41,7 +43,15 @@ export function QuestSteps({
             <div className="qstep__body prose-guide">
               {step.pin && (
                 <p>
-                  <CoordinatesChip {...step.pin} />
+                  {step.startNpc ? (
+                    <>
+                      {s.startBefore}
+                      <strong>{step.startNpc}</strong> <CoordinatesChip {...step.pin} />
+                      {s.startAfter}
+                    </>
+                  ) : (
+                    <CoordinatesChip {...step.pin} />
+                  )}
                 </p>
               )}
               {step.content}

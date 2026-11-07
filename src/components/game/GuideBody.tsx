@@ -1,7 +1,7 @@
 import { Callout } from '@/components/ui/Callout'
 import { Figure } from '@/components/ui/Figure'
 import type { GuideBlock, GuideStep } from '@/lib/guides/page'
-import { stepAnchor, stepPin } from '@/lib/guides/step-nav'
+import { type GuideStart, startSentenceNpc, stepAnchor, stepPin } from '@/lib/guides/step-nav'
 
 import './game.css'
 import { GuideRichText } from './GuideRichText'
@@ -80,15 +80,17 @@ export function GuideBody({ blocks }: { blocks: GuideBlock[] }) {
 }
 
 /**
- * Los pasos de la guía (DESIGN.md, Steps): numerados, sin títulos ni casillas, con su
- * contenido. Las coordenadas del paso que su texto no nombra van como chip al principio.
+ * Los pasos de la guía (DESIGN.md, Steps): sin números, títulos ni casillas, con su
+ * contenido. Las coordenadas del paso que su texto no nombra van como chip al principio;
+ * en un paso 1 sin texto con las coordenadas del inicio, dentro de la frase de inicio.
  */
-export function GuideSteps({ steps }: { steps: GuideStep[] }) {
+export function GuideSteps({ steps, start }: { steps: GuideStep[]; start?: GuideStart }) {
   return (
     <QuestSteps
       steps={steps.map((step, index) => ({
         id: stepAnchor(index),
         pin: stepPin(step),
+        startNpc: index === 0 ? startSentenceNpc(step, start) : undefined,
         content: <GuideBlocks blocks={step.blocks} minHeading={3} />,
       }))}
     />

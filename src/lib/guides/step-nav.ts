@@ -39,6 +39,28 @@ export function stepPin(step: GuideStep): Coordinates | undefined {
   return named ? undefined : own
 }
 
+/** El PNJ y las coordenadas con los que empieza la misión (el resumen de la guía). */
+export interface GuideStart {
+  npc: string
+  x: number
+  y: number
+}
+
+/**
+ * El PNJ de la frase de inicio de un paso 1 sin texto. El importador quita del cuerpo
+ * «Habla con Hupe Esse [7,-19] para empezar la misión.» y lo guarda en el resumen; si el
+ * paso se quedó sin texto y sus coordenadas son las del inicio, la página vuelve a
+ * escribir esa frase en vez de dejar la chincheta sola. En cualquier otro caso, nada.
+ */
+export function startSentenceNpc(step: GuideStep, start?: GuideStart): string | undefined {
+  const own = step.coordinates
+  if (!start || !own || own.x !== start.x || own.y !== start.y) return undefined
+  const text = stepTextNodes(step)
+    .map((node) => node.text ?? '')
+    .join('')
+  return text.trim() === '' ? start.npc : undefined
+}
+
 /** El ancla de un paso por su posición: el número que dice el lector de pantalla. */
 export function stepAnchor(index: number): string {
   return `paso-${index + 1}`

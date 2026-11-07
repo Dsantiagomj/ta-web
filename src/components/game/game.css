@@ -543,7 +543,20 @@
   margin-top: 10px;
 }
 
-.torre__body li::marker {
+/* Las listas de Torre, con círculos huecos en accent, como el prototipo. Van con .torre
+   delante para ganar a las reglas de la prosa (marcador muted, disco). */
+.torre .torre__body ul {
+  display: grid;
+  gap: 10px;
+  padding-left: 1.2em;
+  list-style-type: circle;
+}
+
+.torre .torre__body li + li {
+  margin-top: 0;
+}
+
+.torre .torre__body li::marker {
   color: var(--color-accent);
 }
 

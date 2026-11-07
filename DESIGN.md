@@ -546,11 +546,12 @@ Decided 2026-11-05 (guide v4), revised 2026-11-06 (guide v5): the section is cal
 - **Screenshots** take the full width of the column, 14px radius, `--shadow-art`.
 - **Anchor**: each step is `id="paso-N"`, with `scroll-margin-top: 88px`.
 - **Step title** (the optional field of the block) is not rendered. The block's X and Y show as a chip on the first line only when the text does not already name them.
+- **Start sentence**: the importer moves a bare start line ("Habla con Hupe Esse [7,-19] para empezar la misión.") from the body to `summary.startNpc`, `startX` and `startY`, which left step 1 with only its chip. When the first step has no text, the guide has a start NPC and the step's X and Y equal the start coordinates, the page writes that line back around the chip: "Habla con **{NPC}** [x,y] para empezar la misión." Any other step 1 renders as usual (`startSentenceNpc` in `src/lib/guides/step-nav.ts`).
 
 #### Callouts and Torre's tips
 
 - **Callout** ("¡Importante!", "¡Alto!"): as the Callout row of the components table, 18px from the blocks around it inside a step.
-- **Torre's tips** (`TorreTips`): the tip callout of a guide is Torre speaking. His avatar in a 72px circle (2px `--color-well-line` ring, `alt=""`, lazy), then a speech bubble 18px away: `--color-surface`, 1px `--color-well-line`, 16px radius, `18px 22px 20px` padding, with a caret pointing at the avatar. Inside, the heading "Recomendaciones de Torre" (Montserrat 600, 1.25rem, `--color-ink`) and the text in `--color-ink`, list markers in `--color-accent`. An `<aside>` named by that heading. Under 640px the avatar (56px) sits above the bubble and the caret points up.
+- **Torre's tips** (`TorreTips`): the tip callout of a guide is Torre speaking. His avatar in a 72px circle (2px `--color-well-line` ring, `alt=""`, lazy), then a speech bubble 18px away: `--color-surface`, 1px `--color-well-line`, 16px radius, `18px 22px 20px` padding, with a caret pointing at the avatar. Inside, the heading "Recomendaciones de Torre" (Montserrat 600, 1.25rem, `--color-ink`) and the text in `--color-ink`; its lists have hollow circle markers in `--color-accent`, items 10px apart. An `<aside>` named by that heading. Under 640px the avatar (56px) sits above the bubble and the caret points up.
 - The importer turns "NOTA" paragraphs and Torre's "RECOMENDACIONES" sections into tips (`README.md`, Guide import notes).
 
 #### Figure and fullscreen viewer

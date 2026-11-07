@@ -185,6 +185,41 @@ describe('GuideSteps', () => {
     expect(markup).toContain('<p><span class="coord" data-copy="/travel 3,-17"')
   })
 
+  describe('la frase de inicio del paso 1', () => {
+    const start = { npc: 'Hupe Esse', x: 7, y: -19 }
+    // Un paso 1 importado sin texto: el importador pasó «Habla con Hupe Esse [7,-19] para
+    // empezar la misión.» al resumen y solo quedan la captura y las coordenadas del paso.
+    const bare: GuideStep = { key: 'p1', coordinates: { x: 7, y: -19 }, blocks: [] }
+
+    it('sin texto y con las coordenadas del inicio, pinta la frase con el PNJ y la chincheta', () => {
+      const markup = html(<GuideSteps steps={[bare, steps[1]!]} start={start} />)
+      expect(markup).toMatch(
+        /<div class="qstep__body prose-guide"><p>Habla con <strong>Hupe Esse<\/strong> <span class="coord" data-copy="\/travel 7,-19"[^]*?<\/span> para empezar la misión\.<\/p>/,
+      )
+      expect(markup.match(/data-copy="\/travel 7,-19"/g)).toHaveLength(1)
+    })
+
+    it('con otras coordenadas, solo la chincheta, como siempre', () => {
+      const other = { ...bare, coordinates: { x: 1, y: -17 } }
+      const markup = html(<GuideSteps steps={[other]} start={start} />)
+      expect(markup).not.toContain('para empezar la misión')
+      expect(markup).toContain('<p><span class="coord" data-copy="/travel 1,-17"')
+    })
+
+    it('si el paso 1 tiene texto, o no hay PNJ de inicio, no se añade nada', () => {
+      expect(html(<GuideSteps steps={steps} start={start} />)).not.toContain(
+        'para empezar la misión',
+      )
+      expect(html(<GuideSteps steps={[bare]} />)).not.toContain('para empezar la misión')
+      expect(html(<GuideSteps steps={[bare]} />)).toContain('<p><span class="coord"')
+    })
+
+    it('solo en el primer paso', () => {
+      const markup = html(<GuideSteps steps={[steps[1]!, bare]} start={start} />)
+      expect(markup).not.toContain('para empezar la misión')
+    })
+  })
+
   it('un aviso es «¡Importante!» y un consejo, las recomendaciones de Torre', () => {
     const markup = html(<GuideSteps steps={steps} />)
     expect(markup).toContain('role="note"')
