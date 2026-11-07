@@ -128,10 +128,26 @@ export async function groupValues(
   })
   if (!category) return null
   const parent = typeof category.parent === 'object' ? category.parent : null
+  // La raíz, subiendo por las madres (Misiones o Eventos): decide si es de temporada.
+  let root = parent
+  for (let depth = 0; root && root.parent != null && depth < 10; depth += 1) {
+    root = await payload.findByID({
+      collection: 'achievement-categories',
+      id: relationId(root.parent as number | { id: number })!,
+      depth: 0,
+      disableErrors: true,
+      overrideAccess: true,
+      req,
+    })
+  }
   return {
     name: category.name,
     order: category.order ?? null,
-    section: groupSection({ order: category.order, parentDofusId: parent?.dofusId ?? null }),
+    section: groupSection({
+      order: category.order,
+      parentDofusId: parent?.dofusId ?? null,
+      rootDofusId: root?.dofusId ?? null,
+    }),
     representative: await firstQuestGiver(payload, category.id, req),
   }
 }
