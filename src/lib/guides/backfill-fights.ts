@@ -1,6 +1,6 @@
 // Convierte los combates de las guías ya importadas (DESIGN.md, Monster chip and fight block):
 // las listas «N x Monstruo» después de «lucha contra» pasan a un bloque Combate, como hace
-// ahora el importador. Lo usa scripts/backfill-fights.ts (pnpm guides:fights).
+// ahora el importador. Lo usa scripts/backfill-guides.ts (pnpm guides:backfill).
 import type { Payload } from 'payload'
 
 import type { QuestGuide } from '../../payload-types'
