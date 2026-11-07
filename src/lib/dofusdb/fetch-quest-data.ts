@@ -29,7 +29,8 @@ export interface QuestData {
 // Los campos de cada objeto que se guardan. Con typeId, DofusDB añade el tipo, que trae
 // el supertipo; la fila entera pesa unas ocho veces más.
 const ITEM_FIELDS = ['id', 'name', 'level', 'typeId', 'iconId', 'type']
-// Con cada logro, DofusDB añade sus objetivos y sus recompensas aunque no se pidan.
+// objectiveIds y rewardIds hacen que DofusDB añada a cada logro sus objetivos y sus
+// recompensas; sin ellos en $select no llegan.
 const ACHIEVEMENT_FIELDS = [
   'id',
   'name',
@@ -40,6 +41,8 @@ const ACHIEVEMENT_FIELDS = [
   'points',
   'level',
   'order',
+  'objectiveIds',
+  'rewardIds',
 ]
 const CATEGORY_FIELDS = ['id', 'name', 'parentId', 'order']
 const MONSTER_FIELDS = ['id', 'name', 'gfxId']

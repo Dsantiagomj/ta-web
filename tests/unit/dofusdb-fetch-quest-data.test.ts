@@ -106,7 +106,7 @@ describe('fetchQuestData', () => {
 
     expect(data.achievementCategories).toEqual(categories)
     expect(selects['achievement-categories']).toEqual(['id', 'name', 'parentId', 'order'])
-    // DofusDB añade a cada logro sus objetivos y sus recompensas aunque no se pidan.
+    // Con objectiveIds y rewardIds, DofusDB añade a cada logro sus objetivos y recompensas.
     expect(selects.achievements).toEqual([
       'id',
       'name',
@@ -117,6 +117,8 @@ describe('fetchQuestData', () => {
       'points',
       'level',
       'order',
+      'objectiveIds',
+      'rewardIds',
     ])
   })
 })
