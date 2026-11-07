@@ -223,9 +223,14 @@ test.describe('cabecera en el móvil', () => {
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
   })
 
-  test('no hay desbordamiento horizontal', async ({ page }) => {
+  test('no hay desbordamiento horizontal, tampoco a 320px', async ({ page }) => {
     await open(page)
     expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBe(0)
+    await page.setViewportSize({ width: 320, height: 640 })
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBe(0)
+    const bar = (await page.locator('.site-hdr__in').boundingBox())!
+    const burger = (await page.getByRole('button', { name: 'Menú' }).boundingBox())!
+    expect(burger.x + burger.width).toBeLessThanOrEqual(bar.x + bar.width + 1)
   })
 })
 
@@ -264,6 +269,29 @@ test.describe('pie', () => {
     const external = hrefs.filter((h) => h && h !== '#' && h !== '/')
     expect(new Set(external).size).toBe(external.length)
     expect(hrefs.join(' ')).not.toMatch(/instagram/i)
+  })
+
+  test('ningún icono del juego se pinta más grande que su archivo', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await open(page)
+    for (const key of ['misiones', 'dofus', 'clases', 'mazmorras']) {
+      await page.locator(`.np[aria-controls="menu-${key}"]`).click()
+      const panel = page.locator(`#menu-${key}`)
+      for (const img of await panel.locator('img').all()) {
+        await expect
+          .poll(() => img.evaluate((node: HTMLImageElement) => node.complete && node.naturalWidth))
+          .toBeGreaterThan(0)
+      }
+      const sizes = await panel
+        .locator('img')
+        .evaluateAll((imgs) =>
+          (imgs as HTMLImageElement[]).map((img) => [img.clientWidth, img.naturalWidth, img.src]),
+        )
+      for (const [drawn, natural, src] of sizes) {
+        expect(drawn as number, src as string).toBeLessThanOrEqual(natural as number)
+      }
+      await page.keyboard.press('Escape')
+    }
   })
 
   test('la imagen de Torre carga', async ({ page }) => {

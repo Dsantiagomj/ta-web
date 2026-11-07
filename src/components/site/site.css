@@ -101,6 +101,21 @@ html {
   margin-left: auto;
 }
 
+/* A 320px (o con mucho zoom) la barra se aprieta para no desbordar. */
+@media (max-width: 22.49rem) {
+  .site-hdr {
+    margin-inline: 8px !important;
+  }
+
+  .site-hdr__act {
+    gap: 0 !important;
+  }
+
+  .site-hdr .ib {
+    width: 40px;
+  }
+}
+
 @media (max-width: 47.99rem) {
   .site-hdr {
     top: 12px;
@@ -428,8 +443,10 @@ html {
 }
 
 .site-well img {
-  width: 28px;
-  height: 28px;
+  width: auto;
+  max-width: 28px;
+  height: auto;
+  max-height: 28px;
   object-fit: contain;
 }
 
@@ -444,8 +461,10 @@ html {
 }
 
 .site-well--lg img {
-  width: 36px;
-  height: 36px;
+  width: auto;
+  max-width: 36px;
+  height: auto;
+  max-height: 36px;
 }
 
 .site-well--xl {
@@ -456,8 +475,10 @@ html {
 }
 
 .site-well--xl img {
-  width: 46px;
-  height: 46px;
+  width: auto;
+  max-width: 46px;
+  height: auto;
+  max-height: 46px;
 }
 
 .all-link {
@@ -1078,8 +1099,10 @@ html {
 }
 
 .sdlg__list .site-well img {
-  width: 26px;
-  height: 26px;
+  width: auto;
+  max-width: 26px;
+  height: auto;
+  max-height: 26px;
 }
 
 /* ================= pie ================= */

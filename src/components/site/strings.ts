@@ -33,7 +33,12 @@ export const siteShellStrings = {
   panels: {
     misionesBlurb: (guides: number, achievements: number) =>
       [
-        guides === 1 ? ' misión paso a paso, en su ' : ' misiones paso a paso, ordenadas en sus ',
+        (guides === 1 ? ' misión paso a paso' : ' misiones paso a paso') +
+          (achievements === 1
+            ? ', en '
+            : guides === 1
+              ? ', ordenada en sus '
+              : ', ordenadas en sus '),
         achievements === 1 ? ' logro.' : ' logros.',
       ] as const,
     misionesSearch: 'Buscar una sección',

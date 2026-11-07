@@ -132,7 +132,14 @@ describe('SiteHeader', () => {
 
   it('con una sola guía o un solo logro, en singular', () => {
     const markup = html(<SiteHeader counts={{ guides: 1, achievements: 1 }} initialMode="dark" />)
-    expect(markup).toContain('<b>1</b> misión paso a paso, en su <b>1</b> logro.')
+    expect(markup).toContain('<b>1</b> misión paso a paso, en <b>1</b> logro.')
+  })
+
+  it('el singular y el plural de cada cifra van por separado', () => {
+    const markup = html(<SiteHeader counts={{ guides: 3, achievements: 1 }} initialMode="dark" />)
+    expect(markup).toContain('<b>3</b> misiones paso a paso, en <b>1</b> logro.')
+    const other = html(<SiteHeader counts={{ guides: 1, achievements: 2 }} initialMode="dark" />)
+    expect(other).toContain('<b>1</b> misión paso a paso, ordenada en sus <b>2</b> logros.')
   })
 
   it('el panel de Misiones no repite el enlace a los metalogros', () => {
