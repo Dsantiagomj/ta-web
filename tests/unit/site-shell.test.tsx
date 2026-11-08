@@ -62,6 +62,11 @@ describe('los datos del menú', () => {
       'mazmorras',
     ])
   })
+
+  it('Misiones lleva al índice de metalogros de la app, no a la web de Torre', () => {
+    // La portada enlaza su bloque de misiones con esta misma dirección.
+    expect(SECTIONS.find((s) => s.key === 'misiones')?.href).toBe('/metalogros')
+  })
 })
 
 describe('la búsqueda del menú', () => {
