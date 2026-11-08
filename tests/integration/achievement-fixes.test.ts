@@ -132,6 +132,26 @@ afterAll(async () => {
 })
 
 describe('arreglos puntuales de los metalogros', () => {
+  it('sin --apply no importa el PNJ que falta: solo dice que lo traería de DofusDB', async () => {
+    let imports = 0
+    const report = await applyAchievementFixes(payload, {
+      fixes: {
+        representatives: [{ group: 'metalogro-alineamiento', npc: 777001 }],
+        pages: [],
+        guides: [],
+      },
+      apply: false,
+      ensureNpc: async () => {
+        imports += 1
+        return amayiro.id
+      },
+    })
+    expect(imports).toBe(0)
+    expect(report.changes).toEqual([
+      'Alineamiento: representante PNJ 777001 de DofusDB (se importará al aplicar)',
+    ])
+  })
+
   it('sin --apply dice lo que cambiaría y no escribe nada', async () => {
     const report = await applyAchievementFixes(payload, {
       fixes,
