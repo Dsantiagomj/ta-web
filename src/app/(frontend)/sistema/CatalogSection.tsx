@@ -13,6 +13,7 @@ import { QuestSteps } from '@/components/game/QuestSteps'
 import { TorreTips } from '@/components/game/TorreTips'
 import { VideoFacade } from '@/components/game/VideoFacade'
 import { CopyIcon } from '@/components/game/icons'
+import { Amount } from '@/components/ui/Amount'
 import { Button, ButtonLink } from '@/components/ui/Button'
 import { Callout } from '@/components/ui/Callout'
 import { Card } from '@/components/ui/Card'
@@ -153,6 +154,12 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
           </Group>
 
           <Group name="figures">
+            <p className="text-ink-2">
+              <b className="text-ink">
+                <Amount value={d.siteCounts.guides} />
+              </b>
+              {d.amountUnit}
+            </p>
             <StatTile value={guide.reward.xp} label={samples.stats.xp} />
             <StatTile value={guide.reward.kamas} label={samples.stats.kamas} />
             <div className="grid w-full gap-3">
