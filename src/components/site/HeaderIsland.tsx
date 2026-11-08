@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { DoorIcon, SearchIcon } from './icons'
 import type { SearchEntry } from './nav'
-import type { GuidesState } from './search'
+import type { GuidesState, SiteEntries } from './search'
 import { searchDialogStrings } from './search-strings'
 
 const s = searchDialogStrings
@@ -69,9 +69,10 @@ const typing = (target: EventTarget | null) =>
  * La isla de la cabecera (DESIGN.md, Layout: Header y Search dialog). Escucha con
  * delegación: abre y cierra los paneles del menú (Esc, clic fuera o el foco que sale los
  * cierran), el menú del móvil y sus secciones, y la búsqueda (Ctrl K o /). La búsqueda
- * encuentra lo que enlaza el menú y las guías de misiones publicadas. La primera vez que
+ * encuentra lo que enlaza el menú, las guías de misiones, las páginas de logro publicadas y
+ * los metalogros. La primera vez que
  * se abre (nunca al cargar la página) carga con import() la búsqueda y sus resultados
- * (SearchList.tsx y search.ts) y pide el índice de las guías; los guarda en memoria. Marca
+ * (SearchList.tsx y search.ts) y pide el índice de la búsqueda; los guarda en memoria. Marca
  * la cabecera al bajar la página para que pase a opaca.
  */
 export function HeaderIsland({ index }: { index: SearchEntry[] }) {
@@ -82,10 +83,10 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
   const [search, setSearch] = useState<{
     state: GuidesState
     run?: typeof import('./SearchList')
-    quests?: SearchEntry[]
+    entries?: SiteEntries
   }>({ state: 'idle' })
   const results = useMemo(
-    () => search.run?.searchSite(index, search.quests ?? [], query),
+    () => search.run?.searchSite(index, search.entries, query),
     [search, index, query],
   )
 
@@ -106,9 +107,9 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
       import('./SearchList')
         .then(async (run) => {
           if (active) setSearch({ state: 'loading', run })
-          const quests = await run.loadQuestEntries()
+          const entries = await run.loadEntries()
           request = 'ready'
-          if (active) setSearch({ state: 'ready', run, quests })
+          if (active) setSearch({ state: 'ready', run, entries })
         })
         .catch(() => {
           request = 'idle'
@@ -233,8 +234,7 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
     ? search.run.searchStatus({
         query,
         guides: search.state,
-        questTotal: results?.questTotal ?? 0,
-        navCount: results?.navCount ?? 0,
+        results,
         notes: s,
       })
     : search.state === 'error'

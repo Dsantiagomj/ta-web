@@ -179,14 +179,15 @@ export const LEGAL_LINKS: NavLink[] = [
   { name: t.legal.privacy, href: legacyHref('politica-de-privacidad') },
 ]
 
-export type SearchType = 'mision' | 'seccion' | 'dofus' | 'checklist' | 'clase' | 'mazmorra'
+export type SearchType =
+  'mision' | 'logro' | 'metalogro' | 'seccion' | 'dofus' | 'checklist' | 'clase' | 'mazmorra'
 
 export interface SearchEntry {
   type: SearchType
   name: string
   href: string
   image?: GameImage
-  /** La segunda línea del resultado: el nivel y el logro de una misión. */
+  /** La segunda línea del resultado: el nivel y el logro de una misión, el metalogro de un logro. */
   detail?: string
 }
 

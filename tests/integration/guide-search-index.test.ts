@@ -1,7 +1,7 @@
 import type { Payload } from 'payload'
 import { beforeAll, describe, expect, it } from 'vitest'
 
-import { readGuideSearchIndex } from '@/lib/search/guide-index'
+import { readSearchIndex } from '@/lib/search/read-index'
 
 import { startPayload } from './payload'
 
@@ -21,7 +21,7 @@ describe('el índice de búsqueda de las guías', () => {
     })
 
   const bySlug = async () => {
-    const { guides } = await readGuideSearchIndex(payload)
+    const { guides } = await readSearchIndex(payload)
     return new Map(guides.map((row) => [row[1], row]))
   }
 
@@ -98,7 +98,7 @@ describe('el índice de búsqueda de las guías', () => {
   })
 
   it('cada guía sale una vez, ordenadas por título', async () => {
-    const { guides } = await readGuideSearchIndex(payload)
+    const { guides } = await readSearchIndex(payload)
     const slugs = guides.map((row) => row[1])
     expect(new Set(slugs).size).toBe(slugs.length)
     const titles = guides.map((row) => row[0])

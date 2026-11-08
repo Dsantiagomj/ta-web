@@ -1,10 +1,10 @@
-// El motor de la búsqueda de misiones (DESIGN.md, Layout: Search): lo comparten el diálogo
-// de la cabecera y la búsqueda de la portada. Sin React ni DOM. Las dos islas lo cargan con
-// import() la primera vez que hace falta, a la vez que el índice de las guías: así no pesa
-// en el JavaScript inicial de ninguna página (150 KB).
+// El motor de la búsqueda de misiones y logros (DESIGN.md, Layout: Search): lo comparten el
+// diálogo de la cabecera y la búsqueda de la portada. Sin React ni DOM. Las dos islas lo
+// cargan con import() la primera vez que hace falta, a la vez que el índice de la búsqueda:
+// así no pesa en el JavaScript inicial de ninguna página (150 KB).
 
 import { GAME_ICONS } from '@/components/game/game-icons'
-import { GUIDE_SEARCH_INDEX_URL, type GuideSearchIndex } from '@/lib/search/guide-index'
+import { GUIDE_SEARCH_INDEX_URL, type SearchIndex } from '@/lib/search/guide-index'
 
 import type { SearchEntry, SearchType } from './nav'
 import { queryKind } from './search-query'
@@ -17,12 +17,30 @@ export interface SearchGroup {
   items: SearchEntry[]
 }
 
+/** Lo que llega del índice del servidor, ya como entradas de la búsqueda. */
+export interface SiteEntries {
+  quests: SearchEntry[]
+  achievements: SearchEntry[]
+  metalogros: SearchEntry[]
+}
+
+/** Lo que se busca en el índice del servidor, cada cosa en su grupo. */
+type FoundType = 'mision' | 'logro' | 'metalogro'
+
 export interface SearchResults {
   groups: SearchGroup[]
-  /** Las misiones que encajan, se vean o no. */
-  questTotal: number
+  /** Las misiones, los logros y los metalogros que encajan, se vean o no. */
+  totals: Record<FoundType, number>
   /** Lo que encontró en el menú. */
   navCount: number
+}
+
+/** Lo que busca la portada: lo del servidor, sin el menú, y en una lista para el teclado. */
+export interface HeroResults {
+  groups: SearchGroup[]
+  /** Las opciones en el orden en que se ven: las flechas las recorren así. */
+  items: SearchEntry[]
+  status: string
 }
 
 /** Hasta aquí se ven todas las misiones; con más, la línea pide seguir escribiendo. */
@@ -53,10 +71,57 @@ export function searchNav(index: SearchEntry[], query: string): SearchGroup[] {
   )
 }
 
-/** Las guías del índice del servidor como entradas de la búsqueda, con su segunda línea. */
-export function questEntries(index: GuideSearchIndex): SearchEntry[] {
+// Un metalogro se abre en su panel del índice (src/lib/achievements/page.ts, metalogroHref).
+const METALOGROS_PATH = '/metalogros'
+
+/** Las filas opcionales del índice: si están, tienen que ser una lista. */
+const rows = <T>(value: T[] | undefined, what: string): T[] => {
+  if (value === undefined) return []
+  if (!Array.isArray(value)) throw new Error(`Índice de ${what} no válido`)
+  return value
+}
+
+/**
+ * El índice del servidor como entradas de la búsqueda, con su segunda línea: las guías, las
+ * páginas de logro publicadas y los metalogros que se abren.
+ */
+export function siteEntries(index: SearchIndex): SiteEntries {
   if (!Array.isArray(index?.guides)) throw new Error('Índice de guías no válido')
-  return index.guides.map((row) => {
+  const achievements = rows(index.achievements, 'logros').map((row): SearchEntry => {
+    const [name, slug, group, quests] = row
+    if (typeof name !== 'string' || typeof slug !== 'string' || typeof group !== 'string') {
+      throw new Error('Logro no válido en el índice')
+    }
+    const detail = [group, typeof quests === 'number' && quests ? s.count(quests) : null]
+      .filter(Boolean)
+      .join(' · ')
+    return {
+      type: 'logro',
+      name,
+      href: `/${slug}`,
+      image: GAME_ICONS.achievement,
+      ...(detail && { detail }),
+    }
+  })
+  const metalogros = rows(index.metalogros, 'metalogros').map((row): SearchEntry => {
+    const [name, anchor, counts] = row
+    if (typeof name !== 'string' || typeof anchor !== 'string') {
+      throw new Error('Metalogro no válido en el índice')
+    }
+    return {
+      type: 'metalogro',
+      name,
+      href: `${METALOGROS_PATH}#${anchor}`,
+      image: GAME_ICONS.achievement,
+      ...(typeof counts === 'string' && counts && { detail: counts }),
+    }
+  })
+  return { quests: questEntries(index.guides), achievements, metalogros }
+}
+
+/** Las guías del índice del servidor como entradas de la búsqueda, con su segunda línea. */
+function questEntries(guides: SearchIndex['guides']): SearchEntry[] {
+  return guides.map((row) => {
     const [name, slug, achievement, level] = row
     if (typeof name !== 'string' || typeof slug !== 'string') {
       throw new Error('Guía no válida en el índice')
@@ -74,25 +139,25 @@ export function questEntries(index: GuideSearchIndex): SearchEntry[] {
 
 // Una sola petición por página: si la portada ya pidió el índice, el diálogo usa la misma
 // promesa, y al revés. Si falla, la siguiente vez se pide otra vez.
-let questRequest: Promise<SearchEntry[]> | null = null
+let request: Promise<SiteEntries> | null = null
 
-/** Pide el índice de las guías publicadas, una vez, y lo convierte en entradas. */
-export function loadQuestEntries(): Promise<SearchEntry[]> {
-  questRequest ??= fetch(GUIDE_SEARCH_INDEX_URL)
+/** Pide el índice de la búsqueda, una vez, y lo convierte en entradas. */
+export function loadEntries(): Promise<SiteEntries> {
+  request ??= fetch(GUIDE_SEARCH_INDEX_URL)
     .then(async (response) => {
       if (!response.ok) throw new Error(`HTTP ${response.status}`)
-      return questEntries((await response.json()) as GuideSearchIndex)
+      return siteEntries((await response.json()) as SearchIndex)
     })
     .catch((error: unknown) => {
-      questRequest = null
+      request = null
       throw error
     })
-  return questRequest
+  return request
 }
 
 /** Para las pruebas: olvida el índice pedido. */
-export function resetQuestEntries() {
-  questRequest = null
+export function resetEntries() {
+  request = null
 }
 
 const escape = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -113,12 +178,12 @@ function score(name: string, terms: string[]): number | null {
 }
 
 /**
- * Las misiones que encajan, de la que mejor a la que peor (a igualdad, la más corta y luego
- * por orden alfabético). Se ven todas hasta MANY_QUESTS; con más, las SHOWN_WHEN_MANY mejores.
+ * Lo que encaja, de lo que mejor a lo que peor (a igualdad, lo más corto y luego por orden
+ * alfabético). Se ve todo hasta MANY_QUESTS; con más, lo SHOWN_WHEN_MANY mejor.
  */
-export function rankQuests(quests: SearchEntry[], query: string) {
+function rank(entries: SearchEntry[], query: string) {
   const terms = words(query)
-  const matched = quests
+  const matched = entries
     .map((entry) => ({ entry, score: score(entry.name, terms) }))
     .filter((m): m is { entry: SearchEntry; score: number } => m.score !== null)
     .sort(
@@ -135,27 +200,67 @@ export function rankQuests(quests: SearchEntry[], query: string) {
   }
 }
 
+// Los grupos del índice del servidor, en su orden a igualdad: lo que más se busca primero.
+const FOUND: [FoundType, keyof SiteEntries][] = [
+  ['mision', 'quests'],
+  ['logro', 'achievements'],
+  ['metalogro', 'metalogros'],
+]
+
+type Ranked = { group: SearchGroup; best: number; rank: number }
+
+/** Las misiones, los logros y los metalogros que encajan, cada cosa en su grupo. */
+function rankFound(entries: SiteEntries | undefined, query: string) {
+  const totals: Record<FoundType, number> = { mision: 0, logro: 0, metalogro: 0 }
+  const groups: Ranked[] = []
+  FOUND.forEach(([type, key], rankIndex) => {
+    const found = rank(entries?.[key] ?? [], query)
+    totals[type] = found.total
+    if (found.best !== null) {
+      groups.push({ group: { type, items: found.items }, best: found.best, rank: rankIndex })
+    }
+  })
+  return { groups, totals }
+}
+
+const byScore = (a: Ranked, b: Ranked) => a.best - b.best || a.rank - b.rank
+
 /**
- * La búsqueda del diálogo: el menú y las guías de misiones. Los grupos van del que mejor
- * encaja al que peor; a igualdad, las misiones primero, que es lo que más se busca, y el
- * resto en el orden del menú. Con menos de dos letras no busca.
+ * La búsqueda del diálogo: el menú, las guías de misiones, las páginas de logro y los
+ * metalogros. Los grupos van del que mejor encaja al que peor; a igualdad, las misiones
+ * primero, que es lo que más se busca, luego los logros, los metalogros y el resto en el
+ * orden del menú. Con menos de dos letras no busca.
  */
 export function searchSite(
   index: SearchEntry[],
-  quests: SearchEntry[],
+  entries: SiteEntries | undefined,
   query: string,
 ): SearchResults {
-  if (queryKind(query) !== 'search') return { groups: [], questTotal: 0, navCount: 0 }
-  const terms = words(query)
-  const quest = rankQuests(quests, query)
-  const best = (group: SearchGroup) => Math.min(...group.items.map((e) => score(e.name, terms)!))
-  const groups = searchNav(index, query).map((group) => ({ group, best: best(group), rank: 1 }))
-  const navCount = groups.reduce((n, g) => n + g.group.items.length, 0)
-  if (quest.best !== null) {
-    groups.push({ group: { type: 'mision', items: quest.items }, best: quest.best, rank: 0 })
+  if (queryKind(query) !== 'search') {
+    return { groups: [], totals: { mision: 0, logro: 0, metalogro: 0 }, navCount: 0 }
   }
-  groups.sort((a, b) => a.best - b.best || a.rank - b.rank)
-  return { groups: groups.map((g) => g.group), questTotal: quest.total, navCount }
+  const terms = words(query)
+  const best = (group: SearchGroup) => Math.min(...group.items.map((e) => score(e.name, terms)!))
+  const found = rankFound(entries, query)
+  const nav = searchNav(index, query).map((group) => ({
+    group,
+    best: best(group),
+    rank: FOUND.length,
+  }))
+  const navCount = nav.reduce((n, g) => n + g.group.items.length, 0)
+  const groups = [...found.groups, ...nav].sort(byScore)
+  return { groups: groups.map((g) => g.group), totals: found.totals, navCount }
+}
+
+/** La búsqueda de la portada: lo mismo sin el menú, con su línea de estado. */
+export function heroResults(entries: SiteEntries, query: string): HeroResults {
+  const found = rankFound(entries, query)
+  const groups = found.groups.sort(byScore).map((g) => g.group)
+  return {
+    groups,
+    items: groups.flatMap((group) => group.items),
+    status: questStatus(query, found.totals),
+  }
 }
 
 /** Un trozo del nombre: lo que encaja va marcado (<mark>). */
@@ -195,12 +300,20 @@ export function highlight(name: string, terms: string[]): HighlightPart[] {
   return parts
 }
 
-/** Lo que encontró, en la línea de estado: las misiones y, en el diálogo, lo del menú. */
-export function questStatus(query: string, questTotal: number, navCount = 0): string {
+/**
+ * Lo que encontró, en la línea de estado: las misiones, los logros, los metalogros y, en el
+ * diálogo, lo del menú. Sin misiones ni logros, lo del menú va tras «Ninguna misión».
+ */
+function questStatus(query: string, totals: Record<FoundType, number>, navCount = 0): string {
   const nav = navCount ? s.nav(navCount) : ''
-  if (questTotal === 0) return nav ? s.noneWithNav(nav) : s.none(query.trim())
-  const head = questTotal > MANY_QUESTS ? s.many(MANY_QUESTS) : s.count(questTotal)
-  return nav ? `${head} · ${nav}` : head
+  const quests = totals.mision
+  const parts = [
+    quests ? (quests > MANY_QUESTS ? s.many(MANY_QUESTS) : s.count(quests)) : '',
+    totals.logro ? s.achievements(totals.logro) : '',
+    totals.metalogro ? s.metalogros(totals.metalogro) : '',
+  ].filter(Boolean)
+  if (parts.length === 0) return nav ? s.noneWithNav(nav) : s.none(query.trim())
+  return [...parts, nav].filter(Boolean).join(' · ')
 }
 
 export type GuidesState = 'idle' | 'loading' | 'ready' | 'error'
@@ -214,19 +327,22 @@ export type GuidesState = 'idle' | 'loading' | 'ready' | 'error'
 export function searchStatus({
   query,
   guides,
-  questTotal,
-  navCount,
+  results,
   notes,
 }: {
   query: string
   guides: GuidesState
-  questTotal: number
-  navCount: number
+  results?: SearchResults
   notes: { hint: string; guidesLoading: string; guidesError: string }
 }): string {
   const kind = queryKind(query)
   if (kind === 'hint') return notes.hint
   if (guides === 'error') return notes.guidesError
   if (guides !== 'ready') return kind === 'empty' && guides === 'idle' ? '' : notes.guidesLoading
-  return kind === 'empty' ? '' : questStatus(query, questTotal, navCount)
+  if (kind === 'empty') return ''
+  return questStatus(
+    query,
+    results?.totals ?? { mision: 0, logro: 0, metalogro: 0 },
+    results?.navCount ?? 0,
+  )
 }

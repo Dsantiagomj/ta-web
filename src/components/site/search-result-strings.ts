@@ -10,8 +10,12 @@ export const searchResultStrings = {
   nav: (n: number) => (n === 1 ? '1 resultado del menú' : `${n} resultados del menú`),
   noneWithNav: (nav: string) => `Ninguna misión; ${nav}.`,
   level: (level: number) => `Nivel ${level}`,
+  achievements: (n: number) => (n === 1 ? '1 logro' : `${n} logros`),
+  metalogros: (n: number) => (n === 1 ? '1 metalogro' : `${n} metalogros`),
   types: {
     mision: 'Misiones',
+    logro: 'Logros',
+    metalogro: 'Metalogros',
     seccion: 'Secciones',
     dofus: 'Dofus',
     checklist: 'Checklists',

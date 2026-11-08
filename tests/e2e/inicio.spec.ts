@@ -16,7 +16,7 @@ async function open(page: Page) {
 }
 
 const field = (page: Page) => page.getByRole('combobox', { name: '¿Qué misión estás haciendo?' })
-const list = (page: Page) => page.getByRole('listbox', { name: 'Misiones' })
+const list = (page: Page) => page.getByRole('listbox', { name: 'Resultados' })
 const shown = (page: Page) => page.locator('.cbx__st')
 
 async function axe(page: Page) {
@@ -244,9 +244,40 @@ test.describe('portada', () => {
       }
       await expect(shown(page)).toHaveText('1 misión')
       expect(await axe(page)).toEqual([])
+      // Con misiones y logros, cada grupo lleva su título.
+      await field(page).fill('hace')
+      await expect(shown(page)).toHaveText('1 misión · 1 logro')
+      expect(await axe(page)).toEqual([])
       await field(page).fill('zzzz')
       expect(await axe(page)).toEqual([])
     }
+  })
+
+  test('encuentra los logros publicados, en su grupo, y las flechas los recorren', async ({
+    page,
+  }) => {
+    await open(page)
+    await field(page).fill('hace')
+    await expect(shown(page)).toHaveText('1 misión · 1 logro')
+    const groups = list(page).getByRole('group')
+    await expect(groups).toHaveCount(2)
+    await expect(list(page).getByRole('group', { name: 'Misiones' })).toContainText(
+      'Esto hace aguas',
+    )
+    const logros = list(page).getByRole('group', { name: 'Logros' })
+    await expect(logros.getByRole('option')).toHaveText(/La ocasión hace al ladrón/)
+    await expect(logros.getByRole('option')).toContainText('Astrub · 3 misiones')
+    // Lo que está En preparación no se busca.
+    await field(page).fill('biblioteca')
+    await expect(shown(page)).toHaveText(/^Ninguna misión se llama «biblioteca»/)
+    // Las flechas pasan de un grupo al otro; Intro abre la página del logro.
+    await field(page).fill('hace')
+    await expect(groups).toHaveCount(2)
+    await page.keyboard.press('ArrowDown')
+    await page.keyboard.press('ArrowDown')
+    await expect(logros.getByRole('option')).toHaveAttribute('aria-selected', 'true')
+    await page.keyboard.press('Enter')
+    await expect(page).toHaveURL(/\/la-ocasion-hace-al-ladron$/)
   })
 })
 
