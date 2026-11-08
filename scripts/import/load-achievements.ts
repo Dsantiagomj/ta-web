@@ -185,7 +185,9 @@ export async function importTorreAchievements(
       if (docs[0]) report.pages.updated += 1
       else report.pages.created += 1
       if (!apply || !group) continue
+      // El nombre de Torre, que puede no ser el del juego (los alias de arriba).
       const pageData = {
+        name: link.name,
         slug: slugOf(link.href),
         order: listed.size,
         group: group.id,
