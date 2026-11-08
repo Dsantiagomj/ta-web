@@ -1,4 +1,5 @@
 import { formatAmount } from '../guides/display'
+import { indexIslandStrings } from './index-strings'
 
 // Textos de las páginas de logro y de los metalogros: el panel, la página del logro y el
 // índice de metalogros.
@@ -65,18 +66,16 @@ export const achievementPageStrings = {
 
 /** El índice de metalogros, /metalogros (DESIGN.md, Metalogros index). */
 export const metalogrosStrings = {
+  ...indexIslandStrings,
   title: 'Todos los metalogros',
   lead: 'Busca una zona, un logro o una misión, o elige una zona para ver sus logros.',
   zones: (count: number) => (count === 1 ? '1 zona' : `${formatAmount(count)} zonas`),
   achievements: (count: number) => (count === 1 ? '1 logro' : `${formatAmount(count)} logros`),
   quests: (count: number) => (count === 1 ? '1 misión' : `${formatAmount(count)} misiones`),
-  /** Lo que es cada resultado del buscador. */
-  kinds: { zone: 'Zona', achievement: 'Logro', quest: 'Misión' },
   questResult: (position: number, achievement: string, zone: string) =>
     `→ misión ${position} de ${achievement} · ${zone}`,
   level: (level: number) => `Niv. ${level}`,
   levels: (min: number, max: number) => `Niv. ${min}–${max}`,
-  preparing: 'En preparación',
   prepPartial: (missing: number, total: number) =>
     `En preparación: ${missing} de sus ${total} logros`,
   sectionDescriptions: {
@@ -89,10 +88,6 @@ export const metalogrosStrings = {
   searchLabel: 'Busca una zona, un logro o una misión',
   searchPlaceholder: 'Por ejemplo, Esto hace aguas',
   results: 'Resultados',
-  resultsCount: (count: number) => (count === 1 ? '1 resultado' : `${count} resultados`),
-  noResults: (query: string) =>
-    `Nada se llama «${query}». Prueba con el nombre tal como sale en el juego.`,
-  close: (name: string) => `Cerrar ${name}`,
   seo: {
     title: 'Todos los metalogros de Dofus',
     description:
