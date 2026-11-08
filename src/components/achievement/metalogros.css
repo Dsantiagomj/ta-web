@@ -2,7 +2,9 @@
  * El índice de metalogros, variante D «Buscador + mosaico» (DESIGN.md, Metalogros index): el
  * buscador, las fichas de las zonas con su representante, el panel de una zona a lo ancho de
  * su fila y las tarjetas de sus logros. Sin JavaScript, el buscador no se ve y las listas de
- * las zonas van bajo las fichas. La etiqueta «En preparación» (.ztag) es la de achievement.css.
+ * las zonas van bajo las fichas. Es autónoma: el hueco de icono (.well) y la etiqueta «En
+ * preparación» (.ztag) repiten los de game.css y achievement.css, para no compartir trozos
+ * de CSS con las guías y los logros.
  */
 
 .idx {
@@ -677,4 +679,37 @@
   .vd-tile--off:hover .vd-tile__n {
     text-decoration: none;
   }
+}
+
+/* ---------- piezas de la guía y del logro, repetidas aquí ---------- */
+
+/* El hueco de un icono a todo color, como en game.css. */
+.idx .well {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--color-slot-line);
+  border-radius: 10px;
+  background: var(--color-slot);
+}
+
+.idx .well img {
+  object-fit: contain;
+}
+
+/* La etiqueta «En preparación», como en achievement.css. */
+.idx .ztag {
+  display: inline-flex;
+  align-items: center;
+  justify-self: center;
+  width: fit-content;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: var(--radius-pill);
+  background: var(--color-raised);
+  color: var(--color-ink-2);
+  font: 600 0.6875rem / 1 var(--font-body);
+  white-space: nowrap;
 }
