@@ -2,8 +2,8 @@ import { Picture } from '@/components/ui/Picture'
 import type { IndexAchievement, IndexView, IndexZone } from '@/lib/achievements/metalogros'
 import { metalogrosStrings as s } from '@/lib/achievements/strings'
 
-import '@/components/game/game.css'
-import './achievement.css'
+// Solo su propia hoja: importar también game.css y achievement.css hacía que Turbopack
+// partiera las de las guías y los logros en más trozos, y su LCP subía medio segundo.
 import './metalogros.css'
 import { MetalogrosIsland } from './MetalogrosIsland'
 
