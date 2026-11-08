@@ -1,4 +1,4 @@
-import { ValidationError, type CollectionBeforeValidateHook, type Where } from 'payload'
+import { ValidationError, type CollectionBeforeValidateHook } from 'payload'
 
 import { autofillFromQuest, availableSlug, linkedQuestId } from '../lib/guides/autofill'
 import { guideStrings } from '../lib/guides/strings'
@@ -9,6 +9,7 @@ import {
   type CurrentSummary,
 } from '../lib/guides/summary'
 import type { QuestGuide } from '../payload-types'
+import { isRootSlugTaken } from './root-slug'
 
 // Lo que llega en `data` manda, aunque sea null (la importación vacía así un campo); lo
 // que no llega se toma del documento guardado.
@@ -56,16 +57,10 @@ export const fillFromQuest: CollectionBeforeValidateHook<QuestGuide> = async ({
     const fill = quest ? autofillFromQuest(current, quest) : {}
     if (fill.title) data.title = current.title = fill.title
     if (fill.slug) {
-      data.slug = await availableSlug(fill.slug, async (slug) => {
-        const where: Where = { slug: { equals: slug } }
-        const others: Where = saved?.id ? { and: [where, { id: { not_equals: saved.id } }] } : where
-        const { totalDocs } = await req.payload.count({
-          collection: 'quest-guides',
-          where: others,
-          req,
-        })
-        return totalDocs > 0
-      })
+      // Libre en toda la raíz: guías, logros y metalogros, también en sus borradores.
+      data.slug = await availableSlug(fill.slug, (slug) =>
+        isRootSlugTaken(req, slug, 'quest-guides', saved?.id),
+      )
     }
     if (fill.metaTitle || fill.metaDescription) {
       data.seo = {

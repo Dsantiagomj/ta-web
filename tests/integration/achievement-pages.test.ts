@@ -223,6 +223,55 @@ describe('lo de Torre manda', () => {
 })
 
 describe('un slug para guías, logros y metalogros', () => {
+  it('cuenta también el slug del último borrador: publicar no puede chocar luego', async () => {
+    const guide = await payload.create({
+      collection: 'quest-guides',
+      data: { title: 'Guía con borrador', slug: 'prueba-logro-publicada', _status: 'published' },
+    })
+    // Torre cambia el slug en un borrador guardado, sin publicarlo.
+    await payload.update({
+      collection: 'quest-guides',
+      id: guide.id,
+      data: { slug: 'prueba-logro-del-borrador' },
+      draft: true,
+    })
+    const error = await payload
+      .create({
+        collection: 'achievement-groups',
+        data: {
+          name: 'Metalogro que choca',
+          slug: 'prueba-logro-del-borrador',
+          state: 'preparing',
+        },
+        overrideAccess: false,
+        user: editor,
+      })
+      .catch((caught: unknown) => caught)
+    expect(error).toBeInstanceOf(ValidationError)
+  })
+
+  it('el slug que sale de la misión toma un sufijo libre si ya es de un logro o metalogro', async () => {
+    await payload.create({
+      collection: 'achievement-groups',
+      data: { name: 'Choque', slug: 'prueba-logro-mision-choque', state: 'preparing' },
+    })
+    const quest = await payload.create({
+      collection: 'quests',
+      data: { dofusId: 990_501, name: 'Prueba logro misión choque' },
+    })
+    try {
+      const guide = await payload.create({
+        collection: 'quest-guides',
+        data: { quest: quest.id } as never,
+        draft: true,
+      })
+      expect(guide.slug).toBe('prueba-logro-mision-choque-2')
+    } finally {
+      await payload.delete({ collection: 'quest-guides', where: { quest: { equals: quest.id } } })
+      await payload.delete({ collection: 'quests', id: quest.id })
+    }
+  })
+
   it('una guía no puede usar el slug de un logro', async () => {
     const error = await payload
       .create({

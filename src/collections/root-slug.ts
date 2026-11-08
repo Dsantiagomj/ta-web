@@ -1,6 +1,12 @@
-import { ValidationError, type CollectionBeforeValidateHook, type PayloadRequest } from 'payload'
+import {
+  ValidationError,
+  type CollectionBeforeValidateHook,
+  type PayloadRequest,
+  type Where,
+} from 'payload'
 
 import { achievementStrings } from '../lib/achievements/strings'
+import { isReservedSlug } from '../lib/guides/slug'
 
 /**
  * Las colecciones con página en la raíz del sitio, /<slug>: las guías y las páginas de
@@ -21,6 +27,33 @@ const OWNER: Record<RootSlugCollection, string> = {
   'achievement-groups': 'un metalogro',
 }
 
+/**
+ * Si un documento de la colección usa el slug, guardado o en su último borrador: un slug
+ * cambiado en un borrador sin publicar también está ocupado, o publicarlo chocaría.
+ */
+async function slugUsedIn(
+  req: PayloadRequest,
+  collection: RootSlugCollection,
+  slug: string,
+  exceptId?: number,
+): Promise<boolean> {
+  const bySlug: Where = { slug: { equals: slug } }
+  const where: Where = exceptId ? { and: [bySlug, { id: { not_equals: exceptId } }] } : bySlug
+  const stored = await req.payload.count({ collection, where, overrideAccess: true, req })
+  if (stored.totalDocs > 0) return true
+  const drafts = await req.payload.find({
+    collection,
+    where,
+    draft: true,
+    depth: 0,
+    limit: 1,
+    pagination: false,
+    overrideAccess: true,
+    req,
+  })
+  return drafts.docs.length > 0
+}
+
 /** La otra colección que ya usa el slug, o null si está libre fuera de la propia. */
 export async function slugOwner(
   req: PayloadRequest,
@@ -28,16 +61,25 @@ export async function slugOwner(
   self: RootSlugCollection,
 ): Promise<RootSlugCollection | null> {
   for (const collection of ROOT_SLUG_COLLECTIONS) {
-    if (collection === self) continue
-    const { totalDocs } = await req.payload.count({
-      collection,
-      where: { slug: { equals: slug } },
-      overrideAccess: true,
-      req,
-    })
-    if (totalDocs > 0) return collection
+    if (collection !== self && (await slugUsedIn(req, collection, slug))) return collection
   }
   return null
+}
+
+/**
+ * Si el slug está ocupado para un documento de `self`: por una ruta del sitio, por otra
+ * colección de la raíz o por otro documento de la suya, también en borradores. Lo usan los
+ * slugs que se rellenan solos (guías, logros, metalogros) para elegir un sufijo libre.
+ */
+export async function isRootSlugTaken(
+  req: PayloadRequest,
+  slug: string,
+  self: RootSlugCollection,
+  ownId?: number,
+): Promise<boolean> {
+  if (isReservedSlug(slug)) return true
+  if (await slugOwner(req, slug, self)) return true
+  return slugUsedIn(req, self, slug, ownId)
 }
 
 /**

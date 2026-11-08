@@ -19,6 +19,7 @@ export const achievementStrings = {
   } satisfies Record<PageState, string>,
   admin: {
     noAchievement: 'Sin logro de DofusDB: escribe tú este dato.',
+    nameRequired: 'Escribe un nombre o enlaza el dato de DofusDB.',
     noCategory: 'Sin categoría de DofusDB: escribe tú este dato.',
     alternatives: (name: string, count: number) => `${name} (una de ${count})`,
     stateDescription:
