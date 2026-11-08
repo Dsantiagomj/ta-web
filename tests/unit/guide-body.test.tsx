@@ -62,6 +62,23 @@ describe('GuideRichText', () => {
     expect(markup).toContain('pulsa')
   })
 
+  it('un enlace vacío de la web de siempre («…/guia#») queda como texto, con su chip', () => {
+    // Squarespace dejó así algunas coordenadas: enlazaban a la propia guía en su web.
+    const link = {
+      type: 'link',
+      version: 1,
+      fields: {
+        url: 'https://www.torrentearcano.com/una-profecia-bastante-extraa#',
+        linkType: 'custom',
+      },
+      children: [text('[38,-45]', 1)],
+    }
+    const markup = html(<GuideRichText content={root(paragraph(link))} />)
+    expect(markup).not.toContain('torrentearcano.com')
+    expect(markup).not.toContain('<a')
+    expect(markup).toContain('data-copy="/travel 38,-45"')
+  })
+
   it('un enlace que abre otra pestaña lleva noopener', () => {
     const link = {
       type: 'link',

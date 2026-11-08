@@ -153,13 +153,36 @@ describe('SiteHeader', () => {
     )
   })
 
-  it('el panel de Misiones no repite el enlace a los metalogros', () => {
+  it('el panel de Misiones tiene Buscar y un solo «Ver todo», hacia /metalogros', () => {
     const markup = header()
     const panel = markup.slice(
       markup.indexOf('id="menu-misiones"'),
       markup.indexOf('id="menu-dofus"'),
     )
-    expect(panel.match(/Todos los metalogros/g)).toHaveLength(1)
+    expect(panel).not.toContain('Todos los metalogros')
+    expect(panel).not.toContain('Todos los logros')
+    expect(panel.match(/Ver todo/g)).toHaveLength(1)
+    expect(hrefs(panel)).toEqual(['/metalogros'])
+  })
+
+  it('ningún enlace de misiones o logros sale de la app, ni en el panel ni en el móvil', () => {
+    const markup = header()
+    const panel = markup.slice(
+      markup.indexOf('id="menu-misiones"'),
+      markup.indexOf('id="menu-dofus"'),
+    )
+    const sheet = markup.slice(
+      markup.indexOf('id="sheet-misiones"'),
+      markup.indexOf('id="sheet-dofus"'),
+    )
+    const links = [
+      SECTIONS.find((s) => s.key === 'misiones')!.href,
+      ...hrefs(panel),
+      ...hrefs(sheet),
+    ]
+    expect(links.length).toBeGreaterThan(2)
+    for (const href of links) expect(href).toMatch(/^\/(?!\/)/)
+    expect(sheet.match(/Ver todo/g)).toHaveLength(1)
   })
 
   it('el menú del móvil es un diálogo aparte con las mismas secciones', () => {

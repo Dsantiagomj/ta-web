@@ -9,6 +9,7 @@ import type { ReactNode } from 'react'
 import { Figure } from '@/components/ui/Figure'
 import type { RichTextState } from '@/lib/guides/page'
 import { mediaImageAsset } from '@/lib/media/image-asset'
+import { LEGACY_SITE_ORIGIN } from '@/lib/site/legacy'
 import type { Media } from '@/payload-types'
 
 import { CoordinatesText } from './Coordinates'
@@ -67,9 +68,20 @@ interface LinkFields {
   doc?: { relationTo?: string; value?: unknown }
 }
 
+/**
+ * Squarespace dejó algunas coordenadas enlazadas a la propia guía en la web de siempre, con
+ * un «#» vacío: no llevan a ninguna parte, así que quedan como texto.
+ */
+function isLegacyPlaceholder(href: string): boolean {
+  return href.startsWith(`${LEGACY_SITE_ORIGIN}/`) && href.endsWith('#')
+}
+
 // Un enlace interno a otra guía lleva a su página; a cualquier otra cosa, todavía a nada.
 function linkHref(fields: LinkFields): string | null {
-  if (fields.linkType !== 'internal') return safeHref(fields.url)
+  if (fields.linkType !== 'internal') {
+    const href = safeHref(fields.url)
+    return href && !isLegacyPlaceholder(href) ? href : null
+  }
   const value = fields.doc?.value
   if (fields.doc?.relationTo !== 'quest-guides' || !value || typeof value !== 'object') return null
   const slug = (value as { slug?: unknown }).slug
@@ -85,11 +97,13 @@ function converters(priorityImage: boolean, minHeading: HeadingLevel): JSXConver
     const link = ({
       node,
       nodesToJSX,
+      parent,
     }: JSXConverterArgs<SerializedLinkNode> | JSXConverterArgs<SerializedAutoLinkNode>) => {
       const fields = (node.fields ?? {}) as LinkFields
-      const children = nodesToJSX({ nodes: node.children })
       const href = linkHref(fields)
-      if (!href) return <>{children}</>
+      // Sin enlace, su texto es prosa normal: las coordenadas vuelven a ser chips.
+      if (!href) return <>{nodesToJSX({ nodes: node.children, parent })}</>
+      const children = nodesToJSX({ nodes: node.children })
       return fields.newTab ? (
         <a href={href} rel="noopener noreferrer" target="_blank">
           {children}

@@ -4,7 +4,6 @@ import { Lockup } from '@/components/brand/Lockup'
 import { GAME_ICONS } from '@/components/game/game-icons'
 import { ModeToggle } from '@/components/mode-toggle/ModeToggle'
 import { Amount } from '@/components/ui/Amount'
-import { legacyHref } from '@/lib/site/legacy'
 import type { Mode } from '@/lib/theme/theme'
 
 import { HeaderIsland } from './HeaderIsland'
@@ -167,9 +166,9 @@ function MisionesBody() {
       </button>
       <ul className="hub-l" role="list">
         <li>
-          <a href={legacyHref('logros')}>
+          <a href={section('misiones').href}>
             <Well image={GAME_ICONS.achievement} size={28} />
-            <span>{p.misionesAchievements}</span>
+            <span>{p.misionesAll}</span>
           </a>
         </li>
       </ul>
@@ -206,8 +205,8 @@ function sectionBlurb(key: SectionKey, counts: SiteCounts): ReactNode {
   }
 }
 
+// Misiones no lleva enlace general: su «Ver todo» ya está en el panel, junto a Buscar.
 const ALL_LABEL: Partial<Record<SectionKey, string>> = {
-  misiones: p.misionesAll,
   clases: p.clasesAll,
   mazmorras: p.mazmorrasAll,
 }
@@ -232,7 +231,7 @@ function SectionTile({ sec, counts }: { sec: Section; counts: SiteCounts }) {
       <Well image={sec.icon} size={46} className="site-well--xl" />
       <p className="panel__t">{sec.title}</p>
       <p className="panel__d">{sectionBlurb(sec.key, counts)}</p>
-      <AllLink href={sec.href}>{ALL_LABEL[sec.key]}</AllLink>
+      {ALL_LABEL[sec.key] && <AllLink href={sec.href}>{ALL_LABEL[sec.key]}</AllLink>}
     </div>
   )
 }
@@ -332,7 +331,9 @@ function SheetSection({ sec, counts, open }: { sec: Section; counts: SiteCounts;
         ) : (
           sectionBody(sec.key)
         )}
-        <AllLink href={sec.href}>{dofus ? p.dofusFeaturedTitle : ALL_LABEL[sec.key]}</AllLink>
+        {(dofus || ALL_LABEL[sec.key]) && (
+          <AllLink href={sec.href}>{dofus ? p.dofusFeaturedTitle : ALL_LABEL[sec.key]}</AllLink>
+        )}
       </div>
     </li>
   )
