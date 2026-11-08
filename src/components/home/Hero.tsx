@@ -54,11 +54,13 @@ export function Hero() {
           </form>
         </div>
         <div className="hero__art" aria-hidden="true">
+          {/* La imagen principal en el móvil. Se pinta al 112 % con los bordes difuminados por
+              la máscara, así que basta un 85 % del ancho: a 412 px y 1,75x pide la de 640. */}
           <Picture
             image={KROSMOZ}
             alt=""
             priority
-            sizes="(min-width: 64rem) 760px, 112vw"
+            sizes="(min-width: 64rem) 760px, 85vw"
             className="hero__isle"
           />
           {ORBS.map((orb) => (
@@ -67,7 +69,8 @@ export function Hero() {
               className="orb"
               style={{ '--x': orb.x, '--y': orb.y, '--bob': orb.delay } as React.CSSProperties}
             >
-              <StaticImg src={orb.src} width={128} height={128} />
+              {/* Baja prioridad: no compiten con la isla, la imagen principal. */}
+              <StaticImg src={orb.src} width={128} height={128} fetchPriority="low" />
             </span>
           ))}
         </div>

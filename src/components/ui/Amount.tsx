@@ -1,11 +1,11 @@
 import { Fragment } from 'react'
 
-import './ui.css'
-
 /**
  * Una cifra con los miles separados por un espacio fino que no se parte (U+202F): «1 272»,
  * nunca «1.272» ni partido en dos líneas (DESIGN.md, Typography: Numbers). Montserrat y
- * Lilita One no tienen ese carácter, así que va en su propio span, que le da su ancho.
+ * Lilita One no tienen ese carácter, así que va en su propio span, que le da su ancho. Sus
+ * estilos están en globals.css: la cabecera lo usa en todas las páginas y ui.css sería una
+ * hoja más que bloquea el primer pintado.
  */
 export function Amount({ value }: { value: number }) {
   const groups = String(value).split(/(?=(?:\d{3})+$)/)

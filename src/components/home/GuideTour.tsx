@@ -1,10 +1,11 @@
-import { CoordinatesChip } from '@/components/game/Coordinates'
 import { GAME_ICONS, type GameIconFile, TORRE_AVATAR } from '@/components/game/game-icons'
+import { PinIcon } from '@/components/game/icons'
 import { ArrowIcon } from '@/components/site/icons'
 import { section } from '@/components/site/nav'
 import { StaticImg } from '@/components/site/StaticImg'
 import { Amount } from '@/components/ui/Amount'
 import { Picture } from '@/components/ui/Picture'
+import { formatCoordinates } from '@/lib/guides/coordinates'
 
 import { GIVER_LEFT, GIVER_RIGHT, REWARD_ITEMS, STEP_SHOT } from './art'
 import { homeStrings } from './strings'
@@ -152,7 +153,12 @@ export function GuideTour() {
                   {s.step[0]}
                   <strong>{s.step[1]}</strong>{' '}
                   <span className="spec__pin" data-part="2">
-                    <CoordinatesChip x={7} y={-19} />
+                    {/* El chip de coordenadas dibujado, sin copiar: es una vista previa, y así la
+                        portada no carga game.css, que bloquearía su primer pintado. */}
+                    <span className="spec__coord">
+                      <PinIcon className="spec__pin-icon" />
+                      {formatCoordinates({ x: 7, y: -19 })}
+                    </span>
                     <Mark n={2} className="spec__mark--inline" />
                   </span>
                   {s.step[2]}
