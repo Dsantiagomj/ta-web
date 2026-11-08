@@ -33,3 +33,42 @@ export const ORBS = [
   { slug: 'dofus-ebano', x: '13%', y: '76%' },
   { slug: 'dofus-marfil', x: '11%', y: '26%' },
 ].map((orb, i) => ({ ...orb, src: `/img/game/dofus/${orb.slug}.webp`, delay: `${i / 10}s` }))
+
+/** La plaza de Astrub, el fondo del cartel de las misiones. */
+export const ASTRUB = art('astrub', [480, 800, 1200, 1600], 1600 / 695)
+
+/** Los cuatro «PNJ representativos» del índice de metalogros, de pie en la plaza. */
+export const CAST = [
+  art('npc-2205', [414], 414 / 480), // Meriana
+  art('npc-4355', [244], 244 / 480), // Enviada de los Doce
+  art('npc-4356', [238], 238 / 480), // Paula Sepe
+  art('npc-6167', [185], 185 / 480), // Draconiros
+]
+
+/** Tres huevos de Dofus con guía que no salen en otra parte de la portada. */
+export const DOFUS_TRIO = ['dofawa', 'dosaurio', 'dofus-abisal'].map(
+  (slug) => `/img/game/dofus/${slug}.webp`,
+)
+
+/** Seis cabezas de clase, como las pinta el panel de Clases (64px). */
+export const CLASS_HEADS = ['yopuka', 'feca', 'ocra', 'aniripsa', 'sram', 'zurcarak'].map(
+  (slug) => `/img/game/clases/${slug}.webp`,
+)
+
+/** La última sala de la Crocantería y su jefe, el Crunchidor. */
+export const CROCANTERIA = art('crocanteria', [480, 960], 960 / 505)
+export const CRUNCHIDOR = art('crunchidor', [334], 334 / 400)
+
+/** La guía de «Seis pies bajo tierra» en pequeño: Hupe Esse, la captura y los objetos. */
+export const GIVER_RIGHT = art('npc-4412-se', [168], 168 / 362)
+export const GIVER_LEFT = art('npc-4412-so', [100], 100 / 215)
+export const STEP_SHOT = art('guia-paso', [480, 800], 800 / 551)
+export const REWARD_ITEMS = [
+  { id: 366, name: 'Pico de tofu' },
+  { id: 373, name: 'Intestino de araknáusea' },
+  { id: 388, name: 'Pelos de arakna enferma' },
+  { id: 2491, name: 'Ojo de arakmutada' },
+].map((item) => ({ ...item, image: art(`item-${item.id}`, [64], 1) }))
+
+/** El retrato de Torre en «Las guías son de Torre». */
+export const TORRE = art('torre', [256, 512], 1)
