@@ -1,7 +1,11 @@
 import type { Payload } from 'payload'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
-import { findGuideAchievement, readAchievementPage } from '@/lib/achievements/queries'
+import {
+  findGuideAchievement,
+  readAchievementPage,
+  readMetalogrosIndex,
+} from '@/lib/achievements/queries'
 import type { User } from '@/payload-types'
 
 import { createPanelUser, startPayload } from './payload'
@@ -186,5 +190,35 @@ describe('findGuideAchievement', () => {
   it('sin página de logro, nada', async () => {
     expect(await findGuideAchievement(payload, 999_999)).toBeNull()
     expect(await findGuideAchievement(payload, null)).toBeNull()
+  })
+})
+
+describe('readMetalogrosIndex', () => {
+  it('los metalogros, sus páginas de logro con sus misiones y las guías sueltas publicadas', async () => {
+    const guides = await payload.find({
+      collection: 'quest-guides',
+      draft: true,
+      pagination: false,
+    })
+    const group = (await payload.find({ collection: 'achievement-groups', limit: 1 })).docs[0]!
+    await payload.update({
+      collection: 'achievement-groups',
+      id: group.id,
+      data: { guides: guides.docs.map((guide) => guide.id) },
+    })
+    const index = await readMetalogrosIndex(payload)
+    expect(index.groups.map((doc) => doc.name)).toEqual(['Astrub'])
+    expect(index.pages.map((page) => [page.name, page.state])).toEqual([
+      ['Un ciudadano modelo', 'published'],
+      ['La ocasión hace al ladrón', 'published'],
+      ['La gran biblioteca', 'preparing'],
+    ])
+    // Con el nombre y el nivel de sus misiones, para la búsqueda y «Niv. 15–25».
+    expect(index.pages[1]!.quests![1]!.quests![0]).toMatchObject({
+      name: 'Seis pies bajo tierra',
+      levelMin: 20,
+    })
+    // Solo la guía publicada: el borrador no llega a un visitante.
+    expect([...index.guides.values()].map((guide) => guide.slug)).toEqual(['seis-pies-bajo-tierra'])
   })
 })

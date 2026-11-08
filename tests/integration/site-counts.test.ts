@@ -5,7 +5,8 @@ import { countSiteGuides } from '@/lib/site/counts'
 
 import { startPayload } from './payload'
 
-// Las cifras del menú de Misiones: guías publicadas y logros distintos de sus misiones.
+// Las cifras del menú de Misiones: guías publicadas y páginas de logro publicadas, las mismas
+// que el índice de metalogros.
 // La base es compartida, así que se mide la diferencia con lo que ya había.
 describe('las cifras de la cabecera', () => {
   let payload: Payload
@@ -47,6 +48,34 @@ describe('las cifras de la cabecera', () => {
 
     const after = await countSiteGuides(payload)
     expect(after.guides - before.guides).toBe(4)
+    // Los logros no salen de las misiones de las guías: son las páginas de logro.
+    expect(after.achievements - before.achievements).toBe(0)
+  })
+
+  it('cuenta los logros: las páginas de logro publicadas y no En preparación', async () => {
+    const before = await countSiteGuides(payload)
+    const page = async (dofusId: number, state: 'published' | 'preparing', draft = false) => {
+      const achievement = await payload.create({
+        collection: 'achievements',
+        data: { dofusId, name: `Logro ${dofusId}` },
+      })
+      return payload.create({
+        collection: 'achievement-pages',
+        data: {
+          achievement: achievement.id,
+          name: `Logro ${dofusId}`,
+          slug: `cifras-logro-${dofusId}`,
+          state,
+          _status: draft ? 'draft' : 'published',
+        },
+        draft,
+      })
+    }
+    await page(880101, 'published')
+    await page(880102, 'published')
+    await page(880103, 'preparing')
+    await page(880104, 'published', true)
+    const after = await countSiteGuides(payload)
     expect(after.achievements - before.achievements).toBe(2)
   })
 })

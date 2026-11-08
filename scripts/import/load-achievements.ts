@@ -147,7 +147,8 @@ export async function importTorreAchievements(
         ? await payload.update({
             collection: 'achievement-groups',
             id: existing.id,
-            data: { ...data, guides: guideIds },
+            // Sin categoría de DofusDB no hay sección que copiar: con las historias.
+            data: { ...data, guides: guideIds, ...(categoryId === null && { section: 'stories' }) },
             depth: 0,
             overrideAccess: true,
           })

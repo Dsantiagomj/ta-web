@@ -8,11 +8,17 @@ import { neededItems } from '@/lib/guides/format'
 import { gameItem, needNote, type NeedNote, type QuestHeaderData } from '@/lib/guides/page'
 import type { LinkedNeeds } from '@/lib/guides/summary'
 import { mediaImageAsset } from '@/lib/media/image-asset'
-import { legacyHref } from '@/lib/site/legacy'
 import type { Media } from '@/payload-types'
 
 import type { GuideAchievement } from './queries'
 import { achievementPageStrings as s, type PageState } from './strings'
+
+/** El índice de metalogros. */
+export const METALOGROS_PATH = '/metalogros'
+
+/** Un metalogro es su panel en el índice: /metalogros#astrub. */
+export const metalogroHref = (slug: string) =>
+  `${METALOGROS_PATH}#${slug.replace(/^metalogro-/, '')}`
 
 type Relation<T> = number | T | null | undefined
 type MediaRef = Relation<Media | (Partial<Media> & { id: number })>
@@ -316,11 +322,11 @@ export function achievementPageView(data: AchievementPageData): AchievementPageV
   }
 }
 
-/** Los primeros padres de las migas: el índice y el metalogro, aún en la web de Torre. */
+/** Los primeros padres de las migas: el índice y el metalogro, que es su panel en el índice. */
 function metalogroParents(group: { name: string; slug: string } | null) {
   return [
-    { name: s.index, href: legacyHref('metalogros') },
-    ...(group ? [{ name: group.name, href: legacyHref(group.slug) }] : []),
+    { name: s.index, href: METALOGROS_PATH },
+    ...(group ? [{ name: group.name, href: metalogroHref(group.slug) }] : []),
   ]
 }
 

@@ -5,7 +5,6 @@ import {
   guideBreadcrumb,
   type AchievementPageData,
 } from '@/lib/achievements/page'
-import { legacyHref } from '@/lib/site/legacy'
 
 // Una imagen de Media con su archivo, como la devuelve Payload con depth.
 function media(id: number, name: string) {
@@ -166,8 +165,8 @@ describe('achievementPageView', () => {
 
   it('las migas: solo los padres, con la página actual en el JSON-LD', () => {
     expect(view.breadcrumb.parents).toEqual([
-      { name: 'Metalogros', href: legacyHref('metalogros') },
-      { name: 'Astrub', href: legacyHref('metalogro-astrub') },
+      { name: 'Metalogros', href: '/metalogros' },
+      { name: 'Astrub', href: '/metalogros#astrub' },
     ])
     expect(view.breadcrumb.jsonLd.itemListElement.at(-1)).toEqual({
       '@type': 'ListItem',
@@ -197,13 +196,13 @@ describe('guideBreadcrumb', () => {
   it('los padres de la guía: el índice, el metalogro y su logro', () => {
     const crumbs = guideBreadcrumb(found, guide, 'https://torrentearcano.com')
     expect(crumbs!.parents).toEqual([
-      { name: 'Metalogros', href: legacyHref('metalogros') },
-      { name: 'Astrub', href: legacyHref('metalogro-astrub') },
+      { name: 'Metalogros', href: '/metalogros' },
+      { name: 'Astrub', href: '/metalogros#astrub' },
       { name: 'La ocasión hace al ladrón', href: '/la-ocasion-hace-al-ladron' },
     ])
     expect(crumbs!.jsonLd.itemListElement.map((item) => item.item)).toEqual([
-      legacyHref('metalogros'),
-      legacyHref('metalogro-astrub'),
+      'https://torrentearcano.com/metalogros',
+      'https://torrentearcano.com/metalogros#astrub',
       'https://torrentearcano.com/la-ocasion-hace-al-ladron',
       'https://torrentearcano.com/seis-pies-bajo-tierra',
     ])

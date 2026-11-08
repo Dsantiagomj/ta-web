@@ -7,7 +7,13 @@ const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
  * Rutas de primer nivel del sitio: ganan a /[slug], así que una guía con ese slug no se
  * vería nunca. Cada ruta nueva de primer nivel se añade aquí.
  */
-export const RESERVED_SLUGS: readonly string[] = ['admin', 'api', 'sistema', 'vista-previa']
+export const RESERVED_SLUGS: readonly string[] = [
+  'admin',
+  'api',
+  'sistema',
+  'vista-previa',
+  'metalogros',
+]
 
 /** Slug plano en ASCII: minúsculas, cifras y guiones sueltos, sin guiones en los extremos. */
 export function isSlugFormat(value: string | null | undefined): value is string {

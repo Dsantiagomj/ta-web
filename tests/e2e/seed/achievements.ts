@@ -12,6 +12,8 @@ export const seedAchievement = {
   meta: '3 misiones - Niveles 15 a 25 - 10 puntos',
   icon: 'public/img/sistema/ach-203.webp',
   group: { name: 'Astrub', slug: 'metalogro-astrub' },
+  // Un metalogro sin nada publicado: se ve apagado en el índice.
+  emptyGroup: { name: 'Misiones de templo', slug: 'metalogro-misiones-de-templo' },
   reward: { xp: '102 128', kamas: '1 105' },
   quests: [
     { title: 'Esto hace aguas', href: '/esto-hace-aguas', kicker: 'Misión 1 - Nivel 15' },
@@ -64,8 +66,24 @@ export async function seedAchievements(payload: Payload): Promise<void> {
     (await findOne(payload, 'achievement-groups', 'slug', seedAchievement.group.slug)) ??
     (await payload.create({
       collection: 'achievement-groups',
-      data: { ...seedAchievement.group, state: 'published', _status: 'published' },
+      data: {
+        ...seedAchievement.group,
+        section: 'zones',
+        state: 'published',
+        _status: 'published',
+      },
     }))
+  if (!(await findOne(payload, 'achievement-groups', 'slug', seedAchievement.emptyGroup.slug))) {
+    await payload.create({
+      collection: 'achievement-groups',
+      data: {
+        ...seedAchievement.emptyGroup,
+        section: 'stories',
+        state: 'preparing',
+        _status: 'published',
+      },
+    })
+  }
 
   const pages = [
     {

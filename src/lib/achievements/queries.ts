@@ -7,6 +7,7 @@ import type { Payload } from 'payload'
 import { isGuideSlug } from '@/lib/guides/slug'
 import type { User } from '@/payload-types'
 
+import type { IndexData } from './metalogros'
 import type { AchievementPageData, GuideRef, PageDoc, SiblingDoc } from './page'
 
 export interface ReadAchievementOptions {
@@ -160,5 +161,56 @@ export async function findGuideAchievement(
     group: group && { name: group.name, slug: group.slug },
     position: index + 1,
     total: rows.length,
+  }
+}
+
+/**
+ * Lo que pinta el índice de metalogros, como un visitante: los metalogros publicados con su
+ * representante, sus páginas de logro en orden (también las En preparación, que se ven
+ * apagadas) con el icono y las misiones, y sus guías sueltas publicadas.
+ */
+export async function readMetalogrosIndex(payload: Payload): Promise<IndexData> {
+  const groups = await payload.find({
+    collection: 'achievement-groups',
+    depth: 2,
+    populate: { npcs: { name: true, renderRight: true }, monsters: { name: true, image: true } },
+    pagination: false,
+    draft: false,
+    overrideAccess: false,
+  })
+  const pages = await payload.find({
+    collection: 'achievement-pages',
+    where: { group: { exists: true } },
+    sort: ['order', 'name'],
+    // Sin select: con él, Payload no trae las relaciones de dentro del array.
+    depth: 2,
+    populate: { achievements: { icon: true }, quests: { name: true, levelMin: true } },
+    pagination: false,
+    draft: false,
+    overrideAccess: false,
+  })
+  const guideIds = groups.docs.flatMap((group) =>
+    (group.guides ?? []).flatMap((guide) => {
+      const id = relationId(guide as number | { id: number })
+      return id === null ? [] : [id]
+    }),
+  )
+  const guides = guideIds.length
+    ? (
+        await payload.find({
+          collection: 'quest-guides',
+          where: { id: { in: guideIds } },
+          select: { title: true, slug: true },
+          depth: 0,
+          pagination: false,
+          draft: false,
+          overrideAccess: false,
+        })
+      ).docs
+    : []
+  return {
+    groups: groups.docs as unknown as IndexData['groups'],
+    pages: pages.docs as unknown as IndexData['pages'],
+    guides: new Map(guides.map((guide) => [guide.id, { title: guide.title, slug: guide.slug }])),
   }
 }

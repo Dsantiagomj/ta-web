@@ -1,4 +1,7 @@
-// Textos de las páginas de logro y de los metalogros: el panel y, más adelante, la página.
+import { formatAmount } from '../guides/display'
+
+// Textos de las páginas de logro y de los metalogros: el panel, la página del logro y el
+// índice de metalogros.
 // Un segundo idioma sería traducir este módulo.
 
 /** Las tres partes del índice de metalogros. */
@@ -57,5 +60,43 @@ export const achievementPageStrings = {
     description: (name: string, quests: number) =>
       `Las ${quests} misiones del logro ${name} de Dofus, en orden, con la guía de cada una, ` +
       'lo que necesitas y las recompensas.',
+  },
+} as const
+
+/** El índice de metalogros, /metalogros (DESIGN.md, Metalogros index). */
+export const metalogrosStrings = {
+  title: 'Todos los metalogros',
+  lead: 'Busca una zona, un logro o una misión, o elige una zona para ver sus logros.',
+  zones: (count: number) => (count === 1 ? '1 zona' : `${formatAmount(count)} zonas`),
+  achievements: (count: number) => (count === 1 ? '1 logro' : `${formatAmount(count)} logros`),
+  quests: (count: number) => (count === 1 ? '1 misión' : `${formatAmount(count)} misiones`),
+  /** Lo que es cada resultado del buscador. */
+  kinds: { zone: 'Zona', achievement: 'Logro', quest: 'Misión' },
+  questResult: (position: number, achievement: string, zone: string) =>
+    `→ misión ${position} de ${achievement} · ${zone}`,
+  level: (level: number) => `Niv. ${level}`,
+  levels: (min: number, max: number) => `Niv. ${min}–${max}`,
+  preparing: 'En preparación',
+  prepPartial: (missing: number, total: number) =>
+    `En preparación: ${missing} de sus ${total} logros`,
+  sectionDescriptions: {
+    stories: 'Las que no son de una zona, en el orden del juego.',
+    zones: 'De la A a la Z.',
+    seasonal: 'Islas que solo abren en su época del año.',
+  } satisfies Record<GroupSection, string>,
+  otherGuides: 'Otras guías',
+  guides: 'Guías',
+  searchLabel: 'Busca una zona, un logro o una misión',
+  searchPlaceholder: 'Por ejemplo, Esto hace aguas',
+  results: 'Resultados',
+  resultsCount: (count: number) => (count === 1 ? '1 resultado' : `${count} resultados`),
+  noResults: (query: string) =>
+    `Nada se llama «${query}». Prueba con el nombre tal como sale en el juego.`,
+  close: (name: string) => `Cerrar ${name}`,
+  seo: {
+    title: 'Todos los metalogros de Dofus',
+    description:
+      'Los metalogros de Dofus por zona, con sus logros y sus misiones en orden. Busca una ' +
+      'zona, un logro o una misión.',
   },
 } as const

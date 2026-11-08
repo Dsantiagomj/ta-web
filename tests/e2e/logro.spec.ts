@@ -8,7 +8,6 @@ import { seedAchievement as logro } from './seed/achievements.ts'
 // scripts/seed-e2e.ts con las misiones de las guías de prueba.
 
 const url = `/${logro.slug}`
-const TORRE = 'https://www.torrentearcano.com'
 
 test.describe('página de logro', () => {
   test('pinta las migas, la cabecera y las columnas', async ({ page }) => {
@@ -18,11 +17,11 @@ test.describe('página de logro', () => {
     const crumbs = page.getByRole('navigation', { name: 'Ruta de navegación' })
     await expect(crumbs.getByRole('link', { name: 'Metalogros' })).toHaveAttribute(
       'href',
-      `${TORRE}/metalogros`,
+      '/metalogros',
     )
     await expect(crumbs.getByRole('link', { name: logro.group.name })).toHaveAttribute(
       'href',
-      `${TORRE}/${logro.group.slug}`,
+      '/metalogros#astrub',
     )
     // La página actual no está en las migas, sí en el JSON-LD.
     await expect(crumbs.getByText(logro.name)).toHaveCount(0)
