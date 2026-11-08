@@ -3,7 +3,7 @@ import type { CSSProperties, ReactNode } from 'react'
 import { Lockup } from '@/components/brand/Lockup'
 import { GAME_ICONS } from '@/components/game/game-icons'
 import { ModeToggle } from '@/components/mode-toggle/ModeToggle'
-import { formatAmount } from '@/lib/guides/display'
+import { Amount } from '@/components/ui/Amount'
 import { legacyHref } from '@/lib/site/legacy'
 import type { Mode } from '@/lib/theme/theme'
 
@@ -181,9 +181,13 @@ function MisionesBlurb({ counts }: { counts: SiteCounts }) {
   const [middle, end] = p.misionesBlurb(counts.guides, counts.achievements)
   return (
     <>
-      <b>{formatAmount(counts.guides)}</b>
+      <b>
+        <Amount value={counts.guides} />
+      </b>
       {middle}
-      <b>{formatAmount(counts.achievements)}</b>
+      <b>
+        <Amount value={counts.achievements} />
+      </b>
       {end}
     </>
   )

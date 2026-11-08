@@ -15,11 +15,12 @@ import {
 import { SiteFooter } from '@/components/site/SiteFooter'
 import { SiteHeader } from '@/components/site/SiteHeader'
 import { searchNav } from '@/components/site/search'
-import { formatAmount } from '@/lib/guides/display'
 import { LEGACY_SITE_ORIGIN } from '@/lib/site/legacy'
 
 const html = (node: React.ReactNode) => renderToStaticMarkup(node)
 const counts = { guides: 1272, achievements: 274 }
+/** Una cifra sin miles, como la pinta Amount. */
+const n = (value: number) => `<span class="amount">${value}</span>`
 const header = () => html(<SiteHeader counts={counts} initialMode="dark" />)
 const footer = () => html(<SiteFooter year={2026} />)
 const hrefs = (markup: string) => [...markup.matchAll(/href="([^"]+)"/g)].map((m) => m[1])
@@ -127,20 +128,24 @@ describe('SiteHeader', () => {
 
   it('cuenta las guías y los logros con el espacio de miles', () => {
     const markup = header()
-    expect(markup).toContain(`<b>${formatAmount(1272)}</b>`)
-    expect(markup).toContain('<b>274</b>')
+    expect(markup).toContain(
+      '<b><span class="amount">1<span class="amount__th">\u202F</span>272</span></b>',
+    )
+    expect(markup).toContain('<b><span class="amount">274</span></b>')
   })
 
   it('con una sola guía o un solo logro, en singular', () => {
     const markup = html(<SiteHeader counts={{ guides: 1, achievements: 1 }} initialMode="dark" />)
-    expect(markup).toContain('<b>1</b> misión paso a paso, en <b>1</b> logro.')
+    expect(markup).toContain(`<b>${n(1)}</b> misión paso a paso, en <b>${n(1)}</b> logro.`)
   })
 
   it('el singular y el plural de cada cifra van por separado', () => {
     const markup = html(<SiteHeader counts={{ guides: 3, achievements: 1 }} initialMode="dark" />)
-    expect(markup).toContain('<b>3</b> misiones paso a paso, en <b>1</b> logro.')
+    expect(markup).toContain(`<b>${n(3)}</b> misiones paso a paso, en <b>${n(1)}</b> logro.`)
     const other = html(<SiteHeader counts={{ guides: 1, achievements: 2 }} initialMode="dark" />)
-    expect(other).toContain('<b>1</b> misión paso a paso, ordenada en sus <b>2</b> logros.')
+    expect(other).toContain(
+      `<b>${n(1)}</b> misión paso a paso, ordenada en sus <b>${n(2)}</b> logros.`,
+    )
   })
 
   it('el panel de Misiones no repite el enlace a los metalogros', () => {

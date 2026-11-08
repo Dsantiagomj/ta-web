@@ -607,3 +607,1483 @@ html.hs-on .site-hdr .sbtn {
     margin: 0 calc(var(--gutter) * -1) 0 -40px;
   }
 }
+
+/* ---------- las secciones ---------- */
+.home-sec {
+  padding-block: 80px;
+}
+
+@media (min-width: 64rem) {
+  .home-sec {
+    padding-block: 120px;
+  }
+}
+
+.home-h2 {
+  color: var(--color-ink);
+  font: 600 clamp(2rem, 1.45rem + 2.2vw, 3rem) / 1.05 var(--font-display);
+  text-wrap: balance;
+}
+
+.home b {
+  color: var(--color-ink);
+  font-weight: 800;
+}
+
+.home strong {
+  color: var(--color-ink);
+  font-weight: 700;
+}
+
+/* Las cifras destacadas, en Lilita One (DESIGN.md, Typography: featured numbers). */
+.fig {
+  color: var(--color-accent-2);
+  font: 400 1.375rem/1 var(--font-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Un camino secundario: texto con flecha, sin caja. */
+.go {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  color: var(--color-accent);
+  font: 600 1.25rem/1.2 var(--font-display);
+  text-decoration: none;
+}
+
+.go__arrow {
+  width: 18px;
+  height: 18px;
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.go:hover {
+  text-decoration: underline 2px;
+  text-underline-offset: 0.18em;
+}
+
+.go:hover .go__arrow {
+  transform: translateX(4px);
+}
+
+/* ---------- Qué vas a encontrar: el cartel y cuatro tarjetas, cada una un solo enlace ---------- */
+.areas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px 14px;
+  margin: 36px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.areas__big {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 40rem) {
+  .areas {
+    gap: 48px 24px;
+    margin-top: 40px;
+  }
+}
+
+@media (min-width: 80rem) {
+  .areas {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 56px 28px;
+    margin-top: 56px;
+  }
+}
+
+.area {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  padding-bottom: 6px;
+  border-radius: 18px;
+  color: var(--color-ink);
+}
+
+/* El enlace del título cubre la tarjeta: un enlace, una parada de tabulador, con su nombre. */
+.area__a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.area__a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+}
+
+.area__a:focus-visible {
+  outline: none;
+}
+
+.area:has(.area__a:focus-visible) {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 4px;
+}
+
+.area__t {
+  font: 600 1.5rem/1.2 var(--font-display);
+}
+
+.area__d {
+  max-width: 44ch;
+  color: var(--color-ink-2);
+  text-wrap: pretty;
+}
+
+.area__art {
+  position: relative;
+  display: block;
+  height: 196px;
+  margin: 28px 0 12px;
+}
+
+.area__zone {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #000;
+}
+
+.area__scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 600ms var(--ease-out);
+}
+
+.area__zone::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-section) 55%, transparent);
+  pointer-events: none;
+  transition: box-shadow var(--duration-fast) var(--ease-standard);
+}
+
+/* Sin escena: el color de la sección como una luz suave sobre surface, con el arte encima. */
+.area__zone--plain {
+  background:
+    radial-gradient(
+      ellipse 70% 80% at 50% 62%,
+      color-mix(in srgb, var(--color-section) 20%, transparent),
+      transparent 72%
+    ),
+    var(--color-surface);
+}
+
+/* Modo claro (DESIGN.md, Art cards in light mode): escenas lavadas, figuras a todo color. */
+[data-mode='light'] .area__zone {
+  background: var(--color-surface);
+}
+
+[data-mode='light'] .area__scene {
+  opacity: 0.55;
+}
+
+[data-mode='light'] .areas__big .area__scene {
+  opacity: 0.7;
+}
+
+[data-mode='light'] .area__zone--plain {
+  background:
+    radial-gradient(
+      ellipse 70% 80% at 50% 62%,
+      color-mix(in srgb, var(--color-section) 14%, transparent),
+      transparent 72%
+    ),
+    var(--color-surface);
+}
+
+/* La figura es más alta que el marco y se apoya en su borde: rompe el de arriba. */
+.area__fig {
+  position: absolute;
+  right: 50%;
+  bottom: 0;
+  width: auto;
+  height: 104%;
+  max-width: none;
+  translate: 50% 0;
+  filter: drop-shadow(0 8px 14px rgb(0 0 0 / 0.45));
+  transform-origin: 50% 100%;
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+
+[data-mode='light'] .area__fig,
+[data-mode='light'] .cast__p {
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--color-section) 35%, transparent))
+    drop-shadow(0 4px 8px rgb(0 0 0 / 0.18));
+}
+
+/* Móvil: 2 × 2 de arte cuadrado con solo el título; la frase sigue siendo la descripción. */
+@media (max-width: 39.99rem) {
+  .areas > li:not(.areas__big) .area__art {
+    height: auto;
+    aspect-ratio: 1;
+    margin: 0 0 6px;
+  }
+
+  .areas > li:not(.areas__big) .area__t {
+    font-size: 1.125rem;
+  }
+
+  .areas > li:not(.areas__big) .area__d {
+    display: none;
+  }
+}
+
+/* El cartel: cuatro PNJ de pie en la plaza de Astrub, rompiendo el marco por arriba. */
+.areas__big .area__art {
+  --art-h: clamp(220px, 12vw + 150px, 320px);
+  height: var(--art-h);
+  margin-top: calc(var(--art-h) * 0.36);
+}
+
+.areas__big .area__scene {
+  object-position: 50% 58%;
+}
+
+.areas__big .area__zone::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, transparent 45%, rgb(0 0 0 / 0.28));
+  pointer-events: none;
+}
+
+[data-mode='light'] .areas__big .area__zone::before {
+  display: none;
+}
+
+.areas__big .area__t {
+  font-size: 2rem;
+}
+
+.areas__big .area__d {
+  max-width: none;
+  font-size: 1.125rem;
+}
+
+.cast {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 5% 3%;
+  pointer-events: none;
+}
+
+.cast__p {
+  position: relative;
+  width: auto;
+  height: 118%;
+  max-width: none;
+  filter: drop-shadow(0 8px 14px rgb(0 0 0 / 0.5));
+  transform-origin: 50% 100%;
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+
+/* Meriana y Draconiros en los extremos; las otras dos, dentro. */
+.cast__p--2 {
+  height: 122%;
+  margin-right: auto;
+  margin-left: 6%;
+}
+
+.cast__p--3 {
+  height: 120%;
+  margin-right: 6%;
+  margin-left: auto;
+}
+
+.cast__p--4 {
+  height: 134%;
+}
+
+@media (max-width: 39.99rem) {
+  .areas__big .area__art {
+    --art-h: 200px;
+  }
+
+  .cast {
+    padding-inline: 2%;
+  }
+
+  .cast__p--2,
+  .cast__p--3 {
+    display: none;
+  }
+}
+
+/* Dofus: tres huevos con guía, ninguno repetido en la página. */
+.trio-eggs {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4%;
+  padding-inline: 8%;
+}
+
+.trio-eggs img {
+  width: 28%;
+  max-width: 104px;
+  height: auto;
+  filter: drop-shadow(0 8px 12px rgb(0 0 0 / 0.45));
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+
+.trio-eggs img:nth-child(2) {
+  width: 36%;
+  max-width: 128px;
+  translate: 0 -8%;
+}
+
+[data-mode='light'] .trio-eggs img {
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--color-section) 35%, transparent))
+    drop-shadow(0 4px 8px rgb(0 0 0 / 0.18));
+}
+
+/* Clases: seis cabezas en casillas redondas, dos filas de tres. */
+.heads {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 64px));
+  place-content: center;
+  gap: 10px 14px;
+  padding: 12px;
+}
+
+.heads__slot {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  aspect-ratio: 1;
+  border: 1.5px solid color-mix(in srgb, var(--color-section) 55%, var(--color-slot-line));
+  border-radius: 50%;
+  background: var(--color-slot);
+}
+
+.heads__slot img {
+  width: 100%;
+  height: auto;
+  translate: 0 6%;
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+
+.heads__slot:nth-child(even) {
+  translate: 0 12%;
+}
+
+@media (max-width: 39.99rem) {
+  .heads {
+    grid-template-columns: repeat(3, minmax(0, 46px));
+    gap: 8px;
+  }
+}
+
+/* Checklists: tres pasos de verdad del checklist del Silvestre y su barra. */
+.mini {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  left: 16px;
+  display: grid;
+  gap: 8px;
+  translate: 0 -50%;
+}
+
+.mini__bar {
+  display: block;
+  overflow: hidden;
+  height: 8px;
+  margin-bottom: 4px;
+  border-radius: 4px;
+  background: var(--color-raised);
+}
+
+.mini__bar span {
+  display: block;
+  height: 100%;
+  background: var(--color-accent);
+  transform: scaleX(0.47);
+  transform-origin: 0 50%;
+}
+
+.mini__row {
+  display: grid;
+  grid-template-columns: 18px 22px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--color-bg) 70%, var(--color-surface));
+  color: var(--color-ink-2);
+  font-size: 0.75rem;
+  line-height: 1.25;
+}
+
+.mini__t {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mini__t b {
+  font-weight: 700;
+}
+
+.mini__n {
+  color: var(--color-muted);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.mini__box {
+  display: grid;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--color-muted);
+  border-radius: 5px;
+}
+
+/* Hecho (DESIGN.md, Checkbox): relleno en el acento con la marca en --color-bg. */
+.mini__row.is-done .mini__box {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+}
+
+.mini__row.is-done .mini__box::after {
+  content: '';
+  background: var(--color-bg);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    center / 13px no-repeat;
+}
+
+.mini__row.is-done .mini__t {
+  text-decoration: line-through var(--color-muted);
+}
+
+@media (max-width: 39.99rem) {
+  .mini {
+    right: 10px;
+    left: 10px;
+    gap: 6px;
+  }
+
+  .mini__row {
+    grid-template-columns: 16px minmax(0, 1fr);
+    padding: 6px 8px;
+  }
+
+  .mini__n {
+    display: none;
+  }
+
+  .mini__box {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .area .area__scene {
+    transform: scale(1.04);
+  }
+
+  .area:hover .area__scene {
+    transform: none;
+  }
+
+  .area:hover .area__zone::after {
+    box-shadow:
+      inset 0 0 0 2px var(--color-section),
+      0 0 0 4px color-mix(in srgb, var(--color-section) 22%, transparent);
+  }
+
+  .area:hover .area__fig,
+  .area:hover .cast__p {
+    transform: translateY(-6px) scale(1.03);
+  }
+
+  .area:hover .trio-eggs img {
+    transform: translateY(-6px) rotate(-6deg);
+  }
+
+  .area:hover .heads__slot img {
+    transform: scale(1.08);
+  }
+
+  .area:hover .area__a {
+    text-decoration: underline 2px;
+    text-underline-offset: 0.16em;
+  }
+}
+
+/* ---------- Una guía para cada misión ---------- */
+.tour {
+  display: grid;
+  gap: 28px;
+}
+
+.tour__lead,
+.cl__lead,
+.author__lead {
+  max-width: 34em;
+  margin-top: 16px;
+  color: var(--color-ink-2);
+  font-size: 1.125rem;
+}
+
+.tour__steps {
+  display: grid;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tour__step {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  align-items: start;
+  gap: 16px;
+}
+
+.tour__step h3 {
+  margin-bottom: 4px;
+  color: var(--color-ink);
+  font: 600 1.3125rem/1.2 var(--font-display);
+}
+
+.tour__step p {
+  max-width: 36em;
+  color: var(--color-ink-2);
+}
+
+.tour__n,
+.spec__mark {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1.5px solid var(--color-well-line);
+  border-radius: 10px;
+  background: var(--color-well);
+  color: var(--color-ink);
+  font: 700 1.125rem/1 var(--font-display);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 63.99rem) {
+  .tour__txt {
+    display: contents;
+  }
+
+  .tour .home-h2 {
+    order: 1;
+  }
+
+  .tour__lead {
+    order: 2;
+  }
+
+  .spec {
+    order: 3;
+  }
+
+  .tour__steps {
+    order: 4;
+  }
+
+  .tour .go {
+    order: 5;
+  }
+}
+
+@media (min-width: 64rem) {
+  .tour {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    align-items: start;
+    gap: 72px;
+  }
+
+  .tour__txt {
+    display: grid;
+    align-content: start;
+    gap: 20px;
+  }
+
+  .tour__lead {
+    margin-top: 0;
+  }
+
+  .tour__steps {
+    gap: 28px;
+    margin-top: 16px;
+  }
+
+  .tour .go {
+    margin-top: 16px;
+  }
+}
+
+.spec {
+  margin: 0;
+}
+
+.spec__page {
+  padding: 26px 26px 28px;
+  border: 1px solid var(--color-well-line);
+  border-radius: 20px;
+  background: var(--color-surface);
+}
+
+@media (max-width: 39.99rem) {
+  .spec__page {
+    padding: 22px 14px 20px;
+  }
+}
+
+/* La parte de la que habla el punto actual lleva un marco en accent-2 (::after, que solo
+   cambia de opacidad); nada más cambia, así que nada se atenúa. */
+/* isolation y z-index: -1 dejan el marco detrás del contenido de la parte, nunca encima del texto. */
+.spec [data-part] {
+  position: relative;
+  isolation: isolate;
+  border-radius: 14px;
+}
+
+.spec [data-part]::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -6px;
+  border: 2px solid var(--color-accent-2);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--color-accent-2) 7%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-base) var(--ease-standard);
+}
+
+/* Cada parte lleva su número, así que se emparejan sin movimiento ni JavaScript. Dónde va:
+   en la esquina libre de la cabecera, detrás de las coordenadas, en la esquina de la captura
+   y sobre la cara de Torre. Nunca encima de un texto. */
+.spec__mark {
+  position: absolute;
+  z-index: 2;
+  width: 26px;
+  height: 26px;
+  border-width: 1px;
+  border-radius: 8px;
+  font-size: 0.8125rem;
+}
+
+.spec__mark--corner {
+  top: -14px;
+  right: -10px;
+}
+
+.spec__mark--inline {
+  position: static;
+  display: inline-grid;
+  margin-left: 6px;
+  vertical-align: 0.1em;
+}
+
+.spec__shot > .spec__mark {
+  top: 8px;
+  left: 8px;
+}
+
+.spec__torre > .spec__mark {
+  top: -12px;
+  left: -12px;
+}
+
+/* Con el ratón, el punto señalado enmarca su parte, también donde el scroll los mueve. */
+.tour:has(.tour__step:hover) .spec [data-part]::after {
+  animation: none;
+}
+
+.tour:has([data-tour-step='1']:hover) [data-part='1']::after,
+.tour:has([data-tour-step='2']:hover) [data-part='2']::after,
+.tour:has([data-tour-step='3']:hover) [data-part='3']::after,
+.tour:has([data-tour-step='4']:hover) [data-part='4']::after {
+  opacity: 1;
+}
+
+.spec__pin {
+  display: inline-block;
+  margin-left: 4px;
+  white-space: nowrap;
+}
+
+.spec__head {
+  display: grid;
+  grid-template-areas: 'g t' 'g m' 'g f';
+  grid-template-columns: 84px minmax(0, 1fr);
+  align-items: start;
+  gap: 0 22px;
+}
+
+.spec__giver {
+  position: relative;
+  grid-area: g;
+  align-self: center;
+}
+
+.spec__giver img {
+  position: relative;
+  width: 84px;
+  height: auto;
+}
+
+.spec__t {
+  grid-area: t;
+  color: var(--color-ink);
+  font: 700 clamp(1.5rem, 1.2rem + 1vw, 2rem) / 1.05 var(--font-display);
+  letter-spacing: -0.015em;
+}
+
+.spec__meta {
+  grid-area: m;
+  margin-top: 4px;
+  color: var(--color-ink-2);
+  font-size: var(--text-sm);
+}
+
+.spec__facts {
+  display: grid;
+  grid-area: f;
+  grid-template-columns: auto 1fr;
+  gap: 10px 28px;
+  margin-top: 14px;
+}
+
+.spec__rew {
+  display: flex;
+  flex-wrap: wrap;
+  grid-column: 1 / -1;
+  gap: 0 22px;
+}
+
+.spec__h {
+  flex-basis: 100%;
+  margin-bottom: 2px;
+  color: var(--color-ink);
+  font: 600 0.9375rem/1.2 var(--font-display);
+}
+
+.spec__items {
+  display: flex;
+  gap: 4px;
+}
+
+/* Casilla de un icono del juego a todo color (DESIGN.md, Icon wells). */
+.iw {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--color-slot-line);
+  border-radius: 8px;
+  background: var(--color-slot);
+}
+
+.iw img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.irow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  color: var(--color-ink);
+  font-size: var(--text-sm);
+}
+
+/* Bajo 36rem (DESIGN.md, Quest header): el PNJ mira a la izquierda, a la derecha del título. */
+@media (max-width: 35.99rem) {
+  .spec__head {
+    grid-template-areas: 't g' 'm g' 'f f';
+    grid-template-columns: minmax(0, 1fr) 56px;
+    gap: 0 10px;
+  }
+
+  .spec__giver {
+    align-self: start;
+    justify-self: end;
+  }
+
+  .spec__giver img {
+    width: 50px;
+  }
+
+  .spec__facts {
+    grid-template-columns: 1fr;
+  }
+}
+
+.spec__step {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 0 14px;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--color-line);
+}
+
+.spec__n {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--color-well-line);
+  border-radius: 10px;
+  background: var(--color-well);
+  color: var(--color-ink);
+  font: 700 1rem/1 var(--font-display);
+}
+
+.spec__body > * + * {
+  margin-top: 12px;
+}
+
+.spec__body p,
+.spec__bubble p {
+  color: var(--color-ink);
+}
+
+.spec__shot img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: 50% 30%;
+  border-radius: 12px;
+  background: #000;
+  box-shadow: var(--shadow-art);
+}
+
+.spec__torre {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0 14px;
+  margin-top: 18px;
+  margin-left: 48px;
+}
+
+.spec__face img {
+  width: 48px;
+  height: 48px;
+  border: 2px solid var(--color-well-line);
+  border-radius: 50%;
+}
+
+.spec__bubble {
+  position: relative;
+  padding: 12px 16px 14px;
+  border: 1px solid var(--color-well-line);
+  border-radius: 14px;
+  background: var(--color-bg);
+}
+
+.spec__bt {
+  margin-bottom: 4px;
+  color: var(--color-ink);
+  font: 600 0.9375rem/1.2 var(--font-display);
+}
+
+.spec__bubble p:last-child {
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+@media (max-width: 39.99rem) {
+  .spec__step {
+    display: block;
+  }
+
+  .spec__n {
+    float: left;
+    width: 30px;
+    height: 30px;
+    margin: 0 10px 0 0;
+    font-size: 0.9375rem;
+  }
+
+  .spec__torre {
+    margin-left: 0;
+  }
+}
+
+/* Ventanas de escritorio altas: la guía se queda quieta mientras los cuatro puntos pasan a su
+   lado, y el punto que cruza el centro de la pantalla enmarca su parte. Solo con animaciones
+   ligadas al scroll y sin movimiento reducido; si no, los números bastan. */
+@media (min-width: 64rem) and (min-height: 840px) {
+  .spec {
+    position: sticky;
+    top: 88px;
+  }
+
+  .spec__shot img {
+    aspect-ratio: 21 / 9;
+  }
+
+  .tour__steps {
+    gap: 0;
+  }
+
+  .tour__step {
+    align-content: start;
+    min-height: 26vh;
+  }
+
+  .tour__step:last-child {
+    min-height: 0;
+    padding-bottom: 8px;
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .tour {
+        timeline-scope: --tour-1, --tour-2, --tour-3, --tour-4;
+      }
+
+      .tour__step[data-tour-step='1'] {
+        view-timeline-name: --tour-1;
+      }
+
+      .tour__step[data-tour-step='2'] {
+        view-timeline-name: --tour-2;
+      }
+
+      .tour__step[data-tour-step='3'] {
+        view-timeline-name: --tour-3;
+      }
+
+      .tour__step[data-tour-step='4'] {
+        view-timeline-name: --tour-4;
+      }
+
+      .spec [data-part]::after {
+        animation: home-tour linear both;
+        animation-range: cover 38% cover 62%;
+      }
+
+      .spec [data-part='1']::after {
+        animation-timeline: --tour-1;
+      }
+
+      .spec [data-part='2']::after {
+        animation-timeline: --tour-2;
+      }
+
+      .spec [data-part='3']::after {
+        animation-timeline: --tour-3;
+      }
+
+      .spec [data-part='4']::after {
+        animation-timeline: --tour-4;
+      }
+    }
+  }
+}
+
+/* El marco se enciende mientras el punto cruza el centro: solo cambia su opacidad. */
+@keyframes home-tour {
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  15%,
+  85% {
+    opacity: 1;
+  }
+}
+
+/* ---------- Checklists ---------- */
+.cl {
+  display: grid;
+  align-items: center;
+  gap: 40px;
+}
+
+@media (min-width: 64rem) {
+  .cl {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 64px;
+  }
+}
+
+.trio {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trio a {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  padding-bottom: 6px;
+  border-radius: 16px;
+  color: var(--color-ink);
+  text-align: center;
+  text-decoration: none;
+}
+
+.trio__egg {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(84px, 9vw + 40px, 168px);
+  aspect-ratio: 1;
+  margin-bottom: 10px;
+}
+
+.trio__egg::before {
+  content: '';
+  position: absolute;
+  bottom: -4%;
+  left: 50%;
+  width: 70%;
+  height: 16%;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--color-sec-checklists) 40%, transparent),
+    transparent
+  );
+  translate: -50% 0;
+}
+
+.trio__egg img {
+  position: relative;
+  width: 82%;
+  height: auto;
+  filter: drop-shadow(0 10px 16px rgb(0 0 0 / 0.35));
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+
+[data-mode='light'] .trio__egg img {
+  filter: drop-shadow(0 8px 12px rgb(0 0 0 / 0.18));
+}
+
+.trio__t {
+  font: 600 clamp(1.0625rem, 0.95rem + 0.6vw, 1.375rem) / 1.15 var(--font-display);
+  text-wrap: balance;
+}
+
+.trio__d {
+  color: var(--color-ink-2);
+  font-size: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem);
+}
+
+.trio__d b {
+  color: var(--color-accent-2);
+  font: 400 1.25rem/1 var(--font-accent);
+}
+
+.trio a:hover .trio__egg img {
+  transform: translateY(-6px) rotate(-6deg);
+}
+
+.trio a:hover .trio__t {
+  text-decoration: underline 2px;
+  text-underline-offset: 0.16em;
+}
+
+.trio a:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 4px;
+}
+
+/* ---------- Las guías son de Torre ---------- */
+.author__in {
+  display: grid;
+  align-items: center;
+  gap: 28px;
+}
+
+@media (min-width: 52rem) {
+  .author__in {
+    grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+    gap: 56px;
+  }
+}
+
+.author__art {
+  display: grid;
+  justify-items: center;
+}
+
+.author__img {
+  width: min(100%, 420px);
+  filter: drop-shadow(0 18px 30px rgb(0 0 0 / 0.35));
+}
+
+[data-mode='light'] .author__img {
+  filter: drop-shadow(0 12px 22px rgb(0 0 0 / 0.16));
+}
+
+@media (max-width: 51.99rem) {
+  .author__art {
+    justify-items: start;
+  }
+
+  .author__img {
+    width: 200px;
+  }
+}
+
+/* La única invitación: el Discord, con su icono. */
+.join {
+  display: inline-grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  margin-top: 28px;
+  padding: 6px 4px 6px 0;
+  border-radius: 16px;
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+.join__icon {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border: 1.5px solid var(--color-accent);
+  border-radius: 16px;
+  color: var(--color-accent);
+  transition:
+    transform var(--duration-base) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-standard);
+}
+
+.join__icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.join__txt {
+  display: grid;
+  gap: 2px;
+}
+
+.join__t {
+  color: var(--color-accent);
+  font: 600 clamp(1.1875rem, 1.05rem + 0.5vw, 1.4375rem) / 1.2 var(--font-display);
+}
+
+.join__d {
+  color: var(--color-ink-2);
+}
+
+.join__go {
+  width: 22px;
+  height: 22px;
+  color: var(--color-accent);
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.join:hover .join__t {
+  text-decoration: underline 2px;
+  text-underline-offset: 0.16em;
+}
+
+.join:hover .join__icon {
+  background: var(--color-raised);
+  transform: rotate(-6deg);
+}
+
+.join:hover .join__go {
+  transform: translateX(4px);
+}
+
+.join:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 4px;
+}
+
+/* En directo o no, dicho con palabras, sobre los canales. */
+.stream {
+  display: grid;
+  gap: 16px;
+  margin-top: 36px;
+  padding-top: 28px;
+  border-top: 1px solid var(--color-line);
+}
+
+.stream__on {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+}
+
+.stream__dot {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-inline: 4px;
+  border-radius: 50%;
+  background: var(--color-danger);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-danger) 35%, transparent);
+}
+
+/* Sin directo: un aviso pequeño, no un titular. */
+.stream__off {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  max-width: 40em;
+  color: var(--color-ink-2);
+  font-size: var(--text-sm);
+}
+
+.stream__dot--off {
+  width: 10px;
+  height: 10px;
+  margin: 0;
+  border: 2px solid var(--color-muted);
+  background: transparent;
+  box-shadow: none;
+  translate: 0 1px;
+}
+
+.stream__txt {
+  display: grid;
+  flex: 1 1 16rem;
+  gap: 4px;
+  min-width: 0;
+}
+
+.stream__t {
+  color: var(--color-ink);
+  font: 600 clamp(1.375rem, 1.15rem + 0.9vw, 1.875rem) / 1.1 var(--font-display);
+}
+
+.stream__d {
+  color: var(--color-ink);
+}
+
+.stream__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 48px;
+  padding: 0 22px;
+  border: 1.5px solid var(--color-accent);
+  border-radius: var(--radius-pill);
+  color: var(--color-accent);
+  font: 600 1.0625rem/1 var(--font-display);
+  text-decoration: none;
+}
+
+.stream__arrow {
+  width: 18px;
+  height: 18px;
+}
+
+.stream__go:hover {
+  background: var(--color-raised);
+}
+
+.chan {
+  display: grid;
+  gap: 4px 28px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 30rem) {
+  .chan {
+    grid-template-columns: repeat(3, auto);
+    justify-content: start;
+  }
+}
+
+@media (min-width: 52rem) and (max-width: 79.99rem) {
+  .chan {
+    grid-template-columns: 1fr;
+  }
+}
+
+.chan a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 64px;
+  padding: 6px 8px 6px 0;
+  border-radius: 12px;
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+.chan__txt {
+  display: grid;
+}
+
+.chan__icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--color-well-line);
+  border-radius: 14px;
+  background: var(--color-well);
+  color: var(--color-ink);
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.chan__icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.chan__n {
+  color: var(--color-accent);
+  font: 600 1.1875rem/1.2 var(--font-display);
+}
+
+.chan__h {
+  color: var(--color-ink-2);
+  font-size: var(--text-sm);
+  line-height: 1.35;
+  white-space: nowrap;
+}
+
+.chan a:hover .chan__n {
+  text-decoration: underline 2px;
+  text-underline-offset: 0.16em;
+}
+
+.chan a:hover .chan__icon {
+  transform: translateY(-3px) rotate(-6deg);
+}
+
+@media (max-width: 29.99rem) {
+  .chan__h {
+    white-space: normal;
+  }
+
+  .join {
+    align-items: start;
+    gap: 14px;
+  }
+
+  .join__go {
+    display: none;
+  }
+}
+
+/* ---------- entradas al bajar: CSS ligado al scroll, sin JavaScript ---------- */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes home-rise {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+    }
+
+    .rv,
+    .areas > li,
+    .trio > li {
+      animation: home-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+  }
+}
+
+/* ---------- el pie en la portada: sin la columna de Torre ni «Sigue a Torre» ----------
+   «Las guías son de Torre» está justo encima. Las tarjetas de la comunidad guardan el ancho
+   que tienen en el pie de tres columnas, con el icono más pequeño. */
+body:has(main.home) .ft-torre,
+body:has(main.home) .ft-com .ft-h3,
+body:has(main.home) .ft-com .slots {
+  display: none;
+}
+
+@media (min-width: 48rem) {
+  body:has(main.home) .site-ft__in {
+    grid-template-columns: minmax(0, 0.6fr) minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 70rem) {
+  body:has(main.home) .site-ft__in {
+    grid-template-columns: minmax(0, 0.5fr) minmax(0, 1fr);
+    gap: 48px;
+  }
+}
+
+body:has(main.home) .ft-com {
+  justify-items: start;
+}
+
+body:has(main.home) .ft-join,
+body:has(main.home) .ft-kofi {
+  width: 100%;
+  max-width: 24rem;
+  min-height: 0;
+}
+
+body:has(main.home) .ft-join {
+  gap: 12px;
+  padding: 6px 14px 6px 6px;
+}
+
+body:has(main.home) .ft-join__i {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+}
+
+body:has(main.home) .ft-join__i svg {
+  width: 20px;
+  height: 20px;
+}
+
+body:has(main.home) .ft-kofi {
+  gap: 12px;
+  padding: 8px 14px;
+}
+
+body:has(main.home) .ft-kofi > svg {
+  width: 24px;
+  height: 24px;
+}
