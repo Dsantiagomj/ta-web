@@ -228,20 +228,20 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
     else links[Math.min(next, links.length - 1)].focus()
   }
 
-  // Sin el módulo todavía, la línea solo dice que carga o que falló.
-  const note =
-    search.state === 'loading' ? s.guidesLoading : search.state === 'error' ? s.guidesError : ''
-  const status =
-    results && search.run
-      ? search.run.searchStatus({
-          query,
-          found: results.found,
-          questTotal: results.questTotal,
-          questShown: results.groups.find((g) => g.type === 'mision')?.items.length ?? 0,
-          guides: search.state,
-          note,
-        })
-      : note
+  // Sin el motor todavía, la línea solo dice que carga o que falló.
+  const status = search.run
+    ? search.run.searchStatus({
+        query,
+        guides: search.state,
+        questTotal: results?.questTotal ?? 0,
+        navCount: results?.navCount ?? 0,
+        notes: s,
+      })
+    : search.state === 'error'
+      ? s.guidesError
+      : search.state === 'loading'
+        ? s.guidesLoading
+        : ''
 
   return (
     <dialog

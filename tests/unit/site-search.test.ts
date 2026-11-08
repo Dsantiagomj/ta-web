@@ -1,15 +1,21 @@
 import { readFileSync } from 'node:fs'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { GAME_ICONS } from '@/components/game/game-icons'
 import { searchIndex } from '@/components/site/nav'
 import {
   type GuidesState,
-  QUEST_RESULTS_LIMIT,
+  highlight,
+  loadQuestEntries,
+  MANY_QUESTS,
   questEntries,
+  resetQuestEntries,
   searchSite,
   searchStatus,
+  SHOWN_WHEN_MANY,
+  words,
 } from '@/components/site/search'
+import { queryKind } from '@/components/site/search-query'
 import { searchDialogStrings } from '@/components/site/search-strings'
 import type { GuideSearchIndex } from '@/lib/search/guide-index'
 
@@ -87,17 +93,56 @@ describe('la búsqueda de la cabecera', () => {
     ])
   })
 
-  it(`enseña como mucho ${QUEST_RESULTS_LIMIT} misiones y cuenta todas`, () => {
-    const many = quests(...Array.from({ length: 15 }, (_, i) => `Prueba ${i + 1}`))
+  it('la puntuación del principio no cuenta: «¡La cosa…» empieza por «la»', () => {
+    const results = searchSite(
+      index,
+      quests('¡Kapla!', '¡Cuidado con la bestia!', '¡La cosa está que arde!', '¿La prueba?'),
+      'la',
+    )
+    expect(names(results)).toEqual([
+      '¿La prueba?',
+      '¡La cosa está que arde!',
+      '¡Cuidado con la bestia!',
+      '¡Kapla!',
+    ])
+  })
+
+  it('a igualdad, la más corta y luego por orden alfabético', () => {
+    const results = searchSite(index, quests('Prueba zeta', 'Prueba alfa', 'Prueba'), 'prueba')
+    expect(names(results)).toEqual(['Prueba', 'Prueba alfa', 'Prueba zeta'])
+  })
+
+  it(`hasta ${MANY_QUESTS} misiones se ven todas`, () => {
+    const many = quests(...Array.from({ length: MANY_QUESTS }, (_, i) => `Prueba ${i + 1}`))
     const results = searchSite(index, many, 'prueba')
-    expect(names(results)).toHaveLength(QUEST_RESULTS_LIMIT)
-    expect(results.questTotal).toBe(15)
-    expect(results.found).toBe(15)
+    expect(names(results)).toHaveLength(MANY_QUESTS)
+    expect(results.questTotal).toBe(MANY_QUESTS)
+  })
+
+  it(`con más de ${MANY_QUESTS}, se ven las ${SHOWN_WHEN_MANY} mejores`, () => {
+    const many = quests(...Array.from({ length: MANY_QUESTS + 1 }, (_, i) => `Prueba ${i + 1}`))
+    const results = searchSite(index, many, 'prueba')
+    expect(names(results)).toHaveLength(SHOWN_WHEN_MANY)
+    expect(results.questTotal).toBe(MANY_QUESTS + 1)
+  })
+
+  it('con una sola letra no busca: pide otra', () => {
+    expect(queryKind('s')).toBe('hint')
+    expect(queryKind(' é ')).toBe('hint')
+    expect(queryKind('s e')).toBe('search')
+    expect(queryKind('se')).toBe('search')
+    expect(queryKind('  ')).toBe('empty')
+    expect(searchSite(index, quests('Seis pies'), 's')).toEqual({
+      groups: [],
+      questTotal: 0,
+      navCount: 0,
+    })
   })
 
   it('las misiones van primero si encajan tan bien como lo demás', () => {
     const results = searchSite(index, quests('Dofus Ébano y sus secretos'), 'dofus ebano')
     expect(results.groups.map((g) => g.type)).toEqual(['mision', 'dofus'])
+    expect(results.navCount).toBe(1)
   })
 
   it('lo que encaja mejor va antes, sea misión o no', () => {
@@ -108,73 +153,123 @@ describe('la búsqueda de la cabecera', () => {
   it('sin misiones cargadas, busca en el menú como siempre', () => {
     const results = searchSite(index, [], 'ebano')
     expect(results.groups.map((g) => g.type)).toEqual(['dofus'])
-    expect(results.found).toBe(1)
+    expect(results.navCount).toBe(1)
   })
 
   it('sin texto no devuelve nada', () => {
-    expect(searchSite(index, quests('Algo'), '  ')).toEqual({ groups: [], found: 0, questTotal: 0 })
+    expect(searchSite(index, quests('Algo'), '  ')).toEqual({
+      groups: [],
+      questTotal: 0,
+      navCount: 0,
+    })
+  })
+})
+
+describe('el resaltado de lo que encaja', () => {
+  const marked = (name: string, query: string) =>
+    highlight(name, words(query))
+      .filter((part) => part.mark)
+      .map((part) => part.text)
+
+  it('marca cada aparición de cada palabra, sin tildes ni mayúsculas', () => {
+    expect(marked('Misión de la misión', 'mision')).toEqual(['Misión', 'misión'])
+    expect(marked('Seis pies bajo tierra', 'tierra seis')).toEqual(['Seis', 'tierra'])
+  })
+
+  it('devuelve el nombre entero, en trozos, con el texto original', () => {
+    const parts = highlight('¡La cosa está que arde!', words('esta'))
+    expect(parts.map((p) => p.text).join('')).toBe('¡La cosa está que arde!')
+    expect(parts).toContainEqual({ text: 'está', mark: true })
+  })
+
+  it('sin palabras no marca nada', () => {
+    expect(highlight('Algo', [])).toEqual([{ text: 'Algo', mark: false }])
+  })
+})
+
+describe('el índice compartido', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals()
+    resetQuestEntries()
+  })
+
+  const ok = () =>
+    new Response(JSON.stringify({ guides: [['Seis pies', 'seis-pies', null, 20]] }), {
+      status: 200,
+    })
+
+  it('lo pide una vez aunque lo pidan la portada y el diálogo', async () => {
+    const fetch = vi.fn(async () => ok())
+    vi.stubGlobal('fetch', fetch)
+    const [a, b] = await Promise.all([loadQuestEntries(), loadQuestEntries()])
+    expect(a).toBe(b)
+    await loadQuestEntries()
+    expect(fetch).toHaveBeenCalledTimes(1)
+  })
+
+  it('si falla, la siguiente vez lo pide de nuevo', async () => {
+    const fetch = vi.fn(async () => new Response('', { status: 500 }))
+    vi.stubGlobal('fetch', fetch)
+    await expect(loadQuestEntries()).rejects.toThrow()
+    fetch.mockImplementation(async () => ok())
+    await expect(loadQuestEntries()).resolves.toHaveLength(1)
+    expect(fetch).toHaveBeenCalledTimes(2)
   })
 })
 
 describe('la línea de estado de la búsqueda', () => {
-  const base = {
-    query: 'pies',
-    found: 3,
-    questTotal: 3,
-    questShown: 3,
-    guides: 'ready' as GuidesState,
-  }
-  // La nota de carga o de error la pone la isla, que tiene esos textos (search-strings.ts).
-  const status = (args: typeof base) =>
+  const notes = searchDialogStrings
+  const status = (args: Partial<Parameters<typeof searchStatus>[0]>) =>
     searchStatus({
+      query: 'pies',
+      guides: 'ready' as GuidesState,
+      questTotal: 3,
+      navCount: 0,
+      notes,
       ...args,
-      note:
-        args.guides === 'loading'
-          ? searchDialogStrings.guidesLoading
-          : args.guides === 'error'
-            ? searchDialogStrings.guidesError
-            : '',
     })
 
   it('sin texto no dice nada, salvo que las misiones estén cargando o no cargaran', () => {
-    expect(status({ ...base, query: ' ' })).toBe('')
-    expect(status({ ...base, query: '', guides: 'idle' })).toBe('')
+    expect(status({ query: ' ' })).toBe('')
+    expect(status({ query: '', guides: 'idle' })).toBe('')
     // Al abrir la búsqueda, antes de escribir, ya se ve que las misiones vienen en camino.
-    expect(status({ ...base, query: '', guides: 'loading' })).toBe('Cargando las misiones…')
-    expect(status({ ...base, query: '', guides: 'error' })).toBe(
-      'No se pudieron cargar las misiones. Cierra la búsqueda y ábrela otra vez para reintentarlo.',
+    expect(status({ query: '', guides: 'loading' })).toBe('Cargando las misiones…')
+    expect(status({ query: '', guides: 'error' })).toBe(
+      'No se pudieron cargar las misiones. Vuelve a intentarlo.',
     )
   })
 
-  it('cuenta los resultados', () => {
-    expect(status(base)).toBe('3 resultados')
-    expect(status({ ...base, found: 1, questTotal: 1 })).toBe('1 resultado')
+  it('con una letra pide otra', () => {
+    expect(status({ query: 's' })).toBe('Escribe una letra más para buscar.')
   })
 
-  it('avisa de que hay más misiones de las que se ven', () => {
-    expect(status({ ...base, found: 40, questTotal: 37, questShown: QUEST_RESULTS_LIMIT })).toBe(
-      `40 resultados. Se ven las ${QUEST_RESULTS_LIMIT} primeras misiones de 37: escribe más para afinar.`,
-    )
+  it('cuenta las misiones', () => {
+    expect(status({})).toBe('3 misiones')
+    expect(status({ questTotal: 1 })).toBe('1 misión')
+    expect(status({ questTotal: MANY_QUESTS })).toBe(`${MANY_QUESTS} misiones`)
   })
 
-  it('mientras cargan las misiones, lo dice en vez de «nada se llama»', () => {
-    expect(status({ ...base, found: 0, questTotal: 0, guides: 'loading' })).toBe(
-      'Cargando las misiones…',
-    )
-    expect(status({ ...base, found: 2, questTotal: 0, guides: 'loading' })).toBe(
-      '2 resultados. Cargando las misiones…',
-    )
+  it('con más de 50 pide que siga escribiendo', () => {
+    expect(status({ questTotal: MANY_QUESTS + 1 })).toBe('Más de 50 misiones: sigue escribiendo')
   })
 
-  it('sin resultados sugiere escribir el nombre del juego', () => {
-    expect(status({ ...base, found: 0, questTotal: 0 })).toBe(
-      'Nada se llama «pies». Prueba con el nombre tal como sale en el juego.',
-    )
+  it('suma lo que encontró en el menú', () => {
+    expect(status({ navCount: 1 })).toBe('3 misiones · 1 resultado del menú')
+    expect(status({ questTotal: 1, navCount: 2 })).toBe('1 misión · 2 resultados del menú')
   })
 
-  it('si las misiones no cargaron, lo dice tras lo que encontró en el menú', () => {
-    expect(status({ ...base, found: 1, questTotal: 0, guides: 'error' })).toBe(
-      '1 resultado. No se pudieron cargar las misiones. Cierra la búsqueda y ábrela otra vez para reintentarlo.',
+  it('sin misiones dice cuál buscó, o lo que hay en el menú', () => {
+    expect(status({ questTotal: 0 })).toBe(
+      'Ninguna misión se llama «pies». Prueba con otra palabra.',
+    )
+    expect(status({ questTotal: 0, navCount: 2 })).toBe('Ninguna misión; 2 resultados del menú.')
+  })
+
+  it('mientras cargan las misiones lo dice, y si fallaron también', () => {
+    expect(status({ questTotal: 0, guides: 'loading' })).toBe('Cargando las misiones…')
+    expect(status({ questTotal: 0, guides: 'idle' })).toBe('Cargando las misiones…')
+    expect(status({ questTotal: 0, navCount: 1, guides: 'error' })).toBe(
+      'No se pudieron cargar las misiones. Vuelve a intentarlo.',
     )
   })
 })

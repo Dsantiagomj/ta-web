@@ -1,12 +1,13 @@
-// La búsqueda de la cabecera (DESIGN.md, Layout: Search): en el menú y en las guías de
-// misiones, y la línea de estado. La isla de la cabecera carga este módulo con import() la
-// primera vez que se abre la búsqueda, a la vez que el índice de las guías: así no pesa en
-// el JavaScript inicial de las páginas de guía (150 KB).
+// El motor de la búsqueda de misiones (DESIGN.md, Layout: Search): lo comparten el diálogo
+// de la cabecera y la búsqueda de la portada. Sin React ni DOM. Las dos islas lo cargan con
+// import() la primera vez que hace falta, a la vez que el índice de las guías: así no pesa
+// en el JavaScript inicial de ninguna página (150 KB).
 
 import { GAME_ICONS } from '@/components/game/game-icons'
 import { GUIDE_SEARCH_INDEX_URL, type GuideSearchIndex } from '@/lib/search/guide-index'
 
 import type { SearchEntry, SearchType } from './nav'
+import { queryKind } from './search-query'
 import { searchResultStrings } from './search-result-strings'
 
 const s = searchResultStrings
@@ -18,11 +19,16 @@ export interface SearchGroup {
 
 export interface SearchResults {
   groups: SearchGroup[]
-  /** Lo que encontró en total, misiones que no se ven incluidas. */
-  found: number
   /** Las misiones que encajan, se vean o no. */
   questTotal: number
+  /** Lo que encontró en el menú. */
+  navCount: number
 }
+
+/** Hasta aquí se ven todas las misiones; con más, la línea pide seguir escribiendo. */
+export const MANY_QUESTS = 50
+/** Las misiones que se ven cuando encajan más de MANY_QUESTS. */
+export const SHOWN_WHEN_MANY = 20
 
 const ORDER: SearchType[] = ['seccion', 'dofus', 'checklist', 'clase', 'mazmorra']
 
@@ -34,29 +40,17 @@ export const fold = (text: string) =>
     .toLowerCase()
     .trim()
 
-const words = (query: string) => fold(query).split(/\s+/).filter(Boolean)
+/** Las palabras de lo buscado, ya sin tildes ni mayúsculas. */
+export const words = (query: string) => fold(query).split(/\s+/).filter(Boolean)
 
 /** Filtra el índice de la cabecera y lo agrupa por tipo, en el orden del menú. */
 export function searchNav(index: SearchEntry[], query: string): SearchGroup[] {
   const terms = words(query)
   if (terms.length === 0) return []
-  const found = index.filter((entry) => {
-    const name = fold(entry.name)
-    return terms.every((word) => name.includes(word))
-  })
+  const found = index.filter((entry) => score(entry.name, terms) !== null)
   return ORDER.map((type) => ({ type, items: found.filter((e) => e.type === type) })).filter(
     (group) => group.items.length > 0,
   )
-}
-
-/** Las misiones que se ven a la vez: el resto se cuenta en la línea de estado. */
-export const QUEST_RESULTS_LIMIT = 10
-
-/** Pide el índice de las guías publicadas y lo convierte en entradas de la búsqueda. */
-export async function loadQuestEntries(): Promise<SearchEntry[]> {
-  const response = await fetch(GUIDE_SEARCH_INDEX_URL)
-  if (!response.ok) throw new Error(`HTTP ${response.status}`)
-  return questEntries((await response.json()) as GuideSearchIndex)
 }
 
 /** Las guías del índice del servidor como entradas de la búsqueda, con su segunda línea. */
@@ -78,16 +72,40 @@ export function questEntries(index: GuideSearchIndex): SearchEntry[] {
   })
 }
 
+// Una sola petición por página: si la portada ya pidió el índice, el diálogo usa la misma
+// promesa, y al revés. Si falla, la siguiente vez se pide otra vez.
+let questRequest: Promise<SearchEntry[]> | null = null
+
+/** Pide el índice de las guías publicadas, una vez, y lo convierte en entradas. */
+export function loadQuestEntries(): Promise<SearchEntry[]> {
+  questRequest ??= fetch(GUIDE_SEARCH_INDEX_URL)
+    .then(async (response) => {
+      if (!response.ok) throw new Error(`HTTP ${response.status}`)
+      return questEntries((await response.json()) as GuideSearchIndex)
+    })
+    .catch((error: unknown) => {
+      questRequest = null
+      throw error
+    })
+  return questRequest
+}
+
+/** Para las pruebas: olvida el índice pedido. */
+export function resetQuestEntries() {
+  questRequest = null
+}
+
 const escape = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
 /**
- * Cómo encaja un nombre, de mejor a peor: 0 si empieza por lo buscado, 1 si cada palabra
- * empieza una palabra del nombre, 2 si solo aparece dentro; null si falta alguna palabra.
+ * Cómo encaja un nombre, de mejor a peor: 0 si empieza por lo buscado (sin contar los signos
+ * del principio, como ¡ o ¿), 1 si cada palabra empieza una palabra del nombre, 2 si solo
+ * aparece dentro; null si falta alguna palabra.
  */
 function score(name: string, terms: string[]): number | null {
   const folded = fold(name)
   if (!terms.every((word) => folded.includes(word))) return null
-  if (folded.startsWith(terms.join(' '))) return 0
+  if (folded.replace(/^[^\p{L}\p{N}]+/u, '').startsWith(terms.join(' '))) return 0
   const atWordStart = terms.every((word) =>
     new RegExp(`(?:^|[^\\p{L}\\p{N}])${escape(word)}`, 'u').test(folded),
   )
@@ -95,19 +113,11 @@ function score(name: string, terms: string[]): number | null {
 }
 
 /**
- * La búsqueda de la cabecera: el menú y las guías de misiones. Las misiones se ordenan por
- * cómo encajan (y, a igualdad, de la más corta a la más larga y por orden alfabético), y se
- * ven las QUEST_RESULTS_LIMIT primeras. Los grupos van del que mejor encaja al que peor; a
- * igualdad, las misiones primero, que es lo que más se busca, y el resto en el orden del menú.
+ * Las misiones que encajan, de la que mejor a la que peor (a igualdad, la más corta y luego
+ * por orden alfabético). Se ven todas hasta MANY_QUESTS; con más, las SHOWN_WHEN_MANY mejores.
  */
-export function searchSite(
-  index: SearchEntry[],
-  quests: SearchEntry[],
-  query: string,
-): SearchResults {
+export function rankQuests(quests: SearchEntry[], query: string) {
   const terms = words(query)
-  if (terms.length === 0) return { groups: [], found: 0, questTotal: 0 }
-
   const matched = quests
     .map((entry) => ({ entry, score: score(entry.name, terms) }))
     .filter((m): m is { entry: SearchEntry; score: number } => m.score !== null)
@@ -117,59 +127,106 @@ export function searchSite(
         a.entry.name.length - b.entry.name.length ||
         a.entry.name.localeCompare(b.entry.name, 'es'),
     )
+  const shown = matched.length > MANY_QUESTS ? SHOWN_WHEN_MANY : matched.length
+  return {
+    items: matched.slice(0, shown).map((m) => m.entry),
+    total: matched.length,
+    best: matched[0]?.score ?? null,
+  }
+}
 
+/**
+ * La búsqueda del diálogo: el menú y las guías de misiones. Los grupos van del que mejor
+ * encaja al que peor; a igualdad, las misiones primero, que es lo que más se busca, y el
+ * resto en el orden del menú. Con menos de dos letras no busca.
+ */
+export function searchSite(
+  index: SearchEntry[],
+  quests: SearchEntry[],
+  query: string,
+): SearchResults {
+  if (queryKind(query) !== 'search') return { groups: [], questTotal: 0, navCount: 0 }
+  const terms = words(query)
+  const quest = rankQuests(quests, query)
   const best = (group: SearchGroup) => Math.min(...group.items.map((e) => score(e.name, terms)!))
   const groups = searchNav(index, query).map((group) => ({ group, best: best(group), rank: 1 }))
-  if (matched.length > 0) {
-    groups.push({
-      group: { type: 'mision', items: matched.slice(0, QUEST_RESULTS_LIMIT).map((m) => m.entry) },
-      best: matched[0].score,
-      rank: 0,
-    })
+  const navCount = groups.reduce((n, g) => n + g.group.items.length, 0)
+  if (quest.best !== null) {
+    groups.push({ group: { type: 'mision', items: quest.items }, best: quest.best, rank: 0 })
   }
   groups.sort((a, b) => a.best - b.best || a.rank - b.rank)
+  return { groups: groups.map((g) => g.group), questTotal: quest.total, navCount }
+}
 
-  const navFound = groups.reduce((n, g) => n + (g.rank === 1 ? g.group.items.length : 0), 0)
-  return {
-    groups: groups.map((g) => g.group),
-    found: navFound + matched.length,
-    questTotal: matched.length,
+/** Un trozo del nombre: lo que encaja va marcado (<mark>). */
+export interface HighlightPart {
+  text: string
+  mark: boolean
+}
+
+/**
+ * El nombre en trozos, con cada aparición de cada palabra marcada. Compara sin tildes ni
+ * mayúsculas y devuelve el texto original: «mision» marca «Misión». Se pinta como texto y
+ * <mark>, nunca con innerHTML.
+ */
+export function highlight(name: string, terms: string[]): HighlightPart[] {
+  // Cada carácter del nombre plegado apunta al carácter original del que sale.
+  let folded = ''
+  const origin: number[] = []
+  Array.from(name).forEach((char, i) => {
+    for (const c of fold(char) || char.toLowerCase()) {
+      folded += c
+      origin.push(i)
+    }
+  })
+  const chars = Array.from(name)
+  const on = chars.map(() => false)
+  for (const word of terms) {
+    for (let at = folded.indexOf(word); at >= 0; at = folded.indexOf(word, at + 1)) {
+      for (let j = at; j < at + word.length; j++) on[origin[j]] = true
+    }
   }
+  const parts: HighlightPart[] = []
+  chars.forEach((char, i) => {
+    const last = parts.at(-1)
+    if (last && last.mark === on[i]) last.text += char
+    else parts.push({ text: char, mark: on[i] })
+  })
+  return parts
+}
+
+/** Lo que encontró, en la línea de estado: las misiones y, en el diálogo, lo del menú. */
+export function questStatus(query: string, questTotal: number, navCount = 0): string {
+  const nav = navCount ? s.nav(navCount) : ''
+  if (questTotal === 0) return nav ? s.noneWithNav(nav) : s.none(query.trim())
+  const head = questTotal > MANY_QUESTS ? s.many(MANY_QUESTS) : s.count(questTotal)
+  return nav ? `${head} · ${nav}` : head
 }
 
 export type GuidesState = 'idle' | 'loading' | 'ready' | 'error'
 
 /**
- * La línea de estado del diálogo (role="status"): cuántos hay y la nota de la isla, que
- * dice si las misiones cargan o fallaron (sus textos están en search-strings.ts, que solo
- * importa la isla). Mientras cargan, la nota sale también antes de escribir nada
- * (DESIGN.md, Search) y nunca dice «nada se llama».
+ * La línea de estado (role="status"), la misma en el diálogo y en la portada. Los textos de
+ * pedir otra letra, de carga y de error llegan de la isla (search-strings.ts), que los pinta
+ * antes de que llegue este módulo. Mientras cargan las misiones, la nota sale también antes
+ * de escribir nada (DESIGN.md, Search).
  */
 export function searchStatus({
   query,
-  found,
-  questTotal,
-  questShown,
   guides,
-  note,
+  questTotal,
+  navCount,
+  notes,
 }: {
   query: string
-  found: number
-  questTotal: number
-  /** Las misiones que se ven: si son menos que questTotal, lo dice. */
-  questShown: number
   guides: GuidesState
-  /** «Cargando las misiones…» o el error, o nada. */
-  note: string
+  questTotal: number
+  navCount: number
+  notes: { hint: string; guidesLoading: string; guidesError: string }
 }): string {
-  const q = query.trim()
-  if (!q) return note
-  const pending = guides === 'loading' || guides === 'idle'
-  const parts = [
-    found > 0 ? s.found(found) : pending ? '' : s.none(q),
-    note || (questTotal > questShown ? s.moreQuests(questShown, questTotal) : ''),
-  ].filter(Boolean)
-  return parts
-    .map((part, i) => (i < parts.length - 1 && !/[.…]$/.test(part) ? `${part}.` : part))
-    .join(' ')
+  const kind = queryKind(query)
+  if (kind === 'hint') return notes.hint
+  if (guides === 'error') return notes.guidesError
+  if (guides !== 'ready') return kind === 'empty' && guides === 'idle' ? '' : notes.guidesLoading
+  return kind === 'empty' ? '' : questStatus(query, questTotal, navCount)
 }
