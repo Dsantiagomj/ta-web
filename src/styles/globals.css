@@ -55,4 +55,16 @@
       scroll-behavior: auto !important;
     }
   }
+
+  /* Una cifra (Amount): nunca se parte; el espacio fino de los miles mide una quinta de em,
+     porque las fuentes del sitio no tienen U+202F. */
+  .amount {
+    white-space: nowrap;
+  }
+
+  .amount__th {
+    display: inline-block;
+    width: 0.2em;
+    overflow: hidden;
+  }
 }

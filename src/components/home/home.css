@@ -1331,6 +1331,27 @@ html.hs-on .site-hdr .sbtn {
   opacity: 1;
 }
 
+/* El chip de coordenadas de la guía (DESIGN.md, Coordinates chip), solo dibujado. */
+.spec__coord {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 32px;
+  padding: 0 10px 0 7px;
+  border: 1.5px solid var(--color-accent);
+  border-radius: 8px;
+  background: var(--color-well);
+  color: var(--color-accent);
+  font: 800 0.9375rem / 1 var(--font-body);
+  font-variant-numeric: tabular-nums;
+  vertical-align: -0.12em;
+}
+
+.spec__pin-icon {
+  width: 16px;
+  height: 16px;
+}
+
 .spec__pin {
   display: inline-block;
   margin-left: 4px;
