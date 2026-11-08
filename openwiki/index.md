@@ -9,6 +9,7 @@ okf_version: "0.2"
 
 # Directories
 
+- [achievements](achievements/)
 - [architecture](architecture/)
 - [cms](cms/)
 - [data](data/)

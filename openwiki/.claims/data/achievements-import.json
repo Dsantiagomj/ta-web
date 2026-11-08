@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:8b5d734593a20ba9bfbabe4b8a096d9e3e3c38428db1bbc58a261243eb541699",
+  "claims": [
+    {
+      "id": "claim_21fde6b12b3a4c65b4ca9651333310b2",
+      "statement": "pnpm import:achievements reads the prototype's computed index JSON, only counts without --apply, and is meant to run after pnpm data:quests.",
+      "evidence": [
+        {
+          "resource": "repo://package.json",
+          "version": "repo-file-v1:sha256:4115c473eb63e401ecfec805c0c1c26c4fdd5a1de422ac2dee76b2a2c25e4929"
+        },
+        {
+          "resource": "repo://scripts/import/import-achievements.ts#L1-L32",
+          "version": "repo-lines-v1:sha256:0a66654dee3c52de8e9aaa85982f5835af3fa6573e7c4c220a45c458a21abe50:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyOWU2Njk2NWE0YWE1ZjFjN2FhODRiODUxNGY1ZGY1OGZjZmNmZTMxMjE3YTczODk2YjAzZGY1MzA1N2FlNzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4NDkzZGVkYzZjNjQ4YzEzNWVjY2I3NTA1ZjlhZjU0MmQ2NzlhYWM0Nzk0ZGZhN2UzZmVmYzEwNmJmZDg0ODgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImViOGI5NzFmZDMzZTI1ZmU2ZWYxNTNkNGYyODYwNDAwYzE1ZjdkY2Q5ZjFhNTEwZWVmOTY1NGYyYzg4ZGNlODYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b67b2282ede149a191d846e5d7b27c6c",
+      "statement": "databaseScriptRefusal requires --production in production and --remote when DATABASE_URL points to a host other than localhost, 127.0.0.1 or ::1, treating an unparseable URL as remote and an empty one as local.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/db/script-guard.ts#L1-L35",
+          "version": "repo-lines-v1:sha256:eb1780457e18a26f07a6f07139fc93b35b7c17c3a9e45d06d4ce90ab2f71aa34:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliYjI4ZTI2ZGYyN2ExOGQxZWZlZDg0OTU0N2QwNTQxOTZiYjE1MmZkZjczYzUwYTdkMmQ4ZmE5YWYxMWJmY2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3b06957233e941fe827b79ebaf6ee185",
+      "statement": "The import runs the database guard before starting Payload, so a wrong environment never connects.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/import-achievements.ts#L25-L34",
+          "version": "repo-lines-v1:sha256:e67e315d15eceb9048e6ac939f5cbaedc9271c49d1693351f620f074a692a036:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjczODFkZmUxODcwNjkzOWU1NjcwNWU3ZjliNjVjNTM1MjNlZTUxZDM1NmM4NmRkZGUzNDVkMWI2ZmE4ZjY0YzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmZTM5ZWRhOGZlY2FlZmMyNzFmYTg4OTZhNWU5NzVlOGM0NjVhN2VjYTJjNDMzM2YyMDVhZTQ1OGUyZTFmM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFiM2EwMmRhYzJmYTQ3YWM0ZGQzYzFhNWQ3MmE5MjAzNGY0MWY0ZTdhOWIzMTFmYjRjNTc3NjgyMDg3MjcwOGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJiMjBmYTgyMjAzMTc5NjcxNzIzMjQ4YWU4ZGJlMjhhMWM3ODY3MzE3ZTBiNDk5NjM0ZmUyMzU1N2FhNTc3NzEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d9553d49d5314aa29931347dfbaae8a6",
+      "statement": "Zone and achievement names are matched after folding accents, case and punctuation, with two aliases for names that differ from the game's.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/load-achievements.ts#L46-L60",
+          "version": "repo-lines-v1:sha256:6dfb442a382f2274ef5b47dd7972f9ebf64f4388046a19ddc2ac934a5456aba7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg4MjA2MWJlNGZhMzhjY2NlNDc5ZWY0ZWM4OTRlZjMzMzM1NTIzY2MzMjdlZThlOWJmN2NmNmI5ZGM0ZmU4MzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJlMjUzNGNhYjZlMDVkM2NlMDU1YzE3YmMwOTRkN2M0OTY2OGRiZDA3NjE1NjIyODcxMjhhZjkyNWZhZjFkMTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE3MGE4YzIwMjgzZjY2Mjc3MTU0ZDk1NDBkMTA1NjZlYzQyZGE3ZmYzYTUwOTU5YTU0ZDBkNGRlYWZhYzRjMzUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4aaeb482be9e448bbc00aced8c590971",
+      "statement": "Each metalogro gets Torre's name, slug from her URL, index position as order, state published when done or else preparing, the hand-picked representative and its loose guides found by slug including drafts.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/load-achievements.ts#L96-L138",
+          "version": "repo-lines-v1:sha256:c329440f746047ffce33bda94d9316345e1f5445dfa559565b6bf60ec4979ecf:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlMzMzYTcxOGRlZjU3NzRjZTU1MDY1MDc1MDZiZmEzN2E4MmVlOTM2Mzk5NDM4ZWE2ZGM5MjI5YmUzOWJhNjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlNzAwN2NhZjAyNjgyODEyNTNhYjU0MTc0YjMzYjVlNWJjOTllZjI2MjY3NTljM2MwZDk5YmEwZTQ1N2JmMWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAxMjZlN2E0YmY1NWE0NTFlYTlmOGY2MGFhZWJiNWExZDgxYzA0MzUzY2UzMWU1YWM5MDFiOWY4MzFlZDBhYjQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgzYjljNjYxNTVhOTQ0OTNjMDgyNjdkNWY4MTQ4NzAxMWI0YzZkODI4NDNlZTZjM2RiOTRjMGFmMTM1NjU4MmEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3cffa410b2af47aa847a9f0918f69bb2",
+      "statement": "A hand-picked representative NPC missing from the database is fetched from DofusDB with its renders through refreshNpcs.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/import-achievements.ts#L37-L51",
+          "version": "repo-lines-v1:sha256:ee9eab95e6ff131d73d12ff113ec1dfb6f9eac46414770441fc1715fa6a1431d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3ZTc0ZDgxZTY3N2E2MTcwODU1Yjc2MWU0OGM2OTMyYzI4ZWNmODI4YmUyNWEyMTYxMDljZjY4YTZlMzkzNzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdkYmZkZmE1MTMyYjhiZjQzMTljNDYzZTJjZDQ3ZTc3NDZjYzE3M2RhNjU0Y2I2ZTY5Zjk5YTgzMDE2MTc3NzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEzY2E3NmM0NTJlODNiMGEzOTliYzdjMWUyNmI2MWYwNTdlMmQxZGRiMzQ0ODdkY2M1ZGJlNGMxMjliZDk5NzUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_79c48f3f34644801b39c0ddeb9adc86f",
+      "statement": "A zone with no matching metalogro is created in the stories section as published, and an existing metalogro without a category is also moved to stories.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/load-achievements.ts#L143-L167",
+          "version": "repo-lines-v1:sha256:c0cf5fc478e817fdef0a60ae5eab3b527f9cdb4e11a3522b7ff11eb8a532f92f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyNjU0OTkyN2YxMWZhODhiNDExYjE4NWQwNmJjOGVjYzE3OWQ3NTVkODE2MDIwYTUzZmU3MjZiNTc0NjU3ZWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgxMDU2MDRlN2EyNWUyYWRmZDQ1MTZiY2UyODg1NzFlMTlkNjQzYTMxMTJjYjlkNzI5NGFhNzJkNjk4YjE5NWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJiODAzZTYyZjk1OWU4NjYxNzcyMWE4MjhiNmFmY2RjNTRlYTY1OThhOTM0ZTEwZjg5NmExMzc5OTc1YzQ3NzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRmMmE1MjBiNjg0NjZkMGI4NmRhZDRmN2JiOGZkZTNhZGI4MDY2ZWFjNjQwMDQ0YjFhMjFhZDQxMjM1ZGI1ZDcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f28222359bb04fe9b353fdef3814de0e",
+      "statement": "Each listed achievement page gets Torre's name, slug, order among matched links, metalogro and state published when ready; missing pages are created and filled from DofusDB by the hook.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/load-achievements.ts#L169-L214",
+          "version": "repo-lines-v1:sha256:4542edc0df4a79a67f0126eec0d17af30d37c48f9e54704638a073125700c7ff:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImExZmU2YTkyMmVjYTMxNjI4MDI4MWUyYzA0NDM0ZTY3MmM2MDI0MmViZWYzZmM2ZDZmZjRkZmFiMDRlMDk3NzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNmODNmNWExYzdkNjZhOThlYjlmMDExMTg4MTEyZmQwNGZjZGVkNTdiYThhYzEyMzgzMzUwZWJkMzRkY2UyOWQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2b7726c95dee471da5b7c203a6271dc3",
+      "statement": "Pages of achievements Torre does not list keep their state and are ordered after hers in game order.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/load-achievements.ts#L216-L238",
+          "version": "repo-lines-v1:sha256:99d166a18942dd2c41ec0aa1ba551b7d724761675b780aca90c2eb3369c18e61:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc0M2IyMDVhNWYwYmNjZGZiZjk2Njg5YmY2NWY0MmIyYzdjMTMxZTVjYTkzMzM1ODhkOWQyMjZmOTVkZjdhNDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhhOTg0ZTg0OTcxNzY0NWRlZjUwODY2NTBiOWY1ZGFlMTY5ZTRiNWE4MDhjNTJkZTk4M2MwNTliY2EzZTNkMmIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_41f1224c45544df8a8c59960652b8a53",
+      "statement": "The import prints a summary of metalogros and pages updated and created, loose guides and unmatched links, and exits with 1 on failure.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/import-achievements.ts#L58-L69",
+          "version": "repo-lines-v1:sha256:14ca1e9a77850740da52771106c6bedb2573977939b3f9f8c1f3f1a7baab161e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUyYTQ2ZGQxNTI2Y2FiMjBiMjJkZWFmZjFlNjY1MGY3NDVmODBiOWRiMWNkNmQ5ZGRkMDRmMDdjZWZlYmVlMzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcxNTAyNDk1YmI1MjIyZDEyMGQ5OWMzOGViYjU4OTY1ODE2ZWYxZDBjNmM3NTEyNzY4M2NjZDBmM2RmMzAzY2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1dd3856ff5b14a35a2f87edb6d880321",
+      "statement": "Integration tests cover the dry run writing nothing, metalogro fields, category-less metalogros in stories, page slug, order and state, Torre's names and the copied states.",
+      "evidence": [
+        {
+          "resource": "repo://tests/integration/import-achievements.test.ts#L112-L217",
+          "version": "repo-lines-v1:sha256:411bd9ed10545db39468ca8e982e88f8fab1c6888570bbe66f24137cebd86985:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIyYzQ4MDlkZjA4M2Q3MDZkNmM0ZjJhMDJjZWQ1ZDZlYmExNzVkMDFhZDAzZTZjODUwNjg2ZWE3ZDM1ZjI2ZTk1IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI3OGZkYWRjYmU2ZDM2NjRmODAyZjYzZDkyMjgzNGFlYmRjMzNlM2RkODA4Y2JmZTFiNzI1MDU2ZTMxNjg2YmZiIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIxZTNlNWI5MjJkMjc3NTY4MmQ0NGFmZjhjNjAwOGZiMjM1NGUyZTY2MmNmNTJlOWIxNzJiMjUzOTY5MzQzOWY3IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI3YmNhNmZhODA4NGZmYzA5Mjc4YmIzYjk2NWIyNmU1ZGE0ZTE3ZDFhMTQ3NmEwYmMzYzdlZjg2ZGU1ZWI3YWY1In0"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-08T11:00:21.339Z"
+  }
+}

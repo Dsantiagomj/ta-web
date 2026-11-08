@@ -3,9 +3,6 @@ type: concept
 title: Theme and mode
 description: The two independent appearance settings, a server-decided theme gated by premium entitlement and a free dark or light mode kept in a cookie and localStorage, plus the pre-paint script and the ModeToggle island.
 tags: [frontend, theming, entitlements, client-island, accessibility]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-04T00:16:52.047Z
 sources:
   - id: openwiki-source-baf8ef0ad43916de8d10e9b0
     resource: repo://scripts/build-mode-eggs.ts
@@ -15,6 +12,8 @@ sources:
     resource: repo://src/components/mode-toggle/ModeToggle.tsx
   - id: openwiki-source-494435f3df1838e49db8671d
     resource: repo://src/components/mode-toggle/strings.ts
+  - id: openwiki-source-f25b5fdf49e0879a6c35a45e
+    resource: repo://src/components/site/SiteHeader.tsx
   - id: openwiki-source-755be5e180b5a1d98afeee35
     resource: repo://src/lib/theme/mode-script.ts
   - id: openwiki-source-aa3c4bb3373afa113c60c023
@@ -23,7 +22,10 @@ sources:
     resource: repo://tests/unit/mode-script.test.ts
   - id: openwiki-source-ca22a46c7864184d49dc01b8
     resource: repo://tests/unit/theme.test.ts
-generated: { by: "claude-code", at: "2026-11-04T00:16:52.047Z" }
+generated: { by: "claude-code", at: "2026-11-08T11:00:21.339Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-08T11:00:21.339Z
 ---
 
 # Theme and mode
@@ -58,6 +60,7 @@ The mode has three writers, arranged so the first paint is already correct:
 
 1. **Server.** The layout reads the `ta-mode` cookie and passes it through `resolveMode`, which accepts only `dark` or `light` and falls back to `dark`. The HTML arrives with the right `data-mode` whenever the cookie exists.
 2. **Inline `<head>` script** (`src/lib/theme/mode-script.ts`), which runs before first paint:
+   - It first sets `data-js` on `<html>`: JavaScript is running, so the guide's rewards bag starts closed from the first paint (without JavaScript its list shows open). See [Design system components](design-system-components.md#the-client-island-pageenhancements).
    - If the cookie holds a valid mode, it keeps it (the server already rendered it).
    - If there is no valid cookie, it reads `localStorage['ta-mode']`; a valid value is applied and written back to the cookie for the next request.
    - Otherwise it applies `dark`.
@@ -66,11 +69,11 @@ The mode has three writers, arranged so the first paint is already correct:
 
 The cookie is `ta-mode=<mode>; Path=/; Max-Age=31536000; SameSite=Lax` (one year, whole site). `modeCookie` builds it and the script interpolates the same attribute string.
 
-Because the script may change `data-mode` before React hydrates, `<html>` carries `suppressHydrationWarning`.
+Because the script may change `data-mode` and adds `data-js` before React hydrates, `<html>` carries `suppressHydrationWarning`.
 
 ## ModeToggle island
 
-`src/components/mode-toggle/ModeToggle.tsx` is a `"use client"` island and the only client JavaScript on the page today.
+`src/components/mode-toggle/ModeToggle.tsx` is a `"use client"` island rendered by the site header (`SiteHeader`), on every public page.
 
 - It reads the mode from `<html data-mode>` through `useSyncExternalStore`, with the server value (`initialMode`) as the server snapshot, so the DOM attribute is the single source of truth.
 - `applyMode` sets the attribute, writes the cookie, writes `localStorage` inside `try/catch` (the cookie is enough if storage throws) and notifies subscribers synchronously with `flushSync`.
@@ -84,7 +87,7 @@ Copy and asset paths live in `src/components/mode-toggle/strings.ts`; styles and
 ## Tests
 
 - `tests/unit/theme.test.ts`: mode fallback, theme fallback, premium themes refused without entitlement and granted with it, unknown themes ignored, cookie attributes.
-- `tests/unit/mode-script.test.ts`: cookie respected, localStorage recovered and written back to the cookie, dark default, unknown values ignored, throwing `localStorage` tolerated, theme untouched.
+- `tests/unit/mode-script.test.ts`: `data-js` set before first paint, cookie respected, localStorage recovered and written back to the cookie, dark default, unknown values ignored, throwing `localStorage` tolerated, theme untouched.
 - `tests/unit/mode-toggle-strings.test.ts`: accessible name, egg per mode, `srcset` format, title text.
 
 ## Related pages

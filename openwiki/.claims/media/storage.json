@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:6bc13cc5020d6f2067b42e105c2a71e07abe6c9f34198a2dc5a21444492b01a9",
+  "pageVersion": "sha256:6f516f8be878e4689ae0d02555ad865257e117fdc25ba3ddc0084de8a464095d",
   "claims": [
     {
       "id": "claim_7ea7c2a578564a0784fd3a8664a2173a",
@@ -11,7 +11,7 @@
           "version": "repo-lines-v1:sha256:3202c34bd79c019c13528c4d9d5a5c6cadc799fe6eb367dd89ab3b9d90387c1c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjExN2QwYTIxOTJhMjQ1MjQ0OTI2Mjg4ODlmNDVlM2Q2MTlhODA2M2NlZjE5NzllNDZiZTE4Zjk0NTEwNDI5NzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://src/payload.config.ts#L67-L67",
+          "resource": "repo://src/payload.config.ts#L95-L95",
           "version": "repo-lines-v1:sha256:b105a65af4c5e414afc188892061d1304c333e291cae423b479a91a40f8d3da8:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjEwNWE2NWFmNGM1ZTQxNGFmYzE4ODg5MjA2MWQxMzA0YzMzM2UyOTFjYWU0MjNiNDc5YTkxYTQwZjhkM2RhOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjEwNWE2NWFmNGM1ZTQxNGFmYzE4ODg5MjA2MWQxMzA0YzMzM2UyOTFjYWU0MjNiNDc5YTkxYTQwZjhkM2RhOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2I1MDI5ZWFiNGVlYjRmMmZlZDMzZTQ1MTcxNTE4MWIyOWJmODU2NmRhM2NiYzAwNTgyMGMzYzljNTBmODVjMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODU4MGI3NjUxOGRhZTk3OWZhZWJkMDIzNjdhMjkyOTJhNTBkOTc2MDkyMjUxYTM4YTZjZTMwODgwYmE0MjgyNSJ9"
         }
       ]
@@ -103,8 +103,8 @@
       "statement": "The Squarespace import stores each image once in media as the original file with alt and originalUrl, looking it up by originalUrl before downloading, and Payload generates its sizes on that upload.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/load-quest-guides.ts#L142-L177",
-          "version": "repo-lines-v1:sha256:4666057b0766669fcea2dd952badcd323fd722ad4ef95bc7e6bedc4bcfe4a75e:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlYmQyNjJjZGUwNTdhNTZiNzhhY2ZjYzEwMWVkZjBjYTlkMTI4YzU3OGVlZDQ5ZTVjYmU3ZGY4YWUyZmNiODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYzNmYyYTYyODMyNDRhMTkwMDZkMDU5ZTllOGIwMDY2ZTU1YmM1MjBlZThlMmRlNmZhNWJjZTRjM2IwZTIxOWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI3NDYyYTk1ZmJhNjUyY2QyY2Y2MmZkOTkxMWI0M2NlOWVkMGRmNWMwNDhhZGVmOTMyMGNkYzU4ODAxNzUzNDQifQ"
+          "resource": "repo://scripts/import/load-quest-guides.ts#L162-L201",
+          "version": "repo-lines-v1:sha256:085838f0ccc48ac0a6b2572e7d0039334a79f0199adcf552c90f39b907f7a692:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlYmQyNjJjZGUwNTdhNTZiNzhhY2ZjYzEwMWVkZjBjYTlkMTI4YzU3OGVlZDQ5ZTVjYmU3ZGY4YWUyZmNiODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ2YTVhYjFhYzNkMTgzNjljNDYyNzc3MzBlOTU3M2M2ZGFhZjU2OWJiNjQ1OWU1ZWY3MTJiZDljZTMzYjlmM2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBkN2ExZmIxYzE4ZmQzOTk5MjE5NmEwNDUxNTcwNTEwMWJkOWNkMjc4YmFiYTc0NTUwMDVjOThmZTM0MmYyYWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2YjBiMGFjNTU0NzcxZWVhZjUzOWJhNzBlZjdmODIzYWU0ZTdmNGJlZDNmNTdkZTVmODE2YzJmZDdmNWJlZmYifQ"
         },
         {
           "resource": "repo://src/collections/Media.ts#L21-L23",
@@ -141,7 +141,7 @@
           "version": "repo-lines-v1:sha256:c239e7d12dda1ce22fbc7e46a5bb653b3acae6424fd2d86181c6071fb494ef90:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmOTkyY2FmNzU1NTc1MWJmZTgwNTg1NGU1Mjg0NDU3ZjNhZGU5N2I4NWFiOTI0YmViZjA1YjI2ODVlMWU3MmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://src/lib/media/regenerate.ts#L103-L155",
+          "resource": "repo://src/lib/media/regenerate.ts#L80-L132",
           "version": "repo-lines-v1:sha256:48eec94448be9ad1e306ad70dde5f33d3d450f444a7f7744eb5e6032d1f8c45b:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI4OTEwYmQyNDM3MDNjNWExZmFmMDRiZDNjODk0NDBlZjZmNDI1MjRkODM1MDg2MTJmY2I2MWRiZTFlN2YwMWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
@@ -155,7 +155,7 @@
       "statement": "The regeneration reads each original from its public URL, from the R2 bucket by its computed object key when only credentials are set, or from disk, and an R2 failure message names the bucket and key but not the credentials.",
       "evidence": [
         {
-          "resource": "repo://src/lib/media/regenerate.ts#L50-L101",
+          "resource": "repo://src/lib/media/regenerate.ts#L27-L78",
           "version": "repo-lines-v1:sha256:e3e06d83d4e6f82a52001629a44d88236d826d0c07b2a9dd9b8b6ac81aed730d:eyJzZWxlY3RlZExpbmVDb3VudCI6NTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU3ZGE4N2Y0MzE2MTk5ZTc4NzU0YWM5MDFkNThhYjNhNzZlZjY1MjgzYzA0OGJkYzA3MWNjZWU4ODM1MDQ5ZTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJmYzdiNGM1OGMxMDk1MTAzY2JlZThkNzMxOGE3NmNjYjMwNGE2MjYxMTEzZjhiMDFmNGRlY2RkMTYwYzJhYjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQwY2JhOTRiMDI0ODM2YjJhZGRjMGY5ZDNjOTE4NDVjNGU0MmYyMmE2MGJkNThhMmUxYjYwMmE5NmNhOTczMGEifQ"
         },
         {
@@ -170,21 +170,35 @@
     },
     {
       "id": "claim_13c22d3ac96445ca900b93583c05f18e",
-      "statement": "regenerationRefusal requires --production in production and --remote against a non-local database URL, treating an unreadable URL as remote.",
+      "statement": "regenerationRefusal delegates to the shared databaseScriptRefusal guard, which requires --production in production and --remote against a non-local database URL, treating an unreadable URL as remote.",
       "evidence": [
         {
-          "resource": "repo://src/lib/media/regenerate.ts#L13-L40",
-          "version": "repo-lines-v1:sha256:33bde8a277197c6f3dbf80497dd35130abddbf8546fe5607a9ea863e5550ca59:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0ZjU1ZmNmZmMxY2VhYmRiZDU2OWExZDY4M2RjNDhiYWJhNzkxMTBlZmU1NDQyMjIwMGNlZThhYTM1ODkyMzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBmMmQ5YjU2YzE1ZDU5MWM5Y2E0NWJjNjA2NjhiNTYxYmFjZDgzYjYxYjM0ZTlkYTFkOWJlYjNiZDdmYTBkYmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVkNmRiZjc0M2FiMDlhZjM2Y2JjYTc5NDA5ZmY1YjY2NDg0NDcyZGVmYmJmNjNmOTdkZjZhN2Y1OTQ0OGVlM2MifQ"
+          "resource": "repo://src/lib/db/script-guard.ts#L5-L35",
+          "version": "repo-lines-v1:sha256:8193a56472523dc30554956c8dd661add35898c1517baa5f4d8e93684712e22a:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU5YTQ1Nzg3MTBhN2U0NTU1YTE4YTdhMWE4YjA3YmEwYTEzMGRhYTFhNDI5ODVhM2EzMTE5MGM4YjdmZjI5ZjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/media/regenerate.ts#L13-L17",
+          "version": "repo-lines-v1:sha256:2d10ba705bbc2a0b959924af7474c24d3526229d17690e465223f8578e2cf1d7:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2VmNTMxZWZhODlkZTllMDQzYWIxMDRkZmFjMGZmZDJiZmVmZDRhZTQ5YjUyMDYyMzJlODk4OTEzMjI0Y2E3MiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWQ2ZGJmNzQzYWIwOWFmMzZjYmNhNzk0MDlmZjViNjY0ODQ0NzJkZWZiYmY2M2Y5N2RmNmE3ZjU5NDQ4ZWUzYyJ9"
         },
         {
           "resource": "repo://tests/unit/media-regenerate.test.ts#L14-L66",
           "version": "repo-lines-v1:sha256:37775c835f51be31a2637b4fc5264f25416e54b8a5c4e5c74464551f4557d6e4:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg2Yzg1NzIwN2ZlZTRmNDZjNzEzMTM1NjYyZDZiOTQ5MDUyYzBkM2U2YTIwMjA1NDNhMTQyNjVlODk4YTJjYWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM2MjQ2NzRiMjc4NzI5Yjc3ZmEyNDJhNWUyODRjYjJlYTM3YzU0YTM4NmQ3M2RkMmExZTJlNGM5YWM5Yjc3NmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdkNDg1ZDc3NWMxYzkzODIwNWY4YWQyNGI0ODkzYjZlZTMyOTljNjc3MWRmNzcyODIyMTUxYTIzNWYyZDZjY2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI2NDljZTZmOTcyNGZlMTU5MWFjYmRmMDE2YzUzNGEzZGQyNWEzNmIzYWFmYzk1Mjk2NzdhN2ZiOTJmZDg3YmUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_babbbe69b4a84c538ee604f65f000b6e",
+      "statement": "The DofusDB refresh imports achievement icons, item icons and monster images into media once each, keyed dofusdb-<kind>-image:<id> in gameAsset.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/dofusdb/game-images.ts#L1-L31",
+          "version": "repo-lines-v1:sha256:45e9a8fc8621a558ba1ec8794598c88094303f2679f69ad5da0c557236f9ad64:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg0OTE4M2FiYjU5NTZlZDI5MjM4NDcyM2FjODdhZDhkZjNjYzY0OGZkMWI1MWM4MjM2YjNlNTZmZDYzY2FjZDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIzMDhhY2Q4Njk1NTRmMzQ0ODlmOGIxOTA3OTc4OTA0ZGVkMDI4Njg4MTYyMGRiNGUyYmE3YWVkN2IwYzhiY2MifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-07T00:10:43.955Z"
+    "at": "2026-11-08T11:00:21.339Z"
   }
 }

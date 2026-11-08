@@ -14,6 +14,10 @@ sources:
     resource: repo://scripts/media-sizes.ts
   - id: openwiki-source-d58a4d3cf178bb2fa2e94831
     resource: repo://src/collections/Media.ts
+  - id: openwiki-source-7c66f643dce69fb67291a883
+    resource: repo://src/lib/db/script-guard.ts
+  - id: openwiki-source-35adf9ddd0461732aa114ae7
+    resource: repo://src/lib/dofusdb/game-images.ts
   - id: openwiki-source-8dfc57c57c9b90054e3c47fe
     resource: repo://src/lib/media/image-asset.ts
   - id: openwiki-source-8b2827e4ec1d6adb07aad1c1
@@ -28,10 +32,10 @@ sources:
     resource: repo://tests/unit/media-regenerate.test.ts
   - id: openwiki-source-034e7fb4a132a9270c2ca2d0
     resource: repo://tests/unit/media-storage.test.ts
-generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
+generated: { by: "claude-code", at: "2026-11-08T11:00:21.339Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-07T00:10:43.955Z
+    at: 2026-11-08T11:00:21.339Z
 ---
 
 # Media storage
@@ -88,7 +92,7 @@ Files uploaded before Payload generated sizes have none. `pnpm media:sizes` (`sc
 - with R2 credentials but no `MEDIA_BASE_URL`, the URL is Payload's relative path, so it reads the object from the bucket with the AWS S3 SDK, using `s3ClientConfig` and the key `mediaObjectKey` computes the way `storage-s3` does (the record's prefix and `_objectKey`, sanitized); a failure names the bucket and key but never the credentials;
 - otherwise it reads `staticDir/<filename>` from disk, rejecting a filename that would leave that directory.
 
-Before Payload starts, `regenerationRefusal` stops the run in the wrong place: in production (`APP_ENV`, `RAILWAY_ENVIRONMENT_NAME` or `NODE_ENV` set to `production`) it requires `--production`, and against a `DATABASE_URL` whose host is not local it requires `--remote` (or `--production`), because a remote dev database cannot be told apart from production. An unreadable URL counts as remote. The package script ends in `--`, so `pnpm media:sizes --remote` reaches the script.
+Before Payload starts, `regenerationRefusal` stops the run in the wrong place. It delegates to `databaseScriptRefusal` (`src/lib/db/script-guard.ts`), the guard `pnpm import:achievements` and `pnpm guides:backfill` share: in production (`APP_ENV`, `RAILWAY_ENVIRONMENT_NAME` or `NODE_ENV` set to `production`) it requires `--production`, and against a `DATABASE_URL` whose host is not local it requires `--remote` (or `--production`), because a remote dev database cannot be told apart from production. An unreadable URL counts as remote. The package script ends in `--`, so `pnpm media:sizes --remote` reaches the script.
 
 ### Other generated images
 
@@ -100,7 +104,12 @@ Before Payload starts, `regenerationRefusal` stops the run in the wrong place: i
 
 ## Game art from DofusDB
 
-NPC renders are the one piece of game art imported from DofusDB. `pnpm data:quests` uploads each render once with `gameAsset` set to a key built from the NPC, the direction and a hash of its look; `gameAsset` is unique, so the refresh looks the key up before downloading and never stores a file twice. See [DofusDB game data refresh](../data/dofusdb-refresh.md#npcs-and-their-renders).
+`pnpm data:quests` imports game art from DofusDB into `media`, each file once, keyed by the unique `gameAsset`, so the refresh looks the key up before downloading and never stores a file twice:
+
+- NPC renders, keyed by the NPC, the direction and a hash of its look. See [DofusDB game data refresh](../data/dofusdb-refresh.md#npcs-and-their-renders).
+- Achievement icons, item icons and monster images, the 128 px PNGs DofusDB serves, keyed `dofusdb-<kind>-image:<id>`; items sharing an icon share the file. See [DofusDB game data refresh](../data/dofusdb-refresh.md#game-images).
+
+Payload generates their sizes on that upload like any other image.
 
 Media records also keep alt text and credits (both localized) and the original Squarespace URL. Images come from the real game only; nothing loads from DofusDB or Ankama at runtime (AGENTS.md, Media).
 

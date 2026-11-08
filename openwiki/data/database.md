@@ -22,6 +22,8 @@ sources:
     resource: repo://src/lib/db/database-url.ts
   - id: openwiki-source-ad9e301a598e436556d400c8
     resource: repo://src/lib/db/dev-database.ts
+  - id: openwiki-source-7c66f643dce69fb67291a883
+    resource: repo://src/lib/db/script-guard.ts
   - id: openwiki-source-4b2f49d061cc7bd95a39ce1a
     resource: repo://src/migrations/20261103_030359_initial.ts
   - id: openwiki-source-a4ca0c9844f6e5f5c7edac75
@@ -40,6 +42,12 @@ sources:
     resource: repo://src/migrations/20261105_103713_media_image_sizes.ts
   - id: openwiki-source-5772478547a0acf93b6f488d
     resource: repo://src/migrations/20261106_010549_guide_v4_quest_npcs.ts
+  - id: openwiki-source-6cded578ebe9709336be56d3
+    resource: repo://src/migrations/20261107_020402_guide_v5_game_images_fight.ts
+  - id: openwiki-source-ff63dd6e9c5f43e5fda587e9
+    resource: repo://src/migrations/20261107_210926_achievements_game_data.ts
+  - id: openwiki-source-fce23fceacb9677eb9f474e0
+    resource: repo://src/migrations/20261107_214742_achievement_pages_groups.ts
   - id: openwiki-source-c306fbe28866186a2df852b4
     resource: repo://src/migrations/index.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
@@ -56,10 +64,10 @@ sources:
     resource: repo://tests/integration/needs-list-migration.test.ts
   - id: openwiki-source-b031ce15fe3cb852929a85bf
     resource: repo://tests/unit/database-url.test.ts
-generated: { by: "claude-code", at: "2026-11-07T00:10:43.955Z" }
+generated: { by: "claude-code", at: "2026-11-08T11:38:51.955Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-07T00:10:43.955Z
+    at: 2026-11-08T11:38:51.955Z
 ---
 
 # Database and migrations
@@ -86,6 +94,8 @@ When no URL is set:
 A blank or whitespace-only value counts as unset. `tests/unit/database-url.test.ts` covers each branch.
 
 `isLocalDatabaseUrl` answers whether a URL points at this machine (`localhost`, `127.0.0.1` or `[::1]`): the embedded database or CI's service Postgres. `pnpm seed:e2e` refuses to run against any other database, so test guides are never seeded into a real one; a host that only starts with `localhost` or a string that is not a URL fails the check.
+
+Scripts that write editorial data use a stricter guard, `databaseScriptRefusal` (`src/lib/db/script-guard.ts`), checked before Payload starts. `pnpm import:achievements` uses it. In production (`APP_ENV`, `RAILWAY_ENVIRONMENT_NAME` or `NODE_ENV` set to `production`) the script needs `--production`; against a database on another host it needs `--remote`, because from outside the dev database and the production one cannot be told apart. An empty `DATABASE_URL`, the embedded database, needs no flag. See [Importing Torre's achievement pages](achievements-import.md#database-guard).
 
 ## The embedded development database
 
@@ -124,7 +134,7 @@ This means E2E and CI exercise the same path as production: an empty database pl
 
 ## Migrations
 
-Migrations live in `src/migrations/` and are listed in `src/migrations/index.ts`. Each has a `.ts` file with `up` and `down` (raw SQL through `db.execute(sql\`…\`)`) and a `.json` snapshot Payload uses to compute the next diff. There are ten today:
+Migrations live in `src/migrations/` and are listed in `src/migrations/index.ts`. Each has a `.ts` file with `up` and `down` (raw SQL through `db.execute(sql\`…\`)`) and a `.json` snapshot Payload uses to compute the next diff. There are fourteen today:
 
 - `20261103_030359_initial` creates the `users`, `users_sessions`, `media`, `media_variants`, `media_locales` and Payload system tables (`payload_kv`, `payload_locked_documents`, `payload_preferences`, `payload_migrations` and their relation tables).
 - `20261104_070541_quests` adds the [quests collection](../cms/collections.md): `quests` with a unique index on `dofus_id`, `quests_locales`, `quests_rels` (for `prerequisites`), `quests_start_positions` and `quests_start_positions_locales`, plus a `quests_id` column on `payload_locked_documents_rels`. Its `down` drops all of them. It does not drop the `payload_locked_documents_rels_quests_fk` constraint separately, because `DROP TABLE "quests" CASCADE` already removes it and a second drop would make the rollback fail.
@@ -136,8 +146,12 @@ Migrations live in `src/migrations/` and are listed in `src/migrations/index.ts`
 - `20261105_103713_media_image_sizes` moves media variants to Payload image sizes: it drops `media_variants` and adds `sizes_<format>_<width>_*` columns (URL, width, height, MIME type, file size and filename, with a filename index) for each AVIF and WebP width on `media`. Its `down` recreates `media_variants` and drops the size columns. See [Media storage](../media/storage.md).
 - `20261105_135506_guide_step_block` adds the step block: `quest_guides_blocks_step` with numeric `x` and `y`, its `_locales` table for the title, and the version twins. See [Guide body blocks](../cms/blocks.md#step).
 - `20261106_010549_guide_v4_quest_npcs` adds the [NPCs collection](../cms/collections.md#npcs-quest-givers-and-their-renders): `npcs` (with `render_right_id` and `render_left_id` referencing `media` with `ON DELETE set null`) and `npcs_locales`, `media.game_asset`, the quest achievement columns and `rewards_experience_min` on `quests`, `zone` and `achievement_name` on `quests_locales`, and `npcs_id` on `payload_locked_documents_rels`. Its `down` drops all of them.
+- `20261107_020402_guide_v5_game_images_fight` adds the fight block, `quest_guides_blocks_fight` with its `quest_guides_blocks_fight_monsters` rows and their version twins, and an `image_id` column on `items` and `monsters` referencing `media` with `ON DELETE set null`, for the game images the refresh imports. See [Guide body blocks](../cms/blocks.md#fight).
+- `20261107_143215_remove_step_title` removes the step title. Before dropping `quest_guides_blocks_step_locales` and its version twin, it moves every non-empty title into a new bold first text block of its step, in the guide and all its versions. `tests/integration/remove-step-title-migration.test.ts` checks the move. See [Guide body blocks](../cms/blocks.md#step).
+- `20261107_210926_achievements_game_data` adds the DofusDB achievement collections: `achievement_categories` and `achievements`, their `_locales` tables, `achievements_quests`, `achievements_rewards_items`, `achievements_counts_for`, `achievements_rels`, and the matching `payload_locked_documents_rels` columns.
+- `20261107_214742_achievement_pages_groups` adds Torre's achievement pages and metalogros: `achievement_pages` and `achievement_groups` with their `_locales`, `_rels`, quest and reward item tables, and the `_achievement_pages_v` and `_achievement_groups_v` version tables. See [Achievement data model](../achievements/achievement-data.md).
 
-Every migration must roll back cleanly: if a `down` fails, a bad deploy has no way back. `tests/integration/migrations.test.ts` checks this for the latest migration (the last entry in `src/migrations/index.ts`, today `20261106_010549_guide_v4_quest_npcs`). It runs the Payload CLI, `pnpm payload migrate:down` and then `pnpm payload migrate`, against the integration database with `DATABASE_CONNECTION=direct`, and asserts the latest migration is rolled back and then re-applied, so the database ends as it started. It uses the CLI because Payload imports migration files with Node, not Vitest. It avoids `migrate:refresh`, which in Payload 3.92 rolls back oldest first and fails. When a command fails, the test rethrows with the CLI's stdout and stderr so the Postgres error is visible. Starting the CLI twice can pass the suite's 30 s default on a loaded machine, so this test has its own 120 s timeout.
+Every migration must roll back cleanly: if a `down` fails, a bad deploy has no way back. `tests/integration/migrations.test.ts` checks this for the latest migration (the last entry in `src/migrations/index.ts`, today `20261107_214742_achievement_pages_groups`). It runs the Payload CLI, `pnpm payload migrate:down` and then `pnpm payload migrate`, against the integration database with `DATABASE_CONNECTION=direct`, and asserts the latest migration is rolled back and then re-applied, so the database ends as it started. It uses the CLI because Payload imports migration files with Node, not Vitest. It avoids `migrate:refresh`, which in Payload 3.92 rolls back oldest first and fails. When a command fails, the test rethrows with the CLI's stdout and stderr so the Postgres error is visible. Starting the CLI twice can pass the suite's 30 s default on a loaded machine, so this test has its own 120 s timeout.
 
 `tests/integration/needs-list-migration.test.ts` checks the needs list migration on real data rather than an empty schema. It creates a guide with notes, calls that migration's `down` and `up` functions directly on the fully migrated integration database, and in between checks the text is back in `summary_needs` and writes a different text into the old columns of the guide and its versions, as a guide imported before the list would have. After `up`, the guide and its version read that text as `summary.needs.notes`, with an empty item list. `up` runs in a `finally` so a failed assertion never leaves the test database on the old schema.
 

@@ -20,8 +20,6 @@ sources:
     resource: repo://scripts/refresh-quests.ts
   - id: openwiki-source-30fb9110f08cd9302abaca1a
     resource: repo://src/collections/Items.ts
-  - id: openwiki-source-7c84c63987b05696c25fe759
-    resource: repo://src/collections/Monsters.ts
   - id: openwiki-source-f6a77b87c2cce3530ab6695f
     resource: repo://src/collections/quest-guide-autofill.ts
   - id: openwiki-source-7a2723ea85824e431ff5eb54
@@ -36,6 +34,8 @@ sources:
     resource: repo://src/lib/dofusdb/criterion.ts
   - id: openwiki-source-54227c78b7c2e57bc6f3d29b
     resource: repo://src/lib/dofusdb/fetch-quest-data.ts
+  - id: openwiki-source-35adf9ddd0461732aa114ae7
+    resource: repo://src/lib/dofusdb/game-images.ts
   - id: openwiki-source-1addf1a05f8d53fe7dea95d6
     resource: repo://src/lib/dofusdb/map-items-monsters.ts
   - id: openwiki-source-593d2c966d67e453d0429c23
@@ -46,6 +46,8 @@ sources:
     resource: repo://src/lib/dofusdb/quest-needs.ts
   - id: openwiki-source-018693ba041711bee3e7aaeb
     resource: repo://src/lib/dofusdb/quest-rewards.ts
+  - id: openwiki-source-cabbbdb69c4af80c58320870
+    resource: repo://src/lib/dofusdb/refresh-achievements.ts
   - id: openwiki-source-021869cfa5f88cdea6c24dce
     resource: repo://src/lib/dofusdb/refresh-npcs.ts
   - id: openwiki-source-4ce5bfd40fc86e2e8680d71f
@@ -58,6 +60,10 @@ sources:
     resource: repo://src/payload.config.ts
   - id: openwiki-source-f771f456156fbf6bde7862c2
     resource: repo://tests/fixtures/dofusdb/quests.json
+  - id: openwiki-source-a1ceebf6ddd8d9e71ec23176
+    resource: repo://tests/integration/refresh-achievements.test.ts
+  - id: openwiki-source-1d413a1c9f24b6810283a923
+    resource: repo://tests/integration/refresh-game-images.test.ts
   - id: openwiki-source-b851e65e44a5d48a33bfb854
     resource: repo://tests/integration/refresh-npcs.test.ts
   - id: openwiki-source-cbffdb2343060c99a7477cfa
@@ -78,17 +84,17 @@ sources:
     resource: repo://tests/unit/dofusdb-quest-rewards.test.ts
   - id: openwiki-source-e73350ef868f2379d51909ed
     resource: repo://tests/unit/dofusdb-write-concurrency.test.ts
-generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
+generated: { by: "claude-code", at: "2026-11-08T11:00:21.339Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-07T00:10:43.955Z
+    at: 2026-11-08T11:00:21.339Z
 ---
 
 # DofusDB game data refresh
 
-Game data in ta-web (quests, items, monsters and quest-giver NPCs today; the rest later) comes from DofusDB, is read-only in the panel and is refreshed by a script. Torre picks it from guides through relationship fields (AGENTS.md). The quest refresh is the first of these scripts and the only writer of the `quests`, `items`, `monsters` and `npcs` collections described in [Collections and access](../cms/collections.md#quests-dofusdb-game-data).
+Game data in ta-web (quests, items, monsters, quest-giver NPCs, achievements and achievement categories today; the rest later) comes from DofusDB, is read-only in the panel and is refreshed by a script. Torre picks it from guides through relationship fields (AGENTS.md). The quest refresh is the first of these scripts and the only writer of the `quests`, `items`, `monsters`, `npcs`, `achievements` and `achievement-categories` collections described in [Collections and access](../cms/collections.md#quests-dofusdb-game-data) and [Achievement data model](../achievements/achievement-data.md). It also creates the metalogros and achievement pages that are missing, and never changes existing ones.
 
-Nothing loads from DofusDB at runtime. The script copies the data into our Postgres; the site reads only that copy. Item and monster icons are stored as DofusDB image IDs only, never fetched when a page is served. NPC renders are the one piece of art the refresh downloads: it imports them into `media` once, and the site serves that copy.
+Nothing loads from DofusDB at runtime. The script copies the data into our Postgres; the site reads only that copy. The art the site shows is imported into `media` once by the refresh and served from there: NPC renders, achievement icons, and the icons of the items and the images of the monsters that some page shows. Each file has a `gameAsset` key, so reruns never upload one twice.
 
 ## Pipeline
 
@@ -99,9 +105,10 @@ pnpm data:quests
        ├─ fetchQuestData(client)      src/lib/dofusdb/fetch-quest-data.ts
        │    quests (all pages) → NPCs and maps named in start positions
        │                       → sub-areas of those maps → their areas
-       │                       → monsters named in needs
-       │    achievements (all pages, id/name/slug/need)
+       │    achievements (all pages, with objectives and rewards)
+       │    achievement categories (all pages)
        │    items (all pages, only the stored fields)
+       │    monsters (all pages, id/name/gfxId)
        ├─ refreshQuests(payload, data, { concurrency })
                                       src/lib/dofusdb/refresh-quests.ts
             mapItem / mapMonster      src/lib/dofusdb/map-items-monsters.ts
@@ -112,12 +119,20 @@ pnpm data:quests
               questNeeds              src/lib/dofusdb/quest-needs.ts
             pass 1: create/update quest fields by dofusId
             pass 2: link prerequisites by Payload ID
-       └─ refreshNpcs(payload, data.npcs)   src/lib/dofusdb/refresh-npcs.ts
+       ├─ refreshAchievements(payload, …)   src/lib/dofusdb/refresh-achievements.ts
+            categories (all), then achievements under Misiones and Eventos
+            mapAchievement                 src/lib/dofusdb/map-achievement.ts
+            icons → media (gameImageImporter)
+       ├─ refreshNpcs(payload, data.npcs)   src/lib/dofusdb/refresh-npcs.ts
             npcRenderUrl / npcRenderKey      src/lib/dofusdb/npc-render.ts
             per NPC: renders (right, left) → media, then create/update by dofusId
+       ├─ ensureAchievementPages(payload)   src/lib/achievements/ensure-pages.ts
+            missing metalogros and achievement pages, «En preparación»
+       └─ gameImageTargets → refreshGameImages   src/lib/dofusdb/game-images.ts
+            item icons and monster images some page shows → media, linked
 ```
 
-`src/lib/dofusdb/types.ts` types only the fields the pipeline reads from DofusDB rows (`RawQuest` with its `need` summary and `steps`, `RawQuestStep`, `RawQuestReward`, `RawQuestObjective`, `RawItem`, `RawMonster`, `RawNpc`, `RawMapPosition`, `RawSubArea`, `RawArea`, `RawAchievement`, and `LocalizedText` for the `{ es, fr, en, de, pt }` texts) and the `MappedQuest`, `MappedItem` and `MappedMonster` shapes written to the collections.
+`src/lib/dofusdb/types.ts` types only the fields the pipeline reads from DofusDB rows (`RawQuest` with its `need` summary and `steps`, `RawQuestStep`, `RawQuestReward`, `RawQuestObjective`, `RawItem`, `RawMonster`, `RawNpc`, `RawMapPosition`, `RawSubArea`, `RawArea`, `RawAchievement`, `RawAchievementCategory`, and `LocalizedText` for the `{ es, fr, en, de, pt }` texts) and the `MappedQuest`, `MappedItem`, `MappedMonster`, `MappedAchievement` and `MappedAchievementCategory` shapes written to the collections.
 
 ### Client
 
@@ -142,9 +157,9 @@ A full run makes several hundred requests, mostly for the item catalog, and one 
 
 ### Fetching
 
-`fetchQuestData` loads every quest, collects the distinct `npcId` and `mapId` values from their `startPosition` entries, and fetches only those NPCs (`npcs`) and maps (`map-positions`). It then fetches the `subareas` of those maps and the `areas` of those sub-areas, which give each quest its zone. It downloads every achievement with `fetchAll('achievements', { select })`, keeping `id`, `name`, `slug` and `need`, because a quest's achievement can only be found by looking through the achievements' quest lists. It runs `questNeeds` on each quest and fetches by ID only the `monsters` named in needs. It returns `{ quests, npcs, mapPositions, items, monsters, subAreas, areas, achievements }`.
+`fetchQuestData` loads every quest, collects the distinct `npcId` and `mapId` values from their `startPosition` entries, and fetches only those NPCs (`npcs`) and maps (`map-positions`). It then fetches the `subareas` of those maps and the `areas` of those sub-areas, which give each quest its zone. It downloads every achievement with `fetchAll('achievements', { select })`, because a quest's achievement can only be found by looking through the achievements' quest lists. The select keeps `id`, `name`, `slug`, `need`, `categoryId`, `iconId`, `points`, `level` and `order`, plus `objectiveIds` and `rewardIds`, without which DofusDB does not attach the objectives and rewards the achievement pages need. It also downloads every achievement category (`id`, `name`, `parentId`, `order`). It returns `{ quests, npcs, mapPositions, items, monsters, subAreas, areas, achievements, achievementCategories }`.
 
-Items are different: `fetchQuestData` downloads the **whole item catalog** with `fetchAll('items', { select })`, not only the items quests name in rewards or needs, because Torre may need any item in a guide. A full run brings about 2,000 quests, 1,000 monsters and 21,500 items (README). The select list is `id`, `name`, `level`, `typeId`, `iconId` and `type`: only the fields the collection stores, plus `type`, the item type object DofusDB attaches through `typeId`, which carries the supertype. The whole row is roughly eight times heavier; with the select a page of 50 items is about 44 KB instead of about 375 KB.
+Items and monsters are different: `fetchQuestData` downloads the **whole item catalog** and the **whole monster catalog** with `fetchAll`, not only what quests name in rewards or needs, because Torre may name any item or monster in a guide, and fight blocks match monsters by name. Monsters keep only `id`, `name` and `gfxId`. A full run brings about 2,000 quests, 5,000 monsters and 21,500 items (README). The select list is `id`, `name`, `level`, `typeId`, `iconId` and `type`: only the fields the collection stores, plus `type`, the item type object DofusDB attaches through `typeId`, which carries the supertype. The whole row is roughly eight times heavier; with the select a page of 50 items is about 44 KB instead of about 375 KB.
 
 Because items no longer come from quest references, a reward or need item that is missing from the catalog is still dropped and counted as a missing item when quests are written.
 
@@ -266,6 +281,28 @@ For each NPC with a look, and for each direction (right and left), it resolves a
 
 An NPC without a look is saved without renders and nothing is requested. The NPC row (`dofusId`, Spanish name with `PNJ <id>` as fallback, `look`, `renderRight`, `renderLeft`) is created, or updated only when it differs, with `refreshedAt`. Renders from an earlier look stay in `media`: an editor may have picked one in a guide, and deleting it would break that image. The script prints NPC counts and how many renders were imported, reused from `media` or missing.
 
+### Achievements
+
+After the quests, `refreshAchievements(payload, { achievements, categories })` writes the DofusDB achievement data (see [Achievement data model](../achievements/achievement-data.md#what-the-refresh-writes)). It upserts every achievement category by `dofusId`, then links each to its parent in a second pass. It upserts only the achievements whose category is under Misiones (8) or Eventos (9) at any depth (`QUEST_ROOT_CATEGORIES`), so a new zone or achievement there arrives with the next refresh.
+
+`mapAchievement` (`src/lib/dofusdb/map-achievement.ts`) reads each objective's quests from its criterion (`Qf=` terms; several separated by `|` are alternatives, the class quest), computes the rewards for a level 200 character with the formula of Torre's pages, and lists the game achievements that require it, directly or through another (`countsFor`). The refresh imports achievement icons into `media` once, links quests and items already stored, and skips and counts the ones DofusDB names but the database lacks. It writes a row only when it changed and never deletes.
+
+After the NPCs, `ensureAchievementPages` creates a metalogro for each category under those roots that has none, and an achievement page for each achievement with quests that has none, both in state `preparing`. It never changes or deletes an existing one: what is in them is Torre's.
+
+### Game images
+
+Last, `gameImageTargets(payload)` collects the items and monsters some page shows: items in quest rewards and needs, in achievement rewards, in achievement page rewards and in guide needs lists; monsters in quest needs, in guide fight blocks (also inside steps) and a metalogro's representative when it is a monster. Drafts count. The whole catalog is tens of thousands of items, so only these are imported.
+
+`refreshGameImages` (`src/lib/dofusdb/game-images.ts`) then imports their art into `media`, four at a time:
+
+1. An item or monster without `iconId` has no image.
+2. If it already links a file with the right key (`dofusdb-<kind>-image:<id>`), it is unchanged.
+3. Otherwise `gameImageImporter` looks the key up in `media`; a match is reused without downloading.
+4. Otherwise it downloads the 128 px PNG from `https://api.dofusdb.fr/img/<items|monsters>/<id>.png` and uploads it with the name as `alt`. The key is per image, so items sharing an icon share the file.
+5. If DofusDB fails, nothing is linked and the next refresh tries again; the page leaves the slot empty.
+
+Achievement icons go through the same importer with the `achievement` kind.
+
 ### Write concurrency
 
 Each Payload write is several round trips to the database. Written one at a time, a run against Neon took about half an hour (comment on `refreshQuests`). So within each step (items, monsters, quest pass 1, quest pass 2) the refresh writes several rows at a time with `mapWithConcurrency(items, limit, fn)` from `src/lib/concurrency.ts`:
@@ -289,7 +326,7 @@ Measured locally, the write phase took 8.3 s with 1 write at a time and 4.5 s wi
 pnpm data:quests
 ```
 
-`package.json` runs `payload run scripts/refresh-quests.ts`, which loads `.env` and transpiles TypeScript. The script reads `DOFUSDB_WRITE_CONCURRENCY` before anything else, so a bad value fails at once, then starts Payload itself with `getPayload`. It creates the DofusDB client with `console.log` as its logger, so each retry prints a line. It prints how many quests, NPCs, maps, items and monsters it downloaded, how many writes it runs at once, the item and quest progress lines, how long the write phase took (`Escritura: <n> s.`), then the total elapsed time, the created, updated and unchanged counts for quests, items and monsters, and the skipped references. A full run downloads about 2,000 quests, 1,000 monsters and the whole item catalog of about 21,500 items (README).
+`package.json` runs `payload run scripts/refresh-quests.ts`, which loads `.env` and transpiles TypeScript. The script reads `DOFUSDB_WRITE_CONCURRENCY` before anything else, so a bad value fails at once, then starts Payload itself with `getPayload`. It creates the DofusDB client with `console.log` as its logger, so each retry prints a line. It prints how many quests, NPCs, maps, items and monsters it downloaded, how many writes it runs at once, the item and quest progress lines, how long the write phase took (`Escritura: <n> s.`), then the total elapsed time, the created, updated and unchanged counts for quests, items and monsters, and the skipped references. A full run downloads about 2,000 quests, the whole monster catalog of about 5,000 and the whole item catalog of about 21,500 items (README). After the quests it prints the achievement counts (categories and achievements created, updated and unchanged; icons imported, reused or missing; quests and items the achievements name but the database lacks), the NPC counts, the metalogros and achievement pages it created «en preparación», and the item and monster image counts (imported, reused from Media, linked, unchanged and missing).
 
 The download dominates the run time, and most of it is the item catalog. Measured locally, the download took about two and a half minutes. Writing took about 10 seconds on a first run against `pnpm db:dev`, which creates every item, and under a second on a rerun that changes nothing, so a repeat run still takes about as long as the download.
 
@@ -312,7 +349,11 @@ The script writes to whatever database `DATABASE_URL` names, with no confirmatio
 | `tests/unit/dofusdb-criterion.test.ts` | `requiredTerms`: terms joined by `&` in order, a level with `\|` giving nothing (`PL>189\|Qf=123` gives none, `(PL>50\|PL>60)&Qf=1` gives `Qf=1`), `&`-only brackets entered while `\|` groups are skipped, and no terms for a `null` or empty criterion |
 | `tests/unit/dofusdb-quest-rewards.test.ts` | Torre's and dofusdb.fr's figures for quests 1977 (24,316 XP, 552 kamas) and 1976, the 1.5 × optimum cap (332), the level-200 case (1433), the XP range of 1976 (9,800 to 16,380) and a minimum equal to the maximum for 1433, per-step flooring (241), items summed across steps, the last reward entry (880), emote and title IDs, and empty steps |
 | `tests/unit/dofusdb-quest-needs.test.ts` | Delivered items, `need.items` without deliveries, the larger-quantity rule (245), deliveries summed across objectives, every fight objective and souls, `walksMaps` for map and sub-area discovery, and the ignored objectives |
-| `tests/unit/dofusdb-fetch-quest-data.test.ts` | Only the NPCs and maps named in start positions and the monsters named in needs are looked up by ID; items come from `fetchAll` with the select list, including items no quest names, and are never looked up by ID; the sub-areas of the start maps and their areas are looked up by ID; every achievement comes from `fetchAll` with only the fields used |
+| `tests/unit/dofusdb-fetch-quest-data.test.ts` | Only the NPCs and maps named in start positions are looked up by ID; the whole monster catalog and the whole item catalog, including items no quest names, come from `fetchAll` with their select lists; the sub-areas of the start maps and their areas are looked up by ID; every achievement comes from `fetchAll` with what its page needs, and every achievement category too |
+| `tests/unit/dofusdb-map-achievement.test.ts` | Objective quests and alternatives, no quests from other objectives, the experience figures of Torre's pages, rewards for level 200 only, one row per quest objective in game order, alternatives counted as one quest, `countsFor` through another achievement, and category mapping |
+| `tests/integration/refresh-achievements.test.ts` | Every category and the achievements under Misiones and Eventos are saved; quests, category, items, icon and `countsFor` are linked; a missing quest is skipped and counted; a rerun changes and downloads nothing; DofusDB changes are applied |
+| `tests/unit/dofusdb-game-images.test.ts` | The 128 px PNG URL per kind and one key per image |
+| `tests/integration/refresh-game-images.test.ts` | Each icon is imported once with its key and the name as `alt`, and linked; a rerun downloads nothing; a file already in `media` is reused; a DofusDB failure links nothing and is retried; `gameImageTargets` collects quest, achievement and achievement page items and a metalogro's monster |
 | `tests/unit/dofusdb-npc-render.test.ts` | `npcRenderUrl` hex-encodes the look and asks for the full body facing right (1) or left (3), and gives no URL without a look; `npcRenderKey` changes with the look or the direction |
 | `tests/integration/refresh-npcs.test.ts` | Saves an NPC and imports its trimmed renders with the name as `alt`; a rerun downloads and uploads nothing; a render already in `media` but not linked is reused, not duplicated; a new look uploads new renders and keeps the old ones; no look means no renders and no request; a failing renderer saves the NPC without a render and retries next time |
 | `tests/unit/concurrency.test.ts` | `mapWithConcurrency` keeps input order when tasks finish out of order, never has more than `limit` tasks running, runs tasks one after another with `limit` 1, rejects with the first error once running tasks settle without starting more, returns an empty list without calling the function, and rejects a `limit` below 1 or not an integer |
@@ -324,6 +365,7 @@ The unit and integration tests share real DofusDB rows saved in `tests/fixtures/
 ## Related pages
 
 - [Collections and access](../cms/collections.md)
+- [Achievement data model](../achievements/achievement-data.md)
 - [Writing a quest guide](../cms/guide-authoring.md)
 - [Database and migrations](database.md)
 - [Test suites](../testing/test-suites.md)

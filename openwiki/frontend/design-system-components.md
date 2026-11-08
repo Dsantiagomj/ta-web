@@ -14,6 +14,8 @@ sources:
     resource: repo://src/components/game/AchievementChain.tsx
   - id: openwiki-source-cf3fb6a3e2124aa6edb72c22
     resource: repo://src/components/game/Coordinates.tsx
+  - id: openwiki-source-50ca1ca5ab53b47fd9c6cb08
+    resource: repo://src/components/game/FightBlock.tsx
   - id: openwiki-source-2b96a3b7e01c32a9b8203dd0
     resource: repo://src/components/game/game-icons.ts
   - id: openwiki-source-7ba3e6f5057719fdf70c6941
@@ -24,8 +26,12 @@ sources:
     resource: repo://src/components/game/GuideRichText.tsx
   - id: openwiki-source-92d3a40706dee422b9828270
     resource: repo://src/components/game/IconWell.tsx
+  - id: openwiki-source-7210dc2eb7a672fb3927dcaa
+    resource: repo://src/components/game/NextQuestCard.tsx
   - id: openwiki-source-2c139f34b50dd107e988159d
     resource: repo://src/components/game/PageEnhancements.tsx
+  - id: openwiki-source-0fefd458c48e12ce07e2db27
+    resource: repo://src/components/game/QuestFacts.tsx
   - id: openwiki-source-231761ea7db75e92c98c9a96
     resource: repo://src/components/game/QuestHeader.tsx
   - id: openwiki-source-2af618ad6444b669e5dc63fd
@@ -34,6 +40,8 @@ sources:
     resource: repo://src/components/game/strings.ts
   - id: openwiki-source-b7873b6b1a7bfb135bc0f569
     resource: repo://src/components/game/VideoFacade.tsx
+  - id: openwiki-source-331597871b0120059a553705
+    resource: repo://src/components/ui/Amount.tsx
   - id: openwiki-source-05c9a42e142e8a8796dbb308
     resource: repo://src/components/ui/Button.tsx
   - id: openwiki-source-ebd8e5116da4505aad0851bd
@@ -54,6 +62,8 @@ sources:
     resource: repo://src/lib/guides/video.ts
   - id: openwiki-source-8728a958dd5a79ae9c3ca846
     resource: repo://src/styles/theme.css
+  - id: openwiki-source-6afa3e8bb087a9d88b87786d
+    resource: repo://tests/unit/amount.test.tsx
   - id: openwiki-source-6da1dc6084491f36a7252e5d
     resource: repo://tests/unit/coordinates.test.ts
   - id: openwiki-source-606ffdd80bc08b7948b6125a
@@ -68,30 +78,32 @@ sources:
     resource: repo://tests/unit/ui-components.test.tsx
   - id: openwiki-source-b58f839a189d87a7e1f37d39
     resource: repo://vitest.config.mts
-generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
+generated: { by: "claude-code", at: "2026-11-08T11:00:21.339Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-06T15:25:11.354Z
+    at: 2026-11-08T11:00:21.339Z
 ---
 
 # Design system components
 
 The components specified in `DESIGN.md` (Components, Quest guide components) live in two folders:
 
-- `src/components/ui/`: generic parts any page can use (button, icon button, chip, tag pill, callout, stat tile, progress bar, checkbox, card, picture, figure).
-- `src/components/game/`: the quest guide parts (quest header with the quest giver, icon wells and the fixed game icons, item chip and slot, monster chip and fight block, coordinates chip, steps and the "Pasos" side list, Torre's tips, achievement chain, video facade, and `GuideBody`/`GuideRichText`, which render a guide's blocks) plus `PageEnhancements`, the one client island.
-- `src/components/brand/`: the Torrente Arcano emblem.
+- `src/components/ui/`: generic parts any page can use (button, icon button, chip, tag pill, callout, stat tile, progress bar, checkbox, card, picture, figure, amount).
+- `src/components/game/`: the quest guide parts (quest header with the quest giver, the three fact columns with the rewards bag, icon wells and the fixed game icons, item chip and slot, fight block, coordinates chip, steps, next quest card, Torre's tips, achievement chain, video facade, and `GuideBody`/`GuideRichText`, which render a guide's blocks) plus `PageEnhancements`, the one client island.
+- `src/components/brand/`: the Torrente Arcano emblem and the Sello lockup.
+
+The achievement page parts live in `src/components/achievement/` (see [Achievement page](../achievements/achievement-page.md)) and the site header and footer in `src/components/site/` (see [Site header, footer and search](site-shell-and-search.md)). The achievement page reuses `QuestFacts` and `PageEnhancements` from here.
 
 All of them except `PageEnhancements` are server components with no state. The [public quest guide page](guide-page.md) renders the game components with a real guide; the [component catalog at `/sistema`](component-catalog.md) shows every component and state side by side.
 
 ## Styling conventions
 
 - **Utilities first.** Most styling is Tailwind utility classes on the design tokens from `src/styles/theme.css` (`bg-raised`, `text-ink-2`, `rounded-pill`, `duration-(--duration-fast)`). See [Styles, tokens and site shell](styles-and-shell.md).
-- **Hand-written CSS for what utilities express badly.** `ui.css` holds the callout box, the checkbox, the progress bar, the hit-target rule and the fullscreen viewer. `game.css` holds the guide page grid, the quest header with the NPC and its three columns, the icon wells, the coordinates chip, the steps and the "Pasos" side list, Torre's speech bubble, the achievement chain arrows, the video facade and the "Copiado" toast. Each component imports the stylesheet it needs. Both files use only tokens, and animate only `transform`, `opacity` and colors, so the global reduced-motion rule in `globals.css` turns all motion off.
+- **Hand-written CSS for what utilities express badly.** `ui.css` holds the callout box, the checkbox, the progress bar, the hit-target rule and the fullscreen viewer. `game.css` holds the single reading column of the guide page, the quest header with the NPC and its three columns, the rewards bag, the icon wells, the coordinates chip, the fight block, the steps, the next quest card, Torre's speech bubble, the achievement chain arrows, the video facade and the "Copiado" toast. Each component imports the stylesheet it needs. Both files use only tokens, and animate only `transform`, `opacity` and colors, so the global reduced-motion rule in `globals.css` turns all motion off.
 - **Mode-dependent values come from variables.** `game.css` reads values that change with the mode, such as the icon well colors, from variables `theme.css` sets on `[data-mode]` instead of from an ancestor selector, so a light section inside a dark page gets the light values.
 - **`cx()`** (`ui/cx.ts`) joins class names and drops empty ones.
 - **Text lives in string modules.** `ui/strings.ts` (`uiStrings`) and `game/strings.ts` (`gameStrings`) hold every Spanish label, so a second language would translate those modules.
-- **Images are already converted.** `ImageAsset` (`ui/types.ts`) is a WebP `src`, an optional `avif`, the file's `width` and `height`, and optional `srcSet`/`avifSrcSet` lists of narrower widths. The app never optimizes images on request; `IMAGE_SIZES` (`ui/image-sizes.ts`) holds the `sizes` value for each slot, such as `prose`, the step column (852 px from 72rem next to the side list, the viewport minus margins and the step number below).
+- **Images are already converted.** `ImageAsset` (`ui/types.ts`) is a WebP `src`, an optional `avif`, the file's `width` and `height`, and optional `srcSet`/`avifSrcSet` lists of narrower widths. The app never optimizes images on request; `IMAGE_SIZES` (`ui/image-sizes.ts`) holds the `sizes` value for each slot, such as `prose`, the reading column (880 px from 58rem, the viewport minus its margins below), and `card`, the next quest card's art (280 px from 40rem).
 
 ### Hit targets
 
@@ -112,26 +124,30 @@ Controls drawn smaller than 40px carry the `hit-target` class together with Tail
 | `Card` | A surface panel; with `href` the whole card is one link (never a link inside another) and the border takes the section color on hover |
 | `Picture` | A `<picture>` with an AVIF `<source>` when present and a WebP `<img>` with explicit `width` and `height`. With narrower widths it writes `srcset` and `sizes` in both formats. It is lazy by default; `priority` drops lazy loading and sets `fetchPriority="high"` |
 | `Figure` | A guide screenshot with an optional caption, sized with `IMAGE_SIZES.prose`. The image is wrapped in a link to the widest WebP file (`data-image-viewer`, `data-image-avif`, a `zoom-in` cursor) named "Ver imagen a pantalla completa: {alt}". `priority` marks the screenshot that may be the LCP |
+| `Amount` | A figure with its thousands separated by a narrow no-break space (U+202F): "1 272", never "1.272" and never split across lines (DESIGN.md, Typography: Numbers). Montserrat and Lilita One lack that character, so each separator sits in its own `span.amount__th`. Its styles are in `globals.css`, because the site header uses it on every page and `ui.css` would be one more render-blocking stylesheet |
 
 ## Quest guide components (`src/components/game/`)
 
 | Component | What it renders |
 |---|---|
-| `QuestHeader` | The guide's header (DESIGN.md, Quest header): the title as the page's `h1` (or `h2` in the catalog), a subtitle such as "Misión de Astrub - Nivel 20 - Misión 2 del logro …" with a link to the achievement and its trophy icon, the quest giver, and up to three columns: "Prerrequisitos", "Necesitarás" and "Recompensas". Each line has an icon well (a quest icon for a prerequisite quest, the item's icon, the combat icon for a fight note, XP and kamas). XP shows as a range ("9 800 a 16 380 XP") when the minimum is known. What is missing is not rendered: no column without data, no giver column without a render |
+| `QuestHeader` | The guide's header (DESIGN.md, Quest header): the title as the page's `h1` (or `h2` in the catalog), a subtitle such as "Misión de Astrub - Nivel 20 - Misión 2 de 3" (the achievement itself is in the breadcrumb, not linked here), the quest giver, and the three `QuestFacts` columns. What is missing is not rendered: no subtitle part without data, no giver column without a render |
+| `QuestFacts` | The three columns, shared by the guide header and the achievement header: "Prerrequisitos", "Necesitarás" and "Recompensas" (the achievement page changes the titles to "Necesitarás en total" and "Recompensas del logro"). Each line has an icon well (a quest icon for a prerequisite quest, the item's icon, the combat icon for a fight note, XP and kamas). XP shows as a range ("9 800 a 16 380 XP") when the minimum is known. Reward items go in the rewards bag: a disclosure button with the game's bag icon and "4 objetos" ("1 objeto") that opens their list. Without JavaScript the list shows below the button; with it (`data-js` on `<html>`) it starts closed and `PageEnhancements` opens and closes it. A column without rows is not rendered |
 | Quest giver (inside `QuestHeader`) | The NPC render in a `<picture>`: facing left below 36rem, where it sits right of the title, and facing right above, next to the title. The image is decorative; the NPC's name is text below it, with the start coordinates chip |
-| `IconWell`, `GAME_ICONS` | A dark square slot for a game icon, like an inventory cell, dark in light mode too so the full-color icon reads (DESIGN.md, Icon wells). `GAME_ICONS` (`game-icons.ts`) lists the five fixed icons (combat, kamas, quest, XP, achievement), original game files converted to lossless WebP under `public/img/game/`, with each file's size; icons are drawn at 32px or their file size if smaller, never enlarged. Without an icon the well stays empty, never a substitute |
+| `IconWell`, `GAME_ICONS` | A dark 44px slot for a game icon, like an inventory cell, dark in light mode too so the full-color icon reads (DESIGN.md, Icon wells). `GAME_ICONS` (`game-icons.ts`) lists the six fixed icons (combat, kamas, quest, XP, achievement, bag), original game files converted to lossless WebP under `public/img/game/`, with each file's size; icons are drawn at 34px or their file size if smaller (the XP arrow and the bag are 24px, the trophy 28px), never enlarged. An item image goes in the same well. Without an icon the well stays empty, never a substitute |
 | `ItemChip`, `ItemSlot` | An item on one line (24px icon, name, quantity), or an inventory slot (48px icon in a 72px slot, the quantity in the corner, read as "1 × Pico de tofu"). Without an icon the slot stays empty |
-| `MonsterChip`, `FightBlock` | A monster with art, "N × Name" and an optional level; the fight block is a list of them |
+| `FightBlock` | A fight in the guide (DESIGN.md, Monster chip and fight block): one row per monster, its image in a 52px well (drawn at 42px, never enlarged) and "1 × Name". Without an imported image the well stays empty |
 | `CoordinatesChip`, `CoordinatesText`, `TravelButton` | A pin icon and `[x,y]` as the game writes it, carrying `data-copy="/travel x,y"`. `CoordinatesText` turns every `[x,y]` in a prose string into a chip. `TravelButton` is the compact primary button that copies the start position |
-| `QuestSteps` | The numbered steps (DESIGN.md, Steps): an `<ol>` of `li[data-step]` with the step's anchor as `id`, a number in its well that sticks to the top while scrolling, and the step's content. No titles and no checkboxes; a visually hidden "Pasos" heading labels the section. A step whose text does not name its coordinates starts with a coordinates chip |
-| `StepTracker` | The "Pasos" side list beside the guide from 1152px (DESIGN.md, Steps side list): a `nav` with one link per step to its anchor, with its number, label and `x,y`. Without JavaScript it is a list of links; `PageEnhancements` marks the step being read. With no entries it renders nothing |
+| `QuestSteps` | The steps (DESIGN.md, Steps), one after another in the reading column, separated by a line: an `<ol>` of `li[data-step]` with the step's anchor as `id` and its content. No numbers, titles or checkboxes; the list is an `<ol>`, so a screen reader says the number, and a visually hidden "Pasos" heading labels the section. A step whose text does not name its coordinates starts with a coordinates chip |
+| `NextQuestCard` | The next quest of the achievement, at the end of the guide (DESIGN.md, Next quest card): the whole card is one link to its guide, with its first screenshot as art, "Siguiente misión", the title, and its level and giver with coordinates. What is missing is not rendered |
 | `TorreTips` | Torre's recommendations (DESIGN.md, Torre's tips): his decorative avatar and a speech bubble with the heading "Recomendaciones de Torre". A `tip` callout in a guide renders as this |
-| `GuideBody`, `GuideSteps`, `GuideBlocks` | Render a guide's blocks on the server: rich text, `Figure`, `VideoFacade`, a `Callout` for warnings and `TorreTips` for tips. `GuideBody` wraps the introduction or closing; `GuideSteps` feeds `QuestSteps` with one anchor, pin and block list per step. Headings inside a step start at `h3`, inside a callout at `h4` |
+| `GuideBody`, `GuideSteps`, `GuideBlocks` | Render a guide's blocks on the server: rich text, `Figure`, `VideoFacade`, `FightBlock`, a `Callout` for warnings and `TorreTips` for tips. `GuideBody` wraps the introduction or closing; `GuideSteps` feeds `QuestSteps` with one anchor, pin and block list per step. Headings inside a step start at `h3`, inside a callout at `h4` |
 | `GuideRichText` | A Lexical state rendered with Payload's `RichText` and custom converters: every `[x,y]` in text becomes a coordinates chip except inside a link or code, links keep only `http`, `https`, `mailto` and same-site URLs (`safeHref`), an internal link to a guide points at `/<slug>`, new-tab links get `noopener noreferrer`, headings are clamped to at least the given level so the guide title stays the only `h1`, an uploaded image renders as a `Figure` (only the first one gets priority when asked) and unknown nodes render nothing |
 | `AchievementChain` | The achievement's quests on one line: the current quest as text with `aria-current="page"`, the others as links. Arrows are CSS, so a screen reader hears a numbered list. Chains longer than five are trimmed by `chainWindow` |
 | `VideoFacade` | See below |
 
 ## Brand (`src/components/brand/`)
+
+`Lockup` (`lockup.css`) is the Sello lockup: the emblem with the wordmark, in a header size and a footer size, used by the site header and footer.
 
 `Emblem` draws the Torrente Arcano emblem as an inline SVG (DESIGN.md, Brand): the hat in `--color-accent`, the glyph in `--color-bg` and the face in `--color-ink`, so it follows the theme and mode it sits in. It is decorative (`aria-hidden`, not focusable) and reserves its size with `width` and `height`. The `simple` variant, for 16px, keeps only the hat and the grin. The drawing lives in `emblem-art.ts`, shared with `scripts/build-icons.ts`, which builds the favicon and the iOS icon (see [Styles, tokens and site shell](styles-and-shell.md#site-shell)).
 
@@ -141,7 +157,7 @@ Controls drawn smaller than 40px carry the `hit-target` class together with Tail
 
 ## The client island: `PageEnhancements`
 
-`PageEnhancements` (`"use client"`) is the only client code these components need. A page renders it once. It listens with event delegation on `document`, so it needs no props and works for any number of chips, videos, figures and steps. Without it every feature still works in a plainer form: a chip is selectable text, a video is a link to YouTube, a figure is a link to its image file, the "Pasos" list is a list of links.
+`PageEnhancements` (`"use client"`) is the only client code these components need. A page renders it once. It listens with event delegation on `document`, so it needs no props and works for any number of chips, videos, figures and bags. Without it every feature still works in a plainer form: a chip is selectable text, a video is a link to YouTube, a figure is a link to its image file, the rewards bag's list shows open.
 
 On mount it turns every `[data-copy]` element into a button (`role="button"`, `tabIndex=0`, and `aria-label` from `data-copy-label`, which starts with the visible text: "[1,-17], copiar /travel 1,-17"). Then it handles:
 
@@ -149,7 +165,7 @@ On mount it turns every `[data-copy]` element into a button (`role="button"`, `t
 - **Video.** A click without a modifier key on `a[data-video-embed]` creates an iframe with that `src`, the video title, `allow="autoplay; encrypted-media; picture-in-picture"` and fullscreen allowed, hides the link (React owns the node, so it is hidden rather than removed), inserts the iframe after it and focuses it.
 - **Fullscreen image.** A click without a modifier key on `a[data-image-viewer]` reads the link's WebP URL, the AVIF URL, the image's alt and size, the figure's caption, and the `data-theme` and `data-mode` of the nearest themed ancestor. It then opens a native `<dialog>` with `showModal()`, which makes the page inert. The dialog is named "Imagen a pantalla completa", copies that theme and mode so the viewer matches the image's section, and shows a "Cerrar" icon button, the image as a `<picture>` and the caption. Esc (native), the button, or a click on the dialog itself (outside the image, caption and button) closes it, and focus returns to the link that opened it.
 
-- **Current step.** An `IntersectionObserver` watches every `[data-step]` with a `rootMargin` from `stepBandMargin(innerHeight)`, which leaves only the band between 30 and 40 percent of the viewport height. The step crossing that band gets `data-current`, and its side list link gets `aria-current="step"`. Until the reader reaches the steps, the first one is current. The margin is in pixels (`rootMargin` percentages are measured against the viewport width), so the observer is rebuilt when the window height changes.
+- **Rewards bag.** The bag's button is a disclosure: its state lives in its `aria-expanded`, and `game.css` shows the list from it when `data-js` is set. A click on the button toggles it; a click outside an open bag, focus leaving it, or Esc closes it. Esc also returns focus to the button when focus was inside.
 
 With any modifier key held (Ctrl, Cmd, Shift, Alt), video and figure links behave as normal links. AGENTS.md allows exactly this one island on guide pages, inside the 150 KB JavaScript budget (see [Performance budgets](../testing/performance-budgets.md)).
 
@@ -158,15 +174,15 @@ With any modifier key held (Ctrl, Cmd, Shift, Alt), video and figure links behav
 These are pure functions with no React or Payload dependency:
 
 - **`coordinates.ts`**: `formatCoordinates` writes `[x,y]`; `travelCommand` writes `/travel x,y`, which starts the in-game autopilot from the chat; `parseCoordinates` reads a text that is only `[x,y]` (optional sign and spaces, at most three digits per number) or returns `null`; `splitCoordinates` splits prose into text and coordinates in order, leaving anything that does not match as text.
-- **`display.ts`**: `formatThousands` separates thousands with a plain space (`24 316`); `formatAmount` uses a no-break space so a figure never splits across lines; `chainWindow` keeps a chain of five or fewer whole and otherwise keeps the first, previous, current, next and last quests, with `null` marking each gap; `stepBandMargin` gives the side list's observer margin. The module has no dependencies so the island can import it through `gameStrings` without pulling in the summary code.
+- **`display.ts`**: `formatThousands` separates thousands with a plain space (`24 316`), the form summaries are written in; `formatAmount` uses a narrow no-break space so a figure never splits across lines; `chainWindow` keeps a chain of five or fewer whole and otherwise keeps the first, previous, current, next and last quests, with `null` marking each gap. The module has no dependencies so the island can import it through `gameStrings` without pulling in the summary code.
 - **`video.ts`**: `youtubeId` returns the 11-character video ID from `watch?v=`, `youtu.be/`, `/embed/` and `/shorts/` links on the YouTube and `youtube-nocookie.com` hosts, or `null`; `youtubeEmbedUrl` builds the `youtube-nocookie.com` embed URL with `autoplay=1`; `youtubeWatchUrl` builds the watch URL.
 
 ## Tests
 
-- `tests/unit/ui-components.test.tsx` and `tests/unit/game-components.test.tsx` render each component with `renderToStaticMarkup` and check the markup: button types and variants, accessible names, `Picture` sources, lazy loading and priority, the `Figure` link and its name without alt, which controls are hit targets, the coordinates chip's pin, the quest header (title, subtitle parts, the giver's two renders and text name, the three columns with icons and the XP range, nothing rendered without data), icon wells, steps and the side list, Torre's tips, the chain's current quest and trimming, the video facade with no iframe and its non-YouTube fallback, and the island's closed, named dialog and status region. `vitest.config.mts` includes `.test.tsx` files for these.
+- `tests/unit/ui-components.test.tsx` and `tests/unit/game-components.test.tsx` render each component with `renderToStaticMarkup` and check the markup: button types and variants, accessible names, `Picture` sources, lazy loading and priority, the `Figure` link and its name without alt, which controls are hit targets, the coordinates chip's pin, the fight block, the next quest card with and without art, the quest header (title, subtitle with "Misión 2 de 3" and no link, the giver's two renders and text name, the three columns with icons and the XP range, the rewards bag and its singular, nothing rendered without data), the bag icon and icon wells at 34px at most, steps without numbers, Torre's tips, the chain's current quest and trimming, the video facade with no iframe and its non-YouTube fallback, and the island's closed, named dialog and status region. `vitest.config.mts` includes `.test.tsx` files for these.
 - `tests/unit/guide-body.test.tsx` covers `GuideRichText` (chips in prose but not in links or code, unsafe links as text, `noopener` on new tabs, heading clamping, priority for the first image only, unknown nodes) and `GuideBody`/`GuideSteps` (block order, step anchors, pins only when the text does not name the coordinates, warning and tip rendering).
 - `tests/unit/emblem.test.tsx` covers `Emblem` (decorative, sized, theme colors, the simple variant) and the standalone SVG and favicon built from it.
-- `tests/unit/coordinates.test.ts`, `tests/unit/display-format.test.ts` and `tests/unit/video-url.test.ts` cover the helpers.
+- `tests/unit/amount.test.tsx` covers `Amount`'s U+202F separator in its own span; `tests/unit/coordinates.test.ts`, `tests/unit/display-format.test.ts` and `tests/unit/video-url.test.ts` cover the helpers.
 - `tests/e2e/sistema.spec.ts` checks the behavior in a browser, including axe WCAG 2.2 AA. See [Component catalog](component-catalog.md).
 
 ## Related pages

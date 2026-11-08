@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:b63f40fb020dca5f6d90927767e8ae1174bd764542deded20afdaa82bd52d757",
+  "pageVersion": "sha256:b38a2b67baaf56f9ef16fd51f291354b4b26736aea728ee9cb93520e2fe7e049",
   "claims": [
     {
       "id": "claim_685bcfe3a19741d7a516302d001cb6fe",
-      "statement": "lighthouserc.cjs measures the home page and the seeded quest guide on http://localhost:3110, three runs per page with mobile emulation and real DevTools throttling at slow-4G values with a 4x CPU slowdown, adding --no-sandbox to Chromium only when CI is set.",
+      "statement": "lighthouserc.cjs measures the home page, the seeded quest guide, the seeded achievement page and /metalogros on http://localhost:3110, three runs per page with mobile emulation and real DevTools throttling at slow-4G values with a 4x CPU slowdown, adding --no-sandbox to Chromium only when CI is set.",
       "evidence": [
         {
-          "resource": "repo://lighthouserc.cjs#L1-L44",
-          "version": "repo-lines-v1:sha256:e78377b6e3cd18e0e9a7e26d1fa09c0c32946c9a20807b7e945b4a077eb5945a:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZkYTI5NTk1MjM3MTQzMTQ1MmExZTA3ODVjYjUxOWE4MWM4NjcwMGI0MzRhYmMzYzExYTViMGUzZmYxYjNhYTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc1ZDBmZjEzYWEyZGYyZmJjYzJlMGRiNTkwNjQ1NjY0NTc4ZDNiNDNhMGEwMTY2MTYzNzY0N2E5NTc1MDNhYjUifQ"
+          "resource": "repo://lighthouserc.cjs#L1-L46",
+          "version": "repo-lines-v1:sha256:9132c9e2dc59343e190a008af17f08397dc0fbd00fed93a1204b9cc00ba78437:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZkYTI5NTk1MjM3MTQzMTQ1MmExZTA3ODVjYjUxOWE4MWM4NjcwMGI0MzRhYmMzYzExYTViMGUzZmYxYjNhYTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc1ZDBmZjEzYWEyZGYyZmJjYzJlMGRiNTkwNjQ1NjY0NTc4ZDNiNDNhMGEwMTY2MTYzNzY0N2E5NTc1MDNhYjUifQ"
         },
         {
-          "resource": "repo://tests/unit/lighthouse-ci.test.ts#L30-L55",
-          "version": "repo-lines-v1:sha256:1a779ffdcc56d7750c5e8be63b6bc68d1918b5a72d18607697ebd69609ddc68e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhY2ExNTczMTVjZjhlYmI1YjE5NmNiZWYwNjJiMzI1OTlhYWVmMzk4NzAyMGFhNGI0NDYwNWY2MTI1YWYwYzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJmZjEwZWIwNjBlNmE4ZjFlNjg1OWRhODhiMTdhN2Q1ZDVhY2IzOWRjYjU2NWQ0ZTk4MzJmODZlZTgyZjFlZTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVjY2IxNjU3NTQ0ZGU5ODhkZTdjYTM3NDgxZDE5OTUxNWM5ZDIxYjJiY2ExOGNmZWQ2YzExOWZlOTI5NWY3MWQifQ"
+          "resource": "repo://tests/unit/lighthouse-ci.test.ts#L31-L60",
+          "version": "repo-lines-v1:sha256:fae272910639839227924137e1acf9b6ef4af2ac9dab51c01e86f6ef4a569877:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhY2ExNTczMTVjZjhlYmI1YjE5NmNiZWYwNjJiMzI1OTlhYWVmMzk4NzAyMGFhNGI0NDYwNWY2MTI1YWYwYzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJmZjEwZWIwNjBlNmE4ZjFlNjg1OWRhODhiMTdhN2Q1ZDVhY2IzOWRjYjU2NWQ0ZTk4MzJmODZlZTgyZjFlZTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNlZDA5YjUxNTAzMzU2ODQ5ZjUxOWE5NzBmZGEyMDI4Yjg0MDM4YWViMzhiOTI5MGMxOTMxMzVkNGUwMGQzNjIifQ"
         }
       ]
     },
@@ -21,11 +21,11 @@
       "statement": "LCP fails when the best of the three runs exceeds 2500 ms and only warns when the median does.",
       "evidence": [
         {
-          "resource": "repo://lighthouserc.cjs#L45-L76",
+          "resource": "repo://lighthouserc.cjs#L47-L78",
           "version": "repo-lines-v1:sha256:24c523a4a124c6f6194e3110aa0a3364cf4e0d90b3010b00b5356673e557228c:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjNjI2YjVlZmRmMGU0ODQ1NWYzYzgyMGMyNDY0N2JkYzk1YmIxY2Y5OTA5MDcwOTliYmRkNmY0MTc1ZmU4Y2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg5NDE5MTE5Nzk5YTUwNDVmOWY5OTkxY2YxZjkxMGE0OGZjYmNlNDU4MmRlMDE3NmM4MzJhNjRhYmM3ZmYzNmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk4MDU3OTM4NDY2M2ZiMzZhZWNiMjYwNTE5M2YyYzMyNzJkMTcxNTUyNjcyY2UzYjQ1MDViMmQxZTAzOGM4ZGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxMjI2ZjdmN2YxN2FhNzNjMzQzMGZiYjVjNDgyOTQwMzFiMGRiMzliZjAzZDhmOTEwYjE2NzU2ZGZiMjhiNzIifQ"
         },
         {
-          "resource": "repo://tests/unit/lighthouse-ci.test.ts#L66-L72",
+          "resource": "repo://tests/unit/lighthouse-ci.test.ts#L72-L78",
           "version": "repo-lines-v1:sha256:cf68d227a49cd38a23b55d2755818954d9c1e21ea79f1b1736c66b8649769358:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjE5OTNiNTdmNmYwMDM2YzQyMGUyNDA0MzM4MmNjMjY3MWZkOTVlNThjMWE4ZGY2YTZkYjFhMjY0NWNiNWEwNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmFkMTc4Y2MzNmIyYzJkNGI2ZjlmZjU5ZjQ3OTQzZTM0MmEzNjdmZTljNWUwZjdjYTEzNzVmMDU3MzYzNmRlMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTQ4ZjIwZGQ0ZDU3NDkyNTNjMzk0YWVhMWQ0M2M5NDQyYzI5OTA5MDIwNTQzZjljNDNiYTNlODlhM2IzMDdiMiJ9"
         }
       ]
@@ -35,11 +35,11 @@
       "statement": "CLS over 0.1, script transfer size over 150000 bytes and unsized images fail on the median of the runs, image-delivery-insight below 1 only warns, and the performance score is not asserted.",
       "evidence": [
         {
-          "resource": "repo://lighthouserc.cjs#L55-L67",
-          "version": "repo-lines-v1:sha256:ab650e2c88eb1ce0d29461fbfd92eac14d1e2b47bcecc1474bcb922c3ff60951:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdiOGNkYTllY2Q5YzBjYjk3MzM3Yjg3YjBlZGYwN2IwNTk2YzJiZDg1Mjc5YWM3ZTIzMDFlOTA3YjJkY2M5ODAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJhYTMzYjk5NmRlN2Q1MjJiMDVhYzFkZTM5ZTQ1MDYzOGNhY2EyY2VhMTZlOWY4OTVlZTQ5MTA1MTFiMjQ3MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM2YzZlOGEyMzQxOTY4YjkwMmZiMWJiNGJkMjQ4MzcxNTg3YmNjYmE3ZDIwZGUyOTFmMmJkNzA1YjE4ZmE2NGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI3M2Y0M2U1OTViYjdkMjFhZTQ5ZWM5MGYzMWRkMGM5NzRmZWU4Njc1NzlkZDU1NThmMWJlZTRmMDkzNzM1ODkifQ"
+          "resource": "repo://lighthouserc.cjs#L56-L70",
+          "version": "repo-lines-v1:sha256:c2d4cc4f06c3fec24f73cdc0fda77d2de0dce370037224648812a0b4ab41b489:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFlZGEwZjFiYjVmNWIyOTUxNDFkODVjZGFjMTZjOTFkNDkyYTVhOTM0ZTU0NjczM2QyNDRhMjU2MjVkMjdjNGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMxMWUxZWQ4MGQyYTI1NDZkMDg5YTY2YjI2NDE1ZDBhMmM1ZTljYmI5MDg2NmZlZWZhMzJkNWNmZTljNjU3OTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZjMDFhNzA3NjdmZTQzNjcyYTU5M2UxZmI4NTgyZTZkZDM3ZjgzMzM1NzMxN2MxZWNhYTQ2NmQwMzllYTAxMjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM2NmEzYTYyOGVhZGQxNjc0MjE2YzdlNjNhMjI2MjY0ZGJjNzU5N2RlYzdkYzdkZjVmOTRhOWY5OGViNzYyNTEifQ"
         },
         {
-          "resource": "repo://tests/unit/lighthouse-ci.test.ts#L73-L97",
+          "resource": "repo://tests/unit/lighthouse-ci.test.ts#L79-L103",
           "version": "repo-lines-v1:sha256:3b911265f9f3c45bdd078a7e6c4f623db94933bd6501b56180aad7a9fb11634d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZmZGYwZTYxMmQ3ZTZlNTQwODU5MWIzMWQzYWI0MjVkZDhmMGJhZDFmMzVjZjUyYjM0ODY3MTk2MDg0MGU1NWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU4MzdkYzdhZWIyMDcwNzk1NTRlYTdiMDY1MzQ2OGY0Nzk5MjY2ZjE5Njc0ZGM2NzU0YTgwOGJiODc1YzIyYWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUwNjkxNzVmMmQxYjM0MDE2NWY4ODc4NWQ0NGI1NTU1MWY2ZDIyZmNmZDIzYzdlZDRkZGM0MmU3MzNhYzk2NzYifQ"
         }
       ]
@@ -49,12 +49,12 @@
       "statement": "Lighthouse CI writes reports only to .lighthouseci/reports on disk and never uploads to temporary public storage.",
       "evidence": [
         {
-          "resource": "repo://lighthouserc.cjs#L58-L62",
-          "version": "repo-lines-v1:sha256:1cc16c2c208eefae4e9e00a24f65866d546a13c75cb4e6645c8d4e89bcd25c48:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2JjZWFiYjBiZjg1ZTg1ZDdhNjQ1MDk2N2RlYjAxOGEwNDk5YTYwMDMyOGZmOTViYmI0NzMxNGE4YzY0MDdjYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWQ2NmNkYTRlNjI1Yzg0ZGRlOGM0MWVlN2VlZGU1NTNlYTJkMjBlODZiZWZkODhmZjM1MTY1NTNhYTczOWI2ZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjIsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODBlZDRkYWQyMWU1ZTFjOGZkZjcyNmM0MzA0OGQ2YWRkNzkzN2E2NzllZjU1MzIyNDk4NWM4ODg0NTVlMmY0NyJ9"
+          "resource": "repo://lighthouserc.cjs#L80-L86",
+          "version": "repo-lines-v1:sha256:3f9524d16a76f031166f16da30827ee11236b54e75759729a15a7d99a3b49a1e:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2JjZWFiYjBiZjg1ZTg1ZDdhNjQ1MDk2N2RlYjAxOGEwNDk5YTYwMDMyOGZmOTViYmI0NzMxNGE4YzY0MDdjYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWQ2NmNkYTRlNjI1Yzg0ZGRlOGM0MWVlN2VlZGU1NTNlYTJkMjBlODZiZWZkODhmZjM1MTY1NTNhYTczOWI2ZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         },
         {
-          "resource": "repo://tests/unit/lighthouse-ci.test.ts#L79-L85",
-          "version": "repo-lines-v1:sha256:8839951a29d94eb1d465f63847823e420cbba5af5243384660d7256df1dd5207:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTk2ZTI1MDBmZWVjNjM3NWQwNDVhNjBhY2QzODYyZTQ4NmYxZWNjNDFmMzJjYmE0ZWY0ZWI1YzUwOWNlM2MyNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODU4MGI3NjUxOGRhZTk3OWZhZWJkMDIzNjdhMjkyOTJhNTBkOTc2MDkyMjUxYTM4YTZjZTMwODgwYmE0MjgyNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGMxZTI1OGE5ODNkMjRiYWY2MWM1YjI5MTZkMzIxMTU0NzE1ZWZiMjIwMzFhZjJkZWVkNGViOTI2OGYzYTE2NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDhmY2I4ZTc0ODQ1ZWQ3NTUxNDNiMjc0ZDE2MDE5NThiNGQ3NWNjNDg3OTM4OWQ4NDY0ZWM3M2FmZmUzYzc3OSJ9"
+          "resource": "repo://tests/unit/lighthouse-ci.test.ts#L104-L112",
+          "version": "repo-lines-v1:sha256:0a5a275ae17fb74d2fd58c9098a3cd810510131b647e72b4e50206daa6be51b9:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTk2ZTI1MDBmZWVjNjM3NWQwNDVhNjBhY2QzODYyZTQ4NmYxZWNjNDFmMzJjYmE0ZWY0ZWI1YzUwOWNlM2MyNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjQ2NmJlMmRhNDQyNWY3NmNiNTZmZDIwZjdhYTBlNGNkYjQ4ZDg4ZTlkNWI4ZWQyZjZjZTYzNWI5NGJkNDk5MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGMxZTI1OGE5ODNkMjRiYWY2MWM1YjI5MTZkMzIxMTU0NzE1ZWZiMjIwMzFhZjJkZWVkNGViOTI2OGYzYTE2NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODhhNGY3ZGEzMzFjZTQxMWY3MjhmNzk2NTgwNjRkMjU2YTY2MWJmNzZjN2Q0YTA4MDVkN2I3OGNkZjdmMWQ3OCJ9"
         }
       ]
     },
@@ -105,7 +105,7 @@
           "version": "repo-lines-v1:sha256:5e072c83cca16aeb91d3136db917546c33f32e9ba67dc41603f5649b1b5eeabd:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMzZjQ5NmFkMDI4YTgxZGRiOGEwMGI4MzZiYmUyYTkxZjhlMjM5ZGE0OGNkODEwZWJkZTUwZjQ4YmVmNGQ0MjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUyNGQzZDUxMDkyMDU3NDU5ODcwYjIzMTNkNTA3Yjg1NDBiNDk2M2VhZTZmMWVmYjkwODY4Y2M1Y2U1YjZiZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://tests/unit/lighthouse-ci.test.ts#L107-L132",
+          "resource": "repo://tests/unit/lighthouse-ci.test.ts#L113-L138",
           "version": "repo-lines-v1:sha256:420e209e1d917994b3d554c4cb82bb10f24f5b0727ad766a713589c020f1aa3e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdiYjViNjkxYThkYzE1MjlmYmE3NjFmZTcwMDM5ZDQxY2M0MzgxYmVkYWZmYjQyY2MzY2JiNGU0NDRhN2JmYWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU5NzQ4NDU5NGFhMjZhODZlMzYxMjFhZTc3MzYzODQzN2MyY2Y0YjlkZTdjMjU5NTc5ODcyYjAxNWU5YWJjYWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
@@ -147,10 +147,20 @@
           "version": "repo-lines-v1:sha256:64f7139989945f308ee690b434fd80d5a71258643e256b21ccb31f26ccaf2a05:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjRmNzEzOTk4OTk0NWYzMDhlZTY5MGI0MzRmZDgwZDVhNzEyNTg2NDNlMjU2YjIxY2NiMzFmMjZjY2FmMmEwNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjRmNzEzOTk4OTk0NWYzMDhlZTY5MGI0MzRmZDgwZDVhNzEyNTg2NDNlMjU2YjIxY2NiMzFmMjZjY2FmMmEwNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGIyODE0YmNkN2Y4ZjA2NmM4MWRlYTU3NjliZDZjNmI2NDJhZjY1OGNkZmU4MjM0NGY4Yzg2ZDE4M2I2OWQ3NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmZiYWFlNTM4YzMzZjc4MmUxYjYxOGI0MDA1MTI5ZGM2YjVlZTM1ZGZlMTVlN2FmY2EyODQ4M2QxMzBjYTBmZSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_a92f826e8abb4792be1ead21aabfe5cd",
+      "statement": "The guide page and the home page sit close to the 150 KB script budget, so both searches load their code and index with import() on first use and keep shared modules out of the islands.",
+      "evidence": [
+        {
+          "resource": "repo://AGENTS.md#L156-L156",
+          "version": "repo-lines-v1:sha256:77d54148506875fadc524888e49ba5145f18d50352650b51b426f96d13afa328:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzdkNTQxNDg1MDY4NzVmYWRjNTI0ODg4ZTQ5YmE1MTQ1ZjE4ZDUwMzUyNjUwYjUxYjQyNmY5NmQxM2FmYTMyOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzdkNTQxNDg1MDY4NzVmYWRjNTI0ODg4ZTQ5YmE1MTQ1ZjE4ZDUwMzUyNjUwYjUxYjQyNmY5NmQxM2FmYTMyOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWM1NTQ0MGY5MjY0ODNhNGJkMjZkZWNlZTk4NTY4N2I0ZmJlOGJjMjZmNDhmMWVhNmVmOGY5MDkxMGQ1ZDczZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTE5NmNmNWJmODFiNTQ4MmU4ZTk1MWY0MmE0YzM2MjliZTEyNGQ0M2QyZTYwMjc4OTllY2JhNGM0MThjNTU4YiJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-06T15:25:11.354Z"
+    "at": "2026-11-08T11:00:21.339Z"
   }
 }
