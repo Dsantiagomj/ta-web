@@ -133,6 +133,34 @@ test.describe('portada', () => {
     await expect(list(page).getByRole('option').first()).toHaveAttribute('aria-selected', 'true')
   })
 
+  test('Intro durante la espera abre la primera de lo escrito, no la de la lista vieja', async ({
+    page,
+  }) => {
+    // Un índice con dos títulos que cambian de orden según lo buscado, y el reloj en la mano
+    // para que las teclas lleguen dentro de los 90 ms de espera.
+    await page.route(`**${INDEX}`, (route) =>
+      route.fulfill({
+        json: {
+          guides: [
+            ['Ab cd', 'ab-cd', null, 1],
+            ['Cd ab', 'cd-ab', null, 1],
+          ],
+        },
+      }),
+    )
+    await page.clock.install()
+    await open(page)
+    await field(page).fill('ab')
+    await page.clock.runFor(200)
+    await expect(list(page).getByRole('option').first()).toContainText('Ab cd')
+    // Antes de que se ordene «cd», dos flechas eligen la segunda de la lista vieja.
+    await field(page).fill('cd')
+    await page.keyboard.press('ArrowDown')
+    await page.keyboard.press('ArrowDown')
+    await page.keyboard.press('Enter')
+    await expect(page).toHaveURL(/\/cd-ab$/)
+  })
+
   test('Esc cierra, otro Esc borra; un clic fuera cierra', async ({ page }) => {
     await open(page)
     await field(page).fill('es')
