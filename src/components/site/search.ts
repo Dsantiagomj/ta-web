@@ -306,14 +306,22 @@ export function highlight(name: string, terms: string[]): HighlightPart[] {
  */
 function questStatus(query: string, totals: Record<FoundType, number>, navCount = 0): string {
   const nav = navCount ? s.nav(navCount) : ''
-  const quests = totals.mision
+  // Con más de MANY_QUESTS solo se ven SHOWN_WHEN_MANY: la línea lo dice y pide afinar.
+  let more = false
+  const part = (total: number, say: (n: number) => string) => {
+    if (total <= MANY_QUESTS) return total ? say(total) : ''
+    more = true
+    return s.over(say(MANY_QUESTS))
+  }
   const parts = [
-    quests ? (quests > MANY_QUESTS ? s.many(MANY_QUESTS) : s.count(quests)) : '',
-    totals.logro ? s.achievements(totals.logro) : '',
-    totals.metalogro ? s.metalogros(totals.metalogro) : '',
+    part(totals.mision, s.count),
+    part(totals.logro, s.achievements),
+    part(totals.metalogro, s.metalogros),
   ].filter(Boolean)
   if (parts.length === 0) return nav ? s.noneWithNav(nav) : s.none(query.trim())
-  return [...parts, nav].filter(Boolean).join(' · ')
+  const found = parts.join(' · ') + (more ? s.keepTyping : '')
+  const line = [found.charAt(0).toUpperCase() + found.slice(1), nav].filter(Boolean)
+  return line.join(' · ')
 }
 
 export type GuidesState = 'idle' | 'loading' | 'ready' | 'error'
