@@ -98,8 +98,11 @@ test.describe('cabecera', () => {
     const dialog = page.getByRole('dialog', { name: 'Buscar en el sitio' })
     await expect(dialog).toBeVisible()
     await expect(dialog.getByRole('searchbox')).toBeFocused()
-    await page.keyboard.type('ebano')
-    await expect(dialog.getByRole('status')).toHaveText('1 resultado')
+    // Con una letra pide otra; desde dos, busca.
+    await page.keyboard.type('e')
+    await expect(dialog.getByRole('status')).toHaveText('Escribe una letra más para buscar.')
+    await page.keyboard.type('bano')
+    await expect(dialog.getByRole('status')).toHaveText('Ninguna misión; 1 resultado del menú.')
     await expect(dialog.getByRole('link', { name: 'Dofus Ébano' })).toBeVisible()
     await page.keyboard.press('ArrowDown')
     await expect(dialog.getByRole('link', { name: 'Dofus Ébano' })).toBeFocused()
@@ -128,11 +131,13 @@ test.describe('cabecera', () => {
     await expect(link).toBeVisible()
     await expect(link).toHaveAttribute('href', `/${seedGuide.slug}`)
     await expect(link).toContainText(`Nivel ${seedGuide.level} · ${seedGuide.achievement.name}`)
-    await expect(dialog.getByRole('status')).toHaveText('1 resultado')
+    await expect(dialog.getByRole('status')).toHaveText('1 misión')
+    // Lo que encaja va resaltado, sin tildes ni mayúsculas.
+    await expect(link.locator('mark')).toHaveText(['Seis', 'pies'])
 
     // Un borrador no sale nunca.
     await box.fill(draftGuide.title)
-    await expect(dialog.getByRole('status')).toHaveText(/^Nada se llama/)
+    await expect(dialog.getByRole('status')).toHaveText(/^Ninguna misión se llama «/)
     await expect(dialog.getByRole('region', { name: 'Misiones' })).toHaveCount(0)
 
     // Cerrar y abrir no lo pide otra vez.
@@ -182,7 +187,7 @@ test.describe('cabecera', () => {
     await expect(
       dialog.getByRole('region', { name: 'Misiones' }).getByRole('link', { name: /Seis pies/ }),
     ).toBeVisible()
-    await expect(dialog.getByRole('status')).toHaveText('1 resultado')
+    await expect(dialog.getByRole('status')).toHaveText('1 misión')
   })
 
   test('el índice es público, cacheable y solo lleva lo publicado', async ({ request }) => {

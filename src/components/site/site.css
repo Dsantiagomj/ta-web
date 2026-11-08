@@ -1149,6 +1149,16 @@ html {
   min-width: 0;
 }
 
+/* Lo que encaja con lo buscado, en el diálogo y en la portada: en negrita y subrayado en el
+   acento, sin color de fondo (DESIGN.md, Search). */
+mark.hit {
+  background: none;
+  color: inherit;
+  font-weight: 800;
+  text-decoration: underline 2px var(--color-accent);
+  text-underline-offset: 0.18em;
+}
+
 .sdlg__d {
   color: var(--color-ink-2);
   font-size: 0.8125rem;
