@@ -28,6 +28,7 @@
     "data:quests": "NODE_OPTIONS=--no-deprecation payload run scripts/refresh-quests.ts",
     "import:guides": "NODE_OPTIONS=--no-deprecation payload run scripts/import/import-guides.ts",
     "import:achievements": "NODE_OPTIONS=--no-deprecation payload run scripts/import/import-achievements.ts --",
+    "fix:achievements": "NODE_OPTIONS=--no-deprecation payload run scripts/import/fix-achievements.ts --",
     "guides:backfill": "NODE_OPTIONS=--no-deprecation payload run scripts/backfill-guides.ts --",
     "media:sizes": "NODE_OPTIONS=--no-deprecation payload run scripts/media-sizes.ts --",
     "migrate": "NODE_OPTIONS=--no-deprecation DATABASE_CONNECTION=direct payload migrate",

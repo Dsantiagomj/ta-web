@@ -214,6 +214,34 @@ describe('importar los metalogros de Torre', () => {
     await payload.delete({ collection: 'achievements', id: dragon.id })
   })
 
+  it('«De un mundo a otro» de Torre es «De un mundo al otro» del juego', async () => {
+    const mundo = await payload.create({
+      collection: 'achievements',
+      data: { dofusId: 1072, name: 'De un mundo al otro', order: 21, category: astrub.id },
+    })
+    const report = await importTorreAchievements(payload, {
+      zones: [
+        {
+          ...zones[0]!,
+          achievements: [
+            { name: 'De un mundo a otro', href: `${TORRE}/de-un-mundo-a-otro`, ready: true },
+          ],
+        },
+      ],
+      apply: true,
+      ensureNpc: async () => null,
+    })
+    expect(report.unmatched).toEqual([])
+    const { docs } = await payload.find({
+      collection: 'achievement-pages',
+      where: { achievement: { equals: mundo.id } },
+      depth: 0,
+    })
+    expect(docs[0]).toMatchObject({ name: 'De un mundo a otro', slug: 'de-un-mundo-a-otro' })
+    await payload.delete({ collection: 'achievement-pages', id: docs[0]!.id })
+    await payload.delete({ collection: 'achievements', id: mundo.id })
+  })
+
   it('copia el estado de cada logro tal cual: listo es Publicada', async () => {
     await importTorreAchievements(payload, {
       zones: [
