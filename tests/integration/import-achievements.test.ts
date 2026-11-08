@@ -162,6 +162,41 @@ describe('importar los metalogros de Torre', () => {
     ])
   })
 
+  it('pone el nombre de Torre en la página, también cuando el del juego es otro', async () => {
+    const dragon = await payload.create({
+      collection: 'achievements',
+      data: { dofusId: 1680, name: 'El descanso del dragón', order: 20, category: astrub.id },
+    })
+    await importTorreAchievements(payload, {
+      zones: [
+        {
+          ...zones[0]!,
+          achievements: [
+            ...zones[0]!.achievements,
+            {
+              name: 'El descenso del dragón',
+              href: `${TORRE}/el-descenso-del-dragon`,
+              ready: true,
+            },
+          ],
+        },
+      ],
+      apply: true,
+      ensureNpc: async () => null,
+    })
+    const { docs } = await payload.find({
+      collection: 'achievement-pages',
+      where: { achievement: { equals: dragon.id } },
+      depth: 0,
+    })
+    expect(docs[0]).toMatchObject({
+      name: 'El descenso del dragón',
+      slug: 'el-descenso-del-dragon',
+    })
+    await payload.delete({ collection: 'achievement-pages', id: docs[0]!.id })
+    await payload.delete({ collection: 'achievements', id: dragon.id })
+  })
+
   it('copia el estado de cada logro tal cual: listo es Publicada', async () => {
     await importTorreAchievements(payload, {
       zones: [
