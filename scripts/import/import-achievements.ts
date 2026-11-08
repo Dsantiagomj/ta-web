@@ -9,11 +9,9 @@ import { readFile } from 'node:fs/promises'
 import { getPayload } from 'payload'
 
 import config from '@payload-config'
-import { createDofusDbClient } from '@/lib/dofusdb/client'
-import { refreshNpcs } from '@/lib/dofusdb/refresh-npcs'
-import type { RawNpc } from '@/lib/dofusdb/types'
 import { databaseScriptRefusal } from '@/lib/db/script-guard'
 
+import { npcEnsurer } from './ensure-npc'
 import { importTorreAchievements, type TorreZone } from './load-achievements'
 
 const args = process.argv.slice(2)
@@ -33,22 +31,8 @@ const { zones } = JSON.parse(await readFile(file, 'utf8')) as { zones: TorreZone
 
 const payload = await getPayload({ config })
 try {
-  const client = createDofusDbClient({ log: (message) => console.log(message) })
   // El representante elegido a mano puede no dar misiones: si falta, se trae con sus renders.
-  const ensureNpc = async (dofusId: number) => {
-    const find = () =>
-      payload.find({
-        collection: 'npcs',
-        where: { dofusId: { equals: dofusId } },
-        depth: 0,
-        limit: 1,
-        overrideAccess: true,
-      })
-    const found = (await find()).docs[0]
-    if (found) return found.id
-    await refreshNpcs(payload, await client.fetchByIds<RawNpc>('npcs', [dofusId]))
-    return (await find()).docs[0]?.id ?? null
-  }
+  const ensureNpc = npcEnsurer(payload, (message) => console.log(message))
   const report = await importTorreAchievements(payload, {
     zones,
     apply,

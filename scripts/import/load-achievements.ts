@@ -47,6 +47,7 @@ export interface ImportReport {
 const ALIASES: Record<string, string> = {
   'el descenso del dragon': 'el descanso del dragon',
   'campamento de los bworks y de los goblins': 'campamentos de los bworks y de los goblins',
+  'de un mundo a otro': 'de un mundo al otro',
 }
 
 function fold(text: string): string {
