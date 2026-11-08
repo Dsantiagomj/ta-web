@@ -3,7 +3,7 @@
 import { type ReactNode, useEffect, useRef, useState } from 'react'
 
 import type { SearchEntry } from '@/components/site/nav'
-import type { GuidesState } from '@/components/site/search'
+import type { GuidesState, SiteEntries } from '@/components/site/search'
 import { queryKind } from '@/components/site/search-query'
 import { searchDialogStrings as notes } from '@/components/site/search-strings'
 
@@ -21,7 +21,7 @@ function fit(bar: HTMLElement | null, panel: HTMLElement | null) {
 }
 
 /**
- * La búsqueda de misiones de la portada (DESIGN.md, Home): el campo de un combobox con lista
+ * La búsqueda de misiones y logros de la portada (DESIGN.md, Home): el campo de un combobox con lista
  * (patrón ARIA APG) cuyos resultados flotan bajo él, así que abrirlo, escribir o cargar no
  * mueve nada de la página. El formulario, la etiqueta y la ayuda los pinta el servidor (Hero).
  * Las filas y el motor (HeroResults.tsx y search.ts) y el índice de las guías llegan con
@@ -44,14 +44,14 @@ export function HeroSearch({ icon, arrow }: { icon: ReactNode; arrow: ReactNode 
   const [search, setSearch] = useState<{
     guides: GuidesState
     run?: Results
-    quests?: SearchEntry[]
+    entries?: SiteEntries
   }>({ guides: 'idle' })
 
   const kind = queryKind(query)
   const rankBy = queryKind(ranked) === 'search' ? ranked : query
   const results =
-    kind === 'search' && search.run && search.quests
-      ? search.run.rankQuests(search.quests, rankBy)
+    kind === 'search' && search.run && search.entries
+      ? search.run.heroResults(search.entries, rankBy)
       : null
   const items = results?.items ?? []
   const state =
@@ -65,7 +65,7 @@ export function HeroSearch({ icon, arrow }: { icon: ReactNode; arrow: ReactNode 
             ? 'results'
             : 'loading'
   const status = results
-    ? search.run!.questStatus(query, results.total)
+    ? results.status
     : state === 'hint'
       ? notes.hint
       : state === 'error'
@@ -81,9 +81,7 @@ export function HeroSearch({ icon, arrow }: { icon: ReactNode; arrow: ReactNode 
     loading.current = true
     setSearch((current) => ({ ...current, guides: 'loading' }))
     import('./HeroResults')
-      .then(async (run) =>
-        setSearch({ guides: 'ready', run, quests: await run.loadQuestEntries() }),
-      )
+      .then(async (run) => setSearch({ guides: 'ready', run, entries: await run.loadEntries() }))
       .catch(() => setSearch((current) => ({ ...current, guides: 'error' })))
       .finally(() => {
         loading.current = false
@@ -120,8 +118,8 @@ export function HeroSearch({ icon, arrow }: { icon: ReactNode; arrow: ReactNode 
    * la lista vieja y en la nueva señalaría otra.
    */
   function pick(): SearchEntry | undefined {
-    if (!search.run || !search.quests || kind !== 'search') return undefined
-    if (rankBy !== query) return search.run.rankQuests(search.quests, query).items[0]
+    if (!search.run || !search.entries || kind !== 'search') return undefined
+    if (rankBy !== query) return search.run.heroResults(search.entries, query).items[0]
     return items[active >= 0 ? active : 0]
   }
 
@@ -274,7 +272,7 @@ export function HeroSearch({ icon, arrow }: { icon: ReactNode; arrow: ReactNode 
         >
           {search.run && (
             <search.run.HeroOptions
-              items={items}
+              groups={results?.groups ?? []}
               query={rankBy}
               active={active}
               onActive={setActive}

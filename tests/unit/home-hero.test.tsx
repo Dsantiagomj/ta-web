@@ -3,6 +3,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 
 import { Hero } from '@/components/home/Hero'
+import { HeroOptions } from '@/components/home/HeroResults'
 import { LiveStrip } from '@/components/home/LiveStrip'
 import { LEGACY_SITE_ORIGIN } from '@/lib/site/legacy'
 
@@ -65,6 +66,44 @@ describe('la franja del directo', () => {
     const markup = renderToStaticMarkup(<LiveStrip live={{ live: true }} />)
     expect(markup).toContain('Torre está en directo')
     expect(markup).toContain('href="https://www.twitch.tv/torrentearcano"')
+  })
+})
+
+describe('las opciones de la búsqueda de la portada', () => {
+  const entry = (type: 'mision' | 'logro', name: string) => ({ type, name, href: `/${name}` })
+  const options = (groups: Parameters<typeof HeroOptions>[0]['groups'], active = -1) =>
+    renderToStaticMarkup(
+      <ul role="listbox">
+        <HeroOptions
+          groups={groups}
+          query="ocre"
+          active={active}
+          onActive={() => {}}
+          onPick={() => {}}
+        />
+      </ul>,
+    )
+
+  it('con un solo grupo, las opciones van sueltas, sin título', () => {
+    const markup = options([{ type: 'mision', items: [entry('mision', 'ocre-a')] }])
+    expect(markup).not.toContain('role="group"')
+    expect(markup).toContain('id="buscar-mision-o0"')
+  })
+
+  it('con misiones y logros, cada grupo lleva su título y la cuenta sigue de uno a otro', () => {
+    const markup = options(
+      [
+        { type: 'logro', items: [entry('logro', 'ocre-de-ambar')] },
+        { type: 'mision', items: [entry('mision', 'ocre-a'), entry('mision', 'ocre-b')] },
+      ],
+      2,
+    )
+    expect(markup.match(/role="group"/g)).toHaveLength(2)
+    expect(markup).toContain('aria-labelledby="buscar-mision-g-logro"')
+    expect(markup).toMatch(/id="buscar-mision-g-logro"[^>]*>Logros</)
+    expect(markup).toMatch(/id="buscar-mision-g-mision"[^>]*>Misiones</)
+    // Las flechas recorren las tres seguidas: la tercera es la activa.
+    expect(markup).toMatch(/id="buscar-mision-o2" role="option" aria-selected="true"/)
   })
 })
 

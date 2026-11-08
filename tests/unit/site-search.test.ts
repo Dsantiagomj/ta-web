@@ -5,26 +5,34 @@ import { GAME_ICONS } from '@/components/game/game-icons'
 import { searchIndex } from '@/components/site/nav'
 import {
   type GuidesState,
+  heroResults,
   highlight,
-  loadQuestEntries,
+  loadEntries,
   MANY_QUESTS,
-  questEntries,
-  resetQuestEntries,
+  resetEntries,
   searchSite,
   searchStatus,
   SHOWN_WHEN_MANY,
+  siteEntries,
   words,
 } from '@/components/site/search'
 import { queryKind } from '@/components/site/search-query'
 import { searchDialogStrings } from '@/components/site/search-strings'
-import type { GuideSearchIndex } from '@/lib/search/guide-index'
+import type { SearchIndex } from '@/lib/search/guide-index'
 
 const index = searchIndex()
 
 const quests = (...titles: string[]) =>
-  questEntries({
+  siteEntries({
     guides: titles.map((title, i) => [title, `mision-${i}`, null, null]),
   })
+const questEntries = (index: SearchIndex) => siteEntries(index).quests
+
+const NOTHING = {
+  groups: [],
+  totals: { mision: 0, logro: 0, metalogro: 0 },
+  navCount: 0,
+}
 
 const names = (results: ReturnType<typeof searchSite>, type = 'mision') =>
   results.groups.find((g) => g.type === type)?.items.map((i) => i.name) ?? []
@@ -42,7 +50,7 @@ describe('el índice de las guías de misiones', () => {
   })
 
   it('la segunda línea lleva el nivel y el logro, lo que haya', () => {
-    const index: GuideSearchIndex = {
+    const index: SearchIndex = {
       guides: [
         ['A', 'a', 'La ocasión hace al ladrón', 20],
         ['B', 'b', null, 35],
@@ -57,10 +65,8 @@ describe('el índice de las guías de misiones', () => {
   })
 
   it('rechaza una respuesta que no es el índice', () => {
-    expect(() => questEntries({} as GuideSearchIndex)).toThrow()
-    expect(() =>
-      questEntries({ guides: [['solo título']] } as unknown as GuideSearchIndex),
-    ).toThrow()
+    expect(() => questEntries({} as SearchIndex)).toThrow()
+    expect(() => questEntries({ guides: [['solo título']] } as unknown as SearchIndex)).toThrow()
   })
 })
 
@@ -116,14 +122,14 @@ describe('la búsqueda de la cabecera', () => {
     const many = quests(...Array.from({ length: MANY_QUESTS }, (_, i) => `Prueba ${i + 1}`))
     const results = searchSite(index, many, 'prueba')
     expect(names(results)).toHaveLength(MANY_QUESTS)
-    expect(results.questTotal).toBe(MANY_QUESTS)
+    expect(results.totals.mision).toBe(MANY_QUESTS)
   })
 
   it(`con más de ${MANY_QUESTS}, se ven las ${SHOWN_WHEN_MANY} mejores`, () => {
     const many = quests(...Array.from({ length: MANY_QUESTS + 1 }, (_, i) => `Prueba ${i + 1}`))
     const results = searchSite(index, many, 'prueba')
     expect(names(results)).toHaveLength(SHOWN_WHEN_MANY)
-    expect(results.questTotal).toBe(MANY_QUESTS + 1)
+    expect(results.totals.mision).toBe(MANY_QUESTS + 1)
   })
 
   it('con una sola letra no busca: pide otra', () => {
@@ -132,11 +138,7 @@ describe('la búsqueda de la cabecera', () => {
     expect(queryKind('s e')).toBe('search')
     expect(queryKind('se')).toBe('search')
     expect(queryKind('  ')).toBe('empty')
-    expect(searchSite(index, quests('Seis pies'), 's')).toEqual({
-      groups: [],
-      questTotal: 0,
-      navCount: 0,
-    })
+    expect(searchSite(index, quests('Seis pies'), 's')).toEqual(NOTHING)
   })
 
   it('las misiones van primero si encajan tan bien como lo demás', () => {
@@ -151,17 +153,92 @@ describe('la búsqueda de la cabecera', () => {
   })
 
   it('sin misiones cargadas, busca en el menú como siempre', () => {
-    const results = searchSite(index, [], 'ebano')
+    const results = searchSite(index, undefined, 'ebano')
     expect(results.groups.map((g) => g.type)).toEqual(['dofus'])
     expect(results.navCount).toBe(1)
   })
 
   it('sin texto no devuelve nada', () => {
-    expect(searchSite(index, quests('Algo'), '  ')).toEqual({
-      groups: [],
-      questTotal: 0,
-      navCount: 0,
+    expect(searchSite(index, quests('Algo'), '  ')).toEqual(NOTHING)
+  })
+})
+
+describe('los logros y los metalogros', () => {
+  const found = siteEntries({
+    guides: [
+      ['Todos para uno', 'todos-para-uno', 'Todos para uno y uno se lo queda todo', 160],
+      ['Hablar de ocre y de ámbar', 'ocre-hablar', null, 40],
+    ],
+    achievements: [
+      ['Ocre de ámbar', 'ocre-de-ambar', 'Misiones de Mundo', 8],
+      ['Todos para uno y uno se lo queda todo', 'todos-para-uno-y-uno', 'Isla de Frigost', 1],
+    ],
+    metalogros: [['Astrub', 'astrub', '7 logros · 32 misiones']],
+  })
+
+  it('un logro enlaza a su página y dice su metalogro y sus misiones', () => {
+    expect(found.achievements[0]).toMatchObject({
+      type: 'logro',
+      name: 'Ocre de ámbar',
+      href: '/ocre-de-ambar',
+      detail: 'Misiones de Mundo · 8 misiones',
+      image: GAME_ICONS.achievement,
     })
+    expect(found.achievements[1].detail).toBe('Isla de Frigost · 1 misión')
+  })
+
+  it('un metalogro enlaza a su panel del índice', () => {
+    expect(found.metalogros[0]).toMatchObject({
+      type: 'metalogro',
+      name: 'Astrub',
+      href: '/metalogros#astrub',
+      detail: '7 logros · 32 misiones',
+    })
+  })
+
+  it('un índice sin logros ni metalogros sigue valiendo', () => {
+    expect(siteEntries({ guides: [] })).toEqual({ quests: [], achievements: [], metalogros: [] })
+  })
+
+  it('rechaza un logro o un metalogro que no es una fila', () => {
+    expect(() =>
+      siteEntries({ guides: [], achievements: [['solo']] } as unknown as SearchIndex),
+    ).toThrow()
+    expect(() =>
+      siteEntries({ guides: [], metalogros: [[1, 2, 3]] } as unknown as SearchIndex),
+    ).toThrow()
+  })
+
+  it('cada uno en su grupo; lo que empieza igual va antes', () => {
+    const results = searchSite(index, found, 'ocre de ambar')
+    expect(results.groups.map((g) => g.type)).toEqual(['logro', 'mision'])
+    expect(names(results, 'logro')).toEqual(['Ocre de ámbar'])
+    expect(results.totals).toEqual({ mision: 1, logro: 1, metalogro: 0 })
+  })
+
+  it('a igualdad, misiones, luego logros, luego metalogros y luego el menú', () => {
+    const results = searchSite(index, found, 'todos para uno')
+    expect(results.groups.map((g) => g.type)).toEqual(['mision', 'logro'])
+    const astrub = searchSite(
+      index,
+      siteEntries({
+        guides: [['Astrub', 'astrub-guia', null, null]],
+        achievements: [['Astrub', 'astrub-logro', 'Astrub', 3]],
+        metalogros: [['Astrub', 'astrub', '']],
+      }),
+      'astrub',
+    )
+    expect(astrub.groups.map((g) => g.type)).toEqual(['mision', 'logro', 'metalogro'])
+  })
+
+  it('la portada busca lo mismo sin el menú, y una lista plana para el teclado', () => {
+    const hero = heroResults(found, 'ocre')
+    expect(hero.groups.map((g) => g.type)).toEqual(['logro', 'mision'])
+    expect(hero.items.map((e) => e.name)).toEqual(['Ocre de ámbar', 'Hablar de ocre y de ámbar'])
+    expect(hero.status).toBe('1 misión · 1 logro')
+    expect(heroResults(found, 'zzzz').status).toBe(
+      'Ninguna misión se llama «zzzz». Prueba con otra palabra.',
+    )
   })
 })
 
@@ -190,7 +267,7 @@ describe('el resaltado de lo que encaja', () => {
 describe('el índice compartido', () => {
   afterEach(() => {
     vi.unstubAllGlobals()
-    resetQuestEntries()
+    resetEntries()
   })
 
   const ok = () =>
@@ -201,32 +278,48 @@ describe('el índice compartido', () => {
   it('lo pide una vez aunque lo pidan la portada y el diálogo', async () => {
     const fetch = vi.fn(async () => ok())
     vi.stubGlobal('fetch', fetch)
-    const [a, b] = await Promise.all([loadQuestEntries(), loadQuestEntries()])
+    const [a, b] = await Promise.all([loadEntries(), loadEntries()])
     expect(a).toBe(b)
-    await loadQuestEntries()
+    await loadEntries()
     expect(fetch).toHaveBeenCalledTimes(1)
   })
 
   it('si falla, la siguiente vez lo pide de nuevo', async () => {
     const fetch = vi.fn(async () => new Response('', { status: 500 }))
     vi.stubGlobal('fetch', fetch)
-    await expect(loadQuestEntries()).rejects.toThrow()
+    await expect(loadEntries()).rejects.toThrow()
     fetch.mockImplementation(async () => ok())
-    await expect(loadQuestEntries()).resolves.toHaveLength(1)
+    await expect(loadEntries()).resolves.toMatchObject({ quests: [{ name: 'Seis pies' }] })
     expect(fetch).toHaveBeenCalledTimes(2)
   })
 })
 
 describe('la línea de estado de la búsqueda', () => {
   const notes = searchDialogStrings
-  const status = (args: Partial<Parameters<typeof searchStatus>[0]>) =>
+  const status = ({
+    query = 'pies',
+    guides = 'ready',
+    questTotal = 3,
+    logros = 0,
+    metalogros = 0,
+    navCount = 0,
+  }: {
+    query?: string
+    guides?: GuidesState
+    questTotal?: number
+    logros?: number
+    metalogros?: number
+    navCount?: number
+  }) =>
     searchStatus({
-      query: 'pies',
-      guides: 'ready' as GuidesState,
-      questTotal: 3,
-      navCount: 0,
+      query,
+      guides,
+      results: {
+        groups: [],
+        totals: { mision: questTotal, logro: logros, metalogro: metalogros },
+        navCount,
+      },
       notes,
-      ...args,
     })
 
   it('sin texto no dice nada, salvo que las misiones estén cargando o no cargaran', () => {
@@ -263,6 +356,14 @@ describe('la línea de estado de la búsqueda', () => {
       'Ninguna misión se llama «pies». Prueba con otra palabra.',
     )
     expect(status({ questTotal: 0, navCount: 2 })).toBe('Ninguna misión; 2 resultados del menú.')
+  })
+
+  it('suma los logros y los metalogros, con o sin misiones', () => {
+    expect(status({ logros: 2, metalogros: 1 })).toBe('3 misiones · 2 logros · 1 metalogro')
+    expect(status({ questTotal: 0, logros: 1 })).toBe('1 logro')
+    expect(status({ questTotal: 0, metalogros: 2, navCount: 1 })).toBe(
+      '2 metalogros · 1 resultado del menú',
+    )
   })
 
   it('mientras cargan las misiones lo dice, y si fallaron también', () => {

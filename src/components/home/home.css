@@ -449,6 +449,22 @@
   box-shadow: inset 0 0 0 1.5px var(--color-accent);
 }
 
+/* Con misiones y logros a la vez, cada grupo lleva su título, como en el diálogo. */
+.cbx__g > ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cbx__h {
+  display: block;
+  margin: 8px 10px 4px;
+  color: var(--color-ink-2);
+  font: 600 0.8125rem/1.2 var(--font-display);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 .cbx__w {
   display: grid;
   flex: none;

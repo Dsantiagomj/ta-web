@@ -5,7 +5,7 @@ import { highlight, type SearchGroup, words } from './search'
 import { searchResultStrings as s } from './search-result-strings'
 import { StaticImg } from './StaticImg'
 
-export { loadQuestEntries, searchSite, searchStatus } from './search'
+export { loadEntries, searchSite, searchStatus } from './search'
 
 /** El nombre con lo que encaja en <mark>, como texto: nunca innerHTML. */
 export function Highlighted({ name, terms }: { name: string; terms: string[] }) {

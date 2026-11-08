@@ -6,6 +6,7 @@ import {
   readAchievementPage,
   readMetalogrosIndex,
 } from '@/lib/achievements/queries'
+import { readSearchIndex } from '@/lib/search/read-index'
 import type { User } from '@/payload-types'
 
 import { createPanelUser, startPayload } from './payload'
@@ -220,5 +221,18 @@ describe('readMetalogrosIndex', () => {
     })
     // Solo la guía publicada: el borrador no llega a un visitante.
     expect([...index.guides.values()].map((guide) => guide.slug)).toEqual(['seis-pies-bajo-tierra'])
+  })
+})
+
+describe('readSearchIndex', () => {
+  it('lleva los logros publicados con su metalogro y los metalogros que se abren', async () => {
+    const index = await readSearchIndex(payload)
+    expect(index.achievements).toEqual([
+      ['Un ciudadano modelo', 'un-ciudadano-modelo', 'Astrub', 1],
+      ['La ocasión hace al ladrón', 'la-ocasion-hace-al-ladron', 'Astrub', 3],
+    ])
+    expect(index.metalogros).toEqual([['Astrub', 'astrub', expect.stringMatching(/^3 logros/)]])
+    // Las guías siguen ahí, como siempre.
+    expect(index.guides.map((row) => row[1])).toContain('seis-pies-bajo-tierra')
   })
 })

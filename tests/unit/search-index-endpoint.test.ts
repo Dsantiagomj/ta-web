@@ -2,10 +2,10 @@ import { gunzipSync } from 'node:zlib'
 import { describe, expect, it } from 'vitest'
 
 import { searchIndexResponse } from '@/endpoints/search-index'
-import type { GuideSearchIndex } from '@/lib/search/guide-index'
+import type { SearchIndex } from '@/lib/search/guide-index'
 
 // Next no comprime las respuestas de la API de Payload: el endpoint lo hace él.
-const index: GuideSearchIndex = {
+const index: SearchIndex = {
   guides: Array.from({ length: 50 }, (_, i) => [`Misión ${i}`, `mision-${i}`, 'Un logro', i]),
 }
 

@@ -1,8 +1,8 @@
-import type { Payload } from 'payload'
-
-// El índice de las guías de misiones para la búsqueda de la cabecera (DESIGN.md, Layout:
-// Search). Hasta que exista la búsqueda de texto completo en Postgres, la cabecera busca
-// por título en este índice: la isla lo pide la primera vez que se abre la búsqueda.
+// El índice de la búsqueda de la cabecera y de la portada (DESIGN.md, Layout: Search): las
+// guías de misiones, las páginas de logro y los metalogros. Hasta que exista la búsqueda de
+// texto completo en Postgres, se busca por nombre en este índice: la isla lo pide la primera
+// vez que se usa la búsqueda. Solo tipos y la URL: lo carga también el motor del navegador
+// (search.ts); lo lee del servidor read-index.ts.
 
 /** Donde lo sirve el endpoint de src/endpoints/search-index.ts. */
 export const GUIDE_SEARCH_INDEX_URL = '/api/search/guides'
@@ -15,33 +15,19 @@ export type GuideIndexRow = [
   level: number | null,
 ]
 
-export interface GuideSearchIndex {
-  guides: GuideIndexRow[]
-}
+/** Una página de logro publicada: nombre, slug, su metalogro y cuántas misiones tiene. */
+export type AchievementIndexRow = [name: string, slug: string, group: string, quests: number]
+
+/** Un metalogro que se abre: nombre, su ancla en /metalogros y la línea de sus cifras. */
+export type MetalogroIndexRow = [name: string, anchor: string, counts: string]
 
 /**
- * Lo que ve un visitante anónimo: solo lo publicado (overrideAccess: false, sin usuario,
- * draft: false). Lee de la misión solo el nivel y el nombre del logro.
+ * El índice de la búsqueda: las guías y, desde que se buscan logros, las páginas de logro y
+ * los metalogros. Los dos últimos son opcionales: una respuesta vieja en la caché del
+ * navegador sigue valiendo.
  */
-export async function readGuideSearchIndex(payload: Payload): Promise<GuideSearchIndex> {
-  const { docs } = await payload.find({
-    collection: 'quest-guides',
-    where: { _status: { equals: 'published' } },
-    select: { title: true, slug: true, quest: true },
-    populate: { quests: { levelMin: true, achievement: { name: true } } },
-    depth: 1,
-    draft: false,
-    pagination: false,
-    overrideAccess: false,
-  })
-  const guides = docs.map((guide): GuideIndexRow => {
-    const quest = typeof guide.quest === 'object' ? guide.quest : null
-    return [
-      guide.title,
-      guide.slug,
-      quest?.achievement?.name?.trim() || null,
-      quest?.levelMin ?? null,
-    ]
-  })
-  return { guides: guides.sort((a, b) => a[0].localeCompare(b[0], 'es')) }
+export interface SearchIndex {
+  guides: GuideIndexRow[]
+  achievements?: AchievementIndexRow[]
+  metalogros?: MetalogroIndexRow[]
 }

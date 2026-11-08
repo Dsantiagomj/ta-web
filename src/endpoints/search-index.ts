@@ -2,18 +2,18 @@ import { unstable_cache } from 'next/cache'
 import { gzipSync } from 'node:zlib'
 import type { Endpoint } from 'payload'
 
+import { ACHIEVEMENT_PAGES_TAG } from '../lib/achievements/cache'
 import { GUIDE_PAGES_REVALIDATE, GUIDE_PAGES_TAG } from '../lib/guides/cache'
-import {
-  GUIDE_SEARCH_INDEX_URL,
-  type GuideSearchIndex,
-  readGuideSearchIndex,
-} from '../lib/search/guide-index'
+import { GUIDE_SEARCH_INDEX_URL, type SearchIndex } from '../lib/search/guide-index'
+import { readSearchIndex } from '../lib/search/read-index'
 
-// El índice de las guías publicadas para la búsqueda de la cabecera, en GET
-// /api/search/guides. Público: es lo mismo que ve cualquier visitante, sin usuario.
+// El índice de la búsqueda de la cabecera y de la portada, en GET /api/search/guides: las
+// guías, las páginas de logro y los metalogros publicados. Público: es lo mismo que ve
+// cualquier visitante, sin usuario.
 //
-// En caché con la etiqueta de las páginas de guía (src/lib/guides/cache.ts): los hooks de
-// quest-guides la caducan al guardar, así que una guía recién publicada sale en la
+// En caché con las etiquetas de las páginas de guía y de logro (src/lib/guides/cache.ts,
+// src/lib/achievements/cache.ts): los hooks de quest-guides, achievement-pages y
+// achievement-groups las caducan al guardar, así que lo recién publicado sale en la
 // siguiente petición. El navegador lo guarda cinco minutos y luego lo revalida.
 
 export const SEARCH_INDEX_CACHE_CONTROL = 'public, max-age=300, stale-while-revalidate=3600'
@@ -35,10 +35,7 @@ let compressed: { json: string; gzip: Buffer } | undefined
  * La respuesta, comprimida con gzip si el navegador lo acepta: Next comprime las páginas,
  * pero no las respuestas de la API de Payload, y el índice pesa unos 100 KB sin comprimir.
  */
-export function searchIndexResponse(
-  index: GuideSearchIndex,
-  acceptEncoding: string | null,
-): Response {
+export function searchIndexResponse(index: SearchIndex, acceptEncoding: string | null): Response {
   const json = JSON.stringify(index)
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
@@ -59,11 +56,10 @@ export const searchIndexEndpoint: Endpoint = {
     // Se lee con payload y no con req: con req, el local API leería como el usuario de la
     // petición, y el índice es el de un visitante anónimo, el mismo para todos.
     const payload = req.payload
-    const index = await unstable_cache(
-      () => readGuideSearchIndex(payload),
-      ['guide-search-index'],
-      { tags: [GUIDE_PAGES_TAG], revalidate: GUIDE_PAGES_REVALIDATE },
-    )()
+    const index = await unstable_cache(() => readSearchIndex(payload), ['site-search-index'], {
+      tags: [GUIDE_PAGES_TAG, ACHIEVEMENT_PAGES_TAG],
+      revalidate: GUIDE_PAGES_REVALIDATE,
+    })()
     return searchIndexResponse(index, req.headers.get('accept-encoding'))
   },
 }

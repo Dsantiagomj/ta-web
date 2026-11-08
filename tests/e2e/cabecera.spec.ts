@@ -156,6 +156,42 @@ test.describe('cabecera', () => {
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(seedGuide.title)
   })
 
+  test('la búsqueda encuentra los logros publicados y los metalogros que se abren', async ({
+    page,
+  }) => {
+    await page.goto('/')
+    await expect(page.locator('[data-site-header][data-ready]')).toHaveCount(1)
+    await page.keyboard.press('Control+k')
+    const dialog = page.getByRole('dialog', { name: 'Buscar en el sitio' })
+    const box = dialog.getByRole('searchbox')
+    await box.fill('ocasion')
+    const logro = dialog
+      .getByRole('region', { name: 'Logros' })
+      .getByRole('link', { name: /La ocasión hace al ladrón/ })
+    await expect(logro).toHaveAttribute('href', '/la-ocasion-hace-al-ladron')
+    await expect(logro).toContainText('Astrub · 3 misiones')
+    await expect(dialog.getByRole('status')).toHaveText('1 logro')
+
+    // Un metalogro lleva a su panel del índice.
+    await box.fill('astrub')
+    const metalogro = dialog
+      .getByRole('region', { name: 'Metalogros' })
+      .getByRole('link', { name: /^Astrub/ })
+    await expect(metalogro).toHaveAttribute('href', '/metalogros#astrub')
+
+    // Lo que está En preparación no sale: ni un logro ni un metalogro sin nada publicado.
+    await box.fill('biblioteca')
+    await expect(dialog.getByRole('region', { name: 'Logros' })).toHaveCount(0)
+    await box.fill('templo')
+    await expect(dialog.getByRole('region', { name: 'Metalogros' })).toHaveCount(0)
+
+    await box.fill('ocasion')
+    await page.keyboard.press('ArrowDown')
+    await expect(logro).toBeFocused()
+    await page.keyboard.press('Enter')
+    await expect(page).toHaveURL(/\/la-ocasion-hace-al-ladron$/)
+  })
+
   test('al abrirse, antes de escribir, dice que las misiones están cargando', async ({ page }) => {
     let release = () => {}
     const held = new Promise<void>((resolve) => (release = resolve))
