@@ -227,7 +227,12 @@ export function HeroSearch({ icon, arrow }: { icon: ReactNode; arrow: ReactNode 
             setActive(-1)
             start()
             window.clearTimeout(rankTimer.current)
-            rankTimer.current = window.setTimeout(() => setRanked(value), 90)
+            // Al llegar la lista nueva, ninguna opción queda activa: una flecha pulsada durante
+            // la espera apuntaba a la lista anterior.
+            rankTimer.current = window.setTimeout(() => {
+              setRanked(value)
+              setActive(-1)
+            }, 90)
             show(value)
           }}
           onFocus={() => {
