@@ -259,6 +259,20 @@ export async function applyAchievementFixes(
     if (was !== at) said.push(`posición ${was || '—'} → ${at} en ${group.name}`)
 
     if (Object.keys(data).length === 0 && reorder.length === 0) continue
+    // Correr una vecina también la guarda: si Torre la tiene a medio editar, nada se mueve.
+    let busy: string | undefined
+    for (const { id } of reorder) {
+      if (await pendingDraft('achievement-pages', id)) {
+        busy = inGroup.find((doc) => doc.id === id)?.name
+        break
+      }
+    }
+    if (busy) {
+      report.skipped.push(
+        `${label}: ${busy} tiene un borrador sin publicar en el panel; no se toca`,
+      )
+      continue
+    }
     report.changes.push(`${label}: ${said.join('; ') || `orden en ${group.name}`}`)
     for (const { id, order } of reorder) await save('achievement-pages', id, { order })
     if (Object.keys(data).length) await save('achievement-pages', page.id, data)
