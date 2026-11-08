@@ -102,7 +102,7 @@ export const SECTIONS: Section[] = [
   {
     key: 'misiones',
     ...t.sections.misiones,
-    href: legacyHref('metalogros'),
+    href: '/metalogros',
     icon: GAME_ICONS.quest,
     accent: 'var(--color-sec-misiones)',
   },

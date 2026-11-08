@@ -1,0 +1,680 @@
+/*
+ * El índice de metalogros, variante D «Buscador + mosaico» (DESIGN.md, Metalogros index): el
+ * buscador, las fichas de las zonas con su representante, el panel de una zona a lo ancho de
+ * su fila y las tarjetas de sus logros. Sin JavaScript, el buscador no se ve y las listas de
+ * las zonas van bajo las fichas. La etiqueta «En preparación» (.ztag) es la de achievement.css.
+ */
+
+.idx {
+  --gutter: 16px;
+  --sticky-top: 76px; /* bajo la cabecera flotante del móvil */
+  box-sizing: content-box;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding: 24px var(--gutter) 72px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+@media (min-width: 40rem) {
+  .idx {
+    --gutter: 24px;
+  }
+}
+@media (min-width: 48rem) {
+  .idx {
+    --sticky-top: 64px;
+  }
+}
+@media (min-width: 64rem) {
+  .idx {
+    --gutter: 48px;
+    padding-top: 36px;
+  }
+}
+
+/* ---------- título ---------- */
+.idx__head {
+  display: grid;
+}
+.idx__t {
+  color: var(--color-ink);
+  font: 600 var(--text-4xl)/1 var(--font-display);
+  text-wrap: balance;
+}
+.idx__lead {
+  max-width: 62ch;
+  margin-top: 12px;
+  color: var(--color-ink-2);
+  font-size: var(--text-lg);
+  line-height: 1.5;
+  font-weight: 500;
+}
+.idx__stats {
+  margin-top: 6px;
+  color: var(--color-ink-2);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- piezas comunes ---------- */
+.idx mark {
+  background: color-mix(in srgb, var(--color-accent) 22%, transparent);
+  color: inherit;
+  font-weight: 700;
+  border-radius: 3px;
+  padding: 0 1px;
+}
+.idx__link {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--color-muted);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+.idx__link:hover {
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 2px;
+}
+
+/* El render del representante sobre su suelo, como el PNJ de la guía. */
+.giverart {
+  position: relative;
+  display: grid;
+  place-items: end center;
+}
+.giverart::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 100%;
+  height: 12px;
+  translate: -50% 40%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--color-raised) 35%, transparent);
+}
+.giverart img {
+  position: relative;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+.giverart:empty::before {
+  display: none;
+}
+
+:root:not([data-js]) [data-js-only] {
+  display: none;
+}
+
+/* ---------- el buscador ---------- */
+.combo {
+  max-width: 760px;
+  margin-top: 28px;
+}
+.combo__l {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--color-ink);
+  font: 600 1.125rem/1.3 var(--font-display);
+}
+.combo__box {
+  position: relative;
+}
+.combo__box > svg {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  width: 18px;
+  height: 18px;
+  color: var(--color-ink-2);
+  pointer-events: none;
+}
+.combo__box input {
+  width: 100%;
+  height: 56px;
+  padding: 0 20px 0 50px;
+  border: 1.5px solid var(--color-line);
+  border-radius: 16px;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font: 500 1.125rem/1 var(--font-body);
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+.combo__box input::placeholder {
+  color: var(--color-muted);
+}
+.combo__box input:hover {
+  border-color: var(--color-muted);
+}
+.combo__box input:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-color: var(--color-accent);
+}
+.combo__box input[aria-expanded='true'] {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.combo__list {
+  position: absolute;
+  z-index: var(--z-menu);
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: min(60vh, 480px);
+  overflow-y: auto;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  border: 1.5px solid var(--color-accent);
+  border-top: 0;
+  border-radius: 0 0 16px 16px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-float);
+}
+.combo__list[hidden] {
+  display: none;
+}
+.combo__opt {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  grid-template-areas: 'k n' 'k m';
+  column-gap: 12px;
+  align-items: baseline;
+  min-height: 48px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.combo__opt[aria-selected='true'] {
+  background: var(--color-raised);
+  box-shadow: inset 0 0 0 2px var(--color-accent);
+}
+@media (hover: hover) and (pointer: fine) {
+  .combo__opt:hover {
+    background: var(--color-raised);
+  }
+}
+.combo__k {
+  grid-area: k;
+  color: var(--color-ink-2);
+  font: 600 var(--text-micro)/1.4 var(--font-display);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.combo__n {
+  grid-area: n;
+  color: var(--color-ink);
+  font: 600 1rem/1.3 var(--font-display);
+}
+.combo__m {
+  grid-area: m;
+  color: var(--color-ink-2);
+  font-size: var(--text-sm);
+  line-height: 1.35;
+}
+.combo__st {
+  min-height: 1.5em;
+  margin-top: 8px;
+  color: var(--color-ink-2);
+  font-size: var(--text-sm);
+}
+
+/* En preparación: sale en la lista, pero no se elige. */
+.combo__opt--off {
+  cursor: default;
+}
+.combo__opt--off .combo__n,
+.combo__opt--off .combo__k {
+  color: var(--color-ink-2);
+}
+@media (hover: hover) and (pointer: fine) {
+  .combo__opt--off:hover {
+    background: none;
+  }
+}
+.combo__tag {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  margin-left: 6px;
+  padding: 0 8px;
+  vertical-align: 1px;
+  border-radius: var(--radius-pill);
+  background: var(--color-raised);
+  color: var(--color-ink-2);
+  font: 600 0.6875rem/1 var(--font-body);
+}
+
+/* ---------- una zona y sus logros ---------- */
+
+.zone__head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+}
+.zone__t {
+  color: var(--color-ink);
+  font: 600 var(--text-2xl)/1.1 var(--font-display);
+  text-wrap: balance;
+}
+.zone__t:focus {
+  outline: none;
+}
+.zone__c {
+  margin-top: 4px;
+  color: var(--color-ink-2);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+.zone__prep {
+  margin-top: 2px;
+  color: var(--color-ink-2);
+  font-size: var(--text-sm);
+  font-style: italic;
+}
+.zone__sub {
+  margin-top: 22px;
+  color: var(--color-ink-2);
+  font: 600 var(--text-micro)/1.4 var(--font-display);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.zone__guides {
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+  columns: 2 240px;
+  column-gap: 32px;
+}
+.zone__guides li {
+  break-inside: avoid;
+}
+.zone__guides a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+}
+
+@media (pointer: coarse) {
+  .zone__guides a {
+    min-height: 44px;
+  }
+}
+.acards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+  gap: 10px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.acard {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  height: 100%;
+  min-height: 72px;
+  padding: 10px 14px 10px 10px;
+  border: 1px solid var(--color-well-line);
+  border-radius: 14px;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  text-decoration: none;
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+.acard:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 2px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .acard:hover {
+    border-color: var(--color-accent);
+  }
+  .acard:hover .acard__n {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+}
+.acard__icon {
+  width: 52px;
+  height: 52px;
+}
+.acard__icon img {
+  width: 40px;
+  height: 40px;
+}
+.acard__txt {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.acard__n {
+  font: 600 1rem/1.25 var(--font-display);
+}
+.acard__m {
+  color: var(--color-ink-2);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+.acard__prep {
+  color: var(--color-ink-2);
+  font: 500 var(--text-xs)/1.3 var(--font-body);
+  font-style: italic;
+}
+
+/* El arte de la ficha: el representante sobre su suelo, o el icono del primer logro. */
+.zart {
+  position: relative;
+  display: grid;
+  place-items: end center;
+}
+.zart::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 80%;
+  height: 16px;
+  translate: -50% 40%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--color-line) 30%, transparent);
+}
+.zart img {
+  position: relative;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+.zart--icon {
+  place-items: center;
+}
+.zart--icon::before,
+.zart--none::before {
+  display: none;
+}
+.zart--icon .well {
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+}
+.zart--icon .well img {
+  width: 48px;
+  height: 48px;
+}
+
+/* Un logro En preparación: se lista, sin enlace. */
+.acard--off {
+  background: transparent;
+  border-style: dashed;
+  color: var(--color-ink-2);
+}
+.acard--off .acard__icon img {
+  opacity: 0.5;
+  filter: grayscale(0.7);
+}
+@media (hover: hover) and (pointer: fine) {
+  .acard--off:hover {
+    border-color: var(--color-well-line);
+  }
+  .acard--off:hover .acard__n {
+    text-decoration: none;
+  }
+}
+/* ---------- las fichas y el panel ---------- */
+
+.vd-group {
+  margin-top: 36px;
+}
+.vd-group + .vd-group {
+  margin-top: 40px;
+}
+.vd-group__h {
+  color: var(--color-ink);
+  font: 600 1.5rem/1.2 var(--font-display);
+  text-wrap: balance;
+}
+.vd-group__n {
+  margin-left: 8px;
+  color: var(--color-ink-2);
+  font: 500 1rem/1 var(--font-body);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.vd-group__d {
+  margin-top: 4px;
+  color: var(--color-ink-2);
+}
+
+/* 6 fichas por fila a 1440, 5 a 1024 y 2 a 390. */
+.vd-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 168px), 1fr));
+  gap: 12px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+@media (max-width: 39.99rem) {
+  .vd-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+}
+
+.vd-tile {
+  position: relative;
+  display: grid;
+  grid-template-rows: 120px auto auto auto;
+  justify-items: center;
+  align-content: start;
+  gap: 4px;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 14px 10px 14px;
+  border: 1px solid var(--color-well-line);
+  border-radius: 16px;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font: inherit;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    border-color var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard);
+}
+.vd-tile .zart {
+  width: 100%;
+  height: 120px;
+  margin-bottom: 8px;
+}
+.vd-tile .zart img {
+  max-height: 120px;
+}
+.vd-tile__n {
+  font: 600 1rem/1.2 var(--font-display);
+  text-wrap: balance;
+}
+.vd-tile__c {
+  color: var(--color-muted);
+  font: 500 var(--text-xs)/1.3 var(--font-body);
+  font-variant-numeric: tabular-nums;
+}
+.vd-tile .ztag {
+  margin-top: 2px;
+}
+.vd-tile:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 2px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .vd-tile:hover {
+    border-color: var(--color-accent);
+  }
+  .vd-tile:hover .vd-tile__n {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+}
+/* Abierta: realzada, borde de acento y una muesca que apunta al panel. */
+.vd-tile[aria-expanded='true'] {
+  border-color: var(--color-accent);
+  background: var(--color-raised);
+}
+.vd-tile[aria-expanded='true']::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -19px;
+  width: 14px;
+  height: 14px;
+  translate: -50% 0;
+  rotate: 45deg;
+  border-top: 1px solid var(--color-accent);
+  border-left: 1px solid var(--color-accent);
+  background: var(--color-surface);
+  z-index: 1;
+}
+@media (max-width: 39.99rem) {
+  .vd-tile {
+    grid-template-rows: 96px auto auto auto;
+    padding: 10px 8px 12px;
+  }
+  .vd-tile .zart {
+    height: 96px;
+    margin-bottom: 6px;
+  }
+  .vd-tile .zart img {
+    max-height: 96px;
+  }
+  .vd-tile__n {
+    font-size: 0.9375rem;
+  }
+}
+
+/* ---------- el panel: uno, a lo ancho de la fila, justo debajo de la ficha abierta ---------- */
+.vd-panel {
+  grid-column: 1 / -1;
+  position: relative;
+  margin-top: 6px;
+  padding: 20px 24px 24px;
+  border: 1px solid var(--color-accent);
+  border-radius: 16px;
+  background: var(--color-surface);
+  scroll-margin-top: calc(var(--sticky-top) + 16px);
+  scroll-margin-bottom: 16px;
+}
+.vd-panel[hidden] {
+  display: none;
+}
+@media (max-width: 39.99rem) {
+  .vd-panel {
+    padding: 16px 14px 18px;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .vd-panel:not([hidden]) {
+    animation: vd-in var(--duration-base) var(--ease-out);
+  }
+}
+@keyframes vd-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+.vd-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-raised);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+.vd-close svg {
+  width: 16px;
+  height: 16px;
+}
+@media (pointer: coarse) {
+  .vd-close {
+    width: 44px;
+    height: 44px;
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .vd-close:hover {
+    background: var(--color-line);
+  }
+}
+.vd-panel .zone__head {
+  padding-right: 48px;
+}
+.vd-zart {
+  width: 56px;
+  height: 64px;
+}
+.vd-zart img {
+  max-height: 64px;
+}
+
+/* Sin JavaScript, las listas de las zonas van bajo las fichas, y las fichas enlazan a ellas. */
+.vd-zones {
+  margin-top: 48px;
+}
+.vd-zone + .vd-zone {
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-line);
+}
+.vd-zone {
+  scroll-margin-top: calc(var(--sticky-top) + 16px);
+}
+[data-js] .vd-zones {
+  display: none;
+}
+
+/* ---------- En preparación: se ve, en el orden de lectura, sin interacción ---------- */
+.vd-tile--off {
+  cursor: default;
+  background: transparent;
+  border-style: dashed;
+  border-color: var(--color-line);
+}
+.vd-tile--off .zart img,
+.vd-tile--off .zart .well {
+  opacity: 0.45;
+  filter: grayscale(0.8);
+}
+.vd-tile--off .zart::before {
+  opacity: 0.5;
+}
+.vd-tile--off .vd-tile__n {
+  color: var(--color-ink-2);
+}
+.vd-tile--off .vd-tile__c {
+  color: var(--color-ink-2);
+}
+@media (hover: hover) and (pointer: fine) {
+  .vd-tile--off:hover {
+    border-color: var(--color-line);
+  }
+  .vd-tile--off:hover .vd-tile__n {
+    text-decoration: none;
+  }
+}

@@ -10,6 +10,7 @@ const PAGES = [
   '/', // Portada
   '/seis-pies-bajo-tierra', // Guía de misión
   '/la-ocasion-hace-al-ladron', // Logro
+  '/metalogros', // Índice de metalogros
 ]
 
 // Mediana o mejor de las tres ejecuciones de cada página.

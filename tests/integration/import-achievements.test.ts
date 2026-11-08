@@ -148,6 +148,23 @@ describe('importar los metalogros de Torre', () => {
     expect(docs[1]!.category ?? null).toBeNull()
   })
 
+  it('un metalogro sin categoría que ya existía también va con las historias', async () => {
+    const templo = (
+      await payload.find({
+        collection: 'achievement-groups',
+        where: { name: { equals: 'Misiones de templo' } },
+      })
+    ).docs[0]!
+    await payload.update({
+      collection: 'achievement-groups',
+      id: templo.id,
+      data: { section: null },
+    })
+    await importTorreAchievements(payload, { zones, apply: true, ensureNpc: async () => paula.id })
+    const again = await payload.findByID({ collection: 'achievement-groups', id: templo.id })
+    expect(again.section).toBe('stories')
+  })
+
   it('crea o actualiza la página de cada logro con el slug, el orden y el estado de Torre', async () => {
     const { docs } = await payload.find({
       collection: 'achievement-pages',

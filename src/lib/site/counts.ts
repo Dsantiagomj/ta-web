@@ -1,29 +1,28 @@
 import type { Payload } from 'payload'
 
-/** Las cifras de la cabecera: guías de misión publicadas y logros distintos de sus misiones. */
+/** Las cifras de la cabecera y la portada: guías de misión y logros publicados. */
 export interface SiteGuideCounts {
   guides: number
   achievements: number
 }
 
 /**
- * Cuenta lo que un visitante ve: solo lo publicado (overrideAccess: false). Lee el logro
- * de la misión de cada guía con select, sin el resto de la guía.
+ * Cuenta lo que un visitante ve: solo lo publicado (overrideAccess: false). Los logros son
+ * las páginas de logro publicadas y no En preparación, las mismas que el índice de
+ * metalogros enlaza, para que la cabecera, la portada y /metalogros digan lo mismo.
  */
 export async function countSiteGuides(payload: Payload): Promise<SiteGuideCounts> {
-  const { docs } = await payload.find({
-    collection: 'quest-guides',
-    where: { _status: { equals: 'published' } },
-    select: { quest: true },
-    populate: { quests: { achievement: true } },
-    depth: 1,
-    pagination: false,
-    overrideAccess: false,
-  })
-  const achievements = new Set<number>()
-  for (const guide of docs) {
-    const id = typeof guide.quest === 'object' ? guide.quest?.achievement?.dofusId : null
-    if (id != null) achievements.add(id)
-  }
-  return { guides: docs.length, achievements: achievements.size }
+  const [guides, achievements] = await Promise.all([
+    payload.count({
+      collection: 'quest-guides',
+      where: { _status: { equals: 'published' } },
+      overrideAccess: false,
+    }),
+    payload.count({
+      collection: 'achievement-pages',
+      where: { _status: { equals: 'published' }, state: { equals: 'published' } },
+      overrideAccess: false,
+    }),
+  ])
+  return { guides: guides.totalDocs, achievements: achievements.totalDocs }
 }
