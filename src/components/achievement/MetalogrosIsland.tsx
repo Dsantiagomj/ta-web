@@ -2,14 +2,8 @@
 
 import { useEffect } from 'react'
 
-import {
-  markMatches,
-  searchIndex,
-  searchWords,
-  type IndexSearchData,
-  type IndexSearchResult,
-} from '@/lib/achievements/metalogros-search'
-import { metalogrosStrings as s } from '@/lib/achievements/strings'
+import type { IndexSearchData, IndexSearchResult } from '@/lib/achievements/metalogros-search'
+import { indexIslandStrings as s } from '@/lib/achievements/index-strings'
 
 const CLOSE =
   '<svg viewBox="0 0 18 18" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M4.5 4.5l9 9M13.5 4.5l-9 9"/></svg>'
@@ -163,19 +157,26 @@ function enhanceSearch(openZone: (anchor: string) => void) {
   const json = document.getElementById('metalogros-data')?.textContent
   if (!input || !list || !status || !json) return () => {}
   const data = JSON.parse(json) as IndexSearchData
+  // El código de la búsqueda llega la primera vez que se usa, no con la página.
+  let search: typeof import('@/lib/achievements/metalogros-search') | null = null
+  let loading: Promise<void> | null = null
+  const load = () =>
+    (loading ??= import('@/lib/achievements/metalogros-search').then((module) => {
+      search = module
+    }))
   let results: IndexSearchResult[] = []
   let active = -1
 
   const escape = (text: string) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;')
   function render() {
-    const words = searchWords(input!.value)
+    const words = search ? search.searchWords(input!.value) : []
     list!.innerHTML = results
       .map(
         (result, index) =>
           `<li role="option" id="metalogros-o${index}" class="combo__opt${result.off ? ' combo__opt--off' : ''}"` +
           ` aria-selected="${index === active}"${result.off ? ' aria-disabled="true"' : ''} data-i="${index}">` +
           `<span class="combo__k">${s.kinds[result.kind]}</span>` +
-          `<span class="combo__n">${markMatches(result.name, words)}` +
+          `<span class="combo__n">${search ? search.markMatches(result.name, words) : escape(result.name)}` +
           `${result.off ? ` <span class="combo__tag">${s.preparing}</span>` : ''}</span>` +
           `<span class="combo__m">${escape(result.meta)}</span></li>`,
       )
@@ -190,7 +191,11 @@ function enhanceSearch(openZone: (anchor: string) => void) {
   }
 
   function update() {
-    results = searchIndex(data, input!.value)
+    if (!search) {
+      void load().then(update)
+      return
+    }
+    results = search.searchIndex(data, input!.value)
     active = -1
     render()
     const query = input!.value.trim()
@@ -214,6 +219,7 @@ function enhanceSearch(openZone: (anchor: string) => void) {
 
   const onInput = () => update()
   const onFocus = () => {
+    void load()
     if (input.value.trim().length >= 2) update()
   }
   const onKey = (event: KeyboardEvent) => {
