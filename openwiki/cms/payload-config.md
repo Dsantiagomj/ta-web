@@ -10,6 +10,8 @@ sources:
     resource: repo://next.config.ts
   - id: openwiki-source-098744f35eb292781a6734eb
     resource: repo://src/app/(payload)/admin/importMap.js
+  - id: openwiki-source-44aeca5f08eb84b9d5189371
+    resource: repo://src/collections/achievement-fields.ts
   - id: openwiki-source-7a2723ea85824e431ff5eb54
     resource: repo://src/collections/QuestGuides.ts
   - id: openwiki-source-5e8f77fd185a0f97b7ae1c42
@@ -28,10 +30,10 @@ sources:
     resource: repo://src/payload.config.ts
   - id: openwiki-source-98d5ddb014a0fd4d678f6f2a
     resource: repo://tsconfig.json
-generated: { by: "claude-code", at: "2026-11-07T00:10:43.955Z" }
+generated: { by: "claude-code", at: "2026-11-08T11:00:21.339Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-07T00:10:43.955Z
+    at: 2026-11-08T11:00:21.339Z
 ---
 
 # Payload CMS configuration
@@ -44,9 +46,9 @@ Payload 3 runs inside the Next.js process. There is one config, `src/payload.con
 |---|---|---|
 | `admin.user` | `users` | Panel accounts; see [Collections and access](collections.md) |
 | `admin.importMap.baseDir` | `src/` | Where `generate:importmap` resolves admin components |
-| `collections` | `[Users, Media, Quests, Items, Monsters, Npcs, QuestGuides]` | One file per collection in `src/collections/`; `quests`, `items`, `monsters` and `npcs` are read-only DofusDB game data |
+| `collections` | `[Users, Media, Quests, Items, Monsters, Npcs, AchievementCategories, Achievements, QuestGuides, AchievementPages, AchievementGroups]` | One file per collection in `src/collections/`; `quests`, `items`, `monsters`, `npcs`, `achievement-categories` and `achievements` are read-only DofusDB game data. See [Achievement data model](../achievements/achievement-data.md) |
 | `editor` | `lexicalEditor()` | Default rich text editor; the guide body blocks use it (see [Guide body blocks](blocks.md)) |
-| `endpoints` | `[healthEndpoint]` | Custom endpoints, mounted under `/api` |
+| `endpoints` | `[healthEndpoint, searchIndexEndpoint, dofusDbValuesEndpoint]` | Custom endpoints, mounted under `/api`: `/api/health`, `/api/search/guides` and `/api/dofusdb-values/:source/:id` |
 | `i18n` | Spanish only, fallback `es` | The panel UI is in Spanish |
 | `localization` | One locale, `es`, default and fallback | Content is Spanish; localized fields keep a second language possible |
 | `secret` | `PAYLOAD_SECRET` | Signs panel sessions |
@@ -79,7 +81,7 @@ Payload writes several files that are committed and must not be edited by hand:
 | File | Regenerate with | Notes |
 |---|---|---|
 | `src/app/(payload)/**` (layout, admin page, API routes) | Payload's Next template | Each file starts with "THIS FILE WAS GENERATED AUTOMATICALLY BY PAYLOAD" |
-| `src/app/(payload)/admin/importMap.js` | `pnpm generate:importmap` | Maps admin component paths to imports; today it holds the project's two quest guide components (`QuestAutofill`, `SummaryNote`), the Lexical rich text components (field, cell, diff and the client feature toolbar entries), `CollectionCards` and the S3 client upload handler. The Lexical entries appeared with the first rich text field, in the guide body blocks |
+| `src/app/(payload)/admin/importMap.js` | `pnpm generate:importmap` | Maps admin component paths to imports; today it holds the project's two quest guide components (`QuestAutofill`, `SummaryNote`), the achievement panel note (`DofusDbNote`), the Lexical rich text components (field, cell, diff and the client feature toolbar entries), `CollectionCards` and the S3 client upload handler. The Lexical entries appeared with the first rich text field, in the guide body blocks |
 | `src/payload-types.ts` | `pnpm generate:types` | CI regenerates it and fails on any diff |
 | `src/migrations/*` | `pnpm migrate:create <name>` | Schema history; see the database page |
 
@@ -87,14 +89,15 @@ Payload writes several files that are committed and must not be edited by hand:
 
 ## Custom admin components
 
-The project's own panel components live in `src/components/quest-guide-admin/`, next to the site's own components in `src/components/`. A collection references them by a path string relative to `src/` (the import map base directory) with a `#ExportName` suffix, not by import; Payload resolves that string through the import map:
+The project's own panel components live in `src/components/quest-guide-admin/` and `src/components/achievement-admin/`, next to the site's own components in `src/components/`. A collection references them by a path string relative to `src/` (the import map base directory) with a `#ExportName` suffix, not by import; Payload resolves that string through the import map:
 
 | Path | Used by | What it does |
 |---|---|---|
 | `/components/quest-guide-admin/QuestAutofill#QuestAutofill` | `Description` of the quest guide `quest` field | Fills the empty title, slug, SEO and summary in the form when a quest is picked |
 | `/components/quest-guide-admin/SummaryNote#SummaryNote` | `Description` of each fillable summary field and of `summary.needs.items`, with `clientProps: { summaryField }` | Shows whether the value comes from DofusDB or was changed |
+| `/components/achievement-admin/DofusDbNote#DofusDbNote` | `Description` of each field an achievement page or metalogro copies from DofusDB, with `clientProps: { source, field }` | The same note for achievement pages and metalogros, reading `GET /api/dofusdb-values/:source/:id` |
 
-Both are client components (`'use client'`) that read the form through `@payloadcms/ui` hooks and load the linked quest from the REST API with the session cookie (`linked-quest.ts`). Their logic lives in the pure modules of `src/lib/guides/`, shared with the server hook. See [Writing a quest guide](guide-authoring.md).
+The quest guide components are client components (`'use client'`) that read the form through `@payloadcms/ui` hooks and load the linked quest from the REST API with the session cookie (`linked-quest.ts`). Their logic lives in the pure modules of `src/lib/guides/`, shared with the server hook. See [Writing a quest guide](guide-authoring.md).
 
 `.gga` excludes `payload-types.ts`, `importMap.js` and `src/migrations/*` from the AI review in the pre-commit hook.
 
@@ -105,7 +108,7 @@ Both are client components (`'use client'`) that read the form through `@payload
 ## Extending the CMS
 
 - **New collection**: add a file under `src/collections/`, add it to `collections`, then create a migration and regenerate types. See [Collections and access](collections.md).
-- **New custom endpoint**: add it under `src/endpoints/` and to `endpoints`. It is served under `/api/<path>` by the generated catch-all route. Remember the dev gate protects it unless it is added to the exempt list.
+- **New custom endpoint**: add it under `src/endpoints/` and to `endpoints`. It is served under `/api/<path>` by the generated catch-all route.
 - **New admin component**: put it under `src/components/`, reference it by path from a collection or the config, then run `pnpm generate:importmap` and commit `importMap.js`.
 - **New guide body block**: add it under `src/blocks/` and to the collection's `blocks` field. See [Guide body blocks](blocks.md).
 - **Planned**: `src/globals/` (site settings) is named in AGENTS.md but does not exist yet.

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:f975147e0b77d2ad7af02029e28fc5a42f427a0abe5b092fe7665fb349aa2771",
+  "pageVersion": "sha256:eaf3a9d5f792d688c91e5cd9fc1b9591c6b957b14e149c3eef733bd51d8224f1",
   "claims": [
     {
       "id": "claim_f3ff1b5273ca4d9da69117d030c9914e",
@@ -21,8 +21,8 @@
       "statement": "The /sistema page awaits connection() before checking isDesignCatalogEnabled and calls notFound() when it is false, so the decision is made per request and the same build serves E2E and production.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/sistema/page.tsx#L22-L29",
-          "version": "repo-lines-v1:sha256:c57c1d45e28f3a19c472d82de49539232ec99e8cf82531a3b04d567d911c8f9b:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDMwMzQ2YzA0MTJhMzQ5ZjY0ZTk3ODZjNmEzYWU1N2E5N2Q0NTA5ODMzNTVlOGFiM2FmMzg4MTk4OTg2NWQ3YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzk1ZDI2ZDkwOTg1ZDZmNTZkZTMzMzYxZTFjMTlmY2Q1OWMyMGUzZWI5M2VhMTg1YzU2ZmE2YzViYmJiZWQxZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWFlYTBmMWU2ODc5YjlhZjEzNDk1OTY0ZTQwZTA5YmQ4NDI3ZDcyNzc2NjY0MjAzZTYyY2JjZjc5YjE5M2U2YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODcxNjI0Mzg4YTRjN2E1MzJkMzM5ZDYwMDYyODQzMWIwYzRiMTg2YzFkMTM5ZTI0NGI3YzE5ZWEyOTRiZTVjZiJ9"
+          "resource": "repo://src/app/(frontend)/sistema/page.tsx#L27-L29",
+          "version": "repo-lines-v1:sha256:bb7772a189909cc57fa31464915a15e828a341a9b0e2de330305842dd1c3f131:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTgwMjI3ZmRmZWUwMDVkMzFiMjEyYzNjODk3NTI0YTcyMWVlZjQzN2VmOWMzYzM2ZGZmNGRlMTkzY2IwMGEwZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzk1ZDI2ZDkwOTg1ZDZmNTZkZTMzMzYxZTFjMTlmY2Q1OWMyMGUzZWI5M2VhMTg1YzU2ZmE2YzViYmJiZWQxZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODVhZThiYWI4MDIyZjI5NzgwZWMzYjdmNjU3Y2QxODIzNWY3N2I2MDU4MWU2MDA3YzE1YjQxNDUzNjY0ZDA2YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODcxNjI0Mzg4YTRjN2E1MzJkMzM5ZDYwMDYyODQzMWIwYzRiMTg2YzFkMTM5ZTI0NGI3YzE5ZWEyOTRiZTVjZiJ9"
         }
       ]
     },
@@ -51,8 +51,8 @@
       "statement": "The ?tema= and ?modo= query parameters filter the rendered sections to the matching theme and mode, and the page renders one CatalogSection per remaining theme and mode pair followed by a single PageEnhancements island.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/sistema/page.tsx#L31-L59",
-          "version": "repo-lines-v1:sha256:df7dcc6f5b6234034a94cd948065ca262d769c16475e610c98111fc8b71009f4:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2Y2U1Yzg0MzRlY2JmNDU0ODljZjk1ZWMzNDFiNTQxNGEyN2MyYWNlNTBkNzM0YTI1OGFlMDAzYWRkNjBiNzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MjY3OTM1ZmM2MzM0NjVkODQ4YjQwYTRlZDY5NjdlN2I3YTMyM2Y4MWNkNTNjMTEwYWUyMTAyOTY4N2FhMTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgyZmFhOWU1NDVlOWNjOGQ1Mzg4ZDUwZTlhODQ2NDdjYTRiODkwMWRhZDA3ZjhmZmQ0M2ExOTY4MjkwNGVmZTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+          "resource": "repo://src/app/(frontend)/sistema/page.tsx#L31-L60",
+          "version": "repo-lines-v1:sha256:ecec1aaee09dc5f8ff95b9e0df3e3d3c2bcbc9474cae4a61b303d98765717ac5:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2Y2U1Yzg0MzRlY2JmNDU0ODljZjk1ZWMzNDFiNTQxNGEyN2MyYWNlNTBkNzM0YTI1OGFlMDAzYWRkNjBiNzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgyZmFhOWU1NDVlOWNjOGQ1Mzg4ZDUwZTlhODQ2NDdjYTRiODkwMWRhZDA3ZjhmZmQ0M2ExOTY4MjkwNGVmZTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -61,12 +61,12 @@
       "statement": "Each CatalogSection is a section with id, data-theme and data-mode set to its theme and mode, sets --color-section to the missions accent, and wraps each component group in an element with a data-component attribute.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L45-L62",
+          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L53-L70",
           "version": "repo-lines-v1:sha256:fa4a48ec95306c8adf771e37b65d8b1e4ba818d52fd8c5597abc1e1c4cea3dde:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEzYzRmNDQ0YzA1Mjg4ZGExZjFjOWEzYzAyZjY1MzQzODRlMzY2YjUzYmI1NjU5ZTE1NTk1YWY3Y2M0ZGEzNTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MjY3OTM1ZmM2MzM0NjVkODQ4YjQwYTRlZDY5NjdlN2I3YTMyM2Y4MWNkNTNjMTEwYWUyMTAyOTY4N2FhMTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQzNmUwMWQwNzFhODZjNDA5N2ZiNjU4YzQ4ZjgzODJiZmRmZGE5MGI3Nzg2Y2IwYWEwOGM4YTdkNmYyZTE1OGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM3OTI5ZTkxZTBmOTljM2U4MjVkZTY5YjQzNWZiNjQ4NGQxYjBhMWRmMmY0NjU2MWFiZjFhMjlmMDQxODhiODgifQ"
         },
         {
-          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L69-L82",
-          "version": "repo-lines-v1:sha256:a1316f10e48d1e5fb133edcffeeeeafc6b11e426bcc2a31234ec99088625c762:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU1ODQ3NjNjOTM5NDQyOGEwNGUxY2M2ODc4NjI5NWUyYTNiYWY2YTE5ZDk4MWVhZTMwNWYxODI5YWIzNDU3ZDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmZWNiOTI2NDM4MTNjY2MxYTMxZDA0NjJmYTA3OWFkY2QwNDAxODUzYTZkMmNlOWExMDBhMzJlNzNiYWZiOGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk2MzIzY2JlZDJmZWU2NjYzNzM3NWQwNzE5NGJiN2JlYzFiZGNlZDM3ZmE0OGMzNGIzYjFmZmU1Y2ExMTM2NWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA5MGMyNzIyNmYxNzVlYWI5YWUyZGEzNDcxODY5YTlmNzAxZmM2NmM3ODM4MTkzNDMyZTY2Nzg1OWFkM2YwMjcifQ"
+          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L77-L90",
+          "version": "repo-lines-v1:sha256:a1316f10e48d1e5fb133edcffeeeeafc6b11e426bcc2a31234ec99088625c762:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU1ODQ3NjNjOTM5NDQyOGEwNGUxY2M2ODc4NjI5NWUyYTNiYWY2YTE5ZDk4MWVhZTMwNWYxODI5YWIzNDU3ZDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmZWNiOTI2NDM4MTNjY2MxYTMxZDA0NjJmYTA3OWFkY2QwNDAxODUzYTZkMmNlOWExMDBhMzJlNzNiYWZiOGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk2MzIzY2JlZDJmZWU2NjYzNzM3NWQwNzE5NGJiN2JlYzFiZGNlZDM3ZmE0OGMzNGIzYjFmZmU1Y2ExMTM2NWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImExZmQyODhlY2Q5YzAwZDQ1ZjIyNDFiMTg3NTAyM2E1ZjYwMzZmNDNkNTYzMzFlZmYzOTQzNTI1Yjg1NmFkNzEifQ"
         }
       ]
     },
@@ -75,8 +75,8 @@
       "statement": "The catalog's sample content comes from Torre's guides for DofusDB quests 1976 and 2420, the video of quest 1433 and the renders of NPC 4412, with AVIF and WebP image pairs under public/img/sistema described with their width and height and narrower screenshot widths for srcset.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/sistema/catalog-data.tsx#L11-L40",
-          "version": "repo-lines-v1:sha256:d560e6d29a80448a6cbeb2e534fa41b9d56fed03c5976858ce892a31baa4706e:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdkNDIyYjc1MGQ2ODM4ZDVkNjUxM2JhOGZjMGQzY2JmNTdlN2JhMzI3YjIyYTJkODIxOWM5YjZiZjgxOGQ3ZjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2NGRjYjM5MGY3MGI4MjIwMmM1OGZlNjc0NzJkMjI3OGJhMGU2NWYzMTMwMzM5MjUwNzAzMDhlMTcwZGZiYWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIyY2M4NzJiZGI0YTMxYjRkZDYwZjdlY2Y5YmZiZTIyNjQxZjNlOTNkYWM0MmUxOGIwM2Q5MTQ4NzJkOTM0OGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRhMjkxYzczNGMzNDIyOGQxMTNlNmJlY2QyNjJiOGRiOTllNGU1ZWEwNzllOWYwMWVlYTE1ZjU1OTA3YTg4ODcifQ"
+          "resource": "repo://src/app/(frontend)/sistema/catalog-data.tsx#L10-L40",
+          "version": "repo-lines-v1:sha256:8fef215b86488d9cbf1a058a547a5d316dbdad824dddbdbb34af5c551a59b2a9:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdkNDIyYjc1MGQ2ODM4ZDVkNjUxM2JhOGZjMGQzY2JmNTdlN2JhMzI3YjIyYTJkODIxOWM5YjZiZjgxOGQ3ZjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRhOGEwNjkyNDE2NWRlMDQ0NjMwN2U1NzM5NzZlMTZmNDE4ODAzYzRkYWQ0OTY4ZDYxNDUyNDI4NGIzODExYTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc2NGRhZjU4N2MxYjM1N2Y3MGVjYTRkZGZiYzU4ZDg1NjhlY2QxNzUxOTdlODViZmJlZWY0OGJkNTc0YmUyZDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk1NTM0NTFiNTBhMmM4NWE0YWFhM2Y3MDM0NzEwNzc4Yzg1ZjcyZjZhNzA4YjAyZjhjNWRhOTFmMmE5MGU1ZmIifQ"
         }
       ]
     },
@@ -85,8 +85,8 @@
       "statement": "The E2E spec checks that every component group is visible in all five themes and both modes, and that hand-written CSS in each section resolves to that section's raw --t-surface and --t-accent tokens.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/sistema.spec.ts#L9-L74",
-          "version": "repo-lines-v1:sha256:f8cd2693399017420d5da9bad387d4f80ced901b51921cc46b865144400af665:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUzMmIyOWM3NzQwNGNmZjBkMjAzZGU5MGM3M2I3YmQ2NzZlNDA2NTZhMTNkMmMwNWUyZjI1YTgwMjFmNDA0NzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQxNmU5MjFhMDhjNTdkNTMyYTRmYjA0NDJmYjVhYWFhNTY5NDgzNGY4YmY1M2FiNzY4ZGEyNmYzOTZiMTZiYmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYyMTUwM2UxMjUwYWIwZWYzNzdmYTVmOWYzNTgyMGM5MWU4MWExMDI3YjBhZmUyZjg5MWNhZjJjMTUyMGY5MDYifQ"
+          "resource": "repo://tests/e2e/sistema.spec.ts#L52-L82",
+          "version": "repo-lines-v1:sha256:cc6b4b0d2b8a35c8aa9d49d59294e780d2bc20f84ff252083c0ea36447aa3ded:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg0OTQ0ZTM0ZDQ5OGVjZDA5OTE4YzY1YWVlMGUyMGNmZjhlZWIxYTcwMTAzOTVmNzk1MmU2M2Q3MWZkMGI3MTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMwNGZkYmQxMWU0MDcyMWU0ZTI0YzNmNjg5ZWYxNDM3NTUwNmUzMTAzZjdmNmIzNjJkOGIzMDliZDYwZWUxM2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYyMTUwM2UxMjUwYWIwZWYzNzdmYTVmOWYzNTgyMGM5MWU4MWExMDI3YjBhZmUyZjg5MWNhZjJjMTUyMGY5MDYifQ"
         }
       ]
     },
@@ -95,7 +95,7 @@
       "statement": "The E2E spec checks that a coordinates chip copies /travel x,y and announces it in the status region on click and on Enter, that every hit-target control and the coordinates chip have at least a 40px target, and that icon wells stay dark in light mode.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/sistema.spec.ts#L76-L132",
+          "resource": "repo://tests/e2e/sistema.spec.ts#L84-L140",
           "version": "repo-lines-v1:sha256:3e211f6a027cadd504c79fac0f076af56025da059fd1c5278cf4c6146603eeb2:eyJzZWxlY3RlZExpbmVDb3VudCI6NTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxZGM2NzEyMDJlMGI3YTgxODIzNThjMTM1MDY4MTEzMzM2MTE1NTAzMGZlYmM0NTIzZWQ4OTc5NDliNjkyZGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhZDE3OGNjMzZiMmMyZDRiNmY5ZmY1OWY0Nzk0M2UzNDJhMzY3ZmU5YzVlMGY3Y2ExMzc1ZjA1NzM2MzZkZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE4MjE3ZDU2Y2VmYTJhMGY1ZWQ1MTczNWUzOGEyMGNhNTk3MTc0YzAwZWUwZWU4YmRmM2EyNmQxMDgzMzZjMDgifQ"
         }
       ]
@@ -105,8 +105,8 @@
       "statement": "The E2E spec checks that the video facade makes no request to YouTube hosts before a click and then inserts a youtube-nocookie.com embed iframe with autoplay=1.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/sistema.spec.ts#L129-L150",
-          "version": "repo-lines-v1:sha256:196fb6b440c531536fcf6a414f4ef0e5197d45b6293730b8741f75922144e488:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwOWQ3N2UyNGUyZmYxZmY3ZjQ1Mjc0YTk4M2RhYTE5ZWJiNDk0ZTA0OTM2NTk3YzFkNzc4MzIxYWIxNzliNmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFkZGQ4MmIxOTJhOWU5YmEzOWQxMzliMWQ2ZGJlMmQ2MmM1YjViMTgxNGY2NWU3ZmU0Y2IyYzRjZjExY2UzOTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQyMWE1MDA0ZTJiNTJhNGI1NWIzNmRmM2ZlZjk0YWJiOGE2YTlkMGYxYjhiOTJjNTFiYzUzZmJiMDRhOTU3OTgifQ"
+          "resource": "repo://tests/e2e/sistema.spec.ts#L142-L163",
+          "version": "repo-lines-v1:sha256:196fb6b440c531536fcf6a414f4ef0e5197d45b6293730b8741f75922144e488:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwOWQ3N2UyNGUyZmYxZmY3ZjQ1Mjc0YTk4M2RhYTE5ZWJiNDk0ZTA0OTM2NTk3YzFkNzc4MzIxYWIxNzliNmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhZDE3OGNjMzZiMmMyZDRiNmY5ZmY1OWY0Nzk0M2UzNDJhMzY3ZmU5YzVlMGY3Y2ExMzc1ZjA1NzM2MzZkZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQyMWE1MDA0ZTJiNTJhNGI1NWIzNmRmM2ZlZjk0YWJiOGE2YTlkMGYxYjhiOTJjNTFiYzUzZmJiMDRhOTU3OTgifQ"
         }
       ]
     },
@@ -115,7 +115,7 @@
       "statement": "The E2E spec checks that a figure opens a fullscreen viewer dialog that takes the section's data-theme, closes on Escape, the Cerrar button and a backdrop click, and returns focus to the opening link.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/sistema.spec.ts#L152-L200",
+          "resource": "repo://tests/e2e/sistema.spec.ts#L165-L213",
           "version": "repo-lines-v1:sha256:87840e7e84f6cbb62068405dbe3799fe32be00ee2b7a4f665ad719b7ca9e6c12:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1YzJjNDRkNGI0MWU0OWUxMWEyNWIzNDZiYTY2ZWIwM2VkZWY2NzM3YTgwZTc4Y2NlZjNjNzg0ZmIyYTJjYzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFjNjQ1ZTIwZGU5MDUzNTE3YzUxZGNlOWI3ZDczMzc0NDMxYTMyYjgyMGUzZDhjYTJjZjM1MWI3ZDdjZWUzZDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU1ZWI5ZTBmNTU0MmIzNTg4NWQyZDA1ODViOGJkOGFmMzg5Y2RmZTE1NzVlZTIyODg1NjJiMTQ4YTBiNWVmYjEifQ"
         }
       ]
@@ -125,36 +125,32 @@
       "statement": "The E2E spec runs axe with the WCAG 2.0, 2.1 and 2.2 A and AA tags on the open viewer and on the whole catalog after all animations finish, and expects no violations.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/sistema.spec.ts#L202-L238",
-          "version": "repo-lines-v1:sha256:bb236f68cee8c2384bf74c2a5be096bdca9955814649508da83c9b48117ff6f9:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg2M2MyOTU1YzAyMzc0ZmE4OWQ0MmM1ZjVjYThjNzM4ZmZmMTc5OTJhNzczZTMyMDRhYzg4MjJhY2RmMzRiMzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU1MmViNDE5NWI3ZGMxN2Y0MTNlZjc2NDVmOWRhY2Q4OTdjYWY0NWNiNTcyZjE2MjYyNDJkZWM3MDFjY2FlNzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUifQ"
+          "resource": "repo://tests/e2e/sistema.spec.ts#L215-L254",
+          "version": "repo-lines-v1:sha256:ef14957ce60eecfc85843b2211e01444d4129ce46c681b06e13e463efba18ebb:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg2M2MyOTU1YzAyMzc0ZmE4OWQ0MmM1ZjVjYThjNzM4ZmZmMTc5OTJhNzczZTMyMDRhYzg4MjJhY2RmMzRiMzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJiOTU3ZmExNDlhZTZhMDg3YjU1N2Y1YjhlZGRkNDg2YmVhNjhlMDk5NTIzNWQwZjU5NDEwZmM5MjA3NjUzODQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU1MmViNDE5NWI3ZGMxN2Y0MTNlZjc2NDVmOWRhY2Q4OTdjYWY0NWNiNTcyZjE2MjYyNDJkZWM3MDFjY2FlNzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgwMmFhMmVhZWI0NmFkNzEwZWFhYzM1MzAwNjBhYjM3OTRhODkwYjYzYzUwYjM2NDhmYmJhYTU5ZDdhM2VjNmEifQ"
         }
       ]
     },
     {
       "id": "claim_f154317670f740e493112640a67ecef0",
-      "statement": "lighthouserc.cjs measures the home page and the seeded quest guide, so /sistema is not part of the Lighthouse CI budgets.",
+      "statement": "lighthouserc.cjs measures the home page, the seeded quest guide, the seeded achievement page and /metalogros, so /sistema is not part of the Lighthouse CI budgets.",
       "evidence": [
         {
-          "resource": "repo://lighthouserc.cjs#L7-L12",
-          "version": "repo-lines-v1:sha256:3940700e46c9a416d0ade2afde1a14148a876b0b3691759d4e83cf1d3f763a9a:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmJiZDhiN2M0MWQxODQ5MTZlOTc5YjA4MWY1MjdjYzFlZTI2OTA0YjNhMmI0NjZhMTk0OTkzMDAzM2EwMWJkZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjk0MTZlMDlmNzhiYTMxNmMwMzI1NjgyMTNiODU1ZWU3NTZlNDE1NjVkOTE4ZjA5NTE5YzgxZmQ2MjBmNDA2MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWNiMTZjYWE1ZGEzMzk3NjdkOTRlYWU3YTE0N2E1NzUyMDYzZGZkZGZiODFhOTVmNDIyYjU4NGExM2Y0M2JlNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTQ4YTA5MTdiNTJiMzY1OTA0YjcwMzIyYjczNTQ0NzlmYTZmNDhkM2E4NWVkOTJmZDlhZDRmNGVjOTk2ODYxOSJ9"
+          "resource": "repo://lighthouserc.cjs#L7-L14",
+          "version": "repo-lines-v1:sha256:1c8ebe51f6d5389adc947ad4bf19a568151afe3ee9a8bd23a9ed4cedefc52247:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjUyZWIyYTQ4Y2Q4MDcxNTAwYzEwNjQ5NDg4N2YyYmE0ZTUyMDQwNWE2MTlkNGNjNGVkMjQzNDRkNGQwOGRlZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjk0MTZlMDlmNzhiYTMxNmMwMzI1NjgyMTNiODU1ZWU3NTZlNDE1NjVkOTE4ZjA5NTE5YzgxZmQ2MjBmNDA2MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWNiMTZjYWE1ZGEzMzk3NjdkOTRlYWU3YTE0N2E1NzUyMDYzZGZkZGZiODFhOTVmNDIyYjU4NGExM2Y0M2JlNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTQ4YTA5MTdiNTJiMzY1OTA0YjcwMzIyYjczNTQ0NzlmYTZmNDhkM2E4NWVkOTJmZDlhZDRmNGVjOTk2ODYxOSJ9"
         }
       ]
     },
     {
       "id": "claim_4039938161414c15898cb094958dba01",
-      "statement": "The catalog shows the Torre emblem, the quest header with and without NPC data, the game icon wells, and the numbered steps next to the Pasos side list among its component groups.",
+      "statement": "The catalog shows the Torre emblem and Sello lockup, the site menu panel and footer, the quest header with and without NPC data, the game icon wells, the steps and the next quest card among its component groups.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L192-L227",
-          "version": "repo-lines-v1:sha256:45252eef887550f2d8707c19eb4535254b50dd93877f662731c86c1d25c7ad24:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3ODNhOTk4NmJmMWMzOTUxOWNlOWVjYTU5YzZlMjcwOTI1OGMyOWVjNDJhODBhOTk5MjY3M2JmMzA5M2YzODYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmNzRkY2QxYTY4ZGVlY2ZmNmNjM2E1NDFhMzhmZTU2NzRjYmMyZGY0Y2U4MTA5ZDEwNmMwYTQyY2Y3NjMzNWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI1MzNhYzExNzVkOTliYWY4ZWQ2ZWQ5ZWU3OTIzZWFjZWFmMjI2YjM3MzJhZDU5MjI1YjBlOWQwYzU1NzM2ZDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM1OGZlNjFkMDQ0YmExYmI5OTc5ZDMzMmQ1ZTYxNGI4MWVkOTJjMDM5ZGY0NjZlZDkyYzM2YjFiN2JhMjdlYzAifQ"
+          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L208-L248",
+          "version": "repo-lines-v1:sha256:b3accaba8dcaf2282ce767ec6ae622835fe075eb650ab5ecdfa1cbf7a88e63c5:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3ODNhOTk4NmJmMWMzOTUxOWNlOWVjYTU5YzZlMjcwOTI1OGMyOWVjNDJhODBhOTk5MjY3M2JmMzA5M2YzODYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI1MzNhYzExNzVkOTliYWY4ZWQ2ZWQ5ZWU3OTIzZWFjZWFmMjI2YjM3MzJhZDU5MjI1YjBlOWQwYzU1NzM2ZDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJlMWYyZWQxZmU3YjE5YTVkYzIwMmFhZTQ4YjBkZDM0MDJkNGMzNTRjNDQ4ZjNiN2YyMzYxYjFhYjlmN2FjODYifQ"
         },
         {
-          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L90-L100",
-          "version": "repo-lines-v1:sha256:1c5b3b0707708275e62b6f3d64f89dfce349639b5ff3bb8f2f5cc1ff4f1b053e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjczYjJlMzk5ZGVmZmMxODVmYjRlNmNkZjljYmQzMTlkYWRhOTE3Y2IxNzIxMzQ0NGY2ODY0MDc2Yjc5MmZkYzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1ZTFjZTk1N2VjNGIwM2Y4NmE0ZWQ0MzA1NTYzMjM0NmZhMTUwYzg4OTJkYWYzOWQzMGE3NTk2YjFjODhiNTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE5ZDZjMDNjYzhkYjMxMmUxMmNkNGViMmQzOTA0NTcwMGU0YjQzNjIzOTlhNGZkZmExODFjNmYxZDJlNzYxMDgifQ"
-        },
-        {
-          "resource": "repo://tests/e2e/sistema.spec.ts#L9-L27",
-          "version": "repo-lines-v1:sha256:421dfde57f059aca9fe6903cc678b7bfb0e7dd360209457aabc8c92dbac7ed50:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUzMmIyOWM3NzQwNGNmZjBkMjAzZGU5MGM3M2I3YmQ2NzZlNDA2NTZhMTNkMmMwNWUyZjI1YTgwMjFmNDA0NzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5NDE2ZTA5Zjc4YmEzMTZjMDMyNTY4MjEzYjg1NWVlNzU2ZTQxNTY1ZDkxOGYwOTUxOWM4MWZkNjIwZjQwNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQxNmU5MjFhMDhjNTdkNTMyYTRmYjA0NDJmYjVhYWFhNTY5NDgzNGY4YmY1M2FiNzY4ZGEyNmYzOTZiMTZiYmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhkNjFiOTAxZTI3ODE0NmE3MzhmNjBhOTk4YTEwZGNhOTEwYmM5MzgzYmQ2NWZhNjAzMmQzY2RlMjA1NzVlZmUifQ"
+          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L95-L110",
+          "version": "repo-lines-v1:sha256:db327e7a5995a8a08a4751ac948e00edd88c1ff9e71690f84a9d68e77f4ac6db:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjczYjJlMzk5ZGVmZmMxODVmYjRlNmNkZjljYmQzMTlkYWRhOTE3Y2IxNzIxMzQ0NGY2ODY0MDc2Yjc5MmZkYzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1ZTFjZTk1N2VjNGIwM2Y4NmE0ZWQ0MzA1NTYzMjM0NmZhMTUwYzg4OTJkYWYzOWQzMGE3NTk2YjFjODhiNTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE5ZDZjMDNjYzhkYjMxMmUxMmNkNGViMmQzOTA0NTcwMGU0YjQzNjIzOTlhNGZkZmExODFjNmYxZDJlNzYxMDgifQ"
         }
       ]
     },
@@ -163,14 +159,24 @@
       "statement": "On a 390px viewport the catalog screenshot loads its 480px AVIF and the fullscreen viewer opens the widest one.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/sistema.spec.ts#L248-L266",
+          "resource": "repo://tests/e2e/sistema.spec.ts#L256-L274",
           "version": "repo-lines-v1:sha256:f434f4f18fa0c76720d04780dde58ef504a914358a4686e2eab98cd2f1d6aa75:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkzNzM0NGU1MDcwNmY5Zjg5M2VjOGEwMmJmMWU2N2NmZDBlNTFiYWQ0N2VhOTA1NTQ2MDQ4YmVkNmMxNDUzZWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIxOTk5YzQ1OTJmMmRkMGI3M2QyNDYzY2E1ZWQ3ZTZlNDVhNzVjMTU5YTY4OTlmMzhhNDNjNmZhNTFmYTI1MDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f5cfd88106b64eb99f3519ab44a9d5b9",
+      "statement": "The E2E spec checks that catalog figures separate thousands with a narrow no-break space and do not wrap.",
+      "evidence": [
+        {
+          "resource": "repo://tests/e2e/sistema.spec.ts#L45-L50",
+          "version": "repo-lines-v1:sha256:18bd1974e9fbb17cc4e4555ee82aa12678516786f275018fe9bd5b7666d2c3c3:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2U0YTk4ZWE2MTBjYmFhZWI2ZjkwZmMxYWZlYjkxMGMwYzhlMDVhNjNjNmIyNTY5OGNiZjI0ZDgzNzZjY2M0MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjIzNTI1ODljMzRkM2M2MDY4NTkzMWI2ZWNjNGQ1MDk5MWE3YzU2YzhmYmEyODk0MTE0NjU3NjkwMjcyY2FjMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTI5NzllYzliN2UzMWM1OWYwOTVlNWYwZTk3N2QyZWZhZmVhZWM3ZWZiMDRjNjVmYmY4YTI0ZWJlMDhhYTM4MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjdlNTE1MDgwNzgwNmRlZmJlNzJhMTRkOGMxNTQ0MGEwMWI3ODcwMDI5NGFhNDQ3ZGU1NGUzMzNiY2M0MmQxYiJ9"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-06T15:25:11.354Z"
+    "at": "2026-11-08T11:00:21.339Z"
   }
 }

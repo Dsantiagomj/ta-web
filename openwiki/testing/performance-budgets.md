@@ -10,6 +10,8 @@ sources:
     resource: repo://.gitignore
   - id: openwiki-source-f235d856bed1fd44853c5195
     resource: repo://.prettierignore
+  - id: openwiki-source-8037e2358a2c4f9b2c722a11
+    resource: repo://AGENTS.md
   - id: openwiki-source-c8e16e16c743abca9f070b43
     resource: repo://docs/legacy/security.md
   - id: openwiki-source-2fda883e9b76745f69f487f7
@@ -22,10 +24,10 @@ sources:
     resource: repo://scripts/lhci.ts
   - id: openwiki-source-cf83a6bbb1b6a5159842a86a
     resource: repo://tests/unit/lighthouse-ci.test.ts
-generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
+generated: { by: "claude-code", at: "2026-11-08T11:00:21.339Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-06T15:25:11.354Z
+    at: 2026-11-08T11:00:21.339Z
 ---
 
 # Performance budgets (Lighthouse CI)
@@ -43,7 +45,7 @@ DESIGN.md sets the JavaScript limit for guide pages; every page measured is held
 
 ## The page list
 
-`lighthouserc.cjs` keeps one line per page in `PAGES`, measured against `http://localhost:3110`. Today it holds the home page (`/`) and a quest guide, `/seis-pies-bajo-tierra`, which `scripts/seed-e2e.ts` seeds from `tests/e2e/seed/guides.ts`. An achievement and a checklist join the list, one line each, in the PR that adds their route. The `/sistema` component catalog is deliberately not measured. See [Component catalog (/sistema)](../frontend/component-catalog.md).
+`lighthouserc.cjs` keeps one line per page in `PAGES`, measured against `http://localhost:3110`. Today it holds four pages: the home page (`/`); a quest guide, `/seis-pies-bajo-tierra`, and an achievement page, `/la-ocasion-hace-al-ladron`, which `scripts/seed-e2e.ts` seeds from `tests/e2e/seed/guides.ts` and `tests/e2e/seed/achievements.ts`; and the metalogros index, `/metalogros`. A checklist joins the list, one line, in the PR that adds its route. The `/sistema` component catalog is deliberately not measured. See [Component catalog (/sistema)](../frontend/component-catalog.md).
 
 ## Assertions
 
@@ -83,13 +85,19 @@ The next step, "Informes de Lighthouse", runs unless the workflow was cancelled 
 
 ## What keeps the budgets
 
-DESIGN.md names the mechanisms: server components, fonts through `next/font` with fallback metrics, CSS motion, no image work on request, and the Motion library confined to client islands. In the code today, `src/styles/fonts.ts` preloads only Nunito 400 and Fredoka 600 and `fonts-fallback.css` adds metric fallbacks for systems without Arial (see [Styles, tokens and site shell](../frontend/styles-and-shell.md)), `Picture` always writes `width` and `height`, adds an AVIF source and `srcset` when the asset has them, the guide's first image is loaded with priority, and the guide components ship one small client island (see [Design system components](../frontend/design-system-components.md)).
+DESIGN.md names the mechanisms: server components, fonts through `next/font` with fallback metrics, CSS motion, no image work on request, and the Motion library confined to client islands. In the code today:
+
+- `src/styles/fonts.ts` preloads only Montserrat, one variable latin file with every weight, and `fonts-fallback.css` adds metric fallbacks for systems without Arial (see [Styles, tokens and site shell](../frontend/styles-and-shell.md)).
+- `Picture` always writes `width` and `height` and adds an AVIF source and `srcset` when the asset has them; the guide's first image is loaded with priority.
+- The guide and achievement pages ship one small client island (see [Design system components](../frontend/design-system-components.md)).
+- Both searches load their engine, results and the guide index with `import()` on first use, never with the page. The guide page and the home page each sat at about 149,700 bytes of script on 2026-11-07, just under the 150,000-byte limit, so search and result code must stay out of the islands, and a module imported by both an island and a lazy chunk ships whole with the island (see [Site header, footer and search](../frontend/site-shell-and-search.md#keeping-it-out-of-the-initial-javascript)).
+- Render-blocking CSS is kept small: the home page avoids importing `game.css`, `Amount` styles live in `globals.css` rather than `ui.css`, and `/metalogros` imports only `metalogros.css`, because importing the guide and achievement stylesheets split them into more chunks and raised its LCP by about half a second (see [Home page](../frontend/home-page.md#budget) and [Metalogros index](../achievements/metalogros-index.md#server-html)).
 
 ## Tests
 
 `tests/unit/lighthouse-ci.test.ts` pins the configuration so a change to it is deliberate:
 
-- three runs per page with no preset and real slow-4G and CPU throttling, against the local home page and the seeded guide;
+- three runs per page with no preset and real slow-4G and CPU throttling, against the local home page, the seeded guide and the seeded achievement page;
 - every matrix entry applies to all pages;
 - LCP errors on the best run over 2.5 s and warns on the median;
 - CLS and script size fail on the median, as do unsized images; image delivery only warns;
@@ -103,4 +111,6 @@ DESIGN.md names the mechanisms: server components, fonts through `next/font` wit
 - [CI and quality gates](../workflows/ci-and-quality-gates.md)
 - [Database and migrations](../data/database.md)
 - [Styles, tokens and site shell](../frontend/styles-and-shell.md)
+- [Home page](../frontend/home-page.md)
+- [Site header, footer and search](../frontend/site-shell-and-search.md)
 - [Environment configuration](../architecture/configuration.md)

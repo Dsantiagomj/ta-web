@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:6505942f43617509a8b59b8a368987229452d49f161c0eeb29dd800d9326b6c7",
+  "claims": [
+    {
+      "id": "claim_d126db27b5074cfcafc8c6c0f8ae0195",
+      "statement": "The /metalogros page caches its whole computed view with unstable_cache under the achievement-pages tag and the achievement pages' revalidate interval.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/metalogros/page.tsx#L31-L49",
+          "version": "repo-lines-v1:sha256:f8d8acd1a430e04cab30063ea4ef432fbf99321e7274f58b4d35155b9eb34e5d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA1MjAyZTI2ODYxYzdkYmI4YmU0YzkyODg4ZDIyYmQyZmNiMzliYzdhZGEyYTRjNjkzNjk5M2M0ODExZDVlMGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE0ZjAxMzhlMzI4NmZjNWFjMzVkYTQxMDIzZjQ5ZDdkYjU2YzIwNDc2ZTA2MDI5NGE4ZWEyYjk2MjEzYTdlMGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_50893e3ed57d4fe6a9acca458d358da0",
+      "statement": "readMetalogrosIndex reads as a visitor: published metalogros with their representative's image, published achievement pages with a metalogro sorted by order then name, and the published loose guides.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/achievements/queries.ts#L167-L216",
+          "version": "repo-lines-v1:sha256:1496f9e2d8c3a3fab44e8e3cc646a52a3b897c38203e9aef5d094ba62301cada:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_56627e911a294e5cb33c4991b8292db1",
+      "statement": "In the index, an achievement page not in state published is listed without a link, and a metalogro is entirely off only when it is preparing and has no published page and no guide.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/achievements/metalogros.ts#L115-L180",
+          "version": "repo-lines-v1:sha256:2b23bfdcfd08dca2b9b992a5f5aa486353b09ecf5eb55536b6856ad407383e3a:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjYTgyYTIxY2M5MmRmZjY2N2UyZDQ1ZTU0N2ViYmM1ZjI3YzNjNWVkMmEzNDgyODlhM2YwNTM4MWUyYjhlYzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkMDIwNzM0NDFjYmMxNTNlOWIwMDk5OTY5NDE4ZDcyNjJmYzk5MzcyNzhiN2FlYzU2ZDY1ZWU3MTAwMmJmYzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM4ZDVmNjkyN2Y3MzdiNWM3MDY5MzMyOWNkMGE2MDRiNGRjODEyY2JlZjg1N2ZmNDZhOWQzZTBiZDEzMTI0MGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxZjQ1YzI0ZWE2ZDRjZjVmODgyMThmMzZkMmEzMWE0OTU5YjU0NWRiMzA4OTA0NGM2YjRiNmY0Mjg1NTdmMTMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e56791732a31493ab5d3ded4f29eb5cd",
+      "statement": "A zone's anchor is its slug without the metalogro- prefix, and its art is the representative's image or else the first achievement icon.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/achievements/metalogros.ts#L106-L112",
+          "version": "repo-lines-v1:sha256:b3238e39201653a445b911df893742feba44845461eb605341e57ef6216a4b1d:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2IzZDJjNDQ1MWM2NWQ0ODAwOTFiMDAzNGMwZWVlYTNkODA3NTk5ZDk3YzJiMTdhYTZkODU4YTQwOGY5ZjdlNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjI0YjNkMWE2YWUxODllYTYyNWZmNjM0ZTM2MjlhMzc2M2IzMDY2YTQzZjc4YTg4MTlhM2EwNWE1MzY5NDFlNCJ9"
+        },
+        {
+          "resource": "repo://src/lib/achievements/metalogros.ts#L160-L166",
+          "version": "repo-lines-v1:sha256:943b623796908d3539bf7daa6db6d0d0d5d99d32486faf20b9d1185d8462e3c9:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGI5NzJiZGZiNzQwZDZiYjliMDhhZWM3OTcxZWZjZjU1YjkyYjI4ZTlhZTBjNTEyYTdjZjVjYmEwMGMzMGY4ZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmYxZTg3NWZkMWFiNmY3NzgwYzM4NThiMjY4MTZmNjY0YmYwMDE4YWQwNGM2OGI3Yzk1NDY2MTE1MzczZTc3YSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjVmMmM0ZjE3NDZhNGJkMjY1ZjIwM2YwOTY0OGRiNTg5NmQzM2ZhOTNkNjQyZjcyZmUxYTljMWEzZjEzNTI1NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGZlZWViMWU2MmYxZmRhYWNjYTA4NjUyNDU1MDM1NDYyZWZhNTcyNWI1MmUyNjlkMzRmMTk0OWE5OGQ3YmQ0YiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_9c09cd050b3f487887aae1a849e98ee9",
+      "statement": "Index sections are stories, zones and seasonal; stories sort by order then name and the other two alphabetically with a Spanish collator, with zones as the default section.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/achievements/metalogros.ts#L182-L193",
+          "version": "repo-lines-v1:sha256:38a7d6b63f8872646ee52b014d17fb64675b61bcdaf9d9e8f8fb555062251f7c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc2NDRmYTU4MzE1Y2QyZDc2ZmE4ODAwODA0MTU5MTkxNzc5MTA3YzE5OWNlMzE2ZGViMTdmNzVkOGIyMDcxZGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJkZDFmNTY3OGJiMTkyNjMyNzMyY2NjYjkzNjY3YWNkZTgyMTU1NDJlYjQ4ZWEyZWExODY0NDcwNzNkMDdiZGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAxZjNmYzU5YzY3ZTZlZmRlODNmMjNjNWJiMjgzMGFkNTliNWExOTM3M2RmOWI0NWI4NTRhMWYwNDEwNzFjN2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJiMTU2YzQwMWE4OTQwNjU0NmUyOGVlMDJmY2RhZjZjMDhiNWY0MDYxMThkYzhlZDkyNGFlOTViMjUxMGE5ODMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6e511aa39ad34d80a7f80063873b0a9e",
+      "statement": "The view builds compact search data of zones, achievements and quests, marking off items with 1, and the page embeds it as a JSON script with < escaped.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/achievement/MetalogrosIndex.tsx#L10-L22",
+          "version": "repo-lines-v1:sha256:80eca21c4c75fc6950a824de8e58d4a27b26b56b36d394cef896823d77732de2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4NTIzMzlhNjlkZWNlZGU3OGY1NmY4ZjNjYmI4ZGJjMzVjMDAwZWViZjBkZGNmZTllZWU5MGRiMDRiZmYyODUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIyMWRjNzNkYjQ4MDYzMWE1MWFjZTY0MjJiOGQ4MGRmNzkzYTU5ODA3YmEzYWVlYTE4YThkMmIwOTIzM2ZjNGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJjZGVlNjdmYjU2MDIzM2EwZWJmNjQ3OTEyYWJjOTZiM2M0YTQwYmFiYjdhMDQ2YzZmMDJiYjM0NjUwODc2ZjQifQ"
+        },
+        {
+          "resource": "repo://src/lib/achievements/metalogros.ts#L195-L229",
+          "version": "repo-lines-v1:sha256:52543aee4805d69ab13ecd058b081246110f53fcc0798fbcf10ddc931f5875c5:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRiY2QyYTYxYWFhM2JlM2JkNTI1OTUxZDdmNjY5ZmQ5N2JhY2Y4ZDY3NDJkOTc1ZjJhYjFmNTNhNzk5ZmEyMWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIxNGNmOWRhNDczZjBjMDMzMGY1YTAyYTc4NTVmYmFmNjk5ZDgxYTlhOTk0YzVkOTU0Mzk0MWY3MDE2ZGY5Y2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3ff32fa67f434c28b047cb41ebf45c4d",
+      "statement": "MetalogrosIndex imports only metalogros.css because importing the guide and achievement stylesheets made Turbopack split CSS into more chunks and raised LCP.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/achievement/MetalogrosIndex.tsx#L5-L8",
+          "version": "repo-lines-v1:sha256:b91fc9c5e11ed83dfaeaf51b3e4670a1f6359b7a06c94ded8f0f3a7db9ac9915:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmRkZGJkYjI3OGNjODM3NjczY2Q2MDFlYmFjMDJkZmViYjZiODYxMWNkZWIwMjE3ODMwZmVlODU5ZGMzNTYwMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODAzODcxOGRjNGIxNjRhMmY1NjhjYzRlNjZmNDFhMGRlZWM4ZTEzZTMyZmMyMDkzZjk0ZjIwMzZhNmI1YTg3NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTJhNTQyNmZmOGY1MjIwN2E1OTljODcwYjE3ZTVhMGU0Y2YwNTc0MWIxMWQxOGQ2ZTJjMDlkZGY5OWQ1ZDU2YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDljYjkyNzE4MDA0N2Q1MzJmNzY0ZDRlYTlhMTUwNGI3NGEwOGYzNGJiZTI3MjUxNTQ2MjNhNjcwZWNhZDJlNSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_d42ea468de7f4f468b83c780505d5ec5",
+      "statement": "Without JavaScript the tiles are links to each zone's list below; the island turns them into buttons that open a panel across their row, with the URL hash following the panel and Esc returning focus.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/achievement/MetalogrosIndex.tsx#L137-L143",
+          "version": "repo-lines-v1:sha256:ff05c42348358e1ae44d2799965fce456b5b506e115a38706f31b0c52d86938c:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDcwZGYyMTI0MDY2MDJlZGMxODRiYjg2YTZhNGRhYzQxMmZmNzI4NmI3MWM5M2QwM2UwMjU2NjU5NWQ0NjQwNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzQwYzVkM2RjM2E3NzMwNzkzYzg5Mjc5NDhiNTU5NjY0MjA3Zjc5YmE4Nzc3M2MyMTUwMDQ0MzE5NjJmZDQ4OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWM1MTY2YjNjZjk4ZDM5NzVlYjBhY2RmODI1YzVlMTBlOGU2MDE3YWVlMWRmMzU2NGUyMTAyMGFkZmY3MTQ2OSJ9"
+        },
+        {
+          "resource": "repo://src/components/achievement/MetalogrosIsland.tsx#L11-L16",
+          "version": "repo-lines-v1:sha256:2bb5bd54d3f545f385d6118b29e9df1d2dcdd960f270ad04de33b3fc3cb4fa55:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTcyYTQyOTM4MmIyZTE0NzE4ZTBlMzdiMDU3MGE4YTE3MDI5OTFmY2Q4NDk4Y2Q4NDA2MGE4YmY0ZjA1MDE3YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDhlN2FhOTc4OTFhOTgwZDM5MmUyNWM3ZjViZTljNWVlZGM5MzI0NzUwNWYxYmFmMTQ0ZGYwYTYwZjA3NzFjZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmUyMDU0YmQ1ZDcwYTdlOWUxNmVkNjE4YTFiN2E5MmIwNzcyZjllNzg0Mzg3NzczY2IxMWNjOTU5YzBjNzhmNyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_124070d39f2c4f869245b4c00f4c54c4",
+      "statement": "The metalogros search is a WAI-ARIA combobox whose matching code loads with import() on first use, skipping preparing results with the arrow keys.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/achievement/MetalogrosIsland.tsx#L148-L168",
+          "version": "repo-lines-v1:sha256:715e5da649f4e9bd4f9dbb90c9dd6efffe12dc617b35113a7661140e14c24e9d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwZGUwYTVlYTc2ZjI5OGIzMzFiNDNkOTAzNWZmZDNjOWRhZDU4OGI1YmVmZTNkY2RjNTkwMDZmMzIwNDM0ZTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZiZGNjYWE0NGZiYzg5NmU0ZmYxNGUzZjJmZWZiYWViYTY1MmQ1M2ZkNGNlYzJjZWI2NTNjNDkxODMyMGFiNmEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8c457fdf8770445da9e8588ae575deeb",
+      "statement": "searchIndex folds accents and case, requires every word in any order ignoring small Spanish stopwords unless they are the only words, needs at least two characters, and returns up to 4 zones, 7 achievements and 7 quests.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/achievements/metalogros-search.ts#L28-L102",
+          "version": "repo-lines-v1:sha256:d0b732ea6a173cbde7df279f1c1dc3656fd407fd9422f4e25841dd48eb994e94:eyJzZWxlY3RlZExpbmVDb3VudCI6NzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgwZDNjZGYyNDY0YzIwN2Y0Mjk1YmQyOGFlZGJjYWQ1YjhiZGMyMjEzOTU5MDBkYjYzN2Y4ZTMxNjQzZmFmOWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVjMzc0MmIyNmZkNjFhY2IxNTZiOGUyYzc2N2U5M2FmYjM3MWI1NWYxMGQzNWFiMGIyNzQ3NjQ1ZmIyMGE4ZTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxYTVkZjM3N2NjYTlhZGZiMTM1MDQ3MTdjMGFiYmY0MjFiZTkxNzRmYzRiMzE4MTZhOWM0ZjlkNjdmMjE1MjYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0476066aec8c43338e6bd3e60252801f",
+      "statement": "Lighthouse CI includes /metalogros among its audited URLs.",
+      "evidence": [
+        {
+          "resource": "repo://lighthouserc.cjs#L13-L13",
+          "version": "repo-lines-v1:sha256:86f1e49310bd73a7e2622cab12a7b2f110c82686a48589fdc74ef8182301d67d:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODZmMWU0OTMxMGJkNzNhN2UyNjIyY2FiMTJhN2IyZjExMGM4MjY4NmE0ODU4OWZkYzc0ZWY4MTgyMzAxZDY3ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODZmMWU0OTMxMGJkNzNhN2UyNjIyY2FiMTJhN2IyZjExMGM4MjY4NmE0ODU4OWZkYzc0ZWY4MTgyMzAxZDY3ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzY2YTA4NDcxNDA1OTEyZGNiMjUzMzMwNGE0MGIyNGRiYWY2YTdlMGNiNjRjMThlNDc2M2UxZWVkNWVmZjNmMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGE1Zjk4ODdmYTNmNTAxZTkwOGY3YWQ3OTk5OWM4NmU4YTM2NzNjOWMwNWIyMzMxYWJhMzlmZjFhNDFhYmMxMyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_cefe8175ae874f9895aa2e29721a741f",
+      "statement": "The metalogros E2E spec covers the tile panel and hash, dimmed metalogros, search with unselectable preparing items, hash on arrival, no-JavaScript links and axe in both modes.",
+      "evidence": [
+        {
+          "resource": "repo://tests/e2e/metalogros.spec.ts#L13-L90",
+          "version": "repo-lines-v1:sha256:a5ee4577b42b6edb7485f5c443ee39efb08ccebc77b9ba8fb6b1c909b025bdba:eyJzZWxlY3RlZExpbmVDb3VudCI6NzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkMjdmN2ViZDRhZDRlZTQwYjk0MzdhMjMzZDMxZDhhMWE2ZDk2ZDBmZGI5NTE2NTY2MTYxNzYxYzQzMzc1OTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk4ZTkwYzI1MDE5OTlmMTQwNWRkN2IwOGQwMzkzOTEzZTczNGFmMmEyNGEyM2FkMDA5YmEwODI2MGI4NmYxZDQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFjZWJmOTI0YjI4OTE3NDczZmQ1ZTI0ZDA0YjViNTY5MmU1MDdmM2YzOWQwNDAyZjYwNWQ4OGI4Y2NjYTVhNTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY4ZTE5ZWM5OWVlYjIzMTlmNTgzYzNkYjFhNGEwZmE5OTE2ZGEyZjUzNzE4NWU3YWQ5ODAzMGZkZmQ4YmU4YzEifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-08T11:00:21.339Z"
+  }
+}

@@ -1,0 +1,212 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:ede00c15f544c9539b0e53fe751c283d69bb95891d00f4d10307c94ff7337444",
+  "claims": [
+    {
+      "id": "claim_a1f066f59b4545ba84536e9305fee505",
+      "statement": "The achievements and achievement-categories collections are DofusDB game data, read-only in the panel through gameDataAccess and grouped under 'Datos del juego'.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/AchievementCategories.ts#L7-L16",
+          "version": "repo-lines-v1:sha256:250e07dec251e3c8e9a7d4a4dc86cddc18ecdaf922b9a1c953b41d15820d07af:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwMDYwOGVkZTEyYjgyZmI3ZmNlM2ZmZTMwZjgxMzAzNDYwOTQ3N2QzZDZlODlmNDI5MTgyZjM4Y2M5MjRlNzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQyZDQ5OGMwMDQ5OWY3YTE4NjBjMDlhNTdkNjQ5ZmU3M2U2MTdlODNhMTU2NzIzOGQzZGM4YjY2N2Y0YWU3N2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFiYWMyMjY2YzdiODJiYzZmMmE5Nzc5NTBhNjM3NWUzMmRiYmYzMDIwMDFjYzdkNWJkMzY2ZjIwNzJkZmZmNGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRhZmNkMjc1Nzg0YWZhYTI3MGM3MzhhMzkyMzM3NmY5NWI4N2RlZDVjZDE0NjllOWVkZWU0NTYyYTc4N2EyM2MifQ"
+        },
+        {
+          "resource": "repo://src/collections/Achievements.ts#L8-L17",
+          "version": "repo-lines-v1:sha256:27546ccd7f7249a2400493f24f913e863eb562a0aa8b2356d3c8a08d07fbd8b4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxY2U1Mjg4YzA5NDg3NGVhOGMwY2EyM2ViNTBlNGQ4ODkwNWQ1ZjJlYzExYTE4NjhlOGFjZGYzZjdkMGI2MTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQyZDQ5OGMwMDQ5OWY3YTE4NjBjMDlhNTdkNjQ5ZmU3M2U2MTdlODNhMTU2NzIzOGQzZGM4YjY2N2Y0YWU3N2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQwZDAwYmQyNjU2MGMzOTdhMTViNzI1ZWExZTk5YTMyZDZhYzE5MTJmZjgxZDk0MDc0MTcyMTk2N2QwNTUyOWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRhZmNkMjc1Nzg0YWZhYTI3MGM3MzhhMzkyMzM3NmY5NWI4N2RlZDVjZDE0NjllOWVkZWU0NTYyYTc4N2EyM2MifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_52f33795296e40e59d294f7fd7c5166e",
+      "statement": "An achievement's quests array holds one row per objective; a row with several quests is a set of alternatives, and rewards are computed for a level 200 character.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/Achievements.ts#L38-L83",
+          "version": "repo-lines-v1:sha256:b75bfee048bd4d9f46d3f7d8827bfdae9098feda13f4844d89a488e86f48c63c:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5Y2E4OTFiZmY3YWMxZjdjZWFhZTQwZWYwNTEwNjZiZTllZmU0N2I0ZTQyODFlODZjMzE5YmUyYzU1ZWJjZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFkMjQ0ZWM3ZTFmOTYyZWU5OGNlMTU1OWM2MmUyYTdhY2U2YmE4ZDE1Y2QzMmUxYjAxMmUxMTg4NTI0NzUxNDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJlZjExZWMyZDhkMmMyNTFlMDFmZTFjNTIzNTdmZjYxNzA3ZmE5OTU3N2I1MDEyNWUzOGMxZGNkN2U0NmNhOTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9f248499aa6646349a817dbc3f669d86",
+      "statement": "Achievement experience is 30% of the fixed experience of the achievement level plus 70% of that of its cap (1.5 times the level, at most 200), multiplied by a 1.05 Torre bonus.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/dofusdb/map-achievement.ts#L50-L67",
+          "version": "repo-lines-v1:sha256:fdcfee84315c990bd10bae043cf867cd41b74affe5e94f192e6b50a2ba151452:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdiNDU5NTA0ZjJjMThiY2RhMWZlYjE1OGE3MjRmZmVhMmM1YjhiOGY4YzljYmJmZjg4MzQzMDU2OTcyZWVlY2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEzMDUwMmYxOTlhOTViMjAwOTg4YWM1OTA0MDAwYWFiNzlmYWNlYzhiN2NkMGY1MWY2Yzk4Y2JiZTAzN2NjZDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA2ZjI1OTYwYTg4MzdhNzc1MTM3ZDc0NjBiNTcyNDkzODY3OGEyMmY3NWQ5ZjhjNTE4MmEwNmM3ZmE4YTRiMTQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3ae78e7e6bdc41d9989f858417517780",
+      "statement": "An achievement page links one DofusDB achievement through a required, unique relationship and has drafts with up to 50 versions per document, live preview and the shared editorial access rules.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/AchievementPages.ts#L23-L63",
+          "version": "repo-lines-v1:sha256:69723026b26b470d813db99c38e146f5f0c78b7de59ce09303a5fa7d4ead20f3:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZmExMjZhMDE4YmZhMmE1ZTMxMTM4OTBhZDZlZDM3ZDE4NzgyYTA0MGM2ZWVjNWQxM2U5ZTJhZjFjMmM3NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ2YTU4NjhlZTM2MmEwN2U3OGY4NGNmOTVhMzdlMTAyY2NjZDMyMGQzNzI3NTFmYjVhM2QxOTUyY2U1NjY0MTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJkNGFlMjU5OGQ4NTYxNzgzYWY3MWQzMGNmN2Q1NjdiMzk5YTUzMDhmYjdkYjA5MzhiZTMxZWE3MTFlZWViZDMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_659daee0e9704a09b29b5a1ae18e7738",
+      "statement": "A metalogro links an optional unique DofusDB category, has a section of stories, zones or seasonal, a representative that is an NPC or a monster, and a list of quest guides that belong to no achievement.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/AchievementGroups.ts#L19-L125",
+          "version": "repo-lines-v1:sha256:1dfe32d0dd391db0f7810fca031755c71d75f8e877c89c1dcc174aee8d7e7345:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIzNjFhYjdkMzcwNTk0YjY2ZDJlYzM0YzdiYjJmNTQzNjVmYmQ0NzI1ZmEzZDgxYmY4OTQ5ZDFhY2NiZmNhODE4IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI5NjRkOGMwNzM0Mjk4OTMxMDE1NzZkODhkOTkxMjdlODlkNjg5MWQzYjE3ZTg5ZGYwMmVjOWFlNzA3MDVkOGJlIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJiNWM5MTI3ZTQ1ODQ4MjMzOWZkOTAwYmRjYWVjOGJjMjAzMDA2MGNkYjE2YTA4MmI3YmRkNWFiYzlkNGYyMGJmIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MSwiZm9sbG93aW5nQ29udGV4dEhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIn0"
+        }
+      ]
+    },
+    {
+      "id": "claim_15e00681c15548fa99c32aee8c4d2108",
+      "statement": "Panel users read every editorial document including drafts and are the only ones allowed to create, update or delete; anonymous readers only see documents whose _status is published.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/editorial-access.ts#L1-L10",
+          "version": "repo-lines-v1:sha256:cb7a6fd22a0c32aca74b30576ad9d45a6aca74ce8003e56172844a8bb34620c3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVjMTc2YWUyODMxNDU5NWViZWU4NDAxOTI3YjM3Yjk5Y2NjNDU4MWEwZGY5YjBmZDQ0MDAxM2MzMjlkMGYxMjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRiOTFmMDk2Njk2ZjU1YTU1OTZhZjk0ZmMxZjNlMDliN2I1NTZhMjYxNWUzZjg1MjcxMTRiZTAyOTUxMTg5ZTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a0df9079ce32443b9d53df34e5cbd232",
+      "statement": "The state field is published or preparing, defaults to preparing, and belongs to Torre: the DofusDB refresh creates pages as preparing and never changes it.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/achievement-fields.ts#L24-L38",
+          "version": "repo-lines-v1:sha256:b0ca120bf7e3ce8f2399049d3504d3645c782fc1b139fd4f70d2e2107e66426c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2OTMxOTczN2ZjOTkzMGVlMzVjZDBkZjM3NTIwOTUzNzY2ZTc5NTNjZTZiNDdiZjY1ODBiMTBmMzUzOTE5ZTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg2ZGVjZjNiYzQ1MDk1MmI2N2VmZTJmYWFkMWVlMDk1YTMwMmQwOTQ5NDg2MjVlMGQ2ODAyMDIwMWNkMTVmZTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/achievements/ensure-pages.ts#L1-L3",
+          "version": "repo-lines-v1:sha256:86167f37cd9b2c19d6ebe58882d8a24669fa4cd61c238cf36d16ac179f3e409c:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjRjMTIwOTZjZDE0NDRlOGI4YjkyZjA4OGU5NzY0MzdhNWIyMjY5NDk5YTA2MjNlNjdiM2Q1Y2NlY2NkOTM1NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNWE5MmI4NTg0MTFlZmViNTE4N2RhYTM5YWUwZWQwYjI2NWE0NmE2NTViNTM0M2Y3OWVlODQyMGVkMGRjZmU1NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTNlOWE2OTM2NTI0Y2QyYzE2OTk1YTBiOWZkYmM4NWUxNzA4YmM3ZTEzZDU4ZDJhNmYwM2U2MzY3ODlkODk4NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_2931e6b6f3df412992b7a379a778a461",
+      "statement": "The beforeValidate fill hooks copy DofusDB values only into empty fields, treat a value sent in the request (even null) as authoritative over the saved document, require a name, and fill an empty slug.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/achievement-autofill.ts#L11-L121",
+          "version": "repo-lines-v1:sha256:583f4343b5c49b6216d2eced39713cd57fdbc40f78c9929556f5d7c50dabe2f2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTExLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJmOWYxOTA5ODUxNzc1N2IxODRhYWQwOGVmMDhjZDQ4NmFjODc2ZTQwZWRkZjY5N2MwZWM5MzliMzVmNzI0YWVkIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIzOWFjY2VjYzYzNDdmYzc0ZmFmY2Q4NzhkOGVkZDNiMjdhYzQwNWZiNWJiNzU4NTNiMTI2MzQxMWQwMmFmMzc3IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_ac72215cb7ea45f7bf53ecdfdfc51781",
+      "statement": "fillFromValues returns only fields that are empty in the document and non-empty in DofusDB; null, blank text and empty lists are empty while 0 is a value.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/achievements/dofusdb-values.ts#L78-L118",
+          "version": "repo-lines-v1:sha256:008c7f3a866a4cb1b1cad35364c5f998c80117dd8f06a3da849293fb1ba4825d:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3ZjEyMzIzMjg5NjY1MWRjNmEzYTkxOWZkMTU0M2U3NWFhNGYyYWRmODg0YzE2ZWY4NmE0MWE3ZGVkYmU5YTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA4MTM1NzNiNDNmM2NhYmQwZWQyODE1ZDJkOTM2M2YwOGFlMmVmMjUzZDRhOWE2MWY4NDBjZjdkNTYwM2NiMzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZkY2QwMDliODJkNzk3NWMyZGEzNGIxNzIxMTFmZDhjMWQzZDlmYWNiZTkyMjE1NDQxMTMxMGMwNTQ4Mzg0YzcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e1836f8541654e719e9acdaa5d7b7360",
+      "statement": "groupSection classifies anything under Eventos at any depth as seasonal, direct children of Misiones with order 10 or less as stories, and the rest as zones.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/achievements/dofusdb-values.ts#L47-L68",
+          "version": "repo-lines-v1:sha256:8e09b05194472c6600200ed9f0f5db46e620bab26882e0b227a9ec9a25721cba:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhlZDhjNzIyNjM3N2FhMGM3NTRiNjEwNzllMTU4ZjhmODgyY2NlODg5N2M4NmNiZDRkNjJmYmQyZTcwNDNlOTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEwMGRmZTg3ZTcwODU1MGI4YjI2OGYxNTIwMWNkMTQyOTFmOGEzODJkNjExOTA2OTA4NjRkNDE4YTVlZWZhMTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIzMmUxNjYwY2RjM2I4YzNiM2NlMWEyNjg3YzE4NTBmYTU1N2E3N2JhMWMzOWVjNjBjOWNiYmU3ZWVlOTgwNTgifQ"
+        },
+        {
+          "resource": "repo://tests/unit/achievement-dofusdb-values.test.ts#L43-L62",
+          "version": "repo-lines-v1:sha256:c2604f6dfe9c7197e90787c1e70e08e19722f3ebefb8dcc696fd79ac59b07737:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjYWViNDliY2U0ZmY1Zjg2MmMyZDgwNTRkYWZhYWY4NGZjYjkyMjZiY2NhZWJmODcyOTQ4ZjY1MDk2ODNhODMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ0ZTAyZDYzOTA0YjY0NzkwOTUxNWU3YjcxOTVmZWY5Y2NkMmM1MmFiNGIyMmVkOGM0NzVkZDliMTU3NDRkYzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM3ZGQ5MWI1YTUyZjg0MjQwNGZhOTZjMmM5OTI4NWNlMjg4YWU0MDQyYTExY2VjN2Y2ZDFhYTNhZjFlNTBlMDcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_afc320cf544b4c8893ddde15083cc22e",
+      "statement": "The panel note under each copied field says whether the value is DofusDB's, changed by Torre, or will fill on save, comparing relations by ID, reward items as a set and quest rows in order.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/achievements/dofusdb-values.ts#L150-L201",
+          "version": "repo-lines-v1:sha256:44cbd8650a4c2d36f007ff7277797e114a3e709020476aae0adb11be80209f9a:eyJzZWxlY3RlZExpbmVDb3VudCI6NTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxNzBiMTU2ZjhhYTBjZTJjOTRkMjI5OTJjOTMyNjdkNjdhZGE3OGU0Y2QxMmRlZWM1NWFmMjA3NWU1NzFkZmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE2NGJhYzk0OTUwNTJiZDQwMDI4NjM1MGUyZDhkODk4ZjA2N2Q4YjI2MDI0NDViYmQ5MjgzMDQzNzAwM2JmMTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_fe665429ddcf4ffe846f160104fb2f45",
+      "statement": "GET /api/dofusdb-values/:source/:id returns 401 without a panel user, 400 for an unknown source or non-numeric ID, 404 for a missing record, and always sends Cache-Control: no-store, loading through the same functions as the fill hooks.",
+      "evidence": [
+        {
+          "resource": "repo://src/endpoints/dofusdb-values.ts#L1-L51",
+          "version": "repo-lines-v1:sha256:abbaedec855c559ef73013a41553db607e10b0ccbba50fe048efa064851a016e:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkwY2I4OTMxNTNkMDhkYTU1MzdmZjg5ZGY4MjQ4YTU4ZWZmMjlkMjkyZDhhOWQ3NjNiMTg2MzMxMmYxYThlMmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d9b74f4cc20e4bbd833fb731a6ebf1f8",
+      "statement": "Quest guides, achievement pages and metalogros share one root slug space: rejectSharedSlug rejects a slug another of the three collections already uses, counting the latest draft as well as stored documents.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/root-slug.ts#L11-L101",
+          "version": "repo-lines-v1:sha256:f0ca59a799fb8e0c4f7e9006a982485165f2161be71e062bc401fc7ef59b8d59:eyJzZWxlY3RlZExpbmVDb3VudCI6OTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA2ZGNkYmVlZmQ2ZjdmZTdjNGNjYzhkYzU2ZGFjMDFlODJjMzk4YWYxMWQ3NWE3ZmUxZTY4MWZjYmI4NGE4YTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1acb2346cab147ae83272855b413b93b",
+      "statement": "isRootSlugTaken treats reserved route segments as taken, and the fill hook picks the first free slug from the slugified name, then logro-<name>, then numbered suffixes for achievement pages, or metalogro-<name> for metalogros.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/achievement-autofill.ts#L17-L30",
+          "version": "repo-lines-v1:sha256:57dcffa58285d4a0e290dc7a470e8c214ce6891dc8f57f3777d9960a14d58388:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVmZGY3NDE0ZThjOGFiMzViMDFhZTUwNjE4Yjc3ZTUxYTU0NWM0MzExM2VlZDFlZWI2MjcwNTI5OWM5Zjg2MzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc0NzU3ODIxMTBmYjg4YmIzMjA0YWU3NGQ4YTljZWU1ZDlkOTMwNDE5NjMxMjA0MWFlYTNmNjg5MWY4NWY1NWIifQ"
+        },
+        {
+          "resource": "repo://src/collections/achievement-autofill.ts#L79-L120",
+          "version": "repo-lines-v1:sha256:27bbf6b9e5f6919abe66ce54cee1a732cfb76873d24d11501fcc136d7512a3d9:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhOTk1NWQ3YjBhNTVjYjQ1YzhhZGJjNmMwNzNlNDMzOGZiOTIwMTkwMzQ1Y2IxNzJjMWFjYTVlNTMyNGRkNTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyYjI2ZmE3NDM3NzJlNWY3NTA0NmFkYTAzNDBhODkwOTg3ZjAyYzFhNjI0ZjE1ODQ2ZDUwOGM2MmM3ODRmODMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIxMDI2NDk4YjJjYmQyYmZmZGQ0Yzc0ZmU0ZjZjNzA1YTNmYTNlODlmYWVjMTgyMzFjZjU4NGExOTY3NTZiYmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+        },
+        {
+          "resource": "repo://src/collections/root-slug.ts#L74-L83",
+          "version": "repo-lines-v1:sha256:e06783081d5df3575ed7856e0db297e61baf1fb36279d875c1d0c81ce0146830:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFkZmFlNTk1NGI4YzVkYzI1ODFlZjVlNzYyYTZkMDYxYjJjNDg3ODg1YjEzZmU3ZWM2ZjMyYzc2OTAyNjMwM2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA1ZTk0Zjk5MmU4MDBjMWZlZTMxYjlmOWI3NzI1NWNmZTRiMDM2N2I5NTM1YjllMGQyYWJjOGNkMWU2NTliNDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU0MTg0NGUxMjAyOTIxNjYyZWExODI0OWM3YWU4MTMyN2YzNWQxOGVjYzIwOGRmOWI0YjMxNTg2MjI5ODM1NDcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_cfa7a52ad73049abb1838ab5faf9ac24",
+      "statement": "refreshAchievements upserts all achievement categories (parents in a second pass) and the achievements of categories under DofusDB roots 8 and 9, imports icons once, counts missing quests and items, writes only changes and never deletes.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/dofusdb/refresh-achievements.ts#L16-L21",
+          "version": "repo-lines-v1:sha256:8179193c6a9bbc3537e88c6faca4086c4f6768a2d6fd309834a3f7788da7ceda:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMmUzMjU1ZjYxNmQyYTFjMGUyNTVhY2UzNzBjMDk2YzVkZmViNGQ3OWE1ZWI1OGM0YmQyNWFmMTQ3ZjY0MzlhNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2Q2MGY5N2ZmY2I2MWYzZDNmNThjZmYyZWYzNjRiN2IzNGJiZTc4NGVjMGQyMmJiNWUwNGRkYzY0NDI2ZDdlYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzk5ODA2NTgwZDU5YjkxNmViOGFkMTFhNWVlM2Y4N2IzMjZiYzIwYWI2OWQ4ZGRkMDgzNDQ3NmM3ODlmMmI0NiJ9"
+        },
+        {
+          "resource": "repo://src/lib/dofusdb/refresh-achievements.ts#L175-L296",
+          "version": "repo-lines-v1:sha256:dea579c4b18e008420483c7ed8b2c8a94f19b2fcbb9df3b84040043c2d0238bf:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIyLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlYWYyMmNmMDczMjU5MmMyNDcxNDFjYmU2MWVmYTExMDEyNjEyZjVhMzEyMmI5YWY5YmJhZjUyZjU3MjRkMTk0IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmYjU4MGU5NjRmODNhNDczZjQzZDQ0Mzg0NjI5NDlkNjhiNTYwMGZkYTc4N2YxNjM3NDVkMDBkZTg5Y2JmMzZhIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        },
+        {
+          "resource": "repo://src/lib/dofusdb/refresh-achievements.ts#L87-L141",
+          "version": "repo-lines-v1:sha256:52bb2277996db0b1c04a72653a2a59185f82b2f0228d224d4fbe95ea30c33ea4:eyJzZWxlY3RlZExpbmVDb3VudCI6NTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI1ZjZmZDIwYzRlMjgyMDQwMjBmODE5Nzc0YjUxYzc0MDBlN2RjNzJlZWIxMzU2YTAxMTA2ZmJmMmRjYzhhNGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ0NGJjMWQwMjFlODM2Zjg4OTgzMGJmMTU3MjNlMmJiMDgxYTljNDMzMjQyZGFmYzhhNGM2MzU0ODZlYWViZmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ1ODk0ZGU1MjdiMWQyNGY2YTEzMmUxNzhlNzkzYWRjZjc5MmY0YmQ2MWQxYTJiZGYzMDY4YTQ5YjVlMjNkMDIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5dee933859f74b3c9ade568e72afa57d",
+      "statement": "ensureAchievementPages creates a metalogro for each category under Misiones or Eventos without one and a page for each achievement with quests and no page, as preparing, and never changes an existing one; the refresh script runs it after NPCs.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/refresh-quests.ts#L67-L69",
+          "version": "repo-lines-v1:sha256:18477fd2db5b47bac4e2adae1a5102acb88ab3951c0f674299c6d6d24768ee21:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWY2ZDZlZjRkM2QxZjYxMzc3NjAyYTcxNzZjNDMxMjA1Y2UzMDkzYWE2MWM0Y2E3NWM3ZDU0NGM1MjA2MzQyYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzdlODU2M2IzOGZhYmRkZTc2YzIzMWVlMzAxNDMzYjljOWEwZjk5ZjViOTZmY2Q3MDZmOTkzNDZiNDk1ZTM5YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGQ0OGM3NWMzMjg3MTczYmQ0NjJmMjEyNzAzNDM5N2Q1YjI3ODI4NGVmMDQ3Yjg5MzQ4NGJhNjA4YTI4MmFmNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWMyNWJiMmQ2MmM0OGNlNDg2MmZjM2NiOTJmYjQxYjY1M2JlNjNmNzMxYjhlMmQ2NGVjM2Y5ODYzMTYxMGE4ZSJ9"
+        },
+        {
+          "resource": "repo://src/lib/achievements/ensure-pages.ts#L17-L102",
+          "version": "repo-lines-v1:sha256:be83d5eacffc36430faa5af101f59b6c45288d478ab407d2490710dbdbc11785:eyJzZWxlY3RlZExpbmVDb3VudCI6ODYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiYjhjZDQ2ZmY4YzhkNTdlNjk0YmViMWFlMDRhMDhiMTYzZjA0NGU1MjM1NzIyZGUwNTIzZjAwMzc1MjE4MGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1b8e8648b1154540b5900937f5b39e54",
+      "statement": "Integration tests cover ensureAchievementPages idempotence, Torre's edits surviving the refresh, cleared fields refilling, and the shared slug rules.",
+      "evidence": [
+        {
+          "resource": "repo://tests/integration/achievement-pages.test.ts#L121-L300",
+          "version": "repo-lines-v1:sha256:9f48efc6851bd640633e4885c7c042c1edbe6a0d11420746fb7c94a5d05f4b75:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgwLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI0OWUxY2E2OTkwZTM3ZTZjNjdjMjE2ZGQ1OWY3ODI1NzljYjllOTMwZWNmMTA3NjRhNWU4MTMwNjNlNzg1NGYxIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiOTc4ZTI1MDNiOGNmMzdhMDZmN2Q2ZjBhM2E2YjZmZTM1NjkxZmJjYWI1MGI4Nzc1Y2FiNmZhYmM3MWM1OTJiIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIxZWYwYjlkYzJiNWUxYjlhYmVjYmYyZjEwMTVhNDUyM2NiMmE3NTFlZWQ4MjQ0MmEwYTcwODgwZmZjYWY5YmZmIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI0NTU5NzRkYzA3MDNjNjBkZDMyYzhkMWQxZmQ4MDVjZDBjZDg4MjYzYjI4NTE1Y2YwMDE0Yjc3ODk4Y2NjOGFhIn0"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-08T11:00:21.339Z"
+  }
+}

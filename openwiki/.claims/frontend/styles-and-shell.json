@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:a48c063282499c5c061a29f4f7953608ab0d3f4944ba20aff065446c34fd88bd",
+  "pageVersion": "sha256:41d70413a00f359cb5d9f9bad0cd54ed5de1c1c89f6abe4cffa1672eacbd4eaf",
   "claims": [
     {
       "id": "claim_be169c6219cf4e229c071dc13c472c68",
@@ -17,8 +17,8 @@
       "statement": "Semantic color, font and shadow tokens are declared in an inline @theme block that points at raw --t-* variables, so utilities resolve to the active palette at use time.",
       "evidence": [
         {
-          "resource": "repo://src/styles/theme.css#L86-L131",
-          "version": "repo-lines-v1:sha256:3bbd88c92c12b88814f36c0ac075b80f55defe486d490a34cad4631d7fa2dc61:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJkMzZmYmIyMzRjNTgzYjI0YWNiNTQyMzFiOTUxMDBkM2I1MDU2NmNlMmNiMjVjODhlMzMxYjE1NWVhMDc0ZTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU4MzNkOWMwMWZhNTNmNjVlYzI2NjEwNjBmNTk5YmQyZWE5ZWUxMjAxMmYwMTNhZTRkYzExYWY3ZmQ2MjZhN2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBkODdjMmQwOTQzZGY5NmMzMzRmODc3YjA2MmExMmVkMjY1Y2NiOWYwZDBiZTA4YTJhOGU4MzMzZGYzYmFmNTYifQ"
+          "resource": "repo://src/styles/theme.css#L86-L133",
+          "version": "repo-lines-v1:sha256:b4bb77922f492f5570680d418580c676cc2d3ea5f28e2ebdb87e88e378c6f2b8:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJkMzZmYmIyMzRjNTgzYjI0YWNiNTQyMzFiOTUxMDBkM2I1MDU2NmNlMmNiMjVjODhlMzMxYjE1NWVhMDc0ZTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU4MzNkOWMwMWZhNTNmNjVlYzI2NjEwNjBmNTk5YmQyZWE5ZWUxMjAxMmYwMTNhZTRkYzExYWY3ZmQ2MjZhN2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMyM2QzN2RhZGQ2NzM1YjVkMjAxYjEyZWE3ZGY0MTJiNjRiMWVhMWEwMWMwNTJhYTA2YWQ3ZDMyMzZjZTIyMzMifQ"
         }
       ]
     },
@@ -27,8 +27,8 @@
       "statement": "Z-index layers, durations and content widths are plain :root variables because Tailwind has no namespace for them.",
       "evidence": [
         {
-          "resource": "repo://src/styles/theme.css#L125-L146",
-          "version": "repo-lines-v1:sha256:6741d7456de2f1a89207bcb9467e278d8ed81f9926d64f5969c1925fd1111467:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRiMTQ0NzI4ZTdjNmUwZGJkYjc3ZWE3NWRjYzcxYjRhYTQ2Y2YzZmMwYjRiYTI2ZjdhNzQ0YTlkMTZlYmY5NjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFlZTc0ODRhOTEwYzhjNTk3Y2ZhNTFiOWJmYjBkOWY4MzJkOTcyM2Q1OGU2MWJjNmI4M2NhZmNkZGViNmNkZjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYyNTA1NTU5YjRjMDA5ZGE4YzEwMjkyYTkxNGNmYmIxNjUwNmY2MWVjOTVjNGQzMDI5YjJkMGUwYzYzNzQ1NGMifQ"
+          "resource": "repo://src/styles/theme.css#L135-L157",
+          "version": "repo-lines-v1:sha256:a291adf8a3d067cabf8e5a737abf850800bd8fe0f086a58f6ea6a9b68e6483d3:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNlZWE1MDRiZjIwYjQxYzQ3MjlkM2NjZTQwYzIzODUxZDNhZTk1YjUwMTdlNmIwYTFhOGNhMzg1ZWIzMzU3YzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwNWI2MjVlMmRjOWQ4NmY1ZWVlNWU0NjI3NTZlMDE1MWRlODI3NWM4ZDc2NDgxOTRiMzU2Y2IxMmRjMDQ5MGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNmNWY4OTVjOTA3NmU4YjUzZmE3ZjBiODE0ZTVmM2Y0MTBmYzBiZDFhYzJjYWZhNjNjYjBlNjk2YzExZjlmZjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNiNmI1MDM4MWQ0MjMzMTlmZGQ2NTZhZmI1NzM3NjIyYjMyNDQ2MTYwNmEzNWE5ZTRlYmU4NjNjMDEzMzBjYjAifQ"
         }
       ]
     },
@@ -37,8 +37,8 @@
       "statement": "Palettes are defined per theme and mode with [data-theme][data-mode] selectors, and Arcano dark is also the :root default.",
       "evidence": [
         {
-          "resource": "repo://src/styles/theme.css#L148-L173",
-          "version": "repo-lines-v1:sha256:19578fd81f2ea2c89278604f41f9a25aad42be8f04ac1d70f5e976ee65a4e34d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwNWI2MjVlMmRjOWQ4NmY1ZWVlNWU0NjI3NTZlMDE1MWRlODI3NWM4ZDc2NDgxOTRiMzU2Y2IxMmRjMDQ5MGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIyNzBlZDZmMDJmMmQyMmY2YmQxNzU3MjgwNDc1YTlkODM4Zjc0YmVlNWI5ZDk4NzViMTI0NmE0NjJmZTNiYmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgyNzc0ZGUyYTFjZDE2YTc5ZDE2YzAxYzRhMWI5NWRiMTNkMjBmNTQxZmY3YjEyZTRmZjU3NzNiNDg0Nzk1ZjgifQ"
+          "resource": "repo://src/styles/theme.css#L159-L279",
+          "version": "repo-lines-v1:sha256:4d2a2b572d183febad3b4cf357dcc204f04a641d46b575306aeca06983752810:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIyYjVhYzI1OTgxMDdiNzUwNmI2NGJhMGFlNGQ4N2VhMTdkM2I2YThlNWM5Zjc3ZTkzNmNhZGVkZGIyOTI0YmU2IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIwMWJhNDcxOWM4MGI2ZmU5MTFiMDkxYTdjMDUxMjRiNjRlZWVjZTk2NGUwOWMwNThlZjhmOTgwNWRhY2E1NDZiIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI2MjUwNTU1OWI0YzAwOWRhOGMxMDI5MmE5MTRjZmJiMTY1MDZmNjFlYzk1YzRkMzAyOWIyZDBlMGM2Mzc0NTRjIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIwYjJhNmU4ZmEwYzQzNWJkNjUwMDc3MzBlYmMyNjM1ZjRkYTUyMTE5NzJjZGIyNzM4MDg0NDY1Njc5ZTc2NTlmIn0"
         }
       ]
     },
@@ -47,28 +47,28 @@
       "statement": "Status colors, section accents and shadow alphas depend only on the mode, with shadow alphas halved in light mode.",
       "evidence": [
         {
-          "resource": "repo://src/styles/theme.css#L271-L314",
-          "version": "repo-lines-v1:sha256:3ddb88005fb3ed2b0c946729fb887dd2ee2a83598d12a6617a71ea193666d0f0:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJiNWFjMjU5ODEwN2I3NTA2YjY0YmEwYWU0ZDg3ZWExN2QzYjZhOGU1YzlmNzdlOTM2Y2FkZWRkYjI5MjRiZTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzY2JkNzg4MTZkMDMwOTUzMWE0MTg5Zjk3MTA4YTdjZTVhMGJkMWY2MjIxNTAwMzYxNGQ4ZjQ2MzkwMjA4MDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/styles/theme.css#L280-L324",
+          "version": "repo-lines-v1:sha256:6fd082212e3a87a7624c8c46e3c59eac4711e7511a65fbd92b6727b667b4aa79:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJiNWFjMjU5ODEwN2I3NTA2YjY0YmEwYWU0ZDg3ZWExN2QzYjZhOGU1YzlmNzdlOTM2Y2FkZWRkYjI5MjRiZTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzY2JkNzg4MTZkMDMwOTUzMWE0MTg5Zjk3MTA4YTdjZTVhMGJkMWY2MjIxNTAwMzYxNGQ4ZjQ2MzkwMjA4MDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFjMWNiYzRlN2Q1ODhkMmFlZDhlYTc1ZmJhYTlmNmE3N2U5MDkyNDVjOWU4NmU4MGU2NWY0MmY5ZGJiYjZiODkifQ"
         }
       ]
     },
     {
       "id": "claim_9f27d07f2a6d46b4a3827065dc930be4",
-      "statement": "Nunito, Fredoka and Lilita One are loaded through next/font/google, each family split into preloaded and on-demand instances where needed, and exposed as CSS variables joined into fontVariables.",
+      "statement": "Montserrat and Lilita One are loaded through next/font/google and exposed as CSS variables joined into fontVariables.",
       "evidence": [
         {
-          "resource": "repo://src/styles/fonts.ts#L1-L66",
-          "version": "repo-lines-v1:sha256:80fe5d2813262d6a73c069d6ae7c7b3a01939c1236d7df9684ff31175870edb3:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg4YmU0ODI2OTNlMGJkNjNjYjE0Mjg1YjljNDBkNzVmOGM2MGRlMzBiYjc5ODlmYjU3OWE3NTM0ZjE1MTU2ZTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3OGIwYmZmMjJiZTgzZWI1M2M0YjAwYTFmNjY3MDQwYWFlODg2OGE4NzgyYmM5ZTZkODc0NmIxOTUxZGU1NTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/styles/fonts.ts#L1-L30",
+          "version": "repo-lines-v1:sha256:8a90aa80227d368a3b168b6bc29d4156f2abf4266827d15766c6ba73376f212c:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMzlkNGExZTZkMWZmMzEwZmM2ZWUyZGE2MTIyODgyYjdjMzc2NWM4YzQ3MzIxMTcxYThiNzhmNjk2N2U0NTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUyOTYyNzZlOTdlNTI2ZjhiNmE1YTM3ZGQ4NDI2MjQ2ZmVmOWU4ZWMzMzI1ZTYxNGI1YzEzZjlkY2JkOTQ5NzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
     {
       "id": "claim_b311691d699f469894050cea8ce42140",
-      "statement": "globals.css imports Tailwind, theme.css and fonts-fallback.css, sets color-scheme per mode, a focus-visible outline, accent links and near-zero animation durations under prefers-reduced-motion, including for ::backdrop.",
+      "statement": "globals.css imports Tailwind, theme.css and fonts-fallback.css, sets color-scheme per mode, font-synthesis none, a focus-visible outline, accent links, smooth anchor scrolling only without reduced motion, near-zero animation durations under prefers-reduced-motion including for ::backdrop, and the Amount styles.",
       "evidence": [
         {
-          "resource": "repo://src/styles/globals.css#L1-L50",
-          "version": "repo-lines-v1:sha256:093f088ddd5706d133c506cd854b83ce7b7a3fedfa50cce52711ca4c2543d515:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjExYjhlNjllODlhMzFlODdlMjVlYzQzYzkyZmZjZGRkMGNiNzk0ZGI3NTdkNjE2N2FlMzFlZTA1OGY5ZWE0MjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/styles/globals.css#L1-L70",
+          "version": "repo-lines-v1:sha256:7b8a9f2938218700e41e7f29f26c42ed33763b40b0b8f42fe87bae08d4e139ac:eyJzZWxlY3RlZExpbmVDb3VudCI6NzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjExYjhlNjllODlhMzFlODdlMjVlYzQzYzkyZmZjZGRkMGNiNzk0ZGI3NTdkNjE2N2FlMzFlZTA1OGY5ZWE0MjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -84,25 +84,21 @@
     },
     {
       "id": "claim_3762655a230e484884541f478225a199",
-      "statement": "The frontend layout renders html with lang es, theme, mode, font variables and suppressHydrationWarning, injects the mode script, and renders a header with the brand link, which carries the Torre emblem, and ModeToggle.",
+      "statement": "The frontend layout renders html with lang es, theme, mode, data-scroll-behavior, font variables and suppressHydrationWarning, injects the mode script, and renders SiteHeader with the cached counts, the page and SiteFooter.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/layout.tsx#L21-L52",
-          "version": "repo-lines-v1:sha256:6aea3b00e396edac9c68abd8a9afd39dfdcaf5729a49be7e5d4053cefe3fc70c:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0YWZiNGRhMmYyMjEzMDdkMDhiMzMyMGI5MTk4YzcwYjAzNTc3MWZjMzUyZjdhZDQxYzFlNThhNjYwNTAxZDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVjMDQ1ZWQ4MjVkMDJlM2VkZWYzMDA1YzkwNjc3MDRkZmIwZTE2YmQxMTQ3NThhYWFlZjg4NGJlNWNkOWI5MDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/app/(frontend)/layout.tsx#L22-L48",
+          "version": "repo-lines-v1:sha256:0a441a9885aee8b58810c8812882b6361a75c172083efac2e2d5cdd0452ba86e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0YWZiNGRhMmYyMjEzMDdkMDhiMzMyMGI5MTk4YzcwYjAzNTc3MWZjMzUyZjdhZDQxYzFlNThhNjYwNTAxZDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MjY3OTM1ZmM2MzM0NjVkODQ4YjQwYTRlZDY5NjdlN2I3YTMyM2Y4MWNkNTNjMTEwYWUyMTAyOTY4N2FhMTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVjMDQ1ZWQ4MjVkMDJlM2VkZWYzMDA1YzkwNjc3MDRkZmIwZTE2YmQxMTQ3NThhYWFlZjg4NGJlNWNkOWI5MDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
         }
       ]
     },
     {
       "id": "claim_008087679913479c8ea69a03371d781b",
-      "statement": "The home page is a construction placeholder that links to the existing torrentearcano.com and reads its copy from homeStrings.",
+      "statement": "The home page renders the hero search and its sections with the same counts as the header.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/page.tsx#L1-L18",
-          "version": "repo-lines-v1:sha256:949711626e3d6e84a7bf46ca2dc107df99a2f6c0a1e28f38e17204f28998129d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU1ZmJmYzMyMTQwZmFlYTlhMDY3NTRiNjdlYzhlMGVjZjczZjhlNjUzNThkMjViNDBjMmQ2Y2UxYjg4NWU4MDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
-        },
-        {
-          "resource": "repo://src/app/(frontend)/strings.ts#L6-L14",
-          "version": "repo-lines-v1:sha256:f789f7290583de24c70bbbaf3635115ad3b2297797676e4e3a46308117e41e9e:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjRhNDc2ZjQ4YmVhOGQ3YmM5MzEwOGNkNWMwODY2YTk2NGViNzZjNGU3MGU5OTczNWUzODlkZjY4Yjg2ZTAxNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTQ1OTJiZWM4MzczNTA3MWZkYmMwNWU5ZmI5NzYxMDI1OWRiYjE2MzEwMTQwNGU2NWNjZmJmYjkzYzRiYzBlNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+          "resource": "repo://src/app/(frontend)/page.tsx#L1-L34",
+          "version": "repo-lines-v1:sha256:75509dae63fcb6669cbc668e8ce65c5d9f5c17f07a5e178b9a0ed23c02dbee40:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM4YTQ4OTE2NzM5ZGQzNmIxNWUxYTAyNTVlY2Q2YmZhMDAwMWMwMjZhNzY2NzE2YmVkM2RmNTQ3MDE2MDFhNDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -111,8 +107,8 @@
       "statement": "theme.css re-declares every semantic color token, --color-section and the shadow tokens on any [data-theme] or [data-mode] element inside @layer base, so hand-written CSS using var(--color-*) follows a nested theme while a utility on the same element still wins.",
       "evidence": [
         {
-          "resource": "repo://src/styles/theme.css#L343-L385",
-          "version": "repo-lines-v1:sha256:eb3fbce684c0f585f7d1462e7a56ed3bdbd140a72a498189cec953d1d277b6e9:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzMmRjZTBjNmMwYjZiYjU2NjUxYzU5ZjAxZjc0MzVjMGM1ODgzMGM2MGU2ZTczOWRmODgyNjJiMGJmMjRjYzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMxMzRjNGU2YTg4ODViNDk1Y2Y2YWIwYmFjNjU3ZDAyYjRhNzk3MjlhZDg2NzIzOTI5ZjA0YjIyNDg1ZmI3NjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/styles/theme.css#L343-L386",
+          "version": "repo-lines-v1:sha256:1281d1b2dea5de06bc4008125abfd2aa6accd4834b6ff7884bcf62fc613ad0a7:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ1NjM4OGEwZDBlZDgyNTRiNmRmYzdiZDg1MGFhYjdiMWExZTdhOTkyMzM0ZTg4ZTBkM2IxNGFlOGUwZWY4N2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://tests/unit/theme-css.test.ts#L11-L28",
@@ -122,39 +118,39 @@
     },
     {
       "id": "claim_bbf55986b6e444758a83e5c7d3d89fce",
-      "statement": "Only Nunito 400 and Fredoka 600 are preloaded; Nunito 500 to 800, Fredoka 500 and Lilita One load on demand with preload false.",
+      "statement": "Montserrat, a variable font served as one latin file with every weight, is the only preloaded font, with weights 400 to 800; Lilita One loads on demand with preload false.",
       "evidence": [
         {
-          "resource": "repo://src/styles/fonts.ts#L7-L59",
-          "version": "repo-lines-v1:sha256:b260b187bd6b3ad9cc00ebdb9ba1755ba3d55538608d19cd6ac54aabe19019c2:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2YTE1OTcyNzA1MmE4NGI5MzVlYzQyYzE5N2I2ODk3NTVlOTk2N2YzNDg0M2UwZTM5NmE5ZjBkZTYzZTkzOTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ2YzQyZmNjYWJjYTgwNTQ4ZjBjMzJkM2I4NjFiNWZlMzhiZDMzYjg5NDJjMjZlNzRkODljMmU4ZWU4NGQ1OWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM4MDMxYmVmMTk4Yjg5ZDRhOTkxMTk4Y2FlZGMxZmRiNzk1NWRiZDQ1ZGRlNWRhNzJiY2VjMjdhYmEzY2JiNDMifQ"
+          "resource": "repo://src/styles/fonts.ts#L5-L28",
+          "version": "repo-lines-v1:sha256:bb890eaa1a8407e4cbde19c4af8a01656c21e36715a1ec35415503c688dd24fe:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRhNjJhNGJkNTNlNGIxYTNiZDk2ZTlmMGJjOTY5N2NjNzc3ZmJjYzRiOGNkMjRkNTM0YTM1NzU4ZmFkMjA5YjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI0NWJkNDdkOTRiOTJjZWM2YmRkMDYyMGRjYzk1MzQ4Mjg2ZWI4M2M3NmZmNDFkZGUzY2M4YWE5NTQ3ZTU3ZTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNiOGI3MjVhOTRiZThlMjJhMDdmNGVlMThkMDcyNWY5MjJiMzk1NDViMWRmYTdiNWEwMmFiZDliOTJiNTFmNGQifQ"
         },
         {
-          "resource": "repo://tests/unit/fonts.test.ts#L43-L64",
-          "version": "repo-lines-v1:sha256:7511caf2ec6c4cb9188ced1c23a58b46444155f3ab12213d4ced943ef19a3078:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRmM2ExNGUzOGU5NGUwODAwMzZhNzYwZDUyOGMyMjIzZDgyNDlmNjI4ODI5YWYxZGE3N2VhYTc4NDQ3YmZiYmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM2MTZiMzFmM2M1ODRkNzgwY2VmMmYwN2M2MWIzM2RkNDRlMTYzYzY5ZTg3ZmM4MWFhNTRlNmY3ZjA1OWU1OGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI1Yjc2Y2Y4ZWY5MjgwZTAyMDVlNmRmNWVjYzNhOTIwYjBiODliNTllM2Y1MWQyM2JhMmZmN2QxYjcwOWJmMjAifQ"
+          "resource": "repo://tests/unit/fonts.test.ts#L42-L64",
+          "version": "repo-lines-v1:sha256:d62acfd487d50913b16c59d6bb11591fea8c8aa1df4686fc52b5d00c5c3c45c4:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI2M2UyYjlmYTg0YWQ5NmM1MGVhNjg1ZTRhMDliMTUyZTIzOTYwNWRiODcxZjM3Yzk4N2FiZTM2ZmIxMGNkYWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM2MTZiMzFmM2M1ODRkNzgwY2VmMmYwN2M2MWIzM2RkNDRlMTYzYzY5ZTg3ZmM4MWFhNTRlNmY3ZjA1OWU1OGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI1Yjc2Y2Y4ZWY5MjgwZTAyMDVlNmRmNWVjYzNhOTIwYjBiODliNTllM2Y1MWQyM2JhMmZmN2QxYjcwOWJmMjAifQ"
         }
       ]
     },
     {
       "id": "claim_993c7a4e6ea744fea49ee7f507dfef29",
-      "statement": "fonts-fallback.css declares Linux fallback faces for Fredoka, Nunito and Lilita One over Liberation Sans, Arimo or Roboto with next/font's size and metric overrides, because systems without Arial ignore next/font's Arial-based fallbacks.",
+      "statement": "fonts-fallback.css declares Linux fallback faces for Montserrat and Lilita One over Liberation Sans, Arimo or Roboto with next/font's size and metric overrides, because systems without Arial ignore next/font's Arial-based fallbacks.",
       "evidence": [
         {
-          "resource": "repo://src/styles/fonts-fallback.css#L1-L40",
-          "version": "repo-lines-v1:sha256:369ea9f6b83da8a492f9af7764c783f11f691cfbef71796d7aff9b91f41abaf4:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3MzI3NzVlZWU3NzAwMThkYjdkNzlkMDM1YTAxNjMwMTVhMDE2ZGUxN2ViYmY4ODg0OTAyZWM2ZDFkOWZjZjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/styles/fonts-fallback.css#L1-L31",
+          "version": "repo-lines-v1:sha256:ee5f719d81265571ce08988ffd241d304dd4450f59538202081d51caf2246f18:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3MzI3NzVlZWU3NzAwMThkYjdkNzlkMDM1YTAxNjMwMTVhMDE2ZGUxN2ViYmY4ODg0OTAyZWM2ZDFkOWZjZjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://src/styles/theme.css#L115-L123",
-          "version": "repo-lines-v1:sha256:61f90d9297bb8872ca45dbb2dfb19951c89cacf74ca124da7eb3cfd6fc1ea599:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGJkNTA3MTJlYjY4YzU2NzU0MDNmZWQzOGUwZThkYzUwMmM5NGVkM2RhMWYxNGJmNzQzMDkzZDBhYjI1NWY0ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTQyOTFjODNiNjdlNzBmMTY3YzllOGE2MTU3OWNkY2YzNjhjOTJmYmNlNmQ3MWYzMDk2ODk2ZDkwYTQwN2NmNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDlmMzk1MjlmNGM5OTE1ZTVkN2MxZmI5ZGJmZmQyMDhmZGUyOGM3MDgyOGIwM2E0NGU1YWFkYzVmZmM5ZmZkMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDVmMWE4YmU1YTdhNDZhZGZjYTI3NzE3NDZmOGE4ZjY5ZWQwZmNkMTAzN2VhY2MzYWRhYzZkM2UxMDJmYTAzZiJ9"
+          "resource": "repo://src/styles/theme.css#L115-L124",
+          "version": "repo-lines-v1:sha256:84c03380769cd61a00ec9e3b5be59a53af525ff0771eb06b424dbd2fbd7a806b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJjMGJmNmYwODljNGNmMjQxZjI2ZWE0OWY5ODk2NmQzMzYwZmVmMzAxZjZkOWUzY2EyZDE3MTUxNmU3ZmUyYTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE0MjkxYzgzYjY3ZTcwZjE2N2M5ZThhNjE1NzljZGNmMzY4YzkyZmJjZTZkNzFmMzA5Njg5NmQ5MGE0MDdjZjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ5ZjM5NTI5ZjRjOTkxNWU1ZDdjMWZiOWRiZmZkMjA4ZmRlMjhjNzA4MjhiMDNhNDRlNWFhZGM1ZmZjOWZmZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ1ZjFhOGJlNWE3YTQ2YWRmY2EyNzcxNzQ2ZjhhOGY2OWVkMGZjZDEwMzdlYWNjM2FkYWM2ZDNlMTAyZmEwM2YifQ"
         }
       ]
     },
     {
       "id": "claim_6c3691d69bc649b8bf2aa689c906b568",
-      "statement": "Game icon wells and slots take mode-dependent colors: in light mode the slot behind a full-color icon stays dark while the step-number well uses the raised color.",
+      "statement": "Game icon wells and slots take mode-dependent colors: in light mode the slot behind a full-color icon stays dark while the well uses the raised color.",
       "evidence": [
         {
-          "resource": "repo://src/styles/theme.css#L324-L341",
-          "version": "repo-lines-v1:sha256:a25d468ee9ba509e178d5135997b9c833ec79bb4978fb88c93bfd1b3982aeb31:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBlZTJlN2UyZjcwYjQ2YzA3MzU5ZGVmOGFiNzc1YzQ5ZjQ1OGU1NmNkNjg2Y2YzZmE1Y2ZkNTIwMTVkMjJmMDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVlNWIyMjc0ZjllY2FiMmQyM2Q4ZjNiMWUwMzAzNTQ0YzMyYmMwYzMzYmY3YmUxYjY0YmUzYWFjZWJmMmFiODYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ5MGUyMmMxMmU0YjI4MzMyY2IxMTM4NjRmOTJhYThjZTMyNmM3ODQ0NGY0NjkwYzY0MDUxYjAwNGRkMDYzZTgifQ"
+          "resource": "repo://src/styles/theme.css#L325-L341",
+          "version": "repo-lines-v1:sha256:a58076547006783628f8f5eeaf7b87d27888b10946fc36b8c2407007a1d874a6:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBlZTJlN2UyZjcwYjQ2YzA3MzU5ZGVmOGFiNzc1YzQ5ZjQ1OGU1NmNkNjg2Y2YzZmE1Y2ZkNTIwMTVkMjJmMDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ZjYxODEyNDkwYjIwMzJmZWM1NmM1MGE3ODg4MmMwODIzZGNjZGQyMmU5ZmNjZWVjNmIyM2YyYjdmMWRkY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVlNWIyMjc0ZjllY2FiMmQyM2Q4ZjNiMWUwMzAzNTQ0YzMyYmMwYzMzYmY3YmUxYjY0YmUzYWFjZWJmMmFiODYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc5MzdmNjJmMjcxMTM0NDRlYTUwZjczOTRmZTRhNjE2NDQ5MmRhNTg5Y2E3MGFhMDNlMjdjMTE4OGE2ZmE3NTUifQ"
         }
       ]
     },
@@ -179,6 +175,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-06T15:25:11.354Z"
+    "at": "2026-11-08T11:00:21.339Z"
   }
 }

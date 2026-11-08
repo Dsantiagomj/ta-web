@@ -5,7 +5,7 @@ description: Every environment variable the app, the tests and the GitHub workfl
 tags: [configuration, environment, secrets, railway]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-07T00:10:43.955Z
+    at: 2026-11-08T11:00:21.339Z
 sources:
   - id: openwiki-source-5f5b95b3d6a215fa02ceb945
     resource: repo://.env.example
@@ -45,6 +45,8 @@ sources:
     resource: repo://src/lib/media/storage.ts
   - id: openwiki-source-c31449ae998e78dd836b84bc
     resource: repo://src/lib/monitoring/sentry.ts
+  - id: openwiki-source-2e24cfbb628a19f71e2bf154
+    resource: repo://src/lib/site/origin.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
     resource: repo://src/payload.config.ts
   - id: openwiki-source-f34ac1e549d94dc3ac475ae4
@@ -55,7 +57,7 @@ sources:
     resource: repo://tests/integration/env.ts
   - id: openwiki-source-e73350ef868f2379d51909ed
     resource: repo://tests/unit/dofusdb-write-concurrency.test.ts
-generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
+generated: { by: "claude-code", at: "2026-11-08T11:00:21.339Z" }
 ---
 
 # Environment configuration
@@ -72,7 +74,7 @@ Each group of variables has one small resolver function that takes an `env` reco
 | `DATABASE_URL_DIRECT` | `resolveDatabaseUrl`, only when `DATABASE_CONNECTION=direct` | Railway (Neon non-pooled URL) |
 | `DATABASE_CONNECTION` | `resolveDatabaseUrl` | The `pnpm migrate` script sets it to `direct`; never set by hand |
 | `PAYLOAD_SECRET` | `src/payload.config.ts` | `.env`, Railway, CI (a dummy value) |
-| `NEXT_PUBLIC_SITE_URL` | `metadataBase` in `src/app/(frontend)/layout.tsx` | `.env`, Railway |
+| `NEXT_PUBLIC_SITE_URL` | `metadataBase` in `src/app/(frontend)/layout.tsx`; `SITE_URL` in `src/lib/site/origin.ts`, the absolute URLs of the breadcrumb JSON-LD. Both default to `http://localhost:3000`; `SITE_URL` drops trailing slashes | `.env`, Railway |
 | `APP_ENV` | `isDevEnvironment` (the `noindex` header, `robots.txt`, the `/sistema` catalog), `sentryServerOptions` | Railway `dev` sets `dev`; empty locally and in production |
 | `S3_ENDPOINT`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_REGION`, `MEDIA_BASE_URL` | `readS3Settings` (`src/lib/media/storage.ts`) | Railway |
 | `SENTRY_DSN` | `sentryServerOptions` (`src/lib/monitoring/sentry.ts`) | Railway |

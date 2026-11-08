@@ -20,19 +20,21 @@ sources:
     resource: repo://scripts/refresh-quests.ts
   - id: openwiki-source-cb49e3c4d1015b8673e71275
     resource: repo://src/app/(frontend)/%5Bslug%5D/page.tsx
+  - id: openwiki-source-2db76d84ebc87095c44118ff
+    resource: repo://src/app/(frontend)/metalogros/page.tsx
   - id: openwiki-source-7a2723ea85824e431ff5eb54
     resource: repo://src/collections/QuestGuides.ts
   - id: openwiki-source-2f2b90aba3af4142e443ba84
     resource: repo://src/lib/guides/strings.ts
-generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
+generated: { by: "claude-code", at: "2026-11-08T11:00:21.339Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-06T15:25:11.354Z
+    at: 2026-11-08T11:00:21.339Z
 ---
 
 # Quickstart
 
-ta-web is the new torrentearcano.com: a Next.js 16 app with Payload CMS 3 inside it, Postgres, Cloudflare R2 and Railway. The skeleton and the public quest guide page are built; most other product features are still planned. Start with the [Project overview](overview.md).
+ta-web is the new torrentearcano.com: a Next.js 16 app with Payload CMS 3 inside it, Postgres, Cloudflare R2 and Railway. The skeleton, the site header and footer with search, the home page, quest guide pages, achievement pages and the metalogros index are built; member features are still planned. Start with the [Project overview](overview.md).
 
 ## Run it
 
@@ -61,15 +63,21 @@ Node 24 (≥ 24.22.1) and pnpm 11. No Docker. Details in [Local development](wor
 | Change Payload settings, add an endpoint or admin component | [Payload CMS configuration](cms/payload-config.md) |
 | Add or change a collection, or its access rules | [Collections and access](cms/collections.md) |
 | Write a quest guide in the panel, or change what its DofusDB quest fills in (title, slug, SEO, summary, the "Necesitarás" list) and the notes under each field | [Writing a quest guide](cms/guide-authoring.md) |
-| Add or change a block in a guide body (rich text, image, YouTube video, callout, step) | [Guide body blocks](cms/blocks.md) |
-| Change how a published guide renders at `/<slug>`, its header, steps and "Pasos" list, draft preview or cache revalidation | [Public quest guide page](frontend/guide-page.md) |
+| Add or change a block in a guide body (rich text, image, YouTube video, callout, fight, step) | [Guide body blocks](cms/blocks.md) |
+| Change how a published guide renders at `/<slug>`, its breadcrumb, header, steps or next quest card, draft preview or cache revalidation | [Public quest guide page](frontend/guide-page.md) |
+| Change the achievement collections (DofusDB achievements, achievement pages, metalogros), their fill from DofusDB and panel notes, or the shared root slug space | [Achievement data model](achievements/achievement-data.md) |
+| Change how an achievement page renders at `/<slug>`, or a guide's achievement breadcrumb and "Misión 2 de 3" | [Achievement page](achievements/achievement-page.md) |
+| Change the metalogros index at `/metalogros` or its search | [Metalogros index](achievements/metalogros-index.md) |
+| Change the site header, footer, menu links, the search dialog or the `/api/search/guides` index | [Site header, footer and search](frontend/site-shell-and-search.md) |
+| Change the home page or its hero quest search | [Home page](frontend/home-page.md) |
 | Change the schema, connect to Neon, reset local data | [Database and migrations](data/database.md) |
-| Load or refresh DofusDB quests, the monsters they name, the whole item catalog and the quest-giving NPCs with their renders, change how quest rewards, needs, zone and achievement are computed, or change how DofusDB requests are retried (`pnpm data:quests`) | [DofusDB game data refresh](data/dofusdb-refresh.md) |
-| Change how Squarespace pages become quest guides, or import them (`pnpm import:guides`) | [Squarespace import](data/squarespace-import.md) |
+| Load or refresh DofusDB quests, the monster and item catalogs, achievements and the quest-giving NPCs, import game images, change how quest rewards, needs, zone and achievement are computed, or change how DofusDB requests are retried (`pnpm data:quests`) | [DofusDB game data refresh](data/dofusdb-refresh.md) |
+| Change how Squarespace pages become quest guides, import them (`pnpm import:guides`) or bring imported guides up to date (`pnpm guides:backfill`) | [Squarespace import](data/squarespace-import.md) |
+| Import Torre's metalogros index onto the achievement pages (`pnpm import:achievements`) | [Importing Torre's achievement pages](data/achievements-import.md) |
 | Upload files, configure R2, serve images, backfill image sizes (`pnpm media:sizes`) | [Media storage](media/storage.md) |
 | Work on dark/light mode or premium themes | [Theme and mode](frontend/theme-and-mode.md) |
 | Use design tokens, fonts, the page shell, the emblem or the favicon | [Styles, tokens and site shell](frontend/styles-and-shell.md) |
-| Use or change a button, callout, figure or a quest guide component (quest header, icon wells, steps, side list, Torre's tips, video), or the island that copies coordinates, opens images fullscreen and marks the current step | [Design system components](frontend/design-system-components.md) |
+| Use or change a button, callout, figure, amount or a quest guide component (quest header, rewards bag, icon wells, fight block, steps, next quest card, Torre's tips, video), or the island that copies coordinates, opens images fullscreen and opens the rewards bag | [Design system components](frontend/design-system-components.md) |
 | See every component in every theme, or add a new one to the catalog (`/sistema`) | [Component catalog (/sistema)](frontend/component-catalog.md) |
 | Run or write tests | [Test suites](testing/test-suites.md) |
 | Fix a failing Lighthouse budget (LCP, CLS, JavaScript, images) or add a page to `pnpm test:lhci` | [Performance budgets](testing/performance-budgets.md) |

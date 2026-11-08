@@ -46,10 +46,10 @@ sources:
     resource: repo://tests/unit/guide-summary.test.ts
   - id: openwiki-source-1970468d3fcc651d5071b312
     resource: repo://tests/unit/quest-guides-collection.test.ts
-generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
+generated: { by: "claude-code", at: "2026-11-08T11:00:21.339Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-06T15:25:11.354Z
+    at: 2026-11-08T11:00:21.339Z
 ---
 
 # Writing a quest guide
@@ -65,7 +65,7 @@ The collection schema itself (field types, validators, access) is in [Collection
 1. Create a guide under "Guías" and pick the quest in "Misión de DofusDB". The description under the field reads "Elige primero la misión de DofusDB de la guía, solo una: rellena el título, el slug, el SEO y el resumen. Luego solo te queda escribir la guía."
 2. The form fills the empty title, slug, SEO and summary fields right away, without saving, and marks the form as modified.
 3. Under each summary field, a note says where its value comes from (see [The notes under the summary](#the-notes-under-the-summary)). Torre edits whatever reads wrong; nothing typed is replaced later.
-4. Write the "Necesitarás" notes and the body: an introduction, the walkthrough as "Paso" blocks (each with an optional panel-only title, optional X and Y, and its own text, images, videos and callouts) and a closing. See [Guide body blocks](blocks.md).
+4. Write the "Necesitarás" notes and the body: an introduction, the walkthrough as "Paso" blocks (each with optional X and Y and its own text, images, videos, callouts and fights; a step has no title, so a heading goes in bold at the start of its text), "Combate" blocks for fights (monsters from DofusDB with their quantities, introduced by the text before them) and a closing. See [Guide body blocks](blocks.md).
 5. Check the draft with the panel's live preview (desktop or the 390 px "Móvil" breakpoint) or the preview button, both of which open the public page through `/vista-previa` with the current draft. See [Public quest guide page](../frontend/guide-page.md#draft-preview).
 6. Save a draft or publish. The save hook fills anything still empty, such as a field Torre cleared on purpose. Every save expires the cached guide pages, so a published change shows on the next visit.
 
@@ -95,7 +95,7 @@ All rules are pure functions in `src/lib/guides/`, without Payload, so the serve
 | `seo.metaTitle` | `<name>: guía de la misión de Dofus` |
 | `seo.metaDescription` | `Guía paso a paso de la misión <name> de Dofus, de nivel <levelMin>: requisitos, recompensas (<XP> XP) y cómo completarla.` The level and XP parts are dropped when missing. Cut at a word boundary with `…` so it never exceeds 160 characters |
 
-If the slug is taken by another guide, or is one of the reserved top-level routes (`admin`, `api`, `sistema`, `vista-previa`), `availableSlug` tries `-2`, `-3`… until one is free. The guide being edited does not count as a collision. A quest with an empty name fills nothing.
+If the slug is taken by another guide, an achievement page or a metalogro (they all live at `/<slug>`, drafts included), or is one of the reserved top-level routes (`admin`, `api`, `sistema`, `vista-previa`, `metalogros`), `availableSlug` tries `-2`, `-3`… until one is free. The guide being edited does not count as a collision. See [Achievement data model](../achievements/achievement-data.md#one-slug-space-at-the-root). A quest with an empty name fills nothing.
 
 Guides migrated from Squarespace already have a slug, so they keep their old URL.
 
@@ -124,7 +124,7 @@ The output matches Torre's own pages. For El cazador cazado (1977) and Seis pies
 
 1. It loads the quest from the REST API, `GET <serverURL><api>/quests/<id>?depth=1` with the session cookie, through `fetchLinkedQuest` in `linked-quest.ts`. Requests are cached per URL while the page is open; a failed one is dropped from the cache so the next attempt retries.
 2. It plans the fill with `plannedFormFill(read, quest)`, where `read` is the form's `getDataByPath`. The plan runs `autofillFromQuest` and `summaryToFill` on the current form values and returns the field paths to fill with their values (blank values dropped) plus the rows for an empty "Necesitarás" list (`summary.needs.items`, exported as `NEEDS_PATH`).
-3. For the planned slug it calls `availableSlug` with `slugTaken`, which queries `quest-guides` by slug and ignores the guide's own ID. If that query fails it answers "not taken" and lets the server reject a duplicate.
+3. For the planned slug it calls `availableSlug` with `slugTaken`, which queries `quest-guides` by slug and ignores the guide's own ID. If that query fails it answers "not taken" and lets the server reject a duplicate. It does not look at achievement pages or metalogros: if the form fills a slug one of them uses, saving fails with `rejectSharedSlug`'s message on the slug field, and Torre changes it or empties it so the save hook picks a free one.
 4. It re-reads the form with `stillEmpty(planned, read)`: only planned fields that are still blank are kept, and the needs rows only when the list still has no rows. Torre can type while the slug check is in flight, and whatever was typed in that window stays.
 5. It dispatches an `UPDATE` for each remaining value and adds one `summary.needs.items` row per remaining needed item with its item and quantity, then marks the form modified if it filled anything.
 
@@ -134,7 +134,7 @@ The quest the guide was opened with fills nothing: only a change Torre makes in 
 
 ### On save: `fillFromQuest`
 
-`src/collections/quest-guide-autofill.ts` is the collection's `beforeValidate` hook. It runs on every create and update through any API, the importer included. It builds the current values from `data`, falling back to the saved document for fields `data` does not carry (an update may send only what changed; an explicit `null` in `data` wins). It loads the linked quest with `payload.findByID` at `depth: 1`, fills the empty title, slug and SEO fields, checks the slug against other guides with `payload.count`, and merges the summary fill into the saved and sent summary, keeping the needs notes.
+`src/collections/quest-guide-autofill.ts` is the collection's `beforeValidate` hook. It runs on every create and update through any API, the importer included. It builds the current values from `data`, falling back to the saved document for fields `data` does not carry (an update may send only what changed; an explicit `null` in `data` wins). It loads the linked quest with `payload.findByID` at `depth: 1`, fills the empty title, slug and SEO fields, checks the slug with `isRootSlugTaken` (`src/collections/root-slug.ts`: other guides, achievement pages and metalogros, stored or in their latest draft, and reserved routes), and merges the summary fill into the saved and sent summary, keeping the needs notes.
 
 The hook is the backstop: it covers guides created outside the panel, a form where the client fill never ran, and fields cleared before saving. After the fill, if the title is still empty it throws a `ValidationError` on `title`, because Payload saves drafts without field validation.
 
