@@ -204,6 +204,42 @@ describe('arreglos puntuales de los metalogros', () => {
     expect(after.docs.map((doc) => doc.updatedAt)).toEqual(before.docs.map((doc) => doc.updatedAt))
   })
 
+  it('tampoco corre una página vecina que Torre tiene a medio editar', async () => {
+    const picadillo = (
+      await payload.find({
+        collection: 'achievement-pages',
+        where: { slug: { equals: 'picadillo-de-wabbit' } },
+        depth: 0,
+      })
+    ).docs[0]!
+    await payload.update({
+      collection: 'achievement-pages',
+      id: picadillo.id,
+      data: { name: 'Picadillo a medias' },
+      draft: true,
+    })
+    const report = await applyAchievementFixes(payload, {
+      fixes: { ...fixes, pages: [{ ...fixes.pages[1]!, position: 2 }] },
+      apply: true,
+      ensureNpc: async () => amayiro.id,
+    })
+    expect(report.changes).toEqual([])
+    expect(report.skipped).toContain(
+      'Dimensión carcelaria: Picadillo de wabbit tiene un borrador sin publicar en el panel; ' +
+        'no se toca',
+    )
+    expect(await pagesOf(wabbit)).toEqual([
+      ['Dimensión carcelaria', 'dimension-carcelaria', 1, 'preparing'],
+      ['Picadillo de wabbit', 'picadillo-de-wabbit', 2, 'published'],
+    ])
+    const draft = await payload.findByID({
+      collection: 'achievement-pages',
+      id: picadillo.id,
+      draft: true,
+    })
+    expect(draft.name).toBe('Picadillo a medias')
+  })
+
   it('no pisa un borrador sin publicar de Torre: lo salta y lo dice', async () => {
     const ocre = (
       await payload.find({
