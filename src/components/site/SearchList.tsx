@@ -1,11 +1,24 @@
 import type { ReactNode } from 'react'
 
 import type { SearchEntry } from './nav'
-import type { SearchGroup } from './search'
+import { highlight, type SearchGroup, words } from './search'
 import { searchResultStrings as s } from './search-result-strings'
 import { StaticImg } from './StaticImg'
 
 export { loadQuestEntries, searchSite, searchStatus } from './search'
+
+/** El nombre con lo que encaja en <mark>, como texto: nunca innerHTML. */
+export function Highlighted({ name, terms }: { name: string; terms: string[] }) {
+  return highlight(name, terms).map((part, i) =>
+    part.mark ? (
+      <mark key={i} className="hit">
+        {part.text}
+      </mark>
+    ) : (
+      part.text
+    ),
+  )
+}
 
 /**
  * Los resultados del diálogo de búsqueda: sin texto, las secciones («Ir a»); con texto, los
@@ -24,6 +37,7 @@ export function SearchList({
   query: string
   door: ReactNode
 }) {
+  const terms = words(query)
   const shown = query.trim()
     ? groups
     : [{ type: 'seccion' as const, items: index.filter((e) => e.type === 'seccion') }]
@@ -46,7 +60,9 @@ export function SearchList({
                     )}
                   </span>
                   <span className="sdlg__t">
-                    <span>{item.name}</span>
+                    <span>
+                      <Highlighted name={item.name} terms={terms} />
+                    </span>
                     {item.detail && <span className="sdlg__d">{item.detail}</span>}
                   </span>
                 </a>
