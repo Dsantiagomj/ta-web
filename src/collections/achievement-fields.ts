@@ -47,7 +47,7 @@ const isLinked = (link: string, data?: Record<string, unknown>) =>
  */
 export function linkedNameValidator(link: string) {
   return (value: string | null | undefined, { data }: LinkedOptions): true | string =>
-    value?.trim() || isLinked(link, data) ? true : 'Escribe un nombre o enlaza el dato de DofusDB.'
+    value?.trim() || isLinked(link, data) ? true : achievementStrings.admin.nameRequired
 }
 
 /** El slug: vacío vale si hay dato de DofusDB, porque sale del nombre; si no, como las guías. */

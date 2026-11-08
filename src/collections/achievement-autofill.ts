@@ -1,15 +1,10 @@
-import {
-  ValidationError,
-  type CollectionBeforeValidateHook,
-  type PayloadRequest,
-  type Where,
-} from 'payload'
+import { ValidationError, type CollectionBeforeValidateHook, type PayloadRequest } from 'payload'
 
 import { achievementValues, groupValues } from '../lib/achievements/dofusdb-source'
 import { fillFromValues } from '../lib/achievements/dofusdb-values'
+import { achievementStrings } from '../lib/achievements/strings'
 import { availableSlug, linkedQuestId, slugFromName } from '../lib/guides/autofill'
-import { isReservedSlug } from '../lib/guides/slug'
-import { slugOwner, type RootSlugCollection } from './root-slug'
+import { isRootSlugTaken, type RootSlugCollection } from './root-slug'
 
 type Doc = Record<string, unknown> & { id?: number; rewards?: Record<string, unknown> | null }
 
@@ -29,17 +24,7 @@ async function freeRootSlug(
   self: RootSlugCollection,
   ownId: number | undefined,
 ): Promise<string> {
-  const isTaken = async (slug: string) => {
-    if (isReservedSlug(slug) || (await slugOwner(req, slug, self))) return true
-    const where: Where = { slug: { equals: slug } }
-    const { totalDocs } = await req.payload.count({
-      collection: self,
-      where: ownId ? { and: [where, { id: { not_equals: ownId } }] } : where,
-      overrideAccess: true,
-      req,
-    })
-    return totalDocs > 0
-  }
+  const isTaken = (slug: string) => isRootSlugTaken(req, slug, self, ownId)
   for (const candidate of candidates) if (!(await isTaken(candidate))) return candidate
   return availableSlug(candidates.at(-1)!, isTaken)
 }
@@ -48,7 +33,7 @@ function requireName(name: unknown, self: RootSlugCollection, req: PayloadReques
   if (typeof name === 'string' && name.trim()) return
   throw new ValidationError({
     collection: self,
-    errors: [{ path: 'name', message: 'Escribe un nombre o enlaza el dato de DofusDB.' }],
+    errors: [{ path: 'name', message: achievementStrings.admin.nameRequired }],
     req,
   })
 }
