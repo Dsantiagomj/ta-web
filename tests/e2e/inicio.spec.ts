@@ -285,3 +285,135 @@ test.describe('portada en el móvil', () => {
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
   })
 })
+
+test.describe('portada: las secciones', () => {
+  test.use({ viewport: { width: 1440, height: 900 } })
+
+  test('el cartel de las misiones cuenta lo mismo que la cabecera', async ({ page }) => {
+    await open(page)
+    const header = (await page.locator('#menu-misiones .panel__d').textContent())!
+    const [guides, achievements] = header.match(/\d[\d\u202f]*/g)!
+    const banner = page.locator('.areas__big .area__d')
+    await expect(banner).toHaveText(
+      new RegExp(`^${guides} misi(ón|ones) en ${achievements} logros?\\.`),
+    )
+    // Los miles con el espacio fino que no se parte, nunca con punto.
+    expect(await banner.textContent()).not.toMatch(/\d\.\d{3}/)
+  })
+
+  test('cada tarjeta es un solo enlace, su título, y va adonde va el menú', async ({ page }) => {
+    await open(page)
+    const section = page.getByRole('region', { name: 'Qué vas a encontrar' })
+    const links = section.getByRole('link')
+    await expect(links).toHaveText([
+      'Misiones y logros',
+      'Guías de Dofus',
+      'Checklists',
+      'Clases',
+      'Mazmorras',
+    ])
+    const footerLinks = page.getByRole('navigation', { name: 'Explorar' }).getByRole('link')
+    const menu = await footerLinks.evaluateAll((as) => as.map((a) => a.getAttribute('href')))
+    const cards = await links.evaluateAll((as) => as.map((a) => a.getAttribute('href')))
+    expect(cards).toEqual(menu)
+    // El enlace cubre la tarjeta: un clic en el arte la abre.
+    await expect(links.nth(1)).toHaveAccessibleDescription(/Lo que pide cada Dofus/)
+  })
+
+  test('al señalar un punto de la guía, su parte se enmarca; los números no tapan texto', async ({
+    page,
+  }) => {
+    await open(page)
+    const ring = (n: number) =>
+      page
+        .locator(`.spec [data-part="${n}"]`)
+        .evaluate((el) => getComputedStyle(el, '::after').opacity)
+    await page.locator('[data-tour-step="3"] h3').hover()
+    await expect.poll(() => ring(3)).toBe('1')
+    // Los rectángulos de cada línea de texto de la guía, sin los números, contra los números.
+    const overlaps = await page.evaluate(() => {
+      const marks = [...document.querySelectorAll('.spec__mark')].map((m) =>
+        m.getBoundingClientRect(),
+      )
+      const walker = document.createTreeWalker(
+        document.querySelector('.spec__page')!,
+        NodeFilter.SHOW_TEXT,
+      )
+      const lines: DOMRect[] = []
+      for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+        if (!node.textContent?.trim() || node.parentElement?.closest('.spec__mark')) continue
+        const range = document.createRange()
+        range.selectNodeContents(node)
+        lines.push(...range.getClientRects())
+      }
+      return marks.filter((m) =>
+        lines.some(
+          (t) => m.left < t.right && m.right > t.left && m.top < t.bottom && m.bottom > t.top,
+        ),
+      ).length
+    })
+    expect(overlaps).toBe(0)
+  })
+
+  test('los checklists, con sus cifras', async ({ page }) => {
+    await open(page)
+    const section = page.getByRole('region', { name: 'Checklists para ir a por tu Dofus' })
+    await expect(section.getByRole('link')).toHaveCount(3)
+    await expect(section).toContainText('100 pasos')
+    await expect(section).toContainText('337 almas')
+  })
+
+  test('Torre: una invitación al Discord y, sin directo, un aviso pequeño', async ({ page }) => {
+    await open(page)
+    const section = page.getByRole('region', { name: 'Las guías son de Torre' })
+    await expect(section.getByRole('link', { name: /Discord/ })).toHaveCount(1)
+    await expect(section).toContainText('Ahora no está en directo.')
+    await expect(page.getByRole('region', { name: 'Torre en directo' })).toHaveCount(0)
+  })
+
+  test('el pie de la portada no repite a Torre y sus tarjetas son compactas', async ({ page }) => {
+    await open(page)
+    const footer = page.locator('footer')
+    await expect(footer.locator('.ft-torre')).toBeHidden()
+    await expect(footer.getByText('Sigue a Torre')).toBeHidden()
+    for (const card of await footer.locator('.ft-join, .ft-kofi').all()) {
+      expect((await card.boundingBox())!.width).toBeLessThanOrEqual(384)
+    }
+  })
+
+  test('cada imagen de la portada carga', async ({ page }) => {
+    await open(page)
+    for (const img of await page.locator('main img').all()) {
+      await img.scrollIntoViewIfNeeded()
+      await expect
+        .poll(() => img.evaluate((node: HTMLImageElement) => node.complete && node.naturalWidth))
+        .toBeGreaterThan(0)
+    }
+  })
+
+  for (const mode of ['dark', 'light']) {
+    test(`la página entera pasa axe (WCAG 2.2 AA) en Arcano ${mode}`, async ({ page }) => {
+      // El modo, por la cookie: así axe no mide a mitad de la transición del interruptor.
+      await page.context().addCookies([{ name: 'ta-mode', value: mode, url: 'http://localhost' }])
+      await open(page)
+      await expect(page.locator('html')).toHaveAttribute('data-mode', mode)
+      const results = await new AxeBuilder({ page }).include('main').withTags(WCAG).analyze()
+      expect(
+        results.violations.map(({ id, nodes }) => ({ id, targets: nodes.map((n) => n.target) })),
+      ).toEqual([])
+    })
+  }
+})
+
+test.describe('portada en el móvil: las secciones', () => {
+  test.use({ viewport: { width: 390, height: 844 } })
+
+  test('las cuatro tarjetas van en 2 × 2 con solo el título', async ({ page }) => {
+    await open(page)
+    const cards = page.locator('.areas > li:not(.areas__big)')
+    const boxes = await cards.evaluateAll((els) => els.map((e) => e.getBoundingClientRect().left))
+    expect(new Set(boxes.map(Math.round)).size).toBe(2)
+    await expect(cards.first().locator('.area__d')).toBeHidden()
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
+  })
+})
