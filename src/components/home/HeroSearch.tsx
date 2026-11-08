@@ -114,11 +114,15 @@ export function HeroSearch({ icon, arrow }: { icon: ReactNode; arrow: ReactNode 
     setActive(-1)
   }
 
-  /** La elegida, o la primera: ordena ya lo escrito aunque la espera de 90 ms no acabara. */
+  /**
+   * La elegida, o la primera. Si en pantalla aún está la lista de antes (la espera de 90 ms),
+   * manda lo escrito: se ordena ya y se abre su primera misión, porque la opción activa era de
+   * la lista vieja y en la nueva señalaría otra.
+   */
   function pick(): SearchEntry | undefined {
     if (!search.run || !search.quests || kind !== 'search') return undefined
-    const list = rankBy === query ? items : search.run.rankQuests(search.quests, query).items
-    return list[active >= 0 ? active : 0]
+    if (rankBy !== query) return search.run.rankQuests(search.quests, query).items[0]
+    return items[active >= 0 ? active : 0]
   }
 
   function go(entry: SearchEntry | undefined, newTab: boolean) {
