@@ -116,6 +116,23 @@ test.describe('portada', () => {
     await expect(page).toHaveURL(new RegExp(`/${seedGuide.prerequisite.slug}$`))
   })
 
+  test('una flecha pulsada mientras llega la lista nueva no deja una opción fantasma', async ({
+    page,
+  }) => {
+    await open(page)
+    await field(page).fill('es')
+    await expect(list(page).getByRole('option')).toHaveCount(2)
+    // «est» deja una sola misión; las flechas llegan antes de que se ordene la lista nueva.
+    await page.keyboard.type('t')
+    await page.keyboard.press('ArrowDown')
+    await page.keyboard.press('ArrowDown')
+    await expect(list(page).getByRole('option')).toHaveCount(1)
+    await expect(field(page)).not.toHaveAttribute('aria-activedescendant')
+    // Desde ahí, la flecha elige la que hay.
+    await page.keyboard.press('ArrowDown')
+    await expect(list(page).getByRole('option').first()).toHaveAttribute('aria-selected', 'true')
+  })
+
   test('Esc cierra, otro Esc borra; un clic fuera cierra', async ({ page }) => {
     await open(page)
     await field(page).fill('es')
