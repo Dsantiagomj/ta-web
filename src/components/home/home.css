@@ -1,0 +1,606 @@
+/* La portada (DESIGN.md, Layout: Home; prototipo aprobado inicio v9). Solo maqueta la página
+   con los tokens de theme.css; la cabecera y el pie son los de todo el sitio. */
+
+.home {
+  --gutter: 16px;
+  --shade: 0.45;
+  color: var(--color-ink-2);
+}
+
+[data-mode='light'] .home {
+  --shade: 0.225;
+}
+
+@media (min-width: 40rem) {
+  .home {
+    --gutter: 24px;
+  }
+}
+
+@media (min-width: 64rem) {
+  .home {
+    --gutter: 48px;
+  }
+}
+
+.home-wrap {
+  box-sizing: content-box;
+  max-width: var(--width-wide);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* ---------- el directo: lo primero bajo la cabecera, solo mientras Torre emite ---------- */
+.live {
+  padding-top: 20px;
+}
+
+.live__card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px 32px;
+  padding: 18px 18px 18px 28px;
+  border: 2px solid var(--color-danger);
+  border-radius: 22px;
+  background: color-mix(in srgb, var(--color-danger) 9%, var(--color-bg));
+  color: var(--color-ink);
+  text-decoration: none;
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.live__card:hover {
+  background: color-mix(in srgb, var(--color-danger) 14%, var(--color-bg));
+}
+
+.live__card:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 4px;
+}
+
+.live__txt {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.live__where {
+  color: var(--color-ink-2);
+}
+
+.live__t {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--color-ink);
+  font: 600 clamp(1.625rem, 1.2rem + 1.5vw, 2.5rem) / 1.05 var(--font-display);
+}
+
+/* El punto del directo: un anillo fijo, sin parpadeo. */
+.live__t::before {
+  content: '';
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-danger);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-danger) 35%, transparent);
+}
+
+.live__title {
+  font-size: 1.125rem;
+}
+
+.live__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 56px;
+  padding: 0 26px;
+  border: 1.5px solid var(--color-accent);
+  border-radius: var(--radius-pill);
+  color: var(--color-accent);
+  font: 600 1.125rem/1 var(--font-display);
+  white-space: nowrap;
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.live__arrow {
+  width: 20px;
+  height: 20px;
+}
+
+.live__card:hover .live__go {
+  background: var(--color-raised);
+}
+
+/* En el móvil, una sola línea: la búsqueda sigue en la primera pantalla. */
+@media (max-width: 39.99rem) {
+  .live {
+    padding-top: 10px;
+  }
+
+  .live__card {
+    gap: 10px;
+    padding: 8px 8px 8px 14px;
+    border-radius: 14px;
+  }
+
+  .live__where,
+  .live__title,
+  .live__more {
+    display: none;
+  }
+
+  .live__t {
+    gap: 10px;
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+
+  .live__t::before {
+    width: 10px;
+    height: 10px;
+  }
+
+  .live__go {
+    height: 40px;
+    padding: 0 14px;
+    font-size: 0.9375rem;
+  }
+
+  .live__arrow {
+    display: none;
+  }
+}
+
+/* ---------- el hero ---------- */
+
+/* Recorta solo a los lados (la isla y los huevos): el panel de la búsqueda cuelga por debajo. */
+.hero {
+  position: relative;
+  padding-top: 16px;
+  overflow-x: clip;
+}
+
+.hero__in {
+  display: grid;
+  gap: 4px;
+}
+
+.hero__txt {
+  position: relative;
+  z-index: 1;
+}
+
+.hero__t {
+  color: var(--color-ink);
+  font: 700 var(--text-hero) / 0.95 var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+/* Lo que es el sitio, como ceja del h1 (DESIGN.md, Typography: --text-eyebrow). */
+.hero__eyebrow {
+  display: block;
+  margin-bottom: 16px;
+  color: var(--color-accent);
+  font: 600 var(--text-eyebrow) / 1.4 var(--font-display);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.hero__lead {
+  max-width: 34em;
+  margin-top: 18px;
+  color: var(--color-ink-2);
+  font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  line-height: 1.55;
+}
+
+/* Torre pregunta; su busto se apoya en la barra, que le tapa los hombros. */
+.ask {
+  max-width: 40rem;
+  margin-top: 28px;
+}
+
+.ask__top {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  padding-left: 14px;
+}
+
+.ask__torre {
+  position: relative;
+  flex: none;
+  width: clamp(104px, 7vw + 72px, 172px);
+  margin-bottom: -22px;
+}
+
+.ask__torre img {
+  width: 100%;
+  transform-origin: 50% 100%;
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+
+/* Escucha mientras escribes. */
+.ask:focus-within .ask__torre img {
+  transform: translateY(-10px) rotate(-4deg);
+}
+
+.ask__line {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  padding-bottom: 30px;
+}
+
+.ask__who {
+  color: var(--color-accent-2);
+  font: 700 1.0625rem/1.2 var(--font-display);
+}
+
+.ask__q {
+  color: var(--color-ink);
+  font: 700 clamp(1.5rem, 1.1rem + 1.5vw, 2.25rem) / 1.1 var(--font-display);
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+/* El ancla del panel: cuelga de aquí y nunca ocupa sitio en la página. Por encima de las
+   secciones y por debajo de la cabecera fija. */
+.ask__field {
+  position: relative;
+  z-index: 30;
+}
+
+.ask__bar {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 72px;
+  padding: 0 8px 0 22px;
+  border: 2px solid var(--color-well-line);
+  border-radius: 20px;
+  background: var(--color-surface);
+  box-shadow: 0 18px 40px -18px rgb(0 0 0 / var(--shade));
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+
+.ask__bar:has(.ask__in:focus-visible) {
+  border-color: var(--color-accent);
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
+}
+
+.ask__icon {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  color: var(--color-ink-2);
+}
+
+.ask__in {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-ink);
+  font: 600 1.1875rem/1 var(--font-body);
+}
+
+.ask__in:focus-visible {
+  outline: none;
+}
+
+.ask__in::placeholder {
+  color: var(--color-muted);
+  font-weight: 500;
+  opacity: 1;
+}
+
+.ask__go {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+  height: 56px;
+  padding: 0 18px 0 20px;
+  border: 0;
+  border-left: 1.5px solid var(--color-line);
+  border-radius: 0 13px 13px 0;
+  background: transparent;
+  color: var(--color-accent);
+  font: 600 1.125rem/1 var(--font-display);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-press) var(--ease-out);
+}
+
+.ask__arrow {
+  width: 20px;
+  height: 20px;
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.ask__go:hover {
+  background: var(--color-raised);
+}
+
+.ask__go:hover .ask__arrow {
+  transform: translateX(3px);
+}
+
+.ask__go:active {
+  transform: scale(0.96);
+}
+
+.ask__go:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -4px;
+}
+
+@media (max-width: 30rem) {
+  .ask__top {
+    gap: 10px;
+    padding-left: 8px;
+  }
+
+  .ask__torre {
+    margin-bottom: -16px;
+  }
+
+  .ask__line {
+    padding-bottom: 24px;
+  }
+
+  .ask__bar {
+    gap: 8px;
+    height: 64px;
+    padding-left: 16px;
+    border-radius: 18px;
+  }
+
+  .ask__icon,
+  .ask__arrow {
+    display: none;
+  }
+
+  .ask__in {
+    font-size: 1.0625rem;
+  }
+
+  .ask__go {
+    height: 50px;
+    padding: 0 14px;
+    font-size: 1rem;
+  }
+}
+
+/* El panel de resultados: flota bajo el campo, así que no mueve nada de la página. */
+.cbx {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  left: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  max-height: var(--cbx-max, 440px);
+  overflow: hidden;
+  border: 1px solid var(--color-well-line);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-float);
+}
+
+.cbx[hidden],
+.cbx__list[hidden] {
+  display: none;
+}
+
+.cbx__st {
+  padding: 10px 16px 8px;
+  border-bottom: 1px solid var(--color-line);
+  color: var(--color-ink-2);
+  font-size: var(--text-sm);
+}
+
+.cbx:not([data-kind='results']) .cbx__st {
+  padding-block: 14px;
+  border-bottom: 0;
+}
+
+.cbx[data-kind='error'] .cbx__st {
+  color: var(--color-danger);
+}
+
+.cbx__list {
+  margin: 0;
+  padding: 6px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  list-style: none;
+}
+
+.cbx__list [role='option'] {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 6px 10px;
+  border-radius: var(--radius-md);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+/* La opción activa: un anillo en el acento sobre raised, no solo un color. */
+.cbx__list [role='option'][aria-selected='true'] {
+  background: var(--color-raised);
+  box-shadow: inset 0 0 0 1.5px var(--color-accent);
+}
+
+.cbx__w {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--color-slot-line);
+  border-radius: 8px;
+  background: var(--color-slot);
+}
+
+.cbx__w img {
+  width: 26px;
+  height: 26px;
+}
+
+.cbx__x {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.cbx__n {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.cbx__d {
+  color: var(--color-ink-2);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+/* Una búsqueda a la vez: mientras se ve la del hero, el botón de la cabecera se aparta sin
+   dejar su sitio (visibility, así que nada se mueve). Ctrl K y / siguen abriendo el diálogo. */
+.site-hdr .spill,
+.site-hdr .sbtn {
+  transition:
+    opacity var(--duration-fast) var(--ease-standard),
+    visibility 0s linear 0s;
+}
+
+html.hs-on .site-hdr .spill,
+html.hs-on .site-hdr .sbtn {
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    opacity var(--duration-fast) var(--ease-standard),
+    visibility 0s linear var(--duration-fast);
+}
+
+/* La isla flotante del Krosmoz y los seis Dofus primordiales alrededor. */
+.hero__art {
+  position: relative;
+  order: -1;
+  aspect-ratio: 16 / 9;
+  margin-inline: calc(var(--gutter) * -1);
+}
+
+.hero__art::before {
+  content: '';
+  position: absolute;
+  inset: 8% 14%;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--color-accent-2) 22%, transparent),
+    transparent
+  );
+}
+
+/* En claro, el fondo oscuro de la isla sería una mancha gris: la máscara deja solo la isla y
+   el halo es un lila suave. */
+[data-mode='light'] .hero__art::before {
+  inset: 14% 20%;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--color-accent-2) 10%, transparent),
+    transparent
+  );
+}
+
+.hero__isle {
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  width: 112%;
+  max-width: none;
+  translate: -50% -50%;
+  mask: radial-gradient(ellipse 50% 50% at 50% 50%, #000 52%, transparent 100%);
+}
+
+[data-mode='light'] .hero__isle {
+  mask: radial-gradient(ellipse 36% 39% at 50% 52%, #000 80%, transparent 97%);
+}
+
+.orb {
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  width: clamp(40px, 4vw + 24px, 76px);
+  translate: -50% -50%;
+}
+
+.orb img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 6px 10px rgb(0 0 0 / 0.35));
+}
+
+[data-mode='light'] .orb img {
+  filter: drop-shadow(0 4px 8px rgb(0 0 0 / 0.18));
+}
+
+/* Los huevos bajan y suben dos veces y se paran: todo movimiento automático acaba antes de
+   cinco segundos (WCAG 2.2.2). Con movimiento reducido no se mueven (globals.css). */
+@keyframes home-bob {
+  0%,
+  100% {
+    transform: none;
+  }
+
+  50% {
+    transform: translateY(7px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .orb img {
+    animation: home-bob 2.2s ease-in-out var(--bob, 0s) 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb img,
+  .ask__torre img {
+    animation: none;
+    transform: none;
+  }
+}
+
+@media (min-width: 64rem) {
+  .hero {
+    padding-top: 40px;
+  }
+
+  .hero__in {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 32px;
+    min-height: 540px;
+  }
+
+  .hero__art {
+    order: 0;
+    aspect-ratio: 5 / 4;
+    margin: 0 calc(var(--gutter) * -1) 0 -40px;
+  }
+}
