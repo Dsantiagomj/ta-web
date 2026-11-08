@@ -205,6 +205,16 @@ test.describe('portada', () => {
   })
 })
 
+test.describe('portada con movimiento reducido', () => {
+  test.use({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' })
+
+  test('Torre no se mueve al enfocar el campo', async ({ page }) => {
+    await open(page)
+    await field(page).focus()
+    await expect(page.locator('.ask__torre img')).toHaveCSS('transform', 'none')
+  })
+})
+
 test.describe('portada en el móvil', () => {
   test.use({ viewport: { width: 390, height: 664 }, hasTouch: true })
 

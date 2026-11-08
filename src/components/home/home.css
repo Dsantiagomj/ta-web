@@ -163,8 +163,11 @@
   overflow-x: clip;
 }
 
+/* minmax(0, 1fr): una palabra larga del título, con la fuente de reserva de Linux, no ensancha
+   la columna más allá de la pantalla. */
 .hero__in {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 4px;
 }
 
@@ -223,9 +226,11 @@
   transition: transform var(--duration-slow) var(--ease-out);
 }
 
-/* Escucha mientras escribes. */
-.ask:focus-within .ask__torre img {
-  transform: translateY(-10px) rotate(-4deg);
+/* Escucha mientras escribes; con movimiento reducido, se queda quieto. */
+@media (prefers-reduced-motion: no-preference) {
+  .ask:focus-within .ask__torre img {
+    transform: translateY(-10px) rotate(-4deg);
+  }
 }
 
 .ask__line {
@@ -579,10 +584,8 @@ html.hs-on .site-hdr .sbtn {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .orb img,
-  .ask__torre img {
+  .orb img {
     animation: none;
-    transform: none;
   }
 }
 
