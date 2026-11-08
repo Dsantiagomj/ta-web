@@ -6,7 +6,9 @@ export const searchResultStrings = {
   goTo: 'Ir a',
   none: (q: string) => `Ninguna misión se llama «${q}». Prueba con otra palabra.`,
   count: (n: number) => (n === 1 ? '1 misión' : `${n} misiones`),
-  many: (n: number) => `Más de ${n} misiones: sigue escribiendo`,
+  /** Delante de «50 misiones», «50 logros» o «50 metalogros» cuando hay más. */
+  over: (count: string) => `más de ${count}`,
+  keepTyping: ': sigue escribiendo',
   nav: (n: number) => (n === 1 ? '1 resultado del menú' : `${n} resultados del menú`),
   noneWithNav: (nav: string) => `Ninguna misión; ${nav}.`,
   level: (level: number) => `Nivel ${level}`,

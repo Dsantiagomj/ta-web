@@ -366,6 +366,18 @@ describe('la línea de estado de la búsqueda', () => {
     )
   })
 
+  it('con más de 50 logros o metalogros también pide que siga escribiendo', () => {
+    expect(status({ questTotal: 0, logros: MANY_QUESTS + 1 })).toBe(
+      'Más de 50 logros: sigue escribiendo',
+    )
+    expect(status({ questTotal: 2, metalogros: MANY_QUESTS + 1, navCount: 1 })).toBe(
+      '2 misiones · más de 50 metalogros: sigue escribiendo · 1 resultado del menú',
+    )
+    expect(status({ questTotal: MANY_QUESTS + 1, navCount: 1 })).toBe(
+      'Más de 50 misiones: sigue escribiendo · 1 resultado del menú',
+    )
+  })
+
   it('mientras cargan las misiones lo dice, y si fallaron también', () => {
     expect(status({ questTotal: 0, guides: 'loading' })).toBe('Cargando las misiones…')
     expect(status({ questTotal: 0, guides: 'idle' })).toBe('Cargando las misiones…')
