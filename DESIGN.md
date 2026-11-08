@@ -315,7 +315,7 @@ Rules:
 - The last word of a list page title may go in `--color-accent` ("Todas las *misiones*").
 - Measure: guide prose at most 72ch; step text and the outro at most 68ch.
 - Numbers in tables, counts and progress use `font-variant-numeric: tabular-nums`.
-- **Figures** (decided 2026-11-07 with home v9): thousands split with a narrow no-break space (U+202F), never a dot: "1 272". Montserrat and Lilita One have no glyph for it, so `<Amount>` (`src/components/ui/Amount.tsx`) puts it in its own span 0.2em wide and keeps the figure on one line. The header counts and the home page use it. Guide quantities in text strings (rewards, item quantities) still use a no-break space (U+00A0) until they move to `<Amount>`.
+- **Figures** (decided 2026-11-07 with home v9): thousands split with a narrow no-break space (U+202F), never a dot: "1 272". Montserrat and Lilita One have no glyph for it, so `<Amount>` (`src/components/ui/Amount.tsx`) puts it in its own span 0.2em wide and keeps the figure on one line. The header counts, the home page and the `/sistema` catalog (Fichas y progreso) use it. Guide quantities in text strings (rewards, item quantities) still use a no-break space (U+00A0) until they move to `<Amount>`.
 - Words never split mid-word: `overflow-wrap: normal; word-break: normal; hyphens: manual` on `body`.
 
 ### Spacing

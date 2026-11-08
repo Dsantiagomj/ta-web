@@ -57,6 +57,8 @@ export const catalogStrings = {
   demo: {
     brand: 'Torrente Arcano',
     siteCounts: { guides: 1272, achievements: 274 },
+    /** Una cifra con miles (Amount) y lo que cuenta. */
+    amountUnit: ' misiones',
     primary: 'Entrar',
     copy: 'Copiar',
     secondary: 'Ver la guía',

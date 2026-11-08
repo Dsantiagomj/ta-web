@@ -42,6 +42,13 @@ function rawToken(section: Locator, name: string) {
 }
 
 test.describe('catálogo /sistema', () => {
+  test('las cifras separan los miles con un espacio fino que no se parte', async ({ page }) => {
+    await page.goto('/sistema?tema=arcano&modo=dark')
+    const amount = page.locator('[data-component="figures"] .amount').first()
+    await expect(amount).toHaveText('1\u202F272')
+    await expect(amount).toHaveCSS('white-space', 'nowrap')
+  })
+
   test('pinta cada componente en los cinco temas y los dos modos', async ({ page }) => {
     await page.goto('/sistema')
     await expect(page.getByRole('heading', { level: 1, name: 'Sistema de diseño' })).toBeVisible()
