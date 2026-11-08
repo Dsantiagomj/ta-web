@@ -171,6 +171,23 @@ export async function applyAchievementFixes(
       report.skipped.push(`${group.name}: tiene un borrador sin publicar en el panel; no se toca`)
       continue
     }
+    // En seco no se importa nada: si el PNJ aún no está, solo se avisa de que se traerá.
+    if (!apply) {
+      const existing = await payload.find({
+        collection: 'npcs',
+        where: { dofusId: { equals: fix.npc } },
+        depth: 0,
+        limit: 1,
+        overrideAccess: true,
+      })
+      const known = existing.docs[0]
+      report.changes.push(
+        known
+          ? `${group.name}: representante ${known.name} (DofusDB ${fix.npc})`
+          : `${group.name}: representante PNJ ${fix.npc} de DofusDB (se importará al aplicar)`,
+      )
+      continue
+    }
     const npc = await ensureNpc(fix.npc)
     if (npc === null) {
       report.skipped.push(`${group.name}: DofusDB no tiene el PNJ ${fix.npc}`)
