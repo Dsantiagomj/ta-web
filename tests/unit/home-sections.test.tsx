@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 
@@ -65,6 +66,12 @@ describe('Una guía para cada misión', () => {
     expect(markup.match(/<li class="tour__step"/g)).toHaveLength(4)
     for (const n of [1, 2, 3, 4]) expect(markup).toContain(`data-part="${n}"`)
     expect(markup).toContain('Seis pies bajo tierra')
+  })
+
+  it('no carga los estilos de las guías: el chip de coordenadas es solo dibujo', () => {
+    const source = readFileSync('src/components/home/GuideTour.tsx', 'utf8')
+    expect(source).not.toMatch(/from '@\/components\/game\/(Coordinates|[A-Z]\w+)'/)
+    expect(markup).toContain('[7,-19]')
   })
 
   it('los números de la guía son decorativos: el texto de los puntos lleva el sentido', () => {
