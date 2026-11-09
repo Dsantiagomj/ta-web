@@ -5,7 +5,7 @@ description: The /metalogros page that lists Torre's metalogros in three groups 
 tags: [achievements, metalogros, frontend, search, caching, islands]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-08T11:00:21.339Z
+    at: 2026-11-09T11:00:21.744Z
 sources:
   - id: openwiki-source-7382aecd8b46a81ca66efc96
     resource: repo://lighthouserc.cjs
@@ -21,9 +21,13 @@ sources:
     resource: repo://src/lib/achievements/metalogros.ts
   - id: openwiki-source-e73131df56ebe53f18c77bc5
     resource: repo://src/lib/achievements/queries.ts
+  - id: openwiki-source-74617dd61aed35536e30e4de
+    resource: repo://src/lib/search/read-index.ts
   - id: openwiki-source-cf2cbbdb1dcdabf3a2d7fb52
     resource: repo://tests/e2e/metalogros.spec.ts
-generated: { by: "claude-code", at: "2026-11-08T11:00:21.339Z" }
+  - id: openwiki-source-e57aa8deceed5152aa47af8a
+    resource: repo://tests/integration/achievement-page-queries.test.ts
+generated: { by: "claude-code", at: "2026-11-09T11:00:21.744Z" }
 ---
 
 # Metalogros index
@@ -66,6 +70,8 @@ The view also builds the search data, compact so it can ship inside the page:
 | `q` | quest name, position in its achievement, index of the achievement in `a` |
 
 An achievement is off when its zone is off or the page is not published.
+
+The same `z` and `a` rows also feed the site-wide search of the header and home page. `achievementSearchRows` in `src/lib/search/read-index.ts` builds this view from `readMetalogrosIndex`, drops every row marked off, and keeps achievements as `[name, slug, metalogro, quests]` and metalogros as `[name, anchor, counts]`. The header and home searches therefore list exactly the achievements and metalogros this page opens (see [Site shell and search](../frontend/site-shell-and-search.md)).
 
 ## Server HTML
 

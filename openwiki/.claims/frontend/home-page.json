@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:4f3449cf3e5973be94fa136ad0429c75b87f46466138aab87f6699ba93f91406",
+  "pageVersion": "sha256:1d3b7f89ff8958ec4a78bb17c6600988ee2cf3b63d5904e2e8d868c0da489ed2",
   "claims": [
     {
       "id": "claim_fd7ce3bd93db451db660f3db73a2994d",
@@ -67,16 +67,16 @@
       "statement": "HeroSearch is a combobox island whose result rows and search engine load with import() on the field's first focus, never on page load, sharing the engine and the single index request with the header search dialog.",
       "evidence": [
         {
-          "resource": "repo://src/components/home/HeroResults.tsx#L1-L15",
-          "version": "repo-lines-v1:sha256:f0b9568ac07433e9555dcd9030a374a7f76eda545832781883a6d761a106d6e3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJlMmIzNTZhODBkMjIxZDIwNzE0Njc3ODNlZGEwZmFjMTcxNjhhNjFlYmQ3ODNiNzhjMjMxODc5OGVlZmU2YzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVjNjkzYWRmMGEyZDU4Nzc4ZWM5MGYyNjEzN2U0Y2FhY2IwYzUwZDEyNzQ4ODJiODY1YzNhNjc3ZDliZmRhMGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZkOTNlNGFhZmI5OGFhYzg0YjVlMzNiMGFiYmEzNjViNDNhNjIyNWJkMzdlYWU1NzJjYTRhODVlYzAzYjk5MTEifQ"
+          "resource": "repo://src/components/home/HeroResults.tsx#L1-L7",
+          "version": "repo-lines-v1:sha256:07b1fca1d65cb72dde546e5e06ffb321fbd2bc592322870d3f0f86e5bbdd6b30:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmUyYjM1NmE4MGQyMjFkMjA3MTQ2Nzc4M2VkYTBmYWMxNzE2OGE2MWViZDc4M2I3OGMyMzE4Nzk4ZWVmZTZjMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2ZhYTc1N2E0OWE0MDEwYzQ1NjM4YmRmOTE5NzljMjBlY2Q4YzViYmI1NjE5MDcyNzI5YmUxYTM2ZWRiYjY0NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTM0OWViMTkwMDU5YTU0MWUwOWVhZmQyYTA1NjZjN2IyMDk5MTU3M2QyMmFjNzIyMmM2N2E1ZDM4YTk5NDYxMiJ9"
         },
         {
           "resource": "repo://src/components/home/HeroSearch.tsx#L23-L32",
-          "version": "repo-lines-v1:sha256:2530e3a92afdd79066f9859f93e4e7c2ec434dd88e462787203d03f9d8d0f687:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlZjhjOWM0MDZkNjk4YWZlYWFlZmU3NDFlNTA0NmRhMDNhNzdjNTgxNmQ5MWY4ODk1MmZjODk1NWM3N2E0ZTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVhNmEwZmY1NmZiYTI3MWQwYzMxY2FmODk1Zjk5YmQyNmY4N2MxYzE1Y2JlYzFiNGY2YjU5N2UzZGZkMmNlOTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ3NTQ2NDlhZjE5NDFlZjA0MWE1YjgxYzE2NDdjYTQxMDI4ZjJmYmE4M2U2ZWM4NWZlZjAzYTU0NTE1ZWYwYTEifQ"
+          "version": "repo-lines-v1:sha256:1ae85d6abcafa3131c42ed659258fe935ac5ef8fd338b1f5012b9fc47ced7a9d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlZjhjOWM0MDZkNjk4YWZlYWFlZmU3NDFlNTA0NmRhMDNhNzdjNTgxNmQ5MWY4ODk1MmZjODk1NWM3N2E0ZTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVhNmEwZmY1NmZiYTI3MWQwYzMxY2FmODk1Zjk5YmQyNmY4N2MxYzE1Y2JlYzFiNGY2YjU5N2UzZGZkMmNlOTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ3NTQ2NDlhZjE5NDFlZjA0MWE1YjgxYzE2NDdjYTQxMDI4ZjJmYmE4M2U2ZWM4NWZlZjAzYTU0NTE1ZWYwYTEifQ"
         },
         {
           "resource": "repo://src/components/home/HeroSearch.tsx#L78-L90",
-          "version": "repo-lines-v1:sha256:7ca63d6731534f28de7c32a5034ae4327cbdec4b98e145b4ec1c0f6d98d3ab72:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5YzlmYjljNWEyYjAyZDgxZWFmYzQ5MGNhMmFjMmY4OTVkNTc1MTdkNTUwYjYyN2Q4MDk5OGFjMmIyZGFlNDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MzU1MmFiNTcxNDk0YjM5OWIxODE5OTYyMmRiZTNiMzgyNmViNjFmY2QxZjc0Y2ZiMTJhYmNmODhlNGY3MjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMzNzBmNDAzMGRkNTEyZDc1YzFjMmE4YmQ3Zjc2MzNkMDhiZjYyZDMwYzczZWVhZTVlZjhmODc4NzMwMWEzZTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjliZTU0ZWZkM2Y5M2NhMjM0Nzk4YTVmNTJkZmQzZjRhNDliMDVmY2Q4Y2E0NzBkZTE5ODhiMDZiMGZkNmY2YTMifQ"
+          "version": "repo-lines-v1:sha256:ac2b3b4f6bef4f26e3fa9107c8afb1df2540b7da6312ffddef7e5b7f86d50d6e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5YzlmYjljNWEyYjAyZDgxZWFmYzQ5MGNhMmFjMmY4OTVkNTc1MTdkNTUwYjYyN2Q4MDk5OGFjMmIyZGFlNDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMzNzBmNDAzMGRkNTEyZDc1YzFjMmE4YmQ3Zjc2MzNkMDhiZjYyZDMwYzczZWVhZTVlZjhmODc4NzMwMWEzZTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMzZTMyZDExOThkOWJmMDMyODZmY2VhMmVjNzc0M2I5MTY0NjdiNzk5ZWQ5ZmFlNmM0ZjZjMWY3NDljYmFjNmUifQ"
         }
       ]
     },
@@ -104,7 +104,7 @@
         },
         {
           "resource": "repo://src/components/home/home.css",
-          "version": "repo-file-v1:sha256:75201f001a420e26e1242c639fae253324ac6a415ef9d86cc862ae3820737d49"
+          "version": "repo-file-v1:sha256:ea66cf4acc7f38070992f6c7f3533f0e8b2121811015da11b630c71ce437dfb6"
         }
       ]
     },
@@ -123,14 +123,42 @@
       "statement": "The home E2E spec checks that the guide index is requested on focus, not on load, plus keyboard behavior, error retry, no layout shift, the header count match, single-link cards and axe in every search state and both modes.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/inicio.spec.ts#L30-L411",
-          "version": "repo-lines-v1:sha256:8c8be01c61d943a6da607c71d35b6f84743acfd2f0ed24ed9d62d01ac20bbc58:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgyLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI3MGJhNzgxOWI0YWQ0NmY2NTliOTQ1M2EzZGNkMjFlY2ZjMzJjNjc1YTU4YjM4YjVjZGZhMzYyNTNiZGQ2YWMxIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIzNjc3NjU2Yjk2NjQxMzA1MTMyNDcyYjI4YTU2MWQ1ZDk0ZjAzNjJhZWMwNTM1MWE0MDdlMzM4YTg2OWE0MTc4IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIyNTNiZWM4ODRjN2M5Njg5NjE3ODM0MDY4NmE5MzljOTJkMjY4MmUzN2EwOGU3ZWM0NWRjYzk4ZjQxZThkMTc2IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJmNWQ4YTY3NjRhOTgwMjY1MTI2MWMyY2NlOTI5NTc5MDkwY2E3OTg1YWEyNjliNzk2NDY1NmFlZTI5Yzk1OWIxIn0"
+          "resource": "repo://tests/e2e/inicio.spec.ts#L30-L450",
+          "version": "repo-lines-v1:sha256:7028e45f752df28bcfd8a3427086fff365c25ef5b9afc8d1bc9882ffa43235d8:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI3MGJhNzgxOWI0YWQ0NmY2NTliOTQ1M2EzZGNkMjFlY2ZjMzJjNjc1YTU4YjM4YjVjZGZhMzYyNTNiZGQ2YWMxIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIyNTNiZWM4ODRjN2M5Njg5NjE3ODM0MDY4NmE5MzljOTJkMjY4MmUzN2EwOGU3ZWM0NWRjYzk4ZjQxZThkMTc2IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_00826685fcc8474fa493d7080e85ed43",
+      "statement": "The hero search lists quests, published achievement pages and open metalogros in groups ranked by best match with quests first on a tie, without the header menu entries, and its status line counts each group.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/site/search.ts#L203-L264",
+          "version": "repo-lines-v1:sha256:a0b987cad6112cee8b64bb6f072bf27696e883839d570f9a68d07b33c70f4881:eyJzZWxlY3RlZExpbmVDb3VudCI6NjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI1Y2Q2ZGI4MDY1YzVmZDM0MzMyMDE2Nzg4NWE4ZDJjMTIxYjdhNTc4ZjBiOTJiMzQwMDYwYjM1MjU5MTY0MzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI3YWVjNTg4ODg4MjQxM2Q3N2FmYTc2NzQ0MDMzMWFmYjExZGEzMzY1NGJlN2MwOTI4ZmFiNzc3ZDc5MDE2MmQifQ"
+        },
+        {
+          "resource": "repo://tests/e2e/inicio.spec.ts#L256-L286",
+          "version": "repo-lines-v1:sha256:e8915a9a4011f02e77a794cd4eb5e530045008a7a245cd209b49afdfe10827d2:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNkYjU1OTgxNGU3MWVmZjZhYjdkZTBiZDNhOWJjNmMzNTJkMGUwYTUyZWQwMzE4ZjU5ZjA5NmI2ODE1YjczZWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhZDE3OGNjMzZiMmMyZDRiNmY5ZmY1OWY0Nzk0M2UzNDJhMzY3ZmU5YzVlMGY3Y2ExMzc1ZjA1NzM2MzZkZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI3MTU5OGNjMzQ1ZDZiNTk4YmFlMTgzY2MyYmYxZDEzOThlMjA0YWQ2YmNmNzUzMGVlYWE4NWM4NjkwYTU4NmIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9b107d8cfbca4596b0c3b8df3903d472",
+      "statement": "With more than one group, HeroOptions renders each as a role=group labelled by its title, with option ids continuing across groups so the arrow keys walk every option in display order; with one group the options are listed without titles.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/home/HeroResults.tsx#L57-L108",
+          "version": "repo-lines-v1:sha256:7f4088dddbe13164afbe5e441051ccd48e50436de228e5c294d02a968409ba42:eyJzZWxlY3RlZExpbmVDb3VudCI6NTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0MGM1ZDNkYzNhNzczMDc5M2M4OTI3OTQ4YjU1OTY2NDIwN2Y3OWJhODc3NzNjMjE1MDA0NDMxOTYyZmQ0ODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/home-hero.test.tsx",
+          "version": "repo-file-v1:sha256:c5d3facdca60279f6e91e85298a1b0599de8c40a6613b1c60c21cb600340295f"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-08T11:00:21.339Z"
+    "at": "2026-11-09T11:00:21.744Z"
   }
 }

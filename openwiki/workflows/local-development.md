@@ -24,6 +24,8 @@ sources:
     resource: repo://scripts/backfill-guides.ts
   - id: openwiki-source-71c840280649a7620f8e010f
     resource: repo://scripts/db-dev.ts
+  - id: openwiki-source-e83c2fdd2947ea7668ffa73d
+    resource: repo://scripts/import/fix-achievements.ts
   - id: openwiki-source-97e144348afe72981f00c973
     resource: repo://scripts/import/import-achievements.ts
   - id: openwiki-source-9e87f9929ce6181cecc80fe9
@@ -44,10 +46,10 @@ sources:
     resource: repo://src/lib/dofusdb/refresh-quests.ts
   - id: openwiki-source-f34ac1e549d94dc3ac475ae4
     resource: repo://src/proxy.ts
-generated: { by: "claude-code", at: "2026-11-08T11:00:21.339Z" }
+generated: { by: "claude-code", at: "2026-11-09T11:00:21.744Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-08T11:00:21.339Z
+    at: 2026-11-09T11:00:21.744Z
 ---
 
 # Local development
@@ -102,6 +104,7 @@ Commit both with the change. CI fails when `src/payload-types.ts` is stale. Afte
 | `pnpm data:quests` | Downloads every quest from the public DofusDB API (about 2,000), the whole monster catalog (about 5,000) and the whole item catalog (about 21,500), and writes them to `quests`, `items` and `monsters` in the `DATABASE_URL` database (the `pnpm db:dev` one when empty). Then it saves every achievement category and the achievements under Misiones and Eventos with their icons, saves the quest-giving NPCs to `npcs` with their renders (the first run takes a while: two images per NPC), creates the missing metalogros and achievement pages «En preparación», and imports the images of the items and monsters some page shows into `media`. The quest download takes about two and a half minutes; writing takes seconds. Failed requests are retried. Writes 8 rows at a time; `DOFUSDB_WRITE_CONCURRENCY` changes that. Never against production without the owner's yes; see [DofusDB game data refresh](../data/dofusdb-refresh.md) |
 | `pnpm import:guides <dir> [slug…]` | Imports Squarespace quest pages from the migration inventory folder into `quest-guides` as drafts, with their images in `media`; without slugs, the five demo guides. Writes to the `DATABASE_URL` database (the `pnpm db:dev` one when empty). Run `pnpm data:quests` first so quests link. Never against production without the owner's yes; see [Squarespace import](../data/squarespace-import.md#running-it) |
 | `pnpm import:achievements <datos.json> [--apply] [--remote] [--production]` | Copies Torre's metalogros index (order, names, slugs, states, hand-picked representatives, loose guides) onto `achievement-groups` and `achievement-pages`. Dry run without `--apply`; run after `pnpm data:quests`. See [Importing Torre's achievement pages](../data/achievements-import.md) |
+| `pnpm fix:achievements [--apply] [--remote] [--production]` | Applies the targeted fixes in `TORRE_FIXES` to a database that already ran `pnpm import:achievements`, without running the import again: representatives, an achievement page's state, name, slug and position, loose guides. Skips anything with an unpublished draft; a second run changes nothing. Dry run without `--apply`. See [Importing Torre's achievement pages](../data/achievements-import.md#targeted-fixes) |
 | `pnpm guides:backfill <dir> [--apply] [--remote] [--production]` | Brings guides imported before two importer changes up to date: restores the closing sentence from the cached Squarespace page and turns monster lists into fight blocks. Dry run without `--apply`; run after `pnpm data:quests`. See [Squarespace import](../data/squarespace-import.md#bringing-imported-guides-up-to-date) |
 | `pnpm media:sizes [--remote] [--production]` | Generates the missing AVIF/WebP sizes of `media` files uploaded before Payload generated them; safe to rerun. Against a non-local database it needs `--remote`, in production `--production`. See [Media storage](../media/storage.md#backfilling-missing-sizes-pnpm-mediasizes) |
 | `pnpm migrate:create <name>` | Writes a new migration |

@@ -26,10 +26,10 @@ sources:
     resource: repo://src/collections/QuestGuides.ts
   - id: openwiki-source-2f2b90aba3af4142e443ba84
     resource: repo://src/lib/guides/strings.ts
-generated: { by: "claude-code", at: "2026-11-08T11:00:21.339Z" }
+generated: { by: "claude-code", at: "2026-11-09T11:00:21.744Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-08T11:00:21.339Z
+    at: 2026-11-09T11:00:21.744Z
 ---
 
 # Quickstart
@@ -73,7 +73,7 @@ Node 24 (≥ 24.22.1) and pnpm 11. No Docker. Details in [Local development](wor
 | Change the schema, connect to Neon, reset local data | [Database and migrations](data/database.md) |
 | Load or refresh DofusDB quests, the monster and item catalogs, achievements and the quest-giving NPCs, import game images, change how quest rewards, needs, zone and achievement are computed, or change how DofusDB requests are retried (`pnpm data:quests`) | [DofusDB game data refresh](data/dofusdb-refresh.md) |
 | Change how Squarespace pages become quest guides, import them (`pnpm import:guides`) or bring imported guides up to date (`pnpm guides:backfill`) | [Squarespace import](data/squarespace-import.md) |
-| Import Torre's metalogros index onto the achievement pages (`pnpm import:achievements`) | [Importing Torre's achievement pages](data/achievements-import.md) |
+| Import Torre's metalogros index onto the achievement pages (`pnpm import:achievements`) or apply targeted fixes afterwards (`pnpm fix:achievements`) | [Importing Torre's achievement pages](data/achievements-import.md) |
 | Upload files, configure R2, serve images, backfill image sizes (`pnpm media:sizes`) | [Media storage](media/storage.md) |
 | Work on dark/light mode or premium themes | [Theme and mode](frontend/theme-and-mode.md) |
 | Use design tokens, fonts, the page shell, the emblem or the favicon | [Styles, tokens and site shell](frontend/styles-and-shell.md) |

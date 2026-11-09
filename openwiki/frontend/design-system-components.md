@@ -78,10 +78,10 @@ sources:
     resource: repo://tests/unit/ui-components.test.tsx
   - id: openwiki-source-b58f839a189d87a7e1f37d39
     resource: repo://vitest.config.mts
-generated: { by: "claude-code", at: "2026-11-08T11:00:21.339Z" }
+generated: { by: "claude-code", at: "2026-11-09T11:00:21.744Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-08T11:00:21.339Z
+    at: 2026-11-09T11:00:21.744Z
 ---
 
 # Design system components
@@ -141,7 +141,7 @@ Controls drawn smaller than 40px carry the `hit-target` class together with Tail
 | `NextQuestCard` | The next quest of the achievement, at the end of the guide (DESIGN.md, Next quest card): the whole card is one link to its guide, with its first screenshot as art, "Siguiente misión", the title, and its level and giver with coordinates. What is missing is not rendered |
 | `TorreTips` | Torre's recommendations (DESIGN.md, Torre's tips): his decorative avatar and a speech bubble with the heading "Recomendaciones de Torre". A `tip` callout in a guide renders as this |
 | `GuideBody`, `GuideSteps`, `GuideBlocks` | Render a guide's blocks on the server: rich text, `Figure`, `VideoFacade`, `FightBlock`, a `Callout` for warnings and `TorreTips` for tips. `GuideBody` wraps the introduction or closing; `GuideSteps` feeds `QuestSteps` with one anchor, pin and block list per step. Headings inside a step start at `h3`, inside a callout at `h4` |
-| `GuideRichText` | A Lexical state rendered with Payload's `RichText` and custom converters: every `[x,y]` in text becomes a coordinates chip except inside a link or code, links keep only `http`, `https`, `mailto` and same-site URLs (`safeHref`), an internal link to a guide points at `/<slug>`, new-tab links get `noopener noreferrer`, headings are clamped to at least the given level so the guide title stays the only `h1`, an uploaded image renders as a `Figure` (only the first one gets priority when asked) and unknown nodes render nothing |
+| `GuideRichText` | A Lexical state rendered with Payload's `RichText` and custom converters: every `[x,y]` in text becomes a coordinates chip except inside a link or code, links keep only `http`, `https`, `mailto` and same-site URLs (`safeHref`), a link to the old Squarespace site that ends in an empty `#` (an imported coordinate that pointed at the guide itself) is dropped so its text is plain prose again and its `[x,y]` becomes a chip, an internal link to a guide points at `/<slug>`, new-tab links get `noopener noreferrer`, headings are clamped to at least the given level so the guide title stays the only `h1`, an uploaded image renders as a `Figure` (only the first one gets priority when asked) and unknown nodes render nothing |
 | `AchievementChain` | The achievement's quests on one line: the current quest as text with `aria-current="page"`, the others as links. Arrows are CSS, so a screen reader hears a numbered list. Chains longer than five are trimmed by `chainWindow` |
 | `VideoFacade` | See below |
 
@@ -180,7 +180,7 @@ These are pure functions with no React or Payload dependency:
 ## Tests
 
 - `tests/unit/ui-components.test.tsx` and `tests/unit/game-components.test.tsx` render each component with `renderToStaticMarkup` and check the markup: button types and variants, accessible names, `Picture` sources, lazy loading and priority, the `Figure` link and its name without alt, which controls are hit targets, the coordinates chip's pin, the fight block, the next quest card with and without art, the quest header (title, subtitle with "Misión 2 de 3" and no link, the giver's two renders and text name, the three columns with icons and the XP range, the rewards bag and its singular, nothing rendered without data), the bag icon and icon wells at 34px at most, steps without numbers, Torre's tips, the chain's current quest and trimming, the video facade with no iframe and its non-YouTube fallback, and the island's closed, named dialog and status region. `vitest.config.mts` includes `.test.tsx` files for these.
-- `tests/unit/guide-body.test.tsx` covers `GuideRichText` (chips in prose but not in links or code, unsafe links as text, `noopener` on new tabs, heading clamping, priority for the first image only, unknown nodes) and `GuideBody`/`GuideSteps` (block order, step anchors, pins only when the text does not name the coordinates, warning and tip rendering).
+- `tests/unit/guide-body.test.tsx` covers `GuideRichText` (chips in prose but not in links or code, unsafe links as text, empty old-site `#` links as text with their chip, `noopener` on new tabs, heading clamping, priority for the first image only, unknown nodes) and `GuideBody`/`GuideSteps` (block order, step anchors, pins only when the text does not name the coordinates, warning and tip rendering).
 - `tests/unit/emblem.test.tsx` covers `Emblem` (decorative, sized, theme colors, the simple variant) and the standalone SVG and favicon built from it.
 - `tests/unit/amount.test.tsx` covers `Amount`'s U+202F separator in its own span; `tests/unit/coordinates.test.ts`, `tests/unit/display-format.test.ts` and `tests/unit/video-url.test.ts` cover the helpers.
 - `tests/e2e/sistema.spec.ts` checks the behavior in a browser, including axe WCAG 2.2 AA. See [Component catalog](component-catalog.md).
