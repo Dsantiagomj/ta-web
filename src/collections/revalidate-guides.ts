@@ -2,6 +2,7 @@ import { revalidateTag } from 'next/cache'
 import type { CollectionAfterChangeHook, CollectionAfterDeleteHook } from 'payload'
 
 import { ACHIEVEMENT_PAGES_TAG } from '../lib/achievements/cache'
+import { DOFUS_GUIDES_TAG } from '../lib/dofus-guides/cache'
 import { GUIDE_PAGES_TAG } from '../lib/guides/cache'
 
 /**
@@ -31,29 +32,53 @@ export function revalidateAchievementPages(): void {
   expire(ACHIEVEMENT_PAGES_TAG)
 }
 
-// Las guías y Media salen en las dos páginas: una guía publicada enlaza su tarjeta en el
-// logro, y un archivo es el icono o el render de las dos.
+/** Las guías de Dofus en caché (src/lib/dofus-guides/cache.ts). */
+export function revalidateDofusGuides(): void {
+  expire(DOFUS_GUIDES_TAG)
+}
+
+// Las guías y Media salen en las tres páginas: una guía publicada enlaza su tarjeta en el
+// logro y su fila en la guía de Dofus, y un archivo es el icono o el render de todas.
 export const revalidateGuidePagesAfterChange: CollectionAfterChangeHook = ({ doc }) => {
   revalidateGuidePages()
   revalidateAchievementPages()
+  revalidateDofusGuides()
   return doc
 }
 
 export const revalidateGuidePagesAfterDelete: CollectionAfterDeleteHook = ({ doc }) => {
   revalidateGuidePages()
   revalidateAchievementPages()
+  revalidateDofusGuides()
   return doc
 }
 
-// Una página de logro o un metalogro salen también en las guías: sus migas y «Misión 2 de 3».
+// Una página de logro o un metalogro salen también en las guías (sus migas y «Misión 2 de
+// 3») y en las guías de Dofus (las misiones de cada logro).
 export const revalidateAchievementPagesAfterChange: CollectionAfterChangeHook = ({ doc }) => {
   revalidateAchievementPages()
   revalidateGuidePages()
+  revalidateDofusGuides()
   return doc
 }
 
 export const revalidateAchievementPagesAfterDelete: CollectionAfterDeleteHook = ({ doc }) => {
   revalidateAchievementPages()
+  revalidateGuidePages()
+  revalidateDofusGuides()
+  return doc
+}
+
+// Una guía de Dofus sale en su página y en el índice, y el menú de todas las páginas
+// enlaza los Dofus publicados: la caché de las guías también caduca.
+export const revalidateDofusGuidesAfterChange: CollectionAfterChangeHook = ({ doc }) => {
+  revalidateDofusGuides()
+  revalidateGuidePages()
+  return doc
+}
+
+export const revalidateDofusGuidesAfterDelete: CollectionAfterDeleteHook = ({ doc }) => {
+  revalidateDofusGuides()
   revalidateGuidePages()
   return doc
 }

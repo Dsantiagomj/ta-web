@@ -13,6 +13,7 @@ export const RESERVED_SLUGS: readonly string[] = [
   'sistema',
   'vista-previa',
   'metalogros',
+  'guias-dofus',
 ]
 
 /** Slug plano en ASCII: minúsculas, cifras y guiones sueltos, sin guiones en los extremos. */

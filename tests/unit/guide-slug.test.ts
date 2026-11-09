@@ -18,7 +18,7 @@ describe('isGuideSlug', () => {
   })
 
   it('rechaza las rutas propias del sitio: siempre ganan a una guía', () => {
-    for (const slug of ['admin', 'api', 'sistema', 'vista-previa', 'metalogros']) {
+    for (const slug of ['admin', 'api', 'sistema', 'vista-previa', 'metalogros', 'guias-dofus']) {
       expect(RESERVED_SLUGS).toContain(slug)
       expect(isGuideSlug(slug), slug).toBe(false)
     }

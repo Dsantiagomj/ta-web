@@ -78,6 +78,7 @@ export interface Config {
     'quest-guides': QuestGuide;
     'achievement-pages': AchievementPage;
     'achievement-groups': AchievementGroup;
+    'dofus-guides': DofusGuide;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -96,6 +97,7 @@ export interface Config {
     'quest-guides': QuestGuidesSelect<false> | QuestGuidesSelect<true>;
     'achievement-pages': AchievementPagesSelect<false> | AchievementPagesSelect<true>;
     'achievement-groups': AchievementGroupsSelect<false> | AchievementGroupsSelect<true>;
+    'dofus-guides': DofusGuidesSelect<false> | DofusGuidesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -824,6 +826,286 @@ export interface AchievementGroup {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "dofus-guides".
+ */
+export interface DofusGuide {
+  id: number;
+  /**
+   * El objeto Dofus de DofusDB: de él sale el huevo de la tarjeta, del menú y de la página.
+   */
+  dofus?: (number | null) | Item;
+  /**
+   * El nombre del Dofus, como sale en la tarjeta y en el título de la página.
+   */
+  name: string;
+  /**
+   * La URL de la guía, la misma que en la web de Torre: dofus-abisal.
+   */
+  slug: string;
+  /**
+   * Publicada: se ve y se puede abrir. En preparación: se ve apagada, sin enlace, con la etiqueta «En preparación». Lo decides tú; el refresco de DofusDB no lo cambia.
+   */
+  state: 'published' | 'preparing';
+  /**
+   * Su lugar en la lista de guías: el 1 sale primero.
+   */
+  order: number;
+  /**
+   * El nivel del Dofus en DofusDB.
+   */
+  level?: number | null;
+  /**
+   * Los filtros del índice. Vacío si no es primordial ni de evento.
+   */
+  tag?: ('primordial' | 'event') | null;
+  /**
+   * El brillo detrás del huevo, en hexadecimal (#2a5aaa).
+   */
+  color?: string | null;
+  /**
+   * Otros nombres con los que se busca, separados por comas (zanahoria, kaliptus).
+   */
+  aliases?: string | null;
+  prerequisites?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Lo que pide el Dofus, por grupos. Un objeto enlazado sale con su icono y se copia de un clic.
+   */
+  needs?: {
+    /**
+     * Vacío: «Necesitarás».
+     */
+    title?: string | null;
+    groups?:
+      | {
+          name?: string | null;
+          rows?: (DofusNeedItemBlock | DofusNeedNoteBlock)[] | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  rewards?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  intro?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Los logros y las misiones en el orden en que se hacen. Las misiones de cada logro salen de su página de logro: se cambian allí.
+   */
+  parts?: (DofusAchievementBlock | DofusMetalogroBlock | DofusQuestsBlock | DofusQuestBlock | DofusNoteBlock)[] | null;
+  /**
+   * Para las guías paso a paso, como la Piñata de pino.
+   */
+  body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock | FightBlock | StepBlock)[] | null;
+  outro?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Enlace al vídeo de la guía en YouTube (youtube.com o youtu.be).
+   */
+  video?: string | null;
+  /**
+   * La checklist de este Dofus, si tiene: sale como tarjeta en la guía.
+   */
+  checklist?: {
+    name?: string | null;
+    url?: string | null;
+  };
+  /**
+   * URL de la página en Squarespace
+   */
+  originalUrl?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DofusNeedItemBlock".
+ */
+export interface DofusNeedItemBlock {
+  item?: (number | null) | Item;
+  quantity: number;
+  /**
+   * El nombre si el objeto no está enlazado. Enlazado, sale el nombre del objeto.
+   */
+  name?: string | null;
+  /**
+   * Una nota corta junto al nombre, como «(solo empezarla)».
+   */
+  note?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'needItem';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DofusNeedNoteBlock".
+ */
+export interface DofusNeedNoteBlock {
+  text: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'needNote';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DofusAchievementBlock".
+ */
+export interface DofusAchievementBlock {
+  achievement: number | AchievementPage;
+  /**
+   * Una nota corta junto al nombre, como «(solo empezarla)».
+   */
+  note?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'dofusAchievement';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DofusMetalogroBlock".
+ */
+export interface DofusMetalogroBlock {
+  name: string;
+  achievements?:
+    | {
+        achievement: number | AchievementPage;
+        /**
+         * Una nota corta junto al nombre, como «(solo empezarla)».
+         */
+        note?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'dofusMetalogro';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DofusQuestsBlock".
+ */
+export interface DofusQuestsBlock {
+  title?: string | null;
+  quests?:
+    | {
+        guide: number | QuestGuide;
+        /**
+         * Una nota corta junto al nombre, como «(solo empezarla)».
+         */
+        note?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'dofusQuests';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DofusQuestBlock".
+ */
+export interface DofusQuestBlock {
+  guide: number | QuestGuide;
+  /**
+   * Una nota corta junto al nombre, como «(solo empezarla)».
+   */
+  note?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'dofusQuest';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DofusNoteBlock".
+ */
+export interface DofusNoteBlock {
+  text: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'dofusNote';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -889,6 +1171,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'achievement-groups';
         value: number | AchievementGroup;
+      } | null)
+    | ({
+        relationTo: 'dofus-guides';
+        value: number | DofusGuide;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1415,6 +1701,154 @@ export interface AchievementGroupsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "dofus-guides_select".
+ */
+export interface DofusGuidesSelect<T extends boolean = true> {
+  dofus?: T;
+  name?: T;
+  slug?: T;
+  state?: T;
+  order?: T;
+  level?: T;
+  tag?: T;
+  color?: T;
+  aliases?: T;
+  prerequisites?: T;
+  needs?:
+    | T
+    | {
+        title?: T;
+        groups?:
+          | T
+          | {
+              name?: T;
+              rows?:
+                | T
+                | {
+                    needItem?: T | DofusNeedItemBlockSelect<T>;
+                    needNote?: T | DofusNeedNoteBlockSelect<T>;
+                  };
+              id?: T;
+            };
+      };
+  rewards?: T;
+  intro?: T;
+  parts?:
+    | T
+    | {
+        dofusAchievement?: T | DofusAchievementBlockSelect<T>;
+        dofusMetalogro?: T | DofusMetalogroBlockSelect<T>;
+        dofusQuests?: T | DofusQuestsBlockSelect<T>;
+        dofusQuest?: T | DofusQuestBlockSelect<T>;
+        dofusNote?: T | DofusNoteBlockSelect<T>;
+      };
+  body?:
+    | T
+    | {
+        richText?: T | RichTextBlockSelect<T>;
+        image?: T | ImageBlockSelect<T>;
+        video?: T | VideoBlockSelect<T>;
+        callout?: T | CalloutBlockSelect<T>;
+        fight?: T | FightBlockSelect<T>;
+        step?: T | StepBlockSelect<T>;
+      };
+  outro?: T;
+  video?: T;
+  checklist?:
+    | T
+    | {
+        name?: T;
+        url?: T;
+      };
+  originalUrl?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DofusNeedItemBlock_select".
+ */
+export interface DofusNeedItemBlockSelect<T extends boolean = true> {
+  item?: T;
+  quantity?: T;
+  name?: T;
+  note?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DofusNeedNoteBlock_select".
+ */
+export interface DofusNeedNoteBlockSelect<T extends boolean = true> {
+  text?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DofusAchievementBlock_select".
+ */
+export interface DofusAchievementBlockSelect<T extends boolean = true> {
+  achievement?: T;
+  note?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DofusMetalogroBlock_select".
+ */
+export interface DofusMetalogroBlockSelect<T extends boolean = true> {
+  name?: T;
+  achievements?:
+    | T
+    | {
+        achievement?: T;
+        note?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DofusQuestsBlock_select".
+ */
+export interface DofusQuestsBlockSelect<T extends boolean = true> {
+  title?: T;
+  quests?:
+    | T
+    | {
+        guide?: T;
+        note?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DofusQuestBlock_select".
+ */
+export interface DofusQuestBlockSelect<T extends boolean = true> {
+  guide?: T;
+  note?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DofusNoteBlock_select".
+ */
+export interface DofusNoteBlockSelect<T extends boolean = true> {
+  text?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

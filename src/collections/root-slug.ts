@@ -10,13 +10,15 @@ import { isReservedSlug } from '../lib/guides/slug'
 
 /**
  * Las colecciones con página en la raíz del sitio, /<slug>: las guías y las páginas de
- * logro (src/app/(frontend)/[slug]), y los metalogros, que usan los slugs de Torre
- * (metalogro-astrub). Comparten un solo espacio de slugs.
+ * logro (src/app/(frontend)/[slug]), los metalogros, que usan los slugs de Torre
+ * (metalogro-astrub), y las guías de Dofus, con los slugs de su web (dofus-abisal).
+ * Comparten un solo espacio de slugs.
  */
 export const ROOT_SLUG_COLLECTIONS = [
   'quest-guides',
   'achievement-pages',
   'achievement-groups',
+  'dofus-guides',
 ] as const
 
 export type RootSlugCollection = (typeof ROOT_SLUG_COLLECTIONS)[number]
@@ -25,6 +27,7 @@ const OWNER: Record<RootSlugCollection, string> = {
   'quest-guides': 'una guía',
   'achievement-pages': 'un logro',
   'achievement-groups': 'un metalogro',
+  'dofus-guides': 'una guía de Dofus',
 }
 
 /**
