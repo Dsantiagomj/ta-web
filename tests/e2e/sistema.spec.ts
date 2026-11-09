@@ -121,6 +121,11 @@ test.describe('catálogo /sistema', () => {
     await name.hover()
     await expect(name.locator('.copyname__ok')).toHaveCSS('opacity', '1')
 
+    // En el chip, «× 1» va justo detrás del nombre: el chip no enseña icono de copiar.
+    const chip = page.getByRole('button', { name: 'Copiar Dofus Esmeralda' })
+    await chip.hover()
+    await expect(chip.locator('.copyname__i').first()).toBeHidden()
+
     await page.getByRole('button', { name: 'Copiar Pico de tofu' }).press('Enter')
     await expect(page.getByRole('status')).toHaveText('Copiado: Pico de tofu')
   })

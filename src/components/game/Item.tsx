@@ -37,7 +37,7 @@ export function CopyName({ name }: { name: string }) {
 /** Objeto en una línea: icono de 24px, nombre y «× 1» (DESIGN.md, Item chip). */
 export function ItemChip({ item, quantity }: { item: GameItem; quantity: number }) {
   return (
-    <span className="copyhost inline-flex h-8 items-center gap-1.5 rounded-pill bg-raised pr-2.5 pl-1 text-xs font-semibold text-ink">
+    <span className="copyhost copyhost--chip inline-flex h-8 items-center gap-1.5 rounded-pill bg-raised pr-2.5 pl-1 text-xs font-semibold text-ink">
       {item.icon ? (
         <Picture image={item.icon} alt="" className="size-6" />
       ) : (
