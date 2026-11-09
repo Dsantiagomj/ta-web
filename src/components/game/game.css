@@ -659,6 +659,11 @@
   }
 }
 
+/* En el chip, «× 1» va justo detrás del nombre: sin icono de copiar, que lo taparía. */
+.copyhost--chip .copyname[role='button'] .copyname__i {
+  display: none;
+}
+
 /* ---------- pasos ---------- */
 
 /* Sin números: los pasos se separan con una línea, sin línea encima del primero. */
