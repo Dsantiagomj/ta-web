@@ -1,19 +1,49 @@
 import { Picture } from '@/components/ui/Picture'
 import { formatAmount } from '@/lib/guides/display'
 
+import './game.css'
+import { CheckIcon, CopyIcon } from './icons'
 import { gameStrings } from './strings'
 import type { GameItem } from './types'
+
+const s = gameStrings.items
+
+/**
+ * El nombre de un objeto, que copia el nombre sin la cantidad para pegarlo en el buscador
+ * del juego (DESIGN.md, Item chip and item slot, Copy). La isla de la página
+ * (PageEnhancements) lo convierte en botón con el nombre «Copiar …»; sin JavaScript es
+ * texto. Su ::after cubre el objeto que lo contiene (`copyhost`), así que su icono también
+ * copia. En reposo se ve como siempre: el icono de copiar y el de hecho solo aparecen con
+ * el ratón encima o con el foco.
+ */
+export function CopyName({ name }: { name: string }) {
+  return (
+    <span
+      className="copyname"
+      data-copy={name}
+      data-copy-label={s.copyLabel(name)}
+      data-copy-failed={s.copyFailed(name)}
+    >
+      {/* Lo que se encoge al pulsar: el botón no, para que su ::after siga cubriendo el objeto. */}
+      <span className="copyname__t">
+        {name}
+        <CopyIcon className="copyname__i" />
+        <CheckIcon className="copyname__i copyname__ok" />
+      </span>
+    </span>
+  )
+}
 
 /** Objeto en una línea: icono de 24px, nombre y «× 1» (DESIGN.md, Item chip). */
 export function ItemChip({ item, quantity }: { item: GameItem; quantity: number }) {
   return (
-    <span className="inline-flex h-8 items-center gap-1.5 rounded-pill bg-raised pr-2.5 pl-1 text-xs font-semibold text-ink">
+    <span className="copyhost inline-flex h-8 items-center gap-1.5 rounded-pill bg-raised pr-2.5 pl-1 text-xs font-semibold text-ink">
       {item.icon ? (
         <Picture image={item.icon} alt="" className="size-6" />
       ) : (
         <span className="size-6" />
       )}
-      {item.name}
+      <CopyName name={item.name} />
       <span className="font-medium text-ink-2">{gameStrings.quantitySuffix(quantity)}</span>
     </span>
   )
@@ -33,8 +63,8 @@ export function ItemSlot({
   as?: 'li' | 'div'
 }) {
   return (
-    <Tag className="grid w-[104px] justify-items-center gap-1.5 text-center">
-      <span className="relative grid size-[72px] place-items-center rounded-sm border border-line bg-raised">
+    <Tag className="copyhost grid w-[104px] justify-items-center gap-1.5 text-center">
+      <span className="copywell relative grid size-[72px] place-items-center rounded-sm border border-line bg-raised">
         {item.icon && <Picture image={item.icon} alt="" className="size-12" />}
         <span
           aria-hidden="true"
@@ -45,7 +75,7 @@ export function ItemSlot({
       </span>
       <span className="text-xs text-ink-2">
         <span className="sr-only">{gameStrings.quantityPrefix(quantity)}</span>
-        {item.name}
+        <CopyName name={item.name} />
       </span>
     </Tag>
   )

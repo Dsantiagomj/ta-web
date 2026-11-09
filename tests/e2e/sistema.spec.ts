@@ -95,6 +95,36 @@ test.describe('catálogo /sistema', () => {
     await expect(page.getByRole('status')).toHaveText('Copiado: /travel 5,-18')
   })
 
+  test('un objeto copia su nombre, lo anuncia y su icono también copia', async ({
+    page,
+    context,
+  }) => {
+    await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+    await page.goto('/sistema?tema=arcano&modo=dark')
+
+    // En reposo, el objeto se ve como siempre: sin el icono de copiar.
+    const header = page.locator('[data-component="header"]')
+    const name = header.getByRole('button', { name: 'Copiar Ojo de arakmutada' })
+    await expect(name.locator('.copyname__i').first()).toHaveCSS('opacity', '0')
+
+    // Un clic en el hueco del icono copia el nombre, sin la cantidad.
+    const row = header.locator('li', {
+      has: page.getByRole('button', { name: 'Copiar Ojo de arakmutada' }),
+    })
+    // El centro del hueco de 44px: el ::after del nombre lo cubre.
+    await row.click({ position: { x: 22, y: 22 } })
+    await expect(page.getByRole('status')).toHaveText('Copiado: Ojo de arakmutada')
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('Ojo de arakmutada')
+    await expect(name).toHaveAttribute('data-copied', '')
+
+    // Con el ratón encima: el nombre en accent y el icono a la vista.
+    await name.hover()
+    await expect(name.locator('.copyname__ok')).toHaveCSS('opacity', '1')
+
+    await page.getByRole('button', { name: 'Copiar Pico de tofu' }).press('Enter')
+    await expect(page.getByRole('status')).toHaveText('Copiado: Pico de tofu')
+  })
+
   test('todo control con hit-target tiene al menos 40px de objetivo', async ({ page }) => {
     await page.goto('/sistema?tema=arcano&modo=dark')
     const heights = await page

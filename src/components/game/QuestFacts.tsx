@@ -6,6 +6,7 @@ import type { QuestHeaderData } from '@/lib/guides/page'
 import './game.css'
 import { ChevronIcon } from './icons'
 import { IconWell } from './IconWell'
+import { CopyName } from './Item'
 import { gameStrings } from './strings'
 
 const s = gameStrings.header
@@ -52,6 +53,7 @@ function Amount({ value }: { value: number }) {
  * Prerrequisitos, Necesitarás y Recompensas con los iconos del juego en sus huecos
  * (DESIGN.md, Quest header). Una columna sin filas no se pinta; sin ninguna, nada. La
  * página del logro cambia los títulos («Necesitarás en total», «Recompensas del logro»).
+ * Cada objeto de Necesitarás copia su nombre; las notas y la bolsa no copian nada.
  */
 export function QuestFacts({
   facts,
@@ -91,10 +93,10 @@ export function QuestFacts({
           <Sub id={`${id}-nec`}>{labels.needs ?? s.needs}</Sub>
           <ul role="list">
             {needs.items.map(({ item, quantity }) => (
-              <li key={item.name} className="row">
+              <li key={item.name} className="row copyhost">
                 <IconWell image={item.icon} />
                 <span>
-                  <b>{s.quantity(quantity)}</b> {item.name}
+                  <b>{s.quantity(quantity)}</b> <CopyName name={item.name} />
                 </span>
               </li>
             ))}

@@ -195,7 +195,7 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
             </Card>
           </Group>
 
-          <Group name="items">
+          <Group name="items" note={s.notes.items}>
             <ItemChip item={items.esmeralda} quantity={1} />
             <ItemChip item={{ name: 'Ron marino' }} quantity={10} />
             <ul className="flex flex-wrap gap-2.5" role="list">

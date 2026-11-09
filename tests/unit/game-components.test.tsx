@@ -60,6 +60,34 @@ describe('Objetos', () => {
     expect(markup).toMatch(/aria-hidden="true"[^>]*>1<\/span>/)
   })
 
+  // Solo el nombre es el botón: su texto visible es el nombre accesible sin «Copiar»
+  // (WCAG 2.5.3); su ::after cubre el chip o la casilla, así que el icono también copia.
+  const copyName = (name: string) =>
+    `<span class="copyname" data-copy="${name}" data-copy-label="Copiar ${name}" data-copy-failed="No se pudo copiar. Busca «${name}» en el juego."><span class="copyname__t">${name}`
+
+  it('el chip copia el nombre del objeto, sin la cantidad', () => {
+    const markup = html(<ItemChip item={pico} quantity={1} />)
+    expect(markup).toMatch(/^<span class="copyhost /)
+    expect(markup).toContain(copyName('Pico de tofu'))
+    expect(markup.match(/data-copy=/g)).toHaveLength(1)
+  })
+
+  it('la casilla copia el nombre del objeto y sigue siendo un elemento de la lista', () => {
+    const markup = html(<ItemSlot item={pico} quantity={1} />)
+    expect(markup).toMatch(/^<li class="copyhost /)
+    expect(markup).toContain(copyName('Pico de tofu'))
+    // La cantidad se sigue leyendo antes del nombre, fuera del botón.
+    expect(markup).toContain('<span class="sr-only">1 × </span><span class="copyname"')
+  })
+
+  it('el icono de copiar y el de hecho van dentro del nombre, ocultos a los lectores', () => {
+    const markup = html(<ItemChip item={pico} quantity={1} />)
+    expect(markup.match(/class="copyname__i[^"]*"/g)).toEqual([
+      'class="copyname__i"',
+      'class="copyname__i copyname__ok"',
+    ])
+  })
+
   it('sin icono deja el hueco vacío', () => {
     expect(html(<ItemSlot item={{ name: 'Ojo de arakmutada' }} quantity={1000} />)).not.toContain(
       '<img',
@@ -223,6 +251,30 @@ describe('QuestHeader', () => {
     expect(text(markup)).toContain('1 × Pico de tofu')
     expect(text(markup)).toContain('1 × Combate (solo)')
     expect(markup).toContain('<a href="/esto-hace-aguas">Esto hace aguas</a>')
+  })
+
+  it('cada objeto de Necesitarás copia su nombre; las notas y la bolsa no copian nada', () => {
+    const needs = {
+      ...data,
+      needs: {
+        items: [{ item: { name: 'Pluma de Kwak de viento', icon }, quantity: 10 }],
+        notes: [{ quantity: 1, label: 'Combate (solo)', combat: true }],
+      },
+    }
+    const markup = html(<QuestHeader title="x" data={needs} />)
+    const copies = [...markup.matchAll(/data-copy="([^"]+)"/g)].map((m) => m[1])
+    // El /travel del PNJ y el objeto: ni la nota ni los objetos de la recompensa.
+    expect(copies).toEqual(['/travel 7,-19', 'Pluma de Kwak de viento'])
+    expect(markup).toContain('data-copy-label="Copiar Pluma de Kwak de viento"')
+    expect(markup).toContain(
+      'data-copy-failed="No se pudo copiar. Busca «Pluma de Kwak de viento» en el juego."',
+    )
+    // La fila sigue igual: el icono en su hueco, «10 ×» y el nombre, que es el botón.
+    expect(markup).toMatch(/<li class="row copyhost"><span class="well"/)
+    expect(markup).toMatch(
+      /<b>10 ×<\/b> <span class="copyname" data-copy="Pluma de Kwak de viento"/,
+    )
+    expect(text(markup)).toContain('10 × Pluma de Kwak de viento')
   })
 
   it('los objetos de la recompensa van en la bolsa: un botón que abre su lista', () => {
