@@ -10,6 +10,7 @@ import { AchievementCategories } from './collections/AchievementCategories'
 import { AchievementGroups } from './collections/AchievementGroups'
 import { AchievementPages } from './collections/AchievementPages'
 import { Achievements } from './collections/Achievements'
+import { DofusGuides } from './collections/DofusGuides'
 import { Items } from './collections/Items'
 import { Media } from './collections/Media'
 import { Monsters } from './collections/Monsters'
@@ -45,6 +46,7 @@ export default buildConfig({
     QuestGuides,
     AchievementPages,
     AchievementGroups,
+    DofusGuides,
   ],
   editor: lexicalEditor(),
   // GET /api/health, para los smoke tests tras un despliegue; GET /api/search/guides, el

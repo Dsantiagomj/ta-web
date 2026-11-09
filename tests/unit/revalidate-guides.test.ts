@@ -8,10 +8,12 @@ vi.mock('next/cache', async (importOriginal) => ({
 
 import { AchievementGroups } from '@/collections/AchievementGroups'
 import { AchievementPages } from '@/collections/AchievementPages'
+import { DofusGuides } from '@/collections/DofusGuides'
 import { Media } from '@/collections/Media'
 import { QuestGuides } from '@/collections/QuestGuides'
 import { revalidateGuidePages } from '@/collections/revalidate-guides'
 import { ACHIEVEMENT_PAGES_TAG } from '@/lib/achievements/cache'
+import { DOFUS_GUIDES_TAG } from '@/lib/dofus-guides/cache'
 import { GUIDE_PAGES_TAG } from '@/lib/guides/cache'
 
 afterEach(() => revalidateTag.mockReset())
@@ -90,4 +92,38 @@ describe('páginas de logro', () => {
       expect(collection.hooks?.afterDelete).toHaveLength(1)
     },
   )
+})
+
+describe('guías de Dofus', () => {
+  const hookArgs = { doc: { id: 1 } } as never
+
+  it('una guía de Dofus guardada o borrada caduca su caché y la de las guías: el menú la lista', async () => {
+    for (const hook of [
+      ...(DofusGuides.hooks?.afterChange ?? []),
+      ...(DofusGuides.hooks?.afterDelete ?? []),
+    ]) {
+      revalidateTag.mockReset()
+      expect(await hook(hookArgs)).toEqual({ id: 1 })
+      expect(revalidateTag).toHaveBeenCalledWith(DOFUS_GUIDES_TAG, { expire: 0 })
+      expect(revalidateTag).toHaveBeenCalledWith(GUIDE_PAGES_TAG, { expire: 0 })
+    }
+    expect(DofusGuides.hooks?.afterChange).toHaveLength(1)
+    expect(DofusGuides.hooks?.afterDelete).toHaveLength(1)
+  })
+
+  it.each([
+    ['quest-guides', QuestGuides],
+    ['achievement-pages', AchievementPages],
+    ['achievement-groups', AchievementGroups],
+    ['media', Media],
+  ])('%s guardado o borrado caduca las guías de Dofus: las muestran', async (_, collection) => {
+    for (const hook of [
+      ...(collection.hooks?.afterChange ?? []),
+      ...(collection.hooks?.afterDelete ?? []),
+    ]) {
+      revalidateTag.mockReset()
+      await hook(hookArgs)
+      expect(revalidateTag).toHaveBeenCalledWith(DOFUS_GUIDES_TAG, { expire: 0 })
+    }
+  })
 })
