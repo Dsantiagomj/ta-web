@@ -31,10 +31,23 @@ test.describe('cabecera', () => {
   test('tiene un desplegable por sección y Dofus trae también los checklists', async ({ page }) => {
     await open(page)
     const nav = page.getByRole('navigation', { name: 'Principal' })
-    for (const name of ['Misiones', 'Dofus', 'Clases', 'Mazmorras']) {
+    for (const name of ['Misiones', 'Dofus']) {
       await expect(nav.getByRole('button', { name, exact: true })).toBeVisible()
     }
     await expect(nav.getByRole('button', { name: 'Checklists' })).toHaveCount(0)
+    // Clases y Mazmorras aún no tienen páginas: se ven, con «Próximamente», sin botón ni enlace.
+    for (const name of ['Clases', 'Mazmorras']) {
+      await expect(nav.getByRole('button', { name: new RegExp(name) })).toHaveCount(0)
+      await expect(nav.getByRole('link', { name: new RegExp(name) })).toHaveCount(0)
+      const soon = nav.locator('.np--soon', { hasText: name })
+      await expect(soon).toBeVisible()
+      await expect(soon).toHaveAttribute('aria-disabled', 'true')
+      await expect(soon).toContainText('Próximamente')
+      // Un clic no abre nada ni lo marca como desplegado.
+      await soon.click()
+      await expect(soon).not.toHaveAttribute('aria-expanded')
+      await expect(page.locator('.panel:not([hidden])')).toHaveCount(0)
+    }
 
     const dofus = nav.getByRole('button', { name: 'Dofus', exact: true })
     await dofus.click()
@@ -42,7 +55,18 @@ test.describe('cabecera', () => {
     const panel = page.locator('#menu-dofus')
     await expect(panel.getByRole('link', { name: /Dofus Silvestre/ })).toBeVisible()
     await expect(panel.getByRole('link', { name: 'Dofus Ébano' })).toBeVisible()
-    await expect(panel.getByRole('listitem')).toHaveCount(3 + 19)
+    await expect(panel.getByRole('listitem')).toHaveCount(3 + 30)
+    // Los nueve que Torre aún no tiene escritos no son enlaces.
+    await expect(panel.locator('.egg-soon')).toHaveCount(9)
+    await expect(panel.getByRole('link', { name: 'Jyfus' })).toHaveCount(0)
+    await expect(panel.getByRole('link', { name: 'Piñata de Pino' })).toHaveAttribute(
+      'href',
+      'https://www.torrentearcano.com/piata-de-pino',
+    )
+    await expect(panel.getByRole('link', { name: 'Ver todas las guías de Dofus' })).toHaveAttribute(
+      'href',
+      'https://www.torrentearcano.com/guias-dofus',
+    )
     // Las imágenes del juego cargan.
     for (const img of await panel.locator('img').all()) {
       await expect
@@ -57,29 +81,29 @@ test.describe('cabecera', () => {
 
     // Abrir otro cierra el anterior; un clic fuera los cierra todos.
     await dofus.click()
-    await nav.getByRole('button', { name: 'Clases' }).click()
+    await nav.getByRole('button', { name: 'Misiones' }).click()
     await expect(panel).toBeHidden()
-    await expect(page.locator('#menu-clases').getByRole('link')).toHaveCount(19 + 1)
+    await expect(page.locator('#menu-misiones')).toBeVisible()
     await page.mouse.click(1300, 700)
-    await expect(page.locator('#menu-clases')).toBeHidden()
+    await expect(page.locator('#menu-misiones')).toBeHidden()
   })
 
   test('con el teclado: Tab entra al panel y salir con Tab lo cierra', async ({ page }) => {
     await open(page)
-    const button = page.getByRole('button', { name: 'Mazmorras' })
+    const button = page.getByRole('button', { name: 'Misiones' })
     await button.focus()
     await page.keyboard.press('Enter')
-    await expect(page.locator('#menu-mazmorras')).toBeVisible()
+    await expect(page.locator('#menu-misiones')).toBeVisible()
     for (let i = 0; i < 12; i++) await page.keyboard.press('Tab')
-    await expect(page.locator('#menu-mazmorras')).toBeHidden()
+    await expect(page.locator('#menu-misiones')).toBeHidden()
   })
 
   test('las flechas recorren los enlaces del panel abierto', async ({ page }) => {
     await open(page)
-    const button = page.getByRole('button', { name: 'Clases' })
+    const button = page.getByRole('button', { name: 'Dofus', exact: true })
     await button.focus()
     await page.keyboard.press('Enter')
-    const links = page.locator('#menu-clases a')
+    const links = page.locator('#menu-dofus a')
     await page.keyboard.press('ArrowDown')
     await expect(links.nth(0)).toBeFocused()
     await page.keyboard.press('ArrowDown')
@@ -304,7 +328,7 @@ test.describe('cabecera a 1120px', () => {
 
   test('ningún panel se sale de la pantalla', async ({ page }) => {
     await open(page)
-    for (const key of ['misiones', 'dofus', 'clases', 'mazmorras']) {
+    for (const key of ['misiones', 'dofus']) {
       await page.locator(`.np[aria-controls="menu-${key}"]`).click()
       const box = (await page.locator(`#menu-${key}`).boundingBox())!
       expect(box.x, key).toBeGreaterThanOrEqual(0)
@@ -361,6 +385,14 @@ test.describe('cabecera en el móvil', () => {
     await expect(dofus).toHaveAttribute('aria-expanded', 'true')
     await expect(sheet.getByRole('link', { name: /Almas del Ocre/ })).toBeVisible()
     await expect(sheet.getByRole('link', { name: 'Dofus Abisal' })).toBeVisible()
+    await expect(sheet.getByRole('link', { name: 'Ver todas las guías de Dofus' })).toBeVisible()
+    // Clases y Mazmorras: fichas apagadas que no se despliegan.
+    for (const name of ['Clases', 'Mazmorras']) {
+      const tile = sheet.locator('.stile__b--soon', { hasText: name })
+      await expect(tile).toHaveAttribute('aria-disabled', 'true')
+      await tile.click()
+      await expect(tile).not.toHaveAttribute('aria-expanded')
+    }
     expect(await axe(page, '#site-sheet')).toEqual([])
 
     await page.keyboard.press('Escape')
@@ -445,13 +477,10 @@ test.describe('pie', () => {
     const footer = page.getByRole('contentinfo')
     await expect(footer.getByRole('heading', { name: 'Torre', exact: true })).toBeVisible()
     const explore = footer.getByRole('navigation', { name: 'Explorar' })
-    await expect(explore.getByRole('link')).toHaveText([
-      'Misiones y logros',
-      'Dofus',
-      'Checklists',
-      'Clases',
-      'Mazmorras',
-    ])
+    await expect(explore.getByRole('link')).toHaveText(['Misiones y logros', 'Dofus', 'Checklists'])
+    for (const name of ['Clases', 'Mazmorras']) {
+      await expect(explore.locator('.ft-soon', { hasText: name })).toContainText('Próximamente')
+    }
     await expect(footer.getByRole('link', { name: /Únete al Discord/ })).toHaveAttribute(
       'href',
       'https://discord.gg/wgCxwd7b3r',
@@ -477,7 +506,7 @@ test.describe('pie', () => {
   test('ningún icono del juego se pinta más grande que su archivo', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
     await open(page)
-    for (const key of ['misiones', 'dofus', 'clases', 'mazmorras']) {
+    for (const key of ['misiones', 'dofus']) {
       await page.locator(`.np[aria-controls="menu-${key}"]`).click()
       const panel = page.locator(`#menu-${key}`)
       for (const img of await panel.locator('img').all()) {

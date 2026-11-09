@@ -148,8 +148,8 @@ describe('la búsqueda de la cabecera', () => {
   })
 
   it('lo que encaja mejor va antes, sea misión o no', () => {
-    const results = searchSite(index, quests('El amigo de Zurcarák'), 'zurcarak')
-    expect(results.groups.map((g) => g.type)).toEqual(['clase', 'mision'])
+    const results = searchSite(index, quests('El huevo de Dokoko'), 'dokoko')
+    expect(results.groups.map((g) => g.type)).toEqual(['dofus', 'mision'])
   })
 
   it('sin misiones cargadas, busca en el menú como siempre', () => {

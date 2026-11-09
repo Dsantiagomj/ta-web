@@ -750,6 +750,20 @@ html.hs-on .site-hdr .sbtn {
   font: 600 1.5rem/1.2 var(--font-display);
 }
 
+/* Clases y Mazmorras, aún sin páginas: el arte apagado, sin enlace ni efecto al pasar. */
+.area--soon .area__t {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  row-gap: 4px;
+  color: var(--color-ink-2);
+}
+
+.area--soon .area__art {
+  filter: grayscale(1);
+  opacity: 0.55;
+}
+
 .area__d {
   max-width: 44ch;
   color: var(--color-ink-2);
@@ -1120,30 +1134,30 @@ html.hs-on .site-hdr .sbtn {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .area .area__scene {
+  .area:not(.area--soon) .area__scene {
     transform: scale(1.04);
   }
 
-  .area:hover .area__scene {
+  .area:not(.area--soon):hover .area__scene {
     transform: none;
   }
 
-  .area:hover .area__zone::after {
+  .area:not(.area--soon):hover .area__zone::after {
     box-shadow:
       inset 0 0 0 2px var(--color-section),
       0 0 0 4px color-mix(in srgb, var(--color-section) 22%, transparent);
   }
 
-  .area:hover .area__fig,
-  .area:hover .cast__p {
+  .area:not(.area--soon):hover .area__fig,
+  .area:not(.area--soon):hover .cast__p {
     transform: translateY(-6px) scale(1.03);
   }
 
-  .area:hover .trio-eggs img {
+  .area:not(.area--soon):hover .trio-eggs img {
     transform: translateY(-6px) rotate(-6deg);
   }
 
-  .area:hover .heads__slot img {
+  .area:not(.area--soon):hover .heads__slot img {
     transform: scale(1.08);
   }
 

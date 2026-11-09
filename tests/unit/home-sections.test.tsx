@@ -19,21 +19,25 @@ describe('Qué vas a encontrar', () => {
 
   it('primero el cartel de las misiones y luego las cuatro tarjetas, con el título como enlace', () => {
     expect(markup).toMatch(/<h2[^>]*>Qué vas a encontrar<\/h2>/)
-    expect(titles.map((m) => m[2])).toEqual([
-      'Misiones y logros',
-      'Guías de Dofus',
-      'Checklists',
-      'Clases',
-      'Mazmorras',
-    ])
+    expect(titles.map((m) => m[2])).toEqual(['Misiones y logros', 'Guías de Dofus', 'Checklists'])
   })
 
   it('enlaza adonde enlaza el menú', () => {
     expect(titles.map((m) => m[1])).toEqual(
-      (['misiones', 'dofus', 'checklists', 'clases', 'mazmorras'] as const).map(
-        (key) => section(key).href,
-      ),
+      (['misiones', 'dofus', 'checklists'] as const).map((key) => section(key).href),
     )
+  })
+
+  it('Clases y Mazmorras son tarjetas apagadas, sin enlace, con «Próximamente»', () => {
+    for (const title of ['Clases', 'Mazmorras']) {
+      expect(markup).toContain(
+        `<h3 class="area__t">${title} <span class="soon">Próximamente</span></h3>`,
+      )
+    }
+    // Sin enlace no hay nada que desactivar: el «Próximamente» del título dice el estado.
+    expect(markup.match(/<li class="area area--soon"/g)).toHaveLength(2)
+    expect(markup).not.toContain(`href="${section('clases').href}"`)
+    expect(markup).not.toContain(`href="${section('mazmorras').href}"`)
   })
 
   it('las cifras del cartel salen del servidor, con el espacio fino de los miles', () => {
@@ -54,7 +58,7 @@ describe('Qué vas a encontrar', () => {
     for (const id of markup.matchAll(/aria-describedby="([^"]+)"/g)) {
       expect(markup).toContain(`id="${id[1]}"`)
     }
-    expect(markup.match(/aria-describedby=/g)).toHaveLength(5)
+    expect(markup.match(/aria-describedby=/g)).toHaveLength(3)
   })
 })
 
