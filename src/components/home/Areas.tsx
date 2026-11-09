@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 
 import { section, type SectionKey } from '@/components/site/nav'
+import { Soon } from '@/components/site/Soon'
 import { StaticImg } from '@/components/site/StaticImg'
 import { Amount } from '@/components/ui/Amount'
 import { Picture } from '@/components/ui/Picture'
@@ -14,7 +15,8 @@ const s = homeStrings.areas
 /**
  * Una tarjeta: el enlace es el texto de su h3, así que su nombre es el título; la frase la
  * describe (aria-describedby) y el ::after del enlace cubre la tarjeta entera, que sigue
- * siendo un solo enlace y una sola parada de tabulador. Enlaza adonde enlaza el menú.
+ * siendo un solo enlace y una sola parada de tabulador. Enlaza adonde enlaza el menú. Una
+ * sección aún sin páginas (Clases, Mazmorras) sale apagada, sin enlace y con «Próximamente».
  */
 function Area({
   sectionKey,
@@ -31,11 +33,20 @@ function Area({
 }) {
   const sec = section(sectionKey)
   const id = `area-${sectionKey}`
+  const style = { '--color-section': sec.accent } as React.CSSProperties
+  if (sec.soon) {
+    return (
+      <li className="area area--soon" style={style}>
+        <span className="area__art">{art}</span>
+        <h3 className="area__t">
+          {title} <Soon />
+        </h3>
+        <p className="area__d">{text}</p>
+      </li>
+    )
+  }
   return (
-    <li
-      className={big ? 'area areas__big' : 'area'}
-      style={{ '--color-section': sec.accent } as React.CSSProperties}
-    >
+    <li className={big ? 'area areas__big' : 'area'} style={style}>
       <span className="area__art">{art}</span>
       <h3 className="area__t">
         <a className="area__a" href={sec.href} aria-describedby={id}>

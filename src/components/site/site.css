@@ -280,10 +280,34 @@ html {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .np:hover {
+  .np:not(.np--soon):hover {
     background: var(--color-raised);
     color: var(--color-ink);
   }
+}
+
+/* Clases y Mazmorras, aún sin páginas: el nombre con «Próximamente», sin panel ni enlace. */
+.np--soon {
+  cursor: default;
+}
+
+.np--soon .np__i {
+  filter: grayscale(1);
+  opacity: 0.55;
+}
+
+.soon {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  margin-left: 8px;
+  padding: 0 7px;
+  border-radius: var(--radius-pill);
+  background: var(--color-raised);
+  color: var(--color-ink-2);
+  font: 600 0.625rem/1 var(--font-body);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
 .np__i {
@@ -386,10 +410,6 @@ html {
 .panel--dofus {
   --panel-w: 800px;
   grid-template-columns: 268px minmax(0, 1fr);
-}
-
-.panel--clases {
-  --panel-w: 760px;
 }
 
 .panel__tile {
@@ -566,16 +586,31 @@ html {
   filter: drop-shadow(0 3px 5px rgb(0 0 0 / 0.3));
 }
 
-.art-grid--heads img {
-  width: 46px;
-  height: 46px;
+/* Un Dofus que Torre aún no tiene escrito: el huevo apagado, sin enlace. */
+.egg-soon {
+  display: grid;
+  align-content: start;
+  justify-items: center;
+  gap: 4px;
+  min-height: 88px;
+  padding: 8px 4px 6px;
+  color: var(--color-ink-2);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
 }
 
-.panel--clases .art-grid {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+.art-grid--eggs .egg-soon img {
+  filter: grayscale(1);
+  opacity: 0.45;
 }
 
-/* La guía de los 19 Dofus, destacada en el panel compartido. */
+.panel--dofus .panel__body .all-link {
+  margin-top: 12px;
+}
+
+/* La guía de los Dofus, destacada en el panel compartido. */
 .feat {
   display: grid;
   gap: 10px;
@@ -697,58 +732,6 @@ html {
   margin-top: 2px;
   font-size: 0.75rem;
   line-height: 1.3;
-}
-
-.maz-l {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 4px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.maz-l a {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-height: 56px;
-  padding: 6px 10px 6px 6px;
-  border-radius: 12px;
-  color: var(--color-ink);
-  font-size: 0.9375rem;
-  font-weight: 600;
-  line-height: 1.25;
-  text-decoration: none;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .maz-l a:hover {
-    background: var(--color-raised);
-  }
-}
-
-.maz-l__w {
-  display: grid;
-  flex: none;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border: 1px solid color-mix(in srgb, var(--color-section) 40%, var(--color-well-line));
-  border-radius: 12px;
-  background: var(--color-well);
-  color: var(--color-section);
-}
-
-.maz-l__w img {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-}
-
-.maz-l__w svg {
-  width: 20px;
-  height: 20px;
 }
 
 .scta {
@@ -915,6 +898,20 @@ html {
   );
 }
 
+.stile__b--soon {
+  cursor: default;
+}
+
+.stile__b--soon .stile__t {
+  display: flex;
+  align-items: center;
+}
+
+.stile__b--soon .site-well img {
+  filter: grayscale(1);
+  opacity: 0.55;
+}
+
 .stile__x {
   flex: 1;
   min-width: 0;
@@ -962,10 +959,6 @@ html {
 
 .stile__p .art-grid {
   grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
-.stile__p .maz-l {
-  grid-template-columns: 1fr;
 }
 
 .stile__p .all-link {
@@ -1318,6 +1311,14 @@ mark.hit {
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.ft-soon {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  color: var(--color-ink-2);
+  font: 600 1rem/1.2 var(--font-display);
 }
 
 .ft-explore a {

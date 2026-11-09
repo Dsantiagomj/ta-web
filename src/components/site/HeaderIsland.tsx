@@ -140,7 +140,8 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
 
     const onClick = (event: MouseEvent) => {
       const target = event.target as HTMLElement
-      const panelButton = target.closest<HTMLButtonElement>('.np')
+      // Solo los botones: Clases y Mazmorras, aún sin páginas, llevan la misma clase sin serlo.
+      const panelButton = target.closest<HTMLButtonElement>('button.np')
       if (panelButton) return togglePanel(panelButton)
       const search = target.closest<HTMLElement>('[data-open-search]')
       if (search) return openSearch(search)
@@ -154,7 +155,7 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
       // navegar con Next y el diálogo se quedaría abierto sobre la página nueva.
       if (target.closest('#site-sheet a')) return sheet?.close()
       if (target.closest('#buscar a')) return dialog.current?.close()
-      const fold = target.closest<HTMLButtonElement>('.stile__b')
+      const fold = target.closest<HTMLButtonElement>('button.stile__b')
       if (fold) {
         const open = fold.getAttribute('aria-expanded') !== 'true'
         fold.setAttribute('aria-expanded', String(open))

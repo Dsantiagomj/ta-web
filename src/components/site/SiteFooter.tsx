@@ -4,6 +4,7 @@ import { Lockup } from '@/components/brand/Lockup'
 
 import { SocialIcon, UpIcon } from './icons'
 import { KOFI_URL, LEGAL_LINKS, SECTIONS, social, TOP_ANCHOR } from './nav'
+import { Soon } from './Soon'
 import { StaticImg } from './StaticImg'
 import { siteShellStrings } from './strings'
 import './site.css'
@@ -55,7 +56,13 @@ export function SiteFooter({ year }: { year: number }) {
           <ul role="list">
             {SECTIONS.map((sec) => (
               <li key={sec.key}>
-                <a href={sec.href}>{sec.title}</a>
+                {sec.soon ? (
+                  <span className="ft-soon" aria-disabled="true">
+                    {sec.title} <Soon />
+                  </span>
+                ) : (
+                  <a href={sec.href}>{sec.title}</a>
+                )}
               </li>
             ))}
           </ul>

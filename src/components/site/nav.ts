@@ -2,7 +2,7 @@
 // Footer). Lo que aún no tiene página aquí enlaza a la web de siempre con su slug.
 //
 // El arte es del juego, en public/img/game, y se pinta a su tamaño o más pequeño:
-// - dofus/: el icono de objeto de cada Dofus en DofusDB (128px).
+// - dofus/: el icono de objeto de cada Dofus en DofusDB (128px), con el nombre de su guía.
 // - checklists/: el Dofus de cada checklist, de DofusDB (Silvestre y Hielos a 200px, Ocre a 128px).
 // - clases/: las cabezas de clase de la exportación del cliente de Dofus 3
 //   (dofusdude/dofus3-main 3.7.13.17, class_head_images_64): 64px.
@@ -29,6 +29,11 @@ export interface NavLink {
   description?: string
 }
 
+/** Un Dofus de la guía de Torre. Sin escribir aún, sale apagado y sin enlace. */
+export type DofusLink =
+  | (NavLink & { image: GameImage; preparing?: false })
+  | { name: string; image: GameImage; preparing: true }
+
 export type SectionKey = 'misiones' | 'dofus' | 'checklists' | 'clases' | 'mazmorras'
 
 export interface Section {
@@ -41,14 +46,49 @@ export interface Section {
   icon: GameImage
   /** El acento de la sección (DESIGN.md, Section accents). */
   accent: string
+  /** Aún sin páginas: sale con «Próximamente», sin enlace ni panel. */
+  soon?: true
 }
 
 const egg = (slug: string): GameImage => ({ src: `/img/game/dofus/${slug}.webp`, size: 128 })
 const head = (slug: string): GameImage => ({ src: `/img/game/clases/${slug}.webp`, size: 64 })
 
-// El orden de la web de siempre: el de la guía de Dofus de Torre.
-export const DOFUS_GUIDES: NavLink[] = (Object.keys(t.dofus) as (keyof typeof t.dofus)[]).map(
-  (slug) => ({ name: t.dofus[slug], href: legacyHref(slug), image: egg(slug) }),
+type DofusKey = keyof typeof t.dofus
+
+// La página de cada Dofus en la web de Torre, cuando no se llama como su huevo.
+const DOFUS_PAGE: Partial<Record<DofusKey, string>> = {
+  'dofus-nebuloso': 'misiones-nebuloso',
+  'pinata-de-pino': 'piata-de-pino',
+}
+
+// Los que Torre aún no tiene escritos: el Kalipto no tiene página y los demás la tienen vacía.
+const DOFUS_PREPARING = new Set<DofusKey>([
+  'jyfus',
+  'dofus-kalipto',
+  'dolmanax',
+  'dotruz',
+  'dofzzbz',
+  'dofus-forjalava',
+  'dofus-centelleante',
+  'dofus-pesadilla',
+  'dofus-silvestre',
+])
+
+// Los 30 de la página de guías de Dofus de Torre, en su orden.
+export const DOFUS_GUIDES: DofusLink[] = (Object.keys(t.dofus) as DofusKey[]).map((key) =>
+  DOFUS_PREPARING.has(key)
+    ? { name: t.dofus[key], image: egg(key), preparing: true }
+    : { name: t.dofus[key], href: legacyHref(DOFUS_PAGE[key] ?? key), image: egg(key) },
+)
+
+/** Los tres huevos de la tarjeta de las guías de Dofus del menú. */
+export const DOFUS_FEATURED: GameImage[] = (
+  ['dofus-turquesa', 'dofus-esmeralda', 'dofus-ocre'] as const
+).map(egg)
+
+/** Los Dofus que Torre ya tiene escritos: los que enlaza el menú y encuentra la búsqueda. */
+export const DOFUS_READY = DOFUS_GUIDES.filter(
+  (d): d is Extract<DofusLink, { href: string }> => !d.preparing,
 )
 
 export const CHECKLISTS: NavLink[] = [
@@ -96,8 +136,8 @@ export const DUNGEONS: NavLink[] = [
   { name: t.dungeons.kao, href: legacyHref('mazmorra-templo-del-dios-kao') },
 ]
 
-// La web de siempre no tiene una página de mazmorras: el enlace general va a la Crocantería,
-// la única con el arte de su jefe.
+// Clases y Mazmorras aún no tienen páginas aquí: salen con «Próximamente» y sin enlace en el
+// menú, el móvil, el pie y la portada. Sus listas siguen aquí para cuando lleguen.
 export const SECTIONS: Section[] = [
   {
     key: 'misiones',
@@ -126,6 +166,7 @@ export const SECTIONS: Section[] = [
     href: legacyHref('clases-1'),
     icon: head('feca'),
     accent: 'var(--color-sec-clases)',
+    soon: true,
   },
   {
     key: 'mazmorras',
@@ -133,6 +174,7 @@ export const SECTIONS: Section[] = [
     href: DUNGEONS[1].href,
     icon: DUNGEONS[1].image!,
     accent: 'var(--color-sec-mazmorras)',
+    soon: true,
   },
 ]
 
@@ -197,20 +239,21 @@ export interface SearchEntry {
  */
 export const TOP_ANCHOR = 'arriba'
 
-/** Lo que enlaza el menú, para la búsqueda de la cabecera. Las misiones llegan aparte. */
+/**
+ * Lo que enlaza el menú, para la búsqueda de la cabecera. Las misiones llegan aparte. Lo que
+ * aún no tiene página (Clases, Mazmorras, los Dofus en preparación) no se encuentra.
+ */
 export function searchIndex(): SearchEntry[] {
   const of = (type: SearchType, links: NavLink[]) =>
     links.map(({ name, href, image }) => ({ type, name, href, image }))
   return [
-    ...SECTIONS.map(({ title, href, icon }) => ({
+    ...SECTIONS.filter((sec) => !sec.soon).map(({ title, href, icon }) => ({
       type: 'seccion' as const,
       name: title,
       href,
       image: icon,
     })),
-    ...of('dofus', DOFUS_GUIDES),
+    ...of('dofus', DOFUS_READY),
     ...of('checklist', CHECKLISTS),
-    ...of('clase', CLASSES),
-    ...of('mazmorra', DUNGEONS),
   ]
 }

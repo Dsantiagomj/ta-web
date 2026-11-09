@@ -7,23 +7,15 @@ import { Amount } from '@/components/ui/Amount'
 import type { Mode } from '@/lib/theme/theme'
 
 import { HeaderIsland } from './HeaderIsland'
-import {
-  ArrowIcon,
-  ChevronIcon,
-  CloseIcon,
-  DoorIcon,
-  MenuIcon,
-  SearchIcon,
-  SocialIcon,
-} from './icons'
+import { ArrowIcon, ChevronIcon, CloseIcon, MenuIcon, SearchIcon, SocialIcon } from './icons'
 import {
   CHECKLISTS,
   CLASSES,
+  DOFUS_FEATURED,
   DOFUS_GUIDES,
   DUNGEONS,
   type GameImage,
   KOFI_URL,
-  type NavLink,
   type Section,
   type SectionKey,
   SOCIALS,
@@ -31,6 +23,7 @@ import {
   searchIndex,
   section,
 } from './nav'
+import { Soon } from './Soon'
 import { StaticImg } from './StaticImg'
 import { siteShellStrings as s } from './strings'
 import './site.css'
@@ -68,23 +61,29 @@ export function Well({
   )
 }
 
-function ArtGrid({ links, kind }: { links: NavLink[]; kind: 'eggs' | 'heads' }) {
+/** Todos los huevos: los que Torre aún no tiene escritos salen apagados y sin enlace. */
+function EggGrid() {
   return (
-    <ul className={`art-grid art-grid--${kind}`} role="list">
-      {links.map((link) => (
-        <li key={link.href}>
-          <a href={link.href}>
-            <StaticImg
-              src={link.image!.src}
-              width={kind === 'eggs' ? 44 : 46}
-              height={kind === 'eggs' ? 44 : 46}
-              alt=""
-              loading="lazy"
-            />
-            <span>{link.name}</span>
-          </a>
-        </li>
-      ))}
+    <ul className="art-grid art-grid--eggs" role="list">
+      {DOFUS_GUIDES.map((dofus) => {
+        const egg = <StaticImg src={dofus.image.src} width={44} height={44} alt="" loading="lazy" />
+        return (
+          <li key={dofus.name}>
+            {dofus.preparing ? (
+              <span className="egg-soon" aria-disabled="true">
+                {egg}
+                <span>{dofus.name}</span>
+                <span className="sr-only">{s.preparing}</span>
+              </span>
+            ) : (
+              <a href={dofus.href}>
+                {egg}
+                <span>{dofus.name}</span>
+              </a>
+            )}
+          </li>
+        )
+      })}
     </ul>
   )
 }
@@ -106,27 +105,6 @@ function ChecklistCards({ compact = false }: { compact?: boolean }) {
               <span className="chk__t">{c.name}</span>
               <span className="chk__d">{c.description}</span>
             </span>
-          </a>
-        </li>
-      ))}
-    </ul>
-  )
-}
-
-function DungeonList() {
-  return (
-    <ul className="maz-l" role="list">
-      {DUNGEONS.map((d) => (
-        <li key={d.href}>
-          <a href={d.href}>
-            <span className="maz-l__w" aria-hidden="true">
-              {d.image ? (
-                <StaticImg src={d.image.src} width={40} height={40} alt="" loading="lazy" />
-              ) : (
-                <DoorIcon />
-              )}
-            </span>
-            <span>{d.name}</span>
           </a>
         </li>
       ))}
@@ -201,42 +179,25 @@ function sectionBlurb(key: SectionKey, counts: SiteCounts): ReactNode {
     case 'mazmorras':
       return <Blurb parts={p.mazmorrasBlurb} value={String(DUNGEONS.length)} />
     default:
-      return <Blurb parts={s.sheet.dofusBlurb} value={String(DOFUS_GUIDES.length)} />
+      return s.sheet.dofusBlurb
   }
 }
 
-// Misiones no lleva enlace general: su «Ver todo» ya está en el panel, junto a Buscar.
-const ALL_LABEL: Partial<Record<SectionKey, string>> = {
-  clases: p.clasesAll,
-  mazmorras: p.mazmorrasAll,
-}
-
-function sectionBody(key: SectionKey): ReactNode {
-  switch (key) {
-    case 'misiones':
-      return <MisionesBody />
-    case 'clases':
-      return <ArtGrid links={CLASSES} kind="heads" />
-    case 'mazmorras':
-      return <DungeonList />
-    default:
-      return null
-  }
-}
-
-/** La ficha de la sección a la izquierda del panel: icono, nombre, cifras y enlace general. */
+/** La ficha de la sección a la izquierda del panel: icono, nombre y cifras. */
 function SectionTile({ sec, counts }: { sec: Section; counts: SiteCounts }) {
   return (
     <div className="panel__tile">
       <Well image={sec.icon} size={46} className="site-well--xl" />
       <p className="panel__t">{sec.title}</p>
       <p className="panel__d">{sectionBlurb(sec.key, counts)}</p>
-      {ALL_LABEL[sec.key] && <AllLink href={sec.href}>{ALL_LABEL[sec.key]}</AllLink>}
     </div>
   )
 }
 
-/** Dofus y checklists en un solo panel: la guía de los 19 Dofus y los checklists a la izquierda. */
+/**
+ * Dofus y checklists en un solo panel: la guía de los Dofus y los checklists a la izquierda,
+ * todos los huevos y el enlace a todas las guías a la derecha.
+ */
 function DofusPanel() {
   const dofus = section('dofus')
   return (
@@ -245,10 +206,10 @@ function DofusPanel() {
         <p className="panel__h">{p.dofusFeatured}</p>
         <a className="feat" href={dofus.href}>
           <span className="feat__art" aria-hidden="true">
-            {[DOFUS_GUIDES[11], DOFUS_GUIDES[6], DOFUS_GUIDES[12]].map((d) => (
+            {DOFUS_FEATURED.map((image) => (
               <StaticImg
-                key={d.href}
-                src={d.image!.src}
+                key={image.src}
+                src={image.src}
                 width={60}
                 height={60}
                 alt=""
@@ -266,7 +227,8 @@ function DofusPanel() {
       </div>
       <div className="panel__body">
         <p className="panel__h">{p.dofusAll}</p>
-        <ArtGrid links={DOFUS_GUIDES} kind="eggs" />
+        <EggGrid />
+        <AllLink href={dofus.href}>{p.dofusSeeAll}</AllLink>
       </div>
     </>
   )
@@ -280,7 +242,9 @@ function PanelContent({ sec, counts }: { sec: Section; counts: SiteCounts }) {
   ) : (
     <>
       <SectionTile sec={sec} counts={counts} />
-      <div className="panel__body">{sectionBody(sec.key)}</div>
+      <div className="panel__body">
+        <MisionesBody />
+      </div>
     </>
   )
 }
@@ -312,6 +276,21 @@ export function MenuPanelPreview({
 function SheetSection({ sec, counts, open }: { sec: Section; counts: SiteCounts; open: boolean }) {
   const dofus = sec.key === 'dofus'
   const id = `sheet-${sec.key}`
+  if (sec.soon) {
+    return (
+      <li className="stile" style={accent(sec)}>
+        <div className="stile__b stile__b--soon" aria-disabled="true">
+          <Well image={sec.icon} size={36} className="site-well--lg" />
+          <span className="stile__x">
+            <span className="stile__t">
+              {sec.title} <Soon />
+            </span>
+            <span className="stile__d">{sectionBlurb(sec.key, counts)}</span>
+          </span>
+        </div>
+      </li>
+    )
+  }
   return (
     <li className="stile" style={accent(sec)}>
       <button type="button" className="stile__b" aria-expanded={open} aria-controls={id}>
@@ -326,13 +305,11 @@ function SheetSection({ sec, counts, open }: { sec: Section; counts: SiteCounts;
         {dofus ? (
           <>
             <ChecklistCards />
-            <ArtGrid links={DOFUS_GUIDES} kind="eggs" />
+            <EggGrid />
+            <AllLink href={sec.href}>{p.dofusSeeAll}</AllLink>
           </>
         ) : (
-          sectionBody(sec.key)
-        )}
-        {(dofus || ALL_LABEL[sec.key]) && (
-          <AllLink href={sec.href}>{dofus ? p.dofusFeaturedTitle : ALL_LABEL[sec.key]}</AllLink>
+          <MisionesBody />
         )}
       </div>
     </li>
@@ -390,21 +367,42 @@ export function SiteHeader({ counts, initialMode }: { counts: SiteCounts; initia
           <Lockup />
           <nav className="site-nav" aria-label={s.nav}>
             <ul role="list">
-              {NAV.map((sec) => (
-                <li key={sec.key} className="site-nav__item" style={accent(sec)}>
-                  <button
-                    type="button"
-                    className="np"
-                    aria-expanded="false"
-                    aria-controls={`menu-${sec.key}`}
-                  >
-                    <StaticImg className="np__i" src={sec.icon.src} width={22} height={22} alt="" />
-                    {sec.label}
-                    <ChevronIcon className="np__c" />
-                  </button>
-                  <Panel sec={sec} counts={counts} />
-                </li>
-              ))}
+              {NAV.map((sec) =>
+                sec.soon ? (
+                  <li key={sec.key} className="site-nav__item" style={accent(sec)}>
+                    <span className="np np--soon" aria-disabled="true">
+                      <StaticImg
+                        className="np__i"
+                        src={sec.icon.src}
+                        width={22}
+                        height={22}
+                        alt=""
+                      />
+                      {sec.label} <Soon />
+                    </span>
+                  </li>
+                ) : (
+                  <li key={sec.key} className="site-nav__item" style={accent(sec)}>
+                    <button
+                      type="button"
+                      className="np"
+                      aria-expanded="false"
+                      aria-controls={`menu-${sec.key}`}
+                    >
+                      <StaticImg
+                        className="np__i"
+                        src={sec.icon.src}
+                        width={22}
+                        height={22}
+                        alt=""
+                      />
+                      {sec.label}
+                      <ChevronIcon className="np__c" />
+                    </button>
+                    <Panel sec={sec} counts={counts} />
+                  </li>
+                ),
+              )}
             </ul>
           </nav>
           <div className="site-hdr__act">

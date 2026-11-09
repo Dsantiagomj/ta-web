@@ -2,27 +2,41 @@ import type { SectionKey } from './nav'
 
 // Los textos de la cabecera y el pie del sitio (AGENTS.md, Language).
 export const siteShellStrings = {
-  /** Los 19 Dofus, por el slug de su guía, en el orden de la web de siempre. */
+  /**
+   * Los 30 Dofus de la guía de Torre, en su orden (el de su página de guías de Dofus), por el
+   * nombre del archivo de su huevo en public/img/game/dofus.
+   */
   dofus: {
     dofawa: 'Dofawa',
     'dofus-plateado': 'Dofus Plateado',
+    jyfus: 'Jyfus',
     'dofus-cacao': 'Dofus Cacao',
     'dofus-zanahowia': 'Dofus Zanahowia',
     dosaurio: 'Dosaurio',
     dokoko: 'Dokoko',
+    'dofus-kalipto': 'Dofus Kalipto',
+    'dofus-vigilante': 'Dofus Vigilante',
+    dolmanax: 'Dolmanax',
     'dofus-esmeralda': 'Dofus Esmeralda',
-    'dofus-vigilante': 'Dofus de los Vigilantes',
     'dofus-purpura': 'Dofus Púrpura',
+    dotruz: 'Dotruz',
     domakuro: 'Domakuro',
     dorigami: 'Dorigami',
-    'dofus-turquesa': 'Dofus Turquesa',
     'dofus-ocre': 'Dofus Ocre',
+    'dofus-turquesa': 'Dofus Turquesa',
+    dofzzbz: 'Dofzzbz',
     'dofus-vulbis': 'Dofus Vulbis',
     'dofus-de-los-hielos': 'Dofus de los Hielos',
-    'dofus-moteado': 'Dofus Moteado',
-    'dofus-ebano': 'Dofus Ébano',
-    'dofus-marfil': 'Dofus Marfil',
+    'dofus-nebuloso': 'Dofus Nebuloso',
     'dofus-abisal': 'Dofus Abisal',
+    'dofus-marfil': 'Dofus Marfil',
+    'dofus-forjalava': 'Dofus Forjalava',
+    'dofus-ebano': 'Dofus Ébano',
+    'dofus-centelleante': 'Dofus Centelleante',
+    'dofus-moteado': 'Dofus Moteado',
+    'pinata-de-pino': 'Piñata de Pino',
+    'dofus-pesadilla': 'Dofus Pesadilla',
+    'dofus-silvestre': 'Dofus Silvestre',
   },
   checklistNames: {
     silvestre: 'Dofus Silvestre',
@@ -68,6 +82,10 @@ export const siteShellStrings = {
     discord: 'Discord',
     kofi: 'Ko-fi',
   },
+  /** La etiqueta de lo que aún no tiene página: Clases y Mazmorras. */
+  soon: 'Próximamente',
+  /** Lo que lee un lector de pantalla tras el nombre de un Dofus que Torre aún no tiene escrito. */
+  preparing: ' (en preparación)',
   sections: {
     misiones: { label: 'Misiones', title: 'Misiones y logros' },
     dofus: { label: 'Dofus', title: 'Dofus' },
@@ -108,21 +126,21 @@ export const siteShellStrings = {
         achievements === 1 ? ' logro.' : ' logros.',
       ] as const,
     misionesSearch: 'Buscar una misión',
-    misionesSearchHint: 'También un Dofus, una clase o una mazmorra.',
+    misionesSearchHint: 'También un Dofus o un checklist.',
     misionesAll: 'Ver todo',
     dofusFeatured: 'Guías por Dofus',
-    dofusFeaturedTitle: 'Las 19 guías de Dofus',
+    // Sin cifras: Torre suma Dofus con el tiempo.
+    dofusFeaturedTitle: 'Guías de Dofus',
     dofusFeaturedText: 'Lo que pide cada huevo y el logro que lo da.',
-    dofusAll: 'Los 19 Dofus',
+    dofusAll: 'Todos los Dofus',
+    dofusSeeAll: 'Ver todas las guías de Dofus',
     checklists: 'Checklists',
     clasesBlurb: ['Las ', ' clases con sus equipos de PvM y PvP.'] as const,
-    clasesAll: 'Ver las 19 clases',
     mazmorrasBlurb: ['Las ', ' mazmorras: monstruos, sinergias y cómo vencer al jefe.'] as const,
-    mazmorrasAll: 'Ir a la Crocantería',
   },
   sheet: {
     dofusTitle: 'Dofus y checklists',
-    dofusBlurb: ['Las ', ' guías de Dofus y los checklists para conseguirlos.'] as const,
+    dofusBlurb: 'Las guías de Dofus y los checklists para conseguirlos.',
   },
   footer: {
     torre: 'Torre',

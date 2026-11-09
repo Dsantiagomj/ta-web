@@ -336,13 +336,13 @@ test.describe('portada: las secciones', () => {
     await open(page)
     const section = page.getByRole('region', { name: 'Qué vas a encontrar' })
     const links = section.getByRole('link')
-    await expect(links).toHaveText([
-      'Misiones y logros',
-      'Guías de Dofus',
-      'Checklists',
-      'Clases',
-      'Mazmorras',
-    ])
+    await expect(links).toHaveText(['Misiones y logros', 'Guías de Dofus', 'Checklists'])
+    // Clases y Mazmorras aún no tienen páginas: salen apagadas, sin enlace.
+    for (const name of ['Clases', 'Mazmorras']) {
+      const card = section.locator('.area--soon', { hasText: name })
+      await expect(card).toContainText('Próximamente')
+      await expect(card.getByRole('link')).toHaveCount(0)
+    }
     const footerLinks = page.getByRole('navigation', { name: 'Explorar' }).getByRole('link')
     const menu = await footerLinks.evaluateAll((as) => as.map((a) => a.getAttribute('href')))
     const cards = await links.evaluateAll((as) => as.map((a) => a.getAttribute('href')))
