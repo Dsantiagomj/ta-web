@@ -43,7 +43,9 @@ export const catalogStrings = {
     site: 'El panel de Dofus y checklists del menú, abierto y quieto, y el pie del sitio.',
     torre: 'El consejo de una guía: Torre hablando, con su avatar y un bocadillo.',
     header:
-      'Seis pies bajo tierra, con el PNJ, el logro, el rango de XP y la bolsa de objetos (púlsala); Intoxicación profunda, sin PNJ ni logro y con un objeto sin icono.',
+      'Seis pies bajo tierra, con el PNJ, el logro, el rango de XP, un objeto de Necesitarás (púlsalo: copia su nombre) y la bolsa de objetos (púlsala); Intoxicación profunda, sin PNJ ni logro y con un objeto sin icono.',
+    items:
+      'El chip y la casilla de un objeto: en reposo, como siempre; con el ratón encima, el nombre se subraya en accent y aparece el icono de copiar. Pulsar el nombre o el icono copia el nombre, sin la cantidad, para buscarlo en el juego. Sin JavaScript son texto.',
     wells:
       'Los iconos del juego en sus huecos, oscuros también en modo claro; el último, sin icono, queda vacío.',
     coordinates:

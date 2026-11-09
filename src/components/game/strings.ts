@@ -14,6 +14,12 @@ export const gameStrings = {
     copied: (command: string) => `Copiado: ${command}`,
     copyFailed: (command: string) => `Escribe ${command} en el chat`,
   },
+  /** Los objetos copian su nombre, para buscarlo en el juego (DESIGN.md, Item chip). */
+  items: {
+    /** El botón es el nombre: «Copiar Pluma de Kwak de viento». */
+    copyLabel: (name: string) => `Copiar ${name}`,
+    copyFailed: (name: string) => `No se pudo copiar. Busca «${name}» en el juego.`,
+  },
   header: {
     /** Las partes del subtítulo, unidas con « - ». */
     zone: (zone: string) => `Misión de ${zone}`,

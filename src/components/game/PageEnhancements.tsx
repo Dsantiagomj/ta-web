@@ -11,6 +11,7 @@ import { gameStrings } from './strings'
 const s = gameStrings.coordinates
 const f = uiStrings.figure
 const TOAST_MS = 4000
+const COPIED_MS = 1600
 
 /** La imagen que enseña el visor, leída del enlace de la captura (Figure). */
 interface Viewed {
@@ -27,7 +28,7 @@ interface Viewed {
 /**
  * La única isla de las páginas de guía (DESIGN.md, Coordinates chip, Video facade, Figure
  * y Quest header). Se pinta una vez por página y escucha con delegación: copia el
- * data-copy de los chips de coordenadas, cambia el enlace de un vídeo por su reproductor,
+ * data-copy de los chips de coordenadas y de los objetos, cambia el enlace de un vídeo por su reproductor,
  * abre las capturas en un visor a pantalla completa y abre y cierra la bolsa de
  * recompensas. Sin ella, los chips son texto, el vídeo un enlace, la captura un enlace a su
  * archivo y la lista de la bolsa se ve abierta.
@@ -65,8 +66,11 @@ export function PageEnhancements() {
       try {
         await navigator.clipboard.writeText(command)
         say(s.copied(command))
+        // El icono de copiar pasa a ser una marca un momento (game.css, objetos que se copian).
+        node.dataset.copied = ''
+        setTimeout(() => delete node.dataset.copied, COPIED_MS)
       } catch {
-        say(s.copyFailed(command))
+        say(node.dataset.copyFailed ?? s.copyFailed(command))
       }
     }
 

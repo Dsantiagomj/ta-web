@@ -114,7 +114,10 @@ export const header: QuestHeaderData = {
     coordinates: { x: 7, y: -19 },
   },
   prerequisites: [{ label: 'Esto hace aguas', href: '#esto-hace-aguas', quest: true }],
-  needs: { items: [], notes: [{ quantity: 1, label: 'Combate (solo)', combat: true }] },
+  needs: {
+    items: [{ item: items.ojo, quantity: 3 }],
+    notes: [{ quantity: 1, label: 'Combate (solo)', combat: true }],
+  },
   rewards: {
     xp: { min: 9800, max: 16380 },
     kamas: 390,

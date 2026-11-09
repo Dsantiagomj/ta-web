@@ -542,6 +542,123 @@
   inset: -6px -2px;
 }
 
+/* ---------- objetos que se copian ---------- */
+
+/* El nombre de un objeto copia su nombre (DESIGN.md, Item chip and item slot, Copy). En
+   reposo se ve como siempre. Con el ratón encima o con el foco: el nombre en accent con
+   subrayado de 1px, el icono de copiar aparece detrás (solo opacidad) y el hueco del icono
+   lleva un anillo tenue. Después de copiar, el icono pasa a ser una marca un momento. En
+   pantallas táctiles no hay nada más: un toque copia y lo dice el aviso. Sin JavaScript es
+   texto y los iconos no se pintan. */
+.copyhost {
+  position: relative;
+}
+
+.row.copyhost {
+  width: fit-content;
+  max-width: 100%;
+}
+
+/* Fuera del flujo, detrás del nombre: en reposo no ocupa sitio ni descentra la casilla. */
+.copyname__i {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 5px);
+  width: 14px;
+  height: 14px;
+  translate: 0 -50%;
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--ease-standard);
+}
+
+.copyname[role='button'] {
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+/* El subrayado va en el texto: no pasa del botón a un hijo inline-block. */
+.copyname[role='button'] .copyname__t {
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition:
+    text-decoration-color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-press) var(--ease-out);
+}
+
+/* Al pulsar se encoge el texto, no el botón: un transform en el botón haría de su ::after
+   un hijo de su caja y el clic que empieza en el icono acabaría fuera. */
+.copyname__t {
+  position: relative;
+  display: inline-block;
+}
+
+.copyname[role='button'] .copyname__i:not(.copyname__ok),
+.copyname[role='button'][data-copied] .copyname__ok {
+  display: inline-block;
+}
+
+.copyname[role='button'][data-copied] .copyname__i:not(.copyname__ok) {
+  display: none;
+}
+
+/* El objeto entero copia: el ::after cubre la fila, el chip o la casilla, con un objetivo
+   de 40px de alto como mínimo (44px con puntero grueso), sin cambiar lo que se dibuja. */
+.copyname[role='button']::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  height: max(100%, 40px);
+  transform: translateY(-50%);
+}
+
+@media (pointer: coarse) {
+  .copyname[role='button']::after {
+    height: max(100%, 44px);
+  }
+}
+
+.copyname[role='button']:active .copyname__t {
+  transform: scale(0.96);
+}
+
+.copyname[role='button']:focus-visible {
+  color: var(--color-accent);
+}
+
+.copyname[role='button']:focus-visible .copyname__t {
+  text-decoration-color: currentColor;
+}
+
+.copyname[role='button']:focus-visible .copyname__i {
+  opacity: 1;
+}
+
+.copyhost:has(.copyname[role='button']:focus-visible) :is(.well, .copywell) {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-accent) 55%, transparent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .copyname[role='button']:hover {
+    color: var(--color-accent);
+  }
+
+  .copyname[role='button']:hover .copyname__t {
+    text-decoration-color: currentColor;
+  }
+
+  .copyname[role='button']:hover .copyname__i {
+    opacity: 1;
+  }
+
+  .copyhost:has(.copyname[role='button']:hover) :is(.well, .copywell) {
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-accent) 55%, transparent);
+  }
+}
+
 /* ---------- pasos ---------- */
 
 /* Sin números: los pasos se separan con una línea, sin línea encima del primero. */
