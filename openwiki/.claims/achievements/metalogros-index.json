@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:6505942f43617509a8b59b8a368987229452d49f161c0eeb29dd800d9326b6c7",
+  "pageVersion": "sha256:a52cb11221025118eb04414a1540106dd3d8472ef08044ed31bd99a149a99669",
   "claims": [
     {
       "id": "claim_d126db27b5074cfcafc8c6c0f8ae0195",
@@ -133,10 +133,24 @@
           "version": "repo-lines-v1:sha256:a5ee4577b42b6edb7485f5c443ee39efb08ccebc77b9ba8fb6b1c909b025bdba:eyJzZWxlY3RlZExpbmVDb3VudCI6NzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkMjdmN2ViZDRhZDRlZTQwYjk0MzdhMjMzZDMxZDhhMWE2ZDk2ZDBmZGI5NTE2NTY2MTYxNzYxYzQzMzc1OTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk4ZTkwYzI1MDE5OTlmMTQwNWRkN2IwOGQwMzkzOTEzZTczNGFmMmEyNGEyM2FkMDA5YmEwODI2MGI4NmYxZDQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFjZWJmOTI0YjI4OTE3NDczZmQ1ZTI0ZDA0YjViNTY5MmU1MDdmM2YzOWQwNDAyZjYwNWQ4OGI4Y2NjYTVhNTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY4ZTE5ZWM5OWVlYjIzMTlmNTgzYzNkYjFhNGEwZmE5OTE2ZGEyZjUzNzE4NWU3YWQ5ODAzMGZkZmQ4YmU4YzEifQ"
         }
       ]
+    },
+    {
+      "id": "claim_96a3d88fe076434cbfd02f7474a930ef",
+      "statement": "The site-wide search index reuses the metalogros view's search rows: achievementSearchRows drops off rows and keeps achievements as name, slug, metalogro and quest count and metalogros as name, anchor and counts.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/search/read-index.ts#L43-L68",
+          "version": "repo-lines-v1:sha256:b2a02488b624a0e47e6341ea1b0ad07bc8ab94193bfc3006fb90f3ce81af8f91:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiY2JiY2JhN2JhZTQ2MDc4OGJiZGY4ZGRlMDNlNDY1ZmY1ZjViNTNhOTM0ODczMjgyNjg1ZmQzODBiYmQ0ZDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/integration/achievement-page-queries.test.ts#L227-L238",
+          "version": "repo-lines-v1:sha256:896dd3da62a40dfb89c53e01a3926754650efd0a97c3596b5c8f4d3889c08055:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEzMWYxNzk1ZTdiMWYzOWY4NzE5MzhhY2VlYmJkMDc1M2IyMTM2NjI1ZGM3ZGFkYzk4NDg3MThkMjExZTVhYTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-08T11:00:21.339Z"
+    "at": "2026-11-09T11:00:21.744Z"
   }
 }

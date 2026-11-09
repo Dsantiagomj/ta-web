@@ -65,7 +65,7 @@ sources:
 generated: { by: "claude-code", at: "2026-11-08T11:00:21.339Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-08T11:00:21.339Z
+    at: 2026-11-09T11:00:21.744Z
 ---
 
 # Squarespace import

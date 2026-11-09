@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:e70bce6368cd9646a5b6750a5104198197cdedaeb8b56749f1c4fe492f2d4278",
+  "pageVersion": "sha256:bd80206b451b38a37e064176195dd56d856ac39de38a1a79346709e76b1eb058",
   "claims": [
     {
       "id": "claim_6299139e25f242d498d2e198fe5b22d6",
@@ -315,12 +315,12 @@
       "statement": "GuideRichText turns [x,y] into coordinates chips except inside links or code, keeps only http, https, mailto and same-site links, clamps heading levels to a minimum, and gives priority only to the first uploaded image when asked.",
       "evidence": [
         {
-          "resource": "repo://src/components/game/GuideRichText.tsx#L34-L149",
-          "version": "repo-lines-v1:sha256:aeeb0bb942eeaffd78e8b39814a08e2a2202c7a150a83c2f3a17a9dfb94f2149:eyJzZWxlY3RlZExpbmVDb3VudCI6MTE2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlYWYyMmNmMDczMjU5MmMyNDcxNDFjYmU2MWVmYTExMDEyNjEyZjVhMzEyMmI5YWY5YmJhZjUyZjU3MjRkMTk0IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI2YTFiYjBjMWZhNDUwMzQ5ZTYxNjE4NjkwYmZmZTE1MDI5MGViYTVhYzdmMWM4ZDgzZjdmYjIyNTQ5ZDIyNDU0IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://src/components/game/GuideRichText.tsx#L34-L163",
+          "version": "repo-lines-v1:sha256:345e1cc622b532c333b7e6da422915615ccaa51ef0e95a3ffc833386e3a350c4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMwLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIwMWJhNDcxOWM4MGI2ZmU5MTFiMDkxYTdjMDUxMjRiNjRlZWVjZTk2NGUwOWMwNThlZjhmOTgwNWRhY2E1NDZiIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI5NTAzMTRkYzdmNTE0YjE4NmQyODA3MDU1NmVkZDRiMmZmNjkyNGY2MTdkNjI0ZGY4NDhhZGY5YmVlMWJmZTNiIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         },
         {
-          "resource": "repo://tests/unit/guide-body.test.tsx#L24-L113",
-          "version": "repo-lines-v1:sha256:41c1d00b676825d8e56c83f2b9f8619abaebe1c8bf9b6045fd0c9191490acded:eyJzZWxlY3RlZExpbmVDb3VudCI6OTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJiNDgyOGY3NmY1ODhiNThmNDY5NWQ2MTBlNTEwNDE3YTViNTYwZGExZTk4MDM5NTJiOTAzNDJhYjM3NDk1ZjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmODdmM2Y5ZDNlYjkzMzFlNjkxMWQxNjE4OGE1ODBmMGIxMTNkYTAxZGMxYjMxNDZmOWUwNmIzN2Y2NzJjMzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBlNWViOWIzMTQ1ZTY0NGY3YzE4MTMyNmFiMjk2OGY2M2E3NDkyYmFlMTdkNGJlNTAyNTA1Y2I5MmNiNzdlNDUifQ"
+          "resource": "repo://tests/unit/guide-body.test.tsx#L24-L132",
+          "version": "repo-lines-v1:sha256:55c435e9aeed8532a3fbd396a4d9eda65e20c05f7ca44cebfd5018c698af9b69:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA5LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJiYjQ4MjhmNzZmNTg4YjU4ZjQ2OTVkNjEwZTUxMDQxN2E1YjU2MGRhMWU5ODAzOTUyYjkwMzQyYWIzNzQ5NWY5IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIzM2Q0YTliMTEzMTE5ODRmNjBlZmM5N2IxMmEwNjRlMzNmYmZjMjAxZGEyMjRjNDBiYWI2YTU2NDZlMTE2ZThkIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmZjg3ZjNmOWQzZWI5MzMxZTY5MTFkMTYxODhhNTgwZjBiMTEzZGEwMWRjMWIzMTQ2ZjllMDZiMzdmNjcyYzM5IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIxMDNhZmIyYmJiNmNjOTE0NzRjOTZjMjg3NGE3M2FhYzFjYWE2YzAyZDE5ZDA0MWVkMmZjMTI4NGQ2YzU0NWZlIn0"
         }
       ]
     },
@@ -421,10 +421,24 @@
           "version": "repo-lines-v1:sha256:64b8e149991e75e0855814378ea44f8c1c9f28647b3b6cc94ad65b0cbc370a67:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0ZmQxNDVjZmI1MGI0MzNjYzc4OGY1ZDYzNjRiYThjNjhiMTdmODNkMTY5N2Q0YTliNTQ2MTQyZjUyNzk2MjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNjNWQxZjA3N2YzZDQwNDIzOWFhMTViYTNmOGUyMWNkOGFmZDczMWEyMDBjMmVmZTFmYTNhYWRkMTI0ZjlkNTEifQ"
         }
       ]
+    },
+    {
+      "id": "claim_12a613aa761d4405a4121861da63732e",
+      "statement": "GuideRichText drops an external link to the old Squarespace site that ends in an empty #, rendering its children as plain prose so coordinates inside it become chips again.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/game/GuideRichText.tsx#L71-L113",
+          "version": "repo-lines-v1:sha256:e032d43b337beaac7f7c2b000e15248e01141820c194f27d27ca0e075e03fd3d:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ2MjIwZDFjOTgyNmFiYTNiYzc2MTRjOWQ4MDMyZDY3MDU1M2ZhZmI1ZmE5ZWQyZmU0MzZhMGRlZDQ3YjgzYjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRiZTNmNmUwZWVlMjFjMGNiZjBlNzQzYzBkMWY5MDM1ZTQ1MzQ3MjY3NGFmNWY1MTZhYWU0NWJjYzk5M2VkZTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg3ZWE4YjdjY2FlYWNjMjBiOGI3NDU5NzVmN2JmNGI1ZGU2ZjgwZTFhODdmZjgyY2E1ODIxYTUxN2E1YWQ3YTIifQ"
+        },
+        {
+          "resource": "repo://tests/unit/guide-body.test.tsx#L65-L80",
+          "version": "repo-lines-v1:sha256:a164e39122c91c062a40fafa085be59b1e6ee3e1b6a1c829968d0b23a9573d36:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBlZDg4ZGUwODljNDNjNjM2OTg2ZDVkODNhOGUzMjVjM2YxMjI0M2UwNDQ3OGY0Zjg4ODdjYzBiOTNhZDY2NjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkzOTg5ODFkZmNkZDFiODkwMzlkNGI5ZThmY2Y5MjMxMzQyN2E0YTdhNTVkODgzNjYzN2Q1MjAyMTgzN2Y0NzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk4M2UyM2M2NWE4OWFhYTUwYWJlOGI4M2RlOTU5ODkyMTYwNTUxYWEyZTUzZmNmNThkNDMwYTUwYzU4MmZiNjUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-08T11:00:21.339Z"
+    "at": "2026-11-09T11:00:21.744Z"
   }
 }

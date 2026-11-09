@@ -3,9 +3,6 @@ type: feature
 title: Home page
 description: The home page at / - its sections, the counts it shares with the header, the simulated live state, the hero quest search island that loads its engine and index on first focus, the static art pipeline, and how it stays inside its JavaScript and render-blocking CSS budget.
 tags: [frontend, home, search, islands, performance, images]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-08T11:00:21.339Z
 sources:
   - id: openwiki-source-08041eccd454d12ff003046d
     resource: repo://scripts/build-home-images.ts
@@ -29,13 +26,20 @@ sources:
     resource: repo://src/components/home/HeroSearch.tsx
   - id: openwiki-source-8d7561f0048965bae272d02d
     resource: repo://src/components/home/home.css
+  - id: openwiki-source-66bf87151b29d7c77f7b681f
+    resource: repo://src/components/site/search.ts
   - id: openwiki-source-bf8e9f6d6570c9b0df47bfe1
     resource: repo://src/lib/site/counts.ts
   - id: openwiki-source-e917033cef40494d844249a6
     resource: repo://src/lib/site/live.ts
   - id: openwiki-source-1ad069df7a453770f4cdef35
     resource: repo://tests/e2e/inicio.spec.ts
-generated: { by: "claude-code", at: "2026-11-08T11:00:21.339Z" }
+  - id: openwiki-source-3e3179409ea49f06dbda4ea5
+    resource: repo://tests/unit/home-hero.test.tsx
+generated: { by: "claude-code", at: "2026-11-09T11:00:21.744Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-09T11:00:21.744Z
 ---
 
 # Home page
@@ -65,10 +69,11 @@ In order:
 
 The hero's form is server-rendered by `Hero`: `role="search"`, its label and help text, and `action` pointing at the legacy site's search (`legacyHref('search')`). Without JavaScript, submitting goes to the search on torrentearcano.com.
 
-`HeroSearch` (`src/components/home/HeroSearch.tsx`) is the client island: the field of a WAI-ARIA combobox with a listbox whose results float under it, so opening it, typing or loading never moves the page.
+`HeroSearch` (`src/components/home/HeroSearch.tsx`) is the client island: the field (placeholder "Una misión o un logro") of a WAI-ARIA combobox with a listbox whose results float under it, so opening it, typing or loading never moves the page.
 
-- **Lazy loading.** The result rows (`HeroResults.tsx`) and the search engine (`src/components/site/search.ts`) arrive with `import()` the first time the field gets focus, never on page load. The guide index is fetched then too. The engine and the index are shared with the header's search dialog: one request per page between the two (see [Site header, footer and search](site-shell-and-search.md)).
-- **Matching.** One letter asks for another; from two letters it lists matching quests with the matches in `<mark>`, as text, never as `innerHTML`.
+- **Lazy loading.** The result rows (`HeroResults.tsx`) and the search engine (`src/components/site/search.ts`) arrive with `import()` the first time the field gets focus, never on page load. The search index (guides, achievement pages and metalogros) is fetched then too. The engine and the index are shared with the header's search dialog: one request per page between the two (see [Site header, footer and search](site-shell-and-search.md)).
+- **Matching.** One letter asks for another; from two letters `heroResults` (in `search.ts`) ranks the quests, the published achievement pages and the metalogros that open, the same groups as the header dialog without the menu, with the matches in `<mark>`, as text, never as `innerHTML`. An achievement in «En preparación» has no page and is not found. The status line counts each group ("1 misión · 1 logro").
+- **Groups.** The listbox is named "Resultados". With one group the options are listed directly; with more than one, `HeroOptions` (`HeroResults.tsx`) wraps each in a `role="group"` labelled by its title (Misiones, Logros, Metalogros), the ARIA APG grouped-options pattern. Option ids run on across groups, so the arrow keys walk every option in the order shown. Groups go from best match to worst, quests first on a tie.
 - **Keyboard.** The arrows move the active option; Enter opens it, and Enter with nothing chosen opens the first result. Enter while a new list is still loading opens the first result for what was typed, not one from the old list. Esc closes, a second Esc clears, and a click outside closes. With Ctrl, Cmd or the middle button a result opens in a new tab.
 - **Errors.** If the index fails to load, the panel says so and the next focus retries.
 - **Header button.** While the field is visible, the header's search button steps aside (`html.hs-on`).
@@ -95,8 +100,8 @@ Lighthouse CI measures `/`; see [Performance budgets](../testing/performance-bud
 
 ## Tests
 
-- `tests/unit/home-hero.test.tsx`: the hero and its search island markup.
+- `tests/unit/home-hero.test.tsx`: the hero and its search island markup, and `HeroOptions` with one group (no titles) and several (titled groups, option ids continuing across them).
 - `tests/unit/home-sections.test.tsx`: the other sections.
 - `tests/unit/site-live.test.ts`: `liveState`.
 - `tests/integration/site-counts.test.ts`: the counts as a visitor.
-- `tests/e2e/inicio.spec.ts`: the hero; no index request on load, only on focus; one letter versus two; no layout shift; arrows and Enter, including a key pressed while a new list arrives; Esc and outside clicks; a click opening a quest; the load error and retry; the header button stepping aside; axe (WCAG 2.2 AA) in every search state; Torre not moving on focus; the field and panel on mobile; no horizontal overflow; the missions card matching the header count; each card one link going where the menu goes; the guide tour framing; the checklists; the author; the compact footer; every image loading; axe on the whole page in both modes; the 2 × 2 cards on mobile.
+- `tests/e2e/inicio.spec.ts`: the hero; no index request on load, only on focus; one letter versus two; no layout shift; arrows and Enter, including a key pressed while a new list arrives; Esc and outside clicks; a click opening a quest; the load error and retry; published achievements found in their own titled group, a preparing one not found, and the arrows crossing from one group to the next; the header button stepping aside; axe (WCAG 2.2 AA) in every search state; Torre not moving on focus; the field and panel on mobile; no horizontal overflow; the missions card matching the header count; each card one link going where the menu goes; the guide tour framing; the checklists; the author; the compact footer; every image loading; axe on the whole page in both modes; the 2 × 2 cards on mobile.

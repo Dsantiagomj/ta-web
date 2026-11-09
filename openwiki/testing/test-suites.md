@@ -54,6 +54,8 @@ sources:
     resource: repo://tests/fixtures/dofusdb/quests.json
   - id: openwiki-source-1c31b10d596a8990b9ccb573
     resource: repo://tests/fixtures/squarespace/el-cazador-cazado.html
+  - id: openwiki-source-ed8ed36330376a51e8f54b82
+    resource: repo://tests/integration/achievement-fixes.test.ts
   - id: openwiki-source-e57aa8deceed5152aa47af8a
     resource: repo://tests/integration/achievement-page-queries.test.ts
   - id: openwiki-source-4d4ac9e1e628bf6a685e4bf2
@@ -150,10 +152,10 @@ sources:
     resource: repo://vitest.config.mts
   - id: openwiki-source-57da85ca1bb457973a5594ff
     resource: repo://vitest.integration.config.mts
-generated: { by: "claude-code", at: "2026-11-08T11:00:21.339Z" }
+generated: { by: "claude-code", at: "2026-11-09T11:00:21.744Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-08T11:00:21.339Z
+    at: 2026-11-09T11:00:21.744Z
 ---
 
 # Test suites
@@ -198,7 +200,7 @@ Real Payload (`getPayload`) against a real Postgres with the committed migration
 - `quest-guides-autofill.test.ts` saves guides as a panel user with only a quest linked and checks the fill on save: title, slug, SEO and the summary from DofusDB (quest items left out of the needs list, notes empty), a `-2` slug on collision, written fields and needs lists kept, a guide without title and quest rejected with the Spanish message, an imported guide keeping its slug on edit, and a summary field emptied on update filled again. It deletes every guide, quest and item afterwards. See [Writing a quest guide](../cms/guide-authoring.md#tests).
 - `users-lockout.test.ts` checks that five wrong passwords lock a panel account, even for the right password, and that four do not.
 - `guide-page-queries.test.ts` runs the guide page queries: published guide with its quest populated, item icons and fight monster images, no draft for a visitor, no result for unknown, malformed or reserved slugs, drafts only in preview with a user, links only to published prerequisite guides, the quest giver with its renders, and the next quest with its published guide.
-- `achievement-pages.test.ts`, `achievement-page-queries.test.ts`, `refresh-achievements.test.ts` and `import-achievements.test.ts` cover the achievement collections: values from DofusDB, sections, the pages the refresh creates (idempotent), Torre's edits surviving, the shared slug space, the public page and preview queries, a guide's achievement page and position, the metalogros index read, the DofusDB refresh of categories and achievements, and Torre's index import (dry run, names, slugs, order, states). See [Achievement data model](../achievements/achievement-data.md#tests) and [Importing Torre's achievement pages](../data/achievements-import.md#tests).
+- `achievement-pages.test.ts`, `achievement-page-queries.test.ts`, `refresh-achievements.test.ts`, `import-achievements.test.ts` and `achievement-fixes.test.ts` cover the achievement collections: values from DofusDB, sections, the pages the refresh creates (idempotent), Torre's edits surviving, the shared slug space, the public page and preview queries, a guide's achievement page and position, the metalogros index read and the achievement and metalogro rows of the search index (`readSearchIndex`), the DofusDB refresh of categories and achievements, Torre's index import (dry run, names, slugs, order, states) and the targeted fixes of `pnpm fix:achievements` (dry run, only the listed entries, siblings shifted in order, idempotent, unpublished drafts skipped). See [Achievement data model](../achievements/achievement-data.md#tests) and [Importing Torre's achievement pages](../data/achievements-import.md#tests).
 - `refresh-game-images.test.ts` imports item and monster images once with their key, reuses files, retries failures and collects the targets from quests, achievements, achievement pages and metalogros. See [DofusDB game data refresh](../data/dofusdb-refresh.md#game-images).
 - `guide-search-index.test.ts` checks the header search index holds only published guides, their published version, each once and sorted by title; `site-counts.test.ts` checks the header counts as a visitor.
 - `restore-closings.test.ts` and `backfill-fights.test.ts` cover `pnpm guides:backfill`: dry runs, applied changes, idempotent reruns, drafts kept as drafts and image retries. See [Squarespace import](../data/squarespace-import.md#bringing-imported-guides-up-to-date).
@@ -231,8 +233,8 @@ Specs:
 - `robots.spec.ts`: outside dev, `robots.txt` allows indexing except `/admin`, and the home page has no `X-Robots-Tag`.
 - `guia.spec.ts`: the public guide page on the seeded guides (header, mobile NPC and breadcrumb, steps, fight block, next quest card, the single 880 px column, the rewards bag by keyboard and without JavaScript, prose-only guide, SEO, 404, reserved routes, viewer, video at 390px, coordinate copy, axe in Arcano dark and light) and draft preview.
 - `logro.spec.ts` and `metalogros.spec.ts`: the achievement page and the metalogros index on the seeded achievement data. See [Achievement page](../achievements/achievement-page.md#tests) and [Metalogros index](../achievements/metalogros-index.md#budget-and-tests).
-- `cabecera.spec.ts`: the site header, footer and search dialog. See [Site header, footer and search](../frontend/site-shell-and-search.md#tests).
-- `inicio.spec.ts`: the home page and its hero search. See [Home page](../frontend/home-page.md#tests). See [Public quest guide page](../frontend/guide-page.md#tests).
+- `cabecera.spec.ts`: the site header, footer and search dialog, including achievements and metalogros in the search. See [Site header, footer and search](../frontend/site-shell-and-search.md#tests).
+- `inicio.spec.ts`: the home page and its hero search, including achievements in their own group. See [Home page](../frontend/home-page.md#tests). See [Public quest guide page](../frontend/guide-page.md#tests).
 - `brand.spec.ts`: the favicon SVG, PNG fallback and iOS icon links, the emblem left of the name in the header with the theme colors, 30px on phones, and axe on the header in Arcano dark and light.
 - `fonts.spec.ts`: the home page and the guide preload only the Montserrat file, and every Montserrat weight comes from that file in one family.
 - `sistema.spec.ts`: the `/sistema` component catalog in all five themes and both modes: figures with the narrow no-break thousands space, every component group visible, hand-written CSS following each section's theme, coordinate copy, 40px hit targets, dark icon wells in light mode, no YouTube request before a video click, the 480px screenshot on a phone, the fullscreen image viewer (open, close, focus return, theme), and axe (`@axe-core/playwright`, WCAG 2.2 AA tags) on the open viewer and the whole page. See [Component catalog (/sistema)](../frontend/component-catalog.md).
