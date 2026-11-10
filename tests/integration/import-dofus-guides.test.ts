@@ -4,6 +4,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import type { DofusCatalogEntry } from '../../scripts/import/dofus-guides/catalog'
 import {
   loadDofusGuides,
+  loadDofusIndexIntro,
   type LoadDofusGuidesOptions,
 } from '../../scripts/import/dofus-guides/load'
 import type { DofusGuideSource } from '../../scripts/import/dofus-guides/parse'
@@ -267,5 +268,42 @@ describe('loadDofusGuides', () => {
     expect(after.color).toBe('#123456')
     expect(after.tag).toBe('primordial')
     expect(JSON.stringify(after.intro)).toContain('La intro que escribió Torre')
+  })
+})
+
+describe('loadDofusIndexIntro', () => {
+  it('pone la entradilla de Torre en el índice solo si está vacía', async () => {
+    await payload.updateGlobal({ slug: 'dofus-guides-index', data: { intro: null } })
+    expect(
+      await loadDofusIndexIntro(payload, {
+        intro: 'Descubre aquí las guías.',
+        apply: false,
+        htmlToLexical,
+      }),
+    ).toBe('se pondría')
+    expect((await payload.findGlobal({ slug: 'dofus-guides-index' })).intro).toBeFalsy()
+
+    expect(
+      await loadDofusIndexIntro(payload, {
+        intro: 'Descubre aquí las guías.',
+        apply: true,
+        htmlToLexical,
+      }),
+    ).toBe('puesta')
+    expect(
+      JSON.stringify((await payload.findGlobal({ slug: 'dofus-guides-index' })).intro),
+    ).toContain('Descubre aquí')
+
+    // Lo que Torre escribió no se toca.
+    await payload.updateGlobal({
+      slug: 'dofus-guides-index',
+      data: { intro: htmlToLexical('<p>La de Torre.</p>') },
+    })
+    expect(await loadDofusIndexIntro(payload, { intro: 'Otra.', apply: true, htmlToLexical })).toBe(
+      'se respeta',
+    )
+    expect(
+      JSON.stringify((await payload.findGlobal({ slug: 'dofus-guides-index' })).intro),
+    ).toContain('La de Torre')
   })
 })

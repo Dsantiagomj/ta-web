@@ -21,6 +21,12 @@ export interface DofusCatalogEntry {
   checklist?: { name: string; url: string }
 }
 
+/** La entradilla de la página de guías de Dofus de Torre, tal cual. */
+export const DOFUS_INDEX_INTRO =
+  'Descubre aquí todas las diferentes guías de los Dofus: primordiales, de evento y muchos más. ' +
+  'Podrás conocer qué misiones y logros son necesarios para obtener el Dofus que quieras, y la ' +
+  'manera más eficiente para no repetir contenido.'
+
 export const DOFUS_CATALOG: readonly DofusCatalogEntry[] = [
   {
     slug: 'dofawa',

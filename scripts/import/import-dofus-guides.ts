@@ -14,9 +14,9 @@ import config from '@payload-config'
 import { databaseScriptRefusal } from '@/lib/db/script-guard'
 import { createDofusDbClient } from '@/lib/dofusdb/client'
 
-import { DOFUS_CATALOG } from './dofus-guides/catalog'
+import { DOFUS_CATALOG, DOFUS_INDEX_INTRO } from './dofus-guides/catalog'
 import { gameItems } from './dofus-guides/game-items'
-import { loadDofusGuides, type DofusGuideInput } from './dofus-guides/load'
+import { loadDofusGuides, loadDofusIndexIntro, type DofusGuideInput } from './dofus-guides/load'
 import { parseDofusGuide } from './dofus-guides/parse'
 import { createPosterFetcher, posterUrl } from './dofus-guides/video-poster'
 import type { ImageFile } from './load-quest-guides'
@@ -100,10 +100,17 @@ try {
   const fetchPoster = createPosterFetcher()
   const posters = mediaByUrl(payload, (url) => fetchPoster(url.split('/vi/')[1]!.split('/')[0]!))
 
+  const htmlToLexical = await createHtmlToLexical(payload.config)
+  const intro = await loadDofusIndexIntro(payload, {
+    intro: DOFUS_INDEX_INTRO,
+    apply,
+    htmlToLexical,
+  })
+  console.log(`Entradilla del índice: ${intro}`)
   const report = await loadDofusGuides(payload, {
     guides,
     apply,
-    htmlToLexical: await createHtmlToLexical(payload.config),
+    htmlToLexical,
     ensureItem: items.ensureItem,
     findItem: items.findItem,
     mediaFor: images,

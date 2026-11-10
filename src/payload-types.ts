@@ -107,8 +107,12 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: ('false' | 'none' | 'null') | false | null | 'es' | 'es'[];
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'dofus-guides-index': DofusGuidesIndex;
+  };
+  globalsSelect: {
+    'dofus-guides-index': DofusGuidesIndexSelect<false> | DofusGuidesIndexSelect<true>;
+  };
   locale: 'es';
   widgets: {
     collections: CollectionsWidget;
@@ -1904,6 +1908,45 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * El índice /guias-dofus: las tarjetas salen de las guías de Dofus, en su orden.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "dofus-guides-index".
+ */
+export interface DofusGuidesIndex {
+  id: number;
+  /**
+   * El texto bajo el título del índice.
+   */
+  intro?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "dofus-guides-index_select".
+ */
+export interface DofusGuidesIndexSelect<T extends boolean = true> {
+  intro?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
