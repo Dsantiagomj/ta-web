@@ -28,6 +28,9 @@ function fixtureClient(rows: Record<string, unknown[]>) {
       lookups[collection] = ids
       return (rows[collection] ?? []) as T[]
     },
+    fetchWhere: async () => {
+      throw new Error('fetchQuestData no busca por consulta')
+    },
   }
   return { client, lookups, selects }
 }
