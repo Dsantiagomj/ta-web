@@ -112,6 +112,9 @@ const MetalogroPartBlock: Block = {
       label: 'Logros',
       labels: { singular: 'Logro', plural: 'Logros' },
       type: 'array',
+      // Con el nombre por defecto, el índice de su tabla de versiones pasa de los 63
+      // caracteres de Postgres y se truncaría.
+      dbName: 'dofus_meta_ach',
       fields: [achievementField, note],
     },
   ],
