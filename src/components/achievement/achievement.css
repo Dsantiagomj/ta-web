@@ -457,3 +457,379 @@ a.sib__in:focus-visible {
     border-color: var(--color-line);
   }
 }
+
+/* ==========================================================================
+   La página de una guía de Dofus (DESIGN.md, Dofus guides components), sobre las piezas de
+   la página de logro. Va en este archivo y no aparte: la ruta /<slug> sirve guías, logros y
+   guías de Dofus, y cada hoja de estilos más es una petición que bloquea el primer pintado
+   (el LCP de las guías pasó el límite con dofus.css aparte). Sin cajas dentro de cajas: el
+   metalogro y el logro son títulos, las misiones una lista con filetes.
+   ========================================================================== */
+
+.dg-page {
+  --color-section: var(--color-sec-dofus);
+}
+
+/* ---------- cabecera ---------- */
+/* La rejilla de la cabecera del logro, con más especificidad: aquí game.css (.qhead) puede
+   cargar después de achievement.css y dejaría el huevo sin su área. */
+.qhead.dg-head {
+  grid-template: 'icon title' 'icon meta' 'facts facts' / 60px minmax(0, 1fr);
+  column-gap: 16px;
+}
+@media (min-width: 36rem) {
+  .qhead.dg-head {
+    grid-template-columns: 80px minmax(0, 1fr);
+    column-gap: 24px;
+  }
+}
+.dg-head__egg {
+  background:
+    radial-gradient(
+      closest-side,
+      color-mix(in srgb, var(--egg, var(--color-section)) 30%, transparent),
+      transparent
+    ),
+    var(--color-slot);
+}
+.dg-head__egg img {
+  width: 64px;
+  height: 64px;
+}
+@media (min-width: 36rem) {
+  .dg-head__egg img {
+    width: 72px;
+    height: 72px;
+  }
+}
+.dg-tagpill {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  margin-left: 10px;
+  padding: 0 8px;
+  vertical-align: 2px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-accent-2);
+  color: var(--color-accent-2);
+  font: 600 0.6875rem / 1 var(--font-body);
+}
+.dg-facts .guide-rich :where(ul, ol) {
+  margin: 0;
+  padding-left: 1.1em;
+}
+.dg-facts :where(p, li) {
+  margin: 0 0 6px;
+}
+
+/* ---------- prosa y secciones ---------- */
+.dg-intro {
+  margin-top: 28px;
+}
+.dg-prose--note {
+  margin: 8px 0 4px;
+}
+.dg-prose--note p {
+  color: var(--color-ink-2);
+}
+.dg-muted {
+  color: var(--color-ink-2);
+  font-size: var(--text-sm);
+}
+.dg-sec {
+  margin-top: 40px;
+  container-type: inline-size;
+}
+.dg-h3 {
+  margin: 0 0 8px;
+  color: var(--color-section);
+  font: 600 1rem / 1.3 var(--font-body);
+}
+
+/* ---------- Necesitarás, por grupos y en dos columnas donde caben ---------- */
+.dg-needs__cols {
+  columns: 1;
+  column-gap: 32px;
+}
+@container (min-width: 600px) {
+  .dg-needs__cols {
+    columns: 2;
+  }
+}
+.dg-needs__g {
+  margin-bottom: 20px;
+  break-inside: avoid-column;
+}
+.dg-needs__g .dg-h3 {
+  break-after: avoid;
+}
+.dg-needs__l {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dg-needs__l > .row {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  align-items: center;
+  column-gap: 12px;
+  min-height: 44px;
+  break-inside: avoid;
+}
+.dg-needs__l > .row--plain {
+  grid-template-columns: minmax(0, 1fr);
+  min-height: 32px;
+}
+.dg-note :where(p) {
+  margin: 0;
+}
+
+/* ---------- logros y misiones ---------- */
+.dg-meta {
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 1px solid var(--color-line);
+}
+.dg-meta:first-of-type {
+  margin-top: 24px;
+}
+.dg-meta__k {
+  margin: 0 0 4px;
+  color: var(--color-section);
+  font: 600 var(--text-xs) / 1.3 var(--font-body);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.dg-meta__t {
+  margin: 0;
+  color: var(--color-ink);
+  font: 600 1.5rem / 1.2 var(--font-body);
+  text-wrap: balance;
+}
+.dg-ach {
+  margin-top: 28px;
+}
+.dg-meta > .dg-ach:first-of-type {
+  margin-top: 20px;
+}
+.dg-ach__head {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+.dg-ach__icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  border: 1px solid var(--color-slot-line);
+  background: var(--color-slot);
+}
+.dg-ach__icon img {
+  width: 40px;
+  height: 40px;
+}
+.dg-ach__icon .well {
+  border: 0;
+  background: none;
+}
+.dg-ach__t {
+  margin: 0;
+  color: var(--color-ink);
+  font: 600 1.1875rem / 1.25 var(--font-body);
+}
+.dg-ach__t a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-accent) 60%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+.dg-ach__t a:hover {
+  color: var(--color-accent);
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 2px;
+}
+.dg-ach__t--plain {
+  margin-bottom: 12px;
+  font-size: 1.125rem;
+}
+.dg-ach__m {
+  margin: 2px 0 0;
+  color: var(--color-ink-2);
+  font-size: var(--text-sm);
+}
+.dg-ach .ztag {
+  margin-top: 4px;
+}
+.dg-ach__note {
+  margin: 4px 0 8px 62px;
+}
+
+.dg-ql {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@container (min-width: 600px) {
+  .dg-ql--cols {
+    columns: 2;
+    column-gap: 32px;
+  }
+}
+.dg-ql__i {
+  position: relative;
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  align-items: center;
+  column-gap: 14px;
+  min-height: 60px;
+  padding: 8px 8px 8px 0;
+  border-top: 1px solid var(--color-line);
+  break-inside: avoid;
+}
+.dg-ql__i > div {
+  min-width: 0;
+}
+.dg-ql__npc {
+  display: grid;
+  place-items: end center;
+  height: 48px;
+}
+.dg-ql__npc img {
+  width: auto;
+  height: auto;
+  max-width: 44px;
+  max-height: 48px;
+  filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.25));
+}
+.dg-ql__k {
+  margin: 0;
+  color: var(--color-ink-2);
+  font-size: var(--text-xs);
+  line-height: 1.4;
+}
+.dg-ql__t {
+  margin: 1px 0 0;
+  color: var(--color-ink);
+  font: 600 1rem / 1.35 var(--font-body);
+}
+/* El título enlazado cubre la fila: toda la fila abre la guía. */
+.dg-ql__a {
+  color: inherit;
+  text-decoration: none;
+}
+.dg-ql__a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+}
+.dg-ql__a:focus-visible {
+  outline: none;
+}
+.dg-ql__a:focus-visible::after {
+  outline: 2px solid var(--color-ink);
+  outline-offset: -2px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .dg-ql__i--link {
+    transition: background-color var(--duration-fast) var(--ease-standard);
+  }
+  .dg-ql__i--link:hover {
+    background: color-mix(in srgb, var(--color-raised) 55%, transparent);
+  }
+  .dg-ql__i--link:hover .dg-ql__a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+.dg-ql .ztag {
+  margin-top: 4px;
+}
+.dg-qnote {
+  margin: 2px 0 0;
+  color: var(--color-ink-2);
+  font-size: var(--text-sm);
+}
+
+/* ---------- checklist ---------- */
+.dg-chk {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  max-width: 560px;
+  margin-top: 24px;
+  padding: 12px 18px 12px 12px;
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--color-sec-checklists) 55%, transparent);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  text-decoration: none;
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+.dg-chk:hover {
+  border-color: var(--color-sec-checklists);
+}
+.dg-chk:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 4px;
+}
+.dg-chk:active {
+  transform: scale(0.98);
+  transition: transform var(--duration-press) var(--ease-out);
+}
+.dg-chk__art {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  background: var(--color-slot);
+}
+.dg-chk__art img {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+}
+.dg-chk__k {
+  display: block;
+  color: var(--color-sec-checklists);
+  font: 600 var(--text-xs) / 1.3 var(--font-body);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.dg-chk__t {
+  display: block;
+  font: 600 1.0625rem / 1.3 var(--font-body);
+}
+
+/* ---------- una sola columna centrada, como la de las guías (sin lista lateral) ---------- */
+.logro.dg-single {
+  max-width: 880px;
+}
+
+/* ---------- anterior / siguiente ---------- */
+.dg-egg img {
+  width: 48px;
+  height: 48px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dg-ach__t a,
+  .dg-ql__i--link,
+  .dg-chk {
+    transition: none;
+  }
+  .dg-chk:active {
+    transform: none;
+  }
+}

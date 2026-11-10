@@ -1,12 +1,11 @@
+import { RichText } from '@payloadcms/richtext-lexical/react'
 import type { CSSProperties } from 'react'
 
-import { GuideRichText } from '@/components/game/GuideRichText'
 import { Picture } from '@/components/ui/Picture'
 import type { DofusCard, DofusIndexView } from '@/lib/dofus-guides/index-view'
 import { dofusIndexStrings as s, dofusPageStrings } from '@/lib/dofus-guides/strings'
 import type { RichTextState } from '@/lib/guides/page'
 
-import '../achievement/achievement.css'
 import { DofusIndexIsland } from './DofusIndexIsland'
 import './dofus-index.css'
 
@@ -72,11 +71,7 @@ export function DofusIndex({ view, intro }: { view: DofusIndexView; intro: RichT
       <header className="dg-hero">
         <p className="dg-eyebrow">{s.eyebrow}</p>
         <h1 className="dg-h1">{s.title}</h1>
-        {intro && (
-          <div className="dg-lead guide-body">
-            <GuideRichText content={intro} />
-          </div>
-        )}
+        {intro && <RichText className="dg-lead" data={intro} />}
       </header>
       <DofusIndexIsland filters={view.filters} />
       <DofusCards cards={view.cards} />
