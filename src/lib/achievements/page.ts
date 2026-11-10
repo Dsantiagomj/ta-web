@@ -23,7 +23,7 @@ export const metalogroHref = (slug: string) =>
 type Relation<T> = number | T | null | undefined
 type MediaRef = Relation<Media | (Partial<Media> & { id: number })>
 
-interface QuestDoc {
+export interface QuestDoc {
   id: number
   name?: string | null
   levelMin?: number | null
@@ -210,16 +210,56 @@ function groupItem(doc: SiblingDoc, currentId: number): GroupItem {
   }
 }
 
-/** Lo que pinta la página de un logro. */
-export function achievementPageView(data: AchievementPageData): AchievementPageView {
-  const { page } = data
-  const guideByQuest = new Map(data.guides.map((guide) => [guide.questId, guide]))
-  const rows = (page.quests ?? []).map((row) => ({
+/** Las misiones de un logro en filas: una o varias alternativas (la misión de clase). */
+export interface QuestRow {
+  name: string
+  quests: QuestDoc[]
+}
+
+/** Las filas de misiones de una página de logro, con sus misiones pobladas. */
+export function questRows(page: Pick<PageDoc, 'quests'>): QuestRow[] {
+  return (page.quests ?? []).map((row) => ({
     name: row.name ?? '',
     quests: (row.quests ?? [])
       .map((quest) => populated(quest))
       .filter((q): q is QuestDoc => q !== null),
   }))
+}
+
+/**
+ * Las tarjetas de las misiones de un logro, en orden: el PNJ que da la misión, su nivel y
+ * su título, con enlace si su guía está publicada. Una fila de alternativas es una tarjeta
+ * con el nombre de la fila y el nivel más bajo. Las comparte la guía de Dofus.
+ */
+export function questCards(
+  rows: QuestRow[],
+  guideByQuest: Map<number, { slug: string }>,
+  givers: AchievementPageData['givers'],
+): QuestCard[] {
+  return rows.map((row, index): QuestCard => {
+    const level = rowLevel(row.quests)
+    const only = row.quests.length === 1 ? row.quests[0]! : null
+    const guide = only ? guideByQuest.get(only.id) : undefined
+    const npcId = only?.startPositions?.find((position) => position.npcId != null)?.npcId
+    const giver = npcId != null ? icon(givers.get(npcId)?.renderRight) : undefined
+    return {
+      position: index + 1,
+      ...(level && { level }),
+      title: only?.name ?? row.name,
+      ...(guide && { href: `/${guide.slug}` }),
+      ...(giver && { giver }),
+    }
+  })
+}
+
+/** «Niveles 15 a 25» de unas tarjetas, o nada. */
+export const cardLevels = (cards: QuestCard[]) => levelRange(cards.map((card) => card.level))
+
+/** Lo que pinta la página de un logro. */
+export function achievementPageView(data: AchievementPageData): AchievementPageView {
+  const { page } = data
+  const guideByQuest = new Map(data.guides.map((guide) => [guide.questId, guide]))
+  const rows = questRows(page)
   const ownQuests = new Set(rows.flatMap((row) => row.quests.map((quest) => quest.id)))
 
   // Prerrequisitos: las misiones previas de fuera del logro, sin repetir.
@@ -259,20 +299,7 @@ export function achievementPageView(data: AchievementPageData): AchievementPageV
     notes: [],
   }
 
-  const quests = rows.map((row, index): QuestCard => {
-    const level = rowLevel(row.quests)
-    const only = row.quests.length === 1 ? row.quests[0]! : null
-    const guide = only ? guideByQuest.get(only.id) : undefined
-    const npcId = only?.startPositions?.find((position) => position.npcId != null)?.npcId
-    const giver = npcId != null ? icon(data.givers.get(npcId)?.renderRight) : undefined
-    return {
-      position: index + 1,
-      ...(level && { level }),
-      title: only?.name ?? row.name,
-      ...(guide && { href: `/${guide.slug}` }),
-      ...(giver && { giver }),
-    }
-  })
+  const quests = questCards(rows, guideByQuest, data.givers)
 
   const levels = levelRange(quests.map((card) => card.level))
   const points = positive(page.points)
@@ -334,7 +361,7 @@ function metalogroParents(group: { name: string; slug: string } | null) {
  * Las migas: solo los padres, porque el h1 nombra la página; la página actual va en el
  * JSON-LD. Un enlace del sitio («/la-ocasion…») va con el origen en el JSON-LD.
  */
-function buildBreadcrumb(
+export function buildBreadcrumb(
   parents: { name: string; href: string }[],
   current: { name: string; href: string },
   siteUrl: string,
