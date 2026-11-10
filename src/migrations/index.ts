@@ -13,6 +13,7 @@ import * as migration_20261107_143215_remove_step_title from './20261107_143215_
 import * as migration_20261107_210926_achievements_game_data from './20261107_210926_achievements_game_data';
 import * as migration_20261107_214742_achievement_pages_groups from './20261107_214742_achievement_pages_groups';
 import * as migration_20261110_000232_dofus_guides from './20261110_000232_dofus_guides';
+import * as migration_20261110_052805_dofus_guides_import from './20261110_052805_dofus_guides_import';
 
 export const migrations = [
   {
@@ -88,6 +89,11 @@ export const migrations = [
   {
     up: migration_20261110_000232_dofus_guides.up,
     down: migration_20261110_000232_dofus_guides.down,
-    name: '20261110_000232_dofus_guides'
+    name: '20261110_000232_dofus_guides',
+  },
+  {
+    up: migration_20261110_052805_dofus_guides_import.up,
+    down: migration_20261110_052805_dofus_guides_import.down,
+    name: '20261110_052805_dofus_guides_import'
   },
 ];
