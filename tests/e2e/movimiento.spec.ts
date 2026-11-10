@@ -37,11 +37,27 @@ async function recordReveals(page: Page) {
 
 const reveals = (page: Page) =>
   page.evaluate(() => {
+    // Si alguna página no pudo guardar lo que vio, la lista estaría incompleta: falla aquí.
+    if (document.documentElement.dataset.revealsBroken) {
+      throw new Error('Sin sessionStorage: una página no pudo anotar si llegó con transición')
+    }
     try {
       return JSON.parse(sessionStorage.getItem('reveals') ?? '[]') as Reveal[]
     } catch {
       throw new Error('Sin sessionStorage: no se pueden leer las páginas mostradas')
     }
+  })
+
+/**
+ * Cierra un diálogo abierto y mira cómo queda en el primer fotograma de su salida: sigue
+ * pintado (la transición de display lo mantiene), pero ya no recibe clics.
+ */
+const whileLeaving = (dialog: Locator) =>
+  dialog.evaluate((node) => {
+    const open = getComputedStyle(node).pointerEvents
+    ;(node as HTMLDialogElement).close()
+    const style = getComputedStyle(node)
+    return { open, display: style.display, leaving: style.pointerEvents }
   })
 
 /** Las transiciones CSS que arrancan dentro de un elemento: «clase:propiedad». */
@@ -193,6 +209,18 @@ test.describe('cabecera', () => {
     expect(seen).toContain('sdlg:overlay')
     expect(seen.some((t) => t.endsWith(':opacity') && !t.startsWith('sdlg:'))).toBe(true)
   })
+
+  test('mientras la búsqueda sale, no recibe clics', async ({ page }) => {
+    await ready(page, guide)
+    const dialog = page.locator('dialog.sdlg')
+    await page.keyboard.press('Control+k')
+    await expect(dialog).toBeVisible()
+    await settle(page)
+    const state = await whileLeaving(dialog)
+    expect(state.open).toBe('auto')
+    expect(state.display).not.toBe('none')
+    expect(state.leaving).toBe('none')
+  })
 })
 
 test.describe('menú del móvil', () => {
@@ -213,6 +241,18 @@ test.describe('menú del móvil', () => {
     expect(seen).toContain('sheet:transform')
     expect(seen).toContain('sheet:overlay')
     expect(seen).toContain('stile__p:opacity')
+  })
+
+  test('mientras el menú sube, no recibe clics', async ({ page }) => {
+    await ready(page, guide)
+    const sheet = page.locator('#site-sheet')
+    await page.getByRole('button', { name: 'Menú' }).click()
+    await expect(sheet).toBeVisible()
+    await settle(page)
+    const state = await whileLeaving(sheet)
+    expect(state.open).toBe('auto')
+    expect(state.display).not.toBe('none')
+    expect(state.leaving).toBe('none')
   })
 })
 
@@ -239,6 +279,10 @@ test.describe('guía', () => {
     await watchTransitions(frame)
     await page.getByRole('link', { name: `Ver el vídeo: ${seedGuide.video.title}` }).click()
     await expect(frame.locator('iframe')).toHaveCount(1)
+    // El enlace (portada o insignia) sigue debajo, inerte: el reproductor se funde sobre él,
+    // no sobre el vacío.
+    await expect(frame.locator('.video__badge')).toBeVisible()
+    await expect(frame.locator('.video__link')).toHaveJSProperty('inert', true)
     await expect.poll(() => transitions(frame)).toContain('video__player:opacity')
   })
 })

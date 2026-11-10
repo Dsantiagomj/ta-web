@@ -830,6 +830,8 @@ html {
   /* Baja desde arriba y sube al cerrarse (DESIGN.md, Motion: Mobile sheet); `overlay` y
      `display` lo mantienen en la capa superior mientras sale. */
   transform: translateY(-100%);
+  /* Mientras sube sigue en la capa superior: no debe tapar los clics de la página. */
+  pointer-events: none;
   transition:
     transform var(--duration-base) var(--ease-in),
     overlay var(--duration-base) allow-discrete,
@@ -839,6 +841,7 @@ html {
 .sheet::backdrop {
   background: rgb(0 0 0 / 0.5);
   opacity: 0;
+  pointer-events: none;
   transition:
     opacity var(--duration-fast) var(--ease-standard),
     overlay var(--duration-base) allow-discrete,
@@ -849,12 +852,14 @@ html {
   display: flex;
   flex-direction: column;
   transform: none;
+  pointer-events: auto;
   transition-duration: var(--duration-slow);
   transition-timing-function: var(--ease-out);
 }
 
 .sheet[open]::backdrop {
   opacity: 1;
+  pointer-events: auto;
 }
 
 @starting-style {
@@ -991,6 +996,7 @@ html {
   display: none;
   opacity: 0;
   transform: translateY(-4px);
+  pointer-events: none;
 }
 
 @starting-style {
@@ -1049,6 +1055,8 @@ html {
   /* Como todo diálogo (DESIGN.md, Motion: Dialogs): entra subiendo 12px, sale en el 70 %. */
   opacity: 0;
   transform: translateY(12px) scale(0.98);
+  /* Mientras sale sigue en la capa superior: no debe tapar los clics de la página. */
+  pointer-events: none;
   transition:
     opacity var(--duration-base) var(--ease-in),
     transform var(--duration-base) var(--ease-in),
@@ -1060,6 +1068,7 @@ html {
   display: flex;
   flex-direction: column;
   opacity: 1;
+  pointer-events: auto;
   transform: none;
   transition-duration: var(--duration-slow);
   transition-timing-function: var(--ease-out);
@@ -1068,6 +1077,7 @@ html {
 .sdlg::backdrop {
   background: rgb(0 0 0 / 0.55);
   opacity: 0;
+  pointer-events: none;
   transition:
     opacity var(--duration-fast) var(--ease-standard),
     overlay var(--duration-base) allow-discrete,
@@ -1076,6 +1086,7 @@ html {
 
 .sdlg[open]::backdrop {
   opacity: 1;
+  pointer-events: auto;
 }
 
 @starting-style {

@@ -81,8 +81,9 @@ export function PageEnhancements() {
       player.allow = 'autoplay; encrypted-media; picture-in-picture'
       player.allowFullscreen = true
       player.className = 'video__player'
-      // Se oculta en vez de quitarlo: el nodo es de React.
-      link.hidden = true
+      // Inerte en vez de quitarlo (el nodo es de React) o de ocultarlo: la portada sigue
+      // debajo mientras el reproductor entra con su fundido, fuera del tabulador y del lector.
+      link.inert = true
       link.after(player)
       player.focus()
     }
