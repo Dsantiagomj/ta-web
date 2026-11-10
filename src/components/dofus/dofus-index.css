@@ -1,5 +1,5 @@
 /* El índice /guias-dofus (DESIGN.md, Dofus guides components): tarjetas, buscador y filtros.
-   Va aparte de dofus.css para que la ruta /<slug> (guías, logros y guías de Dofus) no cargue
+   Va aparte de achievement.css para que la ruta /<slug> (guías, logros y guías de Dofus) no cargue
    estos estilos: su CSS bloquea el primer pintado. */
 
 .dg-index {

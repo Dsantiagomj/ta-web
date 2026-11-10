@@ -21,7 +21,6 @@ import type { GuideBlock } from '@/lib/guides/page'
 import { youtubeWatchUrl } from '@/lib/guides/video'
 
 import '../achievement/achievement.css'
-import './dofus.css'
 
 const eggStyle = (color?: string) =>
   (color ? { '--egg': color } : undefined) as CSSProperties | undefined
