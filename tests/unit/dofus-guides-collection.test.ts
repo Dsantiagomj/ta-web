@@ -48,6 +48,11 @@ describe('colección dofus-guides', () => {
     expect(isGuideSlug('guias-dofus')).toBe(false)
   })
 
+  it('el panel abre la vista previa de la página, borrador incluido', () => {
+    expect(DofusGuides.admin?.livePreview?.url).toBeTypeOf('function')
+    expect(DofusGuides.admin?.preview).toBeTypeOf('function')
+  })
+
   it('enlaza el objeto Dofus de DofusDB, de donde sale su huevo', () => {
     expect(field(DofusGuides.fields, 'dofus')).toMatchObject({
       type: 'relationship',

@@ -7,6 +7,7 @@ import { RichTextBlock } from '../blocks/RichTextBlock'
 import { StepBlock } from '../blocks/StepBlock'
 import { validateVideoUrl, VideoBlock } from '../blocks/VideoBlock'
 import { dofusGuideStrings } from '../lib/dofus-guides/strings'
+import { guidePreviewUrl, previewOrigin } from '../lib/guides/preview'
 import { stateField } from './achievement-fields'
 import { isPanelUser, readPublishedOrAll } from './editorial-access'
 import { validateOptionalUrl } from './Media'
@@ -187,7 +188,12 @@ export const DofusGuides: CollectionConfig = {
     useAsTitle: 'name',
     group: 'Guías',
     defaultColumns: ['name', 'order', 'state', '_status', 'updatedAt'],
-    // La vista previa llega con la página pública, que es la que pinta (AGENTS.md).
+    // La página pública en el panel, borrador incluido, como las guías y los logros.
+    livePreview: {
+      url: ({ data, req }) => guidePreviewUrl(data?.slug, previewOrigin(process.env, req.origin)),
+      breakpoints: [{ name: 'movil', label: 'Móvil', width: 390, height: 844 }],
+    },
+    preview: (doc, { req }) => guidePreviewUrl(doc?.slug, previewOrigin(process.env, req.origin)),
   },
   access: {
     read: readPublishedOrAll,

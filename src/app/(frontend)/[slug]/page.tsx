@@ -16,12 +16,15 @@ import {
 import { Breadcrumb } from '@/components/site/Breadcrumb'
 import { guideBreadcrumb } from '@/lib/achievements/page'
 import { achievementPageStrings } from '@/lib/achievements/strings'
+import { dofusPageStrings } from '@/lib/dofus-guides/strings'
 import { SITE_URL } from '@/lib/site/origin'
 
 import { siteStrings } from '../strings'
 import { loadAchievementPage } from './achievement-data'
 import { AchievementView } from './AchievementView'
 import { loadGuidePage } from './data'
+import { loadDofusGuide } from './dofus-data'
+import { DofusGuideView } from './DofusGuideView'
 import { LivePreviewRefresh } from './LivePreviewRefresh'
 import { PreviewBar } from './PreviewBar'
 
@@ -33,18 +36,39 @@ function achievementSeo(name: string, quests: number) {
   return { title: s.title(name), description: s.description(name, quests) }
 }
 
-// /<slug> es una guía o un logro: los slugs no chocan (src/collections/root-slug.ts).
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const slug = (await params).slug
+/** Lo que dicen los metadatos de la página del slug, o null si no hay página. */
+async function slugSeo(slug: string) {
   const page = await loadGuidePage(slug)
-  const achievement = page ? null : await loadAchievementPage(slug)
-  // Sin guía ni logro, la página llama a notFound() y Next pone noindex.
-  if (!page && !achievement) return {}
-  const { title, description } = page
-    ? guideSeo(page.guide)
-    : achievementSeo(achievement!.page.name, achievement!.page.quests?.length ?? 0)
-  const url = `/${page ? page.guide.slug : achievement!.page.slug}`
-  const preview = page ? page.preview : achievement!.preview
+  if (page) return { ...guideSeo(page.guide), url: `/${page.guide.slug}`, preview: page.preview }
+  const achievement = await loadAchievementPage(slug)
+  if (achievement) {
+    const { name, quests } = achievement.page
+    return {
+      ...achievementSeo(name, quests?.length ?? 0),
+      url: `/${achievement.page.slug}`,
+      preview: achievement.preview,
+    }
+  }
+  const dofus = await loadDofusGuide(slug)
+  if (dofus) {
+    const { seo } = dofusPageStrings
+    return {
+      title: seo.title(dofus.guide.name),
+      description: seo.description(dofus.guide.name),
+      url: `/${dofus.guide.slug}`,
+      preview: dofus.preview,
+    }
+  }
+  return null
+}
+
+// /<slug> es una guía, un logro o una guía de Dofus: los slugs no chocan
+// (src/collections/root-slug.ts).
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const found = await slugSeo((await params).slug)
+  // Sin página, la página llama a notFound() y Next pone noindex.
+  if (!found) return {}
+  const { title, description, url, preview } = found
   return {
     title,
     description,
@@ -62,15 +86,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-/** Una guía o un logro; si no es ninguno, 404. */
+/** Una guía, un logro o una guía de Dofus; si no es ninguno, 404. */
 export default async function SlugPage({ params }: Props) {
   const slug = (await params).slug
   const page = await loadGuidePage(slug)
   if (page) return <QuestGuideView page={page} />
-  // Un logro En preparación no tiene página: la consulta no lo devuelve a un visitante.
+  // Un logro o un Dofus En preparación no tienen página: la consulta no se los da a un visitante.
   const achievement = await loadAchievementPage(slug)
-  if (!achievement) notFound()
-  return <AchievementView data={achievement} preview={achievement.preview} />
+  if (achievement) return <AchievementView data={achievement} preview={achievement.preview} />
+  const dofus = await loadDofusGuide(slug)
+  if (!dofus) notFound()
+  return <DofusGuideView data={dofus} preview={dofus.preview} />
 }
 
 /**
