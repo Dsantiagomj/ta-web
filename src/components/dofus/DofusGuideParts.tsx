@@ -282,58 +282,6 @@ export function DofusChecklist({
   )
 }
 
-function ListInner({ item }: { item: DofusListItem }) {
-  return (
-    <>
-      <IconWell image={item.egg} />
-      <span className="sib__txt">
-        <span className="sib__n">{item.name}</span>
-        {item.meta && <span className="sib__m">{item.meta}</span>}
-        {item.disabled && <PreparingTag />}
-      </span>
-    </>
-  )
-}
-
-/**
- * Todos los Dofus en el orden de Torre: el actual marcado, uno En preparación apagado y sin
- * enlace, en el orden de lectura. En pantallas anchas la lista se desplaza por dentro.
- */
-export function DofusSideList({ items }: { items: DofusListItem[] }) {
-  return (
-    <aside className="lside" aria-labelledby="dg-todos">
-      <section className="lside__box">
-        <h2 className="lside__h" id="dg-todos">
-          {s.side}
-        </h2>
-        <div className="dg-sidescroll" tabIndex={0} role="region" aria-labelledby="dg-todos">
-          <ol className="sibs" role="list">
-            {items.map((item) => (
-              <li
-                key={item.name}
-                className={`sib${item.current ? ' sib--current' : ''}${item.disabled ? ' sib--off' : ''}`}
-              >
-                {item.href ? (
-                  <a className="sib__in" href={item.href}>
-                    <ListInner item={item} />
-                  </a>
-                ) : (
-                  <div
-                    className="sib__in"
-                    {...(item.current ? { 'aria-current': 'page' } : { 'aria-disabled': true })}
-                  >
-                    <ListInner item={item} />
-                  </div>
-                )}
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-    </aside>
-  )
-}
-
 function NavCard({
   item,
   kicker,

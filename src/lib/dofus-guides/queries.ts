@@ -48,7 +48,7 @@ function partIds(parts: readonly PartDoc[]) {
 
 /**
  * Todos los Dofus en el orden de Torre, con el huevo de su objeto y sus cifras (logros y
- * misiones), para la lista lateral y el índice. Como un visitante: lo publicado.
+ * misiones), para el índice, el menú y el anterior y el siguiente de cada guía. Como un visitante: lo publicado.
  */
 export async function readDofusList(payload: Payload): Promise<DofusListDoc[]> {
   const { docs } = await payload.find({
