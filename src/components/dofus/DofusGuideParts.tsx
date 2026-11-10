@@ -1,0 +1,369 @@
+import type { CSSProperties } from 'react'
+
+import { GuideBody } from '@/components/game/GuideBody'
+import { GuideRichText } from '@/components/game/GuideRichText'
+import { IconWell } from '@/components/game/IconWell'
+import { CopyName } from '@/components/game/Item'
+import { VideoFacade } from '@/components/game/VideoFacade'
+import { Picture } from '@/components/ui/Picture'
+import type { ImageAsset } from '@/components/ui/types'
+import type {
+  AchievementPartView,
+  DofusGuideView,
+  DofusListItem,
+  DofusQuestCard,
+  NeedRowView,
+  PartView,
+} from '@/lib/dofus-guides/page'
+import { dofusPageStrings as s } from '@/lib/dofus-guides/strings'
+import { formatAmount } from '@/lib/guides/display'
+import type { GuideBlock } from '@/lib/guides/page'
+import { youtubeWatchUrl } from '@/lib/guides/video'
+
+import '../achievement/achievement.css'
+import './dofus.css'
+
+const eggStyle = (color?: string) =>
+  (color ? { '--egg': color } : undefined) as CSSProperties | undefined
+
+function PreparingTag() {
+  return <span className="ztag">{s.preparing}</span>
+}
+
+/**
+ * La cabecera de la guía: el huevo del Dofus en su hueco, el nombre, «7 logros - 40
+ * misiones - Nivel 180» con la etiqueta (Primordial o Evento) y las columnas de
+ * Prerrequisitos y Recompensas, el texto de Torre tal cual con sus enlaces.
+ */
+export function DofusHeader({ view }: { view: DofusGuideView }) {
+  const hasFacts = Boolean(view.prerequisites || view.rewards)
+  return (
+    <header className="qhead lhead dg-head" style={eggStyle(view.color)}>
+      <span className="lhead__icon dg-head__egg" aria-hidden="true">
+        {view.egg && <Picture image={view.egg} alt="" priority />}
+      </span>
+      <h1 className="qhead__title">{view.title}</h1>
+      {(view.meta.length > 0 || view.tag) && (
+        <p className="qhead__meta">
+          {view.meta.join(s.metaSeparator)}
+          {view.tag && <span className="dg-tagpill">{view.tag}</span>}
+        </p>
+      )}
+      {hasFacts && (
+        <div className="qhead__facts">
+          {view.prerequisites && (
+            <section aria-labelledby="dg-pre" className="dg-facts">
+              <h2 id="dg-pre">{s.prerequisites}</h2>
+              <GuideRichText content={view.prerequisites} />
+            </section>
+          )}
+          {view.rewards && (
+            <section aria-labelledby="dg-rec" className="dg-facts">
+              <h2 id="dg-rec">{s.rewards}</h2>
+              <GuideRichText content={view.rewards} />
+            </section>
+          )}
+        </div>
+      )}
+    </header>
+  )
+}
+
+function NeedRow({ row }: { row: NeedRowView }) {
+  if (row.kind === 'note') {
+    return (
+      <li className="row row--plain dg-note">
+        <GuideRichText content={row.text} />
+      </li>
+    )
+  }
+  return (
+    <li className="row copyhost">
+      <IconWell image={row.item.icon} />
+      <span>
+        <b>{formatAmount(row.quantity)} ×</b> <CopyName name={row.item.name} />
+        {row.note && <span className="dg-muted"> {row.note}</span>}
+      </span>
+    </li>
+  )
+}
+
+/**
+ * Necesitarás por grupos («Mazmorras», «Recursos»), en dos columnas donde caben. Cada
+ * objeto copia su nombre para buscarlo en el juego; las notas van tal cual.
+ */
+export function DofusNeeds({ needs }: { needs: NonNullable<DofusGuideView['needs']> }) {
+  return (
+    <section className="dg-sec dg-needs" aria-labelledby="dg-nec">
+      <h2 className="lq__h" id="dg-nec">
+        {needs.title}
+      </h2>
+      <div className="dg-needs__cols">
+        {needs.groups.map((group, index) => (
+          <div className="dg-needs__g" key={`${group.name ?? ''}-${index}`}>
+            {group.name && <h3 className="dg-h3">{group.name}</h3>}
+            <ul role="list" className="dg-needs__l">
+              {group.rows.map((row, rowIndex) => (
+                <NeedRow key={rowIndex} row={row} />
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function QuestItem({ quest, kicker }: { quest: DofusQuestCard; kicker?: string }) {
+  return (
+    <li className={`dg-ql__i${quest.href ? ' dg-ql__i--link' : ''}`}>
+      <span className="dg-ql__npc" aria-hidden="true">
+        {quest.giver ? (
+          <Picture image={quest.giver} alt="" sizes="48px" />
+        ) : (
+          <IconWell icon="quest" />
+        )}
+      </span>
+      <div>
+        <p className="dg-ql__k">{kicker ?? s.questKicker(quest.position, quest.level)}</p>
+        <p className="dg-ql__t">
+          {quest.href ? (
+            <a className="dg-ql__a" href={quest.href}>
+              {quest.title}
+            </a>
+          ) : (
+            quest.title
+          )}
+        </p>
+        {quest.note && <p className="dg-qnote">{quest.note}</p>}
+        {!quest.href && <span className="ztag">{s.noGuide}</span>}
+      </div>
+    </li>
+  )
+}
+
+function QuestList({ quests }: { quests: DofusQuestCard[] }) {
+  return (
+    <ol role="list" className={`dg-ql${quests.length > 3 ? ' dg-ql--cols' : ''}`}>
+      {quests.map((quest) => (
+        <QuestItem key={quest.position} quest={quest} />
+      ))}
+    </ol>
+  )
+}
+
+function AchievementIcon({ icon }: { icon?: ImageAsset }) {
+  return (
+    <span className="dg-ach__icon" aria-hidden="true">
+      {icon ? <Picture image={icon} alt="" /> : <IconWell icon="achievement" />}
+    </span>
+  )
+}
+
+function Achievement({ view, level }: { view: AchievementPartView; level: 'h3' | 'h4' }) {
+  const Heading = level
+  return (
+    <section className="dg-ach">
+      <div className="dg-ach__head">
+        <AchievementIcon icon={view.icon} />
+        <div>
+          <Heading className="dg-ach__t">
+            {view.href ? <a href={view.href}>{view.name}</a> : view.name}
+          </Heading>
+          <p className="dg-ach__m">{view.meta.join(s.metaSeparator)}</p>
+          {view.disabled && <PreparingTag />}
+        </div>
+      </div>
+      {view.note && <p className="dg-muted dg-ach__note">{view.note}</p>}
+      <QuestList quests={view.quests} />
+    </section>
+  )
+}
+
+function Part({ part }: { part: PartView }) {
+  switch (part.kind) {
+    case 'achievement':
+      return <Achievement view={part.achievement} level="h3" />
+    case 'metalogro':
+      return (
+        <section className="dg-meta">
+          <p className="dg-meta__k">{s.metalogro(part.number)}</p>
+          <h3 className="dg-meta__t">{part.name}</h3>
+          {part.achievements.map((achievement) => (
+            <Achievement key={achievement.name} view={achievement} level="h4" />
+          ))}
+        </section>
+      )
+    case 'quests':
+      return (
+        <section className="dg-ach">
+          {part.title && <h3 className="dg-ach__t dg-ach__t--plain">{part.title}</h3>}
+          <QuestList quests={part.quests} />
+        </section>
+      )
+    case 'quest':
+      return (
+        <section className="dg-ach">
+          <ol role="list" className="dg-ql">
+            <QuestItem quest={part.quest} kicker={s.questAlone(part.quest.level)} />
+          </ol>
+        </section>
+      )
+    case 'note':
+      return (
+        <div className="dg-prose dg-prose--note guide-body">
+          <GuideRichText content={part.text} />
+        </div>
+      )
+  }
+}
+
+/**
+ * Los logros y las misiones en el orden de Torre, sin cajas dentro de cajas: el metalogro y
+ * el logro son títulos, y las misiones una lista con filetes (prototipo, 2026-11-09).
+ */
+export function DofusParts({ view }: { view: DofusGuideView }) {
+  if (view.parts.length === 0) return null
+  const onlyQuests = view.achievementCount === 0
+  return (
+    <section className="dg-sec" aria-labelledby="dg-logros">
+      <h2 className="lq__h" id="dg-logros">
+        {onlyQuests ? s.questHeading : s.partsHeading(view.achievementCount)}
+      </h2>
+      {view.parts.map((part, index) => (
+        <Part key={index} part={part} />
+      ))}
+    </section>
+  )
+}
+
+/** El paso a paso de las guías como la de la Piñata de pino, con los bloques de las guías. */
+export function DofusBody({ blocks }: { blocks: GuideBlock[] }) {
+  if (blocks.length === 0) return null
+  return (
+    <section className="dg-sec" aria-labelledby="dg-paso">
+      <h2 className="lq__h" id="dg-paso">
+        {s.body}
+      </h2>
+      <GuideBody blocks={blocks} />
+    </section>
+  )
+}
+
+export function DofusVideo({ video }: { video: NonNullable<DofusGuideView['video']> }) {
+  return (
+    <section className="dg-sec" aria-labelledby="dg-video">
+      <h2 className="lq__h" id="dg-video">
+        {s.video}
+      </h2>
+      <VideoFacade url={youtubeWatchUrl(video.id)} title={video.title} poster={video.poster} />
+    </section>
+  )
+}
+
+/** La checklist de este Dofus, con su huevo. */
+export function DofusChecklist({
+  checklist,
+  egg,
+}: {
+  checklist: NonNullable<DofusGuideView['checklist']>
+  egg?: ImageAsset
+}) {
+  return (
+    <a className="dg-chk" href={checklist.href}>
+      <span className="dg-chk__art" aria-hidden="true">
+        {egg && <Picture image={egg} alt="" />}
+      </span>
+      <span>
+        <span className="dg-chk__k">{s.checklist}</span>
+        <span className="dg-chk__t">{checklist.name}</span>
+      </span>
+    </a>
+  )
+}
+
+function ListInner({ item }: { item: DofusListItem }) {
+  return (
+    <>
+      <IconWell image={item.egg} />
+      <span className="sib__txt">
+        <span className="sib__n">{item.name}</span>
+        {item.meta && <span className="sib__m">{item.meta}</span>}
+        {item.disabled && <PreparingTag />}
+      </span>
+    </>
+  )
+}
+
+/**
+ * Todos los Dofus en el orden de Torre: el actual marcado, uno En preparación apagado y sin
+ * enlace, en el orden de lectura. En pantallas anchas la lista se desplaza por dentro.
+ */
+export function DofusSideList({ items }: { items: DofusListItem[] }) {
+  return (
+    <aside className="lside" aria-labelledby="dg-todos">
+      <section className="lside__box">
+        <h2 className="lside__h" id="dg-todos">
+          {s.side}
+        </h2>
+        <div className="dg-sidescroll" tabIndex={0} role="region" aria-labelledby="dg-todos">
+          <ol className="sibs" role="list">
+            {items.map((item) => (
+              <li
+                key={item.name}
+                className={`sib${item.current ? ' sib--current' : ''}${item.disabled ? ' sib--off' : ''}`}
+              >
+                {item.href ? (
+                  <a className="sib__in" href={item.href}>
+                    <ListInner item={item} />
+                  </a>
+                ) : (
+                  <div
+                    className="sib__in"
+                    {...(item.current ? { 'aria-current': 'page' } : { 'aria-disabled': true })}
+                  >
+                    <ListInner item={item} />
+                  </div>
+                )}
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+    </aside>
+  )
+}
+
+function NavCard({
+  item,
+  kicker,
+  dir,
+}: {
+  item: DofusListItem
+  kicker: string
+  dir: 'prev' | 'next'
+}) {
+  return (
+    <a className={`nextq lnav__card lnav__card--${dir}`} href={item.href}>
+      <span className="lnav__icon dg-egg" aria-hidden="true">
+        {item.egg && <Picture image={item.egg} alt="" />}
+      </span>
+      <span className="nextq__txt">
+        <span className="nextq__k">{kicker}</span>
+        <span className="nextq__t">{item.name}</span>
+        {item.meta && <span className="nextq__m">{item.meta}.</span>}
+      </span>
+    </a>
+  )
+}
+
+/** El Dofus publicado anterior y el siguiente, como la tarjeta de la siguiente misión. */
+export function DofusNav({ previous, next }: Pick<DofusGuideView, 'previous' | 'next'>) {
+  if (!previous && !next) return null
+  return (
+    <nav className="lnav" aria-label={s.navLabel}>
+      {previous && <NavCard item={previous} kicker={s.previous} dir="prev" />}
+      {next && <NavCard item={next} kicker={s.next} dir="next" />}
+    </nav>
+  )
+}
