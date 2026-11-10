@@ -10519,8 +10519,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.dofus_guides_blocks_dofus_metalogro_achievements": {
-      "name": "dofus_guides_blocks_dofus_metalogro_achievements",
+    "public.dofus_meta_ach": {
+      "name": "dofus_meta_ach",
       "schema": "",
       "columns": {
         "_order": {
@@ -10549,8 +10549,8 @@
         }
       },
       "indexes": {
-        "dofus_guides_blocks_dofus_metalogro_achievements_order_idx": {
-          "name": "dofus_guides_blocks_dofus_metalogro_achievements_order_idx",
+        "dofus_meta_ach_order_idx": {
+          "name": "dofus_meta_ach_order_idx",
           "columns": [
             {
               "expression": "_order",
@@ -10564,8 +10564,8 @@
           "method": "btree",
           "with": {}
         },
-        "dofus_guides_blocks_dofus_metalogro_achievements_parent_id_idx": {
-          "name": "dofus_guides_blocks_dofus_metalogro_achievements_parent_id_idx",
+        "dofus_meta_ach_parent_id_idx": {
+          "name": "dofus_meta_ach_parent_id_idx",
           "columns": [
             {
               "expression": "_parent_id",
@@ -10579,8 +10579,8 @@
           "method": "btree",
           "with": {}
         },
-        "dofus_guides_blocks_dofus_metalogro_achievements_achieve_idx": {
-          "name": "dofus_guides_blocks_dofus_metalogro_achievements_achieve_idx",
+        "dofus_meta_ach_achievement_idx": {
+          "name": "dofus_meta_ach_achievement_idx",
           "columns": [
             {
               "expression": "achievement_id",
@@ -10596,9 +10596,9 @@
         }
       },
       "foreignKeys": {
-        "dofus_guides_blocks_dofus_metalogro_achievements_achievement_id_achievement_pages_id_fk": {
-          "name": "dofus_guides_blocks_dofus_metalogro_achievements_achievement_id_achievement_pages_id_fk",
-          "tableFrom": "dofus_guides_blocks_dofus_metalogro_achievements",
+        "dofus_meta_ach_achievement_id_achievement_pages_id_fk": {
+          "name": "dofus_meta_ach_achievement_id_achievement_pages_id_fk",
+          "tableFrom": "dofus_meta_ach",
           "tableTo": "achievement_pages",
           "columnsFrom": [
             "achievement_id"
@@ -10609,9 +10609,9 @@
           "onDelete": "set null",
           "onUpdate": "no action"
         },
-        "dofus_guides_blocks_dofus_metalogro_achievements_parent_id_fk": {
-          "name": "dofus_guides_blocks_dofus_metalogro_achievements_parent_id_fk",
-          "tableFrom": "dofus_guides_blocks_dofus_metalogro_achievements",
+        "dofus_meta_ach_parent_id_fk": {
+          "name": "dofus_meta_ach_parent_id_fk",
+          "tableFrom": "dofus_meta_ach",
           "tableTo": "dofus_guides_blocks_dofus_metalogro",
           "columnsFrom": [
             "_parent_id"
@@ -10629,8 +10629,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.dofus_guides_blocks_dofus_metalogro_achievements_locales": {
-      "name": "dofus_guides_blocks_dofus_metalogro_achievements_locales",
+    "public.dofus_meta_ach_locales": {
+      "name": "dofus_meta_ach_locales",
       "schema": "",
       "columns": {
         "note": {
@@ -10660,8 +10660,8 @@
         }
       },
       "indexes": {
-        "dofus_guides_blocks_dofus_metalogro_achievements_locales_loc": {
-          "name": "dofus_guides_blocks_dofus_metalogro_achievements_locales_loc",
+        "dofus_meta_ach_locales_locale_parent_id_unique": {
+          "name": "dofus_meta_ach_locales_locale_parent_id_unique",
           "columns": [
             {
               "expression": "_locale",
@@ -10681,8 +10681,8 @@
           "method": "btree",
           "with": {}
         },
-        "dofus_guides_blocks_dofus_metalogro_achievements_locales_idx": {
-          "name": "dofus_guides_blocks_dofus_metalogro_achievements_locales_idx",
+        "dofus_meta_ach_locales_parent_id_idx": {
+          "name": "dofus_meta_ach_locales_parent_id_idx",
           "columns": [
             {
               "expression": "_parent_id",
@@ -10698,10 +10698,10 @@
         }
       },
       "foreignKeys": {
-        "dofus_guides_blocks_dofus_metalogro_achievements_locales__fk": {
-          "name": "dofus_guides_blocks_dofus_metalogro_achievements_locales__fk",
-          "tableFrom": "dofus_guides_blocks_dofus_metalogro_achievements_locales",
-          "tableTo": "dofus_guides_blocks_dofus_metalogro_achievements",
+        "dofus_meta_ach_locales_parent_id_fk": {
+          "name": "dofus_meta_ach_locales_parent_id_fk",
+          "tableFrom": "dofus_meta_ach_locales",
+          "tableTo": "dofus_meta_ach",
           "columnsFrom": [
             "_parent_id"
           ],
@@ -14041,8 +14041,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public._dofus_guides_v_blocks_dofus_metalogro_achievements": {
-      "name": "_dofus_guides_v_blocks_dofus_metalogro_achievements",
+    "public._dofus_meta_ach_v": {
+      "name": "_dofus_meta_ach_v",
       "schema": "",
       "columns": {
         "_order": {
@@ -14077,8 +14077,8 @@
         }
       },
       "indexes": {
-        "_dofus_guides_v_blocks_dofus_metalogro_achievements_order_idx": {
-          "name": "_dofus_guides_v_blocks_dofus_metalogro_achievements_order_idx",
+        "_dofus_meta_ach_v_order_idx": {
+          "name": "_dofus_meta_ach_v_order_idx",
           "columns": [
             {
               "expression": "_order",
@@ -14092,8 +14092,8 @@
           "method": "btree",
           "with": {}
         },
-        "_dofus_guides_v_blocks_dofus_metalogro_achievements_parent_id_idx": {
-          "name": "_dofus_guides_v_blocks_dofus_metalogro_achievements_parent_id_idx",
+        "_dofus_meta_ach_v_parent_id_idx": {
+          "name": "_dofus_meta_ach_v_parent_id_idx",
           "columns": [
             {
               "expression": "_parent_id",
@@ -14107,8 +14107,8 @@
           "method": "btree",
           "with": {}
         },
-        "_dofus_guides_v_blocks_dofus_metalogro_achievements_achi_idx": {
-          "name": "_dofus_guides_v_blocks_dofus_metalogro_achievements_achi_idx",
+        "_dofus_meta_ach_v_achievement_idx": {
+          "name": "_dofus_meta_ach_v_achievement_idx",
           "columns": [
             {
               "expression": "achievement_id",
@@ -14124,9 +14124,9 @@
         }
       },
       "foreignKeys": {
-        "_dofus_guides_v_blocks_dofus_metalogro_achievements_achievement_id_achievement_pages_id_fk": {
-          "name": "_dofus_guides_v_blocks_dofus_metalogro_achievements_achievement_id_achievement_pages_id_fk",
-          "tableFrom": "_dofus_guides_v_blocks_dofus_metalogro_achievements",
+        "_dofus_meta_ach_v_achievement_id_achievement_pages_id_fk": {
+          "name": "_dofus_meta_ach_v_achievement_id_achievement_pages_id_fk",
+          "tableFrom": "_dofus_meta_ach_v",
           "tableTo": "achievement_pages",
           "columnsFrom": [
             "achievement_id"
@@ -14137,9 +14137,9 @@
           "onDelete": "set null",
           "onUpdate": "no action"
         },
-        "_dofus_guides_v_blocks_dofus_metalogro_achievements_parent_id_fk": {
-          "name": "_dofus_guides_v_blocks_dofus_metalogro_achievements_parent_id_fk",
-          "tableFrom": "_dofus_guides_v_blocks_dofus_metalogro_achievements",
+        "_dofus_meta_ach_v_parent_id_fk": {
+          "name": "_dofus_meta_ach_v_parent_id_fk",
+          "tableFrom": "_dofus_meta_ach_v",
           "tableTo": "_dofus_guides_v_blocks_dofus_metalogro",
           "columnsFrom": [
             "_parent_id"
@@ -14157,8 +14157,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public._dofus_guides_v_blocks_dofus_metalogro_achievements_locales": {
-      "name": "_dofus_guides_v_blocks_dofus_metalogro_achievements_locales",
+    "public._dofus_meta_ach_v_locales": {
+      "name": "_dofus_meta_ach_v_locales",
       "schema": "",
       "columns": {
         "note": {
@@ -14188,8 +14188,8 @@
         }
       },
       "indexes": {
-        "_dofus_guides_v_blocks_dofus_metalogro_achievements_locales_": {
-          "name": "_dofus_guides_v_blocks_dofus_metalogro_achievements_locales_",
+        "_dofus_meta_ach_v_locales_locale_parent_id_unique": {
+          "name": "_dofus_meta_ach_v_locales_locale_parent_id_unique",
           "columns": [
             {
               "expression": "_locale",
@@ -14209,8 +14209,8 @@
           "method": "btree",
           "with": {}
         },
-        "_dofus_guides_v_blocks_dofus_metalogro_achievements_loca_idx": {
-          "name": "_dofus_guides_v_blocks_dofus_metalogro_achievements_loca_idx",
+        "_dofus_meta_ach_v_locales_parent_id_idx": {
+          "name": "_dofus_meta_ach_v_locales_parent_id_idx",
           "columns": [
             {
               "expression": "_parent_id",
@@ -14226,10 +14226,10 @@
         }
       },
       "foreignKeys": {
-        "_dofus_guides_v_blocks_dofus_metalogro_achievements_local_fk": {
-          "name": "_dofus_guides_v_blocks_dofus_metalogro_achievements_local_fk",
-          "tableFrom": "_dofus_guides_v_blocks_dofus_metalogro_achievements_locales",
-          "tableTo": "_dofus_guides_v_blocks_dofus_metalogro_achievements",
+        "_dofus_meta_ach_v_locales_parent_id_fk": {
+          "name": "_dofus_meta_ach_v_locales_parent_id_fk",
+          "tableFrom": "_dofus_meta_ach_v_locales",
+          "tableTo": "_dofus_meta_ach_v",
           "columnsFrom": [
             "_parent_id"
           ],
@@ -18100,6 +18100,6 @@
     "tables": {},
     "columns": {}
   },
-  "id": "640c37b2-b4ca-42f4-acbd-990d84dd16f8",
+  "id": "c63fbe9d-3be0-4975-bfe8-53528e16be8d",
   "prevId": "00000000-0000-0000-0000-000000000000"
 }

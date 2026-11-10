@@ -73,14 +73,14 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"_parent_id" varchar NOT NULL
   );
   
-  CREATE TABLE "dofus_guides_blocks_dofus_metalogro_achievements" (
+  CREATE TABLE "dofus_meta_ach" (
   	"_order" integer NOT NULL,
   	"_parent_id" varchar NOT NULL,
   	"id" varchar PRIMARY KEY NOT NULL,
   	"achievement_id" integer
   );
   
-  CREATE TABLE "dofus_guides_blocks_dofus_metalogro_achievements_locales" (
+  CREATE TABLE "dofus_meta_ach_locales" (
   	"note" varchar,
   	"id" serial PRIMARY KEY NOT NULL,
   	"_locale" "_locales" NOT NULL,
@@ -348,7 +348,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"_parent_id" integer NOT NULL
   );
   
-  CREATE TABLE "_dofus_guides_v_blocks_dofus_metalogro_achievements" (
+  CREATE TABLE "_dofus_meta_ach_v" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
   	"id" serial PRIMARY KEY NOT NULL,
@@ -356,7 +356,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"_uuid" varchar
   );
   
-  CREATE TABLE "_dofus_guides_v_blocks_dofus_metalogro_achievements_locales" (
+  CREATE TABLE "_dofus_meta_ach_v_locales" (
   	"note" varchar,
   	"id" serial PRIMARY KEY NOT NULL,
   	"_locale" "_locales" NOT NULL,
@@ -587,9 +587,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "dofus_guides_blocks_dofus_achievement" ADD CONSTRAINT "dofus_guides_blocks_dofus_achievement_achievement_id_achievement_pages_id_fk" FOREIGN KEY ("achievement_id") REFERENCES "public"."achievement_pages"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "dofus_guides_blocks_dofus_achievement" ADD CONSTRAINT "dofus_guides_blocks_dofus_achievement_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."dofus_guides"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "dofus_guides_blocks_dofus_achievement_locales" ADD CONSTRAINT "dofus_guides_blocks_dofus_achievement_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."dofus_guides_blocks_dofus_achievement"("id") ON DELETE cascade ON UPDATE no action;
-  ALTER TABLE "dofus_guides_blocks_dofus_metalogro_achievements" ADD CONSTRAINT "dofus_guides_blocks_dofus_metalogro_achievements_achievement_id_achievement_pages_id_fk" FOREIGN KEY ("achievement_id") REFERENCES "public"."achievement_pages"("id") ON DELETE set null ON UPDATE no action;
-  ALTER TABLE "dofus_guides_blocks_dofus_metalogro_achievements" ADD CONSTRAINT "dofus_guides_blocks_dofus_metalogro_achievements_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."dofus_guides_blocks_dofus_metalogro"("id") ON DELETE cascade ON UPDATE no action;
-  ALTER TABLE "dofus_guides_blocks_dofus_metalogro_achievements_locales" ADD CONSTRAINT "dofus_guides_blocks_dofus_metalogro_achievements_locales__fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."dofus_guides_blocks_dofus_metalogro_achievements"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "dofus_meta_ach" ADD CONSTRAINT "dofus_meta_ach_achievement_id_achievement_pages_id_fk" FOREIGN KEY ("achievement_id") REFERENCES "public"."achievement_pages"("id") ON DELETE set null ON UPDATE no action;
+  ALTER TABLE "dofus_meta_ach" ADD CONSTRAINT "dofus_meta_ach_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."dofus_guides_blocks_dofus_metalogro"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "dofus_meta_ach_locales" ADD CONSTRAINT "dofus_meta_ach_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."dofus_meta_ach"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "dofus_guides_blocks_dofus_metalogro" ADD CONSTRAINT "dofus_guides_blocks_dofus_metalogro_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."dofus_guides"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "dofus_guides_blocks_dofus_metalogro_locales" ADD CONSTRAINT "dofus_guides_blocks_dofus_metalogro_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."dofus_guides_blocks_dofus_metalogro"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "dofus_guides_blocks_dofus_quests_quests" ADD CONSTRAINT "dofus_guides_blocks_dofus_quests_quests_guide_id_quest_guides_id_fk" FOREIGN KEY ("guide_id") REFERENCES "public"."quest_guides"("id") ON DELETE set null ON UPDATE no action;
@@ -627,9 +627,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "_dofus_guides_v_blocks_dofus_achievement" ADD CONSTRAINT "_dofus_guides_v_blocks_dofus_achievement_achievement_id_achievement_pages_id_fk" FOREIGN KEY ("achievement_id") REFERENCES "public"."achievement_pages"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "_dofus_guides_v_blocks_dofus_achievement" ADD CONSTRAINT "_dofus_guides_v_blocks_dofus_achievement_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_dofus_guides_v"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "_dofus_guides_v_blocks_dofus_achievement_locales" ADD CONSTRAINT "_dofus_guides_v_blocks_dofus_achievement_locales_parent_i_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_dofus_guides_v_blocks_dofus_achievement"("id") ON DELETE cascade ON UPDATE no action;
-  ALTER TABLE "_dofus_guides_v_blocks_dofus_metalogro_achievements" ADD CONSTRAINT "_dofus_guides_v_blocks_dofus_metalogro_achievements_achievement_id_achievement_pages_id_fk" FOREIGN KEY ("achievement_id") REFERENCES "public"."achievement_pages"("id") ON DELETE set null ON UPDATE no action;
-  ALTER TABLE "_dofus_guides_v_blocks_dofus_metalogro_achievements" ADD CONSTRAINT "_dofus_guides_v_blocks_dofus_metalogro_achievements_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_dofus_guides_v_blocks_dofus_metalogro"("id") ON DELETE cascade ON UPDATE no action;
-  ALTER TABLE "_dofus_guides_v_blocks_dofus_metalogro_achievements_locales" ADD CONSTRAINT "_dofus_guides_v_blocks_dofus_metalogro_achievements_local_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_dofus_guides_v_blocks_dofus_metalogro_achievements"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "_dofus_meta_ach_v" ADD CONSTRAINT "_dofus_meta_ach_v_achievement_id_achievement_pages_id_fk" FOREIGN KEY ("achievement_id") REFERENCES "public"."achievement_pages"("id") ON DELETE set null ON UPDATE no action;
+  ALTER TABLE "_dofus_meta_ach_v" ADD CONSTRAINT "_dofus_meta_ach_v_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_dofus_guides_v_blocks_dofus_metalogro"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "_dofus_meta_ach_v_locales" ADD CONSTRAINT "_dofus_meta_ach_v_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_dofus_meta_ach_v"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "_dofus_guides_v_blocks_dofus_metalogro" ADD CONSTRAINT "_dofus_guides_v_blocks_dofus_metalogro_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_dofus_guides_v"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "_dofus_guides_v_blocks_dofus_metalogro_locales" ADD CONSTRAINT "_dofus_guides_v_blocks_dofus_metalogro_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_dofus_guides_v_blocks_dofus_metalogro"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "_dofus_guides_v_blocks_dofus_quests_quests" ADD CONSTRAINT "_dofus_guides_v_blocks_dofus_quests_quests_guide_id_quest_guides_id_fk" FOREIGN KEY ("guide_id") REFERENCES "public"."quest_guides"("id") ON DELETE set null ON UPDATE no action;
@@ -679,11 +679,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "dofus_guides_blocks_dofus_achievement_achievement_idx" ON "dofus_guides_blocks_dofus_achievement" USING btree ("achievement_id");
   CREATE UNIQUE INDEX "dofus_guides_blocks_dofus_achievement_locales_locale_parent_" ON "dofus_guides_blocks_dofus_achievement_locales" USING btree ("_locale","_parent_id");
   CREATE INDEX "dofus_guides_blocks_dofus_achievement_locales_parent_id_idx" ON "dofus_guides_blocks_dofus_achievement_locales" USING btree ("_parent_id");
-  CREATE INDEX "dofus_guides_blocks_dofus_metalogro_achievements_order_idx" ON "dofus_guides_blocks_dofus_metalogro_achievements" USING btree ("_order");
-  CREATE INDEX "dofus_guides_blocks_dofus_metalogro_achievements_parent_id_idx" ON "dofus_guides_blocks_dofus_metalogro_achievements" USING btree ("_parent_id");
-  CREATE INDEX "dofus_guides_blocks_dofus_metalogro_achievements_achieve_idx" ON "dofus_guides_blocks_dofus_metalogro_achievements" USING btree ("achievement_id");
-  CREATE UNIQUE INDEX "dofus_guides_blocks_dofus_metalogro_achievements_locales_loc" ON "dofus_guides_blocks_dofus_metalogro_achievements_locales" USING btree ("_locale","_parent_id");
-  CREATE INDEX "dofus_guides_blocks_dofus_metalogro_achievements_locales_idx" ON "dofus_guides_blocks_dofus_metalogro_achievements_locales" USING btree ("_parent_id");
+  CREATE INDEX "dofus_meta_ach_order_idx" ON "dofus_meta_ach" USING btree ("_order");
+  CREATE INDEX "dofus_meta_ach_parent_id_idx" ON "dofus_meta_ach" USING btree ("_parent_id");
+  CREATE INDEX "dofus_meta_ach_achievement_idx" ON "dofus_meta_ach" USING btree ("achievement_id");
+  CREATE UNIQUE INDEX "dofus_meta_ach_locales_locale_parent_id_unique" ON "dofus_meta_ach_locales" USING btree ("_locale","_parent_id");
+  CREATE INDEX "dofus_meta_ach_locales_parent_id_idx" ON "dofus_meta_ach_locales" USING btree ("_parent_id");
   CREATE INDEX "dofus_guides_blocks_dofus_metalogro_order_idx" ON "dofus_guides_blocks_dofus_metalogro" USING btree ("_order");
   CREATE INDEX "dofus_guides_blocks_dofus_metalogro_parent_id_idx" ON "dofus_guides_blocks_dofus_metalogro" USING btree ("_parent_id");
   CREATE INDEX "dofus_guides_blocks_dofus_metalogro_path_idx" ON "dofus_guides_blocks_dofus_metalogro" USING btree ("_path");
@@ -768,11 +768,11 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "_dofus_guides_v_blocks_dofus_achievement_achievement_idx" ON "_dofus_guides_v_blocks_dofus_achievement" USING btree ("achievement_id");
   CREATE UNIQUE INDEX "_dofus_guides_v_blocks_dofus_achievement_locales_locale_pare" ON "_dofus_guides_v_blocks_dofus_achievement_locales" USING btree ("_locale","_parent_id");
   CREATE INDEX "_dofus_guides_v_blocks_dofus_achievement_locales_parent__idx" ON "_dofus_guides_v_blocks_dofus_achievement_locales" USING btree ("_parent_id");
-  CREATE INDEX "_dofus_guides_v_blocks_dofus_metalogro_achievements_order_idx" ON "_dofus_guides_v_blocks_dofus_metalogro_achievements" USING btree ("_order");
-  CREATE INDEX "_dofus_guides_v_blocks_dofus_metalogro_achievements_parent_id_idx" ON "_dofus_guides_v_blocks_dofus_metalogro_achievements" USING btree ("_parent_id");
-  CREATE INDEX "_dofus_guides_v_blocks_dofus_metalogro_achievements_achi_idx" ON "_dofus_guides_v_blocks_dofus_metalogro_achievements" USING btree ("achievement_id");
-  CREATE UNIQUE INDEX "_dofus_guides_v_blocks_dofus_metalogro_achievements_locales_" ON "_dofus_guides_v_blocks_dofus_metalogro_achievements_locales" USING btree ("_locale","_parent_id");
-  CREATE INDEX "_dofus_guides_v_blocks_dofus_metalogro_achievements_loca_idx" ON "_dofus_guides_v_blocks_dofus_metalogro_achievements_locales" USING btree ("_parent_id");
+  CREATE INDEX "_dofus_meta_ach_v_order_idx" ON "_dofus_meta_ach_v" USING btree ("_order");
+  CREATE INDEX "_dofus_meta_ach_v_parent_id_idx" ON "_dofus_meta_ach_v" USING btree ("_parent_id");
+  CREATE INDEX "_dofus_meta_ach_v_achievement_idx" ON "_dofus_meta_ach_v" USING btree ("achievement_id");
+  CREATE UNIQUE INDEX "_dofus_meta_ach_v_locales_locale_parent_id_unique" ON "_dofus_meta_ach_v_locales" USING btree ("_locale","_parent_id");
+  CREATE INDEX "_dofus_meta_ach_v_locales_parent_id_idx" ON "_dofus_meta_ach_v_locales" USING btree ("_parent_id");
   CREATE INDEX "_dofus_guides_v_blocks_dofus_metalogro_order_idx" ON "_dofus_guides_v_blocks_dofus_metalogro" USING btree ("_order");
   CREATE INDEX "_dofus_guides_v_blocks_dofus_metalogro_parent_id_idx" ON "_dofus_guides_v_blocks_dofus_metalogro" USING btree ("_parent_id");
   CREATE INDEX "_dofus_guides_v_blocks_dofus_metalogro_path_idx" ON "_dofus_guides_v_blocks_dofus_metalogro" USING btree ("_path");
@@ -856,8 +856,8 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   ALTER TABLE "dofus_guides_needs_groups_locales" DISABLE ROW LEVEL SECURITY;
   ALTER TABLE "dofus_guides_blocks_dofus_achievement" DISABLE ROW LEVEL SECURITY;
   ALTER TABLE "dofus_guides_blocks_dofus_achievement_locales" DISABLE ROW LEVEL SECURITY;
-  ALTER TABLE "dofus_guides_blocks_dofus_metalogro_achievements" DISABLE ROW LEVEL SECURITY;
-  ALTER TABLE "dofus_guides_blocks_dofus_metalogro_achievements_locales" DISABLE ROW LEVEL SECURITY;
+  ALTER TABLE "dofus_meta_ach" DISABLE ROW LEVEL SECURITY;
+  ALTER TABLE "dofus_meta_ach_locales" DISABLE ROW LEVEL SECURITY;
   ALTER TABLE "dofus_guides_blocks_dofus_metalogro" DISABLE ROW LEVEL SECURITY;
   ALTER TABLE "dofus_guides_blocks_dofus_metalogro_locales" DISABLE ROW LEVEL SECURITY;
   ALTER TABLE "dofus_guides_blocks_dofus_quests_quests" DISABLE ROW LEVEL SECURITY;
@@ -889,8 +889,8 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   ALTER TABLE "_dofus_guides_v_version_needs_groups_locales" DISABLE ROW LEVEL SECURITY;
   ALTER TABLE "_dofus_guides_v_blocks_dofus_achievement" DISABLE ROW LEVEL SECURITY;
   ALTER TABLE "_dofus_guides_v_blocks_dofus_achievement_locales" DISABLE ROW LEVEL SECURITY;
-  ALTER TABLE "_dofus_guides_v_blocks_dofus_metalogro_achievements" DISABLE ROW LEVEL SECURITY;
-  ALTER TABLE "_dofus_guides_v_blocks_dofus_metalogro_achievements_locales" DISABLE ROW LEVEL SECURITY;
+  ALTER TABLE "_dofus_meta_ach_v" DISABLE ROW LEVEL SECURITY;
+  ALTER TABLE "_dofus_meta_ach_v_locales" DISABLE ROW LEVEL SECURITY;
   ALTER TABLE "_dofus_guides_v_blocks_dofus_metalogro" DISABLE ROW LEVEL SECURITY;
   ALTER TABLE "_dofus_guides_v_blocks_dofus_metalogro_locales" DISABLE ROW LEVEL SECURITY;
   ALTER TABLE "_dofus_guides_v_blocks_dofus_quests_quests" DISABLE ROW LEVEL SECURITY;
@@ -922,8 +922,8 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TABLE "dofus_guides_needs_groups_locales" CASCADE;
   DROP TABLE "dofus_guides_blocks_dofus_achievement" CASCADE;
   DROP TABLE "dofus_guides_blocks_dofus_achievement_locales" CASCADE;
-  DROP TABLE "dofus_guides_blocks_dofus_metalogro_achievements" CASCADE;
-  DROP TABLE "dofus_guides_blocks_dofus_metalogro_achievements_locales" CASCADE;
+  DROP TABLE "dofus_meta_ach" CASCADE;
+  DROP TABLE "dofus_meta_ach_locales" CASCADE;
   DROP TABLE "dofus_guides_blocks_dofus_metalogro" CASCADE;
   DROP TABLE "dofus_guides_blocks_dofus_metalogro_locales" CASCADE;
   DROP TABLE "dofus_guides_blocks_dofus_quests_quests" CASCADE;
@@ -955,8 +955,8 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TABLE "_dofus_guides_v_version_needs_groups_locales" CASCADE;
   DROP TABLE "_dofus_guides_v_blocks_dofus_achievement" CASCADE;
   DROP TABLE "_dofus_guides_v_blocks_dofus_achievement_locales" CASCADE;
-  DROP TABLE "_dofus_guides_v_blocks_dofus_metalogro_achievements" CASCADE;
-  DROP TABLE "_dofus_guides_v_blocks_dofus_metalogro_achievements_locales" CASCADE;
+  DROP TABLE "_dofus_meta_ach_v" CASCADE;
+  DROP TABLE "_dofus_meta_ach_v_locales" CASCADE;
   DROP TABLE "_dofus_guides_v_blocks_dofus_metalogro" CASCADE;
   DROP TABLE "_dofus_guides_v_blocks_dofus_metalogro_locales" CASCADE;
   DROP TABLE "_dofus_guides_v_blocks_dofus_quests_quests" CASCADE;
