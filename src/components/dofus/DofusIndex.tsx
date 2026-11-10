@@ -8,7 +8,7 @@ import type { RichTextState } from '@/lib/guides/page'
 
 import '../achievement/achievement.css'
 import { DofusIndexIsland } from './DofusIndexIsland'
-import './dofus.css'
+import './dofus-index.css'
 
 function CardInner({ card }: { card: DofusCard }) {
   return (
