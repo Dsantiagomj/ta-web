@@ -29,6 +29,8 @@ export const dofusGuideStrings = {
     noteDescription: 'Una nota corta junto al nombre, como «(solo empezarla)».',
     bodyDescription: 'Para las guías paso a paso, como la Piñata de pino.',
     videoDescription: 'Enlace al vídeo de la guía en YouTube (youtube.com o youtu.be).',
+    videoPosterDescription:
+      'La imagen que se ve antes de reproducir el vídeo. La importación trae la de YouTube.',
     checklistDescription: 'La checklist de este Dofus, si tiene: sale como tarjeta en la guía.',
   },
 } as const

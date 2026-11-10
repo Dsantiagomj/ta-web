@@ -178,6 +178,20 @@ describe('colección dofus-guides', () => {
     expect(field(checklist.fields, 'url')).toMatchObject({ type: 'text' })
   })
 
+  it('la portada del vídeo es nuestra: un archivo de Media, nunca de YouTube al visitar', () => {
+    expect(field(DofusGuides.fields, 'videoPoster')).toMatchObject({
+      type: 'upload',
+      relationTo: 'media',
+    })
+  })
+
+  it('recuerda lo último que importó, oculto en el panel: así nunca pisa lo que Torre cambia', () => {
+    expect(field(DofusGuides.fields, 'importSnapshot')).toMatchObject({
+      type: 'json',
+      admin: { hidden: true },
+    })
+  })
+
   it('guarda la URL de Squarespace para la importación', () => {
     expect(field(DofusGuides.fields, 'originalUrl')).toMatchObject({ type: 'text' })
   })

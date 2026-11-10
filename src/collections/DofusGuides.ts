@@ -340,6 +340,13 @@ export const DofusGuides: CollectionConfig = {
       admin: { description: s.videoDescription },
     },
     {
+      name: 'videoPoster',
+      label: 'Portada del vídeo',
+      type: 'upload',
+      relationTo: 'media',
+      admin: { description: s.videoPosterDescription },
+    },
+    {
       name: 'checklist',
       label: 'Checklist',
       type: 'group',
@@ -348,6 +355,13 @@ export const DofusGuides: CollectionConfig = {
         { name: 'name', label: 'Nombre', type: 'text', localized: true },
         { name: 'url', label: 'Enlace', type: 'text', validate: validateOptionalUrl },
       ],
+    },
+    {
+      // Lo último que escribió la importación en cada campo: al repetirla, un campo que ya no
+      // coincide lo cambió Torre y no se toca (scripts/import/dofus-guides/load.ts).
+      name: 'importSnapshot',
+      type: 'json',
+      admin: { hidden: true },
     },
     {
       name: 'originalUrl',

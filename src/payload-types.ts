@@ -955,12 +955,25 @@ export interface DofusGuide {
    */
   video?: string | null;
   /**
+   * La imagen que se ve antes de reproducir el vídeo. La importación trae la de YouTube.
+   */
+  videoPoster?: (number | null) | Media;
+  /**
    * La checklist de este Dofus, si tiene: sale como tarjeta en la guía.
    */
   checklist?: {
     name?: string | null;
     url?: string | null;
   };
+  importSnapshot?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   /**
    * URL de la página en Squarespace
    */
@@ -1757,12 +1770,14 @@ export interface DofusGuidesSelect<T extends boolean = true> {
       };
   outro?: T;
   video?: T;
+  videoPoster?: T;
   checklist?:
     | T
     | {
         name?: T;
         url?: T;
       };
+  importSnapshot?: T;
   originalUrl?: T;
   updatedAt?: T;
   createdAt?: T;
