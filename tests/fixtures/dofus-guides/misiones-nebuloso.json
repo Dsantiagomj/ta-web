@@ -1,0 +1,1056 @@
+{
+ "heading": "DOFUS NEBULOSO",
+ "banner": {
+  "text": "YA ESTÁ DISPONIBLE LA CHECKLIST DOFUS NEBULOSO",
+  "href": "/checklist-nebuloso-datos"
+ },
+ "prerequisites": [
+  [
+   {
+    "t": "text",
+    "v": "Nivel mínimo 180."
+   }
+  ]
+ ],
+ "needs": {
+  "title": "Necesitarás",
+  "note": null,
+  "groups": [
+   {
+    "name": "Recursos",
+    "rows": [
+     {
+      "text": "35 x Patata.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "35 x Patata.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 35,
+      "name": "Patata"
+     },
+     {
+      "text": "3 x Cuerno de arraca.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "3 x Cuerno de arraca.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 3,
+      "name": "Cuerno de arraca"
+     },
+     {
+      "text": "3 x Garra de ikarisko.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "3 x Garra de ikarisko.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 3,
+      "name": "Garra de ikarisko"
+     },
+     {
+      "text": "3 x Ojo de arpilla.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "3 x Ojo de arpilla.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 3,
+      "name": "Ojo de arpilla"
+     },
+     {
+      "text": "3 x Zarpa de bubotente.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "3 x Zarpa de bubotente.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 3,
+      "name": "Zarpa de bubotente"
+     },
+     {
+      "text": "2 x Llave de la Fábrica de Malefíscof.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "2 x Llave de la Fábrica de Malefíscof.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 2,
+      "name": "Llave de la Fábrica de Malefíscof"
+     },
+     {
+      "text": "2 x Llave de la Cueva de Toxoliat.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "2 x Llave de la Cueva de Toxoliat.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 2,
+      "name": "Llave de la Cueva de Toxoliat"
+     },
+     {
+      "text": "1 x Piedra de alma mediana.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Piedra de alma mediana.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 1,
+      "name": "Piedra de alma mediana"
+     },
+     {
+      "text": "1 x Llave de la Galería de Perfósil.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Llave de la Galería de Perfósil.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 1,
+      "name": "Llave de la Galería de Perfósil"
+     },
+     {
+      "text": "1 x Llave del Palacio del Rey Nidas.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Llave del Palacio del Rey Nidas.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 1,
+      "name": "Llave del Palacio del Rey Nidas"
+     },
+     {
+      "text": "1 x Llave del Ring del Capitán Eskarlata.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Llave del Ring del Capitán Eskarlata.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 1,
+      "name": "Llave del Ring del Capitán Eskarlata"
+     },
+     {
+      "text": "1 x Llave del Trono de la Corte Tenebrosa.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Llave del Trono de la Corte Tenebrosa.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 1,
+      "name": "Llave del Trono de la Corte Tenebrosa"
+     },
+     {
+      "text": "1 x Llave del Megalito de Fraktal.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Llave del Megalito de Fraktal.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 1,
+      "name": "Llave del Megalito de Fraktal"
+     },
+     {
+      "text": "1 x Llave del Relojarium de XLII.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Llave del Relojarium de XLII.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 1,
+      "name": "Llave del Relojarium de XLII"
+     },
+     {
+      "text": "1 x Llave del Ojo de Vórtex.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Llave del Ojo de Vórtex.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 1,
+      "name": "Llave del Ojo de Vórtex"
+     },
+     {
+      "text": "1 x Cuerno de kamasterix.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Cuerno de kamasterix.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 1,
+      "name": "Cuerno de kamasterix"
+     },
+     {
+      "text": "1 x Ceja de barbestrella.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Ceja de barbestrella.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 1,
+      "name": "Ceja de barbestrella"
+     },
+     {
+      "text": "1 x Diente de levitrof.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Diente de levitrof.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 1,
+      "name": "Diente de levitrof"
+     },
+     {
+      "text": "1 x Trozo de llave de llavoro.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Trozo de llave de llavoro.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 1,
+      "name": "Trozo de llave de llavoro"
+     },
+     {
+      "text": "1 x Cráneo mágico de magamaño.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Cráneo mágico de magamaño.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 1,
+      "name": "Cráneo mágico de magamaño"
+     },
+     {
+      "text": "1 x Pétalo de rosa demoníaca.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Pétalo de rosa demoníaca.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 1,
+      "name": "Pétalo de rosa demoníaca"
+     },
+     {
+      "text": "1 x Aceite de girasol salvaje.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Aceite de girasol salvaje.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 1,
+      "name": "Aceite de girasol salvaje"
+     },
+     {
+      "text": "1 x Nuez de kokoko.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Nuez de kokoko.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 1,
+      "name": "Nuez de kokoko"
+     },
+     {
+      "text": "1 x Trama dimensional.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Trama dimensional.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 1,
+      "name": "Trama dimensional"
+     },
+     {
+      "text": "1 x Leche de Cerdo serrano.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Leche de Cerdo serrano.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 1,
+      "name": "Leche de Cerdo serrano"
+     },
+     {
+      "text": "1 x Oreja de buldogro.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Oreja de buldogro.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 1,
+      "name": "Oreja de buldogro"
+     }
+    ]
+   },
+   {
+    "name": null,
+    "rows": [
+     {
+      "text": "1 x Mazmorra:",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Mazmorra:",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 1,
+      "name": "Mazmorra:",
+      "children": [
+       {
+        "text": "2 x Mazmorra Malefíscof.",
+        "segs": [
+         {
+          "t": "text",
+          "v": "2 x Mazmorra Malefíscof.",
+          "b": true
+         }
+        ],
+        "strong": true,
+        "quantity": 2,
+        "name": "Mazmorra Malefíscof"
+       },
+       {
+        "text": "1 x Mazmorra Perfósil.",
+        "segs": [
+         {
+          "t": "text",
+          "v": "1 x Mazmorra Perfósil.",
+          "b": true
+         }
+        ],
+        "strong": true,
+        "quantity": 1,
+        "name": "Mazmorra Perfósil"
+       },
+       {
+        "text": "1 x Mazmorra Nidas.",
+        "segs": [
+         {
+          "t": "text",
+          "v": "1 x Mazmorra Nidas.",
+          "b": true
+         }
+        ],
+        "strong": true,
+        "quantity": 1,
+        "name": "Mazmorra Nidas"
+       },
+       {
+        "text": "1 x Mazmorra Capitán Eskarlata.",
+        "segs": [
+         {
+          "t": "text",
+          "v": "1 x Mazmorra Capitán Eskarlata.",
+          "b": true
+         }
+        ],
+        "strong": true,
+        "quantity": 1,
+        "name": "Mazmorra Capitán Eskarlata"
+       },
+       {
+        "text": "1 x Mazmorra Toxoliat.",
+        "segs": [
+         {
+          "t": "text",
+          "v": "1 x Mazmorra Toxoliat.",
+          "b": true
+         }
+        ],
+        "strong": true,
+        "quantity": 1,
+        "name": "Mazmorra Toxoliat"
+       },
+       {
+        "text": "1 x Mazmorra Reina de Ladrones.",
+        "segs": [
+         {
+          "t": "text",
+          "v": "1 x Mazmorra Reina de Ladrones.",
+          "b": true
+         }
+        ],
+        "strong": true,
+        "quantity": 1,
+        "name": "Mazmorra Reina de Ladrones"
+       },
+       {
+        "text": "1 x Mazmorra Fraktal.",
+        "segs": [
+         {
+          "t": "text",
+          "v": "1 x Mazmorra Fraktal.",
+          "b": true
+         }
+        ],
+        "strong": true,
+        "quantity": 1,
+        "name": "Mazmorra Fraktal"
+       },
+       {
+        "text": "1 x Mazmorra XLII.",
+        "segs": [
+         {
+          "t": "text",
+          "v": "1 x Mazmorra XLII.",
+          "b": true
+         }
+        ],
+        "strong": true,
+        "quantity": 1,
+        "name": "Mazmorra XLII"
+       },
+       {
+        "text": "1 x Mazmorra Vórtex.",
+        "segs": [
+         {
+          "t": "text",
+          "v": "1 x Mazmorra Vórtex.",
+          "b": true
+         }
+        ],
+        "strong": true,
+        "quantity": 1,
+        "name": "Mazmorra Vórtex"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "name": "Otros",
+    "rows": [
+     {
+      "text": "Cualquier oficio al nivel 200.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "Cualquier oficio al nivel 200."
+       }
+      ]
+     },
+     {
+      "text": "Tener más de 3 000 puntos de logro en tu personaje.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "Tener más de 3 000 puntos de logro en tu personaje."
+       }
+      ]
+     },
+     {
+      "text": "En algunas ocasiones, tener más de 800 en algún elemento.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "En algunas ocasiones, tener más de 800 en algún elemento."
+       }
+      ]
+     },
+     {
+      "text": "Tener el Dofus vigilante.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "Tener el Dofus vigilante.",
+        "b": true
+       }
+      ],
+      "strong": true
+     },
+     {
+      "text": "Muchos muchos combates xD.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "Muchos muchos combates xD."
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "intro": [
+  [
+   {
+    "t": "text",
+    "v": "Para obtener tu Dofus Nebuloso, necesitarás cumplir con las siguientes misiones de estos logros en este orden. Además, necesitarás haber terminado las misiones del "
+   },
+   {
+    "t": "text",
+    "v": "Dofus de los Vigilantes",
+    "b": true
+   },
+   {
+    "t": "text",
+    "v": ". Ten en cuenta que son "
+   },
+   {
+    "t": "text",
+    "v": "101 misiones",
+    "b": true
+   },
+   {
+    "t": "text",
+    "v": ":"
+   }
+  ]
+ ],
+ "parts": [
+  {
+   "type": "achievement",
+   "number": 1,
+   "name": "Favores encadenados",
+   "slug": null,
+   "quests": [
+    {
+     "name": "Recluta encofrada",
+     "slug": "recluta-encofrada"
+    },
+    {
+     "name": "Tragamonedas",
+     "slug": "tragamonedas"
+    },
+    {
+     "name": "Cofrología",
+     "slug": "cofrologia"
+    },
+    {
+     "name": "Tesorfanato",
+     "slug": "tesorfanato"
+    },
+    {
+     "name": "El maleficio del cofre",
+     "slug": "el-maleficio-del-cofre"
+    }
+   ]
+  },
+  {
+   "type": "achievement",
+   "number": 2,
+   "name": "El perforar se va a acabar",
+   "slug": null,
+   "quests": [
+    {
+     "name": "Prueba de escupidor",
+     "slug": "prueba-de-escupidor"
+    },
+    {
+     "name": "La dimensión desconocida",
+     "slug": "la-dimension-desconocida"
+    },
+    {
+     "name": "Perforestación",
+     "slug": "perforestacion"
+    },
+    {
+     "name": "Tráfico de colmillos",
+     "slug": "trafico-de-colmillos"
+    },
+    {
+     "name": "Perforatroces en la niebla",
+     "slug": "perforatroces-en-la-niebla"
+    },
+    {
+     "name": "Tarea endiablada",
+     "slug": "tarea-endiablada"
+    },
+    {
+     "name": "Bailando con perforatroces",
+     "slug": "bailando-con-perforatroces"
+    },
+    {
+     "name": "Las grandes galerías",
+     "slug": "las-grandes-galerias"
+    },
+    {
+     "name": "Un corazón de oro",
+     "slug": "un-corazon-de-oro"
+    },
+    {
+     "name": "Maldita generosidad",
+     "slug": "maldita-generosidad"
+    }
+   ]
+  },
+  {
+   "type": "achievement",
+   "number": 3,
+   "name": "El rey y yo",
+   "slug": null,
+   "quests": [
+    {
+     "name": "Rick Hachón, corazón de anutrof",
+     "slug": "rick-hachon-corazon-de-anutrof"
+    },
+    {
+     "name": "Por unos kamas más",
+     "slug": "por-unos-kamas-mas"
+    },
+    {
+     "name": "No todo lo que brilla es oro",
+     "slug": "no-todo-lo-que-brilla-es-oro"
+    },
+    {
+     "name": "Anutrof salve al rey",
+     "slug": "anutrof-salve-al-rey"
+    },
+    {
+     "name": "Una audiencia muy real",
+     "slug": "una-audiencia-muy-real"
+    },
+    {
+     "name": "El barbero de Anutropía",
+     "slug": "el-barbero-de-anutropia"
+    }
+   ]
+  },
+  {
+   "type": "achievement",
+   "number": 4,
+   "name": "El alegre retirado",
+   "slug": null,
+   "quests": [
+    {
+     "name": "Heh, ¿dónde está Bizcana?",
+     "slug": "hey-donde-esta-bizcana"
+    },
+    {
+     "name": "Muestreo",
+     "slug": "muestreo"
+    },
+    {
+     "name": "El silencio es oro",
+     "slug": "el-silencio-es-oro"
+    },
+    {
+     "name": "Espionaje industrial",
+     "slug": "espionaje-industrial"
+    },
+    {
+     "name": "Toma de rehenes",
+     "slug": "toma-de-rehenes"
+    },
+    {
+     "name": "La huelga es el final",
+     "slug": "la-huelga-es-el-final"
+    },
+    {
+     "name": "Incidente en las profundidades",
+     "slug": "incidente-en-las-profundidades"
+    },
+    {
+     "name": "Reconocimiento de deuda",
+     "slug": "reconocimiento-de-deuda"
+    },
+    {
+     "name": "El mapa de la verdad",
+     "slug": "el-mapa-de-la-verdad"
+    }
+   ]
+  },
+  {
+   "type": "quest",
+   "number": 5,
+   "quest": {
+    "name": "Hablar con el Dios Anutrof",
+    "slug": "hablar-con-el-dios-anutrof"
+   }
+  },
+  {
+   "type": "achievement",
+   "number": 6,
+   "name": "Salvado por la campana",
+   "slug": null,
+   "quests": [
+    {
+     "name": "Cuenta fuera",
+     "slug": "cuenta-fuera"
+    },
+    {
+     "name": "El fanfarrón",
+     "slug": "el-fanfarron"
+    },
+    {
+     "name": "Los viajeros del canal",
+     "slug": "los-viajeros-del-canal"
+    },
+    {
+     "name": "En busca de los maligilantes perdidos",
+     "slug": "en-busca-de-los-maligilantes-perdidos"
+    },
+    {
+     "name": "Un ring para gobernarlos a todos",
+     "slug": "un-ring-para-gobernarlos-a-todos"
+    }
+   ]
+  },
+  {
+   "type": "achievement",
+   "number": 7,
+   "name": "Escupe tu veneno",
+   "slug": null,
+   "quests": [
+    {
+     "name": "Colección necrótica",
+     "slug": "coleccion-necrotica"
+    },
+    {
+     "name": "Ponzoña que ponzoña",
+     "slug": "ponzoa-que-ponzoa"
+    },
+    {
+     "name": "Las brigadas del abismo",
+     "slug": "las-brigadas-del-abismo"
+    },
+    {
+     "name": "Epidemiología",
+     "slug": "epidemiologia"
+    },
+    {
+     "name": "La investigación de huesos",
+     "slug": "la-investigacion-de-huesos"
+    },
+    {
+     "name": "El señor de los necróticos",
+     "slug": "el-seor-de-los-necroticos"
+    },
+    {
+     "name": "Armamento biológico",
+     "slug": "armamento-biologico"
+    },
+    {
+     "name": "Carne fresca",
+     "slug": "carne-fresca"
+    },
+    {
+     "name": "La muerta Adela",
+     "slug": "la-muerta-adela"
+    },
+    {
+     "name": "Envenenarse en un vaso de agua",
+     "slug": "envenenarse-en-un-vaso-de-agua"
+    }
+   ]
+  },
+  {
+   "type": "achievement",
+   "number": 8,
+   "name": "El juego del trono",
+   "slug": null,
+   "quests": [
+    {
+     "name": "Camino a la perdición",
+     "slug": "camino-a-la-perdicion"
+    },
+    {
+     "name": "El gran bazar de Sramvil",
+     "slug": "el-gran-bazar-de-sramvil"
+    },
+    {
+     "name": "Aquí hay chafer encerrado",
+     "slug": "aqui-hay-chafer-encerrado"
+    },
+    {
+     "name": "Después de la tormenta, llega la tempestad",
+     "slug": "despues-de-la-tormenta-llega-la-tempestad"
+    },
+    {
+     "name": "La corte de los milagros",
+     "slug": "la-corte-de-los-milagros"
+    },
+    {
+     "name": "Hueso duro de esculpir",
+     "slug": "hueso-duro-de-esculpir"
+    }
+   ]
+  },
+  {
+   "type": "achievement",
+   "number": 9,
+   "name": "Ladrones de Sramvil",
+   "slug": null,
+   "quests": [
+    {
+     "name": "Falsas apariencias",
+     "slug": "falsas-apariencias"
+    },
+    {
+     "name": "Memorias de ultratumba",
+     "slug": "memorias-de-ultratumba"
+    },
+    {
+     "name": "La salsa de la vida",
+     "slug": "la-salsa-de-la-vida"
+    },
+    {
+     "name": "La capilla negra",
+     "slug": "la-capilla-negra"
+    },
+    {
+     "name": "Presunto culpable",
+     "slug": "presunto-culpable"
+    },
+    {
+     "name": "Desde el infierno",
+     "slug": "desde-el-infierno"
+    },
+    {
+     "name": "El coleccionista de sombras",
+     "slug": "el-coleccionista-de-sombras"
+    },
+    {
+     "name": "Salir de las sombras",
+     "slug": "salir-de-las-sombras"
+    },
+    {
+     "name": "Entrega urgente",
+     "slug": "entrega-urgente"
+    }
+   ]
+  },
+  {
+   "type": "quest",
+   "number": 10,
+   "quest": {
+    "name": "Hablar con el Dios Sram",
+    "slug": "hablar-con-el-dios-sram"
+   }
+  },
+  {
+   "type": "achievement",
+   "number": 11,
+   "name": "Los tiempos que corren",
+   "slug": null,
+   "quests": [
+    {
+     "name": "Anomalía temporal",
+     "slug": "anomalia-temporal"
+    },
+    {
+     "name": "Es tu destino",
+     "slug": "es-tu-destino"
+    },
+    {
+     "name": "Regreso al presente",
+     "slug": "regreso-al-presente"
+    },
+    {
+     "name": "Rescate en el tiempo",
+     "slug": "rescate-en-el-tiempo"
+    }
+   ]
+  },
+  {
+   "type": "achievement",
+   "number": 12,
+   "name": "Carpe diem",
+   "slug": null,
+   "quests": [
+    {
+     "name": "Los ladrones de colores",
+     "slug": "los-ladrones-de-colores"
+    },
+    {
+     "name": "Terminutor: el juicio de la máquina",
+     "slug": "terminutor-el-juicio-de-la-maquina"
+    },
+    {
+     "name": "Los demonios de Mediodía",
+     "slug": "los-demonios-de-mediodia"
+    },
+    {
+     "name": "Los orígenes del mal",
+     "slug": "los-origenes-del-mal"
+    },
+    {
+     "name": "Una aguja en un reloj",
+     "slug": "una-aguja-en-un-reloj"
+    },
+    {
+     "name": "La vida, el Horamundo y todo lo demás",
+     "slug": "la-vida-el-horamundo-y-todo-lo-demas"
+    },
+    {
+     "name": "Disfunción espaciotemporal",
+     "slug": "disfuncion-espaciotemporal"
+    },
+    {
+     "name": "¿Me das tu número?",
+     "slug": "me-das-tu-numero"
+    },
+    {
+     "name": "Al filo del mañana",
+     "slug": "al-filo-del-maana"
+    },
+    {
+     "name": "Todo lo que necesitas es matar",
+     "slug": "todo-lo-que-necesitas-es-matar"
+    }
+   ]
+  },
+  {
+   "type": "achievement",
+   "number": 13,
+   "name": "El pozo del loco",
+   "slug": null,
+   "quests": [
+    {
+     "name": "El ilusionista",
+     "slug": "el-ilusionista"
+    },
+    {
+     "name": "Locos de atar",
+     "slug": "locos-de-atar"
+    },
+    {
+     "name": "El ejército de los doce locos",
+     "slug": "el-ejercito-de-los-doce-locos"
+    },
+    {
+     "name": "La verdad está oculta en un pozo",
+     "slug": "la-verdad-esta-oculta-en-un-pozo"
+    },
+    {
+     "name": "Las arenas del tiempo",
+     "slug": "las-arenas-del-tiempo"
+    }
+   ]
+  },
+  {
+   "type": "achievement",
+   "number": 14,
+   "name": "Idas y venidas",
+   "slug": null,
+   "quests": [
+    {
+     "name": "Desgarrones temporales",
+     "slug": "desgarrones-temporales"
+    },
+    {
+     "name": "El futuro pasado",
+     "slug": "el-futuro-pasado"
+    },
+    {
+     "name": "Guerra temporal",
+     "slug": "guerra-temporal"
+    },
+    {
+     "name": "La Expansión Gödélica",
+     "slug": "la-expansion-godelica"
+    },
+    {
+     "name": "Los visitantes del futuro",
+     "slug": "los-visitantes-del-futuro"
+    },
+    {
+     "name": "El mañana nunca muere",
+     "slug": "el-maana-nunca-muere"
+    }
+   ]
+  },
+  {
+   "type": "quest",
+   "number": 15,
+   "quest": {
+    "name": "Hablar con el Dios Xelor",
+    "slug": "hablar-con-el-dios-xelor"
+   }
+  },
+  {
+   "type": "achievement",
+   "number": 16,
+   "name": "El sueño de otro mundo",
+   "slug": null,
+   "quests": [
+    {
+     "name": "En busca del pájaro del tiempo",
+     "slug": "en-busca-del-pajaro-del-tiempo"
+    }
+   ]
+  }
+ ],
+ "rewards": null,
+ "video": null,
+ "body": []
+}

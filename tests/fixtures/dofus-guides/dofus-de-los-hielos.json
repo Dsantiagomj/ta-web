@@ -1,0 +1,260 @@
+{
+ "heading": "DOFUS DE LOS HIELOS",
+ "banner": {
+  "text": "YA TENEMOS CHECKLIST DOFUS DE LOS HIELOS",
+  "href": "/checklist-dofus-de-los-hielos"
+ },
+ "prerequisites": [
+  [
+   {
+    "t": "text",
+    "v": "Nivel mínimo 80."
+   }
+  ]
+ ],
+ "needs": {
+  "title": "Necesitarás",
+  "note": null,
+  "groups": [
+   {
+    "name": null,
+    "rows": [
+     {
+      "text": "Son tantos ítems y mazmorras, que es mejor ver logro por logro mi king.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "Son tantos ítems y mazmorras, que es mejor ver logro por logro mi king."
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "intro": [
+  [
+   {
+    "t": "text",
+    "v": "Para obtener tu Dofus de los Hielos, necesitarás cumplir con las siguientes misiones de estos logros. ¡"
+   },
+   {
+    "t": "text",
+    "v": "ATENCIÓN! El orden de los logros no está optimizado. Para eso, sacaré una checklist dentro de unas semanas y una guía en YouTube actualizada.",
+    "b": true
+   }
+  ]
+ ],
+ "parts": [
+  {
+   "type": "achievement",
+   "name": "Frío al cubo",
+   "slug": "frio-al-cubo",
+   "quests": [
+    {
+     "name": "La tierra banquisa",
+     "slug": "la-tierra-banquisa"
+    },
+    {
+     "name": "Una alcaldesa de hielo",
+     "slug": "una-alcaldesa-de-hielo"
+    },
+    {
+     "name": "Full contact",
+     "slug": "full-contact"
+    }
+   ]
+  },
+  {
+   "type": "achievement",
+   "name": "Abono de peaje",
+   "slug": "abono-de-peaje",
+   "quests": [
+    {
+     "name": "Antimonárquico",
+     "slug": "antimonarquico"
+    },
+    {
+     "name": "Las joyas de la corona",
+     "slug": "las-joyas-de-la-corona"
+    },
+    {
+     "name": "Duerme y tendrás un pastel",
+     "slug": "duerme-y-tendras-un-pastel"
+    },
+    {
+     "name": "Lavandería automática",
+     "slug": "lavanderia-automatica"
+    },
+    {
+     "name": "Hace fresco, pero no importa",
+     "slug": "hace-fresco-pero-no-importa"
+    },
+    {
+     "name": "Canozzirujana",
+     "slug": "canozzirujana"
+    },
+    {
+     "name": "Allá en la montaña…",
+     "slug": "alla-en-la-montaa"
+    },
+    {
+     "name": "Allá arriba, en el pico helado…",
+     "slug": "alla-arriba-en-el-pico-helado"
+    }
+   ]
+  },
+  {
+   "type": "achievement",
+   "name": "Visita guiada",
+   "slug": "visita-guiada",
+   "quests": [
+    {
+     "name": "Bienvenido a Frigost",
+     "slug": "bienvenido-a-frigost"
+    },
+    {
+     "name": "Lo esencial está en el lago helado",
+     "slug": "lo-esencial-esta-en-el-lago-helado"
+    },
+    {
+     "name": "Los supervivientes de Frigost",
+     "slug": "los-supervivientes-de-frigost"
+    },
+    {
+     "name": "Frigost, una isla que no es como las demás",
+     "slug": "frigost-una-isla-que-no-es-como-las-demas"
+    },
+    {
+     "name": "Desarrollo sostenible",
+     "slug": "desarrollo-sostenible"
+    },
+    {
+     "name": "Monstruitos y mazmorras",
+     "slug": "monstruitos-y-mazmorras"
+    },
+    {
+     "name": "Hasta el fondo del agujero",
+     "slug": "hasta-el-fondo-del-agujero"
+    }
+   ]
+  },
+  {
+   "type": "achievement",
+   "name": "La llegada del invierno",
+   "slug": "la-llegada-del-invierno",
+   "quests": [
+    {
+     "name": "Los supervivientes de El Pueblo Sepultado",
+     "slug": "los-supervivientes-de-el-pueblo-sepultado"
+    },
+    {
+     "name": "Los últimos supervivientes",
+     "slug": "los-ultimos-supervivientes"
+    },
+    {
+     "name": "La vida de castillo",
+     "slug": "la-vida-de-castillo"
+    },
+    {
+     "name": "La máquina de desmontar el tiempo",
+     "slug": "la-maquina-de-desmontar-el-tiempo"
+    },
+    {
+     "name": "Al maestro, cuchillada",
+     "slug": "al-maestro-cuchillada"
+    },
+    {
+     "name": "Un conde con mucho cuento",
+     "slug": "un-conde-con-mucho-cuento"
+    }
+   ]
+  },
+  {
+   "type": "achievement",
+   "name": "Un alma helada",
+   "slug": "un-alma-helada",
+   "quests": [
+    {
+     "name": "La fatalidad",
+     "slug": "la-fatalidad",
+     "alternatives": [
+      {
+       "name": "La fatalidad",
+       "slug": "la-fatalidad"
+      },
+      {
+       "name": "El destino",
+       "slug": "el-destino"
+      },
+      {
+       "name": "La rivalidad",
+       "slug": "la-rivalidad"
+      }
+     ]
+    },
+    {
+     "name": "¡Maldición!",
+     "slug": "maldicion"
+    },
+    {
+     "name": "Misión solución",
+     "slug": "mision-solucion"
+    },
+    {
+     "name": "Frío… caliente… ¡que te quemas!",
+     "slug": "frio-caliente-que-te-quemas"
+    },
+    {
+     "name": "Una friolera de revelaciones",
+     "slug": "una-friolera-de-revelaciones"
+    }
+   ]
+  },
+  {
+   "type": "achievement",
+   "name": "Recién puesto",
+   "slug": "recien-puesto",
+   "quests": [
+    {
+     "name": "El dofus de los hielos",
+     "slug": "el-dofus-de-los-hielos"
+    }
+   ]
+  },
+  {
+   "type": "quests",
+   "title": "También algunas misiones random",
+   "quests": [
+    {
+     "name": "La marcha de la emperatriz",
+     "slug": "la-marcha-de-la-emperatriz"
+    },
+    {
+     "name": "El S.L.I.P. está que arde",
+     "slug": "el-slip-esta-que-arde"
+    },
+    {
+     "name": "Hotel de hielo",
+     "slug": "hotel-de-hielo"
+    },
+    {
+     "name": "La desglaciación",
+     "slug": "la-desglaciacion"
+    },
+    {
+     "name": "El recadero",
+     "slug": "el-recadero"
+    },
+    {
+     "name": "Luces y sombra",
+     "slug": "luces-y-sombras",
+     "note": "(solo empezarla)"
+    }
+   ]
+  }
+ ],
+ "rewards": null,
+ "video": null,
+ "body": []
+}

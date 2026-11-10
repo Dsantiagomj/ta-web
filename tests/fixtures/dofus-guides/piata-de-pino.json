@@ -1,0 +1,234 @@
+{
+ "heading": "CÓMO OBTENER LA PIÑATA DE PINO",
+ "banner": null,
+ "prerequisites": [
+  [
+   {
+    "t": "text",
+    "v": "Nivel mínimo 180."
+   }
+  ],
+  [
+   {
+    "t": "link",
+    "v": "Seis de seis.",
+    "href": "/seis-de-seis",
+    "b": true
+   }
+  ],
+  [
+   {
+    "t": "link",
+    "v": "El secreto de los dofus: prólogo.",
+    "href": "/el-secreto-de-los-dofus-prologo",
+    "b": true
+   }
+  ],
+  [
+   {
+    "t": "text",
+    "v": "Logro: ",
+    "b": true
+   },
+   {
+    "t": "link",
+    "v": "El niño veía la nieve caer.",
+    "href": "/el-nio-veia-la-nieve-caer",
+    "b": true
+   }
+  ],
+  [
+   {
+    "t": "text",
+    "v": "Logro",
+    "b": true
+   },
+   {
+    "t": "text",
+    "v": ": "
+   },
+   {
+    "t": "link",
+    "v": "Un clan variopinto.",
+    "href": "/un-clan-variopinto",
+    "b": true
+   }
+  ],
+  [
+   {
+    "t": "text",
+    "v": "Logro",
+    "b": true
+   },
+   {
+    "t": "text",
+    "v": ": "
+   },
+   {
+    "t": "link",
+    "v": "Asesor patrimonial.",
+    "href": "/asesor-patrimonial",
+    "b": true
+   }
+  ],
+  [
+   {
+    "t": "text",
+    "v": "Logro",
+    "b": true
+   },
+   {
+    "t": "text",
+    "v": ": "
+   },
+   {
+    "t": "link",
+    "v": "Floritura final.",
+    "href": "/floritura-final",
+    "b": true
+   }
+  ]
+ ],
+ "needs": {
+  "title": "Necesitarás",
+  "note": null,
+  "groups": [
+   {
+    "name": null,
+    "rows": [
+     {
+      "text": "1 x Mazmorra Grunob.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Mazmorra Grunob."
+       }
+      ],
+      "quantity": 1,
+      "name": "Mazmorra Grunob"
+     }
+    ]
+   }
+  ]
+ },
+ "intro": [
+  [
+   {
+    "t": "text",
+    "v": "Antes que nada, ve primero a la mazmorra de Grunob y véncelo para ir a la sala post final."
+   }
+  ]
+ ],
+ "parts": [],
+ "rewards": [
+  "Piñata de pino"
+ ],
+ "video": null,
+ "body": [
+  {
+   "type": "image",
+   "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/c88e7a86-61b9-419e-933a-c88fb3aeb2ec/Captura+de+pantalla+2026-07-14+012609.png",
+   "alt": ""
+  },
+  {
+   "type": "image",
+   "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/968093b3-8209-4718-adb9-8f5b18bc8612/Captura+de+pantalla+2026-07-14+012731.png",
+   "alt": ""
+  },
+  {
+   "type": "paragraph",
+   "segs": [
+    {
+     "t": "text",
+     "v": "Allí encontrarás a Gobalden con el que tienes que hablar y seleccionar las respuestas correctas:"
+    }
+   ]
+  },
+  {
+   "type": "image",
+   "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/505b23c1-7e11-409e-adac-eea2ac50308b/Captura+de+pantalla+2026-07-14+012836.png",
+   "alt": ""
+  },
+  {
+   "type": "image",
+   "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/41c1e9c3-7ec9-4c5a-80b6-2e713fd47ab7/Captura+de+pantalla+2026-07-14+012845.png",
+   "alt": ""
+  },
+  {
+   "type": "image",
+   "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/dba2ecbc-4164-4dc0-96c8-e164523e48f5/Captura+de+pantalla+2026-07-14+012856.png",
+   "alt": ""
+  },
+  {
+   "type": "paragraph",
+   "segs": [
+    {
+     "t": "text",
+     "v": "Después, dirígete a Valonia [38,-80] y habla con Goblepino."
+    }
+   ]
+  },
+  {
+   "type": "image",
+   "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/7f31845b-ca4b-422b-a795-cb8ff66ed4fc/Captura+de+pantalla+2026-07-14+012934.png",
+   "alt": ""
+  },
+  {
+   "type": "image",
+   "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/3c8d96a3-26b2-4046-95cd-e1d699e60ad8/Captura+de+pantalla+2026-07-14+012946.png",
+   "alt": ""
+  },
+  {
+   "type": "paragraph",
+   "segs": [
+    {
+     "t": "text",
+     "v": "También debes seleccionar las respuestas correctas:"
+    }
+   ]
+  },
+  {
+   "type": "image",
+   "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/8fa38318-31e3-4dce-975a-b32096a83c7f/Captura+de+pantalla+2026-07-14+013004.png",
+   "alt": ""
+  },
+  {
+   "type": "image",
+   "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/eb2efddb-d833-437c-a4ef-88de3b74abfc/Captura+de+pantalla+2026-07-14+013015.png",
+   "alt": ""
+  },
+  {
+   "type": "paragraph",
+   "segs": [
+    {
+     "t": "text",
+     "v": "Por fin obtendrás tu piñata de pino xD Así de simple."
+    }
+   ]
+  },
+  {
+   "type": "image",
+   "url": "https://images.squarespace-cdn.com/content/v1/67976884fd6bbb4c207d8c51/c52f8fab-ed8f-448f-afb5-fb192c1dae79/Captura+de+pantalla+2026-07-14+013030.png",
+   "alt": ""
+  },
+  {
+   "type": "paragraph",
+   "segs": [
+    {
+     "t": "text",
+     "v": "Dale click "
+    },
+    {
+     "t": "link",
+     "v": "aquí",
+     "href": "/metalogro-misiones-de-mundo",
+     "b": true
+    },
+    {
+     "t": "text",
+     "v": " para volver a las misiones de mundo. No sé dónde más te podría enviar así que… en fin xD."
+    }
+   ]
+  }
+ ]
+}

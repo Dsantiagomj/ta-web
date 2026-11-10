@@ -1,0 +1,281 @@
+{
+ "heading": "DOFUS VULBIS",
+ "banner": null,
+ "prerequisites": [
+  [
+   {
+    "t": "text",
+    "v": "Nivel mínimo 180."
+   }
+  ]
+ ],
+ "needs": {
+  "title": "Necesitarás en total",
+  "note": null,
+  "groups": [
+   {
+    "name": "Combates",
+    "rows": [
+     {
+      "text": "16 x combates solitarios (algunos de ellos con compañero posible).",
+      "segs": [
+       {
+        "t": "text",
+        "v": "16 x combates solitarios (algunos de ellos con compañero posible)."
+       }
+      ],
+      "quantity": 16,
+      "name": "combates solitarios",
+      "note": "(algunos de ellos con compañero posible)"
+     },
+     {
+      "text": "4 x combates realizables en grupo.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "4 x combates realizables en grupo."
+       }
+      ],
+      "quantity": 4,
+      "name": "combates realizables en grupo"
+     },
+     {
+      "text": "Algunos combates contra los monstruos de la zona.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "Algunos combates contra los monstruos de la zona."
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "name": "Mazmorras",
+    "rows": [
+     {
+      "text": "Hacer mazmorras de nivel 200 para un drop del 0,7% xD.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "Hacer mazmorras de nivel 200 para un drop del 0,7% xD."
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "name": "Recursos",
+    "rows": [
+     {
+      "text": "789 x Pepita.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "789 x Pepita."
+       }
+      ],
+      "quantity": 789,
+      "name": "Pepita"
+     },
+     {
+      "text": "42 x Minirreloj de arena.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "42 x Minirreloj de arena."
+       }
+      ],
+      "quantity": 42,
+      "name": "Minirreloj de arena"
+     },
+     {
+      "text": "11 x Turmalina.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "11 x Turmalina."
+       }
+      ],
+      "quantity": 11,
+      "name": "Turmalina"
+     },
+     {
+      "text": "10 x Quisnoa.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "10 x Quisnoa."
+       }
+      ],
+      "quantity": 10,
+      "name": "Quisnoa"
+     },
+     {
+      "text": "10 x Salikronia.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "10 x Salikronia."
+       }
+      ],
+      "quantity": 10,
+      "name": "Salikronia"
+     },
+     {
+      "text": "3 x Guijarro brasa.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "3 x Guijarro brasa."
+       }
+      ],
+      "quantity": 3,
+      "name": "Guijarro brasa"
+     },
+     {
+      "text": "2 x Ojo de cristal.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "2 x Ojo de cristal."
+       }
+      ],
+      "quantity": 2,
+      "name": "Ojo de cristal"
+     },
+     {
+      "text": "2 x Chica sabrosa.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "2 x Chica sabrosa."
+       }
+      ],
+      "quantity": 2,
+      "name": "Chica sabrosa"
+     },
+     {
+      "text": "1 x Cuerno roto de Cocabulia.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Cuerno roto de Cocabulia."
+       }
+      ],
+      "quantity": 1,
+      "name": "Cuerno roto de Cocabulia"
+     },
+     {
+      "text": "1 x Esencia del Conde Kontatrás.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Esencia del Conde Kontatrás."
+       }
+      ],
+      "quantity": 1,
+      "name": "Esencia del Conde Kontatrás"
+     },
+     {
+      "text": "1 x Esencia de Vórtex.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Esencia de Vórtex."
+       }
+      ],
+      "quantity": 1,
+      "name": "Esencia de Vórtex"
+     }
+    ]
+   },
+   {
+    "name": "Otros detalles y oficios",
+    "rows": [
+     {
+      "text": "Sueños infinitos.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "Sueños infinitos."
+       }
+      ]
+     },
+     {
+      "text": "Ser alquimista y/o campesino 200.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "Ser alquimista y/o campesino 200."
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "intro": [
+  [
+   {
+    "t": "text",
+    "v": "Para obtener tu Dofus Vulbis, necesitarás cumplir con las siguientes misiones de estos logros en este orden:"
+   }
+  ]
+ ],
+ "parts": [
+  {
+   "type": "achievement",
+   "name": "Sueños de dragón",
+   "slug": null,
+   "quests": [
+    {
+     "name": "Amaknomalía",
+     "slug": "amaknomalia"
+    },
+    {
+     "name": "La madre de los dragohuevos",
+     "slug": "la-madre-de-los-dragohuevos"
+    },
+    {
+     "name": "Pesadilla Infinita",
+     "slug": "pesadilla-infinita"
+    },
+    {
+     "name": "La Noche Rugiente",
+     "slug": "la-noche-rugiente"
+    },
+    {
+     "name": "Las razones de la ira",
+     "slug": "las-razones-de-la-ira"
+    },
+    {
+     "name": "Tiempo de secretos",
+     "slug": "tiempo-de-secretos"
+    }
+   ]
+  },
+  {
+   "type": "quests",
+   "title": "También tienes que hacer las siguientes submisiones y prerrequisitos",
+   "quests": [
+    {
+     "name": "Será mejor antes",
+     "slug": "sera-mejor-antes"
+    },
+    {
+     "name": "El sentido del sacrificio",
+     "slug": "el-sentido-del-sacrificio"
+    },
+    {
+     "name": "El dragón de los bosques",
+     "slug": "el-dragon-de-los-bosques",
+     "note": "(si quieres ahorrar 1 000 000 kamas xD)"
+    }
+   ]
+  }
+ ],
+ "rewards": null,
+ "video": null,
+ "body": []
+}

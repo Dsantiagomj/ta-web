@@ -1,0 +1,705 @@
+{
+ "heading": "DOFUS ABISAL",
+ "banner": null,
+ "prerequisites": [
+  [
+   {
+    "t": "text",
+    "v": "Nivel mínimo 180."
+   }
+  ]
+ ],
+ "needs": {
+  "title": "Necesitarás",
+  "note": null,
+  "groups": [
+   {
+    "name": null,
+    "rows": [
+     {
+      "text": "Algún oficio nivel 200 (sea cual sea).",
+      "segs": [
+       {
+        "t": "text",
+        "v": "Algún oficio nivel 200 (sea cual sea)."
+       }
+      ]
+     },
+     {
+      "text": "1 x Sello de los fundadores (o fabricarlo).",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Sello de los fundadores (o fabricarlo)."
+       }
+      ],
+      "quantity": 1,
+      "name": "Sello de los fundadores",
+      "note": "(o fabricarlo)"
+     },
+     {
+      "text": "1 x Volante hidráulico (o fabricarlo).",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Volante hidráulico (o fabricarlo)."
+       }
+      ],
+      "quantity": 1,
+      "name": "Volante hidráulico",
+      "note": "(o fabricarlo)"
+     },
+     {
+      "text": "1 x Lastre antirremolinos (o fabricarlo).",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Lastre antirremolinos (o fabricarlo)."
+       }
+      ],
+      "quantity": 1,
+      "name": "Lastre antirremolinos",
+      "note": "(o fabricarlo)"
+     },
+     {
+      "text": "1 x Estatuilla de Snedon (o fabricarlo).",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Estatuilla de Snedon (o fabricarlo)."
+       }
+      ],
+      "quantity": 1,
+      "name": "Estatuilla de Snedon",
+      "note": "(o fabricarlo)"
+     },
+     {
+      "text": "1 x Acelerador de propulsión (o fabricarlo).",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Acelerador de propulsión (o fabricarlo)."
+       }
+      ],
+      "quantity": 1,
+      "name": "Acelerador de propulsión",
+      "note": "(o fabricarlo)"
+     },
+     {
+      "text": "1 x Atrapamiedos (o fabricarlo).",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Atrapamiedos (o fabricarlo)."
+       }
+      ],
+      "quantity": 1,
+      "name": "Atrapamiedos",
+      "note": "(o fabricarlo)"
+     },
+     {
+      "text": "200 x Pepita.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "200 x Pepita."
+       }
+      ],
+      "quantity": 200,
+      "name": "Pepita"
+     },
+     {
+      "text": "10 x Piel de rojiva.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "10 x Piel de rojiva."
+       }
+      ],
+      "quantity": 10,
+      "name": "Piel de rojiva"
+     },
+     {
+      "text": "7 x Ojo de shorrokh.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "7 x Ojo de shorrokh."
+       }
+      ],
+      "quantity": 7,
+      "name": "Ojo de shorrokh"
+     },
+     {
+      "text": "7 x Tentáculo de pulprofundo.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "7 x Tentáculo de pulprofundo."
+       }
+      ],
+      "quantity": 7,
+      "name": "Tentáculo de pulprofundo"
+     },
+     {
+      "text": "6 x Tentáculo de n'yalg.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "6 x Tentáculo de n'yalg."
+       }
+      ],
+      "quantity": 6,
+      "name": "Tentáculo de n'yalg"
+     },
+     {
+      "text": "5 x Flauta de clutista.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "5 x Flauta de clutista."
+       }
+      ],
+      "quantity": 5,
+      "name": "Flauta de clutista"
+     },
+     {
+      "text": "5 x Salchichón ahumado.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "5 x Salchichón ahumado."
+       }
+      ],
+      "quantity": 5,
+      "name": "Salchichón ahumado"
+     },
+     {
+      "text": "5 x Kobalita.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "5 x Kobalita."
+       }
+      ],
+      "quantity": 5,
+      "name": "Kobalita"
+     },
+     {
+      "text": "5 x Pata de mie-do.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "5 x Pata de mie-do."
+       }
+      ],
+      "quantity": 5,
+      "name": "Pata de mie-do"
+     },
+     {
+      "text": "3 x Carne sabrosa.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "3 x Carne sabrosa."
+       }
+      ],
+      "quantity": 3,
+      "name": "Carne sabrosa"
+     },
+     {
+      "text": "3 x Salikronia.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "3 x Salikronia."
+       }
+      ],
+      "quantity": 3,
+      "name": "Salikronia"
+     },
+     {
+      "text": "3 x Madera de acuacia.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "3 x Madera de acuacia."
+       }
+      ],
+      "quantity": 3,
+      "name": "Madera de acuacia"
+     },
+     {
+      "text": "3 x Quisnoa.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "3 x Quisnoa."
+       }
+      ],
+      "quantity": 3,
+      "name": "Quisnoa"
+     },
+     {
+      "text": "3 x Lapa.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "3 x Lapa."
+       }
+      ],
+      "quantity": 3,
+      "name": "Lapa"
+     },
+     {
+      "text": "3 x Sepiolita.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "3 x Sepiolita."
+       }
+      ],
+      "quantity": 3,
+      "name": "Sepiolita"
+     },
+     {
+      "text": "3 x Diente de fantasmastil.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "3 x Diente de fantasmastil."
+       }
+      ],
+      "quantity": 3,
+      "name": "Diente de fantasmastil"
+     },
+     {
+      "text": "3 x Corteza de esquejika.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "3 x Corteza de esquejika."
+       }
+      ],
+      "quantity": 3,
+      "name": "Corteza de esquejika"
+     },
+     {
+      "text": "2 x Piedra angular.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "2 x Piedra angular."
+       }
+      ],
+      "quantity": 2,
+      "name": "Piedra angular"
+     },
+     {
+      "text": "1 x Parásito acuático.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Parásito acuático."
+       }
+      ],
+      "quantity": 1,
+      "name": "Parásito acuático"
+     },
+     {
+      "text": "1 x Piel de trithón.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Piel de trithón."
+       }
+      ],
+      "quantity": 1,
+      "name": "Piel de trithón"
+     },
+     {
+      "text": "1 x Tridente de tryde.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Tridente de tryde."
+       }
+      ],
+      "quantity": 1,
+      "name": "Tridente de tryde"
+     },
+     {
+      "text": "1 x Tinta de pulpepona.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Tinta de pulpepona."
+       }
+      ],
+      "quantity": 1,
+      "name": "Tinta de pulpepona"
+     },
+     {
+      "text": "1 x Linterna de tritáceo.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Linterna de tritáceo."
+       }
+      ],
+      "quantity": 1,
+      "name": "Linterna de tritáceo"
+     },
+     {
+      "text": "1 x Escama de gambafetada.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Escama de gambafetada."
+       }
+      ],
+      "quantity": 1,
+      "name": "Escama de gambafetada"
+     },
+     {
+      "text": "1 x Pinza de cangrejo yolonista.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Pinza de cangrejo yolonista."
+       }
+      ],
+      "quantity": 1,
+      "name": "Pinza de cangrejo yolonista"
+     },
+     {
+      "text": "1 x Baba de mol usko.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Baba de mol usko."
+       }
+      ],
+      "quantity": 1,
+      "name": "Baba de mol usko"
+     },
+     {
+      "text": "1 x Colmillo de Perfósil.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Colmillo de Perfósil."
+       }
+      ],
+      "quantity": 1,
+      "name": "Colmillo de Perfósil"
+     }
+    ]
+   },
+   {
+    "name": "Mazmorras",
+    "rows": [
+     {
+      "text": "1 x Mazmorra Merkator (la sala final es opcional).",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Mazmorra Merkator (la sala final es opcional).",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 1,
+      "name": "Mazmorra Merkator",
+      "note": "(la sala final es opcional)"
+     },
+     {
+      "text": "1 x Mazmorra Dientinea.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Mazmorra Dientinea.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 1,
+      "name": "Mazmorra Dientinea"
+     },
+     {
+      "text": "1 x Mazmorra Capitán Meno.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Mazmorra Capitán Meno.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 1,
+      "name": "Mazmorra Capitán Meno"
+     },
+     {
+      "text": "1 x Mazmorra Kutulú.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Mazmorra Kutulú.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 1,
+      "name": "Mazmorra Kutulú"
+     }
+    ]
+   },
+   {
+    "name": null,
+    "rows": [
+     {
+      "text": "Un par de combates por allí y por allá.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "Un par de combates por allí y por allá."
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "intro": [
+  [
+   {
+    "t": "text",
+    "v": "Para obtener tu Dofus Abisal, necesitarás cumplir con las siguientes misiones de estos logros. Son 7 logros diferentes, sumando un total de 40 misiones. El orden no importa, pero es aconsejable hacer primero "
+   },
+   {
+    "t": "link",
+    "v": "A la pesca de información",
+    "href": "/a-la-pesca-de-informacion",
+    "b": true
+   },
+   {
+    "t": "text",
+    "v": "para poder desbloquear las otras misiones."
+   }
+  ]
+ ],
+ "parts": [
+  {
+   "type": "achievement",
+   "name": "¡Plof!",
+   "slug": null,
+   "quests": [
+    {
+     "name": "A la pesca de información",
+     "slug": "a-la-pesca-de-informacion"
+    },
+    {
+     "name": "El héroe de Sufokia",
+     "slug": "el-heroe-de-sufokia"
+    }
+   ]
+  },
+  {
+   "type": "achievement",
+   "name": "¡No… puedes… bajar!",
+   "slug": null,
+   "quests": [
+    {
+     "name": "El viejo goblin y el mar",
+     "slug": "el-viejo-goblin-y-el-mar"
+    },
+    {
+     "name": "Ya raspa por hoy",
+     "slug": "ya-raspa-por-hoy"
+    },
+    {
+     "name": "El efecto Paula Rice",
+     "slug": "el-efecto-paula-rice"
+    },
+    {
+     "name": "¡Fhtagn!",
+     "slug": "fhtagn"
+    }
+   ]
+  },
+  {
+   "type": "achievement",
+   "name": "Luces, cámara y chapuzón",
+   "slug": null,
+   "quests": [
+    {
+     "name": "Los siete mercenarinos",
+     "slug": "los-siete-mercenarinos"
+    },
+    {
+     "name": "Nuestros adobados vecinos",
+     "slug": "nuestros-adobados-vecinos"
+    },
+    {
+     "name": "Competencia desleal",
+     "slug": "competencia-desleal"
+    },
+    {
+     "name": "¿Quién la tiene más grande?",
+     "slug": "quien-la-tiene-mas-grande"
+    },
+    {
+     "name": "Derecho de pernada",
+     "slug": "derecho-de-pernada"
+    },
+    {
+     "name": "La música de Rykke Zane",
+     "slug": "la-musica-de-rykke-zane"
+    },
+    {
+     "name": "Memorias de un amnésico",
+     "slug": "memorias-de-un-amnesico"
+    },
+    {
+     "name": "El que apesta en el umbral",
+     "slug": "el-que-apesta-en-el-umbral"
+    },
+    {
+     "name": "Reparo sin reparo",
+     "slug": "reparo-sin-reparo-1"
+    }
+   ]
+  },
+  {
+   "type": "achievement",
+   "name": "Test de impermeabilidad",
+   "slug": null,
+   "quests": [
+    {
+     "name": "Intoxicación profunda",
+     "slug": "intoxicacion-profunda"
+    },
+    {
+     "name": "Los mercenarios están bien equipados",
+     "slug": "los-mercenarinos-estan-bien-equipados"
+    },
+    {
+     "name": "Pesca de machangrejos",
+     "slug": "pesca-de-machangrejos"
+    },
+    {
+     "name": "Torcer el brazo",
+     "slug": "torcer-el-brazo"
+    },
+    {
+     "name": "Basta de Bazano",
+     "slug": "basta-de-bazano"
+    },
+    {
+     "name": "Profundímetro",
+     "slug": "profundimetro"
+    },
+    {
+     "name": "La toma de notas",
+     "slug": "la-toma-de-notas"
+    }
+   ]
+  },
+  {
+   "type": "achievement",
+   "name": "El mar por legado",
+   "slug": null,
+   "quests": [
+    {
+     "name": "Corrientes acuáticas",
+     "slug": "corrientes-acuaticas"
+    },
+    {
+     "name": "Topo, el pequeño robot",
+     "slug": "topo-el-pequeo-robot"
+    },
+    {
+     "name": "Selva de cristal",
+     "slug": "selva-de-cristal"
+    },
+    {
+     "name": "Su nombre es Ninguno",
+     "slug": "su-nombre-es-ninguno"
+    },
+    {
+     "name": "La llave del enigma",
+     "slug": "la-llave-del-enigma"
+    },
+    {
+     "name": "Puerta al pasado",
+     "slug": "puerta-al-pasado"
+    }
+   ]
+  },
+  {
+   "type": "achievement",
+   "name": "La guerra de los mundos… submarinos",
+   "slug": null,
+   "quests": [
+    {
+     "name": "La reina de la belleza",
+     "slug": "reina-de-la-belleza"
+    },
+    {
+     "name": "Redescate",
+     "slug": "redescate"
+    },
+    {
+     "name": "Estrategia en trithiempo real",
+     "slug": "estrategia-en-trithiempo-real"
+    },
+    {
+     "name": "En el fondo de la crisis",
+     "slug": "en-el-fondo-de-la-crisis"
+    },
+    {
+     "name": "Apostarse un ojo de la cara",
+     "slug": "apostarse-un-ojo-de-la-cara"
+    },
+    {
+     "name": "En la boca del infierno",
+     "slug": "en-la-boca-del-infierno"
+    }
+   ]
+  },
+  {
+   "type": "achievement",
+   "name": "La llamada de Kutulú",
+   "slug": null,
+   "quests": [
+    {
+     "name": "Lo que glugluteaba en las tinieblas",
+     "slug": "la-que-glugluteaba-en-las-tinieblas"
+    },
+    {
+     "name": "El caso de Poly Perkin",
+     "slug": "el-caso-de-poly-perkin"
+    },
+    {
+     "name": "La Poly mala",
+     "slug": "la-poly-mala"
+    },
+    {
+     "name": "Cuando los astros nos sonrían",
+     "slug": "cuando-los-astros-nos-sonrian"
+    },
+    {
+     "name": "¿Kutulú, encerrado que harás tú?",
+     "slug": "kutulu-encerrado-que-haras-tu"
+    },
+    {
+     "name": "Impiorando",
+     "slug": "impiorando"
+    }
+   ]
+  }
+ ],
+ "rewards": null,
+ "video": null,
+ "body": []
+}

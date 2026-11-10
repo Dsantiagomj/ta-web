@@ -1,0 +1,36 @@
+{
+ "heading": "DOFAWA",
+ "banner": null,
+ "prerequisites": [
+  [
+   {
+    "t": "text",
+    "v": "Nivel mínimo 10."
+   }
+  ]
+ ],
+ "needs": null,
+ "intro": [
+  [
+   {
+    "t": "text",
+    "v": "Para obtener tu Dofawa, es tan fácil como terminar una misión en concreto (que se hace en 2 minutos) llamada "
+   },
+   {
+    "t": "link",
+    "v": "Eso va a costar un huevo",
+    "href": "/eso-va-a-costar-un-huevo",
+    "b": true
+   },
+   {
+    "t": "text",
+    "v": ".",
+    "b": true
+   }
+  ]
+ ],
+ "parts": [],
+ "rewards": null,
+ "video": null,
+ "body": []
+}
