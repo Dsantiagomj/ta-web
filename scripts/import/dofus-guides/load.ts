@@ -391,3 +391,26 @@ export async function loadDofusGuides(
   }
   return report
 }
+
+/**
+ * La entradilla del índice /guias-dofus (global dofus-guides-index): la de la web de Torre, solo
+ * si aún está vacía. Lo que Torre escriba después en el panel no se toca.
+ */
+export async function loadDofusIndexIntro(
+  payload: Payload,
+  options: { intro: string; apply: boolean; htmlToLexical: (html: string) => LexicalState },
+): Promise<'puesta' | 'se pondría' | 'se respeta'> {
+  const index = await payload.findGlobal({
+    slug: 'dofus-guides-index',
+    depth: 0,
+    overrideAccess: true,
+  })
+  if (index.intro) return 'se respeta'
+  if (!options.apply) return 'se pondría'
+  await payload.updateGlobal({
+    slug: 'dofus-guides-index',
+    data: { intro: options.htmlToLexical(`<p>${escapeHtml(options.intro)}</p>`) },
+    overrideAccess: true,
+  })
+  return 'puesta'
+}

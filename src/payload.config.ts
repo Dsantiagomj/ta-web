@@ -19,6 +19,7 @@ import { QuestGuides } from './collections/QuestGuides'
 import { Quests } from './collections/Quests'
 import { Users } from './collections/Users'
 import { dofusDbValuesEndpoint } from './endpoints/dofusdb-values'
+import { DofusGuidesIndex } from './globals/DofusGuidesIndex'
 import { healthEndpoint } from './endpoints/health'
 import { searchIndexEndpoint } from './endpoints/search-index'
 import { resolveDatabaseUrl, shouldPushSchema } from './lib/db/database-url'
@@ -48,6 +49,7 @@ export default buildConfig({
     AchievementGroups,
     DofusGuides,
   ],
+  globals: [DofusGuidesIndex],
   editor: lexicalEditor(),
   // GET /api/health, para los smoke tests tras un despliegue; GET /api/search/guides, el
   // índice de la búsqueda de la cabecera.
