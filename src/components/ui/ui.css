@@ -172,7 +172,9 @@
 }
 
 .viewer {
-  /* Sigue en la capa superior mientras sale (DESIGN.md, Motion: Dialogs). */
+  /* Sigue en la capa superior mientras sale (DESIGN.md, Motion: Dialogs), sin tapar los
+     clics de la página. */
+  pointer-events: none;
   transition:
     overlay var(--duration-base) allow-discrete,
     display var(--duration-base) allow-discrete;
@@ -181,6 +183,7 @@
 .viewer[open] {
   display: grid;
   place-content: center;
+  pointer-events: auto;
 }
 
 .viewer::backdrop {
@@ -193,6 +196,7 @@
 
 .viewer:not([open])::backdrop {
   opacity: 0;
+  pointer-events: none;
 }
 
 /* Al cerrarse, la imagen baja y se desvanece en el 70 % de lo que tardó en entrar. */
