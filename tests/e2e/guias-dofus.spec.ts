@@ -131,10 +131,12 @@ test.describe('página de una guía de Dofus', () => {
       'href',
       `/${logro.slug}`,
     )
+    // La lista del logro: la primera; la de las misiones sueltas va después.
+    const achievementQuests = parts.getByRole('list').first()
     for (const quest of logro.quests) {
-      await expect(parts.getByText(quest.title, { exact: true })).toBeVisible()
+      await expect(achievementQuests.getByText(quest.title, { exact: true })).toBeVisible()
       if (quest.href) {
-        await expect(parts.getByRole('link', { name: quest.title })).toHaveAttribute(
+        await expect(achievementQuests.getByRole('link', { name: quest.title })).toHaveAttribute(
           'href',
           quest.href,
         )
