@@ -12,7 +12,7 @@ import {
   CHECKLISTS,
   CLASSES,
   DOFUS_FEATURED,
-  DOFUS_GUIDES,
+  type DofusNavItem,
   DUNGEONS,
   type GameImage,
   KOFI_URL,
@@ -61,15 +61,22 @@ export function Well({
   )
 }
 
-/** Todos los huevos: los que Torre aún no tiene escritos salen apagados y sin enlace. */
-function EggGrid() {
+/**
+ * Todos los Dofus de la colección de guías, en el orden de Torre: los que aún no tienen guía
+ * publicada salen apagados y sin enlace.
+ */
+function EggGrid({ dofus: list }: { dofus: DofusNavItem[] }) {
   return (
     <ul className="art-grid art-grid--eggs" role="list">
-      {DOFUS_GUIDES.map((dofus) => {
-        const egg = <StaticImg src={dofus.image.src} width={44} height={44} alt="" loading="lazy" />
+      {list.map((dofus) => {
+        const egg = dofus.image ? (
+          <StaticImg src={dofus.image.src} width={44} height={44} alt="" loading="lazy" />
+        ) : (
+          <span className="egg-none" aria-hidden="true" />
+        )
         return (
           <li key={dofus.name}>
-            {dofus.preparing ? (
+            {!dofus.href ? (
               <span className="egg-soon" aria-disabled="true">
                 {egg}
                 <span>{dofus.name}</span>
@@ -198,7 +205,7 @@ function SectionTile({ sec, counts }: { sec: Section; counts: SiteCounts }) {
  * Dofus y checklists en un solo panel: la guía de los Dofus y los checklists a la izquierda,
  * todos los huevos y el enlace a todas las guías a la derecha.
  */
-function DofusPanel() {
+function DofusPanel({ dofus: list }: { dofus: DofusNavItem[] }) {
   const dofus = section('dofus')
   return (
     <>
@@ -227,7 +234,7 @@ function DofusPanel() {
       </div>
       <div className="panel__body">
         <p className="panel__h">{p.dofusAll}</p>
-        <EggGrid />
+        <EggGrid dofus={list} />
         <AllLink href={dofus.href}>{p.dofusSeeAll}</AllLink>
       </div>
     </>
@@ -236,9 +243,11 @@ function DofusPanel() {
 
 const NAV = SECTIONS.filter((sec) => sec.key !== 'checklists')
 
-function PanelContent({ sec, counts }: { sec: Section; counts: SiteCounts }) {
+type PanelProps = { sec: Section; counts: SiteCounts; dofus: DofusNavItem[] }
+
+function PanelContent({ sec, counts, dofus }: PanelProps) {
   return sec.key === 'dofus' ? (
-    <DofusPanel />
+    <DofusPanel dofus={dofus} />
   ) : (
     <>
       <SectionTile sec={sec} counts={counts} />
@@ -249,10 +258,10 @@ function PanelContent({ sec, counts }: { sec: Section; counts: SiteCounts }) {
   )
 }
 
-function Panel({ sec, counts }: { sec: Section; counts: SiteCounts }) {
+function Panel({ sec, counts, dofus }: PanelProps) {
   return (
     <div className={`panel panel--${sec.key}`} id={`menu-${sec.key}`} hidden>
-      <PanelContent sec={sec} counts={counts} />
+      <PanelContent sec={sec} counts={counts} dofus={dofus} />
     </div>
   )
 }
@@ -261,19 +270,21 @@ function Panel({ sec, counts }: { sec: Section; counts: SiteCounts }) {
 export function MenuPanelPreview({
   sectionKey,
   counts,
+  dofus,
 }: {
   sectionKey: SectionKey
   counts: SiteCounts
+  dofus: DofusNavItem[]
 }) {
   const sec = section(sectionKey)
   return (
     <div className={`panel panel--static panel--${sec.key}`} style={accent(sec)}>
-      <PanelContent sec={sec} counts={counts} />
+      <PanelContent sec={sec} counts={counts} dofus={dofus} />
     </div>
   )
 }
 
-function SheetSection({ sec, counts, open }: { sec: Section; counts: SiteCounts; open: boolean }) {
+function SheetSection({ sec, counts, dofus: list, open }: PanelProps & { open: boolean }) {
   const dofus = sec.key === 'dofus'
   const id = `sheet-${sec.key}`
   if (sec.soon) {
@@ -305,7 +316,7 @@ function SheetSection({ sec, counts, open }: { sec: Section; counts: SiteCounts;
         {dofus ? (
           <>
             <ChecklistCards />
-            <EggGrid />
+            <EggGrid dofus={list} />
             <AllLink href={sec.href}>{p.dofusSeeAll}</AllLink>
           </>
         ) : (
@@ -316,7 +327,7 @@ function SheetSection({ sec, counts, open }: { sec: Section; counts: SiteCounts;
   )
 }
 
-function Sheet({ counts }: { counts: SiteCounts }) {
+function Sheet({ counts, dofus }: { counts: SiteCounts; dofus: DofusNavItem[] }) {
   return (
     <dialog className="sheet" id="site-sheet" aria-label={s.menu}>
       <div className="sheet__top">
@@ -328,7 +339,7 @@ function Sheet({ counts }: { counts: SiteCounts }) {
       <div className="sheet__body">
         <ul className="stiles" role="list">
           {NAV.map((sec, i) => (
-            <SheetSection key={sec.key} sec={sec} counts={counts} open={i === 0} />
+            <SheetSection key={sec.key} sec={sec} counts={counts} dofus={dofus} open={i === 0} />
           ))}
         </ul>
         <ul className="sheet__soc" role="list">
@@ -356,7 +367,16 @@ function Sheet({ counts }: { counts: SiteCounts }) {
  * Ctrl K, el interruptor de modo y, por debajo de 1120px, el menú del móvil. Todo se pinta
  * en el servidor; la isla abre y cierra los paneles, el menú y la búsqueda.
  */
-export function SiteHeader({ counts, initialMode }: { counts: SiteCounts; initialMode: Mode }) {
+export function SiteHeader({
+  counts,
+  dofus,
+  initialMode,
+}: {
+  counts: SiteCounts
+  /** Los Dofus de la colección de guías, para el panel y la búsqueda (loadDofusNav). */
+  dofus: DofusNavItem[]
+  initialMode: Mode
+}) {
   return (
     <>
       <a className="skip-link" href="#contenido">
@@ -399,7 +419,7 @@ export function SiteHeader({ counts, initialMode }: { counts: SiteCounts; initia
                       {sec.label}
                       <ChevronIcon className="np__c" />
                     </button>
-                    <Panel sec={sec} counts={counts} />
+                    <Panel sec={sec} counts={counts} dofus={dofus} />
                   </li>
                 ),
               )}
@@ -428,8 +448,8 @@ export function SiteHeader({ counts, initialMode }: { counts: SiteCounts; initia
           </div>
         </div>
       </header>
-      <Sheet counts={counts} />
-      <HeaderIsland index={searchIndex()} />
+      <Sheet counts={counts} dofus={dofus} />
+      <HeaderIsland index={searchIndex(dofus)} />
     </>
   )
 }

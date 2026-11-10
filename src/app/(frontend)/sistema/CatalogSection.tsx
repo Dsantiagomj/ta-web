@@ -12,6 +12,8 @@ import { QuestHeader } from '@/components/game/QuestHeader'
 import { QuestSteps } from '@/components/game/QuestSteps'
 import { TorreTips } from '@/components/game/TorreTips'
 import { VideoFacade } from '@/components/game/VideoFacade'
+import { DofusNeeds, DofusParts } from '@/components/dofus/DofusGuideParts'
+import { DofusCards } from '@/components/dofus/DofusIndex'
 import { CopyIcon } from '@/components/game/icons'
 import { Amount } from '@/components/ui/Amount'
 import { Button, ButtonLink } from '@/components/ui/Button'
@@ -32,6 +34,9 @@ import type { Mode, Theme } from '@/lib/theme/theme'
 
 import {
   achievement,
+  dofusAchievementView,
+  dofusCards,
+  dofusNeeds,
   fight,
   nextQuest,
   guide,
@@ -102,7 +107,11 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
           </Group>
 
           <Group name="site" note={s.notes.site} wide>
-            <MenuPanelPreview sectionKey="dofus" counts={s.demo.siteCounts} />
+            <MenuPanelPreview
+              sectionKey="dofus"
+              counts={s.demo.siteCounts}
+              dofus={s.demo.dofusNav}
+            />
             <div className="w-full">
               <SiteFooter year={2026} />
             </div>
@@ -257,6 +266,16 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
             <div className="grid w-full gap-6 md:grid-cols-2">
               <VideoFacade url={video.url} title={video.title} poster={images.video} />
               <VideoFacade url={video.url} title={video.title} />
+            </div>
+          </Group>
+
+          <Group name="dofus" note={s.notes.dofus} wide>
+            <div className="dg-page grid w-full gap-6">
+              <div className="dg-index !p-0">
+                <DofusCards cards={dofusCards} />
+              </div>
+              <DofusNeeds needs={dofusNeeds} />
+              <DofusParts view={dofusAchievementView} />
             </div>
           </Group>
 

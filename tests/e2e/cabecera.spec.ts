@@ -54,18 +54,18 @@ test.describe('cabecera', () => {
     await expect(dofus).toHaveAttribute('aria-expanded', 'true')
     const panel = page.locator('#menu-dofus')
     await expect(panel.getByRole('link', { name: /Dofus Silvestre/ })).toBeVisible()
-    await expect(panel.getByRole('link', { name: 'Dofus Ébano' })).toBeVisible()
-    await expect(panel.getByRole('listitem')).toHaveCount(3 + 30)
-    // Los nueve que Torre aún no tiene escritos no son enlaces.
-    await expect(panel.locator('.egg-soon')).toHaveCount(9)
+    // Los Dofus salen de la colección de guías de Dofus: los tres sembrados, en su orden.
+    await expect(panel.getByRole('listitem')).toHaveCount(3 + 3)
+    // El que aún no tiene guía publicada no es un enlace.
+    await expect(panel.locator('.egg-soon')).toHaveCount(1)
     await expect(panel.getByRole('link', { name: 'Jyfus' })).toHaveCount(0)
-    await expect(panel.getByRole('link', { name: 'Piñata de Pino' })).toHaveAttribute(
+    await expect(panel.getByRole('link', { name: 'Dofus Ocre' })).toHaveAttribute(
       'href',
-      'https://www.torrentearcano.com/piata-de-pino',
+      '/dofus-ocre',
     )
     await expect(panel.getByRole('link', { name: 'Ver todas las guías de Dofus' })).toHaveAttribute(
       'href',
-      'https://www.torrentearcano.com/guias-dofus',
+      '/guias-dofus',
     )
     // Las imágenes del juego cargan.
     for (const img of await panel.locator('img').all()) {
@@ -123,13 +123,13 @@ test.describe('cabecera', () => {
     await expect(dialog).toBeVisible()
     await expect(dialog.getByRole('searchbox')).toBeFocused()
     // Con una letra pide otra; desde dos, busca.
-    await page.keyboard.type('e')
+    await page.keyboard.type('d')
     await expect(dialog.getByRole('status')).toHaveText('Escribe una letra más para buscar.')
-    await page.keyboard.type('bano')
+    await page.keyboard.type('ofawa')
     await expect(dialog.getByRole('status')).toHaveText('Ninguna misión; 1 resultado del menú.')
-    await expect(dialog.getByRole('link', { name: 'Dofus Ébano' })).toBeVisible()
+    await expect(dialog.getByRole('link', { name: 'Dofawa' })).toBeVisible()
     await page.keyboard.press('ArrowDown')
-    await expect(dialog.getByRole('link', { name: 'Dofus Ébano' })).toBeFocused()
+    await expect(dialog.getByRole('link', { name: 'Dofawa' })).toBeFocused()
     await page.keyboard.press('Escape')
     await expect(dialog).toBeHidden()
   })
@@ -362,7 +362,7 @@ test.describe('cabecera en una pantalla baja', () => {
     const panel = page.locator('#menu-dofus')
     const box = (await panel.boundingBox())!
     expect(box.y + box.height).toBeLessThanOrEqual(560)
-    const last = panel.getByRole('link', { name: 'Dofus Abisal' })
+    const last = panel.getByRole('link', { name: 'Ver todas las guías de Dofus' })
     await last.scrollIntoViewIfNeeded()
     await expect(last).toBeInViewport()
   })
@@ -384,7 +384,7 @@ test.describe('cabecera en el móvil', () => {
     await dofus.click()
     await expect(dofus).toHaveAttribute('aria-expanded', 'true')
     await expect(sheet.getByRole('link', { name: /Almas del Ocre/ })).toBeVisible()
-    await expect(sheet.getByRole('link', { name: 'Dofus Abisal' })).toBeVisible()
+    await expect(sheet.getByRole('link', { name: 'Dofus Ocre' })).toBeVisible()
     await expect(sheet.getByRole('link', { name: 'Ver todas las guías de Dofus' })).toBeVisible()
     // Clases y Mazmorras: fichas apagadas que no se despliegan.
     for (const name of ['Clases', 'Mazmorras']) {

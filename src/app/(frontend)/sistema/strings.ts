@@ -36,6 +36,7 @@ export const catalogStrings = {
     chain: 'Cadena del logro',
     video: 'Vídeo',
     image: 'Captura',
+    dofus: 'Guías de Dofus',
   },
   notes: {
     brand:
@@ -53,12 +54,29 @@ export const catalogStrings = {
     steps:
       'Separados por una línea, sin números, títulos ni casillas; el 3 lleva la chincheta del paso.',
     video: 'Con portada y sin portada. Nada de YouTube carga hasta pulsar.',
+    dofus:
+      'Tarjetas del índice (una con su etiqueta, otra En preparación, apagada y sin enlace), Necesitarás por grupos (el objeto copia su nombre) y un logro con sus misiones en lista con filetes, sin cajas.',
     image:
       'Pulsa la captura para verla a pantalla completa; Esc, Cerrar o un clic fuera la cierran. Sin JavaScript abre el archivo.',
   },
   demo: {
     brand: 'Torrente Arcano',
     siteCounts: { guides: 1272, achievements: 274 },
+    /** Unos Dofus del menú, como los da la colección (loadDofusNav): uno En preparación. */
+    dofusNav: [
+      { name: 'Dofawa', href: '/dofawa', image: { src: '/img/game/dofus/dofawa.webp', size: 128 } },
+      {
+        name: 'Dofus Esmeralda',
+        href: '/dofus-esmeralda',
+        image: { src: '/img/game/dofus/dofus-esmeralda.webp', size: 128 },
+      },
+      { name: 'Jyfus', image: { src: '/img/game/dofus/jyfus.webp', size: 128 } },
+      {
+        name: 'Dofus Abisal',
+        href: '/dofus-abisal',
+        image: { src: '/img/game/dofus/dofus-abisal.webp', size: 128 },
+      },
+    ],
     /** Una cifra con miles (Amount) y lo que cuenta. */
     amountUnit: ' misiones',
     primary: 'Entrar',

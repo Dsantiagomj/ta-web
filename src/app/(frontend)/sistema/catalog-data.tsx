@@ -5,6 +5,8 @@ import type { Achievement, GameItem, Monster } from '@/components/game/types'
 import { Callout } from '@/components/ui/Callout'
 import { Figure } from '@/components/ui/Figure'
 import type { ImageAsset } from '@/components/ui/types'
+import type { DofusCard } from '@/lib/dofus-guides/index-view'
+import type { DofusGuideView } from '@/lib/dofus-guides/page'
 import type { NextQuestCardData, QuestHeaderData } from '@/lib/guides/page'
 
 // Contenido real del catálogo: la guía de Torre «Seis pies bajo tierra» (DofusDB 1976),
@@ -234,4 +236,93 @@ export const samples = {
   headerWithout: 'Intoxicación profunda',
   hupeEsseCaption: 'Hupe Esse, en la Biblioteca de Astrub.',
   tips: 'Intenta vencer primero al Ramán: pega de lejos y te puede quitar PA.',
+}
+
+const eggArt = (slug: string): ImageAsset => ({
+  src: `/img/game/dofus/${slug}.webp`,
+  width: 128,
+  height: 128,
+})
+
+/** Tarjetas del índice de las guías de Dofus, como las calcula dofusIndexView. */
+export const dofusCards: DofusCard[] = [
+  {
+    name: 'Dofus Esmeralda',
+    slug: 'dofus-esmeralda',
+    href: '#dofus-esmeralda',
+    disabled: false,
+    egg: eggArt('dofus-esmeralda'),
+    color: '#2ecd68',
+    tag: 'primordial',
+    tagLabel: 'Primordial',
+    meta: '1 logro - 8 misiones - Nivel 100',
+    search: 'dofus esmeralda',
+  },
+  {
+    name: 'Jyfus',
+    slug: 'jyfus',
+    disabled: true,
+    egg: eggArt('jyfus'),
+    tag: 'event',
+    tagLabel: 'Evento',
+    meta: 'Nivel 20',
+    search: 'jyfus',
+  },
+]
+
+/** Necesitarás y un logro de una guía de Dofus, como los calcula dofusGuideView. */
+export const dofusNeeds: NonNullable<DofusGuideView['needs']> = {
+  title: 'Necesitarás',
+  groups: [
+    {
+      rows: [
+        { kind: 'item', item: items.pico, quantity: 3 },
+        { kind: 'item', item: items.ojo, quantity: 1, note: '(o fabricarlo)' },
+      ],
+    },
+  ],
+}
+
+export const dofusAchievementView: DofusGuideView = {
+  title: 'Dofus Esmeralda',
+  meta: [],
+  prerequisites: null,
+  rewards: null,
+  intro: null,
+  outro: null,
+  body: [],
+  needs: null,
+  achievementCount: 1,
+  parts: [
+    {
+      kind: 'achievement',
+      achievement: {
+        name: achievement.name,
+        href: '#la-ocasion',
+        disabled: false,
+        icon: achievement.icon,
+        meta: ['3 misiones', 'Niveles 15 a 25', '10 puntos'],
+        quests: [
+          { position: 1, level: 15, title: 'Esto hace aguas', href: '#esto-hace-aguas' },
+          {
+            position: 2,
+            level: 20,
+            title: 'Seis pies bajo tierra',
+            href: '#seis-pies',
+            giver: images.npcRight,
+          },
+          { position: 3, level: 25, title: 'El cazador cazado' },
+        ],
+      },
+    },
+  ],
+  video: null,
+  checklist: null,
+  list: [],
+  previous: null,
+  next: null,
+  breadcrumb: {
+    parents: [],
+    jsonLd: { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [] },
+  },
 }
