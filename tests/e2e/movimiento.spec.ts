@@ -233,7 +233,7 @@ test.describe('menú del móvil', () => {
     await page.getByRole('button', { name: 'Menú' }).click()
     await expect(sheet).toBeVisible()
     await sheet.getByRole('button', { name: /Dofus y checklists/ }).click()
-    await expect(sheet.getByRole('link', { name: 'Dofus Abisal' })).toBeVisible()
+    await expect(sheet.getByRole('link', { name: 'Dofus Ocre' })).toBeVisible()
     await page.keyboard.press('Escape')
     await expect(sheet).toBeHidden()
 

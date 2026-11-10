@@ -2,7 +2,8 @@
 // Footer). Lo que aún no tiene página aquí enlaza a la web de siempre con su slug.
 //
 // El arte es del juego, en public/img/game, y se pinta a su tamaño o más pequeño:
-// - dofus/: el icono de objeto de cada Dofus en DofusDB (128px), con el nombre de su guía.
+// - dofus/: el icono de objeto de algunos Dofus en DofusDB (128px), para el arte del menú. La
+//   lista de los Dofus sale de la colección de guías de Dofus (loadDofusNav).
 // - checklists/: el Dofus de cada checklist, de DofusDB (Silvestre y Hielos a 200px, Ocre a 128px).
 // - clases/: las cabezas de clase de la exportación del cliente de Dofus 3
 //   (dofusdude/dofus3-main 3.7.13.17, class_head_images_64): 64px.
@@ -10,6 +11,7 @@
 //   siete mazmorras aún no tienen el arte de su jefe y llevan el icono de una puerta.
 
 import { GAME_ICONS } from '@/components/game/game-icons'
+import { DOFUS_INDEX_PATH } from '@/lib/dofus-guides/page'
 import { legacyHref } from '@/lib/site/legacy'
 
 import { siteShellStrings } from './strings'
@@ -28,11 +30,6 @@ export interface NavLink {
   image?: GameImage
   description?: string
 }
-
-/** Un Dofus de la guía de Torre. Sin escribir aún, sale apagado y sin enlace. */
-export type DofusLink =
-  | (NavLink & { image: GameImage; preparing?: false })
-  | { name: string; image: GameImage; preparing: true }
 
 export type SectionKey = 'misiones' | 'dofus' | 'checklists' | 'clases' | 'mazmorras'
 
@@ -53,43 +50,20 @@ export interface Section {
 const egg = (slug: string): GameImage => ({ src: `/img/game/dofus/${slug}.webp`, size: 128 })
 const head = (slug: string): GameImage => ({ src: `/img/game/clases/${slug}.webp`, size: 64 })
 
-type DofusKey = keyof typeof t.dofus
-
-// La página de cada Dofus en la web de Torre, cuando no se llama como su huevo.
-const DOFUS_PAGE: Partial<Record<DofusKey, string>> = {
-  'dofus-nebuloso': 'misiones-nebuloso',
-  'pinata-de-pino': 'piata-de-pino',
+/**
+ * Un Dofus del menú y de la búsqueda, de la colección de guías de Dofus (loadDofusNav): con
+ * enlace si su guía está publicada; sin él, apagado.
+ */
+export interface DofusNavItem {
+  name: string
+  href?: string
+  image?: GameImage
 }
-
-// Los que Torre aún no tiene escritos: el Kalipto no tiene página y los demás la tienen vacía.
-const DOFUS_PREPARING = new Set<DofusKey>([
-  'jyfus',
-  'dofus-kalipto',
-  'dolmanax',
-  'dotruz',
-  'dofzzbz',
-  'dofus-forjalava',
-  'dofus-centelleante',
-  'dofus-pesadilla',
-  'dofus-silvestre',
-])
-
-// Los 30 de la página de guías de Dofus de Torre, en su orden.
-export const DOFUS_GUIDES: DofusLink[] = (Object.keys(t.dofus) as DofusKey[]).map((key) =>
-  DOFUS_PREPARING.has(key)
-    ? { name: t.dofus[key], image: egg(key), preparing: true }
-    : { name: t.dofus[key], href: legacyHref(DOFUS_PAGE[key] ?? key), image: egg(key) },
-)
 
 /** Los tres huevos de la tarjeta de las guías de Dofus del menú. */
 export const DOFUS_FEATURED: GameImage[] = (
   ['dofus-turquesa', 'dofus-esmeralda', 'dofus-ocre'] as const
 ).map(egg)
-
-/** Los Dofus que Torre ya tiene escritos: los que enlaza el menú y encuentra la búsqueda. */
-export const DOFUS_READY = DOFUS_GUIDES.filter(
-  (d): d is Extract<DofusLink, { href: string }> => !d.preparing,
-)
 
 export const CHECKLISTS: NavLink[] = [
   {
@@ -149,7 +123,7 @@ export const SECTIONS: Section[] = [
   {
     key: 'dofus',
     ...t.sections.dofus,
-    href: legacyHref('guias-dofus'),
+    href: DOFUS_INDEX_PATH,
     icon: egg('dofus-esmeralda'),
     accent: 'var(--color-sec-dofus)',
   },
@@ -243,7 +217,7 @@ export const TOP_ANCHOR = 'arriba'
  * Lo que enlaza el menú, para la búsqueda de la cabecera. Las misiones llegan aparte. Lo que
  * aún no tiene página (Clases, Mazmorras, los Dofus en preparación) no se encuentra.
  */
-export function searchIndex(): SearchEntry[] {
+export function searchIndex(dofus: DofusNavItem[] = []): SearchEntry[] {
   const of = (type: SearchType, links: NavLink[]) =>
     links.map(({ name, href, image }) => ({ type, name, href, image }))
   return [
@@ -253,7 +227,9 @@ export function searchIndex(): SearchEntry[] {
       href,
       image: icon,
     })),
-    ...of('dofus', DOFUS_READY),
+    ...dofus.flatMap(({ name, href, image }) =>
+      href ? [{ type: 'dofus' as const, name, href, image }] : [],
+    ),
     ...of('checklist', CHECKLISTS),
   ]
 }

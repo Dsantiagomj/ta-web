@@ -2,42 +2,6 @@ import type { SectionKey } from './nav'
 
 // Los textos de la cabecera y el pie del sitio (AGENTS.md, Language).
 export const siteShellStrings = {
-  /**
-   * Los 30 Dofus de la guía de Torre, en su orden (el de su página de guías de Dofus), por el
-   * nombre del archivo de su huevo en public/img/game/dofus.
-   */
-  dofus: {
-    dofawa: 'Dofawa',
-    'dofus-plateado': 'Dofus Plateado',
-    jyfus: 'Jyfus',
-    'dofus-cacao': 'Dofus Cacao',
-    'dofus-zanahowia': 'Dofus Zanahowia',
-    dosaurio: 'Dosaurio',
-    dokoko: 'Dokoko',
-    'dofus-kalipto': 'Dofus Kalipto',
-    'dofus-vigilante': 'Dofus Vigilante',
-    dolmanax: 'Dolmanax',
-    'dofus-esmeralda': 'Dofus Esmeralda',
-    'dofus-purpura': 'Dofus Púrpura',
-    dotruz: 'Dotruz',
-    domakuro: 'Domakuro',
-    dorigami: 'Dorigami',
-    'dofus-ocre': 'Dofus Ocre',
-    'dofus-turquesa': 'Dofus Turquesa',
-    dofzzbz: 'Dofzzbz',
-    'dofus-vulbis': 'Dofus Vulbis',
-    'dofus-de-los-hielos': 'Dofus de los Hielos',
-    'dofus-nebuloso': 'Dofus Nebuloso',
-    'dofus-abisal': 'Dofus Abisal',
-    'dofus-marfil': 'Dofus Marfil',
-    'dofus-forjalava': 'Dofus Forjalava',
-    'dofus-ebano': 'Dofus Ébano',
-    'dofus-centelleante': 'Dofus Centelleante',
-    'dofus-moteado': 'Dofus Moteado',
-    'pinata-de-pino': 'Piñata de Pino',
-    'dofus-pesadilla': 'Dofus Pesadilla',
-    'dofus-silvestre': 'Dofus Silvestre',
-  },
   checklistNames: {
     silvestre: 'Dofus Silvestre',
     hielos: 'Dofus de los Hielos',

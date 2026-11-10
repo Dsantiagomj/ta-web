@@ -10,7 +10,7 @@ import { MODE_COOKIE, resolveMode, resolveTheme } from '@/lib/theme/theme'
 import { fontVariables } from '@/styles/fonts'
 import '@/styles/globals.css'
 
-import { loadSiteCounts } from './site-data'
+import { loadDofusNav, loadSiteCounts } from './site-data'
 import { siteStrings } from './strings'
 
 export const metadata: Metadata = {
@@ -23,7 +23,7 @@ export default async function FrontendLayout({ children }: { children: ReactNode
   const mode = resolveMode((await cookies()).get(MODE_COOKIE)?.value)
   // Todavía no hay miembros: nadie tiene el derecho a un tema premium.
   const theme = resolveTheme(undefined, { premium: false })
-  const counts = await loadSiteCounts()
+  const [counts, dofus] = await Promise.all([loadSiteCounts(), loadDofusNav()])
 
   // data-scroll-behavior: el desplazamiento suave (globals.css) es para las anclas de la
   // página; Next lo apaga al cambiar de ruta, que salta arriba sin animación.
@@ -40,7 +40,7 @@ export default async function FrontendLayout({ children }: { children: ReactNode
         <script dangerouslySetInnerHTML={{ __html: modeScript }} />
       </head>
       <body id={TOP_ANCHOR}>
-        <SiteHeader counts={counts} initialMode={mode} />
+        <SiteHeader counts={counts} dofus={dofus} initialMode={mode} />
         {children}
         <SiteFooter year={new Date().getFullYear()} />
       </body>

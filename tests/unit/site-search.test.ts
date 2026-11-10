@@ -20,7 +20,11 @@ import { queryKind } from '@/components/site/search-query'
 import { searchDialogStrings } from '@/components/site/search-strings'
 import type { SearchIndex } from '@/lib/search/guide-index'
 
-const index = searchIndex()
+// Los Dofus llegan de la colección de guías de Dofus (loadDofusNav).
+const index = searchIndex([
+  { name: 'Dofus Ébano', href: '/dofus-ebano', image: { src: '/media/ebano.webp', size: 128 } },
+  { name: 'Dokoko', href: '/dokoko', image: { src: '/media/dokoko.webp', size: 128 } },
+])
 
 const quests = (...titles: string[]) =>
   siteEntries({
