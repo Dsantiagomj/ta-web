@@ -401,9 +401,33 @@
   border-radius: var(--radius-card);
   background: var(--color-surface);
   box-shadow: var(--shadow-float);
+  /* Flota bajo el campo como un desplegable (DESIGN.md, Motion): entra y sale. */
+  transform-origin: 50% 0;
+  transition:
+    opacity 150ms var(--ease-in),
+    transform 150ms var(--ease-in),
+    display 150ms allow-discrete;
 }
 
-.cbx[hidden],
+.cbx:not([hidden]) {
+  transition-duration: var(--duration-base);
+  transition-timing-function: var(--ease-out);
+}
+
+.cbx[hidden] {
+  display: none;
+  opacity: 0;
+  transform: translateY(-6px) scale(0.97);
+  pointer-events: none;
+}
+
+@starting-style {
+  .cbx:not([hidden]) {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.97);
+  }
+}
+
 .cbx__list[hidden] {
   display: none;
 }

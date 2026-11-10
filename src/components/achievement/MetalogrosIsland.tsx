@@ -2,11 +2,16 @@
 
 import { useEffect } from 'react'
 
+import { smoothUpdate } from '@/components/ui/view-transition'
+
 import type { IndexSearchData, IndexSearchResult } from '@/lib/achievements/metalogros-search'
 import { indexIslandStrings as s } from '@/lib/achievements/index-strings'
 
 const CLOSE =
   '<svg viewBox="0 0 18 18" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M4.5 4.5l9 9M13.5 4.5l-9 9"/></svg>'
+
+/** Abrir, cerrar o cambiar de zona dentro de una transición de vista: las fichas se deslizan. */
+const smooth = (update: () => void) => smoothUpdate(update, 'metalogros')
 
 /**
  * Las fichas: de enlaces (sin JavaScript) a botones que abren un panel con los logros de la
@@ -98,17 +103,17 @@ function enhanceTiles(root: HTMLElement) {
     const target = event.target as Element
     const tile = target.closest<HTMLButtonElement>('button.vd-tile')
     if (tile) {
-      if (tile.getAttribute('aria-expanded') === 'true') hide({ push: true })
-      else show(tile.dataset.zone ?? '', { push: true, scroll: true })
+      if (tile.getAttribute('aria-expanded') === 'true') smooth(() => hide({ push: true }))
+      else smooth(() => show(tile.dataset.zone ?? '', { push: true, scroll: true }))
       return
     }
-    if (target.closest('.vd-close')) hide({ push: true, focus: true })
+    if (target.closest('.vd-close')) smooth(() => hide({ push: true, focus: true }))
   }
   const onKey = (event: KeyboardEvent) => {
     if (event.key !== 'Escape' || !open) return
     if (panel.contains(document.activeElement) || document.activeElement === open) {
       event.preventDefault()
-      hide({ push: true, focus: true })
+      smooth(() => hide({ push: true, focus: true }))
     }
   }
   const fromUrl = () => {
@@ -116,6 +121,8 @@ function enhanceTiles(root: HTMLElement) {
     if (tiles.has(anchor)) show(anchor, { scroll: true })
     else hide()
   }
+  // Atrás y adelante también se deslizan; la carga de la página, no.
+  const onPopState = () => smooth(fromUrl)
   let timer: ReturnType<typeof setTimeout> | undefined
   const onResize = () => {
     clearTimeout(timer)
@@ -124,7 +131,7 @@ function enhanceTiles(root: HTMLElement) {
 
   root.addEventListener('click', onClick)
   document.addEventListener('keydown', onKey)
-  addEventListener('popstate', fromUrl)
+  addEventListener('popstate', onPopState)
   addEventListener('resize', onResize)
   fromUrl()
 
@@ -133,12 +140,12 @@ function enhanceTiles(root: HTMLElement) {
       const tile = tiles.get(anchor)
       if (!tile) return
       tile.scrollIntoView({ block: 'nearest' })
-      show(anchor, { push: true, scroll: true, focusTitle: true })
+      smooth(() => show(anchor, { push: true, scroll: true, focusTitle: true }))
     },
     cleanup() {
       root.removeEventListener('click', onClick)
       document.removeEventListener('keydown', onKey)
-      removeEventListener('popstate', fromUrl)
+      removeEventListener('popstate', onPopState)
       removeEventListener('resize', onResize)
       clearTimeout(timer)
     },

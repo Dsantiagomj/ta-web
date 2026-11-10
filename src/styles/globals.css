@@ -36,6 +36,16 @@
     text-underline-offset: 0.2em;
   }
 
+  /* Lo que se pulsa cambia de color y de fondo con suavidad (DESIGN.md, Motion). Sin
+     especificidad: el componente que declara su propia transición la sustituye. */
+  :where(a, button, summary, [role='button']) {
+    transition:
+      color var(--duration-fast) var(--ease-standard),
+      background-color var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard),
+      text-decoration-color var(--duration-fast) var(--ease-standard);
+  }
+
   /* Las anclas de la página («Volver arriba», un paso) se desplazan suaves; con
      movimiento reducido, saltan (DESIGN.md, Motion). */
   @media (prefers-reduced-motion: no-preference) {
@@ -66,5 +76,64 @@
     display: inline-block;
     width: 0.2em;
     overflow: hidden;
+  }
+}
+
+/* Entre páginas (DESIGN.md, Motion: Page transitions): cada enlace del sitio carga la página
+   entera y el navegador la cruza con una transición de vista de tipo «pagina». La cabecera y el
+   pie llevan nombre solo durante ella, así que se quedan quietos y el cambio de modo (otra
+   transición de vista, sin ese tipo) los sigue revelando con el resto. La página nueva nunca
+   entra desde opacidad 0: está debajo, sube 8px, y la vieja se desvanece encima. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+    types: pagina;
+  }
+}
+
+html:active-view-transition-type(pagina) .site-hdr {
+  view-transition-name: site-hdr;
+}
+
+html:active-view-transition-type(pagina) .site-ft {
+  view-transition-name: site-ft;
+}
+
+html:active-view-transition-type(pagina)::view-transition-group(site-hdr),
+html:active-view-transition-type(pagina)::view-transition-group(site-ft),
+html:active-view-transition-type(pagina)::view-transition-new(site-hdr),
+html:active-view-transition-type(pagina)::view-transition-new(site-ft) {
+  animation: none;
+}
+
+html:active-view-transition-type(pagina)::view-transition-old(site-hdr),
+html:active-view-transition-type(pagina)::view-transition-old(site-ft) {
+  display: none;
+}
+
+/* Sin la mezcla plus-lighter por defecto: con las dos páginas opacas, sumarían su brillo. */
+html:active-view-transition-type(pagina)::view-transition-old(root),
+html:active-view-transition-type(pagina)::view-transition-new(root) {
+  mix-blend-mode: normal;
+}
+
+html:active-view-transition-type(pagina)::view-transition-old(root) {
+  z-index: 1;
+  animation: page-out 160ms var(--ease-in) both;
+}
+
+html:active-view-transition-type(pagina)::view-transition-new(root) {
+  animation: page-in var(--duration-base) var(--ease-out) both;
+}
+
+@keyframes page-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes page-in {
+  from {
+    transform: translateY(8px);
   }
 }

@@ -20,6 +20,15 @@ const list = (page: Page) => page.getByRole('listbox', { name: 'Resultados' })
 const shown = (page: Page) => page.locator('.cbx__st')
 
 async function axe(page: Page) {
+  // El panel de resultados entra con un fundido: axe mide los colores ya quietos.
+  await page.evaluate(() =>
+    Promise.all(
+      document
+        .getAnimations()
+        .filter((a) => a instanceof CSSTransition)
+        .map((a) => a.finished.catch(() => undefined)),
+    ),
+  )
   const results = await new AxeBuilder({ page }).include('.hero').withTags(WCAG).analyze()
   return results.violations.map(({ id, nodes }) => ({ id, targets: nodes.map((n) => n.target) }))
 }

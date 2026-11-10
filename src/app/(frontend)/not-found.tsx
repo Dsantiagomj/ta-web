@@ -1,5 +1,3 @@
-import Link from 'next/link'
-
 import { notFoundStrings as s } from './strings'
 
 // 404 del sitio público, en español. Next añade noindex a esta respuesta.
@@ -12,7 +10,9 @@ export default function NotFound() {
       <h1 className="font-display text-4xl text-ink">{s.title}</h1>
       <p className="max-w-[60ch] text-lg text-ink-2">{s.lead}</p>
       <p>
-        <Link href="/">{s.home}</Link>
+        {/* Un enlace normal: la portada llega con la transición entre páginas. */}
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- carga entera a propósito (DESIGN.md, Motion) */}
+        <a href="/">{s.home}</a>
       </p>
     </main>
   )
