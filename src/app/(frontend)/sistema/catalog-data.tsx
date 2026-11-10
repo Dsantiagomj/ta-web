@@ -276,8 +276,8 @@ export const dofusNeeds: NonNullable<DofusGuideView['needs']> = {
   groups: [
     {
       rows: [
-        { kind: 'item', item: items.pico, quantity: 3 },
-        { kind: 'item', item: items.ojo, quantity: 1, note: '(o fabricarlo)' },
+        { kind: 'item', item: items.intestino, quantity: 3 },
+        { kind: 'item', item: items.pelos, quantity: 1, note: '(o fabricarlo)' },
       ],
     },
   ],
