@@ -148,7 +148,9 @@ describe('colección dofus-guides', () => {
     expect(field(achievement.fields, 'note')).toMatchObject({ localized: true })
     const metalogro = parts.blocks.find((block) => block.slug === 'dofusMetalogro')!
     expect(field(metalogro.fields, 'name')).toMatchObject({ required: true })
-    const inner = field(metalogro.fields, 'achievements') as { fields: Field[] }
+    const inner = field(metalogro.fields, 'achievements') as { fields: Field[]; dbName?: string }
+    // Un nombre de tabla corto: los identificadores de Postgres no pasan de 63 caracteres.
+    expect(inner.dbName).toBe('dofus_meta_ach')
     expect(field(inner.fields, 'achievement')).toMatchObject({ relationTo: 'achievement-pages' })
     const quests = parts.blocks.find((block) => block.slug === 'dofusQuests')!
     const list = field(quests.fields, 'quests') as { fields: Field[] }
