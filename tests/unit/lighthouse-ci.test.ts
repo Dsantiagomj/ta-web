@@ -4,6 +4,7 @@ import lighthouserc from '../../lighthouserc.cjs'
 import { lhciEnv } from '../../scripts/lhci-env.ts'
 import { seedGuide } from '../e2e/seed/guides.ts'
 import { seedAchievement } from '../e2e/seed/achievements.ts'
+import { seedDofus } from '../e2e/seed/dofus-guides.ts'
 
 // Los presupuestos de DESIGN.md (Performance budgets) tal como los comprueba
 // `pnpm test:lhci`. Si cambia un límite, cambia DESIGN.md en el mismo PR.
@@ -57,6 +58,12 @@ describe('lighthouserc.cjs', () => {
   it('mide la página del logro que siembra scripts/seed-e2e.ts', () => {
     const paths = collect.url.map((url) => new URL(url).pathname)
     expect(paths).toContain(`/${seedAchievement.slug}`)
+  })
+
+  it('mide el índice de las guías de Dofus y la guía de Dofus que siembra scripts/seed-e2e.ts', () => {
+    const paths = collect.url.map((url) => new URL(url).pathname)
+    expect(paths).toContain('/guias-dofus')
+    expect(paths).toContain(`/${seedDofus.ocre.slug}`)
   })
 
   it('aplica cada entrada de la matriz a todas las páginas, sin presets', () => {
