@@ -362,10 +362,31 @@ html {
   background: var(--color-surface);
   box-shadow: var(--shadow-float);
   transform-origin: 30px 0;
+  /* Sale en el 70 % de lo que tarda en entrar (DESIGN.md, Motion); `display` espera al final
+     para que se vea salir. Cambiar de panel cierra uno y abre otro a la vez. */
+  transition:
+    opacity 150ms var(--ease-in),
+    transform 150ms var(--ease-in),
+    display 150ms allow-discrete;
+}
+
+.panel:not([hidden]) {
+  transition-duration: var(--duration-base);
+  transition-timing-function: var(--ease-out);
 }
 
 .panel[hidden] {
   display: none;
+  opacity: 0;
+  transform: translateY(-6px) scale(0.97);
+  pointer-events: none;
+}
+
+@starting-style {
+  .panel:not([hidden]) {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.97);
+  }
 }
 
 .panel--static {
@@ -375,7 +396,7 @@ html {
   width: 100%;
   max-width: var(--panel-w);
   max-height: none;
-  animation: none !important;
+  transition: none;
 }
 
 /* El panel del catálogo, en una pantalla estrecha: la ficha encima del arte. */
@@ -391,19 +412,6 @@ html {
 
   .panel.panel--static .art-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .panel:not([hidden]) {
-    animation: site-pop var(--duration-base) var(--ease-out);
-  }
-}
-
-@keyframes site-pop {
-  from {
-    opacity: 0;
-    transform: translateY(-6px) scale(0.98);
   }
 }
 
@@ -819,26 +827,43 @@ html {
   border: 0;
   background: var(--color-bg);
   color: var(--color-ink);
+  /* Baja desde arriba y sube al cerrarse (DESIGN.md, Motion: Mobile sheet); `overlay` y
+     `display` lo mantienen en la capa superior mientras sale. */
+  transform: translateY(-100%);
+  transition:
+    transform var(--duration-base) var(--ease-in),
+    overlay var(--duration-base) allow-discrete,
+    display var(--duration-base) allow-discrete;
 }
 
 .sheet::backdrop {
   background: rgb(0 0 0 / 0.5);
+  opacity: 0;
+  transition:
+    opacity var(--duration-fast) var(--ease-standard),
+    overlay var(--duration-base) allow-discrete,
+    display var(--duration-base) allow-discrete;
 }
 
 .sheet[open] {
   display: flex;
   flex-direction: column;
+  transform: none;
+  transition-duration: var(--duration-slow);
+  transition-timing-function: var(--ease-out);
 }
 
-@media (prefers-reduced-motion: no-preference) {
+.sheet[open]::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
   .sheet[open] {
-    animation: site-drop var(--duration-slow) var(--ease-out);
-  }
-}
-
-@keyframes site-drop {
-  from {
     transform: translateY(-100%);
+  }
+
+  .sheet[open]::backdrop {
+    opacity: 0;
   }
 }
 
@@ -951,10 +976,28 @@ html {
   display: grid;
   gap: 8px;
   padding: 4px 10px 12px;
+  transition:
+    opacity 150ms var(--ease-in),
+    transform 150ms var(--ease-in),
+    display 150ms allow-discrete;
+}
+
+.stile__p:not([hidden]) {
+  transition-duration: var(--duration-base);
+  transition-timing-function: var(--ease-out);
 }
 
 .stile__p[hidden] {
   display: none;
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+@starting-style {
+  .stile__p:not([hidden]) {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
 }
 
 .stile__p .art-grid {
@@ -1003,21 +1046,58 @@ html {
   background: var(--color-surface);
   color: var(--color-ink);
   box-shadow: var(--shadow-dialog);
+  /* Como todo diálogo (DESIGN.md, Motion: Dialogs): entra subiendo 12px, sale en el 70 %. */
+  opacity: 0;
+  transform: translateY(12px) scale(0.98);
+  transition:
+    opacity var(--duration-base) var(--ease-in),
+    transform var(--duration-base) var(--ease-in),
+    overlay var(--duration-base) allow-discrete,
+    display var(--duration-base) allow-discrete;
 }
 
 .sdlg[open] {
   display: flex;
   flex-direction: column;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .sdlg[open] {
-    animation: site-pop var(--duration-base) var(--ease-out);
-  }
+  opacity: 1;
+  transform: none;
+  transition-duration: var(--duration-slow);
+  transition-timing-function: var(--ease-out);
 }
 
 .sdlg::backdrop {
   background: rgb(0 0 0 / 0.55);
+  opacity: 0;
+  transition:
+    opacity var(--duration-fast) var(--ease-standard),
+    overlay var(--duration-base) allow-discrete,
+    display var(--duration-base) allow-discrete;
+}
+
+.sdlg[open]::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  .sdlg[open] {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+
+  .sdlg[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+/* Cada resultado nuevo aparece con un fundido; los que siguen al escribir no se mueven. */
+.sdlg__list li {
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+@starting-style {
+  .sdlg__list li {
+    opacity: 0;
+  }
 }
 
 .sdlg__f {

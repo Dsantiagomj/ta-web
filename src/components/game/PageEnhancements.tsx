@@ -196,10 +196,8 @@ export function PageEnhancements() {
         onClick={(event) => {
           if (event.target === event.currentTarget) close()
         }}
-        onClose={() => {
-          setViewed(null)
-          opener.current?.focus()
-        }}
+        // La imagen se queda dentro del visor cerrado: así se ve salir (DESIGN.md, Motion).
+        onClose={() => opener.current?.focus()}
       >
         {viewed && (
           <>

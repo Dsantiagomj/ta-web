@@ -177,8 +177,25 @@
   background: var(--color-surface);
   box-shadow: var(--shadow-float);
 }
+.combo__list {
+  transition:
+    opacity 150ms var(--ease-in),
+    display 150ms allow-discrete;
+}
+.combo__list:not([hidden]) {
+  transition-duration: var(--duration-base);
+  transition-timing-function: var(--ease-out);
+}
+/* Pegada al campo: solo se funde, sin desplazarse. */
 .combo__list[hidden] {
   display: none;
+  opacity: 0;
+  pointer-events: none;
+}
+@starting-style {
+  .combo__list:not([hidden]) {
+    opacity: 0;
+  }
 }
 .combo__opt {
   display: grid;
@@ -584,9 +601,35 @@
     padding: 16px 14px 18px;
   }
 }
+/* Sin transiciones de vista, el panel al menos entra con un fundido. Con ellas (la isla abre y
+   cierra dentro de una de tipo «metalogros»), las fichas de debajo se deslizan a su sitio
+   nuevo, el panel se funde y el pie baja o sube con ellas (DESIGN.md, Metalogros index). */
 @media (prefers-reduced-motion: no-preference) {
   .vd-panel:not([hidden]) {
     animation: vd-in var(--duration-base) var(--ease-out);
+  }
+}
+html:active-view-transition-type(metalogros) .vd-panel {
+  animation: none;
+  view-transition-name: vd-panel;
+}
+html:active-view-transition-type(metalogros) .vd-cell {
+  view-transition-name: match-element;
+  view-transition-class: vd-cell;
+}
+html:active-view-transition-type(metalogros) .site-ft {
+  view-transition-name: site-ft;
+}
+html:active-view-transition-type(metalogros)::view-transition-group(*) {
+  animation-duration: var(--duration-slow);
+  animation-timing-function: var(--ease-out);
+}
+html:active-view-transition-type(metalogros)::view-transition-old(vd-panel) {
+  animation: vd-out 150ms var(--ease-in) both;
+}
+@keyframes vd-out {
+  to {
+    opacity: 0;
   }
 }
 @keyframes vd-in {

@@ -171,6 +171,13 @@
   }
 }
 
+.viewer {
+  /* Sigue en la capa superior mientras sale (DESIGN.md, Motion: Dialogs). */
+  transition:
+    overlay var(--duration-base) allow-discrete,
+    display var(--duration-base) allow-discrete;
+}
+
 .viewer[open] {
   display: grid;
   place-content: center;
@@ -178,7 +185,22 @@
 
 .viewer::backdrop {
   background: color-mix(in srgb, var(--color-bg) 92%, transparent);
-  transition: opacity var(--duration-fast) var(--ease-out);
+  transition:
+    opacity var(--duration-fast) var(--ease-out),
+    overlay var(--duration-base) allow-discrete,
+    display var(--duration-base) allow-discrete;
+}
+
+.viewer:not([open])::backdrop {
+  opacity: 0;
+}
+
+/* Al cerrarse, la imagen baja y se desvanece en el 70 % de lo que tardó en entrar. */
+.viewer:not([open]) .viewer__figure {
+  opacity: 0;
+  transform: translateY(12px) scale(0.98);
+  transition-duration: var(--duration-base);
+  transition-timing-function: var(--ease-in);
 }
 
 .viewer__close {
