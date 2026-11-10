@@ -26,6 +26,8 @@ sources:
     resource: repo://src/components/home/HeroSearch.tsx
   - id: openwiki-source-8d7561f0048965bae272d02d
     resource: repo://src/components/home/home.css
+  - id: openwiki-source-39afe86b52965c905da37bef
+    resource: repo://src/components/site/nav.ts
   - id: openwiki-source-66bf87151b29d7c77f7b681f
     resource: repo://src/components/site/search.ts
   - id: openwiki-source-bf8e9f6d6570c9b0df47bfe1
@@ -36,10 +38,12 @@ sources:
     resource: repo://tests/e2e/inicio.spec.ts
   - id: openwiki-source-3e3179409ea49f06dbda4ea5
     resource: repo://tests/unit/home-hero.test.tsx
-generated: { by: "claude-code", at: "2026-11-09T11:00:21.744Z" }
+  - id: openwiki-source-f5bb52b30eff93118a46d132
+    resource: repo://tests/unit/home-sections.test.tsx
+generated: { by: "claude-code", at: "2026-11-10T11:02:06.480Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-09T11:00:21.744Z
+    at: 2026-11-10T11:02:06.480Z
 ---
 
 # Home page
@@ -54,7 +58,7 @@ In order:
 |---|---|---|
 | Live strip | `LiveStrip` | Only while Torre is live: the first thing under the header, one line on phones so the search stays on the first screen. Nothing otherwise |
 | Hero | `Hero` | The name and what it is, a lead sentence, Torre asking which quest you are doing over the quest search, and the Krosmoz island with the six primordial Dofus around it, the main image on phones |
-| What you will find | `Areas` | First a full-width missions card, four NPCs on the Astrub square with the counts of published guides and achievements; then Dofus guides, Checklists, Classes and Dungeons, in 2 × 2 with only the title on phones. Each card is one link, the text of its `h3`, with an `::after` covering the card; the sentence describes it through `aria-describedby`. Cards link where the header menu links |
+| What you will find | `Areas` | First a full-width missions card, four NPCs on the Astrub square with the counts of published guides and achievements; then Dofus guides, Checklists, Classes and Dungeons, in 2 × 2 with only the title on phones. Each card is one link, the text of its `h3`, with an `::after` covering the card; the sentence describes it through `aria-describedby`. Cards link where the header menu links. Classes and Dungeons have no pages yet (`soon` on their section in `nav.ts`): their cards are plain `li.area--soon` with no link, the «Próximamente» tag (`Soon`) after the title, the art in grayscale at 55 percent and no hover effect |
 | One guide per quest | `GuideTour` | Four points next to the real "Seis pies bajo tierra" guide in miniature, with the same numbers on each part. Where scroll-driven animations exist (`home.css`), the point crossing the middle of the screen frames its part, and so does hovering a point; with reduced motion, only the numbers |
 | Checklists | `ChecklistsSection` | The three checklists of the menu, each with its egg and its figure |
 | The author | `Author` | Torre's portrait, his sentence, one invitation (Discord) and whether he is live. Without a live, a small note about his channels; live, a headline with the link. The home page footer therefore does not repeat him or his channels |
@@ -101,7 +105,7 @@ Lighthouse CI measures `/`; see [Performance budgets](../testing/performance-bud
 ## Tests
 
 - `tests/unit/home-hero.test.tsx`: the hero and its search island markup, and `HeroOptions` with one group (no titles) and several (titled groups, option ids continuing across them).
-- `tests/unit/home-sections.test.tsx`: the other sections.
+- `tests/unit/home-sections.test.tsx`: the other sections, including the Classes and Dungeons cards rendered without a link and with «Próximamente».
 - `tests/unit/site-live.test.ts`: `liveState`.
 - `tests/integration/site-counts.test.ts`: the counts as a visitor.
-- `tests/e2e/inicio.spec.ts`: the hero; no index request on load, only on focus; one letter versus two; no layout shift; arrows and Enter, including a key pressed while a new list arrives; Esc and outside clicks; a click opening a quest; the load error and retry; published achievements found in their own titled group, a preparing one not found, and the arrows crossing from one group to the next; the header button stepping aside; axe (WCAG 2.2 AA) in every search state; Torre not moving on focus; the field and panel on mobile; no horizontal overflow; the missions card matching the header count; each card one link going where the menu goes; the guide tour framing; the checklists; the author; the compact footer; every image loading; axe on the whole page in both modes; the 2 × 2 cards on mobile.
+- `tests/e2e/inicio.spec.ts`: the hero; no index request on load, only on focus; one letter versus two; no layout shift; arrows and Enter, including a key pressed while a new list arrives; Esc and outside clicks; a click opening a quest; the load error and retry; published achievements found in their own titled group, a preparing one not found, and the arrows crossing from one group to the next; the header button stepping aside; axe (WCAG 2.2 AA) in every search state; Torre not moving on focus; the field and panel on mobile; no horizontal overflow; the missions card matching the header count; each card one link going where the menu goes, and the Classes and Dungeons cards showing «Próximamente» with no link; the guide tour framing; the checklists; the author; the compact footer; every image loading; axe on the whole page in both modes; the 2 × 2 cards on mobile.

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:1d3b7f89ff8958ec4a78bb17c6600988ee2cf3b63d5904e2e8d868c0da489ed2",
+  "pageVersion": "sha256:a5a869327838582d908be12a07cedc35396b8a5eae94345aa3b12f3f0278f889",
   "claims": [
     {
       "id": "claim_fd7ce3bd93db451db660f3db73a2994d",
@@ -104,7 +104,7 @@
         },
         {
           "resource": "repo://src/components/home/home.css",
-          "version": "repo-file-v1:sha256:ea66cf4acc7f38070992f6c7f3533f0e8b2121811015da11b630c71ce437dfb6"
+          "version": "repo-file-v1:sha256:0c7d74cbaa28a3b5bff55881678ead6303fec3752a360867bb13fc6a6616bf5e"
         }
       ]
     },
@@ -113,8 +113,8 @@
       "statement": "Each area card is a single link on its h3 text, described by aria-describedby, with an ::after covering the card, linking where the header menu links.",
       "evidence": [
         {
-          "resource": "repo://src/components/home/Areas.tsx#L14-L60",
-          "version": "repo-lines-v1:sha256:eb255579b9ca5dda568013038795adabe0a6fe76d299a54788c75533937c7276:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIzMWYwOWIzYTM5NGNmNzg5ZDMyNzNhZjkyZDg4NTQ1ZTkzNDdiZDk1MjQ1YTNiMjllNjg1NTJkNjg3YjExZTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhhYTQzYzA4YWZjNjJiNjY0MWVjNjYwNzVkMTk3ZTUwZGY1MDljYWU2ODRhNzhiZWIzNjQwODU3ODg4MGI5NzIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxODNjNTlmN2VmNzkzZTEwYTJhZDE5ZGFlNTFjNWUwMmI2MDUyMjMyNGJiNjgwM2RhNmFmMzQ0YzJkNmQwOGEifQ"
+          "resource": "repo://src/components/home/Areas.tsx#L15-L61",
+          "version": "repo-lines-v1:sha256:b67a61d1c236146ecb012b66da0f70290d66d9a42af7cdc58c2ffecc5f3d9e34:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhhYTQzYzA4YWZjNjJiNjY0MWVjNjYwNzVkMTk3ZTUwZGY1MDljYWU2ODRhNzhiZWIzNjQwODU3ODg4MGI5NzIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ3YjA1ZDUyZTgwNTZlNWRhOGUwNjJiM2QzYzA3ZGRjOGE2OTZiZjMyMjAxNDAwMDJlNWM4MDVkNTE2N2ZmYTUifQ"
         }
       ]
     },
@@ -124,7 +124,7 @@
       "evidence": [
         {
           "resource": "repo://tests/e2e/inicio.spec.ts#L30-L450",
-          "version": "repo-lines-v1:sha256:7028e45f752df28bcfd8a3427086fff365c25ef5b9afc8d1bc9882ffa43235d8:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI3MGJhNzgxOWI0YWQ0NmY2NTliOTQ1M2EzZGNkMjFlY2ZjMzJjNjc1YTU4YjM4YjVjZGZhMzYyNTNiZGQ2YWMxIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIyNTNiZWM4ODRjN2M5Njg5NjE3ODM0MDY4NmE5MzljOTJkMjY4MmUzN2EwOGU3ZWM0NWRjYzk4ZjQxZThkMTc2IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "version": "repo-lines-v1:sha256:7e6564b5f4ab7acf9b9f510334bfd975b5e40091b2a6a47c21d0a2754eed18e4:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI3MGJhNzgxOWI0YWQ0NmY2NTliOTQ1M2EzZGNkMjFlY2ZjMzJjNjc1YTU4YjM4YjVjZGZhMzYyNTNiZGQ2YWMxIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIyNTNiZWM4ODRjN2M5Njg5NjE3ODM0MDY4NmE5MzljOTJkMjY4MmUzN2EwOGU3ZWM0NWRjYzk4ZjQxZThkMTc2IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -155,10 +155,32 @@
           "version": "repo-file-v1:sha256:c5d3facdca60279f6e91e85298a1b0599de8c40a6613b1c60c21cb600340295f"
         }
       ]
+    },
+    {
+      "id": "claim_229311256d904312b45aab6ef88cce78",
+      "statement": "An area card whose section is marked soon (Classes and Dungeons) renders as a plain li.area--soon with no link and the Próximamente tag after its title, with its art greyed out and no hover effect.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/home/Areas.tsx#L34-L47",
+          "version": "repo-lines-v1:sha256:6e45f40eede0de205d83091726a901254fc8259e636c3bd5456dbfad262ad17d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ5ZGUxNzIwNzVjZjA0Yzc0OTYxYzJiOGY0ZjIyMDlkN2M3OGI5NGFkYzNiMmFmYmE5ZTBlMDQzNjg4YzY2YmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVlYWEwZTIyNWQ1MzFkMjQ4OWM5ZmVjOGMyN2NiZjk2YWEzNWZlMDY1NmIxYmFmZTU0NzM0NDk4MmNkYzNhZTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAyNDdjNzEzYmVjNDI5ZGE3MzJiNmZjNzk1NGI4OGE1MzE3YjcyNDc3Y2I5ZGRlOWUzZDhiODI5NDEyMjExNGIifQ"
+        },
+        {
+          "resource": "repo://src/components/home/home.css#L753-L765",
+          "version": "repo-lines-v1:sha256:ba4d294297680c17b11cd252802bafb680681a8453f6b51e88c49b32f2d2575b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRhYWFkMzRhMmI0MjA2ZjQ0MDhiM2MzZTk1ZTMzMjRmNDlhODVlYmRmNmJlZTdjMWIzZWZiODI3NTE1MzQwNjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZlYjQzZWYyYWY3MjA3NjNmMDNhMTQzYWMzNjRkYzgwYjI4Njc3YTI1NjJhNjkzMzk5ZDQ0MWRlOGEzOGJjNjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZiMzI3Zjc4NWVlMGIzMjMwYWRmZDExMWU2MzhmNGNjNzE1OTE2ZjliZjUyZDNjZTY1MjEwMzc0ODAyY2E1MDIifQ"
+        },
+        {
+          "resource": "repo://src/components/site/nav.ts#L141-L179",
+          "version": "repo-lines-v1:sha256:367b284e68dc0d9a3e05309aac714b94d8caf4ef56f92f3fd2441e4dcac09099:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgyMDdiMjgzZTMyMTU5ZTgzNmQzYjI3YjVjNDE0NjE2YmExNDQ1OTEwNWUxNTFjZDFkNTMyYTg4MzM5YzMwYzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5NDE2ZTA5Zjc4YmEzMTZjMDMyNTY4MjEzYjg1NWVlNzU2ZTQxNTY1ZDkxOGYwOTUxOWM4MWZkNjIwZjQwNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY3MDM3ZjBjYjIxOTE3OTQzNTFmOTQzMzRiM2IzYWZjMGMxNWQxZTkzZmI2MzZiNjY3MWJiOWIyZGNjMWY4ZjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJkMGQzNjc5MzY2M2NlZmIzMDgzNjNlNmMxZGUxMDVlZjU0NzIzMjAwZTU3YmU5ZTIxNTVkYzU3Y2Q2MTE4ODEifQ"
+        },
+        {
+          "resource": "repo://tests/unit/home-sections.test.tsx#L31-L41",
+          "version": "repo-lines-v1:sha256:67b1887ace6c889abf66e086a2355a805c35fd4f6691ed2ed5af17fb448f567c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4ZDFhZDYyZTU0NTk1N2JmODNhMmVmNjg2MzkyNDQ5OGZmMmJlYzQzM2JkZGVlYWMyOGU3NmMyYTkyNzljNzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFjNjQ1ZTIwZGU5MDUzNTE3YzUxZGNlOWI3ZDczMzc0NDMxYTMyYjgyMGUzZDhjYTJjZjM1MWI3ZDdjZWUzZDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVjNTg3ZDQ4ODUzMTc4YmUzMTllOTk1NmE3MDA3NTE4YTEyNDdmZGY0NjYwZjgyNGEyYmNiMzQ2OTU4NzM5MjcifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-09T11:00:21.744Z"
+    "at": "2026-11-10T11:02:06.480Z"
   }
 }

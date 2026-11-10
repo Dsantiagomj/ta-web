@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ac0803d5ef51d81f06d28f43d8f9d7e7af70223e04c02e6002f7ca324be54e7e",
+  "pageVersion": "sha256:df982f83987d516c9b727ae05ca9a5d11b016c453d4b0d86bbbf2a72223490f8",
   "claims": [
     {
       "id": "claim_0af932fbfb274b178987c452ca10c5c5",
@@ -14,11 +14,11 @@
     },
     {
       "id": "claim_52a43953ca514cddb4116f971ef621f7",
-      "statement": "nav.ts defines five sections, with Misiones linking to /metalogros and pages the app does not have yet linking to the legacy Squarespace site with the same slug through legacyHref.",
+      "statement": "nav.ts defines five sections, with Misiones linking to /metalogros and pages the app does not have yet linking to the legacy Squarespace site through legacyHref, with the same slug except where Torre's page is named differently.",
       "evidence": [
         {
-          "resource": "repo://src/components/site/nav.ts#L1-L139",
-          "version": "repo-lines-v1:sha256:52329983b22c751b6b9029a69fe76ad0b10d0805d989261902879e6e48751f01:eyJzZWxlY3RlZExpbmVDb3VudCI6MTM5LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI1MmIyY2EwYTM3Y2QxNzQxYTI5YWFjYjQ1ZDg3YTI2ZjM1N2RmMTVjYWNlM2RmNmQ1MGFlNTQwYmIzMmM2ODJhIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI2ZTQ5NDk1ODdlMDA2OWQ1ZDFjMTczYWFjMTdlOGI0OTRjZDFkNGQ2NWEzZjA0YzBmM2FmNzM2OTM3YTQwZDYxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJkZGM4MTFiZjllYzAyMTE4ZGQ2ZWYzNzI1Yzk1OGM2MjU3NTI0NTBiOGJjNzdmMTM4OTI0NjcyOGMzNDBjMzQ0In0"
+          "resource": "repo://src/components/site/nav.ts#L53-L181",
+          "version": "repo-lines-v1:sha256:ea5a6718990d716ddaa7d7ea4c64f37dc2a3cb71b53278937ebff4af7632e81d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTI5LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIxNzEyODUxZTViZDNlMDM3NTM3MjBiYzk1ODJlOTFlYzA2MjA2ZWNhODM4OGJjOWMyZWM1M2VkNzc1MWMxZWEyIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI2ZTQ5NDk1ODdlMDA2OWQ1ZDFjMTczYWFjMTdlOGI0OTRjZDFkNGQ2NWEzZjA0YzBmM2FmNzM2OTM3YTQwZDYxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI2MmJlNWMwMjNlMDFhNWU5NDkwYjBkZDc0M2E1YWIzMjQ4YmM0MTcxMDYzNDE5MzRiNDA1NjIxMWQ1YmZhNWExIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJkZGM4MTFiZjllYzAyMTE4ZGQ2ZWYzNzI1Yzk1OGM2MjU3NTI0NTBiOGJjNzdmMTM4OTI0NjcyOGMzNDBjMzQ0In0"
         },
         {
           "resource": "repo://src/lib/site/legacy.ts#L1-L10",
@@ -28,11 +28,15 @@
     },
     {
       "id": "claim_9730c9d768ef4740ba9ecfb7b13bda5d",
-      "statement": "SiteHeader renders the lockup, one dropdown panel per section, the search button, the mode switch and the phone menu below 1120px on the server, and MenuPanelPreview shows a static open panel for the catalog.",
+      "statement": "SiteHeader renders the lockup, a dropdown panel for each section that has pages, the search button, the mode switch and the phone menu below 1120px on the server, and MenuPanelPreview shows a static open panel for the catalog.",
       "evidence": [
         {
-          "resource": "repo://src/components/site/SiteHeader.tsx#L297-L437",
-          "version": "repo-lines-v1:sha256:0f77518e6f7b6378a080a95a44dd16e426ef92bf5acd836e4836d8ca6da1cc2a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI2NTYzMjcwZThhYTQ4MjNjNzE4MjZjMTkwNWI3MjFlM2QwYWVlZmEyMDkyZWI3ZWFhYTQxYzM3ZmUzM2VhN2QxIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIxNjRjZTlhOGI5OGQwNThlNzdlOWE2MzJmYjJkMDI5ODcwMTVmNTk4ZTYxODI3Zjk1MmU1YjBjN2EyNDdkN2VjIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://src/components/site/SiteHeader.tsx#L237-L275",
+          "version": "repo-lines-v1:sha256:c3ff964d433bb9bd2c9c4655dffc63b81e0686ef2b09fadc02e8aeaca2c96cce:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyNGJiMGQxOTQ1Njc4NzI1YTliNTAxNzYxYmI4M2FmNWFmOTc2MWE5MjVhY2NkOGQ2MzhiYmZkMjAwNzM4M2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0MGM1ZDNkYzNhNzczMDc5M2M4OTI3OTQ4YjU1OTY2NDIwN2Y3OWJhODc3NzNjMjE1MDA0NDMxOTYyZmQ0ODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEyMTEwMWNhMDE2ODFlOTNmODkzMjMzZWVlMzY1YTcxODI2MmRlNjg2NDZlYWIwY2FmNzNkZDRlOGVhYmU5NjcifQ"
+        },
+        {
+          "resource": "repo://src/components/site/SiteHeader.tsx#L353-L435",
+          "version": "repo-lines-v1:sha256:0fa2004cffcc0841f1c1309e7d4e02b79fc6fb8dd21a276e8a91fbcd7eb85bfb:eyJzZWxlY3RlZExpbmVDb3VudCI6ODMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0MGM1ZDNkYzNhNzczMDc5M2M4OTI3OTQ4YjU1OTY2NDIwN2Y3OWJhODc3NzNjMjE1MDA0NDMxOTYyZmQ0ODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -171,8 +175,8 @@
       "statement": "The header E2E spec covers dropdowns, keyboard navigation, Ctrl K search, the index requested on open, loading and error states, focus return, the opaque header on scroll, axe in both modes, the phone menu, overflow down to 320px and Volver arriba.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/cabecera.spec.ts#L31-L565",
-          "version": "repo-lines-v1:sha256:338324ceb903ce8076c7961783ab014c182544da38d444f5da5c8a569a4d91bd:eyJzZWxlY3RlZExpbmVDb3VudCI6NTM1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJmZGMwZTJmMjM0ZWM4MDA2ZTYxMDU0OTMwYTEyZDA4ZjljOTE5MGM3MWY3ZWU3NGVkNDE0MmNiNGU4MjAyZmQyIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmYzVkOTRlZjg1MTIzNDhiNmMwZjYzMWMyNmQzMThiYzQwYTU4NjllMjYzNTQ2YjJjZjcxNTQ5MTc1OTk5NTQ3IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://tests/e2e/cabecera.spec.ts#L31-L594",
+          "version": "repo-lines-v1:sha256:608660147ef559eeb513df59c653c850d350bd2e954cb30f9f08d63bde3f61cb:eyJzZWxlY3RlZExpbmVDb3VudCI6NTY0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJmZGMwZTJmMjM0ZWM4MDA2ZTYxMDU0OTMwYTEyZDA4ZjljOTE5MGM3MWY3ZWU3NGVkNDE0MmNiNGU4MjAyZmQyIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmYzVkOTRlZjg1MTIzNDhiNmMwZjYzMWMyNmQzMThiYzQwYTU4NjllMjYzNTQ2YjJjZjcxNTQ5MTc1OTk5NTQ3IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -181,8 +185,8 @@
       "statement": "No quest or achievement link in the header leaves the app: the Misiones panel has the search button and a single Ver todo link to /metalogros, repeated in the phone sheet, and its section tile has no separate all link.",
       "evidence": [
         {
-          "resource": "repo://src/components/site/SiteHeader.tsx#L156-L238",
-          "version": "repo-lines-v1:sha256:297d046b5ad54edd769b61e93ddaf766d679c1c75d6cc1e6c5f19de3e2db1fbd:eyJzZWxlY3RlZExpbmVDb3VudCI6ODMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhkZGZlM2Q3NWRkYmUwOWZlMzhhNGZhMTI0ZjUwMTcxNTA2YWM1MTlmNTUwZGQzZDU2NjI3YjVlNzk5MDdiNTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0MGM1ZDNkYzNhNzczMDc5M2M4OTI3OTQ4YjU1OTY2NDIwN2Y3OWJhODc3NzNjMjE1MDA0NDMxOTYyZmQ0ODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI2OWFjNzkwZGQ3NTJmZGJiMzY4MmM3YWZiZjFkZDJhODUxN2E4MDJhMzNkNjU0OTlhZGY2YzEwNzkyNWY0NDEifQ"
+          "resource": "repo://src/components/site/SiteHeader.tsx#L134-L195",
+          "version": "repo-lines-v1:sha256:87940559f576d21c9964450a34126146cb83632be2e23cb487f54417f4ade789:eyJzZWxlY3RlZExpbmVDb3VudCI6NjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhkZGZlM2Q3NWRkYmUwOWZlMzhhNGZhMTI0ZjUwMTcxNTA2YWM1MTlmNTUwZGQzZDU2NjI3YjVlNzk5MDdiNTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0MGM1ZDNkYzNhNzczMDc5M2M4OTI3OTQ4YjU1OTY2NDIwN2Y3OWJhODc3NzNjMjE1MDA0NDMxOTYyZmQ0ODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjljYTI3NWFjZjVjOGMwMjBmY2UzOTQ1Y2YwZTc2NGZkODAyY2Y5MTNkNzUyZjNiNDU0MGViMTZiZmZlOGJkZGUifQ"
         },
         {
           "resource": "repo://src/lib/site/legacy.ts#L1-L7",
@@ -190,7 +194,7 @@
         },
         {
           "resource": "repo://tests/unit/site-shell.test.tsx",
-          "version": "repo-file-v1:sha256:b095f0a6d1b4390abadb389971c19cddeb34b76fd0cb9416d65f10992df70816"
+          "version": "repo-file-v1:sha256:9d7a4559f0c2ebd51d8c8d6078fc66ed50b3c12b1aacc242aec7e4cc8e5f7977"
         }
       ]
     },
@@ -271,10 +275,100 @@
           "version": "repo-lines-v1:sha256:987c353a9b90490a15a8a520e43bc380f3d315c3b5759d3f902d20752e62925e:eyJzZWxlY3RlZExpbmVDb3VudCI6OTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmM2U2OTVjZWNhY2RkMjMzODQxZDY0ZTU4ZGU1ZGYxNTUyNzlhNTRlMDkzZmU1NmRhMWZkZDBmNGNjZmY2OTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjViNmU1YjUwMTU3ZjZhZmEwNmY1ZjNlOWUyMTBhMTA2ODQ3OTM0ZDEwNGNlZWVhMTcwNTc2ODYwMDE3ODhiNmIifQ"
         }
       ]
+    },
+    {
+      "id": "claim_2920a95c13da4d6cb7217379d00b91d0",
+      "statement": "Clases and Mazmorras carry soon: true in SECTIONS, which renders them in the header nav as an aria-disabled span with the Próximamente tag and no panel, as a phone sheet tile that does not fold, and as text with the tag in the footer's Explorar column.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/site/SiteFooter.tsx#L55-L68",
+          "version": "repo-lines-v1:sha256:6b67ee155bbd77c5d9e46e07e040864fcadc7a368dc85c9d81970c2e3fa29d68:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFiZGM5YzcwNTY3NzNkMDQzNjAyNzZkM2ViYWExYmExYjRmMDBhYzhhZDVmNzgwOWRiYzU4NDE1OGRhNzc3YmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJjMzI5MWJiMGZiNjAwMGFmZTFkZGFmNjI4YzRjMTI4Njk5MmE1ZWEyOGNlYzZkZTc4YWE0MDE5MWNhODhmMjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVkMjdhMmMxY2UzMDgyNTQ4NGVlNzIwOTIxNmZkNTEyNTczZDU4NDE0OTk3MWRlMTAzZmRkNzcxN2ZkMDA4NGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFjZWFlNmZmODViYWUyOWMxZDE1YTQ4NTA5MDQ3ZTQ2NzViNWVlZmI5YjkzNjI0YTdkNTc1ZTY2ZWE1NDRmMmYifQ"
+        },
+        {
+          "resource": "repo://src/components/site/SiteHeader.tsx#L276-L293",
+          "version": "repo-lines-v1:sha256:0ba179df9a7ef732430ec4a3dc86e86a7949790e819e7b34304877330aad76d0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3ZGQwZTM3Y2I3MGYyZWM3NjNhN2UyMzM3NDJkODc5NTI2MmQzNzg3YTliYTQ1ZjEyMmEyMDVkM2NmOGMyZjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0MGM1ZDNkYzNhNzczMDc5M2M4OTI3OTQ4YjU1OTY2NDIwN2Y3OWJhODc3NzNjMjE1MDA0NDMxOTYyZmQ0ODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBjYWJiMmZhMjM4ZmIzOWExZDU5OWU2ZjQ4MGZjMmVmOGY1NzcyNDVhNzhmZTIwOGY3MTVkYmI1NjExNGJkYWQifQ"
+        },
+        {
+          "resource": "repo://src/components/site/SiteHeader.tsx#L367-L407",
+          "version": "repo-lines-v1:sha256:f2e97dc7d780a8be22167c2b308542da06c0db64beee2768802248b714845841:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc3OTAzMTE0ZjdjZjIyZjJkN2E4MDFjMzdjNGQ4OTNjZGY3YzJmNzU3MDQwOGVhMmRjNzZiODgwNjA5NGMyMDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFhZWNjNmFiZmUxNjBmOGVlNDEwMWQ4YTFmNjQyYWVhOTdjNjdiMTA1NGYxNmE2Y2FiOWQ2NTg0ZWNlMjBkNWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNjODQ5NDQwNDFkMTZmMmY5ZGI3OGZhNmY0Y2IxZTE1OWZhZjU1ZDdhMTRhMTQxMjQ4N2ZhYWI1YWJmM2RkNTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ0MDY5OWZkN2I2MTUwMTNkY2M0ZDE2NTI5NDAwOTRiYjQ1NTQyYjM5OTU2MmJjMzk2YzkxM2I3YzYzZTkwMGQifQ"
+        },
+        {
+          "resource": "repo://src/components/site/Soon.tsx",
+          "version": "repo-file-v1:sha256:5e39af8d9d2f391a120081ff4d8f4de4ddd505f705f2de8ab5a5ee89a5a8ad06"
+        },
+        {
+          "resource": "repo://src/components/site/nav.ts#L163-L179",
+          "version": "repo-lines-v1:sha256:7b8d961d11198c97c0f194dd6c426709716d21ebb6ea4b1a4a6930bee7bddd8b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIxMTFmMjM5YWM2NWM5ZmVjZDRmNzk3NWQ0ZWUwYzY3N2I1OGE4ZWE2Nzg1MmVhMjVkMjc5MjM5MjUxOGQyZjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5NDE2ZTA5Zjc4YmEzMTZjMDMyNTY4MjEzYjg1NWVlNzU2ZTQxNTY1ZDkxOGYwOTUxOWM4MWZkNjIwZjQwNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYwNTFiZDQyMDZiZTI3Y2NiMzNlZjY2MTEwMTkyZTJmZDI4NGM0OWI5N2EyM2JiZTE4ZWJiNTdlMTlkZTMzNjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJkMGQzNjc5MzY2M2NlZmIzMDgzNjNlNmMxZGUxMDVlZjU0NzIzMjAwZTU3YmU5ZTIxNTVkYzU3Y2Q2MTE4ODEifQ"
+        },
+        {
+          "resource": "repo://src/components/site/nav.ts#L41-L51",
+          "version": "repo-lines-v1:sha256:e1c6ed35b3710251fefa1c7ffebcc4b9e3081d0ba56a7be5b41c300a6568694f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRjYjJlNGZiNTJlMmUzZTE3Mzg5NzMzYmU4NzQ4MzUzY2VhMWQwYWJiNjQwOTU2NDEzMzRiOTg5NGVmNjA0OTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdhODVmZjFiMjNlY2VmYzRkNDVhNDNmMjZhNjRhMDI5NzExYjFjZmM0YWE3MWI4NmJhOTg2YzQ2ODU2NDk3ZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY0ZGZlMDc3OWM4OWM5MTViNDMwZTFmMzM3YzU1ZWY3N2M4MzM4OTY1N2Y3NGEyMWM2MzI0NTY0NmU5YWQ5NjkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_937d6431782443658cf884d7ce85f9f4",
+      "statement": "DOFUS_GUIDES lists the Dofus of Torre's guides page in his order; the ones in DOFUS_PREPARING carry preparing: true and render in the Dofus panel as an aria-disabled egg-soon element with no link and an en preparación note for screen readers.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/site/SiteHeader.tsx#L64-L89",
+          "version": "repo-lines-v1:sha256:c251ef69345ebacabaef0ea11ebd05cf54ad16559ef0da00246fab3332c58518:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUzYWZlZjJhM2FhNjQyMDk0M2IwMjY1ZTY4MTFkNzczMThiZGI3NDZjYTM4MjEzOTkxMzgxMGI3YzVjYWZmNzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0MGM1ZDNkYzNhNzczMDc5M2M4OTI3OTQ4YjU1OTY2NDIwN2Y3OWJhODc3NzNjMjE1MDA0NDMxOTYyZmQ0ODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdlYjc3M2ZjN2Y0Y2JmNGJiY2JkNDYxZDU5ODE5MWRkNmIxMzEzZWYwNTNjODMwYmQ0NGIzZjkyZjk4ZTNiYTgifQ"
+        },
+        {
+          "resource": "repo://src/components/site/nav.ts#L53-L93",
+          "version": "repo-lines-v1:sha256:568e20c589f16bd2c1975daef5f0cacc3df4adf340257d68a22766da571df846:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3MTI4NTFlNWJkM2UwMzc1MzcyMGJjOTU4MmU5MWVjMDYyMDZlY2E4Mzg4YmM5YzJlYzUzZWQ3NzUxYzFlYTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYyYmU1YzAyM2UwMWE1ZTk0OTBiMGRkNzQzYTVhYjMyNDhiYzQxNzEwNjM0MTkzNGI0MDU2MjExZDViZmE1YTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBkMjZhN2JlYjBkYzMzNDE5NWE4NTc3NDIwYzY5YjdmNGUyNTI3MDgxZWNhYTZhMzkzZGYxNTU3OWM1OTcwYWUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/site-shell.test.tsx#L198-L210",
+          "version": "repo-lines-v1:sha256:c90262bc81f0420c4517dd7ff9c330235886429a670fe14402d8730484d7fc07:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAwY2I3NjY3OGRkNzFiODgxOWVkODUzYmY3MWRlYjgwYWJjZjJiNWVjMGQ2ZDk0MGQ2ZGQ1YWQ0ZTIzZDEyYmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFjNjQ1ZTIwZGU5MDUzNTE3YzUxZGNlOWI3ZDczMzc0NDMxYTMyYjgyMGUzZDhjYTJjZjM1MWI3ZDdjZWUzZDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ0ZjA0NmE2Zjg3ZDVkMDU3YjBlMWNlZGFlMWMyZTljZDliMzE4NzQ5NjUwYTZkNTZkM2M3MWY3NjFlOTcxMjAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7dc9f4f6d04248caada40957b3b351c0",
+      "statement": "The header's menu search index includes only sections without soon, the written Dofus (DOFUS_READY) and the checklists, so Clases, Mazmorras, their classes and dungeons, and Dofus in preparation are never found.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/site/nav.ts#L240-L259",
+          "version": "repo-lines-v1:sha256:df5f63370995e4829515481dd280dfcacf52c3d9ca28c63374993deaf001e79d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZiMjBhODRhNDYxMWQ1M2VkZWU3NzAzMmI4MGFlY2FlYjE4Y2VhYjU5NGNlYzc1N2U1N2Q1ZGJkODE0Njg0MjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY4NWMyMjcwMTlhMGM4NGJiZGY5ODc4ZGE0ZmFiODYxOGExOWQyZWQ2NWFjZjQ1M2NhYTU2MmJiYzBjYTNhMWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/site-shell.test.tsx#L103-L115",
+          "version": "repo-lines-v1:sha256:7f11c01f89ad95263b39767b585dd9bff2a6d70a772a3de42ac640f75efdadee:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjExY2U2YWM5OTQ2NDYyY2Y1YjllZjc3Y2VhZTAwZDJjOTMxYTQxMjQyM2RjOTA5N2VmZTVlM2I2ZTJjMWRjOWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ0ZjBlYzczZmM4YzYxOGE1YTMwOTBhOGViMmI1YjA4ZTBmZDNkNjY5ZTdmMzA3YTNlMzg1NTljNDY4YjhlMTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b1d73256d63247c6893fb49144cb1534",
+      "statement": "HeaderIsland toggles a panel only from a button.np and folds a phone tile only from a button.stile__b, so the Próximamente items that share those classes open nothing.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/site/HeaderIsland.tsx#L141-L170",
+          "version": "repo-lines-v1:sha256:b5ca2d280839b5a963e6f6f222e6782cfbc89815e0f4b81e1d2b17b5d50c2176:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRiMDg3M2QxMTg5ZGFhNTRjYTMyNmEwNGUwMDlmNjUyNDRkODI4ZGUyOTBiMzk4NjhjZDVmOTY3MGNiMmM1OWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYwMGJmN2MyMTQyNmUwZjMwYWM1YjU1Mzk0MmQ5NjFhYzQ2YWQ1MDg4OTQxZGE2MjZlODMzN2U4YzMyNDlmYjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiNWJjZDU1MTU1MWZlOTAyZmY3ZThkYTdlMDNjNzlkNDNmOWU5NDc1NjYxYjIxYzY3N2M3ZGUwMmQ5YWIxOTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUzYzQ0MzUxZmViMWQ1OTk1Y2M2NGE5MjA3OTAyNjIyNzhjY2VhZGViOTc2MTNjNjYwN2MyZGM5NmRjMDYyNzUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9f0e1f566ac4471d9aec5fb579cff5c9",
+      "statement": "The Dofus panel ends with Ver todas las guías de Dofus, linking to the Dofus section's legacy guias-dofus page, and the phone sheet repeats it.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/site/SiteHeader.tsx#L197-L235",
+          "version": "repo-lines-v1:sha256:c56236a050dfb29f2e29943c2a3aa14de9d8abbd5b050cad20ef3573a668bdf3:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0MGM1ZDNkYzNhNzczMDc5M2M4OTI3OTQ4YjU1OTY2NDIwN2Y3OWJhODc3NzNjMjE1MDA0NDMxOTYyZmQ0ODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZiZTYzZjk1MjBjOGE0ZWUyZDRjZjZmMjEyM2E4NjUyMWU5Y2M4NTNhYzBiZDllN2JiM2U4Nzg3MzhiYmU1MWIifQ"
+        },
+        {
+          "resource": "repo://src/components/site/SiteHeader.tsx#L295-L313",
+          "version": "repo-lines-v1:sha256:5a7c44a3e2bc8acd6693c00c9ff3d55ec2e91fa55dd875ba1e6ec9c1ec9da1f1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJiNzI3ZDdmZWNiMDYzNDMzZTgxMzNiOGNmMzcwOTZlZTJjYzhhMmI2ZTBkMjhiMWVlZjVhYTBkZTU1ODAzZDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YjhjMTA4NWY5NWExYWZhYmU1ZDE1MmFkNThkYjlkYzI2MzM2YzEyMThlMmI4NDBhZTdhZDgyNmEwZDU3NDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFhYjUxNDJlYjA3ZDRhZmRhNTVmZmY5MzA5YmZmMzQ5Zjg1NDcwNWE2Zjc2NDFlMjUzYWY3ZDFjYzNhNGU4YzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJlNjhmODk5N2RiN2U1N2Y0MjcyZDgyOGQyNzgxYjJjM2M5MTc2MTk4MTgxOWVhNmNlYjE2NGRhMzIxMThlMzcifQ"
+        },
+        {
+          "resource": "repo://src/components/site/nav.ts#L149-L155",
+          "version": "repo-lines-v1:sha256:b73ac4f728df240e5501c19ba076979101be36bf5656cfb680132609daba79d7:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjExMWYyMzlhYzY1YzlmZWNkNGY3OTc1ZDRlZTBjNjc3YjU4YThlYTY3ODUyZWEyNWQyNzkyMzkyNTE4ZDJmOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDIxZTFiMmExNjVmZDEwMjc5Yzc2ZDBlYTYyNTM1NzY5ZTlkNGM3MzU5ZDA0ZDYwYTllNDZkOTE3NDhiZjRkNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2UwMDI5NjIzY2U5ZGQwMTJlMTU5YzFlNzdjMDUyODlkNmE4MmY0ZTE5ZjgwY2M0ZWE4ZmE0YjM2MGMxOTk2OSJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-09T11:00:21.744Z"
+    "at": "2026-11-10T11:02:06.480Z"
   }
 }
