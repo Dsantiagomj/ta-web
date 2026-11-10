@@ -10,11 +10,17 @@ import '../achievement/achievement.css'
 import { DofusIndexIsland } from './DofusIndexIsland'
 import './dofus-index.css'
 
-function CardInner({ card }: { card: DofusCard }) {
+/**
+ * Las tarjetas que se ven al cargar, en el móvil (2 × 2) y en la primera fila del escritorio:
+ * su huevo es la imagen más grande de la pantalla (el LCP) y no se difiere.
+ */
+const ABOVE_THE_FOLD = 4
+
+function CardInner({ card, priority }: { card: DofusCard; priority: boolean }) {
   return (
     <>
       <span className="dcard__art" aria-hidden="true">
-        {card.egg && <Picture image={card.egg} alt="" sizes="104px" />}
+        {card.egg && <Picture image={card.egg} alt="" sizes="104px" priority={priority} />}
       </span>
       {card.tagLabel && <span className="dcard__tag">{card.tagLabel}</span>}
       <span className="dcard__n">{card.name}</span>
@@ -28,29 +34,29 @@ function CardInner({ card }: { card: DofusCard }) {
 export function DofusCards({ cards }: { cards: DofusCard[] }) {
   return (
     <ul className="dg-grid" role="list" data-dofus-grid="">
-      {cards.map((card) => (
+      {cards.map((card, index) => (
         <li
           key={card.slug}
           className="dcard-cell"
           data-search={card.search}
           data-tag={card.tag ?? ''}
         >
-          <Card card={card} />
+          <Card card={card} priority={index < ABOVE_THE_FOLD} />
         </li>
       ))}
     </ul>
   )
 }
 
-function Card({ card }: { card: DofusCard }) {
+function Card({ card, priority }: { card: DofusCard; priority: boolean }) {
   const style = (card.color ? { '--egg': card.color } : undefined) as CSSProperties | undefined
   return card.href ? (
     <a className="dcard" href={card.href} style={style}>
-      <CardInner card={card} />
+      <CardInner card={card} priority={priority} />
     </a>
   ) : (
     <div className="dcard dcard--off" aria-disabled="true" style={style}>
-      <CardInner card={card} />
+      <CardInner card={card} priority={priority} />
     </div>
   )
 }
