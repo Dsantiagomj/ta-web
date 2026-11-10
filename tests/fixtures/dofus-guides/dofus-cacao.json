@@ -1,0 +1,348 @@
+{
+ "heading": "DOFUS CACAO",
+ "banner": null,
+ "prerequisites": [
+  [
+   {
+    "t": "text",
+    "v": "Nivel mínimo 20."
+   }
+  ]
+ ],
+ "needs": {
+  "title": "Necesitarás",
+  "note": null,
+  "groups": [
+   {
+    "name": null,
+    "rows": [
+     {
+      "text": "25 x Gobio.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "25 x Gobio."
+       }
+      ],
+      "quantity": 25,
+      "name": "Gobio"
+     },
+     {
+      "text": "25 x Ortiga.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "25 x Ortiga."
+       }
+      ],
+      "quantity": 25,
+      "name": "Ortiga"
+     },
+     {
+      "text": "20 x Avellana.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "20 x Avellana."
+       }
+      ],
+      "quantity": 20,
+      "name": "Avellana"
+     },
+     {
+      "text": "13 x Cuadradito de chocolate negro.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "13 x Cuadradito de chocolate negro."
+       }
+      ],
+      "quantity": 13,
+      "name": "Cuadradito de chocolate negro"
+     },
+     {
+      "text": "8 x Fibra criminal.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "8 x Fibra criminal."
+       }
+      ],
+      "quantity": 8,
+      "name": "Fibra criminal"
+     },
+     {
+      "text": "7 x Cuadradito de chocolate blanco.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "7 x Cuadradito de chocolate blanco."
+       }
+      ],
+      "quantity": 7,
+      "name": "Cuadradito de chocolate blanco"
+     },
+     {
+      "text": "7 x Cuadradito de chocolate con leche.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "7 x Cuadradito de chocolate con leche."
+       }
+      ],
+      "quantity": 7,
+      "name": "Cuadradito de chocolate con leche"
+     },
+     {
+      "text": "5 x Tabla de pastelería.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "5 x Tabla de pastelería."
+       }
+      ],
+      "quantity": 5,
+      "name": "Tabla de pastelería"
+     },
+     {
+      "text": "5 x Kobalita.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "5 x Kobalita."
+       }
+      ],
+      "quantity": 5,
+      "name": "Kobalita"
+     },
+     {
+      "text": "3 x Kosakepega muerto.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "3 x Kosakepega muerto."
+       }
+      ],
+      "quantity": 3,
+      "name": "Kosakepega muerto"
+     },
+     {
+      "text": "Varita pitusa.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "Varita pitusa."
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "name": "Emotes",
+    "rows": [
+     {
+      "text": "Dar un beso.",
+      "segs": [
+       {
+        "t": "link",
+        "v": "Dar un beso",
+        "href": "/emote-dar-un-beso"
+       },
+       {
+        "t": "text",
+        "v": "."
+       }
+      ]
+     },
+     {
+      "text": "Soltar los gases.",
+      "segs": [
+       {
+        "t": "link",
+        "v": "Soltar los gases",
+        "href": "/emote-soltar-los-gases"
+       },
+       {
+        "t": "text",
+        "v": "."
+       }
+      ]
+     },
+     {
+      "text": "Señalar con el dedo.",
+      "segs": [
+       {
+        "t": "link",
+        "v": "Señalar con el dedo",
+        "href": "/emote-sealar-con-el-dedo"
+       },
+       {
+        "t": "text",
+        "v": "."
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "name": "Mazmorras",
+    "rows": [
+     {
+      "text": "Dependiendo de tu nivel:",
+      "segs": [
+       {
+        "t": "text",
+        "v": "Dependiendo de tu nivel:"
+       }
+      ],
+      "children": [
+       {
+        "text": "Nivel 20 a 119: Fundición de los waddictos.",
+        "segs": [
+         {
+          "t": "text",
+          "v": "Nivel 20 a 119",
+          "b": true
+         },
+         {
+          "t": "text",
+          "v": ": Fundición de los waddictos."
+         }
+        ]
+       },
+       {
+        "text": "Nivel 129 a 179: Crocantería.",
+        "segs": [
+         {
+          "t": "text",
+          "v": "Nivel 129 a 179",
+          "b": true
+         },
+         {
+          "t": "text",
+          "v": ": Crocantería."
+         }
+        ]
+       },
+       {
+        "text": "Nivel 180+: Templo del Dios Kao.",
+        "segs": [
+         {
+          "t": "text",
+          "v": "Nivel 180+",
+          "b": true
+         },
+         {
+          "t": "text",
+          "v": ": Templo del Dios Kao."
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "name": null,
+    "rows": [
+     {
+      "text": "Un par de combates por allí y por allá.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "Un par de combates por allí y por allá."
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "intro": [
+  [
+   {
+    "t": "text",
+    "v": "Para obtener tu Dofus Cacao, necesitarás cumplir con las siguientes misiones de estos logros en este orden:"
+   }
+  ]
+ ],
+ "parts": [
+  {
+   "type": "achievement",
+   "name": "Una pizca de misterio",
+   "slug": null,
+   "quests": [
+    {
+     "name": "La isla flotante de chocolate",
+     "slug": "la-isla-flotante-de-chocolate"
+    },
+    {
+     "name": "La crisis de fe",
+     "slug": "la-crisis-de-fe"
+    },
+    {
+     "name": "Un huevo aparte",
+     "slug": "un-huevo-aparte"
+    },
+    {
+     "name": "Chocomagia contra chocomancia",
+     "slug": "chocomagia-contra-chocomancia"
+    },
+    {
+     "name": "Chocomisterio y chocohuevo",
+     "slug": "chocomisterio-y-chocohuevo"
+    },
+    {
+     "name": "Ka-kao maravillao",
+     "slug": "ka-kao-maravillao"
+    }
+   ]
+  },
+  {
+   "type": "achievement",
+   "name": "Paseos digestivos",
+   "slug": null,
+   "quests": [
+    {
+     "name": "La manía de reciclar",
+     "slug": "la-mania-de-reciclar"
+    }
+   ]
+  },
+  {
+   "type": "note",
+   "segs": [
+    {
+     "t": "text",
+     "v": "Te recomiendo realizar también la misión ",
+     "b": true
+    },
+    {
+     "t": "link",
+     "v": "Gajes del oficio",
+     "href": "/gajes-del-oficio",
+     "b": true
+    },
+    {
+     "t": "text",
+     "v": " junto con la de ",
+     "b": true
+    },
+    {
+     "t": "link",
+     "v": "Chocomagia contra chocomancia",
+     "href": "/chocomagia-contra-chocomancia",
+     "b": true
+    },
+    {
+     "t": "text",
+     "v": " ya que en ambas misiones te pide realizar la mazmorra de tu nivel.",
+     "b": true
+    }
+   ]
+  }
+ ],
+ "rewards": null,
+ "video": "nytrpjKnzlM",
+ "body": []
+}

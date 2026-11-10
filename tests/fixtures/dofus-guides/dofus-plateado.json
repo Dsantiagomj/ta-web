@@ -1,0 +1,581 @@
+{
+ "heading": "DOFUS PLATEADO",
+ "banner": null,
+ "prerequisites": [
+  [
+   {
+    "t": "text",
+    "v": "Nivel mínimo 10."
+   }
+  ]
+ ],
+ "needs": {
+  "title": "Necesitarás",
+  "note": "no te he puesto los recursos de Incarnam porque todos se obtienen de manera artesanal",
+  "groups": [
+   {
+    "name": null,
+    "rows": [
+     {
+      "text": "8 x Agua potable.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "8 x Agua potable."
+       }
+      ],
+      "quantity": 8,
+      "name": "Agua potable"
+     },
+     {
+      "text": "5 x Hierro.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "5 x Hierro."
+       }
+      ],
+      "quantity": 5,
+      "name": "Hierro"
+     },
+     {
+      "text": "3 x Polvos mágicos.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "3 x Polvos mágicos."
+       }
+      ],
+      "quantity": 3,
+      "name": "Polvos mágicos"
+     },
+     {
+      "text": "3 x Ortiga.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "3 x Ortiga."
+       }
+      ],
+      "quantity": 3,
+      "name": "Ortiga"
+     },
+     {
+      "text": "3 x Salvia.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "3 x Salvia."
+       }
+      ],
+      "quantity": 3,
+      "name": "Salvia"
+     },
+     {
+      "text": "3 x Trébol de 5 hojas.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "3 x Trébol de 5 hojas."
+       }
+      ],
+      "quantity": 3,
+      "name": "Trébol de 5 hojas"
+     },
+     {
+      "text": "2 x Aceite de sésamo.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "2 x Aceite de sésamo."
+       }
+      ],
+      "quantity": 2,
+      "name": "Aceite de sésamo"
+     },
+     {
+      "text": "1 x Aluminita.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Aluminita."
+       }
+      ],
+      "quantity": 1,
+      "name": "Aluminita"
+     },
+     {
+      "text": "1 x Toalla de playa.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Toalla de playa."
+       }
+      ],
+      "quantity": 1,
+      "name": "Toalla de playa"
+     },
+     {
+      "text": "1 x Cuero de miserata strubiense.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Cuero de miserata strubiense."
+       }
+      ],
+      "quantity": 1,
+      "name": "Cuero de miserata strubiense"
+     },
+     {
+      "text": "1 x Tabla de contrachapado.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Tabla de contrachapado."
+       }
+      ],
+      "quantity": 1,
+      "name": "Tabla de contrachapado"
+     },
+     {
+      "text": "1 x Pétalo de girasol salvaje.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Pétalo de girasol salvaje."
+       }
+      ],
+      "quantity": 1,
+      "name": "Pétalo de girasol salvaje"
+     },
+     {
+      "text": "1 x Flor de diente de león diabólico.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Flor de diente de león diabólico."
+       }
+      ],
+      "quantity": 1,
+      "name": "Flor de diente de león diabólico"
+     },
+     {
+      "text": "1 x Pétalo de rosa demoníaca.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Pétalo de rosa demoníaca."
+       }
+      ],
+      "quantity": 1,
+      "name": "Pétalo de rosa demoníaca"
+     },
+     {
+      "text": "1 x Lengua de espanterrador.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Lengua de espanterrador."
+       }
+      ],
+      "quantity": 1,
+      "name": "Lengua de espanterrador"
+     },
+     {
+      "text": "1 x Gobio.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Gobio."
+       }
+      ],
+      "quantity": 1,
+      "name": "Gobio"
+     },
+     {
+      "text": "1 x Leleche.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Leleche."
+       }
+      ],
+      "quantity": 1,
+      "name": "Leleche"
+     },
+     {
+      "text": "1 x Varita pitusa.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Varita pitusa."
+       }
+      ],
+      "quantity": 1,
+      "name": "Varita pitusa"
+     },
+     {
+      "text": "Algún arma de caza para una misión específica.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "Algún arma de caza para una misión específica."
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "intro": [
+  [
+   {
+    "t": "text",
+    "v": "Para conseguir el Dofus Plateado, debes realizar el 100% de las misiones de Incarnam, y el 100% de las misiones de Astrub. Además, el logro de "
+   },
+   {
+    "t": "text",
+    "v": "Un ciudadano modelo. ",
+    "b": true
+   },
+   {
+    "t": "text",
+    "v": "Por último, necesitarás hablar con Rathrosk para que te dé el dofus. Aquí abajo te dejo el orden en el que tienes que realizar las misiones, con su link respectivo ;) ¡"
+   },
+   {
+    "t": "text",
+    "v": "No te preocupes! Parecen muchas misiones, pero la mayoría se hacen en 1 minuto.",
+    "b": true
+   }
+  ]
+ ],
+ "parts": [
+  {
+   "type": "metalogro",
+   "number": 1,
+   "name": "Un comienzo ejemplar",
+   "achievements": [
+    {
+     "type": "achievement",
+     "name": "Al partir",
+     "slug": "al-partir",
+     "quests": [
+      {
+       "name": "Transporte único",
+       "slug": "transporte-unico"
+      },
+      {
+       "name": "Vestigios de leyenda",
+       "slug": "vestigios-de-leyenda"
+      },
+      {
+       "name": "Vistas celestes",
+       "slug": "vistas-celestes"
+      }
+     ]
+    },
+    {
+     "type": "achievement",
+     "name": "La milicia te inicia",
+     "slug": "la-milicia-te-inicia",
+     "quests": [
+      {
+       "name": "La prueba",
+       "slug": "la-prueba"
+      },
+      {
+       "name": "Campos de batalla",
+       "slug": "campos-de-batalla"
+      },
+      {
+       "name": "Fiesta del agua",
+       "slug": "fiesta-del-agua"
+      },
+      {
+       "name": "Ejecútame un jalató",
+       "slug": "ejecutame-un-jalato"
+      },
+      {
+       "name": "Caza de miaufianes",
+       "slug": "caza-de-miaufianes"
+      },
+      {
+       "name": "Lección de humildad",
+       "slug": "leccion-de-humildad"
+      },
+      {
+       "name": "Como chafer en su casa",
+       "slug": "como-chafer-por-su-casa"
+      }
+     ]
+    },
+    {
+     "type": "achievement",
+     "name": "Nadie nace enseñado",
+     "slug": "nadie-nace-enseado",
+     "quests": [
+      {
+       "name": "Productos naturales",
+       "slug": "productos-naturales"
+      },
+      {
+       "name": "El oficio de los aventureros",
+       "slug": "el-oficio-de-los-aventureros"
+      },
+      {
+       "name": "A pico y hacha",
+       "slug": "a-pico-y-hacha"
+      },
+      {
+       "name": "Bun empieza lo que Bun acaba",
+       "slug": "bun-empieza-lo-que-bun-acaba"
+      },
+      {
+       "name": "Preparación para el combate",
+       "slug": "preparacion-para-el-combate"
+      }
+     ]
+    },
+    {
+     "type": "achievement",
+     "name": "Incarnacción",
+     "slug": "incarnaccion",
+     "quests": [
+      {
+       "name": "La torta secreta",
+       "slug": "la-torta-secreta"
+      },
+      {
+       "name": "Matarratas",
+       "slug": "matarratas"
+      },
+      {
+       "name": "Criptología",
+       "slug": "criptologia"
+      },
+      {
+       "name": "Me importa un pigmento",
+       "slug": "me-importa-un-pigmento"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "achievement",
+   "number": 2,
+   "name": "En marcha hacia la aventura",
+   "slug": "en-marcha-hacia-la-aventura",
+   "quests": [
+    {
+     "name": "Respuestas para todo",
+     "slug": "respuesta-para-todo"
+    },
+    {
+     "name": "Un pueblo sobre las nubes",
+     "slug": "un-pueblo-sobre-las-nubes"
+    },
+    {
+     "name": "La esperanza y la tragedia",
+     "slug": "la-esperanza-y-la-tragedia"
+    },
+    {
+     "name": "En la boca del Minilubo Albino",
+     "slug": "en-la-boca-del-minilubo-albino"
+    },
+    {
+     "name": "Destino Astrub",
+     "slug": "destino-astrub"
+    }
+   ]
+  },
+  {
+   "type": "achievement",
+   "number": 3,
+   "name": "Un ciudadano modelo",
+   "slug": "un-ciudadano-modelo",
+   "quests": [
+    {
+     "name": "Archi y sus principios",
+     "slug": "archi-y-sus-principios"
+    },
+    {
+     "name": "Eso va a costar un huevo",
+     "slug": "eso-va-a-costar-un-huevo"
+    },
+    {
+     "name": "Consejo de clase",
+     "slug": "consejo-de-clase"
+    },
+    {
+     "name": "Misión de clase",
+     "slug": null
+    },
+    {
+     "name": "Aquí huele a gas",
+     "slug": "aqui-huele-a-gas"
+    },
+    {
+     "name": "Paseo por el bosque",
+     "slug": "paseo-por-el-bosque"
+    }
+   ]
+  },
+  {
+   "type": "metalogro",
+   "number": 4,
+   "name": "Periplo astrubiense",
+   "achievements": [
+    {
+     "type": "achievement",
+     "name": "La ocasión hace al ladrón",
+     "slug": "la-ocasion-hace-al-ladron",
+     "quests": [
+      {
+       "name": "Esto hace aguas",
+       "slug": "esto-hace-aguas"
+      },
+      {
+       "name": "Seis pies bajo tierra",
+       "slug": "seis-pies-bajo-tierra"
+      },
+      {
+       "name": "El cazador cazado",
+       "slug": "el-cazador-cazado"
+      }
+     ]
+    },
+    {
+     "type": "achievement",
+     "name": "La gran biblioteca",
+     "slug": "la-gran-biblioteca",
+     "quests": [
+      {
+       "name": "La historia en movimiento",
+       "slug": "la-historia-en-movimiento"
+      },
+      {
+       "name": "Restauración rápida",
+       "slug": "restauracion-rapida"
+      },
+      {
+       "name": "Verdaderas ratas de biblioteca",
+       "slug": "verdaderas-ratas-de-biblioteca"
+      },
+      {
+       "name": "Leyenda de otoño",
+       "slug": "leyenda-del-otoo"
+      }
+     ]
+    },
+    {
+     "type": "achievement",
+     "name": "Mercenario de acero",
+     "slug": "mercenario-de-acero",
+     "quests": [
+      {
+       "name": "La cerveza compartida sabe mucho mejor",
+       "slug": "la-cerveza-compartida-sabe-mucho-mejor"
+      },
+      {
+       "name": "Combate de calle",
+       "slug": "combate-de-calle"
+      },
+      {
+       "name": "Como un pischis fuera del agua",
+       "slug": "como-un-pischis-fuera-del-agua"
+      },
+      {
+       "name": "Comer con tenedor",
+       "slug": "comer-con-tenedor"
+      },
+      {
+       "name": "La copa de vicios",
+       "slug": "la-copa-de-vicios"
+      },
+      {
+       "name": "Los ases del hurto",
+       "slug": "los-ases-del-hurto"
+      }
+     ]
+    },
+    {
+     "type": "achievement",
+     "name": "No hay tiempo para el descanso",
+     "slug": "no-hay-tiempo-para-el-descanso",
+     "quests": [
+      {
+       "name": "Crisis sanitaria",
+       "slug": "crisis-sanitaria"
+      },
+      {
+       "name": "Entrega por suplencia",
+       "slug": "entrega-por-suplencia"
+      },
+      {
+       "name": "Golemante",
+       "slug": "golemante"
+      },
+      {
+       "name": "El rebelde del bosque",
+       "slug": "el-rebelde-del-bosque"
+      }
+     ]
+    },
+    {
+     "type": "achievement",
+     "name": "El hábitat urbano",
+     "slug": "el-habitat-urbano",
+     "quests": [
+      {
+       "name": "El blues del miaumiau",
+       "slug": "el-blues-del-miaumiau"
+      },
+      {
+       "name": "Vaya par",
+       "slug": "vaya-par"
+      },
+      {
+       "name": "¡Cuidado con la bestia!",
+       "slug": "cuidado-con-la-bestia"
+      }
+     ]
+    },
+    {
+     "type": "achievement",
+     "name": "Escapadas y emboscadas",
+     "slug": null,
+     "quests": [
+      {
+       "name": "Vigilancia en la pradera",
+       "slug": "vigilancia-en-la-pradera"
+      },
+      {
+       "name": "Quien siembra vientos recoge Artempestad",
+       "slug": "quien-siembra-vientos-recoge-artempestad"
+      },
+      {
+       "name": "Leñadores en peligro",
+       "slug": "leadores-en-peligro"
+      },
+      {
+       "name": "Genio en movimiento",
+       "slug": "genio-en-movimiento"
+      },
+      {
+       "name": "La invasión de profanadores de sepulturas",
+       "slug": "la-invasion-de-profanadores-de-sepulturas"
+      },
+      {
+       "name": "Eterno descanso",
+       "slug": "eterno-descanso"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "rewards": null,
+ "video": null,
+ "body": []
+}
