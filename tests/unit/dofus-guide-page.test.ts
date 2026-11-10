@@ -286,23 +286,19 @@ describe('dofusGuideView', () => {
     expect(dofusGuideView(data()).checklist).toBeNull()
   })
 
-  it('la columna lista todos los Dofus: el actual marcado, los En preparación sin enlace', () => {
-    const { list } = dofusGuideView(data())
-    expect(list.map((item) => [item.name, item.href, item.current, item.disabled])).toEqual([
-      ['Dofawa', '/dofawa', false, false],
-      ['Jyfus', undefined, false, true],
-      ['Dofus Abisal', undefined, true, false],
-      ['Dofus Marfil', '/dofus-marfil', false, false],
-    ])
-    expect(list[0]!.meta).toBe('1 misión - Nivel 6')
-    expect(list[1]!.meta).toBe('Nivel 20')
-    expect(list[2]!.meta).toBe('2 logros - 3 misiones - Nivel 180')
-  })
-
-  it('el anterior y el siguiente son los Dofus publicados de alrededor', () => {
+  it('el anterior y el siguiente son los Dofus publicados de alrededor, con sus cifras', () => {
     const view = dofusGuideView(data())
-    expect(view.previous?.name).toBe('Dofawa')
-    expect(view.next?.name).toBe('Dofus Marfil')
+    // El Jyfus, En preparación, se salta: no tiene página.
+    expect(view.previous).toMatchObject({
+      name: 'Dofawa',
+      href: '/dofawa',
+      meta: '1 misión - Nivel 6',
+    })
+    expect(view.next).toMatchObject({
+      name: 'Dofus Marfil',
+      href: '/dofus-marfil',
+      meta: '1 logro - 17 misiones - Nivel 180',
+    })
   })
 
   it('las migas: Guías de Dofus y, en el JSON-LD, la guía', () => {

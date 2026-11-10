@@ -318,7 +318,6 @@ export const dofusAchievementView: DofusGuideView = {
   ],
   video: null,
   checklist: null,
-  list: [],
   previous: null,
   next: null,
   breadcrumb: {

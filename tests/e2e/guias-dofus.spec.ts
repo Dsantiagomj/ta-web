@@ -148,17 +148,9 @@ test.describe('página de una guía de Dofus', () => {
     )
   })
 
-  test('la columna lista los Dofus: el actual marcado, el En preparación sin enlace', async ({
-    page,
-  }) => {
+  test('una sola columna, sin lista lateral, con el Dofus anterior', async ({ page }) => {
     await page.goto(url)
-    const side = page.getByRole('complementary')
-    await expect(side.locator('[aria-current="page"]')).toContainText(dofus.ocre.name)
-    await expect(side.locator('[aria-disabled="true"]')).toContainText(dofus.jyfus.name)
-    await expect(side.getByRole('link', { name: new RegExp(dofus.dofawa.name) })).toHaveAttribute(
-      'href',
-      `/${dofus.dofawa.slug}`,
-    )
+    await expect(page.getByRole('complementary')).toHaveCount(0)
     const nav = page.getByRole('navigation', { name: 'Guías de Dofus' })
     await expect(nav.getByRole('link', { name: /Dofus anterior/ })).toHaveAttribute(
       'href',

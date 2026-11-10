@@ -96,7 +96,7 @@ export interface QuestGuideDoc {
   quest?: QuestDoc | null
 }
 
-/** Un Dofus de la lista lateral, con sus cifras ya contadas. */
+/** Un Dofus de la lista de todos, con sus cifras ya contadas. */
 export interface DofusListDoc {
   id: number
   name: string
@@ -121,7 +121,7 @@ export interface DofusGuideData {
   guideByQuest: Map<number, { slug: string }>
   /** Los PNJ que dan las misiones, por su ID de DofusDB, con sus renders. */
   givers: Map<number, { renderRight?: MediaRef }>
-  /** Todos los Dofus, en el orden de Torre. */
+  /** Todos los Dofus, en el orden de Torre: el anterior y el siguiente salen de aquí. */
   list: DofusListDoc[]
   siteUrl: string
 }
@@ -178,7 +178,6 @@ export interface DofusGuideView {
   achievementCount: number
   video: { id: string; title: string; poster?: ImageAsset } | null
   checklist: { name: string; href: string } | null
-  list: DofusListItem[]
   previous: DofusListItem | null
   next: DofusListItem | null
   breadcrumb: BreadcrumbData
@@ -414,7 +413,6 @@ export function dofusGuideView(data: DofusGuideData): DofusGuideView {
     achievementCount: counts.achievements,
     video: videoId ? { id: videoId, title: guide.name, ...(poster && { poster }) } : null,
     checklist,
-    list,
     previous: at > 0 ? published[at - 1]! : null,
     next: at >= 0 && at < published.length - 1 ? published[at + 1]! : null,
     breadcrumb: buildBreadcrumb(

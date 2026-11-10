@@ -349,36 +349,12 @@
   font: 600 1.0625rem / 1.3 var(--font-body);
 }
 
-/* ---------- columna lateral y anterior / siguiente ---------- */
-.dg-page .sib--off .sib__in {
-  cursor: default;
-  border: 1px dashed var(--color-line);
+/* ---------- una sola columna centrada, como la de las guías (sin lista lateral) ---------- */
+.logro.dg-single {
+  max-width: 880px;
 }
-.dg-page .sib--off img {
-  filter: grayscale(1);
-  opacity: 0.45;
-}
-.dg-page .sib--off .sib__n {
-  color: var(--color-ink-2);
-}
-.dg-page .sib .ztag {
-  margin-top: 3px;
-}
-@media (min-width: 64rem) {
-  .dg-sidescroll {
-    max-height: calc(100dvh - 170px);
-    margin-right: -8px;
-    padding-right: 8px;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    scrollbar-width: thin;
-  }
-  .dg-sidescroll:focus-visible {
-    border-radius: 12px;
-    outline: 2px solid var(--color-ink);
-    outline-offset: 2px;
-  }
-}
+
+/* ---------- anterior / siguiente ---------- */
 .dg-egg img {
   width: 48px;
   height: 48px;
