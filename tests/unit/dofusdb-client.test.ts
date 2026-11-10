@@ -81,6 +81,36 @@ describe('cliente de DofusDB', () => {
     })
   })
 
+  describe('fetchWhere', () => {
+    it('pide la primera página de las filas que cumplen la consulta, con los valores codificados', async () => {
+      const { fetch, calls } = fakeFetch([{ total: 1, data: [{ id: 7298 }] }])
+      const client = createDofusDbClient({ fetch, sleep: noSleep })
+
+      const found = await client.fetchWhere('items', { 'name.es': 'Piel de rojiva' })
+
+      expect(found).toEqual([{ id: 7298 }])
+      expect(calls.map((call) => call.url)).toEqual([
+        'https://api.dofusdb.fr/items?$limit=50&name.es=Piel%20de%20rojiva',
+      ])
+    })
+
+    it('admite la búsqueda sin mayúsculas de Feathers y la selección de campos', async () => {
+      const { fetch, calls } = fakeFetch([{ total: 0, data: [] }])
+      const client = createDofusDbClient({ fetch, sleep: noSleep })
+
+      await client.fetchWhere(
+        'items',
+        { 'name.es[$regex]': '^Piel \\(x\\)$', 'name.es[$options]': 'i' },
+        { select: ['id', 'name'] },
+      )
+
+      expect(calls[0]!.url).toBe(
+        'https://api.dofusdb.fr/items?$limit=50&name.es[$regex]=%5EPiel%20%5C(x%5C)%24' +
+          '&name.es[$options]=i&$select[]=id&$select[]=name',
+      )
+    })
+  })
+
   describe('fetchByIds', () => {
     it('pide los IDs sin repetir, en grupos de 40', async () => {
       const ids = [...rows(1, 90).map((row) => row.id), 1, 2]

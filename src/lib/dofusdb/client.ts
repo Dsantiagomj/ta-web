@@ -24,6 +24,15 @@ export interface DofusDbClient {
   fetchAll<T>(collection: string, options?: FetchAllOptions): Promise<T[]>
   /** Las filas con esos IDs; las que no existen simplemente no vuelven. */
   fetchByIds<T>(collection: string, ids: number[]): Promise<T[]>
+  /**
+   * La primera página (50 filas) de las que cumplen la consulta de Feathers, como
+   * { 'name.es': 'Pepita' }. Para buscar, no para recorrer una colección.
+   */
+  fetchWhere<T>(
+    collection: string,
+    query: Record<string, string | number>,
+    options?: FetchAllOptions,
+  ): Promise<T[]>
 }
 
 interface Page<T> {
@@ -138,6 +147,18 @@ export function createDofusDbClient(options: DofusDbClientOptions = {}): DofusDb
         if (page.data.length === 0 || skip + PAGE_SIZE >= page.total) return rows
         await sleep(DELAY_MS)
       }
+    },
+
+    async fetchWhere<T>(
+      collection: string,
+      query: Record<string, string | number>,
+      options: FetchAllOptions = {},
+    ) {
+      const where = Object.entries(query)
+        .map(([key, value]) => `&${key}=${encodeURIComponent(String(value))}`)
+        .join('')
+      const select = (options.select ?? []).map((field) => `&$select[]=${field}`).join('')
+      return (await get<T>(`${collection}?$limit=${PAGE_SIZE}${where}${select}`)).data
     },
 
     async fetchByIds<T>(collection: string, ids: number[]) {
