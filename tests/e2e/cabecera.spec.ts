@@ -545,12 +545,23 @@ test.describe('volver arriba', () => {
     const up = page.getByRole('link', { name: 'Volver arriba' })
     await up.evaluate((link) => link.scrollIntoView({ block: 'center', behavior: 'instant' }))
     await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(500)
+    await up.focus()
+    // Se graba cuando el scroll ya no se mueve: el foco y el anclaje del scroll (iconos que
+    // cargan arriba) pueden moverlo un poco antes de pulsar, y eso no es la subida.
+    await expect
+      .poll(() =>
+        page.evaluate(async () => {
+          const before = scrollY
+          await new Promise((resolve) => setTimeout(resolve, 150))
+          return scrollY === before
+        }),
+      )
+      .toBe(true)
     await page.evaluate(() => {
       const w = window as unknown as { positions: number[] }
       w.positions = []
       addEventListener('scroll', () => w.positions.push(scrollY))
     })
-    await up.focus()
     return up
   }
 
