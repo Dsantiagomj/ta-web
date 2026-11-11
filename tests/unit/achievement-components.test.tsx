@@ -2,7 +2,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 
 import {
-  AchievementGroupList,
+  AchievementCountsFor,
   AchievementHeader,
   AchievementNav,
   AchievementQuests,
@@ -112,22 +112,10 @@ const items: NonNullable<AchievementPageView['group']>['items'] = [
   { name: 'La gran biblioteca', current: false, disabled: true, quests: 4 },
 ]
 
-describe('AchievementGroupList', () => {
-  it('el actual con aria-current; uno en preparación, apagado y con su etiqueta', () => {
-    const markup = html(<AchievementGroupList name="Astrub" items={items} countsFor={[]} />)
-    expect(markup).toContain('Metalogro Astrub')
-    expect(markup).toContain('aria-current="page"')
-    expect(markup).toMatch(
-      /aria-disabled="true"[^>]*>[\s\S]*La gran biblioteca[\s\S]*En preparación/,
-    )
-    expect(markup.match(/<a /g)).toHaveLength(1)
-  })
-
-  it('cuenta para: los logros del juego que lo piden', () => {
+describe('AchievementCountsFor', () => {
+  it('cuenta para: los logros del juego que lo piden, sin la lista del metalogro', () => {
     const markup = html(
-      <AchievementGroupList
-        name="Astrub"
-        items={items}
+      <AchievementCountsFor
         countsFor={[{ name: 'Periplo astrubiense', points: 20, achievements: 6 }]}
       />,
     )
@@ -135,6 +123,12 @@ describe('AchievementGroupList', () => {
     expect(markup).toContain('Periplo astrubiense')
     expect(markup).toContain('Pide 6 logros.')
     expect(markup).toContain('<b>20</b> puntos')
+    expect(markup).not.toContain('<aside')
+    expect(markup).not.toContain('Metalogro')
+  })
+
+  it('sin metalogros que lo pidan, no pinta nada', () => {
+    expect(html(<AchievementCountsFor countsFor={[]} />)).toBe('')
   })
 })
 

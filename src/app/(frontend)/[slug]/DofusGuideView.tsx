@@ -27,7 +27,7 @@ export function DofusGuideView({ data, preview }: { data: DofusGuideData; previe
   return (
     <div className="dg-page">
       {preview && <PreviewBar slug={data.guide.slug} />}
-      <main id="contenido" className="logro dg-page dg-single">
+      <main id="contenido" className="logro dg-page">
         <article className="logro__main">
           <Breadcrumb {...view.breadcrumb} />
           <DofusHeader view={view} />

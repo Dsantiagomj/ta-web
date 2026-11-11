@@ -1,7 +1,7 @@
 /*
- * La página del logro (DESIGN.md, Achievement page): la columna de lectura de la guía con
- * una columna lateral desde 1024px, la cabecera de la guía con el icono del logro, las
- * tarjetas de las misiones, el metalogro y el anterior y el siguiente. Las piezas de la
+ * La página del logro (DESIGN.md, Achievement page): una sola columna de lectura centrada,
+ * la cabecera de la guía con el icono del logro, las tarjetas de las misiones, «Cuenta para»
+ * y el anterior y el siguiente. Las piezas de la
  * guía (columnas, filas, huecos, bolsa, tarjeta de siguiente) vienen de game.css.
  */
 
@@ -10,7 +10,7 @@
 .logro {
   --gutter: 16px;
   box-sizing: content-box;
-  max-width: 1200px;
+  max-width: 880px;
   margin-inline: auto;
   padding: 20px var(--gutter) 64px;
   font-size: 1rem;
@@ -30,34 +30,9 @@
   }
 }
 
-.logro__grid {
-  display: grid;
-  gap: 56px;
-}
-
 .logro__main {
   min-width: 0;
   container-type: inline-size;
-}
-
-@media (min-width: 64rem) {
-  .logro__grid {
-    grid-template-columns: minmax(0, 1fr) 300px;
-    column-gap: 56px;
-    align-items: start;
-  }
-
-  .lside {
-    position: sticky;
-    top: 88px;
-  }
-}
-
-@media (min-width: 80rem) {
-  .logro__grid {
-    grid-template-columns: minmax(0, 1fr) 340px;
-    column-gap: 72px;
-  }
 }
 
 .logro__prose {
@@ -296,85 +271,16 @@
   height: 58px;
 }
 
-/* ---------- columna: el metalogro y lo que cuenta ---------- */
+/* ---------- cuenta para: los logros del juego que piden este ---------- */
 
-.lside__box + .lside__box {
-  margin-top: 24px;
-  padding-top: 20px;
-  border-top: 1px solid var(--color-line);
+.lcuenta {
+  margin-top: 48px;
 }
 
-.lside__h {
+.lcuenta__h {
+  margin-bottom: 16px;
   color: var(--color-ink);
   font: 600 1.25rem / 1.2 var(--font-display);
-}
-
-.lside__h3 {
-  margin-bottom: 10px;
-  color: var(--color-ink);
-  font: 600 1.0625rem / 1.2 var(--font-display);
-}
-
-.sibs {
-  display: grid;
-  gap: 2px;
-  margin-top: 12px;
-}
-
-.sib__in {
-  display: grid;
-  grid-template-columns: 44px minmax(0, 1fr);
-  align-items: center;
-  gap: 12px;
-  min-height: 56px;
-  padding: 6px 12px 6px 6px;
-  border: 1px solid transparent;
-  border-radius: 12px;
-  color: var(--color-ink);
-  text-decoration: none;
-  transition: background-color var(--duration-fast) var(--ease-standard);
-}
-
-a.sib__in:focus-visible {
-  outline-offset: 0;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  a.sib__in:hover {
-    background: var(--color-raised);
-  }
-
-  a.sib__in:hover .sib__n {
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.2em;
-  }
-}
-
-.sib--current .sib__in {
-  background: var(--color-raised);
-  box-shadow: var(--shadow-glow);
-}
-
-.sib__txt {
-  display: grid;
-  justify-items: start;
-  min-width: 0;
-}
-
-.sib__n {
-  font: 600 0.9375rem / 1.25 var(--font-display);
-}
-
-.sib--current .sib__n {
-  font-weight: 700;
-}
-
-.sib__m {
-  color: var(--color-ink-2);
-  font-size: var(--text-xs);
-  line-height: 1.45;
-  font-variant-numeric: tabular-nums;
 }
 
 .metas {
@@ -430,16 +336,7 @@ a.sib__in:focus-visible {
   white-space: nowrap;
 }
 
-.sib--off .sib__in {
-  border-style: dashed;
-  border-color: var(--color-line);
-}
-
-.sib--off .sib__n {
-  color: var(--color-ink-2);
-}
-
-:is(.sib--off, .lnav__card--off) .well img,
+.lnav__card--off .well img,
 .lnav__card--off .lnav__icon img {
   opacity: 0.45;
   filter: grayscale(0.8);
@@ -813,10 +710,6 @@ a.sib__in:focus-visible {
 }
 
 /* ---------- una sola columna centrada, como la de las guías (sin lista lateral) ---------- */
-.logro.dg-single {
-  max-width: 880px;
-}
-
 /* ---------- anterior / siguiente ---------- */
 .dg-egg img {
   width: 48px;

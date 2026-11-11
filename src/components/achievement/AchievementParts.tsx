@@ -78,73 +78,15 @@ export function AchievementQuests({ quests }: { quests: QuestCard[] }) {
   )
 }
 
-function GroupItemInner({ item }: { item: GroupItem }) {
-  const meta = [s.quests(item.quests), ...(item.levels ? [item.levels] : [])].join(s.metaSeparator)
-  return (
-    <>
-      {item.icon ? <IconWell image={item.icon} /> : <IconWell icon="achievement" />}
-      <span className="sib__txt">
-        <span className="sib__n">{item.name}</span>
-        <span className="sib__m">{meta}</span>
-        {item.disabled && <PreparingTag />}
-      </span>
-    </>
-  )
-}
-
 /**
- * La columna del metalogro: sus logros en orden con el actual marcado, y los logros del
- * juego que piden este. Uno En preparación se ve apagado, sin enlace, y sigue en el orden
- * de lectura (aria-disabled).
+ * «Cuenta para»: los logros del juego que piden este, directamente o a través de otro. Va en
+ * la columna de lectura, después del cierre; sin ninguno no se pinta.
  */
-export function AchievementGroupList({
-  name,
-  items,
-  countsFor,
-}: {
-  name: string
-  items: GroupItem[]
-  countsFor: CountsFor[]
-}) {
+export function AchievementCountsFor({ countsFor }: { countsFor: CountsFor[] }) {
+  if (countsFor.length === 0) return null
   return (
-    <aside className="lside" aria-labelledby="logro-metalogro">
-      <section className="lside__box">
-        <h2 className="lside__h" id="logro-metalogro">
-          {s.group(name)}
-        </h2>
-        <ol className="sibs" role="list">
-          {items.map((item) => (
-            <li
-              key={item.name}
-              className={item.current ? 'sib sib--current' : item.disabled ? 'sib sib--off' : 'sib'}
-            >
-              {item.href ? (
-                <a className="sib__in" href={item.href}>
-                  <GroupItemInner item={item} />
-                </a>
-              ) : (
-                <div
-                  className="sib__in"
-                  {...(item.current
-                    ? { 'aria-current': 'page' as const }
-                    : { 'aria-disabled': true })}
-                >
-                  <GroupItemInner item={item} />
-                </div>
-              )}
-            </li>
-          ))}
-        </ol>
-      </section>
-      {countsFor.length > 0 && <CountsForList countsFor={countsFor} />}
-    </aside>
-  )
-}
-
-function CountsForList({ countsFor }: { countsFor: CountsFor[] }) {
-  return (
-    <section className="lside__box" aria-labelledby="logro-cuenta">
-      <h2 className="lside__h3" id="logro-cuenta">
+    <section className="lcuenta" aria-labelledby="logro-cuenta">
+      <h2 className="lcuenta__h" id="logro-cuenta">
         {s.countsFor}
       </h2>
       <ul className="metas" role="list">
