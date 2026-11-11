@@ -141,13 +141,15 @@ jobs:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
 
-      # Con reintentos, y sin depender de apt si Chromium arranca con lo que trae el runner.
+      # Sin apt si Chromium arranca con lo que trae el runner; con apt, reintentos y un tope.
       - name: Instalar Chromium
         if: steps.browsers.outputs.cache-hit != 'true'
+        timeout-minutes: 20
         run: scripts/ci/playwright-chromium.sh
 
       - name: Instalar las dependencias del sistema de Chromium
         if: steps.browsers.outputs.cache-hit == 'true'
+        timeout-minutes: 20
         run: scripts/ci/playwright-chromium.sh --cached
 
       - run: pnpm test:e2e
