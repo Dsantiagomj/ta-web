@@ -122,7 +122,7 @@ describe('gameItems', () => {
     const item = await payload.findByID({ collection: 'items', id: id!, depth: 0 })
     expect(item.image).toEqual(expect.any(Number))
 
-    // Por su nombre, igual: Pepita no tenía imagen ni icono, así que se queda como estaba.
+    // Por su nombre, igual: Pepita estaba sin imagen; con su iconId, findItem le pone el icono.
     await payload.update({
       collection: 'items',
       where: { dofusId: { equals: 914635 } },
