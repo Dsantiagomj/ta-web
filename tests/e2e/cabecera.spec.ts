@@ -596,6 +596,17 @@ test.describe('volver arriba', () => {
     await expect.poll(() => top('paso-2')).toBeLessThanOrEqual(200)
     expect(await top('paso-2')).toBeGreaterThanOrEqual(64)
 
+    // El desplazamiento al paso 2 es suave: el salto al 3 se pide cuando ya terminó; con
+    // el primero aún en marcha, Chromium puede quedarse con él.
+    await expect
+      .poll(() =>
+        page.evaluate(async () => {
+          const before = scrollY
+          await new Promise((resolve) => setTimeout(resolve, 150))
+          return scrollY === before
+        }),
+      )
+      .toBe(true)
     await page.evaluate(() => {
       location.hash = '#paso-3'
     })
