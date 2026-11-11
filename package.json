@@ -23,6 +23,7 @@
     "test:e2e:dev-gate": "playwright test --config playwright.dev-gate.config.ts",
     "test:smoke": "playwright test --grep @smoke",
     "test:lhci": "node scripts/lhci.ts",
+    "review:release": "node scripts/review-release.ts",
     "seed:e2e": "NODE_OPTIONS=--no-deprecation payload run scripts/seed-e2e.ts",
     "db:dev": "node scripts/db-dev.ts",
     "data:quests": "NODE_OPTIONS=--no-deprecation payload run scripts/refresh-quests.ts",
