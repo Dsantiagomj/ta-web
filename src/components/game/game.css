@@ -226,8 +226,8 @@
 
 /* Los objetos en columnas de al menos 15rem (tres en las 880px de la página, una en el
    móvil) y, debajo, las notas en las mismas columnas, más juntas: sin el hueco de 44px, y
-   el icono del combate en uno pequeño, en la cabecera de la guía y del logro
-   (QuestFacts). Va detrás de .qhead__facts ul. */
+   el icono del combate en uno pequeño. Lo usan la cabecera de la guía y del logro
+   (QuestFacts) y Necesitarás de las guías de Dofus. Va detrás de .qhead__facts ul. */
 ul.needs__items,
 ul.needs__notes {
   display: grid;

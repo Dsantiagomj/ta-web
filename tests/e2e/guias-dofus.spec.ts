@@ -2,6 +2,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
 
 import { MODES } from '../../src/lib/theme/theme.ts'
+import { expectNeedsColumns } from './needs-layout.ts'
 import { seedAchievement as logro } from './seed/achievements.ts'
 import { seedDofus as dofus } from './seed/dofus-guides.ts'
 import { seedGuide } from './seed/guides.ts'
@@ -120,10 +121,19 @@ test.describe('página de una guía de Dofus', () => {
     await page.goto(url)
     const needs = page.getByRole('region', { name: 'Necesitarás' })
     await expect(needs.getByText(dofus.ocre.needsNote)).toBeVisible()
-    await needs.getByRole('button', { name: `Copiar ${dofus.ocre.needsItem.name}` }).click()
-    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-      dofus.ocre.needsItem.name,
-    )
+    const [item] = dofus.ocre.needsItems
+    await needs.getByRole('button', { name: `Copiar ${item!.name}` }).click()
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(item!.name)
+  })
+
+  test('Necesitarás: los objetos en columnas y la nota de Torre después, aunque vaya en medio', async ({
+    page,
+  }) => {
+    await page.goto(url)
+    const needs = page.getByRole('region', { name: 'Necesitarás' })
+    await expect(needs.locator('.needs__items > li')).toHaveCount(dofus.ocre.needsItems.length)
+    await expect(needs.locator('.needs__notes')).toContainText(dofus.ocre.needsNote)
+    await expectNeedsColumns(page, needs)
   })
 
   test('el logro trae las misiones de su página de logro; la suelta lleva la nota de Torre', async ({
