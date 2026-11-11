@@ -165,20 +165,22 @@ function rowLevel(quests: (QuestDoc | null)[]): number | undefined {
 /**
  * Lo que hay que reunir para todas las misiones: los objetos y las notas con cantidad
  * («1 x Combate (solo).») de las guías, sumados. Una nota sin cantidad («Literalmente nada
- * xD.») es un comentario de esa guía y no entra en el total.
+ * xD.») es un comentario de esa guía y no entra en el total. Una nota que nombra un objeto
+ * del total («2 x Dragopavo pelirrojo.», cuando otra guía lo enlaza como objeto) se suma a
+ * ese objeto: se cruzan al final, así que da igual en qué guía venga cada uno.
  */
 function totalNeeds(guides: GuideRef[]): { items: Quantity<GameItem>[]; notes: NeedNote[] } {
-  const notes: NeedNote[] = []
+  const notes = new Map<string, NeedNote>()
   const items = new Map<number, Quantity<GameItem>>()
   for (const guide of guides) {
     const lines = (guide.needs?.notes ?? '').split('\n').map((line) => line.trim())
     for (const line of lines.filter(Boolean)) {
       const note = needNote(line)
       if (note.quantity == null) continue
-      const key = note.label.toLocaleLowerCase('es')
-      const same = notes.find((known) => known.label.toLocaleLowerCase('es') === key)
+      const key = needKey(note.label)
+      const same = notes.get(key)
       if (same) same.quantity! += note.quantity
-      else notes.push({ ...note })
+      else notes.set(key, { ...note })
     }
     for (const { item, quantity } of neededItems(guide.needs as LinkedNeeds | null)) {
       const known = items.get(item.id)
@@ -186,7 +188,24 @@ function totalNeeds(guides: GuideRef[]): { items: Quantity<GameItem>[]; notes: N
       else items.set(item.id, { item: gameItem(item), quantity })
     }
   }
-  return { items: [...items.values()], notes }
+  const itemByName = new Map([...items.values()].map((entry) => [needKey(entry.item.name), entry]))
+  const rest: NeedNote[] = []
+  for (const [key, note] of notes) {
+    const item = itemByName.get(key)
+    if (item) item.quantity += note.quantity!
+    else rest.push(note)
+  }
+  return { items: [...items.values()], notes: rest }
+}
+
+// Para casar una nota con otra o con un objeto: sin mayúsculas, tildes ni espacios de más.
+function needKey(label: string): string {
+  return label
+    .normalize('NFD')
+    .replace(/\p{Diacritic}/gu, '')
+    .replace(/\s+/gu, ' ')
+    .trim()
+    .toLocaleLowerCase('es')
 }
 
 function groupItem(doc: SiblingDoc, currentId: number): GroupItem {
