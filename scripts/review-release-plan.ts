@@ -3,7 +3,7 @@
 import path from 'node:path'
 
 export type GgaPatterns = { include: string[]; exclude: string[] }
-export type Batch = { files: string[]; chars: number; oversized: boolean }
+export type Batch = { files: string[]; chars: number }
 export type Outcome = 'passed' | 'failed' | 'errored'
 export type BatchResult = Batch & { batch: number; outcome: Outcome; output: string }
 
@@ -79,8 +79,9 @@ export function splitDiffByFile(diff: string): Map<string, string> {
 }
 
 /**
- * Junta los archivos en orden en tandas de como mucho `maxChars` caracteres de diff. Un
- * archivo que pasa del límite va solo en su tanda, marcada `oversized`: su diff se recorta.
+ * Junta los trozos en orden en tandas de como mucho `maxChars` caracteres de diff. Los
+ * archivos grandes ya llegan partidos (reviewPieces); un trozo que aun así pasa del límite
+ * (una sola línea enorme) va solo en su tanda.
  */
 export function planBatches(
   files: readonly { path: string; chars: number }[],
@@ -91,11 +92,11 @@ export function planBatches(
   for (const file of files) {
     if (file.chars > maxChars) {
       current = undefined
-      batches.push({ files: [file.path], chars: file.chars, oversized: true })
+      batches.push({ files: [file.path], chars: file.chars })
       continue
     }
     if (!current || current.chars + file.chars > maxChars) {
-      current = { files: [], chars: 0, oversized: false }
+      current = { files: [], chars: 0 }
       batches.push(current)
     }
     current.files.push(file.path)
@@ -104,14 +105,77 @@ export function planBatches(
   return batches
 }
 
-/** Recorta un diff a `maxChars` caracteres y deja una marca que lo dice. */
-export function truncateDiff(diff: string, maxChars: number): string {
-  if (diff.length <= maxChars) return diff
-  return (
-    `${diff.slice(0, maxChars)}\n\n` +
-    `[DIFF TRUNCATED: showing ${maxChars} of ${diff.length} characters. ` +
-    'Read the file in the worktree for the rest.]\n'
-  )
+/** Las líneas de un texto, cada una con su salto de línea. */
+const linesOf = (text: string) => text.match(/[^\n]*\n|[^\n]+$/g) ?? []
+
+/**
+ * Un hunk que no cabe en `budget`, por líneas. Cada continuación empieza con la línea @@
+ * del hunk y «(continued)»: el revisor sabe dónde está.
+ */
+function splitHunk(hunk: string, budget: number): string[] {
+  const [at = '', ...lines] = linesOf(hunk)
+  const continued = `${at.replace(/\n$/, '')} (continued)\n`
+  const pieces: string[] = []
+  let current = at
+  let fresh = true
+  for (const line of lines) {
+    if (!fresh && current.length + line.length > budget) {
+      pieces.push(current)
+      current = continued
+      fresh = true
+    }
+    current += line
+    fresh = false
+  }
+  pieces.push(current)
+  return pieces
+}
+
+/**
+ * El diff de un archivo en trozos de como mucho `maxChars` caracteres, sin perder nada: se
+ * parte por hunks y, si un hunk no cabe solo, por líneas. Cada trozo repite la cabecera del
+ * archivo (`diff --git`, `---`, `+++`). Revisar solo el archivo final no basta: lo borrado
+ * no está en el worktree.
+ */
+export function splitFileDiff(diff: string, maxChars: number): string[] {
+  if (diff.length <= maxChars) return [diff]
+  const start = diff.search(/^@@ /m)
+  const header = start > 0 ? diff.slice(0, start) : ''
+  const body = start > 0 ? diff.slice(start) : diff
+  const budget = Math.max(maxChars - header.length, 1)
+  const hunks = start >= 0 ? body.split(/^(?=@@ )/m).filter(Boolean) : [body]
+  const pieces = hunks.flatMap((hunk) => (hunk.length <= budget ? [hunk] : splitHunk(hunk, budget)))
+  const parts: string[] = []
+  let current = ''
+  for (const piece of pieces) {
+    if (current && current.length + piece.length > budget) {
+      parts.push(current)
+      current = ''
+    }
+    current += piece
+  }
+  if (current) parts.push(current)
+  return parts.map((part) => header + part)
+}
+
+/**
+ * Lo que va a las tandas: un trozo por archivo, o «parte i de n» por cada trozo de un
+ * archivo cuyo diff no cabe en una tanda.
+ */
+export function reviewPieces(
+  files: readonly string[],
+  chunks: ReadonlyMap<string, string>,
+  maxChars: number,
+): { label: string; diff: string }[] {
+  return files.flatMap((file) => {
+    const diff = chunks.get(file) ?? ''
+    const parts = splitFileDiff(diff, maxChars)
+    if (parts.length === 1) return [{ label: file, diff }]
+    return parts.map((part, index) => ({
+      label: `${file} (parte ${index + 1} de ${parts.length})`,
+      diff: part,
+    }))
+  })
 }
 
 /** El veredicto de la primera línea con texto: `STATUS: PASSED` o `STATUS: FAILED`, exacta. */
@@ -179,6 +243,9 @@ export function buildReviewPrompt(input: {
   return `You are reviewing a production release of this repository before it ships.
 The release is the diff ${input.range}. It is too big for one review, so it is split into
 batches; this is batch ${input.batch} of ${input.total}. Review only this batch's diff.
+A file whose diff is too big for one batch is split into parts by hunk ("parte i de n" in the
+list below); each part repeats the file header, and the other parts are reviewed in other
+batches.
 
 The current working directory is a checkout of exactly what will ship.
 You may use Read, Grep and Glob on it to understand context (callers, types, tests, other
@@ -239,11 +306,10 @@ export function renderReport(input: {
   const total = input.results.length
   const sections = input.results.map((result) => {
     const files = result.files.map((file) => `- \`${file}\``).join('\n')
-    const cut = result.oversized ? `\n\nDiff recortado: ${result.chars} caracteres en total.` : ''
     // Cuatro tildes: la respuesta del revisor puede traer bloques de código con tres.
     return `## Tanda ${result.batch} de ${total}: ${OUTCOME_LABEL[result.outcome]}
 
-${files}${cut}
+${files}
 
 ~~~~text
 ${result.output.trim()}
