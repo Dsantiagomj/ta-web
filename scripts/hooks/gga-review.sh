@@ -7,4 +7,9 @@ if ! command -v gga >/dev/null 2>&1; then
   exit 0
 fi
 
+# gga llama a `claude --print` sin modelo, así que usaría el modelo por defecto de Claude
+# Code, que puede ser uno caro. La revisión de cada commit va con Sonnet;
+# GGA_CLAUDE_MODEL lo cambia.
+export ANTHROPIC_MODEL="${GGA_CLAUDE_MODEL:-sonnet}"
+
 exec gga run
