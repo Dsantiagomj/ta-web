@@ -190,15 +190,15 @@ describe('parseReviewArgs', () => {
 })
 
 describe('releasePaths', () => {
-  it('el worktree y el informe van junto al repo, en <repo>-worktrees', () => {
-    expect(releasePaths('/código/ta-web', 'v0.1.1', 'abc1234')).toEqual({
-      worktree: '/código/ta-web-worktrees/revision-release',
+  it('el worktree y el informe van junto al repo, en <repo>-worktrees; el worktree es de esta ejecución', () => {
+    expect(releasePaths('/código/ta-web', 'v0.1.1', 'abc1234', '1700000000-42')).toEqual({
+      worktree: '/código/ta-web-worktrees/revision-release-1700000000-42',
       report: '/código/ta-web-worktrees/revision-release-v0.1.1..abc1234.md',
     })
   })
 
   it('una ref con barras o virgulillas no crea carpetas en el nombre del informe', () => {
-    expect(releasePaths('/r/ta-web', 'origin/main~3', 'abc1234').report).toBe(
+    expect(releasePaths('/r/ta-web', 'origin/main~3', 'abc1234', '1').report).toBe(
       '/r/ta-web-worktrees/revision-release-origin-main-3..abc1234.md',
     )
   })
