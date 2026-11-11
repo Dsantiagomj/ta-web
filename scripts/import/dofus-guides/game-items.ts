@@ -31,6 +31,29 @@ export function gameItems(
   const byDofusId = new Map<number, Promise<number | null>>()
   const byName = new Map<string, Promise<number | null>>()
 
+  type StoredItem = { id: number; name: string; iconId?: number | null; image?: unknown }
+
+  /**
+   * Un objeto que ya estaba sin imagen (el refresco de DofusDB solo trae las de lo que piden
+   * las misiones) recibe aquí su icono, una vez: el huevo y los objetos de las guías de Dofus
+   * no se quedan sin él. En seco no escribe.
+   */
+  async function withIcon(doc: StoredItem): Promise<number> {
+    if (doc.image || doc.iconId == null || options.dryRun) return doc.id
+    const image = await images.media('item', doc.iconId, doc.name)
+    if (image !== null) {
+      await payload.update({
+        collection: 'items',
+        id: doc.id,
+        data: { image },
+        depth: 0,
+        overrideAccess: true,
+      })
+      options.log?.(`Icono del objeto añadido: ${doc.name} (${doc.iconId})`)
+    }
+    return doc.id
+  }
+
   async function stored(dofusId: number): Promise<number | null> {
     const { docs } = await payload.find({
       collection: 'items',
@@ -39,7 +62,7 @@ export function gameItems(
       depth: 0,
       overrideAccess: true,
     })
-    return docs[0]?.id ?? null
+    return docs[0] ? withIcon(docs[0]) : null
   }
 
   /** Crea el objeto de DofusDB con su icono, o devuelve el que ya estaba. */
@@ -92,7 +115,7 @@ export function gameItems(
         depth: 0,
         overrideAccess: true,
       })
-      if (local.docs[0]) return local.docs[0].id
+      if (local.docs[0]) return withIcon(local.docs[0])
       const select = { select: ITEM_FIELDS }
       let rows = await options.client.fetchWhere<RawItem>('items', { 'name.es': key }, select)
       if (rows.length === 0) {

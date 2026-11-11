@@ -101,6 +101,39 @@ describe('gameItems', () => {
     ).toEqual([])
   })
 
+  it('un objeto que ya estaba sin imagen (lo creó el refresco) recibe su icono, una vez', async () => {
+    const { client } = fakeClient()
+    await payload.delete({ collection: 'items', where: { dofusId: { equals: 918043 } } })
+    await payload.create({
+      collection: 'items',
+      data: { dofusId: 918043, name: 'Dofus abisal', iconId: 923023 },
+    })
+
+    // En seco no escribe: el objeto sigue sin imagen.
+    await gameItems(payload, { client, fetchImage, dryRun: true }).ensureItem(918043)
+    const before = await payload.find({
+      collection: 'items',
+      where: { dofusId: { equals: 918043 } },
+    })
+    expect(before.docs[0]!.image).toBeFalsy()
+
+    const items = gameItems(payload, { client, fetchImage })
+    const id = await items.ensureItem(918043)
+    const item = await payload.findByID({ collection: 'items', id: id!, depth: 0 })
+    expect(item.image).toEqual(expect.any(Number))
+
+    // Por su nombre, igual: Pepita no tenía imagen ni icono, así que se queda como estaba.
+    await payload.update({
+      collection: 'items',
+      where: { dofusId: { equals: 914635 } },
+      data: { iconId: 914635 },
+    })
+    const pepita = await items.findItem('Pepita')
+    expect((await payload.findByID({ collection: 'items', id: pepita!, depth: 0 })).image).toEqual(
+      expect.any(Number),
+    )
+  })
+
   it('un ID que DofusDB no conoce no es un objeto', async () => {
     const { client } = fakeClient()
     expect(await gameItems(payload, { client, fetchImage }).ensureItem(999999)).toBeNull()
