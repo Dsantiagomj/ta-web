@@ -279,6 +279,20 @@ a.dcard:active {
   font-size: var(--text-xs);
   line-height: 1.4;
 }
+/* En preparación: la píldora de achievement.css, que el índice no carga (una hoja de
+   estilos menos que bloquea el primer pintado). */
+.dcard .ztag {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  margin-top: 4px;
+  padding: 0 8px;
+  border-radius: var(--radius-pill);
+  background: var(--color-raised);
+  color: var(--color-ink-2);
+  font: 600 0.6875rem / 1 var(--font-body);
+  white-space: nowrap;
+}
 .dcard--off {
   border: 1px dashed var(--color-line);
   color: var(--color-ink-2);
