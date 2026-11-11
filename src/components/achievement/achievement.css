@@ -379,6 +379,11 @@
     grid-template-columns: 80px minmax(0, 1fr);
     column-gap: 24px;
   }
+
+  /* Prerrequisitos y Recompensas de Torre, uno al lado del otro: son textos cortos. */
+  .dg-head .qhead__facts {
+    grid-template-columns: auto 1fr;
+  }
 }
 .dg-head__egg {
   background:

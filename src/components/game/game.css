@@ -202,21 +202,13 @@
 
 /* ---------- Prerrequisitos, Necesitarás y Recompensas ---------- */
 
+/* Una debajo de otra, a todo el ancho: Prerrequisitos, Necesitarás y Recompensas. */
 .qhead__facts {
   grid-area: facts;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 24px 48px;
   margin-top: 28px;
-}
-
-@media (min-width: 36rem) {
-  .qhead__facts {
-    grid-template-columns: auto 1fr;
-  }
-
-  .qhead__rewards {
-    grid-column: 1 / -1;
-  }
 }
 
 .qhead__facts :is(h2, h3) {
@@ -228,6 +220,57 @@
 .qhead__facts ul {
   display: grid;
   gap: 8px;
+}
+
+/* ---------- Necesitarás: objetos y notas ---------- */
+
+/* Los objetos en columnas de al menos 15rem (tres en las 880px de la página, una en el
+   móvil) y, debajo, las notas en las mismas columnas, más juntas: sin el hueco de 44px, y
+   el icono del combate en uno pequeño, en la cabecera de la guía y del logro
+   (QuestFacts). Va detrás de .qhead__facts ul. */
+ul.needs__items,
+ul.needs__notes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  gap: 8px 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+ul.needs__notes {
+  gap: 4px 24px;
+}
+
+.needs__items + .needs__notes {
+  margin-top: 12px;
+}
+
+/* «2 ×» en su columna y el nombre al lado: si no cabe, el nombre se parte debajo de sí
+   mismo en vez de bajar entero bajo la cantidad. Arriba y no por la línea base: la del
+   nombre (inline-block) es su última línea. */
+.needs__items > .row > span:last-child {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  column-gap: 0.3em;
+}
+
+.needs__notes > .row {
+  gap: 8px;
+  min-height: 28px;
+  line-height: 1.4;
+}
+
+.needs__notes .well {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+}
+
+.needs__notes .well img {
+  width: 22px;
+  height: 22px;
 }
 
 .qhead__facts .qhead__rew {

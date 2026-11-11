@@ -2,7 +2,9 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
 import { MODES } from '../../src/lib/theme/theme.ts'
+import { expectNeedsColumns } from './needs-layout.ts'
 import { seedAchievement as logro } from './seed/achievements.ts'
+import { seedGuide } from './seed/guides.ts'
 
 // La página pública de un logro (DESIGN.md, Achievement page), sobre el logro que siembra
 // scripts/seed-e2e.ts con las misiones de las guías de prueba.
@@ -35,6 +37,18 @@ test.describe('página de logro', () => {
     await expect(header.getByText('Combate (solo)')).toBeVisible()
     await expect(header.getByRole('heading', { name: 'Recompensas del logro' })).toBeVisible()
     await expect(header.getByText(`${logro.reward.xp} XP`)).toBeVisible()
+  })
+
+  test('Necesitarás en total: los objetos de las guías en columnas y las notas debajo', async ({
+    page,
+  }) => {
+    await page.goto(url)
+    const needs = page.locator('header.lhead').getByRole('region', { name: 'Necesitarás en total' })
+    for (const { name, quantity } of seedGuide.needsItems) {
+      await expect(needs).toContainText(`${quantity} × ${name}`)
+    }
+    await expect(needs.locator('.needs__notes')).toContainText('Combate (solo)')
+    await expectNeedsColumns(page, needs)
   })
 
   test('las misiones en orden: las de guía publicada abren la guía; la del borrador, no', async ({

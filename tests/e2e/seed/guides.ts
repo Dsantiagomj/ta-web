@@ -35,6 +35,11 @@ export const seedGuide = {
   },
   prerequisite: { title: 'Esto hace aguas', slug: 'esto-hace-aguas' },
   needsNote: '1 x Combate (solo).',
+  // Los objetos de Necesitarás, de los de la recompensa: dos, para ver sus columnas.
+  needsItems: [
+    { name: 'Intestino de araknáusea', quantity: 2 },
+    { name: 'Pelos de arakna enferma', quantity: 1 },
+  ],
   reward: { xp: 16380, xpMin: 9800, kamas: 390 },
   // Las recompensas como las escribe Torre. Con recompensas de DofusDB, la cabecera usa
   // las de DofusDB (rango de XP incluido); este texto solo sale sin ellas.
@@ -227,6 +232,11 @@ export async function seedGuides(payload: Payload): Promise<void> {
       [2491, 'Ojo de arakmutada'],
     ].map(([dofusId, name]) => item(payload, dofusId as number, name as string)),
   )
+  const needsItems = seedGuide.needsItems.map(({ name, quantity }) => {
+    const found = rewardIds.find((reward) => reward.name === name)
+    if (!found) throw new Error(`Falta el objeto de Necesitarás ${name}`)
+    return { item: found.id, quantity }
+  })
   const main = await quest(payload, {
     dofusId: 1976,
     name: seedGuide.title,
@@ -328,7 +338,7 @@ export async function seedGuides(payload: Payload): Promise<void> {
         summary: {
           prerequisites: `${seedGuide.prerequisite.title}.`,
           rewards: seedGuide.rewardsText,
-          needs: { items: [], notes: seedGuide.needsNote },
+          needs: { items: needsItems, notes: seedGuide.needsNote },
           startNpc: seedGuide.start.npc,
           startX: seedGuide.start.x,
           startY: seedGuide.start.y,
