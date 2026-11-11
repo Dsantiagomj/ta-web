@@ -9,7 +9,7 @@
 // RELEASE_REVIEW_TIMEOUT_MINUTES (20 por tanda), RELEASE_REVIEW_BATCH_CHARS (120000
 // caracteres de diff por tanda).
 import { execFileSync, spawn, type ChildProcess } from 'node:child_process'
-import { existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 
 import { mapWithConcurrency } from '../src/lib/concurrency.ts'
@@ -125,7 +125,7 @@ const changed = git([
   'diff',
   '--name-only',
   '-z',
-  '--diff-filter=ACMR',
+  '--diff-filter=ACMRD',
   `${since}...${sha}`,
 ])
   .split('\0')
@@ -145,7 +145,7 @@ const diffArgs = (paths: string[]) => [
   'core.quotePath=false',
   '--literal-pathspecs',
   ...DIFF_FLAGS,
-  '--diff-filter=ACMR',
+  '--diff-filter=ACMRD',
   `${since}...${sha}`,
   '--',
   ...paths,
@@ -176,18 +176,20 @@ if (args.dryRun) {
   process.exit(0)
 }
 
-const paths = releasePaths(repoRoot, since, shortSha)
+const paths = releasePaths(repoRoot, since, shortSha, `${Date.now()}-${process.pid}`)
 const running = new Set<ChildProcess>()
+// Solo se quita el worktree que creó esta ejecución, y solo con git: nunca se borra a mano
+// una carpeta que podría ser de otra revisión o tener trabajo.
+let created = false
 
 function removeWorktree() {
-  if (existsSync(paths.worktree)) {
-    try {
-      git(['worktree', 'remove', '--force', paths.worktree], repoRoot)
-    } catch {
-      rmSync(paths.worktree, { recursive: true, force: true })
-    }
+  if (!created) return
+  try {
+    git(['worktree', 'remove', '--force', paths.worktree], repoRoot)
+    created = false
+  } catch (error) {
+    console.error(`No pude quitar el worktree ${paths.worktree}: ${(error as Error).message}`)
   }
-  git(['worktree', 'prune'], repoRoot)
 }
 
 // Ctrl-C o un kill: se paran los revisores y se quita el worktree antes de salir.
@@ -282,8 +284,9 @@ let rules = ''
 let results: BatchResult[] = []
 try {
   mkdirSync(path.dirname(paths.worktree), { recursive: true })
-  removeWorktree()
+  if (existsSync(paths.worktree)) throw new Error(`${paths.worktree} ya existe; no la toco.`)
   git(['worktree', 'add', '--detach', paths.worktree, sha], repoRoot)
+  created = true
   rules = git(['show', `${sha}:AGENTS.md`])
   console.log(`Revisando ${batches.length} tandas con ${model}, ${jobs} a la vez…`)
   results = await mapWithConcurrency(batches, jobs, reviewBatch)

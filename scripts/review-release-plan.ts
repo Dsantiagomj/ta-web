@@ -154,13 +154,15 @@ export function parseReviewArgs(argv: readonly string[]): ReviewArgs {
 
 /**
  * El worktree de la revisión y el informe, fuera del repo: junto a los demás worktrees, en
- * `<padre>/<repo>-worktrees`. La ref de inicio va en el nombre sin barras ni símbolos.
+ * `<padre>/<repo>-worktrees`. La ref de inicio va en el nombre sin barras ni símbolos. El
+ * worktree lleva el id de la ejecución: dos revisiones a la vez no comparten carpeta y
+ * ninguna borra la de otra.
  */
-export function releasePaths(repoRoot: string, since: string, shortSha: string) {
+export function releasePaths(repoRoot: string, since: string, shortSha: string, runId: string) {
   const dir = path.join(path.dirname(repoRoot), `${path.basename(repoRoot)}-worktrees`)
   const safeSince = since.replace(/[^A-Za-z0-9._-]+/g, '-')
   return {
-    worktree: path.join(dir, 'revision-release'),
+    worktree: path.join(dir, `revision-release-${runId}`),
     report: path.join(dir, `revision-release-${safeSince}..${shortSha}.md`),
   }
 }
