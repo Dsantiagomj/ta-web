@@ -278,14 +278,41 @@ export const dofusCards: DofusCard[] = [
   },
 ]
 
-/** Necesitarás y un logro de una guía de Dofus, como los calcula dofusGuideView. */
+/** Una nota de Necesitarás de Torre: un párrafo de texto enriquecido. */
+const needNote = (text: string) =>
+  ({
+    root: {
+      type: 'root',
+      format: '',
+      indent: 0,
+      version: 1,
+      direction: 'ltr',
+      children: [{ type: 'paragraph', version: 1, children: [{ type: 'text', text, version: 1 }] }],
+    },
+  }) as unknown as Extract<DofusNeedRow, { kind: 'note' }>['text']
+
+type DofusNeedRow = NonNullable<DofusGuideView['needs']>['groups'][number]['rows'][number]
+
+/**
+ * Necesitarás y un logro de una guía de Dofus, como los calcula dofusGuideView. La nota que
+ * Torre escribió entre los objetos sale detrás de ellos.
+ */
 export const dofusNeeds: NonNullable<DofusGuideView['needs']> = {
   title: 'Necesitarás',
   groups: [
     {
       rows: [
         { kind: 'item', item: items.intestino, quantity: 3 },
+        { kind: 'note', text: needNote('Alineamiento 100 (Bonta o Brakmar).') },
         { kind: 'item', item: items.pelos, quantity: 1, note: '(o fabricarlo)' },
+        { kind: 'item', item: items.ojo, quantity: 5 },
+      ],
+    },
+    {
+      name: 'Mazmorras',
+      rows: [
+        { kind: 'note', text: needNote('1 x Mazmorra Rey Nidas.') },
+        { kind: 'note', text: needNote('1 x combates.') },
       ],
     },
   ],

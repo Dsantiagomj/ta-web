@@ -448,41 +448,14 @@
   font: 600 1rem / 1.3 var(--font-body);
 }
 
-/* ---------- Necesitarás, por grupos y en dos columnas donde caben ---------- */
-.dg-needs__cols {
-  columns: 1;
-  column-gap: 32px;
+/* ---------- Necesitarás, por grupos, uno debajo de otro ---------- */
+/* Las columnas de objetos y de notas (needs__items, needs__notes) vienen de game.css. */
+.dg-needs__g + .dg-needs__g {
+  margin-top: 24px;
 }
-@container (min-width: 600px) {
-  .dg-needs__cols {
-    columns: 2;
-  }
-}
-.dg-needs__g {
-  margin-bottom: 20px;
-  break-inside: avoid-column;
-}
-.dg-needs__g .dg-h3 {
-  break-after: avoid;
-}
-.dg-needs__l {
-  display: grid;
-  gap: 6px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.dg-needs__l > .row {
-  display: grid;
-  grid-template-columns: 44px minmax(0, 1fr);
-  align-items: center;
-  column-gap: 12px;
-  min-height: 44px;
-  break-inside: avoid;
-}
-.dg-needs__l > .row--plain {
-  grid-template-columns: minmax(0, 1fr);
-  min-height: 32px;
+/* La nota de Torre de un objeto («(o fabricarlo)»), bajo su nombre. */
+.dg-needs .needs__items .dg-muted {
+  grid-column: 2;
 }
 .dg-note :where(p) {
   margin: 0;

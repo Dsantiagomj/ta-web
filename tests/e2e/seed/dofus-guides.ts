@@ -44,7 +44,11 @@ export const seedDofus = {
     tag: 'Primordial',
     prerequisite: 'Nivel mínimo 40.',
     intro: 'Para obtener tu Dofus Ocre, necesitarás cumplir con el logro El fin de la eternidad.',
-    needsItem: { name: 'Pico de tofu', quantity: 3 },
+    // Dos objetos con la nota en medio, como los escribe Torre: la página pone las notas detrás.
+    needsItems: [
+      { name: 'Pico de tofu', quantity: 3 },
+      { name: 'Ojo de arakmutada', quantity: 1 },
+    ],
     needsNote: 'Piedras de alma de jefes de mazmorra y archimonstruos.',
     looseTitle: 'También algunas misiones random',
     looseNote: '(solo empezarla)',
@@ -75,8 +79,10 @@ async function findOne<T extends { id: number }>(
 export async function seedDofusGuides(payload: Payload): Promise<void> {
   const achievement = await findOne(payload, 'achievement-pages', 'slug', seedAchievement.slug)
   const loose = await findOne(payload, 'quest-guides', 'slug', seedGuide.slug)
-  const pico = await findOne(payload, 'items', 'name', seedDofus.ocre.needsItem.name)
-  if (!achievement || !loose || !pico) {
+  const needItems = await Promise.all(
+    seedDofus.ocre.needsItems.map(({ name }) => findOne(payload, 'items', 'name', name)),
+  )
+  if (!achievement || !loose || needItems.some((item) => !item)) {
     throw new Error('Faltan el logro, la guía o el objeto de prueba: siembra antes las guías')
   }
 
@@ -130,10 +136,15 @@ export async function seedDofusGuides(payload: Payload): Promise<void> {
             rows: [
               {
                 blockType: 'needItem' as const,
-                item: pico.id,
-                quantity: ocre.needsItem.quantity,
+                item: needItems[0]!.id,
+                quantity: ocre.needsItems[0]!.quantity,
               },
               { blockType: 'needNote' as const, text: paragraph(ocre.needsNote) },
+              {
+                blockType: 'needItem' as const,
+                item: needItems[1]!.id,
+                quantity: ocre.needsItems[1]!.quantity,
+              },
             ],
           },
         ],
