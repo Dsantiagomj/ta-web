@@ -49,7 +49,6 @@ export const achievementPageStrings = {
   questsHeading: 'Las misiones, en orden',
   questKicker: (position: number, level?: number) =>
     level ? `Misión ${position} - Nivel ${level}` : `Misión ${position}`,
-  group: (name: string) => `Metalogro ${name}`,
   countsFor: 'Cuenta para',
   countsForLine: (achievements: number) => `Pide ${achievements} logros.`,
   previous: 'Logro anterior',

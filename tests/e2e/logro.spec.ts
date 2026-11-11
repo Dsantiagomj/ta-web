@@ -61,25 +61,32 @@ test.describe('página de logro', () => {
     await expect(page).toHaveURL(/\/seis-pies-bajo-tierra$/)
   })
 
-  test('el metalogro: el actual marcado y el que está En preparación apagado, sin enlace', async ({
+  test('una sola columna: sin la lista lateral del metalogro; Cuenta para y el anterior y el siguiente en ella', async ({
     page,
   }) => {
     await page.goto(url)
-    const side = page.getByRole('complementary')
-    await expect(side.getByRole('heading', { name: `Metalogro ${logro.group.name}` })).toBeVisible()
-    await expect(side.locator('[aria-current="page"]')).toContainText(logro.name)
-    const off = side.locator('[aria-disabled="true"]')
-    await expect(off).toContainText(logro.next.name)
-    await expect(off).toContainText('En preparación')
-    await expect(side.getByRole('link', { name: new RegExp(logro.next.name) })).toHaveCount(0)
-    await expect(side.getByText(logro.countsFor.name)).toBeVisible()
+    await expect(page.getByRole('complementary')).toHaveCount(0)
+    await expect(page.getByRole('heading', { name: `Metalogro ${logro.group.name}` })).toHaveCount(
+      0,
+    )
 
-    const nav = page.getByRole('navigation', { name: `Logros de ${logro.group.name}` })
+    const article = page.locator('#contenido article')
+    await expect(article.getByRole('heading', { name: 'Cuenta para' })).toBeVisible()
+    await expect(article.getByText(logro.countsFor.name)).toBeVisible()
+
+    const nav = article.getByRole('navigation', { name: `Logros de ${logro.group.name}` })
     await expect(nav.getByRole('link', { name: new RegExp(logro.previous.name) })).toHaveAttribute(
       'href',
       `/${logro.previous.slug}`,
     )
-    await expect(nav.locator('[aria-disabled="true"]')).toContainText(logro.next.name)
+    const off = nav.locator('[aria-disabled="true"]')
+    await expect(off).toContainText(logro.next.name)
+    await expect(off).toContainText('En preparación')
+
+    // Centrada: el mismo margen a cada lado en el escritorio.
+    await page.setViewportSize({ width: 1440, height: 900 })
+    const box = (await article.boundingBox())!
+    expect(Math.abs(box.x - (1440 - box.x - box.width))).toBeLessThan(24)
   })
 
   test('un logro En preparación no tiene página', async ({ page }) => {

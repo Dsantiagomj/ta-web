@@ -1,5 +1,5 @@
 import {
-  AchievementGroupList,
+  AchievementCountsFor,
   AchievementHeader,
   AchievementNav,
   AchievementQuests,
@@ -15,8 +15,8 @@ import { PreviewBar } from './PreviewBar'
 
 /**
  * La página de un logro (DESIGN.md, Achievement page): las migas, la cabecera con el icono,
- * la entrada de Torre, las misiones en orden, el cierre y el logro anterior y el siguiente;
- * a un lado (debajo en el móvil) el metalogro y «Cuenta para». La única isla es la de la
+ * la entrada de Torre, las misiones en orden, el cierre, «Cuenta para» y el logro anterior y
+ * el siguiente, en una sola columna centrada. La única isla es la de la
  * guía, para la bolsa de recompensas; la de la vista previa, solo en draft mode.
  */
 export function AchievementView({
@@ -35,38 +35,30 @@ export function AchievementView({
     <div className="[--color-section:var(--color-sec-logros)]">
       {preview && <PreviewBar slug={data.page.slug} />}
       <main id="contenido" className="logro">
-        <div className="logro__grid">
-          <article className="logro__main">
-            <Breadcrumb {...view.breadcrumb} />
-            <AchievementHeader
-              title={view.title}
-              icon={view.icon}
-              meta={view.meta}
-              facts={view.facts}
-            />
-            {intro && (
-              <div className="logro__prose guide-body">
-                <GuideRichText content={intro} />
-              </div>
-            )}
-            <AchievementQuests quests={view.quests} />
-            {outro && (
-              <div className="logro__prose guide-body">
-                <GuideRichText content={outro} />
-              </div>
-            )}
-            {view.group && (
-              <AchievementNav group={view.group.name} previous={view.previous} next={view.next} />
-            )}
-          </article>
-          {view.group && (
-            <AchievementGroupList
-              name={view.group.name}
-              items={view.group.items}
-              countsFor={view.countsFor}
-            />
+        <article className="logro__main">
+          <Breadcrumb {...view.breadcrumb} />
+          <AchievementHeader
+            title={view.title}
+            icon={view.icon}
+            meta={view.meta}
+            facts={view.facts}
+          />
+          {intro && (
+            <div className="logro__prose guide-body">
+              <GuideRichText content={intro} />
+            </div>
           )}
-        </div>
+          <AchievementQuests quests={view.quests} />
+          {outro && (
+            <div className="logro__prose guide-body">
+              <GuideRichText content={outro} />
+            </div>
+          )}
+          <AchievementCountsFor countsFor={view.countsFor} />
+          {view.group && (
+            <AchievementNav group={view.group.name} previous={view.previous} next={view.next} />
+          )}
+        </article>
       </main>
       <PageEnhancements />
       {preview && <LivePreviewRefresh />}
