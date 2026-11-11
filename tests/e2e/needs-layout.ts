@@ -10,7 +10,7 @@ async function box(locator: Locator) {
   return found!
 }
 
-/** Comprueba Necesitarás a 1440px y a 390px; deja la página a 390px. */
+/** Comprueba Necesitarás a 1440px, 390px y 320px; deja la página a 320px. */
 export async function expectNeedsColumns(page: Page, needs: Locator) {
   const items = needs.locator('.needs__items > li')
   const notes = needs.locator('.needs__notes > li')
@@ -28,4 +28,17 @@ export async function expectNeedsColumns(page: Page, needs: Locator) {
   const [top, below] = [await box(items.nth(0)), await box(items.nth(1))]
   expect(below.y).toBeGreaterThanOrEqual(top.y + top.height)
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
+
+  // A 320px, el icono de copiar de cada objeto queda dentro de su fila: con un nombre que
+  // llena la columna, no empuja la página hacia un lado.
+  await page.setViewportSize({ width: 320, height: 640 })
+  const outside = await items.evaluateAll((rows) =>
+    rows.flatMap((row) => {
+      const icon = row.querySelector('.copyname__i')?.getBoundingClientRect()
+      return icon && icon.width > 0 && icon.right > row.getBoundingClientRect().right + 0.5
+        ? [row.textContent]
+        : []
+    }),
+  )
+  expect(outside).toEqual([])
 }

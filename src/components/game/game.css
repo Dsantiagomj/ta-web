@@ -256,6 +256,12 @@ ul.needs__notes {
   column-gap: 0.3em;
 }
 
+/* El icono de copiar va 5px a la derecha del nombre y mide 14px (.copyname__i): la fila le
+   guarda ese hueco para que un nombre que llena la columna no lo saque de la página. */
+.needs__items > .row {
+  padding-inline-end: 19px;
+}
+
 .needs__notes > .row {
   gap: 8px;
   min-height: 28px;
