@@ -9,28 +9,26 @@ import type { Payload } from 'payload'
 import { seedAchievement } from './achievements'
 import { seedGuide } from './guides'
 
-/** Un texto enriquecido de un párrafo, como lo guarda el editor del panel. */
-const paragraph = (text: string) => ({
+/** Un texto enriquecido de uno o más párrafos, como lo guarda el editor del panel. */
+const paragraph = (...texts: string[]) => ({
   root: {
     type: 'root',
     direction: null,
     format: '' as const,
     indent: 0,
     version: 1,
-    children: [
-      {
-        type: 'paragraph',
-        direction: null,
-        format: '',
-        indent: 0,
-        version: 1,
-        textFormat: 0,
-        textStyle: '',
-        children: [
-          { type: 'text', text, format: 0, detail: 0, mode: 'normal', style: '', version: 1 },
-        ],
-      },
-    ],
+    children: texts.map((text) => ({
+      type: 'paragraph',
+      direction: null,
+      format: '',
+      indent: 0,
+      version: 1,
+      textFormat: 0,
+      textStyle: '',
+      children: [
+        { type: 'text', text, format: 0, detail: 0, mode: 'normal', style: '', version: 1 },
+      ],
+    })),
   },
 })
 
@@ -50,6 +48,8 @@ export const seedDofus = {
       { name: 'Ojo de arakmutada', quantity: 1 },
     ],
     needsNote: 'Piedras de alma de jefes de mazmorra y archimonstruos.',
+    // La misma nota sigue en un segundo párrafo: los dos van uno debajo del otro.
+    needsNoteMore: 'También sirven las del mercadillo.',
     looseTitle: 'También algunas misiones random',
     looseNote: '(solo empezarla)',
     checklist: { name: 'Almas del Ocre', url: 'https://www.torrentearcano.com/lista-ocre' },
@@ -139,7 +139,10 @@ export async function seedDofusGuides(payload: Payload): Promise<void> {
                 item: needItems[0]!.id,
                 quantity: ocre.needsItems[0]!.quantity,
               },
-              { blockType: 'needNote' as const, text: paragraph(ocre.needsNote) },
+              {
+                blockType: 'needNote' as const,
+                text: paragraph(ocre.needsNote, ocre.needsNoteMore),
+              },
               {
                 blockType: 'needItem' as const,
                 item: needItems[1]!.id,

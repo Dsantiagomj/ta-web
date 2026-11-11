@@ -134,6 +134,11 @@ test.describe('página de una guía de Dofus', () => {
     await expect(needs.locator('.needs__items > li')).toHaveCount(dofus.ocre.needsItems.length)
     await expect(needs.locator('.needs__notes')).toContainText(dofus.ocre.needsNote)
     await expectNeedsColumns(page, needs)
+    // Una nota de dos párrafos los pone uno debajo del otro, no lado a lado.
+    const first = await needs.getByText(dofus.ocre.needsNote, { exact: true }).boundingBox()
+    const second = await needs.getByText(dofus.ocre.needsNoteMore, { exact: true }).boundingBox()
+    expect(second!.y).toBeGreaterThanOrEqual(first!.y + first!.height - 1)
+    expect(Math.abs(second!.x - first!.x)).toBeLessThan(2)
   })
 
   test('el logro trae las misiones de su página de logro; la suelta lleva la nota de Torre', async ({

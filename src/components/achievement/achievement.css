@@ -457,8 +457,16 @@
 .dg-needs .needs__items .dg-muted {
   grid-column: 2;
 }
+/* Una nota de Torre puede traer varios párrafos o una lista: van uno debajo del otro, no en
+   la fila flex de .row. */
+.needs__notes > .row.dg-note {
+  display: block;
+}
 .dg-note :where(p) {
   margin: 0;
+}
+.dg-note > * + * {
+  margin-top: 4px;
 }
 
 /* ---------- logros y misiones ---------- */
