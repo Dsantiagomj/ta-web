@@ -37,6 +37,10 @@ test.describe('índice de las guías de Dofus', () => {
     // Un Dofus En preparación se ve apagado y sin enlace.
     await expect(cards.nth(1).getByRole('link')).toHaveCount(0)
     await expect(cards.nth(1).locator('[aria-disabled="true"]')).toContainText('En preparación')
+    // La etiqueta es una píldora pequeña, no texto suelto del tamaño del nombre.
+    const tag = cards.nth(1).getByText('En preparación', { exact: true })
+    await expect(tag).toHaveCSS('height', '22px')
+    await expect(tag).toHaveCSS('font-size', '11px')
   })
 
   test('el filtro y la búsqueda dejan solo los que encajan y lo dicen', async ({ page }) => {
