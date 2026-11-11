@@ -19,12 +19,12 @@ import {
   parseReviewArgs,
   parseReviewStatus,
   planBatches,
+  reviewPieces,
   releasePaths,
   renderReport,
   selectReviewFiles,
   splitDiffByFile,
   summarize,
-  truncateDiff,
   type Batch,
   type BatchResult,
 } from './review-release-plan.ts'
@@ -156,8 +156,11 @@ for (const file of files) {
   if (!chunks.has(file)) chunks.set(file, git(diffArgs([file])))
 }
 
+// Un archivo cuyo diff no cabe en una tanda se parte por hunks: todo se revisa, nada se recorta.
+const pieces = reviewPieces(files, chunks, maxChars)
+const pieceDiff = new Map(pieces.map((piece) => [piece.label, piece.diff]))
 const batches = planBatches(
-  files.map((file) => ({ path: file, chars: chunks.get(file)?.length ?? 0 })),
+  pieces.map((piece) => ({ path: piece.label, chars: piece.diff.length })),
   maxChars,
 )
 
@@ -166,11 +169,11 @@ console.log(`Tandas: ${batches.length} (hasta ${kb(maxChars)} caracteres de diff
 
 if (args.dryRun) {
   batches.forEach((batch, index) => {
-    const cut = batch.oversized ? ', se recorta' : ''
     console.log(
-      `\nTanda ${index + 1}: ${batch.files.length} archivos, ${kb(batch.chars)} caracteres${cut}`,
+      `\nTanda ${index + 1}: ${batch.files.length} archivos, ${kb(batch.chars)} caracteres`,
     )
-    for (const file of batch.files) console.log(`  ${file} (${kb(chunks.get(file)?.length ?? 0)})`)
+    for (const label of batch.files)
+      console.log(`  ${label} (${kb(pieceDiff.get(label)?.length ?? 0)})`)
   })
   console.log(`\nSin --dry-run, cada tanda va a claude --model ${model}.`)
   process.exit(0)
@@ -247,7 +250,7 @@ function runClaude(
 
 async function reviewBatch(batch: Batch, index: number): Promise<BatchResult> {
   const number = index + 1
-  const diff = truncateDiff(batch.files.map((file) => chunks.get(file) ?? '').join(''), maxChars)
+  const diff = batch.files.map((label) => pieceDiff.get(label) ?? '').join('')
   const prompt = buildReviewPrompt({
     rules,
     range,

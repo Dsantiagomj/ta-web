@@ -10,9 +10,10 @@ import {
   releasePaths,
   renderReport,
   selectReviewFiles,
+  reviewPieces,
   splitDiffByFile,
+  splitFileDiff,
   summarize,
-  truncateDiff,
 } from '../../scripts/review-release-plan.ts'
 
 // `pnpm review:release`: la revisión con Fable de todo lo que entra en una release, por
@@ -110,23 +111,23 @@ describe('planBatches', () => {
       { path: 'e.ts', chars: 1 },
     ]
     expect(planBatches(files, 100)).toEqual([
-      { files: ['a.ts', 'b.ts'], chars: 90, oversized: false },
-      { files: ['c.ts'], chars: 30, oversized: false },
-      { files: ['d.ts'], chars: 100, oversized: false },
-      { files: ['e.ts'], chars: 1, oversized: false },
+      { files: ['a.ts', 'b.ts'], chars: 90 },
+      { files: ['c.ts'], chars: 30 },
+      { files: ['d.ts'], chars: 100 },
+      { files: ['e.ts'], chars: 1 },
     ])
   })
 
-  it('un archivo que pasa del límite va solo en su tanda, marcada como recortada', () => {
+  it('un trozo que aun así pasa del límite va solo en su tanda', () => {
     const files = [
       { path: 'a.ts', chars: 10 },
       { path: 'enorme.ts', chars: 500 },
       { path: 'b.ts', chars: 10 },
     ]
     expect(planBatches(files, 100)).toEqual([
-      { files: ['a.ts'], chars: 10, oversized: false },
-      { files: ['enorme.ts'], chars: 500, oversized: true },
-      { files: ['b.ts'], chars: 10, oversized: false },
+      { files: ['a.ts'], chars: 10 },
+      { files: ['enorme.ts'], chars: 500 },
+      { files: ['b.ts'], chars: 10 },
     ])
   })
 
@@ -135,16 +136,60 @@ describe('planBatches', () => {
   })
 })
 
-describe('truncateDiff', () => {
-  it('deja el diff que cabe tal cual', () => {
-    expect(truncateDiff('abc', 3)).toBe('abc')
+// Un diff de un archivo: la cabecera y tres hunks de 5 líneas.
+const HEADER = 'diff --git a/x.ts b/x.ts\nindex 1..2 100644\n--- a/x.ts\n+++ b/x.ts\n'
+const hunk = (n: number) => `@@ -${n},3 +${n},3 @@\n ctx${n}\n-old${n}\n+new${n}\n ctx${n}b\n`
+const FILE_DIFF = HEADER + hunk(1) + hunk(10) + hunk(20)
+
+/** Las líneas de cambio (+/-) de unos trozos, sin la cabecera ni las líneas @@. */
+const changes = (parts: string[]) =>
+  parts.flatMap((part) => part.split('\n').filter((line) => /^[-+](?![-+]{2} )/.test(line)))
+
+describe('splitFileDiff', () => {
+  it('un diff que cabe queda en un solo trozo, tal cual', () => {
+    expect(splitFileDiff(FILE_DIFF, FILE_DIFF.length)).toEqual([FILE_DIFF])
   })
 
-  it('recorta el que no cabe y lo dice', () => {
-    const cut = truncateDiff('a'.repeat(250), 100)
-    expect(cut.startsWith('a'.repeat(100))).toBe(true)
-    expect(cut).not.toContain('a'.repeat(101))
-    expect(cut).toMatch(/DIFF TRUNCATED: showing 100 of 250 characters/)
+  it('el que no cabe se parte por hunks; cada trozo repite la cabecera y cabe', () => {
+    const max = HEADER.length + hunk(1).length + hunk(10).length
+    const parts = splitFileDiff(FILE_DIFF, max)
+    expect(parts).toEqual([HEADER + hunk(1) + hunk(10), HEADER + hunk(20)])
+    for (const part of parts) expect(part.length).toBeLessThanOrEqual(max)
+  })
+
+  it('un hunk que no cabe solo se parte por líneas, sin perder ninguna', () => {
+    const big = `@@ -1,40 +1,40 @@\n${Array.from({ length: 40 }, (_, i) => `+linea ${i}\n`).join('')}`
+    const max = HEADER.length + 200
+    const parts = splitFileDiff(HEADER + big, max)
+    expect(parts.length).toBeGreaterThan(1)
+    for (const part of parts) {
+      expect(part.startsWith(HEADER)).toBe(true)
+      expect(part.length).toBeLessThanOrEqual(max)
+    }
+    expect(changes(parts)).toEqual(changes([big]))
+    // La continuación de un hunk lo dice en su línea @@.
+    expect(parts[1]).toMatch(/^@@ -1,40 \+1,40 @@ \(continued\)$/m)
+  })
+
+  it('ninguna línea del diff se pierde, quepa o no', () => {
+    for (const max of [120, 160, 400]) {
+      expect(changes(splitFileDiff(FILE_DIFF, max))).toEqual(changes([FILE_DIFF]))
+    }
+  })
+})
+
+describe('reviewPieces', () => {
+  it('cada archivo es un trozo; el que no cabe se parte en «parte i de n»', () => {
+    const chunks = new Map([
+      ['a.ts', 'diff a\n'],
+      ['x.ts', FILE_DIFF],
+    ])
+    const max = HEADER.length + hunk(1).length + hunk(10).length
+    expect(reviewPieces(['a.ts', 'x.ts'], chunks, max)).toEqual([
+      { label: 'a.ts', diff: 'diff a\n' },
+      { label: 'x.ts (parte 1 de 2)', diff: HEADER + hunk(1) + hunk(10) },
+      { label: 'x.ts (parte 2 de 2)', diff: HEADER + hunk(20) },
+    ])
   })
 })
 
@@ -221,6 +266,8 @@ describe('buildReviewPrompt', () => {
     expect(prompt).toContain('+const x: any = 1')
     expect(prompt).toMatch(/first line.*exactly `STATUS: PASSED` or `STATUS: FAILED`/)
     expect(prompt).toMatch(/Read, Grep and Glob/)
+    // Un archivo grande llega en partes; el resto se revisa en otras tandas.
+    expect(prompt).toMatch(/split into parts by hunk/)
   })
 })
 
@@ -230,7 +277,6 @@ describe('summarize y renderReport', () => {
       batch: 1,
       files: ['a.ts'],
       chars: 10,
-      oversized: false,
       outcome: 'passed' as const,
       output: 'STATUS: PASSED',
     },
@@ -238,7 +284,6 @@ describe('summarize y renderReport', () => {
       batch: 2,
       files: ['b.ts', 'c.ts'],
       chars: 20,
-      oversized: true,
       outcome: 'failed' as const,
       output: 'STATUS: FAILED\n- b.ts:1 alta: rompe el login',
     },
@@ -246,7 +291,6 @@ describe('summarize y renderReport', () => {
       batch: 3,
       files: ['d.ts'],
       chars: 5,
-      oversized: false,
       outcome: 'errored' as const,
       output: 'se agotó el tiempo',
     },
@@ -263,7 +307,6 @@ describe('summarize y renderReport', () => {
     expect(report).toContain('1 aprobadas, 1 con fallos, 1 con error')
     expect(report).toContain('## Tanda 2 de 3: con fallos')
     expect(report).toContain('- `b.ts`\n- `c.ts`')
-    expect(report).toContain('recortado')
     expect(report).toContain('- b.ts:1 alta: rompe el login')
     expect(report).toContain('## Tanda 3 de 3: error')
     expect(report).toContain('se agotó el tiempo')
