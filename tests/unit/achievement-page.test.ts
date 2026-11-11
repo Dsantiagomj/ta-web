@@ -106,6 +106,41 @@ describe('achievementPageView', () => {
     ])
   })
 
+  it('necesitarás en total: una nota que nombra un objeto del total se suma a ese objeto', () => {
+    // Una guía enlaza el objeto y otra lo escribe como nota: sale una vez, con todo sumado,
+    // venga antes la nota o el objeto, y aunque cambien las mayúsculas o las tildes.
+    const dragopavo = { id: 6, name: 'Dragopavo pelirrojo', image: media(6, 'dragopavo') }
+    const intestino = { id: 7, name: 'Intestino de araknáusea' }
+    const view = achievementPageView({
+      ...data(),
+      guides: [
+        {
+          questId: 2,
+          slug: 'esto-hace-aguas',
+          needs: {
+            notes: '2 x Dragopavo pelirrojo.\n1 x Combate (solo).\n3 x intestino de araknausea.',
+          },
+        },
+        {
+          questId: 3,
+          slug: 'seis-pies-bajo-tierra',
+          needs: {
+            items: [
+              { item: dragopavo, quantity: 1 },
+              { item: intestino, quantity: 1 },
+            ],
+          },
+        },
+        { questId: 4, slug: 'el-cazador-cazado', needs: { notes: '1 x  Dragopavo Pelirrojo ' } },
+      ],
+    })
+    expect(view.facts.needs.items.map(({ item, quantity }) => [item.name, quantity])).toEqual([
+      ['Dragopavo pelirrojo', 4],
+      ['Intestino de araknáusea', 4],
+    ])
+    expect(view.facts.needs.notes).toEqual([{ quantity: 1, label: 'Combate (solo)', combat: true }])
+  })
+
   it('recompensas del logro: XP de nivel 200, kamas y la bolsa', () => {
     expect(view.facts.rewards).toMatchObject({ xp: { max: 102_128 }, kamas: 1_105 })
     expect(view.facts.rewards.items.map(({ item }) => item.name)).toEqual(['Piel pachucha'])
