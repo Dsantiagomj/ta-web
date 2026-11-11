@@ -709,7 +709,6 @@
   font: 600 1.0625rem / 1.3 var(--font-body);
 }
 
-/* ---------- una sola columna centrada, como la de las guías (sin lista lateral) ---------- */
 /* ---------- anterior / siguiente ---------- */
 .dg-egg img {
   width: 48px;
