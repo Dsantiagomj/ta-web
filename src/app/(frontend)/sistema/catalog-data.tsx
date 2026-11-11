@@ -116,9 +116,17 @@ export const header: QuestHeaderData = {
     coordinates: { x: 7, y: -19 },
   },
   prerequisites: [{ label: 'Esto hace aguas', href: '#esto-hace-aguas', quest: true }],
+  // Varios objetos, para ver sus columnas, y las notas debajo.
   needs: {
-    items: [{ item: items.ojo, quantity: 3 }],
-    notes: [{ quantity: 1, label: 'Combate (solo)', combat: true }],
+    items: [
+      { item: items.ojo, quantity: 3 },
+      { item: items.intestino, quantity: 2 },
+      { item: items.pelos, quantity: 10 },
+    ],
+    notes: [
+      { quantity: 1, label: 'Combate (solo)', combat: true },
+      { quantity: 1, label: 'Mazmorra Guarida del Maxilubo', combat: false },
+    ],
   },
   rewards: {
     xp: { min: 9800, max: 16380 },

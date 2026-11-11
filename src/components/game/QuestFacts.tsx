@@ -50,10 +50,11 @@ function Amount({ value }: { value: number }) {
 }
 
 /**
- * Prerrequisitos, Necesitarás y Recompensas con los iconos del juego en sus huecos
- * (DESIGN.md, Quest header). Una columna sin filas no se pinta; sin ninguna, nada. La
- * página del logro cambia los títulos («Necesitarás en total», «Recompensas del logro»).
- * Cada objeto de Necesitarás copia su nombre; las notas y la bolsa no copian nada.
+ * Prerrequisitos, Necesitarás y Recompensas, uno debajo de otro, con los iconos del juego
+ * en sus huecos (DESIGN.md, Quest header). Una parte sin filas no se pinta; sin ninguna,
+ * nada. La página del logro cambia los títulos («Necesitarás en total», «Recompensas del
+ * logro»). Necesitarás va en dos listas: los objetos, que copian su nombre, y debajo las
+ * notas, más juntas; las notas y la bolsa no copian nada.
  */
 export function QuestFacts({
   facts,
@@ -91,25 +92,31 @@ export function QuestFacts({
       {hasNeeds && (
         <section aria-labelledby={`${id}-nec`}>
           <Sub id={`${id}-nec`}>{labels.needs ?? s.needs}</Sub>
-          <ul role="list">
-            {needs.items.map(({ item, quantity }) => (
-              <li key={item.name} className="row copyhost">
-                <IconWell image={item.icon} />
-                <span>
-                  <b>{s.quantity(quantity)}</b> <CopyName name={item.name} />
-                </span>
-              </li>
-            ))}
-            {needs.notes.map((note) => (
-              <li key={note.label} className="row">
-                {note.combat && <IconWell icon="combat" />}
-                <span>
-                  {note.quantity != null && <b>{s.quantity(note.quantity)} </b>}
-                  {note.label}
-                </span>
-              </li>
-            ))}
-          </ul>
+          {needs.items.length > 0 && (
+            <ul role="list" className="needs__items">
+              {needs.items.map(({ item, quantity }) => (
+                <li key={item.name} className="row copyhost">
+                  <IconWell image={item.icon} />
+                  <span>
+                    <b>{s.quantity(quantity)}</b> <CopyName name={item.name} />
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+          {needs.notes.length > 0 && (
+            <ul role="list" className="needs__notes">
+              {needs.notes.map((note) => (
+                <li key={note.label} className="row">
+                  {note.combat && <IconWell icon="combat" />}
+                  <span>
+                    {note.quantity != null && <b>{s.quantity(note.quantity)} </b>}
+                    {note.label}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
         </section>
       )}
       {hasRewards && (

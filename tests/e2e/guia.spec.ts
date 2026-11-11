@@ -2,6 +2,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
 
 import { MODES } from '../../src/lib/theme/theme.ts'
+import { expectNeedsColumns } from './needs-layout.ts'
 import { draftGuide, E2E_PANEL_USER, seedGuide } from './seed/guides.ts'
 
 // La página pública de una guía de misión (DESIGN.md, Quest guide), sobre las guías que
@@ -74,6 +75,26 @@ test.describe('página de guía', () => {
     for (const icon of ['mision', 'combate', 'xp', 'kamas', 'bolsa']) {
       await expect(header.locator(`img[src="/img/game/${icon}.webp"]`)).toHaveCount(1)
     }
+  })
+
+  test('Prerrequisitos encima de Necesitarás; sus objetos en columnas y la nota debajo', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto(url)
+    const header = page.locator('header.qhead')
+    const prerequisites = (await header
+      .getByRole('region', { name: 'Prerrequisitos' })
+      .boundingBox())!
+    const needs = header.getByRole('region', { name: 'Necesitarás' })
+    expect((await needs.boundingBox())!.y).toBeGreaterThanOrEqual(
+      prerequisites.y + prerequisites.height,
+    )
+    for (const { name, quantity } of seedGuide.needsItems) {
+      await expect(needs.getByRole('button', { name: `Copiar ${name}` })).toBeVisible()
+      await expect(needs).toContainText(`${quantity} × ${name}`)
+    }
+    await expectNeedsColumns(page, needs)
   })
 
   test('en el móvil, el PNJ mira a la izquierda junto al título, solo con su nombre', async ({

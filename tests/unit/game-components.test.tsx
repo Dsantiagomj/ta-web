@@ -277,6 +277,43 @@ describe('QuestHeader', () => {
     expect(text(markup)).toContain('10 × Pluma de Kwak de viento')
   })
 
+  it('Necesitarás: primero la lista de objetos y después, aparte, la de notas', () => {
+    const needs = {
+      ...data,
+      needs: {
+        items: [
+          { item: { name: 'Pluma de Kwak de viento', icon }, quantity: 10 },
+          { item: pico, quantity: 2 },
+        ],
+        notes: [
+          { quantity: 1, label: 'Combate (solo)', combat: true },
+          { quantity: 1, label: 'Mazmorra Guarida del Maxilubo', combat: false },
+        ],
+      },
+    }
+    const markup = html(<QuestHeader title="x" data={needs} />)
+    const section = markup.slice(
+      markup.indexOf('>Necesitarás</h2>'),
+      markup.indexOf('</section>', markup.indexOf('>Necesitarás</h2>')),
+    )
+    const items = section.indexOf('<ul role="list" class="needs__items">')
+    const notes = section.indexOf('<ul role="list" class="needs__notes">')
+    expect(items).toBeGreaterThan(-1)
+    expect(notes).toBeGreaterThan(items)
+    // Cada lista solo lleva lo suyo: los objetos copian, las notas no.
+    expect(section.slice(items, notes).match(/class="row copyhost"/g)).toHaveLength(2)
+    expect(section.slice(notes).match(/<li /g)).toHaveLength(2)
+    expect(section.slice(notes)).not.toContain('data-copy')
+    expect(text(section.slice(notes))).toContain('1 × Mazmorra Guarida del Maxilubo')
+  })
+
+  it('Necesitarás sin notas no pinta su lista; sin objetos, tampoco la de objetos', () => {
+    const onlyItems = { ...data, needs: { items: [{ item: pico, quantity: 1 }], notes: [] } }
+    expect(html(<QuestHeader title="x" data={onlyItems} />)).not.toContain('needs__notes')
+    expect(html(<QuestHeader title="x" data={data} />)).not.toContain('needs__items')
+    expect(html(<QuestHeader title="x" data={data} />)).toContain('needs__notes')
+  })
+
   it('los objetos de la recompensa van en la bolsa: un botón que abre su lista', () => {
     const markup = html(<QuestHeader title="x" data={data} />)
     const button = markup.match(/<button [^>]*class="bag__btn"[^>]*>/)?.[0] ?? ''
