@@ -50,8 +50,9 @@ function Amount({ value }: { value: number }) {
 }
 
 /**
- * Prerrequisitos, Necesitarás y Recompensas, uno debajo de otro, con los iconos del juego
- * en sus huecos (DESIGN.md, Quest header). Una parte sin filas no se pinta; sin ninguna,
+ * Prerrequisitos, Necesitarás y Recompensas en una banda (.facts) que mide su columna:
+ * una debajo de otra en el móvil; con sitio, las dos primeras lado a lado y Recompensas
+ * debajo. Con los iconos del juego en sus huecos (DESIGN.md, Quest header). Una parte sin filas no se pinta; sin ninguna,
  * nada. La página del logro cambia los títulos («Necesitarás en total», «Recompensas del
  * logro»). Necesitarás va en dos listas: los objetos, que copian su nombre, y debajo las
  * notas, más juntas; las notas y la bolsa no copian nada.
@@ -76,83 +77,85 @@ export function QuestFacts({
 
   return (
     <div className="qhead__facts">
-      {prerequisites.length > 0 && (
-        <section aria-labelledby={`${id}-pre`}>
-          <Sub id={`${id}-pre`}>{s.prerequisites}</Sub>
-          <ul role="list">
-            {prerequisites.map((line) => (
-              <li key={line.label} className="row">
-                {line.quest && <IconWell icon="quest" />}
-                {line.href ? <a href={line.href}>{line.label}</a> : <span>{line.label}</span>}
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-      {hasNeeds && (
-        <section aria-labelledby={`${id}-nec`}>
-          <Sub id={`${id}-nec`}>{labels.needs ?? s.needs}</Sub>
-          {needs.items.length > 0 && (
-            <ul role="list" className="needs__items">
-              {needs.items.map(({ item, quantity }) => (
-                <li key={item.name} className="row copyhost">
-                  <IconWell image={item.icon} />
-                  <span>
-                    <b>{s.quantity(quantity)}</b> <CopyName name={item.name} />
-                  </span>
+      <div className="facts">
+        {prerequisites.length > 0 && (
+          <section aria-labelledby={`${id}-pre`}>
+            <Sub id={`${id}-pre`}>{s.prerequisites}</Sub>
+            <ul role="list">
+              {prerequisites.map((line) => (
+                <li key={line.label} className="row">
+                  {line.quest && <IconWell icon="quest" />}
+                  {line.href ? <a href={line.href}>{line.label}</a> : <span>{line.label}</span>}
                 </li>
               ))}
             </ul>
-          )}
-          {needs.notes.length > 0 && (
-            <ul role="list" className="needs__notes">
-              {needs.notes.map((note) => (
-                <li key={note.label} className="row">
-                  {note.combat && <IconWell icon="combat" />}
+          </section>
+        )}
+        {hasNeeds && (
+          <section aria-labelledby={`${id}-nec`}>
+            <Sub id={`${id}-nec`}>{labels.needs ?? s.needs}</Sub>
+            {needs.items.length > 0 && (
+              <ul role="list" className="needs__items">
+                {needs.items.map(({ item, quantity }) => (
+                  <li key={item.name} className="row copyhost">
+                    <IconWell image={item.icon} />
+                    <span>
+                      <b>{s.quantity(quantity)}</b> <CopyName name={item.name} />
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {needs.notes.length > 0 && (
+              <ul role="list" className="needs__notes">
+                {needs.notes.map((note) => (
+                  <li key={note.label} className="row">
+                    {note.combat && <IconWell icon="combat" />}
+                    <span>
+                      {note.quantity != null && <b>{s.quantity(note.quantity)} </b>}
+                      {note.label}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+        )}
+        {hasRewards && (
+          <section aria-labelledby={`${id}-rec`} className="qhead__rewards">
+            <Sub id={`${id}-rec`}>{labels.rewards ?? s.rewards}</Sub>
+            <ul role="list" className="qhead__rew">
+              {xp && (
+                <li className="row">
+                  <IconWell icon="xp" />
                   <span>
-                    {note.quantity != null && <b>{s.quantity(note.quantity)} </b>}
-                    {note.label}
+                    {xp.min != null && (
+                      <>
+                        <Amount value={xp.min} /> {s.xpRangeJoin}{' '}
+                      </>
+                    )}
+                    <Amount value={xp.max} /> {s.xp}
                   </span>
+                </li>
+              )}
+              {rewards.kamas != null && (
+                <li className="row">
+                  <IconWell icon="kamas" />
+                  <span>
+                    <Amount value={rewards.kamas} /> {s.kamas}
+                  </span>
+                </li>
+              )}
+              {rewards.items.length > 0 && <RewardBag id={`${id}-bag`} items={rewards.items} />}
+              {rewards.notes.map((note) => (
+                <li key={note} className="row">
+                  <span>{note}</span>
                 </li>
               ))}
             </ul>
-          )}
-        </section>
-      )}
-      {hasRewards && (
-        <section aria-labelledby={`${id}-rec`} className="qhead__rewards">
-          <Sub id={`${id}-rec`}>{labels.rewards ?? s.rewards}</Sub>
-          <ul role="list" className="qhead__rew">
-            {xp && (
-              <li className="row">
-                <IconWell icon="xp" />
-                <span>
-                  {xp.min != null && (
-                    <>
-                      <Amount value={xp.min} /> {s.xpRangeJoin}{' '}
-                    </>
-                  )}
-                  <Amount value={xp.max} /> {s.xp}
-                </span>
-              </li>
-            )}
-            {rewards.kamas != null && (
-              <li className="row">
-                <IconWell icon="kamas" />
-                <span>
-                  <Amount value={rewards.kamas} /> {s.kamas}
-                </span>
-              </li>
-            )}
-            {rewards.items.length > 0 && <RewardBag id={`${id}-bag`} items={rewards.items} />}
-            {rewards.notes.map((note) => (
-              <li key={note} className="row">
-                <span>{note}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+          </section>
+        )}
+      </div>
     </div>
   )
 }

@@ -69,6 +69,11 @@ export const seedGuide = {
     alt: 'El personaje humanoide recibe un paquete en una biblioteca de madera, con una librería llena de libros y una escalera de madera.',
     caption: 'Hupe Esse, en la Biblioteca de Astrub.',
   },
+  // La segunda captura del paso 1: con la primera, una pareja en la rejilla del paso.
+  secondImage: {
+    file: 'public/img/sistema/seis-pies-combate.webp',
+    alt: 'Un combate por turnos en una sala de piedra con tuberías: el personaje y las anutrof frente a tres monstruos.',
+  },
   callout: 'Debes ganar esta lucha sin que se muera ninguna de ellas.',
   video: {
     url: 'https://www.youtube.com/watch?v=VaY3tyYTq4A',
@@ -312,6 +317,21 @@ export async function seedGuides(payload: Payload): Promise<void> {
       }),
   )
 
+  const secondImage = await findOrCreate(
+    () =>
+      payload.find({
+        collection: 'media',
+        where: { alt: { equals: seedGuide.secondImage.alt } },
+        limit: 1,
+      }),
+    () =>
+      payload.create({
+        collection: 'media',
+        data: { alt: seedGuide.secondImage.alt },
+        filePath: path.resolve(seedGuide.secondImage.file),
+      }),
+  )
+
   if (!(await guideExists(payload, seedGuide.prerequisite.slug))) {
     await payload.create({
       collection: 'quest-guides',
@@ -362,6 +382,7 @@ export async function seedGuides(payload: Payload): Promise<void> {
                 ),
               },
               { blockType: 'image', image: image.id, caption: seedGuide.image.caption },
+              { blockType: 'image', image: secondImage.id },
             ],
           },
           {

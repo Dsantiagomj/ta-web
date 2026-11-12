@@ -48,7 +48,8 @@ test.describe('página de logro', () => {
       await expect(needs).toContainText(`${quantity} × ${name}`)
     }
     await expect(needs.locator('.needs__notes')).toContainText('Combate (solo)')
-    await expectNeedsColumns(page, needs)
+    // En la banda de la cabecera, junto a Prerrequisitos: los objetos en una columna.
+    await expectNeedsColumns(page, needs, { desktopColumns: 1 })
   })
 
   test('las misiones en orden: las de guía publicada abren la guía; la del borrador, no', async ({

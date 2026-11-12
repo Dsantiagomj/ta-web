@@ -10,16 +10,28 @@ async function box(locator: Locator) {
   return found!
 }
 
-/** Comprueba Necesitarás a 1440px, 390px y 320px; deja la página a 320px. */
-export async function expectNeedsColumns(page: Page, needs: Locator) {
+/**
+ * Comprueba Necesitarás a 1440px, 390px y 320px; deja la página a 320px. En la banda de la
+ * cabecera de la guía, Necesitarás comparte la fila con Prerrequisitos: sus objetos van en
+ * una columna (desktopColumns: 1).
+ */
+export async function expectNeedsColumns(
+  page: Page,
+  needs: Locator,
+  { desktopColumns = 2 }: { desktopColumns?: 1 | 2 } = {},
+) {
   const items = needs.locator('.needs__items > li')
   const notes = needs.locator('.needs__notes > li')
 
   await page.setViewportSize({ width: 1440, height: 900 })
   await expect(items.nth(1)).toBeVisible()
   const [first, second] = [await box(items.nth(0)), await box(items.nth(1))]
-  expect(Math.abs(first.y - second.y)).toBeLessThan(1)
-  expect(second.x).toBeGreaterThan(first.x + first.width)
+  if (desktopColumns === 2) {
+    expect(Math.abs(first.y - second.y)).toBeLessThan(1)
+    expect(second.x).toBeGreaterThan(first.x + first.width)
+  } else {
+    expect(second.y).toBeGreaterThanOrEqual(first.y + first.height)
+  }
   // Las notas, después de todos los objetos.
   const lastItem = await box(items.last())
   expect((await box(notes.first())).y).toBeGreaterThanOrEqual(lastItem.y + lastItem.height)

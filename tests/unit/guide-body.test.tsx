@@ -3,7 +3,10 @@ import { describe, expect, it } from 'vitest'
 
 import { GuideBody, GuideSteps } from '@/components/game/GuideBody'
 import { GuideRichText } from '@/components/game/GuideRichText'
-import type { GuideStep, RichTextState } from '@/lib/guides/page'
+import { IMAGE_SIZES } from '@/components/ui/image-sizes'
+import type { GuideBlock, GuideStep, RichTextState } from '@/lib/guides/page'
+
+const escape = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
 type Node = Record<string, unknown>
 
@@ -242,6 +245,57 @@ describe('GuideSteps', () => {
     expect(markup).toMatch(/<h3 id="[^"]+" class="callout__title">¡Importante!<\/h3>/)
     expect(markup).toContain('class="torre"')
     expect(markup).toContain('Recomendaciones de Torre')
+  })
+
+  describe('las capturas de un paso', () => {
+    const shot = (key: string, priority = false): GuideBlock => ({
+      kind: 'image',
+      key,
+      image: {
+        src: `/api/media/file/${key}-800.webp`,
+        width: 800,
+        height: 500,
+        srcSet: [
+          { src: `/api/media/file/${key}-480.webp`, width: 480 },
+          { src: `/api/media/file/${key}-800.webp`, width: 800 },
+        ],
+      },
+      alt: key,
+      priority,
+    })
+    const prose = (key: string, value: string): GuideBlock => ({
+      kind: 'richText',
+      key,
+      content: root(paragraph(text(value))),
+    })
+
+    it('las seguidas van juntas en una rejilla, a media columna', () => {
+      const markup = html(
+        <GuideSteps
+          steps={[{ key: 'p', blocks: [prose('t', 'Habla con Luci.'), shot('a'), shot('b')] }]}
+        />,
+      )
+      expect(markup).toMatch(
+        /<p>Habla con Luci\.<\/p><div class="figs"><figure>.*a-800\.webp.*<\/figure><figure>.*b-800\.webp.*<\/figure><\/div>/,
+      )
+      expect(markup.match(new RegExp(`sizes="${escape(IMAGE_SIZES.half)}"`, 'g'))).toHaveLength(2)
+    })
+
+    it('el texto entre dos capturas las separa; una sola va también en su rejilla, debajo', () => {
+      const markup = html(
+        <GuideSteps
+          steps={[{ key: 'p', blocks: [shot('a'), prose('t', 'Luego ve al zaap.'), shot('b')] }]}
+        />,
+      )
+      expect(markup.match(/<div class="figs">/g)).toHaveLength(2)
+      expect(markup).toMatch(/<\/div><p>Luego ve al zaap\.<\/p><div class="figs">/)
+    })
+
+    it('fuera de los pasos, las capturas siguen a lo ancho de la columna', () => {
+      const markup = html(<GuideBody blocks={[shot('a'), shot('b')]} />)
+      expect(markup).not.toContain('class="figs"')
+      expect(markup).toContain(`sizes="${IMAGE_SIZES.prose}"`)
+    })
   })
 
   it('un título dentro del texto de un paso baja a h3, bajo el h2 «Pasos»', () => {

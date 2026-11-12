@@ -37,7 +37,7 @@ function Giver({ giver }: { giver: NonNullable<QuestHeaderData['giver']> }) {
       <picture>
         {giver.left && <Sources image={giver.left} media={PHONE} />}
         <Sources image={giver.right} />
-        {/* Decorativo: el nombre va debajo, como texto. */}
+        {/* Decorativo: el nombre va en la línea «Empieza con», como texto. */}
         <img
           src={giver.right.src}
           srcSet={srcSetValue(giver.right.srcSet)}
@@ -47,16 +47,25 @@ function Giver({ giver }: { giver: NonNullable<QuestHeaderData['giver']> }) {
           decoding="async"
         />
       </picture>
-      <figcaption>
-        <span className="sr-only">{s.giver}</span>
-        <strong className="giver__name">{giver.name}</strong>
-        {giver.coordinates && (
+    </figure>
+  )
+}
+
+/** «Empieza con **Hupe Esse** [7,-19]», bajo el subtítulo: el render va solo. */
+function Start({ giver }: { giver: NonNullable<QuestHeaderData['giver']> }) {
+  return (
+    <p className="qhead__start">
+      {s.giver}
+      <strong className="giver__name">{giver.name}</strong>
+      {giver.coordinates && (
+        <>
+          {' '}
           <span className="giver__pin">
             <CoordinatesChip {...giver.coordinates} />
           </span>
-        )}
-      </figcaption>
-    </figure>
+        </>
+      )}
+    </p>
   )
 }
 
@@ -80,8 +89,8 @@ function Subtitle({ meta }: { meta: QuestHeaderData['meta'] }) {
 }
 
 /**
- * La cabecera de la guía (DESIGN.md, Quest header): el PNJ que da la misión junto al
- * título, el subtítulo y las tres columnas con los iconos del juego en sus huecos. Lo que
+ * La cabecera de la guía (DESIGN.md, Quest header): el render del PNJ que da la misión
+ * junto al título, el subtítulo, «Empieza con» el PNJ y sus coordenadas, y las tres partes con los iconos del juego en sus huecos. Lo que
  * falta no se pinta: sin render no hay columna del PNJ, sin datos no hay columna.
  */
 export function QuestHeader({
@@ -100,6 +109,7 @@ export function QuestHeader({
     <header className="qhead" data-giver={giver ? '' : undefined}>
       <Heading className="qhead__title">{title}</Heading>
       <Subtitle meta={meta} />
+      {giver && <Start giver={giver} />}
       {giver && <Giver giver={giver} />}
       <QuestFacts facts={{ prerequisites, needs, rewards }} headingLevel={headingLevel} />
     </header>
