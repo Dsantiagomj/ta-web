@@ -9,9 +9,8 @@ import { GAME_ICONS, type GameIconName } from './game-icons'
 const ICON_PX = 34
 
 /**
- * El hueco de un icono del juego, como una casilla del inventario (DESIGN.md, Icon wells):
- * oscuro también en modo claro, para que el icono a todo color se lea. Sin icono, el hueco
- * queda vacío; nunca un sustituto.
+ * El hueco de un icono del juego, como una casilla del inventario (DESIGN.md, Icon wells),
+ * con el fondo del modo. Sin icono, el hueco queda vacío; nunca un sustituto.
  */
 export function IconWell({ icon, image }: { icon?: GameIconName; image?: ImageAsset }) {
   const file = icon && GAME_ICONS[icon]

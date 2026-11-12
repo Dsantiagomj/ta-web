@@ -412,8 +412,8 @@ ul.needs__notes {
   font-variant-numeric: tabular-nums;
 }
 
-/* El hueco de un icono a todo color, como una casilla del inventario: oscuro también en
-   modo claro (theme.css, --color-slot). El icono nunca se recolorea. */
+/* El hueco de un icono a todo color, como una casilla del inventario (theme.css,
+   --color-slot). El icono nunca se recolorea. */
 .well {
   display: grid;
   place-items: center;

@@ -154,7 +154,7 @@ test.describe('catálogo /sistema', () => {
     expect(height).toBeGreaterThanOrEqual(40)
   })
 
-  test('los huecos de los iconos siguen oscuros en modo claro', async ({ page }) => {
+  test('los huecos de los iconos son claros en modo claro', async ({ page }) => {
     await page.goto('/sistema')
     for (const theme of THEMES) {
       const section = page.locator(`#${theme}-light`)
@@ -169,8 +169,8 @@ test.describe('catálogo /sistema', () => {
         canvas.fillRect(0, 0, 1, 1)
         return [...canvas.getImageData(0, 0, 1, 1).data]
       })
-      // Oscuro: muy por debajo del fondo claro de la sección.
-      expect((r! + g! + b!) / 3).toBeLessThan(90)
+      // Claro, como el chip de coordenadas (DESIGN.md, Icon wells).
+      expect((r! + g! + b!) / 3).toBeGreaterThan(180)
     }
   })
 

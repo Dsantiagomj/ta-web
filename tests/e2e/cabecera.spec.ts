@@ -337,6 +337,24 @@ test.describe('cabecera', () => {
       expect(track).toEqual(await look('.spill'))
       expect(track.image).toBe('none')
     })
+
+    test(`los huecos de los iconos llevan el fondo del chip de coordenadas en Arcano ${mode}`, async ({
+      page,
+      context,
+      baseURL,
+    }) => {
+      await context.addCookies([{ name: 'ta-mode', value: mode, url: baseURL! }])
+      await open(page)
+      const fill = (selector: string) =>
+        page
+          .locator(selector)
+          .first()
+          .evaluate((el) => getComputedStyle(el).backgroundColor)
+      const chip = await fill('main .coord')
+      expect(await fill('main .well')).toBe(chip)
+      await page.getByRole('button', { name: 'Misiones', exact: true }).click()
+      expect(await fill('#menu-misiones .site-well')).toBe(chip)
+    })
   }
 })
 
