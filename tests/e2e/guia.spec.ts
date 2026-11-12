@@ -311,6 +311,32 @@ test.describe('página de guía', () => {
     })
   }
 
+  // Abierta en una ventana ancha y estrechada después (o un giro del móvil): la lista no
+  // puede quedarse con el desplazamiento de antes y salirse de la ventana.
+  test('la bolsa abierta sigue dentro de la ventana al cambiar su tamaño', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto(url)
+    const overflow = () =>
+      page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)
+    const bag = page.getByRole('button', { name: `${seedGuide.rewardItems.length} objetos` })
+    await bag.evaluate((node) => {
+      const row = node.closest('.qhead__rew') as HTMLElement
+      row.style.justifyContent = 'flex-end'
+    })
+    await bag.click()
+    const list = page.getByRole('list', { name: 'Objetos de recompensa' })
+    await expect(list).toBeVisible()
+    await settled(page)
+    await page.setViewportSize({ width: 640, height: 900 })
+    await settled(page)
+    expect(await overflow()).toBeLessThanOrEqual(0)
+    if (await list.isVisible()) {
+      const box = (await list.boundingBox())!
+      expect(box.x).toBeGreaterThanOrEqual(0)
+      expect(box.x + box.width).toBeLessThanOrEqual(640)
+    }
+  })
+
   test('la bolsa se maneja con el teclado: Enter abre, Esc cierra y Tab fuera cierra', async ({
     page,
   }) => {
