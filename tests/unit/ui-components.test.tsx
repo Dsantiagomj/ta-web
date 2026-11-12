@@ -96,8 +96,10 @@ describe('ProgressBar', () => {
     expect(markup).toContain('aria-valuemax="8"')
     expect(markup).toContain('aria-label="Etapas hechas"')
     expect(markup).toContain('38%')
-    // La barra se llena con transform, nunca con width.
-    expect(markup).toContain('transform:scaleX(0.375)')
+    // La barra se llena con transform en el CSS, nunca con width: el componente solo
+    // le pasa la proporción.
+    expect(markup).toContain('style="--ratio:0.375"')
+    expect(markup).not.toContain('transform:')
   })
 
   it('no pasa del 100 % ni baja de 0', () => {

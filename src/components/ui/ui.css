@@ -120,6 +120,7 @@
   position: absolute;
   inset: 0;
   background: var(--color-accent);
+  transform: scaleX(var(--ratio, 0));
   transform-origin: left;
   transition: transform var(--duration-slow) var(--ease-out);
 }

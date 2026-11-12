@@ -36,9 +36,7 @@ export function SummaryNote({ path, summaryField }: Props) {
   const json = useFieldValue(path, summaryField === 'needs')
   const value = useMemo(() => JSON.parse(json) as NotedValue, [json])
   return (
-    // pre-line: las recompensas, los prerrequisitos y la lista van en varias líneas
-    <div className="field-description" style={{ whiteSpace: 'pre-line' }}>
-      {summaryNote(state, summaryField, value)}
-    </div>
+    // field-note (custom.scss): recompensas, prerrequisitos y lista van en varias líneas
+    <div className="field-description field-note">{summaryNote(state, summaryField, value)}</div>
   )
 }

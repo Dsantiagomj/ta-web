@@ -1,0 +1,6 @@
+/* Estilos propios del panel. */
+
+/* Las notas bajo un campo (SummaryNote, DofusDbNote) respetan sus saltos de línea. */
+.field-note {
+  white-space: pre-line;
+}

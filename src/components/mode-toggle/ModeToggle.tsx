@@ -55,14 +55,14 @@ function changeMode(next: Mode) {
     .finished.finally(() => root.classList.remove(className))
 }
 
-// Desplazamiento final de cada chispa, en px.
+// Desplazamiento final de cada chispa, en rem (px ÷ 16): crece con la fuente raíz.
 const SPARKS = [
-  [0, -14],
-  [12, -8],
-  [13, 7],
-  [0, 14],
-  [-12, 8],
-  [-13, -7],
+  [0, -0.875],
+  [0.75, -0.5],
+  [0.8125, 0.4375],
+  [0, 0.875],
+  [-0.75, 0.5],
+  [-0.8125, -0.4375],
 ] as const
 
 export function ModeToggle({ initialMode }: { initialMode: Mode }) {
@@ -120,7 +120,7 @@ export function ModeToggle({ initialMode }: { initialMode: Mode }) {
           key={`${dx},${dy}`}
           data-part="spark"
           aria-hidden="true"
-          style={{ '--dx': `${dx}px`, '--dy': `${dy}px` } as CSSProperties}
+          style={{ '--dx': `${dx}rem`, '--dy': `${dy}rem` } as CSSProperties}
         />
       ))}
     </button>
