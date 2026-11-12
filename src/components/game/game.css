@@ -351,6 +351,9 @@ ul.needs__notes {
   white-space: nowrap;
 }
 
+/* Abierta, bajo el botón y desde su borde izquierdo; si ahí no cabe en la ventana, la isla
+   la corre a la izquierda lo que sobra (--bag-shift, en px), para que nunca dé scroll
+   horizontal. */
 [data-js] .qhead__facts .bag__list {
   position: absolute;
   z-index: var(--z-raised);
@@ -364,21 +367,30 @@ ul.needs__notes {
   border-radius: 0.875rem;
   background: var(--color-surface);
   box-shadow: var(--shadow-float);
-  transform-origin: 1.375rem 0;
+  translate: calc(var(--bag-shift, 0) * -1px) 0;
+  transform-origin: calc(1.375rem + var(--bag-shift, 0) * 1px) 0;
   transition:
     opacity var(--duration-base) var(--ease-out),
     transform var(--duration-base) var(--ease-out),
-    visibility 0s;
+    display var(--duration-base) allow-discrete;
 }
 
-/* Cerrada: fuera de la vista, del orden del tabulador y del lector de pantalla. */
+/* Cerrada: sin pintar ni ocupar sitio (una lista cerrada pero puesta, solo invisible, salía
+   de la ventana a 1024px y daba scroll horizontal), fuera del tabulador y del lector. Sale
+   con su fundido: display espera a que acabe (DESIGN.md, Motion). */
 [data-js] .bag__btn[aria-expanded='false'] + .bag__list {
-  visibility: hidden;
+  display: none;
   opacity: 0;
   transform: translateY(-0.375rem) scale(0.97);
-  transition-duration: 150ms, 150ms, 0s;
-  transition-delay: 0s, 0s, 150ms;
+  transition-duration: 150ms;
   pointer-events: none;
+}
+
+@starting-style {
+  [data-js] .bag__btn[aria-expanded='true'] + .bag__list {
+    opacity: 0;
+    transform: translateY(-0.375rem) scale(0.97);
+  }
 }
 
 @media (max-width: 35.99rem) {
@@ -390,10 +402,7 @@ ul.needs__notes {
     position: static;
     margin-top: 0.375rem;
     box-shadow: none;
-  }
-
-  [data-js] .bag__btn[aria-expanded='false'] + .bag__list {
-    display: none;
+    translate: none;
   }
 }
 

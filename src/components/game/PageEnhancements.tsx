@@ -108,8 +108,17 @@ export function PageEnhancements() {
     // La bolsa: un botón de divulgación. El estado vive en su aria-expanded, y el CSS
     // enseña la lista según él (game.css, data-js).
     const bagButton = (bag: Element) => bag.querySelector('button')
-    const setBag = (bag: Element, open: boolean) =>
+    const setBag = (bag: Element, open: boolean) => {
       bagButton(bag)?.setAttribute('aria-expanded', String(open))
+      const list = bag.querySelector<HTMLElement>('.bag__list')
+      if (!open || !list) return
+      // Abierta, la lista sale del borde izquierdo de la bolsa; si así no cabe en la ventana
+      // (con 16px de margen), se corre a la izquierda lo que sobra. offsetWidth es su ancho
+      // sin la escala de la entrada.
+      const room = document.documentElement.clientWidth - 16
+      const over = bag.getBoundingClientRect().left + list.offsetWidth - room
+      list.style.setProperty('--bag-shift', String(Math.max(0, Math.ceil(over))))
+    }
     const openBags = () =>
       [...document.querySelectorAll('[data-bag] > [aria-expanded="true"]')].flatMap((button) =>
         button.parentElement ? [button.parentElement] : [],
