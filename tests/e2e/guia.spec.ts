@@ -68,8 +68,11 @@ test.describe('página de guía', () => {
     for (const name of seedGuide.rewardItems) await expect(list.getByText(name)).toBeVisible()
     // Cada objeto con su icono importado, en su hueco.
     await expect(list.locator('.well img')).toHaveCount(seedGuide.rewardItems.length)
+    // Diferidos: cargan al abrir la bolsa, que cerrada no se pinta.
     for (const img of await list.locator('.well img').all()) {
-      expect(await img.evaluate((node: HTMLImageElement) => node.naturalWidth)).toBeGreaterThan(0)
+      await expect
+        .poll(() => img.evaluate((node: HTMLImageElement) => node.naturalWidth))
+        .toBeGreaterThan(0)
     }
     // Los iconos del juego, en sus huecos.
     for (const icon of ['mision', 'combate', 'xp', 'kamas', 'bolsa']) {
@@ -207,6 +210,34 @@ test.describe('página de guía', () => {
     expect(await border(0)).toEqual(['0px', 'none', '40px'])
     expect(await border(1)).toEqual(['1px', 'solid', '40px'])
   })
+
+  // A 1024px, en ¿Dónde está mi samurái?, la lista cerrada de la bolsa (solo invisible) salía
+  // de la ventana y daba scroll horizontal. La bolsa se lleva al borde derecho de la columna,
+  // como en una guía con XP y kamas largos.
+  for (const width of [640, 1024, 1440]) {
+    test(`la bolsa no da scroll horizontal a ${width}px, ni cerrada ni abierta`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width, height: 900 })
+      await page.goto(url)
+      const overflow = () =>
+        page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)
+      const bag = page.getByRole('button', { name: `${seedGuide.rewardItems.length} objetos` })
+      await bag.evaluate((node) => {
+        const row = node.closest('.qhead__rew') as HTMLElement
+        row.style.justifyContent = 'flex-end'
+      })
+      expect(await overflow()).toBeLessThanOrEqual(0)
+      await bag.click()
+      const list = page.getByRole('list', { name: 'Objetos de recompensa' })
+      await expect(list).toBeVisible()
+      await settled(page)
+      const box = (await list.boundingBox())!
+      expect(box.x).toBeGreaterThanOrEqual(0)
+      expect(box.x + box.width).toBeLessThanOrEqual(width)
+      expect(await overflow()).toBeLessThanOrEqual(0)
+    })
+  }
 
   test('la bolsa se maneja con el teclado: Enter abre, Esc cierra y Tab fuera cierra', async ({
     page,
