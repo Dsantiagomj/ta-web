@@ -123,9 +123,22 @@ test.describe('página de logro', () => {
         await expect(card.getByRole('link')).toHaveCount(0)
       }
     }
-    // Toda la tarjeta abre la guía.
-    await cards.nth(1).click({ position: { x: 12, y: 12 } })
-    await expect(page).toHaveURL(/\/seis-pies-bajo-tierra$/)
+    // Toda la fila abre la guía: también el número en su círculo y la línea que los une.
+    // El clic va a la fila, en el centro del círculo y sobre la línea, como el del ratón.
+    const spots = await cards.nth(1).evaluate((row) => {
+      const box = row.getBoundingClientRect()
+      const circle = row.querySelector('.lq__n')!.getBoundingClientRect()
+      const x = circle.x + circle.width / 2 - box.x
+      return [
+        { x, y: circle.y + circle.height / 2 - box.y },
+        { x, y: (circle.y - box.y) / 2 },
+      ]
+    })
+    for (const position of spots) {
+      await cards.nth(1).click({ position })
+      await expect(page).toHaveURL(/\/seis-pies-bajo-tierra$/)
+      await page.goBack()
+    }
   })
 
   test('una sola columna: sin la lista lateral del metalogro; Cuenta para y el anterior y el siguiente en ella', async ({
