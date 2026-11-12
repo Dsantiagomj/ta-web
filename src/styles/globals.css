@@ -134,6 +134,6 @@ html:active-view-transition-type(pagina)::view-transition-new(root) {
 
 @keyframes page-in {
   from {
-    transform: translateY(8px);
+    transform: translateY(0.5rem);
   }
 }

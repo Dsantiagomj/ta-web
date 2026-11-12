@@ -4,7 +4,7 @@
  * enlace de vuelta, que puede partirse pero nunca se corta.
  */
 .crumbs {
-  margin-bottom: 12px;
+  margin-bottom: 0.75rem;
 }
 
 .crumbs ol {
@@ -23,15 +23,15 @@
 
 .crumbs li + li::before {
   content: '/';
-  margin-inline: 8px;
+  margin-inline: 0.5rem;
   color: var(--color-muted);
 }
 
 .crumbs a {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  min-height: 40px;
+  gap: 0.25rem;
+  min-height: 2.5rem;
   color: var(--color-accent);
   text-decoration: underline;
   text-decoration-thickness: 1px;
@@ -45,8 +45,8 @@
 .crumbs__chev {
   display: none;
   flex: none;
-  width: 12px;
-  height: 12px;
+  width: 0.75rem;
+  height: 0.75rem;
 }
 
 @media (max-width: 39.99rem) {
@@ -59,13 +59,13 @@
   }
 
   .crumbs a {
-    min-height: 44px;
+    min-height: 2.75rem;
     align-items: flex-start;
-    padding-block: 12px;
+    padding-block: 0.75rem;
   }
 
   .crumbs__chev {
     display: block;
-    margin-top: 3px;
+    margin-top: 0.1875rem;
   }
 }

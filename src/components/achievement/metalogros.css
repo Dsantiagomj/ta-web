@@ -8,29 +8,29 @@
  */
 
 .idx {
-  --gutter: 16px;
-  --sticky-top: 76px; /* bajo la cabecera flotante del móvil */
+  --gutter: 1rem;
+  --sticky-top: 4.75rem; /* bajo la cabecera flotante del móvil */
   box-sizing: content-box;
-  max-width: 1200px;
+  max-width: 75rem;
   margin-inline: auto;
-  padding: 24px var(--gutter) 72px;
+  padding: 1.5rem var(--gutter) 4.5rem;
   font-size: 1rem;
   line-height: 1.5;
 }
 @media (min-width: 40rem) {
   .idx {
-    --gutter: 24px;
+    --gutter: 1.5rem;
   }
 }
 @media (min-width: 48rem) {
   .idx {
-    --sticky-top: 64px;
+    --sticky-top: 4rem;
   }
 }
 @media (min-width: 64rem) {
   .idx {
-    --gutter: 48px;
-    padding-top: 36px;
+    --gutter: 3rem;
+    padding-top: 2.25rem;
   }
 }
 
@@ -45,14 +45,14 @@
 }
 .idx__lead {
   max-width: 62ch;
-  margin-top: 12px;
+  margin-top: 0.75rem;
   color: var(--color-ink-2);
   font-size: var(--text-lg);
   line-height: 1.5;
   font-weight: 500;
 }
 .idx__stats {
-  margin-top: 6px;
+  margin-top: 0.375rem;
   color: var(--color-ink-2);
   font-size: var(--text-sm);
   font-variant-numeric: tabular-nums;
@@ -63,7 +63,7 @@
   background: color-mix(in srgb, var(--color-accent) 22%, transparent);
   color: inherit;
   font-weight: 700;
-  border-radius: 3px;
+  border-radius: 0.1875rem;
   padding: 0 1px;
 }
 .idx__link {
@@ -90,7 +90,7 @@
   left: 50%;
   bottom: 0;
   width: 100%;
-  height: 12px;
+  height: 0.75rem;
   translate: -50% 40%;
   border-radius: 50%;
   background: radial-gradient(closest-side, var(--color-raised) 35%, transparent);
@@ -112,12 +112,12 @@
 
 /* ---------- el buscador ---------- */
 .combo {
-  max-width: 760px;
-  margin-top: 28px;
+  max-width: 47.5rem;
+  margin-top: 1.75rem;
 }
 .combo__l {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
   color: var(--color-ink);
   font: 600 1.125rem/1.3 var(--font-display);
 }
@@ -126,19 +126,19 @@
 }
 .combo__box > svg {
   position: absolute;
-  left: 20px;
-  top: 20px;
-  width: 18px;
-  height: 18px;
+  left: 1.25rem;
+  top: 1.25rem;
+  width: 1.125rem;
+  height: 1.125rem;
   color: var(--color-ink-2);
   pointer-events: none;
 }
 .combo__box input {
   width: 100%;
-  height: 56px;
-  padding: 0 20px 0 50px;
+  height: 3.5rem;
+  padding: 0 1.25rem 0 3.125rem;
   border: 1.5px solid var(--color-line);
-  border-radius: 16px;
+  border-radius: 1rem;
   background: var(--color-surface);
   color: var(--color-ink);
   font: 500 1.125rem/1 var(--font-body);
@@ -166,14 +166,14 @@
   top: 100%;
   left: 0;
   right: 0;
-  max-height: min(60vh, 480px);
+  max-height: min(60vh, 30rem);
   overflow-y: auto;
   margin: 0;
-  padding: 6px;
+  padding: 0.375rem;
   list-style: none;
   border: 1.5px solid var(--color-accent);
   border-top: 0;
-  border-radius: 0 0 16px 16px;
+  border-radius: 0 0 1rem 1rem;
   background: var(--color-surface);
   box-shadow: var(--shadow-float);
 }
@@ -199,13 +199,13 @@
 }
 .combo__opt {
   display: grid;
-  grid-template-columns: 64px minmax(0, 1fr);
+  grid-template-columns: 4rem minmax(0, 1fr);
   grid-template-areas: 'k n' 'k m';
-  column-gap: 12px;
+  column-gap: 0.75rem;
   align-items: baseline;
-  min-height: 48px;
-  padding: 8px 12px;
-  border-radius: 10px;
+  min-height: 3rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.625rem;
   cursor: pointer;
 }
 .combo__opt[aria-selected='true'] {
@@ -237,7 +237,7 @@
 }
 .combo__st {
   min-height: 1.5em;
-  margin-top: 8px;
+  margin-top: 0.5rem;
   color: var(--color-ink-2);
   font-size: var(--text-sm);
 }
@@ -258,9 +258,9 @@
 .combo__tag {
   display: inline-flex;
   align-items: center;
-  height: 20px;
-  margin-left: 6px;
-  padding: 0 8px;
+  height: 1.25rem;
+  margin-left: 0.375rem;
+  padding: 0 0.5rem;
   vertical-align: 1px;
   border-radius: var(--radius-pill);
   background: var(--color-raised);
@@ -274,7 +274,7 @@
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
-  gap: 16px;
+  gap: 1rem;
 }
 .zone__t {
   color: var(--color-ink);
@@ -285,7 +285,7 @@
   outline: none;
 }
 .zone__c {
-  margin-top: 4px;
+  margin-top: 0.25rem;
   color: var(--color-ink-2);
   font-size: var(--text-sm);
   font-variant-numeric: tabular-nums;
@@ -297,18 +297,18 @@
   font-style: italic;
 }
 .zone__sub {
-  margin-top: 22px;
+  margin-top: 1.375rem;
   color: var(--color-ink-2);
   font: 600 var(--text-micro)/1.4 var(--font-display);
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 .zone__guides {
-  margin: 4px 0 0;
+  margin: 0.25rem 0 0;
   padding: 0;
   list-style: none;
-  columns: 2 240px;
-  column-gap: 32px;
+  columns: 2 15rem;
+  column-gap: 2rem;
 }
 .zone__guides li {
   break-inside: avoid;
@@ -316,39 +316,39 @@
 .zone__guides a {
   display: inline-flex;
   align-items: center;
-  min-height: 40px;
+  min-height: 2.5rem;
 }
 
 @media (pointer: coarse) {
   .zone__guides a {
-    min-height: 44px;
+    min-height: 2.75rem;
   }
 }
 .acards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
-  gap: 10px;
-  margin: 18px 0 0;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15.625rem), 1fr));
+  gap: 0.625rem;
+  margin: 1.125rem 0 0;
   padding: 0;
   list-style: none;
 }
 .acard {
   display: grid;
-  grid-template-columns: 52px minmax(0, 1fr);
+  grid-template-columns: 3.25rem minmax(0, 1fr);
   align-items: center;
-  gap: 12px;
+  gap: 0.75rem;
   height: 100%;
-  min-height: 72px;
-  padding: 10px 14px 10px 10px;
+  min-height: 4.5rem;
+  padding: 0.625rem 0.875rem 0.625rem 0.625rem;
   border: 1px solid var(--color-well-line);
-  border-radius: 14px;
+  border-radius: 0.875rem;
   background: var(--color-surface);
   color: var(--color-ink);
   text-decoration: none;
   transition: border-color var(--duration-fast) var(--ease-standard);
 }
 .acard:focus-visible {
-  outline: 3px solid var(--color-ink);
+  outline: 0.1875rem solid var(--color-ink);
   outline-offset: 2px;
 }
 @media (hover: hover) and (pointer: fine) {
@@ -362,12 +362,12 @@
   }
 }
 .acard__icon {
-  width: 52px;
-  height: 52px;
+  width: 3.25rem;
+  height: 3.25rem;
 }
 .acard__icon img {
-  width: 40px;
-  height: 40px;
+  width: 2.5rem;
+  height: 2.5rem;
 }
 .acard__txt {
   display: grid;
@@ -400,7 +400,7 @@
   left: 50%;
   bottom: 0;
   width: 80%;
-  height: 16px;
+  height: 1rem;
   translate: -50% 40%;
   border-radius: 50%;
   background: radial-gradient(closest-side, var(--color-line) 30%, transparent);
@@ -420,13 +420,13 @@
   display: none;
 }
 .zart--icon .well {
-  width: 64px;
-  height: 64px;
-  border-radius: 14px;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 0.875rem;
 }
 .zart--icon .well img {
-  width: 48px;
-  height: 48px;
+  width: 3rem;
+  height: 3rem;
 }
 
 /* Un logro En preparación: se lista, sin enlace. */
@@ -450,10 +450,10 @@
 /* ---------- las fichas y el panel ---------- */
 
 .vd-group {
-  margin-top: 36px;
+  margin-top: 2.25rem;
 }
 .vd-group + .vd-group {
-  margin-top: 40px;
+  margin-top: 2.5rem;
 }
 .vd-group__h {
   color: var(--color-ink);
@@ -461,46 +461,46 @@
   text-wrap: balance;
 }
 .vd-group__n {
-  margin-left: 8px;
+  margin-left: 0.5rem;
   color: var(--color-ink-2);
   font: 500 1rem/1 var(--font-body);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 .vd-group__d {
-  margin-top: 4px;
+  margin-top: 0.25rem;
   color: var(--color-ink-2);
 }
 
 /* 6 fichas por fila a 1440, 5 a 1024 y 2 a 390. */
 .vd-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 168px), 1fr));
-  gap: 12px;
-  margin: 14px 0 0;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 10.5rem), 1fr));
+  gap: 0.75rem;
+  margin: 0.875rem 0 0;
   padding: 0;
   list-style: none;
 }
 @media (max-width: 39.99rem) {
   .vd-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+    gap: 0.625rem;
   }
 }
 
 .vd-tile {
   position: relative;
   display: grid;
-  grid-template-rows: 120px auto auto auto;
+  grid-template-rows: 7.5rem auto auto auto;
   justify-items: center;
   align-content: start;
-  gap: 4px;
+  gap: 0.25rem;
   width: 100%;
   height: 100%;
   margin: 0;
-  padding: 14px 10px 14px;
+  padding: 0.875rem 0.625rem 0.875rem;
   border: 1px solid var(--color-well-line);
-  border-radius: 16px;
+  border-radius: 1rem;
   background: var(--color-surface);
   color: var(--color-ink);
   font: inherit;
@@ -513,11 +513,11 @@
 }
 .vd-tile .zart {
   width: 100%;
-  height: 120px;
-  margin-bottom: 8px;
+  height: 7.5rem;
+  margin-bottom: 0.5rem;
 }
 .vd-tile .zart img {
-  max-height: 120px;
+  max-height: 7.5rem;
 }
 .vd-tile__n {
   font: 600 1rem/1.2 var(--font-display);
@@ -532,7 +532,7 @@
   margin-top: 2px;
 }
 .vd-tile:focus-visible {
-  outline: 3px solid var(--color-ink);
+  outline: 0.1875rem solid var(--color-ink);
   outline-offset: 2px;
 }
 @media (hover: hover) and (pointer: fine) {
@@ -554,9 +554,9 @@
   content: '';
   position: absolute;
   left: 50%;
-  bottom: -19px;
-  width: 14px;
-  height: 14px;
+  bottom: -1.1875rem;
+  width: 0.875rem;
+  height: 0.875rem;
   translate: -50% 0;
   rotate: 45deg;
   border-top: 1px solid var(--color-accent);
@@ -566,15 +566,15 @@
 }
 @media (max-width: 39.99rem) {
   .vd-tile {
-    grid-template-rows: 96px auto auto auto;
-    padding: 10px 8px 12px;
+    grid-template-rows: 6rem auto auto auto;
+    padding: 0.625rem 0.5rem 0.75rem;
   }
   .vd-tile .zart {
-    height: 96px;
-    margin-bottom: 6px;
+    height: 6rem;
+    margin-bottom: 0.375rem;
   }
   .vd-tile .zart img {
-    max-height: 96px;
+    max-height: 6rem;
   }
   .vd-tile__n {
     font-size: 0.9375rem;
@@ -585,20 +585,20 @@
 .vd-panel {
   grid-column: 1 / -1;
   position: relative;
-  margin-top: 6px;
-  padding: 20px 24px 24px;
+  margin-top: 0.375rem;
+  padding: 1.25rem 1.5rem 1.5rem;
   border: 1px solid var(--color-accent);
-  border-radius: 16px;
+  border-radius: 1rem;
   background: var(--color-surface);
-  scroll-margin-top: calc(var(--sticky-top) + 16px);
-  scroll-margin-bottom: 16px;
+  scroll-margin-top: calc(var(--sticky-top) + 1rem);
+  scroll-margin-bottom: 1rem;
 }
 .vd-panel[hidden] {
   display: none;
 }
 @media (max-width: 39.99rem) {
   .vd-panel {
-    padding: 16px 14px 18px;
+    padding: 1rem 0.875rem 1.125rem;
   }
 }
 /* Sin transiciones de vista, el panel al menos entra con un fundido. Con ellas (la isla abre y
@@ -635,17 +635,17 @@ html:active-view-transition-type(metalogros)::view-transition-old(vd-panel) {
 @keyframes vd-in {
   from {
     opacity: 0;
-    transform: translateY(-6px);
+    transform: translateY(-0.375rem);
   }
 }
 .vd-close {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 0.75rem;
+  right: 0.75rem;
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
+  width: 2.5rem;
+  height: 2.5rem;
   border: 0;
   border-radius: 50%;
   background: var(--color-raised);
@@ -653,13 +653,13 @@ html:active-view-transition-type(metalogros)::view-transition-old(vd-panel) {
   cursor: pointer;
 }
 .vd-close svg {
-  width: 16px;
-  height: 16px;
+  width: 1rem;
+  height: 1rem;
 }
 @media (pointer: coarse) {
   .vd-close {
-    width: 44px;
-    height: 44px;
+    width: 2.75rem;
+    height: 2.75rem;
   }
 }
 @media (hover: hover) and (pointer: fine) {
@@ -668,27 +668,27 @@ html:active-view-transition-type(metalogros)::view-transition-old(vd-panel) {
   }
 }
 .vd-panel .zone__head {
-  padding-right: 48px;
+  padding-right: 3rem;
 }
 .vd-zart {
-  width: 56px;
-  height: 64px;
+  width: 3.5rem;
+  height: 4rem;
 }
 .vd-zart img {
-  max-height: 64px;
+  max-height: 4rem;
 }
 
 /* Sin JavaScript, las listas de las zonas van bajo las fichas, y las fichas enlazan a ellas. */
 .vd-zones {
-  margin-top: 48px;
+  margin-top: 3rem;
 }
 .vd-zone + .vd-zone {
-  margin-top: 40px;
-  padding-top: 24px;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
   border-top: 1px solid var(--color-line);
 }
 .vd-zone {
-  scroll-margin-top: calc(var(--sticky-top) + 16px);
+  scroll-margin-top: calc(var(--sticky-top) + 1rem);
 }
 [data-js] .vd-zones {
   display: none;
@@ -731,10 +731,10 @@ html:active-view-transition-type(metalogros)::view-transition-old(vd-panel) {
   display: grid;
   place-items: center;
   flex: none;
-  width: 44px;
-  height: 44px;
+  width: 2.75rem;
+  height: 2.75rem;
   border: 1px solid var(--color-slot-line);
-  border-radius: 10px;
+  border-radius: 0.625rem;
   background: var(--color-slot);
 }
 
@@ -748,8 +748,8 @@ html:active-view-transition-type(metalogros)::view-transition-old(vd-panel) {
   align-items: center;
   justify-self: center;
   width: fit-content;
-  height: 22px;
-  padding: 0 8px;
+  height: 1.375rem;
+  padding: 0 0.5rem;
   border-radius: var(--radius-pill);
   background: var(--color-raised);
   color: var(--color-ink-2);
