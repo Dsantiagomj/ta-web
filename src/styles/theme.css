@@ -324,8 +324,8 @@
 
 /* Huecos de los iconos del juego (DESIGN.md, Icon wells). well: el número de un paso, el
    chip de coordenadas. slot: el hueco de un icono a todo color, como las casillas del
-   inventario del juego; sigue oscuro en modo claro, porque el juego pinta sus iconos para
-   un fondo oscuro y una flecha clara o una moneda dorada se pierden sobre crema. */
+   inventario del juego. Es igual que well en los dos modos: claro en el modo claro, porque
+   los iconos del juego llevan contorno y se leen sobre un fondo claro. */
 :root,
 [data-mode='dark'] {
   --t-well: color-mix(in srgb, var(--t-bg) 55%, var(--t-surface));
@@ -337,8 +337,8 @@
 [data-mode='light'] {
   --t-well: var(--t-raised);
   --t-well-line: var(--t-line);
-  --t-slot: color-mix(in srgb, var(--t-ink) 84%, var(--t-bg));
-  --t-slot-line: var(--t-ink);
+  --t-slot: var(--t-well);
+  --t-slot-line: var(--t-well-line);
 }
 
 /* Un elemento con su propio data-theme o data-mode (las secciones de /sistema, la vista

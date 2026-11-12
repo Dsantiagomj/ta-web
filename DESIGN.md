@@ -270,10 +270,10 @@ Decided 2026-11-05 with guide v4. Game icons sit in wells, like the slots of the
 |---|---|---|---|
 | `--color-well` | `bg` 55 % over `surface` | `raised` | the coordinates chip |
 | `--color-well-line` | `line` 80 % over `ink` | `line` | their 1px border, Torre's bubble and avatar ring |
-| `--color-slot` | same as `--color-well` | `ink` 84 % over `bg` | the well behind a full-colour game icon |
-| `--color-slot-line` | same as `--color-well-line` | `ink` | its border |
+| `--color-slot` | same as `--color-well` | same as `--color-well` | the well behind a full-colour game icon |
+| `--color-slot-line` | same as `--color-well-line` | same as `--color-well-line` | its border |
 
-Slots stay dark in the light modes. The game draws its icons for a dark slot, and a pale XP arrow or a gold coin disappears on cream. Wells and slots are decorative (`aria-hidden`, icons with `alt=""`); the text next to them carries the meaning, so their edges need no ratio. Text on a well: ink at least 13.47:1 (Ocre light) and accent at least 4.93:1 (Ocre light, the coordinates chip).
+Slots follow the mode (changed 2026-11-12): a dark slot looked out of place in light mode, and the game outlines its icons, so pale ones (the XP arrow, a gold coin, Frostizz, Grasa gelatinosa) still read on a light slot. Wells and slots are decorative (`aria-hidden`, icons with `alt=""`); the text next to them carries the meaning, so their edges need no ratio. Text on a well: ink at least 13.47:1 (Ocre light) and accent at least 4.93:1 (Ocre light, the coordinates chip).
 
 ### Typography
 
