@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { type CSSProperties, useEffect, useRef, useState } from 'react'
 
 import { IconButton } from '@/components/ui/IconButton'
 import { uiStrings } from '@/components/ui/strings'
@@ -13,13 +13,12 @@ const f = uiStrings.figure
 const TOAST_MS = 4000
 const COPIED_MS = 1600
 
-/** La imagen que enseña el visor, leída del enlace de la captura (Figure). */
+/** La imagen que enseña el visor, leída del enlace de la captura (Figure): el original. */
 interface Viewed {
   src: string
-  avif?: string
   alt: string
-  width?: string
-  height?: string
+  width: number
+  height: number
   caption?: string
   theme?: string
   mode?: string
@@ -92,13 +91,15 @@ export function PageEnhancements() {
       const image = link.querySelector('img')
       // El visor toma el tema y el modo de donde está la captura (las secciones de /sistema).
       const scope = link.closest<HTMLElement>('[data-theme]')
+      // El tamaño del original (Figure); sin él, el de la miniatura, que tiene su proporción.
+      const size = (name: 'width' | 'height') =>
+        Number(link.getAttribute(`data-image-${name}`) ?? image?.getAttribute(name)) || 1
       opener.current = link
       setViewed({
         src: link.href,
-        avif: link.dataset.imageAvif,
         alt: image?.alt ?? '',
-        width: image?.getAttribute('width') ?? undefined,
-        height: image?.getAttribute('height') ?? undefined,
+        width: size('width'),
+        height: size('height'),
         caption: link.closest('figure')?.querySelector('figcaption')?.textContent ?? undefined,
         theme: scope?.dataset.theme,
         mode: scope?.dataset.mode,
@@ -218,14 +219,15 @@ export function PageEnhancements() {
               onClick={close}
             />
             <figure className="viewer__figure">
+              {/* El original, ajustado a la pantalla hasta el doble de su tamaño (ui.css). */}
               <picture>
-                {viewed.avif && <source type="image/avif" srcSet={viewed.avif} />}
                 <img
                   src={viewed.src}
                   alt={viewed.alt}
                   width={viewed.width}
                   height={viewed.height}
                   className="viewer__image"
+                  style={{ '--w': viewed.width, '--h': viewed.height } as CSSProperties}
                 />
               </picture>
               {viewed.caption && <figcaption>{viewed.caption}</figcaption>}

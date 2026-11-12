@@ -9,7 +9,7 @@ export interface ImageSource {
  * del archivo principal para reservar su sitio. La app nunca optimiza imágenes al vuelo.
  */
 export interface ImageAsset {
-  /** El WebP más ancho: el src de la imagen y el que abre el visor. */
+  /** El WebP más ancho: el src de la imagen. */
   src: string
   /** El AVIF más ancho. */
   avif?: string
@@ -20,4 +20,6 @@ export interface ImageAsset {
   srcSet?: ImageSource[]
   /** Los anchos AVIF, del más estrecho al más ancho; sin ellos, solo avif. */
   avifSrcSet?: ImageSource[]
+  /** El archivo que se subió, con su tamaño: el que abre el visor. Sin variantes, es src. */
+  original?: ImageSource & { height: number }
 }

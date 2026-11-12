@@ -287,11 +287,14 @@ test.describe('catálogo /sistema', () => {
 })
 
 // DESIGN.md, Imagery: srcset y sizes eligen el ancho que necesita la pantalla; el visor
-// abre siempre el archivo más ancho.
+// abre el original subido. Las capturas del catálogo son archivos estáticos sin original:
+// abre el más ancho, el WebP del enlace.
 test.describe('catálogo /sistema en un móvil', () => {
   test.use({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1 })
 
-  test('la captura carga su ancho de 480 y el visor abre el más ancho', async ({ page }) => {
+  test('la captura carga su ancho de 480 y el visor abre el archivo del enlace', async ({
+    page,
+  }) => {
     await page.goto('/sistema?tema=arcano&modo=dark')
     const figure = page.locator('[data-component="image"]')
     const image = figure.locator('figure img')
@@ -304,6 +307,6 @@ test.describe('catálogo /sistema en un móvil', () => {
     const viewer = page.getByRole('dialog', { name: 'Imagen a pantalla completa' })
     await expect
       .poll(() => viewer.locator('img').evaluate((img: HTMLImageElement) => img.currentSrc))
-      .toMatch(/\/seis-pies-hupe-esse\.avif$/)
+      .toMatch(/\/seis-pies-hupe-esse\.webp$/)
   })
 })

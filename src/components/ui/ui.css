@@ -223,12 +223,17 @@
     transform var(--duration-slow) var(--ease-out);
 }
 
-/* Hasta el tamaño de la pantalla, nunca más que el archivo; el pie se reserva 4rem. */
+/* El original entero, ajustado a la pantalla: crece hasta llenarla, como mucho al doble de
+   su tamaño, y nunca se recorta. --w y --h son su ancho y su alto (PageEnhancements); el
+   pie se reserva 4rem. */
 .viewer__image {
-  width: auto;
+  --fit-w: calc(100vw - 2 * var(--viewer-pad));
+  --fit-h: calc(100dvh - 4rem - var(--viewer-pad) - 4rem);
+  width: min(calc(var(--w) * 2px), var(--fit-w), calc(var(--fit-h) * var(--w) / var(--h)));
   height: auto;
-  max-width: calc(100vw - 2 * var(--viewer-pad));
-  max-height: calc(100dvh - 4rem - var(--viewer-pad) - 4rem);
+  aspect-ratio: var(--w) / var(--h);
+  max-width: var(--fit-w);
+  max-height: var(--fit-h);
   object-fit: contain;
   border-radius: var(--radius-md);
   background: var(--color-raised);
