@@ -10,11 +10,12 @@ import { readAchievementPage, type ReadAchievementOptions } from '@/lib/achievem
 import { SITE_URL } from '@/lib/site/origin'
 import type { User } from '@/payload-types'
 
-// unstable_cache guarda JSON: los PNJ van como pares y se vuelven a juntar al leer.
+// unstable_cache guarda JSON: los PNJ y los objetos de las notas van como pares y se vuelven
+// a juntar al leer. Una entrada guardada antes de noteItems da un Map vacío.
 async function read(slug: string, options?: ReadAchievementOptions) {
   const payload = await getPayload({ config })
   const data = await readAchievementPage(payload, slug, options)
-  return data && { ...data, givers: [...data.givers] }
+  return data && { ...data, givers: [...data.givers], noteItems: [...data.noteItems] }
 }
 
 // Lo publicado, en caché con la etiqueta de las páginas de logro (src/lib/achievements/cache.ts).
@@ -41,6 +42,12 @@ export const loadAchievementPage = cache(
     }
     if (!preview) stored = await readPublished(slug)
     if (!stored) return null
-    return { ...stored, givers: new Map(stored.givers), siteUrl: SITE_URL, preview }
+    return {
+      ...stored,
+      givers: new Map(stored.givers),
+      noteItems: new Map(stored.noteItems),
+      siteUrl: SITE_URL,
+      preview,
+    }
   },
 )

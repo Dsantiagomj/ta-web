@@ -8,7 +8,14 @@ import { isGuideSlug } from '@/lib/guides/slug'
 import type { User } from '@/payload-types'
 
 import type { IndexData } from './metalogros'
-import type { AchievementPageData, GuideRef, PageDoc, SiblingDoc } from './page'
+import {
+  type AchievementPageData,
+  type GuideRef,
+  noteLabels,
+  type NoteItemDoc,
+  type PageDoc,
+  type SiblingDoc,
+} from './page'
 
 export interface ReadAchievementOptions {
   /** Vista previa desde el panel: el último borrador, también En preparación. */
@@ -21,8 +28,8 @@ const relationId = (value: number | { id: number } | null | undefined) =>
 /**
  * Lo que necesita la página de un logro: la página (depth 2: el logro con su icono, el
  * metalogro, las misiones con sus prerrequisitos y los objetos con su icono), los logros
- * del mismo metalogro, las guías publicadas de sus misiones y de sus prerrequisitos, y los
- * PNJ que dan cada misión. Null si no hay página que enseñar.
+ * del mismo metalogro, las guías publicadas de sus misiones y de sus prerrequisitos, los
+ * PNJ que dan cada misión y los objetos que nombran las notas de Necesitarás. Null si no hay página que enseñar.
  */
 export async function readAchievementPage(
   payload: Payload,
@@ -112,11 +119,33 @@ export async function readAchievementPage(
       ).docs
     : []
 
+  // Las notas de Necesitarás que son el nombre exacto de un objeto del juego: la página las
+  // pinta como ese objeto, con su icono. Si varios se llaman igual, el de ID de DofusDB menor.
+  const labels = noteLabels(guides)
+  const items = labels.length
+    ? (
+        await payload.find({
+          collection: 'items',
+          where: { name: { in: labels } },
+          select: { name: true, image: true },
+          sort: 'dofusId',
+          depth: 1,
+          pagination: false,
+          overrideAccess: false,
+        })
+      ).docs
+    : []
+  const noteItems = new Map<string, NoteItemDoc>()
+  for (const item of items) {
+    if (item.name && !noteItems.has(item.name)) noteItems.set(item.name, item as NoteItemDoc)
+  }
+
   return {
     page,
     siblings,
     guides,
     givers: new Map(npcs.map((npc) => [npc.dofusId, npc])),
+    noteItems,
   }
 }
 

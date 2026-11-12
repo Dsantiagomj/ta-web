@@ -29,7 +29,10 @@ async function cleanUp() {
   }
   await payload.delete({ collection: 'quests', where: { dofusId: { in: [1975, 1976, 1977] } } })
   await payload.delete({ collection: 'npcs', where: { dofusId: { equals: 4412 } } })
-  await payload.delete({ collection: 'items', where: { dofusId: { equals: 990_366 } } })
+  await payload.delete({
+    collection: 'items',
+    where: { dofusId: { in: [990_366, 990_367, 990_368] } },
+  })
 }
 
 beforeAll(async () => {
@@ -40,6 +43,16 @@ beforeAll(async () => {
   const pico = await payload.create({
     collection: 'items',
     data: { dofusId: 990_366, name: 'Pico de tofu' },
+  })
+  // Objetos que una nota de Necesitarás nombra sin enlazarlos; el segundo, con otra
+  // capitalización, no es el mismo nombre.
+  await payload.create({
+    collection: 'items',
+    data: { dofusId: 990_367, name: 'Piedra de alma mediana' },
+  })
+  await payload.create({
+    collection: 'items',
+    data: { dofusId: 990_368, name: 'Llave De La Fábrica' },
   })
   const [aguas, seis, cazador] = [
     await payload.create({
@@ -66,7 +79,12 @@ beforeAll(async () => {
       title: 'Seis pies bajo tierra',
       slug: 'seis-pies-bajo-tierra',
       quest: seis.id,
-      summary: { needs: { notes: '1 x Combate (solo).', items: [{ item: pico.id, quantity: 2 }] } },
+      summary: {
+        needs: {
+          notes: '1 x Combate (solo).\n1 x Piedra de alma mediana.\nLlave de la fábrica',
+          items: [{ item: pico.id, quantity: 2 }],
+        },
+      },
       _status: 'published',
     },
   })
@@ -133,12 +151,22 @@ describe('readAchievementPage', () => {
     expect(first).toMatchObject({ levelMin: 15 })
     // Solo la guía publicada; el borrador no se ve.
     expect(data?.guides.map((guide) => guide.slug)).toEqual(['seis-pies-bajo-tierra'])
-    expect(data?.guides[0]?.needs?.notes).toBe('1 x Combate (solo).')
+    expect(data?.guides[0]?.needs?.notes).toBe(
+      '1 x Combate (solo).\n1 x Piedra de alma mediana.\nLlave de la fábrica',
+    )
     // Los objetos que pide, con su nombre: la página los suma en «Necesitarás en total».
     expect(data?.guides[0]?.needs?.items).toMatchObject([
       { item: { name: 'Pico de tofu' }, quantity: 2 },
     ])
     expect([...(data?.givers.values() ?? [])].map((npc) => npc.name)).toEqual(['Hupe Esse'])
+  })
+
+  it('trae los objetos que nombran las notas de Necesitarás, por su nombre exacto', async () => {
+    const data = await readAchievementPage(payload, 'la-ocasion-hace-al-ladron')
+    expect([...(data?.noteItems.keys() ?? [])]).toEqual(['Piedra de alma mediana'])
+    expect(data?.noteItems.get('Piedra de alma mediana')).toMatchObject({
+      name: 'Piedra de alma mediana',
+    })
   })
 
   it('un logro En preparación no tiene página para un visitante', async () => {

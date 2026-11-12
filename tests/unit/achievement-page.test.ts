@@ -4,6 +4,7 @@ import {
   achievementPageView,
   guideBreadcrumb,
   type AchievementPageData,
+  type NoteItemDoc,
 } from '@/lib/achievements/page'
 
 // Una imagen de Media con su archivo, como la devuelve Payload con depth.
@@ -79,6 +80,7 @@ function data(overrides: Partial<AchievementPageData['page']> = {}): Achievement
       },
     ],
     givers: new Map([[30, { name: 'Hupe Esse', renderRight: media(30, 'hupe') }]]),
+    noteItems: new Map(),
     siteUrl: 'https://torrentearcano.com',
   }
 }
@@ -99,11 +101,9 @@ describe('achievementPageView', () => {
   })
 
   it('necesitarás en total: suma lo que piden las guías publicadas, con cantidad', () => {
-    expect(view.facts.needs.notes).toEqual([
-      { quantity: 2, label: 'Combate (solo)', combat: true },
-      { label: 'Paciencia', combat: false },
-    ])
-    expect(view.facts.needs.items.map(({ item, quantity }) => [item.name, quantity])).toEqual([
+    expect(view.needs.tasks).toEqual([{ quantity: 2, label: 'Combate (solo)', kind: 'combat' }])
+    expect(view.needs.others).toEqual([{ label: 'Paciencia' }])
+    expect(view.needs.items.map(({ item, quantity }) => [item.name, quantity])).toEqual([
       ['Pico de tofu', 2],
     ])
   })
@@ -136,11 +136,11 @@ describe('achievementPageView', () => {
         { questId: 4, slug: 'el-cazador-cazado', needs: { notes: '1 x  Dragopavo Pelirrojo ' } },
       ],
     })
-    expect(view.facts.needs.items.map(({ item, quantity }) => [item.name, quantity])).toEqual([
+    expect(view.needs.items.map(({ item, quantity }) => [item.name, quantity])).toEqual([
       ['Dragopavo pelirrojo', 4],
       ['Intestino de araknáusea', 4],
     ])
-    expect(view.facts.needs.notes).toEqual([{ quantity: 1, label: 'Combate (solo)', combat: true }])
+    expect(view.needs.tasks).toEqual([{ quantity: 1, label: 'Combate (solo)', kind: 'combat' }])
   })
 
   it('necesitarás en total: las notas sin cantidad también salen, tal como las escribió Torre', () => {
@@ -163,15 +163,64 @@ describe('achievementPageView', () => {
         },
       ],
     })
-    expect(view.facts.needs.notes).toEqual([
+    expect(view.needs.tasks).toEqual([
       {
         label: 'Algunos combates aleatorios contra monstruos de un nivel parecido al tuyo',
-        combat: true,
+        kind: 'combat',
       },
-      { label: '1 kama', combat: false },
-      { quantity: 3, label: 'Combates realizables en grupo', combat: true },
-      { label: 'Hechizo Captura de almas', combat: false },
+      { quantity: 3, label: 'Combates realizables en grupo', kind: 'combat' },
     ])
+    expect(view.needs.others).toEqual([{ label: '1 kama' }, { label: 'Hechizo Captura de almas' }])
+  })
+
+  it('necesitarás en total: objetos, combates y mazmorras, y otros, sin perder nada', () => {
+    // Favores encadenados: dos notas nombran objetos del juego tal cual; una mazmorra.
+    const piedra = {
+      id: 9,
+      name: 'Piedra de alma mediana',
+      image: media(9, 'piedra'),
+    } as unknown as NoteItemDoc
+    const view = achievementPageView({
+      ...data(),
+      guides: [
+        {
+          questId: 3,
+          slug: 'seis-pies-bajo-tierra',
+          needs: {
+            notes: [
+              '3 x Combates realizables en grupo.',
+              '1 x Piedra de alma mediana.',
+              '1 x Mazmorra Malefíscof',
+              'Hechizo Captura de almas.',
+              'Llave de la Fábrica de Malefíscof',
+            ].join('\n'),
+            items: [
+              { item: { id: 5, name: 'Pico de tofu', image: media(5, 'pico') }, quantity: 2 },
+            ],
+          },
+        },
+      ],
+      noteItems: new Map<string, NoteItemDoc>([
+        ['Piedra de alma mediana', piedra],
+        [
+          'Llave de la Fábrica de Malefíscof',
+          { id: 10, name: 'Llave de la Fábrica de Malefíscof' },
+        ],
+      ]),
+    })
+    expect(view.needs.items.map(({ item, quantity }) => [item.name, quantity])).toEqual([
+      ['Pico de tofu', 2],
+      ['Piedra de alma mediana', 1],
+      ['Llave de la Fábrica de Malefíscof', undefined],
+    ])
+    expect(view.needs.items[1]?.item.icon?.src).toBe('/api/media/file/piedra.webp')
+    expect(view.needs.tasks).toEqual([
+      { quantity: 3, label: 'Combates realizables en grupo', kind: 'combat' },
+      { quantity: 1, label: 'Mazmorra Malefíscof', kind: 'dungeon' },
+    ])
+    expect(view.needs.others).toEqual([{ label: 'Hechizo Captura de almas' }])
+    // La cabecera ya no lleva Necesitarás: es su propia zona.
+    expect(view.facts).not.toHaveProperty('needs')
   })
 
   it('recompensas del logro: XP de nivel 200, kamas y la bolsa', () => {
