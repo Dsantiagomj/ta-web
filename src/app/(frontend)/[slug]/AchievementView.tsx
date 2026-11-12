@@ -2,6 +2,7 @@ import {
   AchievementCountsFor,
   AchievementHeader,
   AchievementNav,
+  AchievementNeeds,
   AchievementQuests,
 } from '@/components/achievement/AchievementParts'
 import { GuideRichText } from '@/components/game/GuideRichText'
@@ -15,7 +16,7 @@ import { PreviewBar } from './PreviewBar'
 
 /**
  * La página de un logro (DESIGN.md, Achievement page): las migas, la cabecera con el icono,
- * la entrada de Torre, las misiones en orden, el cierre, «Cuenta para» y el logro anterior y
+ * «Necesitarás en total», la entrada de Torre, las misiones en orden, el cierre, «Cuenta para» y el logro anterior y
  * el siguiente, en una sola columna centrada. La única isla es la de la
  * guía, para la bolsa de recompensas; la de la vista previa, solo en draft mode.
  */
@@ -43,6 +44,7 @@ export function AchievementView({
             meta={view.meta}
             facts={view.facts}
           />
+          <AchievementNeeds needs={view.needs} />
           {intro && (
             <div className="logro__prose guide-body">
               <GuideRichText content={intro} />

@@ -227,6 +227,7 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
             <IconWell icon="xp" />
             <IconWell icon="kamas" />
             <IconWell icon="achievement" />
+            <IconWell icon="dungeon" />
             <IconWell image={items.pico.icon} />
             <IconWell />
           </Group>

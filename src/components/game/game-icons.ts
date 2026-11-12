@@ -10,13 +10,14 @@
 // | xp      | ui/guidebook/feature_494-24.png (guía del juego, Dofus 3)          | 24px   |
 // | logro   | misc/guildrank/87-28.png (rangos de gremio, Dofus 3)               | 28px   |
 // | bolsa   | ui/guidebook/feature_139-24.png (guía del juego, Dofus 3)          | 24px   |
+// | mazmorra| jefes/crunchidor.webp: el Crunchidor de DofusDB, el arte de Mazmorras  | 120px  |
 //
 // Los de Dofus 3 salen de las exportaciones del cliente de dofusdude/dofus3-main
 // (versión 3.7.13.17): statistics_images_96, ui_guidebook_images y misc_images. La flecha
 // de XP, la bolsa del inventario y el trofeo solo existen a 24 y 28px: se pintan a ese
 // tamaño, sin ampliar.
 
-export type GameIconName = 'combat' | 'kamas' | 'quest' | 'xp' | 'achievement' | 'bag'
+export type GameIconName = 'combat' | 'kamas' | 'quest' | 'xp' | 'achievement' | 'bag' | 'dungeon'
 
 export interface GameIconFile {
   src: string
@@ -31,6 +32,8 @@ export const GAME_ICONS: Record<GameIconName, GameIconFile> = {
   xp: { src: '/img/game/xp.webp', size: 24 },
   achievement: { src: '/img/game/logro.webp', size: 28 },
   bag: { src: '/img/game/bolsa.webp', size: 24 },
+  // El mismo jefe que ilustra Mazmorras en la cabecera (site/nav.ts): 120 × 144px.
+  dungeon: { src: '/img/game/jefes/crunchidor.webp', size: 120 },
 }
 
 /** El avatar de Torre en sus recomendaciones: 144px, el doble de los 72px a los que se pinta. */

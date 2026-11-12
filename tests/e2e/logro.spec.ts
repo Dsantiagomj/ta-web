@@ -2,7 +2,6 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
 import { MODES } from '../../src/lib/theme/theme.ts'
-import { expectNeedsColumns } from './needs-layout.ts'
 import { seedAchievement as logro } from './seed/achievements.ts'
 import { seedGuide } from './seed/guides.ts'
 
@@ -12,7 +11,9 @@ import { seedGuide } from './seed/guides.ts'
 const url = `/${logro.slug}`
 
 test.describe('página de logro', () => {
-  test('pinta las migas, la cabecera y las columnas', async ({ page }) => {
+  test('pinta las migas y la cabecera: Prerrequisitos y Recompensas, sin Necesitarás', async ({
+    page,
+  }) => {
     const response = await page.goto(url)
     expect(response?.status()).toBe(200)
 
@@ -33,23 +34,72 @@ test.describe('página de logro', () => {
     const header = page.locator('header.lhead')
     await expect(header.getByRole('heading', { level: 1, name: logro.name })).toBeVisible()
     await expect(header.locator('.qhead__meta')).toHaveText(logro.meta)
-    await expect(header.getByRole('heading', { name: 'Necesitarás en total' })).toBeVisible()
-    await expect(header.getByText('Combate (solo)')).toBeVisible()
+    await expect(header.getByRole('heading', { name: 'Necesitarás en total' })).toHaveCount(0)
     await expect(header.getByRole('heading', { name: 'Recompensas del logro' })).toBeVisible()
     await expect(header.getByText(`${logro.reward.xp} XP`)).toBeVisible()
+    // Las recompensas en una fila, a todo el ancho de la banda aunque vayan solas.
+    await page.setViewportSize({ width: 1440, height: 900 })
+    const rows = header.locator('.qhead__rew > li')
+    const [xp, kamas] = [(await rows.nth(0).boundingBox())!, (await rows.nth(1).boundingBox())!]
+    expect(Math.abs(xp.y - kamas.y)).toBeLessThan(1)
   })
 
-  test('Necesitarás en total: los objetos de las guías en columnas y las notas debajo', async ({
+  test('Necesitarás en total: su zona, con Objetos, Combates y mazmorras, y Otros', async ({
     page,
   }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
     await page.goto(url)
-    const needs = page.locator('header.lhead').getByRole('region', { name: 'Necesitarás en total' })
+    const needs = page.getByRole('region', { name: 'Necesitarás en total' })
+    // Bajo la cabecera, antes de las misiones.
+    const header = (await page.locator('header.lhead').boundingBox())!
+    expect((await needs.boundingBox())!.y).toBeGreaterThanOrEqual(header.y + header.height)
+    const group = (name: string) => needs.getByRole('list', { name })
+    await expect(needs.getByRole('heading', { level: 3 })).toHaveText([
+      'Objetos',
+      'Combates y mazmorras',
+      'Otros',
+    ])
+    // Los objetos que enlazan las guías y el que nombra una nota, con su icono y su nombre
+    // que se copia.
     for (const { name, quantity } of seedGuide.needsItems) {
-      await expect(needs).toContainText(`${quantity} × ${name}`)
+      await expect(group('Objetos')).toContainText(`${quantity} × ${name}`)
+      await expect(group('Objetos').getByRole('button', { name: `Copiar ${name}` })).toBeVisible()
     }
-    await expect(needs.locator('.needs__notes')).toContainText('Combate (solo)')
-    // En la banda de la cabecera, junto a Prerrequisitos: los objetos en una columna.
-    await expectNeedsColumns(page, needs, { desktopColumns: 1 })
+    await expect(group('Objetos')).toContainText('1 × Pico de tofu')
+    await expect(group('Objetos').getByRole('listitem').last().locator('.well img')).toHaveCount(1)
+    await expect(group('Combates y mazmorras')).toContainText('1 × Combate (solo)')
+    // Lo que no es objeto ni combate sale tal cual: nada de lo que Torre escribe se pierde.
+    await expect(group('Otros')).toHaveText('Hechizo Captura de almas')
+
+    // Todas las filas en la misma rejilla de 44px: el texto empieza a la misma distancia del
+    // borde de su grupo, tenga hueco o no.
+    const offsets = await needs.locator('.lneeds__g').evaluateAll((groups) =>
+      groups.flatMap((g) => {
+        const style = getComputedStyle(g)
+        const left =
+          g.getBoundingClientRect().x +
+          parseFloat(style.paddingLeft) +
+          parseFloat(style.borderLeftWidth)
+        return [...g.querySelectorAll('li > span:last-child')].map((span) =>
+          Math.round(span.getBoundingClientRect().x - left),
+        )
+      }),
+    )
+    expect(new Set(offsets).size).toBe(1)
+    // En el escritorio, los tres grupos en una fila.
+    const tops = await needs
+      .locator('.lneeds__g')
+      .evaluateAll((groups) => groups.map((g) => Math.round(g.getBoundingClientRect().y)))
+    expect(new Set(tops).size).toBe(1)
+
+    // En el móvil, uno debajo de otro y sin scroll horizontal.
+    await page.setViewportSize({ width: 390, height: 844 })
+    const stacked = await needs
+      .locator('.lneeds__g')
+      .evaluateAll((groups) => groups.map((g) => Math.round(g.getBoundingClientRect().y)))
+    expect(stacked).toEqual([...stacked].sort((a, b) => a - b))
+    expect(new Set(stacked).size).toBe(3)
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
   })
 
   test('las misiones en orden: las de guía publicada abren la guía; la del borrador, no', async ({
@@ -58,6 +108,8 @@ test.describe('página de logro', () => {
     await page.goto(url)
     const cards = page.getByRole('region', { name: 'Las misiones, en orden' }).getByRole('listitem')
     await expect(cards).toHaveCount(3)
+    // Numeradas: el número en su círculo; el nivel sin «Misión 1 - ».
+    await expect(cards.locator('.lq__n')).toHaveText(['1', '2', '3'])
     for (const [index, quest] of logro.quests.entries()) {
       const card = cards.nth(index)
       await expect(card.getByText(quest.kicker)).toBeVisible()
