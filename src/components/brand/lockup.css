@@ -6,15 +6,15 @@
   display: inline-flex;
   flex: none;
   align-items: center;
-  gap: 8px;
-  min-height: 44px;
+  gap: 0.5rem;
+  min-height: 2.75rem;
   color: var(--color-ink);
   text-decoration: none;
 }
 
 .lockup__emblem {
-  width: 30px;
-  height: 30px;
+  width: 1.875rem;
+  height: 1.875rem;
 }
 
 .lockup__word {
@@ -32,12 +32,12 @@
 
 @media (min-width: 48rem) {
   .lockup {
-    gap: 10px;
+    gap: 0.625rem;
   }
 
   .lockup--header .lockup__emblem {
-    width: 36px;
-    height: 36px;
+    width: 2.25rem;
+    height: 2.25rem;
   }
 
   .lockup--header .lockup__word {
@@ -46,8 +46,8 @@
 }
 
 .lockup--footer .lockup__emblem {
-  width: 32px;
-  height: 32px;
+  width: 2rem;
+  height: 2rem;
 }
 
 .lockup--footer .lockup__word {
@@ -59,7 +59,7 @@
 .lockup [data-part='hat'],
 .lockup [data-part='glyph'] {
   transform-box: view-box;
-  transform-origin: 32px 37px;
+  transform-origin: 2rem 2.3125rem;
   transition: transform 420ms var(--ease-out);
 }
 

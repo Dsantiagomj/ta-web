@@ -9,7 +9,7 @@
 .site-ft,
 .sheet,
 .sdlg {
-  --gutter: 16px;
+  --gutter: 1rem;
 }
 
 @media (min-width: 40rem) {
@@ -17,7 +17,7 @@
   .site-ft,
   .sheet,
   .sdlg {
-    --gutter: 24px;
+    --gutter: 1.5rem;
   }
 }
 
@@ -26,20 +26,20 @@
   .site-ft,
   .sheet,
   .sdlg {
-    --gutter: 48px;
+    --gutter: 3rem;
   }
 }
 
 html {
-  scroll-padding-top: 80px;
+  scroll-padding-top: 5rem;
 }
 
 .skip-link {
   position: absolute;
   z-index: var(--z-toast);
-  top: 8px;
-  left: 8px;
-  padding: 10px 16px;
+  top: 0.5rem;
+  left: 0.5rem;
+  padding: 0.625rem 1rem;
   border-radius: var(--radius-pill);
   background: var(--color-surface);
   color: var(--color-ink);
@@ -56,7 +56,7 @@ html {
   position: sticky;
   z-index: var(--z-header);
   top: 0;
-  height: 64px;
+  height: 4rem;
   isolation: isolate;
 }
 
@@ -74,7 +74,7 @@ html {
 @supports (backdrop-filter: blur(1px)) {
   .site-hdr::before {
     background: color-mix(in srgb, var(--color-bg) 92%, transparent);
-    backdrop-filter: blur(16px) saturate(1.4);
+    backdrop-filter: blur(1rem) saturate(1.4);
   }
 }
 
@@ -86,7 +86,7 @@ html {
 .site-hdr__in {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
   box-sizing: content-box;
   max-width: var(--width-wide);
   height: 100%;
@@ -97,14 +97,14 @@ html {
 .site-hdr__act {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 0.375rem;
   margin-left: auto;
 }
 
 /* A 320px (o con mucho zoom) la barra se aprieta para no desbordar. */
 @media (max-width: 22.49rem) {
   .site-hdr {
-    margin-inline: 8px !important;
+    margin-inline: 0.5rem !important;
   }
 
   .site-hdr__act {
@@ -114,20 +114,20 @@ html {
 
 @media (max-width: 47.99rem) {
   .site-hdr {
-    top: 12px;
-    height: 56px;
-    margin: 12px 12px 0;
+    top: 0.75rem;
+    height: 3.5rem;
+    margin: 0.75rem 0.75rem 0;
   }
 
   .site-hdr::before {
     opacity: 1;
     border: 1px solid var(--color-line);
-    border-radius: 16px;
-    box-shadow: 0 10px 30px -14px rgb(0 0 0 / 0.5);
+    border-radius: 1rem;
+    box-shadow: 0 0.625rem 1.875rem -0.875rem rgb(0 0 0 / 0.5);
   }
 
   .site-hdr__in {
-    padding-inline: 8px 4px;
+    padding-inline: 0.5rem 0.25rem;
   }
 }
 
@@ -136,11 +136,11 @@ html {
   display: inline-grid;
   flex: none;
   place-items: center;
-  width: 44px;
-  height: 44px;
+  width: 2.75rem;
+  height: 2.75rem;
   padding: 0;
   border: 0;
-  border-radius: 12px;
+  border-radius: 0.75rem;
   background: transparent;
   color: var(--color-ink-2);
   cursor: pointer;
@@ -154,8 +154,8 @@ html {
 }
 
 .ib svg {
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 /* La píldora de búsqueda: 44px de alto y 240px de ancho, con Ctrl K al final. */
@@ -163,10 +163,10 @@ html {
   display: none;
   flex: none;
   align-items: center;
-  gap: 10px;
-  min-width: 240px;
-  height: 44px;
-  padding: 0 10px 0 16px;
+  gap: 0.625rem;
+  min-width: 15rem;
+  height: 2.75rem;
+  padding: 0 0.625rem 0 1rem;
   border: 1px solid var(--color-line);
   border-radius: var(--radius-pill);
   background: var(--color-surface);
@@ -176,8 +176,8 @@ html {
 }
 
 .spill svg {
-  width: 18px;
-  height: 18px;
+  width: 1.125rem;
+  height: 1.125rem;
 }
 
 .spill > span {
@@ -186,8 +186,8 @@ html {
 }
 
 .site-hdr .spill kbd {
-  height: 24px;
-  padding: 0 7px;
+  height: 1.5rem;
+  padding: 0 0.4375rem;
   font-size: 0.8125rem;
 }
 
@@ -203,10 +203,10 @@ html {
 .scta kbd {
   display: inline-flex;
   align-items: center;
-  height: 22px;
-  padding: 0 6px;
+  height: 1.375rem;
+  padding: 0 0.375rem;
   border: 1px solid var(--color-line);
-  border-radius: 6px;
+  border-radius: 0.375rem;
   color: var(--color-ink-2);
   font: 600 0.75rem/1 var(--font-body);
   white-space: nowrap;
@@ -236,7 +236,7 @@ html {
 @media (min-width: 70rem) {
   .site-nav {
     display: block;
-    margin-left: 16px;
+    margin-left: 1rem;
   }
 }
 
@@ -256,9 +256,9 @@ html {
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  height: 40px;
-  padding: 6px 10px 6px 8px;
+  gap: 0.375rem;
+  height: 2.5rem;
+  padding: 0.375rem 0.625rem 0.375rem 0.5rem;
   border: 0;
   border-radius: var(--radius-pill);
   background: transparent;
@@ -271,7 +271,7 @@ html {
 .np::after {
   content: '';
   position: absolute;
-  inset: -4px 0;
+  inset: -0.25rem 0;
 }
 
 .np[aria-expanded='true'] {
@@ -299,9 +299,9 @@ html {
 .soon {
   display: inline-flex;
   align-items: center;
-  height: 20px;
-  margin-left: 8px;
-  padding: 0 7px;
+  height: 1.25rem;
+  margin-left: 0.5rem;
+  padding: 0 0.4375rem;
   border-radius: var(--radius-pill);
   background: var(--color-raised);
   color: var(--color-ink-2);
@@ -312,15 +312,15 @@ html {
 
 .np__i {
   flex: none;
-  width: 22px;
-  height: 22px;
+  width: 1.375rem;
+  height: 1.375rem;
   object-fit: contain;
 }
 
 .np__c {
   flex: none;
-  width: 14px;
-  height: 14px;
+  width: 0.875rem;
+  height: 0.875rem;
   color: var(--color-muted);
   transition: transform var(--duration-fast) var(--ease-out);
 }
@@ -331,13 +331,13 @@ html {
 
 @media (min-width: 70rem) and (max-width: 79.99rem) {
   .np {
-    gap: 4px;
-    padding: 6px;
+    gap: 0.25rem;
+    padding: 0.375rem;
     font-size: 0.9375rem;
   }
 
   .site-nav {
-    margin-left: 8px;
+    margin-left: 0.5rem;
   }
 }
 
@@ -345,23 +345,23 @@ html {
    borde izquierdo del menú, no de su botón, y nunca es más ancho que lo que queda de
    pantalla a su derecha: a 1120px tampoco se sale. */
 .panel {
-  --panel-w: 720px;
+  --panel-w: 45rem;
   position: absolute;
   z-index: var(--z-menu);
-  top: calc(100% + 18px);
-  left: -8px;
+  top: calc(100% + 1.125rem);
+  left: -0.5rem;
   display: grid;
-  grid-template-columns: 236px minmax(0, 1fr);
-  width: min(var(--panel-w), calc(100vw - 280px));
+  grid-template-columns: 14.75rem minmax(0, 1fr);
+  width: min(var(--panel-w), calc(100vw - 17.5rem));
   /* En una pantalla baja el panel se desplaza por dentro: la cabecera no se mueve. */
-  max-height: calc(100dvh - 64px - 30px);
+  max-height: calc(100dvh - 4rem - 1.875rem);
   overflow: hidden auto;
   overscroll-behavior: contain;
   border: 1px solid color-mix(in srgb, var(--color-section) 35%, var(--color-well-line));
   border-radius: var(--radius-lg);
   background: var(--color-surface);
   box-shadow: var(--shadow-float);
-  transform-origin: 30px 0;
+  transform-origin: 1.875rem 0;
   /* Sale en el 70 % de lo que tarda en entrar (DESIGN.md, Motion); `display` espera al final
      para que se vea salir. Cambiar de panel cierra uno y abre otro a la vez. */
   transition:
@@ -378,14 +378,14 @@ html {
 .panel[hidden] {
   display: none;
   opacity: 0;
-  transform: translateY(-6px) scale(0.97);
+  transform: translateY(-0.375rem) scale(0.97);
   pointer-events: none;
 }
 
 @starting-style {
   .panel:not([hidden]) {
     opacity: 0;
-    transform: translateY(-6px) scale(0.97);
+    transform: translateY(-0.375rem) scale(0.97);
   }
 }
 
@@ -416,15 +416,15 @@ html {
 }
 
 .panel--dofus {
-  --panel-w: 800px;
-  grid-template-columns: 268px minmax(0, 1fr);
+  --panel-w: 50rem;
+  grid-template-columns: 16.75rem minmax(0, 1fr);
 }
 
 .panel__tile {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 22px 20px 18px;
+  gap: 0.625rem;
+  padding: 1.375rem 1.25rem 1.125rem;
   border-right: 1px solid color-mix(in srgb, var(--color-section) 22%, var(--color-line));
   background: linear-gradient(
     170deg,
@@ -434,12 +434,12 @@ html {
 }
 
 .panel__tile--hub {
-  gap: 8px;
-  padding: 16px 14px;
+  gap: 0.5rem;
+  padding: 1rem 0.875rem;
 }
 
 .panel__t {
-  margin-top: 4px;
+  margin-top: 0.25rem;
   color: var(--color-ink);
   font: 700 1.375rem/1.15 var(--font-display);
 }
@@ -456,11 +456,11 @@ html {
 
 .panel__tile .all-link {
   margin-top: auto;
-  padding-top: 8px;
+  padding-top: 0.5rem;
 }
 
 .panel__h {
-  margin: 4px 4px 0;
+  margin: 0.25rem 0.25rem 0;
   color: var(--color-accent);
   font: 700 0.6875rem/1.2 var(--font-display);
   letter-spacing: 0.14em;
@@ -469,11 +469,11 @@ html {
 
 .panel__body {
   min-width: 0;
-  padding: 16px;
+  padding: 1rem;
 }
 
 .panel__body > .panel__h {
-  margin: 0 4px 10px;
+  margin: 0 0.25rem 0.625rem;
 }
 
 /* Iconos del juego en su hueco (DESIGN.md, Icon wells). */
@@ -481,66 +481,66 @@ html {
   display: grid;
   flex: none;
   place-items: center;
-  width: 40px;
-  height: 40px;
+  width: 2.5rem;
+  height: 2.5rem;
   border: 1px solid color-mix(in srgb, var(--color-section) 45%, var(--color-slot-line));
-  border-radius: 10px;
+  border-radius: 0.625rem;
   background: var(--color-slot);
   color: var(--color-section);
 }
 
 .site-well img {
   width: auto;
-  max-width: 28px;
+  max-width: 1.75rem;
   height: auto;
-  max-height: 28px;
+  max-height: 1.75rem;
   object-fit: contain;
 }
 
 .site-well svg {
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 .site-well--lg {
-  width: 48px;
-  height: 48px;
+  width: 3rem;
+  height: 3rem;
 }
 
 .site-well--lg img {
   width: auto;
-  max-width: 36px;
+  max-width: 2.25rem;
   height: auto;
-  max-height: 36px;
+  max-height: 2.25rem;
 }
 
 .site-well--xl {
-  width: 64px;
-  height: 64px;
+  width: 4rem;
+  height: 4rem;
   border-color: color-mix(in srgb, var(--color-section) 60%, var(--color-slot-line));
-  border-radius: 16px;
+  border-radius: 1rem;
 }
 
 .site-well--xl img {
   width: auto;
-  max-width: 46px;
+  max-width: 2.875rem;
   height: auto;
-  max-height: 46px;
+  max-height: 2.875rem;
 }
 
 .all-link {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  min-height: 40px;
+  gap: 0.5rem;
+  min-height: 2.5rem;
   color: var(--color-accent);
   font: 700 0.9375rem/1.2 var(--font-display);
   text-decoration: none;
 }
 
 .all-link svg {
-  width: 16px;
-  height: 16px;
+  width: 1rem;
+  height: 1rem;
   transition: transform var(--duration-fast) var(--ease-out);
 }
 
@@ -553,7 +553,7 @@ html {
 
 @media (hover: hover) and (pointer: fine) {
   .all-link:hover svg {
-    transform: translateX(3px);
+    transform: translateX(0.1875rem);
   }
 }
 
@@ -570,10 +570,10 @@ html {
   display: grid;
   align-content: start;
   justify-items: center;
-  gap: 4px;
-  min-height: 88px;
-  padding: 8px 4px 6px;
-  border-radius: 12px;
+  gap: 0.25rem;
+  min-height: 5.5rem;
+  padding: 0.5rem 0.25rem 0.375rem;
+  border-radius: 0.75rem;
   color: var(--color-ink);
   font-size: 0.8125rem;
   font-weight: 600;
@@ -589,9 +589,9 @@ html {
 }
 
 .art-grid--eggs img {
-  width: 44px;
-  height: 44px;
-  filter: drop-shadow(0 3px 5px rgb(0 0 0 / 0.3));
+  width: 2.75rem;
+  height: 2.75rem;
+  filter: drop-shadow(0 0.1875rem 0.3125rem rgb(0 0 0 / 0.3));
 }
 
 /* Un Dofus que Torre aún no tiene escrito: el huevo apagado, sin enlace. */
@@ -599,9 +599,9 @@ html {
   display: grid;
   align-content: start;
   justify-items: center;
-  gap: 4px;
-  min-height: 88px;
-  padding: 8px 4px 6px;
+  gap: 0.25rem;
+  min-height: 5.5rem;
+  padding: 0.5rem 0.25rem 0.375rem;
   color: var(--color-ink-2);
   font-size: 0.8125rem;
   font-weight: 600;
@@ -615,15 +615,15 @@ html {
 }
 
 .panel--dofus .panel__body .all-link {
-  margin-top: 12px;
+  margin-top: 0.75rem;
 }
 
 /* La guía de los Dofus, destacada en el panel compartido. */
 .feat {
   display: grid;
-  gap: 10px;
-  margin-bottom: 6px;
-  padding: 14px;
+  gap: 0.625rem;
+  margin-bottom: 0.375rem;
+  padding: 0.875rem;
   border-radius: var(--radius-card);
   background: var(--color-well);
   color: var(--color-ink);
@@ -638,17 +638,17 @@ html {
 
 .feat__art {
   display: flex;
-  height: 64px;
+  height: 4rem;
 }
 
 .feat__art img {
-  width: 60px;
-  height: 60px;
-  filter: drop-shadow(0 4px 8px rgb(0 0 0 / 0.35));
+  width: 3.75rem;
+  height: 3.75rem;
+  filter: drop-shadow(0 0.25rem 0.5rem rgb(0 0 0 / 0.35));
 }
 
 .feat__art img + img {
-  margin-left: -22px;
+  margin-left: -1.375rem;
 }
 
 .feat__t {
@@ -659,7 +659,7 @@ html {
 .feat__d,
 .chk__d {
   display: block;
-  margin-top: 3px;
+  margin-top: 0.1875rem;
   color: var(--color-ink-2);
   font-size: 0.875rem;
   line-height: 1.35;
@@ -668,25 +668,25 @@ html {
 .chk,
 .chk-mini {
   display: grid;
-  gap: 8px;
+  gap: 0.5rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .chk-mini {
-  gap: 4px;
+  gap: 0.25rem;
 }
 
 .chk a,
 .chk-mini a {
   display: flex;
   align-items: center;
-  gap: 16px;
-  min-height: 84px;
-  padding: 10px 16px 10px 12px;
+  gap: 1rem;
+  min-height: 5.25rem;
+  padding: 0.625rem 1rem 0.625rem 0.75rem;
   border: 1px solid var(--color-line);
-  border-radius: 14px;
+  border-radius: 0.875rem;
   background: var(--color-bg);
   color: var(--color-ink);
   text-decoration: none;
@@ -700,9 +700,9 @@ html {
 
 .chk img {
   flex: none;
-  width: 60px;
-  height: 60px;
-  filter: drop-shadow(0 4px 8px rgb(0 0 0 / 0.35));
+  width: 3.75rem;
+  height: 3.75rem;
+  filter: drop-shadow(0 0.25rem 0.5rem rgb(0 0 0 / 0.35));
 }
 
 .chk__t {
@@ -711,11 +711,11 @@ html {
 }
 
 .chk-mini a {
-  gap: 10px;
-  min-height: 52px;
-  padding: 4px 10px 4px 6px;
+  gap: 0.625rem;
+  min-height: 3.25rem;
+  padding: 0.25rem 0.625rem 0.25rem 0.375rem;
   border: 0;
-  border-radius: 12px;
+  border-radius: 0.75rem;
   background: var(--color-well);
 }
 
@@ -727,8 +727,8 @@ html {
 
 .chk-mini img {
   flex: none;
-  width: 30px;
-  height: 30px;
+  width: 1.875rem;
+  height: 1.875rem;
 }
 
 .chk-mini .chk__t {
@@ -745,12 +745,12 @@ html {
 .scta {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 0.875rem;
   width: 100%;
-  min-height: 64px;
-  padding: 10px 12px 10px 16px;
+  min-height: 4rem;
+  padding: 0.625rem 0.75rem 0.625rem 1rem;
   border: 1.5px solid var(--color-well-line);
-  border-radius: 14px;
+  border-radius: 0.875rem;
   background: var(--color-bg);
   color: var(--color-ink);
   font: inherit;
@@ -766,8 +766,8 @@ html {
 
 .scta > svg {
   flex: none;
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
   color: var(--color-accent);
 }
 
@@ -791,7 +791,7 @@ html {
 .hub-l {
   display: grid;
   gap: 2px;
-  margin: 16px 0 0;
+  margin: 1rem 0 0;
   padding: 0;
   list-style: none;
 }
@@ -799,10 +799,10 @@ html {
 .hub-l a {
   display: flex;
   align-items: center;
-  gap: 12px;
-  min-height: 52px;
-  padding: 4px 10px 4px 4px;
-  border-radius: 12px;
+  gap: 0.75rem;
+  min-height: 3.25rem;
+  padding: 0.25rem 0.625rem 0.25rem 0.25rem;
+  border-radius: 0.75rem;
   color: var(--color-ink);
   font-weight: 600;
   text-decoration: none;
@@ -877,22 +877,22 @@ html {
   flex: none;
   align-items: center;
   justify-content: space-between;
-  height: 64px;
-  padding: 0 12px 0 20px;
+  height: 4rem;
+  padding: 0 0.75rem 0 1.25rem;
   border-bottom: 1px solid var(--color-line);
 }
 
 .sheet__body {
   display: grid;
   align-content: start;
-  gap: 16px;
+  gap: 1rem;
   overflow-y: auto;
-  padding: 12px 16px 32px;
+  padding: 0.75rem 1rem 2rem;
 }
 
 .stiles {
   display: grid;
-  gap: 8px;
+  gap: 0.5rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -908,10 +908,10 @@ html {
 .stile__b {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 0.75rem;
   width: 100%;
-  min-height: 64px;
-  padding: 8px 12px 8px 8px;
+  min-height: 4rem;
+  padding: 0.5rem 0.75rem 0.5rem 0.5rem;
   border: 0;
   background: none;
   color: var(--color-ink);
@@ -966,8 +966,8 @@ html {
 
 .stile__c {
   flex: none;
-  width: 18px;
-  height: 18px;
+  width: 1.125rem;
+  height: 1.125rem;
   margin-left: auto;
   color: var(--color-ink-2);
   transition: transform var(--duration-fast) var(--ease-out);
@@ -979,8 +979,8 @@ html {
 
 .stile__p {
   display: grid;
-  gap: 8px;
-  padding: 4px 10px 12px;
+  gap: 0.5rem;
+  padding: 0.25rem 0.625rem 0.75rem;
   transition:
     opacity 150ms var(--ease-in),
     transform 150ms var(--ease-in),
@@ -995,14 +995,14 @@ html {
 .stile__p[hidden] {
   display: none;
   opacity: 0;
-  transform: translateY(-4px);
+  transform: translateY(-0.25rem);
   pointer-events: none;
 }
 
 @starting-style {
   .stile__p:not([hidden]) {
     opacity: 0;
-    transform: translateY(-4px);
+    transform: translateY(-0.25rem);
   }
 }
 
@@ -1011,13 +1011,13 @@ html {
 }
 
 .stile__p .all-link {
-  padding-left: 6px;
+  padding-left: 0.375rem;
 }
 
 .sheet__soc {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 0.5rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -1026,25 +1026,25 @@ html {
 .sheet__soc a {
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
+  width: 2.75rem;
+  height: 2.75rem;
   border: 1px solid var(--color-well-line);
-  border-radius: 12px;
+  border-radius: 0.75rem;
   background: var(--color-well);
   color: var(--color-ink);
 }
 
 .sheet__soc svg {
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 /* ---------- la búsqueda (DESIGN.md, Search dialog) ---------- */
 .sdlg {
-  width: min(640px, calc(100vw - 24px));
+  width: min(40rem, calc(100vw - 1.5rem));
   /* 72px de margen arriba y 24px abajo: la caja nunca pasa del borde inferior. */
-  max-height: min(640px, calc(100dvh - 96px));
-  margin: 72px auto auto;
+  max-height: min(40rem, calc(100dvh - 6rem));
+  margin: 4.5rem auto auto;
   padding: 0;
   overflow: hidden;
   border: 1px solid var(--color-well-line);
@@ -1054,7 +1054,7 @@ html {
   box-shadow: var(--shadow-dialog);
   /* Como todo diálogo (DESIGN.md, Motion: Dialogs): entra subiendo 12px, sale en el 70 %. */
   opacity: 0;
-  transform: translateY(12px) scale(0.98);
+  transform: translateY(0.75rem) scale(0.98);
   /* Mientras sale sigue en la capa superior: no debe tapar los clics de la página. */
   pointer-events: none;
   transition:
@@ -1092,7 +1092,7 @@ html {
 @starting-style {
   .sdlg[open] {
     opacity: 0;
-    transform: translateY(12px) scale(0.98);
+    transform: translateY(0.75rem) scale(0.98);
   }
 
   .sdlg[open]::backdrop {
@@ -1115,9 +1115,9 @@ html {
   display: flex;
   flex: none;
   align-items: center;
-  gap: 12px;
-  height: 64px;
-  padding: 0 12px 0 20px;
+  gap: 0.75rem;
+  height: 4rem;
+  padding: 0 0.75rem 0 1.25rem;
   border-bottom: 1px solid var(--color-line);
 }
 
@@ -1127,8 +1127,8 @@ html {
 
 .sdlg__i {
   flex: none;
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
   color: var(--color-ink-2);
 }
 
@@ -1153,10 +1153,10 @@ html {
 }
 
 .sdlg__x {
-  height: 40px;
-  padding: 0 10px;
+  height: 2.5rem;
+  padding: 0 0.625rem;
   border: 1px solid var(--color-line);
-  border-radius: 8px;
+  border-radius: 0.5rem;
   background: none;
   color: var(--color-ink-2);
   font: 600 0.8125rem/1 var(--font-body);
@@ -1164,7 +1164,7 @@ html {
 }
 
 .sdlg__st {
-  padding: 10px 20px 0;
+  padding: 0.625rem 1.25rem 0;
   color: var(--color-ink-2);
   font-size: 0.875rem;
 }
@@ -1175,11 +1175,11 @@ html {
 
 .sdlg__list {
   overflow-y: auto;
-  padding: 8px 12px 16px;
+  padding: 0.5rem 0.75rem 1rem;
 }
 
 .sdlg__h {
-  margin: 8px 8px 4px;
+  margin: 0.5rem 0.5rem 0.25rem;
   color: var(--color-ink-2);
   font: 600 0.8125rem/1.2 var(--font-display);
   letter-spacing: 0.06em;
@@ -1197,10 +1197,10 @@ html {
 .sdlg__list a {
   display: flex;
   align-items: center;
-  gap: 12px;
-  min-height: 48px;
-  padding: 4px 10px 4px 4px;
-  border-radius: 12px;
+  gap: 0.75rem;
+  min-height: 3rem;
+  padding: 0.25rem 0.625rem 0.25rem 0.25rem;
+  border-radius: 0.75rem;
   color: var(--color-ink);
   font-weight: 600;
   text-decoration: none;
@@ -1222,8 +1222,8 @@ html {
 
 .sdlg__list .site-well {
   flex: none;
-  width: 36px;
-  height: 36px;
+  width: 2.25rem;
+  height: 2.25rem;
 }
 
 /* Una misión: el título y, debajo, su nivel y su logro. */
@@ -1252,14 +1252,14 @@ mark.hit {
 
 .sdlg__list .site-well img {
   width: auto;
-  max-width: 26px;
+  max-width: 1.625rem;
   height: auto;
-  max-height: 26px;
+  max-height: 1.625rem;
 }
 
 /* ================= pie ================= */
 .site-ft {
-  margin-top: 32px;
+  margin-top: 2rem;
   border-top: 1px solid var(--color-line);
   color: var(--color-ink-2);
   font-size: 0.9375rem;
@@ -1275,8 +1275,8 @@ mark.hit {
 
 .site-ft__in {
   display: grid;
-  gap: 36px;
-  padding-block: 48px 40px;
+  gap: 2.25rem;
+  padding-block: 3rem 2.5rem;
 }
 
 @media (min-width: 48rem) {
@@ -1292,7 +1292,7 @@ mark.hit {
 @media (min-width: 70rem) {
   .site-ft__in {
     grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.55fr) minmax(0, 1fr);
-    gap: 48px;
+    gap: 3rem;
   }
 
   .ft-torre {
@@ -1308,35 +1308,35 @@ mark.hit {
 
 .ft-torre {
   display: grid;
-  grid-template-columns: 84px minmax(0, 1fr);
+  grid-template-columns: 5.25rem minmax(0, 1fr);
   align-items: start;
-  gap: 16px;
+  gap: 1rem;
 }
 
 .ft-torre__face {
-  width: 84px;
+  width: 5.25rem;
   height: auto;
-  filter: drop-shadow(0 12px 20px rgb(0 0 0 / 0.35));
+  filter: drop-shadow(0 0.75rem 1.25rem rgb(0 0 0 / 0.35));
 }
 
 @media (min-width: 40rem) {
   .ft-torre {
-    grid-template-columns: 112px minmax(0, 1fr);
-    gap: 20px;
+    grid-template-columns: 7rem minmax(0, 1fr);
+    gap: 1.25rem;
   }
 
   .ft-torre__face {
-    width: 112px;
+    width: 7rem;
   }
 }
 
 @media (min-width: 70rem) {
   .ft-torre {
-    grid-template-columns: 136px minmax(0, 1fr);
+    grid-template-columns: 8.5rem minmax(0, 1fr);
   }
 
   .ft-torre__face {
-    width: 136px;
+    width: 8.5rem;
   }
 }
 
@@ -1347,7 +1347,7 @@ mark.hit {
 
 .ft-torre__bio {
   max-width: 24ch;
-  margin-top: 4px;
+  margin-top: 0.25rem;
   color: var(--color-ink);
   font: 600 clamp(1.1875rem, 1.05rem + 0.5vw, 1.4375rem) / 1.32 var(--font-display);
 }
@@ -1355,10 +1355,10 @@ mark.hit {
 .live-card {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 0.875rem;
   max-width: 30rem;
-  margin-top: 16px;
-  padding: 14px 16px;
+  margin-top: 1rem;
+  padding: 0.875rem 1rem;
   border: 1px solid var(--color-well-line);
   border-radius: var(--radius-card);
   background: var(--color-surface);
@@ -1366,8 +1366,8 @@ mark.hit {
 
 .live-card__dot {
   flex: none;
-  width: 16px;
-  height: 16px;
+  width: 1rem;
+  height: 1rem;
   border: 2px solid var(--color-muted);
   border-radius: 50%;
 }
@@ -1389,7 +1389,7 @@ mark.hit {
 }
 
 .ft-eyebrow {
-  margin-bottom: 10px !important;
+  margin-bottom: 0.625rem !important;
   color: var(--color-accent);
   font: 700 0.75rem/1.2 var(--font-display);
   letter-spacing: 0.14em;
@@ -1407,7 +1407,7 @@ mark.hit {
 .ft-soon {
   display: inline-flex;
   align-items: center;
-  min-height: 40px;
+  min-height: 2.5rem;
   color: var(--color-ink-2);
   font: 600 1rem/1.2 var(--font-display);
 }
@@ -1415,7 +1415,7 @@ mark.hit {
 .ft-explore a {
   display: inline-flex;
   align-items: center;
-  min-height: 40px;
+  min-height: 2.5rem;
   color: var(--color-ink);
   font: 600 1rem/1.2 var(--font-display);
   text-decoration: none;
@@ -1430,7 +1430,7 @@ mark.hit {
 .ft-com {
   display: grid;
   align-content: start;
-  gap: 10px;
+  gap: 0.625rem;
 }
 
 .ft-h {
@@ -1443,15 +1443,15 @@ mark.hit {
 .ft-kofi {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 0.875rem;
   border-radius: var(--radius-card);
   color: var(--color-ink);
   text-decoration: none;
 }
 
 .ft-join {
-  min-height: 64px;
-  padding: 8px 14px 8px 8px;
+  min-height: 4rem;
+  padding: 0.5rem 0.875rem 0.5rem 0.5rem;
   border: 1px solid var(--color-well-line);
   background: var(--color-surface);
 }
@@ -1466,16 +1466,16 @@ mark.hit {
   display: grid;
   flex: none;
   place-items: center;
-  width: 48px;
-  height: 48px;
+  width: 3rem;
+  height: 3rem;
   border: 1px solid var(--color-well-line);
-  border-radius: 12px;
+  border-radius: 0.75rem;
   background: var(--color-well);
 }
 
 .ft-join__i svg {
-  width: 24px;
-  height: 24px;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .ft-join__t,
@@ -1494,9 +1494,9 @@ mark.hit {
 }
 
 .ft-kofi {
-  gap: 12px;
-  min-height: 60px;
-  padding: 10px 14px;
+  gap: 0.75rem;
+  min-height: 3.75rem;
+  padding: 0.625rem 0.875rem;
   border: 1.5px solid var(--color-accent);
 }
 
@@ -1508,13 +1508,13 @@ mark.hit {
 
 .ft-kofi > svg {
   flex: none;
-  width: 28px;
-  height: 28px;
+  width: 1.75rem;
+  height: 1.75rem;
   color: var(--color-accent);
 }
 
 .ft-h3 {
-  margin-top: 14px !important;
+  margin-top: 0.875rem !important;
   color: var(--color-ink);
   font: 700 1rem/1.2 var(--font-display);
 }
@@ -1522,8 +1522,8 @@ mark.hit {
 /* Los canales de Torre como casillas del inventario. */
 .slots {
   display: grid;
-  grid-template-columns: repeat(3, minmax(76px, max-content));
-  gap: 12px 20px;
+  grid-template-columns: repeat(3, minmax(4.75rem, max-content));
+  gap: 0.75rem 1.25rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -1532,7 +1532,7 @@ mark.hit {
 .slot {
   display: grid;
   justify-items: center;
-  gap: 6px;
+  gap: 0.375rem;
   color: var(--color-ink);
   text-align: center;
   text-decoration: none;
@@ -1541,19 +1541,19 @@ mark.hit {
 .slot__w {
   display: grid;
   place-items: center;
-  width: 68px;
-  height: 68px;
+  width: 4.25rem;
+  height: 4.25rem;
   border: 1px solid var(--color-well-line);
-  border-radius: 14px;
+  border-radius: 0.875rem;
   background: var(--color-surface);
-  box-shadow: inset 0 -3px 0 rgb(0 0 0 / 0.18);
+  box-shadow: inset 0 -0.1875rem 0 rgb(0 0 0 / 0.18);
   color: var(--color-ink);
   transition: translate var(--duration-fast) var(--ease-out);
 }
 
 .slot__w svg {
-  width: 30px;
-  height: 30px;
+  width: 1.875rem;
+  height: 1.875rem;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -1565,7 +1565,7 @@ mark.hit {
 /* Solo con ratón (DESIGN.md, Components): en una pantalla táctil el hover se queda pegado. */
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   .slot:hover .slot__w {
-    translate: 0 -3px;
+    translate: 0 -0.1875rem;
   }
 }
 
@@ -1585,17 +1585,17 @@ mark.hit {
   display: inline-flex;
   align-items: center;
   justify-self: start;
-  gap: 8px;
-  min-height: 44px;
-  margin-top: 6px;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  margin-top: 0.375rem;
   color: var(--color-ink-2);
   font: 600 0.9375rem/1 var(--font-display);
   text-decoration: none;
 }
 
 .ft-up svg {
-  width: 16px;
-  height: 16px;
+  width: 1rem;
+  height: 1rem;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -1606,8 +1606,8 @@ mark.hit {
 
 .site-ft__legal {
   display: grid;
-  gap: 8px;
-  padding-block: 24px 40px;
+  gap: 0.5rem;
+  padding-block: 1.5rem 2.5rem;
   border-top: 1px solid var(--color-line);
 }
 
@@ -1615,7 +1615,7 @@ mark.hit {
   .site-ft__legal {
     grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
-    column-gap: 32px;
+    column-gap: 2rem;
   }
 
   .ft-disc {
@@ -1626,13 +1626,13 @@ mark.hit {
 .ft-legal {
   display: flex;
   flex-wrap: wrap;
-  gap: 0 20px;
+  gap: 0 1.25rem;
 }
 
 .ft-legal a {
   display: inline-flex;
   align-items: center;
-  min-height: 40px;
+  min-height: 2.5rem;
   color: var(--color-ink-2);
 }
 
@@ -1658,6 +1658,6 @@ mark.hit {
   .ft-legal a,
   .ft-explore a,
   .all-link {
-    min-height: 44px;
+    min-height: 2.75rem;
   }
 }

@@ -14,25 +14,25 @@
 /* Una página plana: el contenido sobre el fondo, sin tarjeta alrededor, en una sola
    columna de lectura centrada de 880px. */
 .quest {
-  --gutter: 16px;
+  --gutter: 1rem;
   box-sizing: content-box;
-  max-width: 880px;
+  max-width: 55rem;
   margin-inline: auto;
-  padding: 28px var(--gutter) 56px;
+  padding: 1.75rem var(--gutter) 3.5rem;
   font-size: 1rem;
   line-height: 1.65;
 }
 
 @media (min-width: 40rem) {
   .quest {
-    --gutter: 24px;
+    --gutter: 1.5rem;
   }
 }
 
 @media (min-width: 64rem) {
   .quest {
-    --gutter: 48px;
-    padding-top: 40px;
+    --gutter: 3rem;
+    padding-top: 2.5rem;
   }
 }
 
@@ -51,11 +51,11 @@
 
 .quest__intro,
 .quest__outro {
-  margin-top: 36px;
+  margin-top: 2.25rem;
 }
 
 .quest__outro {
-  margin-top: 56px;
+  margin-top: 3.5rem;
 }
 
 /* El cierre, a la medida del texto de los pasos. */
@@ -72,30 +72,30 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   grid-template-areas: 'title' 'meta' 'facts';
-  padding-bottom: 32px;
+  padding-bottom: 2rem;
   border-bottom: 1px solid var(--color-line);
 }
 
 .qhead[data-giver] {
-  grid-template-columns: minmax(0, 1fr) 56px;
+  grid-template-columns: minmax(0, 1fr) 3.5rem;
   grid-template-rows: auto 1fr auto;
   grid-template-areas: 'title npc' 'meta npc' 'facts facts';
-  column-gap: 12px;
+  column-gap: 0.75rem;
 }
 
 @media (min-width: 36rem) {
   .qhead[data-giver] {
-    grid-template-columns: 104px minmax(0, 1fr);
+    grid-template-columns: 6.5rem minmax(0, 1fr);
     grid-template-rows: auto auto 1fr;
     grid-template-areas: 'npc title' 'npc meta' 'npc facts';
-    column-gap: 40px;
+    column-gap: 2.5rem;
   }
 }
 
 @media (min-width: 64rem) {
   .qhead[data-giver] {
-    grid-template-columns: 112px minmax(0, 1fr);
-    column-gap: 44px;
+    grid-template-columns: 7rem minmax(0, 1fr);
+    column-gap: 2.75rem;
   }
 }
 
@@ -109,7 +109,7 @@
 
 .qhead__meta {
   grid-area: meta;
-  margin-top: 8px;
+  margin-top: 0.5rem;
   color: var(--color-ink-2);
 }
 
@@ -124,7 +124,7 @@
 @media (min-width: 36rem) {
   .giver {
     align-self: center;
-    gap: 10px;
+    gap: 0.625rem;
   }
 }
 
@@ -141,7 +141,7 @@
   left: 50%;
   bottom: 0;
   width: 130%;
-  height: 16px;
+  height: 1rem;
   translate: -50% 40%;
   border-radius: 50%;
   background: radial-gradient(closest-side, var(--color-raised) 35%, transparent);
@@ -150,15 +150,15 @@
 .giver img {
   position: relative;
   display: block;
-  width: 50px;
+  width: 3.125rem;
   height: auto;
 }
 
 .giver figcaption {
   display: grid;
   justify-items: center;
-  gap: 6px;
-  margin-top: 6px;
+  gap: 0.375rem;
+  margin-top: 0.375rem;
   text-align: center;
 }
 
@@ -174,15 +174,15 @@
 
 @media (min-width: 36rem) {
   .giver picture::before {
-    height: 34px;
+    height: 2.125rem;
   }
 
   .giver img {
-    width: 84px;
+    width: 5.25rem;
   }
 
   .giver figcaption {
-    margin-top: 8px;
+    margin-top: 0.5rem;
   }
 
   .giver__name {
@@ -196,7 +196,7 @@
 
 @media (min-width: 64rem) {
   .giver img {
-    width: 92px;
+    width: 5.75rem;
   }
 }
 
@@ -207,19 +207,19 @@
   grid-area: facts;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 24px 48px;
-  margin-top: 28px;
+  gap: 1.5rem 3rem;
+  margin-top: 1.75rem;
 }
 
 .qhead__facts :is(h2, h3) {
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
   color: var(--color-ink);
   font: 600 1.25rem / 1.2 var(--font-display);
 }
 
 .qhead__facts ul {
   display: grid;
-  gap: 8px;
+  gap: 0.5rem;
 }
 
 /* ---------- Necesitarás: objetos y notas ---------- */
@@ -232,18 +232,18 @@ ul.needs__items,
 ul.needs__notes {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
-  gap: 8px 24px;
+  gap: 0.5rem 1.5rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 ul.needs__notes {
-  gap: 4px 24px;
+  gap: 0.25rem 1.5rem;
 }
 
 .needs__items + .needs__notes {
-  margin-top: 12px;
+  margin-top: 0.75rem;
 }
 
 /* «2 ×» en su columna y el nombre al lado: si no cabe, el nombre se parte debajo de sí
@@ -259,31 +259,31 @@ ul.needs__notes {
 /* El icono de copiar va 5px a la derecha del nombre y mide 14px (.copyname__i): la fila le
    guarda ese hueco para que un nombre que llena la columna no lo saque de la página. */
 .needs__items > .row {
-  padding-inline-end: 19px;
+  padding-inline-end: 1.1875rem;
 }
 
 .needs__notes > .row {
-  gap: 8px;
-  min-height: 28px;
+  gap: 0.5rem;
+  min-height: 1.75rem;
   line-height: 1.4;
 }
 
 .needs__notes .well {
-  width: 28px;
-  height: 28px;
-  border-radius: 7px;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 0.4375rem;
 }
 
 .needs__notes .well img {
-  width: 22px;
-  height: 22px;
+  width: 1.375rem;
+  height: 1.375rem;
 }
 
 .qhead__facts .qhead__rew {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  gap: 8px 32px;
+  gap: 0.5rem 2rem;
 }
 
 /* ---------- la bolsa de recompensas ---------- */
@@ -299,12 +299,12 @@ ul.needs__notes {
 .bag__btn {
   display: flex;
   align-items: center;
-  gap: 12px;
-  min-height: 44px;
+  gap: 0.75rem;
+  min-height: 2.75rem;
   margin: 0;
-  padding: 0 10px 0 0;
+  padding: 0 0.625rem 0 0;
   border: 0;
-  border-radius: 10px;
+  border-radius: 0.625rem;
   background: none;
   color: var(--color-ink);
   font: inherit;
@@ -335,8 +335,8 @@ ul.needs__notes {
 }
 
 .bag__chev {
-  width: 16px;
-  height: 16px;
+  width: 1rem;
+  height: 1rem;
   color: var(--color-ink-2);
   transition: transform var(--duration-fast) var(--ease-out);
 }
@@ -346,25 +346,25 @@ ul.needs__notes {
 }
 
 .qhead__facts .bag__list {
-  gap: 8px;
-  margin-top: 6px;
+  gap: 0.5rem;
+  margin-top: 0.375rem;
   white-space: nowrap;
 }
 
 [data-js] .qhead__facts .bag__list {
   position: absolute;
   z-index: var(--z-raised);
-  top: calc(100% + 6px);
+  top: calc(100% + 0.375rem);
   left: 0;
   width: max-content;
-  max-width: min(440px, calc(100vw - 32px));
+  max-width: min(27.5rem, calc(100vw - 2rem));
   margin: 0;
-  padding: 10px 14px 10px 10px;
+  padding: 0.625rem 0.875rem 0.625rem 0.625rem;
   border: 1px solid var(--color-well-line);
-  border-radius: 14px;
+  border-radius: 0.875rem;
   background: var(--color-surface);
   box-shadow: var(--shadow-float);
-  transform-origin: 22px 0;
+  transform-origin: 1.375rem 0;
   transition:
     opacity var(--duration-base) var(--ease-out),
     transform var(--duration-base) var(--ease-out),
@@ -375,7 +375,7 @@ ul.needs__notes {
 [data-js] .bag__btn[aria-expanded='false'] + .bag__list {
   visibility: hidden;
   opacity: 0;
-  transform: translateY(-6px) scale(0.97);
+  transform: translateY(-0.375rem) scale(0.97);
   transition-duration: 150ms, 150ms, 0s;
   transition-delay: 0s, 0s, 150ms;
   pointer-events: none;
@@ -388,7 +388,7 @@ ul.needs__notes {
 
   [data-js] .qhead__facts .bag__list {
     position: static;
-    margin-top: 6px;
+    margin-top: 0.375rem;
     box-shadow: none;
   }
 
@@ -402,8 +402,8 @@ ul.needs__notes {
 .row {
   display: flex;
   align-items: center;
-  gap: 12px;
-  min-height: 44px;
+  gap: 0.75rem;
+  min-height: 2.75rem;
   color: var(--color-ink);
 }
 
@@ -418,10 +418,10 @@ ul.needs__notes {
   display: grid;
   place-items: center;
   flex: none;
-  width: 44px;
-  height: 44px;
+  width: 2.75rem;
+  height: 2.75rem;
   border: 1px solid var(--color-slot-line);
-  border-radius: 10px;
+  border-radius: 0.625rem;
   background: var(--color-slot);
 }
 
@@ -437,7 +437,7 @@ ul.needs__notes {
   display: flex;
   max-width: none;
   flex-wrap: wrap;
-  gap: 8px 28px;
+  gap: 0.5rem 1.75rem;
   padding-left: 0;
   list-style: none;
 }
@@ -447,8 +447,8 @@ ul.needs__notes {
 }
 
 .well--mob {
-  width: 52px;
-  height: 52px;
+  width: 3.25rem;
+  height: 3.25rem;
 }
 
 /* ---------- siguiente misión ---------- */
@@ -456,10 +456,10 @@ ul.needs__notes {
 /* Toda la tarjeta es un enlace a la guía: su primera captura y, al lado, el texto. */
 .nextq {
   display: grid;
-  margin-top: 24px;
+  margin-top: 1.5rem;
   overflow: hidden;
   border: 1px solid var(--color-well-line);
-  border-radius: 16px;
+  border-radius: 1rem;
   background: var(--color-surface);
   color: var(--color-ink);
   text-decoration: none;
@@ -468,7 +468,7 @@ ul.needs__notes {
 
 @media (min-width: 40rem) {
   .nextq[data-art] {
-    grid-template-columns: 280px minmax(0, 1fr);
+    grid-template-columns: 17.5rem minmax(0, 1fr);
   }
 }
 
@@ -481,7 +481,7 @@ ul.needs__notes {
 
 @media (min-width: 40rem) {
   .nextq__art {
-    min-height: 168px;
+    min-height: 10.5rem;
     aspect-ratio: auto;
   }
 }
@@ -498,8 +498,8 @@ ul.needs__notes {
 .nextq__txt {
   display: grid;
   align-content: center;
-  gap: 6px;
-  padding: 20px 24px 22px;
+  gap: 0.375rem;
+  padding: 1.25rem 1.5rem 1.375rem;
 }
 
 .nextq__k {
@@ -535,8 +535,8 @@ ul.needs__notes {
 }
 
 .nextq:focus-visible {
-  outline: 3px solid var(--color-ink);
-  outline-offset: 4px;
+  outline: 0.1875rem solid var(--color-ink);
+  outline-offset: 0.25rem;
 }
 
 /* ---------- chip de coordenadas ---------- */
@@ -547,12 +547,12 @@ ul.needs__notes {
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  height: 32px;
+  gap: 0.3125rem;
+  height: 2rem;
   margin: 0 2px;
-  padding: 0 10px 0 7px;
+  padding: 0 0.625rem 0 0.4375rem;
   border: 1.5px solid var(--color-accent);
-  border-radius: 8px;
+  border-radius: 0.5rem;
   background: var(--color-well);
   color: var(--color-accent);
   font: 800 0.9375rem / 1 var(--font-body);
@@ -588,7 +588,7 @@ ul.needs__notes {
 .coord::after {
   content: '';
   position: absolute;
-  inset: -6px -2px;
+  inset: -0.375rem -2px;
 }
 
 /* ---------- objetos que se copian ---------- */
@@ -613,9 +613,9 @@ ul.needs__notes {
   display: none;
   position: absolute;
   top: 50%;
-  left: calc(100% + 5px);
-  width: 14px;
-  height: 14px;
+  left: calc(100% + 0.3125rem);
+  width: 0.875rem;
+  height: 0.875rem;
   translate: 0 -50%;
   opacity: 0;
   transition: opacity var(--duration-fast) var(--ease-standard);
@@ -660,13 +660,13 @@ ul.needs__notes {
   position: absolute;
   inset-inline: 0;
   top: 50%;
-  height: max(100%, 40px);
+  height: max(100%, 2.5rem);
   transform: translateY(-50%);
 }
 
 @media (pointer: coarse) {
   .copyname[role='button']::after {
-    height: max(100%, 44px);
+    height: max(100%, 2.75rem);
   }
 }
 
@@ -718,33 +718,33 @@ ul.needs__notes {
 /* Sin números: los pasos se separan con una línea, sin línea encima del primero. */
 .qsteps > ol {
   display: grid;
-  margin-top: 8px;
+  margin-top: 0.5rem;
 }
 
 .qstep {
-  padding-block: 40px;
+  padding-block: 2.5rem;
   border-top: 1px solid var(--color-line);
-  scroll-margin-top: 88px;
+  scroll-margin-top: 5.5rem;
 }
 
 .qstep:first-child {
-  padding-top: 32px;
+  padding-top: 2rem;
   border-top: 0;
 }
 
 @media (max-width: 40rem) {
   .qstep {
-    padding-block: 32px;
+    padding-block: 2rem;
   }
 }
 
 .qstep__body.prose-guide > * + * {
-  margin-top: 18px;
+  margin-top: 1.125rem;
 }
 
 /* Las recomendaciones de Torre se separan más de lo que tienen encima. */
 .qstep__body.prose-guide > .torre {
-  margin-top: 32px;
+  margin-top: 2rem;
 }
 
 /* Las capturas de un paso, a la misma distancia que el resto de sus bloques. */
@@ -760,7 +760,7 @@ ul.needs__notes {
 /* Las capturas, tan anchas como la columna. */
 .qstep__body > figure img {
   width: 100%;
-  border-radius: 14px;
+  border-radius: 0.875rem;
   box-shadow: var(--shadow-art);
 }
 
@@ -771,12 +771,12 @@ ul.needs__notes {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: start;
-  gap: 0 18px;
+  gap: 0 1.125rem;
 }
 
 .torre__face {
-  width: 72px;
-  height: 72px;
+  width: 4.5rem;
+  height: 4.5rem;
   overflow: hidden;
   border: 2px solid var(--color-well-line);
   border-radius: 50%;
@@ -790,9 +790,9 @@ ul.needs__notes {
 
 .torre__box {
   position: relative;
-  padding: 18px 22px 20px;
+  padding: 1.125rem 1.375rem 1.25rem;
   border: 1px solid var(--color-well-line);
-  border-radius: 16px;
+  border-radius: 1rem;
   background: var(--color-surface);
   color: var(--color-ink);
 }
@@ -800,10 +800,10 @@ ul.needs__notes {
 .torre__box::before {
   content: '';
   position: absolute;
-  top: 26px;
-  left: -9px;
-  width: 16px;
-  height: 16px;
+  top: 1.625rem;
+  left: -0.5625rem;
+  width: 1rem;
+  height: 1rem;
   border-bottom: 1px solid var(--color-well-line);
   border-left: 1px solid var(--color-well-line);
   background: var(--color-surface);
@@ -811,20 +811,20 @@ ul.needs__notes {
 }
 
 .torre__box > :is(h2, h3, h4) {
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
   color: var(--color-ink);
   font: 600 1.25rem / 1.2 var(--font-display);
 }
 
 .torre__body > * + * {
-  margin-top: 10px;
+  margin-top: 0.625rem;
 }
 
 /* Las listas de Torre, con círculos huecos en accent, como el prototipo. Van con .torre
    delante para ganar a las reglas de la prosa (marcador muted, disco). */
 .torre .torre__body ul {
   display: grid;
-  gap: 10px;
+  gap: 0.625rem;
   padding-left: 1.2em;
   list-style-type: circle;
 }
@@ -843,21 +843,21 @@ ul.needs__notes {
   }
 
   .torre__face {
-    width: 56px;
-    height: 56px;
-    margin: 0 0 12px 14px;
+    width: 3.5rem;
+    height: 3.5rem;
+    margin: 0 0 0.75rem 0.875rem;
   }
 
   .torre__box::before {
-    top: -9px;
-    left: 34px;
+    top: -0.5625rem;
+    left: 2.125rem;
     transform: rotate(135deg);
   }
 }
 
 /* Prosa dentro de un paso: bloques separados. */
 .prose-guide > * + * {
-  margin-top: 16px;
+  margin-top: 1rem;
 }
 
 .prose-guide :is(p, ul, ol) {
@@ -865,11 +865,11 @@ ul.needs__notes {
 }
 
 .prose-guide > figure {
-  margin-block: 20px 4px;
+  margin-block: 1.25rem 0.25rem;
 }
 
 .prose-guide > figure img {
-  border-radius: 14px;
+  border-radius: 0.875rem;
 }
 
 .prose-guide strong {
@@ -882,12 +882,12 @@ ul.needs__notes {
    16px entre párrafos y 32px alrededor de capturas, vídeos y avisos (DESIGN.md, Spacing).
    Listas, negritas, títulos y avisos se ven igual dentro de un paso (.prose-guide). */
 .guide-body > * + * {
-  margin-top: 16px;
+  margin-top: 1rem;
 }
 
 .guide-body > :is(figure, aside),
 .guide-body > :is(figure, aside) + * {
-  margin-top: 32px;
+  margin-top: 2rem;
 }
 
 .guide-body :is(p, ul, ol, blockquote) {
@@ -907,7 +907,7 @@ ul.needs__notes {
 }
 
 :is(.guide-body, .prose-guide) li + li {
-  margin-top: 4px;
+  margin-top: 0.25rem;
 }
 
 :is(.guide-body, .prose-guide) li::marker {
@@ -919,7 +919,7 @@ ul.needs__notes {
 }
 
 .guide-body > :is(h2, h3, h4, h5, h6) {
-  margin-top: 40px;
+  margin-top: 2.5rem;
   font-family: var(--font-display);
   color: var(--color-ink);
   text-wrap: balance;
@@ -947,7 +947,7 @@ ul.needs__notes {
 /* Dentro de un paso, bajo el h2 «Pasos», un título del texto es un subtítulo: un paso
    más pequeño, sin mayúsculas. */
 .prose-guide > :is(h2, h3, h4, h5, h6) {
-  margin-top: 24px;
+  margin-top: 1.5rem;
   font-family: var(--font-display);
   font-size: var(--text-lg);
   line-height: var(--text-lg--line-height);
@@ -961,7 +961,7 @@ ul.needs__notes {
 }
 
 :is(.guide-body, .prose-guide) .callout__body > * + * {
-  margin-top: 8px;
+  margin-top: 0.5rem;
 }
 
 /* ---------- cadena del logro ---------- */
@@ -979,7 +979,7 @@ ul.needs__notes {
 
 .chain > li + li::before {
   content: '→';
-  margin-inline: 6px;
+  margin-inline: 0.375rem;
   color: var(--color-ink-2);
 }
 
@@ -1000,14 +1000,14 @@ ul.needs__notes {
   display: grid;
   place-items: center;
   align-content: center;
-  gap: 12px;
-  padding: 16px 18px;
+  gap: 0.75rem;
+  padding: 1rem 1.125rem;
   text-decoration: none;
 }
 
 .video__link:focus-visible {
-  outline: 3px solid var(--color-ink);
-  outline-offset: -3px;
+  outline: 0.1875rem solid var(--color-ink);
+  outline-offset: -0.1875rem;
 }
 
 .video__poster {
@@ -1046,8 +1046,8 @@ ul.needs__notes {
   position: relative;
   display: grid;
   place-items: center;
-  width: 72px;
-  height: 72px;
+  width: 4.5rem;
+  height: 4.5rem;
   border: 2px solid var(--color-accent);
   border-radius: 50%;
   background: color-mix(in srgb, var(--color-bg) 82%, transparent);
@@ -1056,9 +1056,9 @@ ul.needs__notes {
 
 .video__badge::after {
   content: '';
-  margin-left: 6px;
+  margin-left: 0.375rem;
   border-style: solid;
-  border-width: 13px 0 13px 21px;
+  border-width: 0.8125rem 0 0.8125rem 1.3125rem;
   border-color: transparent transparent transparent var(--color-ink);
 }
 
@@ -1089,9 +1089,9 @@ ul.needs__notes {
 .toast {
   position: fixed;
   left: 50%;
-  bottom: 24px;
+  bottom: 1.5rem;
   z-index: var(--z-toast);
-  padding: 10px 18px;
+  padding: 0.625rem 1.125rem;
   border-radius: var(--radius-pill);
   background: var(--color-raised);
   color: var(--color-ink);
@@ -1099,7 +1099,7 @@ ul.needs__notes {
   font-size: var(--text-sm);
   font-weight: 600;
   opacity: 0;
-  transform: translate(-50%, 8px);
+  transform: translate(-50%, 0.5rem);
   pointer-events: none;
   transition:
     opacity var(--duration-base) var(--ease-in),
