@@ -63,8 +63,8 @@ export function ItemSlot({
   as?: 'li' | 'div'
 }) {
   return (
-    <Tag className="copyhost grid w-[104px] justify-items-center gap-1.5 text-center">
-      <span className="copywell relative grid size-[72px] place-items-center rounded-sm border border-line bg-raised">
+    <Tag className="copyhost grid w-26 justify-items-center gap-1.5 text-center">
+      <span className="copywell relative grid size-18 place-items-center rounded-sm border border-line bg-raised">
         {item.icon && <Picture image={item.icon} alt="" className="size-12" />}
         <span
           aria-hidden="true"

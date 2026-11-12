@@ -1,3 +1,5 @@
+import type { CSSProperties } from 'react'
+
 import { cx } from '@/components/ui/cx'
 
 import { EMBLEM_ART, EMBLEM_VIEWBOX, type EmblemVariant } from './emblem-art'
@@ -6,6 +8,8 @@ import { EMBLEM_ART, EMBLEM_VIEWBOX, type EmblemVariant } from './emblem-art'
  * El emblema de Torrente Arcano (DESIGN.md, Brand): sombrero en --color-accent, glifo en
  * --color-bg y cara en --color-ink, así que sigue el tema y el modo de donde se pinte.
  * Decorativo: el nombre lo da el texto que lo acompaña. `simple` es la versión de 16 px.
+ * width y height reservan el hueco; el CSS lo pinta a `size` en rem (--emblem), así que
+ * crece con la fuente raíz.
  */
 export function Emblem({
   variant = 'full',
@@ -26,7 +30,8 @@ export function Emblem({
       height={size}
       overflow="visible"
       data-variant={variant}
-      className={cx('shrink-0', className)}
+      className={cx('size-(--emblem) shrink-0', className)}
+      style={{ '--emblem': `${size / 16}rem` } as CSSProperties}
     >
       <path
         data-part="hat"

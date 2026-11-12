@@ -15,7 +15,7 @@ export function IconButton({
       type={type}
       aria-label={label}
       className={cx(
-        'inline-grid size-10 shrink-0 cursor-pointer place-items-center rounded-pill bg-raised text-ink pointer-coarse:size-11 [&>svg]:size-[18px]',
+        'inline-grid size-10 shrink-0 cursor-pointer place-items-center rounded-pill bg-raised text-ink pointer-coarse:size-11 [&>svg]:size-4.5',
         'transition-[background-color,transform] duration-(--duration-fast) ease-standard hover:bg-line active:scale-96',
         'disabled:pointer-events-none disabled:opacity-40',
         className,

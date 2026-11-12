@@ -185,7 +185,7 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
 
           <Group name="cards" wide>
             <Card className="p-5 text-sm text-ink-2">{d.panel}</Card>
-            <Card href="#el-cazador-cazado" className="grid w-full sm:grid-cols-[240px_1fr]">
+            <Card href="#el-cazador-cazado" className="grid w-full sm:grid-cols-[15rem_1fr]">
               <span className="block aspect-video overflow-hidden">
                 <Picture
                   image={images.kerubim}

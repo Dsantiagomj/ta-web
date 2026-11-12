@@ -37,6 +37,12 @@ describe('Emblem', () => {
     expect(markup).toContain('height="36"')
   })
 
+  it('se pinta a su tamaño en rem, para crecer con la fuente raíz', () => {
+    const markup = html(<Emblem size={36} />)
+    expect(markup).toMatch(/^<svg [^>]*class="[^"]*size-\(--emblem\)/)
+    expect(markup).toContain('style="--emblem:2.25rem"')
+  })
+
   it('toma los colores del tema: sombrero en accent, glifo en bg y cara en ink', () => {
     const markup = html(<Emblem />)
     expect(markup).toContain('data-part="hat" class="fill-accent"')

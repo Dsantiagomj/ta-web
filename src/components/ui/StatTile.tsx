@@ -24,7 +24,7 @@ export function StatTile({
   return (
     <Tag
       className={cx(
-        'grid min-h-[72px] content-center gap-2 rounded-[14px] bg-raised px-4 py-3',
+        'grid min-h-18 content-center gap-2 rounded-[0.875rem] bg-raised px-4 py-3',
         icon != null && 'grid-cols-[auto_1fr] items-center gap-x-3',
         className,
       )}
