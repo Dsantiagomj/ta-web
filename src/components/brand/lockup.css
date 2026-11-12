@@ -59,7 +59,8 @@
 .lockup [data-part='hat'],
 .lockup [data-part='glyph'] {
   transform-box: view-box;
-  transform-origin: 2rem 2.3125rem;
+  /* El punto (32, 37) del viewBox de 64 × 64, en porcentajes: escala con el emblema. */
+  transform-origin: 50% 57.8125%;
   transition: transform 420ms var(--ease-out);
 }
 
