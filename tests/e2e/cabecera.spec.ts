@@ -320,6 +320,23 @@ test.describe('cabecera', () => {
       expect(await axe(page, 'body > header')).toEqual([])
       expect(await axe(page, 'body > footer')).toEqual([])
     })
+
+    test(`el interruptor de modo lleva el fondo y el borde de la búsqueda en Arcano ${mode}`, async ({
+      page,
+      context,
+      baseURL,
+    }) => {
+      await context.addCookies([{ name: 'ta-mode', value: mode, url: baseURL! }])
+      await open(page)
+      const look = (selector: string) =>
+        page.locator(selector).evaluate((el) => {
+          const s = getComputedStyle(el)
+          return { background: s.backgroundColor, image: s.backgroundImage, border: s.borderColor }
+        })
+      const track = await look('.mode-switch [data-part="track"]')
+      expect(track).toEqual(await look('.spill'))
+      expect(track.image).toBe('none')
+    })
   }
 })
 

@@ -1,8 +1,9 @@
 /*
  * El medallón de huevos de Dofus Tools (DESIGN.md, Mode switch): Dofus Marfil para el
  * modo claro y Dofus Ébano para el oscuro. El huevo del modo actual va grande a la
- * izquierda, dentro del aro en --color-accent; el otro, pequeño y apagado. El fondo del
- * medallón es oscuro en los dos modos, para que el arte se lea igual en todos los temas.
+ * izquierda, dentro del aro en --color-accent; el otro, pequeño y apagado. El medallón
+ * lleva el fondo y el borde de la búsqueda de al lado: claro en el modo claro, oscuro en el
+ * oscuro.
  * Solo se animan transform y opacity; el borde cambia de color al pasar el ratón.
  */
 .mode-switch {
@@ -34,9 +35,9 @@
 .mode-switch [data-part='track'] {
   position: absolute;
   inset: 0;
-  border: 1px solid #3d2a30;
+  border: 1px solid var(--color-line);
   border-radius: var(--radius-pill);
-  background: linear-gradient(180deg, #1b1418 0%, #0c0a0b 100%);
+  background: var(--color-surface);
   transition: border-color var(--duration-fast) var(--ease-standard);
 }
 
