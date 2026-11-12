@@ -244,6 +244,11 @@
     gap: 0.875rem 1.25rem;
   }
 
+  /* Una sola: todo el ancho. */
+  .facts:not(:has(> section:nth-child(2))) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   /* Tres: Necesitarás algo más ancha que Prerrequisitos. Con tres columnas no cabían un
      rango de XP («1 411 200 a 2 173 360 XP») ni unos cuantos objetos. */
   .facts:has(> section:nth-child(3)) {
