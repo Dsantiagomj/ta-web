@@ -19,6 +19,8 @@ Tokens are CSS custom properties declared in a Tailwind v4 `@theme` block in `sr
 - The namespaces (`--color-*`, `--font-*`, `--text-*`, `--radius-*`, `--shadow-*`, `--ease-*`, `--breakpoint-*`, `--spacing`) are Tailwind's, so utilities are generated without config.
 - Tokens Tailwind has no namespace for (z-index, durations, containers for content width) are plain variables with the same naming style: `--z-*`, `--duration-*`, `--width-*`.
 
+**Units (decided 2026-11-12).** This file writes sizes in px at the 16px root because px are easier to read. The code writes them in rem, px ÷ 16 (24px is `1.5rem`, 13px is `0.8125rem`), so raising the root font size scales the whole interface. That covers hand-written CSS, Tailwind arbitrary values (`size-[42px]` becomes `size-10.5`, or `rounded-[0.875rem]` when no scale step matches), container query conditions and keyframe offsets. Hairlines under 3px stay in px so they stay sharp: 1px and 1.5px borders, 2px outlines and their offsets, 1px shadow offsets. An image or icon whose only size is its `width` and `height` attributes renders at that many px, so its CSS also sets the size in rem; the attributes stay, because they reserve the space before the file loads. `tests/unit/css-units.test.ts` fails on a px value of 3 or more in `src/**/*.css` or in a Tailwind arbitrary class. The `sizes` attribute of responsive images stays in px: it only picks which file to download.
+
 ### Themes
 
 Decided 2026-11-02. Five themes named after Dofus places and the Dofus Ocre, each with a dark and a light mode:
