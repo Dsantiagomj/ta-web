@@ -417,7 +417,8 @@ test.describe('portada: las secciones', () => {
     await expect(footer.locator('.ft-torre')).toBeHidden()
     await expect(footer.getByText('Sigue a Torre')).toBeHidden()
     for (const card of await footer.locator('.ft-join, .ft-kofi').all()) {
-      expect((await card.boundingBox())!.width).toBeLessThanOrEqual(384)
+      // 24rem: 384px a la raíz de 16px, 422,4px con la raíz al 110 % del escritorio.
+      expect((await card.boundingBox())!.width).toBeLessThanOrEqual(24 * 17.6)
     }
   })
 

@@ -52,7 +52,10 @@ test.describe('marca', () => {
     const emblem = brand.locator('svg[aria-hidden="true"]')
     await expect(emblem).toBeVisible()
     expect(await brand.evaluate((node) => node.firstElementChild?.tagName)).toBe('svg')
-    expect(await emblem.boundingBox()).toMatchObject({ width: 36, height: 36 })
+    // 36px a la raíz de 16px; el viewport de escritorio (1280px) tiene la raíz al 110 %.
+    const box = (await emblem.boundingBox())!
+    expect(box.width).toBeCloseTo(36 * 1.1, 0)
+    expect(box.height).toBeCloseTo(36 * 1.1, 0)
 
     const hat = emblem.locator('[data-part="hat"]')
     const fill = () => hat.evaluate((node) => getComputedStyle(node).fill)

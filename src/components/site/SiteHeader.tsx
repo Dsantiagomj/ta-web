@@ -4,6 +4,7 @@ import { Lockup } from '@/components/brand/Lockup'
 import { GAME_ICONS } from '@/components/game/game-icons'
 import { ModeToggle } from '@/components/mode-toggle/ModeToggle'
 import { Amount } from '@/components/ui/Amount'
+import { iconSize } from '@/components/ui/icon-size'
 import type { Mode } from '@/lib/theme/theme'
 
 import { HeaderIsland } from './HeaderIsland'
@@ -60,7 +61,7 @@ export function Well({
         height={px}
         alt=""
         loading="lazy"
-        style={{ '--icon': `${px / 16}rem` } as CSSProperties}
+        style={{ '--icon': iconSize(px, image.size) } as CSSProperties}
       />
     </span>
   )

@@ -294,9 +294,10 @@ describe('Well', () => {
     const markup = html(<Well image={{ src: '/img/a.webp', size: 64 }} size={36} />)
     expect(markup).toContain('width="36" height="36"')
     expect(markup).toContain('style="--icon:2.25rem"')
-    // Un archivo más pequeño que el hueco se queda en su tamaño.
+    // Un archivo más pequeño que el hueco se queda en su tamaño, también con la raíz al
+    // 110 %: nunca se amplía.
     expect(html(<Well image={{ src: '/img/b.webp', size: 24 }} size={36} />)).toContain(
-      'style="--icon:1.5rem"',
+      'style="--icon:min(1.5rem, 24px)"',
     )
   })
 })

@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react'
 
+import { iconSize } from '@/components/ui/icon-size'
 import { Picture } from '@/components/ui/Picture'
 import type { ImageAsset } from '@/components/ui/types'
 
@@ -7,7 +8,8 @@ import { GAME_ICONS, type GameIconName } from './game-icons'
 
 // En el hueco de 44px los iconos se pintan a 34px; uno cuyo archivo es más pequeño (la
 // flecha de XP y la bolsa, 24px; el trofeo, 28px) se queda en su tamaño en vez de
-// ampliarse borroso. El CSS lo pinta en rem (--icon), así que crece con la fuente raíz.
+// ampliarse borroso, también con la raíz al 110 %. El CSS lo pinta en rem (--icon), así
+// que el resto crece con la fuente raíz.
 const ICON_PX = 34
 
 /**
@@ -27,7 +29,7 @@ export function IconWell({ icon, image }: { icon?: GameIconName; image?: ImageAs
           height={px}
           alt=""
           className="size-(--icon)"
-          style={{ '--icon': `${px / 16}rem` } as CSSProperties}
+          style={{ '--icon': iconSize(px, file.size) } as CSSProperties}
           decoding="async"
         />
       )}

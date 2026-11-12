@@ -14,6 +14,14 @@
     color-scheme: light;
   }
 
+  /* Desde 64rem todo un 10 % más grande, texto e interfaz, como si se ampliara la página:
+     el CSS va en rem, así que basta con la fuente raíz. Móviles y tabletas siguen a 16px. */
+  @media (min-width: 64rem) {
+    html {
+      font-size: 110%;
+    }
+  }
+
   body {
     min-height: 100dvh;
     font-family: var(--font-body);
