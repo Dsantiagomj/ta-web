@@ -22,12 +22,16 @@ sources:
     resource: repo://scripts/lhci-env.ts
   - id: openwiki-source-95f46342bb37caacc4ce1dbc
     resource: repo://scripts/lhci.ts
+  - id: openwiki-source-4d5101e22a43d90e5f3610c9
+    resource: repo://src/components/dofus/DofusGuideParts.tsx
+  - id: openwiki-source-fdce55e7847bc02f550db2a4
+    resource: repo://src/components/dofus/DofusIndex.tsx
   - id: openwiki-source-cf83a6bbb1b6a5159842a86a
     resource: repo://tests/unit/lighthouse-ci.test.ts
-generated: { by: "claude-code", at: "2026-11-09T11:00:21.744Z" }
+generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-09T11:00:21.744Z
+    at: 2026-11-12T11:00:44.802Z
 ---
 
 # Performance budgets (Lighthouse CI)
@@ -45,7 +49,7 @@ DESIGN.md sets the JavaScript limit for guide pages; every page measured is held
 
 ## The page list
 
-`lighthouserc.cjs` keeps one line per page in `PAGES`, measured against `http://localhost:3110`. Today it holds four pages: the home page (`/`); a quest guide, `/seis-pies-bajo-tierra`, and an achievement page, `/la-ocasion-hace-al-ladron`, which `scripts/seed-e2e.ts` seeds from `tests/e2e/seed/guides.ts` and `tests/e2e/seed/achievements.ts`; and the metalogros index, `/metalogros`. A checklist joins the list, one line, in the PR that adds its route. The `/sistema` component catalog is deliberately not measured. See [Component catalog (/sistema)](../frontend/component-catalog.md).
+`lighthouserc.cjs` keeps one line per page in `PAGES`, measured against `http://localhost:3110`. Today it holds six pages: the home page (`/`); a quest guide, `/seis-pies-bajo-tierra`, and an achievement page, `/la-ocasion-hace-al-ladron`, which `scripts/seed-e2e.ts` seeds from `tests/e2e/seed/guides.ts` and `tests/e2e/seed/achievements.ts`; the metalogros index, `/metalogros`; the Dofus guides index, `/guias-dofus`; and a Dofus guide, `/dofus-ocre`, seeded from `tests/e2e/seed/dofus-guides.ts`. A checklist joins the list, one line, in the PR that adds its route. The `/sistema` component catalog is deliberately not measured. See [Component catalog (/sistema)](../frontend/component-catalog.md).
 
 ## Assertions
 
@@ -91,13 +95,14 @@ DESIGN.md names the mechanisms: server components, fonts through `next/font` wit
 - `Picture` always writes `width` and `height` and adds an AVIF source and `srcset` when the asset has them; the guide's first image is loaded with priority.
 - The guide and achievement pages ship one small client island (see [Design system components](../frontend/design-system-components.md)).
 - Both searches load their engine, results and the search index (guides, achievement pages and metalogros) with `import()` on first use, never with the page. The guide page and the home page each sat at about 149,700 bytes of script on 2026-11-07, just under the 150,000-byte limit, so search and result code must stay out of the islands, and a module imported by both an island and a lazy chunk ships whole with the island (see [Site header, footer and search](../frontend/site-shell-and-search.md#keeping-it-out-of-the-initial-javascript)).
-- Render-blocking CSS is kept small: the home page avoids importing `game.css`, `Amount` styles live in `globals.css` rather than `ui.css`, and `/metalogros` imports only `metalogros.css`, because importing the guide and achievement stylesheets split them into more chunks and raised its LCP by about half a second (see [Home page](../frontend/home-page.md#budget) and [Metalogros index](../achievements/metalogros-index.md#server-html)).
+- Render-blocking CSS is kept small: the home page avoids importing `game.css`, `Amount` styles live in `globals.css` rather than `ui.css`, and `/metalogros` imports only `metalogros.css`, because importing the guide and achievement stylesheets split them into more chunks and raised its LCP by about half a second. The Dofus guide styles live inside `achievement.css`, so `/<slug>` still loads four render-blocking stylesheets, and `/guias-dofus` loads only `dofus-index.css` (with its own copy of the «En preparación» pill) and three stylesheets in all; a separate `dofus.css` had pushed the guide pages past 2.5 s of LCP in CI. On the index the first cards' eggs are the LCP and are not lazy-loaded (see [Home page](../frontend/home-page.md#budget) and [Metalogros index](../achievements/metalogros-index.md#server-html)).
 
 ## Tests
 
 `tests/unit/lighthouse-ci.test.ts` pins the configuration so a change to it is deliberate:
 
 - three runs per page with no preset and real slow-4G and CPU throttling, against the local home page, the seeded guide and the seeded achievement page;
+- `/guias-dofus` and the Dofus guide `scripts/seed-e2e.ts` seeds are measured too;
 - every matrix entry applies to all pages;
 - LCP errors on the best run over 2.5 s and warns on the median;
 - CLS and script size fail on the median, as do unsized images; image delivery only warns;

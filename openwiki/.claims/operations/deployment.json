@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:2422b819fa6500c5b319ac3537872e09600fa43d4959846d68f5e9372825f3fc",
+  "pageVersion": "sha256:a860b727966813f914094adb340d990d377d06a6bdd7ed43a0f4591dfa703621",
   "claims": [
     {
       "id": "claim_ef4f404736644b89ae37b4f3e616fbb9",
@@ -120,11 +120,11 @@
     },
     {
       "id": "claim_0fb3ecf8e81e4f24953bd619cd7fd936",
-      "statement": "The reusable smoke workflow runs pnpm test:smoke with SMOKE_BASE_URL set to the given URL.",
+      "statement": "The reusable smoke workflow installs Chromium through scripts/ci/playwright-chromium.sh and runs pnpm test:smoke with SMOKE_BASE_URL set to the given URL.",
       "evidence": [
         {
-          "resource": "repo://.github/workflows/smoke.yml#L7-L66",
-          "version": "repo-lines-v1:sha256:4d43cad9f6509d8584aff8b257e20642152b1db665766c80f4956bef92e85a7b:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5NmRjNDgxNDlmNWE4M2QxZWQ2ZGJiMzliYmM3ZTJiOTAyYWEzZDM0ZDZiZDVhZTRiMjkxYjY4ZGYwY2E3OWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliZjQ1ZDJiYzIxMDg5NWU2N2JkMWQyMGRhYWFjMWI1OTgyYTc2NjQwODI5ZmQxZjFiYjRhNjk5NTUyOTI5NDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA0Mzg2YjRkYWQ5MjllN2NkMDllMDVjOWIwMjg0MmNmZTc0NDk3NmZkZjExMTNmMjZhZTEwNGE2ODZiYWM4ZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://.github/workflows/smoke.yml#L7-L69",
+          "version": "repo-lines-v1:sha256:cc940e3397cb15827f8875e5fabe41175d43e5f1217700a89dfa1826535eec2d:eyJzZWxlY3RlZExpbmVDb3VudCI6NjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5NmRjNDgxNDlmNWE4M2QxZWQ2ZGJiMzliYmM3ZTJiOTAyYWEzZDM0ZDZiZDVhZTRiMjkxYjY4ZGYwY2E3OWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliZjQ1ZDJiYzIxMDg5NWU2N2JkMWQyMGRhYWFjMWI1OTgyYTc2NjQwODI5ZmQxZjFiYjRhNjk5NTUyOTI5NDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA0Mzg2YjRkYWQ5MjllN2NkMDllMDVjOWIwMjg0MmNmZTc0NDk3NmZkZjExMTNmMjZhZTEwNGE2ODZiYWM4ZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -155,10 +155,20 @@
           "version": "repo-lines-v1:sha256:9df8577388c797038f8b4a40bb8f8d9b8a7336889a9c5b51e85f88f2b53fba74:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWRmODU3NzM4OGM3OTcwMzhmOGI0YTQwYmI4ZjhkOWI4YTczMzY4ODlhOWM1YjUxZTg1Zjg4ZjJiNTNmYmE3NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWRmODU3NzM4OGM3OTcwMzhmOGI0YTQwYmI4ZjhkOWI4YTczMzY4ODlhOWM1YjUxZTg1Zjg4ZjJiNTNmYmE3NCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGM3NThkOWRjZjM2MWQ1NTVjNGQwMGExZWMyNDEwODAxZGUzZGNkOGE1YzIyMDZhMDgyZDE1NDJhYzE1MDhmMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjZlMmFjYWMyMzdiOGM5NzYzYjFlNDJlOTJmYzBhNTI3YTEwYzgxYmRhNjFhZWQwYzQ1YmNmNzM1YjNiYWUzYyJ9"
         }
       ]
+    },
+    {
+      "id": "claim_30841f70f7a049a2bed470b8d9aa057b",
+      "statement": "playwright-chromium.sh downloads Chromium unless --cached, skips apt when Chromium already launches with the runner's libraries, and otherwise installs its system dependencies with apt, retrying each step with a 5-minute limit per attempt.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/ci/playwright-chromium.sh#L1-L47",
+          "version": "repo-lines-v1:sha256:d6d1bfedeb980df6f935a5c888f85cab4bae3be568d5abd75e7751f806fe844b:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MDc2ZDNkMjhkMjFlMDIwMTJiMjBlYWY3ZGJmNzU0MDlhNjI3NzEzNDQzOTAyNWYyODJlMzY4ZTMzMDVhYmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBjNjg2OGMyYzQ0ZjA1MzYxOWNlZjFjYzM4M2UxZDUzMDc0M2I1NzRjYTE5MmFjZTkxNjhhOWNjZjQ2YTg2ZTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-06T15:25:11.354Z"
+    "at": "2026-11-12T11:00:44.802Z"
   }
 }

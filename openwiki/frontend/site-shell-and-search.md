@@ -6,6 +6,8 @@ tags: [frontend, layout, navigation, search, islands, performance]
 sources:
   - id: openwiki-source-7a2845694b67f1018000b585
     resource: repo://src/app/(frontend)/layout.tsx
+  - id: openwiki-source-e662deaf5fc4b6bc8b7128a5
+    resource: repo://src/app/(frontend)/site-data.ts
   - id: openwiki-source-46dd74b36a0234facf9d5720
     resource: repo://src/components/site/HeaderIsland.tsx
   - id: openwiki-source-39afe86b52965c905da37bef
@@ -16,6 +18,8 @@ sources:
     resource: repo://src/components/site/search-result-strings.ts
   - id: openwiki-source-66bf87151b29d7c77f7b681f
     resource: repo://src/components/site/search.ts
+  - id: openwiki-source-2527b990816180ac80987e20
+    resource: repo://src/components/site/site.css
   - id: openwiki-source-4bd6fa799b0febbb9c8f133d
     resource: repo://src/components/site/SiteFooter.tsx
   - id: openwiki-source-f25b5fdf49e0879a6c35a45e
@@ -24,6 +28,8 @@ sources:
     resource: repo://src/components/site/Soon.tsx
   - id: openwiki-source-def7d1eb211fec2407ad644c
     resource: repo://src/endpoints/search-index.ts
+  - id: openwiki-source-423248a3a9612f01d4a80a72
+    resource: repo://src/lib/dofus-guides/nav.ts
   - id: openwiki-source-6f1014e367f65576c0cc5a42
     resource: repo://src/lib/search/guide-index.ts
   - id: openwiki-source-74617dd61aed35536e30e4de
@@ -42,10 +48,10 @@ sources:
     resource: repo://tests/unit/site-search.test.ts
   - id: openwiki-source-252aed3da80ab24fac288bb7
     resource: repo://tests/unit/site-shell.test.tsx
-generated: { by: "claude-code", at: "2026-11-10T11:02:06.480Z" }
+generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-10T11:02:06.480Z
+    at: 2026-11-12T11:00:44.802Z
 ---
 
 # Site header, footer and search
@@ -58,8 +64,8 @@ The frontend layout (`src/app/(frontend)/layout.tsx`) wraps every public page in
 
 - Five sections (`SECTIONS`): Misiones, Dofus, Checklists, Clases and Mazmorras, each with an accent color, art and links. Misiones links to the app's own `/metalogros`. Quests and achievements already live in the app, so no quest or achievement link goes to the old site.
 - **Próximamente.** Clases and Mazmorras have no pages yet, so their sections carry `soon: true`. That one flag drives four places: the header nav, the phone sheet, the footer's Explorar column and the home page cards all show the section greyed out, without a link, followed by the «Próximamente» tag (`Soon`, `src/components/site/Soon.tsx`, styled as `.soon` in `site.css`), and the header search does not find them, nor their classes and dungeons. The `CLASSES` and `DUNGEONS` lists stay in `nav.ts` for when the pages arrive; removing `soon` brings each section back.
-- **Dofus.** `DOFUS_GUIDES` lists every Dofus of Torre's Dofus guides page in his order, with each egg named after its guide (`strings.ts`). The nine he has not written yet (no page, or an empty one on his site) are in `DOFUS_PREPARING` and carry `preparing: true` with no link. `DOFUS_PAGE` maps the two whose legacy page is named differently from the egg (Dofus Nebuloso, Piñata de Pino). `DOFUS_READY` is the written ones only, the ones the menu links and the search finds. No text counts the Dofus, because Torre adds them over time.
-- Pages the app does not have yet link to Torre's current Squarespace site, through `legacyHref(slug)` (`src/lib/site/legacy.ts`, origin `https://www.torrentearcano.com`), with the same slug except where his page is named differently: the written Dofus guides, the Dofus section (his guías page), checklists and legal pages, plus the class and dungeon links kept for later (Feca and Yopuka carry `-1` in their legacy slugs). When the app gets its own page, the link becomes relative.
+- **Dofus.** The Dofus section links to the app's own index, `/guias-dofus` (`DOFUS_INDEX_PATH`). The list of Dofus is not in `nav.ts`: it comes from the `dofus-guides` collection. The layout loads it with `loadDofusNav` (`src/app/(frontend)/site-data.ts`, cached under the `dofus-guides` tag) and passes it to `SiteHeader` as `dofus`, a list of `DofusNavItem` (name, the egg at 128 px when the Dofus item has an image, and `href` only when the guide's state is `published`). A Dofus Torre adds or publishes in the panel appears without a code change. `nav.ts` keeps only `DOFUS_FEATURED`, the three eggs of the panel's card, from `public/img/game/dofus/`. No text counts the Dofus, because Torre adds them over time. See [Dofus guides index and menu](../dofus-guides/dofus-guides-index.md).
+- Pages the app does not have yet link to Torre's current Squarespace site, through `legacyHref(slug)` (`src/lib/site/legacy.ts`, origin `https://www.torrentearcano.com`), with the same slug except where his page is named differently: checklists and legal pages, plus the class and dungeon links kept for later (Feca and Yopuka carry `-1` in their legacy slugs). When the app gets its own page, the link becomes relative.
 - Socials (Twitch, Kick, YouTube, Discord), Ko-fi and the legal links.
 - The game art is drawn at its file size or smaller: Dofus item icons (128 px), checklist Dofus, class heads from the Dofus 3 client export (64 px) and the Crunchidor.
 
@@ -67,7 +73,7 @@ The frontend layout (`src/app/(frontend)/layout.tsx`) wraps every public page in
 
 `SiteHeader` renders the Sello lockup, the nav, the search button with its Ctrl K hint, the mode switch, and below 1120 px the phone menu. The nav has two dropdown buttons, Misiones and Dofus (Dofus and checklists share a panel), then Clases and Mazmorras as plain `span.np.np--soon` elements with `aria-disabled="true"`, a greyed icon and the «Próximamente» tag: no chevron, no panel, no link, never focused. The Misiones card shows the counts: published guides and visible achievements (`countSiteGuides`, `src/lib/site/counts.ts`). The Misiones panel has the search button (its hint offers a Dofus or a checklist) and one link, "Ver todo", to `/metalogros`; no section tile carries a separate "all" link, and the phone sheet repeats the same two.
 
-The Dofus panel has the «Guías de Dofus» card (three featured eggs, `DOFUS_FEATURED`) and the three checklists on the left; on the right, «Todos los Dofus» with every egg of `DOFUS_GUIDES` (`EggGrid`) and «Ver todas las guías de Dofus», linking to Torre's guías page. A Dofus in preparation is a `span.egg-soon` with `aria-disabled`, its egg greyed out, and " (en preparación)" for screen readers. In the phone sheet, Clases and Mazmorras are `div.stile__b--soon` tiles with `aria-disabled` that do not fold. `MenuPanelPreview` renders one panel open and static for the `/sistema` catalog.
+The Dofus panel has the «Guías de Dofus» card (three featured eggs, `DOFUS_FEATURED`) and the three checklists on the left; on the right, «Todos los Dofus» with every Dofus of the `dofus` list in the collection's order (`EggGrid`) and «Ver todas las guías de Dofus», linking to `/guias-dofus`. A Dofus without a published guide is a `span.egg-soon` with `aria-disabled`, its egg greyed out, and " (en preparación)" for screen readers; a Dofus whose item has no image gets an empty `egg-none` placeholder. In the phone sheet, Clases and Mazmorras are `div.stile__b--soon` tiles with `aria-disabled` that do not fold. `MenuPanelPreview` renders one panel open and static for the `/sistema` catalog.
 
 ## Footer
 
@@ -77,14 +83,14 @@ The Dofus panel has the «Guías de Dofus» card (three featured eggs, `DOFUS_FE
 
 `HeaderIsland` (`"use client"`) listens with delegation and adds:
 
-- **Menu panels.** Open and close the section panels; only a `button.np` toggles, so a click on a «Próximamente» item, which shares the `.np` class, does nothing. Esc, a click outside, or focus leaving closes them. From a panel's button, Down enters the first link; inside, the arrows, Home and End move through its links and buttons (DESIGN.md, Dropdown panel).
+- **Menu panels.** Open and close the section panels. A panel enters by fading in and sliding 6 px down with a slight scale (`@starting-style`), and leaves in 150 ms, about 70 percent of its entry, with `display` held until the end (`allow-discrete`) so the exit is visible; switching panels closes one and opens the other at once. With reduced motion there is no transition; only a `button.np` toggles, so a click on a «Próximamente» item, which shares the `.np` class, does nothing. Esc, a click outside, or focus leaving closes them. From a panel's button, Down enters the first link; inside, the arrows, Home and End move through its links and buttons (DESIGN.md, Dropdown panel).
 - **Phone sheet.** The hamburger opens the menu with the sections, which open one at a time; only `button.stile__b` folds, so the «Próximamente» tiles stay closed.
 - **Search dialog.** Ctrl K or `/` opens it, except while typing in a field or when another dialog is open. Closing returns focus to whatever opened it (the Misiones panel button, the hamburger).
 - **Scrolled header.** It marks the header when the page scrolls so it turns opaque.
 
 ## Search
 
-The dialog finds what the menu links (`searchIndex` in `nav.ts`: the sections with pages, the written Dofus and the checklists; never Clases, Mazmorras, their classes and dungeons, or a Dofus in preparation), every published quest guide, every published achievement page in the Publicada state and every metalogro that opens on `/metalogros`. The search on the home page uses the same engine and index, without the menu entries (see [Home page](home-page.md#hero-search)).
+The dialog finds what the menu links (`searchIndex(dofus)` in `nav.ts`: the sections with pages, the Dofus of the list that have a link and the checklists; never Clases, Mazmorras, their classes and dungeons, or a Dofus in preparation), every published quest guide, every published achievement page in the Publicada state and every metalogro that opens on `/metalogros`. The search on the home page uses the same engine and index, without the menu entries (see [Home page](home-page.md#hero-search)).
 
 ### The index
 
@@ -125,5 +131,5 @@ The guide page sits close to its 150 KB budget (149,716 bytes of script on 2026-
 - `tests/unit/search-index-endpoint.test.ts`: gzip when accepted, plain JSON otherwise, public cacheable headers.
 - `tests/integration/achievement-page-queries.test.ts` (`readSearchIndex`): published achievements with their metalogro and quest count, and the metalogros that open, alongside the guides.
 - `tests/integration/guide-search-index.test.ts`: published guides with achievement and level; never a draft or unpublished guide; the published version of a guide with pending changes; each guide once, sorted by title.
-- `tests/unit/site-shell.test.tsx`: the nav data (Torre's Dofus in his order with nine in preparation, Clases and Mazmorras marked soon, the search index without them) and the header and footer markup, including two dropdowns with Clases and Mazmorras as «Próximamente» and nothing in the header linking classes or dungeons, the Dofus panel with every egg, «Ver todas las guías de Dofus» and the preparing eggs without a link, the Misiones panel with the search button and one "Ver todo" to `/metalogros`, no quest or achievement link leaving the app in the panel or the phone sheet, the disabled phone tiles, and Explorar listing Clases and Mazmorras as text.
-- `tests/e2e/cabecera.spec.ts`: one dropdown each for Misiones and Dofus, Clases and Mazmorras shown with «Próximamente» and opening nothing on click, the Dofus panel with its preparing eggs and its link to Torre's guías page, keyboard entry and exit, arrow navigation, Ctrl K with accent-insensitive search, published achievements and open metalogros found in their groups (with preparing ones left out) and opened from the keyboard, the index requested on open, the loading and error states with retry, the public cacheable index, button sizes, focus return, shortcuts blocked under another dialog, the opaque header on scroll, axe on the open header and footer in both modes, panels within the viewport, the phone menu and its focus handling, the phone tiles of Clases and Mazmorras that do not fold, no horizontal overflow down to 320 px, the footer columns without repeated links and with Clases and Mazmorras as «Próximamente» text, game icons never drawn larger than their files, and "Volver arriba" with smooth scroll (instant with reduced motion) and step anchors landing below the header.
+- `tests/unit/site-shell.test.tsx`: the nav data (the Dofus section linking to `/guias-dofus`, the Dofus coming from the collection, Clases and Mazmorras marked soon, the search index with only the Dofus that have a published guide) and the header and footer markup, including two dropdowns with Clases and Mazmorras as «Próximamente» and nothing in the header linking classes or dungeons, the Dofus panel with the collection's Dofus in order, «Ver todas las guías de Dofus» and the preparing eggs without a link, the Misiones panel with the search button and one "Ver todo" to `/metalogros`, no quest or achievement link leaving the app in the panel or the phone sheet, the disabled phone tiles, and Explorar listing Clases and Mazmorras as text.
+- `tests/e2e/cabecera.spec.ts`: one dropdown each for Misiones and Dofus, Clases and Mazmorras shown with «Próximamente» and opening nothing on click, the Dofus panel with its preparing eggs and its link to `/guias-dofus`, keyboard entry and exit, arrow navigation, Ctrl K with accent-insensitive search, published achievements and open metalogros found in their groups (with preparing ones left out) and opened from the keyboard, the index requested on open, the loading and error states with retry, the public cacheable index, button sizes, focus return, shortcuts blocked under another dialog, the opaque header on scroll, axe on the open header and footer in both modes, panels within the viewport, the phone menu and its focus handling, the phone tiles of Clases and Mazmorras that do not fold, no horizontal overflow down to 320 px, the footer columns without repeated links and with Clases and Mazmorras as «Próximamente» text, game icons never drawn larger than their files, and "Volver arriba" with smooth scroll (instant with reduced motion) and step anchors landing below the header.

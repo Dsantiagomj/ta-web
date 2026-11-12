@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:41d70413a00f359cb5d9f9bad0cd54ed5de1c1c89f6abe4cffa1672eacbd4eaf",
+  "pageVersion": "sha256:4a33dedd0bcb6380beebc4bc8b8ff548f392d5806169880e4df987b24946ffc7",
   "claims": [
     {
       "id": "claim_be169c6219cf4e229c071dc13c472c68",
@@ -64,11 +64,11 @@
     },
     {
       "id": "claim_b311691d699f469894050cea8ce42140",
-      "statement": "globals.css imports Tailwind, theme.css and fonts-fallback.css, sets color-scheme per mode, font-synthesis none, a focus-visible outline, accent links, smooth anchor scrolling only without reduced motion, near-zero animation durations under prefers-reduced-motion including for ::backdrop, and the Amount styles.",
+      "statement": "globals.css imports Tailwind, theme.css and fonts-fallback.css, sets color-scheme per mode, font-synthesis none, a focus-visible outline, accent links, color transitions on interactive elements, smooth anchor scrolling only without reduced motion, near-zero animation durations under prefers-reduced-motion including for ::backdrop, and the Amount styles.",
       "evidence": [
         {
-          "resource": "repo://src/styles/globals.css#L1-L70",
-          "version": "repo-lines-v1:sha256:7b8a9f2938218700e41e7f29f26c42ed33763b40b0b8f42fe87bae08d4e139ac:eyJzZWxlY3RlZExpbmVDb3VudCI6NzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjExYjhlNjllODlhMzFlODdlMjVlYzQzYzkyZmZjZGRkMGNiNzk0ZGI3NTdkNjE2N2FlMzFlZTA1OGY5ZWE0MjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/styles/globals.css#L1-L80",
+          "version": "repo-lines-v1:sha256:26f9fe80c7bd6cb9cebbe821ec424c22c7fdcf82a4966472b0d7dda12199850c:eyJzZWxlY3RlZExpbmVDb3VudCI6ODAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjExYjhlNjllODlhMzFlODdlMjVlYzQzYzkyZmZjZGRkMGNiNzk0ZGI3NTdkNjE2N2FlMzFlZTA1OGY5ZWE0MjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYzMjExMmQxZDEyZGIxNzQzYThkNDJmNjFmNDkyOTYzZDZiYTEwYzc3NGEzODlmYWRkMTBiMzNkNmE4YjFiODAifQ"
         }
       ]
     },
@@ -84,11 +84,11 @@
     },
     {
       "id": "claim_3762655a230e484884541f478225a199",
-      "statement": "The frontend layout renders html with lang es, theme, mode, data-scroll-behavior, font variables and suppressHydrationWarning, injects the mode script, and renders SiteHeader with the cached counts, the page and SiteFooter.",
+      "statement": "The frontend layout renders html with lang es, theme, mode, data-scroll-behavior, font variables and suppressHydrationWarning, injects the mode script, and renders SiteHeader with the cached counts and Dofus menu, the page and SiteFooter.",
       "evidence": [
         {
           "resource": "repo://src/app/(frontend)/layout.tsx#L22-L48",
-          "version": "repo-lines-v1:sha256:0a441a9885aee8b58810c8812882b6361a75c172083efac2e2d5cdd0452ba86e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0YWZiNGRhMmYyMjEzMDdkMDhiMzMyMGI5MTk4YzcwYjAzNTc3MWZjMzUyZjdhZDQxYzFlNThhNjYwNTAxZDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MjY3OTM1ZmM2MzM0NjVkODQ4YjQwYTRlZDY5NjdlN2I3YTMyM2Y4MWNkNTNjMTEwYWUyMTAyOTY4N2FhMTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVjMDQ1ZWQ4MjVkMDJlM2VkZWYzMDA1YzkwNjc3MDRkZmIwZTE2YmQxMTQ3NThhYWFlZjg4NGJlNWNkOWI5MDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+          "version": "repo-lines-v1:sha256:87c9eb34a893e685d8e7481af6de7b0ae7514e32c47f593805eec7f7878696b7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0YWZiNGRhMmYyMjEzMDdkMDhiMzMyMGI5MTk4YzcwYjAzNTc3MWZjMzUyZjdhZDQxYzFlNThhNjYwNTAxZDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MjY3OTM1ZmM2MzM0NjVkODQ4YjQwYTRlZDY5NjdlN2I3YTMyM2Y4MWNkNTNjMTEwYWUyMTAyOTY4N2FhMTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVjMDQ1ZWQ4MjVkMDJlM2VkZWYzMDA1YzkwNjc3MDRkZmIwZTE2YmQxMTQ3NThhYWFlZjg4NGJlNWNkOWI5MDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
         }
       ]
     },
@@ -171,10 +171,52 @@
           "version": "repo-lines-v1:sha256:26025112caeb845eaa4996bdb3dc22153a18e7c33e0fb83aca0f7d72ff3e3385:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQyZTU2YmY5ZjAzYzRhMWE2ODU1MWI0NmM3MjM0OTg2NWYxNWZhNmJkM2I1ZWZiOTIzYTdkMmMwNzBhM2Q1ZmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_f9d808c355544768838142bbed3f4336",
+      "statement": "Without reduced motion, globals.css opts into cross-document view transitions of type pagina: the header and footer are named only during them and stay still, the old page fades out on top in 160 ms and the new page rises 8 px underneath with normal blending.",
+      "evidence": [
+        {
+          "resource": "repo://src/styles/globals.css#L82-L139",
+          "version": "repo-lines-v1:sha256:703be269880796d01ca700ca8a47a3586d2eeb58c25d98bebbfb639a8248016d:eyJzZWxlY3RlZExpbmVDb3VudCI6NTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1NDhhZDEzNTUxNGI5NGJkMDMxZTVjYjMwZDFhNWE2M2ZjYWNkZjk0ZjVkMzJhMDRjNmE0N2YzYmEzY2UwZTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/e2e/movimiento.spec.ts#L95-L153",
+          "version": "repo-lines-v1:sha256:503aea59967170b9945b4d113f2a94010bc191b3c2b49697e089c15f1b3d7a17:eyJzZWxlY3RlZExpbmVDb3VudCI6NTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkwMWQzMTQzMzU1ZDdjMDZmM2EzZDEzYWIyMDJjNGE1YmJjZGViY2QxMGVlMmI3MGViYWFhMGMyNTNlMTU3NzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRhMDM1MWJlMTQxNTVmMWIzYTRmOTk3YjhjN2U3MDg0MDFjNDMzODhkZDIxZmU0MWY4ZDAyMTZkYjFiN2EzNGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI5YzU2OWM1YjI3OTFkNTNiNTFiNDMzZDZkNzQ1ZmI2ODQzZGM1ZjU0MjJkZTVlZDUyYTgxMDA1NWQ0NDUzYTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6e841147e8044bedb8d624b230e17910",
+      "statement": "smoothUpdate runs an island's DOM change inside a typed view transition, applies it at once without view transitions or with reduced motion, and falls back to a callback without a type for browsers that only accept a function.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/ui/view-transition.ts#L1-L21",
+          "version": "repo-lines-v1:sha256:a006d59b768390fa4b2ed67d71015af93b8d4cb5708e7a75cae2e795f45aa3cc:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllNTBhMjdiOWZmNTdhODkyMmUxMTA4MWI1MWY5NWFmMGE5MmIzM2FiMTU1MjY0OTEzYWNhZTU4NWZlNTU5ZTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/view-transition.test.ts#L16-L48",
+          "version": "repo-lines-v1:sha256:21c7867702c62bc48e2ac7c44c67b4b5070015f9c3244cada623320ddd3836d4:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFmY2VlYWI5NDlhNTA3YzNlYmU0ZDMxNGE5NTI5NTdhM2IwNzJmOTUyYmE3MGIzNzdhNjU1Mzg2NGIxOGZhZmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFkYjBlYmYzZWQwN2MwYmM3YjE1MmZhZmZjOWY1Njg5YWJkYmRhYmJlNzk0YWZiNWY4MGJiOTA4MjQzMTc2YzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b9c960a4e2e44ff985d12b4ddf7f50ef",
+      "statement": "The metalogros index and the Dofus guides index use smoothUpdate with the types metalogros and guias-dofus.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/achievement/MetalogrosIsland.tsx#L14-L14",
+          "version": "repo-lines-v1:sha256:5fcb4b2b225d7d75383d542a5492554e5b699363ad7a073ad7f4bb951b84e042:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWZjYjRiMmIyMjVkN2Q3NTM4M2Q1NDJhNTQ5MjU1NGU1YjY5OTM2M2FkN2EwNzNhZDdmNGJiOTUxYjg0ZTA0MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNWZjYjRiMmIyMjVkN2Q3NTM4M2Q1NDJhNTQ5MjU1NGU1YjY5OTM2M2FkN2EwNzNhZDdmNGJiOTUxYjg0ZTA0MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjE2MDMzNTk3YjZhYTQ0NGUwZWJiZjVkYmI2ZGY3MWJlY2NiZDJiYTBjMzNhODViMDQ4YTg1MTIwM2VlMTFhNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTIwODJkZWViMDZlMjRlZTNlYjNlYmE2ZWU5NmNhOTY3ZTI0MzNkMTJkZTlhYzYyNzc1MTcxNDUxMDQ4M2ZkMSJ9"
+        },
+        {
+          "resource": "repo://src/components/dofus/DofusIndexIsland.tsx#L37-L41",
+          "version": "repo-lines-v1:sha256:e28cb066d3cc2e19d8a98b2b6f0a644bb71d3c3c336fd673385dec8400e1e871:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTM0NTE1NWY4NDE0ZjRlMTI3N2YxZTBiMzUyYTc2ZmRkYTNjMGEyZDZjNGUyN2JlNTY3MDJiZTNiNGY1MDZiMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTc1YmFjMzhiNTQzZDdiOTYwZWEwZGM3YWYzODQ3MDUxZjBhZjE2NTE0N2UxYTU4ODFlNmEzODk4N2RkODAxMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjAyZGMzODQwN2RjYzBiOWYyMWU5Y2M5OWE1NzY1OGZhYjhiMGQ0NjZjMGNmNDQyMmEyZTkzMzg2MGYyYWEyMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmFhNTM5NzgzMjcxYzBmYWUyZTFmZjU1YWRmZDZkOTEzZjRkNDk3NWM4MGYzZjYxZGZkOWU0ODZkOWVhYTA1MCJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-08T11:00:21.339Z"
+    "at": "2026-11-12T11:00:44.802Z"
   }
 }

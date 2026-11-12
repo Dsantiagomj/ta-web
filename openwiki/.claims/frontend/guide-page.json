@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:988b2b94bc1319780be5d0207fc553de4074d284fe9e62466d8f98688c649b58",
+  "pageVersion": "sha256:3b85e3c93e628aa59bd72b0b90e876a5cd81c7d70fa1a953bbf5aa80cfa16e4d",
   "claims": [
     {
       "id": "claim_7b28f62adc5e40749aa22aeb92186936",
-      "statement": "Quest guides are served at /[slug] by a server component that loads the guide once per request, falls back to an achievement page with that slug, and calls notFound() when neither is visible.",
+      "statement": "Quest guides are served at /[slug] by a server component that loads the guide once per request, falls back to an achievement page and then a Dofus guide with that slug, and calls notFound() when none is visible.",
       "evidence": [
         {
           "resource": "repo://src/app/(frontend)/%5Bslug%5D/data.ts#L41-L57",
           "version": "repo-lines-v1:sha256:2672508f7e5e0fa26c7d38dcc7749720ca56c6fb92f8d5ce3698cef2b680a2d9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA2N2FjOThiNGVmNzBmYmU1NzYxNjhhMjgzMmUyMjUzNzhhODc2YzY0MDc3Y2NjNjRhYzI0NGRmMmFhNjYxZWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://src/app/(frontend)/%5Bslug%5D/page.tsx#L65-L74",
-          "version": "repo-lines-v1:sha256:b53c693ca7b2a554c698ece6d2827c5cd27a1c18fda6e7cd6497dc288e101728:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUzZWM0NjliNzQyN2IxN2I3ZTNmYTU1ODkzNTA3YThjZWJiNWRlZWViZTYwOTg5ZmE0N2VlMjFkMGE3NzllZTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2MmFhOTQxY2JhZDQ1NzY3NjlkMjY1NzQyOWUxZjhkZTM2NzE5YmNmODI4OGU0ZDUzZjY3NWI2OTJiZGZjMzUifQ"
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/page.tsx#L89-L100",
+          "version": "repo-lines-v1:sha256:69ab5c54e629abeca9db13e44347fab6e60f7ba24e325d7d2f18bc3face89a17:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3ODI3NjA3NWE5OTI0OTFhODEzM2MxOTQwOWZhMDdhOWIwMmY3ZDA5MWYyZGM2NDE3YjRhNDEwNWYwOTUyMGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2MmFhOTQxY2JhZDQ1NzY3NjlkMjY1NzQyOWUxZjhkZTM2NzE5YmNmODI4OGU0ZDUzZjY3NWI2OTJiZGZjMzUifQ"
         }
       ]
     },
@@ -50,11 +50,11 @@
     },
     {
       "id": "claim_7bde77bd4fac4b9dae547561fd86d490",
-      "statement": "Saving or deleting a quest guide or media document expires the guide-pages and achievement-pages tags; outside a Next request the missing static generation store error is ignored, so imports and scripts show up after at most the revalidate period.",
+      "statement": "Saving or deleting a quest guide or media document expires the guide-pages, achievement-pages and dofus-guides tags; outside a Next request the missing static generation store error is ignored, so imports and scripts show up after at most the revalidate period.",
       "evidence": [
         {
-          "resource": "repo://src/collections/revalidate-guides.ts#L7-L46",
-          "version": "repo-lines-v1:sha256:1edb3f08d2f2a844362486a0106e2ce07e65716143903bd4a6615f72fe961305:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjljYzczYzM5YmFlNjNkZDkzZTAzMmQzOTY2OTYzYmE4NTU0MDE1N2M3YTQxNTNmN2I5NDcwZjY0ZWM1ZWYyZDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBhZjBjMzY5YjFlODA1MDkxNTAxZjY3ZDEzMjQwMGU5Mzc2NzAxNjc2ZjY5Y2FjODAyMjliNDY5MTVhNzgzMDEifQ"
+          "resource": "repo://src/collections/revalidate-guides.ts#L8-L54",
+          "version": "repo-lines-v1:sha256:143e0ef30d295105a0830bc631e82fb4bf00e890ba08bef025dedd1640d1c68c:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY0ZTU2OWM3YTFhYzg3OTExNWJjNWU0MGY2ZjM3OTFlMzllZWYzMGRmMTdmZGVhNTFhZWFhYWFlMmJhZTE1MGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY0ZjI3YWM2ZTliYjRkM2MyMDU1MWM0NWVhMzA3OTg4OTJjNmZjZDI0YjM3YzliMmYxYTNiZTMzZDhlNzY3YmUifQ"
         },
         {
           "resource": "repo://src/lib/guides/cache.ts#L3-L12",
@@ -62,7 +62,7 @@
         },
         {
           "resource": "repo://tests/unit/revalidate-guides.test.ts",
-          "version": "repo-file-v1:sha256:bc95588bbb7ba4649707da8f2d641147b672a2eee718c8749adc2c07d26f4b5e"
+          "version": "repo-file-v1:sha256:d758bd3a8bc956cb94d74e7ad36c65578c51dead1457a52515caeecdcc7dadfa"
         }
       ]
     },
@@ -113,8 +113,8 @@
       "statement": "generateMetadata uses the guide's SEO fields or the autofill templates, sets the canonical URL and Open Graph, and marks a preview noindex.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/%5Bslug%5D/page.tsx#L36-L63",
-          "version": "repo-lines-v1:sha256:8f2cff094333ceba2ca37ebcf125b8091025d8cc1021bbc8ba19752462837149:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUzMDg5ODgyY2M0NTdiZjNkNWQyYzNkOTYwMmI5ZDFmNDdkZDAzYjdiMTVkNzYyNjJkODUzN2I1MWMzNTk4YjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEwNGViYjkyNzFiMDdiZGE5ODcyNGU3ZmViNGExNzk0MGZkMTk1OGMxYTc4YjU0NDY1NWQxZjFkOTU3ZGVhY2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ0ODc4NzBmOTI2YzM5OTc0MDY2NzBiZGRkOWYzOWNmNGZjOGYxM2ZhZjJlZWY1YTAxOTllMzA4OWIyNWUwOGEifQ"
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/page.tsx#L39-L87",
+          "version": "repo-lines-v1:sha256:13ab629ac812629f3db08633f3b4d98afbf5b2395151691d12800b401da13f51:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY2ODVmNjJjY2EzMzc3ODcyNjI4NmQxYjc0ZTRiZjg3NThhMTQwNWJkZjAwN2E2MDBhMDNkMjg2ZWE1ZjRiZmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEwNGViYjkyNzFiMDdiZGE5ODcyNGU3ZmViNGExNzk0MGZkMTk1OGMxYTc4YjU0NDY1NWQxZjFkOTU3ZGVhY2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNiMmRlOTYyZjBiMDQ4YWIwNTM4ZDZkZjQ5NTU2NjhkZGI5YjY4ODVmNzlhZDBlMTVhYmFhMmEwODMzNWY3NzMifQ"
         },
         {
           "resource": "repo://src/lib/guides/page.ts#L540-L553",
@@ -124,11 +124,11 @@
     },
     {
       "id": "claim_e5d336e7ce444af294dabf5b19f87af3",
-      "statement": "GET /vista-previa enables draft mode only for a valid slug, a panel user and a guide or achievement page that user can see, answering 400, 401 or 404 otherwise, and redirects only to that page; POST /vista-previa/salir disables draft mode and redirects back with 303.",
+      "statement": "GET /vista-previa enables draft mode only for a valid slug, a panel user and a guide, achievement page or Dofus guide that user can see, answering 400, 401 or 404 otherwise, and redirects only to that page; POST /vista-previa/salir disables draft mode and redirects back with 303.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/vista-previa/route.ts#L22-L44",
-          "version": "repo-lines-v1:sha256:f8ed74bff2c6865c0a990a6708f20666820f0eec5cb3ca007843dd574c59811f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRjZjk1ZjJhMmZmNDU0NDJlMTM1ZDA0ZjY2ZmIyNTRiYTcwMTBlZTMyYmU4YjNhY2EwMDI3M2UxNzdkMDlmMjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/app/(frontend)/vista-previa/route.ts#L23-L46",
+          "version": "repo-lines-v1:sha256:e59deb7d608fac46e9bd7fffe1c983b56644c9beb98127c05e160c7f5a3f54b6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRjZjk1ZjJhMmZmNDU0NDJlMTM1ZDA0ZjY2ZmIyNTRiYTcwMTBlZTMyYmU4YjNhY2EwMDI3M2UxNzdkMDlmMjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://src/app/(frontend)/vista-previa/salir/route.ts#L6-L16",
@@ -166,11 +166,11 @@
     },
     {
       "id": "claim_77a21e6aec75430ebe02718216d2cedd",
-      "statement": "The guide E2E spec checks the header, the breadcrumb, steps without numbers, the fight block, the next quest card, the single 880px column, the rewards bag by keyboard and without JavaScript, SEO, 404 with noindex, reserved routes winning over /[slug], accessibility in Arcano dark and light, and that preview JavaScript never reaches visitors.",
+      "statement": "The guide E2E spec checks the header, Prerrequisitos above Necesitás with items in columns, the breadcrumb, steps without numbers, the fight block, the next quest card, the single 880px column, the rewards bag by keyboard and without JavaScript, SEO, 404 with noindex, reserved routes winning over /[slug], accessibility in Arcano dark and light, and that preview JavaScript never reaches visitors.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/guia.spec.ts#L20-L395",
-          "version": "repo-lines-v1:sha256:43a9b68baae46c43301cdbaa3859a383b8994a60be1258d9eed6032e0aa068ba:eyJzZWxlY3RlZExpbmVDb3VudCI6Mzc2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlNzIwNmU2M2ZmOTQ0YzJiYzExYjY1NjA0Njk5NTg1OGMwZTE0NTgxYjFiZTdkOWMwMDcyNmI1OWIyMzM2N2JkIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIxMWJhMDEzMzI2OTM0ZWFiOGRiNDY4NWY4YmM5OWI0YWQ1M2JmMTg3MjE4NjVkYjM0MGY3NjM5MjRjNDY4M2UwIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://tests/e2e/guia.spec.ts#L20-L416",
+          "version": "repo-lines-v1:sha256:98a02f45b5c893a30e7d5071527afb89c731c839a41714e055c14d766715a49e:eyJzZWxlY3RlZExpbmVDb3VudCI6Mzk3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJiMTAwY2EzYjQzOTRhMmU0ZjQzZjkzNDBhYjhkMGIyYmRmNWM5MTg1M2M1OWIyMzFjMGZhYjU0ZmMxZDk2MDNjIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIzNDBjNWQzZGMzYTc3MzA3OTNjODkyNzk0OGI1NTk2NjQyMDdmNzliYTg3NzczYzIxNTAwNDQzMTk2MmZkNDg4IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -219,6 +219,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-08T11:00:21.339Z"
+    "at": "2026-11-12T11:00:44.802Z"
   }
 }

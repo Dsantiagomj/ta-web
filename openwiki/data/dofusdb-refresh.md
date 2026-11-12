@@ -84,10 +84,10 @@ sources:
     resource: repo://tests/unit/dofusdb-quest-rewards.test.ts
   - id: openwiki-source-e73350ef868f2379d51909ed
     resource: repo://tests/unit/dofusdb-write-concurrency.test.ts
-generated: { by: "claude-code", at: "2026-11-08T11:00:21.339Z" }
+generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-08T11:00:21.339Z
+    at: 2026-11-12T11:00:44.802Z
 ---
 
 # DofusDB game data refresh
@@ -140,6 +140,7 @@ pnpm data:quests
 
 - `fetchAll(collection, { select })` requests pages of 50 (DofusDB never returns more per request) until `skip + 50` reaches the reported `total`. An empty page also stops the loop, whatever the total says. With `select`, each page request adds one Feathers `$select[]=<field>` per field, so DofusDB returns only those fields instead of the whole row.
 - `fetchByIds(collection, ids)` drops duplicate IDs and requests them in chunks of 40 with `id[$in][]=…` filters, which keeps URLs short and each answer inside one page. IDs that do not exist simply do not come back.
+- `fetchWhere(collection, query, { select })` returns only the first page (50 rows) of the rows that match a Feathers query such as `{ 'name.es': 'Pepita' }`, with each value URL-encoded. It is for searching, not for walking a collection: the [Dofus guides import](dofus-guides-import.md) uses it to find a Necesitarás item by name.
 - It waits 50 ms between requests, so it does not load a free API, and sends a generic `User-Agent: ta-web/datos-del-juego`.
 - Each request has a 30 s timeout (`AbortSignal.timeout`), so a hung connection fails instead of waiting for minutes.
 - `fetch`, `sleep`, `baseUrl`, `log` and `random` are injectable, so the tests never reach the network or wait for real.

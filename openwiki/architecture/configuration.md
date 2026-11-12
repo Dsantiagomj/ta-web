@@ -5,7 +5,7 @@ description: Every environment variable the app, the tests and the GitHub workfl
 tags: [configuration, environment, secrets, railway]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-08T11:00:21.339Z
+    at: 2026-11-12T11:00:44.802Z
 sources:
   - id: openwiki-source-5f5b95b3d6a215fa02ceb945
     resource: repo://.env.example
@@ -19,12 +19,16 @@ sources:
     resource: repo://package.json
   - id: openwiki-source-5e753d9d77984cb67aae1517
     resource: repo://playwright.config.ts
+  - id: openwiki-source-de5a7370ff2798c2513d3fab
+    resource: repo://scripts/hooks/gga-review.sh
   - id: openwiki-source-f0b0dfee6a793bb5e8050714
     resource: repo://scripts/lhci-env.ts
   - id: openwiki-source-95f46342bb37caacc4ce1dbc
     resource: repo://scripts/lhci.ts
   - id: openwiki-source-63cbcc482c18e4f9ce5d0888
     resource: repo://scripts/refresh-quests.ts
+  - id: openwiki-source-b6d2ac28f484617caef7e1ad
+    resource: repo://scripts/review-release.ts
   - id: openwiki-source-7a2845694b67f1018000b585
     resource: repo://src/app/(frontend)/layout.tsx
   - id: openwiki-source-e6259e232b376ac021274244
@@ -57,7 +61,7 @@ sources:
     resource: repo://tests/integration/env.ts
   - id: openwiki-source-e73350ef868f2379d51909ed
     resource: repo://tests/unit/dofusdb-write-concurrency.test.ts
-generated: { by: "claude-code", at: "2026-11-08T11:00:21.339Z" }
+generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
 ---
 
 # Environment configuration
@@ -88,6 +92,8 @@ Each group of variables has one small resolver function that takes an `env` reco
 | `CHROME_PATH` | `scripts/lhci.ts`: the browser Lighthouse measures with; Playwright's Chromium when empty | The process environment only, not `.env` |
 | `SMOKE_BASE_URL` | `playwright.config.ts` | The shell or the smoke workflow; never `.env` |
 | `RAILWAY_TOKEN`, `PROD_URL`, `DEV_URL` | GitHub workflows only | GitHub environment secrets and repository variables |
+| `GGA_CLAUDE_MODEL` | `scripts/hooks/gga-review.sh`: exported as `ANTHROPIC_MODEL` for the per-commit gga review; empty means `sonnet` | The shell; local tooling only, the app never reads it |
+| `RELEASE_REVIEW_MODEL`, `RELEASE_REVIEW_JOBS`, `RELEASE_REVIEW_TIMEOUT_MINUTES`, `RELEASE_REVIEW_BATCH_CHARS` | `scripts/review-release.ts` (`pnpm review:release`): model, parallel batches, minutes per batch and diff characters per batch; empty means `fable`, 3, 20 and 120000 | The shell; local tooling only. See [Release review](../workflows/release-review.md) |
 
 `NODE_ENV`, `NEXT_PHASE` and `CI` come from Next.js and GitHub Actions and are not listed in `.env.example`.
 

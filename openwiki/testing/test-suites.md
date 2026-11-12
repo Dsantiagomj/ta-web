@@ -30,16 +30,24 @@ sources:
     resource: repo://tests/e2e/fonts.spec.ts
   - id: openwiki-source-870648cc3288ecf5c87bb3a4
     resource: repo://tests/e2e/guia.spec.ts
+  - id: openwiki-source-0541138ab33ba7b069dd2d9c
+    resource: repo://tests/e2e/guias-dofus.spec.ts
   - id: openwiki-source-1ad069df7a453770f4cdef35
     resource: repo://tests/e2e/inicio.spec.ts
   - id: openwiki-source-1f65cb688406ef2eb6ebe494
     resource: repo://tests/e2e/logro.spec.ts
   - id: openwiki-source-cf2cbbdb1dcdabf3a2d7fb52
     resource: repo://tests/e2e/metalogros.spec.ts
+  - id: openwiki-source-0d3ca97f277fd81c10735a75
+    resource: repo://tests/e2e/movimiento.spec.ts
+  - id: openwiki-source-8678a106da2f0cdc8cdcbe91
+    resource: repo://tests/e2e/needs-layout.ts
   - id: openwiki-source-c04b26872daa30d9d3f5983e
     resource: repo://tests/e2e/robots.spec.ts
   - id: openwiki-source-22571714391cf8b566f6ad43
     resource: repo://tests/e2e/seed/achievements.ts
+  - id: openwiki-source-f067f46680161e7515e65802
+    resource: repo://tests/e2e/seed/dofus-guides.ts
   - id: openwiki-source-bd7392d65e8fc186a24c242a
     resource: repo://tests/e2e/seed/guides.ts
   - id: openwiki-source-8b0b9cc5ebf1012175c3d759
@@ -156,10 +164,10 @@ sources:
     resource: repo://vitest.config.mts
   - id: openwiki-source-57da85ca1bb457973a5594ff
     resource: repo://vitest.integration.config.mts
-generated: { by: "claude-code", at: "2026-11-10T11:02:06.480Z" }
+generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-10T11:02:06.480Z
+    at: 2026-11-12T11:00:44.802Z
 ---
 
 # Test suites
@@ -189,7 +197,9 @@ The repo works test-first (AGENTS.md: strict TDD). There are six suites. All of 
 - shared helpers: `concurrency` (`mapWithConcurrency` keeps input order, never runs more than `limit` tasks, runs them one by one with `limit` 1, rejects with the first error once running tasks settle without starting more, handles an empty list, and rejects a `limit` below 1 or not an integer);
 - Squarespace import: `import-parse-page` (title, desktop grid order, text, image and unknown blocks), `import-to-quest-guide` (summary with the "Necesitarás" text as `needs.notes`, start NPC, what leaves the body, the closing paragraph kept whole, callouts, steps with marker titles as bold paragraphs, Torre's recommendations, oddities), `fight-lists` (fight lists turned into fight blocks), `import-restore-closing` (`closingParagraph` and `restoreClosing`), `import-dom` (`releaseDom`), `import-rich-text` (HTML to Lexical through Payload's editor), `import-quest-matches` (the slug to DofusDB IDs CSV) and `import-fetch-image` (image downloads only over `https` from Squarespace's CDN, without redirects and only for `image/*` responses, through an injected fake `fetch`). See [Squarespace import](../data/squarespace-import.md);
 - design system: `ui-components` and `game-components` (`.test.tsx` files that render each component with `renderToStaticMarkup` and check its markup, accessible names, hit targets and empty states; see [Design system components](../frontend/design-system-components.md)), `amount` (`.test.tsx`: the U+202F thousands separator), `coordinates`, `display-format` and `video-url` (the guide display helpers), `theme-css` (every semantic token is re-declared for nested `data-theme`/`data-mode`), `fonts` (Montserrat as the only preload, its weights and Lilita One on demand, with `next/font/google` mocked), `emblem` (`.test.tsx`: the emblem, its standalone SVG and the committed favicon) and `design-catalog` (when `/sistema` opens);
-- tooling: `commit-msg` (runs the git hook script), `lighthouse-ci` (the `lighthouserc.cjs` assertions and `lhciEnv`; see [Performance budgets](performance-budgets.md)).
+- Dofus guides: `dofus-guides-collection` and `dofus-guides-index-global` (fields, access, the shared slug space, the hidden import snapshot, the global's intro), `dofus-guide-page` (the view model), `dofus-index-view`, `dofus-index-cards` (`.test.tsx`) and `dofus-nav` (index cards, filters, search and menu items), `dofus-needs` (`.test.tsx`: Necesitarás groups), `revalidate-guides` (which cache tags each hook expires), `import-dofus-guide-parse` and `import-video-poster` (the Dofus guides import). See [Dofus guide data model](../dofus-guides/dofus-guide-data.md) and [Importing Torre's Dofus guides](../data/dofus-guides-import.md).
+- motion: `view-transition` (`smoothUpdate` with a type, without view transitions, with reduced motion and with a callback-only browser; see [Styles, tokens and site shell](../frontend/styles-and-shell.md#motion)).
+- tooling: `commit-msg` (runs the git hook script), `gga-review-hook` (the gga hook pins the review model), `review-release` (the `pnpm review:release` planning: file selection, batches, prompt, verdict and report; see [Release review](../workflows/release-review.md)), `lighthouse-ci` (the `lighthouserc.cjs` assertions and `lhciEnv`; see [Performance budgets](performance-budgets.md)).
 
 ## Integration
 
@@ -208,6 +218,7 @@ Real Payload (`getPayload`) against a real Postgres with the committed migration
 - `refresh-game-images.test.ts` imports item and monster images once with their key, reuses files, retries failures and collects the targets from quests, achievements, achievement pages and metalogros. See [DofusDB game data refresh](../data/dofusdb-refresh.md#game-images).
 - `guide-search-index.test.ts` checks the header search index holds only published guides, their published version, each once and sorted by title; `site-counts.test.ts` checks the header counts as a visitor.
 - `restore-closings.test.ts` and `backfill-fights.test.ts` cover `pnpm guides:backfill`: dry runs, applied changes, idempotent reruns, drafts kept as drafts and image retries. See [Squarespace import](../data/squarespace-import.md#bringing-imported-guides-up-to-date).
+- `dofus-guides.test.ts`, `dofus-guide-queries.test.ts`, `import-dofus-guides.test.ts` and `import-dofus-items.test.ts` cover the Dofus guides: access and the shared slug space, what the page queries load and hide from visitors, the import's dry run, creation, reruns that keep Torre's edits and the index intro, and items fetched from DofusDB with their icons. See [Dofus guide page](../dofus-guides/dofus-guide-page.md#tests) and [Importing Torre's Dofus guides](../data/dofus-guides-import.md#tests).
 - `remove-step-title-migration.test.ts` runs the step title migration and checks each title becomes a bold first block of its step. See [Public quest guide page](../frontend/guide-page.md#tests).
 - `refresh-npcs.test.ts` runs `refreshNpcs` with a fake renderer: renders imported trimmed with the name as alt, nothing downloaded on a rerun, an unlinked render in `media` reused, a new look adding renders and keeping the old ones, no look meaning no request, and a failing renderer retried on the next run. See [DofusDB game data refresh](../data/dofusdb-refresh.md#npcs-and-their-renders).
 - `game-data-access.test.ts` checks `items` and `monsters` at runtime: an anonymous request can `find` and `findByID`, and a panel user gets `Forbidden` on create, update and delete with the data unchanged.
@@ -225,7 +236,7 @@ Real Payload (`getPayload`) against a real Postgres with the committed migration
 1. `pnpm build` (skipped with `E2E_SKIP_BUILD=1`).
 2. With no `DATABASE_URL` (a blank or whitespace-only value counts as none, as in `pnpm test:lhci`): start `pnpm db:dev` (reusing a running one) and reset `ta_web_e2e` with `scripts/db-e2e-reset.ts`.
 3. `pnpm migrate` on the empty database.
-4. `pnpm seed:e2e`: the test guides from `tests/e2e/seed/guides.ts` ("Seis pies bajo tierra" published with an introduction, three steps and a closing, its zone, achievement, XP range and the NPC with renders; its prerequisite's published guide; an unpublished draft), the achievement data from `tests/e2e/seed/achievements.ts` ("La ocasión hace al ladrón" in the Astrub metalogro with the three seeded guides' quests, a published achievement before it and one in preparation after it, and a metalogro with nothing published) and a panel user for the preview tests. `scripts/seed-e2e.ts` refuses any database that is not local (`isLocalDatabaseUrl`).
+4. `pnpm seed:e2e`: the test guides from `tests/e2e/seed/guides.ts` ("Seis pies bajo tierra" published with an introduction, three steps and a closing, its zone, achievement, XP range and the NPC with renders; its prerequisite's published guide; an unpublished draft), the achievement data from `tests/e2e/seed/achievements.ts` ("La ocasión hace al ladrón" in the Astrub metalogro with the three seeded guides' quests, a published achievement before it and one in preparation after it, and a metalogro with nothing published), the Dofus guides from `tests/e2e/seed/dofus-guides.ts` (the full "Dofus Ocre" with its egg, prerequisites, Necesitarás, the seeded achievement with its quests, a loose quest with Torre's note, the checklist and the video; "Dofawa" published without achievements; "Jyfus" in preparation; and the index intro) and a panel user for the preview tests. Rerunning the seed duplicates nothing. `scripts/seed-e2e.ts` refuses any database that is not local (`isLocalDatabaseUrl`).
 5. `scripts/clear-data-cache.ts` empties Next's data cache, so no guide cached by an earlier run hides the fresh database.
 6. `pnpm start --port 3100` (`E2E_PORT`), a port of its own so a running `pnpm dev` on 3000 is never reused by mistake.
 
@@ -237,11 +248,13 @@ Specs:
 - `robots.spec.ts`: outside dev, `robots.txt` allows indexing except `/admin`, and the home page has no `X-Robots-Tag`.
 - `guia.spec.ts`: the public guide page on the seeded guides (header, mobile NPC and breadcrumb, steps, fight block, next quest card, the single 880 px column, the rewards bag by keyboard and without JavaScript, prose-only guide, SEO, 404, reserved routes, viewer, video at 390px, coordinate copy, axe in Arcano dark and light) and draft preview.
 - `logro.spec.ts` and `metalogros.spec.ts`: the achievement page and the metalogros index on the seeded achievement data. See [Achievement page](../achievements/achievement-page.md#tests) and [Metalogros index](../achievements/metalogros-index.md#budget-and-tests).
-- `cabecera.spec.ts`: the site header, footer and search dialog, including achievements and metalogros in the search and Clases and Mazmorras shown as «Próximamente» without a panel or link. See [Site header, footer and search](../frontend/site-shell-and-search.md#tests).
+- `guias-dofus.spec.ts`: the Dofus guides index (cards in order, filter and search, no search box without JavaScript, axe), the seeded Dofus guide (header, Necesitarás that copies item names and lays out in columns, achievement quests, one column, 404 in preparation, axe) and the header's Dofus panel linking published guides. See [Dofus guides index and menu](../dofus-guides/dofus-guides-index.md#tests) and [Dofus guide page](../dofus-guides/dofus-guide-page.md#tests). `needs-layout.ts` is the shared check that Necesitarás puts items in columns with the notes below at 1440, 390 and 320 px, also used by the guide and achievement specs.
+- `movimiento.spec.ts`: motion with and without reduced motion: page view transitions with a still header, panels, the search dialog and results, the phone menu, the viewer, the video player and the metalogros tiles. See [Styles, tokens and site shell](../frontend/styles-and-shell.md#motion).
+- `cabecera.spec.ts`: the site header, footer and search dialog, including achievements and metalogros in the search, the Dofus panel built from the collection, and Clases and Mazmorras shown as «Próximamente» without a panel or link. See [Site header, footer and search](../frontend/site-shell-and-search.md#tests).
 - `inicio.spec.ts`: the home page and its hero search, including achievements in their own group and the Clases and Mazmorras cards without a link. See [Home page](../frontend/home-page.md#tests). See [Public quest guide page](../frontend/guide-page.md#tests).
 - `brand.spec.ts`: the favicon SVG, PNG fallback and iOS icon links, the emblem left of the name in the header with the theme colors, 30px on phones, and axe on the header in Arcano dark and light.
 - `fonts.spec.ts`: the home page and the guide preload only the Montserrat file, and every Montserrat weight comes from that file in one family.
-- `sistema.spec.ts`: the `/sistema` component catalog in all five themes and both modes: figures with the narrow no-break thousands space, every component group visible, hand-written CSS following each section's theme, coordinate copy, 40px hit targets, dark icon wells in light mode, no YouTube request before a video click, the 480px screenshot on a phone, the fullscreen image viewer (open, close, focus return, theme), and axe (`@axe-core/playwright`, WCAG 2.2 AA tags) on the open viewer and the whole page. See [Component catalog (/sistema)](../frontend/component-catalog.md).
+- `sistema.spec.ts`: the `/sistema` component catalog in all five themes and both modes: figures with the narrow no-break thousands space, every component group visible (including the Dofus guide parts), hand-written CSS following each section's theme, coordinate and item name copy, 40px hit targets, dark icon wells in light mode, no YouTube request before a video click, the 480px screenshot on a phone, the fullscreen image viewer (open, close, focus return, theme), and axe (`@axe-core/playwright`, WCAG 2.2 AA tags) on the open viewer and the whole page. See [Component catalog (/sistema)](../frontend/component-catalog.md).
 
 ## Dev environment
 

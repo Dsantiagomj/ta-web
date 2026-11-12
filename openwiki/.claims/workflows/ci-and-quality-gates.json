@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:733e26505fb7529672b82e4bd39acd91ec559509c763beb4041307d88ec3b9d0",
+  "pageVersion": "sha256:7017c6426ae7518ed6fee33d8260a0628b00eb18ae1344170c501e67c70500d1",
   "claims": [
     {
       "id": "claim_cb74801dca844af99590395d68fa512d",
@@ -17,8 +17,8 @@
       "statement": "The gga hook warns and lets the commit through when gga is not installed.",
       "evidence": [
         {
-          "resource": "repo://scripts/hooks/gga-review.sh#L1-L10",
-          "version": "repo-lines-v1:sha256:3557cbe1496f09a6b0a3a6899d23ed2feaa2f4072e05b3acfc0446af16c4c6de:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MDc2ZDNkMjhkMjFlMDIwMTJiMjBlYWY3ZGJmNzU0MDlhNjI3NzEzNDQzOTAyNWYyODJlMzY4ZTMzMDVhYmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3YjQ3MDNiZTNkYTYxYTdiOGVmMmY5Nzk0ZTAzOTg1ZjFlNjY0YzUyMDVjNGI1NGQ3ZjhlMzZmODI4M2YwMDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://scripts/hooks/gga-review.sh#L1-L8",
+          "version": "repo-lines-v1:sha256:7ef104bbbb476fb5eb827c7a0a251b8fe592ff4752621054751844d3d29c6b71:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTgwNzZkM2QyOGQyMWUwMjAxMmIyMGVhZjdkYmY3NTQwOWE2Mjc3MTM0NDM5MDI1ZjI4MmUzNjhlMzMwNWFiZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzc2OWQyMzdjZDQyMGI5ZDM4Yjk4MWEwYTRmNjc3MDE5MGE0YTgzZGNhMWZlNTZjNGY1YmExZTJjYmMwZWY3NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzJkY2MyZmE5MjBkMWNmNjlkNzBjNmM0MTBkOTQyMzNjOTgwZGRkYzNjNjcyYTMxOTMwNzFkYWMwYWRlMDY0NCJ9"
         }
       ]
     },
@@ -71,8 +71,8 @@
       "statement": "CI runs lint and format check, typecheck plus a stale Payload types check, unit tests, build, integration tests and E2E plus the dev environment E2E and Lighthouse CI budgets against empty Postgres 17.11 services.",
       "evidence": [
         {
-          "resource": "repo://.github/workflows/ci.yml#L29-L184",
-          "version": "repo-lines-v1:sha256:d2bc8d5b8fd3c3630325e05e9ee13d49adfac39f437983baeb85f9c0a2d8111a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTU2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJmOGZiNzI3N2ZkZDIwZDJmODQ2NmZjNzNiNWU0MjcwNDc4OWIwOTk5MTY2Mjg5ZGNiMTkzNWMwMDQ4NTE2ZWRhIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0NDcxZThiZjM0MDY2ZGFlMmViNTI5MDVjNzEyNjc0MDg2ZWRlYjdmOWU3Nzk3ZGMzMDJmMWRkOGEyOWI5ZjBkIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmZmU0N2I5NTFhNDA2YTFkYTYxZGZkMjU2MTA4NzY4ZWY5OGRjNzk3ZTczNzBkZjM1YWZlNGJiYWI3NDYxZDEwIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI3ZDQzNGIwZDhkN2RlZWNiZjkwMGYzMmE0YmU2MGJjMTY2ZjQzOTUwNTBjMTY5Y2Y3YjQ3ZTgxM2MwMzk1NDRhIn0"
+          "resource": "repo://.github/workflows/ci.yml#L29-L187",
+          "version": "repo-lines-v1:sha256:f8c74c5a8a86a71661862e0e7b10f42663f3e94c26cc4cf6fb144cf821262493:eyJzZWxlY3RlZExpbmVDb3VudCI6MTU5LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJmOGZiNzI3N2ZkZDIwZDJmODQ2NmZjNzNiNWU0MjcwNDc4OWIwOTk5MTY2Mjg5ZGNiMTkzNWMwMDQ4NTE2ZWRhIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0NDcxZThiZjM0MDY2ZGFlMmViNTI5MDVjNzEyNjc0MDg2ZWRlYjdmOWU3Nzk3ZGMzMDJmMWRkOGEyOWI5ZjBkIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmZmU0N2I5NTFhNDA2YTFkYTYxZGZkMjU2MTA4NzY4ZWY5OGRjNzk3ZTczNzBkZjM1YWZlNGJiYWI3NDYxZDEwIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI3ZDQzNGIwZDhkN2RlZWNiZjkwMGYzMmE0YmU2MGJjMTY2ZjQzOTUwNTBjMTY5Y2Y3YjQ3ZTgxM2MwMzk1NDRhIn0"
         }
       ]
     },
@@ -155,7 +155,7 @@
           "version": "repo-lines-v1:sha256:681a2ab45df376853d35360d90c85e406f34334e52337ba22122c1d4482278cf:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjgxYTJhYjQ1ZGYzNzY4NTNkMzUzNjBkOTBjODVlNDA2ZjM0MzM0ZTUyMzM3YmEyMjEyMmMxZDQ0ODIyNzhjZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjgxYTJhYjQ1ZGYzNzY4NTNkMzUzNjBkOTBjODVlNDA2ZjM0MzM0ZTUyMzM3YmEyMjEyMmMxZDQ0ODIyNzhjZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTFjNGI0ZjhjYWRjZjM1MjM1MTY1MjExOWY4Mjk4ZmExZDBkNjRmOTQzOGUyMzFiOTJiYzA5MWFhMzkxMDkxNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTBiZWJmYWRjYmJhNDA3OTBjZGYxMDgyMzVjY2IxY2IzYmE0ZDVhOTdkOWI5YmIxZjg4YzRkYTQ5NDhlZjJmMyJ9"
         },
         {
-          "resource": "repo://package.json#L62-L62",
+          "resource": "repo://package.json#L72-L72",
           "version": "repo-lines-v1:sha256:f76c7d72bbb6a2cc73b1d8c43f3eb767482679b7ad350f6079ad2dc3935f68c9:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjc2YzdkNzJiYmI2YTJjYzczYjFkOGM0M2YzZWI3Njc0ODI2NzliN2FkMzUwZjYwNzlhZDJkYzM5MzVmNjhjOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjc2YzdkNzJiYmI2YTJjYzczYjFkOGM0M2YzZWI3Njc0ODI2NzliN2FkMzUwZjYwNzlhZDJkYzM5MzVmNjhjOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWUxYTdlMWQ3OWE1ODkxYWJmNzllNDZkOTc1ZjkyNjkyMjViYzkyODFiNWRkMDRlMWY5NThkN2EwOWE4NjFjMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTQwMDM4ZGM4MzQ1NWM2ZGZjMTYzM2UxZDkwMTNjNDZmNzM1ZmRmNTA5MzU4MTMxODQ2OWI2MDEwMjMyMTNkMSJ9"
         },
         {
@@ -183,10 +183,38 @@
           "version": "repo-lines-v1:sha256:71660df9e08643de8998a1126c922a3ce529edfd5773060d0f5f81bd13b4f909:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWQzNTBmZGVhNTVjOWZmNDU2MDUyMmI2ZmU0Mzk4M2I0NTBjNzI0MmE1ZjU2NzRmZjAyNGM1YWEzM2Q3YTE0ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGU5MTU1MDEwYTEyMzMzOGYwYTEyZGJiZjA1YjFjY2RmNDY3M2Q3NmFmZDUxM2E3YzMyYjMyNzY4ZDZlNDc5ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGQ0MGJlMGZiYmU4NDBiOGIwZDUwNGM3ZWZkNzRlNjI4MjI5YjFiYzVlMGZiYmExMWI5NzRjZjk4ZDg3Yzc1MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmRhYTRkYjNlZDBkMDZkODg4MTE0NWJkNmU2NGEyZGMzM2VhOTAxOGY0N2U5ZTNjMDcyYWFlNjBkN2FlYzMyMCJ9"
         }
       ]
+    },
+    {
+      "id": "claim_d28f84dc07e64fd39fa6f574612e21f7",
+      "statement": "The gga hook exports ANTHROPIC_MODEL as GGA_CLAUDE_MODEL or sonnet so the per-commit review never uses Claude Code's default model, even when the shell sets ANTHROPIC_MODEL.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/hooks/gga-review.sh#L10-L15",
+          "version": "repo-lines-v1:sha256:bde57b12ac7d3ae0b1ef992c7833b9d5fcfdec99f3d3fa1647c167c25dc78808:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTNmNzFlOWExODBmZTcxNDZkZmQ3YzFlNDBmMTc3M2VmOTAwY2I5NWJhNDBiY2M1ZWYyZGU4NzJjMGNmODIwNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTdiNDcwM2JlM2RhNjFhN2I4ZWYyZjk3OTRlMDM5ODVmMWU2NjRjNTIwNWM0YjU0ZDdmOGUzNmY4MjgzZjAwMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2QyZDFiMjBkM2NiMmI4MzEyNWI5YmM3YzIzY2QzZDNlZWM4OTRlZGIwYjYxZjY2OTI0MzEwZjgwNjRiNTQ1MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://tests/unit/gga-review-hook.test.ts#L27-L38",
+          "version": "repo-lines-v1:sha256:fec52b7ee7b85a6a266908dd55ee3126ae58f7239a71b1e02fbcab5ff449c8ad:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAzZTUxMWMyOWE4ZmZiYmQ1YWZkYjkwZTkwODdkNDlmMTg5YWY0MzNkMDVkYjZhYWU5NWFiNzIyMWRiYTY1ZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY1MDhmOWU2NDQ5YTUxMzI2YzUwNGI3YjlhNDJiMzUxNDdjYzU1NzI1YzZmZWNjYjg5YThiM2VkNDlmMmM5YzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ef7fb286bb0c4a0f93c5da5dce0f1bf1",
+      "statement": "The E2E job installs Chromium or its system dependencies through scripts/ci/playwright-chromium.sh with a 20-minute step limit, and the script skips apt when Chromium already launches and retries each attempt with a 5-minute limit.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml#L144-L153",
+          "version": "repo-lines-v1:sha256:3c62d55d6813b9f7904f2ea60d9a2e4cf417c077a36a0cfabad7bb033f8d134e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiM2Y5NDUwYmE5YWZkODlhM2I1YWIzZDRmZTc3NWQwNjEyNDcyZTY5YTQ1MTZkMzU0Zjg0ZWJkNmI1MmIzNzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM4Y2ExNDE1YTdhNzhkZWFkMzRmMjI2YmY4MDk0NGU2MTdmOGRjNzBkMDNjM2Q3OGZjOTkzZGMwNDhiYzgyZWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA3ZDUyYTZhMGE2YWViY2Q5OWVjNjY4YzM0MjhiMjUyZTgwZWU2YjEyMTI5NjFmYzg5NjI0NDgwNDg1ZmViMjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI3OWRmMWQxYjkyMmViNDU1NTBlMzk4MmJlY2M3OWEwNDMzZmE0N2RmZmRkOTc3MzIwNDQ2ZjM5ODU4YTlkYTMifQ"
+        },
+        {
+          "resource": "repo://scripts/ci/playwright-chromium.sh#L1-L47",
+          "version": "repo-lines-v1:sha256:d6d1bfedeb980df6f935a5c888f85cab4bae3be568d5abd75e7751f806fe844b:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MDc2ZDNkMjhkMjFlMDIwMTJiMjBlYWY3ZGJmNzU0MDlhNjI3NzEzNDQzOTAyNWYyODJlMzY4ZTMzMDVhYmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBjNjg2OGMyYzQ0ZjA1MzYxOWNlZjFjYzM4M2UxZDUzMDc0M2I1NzRjYTE5MmFjZTkxNjhhOWNjZjQ2YTg2ZTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-06T15:25:11.354Z"
+    "at": "2026-11-12T11:00:44.802Z"
   }
 }

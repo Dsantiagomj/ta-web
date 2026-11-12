@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ede00c15f544c9539b0e53fe751c283d69bb95891d00f4d10307c94ff7337444",
+  "pageVersion": "sha256:8ec4f0dd3513dac6d30f72ebe0e5bb06330959c475b5fa7700b55b085e2c3ad3",
   "claims": [
     {
       "id": "claim_a1f066f59b4545ba84536e9305fee505",
@@ -136,11 +136,11 @@
     },
     {
       "id": "claim_d9b74f4cc20e4bbd833fb731a6ebf1f8",
-      "statement": "Quest guides, achievement pages and metalogros share one root slug space: rejectSharedSlug rejects a slug another of the three collections already uses, counting the latest draft as well as stored documents.",
+      "statement": "Quest guides, achievement pages, metalogros and Dofus guides share one root slug space: rejectSharedSlug rejects a slug another of the four collections already uses, counting the latest draft as well as stored documents.",
       "evidence": [
         {
-          "resource": "repo://src/collections/root-slug.ts#L11-L101",
-          "version": "repo-lines-v1:sha256:f0ca59a799fb8e0c4f7e9006a982485165f2161be71e062bc401fc7ef59b8d59:eyJzZWxlY3RlZExpbmVDb3VudCI6OTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA2ZGNkYmVlZmQ2ZjdmZTdjNGNjYzhkYzU2ZGFjMDFlODJjMzk4YWYxMWQ3NWE3ZmUxZTY4MWZjYmI4NGE4YTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/collections/root-slug.ts#L11-L103",
+          "version": "repo-lines-v1:sha256:54c4b81a702b065d1c71cbe1e5a2c11759e27636a62a25765556e9a0051bf4a5:eyJzZWxlY3RlZExpbmVDb3VudCI6OTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA2ZGNkYmVlZmQ2ZjdmZTdjNGNjYzhkYzU2ZGFjMDFlODJjMzk4YWYxMWQ3NWE3ZmUxZTY4MWZjYmI4NGE4YTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
         }
       ]
     },
@@ -207,6 +207,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-08T11:00:21.339Z"
+    "at": "2026-11-12T11:00:44.802Z"
   }
 }

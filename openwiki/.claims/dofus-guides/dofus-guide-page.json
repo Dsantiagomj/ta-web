@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:1ca1d609b057fe9299c43563b6cd9a897056f77da5caa31441ed7f1a51e071da",
+  "claims": [
+    {
+      "id": "claim_077aa066ce244eb191d0365a5822f1e2",
+      "statement": "The /<slug> route loads a Dofus guide only after no quest guide or achievement page matches, renders DofusGuideView when found and calls notFound() otherwise.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/page.tsx#L89-L100",
+          "version": "repo-lines-v1:sha256:69ab5c54e629abeca9db13e44347fab6e60f7ba24e325d7d2f18bc3face89a17:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3ODI3NjA3NWE5OTI0OTFhODEzM2MxOTQwOWZhMDdhOWIwMmY3ZDA5MWYyZGM2NDE3YjRhNDEwNWYwOTUyMGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2MmFhOTQxY2JhZDQ1NzY3NjlkMjY1NzQyOWUxZjhkZTM2NzE5YmNmODI4OGU0ZDUzZjY3NWI2OTJiZGZjMzUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f2def3639a5d4d35ab5dd230a768f8ee",
+      "statement": "Dofus guide metadata uses dofusPageStrings.seo with the guide name, a canonical /<slug>, Open Graph type article, and noindex/nofollow in preview.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/page.tsx#L52-L87",
+          "version": "repo-lines-v1:sha256:351d72031c801218e6c20a20575f4c480f047745169265062d340242f1c4eda0:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRlYzM2MmZmZGI2ZmU4ZGE1OTYxY2I1N2UyYWE0OWM4YjAyYThjMmRhMmUwMTFkMDQ1M2YwN2U3NTk3Y2VlMWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY4ZTM1ZmNhNWRmZjk1ZTY1ZmZlMTlkOTdiNmE5MTE3M2I3ZjlmNjU0ODM1ZWViZWM5NjA1MjRmNzhjOTU2ZTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNiMmRlOTYyZjBiMDQ4YWIwNTM4ZDZkZjQ5NTU2NjhkZGI5YjY4ODVmNzlhZDBlMTVhYmFhMmEwODMzNWY3NzMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7d9bf3bcfc5b4be8902c61667321d4f4",
+      "statement": "loadDofusGuide reads published guides through unstable_cache under the dofus-guides tag with a 600-second revalidate, and with draft mode plus a panel session reads the latest draft without the cache, rebuilding its maps from pairs after the read.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/dofus-data.ts#L13-L63",
+          "version": "repo-lines-v1:sha256:b76915136dbf6e5b6d3a30f8aef3d774cd60608061470e28967cc096e6efdd19:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmYTQ2MDBmYTMyOTg3NzBkYWIyNmIwNTNmMjEyYjk0MWMwZjNlMWJlYTVkMzQwMzJkOTc4MWY5ZGE0MmI4NWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRhMDFmODYwMGEyNzg2ODYwNThmMDI3MGEzODlhM2M2MjdlZTQ3YTcyMzBhOWQ3OTEyZjA2Njg5OWU0YjBkN2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5e03dbdda1354698a61877b46fedffa5",
+      "statement": "readDofusGuide returns null for slugs that are not guide slugs, and for visitors only returns guides with draft false and state published, so a preparing Dofus has no public page.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/dofus-guides/queries.ts#L133-L161",
+          "version": "repo-lines-v1:sha256:28c8327784acbb78778d5fb972c20fba1e4cb20e9d0aeb0c3a3350c52242ae42:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NWYxZDE2YjVkOTBjNjBlZDA5YmI1YzA3NjEzOGQ2ZTkyODExMTNiN2NlYTJlNzM4ZDc2N2RiZGIwNWM1NWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjYjNmYjA0NjU3MDgxYjlkYjljOTQyYjk5OTU1ODVjNTBjOTE2ZjdjN2EzNWNiYWJiYmI5NjM4ZDY2YjgyY2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUwZTlkMjE5NjhhNmM4Y2VhOTBmNjhiMzZiNGE0NjY2NDlkOGVlMzk1YTQ3YjgxN2IzMDM1MGU4NjcxZGNhZGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRlMTk5YzhlZTMzMzczNzUwYmYxN2U1Y2U4ZWRmMmQwYjY1MTRiNGNiNDViNzg4M2ViNTVlN2Y1MmVjYzQwOGUifQ"
+        },
+        {
+          "resource": "repo://tests/integration/dofus-guide-queries.test.ts#L155-L166",
+          "version": "repo-lines-v1:sha256:d966db488c22d0aab224e1a44647faba7c9f7bbffab997840d8c1678b1a799ee:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxOTUxZWM4YjA0YmE4ZGIzN2YzZmI4MzVkYzk2MjVhNTk2ODA1MDNiMTg3MDU1ZjlkZDUwYTY1MmQyN2Y0Y2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdiMzhiOWU1YTcwMzE1MDc2YWEyMzQ1ZWY5YzBlYzQwMDlmNzM3YjllN2QzMzYxZDg5MDg5OGMxM2E4NmFiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwZDg2MThlNzAwZGNhNTBhMDdmMTMxNjhkNTc3OTViZmJlYjcwNzY2NTY0YTkyYjFjNDJiMmI0YWVkYWVmMWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE5NjU3OTc4M2I5ODZkZTBhNDA0NThjMzE3NzgyNWRlZTY4NjQwNTYxMDFjMWExZjg1Y2M0NWU2MmM1OWQxZjQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d8d8f7e3fd184ed589d5f997c6c66e0b",
+      "statement": "The achievement pages, quest guides, published guides of their quests and the NPCs a Dofus guide links are always read as a visitor, even in preview, so unpublished linked content never appears.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/dofus-guides/queries.ts#L163-L253",
+          "version": "repo-lines-v1:sha256:acae095930ee996fac4549347932dc3df76ffcc62484c8ce169b85c3d6c09630:eyJzZWxlY3RlZExpbmVDb3VudCI6OTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc2OTRhMzllZTdhNjcyZmE4NTkwYzYyM2QyYTE4MjI0NjEzYTcyYzAxZGRmZDkxNWZlNTRiMzU4NWM0YjU3MjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNlZDNkZjY4MjIyMjYyZGFjYzYwOTYzMDVlNzhiZTA5ODY1MjA4MDMxNmNjOGNlOTMyNGQ3MjNjNmViZjBkOTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEyZWQ0MmMyZWY1OGU5Y2M1ODQ4ODhiZmUzNWNjZWQ0OTQyZDVhOTIyYWY5OGZmOTRhYmU2N2Y1YmU4YzBjODkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e306baf435cc4cd9b5e60c4e6e5e6a1a",
+      "statement": "readDofusList returns the Dofus guides a visitor can read sorted by order then name, with the Dofus item's image and counts of achievements and quests that include only achievement pages and quest guides a visitor can read.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/dofus-guides/page.ts#L209-L241",
+          "version": "repo-lines-v1:sha256:d63119ef6527470b6fc7abc18f8521accb097c7dd37d05edaec23a51c58b4d37:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIzOGQzMjk0MWM5YmE0NWMzZWJjZmYwYzkyNmQxZmQwMWFiYjliZDQ4MGNhYjc3Y2ZmY2ZhNGQ1MGU2MjQzMjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYwNzYxZGU2MTAzYzM2OGY3OGFhYzcwMGNmZWQzZTc5ZDMzZGEwNzkwYWVhZGJhZDA3OTg0ZWYyOGY1YWJlNWIifQ"
+        },
+        {
+          "resource": "repo://src/lib/dofus-guides/queries.ts#L49-L125",
+          "version": "repo-lines-v1:sha256:2ae55bfa2164ebc1bee400c065f63ea40f260ae85581792eb9cce24224253b21:eyJzZWxlY3RlZExpbmVDb3VudCI6NzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJmYzg5YjYxNWVkNDlmM2Y0NjQ0MmEzNWY3MDEzNzk1YTRjNDA5YTgyNDU5ODRiMzEzNWRlOWQ1OTNiMDUzOGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk1NzFhZDkxNzQ2ODFlYzk0MmUxNDljODQ3MGNmNjA2OGEyMmUwY2RjYWU3ZTY0N2E1MWVjMzFjMzVhOTJhNzAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2ef5dd6dda24408fbb3e909a8b349983",
+      "statement": "dofusMeta builds the meta line from achievement count, quest count and level, leaving out zero counts and a missing level.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/dofus-guides/page.ts#L196-L207",
+          "version": "repo-lines-v1:sha256:eceae55052c74ea61a7cfb258bbb51616c7418117555999317aa780616654997:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5Mzc1NGEwZmIwZWM5MTczZTY0ZjJjNjQ1ZWNiOTQyOGQyNWEzNmYwYWM2MWI5MDkyNzMyNjE5OTc0NTY2MjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg1OGI3YWY1NDhkZTM2MDk1OThlNDA1ZmQ3MWU3MWFhYjIxMjJlZWQ4MmFkMzhlYzgzNGVmZjMyYzdkZTVlNjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJjMjc1OWMwMWM2MDVmMzEyNTg3M2E5ODFlMzc2ZDc0ZTRlM2M0ZjE5Nzg4NTM3YmRiMDg3ZDM5NGI4MjdhYjMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6f13a03c01f14c028cc2b9371aa5d1f5",
+      "statement": "A Necesitarás item row takes the linked item's name and icon or the typed name, rows with neither and empty groups are dropped, and the section title is the guide's own or Necesitarás.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/dofus-guides/page.ts#L243-L261",
+          "version": "repo-lines-v1:sha256:9f62e8b99f9927d0977dbbe03ceb4d4f1e37cc658acff76ea4e79802a6b023fc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcwNDE1NGRmNGJmNzBiYmVlMzczNmU1ZWExYmM1NDQ4OGY0YzczMGVlNTY5MzZmMmU0NjVhODZkYWJkNjBjNzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVjZmIyMTk5NDAwZjM0Mzc1MzUyZjJkZWNlODM2ZDM3ZDhjN2RlZWUwZDVmMWY5MGI1ODBlNmMxNjc1MDE4MjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjllN2VhMTRiOTU5ZGVkZWNhMzJmMTVmZjI1NGEzYjNjZDljNjQ0NDhlZWEwN2RiZDE0M2JmMTE0M2RmYzlhNDgifQ"
+        },
+        {
+          "resource": "repo://tests/unit/dofus-guide-page.test.ts#L183-L206",
+          "version": "repo-lines-v1:sha256:3193f6f9ecad3a1bc0bbb5798f8d21ae73117d44c7c85dd1fe062ee8424b2e17:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgxYmQ4Njc5NmQ2MTY4NDhkZTY0MDNjMTE0YWYyYWJlYzNmYzI5NzJlNmI1NzY2YjUwOWI4ZTRmNWZhMzEzZTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVjOGE4OWRmOWQ3MGY2NGYzNTRhODEwMDY1YTJiZDU5YWU5NmYyMjczZWExY2ZkOTZhZTZiY2RkOGVmZTM2YzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYzZjMwZmY4YzI4ZmFiZmUxMDQyZjM0NGEwOWEwZDAzNDM0OTBmNjI2Njg4MjllYjRjN2RhOTcxZTNlNWYzOGYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4afc8ace514749c0846981d1903cb8ca",
+      "statement": "An achievement part reuses the achievement page's questRows and questCards, links the achievement only when its state is published, and parts whose linked content the visitor cannot see are not rendered.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/dofus-guides/page.ts#L263-L348",
+          "version": "repo-lines-v1:sha256:89639e8f54e24d9b403440baf0d254deeb83d7e16431de12a8e7d6396c89511c:eyJzZWxlY3RlZExpbmVDb3VudCI6ODYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA1NmI5NzZhYTk5YmI2N2U1YmIxMmFjNjJjYWIzNmNjMGM1ZTE2Y2Q5NGNkYzI1NDFiMjZkMWU4MTEyOTViYmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEyY2ExNDMzNWFjNDJmNjUyZTNjYzM0MDFlNjg0YjM5MTEzMjM5Y2I4ZjQwMmI0MTk5NzViZWJlZTcxMjY2ZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIwM2ZlOWMwMjJmZGJhN2I3NTgyNjIwZjk2OWExNWZkMTU0MzE3M2ZlODJlOWE2MDM1MGYyYzk4ZDRmNmJmOWIifQ"
+        },
+        {
+          "resource": "repo://tests/unit/dofus-guide-page.test.ts#L207-L273",
+          "version": "repo-lines-v1:sha256:67aa9843256333e299c30aaf94c23b1c579ecb18dd4f119b6fcfb20194703c18:eyJzZWxlY3RlZExpbmVDb3VudCI6NjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZkNGFiNmYwZTFlMzAyOWFjMmI5Yjk4NmJlZGFkZmYwZDM1ZjNjZjRiMjRlOGE1YzZlZGQ5N2E5OTNjNzhiZmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNjYmJiMTM3YWFkMTc2Y2NhYzczZmFiMTg0ZDBjM2RmNGMzNzI2ZGY2NDgxZTdjMDdmNDMwMWZlNDYwMTU4ZjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZhZWQ3ZjA4NDU5NmYzNGMzYWU1NjI4NWI5YmZmYjEwYTg0ZGUyZTFkMGI5OTgyYTQ0ZjQzOTZkYjU0MjEzMGMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_51f9f6e3bd8c44208f5a64066f59924f",
+      "statement": "Previous and next are the neighbours of the current guide among the published Dofus of the list, and the breadcrumb's only parent is the /guias-dofus index.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/dofus-guides/page.ts#L350-L424",
+          "version": "repo-lines-v1:sha256:147020a6ec1f83e9a1ad412f96af143f6ceb141c3e0eee79f3bb8b3104359820:eyJzZWxlY3RlZExpbmVDb3VudCI6NzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3ZmRiNGRmYmE0ZjI3NWI1NTY5ZDYwMGU2MTczOTQ2M2M5NDk4ZGZhNDYxYmVmNzQyMDJkN2RmYjk3YmU2ZWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRjZjk1ZjJhMmZmNDU0NDJlMTM1ZDA0ZjY2ZmIyNTRiYTcwMTBlZTMyYmU4YjNhY2EwMDI3M2UxNzdkMDlmMjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/dofus-guide-page.test.ts#L289-L312",
+          "version": "repo-lines-v1:sha256:dda3c60318ac41f25b424cd4e28717c7ac0b808d67c0ac17bf774ad1fcd15e5f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFiODRjMTlmZTBmOWVhNTUxYmUwZTU2MWUyNmVkNjE4YWJmZTY2Yjc0Njg1OGQ5ODdlNmZjOTc5NGU3NjA3MTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg3MWU2ODRhODA4Y2VjNWNlOGRlY2YwMDc5NDQyY2ZhYzNhMGI2NjhlZmEwZGVjZjA1MzAzZjk1MGE2NmU1ZjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4bebb68b53e848c5868d6477b406c350",
+      "statement": "DofusGuideView renders one column of breadcrumb, header, checklist, intro, Necesitarás, body, parts, closing, video and previous/next, with PageEnhancements as its only client island and LivePreviewRefresh only in preview.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/DofusGuideView.tsx#L18-L56",
+          "version": "repo-lines-v1:sha256:116e96971f7e89bb7cda1798d455162550009c7f288f2dd2b5cb5a6d337dd3c5:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2YTk3ZTQ5YjZlNTI4ZGE1OTI0ZGZlYzk3NjMxOTJjMWVmZDM3MjlhMTQwODA5ZjhiOTdmNTUwYzMwYzE0ZTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_de7d4e67ddfd49aaadf3bb64b76421fc",
+      "statement": "Each Necesitarás item name is a CopyName that copies it to search in the game, items render in columns before the group's notes, and the video uses VideoFacade with the Media poster.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/dofus/DofusGuideParts.tsx#L267-L276",
+          "version": "repo-lines-v1:sha256:3647427ac1afbeb0a43bb16caf7b2e8f328ff0f92cd6a03b93a90834988a8e5f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI1MDZlNGU1MWJhYmM5NjIzZWZhNDljNTAyNGRiZDAxYWE3MGNmNzM5YWU1ZTRlNTJjNzc4OWU2NzUyZTAzZDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0MGM1ZDNkYzNhNzczMDc5M2M4OTI3OTQ4YjU1OTY2NDIwN2Y3OWJhODc3NzNjMjE1MDA0NDMxOTYyZmQ0ODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM0NTE1ZjJkYzkyZjBiZDkxMDlhOGQxOTQ2OWUwYjdlZDU2MTVjNjAwNDkyODU5MDNmNDg0YjQ2MTBhMjU4OWIifQ"
+        },
+        {
+          "resource": "repo://src/components/dofus/DofusGuideParts.tsx#L86-L130",
+          "version": "repo-lines-v1:sha256:73ae34c628f140cdae85baac35da5fb8915b7d1ac9df06a5602f460b0d2cbcfd:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYzYWY3NTA0MjJiZjQ0OWZhNmE0ZjY1MjQ1MTkxNzkwZjQ1YTEyNTUwZDQ0OTQzMWU5ZjdiNGZjZTBkYmNjOTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0MGM1ZDNkYzNhNzczMDc5M2M4OTI3OTQ4YjU1OTY2NDIwN2Y3OWJhODc3NzNjMjE1MDA0NDMxOTYyZmQ0ODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY5NWEwNTFjY2I3YzhhNzU2MWMwN2NhYjAyY2I1MjgwNWQwNjYyNDIxNzY4YjNhYzg5NDg5MGNjZjU2MDVkZGMifQ"
+        },
+        {
+          "resource": "repo://tests/e2e/guias-dofus.spec.ts#L116-L143",
+          "version": "repo-lines-v1:sha256:af3fa1e7d744d0d2b53e96d7cc37c49e709bcff656778258cd0a61ad72f3d2f0:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUzOTQ3MGM2ZjBiNmUyMzJjZmIwN2IyYjhmZjJjZWJkOTE2MjJmYmMyZGIxYmU2Y2IzYzI0NTViNGM5NDUyNzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFkZDE5NWU1YTEyMTM1ZGNhMTg1MjhjYjdlYjM4MjM2ZmZmODRjNTdhMzQ1Njg2MGJkYmNlNzkwOTRhMTk5NWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQwMzFkNDUzZTlkNDljNjM0YzYzNmFkZDM4NjZkZGQ1NGFiMWIzMGJkNDE2MTU5ZWM4ODZmMzBiNTMxYzViMWUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7a0039ea072c402fbeacc641442afeb6",
+      "statement": "The E2E spec checks the guide's breadcrumb, header, checklist and intro, Necesitarás copy and columns, achievement quests from the achievement page, the single column with the previous Dofus, a 404 for a preparing Dofus and axe in both modes.",
+      "evidence": [
+        {
+          "resource": "repo://tests/e2e/guias-dofus.spec.ts#L94-L196",
+          "version": "repo-lines-v1:sha256:0794df7d1025ee3c625ff808b8a956c82af08920d1048af6682d228b4b859535:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJiNzc0ODA0MmY5MTgxYzQyMzkzZDA3YWM5ZGM0MDM3OTg4M2U1OTc1ZThmNjhkNmYyMjdiYTE3ZmRmZWE1NGM4IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIwMWJhNDcxOWM4MGI2ZmU5MTFiMDkxYTdjMDUxMjRiNjRlZWVjZTk2NGUwOWMwNThlZjhmOTgwNWRhY2E1NDZiIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlMzcwN2ZlZTU2NmM1M2U3MTJlNDg1MzlkNGVhYmU0MmRiNDM0NzFkOGYyNDY1ZGFjZGFjMWNhODc1NWFkMmVkIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJjMDk3NTc5YzNjODJiNWNiNTg4MWJkOTU2Y2ZlY2VkNGMxNGFiNWVlOWFhMWYwY2MyOGNiYzQ3ZDEwMzUzMGNjIn0"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-12T11:00:44.802Z"
+  }
+}

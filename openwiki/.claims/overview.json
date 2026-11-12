@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ff3747b2e182a221f9b20f3cf7f9da04bfd9b756fdd31b0b293a461e504b5d58",
+  "pageVersion": "sha256:d30ae62402ce8d4abe745caaca703e264a2a39bbcfe52c1f8e68ea8f60839bd1",
   "claims": [
     {
       "id": "claim_46a7ecf7c01f4151af666d14fb666d91",
@@ -17,8 +17,8 @@
       "statement": "The app runs Next.js 16, React 19 and Payload CMS 3.92 with the Postgres adapter, S3 storage and Sentry, on Node 24 and pnpm 11.",
       "evidence": [
         {
-          "resource": "repo://package.json",
-          "version": "repo-file-v1:sha256:55d214104ab2a72ce5cf5ceb03656e1f3d4a1180e9cb29694910acb0646afb91"
+          "resource": "repo://package.json#L1-L80",
+          "version": "repo-lines-v1:sha256:1da0a3091fd2543168ccf3a98de79b23e5b6df23333f3deed1fbb1b67f107258:eyJzZWxlY3RlZExpbmVDb3VudCI6ODAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2ZmIwOGZkYTFhY2I5NTdiNjExNmJkMzc4MTFhMWZlNDFhMDE2MTFjMDYzMWVkYmY3ODZkNjg4OWEyN2E1NWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
         }
       ]
     },
@@ -44,11 +44,11 @@
     },
     {
       "id": "claim_5aaf51ac373143478ea8aaa893b86cee",
-      "statement": "The Payload config registers the Users, Media, Quests, Items, Monsters, Npcs, AchievementCategories, Achievements, QuestGuides, AchievementPages and AchievementGroups collections and a single Spanish locale.",
+      "statement": "The Payload config registers the Users, Media, Quests, Items, Monsters, Npcs, AchievementCategories, Achievements, QuestGuides, AchievementPages, AchievementGroups and DofusGuides collections, the DofusGuidesIndex global and a single Spanish locale.",
       "evidence": [
         {
-          "resource": "repo://src/payload.config.ts#L36-L65",
-          "version": "repo-lines-v1:sha256:4f4c1b24939425b0a7b6104b2b2fafecb94bb1b3e718efdec33634f07fac22ab:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM1YzMyYjg3YTE2MTljYjM1M2NjOGVlMWQxOGJmMTQzOTdjMDU1YjY4ZGEyMzY3OTRjOWY1NjdiMGUzOWZjNTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRkZGI1NGNkMTk1YWM2OTU1YjUwOTcxOGYwOGMxOGQwYTU0ZDI4ZGI2NTg1Y2RlMzljNDFjYzk3ZDY4NTEwNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxNWFkZTY3NjQ0YjE5ZWZkNjMzMTZkNWQ3NzJkZTNlMTE0YTFkN2QwNGQyNjNlYzEwNjJiNGQ2Y2I1ZDZjNDkifQ"
+          "resource": "repo://src/payload.config.ts#L38-L69",
+          "version": "repo-lines-v1:sha256:3b0bc217c99bbb8b7b445a97fb3883564bcbfa1fdaa445c7c4988536f5bd0f04:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM1YzMyYjg3YTE2MTljYjM1M2NjOGVlMWQxOGJmMTQzOTdjMDU1YjY4ZGEyMzY3OTRjOWY1NjdiMGUzOWZjNTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRkZGI1NGNkMTk1YWM2OTU1YjUwOTcxOGYwOGMxOGQwYTU0ZDI4ZGI2NTg1Y2RlMzljNDFjYzk3ZDY4NTEwNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxNWFkZTY3NjQ0YjE5ZWZkNjMzMTZkNWQ3NzJkZTNlMTE0YTFkN2QwNGQyNjNlYzEwNjJiNGQ2Y2I1ZDZjNDkifQ"
         }
       ]
     },
@@ -160,11 +160,11 @@
     },
     {
       "id": "claim_cfca24e2c650490dae201eda92faef01",
-      "statement": "There are fourteen committed migrations today.",
+      "statement": "There are seventeen committed migrations today.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/index.ts#L1-L87",
-          "version": "repo-lines-v1:sha256:3cdc67304ab215ff5f5453f65f63d212a88892abcaa57aee17a5ee5251209aac:eyJzZWxlY3RlZExpbmVDb3VudCI6ODcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0NTE2NDJiYzU5Y2ExMDYyN2M5YzVjMTc2YTQ1MDQ3MTRlOGNlMjc4MGVhODM2NmJkNzZjNjIxN2MxMTU4YWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/migrations/index.ts#L1-L105",
+          "version": "repo-lines-v1:sha256:ca4795051a515f954be3ba3282c15a54c04a0458464f3bb20b36203669c7416c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5NDUxNjQyYmM1OWNhMTA2MjdjOWM1YzE3NmE0NTA0NzE0ZThjZTI3ODBlYTgzNjZiZDc2YzYyMTdjMTE1OGFlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiMDJkMmMwZDZkYzVlNzRkOTJmYTE0YjkxZGJlYTI2NDA5MGJlYjM1ZmRiOTE4OGQ5YjM0MTE4MWRjZTlmNGNlIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -276,15 +276,15 @@
     },
     {
       "id": "claim_b09119e39a96405d81c5c9a803e52c7e",
-      "statement": "Lighthouse CI enforces the DESIGN.md performance budgets on the home page, a seeded quest guide, a seeded achievement page and /metalogros as part of CI.",
+      "statement": "Lighthouse CI enforces the DESIGN.md performance budgets on the home page, a seeded quest guide, a seeded achievement page, /metalogros, /guias-dofus and a seeded Dofus guide as part of CI.",
       "evidence": [
         {
           "resource": "repo://.github/workflows/ci.yml#L159-L164",
-          "version": "repo-lines-v1:sha256:d913377a148182cb96a4ebdb3ff96edcca0115224505a78c32c9a726f2d8e617:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmIwNThjNTg0NDgxMGQ0ZWQ3MThhODBlOTk5Mjg5NjEzNjAxZDVjZDM0MTQ4MTM4YzBlZTcwNWQ1MmM0YmY1YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNmFmYjFjMmJhM2RjOTQ2ZGFiYjJhN2IxNzAwOWY1YzQzNzM4NGQyN2ViNGEyOTljZWFlOWUyY2EzNjhjNWJkMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWNkNDQxYTUwNDNmODU3NTVhMGE3NDk2ZjUzNjQ3NjEwMzJlMWMyYjg4OTJmNjgzMjVjYjQwMzcxZjM2MTA0YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzQzMzQ5YWU4NGI5ODU3NTk1NWY0NmRlZjhhOGE2N2ZmMTAwNDFmNDZhZGJlYTVlMGM5ZmU5MGVjMTEyMDc0NCJ9"
+          "version": "repo-lines-v1:sha256:069fb539c330edb65a5dca070676861df0d109ca56ca13679e666ca439fb0084:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2IwNzg0OGE0MzY2NjU2YjJiYTYxOTdiZTAyYjkyMDgxNDU0NmY5ZDlhZDBiNTMzOWU0YzI2YTJjOTQ2NTExNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWVjOWU2MTAxMjFmZGVkNjk5OTU1Y2UzNjRkMTJiZWVhMzQzZTVhOTBmZTM4MzVlNTU2MjIwMWMyZWM1ZmEzOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGUzNDg5NTkwNGQyZjQ2NjIyNGMzOTRkOTE4YjZmMzg1ZmRiYmU3MDliOWFmNjUwODQzNzZjOWU1ZTUyZGVkZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWNiZGU3ZDUyMWU5YzEwZDU1ZDlkNmU2MThiYTAxMTdkZWM2OWFjZmZlNmEwMjExOTEyMzM3MWQ4NmE2ZGE3OCJ9"
         },
         {
-          "resource": "repo://lighthouserc.cjs#L7-L14",
-          "version": "repo-lines-v1:sha256:1c8ebe51f6d5389adc947ad4bf19a568151afe3ee9a8bd23a9ed4cedefc52247:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjUyZWIyYTQ4Y2Q4MDcxNTAwYzEwNjQ5NDg4N2YyYmE0ZTUyMDQwNWE2MTlkNGNjNGVkMjQzNDRkNGQwOGRlZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjk0MTZlMDlmNzhiYTMxNmMwMzI1NjgyMTNiODU1ZWU3NTZlNDE1NjVkOTE4ZjA5NTE5YzgxZmQ2MjBmNDA2MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWNiMTZjYWE1ZGEzMzk3NjdkOTRlYWU3YTE0N2E1NzUyMDYzZGZkZGZiODFhOTVmNDIyYjU4NGExM2Y0M2JlNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTQ4YTA5MTdiNTJiMzY1OTA0YjcwMzIyYjczNTQ0NzlmYTZmNDhkM2E4NWVkOTJmZDlhZDRmNGVjOTk2ODYxOSJ9"
+          "resource": "repo://lighthouserc.cjs#L7-L17",
+          "version": "repo-lines-v1:sha256:eae844b6558d8c2e0f7155320b0a8bf905da9abb5fd8e17c29092fc2c3028a34:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1MmViMmE0OGNkODA3MTUwMGMxMDY0OTQ4ODdmMmJhNGU1MjA0MDVhNjE5ZDRjYzRlZDI0MzQ0ZDRkMDhkZWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5NDE2ZTA5Zjc4YmEzMTZjMDMyNTY4MjEzYjg1NWVlNzU2ZTQxNTY1ZDkxOGYwOTUxOWM4MWZkNjIwZjQwNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVjYjE2Y2FhNWRhMzM5NzY3ZDk0ZWFlN2ExNDdhNTc1MjA2M2RmZGRmYjgxYTk1ZjQyMmI1ODRhMTNmNDNiZTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU0OGEwOTE3YjUyYjM2NTkwNGI3MDMyMmI3MzU0NDc5ZmE2ZjQ4ZDNhODVlZDkyZmQ5YWQ0ZjRlYzk5Njg2MTkifQ"
         }
       ]
     },
@@ -322,11 +322,15 @@
     },
     {
       "id": "claim_60244071c7154137827ff8860c55dea5",
-      "statement": "Achievement pages share the /<slug> route with quest guides, and the metalogros index lives at /metalogros.",
+      "statement": "Achievement pages and Dofus guides share the /<slug> route with quest guides, the metalogros index lives at /metalogros and the Dofus guides index at /guias-dofus.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/%5Bslug%5D/page.tsx#L65-L74",
-          "version": "repo-lines-v1:sha256:b53c693ca7b2a554c698ece6d2827c5cd27a1c18fda6e7cd6497dc288e101728:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUzZWM0NjliNzQyN2IxN2I3ZTNmYTU1ODkzNTA3YThjZWJiNWRlZWViZTYwOTg5ZmE0N2VlMjFkMGE3NzllZTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2MmFhOTQxY2JhZDQ1NzY3NjlkMjY1NzQyOWUxZjhkZTM2NzE5YmNmODI4OGU0ZDUzZjY3NWI2OTJiZGZjMzUifQ"
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/page.tsx#L89-L100",
+          "version": "repo-lines-v1:sha256:69ab5c54e629abeca9db13e44347fab6e60f7ba24e325d7d2f18bc3face89a17:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3ODI3NjA3NWE5OTI0OTFhODEzM2MxOTQwOWZhMDdhOWIwMmY3ZDA5MWYyZGM2NDE3YjRhNDEwNWYwOTUyMGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2MmFhOTQxY2JhZDQ1NzY3NjlkMjY1NzQyOWUxZjhkZTM2NzE5YmNmODI4OGU0ZDUzZjY3NWI2OTJiZGZjMzUifQ"
+        },
+        {
+          "resource": "repo://src/app/(frontend)/guias-dofus/page.tsx#L47-L51",
+          "version": "repo-lines-v1:sha256:1093e1531ce53a78ee4804f3f3a88b9c32355f1e1ee1029dead973ab7e284c0c:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTlmZGViZjhhMTJkMTg4YWE3YzhlZTljMTU2MTQ2Y2MwMWRhY2RjMjAzZTBiNDViMTRkM2FiOTkzMmRlYTdjNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzMzZDViNWQ4MGZkM2M5ZTU2YWIxMzM5Mjk4ODVmMDczYWU5NmM5NzU4MzY5ZTQwNjZiZGUwNGZiYWQ0OGMzOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         },
         {
           "resource": "repo://src/app/(frontend)/metalogros/page.tsx#L42-L49",
@@ -353,18 +357,46 @@
       "statement": "pnpm fix:achievements applies targeted corrections to the metalogros and achievement pages after the import without running the whole import again.",
       "evidence": [
         {
-          "resource": "repo://package.json",
-          "version": "repo-file-v1:sha256:55d214104ab2a72ce5cf5ceb03656e1f3d4a1180e9cb29694910acb0646afb91"
+          "resource": "repo://package.json#L33-L33",
+          "version": "repo-lines-v1:sha256:0914d4dbe25ff881399f15a2399e47631523908cece9665f6a1988f7ff390061:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDkxNGQ0ZGJlMjVmZjg4MTM5OWYxNWEyMzk5ZTQ3NjMxNTIzOTA4Y2VjZTk2NjVmNmExOTg4ZjdmZjM5MDA2MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDkxNGQ0ZGJlMjVmZjg4MTM5OWYxNWEyMzk5ZTQ3NjMxNTIzOTA4Y2VjZTk2NjVmNmExOTg4ZjdmZjM5MDA2MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDJkNTA2ZjU0MjUwOTZmNmI0ZTg1OWExYjcwOWMyZTNkODQyYTk5YzQ5MzM1YWI4ZDdiOWI0YWM0ZTFhYjE0MiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDI5ZDNjMGVlZGJjODJjZmM2YWNlYzQxY2Y5OTI2YzA1MDQ3OTFmZjgwYWE5NDk0N2Q5ZTdmZDY5OGNjNTA1MSJ9"
         },
         {
           "resource": "repo://scripts/import/fix-achievements.ts#L1-L6",
           "version": "repo-lines-v1:sha256:83a11f884b9269ed88ac663daa26736133c845171fe33a54e451bf9c24f1b4d6:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWY3OWUyY2VlMzdjNTFlZmYxZDRkZTJmOWNhOWNhMDAzNTIxMDY5NTE4MGY0ZjkxOGZkMTIzMmZhNzJiNmRmZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNThkMzVhNjhkMmYxYzUxODMwM2VkMTZmYWZjODM0MjllZDdhNDQ3YjM0OTQyZWVkNTFmZWY1MGZlYmFmYzQ1NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWI1ODI4ZDVkZjg4YTgwNGY4YWFiODcxOTRhYmM3NDc1OWUwNmY1YWViNjhhZmRlYzYxMzY1YmEzOTA1NDY5MiJ9"
         }
       ]
+    },
+    {
+      "id": "claim_3ca9db43ee6e4dedba976ef8dd4d629f",
+      "statement": "pnpm import:dofus-guides imports Torre's Dofus guide pages into dofus-guides and on a rerun keeps the fields Torre changed in the panel.",
+      "evidence": [
+        {
+          "resource": "repo://package.json#L31-L31",
+          "version": "repo-lines-v1:sha256:cd6dd651045b58bac56c5ffd886feed870c6822f6be248c5bcd51352b2fb259c:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2Q2ZGQ2NTEwNDViNThiYWM1NmM1ZmZkODg2ZmVlZDg3MGM2ODIyZjZiZTI0OGM1YmNkNTEzNTJiMmZiMjU5YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2Q2ZGQ2NTEwNDViNThiYWM1NmM1ZmZkODg2ZmVlZDg3MGM2ODIyZjZiZTI0OGM1YmNkNTEzNTJiMmZiMjU5YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDE4NTZjMTcwNWJlZDliOGVlZGFmZGY5MjhlZWIwZmI0NDQwNGU3OWRkNjhiNzI1MmE2ZTFlYWRkN2Y1YTUxNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTkyNGQ4MGQzOTAyNDljMTZiZDg0M2RjZWYxYjRjNzBlNTZhOWRjMDdmZmZhMzI0MDk5MmU1YzUxZmFlYTZlNCJ9"
+        },
+        {
+          "resource": "repo://scripts/import/import-dofus-guides.ts#L1-L8",
+          "version": "repo-lines-v1:sha256:45de0d9277fa75b9070a9b99bb553bb34a2c262459e1331b7c8c602d0d1eb0ad:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDZjZGM3MmEyNDExZGEwMzlhYTg3NmJiNmQzOGZiYzJiOTQ1ZDAzYmM4N2M4OTNiNzdlZjZhZTIwMDY2YzM2MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGQ2NDQ1YTU4MTM2YTdkYmIyMGYxZGNmZjUyZjA1YzQ2YTY4NmEzYjBlZjMxNzExZTJkMmM1YmIzMWJmNDZiNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMWI0N2I2ZWQ5YzNhZTdkNWVjODJkY2JlMjM5NDYzMzM5MTRlZDkyZGE4M2Q4YTIxOTBmM2E2YmM0Zjk3MWMzMiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_5566091cde254192a9803f13943c59fa",
+      "statement": "pnpm review:release runs an AI review of the changes entering the next release.",
+      "evidence": [
+        {
+          "resource": "repo://package.json#L26-L26",
+          "version": "repo-lines-v1:sha256:910bd1b062c8fb9c2671dbf7f478b3a438ce541541531a3fe1c409398dcee0e1:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTEwYmQxYjA2MmM4ZmI5YzI2NzFkYmY3ZjQ3OGIzYTQzOGNlNTQxNTQxNTMxYTNmZTFjNDA5Mzk4ZGNlZTBlMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTEwYmQxYjA2MmM4ZmI5YzI2NzFkYmY3ZjQ3OGIzYTQzOGNlNTQxNTQxNTMxYTNmZTFjNDA5Mzk4ZGNlZTBlMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWUxZmE2NGFkOTg1ZGFiZTI0NDU2NDQ4MDEwNzYwOGU1MWU3OTgzNmZkN2VlMTA3ZTQ5ZTAyZTQxMGI5YTIzOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjRjZmQzMTg3YjA1N2QwMDQ3YWQyZjlhY2VlMDFiOWExMTdlODExZTFlZTVjZDgzMWNlNTBhYmFjYWY3OWYzZCJ9"
+        },
+        {
+          "resource": "repo://scripts/review-release.ts#L1-L10",
+          "version": "repo-lines-v1:sha256:cb43735d7501c17c68d41015ca300a443286f05f285033a8c1f9ba6f8ea42b32:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjZWIwOTQ4Yjg2OGRhNTc0ZDdjZjhjZWEyNmE4ODIxMTViZTIyZmI1MzQ3NTA1NDdjMDZhYjZkZTU5NzE5YzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2N2YzMmJmN2VkMmJhZGM4NWY2NDBhZThjNjA0YmE2ZDY1MDkyN2I3ZDRiNzY1NTBmZTFmMDYzODRmZTE2YzQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjExZTY2NWUwNmIyYWQ5MzBlZTM1NDA3ZDMzYzI3YjE1MDQzOTZmZWQ3N2NlYTQyNTVkNDYyMDA0YWNmOWRkMDgifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-09T11:00:21.744Z"
+    "at": "2026-11-12T11:00:44.802Z"
   }
 }

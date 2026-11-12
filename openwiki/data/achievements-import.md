@@ -22,10 +22,10 @@ sources:
     resource: repo://tests/integration/achievement-fixes.test.ts
   - id: openwiki-source-7e668dd6d8b8602072708ef4
     resource: repo://tests/integration/import-achievements.test.ts
-generated: { by: "claude-code", at: "2026-11-09T11:00:21.744Z" }
+generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-09T11:00:21.744Z
+    at: 2026-11-12T11:00:44.802Z
 ---
 
 # Importing Torre's achievement pages
@@ -43,7 +43,7 @@ pnpm import:achievements <datos.json> [--apply] [--remote] [--production]
 
 ## Database guard
 
-Before Payload starts, `databaseScriptRefusal` (`src/lib/db/script-guard.ts`) decides whether the script may run:
+Before Payload starts, `databaseScriptRefusal` (`src/lib/db/script-guard.ts`) decides whether the script may run. The same guard protects `pnpm fix:achievements` and the [Dofus guides import](dofus-guides-import.md):
 
 - In production (`APP_ENV`, `RAILWAY_ENVIRONMENT_NAME` or `NODE_ENV` set to `production`) it requires `--production`.
 - Otherwise, a `DATABASE_URL` whose host is not `localhost`, `127.0.0.1` or `::1` requires `--remote`, because from outside the dev database and the production one look the same. An unparseable URL counts as remote.

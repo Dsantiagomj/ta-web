@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:63d655f9561f8edac57e3c17ee3cf738e753c560b328979cb5a8d8ae6047b10d",
+  "pageVersion": "sha256:58482b73299e815a7eb2d8cce953c6e9df292f5bcb8bbfc5bd2aa1424ba88e66",
   "claims": [
     {
       "id": "claim_685bcfe3a19741d7a516302d001cb6fe",
-      "statement": "lighthouserc.cjs measures the home page, the seeded quest guide, the seeded achievement page and /metalogros on http://localhost:3110, three runs per page with mobile emulation and real DevTools throttling at slow-4G values with a 4x CPU slowdown, adding --no-sandbox to Chromium only when CI is set.",
+      "statement": "lighthouserc.cjs measures the home page, the seeded quest guide, the seeded achievement page, /metalogros, /guias-dofus and the seeded Dofus guide on http://localhost:3110, three runs per page with mobile emulation and real DevTools throttling at slow-4G values with a 4x CPU slowdown, adding --no-sandbox to Chromium only when CI is set.",
       "evidence": [
         {
-          "resource": "repo://lighthouserc.cjs#L1-L46",
-          "version": "repo-lines-v1:sha256:9132c9e2dc59343e190a008af17f08397dc0fbd00fed93a1204b9cc00ba78437:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZkYTI5NTk1MjM3MTQzMTQ1MmExZTA3ODVjYjUxOWE4MWM4NjcwMGI0MzRhYmMzYzExYTViMGUzZmYxYjNhYTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc1ZDBmZjEzYWEyZGYyZmJjYzJlMGRiNTkwNjQ1NjY0NTc4ZDNiNDNhMGEwMTY2MTYzNzY0N2E5NTc1MDNhYjUifQ"
+          "resource": "repo://lighthouserc.cjs#L1-L49",
+          "version": "repo-lines-v1:sha256:8b01eef7807caac37f1a5e9603da4302fa4edd3adea7d1bdf9300899f7b7102c:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZkYTI5NTk1MjM3MTQzMTQ1MmExZTA3ODVjYjUxOWE4MWM4NjcwMGI0MzRhYmMzYzExYTViMGUzZmYxYjNhYTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc1ZDBmZjEzYWEyZGYyZmJjYzJlMGRiNTkwNjQ1NjY0NTc4ZDNiNDNhMGEwMTY2MTYzNzY0N2E5NTc1MDNhYjUifQ"
         },
         {
-          "resource": "repo://tests/unit/lighthouse-ci.test.ts#L31-L60",
-          "version": "repo-lines-v1:sha256:fae272910639839227924137e1acf9b6ef4af2ac9dab51c01e86f6ef4a569877:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhY2ExNTczMTVjZjhlYmI1YjE5NmNiZWYwNjJiMzI1OTlhYWVmMzk4NzAyMGFhNGI0NDYwNWY2MTI1YWYwYzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJmZjEwZWIwNjBlNmE4ZjFlNjg1OWRhODhiMTdhN2Q1ZDVhY2IzOWRjYjU2NWQ0ZTk4MzJmODZlZTgyZjFlZTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNlZDA5YjUxNTAzMzU2ODQ5ZjUxOWE5NzBmZGEyMDI4Yjg0MDM4YWViMzhiOTI5MGMxOTMxMzVkNGUwMGQzNjIifQ"
+          "resource": "repo://tests/unit/lighthouse-ci.test.ts#L32-L68",
+          "version": "repo-lines-v1:sha256:b68d2edd5a25e9ca919c780a355b0cb31a30e0c5f5cd7f7c9e3dd6e56cf4eff9:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhY2ExNTczMTVjZjhlYmI1YjE5NmNiZWYwNjJiMzI1OTlhYWVmMzk4NzAyMGFhNGI0NDYwNWY2MTI1YWYwYzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJmZjEwZWIwNjBlNmE4ZjFlNjg1OWRhODhiMTdhN2Q1ZDVhY2IzOWRjYjU2NWQ0ZTk4MzJmODZlZTgyZjFlZTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVjY2IxNjU3NTQ0ZGU5ODhkZTdjYTM3NDgxZDE5OTUxNWM5ZDIxYjJiY2ExOGNmZWQ2YzExOWZlOTI5NWY3MWQifQ"
         }
       ]
     },
@@ -157,10 +157,24 @@
           "version": "repo-lines-v1:sha256:94f44d61c3892cc48fb9d02083bd428749211985f1251d36645f1de8a425ee3f:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTRmNDRkNjFjMzg5MmNjNDhmYjlkMDIwODNiZDQyODc0OTIxMTk4NWYxMjUxZDM2NjQ1ZjFkZThhNDI1ZWUzZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTRmNDRkNjFjMzg5MmNjNDhmYjlkMDIwODNiZDQyODc0OTIxMTk4NWYxMjUxZDM2NjQ1ZjFkZThhNDI1ZWUzZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWM1NTQ0MGY5MjY0ODNhNGJkMjZkZWNlZTk4NTY4N2I0ZmJlOGJjMjZmNDhmMWVhNmVmOGY5MDkxMGQ1ZDczZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTE5NmNmNWJmODFiNTQ4MmU4ZTk1MWY0MmE0YzM2MjliZTEyNGQ0M2QyZTYwMjc4OTllY2JhNGM0MThjNTU4YiJ9"
         }
       ]
+    },
+    {
+      "id": "claim_18a8f16683774493a6e6b8057d4b244b",
+      "statement": "The Dofus guide styles live in achievement.css and the /guias-dofus index imports only dofus-index.css, keeping the number of render-blocking stylesheets low on /<slug> and the index.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/dofus/DofusGuideParts.tsx#L1-L31",
+          "version": "repo-lines-v1:sha256:dfd92302e9947d2f7d41c316cbe99a0188dcffe3b70e504c259832bc0428cf33:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk3MmNkODkwNTU4NjgwYmU3OGQxOTJmNGJlZTlkNGJhYWM3YjQzMWQ5MTQwMWUxMmFhZGQwNzViYWJjYWNjODIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc2MDY0ZTYxYWRkZTU5YWIyNjdkNTNmZTQ2MjAyMzAxNGY5ZGRjYjc1MjMyOTY1ZGRmYjBkZmVjMzAyYzliMTcifQ"
+        },
+        {
+          "resource": "repo://src/components/dofus/DofusIndex.tsx#L1-L14",
+          "version": "repo-lines-v1:sha256:07f82e748137ecb76b3064e9b9041c1bfdc76dc37731316fd14a53345aa5c5de:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE0NWJmNTI1M2JlYjI1MDI1ODQ0NDlmYTUxNGQ4MzY5MmM0NGU2NmIzYjFmYjU5OTA2MDZjODk0NzU0OGI1MWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU1NjBiODg1MDg3YzQ5OTdhM2VmYjA1YTliNWRlNDIyMWYzZDgzNmFlOGU1NDZmZGM5NDlkOGNmZDVkN2VkN2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU1ZTZlYTc2MmQ4ZWEzMGU4N2QyNWE2ZTcwNDk5YWI2NWE2ZDZiYTg3YzNjNTJlZjY5YmE4YWYwZjY3MTA4MmEifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-09T11:00:21.744Z"
+    "at": "2026-11-12T11:00:44.802Z"
   }
 }

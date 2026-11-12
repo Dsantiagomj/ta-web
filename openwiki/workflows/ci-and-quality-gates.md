@@ -20,16 +20,20 @@ sources:
     resource: repo://package.json
   - id: openwiki-source-40275cb92c3610938f16ade3
     resource: repo://pnpm-workspace.yaml
+  - id: openwiki-source-8a351af10d89cd949447bf39
+    resource: repo://scripts/ci/playwright-chromium.sh
   - id: openwiki-source-07c2e95fae4957fea0a4f592
     resource: repo://scripts/hooks/commit-msg.sh
   - id: openwiki-source-de5a7370ff2798c2513d3fab
     resource: repo://scripts/hooks/gga-review.sh
   - id: openwiki-source-d3495e3108db609ea7dcace0
     resource: repo://tests/unit/commit-msg.test.ts
-generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
+  - id: openwiki-source-ced3a64571b8d5ee005bfe33
+    resource: repo://tests/unit/gga-review-hook.test.ts
+generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-06T15:25:11.354Z
+    at: 2026-11-12T11:00:44.802Z
 ---
 
 # CI and quality gates
@@ -46,7 +50,7 @@ Runs in order (`piped: true`) and stops at the first failure:
 
 1. **formato**: `prettier --write --ignore-unknown` on staged `ts, tsx, js, mjs, cjs, json, css, yml, yaml` files; fixes are re-staged. Markdown is not in the list, so doc tables keep their hand alignment. `.prettierignore` also skips every `*.md` file, the whole `openwiki/` directory, which OpenWiki generates, and `tests/fixtures/squarespace/`, the saved Squarespace pages the import parser reads as they are.
 2. **lint**: `eslint --fix` on staged JS/TS files; fixes are re-staged.
-3. **gga**: `scripts/hooks/gga-review.sh` runs `gga run`, an AI review of the staged files against `AGENTS.md`. If `gga` is not installed it prints a warning and lets the commit through.
+3. **gga**: `scripts/hooks/gga-review.sh` runs `gga run`, an AI review of the staged files against `AGENTS.md`. If `gga` is not installed it prints a warning and lets the commit through. gga calls `claude --print` without a model, which would use Claude Code's default model, possibly an expensive one, so the hook exports `ANTHROPIC_MODEL` as `GGA_CLAUDE_MODEL` or `sonnet`; an `ANTHROPIC_MODEL` already in the shell does not change it (`tests/unit/gga-review-hook.test.ts`).
 
 `.gga` configures the review: provider `claude` (the Claude Code CLI), overridable per run with `GGA_PROVIDER`; it reviews `ts, tsx, js, mjs, css, md`; it excludes generated files (lockfile, Payload types and import map, migrations, `.d.ts`, minified files, `.next`) and the third-party agent skills in `.claude/skills/`, which `skills-lock.json` pins by hash; `STRICT_MODE` treats an ambiguous verdict as a failure; timeout 300 s; PR base branch `main`.
 
@@ -81,6 +85,8 @@ Each job uses the composite action `.github/actions/setup`: pnpm, Node from `.nv
 | `pruebas` | Pruebas | Aggregator |
 | `gga` | Revisión GGA | Advisory AI review, PRs only |
 
+The `e2e` job installs Playwright's Chromium, or only its system dependencies when the browser comes from the cache, through `scripts/ci/playwright-chromium.sh`, with a 20-minute step limit. The runner image already has Google Chrome and almost all of its libraries, so the script first checks whether Chromium launches and calls apt only if it does not; each download or apt attempt has a 5-minute limit and is retried after 15 s and 30 s. This came after the Ubuntu mirrors' DNS failed for hours on 2026-11-11 and apt hung. The smoke workflow uses the same script.
+
 All test jobs depend only on `install` and run in parallel. The integration and E2E jobs apply the committed migrations to an empty database; nothing uses schema push.
 
 The budgets run inside the E2E job rather than in a job of their own so the app is not compiled twice: `pnpm test:lhci` runs with `E2E_SKIP_BUILD=1` and reuses that job's build, Postgres service and Playwright Chromium. A budget failure therefore fails `e2e` and `Pruebas`. See [Performance budgets](../testing/performance-budgets.md).
@@ -109,3 +115,4 @@ Runs only on pull requests and is not part of `Pruebas`. It writes the `CODEX_AU
 - [Deployment and releases](../operations/deployment.md)
 - [Local development](local-development.md)
 - [Performance budgets](../testing/performance-budgets.md)
+- [Release review](release-review.md): `pnpm review:release`, the AI review of everything entering a release, run by hand before `release.yml`

@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:ad924b8955d6b3511ab4d80f8a36b4b1f6c14ac43999cf2a1bf6c4b1afc54427",
+  "claims": [
+    {
+      "id": "claim_68e8eb6f309445ffb6f527f6ee3ac41d",
+      "statement": "pnpm review:release reviews the diff between the last v* release tag reachable from origin/main (or --since) and origin/main, exiting with 2 when there is no tag or the ref is unknown and with 0 when there is nothing to review.",
+      "evidence": [
+        {
+          "resource": "repo://package.json#L26-L26",
+          "version": "repo-lines-v1:sha256:910bd1b062c8fb9c2671dbf7f478b3a438ce541541531a3fe1c409398dcee0e1:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTEwYmQxYjA2MmM4ZmI5YzI2NzFkYmY3ZjQ3OGIzYTQzOGNlNTQxNTQxNTMxYTNmZTFjNDA5Mzk4ZGNlZTBlMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTEwYmQxYjA2MmM4ZmI5YzI2NzFkYmY3ZjQ3OGIzYTQzOGNlNTQxNTQxNTMxYTNmZTFjNDA5Mzk4ZGNlZTBlMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWUxZmE2NGFkOTg1ZGFiZTI0NDU2NDQ4MDEwNzYwOGU1MWU3OTgzNmZkN2VlMTA3ZTQ5ZTAyZTQxMGI5YTIzOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjRjZmQzMTg3YjA1N2QwMDQ3YWQyZjlhY2VlMDFiOWExMTdlODExZTFlZTVjZDgzMWNlNTBhYmFjYWY3OWYzZCJ9"
+        },
+        {
+          "resource": "repo://scripts/review-release.ts#L86-L117",
+          "version": "repo-lines-v1:sha256:4b86d2ba83f06a11eb924756f369e9ec7088bc4c9ae21fb7f99b6183ad16f6e9:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImViMzFjOTAyYWRjOTc3YjkwZDBlMTIyNGVlZjM5NTlmYjdiMGIxYWM4YjAzMzI2ZmEyYWFiNWQxZjc5OGNhNWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI5OTU3YTc1ZDgwMWY3NDVlNWI5NmY1NGIyNTIzZmI3YjBmZjY3NzgxYmRiMmNiMmNiMzIzNTA0MDY1YWU2NDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBhZDE4MWI4NjRjNjJjM2Q4ZjVhOWFlNWQzNDNmMTRmZDk0OWJlOGI1YTk5N2I2M2JkNzBmZTNiODhjMWQ0ZDgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1e1948f0f8334bf08fdaa9fb62e2ab4a",
+      "statement": "The reviewed files are those changed in the range, deletions included, that match the .gga FILE_PATTERNS and not its EXCLUDE_PATTERNS as they are in origin/main, matched like gga 2.10.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/review-release-plan.ts#L10-L58",
+          "version": "repo-lines-v1:sha256:f8c2f2473f2178de9e835b065a7042cbf0a277bc11d8b30ebad26cd91feb145d:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI4MmY2MmJkY2FjZmNiNDk0YWZmNjYxNDBiZjM3ODBjM2FkZDFiN2ZhZGVjMzk0YzYyZWNhMmU0YmM1NmNmMTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE5NmJhMmY0ZDI1OTYwNDUyYjBiMDY5NmUzMDg0MjQxYzJlMGI3MTU5MGYzZWJjMWE4YjkwMjRkOTMwNmM5YzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRmNmI2YmEzNGJiNjgzNGY0NDJhNzg1M2NkOWRiMWM2NmI0YThhODNiMDhjMWUzYzZmZTFhNGNkMGMzOWY0MDkifQ"
+        },
+        {
+          "resource": "repo://scripts/review-release.ts#L118-L140",
+          "version": "repo-lines-v1:sha256:8de1fd4cd82033e3ee36685f59245cfb0c4416fc3de4b667f92ed769de88ca12:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkwY2M3ZWNiMDAzMzkxYmFhN2RjMjM4YjdlMjg2N2JhMTVlYTFjMmEzMTEzZTU3MmU0MDQwYmFmMTczNzMyMGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBhYjkyYTY2YTdlMDFhM2ZiYjNjZDQ3MjMxMGVjYmRmNmJkMTg2ZTRiYjBkY2UzMzNlYWE1MTNjYmRkZmFlMzgifQ"
+        },
+        {
+          "resource": "repo://tests/unit/review-release.test.ts#L23-L80",
+          "version": "repo-lines-v1:sha256:6f0cb70e3b08a74c5600264e74d121ebd11fc81b8c0036df3d3bdd321c89c645:eyJzZWxlY3RlZExpbmVDb3VudCI6NTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhlNTlmZmZmNjM2ZGViM2QxYTI3NWZmNTljZjIyOWQwMTc3ZTM0NzU5MTgxNTEzY2VlMjMwYTI2M2E3MTgzZjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEyMGIxMjliMGM2YzRhMDM5ZDMwMWIwYjhhNzY2MzdiNzc5OTY4NGQyNTFmNmU3OTlkZWZiMmExYTE2ZGQ0NmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI5MGZlZmFlNWIyZDM0NzBhMjJmOWYwYjg5ZWQ5MjU4MWNiY2I3NTdjM2Q2OWM2NjRiZDhmYzI2NzNlMWIwNDEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_81017a6f767949cab213a825d8d3014c",
+      "statement": "The diff is split into batches of at most RELEASE_REVIEW_BATCH_CHARS characters; a file that does not fit is split by hunk and then by line, each part repeating the file header, so no diff line is lost.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/review-release-plan.ts#L81-L179",
+          "version": "repo-lines-v1:sha256:48e7fe1eebf791b69f84135242ace4830c25f9cfafcba0022a04bcd332d202fd:eyJzZWxlY3RlZExpbmVDb3VudCI6OTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdkYWYxMWY5YmNmYmQ2OTJmZWMyYTZiMjNkMGI1NWYwZmQ4NWVkYWE3MmEyMTEwMDc4OTI2ODliZGVhNjQ1MWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA4ZjNiZGNkNWZiYzZlNmNmODkxZjY4ZWMzODFjZTE4MGZiMDQwNjg1YzA4YzVmYzk0MGMwMDFhMGRiYWU3ODEifQ"
+        },
+        {
+          "resource": "repo://tests/unit/review-release.test.ts#L105-L195",
+          "version": "repo-lines-v1:sha256:58f488edf5e25b21ba19b8d9c289ee70e535e9cb4454041052392dd75d963406:eyJzZWxlY3RlZExpbmVDb3VudCI6OTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMyMjBmMjBiYzI0NjdjZDZhMzk2OTc5YWNlODlkNTdiMGMxNWE5MzAxZDlmZWY4OWU2N2IzY2ZmNTkyOWFiZDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2YjA3ZGUwNjE3MTVkOWU0NjZiNDVhZWFhMGU3MzU3NmEwNzE5MmMyZThhN2MwMWQxNTg3MWM1Yzg2YjcxNzIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEwZGZlOGNmZTA5OTA5NzQ2YTVkYmVlYTBiMjkyODMwYmZiODI5NjBmM2ZlY2VjNWRiNGZkNWM3NDFhMWJiNjEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_cd73ef09dda743308e2cf34cc620beef",
+      "statement": "With --dry-run the script prints the batches and their files and calls no model.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/review-release.ts#L167-L180",
+          "version": "repo-lines-v1:sha256:bd146cdea3074df3814c95f6da9e5217725994578c6893c3aa5cba5a95b0ebe8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxZmZmN2I0YTY1NmY3ZDJlODlkNTEzZDM5NjkyMTY3MDRjMDY0NDNjYmJhNzQ3ZWEzNmVhNGFhYTAxNjk5ODMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY5YWI5MDU1N2E2N2MxNmNlOTMyZTBhZGJlMGIwODUzNmE4Y2QyMmNkZGUyYjAzYjNmM2E5YTRmZjkxMDE1MjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ0OWU1ZjUzYTgyYjVlZWIzZWIzMzc1MjA0YmIyZjFhYjk5ZWM4ZGU4YWU5YjhhMWQxODUzM2Y3MzI2NTFmZWMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ac28d722a547446fa0fdddcb26dbc867",
+      "statement": "Each batch runs claude --print in a detached worktree of origin/main with only Read, Grep and Glob, other tools explicitly denied, --strict-mcp-config and no session persistence.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/review-release.ts#L208-L255",
+          "version": "repo-lines-v1:sha256:0447e4389274b8952ce2d11f4c52b6e6ef920e3a97cb0508d15a52a7aadb0a00:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgzYjUwODIzMmM0ZTc1NmQ5ZGIxYjI4Y2MxNTgzZTVjOGE3ZDkyZDVjNjI2NzY3Zjk1MzllN2NlNzcxMmYwN2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRiNTJlMTRkZDFlYjFiMzQxM2MzYjJmNWRhZWViNTYwNTljNTNlMzk5NzI1Y2Y3ZDgxYWQzYTMwYzQzNGUxYTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRjZjk1ZjJhMmZmNDU0NDJlMTM1ZDA0ZjY2ZmIyNTRiYTcwMTBlZTMyYmU4YjNhY2EwMDI3M2UxNzdkMDlmMjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQyMGQwNzM1MzgwMDM0NDc3ZTg0YTViYjE1ZDI3NmFjNjhiYTBlNmVhMDA0NzdjY2ZiM2MzZTM4NDIyYjU5ZDEifQ"
+        },
+        {
+          "resource": "repo://scripts/review-release.ts#L286-L298",
+          "version": "repo-lines-v1:sha256:07014c52173aed2133e6cab47ba08b6f0df9b5325342e1a9b9db687a928c9f0d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmZTBiZThhZTM4ZDQ1MjIyZTk1MThkOTQyNjJhYjVlOTM1MTg2ZjU4YTBlNGFiOGNmODVjOTY2ZTFhNjhjZmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2YTY3Y2NmOGYwYjZhODZlMDdmMGUyMjVkMzY3NjlmYjNiOWM2OGFmMjEyMTAwYzgzODdkOGI5M2EwODYwMGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdkMGQxNzNhNDNjODc4ZjQwYmMxNmRhMjgzODdjNDI1MzU1ZDZiNzhhOTQxYjNhZjk0NDYyMjAwZDZkZjQ5YTcifQ"
+        },
+        {
+          "resource": "repo://scripts/review-release.ts#L32-L35",
+          "version": "repo-lines-v1:sha256:d7d048b308e2d56dad99186d7ce79dd778ad859787ec7cbfe1a4f35c341a7158:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzFhMTRhNDM4ODI2ZThmODYxYjVhNTEyY2Y3YmRmNTQ1MDE2YTNkNjU2MDZhYTgzNTVjN2M0ODVjZjU3OTdjYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDc1ZWNmYzQ5OTE3MjFlYWIzNmRmNTllYThiMGUzMTExZmMzNDhhMWVmZWRlNTkwNjliYzkxYmU4ODIwMGM4MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2MyYThlYmRhMzIyOGQ4NTk5MjQzZDY1OGQwODYzMWJmY2Y2ZmRmMDE1MmQ1ZDI5NGJlYjhiOWVhMGZhZjJlYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTc0OWY5N2M5NGNjMWNlNzZhZTdhNTA2MWExYmQzYjE4ZGFiODgwMGZkMTkzYjZkNWZiYjMwMDU0MjhjYzJkYyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_531ae1825ac546b99c037bc3d9086fa1",
+      "statement": "The worktree is unique per run, next to the repo in <repo>-worktrees, an existing folder is refused, and only the worktree this run created is removed with git, also on failure, SIGINT or SIGTERM.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/review-release-plan.ts#L219-L232",
+          "version": "repo-lines-v1:sha256:ea0444f96f6de2a68515185a57c08150f01fe91a78adbce3a728f4f9c7cd0018:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFlZjYxNmI1Y2IxZDk5NWEwNzY2NmI2NjI5YmE5OGQwMDI5ZThjZTRlMzFlNmIzNWNkM2EzYWM3MTRjMzNiODMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM2YTk5YzYwZGFiMDk5NmMwYzgyY2M1YmU0MzNiZjQxMjQ4MzlmY2U5NTU5Zjg0Mzk3ZGJmNzNmMWVhYzJmOTUifQ"
+        },
+        {
+          "resource": "repo://scripts/review-release.ts#L181-L206",
+          "version": "repo-lines-v1:sha256:a593f9aa0c325bef5623e0e3fec42f4867937a262f20b8f6192cdaa10f4379f7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA0NDYyN2M5MjU3NDc1OGE4N2NjNWM3MTdkMjMyZWQwMTZmMzcyZjUxN2RhZDFkY2EyNWQwMmUyMTgwYzBhZWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhmYjM2YzQ4ZWU1MGQ1NTEyYTQxYzNiNGZkYjExZDhkNjAzNTZmYjI0ZmNiMWU3YjI1ZGFkMGE1ODYwZTMyZTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/review-release.test.ts#L238-L252",
+          "version": "repo-lines-v1:sha256:a0f44b853d90efa92e537c0e2639ab042f3c0a096066503802849a564d239a10:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJiMjBhMGFlMjY5MDQzZWFhYTRlZmQ4ODkxYzIyNTA4ZGE1MjFkYTk2YWQ4ODliODFhNTA3MGJlYzIyMGQzNTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMwN2NmZThmNGI2M2Y1OGVjM2FlOWYxMTJlYTA1NDYzOGM2ZjQwMDVmNjA5MWM3OTNmNzBkYmI2NDExMmM3NTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZlZTU1MDRjY2RkMWYyZGYyYWQ0NzBkMDU2NjUwZTViMWQyZmY1NzFjMWYzOTE4OTRkZjA1ZmRhODQwNjljMDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJhOTkxYTE4MzcyODdkM2I0YWZhZmVmNGY1M2U5MDNhN2VkMjJiYjNiNmYyMjA2NzI2NzI0MjdjMjA3MDA5ZTcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_50e34d587d8341d99b5318b4bb6ae93a",
+      "statement": "The prompt asks only for real defects introduced or exposed by the diff and requires the first line to be exactly STATUS: PASSED or STATUS: FAILED, with findings in Spanish; a batch without that line, a non-zero exit or a timeout counts as an error.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/review-release-plan.ts#L181-L192",
+          "version": "repo-lines-v1:sha256:2e02e5be2a12f826c3c2c413459670579854b167ce3343c33f63fb511866ab21:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhZjQ2MzVhZWFiNWIxNmM5OTE1MWNmYmMxOTFiMWE2OWVjOTQwNGVmYTU3ZDczODUyNzdmMTllZGIzNmFmMWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4NDk1NGZiYjYxOWNlZDA5MGYxODBkMzFmYTQwZmNlNTc2YzRkMTkzZGQ0YzYxMDVkY2Q2OTRkOTdkYTg1MTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRjZjk1ZjJhMmZmNDU0NDJlMTM1ZDA0ZjY2ZmIyNTRiYTcwMTBlZTMyYmU4YjNhY2EwMDI3M2UxNzdkMDlmMjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgzNjA2ZmI5ZDNlMGQ5OGYxMWI2NDk3YTY3ZWZhODAyZDNlOTJiNjA3ZDAzMmM4NzBjOGFkNjEyYWZjNjFhNjQifQ"
+        },
+        {
+          "resource": "repo://scripts/review-release-plan.ts#L234-L283",
+          "version": "repo-lines-v1:sha256:ebb0c3f05a02b18c1c8f6c4515d2a444b6e3d607b3859720342106cf67c5c843:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNzY4NGU3ZDdiMGMyMWRmZWQ0Mzc1Mjc1ODBkZjNjOTE2NjM4ODU1NTJkZjlhZDczNzE0NzFiYjM5MzYyOGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA4MDNlNDNhMDdhNmQ2ZWQ3MGEwOTE2OWVjOWIzYTRmMzJhYzlhM2ZmMTJhZDllODYxN2Y3MWU2YWYwMjJmYjYifQ"
+        },
+        {
+          "resource": "repo://scripts/review-release.ts#L257-L284",
+          "version": "repo-lines-v1:sha256:1149396959956966bbb583fc65008b6d11c50704892b61afaab108a2cb3f6a31:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4MzkxNzZlOGUwY2NlNjUzMGFiYmI5Y2RiOWE4OTI1YzA3MmRkNDZmZjE0OTY1MzNjZDM3ZTRmYTE3NjJiNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcyZWQ4NjAzMTI1MDAyMDhjZTY1NmUxZmRjMmZhZTBlNjQyMTE1NTA2MDNhYmY3YTMzZTYzYTY0Mjc2YzhmYWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMwZTMwZWEwYzc5MzkxNjY3NjU1OTAyNWUwYjMxNmI3YWNhOGU3OGIzMmJmZjRiZTI4YTE3Nzk1NTQ0NTE2MTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_95f5712554bf461284b501dcab9b669d",
+      "statement": "Batches run RELEASE_REVIEW_JOBS at a time with a per-batch timeout of RELEASE_REVIEW_TIMEOUT_MINUTES, after which the reviewer gets SIGTERM and then SIGKILL.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/review-release.ts#L228-L236",
+          "version": "repo-lines-v1:sha256:75245f46f44ec88b871eafa4354fb4f9d9dc101c00090f5a79d8bf799fee0ecf:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTAyZThmOTg5NzFjN2EwZTFlY2FmNzhiYjllZTRiNzAxNWI3NzI1OTZiYjdjODJmMmZkNDNkMjEzZjQ0ZjM3NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDIwNmI4MGU1ZGVmMTZhOWRjZGZjMjYxMTcxOWUxZGE3MjdiMGEzYWRlMTA4Y2ZmOGEyNDA3MGRlNmM0MGU2ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTVjZWRlMTA2ZjdkYzA0NGJiZGJkY2JlYjAzMTUzOGZmNDA5N2U2MzkyZGExZWJmNjU5ZDgzM2IxYTdkNTQ1MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjEyYTdjZWIxZTZhZTM1ZDYwYWE3NmFiYjM1MjAyNWI4MmVjYjBjZjMxZTk4YThiNzkwYzE2M2Y1YWI0NmQ4OSJ9"
+        },
+        {
+          "resource": "repo://scripts/review-release.ts#L294-L296",
+          "version": "repo-lines-v1:sha256:e884766ad3678f3359be3bcba3a50d50094706547020da222838bdec83150055:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2RlMzhmM2IxNThlNDg4M2U2ZDQyMTdjOGQyMjcyNWNiZTE3NDA2M2JhYjc3NTQ3NDRlYzk0YjYwYWUyNzI1YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmFjYmU2ZTllNDY2MWIzMDQxYjM3MWRmYzY2YmRjNzE2Njg3NmUxNmY4ZTNmYzk0NGY3MWMxMGE5NWU2YWMxMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjAyM2M1MzI2ZTM2YmRkMjJlZjI5ODZmYzA0ZGE0OWI1OTIwMzFlZDcxZDM1ZGRhN2U1YjM0NGIzZTJhNjZiOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWQwNWU2YzIzOGZkNTAxYmY4MWYyNDYxYWViMGJhN2U2YzMyYjcxYjVlYmQ2ZDJmYWU3YWI1MThmNjgyNmMzMSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_4d7663820d654786b3e6b3ab9a0e2302",
+      "statement": "The Markdown report is written outside the repo with the range, model, a summary and each batch's files and answer, and the script exits with 1 when any batch failed or errored.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/review-release-plan.ts#L285-L324",
+          "version": "repo-lines-v1:sha256:1e3057027a1f3078014277b7367aad4891c9e6b6febd3b437c1ee2a031e8ee28:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNlNzllYWZjZDk4ZmQwY2ZkYTdlYzZlZTkzMjE2NGYxM2FkYTgwODYxZjliMjUzZjk1ZDI1ZWRjODAzZjg3ZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY5ZTQ2ZDcyNjcyNWEwNmNkY2NlNWI3OGY3ZTM4ODQ4NjcwN2FmYmEwYTAzNjZjNGEwNTcwY2ViMGMyOTJmZWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://scripts/review-release.ts#L299-L304",
+          "version": "repo-lines-v1:sha256:e26b7398046adc14ea09ccb909255ec6dab421c9d92cbdf00edd5719392719d5:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGQyYjk4YWJjMzNlNTgzYmE3MjMyNmNmNWIzMGI3NDExNzNiNTJlZWI3ZWNlNWFhY2M0ZDgxOWJiMWQ1OTZhYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDk1MTAwOGQ5MjM1ZjRjMDFhYTI0ODkwNWFlYjBhZjNhNzJhNzcwZGQxNzNkMGMyYmJmN2E4ZGY2YjcxNGIyYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_b528009fde2849c69cd0370c6699209e",
+      "statement": "parseReviewArgs accepts only --since <ref>, --since=<ref> and --dry-run, ignoring a leading -- and rejecting anything else or a --since without a value.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/review-release-plan.ts#L194-L217",
+          "version": "repo-lines-v1:sha256:2f61033ef811fecea7fb6b346626fce6a2ea84ade39320c36a6cc5690b2cbbbd:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM1NGIzNGJmNmZhODc5ZTMyMzEzMTYyODJlNzRiODZmYTkzOGQ2MGMxZjc3NWIyN2ZkZTdlNTI0ZmRjNzg1MjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhlMWY4YTc4MzY1MWRiMDliYWZkZTBkZTRlZjdjMGQ1YTg2OGUwZWJiMjFkMDY3ZWE3MTAxNTg0YzdlZTZlOGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE2NzFhYzA3MjZlNTZkZjBmY2M0OGU1ZTlhNDRlZjFhNmYzZjliNmVmNTczZGE0NjU0M2FmZTVlNzQ5Y2JiMjUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/review-release.test.ts#L211-L236",
+          "version": "repo-lines-v1:sha256:7cc3dc1b9b658d3ca94ad4a6fa9c83418ab72f197f3d84160797d2c9e342d21f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE5NDMwZmZkMzU2Y2YwMDQ5ZDJkN2JlYzMzYzkwNWFjNzQzNjVjNzExZTNlMDRlZDI1NjA1MTVkZDNmZjAxZDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUwMzkwNWQyMDdiMjZmYTcwNzM5NWQ2YTY2YTQxMjZmM2Q3YmVlNzcwZjJjOWFhNjRiZjk3MDRhM2MwMTA2ZTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgwODExYzFlMmQ4ODVmOGIxMzI4YjRkMTNiNDcxOWJiNTM0OWJiNGMyOWRiZTRhMTYwMTk2NWU5NWFiZWVhYWIifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-12T11:00:44.802Z"
+  }
+}

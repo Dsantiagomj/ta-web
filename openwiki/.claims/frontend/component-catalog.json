@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:eaf3a9d5f792d688c91e5cd9fc1b9591c6b957b14e149c3eef733bd51d8224f1",
+  "pageVersion": "sha256:2357b7401685aaffb9703a2479665e3ecb6709d11b08d3f9240b565581cee73f",
   "claims": [
     {
       "id": "claim_f3ff1b5273ca4d9da69117d030c9914e",
@@ -92,11 +92,11 @@
     },
     {
       "id": "claim_96edae5e33924f68926bf88dbdafbaef",
-      "statement": "The E2E spec checks that a coordinates chip copies /travel x,y and announces it in the status region on click and on Enter, that every hit-target control and the coordinates chip have at least a 40px target, and that icon wells stay dark in light mode.",
+      "statement": "The E2E spec checks that a coordinates chip copies /travel x,y and announces it in the status region on click and on Enter, that an item name copies itself without the quantity, that every hit-target control and the coordinates chip have at least a 40px target, and that icon wells stay dark in light mode.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/sistema.spec.ts#L84-L140",
-          "version": "repo-lines-v1:sha256:3e211f6a027cadd504c79fac0f076af56025da059fd1c5278cf4c6146603eeb2:eyJzZWxlY3RlZExpbmVDb3VudCI6NTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxZGM2NzEyMDJlMGI3YTgxODIzNThjMTM1MDY4MTEzMzM2MTE1NTAzMGZlYmM0NTIzZWQ4OTc5NDliNjkyZGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhZDE3OGNjMzZiMmMyZDRiNmY5ZmY1OWY0Nzk0M2UzNDJhMzY3ZmU5YzVlMGY3Y2ExMzc1ZjA1NzM2MzZkZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE4MjE3ZDU2Y2VmYTJhMGY1ZWQ1MTczNWUzOGEyMGNhNTk3MTc0YzAwZWUwZWU4YmRmM2EyNmQxMDgzMzZjMDgifQ"
+          "resource": "repo://tests/e2e/sistema.spec.ts#L84-L175",
+          "version": "repo-lines-v1:sha256:6d625357793ad7870550982eee63a1c67ad80ed1b434da1e518ac3abeaec8d2b:eyJzZWxlY3RlZExpbmVDb3VudCI6OTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIxZGM2NzEyMDJlMGI3YTgxODIzNThjMTM1MDY4MTEzMzM2MTE1NTAzMGZlYmM0NTIzZWQ4OTc5NDliNjkyZGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhZDE3OGNjMzZiMmMyZDRiNmY5ZmY1OWY0Nzk0M2UzNDJhMzY3ZmU5YzVlMGY3Y2ExMzc1ZjA1NzM2MzZkZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE4MjE3ZDU2Y2VmYTJhMGY1ZWQ1MTczNWUzOGEyMGNhNTk3MTc0YzAwZWUwZWU4YmRmM2EyNmQxMDgzMzZjMDgifQ"
         }
       ]
     },
@@ -132,25 +132,25 @@
     },
     {
       "id": "claim_f154317670f740e493112640a67ecef0",
-      "statement": "lighthouserc.cjs measures the home page, the seeded quest guide, the seeded achievement page and /metalogros, so /sistema is not part of the Lighthouse CI budgets.",
+      "statement": "lighthouserc.cjs measures the home page, the seeded quest guide, the seeded achievement page, /metalogros, /guias-dofus and the seeded Dofus guide, so /sistema is not part of the Lighthouse CI budgets.",
       "evidence": [
         {
-          "resource": "repo://lighthouserc.cjs#L7-L14",
-          "version": "repo-lines-v1:sha256:1c8ebe51f6d5389adc947ad4bf19a568151afe3ee9a8bd23a9ed4cedefc52247:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjUyZWIyYTQ4Y2Q4MDcxNTAwYzEwNjQ5NDg4N2YyYmE0ZTUyMDQwNWE2MTlkNGNjNGVkMjQzNDRkNGQwOGRlZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjk0MTZlMDlmNzhiYTMxNmMwMzI1NjgyMTNiODU1ZWU3NTZlNDE1NjVkOTE4ZjA5NTE5YzgxZmQ2MjBmNDA2MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWNiMTZjYWE1ZGEzMzk3NjdkOTRlYWU3YTE0N2E1NzUyMDYzZGZkZGZiODFhOTVmNDIyYjU4NGExM2Y0M2JlNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTQ4YTA5MTdiNTJiMzY1OTA0YjcwMzIyYjczNTQ0NzlmYTZmNDhkM2E4NWVkOTJmZDlhZDRmNGVjOTk2ODYxOSJ9"
+          "resource": "repo://lighthouserc.cjs#L7-L17",
+          "version": "repo-lines-v1:sha256:eae844b6558d8c2e0f7155320b0a8bf905da9abb5fd8e17c29092fc2c3028a34:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1MmViMmE0OGNkODA3MTUwMGMxMDY0OTQ4ODdmMmJhNGU1MjA0MDVhNjE5ZDRjYzRlZDI0MzQ0ZDRkMDhkZWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5NDE2ZTA5Zjc4YmEzMTZjMDMyNTY4MjEzYjg1NWVlNzU2ZTQxNTY1ZDkxOGYwOTUxOWM4MWZkNjIwZjQwNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVjYjE2Y2FhNWRhMzM5NzY3ZDk0ZWFlN2ExNDdhNTc1MjA2M2RmZGRmYjgxYTk1ZjQyMmI1ODRhMTNmNDNiZTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU0OGEwOTE3YjUyYjM2NTkwNGI3MDMyMmI3MzU0NDc5ZmE2ZjQ4ZDNhODVlZDkyZmQ5YWQ0ZjRlYzk5Njg2MTkifQ"
         }
       ]
     },
     {
       "id": "claim_4039938161414c15898cb094958dba01",
-      "statement": "The catalog shows the Torre emblem and Sello lockup, the site menu panel and footer, the quest header with and without NPC data, the game icon wells, the steps and the next quest card among its component groups.",
+      "statement": "The catalog shows the Torre emblem and Sello lockup, the site menu panel and footer, the quest header with and without NPC data, the game icon wells, the steps, the next quest card and the Dofus guide cards, Necesitarás and achievement parts among its component groups.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L208-L248",
-          "version": "repo-lines-v1:sha256:b3accaba8dcaf2282ce767ec6ae622835fe075eb650ab5ecdfa1cbf7a88e63c5:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3ODNhOTk4NmJmMWMzOTUxOWNlOWVjYTU5YzZlMjcwOTI1OGMyOWVjNDJhODBhOTk5MjY3M2JmMzA5M2YzODYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI1MzNhYzExNzVkOTliYWY4ZWQ2ZWQ5ZWU3OTIzZWFjZWFmMjI2YjM3MzJhZDU5MjI1YjBlOWQwYzU1NzM2ZDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJlMWYyZWQxZmU3YjE5YTVkYzIwMmFhZTQ4YjBkZDM0MDJkNGMzNTRjNDQ4ZjNiN2YyMzYxYjFhYjlmN2FjODYifQ"
+          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L100-L118",
+          "version": "repo-lines-v1:sha256:545e803f1007159ecae1111e2c13929d917e43117de01d1007f3415b1c241eb2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjczYjJlMzk5ZGVmZmMxODVmYjRlNmNkZjljYmQzMTlkYWRhOTE3Y2IxNzIxMzQ0NGY2ODY0MDc2Yjc5MmZkYzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmNzRkY2QxYTY4ZGVlY2ZmNmNjM2E1NDFhMzhmZTU2NzRjYmMyZGY0Y2U4MTA5ZDEwNmMwYTQyY2Y3NjMzNWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1ZTFjZTk1N2VjNGIwM2Y4NmE0ZWQ0MzA1NTYzMjM0NmZhMTUwYzg4OTJkYWYzOWQzMGE3NTk2YjFjODhiNTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU0YTIwNTFhYWFhMWU5ZDhjYTUwMzJkZjRjNjg5NjM0ZWM4MmZhNDY5YmZkYjhmM2MwYjdiOGQ1ZDdkNjRlNDMifQ"
         },
         {
-          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L95-L110",
-          "version": "repo-lines-v1:sha256:db327e7a5995a8a08a4751ac948e00edd88c1ff9e71690f84a9d68e77f4ac6db:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjczYjJlMzk5ZGVmZmMxODVmYjRlNmNkZjljYmQzMTlkYWRhOTE3Y2IxNzIxMzQ0NGY2ODY0MDc2Yjc5MmZkYzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1ZTFjZTk1N2VjNGIwM2Y4NmE0ZWQ0MzA1NTYzMjM0NmZhMTUwYzg4OTJkYWYzOWQzMGE3NTk2YjFjODhiNTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE5ZDZjMDNjYzhkYjMxMmUxMmNkNGViMmQzOTA0NTcwMGU0YjQzNjIzOTlhNGZkZmExODFjNmYxZDJlNzYxMDgifQ"
+          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L217-L281",
+          "version": "repo-lines-v1:sha256:34eda3701baa4ef068d121ec7b4cf99fe15303822d5939512904849036994587:eyJzZWxlY3RlZExpbmVDb3VudCI6NjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3ODNhOTk4NmJmMWMzOTUxOWNlOWVjYTU5YzZlMjcwOTI1OGMyOWVjNDJhODBhOTk5MjY3M2JmMzA5M2YzODYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI1MzNhYzExNzVkOTliYWY4ZWQ2ZWQ5ZWU3OTIzZWFjZWFmMjI2YjM3MzJhZDU5MjI1YjBlOWQwYzU1NzM2ZDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU5YTU3YmE2NmI1ZjBiMmU0MzFkYTYyZWM4NTI0OGMzYzAxZDg0YmNkNDQ5ZGMzN2MxYTk4NmNmYzM2MDE3MWYifQ"
         }
       ]
     },
@@ -177,6 +177,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-08T11:00:21.339Z"
+    "at": "2026-11-12T11:00:44.802Z"
   }
 }

@@ -48,6 +48,12 @@ sources:
     resource: repo://src/migrations/20261107_210926_achievements_game_data.ts
   - id: openwiki-source-fce23fceacb9677eb9f474e0
     resource: repo://src/migrations/20261107_214742_achievement_pages_groups.ts
+  - id: openwiki-source-8cee9b8055521507acd77791
+    resource: repo://src/migrations/20261110_000232_dofus_guides.ts
+  - id: openwiki-source-d462e46422713a0edb8d11fa
+    resource: repo://src/migrations/20261110_052805_dofus_guides_import.ts
+  - id: openwiki-source-4bfd0e775c12eadebbe4636f
+    resource: repo://src/migrations/20261110_131101_dofus_guides_index.ts
   - id: openwiki-source-c306fbe28866186a2df852b4
     resource: repo://src/migrations/index.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
@@ -64,10 +70,10 @@ sources:
     resource: repo://tests/integration/needs-list-migration.test.ts
   - id: openwiki-source-b031ce15fe3cb852929a85bf
     resource: repo://tests/unit/database-url.test.ts
-generated: { by: "claude-code", at: "2026-11-08T11:38:51.955Z" }
+generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-08T11:38:51.955Z
+    at: 2026-11-12T11:00:44.802Z
 ---
 
 # Database and migrations
@@ -134,7 +140,7 @@ This means E2E and CI exercise the same path as production: an empty database pl
 
 ## Migrations
 
-Migrations live in `src/migrations/` and are listed in `src/migrations/index.ts`. Each has a `.ts` file with `up` and `down` (raw SQL through `db.execute(sql\`…\`)`) and a `.json` snapshot Payload uses to compute the next diff. There are fourteen today:
+Migrations live in `src/migrations/` and are listed in `src/migrations/index.ts`. Each has a `.ts` file with `up` and `down` (raw SQL through `db.execute(sql\`…\`)`) and a `.json` snapshot Payload uses to compute the next diff. There are seventeen today:
 
 - `20261103_030359_initial` creates the `users`, `users_sessions`, `media`, `media_variants`, `media_locales` and Payload system tables (`payload_kv`, `payload_locked_documents`, `payload_preferences`, `payload_migrations` and their relation tables).
 - `20261104_070541_quests` adds the [quests collection](../cms/collections.md): `quests` with a unique index on `dofus_id`, `quests_locales`, `quests_rels` (for `prerequisites`), `quests_start_positions` and `quests_start_positions_locales`, plus a `quests_id` column on `payload_locked_documents_rels`. Its `down` drops all of them. It does not drop the `payload_locked_documents_rels_quests_fk` constraint separately, because `DROP TABLE "quests" CASCADE` already removes it and a second drop would make the rollback fail.
@@ -150,8 +156,11 @@ Migrations live in `src/migrations/` and are listed in `src/migrations/index.ts`
 - `20261107_143215_remove_step_title` removes the step title. Before dropping `quest_guides_blocks_step_locales` and its version twin, it moves every non-empty title into a new bold first text block of its step, in the guide and all its versions. `tests/integration/remove-step-title-migration.test.ts` checks the move. See [Guide body blocks](../cms/blocks.md#step).
 - `20261107_210926_achievements_game_data` adds the DofusDB achievement collections: `achievement_categories` and `achievements`, their `_locales` tables, `achievements_quests`, `achievements_rewards_items`, `achievements_counts_for`, `achievements_rels`, and the matching `payload_locked_documents_rels` columns.
 - `20261107_214742_achievement_pages_groups` adds Torre's achievement pages and metalogros: `achievement_pages` and `achievement_groups` with their `_locales`, `_rels`, quest and reward item tables, and the `_achievement_pages_v` and `_achievement_groups_v` version tables. See [Achievement data model](../achievements/achievement-data.md).
+- `20261110_000232_dofus_guides` adds Torre's Dofus guides: `dofus_guides` with `_locales` and `_rels`, the Necesitarás group tables, one table (and `_locales` table) per part block and body block, the metalogro rows in `dofus_meta_ach` (a short `dbName`, because the default name of its version index passes Postgres's 63-character limit), and the `_dofus_guides_v` version twins. See [Dofus guide data model](../dofus-guides/dofus-guide-data.md).
+- `20261110_052805_dofus_guides_import` adds the columns the import needs: `video_poster_id` (a foreign key to `media`, `ON DELETE set null`) and the `import_snapshot` jsonb, on `dofus_guides` and its version table.
+- `20261110_131101_dofus_guides_index` adds the `dofus-guides-index` global: `dofus_guides_index` and `dofus_guides_index_locales` with the localized `intro`.
 
-Every migration must roll back cleanly: if a `down` fails, a bad deploy has no way back. `tests/integration/migrations.test.ts` checks this for the latest migration (the last entry in `src/migrations/index.ts`, today `20261107_214742_achievement_pages_groups`). It runs the Payload CLI, `pnpm payload migrate:down` and then `pnpm payload migrate`, against the integration database with `DATABASE_CONNECTION=direct`, and asserts the latest migration is rolled back and then re-applied, so the database ends as it started. It uses the CLI because Payload imports migration files with Node, not Vitest. It avoids `migrate:refresh`, which in Payload 3.92 rolls back oldest first and fails. When a command fails, the test rethrows with the CLI's stdout and stderr so the Postgres error is visible. Starting the CLI twice can pass the suite's 30 s default on a loaded machine, so this test has its own 120 s timeout.
+Every migration must roll back cleanly: if a `down` fails, a bad deploy has no way back. `tests/integration/migrations.test.ts` checks this for the latest migration (the last entry in `src/migrations/index.ts`, today `20261110_131101_dofus_guides_index`). It runs the Payload CLI, `pnpm payload migrate:down` and then `pnpm payload migrate`, against the integration database with `DATABASE_CONNECTION=direct`, and asserts the latest migration is rolled back and then re-applied, so the database ends as it started. It uses the CLI because Payload imports migration files with Node, not Vitest. It avoids `migrate:refresh`, which in Payload 3.92 rolls back oldest first and fails. When a command fails, the test rethrows with the CLI's stdout and stderr so the Postgres error is visible. Starting the CLI twice can pass the suite's 30 s default on a loaded machine, so this test has its own 120 s timeout.
 
 `tests/integration/needs-list-migration.test.ts` checks the needs list migration on real data rather than an empty schema. It creates a guide with notes, calls that migration's `down` and `up` functions directly on the fully migrated integration database, and in between checks the text is back in `summary_needs` and writes a different text into the old columns of the guide and its versions, as a guide imported before the list would have. After `up`, the guide and its version read that text as `summary.needs.notes`, with an empty item list. `up` runs in a `finally` so a failed assertion never leaves the test database on the old schema.
 

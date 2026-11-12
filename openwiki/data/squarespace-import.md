@@ -14,6 +14,8 @@ sources:
     resource: repo://docs/legacy/security.md
   - id: openwiki-source-5b54a58d1b51cd490b0e7162
     resource: repo://package.json
+  - id: openwiki-source-40275cb92c3610938f16ade3
+    resource: repo://pnpm-workspace.yaml
   - id: openwiki-source-23775c3de52f3ab95a13cb8b
     resource: repo://README.md
   - id: openwiki-source-9f5c4ea9e246f4ab67e69333
@@ -62,10 +64,10 @@ sources:
     resource: repo://tests/unit/import-rich-text.test.ts
   - id: openwiki-source-299c190cabc2f0753a302110
     resource: repo://tests/unit/import-to-quest-guide.test.ts
-generated: { by: "claude-code", at: "2026-11-08T11:00:21.339Z" }
+generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-09T11:00:21.744Z
+    at: 2026-11-12T11:00:44.802Z
 ---
 
 # Squarespace import
@@ -85,7 +87,7 @@ Phase 1 moves torrentearcano.com from Squarespace into Payload. The plan in `doc
 
 ## Parsing untrusted HTML
 
-Squarespace HTML is not trusted. `dom.ts` keeps one shared happy-dom `Window`, with JavaScript evaluation, script, CSS and iframe loading, computed styles and all navigation disabled. happy-dom keeps every document it parses in that window (about 8 MB per page), so `releaseDom()` closes it and the next parse opens a fresh one. `pnpm import:guides` calls it after converting each page, and the loader after turning each guide's body into Lexical; documents parsed before the call are no longer valid. `parseHtml` parses a full document or a fragment (a fragment lands inside `body`). `normalizedText` returns an element's text with all whitespace, non-breaking spaces included, collapsed to single spaces. The import compares markers such as "Prerrequisitos" against that text.
+Squarespace HTML is not trusted. `dom.ts` keeps one shared happy-dom `Window`, with JavaScript evaluation, script, CSS and iframe loading, computed styles and all navigation disabled. happy-dom keeps every document it parses in that window (about 8 MB per page), so `releaseDom()` closes it and the next parse opens a fresh one. `pnpm import:guides` calls it after converting each page, and the loader after turning each guide's body into Lexical; documents parsed before the call are no longer valid. The [Dofus guides import](dofus-guides-import.md) reuses `dom.ts`, `createImageFetcher` and `createHtmlToLexical` for Torre's Dofus pages. `parseHtml` parses a full document or a fragment (a fragment lands inside `body`). `normalizedText` returns an element's text with all whitespace, non-breaking spaces included, collapsed to single spaces. The import compares markers such as "Prerrequisitos" against that text.
 
 happy-dom was already in the tree through `@lexical/headless`, pinned by a security override. It is now also a direct dev dependency at the same version (`docs/legacy/security.md`).
 
@@ -244,4 +246,5 @@ See [Test suites](../testing/test-suites.md).
 - [Media storage](../media/storage.md)
 - [DofusDB game data refresh](dofusdb-refresh.md)
 - [Importing Torre's achievement pages](achievements-import.md)
+- [Importing Torre's Dofus guides](dofus-guides-import.md)
 - [Test suites](../testing/test-suites.md)
