@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react'
+import { type CSSProperties, useId } from 'react'
 
 import { IconWell } from '@/components/game/IconWell'
 import { CopyName } from '@/components/game/Item'
@@ -100,16 +100,18 @@ const Quantity = ({ value }: { value?: number }) =>
  * huecos de 44px. Un grupo vacío no se pinta; sin nada, no hay zona.
  */
 export function AchievementNeeds({ needs }: { needs: Needs }) {
+  // Ids propios: el catálogo (/sistema) pinta la zona en cada tema y modo.
+  const id = useId()
   const { items, tasks, others } = needs
   if (items.length === 0 && tasks.length === 0 && others.length === 0) return null
   return (
-    <section className="lneeds" aria-labelledby="logro-necesitas">
-      <h2 className="lzone__h" id="logro-necesitas">
+    <section className="lneeds" aria-labelledby={`${id}-h`}>
+      <h2 className="lzone__h" id={`${id}-h`}>
         {s.needsTotal}
       </h2>
       <div className="lneeds__groups">
         {items.length > 0 && (
-          <NeedsGroup id="necesitas-objetos" label={s.needsGroups.items} className="needs__items">
+          <NeedsGroup id={`${id}-objetos`} label={s.needsGroups.items} className="needs__items">
             {items.map(({ item, quantity }) => (
               <li key={item.name} className="row copyhost">
                 <IconWell image={item.icon} />
@@ -122,7 +124,7 @@ export function AchievementNeeds({ needs }: { needs: Needs }) {
           </NeedsGroup>
         )}
         {tasks.length > 0 && (
-          <NeedsGroup id="necesitas-tareas" label={s.needsGroups.tasks} className="lneeds__tasks">
+          <NeedsGroup id={`${id}-tareas`} label={s.needsGroups.tasks} className="lneeds__tasks">
             {tasks.map(({ quantity, label, kind }) => (
               <li key={label} className="row">
                 <IconWell icon={kind === 'dungeon' ? 'dungeon' : 'combat'} />
@@ -135,7 +137,7 @@ export function AchievementNeeds({ needs }: { needs: Needs }) {
           </NeedsGroup>
         )}
         {others.length > 0 && (
-          <NeedsGroup id="necesitas-otros" label={s.needsGroups.others} className="lneeds__others">
+          <NeedsGroup id={`${id}-otros`} label={s.needsGroups.others} className="lneeds__others">
             {others.map(({ quantity, label }) => (
               <li key={label} className="row">
                 <span>
@@ -159,11 +161,12 @@ export function AchievementNeeds({ needs }: { needs: Needs }) {
  * no es un enlace. Sin progreso: ni casillas ni contadores.
  */
 export function AchievementQuests({ quests }: { quests: QuestCard[] }) {
+  const id = useId()
   const columns = quests.length >= 4
   const rows = columns ? Math.ceil(quests.length / 2) : quests.length
   return (
-    <section className="lq" aria-labelledby="logro-misiones">
-      <h2 className="lq__h" id="logro-misiones">
+    <section className="lq" aria-labelledby={id}>
+      <h2 className="lq__h" id={id}>
         {s.questsHeading}
       </h2>
       <ol

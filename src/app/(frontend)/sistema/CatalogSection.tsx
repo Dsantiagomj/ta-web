@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 
+import { AchievementNeeds, AchievementQuests } from '@/components/achievement/AchievementParts'
 import { Emblem } from '@/components/brand/Emblem'
 import { Lockup } from '@/components/brand/Lockup'
 import { AchievementChain } from '@/components/game/AchievementChain'
@@ -34,6 +35,10 @@ import type { Mode, Theme } from '@/lib/theme/theme'
 
 import {
   achievement,
+  achievementNeeds,
+  achievementNeedsItems,
+  achievementQuests,
+  achievementQuestsLong,
   dofusAchievementView,
   dofusCards,
   dofusNeeds,
@@ -277,6 +282,16 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
               </div>
               <DofusNeeds needs={dofusNeeds} />
               <DofusParts view={dofusAchievementView} />
+            </div>
+          </Group>
+
+          <Group name="achievement" note={s.notes.achievement} wide>
+            {/* La columna del logro es el contenedor de sus consultas de anchura. */}
+            <div className="logro__main grid w-full gap-6 [--color-section:var(--color-sec-logros)]">
+              <AchievementNeeds needs={achievementNeeds} />
+              <AchievementNeeds needs={achievementNeedsItems} />
+              <AchievementQuests quests={achievementQuests} />
+              <AchievementQuests quests={achievementQuestsLong} />
             </div>
           </Group>
 

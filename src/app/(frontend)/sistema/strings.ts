@@ -37,6 +37,7 @@ export const catalogStrings = {
     video: 'Vídeo',
     image: 'Captura',
     dofus: 'Guías de Dofus',
+    achievement: 'Página de logro',
   },
   notes: {
     brand:
@@ -56,6 +57,8 @@ export const catalogStrings = {
     video: 'Con portada y sin portada. Nada de YouTube carga hasta pulsar.',
     dofus:
       'Tarjetas del índice (una con su etiqueta, otra En preparación, apagada y sin enlace), Necesitarás por grupos (el objeto copia su nombre) y un logro con sus misiones en lista con filetes, sin cajas.',
+    achievement:
+      'Necesitarás en total en sus grupos (Objetos, Combates y mazmorras, y Otros; el objeto copia su nombre) y con un solo grupo. Las misiones en orden, numeradas: un logro corto en una columna y uno largo en dos; la misión sin guía publicada no es un enlace.',
     image:
       'Pulsa la captura para verla a pantalla completa; Esc, Cerrar o un clic fuera la cierran. Sin JavaScript abre el archivo.',
   },

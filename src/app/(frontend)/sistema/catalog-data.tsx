@@ -5,6 +5,7 @@ import type { Achievement, GameItem, Monster } from '@/components/game/types'
 import { Callout } from '@/components/ui/Callout'
 import { Figure } from '@/components/ui/Figure'
 import type { ImageAsset } from '@/components/ui/types'
+import type { AchievementNeeds, QuestCard } from '@/lib/achievements/page'
 import type { DofusCard } from '@/lib/dofus-guides/index-view'
 import type { DofusGuideView } from '@/lib/dofus-guides/page'
 import type { NextQuestCardData, QuestHeaderData } from '@/lib/guides/page'
@@ -360,3 +361,44 @@ export const dofusAchievementView: DofusGuideView = {
     jsonLd: { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [] },
   },
 }
+
+/**
+ * «Necesitarás en total» de una página de logro: los tres grupos, con un objeto que nombra
+ * una nota sin cantidad, una mazmorra y lo que no es objeto ni combate («Otros»).
+ */
+export const achievementNeeds: AchievementNeeds = {
+  // Sin el Pico de tofu ni el Ojo de arakmutada, que ya copian en otras pruebas del catálogo.
+  items: [{ item: items.intestino, quantity: 2 }, { item: items.pelos }],
+  tasks: [
+    { quantity: 3, label: 'Combates realizables en grupo', kind: 'combat' },
+    { quantity: 1, label: 'Mazmorra Malefíscof', kind: 'dungeon' },
+  ],
+  others: [{ label: 'Hechizo Captura de almas' }, { label: '1 kama' }],
+}
+
+/** Un logro que solo pide objetos: un grupo. */
+export const achievementNeedsItems: AchievementNeeds = {
+  items: [{ item: items.purpura, quantity: 1 }],
+  tasks: [],
+  others: [],
+}
+
+/** Las misiones de un logro corto: en una columna; la tercera, sin guía publicada. */
+export const achievementQuests: QuestCard[] = [
+  { position: 1, level: 15, title: 'Esto hace aguas', href: '#esto-hace-aguas' },
+  {
+    position: 2,
+    level: 20,
+    title: 'Seis pies bajo tierra',
+    href: '#seis-pies',
+    giver: images.npcRight,
+  },
+  { position: 3, level: 25, title: 'El cazador cazado' },
+]
+
+/** Las de un logro largo: en dos columnas, que se leen de arriba abajo. */
+export const achievementQuestsLong: QuestCard[] = [
+  ...achievementQuests,
+  { position: 4, level: 25, title: 'Intoxicación profunda', href: '#intoxicacion' },
+  { position: 5, level: 30, title: 'La ocasión hace al ladrón', href: '#la-ocasion' },
+]
