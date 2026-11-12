@@ -79,6 +79,18 @@ describe('unidades del CSS', () => {
     expect(offenders).toEqual([])
   })
 
+  // Dentro de un SVG con transform-box: view-box, transform-origin se mide en unidades del
+  // viewBox: en rem el pivote se movería al subir la fuente raíz. Va en porcentajes.
+  it('el pivote de una parte de un SVG va en porcentajes del viewBox, no en rem', () => {
+    const offenders = cssFiles.flatMap((file) => {
+      const css = withoutComments(readFileSync(file, 'utf8'))
+      return [...css.matchAll(/\{[^{}]*transform-box:\s*view-box[^{}]*\}/g)]
+        .filter((rule) => /transform-origin:[^;]*\d(rem|em)\b/.test(rule[0]))
+        .map((rule) => `${file}:${lineOf(css, rule.index)}`)
+    })
+    expect(offenders).toEqual([])
+  })
+
   it('distingue un filete de una medida', () => {
     const css = '.a { border: 1px solid; outline-offset: 2.5px; padding: 3px 12px; inset: -4px }'
     expect(thickPx('a.css', css, PX_IN_CSS)).toEqual([
