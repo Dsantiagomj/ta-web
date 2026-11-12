@@ -223,6 +223,41 @@ describe('achievementPageView', () => {
     expect(view.facts).not.toHaveProperty('needs')
   })
 
+  describe('necesitarás en total: un objeto nombrado sin cantidad y con ella', () => {
+    // Una guía nombra el objeto sin cantidad y otra pide una cantidad: la cantidad pedida
+    // se queda, venga primero una u otra.
+    const piedra = { id: 9, name: 'Piedra de alma mediana' } as unknown as NoteItemDoc
+    const needs = (first: string, second: string) =>
+      achievementPageView({
+        ...data(),
+        guides: [
+          { questId: 2, slug: 'esto-hace-aguas', needs: { notes: first } },
+          { questId: 3, slug: 'seis-pies-bajo-tierra', needs: { notes: second } },
+        ],
+        noteItems: new Map([['Piedra de alma mediana', piedra]]),
+      }).needs.items.map(({ item, quantity }) => [item.name, quantity])
+
+    it('primero sin cantidad, después con ella', () => {
+      expect(needs('Piedra de alma mediana', '2 x Piedra de alma mediana')).toEqual([
+        ['Piedra de alma mediana', 2],
+      ])
+    })
+
+    it('primero con cantidad, después sin ella', () => {
+      expect(needs('2 x Piedra de alma mediana', 'Piedra de alma mediana')).toEqual([
+        ['Piedra de alma mediana', 2],
+      ])
+    })
+
+    // Dos notas con cantidad que solo cambian en mayúsculas o tildes se suman en una fila;
+    // si una escribe el nombre exacto, la fila es el objeto, sea la primera o la segunda.
+    it('con cantidad y otra capitalización, en cualquier orden', () => {
+      const expected = [['Piedra de alma mediana', 3]]
+      expect(needs('1 x Piedra de alma mediana', '2 x piedra de alma mediana')).toEqual(expected)
+      expect(needs('2 x piedra de alma mediana', '1 x Piedra de alma mediana')).toEqual(expected)
+    })
+  })
+
   it('recompensas del logro: XP de nivel 200, kamas y la bolsa', () => {
     expect(view.facts.rewards).toMatchObject({ xp: { max: 102_128 }, kamas: 1_105 })
     expect(view.facts.rewards.items.map(({ item }) => item.name)).toEqual(['Piel pachucha'])
