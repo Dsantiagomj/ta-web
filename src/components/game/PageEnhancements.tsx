@@ -109,16 +109,19 @@ export function PageEnhancements() {
     // La bolsa: un botón de divulgación. El estado vive en su aria-expanded, y el CSS
     // enseña la lista según él (game.css, data-js).
     const bagButton = (bag: Element) => bag.querySelector('button')
-    const setBag = (bag: Element, open: boolean) => {
-      bagButton(bag)?.setAttribute('aria-expanded', String(open))
+    // Abierta, la lista sale del borde izquierdo de la bolsa; si así no cabe en la ventana
+    // (con 16px de margen), se corre a la izquierda lo que sobra. offsetWidth es su ancho
+    // sin la escala de la entrada.
+    const placeBag = (bag: Element) => {
       const list = bag.querySelector<HTMLElement>('.bag__list')
-      if (!open || !list) return
-      // Abierta, la lista sale del borde izquierdo de la bolsa; si así no cabe en la ventana
-      // (con 16px de margen), se corre a la izquierda lo que sobra. offsetWidth es su ancho
-      // sin la escala de la entrada.
+      if (!list) return
       const room = document.documentElement.clientWidth - 16
       const over = bag.getBoundingClientRect().left + list.offsetWidth - room
       list.style.setProperty('--bag-shift', String(Math.max(0, Math.ceil(over))))
+    }
+    const setBag = (bag: Element, open: boolean) => {
+      bagButton(bag)?.setAttribute('aria-expanded', String(open))
+      if (open) placeBag(bag)
     }
     const openBags = () =>
       [...document.querySelectorAll('[data-bag] > [aria-expanded="true"]')].flatMap((button) =>
@@ -179,14 +182,22 @@ export function PageEnhancements() {
       if (bag && next instanceof Node && !bag.contains(next)) setBag(bag, false)
     }
 
+    // La ventana cambia de tamaño (o el móvil gira) con una bolsa abierta: su lista se vuelve
+    // a colocar, para que no se quede con el desplazamiento de antes y se salga.
+    const onResize = () => {
+      for (const open of openBags()) placeBag(open)
+    }
+
     document.addEventListener('click', onClick)
     document.addEventListener('keydown', onKeyDown)
     document.addEventListener('focusout', onFocusOut)
+    window.addEventListener('resize', onResize)
     return () => {
       clearTimeout(timer)
       document.removeEventListener('click', onClick)
       document.removeEventListener('keydown', onKeyDown)
       document.removeEventListener('focusout', onFocusOut)
+      window.removeEventListener('resize', onResize)
     }
   }, [])
 
