@@ -476,7 +476,8 @@ html {
   margin: 0 0.25rem 0.625rem;
 }
 
-/* Iconos del juego en su hueco (DESIGN.md, Icon wells). */
+/* Iconos del juego en su hueco (DESIGN.md, Icon wells). Well pasa su tamaño en rem en
+   --icon; sin él, el de sus atributos. */
 .site-well {
   display: grid;
   flex: none;
@@ -490,9 +491,9 @@ html {
 }
 
 .site-well img {
-  width: auto;
+  width: var(--icon, auto);
   max-width: 1.75rem;
-  height: auto;
+  height: var(--icon, auto);
   max-height: 1.75rem;
   object-fit: contain;
 }
@@ -508,9 +509,9 @@ html {
 }
 
 .site-well--lg img {
-  width: auto;
+  width: var(--icon, auto);
   max-width: 2.25rem;
-  height: auto;
+  height: var(--icon, auto);
   max-height: 2.25rem;
 }
 
@@ -522,9 +523,9 @@ html {
 }
 
 .site-well--xl img {
-  width: auto;
+  width: var(--icon, auto);
   max-width: 2.875rem;
-  height: auto;
+  height: var(--icon, auto);
   max-height: 2.875rem;
 }
 
@@ -1251,10 +1252,8 @@ mark.hit {
 }
 
 .sdlg__list .site-well img {
-  width: auto;
-  max-width: 1.625rem;
-  height: auto;
-  max-height: 1.625rem;
+  width: 1.625rem;
+  height: 1.625rem;
 }
 
 /* ================= pie ================= */

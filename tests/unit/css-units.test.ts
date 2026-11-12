@@ -32,17 +32,28 @@ function thickPx(file: string, text: string, pattern: RegExp): string[] {
 }
 
 const PX_IN_CSS = /(?<![\w.#-])(-?\d*\.?\d+)px\b/g
+// Las clases arbitrarias de Tailwind con px: `size-[42px]`, `grid-cols-[240px_1fr]`.
+const PX_IN_CLASS = /\[[^\]\s'"`]*?(?<![\w.#-])(-?\d*\.?\d+)px[^\]\s'"`]*\]/g
 
 const cssFiles = filesUnder('src', '.css')
+const tsxFiles = filesUnder('src', '.tsx')
 
 describe('unidades del CSS', () => {
-  it('lee las hojas de estilo de src', () => {
+  it('lee las hojas de estilo y los componentes de src', () => {
     expect(cssFiles).toContain(join('src', 'styles', 'theme.css'))
+    expect(tsxFiles.length).toBeGreaterThan(20)
   })
 
   it('el CSS escrito a mano no usa px de 3 o más: van en rem', () => {
     const offenders = cssFiles.flatMap((file) =>
       thickPx(file, withoutComments(readFileSync(file, 'utf8')), PX_IN_CSS),
+    )
+    expect(offenders).toEqual([])
+  })
+
+  it('las clases arbitrarias de Tailwind no usan px de 3 o más', () => {
+    const offenders = tsxFiles.flatMap((file) =>
+      thickPx(file, readFileSync(file, 'utf8'), PX_IN_CLASS),
     )
     expect(offenders).toEqual([])
   })
@@ -53,6 +64,9 @@ describe('unidades del CSS', () => {
       'a.css:1 3px',
       'a.css:1 12px',
       'a.css:1 -4px',
+    ])
+    expect(thickPx('a.tsx', 'className="border-[1.5px] size-[42px]"', PX_IN_CLASS)).toEqual([
+      'a.tsx:1 [42px]',
     ])
   })
 })

@@ -38,7 +38,10 @@ export interface SiteCounts {
 const p = s.panels
 const accent = (sec: Section) => ({ '--color-section': sec.accent }) as CSSProperties
 
-/** Un icono del juego en su hueco, como en el inventario (DESIGN.md, Icon wells). */
+/**
+ * Un icono del juego en su hueco, como en el inventario (DESIGN.md, Icon wells). El CSS lo
+ * pinta a su tamaño en rem (--icon), así que crece con la fuente raíz.
+ */
 export function Well({
   image,
   size,
@@ -48,14 +51,16 @@ export function Well({
   size: number
   className?: string
 }) {
+  const px = Math.min(size, image.size)
   return (
     <span className={`site-well${className ? ` ${className}` : ''}`} aria-hidden="true">
       <StaticImg
         src={image.src}
-        width={Math.min(size, image.size)}
-        height={Math.min(size, image.size)}
+        width={px}
+        height={px}
         alt=""
         loading="lazy"
+        style={{ '--icon': `${px / 16}rem` } as CSSProperties}
       />
     </span>
   )

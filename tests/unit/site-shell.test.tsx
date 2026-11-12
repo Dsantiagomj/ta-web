@@ -13,7 +13,7 @@ import {
   searchIndex,
 } from '@/components/site/nav'
 import { SiteFooter } from '@/components/site/SiteFooter'
-import { SiteHeader } from '@/components/site/SiteHeader'
+import { SiteHeader, Well } from '@/components/site/SiteHeader'
 import { searchNav } from '@/components/site/search'
 import { LEGACY_SITE_ORIGIN } from '@/lib/site/legacy'
 
@@ -286,6 +286,18 @@ describe('SiteHeader', () => {
     )
     expect(panel).toContain('Buscar una misión')
     expect(panel).toContain('data-open-search')
+  })
+})
+
+describe('Well', () => {
+  it('pinta el icono a su tamaño en rem, para crecer con la fuente raíz', () => {
+    const markup = html(<Well image={{ src: '/img/a.webp', size: 64 }} size={36} />)
+    expect(markup).toContain('width="36" height="36"')
+    expect(markup).toContain('style="--icon:2.25rem"')
+    // Un archivo más pequeño que el hueco se queda en su tamaño.
+    expect(html(<Well image={{ src: '/img/b.webp', size: 24 }} size={36} />)).toContain(
+      'style="--icon:1.5rem"',
+    )
   })
 })
 

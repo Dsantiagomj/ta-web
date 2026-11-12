@@ -15,7 +15,7 @@ export function FightBlock({ monsters }: { monsters: Quantity<Monster>[] }) {
       {monsters.map(({ item, quantity }) => (
         <li key={item.name} className="row">
           <span className="well well--mob" aria-hidden="true">
-            {item.icon && <Picture image={item.icon} alt="" className="size-[42px]" />}
+            {item.icon && <Picture image={item.icon} alt="" className="size-10.5" />}
           </span>
           <span>
             <b>{gameStrings.header.quantity(quantity)}</b> {item.name}

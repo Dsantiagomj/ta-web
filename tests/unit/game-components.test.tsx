@@ -387,6 +387,13 @@ describe('IconWell', () => {
     )
     expect(html(<IconWell icon="achievement" />)).toContain('width="28" height="28"')
   })
+
+  it('pinta el icono a su tamaño en rem, para crecer con la fuente raíz', () => {
+    expect(html(<IconWell icon="combat" />)).toContain(
+      'class="size-(--icon)" style="--icon:2.125rem"',
+    )
+    expect(html(<IconWell icon="xp" />)).toContain('style="--icon:1.5rem"')
+  })
 })
 
 describe('QuestSteps', () => {
