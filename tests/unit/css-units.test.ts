@@ -4,7 +4,8 @@ import { describe, expect, it } from 'vitest'
 
 // Las medidas van en rem (px ÷ 16) para que toda la interfaz escale con la fuente raíz;
 // solo los filetes por debajo de 3px se quedan en px, para que sigan nítidos (DESIGN.md,
-// Tokens).
+// Tokens). Y los estilos inline solo pasan datos al CSS como propiedades personalizadas
+// (AGENTS.md, Next rules).
 
 const HAIRLINE_LIMIT = 3
 
@@ -34,6 +35,26 @@ function thickPx(file: string, text: string, pattern: RegExp): string[] {
 const PX_IN_CSS = /(?<![\w.#-])(-?\d*\.?\d+)px\b/g
 // Las clases arbitrarias de Tailwind con px: `size-[42px]`, `grid-cols-[240px_1fr]`.
 const PX_IN_CLASS = /\[[^\]\s'"`]*?(?<![\w.#-])(-?\d*\.?\d+)px[^\]\s'"`]*\]/g
+
+/** Las claves de cada `style={{ … }}` escrito en línea. */
+function inlineStyleKeys(source: string): { index: number; keys: string[] }[] {
+  const found: { index: number; keys: string[] }[] = []
+  for (const match of source.matchAll(/style=\{\{/g)) {
+    // Hasta la llave que cierra el objeto, aunque detrás venga `as CSSProperties`.
+    const start = match.index + match[0].length
+    let depth = 1
+    let end = start
+    while (end < source.length && depth > 0) {
+      if (source[end] === '{') depth++
+      if (source[end] === '}') depth--
+      end++
+    }
+    const body = source.slice(start, end - 1)
+    const keys = [...body.matchAll(/(?:^|,)\s*(['"]?)([\w-]+)\1\s*:/g)].map((key) => key[2])
+    found.push({ index: match.index, keys })
+  }
+  return found
+}
 
 const cssFiles = filesUnder('src', '.css')
 const tsxFiles = filesUnder('src', '.tsx')
@@ -68,5 +89,22 @@ describe('unidades del CSS', () => {
     expect(thickPx('a.tsx', 'className="border-[1.5px] size-[42px]"', PX_IN_CLASS)).toEqual([
       'a.tsx:1 [42px]',
     ])
+  })
+})
+
+describe('estilos inline', () => {
+  it('solo pasan propiedades personalizadas al CSS', () => {
+    const offenders = tsxFiles.flatMap((file) => {
+      const source = readFileSync(file, 'utf8')
+      return inlineStyleKeys(source)
+        .filter(({ keys }) => keys.some((key) => !key.startsWith('--')))
+        .map(({ index, keys }) => `${file}:${lineOf(source, index)} ${keys.join(', ')}`)
+    })
+    expect(offenders).toEqual([])
+  })
+
+  it('lee las claves de un objeto de estilo', () => {
+    const source = `<b style={{ '--x': orb.x, whiteSpace: 'pre-line', "--dy": \`\${dy}rem\` }} />`
+    expect(inlineStyleKeys(source)).toEqual([{ index: 3, keys: ['--x', 'whiteSpace', '--dy'] }])
   })
 })

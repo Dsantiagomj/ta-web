@@ -86,8 +86,8 @@ export function DofusDbNote({ path, source, field }: Props) {
   const json = useFieldValue(path, field)
   const value = useMemo(() => JSON.parse(json) as unknown, [json])
   return (
-    // pre-line: la lista de misiones y la de objetos pueden ser largas
-    <div className="field-description" style={{ whiteSpace: 'pre-line' }}>
+    // field-note (custom.scss): la lista de misiones y la de objetos van en varias líneas
+    <div className="field-description field-note">
       {dofusDbNote(source, state, field as ValueField<typeof source>, value)}
     </div>
   )

@@ -13,14 +13,12 @@ export function Picture({
   priority = false,
   sizes,
   className,
-  style,
 }: {
   image: ImageAsset
   alt: string
   priority?: boolean
   sizes?: string
   className?: string
-  style?: React.CSSProperties
 }) {
   const webpSet = srcSetValue(image.srcSet)
   const avifSet = srcSetValue(image.avifSrcSet)
@@ -43,7 +41,6 @@ export function Picture({
         decoding="async"
         {...(priority ? { fetchPriority: 'high' as const } : { loading: 'lazy' as const })}
         className={cx('h-auto max-w-full', className)}
-        style={style}
       />
     </picture>
   )
