@@ -97,8 +97,9 @@ describe('AchievementNeeds', () => {
 
   it('su propia zona, con tres grupos con título: Objetos, Combates y mazmorras, y Otros', () => {
     const markup = html(<AchievementNeeds needs={needs} />)
-    expect(markup).toContain('<section class="lneeds" aria-labelledby="logro-necesitas">')
-    expect(markup).toContain('<h2 class="lzone__h" id="logro-necesitas">Necesitarás en total</h2>')
+    const zone = /<section class="lneeds" aria-labelledby="([^"]+)">/.exec(markup)?.[1]
+    expect(zone).toBeTruthy()
+    expect(markup).toContain(`<h2 class="lzone__h" id="${zone}">Necesitarás en total</h2>`)
     const groups = [...markup.matchAll(/<h3 class="lneeds__k" id="([^"]+)">([^<]+)<\/h3>/g)]
     expect(groups.map((group) => group[2])).toEqual(['Objetos', 'Combates y mazmorras', 'Otros'])
     // Cada lista se llama como su grupo.
@@ -123,6 +124,20 @@ describe('AchievementNeeds', () => {
     expect(text(markup)).toContain('1 kama')
     // Las notas no copian nada.
     expect(markup).not.toContain('data-copy="Hechizo')
+  })
+
+  it('dos en la misma página no repiten ids (el catálogo los pinta en cada tema)', () => {
+    const markup = html(
+      <>
+        <AchievementNeeds needs={needs} />
+        <AchievementNeeds needs={needs} />
+        <AchievementQuests quests={[{ position: 1, title: 'Esto hace aguas' }]} />
+        <AchievementQuests quests={[{ position: 1, title: 'Esto hace aguas' }]} />
+      </>,
+    )
+    const ids = [...markup.matchAll(/ id="([^"]+)"/g)].map((match) => match[1])
+    expect(ids.length).toBeGreaterThan(0)
+    expect(new Set(ids).size).toBe(ids.length)
   })
 
   it('un grupo vacío no se pinta; sin nada, no hay zona', () => {

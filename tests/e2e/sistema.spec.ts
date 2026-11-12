@@ -7,6 +7,7 @@ import { MODES, THEMES } from '../../src/lib/theme/theme.ts'
 // servidor de estas pruebas lo abre con E2E_DESIGN_CATALOG=1 (playwright.config.ts).
 
 const COMPONENTS = [
+  'achievement',
   'brand',
   'site',
   'buttons',
@@ -63,6 +64,36 @@ test.describe('catálogo /sistema', () => {
         ).toBeVisible()
       }
     }
+  })
+
+  test('la página de logro: Necesitarás en grupos y las misiones numeradas', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto('/sistema?tema=arcano&modo=dark')
+    const group = page.locator('[data-component="achievement"]')
+    // Con los tres grupos, «Otros» incluido, y con uno solo.
+    const zones = group.getByRole('region', { name: 'Necesitarás en total' })
+    await expect(zones).toHaveCount(2)
+    await expect(zones.first().getByRole('heading', { level: 3 })).toHaveText([
+      'Objetos',
+      'Combates y mazmorras',
+      'Otros',
+    ])
+    await expect(zones.last().getByRole('heading', { level: 3 })).toHaveText(['Objetos'])
+    // Una lista corta en una columna y una larga en dos; una misión sin guía no es enlace.
+    const lists = group.getByRole('region', { name: 'Las misiones, en orden' })
+    await expect(lists).toHaveCount(2)
+    const columns = (index: number) =>
+      lists
+        .nth(index)
+        .locator('.lq__item')
+        .evaluateAll(
+          (rows) => new Set(rows.map((row) => Math.round(row.getBoundingClientRect().x))).size,
+        )
+    expect(await columns(0)).toBe(1)
+    expect(await columns(1)).toBe(2)
+    const plain = lists.first().locator('.lq__item:not([data-link])')
+    await expect(plain).toHaveCount(1)
+    await expect(plain.getByRole('link')).toHaveCount(0)
   })
 
   test('el CSS escrito a mano lee los colores del tema de su sección', async ({ page }) => {
