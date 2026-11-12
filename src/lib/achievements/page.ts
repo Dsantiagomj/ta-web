@@ -212,7 +212,9 @@ export function noteLabels(guides: Pick<GuideRef, 'needs'>[]): string[] {
  * total («2 x Dragopavo pelirrojo.», cuando otra guía lo enlaza como objeto) se suma a ese
  * objeto: se cruzan al final, así que da igual en qué guía venga cada uno. Una nota cuyo
  * texto es el nombre exacto de un objeto del juego (noteItems) pasa a ser ese objeto, con su
- * icono. El resto se reparte en combates y mazmorras, y otros.
+ * icono, y suma su cantidad a la que pidan otras notas; las que solo cambian en mayúsculas o
+ * tildes cuentan como él. Nada depende del orden de las guías. El resto se reparte en
+ * combates y mazmorras, y otros.
  */
 function totalNeeds(guides: GuideRef[], noteItems: Map<string, NoteItemDoc>): AchievementNeeds {
   const notes = new Map<string, NeedNote>()
@@ -232,6 +234,10 @@ function totalNeeds(guides: GuideRef[], noteItems: Map<string, NoteItemDoc>): Ac
     }
   }
   const itemByName = new Map([...items.values()].map((entry) => [needKey(entry.item.name), entry]))
+  // Los objetos que alguna nota nombra exactamente, por la misma clave que junta las notas:
+  // si «1 x Piedra de alma mediana» y «2 x piedra de alma mediana» se suman en una fila, esa
+  // fila es el objeto venga primero la exacta o la otra.
+  const namedByKey = new Map([...noteItems].map(([name, doc]) => [needKey(name), doc]))
   const needs: AchievementNeeds = { items: [], tasks: [], others: [] }
   for (const note of notes.values()) {
     const { quantity, label } = note
@@ -240,12 +246,14 @@ function totalNeeds(guides: GuideRef[], noteItems: Map<string, NoteItemDoc>): Ac
       linked.quantity = (linked.quantity ?? 0) + quantity!
       continue
     }
-    const named = noteItems.get(label)
+    const named = namedByKey.get(needKey(label))
     if (named) {
+      // Una cantidad pedida se suma siempre, aunque otra guía nombrara antes el objeto sin
+      // ella: el resultado no depende del orden de las guías.
       const known = items.get(named.id)
-      if (known && known.quantity != null && quantity != null) known.quantity += quantity
-      else if (!known)
+      if (!known)
         items.set(named.id, { item: gameItem(named), ...(quantity != null && { quantity }) })
+      else if (quantity != null) known.quantity = (known.quantity ?? 0) + quantity
       continue
     }
     const kind = DUNGEON.test(label) ? 'dungeon' : note.combat ? 'combat' : null
