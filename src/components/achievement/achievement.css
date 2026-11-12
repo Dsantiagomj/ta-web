@@ -213,9 +213,12 @@
   bottom: 50%;
 }
 
+/* Encima de la línea, pero sin recibir clics: debajo está el ::after del enlace del título,
+   así que el número también abre la guía. */
 .lq__n {
   position: relative;
   z-index: 1;
+  pointer-events: none;
   display: grid;
   place-items: center;
   width: 2rem;
