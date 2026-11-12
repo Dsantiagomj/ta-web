@@ -99,8 +99,10 @@ describe('achievementPageView', () => {
   })
 
   it('necesitarás en total: suma lo que piden las guías publicadas, con cantidad', () => {
-    // «Paciencia.» es un comentario de una guía, no algo que reunir: no entra en el total.
-    expect(view.facts.needs.notes).toEqual([{ quantity: 2, label: 'Combate (solo)', combat: true }])
+    expect(view.facts.needs.notes).toEqual([
+      { quantity: 2, label: 'Combate (solo)', combat: true },
+      { label: 'Paciencia', combat: false },
+    ])
     expect(view.facts.needs.items.map(({ item, quantity }) => [item.name, quantity])).toEqual([
       ['Pico de tofu', 2],
     ])
@@ -139,6 +141,37 @@ describe('achievementPageView', () => {
       ['Intestino de araknáusea', 4],
     ])
     expect(view.facts.needs.notes).toEqual([{ quantity: 1, label: 'Combate (solo)', combat: true }])
+  })
+
+  it('necesitarás en total: las notas sin cantidad también salen, tal como las escribió Torre', () => {
+    // Favores encadenados: nada de lo que Torre escribe en Necesitarás se pierde en el total.
+    const view = achievementPageView({
+      ...data(),
+      guides: [
+        {
+          questId: 2,
+          slug: 'esto-hace-aguas',
+          needs: {
+            notes:
+              'Algunos combates aleatorios contra monstruos de un nivel parecido al tuyo.\n1 kama\n3 x Combates realizables en grupo.',
+          },
+        },
+        {
+          questId: 3,
+          slug: 'seis-pies-bajo-tierra',
+          needs: { notes: 'Hechizo Captura de almas.\n1 kama' },
+        },
+      ],
+    })
+    expect(view.facts.needs.notes).toEqual([
+      {
+        label: 'Algunos combates aleatorios contra monstruos de un nivel parecido al tuyo',
+        combat: true,
+      },
+      { label: '1 kama', combat: false },
+      { quantity: 3, label: 'Combates realizables en grupo', combat: true },
+      { label: 'Hechizo Captura de almas', combat: false },
+    ])
   })
 
   it('recompensas del logro: XP de nivel 200, kamas y la bolsa', () => {

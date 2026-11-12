@@ -163,11 +163,12 @@ function rowLevel(quests: (QuestDoc | null)[]): number | undefined {
 }
 
 /**
- * Lo que hay que reunir para todas las misiones: los objetos y las notas con cantidad
- * («1 x Combate (solo).») de las guías, sumados. Una nota sin cantidad («Literalmente nada
- * xD.») es un comentario de esa guía y no entra en el total. Una nota que nombra un objeto
- * del total («2 x Dragopavo pelirrojo.», cuando otra guía lo enlaza como objeto) se suma a
- * ese objeto: se cruzan al final, así que da igual en qué guía venga cada uno.
+ * Lo que hay que reunir para todas las misiones: los objetos y las notas de las guías. Las
+ * notas con cantidad («1 x Combate (solo).») se suman; las que no la tienen («Hechizo
+ * Captura de almas.», «1 kama») salen tal cual, una vez aunque las repitan varias guías:
+ * nada de lo que Torre escribió se pierde. Una nota con cantidad que nombra un objeto del
+ * total («2 x Dragopavo pelirrojo.», cuando otra guía lo enlaza como objeto) se suma a ese
+ * objeto: se cruzan al final, así que da igual en qué guía venga cada uno.
  */
 function totalNeeds(guides: GuideRef[]): { items: Quantity<GameItem>[]; notes: NeedNote[] } {
   const notes = new Map<string, NeedNote>()
@@ -176,11 +177,11 @@ function totalNeeds(guides: GuideRef[]): { items: Quantity<GameItem>[]; notes: N
     const lines = (guide.needs?.notes ?? '').split('\n').map((line) => line.trim())
     for (const line of lines.filter(Boolean)) {
       const note = needNote(line)
-      if (note.quantity == null) continue
-      const key = needKey(note.label)
+      // Con y sin cantidad no se mezclan: «1 x Combate» y «Combate» son filas distintas.
+      const key = `${note.quantity == null ? '-' : '#'}${needKey(note.label)}`
       const same = notes.get(key)
-      if (same) same.quantity! += note.quantity
-      else notes.set(key, { ...note })
+      if (!same) notes.set(key, { ...note })
+      else if (note.quantity != null) same.quantity! += note.quantity
     }
     for (const { item, quantity } of neededItems(guide.needs as LinkedNeeds | null)) {
       const known = items.get(item.id)
@@ -190,8 +191,8 @@ function totalNeeds(guides: GuideRef[]): { items: Quantity<GameItem>[]; notes: N
   }
   const itemByName = new Map([...items.values()].map((entry) => [needKey(entry.item.name), entry]))
   const rest: NeedNote[] = []
-  for (const [key, note] of notes) {
-    const item = itemByName.get(key)
+  for (const note of notes.values()) {
+    const item = note.quantity == null ? undefined : itemByName.get(needKey(note.label))
     if (item) item.quantity += note.quantity!
     else rest.push(note)
   }
