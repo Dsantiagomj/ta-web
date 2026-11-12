@@ -49,6 +49,14 @@ export const achievementPageStrings = {
   questsHeading: 'Las misiones, en orden',
   questKicker: (position: number, level?: number) =>
     level ? `Misión ${position} - Nivel ${level}` : `Misión ${position}`,
+  /** Bajo el título de la misión, en la lista numerada: el número ya dice su lugar. */
+  questLevel: (level: number) => `Nivel ${level}`,
+  needsGroups: {
+    items: 'Objetos',
+    tasks: 'Combates y mazmorras',
+    // Provisional: Torre puede cambiarlo.
+    others: 'Otros',
+  },
   countsFor: 'Cuenta para',
   countsForLine: (achievements: number) => `Pide ${achievements} logros.`,
   previous: 'Logro anterior',

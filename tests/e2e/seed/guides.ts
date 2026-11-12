@@ -34,7 +34,9 @@ export const seedGuide = {
     left: 'public/img/sistema/npc-4412-left.webp',
   },
   prerequisite: { title: 'Esto hace aguas', slug: 'esto-hace-aguas' },
-  needsNote: '1 x Combate (solo).',
+  // Un combate; una nota que es el nombre exacto de un objeto importado (el logro la pinta
+  // como ese objeto) y otra que no es ni objeto ni combate («Otros» en el logro).
+  needsNote: '1 x Combate (solo).\n1 x Pico de tofu.\nHechizo Captura de almas.',
   // Los objetos de Necesitarás, de los de la recompensa: dos, para ver sus columnas.
   needsItems: [
     { name: 'Intestino de araknáusea', quantity: 2 },

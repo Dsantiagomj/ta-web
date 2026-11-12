@@ -16,13 +16,13 @@ export const seedAchievement = {
   emptyGroup: { name: 'Misiones de templo', slug: 'metalogro-misiones-de-templo' },
   reward: { xp: '102 128', kamas: '1 105' },
   quests: [
-    { title: 'Esto hace aguas', href: '/esto-hace-aguas', kicker: 'Misión 1 - Nivel 15' },
+    { title: 'Esto hace aguas', href: '/esto-hace-aguas', kicker: 'Nivel 15' },
     {
       title: 'Seis pies bajo tierra',
       href: '/seis-pies-bajo-tierra',
-      kicker: 'Misión 2 - Nivel 20',
+      kicker: 'Nivel 20',
     },
-    { title: 'El cazador cazado', kicker: 'Misión 3 - Nivel 25' },
+    { title: 'El cazador cazado', kicker: 'Nivel 25' },
   ],
   previous: { name: 'Un ciudadano modelo', slug: 'un-ciudadano-modelo' },
   next: { name: 'La gran biblioteca', slug: 'la-gran-biblioteca' },
