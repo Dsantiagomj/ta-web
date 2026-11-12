@@ -38,14 +38,17 @@ test.describe('página de guía', () => {
       `/${seedGuide.achievement.slug}`,
     )
 
-    // El PNJ que da la misión, con su render importado y su nombre como texto.
+    // El PNJ que da la misión: su render importado, solo, y «Empieza con» su nombre y su
+    // chincheta en una línea bajo el subtítulo.
     const giver = header.locator('figure.giver')
-    await expect(giver.getByText(seedGuide.start.npc, { exact: true })).toBeVisible()
     await expect(giver.locator('img')).toHaveAttribute('alt', '')
     expect(
       await giver.locator('img').evaluate((img: HTMLImageElement) => img.naturalWidth),
     ).toBeGreaterThan(0)
-    await expect(giver.getByRole('button', { name: '[7,-19], copiar /travel 7,-19' })).toBeVisible()
+    await expect(giver).not.toContainText(seedGuide.start.npc)
+    const start = header.locator('.qhead__start')
+    await expect(start).toHaveText(`Empieza con ${seedGuide.start.npc} [7,-19]`)
+    await expect(start.getByRole('button', { name: '[7,-19], copiar /travel 7,-19' })).toBeVisible()
 
     const prerequisites = header.getByRole('region', { name: 'Prerrequisitos' })
     await expect(
@@ -80,27 +83,52 @@ test.describe('página de guía', () => {
     }
   })
 
-  test('Prerrequisitos encima de Necesitarás; sus objetos en columnas y la nota debajo', async ({
+  test('Prerrequisitos y Necesitarás lado a lado, Recompensas debajo; en el móvil, apiladas', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
     await page.goto(url)
     const header = page.locator('header.qhead')
-    const prerequisites = (await header
-      .getByRole('region', { name: 'Prerrequisitos' })
-      .boundingBox())!
-    const needs = header.getByRole('region', { name: 'Necesitarás' })
-    expect((await needs.boundingBox())!.y).toBeGreaterThanOrEqual(
-      prerequisites.y + prerequisites.height,
-    )
+    const region = (name: string) => header.getByRole('region', { name, exact: true })
+    const boxes = async () =>
+      Promise.all(
+        ['Prerrequisitos', 'Necesitarás', 'Recompensas'].map(
+          async (name) => (await region(name).boundingBox())!,
+        ),
+      )
+    const [pre, nec, rec] = await boxes()
+    // Desde que la banda tiene sitio: las dos primeras en la misma fila, con un filete entre
+    // ellas, y Recompensas en una franja bajo las dos.
+    expect(Math.abs(pre.y - nec.y)).toBeLessThan(1)
+    expect(nec.x).toBeGreaterThan(pre.x + pre.width)
+    expect(
+      await region('Necesitarás').evaluate((node) => getComputedStyle(node).borderLeftWidth),
+    ).toBe('1px')
+    expect(rec.y).toBeGreaterThanOrEqual(Math.max(pre.y + pre.height, nec.y + nec.height))
+    expect(rec.x).toBeCloseTo(pre.x, 0)
+    // Los títulos se leen como títulos: Montserrat 700 en tinta, sin mayúsculas.
+    const title = await region('Necesitarás')
+      .getByRole('heading')
+      .evaluate((node) => {
+        const style = getComputedStyle(node)
+        return [style.fontWeight, style.textTransform, style.fontSize]
+      })
+    expect(title).toEqual(['700', 'none', `${1.125 * 17.6}px`])
+
+    await page.setViewportSize({ width: 390, height: 844 })
+    const [preM, necM, recM] = await boxes()
+    expect(necM.y).toBeGreaterThanOrEqual(preM.y + preM.height)
+    expect(recM.y).toBeGreaterThanOrEqual(necM.y + necM.height)
+
+    const needs = region('Necesitarás')
     for (const { name, quantity } of seedGuide.needsItems) {
       await expect(needs.getByRole('button', { name: `Copiar ${name}` })).toBeVisible()
       await expect(needs).toContainText(`${quantity} × ${name}`)
     }
-    await expectNeedsColumns(page, needs)
+    await expectNeedsColumns(page, needs, { desktopColumns: 1 })
   })
 
-  test('en el móvil, el PNJ mira a la izquierda junto al título, solo con su nombre', async ({
+  test('en el móvil, el PNJ mira a la izquierda junto al título y «Empieza con» va debajo', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 390, height: 844 })
@@ -112,7 +140,11 @@ test.describe('página de guía', () => {
     expect(Math.round(box.width)).toBe(50)
     // El render que mira a la izquierda (dirección 3).
     expect(await render.evaluate((img: HTMLImageElement) => img.currentSrc)).toContain('left')
-    await expect(page.locator('figure.giver .coord')).toBeHidden()
+    // El paso 1, justo debajo, ya lleva la chincheta.
+    const start = page.locator('.qhead__start')
+    await expect(start).toHaveText(`Empieza con ${seedGuide.start.npc}`, { useInnerText: true })
+    await expect(start.locator('.coord')).toBeHidden()
+    expect((await start.boundingBox())!.y).toBeGreaterThan(title.y + title.height)
   })
 
   test('en el móvil, las migas son solo el logro, como enlace de vuelta', async ({ page }) => {
@@ -190,7 +222,8 @@ test.describe('página de guía', () => {
     await expect(page.locator('a.nextq')).toHaveCount(0)
   })
 
-  test('una sola columna de lectura de 880px, con los pasos separados por una línea', async ({
+  // Desde 64rem la raíz es el 110 %: la columna de 55rem mide 968px y todo crece igual.
+  test('una sola columna de lectura de 55rem, con los pasos separados por una línea', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
@@ -198,8 +231,8 @@ test.describe('página de guía', () => {
     // Sin la lista «Pasos» al lado.
     await expect(page.getByRole('navigation', { name: 'Pasos' })).toHaveCount(0)
     const article = (await page.locator('main.quest > article').boundingBox())!
-    expect(Math.round(article.width)).toBe(880)
-    expect(Math.round(article.x)).toBe((1440 - 880) / 2)
+    expect(Math.round(article.width)).toBe(968)
+    expect(Math.round(article.x)).toBe((1440 - 968) / 2)
 
     const items = page.getByRole('region', { name: 'Pasos' }).locator('ol > li')
     const border = (index: number) =>
@@ -207,14 +240,53 @@ test.describe('página de guía', () => {
         const style = getComputedStyle(step)
         return [style.borderTopWidth, style.borderTopStyle, style.paddingBottom]
       })
-    expect(await border(0)).toEqual(['0px', 'none', '40px'])
-    expect(await border(1)).toEqual(['1px', 'solid', '40px'])
+    expect(await border(0)).toEqual(['0px', 'none', '35.2px'])
+    expect(await border(1)).toEqual(['1px', 'solid', '35.2px'])
+  })
+
+  test('todo un 10 % más grande desde 1024px; los móviles y las tabletas, igual', async ({
+    page,
+  }) => {
+    const root = () => page.evaluate(() => getComputedStyle(document.documentElement).fontSize)
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto(url)
+    expect(await root()).toBe('17.6px')
+    await page.setViewportSize({ width: 1024, height: 768 })
+    expect(await root()).toBe('17.6px')
+    await page.setViewportSize({ width: 1023, height: 768 })
+    expect(await root()).toBe('16px')
+    await page.setViewportSize({ width: 390, height: 844 })
+    expect(await root()).toBe('16px')
+  })
+
+  test('las capturas de un paso, de dos en dos y del mismo tamaño; en el móvil, una por fila', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto(url)
+    const shots = page.locator('#paso-1 .figs img')
+    await expect(shots).toHaveCount(2)
+    const [first, second] = [
+      (await shots.nth(0).boundingBox())!,
+      (await shots.nth(1).boundingBox())!,
+    ]
+    // Media columna menos medio hueco, a 16:10, recortadas y centradas: las dos iguales.
+    expect(first.width).toBeCloseTo((968 - 17.6) / 2, 0)
+    expect(first.height).toBeCloseTo((first.width * 10) / 16, 0)
+    expect(Math.abs(first.y - second.y)).toBeLessThan(1)
+    expect([second.width, second.height]).toEqual([first.width, first.height])
+    expect(await shots.nth(1).evaluate((img) => getComputedStyle(img).objectFit)).toBe('cover')
+
+    await page.setViewportSize({ width: 390, height: 844 })
+    const [top, below] = [(await shots.nth(0).boundingBox())!, (await shots.nth(1).boundingBox())!]
+    expect(Math.round(top.width)).toBe(390 - 32)
+    expect(below.y).toBeGreaterThan(top.y + top.height)
   })
 
   // A 1024px, en ¿Dónde está mi samurái?, la lista cerrada de la bolsa (solo invisible) salía
   // de la ventana y daba scroll horizontal. La bolsa se lleva al borde derecho de la columna,
   // como en una guía con XP y kamas largos.
-  for (const width of [640, 1024, 1440]) {
+  for (const width of [320, 390, 640, 1024, 1280, 1440]) {
     test(`la bolsa no da scroll horizontal a ${width}px, ni cerrada ni abierta`, async ({
       page,
     }) => {
@@ -343,15 +415,32 @@ test.describe('página de guía', () => {
     expect((await request.get('/robots.txt')).status()).toBe(200)
   })
 
-  test('una captura de la guía se abre a pantalla completa', async ({ page }) => {
+  test('una captura de la guía se abre a pantalla completa: el original, ampliado sin recortar', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
     await page.goto(url)
-    const link = page.getByRole('link', { name: /^Ver imagen a pantalla completa/ })
+    const link = page.getByRole('link', { name: /^Ver imagen a pantalla completa/ }).first()
     await link.click()
 
     const viewer = page.getByRole('dialog', { name: 'Imagen a pantalla completa' })
     await expect(viewer).toBeVisible()
     await expect(viewer.getByText(seedGuide.image.caption)).toBeVisible()
-    await expect(viewer.locator('img')).toHaveAttribute('alt', seedGuide.image.alt)
+    const image = viewer.locator('img')
+    await expect(image).toHaveAttribute('alt', seedGuide.image.alt)
+    // El archivo subido, no una variante «-800x…»: el mismo nombre que el de la semilla.
+    const file = seedGuide.image.file.split('/').at(-1)!
+    await expect(image).toHaveAttribute('src', new RegExp(`/${file.replace('.', '\\.')}$`))
+    await settled(page)
+    const shown = await image.evaluate((img: HTMLImageElement) => {
+      const box = img.getBoundingClientRect()
+      return { w: box.width, h: box.height, nw: img.naturalWidth, nh: img.naturalHeight }
+    })
+    // Ampliado hasta llenar la pantalla, como mucho al doble, y sin recortar.
+    expect(shown.w).toBeGreaterThan(shown.nw)
+    expect(shown.w).toBeLessThanOrEqual(shown.nw * 2 + 0.5)
+    expect(shown.h).toBeLessThanOrEqual(900)
+    expect(shown.w / shown.h).toBeCloseTo(shown.nw / shown.nh, 1)
 
     await page.keyboard.press('Escape')
     await expect(viewer).toBeHidden()

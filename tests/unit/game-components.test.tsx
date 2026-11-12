@@ -229,6 +229,20 @@ describe('QuestHeader', () => {
     expect(markup).toContain('data-copy="/travel 7,-19"')
   })
 
+  it('el render va solo; «Empieza con» el PNJ y su chip van en una línea bajo el subtítulo', () => {
+    const markup = html(<QuestHeader title="x" data={data} />)
+    expect(markup).not.toContain('<figcaption')
+    expect(markup).toMatch(
+      /<p class="qhead__meta">.*<\/p><p class="qhead__start">Empieza con <strong class="giver__name">Hupe Esse<\/strong> <span class="giver__pin"><span class="coord"/,
+    )
+  })
+
+  it('sin coordenadas de inicio, la línea lleva solo el PNJ', () => {
+    const { coordinates: _c, ...giver } = data.giver!
+    const markup = html(<QuestHeader title="x" data={{ ...data, giver }} />)
+    expect(markup).toContain('Empieza con <strong class="giver__name">Hupe Esse</strong></p>')
+  })
+
   it('sin PNJ no hay columna ni sustituto', () => {
     const { giver: _giver, ...noGiver } = data
     const markup = html(<QuestHeader title="x" data={noGiver} />)
@@ -251,6 +265,11 @@ describe('QuestHeader', () => {
     expect(text(markup)).toContain('1 × Pico de tofu')
     expect(text(markup)).toContain('1 × Combate (solo)')
     expect(markup).toContain('<a href="/esto-hace-aguas">Esto hace aguas</a>')
+  })
+
+  it('las partes van en una banda (.facts) dentro de .qhead__facts, que mide su columna', () => {
+    const markup = html(<QuestHeader title="x" data={data} />)
+    expect(markup).toMatch(/<div class="qhead__facts"><div class="facts"><section /)
   })
 
   it('cada objeto de Necesitarás copia su nombre; las notas y la bolsa no copian nada', () => {
@@ -367,9 +386,18 @@ describe('QuestHeader', () => {
 })
 
 describe('IMAGE_SIZES', () => {
-  it('las capturas ocupan la columna de lectura de 880px, sin lista al lado ni número', () => {
+  // Desde 64rem la raíz es el 110 %: la columna de 55rem mide 968px y los márgenes, 52,8px.
+  it('las capturas ocupan la columna de lectura: 880px, 968px con la raíz al 110 %', () => {
     expect(IMAGE_SIZES.prose).toBe(
-      '(min-width: 58rem) 880px, (min-width: 40rem) calc(100vw - 48px), calc(100vw - 32px)',
+      '(min-width: 67.1rem) 968px, (min-width: 64rem) calc(100vw - 106px), ' +
+        '(min-width: 58rem) 880px, (min-width: 40rem) calc(100vw - 48px), calc(100vw - 32px)',
+    )
+  })
+
+  it('las capturas de un paso van de dos en dos desde 40rem: media columna menos el hueco', () => {
+    expect(IMAGE_SIZES.half).toBe(
+      '(min-width: 67.1rem) 476px, (min-width: 64rem) calc(50vw - 62px), ' +
+        '(min-width: 58rem) 432px, (min-width: 40rem) calc(50vw - 32px), calc(100vw - 32px)',
     )
   })
 })
@@ -392,7 +420,8 @@ describe('IconWell', () => {
     expect(html(<IconWell icon="combat" />)).toContain(
       'class="size-(--icon)" style="--icon:2.125rem"',
     )
-    expect(html(<IconWell icon="xp" />)).toContain('style="--icon:1.5rem"')
+    // Un archivo más pequeño que el hueco no pasa de su tamaño con la raíz al 110 %.
+    expect(html(<IconWell icon="xp" />)).toContain('style="--icon:min(1.5rem, 24px)"')
   })
 })
 
