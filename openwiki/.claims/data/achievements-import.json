@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:81e8a26142f531f999781d2906fd105776ef5a5db7756a9cdd53cc54846dc4e3",
+  "pageVersion": "sha256:591fcbc8b3b4e3b73d667ae93203cd3d8d279216e563382742c563cbe5551538",
   "claims": [
     {
       "id": "claim_21fde6b12b3a4c65b4ca9651333310b2",
       "statement": "pnpm import:achievements reads the prototype's computed index JSON, only counts without --apply, and is meant to run after pnpm data:quests.",
       "evidence": [
         {
-          "resource": "repo://package.json",
-          "version": "repo-file-v1:sha256:55d214104ab2a72ce5cf5ceb03656e1f3d4a1180e9cb29694910acb0646afb91"
+          "resource": "repo://package.json#L32-L32",
+          "version": "repo-lines-v1:sha256:a04877059d0cad756379747ea562e4c20e47b9f8cc826a7730de83641b7327ea:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTA0ODc3MDU5ZDBjYWQ3NTYzNzk3NDdlYTU2MmU0YzIwZTQ3YjlmOGNjODI2YTc3MzBkZTgzNjQxYjczMjdlYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTA0ODc3MDU5ZDBjYWQ3NTYzNzk3NDdlYTU2MmU0YzIwZTQ3YjlmOGNjODI2YTc3MzBkZTgzNjQxYjczMjdlYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjE4NTlhZDc2YTA0OTkzNzQ3M2NiNDg2MzI0OTZiOGViMTI4ODBhOWM0NTZlZTVhM2U4ZTE3N2JhMGFjYmIzNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzM4ZjE0MTYzMDNlM2I2MzE0MTE4Yjk1MjYxZTNmMjUwNDU2YzYyMDA5MDY4YzlmODU2MjEzNjMwZmNjYmQzNiJ9"
         },
         {
           "resource": "repo://scripts/import/import-achievements.ts#L1-L30",
@@ -125,8 +125,8 @@
       "statement": "pnpm fix:achievements applies the targeted fixes in TORRE_FIXES to a database that already ran the import, behind the same database guard, printing what it would change without --apply.",
       "evidence": [
         {
-          "resource": "repo://package.json",
-          "version": "repo-file-v1:sha256:55d214104ab2a72ce5cf5ceb03656e1f3d4a1180e9cb29694910acb0646afb91"
+          "resource": "repo://package.json#L33-L33",
+          "version": "repo-lines-v1:sha256:0914d4dbe25ff881399f15a2399e47631523908cece9665f6a1988f7ff390061:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDkxNGQ0ZGJlMjVmZjg4MTM5OWYxNWEyMzk5ZTQ3NjMxNTIzOTA4Y2VjZTk2NjVmNmExOTg4ZjdmZjM5MDA2MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDkxNGQ0ZGJlMjVmZjg4MTM5OWYxNWEyMzk5ZTQ3NjMxNTIzOTA4Y2VjZTk2NjVmNmExOTg4ZjdmZjM5MDA2MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDJkNTA2ZjU0MjUwOTZmNmI0ZTg1OWExYjcwOWMyZTNkODQyYTk5YzQ5MzM1YWI4ZDdiOWI0YWM0ZTFhYjE0MiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDI5ZDNjMGVlZGJjODJjZmM2YWNlYzQxY2Y5OTI2YzA1MDQ3OTFmZjgwYWE5NDk0N2Q5ZTdmZDY5OGNjNTA1MSJ9"
         },
         {
           "resource": "repo://scripts/import/fix-achievements.ts#L1-L40",
@@ -175,6 +175,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-09T11:00:21.744Z"
+    "at": "2026-11-12T11:00:44.802Z"
   }
 }

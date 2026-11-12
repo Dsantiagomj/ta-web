@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:679d178da200127e73e7e509a0624f04db91e0bf2b53ce38e5fc6f680e04e2f3",
+  "pageVersion": "sha256:be1286ba741a86156617412e7fac423bcc9b849ab68d10d71fe41e366d690e60",
   "claims": [
     {
       "id": "claim_2f6535236bd34c0a96b8ef8fea40832d",
@@ -17,8 +17,8 @@
       "statement": "The frontend root layout resolves the mode from the mode cookie and the theme on the server without premium entitlement, renders html with lang es, data-theme and data-mode, and injects the inline mode script in head.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/layout.tsx#L22-L41",
-          "version": "repo-lines-v1:sha256:e527e34d167279182c342e3f6461d7e81011f55f0e0e9c86e3772d37a4687651:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0YWZiNGRhMmYyMjEzMDdkMDhiMzMyMGI5MTk4YzcwYjAzNTc3MWZjMzUyZjdhZDQxYzFlNThhNjYwNTAxZDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2OTAzNTFjY2FhNjhkYWUzZDEyMTgyNDYxMTc2ZTkwMGY2YTZiMDNlZGZkMzllMDRjOTkzMDY5YjU3Y2VkNTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVjMDQ1ZWQ4MjVkMDJlM2VkZWYzMDA1YzkwNjc3MDRkZmIwZTE2YmQxMTQ3NThhYWFlZjg4NGJlNWNkOWI5MDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk1Yzk0NGVkZGEyZmM4NWMxMmZmYWRkNGRlMzgzOTA4NTYwOGFiMWU1YzRmOGRiOWNiMjA0OTFhZWRhMGM3MDMifQ"
+          "resource": "repo://src/app/(frontend)/layout.tsx#L22-L40",
+          "version": "repo-lines-v1:sha256:4d73276280bdb1efa87ce17091e064426254332baa9a597fa74379f92d1085e6:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0YWZiNGRhMmYyMjEzMDdkMDhiMzMyMGI5MTk4YzcwYjAzNTc3MWZjMzUyZjdhZDQxYzFlNThhNjYwNTAxZDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNjZDZiODRhMDIyOWZjMDkwMWNkYmFhYjhhYzQ2MTYzMGU3ZTFjYzYzYWJiNDgwMDU3NDFmNDQwYmQ3YTkzMjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVjMDQ1ZWQ4MjVkMDJlM2VkZWYzMDA1YzkwNjc3MDRkZmIwZTE2YmQxMTQ3NThhYWFlZjg4NGJlNWNkOWI5MDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImViNzdiZDhkMjc1MDkyYTM3YjUxODJjOGM2NDU4ODA1NWI4ZWZkODViMWU1YjZhZDY1MWUyNzBhOWEwNjY1MzUifQ"
         }
       ]
     },
@@ -61,8 +61,8 @@
           "version": "repo-lines-v1:sha256:16d6f68b34e06b4a0ec1ec34b344bbce4e010e2f55371964df32727f0324a750:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUxZTcyOWQwMWU1OWZjODJkMmIwM2EwY2IxMDEwNzgxMTM0ZGM5MDU2MDEwMzMzMTAzOTdhM2FlNWMyOTIxZTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY0YTg4N2JhMTA3OTRkNzFlNTJhNGM4N2I0OWU3MzdhM2YxMGFiZDRjOWU0M2Y2YzIyN2NmMmY4NTZmODY5M2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://src/payload.config.ts#L50-L53",
-          "version": "repo-lines-v1:sha256:c777e76f18ba830e244b7e9b123d8e3039753caa95be3fab98c669457abd5f50:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGExZWM0YjdiNDIxMjEyYWJkY2FlZmIxNmY5M2Q5NjM2MDNlZTJhZGYzYjdlZjg4OGYxOWJlMDJkNTkxNjU3MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTkzMTc1YjQ3ZTlkOWEzODNmMjI0NWYzYjE2MDRhZjlhN2ViODgzODI2NDY0ZTU0Yjk4MDJkMWFmODUwNmYyMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjExMGY4ZDJmYWUzOTE3ZTA3ZjFlYjIxMGQ4Yjk5M2RmZTkzMDBiYjJkYjI1NDA5NTUyYzFkZTYzZDc3ZjU5NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2I2ZmYzMDIwZjYzYmQ1MDc5MTI4MjM4YjI1NjdiOTgwOTU3MGJiMTM1NGEwYTE3MDRhN2M0MDhjZjQ3OGIxZCJ9"
+          "resource": "repo://src/payload.config.ts#L54-L57",
+          "version": "repo-lines-v1:sha256:c777e76f18ba830e244b7e9b123d8e3039753caa95be3fab98c669457abd5f50:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGExZWM0YjdiNDIxMjEyYWJkY2FlZmIxNmY5M2Q5NjM2MDNlZTJhZGYzYjdlZjg4OGYxOWJlMDJkNTkxNjU3MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTkzMTc1YjQ3ZTlkOWEzODNmMjI0NWYzYjE2MDRhZjlhN2ViODgzODI2NDY0ZTU0Yjk4MDJkMWFmODUwNmYyMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWRmNzcyYWJiZjc2MzczYzRlMjUxNzgwMmI0YzNkYTY2YTcwYTVhNDc1OWM3MzljMDJhNjdiYjhjZDgyMjliMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2I2ZmYzMDIwZjYzYmQ1MDc5MTI4MjM4YjI1NjdiOTgwOTU3MGJiMTM1NGEwYTE3MDRhN2M0MDhjZjQ3OGIxZCJ9"
         }
       ]
     },
@@ -92,29 +92,29 @@
     },
     {
       "id": "claim_8fcd7a628f1e4644b43d7e2ae4ca8873",
-      "statement": "The /[slug] route serves a quest guide or, when no guide matches, a published achievement page, loading each once per request; it calls notFound() when neither matches the slug.",
+      "statement": "The /[slug] route serves a quest guide or, when no guide matches, a published achievement page, then a published Dofus guide, loading each once per request; it calls notFound() when none matches the slug.",
       "evidence": [
         {
           "resource": "repo://src/app/(frontend)/%5Bslug%5D/data.ts#L41-L57",
           "version": "repo-lines-v1:sha256:2672508f7e5e0fa26c7d38dcc7749720ca56c6fb92f8d5ce3698cef2b680a2d9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA2N2FjOThiNGVmNzBmYmU1NzYxNjhhMjgzMmUyMjUzNzhhODc2YzY0MDc3Y2NjNjRhYzI0NGRmMmFhNjYxZWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://src/app/(frontend)/%5Bslug%5D/page.tsx#L65-L74",
-          "version": "repo-lines-v1:sha256:b53c693ca7b2a554c698ece6d2827c5cd27a1c18fda6e7cd6497dc288e101728:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUzZWM0NjliNzQyN2IxN2I3ZTNmYTU1ODkzNTA3YThjZWJiNWRlZWViZTYwOTg5ZmE0N2VlMjFkMGE3NzllZTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2MmFhOTQxY2JhZDQ1NzY3NjlkMjY1NzQyOWUxZjhkZTM2NzE5YmNmODI4OGU0ZDUzZjY3NWI2OTJiZGZjMzUifQ"
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/page.tsx#L89-L100",
+          "version": "repo-lines-v1:sha256:69ab5c54e629abeca9db13e44347fab6e60f7ba24e325d7d2f18bc3face89a17:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3ODI3NjA3NWE5OTI0OTFhODEzM2MxOTQwOWZhMDdhOWIwMmY3ZDA5MWYyZGM2NDE3YjRhNDEwNWYwOTUyMGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2MmFhOTQxY2JhZDQ1NzY3NjlkMjY1NzQyOWUxZjhkZTM2NzE5YmNmODI4OGU0ZDUzZjY3NWI2OTJiZGZjMzUifQ"
         }
       ]
     },
     {
       "id": "claim_d50188badac94bc6accd6d6a3002c1c1",
-      "statement": "The frontend layout wraps every page in SiteHeader and SiteFooter and loads the header's guide counts through unstable_cache under the guide-pages tag.",
+      "statement": "The frontend layout wraps every page in SiteHeader and SiteFooter and loads in parallel the header's guide counts through unstable_cache under the guide-pages tag and the Dofus menu items under the dofus-guides tag.",
       "evidence": [
         {
           "resource": "repo://src/app/(frontend)/layout.tsx#L22-L48",
-          "version": "repo-lines-v1:sha256:0a441a9885aee8b58810c8812882b6361a75c172083efac2e2d5cdd0452ba86e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0YWZiNGRhMmYyMjEzMDdkMDhiMzMyMGI5MTk4YzcwYjAzNTc3MWZjMzUyZjdhZDQxYzFlNThhNjYwNTAxZDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MjY3OTM1ZmM2MzM0NjVkODQ4YjQwYTRlZDY5NjdlN2I3YTMyM2Y4MWNkNTNjMTEwYWUyMTAyOTY4N2FhMTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVjMDQ1ZWQ4MjVkMDJlM2VkZWYzMDA1YzkwNjc3MDRkZmIwZTE2YmQxMTQ3NThhYWFlZjg4NGJlNWNkOWI5MDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+          "version": "repo-lines-v1:sha256:87c9eb34a893e685d8e7481af6de7b0ae7514e32c47f593805eec7f7878696b7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0YWZiNGRhMmYyMjEzMDdkMDhiMzMyMGI5MTk4YzcwYjAzNTc3MWZjMzUyZjdhZDQxYzFlNThhNjYwNTAxZDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MjY3OTM1ZmM2MzM0NjVkODQ4YjQwYTRlZDY5NjdlN2I3YTMyM2Y4MWNkNTNjMTEwYWUyMTAyOTY4N2FhMTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVjMDQ1ZWQ4MjVkMDJlM2VkZWYzMDA1YzkwNjc3MDRkZmIwZTE2YmQxMTQ3NThhYWFlZjg4NGJlNWNkOWI5MDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
         },
         {
-          "resource": "repo://src/app/(frontend)/site-data.ts#L8-L14",
-          "version": "repo-lines-v1:sha256:41a6c285e2747d1898fff5517a7bf7c50638e798e0be37a286b5ff3e3da44658:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjk4NmJmZmU3M2FkNDhlMDVlN2I0ZDBhYmNhNDQ4YjdjZDJlMTVhM2E1YzU1M2Y3MGYxNTQ5YjU4NWFkNDM0NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmFmYmEwNTI3YzM5NTNjNGI2ZTBlNWI1NzM5YmE4MzYxMmY4MDUzYmNkYzk0NjY3MzAxOTNjZDFkNTkwYjQwOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjA3ODVmOTA3MTc2NWVkNTM2ODk0MWViMWI1NTQ5MWM5MDRiYjE5YjA5NGFlMGQ2ZGJjZDAxMzJhYzMwMTEzZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+          "resource": "repo://src/app/(frontend)/site-data.ts#L11-L25",
+          "version": "repo-lines-v1:sha256:3c189ae46218e2338b18cde52c69a501984ebfe14f967c02f0505bccf38ed5fc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5ODZiZmZlNzNhZDQ4ZTA1ZTdiNGQwYWJjYTQ0OGI3Y2QyZTE1YTNhNWM1NTNmNzBmMTU0OWI1ODVhZDQzNDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIwNzg1ZjkwNzE3NjVlZDUzNjg5NDFlYjFiNTU0OTFjOTA0YmIxOWIwOTRhZTBkNmRiY2QwMTMyYWMzMDExM2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -123,28 +123,28 @@
       "statement": "The Payload config registers three custom endpoints: health, the guide search index and the DofusDB values endpoint for the panel notes.",
       "evidence": [
         {
-          "resource": "repo://src/payload.config.ts#L20-L22",
-          "version": "repo-lines-v1:sha256:22b3157ddd6b0b3ce3aa52c4d41655d232ba8bf56704c5767a3fb34f5691739b:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWVhMjE3ODRiZTUwZWQ4MmVkMGMxY2MzNGFmMTJiY2Y4YmFhMWE4YWFlYjliODI0M2RhYTU0OWU0ODI3NTE4NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTgwMTMyOGQ1OGFkYjA2MWY2OWEyODhhYjdlZWJkZWM5Mjc2MmVlNzBiMWNkNzM4ZWM1NTllYWUwMzY2OTI5NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmFmNzE1MDczY2M3NmJmYTE0NTdhMzRkOWFjMjIzM2JjOTg2ZTU1Y2Y0ZGJlODg4NmMzNDAyMmNlNDkwYzg1MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjE4YTRmYmQxNTFhZmY4ZWZkNDUwYmUxYTA1Nzk1YzI5Zjk3ZjJkZmY2MmYxYjBjZjNlOWMxMmY2NDMzNWQxMCJ9"
+          "resource": "repo://src/payload.config.ts#L21-L24",
+          "version": "repo-lines-v1:sha256:dab75a9c1b84357b444f6f339861c24a93d3d75dbd786e9c3539aef27d118d88:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWVhMjE3ODRiZTUwZWQ4MmVkMGMxY2MzNGFmMTJiY2Y4YmFhMWE4YWFlYjliODI0M2RhYTU0OWU0ODI3NTE4NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTgwMTMyOGQ1OGFkYjA2MWY2OWEyODhhYjdlZWJkZWM5Mjc2MmVlNzBiMWNkNzM4ZWM1NTllYWUwMzY2OTI5NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmFmNzE1MDczY2M3NmJmYTE0NTdhMzRkOWFjMjIzM2JjOTg2ZTU1Y2Y0ZGJlODg4NmMzNDAyMmNlNDkwYzg1MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjE4YTRmYmQxNTFhZmY4ZWZkNDUwYmUxYTA1Nzk1YzI5Zjk3ZjJkZmY2MmYxYjBjZjNlOWMxMmY2NDMzNWQxMCJ9"
         },
         {
-          "resource": "repo://src/payload.config.ts#L50-L53",
-          "version": "repo-lines-v1:sha256:c777e76f18ba830e244b7e9b123d8e3039753caa95be3fab98c669457abd5f50:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGExZWM0YjdiNDIxMjEyYWJkY2FlZmIxNmY5M2Q5NjM2MDNlZTJhZGYzYjdlZjg4OGYxOWJlMDJkNTkxNjU3MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTkzMTc1YjQ3ZTlkOWEzODNmMjI0NWYzYjE2MDRhZjlhN2ViODgzODI2NDY0ZTU0Yjk4MDJkMWFmODUwNmYyMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjExMGY4ZDJmYWUzOTE3ZTA3ZjFlYjIxMGQ4Yjk5M2RmZTkzMDBiYjJkYjI1NDA5NTUyYzFkZTYzZDc3ZjU5NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2I2ZmYzMDIwZjYzYmQ1MDc5MTI4MjM4YjI1NjdiOTgwOTU3MGJiMTM1NGEwYTE3MDRhN2M0MDhjZjQ3OGIxZCJ9"
+          "resource": "repo://src/payload.config.ts#L54-L57",
+          "version": "repo-lines-v1:sha256:c777e76f18ba830e244b7e9b123d8e3039753caa95be3fab98c669457abd5f50:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGExZWM0YjdiNDIxMjEyYWJkY2FlZmIxNmY5M2Q5NjM2MDNlZTJhZGYzYjdlZjg4OGYxOWJlMDJkNTkxNjU3MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTkzMTc1YjQ3ZTlkOWEzODNmMjI0NWYzYjE2MDRhZjlhN2ViODgzODI2NDY0ZTU0Yjk4MDJkMWFmODUwNmYyMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWRmNzcyYWJiZjc2MzczYzRlMjUxNzgwMmI0YzNkYTY2YTcwYTVhNDc1OWM3MzljMDJhNjdiYjhjZDgyMjliMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2I2ZmYzMDIwZjYzYmQ1MDc5MTI4MjM4YjI1NjdiOTgwOTU3MGJiMTM1NGEwYTE3MDRhN2M0MDhjZjQ3OGIxZCJ9"
         }
       ]
     },
     {
       "id": "claim_51ff898581a34611a3a3858e3d6c8975",
-      "statement": "Top-level route segments admin, api, sistema, vista-previa and metalogros are reserved so no guide or achievement slug can shadow them.",
+      "statement": "Top-level route segments admin, api, sistema, vista-previa, metalogros and guias-dofus are reserved so no guide, achievement or Dofus guide slug can shadow them.",
       "evidence": [
         {
-          "resource": "repo://src/lib/guides/slug.ts#L6-L30",
-          "version": "repo-lines-v1:sha256:a43ed0c7a442eebf7d3c318b4ed92e5c751f7e4ca45e5e7ba27fd3a742f5818a:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRmZjllNWQyMzEwYmJkMTU0Njk2NWFhOWM2YWMzMzMzNzNkMDAxZDg4ZGNmMjA5YzA3ZjAzM2E0MzljYzVlYzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/lib/guides/slug.ts#L6-L31",
+          "version": "repo-lines-v1:sha256:3ac455811e04c686a7dd00f644ab369a7b04c7536d254d0d2faa24690eaf3335:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRmZjllNWQyMzEwYmJkMTU0Njk2NWFhOWM2YWMzMzMzNzNkMDAxZDg4ZGNmMjA5YzA3ZjAzM2E0MzljYzVlYzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-08T11:00:21.339Z"
+    "at": "2026-11-12T11:00:44.802Z"
   }
 }

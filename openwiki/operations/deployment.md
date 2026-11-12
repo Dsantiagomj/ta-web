@@ -14,12 +14,14 @@ sources:
     resource: repo://.railway/railway.ts
   - id: openwiki-source-2615540ec7553288b52f775d
     resource: repo://docs/legacy/infra.md
+  - id: openwiki-source-8a351af10d89cd949447bf39
+    resource: repo://scripts/ci/playwright-chromium.sh
   - id: openwiki-source-6d7290acd85912e8a5ebb6cc
     resource: repo://tests/unit/railway-config.test.ts
-generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
+generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-06T15:25:11.354Z
+    at: 2026-11-12T11:00:44.802Z
 ---
 
 # Deployment and releases
@@ -97,7 +99,7 @@ Railway reports each deploy as a GitHub deployment, and `.github/workflows/deplo
 
 ## Reusable smoke workflow
 
-`.github/workflows/smoke.yml` runs on `workflow_call` (with `base_url`) or by hand. It installs dependencies and Chromium (cached by Playwright version) and runs `pnpm test:smoke` with `SMOKE_BASE_URL` set, which makes Playwright test the remote URL without building or starting anything locally. The `@smoke` tests only read: home page, `/admin` and `/api/health`. See [Test suites](../testing/test-suites.md).
+`.github/workflows/smoke.yml` runs on `workflow_call` (with `base_url`) or by hand. It installs dependencies and Chromium (cached by Playwright version) through `scripts/ci/playwright-chromium.sh`, the same script as CI (see [CI and quality gates](../workflows/ci-and-quality-gates.md)): it skips apt when Chromium already starts with the runner's libraries, and retries each step with a time limit. It then runs `pnpm test:smoke` with `SMOKE_BASE_URL` set, which makes Playwright test the remote URL without building or starting anything locally. The `@smoke` tests only read: home page, `/admin` and `/api/health`. See [Test suites](../testing/test-suites.md).
 
 ## Related pages
 

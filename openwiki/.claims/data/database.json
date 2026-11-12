@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:4d3dd33882ed978812a894b757394f32ef97b775cea8a927f91cdfa1941ba6af",
+  "pageVersion": "sha256:ac020a176f225ccd390525438e45cb5dc0fa59d070fad1f12592a6623d1eaee7",
   "claims": [
     {
       "id": "claim_c4d0210fcc834f69a874cfcee7b4d598",
@@ -80,11 +80,11 @@
     },
     {
       "id": "claim_08141421a97143cc8073d709e4bf1805",
-      "statement": "There are fourteen migrations today, from 20261103_030359_initial to 20261107_214742_achievement_pages_groups, including the four of November 7 (guide_v5_game_images_fight, remove_step_title, achievements_game_data and achievement_pages_groups), registered in src/migrations/index.ts.",
+      "statement": "There are seventeen migrations today, from 20261103_030359_initial to 20261110_131101_dofus_guides_index, including the three of November 10 (dofus_guides, dofus_guides_import and dofus_guides_index), registered in src/migrations/index.ts.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/index.ts#L1-L87",
-          "version": "repo-lines-v1:sha256:3cdc67304ab215ff5f5453f65f63d212a88892abcaa57aee17a5ee5251209aac:eyJzZWxlY3RlZExpbmVDb3VudCI6ODcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0NTE2NDJiYzU5Y2ExMDYyN2M5YzVjMTc2YTQ1MDQ3MTRlOGNlMjc4MGVhODM2NmJkNzZjNjIxN2MxMTU4YWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/migrations/index.ts#L1-L105",
+          "version": "repo-lines-v1:sha256:ca4795051a515f954be3ba3282c15a54c04a0458464f3bb20b36203669c7416c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5NDUxNjQyYmM1OWNhMTA2MjdjOWM1YzE3NmE0NTA0NzE0ZThjZTI3ODBlYTgzNjZiZDc2YzYyMTdjMTE1OGFlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiMDJkMmMwZDZkYzVlNzRkOTJmYTE0YjkxZGJlYTI2NDA5MGJlYjM1ZmRiOTE4OGQ5YjM0MTE4MWRjZTlmNGNlIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -143,8 +143,8 @@
       "statement": "tests/integration/migrations.test.ts runs pnpm payload migrate:down and then pnpm payload migrate against the integration database with DATABASE_CONNECTION=direct, asserting the latest migration in src/migrations/index.ts is rolled back and re-applied.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/index.ts#L12-L87",
-          "version": "repo-lines-v1:sha256:ebe15d518e850d2ab81b8e1b0044ef020df28f4305162f8d5c035841c31a51d3:eyJzZWxlY3RlZExpbmVDb3VudCI6NzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJjOGVhNDQyODU1NDg0ZWMwMWE3NGRkMzk4YjQzY2Y5YjE2ODQyZTU2MjZiNjE1NDUxMGRlYjUxYzI1NWRkOWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZjMDljYmVkNjVlMmM0MTgxMDIyZjlmYWJiMGJkOGIyMWNkMjFiZTdiNmIwMGMzZThkZGI1Y2FlMjA2MmViZDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/migrations/index.ts#L12-L105",
+          "version": "repo-lines-v1:sha256:95bbfdb5690225622b4811fc52f232fd713f4ab15738e172026c17b57ece4690:eyJzZWxlY3RlZExpbmVDb3VudCI6OTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJjOGVhNDQyODU1NDg0ZWMwMWE3NGRkMzk4YjQzY2Y5YjE2ODQyZTU2MjZiNjE1NDUxMGRlYjUxYzI1NWRkOWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZjMDljYmVkNjVlMmM0MTgxMDIyZjlmYWJiMGJkOGIyMWNkMjFiZTdiNmIwMGMzZThkZGI1Y2FlMjA2MmViZDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://tests/integration/migrations.test.ts#L8-L39",
@@ -429,10 +429,28 @@
           "version": "repo-lines-v1:sha256:8193a56472523dc30554956c8dd661add35898c1517baa5f4d8e93684712e22a:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU5YTQ1Nzg3MTBhN2U0NTU1YTE4YTdhMWE4YjA3YmEwYTEzMGRhYTFhNDI5ODVhM2EzMTE5MGM4YjdmZjI5ZjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_b800a59d2dd74fbc9fd7f1e1e2a07020",
+      "statement": "The dofus_guides migration creates dofus_guides with its locales, Necesitarás group tables, part and body block tables, the dofus_meta_ach metalogro rows and the _dofus_guides_v version tables; dofus_guides_import adds video_poster_id and import_snapshot; dofus_guides_index creates the global's tables.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261110_000232_dofus_guides.ts",
+          "version": "repo-file-v1:sha256:fb4a145a000fba0ae95e597706fde6293a5d5259fb2b94894f80a2ef22ed7c67"
+        },
+        {
+          "resource": "repo://src/migrations/20261110_052805_dofus_guides_import.ts#L3-L13",
+          "version": "repo-lines-v1:sha256:0fb448c1400880c3972e0a07fca1a1afff881733b0582155d9a1540158c443c9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwMjRjMDc5NmMwNDAwOTU3YWM3ZDk5NmY1NDViYzdjNjViZjk5MzJkNzUzYjRlN2NhZGJjOTE2YWRhNTkyNjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoyLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5ZjMzOGZiMGIxYzNkOGU1NzcwYTU2MjQxYTU3NDc0NTA2MTM2YjM4MDM4ZjdlZTRiMTJiNjU1OTYyZWRkZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU5MGFmNjc4ZWI0MzRiNTEyNmIyMjQ0NDhiNjExMTAxMjBhY2VlNjMxNmNiNjdhMmE5MjRiNzYyMTEyOTE4MmMifQ"
+        },
+        {
+          "resource": "repo://src/migrations/20261110_131101_dofus_guides_index.ts#L3-L20",
+          "version": "repo-lines-v1:sha256:16a7c6f97e25a93e55c5ee6e593ff350e1a65f15fef92b612b6a5c7f3c17e832:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwMjRjMDc5NmMwNDAwOTU3YWM3ZDk5NmY1NDViYzdjNjViZjk5MzJkNzUzYjRlN2NhZGJjOTE2YWRhNTkyNjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0NmI2OGYzYzBjZTE2YjY4ZWE2NDkzNDM4OTg0Mzc4ODMyODA4ZGI2MjkwODlkMmFkMmY4NmJjOWZhZGMwNWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoyLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5ZjMzOGZiMGIxYzNkOGU1NzcwYTU2MjQxYTU3NDc0NTA2MTM2YjM4MDM4ZjdlZTRiMTJiNjU1OTYyZWRkZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1NjBmOTlkNjBjOWU3NWE4YzYzZDEzNmViNjgxYmVmNjA5ZDVjZTc1NmYyNzkyNDhhOGU2NDNkYzk4YTVkNGMifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-08T11:38:51.955Z"
+    "at": "2026-11-12T11:00:44.802Z"
   }
 }

@@ -30,10 +30,10 @@ sources:
     resource: repo://src/payload.config.ts
   - id: openwiki-source-98d5ddb014a0fd4d678f6f2a
     resource: repo://tsconfig.json
-generated: { by: "claude-code", at: "2026-11-08T11:00:21.339Z" }
+generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-08T11:00:21.339Z
+    at: 2026-11-12T11:00:44.802Z
 ---
 
 # Payload CMS configuration
@@ -46,7 +46,8 @@ Payload 3 runs inside the Next.js process. There is one config, `src/payload.con
 |---|---|---|
 | `admin.user` | `users` | Panel accounts; see [Collections and access](collections.md) |
 | `admin.importMap.baseDir` | `src/` | Where `generate:importmap` resolves admin components |
-| `collections` | `[Users, Media, Quests, Items, Monsters, Npcs, AchievementCategories, Achievements, QuestGuides, AchievementPages, AchievementGroups]` | One file per collection in `src/collections/`; `quests`, `items`, `monsters`, `npcs`, `achievement-categories` and `achievements` are read-only DofusDB game data. See [Achievement data model](../achievements/achievement-data.md) |
+| `collections` | `[Users, Media, Quests, Items, Monsters, Npcs, AchievementCategories, Achievements, QuestGuides, AchievementPages, AchievementGroups, DofusGuides]` | One file per collection in `src/collections/`; `quests`, `items`, `monsters`, `npcs`, `achievement-categories` and `achievements` are read-only DofusDB game data. See [Achievement data model](../achievements/achievement-data.md) and [Dofus guide data model](../dofus-guides/dofus-guide-data.md) |
+| `globals` | `[DofusGuidesIndex]` | One file per global in `src/globals/`; the only one is the intro of the `/guias-dofus` index. See [Dofus guides index and menu](../dofus-guides/dofus-guides-index.md) |
 | `editor` | `lexicalEditor()` | Default rich text editor; the guide body blocks use it (see [Guide body blocks](blocks.md)) |
 | `endpoints` | `[healthEndpoint, searchIndexEndpoint, dofusDbValuesEndpoint]` | Custom endpoints, mounted under `/api`: `/api/health`, `/api/search/guides` and `/api/dofusdb-values/:source/:id` |
 | `i18n` | Spanish only, fallback `es` | The panel UI is in Spanish |
@@ -111,7 +112,7 @@ The quest guide components are client components (`'use client'`) that read the 
 - **New custom endpoint**: add it under `src/endpoints/` and to `endpoints`. It is served under `/api/<path>` by the generated catch-all route.
 - **New admin component**: put it under `src/components/`, reference it by path from a collection or the config, then run `pnpm generate:importmap` and commit `importMap.js`.
 - **New guide body block**: add it under `src/blocks/` and to the collection's `blocks` field. See [Guide body blocks](blocks.md).
-- **Planned**: `src/globals/` (site settings) is named in AGENTS.md but does not exist yet.
+- **New global**: add a file under `src/globals/`, add it to `globals`, then create a migration and regenerate types. `src/globals/` holds only `DofusGuidesIndex` today; the site settings global named in AGENTS.md is still planned.
 
 ## Related pages
 

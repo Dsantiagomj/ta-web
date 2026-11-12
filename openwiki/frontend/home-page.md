@@ -40,10 +40,10 @@ sources:
     resource: repo://tests/unit/home-hero.test.tsx
   - id: openwiki-source-f5bb52b30eff93118a46d132
     resource: repo://tests/unit/home-sections.test.tsx
-generated: { by: "claude-code", at: "2026-11-10T11:02:06.480Z" }
+generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-10T11:02:06.480Z
+    at: 2026-11-12T11:00:44.802Z
 ---
 
 # Home page
@@ -58,7 +58,7 @@ In order:
 |---|---|---|
 | Live strip | `LiveStrip` | Only while Torre is live: the first thing under the header, one line on phones so the search stays on the first screen. Nothing otherwise |
 | Hero | `Hero` | The name and what it is, a lead sentence, Torre asking which quest you are doing over the quest search, and the Krosmoz island with the six primordial Dofus around it, the main image on phones |
-| What you will find | `Areas` | First a full-width missions card, four NPCs on the Astrub square with the counts of published guides and achievements; then Dofus guides, Checklists, Classes and Dungeons, in 2 × 2 with only the title on phones. Each card is one link, the text of its `h3`, with an `::after` covering the card; the sentence describes it through `aria-describedby`. Cards link where the header menu links. Classes and Dungeons have no pages yet (`soon` on their section in `nav.ts`): their cards are plain `li.area--soon` with no link, the «Próximamente» tag (`Soon`) after the title, the art in grayscale at 55 percent and no hover effect |
+| What you will find | `Areas` | First a full-width missions card, four NPCs on the Astrub square with the counts of published guides and achievements; then Dofus guides, Checklists, Classes and Dungeons, in 2 × 2 with only the title on phones. Each card is one link, the text of its `h3`, with an `::after` covering the card; the sentence describes it through `aria-describedby`. Cards link where the header menu links, so the Dofus guides card goes to `/guias-dofus` (see [Dofus guides index and menu](../dofus-guides/dofus-guides-index.md)). Classes and Dungeons have no pages yet (`soon` on their section in `nav.ts`): their cards are plain `li.area--soon` with no link, the «Próximamente» tag (`Soon`) after the title, the art in grayscale at 55 percent and no hover effect |
 | One guide per quest | `GuideTour` | Four points next to the real "Seis pies bajo tierra" guide in miniature, with the same numbers on each part. Where scroll-driven animations exist (`home.css`), the point crossing the middle of the screen frames its part, and so does hovering a point; with reduced motion, only the numbers |
 | Checklists | `ChecklistsSection` | The three checklists of the menu, each with its egg and its figure |
 | The author | `Author` | Torre's portrait, his sentence, one invitation (Discord) and whether he is live. Without a live, a small note about his channels; live, a headline with the link. The home page footer therefore does not repeat him or his channels |
@@ -73,7 +73,7 @@ In order:
 
 The hero's form is server-rendered by `Hero`: `role="search"`, its label and help text, and `action` pointing at the legacy site's search (`legacyHref('search')`). Without JavaScript, submitting goes to the search on torrentearcano.com.
 
-`HeroSearch` (`src/components/home/HeroSearch.tsx`) is the client island: the field (placeholder "Una misión o un logro") of a WAI-ARIA combobox with a listbox whose results float under it, so opening it, typing or loading never moves the page.
+`HeroSearch` (`src/components/home/HeroSearch.tsx`) is the client island: the field (placeholder "Una misión o un logro") of a WAI-ARIA combobox with a listbox whose results float under it, so opening it, typing or loading never moves the page. The results panel (`.cbx`) drops in and out like a menu (DESIGN.md, Motion): it fades and slides 6 px with a slight scale, entering with `@starting-style` and leaving through a `display` transition with `allow-discrete`.
 
 - **Lazy loading.** The result rows (`HeroResults.tsx`) and the search engine (`src/components/site/search.ts`) arrive with `import()` the first time the field gets focus, never on page load. The search index (guides, achievement pages and metalogros) is fetched then too. The engine and the index are shared with the header's search dialog: one request per page between the two (see [Site header, footer and search](site-shell-and-search.md)).
 - **Matching.** One letter asks for another; from two letters `heroResults` (in `search.ts`) ranks the quests, the published achievement pages and the metalogros that open, the same groups as the header dialog without the menu, with the matches in `<mark>`, as text, never as `innerHTML`. An achievement in «En preparación» has no page and is not found. The status line counts each group ("1 misión · 1 logro").

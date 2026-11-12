@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:78fbf4517cb7ff2b3136ba08a1119248e7171c2ef8c667b2b6a6cff096859470",
+  "pageVersion": "sha256:7495f36b43d2a5c4cc6f66a909d5ccaa80646cdd7cc836bf275630e80d6e60e8",
   "claims": [
     {
       "id": "claim_42400d3df44b4e5298904441ab906a39",
@@ -247,10 +247,38 @@
           "version": "repo-lines-v1:sha256:b6fef8fea2f8f3afd2887abe4b9f11e82fa26de144d07229526e35e924c1ac98:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTllZWZkMmYwYWM0MDIzODgwOTY1NDE5NDJhNWVkYzVhYzhhYTU0NGYzNjY4MmE2OWM2Mjg4YTIwOWIxN2FiZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmFmYmEwNTI3YzM5NTNjNGI2ZTBlNWI1NzM5YmE4MzYxMmY4MDUzYmNkYzk0NjY3MzAxOTNjZDFkNTkwYjQwOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_c26c70bd955b4c83a80e8c62a5f54c44",
+      "statement": "The gga pre-commit hook exports ANTHROPIC_MODEL from GGA_CLAUDE_MODEL, defaulting to sonnet, so the per-commit review does not use Claude Code's default model.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/hooks/gga-review.sh#L10-L13",
+          "version": "repo-lines-v1:sha256:10711ff3a46cbc0e06dd4d1a2b0e2d0d86b01a0894cc0c219ba95dcc2b7f12bc:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTNmNzFlOWExODBmZTcxNDZkZmQ3YzFlNDBmMTc3M2VmOTAwY2I5NWJhNDBiY2M1ZWYyZGU4NzJjMGNmODIwNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGU4MDdhNjIyZDI2NTBlZTcyODcxMjAwYzg1MDlmODVmNDhlYjA5OWQ5MWYxMDQ4N2VkMzU3ZTdiOWU2ZTg3MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2QyZDFiMjBkM2NiMmI4MzEyNWI5YmM3YzIzY2QzZDNlZWM4OTRlZGIwYjYxZjY2OTI0MzEwZjgwNjRiNTQ1MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjIsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDBlMmFhODIyOWI4YjE5NWI3YjZhOWU2NjA2NjRiOGVlY2NmZjM0YjQ3ZmQ4MzE2M2Y3NjNhNzA0YmM0MjQwYyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_0ee42c1b82fa4606b411a02ce5a829e5",
+      "statement": "pnpm review:release reads RELEASE_REVIEW_MODEL (default fable), RELEASE_REVIEW_JOBS (3), RELEASE_REVIEW_TIMEOUT_MINUTES (20) and RELEASE_REVIEW_BATCH_CHARS (120000) from the process environment, and rejects a numeric value that is not a positive integer.",
+      "evidence": [
+        {
+          "resource": "repo://.env.example#L91-L99",
+          "version": "repo-lines-v1:sha256:690b89b790184b9f0d471136eb13112ebde66ccb5ea2308af3ce23c90354f113:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDNkYzA0NmFjN2ZiZDY5ZjJiZmE2ZmFlYjk4OTdmMWYwN2UyNTA0MWE2MTZkZWI5ODA5ZDg1ODViYzYzM2ZjZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNWNiYzIyNDU5NTExZDFiZjE1ZjU3OTc3MzkzOThiYWQ0YzU0NDZlNzY4ZGQ0YTFkNzJkYjNlOWU2M2U2MDNjMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGM5MjU4MTY1MjM0ZTA0MWY5NDRiYzk1MjkzOTI2NmYwZWJhNTY2OThkYmM1M2FkNzY0YTk3YTYyNGJlMTMzOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://scripts/review-release.ts#L37-L45",
+          "version": "repo-lines-v1:sha256:82bbdca319093013cdc7840a0c1b8a195e689c3bf8faab5032acff1e13205227:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTcxNDdlODNiNzUzNmY4OTdlNjI5NTUwN2I3N2Y0ODY2ZjdhY2U2MWFkYTk4ZDljODUzOTBkODdmZGUwZTdkNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzFmMzdhN2JkMTc5MTgzMGY4ZTRiOGQ2Y2RjZWEzODU4ZTNmY2E3MDc3YzViZDZjNTBhOWIxMTU5Zjc0NjUwZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzBjOWY1ODY5MTExYzg3NTIzZmJjY2Q2YTdiOTM1MDkwODg2N2M1OWNkMDU2OTEyN2I0NTRkNzg1ZTRhZTY1ZiJ9"
+        },
+        {
+          "resource": "repo://scripts/review-release.ts#L74-L77",
+          "version": "repo-lines-v1:sha256:b26214b35393ae5962f2fe528b1f5e7fa316f1a0ba76ab2ed3a134d547595cf3:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDVjMmNiMmUyMzU1NTU1MmUxYTE2YjQyYzdlNTQxZjNlMGRlNzJkNmUxNzUyYzk0ZWViZmE4YjNhODMwOWIwOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMmQ3MjE5ZTAxNzkyNTRiMjRhYWFiYmJhN2RhZjJmNjZmY2U1M2U2NWE2MmYxODU1ODExNGE2OTM0ZjI0YmJhYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmNlZWMwY2FhNzI2M2M1YmQwMGJjMjUzMzUxODJkY2Y2MTcyMTM0NzRkZTM0MDYwNTYwNjVmYzlmZWUwMjhjYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDg3OTJmOTc5ODQxYWEyYjg0ZDIzMTc2ZDA4ODA3YjVkNmU3NDg1MGVkMmU0YmY5YzMwZTBkZThjNWFlNGY5NCJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-08T11:00:21.339Z"
+    "at": "2026-11-12T11:00:44.802Z"
   }
 }

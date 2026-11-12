@@ -1,11 +1,11 @@
 ---
 type: data model
 title: Achievement data model
-description: The four achievement collections (DofusDB achievements and categories, Torre's achievement pages and metalogros), the root slug space they share with quest guides, how empty fields fill from DofusDB, the panel notes, and how the DofusDB refresh creates missing pages.
+description: The four achievement collections (DofusDB achievements and categories, Torre's achievement pages and metalogros), the root slug space they share with quest guides and Dofus guides, how empty fields fill from DofusDB, the panel notes, and how the DofusDB refresh creates missing pages.
 tags: [achievements, payload, collections, dofusdb, autofill, slugs]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-08T11:00:21.339Z
+    at: 2026-11-12T11:00:44.802Z
 sources:
   - id: openwiki-source-63cbcc482c18e4f9ce5d0888
     resource: repo://scripts/refresh-quests.ts
@@ -39,7 +39,7 @@ sources:
     resource: repo://tests/integration/achievement-pages.test.ts
   - id: openwiki-source-69a5fa7edb72294e823509c1
     resource: repo://tests/unit/achievement-dofusdb-values.test.ts
-generated: { by: "claude-code", at: "2026-11-08T11:00:21.339Z" }
+generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
 ---
 
 # Achievement data model
@@ -107,12 +107,12 @@ The client component reads the values through `GET /api/dofusdb-values/:source/:
 
 ## One slug space at the root
 
-Quest guides, achievement pages and metalogros all live at `/<slug>` (metalogros keep Torre's `metalogro-…` slugs), so `src/collections/root-slug.ts` treats them as one slug space:
+Quest guides, achievement pages, metalogros and Dofus guides all live at `/<slug>` (metalogros keep Torre's `metalogro-…` slugs and Dofus guides the slugs of Torre's site, such as `dofus-abisal`), so `src/collections/root-slug.ts` treats them as one slug space (`ROOT_SLUG_COLLECTIONS`):
 
 - Each collection keeps its own `slug` unique in the database.
-- `rejectSharedSlug(collection)`, a `beforeValidate` hook on all three, rejects a slug another of the three already uses, naming which kind of page owns it.
+- `rejectSharedSlug(collection)`, a `beforeValidate` hook on all four, rejects a slug another of the four already uses, naming which kind of page owns it. See [Dofus guide data model](../dofus-guides/dofus-guide-data.md) for the fourth.
 - A slug counts as used when a stored document has it or when the latest draft does, so publishing a renamed draft cannot collide later.
-- `isRootSlugTaken` also treats reserved route segments (`/sistema`, `/metalogros` and the others in `src/lib/guides/slug.ts`) as taken.
+- `isRootSlugTaken` also treats reserved route segments (`/sistema`, `/metalogros`, `/guias-dofus` and the others in `src/lib/guides/slug.ts`) as taken.
 
 When the hook fills a slug, it takes the first free candidate: for an achievement page the slugified name, then `logro-<name>`, then the name with `-2`, `-3` and so on; for a metalogro `metalogro-<name>` and then numbered suffixes.
 

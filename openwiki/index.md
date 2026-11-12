@@ -13,6 +13,7 @@ okf_version: "0.2"
 - [architecture](architecture/)
 - [cms](cms/)
 - [data](data/)
+- [dofus-guides](dofus-guides/)
 - [frontend](frontend/)
 - [media](media/)
 - [operations](operations/)

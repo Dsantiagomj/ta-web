@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:0bdda81e5fe0f918297db288d9dcc8e8844f519ea3670dcd65c4fc71f2242fb9",
+  "pageVersion": "sha256:31f1d79dd017ee09f1a934dd5a4bab3c3b5ef2371797c7addbf62a48281909da",
   "claims": [
     {
       "id": "claim_35fde34cdf674edca408fee7ff5d2483",
-      "statement": "src/payload.config.ts configures the admin user collection, the import map base directory, eleven collections including the four achievement collections, the Lexical editor, the health, guide search index and DofusDB values endpoints, Spanish-only i18n and localization, PAYLOAD_SECRET, the generated types output file, sharp and the media storage plugin.",
+      "statement": "src/payload.config.ts configures the admin user collection, the import map base directory, twelve collections including the four achievement collections and the Dofus guides, the DofusGuidesIndex global, the Lexical editor, the health, guide search index and DofusDB values endpoints, Spanish-only i18n and localization, PAYLOAD_SECRET, the generated types output file, sharp and the media storage plugin.",
       "evidence": [
         {
-          "resource": "repo://src/payload.config.ts#L29-L96",
-          "version": "repo-lines-v1:sha256:61e1e911f54aacab2d8d1b434f242581dab642448db30332af962bdbbe3631bf:eyJzZWxlY3RlZExpbmVDb3VudCI6NjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4MjdlZTRkY2MzY2M0NmQ4ZDU0Njg1M2JmNWRhOTFiYzgzZWE3MWNiOWFjZWUzZmU4MmQxOWQxNzJjMDM4NTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1ZWFiZjM4OTEzMjJkMGMzMTU1NDk0ZDViZjI1OTQxMThkMzViYTBiZmFlNGRhZDI4Mzk0MDcxZDk3ZDk3YWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/payload.config.ts#L31-L100",
+          "version": "repo-lines-v1:sha256:fd30a3fdbb5291575adedff9e586131058451ea31aa23e5795fadc0a022ac7a6:eyJzZWxlY3RlZExpbmVDb3VudCI6NzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4MjdlZTRkY2MzY2M0NmQ4ZDU0Njg1M2JmNWRhOTFiYzgzZWE3MWNiOWFjZWUzZmU4MmQxOWQxNzJjMDM4NTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1ZWFiZjM4OTEzMjJkMGMzMTU1NDk0ZDViZjI1OTQxMThkMzViYTBiZmFlNGRhZDI4Mzk0MDcxZDk3ZDk3YWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -175,6 +175,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-08T11:00:21.339Z"
+    "at": "2026-11-12T11:00:44.802Z"
   }
 }

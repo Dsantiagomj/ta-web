@@ -28,6 +28,8 @@ sources:
     resource: repo://scripts/import/fix-achievements.ts
   - id: openwiki-source-97e144348afe72981f00c973
     resource: repo://scripts/import/import-achievements.ts
+  - id: openwiki-source-d669905ebde3b9714d879fbc
+    resource: repo://scripts/import/import-dofus-guides.ts
   - id: openwiki-source-9e87f9929ce6181cecc80fe9
     resource: repo://scripts/import/import-guides.ts
   - id: openwiki-source-95f46342bb37caacc4ce1dbc
@@ -46,10 +48,10 @@ sources:
     resource: repo://src/lib/dofusdb/refresh-quests.ts
   - id: openwiki-source-f34ac1e549d94dc3ac475ae4
     resource: repo://src/proxy.ts
-generated: { by: "claude-code", at: "2026-11-09T11:00:21.744Z" }
+generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-09T11:00:21.744Z
+    at: 2026-11-12T11:00:44.802Z
 ---
 
 # Local development
@@ -97,7 +99,7 @@ Commit both with the change. CI fails when `src/payload-types.ts` is stale. Afte
 | `pnpm lint`, `pnpm format`, `pnpm format:check` | ESLint and Prettier |
 | `pnpm typecheck` | `next typegen`, then `tsc --noEmit` |
 | `pnpm test`, `pnpm test:integration`, `pnpm test:e2e`, `pnpm test:e2e:dev-gate`, `pnpm test:smoke` | The test suites; see [Test suites](../testing/test-suites.md) |
-| `pnpm seed:e2e` | Seeds the E2E test guides, the test achievement page and metalogros, and a panel user (`tests/e2e/seed/`); refuses any database that is not local. The E2E and Lighthouse runs call it themselves |
+| `pnpm seed:e2e` | Seeds the E2E test guides, the test achievement page and metalogros, the test Dofus guides with the index intro, and a panel user (`tests/e2e/seed/`); refuses any database that is not local. The E2E and Lighthouse runs call it themselves |
 | `pnpm test:lhci` | Lighthouse CI against the `DESIGN.md` budgets on the production path (port 3110, its own `ta_web_lhci` database); needs Playwright's Chromium (`pnpm exec playwright install chromium`) or `CHROME_PATH`. See [Performance budgets](../testing/performance-budgets.md) |
 | `pnpm db:dev` | Embedded Postgres in the foreground; `--verbose` prints its log; Ctrl+C stops it |
 | `pnpm migrate` | Applies pending migrations, using `DATABASE_URL_DIRECT` when set, else `DATABASE_URL` |
@@ -105,9 +107,11 @@ Commit both with the change. CI fails when `src/payload-types.ts` is stale. Afte
 | `pnpm import:guides <dir> [slug…]` | Imports Squarespace quest pages from the migration inventory folder into `quest-guides` as drafts, with their images in `media`; without slugs, the five demo guides. Writes to the `DATABASE_URL` database (the `pnpm db:dev` one when empty). Run `pnpm data:quests` first so quests link. Never against production without the owner's yes; see [Squarespace import](../data/squarespace-import.md#running-it) |
 | `pnpm import:achievements <datos.json> [--apply] [--remote] [--production]` | Copies Torre's metalogros index (order, names, slugs, states, hand-picked representatives, loose guides) onto `achievement-groups` and `achievement-pages`. Dry run without `--apply`; run after `pnpm data:quests`. See [Importing Torre's achievement pages](../data/achievements-import.md) |
 | `pnpm fix:achievements [--apply] [--remote] [--production]` | Applies the targeted fixes in `TORRE_FIXES` to a database that already ran `pnpm import:achievements`, without running the import again: representatives, an achievement page's state, name, slug and position, loose guides. Skips anything with an unpublished draft; a second run changes nothing. Dry run without `--apply`. See [Importing Torre's achievement pages](../data/achievements-import.md#targeted-fixes) |
+| `pnpm import:dofus-guides [--from <dir>] [--apply] [--remote] [--production]` | Reads each Dofus page of Torre's site (or `<dir>/<slug>.html`) into `dofus-guides`, linking achievement pages, quest guides and items, fetching missing items from DofusDB and copying video posters to `media`. On a rerun it keeps what Torre changed in the panel. Dry run without `--apply`; run after `pnpm data:quests` and `pnpm import:achievements`. See [Importing Torre's Dofus guides](../data/dofus-guides-import.md) |
 | `pnpm guides:backfill <dir> [--apply] [--remote] [--production]` | Brings guides imported before two importer changes up to date: restores the closing sentence from the cached Squarespace page and turns monster lists into fight blocks. Dry run without `--apply`; run after `pnpm data:quests`. See [Squarespace import](../data/squarespace-import.md#bringing-imported-guides-up-to-date) |
 | `pnpm media:sizes [--remote] [--production]` | Generates the missing AVIF/WebP sizes of `media` files uploaded before Payload generated them; safe to rerun. Against a non-local database it needs `--remote`, in production `--production`. See [Media storage](../media/storage.md#backfilling-missing-sizes-pnpm-mediasizes) |
 | `pnpm migrate:create <name>` | Writes a new migration |
+| `pnpm review:release [--since <ref>] [--dry-run]` | AI review of everything between the last release tag and `origin/main`, run by hand before `release.yml`; needs the `claude` CLI. See [Release review](release-review.md) |
 | `pnpm generate:types`, `pnpm generate:importmap` | Regenerate Payload's types and admin import map |
 | `pnpm payload …` | The Payload CLI |
 | `node scripts/build-mode-eggs.ts` | Regenerates the AVIF/WebP variants of the mode toggle icons |
@@ -143,7 +147,7 @@ If `pnpm db:dev` fails to start after a hard shutdown, a stale `.postgres/data/p
 
 ## Before committing
 
-The pre-commit hook formats, lints and runs the AI review on staged files; the commit-msg hook enforces conventional commits without `Co-Authored-By`. Before each push, run lint, the format check, types, unit and integration tests locally; run E2E and the dev environment suite once, right before opening the PR. Report failures verbatim. See [CI and quality gates](ci-and-quality-gates.md).
+The pre-commit hook formats, lints and runs the AI review on staged files (with Sonnet unless `GGA_CLAUDE_MODEL` says otherwise); the commit-msg hook enforces conventional commits without `Co-Authored-By`. Before each push, run lint, the format check, types, unit and integration tests locally; run E2E and the dev environment suite once, right before opening the PR. Report failures verbatim. See [CI and quality gates](ci-and-quality-gates.md).
 
 Feature branches do not touch `openwiki/`. A scheduled task outside the repo refreshes the wiki once a day and opens its own docs PR (AGENTS.md, Wiki).
 

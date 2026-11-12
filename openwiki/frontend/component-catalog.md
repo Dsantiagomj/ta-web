@@ -20,10 +20,10 @@ sources:
     resource: repo://tests/e2e/sistema.spec.ts
   - id: openwiki-source-6da55c25d9257d55461d50ff
     resource: repo://tests/unit/design-catalog.test.ts
-generated: { by: "claude-code", at: "2026-11-08T11:00:21.339Z" }
+generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-08T11:00:21.339Z
+    at: 2026-11-12T11:00:44.802Z
 ---
 
 # Component catalog (/sistema)
@@ -46,13 +46,13 @@ Anything else gets a 404, including production, `NODE_ENV=test`, and `E2E_DESIGN
 
 The page calls `await connection()` before reading the environment, so the decision is made on every request and never baked in at build time. That is what lets one `pnpm build` serve both the E2E run (catalog on) and a production start (catalog off). The page metadata also sets `robots: { index: false, follow: false }`.
 
-`/sistema` is not in the Lighthouse CI page list (`lighthouserc.cjs` measures the home page, the seeded guide `/seis-pies-bajo-tierra`, the seeded achievement page `/la-ocasion-hace-al-ladron` and `/metalogros`). See [Performance budgets](../testing/performance-budgets.md).
+`/sistema` is not in the Lighthouse CI page list (`lighthouserc.cjs` measures the home page, the seeded guide `/seis-pies-bajo-tierra`, the seeded achievement page `/la-ocasion-hace-al-ladron`, `/metalogros`, `/guias-dofus` and the seeded Dofus guide `/dofus-ocre`). See [Performance budgets](../testing/performance-budgets.md).
 
 ## Page structure
 
 - The page header has the title "Sistema de diseño", a lead paragraph and a jump list with one link per section (`#arcano-dark`, `#bonta-light`, …).
 - `CatalogSection` renders one `<section>` per theme and mode with its own `id`, `data-theme`, `data-mode` and `aria-labelledby`. Every id inside a section carries the `theme-mode` key, so the ten copies never repeat an id. The section sets `--color-section` to the missions accent, as a guide page root would.
-- Inside, each component group is a `Group` with a `data-component` attribute (`brand`, `site`, `buttons`, `chips`, `callouts`, `torre`, `figures`, `checkbox`, `cards`, `items`, `header`, `wells`, `fight`, `coordinates`, `steps`, `next`, `chain`, `video`, `image`) and a heading from `catalogStrings.groups`. Groups show several states side by side: the Torre emblem in its simple 16 px variant and at 30, 36 and 64 px, the Sello lockup in its header and footer sizes, a header menu panel (`MenuPanelPreview`), the site footer and a figure written with `Amount`, disabled and compact buttons, a checked and a disabled checkbox, a quest header with the NPC and full data and one without, every fixed game icon well plus an item icon and an empty well, the steps separated by a line, the next quest card with art and without it, a short and a trimmed achievement chain, a video with and without a poster.
+- Inside, each component group is a `Group` with a `data-component` attribute (`brand`, `site`, `buttons`, `chips`, `callouts`, `torre`, `figures`, `checkbox`, `cards`, `items`, `header`, `wells`, `fight`, `coordinates`, `steps`, `next`, `chain`, `video`, `dofus`, `image`) and a heading from `catalogStrings.groups`. Groups show several states side by side: the Torre emblem in its simple 16 px variant and at 30, 36 and 64 px, the Sello lockup in its header and footer sizes, a header menu panel (`MenuPanelPreview`; the Dofus panel gets a sample `dofusNav` list with one Dofus in preparation, as `loadDofusNav` would give it), the site footer and a figure written with `Amount`, disabled and compact buttons, a checked and a disabled checkbox, a quest header with the NPC and full data and one without, every fixed game icon well plus an item icon and an empty well, the steps separated by a line, the next quest card with art and without it, a short and a trimmed achievement chain, a video with and without a poster, item chips whose name copies on click, and the Dofus guide parts: index cards (one tagged, one in preparation, dimmed and without a link), Necesitarás by groups and an achievement with its quests as a ruled list (see [Dofus guide page](../dofus-guides/dofus-guide-page.md)).
 - `<PageEnhancements />` is rendered once at the end, so coordinate copy, the video player and the fullscreen image viewer work on the page.
 
 `?tema=` and `?modo=` filter the sections: `/sistema?tema=bonta&modo=light` keeps a single section, which is how screenshots and most E2E tests target one theme.
@@ -75,6 +75,7 @@ Each section sets `data-theme` and `data-mode` on an element below `<html>`. Tai
 - every `data-component` group is visible in all ten sections;
 - in each section, a Torre tips box's background equals that section's `--t-surface` and a coordinates chip's color equals its `--t-accent`, which proves the hand-written CSS follows the section theme;
 - clicking a coordinates chip copies `/travel 1,-17` and the status toast says "Copiado: /travel 1,-17"; Enter on another chip does the same;
+- an item name in the quest header copies the name without the quantity (a click on the icon well's center works too), the status says "Copiado: <name>", the copy icon is hidden at rest and shown on hover, an item chip never shows it, and Enter copies as well;
 - every `.hit-target` element has an `::after` of at least 40px, and the 32px coordinates chip has a target of at least 40px;
 - the icon wells stay dark in light mode, in every theme;
 - the video facade makes no request to a YouTube, `ytimg` or `googlevideo` host until clicked, and the click inserts a `youtube-nocookie.com/embed/…?autoplay=1` iframe;

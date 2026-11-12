@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:2b590a6d9a55bf2f744e6bf2fa9d8fd9157230286512bd1fec44c4a9c5cf11d5",
+  "claims": [
+    {
+      "id": "claim_9569fdd409a944ff92b2c1726085be24",
+      "statement": "pnpm import:dofus-guides runs the database guard before starting Payload, only counts and warns without --apply, and with --from reads <dir>/<slug>.html instead of downloading Torre's pages.",
+      "evidence": [
+        {
+          "resource": "repo://package.json#L31-L31",
+          "version": "repo-lines-v1:sha256:cd6dd651045b58bac56c5ffd886feed870c6822f6be248c5bcd51352b2fb259c:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2Q2ZGQ2NTEwNDViNThiYWM1NmM1ZmZkODg2ZmVlZDg3MGM2ODIyZjZiZTI0OGM1YmNkNTEzNTJiMmZiMjU5YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2Q2ZGQ2NTEwNDViNThiYWM1NmM1ZmZkODg2ZmVlZDg3MGM2ODIyZjZiZTI0OGM1YmNkNTEzNTJiMmZiMjU5YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDE4NTZjMTcwNWJlZDliOGVlZGFmZGY5MjhlZWIwZmI0NDQwNGU3OWRkNjhiNzI1MmE2ZTFlYWRkN2Y1YTUxNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTkyNGQ4MGQzOTAyNDljMTZiZDg0M2RjZWYxYjRjNzBlNTZhOWRjMDdmZmZhMzI0MDk5MmU1YzUxZmFlYTZlNCJ9"
+        },
+        {
+          "resource": "repo://scripts/import/import-dofus-guides.ts#L1-L54",
+          "version": "repo-lines-v1:sha256:dec056703aa929f71bc55b70ce6beaaef6c51fad04fc5e2ad9331030cfefd729:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ2Y2RjNzJhMjQxMWRhMDM5YWE4NzZiYjZkMzhmYmMyYjk0NWQwM2JjODdjODkzYjc3ZWY2YWUyMDA2NmMzNjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU3MzA2ZDlhNDcxNWQ3NjMzYjI4ZTczYTA3ZWY4MzE5YmI4ZjE4ZDhiZjU1NTFjOGVlMTllMmYwOTYwMjAyYzYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a4be6033d25341b59d04dd0ebd12d3f1",
+      "statement": "DOFUS_CATALOG lists every Dofus of Torre's index in her order with slug, name, whether she has a page, tag, level, color, DofusDB item ID and optional aliases and checklist, and is only the seed: later changes happen in the panel.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/dofus-guides/catalog.ts#L1-L22",
+          "version": "repo-lines-v1:sha256:ae7f762681bf1852ba89e6733579e9570f3dbe36ebc79aa3363e6f569b820257:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcxYTRmMzk5OThhYTZhMTA2ZWI3NGU2NGI0MTNmZGU5YWNmOWQ0NWFiNzQ5MmJiNGRmM2VjYmMzY2ZjZjA2YjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYyMGNkMzFmYmM4ODUzODhmYTM5ODIxYmE4N2ZkNTRmYTUzMDEzYjAwOTVmZmViNDgwZmMwNDdkZDI5YmM4ODUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5affd2f8c6e940b99daa4c3b2db49f35",
+      "statement": "parseDofusGuide returns null for a page without content, and the import then creates the Dofus guide in state preparing.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/dofus-guides/load.ts#L302-L323",
+          "version": "repo-lines-v1:sha256:7fae1c179a26a35cd364553949ea8d27539a273b072d16c104ad3b5ff2551b85:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkYjBmOWY4YmIzZDJlMjEwZDE0NmY4ZWVkNDQyMDE2OTg0M2RhMjc3NjE0NjQzY2VkYzMzNzU0NmQ3OTRmMjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNkZmY0OTIzMjZiMDJlMTczY2QxMDUxYWE3ZmYzZGNjNzg0NjNmYjc3YmVlYWJjNjNmMjQ3NGYxNGU5ZTk1YjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM5OWNlMjYxMGI1YzEzYjRjZDQyNGU4ZWM0ZTQwMDdmZTNkMzY1YWIxZTY0ZjlkZDI3Mjg4Mzg4OGFlM2E2ZDEifQ"
+        },
+        {
+          "resource": "repo://scripts/import/dofus-guides/parse.ts#L338-L340",
+          "version": "repo-lines-v1:sha256:bffa6c4252df0d209e41cb0d6d88f408427b6da048e8233a7fdda7fe46d83990:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2U4ZDQyZjg1MTAxNDhmZDliYWYyY2Y1YzEzM2ZkMjc3NjllMmI5YTAyNjk1ZjEzNjRjOGI3YWJjZTgzN2MxMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWUyMzNiM2FkODE0MmEyODkxMjRlZGQ5MTQ0MTQ5Y2FhZmZmMjk3ZjlhNmY1OGUyMTQ0NjM5ZTY2NDQxYzA5ZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGU5YTA4ODg2MGNhYzQ1ZTJhYzc0NmRhNGI0ZDg4YTUyMjYyZjc1MGI3YjQwODllYjgzZTczNGNiMzA5YzZjZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmIyMDM2MTBhMTJlODExZTAzYjk0MGE2OTZkOTYxMzMzOWM2NmI0YmE3MjA0YTdjNTAyMmRlM2IyNGJjYWE3MiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_6733377299f248129c1db239b5b50c0e",
+      "statement": "Quest guides match by linked slug or folded title, trying each alternative; achievement pages match by slug or folded name, a differing quest list is reported, and an achievement without a page becomes a dofusQuests part with its name.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/dofus-guides/load.ts#L169-L230",
+          "version": "repo-lines-v1:sha256:587654971c08651db89372665e42b6418a5106d55bd0e9cfab6680087ddbb8c1:eyJzZWxlY3RlZExpbmVDb3VudCI6NjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUzMTk1YzkwMGU1MzU0Y2FhZTI1ZWNmNDIzYmI5NzNiZjc5NTdjNzQ2OWVlODdjMjE1OTZjNDlhNTM1ZDhhNWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNjZGM0ZjM2MDM0MTQ3YTgyOTg4OTdhZjgwYjczNDU4YjZjZDJiNzUyZDZhNWIxYWU4YWMzZGI0NjZlNDAwZTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0ODk1NTY4NTAwNzdmOTY0MDViMzcxZTc3YTcwM2RmYjZjYzNjMjI0NTM1YmE4Y2IwMDllYjIxNzE2NjAyNmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdhYmU4NDE2OTI3ZTIwZTA3OGFhZWQ5MmI4NTVkZTMwMzM3MDg5MjE2NzA2YzI4NzE3OTQ1NTRlZjgyNTg2NDEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6f3258782fd942f2a477fb211b81b0df",
+      "statement": "A Necesitarás row with a quantity and a name becomes a needItem when the item is found and otherwise stays a needNote with Torre's text; a row with child options becomes its own named group.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/dofus-guides/load.ts#L235-L281",
+          "version": "repo-lines-v1:sha256:bedf8c98500de6add3f7c4eec1bb130c8a5f13d4bb921b73fb42f9a6a78f9f25:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkyOGRlZWNiZGE4YWNmYmFlOGJjYTMzNjNhZjE2ZjA4YjkyMTIwMDk5MzdkZjBlYTlmYTI5MjQ3Y2ZjM2ZmZGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVjNDdhZTE1NzMxZTBjNDM2NDZkMTI3OTkyMjg4MTM0YjI1NDYwOTU4NzlmMzNiOWFmY2E1MDZkMThmYWFhMjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA0YjlhMGIxNmI5OTEwYmFhNWQwYTRkY2FmZjhhNjBjNDI5NjMzYmYyYWUzY2JhY2M4MjAyOTA3NTgwZDEwY2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJkZWFkMjA0ZTgwMjZjNDk2OTk4NTZjMzNkM2Y5N2Y3YTA0YmM4NzY4YjAyMmI1YTQ5YTIwYWQwZmFhMjYzYzQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_472dc03fb2e14a869782c1256e71e908",
+      "statement": "gameItems imports a missing Dofus or Necesitarás item from DofusDB with its icon, memoizes each lookup so an item is never created twice, adds an icon once to a stored item without one, and in a dry run returns the negated DofusDB ID instead of creating.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/dofus-guides/game-items.ts#L16-L101",
+          "version": "repo-lines-v1:sha256:6e1d4a65eed09104fef64a5ba8ca5d43462c73a4cdef1f96f9afa65fab36ea16:eyJzZWxlY3RlZExpbmVDb3VudCI6ODYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZkZGM4ZDM3MzhlYjdhY2NkOTEyZDUxODIyYWNjMmUxMjNjNWNiNzg5MTA0MTA5NGExMDA3YzI0ZTMzM2Y4NmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0YmEzYjM3ZGE3MGJiNGVlZTM4Y2EyZDE3NGZjZTg2OTEyNzRmYjViMjIxMWNlNTdiODY5ZGYyOGYzNjhkMWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNkOGNhMTFlZGE2ZTI4YzFhMTViM2U4ZjYxYTI0MGYzNWJhNmIwNTgyYjE0ZmE5ZWNiNGRkZjU1ZGUzOTExMzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUwZGZkOGUzZGFkZjU5ODVmNjJmMjM5NzkyYWRhMGQ0YmQ1Yzg0MTViNTY3YjQwMmI5ODRlZjMzZWY4MGQxMGYifQ"
+        },
+        {
+          "resource": "repo://tests/integration/import-dofus-items.test.ts#L73-L141",
+          "version": "repo-lines-v1:sha256:cd9aa3d573762ce46f787d9559a92823fc364e81dfdb267c8d8312a1d4332748:eyJzZWxlY3RlZExpbmVDb3VudCI6NjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYyMzczNTBmY2M0ZDU5OWJmM2ExYWMxNWIyZDQzMGJhZDA3OGI0ZTcyYjJlNmNjZDc2ZWFiOWRhMjI2NDM4ZDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIzZWZkNzg3Nzk2MjNlMzQ4MWRjNGVjMTcwMzAxMjkwMjU1M2JlNDEzZmQ0YTc1ODYxYzg3YWM4ZGQ1MmM0MWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlhNTYxNGNhMGUwMjYzYzY3Y2VkZTQzMDlkZTE4NDcwY2EzOTEyYTU5ZDA5NGIzNjVhZWY4ZDY4Yjk2YjIyYmIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6e089696ab7b453daf52b73288a95d5d",
+      "statement": "findItem searches the database by exact name first, then DofusDB by exact Spanish name and then case-insensitively with an escaped regex, taking the lowest DofusDB ID.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/dofus-guides/game-items.ts#L100-L133",
+          "version": "repo-lines-v1:sha256:6356d66232675d86caf406ffa309218740149529ef69fb177c45628c5b103df6:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRmMmEyZjk5NmYwOGU2ODBiZDI5MjEzNWE2ZmE0OTc4YmRhMjZlNjAyZDg0ZjMzY2IxZDU5NDc3NWQ0MzA0YjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYyZTVmYmZhYzY2YmM2YjhmZjJkMWU2M2U1ZmI3NGYwZTdiN2RkNGJiMjAyMDcyOTZlYzE1OWFmMDc4NjQyM2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc2ZWU2ZmRjZTdlOTcwMGZlNThmNmFhZTFiN2ExODlhNDIzZjM0OGE0NmM0MDlkZGFmODIzY2ViZjBhODI2YmUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_db119831cbf644739da5e79bd9f0645b",
+      "statement": "Video posters are YouTube's hqdefault thumbnail copied once into Media; the fetcher rejects non-YouTube IDs, refuses redirects and rejects non-image responses, and a failed poster leaves the guide without one.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/dofus-guides/video-poster.ts#L1-L27",
+          "version": "repo-lines-v1:sha256:7288169491f2728c35a693feea66ff0b53ba99cb8c9e22f5c7d4204de13650d2:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmYTU3NWY0OTBjNzU3NDEyMWVlNTBiODJmZDVkZWMxNWJiNzcwY2YyN2YwNDI0YmRmZmY3ZDU0MjI0ZTlkNzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://scripts/import/import-dofus-guides.ts#L117-L124",
+          "version": "repo-lines-v1:sha256:b73fed0b29020088fe98869fbdfe0efcfc11289895141409af00d0a73c4caa0c:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODY1ZGUxZmQ1YzBhNjk5MDQwY2ExM2M0MzVlMzA0ZTI3YjVkMmYwZGVkMzdkNDg5MDRjZjk2N2I5MGU5NjM4MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTBhYjM0NWYzNWViZmJmMjI3NTI3ZWVmNWUzYWQ5YzY0OGQ1M2M1ZDdjZjhhNWEyZjQ1YjY5MDdjOWMyMDBiNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWMyYTczNDA0ZTA4YzY4ZmFiMzVmNjJhNDQwN2Q5MmU1YmZhYzk3M2ZjMjNkMWE2MjE1MjFlM2JlNGE3YTRmMiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_5c7d57757e3140ba883a45f8dbd10f74",
+      "statement": "A new guide is created published with the imported data saved in importSnapshot; on a rerun a field is overwritten only when its stored value still equals the snapshot, otherwise Torre's edit is kept and reported, and a guide without changes is not saved.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/dofus-guides/load.ts#L325-L392",
+          "version": "repo-lines-v1:sha256:afd67da693ae5a92b029e47a5339e2fbb729f4b38221988ef88170a6e8704d50:eyJzZWxlY3RlZExpbmVDb3VudCI6NjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwNWFhM2E0MjY4MWViMTIzMTY0N2E3MzdhMmRmMzFjMGVkNjUwZTAxZDg3MGUzNWRkMDdmMmVkMzI5MTdjMWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmMWM5NzA4YTZjZTRiZDU0NThlZmM2OWFlODRkYzk0YzBhZTVkMDI5M2I3MGUxNzQ4MWE2OWU0ZWYyMGI0ZjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE2ZmZkNmZiMDQ2ZWQyMTNkOGNkNzZkNWEyMTlkOTRlMjY0OTQ2MGMwZGMyYWVkYWZjYTI4NGI1M2NkMWEwZTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM3OTI5ZTkxZTBmOTljM2U4MjVkZTY5YjQzNWZiNjQ4NGQxYjBhMWRmMmY0NjU2MWFiZjFhMjlmMDQxODhiODgifQ"
+        },
+        {
+          "resource": "repo://tests/integration/import-dofus-guides.test.ts#L238-L272",
+          "version": "repo-lines-v1:sha256:3383a7d47cbfccb0a79d070db5d8d3240fc9d973ee60412030d80aa775aab84b:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2OTU0ZDY4YmFiMzc5Y2IyYzJlNmY1NmRlNmNkYTYyZTQ5MDUxNTRkNWI2N2M0YTdiOTg0OGRmZjRlODg3ZmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjViZTE3MzUyMjYyMGU0MmI5Mjg2MTNlMzVkZTZiMmQzOGUwZWNlZDE3NzMzNWZiYmM2OTZmMWFjMzRjMDQxZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVmMTNhODY0YWEwMTlmYmIzNDA0NDBmZDNiZTI2YTU1NTg4NzUwMjZhYjU2MzUwNzE4ZmZlYjA4OWE4MjI1MDgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7b9b989cf1db4b3e83c589fad0aabd8d",
+      "statement": "Values are compared after removing row IDs and empty values and sorting keys, because Postgres stores rich text as jsonb and reorders keys.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/dofus-guides/load.ts#L73-L96",
+          "version": "repo-lines-v1:sha256:46503eca6e159c8510cb7a082d93e33038f7237ad51800dc0c93b74ff2f4d133:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmNWVjY2YzMWY4YjZlY2MzMDA5OTdjMTY5ODJhNzkyZTdmYTE0YTNlMzRlNzFjMTZkZmI4MmVlODQ3NTMwNDUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc5NDEyZjM1MmE5MzhiNzE0NTVkY2Y5NjI3MzRlN2U0NzhjMTQyNmZkNWNkYjJhNGZiNmRmMzNiZjhlZTUyZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdhZGJhMWY5Y2M2MjllYTk0ZDc3Y2E0ZTI4Yjc1MWUzYzM4NDc0M2ZlOGM2M2NkM2QwYjZlZmYwOTExYTE2NjkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8f916c81589346f6bb9c362c11d68846",
+      "statement": "When Torre has an unpublished draft, the import writes its changes into that draft without publishing.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/dofus-guides/load.ts#L374-L386",
+          "version": "repo-lines-v1:sha256:755fb21556829f00491e069b509b73e58cea8fa4b0ea8d03bde2de3f6f6c7e30:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU3OWMxYzJmMDY0ZTY3OWEzNWExYWM0ZTVmZDhlOWFlZTFjMmZkZDkzNDMzYTVjYjA4ZDM3M2EwMzVhMzA3OTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU1MGYyYWQ0MjY4ZjM3Y2YxMDI0NWE0NjdmMTM5M2QzYjUyYWNiMWZjMzM4MDMzMTc1NmU4NWY2ZjUyZmRmY2UifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_15786ca82ba44a08865842d760f69458",
+      "statement": "loadDofusIndexIntro writes Torre's index intro into the dofus-guides-index global only when its intro is empty.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/dofus-guides/load.ts#L395-L416",
+          "version": "repo-lines-v1:sha256:0c2804f5f4287997d6c5002514315698c313c355b84f499d5cdb153dc5541c0e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRhMzBiNGJmY2FmNGQyOTE0MTc5NTZiZDI0MzVlZjc2YzdjZjhjMDUyNGE0MzU1NjM4Mjg4Mzg2ZTMyYTFlMzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/integration/import-dofus-guides.test.ts#L274-L300",
+          "version": "repo-lines-v1:sha256:d2b9f6110fe6aeff1a5198f9844c3d7d92bc8586ba3cd1c6b6dc6837f1eb10c2:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZiNzJkYzY2OWZkMTVjOTA0MzRjMGMyNWU0NjE3MTAwOTYzYTg1NzU5YjljZWRlZTk3NGE5NTMwZDI4ZDdkYzEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjNWJjNzRlYWQ2YTkxZDIwMTY4NGU0ZDg4YTVlNWIyYmE4MjE5NjlmNzgwMjYyNTI1NjE1N2MzMjc1ZmYwNzUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZiMmVkZTZjZGViZWU1NDkxZjg0NmFhOTI3ZjFiZTI0YmI0ZDE2OTNkMTI4NmJjYmYyMWY1ZTdhM2QyNmVlNzcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_81e7405c424f4dd2b970e229900e8bfe",
+      "statement": "The script prints totals of created, updated and unchanged guides, the fields Torre changed that were kept, unmatched names and quest list differences, and exits with 1 on failure.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/import-dofus-guides.ts#L128-L149",
+          "version": "repo-lines-v1:sha256:f9070aa7d2e88b4464487446651addc284d3ff6f77d2441915d3101e5a81daa6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUyYTQ2ZGQxNTI2Y2FiMjBiMjJkZWFmZjFlNjY1MGY3NDVmODBiOWRiMWNkNmQ5ZGRkMDRmMDdjZWZlYmVlMzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFjMmE3MzQwNGUwOGM2OGZhYjM1ZjYyYTQ0MDdkOTJlNWJmYWM5NzNmYzIzZDFhNjIxNTIxZTNiZTRhN2E0ZjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-12T11:00:44.802Z"
+  }
+}

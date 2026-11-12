@@ -30,10 +30,10 @@ sources:
     resource: repo://src/payload.config.ts
   - id: openwiki-source-f34ac1e549d94dc3ac475ae4
     resource: repo://src/proxy.ts
-generated: { by: "claude-code", at: "2026-11-08T11:00:21.339Z" }
+generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-08T11:00:21.339Z
+    at: 2026-11-12T11:00:44.802Z
 ---
 
 # Request pipeline
@@ -69,17 +69,18 @@ It never blocks a request. When `isDevEnvironment(process.env)` is true it lets 
 
 The App Router tree has two route groups, each with its own root layout.
 
-**`src/app/(frontend)/`** is the public site. Its layout reads the mode cookie, resolves the theme on the server, renders `<html lang="es" data-theme data-mode>` and injects the pre-paint mode script; see [Theme and mode](../frontend/theme-and-mode.md). It wraps every page in the site header and footer, and loads the header's guide counts through `unstable_cache` under the `guide-pages` tag; see [Site header, footer and search](../frontend/site-shell-and-search.md). Because it reads a cookie, every page renders per request; what is cached is the data.
+**`src/app/(frontend)/`** is the public site. Its layout reads the mode cookie, resolves the theme on the server, renders `<html lang="es" data-theme data-mode>` and injects the pre-paint mode script; see [Theme and mode](../frontend/theme-and-mode.md). It wraps every page in the site header and footer, and loads in parallel the header's guide counts (`loadSiteCounts`, `unstable_cache` under the `guide-pages` tag) and the Dofus of the menu and search (`loadDofusNav`, under the `dofus-guides` tag, from the `dofus-guides` collection); see [Site header, footer and search](../frontend/site-shell-and-search.md). Because it reads a cookie, every page renders per request; what is cached is the data.
 
 The group holds:
 
 - the [home page](../frontend/home-page.md) at `/`;
-- `/[slug]`, which serves a quest guide or, when no guide has that slug, a published achievement page, and calls `notFound()` when neither exists. Guides, achievement pages and metalogros share one slug space, so the two never collide. See [Public quest guide page](../frontend/guide-page.md) and [Achievement page](../achievements/achievement-page.md);
+- `/[slug]`, which tries in order a quest guide, a published achievement page and a published Dofus guide, loading each once per request, and calls `notFound()` when none exists. Guides, achievement pages, metalogros and Dofus guides share one slug space, so they never collide. See [Public quest guide page](../frontend/guide-page.md), [Achievement page](../achievements/achievement-page.md) and [Dofus guide page](../dofus-guides/dofus-guide-page.md);
 - the [metalogros index](../achievements/metalogros-index.md) at `/metalogros`;
+- the [Dofus guides index](../dofus-guides/dofus-guides-index.md) at `/guias-dofus`;
 - the `/vista-previa` routes that turn Next's draft mode on and off for editors;
 - the `/sistema` component catalog outside production.
 
-Top-level routes win over `/[slug]`, so their segments (`admin`, `api`, `sistema`, `vista-previa`, `metalogros`) are listed in `RESERVED_SLUGS` in `src/lib/guides/slug.ts`. The panel rejects them as slugs and the page returns 404 before querying. A new top-level route adds its segment there.
+Top-level routes win over `/[slug]`, so their segments (`admin`, `api`, `sistema`, `vista-previa`, `metalogros`, `guias-dofus`) are listed in `RESERVED_SLUGS` in `src/lib/guides/slug.ts`. The panel rejects them as slugs and the page returns 404 before querying. A new top-level route adds its segment there.
 
 AGENTS.md defines the conventions: server components by default, data fetched on the server through Payload's local API, and client islands only where interaction requires them.
 
