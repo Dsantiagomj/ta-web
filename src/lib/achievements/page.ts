@@ -2,7 +2,7 @@
 // page). Código puro, sin Payload ni React: la ruta carga los documentos y esto decide qué
 // se enseña. Lo que no está no se inventa.
 
-import type { GameItem, Quantity } from '@/components/game/types'
+import type { GameItem } from '@/components/game/types'
 import type { ImageAsset } from '@/components/ui/types'
 import { neededItems } from '@/lib/guides/format'
 import { gameItem, needNote, type NeedNote, type QuestHeaderData } from '@/lib/guides/page'
@@ -88,6 +88,8 @@ export interface AchievementPageData {
   guides: GuideRef[]
   /** Los PNJ que dan las misiones, por su ID de DofusDB, con sus renders. */
   givers: Map<number, { name?: string | null; renderRight?: MediaRef }>
+  /** Los objetos del juego que nombran las notas de Necesitarás, por su nombre exacto. */
+  noteItems: Map<string, NoteItemDoc>
   /** El origen público del sitio, para el JSON-LD. */
   siteUrl: string
 }
@@ -133,7 +135,9 @@ export interface AchievementPageView {
   icon?: ImageAsset
   /** «3 misiones», «Niveles 15 a 25», «10 puntos». */
   meta: string[]
-  facts: Pick<QuestHeaderData, 'prerequisites' | 'needs' | 'rewards'>
+  facts: Pick<QuestHeaderData, 'prerequisites' | 'rewards'>
+  /** «Necesitarás en total», su propia zona bajo la cabecera. */
+  needs: AchievementNeeds
   quests: QuestCard[]
   group: { name: string; items: GroupItem[] } | null
   previous: GroupItem | null
@@ -162,21 +166,59 @@ function rowLevel(quests: (QuestDoc | null)[]): number | undefined {
   return known.length ? Math.min(...known) : undefined
 }
 
+/** Un objeto de «Necesitarás en total». Sin cantidad cuando lo nombra una nota que no la da. */
+export interface NeedItem {
+  item: GameItem
+  quantity?: number
+}
+
+/** «Necesitarás en total» en sus tres grupos (DESIGN.md, Achievement page components). */
+export interface AchievementNeeds {
+  /** «Objetos»: los que enlazan las guías y los que nombran sus notas, con su icono. */
+  items: NeedItem[]
+  /** «Combates y mazmorras». */
+  tasks: { quantity?: number; label: string; kind: 'combat' | 'dungeon' }[]
+  /** «Otros»: el resto de las notas, tal como las escribió Torre. */
+  others: { quantity?: number; label: string }[]
+}
+
+/** Un objeto del juego que nombra una nota, por su nombre exacto (readAchievementPage). */
+export type NoteItemDoc = { id: number; name: string; image?: Media | number | null }
+
+// «Mazmorra Malefíscof»: lleva el icono de mazmorra.
+const DUNGEON = /\bmazmorras?\b/iu
+
+/** Las notas de Necesitarás de unas guías, cada línea como la lee la página. */
+function guideNotes(guides: Pick<GuideRef, 'needs'>[]): NeedNote[] {
+  return guides.flatMap((guide) =>
+    (guide.needs?.notes ?? '')
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean)
+      .map(needNote),
+  )
+}
+
+/** Lo que dicen las notas de unas guías, para buscar los objetos que nombran. */
+export function noteLabels(guides: Pick<GuideRef, 'needs'>[]): string[] {
+  return [...new Set(guideNotes(guides).map((note) => note.label))]
+}
+
 /**
  * Lo que hay que reunir para todas las misiones: los objetos y las notas de las guías. Las
  * notas con cantidad («1 x Combate (solo).») se suman; las que no la tienen («Hechizo
  * Captura de almas.», «1 kama») salen tal cual, una vez aunque las repitan varias guías:
  * nada de lo que Torre escribió se pierde. Una nota con cantidad que nombra un objeto del
  * total («2 x Dragopavo pelirrojo.», cuando otra guía lo enlaza como objeto) se suma a ese
- * objeto: se cruzan al final, así que da igual en qué guía venga cada uno.
+ * objeto: se cruzan al final, así que da igual en qué guía venga cada uno. Una nota cuyo
+ * texto es el nombre exacto de un objeto del juego (noteItems) pasa a ser ese objeto, con su
+ * icono. El resto se reparte en combates y mazmorras, y otros.
  */
-function totalNeeds(guides: GuideRef[]): { items: Quantity<GameItem>[]; notes: NeedNote[] } {
+function totalNeeds(guides: GuideRef[], noteItems: Map<string, NoteItemDoc>): AchievementNeeds {
   const notes = new Map<string, NeedNote>()
-  const items = new Map<number, Quantity<GameItem>>()
+  const items = new Map<number, NeedItem>()
   for (const guide of guides) {
-    const lines = (guide.needs?.notes ?? '').split('\n').map((line) => line.trim())
-    for (const line of lines.filter(Boolean)) {
-      const note = needNote(line)
+    for (const note of guideNotes([guide])) {
       // Con y sin cantidad no se mezclan: «1 x Combate» y «Combate» son filas distintas.
       const key = `${note.quantity == null ? '-' : '#'}${needKey(note.label)}`
       const same = notes.get(key)
@@ -185,18 +227,34 @@ function totalNeeds(guides: GuideRef[]): { items: Quantity<GameItem>[]; notes: N
     }
     for (const { item, quantity } of neededItems(guide.needs as LinkedNeeds | null)) {
       const known = items.get(item.id)
-      if (known) known.quantity += quantity
+      if (known) known.quantity = (known.quantity ?? 0) + quantity
       else items.set(item.id, { item: gameItem(item), quantity })
     }
   }
   const itemByName = new Map([...items.values()].map((entry) => [needKey(entry.item.name), entry]))
-  const rest: NeedNote[] = []
+  const needs: AchievementNeeds = { items: [], tasks: [], others: [] }
   for (const note of notes.values()) {
-    const item = note.quantity == null ? undefined : itemByName.get(needKey(note.label))
-    if (item) item.quantity += note.quantity!
-    else rest.push(note)
+    const { quantity, label } = note
+    const linked = quantity == null ? undefined : itemByName.get(needKey(label))
+    if (linked) {
+      linked.quantity = (linked.quantity ?? 0) + quantity!
+      continue
+    }
+    const named = noteItems.get(label)
+    if (named) {
+      const known = items.get(named.id)
+      if (known && known.quantity != null && quantity != null) known.quantity += quantity
+      else if (!known)
+        items.set(named.id, { item: gameItem(named), ...(quantity != null && { quantity }) })
+      continue
+    }
+    const kind = DUNGEON.test(label) ? 'dungeon' : note.combat ? 'combat' : null
+    const row = { ...(quantity != null && { quantity }), label }
+    if (kind) needs.tasks.push({ ...row, kind })
+    else needs.others.push(row)
   }
-  return { items: [...items.values()], notes: rest }
+  needs.items = [...items.values()]
+  return needs
 }
 
 // Para casar una nota con otra o con un objeto: sin mayúsculas, tildes ni espacios de más.
@@ -302,7 +360,10 @@ export function achievementPageView(data: AchievementPageData): AchievementPageV
   // Lo que hace falta en total: lo que piden las guías publicadas de las misiones sin
   // alternativas (de la misión de clase no se sabe cuál harás).
   const single = rows.flatMap((row) => (row.quests.length === 1 ? [row.quests[0]!] : []))
-  const needs = totalNeeds(single.flatMap((quest) => guideByQuest.get(quest.id) ?? []))
+  const needs = totalNeeds(
+    single.flatMap((quest) => guideByQuest.get(quest.id) ?? []),
+    data.noteItems,
+  )
 
   const max = positive(page.rewards?.experience)
   const kamas = positive(page.rewards?.kamas)
@@ -359,7 +420,8 @@ export function achievementPageView(data: AchievementPageData): AchievementPageV
     title: page.name,
     ...(pageIcon && { icon: pageIcon }),
     meta,
-    facts: { prerequisites, needs, rewards },
+    facts: { prerequisites, rewards },
+    needs,
     quests,
     group: group ? { name: group.name, items: siblings } : null,
     previous: at > 0 ? siblings[at - 1]! : null,
