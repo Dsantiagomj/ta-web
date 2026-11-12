@@ -66,10 +66,22 @@ describe('mediaImageAsset', () => {
         { src: '/api/media/file/zaap-480x240.avif', width: 480 },
         { src: '/api/media/file/zaap-800x400.avif', width: 800 },
       ],
+      original: { src: '/api/media/file/zaap.png', width: 1000, height: 500 },
     })
   })
 
-  it('el archivo principal es la variante WebP más ancha, con su tamaño: la que abre el visor', () => {
+  it('guarda el original subido, con su tamaño: el que abre el visor a pantalla completa', () => {
+    const asset = mediaImageAsset(
+      media({
+        width: 1920,
+        height: 1080,
+        sizes: { 'webp-1600': variant('webp', 1600, 900) },
+      }),
+    )
+    expect(asset?.original).toEqual({ src: '/api/media/file/zaap.png', width: 1920, height: 1080 })
+  })
+
+  it('el archivo principal es la variante WebP más ancha, con su tamaño', () => {
     const asset = mediaImageAsset(
       media({
         width: 1920,
@@ -102,6 +114,7 @@ describe('mediaImageAsset', () => {
       avif: '/api/media/file/zaap-96x96.avif',
       width: 96,
       height: 96,
+      original: { src: '/api/media/file/zaap.png', width: 96, height: 96 },
     })
   })
 

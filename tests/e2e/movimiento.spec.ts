@@ -261,7 +261,10 @@ test.describe('guía', () => {
 
   test('la imagen a pantalla completa se cierra con transición', async ({ page }) => {
     await page.goto(guide)
-    await page.getByRole('link', { name: /^Ver imagen a pantalla completa/ }).click()
+    await page
+      .getByRole('link', { name: /^Ver imagen a pantalla completa/ })
+      .first()
+      .click()
     const viewer = page.locator('dialog.viewer')
     await expect(viewer).toBeVisible()
     await settle(page)

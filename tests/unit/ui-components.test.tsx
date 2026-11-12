@@ -183,18 +183,32 @@ describe('Figure', () => {
     expect(markup).toMatch(/<a [^>]*>\s*<picture/)
   })
 
+  it('con el original guardado, el enlace lleva al original y dice su tamaño a la isla', () => {
+    const original = { src: '/img/b.png', width: 1920, height: 1080 }
+    const markup = html(<Figure image={{ ...responsive, original }} alt="Hupe Esse" />)
+    expect(markup).toMatch(/<a [^>]*href="\/img\/b\.png"/)
+    expect(markup).toContain('data-image-width="1920"')
+    expect(markup).toContain('data-image-height="1080"')
+  })
+
   it('el enlace dice que abre la imagen a pantalla completa y lleva lo que usa la isla', () => {
     const markup = html(<Figure image={image} alt="Hupe Esse" />)
     expect(markup).toContain('aria-label="Ver imagen a pantalla completa: Hupe Esse"')
     expect(markup).toContain('data-image-viewer=""')
-    expect(markup).toContain('data-image-avif="/img/a.avif"')
+    expect(markup).toContain(`data-image-width="${image.width}"`)
+    // El visor abre el original, no el AVIF de la columna.
+    expect(markup).not.toContain('data-image-avif')
   })
 
   it('con varios anchos, el enlace lleva al más grande y la imagen ocupa la columna de lectura', () => {
     const markup = html(<Figure image={responsive} alt="Hupe Esse" />)
     expect(markup).toMatch(/<a [^>]*href="\/img\/b-800\.webp"/)
-    expect(markup).toContain('data-image-avif="/img/b-800.avif"')
     expect(markup).toContain(`sizes="${IMAGE_SIZES.prose}"`)
+  })
+
+  it('en la rejilla de un paso, la imagen dice que ocupa media columna', () => {
+    const markup = html(<Figure image={responsive} alt="Hupe Esse" sizes={IMAGE_SIZES.half} />)
+    expect(markup).toContain(`sizes="${IMAGE_SIZES.half}"`)
   })
 
   it('diferida por defecto; con priority, la posible LCP, sin diferir y con prioridad alta', () => {
@@ -207,7 +221,6 @@ describe('Figure', () => {
   it('sin texto alternativo, el nombre del enlace sigue diciendo qué hace', () => {
     const markup = html(<Figure image={{ src: '/img/b.webp', width: 10, height: 10 }} alt="" />)
     expect(markup).toContain('aria-label="Ver imagen a pantalla completa"')
-    expect(markup).not.toContain('data-image-avif')
   })
 })
 

@@ -23,9 +23,9 @@ const sources = (variants: Variant[]): ImageSource[] | undefined =>
 
 /**
  * Un archivo de media, con las variantes que Payload generó al subirlo, como ImageAsset
- * para Picture y Figure. El archivo principal es el WebP más ancho, con su tamaño; sin
- * variantes (aún sin generar), el original. Null si la relación no está poblada o el
- * archivo no tiene URL o tamaño.
+ * para Picture y Figure. El archivo principal es el WebP más ancho, con su tamaño, y el
+ * original va aparte, para el visor; sin variantes (aún sin generar), el original es el
+ * principal. Null si la relación no está poblada o el archivo no tiene URL o tamaño.
  */
 export function mediaImageAsset(media: Media | number | null | undefined): ImageAsset | null {
   if (!media || typeof media === 'number') return null
@@ -47,5 +47,8 @@ export function mediaImageAsset(media: Media | number | null | undefined): Image
   if (srcSet) asset.srcSet = srcSet
   const avifSrcSet = sources(avif)
   if (avifSrcSet) asset.avifSrcSet = avifSrcSet
+  if (media.url && media.width && media.height) {
+    asset.original = { src: media.url, width: media.width, height: media.height }
+  }
   return asset
 }
