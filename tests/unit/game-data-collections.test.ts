@@ -5,6 +5,7 @@ import { gameDataAccess } from '@/collections/game-data-access'
 import { Items } from '@/collections/Items'
 import { Monsters } from '@/collections/Monsters'
 import { Npcs } from '@/collections/Npcs'
+import { SubAreas } from '@/collections/SubAreas'
 
 function field(collection: CollectionConfig, name: string): Field {
   const found = collection.fields.find(
@@ -94,6 +95,32 @@ describe('colección npcs', () => {
       expect(field(Npcs, name)).toMatchObject({ type: 'upload', relationTo: 'media' })
       expect(field(Npcs, name)).not.toHaveProperty('required', true)
     }
+  })
+})
+
+describe('colección subareas', () => {
+  it('usa su slug, el nombre como título y el grupo de datos del juego, de solo lectura', () => {
+    expect(SubAreas.slug).toBe('subareas')
+    expect(SubAreas.admin?.useAsTitle).toBe('name')
+    expect(SubAreas.admin?.group).toBe('Datos del juego')
+    expect(SubAreas.access).toBe(gameDataAccess)
+  })
+
+  it('identifica cada subzona por su ID de DofusDB y guarda su nombre y el de su área', () => {
+    expect(field(SubAreas, 'dofusId')).toMatchObject({
+      type: 'number',
+      required: true,
+      unique: true,
+      index: true,
+    })
+    expect(field(SubAreas, 'name')).toMatchObject({
+      type: 'text',
+      required: true,
+      localized: true,
+    })
+    expect(field(SubAreas, 'areaDofusId')).toMatchObject({ type: 'number' })
+    expect(field(SubAreas, 'areaName')).toMatchObject({ type: 'text', localized: true })
+    expect(field(SubAreas, 'refreshedAt')).toMatchObject({ type: 'date' })
   })
 })
 

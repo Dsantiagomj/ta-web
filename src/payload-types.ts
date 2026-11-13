@@ -73,6 +73,7 @@ export interface Config {
     items: Item;
     monsters: Monster;
     npcs: Npc;
+    subareas: Subarea;
     'achievement-categories': AchievementCategory;
     achievements: Achievement;
     'quest-guides': QuestGuide;
@@ -93,6 +94,7 @@ export interface Config {
     items: ItemsSelect<false> | ItemsSelect<true>;
     monsters: MonstersSelect<false> | MonstersSelect<true>;
     npcs: NpcsSelect<false> | NpcsSelect<true>;
+    subareas: SubareasSelect<false> | SubareasSelect<true>;
     'achievement-categories': AchievementCategoriesSelect<false> | AchievementCategoriesSelect<true>;
     achievements: AchievementsSelect<false> | AchievementsSelect<true>;
     'quest-guides': QuestGuidesSelect<false> | QuestGuidesSelect<true>;
@@ -469,6 +471,25 @@ export interface Npc {
    * A la derecha del título, en el móvil.
    */
   renderLeft?: (number | null) | Media;
+  /**
+   * La pone el script de refresco.
+   */
+  refreshedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Datos de DofusDB, de solo lectura. Los actualiza un script.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subareas".
+ */
+export interface Subarea {
+  id: number;
+  dofusId: number;
+  name: string;
+  areaDofusId?: number | null;
+  areaName?: string | null;
   /**
    * La pone el script de refresco.
    */
@@ -1424,6 +1445,10 @@ export interface PayloadLockedDocument {
         value: number | Npc;
       } | null)
     | ({
+        relationTo: 'subareas';
+        value: number | Subarea;
+      } | null)
+    | ({
         relationTo: 'achievement-categories';
         value: number | AchievementCategory;
       } | null)
@@ -1758,6 +1783,19 @@ export interface NpcsSelect<T extends boolean = true> {
   look?: T;
   renderRight?: T;
   renderLeft?: T;
+  refreshedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subareas_select".
+ */
+export interface SubareasSelect<T extends boolean = true> {
+  dofusId?: T;
+  name?: T;
+  areaDofusId?: T;
+  areaName?: T;
   refreshedAt?: T;
   updatedAt?: T;
   createdAt?: T;

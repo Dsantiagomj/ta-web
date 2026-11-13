@@ -125,3 +125,21 @@ export function questStages(raw: RawQuest): MappedQuestStage[] {
     }
   })
 }
+
+// Un PNJ nombrado en el texto de un objetivo: «Ve a ver a {npc,2351}».
+const NPC_REFERENCE = /\{npc,(\d+)/g
+
+/**
+ * Los PNJ que nombran los objetivos de la misión: el del parámetro de su clase y los que
+ * cita su texto (un objetivo libre solo los nombra ahí). Sin repetir.
+ */
+export function objectiveNpcIds(raw: RawQuest): number[] {
+  const ids = new Set<number>()
+  for (const stage of questStages(raw)) {
+    for (const objective of stage.objectives) {
+      if (objective.npcId != null) ids.add(objective.npcId)
+      for (const [, id] of (objective.text ?? '').matchAll(NPC_REFERENCE)) ids.add(Number(id))
+    }
+  }
+  return [...ids]
+}

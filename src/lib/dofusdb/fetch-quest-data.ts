@@ -1,4 +1,5 @@
 import type { DofusDbClient } from './client'
+import { objectiveNpcIds } from './quest-stages'
 import type {
   RawAchievement,
   RawAchievementCategory,
@@ -17,7 +18,7 @@ export interface QuestData {
   mapPositions: RawMapPosition[]
   items: RawItem[]
   monsters: RawMonster[]
-  /** Las subzonas y áreas de los mapas de inicio: la zona de la misión. */
+  /** Todas las subzonas y áreas: la zona de la misión y la de cada objetivo. */
   subAreas?: RawSubArea[]
   areas?: RawArea[]
   /** Todos los logros: de ellos sale el logro de cada misión y su posición. */
@@ -46,16 +47,15 @@ const ACHIEVEMENT_FIELDS = [
 ]
 const CATEGORY_FIELDS = ['id', 'name', 'parentId', 'order']
 const MONSTER_FIELDS = ['id', 'name', 'gfxId']
-
-function ids(values: (number | null | undefined)[]): number[] {
-  return [...new Set(values.filter((value): value is number => value != null))]
-}
+const SUBAREA_FIELDS = ['id', 'name', 'areaId']
+const AREA_FIELDS = ['id', 'name']
 
 /**
- * Todas las misiones de DofusDB, más los PNJ y mapas de sus posiciones de inicio y las
- * subzonas y áreas de esos mapas, que se piden por ID. Los objetos, los monstruos y los
- * logros se traen todos: Torre puede nombrar cualquier objeto o monstruo en una guía (los
- * combates se casan por nombre), y el logro de una misión solo se sabe mirando los logros.
+ * Todas las misiones de DofusDB, más los PNJ de sus posiciones de inicio y de sus objetivos y
+ * los mapas de inicio, que se piden por ID. Los objetos, los monstruos, los logros y las
+ * subzonas y áreas se traen todos: Torre puede nombrar cualquier objeto o monstruo en una guía
+ * (los combates se casan por nombre), el logro de una misión solo se sabe mirando los logros, y
+ * los objetivos caen en subzonas que no son de ningún mapa de inicio (son unas 570).
  */
 export async function fetchQuestData(client: DofusDbClient): Promise<QuestData> {
   const quests = await client.fetchAll<RawQuest>('quests')
@@ -66,15 +66,12 @@ export async function fetchQuestData(client: DofusDbClient): Promise<QuestData> 
       if (position?.npcId != null) npcIds.add(position.npcId)
       if (position?.mapId != null) mapIds.add(position.mapId)
     }
+    for (const npcId of objectiveNpcIds(quest)) npcIds.add(npcId)
   }
   const npcs = await client.fetchByIds<RawNpc>('npcs', [...npcIds])
   const mapPositions = await client.fetchByIds<RawMapPosition>('map-positions', [...mapIds])
-  const subAreaIds = ids(mapPositions.map((map) => map.subAreaId))
-  const subAreas = subAreaIds.length
-    ? await client.fetchByIds<RawSubArea>('subareas', subAreaIds)
-    : []
-  const areaIds = ids(subAreas.map((subArea) => subArea.areaId))
-  const areas = areaIds.length ? await client.fetchByIds<RawArea>('areas', areaIds) : []
+  const subAreas = await client.fetchAll<RawSubArea>('subareas', { select: SUBAREA_FIELDS })
+  const areas = await client.fetchAll<RawArea>('areas', { select: AREA_FIELDS })
   const achievements = await client.fetchAll<RawAchievement>('achievements', {
     select: ACHIEVEMENT_FIELDS,
   })

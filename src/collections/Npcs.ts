@@ -2,8 +2,9 @@ import type { CollectionConfig } from 'payload'
 
 import { gameDataAccess } from './game-data-access'
 
-// PNJ de DofusDB que dan misiones: su nombre, su look y sus renders importados a Media
-// (DESIGN.md, Quest header). Nada se carga de DofusDB al servir la web.
+// PNJ de DofusDB que dan misiones o que nombran sus objetivos: su nombre, su look y sus
+// renders importados a Media (DESIGN.md, Quest header). Nada se carga de DofusDB al servir
+// la web.
 export const Npcs: CollectionConfig = {
   slug: 'npcs',
   labels: { singular: 'PNJ de DofusDB', plural: 'PNJ de DofusDB' },

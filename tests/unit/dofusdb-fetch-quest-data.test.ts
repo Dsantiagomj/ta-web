@@ -75,21 +75,60 @@ describe('fetchQuestData', () => {
     expect(selects.items).toEqual(['id', 'name', 'level', 'typeId', 'iconId', 'type'])
   })
 
-  it('busca las subzonas de los mapas de inicio y las áreas de esas subzonas', async () => {
-    const positions = [{ id: 66062340, posX: -30, posY: -84, subAreaId: 95 }]
-    const { client, lookups } = fixtureClient({
-      quests,
-      'map-positions': positions,
-      subareas: [{ id: 95, areaId: 18 }],
-      areas: [{ id: 18, name: { es: 'Astrub' } }],
-    })
+  it('busca también los PNJ que nombran los objetivos, por su parámetro y en su texto', async () => {
+    const quest: RawQuest = {
+      id: 1,
+      name: { es: 'Misión de prueba' },
+      startPosition: [{ npcId: 10, mapId: 66062340 }],
+      steps: [
+        {
+          id: 11,
+          optimalLevel: 1,
+          duration: 1,
+          objectives: [
+            { id: 1, className: 'QuestObjectiveGoToNpcData', parameters: { parameter0: 20 } },
+            {
+              id: 2,
+              className: 'QuestObjectiveBringItemToNpcData',
+              parameters: { parameter0: 30, parameter1: 900, parameter2: 1 },
+            },
+            // Un objetivo libre solo nombra al PNJ en su texto.
+            {
+              id: 3,
+              className: 'QuestObjectiveFreeFormData',
+              parameters: { parameter0: 751055 },
+              text: { es: 'Habla con {npc,40} y con {npc,10}' },
+            },
+            // Un monstruo en el mismo parámetro no es un PNJ.
+            {
+              id: 4,
+              className: 'QuestObjectiveFightMonsterData',
+              parameters: { parameter0: 50, parameter1: 2 },
+            },
+          ],
+        },
+      ],
+    }
+    const { client, lookups } = fixtureClient({ quests: [quest] })
+
+    await fetchQuestData(client)
+
+    expect([...lookups.npcs].sort((a, b) => a - b)).toEqual([10, 20, 30, 40])
+  })
+
+  it('trae todas las subzonas y áreas, con su nombre: la zona de la misión y la de cada objetivo', async () => {
+    const subareas = [{ id: 95, name: { es: 'Ciudad de Astrub' }, areaId: 18 }]
+    const areas = [{ id: 18, name: { es: 'Astrub' } }]
+    const { client, lookups, selects } = fixtureClient({ quests, subareas, areas })
 
     const data = await fetchQuestData(client)
 
-    expect(lookups.subareas).toEqual([95])
-    expect(lookups.areas).toEqual([18])
-    expect(data.subAreas).toEqual([{ id: 95, areaId: 18 }])
-    expect(data.areas).toEqual([{ id: 18, name: { es: 'Astrub' } }])
+    expect(lookups).not.toHaveProperty('subareas')
+    expect(lookups).not.toHaveProperty('areas')
+    expect(selects.subareas).toEqual(['id', 'name', 'areaId'])
+    expect(selects.areas).toEqual(['id', 'name'])
+    expect(data.subAreas).toEqual(subareas)
+    expect(data.areas).toEqual(areas)
   })
 
   it('trae todos los logros', async () => {
