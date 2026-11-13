@@ -22,7 +22,7 @@ describe.each([
   it('usa su slug, el nombre como título y el grupo de datos del juego', () => {
     expect(collection.slug).toBe(slug)
     expect(collection.admin?.useAsTitle).toBe('name')
-    expect(collection.admin?.group).toBe('Datos del juego')
+    expect(collection.admin?.group).toBe('Datos del juego (solo lectura)')
   })
 
   it('identifica cada fila por su ID de DofusDB, único e indexado', () => {
@@ -75,7 +75,7 @@ describe('colección npcs', () => {
   it('usa su slug, el nombre como título y el grupo de datos del juego', () => {
     expect(Npcs.slug).toBe('npcs')
     expect(Npcs.admin?.useAsTitle).toBe('name')
-    expect(Npcs.admin?.group).toBe('Datos del juego')
+    expect(Npcs.admin?.group).toBe('Datos del juego (solo lectura)')
     expect(Npcs.access).toBe(gameDataAccess)
   })
 
@@ -102,7 +102,7 @@ describe('colección subareas', () => {
   it('usa su slug, el nombre como título y el grupo de datos del juego, de solo lectura', () => {
     expect(SubAreas.slug).toBe('subareas')
     expect(SubAreas.admin?.useAsTitle).toBe('name')
-    expect(SubAreas.admin?.group).toBe('Datos del juego')
+    expect(SubAreas.admin?.group).toBe('Datos del juego (solo lectura)')
     expect(SubAreas.access).toBe(gameDataAccess)
   })
 

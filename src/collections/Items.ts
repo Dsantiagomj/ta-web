@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { gameDataAccess } from './game-data-access'
+import { panelStrings } from '../lib/admin/strings'
 
 // Todo el catálogo de objetos de DofusDB: los de las misiones y cualquiera que una guía pida.
 export const Items: CollectionConfig = {
@@ -8,7 +9,8 @@ export const Items: CollectionConfig = {
   labels: { singular: 'Objeto de DofusDB', plural: 'Objetos de DofusDB' },
   admin: {
     useAsTitle: 'name',
-    group: 'Datos del juego',
+    group: panelStrings.groups.gameData,
+    hideAPIURL: true,
     defaultColumns: ['name', 'dofusId', 'level'],
     description: 'Datos de DofusDB, de solo lectura. Los actualiza un script.',
   },

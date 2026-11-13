@@ -65,4 +65,16 @@ describe('permisos de users para un visitante anónimo', () => {
     const unchanged = await payload.findByID({ collection: 'users', id: editor.id })
     expect(unchanged.email).toBe(editor.email)
   })
+
+  // El nombre de la cuenta (panel, ola 1): una columna nueva, con su migración.
+  it('una cuenta del panel guarda su nombre', async () => {
+    const updated = await payload.update({
+      collection: 'users',
+      id: editor.id,
+      data: { name: 'Torre' },
+      user: editor,
+      overrideAccess: false,
+    })
+    expect(updated.name).toBe('Torre')
+  })
 })

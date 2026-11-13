@@ -14,6 +14,8 @@ import {
   revalidateAchievementPagesAfterDelete,
 } from './revalidate-guides'
 import { rejectSharedSlug } from './root-slug'
+import { SLUG_LABEL, slugAdmin } from './slug-field'
+import { panelStrings } from '../lib/admin/strings'
 
 const note = (field: string) => dofusDbNote('group', field)
 const SECTIONS: GroupSection[] = ['stories', 'zones', 'seasonal']
@@ -25,8 +27,10 @@ export const AchievementGroups: CollectionConfig = {
   labels: { singular: 'Metalogro', plural: 'Metalogros' },
   admin: {
     useAsTitle: 'name',
-    group: 'Guías',
-    defaultColumns: ['name', 'section', 'order', 'state', 'updatedAt'],
+    group: panelStrings.groups.content,
+    hideAPIURL: true,
+    defaultColumns: ['name', 'section', 'order', 'state', '_status', 'updatedAt'],
+    listSearchableFields: ['name', 'slug'],
   },
   access: {
     read: readPublishedOrAll,
@@ -65,16 +69,16 @@ export const AchievementGroups: CollectionConfig = {
     },
     {
       name: 'slug',
-      label: 'Slug',
+      label: SLUG_LABEL,
       type: 'text',
       required: true,
       unique: true,
       index: true,
       validate: linkedSlugValidator('category'),
-      admin: {
-        position: 'sidebar',
-        description: 'El de tu web: metalogro-astrub.',
-      },
+      admin: slugAdmin(
+        'La de tu web: metalogro-astrub. El metalogro se abre en su panel del índice.',
+        'metalogro',
+      ),
     },
     stateField,
     {

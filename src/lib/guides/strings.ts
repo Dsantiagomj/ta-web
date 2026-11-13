@@ -43,11 +43,11 @@ export const guideStrings = {
   fallbackSlug: 'guia',
   admin: {
     questDescription:
-      'Elige primero la misión de DofusDB de la guía, solo una: rellena el título, el slug, ' +
+      'Elige primero la misión de DofusDB de la guía, solo una: rellena el título, la dirección, ' +
       'el SEO y el resumen. Luego solo te queda escribir la guía.',
     titleDescription: 'Si lo dejas vacío, se usa el nombre de la misión.',
     slugDescription:
-      'La URL de la guía, como aprendizaje-escudero. Si la dejas vacía, sale del nombre de la misión.',
+      'La de la guía, como aprendizaje-escudero. Si la dejas vacía, sale del nombre de la misión.',
     summaryDescription:
       'Al elegir la misión, cada campo vacío se rellena con lo que da DofusDB. ' +
       'Cámbialo con libertad: lo que escribas no se sobrescribe.',
@@ -66,7 +66,7 @@ export const guideStrings = {
     seoDescription:
       'Se rellena solo desde la misión si lo dejas vacío. Puedes cambiarlo cuando quieras.',
     slugReserved: (slug: string) =>
-      `/${slug} es una página del sitio: elige otro slug para la guía.`,
+      `/${slug} es una página del sitio: elige otra dirección para la guía.`,
     titleRequired: 'Escribe un título o elige una misión de DofusDB para sacarlo de ella.',
     fromDofusDb: 'Viene de DofusDB. Puedes cambiarlo.',
     changed: (value: string) => `Cambiado. DofusDB da: ${value}`,

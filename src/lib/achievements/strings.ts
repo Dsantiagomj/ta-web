@@ -28,9 +28,10 @@ export const achievementStrings = {
     alternatives: (name: string, count: number) => `${name} (una de ${count})`,
     stateDescription:
       'Publicada: se ve y se puede abrir. En preparación: se ve apagada, sin enlace, con la ' +
-      'etiqueta «En preparación». Lo decides tú; el refresco de DofusDB no lo cambia.',
+      'etiqueta «En preparación». Lo decides tú; el refresco de DofusDB no lo cambia. ' +
+      'Además, pulsa «Publicar cambios» arriba para que lo que cambies salga en la web.',
     slugTaken: (slug: string, owner: string) =>
-      `/${slug} ya es la página de ${owner}: elige otro slug.`,
+      `/${slug} ya es la página de ${owner}: elige otra dirección.`,
   },
 } as const
 

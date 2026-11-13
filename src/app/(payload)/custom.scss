@@ -1,6 +1,187 @@
 /* Estilos propios del panel. */
 
+/*
+ * Colores de Arcano (DESIGN.md, Color). Payload pinta todo con su escala de grises
+ * --color-base-* y la invierte en modo oscuro; aquí la escala tiene el tono de Arcano y la
+ * misma luminancia que la gris en los pasos intermedios, así que los contrastes de Payload
+ * no cambian. Los extremos son los de Arcano: fondo, superficie, relleno y línea de cada
+ * modo (base-0 a 100 en claro, base-750 a 900 en oscuro).
+ */
+:root {
+  --color-base-0: #ffffff;
+  --color-base-50: #f4f2fb;
+  --color-base-100: #e9e5f7;
+  --color-base-150: #dedbeb;
+  --color-base-200: #d1cee3;
+  --color-base-250: #c4c0db;
+  --color-base-300: #b7b1d3;
+  --color-base-350: #aaa3cb;
+  --color-base-400: #9c94c3;
+  --color-base-450: #8f86bb;
+  --color-base-500: #8278b3;
+  --color-base-550: #7469ab;
+  --color-base-600: #675ba2;
+  --color-base-650: #594f8c;
+  --color-base-700: #4c4377;
+  --color-base-750: #363160;
+  --color-base-800: #221e3b;
+  --color-base-850: #17142a;
+  --color-base-900: #0f0d1a;
+  --color-base-950: #07060b;
+  --color-base-1000: #000000;
+
+  /* Los tokens de Arcano claro que usan la marca y las notas. */
+  --ta-bg: #f4f2fb;
+  --ta-ink: #1b1630;
+  --ta-muted: #5f5782;
+  --ta-accent: #0a6a85;
+}
+
+html[data-theme='dark'] {
+  --ta-bg: #0f0d1a;
+  --ta-ink: #ece9ff;
+  --ta-muted: #9089ba;
+  --ta-accent: #6fe3ff;
+}
+
+/*
+ * La ayuda bajo los campos: Payload usa un gris que en claro no llega a 4.5:1. El muted de
+ * Arcano pasa en los dos modos (5.97 y 5.92 sobre el fondo).
+ */
+.field-description {
+  color: var(--ta-muted);
+}
+
 /* Las notas bajo un campo (SummaryNote, DofusDbNote) respetan sus saltos de línea. */
 .field-note {
   white-space: pre-line;
+}
+
+/*
+ * Un solo idioma: ni el selector de idioma de la cabecera ni el «— Español» tras cada
+ * campo traducible dicen nada. Vuelven solos con un segundo idioma, quitando esto.
+ */
+.localizer,
+.field-label .localized {
+  display: none;
+}
+
+/* La dirección completa bajo «Dirección en la web» (SlugDescription), debajo de la ayuda. */
+.ta-slug-description {
+  display: block;
+}
+
+.ta-address {
+  display: block;
+  margin-top: 0.25rem;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.ta-address strong {
+  color: var(--ta-ink);
+}
+
+/* El botón Copiar del identificador de un paso (CopyValueDescription). */
+.ta-copy {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ta-copy__button {
+  margin: 0;
+}
+
+.ta-copy__status:empty {
+  display: none;
+}
+
+/* El emblema (DESIGN.md, Brand): sombrero en acento, glifo en fondo y cara en tinta. */
+.ta-emblem [data-part='hat'] {
+  fill: var(--ta-accent);
+}
+
+.ta-emblem [data-part='glyph'] {
+  stroke: var(--ta-bg);
+}
+
+.ta-emblem [data-part='eyes'] {
+  stroke: var(--ta-ink);
+}
+
+.ta-emblem [data-part='grin'] {
+  fill: var(--ta-ink);
+}
+
+/* El logo del inicio de sesión, como el «Sello» del sitio. */
+.ta-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--ta-ink);
+}
+
+.ta-brand .ta-emblem {
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+.ta-brand__word {
+  display: grid;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.ta-brand__accent {
+  color: var(--ta-accent);
+}
+
+.ta-icon {
+  display: inline-flex;
+}
+
+.ta-icon .ta-emblem {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.ta-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* La bienvenida sobre el formulario de inicio de sesión. */
+.ta-welcome {
+  margin-bottom: 1.5rem;
+  color: var(--ta-muted);
+}
+
+.ta-welcome p {
+  margin: 0;
+}
+
+.ta-welcome__title {
+  color: var(--ta-ink);
+  font-weight: 600;
+}
+
+/*
+ * «Añadir Paso», «Añadir Bloque», las cabeceras de las listas, el texto del editor vacío y el
+ * de las zonas de subida: Payload los pinta en un gris que en claro no llega a 4.5:1. Van en el muted de Arcano, como la ayuda de los campos.
+ */
+.array-field__add-row .btn__label,
+.blocks-field__drawer-toggler .btn__label,
+.sort-column__label .field-label,
+.LexicalEditorTheme__placeholder,
+.upload__dragAndDropText,
+.file-field__dragAndDropText,
+.upload-relationship-details__meta {
+  color: var(--ta-muted);
 }

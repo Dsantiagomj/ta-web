@@ -20,6 +20,7 @@ import {
 import { fillFromQuest } from '@/collections/quest-guide-autofill'
 import { livePicks } from '@/lib/guides/need-notes'
 import { guideStrings } from '@/lib/guides/strings'
+import { panelStrings } from '@/lib/admin/strings'
 
 function field(name: string, fields: Field[] = QuestGuides.fields): Field {
   const found = fields.find((candidate) => 'name' in candidate && candidate.name === name)
@@ -39,8 +40,8 @@ describe('colección quest-guides', () => {
     expect(QuestGuides.slug).toBe('quest-guides')
     expect(QuestGuides.admin).toMatchObject({
       useAsTitle: 'title',
-      group: 'Guías',
-      defaultColumns: ['title', 'slug', '_status', 'updatedAt'],
+      group: 'Contenido',
+      defaultColumns: ['title', '_status', 'updatedAt'],
     })
   })
 
@@ -331,23 +332,23 @@ describe('validateSlug', () => {
     expect(validateSlug('incarnam')).toBe(true)
   })
 
-  it('rechaza un slug vacío', () => {
-    expect(validateSlug(undefined)).toMatch(/slug/)
-    expect(validateSlug(null)).toMatch(/slug/)
-    expect(validateSlug('')).toMatch(/slug/)
+  it('rechaza un slug vacío con su propio mensaje: pide escribir la dirección', () => {
+    expect(validateSlug(undefined)).toBe(panelStrings.slug.required)
+    expect(validateSlug(null)).toBe(panelStrings.slug.required)
+    expect(validateSlug('')).toBe(panelStrings.slug.required)
   })
 
   it('rechaza tildes, eñes, mayúsculas y espacios, para que la URL quede en ASCII', () => {
-    expect(validateSlug('la-misión')).toMatch(/slug/)
-    expect(validateSlug('el-dueño')).toMatch(/slug/)
-    expect(validateSlug('Aprendizaje-Escudero')).toMatch(/slug/)
-    expect(validateSlug('aprendizaje escudero')).toMatch(/slug/)
+    expect(validateSlug('la-misión')).toBe(panelStrings.slug.format)
+    expect(validateSlug('el-dueño')).toBe(panelStrings.slug.format)
+    expect(validateSlug('Aprendizaje-Escudero')).toBe(panelStrings.slug.format)
+    expect(validateSlug('aprendizaje escudero')).toBe(panelStrings.slug.format)
   })
 
   it('rechaza guiones dobles o en los extremos', () => {
-    expect(validateSlug('aprendizaje--escudero')).toMatch(/slug/)
-    expect(validateSlug('-aprendizaje')).toMatch(/slug/)
-    expect(validateSlug('aprendizaje-')).toMatch(/slug/)
+    expect(validateSlug('aprendizaje--escudero')).toBe(panelStrings.slug.format)
+    expect(validateSlug('-aprendizaje')).toBe(panelStrings.slug.format)
+    expect(validateSlug('aprendizaje-')).toBe(panelStrings.slug.format)
   })
 })
 

@@ -26,6 +26,7 @@ import { DofusGuidesIndex } from './globals/DofusGuidesIndex'
 import { healthEndpoint } from './endpoints/health'
 import { readyEndpoint } from './endpoints/ready'
 import { searchIndexEndpoint } from './endpoints/search-index'
+import { panelStrings } from './lib/admin/strings'
 import { resolveDatabaseUrl, shouldPushSchema } from './lib/db/database-url'
 import { SITE_LOCALE } from './lib/site/locale'
 import { mediaStorage } from './lib/media/storage'
@@ -39,9 +40,32 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    dateFormat: panelStrings.dateFormat,
+    // La marca de Torrente Arcano en lugar de la de Payload (src/components/admin/PanelBrand.tsx).
+    meta: {
+      titleSuffix: panelStrings.titleSuffix,
+      icons: [
+        { rel: 'icon', type: 'image/png', sizes: '32x32', url: '/icon1.png' },
+        { rel: 'icon', type: 'image/svg+xml', url: '/icon2.svg' },
+        { rel: 'apple-touch-icon', url: '/apple-icon.png' },
+      ],
+    },
+    components: {
+      graphics: {
+        Logo: '/components/admin/PanelBrand#PanelLogo',
+        Icon: '/components/admin/PanelBrand#PanelIcon',
+      },
+      beforeLogin: ['/components/admin/PanelBrand#LoginWelcome'],
+    },
   },
+  // El orden es el del menú: primero el contenido de Torre, luego las imágenes, los datos
+  // del juego (solo lectura) y las cuentas del panel. Cada grupo sale de `admin.group`.
   collections: [
-    Users,
+    QuestGuides,
+    AchievementPages,
+    AchievementGroups,
+    DofusGuides,
+    Checklists,
     Media,
     Quests,
     Items,
@@ -51,23 +75,22 @@ export default buildConfig({
     SubAreas,
     AchievementCategories,
     Achievements,
-    QuestGuides,
-    AchievementPages,
-    AchievementGroups,
-    DofusGuides,
-    Checklists,
+    Users,
   ],
   globals: [DofusGuidesIndex],
-  editor: lexicalEditor(),
+  editor: lexicalEditor({ admin: { placeholder: panelStrings.editorPlaceholder } }),
   // GET /api/health, la comprobación de vida que llaman los monitores (nunca toca la base);
   // GET /api/ready, la de la base, para los smoke tests tras un despliegue;
   // GET /api/search/guides, el índice de la búsqueda de la cabecera.
   // GET /api/dofusdb-values/…, lo que da DofusDB para las notas del panel de logros.
   endpoints: [healthEndpoint, readyEndpoint, searchIndexEndpoint, dofusDbValuesEndpoint],
   // Panel en español.
+  // Algunas palabras de Payload cambian: el estado de la cabecera dice si lo guardado ya está
+  // en la web, de tú (src/lib/admin/strings.ts).
   i18n: {
     fallbackLanguage: 'es',
     supportedLanguages: { es },
+    translations: { es: panelStrings.translations },
   },
   // Solo español al lanzar; los campos traducibles llevan `localized: true`
   // para que un segundo idioma sea una traducción y no una reescritura.

@@ -9,6 +9,8 @@ const dirname = path.dirname(fileURLToPath(import.meta.url))
 const nextConfig: NextConfig = {
   // AGENTS.md es nuestro contrato, escrito a mano; next dev no debe añadirle su bloque.
   agentRules: false,
+  // Sin la burbuja de Next en desarrollo: tapaba el panel en cada captura.
+  devIndicators: false,
   // Payload genera las variantes AVIF y WebP al subir; la app nunca optimiza imágenes al vuelo.
   images: {
     unoptimized: true,

@@ -10,13 +10,15 @@ import { dofusGuideStrings } from '../lib/dofus-guides/strings'
 import { guidePreviewUrl, previewOrigin } from '../lib/guides/preview'
 import { stateField } from './achievement-fields'
 import { isPanelUser, readPublishedOrAll } from './editorial-access'
-import { validateOptionalUrl } from './Media'
+import { originalUrlAdmin, validateOptionalUrl } from './Media'
 import { validateSlug } from './QuestGuides'
 import {
   revalidateDofusGuidesAfterChange,
   revalidateDofusGuidesAfterDelete,
 } from './revalidate-guides'
 import { rejectSharedSlug } from './root-slug'
+import { SLUG_LABEL, slugAdmin } from './slug-field'
+import { panelStrings } from '../lib/admin/strings'
 
 const s = dofusGuideStrings.admin
 
@@ -186,8 +188,10 @@ export const DofusGuides: CollectionConfig = {
   labels: { singular: 'Guía de Dofus', plural: 'Guías de Dofus' },
   admin: {
     useAsTitle: 'name',
-    group: 'Guías',
+    group: panelStrings.groups.content,
+    hideAPIURL: true,
     defaultColumns: ['name', 'order', 'state', '_status', 'updatedAt'],
+    listSearchableFields: ['name', 'slug', 'aliases'],
     // La página pública en el panel, borrador incluido, como las guías y los logros.
     livePreview: {
       url: ({ data, req }) => guidePreviewUrl(data?.slug, previewOrigin(process.env, req.origin)),
@@ -229,13 +233,13 @@ export const DofusGuides: CollectionConfig = {
     {
       // Sin traducir: la URL es la misma en todos los idiomas. Comparte /<slug> con las guías.
       name: 'slug',
-      label: 'Slug',
+      label: SLUG_LABEL,
       type: 'text',
       required: true,
       unique: true,
       index: true,
       validate: validateSlug,
-      admin: { position: 'sidebar', description: s.slugDescription },
+      admin: slugAdmin(s.slugDescription),
     },
     stateField,
     {
@@ -300,6 +304,14 @@ export const DofusGuides: CollectionConfig = {
           label: 'Grupos',
           labels: { singular: 'Grupo', plural: 'Grupos' },
           type: 'array',
+          admin: {
+            components: {
+              RowLabel: {
+                path: '/components/admin/RowLabels#TextRowLabel',
+                clientProps: { singular: panelStrings.rowLabels.group, field: 'name' },
+              },
+            },
+          },
           fields: [
             { name: 'name', label: 'Nombre del grupo', type: 'text', localized: true },
             {
@@ -320,7 +332,7 @@ export const DofusGuides: CollectionConfig = {
       label: 'Logros y misiones',
       labels: { singular: 'Parte', plural: 'Partes' },
       type: 'blocks',
-      admin: { description: s.partsDescription },
+      admin: { description: s.partsDescription, initCollapsed: true },
       blocks: [
         AchievementPartBlock,
         MetalogroPartBlock,
@@ -371,10 +383,10 @@ export const DofusGuides: CollectionConfig = {
     },
     {
       name: 'originalUrl',
-      label: 'URL original',
+      label: panelStrings.originalUrl.label,
       type: 'text',
       validate: validateOptionalUrl,
-      admin: { position: 'sidebar', description: 'URL de la página en Squarespace' },
+      admin: { ...originalUrlAdmin, position: 'sidebar' },
     },
   ],
 }

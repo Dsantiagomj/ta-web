@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { gameDataAccess } from './game-data-access'
+import { panelStrings } from '../lib/admin/strings'
 
 // Categorías de logros de DofusDB («Astrub», dentro de «Misiones»). Cada metalogro de Torre
 // apunta a una; el refresco las trae todas.
@@ -9,7 +10,8 @@ export const AchievementCategories: CollectionConfig = {
   labels: { singular: 'Categoría de logros de DofusDB', plural: 'Categorías de logros de DofusDB' },
   admin: {
     useAsTitle: 'name',
-    group: 'Datos del juego',
+    group: panelStrings.groups.gameData,
+    hideAPIURL: true,
     defaultColumns: ['name', 'dofusId', 'parent', 'order'],
     description: 'Datos de DofusDB, de solo lectura. Los actualiza un script.',
   },

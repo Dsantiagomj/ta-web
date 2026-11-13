@@ -15,6 +15,8 @@ import {
   revalidateAchievementPagesAfterDelete,
 } from './revalidate-guides'
 import { rejectSharedSlug } from './root-slug'
+import { SLUG_LABEL, slugAdmin } from './slug-field'
+import { panelStrings } from '../lib/admin/strings'
 
 const note = (field: string) => dofusDbNote('achievement', field)
 
@@ -26,8 +28,10 @@ export const AchievementPages: CollectionConfig = {
   labels: { singular: 'Logro', plural: 'Logros' },
   admin: {
     useAsTitle: 'name',
-    group: 'Guías',
+    group: panelStrings.groups.content,
+    hideAPIURL: true,
     defaultColumns: ['name', 'group', 'state', '_status', 'updatedAt'],
+    listSearchableFields: ['name', 'slug'],
     // La página pública en el panel, borrador incluido, como las guías.
     livePreview: {
       url: ({ data, req }) => guidePreviewUrl(data?.slug, previewOrigin(process.env, req.origin)),
@@ -74,17 +78,16 @@ export const AchievementPages: CollectionConfig = {
     {
       // Sin traducir: la URL es la misma en todos los idiomas. Comparte /<slug> con las guías.
       name: 'slug',
-      label: 'Slug',
+      label: SLUG_LABEL,
       type: 'text',
       required: true,
       unique: true,
       index: true,
       validate: linkedSlugValidator('achievement'),
-      admin: {
-        position: 'sidebar',
-        description:
-          'La URL del logro, la misma que en la web de Torre: la-ocasion-hace-al-ladron.',
-      },
+      admin: slugAdmin(
+        'La del logro, la misma que en tu web: la-ocasion-hace-al-ladron. Si la dejas vacía, ' +
+          'sale del nombre.',
+      ),
     },
     stateField,
     {
@@ -108,6 +111,18 @@ export const AchievementPages: CollectionConfig = {
       admin: {
         ...note('quests'),
         initCollapsed: true,
+        components: {
+          ...note('quests').components,
+          RowLabel: {
+            path: '/components/admin/RowLabels#RelationRowLabel',
+            clientProps: {
+              singular: panelStrings.rowLabels.quest,
+              textField: 'name',
+              relationField: 'quests',
+              relationTo: 'quests',
+            },
+          },
+        },
       },
       fields: [
         { name: 'name', label: 'Nombre', type: 'text', localized: true },
@@ -133,6 +148,7 @@ export const AchievementPages: CollectionConfig = {
         {
           name: 'items',
           label: 'Objetos',
+          labels: { singular: 'Objeto', plural: 'Objetos' },
           type: 'array',
           admin: note('items'),
           fields: [
