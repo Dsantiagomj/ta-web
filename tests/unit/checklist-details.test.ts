@@ -8,7 +8,7 @@ import { checklistDetails } from '@/lib/checklists/details'
 // quién da cada misión, dónde, y sus objetivos con sus coordenadas.
 
 describe('checklistDetails', () => {
-  it('da por cada misión el PNJ y la posición de inicio y sus objetivos aplanados, sin marcas de DofusDB', () => {
+  it('da por cada misión el PNJ y la posición de inicio y sus objetivos aplanados, sin marcas de DofusDB, con su subzona', () => {
     const details = checklistDetails(
       [
         {
@@ -17,12 +17,28 @@ describe('checklistDetails', () => {
           stages: [
             {
               dofusId: 1,
-              objectives: [{ dofusId: 1, kind: 'npc', text: 'Ve a ver a {npc,1}', x: -5, y: -5 }],
+              objectives: [
+                {
+                  dofusId: 1,
+                  kind: 'npc',
+                  text: 'Ve a ver a {npc,1}',
+                  x: -5,
+                  y: -5,
+                  subAreaId: 31,
+                },
+              ],
             },
             {
               dofusId: 2,
               objectives: [
-                { dofusId: 2, kind: 'fight', text: 'Vence a 1 x Rey Nidas', x: null, y: null },
+                {
+                  dofusId: 2,
+                  kind: 'fight',
+                  text: 'Vence a 1 x Rey Nidas',
+                  x: null,
+                  y: null,
+                  subAreaId: 99,
+                },
               ],
             },
           ],
@@ -30,6 +46,7 @@ describe('checklistDetails', () => {
         { dofusId: 1300, startPositions: [], stages: [] },
       ],
       { npc: { 1: 'Wello' }, item: {}, monster: {} },
+      { 31: 'Anutropía' },
     )
 
     expect(details).toEqual({
@@ -39,8 +56,9 @@ describe('checklistDetails', () => {
           -5,
           -5,
           [
-            ['npc', 'Ve a ver a Wello', -5, -5],
-            ['fight', 'Vence a 1 x Rey Nidas', null, null],
+            // El nombre de la subzona del objetivo; si no está guardada, ninguno
+            ['npc', 'Ve a ver a Wello', -5, -5, 'Anutropía'],
+            ['fight', 'Vence a 1 x Rey Nidas', null, null, null],
           ],
         ],
         1300: [null, null, null, []],

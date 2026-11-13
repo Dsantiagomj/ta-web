@@ -18,6 +18,7 @@ const QUESTS = { stop: 990_201, guided: 990_202, before: 990_206 }
 const NPC = 990_203
 const ITEM = 990_204
 const ACHIEVEMENT = 990_205
+const SUBAREA = 990_207
 
 async function cleanUp() {
   for (const [collection, where] of [
@@ -28,6 +29,7 @@ async function cleanUp() {
     ['npcs', { dofusId: { equals: NPC } }],
     ['items', { dofusId: { equals: ITEM } }],
     ['achievements', { dofusId: { equals: ACHIEVEMENT } }],
+    ['subareas', { dofusId: { equals: SUBAREA } }],
   ] as const) {
     await payload.delete({ collection, where, overrideAccess: true })
   }
@@ -52,7 +54,14 @@ beforeAll(async () => {
           {
             dofusId: 1,
             objectives: [
-              { dofusId: 1, kind: 'npc', text: 'Ve a ver a {npc,990203}', x: -4, y: -2 },
+              {
+                dofusId: 1,
+                kind: 'npc',
+                text: 'Ve a ver a {npc,990203}',
+                x: -4,
+                y: -2,
+                subAreaId: SUBAREA,
+              },
               { dofusId: 2, kind: 'bring', text: 'Entrégale a Wello: 3 x {item,990204}' },
             ],
           },
@@ -80,6 +89,7 @@ beforeAll(async () => {
     })
   ).id
   await payload.create({ collection: 'npcs', data: { dofusId: NPC, name: 'Desalmago' } })
+  await payload.create({ collection: 'subareas', data: { dofusId: SUBAREA, name: 'Anutropía' } })
   await payload.create({ collection: 'items', data: { dofusId: ITEM, name: 'Muestra' } })
   ids.achievement = (
     await payload.create({
@@ -246,8 +256,8 @@ describe('readChecklistDetails', () => {
       -5,
       -5,
       [
-        ['npc', 'Ve a ver a Desalmago', -4, -2],
-        ['bring', 'Entrégale a Wello: 3 x Muestra', null, null],
+        ['npc', 'Ve a ver a Desalmago', -4, -2, 'Anutropía'],
+        ['bring', 'Entrégale a Wello: 3 x Muestra', null, null, null],
       ],
     ])
     expect(details?.q[QUESTS.guided]).toEqual([null, null, null, []])

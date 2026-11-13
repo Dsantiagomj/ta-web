@@ -1876,3 +1876,10 @@ html[data-js] .ck-slot:not([data-owned], [data-used]) .ck-slot__w img {
     padding: 0 1rem;
   }
 }
+
+/* La subzona de un objetivo, bajo su texto, cuando cambia (llega con los detalles) */
+.ck-o__a {
+  display: block;
+  color: var(--color-ink-2);
+  font-size: var(--text-xs);
+}
