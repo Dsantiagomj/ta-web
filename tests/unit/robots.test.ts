@@ -10,10 +10,25 @@ describe('robotsFor', () => {
     })
   })
 
-  it('en producción permite indexar la web pero no el panel', () => {
-    expect(robotsFor({ RAILWAY_ENVIRONMENT_NAME: 'production' })).toEqual({
+  it('en producción permite indexar la web pero no el panel, y apunta al sitemap', () => {
+    expect(
+      robotsFor({
+        RAILWAY_ENVIRONMENT_NAME: 'production',
+        NEXT_PUBLIC_SITE_URL: 'https://www.torrentearcano.com/',
+      }),
+    ).toEqual({
       rules: { userAgent: '*', allow: '/', disallow: '/admin' },
+      sitemap: 'https://www.torrentearcano.com/sitemap.xml',
     })
-    expect(robotsFor({})).toEqual({ rules: { userAgent: '*', allow: '/', disallow: '/admin' } })
+    expect(robotsFor({})).toEqual({
+      rules: { userAgent: '*', allow: '/', disallow: '/admin' },
+      sitemap: 'http://localhost:3000/sitemap.xml',
+    })
+  })
+
+  it('en dev no anuncia el sitemap: nada se rastrea', () => {
+    expect(
+      robotsFor({ APP_ENV: 'dev', NEXT_PUBLIC_SITE_URL: 'https://dev.example' }),
+    ).not.toHaveProperty('sitemap')
   })
 })

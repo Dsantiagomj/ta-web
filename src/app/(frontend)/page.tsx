@@ -1,3 +1,5 @@
+import type { Metadata } from 'next'
+
 import { Areas } from '@/components/home/Areas'
 import { Author } from '@/components/home/Author'
 import { ChecklistsSection } from '@/components/home/ChecklistsSection'
@@ -8,6 +10,10 @@ import { liveState } from '@/lib/site/live'
 import '@/components/home/home.css'
 
 import { loadChecklistNav, loadSiteCounts } from './site-data'
+
+// La URL canónica de la portada: «/», sin la query (?directo=…). El título y la descripción
+// son los del layout.
+export const metadata: Metadata = { alternates: { canonical: '/' } }
 
 /**
  * La portada (DESIGN.md, Layout: Home): el directo si lo hay, el hero con la búsqueda, qué
