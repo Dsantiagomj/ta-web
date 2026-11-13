@@ -16,6 +16,7 @@ import * as migration_20261110_000232_dofus_guides from './20261110_000232_dofus
 import * as migration_20261110_052805_dofus_guides_import from './20261110_052805_dofus_guides_import';
 import * as migration_20261110_131101_dofus_guides_index from './20261110_131101_dofus_guides_index';
 import * as migration_20261113_011531_quest_stages from './20261113_011531_quest_stages';
+import * as migration_20261113_151549_checklists from './20261113_151549_checklists';
 
 export const migrations = [
   {
@@ -106,6 +107,11 @@ export const migrations = [
   {
     up: migration_20261113_011531_quest_stages.up,
     down: migration_20261113_011531_quest_stages.down,
-    name: '20261113_011531_quest_stages'
+    name: '20261113_011531_quest_stages',
+  },
+  {
+    up: migration_20261113_151549_checklists.up,
+    down: migration_20261113_151549_checklists.down,
+    name: '20261113_151549_checklists'
   },
 ];

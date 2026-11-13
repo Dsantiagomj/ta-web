@@ -79,6 +79,7 @@ export interface Config {
     'achievement-pages': AchievementPage;
     'achievement-groups': AchievementGroup;
     'dofus-guides': DofusGuide;
+    checklists: Checklist;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -98,6 +99,7 @@ export interface Config {
     'achievement-pages': AchievementPagesSelect<false> | AchievementPagesSelect<true>;
     'achievement-groups': AchievementGroupsSelect<false> | AchievementGroupsSelect<true>;
     'dofus-guides': DofusGuidesSelect<false> | DofusGuidesSelect<true>;
+    checklists: ChecklistsSelect<false> | ChecklistsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -1152,6 +1154,210 @@ export interface DofusNoteBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "checklists".
+ */
+export interface Checklist {
+  id: number;
+  /**
+   * El nombre de la checklist, como sale en su página y en el menú.
+   */
+  name: string;
+  /**
+   * La URL de la checklist, la misma que en la web de Torre: checklist-nebuloso.
+   */
+  slug: string;
+  /**
+   * Publicada: se ve y se puede abrir. En preparación: sale en el menú sin página propia y enlaza a la checklist de Squarespace. Lo decides tú; la importación no lo cambia.
+   */
+  state: 'published' | 'preparing';
+  /**
+   * La checklist en Squarespace mientras esta no esté lista. Deja de usarse al publicarla.
+   */
+  legacyHref?: string | null;
+  /**
+   * Su lugar en la lista de checklists: la 1 sale primero.
+   */
+  order: number;
+  /**
+   * Una frase para el índice y el menú. Sin cifras de pasos ni de misiones: cambian.
+   */
+  description?: string | null;
+  /**
+   * La guía de su Dofus: de ella salen el huevo y el color de la página.
+   */
+  dofusGuide?: (number | null) | DofusGuide;
+  /**
+   * Lo que hay que tener antes de empezar, por grupos.
+   */
+  prerequisites?: {
+    /**
+     * El texto sobre las listas de prerrequisitos.
+     */
+    intro?: string | null;
+    groups?:
+      | {
+          title?: string | null;
+          rows?:
+            | {
+                /**
+                 * Guarda lo que cada persona marcó: no la cambies, o perderá esa marca.
+                 */
+                key: string;
+                text: string;
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Los pasos de la guía, en tu orden.
+   */
+  steps?:
+    | {
+        /**
+         * Guarda el progreso de cada persona en este paso. Se crea al guardar y no cambia.
+         */
+        stepId?: string | null;
+        legacyNumber?: number | null;
+        /**
+         * El texto del paso, por tramos y en orden. Un tramo «Detente aquí» dice hasta dónde avanzar una misión; uno «Aquí se resuelve» termina las misiones que otros pasos dejaron a medias.
+         */
+        segments?:
+          | {
+              kind: 'plain' | 'stop' | 'resolve';
+              text: string;
+              /**
+               * La misión que se deja a medias.
+               */
+              quest?: (number | null) | Quest;
+              /**
+               * El objetivo de esa misión donde hay que parar, contando desde 0 en la lista de objetivos de la misión, etapa tras etapa.
+               */
+              stopObjective?: number | null;
+              /**
+               * Los identificadores de los pasos cuyas misiones termina este tramo. Copia el identificador del paso, arriba en cada paso.
+               */
+              closes?: string[] | null;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * Una nota del paso, aparte de su texto.
+         */
+        note?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        achievements?:
+          | {
+              achievement: number | Achievement;
+              mode: 'all' | 'some';
+              /**
+               * Las misiones del logro que se hacen en este paso: 1, 2…
+               */
+              on?: number[] | null;
+              id?: string | null;
+            }[]
+          | null;
+        quests?:
+          | {
+              quest: number | Quest;
+              kind: 'mandatory' | 'optional' | 'take';
+              /**
+               * Una nota corta junto a la misión.
+               */
+              note?: string | null;
+              /**
+               * El identificador del paso que termina esta misión opcional, si otro paso la termina.
+               */
+              optionalDoneBy?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        needs?:
+          | {
+              item: number | Item;
+              quantity: number;
+              note?: string | null;
+              /**
+               * Las misiones que piden este objeto.
+               */
+              quests?: (number | Quest)[] | null;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * La imagen del paso: un PNJ o una imagen subida.
+         */
+        figure?: {
+          npc?: (number | null) | Npc;
+          image?: (number | null) | Media;
+          /**
+           * Qué papel tiene, como «Inicia el paso».
+           */
+          role?: string | null;
+        };
+        /**
+         * Los jefes que hay que vencer en el paso.
+         */
+        bosses?: (number | Monster)[] | null;
+        /**
+         * La imagen de cabecera del paso, normalmente el mapa donde empieza.
+         */
+        banner?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  legacy?: {
+    prefix?: string | null;
+    classicKeys?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    guideVersion?: number | null;
+    previousSteps?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  importSnapshot?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -1221,6 +1427,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'dofus-guides';
         value: number | DofusGuide;
+      } | null)
+    | ({
+        relationTo: 'checklists';
+        value: number | Checklist;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1920,6 +2130,102 @@ export interface DofusNoteBlockSelect<T extends boolean = true> {
   text?: T;
   id?: T;
   blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "checklists_select".
+ */
+export interface ChecklistsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  state?: T;
+  legacyHref?: T;
+  order?: T;
+  description?: T;
+  dofusGuide?: T;
+  prerequisites?:
+    | T
+    | {
+        intro?: T;
+        groups?:
+          | T
+          | {
+              title?: T;
+              rows?:
+                | T
+                | {
+                    key?: T;
+                    text?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+      };
+  steps?:
+    | T
+    | {
+        stepId?: T;
+        legacyNumber?: T;
+        segments?:
+          | T
+          | {
+              kind?: T;
+              text?: T;
+              quest?: T;
+              stopObjective?: T;
+              closes?: T;
+              id?: T;
+            };
+        note?: T;
+        achievements?:
+          | T
+          | {
+              achievement?: T;
+              mode?: T;
+              on?: T;
+              id?: T;
+            };
+        quests?:
+          | T
+          | {
+              quest?: T;
+              kind?: T;
+              note?: T;
+              optionalDoneBy?: T;
+              id?: T;
+            };
+        needs?:
+          | T
+          | {
+              item?: T;
+              quantity?: T;
+              note?: T;
+              quests?: T;
+              id?: T;
+            };
+        figure?:
+          | T
+          | {
+              npc?: T;
+              image?: T;
+              role?: T;
+            };
+        bosses?: T;
+        banner?: T;
+        id?: T;
+      };
+  legacy?:
+    | T
+    | {
+        prefix?: T;
+        classicKeys?: T;
+        guideVersion?: T;
+        previousSteps?: T;
+      };
+  importSnapshot?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

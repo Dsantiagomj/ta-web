@@ -9,6 +9,7 @@ import { fileURLToPath } from 'url'
 import { AchievementCategories } from './collections/AchievementCategories'
 import { AchievementGroups } from './collections/AchievementGroups'
 import { AchievementPages } from './collections/AchievementPages'
+import { Checklists } from './collections/Checklists'
 import { Achievements } from './collections/Achievements'
 import { DofusGuides } from './collections/DofusGuides'
 import { Items } from './collections/Items'
@@ -48,6 +49,7 @@ export default buildConfig({
     AchievementPages,
     AchievementGroups,
     DofusGuides,
+    Checklists,
   ],
   globals: [DofusGuidesIndex],
   editor: lexicalEditor(),

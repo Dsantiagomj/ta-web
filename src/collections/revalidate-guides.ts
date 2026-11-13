@@ -2,6 +2,7 @@ import { revalidateTag } from 'next/cache'
 import type { CollectionAfterChangeHook, CollectionAfterDeleteHook } from 'payload'
 
 import { ACHIEVEMENT_PAGES_TAG } from '../lib/achievements/cache'
+import { CHECKLISTS_TAG } from '../lib/checklists/cache'
 import { DOFUS_GUIDES_TAG } from '../lib/dofus-guides/cache'
 import { GUIDE_PAGES_TAG } from '../lib/guides/cache'
 
@@ -35,6 +36,11 @@ export function revalidateAchievementPages(): void {
 /** Las guías de Dofus en caché (src/lib/dofus-guides/cache.ts). */
 export function revalidateDofusGuides(): void {
   expire(DOFUS_GUIDES_TAG)
+}
+
+/** Las checklists en caché (src/lib/checklists/cache.ts). */
+export function revalidateChecklists(): void {
+  expire(CHECKLISTS_TAG)
 }
 
 // Las guías y Media salen en las tres páginas: una guía publicada enlaza su tarjeta en el
@@ -80,5 +86,16 @@ export const revalidateDofusGuidesAfterChange: CollectionAfterChangeHook = ({ do
 export const revalidateDofusGuidesAfterDelete: CollectionAfterDeleteHook = ({ doc }) => {
   revalidateDofusGuides()
   revalidateGuidePages()
+  return doc
+}
+
+// Una checklist guardada, publicada o borrada: la siguiente visita lee la nueva.
+export const revalidateChecklistsAfterChange: CollectionAfterChangeHook = ({ doc }) => {
+  revalidateChecklists()
+  return doc
+}
+
+export const revalidateChecklistsAfterDelete: CollectionAfterDeleteHook = ({ doc }) => {
+  revalidateChecklists()
   return doc
 }
