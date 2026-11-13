@@ -19,7 +19,8 @@ import { checklistPageStrings as s } from '@/lib/checklists/strings'
 import { formatAmount } from '@/lib/guides/display'
 
 import '@/components/ui/ui.css'
-import './checklist.css'
+// checklist.css va dentro de achievement.css: una hoja menos en /<slug>.
+import '../achievement/achievement.css'
 
 const SEARCH_ICON = (
   <svg viewBox="0 0 20 20" aria-hidden="true">

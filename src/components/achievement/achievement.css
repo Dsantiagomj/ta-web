@@ -1,3 +1,8 @@
+/* Las checklists comparten la ruta /<slug> con las guías, los logros y las guías de Dofus:
+   sus reglas van en esta misma hoja para que la ruta no pida una quinta, que esperaría
+   conexión y retrasaría el LCP (tests/e2e/hojas-de-estilo.spec.ts). */
+@import '../checklist/checklist.css';
+
 /*
  * La página del logro (DESIGN.md, Achievement page): una sola columna de lectura centrada,
  * la cabecera de la guía con el icono del logro, las tarjetas de las misiones, «Cuenta para»
