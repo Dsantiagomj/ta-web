@@ -1,8 +1,8 @@
 # Gentleman Guardian Angel: revisión con IA de los archivos del commit contra AGENTS.md.
 # https://github.com/Gentleman-Programming/gentleman-guardian-angel
 #
-# Proveedor local: el CLI de Claude Code. GGA_PROVIDER lo sustituye sin tocar este
-# archivo (CI usa GGA_PROVIDER=codex).
+# Proveedor: el CLI de Claude Code. GGA_PROVIDER lo sustituye en una ejecución sin
+# tocar este archivo (GGA_PROVIDER=codex git commit …).
 PROVIDER="claude"
 
 # Lo que se revisa: código, estilos y docs.

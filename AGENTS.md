@@ -112,7 +112,7 @@ Access control and entitlements are tested at the data layer, in `tests/integrat
 | Types, lint and format | `pnpm typecheck`, `pnpm lint`, `pnpm format:check` | the whole repo |
 | Import (planned) | `pnpm test:import` | golden pages of the Squarespace import (phase 1) |
 
-CI (`.github/workflows/ci.yml`) runs lint, types, unit, integration, build, E2E, the dev gate suite, the budgets and the dependency audit (`docs/legacy/security.md`) on every PR and push to `main`; the `Pruebas` job requires all of them. The budgets run inside the E2E job, on its build and its Postgres, and upload their reports as the `lighthouse` artifact (7 days). Import joins when it exists. The `Revisión GGA` job reviews the PR with `gga` and Codex; it is advisory and not part of `Pruebas`. The repo is private, so Actions minutes are limited: keep jobs cached and skip what a change cannot affect.
+CI (`.github/workflows/ci.yml`) runs lint, types, unit, integration, build, E2E, the dev gate suite, the budgets and the dependency audit (`docs/legacy/security.md`) on every PR and push to `main`; the `Pruebas` job requires all of them. The budgets run inside the E2E job, on its build and its Postgres, and upload their reports as the `lighthouse` artifact (7 days). Import joins when it exists. The AI review (`gga`) runs only in the pre-commit hook, not in CI. The repo is private, so Actions minutes are limited: keep jobs cached and skip what a change cannot affect.
 
 ## Deploys
 
