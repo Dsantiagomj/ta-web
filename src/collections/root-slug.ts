@@ -7,6 +7,8 @@ import {
 
 import { achievementStrings } from '../lib/achievements/strings'
 import { isReservedSlug } from '../lib/guides/slug'
+import { legacySlugStrings } from '../lib/redirects/strings'
+import { isLegacySource } from '../lib/redirects/table'
 
 /**
  * Las colecciones con página en la raíz del sitio, /<slug>: las guías y las páginas de
@@ -30,6 +32,15 @@ const OWNER: Record<RootSlugCollection, string> = {
   'achievement-groups': 'un metalogro',
   'dofus-guides': 'una guía de Dofus',
   checklists: 'una checklist',
+}
+
+/**
+ * Si el proxy respondería /<slug> antes de llegar a la página: una URL de la tabla de
+ * redirecciones. Los metalogros no tienen página propia (su slug es el ancla de su panel en
+ * /metalogros), así que su tabla los lleva justo a su sitio.
+ */
+function shadowedByLegacy(slug: string, self: RootSlugCollection): boolean {
+  return self !== 'achievement-groups' && isLegacySource(slug)
 }
 
 /**
@@ -82,19 +93,27 @@ export async function isRootSlugTaken(
   self: RootSlugCollection,
   ownId?: number,
 ): Promise<boolean> {
-  if (isReservedSlug(slug)) return true
+  if (isReservedSlug(slug) || shadowedByLegacy(slug, self)) return true
   if (await slugOwner(req, slug, self)) return true
   return slugUsedIn(req, self, slug, ownId)
 }
 
 /**
  * Cada colección tiene su slug único; este hook rechaza el que ya usa otra de la raíz,
- * para que dos páginas nunca compartan URL.
+ * para que dos páginas nunca compartan URL, y el de una URL de la tabla de redirecciones,
+ * que el proxy taparía.
  */
 export function rejectSharedSlug(self: RootSlugCollection): CollectionBeforeValidateHook {
   return async ({ data, originalDoc, req }) => {
     const slug = data?.slug ?? originalDoc?.slug
     if (typeof slug !== 'string' || !slug) return data
+    if (shadowedByLegacy(slug, self)) {
+      throw new ValidationError({
+        collection: self,
+        errors: [{ path: 'slug', message: legacySlugStrings.taken(slug) }],
+        req,
+      })
+    }
     const owner = await slugOwner(req, slug, self)
     if (!owner) return data
     throw new ValidationError({

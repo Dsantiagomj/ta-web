@@ -62,6 +62,8 @@ export function appWebServers({
         // También la URL directa, que `pnpm migrate` prefiere: nunca una base real del shell.
         DATABASE_URL: databaseUrl,
         DATABASE_URL_DIRECT: databaseUrl,
+        // El origen público: en producción (next start) es obligatorio (src/lib/site/origin.ts).
+        NEXT_PUBLIC_SITE_URL: `http://localhost:${port}`,
         // Sin R2: la imagen sembrada va al disco local (./media) aunque el shell tenga las S3_*.
         S3_ENDPOINT: '',
         S3_BUCKET: '',

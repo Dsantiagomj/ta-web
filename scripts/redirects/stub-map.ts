@@ -1,5 +1,6 @@
 // El mapa de los esbozos vacíos de Squarespace (backlog B-04), en código puro: cada esbozo va
-// con un 301 a la página de su logro cuando un visitante puede abrirla, y con un 410 si no.
+// a la página de su logro cuando un visitante puede abrirla; queda sin fila (404) mientras esa
+// página esté En preparación, y da 410 solo si no hay página que esperar.
 // El esbozo es el nombre de un logro o el de una de sus misiones; casa por los datos de
 // DofusDB que ya tiene ta-web (las misiones con su logro, los logros con su lista). Lo usa
 // build-stub-redirects.ts, que lee esos datos y escribe la sección `stubs` de la tabla.
@@ -28,13 +29,11 @@ export type StubOutcome =
       via: 'achievement' | 'quest' | 'override'
       achievement?: string
     }
-  | {
-      slug: string
-      kind: 'gone'
-      reason: 'unmatched' | 'no-page' | 'page-not-public'
-      achievement?: string
-      page?: string
-    }
+  | { slug: string; kind: 'gone'; reason: 'unmatched' | 'no-page'; achievement?: string }
+  /** Su página de logro existe pero no se ve todavía: sin fila, 404 hasta que se publique. */
+  | { slug: string; kind: 'pending'; achievement: string; page: string }
+  /** Casa con varios logros: sin fila hasta que Torre elija uno en STUB_OVERRIDES. */
+  | { slug: string; kind: 'ambiguous'; candidates: string[] }
   | { slug: string; kind: 'skipped'; reason: 'document' | 'other-section'; detail: string }
 
 /**
@@ -60,10 +59,32 @@ export function stubKeys(title: string): string[] {
   return [...new Set([slugOf(name), slugOf(name.replace(/ñ/gi, ''))])].filter(Boolean)
 }
 
-function firstBy<T>(items: T[], keysOf: (item: T) => string[]): Map<string, T> {
-  const map = new Map<string, T>()
-  for (const item of items) for (const key of keysOf(item)) if (!map.has(key)) map.set(key, item)
-  return map
+type Achievement = StubData['achievements'][number]
+
+/** Cada clave con todos los logros que da: más de uno es una colisión, no una elección. */
+function indexBy<T>(
+  items: T[],
+  keysOf: (item: T) => string[],
+  achievementOf: (item: T) => Achievement | undefined,
+): Map<string, Map<number, Achievement>> {
+  const index = new Map<string, Map<number, Achievement>>()
+  for (const item of items) {
+    const achievement = achievementOf(item)
+    if (!achievement) continue
+    for (const key of keysOf(item)) {
+      const found = index.get(key) ?? new Map<number, Achievement>()
+      found.set(achievement.dofusId, achievement)
+      index.set(key, found)
+    }
+  }
+  return index
+}
+
+/** Los logros que dan las claves del esbozo, por dofusId: el orden de la API no cuenta. */
+function candidates(index: Map<string, Map<number, Achievement>>, keys: string[]): Achievement[] {
+  const found = new Map<number, Achievement>()
+  for (const key of keys) for (const [id, a] of index.get(key) ?? []) found.set(id, a)
+  return [...found.values()].sort((a, b) => a.dofusId - b.dofusId)
 }
 
 /** Lo que pasa con cada esbozo. `taken`: las URL que ya están en otra sección de la tabla. */
@@ -75,18 +96,27 @@ export function mapStubs(
   const byDofusId = new Map(data.achievements.map((a) => [a.dofusId, a]))
   const pageOf = new Map(data.pages.flatMap((p) => (p.achievement ? [[p.achievement, p]] : [])))
   const documents = new Map(data.documents.map((d) => [d.slug, d]))
-  const achievementByName = firstBy(data.achievements, (a) => stubKeys(a.name))
-  // La misión con el logro de ID más bajo, como el logro de cada misión en map-quest.ts.
+  const achievementIndex = indexBy(
+    data.achievements,
+    (a) => stubKeys(a.name),
+    (a) => a,
+  )
+  // Una misión por su ficha (su logro) y por la lista de cada logro. Una misión cuyo logro no
+  // está en ta-web no cuenta.
   const questRows = [
-    ...data.quests.flatMap((q) => {
-      const achievement = byDofusId.get(q.achievement?.dofusId ?? -1)
-      return q.achievement?.dofusId ? [{ name: q.name, achievement }] : []
-    }),
+    ...data.quests.map((q) => ({
+      name: q.name,
+      achievement: byDofusId.get(q.achievement?.dofusId ?? -1),
+    })),
     ...data.achievements.flatMap((a) =>
       (a.quests ?? []).flatMap((row) => (row.name ? [{ name: row.name, achievement: a }] : [])),
     ),
-  ].sort((a, b) => (a.achievement?.dofusId ?? Infinity) - (b.achievement?.dofusId ?? Infinity))
-  const questByName = firstBy(questRows, (row) => stubKeys(row.name))
+  ]
+  const questIndex = indexBy(
+    questRows,
+    (row) => stubKeys(row.name),
+    (row) => row.achievement,
+  )
 
   return stubs.map((stub): StubOutcome => {
     const { slug } = stub
@@ -104,71 +134,88 @@ export function mapStubs(
     }
 
     const keys = [slug, ...stubKeys(stub.title)]
-    const named = keys.map((key) => achievementByName.get(key)).find(Boolean)
-    const quest = named ? null : keys.map((key) => questByName.get(key)).find(Boolean)
-    const achievement = named ?? quest?.achievement
-    if (!achievement) return { slug, kind: 'gone', reason: 'unmatched' }
+    const named = candidates(achievementIndex, keys)
+    const found = named.length ? named : candidates(questIndex, keys)
+    if (!found.length) return { slug, kind: 'gone', reason: 'unmatched' }
+    if (found.length > 1) {
+      return { slug, kind: 'ambiguous', candidates: found.map((a) => `${a.name} (${a.dofusId})`) }
+    }
+    const [achievement] = found
 
     const page = pageOf.get(achievement.id)
     if (!page) return { slug, kind: 'gone', reason: 'no-page', achievement: achievement.name }
     if (page.state !== 'published' || !documents.get(page.slug)?.page) {
-      return {
-        slug,
-        kind: 'gone',
-        reason: 'page-not-public',
-        achievement: achievement.name,
-        page: page.slug,
-      }
+      return { slug, kind: 'pending', achievement: achievement.name, page: page.slug }
     }
     return {
       slug,
       kind: 'moved',
       to: `/${page.slug}`,
-      via: named ? 'achievement' : 'quest',
+      via: named.length ? 'achievement' : 'quest',
       achievement: achievement.name,
     }
   })
 }
 
-/** La sección `stubs` de legacy-urls.json: los 301 y los 410, en el orden de los esbozos. */
-export function stubsSection(outcomes: StubOutcome[]): {
-  moved: Record<string, string>
-  gone: string[]
-} {
+/**
+ * La sección `stubs` de legacy-urls.json, en el orden de los esbozos. Se regenera cuando Torre
+ * publica, así que sus redirecciones son temporales (307, `permanent: false`) hasta el corte:
+ * con `cutover`, 301.
+ */
+export function stubsSection(
+  outcomes: StubOutcome[],
+  { cutover = false }: { cutover?: boolean } = {},
+): { permanent?: false; moved: Record<string, string>; gone: string[] } {
   const moved: Record<string, string> = {}
   const gone: string[] = []
   for (const outcome of outcomes) {
     if (outcome.kind === 'moved') moved[`/${outcome.slug}`] = outcome.to
     if (outcome.kind === 'gone') gone.push(`/${outcome.slug}`)
   }
-  return { moved, gone }
+  return cutover ? { moved, gone } : { permanent: false, moved, gone }
 }
 
 const GONE_REASONS = {
-  'page-not-public': '410 por ahora: su página de logro está En preparación o en borrador',
   'no-page': '410: su logro no tiene página',
   unmatched: '410: no casa con ningún logro ni misión',
 } as const
 
-/** El informe para Torre: qué esbozo fue adónde y cuáles no tienen página. */
+/** El informe para Torre: qué esbozo fue adónde, cuáles esperan y cuáles no tienen página. */
 export function stubReport(outcomes: StubOutcome[]): string {
   const moved = outcomes.filter((o) => o.kind === 'moved')
   const gone = outcomes.filter((o) => o.kind === 'gone')
+  const pending = outcomes.filter((o) => o.kind === 'pending')
+  const ambiguous = outcomes.filter((o) => o.kind === 'ambiguous')
   const skipped = outcomes.filter((o) => o.kind === 'skipped')
   const lines = [
-    `Esbozos: ${outcomes.length}. 301: ${moved.length}. 410: ${gone.length}. Fuera: ${skipped.length}.`,
+    [
+      `Esbozos: ${outcomes.length}.`,
+      `Redirecciones: ${moved.length}.`,
+      `410: ${gone.length}.`,
+      `Pendientes: ${pending.length}.`,
+      `Ambiguos: ${ambiguous.length}.`,
+      `Fuera: ${skipped.length}.`,
+    ].join(' '),
     '',
-    `301 a su página (${moved.length}):`,
+    `A su página (${moved.length}):`,
     ...moved.map((o) => `  /${o.slug} → ${o.to}${o.achievement ? ` (${o.achievement})` : ''}`),
   ]
+  if (pending.length) {
+    lines.push('', `Sin fila, 404 hasta que se publique su página de logro (${pending.length}):`)
+    for (const o of pending) lines.push(`  /${o.slug} (${o.achievement}, /${o.page})`)
+  }
+  if (ambiguous.length) {
+    lines.push(
+      '',
+      `Sin fila, casan con varios logros; elegir en STUB_OVERRIDES (${ambiguous.length}):`,
+    )
+    for (const o of ambiguous) lines.push(`  /${o.slug}: ${o.candidates.join(', ')}`)
+  }
   for (const reason of Object.keys(GONE_REASONS) as (keyof typeof GONE_REASONS)[]) {
     const group = gone.filter((o) => o.reason === reason)
     if (!group.length) continue
     lines.push('', `${GONE_REASONS[reason]} (${group.length}):`)
-    for (const o of group) {
-      const detail = [o.achievement, o.page && `/${o.page}`].filter(Boolean).join(', ')
-      lines.push(`  /${o.slug}${detail ? ` (${detail})` : ''}`)
-    }
+    for (const o of group) lines.push(`  /${o.slug}${o.achievement ? ` (${o.achievement})` : ''}`)
   }
   if (skipped.length) {
     lines.push('', `Fuera de la sección (${skipped.length}):`)

@@ -157,6 +157,10 @@ describe('lhciEnv', () => {
     expect(env.DATABASE_URL_DIRECT).toBe('postgres://ci@localhost/pruebas')
   })
 
+  it('el origen público es el de la app que mide: producción lo exige', () => {
+    expect(lhciEnv({}, 'http://localhost:3200').NEXT_PUBLIC_SITE_URL).toBe('http://localhost:3200')
+  })
+
   it('arranca sin el modo dev y sin R2', () => {
     const env = lhciEnv({ APP_ENV: 'dev', S3_BUCKET: 'real', MEDIA_BASE_URL: 'https://cdn' })
 
