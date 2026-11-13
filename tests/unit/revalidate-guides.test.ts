@@ -12,6 +12,7 @@ import { Checklists } from '@/collections/Checklists'
 import { DofusGuides } from '@/collections/DofusGuides'
 import { Media } from '@/collections/Media'
 import { QuestGuides } from '@/collections/QuestGuides'
+import { Quests } from '@/collections/Quests'
 import { revalidateGuidePages } from '@/collections/revalidate-guides'
 import { ACHIEVEMENT_PAGES_TAG } from '@/lib/achievements/cache'
 import { CHECKLISTS_TAG } from '@/lib/checklists/cache'
@@ -145,5 +146,24 @@ describe('checklists', () => {
     }
     expect(Checklists.hooks?.afterChange).toHaveLength(1)
     expect(Checklists.hooks?.afterDelete).toHaveLength(1)
+  })
+
+  it.each([
+    ['quests', Quests],
+    ['quest-guides', QuestGuides],
+    ['achievement-pages', AchievementPages],
+    ['dofus-guides', DofusGuides],
+    ['media', Media],
+  ])('%s guardado o borrado caduca las checklists: su página lo enseña', async (_, collection) => {
+    const hooks = [
+      ...(collection.hooks?.afterChange ?? []),
+      ...(collection.hooks?.afterDelete ?? []),
+    ]
+    expect(hooks.length).toBeGreaterThan(0)
+    for (const hook of hooks) {
+      revalidateTag.mockReset()
+      expect(await hook(hookArgs)).toEqual({ id: 1 })
+      expect(revalidateTag).toHaveBeenCalledWith(CHECKLISTS_TAG, { expire: 0 })
+    }
   })
 })

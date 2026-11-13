@@ -86,3 +86,49 @@ export const checklistStrings = {
       'La zona del paso en la lista, como «Anutropía». Agrupa los pasos: no tiene por qué ser donde empiezan sus misiones.',
   },
 } as const
+
+/** La página de una checklist, /<slug> (prototipo A, tmp/mockups/checklist-a). */
+export const checklistPageStrings = {
+  title: (name: string) => `Checklist del ${name}`,
+  lead: 'La guía de Torrente Arcano, paso a paso, con sus misiones y objetivos.',
+  index: 'Guías de Dofus',
+  windowLabel: 'Checklist',
+  tabsLabel: 'Partes de la checklist',
+  tabs: { diary: 'Diario', prerequisites: 'Prerrequisitos', items: 'Objetos' },
+  search: 'Buscar paso por número o texto',
+  searchLabel: 'Buscar un paso por número o texto',
+  stepsLabel: 'Pasos',
+  stepPrefix: (n: number) => `Paso ${n}: `,
+  guideText: 'Texto de la guía',
+  legendStop: 'Hasta dónde llegar',
+  legendResolve: 'Lo que se resuelve',
+  closedIn: (n: number) => `se cierra en el ${n}`,
+  closes: (n: number) => `cierra el ${n}`,
+  note: 'Nota de la checklist.',
+  needs: 'Necesitarás',
+  achievements: 'Logros',
+  achievementSome: 'Solo algunas misiones',
+  bosses: 'Jefes',
+  quests: 'Misiones',
+  questsHowto:
+    'El nombre de cada misión abre su guía de Torrente Arcano, con adónde ir y qué hacer.',
+  noQuests: 'Este paso no tiene misiones en DofusDB.',
+  questLevel: (level: number) => `Niv. ${level}`,
+  questKinds: { optional: 'Opcional', take: 'Solo tomarla' },
+  guideTitle: 'Guía de Torrente Arcano',
+  previous: 'Paso anterior',
+  next: 'Paso siguiente',
+  close: 'Cerrar el paso',
+  totalsIntro: 'Todo lo que piden los pasos, sumado. Lo que solo hace falta tener no cuenta.',
+  totalsSteps: (steps: number[]) =>
+    steps.length === 1
+      ? `Paso ${steps[0]}`
+      : `Pasos ${steps.slice(0, -1).join(', ')} y ${steps.at(-1)}`,
+  otherNeeds: 'Otros',
+  /** Lo que nombra un objetivo de DofusDB cuando no tenemos su nombre. */
+  unnamed: { npc: 'un PNJ', item: 'un objeto', monster: 'un monstruo' },
+  credit:
+    'Guía original de Torrente Arcano. Texto reproducido tal cual; misiones e imágenes vía DofusDB.',
+  seoDescription: (name: string) =>
+    `La checklist del ${name}: los pasos de la guía de Torre con sus misiones y objetivos y lo que necesitas.`,
+} as const

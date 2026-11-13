@@ -40,6 +40,17 @@ describe('colección checklists', () => {
     })
   })
 
+  it('el panel abre la vista previa de la página, borrador incluido', () => {
+    expect(Checklists.admin?.livePreview?.url).toBeTypeOf('function')
+    expect(Checklists.admin?.preview).toBeTypeOf('function')
+  })
+
+  it('sirve los detalles de sus misiones para la isla de la página: GET /api/checklists/<slug>/details', () => {
+    expect(Checklists.endpoints).toEqual([
+      expect.objectContaining({ path: '/:slug/details', method: 'get' }),
+    ])
+  })
+
   it('no se duplica desde el panel: la copia compartiría los identificadores de sus pasos', () => {
     expect(Checklists.disableDuplicate).toBe(true)
   })
