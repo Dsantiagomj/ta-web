@@ -193,6 +193,12 @@ describe('lighthouserc.cjs por partes (LHCI_SHARD)', () => {
     expect(pagesForShard(pages, '4/4')).not.toEqual([])
   })
 
+  it('con un número impar de páginas, la primera parte lleva la de más', () => {
+    const seven = [...pages, '/f']
+    expect(pagesForShard(seven, '1/2')).toEqual(['/', '/a', '/b', '/c'])
+    expect(pagesForShard(seven, '2/2')).toEqual(['/d', '/e', '/f'])
+  })
+
   it('falla con un mensaje claro si hay más partes que páginas', () => {
     expect(() => pagesForShard(pages, '1/7')).toThrow(/LHCI_SHARD.*7 partes.*6 páginas/)
   })
