@@ -25,3 +25,5 @@ export async function createHtmlToLexical(
   return (html) =>
     convertHTMLToLexical({ editorConfig, html, JSDOM: HappyDomAsJsdom }) as unknown as LexicalState
 }
+
+// Prueba de CI (se borra).
