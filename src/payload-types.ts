@@ -636,6 +636,16 @@ export interface QuestGuide {
        * Lo que la lista de objetos no recoge, como «1 x Combate (solo)» o «Literalmente nada». No se rellena solo.
        */
       notes?: string | null;
+      /**
+       * Para una nota de mazmorra que sale con el icono genérico en «Necesitarás en total» («1 x Mazmorra Ben Ripata.»): copia la nota tal como está en Notas y elige su mazmorra, y la página pintará su jefe. Lo que elijas gana a lo que se adivina por el nombre. Si cambias el texto de la nota, cámbialo también aquí.
+       */
+      dungeons?:
+        | {
+            note: string;
+            dungeon: number | Dungeon;
+            id?: string | null;
+          }[]
+        | null;
     };
     rewards?: string | null;
     startNpc?: string | null;
@@ -808,7 +818,7 @@ export interface AchievementPage {
       | null;
   };
   /**
-   * Texto antes de las misiones. Opcional.
+   * Texto antes de las misiones. Opcional. Admite vídeos de YouTube: «+» o «/», Vídeo.
    */
   intro?: {
     root: {
@@ -826,7 +836,7 @@ export interface AchievementPage {
     [k: string]: unknown;
   } | null;
   /**
-   * Texto después de las misiones. Opcional.
+   * Texto después de las misiones. Opcional. Admite vídeos de YouTube: «+» o «/», Vídeo.
    */
   outro?: {
     root: {
@@ -843,6 +853,15 @@ export interface AchievementPage {
     };
     [k: string]: unknown;
   } | null;
+  importSnapshot?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -1925,6 +1944,13 @@ export interface QuestGuidesSelect<T extends boolean = true> {
                     id?: T;
                   };
               notes?: T;
+              dungeons?:
+                | T
+                | {
+                    note?: T;
+                    dungeon?: T;
+                    id?: T;
+                  };
             };
         rewards?: T;
         startNpc?: T;
@@ -2059,6 +2085,7 @@ export interface AchievementPagesSelect<T extends boolean = true> {
       };
   intro?: T;
   outro?: T;
+  importSnapshot?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -2420,6 +2447,27 @@ export interface CollectionsWidget {
     [k: string]: unknown;
   };
   width: 'full';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProseVideoBlock".
+ */
+export interface ProseVideoBlock {
+  /**
+   * Enlace al vídeo en YouTube (youtube.com o youtu.be).
+   */
+  url: string;
+  /**
+   * Va bajo el vídeo, y es lo que oye quien usa un lector de pantalla.
+   */
+  title: string;
+  /**
+   * Una imagen del vídeo, la miniatura de YouTube. Sin ella, el recuadro enseña el título.
+   */
+  poster?: (number | null) | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'proseVideo';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

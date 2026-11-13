@@ -7,6 +7,7 @@ import { RichTextBlock } from '../blocks/RichTextBlock'
 import { StepBlock } from '../blocks/StepBlock'
 import { VideoBlock } from '../blocks/VideoBlock'
 import { linkedQuestId } from '../lib/guides/autofill'
+import { isDungeonNote, needNote, noteKey } from '../lib/guides/need-notes'
 import { guidePreviewUrl, previewOrigin } from '../lib/guides/preview'
 import { isReservedSlug, isSlugFormat } from '../lib/guides/slug'
 import { guideStrings } from '../lib/guides/strings'
@@ -53,6 +54,24 @@ export function validateGuideSlug(
 ): true | string {
   if (!value && linkedQuestId(data?.quest) !== null) return true
   return validateSlug(value)
+}
+
+type PickValidationOptions = { data?: { summary?: { needs?: { notes?: string | null } | null } } }
+
+/**
+ * La nota de una mazmorra elegida a mano tiene que ser una nota de mazmorra de Notas, con
+ * o sin su cantidad: así se casa con su fila de «Necesitarás en total».
+ */
+export function validatePickedDungeonNote(
+  value: string | null | undefined,
+  { data }: PickValidationOptions,
+): true | string {
+  const key = value?.trim() ? noteKey(value) : ''
+  const notes = (data?.summary?.needs?.notes ?? '').split('\n').filter((line) => line.trim())
+  const found = notes.some(
+    (line) => isDungeonNote(needNote(line.trim()).label) && noteKey(line) === key,
+  )
+  return key && found ? true : guideStrings.admin.dungeonPickUnknownNote
 }
 
 // Cada campo del resumen lleva una nota que lo compara con lo que da DofusDB.
@@ -113,6 +132,32 @@ const summaryFields: Field[] = [
         type: 'textarea',
         localized: true,
         admin: { description: guideStrings.admin.needsNotesDescription },
+      },
+      {
+        // La mazmorra que no se adivina por el nombre («Mazmorra Ben Ripata»): gana a la
+        // que casa sola (src/lib/achievements/dungeons.ts, dungeonChooser).
+        name: 'dungeons',
+        label: guideStrings.admin.dungeonPicksLabel,
+        labels: { singular: 'Mazmorra', plural: 'Mazmorras' },
+        type: 'array',
+        admin: { description: guideStrings.admin.dungeonPicksDescription },
+        fields: [
+          {
+            name: 'note',
+            label: 'Nota',
+            type: 'text',
+            required: true,
+            localized: true,
+            validate: validatePickedDungeonNote,
+          },
+          {
+            name: 'dungeon',
+            label: 'Mazmorra',
+            type: 'relationship',
+            relationTo: 'dungeons',
+            required: true,
+          },
+        ],
       },
     ],
   },

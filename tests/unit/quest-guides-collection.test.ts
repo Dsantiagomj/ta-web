@@ -13,6 +13,7 @@ import {
   questGuidesAccess,
   validateGuideSlug,
   validateGuideTitle,
+  validatePickedDungeonNote,
   validateSlug,
 } from '@/collections/QuestGuides'
 import { fillFromQuest } from '@/collections/quest-guide-autofill'
@@ -141,6 +142,53 @@ describe('colección quest-guides', () => {
       type: 'textarea',
       localized: true,
       admin: { description: guideStrings.admin.needsNotesDescription },
+    })
+  })
+
+  it('Necesitarás deja elegir a mano la mazmorra de una nota que no muestra su jefe', () => {
+    const needs = field('needs', (field('summary') as GroupField).fields) as GroupField
+    const dungeons = field('dungeons', needs.fields) as ArrayField
+    expect(dungeons).toMatchObject({
+      type: 'array',
+      label: guideStrings.admin.dungeonPicksLabel,
+      labels: { singular: 'Mazmorra', plural: 'Mazmorras' },
+      admin: { description: guideStrings.admin.dungeonPicksDescription },
+    })
+    expect(field('note', dungeons.fields)).toMatchObject({
+      type: 'text',
+      label: 'Nota',
+      required: true,
+      localized: true,
+      validate: validatePickedDungeonNote,
+    })
+    expect(field('dungeon', dungeons.fields)).toMatchObject({
+      type: 'relationship',
+      label: 'Mazmorra',
+      relationTo: 'dungeons',
+      required: true,
+    })
+  })
+
+  describe('validatePickedDungeonNote', () => {
+    const options = (notes: string) => ({ data: { summary: { needs: { notes } } } })
+    const notes = '1 x Mazmorra Ben Ripata.\n2 x Combates (solo).\nMazmorras nivel 200'
+
+    it('vale una nota de mazmorra de Notas, con o sin cantidad y en otra capitalización', () => {
+      expect(validatePickedDungeonNote('1 x Mazmorra Ben Ripata.', options(notes))).toBe(true)
+      expect(validatePickedDungeonNote('mazmorra ben ripata', options(notes))).toBe(true)
+      expect(validatePickedDungeonNote('Mazmorras nivel 200', options(notes))).toBe(true)
+    })
+
+    it('rechaza una nota que no está en Notas o que no es de mazmorra', () => {
+      expect(validatePickedDungeonNote('Mazmorra Kumijo', options(notes))).toBe(
+        guideStrings.admin.dungeonPickUnknownNote,
+      )
+      expect(validatePickedDungeonNote('2 x Combates (solo).', options(notes))).toBe(
+        guideStrings.admin.dungeonPickUnknownNote,
+      )
+      expect(validatePickedDungeonNote('', options(notes))).toBe(
+        guideStrings.admin.dungeonPickUnknownNote,
+      )
     })
   })
 

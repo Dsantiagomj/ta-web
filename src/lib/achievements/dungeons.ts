@@ -124,3 +124,29 @@ export function dungeonMatcher<T extends DungeonNames>(dungeons: T[]): (label: s
 export function matchDungeon<T extends DungeonNames>(label: string, dungeons: T[]): T | null {
   return dungeonMatcher(dungeons)(label)
 }
+
+/** La mazmorra de una nota y si la eligió Torre a mano en el panel. */
+export interface DungeonChoice<T> {
+  dungeon: T
+  manual: boolean
+}
+
+/**
+ * La mazmorra de cada nota: la que Torre eligió a mano para ella, si sigue existiendo, y si
+ * no, la que casa por nombre (dungeonMatcher). picked da el ID de la elegida, o undefined.
+ * Sin elección y sin una mazmorra que case sola, nada: la fila lleva el icono genérico.
+ */
+export function dungeonChooser<T extends DungeonNames & { id: number }>(
+  dungeons: T[],
+  picked: (label: string) => number | undefined,
+): (label: string) => DungeonChoice<T> | null {
+  const byId = new Map(dungeons.map((dungeon) => [dungeon.id, dungeon]))
+  const match = dungeonMatcher(dungeons)
+  return (label) => {
+    const id = picked(label)
+    const chosen = id === undefined ? undefined : byId.get(id)
+    if (chosen) return { dungeon: chosen, manual: true }
+    const found = match(label)
+    return found ? { dungeon: found, manual: false } : null
+  }
+}

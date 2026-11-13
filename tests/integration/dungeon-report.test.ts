@@ -41,7 +41,7 @@ beforeAll(async () => {
     collection: 'monsters',
     data: { dofusId: 990_903, name: 'Director Grunob' },
   })
-  await payload.create({
+  const casa = await payload.create({
     collection: 'dungeons',
     data: { dofusId: 990_131, name: 'Casa de los Espíritus', bosses: [kumijo.id] },
   })
@@ -59,21 +59,34 @@ beforeAll(async () => {
       payload.create({ collection: 'quests', data: { dofusId, name: `Misión ${dofusId}` } }),
     ),
   )
-  const guide = (slug: string, quest: number, notes: string, published = true) =>
+  const guide = (
+    slug: string,
+    quest: number,
+    notes: string,
+    published = true,
+    dungeons: { note: string; dungeon: number }[] = [],
+  ) =>
     payload.create({
       collection: 'quest-guides',
       data: {
         title: slug,
         slug,
         quest,
-        summary: { needs: { notes } },
+        summary: { needs: { notes, dungeons } },
         _status: published ? 'published' : 'draft',
       },
       draft: !published,
     })
   // Dos guías del mismo logro con la misma nota en otra capitalización: una sola fila.
   await guide('informe-uno', uno!.id, '1 x Mazmorra Kumijo\nLlave de la mazmorra Kumijo')
-  await guide('informe-dos', dos!.id, '1 x MAZMORRA KUMIJO\n1 x Mazmorra de Grunob')
+  // Una nota que no casa sola, con su mazmorra elegida a mano en el panel.
+  await guide(
+    'informe-dos',
+    dos!.id,
+    '1 x MAZMORRA KUMIJO\n1 x Mazmorra de Grunob\n1 x Mazmorra Ben Ripata.',
+    true,
+    [{ note: '1 x Mazmorra Ben Ripata.', dungeon: casa.id }],
+  )
   // Un borrador no cuenta: la página solo lee lo publicado.
   await guide('informe-tres', tres!.id, 'Mazmorras nivel 200', false)
   const page = async (dofusId: number, slug: string, quests: number[]) => {
@@ -113,7 +126,12 @@ describe('dungeonNoteReport', () => {
     const report = await dungeonNoteReport(payload)
     const ours = (rows: { page: string; label: string }[]) =>
       rows.filter((row) => row.page.startsWith('informe-'))
-    expect(ours(report.withBoss)).toEqual([{ page: 'informe-logro', label: 'Mazmorra Kumijo' }])
+    expect(ours(report.withBoss)).toEqual([
+      { page: 'informe-logro', label: 'Mazmorra Kumijo' },
+      { page: 'informe-logro', label: 'Mazmorra Ben Ripata' },
+    ])
+    // Las que llevan su jefe porque Torre eligió la mazmorra a mano.
+    expect(ours(report.manual)).toEqual([{ page: 'informe-logro', label: 'Mazmorra Ben Ripata' }])
     expect(ours(report.generic)).toEqual([{ page: 'informe-logro', label: 'Mazmorra de Grunob' }])
   })
 })

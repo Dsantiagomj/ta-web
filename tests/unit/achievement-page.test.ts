@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import {
   achievementPageView,
+  dungeonPicks,
   guideBreadcrumb,
   type AchievementPageData,
   type NoteItemDoc,
@@ -258,6 +259,43 @@ describe('achievementPageView', () => {
       { label: 'Mazmorras nivel 200', kind: 'dungeon' },
       { quantity: 1, label: 'Combates solitarios', kind: 'combat' },
     ])
+  })
+
+  describe('dungeonPicks: las mazmorras que Torre elige a mano para sus notas', () => {
+    const guide = (
+      notes: string,
+      dungeons: { note: string; dungeon: number | { id: number } }[],
+    ) => ({
+      needs: { notes, dungeons },
+    })
+
+    it('por la clave de la nota, sin cantidad ni punto final ni mayúsculas', () => {
+      const picks = dungeonPicks([
+        guide('1 x Mazmorra Ben Ripata.', [{ note: '1 x Mazmorra Ben Ripata.', dungeon: 7 }]),
+        guide('1 x Mazmorra Reina de Ladrones.', [
+          { note: 'MAZMORRA reina de ladrones', dungeon: { id: 8 } },
+        ]),
+      ])
+      expect(picks).toEqual(
+        new Map([
+          ['mazmorra ben ripata', 7],
+          ['mazmorra reina de ladrones', 8],
+        ]),
+      )
+    })
+
+    it('dos guías que eligen lo mismo cuentan una vez; si eligen distinto, ninguna', () => {
+      const same = guide('1 x Mazmorra Ben Ripata.', [{ note: 'Mazmorra Ben Ripata', dungeon: 7 }])
+      const other = guide('Mazmorra Ben Ripata', [{ note: 'Mazmorra Ben Ripata', dungeon: 9 }])
+      expect(dungeonPicks([same, same])).toEqual(new Map([['mazmorra ben ripata', 7]]))
+      expect(dungeonPicks([same, other])).toEqual(new Map())
+    })
+
+    it('sin elecciones, nada', () => {
+      expect(dungeonPicks([{ needs: { notes: '1 x Mazmorra Kumijo' } }, { needs: null }])).toEqual(
+        new Map(),
+      )
+    })
   })
 
   describe('necesitarás en total: un objeto nombrado sin cantidad y con ella', () => {

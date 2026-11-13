@@ -11,9 +11,12 @@ import { mediaImageAsset } from '@/lib/media/image-asset'
 import type { Media, RichTextBlock } from '@/payload-types'
 
 import { formatThousands, neededItems } from './format'
+import { needNote, type NeedNote, rowText } from './need-notes'
 import type { GuideStart } from './step-nav'
 import { guideStrings } from './strings'
 import type { LinkedRewards, LinkedNeeds } from './summary'
+
+export { needNote, type NeedNote } from './need-notes'
 
 /** El estado de Lexical de un campo richText. */
 export type RichTextState = RichTextBlock['content']
@@ -191,29 +194,6 @@ function rewardItems(guide: GuideDoc): Quantity<GameItem>[] {
   return items.flatMap(({ item, quantity }) =>
     typeof item === 'object' && item.name ? [{ item: gameItem(item), quantity }] : [],
   )
-}
-
-/** Una línea del resumen como fila: sin el punto final. */
-function rowText(line: string): string {
-  return line.replace(/\.$/, '')
-}
-
-// «1 x Combate (solo).»: la cantidad va aparte, en negrita, como en el juego.
-const QUANTITY_NOTE = /^(\d+)\s*[x×]\s+(.+)$/u
-
-/** Una nota de Necesitarás. combat: es un combate, y lleva el icono del juego. */
-export interface NeedNote {
-  quantity?: number
-  label: string
-  combat: boolean
-}
-
-export function needNote(line: string): NeedNote {
-  const text = rowText(line)
-  const match = QUANTITY_NOTE.exec(text)
-  const label = match ? match[2]! : text
-  const combat = /\bcombates?\b/iu.test(label)
-  return match ? { quantity: Number(match[1]), label, combat } : { label, combat }
 }
 
 /** El lugar de la misión en su logro: la misión 2 de 3. */

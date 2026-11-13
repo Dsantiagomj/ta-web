@@ -47,6 +47,9 @@ export const seedGuide = {
       '1 x Combate táctico solitario.',
       '1 x Combate solitario.',
     ].join('\n'),
+    // Una nota que no casa sola con ninguna mazmorra, con la suya elegida a mano en el panel
+    // («Mazmorras de las notas»). La semilla solo tiene una mazmorra: la de Kumijo.
+    pickedDungeon: '1 x Mazmorra Kodámade.',
   },
   // Un combate; una nota que es el nombre exacto de un objeto importado (el logro la pinta
   // como ese objeto) y otra que no es ni objeto ni combate («Otros» en el logro).
@@ -262,7 +265,7 @@ export async function seedGuides(payload: Payload): Promise<void> {
   }
   const { dungeon } = seedGuide
   const boss = await monster(payload, dungeon.boss.dofusId, dungeon.boss.name, dungeon.boss.gfxId)
-  await findOrCreate(
+  const casa = await findOrCreate(
     () =>
       payload.find({
         collection: 'dungeons',
@@ -386,7 +389,12 @@ export async function seedGuides(payload: Payload): Promise<void> {
         slug: seedGuide.prerequisite.slug,
         quest: previous.id,
         _status: 'published',
-        summary: { needs: { notes: seedGuide.prerequisite.needsNote } },
+        summary: {
+          needs: {
+            notes: seedGuide.prerequisite.needsNote,
+            dungeons: [{ note: seedGuide.prerequisite.pickedDungeon, dungeon: casa.id }],
+          },
+        },
         body: [
           { blockType: 'richText', content: richText(paragraph(text('Habla con Hupe Esse.'))) },
         ],

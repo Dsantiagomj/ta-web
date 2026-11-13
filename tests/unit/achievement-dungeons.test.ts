@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest'
 
-import { dungeonMatcher, matchDungeon, type DungeonNames } from '@/lib/achievements/dungeons'
+import {
+  dungeonChooser,
+  dungeonMatcher,
+  matchDungeon,
+  type DungeonNames,
+} from '@/lib/achievements/dungeons'
 
 // Mazmorras de DofusDB con sus jefes, tal como las devuelve la API en español.
 const DUNGEONS: DungeonNames[] = [
@@ -96,5 +101,44 @@ describe('matchDungeon', () => {
 
   it('sin mazmorras no casa nada', () => {
     expect(matchDungeon('Mazmorra Kumijo', [])).toBeNull()
+  })
+})
+
+describe('dungeonChooser', () => {
+  // Las mismas mazmorras con su ID de Payload, que es lo que guarda la elección del panel.
+  const WITH_IDS = DUNGEONS.map((dungeon, index) => ({ ...dungeon, id: index + 1 }))
+  const idOf = (name: string) => WITH_IDS.find((dungeon) => dungeon.name === name)!.id
+  const choose = (picks: Record<string, string>) =>
+    dungeonChooser(WITH_IDS, (label) => (label in picks ? idOf(picks[label]!) : undefined))
+
+  it('la mazmorra elegida a mano gana a la que casa por nombre', () => {
+    const chosen = choose({ 'Mazmorra Kumijo': 'Antro del Cil' })('Mazmorra Kumijo')
+    expect(chosen).toEqual({
+      dungeon: expect.objectContaining({ name: 'Antro del Cil' }),
+      manual: true,
+    })
+  })
+
+  it('elige una mazmorra para una nota que no casa sola', () => {
+    const chosen = choose({ 'Mazmorra Ben Ripata': 'Casa de los Espíritus' })('Mazmorra Ben Ripata')
+    expect(chosen?.dungeon.name).toBe('Casa de los Espíritus')
+    expect(chosen?.manual).toBe(true)
+  })
+
+  it('sin elección, la que casa por nombre; sin casar, nada', () => {
+    const chooseNone = choose({})
+    expect(chooseNone('Mazmorra Kumijo')).toEqual({
+      dungeon: expect.objectContaining({ name: 'Casa de los Espíritus' }),
+      manual: false,
+    })
+    expect(chooseNone('Mazmorra Ben Ripata')).toBeNull()
+    // Las genéricas siguen genéricas.
+    expect(chooseNone('Mazmorras nivel 200')).toBeNull()
+  })
+
+  it('una elección que apunta a una mazmorra que ya no existe no cuenta', () => {
+    const chooser = dungeonChooser(WITH_IDS, () => 9_999)
+    expect(chooser('Mazmorra Kumijo')).toMatchObject({ manual: false })
+    expect(chooser('Mazmorra Ben Ripata')).toBeNull()
   })
 })

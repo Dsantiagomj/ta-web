@@ -243,8 +243,10 @@ test.describe('página de logro', () => {
       expect(Math.abs(zone.width - header.width)).toBeLessThan(1)
       if (wide) expect(zone.width).toBeGreaterThan(column.width + 100)
       else expect(Math.abs(zone.width - column.width)).toBeLessThan(1)
-      // Una franja entre dos filetes a su ancho, que toman el sitio del de la cabecera y el
-      // de las misiones; su título arranca donde sus grupos, no en la columna.
+      // Una franja entre dos filetes a su ancho; el de arriba toma el sitio del de la
+      // cabecera. La entrada de Torre va entre la franja y las misiones, así que «Las
+      // misiones, en orden» conserva su filete (sin entrada, el de la franja lo sustituye).
+      // Su título arranca donde sus grupos, no en la columna.
       const rules = await page.evaluate(() => {
         const width = (selector: string, side: 'Top' | 'Bottom') =>
           parseFloat(getComputedStyle(document.querySelector(selector)!)[`border${side}Width`])
@@ -255,7 +257,7 @@ test.describe('página de logro', () => {
           quests: width('section.lq', 'Top'),
         }
       })
-      expect(rules).toEqual({ header: 0, top: 1, bottom: 1, quests: 0 })
+      expect(rules).toEqual({ header: 0, top: 1, bottom: 1, quests: 1 })
       const heading = (await needs.getByRole('heading', { level: 2 }).boundingBox())!
       expect(Math.abs(heading.x - zone.x)).toBeLessThan(1)
       expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
@@ -409,6 +411,74 @@ test.describe('página de logro', () => {
     await page.setViewportSize({ width: 1440, height: 900 })
     const box = (await article.boundingBox())!
     expect(Math.abs(box.x - (1440 - box.x - box.width))).toBeLessThan(24)
+  })
+
+  test('la prosa de Torre: la entrada antes de las misiones y el cierre con su vídeo en fachada', async ({
+    page,
+  }) => {
+    // Nada de YouTube hasta pulsar: ni iframe, ni script, ni la miniatura de i.ytimg.com.
+    const external: string[] = []
+    page.on('request', (request) => {
+      if (/youtube|ytimg/.test(new URL(request.url()).hostname)) external.push(request.url())
+    })
+    await page.route(/youtube-nocookie\.com/, (route) => route.abort())
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto(url)
+
+    const intro = page.getByText(logro.intro)
+    const before = page.getByText(logro.outro.before)
+    const after = page.getByText(logro.outro.after)
+    await expect(intro).toBeVisible()
+    await expect(before).toBeVisible()
+    const quests = page.getByRole('region', { name: 'Las misiones, en orden' })
+    const needs = page.getByRole('region', { name: 'Necesitarás en total' })
+    const y = async (locator: typeof intro) => (await locator.boundingBox())!.y
+    // Necesitarás, la entrada, las misiones, el cierre: el vídeo entre sus dos párrafos.
+    expect(await y(needs)).toBeLessThan(await y(intro))
+    expect(await y(intro)).toBeLessThan(await y(quests))
+    expect(await y(quests)).toBeLessThan(await y(before))
+
+    const video = page.getByRole('link', { name: `Ver el vídeo: ${logro.video.title}` })
+    await expect(video).toHaveAttribute('href', logro.video.url)
+    expect(await y(before)).toBeLessThan(await y(video))
+    expect(await y(video)).toBeLessThan(await y(after))
+    // La portada es nuestra (Media) y se carga cuando se acerca.
+    const poster = video.locator('img')
+    await expect(poster).toHaveAttribute('src', /\/api\/media\/file\//)
+    await expect(poster).toHaveAttribute('loading', 'lazy')
+    await expect(page.locator('figcaption', { hasText: logro.video.title })).toBeVisible()
+    await expect(page.locator('iframe')).toHaveCount(0)
+    await poster.scrollIntoViewIfNeeded()
+    await expect
+      .poll(() => poster.evaluate((img: HTMLImageElement) => img.naturalWidth))
+      .toBeGreaterThan(0)
+    expect(external).toEqual([])
+
+    // Al pulsar, el reproductor de youtube-nocookie.com, con el título del vídeo.
+    await video.click()
+    const player = page.locator('iframe')
+    await expect(player).toHaveAttribute(
+      'src',
+      /^https:\/\/www\.youtube-nocookie\.com\/embed\/ovPAxnBdKYQ/,
+    )
+    await expect(player).toHaveAttribute('title', logro.video.title)
+  })
+
+  test('una mazmorra elegida a mano en la guía lleva el jefe de esa mazmorra', async ({ page }) => {
+    await page.goto(url)
+    const tasks = page
+      .getByRole('region', { name: 'Necesitarás en total' })
+      .getByRole('list', { name: 'Combates y mazmorras' })
+      .getByRole('listitem')
+    // «Mazmorra Kodámade» no casa sola con ninguna mazmorra de la semilla: Torre eligió la
+    // Casa de los Espíritus, y la fila lleva la imagen de su jefe, no el icono genérico.
+    const picked = tasks.filter({ hasText: 'Mazmorra Kodámade' }).locator('img')
+    await expect(picked).toHaveAttribute('src', /\/api\/media\/file\//)
+    // Sin elección y sin una mazmorra que case sola, el icono genérico.
+    await expect(tasks.filter({ hasText: 'Mazmorra de Grunob' }).locator('img')).toHaveAttribute(
+      'src',
+      '/img/game/jefes/crunchidor.webp',
+    )
   })
 
   test('un logro En preparación no tiene página', async ({ page }) => {

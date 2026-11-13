@@ -9,6 +9,7 @@ import {
   stateField,
 } from './achievement-fields'
 import { isPanelUser, readPublishedOrAll } from './editorial-access'
+import { proseEditor } from './prose-editor'
 import {
   revalidateAchievementPagesAfterChange,
   revalidateAchievementPagesAfterDelete,
@@ -152,14 +153,30 @@ export const AchievementPages: CollectionConfig = {
       label: 'Entrada',
       type: 'richText',
       localized: true,
-      admin: { description: 'Texto antes de las misiones. Opcional.' },
+      editor: proseEditor,
+      admin: {
+        description:
+          'Texto antes de las misiones. Opcional. Admite vídeos de YouTube: «+» o «/», Vídeo.',
+      },
     },
     {
       name: 'outro',
       label: 'Cierre',
       type: 'richText',
       localized: true,
-      admin: { description: 'Texto después de las misiones. Opcional.' },
+      editor: proseEditor,
+      admin: {
+        description:
+          'Texto después de las misiones. Opcional. Admite vídeos de YouTube: «+» o «/», Vídeo.',
+      },
+    },
+    {
+      // Lo último que escribió la importación de la prosa de Torre en la entrada y el cierre:
+      // al repetirla, un campo que ya no coincide lo cambió Torre y no se toca
+      // (scripts/import/achievements/load-prose.ts).
+      name: 'importSnapshot',
+      type: 'json',
+      admin: { hidden: true },
     },
   ],
 }

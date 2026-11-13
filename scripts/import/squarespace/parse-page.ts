@@ -10,7 +10,7 @@ export interface TextElement {
 export type PageBlock =
   | { type: 'text'; elements: TextElement[] }
   | { type: 'image'; url: string; alt: string }
-  | { type: 'video'; url: string }
+  | { type: 'video'; url: string; title?: string }
   | { type: 'unknown'; sqspType: string }
 
 export interface SquarespacePage {
@@ -92,10 +92,19 @@ function videoUrl(src: string): string | null {
   return url.protocol === 'https:' ? url.href : null
 }
 
+// Embedly pone a todos sus iframes el mismo título, que no dice qué vídeo es.
+const GENERIC_VIDEO_TITLE = /^youtube embed$/i
+
 function embedBlock(block: Element): PageBlock {
-  const src = block.querySelector('iframe')?.getAttribute('src')
+  const iframe = block.querySelector('iframe')
+  const src = iframe?.getAttribute('src')
   const url = src ? videoUrl(src) : null
-  return url ? { type: 'video', url } : { type: 'unknown', sqspType: 'embed' }
+  if (!url) return { type: 'unknown', sqspType: 'embed' }
+  // El título que YouTube da al vídeo por oEmbed, si Squarespace lo copió al iframe.
+  const title = iframe?.getAttribute('title')?.trim()
+  return title && !GENERIC_VIDEO_TITLE.test(title)
+    ? { type: 'video', url, title }
+    : { type: 'video', url }
 }
 
 function readBlock(feBlock: Element): PageBlock | null {

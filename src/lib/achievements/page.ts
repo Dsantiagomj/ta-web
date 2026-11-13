@@ -6,9 +6,12 @@ import type { GameItem } from '@/components/game/types'
 import type { ImageAsset } from '@/components/ui/types'
 import { neededItems } from '@/lib/guides/format'
 import { gameItem, needNote, type NeedNote, type QuestHeaderData } from '@/lib/guides/page'
+import { isDungeonNote, needKey, noteKey } from '@/lib/guides/need-notes'
 import type { LinkedNeeds } from '@/lib/guides/summary'
 import { mediaImageAsset } from '@/lib/media/image-asset'
 import type { Media } from '@/payload-types'
+
+export { isDungeonNote, needKey } from '@/lib/guides/need-notes'
 
 import type { GuideAchievement } from './queries'
 import { achievementPageStrings as s, type PageState } from './strings'
@@ -77,7 +80,18 @@ export interface SiblingDoc {
 export interface GuideRef {
   questId: number
   slug: string
-  needs: { items?: unknown; notes?: string | null } | null
+  needs: {
+    items?: unknown
+    notes?: string | null
+    /** Las mazmorras que Torre eligió a mano para algunas notas (dungeonPicks). */
+    dungeons?: DungeonPick[] | null
+  } | null
+}
+
+/** Una mazmorra elegida a mano para una nota de Necesitarás, en el panel de la guía. */
+export interface DungeonPick {
+  note?: string | null
+  dungeon?: number | { id: number } | null
 }
 
 export interface AchievementPageData {
@@ -190,13 +204,6 @@ export interface AchievementNeeds {
 /** Un objeto del juego que nombra una nota, por su nombre exacto (readAchievementPage). */
 export type NoteItemDoc = { id: number; name: string; image?: Media | number | null }
 
-// «Mazmorra Malefíscof»: va con los combates, con el jefe de esa mazmorra o el icono de
-// mazmorra.
-const DUNGEON = /\bmazmorras?\b/iu
-
-/** Si una nota va como mazmorra en «Combates y mazmorras». */
-export const isDungeonNote = (label: string) => DUNGEON.test(label)
-
 /** Las notas de Necesitarás de unas guías, cada línea como la lee la página. */
 function guideNotes(guides: Pick<GuideRef, 'needs'>[]): NeedNote[] {
   return guides.flatMap((guide) =>
@@ -211,6 +218,29 @@ function guideNotes(guides: Pick<GuideRef, 'needs'>[]): NeedNote[] {
 /** Lo que dicen las notas de unas guías, para buscar los objetos que nombran. */
 export function noteLabels(guides: Pick<GuideRef, 'needs'>[]): string[] {
   return [...new Set(guideNotes(guides).map((note) => note.label))]
+}
+
+/**
+ * Las mazmorras que Torre eligió a mano para sus notas, por la clave de la nota (needKey).
+ * Las filas se juntan por esa clave en todas las guías, así que la elección también: si dos
+ * guías eligen mazmorras distintas para la misma nota, no vale ninguna y la fila vuelve a lo
+ * que case por nombre. El resultado no depende del orden de las guías.
+ */
+export function dungeonPicks(guides: Pick<GuideRef, 'needs'>[]): Map<string, number> {
+  const picks = new Map<string, number>()
+  const clashing = new Set<string>()
+  for (const guide of guides) {
+    for (const pick of guide.needs?.dungeons ?? []) {
+      const dungeon = typeof pick.dungeon === 'object' ? pick.dungeon?.id : pick.dungeon
+      if (!pick.note?.trim() || dungeon == null) continue
+      const key = noteKey(pick.note)
+      const known = picks.get(key)
+      if (known !== undefined && known !== dungeon) clashing.add(key)
+      picks.set(key, dungeon)
+    }
+  }
+  for (const key of clashing) picks.delete(key)
+  return picks
 }
 
 /**
@@ -278,16 +308,6 @@ function totalNeeds(
   }
   needs.items = [...items.values()]
   return needs
-}
-
-/** Para casar una nota con otra o con un objeto: sin mayúsculas, tildes ni espacios de más. */
-export function needKey(label: string): string {
-  return label
-    .normalize('NFD')
-    .replace(/\p{Diacritic}/gu, '')
-    .replace(/\s+/gu, ' ')
-    .trim()
-    .toLocaleLowerCase('es')
 }
 
 function groupItem(doc: SiblingDoc, currentId: number): GroupItem {

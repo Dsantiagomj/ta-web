@@ -132,11 +132,13 @@ try {
 
   // Las filas de mazmorra de las páginas publicadas, clasificadas como las pinta la página:
   // con el jefe solo si su imagen está en Media. Las demás llevan el icono genérico hasta que
-  // Torre escriba la mazmorra con su nombre o el de su jefe.
+  // Torre escriba la mazmorra con su nombre o el de su jefe, o la elija a mano en la guía
+  // («Mazmorras de las notas», en Necesitarás).
   const report = await dungeonNoteReport(payload)
   console.log(
     `Filas de mazmorra en las páginas de logro publicadas: ${report.withBoss.length} con su ` +
-      `jefe y ${report.generic.length} con el icono genérico.`,
+      `jefe (${report.manual.length} elegidas a mano en el panel) y ${report.generic.length} ` +
+      `con el icono genérico.`,
   )
   const generic = new Map<string, string[]>()
   for (const { page, label } of report.generic)
