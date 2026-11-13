@@ -413,8 +413,9 @@ export const Checklists: CollectionConfig = {
     },
     {
       // Lo que necesita la migración del progreso guardado en la checklist antigua: el
-      // prefijo de sus claves, las del checklist clásico, la versión de la guía y la
-      // numeración de sus pasos en cada versión. Lo escribe la importación.
+      // prefijo de sus claves, las del checklist clásico, la versión de la guía, la
+      // numeración de sus pasos en cada versión y las claves de objetos que cambiaron. Lo
+      // escribe la importación.
       name: 'legacy',
       type: 'group',
       admin: { hidden: true },
@@ -423,6 +424,8 @@ export const Checklists: CollectionConfig = {
         { name: 'classicKeys', type: 'json' },
         { name: 'guideVersion', type: 'number' },
         { name: 'previousSteps', type: 'json' },
+        // Las claves de objetos que cambiaron en la checklist antigua: vieja → [nueva, pasos].
+        { name: 'ownedMoves', type: 'json' },
       ],
     },
     {

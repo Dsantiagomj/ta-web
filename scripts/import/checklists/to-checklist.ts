@@ -87,6 +87,7 @@ export interface ChecklistDraft {
     classicKeys: Record<string, string | null>
     guideVersion: number
     previousSteps: number[][]
+    ownedMoves: Record<string, [string, number[]]>
   }
 }
 
@@ -298,6 +299,7 @@ export function toChecklistDraft(
       classicKeys: config.classicKeys,
       guideVersion: config.guideVersion,
       previousSteps: legacy.previousSteps,
+      ownedMoves: config.ownedMoves ?? {},
     },
   }
 }

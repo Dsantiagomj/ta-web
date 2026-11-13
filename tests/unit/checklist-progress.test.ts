@@ -497,3 +497,18 @@ describe('revisión del PR 5: restaurar una copia', () => {
     expect(parseBackup('{roto')).toBeNull()
   })
 })
+
+describe('revisión del PR 5: lo hecho en otra checklist', () => {
+  it('desmarcar aquí, con el paso marcado, no borra lo que se hizo en otra checklist', () => {
+    let p = setStep(emptyProgress(), model, 0, true, NOW)
+    p = { ...p, quests: { ...p.quests, 11: { o: 'done', by: { c: 8 }, at: 1 } } }
+    expect(questState(p, model, 0, 11)).toEqual({ done: true })
+    p = setQuest(p, model, 0, 11, false, NOW + 1)
+    expect(stepDone(p, model, 0)).toBe(false)
+    expect(p.quests[11]).toEqual({ o: 'done', by: { c: 8 }, at: 1 })
+    expect(questState(p, model, 0, 11)).toEqual({
+      done: true,
+      lock: { checklist: 'Dofus de los Hielos' },
+    })
+  })
+})

@@ -126,8 +126,8 @@ describe('migrateLegacy con una partida al día', () => {
     expect(state.lock).not.toEqual({ checklist: 'Dofus de los Hielos' })
   })
 
-  it('global:*: el avance de sus misiones, de una checklist que aún no está aquí', () => {
-    expect(p.quests[5151]).toEqual({ o: 3, by: { c: 'global' }, at: NOW })
+  it('global:*: una misión que esta checklist no lleva no se trae: sin sus objetivos no se sabe si está terminada', () => {
+    expect(p.quests[5151]).toBeUndefined()
   })
 
   it('apunta qué migró, una vez por cada una', () => {
@@ -203,5 +203,91 @@ describe('las piezas de la migración, como en silvestre-checklist', () => {
       1, 2,
     ])
     expect(readClassic(read({ dofus_x_clean_v4: '{roto' }), keys, previous)).toEqual([])
+  })
+})
+
+describe('revisión del PR 5: migración', () => {
+  const withLegacy = (legacy: ChecklistIslandData['legacy'], numbers?: (number | null)[]) => ({
+    ...data,
+    legacy: { ...data.legacy, ...legacy },
+    steps: numbers
+      ? data.steps
+          .slice(0, numbers.length)
+          .map(([id, , quests], i) => [id, numbers[i], quests] as (typeof data.steps)[number])
+      : data.steps,
+    weights: numbers ? data.weights.slice(0, numbers.length) : data.weights,
+  })
+  const run = (input: ChecklistIslandData, keys: Record<string, string>, p = emptyProgress()) =>
+    migrateLegacy(p, {
+      keys: Object.keys(keys),
+      read: (key) => keys[key] ?? null,
+      data: input,
+      now: NOW,
+    })
+
+  it('ownedMoves de la colección pasa las claves que cambiaron', () => {
+    const input = withLegacy({ ownedMoves: { '519@orden': ['519', [2, 3]] } } as never)
+    const p = run(input, { 'nebuloso:owned': JSON.stringify({ '519@orden#2': true }) })
+    expect(p.owned).toEqual({ [`519#${stepId(2)}`]: NOW, [`519#${stepId(3)}`]: NOW })
+  })
+
+  it('sin previousSteps, los números antiguos son los legacyNumber, no las posiciones', () => {
+    // El paso 2 antiguo ya no está: el segundo de ahora es el 3 antiguo
+    const input = withLegacy({ guideVersion: 2, previousSteps: undefined }, [1, 3])
+    const model = checklistModel(input)
+    const p = run(input, {
+      'nebuloso:done': JSON.stringify({ 3: true }),
+      'nebuloso:guide': '1',
+      dofus_nebuloso_clean_v1: JSON.stringify({ checked: [true, false, false] }),
+    })
+    expect(stepDone(p, model, 1)).toBe(true)
+    expect(stepDone(p, model, 0)).toBe(true)
+  })
+
+  it('el clásico v4 sin previousSteps se queda con los pasos que existen por su número antiguo', () => {
+    const input = withLegacy({ previousSteps: undefined }, [1, 3])
+    const model = checklistModel(input)
+    const p = run(input, {
+      dofus_nebuloso_clean_v1: JSON.stringify({ checked: [false, false, true] }),
+    })
+    expect(stepDone(p, model, 1)).toBe(true)
+    expect(stepDone(p, model, 0)).toBe(false)
+  })
+
+  it('un paso nuevo (sin pasos antiguos) nunca sale hecho', () => {
+    expect(migrateProgress({ 1: true }, {}, [[1], []]).done).toEqual({ 1: true })
+  })
+
+  it('el prefijo de la checklist de la página cuenta aunque no esté en la lista', () => {
+    expect(pendingLegacy(['ocre:done'], 'ocre', {})).toBe(true)
+  })
+
+  it('lo de otra checklist antigua nunca pisa lo de esta, y sin saber sus objetivos no se trae', () => {
+    const own = { ...emptyProgress(), quests: { 1609: { o: 1, by: { c: NEBULOSO }, at: 5 } } }
+    const p = run(
+      data,
+      { 'global:questObjective': JSON.stringify({ 1609: 3, 9999: 2, 1531: 10 }) },
+      own,
+    )
+    expect(p.quests[1609]).toEqual({ o: 1, by: { c: NEBULOSO }, at: 5 })
+    expect(p.quests[9999]).toBeUndefined()
+    expect(p.quests[1531]).toEqual({ o: 'done', by: { c: 'global' }, at: NOW })
+  })
+
+  it('la entrada de esta checklist en dofus-checklists:shared se usa si no quedan sus claves', () => {
+    const p = run(data, {
+      'dofus-checklists:shared': JSON.stringify({
+        nebuloso: { name: 'Dofus Nebuloso', quests: [1484], owned: ['15533'] },
+      }),
+    })
+    expect(p.quests[1484]).toEqual({ o: 'done', by: { c: NEBULOSO }, at: NOW })
+    expect(p.owned).toEqual({ '15533': NOW })
+  })
+
+  it('lo conseguido con claves compuestas (@ o |) no se trae', () => {
+    const p = run(data, {
+      'nebuloso:owned': JSON.stringify({ '8918@orden': true, [`13423|6812#3`]: true, '15': true }),
+    })
+    expect(p.owned).toEqual({ '15': NOW })
   })
 })

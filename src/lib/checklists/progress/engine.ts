@@ -94,12 +94,13 @@ export function checklistModel(data: ChecklistIslandData): ChecklistModel {
   }
 }
 
-const finishedEntry = (m: ChecklistModel, id: number, entry?: QuestEntry) =>
+/** Si lo guardado da la misión por terminada: «done» o pasada de su último objetivo. */
+export const finishedEntry = (m: ChecklistModel, id: number, entry?: QuestEntry) =>
   Boolean(entry) &&
   (entry!.o === 'done' || ((m.objectives[id] ?? 0) > 0 && entry!.o >= m.objectives[id]))
 
 /** Si lo apuntado con `c` es de esta checklist: su ID o su id antiguo. */
-const isSelf = (m: ChecklistModel, c: number | string) => c === m.id || c === m.legacyId
+export const isSelf = (m: ChecklistModel, c: number | string) => c === m.id || c === m.legacyId
 
 /**
  * Un objetivo donde se queda una misión a medias (una parada, una madre que espera): nunca su
@@ -319,7 +320,9 @@ export function setQuest(
     next.quests[id] = { o: 'done', by, at: now }
     return complete(p, next, m, now)
   }
-  delete next.quests[id]
+  // Lo hecho en otra checklist se queda: allí sigue hecha. Solo se quita lo de esta.
+  const own = next.quests[id]
+  if (!own?.by || isSelf(m, own.by.c)) delete next.quests[id]
   // Las de este paso que piden terminada a esta y apuntó este paso vuelven a lo suyo, como en
   // silvestre-checklist: sin ella no pueden estar terminadas.
   const dependents = new Set(m.requiredBy.get(id) ?? [])

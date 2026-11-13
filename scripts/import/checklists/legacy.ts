@@ -51,6 +51,8 @@ export interface LegacyConfig {
   storagePrefix: string
   classicKeys: Record<string, string | null>
   guideVersion: number
+  /** Las claves de objetos que cambiaron: vieja → [nueva, pasos donde está ahora]. */
+  ownedMoves?: Record<string, [string, number[]]>
   journal: {
     extraNotes: Record<string, string>
     questNotes: Record<string, Record<string, string>>

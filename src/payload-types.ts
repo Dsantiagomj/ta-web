@@ -1428,6 +1428,15 @@ export interface Checklist {
       | number
       | boolean
       | null;
+    ownedMoves?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
   };
   importSnapshot?:
     | {
@@ -2353,6 +2362,7 @@ export interface ChecklistsSelect<T extends boolean = true> {
         classicKeys?: T;
         guideVersion?: T;
         previousSteps?: T;
+        ownedMoves?: T;
       };
   importSnapshot?: T;
   updatedAt?: T;
