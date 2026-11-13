@@ -336,15 +336,27 @@ export async function loadChecklists(
     const dofusGuide = guides.docs[0]?.id ?? null
     if (dofusGuide === null) unmatched(null, 'guía de Dofus', head.dofusGuide)
 
-    const existing = await payload.find({
+    // Primero solo el ID: el documento entero se lee si existe. La consulta corta tampoco
+    // toca las columnas de los pasos, así que la pasada en seco funciona contra una base a
+    // la que aún le falta la última migración de la colección.
+    const found = await payload.find({
       collection: 'checklists',
       where: { slug: { equals: entry.slug } },
       limit: 1,
       depth: 0,
       draft: true,
       overrideAccess: true,
+      select: { slug: true },
     })
-    const current = existing.docs[0] as Checklist | undefined
+    const current = found.docs[0]
+      ? ((await payload.findByID({
+          collection: 'checklists',
+          id: found.docs[0].id,
+          depth: 0,
+          draft: true,
+          overrideAccess: true,
+        })) as Checklist)
+      : undefined
 
     const data: Imported = {
       name: head.name,
