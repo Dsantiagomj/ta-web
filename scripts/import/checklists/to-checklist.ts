@@ -211,8 +211,13 @@ export function toChecklistDraft(
         }
       }),
       needs: (legacy.resources.steps[step.n] ?? []).map((row) => {
+        // El esquema aún no guarda alternativas ni grupos opcionales (Silvestre, Hielos):
+        // mejor parar que perderlos.
         if (row.a.length !== 1) {
           throw new Error(`Paso ${step.n}: la fila «${row.k}» tiene alternativas`)
+        }
+        if (row.g) {
+          throw new Error(`Paso ${step.n}: la fila «${row.k}» va en el grupo «${row.g}»`)
         }
         const [[item, quantity]] = row.a
         const category = NEED_CATEGORIES[row.c as keyof typeof NEED_CATEGORIES]
