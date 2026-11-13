@@ -2,6 +2,7 @@ import type { Payload } from 'payload'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 import type { QuestData } from '@/lib/dofusdb/fetch-quest-data'
+import { questStages } from '@/lib/dofusdb/quest-stages'
 import { refreshQuests } from '@/lib/dofusdb/refresh-quests'
 import type { RawQuest } from '@/lib/dofusdb/types'
 import type { Item, Monster, Quest } from '@/payload-types'
@@ -11,6 +12,7 @@ import items from '../fixtures/dofusdb/items.json'
 import mapPositions from '../fixtures/dofusdb/map-positions.json'
 import monsters from '../fixtures/dofusdb/monsters.json'
 import npcs from '../fixtures/dofusdb/npcs.json'
+import questsWithObjectives from '../fixtures/dofusdb/quests-objectives.json'
 import questsWithSteps from '../fixtures/dofusdb/quests-steps.json'
 import quests from '../fixtures/dofusdb/quests.json'
 
@@ -391,6 +393,10 @@ describe('el resultado no depende de la concurrencia', () => {
         ...strip(doc),
         prerequisites: (doc.prerequisites ?? []).map(quest),
         startPositions: (doc.startPositions ?? []).map(strip),
+        stages: (doc.stages ?? []).map((stage) => ({
+          ...strip(stage),
+          objectives: (stage.objectives ?? []).map(strip),
+        })),
         rewards: {
           ...doc.rewards,
           items: (doc.rewards?.items ?? []).map((row) => ({
@@ -517,5 +523,72 @@ describe('catálogo completo de objetos', () => {
     for (const item of (await savedItems()).values()) {
       expect(item.refreshedAt).toBe(firstRun.toISOString())
     }
+  })
+})
+
+// Misiones del Nebuloso y del Silvestre con sus etapas y objetivos completos, como los da
+// DofusDB: el checklist necesita sus objetivos en orden.
+describe('etapas y objetivos desde DofusDB', () => {
+  const raw = questsWithObjectives as RawQuest[]
+  const questIds = raw.map((quest) => quest.id)
+
+  function objectiveData(): QuestData {
+    return structuredClone({ quests: raw, npcs: [], mapPositions: [], items: [], monsters: [] })
+  }
+
+  async function savedQuests() {
+    const found = await payload.find({
+      collection: 'quests',
+      where: { dofusId: { in: questIds } },
+      pagination: false,
+      depth: 0,
+    })
+    return new Map(found.docs.map((doc) => [doc.dofusId, doc]))
+  }
+
+  async function removeTestQuests() {
+    await payload.delete({ collection: 'quests', where: { dofusId: { in: questIds } } })
+  }
+
+  beforeAll(async () => {
+    await removeTestQuests()
+  })
+
+  afterAll(async () => {
+    await removeTestQuests()
+  })
+
+  it('guarda las etapas con sus objetivos en orden y el nivel mínimo', async () => {
+    const counts = await refreshQuests(payload, objectiveData())
+    expect(counts.quests).toEqual({ created: raw.length, updated: 0, unchanged: 0 })
+
+    const saved = await savedQuests()
+    for (const quest of raw) {
+      const doc = saved.get(quest.id)!
+      expect(doc.levelMin).toBe(quest.levelMin)
+      const stored = (doc.stages ?? []).map(({ id: _id, objectives, ...stage }) => ({
+        ...stage,
+        objectives: (objectives ?? []).map(({ id: _objectiveId, ...objective }) => objective),
+      }))
+      expect(stored).toEqual(questStages(quest))
+    }
+  })
+
+  it('una segunda pasada con los mismos datos no cambia nada', async () => {
+    const before = await savedQuests()
+    const counts = await refreshQuests(payload, objectiveData())
+    expect(counts.quests).toEqual({ created: 0, updated: 0, unchanged: raw.length })
+    const after = await savedQuests()
+    for (const id of questIds) expect(after.get(id)?.updatedAt).toBe(before.get(id)?.updatedAt)
+  })
+
+  it('actualiza la misión cuyo objetivo cambia en DofusDB', async () => {
+    const data = objectiveData()
+    const changed = data.quests.find((quest) => quest.id === 1575)!
+    changed.steps![0].objectives![0].parameters!.parameter2 = 5
+    const counts = await refreshQuests(payload, data)
+    expect(counts.quests).toEqual({ created: 0, updated: 1, unchanged: raw.length - 1 })
+    const saved = await savedQuests()
+    expect(saved.get(1575)?.stages?.[0].objectives?.[0].quantity).toBe(5)
   })
 })

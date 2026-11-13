@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
+import { indexLookups, mapQuest } from '@/lib/dofusdb/map-quest'
 import { questStages } from '@/lib/dofusdb/quest-stages'
 import type { RawQuest, RawQuestObjective } from '@/lib/dofusdb/types'
 
@@ -201,5 +202,10 @@ describe('questStages', () => {
     viti.steps![0].objectives!.pop()
     const expected = viti.steps![0].objectives!.map((objective) => objective.id)
     expect(questStages(viti)[0].objectives.map((objective) => objective.dofusId)).toEqual(expected)
+  })
+
+  it('mapQuest incluye las etapas', () => {
+    const raw = quest(1575)
+    expect(mapQuest(raw, indexLookups([], [])).stages).toEqual(questStages(raw))
   })
 })
