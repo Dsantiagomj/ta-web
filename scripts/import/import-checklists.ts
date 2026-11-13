@@ -129,8 +129,9 @@ try {
   })
   printUnmatched(plan)
   console.log(
-    `Se traerían de DofusDB ${plan.pending.items} objetos y ${plan.pending.npcs} PNJ, ` +
-      `y se subirían ${plan.pending.art} imágenes a Media.`,
+    `Se traerían de DofusDB ${plan.pending.items} objetos, ${plan.pending.npcs} PNJ y ` +
+      `${plan.pending.icons} iconos de objetos que no lo tienen, y se subirían ` +
+      `${plan.pending.art} imágenes de la checklist antigua a Media.`,
   )
 
   const report = apply
