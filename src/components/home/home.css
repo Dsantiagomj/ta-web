@@ -1726,14 +1726,16 @@ html.hs-on .site-hdr .sbtn {
 
 .trio {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* Las que quepan por fila: Torre suma checklists con el tiempo. Tres caben en un móvil. */
+  grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr));
   gap: 1rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.trio a {
+.trio a,
+.trio__off {
   display: grid;
   justify-items: center;
   gap: 2px;
@@ -1789,11 +1791,18 @@ html.hs-on .site-hdr .sbtn {
 .trio__d {
   color: var(--color-ink-2);
   font-size: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem);
+  max-width: 22ch;
+  text-wrap: balance;
 }
 
-.trio__d b {
-  color: var(--color-accent-2);
-  font: 400 1.25rem/1 var(--font-accent);
+/* Una checklist En preparación sin enlace: apagada, como los Dofus sin guía. */
+.trio__off {
+  color: var(--color-ink-2);
+}
+
+.trio__off .trio__egg img {
+  filter: grayscale(1);
+  opacity: 0.45;
 }
 
 .trio a:hover .trio__egg img {

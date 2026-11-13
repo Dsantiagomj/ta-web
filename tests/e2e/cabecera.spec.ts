@@ -2,6 +2,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
 
 import { MODES } from '../../src/lib/theme/theme.ts'
+import { indexChecklists } from './seed/checklists-index.ts'
 import { draftGuide, seedGuide } from './seed/guides.ts'
 
 // La cabecera y el pie de todo el sitio (DESIGN.md, Layout: Header y Footer).
@@ -53,9 +54,12 @@ test.describe('cabecera', () => {
     await dofus.click()
     await expect(dofus).toHaveAttribute('aria-expanded', 'true')
     const panel = page.locator('#menu-dofus')
-    await expect(panel.getByRole('link', { name: /Dofus Silvestre/ })).toBeVisible()
+    // Las checklists salen de su colección: la Publicada abre su página del sitio.
+    await expect(
+      panel.getByRole('link', { name: new RegExp(indexChecklists.published.name) }),
+    ).toHaveAttribute('href', `/${indexChecklists.published.slug}`)
     // Los Dofus salen de la colección de guías de Dofus: los tres sembrados, en su orden.
-    await expect(panel.getByRole('listitem')).toHaveCount(3 + 3)
+    await expect(panel.locator('.art-grid--eggs > li')).toHaveCount(3)
     // El que aún no tiene guía publicada no es un enlace.
     await expect(panel.locator('.egg-soon')).toHaveCount(1)
     await expect(panel.getByRole('link', { name: 'Jyfus' })).toHaveCount(0)

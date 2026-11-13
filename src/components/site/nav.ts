@@ -4,13 +4,15 @@
 // El arte es del juego, en public/img/game, y se pinta a su tamaño o más pequeño:
 // - dofus/: el icono de objeto de algunos Dofus en DofusDB (128px), para el arte del menú. La
 //   lista de los Dofus sale de la colección de guías de Dofus (loadDofusNav).
-// - checklists/: el Dofus de cada checklist, de DofusDB (Silvestre y Hielos a 200px, Ocre a 128px).
+// - checklists/silvestre.webp: el Dofus Silvestre de DofusDB (200px), el icono de la sección
+//   Checklists. La lista de las checklists sale de su colección (loadChecklistNav).
 // - clases/: las cabezas de clase de la exportación del cliente de Dofus 3
 //   (dofusdude/dofus3-main 3.7.13.17, class_head_images_64): 64px.
 // - jefes/crunchidor.webp: el Crunchidor de DofusDB, reducido a 120px de ancho. Las otras
 //   siete mazmorras aún no tienen el arte de su jefe y llevan el icono de una puerta.
 
 import { GAME_ICONS } from '@/components/game/game-icons'
+import { CHECKLISTS_INDEX_PATH } from '@/lib/checklists/path'
 import { DOFUS_INDEX_PATH } from '@/lib/dofus-guides/page'
 import { legacyHref } from '@/lib/site/legacy'
 
@@ -65,26 +67,20 @@ export const DOFUS_FEATURED: GameImage[] = (
   ['dofus-turquesa', 'dofus-esmeralda', 'dofus-ocre'] as const
 ).map(egg)
 
-export const CHECKLISTS: NavLink[] = [
-  {
-    name: t.checklistNames.silvestre,
-    href: legacyHref('checklist-silvestre'),
-    image: { src: '/img/game/checklists/silvestre.webp', size: 200 },
-    description: t.checklists.silvestre,
-  },
-  {
-    name: t.checklistNames.hielos,
-    href: legacyHref('checklist-dofus-de-los-hielos'),
-    image: { src: '/img/game/checklists/hielos.webp', size: 200 },
-    description: t.checklists.hielos,
-  },
-  {
-    name: t.checklistNames.ocre,
-    href: legacyHref('lista-ocre'),
-    image: { src: '/img/game/checklists/ocre.webp', size: 128 },
-    description: t.checklists.ocre,
-  },
-]
+/**
+ * Una checklist del menú, del pie y de la portada, de su colección (loadChecklistNav): con
+ * enlace a su página si está Publicada, a Squarespace si está En preparación y lo tiene.
+ */
+export interface ChecklistNavItem {
+  name: string
+  /** Único en la colección: la clave de la fila. */
+  slug: string
+  href?: string
+  /** El enlace lleva a la web anterior (Squarespace): aún no tiene página aquí. */
+  legacy?: true
+  description?: string
+  image?: GameImage
+}
 
 // En la web de siempre, Feca y Yopuka llevan un -1 en el slug.
 export const CLASSES: NavLink[] = (Object.keys(t.classes) as (keyof typeof t.classes)[]).map(
@@ -130,8 +126,8 @@ export const SECTIONS: Section[] = [
   {
     key: 'checklists',
     ...t.sections.checklists,
-    href: legacyHref('checklists'),
-    icon: CHECKLISTS[0].image!,
+    href: CHECKLISTS_INDEX_PATH,
+    icon: { src: '/img/game/checklists/silvestre.webp', size: 200 },
     accent: 'var(--color-sec-checklists)',
   },
   {
@@ -215,11 +211,13 @@ export const TOP_ANCHOR = 'arriba'
 
 /**
  * Lo que enlaza el menú, para la búsqueda de la cabecera. Las misiones llegan aparte. Lo que
- * aún no tiene página (Clases, Mazmorras, los Dofus en preparación) no se encuentra.
+ * aún no tiene página (Clases, Mazmorras, los Dofus en preparación) no se encuentra; una
+ * checklist En preparación, solo si enlaza a Squarespace, como en el menú.
  */
-export function searchIndex(dofus: DofusNavItem[] = []): SearchEntry[] {
-  const of = (type: SearchType, links: NavLink[]) =>
-    links.map(({ name, href, image }) => ({ type, name, href, image }))
+export function searchIndex(
+  dofus: DofusNavItem[] = [],
+  checklists: ChecklistNavItem[] = [],
+): SearchEntry[] {
   return [
     ...SECTIONS.filter((sec) => !sec.soon).map(({ title, href, icon }) => ({
       type: 'seccion' as const,
@@ -230,6 +228,8 @@ export function searchIndex(dofus: DofusNavItem[] = []): SearchEntry[] {
     ...dofus.flatMap(({ name, href, image }) =>
       href ? [{ type: 'dofus' as const, name, href, image }] : [],
     ),
-    ...of('checklist', CHECKLISTS),
+    ...checklists.flatMap(({ name, href, image }) =>
+      href ? [{ type: 'checklist' as const, name, href, image }] : [],
+    ),
   ]
 }

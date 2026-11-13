@@ -37,6 +37,7 @@ export const catalogStrings = {
     video: 'Vídeo',
     image: 'Captura',
     dofus: 'Guías de Dofus',
+    checklists: 'Índice de checklists',
     achievement: 'Página de logro',
   },
   notes: {
@@ -57,6 +58,8 @@ export const catalogStrings = {
     video: 'Con portada y sin portada. Nada de YouTube carga hasta pulsar.',
     dofus:
       'Tarjetas del índice (una con su etiqueta, otra En preparación, apagada y sin enlace), Necesitarás por grupos (el objeto copia su nombre) y un logro con sus misiones en lista con filetes, sin cajas.',
+    checklists:
+      'Tarjetas del índice: una Publicada que abre su página, una En preparación que abre la web anterior y lo dice, y otra sin enlace, apagada.',
     achievement:
       'Necesitarás en total en sus grupos (Objetos, Combates y mazmorras, y Otros; el objeto copia su nombre) y con un solo grupo. Las misiones en orden, numeradas: un logro corto en una columna y uno largo en dos; la misión sin guía publicada no es un enlace.',
     image:
@@ -78,6 +81,24 @@ export const catalogStrings = {
         name: 'Dofus Abisal',
         href: '/dofus-abisal',
         image: { src: '/img/game/dofus/dofus-abisal.webp', size: 128 },
+      },
+    ],
+    /** Unas checklists del menú, como las da la colección (loadChecklistNav). */
+    checklistNav: [
+      {
+        name: 'Dofus Nebuloso',
+        slug: 'checklist-nebuloso',
+        href: '/checklist-nebuloso',
+        description: 'Del primer paso en Pandala al Nebuloso.',
+        image: { src: '/img/game/dofus/dofus-esmeralda.webp', size: 128 },
+      },
+      {
+        name: 'Dofus Silvestre',
+        slug: 'checklist-silvestre',
+        href: 'https://www.torrentearcano.com/checklist-silvestre',
+        legacy: true as const,
+        description: 'Con la guía de Sandglass.',
+        image: { src: '/img/game/checklists/silvestre.webp', size: 200 },
       },
     ],
     /** Una cifra con miles (Amount) y lo que cuenta. */

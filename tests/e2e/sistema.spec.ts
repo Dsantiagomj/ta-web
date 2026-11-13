@@ -26,6 +26,7 @@ const COMPONENTS = [
   'chain',
   'video',
   'image',
+  'checklists',
 ]
 
 const sections = THEMES.flatMap((theme) => MODES.map((mode) => ({ theme, mode })))

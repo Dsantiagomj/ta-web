@@ -2,6 +2,9 @@ import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 
+import { CHECKLISTS_REVALIDATE, CHECKLISTS_TAG } from '@/lib/checklists/cache'
+import { checklistEntries, checklistNavItems } from '@/lib/checklists/list'
+import { readChecklists } from '@/lib/checklists/queries'
 import { DOFUS_GUIDES_REVALIDATE, DOFUS_GUIDES_TAG } from '@/lib/dofus-guides/cache'
 import { dofusNavItems } from '@/lib/dofus-guides/nav'
 import { readDofusList } from '@/lib/dofus-guides/queries'
@@ -23,3 +26,15 @@ export const loadDofusNav = unstable_cache(
   ['dofus-nav'],
   { tags: [DOFUS_GUIDES_TAG], revalidate: DOFUS_GUIDES_REVALIDATE },
 )
+
+// Las checklists, una sola lectura en caché para el índice /checklists, el menú, el pie, la
+// búsqueda y la portada: la caducan las checklists y las guías de Dofus, de donde salen el
+// huevo y el color (src/lib/checklists/cache.ts).
+export const loadChecklists = unstable_cache(
+  async () => checklistEntries(await readChecklists(await getPayload({ config }))),
+  ['checklists'],
+  { tags: [CHECKLISTS_TAG], revalidate: CHECKLISTS_REVALIDATE },
+)
+
+/** Lo que pinta el menú de cada checklist, sacado de loadChecklists. */
+export const loadChecklistNav = async () => checklistNavItems(await loadChecklists())

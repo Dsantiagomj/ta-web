@@ -5,6 +5,7 @@
 // Las misiones solo las escribe pnpm data:quests, fuera de Next, donde no hay caché que
 // caducar: lo que cambia (nombres, niveles, objetivos), como lo de la importación, se ve
 // como mucho tras CHECKLISTS_REVALIDATE segundos.
+// El índice /checklists y el menú comparten una lectura (loadChecklists) con esta etiqueta.
 
 export const CHECKLISTS_TAG = 'checklists'
 

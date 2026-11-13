@@ -1,6 +1,7 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
 
+import { indexChecklists } from './seed/checklists-index.ts'
 import { seedGuide } from './seed/guides.ts'
 
 // La portada (DESIGN.md, Layout: Home) y su búsqueda de misiones, un combobox con lista
@@ -395,12 +396,22 @@ test.describe('portada: las secciones', () => {
     expect(overlaps).toBe(0)
   })
 
-  test('los checklists, con sus cifras', async ({ page }) => {
+  test('las checklists del menú, de su colección y sin cifras', async ({ page }) => {
     await open(page)
     const section = page.getByRole('region', { name: 'Checklists para ir a por tu Dofus' })
-    await expect(section.getByRole('link')).toHaveCount(3)
-    await expect(section).toContainText('100 pasos')
-    await expect(section).toContainText('337 almas')
+    // Las mismas que el menú (loadChecklistNav): la Publicada abre su página del sitio, la
+    // En preparación con legacyHref abre Squarespace y la que no lo tiene no es un enlace.
+    await expect(
+      section.getByRole('link', { name: new RegExp(indexChecklists.published.name) }),
+    ).toHaveAttribute('href', `/${indexChecklists.published.slug}`)
+    await expect(
+      section.getByRole('link', { name: new RegExp(indexChecklists.legacy.name) }),
+    ).toHaveAttribute('href', indexChecklists.legacy.legacyHref)
+    await expect(
+      section.getByRole('link', { name: new RegExp(indexChecklists.preparing.name) }),
+    ).toHaveCount(0)
+    await expect(section).toContainText(indexChecklists.published.description)
+    await expect(section).not.toContainText(/\d+ (pasos|almas)/)
   })
 
   test('Torre: una invitación al Discord y, sin directo, un aviso pequeño', async ({ page }) => {

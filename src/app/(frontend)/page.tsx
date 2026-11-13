@@ -7,19 +7,23 @@ import { LiveStrip } from '@/components/home/LiveStrip'
 import { liveState } from '@/lib/site/live'
 import '@/components/home/home.css'
 
-import { loadSiteCounts } from './site-data'
+import { loadChecklistNav, loadSiteCounts } from './site-data'
 
 /**
  * La portada (DESIGN.md, Layout: Home): el directo si lo hay, el hero con la búsqueda, qué
- * vas a encontrar, cómo es una guía, los checklists y Torre. Las cifras son las mismas de la
- * cabecera (loadSiteCounts), así que nunca discrepan.
+ * vas a encontrar, cómo es una guía, las checklists y Torre. Las cifras y las checklists son
+ * las mismas de la cabecera (loadSiteCounts, loadChecklistNav), así que nunca discrepan.
  */
 export default async function HomePage({
   searchParams,
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>
 }) {
-  const [counts, params] = await Promise.all([loadSiteCounts(), searchParams])
+  const [counts, checklists, params] = await Promise.all([
+    loadSiteCounts(),
+    loadChecklistNav(),
+    searchParams,
+  ])
   const live = liveState(params.directo, process.env)
   return (
     <main id="contenido" className="home">
@@ -27,7 +31,7 @@ export default async function HomePage({
       <Hero />
       <Areas counts={counts} />
       <GuideTour />
-      <ChecklistsSection />
+      <ChecklistsSection checklists={checklists} />
       <Author live={live} />
     </main>
   )
