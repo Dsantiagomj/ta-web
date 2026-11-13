@@ -182,6 +182,15 @@
   letter-spacing: -0.02em;
 }
 
+/* El nombre, una palabra por línea con cualquier fuente. Con Montserrat siempre ocupa dos
+   líneas; el respaldo de métricas ajustadas de next/font está calculado para el 400 y en el
+   700 es más estrecho, así que cabía en una y al llegar la fuente todo lo de debajo bajaba
+   46 px (CLS de la portada en Lighthouse CI). */
+.hero__name {
+  display: block;
+  width: min-content;
+}
+
 /* Lo que es el sitio, como ceja del h1 (DESIGN.md, Typography: --text-eyebrow). */
 .hero__eyebrow {
   display: block;
