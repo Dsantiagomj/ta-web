@@ -354,6 +354,35 @@ export interface Quest {
     walksMaps?: boolean | null;
   };
   /**
+   * Las etapas de DofusDB con sus objetivos, en el orden del checklist. El progreso de una misión cuenta objetivos en este orden.
+   */
+  stages?:
+    | {
+        dofusId: number;
+        name?: string | null;
+        objectives?:
+          | {
+              dofusId: number;
+              kind: 'free' | 'npc' | 'bring' | 'fight' | 'map' | 'craft';
+              /**
+               * Tal cual lo da DofusDB, con marcas como {npc,2646} sin resolver.
+               */
+              text?: string | null;
+              npcId?: number | null;
+              monsterId?: number | null;
+              itemId?: number | null;
+              quantity?: number | null;
+              mapId?: number | null;
+              x?: number | null;
+              y?: number | null;
+              subAreaId?: number | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
    * La pone el script de refresco.
    */
   refreshedAt?: string | null;
@@ -1433,6 +1462,29 @@ export interface QuestsSelect<T extends boolean = true> {
               id?: T;
             };
         walksMaps?: T;
+      };
+  stages?:
+    | T
+    | {
+        dofusId?: T;
+        name?: T;
+        objectives?:
+          | T
+          | {
+              dofusId?: T;
+              kind?: T;
+              text?: T;
+              npcId?: T;
+              monsterId?: T;
+              itemId?: T;
+              quantity?: T;
+              mapId?: T;
+              x?: T;
+              y?: T;
+              subAreaId?: T;
+              id?: T;
+            };
+        id?: T;
       };
   refreshedAt?: T;
   updatedAt?: T;
