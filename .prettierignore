@@ -23,5 +23,8 @@ openwiki/
 tests/fixtures/squarespace/
 tests/fixtures/dofus-guides/
 
+# Datos del Nebuloso copiados tal cual de silvestre-checklist: la importación de las checklists
+tests/fixtures/silvestre-checklist/
+
 # Skills de terceros: se copian tal cual y skills-lock.json fija su hash
 .claude/skills/
