@@ -14,7 +14,7 @@ let payload: Payload
 let editor: User
 
 const PREFIX = 'prueba-clq'
-const QUESTS = { stop: 990_201, guided: 990_202 }
+const QUESTS = { stop: 990_201, guided: 990_202, before: 990_206 }
 const NPC = 990_203
 const ITEM = 990_204
 const ACHIEVEMENT = 990_205
@@ -33,7 +33,7 @@ async function cleanUp() {
   }
 }
 
-const ids = { stop: 0, guided: 0, achievement: 0 }
+const ids = { stop: 0, guided: 0, before: 0, achievement: 0 }
 
 beforeAll(async () => {
   payload = await startPayload()
@@ -60,10 +60,23 @@ beforeAll(async () => {
       },
     })
   ).id
+  // Con guía pide terminada una de fuera de la checklist, que pide la del «detente aquí».
+  ids.before = (
+    await payload.create({
+      collection: 'quests',
+      data: { dofusId: QUESTS.before, name: 'De fuera', prerequisites: [ids.stop] },
+    })
+  ).id
   ids.guided = (
     await payload.create({
       collection: 'quests',
-      data: { dofusId: QUESTS.guided, name: 'Con guía', levelMin: 100 },
+      data: {
+        dofusId: QUESTS.guided,
+        name: 'Con guía',
+        levelMin: 100,
+        startCriterion: `Qa=${QUESTS.stop}&Qo>1`,
+        prerequisites: [ids.before],
+      },
     })
   ).id
   await payload.create({ collection: 'npcs', data: { dofusId: NPC, name: 'Desalmago' } })
@@ -77,7 +90,13 @@ beforeAll(async () => {
 
   await payload.create({
     collection: 'quest-guides',
-    data: { title: 'Con guía', slug: `${PREFIX}-guia`, quest: ids.guided, _status: 'published' },
+    data: {
+      title: 'Con guía',
+      slug: `${PREFIX}-guia`,
+      quest: ids.guided,
+      summary: { prerequisites: 'Nivel mínimo 80.' },
+      _status: 'published',
+    },
   })
   await payload.create({
     collection: 'achievement-pages',
@@ -116,6 +135,7 @@ beforeAll(async () => {
       order: 90,
       state: 'published',
       steps: steps('Logro "El rey y yo". Publicado.'),
+      legacy: { prefix: 'prueba:' },
       _status: 'published',
     },
   })
@@ -147,6 +167,34 @@ describe('readChecklist', () => {
     expect(Object.keys(data?.stopQuests ?? {})).toEqual([String(ids.stop)])
     expect(data?.names.npc).toEqual({ 1: 'Wello', [NPC]: 'Desalmago' })
     expect(data?.names.item).toEqual({ [ITEM]: 'Muestra' })
+  })
+
+  it('con lo que necesita el progreso: objetivos, criterios y lo que pide cada misión, el nivel de Torre y las checklists', async () => {
+    const data = await readChecklist(payload, `${PREFIX}-publicada`)
+
+    expect(data?.questGraph[ids.stop]).toEqual({
+      dofusId: QUESTS.stop,
+      levelMin: 200,
+      startCriterion: null,
+      objectives: [1, 2],
+      prerequisites: [],
+    })
+    expect(data?.questGraph[ids.guided]).toMatchObject({
+      dofusId: QUESTS.guided,
+      startCriterion: `Qa=${QUESTS.stop}&Qo>1`,
+      prerequisites: [QUESTS.before],
+    })
+    // La de fuera de la checklist también, para seguir lo que pide
+    expect(data?.questGraph[ids.before]).toMatchObject({
+      dofusId: QUESTS.before,
+      prerequisites: [QUESTS.stop],
+    })
+    expect(data?.torreLevels).toEqual({ [ids.guided]: 80 })
+    expect(data?.checklists).toContainEqual({
+      id: data?.checklist.id,
+      name: 'Dofus de prueba',
+      legacyId: 'prueba',
+    })
   })
 
   it('un borrador que nunca se publicó no existe para un visitante', async () => {

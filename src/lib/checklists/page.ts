@@ -5,6 +5,8 @@
 // cita, sin cambiar una letra. Lo que la checklist no guarda no se pinta.
 import type { ImageAsset } from '@/components/ui/types'
 import { buildBreadcrumb, type BreadcrumbData } from '@/lib/achievements/page'
+import { questParents, routePrerequisites } from '@/lib/derive/checklist'
+import { questPoints, stepWeights } from '@/lib/derive/weights'
 import type { RichTextState } from '@/lib/guides/page'
 import type { QuestObjectiveKind } from '@/lib/dofusdb/types'
 import { mediaImageAsset } from '@/lib/media/image-asset'
@@ -31,7 +33,30 @@ export interface ChecklistData {
   stopQuests: Record<number, { stages?: Quest['stages'] }>
   /** Los nombres de lo que sus objetivos nombran por ID de DofusDB. */
   names: ObjectiveNames
+  /** El nivel que da la guía de Torre de cada misión que lo da, por ID de la misión. */
+  torreLevels: Record<number, number>
+  /** Sus misiones y las que estas piden terminadas, por ID: lo que necesita el progreso. */
+  questGraph: Record<number, QuestNode>
+  /** Todas las checklists: «Hecha en la checklist del Dofus X». */
+  checklists: ChecklistName[]
   siteUrl: string
+}
+
+export interface QuestNode {
+  dofusId: number
+  levelMin: number | null
+  startCriterion: string | null
+  /** El ID de DofusDB de cada objetivo, en el orden aplanado de sus etapas. */
+  objectives: number[]
+  /** Lo que pide terminado antes de empezar, por ID de DofusDB. */
+  prerequisites: number[]
+}
+
+export interface ChecklistName {
+  id: number
+  name: string
+  /** Su id en silvestre-checklist («nebuloso»), si lo tiene. */
+  legacyId: string | null
 }
 
 /** Por ID de DofusDB: los PNJ, objetos y monstruos que los objetivos nombran como {npc,123}. */
@@ -110,6 +135,16 @@ export interface ChecklistIslandData {
   /** [stepId, stepIds que cierra] */
   closes: [string, string[]][]
   legacy: Checklist['legacy']
+  /** Por paso, en orden: [su peso, lo que vale en él cada misión] (src/lib/derive/weights.ts). */
+  weights: [number, number[]][]
+  /** Los objetivos de cada misión, por su ID de DofusDB. */
+  objectives: Record<number, number>
+  /** Las misiones de la checklist que pide terminadas cada una, también a través de otras. */
+  prereqs: Record<number, number[]>
+  /** Madre → [[objetivo donde empiezan sus hijas, hijas]], las de un mismo paso. */
+  parents: Record<number, [number, number[]][]>
+  /** El nombre del Dofus de cada checklist, por su ID y por su id antiguo («nebuloso»). */
+  checklists: Record<string, string>
 }
 
 export interface ChecklistView {
@@ -375,7 +410,7 @@ export function checklistView(data: ChecklistData): ChecklistView {
     },
     totals,
     totalsCount: totals.reduce((sum, group) => sum + group.rows.length, 0),
-    island: islandData(checklist),
+    island: islandData(data),
   }
 }
 
@@ -402,35 +437,81 @@ function totalRows(steps: Step[]) {
   return [...rows.values()]
 }
 
-function islandData(checklist: Checklist): ChecklistIslandData {
+function islandData(data: ChecklistData): ChecklistIslandData {
+  const { checklist, questGraph, torreLevels } = data
   const steps = checklist.steps ?? []
+  const islandSteps = steps.map((step): ChecklistIslandData['steps'][number] => {
+    const stop = (step.segments ?? []).find((segment) => segment.kind === 'stop')
+    const stopQuest = relationId(stop?.quest ?? null)
+    return [
+      step.stepId ?? '',
+      step.legacyNumber ?? null,
+      (step.quests ?? []).flatMap((row) => {
+        const quest = populated(row.quest)
+        if (!quest) return []
+        return [
+          stop && quest.id === stopQuest && stop.stopObjective != null
+            ? ([quest.dofusId, row.kind, stop.stopObjective] as [number, QuestKind, number])
+            : ([quest.dofusId, row.kind] as [number, QuestKind]),
+        ]
+      }),
+    ]
+  })
+
+  // Lo que el progreso necesita de cada misión, por su ID de DofusDB.
+  const byDofusId = new Map<number, QuestNode & { level: number }>()
+  for (const step of steps) {
+    for (const row of step.quests ?? []) {
+      const quest = populated(row.quest)
+      if (!quest || byDofusId.has(quest.dofusId)) continue
+      const node = questGraph[quest.id]
+      const levelMin = node?.levelMin ?? quest.levelMin ?? null
+      byDofusId.set(quest.dofusId, {
+        dofusId: quest.dofusId,
+        levelMin,
+        startCriterion: node?.startCriterion ?? null,
+        objectives: node?.objectives ?? [],
+        prerequisites: node?.prerequisites ?? [],
+        level: torreLevels[quest.id] || levelMin || 1,
+      })
+    }
+  }
+  const weightedSteps = islandSteps.map(([, , quests]) => ({
+    quests: quests.map(([id, kind]) => [id, kind] as const),
+  }))
+  const points = Object.fromEntries(
+    [...byDofusId].map(([id, node]) => [id, questPoints(node.level, node.objectives.length)]),
+  )
+  // Lo que piden las misiones de la ruta se sigue también a través de las de fuera.
+  const direct = Object.fromEntries(
+    Object.values(questGraph).map((node) => [node.dofusId, node.prerequisites]),
+  )
+
   return {
     checklistId: checklist.id,
     slug: checklist.slug,
-    steps: steps.map((step) => {
-      const stop = (step.segments ?? []).find((segment) => segment.kind === 'stop')
-      const stopQuest = relationId(stop?.quest ?? null)
-      return [
-        step.stepId ?? '',
-        step.legacyNumber ?? null,
-        (step.quests ?? []).flatMap((row) => {
-          const quest = populated(row.quest)
-          if (!quest) return []
-          return [
-            stop && quest.id === stopQuest && stop.stopObjective != null
-              ? ([quest.dofusId, row.kind, stop.stopObjective] as [number, QuestKind, number])
-              : ([quest.dofusId, row.kind] as [number, QuestKind]),
-          ]
-        }),
-      ]
-    }),
+    steps: islandSteps,
     closes: steps.flatMap((step) => {
-      const closed = (step.segments ?? []).flatMap((segment) =>
-        segment.kind === 'resolve' ? (segment.closes ?? []) : [],
-      )
-      return closed.length ? [[step.stepId ?? '', closed] as [string, string[]]] : []
+      const resolves = (step.segments ?? []).filter((segment) => segment.kind === 'resolve')
+      if (!resolves.length) return []
+      return [[step.stepId ?? '', resolves.flatMap((segment) => segment.closes ?? [])]] as [
+        string,
+        string[],
+      ][]
     }),
     legacy: checklist.legacy,
+    weights: stepWeights(weightedSteps, points).map(({ w, shares }) => [w, shares]),
+    objectives: Object.fromEntries(
+      [...byDofusId].map(([id, node]) => [id, node.objectives.length]),
+    ),
+    prereqs: routePrerequisites([...byDofusId.keys()], direct),
+    parents: questParents(weightedSteps, Object.fromEntries(byDofusId)),
+    checklists: Object.fromEntries(
+      data.checklists.flatMap(({ id, name, legacyId }) => [
+        [String(id), name],
+        ...(legacyId ? [[legacyId, name]] : []),
+      ]),
+    ),
   }
 }
 
