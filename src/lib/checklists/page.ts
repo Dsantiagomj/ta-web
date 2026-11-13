@@ -153,6 +153,8 @@ export interface ChecklistIslandData {
   parents: Record<number, [number, number[]][]>
   /** El nombre del Dofus de cada checklist, por su ID y por su id antiguo («nebuloso»). */
   checklists: Record<string, string>
+  /** El ID de cada checklist con id antiguo, por ese id: lo que migra el progreso antiguo. */
+  legacyIds: Record<string, number>
 }
 
 export interface ChecklistView {
@@ -542,6 +544,9 @@ function islandData(data: ChecklistData): ChecklistIslandData {
         [String(id), name],
         ...(legacyId ? [[legacyId, name]] : []),
       ]),
+    ),
+    legacyIds: Object.fromEntries(
+      data.checklists.flatMap(({ id, legacyId }) => (legacyId ? [[legacyId, id]] : [])),
     ),
   }
 }
