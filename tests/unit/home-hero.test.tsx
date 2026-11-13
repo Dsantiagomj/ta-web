@@ -13,11 +13,21 @@ describe('el hero de la portada', () => {
   it('el h1 lleva qué es y el nombre, y debajo la frase', () => {
     const markup = hero()
     expect(markup).toMatch(
-      /<h1[^>]*><span class="hero__eyebrow">Guías de Dofus en español<\/span> Torrente Arcano<\/h1>/,
+      /<h1[^>]*><span class="hero__eyebrow">Guías de Dofus en español<\/span> <span class="hero__name">Torrente Arcano<\/span><\/h1>/,
     )
     expect(markup).toContain(
       'Misiones, logros y Dofus explicados paso a paso, con capturas y coordenadas para copiar en el chat.',
     )
+  })
+
+  // Con Montserrat el nombre siempre ocupa dos líneas; el respaldo ajustado de next/font es
+  // más estrecho en el 700 y lo dejaba en una, así que al llegar la fuente todo lo de debajo
+  // bajaba 46 px (CLS en Lighthouse). Una palabra por línea con las dos fuentes.
+  it('el nombre va una palabra por línea con cualquier fuente', () => {
+    const css = readFileSync('src/components/home/home.css', 'utf8')
+    const rule = css.match(/\.hero__name\s*\{([^}]*)\}/)?.[1] ?? ''
+    expect(rule).toMatch(/display:\s*block/)
+    expect(rule).toMatch(/width:\s*min-content/)
   })
 
   it('Torre pregunta qué misión estás haciendo, y la pregunta es la etiqueta del campo', () => {

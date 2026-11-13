@@ -20,7 +20,8 @@ export function Hero() {
       <div className="home-wrap hero__in">
         <div className="hero__txt">
           <h1 id="h-hero" className="hero__t">
-            <span className="hero__eyebrow">{s.eyebrow}</span> {s.title}
+            <span className="hero__eyebrow">{s.eyebrow}</span>{' '}
+            <span className="hero__name">{s.title}</span>
           </h1>
           <p className="hero__lead">{s.lead}</p>
           <form
