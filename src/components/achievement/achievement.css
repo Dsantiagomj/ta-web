@@ -40,6 +40,20 @@
   container-type: inline-size;
 }
 
+/* La página del logro llega al ancho del sitio (--width-wide, los bordes de la cabecera),
+   pero todo sigue en la columna de lectura de 55rem salvo «Necesitarás en total»: sus
+   listas de filas cortas no piden medida de lectura, y a lo ancho la zona queda más baja.
+   Las consultas de contenedor de las partes no cambian: miden el artículo, que nunca es más
+   estrecho que la columna, y todas saltan por debajo de 55rem. */
+.logro--wide {
+  max-width: var(--width-wide);
+}
+
+.logro--wide > .logro__main > :where(:not(.lneeds)) {
+  max-width: 55rem;
+  margin-inline: auto;
+}
+
 .logro__prose {
   margin-top: 2.25rem;
 }
@@ -96,11 +110,13 @@
 }
 
 .lneeds {
+  container: lneeds / inline-size;
   margin-top: 2.25rem;
 }
 
 /* Los grupos uno debajo de otro; con sitio, dos lado a lado con un filete entre ellos y el
-   tercero debajo, y con más sitio los tres en una fila. */
+   tercero debajo, y con más sitio los tres en una fila. Las consultas miden la zona, que en
+   la página del logro es más ancha que la columna de lectura. */
 .lneeds__groups {
   display: grid;
   gap: 1.25rem;
@@ -211,6 +227,82 @@
     padding: 0 0 0 1.5rem;
     border-top: 0;
     border-left: 1px solid var(--color-line);
+  }
+}
+
+/* Otros es prosa: a la medida de lectura, nunca a todo lo ancho de la zona. */
+.lneeds__others {
+  max-width: 36rem;
+}
+
+/* A lo ancho, una lista larga (needsColumns: --cols, --rows) se reparte en columnas que se
+   leen de arriba abajo, con las filas a la misma altura de una columna a otra. Objetos y
+   combates se reparten el ancho por columnas, y Otros baja a su propia fila tras un filete,
+   con sus notas en dos columnas a medida de lectura: a 1280 y 1440px, tres columnas de
+   iconos y Otros al lado partirían en dos líneas nombres cortos como «6 × Combates
+   solitarios». Sin lista partida, la fila de antes: cada grupo con el ancho que pide. */
+@container lneeds (min-width: 62rem) {
+  .lneeds__g--cols ul.lneeds__list {
+    grid-template-rows: repeat(var(--rows), auto);
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    grid-auto-flow: column;
+    column-gap: 1.5rem;
+  }
+
+  .lneeds__groups:has(.lneeds__g--cols) {
+    flex-wrap: wrap;
+    row-gap: 1.25rem;
+  }
+
+  .lneeds__groups:has(.lneeds__g--cols) .lneeds__g {
+    flex: var(--cols, 1) 1 0;
+    min-width: 0;
+  }
+
+  .lneeds__groups:has(.lneeds__g--cols) .lneeds__g--others {
+    flex-basis: 100%;
+    margin-left: 0;
+    padding: 1.25rem 0 0;
+    border-top: 1px solid var(--color-line);
+    border-left: 0;
+  }
+
+  .lneeds__groups:has(.lneeds__g--cols) ul.lneeds__others {
+    display: block;
+    max-width: 71rem;
+    columns: 2 22rem;
+    column-gap: 3rem;
+  }
+
+  .lneeds__groups:has(.lneeds__g--cols) .lneeds__others > li {
+    break-inside: avoid;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Con todo el ancho del sitio (desde unos 1620px de ventana), Otros vuelve a la fila junto a
+   las columnas de iconos, con el ancho de una de ellas. */
+@container lneeds (min-width: 86rem) {
+  .lneeds__groups:has(.lneeds__g--cols) {
+    flex-wrap: nowrap;
+  }
+
+  .lneeds__groups:has(.lneeds__g--cols) .lneeds__g--others {
+    flex: 1 1 0;
+    margin-left: 1.5rem;
+    padding: 0 0 0 1.5rem;
+    border-top: 0;
+    border-left: 1px solid var(--color-line);
+  }
+
+  .lneeds__groups:has(.lneeds__g--cols) ul.lneeds__others {
+    display: grid;
+    max-width: 36rem;
+    columns: auto;
+  }
+
+  .lneeds__groups:has(.lneeds__g--cols) .lneeds__others > li {
+    margin-bottom: 0;
   }
 }
 

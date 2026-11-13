@@ -160,6 +160,42 @@ describe('AchievementNeeds', () => {
     expect(new Set(ids).size).toBe(ids.length)
   })
 
+  it('una lista larga se reparte en columnas que se leen de arriba abajo, equilibrando los grupos', () => {
+    const task = (label: string) => ({ quantity: 1, label, kind: 'combat' as const })
+    const item = (name: string) => ({ item: { name } })
+    const tasks = Array.from({ length: 10 }, (_, i) => task(`Combate ${i}`))
+    const items = Array.from({ length: 5 }, (_, i) => item(`Objeto ${i}`))
+    const groups = (markup: string) =>
+      [...markup.matchAll(/<div class="(lneeds__g(?: [^"]*)?)"(?: style="([^"]*)")?>/g)].map(
+        ([, className, style]) => ({ className, style }),
+      )
+    // Ocre de ámbar: 5 objetos y 10 combates. Los combates, en dos columnas de 5.
+    expect(
+      groups(html(<AchievementNeeds needs={{ items, tasks, others: needs.others }} />)),
+    ).toEqual([
+      { className: 'lneeds__g', style: undefined },
+      { className: 'lneeds__g lneeds__g--cols', style: '--cols:2;--rows:5' },
+      { className: 'lneeds__g lneeds__g--others', style: undefined },
+    ])
+    // Dos listas largas: tres columnas en total, para la más alta.
+    const twelve = Array.from({ length: 12 }, (_, i) => item(`Objeto ${i}`))
+    expect(groups(html(<AchievementNeeds needs={{ items: twelve, tasks, others: [] }} />))).toEqual(
+      [
+        { className: 'lneeds__g lneeds__g--cols', style: '--cols:2;--rows:6' },
+        { className: 'lneeds__g', style: undefined },
+      ],
+    )
+    // Una sola lista muy larga: hasta tres columnas, de al menos tres filas.
+    const many = Array.from({ length: 20 }, (_, i) => task(`Combate ${i}`))
+    expect(
+      groups(html(<AchievementNeeds needs={{ items: [], tasks: many, others: [] }} />)),
+    ).toEqual([{ className: 'lneeds__g lneeds__g--cols', style: '--cols:3;--rows:7' }])
+    // Cinco filas o menos no se parten.
+    expect(groups(html(<AchievementNeeds needs={{ items, tasks: [], others: [] }} />))).toEqual([
+      { className: 'lneeds__g', style: undefined },
+    ])
+  })
+
   it('un grupo vacío no se pinta; sin nada, no hay zona', () => {
     const markup = html(<AchievementNeeds needs={{ ...needs, others: [] }} />)
     expect(markup).not.toContain('Otros')

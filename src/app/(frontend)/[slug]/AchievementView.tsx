@@ -17,7 +17,7 @@ import { PreviewBar } from './PreviewBar'
 /**
  * La página de un logro (DESIGN.md, Achievement page): las migas, la cabecera con el icono,
  * «Necesitarás en total», la entrada de Torre, las misiones en orden, el cierre, «Cuenta para» y el logro anterior y
- * el siguiente, en una sola columna centrada. La única isla es la de la
+ * el siguiente, en una sola columna centrada; «Necesitarás en total», más ancha (logro--wide). La única isla es la de la
  * guía, para la bolsa de recompensas; la de la vista previa, solo en draft mode.
  */
 export function AchievementView({
@@ -35,7 +35,7 @@ export function AchievementView({
   return (
     <div className="[--color-section:var(--color-sec-logros)]">
       {preview && <PreviewBar slug={data.page.slug} />}
-      <main id="contenido" className="logro">
+      <main id="contenido" className="logro logro--wide">
         <article className="logro__main">
           <Breadcrumb {...view.breadcrumb} />
           <AchievementHeader
