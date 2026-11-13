@@ -16,6 +16,7 @@ import { Items } from './collections/Items'
 import { Media } from './collections/Media'
 import { Monsters } from './collections/Monsters'
 import { Npcs } from './collections/Npcs'
+import { SubAreas } from './collections/SubAreas'
 import { QuestGuides } from './collections/QuestGuides'
 import { Quests } from './collections/Quests'
 import { Users } from './collections/Users'
@@ -44,6 +45,7 @@ export default buildConfig({
     Items,
     Monsters,
     Npcs,
+    SubAreas,
     AchievementCategories,
     Achievements,
     QuestGuides,

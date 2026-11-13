@@ -2,7 +2,8 @@
 // todo el catálogo de objetos, y los guarda en quests, items y monsters, sin duplicar.
 // Luego guarda las categorías de logros y los logros de misiones y eventos, con sus iconos,
 // y crea los metalogros y páginas de logro que falten (los que existen son de Torre).
-// Luego guarda los PNJ que dan las misiones en npcs e importa sus renders a Media, solo
+// Guarda también las subzonas con su área, donde pasa cada objetivo. Luego guarda los PNJ
+// que dan las misiones o nombran sus objetivos en npcs e importa sus renders a Media, solo
 // los que aún no están (la primera vez tarda: dos imágenes por PNJ), y los iconos de los
 // objetos y las imágenes de los monstruos que pinta alguna guía, también una sola vez.
 // Uso: pnpm data:quests. Escribe en la base de DATABASE_URL (vacía: la de pnpm db:dev).
@@ -18,6 +19,7 @@ import { gameImageTargets, refreshGameImages } from '@/lib/dofusdb/game-images'
 import { ensureAchievementPages } from '@/lib/achievements/ensure-pages'
 import { refreshAchievements } from '@/lib/dofusdb/refresh-achievements'
 import { refreshNpcs } from '@/lib/dofusdb/refresh-npcs'
+import { refreshSubAreas } from '@/lib/dofusdb/refresh-subareas'
 import {
   refreshQuests,
   type UpsertCounts,
@@ -47,6 +49,12 @@ try {
     log: (message) => console.log(message),
   })
   console.log(`Escritura: ${seconds(writeStarted)} s.`)
+  // Las subzonas con su área: dónde pasa cada objetivo, que solo guarda subAreaId.
+  const subAreaCounts = await refreshSubAreas(
+    payload,
+    { subAreas: data.subAreas ?? [], areas: data.areas ?? [] },
+    { concurrency },
+  )
 
   console.log('Guardando los logros de misiones y eventos e importando sus iconos…')
   const achievementsStarted = Date.now()
@@ -84,6 +92,7 @@ try {
   console.log(summary('Misiones', 'as', counts.quests))
   console.log(summary('Objetos', 'os', counts.items))
   console.log(summary('Monstruos', 'os', counts.monsters))
+  console.log(summary('Subzonas', 'as', subAreaCounts))
   console.log(summary('Categorías de logros', 'as', achievementCounts.categories))
   console.log(summary('Logros', 'os', achievementCounts.achievements))
   console.log(

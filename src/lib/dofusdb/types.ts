@@ -112,9 +112,10 @@ export interface RawMapPosition {
   subAreaId?: number | null
 }
 
-/** Una subzona («Ciudad de Astrub»); de ella solo usamos su área. */
+/** Una subzona («Ciudad de Astrub»), dentro de un área. */
 export interface RawSubArea {
   id: number
+  name?: LocalizedText | null
   areaId?: number | null
 }
 
