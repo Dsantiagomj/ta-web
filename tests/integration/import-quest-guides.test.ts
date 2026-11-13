@@ -280,6 +280,26 @@ describe('carga de guías importadas de Squarespace', () => {
     ])
   })
 
+  it('si la nota de una mazmorra elegida desaparece de Squarespace, la elección se quita y se avisa', async () => {
+    const withPick = [...(await guidesBySlug()).values()].find(
+      (guide) => (guide.summary?.needs?.dungeons ?? []).length > 0,
+    )!
+    const guides = converted()
+    const changed = guides.find(({ guide }) => guide.slug === withPick.slug)!
+    changed.guide.summary.needs = { notes: 'Solo hablar.' }
+
+    const result = await loadQuestGuides(payload, guides, { fetchImage })
+
+    expect(result.guides.updated).toBe(1)
+    expect(result.oddities[withPick.slug]).toContainEqual(
+      expect.stringMatching(/^Mazmorra elegida a mano quitada: «.+» ya no está en Notas$/),
+    )
+    const saved = (await guidesBySlug()).get(withPick.slug)!
+    expect(saved.summary?.needs).toMatchObject({ notes: 'Solo hablar.', dungeons: [] })
+    // Vuelve a la guía de siempre para las pruebas que siguen.
+    await loadQuestGuides(payload, converted(), { fetchImage })
+  })
+
   it('una guía que cambia guarda un borrador nuevo; las demás no se tocan', async () => {
     const versionsBefore = await versionCount()
     const guides = converted()

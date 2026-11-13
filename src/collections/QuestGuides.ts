@@ -1,4 +1,4 @@
-import type { CollectionConfig, Field } from 'payload'
+import type { CollectionConfig, Field, FieldHook } from 'payload'
 
 import { CalloutBlock } from '../blocks/CalloutBlock'
 import { FightBlock } from '../blocks/FightBlock'
@@ -7,7 +7,7 @@ import { RichTextBlock } from '../blocks/RichTextBlock'
 import { StepBlock } from '../blocks/StepBlock'
 import { VideoBlock } from '../blocks/VideoBlock'
 import { linkedQuestId } from '../lib/guides/autofill'
-import { isDungeonNote, needNote, noteKey } from '../lib/guides/need-notes'
+import { isDungeonNoteIn } from '../lib/guides/need-notes'
 import { guidePreviewUrl, previewOrigin } from '../lib/guides/preview'
 import { isReservedSlug, isSlugFormat } from '../lib/guides/slug'
 import { guideStrings } from '../lib/guides/strings'
@@ -66,12 +66,23 @@ export function validatePickedDungeonNote(
   value: string | null | undefined,
   { data }: PickValidationOptions,
 ): true | string {
-  const key = value?.trim() ? noteKey(value) : ''
-  const notes = (data?.summary?.needs?.notes ?? '').split('\n').filter((line) => line.trim())
-  const found = notes.some(
-    (line) => isDungeonNote(needNote(line.trim()).label) && noteKey(line) === key,
-  )
-  return key && found ? true : guideStrings.admin.dungeonPickUnknownNote
+  return isDungeonNoteIn(value, data?.summary?.needs?.notes)
+    ? true
+    : guideStrings.admin.dungeonPickUnknownNote
+}
+
+type PickRow = { id?: string | null; dungeon?: unknown }
+
+/**
+ * Quita las filas cuya mazmorra ya estaba vacía en lo guardado: la mazmorra se borró de la
+ * base (la clave foránea la deja en null) y la fila ya no elige nada. Una fila nueva sin
+ * mazmorra, o una que Torre acaba de vaciar, se queda para que el panel la pida.
+ */
+export const withoutDeletedDungeons: FieldHook = ({ value, originalDoc }) => {
+  if (!Array.isArray(value)) return value
+  const stored = (originalDoc?.summary?.needs?.dungeons ?? []) as PickRow[]
+  const emptied = new Set(stored.filter((row) => row.dungeon == null).map((row) => row.id))
+  return (value as PickRow[]).filter((row) => row.dungeon != null || !emptied.has(row.id))
 }
 
 // Cada campo del resumen lleva una nota que lo compara con lo que da DofusDB.
@@ -141,6 +152,7 @@ const summaryFields: Field[] = [
         labels: { singular: 'Mazmorra', plural: 'Mazmorras' },
         type: 'array',
         admin: { description: guideStrings.admin.dungeonPicksDescription },
+        hooks: { beforeValidate: [withoutDeletedDungeons] },
         fields: [
           {
             name: 'note',

@@ -3,17 +3,51 @@ import path from 'node:path'
 import { describe, expect, it } from 'vitest'
 
 import { achievementProse, type ProseItem } from '../../scripts/import/achievements/prose'
-import { parsePage } from '../../scripts/import/squarespace/parse-page'
+import {
+  parsePage,
+  type PageBlock,
+  type SquarespacePage,
+} from '../../scripts/import/squarespace/parse-page'
 
 // La entrada y el cierre de Torre en sus páginas de logro de Squarespace, sobre páginas
 // cacheadas del rastreo de 2026-11-02, recortadas a su artículo.
 
-function prose(slug: string) {
+function page(slug: string): SquarespacePage {
   const html = readFileSync(
     path.join(__dirname, '../fixtures/squarespace/logros', `${slug}.html`),
     'utf8',
   )
-  return achievementProse(parsePage(html))
+  return parsePage(html)
+}
+
+const prose = (slug: string) => achievementProse(page(slug))
+
+/** Un bloque de texto con un elemento, como lo da parsePage. */
+function textBlock(tag: string, text: string, inner = text): PageBlock {
+  return { type: 'text', elements: [{ tag, text, html: `<${tag}>${inner}</${tag}>` }] }
+}
+
+/** La página con unos bloques metidos justo antes del primero cuyo texto empieza así. */
+function inserting(base: SquarespacePage, before: string, blocks: PageBlock[]): SquarespacePage {
+  const at = base.blocks.findIndex(
+    (block) => block.type === 'text' && block.elements[0]?.text.startsWith(before),
+  )
+  if (at === -1) throw new Error(`No hay bloque que empiece por «${before}»`)
+  return { ...base, blocks: [...base.blocks.slice(0, at), ...blocks, ...base.blocks.slice(at)] }
+}
+
+/** La página sin los bloques de texto cuyo texto empieza así (y lo que haya dentro). */
+function without(base: SquarespacePage, ...starts: string[]): SquarespacePage {
+  return {
+    ...base,
+    blocks: base.blocks.flatMap((block): PageBlock[] => {
+      if (block.type !== 'text') return [block]
+      const elements = block.elements.filter(
+        (element) => !starts.some((start) => element.text.startsWith(start)),
+      )
+      return elements.length ? [{ ...block, elements }] : []
+    }),
+  }
 }
 
 /** Un resumen legible de cada pieza: la etiqueta y las seis primeras palabras de su texto. */
@@ -141,5 +175,54 @@ describe('achievementProse', () => {
       'p: No te olvides suscribirte al canal',
     ])
     expect(outro).toEqual([])
+  })
+
+  describe('la plantilla se reconoce por su forma exacta, y nada de Torre se pierde', () => {
+    it('sin «Recompensas», los grupos de Necesitarás siguen siendo plantilla', () => {
+      // Ocre de ámbar sin sus recompensas: «Combates:» y «Mazmorras:» con sus listas no
+      // pasan al cierre; el texto de Torre después del vídeo, sí.
+      const base = without(page('ocre-de-ambar'), 'Recompensas del logro', '4 874 772 XP')
+      expect(outline(achievementProse(base).outro)).toEqual([
+        'p: Aquí te dejo un video guía',
+        'vídeo https://www.youtube.com/watch?v=ou3O6UVGO0E (sin título)',
+        'p: No olvides suscribirte al canal UwU',
+      ])
+    })
+
+    it('una frase de Torre que habla de lo que vas a necesitar no es el rótulo de la plantilla', () => {
+      const sentence = 'Para este logro vas a necesitar mucha paciencia, te recomiendo:'
+      const base = inserting(page('el-cazador-que-lo-cace'), 'Solo hay que hacer', [
+        textBlock('p', sentence),
+        textBlock('ul', 'Ir con amigos.', '<li><p>Ir con amigos.</p></li>'),
+      ])
+      expect(outline(achievementProse(base).intro)).toEqual([
+        'p: Para este logro vas a necesitar',
+        'ul: Ir con amigos.',
+        'p: Solo hay que hacer una de',
+      ])
+    })
+
+    it('«Necesitarás mucha suerte.» en el cierre es de Torre', () => {
+      const base = inserting(page('verde-esmeralda'), 'No te olvides', [
+        textBlock('p', 'Necesitarás mucha suerte, mi kingu.'),
+      ])
+      expect(outline(achievementProse(base).outro)).toContain(
+        'p: Necesitarás mucha suerte, mi kingu.',
+      )
+    })
+
+    it('un subtítulo corto de Torre con su lista, dentro de Necesitarás, es prosa', () => {
+      // Justo después de la lista de Necesitarás, donde un rótulo de grupo sería plantilla.
+      const base = inserting(page('pesca-fresca-fresquisima'), 'Misiones que no aparecen', [
+        textBlock('p', 'Consejo importante:'),
+        textBlock('ul', 'Lleva pociones.', '<li><p>Lleva pociones.</p></li>'),
+      ])
+      expect(outline(achievementProse(base).outro)).toEqual([
+        'p: Consejo importante:',
+        'ul: Lleva pociones.',
+        'p: Misiones que no aparecen en el',
+        'ul: La pesca de Mel.Mel odiosa.Mel, o',
+      ])
+    })
   })
 })

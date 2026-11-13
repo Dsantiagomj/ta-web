@@ -44,3 +44,25 @@ const DUNGEON = /\bmazmorras?\b/iu
 
 /** Si una nota va como mazmorra en «Combates y mazmorras». */
 export const isDungeonNote = (label: string) => DUNGEON.test(label)
+
+/** Si una nota escrita a mano es una nota de mazmorra de estas Notas, con o sin cantidad. */
+export function isDungeonNoteIn(note: string | null | undefined, notes: string | null | undefined) {
+  const key = note?.trim() ? noteKey(note) : ''
+  if (!key) return false
+  return (notes ?? '')
+    .split('\n')
+    .filter((line) => line.trim())
+    .some((line) => isDungeonNote(needNote(line.trim()).label) && noteKey(line) === key)
+}
+
+/**
+ * Las mazmorras elegidas a mano cuya nota sigue en Notas (live) y las que ya no (stale): la
+ * importación de las guías reescribe Notas y quita las que se quedan sin nota.
+ */
+export function livePicks<T extends { note?: string | null }>(
+  picks: T[],
+  notes: string | null | undefined,
+): { live: T[]; stale: T[] } {
+  const live = picks.filter((pick) => isDungeonNoteIn(pick.note, notes))
+  return { live, stale: picks.filter((pick) => !live.includes(pick)) }
+}
