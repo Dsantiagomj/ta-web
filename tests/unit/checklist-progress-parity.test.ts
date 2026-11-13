@@ -72,6 +72,7 @@ function islandData(checklist: ChecklistDraft): ChecklistIslandData {
   return {
     checklistId: 1,
     slug: 'checklist-nebuloso',
+    version: '1',
     steps,
     closes: checklist.steps.flatMap((step) =>
       step.segments.flatMap((segment) =>

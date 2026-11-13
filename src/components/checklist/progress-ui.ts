@@ -17,7 +17,8 @@ import {
   type QuestState,
 } from '@/lib/checklists/progress/engine'
 import {
-  parseProgress,
+  backupFile,
+  parseBackup,
   PROGRESS_KEY,
   readProgress,
   writeProgress,
@@ -26,16 +27,13 @@ import {
 } from '@/lib/checklists/progress/store'
 import type { ChecklistIslandData } from '@/lib/checklists/page'
 
-import { progressStrings as s } from './progress-strings'
+import { calendarDaysBetween, progressStrings as s } from './progress-strings'
 
 type Filter = 'todo' | 'done' | 'all'
 
 /** Cuándo se descargó la última copia de seguridad. */
 const BACKUP_AT_KEY = 'ta-web:backup-at'
-const BACKUP_APP = 'ta-web'
-const BACKUP_KIND = 'checklist-progress'
 const SOON_STEPS = 5
-const DAY = 86_400_000
 
 /** localStorage en try/catch: sin él (modo privado, bloqueado) la página sigue sin guardar. */
 export const safeStorage: ProgressStorage = {
@@ -86,6 +84,10 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
 
   function toast(text: string) {
     if (!toastEl) return
+    // Con un diálogo abierto, lo de fuera queda inerte y debajo: el aviso va dentro de él, en
+    // la capa de arriba, donde se ve y se anuncia.
+    const host = document.querySelector('dialog[open]') ?? document.body
+    if (toastEl.parentElement !== host) host.append(toastEl)
     toastEl.textContent = text
     toastEl.hidden = false
     clearTimeout(toastTimer)
@@ -117,7 +119,7 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
 
   function renderQuests() {
     for (const row of $$('.ck-q[data-q]')) {
-      const index = Number(row.dataset.step) - 1
+      const index = Number(row.dataset.qStep) - 1
       const state = questState(progress, m, index, Number(row.dataset.q))
       row.dataset.state = state.done ? 'done' : state.wait ? 'wait' : state.at ? 'stop' : 'todo'
       const hit = row.querySelector<HTMLButtonElement>('[data-q-hit]')
@@ -270,14 +272,14 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
       el.setAttribute('data-warn', '')
       return
     }
-    const days = Math.floor((Date.now() - at) / DAY)
+    const days = calendarDaysBetween(new Date(at), new Date())
     el.textContent = s.backupAge(days)
     el.toggleAttribute('data-warn', days > 14)
   }
 
   function download() {
     const at = new Date()
-    const body = { app: BACKUP_APP, kind: BACKUP_KIND, v: 1, at: at.toISOString(), progress }
+    const body = backupFile(progress, at)
     const link = document.createElement('a')
     link.href = URL.createObjectURL(
       new Blob([JSON.stringify(body, null, 2)], { type: 'application/json' }),
@@ -295,16 +297,17 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
   }
 
   async function restore(file: File) {
+    let restored: Progress | null = null
     try {
-      const json = JSON.parse(await file.text()) as Record<string, unknown>
-      if (json.app !== BACKUP_APP || json.kind !== BACKUP_KIND) throw new Error('otra cosa')
-      const restored = parseProgress(JSON.stringify(json.progress))
-      save(restored)
-      dialog('backup')?.close()
-      toast(s.restored)
+      restored = parseBackup(await file.text())
     } catch {
-      toast(s.badBackup)
+      restored = null
     }
+    // Una copia que no se entiende entera no escribe nada.
+    if (!restored) return toast(s.badBackup)
+    save(restored)
+    dialog('backup')?.close()
+    toast(s.restored)
   }
 
   function wholeKeys() {
@@ -312,18 +315,23 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
   }
 
   function openReset() {
+    const whole = new Set(wholeKeys())
     const counts = {
       steps: stepsDone(progress, m),
       prereqs: Object.keys(progress.prereqs).filter((key) => key.startsWith(`${m.id}:`)).length,
       owned: Object.keys(progress.owned).filter((key) => {
         const step = key.split('#')[1]
-        return step ? m.index.has(step) : wholeKeys().includes(key)
+        return step ? m.index.has(step) : whole.has(key)
       }).length,
     }
     for (const el of $$('[data-ck-reset-count]')) {
       el.textContent = s.resetCount(counts[el.dataset.ckResetCount as keyof typeof counts])
     }
-    dialog('reset')?.showModal()
+    const reset = dialog('reset')
+    if (!reset) return
+    // Sin esto, cerrar con Escape o fuera del diálogo dejaría el «reset» de la vez anterior.
+    reset.returnValue = ''
+    reset.showModal()
   }
 
   function onResetClose(this: HTMLDialogElement) {
@@ -358,7 +366,8 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
       const at = m.index.get(closed)
       if (at !== undefined && !stepDone(progress, m, at)) toast(s.closedPending(at + 1))
     }
-    // Hecho el paso, se abre el siguiente pendiente después de él.
+    // Hecho el paso, se abre el siguiente pendiente después de él, con su fila a la vista.
+    if (filter === 'done') setFilter('all')
     const after = m.steps.findIndex((_, at) => at > index && !stepDone(progress, m, at))
     if (after >= 0) setTimeout(() => pick(after + 1), 260)
   }
@@ -370,7 +379,7 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
     const hit = target.closest<HTMLButtonElement>('[data-q-hit]')
     if (hit) {
       const row = hit.closest<HTMLElement>('.ck-q')
-      const index = Number(row?.dataset.step) - 1
+      const index = Number(row?.dataset.qStep) - 1
       const id = Number(row?.dataset.q)
       save(
         setQuest(progress, m, index, id, hit.getAttribute('aria-pressed') !== 'true', Date.now()),
@@ -433,7 +442,25 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
     if (box.dataset.preCheck) {
       return save(setPrereq(progress, m, box.dataset.preCheck, box.checked, now))
     }
-    if (box.dataset.own) return save(setOwned(progress, [box.dataset.own], box.checked, now))
+    if (box.dataset.own) {
+      if (box.checked) return save(setOwned(progress, [box.dataset.own], true, now))
+      // Desmarcar quita lo que lo hace conseguido. Si estaba marcado entero (una copia, la
+      // checklist antigua), sigue conseguido en los demás pasos que lo piden.
+      const [key, stepId] = box.dataset.own.split('#')
+      let next = setOwned(progress, [box.dataset.own], false, now)
+      if (progress.owned[key]) {
+        const others = [
+          ...new Set(
+            $$<HTMLInputElement>('[data-own]').flatMap((other) => {
+              const [otherKey, otherStep] = (other.dataset.own ?? '').split('#')
+              return otherKey === key && otherStep !== stepId ? [`${key}#${otherStep}`] : []
+            }),
+          ),
+        ]
+        next = setOwned(setOwned(next, [key], false, now), others, true, now)
+      }
+      return save(next)
+    }
     const slot = box.closest<HTMLElement>('[data-ck-slot]')
     if (slot) {
       const key = slot.dataset.ckSlot ?? ''
@@ -479,6 +506,11 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
     refilter()
   }
 
+  // El servidor pinta las casillas y botones del progreso desactivados: un clic antes de que
+  // llegue este código se perdería. Ya está aquí; render() decide los que siguen bloqueados.
+  for (const control of $$<HTMLInputElement | HTMLButtonElement>('[data-ck-wait]')) {
+    control.disabled = false
+  }
   const howto = document.querySelectorAll('.ck-q__howto')
   for (const el of howto) el.textContent = s.questHowto
   const resetDialog = dialog('reset')

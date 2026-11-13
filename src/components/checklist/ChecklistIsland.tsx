@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useEffectEvent } from 'react'
 
 import { checklistDetailsUrl, type ChecklistDetails } from '@/lib/checklists/details-url'
 import type { ChecklistIslandData } from '@/lib/checklists/page'
@@ -53,6 +53,9 @@ function fillDetails(details: ChecklistDetails) {
  * Con ella, también el progreso: marcar pasos, misiones, prerrequisitos y objetos (progress-ui.ts).
  */
 export function ChecklistIsland({ data }: { data: ChecklistIslandData }) {
+  // Lo último que llegó, sin volver a empezar la isla: una vista previa que se refresca trae un
+  // objeto nuevo con lo mismo. Solo otra checklist u otra versión de ella la reinician.
+  const latest = useEffectEvent(() => data)
   // Sincroniza con el DOM del servidor, el <dialog>, matchMedia y la API de detalles.
   useEffect(() => {
     const $ = <T extends Element = HTMLElement>(selector: string, root: ParentNode = document) =>
@@ -245,7 +248,7 @@ export function ChecklistIsland({ data }: { data: ChecklistIslandData }) {
     import('./progress-ui')
       .then(({ startProgress }) => {
         if (stopped) return
-        progress = startProgress(data, {
+        progress = startProgress(latest(), {
           pick: (n) => {
             const row = $<HTMLElement>(`.ck-row[data-n="${n}"]`)
             if (row?.hidden) {
@@ -289,7 +292,7 @@ export function ChecklistIsland({ data }: { data: ChecklistIslandData }) {
       sheet.removeEventListener('close', onClose)
       wide.removeEventListener('change', onWide)
     }
-  }, [data])
+  }, [data.slug, data.version])
 
   return null
 }

@@ -99,7 +99,9 @@ describe('el progreso en el paso', () => {
     const html = renderToStaticMarkup(<StepDetail step={step(plain('mandatory'))} last={2} />)
     expect(html).toContain('data-q-hit')
     expect(html).toContain('aria-label="Marcar «Otra» como hecha"')
-    expect(html).toMatch(/<li class="ck-q" data-q="7" data-step="1"/)
+    // data-q-step: «data-step» es el del artículo del paso, que la isla busca por él
+    expect(html).toMatch(/<li class="ck-q" data-q="7" data-q-step="1"/)
+    expect(html.match(/data-step="1"/g)).toHaveLength(1)
     expect(renderToStaticMarkup(<StepDetail step={step(plain('take'))} last={2} />)).not.toContain(
       'data-q-hit',
     )
@@ -131,5 +133,21 @@ describe('el progreso en el paso', () => {
     const html = renderToStaticMarkup(<StepList steps={[step(plain('mandatory'))]} />)
     expect(html).toContain('data-step-check="1"')
     expect(html).toContain('aria-label="Paso 1 hecho"')
+  })
+})
+
+describe('el progreso antes de que llegue su código', () => {
+  it('las casillas y botones del progreso salen desactivados: la isla los activa al cargarlo', () => {
+    const quest: QuestRowView = { dofusId: 7, name: 'Otra', kind: 'mandatory' }
+    const list = renderToStaticMarkup(<StepList steps={[step(quest)]} />)
+    expect(list).toMatch(
+      /<input type="checkbox" class="checkbox ck-js"[^>]*data-step-check="1"[^>]*disabled=""/,
+    )
+    expect(list).toMatch(/data-ck-f="todo"[^>]*disabled=""|disabled=""[^>]*data-ck-f="todo"/)
+    const detail = renderToStaticMarkup(<StepDetail step={step(quest)} last={2} />)
+    expect(detail).toMatch(/data-q-hit="true"[^>]*disabled=""|disabled=""[^>]*data-q-hit="true"/)
+    expect(detail).toMatch(
+      /<button type="button" class="ck-btn ck-complete" data-complete="1"[^>]*disabled=""/,
+    )
   })
 })

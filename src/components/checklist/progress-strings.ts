@@ -2,6 +2,12 @@
 // seguridad y el reinicio), aparte de island-strings.ts: los usa progress-ui.ts, que la isla
 // carga con import(), y la página. Así no viajan con la isla a las demás páginas de /<slug>.
 
+/** Los días del calendario entre dos fechas, en la zona horaria de quien lee. */
+export function calendarDaysBetween(from: Date, to: Date): number {
+  const day = (date: Date) => Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+  return Math.round((day(to) - day(from)) / 86_400_000)
+}
+
 const plural = (count: number, one: string, many: string) => `${count} ${count === 1 ? one : many}`
 
 /** «A», «A» y «B», «A», «B» y «C». */

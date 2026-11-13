@@ -87,7 +87,7 @@ const data = (
       classicKeys: { v4: 'dofus_nebuloso_clean_v1' },
       guideVersion: 1,
     },
-    updatedAt: '',
+    updatedAt: '2026-11-13T10:00:00.000Z',
     createdAt: '',
     ...overrides,
   } as unknown as Checklist,
@@ -424,6 +424,28 @@ describe('checklistView: Necesitarás', () => {
     )
   })
 
+  it('un mismo objeto o texto es una sola fila en los totales, con la clave de lo conseguido', () => {
+    const steps = [
+      step('a', {
+        needs: [
+          { item: item(11, 'Cuerno'), quantity: 1, category: 'resources', countsInTotal: true },
+          { item: null, label: 'Kama', quantity: 1, category: 'resources', countsInTotal: true },
+        ],
+      }),
+      step('b', {
+        needs: [
+          { item: item(11, 'Cuerno'), quantity: 2, category: 'equipment', countsInTotal: true },
+          { item: null, label: 'kama', quantity: 3, category: 'resources', countsInTotal: true },
+        ],
+      }),
+    ]
+    const rows = checklistView(data(steps)).totals.flatMap((group) => group.rows)
+    expect(rows.map((row) => [row.key, row.quantity, row.steps])).toEqual([
+      ['5011', 3, [1, 2]],
+      ['x:kama', 4, [1, 2]],
+    ])
+  })
+
   it('los totales suman cada objeto en todos los pasos y dejan fuera lo que no cuenta', () => {
     const steps = [
       needsStep,
@@ -603,6 +625,7 @@ describe('checklistView: lo que recibe la isla', () => {
     expect(island).toEqual({
       checklistId: 7,
       slug: 'checklist-nebuloso',
+      version: '2026-11-13T10:00:00.000Z',
       steps: [
         [
           'a',

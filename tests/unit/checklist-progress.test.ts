@@ -16,6 +16,7 @@ import {
 } from '@/lib/checklists/progress/engine'
 import {
   emptyProgress,
+  parseBackup,
   parseProgress,
   PROGRESS_KEY,
   readProgress,
@@ -31,6 +32,7 @@ import type { ChecklistIslandData } from '@/lib/checklists/page'
 const data: ChecklistIslandData = {
   checklistId: 7,
   slug: 'checklist-nebuloso',
+  version: '2026-11-13T00:00:00.000Z',
   steps: [
     [
       'a',
@@ -464,5 +466,25 @@ describe('revisión del PR 5: el índice inverso', () => {
   it('el modelo sabe qué misiones piden cada una', () => {
     expect(model.requiredBy.get(10)).toEqual([11])
     expect(model.requiredBy.get(11)).toBeUndefined()
+  })
+})
+
+describe('revisión del PR 5: restaurar una copia', () => {
+  const backup = (progress: unknown, extra: Record<string, unknown> = {}) =>
+    JSON.stringify({ app: 'ta-web', kind: 'checklist-progress', v: 1, progress, ...extra })
+  const good = setStep(emptyProgress(), model, 0, true, NOW)
+
+  it('una copia buena da su progreso', () => {
+    expect(parseBackup(backup(good))).toEqual(good)
+  })
+
+  it('una copia sin progreso, con otra versión o con entradas rotas no vale', () => {
+    expect(parseBackup(backup(undefined))).toBeNull()
+    expect(parseBackup(backup({ ...good, v: 2 }))).toBeNull()
+    expect(parseBackup(backup(good, { v: 2 }))).toBeNull()
+    expect(parseBackup(backup({ ...good, quests: 'nada' }))).toBeNull()
+    expect(parseBackup(backup({ ...good, steps: { a: { done: 'sí', at: 1 } } }))).toBeNull()
+    expect(parseBackup(backup(good, { app: 'otra' }))).toBeNull()
+    expect(parseBackup('{roto')).toBeNull()
   })
 })
