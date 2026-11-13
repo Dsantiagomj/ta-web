@@ -84,6 +84,34 @@ async function readObjectiveNames(
   return names
 }
 
+/** El nombre de cada subzona donde está algún objetivo de unas misiones, por su ID de DofusDB. */
+async function readSubareaNames(
+  payload: Payload,
+  quests: Pick<DetailsQuest, 'stages'>[],
+): Promise<Record<number, string>> {
+  const wanted = [
+    ...new Set(
+      quests.flatMap((quest) =>
+        (quest.stages ?? []).flatMap((stage) =>
+          (stage.objectives ?? []).flatMap((objective) =>
+            objective.subAreaId == null ? [] : [objective.subAreaId],
+          ),
+        ),
+      ),
+    ),
+  ]
+  if (!wanted.length) return {}
+  const { docs } = await payload.find({
+    collection: 'subareas',
+    where: { dofusId: { in: wanted } },
+    select: { dofusId: true, name: true },
+    depth: 0,
+    pagination: false,
+    ...visitor,
+  })
+  return Object.fromEntries(docs.map((doc) => [doc.dofusId, doc.name]))
+}
+
 /** El slug de cada documento por el ID de lo que enlaza en un campo. */
 function slugsBy<T extends { slug: string }>(docs: T[], field: keyof T): Record<number, string> {
   return Object.fromEntries(
@@ -323,7 +351,11 @@ export async function readChecklistDetails(
       })
     : { docs: [] }
   const quests = docs as DetailsQuest[]
-  return checklistDetails(quests, await readObjectiveNames(payload, quests))
+  const [names, subareas] = await Promise.all([
+    readObjectiveNames(payload, quests),
+    readSubareaNames(payload, quests),
+  ])
+  return checklistDetails(quests, names, subareas)
 }
 
 type GuideArt = { color?: string | null; dofus?: unknown }

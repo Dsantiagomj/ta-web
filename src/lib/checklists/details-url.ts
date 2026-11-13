@@ -5,8 +5,14 @@ import type { QuestObjectiveKind } from '@/lib/dofusdb/types'
 
 export const checklistDetailsUrl = (slug: string) => `/api/checklists/${slug}/details`
 
-/** [tipo, texto, x, y] */
-export type ObjectiveDetail = [QuestObjectiveKind, string, number | null, number | null]
+/** [tipo, texto, x, y, subzona] */
+export type ObjectiveDetail = [
+  QuestObjectiveKind,
+  string,
+  number | null,
+  number | null,
+  string | null,
+]
 
 /** [PNJ que la da, x, y, objetivos] */
 export type QuestDetail = [string | null, number | null, number | null, ObjectiveDetail[]]

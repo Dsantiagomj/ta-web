@@ -112,6 +112,10 @@ test.describe('página de una checklist', () => {
     await expect(
       quest.getByRole('button', { name: /\[-8,-4\], copiar \/travel -8,-4/ }),
     ).toBeVisible()
+    // Y la subzona de cada objetivo, solo cuando cambia
+    const [first, last] = neb.stopQuest.subareas
+    await expect(quest.locator('.ck-o__a')).toHaveText([first!.name, last!.name])
+    await expect(quest.locator('.ck-o').last().locator('.ck-o__a')).toHaveText(last!.name)
   })
 
   test('el paso que resuelve: su verde y a qué paso lleva', async ({ page }) => {

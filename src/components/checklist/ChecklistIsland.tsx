@@ -22,7 +22,10 @@ function chip(x: number | null, y: number | null): string {
   return `<span class="coord" role="button" tabindex="0" data-copy="${command}" aria-label="${s.copyCoordinates(label, command)}">${PIN}${label}</span>`
 }
 
-/** Pinta lo que traen los detalles: quién da cada misión, dónde, y dónde está cada objetivo. */
+/**
+ * Pinta lo que traen los detalles: quién da cada misión, dónde, y dónde está cada objetivo (sus
+ * coordenadas y el nombre de su subzona, como en el prototipo A).
+ */
 function fillDetails(details: ChecklistDetails) {
   for (const row of document.querySelectorAll<HTMLElement>('.ck-q[data-q]')) {
     const quest = details.q[Number(row.dataset.q)]
@@ -32,11 +35,22 @@ function fillDetails(details: ChecklistDetails) {
     if (name && npc) name.textContent = npc
     const start = row.querySelector('[data-ck-start]')
     if (start) start.innerHTML = chip(x, y)
-    // Un objetivo en el mismo mapa que el anterior no repite el chip.
+    // Un objetivo en el mismo mapa que el anterior no repite el chip; ni en la misma subzona,
+    // su nombre.
     let previous = `${x},${y}`
+    let area: string | null = null
     for (const slot of row.querySelectorAll<HTMLElement>('[data-ck-coord]')) {
       const objective = objectives[Number(slot.dataset.ckCoord)]
       if (!objective) continue
+      const text = slot.parentElement?.querySelector('.ck-o__t')
+      text?.querySelector('.ck-o__a')?.remove()
+      if (text && objective[4] && objective[4] !== area) {
+        const name = document.createElement('span')
+        name.className = 'ck-o__a'
+        name.textContent = objective[4]
+        text.append(name)
+      }
+      if (objective[4]) area = objective[4]
       const here = `${objective[2]},${objective[3]}`
       slot.innerHTML = here === previous ? '' : chip(objective[2], objective[3])
       if (objective[2] != null) previous = here

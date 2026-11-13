@@ -41,9 +41,26 @@ export const seedChecklists = {
       npc: 'Wello',
       start: { x: -5, y: -5 },
       objectives: [
-        { kind: 'npc' as const, text: 'Ve a ver a Wello', x: -5, y: -5 },
-        { kind: 'bring' as const, text: 'Entrégale a Wello: 3 x Muestra de sangre', x: -8, y: -4 },
-        { kind: 'fight' as const, text: 'Vence a 1 x Rey Nidas en un solo combate', x: -9, y: -5 },
+        { kind: 'npc' as const, text: 'Ve a ver a Wello', x: -5, y: -5, subAreaId: 991_301 },
+        {
+          kind: 'bring' as const,
+          text: 'Entrégale a Wello: 3 x Muestra de sangre',
+          x: -8,
+          y: -4,
+          subAreaId: 991_301,
+        },
+        {
+          kind: 'fight' as const,
+          text: 'Vence a 1 x Rey Nidas en un solo combate',
+          x: -9,
+          y: -5,
+          subAreaId: 991_302,
+        },
+      ],
+      // Las subzonas de sus objetivos: la ruta dice el nombre cuando cambia.
+      subareas: [
+        { dofusId: 991_301, name: 'Pueblo de Anutropía' },
+        { dofusId: 991_302, name: 'Palacio del Rey Nidas' },
       ],
       // El objetivo donde para el paso 2: el segundo.
       stopObjective: 1,
@@ -67,7 +84,14 @@ export const seedChecklists = {
 }
 
 type Collection =
-  'items' | 'achievements' | 'quests' | 'npcs' | 'media' | 'dofus-guides' | 'checklists'
+  | 'items'
+  | 'achievements'
+  | 'quests'
+  | 'npcs'
+  | 'media'
+  | 'dofus-guides'
+  | 'checklists'
+  | 'subareas'
 
 async function findOne(payload: Payload, collection: Collection, field: string, value: unknown) {
   const { docs } = await payload.find({
@@ -112,6 +136,11 @@ export async function seedChecklistPages(payload: Payload): Promise<void> {
   if (!guide) throw new Error('Falta la guía de Dofus de prueba: siembra antes las guías de Dofus')
 
   const { stopQuest } = neb
+  for (const subarea of stopQuest.subareas) {
+    if (!(await findOne(payload, 'subareas', 'dofusId', subarea.dofusId))) {
+      await payload.create({ collection: 'subareas', data: subarea })
+    }
+  }
   const stop =
     (await findOne(payload, 'quests', 'dofusId', stopQuest.dofusId)) ??
     (await payload.create({

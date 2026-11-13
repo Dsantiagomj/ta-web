@@ -1,6 +1,6 @@
 // Los detalles de una checklist que la página no lleva en su HTML y la isla carga después
 // (GET /api/checklists/<slug>/details): quién da cada misión y dónde, y sus objetivos con sus
-// coordenadas. En listas cortas en vez de objetos: son muchas misiones.
+// coordenadas y su subzona. En listas cortas en vez de objetos: son muchas misiones.
 import type { Quest } from '@/payload-types'
 
 import type { ChecklistDetails, ObjectiveDetail, QuestDetail } from './details-url'
@@ -10,7 +10,12 @@ export type { ChecklistDetails } from './details-url'
 
 export type DetailsQuest = Pick<Quest, 'dofusId' | 'startPositions' | 'stages'>
 
-export function checklistDetails(quests: DetailsQuest[], names: ObjectiveNames): ChecklistDetails {
+/** `subareas`: el nombre de cada subzona por su ID de DofusDB (la colección subareas). */
+export function checklistDetails(
+  quests: DetailsQuest[],
+  names: ObjectiveNames,
+  subareas: Record<number, string> = {},
+): ChecklistDetails {
   return {
     q: Object.fromEntries(
       quests.map((quest) => {
@@ -22,6 +27,7 @@ export function checklistDetails(quests: DetailsQuest[], names: ObjectiveNames):
             objectiveText(objective.text, names),
             objective.x ?? null,
             objective.y ?? null,
+            (objective.subAreaId != null && subareas[objective.subAreaId]) || null,
           ]),
         )
         return [
