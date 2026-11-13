@@ -136,6 +136,8 @@ export interface StepView {
 export interface ChecklistIslandData {
   checklistId: number
   slug: string
+  /** Cuándo cambió la checklist: la isla solo vuelve a empezar con una versión nueva. */
+  version: string
   /** [stepId, número antiguo, [[ID de DofusDB de la misión, tipo, objetivo de parada?]]] */
   steps: [string, number | null, ([number, QuestKind] | [number, QuestKind, number])[]][]
   /** [stepId, stepIds que cierra] */
@@ -449,8 +451,9 @@ function totalRows(steps: Step[]) {
       if (need.countsInTotal === false) continue
       const row = needRow(need)
       if (!row) continue
-      const id = relationId(need.item ?? null)
-      const key = `${need.category ?? ''}:${id ?? `label:${row.name}`}`
+      // Una fila por objeto (o por texto), con la clave de lo conseguido: la misma que su
+      // casilla, aunque cambie de grupo o de mayúsculas entre pasos. Va en el grupo del primero.
+      const key = row.key
       const seen = rows.get(key)
       if (seen) {
         seen.row.quantity += row.quantity
@@ -517,6 +520,7 @@ function islandData(data: ChecklistData): ChecklistIslandData {
   return {
     checklistId: checklist.id,
     slug: checklist.slug,
+    version: checklist.updatedAt,
     steps: islandSteps,
     closes: steps.flatMap((step) => {
       const resolves = (step.segments ?? []).filter((segment) => segment.kind === 'resolve')

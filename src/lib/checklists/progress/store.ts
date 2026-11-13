@@ -88,6 +88,45 @@ export function parseProgress(text: string | null): Progress {
   }
 }
 
+const BACKUP_APP = 'ta-web'
+const BACKUP_KIND = 'checklist-progress'
+
+/** El archivo de una copia de seguridad (`backupFile`). */
+export const backupFile = (progress: Progress, at: Date) => ({
+  app: BACKUP_APP,
+  kind: BACKUP_KIND,
+  v: 1,
+  at: at.toISOString(),
+  progress,
+})
+
+/**
+ * El progreso de una copia de seguridad, o null si no es una copia válida: otra app, otra
+ * versión, sin progreso o con alguna entrada que no se entiende. Una copia a medias no se
+ * restaura nunca: borraría lo que hay.
+ */
+export function parseBackup(text: string): Progress | null {
+  let raw: unknown
+  try {
+    raw = JSON.parse(text)
+  } catch {
+    return null
+  }
+  if (!isObject(raw) || raw.app !== BACKUP_APP || raw.kind !== BACKUP_KIND || raw.v !== 1) {
+    return null
+  }
+  const progress = raw.progress
+  if (!isObject(progress) || progress.v !== 1) return null
+  const parsed = parseProgress(JSON.stringify(progress))
+  const maps = ['quests', 'steps', 'prereqs', 'owned', 'migrated'] as const
+  const intact = maps.every(
+    (name) =>
+      isObject(progress[name]) &&
+      Object.keys(progress[name] as object).length === Object.keys(parsed[name]).length,
+  )
+  return intact ? parsed : null
+}
+
 export function readProgress(storage: ProgressStorage): Progress {
   try {
     return parseProgress(storage.getItem(PROGRESS_KEY))

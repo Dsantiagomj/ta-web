@@ -100,7 +100,7 @@ export function ProgressStrip({ view }: { view: ChecklistView }) {
           <b data-ck-sdone>0</b>/{view.steps.length} {p.steps}
         </span>
       </div>
-      <button type="button" className="ck-btn ck-next" data-ck-next>
+      <button type="button" className="ck-btn ck-next" data-ck-next disabled data-ck-wait>
         {p.next} <span data-ck-next-n>1</span>
         {chevron('M6 3.5 10.5 8 6 12.5')}
       </button>
@@ -136,6 +136,8 @@ export function ChecklistTabs({ view }: { view: ChecklistView }) {
           aria-expanded="false"
           aria-controls="ck-more"
           data-ck-more
+          disabled
+          data-ck-wait
         >
           {DOTS}
         </button>
@@ -177,6 +179,8 @@ export function StepList({ steps }: { steps: StepView[] }) {
             className="ck-seg__b"
             aria-pressed={filter === 'all'}
             data-ck-f={filter}
+            disabled
+            data-ck-wait
           >
             {p.filters[filter]}{' '}
             <span className="ck-seg__c" data-ck-fc={filter}>
@@ -193,6 +197,8 @@ export function StepList({ steps }: { steps: StepView[] }) {
               type="checkbox"
               className="checkbox ck-js"
               data-step-check={step.n}
+              disabled
+              data-ck-wait
               aria-label={p.stepDone(step.n)}
             />
             <a className="ck-row__b" href={`#paso-${step.n}`} data-pick={step.n}>
@@ -312,7 +318,7 @@ function QuestRow({ quest, n }: { quest: QuestRowView; n: number }) {
     <li
       className="ck-q"
       data-q={quest.dofusId}
-      data-step={n}
+      data-q-step={n}
       {...(quest.route && { 'data-routed': '' })}
     >
       <div className="ck-q__row">
@@ -344,6 +350,8 @@ function QuestRow({ quest, n }: { quest: QuestRowView; n: number }) {
             aria-pressed="false"
             aria-label={p.markQuest(quest.name)}
             data-q-hit
+            disabled
+            data-ck-wait
             data-name={quest.name}
           >
             <span className="ck-q__ck">{CHECK}</span>
@@ -362,6 +370,8 @@ function NeedRow({ row, stepId, extra }: { row: NeedRowView; stepId: string; ext
       type="checkbox"
       className="checkbox ck-js"
       data-own={`${row.key}#${stepId}`}
+      disabled
+      data-ck-wait
       aria-label={p.own(row.name)}
     />
   )
@@ -571,7 +581,13 @@ export function StepDetail({ step, last }: { step: StepView; last: number }) {
         ) : (
           <span />
         )}
-        <button type="button" className="ck-btn ck-complete" data-complete={step.n}>
+        <button
+          type="button"
+          className="ck-btn ck-complete"
+          data-complete={step.n}
+          disabled
+          data-ck-wait
+        >
           {p.complete(step.n)}
         </button>
         {step.n < last ? (
@@ -597,10 +613,10 @@ export function Prerequisites({ view }: { view: ChecklistView }) {
       <div className="ck-prebar ck-js">
         <p className="ck-muted">{p.prereqHowto}</p>
         <div>
-          <button type="button" className="ck-btn" data-ck-pre="all">
+          <button type="button" className="ck-btn" data-ck-pre="all" disabled data-ck-wait>
             {p.prereqAll}
           </button>{' '}
-          <button type="button" className="ck-ghost" data-ck-pre="none">
+          <button type="button" className="ck-ghost" data-ck-pre="none" disabled data-ck-wait>
             {p.prereqNone}
           </button>
         </div>
@@ -619,6 +635,8 @@ export function Prerequisites({ view }: { view: ChecklistView }) {
                   className="checkbox ck-js"
                   id={`ck-pre-${row.key}`}
                   data-pre-check={row.key}
+                  disabled
+                  data-ck-wait
                 />
                 <label htmlFor={`ck-pre-${row.key}`}>{row.text}</label>
               </li>
@@ -643,7 +661,13 @@ function TotalSlot({ row, category }: { row: TotalRowView; category: string }) {
         {row.kind === 'item' && row.icon && <Picture image={row.icon} alt="" />}
         <span className="ck-slot__q">{formatAmount(row.quantity)}</span>
       </span>
-      <input type="checkbox" className="checkbox ck-slot__chk ck-js" aria-label={p.own(row.name)} />
+      <input
+        type="checkbox"
+        className="checkbox ck-slot__chk ck-js"
+        aria-label={p.own(row.name)}
+        disabled
+        data-ck-wait
+      />
       <span className="ck-slot__n">
         <span className="sr-only">{formatAmount(row.quantity)} × </span>
         {row.kind === 'item' ? (
@@ -681,7 +705,14 @@ export function Totals({ view }: { view: ChecklistView }) {
       <p className="ck-text ck-intro">{s.totalsIntro}</p>
       <div className="ck-itools ck-js">
         <div className="ck-cats" role="group" aria-label={p.categories}>
-          <button type="button" className="ck-cat" aria-pressed="true" data-ck-cat="">
+          <button
+            type="button"
+            className="ck-cat"
+            aria-pressed="true"
+            data-ck-cat=""
+            disabled
+            data-ck-wait
+          >
             {p.allCategories}
           </button>
           {view.totals.map((group) => (
@@ -691,13 +722,22 @@ export function Totals({ view }: { view: ChecklistView }) {
               className="ck-cat"
               aria-pressed="false"
               data-ck-cat={group.category ?? 'other'}
+              disabled
+              data-ck-wait
             >
               {group.title}
             </button>
           ))}
         </div>
         <label className="ck-switch">
-          <input type="checkbox" className="checkbox" defaultChecked data-ck-pending />
+          <input
+            type="checkbox"
+            className="checkbox"
+            defaultChecked
+            data-ck-pending
+            disabled
+            data-ck-wait
+          />
           {p.pendingOnly}
         </label>
       </div>

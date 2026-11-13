@@ -249,6 +249,89 @@ test.describe('progreso de una checklist', () => {
     await context.close()
   })
 
+  test('cerrar el reinicio sin elegir (Escape o un clic fuera) después de reiniciar no vuelve a borrar', async ({
+    page,
+  }) => {
+    await page.goto(url)
+    const reset = page.getByRole('dialog', { name: 'Reiniciar el progreso' })
+    const open = async () => {
+      await page.getByRole('button', { name: 'Más opciones' }).click()
+      await page.getByRole('button', { name: 'Reiniciar el progreso' }).click()
+      await expect(reset).toBeVisible()
+    }
+    /** Cierra el diálogo y espera a su evento «close», que llega después, en otra tarea. */
+    const closeBy = async (action: () => Promise<void>) => {
+      const closed = page.evaluate(
+        () =>
+          new Promise<void>((resolve) =>
+            document
+              .querySelector('[data-ck-dialog="reset"]')!
+              .addEventListener('close', () => setTimeout(resolve), { once: true }),
+          ),
+      )
+      await action()
+      await closed
+    }
+    await open()
+    await closeBy(() => reset.getByRole('button', { name: 'Reiniciar', exact: true }).click())
+    await stepBox(page, 1).check()
+    await open()
+    await closeBy(() => page.mouse.click(5, 5))
+    await expect(stepBox(page, 1)).toBeChecked()
+    await open()
+    await closeBy(() => page.keyboard.press('Escape'))
+    await expect(stepBox(page, 1)).toBeChecked()
+  })
+
+  test('una copia con el progreso roto no borra nada y lo dice', async ({ page }) => {
+    await page.goto(url)
+    await stepBox(page, 1).check()
+    await page.getByRole('button', { name: 'Más opciones' }).click()
+    await page.getByRole('button', { name: 'Copia de seguridad' }).click()
+    await page.locator('[data-ck-restore]').setInputFiles({
+      name: 'rota.json',
+      mimeType: 'application/json',
+      buffer: Buffer.from(JSON.stringify({ app: 'ta-web', kind: 'checklist-progress', v: 1 })),
+    })
+    await expect(page.locator('[data-ck-toast]')).toHaveText(/no es una copia/)
+    // El aviso sale por encima del diálogo abierto, donde se ve y se anuncia
+    await expect(page.locator('dialog[open] [data-ck-toast]')).toHaveCount(1)
+    await expect(stepBox(page, 1)).toBeChecked()
+    expect((await stored(page)).steps).not.toEqual({})
+  })
+
+  test('desmarcar en Necesitarás un objeto marcado entero lo deja sin marcar en ese paso', async ({
+    page,
+  }) => {
+    await page.addInitScript((key) => {
+      if (localStorage.getItem(key)) return
+      const owned = { 'x:kama': 1 }
+      localStorage.setItem(
+        key,
+        JSON.stringify({ v: 1, quests: {}, steps: {}, prereqs: {}, owned, migrated: {} }),
+      )
+    }, KEY)
+    await page.goto(url)
+    const kama = step(page, 1).getByRole('checkbox', { name: `Ya tengo ${neb.labels.kama}` })
+    await expect(kama).toBeChecked()
+    await kama.uncheck()
+    await expect(kama).not.toBeChecked()
+    await page.reload()
+    await expect(kama).not.toBeChecked()
+  })
+
+  test('«Completar paso» con el filtro Hechos abre el siguiente con su fila a la vista', async ({
+    page,
+  }) => {
+    await page.goto(`${url}#paso-2`)
+    await page.getByRole('button', { name: /^Hechos/ }).click()
+    await step(page, 2).getByRole('button', { name: 'Completar paso 2' }).click()
+    await expect(step(page, 3)).toBeVisible()
+    const row = page.locator('.ck-row[data-n="3"]')
+    await expect(row).toBeVisible()
+    await expect(row).toHaveAttribute('aria-current', 'true')
+  })
+
   test('pasa axe con progreso, con el menú y con la copia de seguridad abierta', async ({
     page,
   }) => {
