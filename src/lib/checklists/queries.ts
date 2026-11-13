@@ -225,7 +225,7 @@ export async function readChecklist(
 ): Promise<Omit<ChecklistData, 'siteUrl'> | null> {
   const checklist = await findChecklist(payload, slug, preview, 3, {
     quests: { dofusId: true, name: true, levelMin: true },
-    items: { name: true, image: true },
+    items: { dofusId: true, name: true, image: true },
     achievements: { name: true, icon: true },
     npcs: { name: true, renderRight: true },
     monsters: { name: true, image: true },

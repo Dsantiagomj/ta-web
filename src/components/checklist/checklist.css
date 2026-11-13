@@ -1234,3 +1234,645 @@ a.ck-q__t:focus-visible {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ---------- el progreso (prototipo A): lo pinta la isla; sin JavaScript no sale ---------- */
+
+html:not([data-js]) .ck-js {
+  display: none !important;
+}
+
+.ck-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.75rem;
+  padding: 0.875rem 1.125rem;
+  border-bottom: 1px solid var(--color-line);
+  background: linear-gradient(
+    100deg,
+    color-mix(in srgb, var(--dofus) 10%, var(--color-surface)),
+    var(--color-surface) 65%
+  );
+}
+
+.ck-prog {
+  display: flex;
+  flex: 1 1 20rem;
+  align-items: center;
+  gap: 0.875rem;
+}
+
+.ck-pct {
+  min-width: 4.5ch;
+  color: var(--color-accent-2);
+  font: 400 1.75rem / 1 var(--font-accent);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.ck-bar {
+  height: 0.625rem;
+}
+
+.ck .ck-bar .progress__fill {
+  background: linear-gradient(90deg, var(--color-accent), var(--dofus, var(--color-accent)));
+}
+
+.ck-prog__s {
+  color: var(--color-ink-2);
+  font-size: var(--text-sm);
+  white-space: nowrap;
+}
+
+.ck-prog__s b {
+  color: var(--color-ink);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.ck-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0 1.375rem;
+  border: 1.5px solid var(--color-accent);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-accent);
+  font: 600 var(--text-sm) / 1.2 var(--font-display);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-press) var(--ease-out);
+}
+
+.ck-btn svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.ck-btn:hover {
+  background: var(--color-raised);
+}
+
+.ck-btn:active {
+  transform: scale(0.96);
+}
+
+.ck-btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.ck-btn--danger {
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+.ck-btn[data-done] {
+  border-color: var(--color-line);
+  color: var(--color-ink-2);
+}
+
+.ck-btn[data-done]::before {
+  content: '';
+  width: 0.875rem;
+  height: 0.5rem;
+  margin-top: -0.25rem;
+  border: solid var(--color-success);
+  border-width: 0 0 2.5px 2.5px;
+  transform: rotate(-45deg);
+}
+
+.ck-next[data-finished] {
+  display: none;
+}
+
+.ck-complete {
+  min-height: 2.5rem;
+  padding: 0 1.125rem;
+}
+
+.ck-tools {
+  position: relative;
+  margin-left: auto;
+}
+
+.ck-iconbtn {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-pill);
+  color: var(--color-ink-2);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.ck-iconbtn svg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.ck-iconbtn:hover,
+.ck-iconbtn[aria-expanded='true'] {
+  background: var(--color-raised);
+  color: var(--color-ink);
+}
+
+.ck-iconbtn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.ck-more {
+  position: absolute;
+  top: calc(100% + 0.375rem);
+  right: 0;
+  z-index: var(--z-menu);
+  display: grid;
+  gap: 2px;
+  min-width: 14rem;
+  padding: 0.5rem;
+  border: 1px solid var(--color-well-line);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-float);
+}
+
+.ck-more[hidden] {
+  display: none;
+}
+
+.ck-more .ck-ghost {
+  justify-content: flex-start;
+  min-height: 2.5rem;
+  font-family: var(--font-body);
+}
+
+/* Los filtros de la lista */
+.ck-filter {
+  display: flex;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.ck-filter .ck-seg__b {
+  flex: 1;
+  justify-content: center;
+  padding: 0 0.5rem;
+}
+
+.ck-seg__b[aria-pressed='true'] {
+  background: var(--color-surface);
+  color: var(--color-accent);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.25);
+}
+
+.ck-seg__c {
+  color: var(--color-muted);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* La casilla de cada paso, al lado de su enlace */
+html[data-js] .ck-row {
+  grid-template-columns: 1.375rem minmax(0, 1fr);
+  align-items: center;
+  column-gap: 0.25rem;
+  padding-left: 0.625rem;
+}
+
+html[data-js] .ck-row__tags {
+  grid-column: 2;
+  padding-left: 2.875rem;
+}
+
+.ck .checkbox {
+  position: relative;
+}
+
+.ck .checkbox::before,
+.ck-dlg .checkbox::before {
+  content: '';
+  position: absolute;
+  inset: -0.625rem;
+}
+
+.ck-row[data-done] .ck-row__t {
+  color: var(--color-ink-2);
+}
+
+.ck-row[data-next] .ck-row__n {
+  color: var(--color-accent);
+}
+
+/* La casilla de cada misión: toda su fila la marca; el nombre, encima, abre su guía */
+.ck-q__hit {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.ck-q__hit::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 0.8125rem;
+}
+
+.ck-q__hit:disabled {
+  cursor: default;
+}
+
+.ck-q__t,
+.ck-q__side .coord {
+  position: relative;
+  z-index: 1;
+}
+
+html[data-js] .ck-q__row:has(.ck-q__hit) {
+  grid-template-columns: 1.875rem minmax(0, 1fr) auto 1.75rem;
+}
+
+.ck-q__hit:focus-visible {
+  outline: none;
+}
+
+.ck-q__row:has(.ck-q__hit:focus-visible) {
+  border-radius: 0.8125rem;
+  outline: 2px solid var(--color-ink);
+  outline-offset: -2px;
+}
+
+.ck-q__ck {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid var(--color-muted);
+  border-radius: 50%;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-press) var(--ease-out);
+}
+
+.ck-q__ck svg {
+  width: 0.875rem;
+  height: 0.875rem;
+  fill: none;
+  stroke: var(--color-bg);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+}
+
+.ck-q__hit:active .ck-q__ck {
+  transform: scale(0.88);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ck-q:has(.ck-q__hit:enabled:hover) {
+    background: var(--color-raised);
+  }
+
+  .ck-q:has(.ck-q__hit:enabled:hover) .ck-q__ck {
+    border-color: var(--color-accent);
+  }
+}
+
+.ck-q[data-state='done'] {
+  border-style: dashed;
+  background: transparent;
+}
+
+.ck-q[data-state='done'] .ck-q__ck {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+}
+
+.ck-q[data-state='done'] .ck-q__ck svg {
+  opacity: 1;
+}
+
+.ck-q[data-state='done'] .ck-q__t {
+  color: var(--color-ink-2);
+  text-decoration-line: line-through;
+}
+
+.ck-q[data-state='done'] .ck-q__mark img {
+  filter: grayscale(1);
+  opacity: 0.6;
+}
+
+.ck-q[data-state='stop'] .ck-q__ck,
+.ck-q[data-state='wait'] .ck-q__ck {
+  border-color: var(--color-accent);
+  border-style: dashed;
+}
+
+.ck-q__hit:disabled .ck-q__ck {
+  opacity: 0.55;
+}
+
+.ck-q__lock {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.ck-q__lock[hidden] {
+  display: none;
+}
+
+.ck-o[data-state='done'] .ck-o__t {
+  color: var(--color-ink-2);
+  text-decoration-line: line-through;
+}
+
+.ck-o[data-state='done'] .ck-o__ic img {
+  opacity: 0.55;
+}
+
+.ck-line--child {
+  background: var(--color-raised);
+  color: var(--color-ink-2);
+}
+
+@media (max-width: 35.99rem) {
+  html[data-js] .ck-q__row:has(.ck-q__hit) {
+    grid-template-columns: 1.875rem minmax(0, 1fr) 1.75rem;
+  }
+
+  .ck-q__hit {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+  }
+}
+
+/* Necesitarás: la casilla de lo conseguido para ese paso */
+.ck-need > .checkbox {
+  margin-right: 0.25rem;
+}
+
+.ck-need[data-owned] > span:last-child {
+  color: var(--color-ink-2);
+}
+
+/* Prerrequisitos */
+.ck-prebar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.625rem 1.25rem;
+  margin-bottom: 0.875rem;
+  padding-bottom: 0.875rem;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.ck-prebar .ck-muted {
+  margin: 0;
+  font-size: var(--text-xs);
+}
+
+.ck-pre {
+  gap: 0.75rem;
+}
+
+.ck-pre label {
+  flex: 1;
+  cursor: pointer;
+}
+
+html:not([data-js]) .ck-pre label {
+  cursor: auto;
+}
+
+/* Objetos: los grupos, las categorías y lo conseguido */
+.ck-itools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.625rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.ck-cats {
+  display: flex;
+  gap: 0.375rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.ck-cat {
+  min-height: 2.5rem;
+  padding: 0 0.875rem;
+  border-radius: var(--radius-pill);
+  color: var(--color-ink-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.ck-cat:hover {
+  background: var(--color-raised);
+  color: var(--color-ink);
+}
+
+.ck-cat[aria-pressed='true'] {
+  background: var(--color-raised);
+  color: var(--color-accent);
+}
+
+.ck-cat:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.ck-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-height: 2.5rem;
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+
+.ck-group[hidden] {
+  display: none;
+}
+
+.ck-group--soon {
+  padding: 0.875rem 1rem 1.125rem;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 40%, var(--color-well-line));
+  border-radius: 1rem;
+}
+
+.ck-gh [data-ck-gc] {
+  color: var(--color-muted);
+}
+
+.ck-slot[hidden] {
+  display: none;
+}
+
+.ck-slot__chk {
+  position: absolute !important;
+  top: -0.375rem;
+  left: calc(50% - 2.875rem);
+}
+
+html[data-js] .ck-slot:not([data-owned], [data-used]) .ck-slot__w img {
+  filter: grayscale(1);
+  opacity: 0.6;
+}
+
+.ck-badge[data-ok] {
+  color: var(--color-success);
+}
+
+/* La copia de seguridad, el reinicio y el aviso */
+.ck-dlg {
+  width: min(30rem, calc(100vw - 2rem));
+  max-height: calc(100dvh - 3rem);
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--color-well-line);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  box-shadow: var(--shadow-dialog);
+}
+
+.ck-dlg::backdrop {
+  background: color-mix(in srgb, var(--color-bg) 78%, transparent);
+}
+
+.ck-dlg__in {
+  position: relative;
+  display: grid;
+  gap: 0.875rem;
+  padding: 1.5rem;
+}
+
+.ck-dlg__in > p {
+  margin: 0;
+  color: var(--color-ink-2);
+  line-height: 1.55;
+}
+
+.ck-dlg__t {
+  margin: 0;
+  padding-right: 2.5rem;
+  font: 600 var(--text-xl) / 1.2 var(--font-display);
+}
+
+.ck-dlg .ck-x {
+  top: 0.75rem;
+  right: 0.75rem;
+}
+
+.ck-dlg__opts {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.ck-dlg__opts label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 2.5rem;
+  cursor: pointer;
+}
+
+.ck-dlg__act {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.625rem;
+  margin-top: 0.375rem;
+}
+
+.ck-dlg__act--start {
+  justify-content: flex-start;
+}
+
+.ck-dlg__in > .ck-dlg__state {
+  padding: 0.625rem 0.875rem;
+  border-radius: 0.75rem;
+  background: var(--color-raised);
+  color: var(--color-ink);
+  font-size: var(--text-sm);
+}
+
+.ck-dlg__state[data-warn] {
+  background: color-mix(in srgb, var(--color-warning) 12%, var(--color-surface));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-warning) 60%, transparent);
+}
+
+.ck-file {
+  border: 1.5px solid var(--color-line);
+  cursor: pointer;
+}
+
+.ck-file:focus-within {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.ck-toast {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  z-index: var(--z-toast);
+  max-width: calc(100vw - 2rem);
+  padding: 0.75rem 1.125rem;
+  border-radius: 0.875rem;
+  background: var(--color-raised);
+  color: var(--color-ink);
+  box-shadow: var(--shadow-float);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  transform: translateX(-50%);
+}
+
+.ck-toast[hidden] {
+  display: none;
+}
+
+@media (max-width: 47.99rem) {
+  .ck-strip {
+    gap: 0.625rem 1rem;
+    padding: 0.75rem 0.875rem;
+  }
+
+  .ck-prog {
+    flex-basis: 100%;
+  }
+
+  .ck-next {
+    margin-left: auto;
+    min-height: 2.5rem;
+    padding: 0 1rem;
+  }
+}

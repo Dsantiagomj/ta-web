@@ -87,12 +87,18 @@ export interface QuestRowView {
   route?: {
     objectives: { kind: QuestObjectiveKind; text: string }[]
     line: { at: number; kind: 'stop' | 'resolve'; text: string }
+    /** Las hijas del mismo paso que empiezan dentro de ella, en el objetivo donde empiezan. */
+    kids?: { at: number; names: string[] }[]
   }
 }
 
+/**
+ * Una fila de Necesitarás. `key` es su clave en lo conseguido: el ID de DofusDB del objeto o,
+ * si no es un objeto, «x:<texto>», como en silvestre-checklist.
+ */
 export type NeedRowView =
-  | { kind: 'item'; name: string; icon?: ImageAsset; quantity: number; note?: string }
-  | { kind: 'label'; name: string; quantity: number; note?: string }
+  | { kind: 'item'; key: string; name: string; icon?: ImageAsset; quantity: number; note?: string }
+  | { kind: 'label'; key: string; name: string; quantity: number; note?: string }
 
 export interface NeedGroupView<Row = NeedRowView> {
   category: NeedCategory | null
@@ -164,8 +170,12 @@ export interface ChecklistView {
   }
   totals: NeedGroupView<TotalRowView>[]
   totalsCount: number
+  /** Sin progreso, los pasos de «Tus próximos pasos» en Objetos: los cinco primeros que piden algo. */
+  soonSteps: number[]
   island: ChecklistIslandData
 }
+
+const SOON_STEPS = 5
 
 const DOFUS_INDEX_PATH = '/guias-dofus'
 const CATEGORIES = Object.keys(checklistStrings.needCategories) as NeedCategory[]
@@ -227,13 +237,17 @@ function needRow(need: Need): NeedRowView | null {
     const icon = image(item.image)
     return {
       kind: 'item',
+      key: String(item.dofusId),
       name: item.name,
       ...(icon && { icon }),
       quantity: need.quantity,
       ...note,
     }
   }
-  if (need.label) return { kind: 'label', name: need.label, quantity: need.quantity, ...note }
+  if (need.label) {
+    const key = `x:${need.label.toLocaleLowerCase('es')}`
+    return { kind: 'label', key, name: need.label, quantity: need.quantity, ...note }
+  }
   return null
 }
 
@@ -262,6 +276,7 @@ function flatObjectives(stages: Quest['stages'], names: ObjectiveNames) {
 
 export function checklistView(data: ChecklistData): ChecklistView {
   const { checklist } = data
+  const island = islandData(data)
   const rawSteps = checklist.steps ?? []
   const numberOf = new Map(rawSteps.map((step, index) => [step.stepId ?? '', index + 1]))
   const closedBy = new Map<string, number>()
@@ -305,6 +320,14 @@ export function checklistView(data: ChecklistData): ChecklistView {
         stop && quest.id === stopQuestId
           ? flatObjectives(data.stopQuests[quest.id]?.stages, data.names)
           : []
+      const kids = (island.parents[quest.dofusId] ?? []).flatMap(([at, ids]) => {
+        const names = ids.flatMap((id) => {
+          const kid = (step.quests ?? []).find((other) => populated(other.quest)?.dofusId === id)
+          const kidQuest = populated(kid?.quest)
+          return kidQuest && kid?.kind !== 'take' ? [kidQuest.name] : []
+        })
+        return names.length ? [{ at, names }] : []
+      })
       const line =
         resolve && stop
           ? { at: stop.stopObjective ?? 0, kind: 'resolve' as const, text: resolve.text }
@@ -317,7 +340,8 @@ export function checklistView(data: ChecklistData): ChecklistView {
           ...(quest.levelMin != null && { level: quest.levelMin }),
           kind: row.kind,
           ...(row.note && { note: row.note }),
-          ...(objectives.length > 0 && line && { route: { objectives, line } }),
+          ...(objectives.length > 0 &&
+            line && { route: { objectives, line, ...(kids.length > 0 && { kids }) } }),
         },
       ]
     })
@@ -410,7 +434,10 @@ export function checklistView(data: ChecklistData): ChecklistView {
     },
     totals,
     totalsCount: totals.reduce((sum, group) => sum + group.rows.length, 0),
-    island: islandData(data),
+    soonSteps: [...new Set(totals.flatMap((group) => group.rows.flatMap((row) => row.steps)))]
+      .sort((a, b) => a - b)
+      .slice(0, SOON_STEPS),
+    island,
   }
 }
 

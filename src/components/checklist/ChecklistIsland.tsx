@@ -7,6 +7,7 @@ import type { ChecklistIslandData } from '@/lib/checklists/page'
 import { fold } from '@/lib/text/fold'
 
 import { checklistIslandStrings as s } from './island-strings'
+import type { ProgressUi } from './progress-ui'
 
 // La chincheta de CoordinatesChip (src/components/game/icons.tsx), como texto: la isla pinta
 // los chips de coordenadas que llegan con los detalles.
@@ -49,7 +50,7 @@ function fillDetails(details: ChecklistDetails) {
  * paso elegido al lado de la lista (en el móvil, en una hoja abajo), busca pasos por número o
  * texto y, después de pintar, pide los detalles: quién da cada misión y las coordenadas.
  * Sin ella, las pestañas y los pasos son enlaces y todo se ve, una parte detrás de otra.
- * El progreso (marcar pasos, misiones y objetos) llega en el PR 5.
+ * Con ella, también el progreso: marcar pasos, misiones, prerrequisitos y objetos (progress-ui.ts).
  */
 export function ChecklistIsland({ data }: { data: ChecklistIslandData }) {
   // Sincroniza con el DOM del servidor, el <dialog>, matchMedia y la API de detalles.
@@ -141,6 +142,7 @@ export function ChecklistIsland({ data }: { data: ChecklistIslandData }) {
     }
 
     let timer: ReturnType<typeof setTimeout> | undefined
+    let progress: ProgressUi | null = null
     const filter = () => {
       const query = search?.value.trim() ?? ''
       const words = fold(query).split(/\s+/).filter(Boolean)
@@ -148,17 +150,18 @@ export function ChecklistIsland({ data }: { data: ChecklistIslandData }) {
       for (const row of $$('.ck-row')) {
         const n = Number(row.dataset.n)
         const text = row.dataset.search ?? ''
-        const match = words.every((word) =>
-          /^\d+$/.test(word) ? n === Number(word) : text.includes(word),
-        )
+        const match =
+          words.every((word) => (/^\d+$/.test(word) ? n === Number(word) : text.includes(word))) &&
+          (progress?.matches(n) ?? true)
         row.hidden = !match
         if (match) shown++
       }
+      const filtered = progress?.emptyText() ?? null
       if (empty) {
         empty.hidden = shown > 0
-        empty.textContent = shown ? '' : s.searchEmpty(query)
+        empty.textContent = shown ? '' : query ? s.searchEmpty(query) : (filtered ?? '')
       }
-      if (status) status.textContent = query ? s.searchFound(shown) : ''
+      if (status) status.textContent = query || filtered ? s.searchFound(shown) : ''
     }
     const onInput = () => {
       clearTimeout(timer)
@@ -236,6 +239,26 @@ export function ChecklistIsland({ data }: { data: ChecklistIslandData }) {
       if (hashTab && tabs.some((link) => link.dataset.tab === hashTab)) selectTab(hashTab)
     }
 
+    // El progreso guardado en el navegador: las casillas, la franja y los filtros. Se carga
+    // aparte: la isla va también en las demás páginas de /<slug>, que no lo necesitan.
+    let stopped = false
+    import('./progress-ui')
+      .then(({ startProgress }) => {
+        if (stopped) return
+        progress = startProgress(data, {
+          pick: (n) => {
+            const row = $<HTMLElement>(`.ck-row[data-n="${n}"]`)
+            if (row?.hidden) {
+              if (search) search.value = ''
+              filter()
+            }
+            pick(n, { reveal: true })
+          },
+          refilter: filter,
+        })
+      })
+      .catch((error: unknown) => console.error(error))
+
     // Los detalles, una vez por página, después de pintarla.
     const controller = new AbortController()
     fetch(checklistDetailsUrl(data.slug), { signal: controller.signal })
@@ -256,6 +279,8 @@ export function ChecklistIsland({ data }: { data: ChecklistIslandData }) {
     sheet.addEventListener('close', onClose)
     wide.addEventListener('change', onWide)
     return () => {
+      stopped = true
+      progress?.destroy()
       controller.abort()
       clearTimeout(timer)
       document.removeEventListener('click', onClick)
@@ -264,7 +289,7 @@ export function ChecklistIsland({ data }: { data: ChecklistIslandData }) {
       sheet.removeEventListener('close', onClose)
       wide.removeEventListener('change', onWide)
     }
-  }, [data.slug])
+  }, [data])
 
   return null
 }

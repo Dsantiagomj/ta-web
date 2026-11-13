@@ -29,7 +29,12 @@ const quest = (id: number, name: string, levelMin: number | null = 100) => ({
   levelMin,
 })
 
-const item = (id: number, name: string) => ({ id, name, image: media(id, `item-${id}`) })
+const item = (id: number, name: string) => ({
+  id,
+  dofusId: id + 5000,
+  name,
+  image: media(id, `item-${id}`),
+})
 
 type Step = NonNullable<Checklist['steps']>[number]
 // Las relaciones van pobladas con lo que lee la página, no con el documento entero.
@@ -399,9 +404,10 @@ describe('checklistView: Necesitarás', () => {
     const [view] = checklistView(data([needsStep])).steps
     const rows = view.needs[0].rows
 
-    expect(rows[0]).toEqual({ kind: 'label', name: 'Kama', quantity: 1 })
+    expect(rows[0]).toEqual({ kind: 'label', key: 'x:kama', name: 'Kama', quantity: 1 })
     expect(rows[2]).toEqual({
       kind: 'label',
+      key: 'x:captura de almas',
       name: 'Captura de almas',
       quantity: 1,
       note: 'Hechizo: requisito, no consumible',
@@ -409,6 +415,8 @@ describe('checklistView: Necesitarás', () => {
     expect(rows[1]).toEqual(
       expect.objectContaining({
         kind: 'item',
+        // Lo conseguido se guarda por el ID de DofusDB del objeto
+        key: '5011',
         name: 'Cuerno',
         quantity: 2,
         note: 'o 30 000 kamas',
@@ -444,6 +452,57 @@ describe('checklistView: Necesitarás', () => {
       ['Almas', [['Alma de Kwak', 1, [1]]]],
     ])
     expect(view.totalsCount).toBe(3)
+  })
+
+  it('«Tus próximos pasos» de Objetos, sin progreso: los cinco primeros pasos que piden algo', () => {
+    const asks = (id: string) =>
+      step(id, {
+        needs: [
+          { item: item(11, 'Cuerno'), quantity: 1, category: 'resources', countsInTotal: true },
+        ],
+      })
+    const steps = [step('a'), ...['b', 'c', 'd', 'e', 'f', 'g'].map(asks)]
+    expect(checklistView(data(steps)).soonSteps).toEqual([2, 3, 4, 5, 6])
+  })
+})
+
+describe('checklistView: madres e hijas', () => {
+  it('en la ruta de la madre donde para el paso, una línea dice qué hijas se hacen y dónde', () => {
+    const stages = [
+      {
+        dofusId: 1,
+        objectives: ['Uno', 'Dos', 'Tres'].map((text, index) => ({
+          dofusId: index + 1,
+          kind: 'npc' as const,
+          text,
+        })),
+      },
+    ]
+    const steps = [
+      step('a', {
+        segments: [{ kind: 'stop', text: 'Para.', quest: 5, stopObjective: 2 }],
+        quests: [
+          { quest: quest(5, 'Madre'), kind: 'mandatory' },
+          { quest: quest(6, 'Hija'), kind: 'mandatory' },
+          { quest: quest(7, 'Otra hija'), kind: 'mandatory' },
+        ],
+      }),
+    ]
+    const node = (dofusId: number, startCriterion: string | null, objectives: number[]) => ({
+      dofusId,
+      levelMin: 100,
+      startCriterion,
+      objectives,
+      prerequisites: [],
+    })
+    const questGraph = {
+      5: node(1005, null, [51, 52, 53]),
+      6: node(1006, 'Qa=1005&Qo>51', [1]),
+      7: node(1007, 'Qa=1005&Qo>51', [1]),
+    }
+    const [mother] = checklistView(data(steps, {}, { questGraph, stopQuests: { 5: { stages } } }))
+      .steps[0].quests
+    expect(mother.route?.kids).toEqual([{ at: 1, names: ['Hija', 'Otra hija'] }])
   })
 })
 
