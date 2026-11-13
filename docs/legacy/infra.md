@@ -37,14 +37,14 @@ US East, decided 2026-11-02. The audience is mostly Latin America with a share i
 | Errors | Sentry (free tier) | Project `ta-web` in org `dsmjdev`. Server errors only (`src/instrumentation.ts`), no browser SDK. Environments `dev` and `production` appear with their first events |
 | Uptime | Better Stack (free) | Two monitors on `/api/health`, prod and dev, every 3 minutes (the free plan's interval). Down when the body lacks `"db":"ok"`. Alerts by email |
 | Analytics | Plausible or self-hosted Umami | Prod only, later |
-| AI review | `gga` with Codex in CI | Advisory |
+| AI review | `gga` in the pre-commit hook (`lefthook.yml`) | Blocks the commit when the review fails. Not in CI since 2026-11-13: it ran twice and the CI copy failed on Codex usage limits |
 
 ## 4. CI/CD
 
 ```
 feature branch ──PR──▶ CI: lint, types, unit, integration,─┐
                         build, e2e, dev gate, audit        │
-                        GGA review (advisory)              │ "Pruebas" required
+                                                           │ "Pruebas" required
                                                            ▼
                                    merge (rebase or squash) to main
                                                            │
@@ -61,7 +61,7 @@ feature branch ──PR──▶ CI: lint, types, unit, integration,─┐
                          smoke test against PROD_URL
 ```
 
-- **Branch protection.** The ruleset `Proteger main` (section 6). `Revisión GGA` stays advisory.
+- **Branch protection.** The ruleset `Proteger main` (section 6).
 - **Dev deploys.** Every push to `main`, through Railway's GitHub integration, without waiting for the GitHub checks on `main`: each PR already passed the same CI (`Pruebas`) before its rebase merge, and history is linear. No manual step. Then `deploy-dev-smoke.yml` polls `$DEV_URL/api/health` for up to 5 minutes until it reports the deployment's commit, and runs the smoke suite against `DEV_URL`. It never uses the deployment's `environment_url` (section 9).
 - **Prod deploys.** Only `release.yml`, run by hand from `main` with a semver version. It refuses to run unless the repository owner triggered it, checks that `Pruebas` passed on the commit, creates the tag and GitHub release, sets `GIT_COMMIT_SHA`, deploys with `railway up` and the `RAILWAY_TOKEN` of the GitHub environment `production`, waits until `/api/health` reports the commit, then runs the smoke suite. Railway's `production` has no GitHub source, so nothing else deploys it.
 - **Migrations.** `pnpm migrate` is the pre-deploy command in both environments, against the direct Neon URL. A failed migration stops the deploy and the previous version keeps serving.
@@ -89,7 +89,6 @@ feature branch ──PR──▶ CI: lint, types, unit, integration,─┐
 | `RAILWAY_TOKEN` | n/a | n/a | project token `prod`, scoped to `production` | GitHub environment `production` (secret) |
 | `PROD_URL` | n/a | n/a | prod domain | GitHub environment `production` (variable) |
 | `DEV_URL` | n/a | dev domain | n/a | GitHub repo variable |
-| `CODEX_AUTH_JSON` | n/a | n/a | n/a | GitHub repo secret (CI review) |
 
 Every variable the app reads goes in `.env.example` in the same PR (AGENTS.md). A Railway variable must be declared in `.railway/railway.ts` (a value, or `preserve()` for secrets) before it is set in Railway, or the next `railway config apply` deletes it (section 9).
 
@@ -130,7 +129,7 @@ Every variable the app reads goes in `.env.example` in the same PR (AGENTS.md). 
 - Ruleset `Proteger main` on the default branch, active, no bypass: PR required with 0 approvals, rebase or squash merges, required status check `Pruebas`, linear history, no force-push, no deletion.
 - Environment `production`: deployments only from `main` (custom branch policy), variable `PROD_URL`, secret `RAILWAY_TOKEN` (the Railway project token `prod`, scoped to `production`). Required reviewers need GitHub Enterprise on private repos, so the approval is the owner-only guard in `release.yml`. While Daniel is the only person with write access, that is the same thing.
 - Environment `ta-web / dev`: created by Railway's deployments.
-- Repo secret `CODEX_AUTH_JSON`; repo variable `DEV_URL`. The secrets `SMOKE_BASIC_AUTH_USER` and `SMOKE_BASIC_AUTH_PASSWORD` held the dev basic-auth credentials until 2026-11-05; nothing reads them now.
+- Repo variable `DEV_URL`. The secrets `SMOKE_BASIC_AUTH_USER` and `SMOKE_BASIC_AUTH_PASSWORD` held the dev basic-auth credentials until 2026-11-05; nothing reads them now.
 
 ## 7. Decisions
 
