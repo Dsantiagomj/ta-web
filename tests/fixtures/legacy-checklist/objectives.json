@@ -1,0 +1,368 @@
+{
+  "names": {
+    "npc": {
+      "2338": "Doctor Boing Boing",
+      "2364": "Rick Hachón, el tesorero",
+      "2351": "Wello",
+      "2434": "Desalmago",
+      "2355": "Rey Nidas",
+      "2340": "Gladis",
+      "2646": "Cabo Ral Jart",
+      "2668": "Krosmoglob del doctor Boing Boing",
+      "2652": "Doc Emeterio Braun",
+      "2662": "Tessy Bud",
+      "2659": "Vórtex",
+      "2657": "Dios Xelor",
+      "2694": "Farah Villosa",
+      "2695": "Vigilante bubotente",
+      "2693": "Chamaran",
+      "2687": "Elvis Hir",
+      "2980": "Discípulo de Viti",
+      "2981": "Discípulo de Thomahon"
+    },
+    "item": {
+      "15285": "Muestra de sangre de divinutrof",
+      "15292": "Pelo de la nariz del Rey Nidas",
+      "15375": "Cristal azul",
+      "15376": "Pepita dorada",
+      "15377": "Bolsa",
+      "15177": "Cuerno de kamasterix",
+      "15178": "Ceja de barbestrella",
+      "15179": "Diente de levitrof",
+      "15180": "Trozo de llave de llavoro",
+      "15403": "Jugo tóxico de necrótico",
+      "15712": "Krosmorbe naranja",
+      "15713": "Krosmorbe verde",
+      "15714": "Krosmorbe púrpura"
+    },
+    "monster": {
+      "3648": "Rey Nidas",
+      "3835": "Vórtex",
+      "3877": "Elvis Hir",
+      "6249": "Funoroshi",
+      "1086": "Tynril Pérfido",
+      "2848": "Morsagüino Real",
+      "943": "Sfinter Cell",
+      "2877": "Ben el Ripata",
+      "1045": "Kimbo",
+      "2924": "Obsidiantre"
+    },
+    "alteration": {
+      "238": "Ídolo de Viti Chamuscado",
+      "239": "Ídolo de Viti Vegetal",
+      "240": "Ídolo de Viti Helado",
+      "241": "Ídolo de Thomahon Nauseabundo",
+      "242": "Ídolo de Thomahon Marino",
+      "243": "Ídolo de Thomahon Arborícola",
+      "244": "Ídolo de Thomahon de Obsidiana"
+    }
+  },
+  "objectives": {
+    "1491": [
+      {
+        "kind": "bring",
+        "text": "Entrégale a Doctor Boing Boing: 10 x Muestra de sangre de divinutrof"
+      }
+    ],
+    "1495": [
+      {
+        "kind": "free",
+        "text": "Quítale con violencia un pelo de la nariz al Rey Nidas"
+      },
+      {
+        "kind": "bring",
+        "text": "Entrégale a Rick Hachón, el tesorero: 1 x Pelo de la nariz del Rey Nidas"
+      }
+    ],
+    "1514": [
+      {
+        "kind": "free",
+        "text": "Recupera 1 cristal azul"
+      },
+      {
+        "kind": "free",
+        "text": "Recupera 1 pepita dorada"
+      },
+      {
+        "kind": "free",
+        "text": "Recupera 1 bolsa"
+      },
+      {
+        "kind": "bring",
+        "text": "Entrégale a Wello: 1 x Cristal azul"
+      },
+      {
+        "kind": "bring",
+        "text": "Entrégale a Wello: 1 x Pepita dorada"
+      },
+      {
+        "kind": "bring",
+        "text": "Entrégale a Wello: 1 x Bolsa"
+      },
+      {
+        "kind": "bring",
+        "text": "Entrégale a Wello: 1 x Cuerno de kamasterix"
+      },
+      {
+        "kind": "bring",
+        "text": "Entrégale a Wello: 1 x Ceja de barbestrella"
+      },
+      {
+        "kind": "bring",
+        "text": "Entrégale a Wello: 1 x Diente de levitrof"
+      },
+      {
+        "kind": "bring",
+        "text": "Entrégale a Wello: 1 x Trozo de llave de llavoro"
+      },
+      {
+        "kind": "npc",
+        "text": "Ve a ver a Desalmago"
+      },
+      {
+        "kind": "npc",
+        "text": "Ve a ver a Wello"
+      },
+      {
+        "kind": "fight",
+        "text": "Vence a 1 x Rey Nidas en un solo combate"
+      },
+      {
+        "kind": "map",
+        "text": "Descubre el mapa: Salida del Palacio del Rey Nidas"
+      },
+      {
+        "kind": "npc",
+        "text": "Ve a ver a Rey Nidas"
+      },
+      {
+        "kind": "npc",
+        "text": "Ve a ver a Wello"
+      }
+    ],
+    "1536": [
+      {
+        "kind": "bring",
+        "text": "Entrégale a Gladis: 10 x Jugo tóxico de necrótico"
+      }
+    ],
+    "1575": [
+      {
+        "kind": "bring",
+        "text": "Entrégale a Cabo Ral Jart: 4 x Krosmorbe naranja"
+      },
+      {
+        "kind": "bring",
+        "text": "Entrégale a Cabo Ral Jart: 4 x Krosmorbe verde"
+      },
+      {
+        "kind": "bring",
+        "text": "Entrégale a Cabo Ral Jart: 4 x Krosmorbe púrpura"
+      }
+    ],
+    "1582": [
+      {
+        "kind": "npc",
+        "text": "Ve a ver a Krosmoglob del doctor Boing Boing"
+      },
+      {
+        "kind": "npc",
+        "text": "Ve a ver a Doc Emeterio Braun"
+      },
+      {
+        "kind": "npc",
+        "text": "Ve a ver a Tessy Bud"
+      },
+      {
+        "kind": "fight",
+        "text": "Vence a 1 x Vórtex en un solo combate"
+      },
+      {
+        "kind": "npc",
+        "text": "Ve a ver a Vórtex"
+      },
+      {
+        "kind": "free",
+        "text": "Salta al pozo de las almas"
+      },
+      {
+        "kind": "npc",
+        "text": "Ve a ver a Dios Xelor"
+      },
+      {
+        "kind": "npc",
+        "text": "Vuelve a ver a Doc Emeterio Braun"
+      }
+    ],
+    "1601": [
+      {
+        "kind": "npc",
+        "text": "Ve a ver a Farah Villosa"
+      },
+      {
+        "kind": "free",
+        "text": "Infíltrate en el edificio de los idos"
+      },
+      {
+        "kind": "free",
+        "text": "Encuentra el modo de deshacerte de los guardias"
+      },
+      {
+        "kind": "map",
+        "text": "Descubre el mapa: Sala de la daga del tiempo"
+      },
+      {
+        "kind": "free",
+        "text": "Busca la daga del tiempo"
+      },
+      {
+        "kind": "npc",
+        "text": "Ve a ver a Vigilante bubotente"
+      },
+      {
+        "kind": "npc",
+        "text": "Ve a ver a Chamaran"
+      },
+      {
+        "kind": "npc",
+        "text": "Ve a ver a Elvis Hir"
+      },
+      {
+        "kind": "free",
+        "text": "Líbrate de los viajeros"
+      },
+      {
+        "kind": "free",
+        "text": "Encuentra el escondite"
+      },
+      {
+        "kind": "free",
+        "text": "Espera el final del enfrentamiento"
+      },
+      {
+        "kind": "map",
+        "text": "Descubre el mapa: Entrada del museo"
+      },
+      {
+        "kind": "map",
+        "text": "Descubre el mapa: Entrada del futuro"
+      },
+      {
+        "kind": "map",
+        "text": "Descubre el mapa: Entrada del Ojo de Vórtex"
+      },
+      {
+        "kind": "map",
+        "text": "Descubre el mapa: Ojo de Vórtex - Salida"
+      },
+      {
+        "kind": "free",
+        "text": "Escucha el informe de los idos"
+      },
+      {
+        "kind": "npc",
+        "text": "Ve a ver a Elvis Hir"
+      },
+      {
+        "kind": "fight",
+        "text": "Vence a 1 x Elvis Hir en un solo combate"
+      },
+      {
+        "kind": "npc",
+        "text": "Ve a ver a Elvis Hir"
+      },
+      {
+        "kind": "npc",
+        "text": "Ve a ver a Chamaran"
+      },
+      {
+        "kind": "npc",
+        "text": "Ve a ver a Chamaran"
+      }
+    ],
+    "1660": [
+      {
+        "kind": "fight",
+        "text": "Vence a 1 x Tynril Pérfido en un solo combate con la alteración Ídolo de Viti Vegetal activa"
+      },
+      {
+        "kind": "fight",
+        "text": "Vence a 1 x Morsagüino Real en un solo combate con la alteración Ídolo de Viti Helado activa"
+      },
+      {
+        "kind": "fight",
+        "text": "Vence a 1 x Funoroshi en un solo combate con la alteración Ídolo de Viti Chamuscado activa"
+      },
+      {
+        "kind": "npc",
+        "text": "Vuelve a ver a Discípulo de Viti"
+      }
+    ],
+    "1661": [
+      {
+        "kind": "fight",
+        "text": "Vence a 1 x Ben el Ripata en un solo combate con la alteración Ídolo de Thomahon Marino activa"
+      },
+      {
+        "kind": "fight",
+        "text": "Vence a 1 x Kimbo en un solo combate con la alteración Ídolo de Thomahon Arborícola activa"
+      },
+      {
+        "kind": "fight",
+        "text": "Vence a 1 x Obsidiantre en un solo combate con la alteración Ídolo de Thomahon de Obsidiana activa"
+      },
+      {
+        "kind": "fight",
+        "text": "Vence a 1 x Sfinter Cell en un solo combate con la alteración Ídolo de Thomahon Nauseabundo activa"
+      },
+      {
+        "kind": "npc",
+        "text": "Vuelve a ver a Discípulo de Thomahon"
+      }
+    ]
+  },
+  "stops": [
+    {
+      "step": 7,
+      "questId": 1491,
+      "index": 0,
+      "text": "Entrégale a Doctor Boing Boing: 10 x Muestra de sangre de divinutrof"
+    },
+    {
+      "step": 8,
+      "questId": 1495,
+      "index": 0,
+      "text": "Quítale con violencia un pelo de la nariz al Rey Nidas"
+    },
+    {
+      "step": 9,
+      "questId": 1514,
+      "index": 12,
+      "text": "Vence a 1 x Rey Nidas en un solo combate"
+    },
+    {
+      "step": 14,
+      "questId": 1536,
+      "index": 0,
+      "text": "Entrégale a Gladis: 10 x Jugo tóxico de necrótico"
+    },
+    {
+      "step": 20,
+      "questId": 1575,
+      "index": 0,
+      "text": "Entrégale a Cabo Ral Jart: 4 x Krosmorbe naranja"
+    },
+    {
+      "step": 22,
+      "questId": 1582,
+      "index": 3,
+      "text": "Vence a 1 x Vórtex en un solo combate"
+    },
+    {
+      "step": 23,
+      "questId": 1601,
+      "index": 13,
+      "text": "Descubre el mapa: Entrada del Ojo de Vórtex"
+    }
+  ]
+}
