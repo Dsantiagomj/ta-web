@@ -225,3 +225,4 @@ Squarespace's plan goes away, which offsets part of this.
 ## 13. Next step
 
 Create the new repository (separate from `silvestre-checklist`, which keeps serving the embeds until the cutover), write its `AGENTS.md` and `DESIGN.md` from scratch for the new platform, then run phase 0 as an SDD change (proposal, spec, design, tasks), starting with the content model and the derived-data engine, since every later phase depends on them. The phase-0 demo validates the editor with Torre.
+
