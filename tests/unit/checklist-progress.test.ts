@@ -4,6 +4,7 @@ import {
   checklistModel,
   nextPending,
   progressPct,
+  questFinished,
   questState,
   resetChecklist,
   setOwned,
@@ -334,5 +335,134 @@ describe('prerrequisitos, objetos y reinicio', () => {
     const onlyPrereqs = resetChecklist(p, model, { steps: false, prereqs: true, owned: false }, [])
     expect(onlyPrereqs.steps).toEqual(p.steps)
     expect(onlyPrereqs.prereqs).toEqual({ '8:l1': 1 })
+  })
+})
+
+describe('revisión del PR 5: desmarcar', () => {
+  it('desmarcar una misión de un paso hecho no termina la misión que para ni la madre que espera', () => {
+    let p = setStep(emptyProgress(), model, 1, true, NOW)
+    p = setQuest(p, model, 1, 10, false, NOW + 1)
+    expect(stepDone(p, model, 1)).toBe(false)
+    expect(p.quests[20]?.o).toBe(1)
+    let e = setStep(emptyProgress(), model, 4, true, NOW)
+    e = setQuest(e, model, 4, 31, false, NOW + 1)
+    expect(e.quests[30]?.o).toBe(2)
+    expect(e.quests[31]).toBeUndefined()
+  })
+
+  it('desmarcar una misión deja sin hacer las del mismo paso que la pedían y marcó el paso', () => {
+    let p = setStep(emptyProgress(), model, 0, true, NOW)
+    p = setQuest(p, model, 0, 10, false, NOW + 1)
+    // Como en silvestre-checklist: la que la pide vuelve a lo suyo
+    expect(p.quests[11]).toBeUndefined()
+    expect(questState(p, model, 0, 10)).toEqual({ done: false })
+    expect(questState(p, model, 0, 11)).toEqual({ done: false })
+  })
+
+  it('en un paso marcado, la que piden otras del paso se puede desmarcar, aunque vaya detrás', () => {
+    // 11 (que pide la 10) va antes que la 10 en el paso
+    const reversed = checklistModel({
+      ...data,
+      steps: [
+        [
+          'a',
+          1,
+          [
+            [11, 'mandatory'],
+            [10, 'mandatory'],
+          ],
+        ],
+      ],
+      weights: [[150, [100, 50]]],
+      closes: [],
+    })
+    let p = setStep(emptyProgress(), reversed, 0, true, NOW)
+    expect(questState(p, reversed, 0, 10)).toEqual({ done: true })
+    p = setQuest(p, reversed, 0, 10, false, NOW + 1)
+    expect(questState(p, reversed, 0, 10)).toEqual({ done: false })
+  })
+})
+
+describe('revisión del PR 5: el id antiguo de la checklist es la misma checklist', () => {
+  const legacyDone = { o: 'done' as const, by: { c: 'nebuloso' }, at: 1 }
+
+  it('una misión apuntada con «nebuloso» sale hecha aquí, sin bloquear', () => {
+    const p = { ...emptyProgress(), quests: { 10: legacyDone } }
+    expect(questState(p, model, 0, 10)).toEqual({ done: true })
+  })
+
+  it('reiniciar también la borra', () => {
+    const p = { ...emptyProgress(), quests: { 10: legacyDone } }
+    expect(
+      resetChecklist(p, model, { steps: true, prereqs: false, owned: false }, []).quests,
+    ).toEqual({})
+  })
+})
+
+describe('revisión del PR 5: paradas y madres al final de la misión', () => {
+  // f para en la 40 después de su último objetivo; la 50 espera a la 51 tras el último suyo
+  const end = checklistModel({
+    ...data,
+    steps: [
+      [
+        'f',
+        1,
+        [
+          [40, 'mandatory', 3],
+          [50, 'mandatory'],
+          [51, 'mandatory', 0],
+        ],
+      ],
+    ],
+    weights: [[300, [100, 100, 100]]],
+    closes: [],
+    objectives: { 40: 3, 50: 5, 51: 2 },
+    prereqs: {},
+    parents: { 50: [[5, [51]]] },
+  })
+
+  it('ni la parada ni la madre que espera cuentan como terminadas', () => {
+    const p = setStep(emptyProgress(), end, 0, true, NOW)
+    expect(p.quests[40]?.o).toBe(2)
+    expect(p.quests[50]?.o).toBe(4)
+    expect(questState(p, end, 0, 50)).toEqual({ done: true })
+    expect(questFinished(p, end, 40)).toBe(false)
+    expect(questFinished(p, end, 50)).toBe(false)
+    expect(questState({ ...p, steps: {} }, end, 0, 50)).toEqual({ done: false, at: 4, wait: [51] })
+  })
+})
+
+describe('revisión del PR 5: un paso que para y se resuelve en sí mismo', () => {
+  // Como el 9 del Nebuloso: para en su misión y su verde cierra el 8 y la termina. Nadie lo
+  // cierra, así que la termina él (openOf de silvestre-checklist).
+  const nine = checklistModel({
+    ...data,
+    steps: [
+      ['ocho', 8, [[60, 'mandatory', 1]]],
+      ['nueve', 9, [[61, 'mandatory', 2]]],
+    ],
+    weights: [
+      [100, [100]],
+      [100, [100]],
+    ],
+    closes: [['nueve', ['ocho']]],
+    objectives: { 60: 3, 61: 4 },
+    prereqs: {},
+    parents: {},
+  })
+
+  it('marcarlo termina su misión; la del paso que cierra, también', () => {
+    let p = setStep(emptyProgress(), nine, 0, true, NOW)
+    expect(p.quests[60]?.o).toBe(1)
+    p = setStep(p, nine, 1, true, NOW)
+    expect(p.quests[61]?.o).toBe('done')
+    expect(p.quests[60]?.o).toBe('done')
+  })
+})
+
+describe('revisión del PR 5: el índice inverso', () => {
+  it('el modelo sabe qué misiones piden cada una', () => {
+    expect(model.requiredBy.get(10)).toEqual([11])
+    expect(model.requiredBy.get(11)).toBeUndefined()
   })
 })

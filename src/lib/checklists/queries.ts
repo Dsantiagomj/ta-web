@@ -94,51 +94,68 @@ function slugsBy<T extends { slug: string }>(docs: T[], field: keyof T): Record<
   )
 }
 
-// Una cadena de «pide terminada» más larga que esto sería un bucle en los datos.
-const MAX_PREREQUISITE_DEPTH = 30
-
 /**
  * Las misiones de la checklist con lo que el progreso necesita (sus objetivos, su criterio de
  * inicio y lo que piden terminado), y las que estas piden, de dentro o de fuera de la
  * checklist, hasta el final de la cadena. Por ID de Payload; lo que piden, por ID de DofusDB.
+ *
+ * Dos consultas como mucho, sea cual sea el largo de la cadena: las misiones de la checklist y,
+ * si alguna pide una de fuera, lo que pide cada misión guardada (el ID, el de DofusDB y sus
+ * prerrequisitos), que se sigue en memoria. La página lo guarda en su caché (cache.ts).
  */
-async function readQuestGraph(
+export async function readQuestGraph(
   payload: Payload,
   questIds: number[],
 ): Promise<Record<number, QuestNode>> {
+  const { docs } = await payload.find({
+    collection: 'quests',
+    where: { id: { in: questIds } },
+    select: {
+      dofusId: true,
+      levelMin: true,
+      startCriterion: true,
+      prerequisites: true,
+      stages: { objectives: { dofusId: true } },
+    },
+    depth: 0,
+    pagination: false,
+    ...visitor,
+  })
   const found = new Map<number, { node: Omit<QuestNode, 'prerequisites'>; needs: number[] }>()
-  let wanted = questIds
-  for (let depth = 0; wanted.length > 0 && depth < MAX_PREREQUISITE_DEPTH; depth++) {
-    const { docs } = await payload.find({
-      collection: 'quests',
-      where: { id: { in: wanted } },
-      select: {
-        dofusId: true,
-        levelMin: true,
-        startCriterion: true,
-        prerequisites: true,
-        stages: { objectives: { dofusId: true } },
+  for (const doc of docs) {
+    found.set(doc.id, {
+      node: {
+        dofusId: doc.dofusId,
+        levelMin: doc.levelMin ?? null,
+        startCriterion: doc.startCriterion ?? null,
+        objectives: (doc.stages ?? []).flatMap((stage) =>
+          (stage.objectives ?? []).map((objective) => objective.dofusId),
+        ),
       },
+      needs: ids(doc.prerequisites ?? []),
+    })
+  }
+  const outside = [...found.values()].some(({ needs }) => needs.some((id) => !found.has(id)))
+  if (outside) {
+    const all = await payload.find({
+      collection: 'quests',
+      select: { dofusId: true, prerequisites: true },
       depth: 0,
       pagination: false,
       ...visitor,
     })
-    for (const doc of docs) {
-      found.set(doc.id, {
-        node: {
-          dofusId: doc.dofusId,
-          levelMin: doc.levelMin ?? null,
-          startCriterion: doc.startCriterion ?? null,
-          objectives: (doc.stages ?? []).flatMap((stage) =>
-            (stage.objectives ?? []).map((objective) => objective.dofusId),
-          ),
-        },
-        needs: ids(doc.prerequisites ?? []),
+    const byId = new Map(all.docs.map((doc) => [doc.id, doc]))
+    const queue = [...found.values()].flatMap(({ needs }) => needs)
+    for (let id = queue.shift(); id !== undefined; id = queue.shift()) {
+      const doc = byId.get(id)
+      if (!doc || found.has(id)) continue
+      const needs = ids(doc.prerequisites ?? [])
+      found.set(id, {
+        node: { dofusId: doc.dofusId, levelMin: null, startCriterion: null, objectives: [] },
+        needs,
       })
+      queue.push(...needs)
     }
-    wanted = [...new Set(docs.flatMap((doc) => ids(doc.prerequisites ?? [])))].filter(
-      (id) => !found.has(id),
-    )
   }
   return Object.fromEntries(
     [...found].map(([id, { node, needs }]) => [
