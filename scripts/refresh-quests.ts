@@ -49,12 +49,16 @@ try {
     log: (message) => console.log(message),
   })
   console.log(`Escritura: ${seconds(writeStarted)} s.`)
+
   // Las subzonas con su área: dónde pasa cada objetivo, que solo guarda subAreaId.
+  console.log('Guardando las subzonas con su área…')
+  const subAreasStarted = Date.now()
   const subAreaCounts = await refreshSubAreas(
     payload,
     { subAreas: data.subAreas ?? [], areas: data.areas ?? [] },
-    { concurrency },
+    { concurrency, log: (message) => console.log(message) },
   )
+  console.log(`Subzonas: ${seconds(subAreasStarted)} s.`)
 
   console.log('Guardando los logros de misiones y eventos e importando sus iconos…')
   const achievementsStarted = Date.now()

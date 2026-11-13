@@ -88,17 +88,20 @@ function storedMonster(doc: Monster) {
   return { dofusId: doc.dofusId, name: doc.name, iconId: doc.iconId ?? null }
 }
 
+// Solo para el progreso: el catálogo de objetos pasa de 20.000 filas.
+const CATALOG_LABEL = { items: 'Objetos', monsters: 'Monstruos', subareas: 'Subzonas' } as const
+
 /**
- * Crea o actualiza las filas de items o monsters por su ID de DofusDB, solo si cambian.
+ * Crea o actualiza las filas de un catálogo del juego por su ID de DofusDB, solo si cambian.
  * Devuelve el ID de Payload de cada ID de DofusDB guardado, también de las filas de
  * pasadas anteriores que DofusDB ya no devuelve: nada se borra.
  */
-async function refreshCatalog<
+export async function refreshCatalog<
   T extends { dofusId: number },
   D extends { id: number; dofusId: number },
 >(
   payload: Payload,
-  collection: 'items' | 'monsters',
+  collection: keyof typeof CATALOG_LABEL,
   rows: T[],
   stored: (doc: D) => T,
   refreshedAt: string,
@@ -131,8 +134,7 @@ async function refreshCatalog<
     return { dofusId: row.dofusId, id: doc.id, status: 'unchanged' }
   }
 
-  // Solo para el progreso: el catálogo de objetos pasa de 20.000 filas.
-  const label = collection === 'items' ? 'Objetos' : 'Monstruos'
+  const label = CATALOG_LABEL[collection]
   let done = 0
   const results = await mapWithConcurrency([...unique.values()], concurrency, async (row) => {
     const result = await save(row)
