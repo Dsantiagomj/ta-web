@@ -1,17 +1,42 @@
-import { CHECKLISTS } from '@/components/site/nav'
+import type { ChecklistNavItem } from '@/components/site/nav'
 import { StaticImg } from '@/components/site/StaticImg'
-import { Amount } from '@/components/ui/Amount'
+import { siteShellStrings } from '@/components/site/strings'
 
-import { CHECKLIST_FIGURES } from './data'
 import { homeStrings } from './strings'
 
 const s = homeStrings.checklists
 
+function Inner({ checklist }: { checklist: ChecklistNavItem }) {
+  return (
+    <>
+      <span className="trio__egg">
+        {checklist.image && (
+          <StaticImg
+            src={checklist.image.src}
+            width={checklist.image.size}
+            height={checklist.image.size}
+            alt=""
+            loading="lazy"
+          />
+        )}
+      </span>
+      <span className="trio__t">{checklist.name}</span>
+      {checklist.href && checklist.legacy && (
+        <span className="sr-only">{siteShellStrings.legacyChecklist}</span>
+      )}
+      {!checklist.href && <span className="sr-only">{siteShellStrings.preparing}</span>}
+      {checklist.description && <span className="trio__d">{checklist.description}</span>}
+    </>
+  )
+}
+
 /**
- * «Checklists para ir a por tu Dofus» (DESIGN.md, Home): los tres checklists del menú, cada
- * uno con su huevo y su cifra (data.ts).
+ * «Checklists para ir a por tu Dofus» (DESIGN.md, Home): las checklists del menú, de su
+ * colección y en su orden (loadChecklistNav), cada una con su huevo y su frase. Sin cifras:
+ * los pasos cambian y Torre suma checklists con el tiempo.
  */
-export function ChecklistsSection() {
+export function ChecklistsSection({ checklists }: { checklists: ChecklistNavItem[] }) {
+  if (!checklists.length) return null
   return (
     <section className="home-sec" aria-labelledby="h-cl">
       <div className="home-wrap cl">
@@ -22,25 +47,17 @@ export function ChecklistsSection() {
           <p className="cl__lead rv">{s.lead}</p>
         </div>
         <ul className="trio" role="list">
-          {CHECKLISTS.map((checklist, i) => (
-            <li key={checklist.href}>
-              <a href={checklist.href}>
-                <span className="trio__egg">
-                  <StaticImg
-                    src={checklist.image!.src}
-                    width={checklist.image!.size}
-                    height={checklist.image!.size}
-                    loading="lazy"
-                  />
-                </span>
-                <span className="trio__t">{checklist.name}</span>
-                <span className="trio__d">
-                  <b>
-                    <Amount value={CHECKLIST_FIGURES[i].value} />
-                  </b>{' '}
-                  {CHECKLIST_FIGURES[i].unit}
-                </span>
-              </a>
+          {checklists.map((checklist) => (
+            <li key={checklist.slug}>
+              {checklist.href ? (
+                <a href={checklist.href}>
+                  <Inner checklist={checklist} />
+                </a>
+              ) : (
+                <div className="trio__off" aria-disabled="true">
+                  <Inner checklist={checklist} />
+                </div>
+              )}
             </li>
           ))}
         </ul>

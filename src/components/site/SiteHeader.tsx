@@ -10,7 +10,7 @@ import type { Mode } from '@/lib/theme/theme'
 import { HeaderIsland } from './HeaderIsland'
 import { ArrowIcon, ChevronIcon, CloseIcon, MenuIcon, SearchIcon, SocialIcon } from './icons'
 import {
-  CHECKLISTS,
+  type ChecklistNavItem,
   CLASSES,
   DOFUS_FEATURED,
   type DofusNavItem,
@@ -101,26 +101,49 @@ function EggGrid({ dofus: list }: { dofus: DofusNavItem[] }) {
   )
 }
 
-function ChecklistCards({ compact = false }: { compact?: boolean }) {
+/**
+ * Las checklists de su colección, en el orden de Torre (loadChecklistNav). Una En preparación
+ * enlaza a Squarespace y lo dice al lector de pantalla; sin enlace, sale apagada. Sin
+ * ninguna, el panel y el móvil no pintan el bloque. Exportada para probar sus claves.
+ */
+export function ChecklistCards({
+  checklists,
+  compact = false,
+}: {
+  checklists: ChecklistNavItem[]
+  compact?: boolean
+}) {
+  const px = compact ? 30 : 60
   return (
     <ul className={compact ? 'chk-mini' : 'chk'} role="list">
-      {CHECKLISTS.map((c) => (
-        <li key={c.href}>
-          <a href={c.href}>
-            <StaticImg
-              src={c.image!.src}
-              width={compact ? 30 : 60}
-              height={compact ? 30 : 60}
-              alt=""
-              loading="lazy"
-            />
+      {checklists.map((c) => {
+        const inner = (
+          <>
+            {c.image ? (
+              <StaticImg src={c.image.src} width={px} height={px} alt="" loading="lazy" />
+            ) : (
+              <span className="chk__none" aria-hidden="true" />
+            )}
             <span>
               <span className="chk__t">{c.name}</span>
-              <span className="chk__d">{c.description}</span>
+              {c.href && c.legacy && <span className="sr-only">{s.legacyChecklist}</span>}
+              {!c.href && <span className="sr-only">{s.preparing}</span>}
+              {c.description && <span className="chk__d">{c.description}</span>}
             </span>
-          </a>
-        </li>
-      ))}
+          </>
+        )
+        return (
+          <li key={c.slug}>
+            {c.href ? (
+              <a href={c.href}>{inner}</a>
+            ) : (
+              <span className="chk__off" aria-disabled="true">
+                {inner}
+              </span>
+            )}
+          </li>
+        )
+      })}
     </ul>
   )
 }
@@ -208,10 +231,16 @@ function SectionTile({ sec, counts }: { sec: Section; counts: SiteCounts }) {
 }
 
 /**
- * Dofus y checklists en un solo panel: la guía de los Dofus y los checklists a la izquierda,
- * todos los huevos y el enlace a todas las guías a la derecha.
+ * Dofus y checklists en un solo panel: la guía de los Dofus, las checklists y el enlace a su
+ * índice a la izquierda; todos los huevos y el enlace a todas las guías a la derecha.
  */
-function DofusPanel({ dofus: list }: { dofus: DofusNavItem[] }) {
+function DofusPanel({
+  dofus: list,
+  checklists,
+}: {
+  dofus: DofusNavItem[]
+  checklists: ChecklistNavItem[]
+}) {
   const dofus = section('dofus')
   return (
     <>
@@ -235,8 +264,13 @@ function DofusPanel({ dofus: list }: { dofus: DofusNavItem[] }) {
             <span className="feat__d">{p.dofusFeaturedText}</span>
           </span>
         </a>
-        <p className="panel__h">{p.checklists}</p>
-        <ChecklistCards compact />
+        {checklists.length > 0 && (
+          <>
+            <p className="panel__h">{p.checklists}</p>
+            <ChecklistCards checklists={checklists} compact />
+            <AllLink href={section('checklists').href}>{p.checklistsSeeAll}</AllLink>
+          </>
+        )}
       </div>
       <div className="panel__body">
         <p className="panel__h">{p.dofusAll}</p>
@@ -249,11 +283,16 @@ function DofusPanel({ dofus: list }: { dofus: DofusNavItem[] }) {
 
 const NAV = SECTIONS.filter((sec) => sec.key !== 'checklists')
 
-type PanelProps = { sec: Section; counts: SiteCounts; dofus: DofusNavItem[] }
+type PanelProps = {
+  sec: Section
+  counts: SiteCounts
+  dofus: DofusNavItem[]
+  checklists: ChecklistNavItem[]
+}
 
-function PanelContent({ sec, counts, dofus }: PanelProps) {
+function PanelContent({ sec, counts, dofus, checklists }: PanelProps) {
   return sec.key === 'dofus' ? (
-    <DofusPanel dofus={dofus} />
+    <DofusPanel dofus={dofus} checklists={checklists} />
   ) : (
     <>
       <SectionTile sec={sec} counts={counts} />
@@ -264,10 +303,10 @@ function PanelContent({ sec, counts, dofus }: PanelProps) {
   )
 }
 
-function Panel({ sec, counts, dofus }: PanelProps) {
+function Panel(props: PanelProps) {
   return (
-    <div className={`panel panel--${sec.key}`} id={`menu-${sec.key}`} hidden>
-      <PanelContent sec={sec} counts={counts} dofus={dofus} />
+    <div className={`panel panel--${props.sec.key}`} id={`menu-${props.sec.key}`} hidden>
+      <PanelContent {...props} />
     </div>
   )
 }
@@ -277,20 +316,28 @@ export function MenuPanelPreview({
   sectionKey,
   counts,
   dofus,
+  checklists,
 }: {
   sectionKey: SectionKey
   counts: SiteCounts
   dofus: DofusNavItem[]
+  checklists: ChecklistNavItem[]
 }) {
   const sec = section(sectionKey)
   return (
     <div className={`panel panel--static panel--${sec.key}`} style={accent(sec)}>
-      <PanelContent sec={sec} counts={counts} dofus={dofus} />
+      <PanelContent sec={sec} counts={counts} dofus={dofus} checklists={checklists} />
     </div>
   )
 }
 
-function SheetSection({ sec, counts, dofus: list, open }: PanelProps & { open: boolean }) {
+function SheetSection({
+  sec,
+  counts,
+  dofus: list,
+  checklists,
+  open,
+}: PanelProps & { open: boolean }) {
   const dofus = sec.key === 'dofus'
   const id = `sheet-${sec.key}`
   if (sec.soon) {
@@ -321,7 +368,12 @@ function SheetSection({ sec, counts, dofus: list, open }: PanelProps & { open: b
       <div className="stile__p" id={id} hidden={!open}>
         {dofus ? (
           <>
-            <ChecklistCards />
+            {checklists.length > 0 && (
+              <>
+                <ChecklistCards checklists={checklists} />
+                <AllLink href={section('checklists').href}>{p.checklistsSeeAll}</AllLink>
+              </>
+            )}
             <EggGrid dofus={list} />
             <AllLink href={sec.href}>{p.dofusSeeAll}</AllLink>
           </>
@@ -333,7 +385,15 @@ function SheetSection({ sec, counts, dofus: list, open }: PanelProps & { open: b
   )
 }
 
-function Sheet({ counts, dofus }: { counts: SiteCounts; dofus: DofusNavItem[] }) {
+function Sheet({
+  counts,
+  dofus,
+  checklists,
+}: {
+  counts: SiteCounts
+  dofus: DofusNavItem[]
+  checklists: ChecklistNavItem[]
+}) {
   return (
     <dialog className="sheet" id="site-sheet" aria-label={s.menu}>
       <div className="sheet__top">
@@ -345,7 +405,14 @@ function Sheet({ counts, dofus }: { counts: SiteCounts; dofus: DofusNavItem[] })
       <div className="sheet__body">
         <ul className="stiles" role="list">
           {NAV.map((sec, i) => (
-            <SheetSection key={sec.key} sec={sec} counts={counts} dofus={dofus} open={i === 0} />
+            <SheetSection
+              key={sec.key}
+              sec={sec}
+              counts={counts}
+              dofus={dofus}
+              checklists={checklists}
+              open={i === 0}
+            />
           ))}
         </ul>
         <ul className="sheet__soc" role="list">
@@ -376,11 +443,14 @@ function Sheet({ counts, dofus }: { counts: SiteCounts; dofus: DofusNavItem[] })
 export function SiteHeader({
   counts,
   dofus,
+  checklists,
   initialMode,
 }: {
   counts: SiteCounts
   /** Los Dofus de la colección de guías, para el panel y la búsqueda (loadDofusNav). */
   dofus: DofusNavItem[]
+  /** Las checklists de su colección, para el panel y la búsqueda (loadChecklistNav). */
+  checklists: ChecklistNavItem[]
   initialMode: Mode
 }) {
   return (
@@ -425,7 +495,7 @@ export function SiteHeader({
                       {sec.label}
                       <ChevronIcon className="np__c" />
                     </button>
-                    <Panel sec={sec} counts={counts} dofus={dofus} />
+                    <Panel sec={sec} counts={counts} dofus={dofus} checklists={checklists} />
                   </li>
                 ),
               )}
@@ -454,8 +524,8 @@ export function SiteHeader({
           </div>
         </div>
       </header>
-      <Sheet counts={counts} dofus={dofus} />
-      <HeaderIsland index={searchIndex(dofus)} />
+      <Sheet counts={counts} dofus={dofus} checklists={checklists} />
+      <HeaderIsland index={searchIndex(dofus, checklists)} />
     </>
   )
 }

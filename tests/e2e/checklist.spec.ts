@@ -40,7 +40,8 @@ test.describe('página de una checklist', () => {
       `/${neb.guide.slug}`,
     )
     await expect(page.getByRole('heading', { level: 1, name: neb.title })).toBeVisible()
-    await expect(page.getByText(neb.description)).toBeVisible()
+    // El menú también enseña la descripción de cada checklist: se busca en la página.
+    await expect(page.locator('#contenido').getByText(neb.description)).toBeVisible()
     await expect(page.locator('.ck-egg img')).toBeVisible()
 
     const rows = page.getByRole('list', { name: 'Pasos' }).getByRole('listitem')

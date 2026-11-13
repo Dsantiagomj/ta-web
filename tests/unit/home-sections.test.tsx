@@ -6,7 +6,7 @@ import { Areas } from '@/components/home/Areas'
 import { Author } from '@/components/home/Author'
 import { ChecklistsSection } from '@/components/home/ChecklistsSection'
 import { GuideTour } from '@/components/home/GuideTour'
-import { CHECKLISTS, section, social } from '@/components/site/nav'
+import { type ChecklistNavItem, section, social } from '@/components/site/nav'
 
 const html = (node: React.ReactNode) => renderToStaticMarkup(node)
 const thin = '<span class="amount__th"> </span>'
@@ -84,13 +84,59 @@ describe('Una guía para cada misión', () => {
 })
 
 describe('Checklists para ir a por tu Dofus', () => {
-  const markup = html(<ChecklistsSection />)
+  // Las mismas checklists que el menú (loadChecklistNav), en su orden.
+  const checklists: ChecklistNavItem[] = [
+    {
+      name: 'Dofus Nebuloso',
+      slug: 'checklist-nebuloso',
+      href: '/checklist-nebuloso',
+      description: 'Del Nebuloso, paso a paso.',
+      image: { src: '/media/nebuloso.webp', size: 128 },
+    },
+    {
+      name: 'Almas del Ocre',
+      slug: 'lista-ocre',
+      href: 'https://www.torrentearcano.com/lista-ocre',
+      legacy: true,
+      description: 'Las almas de la eterna cosecha, una a una.',
+    },
+    { name: 'Dofus Púrpura', slug: 'checklist-purpura' },
+  ]
+  const markup = html(<ChecklistsSection checklists={checklists} />)
 
-  it('los tres checklists del menú con sus cifras', () => {
-    for (const checklist of CHECKLISTS) expect(markup).toContain(`href="${checklist.href}"`)
-    expect(markup).toContain('<b><span class="amount">100</span></b> pasos')
-    expect(markup).toContain('<b><span class="amount">70</span></b> pasos')
-    expect(markup).toContain('<b><span class="amount">337</span></b> almas')
+  it('las checklists del menú, en su orden, con su frase y sin cifras', () => {
+    const order = checklists.map((c) => markup.indexOf(`<span class="trio__t">${c.name}</span>`))
+    expect(order.every((i) => i > 0)).toBe(true)
+    expect(order).toEqual([...order].sort((a, b) => a - b))
+    expect(markup).toContain('href="/checklist-nebuloso"')
+    expect(markup).toContain('Del Nebuloso, paso a paso.')
+    expect(markup).not.toMatch(/\d+<\/span><\/b> (pasos|almas)/)
+    expect(markup).not.toContain('class="amount"')
+  })
+
+  it('cada tarjeta lleva su slug como clave, no el nombre', () => {
+    const section = ChecklistsSection({
+      checklists: [
+        { name: 'Dofus Ocre', slug: 'lista-ocre', href: '/lista-ocre' },
+        { name: 'Dofus Ocre', slug: 'checklist-ocre', href: '/checklist-ocre' },
+      ],
+    })
+    const keys: (string | null)[] = []
+    const walk = (node: unknown): void => {
+      if (Array.isArray(node)) return node.forEach(walk)
+      if (!node || typeof node !== 'object' || !('props' in node)) return
+      const element = node as React.ReactElement<{ children?: unknown }>
+      if (element.type === 'li') keys.push(element.key)
+      walk(element.props.children)
+    }
+    walk(section)
+    expect(keys).toEqual(['lista-ocre', 'checklist-ocre'])
+  })
+
+  it('una En preparación avisa de la web anterior; sin enlace, no es un enlace', () => {
+    expect(markup).toContain('href="https://www.torrentearcano.com/lista-ocre"')
+    expect(markup).toContain('(en preparación: se abre en la web anterior)')
+    expect(markup).toMatch(/<div class="trio__off" aria-disabled="true">.*?Dofus Púrpura/)
   })
 })
 

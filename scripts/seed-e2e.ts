@@ -8,6 +8,7 @@ import { isLocalDatabaseUrl, resolveDatabaseUrl } from '@/lib/db/database-url'
 
 import { seedAchievements } from '../tests/e2e/seed/achievements'
 import { seedChecklistPages } from '../tests/e2e/seed/checklists'
+import { seedChecklistIndex } from '../tests/e2e/seed/checklists-index'
 import { seedDofusGuides } from '../tests/e2e/seed/dofus-guides'
 import { seedGuides } from '../tests/e2e/seed/guides'
 
@@ -23,6 +24,7 @@ try {
   await seedAchievements(payload)
   await seedDofusGuides(payload)
   await seedChecklistPages(payload)
+  await seedChecklistIndex(payload)
   console.log('Guías, logro, guías de Dofus y checklists de prueba sembrados.')
 } finally {
   await payload.destroy()

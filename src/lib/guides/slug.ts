@@ -14,6 +14,7 @@ export const RESERVED_SLUGS: readonly string[] = [
   'vista-previa',
   'metalogros',
   'guias-dofus',
+  'checklists',
 ]
 
 /** Slug plano en ASCII: minúsculas, cifras y guiones sueltos, sin guiones en los extremos. */

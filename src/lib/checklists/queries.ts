@@ -4,6 +4,7 @@ import { isGuideSlug } from '@/lib/guides/slug'
 import type { Checklist, User } from '@/payload-types'
 
 import { checklistDetails, type ChecklistDetails, type DetailsQuest } from './details'
+import type { ChecklistDoc } from './list'
 import { relationId } from './relations'
 import { OBJECTIVE_REFERENCE, type ChecklistData, type ObjectiveNames } from './page'
 
@@ -211,4 +212,58 @@ export async function readChecklistDetails(
     : { docs: [] }
   const quests = docs as DetailsQuest[]
   return checklistDetails(quests, await readObjectiveNames(payload, quests))
+}
+
+type GuideArt = { color?: string | null; dofus?: unknown }
+
+/**
+ * Todas las checklists publicadas, en el orden de Torre, con el huevo y el color de la guía
+ * de su Dofus, para el índice, el menú, el pie y la portada. Como un visitante: lo publicado
+ * (también las En preparación, que enlazan a Squarespace). Sin los pasos, que pesan.
+ *
+ * El huevo (la imagen del objeto del Dofus, de DofusDB) y el color salen de la guía aunque
+ * siga en borrador: son datos del juego. De esa guía se pide solo eso, así que nada de lo que
+ * Torre aún no ha publicado llega a un visitante.
+ */
+export async function readChecklists(payload: Payload): Promise<ChecklistDoc[]> {
+  const { docs } = await payload.find({
+    collection: 'checklists',
+    sort: ['order', 'name'],
+    select: {
+      name: true,
+      slug: true,
+      state: true,
+      order: true,
+      description: true,
+      legacyHref: true,
+      dofusGuide: true,
+    },
+    depth: 0,
+    pagination: false,
+    draft: false,
+    overrideAccess: false,
+  })
+  const ids = [
+    ...new Set(docs.map((doc) => relationId(doc.dofusGuide)).filter((id) => id !== null)),
+  ]
+  const art = new Map<number, GuideArt>()
+  if (ids.length) {
+    const guides = await payload.find({
+      collection: 'dofus-guides',
+      where: { id: { in: ids } },
+      select: { color: true, dofus: true },
+      populate: { items: { image: true } },
+      depth: 2,
+      pagination: false,
+      draft: false,
+      overrideAccess: true,
+    })
+    for (const guide of guides.docs) {
+      art.set(guide.id, { color: guide.color ?? null, dofus: guide.dofus ?? null })
+    }
+  }
+  return docs.map((doc) => {
+    const id = relationId(doc.dofusGuide)
+    return { ...doc, dofusGuide: id === null ? null : (art.get(id) ?? null) } as ChecklistDoc
+  })
 }

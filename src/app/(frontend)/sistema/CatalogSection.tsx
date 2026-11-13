@@ -14,6 +14,7 @@ import { QuestSteps } from '@/components/game/QuestSteps'
 import { TorreTips } from '@/components/game/TorreTips'
 import { VideoFacade } from '@/components/game/VideoFacade'
 import { DofusNeeds, DofusParts } from '@/components/dofus/DofusGuideParts'
+import { ChecklistIndexCards } from '@/components/checklists/ChecklistsIndex'
 import { DofusCards } from '@/components/dofus/DofusIndex'
 import { CopyIcon } from '@/components/game/icons'
 import { Amount } from '@/components/ui/Amount'
@@ -40,6 +41,7 @@ import {
   achievementQuests,
   achievementQuestsLong,
   dofusAchievementView,
+  checklistCards,
   dofusCards,
   dofusNeeds,
   fight,
@@ -116,6 +118,7 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
               sectionKey="dofus"
               counts={s.demo.siteCounts}
               dofus={s.demo.dofusNav}
+              checklists={s.demo.checklistNav}
             />
             <div className="w-full">
               <SiteFooter year={2026} />
@@ -282,6 +285,12 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
               </div>
               <DofusNeeds needs={dofusNeeds} />
               <DofusParts view={dofusAchievementView} />
+            </div>
+          </Group>
+
+          <Group name="checklists" note={s.notes.checklists} wide>
+            <div className="ck-index w-full !p-0">
+              <ChecklistIndexCards entries={checklistCards} />
             </div>
           </Group>
 

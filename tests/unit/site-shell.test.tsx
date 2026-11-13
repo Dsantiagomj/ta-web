@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 
 import { Lockup } from '@/components/brand/Lockup'
 import {
-  CHECKLISTS,
+  type ChecklistNavItem,
   CLASSES,
   type DofusNavItem,
   DUNGEONS,
@@ -13,7 +13,7 @@ import {
   searchIndex,
 } from '@/components/site/nav'
 import { SiteFooter } from '@/components/site/SiteFooter'
-import { SiteHeader, Well } from '@/components/site/SiteHeader'
+import { ChecklistCards, SiteHeader, Well } from '@/components/site/SiteHeader'
 import { searchNav } from '@/components/site/search'
 import { LEGACY_SITE_ORIGIN } from '@/lib/site/legacy'
 
@@ -30,7 +30,33 @@ const DOFUS: DofusNavItem[] = [
   { name: 'Piñata de Pino', href: '/piata-de-pino', image: egg('pinata') },
   { name: 'Dofus Silvestre' },
 ]
-const header = () => html(<SiteHeader counts={counts} dofus={DOFUS} initialMode="dark" />)
+/** Unas checklists como las da su colección (loadChecklistNav), en su orden. */
+const CHECKLISTS: ChecklistNavItem[] = [
+  {
+    name: 'Dofus Nebuloso',
+    slug: 'checklist-nebuloso',
+    href: '/checklist-nebuloso',
+    description: 'Del Nebuloso, paso a paso.',
+    image: egg('nebuloso'),
+  },
+  {
+    name: 'Dofus Silvestre',
+    slug: 'checklist-silvestre',
+    href: `${LEGACY_SITE_ORIGIN}/checklist-silvestre`,
+    legacy: true,
+    description: 'Con la guía de Sandglass.',
+    image: egg('silvestre'),
+  },
+  {
+    name: 'Almas del Ocre',
+    slug: 'lista-ocre',
+    href: `${LEGACY_SITE_ORIGIN}/lista-ocre`,
+    legacy: true,
+  },
+  { name: 'Dofus Púrpura', slug: 'checklist-purpura' },
+]
+const header = () =>
+  html(<SiteHeader counts={counts} dofus={DOFUS} checklists={CHECKLISTS} initialMode="dark" />)
 const footer = () => html(<SiteFooter year={2026} />)
 const hrefs = (markup: string) => [...markup.matchAll(/href="([^"]+)"/g)].map((m) => m[1])
 
@@ -39,14 +65,13 @@ const PREPARING = DOFUS.filter((d) => !d.href).map((d) => d.name)
 const READY = DOFUS.filter((d) => d.href)
 
 describe('los datos del menú', () => {
-  it('lista los 3 checklists, las 19 clases y las 8 mazmorras; los Dofus llegan de la colección', () => {
-    expect(CHECKLISTS).toHaveLength(3)
+  it('lista las 19 clases y las 8 mazmorras; los Dofus y las checklists llegan de sus colecciones', () => {
     expect(CLASSES).toHaveLength(19)
     expect(DUNGEONS).toHaveLength(8)
   })
 
   it('las páginas que aún no viven aquí enlazan a la web de siempre, con su slug', () => {
-    for (const link of [...CHECKLISTS, ...CLASSES, ...DUNGEONS])
+    for (const link of [...CLASSES, ...DUNGEONS])
       expect(link.href).toMatch(new RegExp(`^${LEGACY_SITE_ORIGIN}/[a-z0-9-]+$`))
   })
 
@@ -54,8 +79,15 @@ describe('los datos del menú', () => {
     expect(SECTIONS.find((s) => s.key === 'dofus')?.href).toBe('/guias-dofus')
   })
 
+  it('Checklists lleva al índice de las checklists de la app, no a la web de Torre', () => {
+    expect(SECTIONS.find((s) => s.key === 'checklists')?.href).toBe('/checklists')
+  })
+
   it('cada imagen del juego sale de public/img/game y declara su tamaño', () => {
-    for (const link of [...CHECKLISTS, ...CLASSES]) {
+    for (const link of [
+      ...CLASSES,
+      { image: SECTIONS.find((s) => s.key === 'checklists')!.icon },
+    ]) {
       expect(link.image?.src).toMatch(/^\/img\/game\/[a-z0-9/-]+\.webp$/)
       expect(link.image?.size).toBeGreaterThan(0)
     }
@@ -87,10 +119,12 @@ describe('los datos del menú', () => {
 })
 
 describe('la búsqueda del menú', () => {
-  const index = searchIndex(DOFUS)
+  const index = searchIndex(DOFUS, CHECKLISTS)
 
-  it('indexa las secciones con página, los Dofus con guía publicada y los checklists', () => {
+  it('indexa las secciones con página, los Dofus con guía publicada y las checklists con enlace', () => {
     expect(index).toHaveLength(3 + READY.length + 3)
+    const checklists = index.filter((e) => e.type === 'checklist')
+    expect(checklists.map((e) => e.href)).toEqual(CHECKLISTS.slice(0, 3).map((c) => c.href))
     expect(index.map((e) => e.type)).not.toContain('clase')
     expect(index.map((e) => e.type)).not.toContain('mazmorra')
     // El checklist del Silvestre sí se encuentra; su Dofus, aún sin guía, no.
@@ -162,7 +196,7 @@ describe('SiteHeader', () => {
   it('el panel de Dofus une los Dofus de la colección, en su orden, y los checklists, sin cifras', () => {
     const markup = header()
     const panel = markup.slice(markup.indexOf('id="menu-dofus"'), markup.indexOf('</nav>'))
-    for (const c of CHECKLISTS) expect(panel).toContain(c.href)
+    for (const c of CHECKLISTS) expect(panel).toContain(`<span class="chk__t">${c.name}</span>`)
     for (const d of READY) expect(panel).toContain(`href="${d.href}"`)
     const order = DOFUS.map((d) => panel.indexOf(`<span>${d.name}</span>`))
     expect(order).toEqual([...order].sort((a, b) => a - b))
@@ -179,6 +213,69 @@ describe('SiteHeader', () => {
     expect(panel).toMatch(
       new RegExp(`<a class="all-link" href="/guias-dofus">Ver todas las guías de Dofus<svg`),
     )
+  })
+
+  it('las checklists salen de su colección, en su orden, con «Ver todas las checklists»', () => {
+    const markup = header()
+    const panel = markup.slice(markup.indexOf('id="menu-dofus"'), markup.indexOf('</nav>'))
+    const order = CHECKLISTS.map((c) => panel.indexOf(`<span class="chk__t">${c.name}</span>`))
+    expect(order.every((i) => i > 0)).toBe(true)
+    expect(order).toEqual([...order].sort((a, b) => a - b))
+    expect(panel).toContain('href="/checklist-nebuloso"')
+    expect(panel).toMatch(
+      new RegExp(`<a class="all-link" href="/checklists">Ver todas las checklists<svg`),
+    )
+    // Lo que ya vive aquí no lleva a la web de siempre; el índice tampoco.
+    expect(markup).not.toContain(`${LEGACY_SITE_ORIGIN}/checklist-nebuloso`)
+    expect(markup).not.toContain(`${LEGACY_SITE_ORIGIN}/checklists`)
+    // Ninguna frase cuenta pasos ni checklists.
+    expect(panel).not.toMatch(/\d+ (pasos|almas|checklists)/)
+  })
+
+  it('una checklist En preparación avisa de que abre la web anterior; sin enlace, sale apagada', () => {
+    const markup = header()
+    const panel = markup.slice(markup.indexOf('id="menu-dofus"'), markup.indexOf('</nav>'))
+    expect(panel).toMatch(
+      new RegExp(
+        `<a href="${LEGACY_SITE_ORIGIN}/lista-ocre">.*?Almas del Ocre</span><span class="sr-only"> \\(en preparación: se abre en la web anterior\\)</span>`,
+      ),
+    )
+    expect(panel).toMatch(
+      /<span class="chk__off" aria-disabled="true">.*?Dofus Púrpura<\/span><span class="sr-only"> \(en preparación\)<\/span>/,
+    )
+  })
+
+  it('el menú del móvil lista las mismas checklists y enlaza su índice', () => {
+    const markup = header()
+    const sheet = markup.slice(markup.indexOf('id="sheet-dofus"'))
+    for (const c of CHECKLISTS) expect(sheet).toContain(`<span class="chk__t">${c.name}</span>`)
+    expect(sheet).toContain('<a class="all-link" href="/checklists">Ver todas las checklists<svg')
+  })
+
+  it('sin checklists que listar, ni el panel ni el móvil enseñan el bloque de checklists', () => {
+    const markup = html(
+      <SiteHeader counts={counts} dofus={DOFUS} checklists={[]} initialMode="dark" />,
+    )
+    const panel = markup.slice(markup.indexOf('id="menu-dofus"'), markup.indexOf('</nav>'))
+    const sheet = markup.slice(markup.indexOf('id="sheet-dofus"'))
+    for (const part of [panel, sheet]) {
+      expect(part).not.toContain('Ver todas las checklists')
+      expect(part).not.toMatch(/class="chk(-mini)?"/)
+    }
+    expect(panel).not.toContain('<p class="panel__h">Checklists</p>')
+    // Los Dofus siguen ahí.
+    expect(panel).toContain('Todos los Dofus')
+  })
+
+  it('cada fila de checklist lleva su slug como clave, no el nombre', () => {
+    const twins: ChecklistNavItem[] = [
+      { name: 'Dofus Ocre', slug: 'lista-ocre', href: '/lista-ocre' },
+      { name: 'Dofus Ocre', slug: 'checklist-ocre', href: '/checklist-ocre' },
+    ]
+    const list = ChecklistCards({ checklists: twins }) as React.ReactElement<{
+      children: React.ReactElement[]
+    }>
+    expect(list.props.children.map((row) => row.key)).toEqual(['lista-ocre', 'checklist-ocre'])
   })
 
   it('los Dofus en preparación salen sin enlace, apagados y avisados', () => {
@@ -204,18 +301,33 @@ describe('SiteHeader', () => {
 
   it('con una sola guía o un solo logro, en singular', () => {
     const markup = html(
-      <SiteHeader counts={{ guides: 1, achievements: 1 }} dofus={DOFUS} initialMode="dark" />,
+      <SiteHeader
+        counts={{ guides: 1, achievements: 1 }}
+        dofus={DOFUS}
+        checklists={[]}
+        initialMode="dark"
+      />,
     )
     expect(markup).toContain(`<b>${n(1)}</b> misión paso a paso, en <b>${n(1)}</b> logro.`)
   })
 
   it('el singular y el plural de cada cifra van por separado', () => {
     const markup = html(
-      <SiteHeader counts={{ guides: 3, achievements: 1 }} dofus={DOFUS} initialMode="dark" />,
+      <SiteHeader
+        counts={{ guides: 3, achievements: 1 }}
+        dofus={DOFUS}
+        checklists={[]}
+        initialMode="dark"
+      />,
     )
     expect(markup).toContain(`<b>${n(3)}</b> misiones paso a paso, en <b>${n(1)}</b> logro.`)
     const other = html(
-      <SiteHeader counts={{ guides: 1, achievements: 2 }} dofus={DOFUS} initialMode="dark" />,
+      <SiteHeader
+        counts={{ guides: 1, achievements: 2 }}
+        dofus={DOFUS}
+        checklists={[]}
+        initialMode="dark"
+      />,
     )
     expect(other).toContain(
       `<b>${n(1)}</b> misión paso a paso, ordenada en sus <b>${n(2)}</b> logros.`,
@@ -328,6 +440,12 @@ describe('SiteFooter', () => {
       )
       expect(markup).not.toContain(`href="${s.href}"`)
     }
+  })
+
+  it('Checklists lleva al índice de la app, no a la web de siempre', () => {
+    const markup = footer()
+    expect(markup).toContain('<a href="/checklists">Checklists</a>')
+    expect(markup).not.toContain(`${LEGACY_SITE_ORIGIN}/checklists`)
   })
 
   it('«Volver arriba» lleva al principio de la página, no a un ancla vacía', () => {

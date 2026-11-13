@@ -6,6 +6,7 @@ import { Callout } from '@/components/ui/Callout'
 import { Figure } from '@/components/ui/Figure'
 import type { ImageAsset } from '@/components/ui/types'
 import type { AchievementNeeds, QuestCard } from '@/lib/achievements/page'
+import type { ChecklistEntry } from '@/lib/checklists/list'
 import type { DofusCard } from '@/lib/dofus-guides/index-view'
 import type { DofusGuideView } from '@/lib/dofus-guides/page'
 import type { NextQuestCardData, QuestHeaderData } from '@/lib/guides/page'
@@ -276,6 +277,34 @@ export const dofusCards: DofusCard[] = [
     tagLabel: 'Evento',
     meta: 'Nivel 20',
     search: 'jyfus',
+  },
+]
+
+/** Tarjetas del índice de las checklists, como las calcula checklistEntries. */
+export const checklistCards: ChecklistEntry[] = [
+  {
+    name: 'Dofus Nebuloso',
+    slug: 'checklist-nebuloso',
+    state: 'published',
+    href: '#checklist-nebuloso',
+    description: 'Del primer paso en Pandala al Nebuloso.',
+    egg: eggArt('dofus-esmeralda'),
+    color: '#2ecd68',
+  },
+  {
+    name: 'Dofus Silvestre',
+    slug: 'checklist-silvestre',
+    state: 'preparing',
+    href: '#checklist-silvestre',
+    legacy: true,
+    description: 'Con la guía de Sandglass.',
+    egg: { src: '/img/game/checklists/silvestre.webp', width: 200, height: 200 },
+  },
+  {
+    name: 'Jyfus',
+    slug: 'checklist-jyfus',
+    state: 'preparing',
+    egg: eggArt('jyfus'),
   },
 ]
 

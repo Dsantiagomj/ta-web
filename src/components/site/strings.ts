@@ -2,11 +2,6 @@ import type { SectionKey } from './nav'
 
 // Los textos de la cabecera y el pie del sitio (AGENTS.md, Language).
 export const siteShellStrings = {
-  checklistNames: {
-    silvestre: 'Dofus Silvestre',
-    hielos: 'Dofus de los Hielos',
-    ocre: 'Almas del Ocre',
-  },
   /** Las 19 clases, por su slug (Feca y Yopuka llevan un -1 en la web de siempre). */
   classes: {
     aniripsa: 'Aniripsa',
@@ -50,6 +45,8 @@ export const siteShellStrings = {
   soon: 'Próximamente',
   /** Lo que lee un lector de pantalla tras el nombre de un Dofus que Torre aún no tiene escrito. */
   preparing: ' (en preparación)',
+  /** Lo que lee un lector de pantalla tras una checklist que aún enlaza a Squarespace. */
+  legacyChecklist: ' (en preparación: se abre en la web anterior)',
   sections: {
     misiones: { label: 'Misiones', title: 'Misiones y logros' },
     dofus: { label: 'Dofus', title: 'Dofus' },
@@ -57,11 +54,6 @@ export const siteShellStrings = {
     clases: { label: 'Clases', title: 'Clases' },
     mazmorras: { label: 'Mazmorras', title: 'Mazmorras' },
   } satisfies Record<SectionKey, { label: string; title: string }>,
-  checklists: {
-    silvestre: '100 pasos con la guía de Sandglass',
-    hielos: '70 pasos, de la isla de Frigost al final',
-    ocre: 'Las almas de la eterna cosecha, una a una',
-  },
   legal: {
     notice: 'Aviso legal',
     cookies: 'Política de cookies',
@@ -99,6 +91,8 @@ export const siteShellStrings = {
     dofusAll: 'Todos los Dofus',
     dofusSeeAll: 'Ver todas las guías de Dofus',
     checklists: 'Checklists',
+    // Sin cifras: Torre suma checklists con el tiempo.
+    checklistsSeeAll: 'Ver todas las checklists',
     clasesBlurb: ['Las ', ' clases con sus equipos de PvM y PvP.'] as const,
     mazmorrasBlurb: ['Las ', ' mazmorras: monstruos, sinergias y cómo vencer al jefe.'] as const,
   },

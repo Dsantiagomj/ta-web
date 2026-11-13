@@ -5,13 +5,15 @@
 const BASE_URL = 'http://localhost:3110'
 
 // Una línea por página. Cada tipo de página entra cuando exista su ruta. La guía, el logro,
-// la guía de Dofus y la checklist los siembra scripts/seed-e2e.ts (tests/e2e/seed/).
+// la guía de Dofus, la checklist y las checklists del índice los siembra scripts/seed-e2e.ts
+// (tests/e2e/seed/).
 const PAGES = [
   '/', // Portada
   '/seis-pies-bajo-tierra', // Guía de misión
   '/la-ocasion-hace-al-ladron', // Logro
   '/metalogros', // Índice de metalogros
   '/guias-dofus', // Índice de las guías de Dofus
+  '/checklists', // Índice de las checklists
   '/dofus-ocre', // Guía de Dofus
   '/checklist-nebuloso', // Checklist
 ]
