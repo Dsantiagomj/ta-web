@@ -14,7 +14,7 @@ export type DetailsQuest = Pick<Quest, 'dofusId' | 'startPositions' | 'stages'>
 export function checklistDetails(
   quests: DetailsQuest[],
   names: ObjectiveNames,
-  subareas: Record<number, string> = {},
+  subareas: Record<number, string>,
 ): ChecklistDetails {
   return {
     q: Object.fromEntries(

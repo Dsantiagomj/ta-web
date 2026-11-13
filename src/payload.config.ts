@@ -27,6 +27,7 @@ import { healthEndpoint } from './endpoints/health'
 import { readyEndpoint } from './endpoints/ready'
 import { searchIndexEndpoint } from './endpoints/search-index'
 import { resolveDatabaseUrl, shouldPushSchema } from './lib/db/database-url'
+import { SITE_LOCALE } from './lib/site/locale'
 import { mediaStorage } from './lib/media/storage'
 
 const filename = fileURLToPath(import.meta.url)
@@ -71,8 +72,8 @@ export default buildConfig({
   // Solo español al lanzar; los campos traducibles llevan `localized: true`
   // para que un segundo idioma sea una traducción y no una reescritura.
   localization: {
-    locales: [{ code: 'es', label: 'Español' }],
-    defaultLocale: 'es',
+    locales: [{ code: SITE_LOCALE, label: 'Español' }],
+    defaultLocale: SITE_LOCALE,
     fallback: true,
   },
   secret: process.env.PAYLOAD_SECRET || '',

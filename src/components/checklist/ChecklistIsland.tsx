@@ -14,6 +14,20 @@ import type { ProgressUi } from './progress-ui'
 const PIN =
   '<svg viewBox="0 0 16 16" aria-hidden="true" class="size-4"><path fill="currentColor" d="M8 1.2a5 5 0 0 0-5 5c0 3.6 5 8.6 5 8.6s5-5 5-8.6a5 5 0 0 0-5-5zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg>'
 
+/** El nombre de la subzona bajo el objetivo, con «, » para quien no ve la línea nueva. */
+function areaLabel(subarea: string): HTMLElement {
+  const wrap = document.createElement('span')
+  wrap.className = 'ck-o__area'
+  const separator = document.createElement('span')
+  separator.className = 'sr-only'
+  separator.textContent = ', '
+  const name = document.createElement('span')
+  name.className = 'ck-o__a'
+  name.textContent = subarea
+  wrap.append(separator, name)
+  return wrap
+}
+
 /** Un chip de coordenadas como el de las guías; la isla de las guías lo copia al pulsarlo. */
 function chip(x: number | null, y: number | null): string {
   if (x == null || y == null) return ''
@@ -26,7 +40,7 @@ function chip(x: number | null, y: number | null): string {
  * Pinta lo que traen los detalles: quién da cada misión, dónde, y dónde está cada objetivo (sus
  * coordenadas y el nombre de su subzona, como en el prototipo A).
  */
-function fillDetails(details: ChecklistDetails) {
+export function fillDetails(details: ChecklistDetails) {
   for (const row of document.querySelectorAll<HTMLElement>('.ck-q[data-q]')) {
     const quest = details.q[Number(row.dataset.q)]
     if (!quest) continue
@@ -36,21 +50,17 @@ function fillDetails(details: ChecklistDetails) {
     const start = row.querySelector('[data-ck-start]')
     if (start) start.innerHTML = chip(x, y)
     // Un objetivo en el mismo mapa que el anterior no repite el chip; ni en la misma subzona,
-    // su nombre.
+    // su nombre. Uno sin subzona la olvida: volver a la misma la vuelve a nombrar.
     let previous = `${x},${y}`
     let area: string | null = null
     for (const slot of row.querySelectorAll<HTMLElement>('[data-ck-coord]')) {
+      const text = slot.parentElement?.querySelector('.ck-o__t')
+      text?.querySelector('.ck-o__area')?.remove()
       const objective = objectives[Number(slot.dataset.ckCoord)]
       if (!objective) continue
-      const text = slot.parentElement?.querySelector('.ck-o__t')
-      text?.querySelector('.ck-o__a')?.remove()
-      if (text && objective[4] && objective[4] !== area) {
-        const name = document.createElement('span')
-        name.className = 'ck-o__a'
-        name.textContent = objective[4]
-        text.append(name)
-      }
-      if (objective[4]) area = objective[4]
+      const subarea = objective[4]
+      if (text && subarea && subarea !== area) text.append(areaLabel(subarea))
+      area = subarea
       const here = `${objective[2]},${objective[3]}`
       slot.innerHTML = here === previous ? '' : chip(objective[2], objective[3])
       if (objective[2] != null) previous = here
