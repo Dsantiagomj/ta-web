@@ -5,6 +5,7 @@ import { lhciEnv } from '../../scripts/lhci-env.ts'
 import { seedGuide } from '../e2e/seed/guides.ts'
 import { seedAchievement } from '../e2e/seed/achievements.ts'
 import { seedDofus } from '../e2e/seed/dofus-guides.ts'
+import { seedChecklists } from '../e2e/seed/checklists.ts'
 
 // Los presupuestos de DESIGN.md (Performance budgets) tal como los comprueba
 // `pnpm test:lhci`. Si cambia un límite, cambia DESIGN.md en el mismo PR.
@@ -66,13 +67,20 @@ describe('lighthouserc.cjs', () => {
     expect(paths).toContain(`/${seedDofus.ocre.slug}`)
   })
 
-  it('aplica cada entrada de la matriz a todas las páginas, sin presets', () => {
+  it('mide la checklist que siembra scripts/seed-e2e.ts', () => {
+    const paths = collect.url.map((url) => new URL(url).pathname)
+    expect(paths).toContain(`/${seedChecklists.nebuloso.slug}`)
+  })
+
+  it('aplica cada entrada de la matriz a todas las páginas, sin presets, salvo el JavaScript', () => {
     expect(assert.assertMatrix.length).toBeGreaterThan(0)
     expect(assert.assertions).toBeUndefined()
     expect(assert.preset).toBeUndefined()
     for (const entry of assert.assertMatrix) {
-      expect(entry.matchingUrlPattern).toBeUndefined()
       expect(entry.preset).toBeUndefined()
+      if (entry.matchingUrlPattern) {
+        expect(Object.keys(entry.assertions)).toEqual(['resource-summary:script:size'])
+      }
     }
   })
 
@@ -83,13 +91,28 @@ describe('lighthouserc.cjs', () => {
     ])
   })
 
-  it('falla con la mediana de CLS sobre 0,1 o de JavaScript sobre 150 KB comprimido', () => {
+  it('falla con la mediana de CLS sobre 0,1', () => {
     expect(assertionsFor('cumulative-layout-shift')).toEqual([
       ['error', { maxNumericValue: 0.1, aggregationMethod: 'median' }],
     ])
-    expect(assertionsFor('resource-summary:script:size')).toEqual([
-      ['error', { maxNumericValue: 150_000, aggregationMethod: 'median' }],
-    ])
+  })
+
+  // El presupuesto de JavaScript de cada página: el de la entrada cuyo patrón casa con ella.
+  const scriptBudget = (url: string) =>
+    assert.assertMatrix
+      .filter((entry) => entry.assertions['resource-summary:script:size'])
+      .filter(
+        (entry) => !entry.matchingUrlPattern || new RegExp(entry.matchingUrlPattern).test(url),
+      )
+      .map((entry) => entry.assertions['resource-summary:script:size'])
+
+  it('falla con la mediana de JavaScript sobre 150 KB comprimido, y 180 KB en las checklists', () => {
+    for (const url of collect.url) {
+      const checklist = new URL(url).pathname === `/${seedChecklists.nebuloso.slug}`
+      expect(scriptBudget(url)).toEqual([
+        ['error', { maxNumericValue: checklist ? 180_000 : 150_000, aggregationMethod: 'median' }],
+      ])
+    }
   })
 
   it('falla con imágenes sin tamaño explícito', () => {

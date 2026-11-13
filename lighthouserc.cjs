@@ -4,9 +4,8 @@
 
 const BASE_URL = 'http://localhost:3110'
 
-// Una línea por página. Cada tipo de página entra cuando exista su ruta: falta una
-// checklist. La guía, el logro y la guía de Dofus los siembra scripts/seed-e2e.ts
-// (tests/e2e/seed/).
+// Una línea por página. Cada tipo de página entra cuando exista su ruta. La guía, el logro,
+// la guía de Dofus y la checklist los siembra scripts/seed-e2e.ts (tests/e2e/seed/).
 const PAGES = [
   '/', // Portada
   '/seis-pies-bajo-tierra', // Guía de misión
@@ -14,7 +13,12 @@ const PAGES = [
   '/metalogros', // Índice de metalogros
   '/guias-dofus', // Índice de las guías de Dofus
   '/dofus-ocre', // Guía de Dofus
+  '/checklist-nebuloso', // Checklist
 ]
+
+// Las checklists llevan su isla (pestañas, pasos, buscador): su presupuesto de JavaScript es
+// 180 KB (plan de las checklists, sección 3). Las demás páginas, 150 KB.
+const CHECKLIST = '/checklist-'
 
 // Mediana o mejor de las tres ejecuciones de cada página.
 const median = (options) => ({ ...options, aggregationMethod: 'median' })
@@ -59,9 +63,6 @@ module.exports = {
             'largest-contentful-paint': ['error', best({ maxNumericValue: 2500 })],
             // CLS por debajo de 0,1.
             'cumulative-layout-shift': ['error', median({ maxNumericValue: 0.1 })],
-            // JavaScript por debajo de 150 KB comprimido (bytes transferidos, KB de 1000 bytes).
-            // DESIGN.md lo fija para las guías; las demás páginas cumplen el mismo límite.
-            'resource-summary:script:size': ['error', median({ maxNumericValue: 150_000 })],
             // Cada imagen con width y height explícitos.
             'unsized-images': ['error', median({ minScore: 1 })],
             // Entrega de imágenes: solo avisa. Lighthouse 13 juntó aquí uses-responsive-images
@@ -70,6 +71,22 @@ module.exports = {
             // (DPR 2 a 3) reciben el ancho justo de 480/800/1200/1600. El formato AVIF o WebP
             // lo garantizan Picture y las variantes de media, con sus pruebas.
             'image-delivery-insight': ['warn', median({ minScore: 1 })],
+          },
+        },
+        {
+          // JavaScript por debajo de 150 KB comprimido (bytes transferidos, KB de 1000 bytes).
+          // DESIGN.md lo fija para las guías; las demás páginas, salvo las checklists, cumplen
+          // el mismo límite.
+          matchingUrlPattern: `^(?!.*${CHECKLIST})`,
+          assertions: {
+            'resource-summary:script:size': ['error', median({ maxNumericValue: 150_000 })],
+          },
+        },
+        {
+          // Las checklists: 180 KB.
+          matchingUrlPattern: CHECKLIST,
+          assertions: {
+            'resource-summary:script:size': ['error', median({ maxNumericValue: 180_000 })],
           },
         },
         {
