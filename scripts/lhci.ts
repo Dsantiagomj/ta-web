@@ -77,7 +77,7 @@ try {
   }
   if (process.env.E2E_SKIP_BUILD !== '1') run('pnpm', ['build'])
   run('pnpm', ['migrate'])
-  // La guía que mide lighthouserc.cjs; en CI la base ya la tiene de las E2E y no se duplica.
+  // Las guías que mide lighthouserc.cjs, sobre la base recién migrada.
   run('pnpm', ['seed:e2e'])
   // Sin guías en caché de una ejecución anterior: se mide lo que acaba de sembrarse.
   clearDataCache()
