@@ -126,6 +126,26 @@ describe('AchievementNeeds', () => {
     expect(markup).not.toContain('data-copy="Hechizo')
   })
 
+  it('una mazmorra casada pinta su jefe; la que no, el icono de mazmorra', () => {
+    const boss = { ...icon, src: '/api/media/file/kumijo.webp' }
+    const markup = html(
+      <AchievementNeeds
+        needs={{
+          items: [],
+          tasks: [
+            { quantity: 1, label: 'Mazmorra Kumijo', kind: 'dungeon', boss },
+            { label: 'Mazmorras nivel 200', kind: 'dungeon' },
+          ],
+          others: [],
+        }}
+      />,
+    )
+    const rows = markup.split(/<li[ >]/).slice(1)
+    expect(rows[0]).toContain('kumijo.webp')
+    expect(rows[0]).not.toContain('crunchidor')
+    expect(rows[1]).toContain('src="/img/game/jefes/crunchidor.webp"')
+  })
+
   it('dos en la misma página no repiten ids (el catálogo los pinta en cada tema)', () => {
     const markup = html(
       <>

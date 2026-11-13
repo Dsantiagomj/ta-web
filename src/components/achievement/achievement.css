@@ -109,8 +109,7 @@
   font: 700 1.125rem / 1.3 var(--font-display);
 }
 
-/* Una columna por grupo; cada fila en la rejilla de huecos de 44px (.row de game.css). Más
-   específico que ul.needs__items, que también lleva la lista de objetos. */
+/* Una columna por grupo, con las filas a 8px. */
 .lneeds ul.lneeds__list {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -120,20 +119,34 @@
   list-style: none;
 }
 
-/* «3 ×» en su columna, como en los objetos: un texto largo se parte bajo sí mismo. */
-.lneeds :is(.lneeds__tasks, .lneeds__others) > .row > span:has(> b) {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: start;
-  column-gap: 0.3em;
+/* Cada fila arriba, no centrada: el hueco de 44px (.row de game.css) va a la altura de la
+   primera línea del texto, que baja lo justo para quedar en su centro, y el texto que no
+   cabe sigue debajo. Lo que no tiene icono (Otros) baja lo mismo, sin hueco delante: sus
+   primeras líneas quedan a la altura de las de los otros grupos. */
+.lneeds .row {
+  align-items: flex-start;
 }
 
-/* Lo que no es un objeto ni un combate no tiene icono: su texto empieza donde el de las
-   filas con hueco, sin pintar un hueco vacío. */
-.lneeds__others > .row {
-  padding-left: 3.5rem;
+.lneeds__t {
+  min-width: 0;
+  padding-top: calc((2.75rem - 1lh) / 2);
 }
 
+/* «3 ×» y el texto en un solo párrafo (Quantity): una línea larga sigue bajo la cifra. El
+   nombre que se copia también: en línea, no en bloque, para que se parta con lo demás, y
+   el icono de copiar va detrás, en la línea, con el hueco que ya ocupa. */
+.lneeds__items .copyname__t {
+  display: inline;
+}
+
+.lneeds__items .copyname__i {
+  position: static;
+  margin-inline-start: 0.3125rem;
+  vertical-align: -0.125em;
+  translate: none;
+}
+
+/* Dos grupos lado a lado con un filete entre ellos y el tercero debajo, tras otro filete. */
 @container (min-width: 37.5rem) {
   .lneeds__groups {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -141,8 +154,8 @@
   }
 
   .lneeds__g:nth-child(2) {
-    margin-left: 2rem;
-    padding-left: 2rem;
+    margin-left: 1.5rem;
+    padding-left: 1.5rem;
     border-left: 1px solid var(--color-line);
   }
 
@@ -153,15 +166,26 @@
   }
 }
 
+/* Los grupos en una fila, cada uno con el ancho que pide lo que lleva: parten de su texto
+   en una línea y encogen en proporción, sin que su contenido baje de 14.5rem (donde cabe
+   «Combates y mazmorras» en una línea; el filete y su aire van aparte). Así los objetos, de
+   nombres cortos, no se quedan media columna vacía mientras las notas largas de Otros se
+   parten en ocho líneas. Tres columnas así con sus filetes piden 49.6rem: desde 50rem,
+   también a 1024px, donde la columna mide 52.7rem. */
 @container (min-width: 50rem) {
-  .lneeds__groups:has(> :nth-child(3)) {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .lneeds__groups {
+    display: flex;
+  }
+
+  .lneeds__g {
+    box-sizing: content-box;
+    flex: 1 1 auto;
+    min-width: 14.5rem;
   }
 
   .lneeds__g:nth-child(3) {
-    grid-column: auto;
-    margin-left: 2rem;
-    padding: 0 0 0 2rem;
+    margin-left: 1.5rem;
+    padding: 0 0 0 1.5rem;
     border-top: 0;
     border-left: 1px solid var(--color-line);
   }

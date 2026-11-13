@@ -67,30 +67,115 @@ test.describe('página de logro', () => {
     }
     await expect(group('Objetos')).toContainText('1 × Pico de tofu')
     await expect(group('Objetos').getByRole('listitem').last().locator('.well img')).toHaveCount(1)
-    await expect(group('Combates y mazmorras')).toContainText('1 × Combate (solo)')
-    // Lo que no es objeto ni combate sale tal cual: nada de lo que Torre escribe se pierde.
-    await expect(group('Otros')).toHaveText('Hechizo Captura de almas')
-
-    // Todas las filas en la misma rejilla de 44px: el texto empieza a la misma distancia del
-    // borde de su grupo, tenga hueco o no.
-    const offsets = await needs.locator('.lneeds__g').evaluateAll((groups) =>
-      groups.flatMap((g) => {
-        const style = getComputedStyle(g)
-        const left =
-          g.getBoundingClientRect().x +
-          parseFloat(style.paddingLeft) +
-          parseFloat(style.borderLeftWidth)
-        return [...g.querySelectorAll('li > span:last-child')].map((span) =>
-          Math.round(span.getBoundingClientRect().x - left),
-        )
-      }),
+    const tasks = group('Combates y mazmorras').getByRole('listitem')
+    await expect(tasks).toHaveText([
+      '1 × Combate (solo)',
+      '1 × Mazmorra Kumijo',
+      'Mazmorras nivel 200',
+    ])
+    await expect(tasks.nth(0).locator('img')).toHaveAttribute('src', '/img/game/combate.webp')
+    // La mazmorra casada con su jefe, importado a Media; la que no nombra ninguna, el icono
+    // genérico de mazmorra.
+    await expect(tasks.nth(1).locator('img')).toHaveAttribute('src', /\/api\/media\/file\//)
+    expect(
+      await tasks
+        .nth(1)
+        .locator('img')
+        .evaluate((img: HTMLImageElement) => img.naturalWidth),
+    ).toBeGreaterThan(0)
+    await expect(tasks.nth(2).locator('img')).toHaveAttribute(
+      'src',
+      '/img/game/jefes/crunchidor.webp',
     )
-    expect(new Set(offsets).size).toBe(1)
-    // En el escritorio, los tres grupos en una fila.
-    const tops = await needs
-      .locator('.lneeds__g')
-      .evaluateAll((groups) => groups.map((g) => Math.round(g.getBoundingClientRect().y)))
-    expect(new Set(tops).size).toBe(1)
+    // Lo que no es objeto ni combate sale tal cual: nada de lo que Torre escribe se pierde.
+    const others = group('Otros').getByRole('listitem')
+    await expect(others).toHaveText([
+      'Hechizo Captura de almas',
+      /^12 × Delicia de los kitsus \(un consumible/,
+    ])
+
+    // Cada fila: el hueco a la altura de la primera línea del texto; sin hueco (Otros), el
+    // texto empieza en el borde del grupo, sin dejar el sitio del hueco vacío. Una línea que
+    // no cabe sigue debajo de la cantidad. Las filas, a la misma distancia.
+    const layout = () =>
+      needs.locator('.lneeds__g').evaluateAll((groups) =>
+        groups.map((g) => {
+          const style = getComputedStyle(g)
+          const left =
+            g.getBoundingClientRect().x +
+            parseFloat(style.paddingLeft) +
+            parseFloat(style.borderLeftWidth)
+          const rows = [...g.querySelectorAll('li')]
+          return {
+            width: g.getBoundingClientRect().width,
+            gaps: rows
+              .slice(1)
+              .map((row, i) =>
+                Math.round(
+                  row.getBoundingClientRect().top - rows[i]!.getBoundingClientRect().bottom,
+                ),
+              ),
+            rows: rows.map((row) => {
+              const text = row.querySelector('.lneeds__t')!
+              const range = document.createRange()
+              range.selectNodeContents(text)
+              const lines = [...range.getClientRects()].filter((r) => r.width > 0)
+              const well = row.querySelector('.well')?.getBoundingClientRect()
+              const first = lines[0]!
+              // El borde izquierdo de cada línea: el más a la izquierda de sus trozos.
+              const starts = new Map<number, number>()
+              for (const r of lines) {
+                const top = Math.round(r.top)
+                starts.set(top, Math.min(starts.get(top) ?? Infinity, Math.round(r.left)))
+              }
+              return {
+                textLeft: Math.round(text.getBoundingClientRect().x - left) + 0,
+                wellOffset: well
+                  ? Math.abs(first.top + first.height / 2 - (well.top + well.height / 2))
+                  : null,
+                lineLefts: new Set(starts.values()).size,
+                lines: starts.size,
+              }
+            }),
+          }
+        }),
+      )
+    const [objetos, tareas, otros] = await layout()
+    for (const row of [...objetos!.rows, ...tareas!.rows]) {
+      expect(row.wellOffset).toBeLessThan(2)
+    }
+    expect(new Set([...objetos!.rows, ...tareas!.rows].map((row) => row.textLeft)).size).toBe(1)
+    expect(otros!.rows.map((row) => row.textLeft)).toEqual([0, 0])
+    await expect(group('Otros').locator('.well')).toHaveCount(0)
+    const delicia = otros!.rows[1]!
+    expect(delicia.lines).toBeGreaterThan(1)
+    // Las líneas de la nota empiezan todas en el mismo sitio: el de «12 ×».
+    expect(delicia.lineLefts).toBe(1)
+    const gaps = [objetos!, tareas!, otros!].flatMap((g) => g.gaps)
+    expect(new Set(gaps).size).toBe(1)
+
+    // En el escritorio, los tres grupos en una fila, cada uno con el ancho que pide: Otros,
+    // con la nota larga, más ancho que Objetos, y cada título en una línea.
+    const oneRow = async () => {
+      const tops = await needs
+        .locator('.lneeds__g')
+        .evaluateAll((groups) => groups.map((g) => Math.round(g.getBoundingClientRect().y)))
+      expect(new Set(tops).size).toBe(1)
+      const headings = await needs
+        .locator('.lneeds__k')
+        .evaluateAll((hs) =>
+          hs.map(
+            (h) => h.getBoundingClientRect().height / parseFloat(getComputedStyle(h).lineHeight),
+          ),
+        )
+      for (const lines of headings) expect(lines).toBeLessThan(1.5)
+    }
+    await oneRow()
+    expect(otros!.width).toBeGreaterThan(objetos!.width)
+
+    // A 1024 px, también en una fila.
+    await page.setViewportSize({ width: 1024, height: 900 })
+    await oneRow()
 
     // En el móvil, uno debajo de otro y sin scroll horizontal.
     await page.setViewportSize({ width: 390, height: 844 })
@@ -100,6 +185,9 @@ test.describe('página de logro', () => {
     expect(stacked).toEqual([...stacked].sort((a, b) => a - b))
     expect(new Set(stacked).size).toBe(3)
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
+    for (const row of (await layout()).flatMap((g) => g.rows)) {
+      if (row.wellOffset !== null) expect(row.wellOffset).toBeLessThan(2)
+    }
   })
 
   test('las misiones en orden: las de guía publicada abren la guía; la del borrador, no', async ({
