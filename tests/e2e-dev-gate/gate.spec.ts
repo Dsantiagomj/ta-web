@@ -58,10 +58,10 @@ test('los estáticos de Next llevan noindex', async ({ page, request }) => {
 })
 
 test('las respuestas de la API llevan noindex', async ({ request }) => {
-  const health = await request.get('/api/health')
-  expect(health.status()).toBe(200)
-  expect(await health.json()).toMatchObject({ status: 'ok', db: 'ok' })
-  expectPublicAndNoindex(health)
+  const ready = await request.get('/api/ready')
+  expect(ready.status()).toBe(200)
+  expect(await ready.json()).toMatchObject({ status: 'ok', db: 'ok' })
+  expectPublicAndNoindex(ready)
 
   // Un anónimo no lista los usuarios del panel, pero la respuesta también lleva noindex.
   expectPublicAndNoindex(await request.get('/api/users'))
