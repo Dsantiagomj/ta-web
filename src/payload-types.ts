@@ -1289,9 +1289,24 @@ export interface Checklist {
           | null;
         needs?:
           | {
-              item: number | Item;
+              /**
+               * El objeto del juego. Si no es un objeto (kamas, un hechizo), deja el texto.
+               */
+              item?: (number | null) | Item;
+              /**
+               * Lo que se necesita, cuando no es un objeto del juego: «Kama», un hechizo…
+               */
+              label?: string | null;
               quantity: number;
               note?: string | null;
+              /**
+               * El grupo en el que sale en «Necesitarás».
+               */
+              category?: ('resources' | 'consumables' | 'equipment' | 'souls' | 'creatures' | 'cosmetics') | null;
+              /**
+               * Desmárcalo si sale en el paso pero no cuenta en los totales de lo que hay que reunir.
+               */
+              countsInTotal?: boolean | null;
               /**
                * Las misiones que piden este objeto.
                */
@@ -1314,6 +1329,10 @@ export interface Checklist {
          * Los jefes que hay que vencer en el paso.
          */
         bosses?: (number | Monster)[] | null;
+        /**
+         * El icono del paso: la recompensa de su logro, su jefe o el icono del logro.
+         */
+        icon?: (number | null) | Media;
         /**
          * La imagen de cabecera del paso, normalmente el mapa donde empieza.
          */
@@ -2198,8 +2217,11 @@ export interface ChecklistsSelect<T extends boolean = true> {
           | T
           | {
               item?: T;
+              label?: T;
               quantity?: T;
               note?: T;
+              category?: T;
+              countsInTotal?: T;
               quests?: T;
               id?: T;
             };
@@ -2211,6 +2233,7 @@ export interface ChecklistsSelect<T extends boolean = true> {
               role?: T;
             };
         bosses?: T;
+        icon?: T;
         banner?: T;
         id?: T;
       };

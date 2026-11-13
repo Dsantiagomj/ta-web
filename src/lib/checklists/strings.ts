@@ -12,6 +12,14 @@ export const checklistStrings = {
     optional: 'Opcional',
     take: 'Solo tomarla',
   },
+  needCategories: {
+    resources: 'Recursos',
+    consumables: 'Consumibles',
+    equipment: 'Equipables',
+    souls: 'Almas',
+    creatures: 'Criaturas',
+    cosmetics: 'Cosméticos',
+  },
   achievementModes: {
     all: 'Completo',
     some: 'Solo algunas misiones',
@@ -61,6 +69,15 @@ export const checklistStrings = {
     optionalDoneByDescription:
       'El identificador del paso que termina esta misión opcional, si otro paso la termina.',
     needQuestsDescription: 'Las misiones que piden este objeto.',
+    needItemDescription:
+      'El objeto del juego. Si no es un objeto (kamas, un hechizo), deja el texto.',
+    needLabelDescription:
+      'Lo que se necesita, cuando no es un objeto del juego: «Kama», un hechizo…',
+    needItemOrLabel: 'Elige un objeto del juego o escribe qué se necesita',
+    needCategoryDescription: 'El grupo en el que sale en «Necesitarás».',
+    needCountsInTotalDescription:
+      'Desmárcalo si sale en el paso pero no cuenta en los totales de lo que hay que reunir.',
+    iconDescription: 'El icono del paso: la recompensa de su logro, su jefe o el icono del logro.',
     figureDescription: 'La imagen del paso: un PNJ o una imagen subida.',
     figureRoleDescription: 'Qué papel tiene, como «Inicia el paso».',
     bossesDescription: 'Los jefes que hay que vencer en el paso.',

@@ -142,7 +142,6 @@ describe('colección checklists', () => {
     expect(field(quests.fields, 'optionalDoneBy')).toMatchObject({ type: 'text' })
 
     const needs = field(steps.fields, 'needs') as ArrayField
-    expect(field(needs.fields, 'item')).toMatchObject({ relationTo: 'items', required: true })
     expect(field(needs.fields, 'quests')).toMatchObject({ relationTo: 'quests', hasMany: true })
 
     const figure = field(steps.fields, 'figure') as GroupField
@@ -151,6 +150,29 @@ describe('colección checklists', () => {
     expect(field(steps.fields, 'bosses')).toMatchObject({ relationTo: 'monsters', hasMany: true })
     expect(field(steps.fields, 'banner')).toMatchObject({ type: 'upload', relationTo: 'media' })
     expect(field(steps.fields, 'note')).toMatchObject({ type: 'richText', localized: true })
+    expect(field(steps.fields, 'icon')).toMatchObject({ type: 'upload', relationTo: 'media' })
+  })
+
+  it('cada fila de lo que necesita el paso cabe: un objeto del juego o un texto', () => {
+    const needs = field(steps.fields, 'needs') as ArrayField
+    // Sin objeto obligatorio: «Kama» o un hechizo no son objetos de DofusDB.
+    const item = field(needs.fields, 'item') as { relationTo: string; required?: boolean }
+    expect(item.relationTo).toBe('items')
+    expect(item.required).toBeFalsy()
+    expect(field(needs.fields, 'label')).toMatchObject({ type: 'text', localized: true })
+    expect(field(needs.fields, 'quantity')).toMatchObject({ type: 'number', required: true })
+    expect((field(needs.fields, 'category') as SelectField).options).toEqual([
+      { value: 'resources', label: 'Recursos' },
+      { value: 'consumables', label: 'Consumibles' },
+      { value: 'equipment', label: 'Equipables' },
+      { value: 'souls', label: 'Almas' },
+      { value: 'creatures', label: 'Criaturas' },
+      { value: 'cosmetics', label: 'Cosméticos' },
+    ])
+    expect(field(needs.fields, 'countsInTotal')).toMatchObject({
+      type: 'checkbox',
+      defaultValue: true,
+    })
   })
 
   it('el texto de Torre va en tramos: normal, «detente aquí» y «aquí se resuelve»', () => {
