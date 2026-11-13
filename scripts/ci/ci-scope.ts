@@ -4,11 +4,13 @@
 // CI_SCOPE_FULL=1 (push a main) lo corre todo sin mirar la entrada.
 //
 // Tres niveles; gana el más alto de los archivos tocados:
-// - docs: documentación. Solo lint y formato (Prettier también revisa el Markdown).
+// - docs: documentación. Lint y formato (Prettier también revisa el Markdown).
 // - offline: lo que no entra en el build ni en los servidores de las E2E y de Lighthouse
-//   (importadores, hooks, pruebas unitarias y de integración). Sin build, E2E, presupuestos
-//   ni auditoría, que solo lee pnpm-lock.yaml.
+//   (importadores, hooks, pruebas unitarias y de integración). Sin build, E2E ni presupuestos.
 // - full: todo lo demás, incluido lo que no se reconoce. Ante la duda, todo.
+// La auditoría corre en los tres: un aviso crítico nuevo bloquea todos los PR.
+//
+// El diff va con --no-renames: un archivo movido debe salir con su origen y su destino.
 import { appendFileSync, readFileSync } from 'node:fs'
 
 export type CiScope = 'docs' | 'offline' | 'full'
@@ -52,8 +54,8 @@ export function ciScope(files: string[]): CiScope {
 }
 
 const JOBS: Record<CiScope, string[]> = {
-  docs: ['install', 'lint'],
-  offline: ['install', 'lint', 'typecheck', 'unit', 'integration'],
+  docs: ['install', 'lint', 'audit'],
+  offline: ['install', 'lint', 'typecheck', 'unit', 'integration', 'audit'],
   full: [
     'install',
     'lint',
@@ -76,5 +78,11 @@ if (import.meta.main) {
     process.env.CI_SCOPE_FULL === '1' ? 'full' : ciScope(readFileSync(0, 'utf8').split('\n'))
   const output = `scope=${scope}\njobs=${JSON.stringify(jobsFor(scope))}\n`
   process.stdout.write(output)
-  if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, output)
+  if (process.env.GITHUB_OUTPUT) {
+    appendFileSync(process.env.GITHUB_OUTPUT, output)
+  } else if (process.env.GITHUB_ACTIONS === 'true') {
+    // Sin salidas, los jobs leerían un `jobs` vacío: mejor fallar aquí.
+    console.error('ci-scope: falta GITHUB_OUTPUT; no se puede pasar el alcance a los jobs.')
+    process.exit(1)
+  }
 }

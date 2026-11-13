@@ -1,9 +1,9 @@
 import { spawnSync } from 'node:child_process'
-import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 
 import { ciScope, jobsFor } from '../../scripts/ci/ci-scope.ts'
 
@@ -61,6 +61,16 @@ describe('ciScope', () => {
     expect(ciScope(files)).toBe('full')
   })
 
+  // El job Cambios usa git diff --no-renames: un archivo movido sale con su origen y su
+  // destino, y el origen manda. Con detección de renombres solo saldría el destino.
+  it.each([
+    [['src/lib/x.ts', 'tests/fixtures/x.ts']],
+    [['scripts/seed-e2e.ts', 'scripts/import/seed-e2e.ts']],
+    [['src/README.md', 'docs/README.md']],
+  ])('un archivo movido cuenta por su origen y su destino: %j', (files) => {
+    expect(ciScope(files)).toBe('full')
+  })
+
   it('sin archivos (diff vacío o desconocido) lo corre todo', () => {
     expect(ciScope([])).toBe('full')
   })
@@ -71,12 +81,21 @@ describe('ciScope', () => {
 })
 
 describe('jobsFor', () => {
-  it('documentación: solo lint y formato', () => {
-    expect(jobsFor('docs')).toEqual(['install', 'lint'])
+  // La auditoría corre siempre: un aviso crítico nuevo bloquea todos los PR, también los
+  // de documentación, y solo tarda unos 16 s.
+  it('documentación: lint, formato y auditoría', () => {
+    expect(jobsFor('docs')).toEqual(['install', 'lint', 'audit'])
   })
 
-  it('fuera del sitio: sin build, E2E, presupuestos ni auditoría', () => {
-    expect(jobsFor('offline')).toEqual(['install', 'lint', 'typecheck', 'unit', 'integration'])
+  it('fuera del sitio: sin build, E2E ni presupuestos', () => {
+    expect(jobsFor('offline')).toEqual([
+      'install',
+      'lint',
+      'typecheck',
+      'unit',
+      'integration',
+      'audit',
+    ])
   })
 
   it('todo lo demás: todos los jobs', () => {
@@ -95,15 +114,26 @@ describe('jobsFor', () => {
 })
 
 describe('scripts/ci/ci-scope.ts (CLI)', () => {
-  function run(stdin: string, extraEnv: Record<string, string> = {}) {
-    const output = path.join(mkdtempSync(path.join(tmpdir(), 'ci-scope-')), 'out')
+  const dirs: string[] = []
+  afterEach(() => {
+    for (const dir of dirs.splice(0)) rmSync(dir, { recursive: true, force: true })
+  })
+
+  function run(stdin: string, extraEnv: Record<string, string | undefined> = {}) {
+    const dir = mkdtempSync(path.join(tmpdir(), 'ci-scope-'))
+    dirs.push(dir)
+    const output = path.join(dir, 'out')
     writeFileSync(output, '')
     const result = spawnSync('node', ['scripts/ci/ci-scope.ts'], {
       input: stdin,
       encoding: 'utf8',
       env: { ...process.env, GITHUB_OUTPUT: output, ...extraEnv },
     })
-    return { status: result.status, output: readFileSync(output, 'utf8') }
+    return {
+      status: result.status,
+      output: readFileSync(output, 'utf8'),
+      stderr: result.stderr,
+    }
   }
 
   it('lee los archivos de la entrada y escribe scope y jobs en GITHUB_OUTPUT', () => {
@@ -111,7 +141,14 @@ describe('scripts/ci/ci-scope.ts (CLI)', () => {
 
     expect(status).toBe(0)
     expect(output).toContain('scope=docs\n')
-    expect(output).toContain('jobs=["install","lint"]\n')
+    expect(output).toContain('jobs=["install","lint","audit"]\n')
+  })
+
+  it('en GitHub Actions sin GITHUB_OUTPUT falla en vez de no escribir nada', () => {
+    const { status, stderr } = run('AGENTS.md\n', { GITHUB_ACTIONS: 'true', GITHUB_OUTPUT: '' })
+
+    expect(status).not.toBe(0)
+    expect(stderr).toMatch(/GITHUB_OUTPUT/)
   })
 
   it('CI_SCOPE_FULL=1 (push a main) lo corre todo sin mirar la entrada', () => {

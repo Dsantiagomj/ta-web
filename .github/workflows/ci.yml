@@ -30,25 +30,33 @@ jobs:
       jobs: ${{ steps.scope.outputs.jobs }}
     steps:
       # En un PR, HEAD es el merge del PR sobre su base y HEAD^1 esa base: con dos commits
-      # de historia, git diff HEAD^1 HEAD son justo los archivos del PR.
+      # de historia, git diff HEAD^1 HEAD son justo los archivos del PR. --no-renames: un
+      # archivo movido sale con su origen y su destino, no solo con el destino.
       - uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 2
+      # El Node de .nvmrc, no el de la imagen: ci-scope.ts necesita import.meta.main y que
+      # Node ejecute TypeScript.
       - uses: actions/setup-node@v7.1.0
         with:
           node-version-file: .nvmrc
+          check-latest: true
       - name: Archivos cambiados y jobs
         id: scope
         run: |
           if [ "$GITHUB_EVENT_NAME" != pull_request ]; then
             export CI_SCOPE_FULL=1
-          elif ! git diff --name-only HEAD^1 HEAD > changed.txt; then
+          elif ! git diff --name-only --no-renames HEAD^1 HEAD > changed.txt; then
             echo "::warning::No se pudo calcular el diff del PR; se corre todo."
             export CI_SCOPE_FULL=1
           fi
           touch changed.txt
           echo "Archivos cambiados:" && cat changed.txt
           node scripts/ci/ci-scope.ts < changed.txt
+          if ! grep -q '^jobs=\[' "$GITHUB_OUTPUT"; then
+            echo "::error::ci-scope.ts no escribió los jobs."
+            exit 1
+          fi
 
   install:
     name: Instalación
@@ -100,6 +108,8 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
       - uses: ./.github/actions/setup
+      # El único job que guarda la caché de .next. E2E y Lighthouse compilan con otro entorno
+      # y solo la restauran: así no compiten por guardar la misma clave a la vez.
       - uses: actions/cache@v6.1.0
         with:
           path: .next/cache
@@ -161,13 +171,16 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
       - uses: ./.github/actions/setup
-      - uses: actions/cache@v6.1.0
+      # Solo restaura la caché de .next que guarda el job Build (de una ejecución anterior:
+      # Build corre a la vez).
+      - uses: actions/cache/restore@v6.1.0
         with:
           path: .next/cache
           key: next-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-${{ hashFiles('src/**') }}
           restore-keys: next-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-
 
       - uses: ./.github/actions/chromium
+        timeout-minutes: 20
 
       - run: pnpm test:e2e
 
@@ -186,9 +199,9 @@ jobs:
 
   # Los presupuestos de DESIGN.md con Lighthouse CI, en paralelo con las E2E y partidos en
   # dos: cada parte mide la mitad de las páginas de lighthouserc.cjs (LHCI_SHARD). Cada una
-  # compila en su job, con la caché de .next del Build: el build tarda unos 20 s y así mide
-  # un build de producción hecho con el entorno de pnpm test:lhci (scripts/lhci-env.ts),
-  # no el de otro job.
+  # compila en su job, con el entorno de pnpm test:lhci (scripts/lhci-env.ts), sobre la
+  # caché de .next que guardó el Build de una ejecución anterior. Con la caché exacta (un PR
+  # que no toca src/) el build tarda unos 10 s.
   lighthouse:
     name: Presupuestos (Lighthouse CI) ${{ matrix.part }}/2
     needs: [changes, install]
@@ -220,12 +233,15 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
       - uses: ./.github/actions/setup
-      - uses: actions/cache@v6.1.0
+      # Solo restaura la caché de .next que guarda el job Build (de una ejecución anterior:
+      # Build corre a la vez).
+      - uses: actions/cache/restore@v6.1.0
         with:
           path: .next/cache
           key: next-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-${{ hashFiles('src/**') }}
           restore-keys: next-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-
       - uses: ./.github/actions/chromium
+        timeout-minutes: 20
 
       - run: pnpm test:lhci
 
@@ -247,8 +263,6 @@ jobs:
   # hasta que se actualice o se acepte; uno alto solo avisa, para no bloquear PR ajenos.
   audit:
     name: Auditoría
-    needs: changes
-    if: contains(fromJSON(needs.changes.outputs.jobs), 'audit')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7.0.1
@@ -281,8 +295,9 @@ jobs:
         env:
           NEEDS: ${{ toJSON(needs) }}
           EXPECTED: ${{ needs.changes.outputs.jobs || '[]' }}
+          SCOPE: ${{ needs.changes.outputs.scope || 'desconocido' }}
         run: |
-          echo "Alcance: ${{ needs.changes.outputs.scope || 'desconocido' }}"
+          echo "Alcance: $SCOPE"
           echo "$NEEDS" | jq -r 'to_entries[] | "\(.key): \(.value.result)"'
           failed=0
           if [ "$(echo "$NEEDS" | jq -r '.changes.result')" != success ]; then

@@ -21,7 +21,8 @@ const PAGES = [
 const CHECKLIST = '/checklist-'
 
 // CI reparte las páginas en partes que corren en paralelo: LHCI_SHARD=1/2 mide la primera
-// mitad y 2/2 la segunda. Sin LHCI_SHARD, todas. Cada parte es un trozo seguido de la lista.
+// mitad y 2/2 la segunda. Sin LHCI_SHARD, todas. Cada parte es un trozo seguido de la lista
+// y los tamaños difieren como mucho en una página, así que ninguna queda vacía.
 function pagesForShard(pages, shard) {
   if (!shard) return pages
   const match = /^(\d+)\/(\d+)$/.exec(shard)
@@ -30,8 +31,13 @@ function pagesForShard(pages, shard) {
   if (!(total >= 1 && index >= 1 && index <= total)) {
     throw new Error(`LHCI_SHARD debe ser «parte/total», como 1/2; llegó «${shard}».`)
   }
-  const size = Math.ceil(pages.length / total)
-  return pages.slice((index - 1) * size, index * size)
+  if (total > pages.length) {
+    throw new Error(
+      `LHCI_SHARD=${shard} pide ${total} partes y solo hay ${pages.length} páginas: alguna quedaría vacía.`,
+    )
+  }
+  const start = (part) => Math.floor((part * pages.length) / total)
+  return pages.slice(start(index - 1), start(index))
 }
 
 // Mediana o mejor de las tres ejecuciones de cada página.
@@ -40,6 +46,7 @@ const best = (options) => ({ ...options, aggregationMethod: 'optimistic' })
 
 module.exports = {
   pagesForShard,
+  pages: PAGES,
   ci: {
     collect: {
       url: pagesForShard(PAGES, process.env.LHCI_SHARD).map((page) => new URL(page, BASE_URL).href),
