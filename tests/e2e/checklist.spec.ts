@@ -46,6 +46,8 @@ test.describe('página de una checklist', () => {
     const rows = page.getByRole('list', { name: 'Pasos' }).getByRole('listitem')
     await expect(rows).toHaveCount(3)
     await expect(rows.first()).toContainText(seedAchievement.name)
+    await expect(rows.first()).toContainText(neb.zone)
+    await expect(step(page, 1).locator('.ck-dh__zone')).toHaveText(neb.zone)
     await expect(step(page, 1)).toBeVisible()
     await expect(step(page, 2)).toBeHidden()
   })

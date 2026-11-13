@@ -1,7 +1,7 @@
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 
-import { StepDetail } from '@/components/checklist/ChecklistParts'
+import { StepDetail, StepList } from '@/components/checklist/ChecklistParts'
 import type { QuestRowView, StepView } from '@/lib/checklists/page'
 
 // Las partes de la página de una checklist (prototipo A).
@@ -57,5 +57,23 @@ describe('StepDetail: la línea de Torre en la ruta de la misión', () => {
       expect(rows(html)).toEqual(['objetivo', 'objetivo', 'línea'])
       expect(html).toContain('Para después de todo.')
     }
+  })
+})
+
+describe('la zona del paso', () => {
+  const withZone = { ...step(route(0)), zone: 'Anutropía' }
+
+  it('va bajo el nombre en la lista y en el banner del paso', () => {
+    expect(renderToStaticMarkup(<StepList steps={[withZone]} />)).toContain(
+      '<span class="ck-row__z">Anutropía</span>',
+    )
+    expect(renderToStaticMarkup(<StepDetail step={withZone} last={1} />)).toContain(
+      '<span class="ck-dh__zone">Anutropía</span>',
+    )
+  })
+
+  it('sin zona no se pinta nada', () => {
+    const list = renderToStaticMarkup(<StepList steps={[step(route(0))]} />)
+    expect(list).not.toContain('ck-row__z')
   })
 })

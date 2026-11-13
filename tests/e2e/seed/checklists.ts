@@ -19,6 +19,7 @@ export const seedChecklists = {
     description: 'Anutropía, Sramvil y Xelorium, con el Dofus de los Vigilantes por el camino.',
     guide: { slug: seedDofus.ocre.slug, name: seedDofus.ocre.name },
     banner: 'public/img/inicio/astrub-480.webp',
+    zone: 'Anutropía',
     intro: 'Esta checklist incluye también las misiones para conseguir el Dofus de los Vigilantes.',
     prerequisites: [
       { title: 'Logros previos', rows: [{ key: 'l1', text: 'Más de 3 000 puntos de logro' }] },
@@ -139,6 +140,7 @@ export async function seedChecklistPages(payload: Payload): Promise<void> {
       steps: [
         {
           legacyNumber: 1,
+          zone: neb.zone,
           segments: [{ kind: 'plain', text: neb.steps.first }],
           achievements: [{ achievement: achievement.id, mode: 'all' }],
           quests: [{ quest: giverQuest.id, kind: 'mandatory' }],

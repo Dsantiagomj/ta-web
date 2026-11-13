@@ -81,6 +81,8 @@ export interface StepView {
   stepId: string
   n: number
   label: string
+  /** La zona en la que Torre agrupa el paso («Anutropía»). */
+  zone?: string
   segments: SegmentView[]
   hasStop: boolean
   hasResolve: boolean
@@ -304,6 +306,7 @@ export function checklistView(data: ChecklistData): ChecklistView {
       stepId: step.stepId ?? '',
       n,
       label: stepLabel(text),
+      ...(step.zone && { zone: step.zone }),
       segments: segments.map((segment) => ({
         kind: segment.kind,
         parts: segment.kind === 'plain' ? segmentParts(segment.text, links) : [segment.text],
@@ -333,7 +336,7 @@ export function checklistView(data: ChecklistData): ChecklistView {
         return [{ name: monster.name, ...(picture && { image: picture }) }]
       }),
       note: (step.note as RichTextState | null | undefined) ?? null,
-      search: fold([n, text].join(' ')),
+      search: fold([n, step.zone ?? '', text].join(' ')),
     }
   })
 
