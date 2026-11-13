@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 
 import { GuideBody, GuideSteps } from '@/components/game/GuideBody'
 import { NextQuestCard } from '@/components/game/NextQuestCard'
@@ -16,12 +16,17 @@ import {
 import { Breadcrumb } from '@/components/site/Breadcrumb'
 import { guideBreadcrumb } from '@/lib/achievements/page'
 import { achievementPageStrings } from '@/lib/achievements/strings'
+import { checklistRoute } from '@/lib/checklists/page'
+import { checklistPageStrings } from '@/lib/checklists/strings'
 import { dofusPageStrings } from '@/lib/dofus-guides/strings'
 import { SITE_URL } from '@/lib/site/origin'
 
 import { siteStrings } from '../strings'
+
 import { loadAchievementPage } from './achievement-data'
 import { AchievementView } from './AchievementView'
+import { loadChecklist } from './checklist-data'
+import { ChecklistView } from './ChecklistView'
 import { loadGuidePage } from './data'
 import { loadDofusGuide } from './dofus-data'
 import { DofusGuideView } from './DofusGuideView'
@@ -59,10 +64,23 @@ async function slugSeo(slug: string) {
       preview: dofus.preview,
     }
   }
+  const checklist = await loadChecklist(slug)
+  if (
+    checklist &&
+    checklistRoute(checklist.checklist, checklist.preview, SITE_URL).kind === 'page'
+  ) {
+    const { name, description, slug: url } = checklist.checklist
+    return {
+      title: checklistPageStrings.title(name),
+      description: description || checklistPageStrings.seoDescription(name),
+      url: `/${url}`,
+      preview: checklist.preview,
+    }
+  }
   return null
 }
 
-// /<slug> es una guía, un logro o una guía de Dofus: los slugs no chocan
+// /<slug> es una guía, un logro, una guía de Dofus o una checklist: los slugs no chocan
 // (src/collections/root-slug.ts).
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const found = await slugSeo((await params).slug)
@@ -86,7 +104,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-/** Una guía, un logro o una guía de Dofus; si no es ninguno, 404. */
+/** Una guía, un logro, una guía de Dofus o una checklist; si no es ninguno, 404. */
 export default async function SlugPage({ params }: Props) {
   const slug = (await params).slug
   const page = await loadGuidePage(slug)
@@ -95,8 +113,14 @@ export default async function SlugPage({ params }: Props) {
   const achievement = await loadAchievementPage(slug)
   if (achievement) return <AchievementView data={achievement} preview={achievement.preview} />
   const dofus = await loadDofusGuide(slug)
-  if (!dofus) notFound()
-  return <DofusGuideView data={dofus} preview={dofus.preview} />
+  if (dofus) return <DofusGuideView data={dofus} preview={dofus.preview} />
+  const checklist = await loadChecklist(slug)
+  if (!checklist) notFound()
+  // Una checklist En preparación no tiene página: lleva a la de Squarespace.
+  const route = checklistRoute(checklist.checklist, checklist.preview, SITE_URL)
+  if (route.kind === 'legacy') redirect(route.href)
+  if (route.kind === 'none') notFound()
+  return <ChecklistView data={checklist} preview={checklist.preview} />
 }
 
 /**
