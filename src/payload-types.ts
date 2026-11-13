@@ -1358,6 +1358,10 @@ export interface Checklist {
          * La imagen de cabecera del paso, normalmente el mapa donde empieza.
          */
         banner?: (number | null) | Media;
+        /**
+         * La zona del paso en la lista, como «Anutropía». Agrupa los pasos: no tiene por qué ser donde empiezan sus misiones.
+         */
+        zone?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -2273,6 +2277,7 @@ export interface ChecklistsSelect<T extends boolean = true> {
         bosses?: T;
         icon?: T;
         banner?: T;
+        zone?: T;
         id?: T;
       };
   legacy?:

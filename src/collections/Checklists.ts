@@ -272,6 +272,7 @@ const stepFields: Field[] = [
     relationTo: 'media',
     admin: { description: s.bannerDescription },
   },
+  localizedText('zone', 'Zona', s.zoneDescription),
 ]
 
 // Las checklists de Torre: los pasos de cada Dofus, en su orden. Son de Torre, con

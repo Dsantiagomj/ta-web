@@ -4,7 +4,7 @@
 // verde por su número antiguo. load.ts los resuelve contra Payload.
 //
 // La fidelidad manda: los textos, las notas y los prerrequisitos de Torre se copian tal cual
-// y en su orden. Las zonas solo agrupaban pasos: se pierden como grupo, nunca un paso.
+// y en su orden. La zona de cada paso va en el paso: es la de Torre, que los agrupa.
 import { gameImageKey } from '@/lib/dofusdb/game-images'
 
 import type { ChecklistCatalogEntry } from './catalog'
@@ -63,6 +63,8 @@ export interface StepDraft {
   bosses: number[]
   icon: ArtRef | null
   banner: ArtRef | null
+  /** La zona de Torre: agrupa los pasos en la lista. */
+  zone: string
 }
 
 export interface ChecklistDraft {
@@ -249,6 +251,7 @@ export function toChecklistDraft(
         : zone
           ? { path: zone.img, alt: step.zone }
           : null,
+      zone: step.zone,
     }
   })
 

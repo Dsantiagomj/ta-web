@@ -285,6 +285,7 @@ async function resolveSteps(
       }),
       icon: await art(n, step.icon),
       banner: await art(n, step.banner),
+      zone: step.zone,
     }
   }
 
