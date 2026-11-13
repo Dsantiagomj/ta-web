@@ -8,8 +8,8 @@ if ! command -v gga >/dev/null 2>&1; then
 fi
 
 # gga llama a `claude --print` sin modelo, así que usaría el modelo por defecto de Claude
-# Code, que puede ser uno caro. La revisión de cada commit va con Sonnet;
+# Code, que puede ser uno caro. La revisión de cada commit va con Sonnet 5.5;
 # GGA_CLAUDE_MODEL lo cambia.
-export ANTHROPIC_MODEL="${GGA_CLAUDE_MODEL:-sonnet}"
+export ANTHROPIC_MODEL="${GGA_CLAUDE_MODEL:-claude-sonnet-5-5}"
 
 exec gga run
