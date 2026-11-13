@@ -67,30 +67,27 @@ function NeedsGroup({
   label,
   className,
   columns = 1,
-  rows = 0,
+  count = 0,
   modifier,
   children,
 }: {
   id: string
   label: string
   className: string
-  /** En cuántas columnas va la lista cuando hay sitio (needsColumns). */
+  /** En cuántas columnas va la lista cuando hay sitio (needsColumns), y cuántas filas tiene. */
   columns?: number
-  rows?: number
+  count?: number
   modifier?: string
   children: React.ReactNode
 }) {
   const split = columns > 1
   const groupClass = ['lneeds__g', split && 'lneeds__g--cols', modifier].filter(Boolean).join(' ')
+  // Nombres propios de la zona: un --cols de un antepasado no puede colarse.
+  const style = split
+    ? ({ '--lneeds-cols': columns, '--lneeds-rows': Math.ceil(count / columns) } as CSSProperties)
+    : undefined
   return (
-    <div
-      className={groupClass}
-      style={
-        split
-          ? ({ '--cols': columns, '--rows': Math.ceil(rows / columns) } as CSSProperties)
-          : undefined
-      }
-    >
+    <div className={groupClass} style={style}>
       <h3 className="lneeds__k" id={id}>
         {label}
       </h3>
@@ -101,10 +98,10 @@ function NeedsGroup({
   )
 }
 
-// Las columnas de las listas con iconos (objetos, y combates y mazmorras) en el escritorio
-// ancho: tres entre las dos, que con sus nombres cortos en una línea es lo que cabe junto a
-// los filetes. Solo se parte una lista de más de cinco filas, y cada columna se queda con
-// tres al menos.
+// Las columnas de las listas con iconos (objetos, y combates y mazmorras) a lo ancho: tres
+// entre las dos, que con sus nombres cortos en una línea es lo que cabe junto al filete.
+// Otros va siempre en su propia fila, fuera del reparto. Solo se parte una lista de más de
+// cinco filas, y cada columna se queda con tres al menos.
 const NEEDS_COLUMNS = 3
 const NEEDS_TALL = 5
 const NEEDS_MIN_ROWS = 3
@@ -126,6 +123,12 @@ export function needsColumns(lengths: number[]): number[] {
     used += 1
   }
   return columns
+}
+
+/** Las columnas de los objetos y de los combates, y si la zona sale de la columna de lectura. */
+export function needsLayout({ items, tasks }: Pick<Needs, 'items' | 'tasks'>) {
+  const [itemColumns, taskColumns] = needsColumns([items.length, tasks.length]) as [number, number]
+  return { itemColumns, taskColumns, wide: itemColumns > 1 || taskColumns > 1 }
 }
 
 /**
@@ -151,20 +154,20 @@ export function AchievementNeeds({ needs }: { needs: Needs }) {
   const id = useId()
   const { items, tasks, others } = needs
   if (items.length === 0 && tasks.length === 0 && others.length === 0) return null
-  const [itemColumns, taskColumns] = needsColumns([items.length, tasks.length])
+  const { itemColumns, taskColumns, wide } = needsLayout(needs)
   return (
-    <section className="lneeds" aria-labelledby={`${id}-h`}>
+    <section className={wide ? 'lneeds lneeds--wide' : 'lneeds'} aria-labelledby={`${id}-h`}>
       <h2 className="lzone__h" id={`${id}-h`}>
         {s.needsTotal}
       </h2>
-      <div className="lneeds__groups">
+      <div className={wide ? 'lneeds__groups lneeds__groups--cols' : 'lneeds__groups'}>
         {items.length > 0 && (
           <NeedsGroup
             id={`${id}-objetos`}
             label={s.needsGroups.items}
             className="lneeds__items"
             columns={itemColumns}
-            rows={items.length}
+            count={items.length}
           >
             {items.map(({ item, quantity }) => (
               <li key={item.name} className="row copyhost">
@@ -183,7 +186,7 @@ export function AchievementNeeds({ needs }: { needs: Needs }) {
             label={s.needsGroups.tasks}
             className="lneeds__tasks"
             columns={taskColumns}
-            rows={tasks.length}
+            count={tasks.length}
           >
             {tasks.map(({ quantity, label, kind, boss }) => (
               <li key={label} className="row">

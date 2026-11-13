@@ -158,7 +158,11 @@ test.describe('página de logro', () => {
                 right: Math.round(box.right),
                 // Desde el borde de su columna: el de la fila, que en Otros es el del grupo.
                 textLeft: Math.round(text.getBoundingClientRect().x - box.x) + 0,
-                groupLeft: Math.round(box.x - left) + 0,
+                // Desde el borde del contenido del grupo, para las filas de su primera
+                // columna: el hueco y el texto de los iconos, y el texto sin hueco de Otros.
+                firstColumn: Math.round(box.x - left) === 0,
+                fromGroup: Math.round(text.getBoundingClientRect().x - left) + 0,
+                wellFromGroup: well ? Math.round(well.left - left) + 0 : null,
                 wellOffset: well
                   ? Math.abs(first.top + first.height / 2 - (well.top + well.height / 2))
                   : null,
@@ -173,9 +177,19 @@ test.describe('página de logro', () => {
     for (const row of [...objetos!.rows, ...tareas!.rows]) {
       expect(row.wellOffset).toBeLessThan(2)
     }
-    expect(new Set([...objetos!.rows, ...tareas!.rows].map((row) => row.textLeft)).size).toBe(1)
+    const icons = [...objetos!.rows, ...tareas!.rows]
+    expect(new Set(icons.map((row) => row.textLeft)).size).toBe(1)
     expect(otros!.rows.map((row) => row.textLeft)).toEqual([0, 0])
-    expect(otros!.rows[0]!.groupLeft).toBe(0)
+    // Medido desde el grupo: en la primera columna de cada grupo, el hueco empieza en su
+    // borde y el texto a la misma distancia en Objetos y en Combates; Otros, sin hueco,
+    // empieza en el borde, sin dejar el sitio vacío.
+    const firstColumn = icons.filter((row) => row.firstColumn)
+    expect(firstColumn.length).toBeGreaterThan(objetos!.rows.length)
+    expect(new Set(firstColumn.map((row) => row.wellFromGroup))).toEqual(new Set([0]))
+    expect(new Set(firstColumn.map((row) => row.fromGroup)).size).toBe(1)
+    const othersFirst = otros!.rows.filter((row) => row.firstColumn)
+    expect(othersFirst.length).toBeGreaterThan(0)
+    for (const row of othersFirst) expect(row.fromGroup).toBe(0)
     await expect(group('Otros').locator('.well')).toHaveCount(0)
     const delicia = otros!.rows[1]!
     expect(delicia.lines).toBeGreaterThan(1)
@@ -229,6 +243,21 @@ test.describe('página de logro', () => {
       expect(Math.abs(zone.width - header.width)).toBeLessThan(1)
       if (wide) expect(zone.width).toBeGreaterThan(column.width + 100)
       else expect(Math.abs(zone.width - column.width)).toBeLessThan(1)
+      // Una franja entre dos filetes a su ancho, que toman el sitio del de la cabecera y el
+      // de las misiones; su título arranca donde sus grupos, no en la columna.
+      const rules = await page.evaluate(() => {
+        const width = (selector: string, side: 'Top' | 'Bottom') =>
+          parseFloat(getComputedStyle(document.querySelector(selector)!)[`border${side}Width`])
+        return {
+          header: width('header.lhead', 'Bottom'),
+          top: width('section.lneeds', 'Top'),
+          bottom: width('section.lneeds', 'Bottom'),
+          quests: width('section.lq', 'Top'),
+        }
+      })
+      expect(rules).toEqual({ header: 0, top: 1, bottom: 1, quests: 0 })
+      const heading = (await needs.getByRole('heading', { level: 2 }).boundingBox())!
+      expect(Math.abs(heading.x - zone.x)).toBeLessThan(1)
       expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
         page.viewportSize()!.width,
       )
@@ -251,16 +280,17 @@ test.describe('página de logro', () => {
     shortLabelsOnOneLine(tareas1280!.rows)
     tasksInColumns(tareas1280!.rows, 2)
 
-    // A 1920 px, los tres grupos en una fila, los combates aún en dos columnas.
+    // A 1920 px, igual: Otros sigue en su propia fila, fuera del reparto de columnas.
     await page.setViewportSize({ width: 1920, height: 900 })
     await wideZone(true)
     await headingsOnOneLine()
     const wide = await layout()
-    expect(new Set(wide.map((g) => g.top)).size).toBe(1)
+    expect(Math.abs(wide[0]!.top - wide[1]!.top)).toBeLessThan(1)
+    expect(wide[2]!.top).toBeGreaterThanOrEqual(wide[1]!.bottom)
     shortLabelsOnOneLine(wide[1]!.rows)
     tasksInColumns(wide[1]!.rows, 2)
 
-    // A 1024 px, la columna ya llena la ventana: los tres grupos en una fila, cada uno con
+    // A 1024 px, la columna ya llena la ventana (la franja mide lo mismo): los tres grupos en una fila, cada uno con
     // el ancho que pide (Otros, con la nota larga, más ancho que Objetos), y los combates
     // en una sola columna.
     await page.setViewportSize({ width: 1024, height: 900 })
