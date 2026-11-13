@@ -21,8 +21,9 @@ const PAGES = [
 const CHECKLIST = '/checklist-'
 
 // CI reparte las páginas en partes que corren en paralelo: LHCI_SHARD=1/2 mide la primera
-// mitad y 2/2 la segunda. Sin LHCI_SHARD, todas. Cada parte es un trozo seguido de la lista
-// y los tamaños difieren como mucho en una página, así que ninguna queda vacía.
+// parte y 2/2 la segunda. Sin LHCI_SHARD, todas. Cada parte es un trozo seguido de la lista
+// y los tamaños difieren como mucho en una página, así que ninguna queda vacía; las de más
+// van a las primeras partes (con 7 páginas, 4 y 3).
 function pagesForShard(pages, shard) {
   if (!shard) return pages
   const match = /^(\d+)\/(\d+)$/.exec(shard)
@@ -36,7 +37,7 @@ function pagesForShard(pages, shard) {
       `LHCI_SHARD=${shard} pide ${total} partes y solo hay ${pages.length} páginas: alguna quedaría vacía.`,
     )
   }
-  const start = (part) => Math.floor((part * pages.length) / total)
+  const start = (part) => Math.ceil((part * pages.length) / total)
   return pages.slice(start(index - 1), start(index))
 }
 

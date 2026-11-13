@@ -198,7 +198,7 @@ jobs:
           retention-days: 7
 
   # Los presupuestos de DESIGN.md con Lighthouse CI, en paralelo con las E2E y partidos en
-  # dos: cada parte mide la mitad de las páginas de lighthouserc.cjs (LHCI_SHARD). Cada una
+  # dos: cada parte mide un trozo de las páginas de lighthouserc.cjs (LHCI_SHARD). Cada una
   # compila en su job, con el entorno de pnpm test:lhci (scripts/lhci-env.ts), sobre la
   # caché de .next que guardó el Build de una ejecución anterior. Con la caché exacta (un PR
   # que no toca src/) el build tarda unos 10 s.
