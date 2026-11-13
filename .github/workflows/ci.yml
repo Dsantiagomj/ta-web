@@ -19,6 +19,37 @@ env:
   NEXT_TELEMETRY_DISABLED: '1'
 
 jobs:
+  # Qué jobs corre este cambio (scripts/ci/ci-scope.ts): solo documentación, solo lo que
+  # no entra en el sitio (importadores, hooks, pruebas unitarias) o todo. Un push a main
+  # lo corre todo. Pruebas exige justo los jobs que dice `jobs`.
+  changes:
+    name: Cambios
+    runs-on: ubuntu-latest
+    outputs:
+      scope: ${{ steps.scope.outputs.scope }}
+      jobs: ${{ steps.scope.outputs.jobs }}
+    steps:
+      # En un PR, HEAD es el merge del PR sobre su base y HEAD^1 esa base: con dos commits
+      # de historia, git diff HEAD^1 HEAD son justo los archivos del PR.
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-node@v7.1.0
+        with:
+          node-version-file: .nvmrc
+      - name: Archivos cambiados y jobs
+        id: scope
+        run: |
+          if [ "$GITHUB_EVENT_NAME" != pull_request ]; then
+            export CI_SCOPE_FULL=1
+          elif ! git diff --name-only HEAD^1 HEAD > changed.txt; then
+            echo "::warning::No se pudo calcular el diff del PR; se corre todo."
+            export CI_SCOPE_FULL=1
+          fi
+          touch changed.txt
+          echo "Archivos cambiados:" && cat changed.txt
+          node scripts/ci/ci-scope.ts < changed.txt
+
   install:
     name: Instalación
     runs-on: ubuntu-latest
@@ -28,7 +59,8 @@ jobs:
 
   lint:
     name: Lint y formato
-    needs: install
+    needs: [changes, install]
+    if: contains(fromJSON(needs.changes.outputs.jobs), 'lint')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7.0.1
@@ -38,7 +70,8 @@ jobs:
 
   typecheck:
     name: Tipos
-    needs: install
+    needs: [changes, install]
+    if: contains(fromJSON(needs.changes.outputs.jobs), 'typecheck')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7.0.1
@@ -51,7 +84,8 @@ jobs:
 
   unit:
     name: Unitarias
-    needs: install
+    needs: [changes, install]
+    if: contains(fromJSON(needs.changes.outputs.jobs), 'unit')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7.0.1
@@ -60,7 +94,8 @@ jobs:
 
   build:
     name: Build
-    needs: install
+    needs: [changes, install]
+    if: contains(fromJSON(needs.changes.outputs.jobs), 'build')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7.0.1
@@ -74,7 +109,8 @@ jobs:
 
   integration:
     name: Integración
-    needs: install
+    needs: [changes, install]
+    if: contains(fromJSON(needs.changes.outputs.jobs), 'integration')
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -101,7 +137,8 @@ jobs:
 
   e2e:
     name: E2E
-    needs: install
+    needs: [changes, install]
+    if: contains(fromJSON(needs.changes.outputs.jobs), 'e2e')
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -130,27 +167,7 @@ jobs:
           key: next-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-${{ hashFiles('src/**') }}
           restore-keys: next-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-
 
-      - name: Versión de Playwright
-        id: playwright
-        run: echo "version=$(pnpm exec playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
-
-      - name: Caché de los navegadores de Playwright
-        id: browsers
-        uses: actions/cache@v6.1.0
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
-
-      # Sin apt si Chromium arranca con lo que trae el runner; con apt, reintentos y un tope.
-      - name: Instalar Chromium
-        if: steps.browsers.outputs.cache-hit != 'true'
-        timeout-minutes: 20
-        run: scripts/ci/playwright-chromium.sh
-
-      - name: Instalar las dependencias del sistema de Chromium
-        if: steps.browsers.outputs.cache-hit == 'true'
-        timeout-minutes: 20
-        run: scripts/ci/playwright-chromium.sh --cached
+      - uses: ./.github/actions/chromium
 
       - run: pnpm test:e2e
 
@@ -158,26 +175,6 @@ jobs:
       - run: pnpm test:e2e:dev-gate
         env:
           E2E_SKIP_BUILD: '1'
-
-      # Los presupuestos de DESIGN.md con Lighthouse CI, sobre el mismo build, la misma base
-      # y el Chromium de Playwright. Va aquí y no en un job propio para no compilar otra vez.
-      - name: Presupuestos (Lighthouse CI)
-        run: pnpm test:lhci
-        env:
-          E2E_SKIP_BUILD: '1'
-
-      - name: Informes de Lighthouse
-        if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v7.0.2
-        with:
-          name: lighthouse
-          # Los informes HTML y JSON de cada ejecución y el resultado de las aserciones.
-          path: |
-            .lighthouseci/reports/
-            .lighthouseci/assertion-results.json
-          include-hidden-files: true
-          if-no-files-found: ignore
-          retention-days: 7
 
       - name: Informe de Playwright
         if: failure()
@@ -187,11 +184,71 @@ jobs:
           path: playwright-report/
           retention-days: 7
 
+  # Los presupuestos de DESIGN.md con Lighthouse CI, en paralelo con las E2E y partidos en
+  # dos: cada parte mide la mitad de las páginas de lighthouserc.cjs (LHCI_SHARD). Cada una
+  # compila en su job, con la caché de .next del Build: el build tarda unos 20 s y así mide
+  # un build de producción hecho con el entorno de pnpm test:lhci (scripts/lhci-env.ts),
+  # no el de otro job.
+  lighthouse:
+    name: Presupuestos (Lighthouse CI) ${{ matrix.part }}/2
+    needs: [changes, install]
+    if: contains(fromJSON(needs.changes.outputs.jobs), 'lighthouse')
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        part: [1, 2]
+    services:
+      postgres:
+        image: postgres:17.11
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: ta_web
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      # Base vacía: pnpm test:lhci compila, aplica las migraciones, siembra las guías de
+      # prueba y arranca `pnpm start`.
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/ta_web
+      LHCI_SHARD: ${{ matrix.part }}/2
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: ./.github/actions/setup
+      - uses: actions/cache@v6.1.0
+        with:
+          path: .next/cache
+          key: next-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-${{ hashFiles('src/**') }}
+          restore-keys: next-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-
+      - uses: ./.github/actions/chromium
+
+      - run: pnpm test:lhci
+
+      - name: Informes de Lighthouse
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: lighthouse-${{ matrix.part }}
+          # Los informes HTML y JSON de cada ejecución y el resultado de las aserciones.
+          path: |
+            .lighthouseci/reports/
+            .lighthouseci/assertion-results.json
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 7
+
   # Avisos de seguridad de las dependencias de producción (docs/legacy/security.md). Solo lee
   # pnpm-lock.yaml, así que no instala nada. Un aviso crítico nuevo para todos los PR
   # hasta que se actualice o se acepte; uno alto solo avisa, para no bloquear PR ajenos.
   audit:
     name: Auditoría
+    needs: changes
+    if: contains(fromJSON(needs.changes.outputs.jobs), 'audit')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7.0.1
@@ -215,17 +272,32 @@ jobs:
   pruebas:
     name: Pruebas
     if: always()
-    needs: [install, lint, typecheck, unit, integration, build, e2e, audit]
+    needs: [changes, install, lint, typecheck, unit, integration, build, e2e, lighthouse, audit]
     runs-on: ubuntu-latest
     steps:
+      # Pasa si cada job que pide `changes` pasó y ninguno falló ni se canceló. Un job
+      # saltado solo vale si `changes` no lo pedía; si `changes` falla, todo falla.
       - name: Comprobar los jobs
         env:
-          RESULTS: ${{ join(needs.*.result, ' ') }}
+          NEEDS: ${{ toJSON(needs) }}
+          EXPECTED: ${{ needs.changes.outputs.jobs || '[]' }}
         run: |
-          echo "Resultados: $RESULTS"
-          for result in $RESULTS; do
-            if [ "$result" != "success" ]; then
-              echo "::error::Algún job no pasó ($result)."
-              exit 1
+          echo "Alcance: ${{ needs.changes.outputs.scope || 'desconocido' }}"
+          echo "$NEEDS" | jq -r 'to_entries[] | "\(.key): \(.value.result)"'
+          failed=0
+          if [ "$(echo "$NEEDS" | jq -r '.changes.result')" != success ]; then
+            echo "::error::El job Cambios no pasó."
+            failed=1
+          fi
+          for job in $(echo "$NEEDS" | jq -r 'to_entries[] | select(.value.result == "failure" or .value.result == "cancelled") | .key'); do
+            echo "::error::$job no pasó."
+            failed=1
+          done
+          for job in $(echo "$EXPECTED" | jq -r '.[]'); do
+            result=$(echo "$NEEDS" | jq -r --arg job "$job" '.[$job].result')
+            if [ "$result" != success ]; then
+              echo "::error::$job debía correr y quedó en $result."
+              failed=1
             fi
           done
+          exit "$failed"
