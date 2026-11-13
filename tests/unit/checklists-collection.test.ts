@@ -6,9 +6,13 @@ import { isPanelUser, readPublishedOrAll } from '@/collections/editorial-access'
 import { validateSlug } from '@/collections/QuestGuides'
 import { ROOT_SLUG_COLLECTIONS } from '@/collections/root-slug'
 
-/** Los campos con nombre, también los de una fila (row), que solo los coloca en el panel. */
+/** Los campos con nombre, también los de una fila o un desplegable, que solo los colocan. */
 const named = (fields: Field[]): Field[] =>
-  fields.flatMap((candidate) => (candidate.type === 'row' ? named(candidate.fields) : [candidate]))
+  fields.flatMap((candidate) =>
+    candidate.type === 'row' || candidate.type === 'collapsible'
+      ? named(candidate.fields)
+      : [candidate],
+  )
 
 function field(fields: Field[], name: string): Field {
   const found = named(fields).find((candidate) => 'name' in candidate && candidate.name === name)
@@ -27,7 +31,7 @@ describe('colección checklists', () => {
   it('va con las guías, con borradores y versiones', () => {
     expect(Checklists.slug).toBe('checklists')
     expect(Checklists.labels).toEqual({ singular: 'Checklist', plural: 'Checklists' })
-    expect(Checklists.admin).toMatchObject({ useAsTitle: 'name', group: 'Guías' })
+    expect(Checklists.admin).toMatchObject({ useAsTitle: 'name', group: 'Contenido' })
     expect(Checklists.versions).toEqual({ drafts: true, maxPerDoc: 50 })
   })
 

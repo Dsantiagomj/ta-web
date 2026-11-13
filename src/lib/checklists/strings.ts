@@ -44,10 +44,11 @@ export const checklistStrings = {
   },
   admin: {
     nameDescription: 'El nombre de la checklist, como sale en su página y en el menú.',
-    slugDescription: 'La URL de la checklist, la misma que en la web de Torre: checklist-nebuloso.',
+    slugDescription: 'La de la checklist, la misma que en tu web: checklist-nebuloso.',
     stateDescription:
       'Publicada: se ve y se puede abrir. En preparación: sale en el menú sin página propia y ' +
-      'enlaza a la checklist de Squarespace. Lo decides tú; la importación no lo cambia.',
+      'enlaza a la checklist de Squarespace. Lo decides tú; la importación no lo cambia. ' +
+      'Además, pulsa «Publicar cambios» arriba para que lo que cambies salga en la web.',
     orderDescription: 'Su lugar en la lista de checklists: la 1 sale primero.',
     descriptionDescription:
       'Una frase para el índice y el menú. Sin cifras de pasos ni de misiones: cambian.',
@@ -60,7 +61,9 @@ export const checklistStrings = {
       'Guarda lo que cada persona marcó: no la cambies, o perderá esa marca.',
     stepsDescription: 'Los pasos de la guía, en tu orden.',
     stepIdDescription:
-      'Guarda el progreso de cada persona en este paso. Se crea al guardar y no cambia.',
+      'Guarda el progreso de cada persona en este paso. Se crea al guardar y no cambia. ' +
+      'Cópialo para «Pasos que termina» o «La termina el paso».',
+    stepIdCopyLabel: 'el identificador del paso',
     segmentsDescription:
       'El texto del paso, por tramos y en orden. Un tramo «Detente aquí» dice hasta dónde ' +
       'avanzar una misión; uno «Aquí se resuelve» termina las misiones que otros pasos dejaron a medias.',
@@ -76,8 +79,8 @@ export const checklistStrings = {
     questWithoutObjectives:
       'Esta misión no tiene objetivos guardados todavía: refresca los datos de DofusDB',
     closesDescription:
-      'Los identificadores de los pasos cuyas misiones termina este tramo. Copia el ' +
-      'identificador del paso, arriba en cada paso.',
+      'Los identificadores de los pasos cuyas misiones termina este tramo. Cada paso tiene ' +
+      'el suyo en «Datos técnicos», al final del paso.',
     closesRequired: 'Indica qué pasos termina este tramo',
     stepRefUnknown: (stepId: string) =>
       `Ningún paso de esta checklist tiene el identificador ${stepId}`,
@@ -85,7 +88,8 @@ export const checklistStrings = {
     achievementOnDescription: 'Las misiones del logro que se hacen en este paso: 1, 2…',
     questNoteDescription: 'Una nota corta junto a la misión.',
     optionalDoneByDescription:
-      'El identificador del paso que termina esta misión opcional, si otro paso la termina.',
+      'El identificador del paso que termina esta misión opcional, si otro paso la termina. ' +
+      'Está en «Datos técnicos», al final de ese paso.',
     needQuestsDescription: 'Las misiones que piden este objeto.',
     needItemDescription:
       'El objeto del juego. Si no es un objeto (kamas, un hechizo), deja el texto.',

@@ -18,7 +18,10 @@ describe.each([
   it('es de solo lectura, en el grupo de datos del juego, sin borradores', () => {
     expect(collection.slug).toBe(slug)
     expect(collection.access).toBe(gameDataAccess)
-    expect(collection.admin).toMatchObject({ useAsTitle: 'name', group: 'Datos del juego' })
+    expect(collection.admin).toMatchObject({
+      useAsTitle: 'name',
+      group: 'Datos del juego (solo lectura)',
+    })
     expect(collection.versions).toBeUndefined()
   })
 

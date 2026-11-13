@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { gameDataAccess } from './game-data-access'
+import { panelStrings } from '../lib/admin/strings'
 
 // Las mazmorras de DofusDB con sus jefes: «Necesitarás en total» pinta el jefe de la
 // mazmorra que nombra una nota de Torre («Mazmorra Kumijo»).
@@ -9,7 +10,8 @@ export const Dungeons: CollectionConfig = {
   labels: { singular: 'Mazmorra de DofusDB', plural: 'Mazmorras de DofusDB' },
   admin: {
     useAsTitle: 'name',
-    group: 'Datos del juego',
+    group: panelStrings.groups.gameData,
+    hideAPIURL: true,
     defaultColumns: ['name', 'bosses', 'dofusId'],
     description: 'Datos de DofusDB, de solo lectura. Los actualiza un script.',
   },

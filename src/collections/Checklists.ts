@@ -20,8 +20,20 @@ import {
   revalidateChecklistsAfterDelete,
 } from './revalidate-guides'
 import { rejectSharedSlug } from './root-slug'
+import { SLUG_LABEL, slugAdmin } from './slug-field'
+import { panelStrings } from '../lib/admin/strings'
 
 const s = checklistStrings.admin
+const rows = panelStrings.rowLabels
+
+// Las etiquetas de las filas en el panel (src/components/admin/RowLabels.tsx): Torre
+// encuentra un paso por su texto, no por «Paso 17».
+const rowLabel = (name: string, clientProps?: Record<string, string>) => ({
+  RowLabel: {
+    path: `/components/admin/RowLabels#${name}`,
+    ...(clientProps ? { clientProps } : {}),
+  },
+})
 
 type SiblingData = { kind?: unknown; mode?: unknown } | undefined
 const isKind = (kind: string) => (_: unknown, siblingData: SiblingData) =>
@@ -89,16 +101,33 @@ const segmentFields: Field[] = [
   },
 ]
 
+// La clave del progreso del paso (AGENTS.md, Members and progress). Se ve para poder
+// copiarla en «Pasos que termina», pero solo la escribe keepStepIds. Va al final del paso,
+// en un desplegable cerrado: el desplegable solo lo coloca en el panel, no cambia la base.
+const technicalFields: Field = {
+  type: 'collapsible',
+  label: panelStrings.technical.label,
+  admin: { initCollapsed: true },
+  fields: [
+    {
+      name: 'stepId',
+      label: 'Identificador',
+      type: 'text',
+      index: true,
+      admin: {
+        readOnly: true,
+        components: {
+          Description: {
+            path: '/components/admin/CopyValueDescription#CopyValueDescription',
+            clientProps: { help: s.stepIdDescription, what: s.stepIdCopyLabel },
+          },
+        },
+      },
+    },
+  ],
+}
+
 const stepFields: Field[] = [
-  {
-    // La clave del progreso del paso (AGENTS.md, Members and progress). Se ve para poder
-    // copiarla en «Pasos que termina», pero solo la escribe keepStepIds.
-    name: 'stepId',
-    label: 'Identificador',
-    type: 'text',
-    index: true,
-    admin: { readOnly: true, description: s.stepIdDescription },
-  },
   {
     // El número del paso en la checklist antigua: la migración del progreso guardado.
     name: 'legacyNumber',
@@ -110,7 +139,11 @@ const stepFields: Field[] = [
     label: 'Texto',
     labels: { singular: 'Tramo', plural: 'Tramos' },
     type: 'array',
-    admin: { description: s.segmentsDescription },
+    admin: {
+      description: s.segmentsDescription,
+      initCollapsed: true,
+      components: rowLabel('SegmentLabel'),
+    },
     fields: segmentFields,
   },
   {
@@ -128,6 +161,13 @@ const stepFields: Field[] = [
     // Con el nombre por defecto, la clave foránea de su tabla de versiones pasa de los 63
     // caracteres de Postgres y se truncaría.
     dbName: 'checklists_step_ach',
+    admin: {
+      components: rowLabel('RelationRowLabel', {
+        singular: rows.achievement,
+        relationField: 'achievement',
+        relationTo: 'achievements',
+      }),
+    },
     fields: [
       {
         name: 'achievement',
@@ -162,6 +202,13 @@ const stepFields: Field[] = [
     label: 'Misiones',
     labels: { singular: 'Misión', plural: 'Misiones' },
     type: 'array',
+    admin: {
+      components: rowLabel('RelationRowLabel', {
+        singular: rows.quest,
+        relationField: 'quest',
+        relationTo: 'quests',
+      }),
+    },
     fields: [
       {
         name: 'quest',
@@ -196,6 +243,15 @@ const stepFields: Field[] = [
     label: 'Necesitarás',
     labels: { singular: 'Objeto', plural: 'Objetos' },
     type: 'array',
+    admin: {
+      initCollapsed: true,
+      components: rowLabel('RelationRowLabel', {
+        singular: rows.need,
+        textField: 'label',
+        relationField: 'item',
+        relationTo: 'items',
+      }),
+    },
     fields: [
       {
         name: 'item',
@@ -275,6 +331,7 @@ const stepFields: Field[] = [
     admin: { description: s.bannerDescription },
   },
   localizedText('zone', 'Zona', s.zoneDescription),
+  technicalFields,
 ]
 
 // Las checklists de Torre: los pasos de cada Dofus, en su orden. Son de Torre, con
@@ -284,8 +341,10 @@ export const Checklists: CollectionConfig = {
   labels: { singular: 'Checklist', plural: 'Checklists' },
   admin: {
     useAsTitle: 'name',
-    group: 'Guías',
+    group: panelStrings.groups.content,
+    hideAPIURL: true,
     defaultColumns: ['name', 'order', 'state', '_status', 'updatedAt'],
+    listSearchableFields: ['name', 'slug'],
     // La vista previa abre la página de la checklist con el último borrador (/vista-previa).
     livePreview: {
       url: ({ data, req }) => guidePreviewUrl(data?.slug, previewOrigin(process.env, req.origin)),
@@ -322,13 +381,13 @@ export const Checklists: CollectionConfig = {
     {
       // Sin traducir: la URL es la misma en todos los idiomas. Comparte /<slug> con las guías.
       name: 'slug',
-      label: 'Slug',
+      label: SLUG_LABEL,
       type: 'text',
       required: true,
       unique: true,
       index: true,
       validate: validateSlug,
-      admin: { position: 'sidebar', description: s.slugDescription },
+      admin: slugAdmin(s.slugDescription),
     },
     { ...stateField, admin: { ...stateField.admin, description: s.stateDescription } },
     {
@@ -381,6 +440,9 @@ export const Checklists: CollectionConfig = {
           label: 'Grupos',
           labels: { singular: 'Grupo', plural: 'Grupos' },
           type: 'array',
+          admin: {
+            components: rowLabel('TextRowLabel', { singular: rows.group, field: 'title' }),
+          },
           fields: [
             localizedText('title', 'Título'),
             {
@@ -388,6 +450,9 @@ export const Checklists: CollectionConfig = {
               label: 'Filas',
               labels: { singular: 'Fila', plural: 'Filas' },
               type: 'array',
+              admin: {
+                components: rowLabel('TextRowLabel', { singular: rows.row, field: 'text' }),
+              },
               fields: [
                 {
                   name: 'key',
@@ -408,7 +473,11 @@ export const Checklists: CollectionConfig = {
       label: 'Pasos',
       labels: { singular: 'Paso', plural: 'Pasos' },
       type: 'array',
-      admin: { description: s.stepsDescription },
+      admin: {
+        description: s.stepsDescription,
+        initCollapsed: true,
+        components: rowLabel('ChecklistStepLabel'),
+      },
       fields: stepFields,
     },
     {

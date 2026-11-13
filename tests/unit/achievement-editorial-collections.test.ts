@@ -41,7 +41,7 @@ describe.each([
 ])('colección $slug, de Torre', ({ collection, slug, fill, link, source }) => {
   it('va con las guías, con borradores y versiones', () => {
     expect(collection.slug).toBe(slug)
-    expect(collection.admin).toMatchObject({ useAsTitle: 'name', group: 'Guías' })
+    expect(collection.admin).toMatchObject({ useAsTitle: 'name', group: 'Contenido' })
     expect(collection.versions).toEqual({ drafts: true, maxPerDoc: 50 })
   })
 

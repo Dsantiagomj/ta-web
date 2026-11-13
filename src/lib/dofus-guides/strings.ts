@@ -12,7 +12,7 @@ export const dofusGuideStrings = {
     dofusDescription:
       'El objeto Dofus de DofusDB: de él sale el huevo de la tarjeta, del menú y de la página.',
     nameDescription: 'El nombre del Dofus, como sale en la tarjeta y en el título de la página.',
-    slugDescription: 'La URL de la guía, la misma que en la web de Torre: dofus-abisal.',
+    slugDescription: 'La de la guía, la misma que en tu web: dofus-abisal.',
     orderDescription: 'Su lugar en la lista de guías: el 1 sale primero.',
     levelDescription: 'El nivel del Dofus en DofusDB.',
     tagDescription: 'Los filtros del índice. Vacío si no es primordial ni de evento.',

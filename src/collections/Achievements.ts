@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { gameDataAccess } from './game-data-access'
+import { panelStrings } from '../lib/admin/strings'
 
 // Logros de DofusDB de las categorías de misiones y eventos. Las páginas de logro de Torre
 // apuntan a uno y copian lo que necesitan, que Torre puede cambiar (como las guías con
@@ -10,7 +11,8 @@ export const Achievements: CollectionConfig = {
   labels: { singular: 'Logro de DofusDB', plural: 'Logros de DofusDB' },
   admin: {
     useAsTitle: 'name',
-    group: 'Datos del juego',
+    group: panelStrings.groups.gameData,
+    hideAPIURL: true,
     defaultColumns: ['name', 'dofusId', 'category', 'points'],
     description: 'Datos de DofusDB, de solo lectura. Los actualiza un script.',
   },
@@ -67,6 +69,7 @@ export const Achievements: CollectionConfig = {
         {
           name: 'items',
           label: 'Objetos',
+          labels: { singular: 'Objeto', plural: 'Objetos' },
           type: 'array',
           fields: [
             {

@@ -1,6 +1,7 @@
 import type { CollectionConfig, Field } from 'payload'
 
 import { gameDataAccess } from './game-data-access'
+import { panelStrings } from '../lib/admin/strings'
 
 export const questsAccess = gameDataAccess
 
@@ -9,6 +10,10 @@ function quantities(name: string, label: string, relation: 'item' | 'monster'): 
   return {
     name,
     label,
+    labels:
+      relation === 'item'
+        ? { singular: 'Objeto', plural: 'Objetos' }
+        : { singular: 'Monstruo', plural: 'Monstruos' },
     type: 'array',
     fields: [
       {
@@ -34,7 +39,8 @@ export const Quests: CollectionConfig = {
   labels: { singular: 'Misión de DofusDB', plural: 'Misiones de DofusDB' },
   admin: {
     useAsTitle: 'name',
-    group: 'Datos del juego',
+    group: panelStrings.groups.gameData,
+    hideAPIURL: true,
     defaultColumns: ['name', 'dofusId', 'levelMin'],
     description: 'Datos de DofusDB, de solo lectura. Los actualiza un script.',
   },
@@ -105,7 +111,7 @@ export const Quests: CollectionConfig = {
       fields: [
         { name: 'dofusId', label: 'ID en DofusDB', type: 'number' },
         { name: 'name', label: 'Nombre', type: 'text', localized: true },
-        { name: 'slug', label: 'Slug', type: 'text' },
+        { name: 'slug', label: 'Dirección del logro', type: 'text' },
         { name: 'position', label: 'Posición', type: 'number' },
         { name: 'total', label: 'Misiones del logro', type: 'number' },
       ],

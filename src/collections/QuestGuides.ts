@@ -13,13 +13,15 @@ import { isReservedSlug, isSlugFormat } from '../lib/guides/slug'
 import { guideStrings } from '../lib/guides/strings'
 import type { FillableField, NotedField } from '../lib/guides/summary'
 import { isPanelUser, readPublishedOrAll } from './editorial-access'
-import { validateOptionalUrl } from './Media'
+import { originalUrlAdmin, validateOptionalUrl } from './Media'
 import { fillFromQuest } from './quest-guide-autofill'
 import {
   revalidateGuidePagesAfterChange,
   revalidateGuidePagesAfterDelete,
 } from './revalidate-guides'
 import { rejectSharedSlug } from './root-slug'
+import { SLUG_LABEL, slugAdmin } from './slug-field'
+import { panelStrings } from '../lib/admin/strings'
 
 /**
  * Slug plano en ASCII: minúsculas, cifras y guiones sueltos, sin guiones en los extremos.
@@ -27,9 +29,8 @@ import { rejectSharedSlug } from './root-slug'
  * sitio (/sistema, /admin…). Devuelve true o el mensaje de error.
  */
 export function validateSlug(value: string | null | undefined): true | string {
-  if (!isSlugFormat(value)) {
-    return 'El slug solo admite minúsculas sin tildes, cifras y guiones sueltos (aprendizaje-escudero)'
-  }
+  if (!value?.trim()) return panelStrings.slug.required
+  if (!isSlugFormat(value)) return panelStrings.slug.format
   return isReservedSlug(value) ? guideStrings.admin.slugReserved(value) : true
 }
 
@@ -118,7 +119,19 @@ const summaryFields: Field[] = [
         label: 'Objetos',
         labels: { singular: 'Objeto', plural: 'Objetos' },
         type: 'array',
-        admin: { components: { Description: noteComponent('needs') } },
+        admin: {
+          components: {
+            Description: noteComponent('needs'),
+            RowLabel: {
+              path: '/components/admin/RowLabels#RelationRowLabel',
+              clientProps: {
+                singular: panelStrings.rowLabels.need,
+                relationField: 'item',
+                relationTo: 'items',
+              },
+            },
+          },
+        },
         fields: [
           {
             name: 'item',
@@ -206,8 +219,10 @@ export const QuestGuides: CollectionConfig = {
   labels: { singular: 'Guía de misión', plural: 'Guías de misiones' },
   admin: {
     useAsTitle: 'title',
-    group: 'Guías',
-    defaultColumns: ['title', 'slug', '_status', 'updatedAt'],
+    group: panelStrings.groups.content,
+    hideAPIURL: true,
+    defaultColumns: ['title', '_status', 'updatedAt'],
+    listSearchableFields: ['title', 'slug'],
     // La página pública en el panel, borrador incluido (src/lib/guides/preview.ts).
     livePreview: {
       url: ({ data, req }) => guidePreviewUrl(data?.slug, previewOrigin(process.env, req.origin)),
@@ -251,16 +266,13 @@ export const QuestGuides: CollectionConfig = {
     {
       // Sin traducir: la URL es la misma en todos los idiomas.
       name: 'slug',
-      label: 'Slug',
+      label: SLUG_LABEL,
       type: 'text',
       required: true,
       unique: true,
       index: true,
       validate: validateGuideSlug,
-      admin: {
-        position: 'sidebar',
-        description: guideStrings.admin.slugDescription,
-      },
+      admin: slugAdmin(guideStrings.admin.slugDescription),
     },
     {
       name: 'summary',
@@ -294,13 +306,10 @@ export const QuestGuides: CollectionConfig = {
     },
     {
       name: 'originalUrl',
-      label: 'URL original',
+      label: panelStrings.originalUrl.label,
       type: 'text',
       validate: validateOptionalUrl,
-      admin: {
-        position: 'sidebar',
-        description: 'URL de la página en Squarespace',
-      },
+      admin: { ...originalUrlAdmin, position: 'sidebar' },
     },
   ],
 }

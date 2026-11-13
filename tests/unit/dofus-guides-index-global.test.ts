@@ -20,7 +20,7 @@ const field = (name: string) =>
 describe('global dofus-guides-index', () => {
   it('va con las guías y la edita Torre; la lee cualquiera', () => {
     expect(DofusGuidesIndex.slug).toBe('dofus-guides-index')
-    expect(DofusGuidesIndex.admin).toMatchObject({ group: 'Guías' })
+    expect(DofusGuidesIndex.admin).toMatchObject({ group: 'Contenido' })
     expect(DofusGuidesIndex.access?.update).toBe(isPanelUser)
     expect((DofusGuidesIndex.access?.read as () => boolean)()).toBe(true)
   })

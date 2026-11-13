@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { gameDataAccess } from './game-data-access'
+import { panelStrings } from '../lib/admin/strings'
 
 // PNJ de DofusDB que dan misiones o que nombran sus objetivos: su nombre, su look y sus
 // renders importados a Media (DESIGN.md, Quest header). Nada se carga de DofusDB al servir
@@ -10,7 +11,8 @@ export const Npcs: CollectionConfig = {
   labels: { singular: 'PNJ de DofusDB', plural: 'PNJ de DofusDB' },
   admin: {
     useAsTitle: 'name',
-    group: 'Datos del juego',
+    group: panelStrings.groups.gameData,
+    hideAPIURL: true,
     defaultColumns: ['name', 'dofusId'],
     description: 'Datos de DofusDB, de solo lectura. Los actualiza un script.',
   },

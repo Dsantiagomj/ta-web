@@ -4,6 +4,7 @@ import { linkedQuestId } from '../lib/guides/autofill'
 
 import type { ValuesSource } from '../lib/achievements/dofusdb-values'
 import { achievementStrings, type PageState } from '../lib/achievements/strings'
+import { panelStrings } from '../lib/admin/strings'
 import { validateSlug } from './QuestGuides'
 
 /**
@@ -29,7 +30,7 @@ const STATES: PageState[] = ['published', 'preparing']
  */
 export const stateField: SelectField = {
   name: 'state',
-  label: 'Estado',
+  label: panelStrings.state.label,
   type: 'select',
   required: true,
   defaultValue: 'preparing',

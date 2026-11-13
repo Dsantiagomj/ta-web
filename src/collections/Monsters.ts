@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { gameDataAccess } from './game-data-access'
+import { panelStrings } from '../lib/admin/strings'
 
 // Todo el catálogo de monstruos de DofusDB: los que piden las misiones y los que nombran
 // los combates de las guías.
@@ -9,7 +10,8 @@ export const Monsters: CollectionConfig = {
   labels: { singular: 'Monstruo de DofusDB', plural: 'Monstruos de DofusDB' },
   admin: {
     useAsTitle: 'name',
-    group: 'Datos del juego',
+    group: panelStrings.groups.gameData,
+    hideAPIURL: true,
     defaultColumns: ['name', 'dofusId'],
     description: 'Datos de DofusDB, de solo lectura. Los actualiza un script.',
   },

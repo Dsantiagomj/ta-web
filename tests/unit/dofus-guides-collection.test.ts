@@ -26,7 +26,7 @@ describe('colección dofus-guides', () => {
   it('va con las guías, con borradores y versiones', () => {
     expect(DofusGuides.slug).toBe('dofus-guides')
     expect(DofusGuides.labels).toEqual({ singular: 'Guía de Dofus', plural: 'Guías de Dofus' })
-    expect(DofusGuides.admin).toMatchObject({ useAsTitle: 'name', group: 'Guías' })
+    expect(DofusGuides.admin).toMatchObject({ useAsTitle: 'name', group: 'Contenido' })
     expect(DofusGuides.versions).toEqual({ drafts: true, maxPerDoc: 50 })
   })
 
