@@ -5,6 +5,8 @@
 //
 // La fidelidad manda: los textos, las notas y los prerrequisitos de Torre se copian tal cual
 // y en su orden. Las zonas solo agrupaban pasos: se pierden como grupo, nunca un paso.
+import { gameImageKey } from '@/lib/dofusdb/game-images'
+
 import type { ChecklistCatalogEntry } from './catalog'
 import type { LegacyChecklist, LegacyStep } from './legacy'
 import { stepStops, type StepQuest } from './stops'
@@ -18,7 +20,21 @@ export interface ArtRef {
   /** La ruta del archivo dentro de public/img/ de silvestre-checklist. */
   path: string
   alt: string
+  /** Su clave en media.gameAsset, si es arte del juego que Media ya puede tener. */
+  key?: string
 }
+
+/** Los grupos de «Necesitarás» de la checklist antigua (build_resources.py, CATEGORY). */
+const NEED_CATEGORIES = {
+  recursos: 'resources',
+  consumibles: 'consumables',
+  equipables: 'equipment',
+  almas: 'souls',
+  criaturas: 'creatures',
+  cosmeticos: 'cosmetics',
+} as const
+
+export type NeedCategory = (typeof NEED_CATEGORIES)[keyof typeof NEED_CATEGORIES]
 
 export interface StepDraft {
   legacyNumber: number
@@ -38,10 +54,14 @@ export interface StepDraft {
     name: string
     quantity: number
     note: string | null
+    category: NeedCategory
+    /** false: sale en el paso pero no cuenta en los totales (la marca x antigua). */
+    countsInTotal: boolean
     quests: number[]
   }[]
   figure: { npc: number | null; art: ArtRef | null; role: string } | null
   bosses: number[]
+  icon: ArtRef | null
   banner: ArtRef | null
 }
 
@@ -74,6 +94,19 @@ export const stepText = (step: Pick<StepDraft, 'segments'>) =>
 
 const QUEST_KINDS = new Set(['mandatory', 'optional', 'take'])
 const NPC_IMAGE = /^npcs\/npc-(\d+)\.png$/
+// El arte de DofusDB que la checklist antigua copió: su clave en Media es la del arte del juego.
+const GAME_IMAGE = /^(items|achievements|monsters)\/(\d+)\.png$/
+const GAME_KIND = { items: 'item', achievements: 'achievement', monsters: 'monster' } as const
+
+/** El icono del paso como imagen, con la clave de arte del juego si lo es. */
+function iconRef(icon: { src: string; label: string } | null | undefined): ArtRef | null {
+  if (!icon) return null
+  const game = icon.src.match(GAME_IMAGE)
+  const key = game
+    ? gameImageKey(GAME_KIND[game[1] as keyof typeof GAME_KIND], Number(game[2]))
+    : undefined
+  return { path: icon.src, alt: icon.label, ...(key ? { key } : {}) }
+}
 
 /**
  * El texto del paso en tramos: lo que va entre resaltados queda normal y cada resaltado,
@@ -182,11 +215,15 @@ export function toChecklistDraft(
           throw new Error(`Paso ${step.n}: la fila «${row.k}» tiene alternativas`)
         }
         const [[item, quantity]] = row.a
+        const category = NEED_CATEGORIES[row.c as keyof typeof NEED_CATEGORIES]
+        if (!category) throw new Error(`Paso ${step.n}: grupo desconocido «${row.c}»`)
         return {
           item,
           name: legacy.resources.items[item]?.name ?? item.replace(/^x:/, ''),
           quantity,
           note: row.n ?? null,
+          category,
+          countsInTotal: !row.x,
           quests: (row.m ?? []).flatMap((name) => {
             const id = questByName(name, quests)
             return id === null ? [] : [id]
@@ -201,6 +238,7 @@ export function toChecklistDraft(
           }
         : null,
       bosses: (legacy.assets.STEP_ASSETS[step.n]?.bosses ?? []).map((boss) => boss.id),
+      icon: iconRef(legacy.assets.STEP_ASSETS[step.n]?.icon),
       banner: startMap
         ? { path: `maps/start/${startMap}.jpg`, alt: areaOf(startMap) ?? step.zone }
         : zone

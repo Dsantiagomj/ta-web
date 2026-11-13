@@ -19,7 +19,9 @@ let htmlToLexical: LoadChecklistsOptions['htmlToLexical']
 
 const PREFIX = 'prueba-importar-checklist'
 const IDS = { quest: 997_001, stopQuest: 997_002, missingQuest: 997_099 }
-const ids = { quest: 0, stopQuest: 0, achievement: 0, item: 0, npc: 0, boss: 0, guide: 0 }
+const ids = { quest: 0, stopQuest: 0, achievement: 0, item: 0, npc: 0, boss: 0, guide: 0, icon: 0 }
+// Un icono que Media ya tiene con su clave de arte del juego: se reutiliza, no se sube.
+const ICON_KEY = 'prueba-checklist-icono-del-juego'
 const ART = [
   'prueba-checklist/mapa-1.jpg',
   'prueba-checklist/dios.png',
@@ -67,12 +69,32 @@ const draftFor = (slug: string, overrides: Partial<ChecklistDraft> = {}): Checkl
             name: 'Pepita',
             quantity: 3,
             note: 'o 30 000 kamas',
+            category: 'resources',
+            countsInTotal: true,
             quests: [IDS.quest],
           },
-          { item: 'x:kama', name: 'Kama', quantity: 1, note: null, quests: [] },
+          {
+            item: 'x:kama',
+            name: 'Kama',
+            quantity: 1,
+            note: null,
+            category: 'resources',
+            countsInTotal: true,
+            quests: [],
+          },
+          {
+            item: 'x:captura de almas',
+            name: 'Captura de almas',
+            quantity: 1,
+            note: 'Hechizo: requisito, no consumible',
+            category: 'resources',
+            countsInTotal: false,
+            quests: [],
+          },
         ],
         figure: { npc: 997_401, art: null, role: 'Inicia el paso' },
         bosses: [],
+        icon: { path: 'prueba-checklist/icono.png', alt: 'Kamatrix', key: ICON_KEY },
         banner: { path: ART[0], alt: 'Caminos rocosos' },
       },
       {
@@ -89,9 +111,20 @@ const draftFor = (slug: string, overrides: Partial<ChecklistDraft> = {}): Checkl
         note: null,
         achievements: [],
         quests: [{ quest: IDS.stopQuest, kind: 'mandatory', note: null, optionalDoneBy: null }],
-        needs: [{ item: '997302', name: 'Llave', quantity: 1, note: null, quests: [] }],
+        needs: [
+          {
+            item: '997302',
+            name: 'Llave',
+            quantity: 1,
+            note: null,
+            category: 'equipment',
+            countsInTotal: true,
+            quests: [],
+          },
+        ],
         figure: { npc: null, art: { path: ART[1], alt: 'Dios de prueba' }, role: 'Se habla con' },
         bosses: [997_501],
+        icon: null,
         banner: { path: ART[1], alt: 'Dios de prueba' },
       },
       {
@@ -106,6 +139,7 @@ const draftFor = (slug: string, overrides: Partial<ChecklistDraft> = {}): Checkl
         needs: [],
         figure: null,
         bosses: [],
+        icon: null,
         banner: { path: ART[2], alt: 'Zona de prueba' },
       },
     ],
@@ -180,7 +214,7 @@ async function cleanUp() {
   })
   await payload.delete({
     collection: 'media',
-    where: { gameAsset: { in: ART.map(checklistArtKey) } },
+    where: { gameAsset: { in: [...ART.map(checklistArtKey), ICON_KEY] } },
     overrideAccess: true,
   })
   await payload.delete({
@@ -246,6 +280,14 @@ beforeAll(async () => {
       data: { name: 'Dofus de prueba', slug: `${PREFIX}-guia`, order: 99, state: 'published' },
     })
   ).id
+  ids.icon = (
+    await payload.create({
+      collection: 'media',
+      data: { alt: 'Kamatrix', gameAsset: ICON_KEY },
+      file: tinyPng(),
+      overrideAccess: true,
+    })
+  ).id
 })
 
 afterAll(async () => {
@@ -272,9 +314,13 @@ describe('importar una checklist entera', () => {
       options([{ entry: entry(slug), draft: draftFor(slug) }]),
     )
     expect(report.created).toBe(1)
+    // Lo que no es un objeto del juego no se pierde: queda como texto, y el informe lo dice.
     expect(report.unmatched).toEqual([
       { slug, step: 1, kind: 'misión', name: `Misión que falta (${IDS.missingQuest})` },
-      { slug, step: 1, kind: 'objeto', name: 'Kama' },
+    ])
+    expect(report.labels).toEqual([
+      { slug, step: 1, name: 'Kama' },
+      { slug, step: 1, name: 'Captura de almas' },
     ])
 
     const doc = (await read(slug))!
@@ -304,8 +350,25 @@ describe('importar una checklist entera', () => {
     expect(first.achievements).toMatchObject([{ achievement: ids.achievement, mode: 'all' }])
     expect(first.quests).toMatchObject([{ quest: ids.quest, kind: 'mandatory' }])
     expect(first.needs).toMatchObject([
-      { item: ids.item, quantity: 3, note: 'o 30 000 kamas', quests: [ids.quest] },
+      {
+        item: ids.item,
+        quantity: 3,
+        note: 'o 30 000 kamas',
+        category: 'resources',
+        countsInTotal: true,
+        quests: [ids.quest],
+      },
+      { label: 'Kama', quantity: 1, category: 'resources', countsInTotal: true },
+      {
+        label: 'Captura de almas',
+        quantity: 1,
+        note: 'Hechizo: requisito, no consumible',
+        countsInTotal: false,
+      },
     ])
+    expect(first.needs![1].item ?? null).toBeNull()
+    expect(first.icon).toBe(ids.icon)
+    expect(second.needs).toMatchObject([{ category: 'equipment' }])
     expect(first.figure).toMatchObject({ npc: ids.npc, role: 'Inicia el paso' })
     expect(JSON.stringify(first.note)).toContain('Una nota escrita a mano.')
     expect(second.segments).toMatchObject([

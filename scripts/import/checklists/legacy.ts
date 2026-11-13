@@ -105,7 +105,16 @@ export interface LegacyChecklist {
   plans: Record<string, LegacyPlan[]>
   resources: LegacyResources
   figures: Record<string, LegacyFigure>
-  assets: { STEP_ASSETS: Record<string, { bosses?: { id: number; name: string }[] }> }
+  assets: {
+    STEP_ASSETS: Record<
+      string,
+      {
+        /** El icono del paso: la recompensa de su logro, su jefe o el icono del logro. */
+        icon?: { src: string; label: string; from: string } | null
+        bosses?: { id: number; name: string }[]
+      }
+    >
+  }
   zones: Record<string, { map: number; img: string; thumb: string }>
 }
 
