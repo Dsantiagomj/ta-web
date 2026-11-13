@@ -163,6 +163,36 @@ function GameIcon({ file, px }: { file: { src: string }; px: number }) {
   return <img src={file.src} width={px} height={px} alt="" loading="lazy" decoding="async" />
 }
 
+/**
+ * Los objetivos de la misión donde para el paso, con la línea de Torre delante del objetivo
+ * donde para. Si para después del último (la etapa que DofusDB no lista), la línea va al final.
+ */
+function Route({ route }: { route: NonNullable<QuestRowView['route']> }) {
+  const { objectives, line } = route
+  const at = Math.min(Math.max(line.at, 0), objectives.length)
+  const lineRow = (
+    <li key="line" className={`ck-line ck-line--${line.kind}`}>
+      {line.text}
+    </li>
+  )
+  const rows = objectives.map((objective, index) => (
+    <li key={index} className="ck-o" data-i={index}>
+      <span className="well ck-o__ic" aria-hidden="true">
+        <GameIcon file={OBJECTIVE_ICONS[objective.kind]} px={22} />
+      </span>
+      <span className="ck-o__t">
+        <ObjectiveText text={objective.text} />
+      </span>
+      <span data-ck-coord={index} />
+    </li>
+  ))
+  return (
+    <ol className="ck-route" role="list">
+      {[...rows.slice(0, at), lineRow, ...rows.slice(at)]}
+    </ol>
+  )
+}
+
 function QuestRow({ quest }: { quest: QuestRowView }) {
   const kind = quest.kind === 'mandatory' ? null : s.questKinds[quest.kind]
   return (
@@ -189,32 +219,7 @@ function QuestRow({ quest }: { quest: QuestRowView }) {
           {quest.level != null && <span className="ck-q__lv">{s.questLevel(quest.level)}</span>}
         </span>
       </div>
-      {quest.route && (
-        <ol className="ck-route" role="list">
-          {quest.route.objectives.flatMap((objective, index) => {
-            const { line } = quest.route!
-            const row = (
-              <li key={index} className="ck-o" data-i={index}>
-                <span className="well ck-o__ic" aria-hidden="true">
-                  <GameIcon file={OBJECTIVE_ICONS[objective.kind]} px={22} />
-                </span>
-                <span className="ck-o__t">
-                  <ObjectiveText text={objective.text} />
-                </span>
-                <span data-ck-coord={index} />
-              </li>
-            )
-            return line.at === index
-              ? [
-                  <li key={`line-${index}`} className={`ck-line ck-line--${line.kind}`}>
-                    {line.text}
-                  </li>,
-                  row,
-                ]
-              : [row]
-          })}
-        </ol>
-      )}
+      {quest.route && <Route route={quest.route} />}
     </li>
   )
 }

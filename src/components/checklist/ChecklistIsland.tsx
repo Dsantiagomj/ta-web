@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 
 import { checklistDetailsUrl, type ChecklistDetails } from '@/lib/checklists/details-url'
 import type { ChecklistIslandData } from '@/lib/checklists/page'
+import { fold } from '@/lib/text/fold'
 
 import { checklistIslandStrings as s } from './island-strings'
 
@@ -19,12 +20,6 @@ function chip(x: number | null, y: number | null): string {
   const command = `/travel ${x},${y}`
   return `<span class="coord" role="button" tabindex="0" data-copy="${command}" aria-label="${s.copyCoordinates(label, command)}">${PIN}${label}</span>`
 }
-
-const fold = (text: string) =>
-  text
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
 
 /** Pinta lo que traen los detalles: quién da cada misión, dónde, y dónde está cada objetivo. */
 function fillDetails(details: ChecklistDetails) {
@@ -100,6 +95,12 @@ export function ChecklistIsland({ data }: { data: ChecklistIslandData }) {
       search?.closest('label')?.toggleAttribute('hidden', name !== 'diario')
     }
     selectTab('diario')
+    /** Cambia de pestaña a petición de quien lee: la dirección dice dónde está. */
+    const showTab = (name: string, focus = false) => {
+      selectTab(name, focus)
+      const hash = name !== 'diario' ? `#ck-p-${name}` : current ? `#paso-${current}` : ''
+      history.replaceState(null, '', hash || location.pathname + location.search)
+    }
 
     const article = (n: number) => $(`#paso-${n}`)
     /** Devuelve a su sitio en el panel el paso que estaba en la hoja. */
@@ -108,10 +109,13 @@ export function ChecklistIsland({ data }: { data: ChecklistIslandData }) {
         pane.insertBefore(step, $(`[data-step="${Number(step.dataset.step) + 1}"]`, pane))
       }
     }
-    const pick = (n: number, { reveal = false, sheetOk = true } = {}) => {
+    const pick = (
+      n: number,
+      { reveal = false, sheetOk = true, keepTab = false, hash = true } = {},
+    ) => {
       const step = article(n)
       if (!step) return
-      if (tab !== 'diario') selectTab('diario')
+      if (tab !== 'diario' && !keepTab) selectTab('diario')
       current = n
       for (const row of $$('.ck-row')) {
         row.setAttribute('aria-current', String(Number(row.dataset.n) === n))
@@ -128,7 +132,7 @@ export function ChecklistIsland({ data }: { data: ChecklistIslandData }) {
       }
       const scroll = $('.ck-step__scroll', step)
       if (scroll) scroll.scrollTop = 0
-      history.replaceState(null, '', `#paso-${n}`)
+      if (hash) history.replaceState(null, '', `#paso-${n}`)
       const row = $(`.ck-row[data-n="${n}"]`)
       if (reveal && row && wide.matches) {
         const top = row.offsetTop - list.offsetTop - list.clientHeight / 3
@@ -164,15 +168,27 @@ export function ChecklistIsland({ data }: { data: ChecklistIslandData }) {
     const onClick = (event: MouseEvent) => {
       const target = event.target instanceof Element ? event.target : null
       if (!target) return
-      if (target === sheet || target.closest('[data-ck-close]')) {
+      if (target.closest('[data-ck-close]')) {
         sheet.close()
+        return
+      }
+      // Un clic en el propio <dialog> puede caer en su fondo o en un hueco de la hoja: solo
+      // el de fuera de su rectángulo la cierra.
+      if (target === sheet) {
+        const box = sheet.getBoundingClientRect()
+        const inside =
+          event.clientX >= box.left &&
+          event.clientX <= box.right &&
+          event.clientY >= box.top &&
+          event.clientY <= box.bottom
+        if (!inside) sheet.close()
         return
       }
       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
       const tabLink = target.closest<HTMLElement>('[data-tab]')
       if (tabLink) {
         event.preventDefault()
-        selectTab(tabLink.dataset.tab ?? 'diario')
+        showTab(tabLink.dataset.tab ?? 'diario')
         return
       }
       const picker = target.closest<HTMLElement>('[data-pick]')
@@ -189,17 +205,19 @@ export function ChecklistIsland({ data }: { data: ChecklistIslandData }) {
         event.preventDefault()
         const names = tabs.map((link) => link.dataset.tab ?? '')
         const at = names.indexOf(tab)
-        selectTab(names[(at + step + names.length) % names.length], true)
+        showTab(names[(at + step + names.length) % names.length], true)
         return
       }
-      if (target?.closest('.ck-rows') && /^Arrow(Up|Down)$/.test(event.key) && current) {
+      // Las flechas recorren la lista. En el escritorio abren cada paso al lado; en el móvil
+      // solo mueven el foco, e Intro abre la hoja (abrirla quitaría el foco de la lista).
+      const row = target?.closest<HTMLElement>('.ck-row')
+      if (row && /^Arrow(Up|Down)$/.test(event.key)) {
         event.preventDefault()
-        const visible = $$('.ck-row:not([hidden])').map((row) => Number(row.dataset.n))
-        const next = visible[visible.indexOf(current) + step]
-        if (next) {
-          pick(next, { reveal: true, sheetOk: false })
-          $<HTMLAnchorElement>(`.ck-row[data-n="${next}"] a`)?.focus()
-        }
+        const visible = $$('.ck-row:not([hidden])')
+        const next = visible[visible.indexOf(row) + step]
+        if (!next) return
+        if (wide.matches) pick(Number(next.dataset.n), { reveal: true })
+        $<HTMLAnchorElement>('a', next)?.focus()
       }
     }
 
@@ -208,9 +226,15 @@ export function ChecklistIsland({ data }: { data: ChecklistIslandData }) {
     // La ventana pasa de móvil a escritorio o al revés con un paso abierto.
     const onWide = () => current && pick(current, { sheetOk: false })
 
+    // La dirección manda: #paso-N abre ese paso y #ck-p-… esa pestaña. En el escritorio, el
+    // Diario tiene siempre un paso abierto, el primero si no dice otro.
     const fromHash = Number(/^#paso-(\d+)$/.exec(location.hash)?.[1])
+    const hashTab = /^#ck-p-([a-z]+)$/.exec(location.hash)?.[1]
     if (fromHash && article(fromHash)) pick(fromHash, { reveal: true })
-    else if (wide.matches) pick(1)
+    else {
+      if (wide.matches) pick(1, { keepTab: true, hash: false })
+      if (hashTab && tabs.some((link) => link.dataset.tab === hashTab)) selectTab(hashTab)
+    }
 
     // Los detalles, una vez por página, después de pintarla.
     const controller = new AbortController()

@@ -1,10 +1,6 @@
 import type { CollectionConfig, Field } from 'payload'
 
 import { gameDataAccess } from './game-data-access'
-import {
-  revalidateChecklistsAfterChange,
-  revalidateChecklistsAfterDelete,
-} from './revalidate-guides'
 
 export const questsAccess = gameDataAccess
 
@@ -43,12 +39,6 @@ export const Quests: CollectionConfig = {
     description: 'Datos de DofusDB, de solo lectura. Los actualiza un script.',
   },
   access: questsAccess,
-  // Las checklists enseñan su nombre, su nivel y sus objetivos. Lo que escribe pnpm
-  // data:quests corre fuera de Next y se ve al caducar la caché (src/lib/checklists/cache.ts).
-  hooks: {
-    afterChange: [revalidateChecklistsAfterChange],
-    afterDelete: [revalidateChecklistsAfterDelete],
-  },
   fields: [
     {
       name: 'dofusId',

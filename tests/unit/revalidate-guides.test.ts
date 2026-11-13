@@ -12,7 +12,6 @@ import { Checklists } from '@/collections/Checklists'
 import { DofusGuides } from '@/collections/DofusGuides'
 import { Media } from '@/collections/Media'
 import { QuestGuides } from '@/collections/QuestGuides'
-import { Quests } from '@/collections/Quests'
 import { revalidateGuidePages } from '@/collections/revalidate-guides'
 import { ACHIEVEMENT_PAGES_TAG } from '@/lib/achievements/cache'
 import { CHECKLISTS_TAG } from '@/lib/checklists/cache'
@@ -149,7 +148,6 @@ describe('checklists', () => {
   })
 
   it.each([
-    ['quests', Quests],
     ['quest-guides', QuestGuides],
     ['achievement-pages', AchievementPages],
     ['dofus-guides', DofusGuides],

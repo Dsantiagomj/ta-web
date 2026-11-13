@@ -4,6 +4,7 @@ import { isGuideSlug } from '@/lib/guides/slug'
 import type { Checklist, User } from '@/payload-types'
 
 import { checklistDetails, type ChecklistDetails, type DetailsQuest } from './details'
+import { relationId } from './relations'
 import { OBJECTIVE_REFERENCE, type ChecklistData, type ObjectiveNames } from './page'
 
 export interface ReadChecklistOptions {
@@ -20,13 +21,6 @@ const access = (preview: ReadChecklistOptions['preview']): Access =>
   preview
     ? { draft: true, user: preview.user, overrideAccess: false }
     : { draft: false, overrideAccess: false }
-
-const relationId = (value: unknown): number | null =>
-  typeof value === 'number'
-    ? value
-    : value && typeof value === 'object' && 'id' in value
-      ? (value as { id: number }).id
-      : null
 
 const ids = (values: unknown[]) => [
   ...new Set(

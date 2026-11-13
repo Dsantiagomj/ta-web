@@ -171,6 +171,29 @@ describe('checklistView: el texto de cada paso', () => {
     ])
   })
 
+  it('enlaza cada logro citado en el orden del texto, aunque el que va antes sea el segundo de la lista', () => {
+    const steps = [
+      step('a', {
+        segments: [{ kind: 'plain', text: 'Logro "B" y luego Logro "A".' }],
+        achievements: [
+          { achievement: { id: 1, name: 'A' }, mode: 'all' },
+          { achievement: { id: 2, name: 'B' }, mode: 'all' },
+        ],
+      }),
+    ]
+    const view = checklistView(
+      data(steps, {}, { achievementPages: { 1: 'logro-a', 2: 'logro-b' } }),
+    )
+
+    expect(view.steps[0].segments[0].parts).toEqual([
+      'Logro "',
+      { text: 'B', href: '/logro-b' },
+      '" y luego Logro "',
+      { text: 'A', href: '/logro-a' },
+      '".',
+    ])
+  })
+
   it('numera los pasos en el orden de Torre y dice qué pasos cierra cada uno y dónde se cierra', () => {
     const steps = [
       step('a'),
