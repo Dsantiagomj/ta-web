@@ -39,7 +39,8 @@
     "payload": "NODE_OPTIONS=--no-deprecation payload",
     "generate:types": "NODE_OPTIONS=--no-deprecation payload generate:types",
     "generate:importmap": "NODE_OPTIONS=--no-deprecation payload generate:importmap",
-    "test:integration": "vitest run --config vitest.integration.config.mts"
+    "test:integration": "vitest run --config vitest.integration.config.mts",
+    "redirects:stubs": "node scripts/redirects/build-stub-redirects.ts --"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "3.1161.0",
