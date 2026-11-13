@@ -29,5 +29,7 @@ export default defineConfig([
     'playwright-report/**',
     'test-results/**',
     '.lighthouseci/**',
+    // Copias tal cual de silvestre-checklist: la importación de las checklists las lee así
+    'tests/fixtures/silvestre-checklist/**',
   ]),
 ])
