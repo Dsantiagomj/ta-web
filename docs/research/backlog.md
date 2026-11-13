@@ -36,11 +36,9 @@ What must exist before the domain moves. The P0 rows of section 3 (checklists, a
 | B-05 | Metalogro URLs | The 33 `/metalogro-*` pages, plus `/metalogro-krosmoz` once S-08 exists, become 301s to `/metalogros#<anchor>`. On dev `/metalogro-astrub` answers 404 | code | S | P0 | squarespace §2 |
 | B-06 | Old hubs, test pages and `/cart` | 301 `/home`, `/index` and `/inicio-20` to `/`, and `/logros` to `/metalogros`. 410 for `/wip`, `/hielos-test`, `/pruebas`, the three `-datos` pages and `/cart`. `/subscribe` needs a 410 or a redirect until S-20 ships | code | S | P0 | squarespace §4, §7, §8; plan §12.8 |
 | B-07 | GitHub Pages redirect | `dsantiagomj.github.io/silvestre-checklist/**`, embed URLs included, redirects to the new domain. The change lives in the `silvestre-checklist` repo | code | S | P0 | squarespace §12; plan §8.8 |
-| B-08 | Squarespace's own URL mappings | Squarespace keeps a redirect table that is not visible from outside. Torre exports it from the site settings so B-03 keeps those redirects alive | Torre | S | P0 | squarespace §12 |
+| B-08 | Old URL to new page map | Each Squarespace URL maps to the page that replaces it. We fill the map as each section is ported, so it grows with the S- items and is complete on cutover day | code | S | P0 | squarespace §12 |
 | B-09 | Generic pages collection | The legal pages, emotes, how-tos and articles (D-02) need a home. `AGENTS.md` already plans a `pages` collection with the guide blocks | code | M | P0 | squarespace §8; duffus #23 |
 | B-10 | Legal pages rewrite | `/aviso-legal`, `/politica-de-cookies` and `/politica-de-privacidad` on B-09. The cookie policy still describes ads and a cookie banner, and the privacy policy has to cover accounts and payments | Torre (panel) | M | P0 | squarespace §8; plan §6 |
-| B-11 | Newsletter subscriber export | The list exists only in Squarespace and dies with the plan. Export it before cancelling, whatever S-20 decides | Torre | S | P0 | squarespace §10, §11 |
-| B-12 | Ad contracts | Check Flower Ads and Seedtag (seen live on 2026-11-13, not in the crawl) for a contract or a notice period before the ads disappear | Torre | S | P0 | squarespace §10; plan §6 |
 | B-13 | Fate of the inline tools | `/mascotas`, `/team-builder` and `/sets-y-clases` are HTML apps inside a code block. Torre decides which ones stay. Those get ported (S-13), the rest a 410 | Torre | S | P0 | squarespace §7 |
 
 ## 2. Payload panel for Torre
@@ -127,7 +125,7 @@ Quest guides (1,271 of 1,272, the last one is now a Dofus guide) and Dofus guide
 | S-17 | Twitch live card | `src/lib/site/live.ts` is a stub that is never live. Call the existing Cloudflare Worker | code | S | P1 | squarespace §10 |
 | S-18 | Analytics | Plausible or Umami, cookieless. Before cutover, so traffic can be compared with Squarespace | code | S | P1 | squarespace §10; plan §4 |
 | S-19 | `og:image` and richer JSON-LD | Shared links show no image, and only breadcrumbs have JSON-LD. Add `og:image` and Article or HowTo data | code | S | P1 | squarespace §12 |
-| S-20 | Newsletter | The plan names a newsletter but no provider. Pick one, then a form for `/subscribe`. The subscriber export is B-11 | code + Torre | M | P2 | squarespace §10 |
+| S-20 | Newsletter | The plan names a newsletter but no provider. Pick one, then a form for `/subscribe`. There is no subscriber list to bring over | code + Torre | M | P2 | squarespace §10 |
 
 ## 4. New features inspired by duffus.fr
 
@@ -171,7 +169,7 @@ These rows need no owner, size or priority. The redirects for their URLs are in 
 
 | Item | Why | Source |
 |---|---|---|
-| Ads: AdSense, Flower Ads, the AMP script, Seedtag | Removed; revenue comes from premium and Ko-fi (plan §6, §12.2). B-12 checks the contracts | squarespace §10 |
+| Ads: AdSense, Flower Ads, the AMP script, Seedtag | Removed; revenue comes from premium and Ko-fi (plan §6, §12.2). | squarespace §10 |
 | Cookie banner | No ads and cookieless analytics need no consent banner (plan §4, Consent) | squarespace §10 |
 | Store and `/cart` | The store was never live and is removed; `/cart` gets a 410 (plan §12.8) | squarespace §8, §10 |
 | The three `-datos` pages and the daily guide sync | They feed the embeds, which retire at cutover (plan §2, Embeds; goal 2) | squarespace §4 |
