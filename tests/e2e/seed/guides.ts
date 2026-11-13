@@ -33,7 +33,21 @@ export const seedGuide = {
     right: 'public/img/sistema/npc-4412-right.webp',
     left: 'public/img/sistema/npc-4412-left.webp',
   },
-  prerequisite: { title: 'Esto hace aguas', slug: 'esto-hace-aguas' },
+  // La guía previa, solo prosa; su Necesitarás lleva los combates y mazmorras de Ocre de
+  // ámbar, para que el logro tenga una lista larga que se reparta en columnas.
+  prerequisite: {
+    title: 'Esto hace aguas',
+    slug: 'esto-hace-aguas',
+    needsNote: [
+      '6 x Combates solitarios.',
+      '1 x Mazmorra de Grunob.',
+      '2 x Combate realizable en grupo.',
+      '1 x Combate de oleadas realizable en grupo.',
+      '1 x Mazmorra Kodámade.',
+      '1 x Combate táctico solitario.',
+      '1 x Combate solitario.',
+    ].join('\n'),
+  },
   // Un combate; una nota que es el nombre exacto de un objeto importado (el logro la pinta
   // como ese objeto) y otra que no es ni objeto ni combate («Otros» en el logro).
   // Con dos notas de mazmorra: una nombra a su jefe (la del seed, con su imagen) y otra
@@ -372,6 +386,7 @@ export async function seedGuides(payload: Payload): Promise<void> {
         slug: seedGuide.prerequisite.slug,
         quest: previous.id,
         _status: 'published',
+        summary: { needs: { notes: seedGuide.prerequisite.needsNote } },
         body: [
           { blockType: 'richText', content: richText(paragraph(text('Habla con Hupe Esse.'))) },
         ],

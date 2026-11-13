@@ -67,23 +67,37 @@ test.describe('página de logro', () => {
     }
     await expect(group('Objetos')).toContainText('1 × Pico de tofu')
     await expect(group('Objetos').getByRole('listitem').last().locator('.well img')).toHaveCount(1)
+    // Los diez de Ocre de ámbar: los de la guía previa y los de la sembrada, en ese orden.
     const tasks = group('Combates y mazmorras').getByRole('listitem')
     await expect(tasks).toHaveText([
+      '6 × Combates solitarios',
+      '1 × Mazmorra de Grunob',
+      '2 × Combate realizable en grupo',
+      '1 × Combate de oleadas realizable en grupo',
+      '1 × Mazmorra Kodámade',
+      '1 × Combate táctico solitario',
+      '1 × Combate solitario',
       '1 × Combate (solo)',
       '1 × Mazmorra Kumijo',
       'Mazmorras nivel 200',
     ])
-    await expect(tasks.nth(0).locator('img')).toHaveAttribute('src', '/img/game/combate.webp')
+    const task = (label: string) => tasks.filter({ hasText: label })
+    await expect(task('Combate (solo)').locator('img')).toHaveAttribute(
+      'src',
+      '/img/game/combate.webp',
+    )
     // La mazmorra casada con su jefe, importado a Media; la que no nombra ninguna, el icono
     // genérico de mazmorra.
-    await expect(tasks.nth(1).locator('img')).toHaveAttribute('src', /\/api\/media\/file\//)
+    await expect(task('Mazmorra Kumijo').locator('img')).toHaveAttribute(
+      'src',
+      /\/api\/media\/file\//,
+    )
     expect(
-      await tasks
-        .nth(1)
+      await task('Mazmorra Kumijo')
         .locator('img')
         .evaluate((img: HTMLImageElement) => img.naturalWidth),
     ).toBeGreaterThan(0)
-    await expect(tasks.nth(2).locator('img')).toHaveAttribute(
+    await expect(task('Mazmorras nivel 200').locator('img')).toHaveAttribute(
       'src',
       '/img/game/jefes/crunchidor.webp',
     )
@@ -108,13 +122,21 @@ test.describe('página de logro', () => {
           const rows = [...g.querySelectorAll('li')]
           return {
             width: g.getBoundingClientRect().width,
+            top: Math.round(g.getBoundingClientRect().top),
+            bottom: Math.round(g.getBoundingClientRect().bottom),
+            // Entre filas seguidas de una misma columna.
             gaps: rows
               .slice(1)
-              .map((row, i) =>
-                Math.round(
-                  row.getBoundingClientRect().top - rows[i]!.getBoundingClientRect().bottom,
-                ),
-              ),
+              .filter(
+                (row, i) =>
+                  row.getBoundingClientRect().left === rows[i]!.getBoundingClientRect().left,
+              )
+              .map((row) => {
+                const previous = rows[rows.indexOf(row) - 1]!
+                return Math.round(
+                  row.getBoundingClientRect().top - previous.getBoundingClientRect().bottom,
+                )
+              }),
             rows: rows.map((row) => {
               const text = row.querySelector('.lneeds__t')!
               const range = document.createRange()
@@ -128,8 +150,15 @@ test.describe('página de logro', () => {
                 const top = Math.round(r.top)
                 starts.set(top, Math.min(starts.get(top) ?? Infinity, Math.round(r.left)))
               }
+              const box = row.getBoundingClientRect()
               return {
-                textLeft: Math.round(text.getBoundingClientRect().x - left) + 0,
+                label: text.textContent!.replace(/\s+/g, ' ').trim(),
+                top: Math.round(box.top),
+                left: Math.round(box.left),
+                right: Math.round(box.right),
+                // Desde el borde de su columna: el de la fila, que en Otros es el del grupo.
+                textLeft: Math.round(text.getBoundingClientRect().x - box.x) + 0,
+                groupLeft: Math.round(box.x - left) + 0,
                 wellOffset: well
                   ? Math.abs(first.top + first.height / 2 - (well.top + well.height / 2))
                   : null,
@@ -146,6 +175,7 @@ test.describe('página de logro', () => {
     }
     expect(new Set([...objetos!.rows, ...tareas!.rows].map((row) => row.textLeft)).size).toBe(1)
     expect(otros!.rows.map((row) => row.textLeft)).toEqual([0, 0])
+    expect(otros!.rows[0]!.groupLeft).toBe(0)
     await expect(group('Otros').locator('.well')).toHaveCount(0)
     const delicia = otros!.rows[1]!
     expect(delicia.lines).toBeGreaterThan(1)
@@ -154,13 +184,8 @@ test.describe('página de logro', () => {
     const gaps = [objetos!, tareas!, otros!].flatMap((g) => g.gaps)
     expect(new Set(gaps).size).toBe(1)
 
-    // En el escritorio, los tres grupos en una fila, cada uno con el ancho que pide: Otros,
-    // con la nota larga, más ancho que Objetos, y cada título en una línea.
-    const oneRow = async () => {
-      const tops = await needs
-        .locator('.lneeds__g')
-        .evaluateAll((groups) => groups.map((g) => Math.round(g.getBoundingClientRect().y)))
-      expect(new Set(tops).size).toBe(1)
+    // Los grupos, cada título en una línea; y las etiquetas cortas, también.
+    const headingsOnOneLine = async () => {
       const headings = await needs
         .locator('.lneeds__k')
         .evaluateAll((hs) =>
@@ -170,12 +195,81 @@ test.describe('página de logro', () => {
         )
       for (const lines of headings) expect(lines).toBeLessThan(1.5)
     }
-    await oneRow()
-    expect(otros!.width).toBeGreaterThan(objetos!.width)
+    const shortLabelsOnOneLine = (rows: { label: string; lines: number }[]) => {
+      for (const label of ['6 × Combates solitarios', '1 × Mazmorra de Grunob']) {
+        expect(rows.find((row) => row.label === label)?.lines, label).toBe(1)
+      }
+    }
+    // Los combates en dos columnas que se leen de arriba abajo: el sexto arriba de la
+    // segunda, a la altura del primero.
+    const tasksInColumns = (rows: { top: number; left: number; right: number }[], n: number) => {
+      const [first, sixth, fifth] = [rows[0]!, rows[5]!, rows[4]!]
+      if (n === 2) {
+        expect(Math.abs(sixth.top - first.top)).toBeLessThan(2)
+        expect(sixth.left).toBeGreaterThan(first.right)
+        expect(new Set(rows.map((row) => row.left)).size).toBe(2)
+      } else {
+        expect(sixth.top).toBeGreaterThan(fifth.top)
+        expect(new Set(rows.map((row) => row.left)).size).toBe(1)
+      }
+    }
+    // La zona sale de la columna de lectura al ancho del sitio: los bordes de la cabecera.
+    const wideZone = async (wide: boolean) => {
+      const zone = (await needs.boundingBox())!
+      const column = (await page.locator('section.lq').boundingBox())!
+      const header = await page.locator('.site-hdr__in').evaluate((el) => {
+        const box = el.getBoundingClientRect()
+        const style = getComputedStyle(el)
+        return {
+          x: box.x + parseFloat(style.paddingLeft),
+          width: box.width - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight),
+        }
+      })
+      expect(Math.abs(zone.x - header.x)).toBeLessThan(1)
+      expect(Math.abs(zone.width - header.width)).toBeLessThan(1)
+      if (wide) expect(zone.width).toBeGreaterThan(column.width + 100)
+      else expect(Math.abs(zone.width - column.width)).toBeLessThan(1)
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
+        page.viewportSize()!.width,
+      )
+    }
 
-    // A 1024 px, también en una fila.
+    // A 1440 px: Objetos y los combates, en dos columnas, lado a lado, y Otros debajo de
+    // los dos, en su propia fila. Ningún grupo mucho más alto que otro.
+    await wideZone(true)
+    await headingsOnOneLine()
+    shortLabelsOnOneLine(tareas!.rows)
+    tasksInColumns(tareas!.rows, 2)
+    expect(Math.abs(objetos!.top - tareas!.top)).toBeLessThan(1)
+    expect(otros!.top).toBeGreaterThanOrEqual(tareas!.bottom)
+    expect(tareas!.bottom - tareas!.top).toBeLessThan(450)
+
+    // A 1280 px, igual.
+    await page.setViewportSize({ width: 1280, height: 900 })
+    await wideZone(true)
+    const [, tareas1280] = await layout()
+    shortLabelsOnOneLine(tareas1280!.rows)
+    tasksInColumns(tareas1280!.rows, 2)
+
+    // A 1920 px, los tres grupos en una fila, los combates aún en dos columnas.
+    await page.setViewportSize({ width: 1920, height: 900 })
+    await wideZone(true)
+    await headingsOnOneLine()
+    const wide = await layout()
+    expect(new Set(wide.map((g) => g.top)).size).toBe(1)
+    shortLabelsOnOneLine(wide[1]!.rows)
+    tasksInColumns(wide[1]!.rows, 2)
+
+    // A 1024 px, la columna ya llena la ventana: los tres grupos en una fila, cada uno con
+    // el ancho que pide (Otros, con la nota larga, más ancho que Objetos), y los combates
+    // en una sola columna.
     await page.setViewportSize({ width: 1024, height: 900 })
-    await oneRow()
+    await wideZone(false)
+    await headingsOnOneLine()
+    const narrow = await layout()
+    expect(new Set(narrow.map((g) => g.top)).size).toBe(1)
+    expect(narrow[2]!.width).toBeGreaterThan(narrow[0]!.width)
+    tasksInColumns(narrow[1]!.rows, 1)
 
     // En el móvil, uno debajo de otro y sin scroll horizontal.
     await page.setViewportSize({ width: 390, height: 844 })

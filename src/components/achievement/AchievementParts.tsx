@@ -66,15 +66,31 @@ function NeedsGroup({
   id,
   label,
   className,
+  columns = 1,
+  rows = 0,
+  modifier,
   children,
 }: {
   id: string
   label: string
   className: string
+  /** En cuántas columnas va la lista cuando hay sitio (needsColumns). */
+  columns?: number
+  rows?: number
+  modifier?: string
   children: React.ReactNode
 }) {
+  const split = columns > 1
+  const groupClass = ['lneeds__g', split && 'lneeds__g--cols', modifier].filter(Boolean).join(' ')
   return (
-    <div className="lneeds__g">
+    <div
+      className={groupClass}
+      style={
+        split
+          ? ({ '--cols': columns, '--rows': Math.ceil(rows / columns) } as CSSProperties)
+          : undefined
+      }
+    >
       <h3 className="lneeds__k" id={id}>
         {label}
       </h3>
@@ -83,6 +99,33 @@ function NeedsGroup({
       </ul>
     </div>
   )
+}
+
+// Las columnas de las listas con iconos (objetos, y combates y mazmorras) en el escritorio
+// ancho: tres entre las dos, que con sus nombres cortos en una línea es lo que cabe junto a
+// los filetes. Solo se parte una lista de más de cinco filas, y cada columna se queda con
+// tres al menos.
+const NEEDS_COLUMNS = 3
+const NEEDS_TALL = 5
+const NEEDS_MIN_ROWS = 3
+
+/**
+ * En cuántas columnas va cada lista para que ningún grupo quede mucho más alto que los
+ * otros: una columna más, cada vez, para la lista más alta, mientras queden columnas y
+ * pase de cinco filas. Ocre de ámbar (5 objetos, 10 combates): los combates en dos de 5.
+ */
+export function needsColumns(lengths: number[]): number[] {
+  const columns = lengths.map(() => 1)
+  const height = (i: number) => Math.ceil(lengths[i]! / columns[i]!)
+  let used = lengths.filter((n) => n > 0).length
+  while (used < NEEDS_COLUMNS) {
+    const tallest = lengths.reduce((best, _, i) => (height(i) > height(best) ? i : best), 0)
+    const n = lengths[tallest]!
+    if (height(tallest) <= NEEDS_TALL || n / (columns[tallest]! + 1) < NEEDS_MIN_ROWS) break
+    columns[tallest]! += 1
+    used += 1
+  }
+  return columns
 }
 
 /**
@@ -108,6 +151,7 @@ export function AchievementNeeds({ needs }: { needs: Needs }) {
   const id = useId()
   const { items, tasks, others } = needs
   if (items.length === 0 && tasks.length === 0 && others.length === 0) return null
+  const [itemColumns, taskColumns] = needsColumns([items.length, tasks.length])
   return (
     <section className="lneeds" aria-labelledby={`${id}-h`}>
       <h2 className="lzone__h" id={`${id}-h`}>
@@ -115,7 +159,13 @@ export function AchievementNeeds({ needs }: { needs: Needs }) {
       </h2>
       <div className="lneeds__groups">
         {items.length > 0 && (
-          <NeedsGroup id={`${id}-objetos`} label={s.needsGroups.items} className="lneeds__items">
+          <NeedsGroup
+            id={`${id}-objetos`}
+            label={s.needsGroups.items}
+            className="lneeds__items"
+            columns={itemColumns}
+            rows={items.length}
+          >
             {items.map(({ item, quantity }) => (
               <li key={item.name} className="row copyhost">
                 <IconWell image={item.icon} />
@@ -128,7 +178,13 @@ export function AchievementNeeds({ needs }: { needs: Needs }) {
           </NeedsGroup>
         )}
         {tasks.length > 0 && (
-          <NeedsGroup id={`${id}-tareas`} label={s.needsGroups.tasks} className="lneeds__tasks">
+          <NeedsGroup
+            id={`${id}-tareas`}
+            label={s.needsGroups.tasks}
+            className="lneeds__tasks"
+            columns={taskColumns}
+            rows={tasks.length}
+          >
             {tasks.map(({ quantity, label, kind, boss }) => (
               <li key={label} className="row">
                 {boss ? (
@@ -145,7 +201,12 @@ export function AchievementNeeds({ needs }: { needs: Needs }) {
           </NeedsGroup>
         )}
         {others.length > 0 && (
-          <NeedsGroup id={`${id}-otros`} label={s.needsGroups.others} className="lneeds__others">
+          <NeedsGroup
+            id={`${id}-otros`}
+            label={s.needsGroups.others}
+            className="lneeds__others"
+            modifier="lneeds__g--others"
+          >
             {others.map(({ quantity, label }) => (
               <li key={label} className="row">
                 <span className="lneeds__t">
