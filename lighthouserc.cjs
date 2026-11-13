@@ -16,14 +16,29 @@ const PAGES = [
   '/dofus-ocre', // Guía de Dofus
 ]
 
+// CI reparte las páginas en partes que corren en paralelo: LHCI_SHARD=1/2 mide la primera
+// mitad y 2/2 la segunda. Sin LHCI_SHARD, todas. Cada parte es un trozo seguido de la lista.
+function pagesForShard(pages, shard) {
+  if (!shard) return pages
+  const match = /^(\d+)\/(\d+)$/.exec(shard)
+  const index = match ? Number(match[1]) : NaN
+  const total = match ? Number(match[2]) : NaN
+  if (!(total >= 1 && index >= 1 && index <= total)) {
+    throw new Error(`LHCI_SHARD debe ser «parte/total», como 1/2; llegó «${shard}».`)
+  }
+  const size = Math.ceil(pages.length / total)
+  return pages.slice((index - 1) * size, index * size)
+}
+
 // Mediana o mejor de las tres ejecuciones de cada página.
 const median = (options) => ({ ...options, aggregationMethod: 'median' })
 const best = (options) => ({ ...options, aggregationMethod: 'optimistic' })
 
 module.exports = {
+  pagesForShard,
   ci: {
     collect: {
-      url: PAGES.map((page) => new URL(page, BASE_URL).href),
+      url: pagesForShard(PAGES, process.env.LHCI_SHARD).map((page) => new URL(page, BASE_URL).href),
       numberOfRuns: 3,
       // Sin preset: móvil emulado (412 px, DPR 1,75) con 4G lento y la CPU 4 veces más
       // lenta, pero aplicados de verdad (DevTools) en vez de simulados (Lantern). La

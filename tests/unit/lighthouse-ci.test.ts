@@ -143,3 +143,37 @@ describe('lhciEnv', () => {
     expect(env.PAYLOAD_SECRET).not.toBe('')
   })
 })
+
+describe('lighthouserc.cjs por partes (LHCI_SHARD)', () => {
+  const pages = ['/', '/a', '/b', '/c', '/d', '/e']
+
+  it('sin LHCI_SHARD mide todas las páginas', () => {
+    expect(lighthouserc.pagesForShard(pages, undefined)).toEqual(pages)
+    expect(lighthouserc.pagesForShard(pages, '')).toEqual(pages)
+  })
+
+  it('reparte las páginas en partes seguidas que juntas las cubren todas una vez', () => {
+    expect(lighthouserc.pagesForShard(pages, '1/2')).toEqual(['/', '/a', '/b'])
+    expect(lighthouserc.pagesForShard(pages, '2/2')).toEqual(['/c', '/d', '/e'])
+    const thirds = ['1/3', '2/3', '3/3'].flatMap((shard) =>
+      lighthouserc.pagesForShard(pages, shard),
+    )
+    expect(thirds).toEqual(pages)
+  })
+
+  it('con un número de páginas impar, la última parte lleva una menos', () => {
+    expect(lighthouserc.pagesForShard(['/', '/a', '/b'], '1/2')).toEqual(['/', '/a'])
+    expect(lighthouserc.pagesForShard(['/', '/a', '/b'], '2/2')).toEqual(['/b'])
+  })
+
+  it.each(['0/2', '3/2', '1', 'a/b', '1/0'])('rechaza una parte mal escrita: %s', (shard) => {
+    expect(() => lighthouserc.pagesForShard(pages, shard)).toThrow(/LHCI_SHARD/)
+  })
+
+  it('las dos partes de CI juntas miden las mismas páginas que la configuración entera', () => {
+    const all = collect.url
+    const shards = ['1/2', '2/2'].flatMap((shard) => lighthouserc.pagesForShard(all, shard))
+    expect(shards).toEqual(all)
+    expect(all).toHaveLength(6)
+  })
+})
