@@ -457,6 +457,101 @@ describe('importar una checklist entera', () => {
   })
 })
 
+describe('la zona de cada paso', () => {
+  const slug = `${PREFIX}-zonas`
+  const withZones = (zones: string[]) => {
+    const draft = draftFor(slug)
+    draft.steps.forEach((step, index) => (step.zone = zones[index]))
+    return draft
+  }
+  const zonesOf = async () => (await read(slug))!.steps!.map((step) => step.zone ?? null)
+
+  it('se rellena aunque Torre haya editado otros campos de los pasos, sin pisar lo suyo', async () => {
+    await loadChecklists(payload, options([{ entry: entry(slug), draft: draftFor(slug) }]))
+    // Una checklist importada antes de que hubiera zonas: pasos sin zona y sin su recuerdo.
+    const imported = (await read(slug))!
+    const snapshot = { ...(imported.importSnapshot as Record<string, unknown>) }
+    delete snapshot.zones
+    await payload.update({
+      collection: 'checklists',
+      id: imported.id,
+      data: {
+        steps: imported.steps!.map((step) => ({ ...step, zone: null })),
+        importSnapshot: snapshot,
+      },
+      draft: true,
+      overrideAccess: true,
+    })
+    // Torre corrige el texto de un paso.
+    const editor = await createPanelUser(payload)
+    const before = (await read(slug))!
+    await payload.update({
+      collection: 'checklists',
+      id: before.id,
+      data: {
+        steps: before.steps!.map((step, index) =>
+          index === 0
+            ? { ...step, segments: [{ kind: 'plain' as const, text: 'Texto de Torre.' }] }
+            : step,
+        ),
+      },
+      draft: true,
+      user: editor,
+    })
+
+    const report = await loadChecklists(
+      payload,
+      options([{ entry: entry(slug), draft: draftFor(slug) }]),
+    )
+
+    expect(report.kept).toEqual([{ slug, field: 'steps' }])
+    const after = (await read(slug))!
+    expect(after.steps![0].segments?.[0].text).toBe('Texto de Torre.')
+    expect(await zonesOf()).toEqual(['Llanuras de prueba', 'Llanuras de prueba', 'Zona de prueba'])
+    expect(after.steps!.map((step) => step.stepId)).toEqual(
+      before.steps!.map((step) => step.stepId),
+    )
+  })
+
+  it('una segunda pasada no cambia nada', async () => {
+    const before = (await read(slug))!
+    const report = await loadChecklists(
+      payload,
+      options([{ entry: entry(slug), draft: draftFor(slug) }]),
+    )
+    expect(report).toMatchObject({ updated: 0, unchanged: 1 })
+    expect((await read(slug))!.updatedAt).toBe(before.updatedAt)
+  })
+
+  it('la zona que Torre cambió se queda; la que no tocó sigue a la importación', async () => {
+    const editor = await createPanelUser(payload)
+    const doc = (await read(slug))!
+    await payload.update({
+      collection: 'checklists',
+      id: doc.id,
+      data: {
+        steps: doc.steps!.map((step, index) =>
+          index === 0 ? { ...step, zone: 'Zona de Torre' } : step,
+        ),
+      },
+      draft: true,
+      user: editor,
+    })
+
+    await loadChecklists(
+      payload,
+      options([
+        {
+          entry: entry(slug),
+          draft: withZones(['Llanuras nuevas', 'Llanuras nuevas', 'Zona nueva']),
+        },
+      ]),
+    )
+
+    expect(await zonesOf()).toEqual(['Zona de Torre', 'Llanuras nuevas', 'Zona nueva'])
+  })
+})
+
 describe('las checklists sin portar', () => {
   const slug = `${PREFIX}-ficha`
 
