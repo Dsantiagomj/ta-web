@@ -12,8 +12,8 @@
 //   checklists antiguas que no son esta (silvestre:*, hielos:*, global:*): sus pasos no se
 //   pueden pasar sin su estructura, pero lo hecho en ellas sale hecho aquí.
 import type { ChecklistIslandData } from '../page'
-import { checklistModel, markSteps, type ChecklistModel } from './engine'
-import { legacySource, QUESTS_ONLY, SHARED_KEY } from './legacy-keys'
+import { checklistModel, finishedEntry, isSelf, markSteps, type ChecklistModel } from './engine'
+import { legacySource, SHARED_KEY } from './legacy-keys'
 import type { Progress, QuestEntry } from './store'
 
 type Flags = Record<string, unknown>
@@ -62,7 +62,8 @@ export function migrateProgress(
   for (const old of previous.flat()) uses.set(old, (uses.get(old) ?? 0) + 1)
   const out = { done: {} as Record<number, true>, questPos: {} as Record<number, number> }
   previous.forEach((old, index) => {
-    if (old.every((n) => done[n] === true)) out.done[index + 1] = true
+    // Un paso nuevo (sin pasos antiguos) nunca sale hecho
+    if (old.length > 0 && old.every((n) => done[n] === true)) out.done[index + 1] = true
     const [only] = old
     if (old.length === 1 && uses.get(only) === 1 && questPos[only] != null) {
       out.questPos[index + 1] = questPos[only]
@@ -117,7 +118,7 @@ export function migrateOwned(owned: Flags, moves: Moves): Flags {
 export function readClassic(
   read: LegacyInput['read'],
   keys: { v4?: string | null; v3?: string | null },
-  previous: number[][],
+  previous: number[][] | null,
 ): number[] {
   const checked = (key?: string | null) => {
     if (!key) return null
@@ -132,47 +133,81 @@ export function readClassic(
   const source = v4 ?? checked(keys.v3)
   if (!source) return []
   const steps = source.flatMap((on, index) => (on === true ? [index + 1] : []))
+  // Sin previousSteps no hay nada que pasar: los números son los de ahora (legacyNumber), y los
+  // que ya no existen se quedan fuera al buscar su paso.
+  if (!previous) return steps
   if (v4) return steps.filter((n) => n <= previous.length)
   const old = new Set(steps)
   return previous.flatMap((prev, index) => (prev.every((n) => old.has(n)) ? [index + 1] : []))
 }
 
-/** Suma una misión: una terminada no se toca; si no, gana la que va más lejos. */
-function addQuest(p: Progress, m: ChecklistModel, id: string, entry: QuestEntry) {
+/**
+ * Suma una misión: una terminada no se toca; si no, gana la que va más lejos. Lo que llega de
+ * otra checklist (`foreign`) nunca pisa lo que esta ya tiene.
+ */
+function addQuest(p: Progress, m: ChecklistModel, id: string, entry: QuestEntry, foreign = false) {
   const was = p.quests[id]
-  const total = m.objectives[Number(id)] ?? 0
-  const finished = (e?: QuestEntry) =>
-    Boolean(e) && (e!.o === 'done' || (total > 0 && e!.o >= total))
-  if (finished(was)) return
-  if (was && !finished(entry) && typeof was.o === 'number' && was.o >= (entry.o as number)) return
+  if (finishedEntry(m, Number(id), was)) return
+  if (foreign && was && (!was.by || isSelf(m, was.by.c))) return
+  const ahead = typeof was?.o === 'number' && was.o >= (entry.o as number)
+  if (was && !finishedEntry(m, Number(id), entry) && ahead) return
   p.quests[id] = entry
 }
+
+/**
+ * El avance de cada misión (questObjective): terminada pasado su último objetivo, a medias si
+ * no. Lo de otra checklist solo se trae con sus objetivos conocidos (las misiones de esta): sin
+ * ellos no se sabe si está terminada, y lo trae la página de su propia checklist.
+ */
+function addObjectives(
+  p: Progress,
+  m: ChecklistModel,
+  questObj: Record<string, number>,
+  by: QuestEntry['by'],
+  now: number,
+  foreign = false,
+) {
+  for (const [id, k] of Object.entries(questObj)) {
+    const total = m.objectives[Number(id)]
+    if (k <= 0 || (foreign && !total)) continue
+    const o = total && k >= total ? 'done' : k
+    addQuest(p, m, id, { o, by, at: now }, foreign)
+  }
+}
+
+/** Lo conseguido con claves de cada guía (con «@» o «|»): en ta-web no hay a qué llevarlas. */
+const simpleKey = (key: string) => !/[@|]/.test(key.split('#')[0])
 
 function migrateOwn(p: Progress, m: ChecklistModel, input: LegacyInput, prefix: string) {
   const { read, data, now } = input
   const legacy = data.legacy ?? {}
   const steps = data.steps
-  const previous = Array.isArray(legacy.previousSteps)
-    ? (legacy.previousSteps as number[][])
-    : steps.map((_, index) => [index + 1])
+  // Sin previousSteps, lo guardado ya va numerado como ahora: por el legacyNumber de cada paso.
+  const previous = Array.isArray(legacy.previousSteps) ? (legacy.previousSteps as number[][]) : null
   const key = (name: string) => `${prefix}${name}`
 
   let done = readObject(read, key('done'))
   let questPos = numbers(readObject(read, key('questPos')))
   let questObj = numbers(readObject(read, key('questObjective')))
-  if (read(key('guide')) !== String(legacy.guideVersion ?? 1)) {
+  if (previous && read(key('guide')) !== String(legacy.guideVersion ?? 1)) {
     ;({ done, questPos } = migrateProgress(done, questPos, previous))
   }
   if (read(key('questModel')) !== QUEST_MODEL && Object.keys(questPos).length) {
     const weights = Object.fromEntries(
-      steps.map(([, n, quests], index) => [
-        String(n ?? index + 1),
-        {
-          q: data.weights[index]?.[1] ?? [],
-          ids: quests.map(([id]) => String(id)),
-          os: quests.map(([id]) => data.objectives[id] ?? 0),
-        },
-      ]),
+      steps.flatMap(([, n, quests], index) =>
+        n == null
+          ? []
+          : [
+              [
+                String(n),
+                {
+                  q: data.weights[index]?.[1] ?? [],
+                  ids: quests.map(([id]) => String(id)),
+                  os: quests.map(([id]) => data.objectives[id] ?? 0),
+                },
+              ],
+            ],
+      ),
     )
     questObj = migrateQuestPos(questPos, questObj, weights)
   }
@@ -182,13 +217,10 @@ function migrateOwn(p: Progress, m: ChecklistModel, input: LegacyInput, prefix: 
     for (const n of readClassic(read, classicKeys, previous)) done[n] = true
   }
 
-  const by = { c: m.id }
-  for (const [id, k] of Object.entries(questObj)) {
-    const total = m.objectives[Number(id)] ?? 0
-    if (k > 0) addQuest(p, m, id, { o: total > 0 && k >= total ? 'done' : k, by, at: now })
-  }
+  addObjectives(p, m, questObj, { c: m.id }, now)
 
-  const indexOf = new Map(steps.map(([, n], index) => [n ?? index + 1, index]))
+  // Por su número antiguo; un paso nuevo (sin él) no recibe nada.
+  const indexOf = new Map(steps.flatMap(([, n], index) => (n == null ? [] : [[n, index] as const])))
   const marked = Object.keys(done)
     .filter((n) => done[n] === true)
     .flatMap((n) => {
@@ -204,10 +236,10 @@ function migrateOwn(p: Progress, m: ChecklistModel, input: LegacyInput, prefix: 
 
   let owned = readObject(read, key('owned'))
   if (read(key('ownedModel')) !== OWNED_MODEL) {
-    owned = migrateOwned(owned, ((legacy as { ownedMoves?: Moves }).ownedMoves ?? {}) as Moves)
+    owned = migrateOwned(owned, (legacy.ownedMoves ?? {}) as Moves)
   }
   for (const [name, on] of Object.entries(owned)) {
-    if (on !== true) continue
+    if (on !== true || !simpleKey(name)) continue
     const [item, n] = name.split('#')
     const index = n === undefined ? undefined : indexOf.get(Number(n))
     if (n !== undefined && index === undefined) continue
@@ -222,27 +254,32 @@ const sharedOwned = (keys: string[]) => keys.filter((key) => !/[#@|]/.test(key))
 function migrateOthers(p: Progress, m: ChecklistModel, input: LegacyInput, id: string) {
   const { read, data, now } = input
   const by = { c: data.legacyIds[id] ?? id }
-  for (const [quest, k] of Object.entries(numbers(readObject(read, `${id}:questObjective`)))) {
-    const total = m.objectives[Number(quest)] ?? 0
-    if (k > 0) addQuest(p, m, quest, { o: total > 0 && k >= total ? 'done' : k, by, at: now })
-  }
+  addObjectives(p, m, numbers(readObject(read, `${id}:questObjective`)), by, now, true)
   const owned = readObject(read, `${id}:owned`)
   for (const key of sharedOwned(Object.keys(owned).filter((key) => owned[key] === true))) {
     p.owned[key] ??= now
   }
 }
 
-function migrateShared(p: Progress, m: ChecklistModel, input: LegacyInput, own: string | null) {
+function migrateShared(
+  p: Progress,
+  m: ChecklistModel,
+  input: LegacyInput,
+  own: string | null,
+  skipOwn: boolean,
+) {
   const { read, data, now } = input
   const all = readObject(read, SHARED_KEY)
   for (const [id, entry] of Object.entries(all)) {
-    // Lo de esta checklist ya llega, con sus pasos, de sus propias claves.
-    if (id === own || !entry || typeof entry !== 'object') continue
+    // Lo de esta checklist llega, con sus pasos, de sus propias claves si están en esta pasada;
+    // si ya no están (o se migraron antes), de aquí, para no perderlo.
+    if ((id === own && skipOwn) || !entry || typeof entry !== 'object') continue
     const { quests, owned } = entry as { quests?: unknown; owned?: unknown }
-    const by = { c: data.legacyIds[id] ?? id }
+    const mine = id === own
+    const by = { c: mine ? m.id : (data.legacyIds[id] ?? id) }
     for (const quest of Array.isArray(quests) ? quests : []) {
       if (typeof quest === 'number' || typeof quest === 'string') {
-        addQuest(p, m, String(quest), { o: 'done', by, at: now })
+        addQuest(p, m, String(quest), { o: 'done', by, at: now }, !mine)
       }
     }
     for (const key of sharedOwned(Array.isArray(owned) ? owned.map(String) : [])) {
@@ -272,13 +309,12 @@ export function migrateLegacy(progress: Progress, input: LegacyInput): Progress 
     owned: { ...progress.owned },
     migrated: { ...progress.migrated },
   }
-  if (own && prefix && pending.includes(own)) migrateOwn(p, m, input, prefix)
-  if (pending.includes('shared')) migrateShared(p, m, input, own)
+  const ownNow = Boolean(own && prefix && pending.includes(own))
+  if (ownNow) migrateOwn(p, m, input, prefix!)
+  if (pending.includes('shared')) migrateShared(p, m, input, own, ownNow)
   for (const source of pending) {
     if (source.endsWith(':quests')) migrateOthers(p, m, input, source.slice(0, -':quests'.length))
   }
   for (const source of pending) p.migrated[source] = input.now
   return p
 }
-
-export { QUESTS_ONLY }

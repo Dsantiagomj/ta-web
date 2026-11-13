@@ -94,6 +94,18 @@ describe('colección checklists', () => {
     expect(validate('no es un enlace')).not.toBe(true)
   })
 
+  it('guarda lo que necesita la migración del progreso antiguo, también las claves de objetos que cambiaron', () => {
+    const legacy = field(Checklists.fields, 'legacy') as GroupField
+    expect(legacy.fields.map((f) => ('name' in f ? f.name : null))).toEqual([
+      'prefix',
+      'classicKeys',
+      'guideVersion',
+      'previousSteps',
+      'ownedMoves',
+    ])
+    expect(field(legacy.fields, 'ownedMoves')).toMatchObject({ type: 'json' })
+  })
+
   it('los prerrequisitos van por grupos de filas con su clave de progreso', () => {
     const prerequisites = field(Checklists.fields, 'prerequisites') as GroupField
     expect(field(prerequisites.fields, 'intro')).toMatchObject({ localized: true })

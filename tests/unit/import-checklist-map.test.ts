@@ -315,7 +315,17 @@ describe('la checklist', () => {
       classicKeys: { v4: 'dofus_nebuloso_clean_v1', v3: null },
       guideVersion: 1,
       previousSteps: legacy.previousSteps,
+      ownedMoves: {},
     })
+  })
+
+  it('las claves de objetos que cambiaron (ownedMoves), como las da la checklist antigua', () => {
+    const moves = { '519@orden espiritu de la salvacion': ['519', [78, 80]] as [string, number[]] }
+    const withMoves = toChecklistDraft(nebuloso, {
+      ...legacy,
+      config: { ...legacy.config, ownedMoves: moves },
+    })
+    expect(withMoves.legacy.ownedMoves).toEqual(moves)
   })
 })
 

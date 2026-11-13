@@ -150,6 +150,7 @@ const draftFor = (slug: string, overrides: Partial<ChecklistDraft> = {}): Checkl
       prefix: 'prueba:',
       classicKeys: { v4: 'dofus_prueba_clean_v1', v3: null },
       guideVersion: 1,
+      ownedMoves: { '519@orden': ['519', [1]] },
       previousSteps: [[1], [2], [3]],
     },
     names: { quests: { [IDS.missingQuest]: 'Misión que falta' } },
@@ -343,6 +344,8 @@ describe('importar una checklist entera', () => {
         classicKeys: { v4: 'dofus_prueba_clean_v1', v3: null },
         guideVersion: 1,
         previousSteps: [[1], [2], [3]],
+        // Las claves de objetos que cambiaron, para la migración del progreso
+        ownedMoves: { '519@orden': ['519', [1]] },
       },
     })
     const steps = doc.steps!
