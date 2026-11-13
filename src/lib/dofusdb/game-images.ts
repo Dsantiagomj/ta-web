@@ -203,8 +203,8 @@ function fightMonsters(blocks: BodyBlock[] | null | undefined): number[] {
  * Lo que pinta alguna página: los objetos de las recompensas y requisitos de las misiones,
  * los de las recompensas de los logros y de sus páginas, los que piden las guías en su
  * resumen, y los
- * monstruos de los requisitos de las misiones, de los combates de las guías y los que
- * representan a un metalogro. Solo esos: el catálogo entero son decenas de miles de objetos.
+ * monstruos de los requisitos de las misiones, de los combates de las guías, los que
+ * representan a un metalogro y los jefes de las mazmorras. Solo esos: el catálogo entero son decenas de miles de objetos.
  */
 export async function gameImageTargets(
   payload: Payload,
@@ -258,6 +258,20 @@ export async function gameImageTargets(
     const chosen = group.representative
     if (chosen?.relationTo !== 'monsters') continue
     monsters.add(typeof chosen.value === 'number' ? chosen.value : chosen.value.id)
+  }
+  // Los jefes de las mazmorras: «Necesitarás en total» pinta el de la mazmorra que nombra
+  // una nota. Son unos 140, y así no depende de qué guía nombra cuál.
+  const dungeons = await payload.find({
+    collection: 'dungeons',
+    pagination: false,
+    depth: 0,
+    select: { bosses: true },
+    overrideAccess: true,
+  })
+  for (const dungeon of dungeons.docs) {
+    for (const boss of dungeon.bosses ?? []) {
+      monsters.add(typeof boss === 'number' ? boss : boss.id)
+    }
   }
   const guides = await payload.find({
     collection: 'quest-guides',

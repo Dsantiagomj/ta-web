@@ -4,6 +4,7 @@ import type {
   RawAchievement,
   RawAchievementCategory,
   RawArea,
+  RawDungeon,
   RawItem,
   RawMapPosition,
   RawMonster,
@@ -25,6 +26,8 @@ export interface QuestData {
   achievements?: RawAchievement[]
   /** Todas las categorías de logros: las zonas y grupos de los metalogros. */
   achievementCategories?: RawAchievementCategory[]
+  /** Todas las mazmorras, con sus jefes: «Necesitarás en total» pinta el jefe. */
+  dungeons?: RawDungeon[]
 }
 
 // Los campos de cada objeto que se guardan. Con typeId, DofusDB añade el tipo, que trae
@@ -49,6 +52,7 @@ const CATEGORY_FIELDS = ['id', 'name', 'parentId', 'order']
 const MONSTER_FIELDS = ['id', 'name', 'gfxId']
 const SUBAREA_FIELDS = ['id', 'name', 'areaId']
 const AREA_FIELDS = ['id', 'name']
+const DUNGEON_FIELDS = ['id', 'name', 'bosses']
 
 /**
  * Todas las misiones de DofusDB, más los PNJ de sus posiciones de inicio y de sus objetivos y
@@ -56,6 +60,7 @@ const AREA_FIELDS = ['id', 'name']
  * subzonas y áreas se traen todos: Torre puede nombrar cualquier objeto o monstruo en una guía
  * (los combates se casan por nombre), el logro de una misión solo se sabe mirando los logros, y
  * los objetivos caen en subzonas que no son de ningún mapa de inicio (son unas 570).
+ * Las mazmorras también, con sus jefes: sus notas nombran cualquiera.
  */
 export async function fetchQuestData(client: DofusDbClient): Promise<QuestData> {
   const quests = await client.fetchAll<RawQuest>('quests')
@@ -81,6 +86,7 @@ export async function fetchQuestData(client: DofusDbClient): Promise<QuestData> 
   )
   const items = await client.fetchAll<RawItem>('items', { select: ITEM_FIELDS })
   const monsters = await client.fetchAll<RawMonster>('monsters', { select: MONSTER_FIELDS })
+  const dungeons = await client.fetchAll<RawDungeon>('dungeons', { select: DUNGEON_FIELDS })
   return {
     quests,
     npcs,
@@ -91,5 +97,6 @@ export async function fetchQuestData(client: DofusDbClient): Promise<QuestData> 
     areas,
     achievements,
     achievementCategories,
+    dungeons,
   }
 }

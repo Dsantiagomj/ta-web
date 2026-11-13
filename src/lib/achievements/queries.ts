@@ -10,7 +10,9 @@ import type { User } from '@/payload-types'
 import type { IndexData } from './metalogros'
 import {
   type AchievementPageData,
+  type DungeonDoc,
   type GuideRef,
+  isDungeonNote,
   noteLabels,
   type NoteItemDoc,
   type PageDoc,
@@ -29,7 +31,8 @@ const relationId = (value: number | { id: number } | null | undefined) =>
  * Lo que necesita la página de un logro: la página (depth 2: el logro con su icono, el
  * metalogro, las misiones con sus prerrequisitos y los objetos con su icono), los logros
  * del mismo metalogro, las guías publicadas de sus misiones y de sus prerrequisitos, los
- * PNJ que dan cada misión y los objetos que nombran las notas de Necesitarás. Null si no hay página que enseñar.
+ * PNJ que dan cada misión, los objetos que nombran las notas de Necesitarás y las
+ * mazmorras con sus jefes. Null si no hay página que enseñar.
  */
 export async function readAchievementPage(
   payload: Payload,
@@ -140,12 +143,28 @@ export async function readAchievementPage(
     if (item.name && !noteItems.has(item.name)) noteItems.set(item.name, item as NoteItemDoc)
   }
 
+  // Las mazmorras con sus jefes, solo si alguna nota nombra una mazmorra: la página pinta
+  // el jefe de la que nombra cada una. Son unas 190; el caché de la página las guarda.
+  const dungeons = labels.some(isDungeonNote)
+    ? ((
+        await payload.find({
+          collection: 'dungeons',
+          select: { name: true, bosses: true },
+          populate: { monsters: { name: true, image: true } },
+          depth: 2,
+          pagination: false,
+          overrideAccess: false,
+        })
+      ).docs as DungeonDoc[])
+    : []
+
   return {
     page,
     siblings,
     guides,
     givers: new Map(npcs.map((npc) => [npc.dofusId, npc])),
     noteItems,
+    dungeons,
   }
 }
 

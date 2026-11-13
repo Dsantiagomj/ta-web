@@ -12,6 +12,7 @@ import { AchievementPages } from './collections/AchievementPages'
 import { Checklists } from './collections/Checklists'
 import { Achievements } from './collections/Achievements'
 import { DofusGuides } from './collections/DofusGuides'
+import { Dungeons } from './collections/Dungeons'
 import { Items } from './collections/Items'
 import { Media } from './collections/Media'
 import { Monsters } from './collections/Monsters'
@@ -44,6 +45,7 @@ export default buildConfig({
     Quests,
     Items,
     Monsters,
+    Dungeons,
     Npcs,
     SubAreas,
     AchievementCategories,
