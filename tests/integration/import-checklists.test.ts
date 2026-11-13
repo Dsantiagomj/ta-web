@@ -89,7 +89,7 @@ const draftFor = (slug: string, overrides: Partial<ChecklistDraft> = {}): Checkl
         note: null,
         achievements: [],
         quests: [{ quest: IDS.stopQuest, kind: 'mandatory', note: null, optionalDoneBy: null }],
-        needs: [],
+        needs: [{ item: '997302', name: 'Llave', quantity: 1, note: null, quests: [] }],
         figure: { npc: null, art: { path: ART[1], alt: 'Dios de prueba' }, role: 'Se habla con' },
         bosses: [997_501],
         banner: { path: ART[1], alt: 'Dios de prueba' },
@@ -195,7 +195,7 @@ async function cleanUp() {
   })
   await payload.delete({
     collection: 'items',
-    where: { dofusId: { equals: 997_301 } },
+    where: { dofusId: { in: [997_301, 997_302] } },
     overrideAccess: true,
   })
   await payload.delete({
@@ -234,6 +234,8 @@ beforeAll(async () => {
     await create({ collection: 'achievements', data: { dofusId: IDS.quest, name: 'De prueba' } })
   ).id
   ids.item = (await create({ collection: 'items', data: { dofusId: 997_301, name: 'Pepita' } })).id
+  // Un objeto que ya estaba sin icono: la importación se lo trae.
+  await create({ collection: 'items', data: { dofusId: 997_302, name: 'Llave', iconId: 1 } })
   ids.npc = (await create({ collection: 'npcs', data: { dofusId: 997_401, name: 'Sargento' } })).id
   ids.boss = (
     await create({ collection: 'monsters', data: { dofusId: 997_501, name: 'Vórtex' } })
@@ -261,7 +263,7 @@ describe('importar una checklist entera', () => {
     expect(report.created).toBe(1)
     expect(await read(slug)).toBeUndefined()
     expect(await artCount()).toBe(0)
-    expect(report.pending.art).toBe(ART.length)
+    expect(report.pending).toEqual({ items: 0, npcs: 0, icons: 1, art: ART.length })
   })
 
   it('crea un borrador En preparación con todo enlazado, en su orden y con sus stepId', async () => {

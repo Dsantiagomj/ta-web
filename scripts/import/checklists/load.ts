@@ -51,8 +51,11 @@ export interface LoadChecklistsReport {
   kept: { slug: string; field: string }[]
   /** Lo que no se pudo casar, por paso (null: la checklist). */
   unmatched: { slug: string; step: number | null; kind: UnmatchedKind; name: string }[]
-  /** Lo que se traería de DofusDB o se subiría a Media (solo en seco). */
-  pending: { items: number; npcs: number; art: number }
+  /**
+   * Lo que se traería de DofusDB o se subiría a Media (solo en seco): objetos y PNJ que
+   * faltan, iconos de objetos que ya estaban sin él e imágenes de la checklist antigua.
+   */
+  pending: { items: number; npcs: number; icons: number; art: number }
 }
 
 /** Los campos que escribe la importación; el estado (y el resto) es de Torre. */
@@ -132,6 +135,8 @@ interface StepContext {
   unmatched: (step: number | null, kind: UnmatchedKind, name: string) => void
   /** Lo que se traería o subiría en seco, por tipo. */
   pending: { items: Set<string>; npcs: Set<number>; art: Set<string> }
+  /** Los objetos de la base que nombra la checklist (sus iconos se cuentan al final). */
+  items: Set<number>
 }
 
 /** Los pasos del borrador con sus referencias resueltas y sus stepId. */
@@ -141,7 +146,7 @@ async function resolveSteps(
   current: Checklist | undefined,
   context: StepContext,
 ) {
-  const { options, unmatched, pending } = context
+  const { options, unmatched, pending, items } = context
   const newId = options.newId ?? randomUUID
   const all = draft.steps
   const quests = await byDofusId(payload, 'quests', [
@@ -194,6 +199,7 @@ async function resolveSteps(
       : await options.ensureItem(Number(need.item))
     if (id === null) unmatched(n, 'objeto', need.name)
     else if (id < 0) pending.items.add(need.item)
+    else items.add(id)
     return id
   }
   const npc = async (n: number, dofusId: number | null) => {
@@ -291,9 +297,10 @@ export async function loadChecklists(
     unchanged: 0,
     kept: [],
     unmatched: [],
-    pending: { items: 0, npcs: 0, art: 0 },
+    pending: { items: 0, npcs: 0, icons: 0, art: 0 },
   }
   const pending = { items: new Set<string>(), npcs: new Set<number>(), art: new Set<string>() }
+  const items = new Set<number>()
 
   for (const { entry, draft } of options.checklists) {
     // Una misma referencia que falta se avisa una vez por paso.
@@ -337,7 +344,7 @@ export async function loadChecklists(
       legacyHref: head.legacyHref,
       ...(draft && {
         prerequisites: draft.prerequisites,
-        steps: await resolveSteps(payload, draft, current, { options, unmatched, pending }),
+        steps: await resolveSteps(payload, draft, current, { options, unmatched, pending, items }),
         legacy: draft.legacy,
       }),
     }
@@ -408,9 +415,22 @@ export async function loadChecklists(
     )
   }
 
+  // Los objetos que ya estaban sin icono: ensureItem se lo trae al escribir.
+  const icons = items.size
+    ? await payload.count({
+        collection: 'items',
+        where: {
+          id: { in: [...items] },
+          image: { exists: false },
+          iconId: { exists: true },
+        },
+        overrideAccess: true,
+      })
+    : { totalDocs: 0 }
   report.pending = {
     items: pending.items.size,
     npcs: pending.npcs.size,
+    icons: icons.totalDocs,
     art: pending.art.size,
   }
   return report
