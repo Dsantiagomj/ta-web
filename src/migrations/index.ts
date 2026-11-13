@@ -15,6 +15,7 @@ import * as migration_20261107_214742_achievement_pages_groups from './20261107_
 import * as migration_20261110_000232_dofus_guides from './20261110_000232_dofus_guides';
 import * as migration_20261110_052805_dofus_guides_import from './20261110_052805_dofus_guides_import';
 import * as migration_20261110_131101_dofus_guides_index from './20261110_131101_dofus_guides_index';
+import * as migration_20261113_011531_quest_stages from './20261113_011531_quest_stages';
 
 export const migrations = [
   {
@@ -100,6 +101,11 @@ export const migrations = [
   {
     up: migration_20261110_131101_dofus_guides_index.up,
     down: migration_20261110_131101_dofus_guides_index.down,
-    name: '20261110_131101_dofus_guides_index'
+    name: '20261110_131101_dofus_guides_index',
+  },
+  {
+    up: migration_20261113_011531_quest_stages.up,
+    down: migration_20261113_011531_quest_stages.down,
+    name: '20261113_011531_quest_stages'
   },
 ];

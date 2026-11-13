@@ -116,6 +116,43 @@ describe('recompensas y requisitos de quests', () => {
   })
 })
 
+describe('etapas y objetivos de quests', () => {
+  function array(name: string, fields: Field[] = Quests.fields): ArrayField {
+    const found = field(name, fields)
+    expect(found.type).toBe('array')
+    return found as ArrayField
+  }
+
+  it('guarda las etapas en orden, de solo lectura en el panel', () => {
+    const stages = array('stages')
+    expect(stages.admin?.readOnly).toBe(true)
+    expect(field('dofusId', stages.fields)).toMatchObject({ type: 'number', required: true })
+    expect(field('name', stages.fields)).toMatchObject({ type: 'text', localized: true })
+  })
+
+  it('guarda los objetivos de cada etapa con su tipo, su texto y lo que nombran', () => {
+    const objectives = array('objectives', array('stages').fields)
+    expect(field('dofusId', objectives.fields)).toMatchObject({ type: 'number', required: true })
+    const kind = field('kind', objectives.fields)
+    expect(kind).toMatchObject({ type: 'select', required: true })
+    const values = (kind as { options: { value: string }[] }).options.map((option) => option.value)
+    expect(values).toEqual(['free', 'npc', 'bring', 'fight', 'map', 'craft'])
+    expect(field('text', objectives.fields)).toMatchObject({ type: 'text', localized: true })
+    for (const name of [
+      'npcId',
+      'monsterId',
+      'itemId',
+      'quantity',
+      'mapId',
+      'x',
+      'y',
+      'subAreaId',
+    ]) {
+      expect(field(name, objectives.fields)).toMatchObject({ type: 'number' })
+    }
+  })
+})
+
 describe('permisos de quests', () => {
   it('cualquiera lee las misiones, porque son datos públicos del juego', () => {
     expect(questsAccess.read()).toBe(true)

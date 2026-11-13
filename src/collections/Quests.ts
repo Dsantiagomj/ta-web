@@ -152,6 +152,59 @@ export const Quests: CollectionConfig = {
       ],
     },
     {
+      name: 'stages',
+      label: 'Etapas',
+      type: 'array',
+      admin: {
+        readOnly: true,
+        description:
+          'Las etapas de DofusDB con sus objetivos, en el orden del checklist. El progreso de una misión cuenta objetivos en este orden.',
+      },
+      fields: [
+        { name: 'dofusId', label: 'ID en DofusDB', type: 'number', required: true },
+        { name: 'name', label: 'Nombre', type: 'text', localized: true },
+        {
+          name: 'objectives',
+          label: 'Objetivos',
+          type: 'array',
+          fields: [
+            { name: 'dofusId', label: 'ID en DofusDB', type: 'number', required: true },
+            {
+              name: 'kind',
+              label: 'Tipo',
+              type: 'select',
+              required: true,
+              options: [
+                { label: 'Libre', value: 'free' },
+                { label: 'Hablar con un PNJ', value: 'npc' },
+                { label: 'Entregar', value: 'bring' },
+                { label: 'Pelear', value: 'fight' },
+                { label: 'Descubrir un mapa o una zona', value: 'map' },
+                { label: 'Fabricar', value: 'craft' },
+              ],
+            },
+            {
+              name: 'text',
+              label: 'Texto',
+              type: 'text',
+              localized: true,
+              admin: {
+                description: 'Tal cual lo da DofusDB, con marcas como {npc,2646} sin resolver.',
+              },
+            },
+            { name: 'npcId', label: 'ID del PNJ', type: 'number' },
+            { name: 'monsterId', label: 'ID del monstruo', type: 'number' },
+            { name: 'itemId', label: 'ID del objeto', type: 'number' },
+            { name: 'quantity', label: 'Cantidad', type: 'number' },
+            { name: 'mapId', label: 'ID del mapa', type: 'number' },
+            { name: 'x', label: 'X', type: 'number' },
+            { name: 'y', label: 'Y', type: 'number' },
+            { name: 'subAreaId', label: 'ID de la subzona', type: 'number' },
+          ],
+        },
+      ],
+    },
+    {
       name: 'refreshedAt',
       label: 'Actualizada el',
       type: 'date',
