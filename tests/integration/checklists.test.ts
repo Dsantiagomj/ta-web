@@ -24,7 +24,14 @@ async function cleanUp() {
     where: { slug: { like: PREFIX } },
     overrideAccess: true,
   })
+  await payload.delete({
+    collection: 'quests',
+    where: { dofusId: { equals: QUEST_DOFUS_ID } },
+    overrideAccess: true,
+  })
 }
+
+const QUEST_DOFUS_ID = 990_101
 
 beforeAll(async () => {
   payload = await startPayload()
@@ -229,6 +236,81 @@ describe('el slug de una checklist en la raíz', () => {
       payload.create({
         collection: 'checklists',
         data: checklist('sistema', 9),
+        user: editor,
+        overrideAccess: false,
+      }),
+    ).rejects.toBeInstanceOf(ValidationError)
+  })
+})
+
+describe('los tramos de un paso', () => {
+  /** Una misión con dos etapas: tres objetivos, del 0 al 2. */
+  async function questWithObjectives() {
+    const objective = (dofusId: number) => ({ dofusId, kind: 'npc' as const })
+    return payload.create({
+      collection: 'quests',
+      data: {
+        dofusId: QUEST_DOFUS_ID,
+        name: 'Muestreo de prueba',
+        stages: [
+          { dofusId: 1, objectives: [objective(11), objective(12)] },
+          { dofusId: 2, objectives: [objective(21)] },
+        ],
+      },
+      overrideAccess: true,
+    })
+  }
+
+  const stop = (quest: number, stopObjective: number) => ({
+    segments: [{ kind: 'stop' as const, text: 'Avanza hasta…', quest, stopObjective }],
+  })
+
+  it('un «detente aquí» apunta a un objetivo que su misión tiene', async () => {
+    const quest = await questWithObjectives()
+    const created = await payload.create({
+      collection: 'checklists',
+      data: { ...checklist(`${PREFIX}-detente`, 10), steps: [stop(quest.id, 2)] },
+      user: editor,
+      overrideAccess: false,
+    })
+    expect(created.steps?.[0]?.segments?.[0]?.stopObjective).toBe(2)
+
+    await expect(
+      payload.create({
+        collection: 'checklists',
+        data: { ...checklist(`${PREFIX}-detente-fuera`, 11), steps: [stop(quest.id, 3)] },
+        user: editor,
+        overrideAccess: false,
+      }),
+    ).rejects.toBeInstanceOf(ValidationError)
+  })
+
+  it('un «aquí se resuelve» cierra pasos de la misma checklist', async () => {
+    const created = await payload.create({
+      collection: 'checklists',
+      data: { ...checklist(`${PREFIX}-resuelve`, 12), steps: [plain('Uno')] },
+      user: editor,
+      overrideAccess: false,
+    })
+    const [first] = created.steps!
+    const resolve = (closes: string[]) => ({
+      segments: [{ kind: 'resolve' as const, text: 'Termina la misión.', closes }],
+    })
+
+    const updated = await payload.update({
+      collection: 'checklists',
+      id: created.id,
+      data: { steps: [first!, resolve([first!.stepId!])] },
+      user: editor,
+      overrideAccess: false,
+    })
+    expect(updated.steps?.[1]?.segments?.[0]?.closes).toEqual([first!.stepId])
+
+    await expect(
+      payload.update({
+        collection: 'checklists',
+        id: created.id,
+        data: { steps: [first!, resolve(['paso-de-otra-checklist'])] },
         user: editor,
         overrideAccess: false,
       }),

@@ -3,6 +3,12 @@ import type { CollectionBeforeValidateHook, CollectionConfig, Field } from 'payl
 import { checklistStrings } from '../lib/checklists/strings'
 import { assignStepIds, type StepIdentity } from '../lib/checklists/step-ids'
 import { stateField } from './achievement-fields'
+import {
+  validateClosedSteps,
+  validateSegmentQuest,
+  validateStepRef,
+  validateStopObjective,
+} from './checklist-rules'
 import { isPanelUser, readPublishedOrAll } from './editorial-access'
 import { validateOptionalUrl } from './Media'
 import { validateSlug } from './QuestGuides'
@@ -60,12 +66,14 @@ const segmentFields: Field[] = [
     label: 'Misión',
     type: 'relationship',
     relationTo: 'quests',
+    validate: validateSegmentQuest,
     admin: { condition: isKind('stop'), description: s.segmentQuestDescription },
   },
   {
     name: 'stopObjective',
     label: 'Objetivo donde parar',
     type: 'number',
+    validate: validateStopObjective,
     admin: { condition: isKind('stop'), description: s.stopObjectiveDescription },
   },
   {
@@ -73,6 +81,7 @@ const segmentFields: Field[] = [
     label: 'Pasos que termina',
     type: 'text',
     hasMany: true,
+    validate: validateClosedSteps,
     admin: { condition: isKind('resolve'), description: s.closesDescription },
   },
 ]
@@ -174,6 +183,7 @@ const stepFields: Field[] = [
         name: 'optionalDoneBy',
         label: 'La termina el paso',
         type: 'text',
+        validate: validateStepRef,
         admin: { condition: isKind('optional'), description: s.optionalDoneByDescription },
       },
     ],
