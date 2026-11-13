@@ -18,6 +18,30 @@ export function Hero() {
   return (
     <section className="hero" aria-labelledby="h-hero">
       <div className="home-wrap hero__in">
+        {/* La isla va antes que el texto en el HTML, que es como se ve en el móvil. Chrome puede
+            pintar con el HTML a medias: con el texto delante y la isla subida con `order`, ese
+            primer pintado lo dejaba arriba y bajaba 240 px al llegar la isla. */}
+        <div className="hero__art" aria-hidden="true">
+          {/* La imagen principal en el móvil. Se pinta al 112 % con los bordes difuminados por
+              la máscara, así que basta un 85 % del ancho: a 412 px y 1,75x pide la de 640. */}
+          <Picture
+            image={KROSMOZ}
+            alt=""
+            priority
+            sizes="(min-width: 64rem) 760px, 85vw"
+            className="hero__isle"
+          />
+          {ORBS.map((orb) => (
+            <span
+              key={orb.slug}
+              className="orb"
+              style={{ '--x': orb.x, '--y': orb.y, '--bob': orb.delay } as React.CSSProperties}
+            >
+              {/* Baja prioridad: no compiten con la isla, la imagen principal. */}
+              <StaticImg src={orb.src} width={128} height={128} fetchPriority="low" />
+            </span>
+          ))}
+        </div>
         <div className="hero__txt">
           <h1 id="h-hero" className="hero__t">
             <span className="hero__eyebrow">{s.eyebrow}</span>{' '}
@@ -53,27 +77,6 @@ export function Hero() {
               {s.searchHelp}
             </p>
           </form>
-        </div>
-        <div className="hero__art" aria-hidden="true">
-          {/* La imagen principal en el móvil. Se pinta al 112 % con los bordes difuminados por
-              la máscara, así que basta un 85 % del ancho: a 412 px y 1,75x pide la de 640. */}
-          <Picture
-            image={KROSMOZ}
-            alt=""
-            priority
-            sizes="(min-width: 64rem) 760px, 85vw"
-            className="hero__isle"
-          />
-          {ORBS.map((orb) => (
-            <span
-              key={orb.slug}
-              className="orb"
-              style={{ '--x': orb.x, '--y': orb.y, '--bob': orb.delay } as React.CSSProperties}
-            >
-              {/* Baja prioridad: no compiten con la isla, la imagen principal. */}
-              <StaticImg src={orb.src} width={128} height={128} fetchPriority="low" />
-            </span>
-          ))}
         </div>
       </div>
     </section>
