@@ -18,6 +18,7 @@ import type {
 import { checklistPageStrings as s } from '@/lib/checklists/strings'
 import { formatAmount } from '@/lib/guides/display'
 
+import '@/components/ui/ui.css'
 import './checklist.css'
 
 const SEARCH_ICON = (
@@ -60,7 +61,7 @@ export const eggStyle = (color?: string) =>
 /** Las pestañas: sin JavaScript son enlaces a cada parte, que se ven una debajo de otra. */
 export function ChecklistTabs({ view }: { view: ChecklistView }) {
   const tab = (id: string, label: string, badge?: number) => (
-    <a className="ck-seg__b" href={`#ck-p-${id}`} data-tab={id} key={id}>
+    <a className="ck-seg__b hit-target" href={`#ck-p-${id}`} data-tab={id} key={id}>
       {label}
       {badge ? <span className="ck-badge">{badge}</span> : null}
     </a>
@@ -104,7 +105,10 @@ export function StepList({ steps }: { steps: StepView[] }) {
           <li key={step.stepId} className="ck-row" data-n={step.n} data-search={step.search}>
             <a className="ck-row__b" href={`#paso-${step.n}`} data-pick={step.n}>
               <span className="ck-row__n">{step.n}</span>
-              <span className="ck-row__t">{step.label}</span>
+              <span className="ck-row__x">
+                <span className="ck-row__t">{step.label}</span>
+                {step.zone && <span className="ck-row__z">{step.zone}</span>}
+              </span>
             </a>
             {(step.closedBy || step.closes.length > 0) && (
               <span className="ck-row__tags">
@@ -285,6 +289,7 @@ export function StepDetail({ step, last }: { step: StepView; last: number }) {
             )}
             <span className="ck-dh__shade" />
             <span className="ck-dh__num">{step.n}</span>
+            {step.zone && <span className="ck-dh__zone">{step.zone}</span>}
             <span className="ck-dh__ground" />
             {step.figure?.image && (
               <span className="ck-dh__fig">
@@ -312,7 +317,7 @@ export function StepDetail({ step, last }: { step: StepView; last: number }) {
               <p className="ck-dh__rel">
                 {step.closedBy && (
                   <a
-                    className="ck-tag ck-tag--stop"
+                    className="ck-tag ck-tag--stop hit-target"
                     href={`#paso-${step.closedBy}`}
                     data-pick={step.closedBy}
                   >
@@ -320,7 +325,12 @@ export function StepDetail({ step, last }: { step: StepView; last: number }) {
                   </a>
                 )}
                 {step.closes.map((n) => (
-                  <a key={n} className="ck-tag ck-tag--done" href={`#paso-${n}`} data-pick={n}>
+                  <a
+                    key={n}
+                    className="ck-tag ck-tag--done hit-target"
+                    href={`#paso-${n}`}
+                    data-pick={n}
+                  >
                     {s.closes(n)}
                   </a>
                 ))}
@@ -408,7 +418,7 @@ export function StepDetail({ step, last }: { step: StepView; last: number }) {
       </div>
       <footer className="ck-foot">
         {step.n > 1 ? (
-          <a className="ck-ghost" href={`#paso-${step.n - 1}`} data-pick={step.n - 1}>
+          <a className="ck-ghost hit-target" href={`#paso-${step.n - 1}`} data-pick={step.n - 1}>
             {chevron('M10 3.5 5.5 8l4.5 4.5')}
             <span className="sr-only">{s.previous}: </span>
             {step.n - 1}
@@ -417,7 +427,7 @@ export function StepDetail({ step, last }: { step: StepView; last: number }) {
           <span />
         )}
         {step.n < last && (
-          <a className="ck-ghost" href={`#paso-${step.n + 1}`} data-pick={step.n + 1}>
+          <a className="ck-ghost hit-target" href={`#paso-${step.n + 1}`} data-pick={step.n + 1}>
             <span className="sr-only">{s.next}: </span>
             {step.n + 1}
             {chevron('M6 3.5 10.5 8 6 12.5')}

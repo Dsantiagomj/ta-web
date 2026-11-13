@@ -209,6 +209,13 @@ describe('checklistView: el texto de cada paso', () => {
     ])
   })
 
+  it('lleva la zona del paso si Torre la puso', () => {
+    const view = checklistView(data([step('a', { zone: 'Anutropía' }), step('b')]))
+
+    expect(view.steps[0].zone).toBe('Anutropía')
+    expect(view.steps[1]).not.toHaveProperty('zone')
+  })
+
   it('nombra cada paso por el logro que cita o, si no cita ninguno, por su primera frase', () => {
     const steps = [
       step('a', {
