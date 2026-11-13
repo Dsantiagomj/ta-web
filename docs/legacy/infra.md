@@ -35,7 +35,7 @@ US East, decided 2026-11-02. The audience is mostly Latin America with a share i
 | DNS, CDN, TLS | Cloudflare | Needs the domain transfer out of Squarespace (plan, decision 1) |
 | Email | Resend | Pending. Prod sender on the domain with SPF, DKIM and DMARC |
 | Errors | Sentry (free tier) | Project `ta-web` in org `dsmjdev`. Server errors only (`src/instrumentation.ts`), no browser SDK. Environments `dev` and `production` appear with their first events |
-| Uptime | Better Stack (free) | Two monitors on `/api/health`, prod and dev, every 3 minutes (the free plan's interval). Down when the body lacks `"db":"ok"`. Alerts by email |
+| Uptime | Better Stack (free) | Two monitors on `/api/health`, prod and dev, every 3 minutes (the free plan's interval). Down when the body lacks `"status":"ok"`. Alerts by email. `/api/health` never queries the database: until 2026-11-13 it ran `select 1` on every call, so neither Neon compute ever reached its 5-minute suspend, and both ran out of the free plan's quota. The database check is `/api/ready`, for smoke and manual checks only |
 | Analytics | Plausible or self-hosted Umami | Prod only, later |
 | AI review | `gga` with Codex in CI | Advisory |
 
@@ -66,7 +66,7 @@ feature branch ──PR──▶ CI: lint, types, unit, integration,─┐
 - **Prod deploys.** Only `release.yml`, run by hand from `main` with a semver version. It refuses to run unless the repository owner triggered it, checks that `Pruebas` passed on the commit, creates the tag and GitHub release, sets `GIT_COMMIT_SHA`, deploys with `railway up` and the `RAILWAY_TOKEN` of the GitHub environment `production`, waits until `/api/health` reports the commit, then runs the smoke suite. Railway's `production` has no GitHub source, so nothing else deploys it.
 - **Migrations.** `pnpm migrate` is the pre-deploy command in both environments, against the direct Neon URL. A failed migration stops the deploy and the previous version keeps serving.
 - **Rollback.** For code, redeploy the previous Railway deployment. Schema changes are forward-only: a bad migration gets a new migration. Neon point-in-time restore is the last resort for data, and the Free plan keeps only 6 hours of history.
-- **Smoke tests.** The `@smoke` Playwright subset against the deployed URL: home renders, `/admin` responds, `/api/health` is ok. Read-only.
+- **Smoke tests.** The `@smoke` Playwright subset against the deployed URL: home renders, `/admin` responds, `/api/health` is ok, `/api/ready` reports `db: 'ok'`. Read-only.
 - **PR preview environments.** Later, once Torre reviews content changes in PRs. Railway can create one per PR with a Neon branch each.
 
 ## 5. Secrets and variables
