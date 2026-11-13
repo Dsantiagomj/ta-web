@@ -24,6 +24,7 @@ describe('ciScope', () => {
     [['scripts/refresh-quests.ts', 'tests/integration/import-achievements.test.ts']],
     [['scripts/hooks/gga-review.sh', 'tests/unit/gga-review-hook.test.ts']],
     [['scripts/review-release.ts', 'scripts/review-release-plan.ts']],
+    [['scripts/redirects/build-stub-redirects.ts', 'scripts/redirects/stub-map.ts']],
     [['scripts/backfill-guides.ts', 'scripts/media-sizes.ts', 'scripts/build-icons.ts']],
     [['tests/fixtures/dofusdb/quest.json']],
     [['lefthook.yml', '.gga', 'vitest.config.mts', 'eslint.config.mjs']],

@@ -1,3 +1,4 @@
+import { NextRequest } from 'next/server'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import * as devGate from '@/lib/dev-gate/dev-gate'
@@ -25,8 +26,10 @@ describe('isDevEnvironment', () => {
   })
 })
 
-// El proxy corre en cada petición (sin matcher): páginas, panel, API y estáticos. No mira
-// la ruta ni las cabeceras; solo el entorno.
+// El proxy corre en cada petición (sin matcher): páginas, panel, API y estáticos. Para el
+// noindex no mira la ruta ni las cabeceras; solo el entorno.
+const request = (path = '/') => new NextRequest(`http://localhost:3000${path}`)
+
 describe('proxy', () => {
   afterEach(() => {
     vi.unstubAllEnvs()
@@ -35,7 +38,7 @@ describe('proxy', () => {
   it('en dev deja pasar sin pedir credenciales y añade noindex', () => {
     vi.stubEnv('APP_ENV', 'dev')
 
-    const response = proxy()
+    const response = proxy(request())
 
     expect(response.status).toBe(200)
     expect(response.headers.get('www-authenticate')).toBeNull()
@@ -47,14 +50,14 @@ describe('proxy', () => {
   it('en el entorno dev de Railway también añade noindex', () => {
     vi.stubEnv('RAILWAY_ENVIRONMENT_NAME', 'dev')
 
-    expect(proxy().headers.get('x-robots-tag')).toBe(NOINDEX_HEADER)
+    expect(proxy(request()).headers.get('x-robots-tag')).toBe(NOINDEX_HEADER)
   })
 
   it('fuera de dev no toca la respuesta: producción se indexa', () => {
     vi.stubEnv('APP_ENV', '')
     vi.stubEnv('RAILWAY_ENVIRONMENT_NAME', 'production')
 
-    const response = proxy()
+    const response = proxy(request())
 
     expect(response.status).toBe(200)
     expect(response.headers.get('x-middleware-next')).toBe('1')
