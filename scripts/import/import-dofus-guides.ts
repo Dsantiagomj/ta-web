@@ -8,7 +8,7 @@
 // una base remota pide --remote, y en producción --production.
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
-import { getPayload, type Payload } from 'payload'
+import { getPayload } from 'payload'
 
 import config from '@payload-config'
 import { databaseScriptRefusal } from '@/lib/db/script-guard'
@@ -19,7 +19,7 @@ import { gameItems } from './dofus-guides/game-items'
 import { loadDofusGuides, loadDofusIndexIntro, type DofusGuideInput } from './dofus-guides/load'
 import { parseDofusGuide } from './dofus-guides/parse'
 import { createPosterFetcher, posterUrl } from './dofus-guides/video-poster'
-import type { ImageFile } from './load-quest-guides'
+import { mediaByUrl } from './media-by-url'
 import { createHtmlToLexical } from './rich-text'
 import { releaseDom } from './squarespace/dom'
 import { createImageFetcher } from './squarespace/fetch-image'
@@ -53,37 +53,6 @@ async function pageHtml(slug: string): Promise<string> {
   return response.text()
 }
 
-/** El archivo de Media de una URL de origen: lo busca por ella y, si no está, lo sube. */
-function mediaByUrl(payload: Payload, fetchFile: (url: string) => Promise<ImageFile>) {
-  const known = new Map<string, Promise<number>>()
-  return (url: string, alt: string): Promise<number> => {
-    const cached = known.get(url)
-    if (cached) return cached
-    const pending = (async () => {
-      const { docs } = await payload.find({
-        collection: 'media',
-        where: { originalUrl: { equals: url } },
-        limit: 1,
-        depth: 0,
-        overrideAccess: true,
-      })
-      if (docs[0]) return docs[0].id
-      // En seco no se sube nada: el ID no se escribe nunca.
-      if (!apply) return 0
-      const created = await payload.create({
-        collection: 'media',
-        data: { alt, originalUrl: url },
-        file: await fetchFile(url),
-        depth: 0,
-        overrideAccess: true,
-      })
-      return created.id
-    })()
-    known.set(url, pending)
-    return pending
-  }
-}
-
 const guides: DofusGuideInput[] = []
 for (const entry of DOFUS_CATALOG) {
   const html = entry.page ? await pageHtml(entry.slug) : null
@@ -96,9 +65,11 @@ const payload = await getPayload({ config })
 try {
   const log = (message: string) => console.log(message)
   const items = gameItems(payload, { client: createDofusDbClient({ log }), log, dryRun: !apply })
-  const images = mediaByUrl(payload, createImageFetcher())
+  const images = mediaByUrl(payload, createImageFetcher(), { apply })
   const fetchPoster = createPosterFetcher()
-  const posters = mediaByUrl(payload, (url) => fetchPoster(url.split('/vi/')[1]!.split('/')[0]!))
+  const posters = mediaByUrl(payload, (url) => fetchPoster(url.split('/vi/')[1]!.split('/')[0]!), {
+    apply,
+  })
 
   const htmlToLexical = await createHtmlToLexical(payload.config)
   const intro = await loadDofusIndexIntro(payload, {

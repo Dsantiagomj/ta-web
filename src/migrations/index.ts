@@ -21,6 +21,8 @@ import * as migration_20261113_160051_checklist_needs from './20261113_160051_ch
 import * as migration_20261113_174951_subareas from './20261113_174951_subareas';
 import * as migration_20261113_175047_checklist_step_zone from './20261113_175047_checklist_step_zone';
 import * as migration_20261113_183838_dungeons from './20261113_183838_dungeons';
+import * as migration_20261113_232007_achievement_prose_snapshot from './20261113_232007_achievement_prose_snapshot';
+import * as migration_20261113_232009_quest_guide_dungeon_picks from './20261113_232009_quest_guide_dungeon_picks';
 
 export const migrations = [
   {
@@ -136,6 +138,16 @@ export const migrations = [
   {
     up: migration_20261113_183838_dungeons.up,
     down: migration_20261113_183838_dungeons.down,
-    name: '20261113_183838_dungeons'
+    name: '20261113_183838_dungeons',
+  },
+  {
+    up: migration_20261113_232007_achievement_prose_snapshot.up,
+    down: migration_20261113_232007_achievement_prose_snapshot.down,
+    name: '20261113_232007_achievement_prose_snapshot',
+  },
+  {
+    up: migration_20261113_232009_quest_guide_dungeon_picks.up,
+    down: migration_20261113_232009_quest_guide_dungeon_picks.down,
+    name: '20261113_232009_quest_guide_dungeon_picks'
   },
 ];

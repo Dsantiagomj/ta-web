@@ -1,7 +1,10 @@
 import type { Field, SelectField } from 'payload'
 import { describe, expect, it } from 'vitest'
 
+import { ProseVideoBlock } from '@/blocks/ProseVideoBlock'
+import { validateVideoUrl } from '@/blocks/VideoBlock'
 import { fillAchievementGroup, fillAchievementPage } from '@/collections/achievement-autofill'
+import { proseEditor } from '@/collections/prose-editor'
 import { AchievementGroups } from '@/collections/AchievementGroups'
 import { AchievementPages } from '@/collections/AchievementPages'
 import { validateSlug } from '@/collections/QuestGuides'
@@ -118,4 +121,42 @@ describe('validación en el panel: lo vacío se rellena al guardar', () => {
       expect(slug('Con Mayúsculas', options({ [link]: 5 }))).not.toBe(true)
     },
   )
+})
+
+describe('la entrada y el cierre de las páginas de logro', () => {
+  it('son texto enriquecido traducible con el editor que admite vídeos', () => {
+    for (const name of ['intro', 'outro']) {
+      expect(field(AchievementPages.fields, name)).toMatchObject({
+        type: 'richText',
+        localized: true,
+        editor: proseEditor,
+      })
+    }
+  })
+
+  it('el vídeo del texto: un enlace de YouTube, su título y una portada opcional', () => {
+    expect(ProseVideoBlock).toMatchObject({
+      slug: 'proseVideo',
+      interfaceName: 'ProseVideoBlock',
+      labels: { singular: 'Vídeo', plural: 'Vídeos' },
+    })
+    expect(field(ProseVideoBlock.fields, 'url')).toMatchObject({
+      type: 'text',
+      required: true,
+      validate: validateVideoUrl,
+    })
+    expect(field(ProseVideoBlock.fields, 'title')).toMatchObject({ type: 'text', required: true })
+    expect(field(ProseVideoBlock.fields, 'poster')).toMatchObject({
+      type: 'upload',
+      relationTo: 'media',
+    })
+    expect((field(ProseVideoBlock.fields, 'poster') as { required?: boolean }).required).toBeFalsy()
+  })
+
+  it('guarda, oculto, lo último que escribió la importación de la prosa de Torre', () => {
+    expect(field(AchievementPages.fields, 'importSnapshot')).toMatchObject({
+      type: 'json',
+      admin: { hidden: true },
+    })
+  })
 })

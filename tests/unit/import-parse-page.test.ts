@@ -148,4 +148,40 @@ describe('lectura de una página de Squarespace', () => {
       { type: 'unknown', sqspType: 'embed' },
     ])
   })
+
+  it('guarda el título del vídeo si su iframe lo trae; el de Embedly no dice nada', () => {
+    const html = page([
+      {
+        id: 'a',
+        area: '1/2/2/10',
+        type: 'embed',
+        inner:
+          '<iframe src="https://www.youtube.com/embed/ovPAxnBdKYQ?feature=oembed" ' +
+          'title="GUÍA actualizada DOFUS ESMERALDA 2026 || DOFUS 3.5"></iframe>',
+      },
+      {
+        id: 'b',
+        area: '2/2/3/10',
+        type: 'embed',
+        inner:
+          '<iframe src="//cdn.embedly.com/widgets/media.html?url=https%3A%2F%2Fwww.youtube.com' +
+          '%2Fwatch%3Fv%3D3D89qGThRAI" title="YouTube embed"></iframe>',
+      },
+      {
+        id: 'c',
+        area: '3/2/4/10',
+        type: 'embed',
+        inner: '<iframe src="https://www.youtube.com/embed/F7EkJd4nVtM"></iframe>',
+      },
+    ])
+    expect(parsePage(html).blocks).toEqual([
+      {
+        type: 'video',
+        url: 'https://www.youtube.com/embed/ovPAxnBdKYQ?feature=oembed',
+        title: 'GUÍA actualizada DOFUS ESMERALDA 2026 || DOFUS 3.5',
+      },
+      { type: 'video', url: 'https://www.youtube.com/watch?v=3D89qGThRAI' },
+      { type: 'video', url: 'https://www.youtube.com/embed/F7EkJd4nVtM' },
+    ])
+  })
 })

@@ -13,6 +13,7 @@ import { LEGACY_SITE_ORIGIN } from '@/lib/site/legacy'
 import type { Media } from '@/payload-types'
 
 import { CoordinatesText } from './Coordinates'
+import { VideoFacade } from './VideoFacade'
 
 // Bits de formato de un nodo de texto de Lexical.
 const BOLD = 1
@@ -59,6 +60,13 @@ export function safeHref(url: unknown): string | null {
   } catch {
     return null
   }
+}
+
+/** Los campos de un vídeo dentro del texto (bloque proseVideo, src/blocks/ProseVideoBlock.ts). */
+interface ProseVideoFields {
+  url?: string
+  title?: string
+  poster?: Media | number | null
 }
 
 interface LinkFields {
@@ -132,6 +140,15 @@ function converters(priorityImage: boolean, minHeading: HeadingLevel): JSXConver
         const priority = pendingPriority
         pendingPriority = false
         return <Figure image={image} alt={media.alt ?? ''} priority={priority} />
+      },
+      // Un vídeo entre los párrafos: la fachada, sin nada de YouTube hasta pulsar.
+      blocks: {
+        proseVideo: ({ node }: { node: { fields: ProseVideoFields } }) => {
+          const { url, title, poster } = node.fields
+          if (!url) return null
+          const image = typeof poster === 'object' ? mediaImageAsset(poster) : null
+          return <VideoFacade url={url} title={title ?? ''} {...(image && { poster: image })} />
+        },
       },
       unknown: () => null,
     }

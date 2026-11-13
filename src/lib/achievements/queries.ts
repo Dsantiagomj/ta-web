@@ -7,10 +7,11 @@ import type { Payload } from 'payload'
 import { isGuideSlug } from '@/lib/guides/slug'
 import type { Media, User } from '@/payload-types'
 
-import { dungeonMatcher } from './dungeons'
+import { dungeonChooser } from './dungeons'
 import type { IndexData } from './metalogros'
 import {
   type AchievementPageData,
+  dungeonPicks,
   type GuideRef,
   isDungeonNote,
   needKey,
@@ -93,7 +94,10 @@ export async function readAchievementPage(
           where: { quest: { in: [...questIds] } },
           select: { slug: true, quest: true, summary: { needs: true } },
           // Los objetos de Necesitarás con su nombre y su icono.
-          populate: { items: { name: true, superTypeId: true, image: true } },
+          populate: {
+            items: { name: true, superTypeId: true, image: true },
+            dungeons: { name: true },
+          },
           depth: 2,
           pagination: false,
           draft: false,
@@ -125,7 +129,7 @@ export async function readAchievementPage(
 
   const labels = noteLabels(guides)
   const noteItems = await readNoteItems(payload, labels)
-  const dungeonBosses = await readDungeonBosses(payload, labels)
+  const dungeonBosses = await readDungeonBosses(payload, labels, { picks: dungeonPicks(guides) })
 
   return {
     page,
@@ -168,19 +172,41 @@ export async function readNoteItems(
   return noteItems
 }
 
+/** La imagen del jefe de la mazmorra de una nota, y si Torre eligió esa mazmorra a mano. */
+export interface DungeonBoss {
+  image: Media
+  manual: boolean
+}
+
+interface DungeonOptions extends ReadAccess {
+  /** Las mazmorras elegidas a mano en las guías, por la clave de la nota (dungeonPicks). */
+  picks?: Map<string, number>
+}
+
 /**
  * La imagen del jefe de la mazmorra que nombra cada nota de mazmorra, por la clave de la
- * nota (needKey). Primero casa las notas con los nombres de las mazmorras y sus jefes, sin
- * imágenes; luego trae solo los jefes de las casadas, y de cada una se queda con el primero
- * que tiene imagen. Una nota sin mazmorra, o cuya mazmorra no tiene jefe con imagen, no
- * está: la página le pone el icono genérico.
+ * nota (needKey). La mazmorra es la que Torre eligió a mano para esa nota y, si no eligió
+ * ninguna, la que casa con el nombre de la nota (dungeonChooser), sin imágenes; luego trae
+ * solo los jefes de esas mazmorras, y de cada una se queda con el primero que tiene imagen.
+ * Una nota sin mazmorra, o cuya mazmorra no tiene jefe con imagen, no está: la página le
+ * pone el icono genérico.
  */
 export async function readDungeonBosses(
   payload: Payload,
   labels: string[],
-  { overrideAccess = false }: ReadAccess = {},
+  options: DungeonOptions = {},
 ): Promise<Map<string, Media>> {
-  const bosses = new Map<string, Media>()
+  const bosses = await chooseDungeonBosses(payload, labels, options)
+  return new Map([...bosses].map(([key, { image }]) => [key, image]))
+}
+
+/** Como readDungeonBosses, diciendo además qué mazmorras eligió Torre a mano. */
+export async function chooseDungeonBosses(
+  payload: Payload,
+  labels: string[],
+  { overrideAccess = false, picks = new Map() }: DungeonOptions = {},
+): Promise<Map<string, DungeonBoss>> {
+  const bosses = new Map<string, DungeonBoss>()
   const notes = labels.filter(isDungeonNote)
   if (notes.length === 0) return bosses
   const dungeons = (
@@ -195,18 +221,20 @@ export async function readDungeonBosses(
   ).docs.map((doc) => {
     const list = (doc.bosses ?? []).flatMap((boss) => (typeof boss === 'object' ? [boss] : []))
     return {
+      id: doc.id,
       name: doc.name,
       bosses: list.flatMap((boss) => boss.name ?? []),
       bossIds: list.map((boss) => boss.id),
     }
   })
-  const match = dungeonMatcher(dungeons)
-  const matched = new Map<string, number[]>()
+  const choose = dungeonChooser(dungeons, (label) => picks.get(needKey(label)))
+  const chosen = new Map<string, { bossIds: number[]; manual: boolean }>()
   for (const label of notes) {
-    const dungeon = match(label)
-    if (dungeon) matched.set(needKey(label), dungeon.bossIds)
+    const choice = choose(label)
+    if (choice)
+      chosen.set(needKey(label), { bossIds: choice.dungeon.bossIds, manual: choice.manual })
   }
-  const ids = [...new Set([...matched.values()].flat())]
+  const ids = [...new Set([...chosen.values()].flatMap(({ bossIds }) => bossIds))]
   if (ids.length === 0) return bosses
   const { docs } = await payload.find({
     collection: 'monsters',
@@ -221,9 +249,9 @@ export async function readDungeonBosses(
       typeof doc.image === 'object' && doc.image ? [[doc.id, doc.image]] : [],
     ),
   )
-  for (const [key, bossIds] of matched) {
+  for (const [key, { bossIds, manual }] of chosen) {
     const image = bossIds.map((id) => images.get(id)).find(Boolean)
-    if (image) bosses.set(key, image)
+    if (image) bosses.set(key, { image, manual })
   }
   return bosses
 }

@@ -127,6 +127,48 @@ describe('GuideRichText', () => {
     expect(lazy).not.toContain('fetchPriority')
   })
 
+  it('un vídeo del texto es la fachada: enlace a YouTube, portada propia y su título', () => {
+    const poster = {
+      id: 7,
+      alt: 'Portada del vídeo',
+      url: '/api/media/file/video-ovPAxnBdKYQ.webp',
+      width: 480,
+      height: 360,
+      updatedAt: '2026-11-13T00:00:00.000Z',
+      createdAt: '2026-11-13T00:00:00.000Z',
+    }
+    const video = (fields: Record<string, unknown>) => ({
+      type: 'block',
+      version: 2,
+      format: '',
+      fields: { id: 'x', blockName: '', blockType: 'proseVideo', ...fields },
+    })
+    const markup = html(
+      <GuideRichText
+        content={root(
+          paragraph(text('Aquí tienes un vídeo guía.')),
+          video({
+            url: 'https://www.youtube.com/watch?v=ovPAxnBdKYQ',
+            title: 'Guía del Dofus Esmeralda',
+            poster,
+          }),
+          // Sin portada, el recuadro enseña el título.
+          video({ url: 'https://youtu.be/3D89qGThRAI', title: 'Favores encadenados' }),
+        )}
+      />,
+    )
+    // Nada de YouTube hasta pulsar: un enlace, sin iframe ni imágenes de i.ytimg.com.
+    expect(markup).not.toContain('<iframe')
+    expect(markup).not.toContain('ytimg')
+    expect(markup).toContain('href="https://www.youtube.com/watch?v=ovPAxnBdKYQ"')
+    expect(markup).toContain('data-video-embed="https://www.youtube-nocookie.com/embed/ovPAxnBdKYQ')
+    expect(markup).toContain('aria-label="Ver el vídeo: Guía del Dofus Esmeralda"')
+    expect(markup).toContain('/api/media/file/video-ovPAxnBdKYQ.webp')
+    expect(markup).toContain('loading="lazy"')
+    expect(markup).toMatch(/<span class="video__title">Favores encadenados<\/span>/)
+    expect(markup.indexOf('Aquí tienes')).toBeLessThan(markup.indexOf('video__frame'))
+  })
+
   it('un nodo desconocido no pinta nada', () => {
     expect(html(<GuideRichText content={root({ type: 'misterio', version: 1 })} />)).toBe('')
   })

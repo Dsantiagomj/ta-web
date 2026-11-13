@@ -271,15 +271,6 @@ export async function loadQuestGuides(
     // El cuerpo ya está en Lexical: se suelta el DOM de la conversión antes de la siguiente.
     await releaseDom()
 
-    const data = {
-      title: guide.title,
-      slug: guide.slug,
-      originalUrl: guide.originalUrl,
-      summary: filledSummary(guide.summary, linked),
-      quest: linked?.id ?? null,
-      body,
-      _status: 'draft' as const,
-    }
     const existing = await payload.find({
       collection: 'quest-guides',
       where: { slug: { equals: guide.slug } },
@@ -289,6 +280,20 @@ export async function loadQuestGuides(
       overrideAccess: true,
     })
     const current = existing.docs[0]
+    const summary = filledSummary(guide.summary, linked)
+    const data = {
+      title: guide.title,
+      slug: guide.slug,
+      originalUrl: guide.originalUrl,
+      summary: {
+        ...summary,
+        // Las mazmorras que Torre eligió a mano para sus notas son suyas: se quedan como están.
+        needs: { ...summary.needs, dungeons: current?.summary?.needs?.dungeons ?? [] },
+      },
+      quest: linked?.id ?? null,
+      body,
+      _status: 'draft' as const,
+    }
     if (current && sameGuide(current, data)) {
       result.guides.unchanged += 1
       log(`Guía ${guide.slug}: sin cambios`)

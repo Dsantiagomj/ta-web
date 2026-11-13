@@ -126,6 +126,7 @@ describe('carga de guías importadas de Squarespace', () => {
       collection: 'monsters',
       where: { dofusId: { in: FAMISHED.map((monster) => monster.dofusId) } },
     })
+    await payload.delete({ collection: 'dungeons', where: { dofusId: { equals: 990_555 } } })
   }
 
   beforeAll(async () => {
@@ -247,6 +248,36 @@ describe('carga de guías importadas de Squarespace', () => {
     const saved = await guidesBySlug()
     expect(saved.size).toBe(5)
     for (const guide of saved.values()) expect(guide._status).toBe('draft')
+  })
+
+  it('la mazmorra que Torre eligió a mano para una nota se queda, y no cuenta como cambio', async () => {
+    const dungeon = await payload.create({
+      collection: 'dungeons',
+      data: { dofusId: 990_555, name: 'Mazmorra de prueba' },
+    })
+    // Una guía importada con una nota de mazmorra en su Necesitarás.
+    const withDungeon = [...(await guidesBySlug()).values()].find((guide) =>
+      /mazmorra/i.test(guide.summary?.needs?.notes ?? ''),
+    )!
+    const note = withDungeon
+      .summary!.needs!.notes!.split('\n')
+      .find((line) => /mazmorra/i.test(line))!
+    await payload.update({
+      collection: 'quest-guides',
+      id: withDungeon.id,
+      data: { summary: { needs: { dungeons: [{ note, dungeon: dungeon.id }] } } },
+      draft: true,
+    })
+    const versionsBefore = await versionCount()
+
+    const result = await loadQuestGuides(payload, converted(), { fetchImage })
+
+    expect(result.guides).toEqual({ created: 0, updated: 0, unchanged: 5, skipped: 0 })
+    expect(await versionCount()).toBe(versionsBefore)
+    const saved = (await guidesBySlug()).get(withDungeon.slug)!
+    expect(saved.summary?.needs?.dungeons).toEqual([
+      expect.objectContaining({ note, dungeon: dungeon.id }),
+    ])
   })
 
   it('una guía que cambia guarda un borrador nuevo; las demás no se tocan', async () => {

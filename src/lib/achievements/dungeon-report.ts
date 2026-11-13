@@ -4,8 +4,15 @@
 // dice exactamente lo que se ve: un jefe sin imagen en Media cuenta como icono genérico.
 import type { Payload } from 'payload'
 
-import { achievementNeeds, type GuideRef, noteLabels, type PageDoc } from './page'
-import { readDungeonBosses, readNoteItems } from './queries'
+import {
+  achievementNeeds,
+  dungeonPicks,
+  type GuideRef,
+  needKey,
+  noteLabels,
+  type PageDoc,
+} from './page'
+import { chooseDungeonBosses, readNoteItems } from './queries'
 
 export interface DungeonRow {
   /** El slug de la página de logro. */
@@ -15,6 +22,8 @@ export interface DungeonRow {
 
 export interface DungeonNoteReport {
   withBoss: DungeonRow[]
+  /** De las que llevan su jefe, las de una mazmorra que Torre eligió a mano. */
+  manual: DungeonRow[]
   generic: DungeonRow[]
 }
 
@@ -49,7 +58,10 @@ export async function dungeonNoteReport(payload: Payload): Promise<DungeonNoteRe
           collection: 'quest-guides',
           where: { quest: { in: questIds }, _status: { equals: 'published' } },
           select: { slug: true, quest: true, summary: { needs: true } },
-          populate: { items: { name: true, superTypeId: true, image: true } },
+          populate: {
+            items: { name: true, superTypeId: true, image: true },
+            dungeons: { name: true },
+          },
           depth: 2,
           pagination: false,
           draft: false,
@@ -64,16 +76,24 @@ export async function dungeonNoteReport(payload: Payload): Promise<DungeonNoteRe
     : []
   const labels = noteLabels(guides)
   const noteItems = await readNoteItems(payload, labels, { overrideAccess: true })
-  const dungeonBosses = await readDungeonBosses(payload, labels, { overrideAccess: true })
+  const chosen = await chooseDungeonBosses(payload, labels, {
+    overrideAccess: true,
+    picks: dungeonPicks(guides),
+  })
+  const dungeonBosses = new Map([...chosen].map(([key, { image }]) => [key, image]))
 
-  const report: DungeonNoteReport = { withBoss: [], generic: [] }
+  const report: DungeonNoteReport = { withBoss: [], manual: [], generic: [] }
   for (const page of pages) {
     const { tasks } = achievementNeeds({ page, guides, noteItems, dungeonBosses })
     for (const task of tasks) {
       if (task.kind !== 'dungeon') continue
       const row = { page: page.slug, label: task.label }
-      if (task.boss) report.withBoss.push(row)
-      else report.generic.push(row)
+      if (!task.boss) {
+        report.generic.push(row)
+        continue
+      }
+      report.withBoss.push(row)
+      if (chosen.get(needKey(task.label))?.manual) report.manual.push(row)
     }
   }
   return report

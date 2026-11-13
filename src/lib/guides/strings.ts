@@ -55,6 +55,14 @@ export const guideStrings = {
     needsNotesDescription:
       'Lo que la lista de objetos no recoge, como «1 x Combate (solo)» o «Literalmente nada». ' +
       'No se rellena solo.',
+    dungeonPicksLabel: 'Mazmorras de las notas',
+    dungeonPicksDescription:
+      'Para una nota de mazmorra que sale con el icono genérico en «Necesitarás en total» ' +
+      '(«1 x Mazmorra Ben Ripata.»): copia la nota tal como está en Notas y elige su ' +
+      'mazmorra, y la página pintará su jefe. Lo que elijas gana a lo que se adivina por el ' +
+      'nombre. Si cambias el texto de la nota, cámbialo también aquí.',
+    dungeonPickUnknownNote:
+      'Copia aquí una nota de mazmorra de Notas, tal como está escrita (la cantidad da igual).',
     seoDescription:
       'Se rellena solo desde la misión si lo dejas vacío. Puedes cambiarlo cuando quieras.',
     slugReserved: (slug: string) =>
