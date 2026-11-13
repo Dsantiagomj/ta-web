@@ -77,3 +77,59 @@ describe('la zona del paso', () => {
     expect(list).not.toContain('ck-row__z')
   })
 })
+
+describe('StepDetail: las madres y sus hijas', () => {
+  it('una línea dice qué hijas se hacen, delante del objetivo donde empiezan', () => {
+    const quest = route(5)
+    quest.route!.kids = [{ at: 1, names: ['Hija', 'Otra hija'] }]
+    const html = renderToStaticMarkup(<StepDetail step={step(quest)} last={1} />)
+    expect(rows(html)).toEqual(['objetivo', 'línea', 'objetivo', 'línea'])
+    expect(html).toContain('Aquí se hacen también «Hija» y «Otra hija».')
+  })
+})
+
+describe('el progreso en el paso', () => {
+  const plain = (kind: QuestRowView['kind']): QuestRowView => ({
+    dofusId: 7,
+    name: 'Otra',
+    kind,
+  })
+
+  it('cada misión que se hace lleva su casilla, con el paso al que pertenece; la de solo tomarla, no', () => {
+    const html = renderToStaticMarkup(<StepDetail step={step(plain('mandatory'))} last={2} />)
+    expect(html).toContain('data-q-hit')
+    expect(html).toContain('aria-label="Marcar «Otra» como hecha"')
+    expect(html).toMatch(/<li class="ck-q" data-q="7" data-step="1"/)
+    expect(renderToStaticMarkup(<StepDetail step={step(plain('take'))} last={2} />)).not.toContain(
+      'data-q-hit',
+    )
+  })
+
+  it('el pie lleva «Completar paso N»', () => {
+    const html = renderToStaticMarkup(<StepDetail step={step(plain('mandatory'))} last={2} />)
+    expect(html).toContain('data-complete="1"')
+    expect(html).toContain('Completar paso 1')
+  })
+
+  it('cada fila de Necesitarás se marca como conseguida para ese paso', () => {
+    const withNeeds: StepView = {
+      ...step(plain('mandatory')),
+      needs: [
+        {
+          category: 'resources',
+          title: 'Recursos',
+          rows: [{ kind: 'label', key: 'x:kama', name: 'Kama', quantity: 1 }],
+        },
+      ],
+    }
+    const html = renderToStaticMarkup(<StepDetail step={withNeeds} last={2} />)
+    expect(html).toContain('data-own="x:kama#a"')
+    expect(html).toContain('aria-label="Ya tengo Kama"')
+  })
+
+  it('cada paso de la lista lleva su casilla', () => {
+    const html = renderToStaticMarkup(<StepList steps={[step(plain('mandatory'))]} />)
+    expect(html).toContain('data-step-check="1"')
+    expect(html).toContain('aria-label="Paso 1 hecho"')
+  })
+})

@@ -1,9 +1,11 @@
 // Las checklists de prueba de las E2E y Lighthouse CI: el «Dofus Nebuloso» con tres pasos de
 // verdad recortados (un logro con su página y una misión con guía; un «detente aquí» con los
 // objetivos de su misión; un «aquí se resuelve» que cierra el anterior), sus prerrequisitos y
-// su Necesitarás con filas de texto («Kama», «Captura de almas»); y «Silvestre» En
-// preparación, que lleva a Squarespace. Se siembra después de las guías, el logro y las
-// guías de Dofus; repetirlo no duplica nada.
+// su Necesitarás con filas de texto («Kama», «Captura de almas»); «Dofus de los Hielos»
+// publicada, con la misión del primer paso del Nebuloso (lo hecho en una sale hecho en la
+// otra); y «Silvestre» En preparación, que lleva a Squarespace. La misión del «detente aquí»
+// pide terminada la del primer paso. Se siembra después de las guías, el logro y las guías de
+// Dofus; repetirlo no duplica nada.
 import path from 'node:path'
 import type { Payload } from 'payload'
 
@@ -51,6 +53,11 @@ export const seedChecklists = {
       spell: 'Captura de almas',
       spellNote: 'Hechizo: requisito, no consumible',
     },
+  },
+  hielos: {
+    slug: 'checklist-dofus-de-los-hielos',
+    name: 'Dofus de los Hielos',
+    text: 'Logro "Seis pies bajo tierra". Completo.',
   },
   silvestre: {
     slug: 'checklist-silvestre',
@@ -113,6 +120,7 @@ export async function seedChecklistPages(payload: Payload): Promise<void> {
         dofusId: stopQuest.dofusId,
         name: stopQuest.name,
         levelMin: stopQuest.level,
+        prerequisites: [giverQuest.id],
         startPositions: [{ npcId: 1, npcName: stopQuest.npc, ...stopQuest.start }],
         stages: [
           {
@@ -202,6 +210,28 @@ export async function seedChecklistPages(payload: Payload): Promise<void> {
       _status: 'published',
     },
   })
+
+  const hielos = seedChecklists.hielos
+  if (!(await findOne(payload, 'checklists', 'slug', hielos.slug))) {
+    await payload.create({
+      collection: 'checklists',
+      data: {
+        name: hielos.name,
+        slug: hielos.slug,
+        order: 2,
+        state: 'published',
+        steps: [
+          {
+            legacyNumber: 1,
+            segments: [{ kind: 'plain', text: hielos.text }],
+            quests: [{ quest: giverQuest.id, kind: 'mandatory' }],
+          },
+        ],
+        legacy: { prefix: 'hielos:', guideVersion: 1 },
+        _status: 'published',
+      },
+    })
+  }
 
   const silvestre = seedChecklists.silvestre
   if (!(await findOne(payload, 'checklists', 'slug', silvestre.slug))) {

@@ -4,6 +4,8 @@ import {
   ChecklistTabs,
   eggStyle,
   Prerequisites,
+  ProgressDialogs,
+  ProgressStrip,
   StepDetail,
   StepList,
   StepSheet,
@@ -23,8 +25,9 @@ import { PreviewBar } from './PreviewBar'
  * paso abierto; en el móvil se abre en una hoja), Prerrequisitos y Objetos. Todo se pinta en
  * el servidor; sin JavaScript se ve todo, una parte detrás de otra.
  *
- * Dos islas: la de la checklist (pestañas, elegir paso, buscar y las coordenadas, que carga
- * después) y la de las guías (copiar nombres y coordenadas). El progreso llega en el PR 5.
+ * Dos islas: la de la checklist (pestañas, elegir paso, buscar, las coordenadas, que carga
+ * después, y el progreso guardado en el navegador) y la de las guías (copiar nombres y
+ * coordenadas).
  */
 export function ChecklistView({ data, preview }: { data: ChecklistData; preview: boolean }) {
   const view = checklistView(data)
@@ -36,6 +39,7 @@ export function ChecklistView({ data, preview }: { data: ChecklistData; preview:
         <Breadcrumb {...view.breadcrumb} />
         <ChecklistHeader view={view} />
         <section className="ck-win" aria-label={s.windowLabel}>
+          <ProgressStrip view={view} />
           <ChecklistTabs view={view} />
           <div className="ck-panel" id="ck-p-diario" data-panel="diario" data-active="">
             <h2 className="sr-only">{s.tabs.diary}</h2>
@@ -62,6 +66,7 @@ export function ChecklistView({ data, preview }: { data: ChecklistData; preview:
         <p className="ck-credit">{s.credit}</p>
       </main>
       <StepSheet />
+      <ProgressDialogs />
       <ChecklistIsland data={view.island} />
       <PageEnhancements />
       {preview && <LivePreviewRefresh />}

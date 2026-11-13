@@ -18,6 +18,8 @@ import type {
 import { checklistPageStrings as s } from '@/lib/checklists/strings'
 import { formatAmount } from '@/lib/guides/display'
 
+import { progressStrings as p } from './progress-strings'
+
 import '@/components/ui/ui.css'
 // checklist.css va dentro de achievement.css: una hoja menos en /<slug>.
 import '../achievement/achievement.css'
@@ -41,6 +43,19 @@ const chevron = (d: string) => (
   </svg>
 )
 
+const CHECK = (
+  <svg viewBox="0 0 16 16" aria-hidden="true">
+    <path d="M3.5 8.5l3 3 6-7" />
+  </svg>
+)
+const DOTS = (
+  <svg viewBox="0 0 16 16" aria-hidden="true">
+    <circle cx="3" cy="8" r="1.5" fill="currentColor" />
+    <circle cx="8" cy="8" r="1.5" fill="currentColor" />
+    <circle cx="13" cy="8" r="1.5" fill="currentColor" />
+  </svg>
+)
+
 /** El huevo del Dofus en la cabecera, sin marco, con el brillo de su color. */
 export function ChecklistHeader({ view }: { view: ChecklistView }) {
   return (
@@ -58,6 +73,40 @@ export function ChecklistHeader({ view }: { view: ChecklistView }) {
 
 export const eggStyle = (color?: string) =>
   (color ? { '--egg': color } : undefined) as CSSProperties | undefined
+
+/**
+ * La franja del progreso: el porcentaje, la barra, los pasos hechos y «Siguiente». La pinta la
+ * isla con lo guardado en el navegador; sin JavaScript no sale.
+ */
+export function ProgressStrip({ view }: { view: ChecklistView }) {
+  return (
+    <div className="ck-strip ck-js">
+      <div className="ck-prog">
+        <span className="ck-pct" data-ck-pct aria-hidden="true">
+          {p.pct(0)}
+        </span>
+        <div
+          className="progress ck-bar"
+          role="progressbar"
+          aria-label={p.barLabel(view.name)}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={0}
+          data-ck-bar
+        >
+          <span className="progress__fill" />
+        </div>
+        <span className="ck-prog__s">
+          <b data-ck-sdone>0</b>/{view.steps.length} {p.steps}
+        </span>
+      </div>
+      <button type="button" className="ck-btn ck-next" data-ck-next>
+        {p.next} <span data-ck-next-n>1</span>
+        {chevron('M6 3.5 10.5 8 6 12.5')}
+      </button>
+    </div>
+  )
+}
 
 /** Las pestañas: sin JavaScript son enlaces a cada parte, que se ven una debajo de otra. */
 export function ChecklistTabs({ view }: { view: ChecklistView }) {
@@ -79,6 +128,26 @@ export function ChecklistTabs({ view }: { view: ChecklistView }) {
         {SEARCH_ICON}
         <input type="search" placeholder={s.search} autoComplete="off" data-ck-q />
       </label>
+      <div className="ck-tools ck-js">
+        <button
+          type="button"
+          className="ck-iconbtn"
+          aria-label={p.more}
+          aria-expanded="false"
+          aria-controls="ck-more"
+          data-ck-more
+        >
+          {DOTS}
+        </button>
+        <div className="ck-more" id="ck-more" hidden>
+          <button type="button" className="ck-ghost" data-ck-tool="backup">
+            {p.backup}
+          </button>
+          <button type="button" className="ck-ghost" data-ck-tool="reset">
+            {p.reset}
+          </button>
+        </div>
+      </div>
     </div>
   )
 }
@@ -100,10 +169,32 @@ function Tags({ step }: { step: StepView }) {
 export function StepList({ steps }: { steps: StepView[] }) {
   return (
     <div className="ck-list">
+      <div className="ck-seg ck-filter ck-js" role="group" aria-label={p.filterLabel}>
+        {(['todo', 'done', 'all'] as const).map((filter) => (
+          <button
+            key={filter}
+            type="button"
+            className="ck-seg__b"
+            aria-pressed={filter === 'all'}
+            data-ck-f={filter}
+          >
+            {p.filters[filter]}{' '}
+            <span className="ck-seg__c" data-ck-fc={filter}>
+              {filter === 'done' ? 0 : steps.length}
+            </span>
+          </button>
+        ))}
+      </div>
       <p className="sr-only" role="status" data-ck-status />
       <ol className="ck-rows" role="list" aria-label={s.stepsLabel}>
         {steps.map((step) => (
           <li key={step.stepId} className="ck-row" data-n={step.n} data-search={step.search}>
+            <input
+              type="checkbox"
+              className="checkbox ck-js"
+              data-step-check={step.n}
+              aria-label={p.stepDone(step.n)}
+            />
             <a className="ck-row__b" href={`#paso-${step.n}`} data-pick={step.n}>
               <span className="ck-row__n">{step.n}</span>
               <span className="ck-row__x">
@@ -173,13 +264,29 @@ function GameIcon({ file, px }: { file: { src: string }; px: number }) {
  * donde para. Si para después del último (la etapa que DofusDB no lista), la línea va al final.
  */
 function Route({ route }: { route: NonNullable<QuestRowView['route']> }) {
-  const { objectives, line } = route
-  const at = Math.min(Math.max(line.at, 0), objectives.length)
-  const lineRow = (
-    <li key="line" className={`ck-line ck-line--${line.kind}`}>
-      {line.text}
-    </li>
-  )
+  const { objectives, line, kids = [] } = route
+  const end = objectives.length
+  const place = (index: number) => Math.min(Math.max(index, 0), end)
+  const lines = [
+    {
+      at: place(line.at),
+      row: (
+        <li key="line" className={`ck-line ck-line--${line.kind}`}>
+          {line.text}
+        </li>
+      ),
+    },
+    ...kids.map((kid) => ({
+      at: place(kid.at),
+      row: (
+        <li key={`kids-${kid.at}`} className="ck-line ck-line--child" role="note">
+          {p.kidsHere(kid.names)}
+        </li>
+      ),
+    })),
+  ]
+  const before = (index: number) =>
+    lines.filter((entry) => entry.at === index).map((entry) => entry.row)
   const rows = objectives.map((objective, index) => (
     <li key={index} className="ck-o" data-i={index}>
       <span className="well ck-o__ic" aria-hidden="true">
@@ -193,15 +300,21 @@ function Route({ route }: { route: NonNullable<QuestRowView['route']> }) {
   ))
   return (
     <ol className="ck-route" role="list">
-      {[...rows.slice(0, at), lineRow, ...rows.slice(at)]}
+      {rows.flatMap((row, index) => [...before(index), row])}
+      {before(end)}
     </ol>
   )
 }
 
-function QuestRow({ quest }: { quest: QuestRowView }) {
+function QuestRow({ quest, n }: { quest: QuestRowView; n: number }) {
   const kind = quest.kind === 'mandatory' ? null : s.questKinds[quest.kind]
   return (
-    <li className="ck-q" data-q={quest.dofusId} {...(quest.route && { 'data-routed': '' })}>
+    <li
+      className="ck-q"
+      data-q={quest.dofusId}
+      data-step={n}
+      {...(quest.route && { 'data-routed': '' })}
+    >
       <div className="ck-q__row">
         <span className="ck-q__mark" aria-hidden="true">
           <GameIcon file={GAME_ICONS.quest} px={22} />
@@ -218,22 +331,44 @@ function QuestRow({ quest }: { quest: QuestRowView }) {
           {(kind || quest.note) && (
             <span className="ck-q__m">{[kind, quest.note].filter(Boolean).join(' · ')}</span>
           )}
+          <span className="ck-q__m ck-q__lock" data-ck-lock hidden />
         </span>
         <span className="ck-q__side">
           <span data-ck-start />
           {quest.level != null && <span className="ck-q__lv">{s.questLevel(quest.level)}</span>}
         </span>
+        {quest.kind !== 'take' && (
+          <button
+            type="button"
+            className="ck-q__hit ck-js"
+            aria-pressed="false"
+            aria-label={p.markQuest(quest.name)}
+            data-q-hit
+            data-name={quest.name}
+          >
+            <span className="ck-q__ck">{CHECK}</span>
+          </button>
+        )}
       </div>
       {quest.route && <Route route={quest.route} />}
     </li>
   )
 }
 
-function NeedRow({ row, extra }: { row: NeedRowView; extra?: ReactNode }) {
+function NeedRow({ row, stepId, extra }: { row: NeedRowView; stepId: string; extra?: ReactNode }) {
   const amount = <b>{formatAmount(row.quantity)} ×</b>
+  const own = (
+    <input
+      type="checkbox"
+      className="checkbox ck-js"
+      data-own={`${row.key}#${stepId}`}
+      aria-label={p.own(row.name)}
+    />
+  )
   if (row.kind === 'label') {
     return (
-      <li className="row">
+      <li className="row ck-need">
+        {own}
         <IconWell />
         <span>
           {amount} <span className="ck-plain">{row.name}</span>
@@ -244,7 +379,8 @@ function NeedRow({ row, extra }: { row: NeedRowView; extra?: ReactNode }) {
     )
   }
   return (
-    <li className="row copyhost">
+    <li className="row copyhost ck-need">
+      {own}
       <IconWell image={row.icon} />
       <span>
         {amount} <CopyName name={row.name} />
@@ -255,14 +391,22 @@ function NeedRow({ row, extra }: { row: NeedRowView; extra?: ReactNode }) {
   )
 }
 
-function NeedGroups({ groups, heading }: { groups: NeedGroupView[]; heading: number }) {
+function NeedGroups({
+  groups,
+  heading,
+  stepId,
+}: {
+  groups: NeedGroupView[]
+  heading: number
+  stepId: string
+}) {
   const H = `h${heading}` as 'h4'
   return groups.map((group) => (
     <div key={group.title} className="ck-needs__g">
       <H className="ck-micro">{group.title}</H>
       <ul role="list" className="needs__items">
         {group.rows.map((row, index) => (
-          <NeedRow key={index} row={row} />
+          <NeedRow key={index} row={row} stepId={stepId} />
         ))}
       </ul>
     </div>
@@ -355,7 +499,7 @@ export function StepDetail({ step, last }: { step: StepView; last: number }) {
             <h3 className="ck-h3" id={id('ne')}>
               {s.needs}
             </h3>
-            <NeedGroups groups={step.needs} heading={4} />
+            <NeedGroups groups={step.needs} heading={4} stepId={step.stepId} />
           </section>
         )}
         {step.achievements.length > 0 && (
@@ -408,7 +552,7 @@ export function StepDetail({ step, last }: { step: StepView; last: number }) {
               <p className="ck-q__howto">{s.questsHowto}</p>
               <ol className="ck-qs" role="list">
                 {step.quests.map((quest) => (
-                  <QuestRow key={quest.dofusId} quest={quest} />
+                  <QuestRow key={quest.dofusId} quest={quest} n={step.n} />
                 ))}
               </ol>
             </>
@@ -427,24 +571,40 @@ export function StepDetail({ step, last }: { step: StepView; last: number }) {
         ) : (
           <span />
         )}
-        {step.n < last && (
+        <button type="button" className="ck-btn ck-complete" data-complete={step.n}>
+          {p.complete(step.n)}
+        </button>
+        {step.n < last ? (
           <a className="ck-ghost hit-target" href={`#paso-${step.n + 1}`} data-pick={step.n + 1}>
             <span className="sr-only">{s.next}: </span>
             {step.n + 1}
             {chevron('M6 3.5 10.5 8 6 12.5')}
           </a>
+        ) : (
+          <span />
         )}
       </footer>
     </article>
   )
 }
 
-/** Prerrequisitos: la introducción de Torre y sus grupos, tal cual. */
+/** Prerrequisitos: la introducción de Torre y sus grupos, tal cual, cada uno con su casilla. */
 export function Prerequisites({ view }: { view: ChecklistView }) {
   const { intro, groups } = view.prerequisites
   return (
     <div className="ck-pad">
       <h2 className="sr-only">{s.tabs.prerequisites}</h2>
+      <div className="ck-prebar ck-js">
+        <p className="ck-muted">{p.prereqHowto}</p>
+        <div>
+          <button type="button" className="ck-btn" data-ck-pre="all">
+            {p.prereqAll}
+          </button>{' '}
+          <button type="button" className="ck-ghost" data-ck-pre="none">
+            {p.prereqNone}
+          </button>
+        </div>
+      </div>
       {intro && <p className="ck-text ck-intro">{intro}</p>}
       {groups.map((group, index) => (
         <section key={index} className="ck-pg" aria-labelledby={`ck-pg-${index}`}>
@@ -454,7 +614,13 @@ export function Prerequisites({ view }: { view: ChecklistView }) {
           <ul className="ck-pres" role="list">
             {group.rows.map((row) => (
               <li key={row.key} className="ck-pre">
-                {row.text}
+                <input
+                  type="checkbox"
+                  className="checkbox ck-js"
+                  id={`ck-pre-${row.key}`}
+                  data-pre-check={row.key}
+                />
+                <label htmlFor={`ck-pre-${row.key}`}>{row.text}</label>
               </li>
             ))}
           </ul>
@@ -464,14 +630,20 @@ export function Prerequisites({ view }: { view: ChecklistView }) {
   )
 }
 
-function TotalSlot({ row }: { row: TotalRowView }) {
+function TotalSlot({ row, category }: { row: TotalRowView; category: string }) {
   const steps = <span className="ck-slot__s">{s.totalsSteps(row.steps)}</span>
   return (
-    <li className={`ck-slot${row.kind === 'item' ? ' copyhost' : ''}`}>
+    <li
+      className={`ck-slot${row.kind === 'item' ? ' copyhost' : ''}`}
+      data-ck-slot={row.key}
+      data-steps={row.steps.join(' ')}
+      data-cat={category}
+    >
       <span className="ck-slot__w copywell" aria-hidden="true">
         {row.kind === 'item' && row.icon && <Picture image={row.icon} alt="" />}
         <span className="ck-slot__q">{formatAmount(row.quantity)}</span>
       </span>
+      <input type="checkbox" className="checkbox ck-slot__chk ck-js" aria-label={p.own(row.name)} />
       <span className="ck-slot__n">
         <span className="sr-only">{formatAmount(row.quantity)} × </span>
         {row.kind === 'item' ? (
@@ -485,27 +657,145 @@ function TotalSlot({ row }: { row: TotalRowView }) {
   )
 }
 
-/** Objetos: todo lo que piden los pasos, sumado, por grupos. */
+type SlotGroup = 'soon' | 'later' | 'used'
+
+/**
+ * Objetos: todo lo que piden los pasos, sumado por objeto, en «Tus próximos pasos» (lo que
+ * piden los cinco próximos pasos pendientes), «Más adelante» y «Ya utilizados» (lo de los
+ * pasos hechos). Sin progreso, como lo pinta el servidor: nada utilizado. La isla mueve cada
+ * objeto a su grupo y filtra por categoría.
+ */
 export function Totals({ view }: { view: ChecklistView }) {
+  const soon = new Set(view.soonSteps)
+  const rows = view.totals
+    .flatMap((group) => group.rows.map((row) => ({ row, category: group.category ?? 'other' })))
+    .sort((a, b) => Math.min(...a.row.steps) - Math.min(...b.row.steps))
+  const inGroup = (group: SlotGroup) =>
+    group === 'used'
+      ? []
+      : rows.filter(({ row }) => row.steps.some((n) => soon.has(n)) === (group === 'soon'))
+  const groups: SlotGroup[] = ['soon', 'later', 'used']
   return (
     <div className="ck-pad">
       <h2 className="sr-only">{s.tabs.items}</h2>
       <p className="ck-text ck-intro">{s.totalsIntro}</p>
-      <div className="ck-groups">
-        {view.totals.map((group, index) => (
-          <section key={group.title} aria-labelledby={`ck-tg-${index}`}>
-            <h3 className="ck-micro ck-gh" id={`ck-tg-${index}`}>
+      <div className="ck-itools ck-js">
+        <div className="ck-cats" role="group" aria-label={p.categories}>
+          <button type="button" className="ck-cat" aria-pressed="true" data-ck-cat="">
+            {p.allCategories}
+          </button>
+          {view.totals.map((group) => (
+            <button
+              key={group.title}
+              type="button"
+              className="ck-cat"
+              aria-pressed="false"
+              data-ck-cat={group.category ?? 'other'}
+            >
               {group.title}
-            </h3>
-            <ul className="ck-slots" role="list">
-              {group.rows.map((row, rowIndex) => (
-                <TotalSlot key={rowIndex} row={row} />
-              ))}
-            </ul>
-          </section>
-        ))}
+            </button>
+          ))}
+        </div>
+        <label className="ck-switch">
+          <input type="checkbox" className="checkbox" defaultChecked data-ck-pending />
+          {p.pendingOnly}
+        </label>
+      </div>
+      <div className="ck-groups">
+        {groups.map((group) => {
+          const slots = inGroup(group)
+          return (
+            <section
+              key={group}
+              className={`ck-group ck-group--${group}`}
+              aria-labelledby={`ck-g-${group}`}
+              data-ck-group={group}
+              hidden={!slots.length}
+            >
+              <h3 className="ck-micro ck-gh" id={`ck-g-${group}`}>
+                {p.groups[group]} <span data-ck-gc>{p.groupCount(slots.length)}</span>
+              </h3>
+              <ul className="ck-slots" role="list">
+                {slots.map(({ row, category }) => (
+                  <TotalSlot key={`${category}:${row.key}`} row={row} category={category} />
+                ))}
+              </ul>
+            </section>
+          )
+        })}
       </div>
     </div>
+  )
+}
+
+/**
+ * La copia de seguridad, el reinicio y el aviso de abajo. Los abre la isla; sin JavaScript no
+ * hacen falta, porque no hay progreso que guardar.
+ */
+export function ProgressDialogs() {
+  return (
+    <>
+      <dialog className="ck-dlg" aria-labelledby="ck-backup-t" data-ck-dialog="backup">
+        <div className="ck-dlg__in">
+          <button type="button" className="ck-x" data-ck-dialog-close aria-label={p.close}>
+            <CloseIcon />
+          </button>
+          <h2 className="ck-dlg__t" id="ck-backup-t">
+            {p.backup}
+          </h2>
+          <p>{p.backupIntro}</p>
+          <p className="ck-dlg__state" data-ck-backup-state />
+          <div className="ck-dlg__act ck-dlg__act--start">
+            <button type="button" className="ck-btn" data-ck-download>
+              {p.download}
+            </button>
+            <label className="ck-ghost ck-file">
+              {p.restore}
+              <input
+                type="file"
+                accept="application/json,.json"
+                className="sr-only"
+                data-ck-restore
+              />
+            </label>
+          </div>
+        </div>
+      </dialog>
+      <dialog className="ck-dlg" aria-labelledby="ck-reset-t" data-ck-dialog="reset">
+        <form method="dialog" className="ck-dlg__in">
+          <h2 className="ck-dlg__t" id="ck-reset-t">
+            {p.reset}
+          </h2>
+          <p>{p.resetIntro}</p>
+          <fieldset className="ck-dlg__opts">
+            <legend className="sr-only">{p.resetWhat}</legend>
+            {(
+              [
+                ['steps', p.resetSteps],
+                ['prereqs', p.resetPrereqs],
+                ['owned', p.resetOwned],
+              ] as const
+            ).map(([key, label]) => (
+              <label key={key}>
+                <input type="checkbox" className="checkbox" defaultChecked data-ck-reset={key} />
+                <span>
+                  {label} <span className="ck-muted" data-ck-reset-count={key} />
+                </span>
+              </label>
+            ))}
+          </fieldset>
+          <div className="ck-dlg__act">
+            <button type="submit" className="ck-ghost" value="cancel">
+              {p.cancel}
+            </button>
+            <button type="submit" className="ck-btn ck-btn--danger" value="reset">
+              {p.resetConfirm}
+            </button>
+          </div>
+        </form>
+      </dialog>
+      <div className="ck-toast" role="status" data-ck-toast hidden />
+    </>
   )
 }
 

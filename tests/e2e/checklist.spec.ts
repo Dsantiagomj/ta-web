@@ -8,8 +8,8 @@ import { seedDofus } from './seed/dofus-guides.ts'
 import { seedGuide } from './seed/guides.ts'
 
 // La página de una checklist (prototipo A), sobre el Nebuloso que siembra scripts/seed-e2e.ts:
-// tres pasos con un logro, un «detente aquí» y un «aquí se resuelve». El progreso llega en el
-// PR 5: aquí no se marca nada.
+// tres pasos con un logro, un «detente aquí» y un «aquí se resuelve». El progreso tiene su
+// propio archivo (checklist-progreso.spec.ts): aquí no se marca nada.
 
 const neb = seedChecklists.nebuloso
 const url = `/${neb.slug}`
@@ -134,7 +134,9 @@ test.describe('página de una checklist', () => {
     await expect(pico).toContainText('Pasos 1 y 3')
     await expect(panel.getByText(neb.labels.kama, { exact: true })).toBeVisible()
     await expect(panel.getByText(neb.labels.spell, { exact: true })).toHaveCount(0)
-    await expect(panel.getByRole('heading', { name: 'Almas' })).toBeVisible()
+    // Los grupos de Torre filtran los objetos
+    await panel.getByRole('button', { name: 'Almas' }).click()
+    await expect(pico).toBeHidden()
   })
 
   test('Prerrequisitos: la introducción y los grupos de Torre', async ({ page }) => {
