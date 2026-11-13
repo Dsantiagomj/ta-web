@@ -178,6 +178,50 @@ test.describe('página de una checklist', () => {
     await expect(row).toBeFocused()
   })
 
+  test('un enlace a una pestaña la abre, también en el escritorio, y no cambia la dirección', async ({
+    page,
+  }) => {
+    await page.goto(`${url}#ck-p-obj`)
+    await expect(page.getByRole('tab', { name: /Objetos/ })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    )
+    await expect(page.getByRole('tabpanel', { name: /Objetos/ })).toBeVisible()
+    await expect(page).toHaveURL(/#ck-p-obj$/)
+    await page.getByRole('tab', { name: 'Diario' }).click()
+    await expect(step(page, 1)).toBeVisible()
+  })
+
+  test('en el móvil, un toque dentro de la hoja no la cierra; uno fuera, sí', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto(url)
+    await page.getByRole('list', { name: 'Pasos' }).getByRole('link', { name: /^2/ }).click()
+    const sheet = page.getByRole('dialog', { name: 'Paso 2' })
+    await expect(sheet).toBeVisible()
+    await settled(page)
+    // La esquina de arriba de la hoja, al lado del asa: el clic cae en el propio <dialog>.
+    // Al cerrarse sigue pintada un momento (su transición): se mira el atributo open.
+    const dialog = page.locator('[data-ck-sheet]')
+    await sheet.click({ position: { x: 8, y: 8 } })
+    await page.waitForTimeout(300)
+    await expect(dialog).toHaveAttribute('open', '')
+    // Encima de la hoja, en el fondo.
+    await page.mouse.click(195, 20)
+    await expect(dialog).not.toHaveAttribute('open')
+  })
+
+  test('en el móvil, las flechas recorren la lista y Intro abre el paso', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto(url)
+    const links = page.getByRole('list', { name: 'Pasos' }).getByRole('link')
+    await links.first().focus()
+    await page.keyboard.press('ArrowDown')
+    await expect(links.nth(1)).toBeFocused()
+    await expect(page.getByRole('dialog')).toBeHidden()
+    await page.keyboard.press('Enter')
+    await expect(page.getByRole('dialog', { name: 'Paso 2' })).toBeVisible()
+  })
+
   test('sin JavaScript se ven todos los pasos y las tres partes, y no sale el buscador', async ({
     browser,
   }) => {

@@ -98,8 +98,7 @@ export const revalidateDofusGuidesAfterDelete: CollectionAfterDeleteHook = ({ do
   return doc
 }
 
-// Una checklist guardada, publicada o borrada, o una misión que enseña (su nombre, su nivel,
-// sus objetivos): la siguiente visita lee la nueva.
+// Una checklist guardada, publicada o borrada: la siguiente visita lee la nueva.
 export const revalidateChecklistsAfterChange: CollectionAfterChangeHook = ({ doc }) => {
   revalidateChecklists()
   return doc

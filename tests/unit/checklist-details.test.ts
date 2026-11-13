@@ -1,7 +1,7 @@
 import { gunzipSync } from 'node:zlib'
 import { describe, expect, it } from 'vitest'
 
-import { checklistDetailsResponse } from '@/endpoints/checklist-details'
+import { checklistDetailsResponse, previewUser } from '@/endpoints/checklist-details'
 import { checklistDetails } from '@/lib/checklists/details'
 
 // Los detalles que la isla carga al abrir la página (GET /api/checklists/<slug>/details):
@@ -74,5 +74,16 @@ describe('checklistDetailsResponse', () => {
     const response = checklistDetailsResponse(details, null, true)
 
     expect(response.headers.get('Cache-Control')).toBe('private, no-store')
+  })
+})
+
+describe('previewUser', () => {
+  const editor = { id: 1, collection: 'users' }
+
+  it('el borrador solo con sesión del panel y draft mode, como la página', () => {
+    expect(previewUser(editor, true)).toBe(editor)
+    expect(previewUser(editor, false)).toBeNull()
+    expect(previewUser(null, true)).toBeNull()
+    expect(previewUser({ id: 2, collection: 'members' }, true)).toBeNull()
   })
 })

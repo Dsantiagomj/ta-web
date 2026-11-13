@@ -6,19 +6,18 @@
 import type { ImageAsset } from '@/components/ui/types'
 import { buildBreadcrumb, type BreadcrumbData } from '@/lib/achievements/page'
 import type { RichTextState } from '@/lib/guides/page'
+import type { QuestObjectiveKind } from '@/lib/dofusdb/types'
 import { mediaImageAsset } from '@/lib/media/image-asset'
+import { fold } from '@/lib/text/fold'
 import type { Checklist, Media, Quest } from '@/payload-types'
 
+import { populated, relationId, type Relation } from './relations'
 import { checklistPageStrings as s, checklistStrings } from './strings'
 
-type Relation<T> = number | T | null | undefined
 type Step = NonNullable<Checklist['steps']>[number]
 type Segment = NonNullable<Step['segments']>[number]
 type Need = NonNullable<Step['needs']>[number]
 export type NeedCategory = NonNullable<Need['category']>
-export type ObjectiveKind = NonNullable<
-  NonNullable<NonNullable<Quest['stages']>[number]['objectives']>[number]['kind']
->
 export type QuestKind = NonNullable<Step['quests']>[number]['kind']
 
 /** Lo que lee la página: la checklist y los slugs de lo que enlaza (src/lib/checklists/queries.ts). */
@@ -61,7 +60,7 @@ export interface QuestRowView {
   note?: string
   /** Solo en la misión donde para el paso: sus objetivos y la línea de Torre en su sitio. */
   route?: {
-    objectives: { kind: ObjectiveKind; text: string }[]
+    objectives: { kind: QuestObjectiveKind; text: string }[]
     line: { at: number; kind: 'stop' | 'resolve'; text: string }
   }
 }
@@ -134,21 +133,7 @@ export interface ChecklistView {
 const DOFUS_INDEX_PATH = '/guias-dofus'
 const CATEGORIES = Object.keys(checklistStrings.needCategories) as NeedCategory[]
 
-function populated<T extends object>(value: Relation<T>): T | null {
-  return value && typeof value === 'object' ? value : null
-}
-
-const relationId = (value: Relation<{ id: number }>) =>
-  value == null ? null : typeof value === 'number' ? value : value.id
-
 const image = (value: Relation<Media>) => mediaImageAsset(populated(value)) ?? undefined
-
-/** Sin acentos y en minúsculas, como busca la isla. */
-export const fold = (text: string) =>
-  text
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
 
 /**
  * El texto de un objetivo de DofusDB sin sus marcas: «{map,1::Banco real}» es «Banco real»
@@ -176,19 +161,26 @@ function stepLabel(text: string): string {
   return text.split('. ')[0].replace(/\.$/, '').trim()
 }
 
-/** Un tramo en trozos: el nombre citado de un logro con página pasa a ser su enlace. */
+/**
+ * Un tramo en trozos: el nombre citado de un logro con página pasa a ser su enlace. Busca
+ * siempre la cita que va más a la izquierda, así ninguna se salta por el orden de la lista.
+ */
 function segmentParts(text: string, links: Map<string, string>): TextPart[] {
-  for (const [name, href] of links) {
-    const quoted = `"${name}"`
-    const at = text.indexOf(quoted)
-    if (at < 0) continue
-    const before = text.slice(0, at + 1)
-    const after = text.slice(at + quoted.length - 1)
-    return [before, { text: name, href }, ...segmentParts(after, links)].filter(
-      (part) => part !== '',
-    )
+  const parts: TextPart[] = []
+  let rest = text
+  for (;;) {
+    let first: { at: number; name: string; href: string } | null = null
+    for (const [name, href] of links) {
+      const at = rest.indexOf(`"${name}"`)
+      if (at >= 0 && (!first || at < first.at)) first = { at, name, href }
+    }
+    if (!first) break
+    parts.push(rest.slice(0, first.at + 1))
+    parts.push({ text: first.name, href: first.href })
+    rest = rest.slice(first.at + 1 + first.name.length)
   }
-  return [text]
+  if (rest) parts.push(rest)
+  return parts
 }
 
 function needRow(need: Need): NeedRowView | null {

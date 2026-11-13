@@ -1,4 +1,5 @@
 import { unstable_cache } from 'next/cache'
+import { draftMode } from 'next/headers'
 import { gzipSync } from 'node:zlib'
 import type { Endpoint, PayloadRequest } from 'payload'
 
@@ -13,8 +14,9 @@ import { acceptsGzip } from './search-index'
 // la colección checklists, así que Payload lo sirve bajo su ruta.
 //
 // Un visitante lee lo publicado, en caché con la etiqueta de las checklists
-// (src/lib/checklists/cache.ts), y el navegador lo guarda cinco minutos. Un usuario del
-// panel lee el último borrador, como la vista previa, sin caché en ningún sitio.
+// (src/lib/checklists/cache.ts), y el navegador lo guarda cinco minutos. Como la página,
+// solo una sesión del panel con el draft mode de Next lee el último borrador, que no se
+// guarda en ninguna caché.
 
 export const CHECKLIST_DETAILS_CACHE_CONTROL = 'public, max-age=300, stale-while-revalidate=3600'
 
@@ -36,6 +38,23 @@ export function checklistDetailsResponse(
   })
 }
 
+/** El usuario con el que leer el borrador: uno del panel, y solo con draft mode. */
+export function previewUser<T extends { collection?: string }>(
+  user: T | null | undefined,
+  draftModeEnabled: boolean,
+): T | null {
+  return user && user.collection === 'users' && draftModeEnabled ? user : null
+}
+
+/** Si la petición lleva el draft mode de Next; fuera de una petición de Next, no. */
+async function isDraftMode(): Promise<boolean> {
+  try {
+    return (await draftMode()).isEnabled
+  } catch {
+    return false
+  }
+}
+
 const readPublished = (req: PayloadRequest, slug: string) =>
   unstable_cache(() => readChecklistDetails(req.payload, slug), ['checklist-details', slug], {
     tags: [CHECKLISTS_TAG],
@@ -47,7 +66,7 @@ export const checklistDetailsEndpoint: Endpoint = {
   method: 'get',
   handler: async (req) => {
     const slug = String(req.routeParams?.slug ?? '')
-    const user = req.user && req.user.collection === 'users' ? (req.user as User) : null
+    const user = previewUser(req.user as User | null, await isDraftMode())
     const details = user
       ? await readChecklistDetails(req.payload, slug, { preview: { user } })
       : await readPublished(req, slug)

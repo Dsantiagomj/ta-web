@@ -21,6 +21,8 @@
 // antigua (OBJ_ICONS de silvestre-checklist): iconos de objetos del juego de DofusDB, de
 // 128px reducidos a 64px. El de combate es el de arriba.
 
+import type { QuestObjectiveKind } from '@/lib/dofusdb/types'
+
 export type GameIconName = 'combat' | 'kamas' | 'quest' | 'xp' | 'achievement' | 'bag' | 'dungeon'
 
 export interface GameIconFile {
@@ -44,10 +46,7 @@ export const GAME_ICONS: Record<GameIconName, GameIconFile> = {
 export const TORRE_AVATAR = { src: '/img/torre/avatar.webp', size: 144 }
 
 /** El icono de cada clase de objetivo de misión, en las checklists. */
-export const OBJECTIVE_ICONS: Record<
-  'free' | 'npc' | 'bring' | 'fight' | 'map' | 'craft',
-  GameIconFile
-> = {
+export const OBJECTIVE_ICONS: Record<QuestObjectiveKind, GameIconFile> = {
   npc: { src: '/img/game/objetivos/npc.webp', size: 64 },
   bring: { src: '/img/game/objetivos/bring.webp', size: 64 },
   map: { src: '/img/game/objetivos/map.webp', size: 64 },
