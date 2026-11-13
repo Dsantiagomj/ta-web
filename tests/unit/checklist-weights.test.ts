@@ -66,8 +66,9 @@ describe('torreLevel: el «Nivel mínimo» de la guía de Torre', () => {
 
 describe('questLevel', () => {
   it('el de Torre cuando su guía lo da; si no, el levelMin de DofusDB; sin ninguno, 1', () => {
-    expect(questLevel('Nivel mínimo 80.', 100)).toBe(80)
-    expect(questLevel('Sin nivel.', 100)).toBe(100)
+    expect(questLevel(torreLevel('Nivel mínimo 80.'), 100)).toBe(80)
+    expect(questLevel(torreLevel('Sin nivel.'), 100)).toBe(100)
+    expect(questLevel(undefined, 100)).toBe(100)
     expect(questLevel(null, null)).toBe(1)
     expect(questLevel(null, 0)).toBe(1)
   })

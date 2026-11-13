@@ -6,7 +6,7 @@
 import type { ImageAsset } from '@/components/ui/types'
 import { buildBreadcrumb, type BreadcrumbData } from '@/lib/achievements/page'
 import { questParents, routePrerequisites } from '@/lib/derive/checklist'
-import { questPoints, stepWeights } from '@/lib/derive/weights'
+import { questLevel, questPoints, stepWeights } from '@/lib/derive/weights'
 import type { RichTextState } from '@/lib/guides/page'
 import type { QuestObjectiveKind } from '@/lib/dofusdb/types'
 import { mediaImageAsset } from '@/lib/media/image-asset'
@@ -472,7 +472,7 @@ function islandData(data: ChecklistData): ChecklistIslandData {
         startCriterion: node?.startCriterion ?? null,
         objectives: node?.objectives ?? [],
         prerequisites: node?.prerequisites ?? [],
-        level: torreLevels[quest.id] || levelMin || 1,
+        level: questLevel(torreLevels[quest.id], levelMin),
       })
     }
   }

@@ -34,12 +34,9 @@ export function torreLevel(text: string | null | undefined): number | null {
   return match ? Number(match[1]) : null
 }
 
-/** El nivel con el que pesa una misión: el de Torre, el de DofusDB o, sin ninguno, 1. */
-export function questLevel(
-  torreText: string | null | undefined,
-  levelMin: number | null | undefined,
-) {
-  return torreLevel(torreText) || levelMin || 1
+/** El nivel con el que pesa una misión: el de Torre (torreLevel), el de DofusDB o, sin ninguno, 1. */
+export function questLevel(torre: number | null | undefined, levelMin: number | null | undefined) {
+  return torre || levelMin || 1
 }
 
 /** Lo que vale una misión entera: su nivel por la raíz de sus objetivos (al menos uno). */

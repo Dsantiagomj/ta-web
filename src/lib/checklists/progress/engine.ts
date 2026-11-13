@@ -8,6 +8,7 @@
 // 2. hecha en otro paso: «Hecha en el paso N»;
 // 3. hecha en otra checklist: «Hecha en la checklist del Dofus X»;
 // 4. la pide terminada otra misión hecha: «La pide “Y”».
+// Lo apuntado con el id antiguo de la checklist («nebuloso») es de esta misma checklist.
 // Marcar el paso de un «detente aquí» deja su misión en el objetivo de la parada; la termina el
 // paso que lo cierra. Una madre cuya hija para en el paso espera en el objetivo donde empieza
 // la hija (PARENT de silvestre-checklist).
@@ -25,6 +26,8 @@ interface StepModel {
 
 export interface ChecklistModel {
   id: number
+  /** Su id en silvestre-checklist («nebuloso»): lo apuntado con él también es de esta checklist. */
+  legacyId: string | null
   steps: StepModel[]
   index: Map<string, number>
   /** Paso con «aquí se resuelve» → los pasos que cierra. */
@@ -33,6 +36,8 @@ export interface ChecklistModel {
   closed: Set<string>
   objectives: Record<number, number>
   prereqs: Record<number, number[]>
+  /** Al revés que `prereqs`: misión → las que la piden terminada. */
+  requiredBy: Map<number, number[]>
   parents: Record<number, [number, number[]][]>
   names: Record<string, string>
   total: number
@@ -64,14 +69,24 @@ export function checklistModel(data: ChecklistIslandData): ChecklistModel {
       shares,
     }
   })
+  const requiredBy = new Map<number, number[]>()
+  for (const [quest, needs] of Object.entries(data.prereqs)) {
+    for (const need of needs) {
+      const list = requiredBy.get(need) ?? []
+      list.push(Number(quest))
+      requiredBy.set(need, list)
+    }
+  }
   return {
     id: data.checklistId,
+    legacyId: data.legacy?.prefix?.replace(/:$/, '') || null,
     steps,
     index: new Map(steps.map((step, index) => [step.id, index])),
     closes: new Map(data.closes),
     closed: new Set(data.closes.flatMap(([, closed]) => closed)),
     objectives: data.objectives,
     prereqs: data.prereqs,
+    requiredBy,
     parents: data.parents,
     names: data.checklists,
     total: steps.reduce((sum, step) => sum + step.w, 0),
@@ -82,12 +97,22 @@ const finishedEntry = (m: ChecklistModel, id: number, entry?: QuestEntry) =>
   Boolean(entry) &&
   (entry!.o === 'done' || ((m.objectives[id] ?? 0) > 0 && entry!.o >= m.objectives[id]))
 
+/** Si lo apuntado con `c` es de esta checklist: su ID o su id antiguo. */
+const isSelf = (m: ChecklistModel, c: number | string) => c === m.id || c === m.legacyId
+
+/**
+ * Un objetivo donde se queda una misión a medias (una parada, una madre que espera): nunca su
+ * último, que la daría por terminada. Una parada después del último objetivo se queda en él.
+ */
+const parked = (m: ChecklistModel, id: number, at: number) => {
+  const total = m.objectives[id] ?? 0
+  return total > 0 ? Math.min(at, total - 1) : at
+}
+
 /** La misión hecha que pide terminada a `id`, o null. */
 export function impliedBy(p: Progress, m: ChecklistModel, id: number): number | null {
-  for (const [other, needs] of Object.entries(m.prereqs)) {
-    if (needs.includes(id) && finishedEntry(m, Number(other), p.quests[other])) {
-      return Number(other)
-    }
+  for (const other of m.requiredBy.get(id) ?? []) {
+    if (finishedEntry(m, other, p.quests[other])) return other
   }
   return null
 }
@@ -118,7 +143,9 @@ function openIn(m: ChecklistModel, index: number): Map<number, number> {
   const quests = mandatory(step)
   const stops = !m.closes.has(step.id) || m.closed.has(step.id)
   const open = new Map(
-    quests.flatMap((quest) => (stops && quest.stop != null ? [[quest.id, quest.stop]] : [])),
+    quests.flatMap((quest) =>
+      stops && quest.stop != null ? [[quest.id, parked(m, quest.id, quest.stop)]] : [],
+    ),
   )
   for (let grew = true; grew;) {
     grew = false
@@ -128,7 +155,7 @@ function openIn(m: ChecklistModel, index: number): Map<number, number> {
         kids.some((kid) => open.has(kid)),
       )
       if (waits) {
-        open.set(quest.id, waits[0])
+        open.set(quest.id, parked(m, quest.id, waits[0]))
         grew = true
       }
     }
@@ -146,7 +173,7 @@ export function questState(p: Progress, m: ChecklistModel, index: number, id: nu
   const entry = p.quests[id]
   if (finishedEntry(m, id, entry)) {
     const by = entry.by
-    if (by && by.c !== m.id)
+    if (by && !isSelf(m, by.c))
       return { done: true, lock: { checklist: m.names[String(by.c)] ?? null } }
     const other = by?.s && by.s !== step.id ? m.index.get(by.s) : undefined
     return other === undefined ? { done: true } : { done: true, lock: { step: other + 1 } }
@@ -158,7 +185,7 @@ export function questState(p: Progress, m: ChecklistModel, index: number, id: nu
   const at = typeof entry?.o === 'number' && entry.o > 0 ? entry.o : undefined
   if (at === undefined) return { done: false }
   const wait = (m.parents[id] ?? [])
-    .filter(([from]) => from === at)
+    .filter(([from]) => parked(m, id, from) === at)
     .flatMap(([, kids]) => kids)
     .filter((kid) => !questFinished(p, m, kid))
   return { done: false, at, ...(wait.length > 0 && { wait }) }
@@ -176,13 +203,24 @@ const copy = (p: Progress): Progress => ({
  * Marca el paso sobre `next` (ya copiado): sus obligatorias, sus paradas y lo que deja a medias
  * en los que cierra. Con `markClosed`, un paso cerrado al que ya no le falta nada queda marcado.
  */
-function mark(next: Progress, m: ChecklistModel, index: number, now: number, markClosed = true) {
+function mark(
+  next: Progress,
+  m: ChecklistModel,
+  index: number,
+  now: number,
+  { markClosed = true, explicit = true } = {},
+) {
   const step = m.steps[index]
   const by = { c: m.id, s: step.id }
   next.steps[step.id] = { done: true, at: now }
   const open = openIn(m, index)
   for (const quest of mandatory(step)) {
-    if (questFinished(next, m, quest.id)) continue
+    // Marcado a mano, las que otra pide terminadas también se apuntan a este paso, para que se
+    // desmarquen aquí. Marcado solo (al terminar sus misiones), siguen pedidas por la otra.
+    const done = explicit
+      ? finishedEntry(m, quest.id, next.quests[quest.id])
+      : questFinished(next, m, quest.id)
+    if (done) continue
     const stop = open.get(quest.id)
     const was = next.quests[quest.id]?.o
     next.quests[quest.id] =
@@ -210,7 +248,7 @@ function complete(before: Progress, next: Progress, m: ChecklistModel, now: numb
       (_, at) => !stepDone(next, m, at) && allFinished(next, m, at) && !allFinished(before, m, at),
     )
     if (index < 0) break
-    mark(next, m, index, now)
+    mark(next, m, index, now, { explicit: false })
   }
   return next
 }
@@ -227,7 +265,8 @@ export function markSteps(
 ): Progress {
   const next = copy(p)
   for (const index of indices)
-    if (m.steps[index] && !stepDone(next, m, index)) mark(next, m, index, now, false)
+    if (m.steps[index] && !stepDone(next, m, index))
+      mark(next, m, index, now, { markClosed: false })
   return next
 }
 
@@ -247,7 +286,7 @@ export function setStep(
   }
   next.steps[step.id] = { done: false, at: now }
   for (const [id, entry] of Object.entries(next.quests)) {
-    if (entry.by?.c === m.id && entry.by.s === step.id) delete next.quests[id]
+    if (entry.by && isSelf(m, entry.by.c) && entry.by.s === step.id) delete next.quests[id]
   }
   // Lo que este dejó terminado de los que cierra vuelve a su parada, si siguen marcados.
   for (const closed of m.closes.get(step.id) ?? []) {
@@ -280,14 +319,26 @@ export function setQuest(
     return complete(p, next, m, now)
   }
   delete next.quests[id]
+  // Las de este paso que piden terminada a esta y apuntó este paso vuelven a lo suyo, como en
+  // silvestre-checklist: sin ella no pueden estar terminadas.
+  const dependents = new Set(m.requiredBy.get(id) ?? [])
+  for (const quest of mandatory(step)) {
+    const entry = next.quests[quest.id]
+    if (dependents.has(quest.id) && entry?.by && isSelf(m, entry.by.c) && entry.by.s === step.id) {
+      delete next.quests[quest.id]
+    }
+  }
   if (stepDone(next, m, index)) {
-    // Desmarcar una misión de un paso hecho lo desmarca: las demás quedan hechas de verdad,
-    // salvo las que piden terminada a esta.
+    // Desmarcar una misión de un paso hecho lo desmarca. Las demás quedan como las dejaba el
+    // paso: terminadas, o en su parada las que se quedan a medias. Nunca se termina nada.
     next.steps[step.id] = { done: false, at: now }
+    const open = openIn(m, index)
     for (const quest of mandatory(step)) {
-      if (quest.id === id || questFinished(next, m, quest.id)) continue
-      if (m.prereqs[quest.id]?.includes(id)) continue
-      next.quests[quest.id] = { o: 'done', by, at: now }
+      if (quest.id === id || dependents.has(quest.id)) continue
+      if (questFinished(next, m, quest.id) || next.quests[quest.id]) continue
+      const stop = open.get(quest.id)
+      next.quests[quest.id] =
+        stop === undefined ? { o: 'done', by, at: now } : { o: stop, by, at: now }
     }
   }
   return next
@@ -358,7 +409,7 @@ export function resetChecklist(
     const route = new Set(m.steps.flatMap((step) => step.quests.map((quest) => String(quest.id))))
     for (const id of m.index.keys()) delete next.steps[id]
     for (const [id, entry] of Object.entries(next.quests)) {
-      if (entry.by ? entry.by.c === m.id : route.has(id)) delete next.quests[id]
+      if (entry.by ? isSelf(m, entry.by.c) : route.has(id)) delete next.quests[id]
     }
   }
   if (choice.prereqs) {

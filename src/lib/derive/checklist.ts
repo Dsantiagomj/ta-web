@@ -69,23 +69,56 @@ export function routePrerequisites(
   route: readonly number[],
   direct: Readonly<Record<number, readonly number[]>>,
 ): Record<number, number[]> {
-  const memo = new Map<number, Set<number>>()
-  const busy = new Set<number>()
-  const closure = (id: number): Set<number> => {
-    const known = memo.get(id)
-    if (known) return known
-    // Un bucle en los datos: lo de detrás ya se cuenta
-    if (busy.has(id)) return new Set()
-    busy.add(id)
-    const out = new Set<number>()
+  // Las misiones de un bucle se piden todas entre sí: se agrupan en componentes fuertemente
+  // conexas (Tarjan) y cada componente pide lo mismo, empiece el recorrido por donde empiece.
+  const index = new Map<number, number>()
+  const low = new Map<number, number>()
+  const stack: number[] = []
+  const onStack = new Set<number>()
+  const component = new Map<number, number[]>()
+  let counter = 0
+  const visit = (id: number) => {
+    index.set(id, counter)
+    low.set(id, counter++)
+    stack.push(id)
+    onStack.add(id)
     for (const need of direct[id] ?? []) {
-      out.add(need)
-      for (const further of closure(need)) out.add(further)
+      if (!index.has(need)) {
+        visit(need)
+        low.set(id, Math.min(low.get(id)!, low.get(need)!))
+      } else if (onStack.has(need)) low.set(id, Math.min(low.get(id)!, index.get(need)!))
     }
-    out.delete(id)
-    busy.delete(id)
-    memo.set(id, out)
+    if (low.get(id) !== index.get(id)) return
+    const members: number[] = []
+    for (let member = stack.pop()!; ; member = stack.pop()!) {
+      onStack.delete(member)
+      members.push(member)
+      component.set(member, members)
+      if (member === id) break
+    }
+  }
+  // Lo que pide cada componente: lo de sus miembros y lo de las componentes que piden, sin ella.
+  const memo = new Map<number[], Set<number>>()
+  const closureOf = (members: number[]): Set<number> => {
+    const known = memo.get(members)
+    if (known) return known
+    const out = new Set<number>(members.length > 1 ? members : [])
+    memo.set(members, out)
+    for (const member of members) {
+      for (const need of direct[member] ?? []) {
+        const other = component.get(need)!
+        if (other === members) continue
+        out.add(need)
+        for (const further of closureOf(other)) out.add(further)
+      }
+    }
     return out
+  }
+  const closure = (id: number) => {
+    if (!index.has(id)) visit(id)
+    const all = new Set(closureOf(component.get(id)!))
+    all.delete(id)
+    return all
   }
   const onRoute = new Set(route)
   const out: Record<number, number[]> = {}

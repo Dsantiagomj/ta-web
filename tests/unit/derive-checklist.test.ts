@@ -69,3 +69,12 @@ describe('routePrerequisites', () => {
     expect(routePrerequisites([1, 2], { 1: [2], 2: [1] })).toEqual({ 1: [2], 2: [1] })
   })
 })
+
+describe('routePrerequisites con bucles', () => {
+  it('las misiones de un mismo bucle se piden todas entre sí, empiece por donde empiece', () => {
+    const direct = { 1: [2], 2: [3], 3: [1], 4: [1] }
+    const expected = { 1: [2, 3], 2: [1, 3], 3: [1, 2], 4: [1, 2, 3] }
+    expect(routePrerequisites([1, 2, 3, 4], direct)).toEqual(expected)
+    expect(routePrerequisites([4, 3, 2, 1], direct)).toEqual(expected)
+  })
+})
