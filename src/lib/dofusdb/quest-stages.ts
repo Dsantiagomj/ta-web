@@ -131,14 +131,21 @@ const NPC_REFERENCE = /\{npc,(\d+)/g
 
 /**
  * Los PNJ que nombran los objetivos de la misión: el del parámetro de su clase y los que
- * cita su texto (un objetivo libre solo los nombra ahí). Sin repetir.
+ * cita su texto (un objetivo libre solo los nombra ahí). Sin repetir y sin el 0, que en
+ * DofusDB es que no hay. Lee los objetivos crudos: el orden no importa.
  */
 export function objectiveNpcIds(raw: RawQuest): number[] {
   const ids = new Set<number>()
-  for (const stage of questStages(raw)) {
-    for (const objective of stage.objectives) {
-      if (objective.npcId != null) ids.add(objective.npcId)
-      for (const [, id] of (objective.text ?? '').matchAll(NPC_REFERENCE)) ids.add(Number(id))
+  for (const step of raw.steps ?? []) {
+    for (const objective of step?.objectives ?? []) {
+      if (!objective) continue
+      const npc = SHAPES[objective.className]?.npc
+      const fromParameter = npc ? positive(objective.parameters?.[npc]) : null
+      if (fromParameter !== null) ids.add(fromParameter)
+      for (const [, id] of (spanish(objective.text) ?? '').matchAll(NPC_REFERENCE)) {
+        const fromText = positive(Number(id))
+        if (fromText !== null) ids.add(fromText)
+      }
     }
   }
   return [...ids]

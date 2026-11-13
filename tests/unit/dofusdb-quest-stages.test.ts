@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { indexLookups, mapQuest } from '@/lib/dofusdb/map-quest'
-import { questStages } from '@/lib/dofusdb/quest-stages'
+import { objectiveNpcIds, questStages } from '@/lib/dofusdb/quest-stages'
 import type { RawQuest, RawQuestObjective } from '@/lib/dofusdb/types'
 
 import questsWithObjectives from '../fixtures/dofusdb/quests-objectives.json'
@@ -207,5 +207,43 @@ describe('questStages', () => {
   it('mapQuest incluye las etapas', () => {
     const raw = quest(1575)
     expect(mapQuest(raw, indexLookups([], [])).stages).toEqual(questStages(raw))
+  })
+})
+
+describe('objectiveNpcIds', () => {
+  const quest = (objectives: RawQuestObjective[]): RawQuest => ({
+    id: 1,
+    name: { es: 'Misión de prueba' },
+    steps: [{ id: 11, optimalLevel: 1, duration: 1, objectives }],
+  })
+
+  it('junta el PNJ del parámetro y los del texto, sin repetir', () => {
+    const ids = objectiveNpcIds(
+      quest([
+        { id: 1, className: 'QuestObjectiveGoToNpcData', parameters: { parameter0: 20 } },
+        {
+          id: 2,
+          className: 'QuestObjectiveFreeFormData',
+          parameters: { parameter0: 751055 },
+          text: { es: 'Habla con {npc,40} y con {npc,20}' },
+        },
+      ]),
+    )
+    expect(ids.sort((a, b) => a - b)).toEqual([20, 40])
+  })
+
+  it('descarta el 0 del texto como el del parámetro: en DofusDB, 0 es que no hay', () => {
+    const ids = objectiveNpcIds(
+      quest([
+        { id: 1, className: 'QuestObjectiveGoToNpcData', parameters: { parameter0: 0 } },
+        {
+          id: 2,
+          className: 'QuestObjectiveFreeFormData',
+          parameters: { parameter0: 751055 },
+          text: { es: 'Habla con {npc,0} y con {npc,40}' },
+        },
+      ]),
+    )
+    expect(ids).toEqual([40])
   })
 })
