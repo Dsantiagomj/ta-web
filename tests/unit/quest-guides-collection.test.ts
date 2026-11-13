@@ -15,8 +15,10 @@ import {
   validateGuideTitle,
   validatePickedDungeonNote,
   validateSlug,
+  withoutDeletedDungeons,
 } from '@/collections/QuestGuides'
 import { fillFromQuest } from '@/collections/quest-guide-autofill'
+import { livePicks } from '@/lib/guides/need-notes'
 import { guideStrings } from '@/lib/guides/strings'
 
 function field(name: string, fields: Field[] = QuestGuides.fields): Field {
@@ -166,6 +168,49 @@ describe('colección quest-guides', () => {
       label: 'Mazmorra',
       relationTo: 'dungeons',
       required: true,
+    })
+  })
+
+  it('una mazmorra borrada en DofusDB no bloquea la guía: su fila se quita al guardar', () => {
+    const needs = field('needs', (field('summary') as GroupField).fields) as GroupField
+    const dungeons = field('dungeons', needs.fields) as ArrayField
+    expect(dungeons.hooks?.beforeValidate).toContain(withoutDeletedDungeons)
+  })
+
+  describe('withoutDeletedDungeons', () => {
+    const call = (value: unknown, stored: unknown) =>
+      withoutDeletedDungeons({
+        value,
+        originalDoc: { summary: { needs: { dungeons: stored } } },
+      } as never)
+
+    it('quita la fila cuya mazmorra ya estaba vacía en lo guardado (borrada: ON DELETE SET NULL)', () => {
+      const stored = [
+        { id: 'a', note: 'Mazmorra Ben Ripata', dungeon: null },
+        { id: 'b', note: 'Mazmorra Kumijo', dungeon: 4 },
+      ]
+      expect(call(stored, stored)).toEqual([stored[1]])
+    })
+
+    it('una fila nueva sin mazmorra, o una que Torre vació, se queda: el panel la pide', () => {
+      const stored = [{ id: 'b', note: 'Mazmorra Kumijo', dungeon: 4 }]
+      const value = [
+        { id: 'b', note: 'Mazmorra Kumijo', dungeon: null },
+        { id: 'c', note: 'Mazmorra Ben Ripata', dungeon: null },
+      ]
+      expect(call(value, stored)).toEqual(value)
+      expect(call(value, undefined)).toEqual(value)
+    })
+  })
+
+  it('livePicks separa las elecciones cuya nota sigue en Notas de las que ya no', () => {
+    const picks = [
+      { note: '1 x Mazmorra Ben Ripata.', dungeon: 7 },
+      { note: 'Mazmorra Kumijo', dungeon: 8 },
+    ]
+    expect(livePicks(picks, '2 x Mazmorra ben ripata\n1 x Combate (solo).')).toEqual({
+      live: [picks[0]],
+      stale: [picks[1]],
     })
   })
 

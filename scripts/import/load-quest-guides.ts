@@ -7,10 +7,12 @@ import {
   splitFightLists,
   type FightListBlock,
 } from '@/lib/guides/fight-lists'
+import { livePicks } from '@/lib/guides/need-notes'
 import { applySummaryFill, summaryToFill } from '@/lib/guides/summary'
 import type { Quest, QuestGuide } from '@/payload-types'
 
 import { createHtmlToLexical } from './rich-text'
+import { ImageDownloadError } from './media-by-url'
 import { releaseDom } from './squarespace/dom'
 import type {
   ContentBlock,
@@ -28,8 +30,6 @@ export interface ImageFile {
 
 /** Descarga una imagen del CDN de Squarespace. Inyectable para probar sin red. */
 export type FetchImage = (url: string) => Promise<ImageFile>
-
-class ImageDownloadError extends Error {}
 
 // Drizzle envuelve los errores del cliente en `cause`. No convertir un fallo de
 // base de datos en una imagen omitida y una guía marcada como importada.
@@ -281,14 +281,22 @@ export async function loadQuestGuides(
     })
     const current = existing.docs[0]
     const summary = filledSummary(guide.summary, linked)
+    // Las mazmorras que Torre eligió a mano son suyas y se quedan, salvo las de una nota que
+    // ya no está en Notas: no elegirían nada y bloquearían la guía al guardarla.
+    const { live: dungeons, stale } = livePicks(
+      current?.summary?.needs?.dungeons ?? [],
+      summary.needs.notes,
+    )
+    for (const pick of stale) {
+      oddities.push(`Mazmorra elegida a mano quitada: «${pick.note}» ya no está en Notas`)
+    }
     const data = {
       title: guide.title,
       slug: guide.slug,
       originalUrl: guide.originalUrl,
       summary: {
         ...summary,
-        // Las mazmorras que Torre eligió a mano para sus notas son suyas: se quedan como están.
-        needs: { ...summary.needs, dungeons: current?.summary?.needs?.dungeons ?? [] },
+        needs: { ...summary.needs, dungeons },
       },
       quest: linked?.id ?? null,
       body,

@@ -18,7 +18,10 @@ async function cleanUp() {
   await payload.delete({ collection: 'achievements', where: { dofusId: { in: ACHIEVEMENTS } } })
   await payload.delete({ collection: 'quest-guides', where: { slug: { like: 'informe-' } } })
   await payload.delete({ collection: 'quests', where: { dofusId: { in: QUESTS } } })
-  await payload.delete({ collection: 'dungeons', where: { dofusId: { in: [990_131, 990_138] } } })
+  await payload.delete({
+    collection: 'dungeons',
+    where: { dofusId: { in: [990_131, 990_138, 990_139] } },
+  })
   await payload.delete({ collection: 'monsters', where: { dofusId: { in: [990_394, 990_903] } } })
   await payload.delete({ collection: 'items', where: { dofusId: { equals: 990_777 } } })
   await payload.delete({ collection: 'media', where: { alt: { equals: 'Kumijo (informe)' } } })
@@ -133,5 +136,31 @@ describe('dungeonNoteReport', () => {
     // Las que llevan su jefe porque Torre eligió la mazmorra a mano.
     expect(ours(report.manual)).toEqual([{ page: 'informe-logro', label: 'Mazmorra Ben Ripata' }])
     expect(ours(report.generic)).toEqual([{ page: 'informe-logro', label: 'Mazmorra de Grunob' }])
+  })
+
+  it('una mazmorra elegida que se borra no impide publicar la guía: su fila se quita', async () => {
+    const dungeon = await payload.create({
+      collection: 'dungeons',
+      data: { dofusId: 990_139, name: 'Mazmorra que se borra' },
+    })
+    const guide = (
+      await payload.find({ collection: 'quest-guides', where: { slug: { equals: 'informe-uno' } } })
+    ).docs[0]!
+    await payload.update({
+      collection: 'quest-guides',
+      id: guide.id,
+      data: {
+        summary: { needs: { dungeons: [{ note: '1 x Mazmorra Kumijo', dungeon: dungeon.id }] } },
+      },
+    })
+    await payload.delete({ collection: 'dungeons', id: dungeon.id })
+
+    // Torre publica otra cosa de la guía: no tocó la fila, y no debe bloquearle.
+    const saved = await payload.update({
+      collection: 'quest-guides',
+      id: guide.id,
+      data: { title: 'informe-uno (editada)', _status: 'published' },
+    })
+    expect(saved.summary?.needs?.dungeons).toEqual([])
   })
 })

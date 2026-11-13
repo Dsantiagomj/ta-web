@@ -19,7 +19,7 @@ import { gameItems } from './dofus-guides/game-items'
 import { loadDofusGuides, loadDofusIndexIntro, type DofusGuideInput } from './dofus-guides/load'
 import { parseDofusGuide } from './dofus-guides/parse'
 import { createPosterFetcher, posterUrl } from './dofus-guides/video-poster'
-import { mediaByUrl } from './media-by-url'
+import { ImageDownloadError, mediaByUrl } from './media-by-url'
 import { createHtmlToLexical } from './rich-text'
 import { releaseDom } from './squarespace/dom'
 import { createImageFetcher } from './squarespace/fetch-image'
@@ -65,11 +65,14 @@ const payload = await getPayload({ config })
 try {
   const log = (message: string) => console.log(message)
   const items = gameItems(payload, { client: createDofusDbClient({ log }), log, dryRun: !apply })
-  const images = mediaByUrl(payload, createImageFetcher(), { apply })
+  // En seco no se sube nada: lo que falta da 0, un ID que nunca se escribe.
+  const findImage = mediaByUrl(payload, createImageFetcher())
+  const images = async (url: string, alt: string) =>
+    (await findImage(url, alt, { upload: apply })) ?? 0
   const fetchPoster = createPosterFetcher()
-  const posters = mediaByUrl(payload, (url) => fetchPoster(url.split('/vi/')[1]!.split('/')[0]!), {
-    apply,
-  })
+  const findPoster = mediaByUrl(payload, (url) => fetchPoster(url.split('/vi/')[1]!.split('/')[0]!))
+  const posters = async (url: string, alt: string) =>
+    (await findPoster(url, alt, { upload: apply })) ?? 0
 
   const htmlToLexical = await createHtmlToLexical(payload.config)
   const intro = await loadDofusIndexIntro(payload, {
@@ -89,7 +92,9 @@ try {
       try {
         return await posters(posterUrl(videoId), 'Portada del vídeo')
       } catch (error) {
-        console.log(`Portada del vídeo ${videoId} no disponible: ${String(error)}`)
+        // Solo una descarga fallida; un error de la base para la importación.
+        if (!(error instanceof ImageDownloadError)) throw error
+        console.log(`Portada del vídeo ${videoId} no disponible: ${error.message}`)
         return null
       }
     },

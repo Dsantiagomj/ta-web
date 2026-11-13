@@ -10,6 +10,7 @@ import type { Payload } from 'payload'
 import { youtubeId } from '@/lib/guides/video'
 
 import { comparable } from '../dofus-guides/load'
+import { ImageDownloadError } from '../media-by-url'
 import type { LexicalState } from '../rich-text'
 import type { AchievementProse, ProseItem } from './prose'
 
@@ -23,10 +24,13 @@ export interface LoadProseOptions {
   /** Sin él solo cuenta lo que haría. */
   apply: boolean
   htmlToLexical: (html: string) => LexicalState
-  /** El archivo de Media de una captura de Squarespace, subiéndolo si falta (0 en seco). */
-  mediaFor: (url: string, alt: string) => Promise<number>
-  /** La portada de un vídeo de YouTube como archivo de Media; null si no se pudo traer. */
-  posterFor: (videoId: string) => Promise<number | null>
+  /**
+   * El archivo de Media de una captura de Squarespace; con upload, subiéndolo si falta. Sin
+   * upload solo lo busca: null si no está. Una descarga fallida es ImageDownloadError.
+   */
+  mediaFor: (url: string, alt: string, options: { upload: boolean }) => Promise<number | null>
+  /** La portada de un vídeo de YouTube como archivo de Media, igual que mediaFor. */
+  posterFor: (videoId: string, options: { upload: boolean }) => Promise<number | null>
   /** Solo las páginas cuyo slug pasa el filtro (las pruebas); sin él, todas. */
   only?: (slug: string) => boolean
   log?: (message: string) => void
@@ -46,6 +50,8 @@ export interface LoadProseReport {
   /** Vídeos y capturas en la prosa leída. */
   videos: number
   images: number
+  /** Lo que no se pudo traer (una captura o una portada que no se descargó). */
+  oddities: { slug: string; message: string }[]
 }
 
 type Node = Record<string, unknown>
@@ -63,31 +69,56 @@ function isEmpty(value: unknown): boolean {
   return !/"text":"[^"]*\S/.test(text) && !/"type":"(upload|block)"/.test(text)
 }
 
-/** El título del vídeo: el de YouTube si Squarespace lo trae; si no, el del logro. */
-function videoTitle(item: Extract<ProseItem, { type: 'video' }>, name: string, place: string) {
-  return item.title ?? `Vídeo guía de ${name}${place}`
+/** Cómo se construye un campo: subiendo lo que falte, o solo con lo que ya está en Media. */
+interface Build {
+  name: string
+  upload: boolean
+  /** «(1 de 2)» de cada vídeo de la página, contando la entrada y el cierre juntos. */
+  places: Map<ProseItem, string>
+  oddities: string[]
+}
+
+/** Un archivo de Media, o null si no se pudo descargar (queda anotado). */
+async function fetched(
+  load: () => Promise<number | null>,
+  oddity: (message: string) => string,
+  build: Build,
+) {
+  try {
+    return await load()
+  } catch (error) {
+    // Solo una descarga fallida se anota y se sigue; un error de la base para todo.
+    if (!(error instanceof ImageDownloadError)) throw error
+    build.oddities.push(oddity(error.message))
+    return null
+  }
 }
 
 /**
  * La prosa como texto enriquecido de Lexical: cada trozo de HTML de Torre tal cual, cada
- * captura como imagen subida y cada vídeo como bloque proseVideo con su portada. Null si no
- * hay nada.
+ * captura como imagen subida y cada vídeo como bloque proseVideo con su portada. Una captura
+ * que no se pudo traer se queda fuera y el texto sigue. Sin upload, lo que aún no está en
+ * Media va con el ID 0: sirve para comparar, y nunca se escribe. Null si no hay nada.
  */
 async function toLexical(
   items: ProseItem[],
-  name: string,
+  build: Build,
   options: Pick<LoadProseOptions, 'htmlToLexical' | 'mediaFor' | 'posterFor'>,
 ): Promise<LexicalState | null> {
   if (items.length === 0) return null
-  const videos = items.filter((item) => item.type === 'video').length
-  let videoNumber = 0
+  const { upload } = build
   const children: Node[] = []
   for (const item of items) {
     if (item.type === 'html') {
       const state = options.htmlToLexical(item.html) as unknown as { root: { children: Node[] } }
       children.push(...state.root.children)
     } else if (item.type === 'image') {
-      const value = await options.mediaFor(item.url, item.alt || name)
+      const value = await fetched(
+        () => options.mediaFor(item.url, item.alt || build.name, { upload }),
+        (message) => `Captura sin importar: ${item.url} (${message})`,
+        build,
+      )
+      if (value === null && upload) continue
       children.push({
         type: 'upload',
         version: 3,
@@ -95,12 +126,15 @@ async function toLexical(
         id: nodeId(),
         fields: null,
         relationTo: 'media',
-        value,
+        value: value ?? 0,
       })
     } else {
-      videoNumber += 1
-      const place = videos > 1 ? ` (${videoNumber} de ${videos})` : ''
-      const poster = await options.posterFor(youtubeId(item.url)!)
+      const videoId = youtubeId(item.url)!
+      const poster = await fetched(
+        () => options.posterFor(videoId, { upload }),
+        (message) => `Portada del vídeo ${videoId} sin importar (${message})`,
+        build,
+      )
       children.push({
         type: 'block',
         version: 2,
@@ -110,7 +144,8 @@ async function toLexical(
           blockName: '',
           blockType: 'proseVideo',
           url: item.url,
-          title: videoTitle(item, name, place),
+          // El de YouTube si Squarespace lo trae; si no, el del logro, único en la página.
+          title: item.title ?? `Vídeo guía de ${build.name}${build.places.get(item) ?? ''}`,
           ...(poster !== null && { poster }),
         },
       })
@@ -119,6 +154,13 @@ async function toLexical(
   return {
     root: { type: 'root', format: '', indent: 0, version: 1, direction: null, children },
   } as unknown as LexicalState
+}
+
+/** El lugar de cada vídeo sin título entre todos los de la página: «(2 de 3)». */
+function videoPlaces(items: ProseItem[]): Map<ProseItem, string> {
+  const videos = items.filter((item) => item.type === 'video')
+  if (videos.length < 2) return new Map()
+  return new Map(videos.map((video, index) => [video, ` (${index + 1} de ${videos.length})`]))
 }
 
 export async function loadAchievementProse(
@@ -135,6 +177,7 @@ export async function loadAchievementProse(
     missing: [],
     videos: 0,
     images: 0,
+    oddities: [],
   }
   // El último borrador: si Torre tiene uno a medias, la importación lo compara con él.
   const { docs } = await payload.find({
@@ -166,29 +209,31 @@ export async function loadAchievementProse(
     report.videos += all.filter((item) => item.type === 'video').length
     report.images += all.filter((item) => item.type === 'image').length
 
-    const data: Imported = {
-      intro: await toLexical(prose.intro, current.name, options),
-      outro: await toLexical(prose.outro, current.name, options),
-    }
-
-    // Un campo cambia solo si está vacío o sigue como lo dejó la última importación.
+    // Primero se decide, después se sube: un campo que Torre cambió se compara solo con lo
+    // que ya está en Media y no sube nada.
+    const places = videoPlaces(all)
+    const oddities: string[] = []
     const snapshot = (current.importSnapshot ?? {}) as Imported
     const changes: Imported = {}
     const nextSnapshot: Imported = { ...snapshot }
     for (const field of FIELDS) {
       const stored = current[field]
-      if (same(stored, data[field])) {
-        nextSnapshot[field] = comparable(data[field]) ?? null
+      const edited = field in snapshot ? !same(stored, snapshot[field]) : !isEmpty(stored)
+      // Un campo cambia solo si está vacío o sigue como lo dejó la última importación.
+      const build: Build = { name: current.name, upload: apply && !edited, places, oddities }
+      const data = await toLexical(prose[field], build, options)
+      if (same(stored, data)) {
+        nextSnapshot[field] = comparable(data) ?? null
         continue
       }
-      const edited = field in snapshot ? !same(stored, snapshot[field]) : !isEmpty(stored)
       if (edited) {
         report.kept.push({ slug: current.slug, field })
         continue
       }
-      changes[field] = data[field]
-      nextSnapshot[field] = comparable(data[field]) ?? null
+      changes[field] = data
+      nextSnapshot[field] = comparable(data) ?? null
     }
+    for (const message of oddities) report.oddities.push({ slug: current.slug, message })
     if (Object.keys(changes).length === 0) {
       report.unchanged += 1
       continue

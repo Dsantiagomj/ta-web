@@ -16,13 +16,11 @@ import config from '@payload-config'
 import { databaseScriptRefusal } from '@/lib/db/script-guard'
 
 import { loadAchievementProse } from './achievements/load-prose'
-import { achievementProse, type AchievementProse } from './achievements/prose'
+import { readAchievementPages } from './achievements/read-pages'
 import { createPosterFetcher, posterUrl } from './dofus-guides/video-poster'
 import { mediaByUrl } from './media-by-url'
 import { createHtmlToLexical } from './rich-text'
-import { releaseDom } from './squarespace/dom'
 import { createImageFetcher } from './squarespace/fetch-image'
-import { parsePage } from './squarespace/parse-page'
 
 const SITE = 'https://www.torrentearcano.com'
 const USAGE =
@@ -62,9 +60,6 @@ async function pageHtml(slug: string): Promise<string | null> {
   return response.text()
 }
 
-// happy-dom retiene cada documento que parsea: se suelta cada tanto (squarespace/dom.ts).
-const RELEASE_EVERY = 20
-
 const payload = await getPayload({ config })
 try {
   const log = (message: string) => console.log(message)
@@ -76,32 +71,21 @@ try {
     pagination: false,
     overrideAccess: true,
   })
-  const pages = new Map<string, AchievementProse>()
-  for (const [index, { slug }] of docs.entries()) {
-    const html = await pageHtml(slug)
-    if (html) pages.set(slug, achievementProse(parsePage(html)))
-    if ((index + 1) % RELEASE_EVERY === 0) await releaseDom()
-  }
-  await releaseDom()
+  const pages = await readAchievementPages(
+    docs.map((doc) => doc.slug),
+    pageHtml,
+  )
 
-  const images = mediaByUrl(payload, createImageFetcher(), { apply })
+  // Una descarga fallida (ImageDownloadError) la anota la carga; cualquier otro error para.
+  const images = mediaByUrl(payload, createImageFetcher())
   const fetchPoster = createPosterFetcher()
-  const posters = mediaByUrl(payload, (url) => fetchPoster(url.split('/vi/')[1]!.split('/')[0]!), {
-    apply,
-  })
+  const posters = mediaByUrl(payload, (url) => fetchPoster(url.split('/vi/')[1]!.split('/')[0]!))
   const report = await loadAchievementProse(payload, {
     pages,
     apply,
     htmlToLexical: await createHtmlToLexical(payload.config),
     mediaFor: images,
-    posterFor: async (videoId) => {
-      try {
-        return await posters(posterUrl(videoId), 'Portada del vídeo')
-      } catch (error) {
-        console.log(`Portada del vídeo ${videoId} no disponible: ${String(error)}`)
-        return null
-      }
-    },
+    posterFor: (videoId, options) => posters(posterUrl(videoId), 'Portada del vídeo', options),
     log,
   })
 
@@ -112,6 +96,7 @@ try {
       `${report.missing.length} sin página en Squarespace. ${report.updated} ` +
       `${apply ? 'actualizadas' : 'se actualizarían'} y ${report.unchanged} sin cambios.`,
   )
+  for (const { slug, message } of report.oddities) console.log(`Rareza en ${slug}: ${message}`)
   for (const { slug, field } of report.kept) {
     console.log(`Se respeta lo que escribió Torre en ${slug}: ${field}`)
   }
