@@ -25,7 +25,7 @@ function runHook(env: Record<string, string>) {
 
 describe('gga-review.sh', () => {
   it('revisa el commit con Sonnet aunque el modelo de Claude Code sea otro', () => {
-    expect(runHook({})).toEqual({ status: 0, output: 'modelo=sonnet args=run\n' })
+    expect(runHook({})).toEqual({ status: 0, output: 'modelo=claude-sonnet-5-5 args=run\n' })
   })
 
   it('GGA_CLAUDE_MODEL cambia el modelo de la revisión', () => {
@@ -33,6 +33,6 @@ describe('gga-review.sh', () => {
   })
 
   it('un ANTHROPIC_MODEL del shell no cambia el de la revisión', () => {
-    expect(runHook({ ANTHROPIC_MODEL: 'fable' }).output).toBe('modelo=sonnet args=run\n')
+    expect(runHook({ ANTHROPIC_MODEL: 'fable' }).output).toBe('modelo=claude-sonnet-5-5 args=run\n')
   })
 })

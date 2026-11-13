@@ -13,7 +13,7 @@ Every change: code, content model, migrations, data, docs, CI. Read this file be
 1. One branch per change, in a worktree under `../ta-web-worktrees/<name>`.
 2. Strict TDD: write or adjust the test, watch it fail, then implement.
 3. Schema change: generate and commit the migration in the same branch.
-4. Run lint, format check, types, unit and integration locally before each push; run E2E and the dev gate suite once, right before opening the PR, not per commit or per fix (see Testing). Report failures verbatim. The pre-commit hook runs Prettier, ESLint and the `gga` review on staged files. The review runs on Sonnet (`GGA_CLAUDE_MODEL` overrides it), whatever Claude Code's default model is. Do not skip the hook (`--no-verify`, `LEFTHOOK=0`, `LEFTHOOK_EXCLUDE`) unless the user asks.
+4. Run lint, format check, types, unit and integration locally before each push; run E2E and the dev gate suite once, right before opening the PR, not per commit or per fix (see Testing). Report failures verbatim. The pre-commit hook runs Prettier, ESLint and the `gga` review on staged files. The review runs on Sonnet 5.5 (`claude-sonnet-5-5`; `GGA_CLAUDE_MODEL` overrides it), whatever Claude Code's default model is. Do not skip the hook (`--no-verify`, `LEFTHOOK=0`, `LEFTHOOK_EXCLUDE`) unless the user asks.
 5. UI change: screenshots at 1440, 1024 and 390 px, Arcano dark and light (plus any theme the change touches), in `tmp/shots/`, next to the approved mockup.
 6. Open the PR: conventional commit title, Spanish body. Leave `openwiki/` alone; a daily task refreshes it (see Wiki). No auto-merge unless asked.
 

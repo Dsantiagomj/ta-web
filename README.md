@@ -126,7 +126,7 @@ How `pnpm import:guides` reads a Squarespace page, beyond the summary and the st
 - **pre-commit** formats and lints the staged files, then runs `gga run`. gga sends the staged files and `AGENTS.md` to the Claude Code CLI and blocks the commit when the review fails. `.gga` holds its settings. Without `gga` installed, the hook prints a warning and lets the commit through.
 - **commit-msg** rejects titles that are not conventional commits and any `Co-Authored-By` line.
 
-The hook runs the review on Sonnet, even when Claude Code's default model is a pricier one. `GGA_CLAUDE_MODEL` picks another model for one run (`GGA_CLAUDE_MODEL=opus git commit …`). `GGA_PROVIDER` overrides the provider in `.gga` for one run (`GGA_PROVIDER=codex git commit …`). `LEFTHOOK_EXCLUDE=gga git commit …` skips the review once.
+The hook runs the review on Sonnet 5.5 (`claude-sonnet-5-5`), even when Claude Code's default model is a pricier one. `GGA_CLAUDE_MODEL` picks another model for one run (`GGA_CLAUDE_MODEL=opus git commit …`). `GGA_PROVIDER` overrides the provider in `.gga` for one run (`GGA_PROVIDER=codex git commit …`). `LEFTHOOK_EXCLUDE=gga git commit …` skips the review once.
 
 ### CI
 
