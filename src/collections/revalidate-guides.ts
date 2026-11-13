@@ -43,12 +43,14 @@ export function revalidateChecklists(): void {
   expire(CHECKLISTS_TAG)
 }
 
-// Las guías y Media salen en las tres páginas: una guía publicada enlaza su tarjeta en el
-// logro y su fila en la guía de Dofus, y un archivo es el icono o el render de todas.
+// Las guías y Media salen en todas las páginas: una guía publicada enlaza su tarjeta en el
+// logro, su fila en la guía de Dofus y su misión en la checklist, y un archivo es el icono o
+// el render de todas.
 export const revalidateGuidePagesAfterChange: CollectionAfterChangeHook = ({ doc }) => {
   revalidateGuidePages()
   revalidateAchievementPages()
   revalidateDofusGuides()
+  revalidateChecklists()
   return doc
 }
 
@@ -56,15 +58,18 @@ export const revalidateGuidePagesAfterDelete: CollectionAfterDeleteHook = ({ doc
   revalidateGuidePages()
   revalidateAchievementPages()
   revalidateDofusGuides()
+  revalidateChecklists()
   return doc
 }
 
 // Una página de logro o un metalogro salen también en las guías (sus migas y «Misión 2 de
-// 3») y en las guías de Dofus (las misiones de cada logro).
+// 3»), en las guías de Dofus (las misiones de cada logro) y en las checklists (el enlace de
+// cada logro).
 export const revalidateAchievementPagesAfterChange: CollectionAfterChangeHook = ({ doc }) => {
   revalidateAchievementPages()
   revalidateGuidePages()
   revalidateDofusGuides()
+  revalidateChecklists()
   return doc
 }
 
@@ -72,24 +77,29 @@ export const revalidateAchievementPagesAfterDelete: CollectionAfterDeleteHook = 
   revalidateAchievementPages()
   revalidateGuidePages()
   revalidateDofusGuides()
+  revalidateChecklists()
   return doc
 }
 
 // Una guía de Dofus sale en su página y en el índice, y el menú de todas las páginas
-// enlaza los Dofus publicados: la caché de las guías también caduca.
+// enlaza los Dofus publicados: la caché de las guías también caduca. Su checklist toma de
+// ella el huevo, el color y las migas.
 export const revalidateDofusGuidesAfterChange: CollectionAfterChangeHook = ({ doc }) => {
   revalidateDofusGuides()
   revalidateGuidePages()
+  revalidateChecklists()
   return doc
 }
 
 export const revalidateDofusGuidesAfterDelete: CollectionAfterDeleteHook = ({ doc }) => {
   revalidateDofusGuides()
   revalidateGuidePages()
+  revalidateChecklists()
   return doc
 }
 
-// Una checklist guardada, publicada o borrada: la siguiente visita lee la nueva.
+// Una checklist guardada, publicada o borrada, o una misión que enseña (su nombre, su nivel,
+// sus objetivos): la siguiente visita lee la nueva.
 export const revalidateChecklistsAfterChange: CollectionAfterChangeHook = ({ doc }) => {
   revalidateChecklists()
   return doc

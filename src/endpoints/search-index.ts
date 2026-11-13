@@ -19,7 +19,7 @@ import { readSearchIndex } from '../lib/search/read-index'
 export const SEARCH_INDEX_CACHE_CONTROL = 'public, max-age=300, stale-while-revalidate=3600'
 
 /** gzip aceptado, salvo que lo rechace con q=0. */
-const acceptsGzip = (header: string | null) =>
+export const acceptsGzip = (header: string | null) =>
   (header ?? '')
     .split(',')
     .map((part) => part.trim().toLowerCase().split(';'))

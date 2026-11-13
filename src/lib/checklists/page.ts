@@ -1,0 +1,463 @@
+// Lo que pinta la página de una checklist (prototipo A): la checklist guardada y lo que
+// enlaza, ya listo para los componentes. Sin Payload ni React: se prueba con datos sueltos.
+//
+// El texto de Torre se copia tal cual, tramo a tramo: solo se enlaza el nombre del logro que
+// cita, sin cambiar una letra. Lo que la checklist no guarda no se pinta.
+import type { ImageAsset } from '@/components/ui/types'
+import { buildBreadcrumb, type BreadcrumbData } from '@/lib/achievements/page'
+import type { RichTextState } from '@/lib/guides/page'
+import { mediaImageAsset } from '@/lib/media/image-asset'
+import type { Checklist, Media, Quest } from '@/payload-types'
+
+import { checklistPageStrings as s, checklistStrings } from './strings'
+
+type Relation<T> = number | T | null | undefined
+type Step = NonNullable<Checklist['steps']>[number]
+type Segment = NonNullable<Step['segments']>[number]
+type Need = NonNullable<Step['needs']>[number]
+export type NeedCategory = NonNullable<Need['category']>
+export type ObjectiveKind = NonNullable<
+  NonNullable<NonNullable<Quest['stages']>[number]['objectives']>[number]['kind']
+>
+export type QuestKind = NonNullable<Step['quests']>[number]['kind']
+
+/** Lo que lee la página: la checklist y los slugs de lo que enlaza (src/lib/checklists/queries.ts). */
+export interface ChecklistData {
+  checklist: Checklist
+  /** El ID de cada misión con guía publicada y el slug de esa guía. */
+  questGuides: Record<number, string>
+  /** El ID de cada logro con página publicada y el slug de esa página. */
+  achievementPages: Record<number, string>
+  /** Las misiones donde para un «Detente aquí», con sus etapas. */
+  stopQuests: Record<number, { stages?: Quest['stages'] }>
+  /** Los nombres de lo que sus objetivos nombran por ID de DofusDB. */
+  names: ObjectiveNames
+  siteUrl: string
+}
+
+/** Por ID de DofusDB: los PNJ, objetos y monstruos que los objetivos nombran como {npc,123}. */
+export interface ObjectiveNames {
+  npc: Record<number, string>
+  item: Record<number, string>
+  monster: Record<number, string>
+}
+
+export const OBJECTIVE_REFERENCE = /\{(npc|item|monster),(\d+)\}/g
+
+/** Un trozo de texto o un enlace dentro de un tramo. */
+export type TextPart = string | { text: string; href: string }
+
+export interface SegmentView {
+  kind: Segment['kind']
+  parts: TextPart[]
+}
+
+export interface QuestRowView {
+  dofusId: number
+  name: string
+  href?: string
+  level?: number
+  kind: QuestKind
+  note?: string
+  /** Solo en la misión donde para el paso: sus objetivos y la línea de Torre en su sitio. */
+  route?: {
+    objectives: { kind: ObjectiveKind; text: string }[]
+    line: { at: number; kind: 'stop' | 'resolve'; text: string }
+  }
+}
+
+export type NeedRowView =
+  | { kind: 'item'; name: string; icon?: ImageAsset; quantity: number; note?: string }
+  | { kind: 'label'; name: string; quantity: number; note?: string }
+
+export interface NeedGroupView<Row = NeedRowView> {
+  category: NeedCategory | null
+  title: string
+  rows: Row[]
+}
+
+export type TotalRowView = NeedRowView & { steps: number[] }
+
+export interface StepView {
+  stepId: string
+  n: number
+  label: string
+  segments: SegmentView[]
+  hasStop: boolean
+  hasResolve: boolean
+  /** Los números de los pasos que cierra; y el del paso que lo cierra a él. */
+  closes: number[]
+  closedBy: number | null
+  icon?: ImageAsset
+  banner?: ImageAsset
+  figure?: { image?: ImageAsset; name?: string; role?: string }
+  achievements: { name: string; href?: string; icon?: ImageAsset; some: boolean }[]
+  quests: QuestRowView[]
+  needs: NeedGroupView[]
+  bosses: { name: string; image?: ImageAsset }[]
+  note: RichTextState | null
+  /** El texto entero, sin acentos y en minúsculas, para el buscador de la isla. */
+  search: string
+}
+
+/** Lo único que recibe la isla (plan, sección 3): la estructura, nunca los textos. */
+export interface ChecklistIslandData {
+  checklistId: number
+  slug: string
+  /** [stepId, número antiguo, [[ID de DofusDB de la misión, tipo, objetivo de parada?]]] */
+  steps: [string, number | null, ([number, QuestKind] | [number, QuestKind, number])[]][]
+  /** [stepId, stepIds que cierra] */
+  closes: [string, string[]][]
+  legacy: Checklist['legacy']
+}
+
+export interface ChecklistView {
+  id: number
+  slug: string
+  name: string
+  title: string
+  description: string
+  egg?: ImageAsset
+  color?: string
+  breadcrumb: BreadcrumbData
+  steps: StepView[]
+  prerequisites: {
+    intro: string | null
+    groups: { title: string; rows: { key: string; text: string }[] }[]
+    count: number
+  }
+  totals: NeedGroupView<TotalRowView>[]
+  totalsCount: number
+  island: ChecklistIslandData
+}
+
+const DOFUS_INDEX_PATH = '/guias-dofus'
+const CATEGORIES = Object.keys(checklistStrings.needCategories) as NeedCategory[]
+
+function populated<T extends object>(value: Relation<T>): T | null {
+  return value && typeof value === 'object' ? value : null
+}
+
+const relationId = (value: Relation<{ id: number }>) =>
+  value == null ? null : typeof value === 'number' ? value : value.id
+
+const image = (value: Relation<Media>) => mediaImageAsset(populated(value)) ?? undefined
+
+/** Sin acentos y en minúsculas, como busca la isla. */
+export const fold = (text: string) =>
+  text
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+
+/**
+ * El texto de un objetivo de DofusDB sin sus marcas: «{map,1::Banco real}» es «Banco real»
+ * y «{npc,2351}» el nombre de ese PNJ; si no lo tenemos, «un PNJ».
+ */
+export function objectiveText(
+  text: string | null | undefined,
+  names: ObjectiveNames = { npc: {}, item: {}, monster: {} },
+): string {
+  return (text ?? '')
+    .replace(/\{[a-zA-Z]+,[^{}]*?::([^{}]*)\}/g, '$1')
+    .replace(
+      OBJECTIVE_REFERENCE,
+      (_, kind: keyof ObjectiveNames, id: string) => names[kind][Number(id)] ?? s.unnamed[kind],
+    )
+    .trim()
+}
+
+const ACHIEVEMENT_QUOTE = /Logro "([^"]+)"/
+
+/** El nombre del paso en la lista: el logro que cita o su primera frase. */
+function stepLabel(text: string): string {
+  const quoted = ACHIEVEMENT_QUOTE.exec(text)?.[1]
+  if (quoted) return quoted
+  return text.split('. ')[0].replace(/\.$/, '').trim()
+}
+
+/** Un tramo en trozos: el nombre citado de un logro con página pasa a ser su enlace. */
+function segmentParts(text: string, links: Map<string, string>): TextPart[] {
+  for (const [name, href] of links) {
+    const quoted = `"${name}"`
+    const at = text.indexOf(quoted)
+    if (at < 0) continue
+    const before = text.slice(0, at + 1)
+    const after = text.slice(at + quoted.length - 1)
+    return [before, { text: name, href }, ...segmentParts(after, links)].filter(
+      (part) => part !== '',
+    )
+  }
+  return [text]
+}
+
+function needRow(need: Need): NeedRowView | null {
+  const item = populated(need.item)
+  const note = need.note ? { note: need.note } : {}
+  if (item?.name) {
+    const icon = image(item.image)
+    return {
+      kind: 'item',
+      name: item.name,
+      ...(icon && { icon }),
+      quantity: need.quantity,
+      ...note,
+    }
+  }
+  if (need.label) return { kind: 'label', name: need.label, quantity: need.quantity, ...note }
+  return null
+}
+
+const categoryTitle = (category: NeedCategory | null) =>
+  category ? checklistStrings.needCategories[category] : s.otherNeeds
+
+/** Filas agrupadas por su grupo, en el orden de los grupos; dentro, en el de llegada. */
+function byCategory<Row>(
+  rows: { category: NeedCategory | null; row: Row }[],
+): NeedGroupView<Row>[] {
+  const order = [...CATEGORIES, null]
+  return order.flatMap((category) => {
+    const inGroup = rows.filter((entry) => entry.category === category).map((entry) => entry.row)
+    return inGroup.length ? [{ category, title: categoryTitle(category), rows: inGroup }] : []
+  })
+}
+
+function flatObjectives(stages: Quest['stages'], names: ObjectiveNames) {
+  return (stages ?? []).flatMap((stage) =>
+    (stage.objectives ?? []).map((objective) => ({
+      kind: objective.kind,
+      text: objectiveText(objective.text, names),
+    })),
+  )
+}
+
+export function checklistView(data: ChecklistData): ChecklistView {
+  const { checklist } = data
+  const rawSteps = checklist.steps ?? []
+  const numberOf = new Map(rawSteps.map((step, index) => [step.stepId ?? '', index + 1]))
+  const closedBy = new Map<string, number>()
+  rawSteps.forEach((step, index) => {
+    for (const segment of step.segments ?? []) {
+      if (segment.kind !== 'resolve') continue
+      for (const closed of segment.closes ?? []) closedBy.set(closed, index + 1)
+    }
+  })
+
+  const steps = rawSteps.map((step, index): StepView => {
+    const segments = step.segments ?? []
+    const text = segments.map((segment) => segment.text).join(' ')
+    const stop = segments.find((segment) => segment.kind === 'stop')
+    const resolve = segments.find((segment) => segment.kind === 'resolve')
+
+    const achievements = (step.achievements ?? []).flatMap((row) => {
+      const achievement = populated(row.achievement)
+      if (!achievement?.name) return []
+      const slug = data.achievementPages[achievement.id]
+      const icon = image(achievement.icon)
+      return [
+        {
+          name: achievement.name,
+          ...(slug && { href: `/${slug}` }),
+          ...(icon && { icon }),
+          some: row.mode === 'some',
+        },
+      ]
+    })
+    const links = new Map(
+      achievements.flatMap((row) => (row.href ? [[row.name, row.href] as const] : [])),
+    )
+
+    const stopQuestId = relationId(stop?.quest ?? null)
+    const quests = (step.quests ?? []).flatMap((row): QuestRowView[] => {
+      const quest = populated(row.quest)
+      if (!quest) return []
+      const slug = data.questGuides[quest.id]
+      const objectives =
+        stop && quest.id === stopQuestId
+          ? flatObjectives(data.stopQuests[quest.id]?.stages, data.names)
+          : []
+      const line =
+        resolve && stop
+          ? { at: stop.stopObjective ?? 0, kind: 'resolve' as const, text: resolve.text }
+          : stop && { at: stop.stopObjective ?? 0, kind: 'stop' as const, text: stop.text }
+      return [
+        {
+          dofusId: quest.dofusId,
+          name: quest.name,
+          ...(slug && { href: `/${slug}` }),
+          ...(quest.levelMin != null && { level: quest.levelMin }),
+          kind: row.kind,
+          ...(row.note && { note: row.note }),
+          ...(objectives.length > 0 && line && { route: { objectives, line } }),
+        },
+      ]
+    })
+
+    const needs = byCategory(
+      (step.needs ?? []).flatMap((need) => {
+        const row = needRow(need)
+        return row ? [{ category: need.category ?? null, row }] : []
+      }),
+    )
+
+    const figure = step.figure
+    const npc = populated(figure?.npc)
+    const figureImage = image(npc ? npc.renderRight : figure?.image)
+    const figureName = npc?.name ?? populated(figure?.image)?.alt ?? undefined
+    const icon = image(step.icon)
+    const banner = image(step.banner)
+    const n = index + 1
+
+    return {
+      stepId: step.stepId ?? '',
+      n,
+      label: stepLabel(text),
+      segments: segments.map((segment) => ({
+        kind: segment.kind,
+        parts: segment.kind === 'plain' ? segmentParts(segment.text, links) : [segment.text],
+      })),
+      hasStop: Boolean(stop),
+      hasResolve: Boolean(resolve),
+      closes: (resolve ? segments : [])
+        .flatMap((segment) => (segment.kind === 'resolve' ? (segment.closes ?? []) : []))
+        .flatMap((id) => (numberOf.has(id) ? [numberOf.get(id) as number] : [])),
+      closedBy: closedBy.get(step.stepId ?? '') ?? null,
+      ...(icon && { icon }),
+      ...(banner && { banner }),
+      ...((figureImage || figureName) && {
+        figure: {
+          ...(figureImage && { image: figureImage }),
+          ...(figureName && { name: figureName }),
+          ...(figure?.role && { role: figure.role }),
+        },
+      }),
+      achievements,
+      quests,
+      needs,
+      bosses: (step.bosses ?? []).flatMap((boss) => {
+        const monster = populated(boss)
+        if (!monster) return []
+        const picture = image(monster.image)
+        return [{ name: monster.name, ...(picture && { image: picture }) }]
+      }),
+      note: (step.note as RichTextState | null | undefined) ?? null,
+      search: fold([n, text].join(' ')),
+    }
+  })
+
+  const totals = byCategory(totalRows(rawSteps))
+
+  const guide = populated(checklist.dofusGuide)
+  const publishedGuide = guide?.state === 'published' ? guide : null
+  const egg = image(populated(guide?.dofus)?.image)
+  const groups = (checklist.prerequisites?.groups ?? []).flatMap((group) => {
+    const rows = (group.rows ?? []).map(({ key, text }) => ({ key, text }))
+    return rows.length ? [{ title: group.title ?? '', rows }] : []
+  })
+  const title = s.title(checklist.name)
+
+  return {
+    id: checklist.id,
+    slug: checklist.slug,
+    name: checklist.name,
+    title,
+    description: checklist.description || s.lead,
+    ...(egg && { egg }),
+    ...(guide?.color && { color: guide.color }),
+    breadcrumb: buildBreadcrumb(
+      [
+        { name: s.index, href: DOFUS_INDEX_PATH },
+        ...(publishedGuide ? [{ name: publishedGuide.name, href: `/${publishedGuide.slug}` }] : []),
+      ],
+      { name: title, href: `/${checklist.slug}` },
+      data.siteUrl,
+    ),
+    steps,
+    prerequisites: {
+      intro: checklist.prerequisites?.intro ?? null,
+      groups,
+      count: groups.reduce((sum, group) => sum + group.rows.length, 0),
+    },
+    totals,
+    totalsCount: totals.reduce((sum, group) => sum + group.rows.length, 0),
+    island: islandData(checklist),
+  }
+}
+
+/** Lo que piden todos los pasos, sumado por objeto (o por texto) y grupo. */
+function totalRows(steps: Step[]) {
+  const rows = new Map<string, { category: NeedCategory | null; row: TotalRowView }>()
+  steps.forEach((step, index) => {
+    for (const need of step.needs ?? []) {
+      if (need.countsInTotal === false) continue
+      const row = needRow(need)
+      if (!row) continue
+      const id = relationId(need.item ?? null)
+      const key = `${need.category ?? ''}:${id ?? `label:${row.name}`}`
+      const seen = rows.get(key)
+      if (seen) {
+        seen.row.quantity += row.quantity
+        if (!seen.row.steps.includes(index + 1)) seen.row.steps.push(index + 1)
+      } else {
+        const { note: _note, ...rest } = row
+        rows.set(key, { category: need.category ?? null, row: { ...rest, steps: [index + 1] } })
+      }
+    }
+  })
+  return [...rows.values()]
+}
+
+function islandData(checklist: Checklist): ChecklistIslandData {
+  const steps = checklist.steps ?? []
+  return {
+    checklistId: checklist.id,
+    slug: checklist.slug,
+    steps: steps.map((step) => {
+      const stop = (step.segments ?? []).find((segment) => segment.kind === 'stop')
+      const stopQuest = relationId(stop?.quest ?? null)
+      return [
+        step.stepId ?? '',
+        step.legacyNumber ?? null,
+        (step.quests ?? []).flatMap((row) => {
+          const quest = populated(row.quest)
+          if (!quest) return []
+          return [
+            stop && quest.id === stopQuest && stop.stopObjective != null
+              ? ([quest.dofusId, row.kind, stop.stopObjective] as [number, QuestKind, number])
+              : ([quest.dofusId, row.kind] as [number, QuestKind]),
+          ]
+        }),
+      ]
+    }),
+    closes: steps.flatMap((step) => {
+      const closed = (step.segments ?? []).flatMap((segment) =>
+        segment.kind === 'resolve' ? (segment.closes ?? []) : [],
+      )
+      return closed.length ? [[step.stepId ?? '', closed] as [string, string[]]] : []
+    }),
+    legacy: checklist.legacy,
+  }
+}
+
+export type ChecklistRoute = { kind: 'page' } | { kind: 'legacy'; href: string } | { kind: 'none' }
+
+/**
+ * Qué hace /<slug> con una checklist: la Publicada tiene página; la En preparación no
+ * (como una guía de Dofus En preparación) y lleva a la de Squarespace, salvo que ese enlace
+ * sea esta misma web, que daría vueltas sin fin. La vista previa del panel siempre la pinta.
+ */
+export function checklistRoute(
+  checklist: Pick<Checklist, 'state' | 'legacyHref'>,
+  preview: boolean,
+  siteUrl: string,
+): ChecklistRoute {
+  if (preview || checklist.state === 'published') return { kind: 'page' }
+  const href = checklist.legacyHref
+  if (!href) return { kind: 'none' }
+  try {
+    if (new URL(href).origin === new URL(siteUrl).origin) return { kind: 'none' }
+  } catch {
+    return { kind: 'none' }
+  }
+  return { kind: 'legacy', href }
+}

@@ -1,6 +1,8 @@
 import type { CollectionBeforeValidateHook, CollectionConfig, Field } from 'payload'
 
+import { checklistDetailsEndpoint } from '../endpoints/checklist-details'
 import { checklistStrings } from '../lib/checklists/strings'
+import { guidePreviewUrl, previewOrigin } from '../lib/guides/preview'
 import { assignStepIds, type StepIdentity } from '../lib/checklists/step-ids'
 import { stateField } from './achievement-fields'
 import {
@@ -284,7 +286,14 @@ export const Checklists: CollectionConfig = {
     useAsTitle: 'name',
     group: 'Guías',
     defaultColumns: ['name', 'order', 'state', '_status', 'updatedAt'],
+    // La vista previa abre la página de la checklist con el último borrador (/vista-previa).
+    livePreview: {
+      url: ({ data, req }) => guidePreviewUrl(data?.slug, previewOrigin(process.env, req.origin)),
+      breakpoints: [{ name: 'movil', label: 'Móvil', width: 390, height: 844 }],
+    },
+    preview: (doc, { req }) => guidePreviewUrl(doc?.slug, previewOrigin(process.env, req.origin)),
   },
+  endpoints: [checklistDetailsEndpoint],
   access: {
     read: readPublishedOrAll,
     create: isPanelUser,
