@@ -550,10 +550,11 @@ html.hs-on .site-hdr .sbtn {
     visibility 0s linear var(--duration-fast);
 }
 
-/* La isla flotante del Krosmoz y los seis Dofus primordiales alrededor. */
+/* La isla flotante del Krosmoz y los seis Dofus primordiales alrededor. Va antes que el texto
+   en el HTML (Hero.tsx): sin `order`, así el texto que se pinta antes de que llegue el resto no
+   se mueve. */
 .hero__art {
   position: relative;
-  order: -1;
   aspect-ratio: 16 / 9;
   margin-inline: calc(var(--gutter) * -1);
 }
@@ -650,8 +651,14 @@ html.hs-on .site-hdr .sbtn {
     min-height: 33.75rem;
   }
 
+  /* Cada uno en su columna, haya llegado o no el otro: con la colocación automática, la isla
+     sola caería en la primera y saltaría a la segunda al llegar el texto. */
+  .hero__txt {
+    grid-area: 1 / 1;
+  }
+
   .hero__art {
-    order: 0;
+    grid-area: 1 / 2;
     aspect-ratio: 5 / 4;
     margin: 0 calc(var(--gutter) * -1) 0 -2.5rem;
   }

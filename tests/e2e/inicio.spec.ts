@@ -458,3 +458,51 @@ test.describe('portada en el móvil: las secciones', () => {
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
   })
 })
+
+// El hero no se mueve mientras llega el HTML. La cabecera bloquea el analizador hasta que
+// cargan las hojas (su script de modo va detrás de ellas); luego Chrome analiza el resto y
+// puede pintar con el hero a medias. Si el texto iba antes que la isla en el HTML y la isla
+// subía con `order`, ese primer pintado lo dejaba arriba y bajaba 240 px al llegar la isla
+// (CLS 0,24 en una de cada tres ejecuciones de Lighthouse CI). Aquí se sirve la portada
+// cortada justo antes del segundo hijo del hero, sin JavaScript, y lo que ya se ve tiene que
+// estar donde queda con la página entera.
+for (const viewport of [
+  { width: 412, height: 823 },
+  { width: 1440, height: 900 },
+]) {
+  test.describe(`portada a ${viewport.width} px, con el HTML a medias`, () => {
+    test.use({ viewport, javaScriptEnabled: false })
+
+    const heroBoxes = (page: Page) =>
+      page.evaluate(async () => {
+        await document.fonts.ready
+        return Object.fromEntries(
+          [...document.querySelectorAll('.hero__in > *')].map((el) => {
+            const { x, y, width, height } = el.getBoundingClientRect()
+            return [el.className, { x, y, width, height }]
+          }),
+        )
+      })
+
+    test('lo que se pinta del hero ya está en su sitio', async ({ page }) => {
+      const html = await (await page.request.get('/')).text()
+      const starts = ['<div class="hero__txt"', '<div class="hero__art"'].map((tag) =>
+        html.indexOf(tag),
+      )
+      expect(Math.min(...starts), 'el hero tiene texto e isla').toBeGreaterThan(0)
+      const partial = html.slice(0, Math.max(...starts))
+
+      await page.route('/', (route) => route.fulfill({ contentType: 'text/html', body: partial }))
+      await page.goto('/')
+      const early = await heroBoxes(page)
+      expect(Object.keys(early)).toHaveLength(1)
+
+      await page.unrouteAll()
+      await page.goto('/')
+      const full = await heroBoxes(page)
+      for (const [name, box] of Object.entries(early)) {
+        expect(box, name).toEqual(full[name])
+      }
+    })
+  })
+}
