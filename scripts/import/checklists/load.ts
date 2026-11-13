@@ -101,6 +101,46 @@ export function comparable(value: unknown): unknown {
 const same = (a: unknown, b: unknown) =>
   JSON.stringify(comparable(a) ?? null) === JSON.stringify(comparable(b) ?? null)
 
+type ZonedStep = { stepId?: string | null; zone?: string | null }
+
+/**
+ * Los pasos sin su zona: la zona va aparte de importSnapshot.steps, paso a paso, para que
+ * llegue aunque Torre haya editado otros campos de los pasos (mergeZones).
+ */
+const withoutZones = (steps: unknown) =>
+  Array.isArray(steps)
+    ? steps.map((step: ZonedStep & Record<string, unknown>) => {
+        const { zone: _zone, ...rest } = step
+        return rest
+      })
+    : steps
+
+/** La zona importada de cada paso, por su stepId: lo que guarda importSnapshot.zones. */
+const zonesByStep = (steps: ZonedStep[]): Record<string, string | null> =>
+  Object.fromEntries(
+    steps.flatMap((step) => (step.stepId ? [[step.stepId, step.zone ?? null]] : [])),
+  )
+
+/**
+ * Los pasos con la zona de cada uno: la importada si el paso no tiene o si sigue siendo la
+ * que dejó la última importación; si no, la de Torre. Un paso que no viene en la importación
+ * (lo añadió Torre) se queda como está.
+ */
+function mergeZones<T extends ZonedStep>(
+  steps: T[],
+  stored: Record<string, string | null>,
+  imported: Record<string, string | null>,
+  last: Record<string, string | null>,
+): T[] {
+  return steps.map((step) => {
+    if (!step.stepId || !(step.stepId in imported)) return step
+    const current = stored[step.stepId] ?? null
+    const zone =
+      !current || current === (last[step.stepId] ?? null) ? imported[step.stepId] : current
+    return { ...step, zone }
+  })
+}
+
 const escapeHtml = (text: string) =>
   text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
@@ -378,8 +418,18 @@ export async function loadChecklists(
       }),
     }
     const fields = draft ? FULL_FIELDS : ENTRY_FIELDS
-    const snapshotOf = (values: Imported): Imported =>
-      Object.fromEntries(fields.map((field) => [field, comparable(values[field]) ?? null]))
+    // La zona de los pasos se compara aparte (mergeZones): los pasos se comparan sin ella.
+    const valueOf = (values: Partial<Record<ImportedField, unknown>>, field: ImportedField) =>
+      field === 'steps' ? withoutZones(values.steps) : values[field]
+    const importedZones = draft ? zonesByStep(data.steps as ZonedStep[]) : null
+    const snapshotOf = (
+      values: Imported,
+    ): Imported & { zones?: Record<string, string | null> } => ({
+      ...Object.fromEntries(
+        fields.map((field) => [field, comparable(valueOf(values, field)) ?? null]),
+      ),
+      ...(importedZones && { zones: importedZones }),
+    })
 
     if (!current) {
       if (options.apply) {
@@ -406,13 +456,16 @@ export async function loadChecklists(
     }
 
     // Un campo cambia solo si sigue como lo dejó la última importación.
-    const snapshot = (current.importSnapshot ?? {}) as Imported
+    const snapshot = (current.importSnapshot ?? {}) as Imported & {
+      zones?: Record<string, string | null>
+    }
     const changes: Imported = {}
-    const nextSnapshot: Imported = { ...snapshot }
+    const nextSnapshot: Imported & { zones?: Record<string, string | null> } = { ...snapshot }
     for (const field of fields) {
-      const stored = current[field as keyof Checklist]
-      if (same(stored, data[field])) {
-        nextSnapshot[field] = comparable(data[field]) ?? null
+      const stored = valueOf(current as Partial<Record<ImportedField, unknown>>, field)
+      const imported = valueOf(data, field)
+      if (same(stored, imported)) {
+        nextSnapshot[field] = comparable(imported) ?? null
         continue
       }
       if (field in snapshot && !same(stored, snapshot[field])) {
@@ -420,9 +473,24 @@ export async function loadChecklists(
         continue
       }
       changes[field] = data[field]
-      nextSnapshot[field] = comparable(data[field]) ?? null
+      nextSnapshot[field] = comparable(imported) ?? null
     }
-    if (Object.keys(changes).length === 0) {
+    // La zona de cada paso, aunque Torre haya editado otros campos de los pasos: si solo
+    // cambia la zona, se reescriben los pasos guardados con ella.
+    if (importedZones) {
+      const storedSteps = (current.steps ?? []) as ZonedStep[]
+      const storedZones = zonesByStep(storedSteps)
+      const merged = mergeZones(
+        (changes.steps ?? storedSteps) as ZonedStep[],
+        storedZones,
+        importedZones,
+        snapshot.zones ?? {},
+      )
+      if (changes.steps || !same(zonesByStep(merged), storedZones)) changes.steps = merged
+      nextSnapshot.zones = importedZones
+    }
+    const snapshotChanged = !same(snapshot.zones ?? null, nextSnapshot.zones ?? null)
+    if (Object.keys(changes).length === 0 && !snapshotChanged) {
       report.unchanged += 1
       continue
     }
@@ -440,7 +508,7 @@ export async function loadChecklists(
     }
     report.updated += 1
     log(
-      `${entry.slug}: ${options.apply ? 'actualizada' : 'se actualizaría'} (${Object.keys(changes).join(', ')})`,
+      `${entry.slug}: ${options.apply ? 'actualizada' : 'se actualizaría'} (${Object.keys(changes).join(', ') || 'importSnapshot'})`,
     )
   }
 
