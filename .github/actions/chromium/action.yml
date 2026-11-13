@@ -1,5 +1,7 @@
 name: Chromium de Playwright
-description: El Chromium de Playwright con su caché y las dependencias del sistema, para las E2E y Lighthouse.
+description: >-
+  El Chromium de Playwright con su caché y las dependencias del sistema, para las E2E y
+  Lighthouse. Un paso compuesto no admite timeout-minutes: quien la usa pone el tope.
 runs:
   using: composite
   steps:
@@ -19,9 +21,9 @@ runs:
     - name: Instalar Chromium
       if: steps.browsers.outputs.cache-hit != 'true'
       shell: bash
-      run: timeout 20m scripts/ci/playwright-chromium.sh
+      run: scripts/ci/playwright-chromium.sh
 
     - name: Instalar las dependencias del sistema de Chromium
       if: steps.browsers.outputs.cache-hit == 'true'
       shell: bash
-      run: timeout 20m scripts/ci/playwright-chromium.sh --cached
+      run: scripts/ci/playwright-chromium.sh --cached

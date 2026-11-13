@@ -168,35 +168,42 @@ describe('lhciEnv', () => {
 })
 
 describe('lighthouserc.cjs por partes (LHCI_SHARD)', () => {
+  const { pagesForShard, pages: PAGES } = lighthouserc
   const pages = ['/', '/a', '/b', '/c', '/d', '/e']
+  const shards = (list: string[], total: number) =>
+    Array.from({ length: total }, (_, i) => pagesForShard(list, `${i + 1}/${total}`))
 
   it('sin LHCI_SHARD mide todas las páginas', () => {
-    expect(lighthouserc.pagesForShard(pages, undefined)).toEqual(pages)
-    expect(lighthouserc.pagesForShard(pages, '')).toEqual(pages)
+    expect(pagesForShard(pages, undefined)).toEqual(pages)
+    expect(pagesForShard(pages, '')).toEqual(pages)
   })
 
   it('reparte las páginas en partes seguidas que juntas las cubren todas una vez', () => {
-    expect(lighthouserc.pagesForShard(pages, '1/2')).toEqual(['/', '/a', '/b'])
-    expect(lighthouserc.pagesForShard(pages, '2/2')).toEqual(['/c', '/d', '/e'])
-    const thirds = ['1/3', '2/3', '3/3'].flatMap((shard) =>
-      lighthouserc.pagesForShard(pages, shard),
-    )
-    expect(thirds).toEqual(pages)
+    expect(pagesForShard(pages, '1/2')).toEqual(['/', '/a', '/b'])
+    expect(pagesForShard(pages, '2/2')).toEqual(['/c', '/d', '/e'])
+    for (const total of [1, 2, 3, 4, 5, 6]) expect(shards(pages, total).flat()).toEqual(pages)
   })
 
-  it('con un número de páginas impar, la última parte lleva una menos', () => {
-    expect(lighthouserc.pagesForShard(['/', '/a', '/b'], '1/2')).toEqual(['/', '/a'])
-    expect(lighthouserc.pagesForShard(['/', '/a', '/b'], '2/2')).toEqual(['/b'])
+  it('reparte por igual: ninguna parte queda vacía mientras haya páginas para todas', () => {
+    for (const total of [1, 2, 3, 4, 5, 6]) {
+      const sizes = shards(pages, total).map((shard) => shard.length)
+      expect(Math.min(...sizes)).toBeGreaterThanOrEqual(1)
+      expect(Math.max(...sizes) - Math.min(...sizes)).toBeLessThanOrEqual(1)
+    }
+    expect(pagesForShard(pages, '4/4')).not.toEqual([])
+  })
+
+  it('falla con un mensaje claro si hay más partes que páginas', () => {
+    expect(() => pagesForShard(pages, '1/7')).toThrow(/LHCI_SHARD.*7 partes.*6 páginas/)
   })
 
   it.each(['0/2', '3/2', '1', 'a/b', '1/0'])('rechaza una parte mal escrita: %s', (shard) => {
-    expect(() => lighthouserc.pagesForShard(pages, shard)).toThrow(/LHCI_SHARD/)
+    expect(() => pagesForShard(pages, shard)).toThrow(/LHCI_SHARD/)
   })
 
-  it('las dos partes de CI juntas miden las mismas páginas que la configuración entera', () => {
-    const all = collect.url
-    const shards = ['1/2', '2/2'].flatMap((shard) => lighthouserc.pagesForShard(all, shard))
-    expect(shards).toEqual(all)
-    expect(all).toHaveLength(6)
+  it('las dos partes de CI juntas miden todas las páginas de la configuración', () => {
+    expect(PAGES.length).toBeGreaterThanOrEqual(2)
+    expect(shards(PAGES, 2).flat()).toEqual(PAGES)
+    for (const shard of shards(PAGES, 2)) expect(shard.length).toBeGreaterThan(0)
   })
 })

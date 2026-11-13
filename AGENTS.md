@@ -113,15 +113,15 @@ Access control and entitlements are tested at the data layer, in `tests/integrat
 | Types, lint and format | `pnpm typecheck`, `pnpm lint`, `pnpm format:check` | the whole repo |
 | Import (planned) | `pnpm test:import` | golden pages of the Squarespace import (phase 1) |
 
-CI (`.github/workflows/ci.yml`) runs lint, types, unit, integration, build, E2E, the dev gate suite, the budgets and the dependency audit (`docs/legacy/security.md`). The repo is private, so Actions minutes are limited: keep jobs cached and skip what a change cannot affect. The `Cambios` job decides what runs from the PR's files (`scripts/ci/ci-scope.ts`, tested in `tests/unit/ci-scope.test.ts`); the highest level among the files wins:
+CI (`.github/workflows/ci.yml`) runs lint, types, unit, integration, build, E2E, the dev gate suite, the budgets and the dependency audit (`docs/legacy/security.md`). The repo is private, so Actions minutes are limited: keep jobs cached and skip what a change cannot affect. The `Cambios` job decides what runs from the PR's files (`git diff --no-renames`, so a moved file counts by its old path too; `scripts/ci/ci-scope.ts`, tested in `tests/unit/ci-scope.test.ts`); the highest level among the files wins. The audit runs on every PR, since a new critical advisory blocks them all:
 
 | Files | Jobs |
 |---|---|
-| Docs only: `*.md` outside `src/` and `public/`, `docs/**`, `openwiki/**` | lint and format |
+| Docs only: `*.md` outside `src/` and `public/`, `docs/**`, `openwiki/**` | lint, format and audit |
 | Nothing the site, E2E or budgets load: `scripts/import/**`, `scripts/hooks/**`, the one-off scripts listed in `ci-scope.ts`, `tests/unit/**`, `tests/integration/**`, `tests/fixtures/**`, tool config | plus types, unit and integration |
 | Anything else, including `src/**`, `package.json`, `pnpm-lock.yaml`, `.github/**`, `tests/e2e/**`, an unknown or new path, and every push to `main` | all |
 
-A new script under `scripts/` runs everything until it is added to the list in `ci-scope.ts`; add it only if nothing in `src/`, `scripts/seed-e2e.ts`, `scripts/lhci.ts` or `tests/e2e/app-server.ts` imports it. `Pruebas` is the one required check: it passes when every job `Cambios` asked for passed, and fails when one of them was skipped, or when any job failed or was cancelled. The budgets run in parallel with E2E as two jobs, each building with the `.next` cache, on its own Postgres, and measuring half the pages of `lighthouserc.cjs` (`LHCI_SHARD=1/2` and `2/2`); each uploads its reports as the `lighthouse-1` or `lighthouse-2` artifact (7 days). Import joins when it exists. The AI review (`gga`) runs only in the pre-commit hook, not in CI.
+A new script under `scripts/` runs everything until it is added to the list in `ci-scope.ts`; add it only if nothing in `src/`, `scripts/seed-e2e.ts`, `scripts/lhci.ts` or `tests/e2e/app-server.ts` imports it. `Pruebas` is the one required check: it passes when every job `Cambios` asked for passed, and fails when one of them was skipped, or when any job failed or was cancelled. Only the Build job saves the `.next` cache; E2E and the budgets build with another environment and only restore it. The budgets run in parallel with E2E as two jobs, each building on its own Postgres, and measuring half the pages of `lighthouserc.cjs` (`LHCI_SHARD=1/2` and `2/2`); each uploads its reports as the `lighthouse-1` or `lighthouse-2` artifact (7 days). Import joins when it exists. The AI review (`gga`) runs only in the pre-commit hook, not in CI.
 
 ## Deploys
 
