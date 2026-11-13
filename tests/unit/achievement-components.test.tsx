@@ -174,14 +174,14 @@ describe('AchievementNeeds', () => {
       groups(html(<AchievementNeeds needs={{ items, tasks, others: needs.others }} />)),
     ).toEqual([
       { className: 'lneeds__g', style: undefined },
-      { className: 'lneeds__g lneeds__g--cols', style: '--cols:2;--rows:5' },
+      { className: 'lneeds__g lneeds__g--cols', style: '--lneeds-cols:2;--lneeds-rows:5' },
       { className: 'lneeds__g lneeds__g--others', style: undefined },
     ])
     // Dos listas largas: tres columnas en total, para la más alta.
     const twelve = Array.from({ length: 12 }, (_, i) => item(`Objeto ${i}`))
     expect(groups(html(<AchievementNeeds needs={{ items: twelve, tasks, others: [] }} />))).toEqual(
       [
-        { className: 'lneeds__g lneeds__g--cols', style: '--cols:2;--rows:6' },
+        { className: 'lneeds__g lneeds__g--cols', style: '--lneeds-cols:2;--lneeds-rows:6' },
         { className: 'lneeds__g', style: undefined },
       ],
     )
@@ -189,11 +189,31 @@ describe('AchievementNeeds', () => {
     const many = Array.from({ length: 20 }, (_, i) => task(`Combate ${i}`))
     expect(
       groups(html(<AchievementNeeds needs={{ items: [], tasks: many, others: [] }} />)),
-    ).toEqual([{ className: 'lneeds__g lneeds__g--cols', style: '--cols:3;--rows:7' }])
+    ).toEqual([
+      { className: 'lneeds__g lneeds__g--cols', style: '--lneeds-cols:3;--lneeds-rows:7' },
+    ])
     // Cinco filas o menos no se parten.
     expect(groups(html(<AchievementNeeds needs={{ items, tasks: [], others: [] }} />))).toEqual([
       { className: 'lneeds__g', style: undefined },
     ])
+  })
+
+  it('la zona solo se ensancha cuando una lista se parte: lo dice el servidor, en clases', () => {
+    const task = (label: string) => ({ quantity: 1, label, kind: 'combat' as const })
+    const classes = (markup: string) => ({
+      zone: /<section class="([^"]+)"/.exec(markup)?.[1],
+      groups: /<div class="(lneeds__groups[^"]*)"/.exec(markup)?.[1],
+    })
+    const long = Array.from({ length: 10 }, (_, i) => task(`Combate ${i}`))
+    expect(classes(html(<AchievementNeeds needs={{ ...needs, tasks: long }} />))).toEqual({
+      zone: 'lneeds lneeds--wide',
+      groups: 'lneeds__groups lneeds__groups--cols',
+    })
+    // Totales cortos, lo más común: en la columna de lectura, como antes.
+    expect(classes(html(<AchievementNeeds needs={needs} />))).toEqual({
+      zone: 'lneeds',
+      groups: 'lneeds__groups',
+    })
   })
 
   it('un grupo vacío no se pinta; sin nada, no hay zona', () => {
