@@ -1,64 +1,80 @@
-// Lo que imprime `pnpm data:quests` de las notas de mazmorra de «Necesitarás en total»:
-// cuáles se casan con una mazmorra de DofusDB, y así llevan su jefe, y cuáles se quedan con
-// el icono genérico. Lee las guías publicadas, como la página.
+// Lo que imprime `pnpm data:quests` de las filas de mazmorra de «Necesitarás en total»: cuáles
+// llevan el jefe de su mazmorra y cuáles el icono genérico. Clasifica por el mismo camino que
+// la página (achievementNeeds, readNoteItems, readDungeonBosses), página por página, así que
+// dice exactamente lo que se ve: un jefe sin imagen en Media cuenta como icono genérico.
 import type { Payload } from 'payload'
 
-import { matchDungeon } from './dungeons'
-import { isDungeonNote, noteLabels } from './page'
+import { achievementNeeds, type GuideRef, noteLabels, type PageDoc } from './page'
+import { readDungeonBosses, readNoteItems } from './queries'
 
-export interface DungeonNoteReport {
-  matched: { label: string; dungeon: string }[]
-  unmatched: string[]
+export interface DungeonRow {
+  /** El slug de la página de logro. */
+  page: string
+  label: string
 }
 
+export interface DungeonNoteReport {
+  withBoss: DungeonRow[]
+  generic: DungeonRow[]
+}
+
+const relationId = (value: number | { id: number } | null | undefined) =>
+  value == null ? null : typeof value === 'number' ? value : value.id
+
 export async function dungeonNoteReport(payload: Payload): Promise<DungeonNoteReport> {
-  const guides = await payload.find({
-    collection: 'quest-guides',
-    where: { _status: { equals: 'published' } },
-    select: { summary: { needs: { notes: true } } },
-    depth: 0,
-    pagination: false,
-    draft: false,
-    overrideAccess: true,
-  })
-  const labels = noteLabels(
-    guides.docs.map((doc) => ({ needs: { notes: doc.summary?.needs?.notes ?? null } })),
-  ).filter(isDungeonNote)
-  // Una nota que es el nombre exacto de un objeto («Llave de la mazmorra…») va con los objetos.
-  const items = labels.length
-    ? (
-        await payload.find({
-          collection: 'items',
-          where: { name: { in: labels } },
-          select: { name: true },
-          depth: 0,
-          pagination: false,
-          overrideAccess: true,
-        })
-      ).docs
-    : []
-  const itemNames = new Set(items.map((item) => item.name))
-  const dungeons = (
+  const pages = (
     await payload.find({
-      collection: 'dungeons',
-      select: { name: true, bosses: true },
-      populate: { monsters: { name: true } },
+      collection: 'achievement-pages',
+      where: { state: { equals: 'published' }, _status: { equals: 'published' } },
+      // Sin select: con él, Payload no puebla las misiones de dentro del array.
+      populate: { quests: { name: true } },
       depth: 1,
       pagination: false,
+      draft: false,
       overrideAccess: true,
     })
-  ).docs.map((doc) => ({
-    name: doc.name,
-    bosses: (doc.bosses ?? []).flatMap((boss) =>
-      typeof boss === 'object' && boss.name ? [boss.name] : [],
+  ).docs as unknown as (Pick<PageDoc, 'slug' | 'quests'> & { id: number })[]
+  const questIds = [
+    ...new Set(
+      pages.flatMap((page) =>
+        (page.quests ?? []).flatMap((row) =>
+          (row.quests ?? []).flatMap((q) => relationId(q) ?? []),
+        ),
+      ),
     ),
-  }))
-  const report: DungeonNoteReport = { matched: [], unmatched: [] }
-  for (const label of labels) {
-    if (itemNames.has(label)) continue
-    const dungeon = matchDungeon(label, dungeons)
-    if (dungeon) report.matched.push({ label, dungeon: dungeon.name })
-    else report.unmatched.push(label)
+  ]
+  const guides: GuideRef[] = questIds.length
+    ? (
+        await payload.find({
+          collection: 'quest-guides',
+          where: { quest: { in: questIds }, _status: { equals: 'published' } },
+          select: { slug: true, quest: true, summary: { needs: true } },
+          populate: { items: { name: true, superTypeId: true, image: true } },
+          depth: 2,
+          pagination: false,
+          draft: false,
+          overrideAccess: true,
+        })
+      ).docs.flatMap((doc) => {
+        const questId = relationId(doc.quest as number | { id: number } | null)
+        return questId === null
+          ? []
+          : [{ questId, slug: doc.slug, needs: doc.summary?.needs ?? null }]
+      })
+    : []
+  const labels = noteLabels(guides)
+  const noteItems = await readNoteItems(payload, labels, { overrideAccess: true })
+  const dungeonBosses = await readDungeonBosses(payload, labels, { overrideAccess: true })
+
+  const report: DungeonNoteReport = { withBoss: [], generic: [] }
+  for (const page of pages) {
+    const { tasks } = achievementNeeds({ page, guides, noteItems, dungeonBosses })
+    for (const task of tasks) {
+      if (task.kind !== 'dungeon') continue
+      const row = { page: page.slug, label: task.label }
+      if (task.boss) report.withBoss.push(row)
+      else report.generic.push(row)
+    }
   }
   return report
 }

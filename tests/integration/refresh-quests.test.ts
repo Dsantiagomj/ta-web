@@ -5,7 +5,7 @@ import type { QuestData } from '@/lib/dofusdb/fetch-quest-data'
 import { questStages } from '@/lib/dofusdb/quest-stages'
 import { refreshQuests } from '@/lib/dofusdb/refresh-quests'
 import type { RawQuest } from '@/lib/dofusdb/types'
-import type { Item, Monster, Quest } from '@/payload-types'
+import type { Dungeon, Item, Monster, Quest } from '@/payload-types'
 
 import unreferencedItems from '../fixtures/dofusdb/items-unreferenced.json'
 import items from '../fixtures/dofusdb/items.json'
@@ -77,10 +77,12 @@ describe('refresco de misiones desde DofusDB', () => {
       quests: { created: 6, updated: 0, unchanged: 0 },
       items: { created: 0, updated: 0, unchanged: 0 },
       monsters: { created: 0, updated: 0, unchanged: 0 },
+      dungeons: { created: 0, updated: 0, unchanged: 0 },
       missingPrerequisites: 3,
       // Los objetos de need.items de 879, 89, 275 y 674, que estos datos no traen
       missingItems: 6,
       missingMonsters: 0,
+      missingBosses: 0,
     })
 
     const saved = await questsByDofusId()
@@ -590,5 +592,79 @@ describe('etapas y objetivos desde DofusDB', () => {
     expect(counts.quests).toEqual({ created: 0, updated: 1, unchanged: raw.length - 1 })
     const saved = await savedQuests()
     expect(saved.get(1575)?.stages?.[0].objectives?.[0].quantity).toBe(5)
+  })
+})
+
+// Las mazmorras con sus jefes: se guardan después de los monstruos, con el mismo catálogo y
+// los mismos IDs de Payload. Un jefe que no está se omite y se cuenta.
+describe('refresco de mazmorras desde DofusDB', () => {
+  const DUNGEON_IDS = [990_131, 990_143]
+  const [first, second] = monsters as { id: number }[]
+
+  function dungeonData(bosses: number[]): QuestData {
+    return structuredClone({
+      quests: [],
+      npcs: [],
+      mapPositions: [],
+      items: [],
+      monsters: monsters as QuestData['monsters'],
+      dungeons: [
+        { id: 990_131, name: { es: 'Casa de los Espíritus', fr: 'Maison' }, bosses },
+        // Una expedición: sin jefe que esté en monsters.
+        { id: 990_143, name: { es: 'Expedición - Tofullinero Real' }, bosses: [990_999] },
+      ],
+    })
+  }
+
+  async function stored(): Promise<Dungeon[]> {
+    const { docs } = await payload.find({
+      collection: 'dungeons',
+      where: { dofusId: { in: DUNGEON_IDS } },
+      sort: 'dofusId',
+      depth: 0,
+    })
+    return docs
+  }
+
+  async function monsterId(dofusId: number) {
+    const { docs } = await payload.find({
+      collection: 'monsters',
+      where: { dofusId: { equals: dofusId } },
+      depth: 0,
+    })
+    return docs[0]!.id
+  }
+
+  beforeAll(async () => {
+    await payload.delete({ collection: 'dungeons', where: { dofusId: { in: DUNGEON_IDS } } })
+  })
+
+  afterAll(async () => {
+    await payload.delete({ collection: 'dungeons', where: { dofusId: { in: DUNGEON_IDS } } })
+  })
+
+  it('guarda cada mazmorra con su nombre en español y enlaza sus jefes en su orden', async () => {
+    const counts = await refreshQuests(payload, dungeonData([first!.id]))
+    expect(counts).toMatchObject({
+      dungeons: { created: 2, updated: 0, unchanged: 0 },
+      missingBosses: 1,
+    })
+    const [casa, expedicion] = await stored()
+    expect(casa).toMatchObject({
+      name: 'Casa de los Espíritus',
+      bosses: [await monsterId(first!.id)],
+    })
+    expect(expedicion).toMatchObject({ name: 'Expedición - Tofullinero Real', bosses: [] })
+  })
+
+  it('repetido no cambia nada; con otro jefe delante, lo guarda en el orden de DofusDB', async () => {
+    expect(await refreshQuests(payload, dungeonData([first!.id]))).toMatchObject({
+      dungeons: { created: 0, updated: 0, unchanged: 2 },
+    })
+    expect(await refreshQuests(payload, dungeonData([second!.id, first!.id]))).toMatchObject({
+      dungeons: { created: 0, updated: 1, unchanged: 1 },
+    })
+    const [casa] = await stored()
+    expect(casa!.bosses).toEqual([await monsterId(second!.id), await monsterId(first!.id)])
   })
 })

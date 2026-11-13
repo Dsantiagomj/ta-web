@@ -190,6 +190,36 @@ test.describe('página de logro', () => {
     }
   })
 
+  test('Necesitarás en total: el nombre que se copia no mueve nada al cargar la isla', async ({
+    browser,
+    baseURL,
+  }) => {
+    // Sin JavaScript el icono de copiar no se pinta, pero su sitio ya está: cuando la isla
+    // convierte el nombre en botón, las filas de objetos miden lo mismo.
+    const boxes = async (javaScriptEnabled: boolean) => {
+      const context = await browser.newContext({
+        baseURL,
+        javaScriptEnabled,
+        viewport: { width: 1440, height: 900 },
+      })
+      const page = await context.newPage()
+      await page.goto(url)
+      const list = page.getByRole('list', { name: 'Objetos' })
+      if (javaScriptEnabled) {
+        await expect(list.locator('.copyname[role="button"]').first()).toBeVisible()
+      }
+      const sizes = await list.locator('.lneeds__t').evaluateAll((spans) =>
+        spans.map((span) => {
+          const box = span.getBoundingClientRect()
+          return [Math.round(box.width), Math.round(box.height)]
+        }),
+      )
+      await context.close()
+      return sizes
+    }
+    expect(await boxes(true)).toEqual(await boxes(false))
+  })
+
   test('las misiones en orden: las de guía publicada abren la guía; la del borrador, no', async ({
     page,
   }) => {

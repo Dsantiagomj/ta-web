@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { matchDungeon, type DungeonNames } from '@/lib/achievements/dungeons'
+import { dungeonMatcher, matchDungeon, type DungeonNames } from '@/lib/achievements/dungeons'
 
 // Mazmorras de DofusDB con sus jefes, tal como las devuelve la API en español.
 const DUNGEONS: DungeonNames[] = [
@@ -19,6 +19,10 @@ const DUNGEONS: DungeonNames[] = [
   { name: 'Casa de los Espíritus', bosses: ['Kumijo'] },
   { name: 'Akademia de los Goblins', bosses: ['Director Grunob'] },
   { name: 'Raratonera de la Rata Negra', bosses: ['Rata Negra'] },
+  // Para los contraejemplos: un nombre que acaba en «Mazmorra» y un jefe de una palabra
+  // corriente al final de su nombre.
+  { name: 'Sala de la Mazmorra', bosses: ['Guardián'] },
+  { name: 'Palacio del Gran Rey', bosses: ['Gran Rey'] },
   // Las expediciones no tienen jefe: nunca se casan.
   { name: 'Expedición - Tofullinero Real', bosses: [] },
 ]
@@ -48,7 +52,13 @@ describe('matchDungeon', () => {
     ['Mazmorra de los 4 Jinetes (Tormenta del Selocalipsis)', 'Tormenta del Selocalipsis'],
     // Un jefe compartido: la mazmorra con su nombre, no la que reúne a cuatro jefes.
     ['Mazmorra Trono de Sangre', 'Trono de Sangre'],
-    ['Mazmorra Guerra', 'Trono de Sangre'],
+    // Lo genérico no cuenta: «Mazmorra de» no es la «Sala de la Mazmorra».
+    ['Mazmorra de los Herreros con ídolo', 'Mazmorra de los Herreros'],
+    ['Llave de la mazmorra del Kimbo', 'Canopea del Kimbo'],
+    // Lo de fuera del paréntesis vale para varias; el paréntesis, para una.
+    ['Mazmorra Real (Corte del Jalató Real)', 'Corte del Jalató Real'],
+    // Lo de fuera no casa con ninguna y el paréntesis no se contradice.
+    ['Mazmorra de Nawidad (Mazmorra de Nawidad)', 'Mazmorra de Nawidad'],
   ])('«%s» es %s', (label, dungeon) => {
     expect(match(label)).toBe(dungeon)
   })
@@ -63,8 +73,25 @@ describe('matchDungeon', () => {
     'Mazmorra Real',
     // Solo una expedición se llama así, y no tiene jefe.
     'Mazmorra Expedición - Tofullinero Real',
+    // Nada más que palabras genéricas.
+    'Mazmorra',
+    'Llave de la mazmorra',
+    // Un jefe que tienen dos mazmorras: puede ser cualquiera de ellas.
+    'Mazmorra Guerra',
+    // Una sola palabra que es el final de un nombre, quitando lo que sigue: «Rey» no basta.
+    'Mazmorra del Rey Gelatina',
+    'Mazmorra de Grunob con ídolo',
+    // Dentro y fuera del paréntesis, dos mazmorras distintas: hay duda.
+    'Mazmorra Kumijo (Trono de Sangre)',
   ])('«%s» no se casa con ninguna', (label) => {
     expect(match(label)).toBeNull()
+  })
+
+  it('dungeonMatcher prepara las mazmorras una vez y casa cada nota igual que matchDungeon', () => {
+    const match = dungeonMatcher(DUNGEONS)
+    for (const label of ['Mazmorra Kumijo', 'Mazmorra de Grunob', 'Mazmorras nivel 200']) {
+      expect(match(label)).toBe(matchDungeon(label, DUNGEONS))
+    }
   })
 
   it('sin mazmorras no casa nada', () => {

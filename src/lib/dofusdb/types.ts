@@ -294,6 +294,13 @@ export interface MappedItem {
 }
 
 /** Los datos de un monstruo para la colección monsters. */
+export interface MappedDungeon {
+  dofusId: number
+  name: string
+  /** Los jefes, por el ID de Payload de su monstruo. */
+  bosses: number[]
+}
+
 export interface MappedMonster {
   dofusId: number
   name: string

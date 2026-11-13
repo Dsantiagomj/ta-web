@@ -81,7 +81,7 @@ function data(overrides: Partial<AchievementPageData['page']> = {}): Achievement
     ],
     givers: new Map([[30, { name: 'Hupe Esse', renderRight: media(30, 'hupe') }]]),
     noteItems: new Map(),
-    dungeons: [],
+    dungeonBosses: new Map(),
     siteUrl: 'https://torrentearcano.com',
   }
 }
@@ -232,8 +232,10 @@ describe('achievementPageView', () => {
           questId: 3,
           slug: 'seis-pies-bajo-tierra',
           needs: {
+            // Con otra capitalización, la misma fila y el mismo jefe.
             notes: [
               '1 x Mazmorra Kumijo',
+              '1 x MAZMORRA KUMIJO',
               '1 x Mazmorra de Grunob',
               'Mazmorras nivel 200',
               '1 x Combates solitarios',
@@ -241,18 +243,13 @@ describe('achievementPageView', () => {
           },
         },
       ],
-      dungeons: [
-        {
-          name: 'Casa de los Espíritus',
-          bosses: [{ id: 1, name: 'Kumijo', image: media(61, 'kumijo') }],
-        },
-        // Sin imagen importada: el icono genérico, aunque se case.
-        { name: 'Akademia de los Goblins', bosses: [{ id: 2, name: 'Director Grunob' }] },
-      ],
+      // Los jefes con imagen de las mazmorras casadas, por la clave de la nota
+      // (readDungeonBosses). Grunob no está: su jefe no tiene imagen.
+      dungeonBosses: new Map([['mazmorra kumijo', media(61, 'kumijo')]]),
     })
     expect(view.needs.tasks).toEqual([
       {
-        quantity: 1,
+        quantity: 2,
         label: 'Mazmorra Kumijo',
         kind: 'dungeon',
         boss: expect.objectContaining({ src: '/api/media/file/kumijo.webp' }),

@@ -1,12 +1,13 @@
 import { isDeepStrictEqual } from 'node:util'
 import type { Payload } from 'payload'
 
-import type { Item, Monster, Quest } from '../../payload-types'
+import type { Dungeon, Item, Monster, Quest } from '../../payload-types'
 import { mapWithConcurrency } from '../concurrency'
 import type { QuestData } from './fetch-quest-data'
-import { mapItem, mapMonster } from './map-items-monsters'
+import { mapDungeon, mapItem, mapMonster } from './map-items-monsters'
 import { indexLookups, mapQuest } from './map-quest'
 import type {
+  MappedDungeon,
   MappedItem,
   MappedMonster,
   MappedQuest,
@@ -25,11 +26,15 @@ export interface RefreshQuestsCounts {
   quests: UpsertCounts
   items: UpsertCounts
   monsters: UpsertCounts
+  /** Las mazmorras, con sus jefes enlazados a monsters. */
+  dungeons: UpsertCounts
   /** Referencias a prerrequisitos que no existen en la colección; se omiten. */
   missingPrerequisites: number
   /** Referencias a objetos y monstruos que DofusDB no devolvió ni están guardados; se omiten. */
   missingItems: number
   missingMonsters: number
+  /** Jefes de mazmorra que no están en monsters; se omiten. */
+  missingBosses: number
 }
 
 /**
@@ -89,7 +94,20 @@ function storedMonster(doc: Monster) {
 }
 
 // Solo para el progreso: el catálogo de objetos pasa de 20.000 filas.
-const CATALOG_LABEL = { items: 'Objetos', monsters: 'Monstruos', subareas: 'Subzonas' } as const
+const CATALOG_LABEL = {
+  items: 'Objetos',
+  monsters: 'Monstruos',
+  subareas: 'Subzonas',
+  dungeons: 'Mazmorras',
+} as const
+
+function storedDungeon(doc: Dungeon) {
+  return {
+    dofusId: doc.dofusId,
+    name: doc.name,
+    bosses: (doc.bosses ?? []).map((boss) => relationId(boss)),
+  }
+}
 
 /**
  * Crea o actualiza las filas de un catálogo del juego por su ID de DofusDB, solo si cambian.
@@ -257,7 +275,8 @@ function sum(values: number[]): number {
 
 /**
  * Crea o actualiza objetos, monstruos y misiones por su ID de DofusDB. Es el único que
- * escribe en esas colecciones, por eso usa overrideAccess. Primero objetos y monstruos,
+ * escribe en esas colecciones, por eso usa overrideAccess. Primero objetos, monstruos y
+ * mazmorras (sus jefes son monstruos),
  * porque las recompensas y requisitos de las misiones apuntan a sus IDs de Payload; luego
  * las misiones, y al final los prerrequisitos, que necesitan los IDs de todas. Solo escribe
  * lo que cambia, así que repetirlo con los mismos datos no toca nada. Dentro de cada paso
@@ -294,6 +313,22 @@ export async function refreshQuests(
     log,
   )
   log(`Monstruos guardados: ${monsters.ids.size}`)
+
+  // Las mazmorras, con sus jefes por el ID de Payload de los monstruos recién guardados.
+  let missingBosses = 0
+  const dungeons = await refreshCatalog<MappedDungeon, Dungeon>(
+    payload,
+    'dungeons',
+    (data.dungeons ?? []).map((raw) => {
+      const mapped = mapDungeon(raw, monsters.ids)
+      missingBosses += mapped.missingBosses
+      return mapped.dungeon
+    }),
+    storedDungeon,
+    refreshedAt,
+    concurrency,
+    log,
+  )
 
   // Por si DofusDB repite una misión entre páginas: cuenta una vez.
   const quests = new Map<number, MappedQuest>()
@@ -378,8 +413,10 @@ export async function refreshQuests(
     quests: countStatuses(linked.map((result) => result.status)),
     items: items.counts,
     monsters: monsters.counts,
+    dungeons: dungeons.counts,
     missingPrerequisites: sum(linked.map((result) => result.missing)),
     missingItems: sum(saved.map((result) => result.missingItems)),
     missingMonsters: sum(saved.map((result) => result.missingMonsters)),
+    missingBosses,
   }
 }
