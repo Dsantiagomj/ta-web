@@ -19,6 +19,7 @@ import * as migration_20261113_011531_quest_stages from './20261113_011531_quest
 import * as migration_20261113_151549_checklists from './20261113_151549_checklists';
 import * as migration_20261113_160051_checklist_needs from './20261113_160051_checklist_needs';
 import * as migration_20261113_174951_subareas from './20261113_174951_subareas';
+import * as migration_20261113_175047_checklist_step_zone from './20261113_175047_checklist_step_zone';
 
 export const migrations = [
   {
@@ -124,6 +125,11 @@ export const migrations = [
   {
     up: migration_20261113_174951_subareas.up,
     down: migration_20261113_174951_subareas.down,
-    name: '20261113_174951_subareas'
+    name: '20261113_174951_subareas',
+  },
+  {
+    up: migration_20261113_175047_checklist_step_zone.up,
+    down: migration_20261113_175047_checklist_step_zone.down,
+    name: '20261113_175047_checklist_step_zone'
   },
 ];

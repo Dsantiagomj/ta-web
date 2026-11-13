@@ -96,6 +96,7 @@ const draftFor = (slug: string, overrides: Partial<ChecklistDraft> = {}): Checkl
         bosses: [],
         icon: { path: 'prueba-checklist/icono.png', alt: 'Kamatrix', key: ICON_KEY },
         banner: { path: ART[0], alt: 'Caminos rocosos' },
+        zone: 'Llanuras de prueba',
       },
       {
         legacyNumber: 2,
@@ -126,6 +127,7 @@ const draftFor = (slug: string, overrides: Partial<ChecklistDraft> = {}): Checkl
         bosses: [997_501],
         icon: null,
         banner: { path: ART[1], alt: 'Dios de prueba' },
+        zone: 'Llanuras de prueba',
       },
       {
         legacyNumber: 3,
@@ -141,6 +143,7 @@ const draftFor = (slug: string, overrides: Partial<ChecklistDraft> = {}): Checkl
         bosses: [],
         icon: null,
         banner: { path: ART[2], alt: 'Zona de prueba' },
+        zone: 'Zona de prueba',
       },
     ],
     legacy: {
@@ -344,6 +347,11 @@ describe('importar una checklist entera', () => {
     })
     const steps = doc.steps!
     expect(steps.map((step) => step.legacyNumber)).toEqual([1, 2, 3])
+    expect(steps.map((step) => step.zone)).toEqual([
+      'Llanuras de prueba',
+      'Llanuras de prueba',
+      'Zona de prueba',
+    ])
     expect(new Set(steps.map((step) => step.stepId)).size).toBe(3)
 
     const [first, second, third] = steps

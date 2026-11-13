@@ -82,5 +82,7 @@ export const checklistStrings = {
     figureRoleDescription: 'Qué papel tiene, como «Inicia el paso».',
     bossesDescription: 'Los jefes que hay que vencer en el paso.',
     bannerDescription: 'La imagen de cabecera del paso, normalmente el mapa donde empieza.',
+    zoneDescription:
+      'La zona del paso en la lista, como «Anutropía». Agrupa los pasos: no tiene por qué ser donde empiezan sus misiones.',
   },
 } as const

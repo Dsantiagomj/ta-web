@@ -153,6 +153,10 @@ describe('colección checklists', () => {
     expect(field(steps.fields, 'icon')).toMatchObject({ type: 'upload', relationTo: 'media' })
   })
 
+  it('cada paso guarda su zona, la de Torre, que agrupa los pasos en la lista', () => {
+    expect(field(steps.fields, 'zone')).toMatchObject({ type: 'text', localized: true })
+  })
+
   it('cada fila de lo que necesita el paso cabe: un objeto del juego o un texto', () => {
     const needs = field(steps.fields, 'needs') as ArrayField
     // Sin objeto obligatorio: «Kama» o un hechizo no son objetos de DofusDB.

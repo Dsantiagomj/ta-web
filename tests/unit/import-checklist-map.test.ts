@@ -246,6 +246,15 @@ describe('lo demás de cada paso', () => {
     })
   })
 
+  it('la zona: la de Torre, que agrupa los pasos aunque sus misiones empiecen en otra', () => {
+    for (const [index, old] of legacy.steps.entries())
+      expect(draft.steps[index].zone).toBe(old.zone)
+    expect(step(1).zone).toBe('Llanuras de Cania')
+    // Sus misiones empiezan en las Llanuras de Cania, pero el paso es de Anutropía.
+    expect(step(5).zone).toBe('Anutropía')
+    expect(step(26).zone).toBe('Xelorium')
+  })
+
   it('el banner: el mapa donde empieza o, sin él, el de su zona', () => {
     expect(step(1).banner?.path).toBe('maps/start/164496396.jpg')
     expect(step(12).banner).toEqual({ path: 'zones/anutropia.jpg', alt: 'Anutropía' })
