@@ -16,6 +16,10 @@
 // (versión 3.7.13.17): statistics_images_96, ui_guidebook_images y misc_images. La flecha
 // de XP, la bolsa del inventario y el trofeo solo existen a 24 y 28px: se pintan a ese
 // tamaño, sin ampliar.
+//
+// Los iconos de los objetivos de misión de las checklists son los que eligió la checklist
+// antigua (OBJ_ICONS de silvestre-checklist): iconos de objetos del juego de DofusDB, de
+// 128px reducidos a 64px. El de combate es el de arriba.
 
 export type GameIconName = 'combat' | 'kamas' | 'quest' | 'xp' | 'achievement' | 'bag' | 'dungeon'
 
@@ -38,3 +42,16 @@ export const GAME_ICONS: Record<GameIconName, GameIconFile> = {
 
 /** El avatar de Torre en sus recomendaciones: 144px, el doble de los 72px a los que se pinta. */
 export const TORRE_AVATAR = { src: '/img/torre/avatar.webp', size: 144 }
+
+/** El icono de cada clase de objetivo de misión, en las checklists. */
+export const OBJECTIVE_ICONS: Record<
+  'free' | 'npc' | 'bring' | 'fight' | 'map' | 'craft',
+  GameIconFile
+> = {
+  npc: { src: '/img/game/objetivos/npc.webp', size: 64 },
+  bring: { src: '/img/game/objetivos/bring.webp', size: 64 },
+  map: { src: '/img/game/objetivos/map.webp', size: 64 },
+  craft: { src: '/img/game/objetivos/craft.webp', size: 64 },
+  free: { src: '/img/game/objetivos/free.webp', size: 64 },
+  fight: { src: '/img/game/combate.webp', size: 96 },
+}
