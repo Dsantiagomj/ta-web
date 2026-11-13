@@ -21,6 +21,7 @@ import { Users } from './collections/Users'
 import { dofusDbValuesEndpoint } from './endpoints/dofusdb-values'
 import { DofusGuidesIndex } from './globals/DofusGuidesIndex'
 import { healthEndpoint } from './endpoints/health'
+import { readyEndpoint } from './endpoints/ready'
 import { searchIndexEndpoint } from './endpoints/search-index'
 import { resolveDatabaseUrl, shouldPushSchema } from './lib/db/database-url'
 import { mediaStorage } from './lib/media/storage'
@@ -51,10 +52,11 @@ export default buildConfig({
   ],
   globals: [DofusGuidesIndex],
   editor: lexicalEditor(),
-  // GET /api/health, para los smoke tests tras un despliegue; GET /api/search/guides, el
-  // índice de la búsqueda de la cabecera.
+  // GET /api/health, la comprobación de vida que llaman los monitores (nunca toca la base);
+  // GET /api/ready, la de la base, para los smoke tests tras un despliegue;
+  // GET /api/search/guides, el índice de la búsqueda de la cabecera.
   // GET /api/dofusdb-values/…, lo que da DofusDB para las notas del panel de logros.
-  endpoints: [healthEndpoint, searchIndexEndpoint, dofusDbValuesEndpoint],
+  endpoints: [healthEndpoint, readyEndpoint, searchIndexEndpoint, dofusDbValuesEndpoint],
   // Panel en español.
   i18n: {
     fallbackLanguage: 'es',

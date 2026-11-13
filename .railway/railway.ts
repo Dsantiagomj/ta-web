@@ -35,7 +35,8 @@ export default defineRailway((ctx) => {
     // Migraciones por la URL directa de Neon; si fallan, el despliegue se para y la
     // versión anterior sigue sirviendo.
     preDeploy: 'pnpm migrate',
-    // /api/health responde ok solo con la base arriba: margen para un Neon que despierta.
+    // /api/health solo dice que el proceso responde; nunca toca la base. Una base caída
+    // ya para el despliegue en el pre-deploy: `pnpm migrate` falla si Neon no contesta.
     healthcheck: '/api/health',
     healthcheckTimeout: 120,
     replicas: { [REGION]: 1 },

@@ -1,136 +1,50 @@
-import { describe, expect, it, vi } from 'vitest'
+import type { PayloadRequest } from 'payload'
+import { describe, expect, it } from 'vitest'
 
-import { checkHealth, pingPool, resolveCommit, resolveVersion } from '@/endpoints/health'
+import { checkLiveness, healthEndpoint, resolveCommit, resolveVersion } from '@/endpoints/health'
 
-const info = { version: '1.2.3', commit: 'abc123' }
+// Un payload cuya base revienta en cuanto alguien la toca: el pool, una consulta o
+// cualquier otro miembro del adaptador.
+function payloadWithForbiddenDb() {
+  const touched: PropertyKey[] = []
+  const db = new Proxy(
+    {},
+    {
+      get(_target, key) {
+        touched.push(key)
+        throw new Error(`/api/health tocó payload.db.${String(key)}`)
+      },
+    },
+  )
+  return { payload: { db }, touched }
+}
 
-describe('checkHealth', () => {
-  it('responde 200 con la versión y el commit si la base contesta', async () => {
-    const pingDatabase = vi.fn().mockResolvedValue(undefined)
+describe('checkLiveness', () => {
+  it('responde 200 con la versión y el commit, sin decir nada de la base', async () => {
+    const response = checkLiveness({ version: '1.2.3', commit: 'abc123' })
 
-    const response = await checkHealth({ ...info, pingDatabase })
-
-    expect(pingDatabase).toHaveBeenCalledOnce()
     expect(response.status).toBe(200)
     expect(response.headers.get('Cache-Control')).toBe('no-store')
-    expect(await response.json()).toEqual({
-      status: 'ok',
-      db: 'ok',
-      version: '1.2.3',
-      commit: 'abc123',
-    })
-  })
-
-  it('responde 503 sin detalles del error si la base falla', async () => {
-    const pingDatabase = vi
-      .fn()
-      .mockRejectedValue(new Error('connect ECONNREFUSED postgres://usuario:clave@db:5432'))
-
-    const response = await checkHealth({ ...info, pingDatabase })
-
-    expect(response.status).toBe(503)
-    expect(response.headers.get('Cache-Control')).toBe('no-store')
-    const body = await response.text()
-    expect(JSON.parse(body)).toEqual({ status: 'error', db: 'error' })
-    expect(body).not.toMatch(/ECONNREFUSED|clave/)
-  })
-
-  it('responde 503 si la base no contesta antes del tiempo límite', async () => {
-    vi.useFakeTimers()
-    try {
-      const pingDatabase = () => new Promise<void>(() => {})
-
-      const pending = checkHealth({ ...info, pingDatabase, timeoutMs: 2000 })
-      await vi.advanceTimersByTimeAsync(2000)
-      const response = await pending
-
-      expect(response.status).toBe(503)
-      expect(await response.json()).toEqual({ status: 'error', db: 'error' })
-    } finally {
-      vi.useRealTimers()
-    }
-  })
-  it('comparte una sola comprobación entre peticiones simultáneas', async () => {
-    let finish: () => void = () => {}
-    const pingDatabase = vi.fn(() => new Promise<void>((resolve) => (finish = resolve)))
-
-    const both = Promise.all([
-      checkHealth({ ...info, pingDatabase }),
-      checkHealth({ ...info, pingDatabase }),
-    ])
-    finish()
-    const [a, b] = await both
-
-    expect(pingDatabase).toHaveBeenCalledOnce()
-    expect(a).not.toBe(b)
-    for (const response of [a, b]) {
-      expect(response.status).toBe(200)
-      expect(await response.json()).toMatchObject({ status: 'ok', db: 'ok' })
-    }
+    expect(await response.json()).toEqual({ status: 'ok', version: '1.2.3', commit: 'abc123' })
   })
 })
 
-function fakeClient(query: (text: string) => Promise<unknown>) {
-  return { query: vi.fn(query), release: vi.fn((_destroy?: boolean) => {}) }
-}
-type FakeClient = ReturnType<typeof fakeClient>
+describe('healthEndpoint', () => {
+  // La salvaguarda del corte del 2026-11-13: los monitores llaman a /api/health cada
+  // pocos minutos, y si toca la base Neon nunca escala a cero y agota la cuota.
+  it('nunca toca la base de datos', async () => {
+    const { payload, touched } = payloadWithForbiddenDb()
 
-describe('pingPool', () => {
-  it('limita la consulta en el servidor y devuelve la conexión al pool', async () => {
-    const client = fakeClient(async () => ({}))
-    const pool = { connect: vi.fn(async () => client) }
+    const response = await healthEndpoint.handler({ payload } as unknown as PayloadRequest)
 
-    await pingPool(pool, 2000)
-
-    expect(client.query.mock.calls.map(([text]) => text)).toEqual([
-      'begin',
-      "set local statement_timeout = '2000ms'",
-      'select 1',
-      'commit',
-    ])
-    expect(client.release).toHaveBeenCalledWith()
+    expect(touched).toEqual([])
+    expect(response.status).toBe(200)
+    expect(await response.json()).toMatchObject({ status: 'ok' })
   })
 
-  it('descarta la conexión si la consulta pasa del tiempo límite', async () => {
-    vi.useFakeTimers()
-    try {
-      const client = fakeClient((text) =>
-        text === 'select 1' ? new Promise(() => {}) : Promise.resolve({}),
-      )
-      const pool = { connect: vi.fn(async () => client) }
-
-      const pending = pingPool(pool, 2000)
-      const outcome = expect(pending).rejects.toThrow('timeout')
-      await vi.advanceTimersByTimeAsync(2000)
-      await outcome
-
-      expect(client.release).toHaveBeenCalledWith(true)
-    } finally {
-      vi.useRealTimers()
-    }
-  })
-
-  it('devuelve al pool una conexión que llega después del tiempo límite', async () => {
-    vi.useFakeTimers()
-    try {
-      const client = fakeClient(async () => ({}))
-      let deliver: (c: FakeClient) => void = () => {}
-      const pool = {
-        connect: vi.fn(() => new Promise<FakeClient>((resolve) => (deliver = resolve))),
-      }
-
-      const pending = pingPool(pool, 2000)
-      const outcome = expect(pending).rejects.toThrow('timeout')
-      await vi.advanceTimersByTimeAsync(2000)
-      await outcome
-      deliver(client)
-      await vi.advanceTimersByTimeAsync(0)
-
-      expect(client.query).not.toHaveBeenCalled()
-      expect(client.release).toHaveBeenCalledWith(true)
-    } finally {
-      vi.useRealTimers()
-    }
+  it('se monta en GET /health', () => {
+    expect(healthEndpoint.path).toBe('/health')
+    expect(healthEndpoint.method).toBe('get')
   })
 })
 

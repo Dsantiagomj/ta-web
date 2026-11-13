@@ -142,8 +142,21 @@ test('el panel de Payload hidrata el formulario de inicio de sesión sin errores
 })
 
 // Solo lectura: los smoke tests corren también contra entornos desplegados.
-test('la comprobación de salud responde ok en /api/health @smoke', async ({ request }) => {
+test('la comprobación de vida responde ok en /api/health, sin hablar de la base @smoke', async ({
+  request,
+}) => {
   const response = await request.get('/api/health')
+
+  expect(response.status()).toBe(200)
+  expect(response.headers()['cache-control']).toBe('no-store')
+  const body = await response.json()
+  expect(body).toMatchObject({ status: 'ok' })
+  expect(body.commit).toEqual(expect.any(String))
+  expect(body).not.toHaveProperty('db')
+})
+
+test('la comprobación de la base responde ok en /api/ready @smoke', async ({ request }) => {
+  const response = await request.get('/api/ready')
 
   expect(response.status()).toBe(200)
   expect(response.headers()['cache-control']).toBe('no-store')
