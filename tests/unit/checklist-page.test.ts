@@ -659,6 +659,7 @@ describe('checklistView: lo que recibe la isla', () => {
       prereqs: { 1006: [1005] },
       parents: { 1005: [[0, [1006]]] },
       checklists: { '7': 'Dofus Nebuloso', nebuloso: 'Dofus Nebuloso', '8': 'Dofus de los Hielos' },
+      legacyIds: { nebuloso: 7 },
     })
     expect(JSON.stringify(island)).not.toContain('Sangre fría')
   })

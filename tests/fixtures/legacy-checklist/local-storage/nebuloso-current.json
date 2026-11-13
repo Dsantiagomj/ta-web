@@ -1,0 +1,20 @@
+{
+  "_": "Lo que guarda silvestre-checklist en localStorage (src/tools/checklist/state/store.js, lib/shared.js, lib/classic.js): una partida del Nebuloso al día, con lo de las otras checklists del mismo origen.",
+  "nebuloso:done": "{\"1\":true,\"2\":true,\"3\":true,\"7\":true}",
+  "nebuloso:questPos": "{\"4\":2}",
+  "nebuloso:questObjective": "{\"1608\":16,\"1609\":2,\"1571\":10}",
+  "nebuloso:guide": "1",
+  "nebuloso:questModel": "2",
+  "nebuloso:ownedModel": "2",
+  "nebuloso:prereqs": "{\"l1\":true,\"o1\":true}",
+  "nebuloso:owned": "{\"15533\":true,\"15416#4\":true,\"x:kama#5\":true,\"999#80\":true}",
+  "nebuloso:classicImported": "1",
+  "nebuloso:theme": "dark",
+  "nebuloso:stepsView": "diary",
+  "dofus_nebuloso_clean_v1": "{\"checked\":[true,true,true,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],\"filter\":\"all\",\"sortMode\":\"guide\",\"prerequisitesOpen\":false,\"darkMode\":true}",
+  "dofus-checklists:shared": "{\"nebuloso\":{\"name\":\"Dofus Nebuloso\",\"quests\":[1484,1485,1486,7777],\"owned\":[\"15533\"]},\"hielos\":{\"name\":\"Dofus de los Hielos\",\"quests\":[1532,4242],\"owned\":[\"7906\"]}}",
+  "global:questObjective": "{\"5151\":3,\"1531\":10}",
+  "global:owned": "{\"14509\":true,\"14516#12\":true,\"8918@orden\":true}",
+  "global:done": "{\"1\":true}",
+  "cosecha:done": "{\"1\":true}"
+}

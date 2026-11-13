@@ -1,0 +1,7 @@
+{
+  "_": "Una partida antigua del Nebuloso: sin questModel (questPos daba por hechas las misiones de antes de la que iba en curso), sin guide ni ownedModel guardados, y el checklist clásico sin traer.",
+  "nebuloso:done": "{\"1\":true}",
+  "nebuloso:questPos": "{\"4\":3}",
+  "nebuloso:prereqs": "{\"h1\":true}",
+  "dofus_nebuloso_clean_v1": "{\"checked\":[false,false,false,false,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],\"filter\":\"all\",\"sortMode\":\"guide\",\"prerequisitesOpen\":false,\"darkMode\":true}"
+}

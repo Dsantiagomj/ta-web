@@ -186,7 +186,11 @@ export async function seedChecklistPages(payload: Payload): Promise<void> {
           needs: [{ item: pico.id, quantity: 2, category: 'resources', countsInTotal: true }],
         },
       ],
-      legacy: { prefix: 'nebuloso:', guideVersion: 1 },
+      legacy: {
+        prefix: 'nebuloso:',
+        classicKeys: { v4: 'dofus_nebuloso_clean_v1', v3: null },
+        guideVersion: 1,
+      },
       _status: 'published',
     },
   })

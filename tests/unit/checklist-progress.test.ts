@@ -75,6 +75,7 @@ const data: ChecklistIslandData = {
   prereqs: { 11: [10] },
   parents: { 30: [[2, [31]]] },
   checklists: { '8': 'Dofus de los Hielos', hielos: 'Dofus de los Hielos' },
+  legacyIds: { hielos: 8 },
 }
 const model = checklistModel(data)
 const NOW = 1_700_000_000_000
@@ -163,6 +164,14 @@ describe('marcar misiones', () => {
       quests: { 10: { o: 'done' as const, by: { c: 99 }, at: 1 } },
     }
     expect(questState(unknown, model, 0, 10)).toEqual({ done: true, lock: { checklist: null } })
+  })
+
+  it('con su paso marcado aquí, una misión hecha también en otra checklist no se bloquea', () => {
+    const p = {
+      ...setStep(emptyProgress(), model, 0, true, NOW),
+      quests: { 10: { o: 'done' as const, by: { c: 8 }, at: 1 } },
+    }
+    expect(questState(p, model, 0, 10)).toEqual({ done: true })
   })
 
   it('la que pide terminada otra hecha sale hecha y dice quién la pide', () => {

@@ -192,6 +192,7 @@ Every Squarespace URL must render or redirect on cutover day (backlog B-03 to B-
 ## Members and progress
 
 - Anonymous by default: checklists work without an account and save in the browser. Every `localStorage` access is wrapped in `try/catch`.
+- In the browser, all checklists share one key, `ta-web:progress` (`src/lib/checklists/progress/`). On a checklist page, old `silvestre-checklist` keys still in the browser are merged into it once per old checklist (`migrated`), by union, never deleting or changing the old keys. The migration code loads with `import()` only when such keys exist. Members are not built yet: the sign-in import below is still planned.
 - One global progress set per member, in our own Postgres tables (Drizzle), not in Payload collections. Quests and quest objectives are keyed by DofusDB quest id, owned items by DofusDB item id, steps by their stable step UUID. Never key progress by step number or position.
 - Checklists are views over that set: finishing a quest in one checklist marks it everywhere.
 - Each entry carries `updatedAt`; the server merges by latest timestamp; the client queues writes offline and flushes on reconnect.

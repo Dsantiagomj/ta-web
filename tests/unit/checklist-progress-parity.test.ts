@@ -3,15 +3,9 @@
 // su weights.json) se mide dos veces: con el cálculo antiguo, copiado aquí de
 // src/tools/checklist/state/store.js (donePts, questPts, questDoneElsewhere, openOf,
 // impliedDone), y con el motor nuevo sobre el mismo progreso.
-import { readFileSync } from 'node:fs'
-import path from 'node:path'
-
 import { beforeAll, describe, expect, it } from 'vitest'
 
-import { CHECKLIST_CATALOG } from '../../scripts/import/checklists/catalog'
-import { readLegacyChecklist } from '../../scripts/import/checklists/legacy'
-import { toChecklistDraft, type ChecklistDraft } from '../../scripts/import/checklists/to-checklist'
-import type { ChecklistIslandData } from '@/lib/checklists/page'
+import type { ChecklistDraft } from '../../scripts/import/checklists/to-checklist'
 import {
   checklistModel,
   markSteps,
@@ -19,78 +13,16 @@ import {
   type ChecklistModel,
 } from '@/lib/checklists/progress/engine'
 import { emptyProgress, type Progress } from '@/lib/checklists/progress/store'
-import { questPoints, stepWeights } from '@/lib/derive/weights'
 
-interface Fixture {
-  stepQuests: Record<string, number[]>
-  prereqs: Record<string, number[]>
-  parent: Record<string, [number, number[]][]>
-  quests: Record<string, { level: number; objectives: number }>
-  weights: Record<string, { w: number; q: number[]; ids: string[]; os: number[] }>
-}
-
-const ROOT = path.resolve(__dirname, '../fixtures/silvestre-checklist')
-const fixture = JSON.parse(
-  readFileSync(path.join(ROOT, 'src/dofus/nebuloso/weights-fixture.json'), 'utf8'),
-) as Fixture
+import { fixture, islandData, nebulosoDraft, stepId } from './helpers/nebuloso'
 
 let draft: ChecklistDraft
 let model: ChecklistModel
 
 beforeAll(async () => {
-  const legacy = await readLegacyChecklist(ROOT, 'nebuloso')
-  draft = toChecklistDraft(
-    CHECKLIST_CATALOG.find((entry) => entry.id === 'nebuloso')!,
-    legacy,
-  )
+  draft = await nebulosoDraft()
   model = checklistModel(islandData(draft))
 })
-
-const stepId = (n: number) => `paso-${n}`
-
-/** Lo que recibe la isla para el Nebuloso importado, con los pesos de sus misiones. */
-function islandData(checklist: ChecklistDraft): ChecklistIslandData {
-  const steps = checklist.steps.map((step) => {
-    const stop = step.segments.find((segment) => segment.kind === 'stop')
-    return [
-      stepId(step.legacyNumber),
-      step.legacyNumber,
-      step.quests.map((row) =>
-        stop?.kind === 'stop' && stop.quest === row.quest
-          ? ([row.quest, row.kind, stop.stopObjective] as [number, typeof row.kind, number])
-          : ([row.quest, row.kind] as [number, typeof row.kind]),
-      ),
-    ] as ChecklistIslandData['steps'][number]
-  })
-  const points = Object.fromEntries(
-    Object.entries(fixture.quests).map(([id, q]) => [id, questPoints(q.level, q.objectives)]),
-  )
-  const weights = stepWeights(
-    steps.map(([, , quests]) => ({ quests: quests.map(([id, kind]) => [id, kind] as const) })),
-    points,
-  )
-  return {
-    checklistId: 1,
-    slug: 'checklist-nebuloso',
-    version: '1',
-    steps,
-    closes: checklist.steps.flatMap((step) =>
-      step.segments.flatMap((segment) =>
-        segment.kind === 'resolve'
-          ? [[stepId(step.legacyNumber), segment.closes.map(stepId)] as [string, string[]]]
-          : [],
-      ),
-    ),
-    legacy: { prefix: 'nebuloso:', guideVersion: 1 },
-    weights: weights.map(({ w, shares }) => [w, shares]),
-    objectives: Object.fromEntries(
-      Object.entries(fixture.quests).map(([id, q]) => [id, q.objectives]),
-    ),
-    prereqs: fixture.prereqs,
-    parents: fixture.parent,
-    checklists: {},
-  }
-}
 
 /** El porcentaje de silvestre-checklist con sus pasos hechos y el objetivo de cada misión. */
 function legacyPct(done: Set<number>, questObj: Record<number, number>): number {

@@ -4,10 +4,11 @@
 // un progreso nuevo. Sin React ni DOM; lo prueba tests/unit.
 //
 // Una misión sale hecha, en este orden:
-// 1. hecha en este paso (o el paso está marcado): se puede deshacer;
+// 1. hecha en este paso: se puede deshacer;
 // 2. hecha en otro paso: «Hecha en el paso N»;
-// 3. hecha en otra checklist: «Hecha en la checklist del Dofus X»;
-// 4. la pide terminada otra misión hecha: «La pide “Y”».
+// 3. la pide terminada otra misión hecha: «La pide “Y”»;
+// 4. el paso está marcado: hecha, y se puede deshacer;
+// 5. hecha en otra checklist (y aquí no): «Hecha en la checklist del Dofus X».
 // Lo apuntado con el id antiguo de la checklist («nebuloso») es de esta misma checklist.
 // Marcar el paso de un «detente aquí» deja su misión en el objetivo de la parada; la termina el
 // paso que lo cierra. Una madre cuya hija para en el paso espera en el objetivo donde empieza
@@ -171,17 +172,17 @@ const allFinished = (p: Progress, m: ChecklistModel, index: number) => {
 export function questState(p: Progress, m: ChecklistModel, index: number, id: number): QuestState {
   const step = m.steps[index]
   const entry = p.quests[id]
-  if (finishedEntry(m, id, entry)) {
-    const by = entry.by
-    if (by && !isSelf(m, by.c))
-      return { done: true, lock: { checklist: m.names[String(by.c)] ?? null } }
-    const other = by?.s && by.s !== step.id ? m.index.get(by.s) : undefined
+  const finished = finishedEntry(m, id, entry)
+  if (finished && (!entry.by || isSelf(m, entry.by.c))) {
+    const other = entry.by?.s && entry.by.s !== step.id ? m.index.get(entry.by.s) : undefined
     return other === undefined ? { done: true } : { done: true, lock: { step: other + 1 } }
   }
   const need = impliedBy(p, m, id)
   if (need !== null) return { done: true, lock: { need } }
   const row = step.quests.find((quest) => quest.id === id)
   if (row?.kind === 'mandatory' && stepDone(p, m, index)) return { done: true }
+  // Hecha en otra checklist, y aquí no
+  if (finished) return { done: true, lock: { checklist: m.names[String(entry.by!.c)] ?? null } }
   const at = typeof entry?.o === 'number' && entry.o > 0 ? entry.o : undefined
   if (at === undefined) return { done: false }
   const wait = (m.parents[id] ?? [])

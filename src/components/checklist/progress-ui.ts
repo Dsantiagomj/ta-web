@@ -25,6 +25,7 @@ import {
   type Progress,
   type ProgressStorage,
 } from '@/lib/checklists/progress/store'
+import { pendingLegacy } from '@/lib/checklists/progress/legacy-keys'
 import type { ChecklistIslandData } from '@/lib/checklists/page'
 
 import { calendarDaysBetween, progressStrings as s } from './progress-strings'
@@ -520,6 +521,34 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
   window.addEventListener('storage', onStorage)
   resetDialog?.addEventListener('close', onResetClose)
   render()
+  migrateLegacyKeys()
+
+  /**
+   * El progreso de silvestre-checklist en este navegador, una vez por checklist antigua: la
+   * migración solo se descarga si hay claves antiguas sin migrar.
+   */
+  function migrateLegacyKeys() {
+    let keys: string[] = []
+    try {
+      keys = Object.keys(window.localStorage)
+    } catch {
+      return
+    }
+    const own = data.legacy?.prefix?.replace(/:$/, '') ?? null
+    if (!pendingLegacy(keys, own, progress.migrated)) return
+    import('@/lib/checklists/progress/legacy')
+      .then(({ migrateLegacy }) => {
+        const current = readProgress(safeStorage)
+        const next = migrateLegacy(current, {
+          keys,
+          read: (key) => safeStorage.getItem(key),
+          data,
+          now: Date.now(),
+        })
+        if (next !== current && writeProgress(safeStorage, next)) reload()
+      })
+      .catch((error: unknown) => console.error(error))
+  }
 
   return {
     matches: (n) => filter === 'all' || (filter === 'done') === stepDone(progress, m, n - 1),
