@@ -3,10 +3,18 @@ import type { Payload, Where } from 'payload'
 import { isGuideSlug } from '@/lib/guides/slug'
 import type { Checklist, User } from '@/payload-types'
 
+import { torreLevel } from '@/lib/derive/weights'
+
 import { checklistDetails, type ChecklistDetails, type DetailsQuest } from './details'
 import type { ChecklistDoc } from './list'
 import { relationId } from './relations'
-import { OBJECTIVE_REFERENCE, type ChecklistData, type ObjectiveNames } from './page'
+import {
+  OBJECTIVE_REFERENCE,
+  type ChecklistData,
+  type ChecklistName,
+  type ObjectiveNames,
+  type QuestNode,
+} from './page'
 
 export interface ReadChecklistOptions {
   /** Con un usuario del panel: el último borrador. */
@@ -86,6 +94,82 @@ function slugsBy<T extends { slug: string }>(docs: T[], field: keyof T): Record<
   )
 }
 
+// Una cadena de «pide terminada» más larga que esto sería un bucle en los datos.
+const MAX_PREREQUISITE_DEPTH = 30
+
+/**
+ * Las misiones de la checklist con lo que el progreso necesita (sus objetivos, su criterio de
+ * inicio y lo que piden terminado), y las que estas piden, de dentro o de fuera de la
+ * checklist, hasta el final de la cadena. Por ID de Payload; lo que piden, por ID de DofusDB.
+ */
+async function readQuestGraph(
+  payload: Payload,
+  questIds: number[],
+): Promise<Record<number, QuestNode>> {
+  const found = new Map<number, { node: Omit<QuestNode, 'prerequisites'>; needs: number[] }>()
+  let wanted = questIds
+  for (let depth = 0; wanted.length > 0 && depth < MAX_PREREQUISITE_DEPTH; depth++) {
+    const { docs } = await payload.find({
+      collection: 'quests',
+      where: { id: { in: wanted } },
+      select: {
+        dofusId: true,
+        levelMin: true,
+        startCriterion: true,
+        prerequisites: true,
+        stages: { objectives: { dofusId: true } },
+      },
+      depth: 0,
+      pagination: false,
+      ...visitor,
+    })
+    for (const doc of docs) {
+      found.set(doc.id, {
+        node: {
+          dofusId: doc.dofusId,
+          levelMin: doc.levelMin ?? null,
+          startCriterion: doc.startCriterion ?? null,
+          objectives: (doc.stages ?? []).flatMap((stage) =>
+            (stage.objectives ?? []).map((objective) => objective.dofusId),
+          ),
+        },
+        needs: ids(doc.prerequisites ?? []),
+      })
+    }
+    wanted = [...new Set(docs.flatMap((doc) => ids(doc.prerequisites ?? [])))].filter(
+      (id) => !found.has(id),
+    )
+  }
+  return Object.fromEntries(
+    [...found].map(([id, { node, needs }]) => [
+      id,
+      {
+        ...node,
+        prerequisites: needs.flatMap((need) => {
+          const dofusId = found.get(need)?.node.dofusId
+          return dofusId === undefined ? [] : [dofusId]
+        }),
+      },
+    ]),
+  )
+}
+
+/** Todas las checklists con su nombre y su id antiguo: «Hecha en la checklist del Dofus X». */
+async function readChecklistNames(payload: Payload): Promise<ChecklistName[]> {
+  const { docs } = await payload.find({
+    collection: 'checklists',
+    select: { name: true, legacy: { prefix: true } },
+    depth: 0,
+    pagination: false,
+    ...visitor,
+  })
+  return docs.map((doc) => ({
+    id: doc.id,
+    name: doc.name,
+    legacyId: doc.legacy?.prefix?.replace(/:$/, '') || null,
+  }))
+}
+
 /**
  * La checklist de un slug, como la ve quien pide: un visitante, la publicada (también la En
  * preparación: la página decide); un usuario del panel con preview, el último borrador. Null
@@ -143,12 +227,12 @@ export async function readChecklist(
     ),
   )
 
-  const [guides, pages, stops] = await Promise.all([
+  const [guides, pages, stops, questGraph, checklists] = await Promise.all([
     questIds.length
       ? payload.find({
           collection: 'quest-guides',
           where: { quest: { in: questIds } },
-          select: { slug: true, quest: true },
+          select: { slug: true, quest: true, summary: { prerequisites: true } },
           depth: 0,
           pagination: false,
           ...visitor,
@@ -175,11 +259,22 @@ export async function readChecklist(
           ...visitor,
         })
       : { docs: [] },
+    readQuestGraph(payload, questIds),
+    readChecklistNames(payload),
   ])
 
   return {
     checklist,
     questGuides: slugsBy(guides.docs, 'quest'),
+    torreLevels: Object.fromEntries(
+      guides.docs.flatMap((guide) => {
+        const quest = relationId(guide.quest)
+        const level = torreLevel(guide.summary?.prerequisites)
+        return quest !== null && level ? [[quest, level]] : []
+      }),
+    ),
+    questGraph,
+    checklists,
     achievementPages: slugsBy(pages.docs, 'achievement'),
     stopQuests: Object.fromEntries(stops.docs.map((doc) => [doc.id, { stages: doc.stages }])),
     names: await readObjectiveNames(payload, stops.docs),

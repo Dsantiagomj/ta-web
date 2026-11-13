@@ -51,6 +51,9 @@ const data = (
   overrides: Partial<Checklist> = {},
   linked: Partial<Omit<ChecklistData, 'checklist'>> = {},
 ): ChecklistData => ({
+  torreLevels: {},
+  questGraph: {},
+  checklists: [],
   checklist: {
     id: 7,
     name: 'Dofus Nebuloso',
@@ -493,19 +496,50 @@ describe('checklistView: el resto del paso', () => {
 })
 
 describe('checklistView: lo que recibe la isla', () => {
-  it('solo la estructura: los stepId, el número antiguo, las misiones con su tipo y su parada, lo que cierra cada paso y lo antiguo', () => {
-    const steps = [
-      step('a', {
-        legacyNumber: 1,
-        segments: [{ kind: 'stop', text: 'Para.', quest: 5, stopObjective: 2 }],
-        quests: [
-          { quest: quest(5, 'Sangre fría'), kind: 'mandatory' },
-          { quest: quest(6, 'Otra'), kind: 'take' },
-        ],
-      }),
-      step('b', { legacyNumber: 2, segments: [{ kind: 'resolve', text: 'Fin.', closes: ['a'] }] }),
-    ]
-    const { island } = checklistView(data(steps))
+  const graph = {
+    5: {
+      dofusId: 1005,
+      levelMin: 100,
+      startCriterion: null,
+      objectives: [1, 2, 3, 4],
+      prerequisites: [],
+    },
+    6: {
+      dofusId: 1006,
+      levelMin: 100,
+      startCriterion: 'Qa=1005',
+      objectives: [9],
+      prerequisites: [1005],
+    },
+  }
+  const steps = () => [
+    step('a', {
+      legacyNumber: 1,
+      segments: [{ kind: 'stop', text: 'Para.', quest: 5, stopObjective: 2 }],
+      quests: [
+        { quest: quest(5, 'Sangre fría'), kind: 'mandatory' },
+        { quest: quest(6, 'Otra'), kind: 'take' },
+      ],
+    }),
+    step('b', { legacyNumber: 2, segments: [{ kind: 'resolve', text: 'Fin.', closes: ['a'] }] }),
+    step('c', { legacyNumber: 3, segments: [{ kind: 'resolve', text: 'Se resuelve aquí.' }] }),
+  ]
+
+  it('solo la estructura y lo que necesita el progreso, nunca los textos', () => {
+    const { island } = checklistView(
+      data(
+        steps(),
+        {},
+        {
+          questGraph: graph,
+          torreLevels: { 5: 80 },
+          checklists: [
+            { id: 7, name: 'Dofus Nebuloso', legacyId: 'nebuloso' },
+            { id: 8, name: 'Dofus de los Hielos', legacyId: null },
+          ],
+        },
+      ),
+    )
 
     expect(island).toEqual({
       checklistId: 7,
@@ -520,15 +554,36 @@ describe('checklistView: lo que recibe la isla', () => {
           ],
         ],
         ['b', 2, []],
+        ['c', 3, []],
       ],
-      closes: [['b', ['a']]],
+      // También el que se resuelve sin cerrar otro: no deja nada a medias
+      closes: [
+        ['b', ['a']],
+        ['c', []],
+      ],
       legacy: {
         prefix: 'nebuloso:',
         classicKeys: { v4: 'dofus_nebuloso_clean_v1' },
         guideVersion: 1,
       },
+      // La 1005 vale su nivel de Torre (80) por la raíz de sus 4 objetivos; la de solo
+      // tomarla, 0; los pasos sin misiones, 1
+      weights: [
+        [160, [160, 0]],
+        [1, []],
+        [1, []],
+      ],
+      objectives: { 1005: 4, 1006: 1 },
+      prereqs: { 1006: [1005] },
+      parents: { 1005: [[0, [1006]]] },
+      checklists: { '7': 'Dofus Nebuloso', nebuloso: 'Dofus Nebuloso', '8': 'Dofus de los Hielos' },
     })
     expect(JSON.stringify(island)).not.toContain('Sangre fría')
+  })
+
+  it('sin nivel de Torre, el de DofusDB', () => {
+    const { island } = checklistView(data(steps(), {}, { questGraph: graph }))
+    expect(island.weights[0]).toEqual([200, [200, 0]])
   })
 })
 
