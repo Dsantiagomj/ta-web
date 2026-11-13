@@ -19,6 +19,7 @@ export interface RawQuest {
 
 export interface RawQuestStep {
   id: number
+  name?: LocalizedText | null
   optimalLevel: number
   duration: number
   /** Varias entradas por tramos de nivel; la última es la del nivel más alto. */
@@ -42,6 +43,14 @@ export interface RawQuestObjective {
   id: number
   className: string
   parameters?: Partial<Record<`parameter${0 | 1 | 2 | 3 | 4}`, number>> | null
+  /** Con marcas por nombrar, como «Entrégale a {npc,2646}: 4 x {item,15712}». */
+  text?: LocalizedText | null
+  /** 0 si el objetivo no tiene mapa. */
+  mapId?: number | null
+  /** Las coordenadas de los objetivos sin mapa. */
+  coords?: { x?: number | null; y?: number | null } | null
+  /** El mapa del objetivo, que DofusDB añade por mapId. */
+  map?: { posX?: number | null; posY?: number | null; subAreaId?: number | null } | null
 }
 
 export interface RawItem {
@@ -208,6 +217,33 @@ export interface MappedNpc {
   dofusId: number
   name: string
   look: string | null
+}
+
+/** La clase de un objetivo, como la pinta el checklist: hablar, entregar, pelear… */
+export type QuestObjectiveKind = 'free' | 'npc' | 'bring' | 'fight' | 'map' | 'craft'
+
+/** Un objetivo de etapa, con los IDs de DofusDB de lo que nombra. */
+export interface MappedQuestObjective {
+  dofusId: number
+  kind: QuestObjectiveKind
+  /** El texto de DofusDB tal cual, con sus marcas ({npc,2646}) sin resolver. */
+  text: string | null
+  npcId: number | null
+  monsterId: number | null
+  itemId: number | null
+  /** Cuántos objetos o monstruos pide. */
+  quantity: number | null
+  mapId: number | null
+  x: number | null
+  y: number | null
+  subAreaId: number | null
+}
+
+/** Una etapa de misión con sus objetivos en el orden del checklist. */
+export interface MappedQuestStage {
+  dofusId: number
+  name: string | null
+  objectives: MappedQuestObjective[]
 }
 
 /** Los datos de una misión para la colección quests, más sus prerrequisitos por ID de DofusDB. */

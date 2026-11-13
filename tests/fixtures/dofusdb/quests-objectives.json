@@ -1,0 +1,1632 @@
+[
+  {
+    "id": 1491,
+    "name": {
+      "es": "Muestreo"
+    },
+    "levelMin": 200,
+    "levelMax": 200,
+    "categoryId": 34,
+    "startCriterion": "PL>179&(Qf=1484|(Qa=1484&Qo>8349))",
+    "startPosition": [
+      {
+        "mapId": 130024963,
+        "npcId": 2338
+      }
+    ],
+    "need": {
+      "items": [],
+      "quantities": []
+    },
+    "steps": [
+      {
+        "id": 2111,
+        "name": {
+          "es": "Muestreo"
+        },
+        "optimalLevel": 200,
+        "duration": 1,
+        "objectives": [
+          {
+            "id": 8388,
+            "typeId": 3,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "parameters": {
+              "parameter0": 2338,
+              "parameter1": 15285,
+              "parameter2": 10,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 130024961,
+            "coords": null,
+            "map": {
+              "posX": -22,
+              "posY": -24,
+              "subAreaId": 525
+            },
+            "text": {
+              "es": "Entrégale a {npc,2338}: 10 x {item,15285}"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 1495,
+    "name": {
+      "es": "Anutrof salve al rey"
+    },
+    "levelMin": 200,
+    "levelMax": 200,
+    "categoryId": 34,
+    "startCriterion": "Qf=1494",
+    "startPosition": [
+      {
+        "mapId": 129499136,
+        "npcId": 2364
+      }
+    ],
+    "need": {
+      "items": [],
+      "quantities": []
+    },
+    "steps": [
+      {
+        "id": 2115,
+        "name": {
+          "es": "Anutrof salve al rey"
+        },
+        "optimalLevel": 200,
+        "duration": 2,
+        "objectives": [
+          {
+            "id": 8410,
+            "typeId": 0,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 454000,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 129500160,
+            "coords": null,
+            "map": {
+              "posX": -5,
+              "posY": -5,
+              "subAreaId": 825
+            },
+            "text": {
+              "es": "Quítale con violencia un pelo de la nariz al Rey Nidas"
+            }
+          },
+          {
+            "id": 8411,
+            "typeId": 3,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "parameters": {
+              "parameter0": 2364,
+              "parameter1": 15292,
+              "parameter2": 1,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 129499136,
+            "coords": null,
+            "map": {
+              "posX": -5,
+              "posY": -5,
+              "subAreaId": 825
+            },
+            "text": {
+              "es": "Entrégale a {npc,2364}: 1 x {item,15292}"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 1514,
+    "name": {
+      "es": "El barbero de Anutropía"
+    },
+    "levelMin": 200,
+    "levelMax": 200,
+    "categoryId": 34,
+    "startCriterion": "PL>179",
+    "startPosition": [
+      {
+        "mapId": 129499136,
+        "npcId": 2351
+      }
+    ],
+    "need": {
+      "items": [15177, 15178, 15179, 15180],
+      "quantities": [1, 1, 1, 1]
+    },
+    "steps": [
+      {
+        "id": 2140,
+        "name": {
+          "es": "El barbero de Anutropía"
+        },
+        "optimalLevel": 200,
+        "duration": 2,
+        "objectives": [
+          {
+            "id": 8600,
+            "typeId": 0,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 885055,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 129763330,
+            "coords": null,
+            "map": {
+              "posX": -8,
+              "posY": -4,
+              "subAreaId": 822
+            },
+            "text": {
+              "es": "Recupera 1 cristal azul"
+            }
+          },
+          {
+            "id": 8601,
+            "typeId": 0,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 885056,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 129762304,
+            "coords": null,
+            "map": {
+              "posX": -9,
+              "posY": -5,
+              "subAreaId": 822
+            },
+            "text": {
+              "es": "Recupera 1 pepita dorada"
+            }
+          },
+          {
+            "id": 8602,
+            "typeId": 0,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 885057,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 129761538,
+            "coords": null,
+            "map": {
+              "posX": -10,
+              "posY": -6,
+              "subAreaId": 822
+            },
+            "text": {
+              "es": "Recupera 1 bolsa"
+            }
+          },
+          {
+            "id": 8603,
+            "typeId": 3,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "parameters": {
+              "parameter0": 2351,
+              "parameter1": 15375,
+              "parameter2": 1,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 129499136,
+            "coords": null,
+            "map": {
+              "posX": -5,
+              "posY": -5,
+              "subAreaId": 825
+            },
+            "text": {
+              "es": "Entrégale a {npc,2351}: 1 x {item,15375}"
+            }
+          },
+          {
+            "id": 8604,
+            "typeId": 3,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "parameters": {
+              "parameter0": 2351,
+              "parameter1": 15376,
+              "parameter2": 1,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 129499136,
+            "coords": null,
+            "map": {
+              "posX": -5,
+              "posY": -5,
+              "subAreaId": 825
+            },
+            "text": {
+              "es": "Entrégale a {npc,2351}: 1 x {item,15376}"
+            }
+          },
+          {
+            "id": 8605,
+            "typeId": 3,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "parameters": {
+              "parameter0": 2351,
+              "parameter1": 15377,
+              "parameter2": 1,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 129499136,
+            "coords": null,
+            "map": {
+              "posX": -5,
+              "posY": -5,
+              "subAreaId": 825
+            },
+            "text": {
+              "es": "Entrégale a {npc,2351}: 1 x {item,15377}"
+            }
+          },
+          {
+            "id": 8606,
+            "typeId": 3,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "parameters": {
+              "parameter0": 2351,
+              "parameter1": 15177,
+              "parameter2": 1,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 129499136,
+            "coords": null,
+            "map": {
+              "posX": -5,
+              "posY": -5,
+              "subAreaId": 825
+            },
+            "text": {
+              "es": "Entrégale a {npc,2351}: 1 x {item,15177}"
+            }
+          },
+          {
+            "id": 8607,
+            "typeId": 3,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "parameters": {
+              "parameter0": 2351,
+              "parameter1": 15178,
+              "parameter2": 1,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 129499136,
+            "coords": null,
+            "map": {
+              "posX": -5,
+              "posY": -5,
+              "subAreaId": 825
+            },
+            "text": {
+              "es": "Entrégale a {npc,2351}: 1 x {item,15178}"
+            }
+          },
+          {
+            "id": 8608,
+            "typeId": 3,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "parameters": {
+              "parameter0": 2351,
+              "parameter1": 15179,
+              "parameter2": 1,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 129499136,
+            "coords": null,
+            "map": {
+              "posX": -5,
+              "posY": -5,
+              "subAreaId": 825
+            },
+            "text": {
+              "es": "Entrégale a {npc,2351}: 1 x {item,15179}"
+            }
+          },
+          {
+            "id": 8609,
+            "typeId": 3,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "parameters": {
+              "parameter0": 2351,
+              "parameter1": 15180,
+              "parameter2": 1,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 129499136,
+            "coords": null,
+            "map": {
+              "posX": -5,
+              "posY": -5,
+              "subAreaId": 825
+            },
+            "text": {
+              "es": "Entrégale a {npc,2351}: 1 x {item,15180}"
+            }
+          },
+          {
+            "id": 8610,
+            "typeId": 1,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 2434,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 129237506,
+            "coords": null,
+            "map": {
+              "posX": -4,
+              "posY": -2,
+              "subAreaId": 820
+            },
+            "text": {
+              "es": "Ve a ver a {npc,2434}"
+            }
+          },
+          {
+            "id": 8611,
+            "typeId": 1,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 2351,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 129499136,
+            "coords": null,
+            "map": {
+              "posX": -5,
+              "posY": -5,
+              "subAreaId": 825
+            },
+            "text": {
+              "es": "Ve a ver a {npc,2351}"
+            }
+          },
+          {
+            "id": 8612,
+            "typeId": 6,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 3648,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 129500160,
+            "coords": null,
+            "map": {
+              "posX": -5,
+              "posY": -5,
+              "subAreaId": 825
+            },
+            "text": {
+              "es": "Vence a 1 x {monster,3648} en un solo combate"
+            }
+          },
+          {
+            "id": 8613,
+            "typeId": 4,
+            "className": "QuestObjectiveDiscoverMapData",
+            "parameters": {
+              "parameter0": 453401,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 129501184,
+            "coords": null,
+            "map": {
+              "posX": -5,
+              "posY": -5,
+              "subAreaId": 825
+            },
+            "text": {
+              "es": "Descubre el mapa: Salida del Palacio del Rey Nidas"
+            }
+          },
+          {
+            "id": 8614,
+            "typeId": 1,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 2355,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 129501184,
+            "coords": null,
+            "map": {
+              "posX": -5,
+              "posY": -5,
+              "subAreaId": 825
+            },
+            "text": {
+              "es": "Ve a ver a {npc,2355}"
+            }
+          },
+          {
+            "id": 8615,
+            "typeId": 1,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 2351,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 129499136,
+            "coords": null,
+            "map": {
+              "posX": -5,
+              "posY": -5,
+              "subAreaId": 825
+            },
+            "text": {
+              "es": "Ve a ver a {npc,2351}"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 1536,
+    "name": {
+      "es": "Ponzoña que ponzoña"
+    },
+    "levelMin": 180,
+    "levelMax": 180,
+    "categoryId": 35,
+    "startCriterion": "PL>159&Qf=1484&(Qa=1485|Qf=1485)",
+    "startPosition": [
+      {
+        "mapId": 130025985,
+        "npcId": 2340
+      }
+    ],
+    "need": {
+      "items": [],
+      "quantities": []
+    },
+    "steps": [
+      {
+        "id": 2156,
+        "name": {
+          "es": "Ponzoña que ponzoña"
+        },
+        "optimalLevel": 180,
+        "duration": 1,
+        "objectives": [
+          {
+            "id": 8863,
+            "typeId": 3,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "parameters": {
+              "parameter0": 2340,
+              "parameter1": 15403,
+              "parameter2": 10,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 130025985,
+            "coords": null,
+            "map": {
+              "posX": -22,
+              "posY": -24,
+              "subAreaId": 525
+            },
+            "text": {
+              "es": "Entrégale a {npc,2340}: 10 x {item,15403}"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 1575,
+    "name": {
+      "es": "Los ladrones de colores"
+    },
+    "levelMin": 170,
+    "levelMax": 170,
+    "categoryId": 36,
+    "startCriterion": "PL>149&(Qf=1484|(Qa=1484&Qo>8349))",
+    "startPosition": [
+      {
+        "mapId": 130024961,
+        "npcId": 2337
+      }
+    ],
+    "need": {
+      "items": [],
+      "quantities": []
+    },
+    "steps": [
+      {
+        "id": 2195,
+        "name": {
+          "es": "Los ladrones de colores"
+        },
+        "optimalLevel": 170,
+        "duration": 1,
+        "objectives": [
+          {
+            "id": 9093,
+            "typeId": 3,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "parameters": {
+              "parameter0": 2646,
+              "parameter1": 15712,
+              "parameter2": 4,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 145229323,
+            "coords": null,
+            "map": {
+              "posX": 1,
+              "posY": 6,
+              "subAreaId": 836
+            },
+            "text": {
+              "es": "Entrégale a {npc,2646}: 4 x {item,15712}"
+            }
+          },
+          {
+            "id": 9094,
+            "typeId": 3,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "parameters": {
+              "parameter0": 2646,
+              "parameter1": 15713,
+              "parameter2": 4,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 145229323,
+            "coords": null,
+            "map": {
+              "posX": 1,
+              "posY": 6,
+              "subAreaId": 836
+            },
+            "text": {
+              "es": "Entrégale a {npc,2646}: 4 x {item,15713}"
+            }
+          },
+          {
+            "id": 9095,
+            "typeId": 3,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "parameters": {
+              "parameter0": 2646,
+              "parameter1": 15714,
+              "parameter2": 4,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 145229323,
+            "coords": null,
+            "map": {
+              "posX": 1,
+              "posY": 6,
+              "subAreaId": 836
+            },
+            "text": {
+              "es": "Entrégale a {npc,2646}: 4 x {item,15714}"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 1582,
+    "name": {
+      "es": "La verdad está oculta en un pozo"
+    },
+    "levelMin": 200,
+    "levelMax": 200,
+    "categoryId": 36,
+    "startCriterion": "Qf=1581",
+    "startPosition": [
+      {
+        "mapId": 145229323,
+        "npcId": 2652
+      }
+    ],
+    "need": {
+      "items": [],
+      "quantities": []
+    },
+    "steps": [
+      {
+        "id": 2202,
+        "name": {
+          "es": "La verdad está oculta en un pozo"
+        },
+        "optimalLevel": 200,
+        "duration": 2,
+        "objectives": [
+          {
+            "id": 9107,
+            "typeId": 1,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 2668,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 145229323,
+            "coords": null,
+            "map": {
+              "posX": 1,
+              "posY": 6,
+              "subAreaId": 836
+            },
+            "text": {
+              "es": "Ve a ver a {npc,2668}"
+            }
+          },
+          {
+            "id": 9349,
+            "typeId": 1,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 2652,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 145229323,
+            "coords": null,
+            "map": {
+              "posX": 1,
+              "posY": 6,
+              "subAreaId": 836
+            },
+            "text": {
+              "es": "Ve a ver a {npc,2652}"
+            }
+          },
+          {
+            "id": 9350,
+            "typeId": 1,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 2662,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 144445702,
+            "coords": null,
+            "map": {
+              "posX": 7,
+              "posY": -7,
+              "subAreaId": 838
+            },
+            "text": {
+              "es": "Ve a ver a {npc,2662}"
+            }
+          },
+          {
+            "id": 9363,
+            "typeId": 6,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 3835,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 143393281,
+            "coords": null,
+            "map": {
+              "posX": 7,
+              "posY": -7,
+              "subAreaId": 841
+            },
+            "text": {
+              "es": "Vence a 1 x {monster,3835} en un solo combate"
+            }
+          },
+          {
+            "id": 9364,
+            "typeId": 1,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 2659,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 143394305,
+            "coords": null,
+            "map": {
+              "posX": 7,
+              "posY": -7,
+              "subAreaId": 841
+            },
+            "text": {
+              "es": "Ve a ver a {npc,2659}"
+            }
+          },
+          {
+            "id": 9365,
+            "typeId": 0,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 481307,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 143395329,
+            "coords": null,
+            "map": {
+              "posX": 7,
+              "posY": -7,
+              "subAreaId": 841
+            },
+            "text": {
+              "es": "Salta al pozo de las almas"
+            }
+          },
+          {
+            "id": 9366,
+            "typeId": 1,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 2657,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 143396353,
+            "coords": null,
+            "map": {
+              "posX": 7,
+              "posY": -7,
+              "subAreaId": 841
+            },
+            "text": {
+              "es": "Ve a ver a {npc,2657}"
+            }
+          },
+          {
+            "id": 9367,
+            "typeId": 9,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 2652,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 145229323,
+            "coords": null,
+            "map": {
+              "posX": 1,
+              "posY": 6,
+              "subAreaId": 836
+            },
+            "text": {
+              "es": "Vuelve a ver a {npc,2652}"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 1601,
+    "name": {
+      "es": "Las arenas del tiempo"
+    },
+    "levelMin": 200,
+    "levelMax": 200,
+    "categoryId": 36,
+    "startCriterion": "PL>179&Qf=1596",
+    "startPosition": [
+      {
+        "mapId": 145229323,
+        "npcId": 2693
+      }
+    ],
+    "need": {
+      "items": [],
+      "quantities": []
+    },
+    "steps": [
+      {
+        "id": 2221,
+        "name": {
+          "es": "Las arenas del tiempo"
+        },
+        "optimalLevel": 200,
+        "duration": 2,
+        "objectives": [
+          {
+            "id": 9208,
+            "typeId": 1,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 2694,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 145229323,
+            "coords": null,
+            "map": {
+              "posX": 1,
+              "posY": 6,
+              "subAreaId": 836
+            },
+            "text": {
+              "es": "Ve a ver a {npc,2694}"
+            }
+          },
+          {
+            "id": 9209,
+            "typeId": 0,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 885415,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 144442368,
+            "coords": null,
+            "map": {
+              "posX": 4,
+              "posY": -4,
+              "subAreaId": 838
+            },
+            "text": {
+              "es": "Infíltrate en el edificio de los idos"
+            }
+          },
+          {
+            "id": 9210,
+            "typeId": 0,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 885416,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 144442368,
+            "coords": null,
+            "map": {
+              "posX": 4,
+              "posY": -4,
+              "subAreaId": 838
+            },
+            "text": {
+              "es": "Encuentra el modo de deshacerte de los guardias"
+            }
+          },
+          {
+            "id": 9211,
+            "typeId": 4,
+            "className": "QuestObjectiveDiscoverMapData",
+            "parameters": {
+              "parameter0": 475909,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 145753601,
+            "coords": null,
+            "map": {
+              "posX": 4,
+              "posY": -4,
+              "subAreaId": 838
+            },
+            "text": {
+              "es": "Descubre el mapa: Sala de la daga del tiempo"
+            }
+          },
+          {
+            "id": 9212,
+            "typeId": 0,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 885417,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 145753601,
+            "coords": null,
+            "map": {
+              "posX": 4,
+              "posY": -4,
+              "subAreaId": 838
+            },
+            "text": {
+              "es": "Busca la daga del tiempo"
+            }
+          },
+          {
+            "id": 9213,
+            "typeId": 1,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 2695,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 145753601,
+            "coords": null,
+            "map": {
+              "posX": 4,
+              "posY": -4,
+              "subAreaId": 838
+            },
+            "text": {
+              "es": "Ve a ver a {npc,2695}"
+            }
+          },
+          {
+            "id": 9214,
+            "typeId": 1,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 2693,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 145229323,
+            "coords": null,
+            "map": {
+              "posX": 1,
+              "posY": 6,
+              "subAreaId": 836
+            },
+            "text": {
+              "es": "Ve a ver a {npc,2693}"
+            }
+          },
+          {
+            "id": 9215,
+            "typeId": 1,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 2687,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 145229319,
+            "coords": null,
+            "map": {
+              "posX": 1,
+              "posY": 6,
+              "subAreaId": 836
+            },
+            "text": {
+              "es": "Ve a ver a {npc,2687}"
+            }
+          },
+          {
+            "id": 9216,
+            "typeId": 0,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 885418,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 145098752,
+            "coords": null,
+            "map": {
+              "posX": 1,
+              "posY": 6,
+              "subAreaId": 836
+            },
+            "text": {
+              "es": "Líbrate de los viajeros"
+            }
+          },
+          {
+            "id": 9217,
+            "typeId": 0,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 885419,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 144965632,
+            "coords": null,
+            "map": {
+              "posX": 3,
+              "posY": 6,
+              "subAreaId": 836
+            },
+            "text": {
+              "es": "Encuentra el escondite"
+            }
+          },
+          {
+            "id": 9218,
+            "typeId": 0,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 885420,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 144965632,
+            "coords": null,
+            "map": {
+              "posX": 3,
+              "posY": 6,
+              "subAreaId": 836
+            },
+            "text": {
+              "es": "Espera el final del enfrentamiento"
+            }
+          },
+          {
+            "id": 9219,
+            "typeId": 4,
+            "className": "QuestObjectiveDiscoverMapData",
+            "parameters": {
+              "parameter0": 475963,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 144703488,
+            "coords": null,
+            "map": {
+              "posX": 3,
+              "posY": 1,
+              "subAreaId": 837
+            },
+            "text": {
+              "es": "Descubre el mapa: Entrada del museo"
+            }
+          },
+          {
+            "id": 9220,
+            "typeId": 4,
+            "className": "QuestObjectiveDiscoverMapData",
+            "parameters": {
+              "parameter0": 475967,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 144441344,
+            "coords": null,
+            "map": {
+              "posX": 3,
+              "posY": -4,
+              "subAreaId": 838
+            },
+            "text": {
+              "es": "Descubre el mapa: Entrada del futuro"
+            }
+          },
+          {
+            "id": 9221,
+            "typeId": 4,
+            "className": "QuestObjectiveDiscoverMapData",
+            "parameters": {
+              "parameter0": 475966,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 144445702,
+            "coords": null,
+            "map": {
+              "posX": 7,
+              "posY": -7,
+              "subAreaId": 838
+            },
+            "text": {
+              "es": "Descubre el mapa: Entrada del Ojo de Vórtex"
+            }
+          },
+          {
+            "id": 9222,
+            "typeId": 4,
+            "className": "QuestObjectiveDiscoverMapData",
+            "parameters": {
+              "parameter0": 475965,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 143394305,
+            "coords": null,
+            "map": {
+              "posX": 7,
+              "posY": -7,
+              "subAreaId": 841
+            },
+            "text": {
+              "es": "Descubre el mapa: Ojo de Vórtex - Salida"
+            }
+          },
+          {
+            "id": 9223,
+            "typeId": 0,
+            "className": "QuestObjectiveFreeFormData",
+            "parameters": {
+              "parameter0": 885421,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 143397377,
+            "coords": null,
+            "map": {
+              "posX": 7,
+              "posY": -7,
+              "subAreaId": 841
+            },
+            "text": {
+              "es": "Escucha el informe de los idos"
+            }
+          },
+          {
+            "id": 9224,
+            "typeId": 1,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 2687,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 143397377,
+            "coords": null,
+            "map": {
+              "posX": 7,
+              "posY": -7,
+              "subAreaId": 841
+            },
+            "text": {
+              "es": "Ve a ver a {npc,2687}"
+            }
+          },
+          {
+            "id": 9225,
+            "typeId": 6,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 3877,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 143397377,
+            "coords": null,
+            "map": {
+              "posX": 7,
+              "posY": -7,
+              "subAreaId": 841
+            },
+            "text": {
+              "es": "Vence a 1 x {monster,3877} en un solo combate"
+            }
+          },
+          {
+            "id": 9226,
+            "typeId": 1,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 2687,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 143397377,
+            "coords": null,
+            "map": {
+              "posX": 7,
+              "posY": -7,
+              "subAreaId": 841
+            },
+            "text": {
+              "es": "Ve a ver a {npc,2687}"
+            }
+          },
+          {
+            "id": 9227,
+            "typeId": 1,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 2693,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 145229323,
+            "coords": null,
+            "map": {
+              "posX": 1,
+              "posY": 6,
+              "subAreaId": 836
+            },
+            "text": {
+              "es": "Ve a ver a {npc,2693}"
+            }
+          },
+          {
+            "id": 9228,
+            "typeId": 1,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 2693,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 145229323,
+            "coords": null,
+            "map": {
+              "posX": 1,
+              "posY": 6,
+              "subAreaId": 836
+            },
+            "text": {
+              "es": "Ve a ver a {npc,2693}"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 1660,
+    "name": {
+      "es": "La bendición de Viti"
+    },
+    "levelMin": 140,
+    "levelMax": 150,
+    "categoryId": 4,
+    "startCriterion": "Qa=1657&Qo>10011",
+    "startPosition": [
+      {
+        "mapId": 205522437,
+        "npcId": 2980
+      }
+    ],
+    "need": {
+      "items": [],
+      "quantities": []
+    },
+    "steps": [
+      {
+        "id": 2280,
+        "name": {
+          "es": "La bendición de Viti"
+        },
+        "optimalLevel": 150,
+        "duration": 2,
+        "objectives": [
+          {
+            "id": 10045,
+            "typeId": 6,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 6249,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 238,
+              "parameter4": 0
+            },
+            "mapId": 208408576,
+            "coords": null,
+            "map": {
+              "posX": 14,
+              "posY": -32,
+              "subAreaId": 949
+            },
+            "text": {
+              "es": "Vence a 1 x {monster,6249} en un solo combate con la alteración {alteration,238} activa"
+            }
+          },
+          {
+            "id": 10046,
+            "typeId": 6,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1086,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 239,
+              "parameter4": 0
+            },
+            "mapId": 89392130,
+            "coords": null,
+            "map": {
+              "posX": -53,
+              "posY": 20,
+              "subAreaId": 463
+            },
+            "text": {
+              "es": "Vence a 1 x {monster,1086} en un solo combate con la alteración {alteration,239} activa"
+            }
+          },
+          {
+            "id": 10047,
+            "typeId": 6,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 2848,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 240,
+              "parameter4": 0
+            },
+            "mapId": 56102912,
+            "coords": null,
+            "map": {
+              "posX": -64,
+              "posY": -55,
+              "subAreaId": 618
+            },
+            "text": {
+              "es": "Vence a 1 x {monster,2848} en un solo combate con la alteración {alteration,240} activa"
+            }
+          },
+          {
+            "id": 10050,
+            "typeId": 9,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 2980,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 205522437,
+            "coords": null,
+            "map": {
+              "posX": 27,
+              "posY": -30,
+              "subAreaId": 942
+            },
+            "text": {
+              "es": "Vuelve a ver a {npc,2980}"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 1661,
+    "name": {
+      "es": "La bendición de Thomahon"
+    },
+    "levelMin": 150,
+    "levelMax": 160,
+    "categoryId": 4,
+    "startCriterion": "Qa=1658&Qo>10033",
+    "startPosition": [
+      {
+        "mapId": 54168408,
+        "npcId": 2981
+      }
+    ],
+    "need": {
+      "items": [],
+      "quantities": []
+    },
+    "steps": [
+      {
+        "id": 2281,
+        "name": {
+          "es": "La bendición de Thomahon"
+        },
+        "optimalLevel": 160,
+        "duration": 2,
+        "objectives": [
+          {
+            "id": 10054,
+            "typeId": 6,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 943,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 241,
+              "parameter4": 0
+            },
+            "mapId": 102760963,
+            "coords": null,
+            "map": {
+              "posX": 5,
+              "posY": -8,
+              "subAreaId": 339
+            },
+            "text": {
+              "es": "Vence a 1 x {monster,943} en un solo combate con la alteración {alteration,241} activa"
+            }
+          },
+          {
+            "id": 10051,
+            "typeId": 6,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 2877,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 242,
+              "parameter4": 0
+            },
+            "mapId": 56365056,
+            "coords": null,
+            "map": {
+              "posX": -60,
+              "posY": -84,
+              "subAreaId": 619
+            },
+            "text": {
+              "es": "Vence a 1 x {monster,2877} en un solo combate con la alteración {alteration,242} activa"
+            }
+          },
+          {
+            "id": 10052,
+            "typeId": 6,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 1045,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 243,
+              "parameter4": 0
+            },
+            "mapId": 21497858,
+            "coords": null,
+            "map": {
+              "posX": -54,
+              "posY": 16,
+              "subAreaId": 459
+            },
+            "text": {
+              "es": "Vence a 1 x {monster,1045} en un solo combate con la alteración {alteration,243} activa"
+            }
+          },
+          {
+            "id": 10053,
+            "typeId": 6,
+            "className": "QuestObjectiveFightMonsterData",
+            "parameters": {
+              "parameter0": 2924,
+              "parameter1": 1,
+              "parameter2": 0,
+              "parameter3": 244,
+              "parameter4": 0
+            },
+            "mapId": 57155841,
+            "coords": null,
+            "map": {
+              "posX": -72,
+              "posY": -83,
+              "subAreaId": 620
+            },
+            "text": {
+              "es": "Vence a 1 x {monster,2924} en un solo combate con la alteración {alteration,244} activa"
+            }
+          },
+          {
+            "id": 10055,
+            "typeId": 9,
+            "className": "QuestObjectiveGoToNpcData",
+            "parameters": {
+              "parameter0": 2981,
+              "parameter1": 0,
+              "parameter2": 0,
+              "parameter3": 0,
+              "parameter4": 0
+            },
+            "mapId": 54168408,
+            "coords": null,
+            "map": {
+              "posX": -69,
+              "posY": -88,
+              "subAreaId": 610
+            },
+            "text": {
+              "es": "Vuelve a ver a {npc,2981}"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

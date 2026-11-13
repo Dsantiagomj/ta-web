@@ -1,8 +1,8 @@
 import { requiredTerms } from './criterion'
+import { spanish } from './localized'
 import { questNeeds } from './quest-needs'
 import { questRewards } from './quest-rewards'
 import type {
-  LocalizedText,
   MappedQuest,
   QuestAchievement,
   RawAchievement,
@@ -28,10 +28,7 @@ export interface ExtraLookups {
   achievements?: RawAchievement[]
 }
 
-// Solo español al lanzar; el francés es el idioma original de DofusDB y cubre los huecos.
-export function spanish(text: LocalizedText | null | undefined): string | null {
-  return text?.es || text?.fr || null
-}
+export { spanish }
 
 /** Un slug como los de la web de Torre: minúsculas, sin acentos ni signos, con guiones. */
 export function slugify(text: string): string {
