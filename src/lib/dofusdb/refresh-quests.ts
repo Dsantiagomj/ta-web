@@ -10,6 +10,7 @@ import type {
   MappedItem,
   MappedMonster,
   MappedQuest,
+  MappedQuestStage,
   QuantityByDofusId,
   QuestAchievement,
 } from './types'
@@ -203,7 +204,29 @@ function storedFields(doc: Quest) {
       monsters: rows(doc.needs?.monsters, 'monster'),
       walksMaps: doc.needs?.walksMaps ?? false,
     },
+    stages: storedStages(doc.stages),
   }
+}
+
+// Las etapas guardadas sin los IDs de fila de Payload, en la forma de questStages.
+function storedStages(stages: Quest['stages']): MappedQuestStage[] {
+  return (stages ?? []).map((stage) => ({
+    dofusId: stage.dofusId,
+    name: stage.name ?? null,
+    objectives: (stage.objectives ?? []).map((objective) => ({
+      dofusId: objective.dofusId,
+      kind: objective.kind,
+      text: objective.text ?? null,
+      npcId: objective.npcId ?? null,
+      monsterId: objective.monsterId ?? null,
+      itemId: objective.itemId ?? null,
+      quantity: objective.quantity ?? null,
+      mapId: objective.mapId ?? null,
+      x: objective.x ?? null,
+      y: objective.y ?? null,
+      subAreaId: objective.subAreaId ?? null,
+    })),
+  }))
 }
 
 function prerequisiteIds(doc: Quest): number[] {

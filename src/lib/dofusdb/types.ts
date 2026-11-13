@@ -267,6 +267,11 @@ export interface MappedQuest {
   prerequisiteDofusIds: number[]
   rewards: QuestRewards
   needs: QuestNeeds
+  /**
+   * Las etapas y sus objetivos. El progreso de una misión es un índice sobre los objetivos
+   * aplanados, el mismo que guardaba el checklist antiguo.
+   */
+  stages: MappedQuestStage[]
 }
 
 /** Los datos de un objeto para la colección items. */

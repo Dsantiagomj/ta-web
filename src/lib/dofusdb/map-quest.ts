@@ -2,6 +2,7 @@ import { requiredTerms } from './criterion'
 import { spanish } from './localized'
 import { questNeeds } from './quest-needs'
 import { questRewards } from './quest-rewards'
+import { questStages } from './quest-stages'
 import type {
   MappedQuest,
   QuestAchievement,
@@ -138,5 +139,6 @@ export function mapQuest(raw: RawQuest, lookups: QuestLookups): MappedQuest {
     prerequisiteDofusIds: prerequisites(raw),
     rewards: questRewards(raw),
     needs: questNeeds(raw),
+    stages: questStages(raw),
   }
 }

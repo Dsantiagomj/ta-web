@@ -42,6 +42,7 @@ describe('mapQuest', () => {
         jobIds: [],
       },
       needs: { items: [], monsters: [], walksMaps: false },
+      stages: [],
     })
   })
 
