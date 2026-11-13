@@ -63,6 +63,13 @@ export interface RawItem {
   type?: { superTypeId?: number | null } | null
 }
 
+/** Una mazmorra de DofusDB: su nombre y los IDs de sus jefes (monstruos), en su orden. */
+export interface RawDungeon {
+  id: number
+  name?: LocalizedText | null
+  bosses?: number[] | null
+}
+
 export interface RawMonster {
   id: number
   name?: LocalizedText | null

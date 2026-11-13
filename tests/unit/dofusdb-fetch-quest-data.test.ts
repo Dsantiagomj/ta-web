@@ -131,6 +131,16 @@ describe('fetchQuestData', () => {
     expect(data.areas).toEqual(areas)
   })
 
+  it('trae todas las mazmorras con su nombre y sus jefes', async () => {
+    const dungeons = [{ id: 131, name: { es: 'Casa de los Espíritus' }, bosses: [6394] }]
+    const { client, selects } = fixtureClient({ quests, dungeons })
+
+    const data = await fetchQuestData(client)
+
+    expect(data.dungeons).toEqual(dungeons)
+    expect(selects.dungeons).toEqual(['id', 'name', 'bosses'])
+  })
+
   it('trae todos los logros', async () => {
     const achievements = [{ id: 1671, name: { es: 'La ocasión hace al ladrón' }, need: {} }]
     const { client } = fixtureClient({ quests, achievements })

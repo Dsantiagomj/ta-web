@@ -6,6 +6,8 @@
 // que dan las misiones o nombran sus objetivos en npcs e importa sus renders a Media, solo
 // los que aún no están (la primera vez tarda: dos imágenes por PNJ), y los iconos de los
 // objetos y las imágenes de los monstruos que pinta alguna guía, también una sola vez.
+// También guarda las mazmorras con sus jefes, cuyas imágenes importa, y al final dice qué
+// notas de mazmorra de las guías publicadas no se casan con ninguna (llevan el icono genérico).
 // Uso: pnpm data:quests. Escribe en la base de DATABASE_URL (vacía: la de pnpm db:dev).
 // DOFUSDB_WRITE_CONCURRENCY fija cuántas escrituras van a la vez (por defecto 8).
 // Corre con `payload run`, que carga .env y transpila TypeScript; el script arranca
@@ -16,8 +18,10 @@ import config from '@payload-config'
 import { createDofusDbClient } from '@/lib/dofusdb/client'
 import { fetchQuestData } from '@/lib/dofusdb/fetch-quest-data'
 import { gameImageTargets, refreshGameImages } from '@/lib/dofusdb/game-images'
+import { dungeonNoteReport } from '@/lib/achievements/dungeon-report'
 import { ensureAchievementPages } from '@/lib/achievements/ensure-pages'
 import { refreshAchievements } from '@/lib/dofusdb/refresh-achievements'
+import { refreshDungeons } from '@/lib/dofusdb/refresh-dungeons'
 import { refreshNpcs } from '@/lib/dofusdb/refresh-npcs'
 import { refreshSubAreas } from '@/lib/dofusdb/refresh-subareas'
 import {
@@ -39,7 +43,8 @@ try {
     `DofusDB: ${data.quests.length} misiones, ${data.npcs.length} PNJ, ${data.mapPositions.length} mapas, ` +
       `${data.subAreas?.length ?? 0} subzonas, ${data.areas?.length ?? 0} áreas, ` +
       `${data.achievements?.length ?? 0} logros en ${data.achievementCategories?.length ?? 0} categorías, ` +
-      `${data.items.length} objetos y ${data.monsters.length} monstruos (${seconds()} s)`,
+      `${data.items.length} objetos, ${data.monsters.length} monstruos y ` +
+      `${data.dungeons?.length ?? 0} mazmorras (${seconds()} s)`,
   )
 
   console.log(`Guardando con ${concurrency} escrituras a la vez…`)
@@ -49,6 +54,9 @@ try {
     log: (message) => console.log(message),
   })
   console.log(`Escritura: ${seconds(writeStarted)} s.`)
+
+  // Después de los monstruos: los jefes apuntan a ellos.
+  const dungeonCounts = await refreshDungeons(payload, data.dungeons ?? [], { concurrency })
 
   // Las subzonas con su área: dónde pasa cada objetivo, que solo guarda subAreaId.
   console.log('Guardando las subzonas con su área…')
@@ -96,6 +104,9 @@ try {
   console.log(summary('Misiones', 'as', counts.quests))
   console.log(summary('Objetos', 'os', counts.items))
   console.log(summary('Monstruos', 'os', counts.monsters))
+  console.log(
+    `${summary('Mazmorras', 'as', dungeonCounts)} Jefes omitidos: ${dungeonCounts.missingBosses}.`,
+  )
   console.log(summary('Subzonas', 'as', subAreaCounts))
   console.log(summary('Categorías de logros', 'as', achievementCounts.categories))
   console.log(summary('Logros', 'os', achievementCounts.achievements))
@@ -122,6 +133,15 @@ try {
     `Referencias omitidas: ${counts.missingPrerequisites} prerrequisitos, ` +
       `${counts.missingItems} objetos y ${counts.missingMonsters} monstruos que no existen.`,
   )
+
+  // Las notas de mazmorra que no nombran una sola mazmorra de DofusDB: llevan el icono
+  // genérico hasta que Torre las escriba con su nombre o el de su jefe.
+  const report = await dungeonNoteReport(payload)
+  console.log(
+    `Notas de mazmorra de las guías publicadas: ${report.matched.length} con su jefe y ` +
+      `${report.unmatched.length} con el icono genérico.`,
+  )
+  for (const label of report.unmatched) console.log(`  Sin mazmorra: «${label}»`)
   await payload.destroy()
 } catch (error) {
   console.error('El refresco de misiones falló:', error)

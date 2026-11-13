@@ -72,6 +72,7 @@ export interface Config {
     quests: Quest;
     items: Item;
     monsters: Monster;
+    dungeons: Dungeon;
     npcs: Npc;
     subareas: Subarea;
     'achievement-categories': AchievementCategory;
@@ -93,6 +94,7 @@ export interface Config {
     quests: QuestsSelect<false> | QuestsSelect<true>;
     items: ItemsSelect<false> | ItemsSelect<true>;
     monsters: MonstersSelect<false> | MonstersSelect<true>;
+    dungeons: DungeonsSelect<false> | DungeonsSelect<true>;
     npcs: NpcsSelect<false> | NpcsSelect<true>;
     subareas: SubareasSelect<false> | SubareasSelect<true>;
     'achievement-categories': AchievementCategoriesSelect<false> | AchievementCategoriesSelect<true>;
@@ -442,6 +444,27 @@ export interface Monster {
    * Importada una vez de DofusDB a Media al refrescar los datos del juego.
    */
   image?: (number | null) | Media;
+  /**
+   * La pone el script de refresco.
+   */
+  refreshedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Datos de DofusDB, de solo lectura. Los actualiza un script.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "dungeons".
+ */
+export interface Dungeon {
+  id: number;
+  dofusId: number;
+  name: string;
+  /**
+   * En el orden de DofusDB; la página pinta el primero.
+   */
+  bosses?: (number | Monster)[] | null;
   /**
    * La pone el script de refresco.
    */
@@ -1445,6 +1468,10 @@ export interface PayloadLockedDocument {
         value: number | Monster;
       } | null)
     | ({
+        relationTo: 'dungeons';
+        value: number | Dungeon;
+      } | null)
+    | ({
         relationTo: 'npcs';
         value: number | Npc;
       } | null)
@@ -1773,6 +1800,18 @@ export interface MonstersSelect<T extends boolean = true> {
   name?: T;
   iconId?: T;
   image?: T;
+  refreshedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "dungeons_select".
+ */
+export interface DungeonsSelect<T extends boolean = true> {
+  dofusId?: T;
+  name?: T;
+  bosses?: T;
   refreshedAt?: T;
   updatedAt?: T;
   createdAt?: T;

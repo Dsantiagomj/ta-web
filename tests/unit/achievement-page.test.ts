@@ -81,6 +81,7 @@ function data(overrides: Partial<AchievementPageData['page']> = {}): Achievement
     ],
     givers: new Map([[30, { name: 'Hupe Esse', renderRight: media(30, 'hupe') }]]),
     noteItems: new Map(),
+    dungeons: [],
     siteUrl: 'https://torrentearcano.com',
   }
 }
@@ -221,6 +222,45 @@ describe('achievementPageView', () => {
     expect(view.needs.others).toEqual([{ label: 'Hechizo Captura de almas' }])
     // La cabecera ya no lleva Necesitarás: es su propia zona.
     expect(view.facts).not.toHaveProperty('needs')
+  })
+
+  it('necesitarás en total: cada mazmorra con su jefe; la que no se casa, con el icono genérico', () => {
+    const view = achievementPageView({
+      ...data(),
+      guides: [
+        {
+          questId: 3,
+          slug: 'seis-pies-bajo-tierra',
+          needs: {
+            notes: [
+              '1 x Mazmorra Kumijo',
+              '1 x Mazmorra de Grunob',
+              'Mazmorras nivel 200',
+              '1 x Combates solitarios',
+            ].join('\n'),
+          },
+        },
+      ],
+      dungeons: [
+        {
+          name: 'Casa de los Espíritus',
+          bosses: [{ id: 1, name: 'Kumijo', image: media(61, 'kumijo') }],
+        },
+        // Sin imagen importada: el icono genérico, aunque se case.
+        { name: 'Akademia de los Goblins', bosses: [{ id: 2, name: 'Director Grunob' }] },
+      ],
+    })
+    expect(view.needs.tasks).toEqual([
+      {
+        quantity: 1,
+        label: 'Mazmorra Kumijo',
+        kind: 'dungeon',
+        boss: expect.objectContaining({ src: '/api/media/file/kumijo.webp' }),
+      },
+      { quantity: 1, label: 'Mazmorra de Grunob', kind: 'dungeon' },
+      { label: 'Mazmorras nivel 200', kind: 'dungeon' },
+      { quantity: 1, label: 'Combates solitarios', kind: 'combat' },
+    ])
   })
 
   describe('necesitarás en total: un objeto nombrado sin cantidad y con ella', () => {

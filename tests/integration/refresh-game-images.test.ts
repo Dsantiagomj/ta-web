@@ -188,6 +188,19 @@ describe('gameImageTargets', () => {
     }
   })
 
+  it('los jefes de las mazmorras: «Necesitarás en total» los pinta', async () => {
+    const dungeon = await payload.create({
+      collection: 'dungeons',
+      data: { dofusId: 990_501, name: 'Mazmorra de prueba de imágenes', bosses: [monster.id] },
+      depth: 0,
+    })
+    try {
+      expect((await gameImageTargets(payload)).monsters).toContain(monster.id)
+    } finally {
+      await payload.delete({ collection: 'dungeons', id: dungeon.id })
+    }
+  })
+
   it('los objetos de las recompensas de los logros', async () => {
     const achievement = await payload.create({
       collection: 'achievements',

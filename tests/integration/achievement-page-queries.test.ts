@@ -9,7 +9,7 @@ import {
 import { readSearchIndex } from '@/lib/search/read-index'
 import type { User } from '@/payload-types'
 
-import { createPanelUser, startPayload } from './payload'
+import { createPanelUser, startPayload, tinyPng } from './payload'
 
 // Lo que lee la página de un logro, como un visitante (overrideAccess: false): solo lo
 // publicado, y un logro En preparación no tiene página. Con la vista previa del panel, sí.
@@ -24,6 +24,7 @@ async function cleanUp() {
     'achievements',
     'achievement-categories',
     'quest-guides',
+    'dungeons',
   ] as const) {
     await payload.delete({ collection, where: { id: { exists: true } } })
   }
@@ -33,6 +34,8 @@ async function cleanUp() {
     collection: 'items',
     where: { dofusId: { in: [990_366, 990_367, 990_368] } },
   })
+  await payload.delete({ collection: 'monsters', where: { dofusId: { equals: 990_394 } } })
+  await payload.delete({ collection: 'media', where: { alt: { equals: 'Kumijo (prueba)' } } })
 }
 
 beforeAll(async () => {
@@ -40,6 +43,20 @@ beforeAll(async () => {
   await cleanUp()
   editor = await createPanelUser(payload)
   await payload.create({ collection: 'npcs', data: { dofusId: 4412, name: 'Hupe Esse' } })
+  // Una mazmorra con su jefe y la imagen del jefe, que nombra una nota.
+  const kumijoImage = await payload.create({
+    collection: 'media',
+    data: { alt: 'Kumijo (prueba)' },
+    file: tinyPng(),
+  })
+  const kumijo = await payload.create({
+    collection: 'monsters',
+    data: { dofusId: 990_394, name: 'Kumijo', image: kumijoImage.id },
+  })
+  await payload.create({
+    collection: 'dungeons',
+    data: { dofusId: 990_131, name: 'Casa de los Espíritus', bosses: [kumijo.id] },
+  })
   const pico = await payload.create({
     collection: 'items',
     data: { dofusId: 990_366, name: 'Pico de tofu' },
@@ -81,7 +98,8 @@ beforeAll(async () => {
       quest: seis.id,
       summary: {
         needs: {
-          notes: '1 x Combate (solo).\n1 x Piedra de alma mediana.\nLlave de la fábrica',
+          notes:
+            '1 x Combate (solo).\n1 x Piedra de alma mediana.\nLlave de la fábrica\n1 x Mazmorra Kumijo',
           items: [{ item: pico.id, quantity: 2 }],
         },
       },
@@ -152,7 +170,7 @@ describe('readAchievementPage', () => {
     // Solo la guía publicada; el borrador no se ve.
     expect(data?.guides.map((guide) => guide.slug)).toEqual(['seis-pies-bajo-tierra'])
     expect(data?.guides[0]?.needs?.notes).toBe(
-      '1 x Combate (solo).\n1 x Piedra de alma mediana.\nLlave de la fábrica',
+      '1 x Combate (solo).\n1 x Piedra de alma mediana.\nLlave de la fábrica\n1 x Mazmorra Kumijo',
     )
     // Los objetos que pide, con su nombre: la página los suma en «Necesitarás en total».
     expect(data?.guides[0]?.needs?.items).toMatchObject([
@@ -167,6 +185,21 @@ describe('readAchievementPage', () => {
     expect(data?.noteItems.get('Piedra de alma mediana')).toMatchObject({
       name: 'Piedra de alma mediana',
     })
+  })
+
+  it('trae las mazmorras con sus jefes y sus imágenes cuando una nota nombra una mazmorra', async () => {
+    const data = await readAchievementPage(payload, 'la-ocasion-hace-al-ladron')
+    expect(data?.dungeons).toEqual([
+      expect.objectContaining({
+        name: 'Casa de los Espíritus',
+        bosses: [
+          expect.objectContaining({
+            name: 'Kumijo',
+            image: expect.objectContaining({ alt: 'Kumijo (prueba)' }),
+          }),
+        ],
+      }),
+    ])
   })
 
   it('un logro En preparación no tiene página para un visitante', async () => {
