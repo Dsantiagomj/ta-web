@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from 'vitest'
 import { Checklists } from '@/collections/Checklists'
 import {
   validateClosedSteps,
+  validateNeedItem,
   validateSegmentQuest,
   validateStepRef,
   validateStopObjective,
@@ -69,6 +70,15 @@ describe('reglas de los tramos', () => {
   })
 })
 
+describe('lo que necesita un paso', () => {
+  it('cada fila lleva un objeto del juego o, si no lo es, su texto', () => {
+    expect(validateNeedItem(12, { siblingData: {} })).toBe(true)
+    expect(validateNeedItem(null, { siblingData: { label: 'Kama' } })).toBe(true)
+    expect(validateNeedItem(null, { siblingData: { label: '  ' } })).not.toBe(true)
+    expect(validateNeedItem(undefined, { siblingData: {} })).not.toBe(true)
+  })
+})
+
 describe('la colección usa estas reglas', () => {
   const byName = (fields: Field[], name: string) =>
     fields.find((candidate) => 'name' in candidate && candidate.name === name) as Field & {
@@ -77,11 +87,13 @@ describe('la colección usa estas reglas', () => {
   const steps = byName(Checklists.fields, 'steps') as ArrayField
   const segments = byName(steps.fields, 'segments') as ArrayField
   const quests = byName(steps.fields, 'quests') as ArrayField
+  const needs = byName(steps.fields, 'needs') as ArrayField
 
   it('en los tramos y en la misión opcional', () => {
     expect(byName(segments.fields, 'quest').validate).toBe(validateSegmentQuest)
     expect(byName(segments.fields, 'stopObjective').validate).toBe(validateStopObjective)
     expect(byName(segments.fields, 'closes').validate).toBe(validateClosedSteps)
     expect(byName(quests.fields, 'optionalDoneBy').validate).toBe(validateStepRef)
+    expect(byName(needs.fields, 'item').validate).toBe(validateNeedItem)
   })
 })

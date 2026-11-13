@@ -90,3 +90,13 @@ export function validateStepRef(value: unknown, { data }: { data?: StepsData }):
   const unknown = unknownStep([value], data)
   return unknown === null ? true : s.stepRefUnknown(unknown)
 }
+
+/** Una fila de lo que necesita el paso lleva un objeto del juego o, si no lo es, su texto. */
+export function validateNeedItem(
+  value: unknown,
+  { siblingData }: { siblingData?: { label?: unknown } },
+): true | string {
+  if (value !== null && value !== undefined && value !== '') return true
+  const label = siblingData?.label
+  return typeof label === 'string' && label.trim() !== '' ? true : s.needItemOrLabel
+}

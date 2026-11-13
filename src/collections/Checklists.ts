@@ -5,6 +5,7 @@ import { assignStepIds, type StepIdentity } from '../lib/checklists/step-ids'
 import { stateField } from './achievement-fields'
 import {
   validateClosedSteps,
+  validateNeedItem,
   validateSegmentQuest,
   validateStepRef,
   validateStopObjective,
@@ -194,7 +195,15 @@ const stepFields: Field[] = [
     labels: { singular: 'Objeto', plural: 'Objetos' },
     type: 'array',
     fields: [
-      { name: 'item', label: 'Objeto', type: 'relationship', relationTo: 'items', required: true },
+      {
+        name: 'item',
+        label: 'Objeto',
+        type: 'relationship',
+        relationTo: 'items',
+        validate: validateNeedItem,
+        admin: { description: s.needItemDescription },
+      },
+      localizedText('label', 'Texto', s.needLabelDescription),
       {
         name: 'quantity',
         label: 'Cantidad',
@@ -204,6 +213,22 @@ const stepFields: Field[] = [
         defaultValue: 1,
       },
       localizedText('note', 'Nota'),
+      {
+        name: 'category',
+        label: 'Grupo',
+        type: 'select',
+        options: (
+          ['resources', 'consumables', 'equipment', 'souls', 'creatures', 'cosmetics'] as const
+        ).map((value) => ({ value, label: checklistStrings.needCategories[value] })),
+        admin: { description: s.needCategoryDescription },
+      },
+      {
+        name: 'countsInTotal',
+        label: 'Cuenta en los totales',
+        type: 'checkbox',
+        defaultValue: true,
+        admin: { description: s.needCountsInTotalDescription },
+      },
       {
         name: 'quests',
         label: 'Para las misiones',
@@ -232,6 +257,13 @@ const stepFields: Field[] = [
     relationTo: 'monsters',
     hasMany: true,
     admin: { description: s.bossesDescription },
+  },
+  {
+    name: 'icon',
+    label: 'Icono',
+    type: 'upload',
+    relationTo: 'media',
+    admin: { description: s.iconDescription },
   },
   {
     name: 'banner',
