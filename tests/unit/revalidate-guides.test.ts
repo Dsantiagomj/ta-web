@@ -8,11 +8,13 @@ vi.mock('next/cache', async (importOriginal) => ({
 
 import { AchievementGroups } from '@/collections/AchievementGroups'
 import { AchievementPages } from '@/collections/AchievementPages'
+import { Checklists } from '@/collections/Checklists'
 import { DofusGuides } from '@/collections/DofusGuides'
 import { Media } from '@/collections/Media'
 import { QuestGuides } from '@/collections/QuestGuides'
 import { revalidateGuidePages } from '@/collections/revalidate-guides'
 import { ACHIEVEMENT_PAGES_TAG } from '@/lib/achievements/cache'
+import { CHECKLISTS_TAG } from '@/lib/checklists/cache'
 import { DOFUS_GUIDES_TAG } from '@/lib/dofus-guides/cache'
 import { GUIDE_PAGES_TAG } from '@/lib/guides/cache'
 
@@ -125,5 +127,23 @@ describe('guías de Dofus', () => {
       await hook(hookArgs)
       expect(revalidateTag).toHaveBeenCalledWith(DOFUS_GUIDES_TAG, { expire: 0 })
     }
+  })
+})
+
+describe('checklists', () => {
+  const hookArgs = { doc: { id: 1 } } as never
+
+  it('una checklist guardada, publicada o borrada caduca su caché', async () => {
+    expect(CHECKLISTS_TAG).toBe('checklists')
+    for (const hook of [
+      ...(Checklists.hooks?.afterChange ?? []),
+      ...(Checklists.hooks?.afterDelete ?? []),
+    ]) {
+      revalidateTag.mockReset()
+      expect(await hook(hookArgs)).toEqual({ id: 1 })
+      expect(revalidateTag).toHaveBeenCalledWith(CHECKLISTS_TAG, { expire: 0 })
+    }
+    expect(Checklists.hooks?.afterChange).toHaveLength(1)
+    expect(Checklists.hooks?.afterDelete).toHaveLength(1)
   })
 })

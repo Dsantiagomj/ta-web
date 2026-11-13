@@ -19,7 +19,14 @@ const saved = [
 
 describe('assignStepIds', () => {
   it('da un identificador nuevo a cada paso que no lo tiene', () => {
-    const steps = assignStepIds([{ text: 'uno' }, { text: 'dos' }], [], counter())
+    const steps = assignStepIds(
+      [
+        { id: null, text: 'uno' },
+        { id: null, text: 'dos' },
+      ],
+      [],
+      counter(),
+    )
     expect(steps.map((step) => step.stepId)).toEqual(['nuevo-1', 'nuevo-2'])
     expect(steps.map((step) => step.text)).toEqual(['uno', 'dos'])
   })

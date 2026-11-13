@@ -1,4 +1,4 @@
-import type { Field } from 'payload'
+import type { SelectField } from 'payload'
 
 import { linkedQuestId } from '../lib/guides/autofill'
 
@@ -27,7 +27,7 @@ const STATES: PageState[] = ['published', 'preparing']
  * Si la página se ve en el sitio. Es de Torre: el refresco de DofusDB la crea «En
  * preparación» y nunca la cambia.
  */
-export const stateField: Field = {
+export const stateField: SelectField = {
   name: 'state',
   label: 'Estado',
   type: 'select',
