@@ -199,6 +199,30 @@ describe('lo demás de cada paso', () => {
     }
   })
 
+  it('para con un error, sin perder nada, ante filas que el esquema aún no guarda', () => {
+    const withRows = (row: Partial<LegacyChecklist['resources']['steps'][string][number]>) => ({
+      ...legacy,
+      resources: {
+        ...legacy.resources,
+        steps: { ...legacy.resources.steps, 2: [{ ...legacy.resources.steps[2][0], ...row }] },
+      },
+    })
+    expect(() => toChecklistDraft(nebuloso, withRows({ g: 'Opcional' }))).toThrow(
+      /grupo «Opcional»/,
+    )
+    expect(() =>
+      toChecklistDraft(
+        nebuloso,
+        withRows({
+          a: [
+            ['15533', 1],
+            ['15534', 1],
+          ],
+        }),
+      ),
+    ).toThrow(/alternativas/)
+  })
+
   it('el icono del paso, con la clave del arte del juego que ya usa Media', () => {
     expect(step(4).icon).toEqual({
       path: 'items/23020.png',
