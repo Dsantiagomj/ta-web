@@ -41,7 +41,7 @@ export interface LoadChecklistsOptions {
 }
 
 export type UnmatchedKind =
-  'misión' | 'logro' | 'objeto' | 'PNJ' | 'jefe' | 'imagen' | 'guía de Dofus' | 'objetivo'
+  'misión' | 'logro' | 'PNJ' | 'jefe' | 'imagen' | 'guía de Dofus' | 'objetivo'
 
 export interface LoadChecklistsReport {
   created: number
@@ -49,8 +49,10 @@ export interface LoadChecklistsReport {
   unchanged: number
   /** Campos que Torre cambió en el panel y la importación respetó. */
   kept: { slug: string; field: string }[]
-  /** Lo que no se pudo casar, por paso (null: la checklist). */
+  /** Lo que no se pudo casar y se queda fuera, por paso (null: la checklist). */
   unmatched: { slug: string; step: number | null; kind: UnmatchedKind; name: string }[]
+  /** Filas de «Necesitarás» sin objeto del juego: se guardan con su texto, nunca se pierden. */
+  labels: { slug: string; step: number; name: string }[]
   /**
    * Lo que se traería de DofusDB o se subiría a Media (solo en seco): objetos y PNJ que
    * faltan, iconos de objetos que ya estaban sin él e imágenes de la checklist antigua.
@@ -133,6 +135,8 @@ const objectiveCount = (quest: GameDoc) =>
 interface StepContext {
   options: LoadChecklistsOptions
   unmatched: (step: number | null, kind: UnmatchedKind, name: string) => void
+  /** Una fila que se guarda como texto porque no casa con ningún objeto del juego. */
+  labelled: (step: number, name: string) => void
   /** Lo que se traería o subiría en seco, por tipo. */
   pending: { items: Set<string>; npcs: Set<number>; art: Set<string> }
   /** Los objetos de la base que nombra la checklist (sus iconos se cuentan al final). */
@@ -146,7 +150,7 @@ async function resolveSteps(
   current: Checklist | undefined,
   context: StepContext,
 ) {
-  const { options, unmatched, pending, items } = context
+  const { options, unmatched, labelled, pending, items } = context
   const newId = options.newId ?? randomUUID
   const all = draft.steps
   const quests = await byDofusId(payload, 'quests', [
@@ -197,7 +201,7 @@ async function resolveSteps(
     const id = need.item.startsWith('x:')
       ? await options.findItem(need.name)
       : await options.ensureItem(Number(need.item))
-    if (id === null) unmatched(n, 'objeto', need.name)
+    if (id === null) labelled(n, need.name)
     else if (id < 0) pending.items.add(need.item)
     else items.add(id)
     return id
@@ -241,14 +245,16 @@ async function resolveSteps(
         { quest, kind: row.kind, note: row.note, optionalDoneBy: stepRef(row.optionalDoneBy) },
       ]
     })
+    // Todas las filas, en su orden: la que no es un objeto del juego va con su texto.
     const needs = []
     for (const need of step.needs) {
       const id = await item(n, need)
-      if (id === null) continue
       needs.push({
-        item: id,
+        ...(id === null ? { label: need.name } : { item: id }),
         quantity: need.quantity,
         note: need.note,
+        category: need.category,
+        countsInTotal: need.countsInTotal,
         quests: need.quests.flatMap((dofusId) => {
           const found = quests.get(dofusId)
           return found ? [found.id] : []
@@ -277,6 +283,7 @@ async function resolveSteps(
         if (!found) unmatched(n, 'jefe', label('monsters', dofusId))
         return found ? [found.id] : []
       }),
+      icon: await art(n, step.icon),
       banner: await art(n, step.banner),
     }
   }
@@ -297,6 +304,7 @@ export async function loadChecklists(
     unchanged: 0,
     kept: [],
     unmatched: [],
+    labels: [],
     pending: { items: 0, npcs: 0, icons: 0, art: 0 },
   }
   const pending = { items: new Set<string>(), npcs: new Set<number>(), art: new Set<string>() }
@@ -311,6 +319,8 @@ export async function loadChecklists(
       seen.add(key)
       report.unmatched.push({ slug: entry.slug, step, kind, name })
     }
+    const labelled = (step: number, name: string) =>
+      report.labels.push({ slug: entry.slug, step, name })
 
     // La ficha sale del borrador si lo hay (lo deriva del catálogo) y si no, del catálogo.
     const head = draft ?? entry
@@ -344,7 +354,13 @@ export async function loadChecklists(
       legacyHref: head.legacyHref,
       ...(draft && {
         prerequisites: draft.prerequisites,
-        steps: await resolveSteps(payload, draft, current, { options, unmatched, pending, items }),
+        steps: await resolveSteps(payload, draft, current, {
+          options,
+          unmatched,
+          labelled,
+          pending,
+          items,
+        }),
         legacy: draft.legacy,
       }),
     }

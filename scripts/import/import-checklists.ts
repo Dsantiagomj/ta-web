@@ -107,12 +107,19 @@ function resolvers(payload: Payload, dryRun: boolean) {
 
 function printUnmatched(report: LoadChecklistsReport) {
   if (report.unmatched.length === 0) {
-    console.log('Todo casa: no falta ninguna misión, logro, objeto, PNJ, jefe ni imagen.')
-    return
+    console.log('Sin casar: nada. No se queda fuera ninguna misión, logro, PNJ, jefe ni imagen.')
+  } else {
+    console.log('Sin casar (se queda fuera de la checklist):')
+    for (const { slug, step, kind, name } of report.unmatched) {
+      console.log(`  ${slug}${step === null ? '' : `, paso ${step}`}: ${kind} «${name}»`)
+    }
   }
-  console.log('Sin casar (no se escribe; se queda fuera de la checklist):')
-  for (const { slug, step, kind, name } of report.unmatched) {
-    console.log(`  ${slug}${step === null ? '' : `, paso ${step}`}: ${kind} «${name}»`)
+  // Ninguna fila de «Necesitarás» se pierde: la que no es un objeto del juego va como texto.
+  if (report.labels.length > 0) {
+    console.log('Se guardan como texto, sin objeto del juego (no se pierde ninguna fila):')
+    for (const { slug, step, name } of report.labels) {
+      console.log(`  ${slug}, paso ${step}: «${name}»`)
+    }
   }
 }
 

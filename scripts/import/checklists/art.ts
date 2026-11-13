@@ -40,7 +40,9 @@ export function checklistArt(
   }
 
   function media(art: ArtRef): Promise<number | null> {
-    const key = checklistArtKey(art.path)
+    // El arte del juego lleva su propia clave: si Media ya lo tiene (un icono de objeto),
+    // se reutiliza; si no, se sube el archivo de la checklist antigua con esa misma clave.
+    const key = art.key ?? checklistArtKey(art.path)
     const known = byKey.get(key)
     if (known) return known
     const pending = (async () => {

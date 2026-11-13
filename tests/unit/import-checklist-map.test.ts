@@ -147,6 +147,8 @@ describe('lo demás de cada paso', () => {
         name: 'Insignia de maligilante',
         quantity: 1,
         note: 'o 30 000 kamas',
+        category: 'resources',
+        countsInTotal: true,
         quests: [recupera],
       },
       {
@@ -154,16 +156,61 @@ describe('lo demás de cada paso', () => {
         name: 'Anillo de bandido',
         quantity: 1,
         note: 'o 100 000 kamas',
+        category: 'resources',
+        countsInTotal: true,
         quests: [recupera],
       },
     ])
-    expect(step(5).needs.map((need) => [need.item, need.name, need.note])).toEqual([
-      ['9687', 'Piedra de alma mediana', null],
-      ['x:kama', 'Kama', null],
-      ['15278', 'Llave de la Fábrica de Malefíscof', null],
-      ['x:captura de almas', 'Captura de almas', 'Hechizo: requisito, no consumible'],
+    expect(
+      step(5).needs.map((need) => [
+        need.item,
+        need.name,
+        need.quantity,
+        need.note,
+        need.category,
+        need.countsInTotal,
+      ]),
+    ).toEqual([
+      ['9687', 'Piedra de alma mediana', 1, null, 'souls', true],
+      ['x:kama', 'Kama', 1, null, 'resources', true],
+      ['15278', 'Llave de la Fábrica de Malefíscof', 1, null, 'resources', true],
+      [
+        'x:captura de almas',
+        'Captura de almas',
+        1,
+        'Hechizo: requisito, no consumible',
+        'resources',
+        false,
+      ],
     ])
+    expect(step(4).needs[2]).toMatchObject({ item: '15990', category: 'equipment' })
+    expect(step(26).needs).toMatchObject([{ note: 'Objeto de misión', countsInTotal: false }])
     expect(step(16).needs.map((need) => need.quantity)).toEqual([35, 1])
+  })
+
+  it('ninguna fila se pierde: las de cada paso son las de la checklist antigua, en su orden', () => {
+    const old = legacy.resources.steps
+    expect(Object.keys(old).length).toBeGreaterThan(0)
+    for (const ours of draft.steps) {
+      const rows = old[ours.legacyNumber] ?? []
+      expect(ours.needs.map((need) => [need.item, need.quantity, need.note])).toEqual(
+        rows.map((row) => [row.a[0][0], row.a[0][1], row.n ?? null]),
+      )
+    }
+  })
+
+  it('el icono del paso, con la clave del arte del juego que ya usa Media', () => {
+    expect(step(4).icon).toEqual({
+      path: 'items/23020.png',
+      alt: 'Dofus de los vigilantes',
+      key: 'dofusdb-item-image:23020',
+    })
+    expect(step(1).icon).toEqual({
+      path: 'achievements/459.png',
+      alt: 'De un mundo al otro',
+      key: 'dofusdb-achievement-image:459',
+    })
+    expect(step(12).icon).toBeNull()
   })
 
   it('la figura: un PNJ de DofusDB o su imagen, con su papel', () => {
