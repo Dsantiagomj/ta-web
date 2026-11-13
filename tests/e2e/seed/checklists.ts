@@ -118,8 +118,6 @@ async function media(payload: Payload, gameAsset: string, file: string, alt: str
 /** Siembra el Nebuloso, su guía de Dofus y Silvestre En preparación; repetirla no duplica nada. */
 export async function seedChecklistPages(payload: Payload): Promise<void> {
   const neb = seedChecklists.nebuloso
-  if (await findOne(payload, 'checklists', 'slug', neb.slug)) return
-
   const giverQuest = await findOne(payload, 'quests', 'dofusId', 1976)
   const achievement = await findOne(payload, 'achievements', 'dofusId', 1671)
   const npc = await findOne(payload, 'npcs', 'dofusId', seedGuide.giver.npcId)
@@ -141,27 +139,30 @@ export async function seedChecklistPages(payload: Payload): Promise<void> {
       await payload.create({ collection: 'subareas', data: subarea })
     }
   }
-  const stop =
-    (await findOne(payload, 'quests', 'dofusId', stopQuest.dofusId)) ??
-    (await payload.create({
-      collection: 'quests',
-      data: {
-        dofusId: stopQuest.dofusId,
-        name: stopQuest.name,
-        levelMin: stopQuest.level,
-        prerequisites: [giverQuest.id],
-        startPositions: [{ npcId: 1, npcName: stopQuest.npc, ...stopQuest.start }],
-        stages: [
-          {
-            dofusId: 1,
-            objectives: stopQuest.objectives.map((objective, index) => ({
-              dofusId: index + 1,
-              ...objective,
-            })),
-          },
-        ],
+  const stopData = {
+    dofusId: stopQuest.dofusId,
+    name: stopQuest.name,
+    levelMin: stopQuest.level,
+    prerequisites: [giverQuest.id],
+    startPositions: [{ npcId: 1, npcName: stopQuest.npc, ...stopQuest.start }],
+    stages: [
+      {
+        dofusId: 1,
+        objectives: stopQuest.objectives.map((objective, index) => ({
+          dofusId: index + 1,
+          ...objective,
+        })),
       },
-    }))
+    ],
+  }
+  // Una base de una ejecución anterior puede tener la misión sin las subzonas: se pone al día.
+  const existing = await findOne(payload, 'quests', 'dofusId', stopQuest.dofusId)
+  const stop = existing
+    ? await payload.update({ collection: 'quests', id: existing.id, data: stopData })
+    : await payload.create({ collection: 'quests', data: stopData })
+  // Lo demás ya está si la checklist ya está.
+  if (await findOne(payload, 'checklists', 'slug', neb.slug)) return
+
   const banner = await media(payload, 'e2e-checklist-banner', neb.banner, 'Astrub')
 
   const created = await payload.create({

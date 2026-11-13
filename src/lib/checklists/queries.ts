@@ -4,6 +4,7 @@ import { isGuideSlug } from '@/lib/guides/slug'
 import type { Checklist, User } from '@/payload-types'
 
 import { torreLevel } from '@/lib/derive/weights'
+import { SITE_LOCALE } from '@/lib/site/locale'
 
 import { checklistDetails, type ChecklistDetails, type DetailsQuest } from './details'
 import type { ChecklistDoc } from './list'
@@ -42,6 +43,16 @@ const ids = (values: unknown[]) => [
 
 const NAME_COLLECTIONS = { npc: 'npcs', item: 'items', monster: 'monsters' } as const
 
+type ObjectiveOf<Q extends Pick<DetailsQuest, 'stages'>> = NonNullable<
+  NonNullable<Q['stages']>[number]['objectives']
+>[number]
+
+/** Los objetivos de unas misiones, aplanados en el orden de sus etapas. */
+const objectivesOf = <Q extends Pick<DetailsQuest, 'stages'>>(quests: Q[]): ObjectiveOf<Q>[] =>
+  quests.flatMap((quest) =>
+    (quest.stages ?? []).flatMap((stage) => (stage.objectives ?? []) as ObjectiveOf<Q>[]),
+  )
+
 /**
  * Los nombres de lo que los objetivos de unas misiones nombran por ID ({npc,2351}): los PNJ
  * que dan alguna de esas misiones y, lo que falte, de los PNJ, objetos y monstruos guardados.
@@ -57,14 +68,10 @@ async function readObjectiveNames(
     }
   }
   const wanted = { npc: new Set<number>(), item: new Set<number>(), monster: new Set<number>() }
-  for (const quest of quests) {
-    for (const stage of quest.stages ?? []) {
-      for (const objective of stage.objectives ?? []) {
-        for (const [, kind, id] of (objective.text ?? '').matchAll(OBJECTIVE_REFERENCE)) {
-          const key = kind as keyof ObjectiveNames
-          if (!(Number(id) in names[key])) wanted[key].add(Number(id))
-        }
-      }
+  for (const objective of objectivesOf(quests)) {
+    for (const [, kind, id] of (objective.text ?? '').matchAll(OBJECTIVE_REFERENCE)) {
+      const key = kind as keyof ObjectiveNames
+      if (!(Number(id) in names[key])) wanted[key].add(Number(id))
     }
   }
   await Promise.all(
@@ -84,19 +91,19 @@ async function readObjectiveNames(
   return names
 }
 
-/** El nombre de cada subzona donde está algún objetivo de unas misiones, por su ID de DofusDB. */
+/**
+ * El nombre de cada subzona donde está algún objetivo de unas misiones, por su ID de DofusDB, en
+ * el idioma del sitio. Las subzonas solo cambian con `pnpm data:quests`, fuera del servidor: como
+ * las misiones, se ven al caducar la caché de los detalles (CHECKLISTS_REVALIDATE).
+ */
 async function readSubareaNames(
   payload: Payload,
   quests: Pick<DetailsQuest, 'stages'>[],
 ): Promise<Record<number, string>> {
   const wanted = [
     ...new Set(
-      quests.flatMap((quest) =>
-        (quest.stages ?? []).flatMap((stage) =>
-          (stage.objectives ?? []).flatMap((objective) =>
-            objective.subAreaId == null ? [] : [objective.subAreaId],
-          ),
-        ),
+      objectivesOf(quests).flatMap((objective) =>
+        objective.subAreaId == null ? [] : [objective.subAreaId],
       ),
     ),
   ]
@@ -105,6 +112,7 @@ async function readSubareaNames(
     collection: 'subareas',
     where: { dofusId: { in: wanted } },
     select: { dofusId: true, name: true },
+    locale: SITE_LOCALE,
     depth: 0,
     pagination: false,
     ...visitor,
@@ -351,9 +359,22 @@ export async function readChecklistDetails(
       })
     : { docs: [] }
   const quests = docs as DetailsQuest[]
+  // Solo las misiones donde para algún paso tienen ruta en la página: solo sus subzonas.
+  const stopIds = new Set(
+    ids(
+      (checklist.steps ?? []).flatMap((step) =>
+        (step.segments ?? []).flatMap((segment) =>
+          segment.kind === 'stop' ? [segment.quest] : [],
+        ),
+      ),
+    ),
+  )
+  const routed = (docs as (DetailsQuest & { id: number })[]).filter((quest) =>
+    stopIds.has(quest.id),
+  )
   const [names, subareas] = await Promise.all([
     readObjectiveNames(payload, quests),
-    readSubareaNames(payload, quests),
+    readSubareaNames(payload, routed),
   ])
   return checklistDetails(quests, names, subareas)
 }
