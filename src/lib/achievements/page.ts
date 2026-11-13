@@ -10,7 +10,6 @@ import type { LinkedNeeds } from '@/lib/guides/summary'
 import { mediaImageAsset } from '@/lib/media/image-asset'
 import type { Media } from '@/payload-types'
 
-import { matchDungeon } from './dungeons'
 import type { GuideAchievement } from './queries'
 import { achievementPageStrings as s, type PageState } from './strings'
 
@@ -91,8 +90,11 @@ export interface AchievementPageData {
   givers: Map<number, { name?: string | null; renderRight?: MediaRef }>
   /** Los objetos del juego que nombran las notas de Necesitarás, por su nombre exacto. */
   noteItems: Map<string, NoteItemDoc>
-  /** Las mazmorras de DofusDB con sus jefes, para casar las notas de mazmorra. */
-  dungeons: DungeonDoc[]
+  /**
+   * La imagen del jefe de la mazmorra que nombra cada nota de mazmorra, por su clave
+   * (needKey): solo las casadas cuyo jefe tiene imagen (readDungeonBosses).
+   */
+  dungeonBosses: Map<string, MediaRef>
   /** El origen público del sitio, para el JSON-LD. */
   siteUrl: string
 }
@@ -188,36 +190,12 @@ export interface AchievementNeeds {
 /** Un objeto del juego que nombra una nota, por su nombre exacto (readAchievementPage). */
 export type NoteItemDoc = { id: number; name: string; image?: Media | number | null }
 
-/** Una mazmorra de DofusDB con sus jefes y sus imágenes (readAchievementPage). */
-export interface DungeonDoc {
-  name: string
-  bosses?: Relation<{ id: number; name?: string | null; image?: MediaRef }>[] | null
-}
-
 // «Mazmorra Malefíscof»: va con los combates, con el jefe de esa mazmorra o el icono de
 // mazmorra.
 const DUNGEON = /\bmazmorras?\b/iu
 
 /** Si una nota va como mazmorra en «Combates y mazmorras». */
 export const isDungeonNote = (label: string) => DUNGEON.test(label)
-
-/**
- * La imagen del jefe de la mazmorra que nombra una nota, o nada: sin mazmorra casada, o si
- * ningún jefe tiene imagen importada, la fila lleva el icono genérico de mazmorra.
- */
-export function dungeonBoss(label: string, dungeons: DungeonDoc[]): ImageAsset | undefined {
-  const named = dungeons.map((doc) => {
-    const bosses = (doc.bosses ?? []).flatMap((boss) => populated(boss) ?? [])
-    return { name: doc.name, bosses: bosses.flatMap((boss) => boss.name ?? []), list: bosses }
-  })
-  const found = matchDungeon(label, named)
-  if (!found) return undefined
-  for (const boss of found.list) {
-    const image = icon(boss.image)
-    if (image) return image
-  }
-  return undefined
-}
 
 /** Las notas de Necesitarás de unas guías, cada línea como la lee la página. */
 function guideNotes(guides: Pick<GuideRef, 'needs'>[]): NeedNote[] {
@@ -250,7 +228,7 @@ export function noteLabels(guides: Pick<GuideRef, 'needs'>[]): string[] {
 function totalNeeds(
   guides: GuideRef[],
   noteItems: Map<string, NoteItemDoc>,
-  dungeons: DungeonDoc[],
+  dungeonBosses: Map<string, MediaRef>,
 ): AchievementNeeds {
   const notes = new Map<string, NeedNote>()
   const items = new Map<number, NeedItem>()
@@ -293,7 +271,7 @@ function totalNeeds(
     }
     const row = { ...(quantity != null && { quantity }), label }
     if (isDungeonNote(label)) {
-      const boss = dungeonBoss(label, dungeons)
+      const boss = icon(dungeonBosses.get(needKey(label)))
       needs.tasks.push({ ...row, kind: 'dungeon', ...(boss && { boss }) })
     } else if (note.combat) needs.tasks.push({ ...row, kind: 'combat' })
     else needs.others.push(row)
@@ -302,8 +280,8 @@ function totalNeeds(
   return needs
 }
 
-// Para casar una nota con otra o con un objeto: sin mayúsculas, tildes ni espacios de más.
-function needKey(label: string): string {
+/** Para casar una nota con otra o con un objeto: sin mayúsculas, tildes ni espacios de más. */
+export function needKey(label: string): string {
   return label
     .normalize('NFD')
     .replace(/\p{Diacritic}/gu, '')
@@ -378,6 +356,27 @@ export function questCards(
 /** «Niveles 15 a 25» de unas tarjetas, o nada. */
 export const cardLevels = (cards: QuestCard[]) => levelRange(cards.map((card) => card.level))
 
+/**
+ * «Necesitarás en total» de una página de logro: lo que piden las guías publicadas de las
+ * misiones sin alternativas (de la misión de clase no se sabe cuál harás). Lo usan la página
+ * y el informe de mazmorras de `pnpm data:quests`, para que digan lo mismo.
+ */
+export function achievementNeeds(
+  data: Pick<AchievementPageData, 'guides' | 'noteItems' | 'dungeonBosses'> & {
+    page: Pick<PageDoc, 'quests'>
+  },
+): AchievementNeeds {
+  const guideByQuest = new Map(data.guides.map((guide) => [guide.questId, guide]))
+  const single = questRows(data.page).flatMap((row) =>
+    row.quests.length === 1 ? [row.quests[0]!] : [],
+  )
+  return totalNeeds(
+    single.flatMap((quest) => guideByQuest.get(quest.id) ?? []),
+    data.noteItems,
+    data.dungeonBosses,
+  )
+}
+
 /** Lo que pinta la página de un logro. */
 export function achievementPageView(data: AchievementPageData): AchievementPageView {
   const { page } = data
@@ -402,14 +401,7 @@ export function achievementPageView(data: AchievementPageData): AchievementPageV
     }
   }
 
-  // Lo que hace falta en total: lo que piden las guías publicadas de las misiones sin
-  // alternativas (de la misión de clase no se sabe cuál harás).
-  const single = rows.flatMap((row) => (row.quests.length === 1 ? [row.quests[0]!] : []))
-  const needs = totalNeeds(
-    single.flatMap((quest) => guideByQuest.get(quest.id) ?? []),
-    data.noteItems,
-    data.dungeons,
-  )
+  const needs = achievementNeeds(data)
 
   const max = positive(page.rewards?.experience)
   const kamas = positive(page.rewards?.kamas)

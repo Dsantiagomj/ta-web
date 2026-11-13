@@ -187,19 +187,10 @@ describe('readAchievementPage', () => {
     })
   })
 
-  it('trae las mazmorras con sus jefes y sus imágenes cuando una nota nombra una mazmorra', async () => {
+  it('trae la imagen del jefe de cada mazmorra que nombra una nota, por la clave de la nota', async () => {
     const data = await readAchievementPage(payload, 'la-ocasion-hace-al-ladron')
-    expect(data?.dungeons).toEqual([
-      expect.objectContaining({
-        name: 'Casa de los Espíritus',
-        bosses: [
-          expect.objectContaining({
-            name: 'Kumijo',
-            image: expect.objectContaining({ alt: 'Kumijo (prueba)' }),
-          }),
-        ],
-      }),
-    ])
+    expect([...(data?.dungeonBosses.keys() ?? [])]).toEqual(['mazmorra kumijo'])
+    expect(data?.dungeonBosses.get('mazmorra kumijo')).toMatchObject({ alt: 'Kumijo (prueba)' })
   })
 
   it('un logro En preparación no tiene página para un visitante', async () => {

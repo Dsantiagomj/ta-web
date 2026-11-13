@@ -5,14 +5,15 @@
 import type { Payload } from 'payload'
 
 import { isGuideSlug } from '@/lib/guides/slug'
-import type { User } from '@/payload-types'
+import type { Media, User } from '@/payload-types'
 
+import { dungeonMatcher } from './dungeons'
 import type { IndexData } from './metalogros'
 import {
   type AchievementPageData,
-  type DungeonDoc,
   type GuideRef,
   isDungeonNote,
+  needKey,
   noteLabels,
   type NoteItemDoc,
   type PageDoc,
@@ -31,8 +32,8 @@ const relationId = (value: number | { id: number } | null | undefined) =>
  * Lo que necesita la página de un logro: la página (depth 2: el logro con su icono, el
  * metalogro, las misiones con sus prerrequisitos y los objetos con su icono), los logros
  * del mismo metalogro, las guías publicadas de sus misiones y de sus prerrequisitos, los
- * PNJ que dan cada misión, los objetos que nombran las notas de Necesitarás y las
- * mazmorras con sus jefes. Null si no hay página que enseñar.
+ * PNJ que dan cada misión, los objetos que nombran las notas de Necesitarás y la imagen del
+ * jefe de cada mazmorra que nombran. Null si no hay página que enseñar.
  */
 export async function readAchievementPage(
   payload: Payload,
@@ -122,41 +123,9 @@ export async function readAchievementPage(
       ).docs
     : []
 
-  // Las notas de Necesitarás que son el nombre exacto de un objeto del juego: la página las
-  // pinta como ese objeto, con su icono. Si varios se llaman igual, el de ID de DofusDB menor.
   const labels = noteLabels(guides)
-  const items = labels.length
-    ? (
-        await payload.find({
-          collection: 'items',
-          where: { name: { in: labels } },
-          select: { name: true, image: true },
-          sort: 'dofusId',
-          depth: 1,
-          pagination: false,
-          overrideAccess: false,
-        })
-      ).docs
-    : []
-  const noteItems = new Map<string, NoteItemDoc>()
-  for (const item of items) {
-    if (item.name && !noteItems.has(item.name)) noteItems.set(item.name, item as NoteItemDoc)
-  }
-
-  // Las mazmorras con sus jefes, solo si alguna nota nombra una mazmorra: la página pinta
-  // el jefe de la que nombra cada una. Son unas 190; el caché de la página las guarda.
-  const dungeons = labels.some(isDungeonNote)
-    ? ((
-        await payload.find({
-          collection: 'dungeons',
-          select: { name: true, bosses: true },
-          populate: { monsters: { name: true, image: true } },
-          depth: 2,
-          pagination: false,
-          overrideAccess: false,
-        })
-      ).docs as DungeonDoc[])
-    : []
+  const noteItems = await readNoteItems(payload, labels)
+  const dungeonBosses = await readDungeonBosses(payload, labels)
 
   return {
     page,
@@ -164,8 +133,99 @@ export async function readAchievementPage(
     guides,
     givers: new Map(npcs.map((npc) => [npc.dofusId, npc])),
     noteItems,
-    dungeons,
+    dungeonBosses,
   }
+}
+
+/** Con qué permisos leen los ayudantes: los de un visitante, o todos para un script. */
+interface ReadAccess {
+  overrideAccess?: boolean
+}
+
+/**
+ * Las notas de Necesitarás que son el nombre exacto de un objeto del juego: la página las
+ * pinta como ese objeto, con su icono. Si varios se llaman igual, el de ID de DofusDB menor.
+ */
+export async function readNoteItems(
+  payload: Payload,
+  labels: string[],
+  { overrideAccess = false }: ReadAccess = {},
+): Promise<Map<string, NoteItemDoc>> {
+  const noteItems = new Map<string, NoteItemDoc>()
+  if (labels.length === 0) return noteItems
+  const { docs } = await payload.find({
+    collection: 'items',
+    where: { name: { in: labels } },
+    select: { name: true, image: true },
+    sort: 'dofusId',
+    depth: 1,
+    pagination: false,
+    overrideAccess,
+  })
+  for (const item of docs) {
+    if (item.name && !noteItems.has(item.name)) noteItems.set(item.name, item as NoteItemDoc)
+  }
+  return noteItems
+}
+
+/**
+ * La imagen del jefe de la mazmorra que nombra cada nota de mazmorra, por la clave de la
+ * nota (needKey). Primero casa las notas con los nombres de las mazmorras y sus jefes, sin
+ * imágenes; luego trae solo los jefes de las casadas, y de cada una se queda con el primero
+ * que tiene imagen. Una nota sin mazmorra, o cuya mazmorra no tiene jefe con imagen, no
+ * está: la página le pone el icono genérico.
+ */
+export async function readDungeonBosses(
+  payload: Payload,
+  labels: string[],
+  { overrideAccess = false }: ReadAccess = {},
+): Promise<Map<string, Media>> {
+  const bosses = new Map<string, Media>()
+  const notes = labels.filter(isDungeonNote)
+  if (notes.length === 0) return bosses
+  const dungeons = (
+    await payload.find({
+      collection: 'dungeons',
+      select: { name: true, bosses: true },
+      populate: { monsters: { name: true } },
+      depth: 1,
+      pagination: false,
+      overrideAccess,
+    })
+  ).docs.map((doc) => {
+    const list = (doc.bosses ?? []).flatMap((boss) => (typeof boss === 'object' ? [boss] : []))
+    return {
+      name: doc.name,
+      bosses: list.flatMap((boss) => boss.name ?? []),
+      bossIds: list.map((boss) => boss.id),
+    }
+  })
+  const match = dungeonMatcher(dungeons)
+  const matched = new Map<string, number[]>()
+  for (const label of notes) {
+    const dungeon = match(label)
+    if (dungeon) matched.set(needKey(label), dungeon.bossIds)
+  }
+  const ids = [...new Set([...matched.values()].flat())]
+  if (ids.length === 0) return bosses
+  const { docs } = await payload.find({
+    collection: 'monsters',
+    where: { id: { in: ids }, image: { exists: true } },
+    select: { image: true },
+    depth: 1,
+    pagination: false,
+    overrideAccess,
+  })
+  const images = new Map(
+    docs.flatMap((doc) =>
+      typeof doc.image === 'object' && doc.image ? [[doc.id, doc.image]] : [],
+    ),
+  )
+  for (const [key, bossIds] of matched) {
+    const image = bossIds.map((id) => images.get(id)).find(Boolean)
+    if (image) bosses.set(key, image)
+  }
+  return bosses
 }
 
 /** La página de logro de una misión, para las migas y el subtítulo de su guía. */

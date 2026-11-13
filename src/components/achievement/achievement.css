@@ -133,10 +133,20 @@
 }
 
 /* «3 ×» y el texto en un solo párrafo (Quantity): una línea larga sigue bajo la cifra. El
-   nombre que se copia también: en línea, no en bloque, para que se parta con lo demás, y
-   el icono de copiar va detrás, en la línea, con el hueco que ya ocupa. */
+   nombre que se copia también va en línea, no en bloque, para partirse con lo demás. Una
+   caja en línea partida en varias líneas no admite transform, así que al pulsar el nombre
+   se atenúa en vez de encogerse. El icono de copiar va detrás, en la línea, y su sitio está
+   desde el principio (invisible sin JavaScript): cuando la isla convierte el nombre en
+   botón, o el icono pasa a ser la marca de copiado, no se mueve nada. */
 .lneeds__items .copyname__t {
   display: inline;
+  transition:
+    text-decoration-color var(--duration-fast) var(--ease-standard),
+    opacity var(--duration-press) var(--ease-out);
+}
+
+.lneeds__items .copyname[role='button']:active .copyname__t {
+  opacity: 0.72;
 }
 
 .lneeds__items .copyname__i {
@@ -144,6 +154,14 @@
   margin-inline-start: 0.3125rem;
   vertical-align: -0.125em;
   translate: none;
+}
+
+.lneeds__items .copyname__i:not(.copyname__ok) {
+  display: inline-block;
+}
+
+.lneeds__items .copyname:not([role='button']) .copyname__i {
+  visibility: hidden;
 }
 
 /* Dos grupos lado a lado con un filete entre ellos y el tercero debajo, tras otro filete. */

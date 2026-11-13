@@ -1,5 +1,12 @@
 import { spanish } from './map-quest'
-import type { MappedItem, MappedMonster, RawItem, RawMonster } from './types'
+import type {
+  MappedDungeon,
+  MappedItem,
+  MappedMonster,
+  RawDungeon,
+  RawItem,
+  RawMonster,
+} from './types'
 
 /** Convierte un objeto de DofusDB en los datos de la colección items. */
 export function mapItem(raw: RawItem): MappedItem {
@@ -20,5 +27,26 @@ export function mapMonster(raw: RawMonster): MappedMonster {
     dofusId: raw.id,
     name: spanish(raw.name) ?? `Monstruo ${raw.id}`,
     iconId: raw.gfxId ?? null,
+  }
+}
+
+/**
+ * Convierte una mazmorra de DofusDB en los datos de la colección dungeons, con sus jefes por
+ * el ID de Payload de su monstruo, en el orden de DofusDB. Los que no están se omiten.
+ */
+export function mapDungeon(
+  raw: RawDungeon,
+  monsterIds: Map<number, number>,
+): { dungeon: MappedDungeon; missingBosses: number } {
+  const bosses: number[] = []
+  let missingBosses = 0
+  for (const dofusId of raw.bosses ?? []) {
+    const id = monsterIds.get(dofusId)
+    if (id === undefined) missingBosses += 1
+    else bosses.push(id)
+  }
+  return {
+    dungeon: { dofusId: raw.id, name: spanish(raw.name) ?? `Mazmorra ${raw.id}`, bosses },
+    missingBosses,
   }
 }

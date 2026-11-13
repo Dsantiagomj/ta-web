@@ -7,7 +7,7 @@
 // los que aún no están (la primera vez tarda: dos imágenes por PNJ), y los iconos de los
 // objetos y las imágenes de los monstruos que pinta alguna guía, también una sola vez.
 // También guarda las mazmorras con sus jefes, cuyas imágenes importa, y al final dice qué
-// notas de mazmorra de las guías publicadas no se casan con ninguna (llevan el icono genérico).
+// filas de mazmorra de las páginas de logro publicadas llevan el icono genérico.
 // Uso: pnpm data:quests. Escribe en la base de DATABASE_URL (vacía: la de pnpm db:dev).
 // DOFUSDB_WRITE_CONCURRENCY fija cuántas escrituras van a la vez (por defecto 8).
 // Corre con `payload run`, que carga .env y transpila TypeScript; el script arranca
@@ -21,7 +21,6 @@ import { gameImageTargets, refreshGameImages } from '@/lib/dofusdb/game-images'
 import { dungeonNoteReport } from '@/lib/achievements/dungeon-report'
 import { ensureAchievementPages } from '@/lib/achievements/ensure-pages'
 import { refreshAchievements } from '@/lib/dofusdb/refresh-achievements'
-import { refreshDungeons } from '@/lib/dofusdb/refresh-dungeons'
 import { refreshNpcs } from '@/lib/dofusdb/refresh-npcs'
 import { refreshSubAreas } from '@/lib/dofusdb/refresh-subareas'
 import {
@@ -54,9 +53,6 @@ try {
     log: (message) => console.log(message),
   })
   console.log(`Escritura: ${seconds(writeStarted)} s.`)
-
-  // Después de los monstruos: los jefes apuntan a ellos.
-  const dungeonCounts = await refreshDungeons(payload, data.dungeons ?? [], { concurrency })
 
   // Las subzonas con su área: dónde pasa cada objetivo, que solo guarda subAreaId.
   console.log('Guardando las subzonas con su área…')
@@ -105,7 +101,7 @@ try {
   console.log(summary('Objetos', 'os', counts.items))
   console.log(summary('Monstruos', 'os', counts.monsters))
   console.log(
-    `${summary('Mazmorras', 'as', dungeonCounts)} Jefes omitidos: ${dungeonCounts.missingBosses}.`,
+    `${summary('Mazmorras', 'as', counts.dungeons)} Jefes omitidos: ${counts.missingBosses}.`,
   )
   console.log(summary('Subzonas', 'as', subAreaCounts))
   console.log(summary('Categorías de logros', 'as', achievementCounts.categories))
@@ -134,14 +130,18 @@ try {
       `${counts.missingItems} objetos y ${counts.missingMonsters} monstruos que no existen.`,
   )
 
-  // Las notas de mazmorra que no nombran una sola mazmorra de DofusDB: llevan el icono
-  // genérico hasta que Torre las escriba con su nombre o el de su jefe.
+  // Las filas de mazmorra de las páginas publicadas, clasificadas como las pinta la página:
+  // con el jefe solo si su imagen está en Media. Las demás llevan el icono genérico hasta que
+  // Torre escriba la mazmorra con su nombre o el de su jefe.
   const report = await dungeonNoteReport(payload)
   console.log(
-    `Notas de mazmorra de las guías publicadas: ${report.matched.length} con su jefe y ` +
-      `${report.unmatched.length} con el icono genérico.`,
+    `Filas de mazmorra en las páginas de logro publicadas: ${report.withBoss.length} con su ` +
+      `jefe y ${report.generic.length} con el icono genérico.`,
   )
-  for (const label of report.unmatched) console.log(`  Sin mazmorra: «${label}»`)
+  const generic = new Map<string, string[]>()
+  for (const { page, label } of report.generic)
+    generic.set(label, [...(generic.get(label) ?? []), page])
+  for (const [label, pages] of generic) console.log(`  Sin jefe: «${label}» (${pages.join(', ')})`)
   await payload.destroy()
 } catch (error) {
   console.error('El refresco de misiones falló:', error)
