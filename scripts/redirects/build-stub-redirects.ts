@@ -1,10 +1,12 @@
 // Escribe la sección `stubs` de src/lib/redirects/legacy-urls.json (backlog B-04): cada esbozo
-// vacío de Squarespace va a la página de su logro (301) o da 410 (stub-map.ts). Lee los datos
+// vacío de Squarespace va a la página de su logro, queda sin fila (404) mientras esa página
+// esté En preparación, o da 410 (stub-map.ts). Lee los datos
 // de la API pública de una web desplegada, como los ve un visitante: el mapa tiene que valer
 // para lo publicado allí (dev hoy, producción en el corte), y así no pide credenciales.
-// Uso: pnpm redirects:stubs [--from <origen>] [--dry-run]
+// Uso: pnpm redirects:stubs [--from <origen>] [--dry-run] [--cutover]
 // Sin --from lee de dev. Imprime el informe: qué fue adónde y lo que no tiene página. Con
-// --dry-run no escribe nada. Repetirlo cuando Torre publique páginas de logro.
+// --dry-run no escribe nada. Repetirlo cuando Torre publique páginas de logro. Hasta el corte
+// sus redirecciones son 307 (la sección cambia); el día del corte, con --cutover, 301.
 import { readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 
@@ -21,8 +23,9 @@ const args = process.argv.slice(2)
 const fromIndex = args.indexOf('--from')
 const origin = (fromIndex === -1 ? DEFAULT_ORIGIN : (args[fromIndex + 1] ?? '')).replace(/\/+$/, '')
 const dryRun = args.includes('--dry-run')
+const cutover = args.includes('--cutover')
 if (!/^https?:\/\//.test(origin)) {
-  console.error('Uso: pnpm redirects:stubs [--from <origen>] [--dry-run]')
+  console.error('Uso: pnpm redirects:stubs [--from <origen>] [--dry-run] [--cutover]')
   process.exit(1)
 }
 
@@ -73,7 +76,12 @@ const data: StubData = {
   ],
 }
 
-type Section = { description: string; moved?: Record<string, string>; gone?: string[] }
+type Section = {
+  description: string
+  permanent?: boolean
+  moved?: Record<string, string>
+  gone?: string[]
+}
 const table = JSON.parse(readFileSync(TABLE, 'utf8')) as Record<string, Section>
 const taken = new Set(
   Object.entries(table)
@@ -88,7 +96,10 @@ console.log(stubReport(outcomes))
 if (dryRun) {
   console.log('\n--dry-run: no se escribe nada.')
 } else {
-  table[SECTION] = { description: table[SECTION]?.description ?? '', ...stubsSection(outcomes) }
+  table[SECTION] = {
+    description: table[SECTION]?.description ?? '',
+    ...stubsSection(outcomes, { cutover }),
+  }
   const json = await prettier.format(JSON.stringify(table), { filepath: TABLE })
   writeFileSync(TABLE, json)
   console.log(`\nEscrito: ${path.relative(process.cwd(), TABLE)}`)

@@ -20,10 +20,14 @@ describe('robotsFor', () => {
       rules: { userAgent: '*', allow: '/', disallow: '/admin' },
       sitemap: 'https://www.torrentearcano.com/sitemap.xml',
     })
-    expect(robotsFor({})).toEqual({
+    expect(robotsFor({ NODE_ENV: 'test' })).toEqual({
       rules: { userAgent: '*', allow: '/', disallow: '/admin' },
       sitemap: 'http://localhost:3000/sitemap.xml',
     })
+  })
+
+  it('en producción sin NEXT_PUBLIC_SITE_URL falla en vez de anunciar localhost', () => {
+    expect(() => robotsFor({ NODE_ENV: 'production' })).toThrow(/NEXT_PUBLIC_SITE_URL/)
   })
 
   it('en dev no anuncia el sitemap: nada se rastrea', () => {

@@ -21,7 +21,7 @@ export async function readSitemapData(payload: Payload): Promise<SitemapData> {
       payload.find({
         collection: 'achievement-pages',
         where: PUBLISHED,
-        select: { slug: true, updatedAt: true, state: true },
+        select: { slug: true, updatedAt: true, state: true, group: true },
         ...visitor,
       }),
       payload.find({
@@ -53,10 +53,11 @@ export async function readSitemapData(payload: Payload): Promise<SitemapData> {
 
   return {
     questGuides: questGuides.docs.map(({ slug, updatedAt }) => ({ slug, updatedAt })),
-    achievementPages: achievementPages.docs.map(({ slug, updatedAt, state }) => ({
+    achievementPages: achievementPages.docs.map(({ slug, updatedAt, state, group }) => ({
       slug,
       updatedAt,
       state,
+      grouped: group != null,
     })),
     achievementGroups: achievementGroups.docs.map(({ updatedAt }) => ({ updatedAt })),
     dofusGuides: dofusGuides.docs.map(({ slug, updatedAt, state }) => ({ slug, updatedAt, state })),

@@ -35,11 +35,13 @@ test('un metalogro viejo lleva a su panel de /metalogros', async ({ page, reques
   await expect(page.locator('#astrub')).toBeAttached()
 })
 
-test('un esbozo vacío con logro publicado da un 301 a su página', async ({ request }) => {
+test('un esbozo vacío con logro publicado redirige a su página con 307 hasta el corte', async ({
+  request,
+}) => {
   const [from, to] = Object.entries(legacyUrls.stubs.moved)[0]
   const response = await request.get(from, { maxRedirects: 0 })
 
-  expect(response.status()).toBe(301)
+  expect(response.status()).toBe(307)
   expect(location(response.headers())).toBe(to)
 })
 
@@ -53,10 +55,11 @@ test('una URL retirada da 410 con una página corta en español', async ({ page 
   await expect(page.getByRole('link', { name: 'Volver a la portada' })).toHaveAttribute('href', '/')
 })
 
-test('un esbozo sin página da 410', async ({ request }) => {
-  const response = await request.get('/se-busca-boarus', { maxRedirects: 0 })
-
-  expect(response.status()).toBe(410)
+test('un esbozo sin página da 410; uno cuya página está En preparación, 404', async ({
+  request,
+}) => {
+  expect((await request.get('/se-busca-boarus', { maxRedirects: 0 })).status()).toBe(410)
+  expect((await request.get('/se-busca-darma', { maxRedirects: 0 })).status()).toBe(404)
 })
 
 test('/sitemap.xml lista lo publicado y nunca un borrador', async ({ request }) => {

@@ -13,8 +13,20 @@ const data = (extra: Partial<SitemapData> = {}): SitemapData => ({
     { slug: 'borrador', updatedAt: '2026-11-12T10:00:00.000Z', _status: 'draft' },
   ],
   achievementPages: [
-    { slug: 'la-larga-marcha', updatedAt: '2026-11-02T10:00:00.000Z', state: 'published' },
-    { slug: 'correccional', updatedAt: '2026-11-11T10:00:00.000Z', state: 'preparing' },
+    {
+      slug: 'la-larga-marcha',
+      updatedAt: '2026-11-02T10:00:00.000Z',
+      state: 'published',
+      grouped: true,
+    },
+    {
+      slug: 'correccional',
+      updatedAt: '2026-11-11T10:00:00.000Z',
+      state: 'preparing',
+      grouped: true,
+    },
+    // Sin metalogro: el índice no la enseña, así que no mueve su fecha.
+    { slug: 'suelta', updatedAt: '2026-11-12T10:00:00.000Z', state: 'published', grouped: false },
   ],
   achievementGroups: [{ updatedAt: '2026-11-03T10:00:00.000Z' }],
   dofusGuides: [
@@ -40,6 +52,7 @@ describe('sitemapEntries', () => {
       `${SITE}/checklists`,
       `${SITE}/aprendizaje-escudero`,
       `${SITE}/la-larga-marcha`,
+      `${SITE}/suelta`,
       `${SITE}/dofus-ocre`,
       `${SITE}/checklist-nebuloso`,
     ])
@@ -79,7 +92,8 @@ describe('sitemapEntries', () => {
     const entries = sitemapEntries(data(), SITE)
     const at = (path: string) => entries.find((entry) => entry.url === `${SITE}${path}`)
 
-    // /metalogros enseña también lo En preparación (apagado): cuenta, los borradores no.
+    // /metalogros enseña lo En preparación de sus metalogros (apagado): cuenta. Una página sin
+    // metalogro no sale en el índice: no cuenta. Los borradores tampoco.
     expect(at('/metalogros')?.lastModified).toEqual(new Date('2026-11-11T10:00:00.000Z'))
     expect(at('/guias-dofus')?.lastModified).toEqual(new Date('2026-11-06T10:00:00.000Z'))
     expect(at('/checklists')?.lastModified).toEqual(new Date('2026-11-08T10:00:00.000Z'))
@@ -105,6 +119,23 @@ describe('sitemapEntries', () => {
       `${SITE}/checklists`,
     ])
     expect(empty.every((entry) => entry.lastModified === undefined)).toBe(true)
+  })
+
+  it('nunca lleva una URL que el proxy redirige o da por desaparecida', () => {
+    const list = urls(
+      data({
+        questGuides: [
+          { slug: 'home', updatedAt: '2026-11-01T10:00:00.000Z' },
+          { slug: 'cart', updatedAt: '2026-11-01T10:00:00.000Z' },
+          { slug: 'corazon-de-piedra', updatedAt: '2026-11-01T10:00:00.000Z' },
+          { slug: 'aprendizaje-escudero', updatedAt: '2026-11-01T10:00:00.000Z' },
+        ],
+      }),
+    )
+    expect(list).not.toContain(`${SITE}/home`)
+    expect(list).not.toContain(`${SITE}/cart`)
+    expect(list).not.toContain(`${SITE}/corazon-de-piedra`)
+    expect(list).toContain(`${SITE}/aprendizaje-escudero`)
   })
 
   it('no repite una URL', () => {

@@ -7,6 +7,7 @@ import { METALOGROS_PATH } from '@/lib/achievements/page'
 import { CHECKLISTS_INDEX_PATH } from '@/lib/checklists/path'
 import { DOFUS_INDEX_PATH } from '@/lib/dofus-guides/page'
 import { isGuideSlug } from '@/lib/guides/slug'
+import { isLegacySource } from '@/lib/redirects/table'
 
 type Status = 'draft' | 'published' | null
 type Doc = { slug: string; updatedAt: string; _status?: Status }
@@ -14,8 +15,11 @@ type StateDoc = Doc & { state: string }
 
 export interface SitemapData {
   questGuides: Doc[]
-  /** Todas las publicadas, también las En preparación: el índice de metalogros las enseña. */
-  achievementPages: StateDoc[]
+  /**
+   * Todas las publicadas, también las En preparación, que el índice de metalogros enseña
+   * apagadas. `grouped`: si tiene metalogro; sin él, el índice no la lista.
+   */
+  achievementPages: (StateDoc & { grouped: boolean })[]
   achievementGroups: { updatedAt: string; _status?: Status }[]
   dofusGuides: StateDoc[]
   /** La introducción de Torre en /guias-dofus (global dofus-guides-index). */
@@ -24,8 +28,12 @@ export interface SitemapData {
 }
 
 const published = (doc: { _status?: Status }) => doc._status !== 'draft'
+// Una URL de la tabla de redirecciones nunca llega a su página: el proxy la responde antes.
 const isPage = (doc: Doc | StateDoc) =>
-  published(doc) && (!('state' in doc) || doc.state === 'published') && isGuideSlug(doc.slug)
+  published(doc) &&
+  (!('state' in doc) || doc.state === 'published') &&
+  isGuideSlug(doc.slug) &&
+  !isLegacySource(doc.slug)
 
 function latest(dates: (string | null | undefined)[]): Date | undefined {
   const times = dates.flatMap((date) => (date ? [Date.parse(date)] : [])).filter(Number.isFinite)
@@ -38,7 +46,9 @@ export function sitemapEntries(data: SitemapData, siteUrl: string): MetadataRout
   const shown = <T extends { _status?: Status; updatedAt: string }>(docs: T[]) =>
     docs.filter(published).map((doc) => doc.updatedAt)
 
-  const metalogros = latest([...shown(data.achievementPages), ...shown(data.achievementGroups)])
+  // Cada índice cambia con lo que enseña, también sus fichas En preparación.
+  const listed = data.achievementPages.filter((page) => page.grouped)
+  const metalogros = latest([...shown(listed), ...shown(data.achievementGroups)])
   const dofus = latest([...shown(data.dofusGuides), data.dofusIndexUpdatedAt])
   const checklists = latest(shown(data.checklists))
   const home = latest([

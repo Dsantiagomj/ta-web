@@ -24,6 +24,23 @@ describe('proxy y la tabla de URL antiguas', () => {
     expect(response.headers.get('location')).toBe('http://localhost:3000/')
   })
 
+  it('el Location lleva el origen público, no el host interno del proxy de Railway', () => {
+    vi.stubEnv('NEXT_PUBLIC_SITE_URL', 'https://www.torrentearcano.com')
+    const response = proxy(new NextRequest('http://10.0.0.5:8080/metalogro-astrub'))
+
+    expect(response.status).toBe(301)
+    expect(response.headers.get('location')).toBe(
+      'https://www.torrentearcano.com/metalogros#astrub',
+    )
+  })
+
+  it('un esbozo, sección que aún cambia, redirige con 307', () => {
+    const response = proxy(request('/corazon-de-piedra'))
+
+    expect(response.status).toBe(307)
+    expect(response.headers.get('location')).toBe('http://localhost:3000/la-larga-marcha')
+  })
+
   it('un metalogro va al ancla de su panel en /metalogros', () => {
     const response = proxy(request('/metalogro-astrub'))
 

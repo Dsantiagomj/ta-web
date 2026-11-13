@@ -1,5 +1,7 @@
 import type { MetadataRoute } from 'next'
 
+import { siteUrl } from '@/lib/site/origin'
+
 import { isDevEnvironment } from './dev-gate'
 
 type Env = Record<string, string | undefined>
@@ -8,9 +10,8 @@ type Env = Record<string, string | undefined>
 // panel de Payload, y anuncia /sitemap.xml con el origen público del sitio.
 export function robotsFor(env: Env): MetadataRoute.Robots {
   if (isDevEnvironment(env)) return { rules: { userAgent: '*', disallow: '/' } }
-  const origin = (env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000').replace(/\/+$/, '')
   return {
     rules: { userAgent: '*', allow: '/', disallow: '/admin' },
-    sitemap: `${origin}/sitemap.xml`,
+    sitemap: `${siteUrl(env)}/sitemap.xml`,
   }
 }

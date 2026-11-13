@@ -1,10 +1,12 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import legacyUrls from '@/lib/redirects/legacy-urls.json'
 import {
   LEGACY_URLS,
   buildLegacyTable,
+  isLegacySource,
   legacyKey,
+  loadLegacyTable,
   lookupLegacyUrl,
   type LegacySections,
 } from '@/lib/redirects/table'
@@ -26,6 +28,15 @@ describe('buildLegacyTable', () => {
     expect(table.get('/otro')).toEqual({ status: 301, to: '/metalogros#astrub' })
     expect(table.get('/borrado')).toEqual({ status: 410 })
     expect(table.size).toBe(3)
+  })
+
+  it('una sección con permanent: false redirige con 307, no con 301', () => {
+    const table = buildLegacyTable({
+      a: { description: 'A', permanent: false, moved: { '/viejo': '/nuevo' }, gone: ['/x'] },
+    })
+
+    expect(table.get('/viejo')).toEqual({ status: 307, to: '/nuevo' })
+    expect(table.get('/x')).toEqual({ status: 410 })
   })
 
   it('rechaza una URL repetida, aunque esté en otra sección', () => {
@@ -69,6 +80,40 @@ describe('buildLegacyTable', () => {
     expect(() =>
       buildLegacyTable({ a: { description: 'A', moved: { '/x': '//otro.com' } } }),
     ).toThrow()
+  })
+
+  it('rechaza barras invertidas y espacios: un navegador los lee como otro origen', () => {
+    for (const target of ['/\\otro.com', '/\\/otro.com', '/\totro.com', '/ //otro.com', '/a\nb']) {
+      expect(
+        () => buildLegacyTable({ a: { description: 'A', moved: { '/x': target } } }),
+        JSON.stringify(target),
+      ).toThrow(/fuera del sitio/)
+    }
+  })
+})
+
+describe('loadLegacyTable', () => {
+  it('con una fila mala no tira el sitio: avisa y se queda sin redirecciones', () => {
+    const log = vi.fn()
+
+    const table = loadLegacyTable({ a: { description: 'A', gone: ['/Mala'] } }, log)
+
+    expect(table.size).toBe(0)
+    expect(log).toHaveBeenCalledWith(expect.stringMatching(/legacy-urls\.json.*\/Mala/))
+  })
+
+  it('con datos buenos da la tabla entera', () => {
+    const log = vi.fn()
+    expect(loadLegacyTable({ a: { description: 'A', gone: ['/x'] } }, log).size).toBe(1)
+    expect(log).not.toHaveBeenCalled()
+  })
+})
+
+describe('isLegacySource', () => {
+  it('dice si un slug es una URL de la tabla', () => {
+    expect(isLegacySource('home')).toBe(true)
+    expect(isLegacySource('cart')).toBe(true)
+    expect(isLegacySource('aprendizaje-escudero')).toBe(false)
   })
 })
 
@@ -150,12 +195,26 @@ describe('la tabla de legacy-urls.json', () => {
     })
   })
 
-  it('B-04: los esbozos vacíos van a su página de logro o dan 410', () => {
+  it('B-04: los esbozos van a su página de logro con 307 hasta el corte, o dan 410', () => {
     const stubs = sections.stubs
-    const count = Object.keys(stubs.moved ?? {}).length + (stubs.gone ?? []).length
-    // 166 esbozos en el rastreo: 9 son guías de Dofus En preparación, /cart va con los hubs
-    // y /metalogro-alineamiento-misiones con los metalogros.
-    expect(count).toBe(155)
+    // Una sección que se regenera cuando Torre publica: redirección temporal hasta el corte.
+    expect(stubs.permanent).toBe(false)
+    expect(lookupLegacyUrl('/corazon-de-piedra')).toEqual({ status: 307, to: '/la-larga-marcha' })
+    // 166 esbozos en el rastreo: 9 son guías de Dofus En preparación, /cart va con los hubs,
+    // /metalogro-alineamiento-misiones con los metalogros, y los 80 de una página de logro En
+    // preparación no tienen fila (404 hasta que se publique).
+    expect(Object.keys(stubs.moved ?? {})).toHaveLength(40)
+    expect(stubs.gone ?? []).toHaveLength(35)
+  })
+
+  it('los hubs y los metalogros son estables: 301', () => {
+    expect(sections.hubs.permanent).toBeUndefined()
+    expect(sections.metalogros.permanent).toBeUndefined()
+  })
+
+  it('un esbozo cuya página de logro está En preparación no tiene fila: 404, no 410', () => {
+    expect(lookupLegacyUrl('/se-busca-darma')).toBeNull()
+    expect(lookupLegacyUrl('/formacion-de-primer-ao')).toBeNull()
   })
 
   it('no redirige lo que sigue vivo en Squarespace y se porta después', () => {

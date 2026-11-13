@@ -82,15 +82,65 @@ describe('mapStubs', () => {
     expect(outcome).toMatchObject({ slug: 'formacion-de-primer-ao', page: 'formacion-practica' })
   })
 
-  it('si la página del logro está En preparación, 410 por ahora, y lo dice', () => {
+  it('si la página del logro está En preparación, queda pendiente: sin fila (404), no 410', () => {
     const [outcome] = run([{ slug: 'formacion-de-primer-ao', title: 'Formación de primer año' }])
     expect(outcome).toEqual({
       slug: 'formacion-de-primer-ao',
-      kind: 'gone',
-      reason: 'page-not-public',
+      kind: 'pending',
       achievement: 'Formación práctica',
       page: 'formacion-practica',
     })
+  })
+
+  it('un nombre que casa con dos logros no elige: queda ambiguo y lo dice', () => {
+    const twins = data({
+      achievements: [
+        { id: 7, dofusId: 207, name: 'Gemelo', quests: [] },
+        { id: 6, dofusId: 206, name: 'Gemelo', quests: [] },
+      ],
+      quests: [
+        { name: 'Misión doble', achievement: { dofusId: 207 } },
+        { name: 'Misión doble', achievement: { dofusId: 206 } },
+      ],
+    })
+    for (const stub of [
+      { slug: 'gemelo', title: 'Gemelo' },
+      { slug: 'mision-doble', title: 'Misión doble' },
+    ]) {
+      expect(mapStubs([stub], twins, { taken: new Set() })[0]).toEqual({
+        slug: stub.slug,
+        kind: 'ambiguous',
+        candidates: ['Gemelo (206)', 'Gemelo (207)'],
+      })
+    }
+  })
+
+  it('la misma misión en la ficha y en la lista de su logro no es una colisión', () => {
+    const [outcome] = run([{ slug: 'corazon-de-piedra', title: 'Corazón de piedra' }], {
+      achievements: [
+        {
+          id: 1,
+          dofusId: 101,
+          name: 'La larga marcha',
+          quests: [{ name: 'Corazón de piedra' }],
+        },
+      ],
+    })
+    expect(outcome).toMatchObject({ kind: 'moved', to: '/la-larga-marcha' })
+  })
+
+  it('no depende del orden en que llegan los datos', () => {
+    const stubs = LEGACY_STUBS.slice(0, 40)
+    const base = data()
+    const reversed: StubData = {
+      achievements: [...base.achievements].reverse(),
+      quests: [...base.quests].reverse(),
+      pages: [...base.pages].reverse(),
+      documents: [...base.documents].reverse(),
+    }
+    expect(mapStubs(stubs, reversed, { taken: new Set() })).toEqual(
+      mapStubs(stubs, base, { taken: new Set() }),
+    )
   })
 
   it('un logro sin página, o una misión sin logro conocido, da 410', () => {
@@ -150,17 +200,26 @@ describe('stubsSection y stubReport', () => {
     { taken: new Set() },
   )
 
-  it('la sección lleva los 301 y los 410, en orden, y nada de lo saltado', () => {
+  it('la sección lleva las redirecciones temporales y los 410, sin lo pendiente ni lo saltado', () => {
     expect(stubsSection(outcomes)).toEqual({
+      permanent: false,
       moved: { '/corazon-de-piedra': '/la-larga-marcha' },
-      gone: ['/formacion-de-primer-ao', '/se-busca-boarus'],
+      gone: ['/se-busca-boarus'],
+    })
+  })
+
+  it('el día del corte (cutover) sus redirecciones pasan a 301', () => {
+    expect(stubsSection(outcomes, { cutover: true })).toEqual({
+      moved: { '/corazon-de-piedra': '/la-larga-marcha' },
+      gone: ['/se-busca-boarus'],
     })
   })
 
   it('el informe cuenta cada grupo y nombra cada esbozo', () => {
     const report = stubReport(outcomes)
-    expect(report).toMatch(/301: 1/)
-    expect(report).toMatch(/410: 2/)
+    expect(report).toMatch(/Redirecciones: 1/)
+    expect(report).toMatch(/410: 1/)
+    expect(report).toMatch(/Pendientes: 1/)
     expect(report).toMatch(/\/corazon-de-piedra → \/la-larga-marcha/)
     expect(report).toMatch(/\/formacion-de-primer-ao.*formacion-practica/)
     expect(report).toMatch(/\/se-busca-boarus/)
@@ -172,5 +231,15 @@ describe('LEGACY_STUBS', () => {
   it('son los 166 esbozos del rastreo, sin repetir', () => {
     expect(LEGACY_STUBS).toHaveLength(166)
     expect(new Set(LEGACY_STUBS.map((stub) => stub.slug)).size).toBe(166)
+  })
+})
+
+describe('stubReport, ambiguos', () => {
+  it('nombra los candidatos para que Torre elija uno en STUB_OVERRIDES', () => {
+    const report = stubReport([
+      { slug: 'gemelo', kind: 'ambiguous', candidates: ['A (1)', 'B (2)'] },
+    ])
+    expect(report).toMatch(/Ambiguos: 1/)
+    expect(report).toMatch(/\/gemelo: A \(1\), B \(2\)/)
   })
 })

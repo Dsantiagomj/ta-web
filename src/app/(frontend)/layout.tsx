@@ -7,6 +7,7 @@ import { TOP_ANCHOR } from '@/components/site/nav'
 import { SiteHeader } from '@/components/site/SiteHeader'
 import { modeScript } from '@/lib/theme/mode-script'
 import { MODE_COOKIE, resolveMode, resolveTheme } from '@/lib/theme/theme'
+import { SITE_URL } from '@/lib/site/origin'
 import { fontVariables } from '@/styles/fonts'
 import '@/styles/globals.css'
 
@@ -14,7 +15,7 @@ import { loadChecklistNav, loadDofusNav, loadSiteCounts } from './site-data'
 import { siteStrings } from './strings'
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+  metadataBase: new URL(SITE_URL),
   title: siteStrings.brand,
   description: siteStrings.description,
 }

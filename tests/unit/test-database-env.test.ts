@@ -69,4 +69,10 @@ describe('appWebServers', () => {
     }
     expect(env.MEDIA_BASE_URL).toBe('')
   })
+
+  it('el origen público es el del servidor de pruebas: producción lo exige', () => {
+    const env = appWebServers({ port: 3147 }).at(-1)?.env ?? {}
+
+    expect(env.NEXT_PUBLIC_SITE_URL).toBe('http://localhost:3147')
+  })
 })

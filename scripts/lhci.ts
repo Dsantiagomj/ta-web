@@ -22,7 +22,7 @@ const baseUrl = new URL(config.ci.collect.url[0])
 const port = baseUrl.port
 
 const usesEmbeddedDatabase = !process.env.DATABASE_URL?.trim()
-const env = { ...process.env, ...lhciEnv(process.env) }
+const env = { ...process.env, ...lhciEnv(process.env, baseUrl.origin) }
 
 let database: ChildProcess | undefined
 let app: ChildProcess | undefined
