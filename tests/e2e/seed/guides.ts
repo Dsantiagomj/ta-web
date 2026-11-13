@@ -36,7 +36,22 @@ export const seedGuide = {
   prerequisite: { title: 'Esto hace aguas', slug: 'esto-hace-aguas' },
   // Un combate; una nota que es el nombre exacto de un objeto importado (el logro la pinta
   // como ese objeto) y otra que no es ni objeto ni combate («Otros» en el logro).
-  needsNote: '1 x Combate (solo).\n1 x Pico de tofu.\nHechizo Captura de almas.',
+  // Con dos notas de mazmorra: una nombra a su jefe (la del seed, con su imagen) y otra
+  // ninguna en concreto; y una nota larga de Torre, para ver cómo se parte.
+  needsNote: [
+    '1 x Combate (solo).',
+    '1 x Pico de tofu.',
+    'Hechizo Captura de almas.',
+    '1 x Mazmorra Kumijo',
+    'Mazmorras nivel 200',
+    '12 x Delicia de los kitsus (un consumible que puedes fabricar con cazador nivel 120+ pero lo puedes comprar en el mercadillo xD)',
+  ].join('\n'),
+  // La mazmorra de esa nota, con su jefe y la imagen del jefe (DofusDB, gfxId).
+  dungeon: {
+    dofusId: 131,
+    name: 'Casa de los Espíritus',
+    boss: { dofusId: 6394, name: 'Kumijo', gfxId: 2097 },
+  },
   // Los objetos de Necesitarás, de los de la recompensa: dos, para ver sus columnas.
   needsItems: [
     { name: 'Intestino de araknáusea', quantity: 2 },
@@ -231,6 +246,21 @@ export async function seedGuides(payload: Payload): Promise<void> {
   for (const { dofusId, name, gfxId } of seedGuide.fight) {
     fightMonsters.push(await monster(payload, dofusId, name, gfxId))
   }
+  const { dungeon } = seedGuide
+  const boss = await monster(payload, dungeon.boss.dofusId, dungeon.boss.name, dungeon.boss.gfxId)
+  await findOrCreate(
+    () =>
+      payload.find({
+        collection: 'dungeons',
+        where: { dofusId: { equals: dungeon.dofusId } },
+        limit: 1,
+      }),
+    () =>
+      payload.create({
+        collection: 'dungeons',
+        data: { dofusId: dungeon.dofusId, name: dungeon.name, bosses: [boss.id] },
+      }),
+  )
   const rewardIds = await Promise.all(
     [
       [366, 'Pico de tofu'],

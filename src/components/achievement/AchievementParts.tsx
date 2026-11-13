@@ -85,7 +85,10 @@ function NeedsGroup({
   )
 }
 
-/** «3 ×» en negrita, aparte del texto, como en las filas de la cabecera; sin cifra, nada. */
+/**
+ * «3 ×» en negrita delante del texto, en la misma línea: si el texto no cabe, sigue debajo
+ * de la cifra, no en una columna estrecha a su lado. Sin cifra, nada.
+ */
 const Quantity = ({ value }: { value?: number }) =>
   value == null ? null : (
     <>
@@ -96,8 +99,9 @@ const Quantity = ({ value }: { value?: number }) =>
 /**
  * «Necesitarás en total», su propia zona bajo la cabecera (DESIGN.md, Achievement page): los
  * objetos (icono, cantidad y el nombre, que se copia), los combates y mazmorras, y lo demás
- * que escribió Torre, cada grupo con su título y todas las filas en la misma rejilla de
- * huecos de 44px. Un grupo vacío no se pinta; sin nada, no hay zona.
+ * que escribió Torre, cada grupo con su título. Los objetos y los combates llevan su hueco
+ * de 44px, con la primera línea del texto a su altura; una mazmorra casada, su jefe. Lo
+ * demás no tiene icono ni deja su hueco. Un grupo vacío no se pinta; sin nada, no hay zona.
  */
 export function AchievementNeeds({ needs }: { needs: Needs }) {
   // Ids propios: el catálogo (/sistema) pinta la zona en cada tema y modo.
@@ -111,11 +115,11 @@ export function AchievementNeeds({ needs }: { needs: Needs }) {
       </h2>
       <div className="lneeds__groups">
         {items.length > 0 && (
-          <NeedsGroup id={`${id}-objetos`} label={s.needsGroups.items} className="needs__items">
+          <NeedsGroup id={`${id}-objetos`} label={s.needsGroups.items} className="lneeds__items">
             {items.map(({ item, quantity }) => (
               <li key={item.name} className="row copyhost">
                 <IconWell image={item.icon} />
-                <span>
+                <span className="lneeds__t">
                   <Quantity value={quantity} />
                   <CopyName name={item.name} />
                 </span>
@@ -125,10 +129,14 @@ export function AchievementNeeds({ needs }: { needs: Needs }) {
         )}
         {tasks.length > 0 && (
           <NeedsGroup id={`${id}-tareas`} label={s.needsGroups.tasks} className="lneeds__tasks">
-            {tasks.map(({ quantity, label, kind }) => (
+            {tasks.map(({ quantity, label, kind, boss }) => (
               <li key={label} className="row">
-                <IconWell icon={kind === 'dungeon' ? 'dungeon' : 'combat'} />
-                <span>
+                {boss ? (
+                  <IconWell image={boss} />
+                ) : (
+                  <IconWell icon={kind === 'dungeon' ? 'dungeon' : 'combat'} />
+                )}
+                <span className="lneeds__t">
                   <Quantity value={quantity} />
                   {label}
                 </span>
@@ -140,7 +148,7 @@ export function AchievementNeeds({ needs }: { needs: Needs }) {
           <NeedsGroup id={`${id}-otros`} label={s.needsGroups.others} className="lneeds__others">
             {others.map(({ quantity, label }) => (
               <li key={label} className="row">
-                <span>
+                <span className="lneeds__t">
                   <Quantity value={quantity} />
                   {label}
                 </span>
