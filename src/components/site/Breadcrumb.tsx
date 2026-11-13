@@ -1,6 +1,6 @@
 import type { BreadcrumbData } from '@/lib/achievements/page'
 
-import './breadcrumb.css'
+import '@/components/game/game.css'
 import { uiStrings } from '../ui/strings'
 
 /** El JSON-LD dentro de <script>: sin «<», para que ningún nombre pueda cerrar la etiqueta. */
