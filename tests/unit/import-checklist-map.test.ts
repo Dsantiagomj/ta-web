@@ -222,6 +222,13 @@ describe('la checklist', () => {
     })
   })
 
+  it('los nombres de lo que enlaza por ID, para avisar de lo que no casa', () => {
+    expect(draft.names?.quests?.[1491]).toBe('Muestreo')
+    expect(draft.names?.achievements?.[1076]).toBe('El alegre retirado')
+    expect(draft.names?.monsters?.[3835]).toBe('Vórtex')
+    expect(draft.names?.npcs?.[2357]).toBe('Sargento Zaltzom')
+  })
+
   it('lo que necesita la migración del progreso guardado', () => {
     expect(draft.legacy).toEqual({
       prefix: 'nebuloso:',

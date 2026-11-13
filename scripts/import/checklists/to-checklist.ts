@@ -58,6 +58,8 @@ export interface ChecklistDraft {
     groups: { title: string; rows: { key: string; text: string }[] }[]
   }
   steps: StepDraft[]
+  /** Los nombres de lo que se enlaza por ID de DofusDB, para el informe de lo que no casa. */
+  names?: Partial<Record<'quests' | 'achievements' | 'monsters' | 'npcs', Record<number, string>>>
   legacy: {
     prefix: string
     classicKeys: Record<string, string | null>
@@ -224,6 +226,27 @@ export function toChecklistDraft(
         })),
     },
     steps,
+    names: {
+      quests: Object.fromEntries(
+        Object.entries(data.QUESTS).map(([id, quest]) => [Number(id), quest.n]),
+      ),
+      achievements: Object.fromEntries(
+        Object.values(legacy.plans)
+          .flat()
+          .map((plan) => [plan.id, plan.name]),
+      ),
+      monsters: Object.fromEntries(
+        Object.values(legacy.assets.STEP_ASSETS).flatMap((assets) =>
+          (assets.bosses ?? []).map((boss) => [boss.id, boss.name]),
+        ),
+      ),
+      npcs: Object.fromEntries(
+        Object.values(legacy.figures).flatMap((figure) => {
+          const npc = figure.f.img.match(NPC_IMAGE)
+          return npc ? [[Number(npc[1]), figure.f.name]] : []
+        }),
+      ),
+    },
     legacy: {
       prefix: config.storagePrefix,
       classicKeys: config.classicKeys,
