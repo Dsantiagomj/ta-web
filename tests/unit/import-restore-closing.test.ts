@@ -2,7 +2,10 @@ import { describe, expect, it } from 'vitest'
 
 import { restoreClosing } from '../../scripts/import/restore-closings'
 import { parsePage } from '../../scripts/import/squarespace/parse-page'
-import { closingParagraph } from '../../scripts/import/squarespace/to-quest-guide'
+import {
+  closingParagraph,
+  closingParagraphs,
+} from '../../scripts/import/squarespace/to-quest-guide'
 
 // La frase de cierre que el importador quitaba («Aquí termina la misión.»): se lee de la
 // página de Squarespace y se devuelve al principio del final de la guía ya importada.
@@ -62,6 +65,19 @@ describe('closingParagraph', () => {
   it('sin frase de cierre, null', () => {
     expect(closingParagraph(page('<p>Espero haberte ayudado.</p>'))).toBeNull()
   })
+
+  it('todos los párrafos de cierre, en su orden (Leyenda del otoño tiene dos)', () => {
+    const found = closingParagraphs(
+      page(
+        '<p>Aquí termina la misión y por ende, el logro. Espero que te haya ayudado.</p>',
+        '<p>Aquí termina la misión. Espero que te haya ayudado.</p>',
+      ),
+    )
+    expect(found.map((closing) => closing.sentence)).toEqual([
+      'Aquí termina la misión y por ende, el logro.',
+      'Aquí termina la misión.',
+    ])
+  })
 })
 
 describe('restoreClosing', () => {
@@ -96,5 +112,20 @@ describe('restoreClosing', () => {
     const body = [step('s'), richText('z', paragraph(text('Otro cierre distinto.')))]
     const result = restoreClosing(body, { sentence: 'Aquí termina la misión.', paragraph: full })
     expect(result).toEqual({ status: 'notFound', body })
+  })
+
+  it('un segundo cierre se restaura aunque el primero empiece por la misma frase', () => {
+    // Leyenda del otoño: el primero ya está entero; del segundo quedó el resto, sin su frase.
+    const first = paragraph(
+      text('Aquí termina la misión y por ende, el logro. Espero que te haya ayudado.'),
+    )
+    const second = paragraph(text('Aquí termina la misión. Espero que te haya ayudado de nuevo.'))
+    const body = [
+      step('s'),
+      richText('z', first, paragraph(text('Espero que te haya ayudado de nuevo.'))),
+    ]
+    const result = restoreClosing(body, { sentence: 'Aquí termina la misión.', paragraph: second })
+    expect(result.status).toBe('restored')
+    expect(result.body).toEqual([step('s'), richText('z', first, second)])
   })
 })

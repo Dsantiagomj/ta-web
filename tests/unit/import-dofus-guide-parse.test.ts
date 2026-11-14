@@ -11,7 +11,9 @@ import {
 // Las páginas de Torre recortadas a su <article> (tests/fixtures/dofus-guides). Cada una cubre
 // un caso: la más corta (Dofawa), un metalogro (Plateado), una nota y emotes (Cacao), el aviso
 // de checklist y las misiones sueltas (Hielos), las misiones numeradas (Nebuloso), una
-// guía paso a paso con capturas (Piñata de pino) y una página vacía (Jyfus).
+// guía paso a paso con capturas (Piñata de pino), una segunda lista anidada (Dorigami), texto
+// que no es una misión bajo un logro (Zanahowia) o entre prerrequisitos (Marfil) y una página
+// vacía (Jyfus).
 const page = (slug: string) =>
   readFileSync(new URL(`../fixtures/dofus-guides/${slug}.html`, import.meta.url), 'utf8')
 const guide = (slug: string) => parseDofusGuide(page(slug)) as DofusGuideSource
@@ -25,6 +27,9 @@ const GOLDEN = [
   'dofus-abisal',
   'piata-de-pino',
   'dofus-vulbis',
+  'dorigami',
+  'dofus-zanahowia',
+  'dofus-marfil',
 ]
 
 describe('parseDofusGuide: páginas de referencia', () => {
@@ -100,6 +105,43 @@ describe('parseDofusGuide: lo que Torre escribe', () => {
     expect(emotes.rows.every((row) => row.name === undefined)).toBe(true)
   })
 
+  it('una segunda lista dentro de una fila va a su nivel, no debajo de ella (Dorigami)', () => {
+    // En el Dorigami, «Combates:» lleva dos listas: la de combates y otra con mazmorras y
+    // recursos, cuyo título se perdió. La segunda no son combates: va suelta, detrás.
+    const groups = guide('dorigami').needs!.groups
+    const combats = groups.find((group) => group.name === 'Combates')!
+    expect(combats.rows.map((row) => row.text)).toEqual([
+      '9 x combates (realizables en grupo).',
+      '2 x combates (solo).',
+      '1 x combate de oleada (realizable en grupo).',
+      'Algunas luchas contra monstruos de una zona para un drop del 25%.',
+      'Algunas luchas contra monstruos de una zona para un drop del 6%.',
+    ])
+    const loose = groups.filter((group) => group.name === null).flatMap((group) => group.rows)
+    expect(loose.map((row) => row.text)).toContain('1 x Mazmorra Shogun Tofugawa.')
+    expect(loose.find((row) => row.name === 'Ginseng')).toMatchObject({ quantity: 12 })
+  })
+
+  it('cada fila de un logro guarda su texto con enlaces, aunque no sea una misión', () => {
+    // Zanahowia: bajo «Pelo de zanahowia», Torre explica cómo hacerlo, sin enlace.
+    const zanahowia = guide('dofus-zanahowia').parts.find(
+      (part) => part.type === 'achievement' && part.name === 'Pelo de zanahowia',
+    ) as AchievementPart
+    expect(zanahowia.quests[0]!.segs?.[0]).toMatchObject({
+      t: 'text',
+      v: expect.stringMatching(/^Hacerse pasar por el Wey Wabbit/),
+    })
+    // Marfil: un enlace a un metalogro entre los prerrequisitos guarda su enlace.
+    const prerequisites = guide('dofus-marfil').parts.find(
+      (part) => part.type === 'quests' && /Prerrequisitos/.test(part.title ?? ''),
+    )
+    if (prerequisites?.type !== 'quests') throw new Error('Se esperaban los prerrequisitos')
+    const alignment = prerequisites.quests.find((quest) => quest.slug === 'metalogro-alineamiento')
+    expect(alignment?.segs).toContainEqual(
+      expect.objectContaining({ t: 'link', href: '/metalogro-alineamiento' }),
+    )
+  })
+
   it('los logros llevan las misiones de Torre en su orden, sin el punto final', () => {
     const abisal = guide('dofus-abisal')
     const achievements = abisal.parts as AchievementPart[]
@@ -112,7 +154,7 @@ describe('parseDofusGuide: lo que Torre escribe', () => {
       'La guerra de los mundos… submarinos',
       'La llamada de Kutulú',
     ])
-    expect(achievements[0]!.quests).toEqual([
+    expect(achievements[0]!.quests).toMatchObject([
       { name: 'A la pesca de información', slug: 'a-la-pesca-de-informacion' },
       { name: 'El héroe de Sufokia', slug: 'el-heroe-de-sufokia' },
     ])
@@ -138,7 +180,7 @@ describe('parseDofusGuide: lo que Torre escribe', () => {
     const loose = hielos.parts.find((part) => part.type === 'quests')
     expect(loose).toMatchObject({ type: 'quests' })
     if (loose?.type !== 'quests') throw new Error('Se esperaban misiones sueltas')
-    expect(loose.quests.at(-1)).toEqual({
+    expect(loose.quests.at(-1)).toMatchObject({
       name: 'Luces y sombra',
       slug: 'luces-y-sombras',
       note: '(solo empezarla)',

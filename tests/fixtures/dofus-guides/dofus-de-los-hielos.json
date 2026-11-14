@@ -54,15 +54,39 @@
    "quests": [
     {
      "name": "La tierra banquisa",
-     "slug": "la-tierra-banquisa"
+     "slug": "la-tierra-banquisa",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La tierra banquisa.",
+       "href": "/la-tierra-banquisa",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Una alcaldesa de hielo",
-     "slug": "una-alcaldesa-de-hielo"
+     "slug": "una-alcaldesa-de-hielo",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Una alcaldesa de hielo.",
+       "href": "/una-alcaldesa-de-hielo",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Full contact",
-     "slug": "full-contact"
+     "slug": "full-contact",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Full contact.",
+       "href": "/full-contact",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -73,35 +97,99 @@
    "quests": [
     {
      "name": "Antimonárquico",
-     "slug": "antimonarquico"
+     "slug": "antimonarquico",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Antimonárquico.",
+       "href": "/antimonarquico",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Las joyas de la corona",
-     "slug": "las-joyas-de-la-corona"
+     "slug": "las-joyas-de-la-corona",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Las joyas de la corona.",
+       "href": "/las-joyas-de-la-corona",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Duerme y tendrás un pastel",
-     "slug": "duerme-y-tendras-un-pastel"
+     "slug": "duerme-y-tendras-un-pastel",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Duerme y tendrás un pastel.",
+       "href": "/duerme-y-tendras-un-pastel",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Lavandería automática",
-     "slug": "lavanderia-automatica"
+     "slug": "lavanderia-automatica",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Lavandería automática.",
+       "href": "/lavanderia-automatica",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Hace fresco, pero no importa",
-     "slug": "hace-fresco-pero-no-importa"
+     "slug": "hace-fresco-pero-no-importa",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Hace fresco, pero no importa.",
+       "href": "/hace-fresco-pero-no-importa",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Canozzirujana",
-     "slug": "canozzirujana"
+     "slug": "canozzirujana",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Canozzirujana.",
+       "href": "/canozzirujana",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Allá en la montaña…",
-     "slug": "alla-en-la-montaa"
+     "slug": "alla-en-la-montaa",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Allá en la montaña…",
+       "href": "/alla-en-la-montaa",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Allá arriba, en el pico helado…",
-     "slug": "alla-arriba-en-el-pico-helado"
+     "slug": "alla-arriba-en-el-pico-helado",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Allá arriba, en el pico helado…",
+       "href": "/alla-arriba-en-el-pico-helado",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -112,31 +200,87 @@
    "quests": [
     {
      "name": "Bienvenido a Frigost",
-     "slug": "bienvenido-a-frigost"
+     "slug": "bienvenido-a-frigost",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Bienvenido a Frigost.",
+       "href": "/bienvenido-a-frigost",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Lo esencial está en el lago helado",
-     "slug": "lo-esencial-esta-en-el-lago-helado"
+     "slug": "lo-esencial-esta-en-el-lago-helado",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Lo esencial está en el lago helado.",
+       "href": "/lo-esencial-esta-en-el-lago-helado",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Los supervivientes de Frigost",
-     "slug": "los-supervivientes-de-frigost"
+     "slug": "los-supervivientes-de-frigost",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Los supervivientes de Frigost.",
+       "href": "/los-supervivientes-de-frigost",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Frigost, una isla que no es como las demás",
-     "slug": "frigost-una-isla-que-no-es-como-las-demas"
+     "slug": "frigost-una-isla-que-no-es-como-las-demas",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Frigost, una isla que no es como las demás.",
+       "href": "/frigost-una-isla-que-no-es-como-las-demas",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Desarrollo sostenible",
-     "slug": "desarrollo-sostenible"
+     "slug": "desarrollo-sostenible",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Desarrollo sostenible.",
+       "href": "/desarrollo-sostenible",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Monstruitos y mazmorras",
-     "slug": "monstruitos-y-mazmorras"
+     "slug": "monstruitos-y-mazmorras",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Monstruitos y mazmorras.",
+       "href": "/monstruitos-y-mazmorras",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Hasta el fondo del agujero",
-     "slug": "hasta-el-fondo-del-agujero"
+     "slug": "hasta-el-fondo-del-agujero",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Hasta el fondo del agujero.",
+       "href": "/hasta-el-fondo-del-agujero",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -147,27 +291,75 @@
    "quests": [
     {
      "name": "Los supervivientes de El Pueblo Sepultado",
-     "slug": "los-supervivientes-de-el-pueblo-sepultado"
+     "slug": "los-supervivientes-de-el-pueblo-sepultado",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Los supervivientes de El Pueblo Sepultado.",
+       "href": "/los-supervivientes-de-el-pueblo-sepultado",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Los últimos supervivientes",
-     "slug": "los-ultimos-supervivientes"
+     "slug": "los-ultimos-supervivientes",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Los últimos supervivientes.",
+       "href": "/los-ultimos-supervivientes",
+       "b": true
+      }
+     ]
     },
     {
      "name": "La vida de castillo",
-     "slug": "la-vida-de-castillo"
+     "slug": "la-vida-de-castillo",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La vida de castillo.",
+       "href": "/la-vida-de-castillo",
+       "b": true
+      }
+     ]
     },
     {
      "name": "La máquina de desmontar el tiempo",
-     "slug": "la-maquina-de-desmontar-el-tiempo"
+     "slug": "la-maquina-de-desmontar-el-tiempo",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La máquina de desmontar el tiempo.",
+       "href": "/la-maquina-de-desmontar-el-tiempo",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Al maestro, cuchillada",
-     "slug": "al-maestro-cuchillada"
+     "slug": "al-maestro-cuchillada",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Al maestro, cuchillada.",
+       "href": "/al-maestro-cuchillada",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Un conde con mucho cuento",
-     "slug": "un-conde-con-mucho-cuento"
+     "slug": "un-conde-con-mucho-cuento",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Un conde con mucho cuento.",
+       "href": "/un-conde-con-mucho-cuento",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -192,23 +384,85 @@
        "name": "La rivalidad",
        "slug": "la-rivalidad"
       }
+     ],
+     "segs": [
+      {
+       "t": "link",
+       "v": "La fatalidad",
+       "href": "/la-fatalidad",
+       "b": true
+      },
+      {
+       "t": "text",
+       "v": " - ",
+       "b": true
+      },
+      {
+       "t": "link",
+       "v": "El destino",
+       "href": "/el-destino",
+       "b": true
+      },
+      {
+       "t": "text",
+       "v": " - ",
+       "b": true
+      },
+      {
+       "t": "link",
+       "v": "La rivalidad.",
+       "href": "/la-rivalidad",
+       "b": true
+      }
      ]
     },
     {
      "name": "¡Maldición!",
-     "slug": "maldicion"
+     "slug": "maldicion",
+     "segs": [
+      {
+       "t": "link",
+       "v": "¡Maldición!",
+       "href": "/maldicion",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Misión solución",
-     "slug": "mision-solucion"
+     "slug": "mision-solucion",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Misión solución.",
+       "href": "/mision-solucion",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Frío… caliente… ¡que te quemas!",
-     "slug": "frio-caliente-que-te-quemas"
+     "slug": "frio-caliente-que-te-quemas",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Frío… caliente… ¡que te quemas!",
+       "href": "/frio-caliente-que-te-quemas",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Una friolera de revelaciones",
-     "slug": "una-friolera-de-revelaciones"
+     "slug": "una-friolera-de-revelaciones",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Una friolera de revelaciones.",
+       "href": "/una-friolera-de-revelaciones",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -219,7 +473,15 @@
    "quests": [
     {
      "name": "El dofus de los hielos",
-     "slug": "el-dofus-de-los-hielos"
+     "slug": "el-dofus-de-los-hielos",
+     "segs": [
+      {
+       "t": "link",
+       "v": "El dofus de los hielos.",
+       "href": "/el-dofus-de-los-hielos",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -229,28 +491,81 @@
    "quests": [
     {
      "name": "La marcha de la emperatriz",
-     "slug": "la-marcha-de-la-emperatriz"
+     "slug": "la-marcha-de-la-emperatriz",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La marcha de la emperatriz.",
+       "href": "/la-marcha-de-la-emperatriz",
+       "b": true
+      }
+     ]
     },
     {
      "name": "El S.L.I.P. está que arde",
-     "slug": "el-slip-esta-que-arde"
+     "slug": "el-slip-esta-que-arde",
+     "segs": [
+      {
+       "t": "link",
+       "v": "El S.L.I.P. está que arde.",
+       "href": "/el-slip-esta-que-arde",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Hotel de hielo",
-     "slug": "hotel-de-hielo"
+     "slug": "hotel-de-hielo",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Hotel de hielo.",
+       "href": "/hotel-de-hielo",
+       "b": true
+      }
+     ]
     },
     {
      "name": "La desglaciación",
-     "slug": "la-desglaciacion"
+     "slug": "la-desglaciacion",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La desglaciación.",
+       "href": "/la-desglaciacion",
+       "b": true
+      }
+     ]
     },
     {
      "name": "El recadero",
-     "slug": "el-recadero"
+     "slug": "el-recadero",
+     "segs": [
+      {
+       "t": "link",
+       "v": "El recadero.",
+       "href": "/el-recadero",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Luces y sombra",
      "slug": "luces-y-sombras",
-     "note": "(solo empezarla)"
+     "note": "(solo empezarla)",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Luces y sombra",
+       "href": "/luces-y-sombras",
+       "b": true
+      },
+      {
+       "t": "text",
+       "v": " (solo empezarla).",
+       "b": true
+      }
+     ]
     }
    ]
   }

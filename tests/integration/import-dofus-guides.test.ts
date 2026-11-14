@@ -631,6 +631,62 @@ describe('loadDofusGuides: grupos de Necesitarás', () => {
   })
 })
 
+describe('loadDofusGuides: texto que no es una misión', () => {
+  it('lo que no casa con una misión, bajo un logro o entre misiones, queda como nota', async () => {
+    const slug = 'prueba-dofus-notas'
+    const explanation = 'Hacerse pasar por el Wey Wabbit = ir a la mazmorra Wey Wobot.'
+    const withNotes: DofusGuideSource = {
+      ...source(),
+      parts: [
+        {
+          type: 'achievement',
+          name: '¡Plof!',
+          slug: null,
+          quests: [
+            { name: 'A la pesca de información', slug: 'prueba-a-la-pesca' },
+            // Zanahowia: Torre explica cómo hacer el logro, sin enlace.
+            { name: explanation, slug: null, segs: [{ t: 'text', v: explanation, b: true }] },
+          ],
+        },
+        {
+          type: 'quests',
+          title: 'Prerrequisitos de misiones secundarias',
+          quests: [
+            { name: 'Luces y sombra', slug: 'prueba-luces' },
+            // Marfil: un enlace a un metalogro, que no es una guía de misión.
+            {
+              name: '100 misiones de alineamiento',
+              slug: 'metalogro-alineamiento',
+              segs: [
+                { t: 'link', v: '100 misiones de alineamiento', href: '/metalogro-alineamiento' },
+              ],
+            },
+          ],
+        },
+      ],
+    }
+    const report = await loadDofusGuides(
+      payload,
+      options([{ entry: { ...entry, slug, dofusId: 918071 }, source: withNotes }]),
+    )
+    // Lo que pasó a nota se lista, para revisarlo en el ensayo.
+    expect(report.leftovers).toEqual([
+      { slug, text: explanation },
+      { slug, text: '100 misiones de alineamiento' },
+    ])
+    const parts = (await read(slug)).parts ?? []
+    expect(parts.map((part) => part.blockType)).toEqual([
+      'dofusAchievement',
+      'dofusNote',
+      'dofusQuests',
+      'dofusNote',
+    ])
+    expect(JSON.stringify(parts[1])).toContain('Hacerse pasar por el Wey Wabbit')
+    expect(parts[2]).toMatchObject({ quests: [{ guide: ids.luces }] })
+    expect(JSON.stringify(parts[3])).toContain('/metalogro-alineamiento')
+  })
+})
+
 describe('loadDofusIndexIntro', () => {
   it('pone la entradilla de Torre en el índice solo si está vacía', async () => {
     await payload.updateGlobal({ slug: 'dofus-guides-index', data: { intro: null } })

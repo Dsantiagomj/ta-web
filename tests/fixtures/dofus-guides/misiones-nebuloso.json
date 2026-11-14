@@ -589,23 +589,68 @@
    "quests": [
     {
      "name": "Recluta encofrada",
-     "slug": "recluta-encofrada"
+     "slug": "recluta-encofrada",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Recluta encofrada.",
+       "href": "/recluta-encofrada",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Tragamonedas",
-     "slug": "tragamonedas"
+     "slug": "tragamonedas",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Tragamonedas.",
+       "href": "/tragamonedas",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Cofrología",
-     "slug": "cofrologia"
+     "slug": "cofrologia",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Cofrología.",
+       "href": "/cofrologia",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Tesorfanato",
-     "slug": "tesorfanato"
+     "slug": "tesorfanato",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Tesorfanato",
+       "href": "/tesorfanato",
+       "b": true
+      },
+      {
+       "t": "text",
+       "v": ".",
+       "b": true
+      }
+     ]
     },
     {
      "name": "El maleficio del cofre",
-     "slug": "el-maleficio-del-cofre"
+     "slug": "el-maleficio-del-cofre",
+     "segs": [
+      {
+       "t": "link",
+       "v": "El maleficio del cofre.",
+       "href": "/el-maleficio-del-cofre",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -617,43 +662,123 @@
    "quests": [
     {
      "name": "Prueba de escupidor",
-     "slug": "prueba-de-escupidor"
+     "slug": "prueba-de-escupidor",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Prueba de escupidor.",
+       "href": "/prueba-de-escupidor",
+       "b": true
+      }
+     ]
     },
     {
      "name": "La dimensión desconocida",
-     "slug": "la-dimension-desconocida"
+     "slug": "la-dimension-desconocida",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La dimensión desconocida.",
+       "href": "/la-dimension-desconocida",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Perforestación",
-     "slug": "perforestacion"
+     "slug": "perforestacion",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Perforestación.",
+       "href": "/perforestacion",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Tráfico de colmillos",
-     "slug": "trafico-de-colmillos"
+     "slug": "trafico-de-colmillos",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Tráfico de colmillos.",
+       "href": "/trafico-de-colmillos",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Perforatroces en la niebla",
-     "slug": "perforatroces-en-la-niebla"
+     "slug": "perforatroces-en-la-niebla",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Perforatroces en la niebla.",
+       "href": "/perforatroces-en-la-niebla",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Tarea endiablada",
-     "slug": "tarea-endiablada"
+     "slug": "tarea-endiablada",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Tarea endiablada.",
+       "href": "/tarea-endiablada",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Bailando con perforatroces",
-     "slug": "bailando-con-perforatroces"
+     "slug": "bailando-con-perforatroces",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Bailando con perforatroces.",
+       "href": "/bailando-con-perforatroces",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Las grandes galerías",
-     "slug": "las-grandes-galerias"
+     "slug": "las-grandes-galerias",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Las grandes galerías.",
+       "href": "/las-grandes-galerias",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Un corazón de oro",
-     "slug": "un-corazon-de-oro"
+     "slug": "un-corazon-de-oro",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Un corazón de oro.",
+       "href": "/un-corazon-de-oro",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Maldita generosidad",
-     "slug": "maldita-generosidad"
+     "slug": "maldita-generosidad",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Maldita generosidad.",
+       "href": "/maldita-generosidad",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -665,27 +790,75 @@
    "quests": [
     {
      "name": "Rick Hachón, corazón de anutrof",
-     "slug": "rick-hachon-corazon-de-anutrof"
+     "slug": "rick-hachon-corazon-de-anutrof",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Rick Hachón, corazón de anutrof.",
+       "href": "/rick-hachon-corazon-de-anutrof",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Por unos kamas más",
-     "slug": "por-unos-kamas-mas"
+     "slug": "por-unos-kamas-mas",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Por unos kamas más.",
+       "href": "/por-unos-kamas-mas",
+       "b": true
+      }
+     ]
     },
     {
      "name": "No todo lo que brilla es oro",
-     "slug": "no-todo-lo-que-brilla-es-oro"
+     "slug": "no-todo-lo-que-brilla-es-oro",
+     "segs": [
+      {
+       "t": "link",
+       "v": "No todo lo que brilla es oro.",
+       "href": "/no-todo-lo-que-brilla-es-oro",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Anutrof salve al rey",
-     "slug": "anutrof-salve-al-rey"
+     "slug": "anutrof-salve-al-rey",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Anutrof salve al rey.",
+       "href": "/anutrof-salve-al-rey",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Una audiencia muy real",
-     "slug": "una-audiencia-muy-real"
+     "slug": "una-audiencia-muy-real",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Una audiencia muy real.",
+       "href": "/una-audiencia-muy-real",
+       "b": true
+      }
+     ]
     },
     {
      "name": "El barbero de Anutropía",
-     "slug": "el-barbero-de-anutropia"
+     "slug": "el-barbero-de-anutropia",
+     "segs": [
+      {
+       "t": "link",
+       "v": "El barbero de Anutropía.",
+       "href": "/el-barbero-de-anutropia",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -697,39 +870,116 @@
    "quests": [
     {
      "name": "Heh, ¿dónde está Bizcana?",
-     "slug": "hey-donde-esta-bizcana"
+     "slug": "hey-donde-esta-bizcana",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Heh, ¿dónde está Bizcana?",
+       "href": "/hey-donde-esta-bizcana",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Muestreo",
-     "slug": "muestreo"
+     "slug": "muestreo",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Muestreo",
+       "href": "/muestreo",
+       "b": true
+      },
+      {
+       "t": "text",
+       "v": ".",
+       "b": true
+      }
+     ]
     },
     {
      "name": "El silencio es oro",
-     "slug": "el-silencio-es-oro"
+     "slug": "el-silencio-es-oro",
+     "segs": [
+      {
+       "t": "link",
+       "v": "El silencio es oro.",
+       "href": "/el-silencio-es-oro",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Espionaje industrial",
-     "slug": "espionaje-industrial"
+     "slug": "espionaje-industrial",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Espionaje industrial.",
+       "href": "/espionaje-industrial",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Toma de rehenes",
-     "slug": "toma-de-rehenes"
+     "slug": "toma-de-rehenes",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Toma de rehenes.",
+       "href": "/toma-de-rehenes",
+       "b": true
+      }
+     ]
     },
     {
      "name": "La huelga es el final",
-     "slug": "la-huelga-es-el-final"
+     "slug": "la-huelga-es-el-final",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La huelga es el final.",
+       "href": "/la-huelga-es-el-final",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Incidente en las profundidades",
-     "slug": "incidente-en-las-profundidades"
+     "slug": "incidente-en-las-profundidades",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Incidente en las profundidades.",
+       "href": "/incidente-en-las-profundidades",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Reconocimiento de deuda",
-     "slug": "reconocimiento-de-deuda"
+     "slug": "reconocimiento-de-deuda",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Reconocimiento de deuda.",
+       "href": "/reconocimiento-de-deuda",
+       "b": true
+      }
+     ]
     },
     {
      "name": "El mapa de la verdad",
-     "slug": "el-mapa-de-la-verdad"
+     "slug": "el-mapa-de-la-verdad",
+     "segs": [
+      {
+       "t": "link",
+       "v": "El mapa de la verdad.",
+       "href": "/el-mapa-de-la-verdad",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -738,7 +988,20 @@
    "number": 5,
    "quest": {
     "name": "Hablar con el Dios Anutrof",
-    "slug": "hablar-con-el-dios-anutrof"
+    "slug": "hablar-con-el-dios-anutrof",
+    "segs": [
+     {
+      "t": "text",
+      "v": "5) ",
+      "b": true
+     },
+     {
+      "t": "link",
+      "v": "Hablar con el Dios Anutrof.",
+      "href": "/hablar-con-el-dios-anutrof",
+      "b": true
+     }
+    ]
    }
   },
   {
@@ -749,23 +1012,63 @@
    "quests": [
     {
      "name": "Cuenta fuera",
-     "slug": "cuenta-fuera"
+     "slug": "cuenta-fuera",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Cuenta fuera.",
+       "href": "/cuenta-fuera",
+       "b": true
+      }
+     ]
     },
     {
      "name": "El fanfarrón",
-     "slug": "el-fanfarron"
+     "slug": "el-fanfarron",
+     "segs": [
+      {
+       "t": "link",
+       "v": "El fanfarrón.",
+       "href": "/el-fanfarron",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Los viajeros del canal",
-     "slug": "los-viajeros-del-canal"
+     "slug": "los-viajeros-del-canal",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Los viajeros del canal.",
+       "href": "/los-viajeros-del-canal",
+       "b": true
+      }
+     ]
     },
     {
      "name": "En busca de los maligilantes perdidos",
-     "slug": "en-busca-de-los-maligilantes-perdidos"
+     "slug": "en-busca-de-los-maligilantes-perdidos",
+     "segs": [
+      {
+       "t": "link",
+       "v": "En busca de los maligilantes perdidos.",
+       "href": "/en-busca-de-los-maligilantes-perdidos",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Un ring para gobernarlos a todos",
-     "slug": "un-ring-para-gobernarlos-a-todos"
+     "slug": "un-ring-para-gobernarlos-a-todos",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Un ring para gobernarlos a todos.",
+       "href": "/un-ring-para-gobernarlos-a-todos",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -777,43 +1080,123 @@
    "quests": [
     {
      "name": "Colección necrótica",
-     "slug": "coleccion-necrotica"
+     "slug": "coleccion-necrotica",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Colección necrótica.",
+       "href": "/coleccion-necrotica",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Ponzoña que ponzoña",
-     "slug": "ponzoa-que-ponzoa"
+     "slug": "ponzoa-que-ponzoa",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Ponzoña que ponzoña.",
+       "href": "/ponzoa-que-ponzoa",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Las brigadas del abismo",
-     "slug": "las-brigadas-del-abismo"
+     "slug": "las-brigadas-del-abismo",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Las brigadas del abismo.",
+       "href": "/las-brigadas-del-abismo",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Epidemiología",
-     "slug": "epidemiologia"
+     "slug": "epidemiologia",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Epidemiología.",
+       "href": "/epidemiologia",
+       "b": true
+      }
+     ]
     },
     {
      "name": "La investigación de huesos",
-     "slug": "la-investigacion-de-huesos"
+     "slug": "la-investigacion-de-huesos",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La investigación de huesos.",
+       "href": "/la-investigacion-de-huesos",
+       "b": true
+      }
+     ]
     },
     {
      "name": "El señor de los necróticos",
-     "slug": "el-seor-de-los-necroticos"
+     "slug": "el-seor-de-los-necroticos",
+     "segs": [
+      {
+       "t": "link",
+       "v": "El señor de los necróticos.",
+       "href": "/el-seor-de-los-necroticos",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Armamento biológico",
-     "slug": "armamento-biologico"
+     "slug": "armamento-biologico",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Armamento biológico.",
+       "href": "/armamento-biologico",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Carne fresca",
-     "slug": "carne-fresca"
+     "slug": "carne-fresca",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Carne fresca.",
+       "href": "/carne-fresca",
+       "b": true
+      }
+     ]
     },
     {
      "name": "La muerta Adela",
-     "slug": "la-muerta-adela"
+     "slug": "la-muerta-adela",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La muerta Adela.",
+       "href": "/la-muerta-adela",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Envenenarse en un vaso de agua",
-     "slug": "envenenarse-en-un-vaso-de-agua"
+     "slug": "envenenarse-en-un-vaso-de-agua",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Envenenarse en un vaso de agua.",
+       "href": "/envenenarse-en-un-vaso-de-agua",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -825,27 +1208,75 @@
    "quests": [
     {
      "name": "Camino a la perdición",
-     "slug": "camino-a-la-perdicion"
+     "slug": "camino-a-la-perdicion",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Camino a la perdición.",
+       "href": "/camino-a-la-perdicion",
+       "b": true
+      }
+     ]
     },
     {
      "name": "El gran bazar de Sramvil",
-     "slug": "el-gran-bazar-de-sramvil"
+     "slug": "el-gran-bazar-de-sramvil",
+     "segs": [
+      {
+       "t": "link",
+       "v": "El gran bazar de Sramvil.",
+       "href": "/el-gran-bazar-de-sramvil",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Aquí hay chafer encerrado",
-     "slug": "aqui-hay-chafer-encerrado"
+     "slug": "aqui-hay-chafer-encerrado",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Aquí hay chafer encerrado.",
+       "href": "/aqui-hay-chafer-encerrado",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Después de la tormenta, llega la tempestad",
-     "slug": "despues-de-la-tormenta-llega-la-tempestad"
+     "slug": "despues-de-la-tormenta-llega-la-tempestad",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Después de la tormenta, llega la tempestad.",
+       "href": "/despues-de-la-tormenta-llega-la-tempestad",
+       "b": true
+      }
+     ]
     },
     {
      "name": "La corte de los milagros",
-     "slug": "la-corte-de-los-milagros"
+     "slug": "la-corte-de-los-milagros",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La corte de los milagros.",
+       "href": "/la-corte-de-los-milagros",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Hueso duro de esculpir",
-     "slug": "hueso-duro-de-esculpir"
+     "slug": "hueso-duro-de-esculpir",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Hueso duro de esculpir.",
+       "href": "/hueso-duro-de-esculpir",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -857,39 +1288,111 @@
    "quests": [
     {
      "name": "Falsas apariencias",
-     "slug": "falsas-apariencias"
+     "slug": "falsas-apariencias",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Falsas apariencias.",
+       "href": "/falsas-apariencias",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Memorias de ultratumba",
-     "slug": "memorias-de-ultratumba"
+     "slug": "memorias-de-ultratumba",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Memorias de ultratumba.",
+       "href": "/memorias-de-ultratumba",
+       "b": true
+      }
+     ]
     },
     {
      "name": "La salsa de la vida",
-     "slug": "la-salsa-de-la-vida"
+     "slug": "la-salsa-de-la-vida",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La salsa de la vida.",
+       "href": "/la-salsa-de-la-vida",
+       "b": true
+      }
+     ]
     },
     {
      "name": "La capilla negra",
-     "slug": "la-capilla-negra"
+     "slug": "la-capilla-negra",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La capilla negra.",
+       "href": "/la-capilla-negra",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Presunto culpable",
-     "slug": "presunto-culpable"
+     "slug": "presunto-culpable",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Presunto culpable.",
+       "href": "/presunto-culpable",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Desde el infierno",
-     "slug": "desde-el-infierno"
+     "slug": "desde-el-infierno",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Desde el infierno.",
+       "href": "/desde-el-infierno",
+       "b": true
+      }
+     ]
     },
     {
      "name": "El coleccionista de sombras",
-     "slug": "el-coleccionista-de-sombras"
+     "slug": "el-coleccionista-de-sombras",
+     "segs": [
+      {
+       "t": "link",
+       "v": "El coleccionista de sombras.",
+       "href": "/el-coleccionista-de-sombras",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Salir de las sombras",
-     "slug": "salir-de-las-sombras"
+     "slug": "salir-de-las-sombras",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Salir de las sombras.",
+       "href": "/salir-de-las-sombras",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Entrega urgente",
-     "slug": "entrega-urgente"
+     "slug": "entrega-urgente",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Entrega urgente.",
+       "href": "/entrega-urgente",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -898,7 +1401,20 @@
    "number": 10,
    "quest": {
     "name": "Hablar con el Dios Sram",
-    "slug": "hablar-con-el-dios-sram"
+    "slug": "hablar-con-el-dios-sram",
+    "segs": [
+     {
+      "t": "text",
+      "v": "10) ",
+      "b": true
+     },
+     {
+      "t": "link",
+      "v": "Hablar con el Dios Sram.",
+      "href": "/hablar-con-el-dios-sram",
+      "b": true
+     }
+    ]
    }
   },
   {
@@ -909,19 +1425,51 @@
    "quests": [
     {
      "name": "Anomalía temporal",
-     "slug": "anomalia-temporal"
+     "slug": "anomalia-temporal",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Anomalía temporal.",
+       "href": "/anomalia-temporal",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Es tu destino",
-     "slug": "es-tu-destino"
+     "slug": "es-tu-destino",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Es tu destino.",
+       "href": "/es-tu-destino",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Regreso al presente",
-     "slug": "regreso-al-presente"
+     "slug": "regreso-al-presente",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Regreso al presente.",
+       "href": "/regreso-al-presente",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Rescate en el tiempo",
-     "slug": "rescate-en-el-tiempo"
+     "slug": "rescate-en-el-tiempo",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Rescate en el tiempo.",
+       "href": "/rescate-en-el-tiempo",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -933,43 +1481,123 @@
    "quests": [
     {
      "name": "Los ladrones de colores",
-     "slug": "los-ladrones-de-colores"
+     "slug": "los-ladrones-de-colores",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Los ladrones de colores.",
+       "href": "/los-ladrones-de-colores",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Terminutor: el juicio de la máquina",
-     "slug": "terminutor-el-juicio-de-la-maquina"
+     "slug": "terminutor-el-juicio-de-la-maquina",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Terminutor: el juicio de la máquina.",
+       "href": "/terminutor-el-juicio-de-la-maquina",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Los demonios de Mediodía",
-     "slug": "los-demonios-de-mediodia"
+     "slug": "los-demonios-de-mediodia",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Los demonios de Mediodía.",
+       "href": "/los-demonios-de-mediodia",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Los orígenes del mal",
-     "slug": "los-origenes-del-mal"
+     "slug": "los-origenes-del-mal",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Los orígenes del mal.",
+       "href": "/los-origenes-del-mal",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Una aguja en un reloj",
-     "slug": "una-aguja-en-un-reloj"
+     "slug": "una-aguja-en-un-reloj",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Una aguja en un reloj.",
+       "href": "/una-aguja-en-un-reloj",
+       "b": true
+      }
+     ]
     },
     {
      "name": "La vida, el Horamundo y todo lo demás",
-     "slug": "la-vida-el-horamundo-y-todo-lo-demas"
+     "slug": "la-vida-el-horamundo-y-todo-lo-demas",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La vida, el Horamundo y todo lo demás.",
+       "href": "/la-vida-el-horamundo-y-todo-lo-demas",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Disfunción espaciotemporal",
-     "slug": "disfuncion-espaciotemporal"
+     "slug": "disfuncion-espaciotemporal",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Disfunción espaciotemporal.",
+       "href": "/disfuncion-espaciotemporal",
+       "b": true
+      }
+     ]
     },
     {
      "name": "¿Me das tu número?",
-     "slug": "me-das-tu-numero"
+     "slug": "me-das-tu-numero",
+     "segs": [
+      {
+       "t": "link",
+       "v": "¿Me das tu número?",
+       "href": "/me-das-tu-numero",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Al filo del mañana",
-     "slug": "al-filo-del-maana"
+     "slug": "al-filo-del-maana",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Al filo del mañana.",
+       "href": "/al-filo-del-maana",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Todo lo que necesitas es matar",
-     "slug": "todo-lo-que-necesitas-es-matar"
+     "slug": "todo-lo-que-necesitas-es-matar",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Todo lo que necesitas es matar.",
+       "href": "/todo-lo-que-necesitas-es-matar",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -981,23 +1609,63 @@
    "quests": [
     {
      "name": "El ilusionista",
-     "slug": "el-ilusionista"
+     "slug": "el-ilusionista",
+     "segs": [
+      {
+       "t": "link",
+       "v": "El ilusionista.",
+       "href": "/el-ilusionista",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Locos de atar",
-     "slug": "locos-de-atar"
+     "slug": "locos-de-atar",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Locos de atar.",
+       "href": "/locos-de-atar",
+       "b": true
+      }
+     ]
     },
     {
      "name": "El ejército de los doce locos",
-     "slug": "el-ejercito-de-los-doce-locos"
+     "slug": "el-ejercito-de-los-doce-locos",
+     "segs": [
+      {
+       "t": "link",
+       "v": "El ejército de los doce locos.",
+       "href": "/el-ejercito-de-los-doce-locos",
+       "b": true
+      }
+     ]
     },
     {
      "name": "La verdad está oculta en un pozo",
-     "slug": "la-verdad-esta-oculta-en-un-pozo"
+     "slug": "la-verdad-esta-oculta-en-un-pozo",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La verdad está oculta en un pozo.",
+       "href": "/la-verdad-esta-oculta-en-un-pozo",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Las arenas del tiempo",
-     "slug": "las-arenas-del-tiempo"
+     "slug": "las-arenas-del-tiempo",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Las arenas del tiempo.",
+       "href": "/las-arenas-del-tiempo",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -1009,27 +1677,75 @@
    "quests": [
     {
      "name": "Desgarrones temporales",
-     "slug": "desgarrones-temporales"
+     "slug": "desgarrones-temporales",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Desgarrones temporales.",
+       "href": "/desgarrones-temporales",
+       "b": true
+      }
+     ]
     },
     {
      "name": "El futuro pasado",
-     "slug": "el-futuro-pasado"
+     "slug": "el-futuro-pasado",
+     "segs": [
+      {
+       "t": "link",
+       "v": "El futuro pasado.",
+       "href": "/el-futuro-pasado",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Guerra temporal",
-     "slug": "guerra-temporal"
+     "slug": "guerra-temporal",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Guerra temporal.",
+       "href": "/guerra-temporal",
+       "b": true
+      }
+     ]
     },
     {
      "name": "La Expansión Gödélica",
-     "slug": "la-expansion-godelica"
+     "slug": "la-expansion-godelica",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La Expansión Gödélica.",
+       "href": "/la-expansion-godelica",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Los visitantes del futuro",
-     "slug": "los-visitantes-del-futuro"
+     "slug": "los-visitantes-del-futuro",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Los visitantes del futuro.",
+       "href": "/los-visitantes-del-futuro",
+       "b": true
+      }
+     ]
     },
     {
      "name": "El mañana nunca muere",
-     "slug": "el-maana-nunca-muere"
+     "slug": "el-maana-nunca-muere",
+     "segs": [
+      {
+       "t": "link",
+       "v": "El mañana nunca muere.",
+       "href": "/el-maana-nunca-muere",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -1038,7 +1754,20 @@
    "number": 15,
    "quest": {
     "name": "Hablar con el Dios Xelor",
-    "slug": "hablar-con-el-dios-xelor"
+    "slug": "hablar-con-el-dios-xelor",
+    "segs": [
+     {
+      "t": "text",
+      "v": "15) ",
+      "b": true
+     },
+     {
+      "t": "link",
+      "v": "Hablar con el Dios Xelor.",
+      "href": "/hablar-con-el-dios-xelor",
+      "b": true
+     }
+    ]
    }
   },
   {
@@ -1049,7 +1778,15 @@
    "quests": [
     {
      "name": "En busca del pájaro del tiempo",
-     "slug": "en-busca-del-pajaro-del-tiempo"
+     "slug": "en-busca-del-pajaro-del-tiempo",
+     "segs": [
+      {
+       "t": "link",
+       "v": "En busca del pájaro del tiempo.",
+       "href": "/en-busca-del-pajaro-del-tiempo",
+       "b": true
+      }
+     ]
     }
    ]
   }

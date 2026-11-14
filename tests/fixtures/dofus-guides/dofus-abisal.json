@@ -499,11 +499,27 @@
    "quests": [
     {
      "name": "A la pesca de información",
-     "slug": "a-la-pesca-de-informacion"
+     "slug": "a-la-pesca-de-informacion",
+     "segs": [
+      {
+       "t": "link",
+       "v": "A la pesca de información.",
+       "href": "/a-la-pesca-de-informacion",
+       "b": true
+      }
+     ]
     },
     {
      "name": "El héroe de Sufokia",
-     "slug": "el-heroe-de-sufokia"
+     "slug": "el-heroe-de-sufokia",
+     "segs": [
+      {
+       "t": "link",
+       "v": "El héroe de Sufokia.",
+       "href": "/el-heroe-de-sufokia",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -514,19 +530,51 @@
    "quests": [
     {
      "name": "El viejo goblin y el mar",
-     "slug": "el-viejo-goblin-y-el-mar"
+     "slug": "el-viejo-goblin-y-el-mar",
+     "segs": [
+      {
+       "t": "link",
+       "v": "El viejo goblin y el mar.",
+       "href": "/el-viejo-goblin-y-el-mar",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Ya raspa por hoy",
-     "slug": "ya-raspa-por-hoy"
+     "slug": "ya-raspa-por-hoy",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Ya raspa por hoy.",
+       "href": "/ya-raspa-por-hoy",
+       "b": true
+      }
+     ]
     },
     {
      "name": "El efecto Paula Rice",
-     "slug": "el-efecto-paula-rice"
+     "slug": "el-efecto-paula-rice",
+     "segs": [
+      {
+       "t": "link",
+       "v": "El efecto Paula Rice.",
+       "href": "/el-efecto-paula-rice",
+       "b": true
+      }
+     ]
     },
     {
      "name": "¡Fhtagn!",
-     "slug": "fhtagn"
+     "slug": "fhtagn",
+     "segs": [
+      {
+       "t": "link",
+       "v": "¡Fhtagn!",
+       "href": "/fhtagn",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -537,39 +585,111 @@
    "quests": [
     {
      "name": "Los siete mercenarinos",
-     "slug": "los-siete-mercenarinos"
+     "slug": "los-siete-mercenarinos",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Los siete mercenarinos.",
+       "href": "/los-siete-mercenarinos",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Nuestros adobados vecinos",
-     "slug": "nuestros-adobados-vecinos"
+     "slug": "nuestros-adobados-vecinos",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Nuestros adobados vecinos.",
+       "href": "/nuestros-adobados-vecinos",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Competencia desleal",
-     "slug": "competencia-desleal"
+     "slug": "competencia-desleal",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Competencia desleal.",
+       "href": "/competencia-desleal",
+       "b": true
+      }
+     ]
     },
     {
      "name": "¿Quién la tiene más grande?",
-     "slug": "quien-la-tiene-mas-grande"
+     "slug": "quien-la-tiene-mas-grande",
+     "segs": [
+      {
+       "t": "link",
+       "v": "¿Quién la tiene más grande?",
+       "href": "/quien-la-tiene-mas-grande",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Derecho de pernada",
-     "slug": "derecho-de-pernada"
+     "slug": "derecho-de-pernada",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Derecho de pernada.",
+       "href": "/derecho-de-pernada",
+       "b": true
+      }
+     ]
     },
     {
      "name": "La música de Rykke Zane",
-     "slug": "la-musica-de-rykke-zane"
+     "slug": "la-musica-de-rykke-zane",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La música de Rykke Zane.",
+       "href": "/la-musica-de-rykke-zane",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Memorias de un amnésico",
-     "slug": "memorias-de-un-amnesico"
+     "slug": "memorias-de-un-amnesico",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Memorias de un amnésico.",
+       "href": "/memorias-de-un-amnesico",
+       "b": true
+      }
+     ]
     },
     {
      "name": "El que apesta en el umbral",
-     "slug": "el-que-apesta-en-el-umbral"
+     "slug": "el-que-apesta-en-el-umbral",
+     "segs": [
+      {
+       "t": "link",
+       "v": "El que apesta en el umbral.",
+       "href": "/el-que-apesta-en-el-umbral",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Reparo sin reparo",
-     "slug": "reparo-sin-reparo-1"
+     "slug": "reparo-sin-reparo-1",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Reparo sin reparo.",
+       "href": "/reparo-sin-reparo-1",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -580,31 +700,87 @@
    "quests": [
     {
      "name": "Intoxicación profunda",
-     "slug": "intoxicacion-profunda"
+     "slug": "intoxicacion-profunda",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Intoxicación profunda.",
+       "href": "/intoxicacion-profunda",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Los mercenarios están bien equipados",
-     "slug": "los-mercenarinos-estan-bien-equipados"
+     "slug": "los-mercenarinos-estan-bien-equipados",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Los mercenarios están bien equipados.",
+       "href": "/los-mercenarinos-estan-bien-equipados",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Pesca de machangrejos",
-     "slug": "pesca-de-machangrejos"
+     "slug": "pesca-de-machangrejos",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Pesca de machangrejos.",
+       "href": "/pesca-de-machangrejos",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Torcer el brazo",
-     "slug": "torcer-el-brazo"
+     "slug": "torcer-el-brazo",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Torcer el brazo.",
+       "href": "/torcer-el-brazo",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Basta de Bazano",
-     "slug": "basta-de-bazano"
+     "slug": "basta-de-bazano",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Basta de Bazano.",
+       "href": "/basta-de-bazano",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Profundímetro",
-     "slug": "profundimetro"
+     "slug": "profundimetro",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Profundímetro.",
+       "href": "/profundimetro",
+       "b": true
+      }
+     ]
     },
     {
      "name": "La toma de notas",
-     "slug": "la-toma-de-notas"
+     "slug": "la-toma-de-notas",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La toma de notas.",
+       "href": "/la-toma-de-notas",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -615,27 +791,75 @@
    "quests": [
     {
      "name": "Corrientes acuáticas",
-     "slug": "corrientes-acuaticas"
+     "slug": "corrientes-acuaticas",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Corrientes acuáticas.",
+       "href": "/corrientes-acuaticas",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Topo, el pequeño robot",
-     "slug": "topo-el-pequeo-robot"
+     "slug": "topo-el-pequeo-robot",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Topo, el pequeño robot.",
+       "href": "/topo-el-pequeo-robot",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Selva de cristal",
-     "slug": "selva-de-cristal"
+     "slug": "selva-de-cristal",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Selva de cristal.",
+       "href": "/selva-de-cristal",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Su nombre es Ninguno",
-     "slug": "su-nombre-es-ninguno"
+     "slug": "su-nombre-es-ninguno",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Su nombre es Ninguno.",
+       "href": "/su-nombre-es-ninguno",
+       "b": true
+      }
+     ]
     },
     {
      "name": "La llave del enigma",
-     "slug": "la-llave-del-enigma"
+     "slug": "la-llave-del-enigma",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La llave del enigma.",
+       "href": "/la-llave-del-enigma",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Puerta al pasado",
-     "slug": "puerta-al-pasado"
+     "slug": "puerta-al-pasado",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Puerta al pasado.",
+       "href": "/puerta-al-pasado",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -646,27 +870,75 @@
    "quests": [
     {
      "name": "La reina de la belleza",
-     "slug": "reina-de-la-belleza"
+     "slug": "reina-de-la-belleza",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La reina de la belleza.",
+       "href": "/reina-de-la-belleza",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Redescate",
-     "slug": "redescate"
+     "slug": "redescate",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Redescate.",
+       "href": "/redescate",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Estrategia en trithiempo real",
-     "slug": "estrategia-en-trithiempo-real"
+     "slug": "estrategia-en-trithiempo-real",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Estrategia en trithiempo real.",
+       "href": "/estrategia-en-trithiempo-real",
+       "b": true
+      }
+     ]
     },
     {
      "name": "En el fondo de la crisis",
-     "slug": "en-el-fondo-de-la-crisis"
+     "slug": "en-el-fondo-de-la-crisis",
+     "segs": [
+      {
+       "t": "link",
+       "v": "En el fondo de la crisis.",
+       "href": "/en-el-fondo-de-la-crisis",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Apostarse un ojo de la cara",
-     "slug": "apostarse-un-ojo-de-la-cara"
+     "slug": "apostarse-un-ojo-de-la-cara",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Apostarse un ojo de la cara.",
+       "href": "/apostarse-un-ojo-de-la-cara",
+       "b": true
+      }
+     ]
     },
     {
      "name": "En la boca del infierno",
-     "slug": "en-la-boca-del-infierno"
+     "slug": "en-la-boca-del-infierno",
+     "segs": [
+      {
+       "t": "link",
+       "v": "En la boca del infierno.",
+       "href": "/en-la-boca-del-infierno",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -677,27 +949,75 @@
    "quests": [
     {
      "name": "Lo que glugluteaba en las tinieblas",
-     "slug": "la-que-glugluteaba-en-las-tinieblas"
+     "slug": "la-que-glugluteaba-en-las-tinieblas",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Lo que glugluteaba en las tinieblas.",
+       "href": "/la-que-glugluteaba-en-las-tinieblas",
+       "b": true
+      }
+     ]
     },
     {
      "name": "El caso de Poly Perkin",
-     "slug": "el-caso-de-poly-perkin"
+     "slug": "el-caso-de-poly-perkin",
+     "segs": [
+      {
+       "t": "link",
+       "v": "El caso de Poly Perkin.",
+       "href": "/el-caso-de-poly-perkin",
+       "b": true
+      }
+     ]
     },
     {
      "name": "La Poly mala",
-     "slug": "la-poly-mala"
+     "slug": "la-poly-mala",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La Poly mala.",
+       "href": "/la-poly-mala",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Cuando los astros nos sonrían",
-     "slug": "cuando-los-astros-nos-sonrian"
+     "slug": "cuando-los-astros-nos-sonrian",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Cuando los astros nos sonrían.",
+       "href": "/cuando-los-astros-nos-sonrian",
+       "b": true
+      }
+     ]
     },
     {
      "name": "¿Kutulú, encerrado que harás tú?",
-     "slug": "kutulu-encerrado-que-haras-tu"
+     "slug": "kutulu-encerrado-que-haras-tu",
+     "segs": [
+      {
+       "t": "link",
+       "v": "¿Kutulú, encerrado que harás tú?.",
+       "href": "/kutulu-encerrado-que-haras-tu",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Impiorando",
-     "slug": "impiorando"
+     "slug": "impiorando",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Impiorando.",
+       "href": "/impiorando",
+       "b": true
+      }
+     ]
     }
    ]
   }

@@ -235,27 +235,75 @@
    "quests": [
     {
      "name": "Amaknomalía",
-     "slug": "amaknomalia"
+     "slug": "amaknomalia",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Amaknomalía.",
+       "href": "/amaknomalia",
+       "b": true
+      }
+     ]
     },
     {
      "name": "La madre de los dragohuevos",
-     "slug": "la-madre-de-los-dragohuevos"
+     "slug": "la-madre-de-los-dragohuevos",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La madre de los dragohuevos.",
+       "href": "/la-madre-de-los-dragohuevos",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Pesadilla Infinita",
-     "slug": "pesadilla-infinita"
+     "slug": "pesadilla-infinita",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Pesadilla Infinita.",
+       "href": "/pesadilla-infinita",
+       "b": true
+      }
+     ]
     },
     {
      "name": "La Noche Rugiente",
-     "slug": "la-noche-rugiente"
+     "slug": "la-noche-rugiente",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La Noche Rugiente.",
+       "href": "/la-noche-rugiente",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Las razones de la ira",
-     "slug": "las-razones-de-la-ira"
+     "slug": "las-razones-de-la-ira",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Las razones de la ira.",
+       "href": "/las-razones-de-la-ira",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Tiempo de secretos",
-     "slug": "tiempo-de-secretos"
+     "slug": "tiempo-de-secretos",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Tiempo de secretos.",
+       "href": "/tiempo-de-secretos",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -265,16 +313,44 @@
    "quests": [
     {
      "name": "Será mejor antes",
-     "slug": "sera-mejor-antes"
+     "slug": "sera-mejor-antes",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Será mejor antes.",
+       "href": "/sera-mejor-antes",
+       "b": true
+      }
+     ]
     },
     {
      "name": "El sentido del sacrificio",
-     "slug": "el-sentido-del-sacrificio"
+     "slug": "el-sentido-del-sacrificio",
+     "segs": [
+      {
+       "t": "link",
+       "v": "El sentido del sacrificio.",
+       "href": "/el-sentido-del-sacrificio",
+       "b": true
+      }
+     ]
     },
     {
      "name": "El dragón de los bosques",
      "slug": "el-dragon-de-los-bosques",
-     "note": "(si quieres ahorrar 1 000 000 kamas xD)"
+     "note": "(si quieres ahorrar 1 000 000 kamas xD)",
+     "segs": [
+      {
+       "t": "link",
+       "v": "El dragón de los bosques",
+       "href": "/el-dragon-de-los-bosques",
+       "b": true
+      },
+      {
+       "t": "text",
+       "v": " (si quieres ahorrar 1 000 000 kamas xD)."
+      }
+     ]
     }
    ]
   }

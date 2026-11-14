@@ -263,15 +263,39 @@
      "quests": [
       {
        "name": "Transporte único",
-       "slug": "transporte-unico"
+       "slug": "transporte-unico",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Transporte único.",
+         "href": "/transporte-unico",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Vestigios de leyenda",
-       "slug": "vestigios-de-leyenda"
+       "slug": "vestigios-de-leyenda",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Vestigios de leyenda.",
+         "href": "/vestigios-de-leyenda",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Vistas celestes",
-       "slug": "vistas-celestes"
+       "slug": "vistas-celestes",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Vistas celestes.",
+         "href": "/vistas-celestes",
+         "b": true
+        }
+       ]
       }
      ]
     },
@@ -282,31 +306,87 @@
      "quests": [
       {
        "name": "La prueba",
-       "slug": "la-prueba"
+       "slug": "la-prueba",
+       "segs": [
+        {
+         "t": "link",
+         "v": "La prueba.",
+         "href": "/la-prueba",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Campos de batalla",
-       "slug": "campos-de-batalla"
+       "slug": "campos-de-batalla",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Campos de batalla.",
+         "href": "/campos-de-batalla",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Fiesta del agua",
-       "slug": "fiesta-del-agua"
+       "slug": "fiesta-del-agua",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Fiesta del agua.",
+         "href": "/fiesta-del-agua",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Ejecútame un jalató",
-       "slug": "ejecutame-un-jalato"
+       "slug": "ejecutame-un-jalato",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Ejecútame un jalató.",
+         "href": "/ejecutame-un-jalato",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Caza de miaufianes",
-       "slug": "caza-de-miaufianes"
+       "slug": "caza-de-miaufianes",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Caza de miaufianes.",
+         "href": "/caza-de-miaufianes",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Lección de humildad",
-       "slug": "leccion-de-humildad"
+       "slug": "leccion-de-humildad",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Lección de humildad.",
+         "href": "/leccion-de-humildad",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Como chafer en su casa",
-       "slug": "como-chafer-por-su-casa"
+       "slug": "como-chafer-por-su-casa",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Como chafer en su casa.",
+         "href": "/como-chafer-por-su-casa",
+         "b": true
+        }
+       ]
       }
      ]
     },
@@ -317,23 +397,63 @@
      "quests": [
       {
        "name": "Productos naturales",
-       "slug": "productos-naturales"
+       "slug": "productos-naturales",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Productos naturales.",
+         "href": "/productos-naturales",
+         "b": true
+        }
+       ]
       },
       {
        "name": "El oficio de los aventureros",
-       "slug": "el-oficio-de-los-aventureros"
+       "slug": "el-oficio-de-los-aventureros",
+       "segs": [
+        {
+         "t": "link",
+         "v": "El oficio de los aventureros.",
+         "href": "/el-oficio-de-los-aventureros",
+         "b": true
+        }
+       ]
       },
       {
        "name": "A pico y hacha",
-       "slug": "a-pico-y-hacha"
+       "slug": "a-pico-y-hacha",
+       "segs": [
+        {
+         "t": "link",
+         "v": "A pico y hacha.",
+         "href": "/a-pico-y-hacha",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Bun empieza lo que Bun acaba",
-       "slug": "bun-empieza-lo-que-bun-acaba"
+       "slug": "bun-empieza-lo-que-bun-acaba",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Bun empieza lo que Bun acaba.",
+         "href": "/bun-empieza-lo-que-bun-acaba",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Preparación para el combate",
-       "slug": "preparacion-para-el-combate"
+       "slug": "preparacion-para-el-combate",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Preparación para el combate.",
+         "href": "/preparacion-para-el-combate",
+         "b": true
+        }
+       ]
       }
      ]
     },
@@ -344,19 +464,51 @@
      "quests": [
       {
        "name": "La torta secreta",
-       "slug": "la-torta-secreta"
+       "slug": "la-torta-secreta",
+       "segs": [
+        {
+         "t": "link",
+         "v": "La torta secreta.",
+         "href": "/la-torta-secreta",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Matarratas",
-       "slug": "matarratas"
+       "slug": "matarratas",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Matarratas.",
+         "href": "/matarratas",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Criptología",
-       "slug": "criptologia"
+       "slug": "criptologia",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Criptología.",
+         "href": "/criptologia",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Me importa un pigmento",
-       "slug": "me-importa-un-pigmento"
+       "slug": "me-importa-un-pigmento",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Me importa un pigmento.",
+         "href": "/me-importa-un-pigmento",
+         "b": true
+        }
+       ]
       }
      ]
     }
@@ -370,23 +522,63 @@
    "quests": [
     {
      "name": "Respuestas para todo",
-     "slug": "respuesta-para-todo"
+     "slug": "respuesta-para-todo",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Respuestas para todo.",
+       "href": "/respuesta-para-todo",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Un pueblo sobre las nubes",
-     "slug": "un-pueblo-sobre-las-nubes"
+     "slug": "un-pueblo-sobre-las-nubes",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Un pueblo sobre las nubes.",
+       "href": "/un-pueblo-sobre-las-nubes",
+       "b": true
+      }
+     ]
     },
     {
      "name": "La esperanza y la tragedia",
-     "slug": "la-esperanza-y-la-tragedia"
+     "slug": "la-esperanza-y-la-tragedia",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La esperanza y la tragedia.",
+       "href": "/la-esperanza-y-la-tragedia",
+       "b": true
+      }
+     ]
     },
     {
      "name": "En la boca del Minilubo Albino",
-     "slug": "en-la-boca-del-minilubo-albino"
+     "slug": "en-la-boca-del-minilubo-albino",
+     "segs": [
+      {
+       "t": "link",
+       "v": "En la boca del Minilubo Albino.",
+       "href": "/en-la-boca-del-minilubo-albino",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Destino Astrub",
-     "slug": "destino-astrub"
+     "slug": "destino-astrub",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Destino Astrub.",
+       "href": "/destino-astrub",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -398,27 +590,99 @@
    "quests": [
     {
      "name": "Archi y sus principios",
-     "slug": "archi-y-sus-principios"
+     "slug": "archi-y-sus-principios",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Archi y sus principios",
+       "href": "/archi-y-sus-principios",
+       "b": true
+      },
+      {
+       "t": "text",
+       "v": ".",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Eso va a costar un huevo",
-     "slug": "eso-va-a-costar-un-huevo"
+     "slug": "eso-va-a-costar-un-huevo",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Eso va a costar un huevo",
+       "href": "/eso-va-a-costar-un-huevo",
+       "b": true
+      },
+      {
+       "t": "text",
+       "v": ".",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Consejo de clase",
-     "slug": "consejo-de-clase"
+     "slug": "consejo-de-clase",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Consejo de clase",
+       "href": "/consejo-de-clase",
+       "b": true
+      },
+      {
+       "t": "text",
+       "v": ".",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Misión de clase",
-     "slug": null
+     "slug": null,
+     "segs": [
+      {
+       "t": "text",
+       "v": "Misión de clase.",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Aquí huele a gas",
-     "slug": "aqui-huele-a-gas"
+     "slug": "aqui-huele-a-gas",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Aquí huele a gas",
+       "href": "/aqui-huele-a-gas",
+       "b": true
+      },
+      {
+       "t": "text",
+       "v": ".",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Paseo por el bosque",
-     "slug": "paseo-por-el-bosque"
+     "slug": "paseo-por-el-bosque",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Paseo por el bosque",
+       "href": "/paseo-por-el-bosque",
+       "b": true
+      },
+      {
+       "t": "text",
+       "v": ".",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -434,15 +698,39 @@
      "quests": [
       {
        "name": "Esto hace aguas",
-       "slug": "esto-hace-aguas"
+       "slug": "esto-hace-aguas",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Esto hace aguas.",
+         "href": "/esto-hace-aguas",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Seis pies bajo tierra",
-       "slug": "seis-pies-bajo-tierra"
+       "slug": "seis-pies-bajo-tierra",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Seis pies bajo tierra.",
+         "href": "/seis-pies-bajo-tierra",
+         "b": true
+        }
+       ]
       },
       {
        "name": "El cazador cazado",
-       "slug": "el-cazador-cazado"
+       "slug": "el-cazador-cazado",
+       "segs": [
+        {
+         "t": "link",
+         "v": "El cazador cazado.",
+         "href": "/el-cazador-cazado",
+         "b": true
+        }
+       ]
       }
      ]
     },
@@ -453,19 +741,51 @@
      "quests": [
       {
        "name": "La historia en movimiento",
-       "slug": "la-historia-en-movimiento"
+       "slug": "la-historia-en-movimiento",
+       "segs": [
+        {
+         "t": "link",
+         "v": "La historia en movimiento.",
+         "href": "/la-historia-en-movimiento",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Restauración rápida",
-       "slug": "restauracion-rapida"
+       "slug": "restauracion-rapida",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Restauración rápida.",
+         "href": "/restauracion-rapida",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Verdaderas ratas de biblioteca",
-       "slug": "verdaderas-ratas-de-biblioteca"
+       "slug": "verdaderas-ratas-de-biblioteca",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Verdaderas ratas de biblioteca.",
+         "href": "/verdaderas-ratas-de-biblioteca",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Leyenda de otoño",
-       "slug": "leyenda-del-otoo"
+       "slug": "leyenda-del-otoo",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Leyenda de otoño.",
+         "href": "/leyenda-del-otoo",
+         "b": true
+        }
+       ]
       }
      ]
     },
@@ -476,27 +796,75 @@
      "quests": [
       {
        "name": "La cerveza compartida sabe mucho mejor",
-       "slug": "la-cerveza-compartida-sabe-mucho-mejor"
+       "slug": "la-cerveza-compartida-sabe-mucho-mejor",
+       "segs": [
+        {
+         "t": "link",
+         "v": "La cerveza compartida sabe mucho mejor.",
+         "href": "/la-cerveza-compartida-sabe-mucho-mejor",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Combate de calle",
-       "slug": "combate-de-calle"
+       "slug": "combate-de-calle",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Combate de calle.",
+         "href": "/combate-de-calle",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Como un pischis fuera del agua",
-       "slug": "como-un-pischis-fuera-del-agua"
+       "slug": "como-un-pischis-fuera-del-agua",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Como un pischis fuera del agua.",
+         "href": "/como-un-pischis-fuera-del-agua",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Comer con tenedor",
-       "slug": "comer-con-tenedor"
+       "slug": "comer-con-tenedor",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Comer con tenedor.",
+         "href": "/comer-con-tenedor",
+         "b": true
+        }
+       ]
       },
       {
        "name": "La copa de vicios",
-       "slug": "la-copa-de-vicios"
+       "slug": "la-copa-de-vicios",
+       "segs": [
+        {
+         "t": "link",
+         "v": "La copa de vicios.",
+         "href": "/la-copa-de-vicios",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Los ases del hurto",
-       "slug": "los-ases-del-hurto"
+       "slug": "los-ases-del-hurto",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Los ases del hurto.",
+         "href": "/los-ases-del-hurto",
+         "b": true
+        }
+       ]
       }
      ]
     },
@@ -507,19 +875,51 @@
      "quests": [
       {
        "name": "Crisis sanitaria",
-       "slug": "crisis-sanitaria"
+       "slug": "crisis-sanitaria",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Crisis sanitaria.",
+         "href": "/crisis-sanitaria",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Entrega por suplencia",
-       "slug": "entrega-por-suplencia"
+       "slug": "entrega-por-suplencia",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Entrega por suplencia.",
+         "href": "/entrega-por-suplencia",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Golemante",
-       "slug": "golemante"
+       "slug": "golemante",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Golemante.",
+         "href": "/golemante",
+         "b": true
+        }
+       ]
       },
       {
        "name": "El rebelde del bosque",
-       "slug": "el-rebelde-del-bosque"
+       "slug": "el-rebelde-del-bosque",
+       "segs": [
+        {
+         "t": "link",
+         "v": "El rebelde del bosque.",
+         "href": "/el-rebelde-del-bosque",
+         "b": true
+        }
+       ]
       }
      ]
     },
@@ -530,15 +930,39 @@
      "quests": [
       {
        "name": "El blues del miaumiau",
-       "slug": "el-blues-del-miaumiau"
+       "slug": "el-blues-del-miaumiau",
+       "segs": [
+        {
+         "t": "link",
+         "v": "El blues del miaumiau.",
+         "href": "/el-blues-del-miaumiau",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Vaya par",
-       "slug": "vaya-par"
+       "slug": "vaya-par",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Vaya par.",
+         "href": "/vaya-par",
+         "b": true
+        }
+       ]
       },
       {
        "name": "¡Cuidado con la bestia!",
-       "slug": "cuidado-con-la-bestia"
+       "slug": "cuidado-con-la-bestia",
+       "segs": [
+        {
+         "t": "link",
+         "v": "¡Cuidado con la bestia!",
+         "href": "/cuidado-con-la-bestia",
+         "b": true
+        }
+       ]
       }
      ]
     },
@@ -549,27 +973,75 @@
      "quests": [
       {
        "name": "Vigilancia en la pradera",
-       "slug": "vigilancia-en-la-pradera"
+       "slug": "vigilancia-en-la-pradera",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Vigilancia en la pradera.",
+         "href": "/vigilancia-en-la-pradera",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Quien siembra vientos recoge Artempestad",
-       "slug": "quien-siembra-vientos-recoge-artempestad"
+       "slug": "quien-siembra-vientos-recoge-artempestad",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Quien siembra vientos recoge Artempestad.",
+         "href": "/quien-siembra-vientos-recoge-artempestad",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Leñadores en peligro",
-       "slug": "leadores-en-peligro"
+       "slug": "leadores-en-peligro",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Leñadores en peligro.",
+         "href": "/leadores-en-peligro",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Genio en movimiento",
-       "slug": "genio-en-movimiento"
+       "slug": "genio-en-movimiento",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Genio en movimiento.",
+         "href": "/genio-en-movimiento",
+         "b": true
+        }
+       ]
       },
       {
        "name": "La invasión de profanadores de sepulturas",
-       "slug": "la-invasion-de-profanadores-de-sepulturas"
+       "slug": "la-invasion-de-profanadores-de-sepulturas",
+       "segs": [
+        {
+         "t": "link",
+         "v": "La invasión de profanadores de sepulturas.",
+         "href": "/la-invasion-de-profanadores-de-sepulturas",
+         "b": true
+        }
+       ]
       },
       {
        "name": "Eterno descanso",
-       "slug": "eterno-descanso"
+       "slug": "eterno-descanso",
+       "segs": [
+        {
+         "t": "link",
+         "v": "Eterno descanso.",
+         "href": "/eterno-descanso",
+         "b": true
+        }
+       ]
       }
      ]
     }

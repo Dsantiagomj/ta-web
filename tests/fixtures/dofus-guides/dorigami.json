@@ -1,0 +1,355 @@
+{
+ "heading": "DORIGAMI",
+ "banner": null,
+ "prerequisites": [
+  [
+   {
+    "t": "text",
+    "v": "Nivel mínimo 150."
+   }
+  ]
+ ],
+ "needs": {
+  "title": "Necesitarás en total",
+  "note": null,
+  "groups": [
+   {
+    "name": "Combates",
+    "rows": [
+     {
+      "text": "9 x combates (realizables en grupo).",
+      "segs": [
+       {
+        "t": "text",
+        "v": "9 x combates (realizables en grupo)."
+       }
+      ],
+      "quantity": 9,
+      "name": "combates",
+      "note": "(realizables en grupo)"
+     },
+     {
+      "text": "2 x combates (solo).",
+      "segs": [
+       {
+        "t": "text",
+        "v": "2 x combates (solo)."
+       }
+      ],
+      "quantity": 2,
+      "name": "combates",
+      "note": "(solo)"
+     },
+     {
+      "text": "1 x combate de oleada (realizable en grupo).",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x combate de oleada (realizable en grupo)."
+       }
+      ],
+      "quantity": 1,
+      "name": "combate de oleada",
+      "note": "(realizable en grupo)"
+     },
+     {
+      "text": "Algunas luchas contra monstruos de una zona para un drop del 25%.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "Algunas luchas contra monstruos de una zona para un drop del 25%."
+       }
+      ],
+      "name": "Algunas luchas contra monstruos de una zona para un drop del 25%"
+     },
+     {
+      "text": "Algunas luchas contra monstruos de una zona para un drop del 6%.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "Algunas luchas contra monstruos de una zona para un drop del 6%."
+       }
+      ],
+      "name": "Algunas luchas contra monstruos de una zona para un drop del 6%"
+     }
+    ]
+   },
+   {
+    "name": null,
+    "rows": [
+     {
+      "text": "1 x Mazmorra Shogun Tofugawa.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Mazmorra Shogun Tofugawa.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 1,
+      "name": "Mazmorra Shogun Tofugawa"
+     },
+     {
+      "text": "1 x Mazmorra Kumijo.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Mazmorra Kumijo.",
+        "b": true
+       }
+      ],
+      "strong": true,
+      "quantity": 1,
+      "name": "Mazmorra Kumijo"
+     },
+     {
+      "text": "12 x Ginseng (para el elixir de los barquerontes).",
+      "segs": [
+       {
+        "t": "text",
+        "v": "12 x Ginseng (para el elixir de los barquerontes)."
+       }
+      ],
+      "quantity": 12,
+      "name": "Ginseng",
+      "note": "(para el elixir de los barquerontes)"
+     },
+     {
+      "text": "8 x Bananaranja.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "8 x Bananaranja."
+       }
+      ],
+      "quantity": 8,
+      "name": "Bananaranja"
+     },
+     {
+      "text": "5 x Bauxita.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "5 x Bauxita."
+       }
+      ],
+      "quantity": 5,
+      "name": "Bauxita"
+     },
+     {
+      "text": "3 x Tabla de grabado",
+      "segs": [
+       {
+        "t": "text",
+        "v": "3 x Tabla de grabado"
+       }
+      ],
+      "quantity": 3,
+      "name": "Tabla de grabado"
+     },
+     {
+      "text": "1 x Diamante.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Diamante."
+       }
+      ],
+      "quantity": 1,
+      "name": "Diamante"
+     },
+     {
+      "text": "4 x Tejido de samurái fantasma (para el elixir de los barquerontes).",
+      "segs": [
+       {
+        "t": "text",
+        "v": "4 x Tejido de samurái fantasma (para el elixir de los barquerontes)."
+       }
+      ],
+      "quantity": 4,
+      "name": "Tejido de samurái fantasma",
+      "note": "(para el elixir de los barquerontes)"
+     },
+     {
+      "text": "4 x Tejido de samurái fantasma (a menos que ya tengas el hechizo de la Linterna de los espiritasesinos).",
+      "segs": [
+       {
+        "t": "text",
+        "v": "4 x Tejido de samurái fantasma (a menos que ya tengas el hechizo de la Linterna de los espiritasesinos)."
+       }
+      ],
+      "quantity": 4,
+      "name": "Tejido de samurái fantasma",
+      "note": "(a menos que ya tengas el hechizo de la Linterna de los espiritasesinos)"
+     },
+     {
+      "text": "3 x Fresa.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "3 x Fresa."
+       }
+      ],
+      "quantity": 3,
+      "name": "Fresa"
+     },
+     {
+      "text": "3 x Vísceras de escarahoja.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "3 x Vísceras de escarahoja."
+       }
+      ],
+      "quantity": 3,
+      "name": "Vísceras de escarahoja"
+     },
+     {
+      "text": "2 x Malta (para el elixir de los barquerontes).",
+      "segs": [
+       {
+        "t": "text",
+        "v": "2 x Malta (para el elixir de los barquerontes)."
+       }
+      ],
+      "quantity": 2,
+      "name": "Malta",
+      "note": "(para el elixir de los barquerontes)"
+     },
+     {
+      "text": "1 x Pandascudo.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Pandascudo."
+       }
+      ],
+      "quantity": 1,
+      "name": "Pandascudo"
+     },
+     {
+      "text": "1 x Pandasahi o 1 x Pandaporo.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Pandasahi o 1 x Pandaporo."
+       }
+      ],
+      "quantity": 1,
+      "name": "Pandasahi o 1 x Pandaporo"
+     },
+     {
+      "text": "1 x Última para el camino (una cerveza) por 2 000 kamas (para el elixir de los barquerontes).",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Última para el camino (una cerveza) por 2 000 kamas (para el elixir de los barquerontes)."
+       }
+      ],
+      "quantity": 1,
+      "name": "Última para el camino",
+      "note": "(una cerveza) por 2 000 kamas (para el elixir de los barquerontes)"
+     },
+     {
+      "text": "Ayuda de un herrero nivel 140 o más para un craft (a menos que tú lo seas).",
+      "segs": [
+       {
+        "t": "text",
+        "v": "Ayuda de un herrero nivel 140 o más para un craft (a menos que tú lo seas)."
+       }
+      ],
+      "name": "Ayuda de un herrero nivel 140 o más para un craft",
+      "note": "(a menos que tú lo seas)"
+     },
+     {
+      "text": "Ayuda de un alquimista nivel 140 o más (a menos que tú lo seas o compres el elixir de los barquerontes).",
+      "segs": [
+       {
+        "t": "text",
+        "v": "Ayuda de un alquimista nivel 140 o más (a menos que tú lo seas o compres el elixir de los barquerontes)."
+       }
+      ],
+      "name": "Ayuda de un alquimista nivel 140 o más",
+      "note": "(a menos que tú lo seas o compres el elixir de los barquerontes)"
+     }
+    ]
+   }
+  ]
+ },
+ "intro": [
+  [
+   {
+    "t": "text",
+    "v": "Para obtener tu Dorigami, necesitarás cumplir con las siguientes misiones de estos logros en este orden:"
+   }
+  ]
+ ],
+ "parts": [
+  {
+   "type": "achievement",
+   "name": "El guardián del inmaculado",
+   "slug": null,
+   "quests": [
+    {
+     "name": "Maldita desaparición",
+     "slug": "maldita-desaparicion",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Maldita desaparición.",
+       "href": "/maldita-desaparicion",
+       "b": true
+      }
+     ]
+    },
+    {
+     "name": "Hasta su último suspiro",
+     "slug": "hasta-su-ultimo-suspiro",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Hasta su último suspiro.",
+       "href": "/hasta-su-ultimo-suspiro",
+       "b": true
+      }
+     ]
+    },
+    {
+     "name": "Réquiem por un yokai",
+     "slug": "requiem-por-un-yokai",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Réquiem por un yokai.",
+       "href": "/requiem-por-un-yokai",
+       "b": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "note",
+   "segs": [
+    {
+     "t": "text",
+     "v": "También tienes que haber cumplido el logro del Domakuro:"
+    }
+   ]
+  },
+  {
+   "type": "achievement",
+   "name": "Las grandes mentes tienden a encontrarse",
+   "slug": "las-grandes-mentes-tienden-a-encontrarse",
+   "quests": []
+  }
+ ],
+ "rewards": [
+  "4 711 728 XP",
+  "32 280 kamas",
+  "1 x Dorigami"
+ ],
+ "video": null,
+ "body": []
+}

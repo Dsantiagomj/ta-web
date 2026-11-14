@@ -77,6 +77,8 @@ export interface LoadDofusGuidesReport {
   }[]
   /** Subtítulos de Torre cuyas filas no iban todas al mismo grupo (van al de la mayoría). */
   mixedSubtitles: { slug: string; subtitle: string; groups: NeedGroup[] }[]
+  /** Lo de una lista de misiones que no es una misión con guía y pasó a nota detrás. */
+  leftovers: { slug: string; text: string }[]
 }
 
 /** Las búsquedas de objetos que se hacen a la vez, para no cargar DofusDB. */
@@ -205,6 +207,7 @@ export async function loadDofusGuides(
     needGroups: [],
     needsAfter: [],
     mixedSubtitles: [],
+    leftovers: [],
   }
   const lookups = await lookupAll(
     options.guides.flatMap(({ source }) => allNeedRows(source).flatMap((row) => row.name ?? [])),
@@ -247,15 +250,20 @@ export async function loadDofusGuides(
     const unmatched = (kind: 'logro' | 'misión' | 'objeto', name: string) =>
       report.unmatched.push({ slug: entry.slug, kind, name })
 
-    const findGuide = (ref: QuestRef): number | null => {
+    const guideOf = (ref: QuestRef): number | null => {
       for (const candidate of ref.alternatives ?? [ref]) {
         const id =
           (candidate.slug && guideBySlug.get(candidate.slug)) ||
           guideByName.get(fold(candidate.name))
         if (id) return id
       }
-      unmatched('misión', ref.name)
       return null
+    }
+
+    const findGuide = (ref: QuestRef): number | null => {
+      const id = guideOf(ref)
+      if (!id) unmatched('misión', ref.name)
+      return id
     }
 
     const questRows = (refs: QuestRef[]) =>
@@ -263,6 +271,29 @@ export async function loadDofusGuides(
         const guide = findGuide(ref)
         return guide ? [{ guide, note: ref.note ?? null }] : []
       })
+
+    // Lo que Torre escribió en una lista de misiones y no es una misión con guía (una
+    // explicación, un enlace a un metalogro) no se pierde: va como nota detrás del bloque,
+    // con sus enlaces.
+    const leftoverNote = (refs: QuestRef[]): Record<string, unknown>[] => {
+      for (const ref of refs) report.leftovers.push({ slug: entry.slug, text: ref.name })
+      return refs.length === 0
+        ? []
+        : [
+            {
+              blockType: 'dofusNote',
+              text: lexical(
+                refs
+                  .map((ref) => `<p>${segmentsHtml(ref.segs ?? [{ t: 'text', v: ref.name }])}</p>`)
+                  .join(''),
+              ),
+            },
+          ]
+    }
+    const withLeftovers = (block: Record<string, unknown>, refs: QuestRef[]) => [
+      block,
+      ...leftoverNote(refs.filter((ref) => !guideOf(ref))),
+    ]
 
     const findAchievement = (part: Extract<Part, { type: 'achievement' }>) => {
       const page =
@@ -288,9 +319,24 @@ export async function loadDofusGuides(
       switch (part.type) {
         case 'achievement': {
           const achievement = findAchievement(part)
-          if (achievement) return [{ blockType: 'dofusAchievement', achievement, note: null }]
+          if (achievement) {
+            // Las misiones salen de la página de logro; lo que no es una de ellas ni una guía
+            // (Zanahowia: cómo hacer el logro) va como nota detrás.
+            const page = pages.docs.find((doc) => doc.id === achievement)
+            const pageQuests = new Set((page?.quests ?? []).map((row) => fold(row.name ?? '')))
+            const extra = part.quests.filter(
+              (ref) => !guideOf(ref) && !pageQuests.has(fold(ref.name)),
+            )
+            return [
+              { blockType: 'dofusAchievement', achievement, note: null },
+              ...leftoverNote(extra),
+            ]
+          }
           // Sin página de logro, sus misiones no se pierden: van como lista con su nombre.
-          return [{ blockType: 'dofusQuests', title: part.name, quests: questRows(part.quests) }]
+          return withLeftovers(
+            { blockType: 'dofusQuests', title: part.name, quests: questRows(part.quests) },
+            part.quests,
+          )
         }
         case 'metalogro': {
           const achievements = part.achievements.flatMap((inner) =>
@@ -303,10 +349,14 @@ export async function loadDofusGuides(
           return [{ blockType: 'dofusMetalogro', name: part.name, achievements }]
         }
         case 'quests':
-          return [{ blockType: 'dofusQuests', title: part.title, quests: questRows(part.quests) }]
+          return withLeftovers(
+            { blockType: 'dofusQuests', title: part.title, quests: questRows(part.quests) },
+            part.quests,
+          )
         case 'quest': {
           const guide = findGuide(part.quest)
-          return guide ? [{ blockType: 'dofusQuest', guide, note: part.quest.note ?? null }] : []
+          if (guide) return [{ blockType: 'dofusQuest', guide, note: part.quest.note ?? null }]
+          return leftoverNote([part.quest])
         }
         case 'note':
           return [{ blockType: 'dofusNote', text: lexical(`<p>${segmentsHtml(part.segs)}</p>`) }]

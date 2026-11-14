@@ -42,6 +42,8 @@ export interface Needs {
 
 export interface QuestRef {
   name: string
+  /** Toda la fila de Torre con sus enlaces: si no es una misión, sale como nota. */
+  segs?: Segment[]
   /** El slug de su guía en la web de Torre, o null si no la enlaza. */
   slug: string | null
   /** Varias misiones de las que se hace una. */
@@ -116,14 +118,21 @@ interface ListItem {
   children: ListItem[]
 }
 
+/**
+ * Los elementos de una lista con sus listas anidadas. La primera lista dentro de un elemento
+ * son sus hijos; una segunda (el Dorigami: «Combates:» con sus combates y otra lista cuyo
+ * título se perdió) va detrás del elemento, a su nivel, para no meterla debajo de un título
+ * que no es el suyo.
+ */
 function listItems(list: Element): ListItem[] {
   return [...list.children]
     .filter((child) => child.tagName.toLowerCase() === 'li')
-    .map((item) => {
-      const nested = [...item.children].find((child) =>
+    .flatMap((item) => {
+      const [nested, ...more] = [...item.children].filter((child) =>
         ['ul', 'ol'].includes(child.tagName.toLowerCase()),
       )
-      return { text: marked(item).trim(), children: nested ? listItems(nested) : [] }
+      const own = { text: marked(item).trim(), children: nested ? listItems(nested) : [] }
+      return [own, ...more.flatMap(listItems)]
     })
 }
 
@@ -271,15 +280,16 @@ const isPartList = (items: ListItem[]) =>
 function questRef(item: ListItem): QuestRef {
   const segs = inline(item.text)
   const links = segs.filter((seg) => seg.t === 'link')
-  if (links.length === 0) return { name: unDot(plain(item.text)), slug: null }
+  if (links.length === 0) return { name: unDot(plain(item.text)), slug: null, segs }
   const refs = links.map((link) => ({ name: unDot(link.v), slug: slugFromHref(link.href) }))
   // Lo que sigue al último enlace es la nota de Torre: «(solo empezarla)».
   const tail = plain(item.text.slice(item.text.lastIndexOf(']]') + 2)).replace(
     /^[.\s]+|[.\s]+$/g,
     '',
   )
-  const ref: QuestRef = refs.length > 1 ? { ...refs[0]!, alternatives: refs } : refs[0]!
+  const ref: QuestRef = refs.length > 1 ? { ...refs[0]!, alternatives: refs } : { ...refs[0]! }
   if (tail) ref.note = tail
+  ref.segs = segs
   return ref
 }
 

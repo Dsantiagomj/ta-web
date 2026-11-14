@@ -12,7 +12,7 @@ import type { QuestGuide } from '@/payload-types'
 import { createHtmlToLexical } from './rich-text'
 import { releaseDom } from './squarespace/dom'
 import { parsePage } from './squarespace/parse-page'
-import { closingParagraph } from './squarespace/to-quest-guide'
+import { closingParagraphs } from './squarespace/to-quest-guide'
 
 type LexicalNode = { type?: string; text?: string; children?: LexicalNode[] }
 type Block = { blockType: string; content?: unknown; [field: string]: unknown }
@@ -138,19 +138,16 @@ export async function restoreClosings(
       result.noSource += 1
       continue
     }
-    const closing = closingParagraph(parsePage(html))
-    if (!closing) {
+    const closings = closingParagraphs(parsePage(html))
+    if (closings.length === 0) {
       result.noClosing += 1
       await releaseDom()
       continue
     }
-    const lexical = toLexical(closing.html) as unknown as { root: LexicalNode }
+    const paragraphs = closings.map(
+      (closing) => (toLexical(closing.html) as unknown as { root: LexicalNode }).root.children?.[0],
+    )
     await releaseDom()
-    const paragraph = lexical.root.children?.[0]
-    if (!paragraph) {
-      result.notFound += 1
-      continue
-    }
     const guide: QuestGuide = await payload.findByID({
       collection: 'quest-guides',
       id,
@@ -158,13 +155,24 @@ export async function restoreClosings(
       draft: true,
       overrideAccess: true,
     })
-    const restored = restoreClosing((guide.body ?? []) as Block[], {
-      sentence: closing.sentence,
-      paragraph,
+    // Cada párrafo de cierre, uno tras otro: Torre a veces deja dos (Leyenda del otoño).
+    let body = (guide.body ?? []) as Block[]
+    let changed = false
+    closings.forEach((closing, index) => {
+      const paragraph = paragraphs[index]
+      if (!paragraph) {
+        result.notFound += 1
+        return
+      }
+      const restored = restoreClosing(body, { sentence: closing.sentence, paragraph })
+      result[restored.status] += 1
+      if (restored.status === 'notFound') log(`Guía ${slug}: no aparece el párrafo de cierre`)
+      if (restored.status === 'restored' || restored.status === 'inserted') {
+        body = restored.body
+        changed = true
+      }
     })
-    result[restored.status] += 1
-    if (restored.status === 'notFound') log(`Guía ${slug}: no aparece el párrafo de cierre`)
-    if (restored.status !== 'restored' && restored.status !== 'inserted') continue
+    if (!changed) continue
     if (!options.apply) {
       log(`Guía ${slug}: cierre por restaurar`)
       continue
@@ -174,7 +182,7 @@ export async function restoreClosings(
       collection: 'quest-guides',
       id,
       data: {
-        body: restored.body as QuestGuide['body'],
+        body: body as QuestGuide['body'],
         _status: published ? 'published' : 'draft',
       },
       draft: !published,
