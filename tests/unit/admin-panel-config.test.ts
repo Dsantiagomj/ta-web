@@ -6,8 +6,10 @@ import type {
   CollectionConfig,
   Field,
   GlobalConfig,
+  GroupField,
   SanitizedConfig,
 } from 'payload'
+import { toWords } from 'payload/shared'
 import { beforeAll, describe, expect, it } from 'vitest'
 
 import { AchievementGroups } from '@/collections/AchievementGroups'
@@ -312,6 +314,60 @@ describe('A-07: ningún campo se llama «Slug»', () => {
       .filter(({ field: candidate }) => (candidate as { label?: unknown }).label === 'Slug')
       .map(({ path }) => path)
     expect(slugs).toEqual([])
+  })
+})
+
+describe('cada campo que Torre ve tiene etiqueta propia', () => {
+  /** Campos cuya etiqueta española coincide con el nombre en palabras: X, Kamas, Banner… */
+  const SAME_IN_SPANISH = new Set(['x', 'y', 'kamas', 'color', 'checklist', 'banner'])
+
+  /** Los campos visibles, a cualquier profundidad: un grupo oculto oculta lo de dentro. */
+  function visibleFields(fields: Field[], trail: string): { path: string; field: Field }[] {
+    return fields.flatMap((candidate) => {
+      const admin = adminOf(candidate)
+      // Los campos de la autenticación de Payload van ocultos en el propio campo.
+      if (admin.hidden || admin.disabled || (candidate as { hidden?: boolean }).hidden) return []
+      const path = 'name' in candidate ? `${trail}.${candidate.name}` : trail
+      const nested =
+        'fields' in candidate && Array.isArray(candidate.fields)
+          ? visibleFields(candidate.fields, path)
+          : candidate.type === 'blocks'
+            ? (candidate.blocks ?? []).flatMap((block) =>
+                visibleFields(block.fields, `${path}.${block.slug}`),
+              )
+            : []
+      return [{ path, field: candidate }, ...nested]
+    })
+  }
+
+  it('en el contenido de Torre, ninguno sale con el nombre técnico que pondría Payload', () => {
+    const content = sanitized.collections.filter((collection) =>
+      [...EDITORIAL, 'checklists', 'media', 'users'].includes(collection.slug),
+    )
+    const unlabelled = content
+      .flatMap((collection) => visibleFields(collection.fields, collection.slug))
+      .filter(({ field: candidate }) => 'name' in candidate && !candidate.name.startsWith('_'))
+      .filter(
+        ({ field: candidate }) =>
+          !['id', 'createdAt', 'updatedAt'].includes((candidate as { name: string }).name),
+      )
+      // Sin etiqueta, Payload pone el nombre en palabras («Owned Moves»): eso cuenta como sin.
+      // Salvo las palabras que en español se escriben igual que el campo.
+      .filter(({ field: candidate }) => {
+        const label = (candidate as { label?: unknown }).label
+        const name = (candidate as { name: string }).name
+        return !label || (label === toWords(name) && !SAME_IN_SPANISH.has(name))
+      })
+      .map(({ path }) => path)
+    expect(unlabelled).toEqual([])
+  })
+
+  it('los datos de la migración del progreso antiguo, ownedMoves incluido, no salen', () => {
+    const legacy = field(Checklists.fields, 'legacy') as GroupField
+    expect(adminOf(legacy).hidden).toBe(true)
+    expect(
+      named(legacy.fields).map((candidate) => ('name' in candidate ? candidate.name : null)),
+    ).toContain('ownedMoves')
   })
 })
 
