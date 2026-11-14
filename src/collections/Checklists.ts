@@ -1,6 +1,7 @@
 import type { CollectionBeforeValidateHook, CollectionConfig, Condition, Field } from 'payload'
 
 import { checklistDetailsEndpoint } from '../endpoints/checklist-details'
+import { validateColor } from '../lib/dofus-guides/color'
 import { checklistStrings } from '../lib/checklists/strings'
 import { assignStepIds, type StepIdentity } from '../lib/checklists/step-ids'
 import { stateField } from './achievement-fields'
@@ -591,6 +592,71 @@ export const Checklists: CollectionConfig = {
       type: 'relationship',
       relationTo: 'dofus-guides',
       admin: { description: s.dofusGuideDescription },
+    },
+    {
+      // La tarjeta del índice /checklists (DESIGN.md, Checklists index). El encuadre va en % de
+      // la tarjeta; lo que se deja vacío toma el de siempre (checklists-index.css).
+      name: 'card',
+      label: 'Tarjeta del índice',
+      type: 'group',
+      // En la barra lateral, con el estado y el orden: no empuja los pasos hacia abajo.
+      admin: { position: 'sidebar', description: s.card.description },
+      fields: [
+        {
+          name: 'scene',
+          label: 'Escena',
+          type: 'upload',
+          relationTo: 'media',
+          admin: { description: s.card.scene },
+        },
+        {
+          name: 'npc',
+          label: 'PNJ',
+          type: 'upload',
+          relationTo: 'media',
+          admin: { description: s.card.npc },
+        },
+        {
+          name: 'npcHeight',
+          label: 'Alto del PNJ (%)',
+          type: 'number',
+          min: 20,
+          max: 120,
+          admin: { description: s.card.npcHeight, placeholder: '52' },
+        },
+        {
+          name: 'npcRight',
+          label: 'Hacia fuera por la derecha (%)',
+          type: 'number',
+          min: -80,
+          max: 40,
+          admin: { description: s.card.npcRight, placeholder: '-14' },
+        },
+        {
+          name: 'npcTop',
+          label: 'Desde arriba (%)',
+          type: 'number',
+          min: -20,
+          max: 60,
+          admin: { description: s.card.npcTop, placeholder: '9' },
+        },
+        {
+          name: 'color',
+          label: 'Color',
+          type: 'text',
+          validate: validateColor,
+          admin: {
+            description: s.card.color,
+            className: 'ta-color',
+            // El campo de texto de Payload con el selector de color delante, como en las guías
+            // de Dofus (A-22).
+            components: {
+              Field: '/components/admin/ColorField#ColorField',
+              beforeInput: ['/components/admin/ColorField#ColorSwatch'],
+            },
+          },
+        },
+      ],
     },
     {
       name: 'prerequisites',

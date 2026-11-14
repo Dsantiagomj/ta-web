@@ -29,6 +29,7 @@ import * as migration_20261114_011851_users_roles from './20261114_011851_users_
 import * as migration_20261114_022136_checklist_silvestre from './20261114_022136_checklist_silvestre';
 import * as migration_20261114_022458_checklist_hielos from './20261114_022458_checklist_hielos';
 import * as migration_20261114_122659_checklist_ocre from './20261114_122659_checklist_ocre';
+import * as migration_20261114_142119_checklist_cards from './20261114_142119_checklist_cards';
 
 export const migrations = [
   {
@@ -184,6 +185,11 @@ export const migrations = [
   {
     up: migration_20261114_122659_checklist_ocre.up,
     down: migration_20261114_122659_checklist_ocre.down,
-    name: '20261114_122659_checklist_ocre'
+    name: '20261114_122659_checklist_ocre',
+  },
+  {
+    up: migration_20261114_142119_checklist_cards.up,
+    down: migration_20261114_142119_checklist_cards.down,
+    name: '20261114_142119_checklist_cards'
   },
 ];

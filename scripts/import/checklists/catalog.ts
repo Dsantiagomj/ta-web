@@ -1,8 +1,10 @@
 // Las checklists de Torre, en el orden del hub de silvestre-checklist (src/embeds/hub/
-// manifest.js). Las que tienen `ported` se traen enteras (y siguen En preparación hasta que
+// manifest.js), con el arte de su tarjeta en ese hub (pnpm import:checklist-cards). Las que tienen `ported` se traen enteras (y siguen En preparación hasta que
 // Torre las publique); las demás se crean En preparación, sin pasos, con su enlace a
 // Squarespace. Las descripciones no llevan cifras:
 // cambian con la guía.
+
+import type { CardArt } from './cards'
 
 const SITE = 'https://www.torrentearcano.com'
 
@@ -24,6 +26,8 @@ export interface ChecklistCatalogEntry {
    */
   kind?: 'souls'
   soulsQuest?: number
+  /** El arte de su tarjeta en el índice, el del hub antiguo (pnpm import:checklist-cards). */
+  card?: CardArt
 }
 
 const entry = (fields: Omit<ChecklistCatalogEntry, 'legacyHref'>): ChecklistCatalogEntry => ({
@@ -40,6 +44,10 @@ export const CHECKLIST_CATALOG: ChecklistCatalogEntry[] = [
     order: 1,
     dofusGuide: 'dofus-silvestre',
     ported: true,
+    card: {
+      scene: { path: 'zones/reino-de-amakna.jpg', alt: 'El Reino de Amakna' },
+      npc: { path: 'hub/silvosse.png', alt: 'Silvosse' },
+    },
   }),
   entry({
     id: 'hielos',
@@ -49,6 +57,12 @@ export const CHECKLIST_CATALOG: ChecklistCatalogEntry[] = [
     order: 2,
     dofusGuide: 'dofus-de-los-hielos',
     ported: true,
+    card: {
+      scene: { path: 'zones/isla-de-frigost.jpg', alt: 'La isla de Frigost' },
+      // Su imagen es cuadrada y la figura estrecha: más grande y más a la derecha, que asome.
+      npc: { path: 'hub/conde-kontatras.png', alt: 'El Conde Kontatrás' },
+      npcFit: { height: 70, right: -30, top: 4 },
+    },
   }),
   entry({
     id: 'nebuloso',
@@ -58,11 +72,17 @@ export const CHECKLIST_CATALOG: ChecklistCatalogEntry[] = [
     order: 3,
     dofusGuide: 'misiones-nebuloso',
     ported: true,
+    card: {
+      scene: { path: 'zones/xelorium.jpg', alt: 'Xelorium' },
+      // Khelebragón, a quien libera «En busca del pájaro del tiempo», la misión del último paso.
+      npc: { path: 'hub/khelebragon.png', alt: 'Khelebragón' },
+      npcFit: { height: 72, right: -30, top: 4 },
+    },
   }),
   entry({
     id: 'ocre',
     slug: 'lista-ocre',
-    name: 'Almas del Ocre',
+    name: 'Dofus Ocre',
     description: 'Las almas de la eterna cosecha, una a una, hasta el Dofus Ocre.',
     order: 4,
     dofusGuide: 'dofus-ocre',
@@ -70,6 +90,12 @@ export const CHECKLIST_CATALOG: ChecklistCatalogEntry[] = [
     // «La eterna cosecha»: las 337 almas, de los objetivos que guarda la misión.
     kind: 'souls',
     soulsQuest: 439,
+    card: {
+      scene: { path: 'zones/pueblo-de-la-canopea.jpg', alt: 'El Pueblo de la Canopea' },
+      // Otomai, el sabio de su isla: su asistente recibe las almas de «La eterna cosecha».
+      npc: { path: 'hub/otomai.png', alt: 'Otomai' },
+      npcFit: { height: 74, right: -40, top: 6 },
+    },
   }),
 ]
 

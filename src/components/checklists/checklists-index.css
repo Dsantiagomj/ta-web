@@ -1,13 +1,15 @@
-/* El índice /checklists (DESIGN.md, Checklists index): el título y una tarjeta por checklist.
-   Va aparte de los estilos de la checklist, que el índice no necesita; mismo lenguaje que el
-   índice de las guías de Dofus (dofus-index.css), sin cargar esa hoja. */
+/* El índice /checklists (DESIGN.md, Checklists index): el título y una fila de carteles, como el
+   hub de silvestre-checklist (src/embeds/hub/hub.css). Cada cartel es la escena de su zona, el
+   PNJ asomando por la derecha, el huevo arriba con su brillo y el nombre abajo, sobre la sombra.
+   Con el ratón se inclina hacia él y el brillo holográfico lo sigue (posters-ui.ts). Va aparte
+   de los estilos de la checklist, que el índice no necesita. */
 
 .ck-index {
   --color-section: var(--color-sec-checklists);
   --gut: 1rem;
-  max-width: calc(75rem + 2 * var(--gut));
+  max-width: calc(var(--width-wide) + 2 * var(--gut));
   margin: 0 auto;
-  padding: 1.75rem var(--gut) 3.5rem;
+  padding: 1.75rem var(--gut) 1.5rem;
 }
 @media (min-width: 40rem) {
   .ck-index {
@@ -22,7 +24,7 @@
 }
 .ck-hero {
   max-width: 47.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
 }
 .ck-eyebrow {
   margin: 0 0 0.375rem;
@@ -42,8 +44,7 @@
   line-height: 1.65;
 }
 
-/* Sin checklists que enseñar: un aviso con el borde discontinuo de la tarjeta apagada, en vez
-   de una rejilla vacía. */
+/* Sin checklists que enseñar: un aviso con borde discontinuo, en vez de una fila vacía. */
 .ck-empty {
   max-width: 47.5rem;
   margin: 0;
@@ -55,178 +56,356 @@
   line-height: 1.6;
 }
 
-/* Una columna en el móvil, dos desde 640px y tres desde 1024px. */
-.ck-grid {
+/* La fila de carteles. Caben los cinco desde 1024px; más estrecho, o con más carteles, la fila
+   se desliza de lado y cada cartel se detiene en el borde (scroll-snap), así nunca queda uno
+   suelto debajo. La fila llega a los bordes de la pantalla y deja sitio a la sombra, al brillo
+   y a la inclinación. */
+.posters {
+  --poster-min: clamp(9.5rem, 42vw, 11rem);
+  --poster-gap: 0.75rem;
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 0.75rem;
-  margin: 0;
-  padding: 0;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(var(--poster-min), 17rem);
+  justify-content: safe center;
+  gap: var(--poster-gap);
+  margin: -0.75rem calc(-1 * var(--gut)) -0.75rem;
+  padding: 1.75rem var(--gut) 3rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gut);
+  scrollbar-width: thin;
   list-style: none;
 }
+.posters > li {
+  scroll-snap-align: start;
+}
+/* En la tableta se ven tres carteles y algo del cuarto, que dice que la fila sigue. */
 @media (min-width: 40rem) {
-  .ck-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .posters {
+    --poster-min: clamp(11rem, calc((100vw - 3.75rem) / 3.4), 16rem);
   }
 }
 @media (min-width: 64rem) {
-  .ck-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1rem;
+  .posters {
+    --poster-min: 9.5rem;
+    --poster-gap: 1rem;
+  }
+}
+@media (min-width: 80rem) {
+  .posters {
+    --poster-gap: 1.25rem;
   }
 }
 
-/* Tarjeta de colección (DESIGN.md, Card, collection) en horizontal: el huevo a la izquierda,
-   el nombre, la frase y el estado a la derecha. Toda la tarjeta es el enlace. */
-.ckcard {
+/* El cartel: 2:3. Lo inclinado es él; lo pintado va dentro, recortado por su marco. */
+.poster {
   position: relative;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  height: 100%;
-  min-height: 7.5rem;
-  padding: 1rem 1.25rem 1rem 1rem;
+  display: block;
+  aspect-ratio: 2 / 3;
   border-radius: var(--radius-card);
-  border: 1px solid color-mix(in srgb, var(--color-section) 45%, transparent);
-  background: var(--color-surface);
   color: var(--color-ink);
   text-decoration: none;
-  transition: border-color var(--duration-fast) var(--ease-standard);
+  box-shadow: 0 1.125rem 1.875rem rgb(0 0 0 / 0.6);
+  container: poster / inline-size;
+  transition: transform 150ms var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
 }
-a.ckcard:focus-visible {
+/* El brillo del color del Dofus al pasar el ratón: una capa que aparece, sin animar la sombra. */
+.poster::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 2rem -0.375rem var(--egg, var(--color-section));
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms var(--ease-standard);
+}
+a.poster:focus-visible {
   outline: 0.1875rem solid var(--color-ink);
   outline-offset: 0.25rem;
 }
-a.ckcard:active {
-  transform: scale(0.98);
+.poster__frame {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  border-radius: inherit;
+  background: var(--color-bg);
+  isolation: isolate;
   transition: transform var(--duration-press) var(--ease-out);
 }
-.ckcard::after {
+a.poster:active .poster__frame {
+  transform: scale(0.98);
+}
+/* El borde del color del Dofus, por encima de todo lo pintado dentro. */
+.poster__frame::after {
   content: '';
   position: absolute;
-  inset: -1px;
+  inset: 0;
+  z-index: 6;
   border-radius: inherit;
-  box-shadow:
-    0 0 0 1px var(--color-section),
-    0 0 1.375rem color-mix(in srgb, var(--color-section) 28%, transparent);
-  opacity: 0;
+  box-shadow: inset 0 0 0 2px var(--egg, var(--color-section));
   pointer-events: none;
-  transition: opacity var(--duration-fast) var(--ease-standard);
 }
-.ckcard__art {
-  position: relative;
-  display: grid;
-  flex: none;
-  place-items: center;
-  width: 5.5rem;
-  aspect-ratio: 1;
-}
-.ckcard__art::before {
-  content: '';
+
+.poster__art {
   position: absolute;
-  inset: 6%;
-  border-radius: 50%;
-  background: radial-gradient(
-    closest-side,
-    color-mix(in srgb, var(--egg, var(--color-section)) 34%, transparent),
-    transparent
+  inset: 0;
+}
+.poster__art img {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  filter: saturate(1.1);
+}
+
+/* El PNJ asoma por detrás, a la derecha, y se funde hacia abajo. Su encuadre (alto, cuánto se
+   sale por la derecha y desde arriba, en % del cartel) lo elige Torre en el panel. */
+.poster__npc {
+  position: absolute;
+  z-index: 1;
+  top: var(--npc-t, 9%);
+  right: var(--npc-r, -14%);
+  height: var(--npc-h, 52%);
+  pointer-events: none;
+  /* El contorno del color del Dofus y un halo oscuro: que se separe de un fondo claro (la nieve). */
+  filter: drop-shadow(0 0 1.5px var(--egg, var(--color-section)))
+    drop-shadow(0 0 0.875rem rgb(0 0 0 / 0.95));
+  mask-image: linear-gradient(0deg, transparent 4%, #000 40%);
+}
+.poster__npc img {
+  width: auto;
+  height: 100%;
+  max-width: none;
+}
+
+/* Oscuro abajo: el nombre siempre va sobre la sombra, nunca sobre el arte. */
+.poster__shade {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-bg) 15%, transparent) 0%,
+    color-mix(in srgb, var(--color-bg) 5%, transparent) 28%,
+    color-mix(in srgb, var(--color-bg) 80%, transparent) 54%,
+    color-mix(in srgb, var(--color-bg) 96%, transparent) 74%
   );
 }
-.ckcard__art img {
-  position: relative;
-  width: 4.5rem;
-  height: auto;
-  filter: drop-shadow(
-    0 0 1.125rem color-mix(in srgb, var(--egg, var(--color-section)) 45%, transparent)
-  );
+
+/* El huevo, grande arriba en el centro, con el brillo de su color. Su archivo es de 128px: no
+   pasa de ahí. */
+.poster__egg {
+  position: absolute;
+  z-index: 3;
+  top: 8%;
+  left: 50%;
+  height: min(54cqw, 7.25rem);
+  transform: translateX(-50%);
 }
-.ckcard__body {
-  display: grid;
-  gap: 0.25rem;
-  min-width: 0;
+.poster__egg img {
+  width: auto;
+  height: 100%;
+  max-width: none;
+  filter: drop-shadow(0 0 1rem var(--egg, var(--color-section)))
+    drop-shadow(0 0.75rem 0.75rem rgb(0 0 0 / 0.8));
 }
-.ckcard__n {
-  font: 600 1.0625rem / 1.25 var(--font-body);
+
+/* El brillo holográfico: sigue al ratón (--fx, --fy, de posters-ui.ts). */
+.poster__foil {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  opacity: 0.7;
+  mix-blend-mode: overlay;
+  background:
+    linear-gradient(115deg, transparent 30%, rgb(255 255 255 / 0.24) 45%, transparent 60%),
+    linear-gradient(
+      115deg,
+      transparent 38%,
+      color-mix(in srgb, var(--egg, var(--color-section)) 35%, transparent) 50%,
+      transparent 62%
+    );
+  background-size: 250% 250%;
+  background-position: var(--fx, 50%) var(--fy, 50%);
+  pointer-events: none;
+  transition: opacity 300ms var(--ease-standard);
 }
-.ckcard__d {
-  color: var(--color-ink-2);
-  font-size: var(--text-sm);
-  line-height: 1.45;
-}
-.ckcard__state {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.25rem 0.5rem;
-  margin-top: 0.25rem;
-}
-/* En preparación: la píldora de achievement.css, que el índice no carga. */
-.ckcard .ztag {
-  display: inline-flex;
-  align-items: center;
-  height: 1.375rem;
-  padding: 0 0.5rem;
+
+/* «En preparación» y «En camino»: una píldora sobre el arte (DESIGN.md, Pills over art). */
+.poster__badge {
+  position: absolute;
+  z-index: 5;
+  top: 0.625rem;
+  left: 0.625rem;
+  padding: 0.3125rem 0.5rem;
   border-radius: var(--radius-pill);
-  background: var(--color-raised);
-  color: var(--color-ink-2);
-  font: 600 0.6875rem / 1 var(--font-body);
+  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+  color: var(--color-ink);
+  font: 600 var(--text-micro) / 1 var(--font-display);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   white-space: nowrap;
 }
-.ckcard__legacy {
-  color: var(--color-ink-2);
-  font-size: var(--text-xs);
-  line-height: 1.4;
+
+/* El nombre, solo: en el color del Dofus, aclarado u oscurecido en el servidor hasta 4,5:1
+   sobre la sombra (src/lib/checklists/poster-ink.ts). */
+.poster__name {
+  position: absolute;
+  z-index: 5;
+  right: 6cqw;
+  bottom: 7cqw;
+  left: 6cqw;
+  color: var(--egg-ink-dark, var(--color-ink));
+  font: 700 clamp(0.9375rem, 10cqw, 1.75rem) / 1.05 var(--font-display);
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 0 rgb(0 0 0 / 0.5);
+  text-wrap: balance;
 }
-.ckcard--off {
-  border: 1px dashed var(--color-line);
-  color: var(--color-ink-2);
-}
-.ckcard--off .ckcard__art img {
-  filter: grayscale(1);
-  opacity: 0.45;
-}
-.ckcard--off .ckcard__art::before,
-.ckcard__art:empty::before {
-  display: none;
-}
-[data-mode='light'] .ckcard__art::before {
-  background: radial-gradient(
-    closest-side,
-    color-mix(in srgb, var(--egg, var(--color-section)) 22%, transparent),
-    transparent
+
+/* El progreso del navegador: un anillo arriba a la derecha (DESIGN.md, Card, collection).
+   Absoluto, así que aparecer no mueve nada; oculto hasta que la isla lo sabe. */
+.poster__ring {
+  --ring: var(--color-accent);
+  position: absolute;
+  z-index: 5;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: grid;
+  place-items: center;
+  width: 3.375rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--ring) calc(var(--ratio, 0) * 1turn),
+    color-mix(in srgb, var(--color-surface) 70%, transparent) 0
   );
 }
-[data-mode='light'] .ckcard__art img {
+.poster__ring[hidden] {
+  display: none;
+}
+.poster__ring::before {
+  content: '';
+  position: absolute;
+  inset: 0.25rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+}
+.poster__ring--done {
+  --ring: var(--color-success);
+}
+.poster__pct {
+  position: relative;
+  color: var(--color-accent-2);
+  font: 400 0.75rem / 1 var(--font-accent);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Una En preparación sin enlace: apagada, en gris, con borde discontinuo. */
+.poster--off {
+  box-shadow: none;
+}
+.poster--off .poster__frame {
+  filter: grayscale(1);
+}
+.poster--off .poster__art {
+  opacity: 0.5;
+}
+.poster--off .poster__egg img {
+  opacity: 0.45;
+  filter: none;
+}
+.poster--off .poster__frame::after {
+  box-shadow: none;
+  border: 2px dashed var(--color-line);
+}
+.poster--off .poster__name {
+  color: var(--color-ink-2);
+}
+
+/* La tarjeta «???»: en gris, la escena oscurecida y el huevo en silueta; sin brillo. */
+.poster--soon {
+  --egg: var(--color-muted);
+}
+.poster--soon .poster__frame {
+  filter: grayscale(1);
+}
+.poster--soon .poster__art img {
+  filter: brightness(0.5);
+}
+.poster--soon .poster__egg img {
+  filter: brightness(0) drop-shadow(0 0 1px rgb(255 255 255 / 0.5));
+}
+.poster--soon .poster__name {
+  color: var(--color-ink);
+}
+
+/* Modo claro (DESIGN.md, Art cards in light mode): la escena aclarada sobre la superficie, la
+   sombra clara, el nombre oscurecido y los brillos a la mitad. */
+[data-mode='light'] .poster {
+  box-shadow: 0 1.125rem 1.875rem rgb(0 0 0 / 0.3);
+}
+[data-mode='light'] .poster__frame {
+  background: var(--color-surface);
+}
+[data-mode='light'] .poster__art {
+  opacity: 0.55;
+}
+[data-mode='light'] .poster__shade {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    transparent 40%,
+    color-mix(in srgb, var(--color-surface) 80%, transparent) 58%,
+    color-mix(in srgb, var(--color-surface) 92%, transparent) 72%
+  );
+}
+[data-mode='light'] .poster__npc {
+  filter: drop-shadow(0 0 1.5px var(--egg, var(--color-section)))
+    drop-shadow(0 0.25rem 0.5rem rgb(0 0 0 / 0.18));
+}
+[data-mode='light'] .poster__egg img {
   filter: drop-shadow(
       0 0 0.625rem color-mix(in srgb, var(--egg, var(--color-section)) 35%, transparent)
     )
     drop-shadow(0 0.25rem 0.5rem rgb(0 0 0 / 0.18));
 }
-[data-mode='light'] .ckcard--off .ckcard__art img {
-  filter: grayscale(1);
+[data-mode='light'] .poster__name {
+  color: var(--egg-ink-light, var(--color-ink));
+  text-shadow: none;
 }
+[data-mode='light'] .poster--off .poster__name {
+  color: var(--color-ink-2);
+}
+[data-mode='light'] .poster--soon .poster__name {
+  color: var(--color-ink);
+}
+[data-mode='light'] .poster--soon .poster__egg img {
+  filter: brightness(0);
+}
+
+/* Con el ratón: el brillo alrededor y el holográfico entero. La inclinación la pone la isla. */
 @media (hover: hover) and (pointer: fine) {
-  a.ckcard:hover {
-    border-color: var(--color-section);
-  }
-  a.ckcard:hover::after {
+  a.poster:hover::before {
     opacity: 1;
   }
-  .ckcard__art img {
-    transform: scale(1.04);
-    transition: transform 600ms var(--ease-out);
-  }
-  a.ckcard:hover .ckcard__art img {
-    transform: none;
+  a.poster:hover .poster__foil {
+    opacity: 1;
   }
 }
+
 @media (prefers-reduced-motion: reduce) {
-  .ckcard,
-  .ckcard::after,
-  .ckcard__art img {
+  .poster,
+  .poster::before,
+  .poster__frame,
+  .poster__foil {
     transition: none;
   }
-  a.ckcard:active {
+  a.poster:active .poster__frame {
     transform: none;
   }
 }

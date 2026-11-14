@@ -1,7 +1,12 @@
 import type { Payload } from 'payload'
 import { describe, expect, it, vi } from 'vitest'
 
-import { checklistEntries, checklistNavItems, type ChecklistDoc } from '@/lib/checklists/list'
+import {
+  checklistEntries,
+  checklistNavItems,
+  checklistTeaser,
+  type ChecklistDoc,
+} from '@/lib/checklists/list'
 import { CHECKLISTS_INDEX_PATH } from '@/lib/checklists/path'
 import { readChecklists } from '@/lib/checklists/queries'
 import type { Media } from '@/payload-types'
@@ -83,6 +88,96 @@ describe('checklistEntries', () => {
       expect(entry!.egg).toBeUndefined()
       expect(entry!.color).toBeUndefined()
     }
+  })
+})
+
+// La tarjeta del índice (DESIGN.md, Checklists index): la escena, el PNJ con su encuadre y el
+// color, de la ficha de la checklist; el color, si Torre no pone otro, el de la guía de su Dofus.
+describe('checklistEntries: el arte de la tarjeta', () => {
+  const scene = {
+    id: 8,
+    url: '/media/xelorium.jpg',
+    filename: 'xelorium.jpg',
+    width: 960,
+    height: 417,
+    sizes: {},
+  } as unknown as Media
+  const npc = {
+    id: 9,
+    url: '/media/khelebragon.png',
+    filename: 'khelebragon.png',
+    width: 300,
+    height: 300,
+    sizes: {},
+  } as unknown as Media
+
+  it('la escena, el PNJ y su encuadre salen de la ficha', () => {
+    const [entry] = checklistEntries([
+      doc({ card: { scene, npc, npcHeight: 72, npcRight: -30, npcTop: 4 } }),
+    ])
+    expect(entry!.scene?.src).toContain('xelorium')
+    expect(entry!.npc?.src).toContain('khelebragon')
+    expect(entry!.npcFit).toEqual({ height: 72, right: -30, top: 4 })
+  })
+
+  it('sin encuadre, ninguno: la tarjeta usa el de siempre', () => {
+    const [entry] = checklistEntries([doc({ card: { npc, npcHeight: null } })])
+    expect(entry!.npcFit).toBeUndefined()
+  })
+
+  it('sin la imagen leída (solo su ID), ni escena ni PNJ', () => {
+    const [entry] = checklistEntries([doc({ card: { scene: 8, npc: null } })])
+    expect(entry!.scene).toBeUndefined()
+    expect(entry!.npc).toBeUndefined()
+  })
+
+  it('el color de la ficha gana al de la guía de su Dofus', () => {
+    const [own, fallback] = checklistEntries([
+      doc({ card: { color: '#c3b1f5' }, dofusGuide: { color: '#875cd2' } }),
+      doc({ card: { color: ' ' }, dofusGuide: { color: '#875cd2' } }),
+    ])
+    expect(own!.color).toBe('#c3b1f5')
+    expect(fallback!.color).toBe('#875cd2')
+  })
+
+  it('con color, el del nombre en cada modo, legible sobre la sombra', () => {
+    const [bright, dark, none] = checklistEntries([
+      doc({ dofusGuide: { color: '#b0d62d' } }),
+      doc({ dofusGuide: { color: '#875cd2' } }),
+      doc({}),
+    ])
+    expect(bright!.ink?.dark).toBe('#b0d62d')
+    expect(dark!.ink?.dark).not.toBe('#875cd2')
+    expect(none!.ink).toBeUndefined()
+  })
+})
+
+describe('checklistTeaser', () => {
+  const egg = {
+    id: 3,
+    url: '/media/soon.png',
+    filename: 'soon.png',
+    width: 128,
+    height: 128,
+    sizes: {},
+  } as unknown as Media
+
+  it('encendida, su etiqueta, su texto y su arte', () => {
+    expect(
+      checklistTeaser({
+        teaser: { enabled: true, label: ' En camino ', text: '???', egg, scene: null },
+      }),
+    ).toEqual({
+      label: 'En camino',
+      text: '???',
+      egg: expect.objectContaining({ src: expect.stringContaining('soon') }),
+    })
+  })
+
+  it('apagada, o sin texto, no sale', () => {
+    expect(checklistTeaser({ teaser: { enabled: false, text: '???' } })).toBeNull()
+    expect(checklistTeaser({ teaser: { enabled: true, text: '  ' } })).toBeNull()
+    expect(checklistTeaser(null)).toBeNull()
   })
 })
 
@@ -170,6 +265,45 @@ describe('readChecklists', () => {
     expect(args.select).toEqual({ color: true, dofus: true })
     expect(withGuide!.dofusGuide).toEqual({ color: '#7fd6c2', dofus: { image: egg } })
     expect(withoutGuide!.dofusGuide).toBeNull()
+  })
+
+  it('lee la tarjeta y trae sus imágenes (escena y PNJ) en una sola lectura de Media', async () => {
+    const scene = {
+      id: 8,
+      url: '/media/xelorium.jpg',
+      filename: 'xelorium.jpg',
+      width: 960,
+      height: 417,
+      sizes: {},
+    }
+    const npc = {
+      id: 9,
+      url: '/media/khelebragon.png',
+      filename: 'khelebragon.png',
+      width: 300,
+      height: 300,
+      sizes: {},
+    }
+    const find = vi.fn(
+      async ({ collection }: { collection: string; select?: object; where?: object }) =>
+        collection === 'checklists'
+          ? {
+              docs: [
+                doc({ card: { scene: 8, npc: 9, npcHeight: 72 } }),
+                doc({ slug: 'otra', card: { scene: 8 } }),
+              ],
+            }
+          : { docs: [scene, npc] },
+    )
+    const [first, second] = await readChecklists({ find } as unknown as Payload)
+    expect(find.mock.calls[0]![0].select).toMatchObject({ card: true })
+    const media = find.mock.calls.find(([args]) => args.collection === 'media')![0] as unknown as {
+      where: { id: { in: number[] } }
+    }
+    expect(media.where.id.in.sort()).toEqual([8, 9])
+    expect(find).toHaveBeenCalledTimes(2)
+    expect(first!.card).toEqual({ scene, npc, npcHeight: 72 })
+    expect(second!.card).toEqual({ scene })
   })
 
   it('sin guías enlazadas no hace la segunda lectura', async () => {

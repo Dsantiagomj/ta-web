@@ -721,7 +721,8 @@ function totalRows(steps: Step[], prerequisiteNeeds: PrerequisiteNeed[], known: 
   })
 }
 
-function islandData(data: ChecklistData): ChecklistIslandData {
+/** Lo que recibe la isla de la checklist; el índice /checklists saca de ello su porcentaje. */
+export function islandData(data: ChecklistData): ChecklistIslandData {
   const { checklist, questGraph, torreLevels } = data
   const steps = checklist.steps ?? []
   const closedIds = new Set(steps.flatMap(closedSteps))

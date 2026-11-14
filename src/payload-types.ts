@@ -115,9 +115,11 @@ export interface Config {
   fallbackLocale: ('false' | 'none' | 'null') | false | null | 'es' | 'es'[];
   globals: {
     'dofus-guides-index': DofusGuidesIndex;
+    'checklists-index': ChecklistsIndex;
   };
   globalsSelect: {
     'dofus-guides-index': DofusGuidesIndexSelect<false> | DofusGuidesIndexSelect<true>;
+    'checklists-index': ChecklistsIndexSelect<false> | ChecklistsIndexSelect<true>;
   };
   locale: 'es';
   widgets: {
@@ -1230,6 +1232,35 @@ export interface Checklist {
    */
   dofusGuide?: (number | null) | DofusGuide;
   /**
+   * Cómo sale la checklist en el índice de checklists: la escena de fondo, el PNJ que asoma por la derecha y el color del borde, el brillo y el nombre.
+   */
+  card?: {
+    /**
+     * La zona de fondo. Mejor una imagen apaisada: se recorta por los lados.
+     */
+    scene?: (number | null) | Media;
+    /**
+     * El PNJ que asoma por detrás, a la derecha, y se funde hacia abajo. Con el fondo transparente.
+     */
+    npc?: (number | null) | Media;
+    /**
+     * Lo alto que sale el PNJ. Vacío: 52.
+     */
+    npcHeight?: number | null;
+    /**
+     * Cuánto se sale por la derecha: con un número negativo asoma menos. Vacío: -14.
+     */
+    npcRight?: number | null;
+    /**
+     * A qué distancia de arriba empieza. Vacío: 9.
+     */
+    npcTop?: number | null;
+    /**
+     * El color del borde, del brillo y del nombre, en hexadecimal (#c3b1f5). Vacío: el de la guía de su Dofus. Si no se lee bien, la web lo aclara o lo oscurece en el nombre.
+     */
+    color?: string | null;
+  };
+  /**
    * Lo que hay que tener antes de empezar, por grupos.
    */
   prerequisites?: {
@@ -2132,6 +2163,16 @@ export interface ChecklistsSelect<T extends boolean = true> {
   order?: T;
   description?: T;
   dofusGuide?: T;
+  card?:
+    | T
+    | {
+        scene?: T;
+        npc?: T;
+        npcHeight?: T;
+        npcRight?: T;
+        npcTop?: T;
+        color?: T;
+      };
   prerequisites?:
     | T
     | {
@@ -2717,11 +2758,75 @@ export interface DofusGuidesIndex {
   createdAt?: string | null;
 }
 /**
+ * Lo del índice de checklists que no es de ninguna checklist. Las tarjetas de cada una se cambian en su checklist, en «Tarjeta del índice».
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "checklists-index".
+ */
+export interface ChecklistsIndex {
+  id: number;
+  /**
+   * La última tarjeta del índice, en gris y con el huevo en silueta: la siguiente checklist que preparas. No enlaza a ninguna parte.
+   */
+  teaser?: {
+    /**
+     * Desmárcalo para quitarla del índice.
+     */
+    enabled?: boolean | null;
+    /**
+     * La píldora de arriba: «En camino».
+     */
+    label?: string | null;
+    /**
+     * El nombre de la tarjeta: «???», o el del Dofus si ya quieres anunciarlo.
+     */
+    text?: string | null;
+    /**
+     * La zona de fondo; sale en gris y oscurecida.
+     */
+    scene?: (number | null) | Media;
+    /**
+     * El huevo; sale como una silueta negra.
+     */
+    egg?: (number | null) | Media;
+  };
+  importSnapshot?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "dofus-guides-index_select".
  */
 export interface DofusGuidesIndexSelect<T extends boolean = true> {
   intro?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "checklists-index_select".
+ */
+export interface ChecklistsIndexSelect<T extends boolean = true> {
+  teaser?:
+    | T
+    | {
+        enabled?: T;
+        label?: T;
+        text?: T;
+        scene?: T;
+        egg?: T;
+      };
+  importSnapshot?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

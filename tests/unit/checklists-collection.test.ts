@@ -361,3 +361,52 @@ describe('colección checklists', () => {
     ])
   })
 })
+
+// La tarjeta del índice /checklists (DESIGN.md, Checklists index): Torre cambia su arte en el
+// panel; la importación de las tarjetas (pnpm import:checklist-cards) trae el del hub antiguo.
+describe('checklists: la tarjeta del índice', () => {
+  const card = field(Checklists.fields, 'card') as GroupField
+
+  it('es un grupo con la escena, el PNJ, su encuadre y el color', () => {
+    expect(card).toMatchObject({
+      type: 'group',
+      label: 'Tarjeta del índice',
+      admin: { position: 'sidebar' },
+    })
+    expect(card.fields.map((child) => ('name' in child ? child.name : null))).toEqual([
+      'scene',
+      'npc',
+      'npcHeight',
+      'npcRight',
+      'npcTop',
+      'color',
+    ])
+    expect(field(card.fields, 'scene')).toMatchObject({ type: 'upload', relationTo: 'media' })
+    expect(field(card.fields, 'npc')).toMatchObject({ type: 'upload', relationTo: 'media' })
+  })
+
+  it('el encuadre va en % de la tarjeta, con límites que no la rompen', () => {
+    expect(field(card.fields, 'npcHeight')).toMatchObject({ type: 'number', min: 20, max: 120 })
+    expect(field(card.fields, 'npcRight')).toMatchObject({ type: 'number', min: -80, max: 40 })
+    expect(field(card.fields, 'npcTop')).toMatchObject({ type: 'number', min: -20, max: 60 })
+  })
+
+  it('el color, con el selector del panel; vacío, el de la guía de su Dofus', () => {
+    const color = field(card.fields, 'color') as Field & {
+      validate: (value: unknown) => true | string
+      admin: { components: { Field: string }; description: string }
+    }
+    expect(color.type).toBe('text')
+    expect(color.admin.components.Field).toBe('/components/admin/ColorField#ColorField')
+    expect(color.admin.description).toMatch(/guía de su Dofus/)
+    expect(color.validate('#c3b1f5')).toBe(true)
+    expect(color.validate('morado')).not.toBe(true)
+    expect(color.validate(null)).toBe(true)
+  })
+
+  it('cada campo explica a Torre qué cambia en la tarjeta', () => {
+    for (const child of card.fields) {
+      expect((child as { admin?: { description?: string } }).admin?.description).toBeTruthy()
+    }
+  })
+})

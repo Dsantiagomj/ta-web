@@ -10,7 +10,8 @@ export const checklistIndexStrings = {
     'Marca lo hecho y ve lo que falta, de la primera misión al Dofus. Sin cuenta: el progreso ' +
     'se guarda en tu navegador.',
   preparing: 'En preparación',
-  legacy: 'Por ahora, se abre en la web anterior',
+  /** Tras el porcentaje del cartel, para el lector de pantalla: «25 % hecho». */
+  done: ' hecho',
   empty: 'Todavía no hay checklists publicadas. Vuelve pronto: Torre está preparando la primera.',
   seo: {
     title: 'Checklists de Dofus',
@@ -67,6 +68,32 @@ export const checklistStrings = {
     descriptionDescription:
       'Una frase para el índice y el menú. Sin cifras de pasos ni de misiones: cambian.',
     dofusGuideDescription: 'La guía de su Dofus: de ella salen el huevo y el color de la página.',
+    card: {
+      description:
+        'Cómo sale la checklist en el índice de checklists: la escena de fondo, el PNJ que asoma ' +
+        'por la derecha y el color del borde, el brillo y el nombre.',
+      scene: 'La zona de fondo. Mejor una imagen apaisada: se recorta por los lados.',
+      npc: 'El PNJ que asoma por detrás, a la derecha, y se funde hacia abajo. Con el fondo transparente.',
+      npcHeight: 'Lo alto que sale el PNJ. Vacío: 52.',
+      npcRight: 'Cuánto se sale por la derecha: con un número negativo asoma menos. Vacío: -14.',
+      npcTop: 'A qué distancia de arriba empieza. Vacío: 9.',
+      color:
+        'El color del borde, del brillo y del nombre, en hexadecimal (#c3b1f5). Vacío: el de la ' +
+        'guía de su Dofus. Si no se lee bien, la web lo aclara o lo oscurece en el nombre.',
+    },
+    teaser: {
+      indexDescription:
+        'Lo del índice de checklists que no es de ninguna checklist. Las tarjetas de cada una se ' +
+        'cambian en su checklist, en «Tarjeta del índice».',
+      description:
+        'La última tarjeta del índice, en gris y con el huevo en silueta: la siguiente checklist ' +
+        'que preparas. No enlaza a ninguna parte.',
+      enabled: 'Desmárcalo para quitarla del índice.',
+      label: 'La píldora de arriba: «En camino».',
+      text: 'El nombre de la tarjeta: «???», o el del Dofus si ya quieres anunciarlo.',
+      scene: 'La zona de fondo; sale en gris y oscurecida.',
+      egg: 'El huevo; sale como una silueta negra.',
+    },
     legacyHrefDescription:
       'La checklist en Squarespace mientras esta no esté lista. Deja de usarse al publicarla.',
     prerequisitesDescription: 'Lo que hay que tener antes de empezar, por grupos.',
