@@ -43,7 +43,8 @@ test.describe('el panel para Torre, ola 2', () => {
   }
 
   test('A-16: la barra lateral dice en una línea si la página se ve', async () => {
-    const live = await docId(page, 'achievement-pages', seedAchievement.slug)
+    // Ni este logro ni la checklist de abajo los abre otra spec: Payload bloquea lo abierto.
+    const live = await docId(page, 'achievement-pages', seedAchievement.previous.slug)
     await page.goto(`/admin/collections/achievement-pages/${live}`)
     await expect(publishStatus()).toContainText('En la web: visible')
 
@@ -83,7 +84,7 @@ test.describe('el panel para Torre, ola 2', () => {
   })
 
   test('A-20: la vista previa de una checklist abre su página', async () => {
-    const { slug } = seedChecklists.nebuloso
+    const { slug } = seedChecklists.hielos
     const id = await docId(page, 'checklists', slug)
     await page.goto(`/admin/collections/checklists/${id}`)
     await openLivePreview()
