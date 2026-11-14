@@ -1,0 +1,250 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:e392149a6d8859681943c998e9836b1aae42dc16a65d855d7542d222e65a15b4",
+  "claims": [
+    {
+      "id": "claim_71d31459773d4adb9c99087735a1162c",
+      "statement": "The legacy URL table is split into sections with a description, moved paths, gone paths and an optional permanent flag; moved paths answer 301, or 307 when the section sets permanent false, and gone paths answer 410.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/redirects/table.ts#L12-L28",
+          "version": "repo-lines-v1:sha256:a2f06092b112eb92823b465f108d0c5f59258903a6f284763864e912a46f7873:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM1ZGMyOTQzY2QzMmU4Y2IzMzc2ZDlmNTU4Mjk0YmUyNzZkZjc1NzhlNzgzYmE3OTlkOWM0ZmUyYWNhMzAxZTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0ZjQzNmVkYzRkNjY0Y2FkMGFkMTQ1ZDVhOTdiNmE5YWUxYjQ3MzEzNTA0NTFiY2UzOTM4YmViMWY3NDdkMzQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVjNzM4YTJmNDA3NGQyZTE0YmVjM2I3NTU1NWY4OGZmN2VkNDhjYWExZDQ3NDc1NzZmODRmNmQ3ZDUyZDg0YmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIyZGVhZDg4Mjk4YjQ2YTBhNmU2NmEwMDQ0NzIxMGRmZWRjNTZhZDZiMjM4MjgxNWEzYjNjODU0ZjI0NWQ3NzAifQ"
+        },
+        {
+          "resource": "repo://src/lib/redirects/table.ts#L58-L74",
+          "version": "repo-lines-v1:sha256:4d17afba7615ea88e1faae0534bc3de82f3e08d13207652e2cdf42fc626b9ccf:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4MjIxYzRlYTE5ZDgyYjlmMDhkYjc4NDhhZDQ5NjM1OTQxYmRmOTNjNmM5NGUxMGFjMjE4YmRlZDI2OGM1OGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNkMzAxYTA3NmNiNDEzMzg5ZmEwYzMzMWI3MjQ5MDExZjMzMmIxZWZlZmQyNmUzZmZkNGExNWJmMGZkNWQ5NzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzNzNmNGIzOTJjOTFiODI1NWIzNDlhYWQ3NTI3MmE5NDQ2ZWRjZTM2MzRlMzNiYzBjNTY1MmMzZjkzZDFkMzcifQ"
+        },
+        {
+          "resource": "repo://tests/unit/redirect-table.test.ts#L20-L41",
+          "version": "repo-lines-v1:sha256:883ea562eb689fc44da1ad561a7f60227b191363c00541fd0098befa24d53d74:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRmNGIwMjM0M2FjM2ZiOGZmOGIwOTI5ODExNjkwOTBkYTIwZjI4NjI2YzBmMzRjYjkzMGFiNzdhOWVlM2RiM2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUyNzhmMTA4OWYyMWE5YTZhY2ZlZDEzMzQyODRiNjJmYTViOGRkYzc1N2M3YmE4YWRlZGFlMjc0MWIyZWVkNmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkZGI2NTYyZGIwMjc4MTgxOTc1NGEzZDVhMWJjZjgxZGViOWVjODA2YTg1MjcxMzYxMTU0ODk3MmRlMTQ0MmQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_49ba74141b86432f8ddb40a191a8300c",
+      "statement": "buildLegacyTable rejects sources that are not a flat valid slug or are reserved routes, a source repeated across sections, targets that leave the site or contain backslashes, whitespace or control characters, and chains where a target is itself a source.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/redirects/table.ts#L37-L84",
+          "version": "repo-lines-v1:sha256:e4b07fffde299250397f0ebc1251d7c43b034329577359c394b20a58734bd646:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwYTMzODM5MDMzNGI1YzBmYTdmZDk2YzFmNzJjYWQxNjhlYzBmNmIyMTZiNzg5MTk2NjFhZDczOGI2MTVhMjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA1OWYzOGU2NmZiODQxZWUyMTA3ZGI4OGUxNDhjZjY3YTM0NWRhOGM1MmYzYjYxN2Y5MTZlZGFmN2RjZjQ3NzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEwZDk1YjI5OTk1NDdjMDUxYzAzMzhiYjFhNDU2NDcyNDU3YzM3NGY5NDY4MDIwZmI0ZmY0ODA4Y2M5NmZkZWUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/redirect-table.test.ts#L42-L94",
+          "version": "repo-lines-v1:sha256:6051964f6772e23bd7408437e359e644f9b8e20b466d671f2bb89bb6d1e77205:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3ZDcyYjFmNjU1OWQxOGQ5NTRkYzBlNTZiMjVhNGQ3MWI0NWQzYzMzMzYwYmU0MmZhOGI2YjZmMjBjMWMzMzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5NWJmMGJlYTgxZGUwZDM3MzIxZTNhOGU5NjYyYzU1NzA3OTQwMTI1ZWE1NmM5MzRkZGNkZGQ4ODg5ODIyZDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFkYTgwMGU5NThiNTA5YTJiYzk2MTUxOGJlM2ZmYzFiMWJkN2IxNzNiZmQzNjIxOWE0Y2IyYjk2OWQwYjQ2YzgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9f2745eccbe14a4fb2ad0345162ad0ad",
+      "statement": "loadLegacyTable logs an invalid table and returns an empty map, so a bad row disables redirects without taking the site down; the table is built once at module load.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/redirects/table.ts#L86-L102",
+          "version": "repo-lines-v1:sha256:91b5ec5911803ae4cfb3b5cdd8c1a5dc925ea776da010c87333755bfc2a3d572:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkMmJjYjJlYmY5NzVkOGY4MzVlNWFkMjg5YmI3MjljYTc1MDc3MGIwYzExNWNkODBjYjU1MDhjYzJjNjFiYjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEyYTJmMGQ2YjVhYmMxYzkwZDRlY2I3YzMwMTk2MmYzZjk2NGY2ZWQ1MDcyMWM4MWQ4Y2NhOTVlODQ3Y2E3N2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZmNmQzY2Y0OTAxNTBmMTlhMzg4YTZlMTMwYjA2NTVmMmY4ZWEzZDI1MGFmYTFjYTkwMWQ3ZDhlMDU3YWQ0MTYifQ"
+        },
+        {
+          "resource": "repo://tests/unit/redirect-table.test.ts#L95-L111",
+          "version": "repo-lines-v1:sha256:03f5e9276bd0dde3639c740a215837ac2030cffbff8b98fba2f666a843b76a91:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4ZjIxMTJhMTBkOTc1YTk1ODhhMTcxMGNhMGYyMTBkZTY2ZmFkNjcxOGFjZGRmYzY0Njk2NzlmMDExZWZjMTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFmN2JkYzNhYWM5N2RlN2FiNDlmZjY0OWZhNTkxOTAyMzhkOTM3MzEyM2FjMzM0MDkyNTIzNjJlNDAwMTE5NDkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6bc4945722a141c6a032a6aa33d1ae3c",
+      "statement": "Lookups lowercase the path, strip a trailing slash and ignore paths with a sub-path, since the table holds only first-level URLs.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/redirects/table.ts#L104-L116",
+          "version": "repo-lines-v1:sha256:5517f1694a890ea56661bf5f71d8b002842d30fcb0db396dea1b71e54df20e74:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYxNDcyZWZhZjM4OWRhNWI2ZDk3NzkwYTBiMzllYTVkYjc2Y2VjZTgyMjNmM2U3Mjk1ZjNhYzAyYmVlOGVmNjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlkYzg2ODVjNzMxOGM1ZWVhZTZmNzBhYjkxOThmYTMyNDBhZTZiOTFhMzJlYmQ1NmFlZDg4Nzk4MDY4MDFjYjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/redirects/table.ts#L30-L35",
+          "version": "repo-lines-v1:sha256:b183bff681e14d3fb655cf335a8af96ef8ffcff954ce389800be3974c5428bf2:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDJlOTA0YjdjMTBhY2E1YmFiZjNlMTY3OTVlM2I5NzM1NTliNTI0ZTVkNWU2NzY1ZDk4ZDkxNjUzMGE3N2UyZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWVmN2IwNWM2ZjBkY2VjNWRlMzRjMDVhMGI3OTg2ODZmMGVkODhjNDdkOWRjMWMwNGI1OGMzMDQ1ZDY1OTgyZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTU5NDJjNGMwOGJhY2YwYWZjMGEzNjY5OGYwOWYxYjM5NjA2YzM5YjNkYjU1NzVmZDgzZDBlMGNhMTcyYjRiMCJ9"
+        },
+        {
+          "resource": "repo://tests/unit/redirect-table.test.ts#L120-L152",
+          "version": "repo-lines-v1:sha256:005eacaa0b4d4a1d68655fb87c3f4540ed23ca3863dce8db49e1f40b07a6b947:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY4YjE2YmE0YzQwYzc0NzBhODRiM2U2ZTllZmJjN2E5NTZjNmVhY2Y5YTE5MzJhYWIzN2FmZjNkYWM3NmJmNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMzMTEwYTc4NjEwNzc3MWNjMDMzODZjYjE5ZmQ1NTY5Y2U5MjZhYTQyZTVkN2I1NWE2YzJlMjk0M2QyZjBiMmQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f63cff25360a48c78edf4a7bfec15182",
+      "statement": "The proxy redirects a moved legacy URL to its target on the public site origin without the old query string, and answers a gone URL with a standalone Spanish 410 page in the visitor's mode.",
+      "evidence": [
+        {
+          "resource": "repo://src/proxy.ts#L16-L36",
+          "version": "repo-lines-v1:sha256:9a7d5565e82b2f277e24db0166fb64391303c10eb7c0ebb123e319bc1a2fc403:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkzZmNkZTViZjJmM2MxZTY1NGY1NjU4MGE0MDBkMTljMWI5MjQwNjY5NjE5YjAzZmZjZGE4OWI5Njg5MTg5NGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg5MjcwYzJkYzdjMGJmY2M4ZjgwYzhlN2M4ZDMxZWQxNzM3YjQ4YTAyOTM3ZDYwMjA1Y2JhNmFlMjY3MGFmMTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/legacy-redirects-proxy.test.ts#L20-L82",
+          "version": "repo-lines-v1:sha256:8fc03c878907c1abf8e3690729f33dfb5a0910925a4e3627a62407f04c87e80d:eyJzZWxlY3RlZExpbmVDb3VudCI6NjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdhOWMxYmRlNmQ3MDYyOTkxYjcyN2U4MWU4YjM5MGYwMDU2YzU5NTQwN2YzZTg4YzAzZDVjZDhhNjQ0ZGE2MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI4OTkzMjhhNjYzNWVjMWIyM2ZiYzI4ODNiMTMwNTAyZGEzOGMwOTg0MzQ1NWU2M2VjNjU2OTYyMDFjYWQxNDciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlhMjJkYzA4OWNiNjAxMGU4NTRmY2RiYTU3NWFlYjI3NzgxYzNlMzNkNjZkNTRmYWRjNzdmNTA1NTNhMDkxODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI0MDFkZGE2MWE0YzQzOWNjYTdmYTc5MDY0YmVhOTFhNzZhNTMwNjY0YTdjMGQ4MTY3NDc1MTY0YTkzNThkZWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_045dd04844924576a9cc7ee1e8eac8ac",
+      "statement": "The 410 page is standalone HTML with inline CSS and no stylesheet, font or script, using Arcano's colors in the visitor's mode, which a test checks against theme.css.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/redirects/gone-page.ts#L1-L49",
+          "version": "repo-lines-v1:sha256:ab1acb579d556f5db4cf2e741c42067b0874dda8d2db8338202b102256b38a84:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRmYjQyNmQ4ZjU2NjlmNWY0ODUxZjMwNzlmMGEzZjc5NzY4MTVlZWRiMTAxOGM4MDVhNjYzNmYwNjU2YTRjMmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/legacy-redirects-proxy.test.ts#L83-L120",
+          "version": "repo-lines-v1:sha256:723588760c47430ed48ebe30ace2915fb31da18277261896441089d665d77419:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzZGQ5MzY1MDA0ZTdmMzllZmE2YTYxMjkzNjMyY2QwNTAzODQxNWVjNWQ3ZmVkNDlmMWMzYzZjMDg2NDlkYjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg3MDAxODZjMzA1OWE3MmRmY2M4MzYwMWRkNzg5ZTYyMjQ5MzA0NjExYmM2ZDJlNWRiMjU3Yzg3ZWM0YTYxMGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_31cd94b24a674bdc8d43f6aecc01ccaf",
+      "statement": "The table holds hubs and metalogros sections kept by hand with 301 redirects and a generated stubs section with temporary 307 redirects and 410s.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/redirects/legacy-urls.json",
+          "version": "repo-file-v1:sha256:fc13396eec76db3c6f7ac384470f927e8911fa67865712067d06fdcb1d208e16"
+        },
+        {
+          "resource": "repo://tests/unit/redirect-table.test.ts#L153-L219",
+          "version": "repo-lines-v1:sha256:df71a2bc4457f11866f61b0fd09df0c8eb9a4a84e78e64337715dd69db341c82:eyJzZWxlY3RlZExpbmVDb3VudCI6NjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIwNzNmMmRkYWM2NjFlOWQyYzUwN2M1YWMxNjk0MGEwMDY0MzYwNTgyNTNkY2QwZGU5ZTkyNTRhNjQyZjAyNzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZjODllYWYwZmZhOTc1ZDhlNzk2NTAzMGY3YmJkOWVmOGI5NzA3ZTY1MDdiZmVmMjQ5NjU5MjMyYTYxYmE2Y2YifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f80da97f63764a1f97cb2e5e39492784",
+      "statement": "Pages still live on Squarespace, such as classes, dungeons, legal pages, /subscribe, /metalogro-krosmoz and /checklist-silvestre, are not in the redirect table.",
+      "evidence": [
+        {
+          "resource": "repo://tests/unit/redirect-table.test.ts#L220-L234",
+          "version": "repo-lines-v1:sha256:2a056648b1eaa7a42f95bfe7b7d9dd5e8721b56a4365be250b9cd0c6f13aafa5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMxYWJiM2M4YWFkMzhhNDQwYzRhMzNmOGMzM2ZlMDZlZTU2MjFlYWM1NTY2NWRhNDc1MWEwMWM4NDZkOTRlN2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZjNzQ2MzY5MDEwYWEzZDU1YmE1YzJkMTAyNmRhMzAzODcyYTE3NjQ0NTk1NDgwYmI2MmFlMTJkNzc4YTEzNTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8fefb8c022624b809b08a03fcdc07b12",
+      "statement": "The root-slug hook and the slug field validator reject a quest guide, achievement page, Dofus guide or checklist slug that is a legacy table source, while metalogros are exempt because their slug is a panel anchor.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/root-slug.ts#L104-L116",
+          "version": "repo-lines-v1:sha256:8ddc9526a141fd2854832970717ae0be54d4953b6a11ee6a3dd207e15c832bb5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ2NTFjOTZmM2ZkMGJhYWY3NDQ5MzRlNjcwY2NhYzM1NzRjNzk0Y2Q3M2NkOTZlYTZmMDJlY2Q5ZDQ5NzFmZDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM4ODVjMjhiYTJmOGM3MWUzZTM3MTE2ODgyMjM3ODE1NDIwNmYwZDNkNDMwZDc2Y2QyMzhkMTFjMzEwYzljZjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc0YjcxM2Y0Zjg1ZDBjZjlmNmNhNzU4OTNmZWMwNWY4ZjY1Yzk3OTdiMGU5MWM5ZTY4NzMxNGE1MWI2MjljZTMifQ"
+        },
+        {
+          "resource": "repo://src/collections/root-slug.ts#L38-L44",
+          "version": "repo-lines-v1:sha256:81d53bd8b154c9fb5127ecff06b0a03de56f904d7e9dcd7412acde3fd36cfda4:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmJlNmEzZjlhNzFjNGZmYWU5YjIzYTExYWFkZjRlMjA0OTlmMzc1NjRiYzZlN2VmODA5ZjJjMGE5ODIyY2ZlZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzc5MjllOTFlMGY5OWMzZTgyNWRlNjliNDM1ZmI2NDg0ZDFiMGExZGYyZjQ2NTYxYWJmMWEyOWYwNDE4OGI4OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDk2YjUzNWQyM2Q0NmRiN2ZjMWM5MmM4ZTUwNGJlMWIwNzQzNmVhMzFkOTQ1Nzk4NDE5MDI1ZTQ3NDRkMWFjNCJ9"
+        },
+        {
+          "resource": "repo://src/lib/admin/slug.ts#L25-L35",
+          "version": "repo-lines-v1:sha256:a863d157afca7476ee8e47d4bf5df681b508a73b832abace7e6dac44e1f5db89:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhiMTZkZDY2YzhlOTIwZTM4YTAxMmQ1MjY5NWJmNzE1YjYyZDI2NjE2OGU3MjRmMjUzNjRmYzI3MGFiMGFmMTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZmMTk2N2Y3MmNlNDc2NDNlYmY5NmI4ZmRmOTc3ZTIwMjA4MmY4YTNmNjM0MWJlYjkwZGM4NTRmMGU4ZGU2NTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/redirects/strings.ts#L1-L10",
+          "version": "repo-lines-v1:sha256:6fcc4184d7dd8d4e5700802c2ce88cc299de8057ee09db033d1e3fd85f5066c8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYjhmNzdlNGEyYjI0N2FjYTYxZDA4MDZjOTNjMDgzZTAyYzRhNmU5ODdlOWU3NjFlMzYyODk0ZDAwNWZmZGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c1f37e4a9a9e4ec09c0792f0f2da5315",
+      "statement": "pnpm redirects:stubs reads the public REST API of a deployed site, dev by default or --from an origin, maps each of the 166 empty Squarespace stubs to an achievement page, pending, gone, ambiguous or skipped outcome, and rewrites only the stubs section unless --dry-run is passed.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/redirects/build-stub-redirects.ts#L1-L106",
+          "version": "repo-lines-v1:sha256:1389a2d0d0b69f8a7d8cb7508fb5bf3ca60a30f4d20721e41220bab6ca12c3c2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIyMDZhNzk0ZTA5YjIyMGIzMjhkYzc4NTQwOTU5NDFlYTU0MDhkODg3ZjEyNzdkMDdmMDg5M2Y1YzQ3NGJhN2IxIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        },
+        {
+          "resource": "repo://scripts/redirects/stub-map.ts#L1-L38",
+          "version": "repo-lines-v1:sha256:7e67fa3039d1178688edf1990dc1364d1e44f41a2d8521bc73d51c23371bf9fa:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzMDQ5MGM1ZTIyNjIxOGMxYWIyMGQ4NTBlZmUzZTJkYjFhYjE3MzZiYTE5MDczODgyNTk5YmMzOTYwN2VhZjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJlNDBkMGE2NWE5ZjI4ZTc2NzNjYjg4NWU4NjZiNjMyYWVhZGM3ZjNjNGY0MDNmZjAyYjEzMmQ3Y2M5MTgwMzIifQ"
+        },
+        {
+          "resource": "repo://scripts/redirects/stubs.ts#L1-L10",
+          "version": "repo-lines-v1:sha256:fbdec8ed040a46c4b7d38294df1cb11a60ada3f47bb4d88f81869b7da0f2c610:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyNWU1NjBmY2UxY2MyMTdkOTZiNTZiNTljNjc3OTQ3YWEwZGE1OGEwNTM1Yzk4ZGZiOTJkMDhkYzBjNjVmMTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjExNWM2ZDlkMGY4YTJhMzY5NzBhZGY5NmY2NWI1MjY3ZDhlODZjOThjNTc3NTNjNWJjNjBlZDZlNDNlMDNlOTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE2ZjRiNGQ3YzlmNDUzZWQ3MjY0MjY2OTY3NDA5NDI5MjUzNTk5NGQwMTUyNGYxNWQ2YzgzMGJmZTg1NzE3OWYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_efd5c81bc3584ead8fba75e8014eea83",
+      "statement": "A stub whose achievement page is in preparation gets no row and answers 404, a stub with no page to wait for gets 410, a name matching several achievements is left out for STUB_OVERRIDES, and --cutover makes the stub redirects 301.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/redirects/stub-map.ts#L91-L182",
+          "version": "repo-lines-v1:sha256:52e8922d655a3139123e8628c82fa1380752defce969348806eff3e07ed992e4:eyJzZWxlY3RlZExpbmVDb3VudCI6OTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllMTA4NDExZTBkODk2MjUyOTU1MjRjNjE1MjUxZjI1YjcyNzYxZjdjOWRkYWY2YzY3OGEwNDA1MjY4NjgxMTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEwZWE3NTk5OTBmODVmNjQ3OWFmNjkyOTQ2YjNhODc1YzdjMjBiOTgzZWE1NTRmOGE2YmMyMjRkZGIwYWMyYWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjljYzJiYzNiYzVhNjZhODkzNDI0YWU0YWFkYTY2NzNkMjMyNjgxMDdlZTdkNmJhZTFkMTAwMGRhNjAwYzIxYzgifQ"
+        },
+        {
+          "resource": "repo://tests/unit/stub-redirects.test.ts#L85-L245",
+          "version": "repo-lines-v1:sha256:45f7105a6a6e72c167641a4f68874e350eb601c3cbea435924303c1658130dd3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJhOGM3OWM5NmFkNDY1NDQxNTNkZTMxMDhmYzFkYWVkYmVhNDczMGQ2NGQ0ZDJlMTFlZjQxMjRhZGFiZTkzOTExIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmMTgzNWJkOThkM2IwNTU1OWEwZmQxNGIyNzYzMzcyYjk5ZThiY2E5ODEzMjk0MjE5ZjI1NjFmNWFmZDUzNGNlIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_a29b5e032a3b46878b822d921f2fe74a",
+      "statement": "sitemapEntries lists the home page, the metalogros, Dofus guides and checklists indexes, and every published page in the published state whose slug is a valid page slug and not a legacy table source, with absolute URLs, lastModified dates and no duplicates.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/seo/sitemap.ts#L30-L80",
+          "version": "repo-lines-v1:sha256:836c2aded94dba13ea6dd3ab749af559272cf7c9f8e9d112eb3cf70b4fa0b41f:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjZDU0OGZmODA3YTM0YjI5ZTZlOGYwYjQ1YjA1MWY5OGE4NWQzZTJiNDc4Y2E3ZTA1YTRkYjc2YmEwMTBhOTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBhZTIwNTViZjk4ZGJiNTM3NmRjODQwZmQ1ODdmMTMzMzYzZTJlYWM4NjQ2ODgxZWQ0N2Y5M2Q1YWIzM2I3OWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/sitemap.test.ts#L46-L152",
+          "version": "repo-lines-v1:sha256:584af5dd4c94f44d03a89a495f6de6f7064c66fa80eb7ba67bc0dcaedb9b62e7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIxMTJlMTczNjNhMzgxYzA0NDJiNzk0MDdlMjAyOTFkY2NhMjM5MjdhYTZmMmJkYTBmZjQxNjNhYTAwZWMwYjg3IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIzMGIwZmIxYjUwNzhkZWIyODIxYTg1ZDg2NWM1MDI5NThmOTk1YzFiOTI1ZjVjMjEyZTI1OWE1NzY1MjE4NzEwIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_bc82eae2aee14750b9a728c9d1e78ea6",
+      "statement": "An index's sitemap date is the latest change among what it shows, including in-preparation entries, and the home page's date is the latest of the guides and the indexes.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/seo/sitemap.ts#L43-L59",
+          "version": "repo-lines-v1:sha256:7f421f73ad37d324387733a37a30c2e95175b5b2bf0957fb233cd1c44b4c847a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5MGViMTFjNTczMmM2NGZiODg4Y2I4OTc4YmM4MWQ5NDk2NmRjYTBiOGE4NjllYjA2MjFkN2Y2ZDE3MGQzOGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4N2JiZDBmOTNiY2Y1ZmE4ODAwYjFlYTkxMTJjZDIxNWQ1ZTk4YmYyY2VlZTBkMWEzMTlmNGM1ZTI5MzViMGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY2YmU1ZTI5Y2NiNWEyMzUwZDVkYjFiM2U4M2E2NWFlMDlkZWFkOGVkODZmZTIxMDhlMzY0Mzg4OTVkNDBlYjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMxYWZiMmI1ZGE5OTMzM2UwNzU3NzFlYzc3NjMyMjQ4ZGY5OTc3OTJkMjcxMjM0OTQyODQzMmQ3YmQ5OWE0YWYifQ"
+        },
+        {
+          "resource": "repo://tests/unit/sitemap.test.ts#L83-L123",
+          "version": "repo-lines-v1:sha256:db72afcde25172844836f921144efe5787651ee47ac24816fc3b644e4a133607:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4YTI1NDU2OGY3NjlhOGU4ZDg0OTEzYTY2YmFiNjFmNzZjMDYwMmJlM2UwYjNmZjE2MzEwYTAxMjgzM2U1NDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU4MzEwYTQ4ZDJjNDExZDRkMjU4MDE0ZDg1NmQ0OTliYTI3NjQwMGQ0M2FhZDU2YTAxYjNmN2E0ZWY2ZjNmZmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE5YzczM2Y3ZGYxMmM1NGMxMWM2YWU0NDM3MWY1YzgwOTAyM2Y4NjlhMzA4ZTNjNmQ2Y2Q4ZTZmZDQyYzYyMGIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7428c2d0ca024793bd1e5c81c5ea688c",
+      "statement": "The sitemap route is force-dynamic and caches an anonymous-visitor read of published documents with unstable_cache under the guide-pages, achievement-pages, dofus-guides and checklists tags and the guide pages' revalidate interval.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/sitemap.ts#L1-L30",
+          "version": "repo-lines-v1:sha256:de5815edda38cb8e4bab9f01bd85d5a0259106be0fd76598be264861baf7d433:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmYjAyMDJiMDFlMjY4NzYzMzhmNjI5NjFkY2UyYTk3ZGMzNzI2MTNmM2Q3ZDdjMzk1M2JhMmUzYmExMTQ1MDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/seo/read-sitemap.ts#L1-L44",
+          "version": "repo-lines-v1:sha256:13c1ea21a3bc9e22d61537a185ce310b4802963a862157b4a8fa32a77ca8cde2:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI4MmRhNDk2N2UwZTg5NTVhY2VmMTZhNzBlODNkODIyZmJlOGQ3Y2VjZTI2ZTI1MzQ4ZmU1YzJkMmY5MGQ3NzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU2NzdkMmYwMzFlOThiNWU5MTFjNWFkNGZiOWIyMTg2YTkzMjUyMmU4ZjQ2ZWU0MGJhYmZhZTNkYTAwZmMxMjEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjExMmZjYTZjZTBlYWJjNTU4NTUwYjc5ZTJmODBjYjlhMDUzZTZlYTlkMDNiOTRkOTE0NjFlNjUxN2I3YzA0YjIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6cbe6e22d27c457b86b6933f13be860f",
+      "statement": "robots.txt disallows everything in dev and elsewhere allows everything but /admin and points at the sitemap on the public origin, which siteUrl refuses to default in production.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/dev-gate/robots.ts#L9-L17",
+          "version": "repo-lines-v1:sha256:b737ca1cad18180c298a60feb152e443df0beb9efe83736a4d72b4b96bb2fe72:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTVlNTAyNTZmYzE3N2QzNWY0Y2FmMzQ3MDMwNDgzOTIyMDQ4MjBlZDBjYzA5OGFiNzAxMTJkN2E2ODYzYzE4OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGYyZDliNTZjMTVkNTkxYzljYTQ1YmM2MDY2OGI1NjFiYWNkODNiNjFiMzRlOWRhMWQ5YmViM2JkN2ZhMGRiYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://src/lib/site/origin.ts#L3-L21",
+          "version": "repo-lines-v1:sha256:6ba7390835e461293f75aad388409622b549ad69fd15d70e5e12e665a3c8e8ef:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY3NTQ0MDkyZTk2Yzc3MTZkYzYwYWE3ZDg1Y2JiYjg1OGRkYTk4N2IzYWUxZGFmNTFmZWQwYTU1NjczNDBjZWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoyLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEyODI3MmEyYWIxNTQ1ZGI1YTk3ZTkxY2U4NzJmOWY3YTM2NWUwNzcyNjhhNWUwYjY1OGU2MjJhMjkzMzVkODkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/robots.test.ts#L6-L37",
+          "version": "repo-lines-v1:sha256:df509f8b45048b290d849d0253552930208c83e2f1fe12441e45a35a72d5626b:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhiOTVmNmFjNWI2Y2YxZGUxODZmODg4ZTE5M2Y4MTQ2NTMwNDUyMzQ1NjgxMzQyM2JmODUxZDVmYjU4Mzc3OWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFhYTVlNDYzMmQ0YmFiYTcwZGRkYmYyMTY5MTMyZGRhNTRjOWNlZmNmNjg1NGE0OTQ3NTQ0MTE0ZWUzMjBjZTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b0c83d2c33c74ec687019b0e5e565875",
+      "statement": "The redirects E2E spec checks a hub's 301, a metalogro's panel, a published stub's 307, the 410 page, 410 and 404 stubs, the sitemap without drafts, panel or API, robots.txt pointing at the sitemap, and the home canonical URL.",
+      "evidence": [
+        {
+          "resource": "repo://tests/e2e/redirecciones.spec.ts#L21-L94",
+          "version": "repo-lines-v1:sha256:50b9069a6ba2a02dc2ce0f96905f83fa18f42f625ad1e95b7d93ecf44ba60d89:eyJzZWxlY3RlZExpbmVDb3VudCI6NzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIxZTUwYjk3NWExOWFkOTVmYmNiZDVkOWI0YzkzYWE5ZWNiMGQ4OTAwOWNhNWNiYWM1ODJhZDU0OWZlZjdlYjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQwOGFmMmZkOTc4YjNjMjQwYzQ3NTI5YzhmNWM4MGFmZWQwOGY3ZTJjYmVmN2ZlMmI5MGE2ZTJkZTk3MmQ3NGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-14T11:00:46.827Z"
+  }
+}

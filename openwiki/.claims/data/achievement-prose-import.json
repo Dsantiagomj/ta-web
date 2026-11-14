@@ -1,0 +1,136 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:86497e6e0b16f98c66db950fd462a01df6695127d382c11433afd9049bbbbe79",
+  "claims": [
+    {
+      "id": "claim_f0acbfec8a2c4cceb4ff6f7cc8373108",
+      "statement": "pnpm import:achievement-prose writes only the intro and outro of existing achievement pages from Torre's Squarespace pages, reading cached HTML with --from or downloading each page otherwise, dry-running without --apply and refusing remote or production databases without their flags.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/import-achievement-prose.ts#L1-L60",
+          "version": "repo-lines-v1:sha256:39daa66b05d16c33b8ee575ef04a8e8be6b9950041227893243a6afa4f2bd749:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlOGUyYWJkMDQ0YjFkODFhM2RiNmM4MWE4NjFhYzgzMmY3ZGJlOWUwYzNkMDQ5YzM4Mzg3MTMyY2UyOTk2NGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjMjdmZDIwMDU5YTM1YjJmNTVjZTE5Y2YwZjRiYTA0MDJhYWIzNWYxMWE3MTIxNzI2NmNjY2RiMjA3MTM3YjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNjMWQ5MDQwOWRjZGE3NDU0NDRmMjA3YjdkMWE1NTkyMWFmYTYwMmJiN2E1MTc3ZmVkMTIzYjdkOGI3NWIxMzMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0476d35675174d6e9854b4db16e25073",
+      "statement": "The prose extractor treats exact template labels (Necesitarás, Recompensas, Prerrequisitos, Misiones del logro), ignoring accents, case and colon, and the lists that follow them as template, keeping everything else as prose.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/achievements/prose.ts#L1-L80",
+          "version": "repo-lines-v1:sha256:a6aee1e70e598f2aefc66d120efe2a3145fd5dac7a8d378a510bbc8a59e2d97f:eyJzZWxlY3RlZExpbmVDb3VudCI6ODAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJiOTdhOTAzZmRmOTY3MjgzNjBhODlmOTYwNGUxNjlmYjJhNTAyZGJlYmUxOTI5NmExNDhkZTJlMmIxZGJjMzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEzODYyNGMxZTY0ZGI0OWNmMTM1MTU5Nzc5OGJiY2VjMmU3MTlmYzBmZmI1ZGFiY2RkNGI1NjMzODdhYWVlMTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU1MGFjMTBhNGRiMDliNzBjM2Q3MjI4NzlkNmRmYzA0M2M2OTIyNDhlZDFkMjdlYjAwMGViYWRhYmUwYmVhMzQifQ"
+        },
+        {
+          "resource": "repo://scripts/import/achievements/prose.ts#L112-L140",
+          "version": "repo-lines-v1:sha256:637c31196399236d2fc31983b4559c2d4f4cec9785611fa4c36c2b779c7a0abc:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmYzFjZmFiYmI3MDk1MWIzNzI1ZjM3ZmNhNGM1Y2Q5OTk5ZjFmY2QwNmExODcwMWE4ZDAwNDMzMzdmNzU1ODUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE3Mjk4NmNiMWU4NzYzZmE1MDFhNjQ2OWVjM2ZhYWE2NmJkYzdhMDAxYTFlN2Q5MmQ5OTg4YmQ5ZWNjOGU3ZDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM0NDNiYTU1Nzc5ZTViMzE2OTk3YjkzYWM4ZjhjYjE4OWYyMWQ0ZjM5NzYzYTY5MTMxYjQ5ZjhkNzRhNjNmOTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a1cb39a7da79413e90b8689053e16f7b",
+      "statement": "Each parsed Squarespace document is released after reading because happy-dom retains about 8 MB per page.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/achievements/read-pages.ts#L1-L24",
+          "version": "repo-lines-v1:sha256:8a0fc62bdf493f02543cdad5a21e7d9ffefd2cf8dfcd855d080a8676828fe156:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ2YjA5YjlmMDMwMzk3NGFlZWZkNWJhYTA2NGFmODZjNWVjZTA1OWY3YWE0NWU3NWVkMDdmYmEyNTA1YmMyMmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/import-achievement-pages.test.ts#L5-L8",
+          "version": "repo-lines-v1:sha256:90b186f01cce559e2d99fe49928dac5ff4cf8f228da31de447bffd8dcedaad46:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjljZmU2YmZjYjQxNTc0ZWQzYWQ0YmY1MTBmMDc1M2FkODFkYWEzNDU3Y2NmZjk3MjFkNmMzYjE4MTY5YmMyMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDNkOTk5MmIwZjIxMGM1MTk5ZDQwNTE5NzM0OTU5MzFiMzU4NTNkMTkyYzVhN2FiZGU2YmM1NDQ4NjA1ODI3MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTE4MmU0NDBlODA5YWQ0NWZhMGMwMWJmNTU3NmEzMzgzYWFlYjMzYTRiZjEyNDhhNDg5ZTFmZmVlYTgxNzc2ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjhmY2U4NzBkODZmMjJmMDM3MzQwOTVlYjNiZGYzM2ZjMzI1YWZhYTcyM2ExNjY5NmE1OWZkMzUzZTIyYzNiMCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_c5aec1c2e85d4c4293305b9083196380",
+      "statement": "A prose field counts as edited by Torre when it differs from importSnapshot or, if never imported, is not empty; edited fields are kept and reported, and only empty or still-imported fields are written.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/achievements/load-prose.ts#L1-L6",
+          "version": "repo-lines-v1:sha256:63502686cc8ead055f2b9b9fed172915dd5d904ea0b780aba9b6ef5995ac5086:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjQ1ZGNkMWM4YTNiM2E4MzE5YWZlN2ViMWFjM2NjZDI2NGVkMjBiNjc3MWVjOTkyZTAyN2ZkZWM3ZGZhNTk1MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmNlNzk1OTYwNjY1MGM4NDI5YzNmY2ExZDExZGMyNDA3Yjc3MjhiMWUxMjYyZDRiNWRmNjE4ZGRhMzBhZjU4MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmY2YjE0NmFmNDNlNTBlNzc3OGUwYzUyOGI3ZDYwMGYwOTgwZGY3Y2MyNThiZjNlMzFjMGUzMTY1MjNiYmJmMiJ9"
+        },
+        {
+          "resource": "repo://scripts/import/achievements/load-prose.ts#L208-L232",
+          "version": "repo-lines-v1:sha256:04a454107bc0bcd7f2424ed9cd13c640a4f338ed2e3ad67c16abb67d886f044e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQxMDkzNjI1OTE4NzM1OTRjZDUzZDdmNjRiYWI3ZDVlNTMwMjJmNjBiYmQyMjJiOGZkZGRjNjIzMjdmNzRhYTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliNjJmNjBkODU5MGE1NzljZjQ2ZjhkNjczNzhjNGM1NzJiOTYyY2VjY2RiOTBjN2E1ZjdiNDJiOTYwNzgyYTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIzYmZlZDg4MTU1ZmRjOTk0OWNmZWRhYjY1YmQ2Y2RmNTZkNzliMGJmY2FmZjBkNGVlYTEyOTMyM2QyODM4OTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJhYTg5MWIxYzliMTExMjI3YmI0ZGQxOTlmNjI3NGI5YjYyZjlkMDRhMGQ3NWQ1YjAxNzY2OWViOGUwNjZiMGUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_abd6541e0b88417b91c44db17ccdd5c4",
+      "statement": "The import decides each field before uploading, so a field Torre edited uploads nothing, and comparison ignores Lexical node ids.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/achievements/load-prose.ts#L208-L220",
+          "version": "repo-lines-v1:sha256:01e69f67c8dd7039465248ea42424a1465cf9c87771720013766970751fd1c75:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQxMDkzNjI1OTE4NzM1OTRjZDUzZDdmNjRiYWI3ZDVlNTMwMjJmNjBiYmQyMjJiOGZkZGRjNjIzMjdmNzRhYTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY4YzU0NjRmZDUyMWViMjYyNGVhMzc5ODI1M2JiMWQ4YzRiMGM3YWI4MTM3NzI3ODMwYTc2MzdkZDRlNmFiNjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIzYmZlZDg4MTU1ZmRjOTk0OWNmZWRhYjY1YmQ2Y2RmNTZkNzliMGJmY2FmZjBkNGVlYTEyOTMyM2QyODM4OTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjViODlmMzRkZGZkYjgxMjdjMGJhMDU5NzAwMzBlYjdlZWViMjI5ZTdjOWVmMDU3ZDkwMWY3NDFhMzQ4ODMxZTkifQ"
+        },
+        {
+          "resource": "repo://scripts/import/achievements/load-prose.ts#L59-L64",
+          "version": "repo-lines-v1:sha256:0910af792f02eca669d3d9cebdccb4053a80c3ff356741701c17f87ecbc208a9:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjgyNTc4YjU1NGZjMjdjNTA2N2E0ZDdmYTY3ODEzZjhkZGQyZDVlNzJlOGU1MGE5OTQ2MjY3ZmRkZmRlNzc3NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjdiOWJiZjNlMWY5ZWExOWI3NGQ1OWY3MTE3MmVmN2YwZmJlMTJjNWRmMjJkYTYzMGJlZGE3NmY4NjMyOTgzNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGY2ZjQyYThlOGU4ZmRkYzZkZGNlZGE2MmQxYjRlOTczZWI2NDhjZmIxNjJjN2VmNzc0YmUwZDQ3OTBiZjU3MyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_d2164d52d2114de7afdec8f833722413",
+      "statement": "Prose becomes Lexical with HTML fragments converted, screenshots as upload nodes and videos as proseVideo blocks with posters, and untitled videos are numbered across intro and outro together.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/achievements/load-prose.ts#L97-L165",
+          "version": "repo-lines-v1:sha256:7717e990ec3b6d54e9203d78e2d70adb8704b1707d4905f93dca399147e4a41b:eyJzZWxlY3RlZExpbmVDb3VudCI6NjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRkZTViZTA1NDAyNjcyYTgzZDgzYjI1MTM3ZjA2ZTViNjExMDRmOTNkM2U2MGYwYmQ1MTFhMDI0YmE4MGNkZGIifQ"
+        },
+        {
+          "resource": "repo://tests/integration/import-achievement-prose.test.ts#L346-L363",
+          "version": "repo-lines-v1:sha256:1a3f3eb93149070b482a96f87ce67f81a81978b0d91cb49a150eca2e0fc19316:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhmOWE2MzQ4NjA0YTZmNGRjYTNkYzczZDIzMGU4MmZmMGU0YWFiNDgwZmExMDVkNzZkNTY0Y2ZjYzFkMDEwNDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE3ZGU2ZmE0NjhiYzk4MDhmNWE1N2U0YjVhZTM1ZmU5OWVmNzgxMGMyMzk1Mjg0OWNiOWZiMDM3NzE0NDI0YjQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d77c99fd3fe64647b3adcda6a8f95155",
+      "statement": "When Torre has a draft in progress, the import compares against the latest draft and writes its change to that draft without publishing.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/achievements/load-prose.ts#L182-L198",
+          "version": "repo-lines-v1:sha256:c1ca4e2d6605f19fe3084e1058a5508b2f0a5d3275994bd506448bbf2632e0da:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhlOTBiZjVkZmMzYTViZGQ0OWRjYmYwMTUyODZjZTBiNTFiM2Y5OTdkMDM3ZjQyZTBkYTE3YjQ2NTBkYWI2YjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkwODQzNTQyZWE4NzhkZjQyMTJjNDg3NDEwYTFjZmUyOTAzMzc1MTMwMmMwOGRlOWFlNTViOTkzYTM3Njg4NzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMwZWI1YzQ0NGNmY2ZkOWU0ZWVkZGJlZWVkZjg0ZDI4NDAyOGUxOGM2OWFlZGNhY2MwOTQxZTQ4OTVhNjk4MzcifQ"
+        },
+        {
+          "resource": "repo://scripts/import/achievements/load-prose.ts#L238-L250",
+          "version": "repo-lines-v1:sha256:bcdd8dd012907c58110c8c88e96305a6f4c58b0b330a0d88995474a877d0f731:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAyNDRiZTY5YjhjNWI0OTE3ZmNmMDY1ZThmOGYzM2QwNDk1ZTQzMWU1MTRmMDNjM2Y4YzEyNmU1OTM2NzViN2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUxNjY5YzVkNTM2YmZhM2M5YTRhZmFkZWUzNWE4NDlkODRiOWZmM2Q5ZmViYmQwYTMyZjI3OWZjMjdjYzgzNDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ0MzMyZjcyZjRlNDEyNTBkODRmOGMyZjkyNGY2NjlhNjRhZTdmMjEzNjU1ZmU2MjhkMjYwZjQ5ZjFmMTA4NmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVkMDEyMzZlNDE3MWM1NjMzODliMzlkYjQ0ZGU4NGI2YmNkOGEyOTcxNzNhNmRkMDFiNDI4ZWE1MGM5Y2U2MDIifQ"
+        },
+        {
+          "resource": "repo://tests/integration/import-achievement-prose.test.ts#L241-L268",
+          "version": "repo-lines-v1:sha256:d1b069971dcb63c52abdbd4f30b4d9198a8d1778773761eb954631035dad32a3:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY3MTYzY2NiYzY2OWQwZmQzNmY2YTdhYTQ5NzJiMDM4N2NkMGRiNjFjYzI5ZDJiNDRkN2ViYmIxNjA3ZDg0OWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMxNjdlYTE4MWUzMGNhZDBiOTNjMWZiMTMzOWNmZDQ0Yzc4ZWNkNmE5ZDIwNDAyYTIwZDA2ZjRhZmJmOGMyNjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY1ODYxNDI1ZWUxOTA3NzUwYTdhZTFmNDg3NzYxYzJiN2I1NTEwNDNkNzUwMWY3OWQ1Yzc1ODMzNWE3Y2VhOTQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6341c62a78564cfda706739bd6220396",
+      "statement": "Screenshots and posters are looked up by originalUrl and uploaded once; a failed download is reported and skipped while any other error stops the import.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/achievements/load-prose.ts#L81-L95",
+          "version": "repo-lines-v1:sha256:4605d12fa6c4d13c6cea847e8bdb7730800ab7cd1bf72d54008f18fbb3b8b1a2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhkODY1Y2QyYmI5M2IwMWIwNTIwMDM5YTdjZWYyMDVmOGQ2ZWQ1OGM0NDQyZWNkMTE4NzY5NDViYzIxN2VkZGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY3ZjA3ZDA3NDJmNTNkMzJmMzkyMzBhMmUwYmFlMTExNDcwOWIwODYxYTlhOTYxOTBiZDdhN2NmNTRkOTQyOTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhNGQ1NzA4Njg1ZTgwYzViNzg3MTQ5ZjViN2UyZmNiYmQ2MTdjZDA5YjkyNzIxMmQ3NjE4NThmMzk1MzFjMzUifQ"
+        },
+        {
+          "resource": "repo://scripts/import/media-by-url.ts#L1-L20",
+          "version": "repo-lines-v1:sha256:3e56f31f902c8c0eca7765cd31178d1c4adbf4b8eec84ca36779d4466e54691c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZkOTQzNTU0MTEyNWQzNDc3NGU5ZWE0N2MwMzYzOGZlNGNmYmEzYjNjYWZhOTBlNjY3NWVjOWM3N2E5NjcxYzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhjNTZkNmM4ZTE3ODNmZDI5ZTA2ODU0MmYwOGI2N2Q0ZmY5YjM5NzkxYTU0NWMwNTM3ZWZiNTRkZTYxNzMzZDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFjNzM3YTg3Y2NmYWM4M2U2Zjc0ZWI4ZTM2NDM3OTAwY2M4MWRkY2VjMTg1MmE2YTdlM2ZjODdlNmNjNDk2ZTQifQ"
+        },
+        {
+          "resource": "repo://tests/integration/import-achievement-prose.test.ts#L277-L345",
+          "version": "repo-lines-v1:sha256:5fa58c99531e21363e71f114f6f6e7e7a12410796bf62e03667262b66b0b1dec:eyJzZWxlY3RlZExpbmVDb3VudCI6NjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhZjdiNjhjY2IyNmYyZTk4NjdjMzJlNjVhMzhmYWRmYmFlZDk4YjFjYzllNTFmOTQzMzg0MDRlOTA0ZGFjOTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjczOWQxOGEyMWI5MDBmNWQxZGM1NGUwMjlmMzhjNDIyZTBmYzU5MzBjMmEzZDZhNTY1NDg3ZWM0YTU0ODg3ZDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI3NjhjZWJhMDk4YjcwZTk2M2M5OGUwOTkyZDhmZDFjZDMwOGRkYTUwMDIxN2RlODQ4MWM5NDkyNzlmM2QxOWEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_66e1191d08744ce1ac4fb0807032ce69",
+      "statement": "A second run of the prose import changes nothing.",
+      "evidence": [
+        {
+          "resource": "repo://tests/integration/import-achievement-prose.test.ts#L208-L214",
+          "version": "repo-lines-v1:sha256:aac1c0088ef720cf7ea820e72351e2b8414da58e1ed0c4511890f281d49064b4:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDEwNDdhZDhkNzY5MjI2OWUxOTU5NDgyNmZhMGYzYTgxNjYxMjdiNTg0YzFhODczNGE2OWJiYTJjZTEyNWNmNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYWM2NDVlMjBkZTkwNTM1MTdjNTFkY2U5YjdkNzMzNzQ0MzFhMzJiODIwZTNkOGNhMmNmMzUxYjdkN2NlZTNkOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzM4MzUzYjlmNGNjZmYwNTEwZTk3NGYxNzJhNTQzMTg5M2Q5MTZhNmIzNzcyZWUyZjBjN2VkOThjZjJiY2M4ZiJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-14T11:00:46.827Z"
+  }
+}

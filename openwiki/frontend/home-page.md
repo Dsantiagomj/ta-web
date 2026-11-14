@@ -14,8 +14,8 @@ sources:
     resource: repo://src/components/home/Areas.tsx
   - id: openwiki-source-4cfa2dcb380905ec07fd173f
     resource: repo://src/components/home/art.ts
-  - id: openwiki-source-229ea5c967502d568eac1202
-    resource: repo://src/components/home/data.ts
+  - id: openwiki-source-228a8245f897217ca3242367
+    resource: repo://src/components/home/ChecklistsSection.tsx
   - id: openwiki-source-95f1b099d38d8d5d29e37405
     resource: repo://src/components/home/GuideTour.tsx
   - id: openwiki-source-f20b6ec2f60075e58ffb94c7
@@ -40,15 +40,15 @@ sources:
     resource: repo://tests/unit/home-hero.test.tsx
   - id: openwiki-source-f5bb52b30eff93118a46d132
     resource: repo://tests/unit/home-sections.test.tsx
-generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
+generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-12T11:00:44.802Z
+    at: 2026-11-14T11:00:46.827Z
 ---
 
 # Home page
 
-`src/app/(frontend)/page.tsx` renders the home page (DESIGN.md, Layout: Home). It is a server component; its only client island is the hero's quest search. Its styles are in `src/components/home/home.css`.
+`src/app/(frontend)/page.tsx` renders the home page (DESIGN.md, Layout: Home). It is a server component; its only client island is the hero's quest search. Its styles are in `src/components/home/home.css`. Its `metadata` sets the canonical URL to `/`, without the query (`?directo=…`); the title and description come from the layout.
 
 ## Sections
 
@@ -57,16 +57,16 @@ In order:
 | Section | Component | What it shows |
 |---|---|---|
 | Live strip | `LiveStrip` | Only while Torre is live: the first thing under the header, one line on phones so the search stays on the first screen. Nothing otherwise |
-| Hero | `Hero` | The name and what it is, a lead sentence, Torre asking which quest you are doing over the quest search, and the Krosmoz island with the six primordial Dofus around it, the main image on phones |
+| Hero | `Hero` | The name and what it is (the name one word per line with any font), a lead sentence, Torre asking which quest you are doing over the quest search, and the Krosmoz island with the six primordial Dofus around it, the main image on phones. The island comes before the text in the HTML, the order phones show: with the text first and the island moved up with `order`, Chrome's first paint of half-loaded HTML put the text on top and shifted it 240px when the island arrived |
 | What you will find | `Areas` | First a full-width missions card, four NPCs on the Astrub square with the counts of published guides and achievements; then Dofus guides, Checklists, Classes and Dungeons, in 2 × 2 with only the title on phones. Each card is one link, the text of its `h3`, with an `::after` covering the card; the sentence describes it through `aria-describedby`. Cards link where the header menu links, so the Dofus guides card goes to `/guias-dofus` (see [Dofus guides index and menu](../dofus-guides/dofus-guides-index.md)). Classes and Dungeons have no pages yet (`soon` on their section in `nav.ts`): their cards are plain `li.area--soon` with no link, the «Próximamente» tag (`Soon`) after the title, the art in grayscale at 55 percent and no hover effect |
 | One guide per quest | `GuideTour` | Four points next to the real "Seis pies bajo tierra" guide in miniature, with the same numbers on each part. Where scroll-driven animations exist (`home.css`), the point crossing the middle of the screen frames its part, and so does hovering a point; with reduced motion, only the numbers |
-| Checklists | `ChecklistsSection` | The three checklists of the menu, each with its egg and its figure |
+| Checklists | `ChecklistsSection` | The checklists of the menu, from their collection and in its order (`loadChecklistNav`), each with its egg and its sentence, without figures. A published checklist links to its page; one in preparation links to its old Squarespace page with a visually hidden note, or, without that link, is a `div` with `aria-disabled` and «En preparación» for screen readers. No checklists, no section |
 | The author | `Author` | Torre's portrait, his sentence, one invitation (Discord) and whether he is live. Without a live, a small note about his channels; live, a headline with the link. The home page footer therefore does not repeat him or his channels |
 
 ## Data
 
 - **Counts.** `loadSiteCounts()` (`src/app/(frontend)/site-data.ts`) is the same cached read the header uses, so the two never disagree. `countSiteGuides` (`src/lib/site/counts.ts`) counts, as a visitor (`overrideAccess: false`), published quest guides and achievement pages that are published and in state `published`, the same ones the metalogros index links. The read is cached with the `guide-pages` tag and the guide pages' 600-second `revalidate`.
-- **Checklist figures.** `CHECKLIST_FIGURES` (`src/components/home/data.ts`) are copied by hand from the separate `silvestre-checklist` repo (100 and 70 steps, 337 souls) until the checklists move into the app.
+- **Checklists.** `loadChecklistNav()` (`site-data.ts`) turns the cached checklists read (`loadChecklists`) into menu items with `checklistNavItems`, the same list the header menu and footer use (see [Checklist data](../checklists/checklist-data.md)).
 - **Live state.** `liveState` (`src/lib/site/live.ts`) does not read Twitch yet, so Torre is never live. In development or the dev environment, `?directo=1` simulates it to see the page in that state; in production it does nothing.
 
 ## Hero search
@@ -104,8 +104,8 @@ Lighthouse CI measures `/`; see [Performance budgets](../testing/performance-bud
 
 ## Tests
 
-- `tests/unit/home-hero.test.tsx`: the hero and its search island markup, and `HeroOptions` with one group (no titles) and several (titled groups, option ids continuing across them).
-- `tests/unit/home-sections.test.tsx`: the other sections, including the Classes and Dungeons cards rendered without a link and with «Próximamente».
+- `tests/unit/home-hero.test.tsx`: the hero (the name one word per line) and its search island markup, and `HeroOptions` with one group (no titles) and several (titled groups, option ids continuing across them).
+- `tests/unit/home-sections.test.tsx`: the other sections, including the Classes and Dungeons cards rendered without a link and with «Próximamente», and the checklists in the collection's order, keyed by slug, without figures, with the legacy note or no link when in preparation.
 - `tests/unit/site-live.test.ts`: `liveState`.
 - `tests/integration/site-counts.test.ts`: the counts as a visitor.
-- `tests/e2e/inicio.spec.ts`: the hero; no index request on load, only on focus; one letter versus two; no layout shift; arrows and Enter, including a key pressed while a new list arrives; Esc and outside clicks; a click opening a quest; the load error and retry; published achievements found in their own titled group, a preparing one not found, and the arrows crossing from one group to the next; the header button stepping aside; axe (WCAG 2.2 AA) in every search state; Torre not moving on focus; the field and panel on mobile; no horizontal overflow; the missions card matching the header count; each card one link going where the menu goes, and the Classes and Dungeons cards showing «Próximamente» with no link; the guide tour framing; the checklists; the author; the compact footer; every image loading; axe on the whole page in both modes; the 2 × 2 cards on mobile.
+- `tests/e2e/inicio.spec.ts`: the hero; no index request on load, only on focus; one letter versus two; no layout shift; arrows and Enter, including a key pressed while a new list arrives; Esc and outside clicks; a click opening a quest; the load error and retry; published achievements found in their own titled group, a preparing one not found, and the arrows crossing from one group to the next; the header button stepping aside; axe (WCAG 2.2 AA) in every search state; Torre not moving on focus; the field and panel on mobile; no horizontal overflow; the missions card matching the header count; each card one link going where the menu goes, and the Classes and Dungeons cards showing «Próximamente» with no link; the guide tour framing; the menu's checklists from their collection, without figures; the painted hero already in place on first paint; the author; the compact footer; every image loading; axe on the whole page in both modes; the 2 × 2 cards on mobile.

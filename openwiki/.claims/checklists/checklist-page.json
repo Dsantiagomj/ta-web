@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:79611d2bf29a9e0795d30736585bec5fbea233e5a169fab85b7ba6d937df8b7d",
+  "claims": [
+    {
+      "id": "claim_51ea30f1c59a4b8293b62f471e89f88a",
+      "statement": "After quest guides, achievement pages and Dofus guides, /<slug> loads a checklist; checklistRoute renders it in preview or when published, redirects a preparing checklist to its legacyHref on another origin, and returns 404 when there is no usable link or the link points to the same site.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/page.tsx#L115-L124",
+          "version": "repo-lines-v1:sha256:a5f33cecccb0f57ba4f8484e2f200547de9baaadf2e93c0607b7ff36023896ce:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRlYzM2MmZmZGI2ZmU4ZGE1OTYxY2I1N2UyYWE0OWM4YjAyYThjMmRhMmUwMTFkMDQ1M2YwN2U3NTk3Y2VlMWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhkNzlmY2Q1NTdjOTc2MWQ5NTRkN2RhMzVhODMzZGRhNmFhMDFjMzMwZjRmMmU5MzY5MDk0NGJlYmU1OTQzMGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2MmFhOTQxY2JhZDQ1NzY3NjlkMjY1NzQyOWUxZjhkZTM2NzE5YmNmODI4OGU0ZDUzZjY3NWI2OTJiZGZjMzUifQ"
+        },
+        {
+          "resource": "repo://src/lib/checklists/page.ts#L554-L575",
+          "version": "repo-lines-v1:sha256:34466cf5a3c90e88ee751dbac39f85be4176823e2fdb1edd25d4141bf54deb80:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQwMWE5M2ZmNzM4N2U3MDIzM2Q3ZTNjNzcyMzE5NTA0MTRlYWU4ZWNiNGIxMzVjOThmNTUzOGM0MTIwNTdkNjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f164234be4044cc68484c8eb95eb9722",
+      "statement": "loadChecklist reads the latest draft without cache for a panel session in draft mode, and otherwise the published checklist (preparing included) through unstable_cache with the checklists tag and a 600-second revalidate.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/checklist-data.ts#L13-L42",
+          "version": "repo-lines-v1:sha256:c21ab9607d5636ebd8c656f707873b4a4a99218b80dd3817c6d5ce7316bda03a:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiMzY2MzQ1NWRiZDMxM2ExYzUzZjk1NGY2ZTFmMDMzYjE0YzM4NmJhZDU4ZDFjMjQ0NjYwNGYzMWYyNmI4ZmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRhMDFmODYwMGEyNzg2ODYwNThmMDI3MGEzODlhM2M2MjdlZTQ3YTcyMzBhOWQ3OTEyZjA2Njg5OWU0YjBkN2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/checklists/cache.ts#L1-L13",
+          "version": "repo-lines-v1:sha256:678be54c513ddf09094cb8906e7b6596fcd06ea6b9eb19acfc053ed7bfd597ee:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJlOGNmNWViZTY2OTYyMzU3MDY3Y2U5N2M1YjcyMzQ3ZTQxMWMxMWM1NzQ1NTk2YWIyYzg3MmZjZTQ3NThmMmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhM2M1ZWQ2MzEwYTRjZmZhNDBjYzkxYzVhOTVjYjViYWRhM2QwMTYwZTVhNTBmNjBiNWE3NjM2NTBiM2YyMjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_329f85f17c4a4d438217b4e967290129",
+      "statement": "The checklists cache tag is expired by the hooks of checklists, quest guides, achievement pages, Dofus guides and media, while quest and subarea changes from pnpm data:quests show within the revalidate window.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/revalidate-guides.ts#L46-L110",
+          "version": "repo-lines-v1:sha256:f90b238ea1870a0884268bda7a0b7d3afebf5391b09659a16665c4f358551cc4:eyJzZWxlY3RlZExpbmVDb3VudCI6NjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQzY2Q5MmY3Zjg2YTQ1MmJkNGZiNTg4YzQ0OTM0MDdkZmI5MzMwZmEzZGY3NmFmY2ZhNjI5MjZlYWY3NTRiZGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImExNjg3MjQwZTA5ODk1NjZmYTQ4ZWE0YjEzNWFiMmZhNTI3OTI4Mjc2NzcxOGYxZmM0Y2Q3Mzk0ZjA5ZjEyZjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/checklists/cache.ts#L1-L8",
+          "version": "repo-lines-v1:sha256:d058f0eae944f04e43bad15fd547b100fca95e89d5bc80b787c623ec633ad201:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmU4Y2Y1ZWJlNjY5NjIzNTcwNjdjZTk3YzViNzIzNDdlNDExYzExYzU3NDU1OTZhYjJjODcyZmNlNDc1OGYyZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjdkMWQ1MWY3ZTZmOGRmZGMwMTYxZWQ4YjJkN2FhM2U1NmMzMzNmNTc4YWE4MDJjMWJhYWIxMGYzZDg2ZWNmNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGQyOTExMmI1MTJiZDcyNDNhYjUxYmU5Mzc4ZDY1NThmMTNmNjdlMmM0MTgzMzc0MGY4NDUyNDk0MmM5NjE4NiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_846bcb4fd3ba4d089dd46333c0173f9d",
+      "statement": "ChecklistView renders on the server the breadcrumb, header and a window with the progress strip and the Diario, Prerrequisitos and Objetos tabs, plus the checklist island and the guides' PageEnhancements island.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/ChecklistView.tsx#L22-L75",
+          "version": "repo-lines-v1:sha256:138479ec87fec364de74a9248dc1409856745816877aed91a5216019fe201fa9:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2YTk3ZTQ5YjZlNTI4ZGE1OTI0ZGZlYzk3NjMxOTJjMWVmZDM3MjlhMTQwODA5ZjhiOTdmNTUwYzMwYzE0ZTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9fe5b9ab3069426b9dc03fe924f6dfe8",
+      "statement": "The island receives only structure, never text: step ids, old numbers and quests, closed steps, legacy migration data, weights, objective counts, prerequisites, parent quests and checklist names.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/page.ts#L135-L158",
+          "version": "repo-lines-v1:sha256:390066265fbd0c853394e1a6222f9d37e7918c014e9d45e56e78758fb629b417:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmMjBlMjBkZDA3ZjZmZTIzODM5NmNjNWJjMTYyNmVmYTA4M2YxNTRjMjdmY2U4OTk5MmU5NGMwYjYzYjc3MDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjViY2U5NTZmM2UyNGQ3YTI4N2ViOTliMzI2Y2E2ZGM2YzVmNzMyN2M1ZjkyZGQzNDY0MmZhOGRjYjkwZmQ1OGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU1ZGNmZWVkZDBkOWFiZDU5MzFlYzc1ZmRiY2M0ODc4ODQyMzdmNTUxOWQ5ZTU4ZTliNzI0ODAyNGQ5MmJjNzQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_785e3dad1c7145aca6d8a11c2dcd5100",
+      "statement": "The Objetos totals sum every need row that counts in the totals by item or text key, record the steps that ask for it, and place it in the group of the first step.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/page.ts#L448-L470",
+          "version": "repo-lines-v1:sha256:0adf31009238656d3c14c71e3876c208a15b92727499dc2346d625d4dd9e4201:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyNWE1ZGYwNjU3NjA0MzY1ZmNmYTk0NzdiZGQ4NGUwY2I2ODZjZTFiYjY0YzcyYjllNTlkNjRjZmRiYmYwMjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjliODNmMTE1ZDQyZmMyNTEwNGQ1NWQ4OTYzZjdiOGMzOTU0MzQwNWI0ZTRkOWI0OGVkYjBmMmYwNjhiMDEyNjIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d3590e0e66fa4234b3ec8a4f9100b597",
+      "statement": "GET /api/checklists/:slug/details returns quest givers, start coordinates and objectives with coordinates and subareas as tuples keyed by DofusDB quest id; visitors get the cached published version with public max-age 300, draft-mode panel users get the latest draft as private no-store, a missing checklist gets 404, and the endpoint gzips the JSON itself.",
+      "evidence": [
+        {
+          "resource": "repo://src/endpoints/checklist-details.ts#L12-L76",
+          "version": "repo-lines-v1:sha256:dab2966900df762bf9eae63c643dcf394d697426602b7a5884fa59d82f2a79e7:eyJzZWxlY3RlZExpbmVDb3VudCI6NjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZlMWQ0ODE1ODFiMTc3YWE0NGVkOWQ4ODY3ZDNhYzIzNDAwOTczYjRmOTllZjRiOWRmYTQwYjcwZDQxNTYyY2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgwOWNhZWIyNzI0ODhmOWQ2YjJlYmQ1OWFkOTgwZmY5YzNiY2I3Nzk2ZGZjOGRjMjg4YWNjNjhjMTk0ZThmZjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/checklists/details-url.ts#L1-L23",
+          "version": "repo-lines-v1:sha256:f694831ba91afa9c69b1c4d4cfe694ba7c644a47b36e203381a8800f7edb5e30:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYzYjIzNzdiODc0NTUzMzBhMzMxY2E1NmNmMjExM2M0ZGE1YmE4MTk5NjA5M2MzMzU3YzU0M2NhNmRjYmE4Y2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/checklists/details.ts#L1-L40",
+          "version": "repo-lines-v1:sha256:468d954d6bd83d457108171b3cbc9de453c33f317fc029bda92a6216a6732c5f:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0YmViOTAyOGIxYzNhNDUzNTZmZjg1NDg3YWU0NGIxM2Y3YTk4MTA3ZTc4MjZjYzE1YjZlMWEzYTZmOWQ4YjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9d7efcdeaecb473995c9bbe216617d8b",
+      "statement": "ChecklistIsland loads progress-ui with import() only on checklist pages, because the /<slug> route ships the island to other page types too, and fetches the details once after paint, showing a message if they fail.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/checklist/ChecklistIsland.tsx#L267-L304",
+          "version": "repo-lines-v1:sha256:6518296414057920c3544397a42f5d0cf2ad7926463128bf7aa2f16e27b15983:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwNmM2NTQyMDRiNGIzOTZmOTliZmYyZTE4M2ZjNDU5NzRmMDg1NGNjNzA2NGUwYjVlODQ4ZjRmYzAxMGUxM2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE5NjlkMDkyYWUyZGUxMDI2ZmRlZGNhNGI3OWIxY2JkYTkyN2ZhNjUzOGFkNmNiMjExZDFkNzJkNzc2YTIzYzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU2YzExY2NiODgzYTViM2YxOWJiNWU0ZTRmNTViYWI1YzNiODE1NTQ4MTEwZGI3NGJiMGVlY2U1MDQ0N2JjNTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4b24d18b146a4073b73f6f79c860931a",
+      "statement": "The island effect restarts only when the checklist slug or version changes, so a live preview refresh does not reset it.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/checklist/ChecklistIsland.tsx#L305-L322",
+          "version": "repo-lines-v1:sha256:f6ac70ce6e4050c0fb78d0d3cc7814b1e0337b42b8c197175e3946c2641f7250:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdiY2JmMzIwYTAwNGQ0OGFlYzg5NGQzZmM0OTI5NDljOThjNmQxNGY5M2ZjOGFkNDFiODUwOTIxODZlMGQxYWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUzMzg2NWM3ZmIxNjJlYzQ5YTRlMjhkMDc4Y2Y4MTIyNzkyMjZiZTdlYThlNDJmNDJiOGYxNzgwMmRiMTBkNDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/components/checklist/ChecklistIsland.tsx#L79-L84",
+          "version": "repo-lines-v1:sha256:5b857ee5037f53f22da6e3fb463fa6d5cffa46cf80bc6a3ac0f88eaee95c8b91:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGYwYWI3NTc3MTMzYjFjZjQ2ZGZjNTZmMTkyZmE4ODlmNjQ4NGI3NDE4OGRlMTU1NWI1N2M1NTJiYWRiNWM3NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTk2NmZiZmE4ODk5OGRhNzQ2NTZjNTAxOTQ5NTZjMjVmMDg0OTQ1NzY2MGMwMDlmZTYzZDFlOWZhOWRjOTMxYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmZmNWJiNjZjNmIyNDU1MGY5M2E1MThiNzhkZGI5YzlmNTk0ZWZlMjAyYTkyMjE2MDBmNjg5NTZmYTBjNWFkZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDU1Nzk0ZTE5OTU3NDE2NDA2ZTY5ZGM5YTA2OTc2YWIzMWMyOTU5OWYzYWVhNzlkN2Y4MWRjNGFmNGVjYjZjNyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_45ac1d35e3274c9bb504baee048b9864",
+      "statement": "loadChecklists is one cached read with the checklists tag shared by /checklists, the menu, footer, search and home page, and loadChecklistNav maps it to menu items.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/checklists/page.tsx#L26-L32",
+          "version": "repo-lines-v1:sha256:1e3fdc3b194cb3f24559eda8a277b0c69440aa84bfdf16b278b9697d5f927b00:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTRmMDEzOGUzMjg2ZmM1YWMzNWRhNDEwMjNmNDlkN2RiNTZjMjA0NzZlMDYwMjk0YThlYTJiOTYyMTNhN2UwZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://src/app/(frontend)/site-data.ts#L30-L40",
+          "version": "repo-lines-v1:sha256:90b017eef7ee98d0565b836a9cd1c00053b32aba85b1135700efaeb4e4f77468:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNjM2ZlNWI4Yjg0ZGU5YjIyOTIyOWMyNWFjN2E3ZjY5MWU0ZWM5MTdlYjNkM2QyM2U0MGU4MmM5MWUzYjc1MzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUyNTEzMjRlOTRjMzlhODJlMWJkZGVmMGZlYjhjMGQ5MjkxYzQ4YjUxNWRiOTBjMDAyYjc5NzYwNTFjM2ZhN2YiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjczM2Q1YjVkODBmZDNjOWU1NmFiMTMzOTI5ODg1ZjA3M2FlOTZjOTc1ODM2OWU0MDY2YmRlMDRmYmFkNDhjMzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_cc36a9af807a447e9978ccd4911c2889",
+      "statement": "readChecklists lists published checklists including preparing ones, ordered by order and name and without steps, and reads only the color and egg of each Dofus guide with overrideAccess so a draft guide's other content never reaches visitors.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/queries.ts#L384-L434",
+          "version": "repo-lines-v1:sha256:63957ee2de6e585f8320a2ad6ad6c446bfb4fc9895c11db37c7b0294ec2b02d4:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI3ODY4ZjBiM2FjODdhMzhlNTc5NmY5OTgyYzVjNjc2NGM2MjlkY2M2YmE5OWNjYjE0NWM4YzcyZDEwNjFiOTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e0d540a9922747a7bdd893b3c2115bed",
+      "statement": "An index or menu entry links a published checklist to /<slug>, a preparing one to its legacyHref marked as legacy, and nothing when it has no link.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/list.ts#L51-L89",
+          "version": "repo-lines-v1:sha256:b124fa3fe90e1b09f1fe00fcdacad1e60c8de5ebf8dc1f06c289511b4486a725:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlMjRjZGIxM2YzMWFmNmM3ODJlY2Q1YmQ3ZjFkYjY3YjQxYWVjNzViYzk2YWY5OTI2ZjBmYzY0NTBmNDM2NTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhiZmI0ZGRhZTNjZGU3ODUzNGIyZTg4YmNmY2E5YjlmOTgxM2I0OWU4MmYwYzM1ZmJjMTk2ZGRiMzA3NzMwZjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9e6a611b797e40768f0b76558262d815",
+      "statement": "Lighthouse CI gives checklist pages a 180 KB JavaScript budget instead of 150 KB.",
+      "evidence": [
+        {
+          "resource": "repo://lighthouserc.cjs#L111-L114",
+          "version": "repo-lines-v1:sha256:808980caf9982adeaa20a7a5729534cfc237d3dd15f3bb9a2b46229e75abb017:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTI0YzQ1NmJlMGEwZGNiZDQ1ZTBjYjc0MzYyOTA2NmFhYTk4ZDBjNWI3YTYzYTljMTE1YTU3ZGE3ZTViNTFlOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzM4MGVlNzcwZDlmNjM4NzZiOWExNDlhZTM5MWNjOGJhNmJiNzY1MzBhZDhkNGUxYzAwNmYxY2FjYzljMzIxYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjczZjQzZTU5NWJiN2QyMWFlNDllYzkwZjMxZGQwYzk3NGZlZTg2NzU3OWRkNTU1OGYxYmVlNGYwOTM3MzU4OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjczZjQzZTU5NWJiN2QyMWFlNDllYzkwZjMxZGQwYzk3NGZlZTg2NzU3OWRkNTU1OGYxYmVlNGYwOTM3MzU4OSJ9"
+        },
+        {
+          "resource": "repo://lighthouserc.cjs#L21-L23",
+          "version": "repo-lines-v1:sha256:1c4a624f88241534afccdcc38002135c5b43437938beb9b32ff732e33b819075:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTgzOTYzOTNlMWFkMjFhYzQ5ZjkwMDkyY2FkMGU0MjNmMGRiMDE3NjczYmE0ZTg0Y2RmY2NiZGEwZTg3NjljOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODlmMjdiZDQ4OTkwM2IwZDVjZTBmOGZmODgyZDdlMDI3ZjQ4NmYyN2Y0NGI1MDQ1YzIxOTZmNTUwMTY4NjUzZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2Q3NmJiNTUwZTNlNDk1YzcxMGZhMjg3ZGRmMGM0MzY2MDUyODczYzI3MjgzNjQ4MjA1MWIyMWVhZjg2YjAwNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2FkODA5YjJlZjFjYWNhNGJmMzZkMTY2NDkyNTg2MWNhMGQyOTI1ZmM2Yzg1NWJhOTZhOTdhY2JjOWJmNTVmOCJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-14T11:00:46.827Z"
+  }
+}

@@ -11,6 +11,7 @@ okf_version: "0.2"
 
 - [achievements](achievements/)
 - [architecture](architecture/)
+- [checklists](checklists/)
 - [cms](cms/)
 - [data](data/)
 - [dofus-guides](dofus-guides/)

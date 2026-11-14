@@ -10,6 +10,8 @@ sources:
     resource: repo://src/collections/quest-guide-autofill.ts
   - id: openwiki-source-7a2723ea85824e431ff5eb54
     resource: repo://src/collections/QuestGuides.ts
+  - id: openwiki-source-a93f1ff2ed8916a30885274d
+    resource: repo://src/collections/root-slug.ts
   - id: openwiki-source-5e8f77fd185a0f97b7ae1c42
     resource: repo://src/components/quest-guide-admin/linked-quest.ts
   - id: openwiki-source-96b94ee077b0d0a0987ef203
@@ -26,6 +28,8 @@ sources:
     resource: repo://src/lib/guides/form-fill.ts
   - id: openwiki-source-d5cdfb9f4d8e25639ff82c78
     resource: repo://src/lib/guides/format.ts
+  - id: openwiki-source-78db5ac3e6e2f889c846f969
+    resource: repo://src/lib/guides/need-notes.ts
   - id: openwiki-source-cde7522eeadf7a5a854bc2c8
     resource: repo://src/lib/guides/preview.ts
   - id: openwiki-source-2f2b90aba3af4142e443ba84
@@ -46,10 +50,10 @@ sources:
     resource: repo://tests/unit/guide-summary.test.ts
   - id: openwiki-source-1970468d3fcc651d5071b312
     resource: repo://tests/unit/quest-guides-collection.test.ts
-generated: { by: "claude-code", at: "2026-11-08T11:00:21.339Z" }
+generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-08T11:00:21.339Z
+    at: 2026-11-14T11:00:46.827Z
 ---
 
 # Writing a quest guide
@@ -62,10 +66,10 @@ The collection schema itself (field types, validators, access) is in [Collection
 
 ## The flow in the panel
 
-1. Create a guide under "Guías" and pick the quest in "Misión de DofusDB". The description under the field reads "Elige primero la misión de DofusDB de la guía, solo una: rellena el título, el slug, el SEO y el resumen. Luego solo te queda escribir la guía."
+1. Create a guide under «Contenido» and pick the quest in "Misión de DofusDB". The description under the field reads "Elige primero la misión de DofusDB de la guía, solo una: rellena el título, la dirección, el SEO y el resumen. Luego solo te queda escribir la guía. Cuando ya tiene una, solo un administrador puede cambiarla: otra misión mezclaría sus datos con los de esta." Once saved, the quest is locked for editors (`lockedOnceSet('quest')`, see [Admin panel](admin-panel.md)).
 2. The form fills the empty title, slug, SEO and summary fields right away, without saving, and marks the form as modified.
 3. Under each summary field, a note says where its value comes from (see [The notes under the summary](#the-notes-under-the-summary)). Torre edits whatever reads wrong; nothing typed is replaced later.
-4. Write the "Necesitarás" notes and the body: an introduction, the walkthrough as "Paso" blocks (each with optional X and Y and its own text, images, videos, callouts and fights; a step has no title, so a heading goes in bold at the start of its text), "Combate" blocks for fights (monsters from DofusDB with their quantities, introduced by the text before them) and a closing. See [Guide body blocks](blocks.md).
+4. Write the "Necesitarás" notes and, if a dungeon note shows the generic dungeon icon on the achievement page, pick its dungeon under «Mazmorras de las notas» (below). Then write the body: an introduction, the walkthrough as "Paso" blocks (each with optional X and Y and its own text, images, videos, callouts and fights; a step has no title, so a heading goes in bold at the start of its text), "Combate" blocks for fights (monsters from DofusDB with their quantities, introduced by the text before them) and a closing. See [Guide body blocks](blocks.md).
 5. Check the draft with the panel's live preview (desktop or the 390 px "Móvil" breakpoint) or the preview button, both of which open the public page through `/vista-previa` with the current draft. See [Public quest guide page](../frontend/guide-page.md#draft-preview).
 6. Save a draft or publish. The save hook fills anything still empty, such as a field Torre cleared on purpose. Every save expires the cached guide pages, so a published change shows on the next visit.
 
@@ -154,13 +158,22 @@ The hook is the backstop: it covers guides created outside the panel, a form whe
 
 Text compares after trimming. The item list compares as a set of item and quantity pairs: row order does not matter, and a populated item counts as its ID. For the list, the DofusDB value shown is one `N x Item.` line per item.
 
+## Picking the dungeon of a note
+
+An achievement page's «Necesitarás en total» shows the boss of the dungeon a guide note names («1 x Mazmorra Kumijo.»), matching it by name (see [Achievement page](../achievements/achievement-page.md)). When the name alone does not identify one dungeon («Mazmorra Ben Ripata»), Torre adds a row to `summary.needs.dungeons`, «Mazmorras de las notas»: the note copied as written in Notes and the dungeon. The pick wins over the match by name.
+
+- `validatePickedDungeonNote` accepts only a dungeon note that appears in the guide's Notes, ignoring the quantity, case and accents (`isDungeonNoteIn` in `src/lib/guides/need-notes.ts`).
+- `withoutDeletedDungeons`, a `beforeValidate` field hook, drops rows whose dungeon was deleted (the foreign key left it null), so the guide still saves; a row Torre just emptied stays so the panel asks for it.
+- The Squarespace import keeps Torre's picks when it rewrites Notes, except a pick whose note is no longer there (`livePicks`), which it removes and reports as an oddity.
+- `pnpm data:quests` ends with a report of the dungeon rows that still show the generic icon and counts the rows a pick resolved (see [DofusDB refresh](../data/dofusdb-refresh.md)).
+
 ## Trade-off: values are copied
 
 The fill copies values into the guide. Later changes to the quest in DofusDB, brought in by `pnpm data:quests`, do not update existing guides on their own. That keeps Torre's edits safe and the guide stable, at the cost of drift: when DofusDB changes, the note under the affected field turns into "Cambiado. DofusDB da: …" and shows the new value, and Torre decides whether to take it. Emptying a field and saving takes DofusDB's current value again.
 
 ## Importer
 
-The Squarespace importer runs the same `summaryToFill` and `applySummaryFill` before comparing a converted guide with the stored one, so the stored guide (filled by the hook) and the converted one compare equal and a rerun saves no new version. Squarespace's "Necesitarás" text lands in `needs.notes`. See [Squarespace import](../data/squarespace-import.md#loading-into-payload).
+The Squarespace importer runs the same `summaryToFill` and `applySummaryFill` before comparing a converted guide with the stored one, so the stored guide (filled by the hook) and the converted one compare equal and a rerun saves no new version. Squarespace's "Necesitarás" text lands in `needs.notes`, and the dungeon picks whose notes are still there are kept. See [Squarespace import](../data/squarespace-import.md#loading-into-payload).
 
 ## Tests
 

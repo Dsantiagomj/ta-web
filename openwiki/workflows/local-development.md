@@ -26,8 +26,12 @@ sources:
     resource: repo://scripts/db-dev.ts
   - id: openwiki-source-e83c2fdd2947ea7668ffa73d
     resource: repo://scripts/import/fix-achievements.ts
+  - id: openwiki-source-5f5b0b3a227c3a5603a8af8f
+    resource: repo://scripts/import/import-achievement-prose.ts
   - id: openwiki-source-97e144348afe72981f00c973
     resource: repo://scripts/import/import-achievements.ts
+  - id: openwiki-source-5e5a9deaf2d00890b3600afb
+    resource: repo://scripts/import/import-checklists.ts
   - id: openwiki-source-d669905ebde3b9714d879fbc
     resource: repo://scripts/import/import-dofus-guides.ts
   - id: openwiki-source-9e87f9929ce6181cecc80fe9
@@ -36,6 +40,8 @@ sources:
     resource: repo://scripts/lhci.ts
   - id: openwiki-source-52bd7f492006181f268b8ce3
     resource: repo://scripts/media-sizes.ts
+  - id: openwiki-source-7ad9a198e69c253980868284
+    resource: repo://scripts/redirects/build-stub-redirects.ts
   - id: openwiki-source-63cbcc482c18e4f9ce5d0888
     resource: repo://scripts/refresh-quests.ts
   - id: openwiki-source-102ac9d3e731f9c02830d89f
@@ -48,10 +54,10 @@ sources:
     resource: repo://src/lib/dofusdb/refresh-quests.ts
   - id: openwiki-source-f34ac1e549d94dc3ac475ae4
     resource: repo://src/proxy.ts
-generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
+generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-12T11:00:44.802Z
+    at: 2026-11-14T11:00:46.827Z
 ---
 
 # Local development
@@ -99,15 +105,18 @@ Commit both with the change. CI fails when `src/payload-types.ts` is stale. Afte
 | `pnpm lint`, `pnpm format`, `pnpm format:check` | ESLint and Prettier |
 | `pnpm typecheck` | `next typegen`, then `tsc --noEmit` |
 | `pnpm test`, `pnpm test:integration`, `pnpm test:e2e`, `pnpm test:e2e:dev-gate`, `pnpm test:smoke` | The test suites; see [Test suites](../testing/test-suites.md) |
-| `pnpm seed:e2e` | Seeds the E2E test guides, the test achievement page and metalogros, the test Dofus guides with the index intro, and a panel user (`tests/e2e/seed/`); refuses any database that is not local. The E2E and Lighthouse runs call it themselves |
+| `pnpm seed:e2e` | Seeds the E2E test guides, the test achievement page and metalogros, the test Dofus guides with the index intro, the test checklists and extra `/checklists` index entries, and a panel user (`tests/e2e/seed/`); refuses any database that is not local. The E2E and Lighthouse runs call it themselves |
 | `pnpm test:lhci` | Lighthouse CI against the `DESIGN.md` budgets on the production path (port 3110, its own `ta_web_lhci` database); needs Playwright's Chromium (`pnpm exec playwright install chromium`) or `CHROME_PATH`. See [Performance budgets](../testing/performance-budgets.md) |
 | `pnpm db:dev` | Embedded Postgres in the foreground; `--verbose` prints its log; Ctrl+C stops it |
 | `pnpm migrate` | Applies pending migrations, using `DATABASE_URL_DIRECT` when set, else `DATABASE_URL` |
-| `pnpm data:quests` | Downloads every quest from the public DofusDB API (about 2,000), the whole monster catalog (about 5,000) and the whole item catalog (about 21,500), and writes them to `quests`, `items` and `monsters` in the `DATABASE_URL` database (the `pnpm db:dev` one when empty). Then it saves every achievement category and the achievements under Misiones and Eventos with their icons, saves the quest-giving NPCs to `npcs` with their renders (the first run takes a while: two images per NPC), creates the missing metalogros and achievement pages «En preparación», and imports the images of the items and monsters some page shows into `media`. The quest download takes about two and a half minutes; writing takes seconds. Failed requests are retried. Writes 8 rows at a time; `DOFUSDB_WRITE_CONCURRENCY` changes that. Never against production without the owner's yes; see [DofusDB game data refresh](../data/dofusdb-refresh.md) |
+| `pnpm data:quests` | Downloads every quest from the public DofusDB API (about 2,000), the whole monster catalog (about 5,000) and the whole item catalog (about 21,500), and writes them to `quests`, `items` and `monsters` in the `DATABASE_URL` database (the `pnpm db:dev` one when empty). Then it saves every achievement category and the achievements under Misiones and Eventos with their icons, saves the quest-giving NPCs to `npcs` with their renders (the first run takes a while: two images per NPC), creates the missing metalogros and achievement pages «En preparación», saves the sub-areas with their areas and the dungeons with their bosses, and imports the images of the items and monsters some page shows, dungeon bosses included, into `media`. At the end it reports which dungeon rows of the published achievement pages show their boss and which still carry the generic icon. The quest download takes about two and a half minutes; writing takes seconds. Failed requests are retried. Writes 8 rows at a time; `DOFUSDB_WRITE_CONCURRENCY` changes that. Never against production without the owner's yes; see [DofusDB game data refresh](../data/dofusdb-refresh.md) |
 | `pnpm import:guides <dir> [slug…]` | Imports Squarespace quest pages from the migration inventory folder into `quest-guides` as drafts, with their images in `media`; without slugs, the five demo guides. Writes to the `DATABASE_URL` database (the `pnpm db:dev` one when empty). Run `pnpm data:quests` first so quests link. Never against production without the owner's yes; see [Squarespace import](../data/squarespace-import.md#running-it) |
 | `pnpm import:achievements <datos.json> [--apply] [--remote] [--production]` | Copies Torre's metalogros index (order, names, slugs, states, hand-picked representatives, loose guides) onto `achievement-groups` and `achievement-pages`. Dry run without `--apply`; run after `pnpm data:quests`. See [Importing Torre's achievement pages](../data/achievements-import.md) |
 | `pnpm fix:achievements [--apply] [--remote] [--production]` | Applies the targeted fixes in `TORRE_FIXES` to a database that already ran `pnpm import:achievements`, without running the import again: representatives, an achievement page's state, name, slug and position, loose guides. Skips anything with an unpublished draft; a second run changes nothing. Dry run without `--apply`. See [Importing Torre's achievement pages](../data/achievements-import.md#targeted-fixes) |
 | `pnpm import:dofus-guides [--from <dir>] [--apply] [--remote] [--production]` | Reads each Dofus page of Torre's site (or `<dir>/<slug>.html`) into `dofus-guides`, linking achievement pages, quest guides and items, fetching missing items from DofusDB and copying video posters to `media`. On a rerun it keeps what Torre changed in the panel. Dry run without `--apply`; run after `pnpm data:quests` and `pnpm import:achievements`. See [Importing Torre's Dofus guides](../data/dofus-guides-import.md) |
+| `pnpm import:checklists --from <silvestre-checklist> [--only <id>] [--apply] [--remote] [--production]` | Loads Torre's checklists from a copy of the old `silvestre-checklist` app into `checklists`: the ported ones whole, as drafts «En preparación», the rest as «En preparación» cards linking to Squarespace. A rerun keeps Torre's panel edits and each step's identifier. Fetches missing items and NPCs from DofusDB and uploads start maps and figures to `media`. Dry run without `--apply`. See [Checklist data and import](../checklists/checklist-data.md) |
+| `pnpm import:achievement-prose [--from <dir>] [--apply] [--remote] [--production]` | Copies the prose of each achievement page's Squarespace page (introduction and closing, with screenshots and videos in place) onto the achievement pages, without overwriting what Torre wrote in the panel; `--from` reads cached `<dir>/<slug>.html`. Dry run without `--apply`. See [Achievement prose import](../data/achievement-prose-import.md) |
+| `pnpm redirects:stubs [--from <origin>] [--dry-run] [--cutover]` | Rewrites the `stubs` section of the legacy redirect table from a deployed site's public API (dev by default). See [Legacy redirects, sitemap and robots.txt](../operations/redirects-and-seo.md#the-stubs-section) |
 | `pnpm guides:backfill <dir> [--apply] [--remote] [--production]` | Brings guides imported before two importer changes up to date: restores the closing sentence from the cached Squarespace page and turns monster lists into fight blocks. Dry run without `--apply`; run after `pnpm data:quests`. See [Squarespace import](../data/squarespace-import.md#bringing-imported-guides-up-to-date) |
 | `pnpm media:sizes [--remote] [--production]` | Generates the missing AVIF/WebP sizes of `media` files uploaded before Payload generated them; safe to rerun. Against a non-local database it needs `--remote`, in production `--production`. See [Media storage](../media/storage.md#backfilling-missing-sizes-pnpm-mediasizes) |
 | `pnpm migrate:create <name>` | Writes a new migration |
@@ -123,7 +132,7 @@ Under `pnpm dev`, `/sistema` shows every component from `DESIGN.md` in the five 
 
 ## Previewing a guide
 
-Quest guides render at `http://localhost:3000/<slug>` once published. To see a draft, sign in to `/admin` and use the guide's live preview or preview button, which go through `/vista-previa`. The preview origin comes from `NEXT_PUBLIC_SITE_URL` (`http://localhost:3000` in `.env.example`), or the request's own when it is empty. See [Public quest guide page](../frontend/guide-page.md#draft-preview).
+Quest guides render at `http://localhost:3000/<slug>` once published. To see a draft, sign in to `/admin` and use the guide's live preview or preview button, which go through `/vista-previa`. The preview origin comes from `NEXT_PUBLIC_SITE_URL` (`http://localhost:3000` in `.env.example`), or the request's own when it is empty. The same variable is the base of canonical URLs, `robots.txt`, the sitemap and the legacy redirects, and a production server (`next start` outside the build) refuses to start without it. See [Public quest guide page](../frontend/guide-page.md#draft-preview).
 
 ## Trying dev mode locally
 
@@ -147,7 +156,7 @@ If `pnpm db:dev` fails to start after a hard shutdown, a stale `.postgres/data/p
 
 ## Before committing
 
-The pre-commit hook formats, lints and runs the AI review on staged files (with Sonnet unless `GGA_CLAUDE_MODEL` says otherwise); the commit-msg hook enforces conventional commits without `Co-Authored-By`. Before each push, run lint, the format check, types, unit and integration tests locally; run E2E and the dev environment suite once, right before opening the PR. Report failures verbatim. See [CI and quality gates](ci-and-quality-gates.md).
+The pre-commit hook formats, lints and runs the AI review on staged files (with Sonnet 5.5, `claude-sonnet-5-5`, unless `GGA_CLAUDE_MODEL` says otherwise); the commit-msg hook enforces conventional commits without `Co-Authored-By`. Before each push, run lint, the format check, types, unit and integration tests locally; run E2E and the dev environment suite once, right before opening the PR. Report failures verbatim. See [CI and quality gates](ci-and-quality-gates.md).
 
 Feature branches do not touch `openwiki/`. A scheduled task outside the repo refreshes the wiki once a day and opens its own docs PR (AGENTS.md, Wiki).
 

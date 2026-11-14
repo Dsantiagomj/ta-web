@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:1ca1d609b057fe9299c43563b6cd9a897056f77da5caa31441ed7f1a51e071da",
+  "pageVersion": "sha256:8a46106f674db65ef53f2d63e44c8d15f12894299ef83dccb16c0957fa7498d4",
   "claims": [
     {
       "id": "claim_077aa066ce244eb191d0365a5822f1e2",
-      "statement": "The /<slug> route loads a Dofus guide only after no quest guide or achievement page matches, renders DofusGuideView when found and calls notFound() otherwise.",
+      "statement": "The /<slug> route loads a Dofus guide only after no quest guide or achievement page matches, renders DofusGuideView when found and otherwise tries a checklist before calling notFound().",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/%5Bslug%5D/page.tsx#L89-L100",
-          "version": "repo-lines-v1:sha256:69ab5c54e629abeca9db13e44347fab6e60f7ba24e325d7d2f18bc3face89a17:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3ODI3NjA3NWE5OTI0OTFhODEzM2MxOTQwOWZhMDdhOWIwMmY3ZDA5MWYyZGM2NDE3YjRhNDEwNWYwOTUyMGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2MmFhOTQxY2JhZDQ1NzY3NjlkMjY1NzQyOWUxZjhkZTM2NzE5YmNmODI4OGU0ZDUzZjY3NWI2OTJiZGZjMzUifQ"
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/page.tsx#L106-L124",
+          "version": "repo-lines-v1:sha256:d7737e5293779228754e66a9026b6771cf9f6887dbf7c332c1e9a6ef0397bd1d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNiYzE1ZDhhODZmODkzZTZmZjBiNjg1ZDczZDAwOGIwZTQxNzhmNGM0OTU5MDQwMjU4MWQ4NWY1NWVlMmYxMTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2MmFhOTQxY2JhZDQ1NzY3NjlkMjY1NzQyOWUxZjhkZTM2NzE5YmNmODI4OGU0ZDUzZjY3NWI2OTJiZGZjMzUifQ"
         }
       ]
     },
@@ -17,8 +17,8 @@
       "statement": "Dofus guide metadata uses dofusPageStrings.seo with the guide name, a canonical /<slug>, Open Graph type article, and noindex/nofollow in preview.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/%5Bslug%5D/page.tsx#L52-L87",
-          "version": "repo-lines-v1:sha256:351d72031c801218e6c20a20575f4c480f047745169265062d340242f1c4eda0:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRlYzM2MmZmZGI2ZmU4ZGE1OTYxY2I1N2UyYWE0OWM4YjAyYThjMmRhMmUwMTFkMDQ1M2YwN2U3NTk3Y2VlMWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY4ZTM1ZmNhNWRmZjk1ZTY1ZmZlMTlkOTdiNmE5MTE3M2I3ZjlmNjU0ODM1ZWViZWM5NjA1MjRmNzhjOTU2ZTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNiMmRlOTYyZjBiMDQ4YWIwNTM4ZDZkZjQ5NTU2NjhkZGI5YjY4ODVmNzlhZDBlMTVhYmFhMmEwODMzNWY3NzMifQ"
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/page.tsx#L52-L104",
+          "version": "repo-lines-v1:sha256:552ae0e461844f2d5b524ae931661c4cff20ee9acb284040e3bc5d51222b42bb:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5NjNjZjlkNjFkYjk0MjBjODU3YjU1ZjFjYmVkNzMzMGVkNjYyOWRiNjBhZDhkYzM4YzczMjdiNDEyZTVhNjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM3ZjUwNzUzMTZlMjJiYzVmNjIwNjQ0ZjFjNmZiNjU3MGQ2ZDZiY2VlNDEzNWRiMGI2ODg2NDdiN2RhNThjN2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMwMzk1MWVjZjk3NGNkODQzYTEyNTM0ODVlZWUwZjE0NjQ1ZGU0NDcwMWYxZjZiMGY1YjBlNGI3N2IyMWQyZmYifQ"
         }
       ]
     },
@@ -155,14 +155,14 @@
       "statement": "The E2E spec checks the guide's breadcrumb, header, checklist and intro, Necesitarás copy and columns, achievement quests from the achievement page, the single column with the previous Dofus, a 404 for a preparing Dofus and axe in both modes.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/guias-dofus.spec.ts#L94-L196",
-          "version": "repo-lines-v1:sha256:0794df7d1025ee3c625ff808b8a956c82af08920d1048af6682d228b4b859535:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJiNzc0ODA0MmY5MTgxYzQyMzkzZDA3YWM5ZGM0MDM3OTg4M2U1OTc1ZThmNjhkNmYyMjdiYTE3ZmRmZWE1NGM4IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIwMWJhNDcxOWM4MGI2ZmU5MTFiMDkxYTdjMDUxMjRiNjRlZWVjZTk2NGUwOWMwNThlZjhmOTgwNWRhY2E1NDZiIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlMzcwN2ZlZTU2NmM1M2U3MTJlNDg1MzlkNGVhYmU0MmRiNDM0NzFkOGYyNDY1ZGFjZGFjMWNhODc1NWFkMmVkIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJjMDk3NTc5YzNjODJiNWNiNTg4MWJkOTU2Y2ZlY2VkNGMxNGFiNWVlOWFhMWYwY2MyOGNiYzQ3ZDEwMzUzMGNjIn0"
+          "resource": "repo://tests/e2e/guias-dofus.spec.ts#L94-L214",
+          "version": "repo-lines-v1:sha256:be1f1847dee42a14db0751496390bcbec52c5e8685a89cb673463709ac3b4be3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIwMWJhNDcxOWM4MGI2ZmU5MTFiMDkxYTdjMDUxMjRiNjRlZWVjZTk2NGUwOWMwNThlZjhmOTgwNWRhY2E1NDZiIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI0ZDNmMzFjNTA2OGUwNmU3NDQ5ZjA1NDhkODk5YzkwNzdlZTQ0Y2ZiNDZiMDcxMTVmZGZkY2U1Y2RmOTNhOWU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-12T11:00:44.802Z"
+    "at": "2026-11-14T11:00:46.827Z"
   }
 }

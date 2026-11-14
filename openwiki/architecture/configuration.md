@@ -3,9 +3,6 @@ type: reference
 title: Environment configuration
 description: Every environment variable the app, the tests and the GitHub workflows read, who sets it, and how each resolver turns it into behavior, including the cases that refuse to start.
 tags: [configuration, environment, secrets, railway]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-12T11:00:44.802Z
 sources:
   - id: openwiki-source-5f5b95b3d6a215fa02ceb945
     resource: repo://.env.example
@@ -15,6 +12,8 @@ sources:
     resource: repo://.gitignore
   - id: openwiki-source-d60a6f0f1e9b6eab797ff859
     resource: repo://.railway/railway.ts
+  - id: openwiki-source-7382aecd8b46a81ca66efc96
+    resource: repo://lighthouserc.cjs
   - id: openwiki-source-5b54a58d1b51cd490b0e7162
     resource: repo://package.json
   - id: openwiki-source-5e753d9d77984cb67aae1517
@@ -61,7 +60,10 @@ sources:
     resource: repo://tests/integration/env.ts
   - id: openwiki-source-e73350ef868f2379d51909ed
     resource: repo://tests/unit/dofusdb-write-concurrency.test.ts
-generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
+generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-14T11:00:46.827Z
 ---
 
 # Environment configuration
@@ -78,7 +80,7 @@ Each group of variables has one small resolver function that takes an `env` reco
 | `DATABASE_URL_DIRECT` | `resolveDatabaseUrl`, only when `DATABASE_CONNECTION=direct` | Railway (Neon non-pooled URL) |
 | `DATABASE_CONNECTION` | `resolveDatabaseUrl` | The `pnpm migrate` script sets it to `direct`; never set by hand |
 | `PAYLOAD_SECRET` | `src/payload.config.ts` | `.env`, Railway, CI (a dummy value) |
-| `NEXT_PUBLIC_SITE_URL` | `metadataBase` in `src/app/(frontend)/layout.tsx`; `SITE_URL` in `src/lib/site/origin.ts`, the absolute URLs of the breadcrumb JSON-LD. Both default to `http://localhost:3000`; `SITE_URL` drops trailing slashes | `.env`, Railway |
+| `NEXT_PUBLIC_SITE_URL` | `siteUrl` and `SITE_URL` in `src/lib/site/origin.ts`: `metadataBase` in `src/app/(frontend)/layout.tsx`, canonical URLs, the JSON-LD, the `robots.txt` sitemap line, `/sitemap.xml` and the `Location` of legacy redirects. Trailing slashes are dropped. Required in production; development and tests fall back to `http://localhost:3000` | `.env`, Railway; the E2E and Lighthouse servers set it to their own `localhost` port |
 | `APP_ENV` | `isDevEnvironment` (the `noindex` header, `robots.txt`, the `/sistema` catalog), `sentryServerOptions` | Railway `dev` sets `dev`; empty locally and in production |
 | `S3_ENDPOINT`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_REGION`, `MEDIA_BASE_URL` | `readS3Settings` (`src/lib/media/storage.ts`) | Railway |
 | `SENTRY_DSN` | `sentryServerOptions` (`src/lib/monitoring/sentry.ts`) | Railway |
@@ -92,7 +94,8 @@ Each group of variables has one small resolver function that takes an `env` reco
 | `CHROME_PATH` | `scripts/lhci.ts`: the browser Lighthouse measures with; Playwright's Chromium when empty | The process environment only, not `.env` |
 | `SMOKE_BASE_URL` | `playwright.config.ts` | The shell or the smoke workflow; never `.env` |
 | `RAILWAY_TOKEN`, `PROD_URL`, `DEV_URL` | GitHub workflows only | GitHub environment secrets and repository variables |
-| `GGA_CLAUDE_MODEL` | `scripts/hooks/gga-review.sh`: exported as `ANTHROPIC_MODEL` for the per-commit gga review; empty means `sonnet` | The shell; local tooling only, the app never reads it |
+| `GGA_CLAUDE_MODEL` | `scripts/hooks/gga-review.sh`: exported as `ANTHROPIC_MODEL` for the per-commit gga review; empty means `claude-sonnet-5-5` | The shell; local tooling only, the app never reads it |
+| `LHCI_SHARD` | `lighthouserc.cjs`: `1/2` or `2/2` measures one contiguous part of the page list; unset measures every page; a malformed value or more parts than pages throws | CI's two budget jobs; unset locally |
 | `RELEASE_REVIEW_MODEL`, `RELEASE_REVIEW_JOBS`, `RELEASE_REVIEW_TIMEOUT_MINUTES`, `RELEASE_REVIEW_BATCH_CHARS` | `scripts/review-release.ts` (`pnpm review:release`): model, parallel batches, minutes per batch and diff characters per batch; empty means `fable`, 3, 20 and 120000 | The shell; local tooling only. See [Release review](../workflows/release-review.md) |
 
 `NODE_ENV`, `NEXT_PHASE` and `CI` come from Next.js and GitHub Actions and are not listed in `.env.example`.
@@ -117,6 +120,10 @@ Each group of variables has one small resolver function that takes an `env` reco
 ### Dev environment detection
 
 `isDevEnvironment` returns true when either `APP_ENV` or `RAILWAY_ENVIRONMENT_NAME` equals `dev`, ignoring case and surrounding spaces. The proxy, `robots.txt`, the design catalog and the Sentry environment all use it. Dev is public, with no basic auth: when dev is detected, the proxy adds `X-Robots-Tag: noindex, nofollow` to every response and `robots.txt` disallows everything. See [Dev environment gate](../operations/dev-gate.md).
+
+### The public origin
+
+`siteUrl(env, fallback)` in `src/lib/site/origin.ts` returns `NEXT_PUBLIC_SITE_URL` trimmed and without trailing slashes. When the variable is missing it returns the fallback (`http://localhost:3000` by default), except when `NODE_ENV` is `production` outside `next build` (`NEXT_PHASE` is not `phase-production-build`): then it throws, like the database URL does. The public origin never comes from the request, because behind Railway's proxy the request only knows the internal host. `SITE_URL` is `siteUrl(process.env)`, read once when the server starts. The proxy calls `siteUrl` with the request's own origin as the fallback when it builds a redirect (see [Redirects, sitemap and robots](../operations/redirects-and-seo.md)).
 
 ### Sentry
 
@@ -143,7 +150,7 @@ Each group of variables has one small resolver function that takes an `env` reco
 Tests never trust a `DATABASE_URL` that might come from `.env`:
 
 - The Playwright configs load only the three `E2E_*` keys from `.env` (`loadE2eEnvFromFile` in `tests/e2e/app-server.ts`), and the smoke variables only from the process environment.
-- `pnpm test:lhci` loads the same three keys through `loadE2eEnvFromFile`, then overrides the app's environment with `lhciEnv` (`scripts/lhci-env.ts`): its own database for both URLs, a dummy `PAYLOAD_SECRET` when none is set, `APP_ENV` blank so it measures the public site rather than the dev gate, and every `S3_*` variable and `MEDIA_BASE_URL` blank. See [Performance budgets](../testing/performance-budgets.md).
+- `pnpm test:lhci` loads the same three keys through `loadE2eEnvFromFile`, then overrides the app's environment with `lhciEnv` (`scripts/lhci-env.ts`): its own database for both URLs, a dummy `PAYLOAD_SECRET` when none is set, `NEXT_PUBLIC_SITE_URL` set to the local server, `APP_ENV` blank so it measures the public site rather than the dev gate, and every `S3_*` variable and `MEDIA_BASE_URL` blank. See [Performance budgets](../testing/performance-budgets.md).
 - E2E servers and the integration setup set `DATABASE_URL_DIRECT` to the same value as `DATABASE_URL`, because `pnpm migrate` prefers the direct URL and a value inherited from the shell would migrate a real database. The E2E app server also blanks every `S3_*` variable and `MEDIA_BASE_URL`, so the seeded image goes to local disk.
 - `integrationEnv` blanks every `S3_*` variable and `MEDIA_BASE_URL`, so integration uploads go to local disk.
 

@@ -14,6 +14,8 @@ sources:
     resource: repo://src/collections/achievement-fields.ts
   - id: openwiki-source-7a2723ea85824e431ff5eb54
     resource: repo://src/collections/QuestGuides.ts
+  - id: openwiki-source-0361e66a1062c5e4dd111cb0
+    resource: repo://src/components/admin/PanelBrand.tsx
   - id: openwiki-source-5e8f77fd185a0f97b7ae1c42
     resource: repo://src/components/quest-guide-admin/linked-quest.ts
   - id: openwiki-source-96b94ee077b0d0a0987ef203
@@ -30,10 +32,10 @@ sources:
     resource: repo://src/payload.config.ts
   - id: openwiki-source-98d5ddb014a0fd4d678f6f2a
     resource: repo://tsconfig.json
-generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
+generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-12T11:00:44.802Z
+    at: 2026-11-14T11:00:46.827Z
 ---
 
 # Payload CMS configuration
@@ -46,11 +48,13 @@ Payload 3 runs inside the Next.js process. There is one config, `src/payload.con
 |---|---|---|
 | `admin.user` | `users` | Panel accounts; see [Collections and access](collections.md) |
 | `admin.importMap.baseDir` | `src/` | Where `generate:importmap` resolves admin components |
-| `collections` | `[Users, Media, Quests, Items, Monsters, Npcs, AchievementCategories, Achievements, QuestGuides, AchievementPages, AchievementGroups, DofusGuides]` | One file per collection in `src/collections/`; `quests`, `items`, `monsters`, `npcs`, `achievement-categories` and `achievements` are read-only DofusDB game data. See [Achievement data model](../achievements/achievement-data.md) and [Dofus guide data model](../dofus-guides/dofus-guide-data.md) |
+| `admin.dateFormat`, `admin.meta` | Spanish date format, title suffix and the site's icons | The panel carries Torrente Arcano's name and icons, not Payload's |
+| `admin.components` | `graphics.Logo`, `graphics.Icon` and `beforeLogin` from `PanelBrand` | The emblem and a login welcome instead of Payload's logo. See [Admin panel](admin-panel.md) |
+| `collections` | `[QuestGuides, AchievementPages, AchievementGroups, DofusGuides, Checklists, Media, Quests, Items, Monsters, Dungeons, Npcs, SubAreas, AchievementCategories, Achievements, Users]` | One file per collection in `src/collections/`. The order is the panel menu's: Torre's content first, then images, the read-only DofusDB game data and the panel accounts; each collection names its menu group in `admin.group`. See [Collections and access](collections.md) |
 | `globals` | `[DofusGuidesIndex]` | One file per global in `src/globals/`; the only one is the intro of the `/guias-dofus` index. See [Dofus guides index and menu](../dofus-guides/dofus-guides-index.md) |
-| `editor` | `lexicalEditor()` | Default rich text editor; the guide body blocks use it (see [Guide body blocks](blocks.md)) |
-| `endpoints` | `[healthEndpoint, searchIndexEndpoint, dofusDbValuesEndpoint]` | Custom endpoints, mounted under `/api`: `/api/health`, `/api/search/guides` and `/api/dofusdb-values/:source/:id` |
-| `i18n` | Spanish only, fallback `es` | The panel UI is in Spanish |
+| `editor` | `lexicalEditor()` with the panel's Spanish placeholder | Default rich text editor; the guide body blocks use it (see [Guide body blocks](blocks.md)). Achievement page prose uses `proseEditor`, the same editor plus a YouTube block |
+| `endpoints` | `[healthEndpoint, readyEndpoint, searchIndexEndpoint, dofusDbValuesEndpoint]` | Custom endpoints, mounted under `/api`: `/api/health`, `/api/ready`, `/api/search/guides` and `/api/dofusdb-values/:source/:id`. The checklist details endpoint is mounted by its collection instead |
+| `i18n` | Spanish only, fallback `es`, with `panelStrings.translations` | The panel UI is in Spanish; some of Payload's own words are overridden so the header status only speaks of publishing |
 | `localization` | One locale, `es`, default and fallback | Content is Spanish; localized fields keep a second language possible |
 | `secret` | `PAYLOAD_SECRET` | Signs panel sessions |
 | `typescript.outputFile` | `src/payload-types.ts` | Generated types, committed |
@@ -82,21 +86,22 @@ Payload writes several files that are committed and must not be edited by hand:
 | File | Regenerate with | Notes |
 |---|---|---|
 | `src/app/(payload)/**` (layout, admin page, API routes) | Payload's Next template | Each file starts with "THIS FILE WAS GENERATED AUTOMATICALLY BY PAYLOAD" |
-| `src/app/(payload)/admin/importMap.js` | `pnpm generate:importmap` | Maps admin component paths to imports; today it holds the project's two quest guide components (`QuestAutofill`, `SummaryNote`), the achievement panel note (`DofusDbNote`), the Lexical rich text components (field, cell, diff and the client feature toolbar entries), `CollectionCards` and the S3 client upload handler. The Lexical entries appeared with the first rich text field, in the guide body blocks |
+| `src/app/(payload)/admin/importMap.js` | `pnpm generate:importmap` | Maps admin component paths to imports; today it holds the quest guide components (`QuestAutofill`, `SummaryNote`), the achievement panel note (`DofusDbNote`), the panel components of `src/components/admin/` (`SlugDescription`, the row labels, `LockedOnceSavedText`, `CopyValueDescription`, `PanelBrand`), the Lexical rich text components (field, cell, diff, the client feature toolbar entries and `BlocksFeatureClient` for the prose video block), `CollectionCards` and the S3 client upload handler |
 | `src/payload-types.ts` | `pnpm generate:types` | CI regenerates it and fails on any diff |
 | `src/migrations/*` | `pnpm migrate:create <name>` | Schema history; see the database page |
 
-`src/app/(payload)/custom.scss` is the hook for admin style overrides and is empty today.
+`src/app/(payload)/custom.scss` holds the admin style overrides: the brand colors (the panel does not load the site's styles), the multi-line field notes, the full address under the slug field, and hiding the locale switch while there is one locale.
 
 ## Custom admin components
 
-The project's own panel components live in `src/components/quest-guide-admin/` and `src/components/achievement-admin/`, next to the site's own components in `src/components/`. A collection references them by a path string relative to `src/` (the import map base directory) with a `#ExportName` suffix, not by import; Payload resolves that string through the import map:
+The project's own panel components live in `src/components/quest-guide-admin/`, `src/components/achievement-admin/` and `src/components/admin/` (shared panel components; see [Admin panel](admin-panel.md)), next to the site's own components in `src/components/`. A collection references them by a path string relative to `src/` (the import map base directory) with a `#ExportName` suffix, not by import; Payload resolves that string through the import map:
 
 | Path | Used by | What it does |
 |---|---|---|
 | `/components/quest-guide-admin/QuestAutofill#QuestAutofill` | `Description` of the quest guide `quest` field | Fills the empty title, slug, SEO and summary in the form when a quest is picked |
 | `/components/quest-guide-admin/SummaryNote#SummaryNote` | `Description` of each fillable summary field and of `summary.needs.items`, with `clientProps: { summaryField }` | Shows whether the value comes from DofusDB or was changed |
-| `/components/achievement-admin/DofusDbNote#DofusDbNote` | `Description` of each field an achievement page or metalogro copies from DofusDB, with `clientProps: { source, field }` | The same note for achievement pages and metalogros, reading `GET /api/dofusdb-values/:source/:id` |
+| `/components/achievement-admin/DofusDbNote#DofusDbNote` | `Description` of each field an achievement page or metalogro copies from DofusDB, with `clientProps: { source, field }` and an optional `help` (the reason a locked field only an admin can change) | The same note for achievement pages and metalogros, reading `GET /api/dofusdb-values/:source/:id` |
+| `/components/admin/…` | Slug fields, array rows, checklist step ids and prerequisite keys, the panel graphics | See [Admin panel](admin-panel.md) |
 
 The quest guide components are client components (`'use client'`) that read the form through `@payloadcms/ui` hooks and load the linked quest from the REST API with the session cookie (`linked-quest.ts`). Their logic lives in the pure modules of `src/lib/guides/`, shared with the server hook. See [Writing a quest guide](guide-authoring.md).
 

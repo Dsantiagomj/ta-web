@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:31f1d79dd017ee09f1a934dd5a4bab3c3b5ef2371797c7addbf62a48281909da",
+  "pageVersion": "sha256:511d3651596bbc5255192b36b57d14d5e9f8a2da383da44c0c4384fba09e2a5c",
   "claims": [
     {
       "id": "claim_35fde34cdf674edca408fee7ff5d2483",
-      "statement": "src/payload.config.ts configures the admin user collection, the import map base directory, twelve collections including the four achievement collections and the Dofus guides, the DofusGuidesIndex global, the Lexical editor, the health, guide search index and DofusDB values endpoints, Spanish-only i18n and localization, PAYLOAD_SECRET, the generated types output file, sharp and the media storage plugin.",
+      "statement": "src/payload.config.ts configures the admin user collection, the import map base directory, the panel branding, fifteen collections in menu order, the DofusGuidesIndex global, the Lexical editor, the health, ready, guide search index and DofusDB values endpoints, Spanish-only i18n with overridden strings and localization, PAYLOAD_SECRET, the generated types output file, sharp and the media storage plugin.",
       "evidence": [
         {
-          "resource": "repo://src/payload.config.ts#L31-L100",
-          "version": "repo-lines-v1:sha256:fd30a3fdbb5291575adedff9e586131058451ea31aa23e5795fadc0a022ac7a6:eyJzZWxlY3RlZExpbmVDb3VudCI6NzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4MjdlZTRkY2MzY2M0NmQ4ZDU0Njg1M2JmNWRhOTFiYzgzZWE3MWNiOWFjZWUzZmU4MmQxOWQxNzJjMDM4NTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1ZWFiZjM4OTEzMjJkMGMzMTU1NDk0ZDViZjI1OTQxMThkMzViYTBiZmFlNGRhZDI4Mzk0MDcxZDk3ZDk3YWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/payload.config.ts#L37-L132",
+          "version": "repo-lines-v1:sha256:7b7eaaf2caa077275f49adcbe4cb2baff7dbb6ff5c46f6660b0ab6af317e0f25:eyJzZWxlY3RlZExpbmVDb3VudCI6OTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4MjdlZTRkY2MzY2M0NmQ4ZDU0Njg1M2JmNWRhOTFiYzgzZWE3MWNiOWFjZWUzZmU4MmQxOWQxNzJjMDM4NTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1ZWFiZjM4OTEzMjJkMGMzMTU1NDk0ZDViZjI1OTQxMThkMzViYTBiZmFlNGRhZDI4Mzk0MDcxZDk3ZDk3YWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -27,7 +27,7 @@
       "statement": "The Postgres adapter uses src/migrations as its migration directory, pushes the schema only when shouldPushSchema returns true, and connects with the resolved database URL and a 5 second connection timeout.",
       "evidence": [
         {
-          "resource": "repo://src/payload.config.ts#L70-L76",
+          "resource": "repo://src/payload.config.ts#L106-L112",
           "version": "repo-lines-v1:sha256:8f65d30c41d17730377f0d7cafa9e8a71d0feab9c2a01b5a6813ebd6c0a06689:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzQxZWNlZmEwODI1MDEzMTQ1ZjA2MGExOGQ1MWQ3ZDU5MTQ0ZjcwODg2ZDc0MGE4OTBmZmIzMjRmMWM3YzYyMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmYxMTk2NTk3MTVjMjAwNWU4MDY3N2Q4NjFhMWY3NWZmOTkyMWRhOGZiN2E4NWNlZjFlNzAyY2Q2NTNhMjA5MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODQ4ZDY3NmM2MmM3MDU4NjA0YTViODUwMTg1NzJkOTk5ZWUxOTU3NjZjYTEzZTU1ZjQ5ZWZhYWI1Y2U4ZWYwNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTBlZjAwMjY2M2E0M2Q3MzQ1NDAzZDYzMGVlNTEwYzQzNzRkM2QwZTk3YTE4YmE3ZTU5MjdjOWJiYTU1NGI4ZSJ9"
         }
       ]
@@ -47,18 +47,18 @@
       "statement": "onInit registers an error listener on the Postgres pool that logs lost idle connections so they do not crash the process.",
       "evidence": [
         {
-          "resource": "repo://src/payload.config.ts#L87-L93",
-          "version": "repo-lines-v1:sha256:77795e9d6921746494d6c3ec61b0da1e59426122f02e4995fd2d626d1749e168:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTVlNGU2MmFjNWQ5ZjJiMmEyZDQ0ODMzNjAwYWQ5NTc5ODliMzQ0OWMxM2M5YTZjNjdlZjNhYTZiMTNhNWIwNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTMyMWU1MGMyYzY0YzgxYzc2ZTc2ZGE3ZTIzY2NhOTNhOTUwMDMyYzIzNjI0NGI4YjExYzE3MDBkMTI3OGRkYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTI1OGUwNzU3M2MyYzM4MGYxYzhhYWY2ZTkzZTViNmE4N2QzMzc5YTdhNjhmNjI2M2E0MTk0YzFlMDY1MmYzZiJ9"
+          "resource": "repo://src/payload.config.ts#L122-L130",
+          "version": "repo-lines-v1:sha256:02eef31552386f8c1c267d2818c1d51fb5314a77cc0f1da7b4000858fbdb76b9:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDJlNmZjZGQ0ZDcyNzQ4N2U4YjhkN2E0Mzc3ZjA2MmNkMWJjZTU5NDQ0ZDZkNzNhYTg4Y2E1ODQ4Zjk0YjRlMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjU3ZTdjNDhiNGEzNDM4MjE2ZTY4ZWUwMDJmMmFiZDNkZmNiYWIzMTIyZDA0OTQyM2UwMDBmMTlmOWEyZjJhNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmM1MzNkMDRjM2Q5MmU5YzQxZDZjNjU3NGYxZDdiOWRhMzA3ODhjOWM5OGFmNGQ4ZWI1NTNlMTYzMTUyZmM0YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjIsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiY2Y0ZmVmNmEwYzg5MjllZjkwZmQ1NmJjYTNhZjZhMzFkYzE2YzJjMTAxNWQ5ZTU4NGM0YzU0Mzc3MTk2MWYwZCJ9"
         }
       ]
     },
     {
       "id": "claim_0788bbcfc16141f2be648685d5c9d452",
-      "statement": "The generated admin import map registers the project's QuestAutofill, SummaryNote and DofusDbNote components, the Lexical rich text field, cell, diff and client feature components, Payload's CollectionCards and the S3 client upload handler.",
+      "statement": "The generated admin import map registers the project's QuestAutofill, SummaryNote and DofusDbNote components, the panel components from src/components/admin, the Lexical rich text field, cell, diff and client feature components including BlocksFeatureClient, Payload's CollectionCards and the S3 client upload handler.",
       "evidence": [
         {
-          "resource": "repo://src/app/(payload)/admin/importMap.js#L1-L31",
-          "version": "repo-lines-v1:sha256:ae7b61fc2d735c6f5d5c7e8eb23c3d4b9145cb1e703ff087bc7f4bf35dc86a20:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE1MGNmOWE1MTZmMDY3NjdiZTQ4YWU3YTc0MGIyZThkOTIyZGZkMmM2ZWFkYWQ1OTcyZTcwODc2OWE1NTJlN2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVkMzg4ODVmNjk0MDIxNWJkZmQzYWI3MmU0MzdlYzg5YWU1MTg2NjA5MDUzYzE4NWVjOTk0Mjc3ZmE1MTg4MDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZmMDdlMzg3NjI3MjcyOWQzMTU4Njc4YjdjM2IxN2JmZDBlYmZlYTNlMTliNGZiNDg2YTdlNTM3ZTU5OTk3MjAifQ"
+          "resource": "repo://src/app/(payload)/admin/importMap.js#L1-L39",
+          "version": "repo-lines-v1:sha256:be5ddbd5b6c4bd5277d18ff8caad534e08b287785d8f501c1f8525a038f2dffc:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE1MGNmOWE1MTZmMDY3NjdiZTQ4YWU3YTc0MGIyZThkOTIyZGZkMmM2ZWFkYWQ1OTcyZTcwODc2OWE1NTJlN2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxNmY2ZThlODRiZWM0NzBlZTM1Mzg5N2JmODBlODkwMmMyOTRmOTE0Njk2MDM0Y2M5MWFjY2VlMmUwYmQ2NWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYzMTYxOWFhZmYxNTNmNTg2Y2UyMzQ5ZDcyNmY4NWQzNDUyMTc1OTNmNjc1MzMzMWRjZjYzNjc1YzE4NTdhMWUifQ"
         }
       ]
     },
@@ -77,8 +77,8 @@
       "statement": "next.config.ts wraps the config with withPayload using devBundleServerPackages false, sets a webpack extensionAlias mapping .js to TypeScript sources, and pins the Turbopack root.",
       "evidence": [
         {
-          "resource": "repo://next.config.ts#L16-L34",
-          "version": "repo-lines-v1:sha256:9ddf3d9c86916fd18dc8cc4c8021b68d1c21e7b79c561c2f6088e867f5e90c02:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVmY2Q2Mzg3NjllZTYyMTNkZjlhMzBhZGUyODIzNTc2ZTVjZjg0M2RlNmVlZWNmNWU5YWY5ZDQyMGZhZDIzOWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlYWZlZDAzMmIxNzZjODlhOWVhOWIzNmYzYmY3ZjE4YzNkNWRmMzQwZTFiNDc3ZDIzOTBiNjY0Y2E3MTA4NzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ1NjM4MjVhZGU2NzRhMGFlZmZlOGQ1MmNlMDA2MTkzNWZiNTNkYTNmZTdiMzc2YWVmY2Y4MWRmMDk1NzZkOWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIwNjZiZjUxN2IzMDI2YTRmODA5MzZlNGQ5ZGQ0ZTk4NjM0M2VlZTJmOTU1MTRkNjk3NDM5MjE0MDc3ZGVkYWEifQ"
+          "resource": "repo://next.config.ts#L16-L36",
+          "version": "repo-lines-v1:sha256:a0a6987e1897b48bab7c2df9f6682c282c1a952fd6bd3e28faad43b5d1ced30b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFkOTdlMTU2Y2RjN2Q3YjE1ODExMzQyYTNhYjk5MGJkZmZiZDRkM2JkYzRjNWZlOWU0ZjVmMWNiYzAwZTg5MDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlYWZlZDAzMmIxNzZjODlhOWVhOWIzNmYzYmY3ZjE4YzNkNWRmMzQwZTFiNDc3ZDIzOTBiNjY0Y2E3MTA4NzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcxNTU1MDBiODVkYjNkYTYyOTkxYWE1ODg4N2M3NTU2OTk1OThmYmVjYjYwYmM2OWI3MjFhZjc4Y2RiOTE3ZGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIwNjZiZjUxN2IzMDI2YTRmODA5MzZlNGQ5ZGQ0ZTk4NjM0M2VlZTJmOTU1MTRkNjk3NDM5MjE0MDc3ZGVkYWEifQ"
         }
       ]
     },
@@ -107,12 +107,12 @@
       "statement": "The guide body blocks live in src/blocks/ and are added to a collection through its blocks field, as QuestGuides does for its body.",
       "evidence": [
         {
-          "resource": "repo://src/collections/QuestGuides.ts#L215-L221",
-          "version": "repo-lines-v1:sha256:24deaeb51778f365975ad0999768b74fdc80cab9cc82dda1801537dd52c869fe:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjljYTg5MWJmZjdhYzFmN2NlYWFlNDBlZjA1MTA2NmJlOWVmZTQ3YjRlNDI4MWU4NmMzMTliZTJjNTVlYmNlNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDk3MzllNTlhODFmZTU4NDRmMTI3NzdhYjQ4MmNmNzQ2ZDNhOThmODEyYjM5MjZkNTVmYTczZDI0YmYxODQ5ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTEyYzM2NmRjN2IwMjJjNWVlOWY1MTU0NTI1MTYyNDJhMzc0M2NhNzUwY2NkNjA2YjVkMTkyZGI0NGIyMjY3NSJ9"
+          "resource": "repo://src/collections/QuestGuides.ts#L3-L10",
+          "version": "repo-lines-v1:sha256:c54f69558369f0133e999431f3b13bc7cc02fd2e3dd1040e38e21526676b01c2:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzdhNzg0Nzg4ZTE0ODFkZmI0MzU3MGM5MjdhODk4MzgwMGU3MDU3MTFjNWZlMTQyYmI4MGFhMGI2ZWY0NDIzMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWMyMWZhYzEwMmU2NmYwZDdlYWJkY2NiMjI0Y2Y3ODI4NGMwODFhZDYyOTQ5NmZhMGY1M2IxYTZmYTc5Njk2ZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjIsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDI4ZGY2YzBmYTlhMTVjYTZlYTg2MzNlZGQ1MmNiYjk0YjgwZWVkOGZlYWU4NTRkZTZkMzUwODYyNWQzYWI5MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjhiYWUyZWI2ZTMzMTBmMzVlYTE4YmQyZDc2MDliYmFkYTc2MDQzNTMyNDUzZGQyZjAzMjQ5MTU0MmRiODljOCJ9"
         },
         {
-          "resource": "repo://src/collections/QuestGuides.ts#L3-L8",
-          "version": "repo-lines-v1:sha256:1d9481b3b9ad94df523a3c3fa0190be8ddf0b6916d5c5736d79e25655402443f:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzdhNzg0Nzg4ZTE0ODFkZmI0MzU3MGM5MjdhODk4MzgwMGU3MDU3MTFjNWZlMTQyYmI4MGFhMGI2ZWY0NDIzMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2RmNmJkZmMzMjIyMjc2YzZhZjU0NjUwZTQ2Nzc4YzgzODg2MGE5OWVlZDkzODE2YmU3ZGVlNmQ5MWRiYzE4ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjIsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGU1NWMyMDNmNDBmNTcyNGI5YzYyZjQ3Y2Y0YWQxMjQ2NzIyMWQzNDhjYTJiY2ExM2RkZDQ4M2ViMDY1MDY5YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjRhYTU3Y2ViMTAwNjc1Y2RhNTZjZTBkODA3MDdhZTNjMjRjMWI0NjNkOGU5Yzg4NmFmMTA4MzBjMjQ2YjQzNCJ9"
+          "resource": "repo://src/collections/QuestGuides.ts#L301-L307",
+          "version": "repo-lines-v1:sha256:24deaeb51778f365975ad0999768b74fdc80cab9cc82dda1801537dd52c869fe:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjljYTg5MWJmZjdhYzFmN2NlYWFlNDBlZjA1MTA2NmJlOWVmZTQ3YjRlNDI4MWU4NmMzMTliZTJjNTVlYmNlNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDk3MzllNTlhODFmZTU4NDRmMTI3NzdhYjQ4MmNmNzQ2ZDNhOThmODEyYjM5MjZkNTVmYTczZDI0YmYxODQ5ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTEyYzM2NmRjN2IwMjJjNWVlOWY1MTU0NTI1MTYyNDJhMzc0M2NhNzUwY2NkNjA2YjVkMTkyZGI0NGIyMjY3NSJ9"
         }
       ]
     },
@@ -121,16 +121,16 @@
       "statement": "The quest guide collection references its admin components by path string relative to src with an export suffix: QuestAutofill as the quest field description and SummaryNote, with a summaryField client prop, as the description of each summary field and the needs items list.",
       "evidence": [
         {
-          "resource": "repo://src/collections/QuestGuides.ts#L171-L184",
-          "version": "repo-lines-v1:sha256:b5f1f921d69a306efe06d93f2412b357e1db6ce1de9d215b779c2fc40c852adb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5Y2E4OTFiZmY3YWMxZjdjZWFhZTQwZWYwNTEwNjZiZTllZmU0N2I0ZTQyODFlODZjMzE5YmUyYzU1ZWJjZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImExNjYwMGYxZTNjN2UzZmY3Mjg4ZjY2NjQzMTUwYzU5OTA4M2Y1YjViNDQ3NzdiYzFlY2I5OGQ4OGNlMDcwYzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFjNzZiNzQyMTU3N2E5YThlZDFlMzZkZTM3NTg3NjI4MThkZTk3OWZlMzczNDgwOTRkN2FiY2M5OWVjNzNhNzcifQ"
+          "resource": "repo://src/collections/QuestGuides.ts#L258-L273",
+          "version": "repo-lines-v1:sha256:b3e7a1e9e77145b8bcf569af8a39aa64d1c485f4677b6087e38b536708e4714d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNjZWY1NjQyYjU0MzZjOTg0YjAzZjAwMWUwMjBmMjlkOWFlZTBkYzIyYTA0ZjU0NmMzMzJlMTllNTA0YmFhZGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZhMDg3NGRiNGEzZmZiZGRkMWI0NzBmOGE1YjAwNDczNzYyOTM3OGU3ZjNlYjNlM2JmNzZlNzRhYmFiNTZlZTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFjNzZiNzQyMTU3N2E5YThlZDFlMzZkZTM3NTg3NjI4MThkZTk3OWZlMzczNDgwOTRkN2FiY2M5OWVjNzNhNzcifQ"
         },
         {
-          "resource": "repo://src/collections/QuestGuides.ts#L57-L71",
-          "version": "repo-lines-v1:sha256:731c2f5d1352fb64eb5fb2bed70dba1ba0a88b160c6d267108a17774a39a8568:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE2ZWM3NDRmZTgwM2Q5MmRjMDA3MzdhMjcyYzIxZmNjMTM1NTdlM2RhOTk4M2RlYmY0NzY3NzkzYTA1YmU0N2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI1ZGRlZTdhODlkZTkxOTk4YzZiOTQ3N2U1YTAwYzEzNzlhYjBjNGZmN2M2MWZjMWMzOWMwODU1ZjE2YmYwODIifQ"
+          "resource": "repo://src/collections/QuestGuides.ts#L97-L110",
+          "version": "repo-lines-v1:sha256:36de6c279c03adc2e1dd178af8ca8c7746ab3c908cc92e875e14d0fc7fa9d3e7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2Y2YwZjdjZjM3YzU1NTllZmM3ZmJiYzFkZWQ3MWM3NWE2Y2NlZTM2YTczODgzNzU2NzExMWI3MDQ4ZTFkMTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZhM2Y1MTBmNGRmYzI5OTI3Mjc5MGExNzhlZWU3M2Q0YmVmOWRhMjZmYjMyYWFlYmM4NzQ3YmU5NTgyZjM0ODMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgxOTkyZTkyOGZlMzZmZjE1ZGFhMDYwMDQyZTc5YTE0MWU4OWYwNGQ4OWZiNzMxMDczMGI3NjFjYmQwYmZkMDEifQ"
         },
         {
-          "resource": "repo://src/payload.config.ts#L29-L35",
-          "version": "repo-lines-v1:sha256:3cc288c3626d530158a68db7c594ce33dc597ed4026d9501b7363fe4b076b8ed:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzgyN2VlNGRjYzNjYzQ2ZDhkNTQ2ODUzYmY1ZGE5MWJjODNlYTcxY2I5YWNlZTNmZTgyZDE5ZDE3MmMwMzg1NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzVlYWJmMzg5MTMyMmQwYzMxNTU0OTRkNWJmMjU5NDExOGQzNWJhMGJmYWU0ZGFkMjgzOTQwNzFkOTdkOTdhYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDIzMzg2MTNhNGMxMzFiMDMzYzM1OWVlMGJmMjgxOWQ4NTE2ZjE3NGVhNDQ4NzRjNGVmMmI4YjE2MGVmOGQwZSJ9"
+          "resource": "repo://src/payload.config.ts#L38-L42",
+          "version": "repo-lines-v1:sha256:f69612075485b6181de3f374e2ded25193b6d06c7b5982020ee9db54bf3d8381:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDc2YjhhMGU4ODJmOGUzN2M4MjA4NWZmMTU0OTgzNzI4MWE1MThiYTA4MzUxNWRmZTRhMDIyYjA1MmIwNDQyMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmU2MzBmNjVlMzUxNTk1ZWE3OTg1NWU3ZTFiOGM3NmY4ZmVhOGJkZWI5MGRlODQwY2ZlMTk5YjVkNTViMGYxZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDk2Mjg2MzRhNGYxNGU2MmE2OWQxODAwYzIzYjcyMDYxYTEyNmVmNWNiNjQ2YTUwZWIzODM5ZTJkODg5NGYxNSJ9"
         }
       ]
     },
@@ -157,24 +157,38 @@
       "statement": "The pool's onConnect hook attaches an error listener to every new Postgres client that only logs a lost checked-out connection; the transaction owner receives the failure and the transaction is not retried.",
       "evidence": [
         {
-          "resource": "repo://src/payload.config.ts#L77-L84",
+          "resource": "repo://src/payload.config.ts#L113-L120",
           "version": "repo-lines-v1:sha256:46c713f1c25885edcc8019021498aba8c91ac003e0b70fc36f2c51e50e03155f:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWQ2YTdhYjlhOWNlMDZkNjY4NTBjNTk3Y2ZkOGIyNWRmZWRjNzdmYWNmZGUxYzA3ZjZlYmIyN2FkNmYwMTUxOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjk3OGUyNTAzYjhjZjM3YTA2ZjdkNmYwYTNhNmI2ZmUzNTY5MWZiY2FiNTBiODc3NWNhYjZmYWJjNzFjNTkyYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGU4MDhiY2ZjZTU0OGIxYTkwODgzOWQzNjdlYmNkZGRhNWM2NDEzZjRjMDJhZWU2MjJlY2RmNmUyMmJlZmQwMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzg5ZTBjMDgzNzcyNWI0N2IwODkwNTAyY2EzZTVhYzk3NTUwN2E5Mzg3NGE5NTc3MDMzMmZkNTI0OTA4OWI1MyJ9"
         }
       ]
     },
     {
       "id": "claim_4812e9b69b204c13b5c1bf7738752296",
-      "statement": "Achievement pages and metalogros mount DofusDbNote by path as the description of each copied field, passing source and field as client props.",
+      "statement": "Achievement pages and metalogros mount DofusDbNote by path as the description of each copied field, passing source and field and an optional help text as client props.",
       "evidence": [
         {
-          "resource": "repo://src/collections/achievement-fields.ts#L9-L22",
-          "version": "repo-lines-v1:sha256:00ffe1fea005d6e302f75e5e0b7ef54d1d9d6957cff13622d3eef370b6993d0a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgyYjgzYTYyMmNlMDNkMGZiNjc4ZDI2MzM4MThlZDYxYjU2OWQ2YWNiNjg5Yjk5NDg0NTk2NDhhNWVjNzZkYWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZmYTliZjhiMzFiMDIzZmI3NDc2NWJjZDEzMjFhMDk2NTViMTlhNjk5MmQ3YzNkZWQxZjk5YTgxN2NhNDA4ZGQifQ"
+          "resource": "repo://src/collections/achievement-fields.ts#L10-L24",
+          "version": "repo-lines-v1:sha256:83f434e4fc0be5fb473cb79e0f7de40919e12b4b82a0e5f4f7431a174dafebfa:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYzN2ZhZDUxY2YzZDVjZGI4YTI4OGMzYjUyYzI1OWFkZTFkY2U4NjQ4NTI3NGU4YTU4NDc1ODQ2M2ViMTM5OTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZmYTliZjhiMzFiMDIzZmI3NDc2NWJjZDEzMjFhMDk2NTViMTlhNjk5MmQ3YzNkZWQxZjk5YTgxN2NhNDA4ZGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e7c942782640444c8014a9c3ae6b32e1",
+      "statement": "The panel replaces Payload's logo and icon with PanelBrand components, adds a login welcome, and uses the site's icons and a title suffix.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/admin/PanelBrand.tsx#L1-L42",
+          "version": "repo-lines-v1:sha256:57ed1aa580efc80a2d75e03c39012176394cf3c4ceadaab67d1da510b8dfc7c8:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUyOTY2ZTQwMzgwYTUyZWY5MTA3YzZiYWFlZDJiMDM4ZWE3Y2VhYWU5ZTJjOTMzNGVkNjQwM2I0ODY1OWRlYWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/payload.config.ts#L43-L58",
+          "version": "repo-lines-v1:sha256:2bb2585d63c109b0347b595cb7d4e21da4bebdb6cccf73bd0e4c362b5be40192:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmMTFhOGY0YTQzNDM5Y2IzOTczMGMwZWUzMzkxY2IxNjgyMDM4NjY1NmQ3ZWQ1YmExYjc3M2Y5NDNiODVjOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc0ZWNjNTc5YzM5MzRmOGNmMmQ3ZTM3NTQxOTc1MTY0MjVmYzNiNDMzMTg3Yzg0Yzc4ZmYwZWVhMDY3NmMzMzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM2MjVjYjk1NzAzYmMyMDExY2IxNDg4MmYwYjgzMjI2NTcxZWZkMWY1NGNmN2RmMGE2YWYwM2M2Zjc2NzY3NDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI5MTVjOGU5NmQ5NDRmNDdlYzVlNjBjYjU4NTY0NDhjZTM1ZWJmNjJhZjlkYjU2YTFkMjQ5MzVlMGYxY2E2NWEifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-12T11:00:44.802Z"
+    "at": "2026-11-14T11:00:46.827Z"
   }
 }

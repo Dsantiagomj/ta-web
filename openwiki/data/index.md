@@ -1,5 +1,6 @@
 # Files
 
+- [Achievement prose import](achievement-prose-import.md) - How pnpm import:achievement-prose reads Torre's Squarespace achievement pages, separates his intro and outro prose from the template lists the new page computes, uploads screenshots and video posters once, and writes the two rich text fields under the importSnapshot rule so reruns never undo panel edits.
 - [Importing Torre's achievement pages](achievements-import.md) - The pnpm import:achievements script that copies Torre's current metalogros index (order, names, slugs, states, hand-picked representatives and loose guides) onto the metalogros and achievement pages, the pnpm fix:achievements script for targeted corrections afterwards, their dry-run default, database guard and tests.
 - [Database and migrations](database.md) - How the app picks its Postgres connection (pooled, direct or the embedded dev database), when Payload pushes the schema versus applying committed migrations, and how to change the schema safely.
 - [Importing Torre's Dofus guides](dofus-guides-import.md) - How pnpm import:dofus-guides reads each Dofus page of Torre's Squarespace site, links its achievements, quests and items, fetches missing items and video posters, and creates or updates the dofus-guides collection without overwriting what Torre changed in the panel.

@@ -1,0 +1,5 @@
+# Files
+
+- [Checklist data and import](checklist-data.md) - The checklists collection (state and Squarespace link, steps with a stable stepId, zone, text segments with «Detente aquí» and «Aquí se resuelve» rules, Necesitarás rows, prerequisites with locked keys), its validation, and how pnpm import:checklists converts Torre's silvestre-checklist data without undoing panel edits.
+- [Checklist page and index](checklist-page.md) - How /<slug> renders a published checklist (route order, cached loader with the checklists tag, draft preview, the redirect of a checklist «En preparación»), the server-rendered window, the details endpoint the island fetches after paint, the island and its lazily loaded progress UI, and the /checklists index and menu entries built from one cached read.
+- [Checklist progress engine](progress.md) - How checklist progress lives in the browser under one ta-web:progress key, the pure engine that decides which quests and steps are done and computes the weighted percentage, how weights and quest relations are derived from stored quest data, and the one-time union migration of old silvestre-checklist keys.

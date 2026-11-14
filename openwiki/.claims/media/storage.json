@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:6f516f8be878e4689ae0d02555ad865257e117fdc25ba3ddc0084de8a464095d",
+  "pageVersion": "sha256:e91ce3b591c5c132d9f334cefa66f3e8639c520bcaa46bc5042ec4afa858b1c6",
   "claims": [
     {
       "id": "claim_7ea7c2a578564a0784fd3a8664a2173a",
@@ -83,8 +83,8 @@
       "statement": "Without R2 configured, uploads are stored under the media static directory.",
       "evidence": [
         {
-          "resource": "repo://src/collections/Media.ts#L71-L75",
-          "version": "repo-lines-v1:sha256:40c26fa76858a09dd68cf4badfc6b7bf8e3f4dcf8cd3406a2828f2d5f469d6d6:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmRhMzk5M2E3MzE1ZGQ3NWEyNGZkNDI2OWIyMThmYWJiYjVjZjI1ZDAyMTIzZDZhNTI3MTU3MDhhNDMzODQ2YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGVmODczYzU5NTE4YzM2MmQxODZmNjU4ZjMwZmQ0YTk4YzMxZDFiNmZiMTU4ODI5OWUwMmZjZWRkMjllOTg4NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSJ9"
+          "resource": "repo://src/collections/Media.ts#L96-L100",
+          "version": "repo-lines-v1:sha256:40c26fa76858a09dd68cf4badfc6b7bf8e3f4dcf8cd3406a2828f2d5f469d6d6:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmRhMzk5M2E3MzE1ZGQ3NWEyNGZkNDI2OWIyMThmYWJiYjVjZjI1ZDAyMTIzZDZhNTI3MTU3MDhhNDMzODQ2YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWExYzA4MTQ5MDEwZTAwMDZiMGFlODBmMTJlNDU1ZDE2NzE3ZWYzYTE4MDc3MmYwOThlNzc3MmFmNjJmN2VhOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSJ9"
         }
       ]
     },
@@ -103,12 +103,12 @@
       "statement": "The Squarespace import stores each image once in media as the original file with alt and originalUrl, looking it up by originalUrl before downloading, and Payload generates its sizes on that upload.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/load-quest-guides.ts#L162-L201",
-          "version": "repo-lines-v1:sha256:085838f0ccc48ac0a6b2572e7d0039334a79f0199adcf552c90f39b907f7a692:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlYmQyNjJjZGUwNTdhNTZiNzhhY2ZjYzEwMWVkZjBjYTlkMTI4YzU3OGVlZDQ5ZTVjYmU3ZGY4YWUyZmNiODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ2YTVhYjFhYzNkMTgzNjljNDYyNzc3MzBlOTU3M2M2ZGFhZjU2OWJiNjQ1OWU1ZWY3MTJiZDljZTMzYjlmM2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBkN2ExZmIxYzE4ZmQzOTk5MjE5NmEwNDUxNTcwNTEwMWJkOWNkMjc4YmFiYTc0NTUwMDVjOThmZTM0MmYyYWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2YjBiMGFjNTU0NzcxZWVhZjUzOWJhNzBlZjdmODIzYWU0ZTdmNGJlZDNmNTdkZTVmODE2YzJmZDdmNWJlZmYifQ"
+          "resource": "repo://scripts/import/load-quest-guides.ts#L162-L198",
+          "version": "repo-lines-v1:sha256:08550d15e744dd27715062dc2f06c86d6ecc26ddb0f17ce3376909bbccc60ad7:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlYmQyNjJjZGUwNTdhNTZiNzhhY2ZjYzEwMWVkZjBjYTlkMTI4YzU3OGVlZDQ5ZTVjYmU3ZGY4YWUyZmNiODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBkN2ExZmIxYzE4ZmQzOTk5MjE5NmEwNDUxNTcwNTEwMWJkOWNkMjc4YmFiYTc0NTUwMDVjOThmZTM0MmYyYWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA1Mjg4ZTRiZThjODExNzA1YWIzMzQ5Y2UxZmUwMTdjMzJkYWYyMWEyMzEwNTk4OTgwMzY1ZjM5NjQ1ZjQwYWYifQ"
         },
         {
-          "resource": "repo://src/collections/Media.ts#L21-L23",
-          "version": "repo-lines-v1:sha256:1a5ad0ce25560a08117e1d1da5776f41979f80f7133871f15ea62b4e26690953:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTZkMTA4NjkwODEyNDM0ZDExNzFhNWNiYTI5Mzc1OTkxNzk3YjA5YmMzODFlMzMyZGQ2NDVjODZiYmE3YWM1MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDJmNWYwNjFlYjI0NGYxNGFjNjU2ZGJmMzEwNDdhMDVkZGI0OGUxM2NhYTcxMzlmZDc4NzlhZjc2N2Y5MjY0ZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2FmNGQ3NzA3YTJiN2MzMDA2YjdkODlmN2E3ZjI5OWIwMTI2ZTVhN2Q5YjU1NWUwOGQzOGM3Njk1NzAyNjNhOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGNjMTJiMzk4ZjJhZTdmNTBjMzJmZGJmZTkzMjY1MmY1NmI5MTU3OTM5NWE1YjBiNTMxMWI2NjFiODRhMjk0ZCJ9"
+          "resource": "repo://src/collections/Media.ts#L86-L95",
+          "version": "repo-lines-v1:sha256:711ed127e36429d32714f1c7f5b1e4d75ddd95852a840c787f85855a17d48026:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5NzhlMjUwM2I4Y2YzN2EwNmY3ZDZmMGEzYTZiNmZlMzU2OTFmYmNhYjUwYjg3NzVjYWI2ZmFiYzcxYzU5MmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2NGQ4YzA3MzQyOTg5MzEwMTU3NmQ4OGQ5OTEyN2U4OWQ2ODkxZDNiMTdlODlkZjAyZWM5YWU3MDcwNWQ4YmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE0N2JmNzk3ZWQ3ZWMwMjk4MTViOTU5NGZmMDZmYTBiYzQwMGJmZmJjY2Q2NWQwOWYyYTVhZTRlZDVmYTAyMzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM5YTQyYzZjODM0Yzk5MWM3MDIyMWEzNzVhZTk3YTAxZDRiMzNmOTQzZjdlZGNjYzUzNTE1YjdmZjZiNzRhOWYifQ"
         }
       ]
     },
@@ -124,11 +124,11 @@
     },
     {
       "id": "claim_f6672592f7d545c48c4961143687c8e3",
-      "statement": "mediaImageAsset uses the widest WebP variant as the main file, the widest AVIF and srcset lists when a format has several widths, and falls back to the original when no variant exists.",
+      "statement": "mediaImageAsset uses the widest WebP variant as the main file, the widest AVIF and srcset lists when a format has several widths, falls back to the original when no variant exists, and also returns the uploaded file with its size as original for the fullscreen viewer.",
       "evidence": [
         {
-          "resource": "repo://src/lib/media/image-asset.ts#L11-L50",
-          "version": "repo-lines-v1:sha256:d52c4aa34a06c4b8054bec82ea3eae137f46fbee4f76e8e56fb2f01472410f46:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3MmY1ZTk5ZTJjM2Q1MjFhNGVmNDBkZDllOThiMzkxNzAxOWUyMzQzYTY1YmVhMThlMzQ3MWZhZDU2NmZlYzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3ZTc1MmI5Mzk3NzIxOTJlODg2ZDQzOWIxYjViYzQ3M2EwODc3M2ZiMTgwMGI2MzFmMjM5Mzg5MWQ2MzEzYTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY5MDg0ZjNjNGQ4NjRhMDUwMDkxZTkzNDY2OWI3MDE4MThiMTM2OGZhMGNmNGQyODI0OGQxMmZhNjY1MTA4YWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+          "resource": "repo://src/lib/media/image-asset.ts#L1-L54",
+          "version": "repo-lines-v1:sha256:2ad9a9f3aa7d258c2e50ee059a97cee28bd13b1ff5dd0fdbdaa6ac678a38001f:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlZWY1YzdhYmJmMjlhODYwMmViZGU3NTU3N2UzODE5ZDNiMGY2ZTkxZDA4OTYwMDU0Yjc1NjQ3OGM3N2M4NzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -188,17 +188,35 @@
     },
     {
       "id": "claim_babbbe69b4a84c538ee604f65f000b6e",
-      "statement": "The DofusDB refresh imports achievement icons, item icons and monster images into media once each, keyed dofusdb-<kind>-image:<id> in gameAsset.",
+      "statement": "The DofusDB refresh imports achievement icons, item icons and monster images, including every dungeon's bosses, into media once each, keyed dofusdb-<kind>-image:<id> in gameAsset.",
       "evidence": [
         {
           "resource": "repo://src/lib/dofusdb/game-images.ts#L1-L31",
           "version": "repo-lines-v1:sha256:45e9a8fc8621a558ba1ec8794598c88094303f2679f69ad5da0c557236f9ad64:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg0OTE4M2FiYjU5NTZlZDI5MjM4NDcyM2FjODdhZDhkZjNjYzY0OGZkMWI1MWM4MjM2YjNlNTZmZDYzY2FjZDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIzMDhhY2Q4Njk1NTRmMzQ0ODlmOGIxOTA3OTc4OTA0ZGVkMDI4Njg4MTYyMGRiNGUyYmE3YWVkN2IwYzhiY2MifQ"
+        },
+        {
+          "resource": "repo://src/lib/dofusdb/game-images.ts#L83-L120",
+          "version": "repo-lines-v1:sha256:a27b5a7119c1be4104093921a8f664e442c5159dc1768147d277895877cc35e8:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkwYTJmYjhmMDhiMzc4OTk5NDVjZGFlNzZlZTA5OThkODljNGNlNmQ1MmZjNjUzYjYwMTUyNjExOGEyMzM3ZWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc0Y2M2NGU5YjE4YTE5ZDRhOTIxNzk1NDIxM2I5MDU2Zjg4NTYyMDgwOWE2OTUxZmU0YzUwMDA3Nzc5NTAxNDUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVlYjg4YWY0NzdlM2ViNjU4MmYxNmU0MjllMDk4YTMzYTY4YjkwMDExNzU0MGZiODQ2YmIzMTk1MDI4Yzc4M2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAxM2E0MTM2ODAyZWQ5ODVmMDcyOTk4MTNmNWExODA2MjI0YThkZDkxOGExOTdkYWU0YWFkY2Q5MWRlM2VhZDQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_66408ab843c44cbc90697d5d1f6d0729",
+      "statement": "In the media collection any panel account can upload and edit, only an administrator can delete, and beforeDelete refuses to delete game art with a gameAsset key or an image used by a quest guide.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/Media.ts#L40-L60",
+          "version": "repo-lines-v1:sha256:5b6e3d0d8162d85a32504f896913d5f4c6a46ce616b8c322a554ba93df8646fc:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3NmI4YTBlODgyZjhlMzdjODIwODVmZjE1NDk4MzcyODFhNTE4YmEwODM1MTVkZmU0YTAyMmIwNTJiMDQ0MjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc1MmNjYWY4NmE5ZjM1MzY4ZmU3ODdmNzg2MjU5N2ViMzZiMWFhNjIwMjBkZTExZjFkOWY3MmYxNzJkNmViYzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFhY2QxZGM1NjFkZDRhY2NkNjBkM2M2YjY4MGJhNzE1NWQ0ZTFmZTY0ZTljOWY1Yjk5ODI4YTgyMzgwZGRmNDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjljNDUxNDMwYzM4NWI2MjRjYmIwNDE4MmRlOTI3MDk4ZTJiZGJiOWIzZDkwNGJiMWJhMjI2MjBhNjYzYmZkYzEifQ"
+        },
+        {
+          "resource": "repo://src/collections/delete-guard.ts#L79-L140",
+          "version": "repo-lines-v1:sha256:21419d72b3774117167dacaa8f8f41c96d022972d3f30c488998e50458770c46:eyJzZWxlY3RlZExpbmVDb3VudCI6NjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZmYWEwZDc1MTEzZTI1NjFkZDYwNWQ4Njg2YWNlYjQxMTdjYzc1ZDdlYmMyMWNjZjg3Mzk3ZTBiMmZhNWNhOGIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM3ZjM0YmEwNWQ4ZGM5MGM3YzhiM2Y2YTgxOGExOGYxZjNlYjlkYTI5NTExMTI5YzQ4MTg0NjAxZGYzYjVjYzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI5Yjg4NWZlODUyNTEwMjE4ODgxZWM0ZDBjYTIzM2ExMjNlM2Y1ODhkZjMyZWM1ZDMyN2I5MTE4ODc2YWE1YmYifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-08T11:00:21.339Z"
+    "at": "2026-11-14T11:00:46.827Z"
   }
 }
