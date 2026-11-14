@@ -7,6 +7,7 @@ import config from '@payload-config'
 import { isLocalDatabaseUrl, resolveDatabaseUrl } from '@/lib/db/database-url'
 
 import { seedAchievements } from '../tests/e2e/seed/achievements'
+import { seedChecklistCards } from '../tests/e2e/seed/checklist-cards'
 import { seedChecklistPages } from '../tests/e2e/seed/checklists'
 import { seedChecklistIndex } from '../tests/e2e/seed/checklists-index'
 import { seedDofusGuides } from '../tests/e2e/seed/dofus-guides'
@@ -25,6 +26,7 @@ try {
   await seedDofusGuides(payload)
   await seedChecklistPages(payload)
   await seedChecklistIndex(payload)
+  await seedChecklistCards(payload)
   console.log('Guías, logro, guías de Dofus y checklists de prueba sembrados.')
 } finally {
   await payload.destroy()

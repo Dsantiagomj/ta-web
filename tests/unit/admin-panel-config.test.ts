@@ -101,8 +101,13 @@ describe('A-03: el orden del menú', () => {
     ])
   })
 
-  it('el contenido va en el orden de trabajo de Torre, con el índice de Dofus al final', () => {
-    expect(navGroups()[0]?.slugs).toEqual([...EDITORIAL, 'checklists', 'dofus-guides-index'])
+  it('el contenido va en el orden de trabajo de Torre, con los índices al final', () => {
+    expect(navGroups()[0]?.slugs).toEqual([
+      ...EDITORIAL,
+      'checklists',
+      'dofus-guides-index',
+      'checklists-index',
+    ])
   })
 
   it('los datos del juego, de solo lectura, van juntos', () => {

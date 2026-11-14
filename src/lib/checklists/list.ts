@@ -7,6 +7,8 @@ import type { PageState } from '@/lib/achievements/strings'
 import { mediaImageAsset } from '@/lib/media/image-asset'
 import type { Media } from '@/payload-types'
 
+import { posterInk } from './poster-ink'
+
 /** El huevo se pinta a 60px como mucho en el menú: basta su archivo de 128px. */
 const EGG_SIZE = 128
 
@@ -20,6 +22,15 @@ export interface ChecklistDoc {
   order?: number | null
   description?: string | null
   legacyHref?: string | null
+  /** La tarjeta del índice: la escena, el PNJ con su encuadre (en % de la tarjeta) y el color. */
+  card?: {
+    scene?: Relation<Media>
+    npc?: Relation<Media>
+    npcHeight?: number | null
+    npcRight?: number | null
+    npcTop?: number | null
+    color?: string | null
+  } | null
   dofusGuide?: Relation<{
     color?: string | null
     dofus?: Relation<{ image?: Relation<Media> }>
@@ -40,7 +51,37 @@ export interface ChecklistEntry {
   legacy?: true
   description?: string
   egg?: ImageAsset
+  /** El de la tarjeta si Torre puso uno; si no, el de la guía de su Dofus. */
   color?: string
+  /** El color del nombre en la tarjeta, legible sobre la sombra de cada modo. */
+  ink?: { dark: string; light: string }
+  /** La zona de fondo de la tarjeta. */
+  scene?: ImageAsset
+  /** El PNJ que asoma por la derecha. */
+  npc?: ImageAsset
+  /** Su encuadre, en % de la tarjeta; lo que falte, el de siempre. */
+  npcFit?: { height?: number; right?: number; top?: number }
+}
+
+/** La tarjeta «???» del final del índice: la siguiente checklist que prepara Torre. */
+export interface ChecklistTeaser {
+  /** La píldora de arriba («En camino»). */
+  label?: string
+  /** El nombre («???»). */
+  text: string
+  scene?: ImageAsset
+  egg?: ImageAsset
+}
+
+/** El global checklists-index como lo lee readChecklistTeaser. */
+export interface ChecklistTeaserDoc {
+  teaser?: {
+    enabled?: boolean | null
+    label?: string | null
+    text?: string | null
+    scene?: Relation<Media>
+    egg?: Relation<Media>
+  } | null
 }
 
 const object = <T>(value: Relation<T>): T | null =>
@@ -54,6 +95,18 @@ function link(doc: ChecklistDoc): Pick<ChecklistEntry, 'href' | 'legacy'> {
   return legacy ? { href: legacy, legacy: true } : {}
 }
 
+const image = (value: Relation<Media> | undefined) => mediaImageAsset(object(value ?? null))
+
+/** El encuadre del PNJ con lo que Torre escribió; sin nada, ninguno. */
+function npcFit(card: ChecklistDoc['card']): ChecklistEntry['npcFit'] {
+  const fit = {
+    ...(card?.npcHeight != null && { height: card.npcHeight }),
+    ...(card?.npcRight != null && { right: card.npcRight }),
+    ...(card?.npcTop != null && { top: card.npcTop }),
+  }
+  return Object.keys(fit).length ? fit : undefined
+}
+
 /**
  * Las checklists con su enlace, en el orden en que llegan: el de la base (readChecklists
  * ordena por order y name), sin reordenar aquí.
@@ -61,9 +114,13 @@ function link(doc: ChecklistDoc): Pick<ChecklistEntry, 'href' | 'legacy'> {
 export function checklistEntries(docs: readonly ChecklistDoc[]): ChecklistEntry[] {
   return docs.map((doc) => {
     const guide = object(doc.dofusGuide)
-    const egg = mediaImageAsset(object(object(guide?.dofus)?.image))
+    const egg = image(object(guide?.dofus)?.image)
     const description = text(doc.description)
-    const color = text(guide?.color)
+    const color = text(doc.card?.color) ?? text(guide?.color)
+    const ink = posterInk(color)
+    const scene = image(doc.card?.scene)
+    const npc = image(doc.card?.npc)
+    const fit = npcFit(doc.card)
     return {
       name: doc.name,
       slug: doc.slug,
@@ -72,8 +129,30 @@ export function checklistEntries(docs: readonly ChecklistDoc[]): ChecklistEntry[
       ...(description && { description }),
       ...(egg && { egg }),
       ...(color && { color }),
+      ...(ink && { ink }),
+      ...(scene && { scene }),
+      ...(npc && { npc }),
+      ...(fit && { npcFit: fit }),
     }
   })
+}
+
+/** La tarjeta «???» si Torre la tiene encendida y con texto; si no, null. */
+export function checklistTeaser(
+  doc: ChecklistTeaserDoc | null | undefined,
+): ChecklistTeaser | null {
+  const teaser = doc?.teaser
+  const name = text(teaser?.text)
+  if (!teaser?.enabled || !name) return null
+  const label = text(teaser.label)
+  const scene = image(teaser.scene)
+  const egg = image(teaser.egg)
+  return {
+    ...(label && { label }),
+    text: name,
+    ...(scene && { scene }),
+    ...(egg && { egg }),
+  }
 }
 
 /** Lo que pinta el menú de cada checklist: lo justo, que va en cada página. */

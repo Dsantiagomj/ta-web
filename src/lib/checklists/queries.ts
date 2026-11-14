@@ -1,13 +1,13 @@
 import type { Payload, Where } from 'payload'
 
 import { isGuideSlug } from '@/lib/guides/slug'
-import type { Checklist, User } from '@/payload-types'
+import type { Checklist, Media, User } from '@/payload-types'
 
 import { torreLevel } from '@/lib/derive/weights'
 import { SITE_LOCALE } from '@/lib/site/locale'
 
 import { checklistDetails, type ChecklistDetails, type DetailsQuest } from './details'
-import type { ChecklistDoc } from './list'
+import type { ChecklistDoc, ChecklistTeaserDoc } from './list'
 import { relationId } from './relations'
 import type { SoulsReadData } from './souls'
 import {
@@ -474,6 +474,48 @@ export async function readChecklistDetails(
 
 type GuideArt = { color?: string | null; dofus?: unknown }
 
+/** El global del índice /checklists, como un visitante: la tarjeta «???» con su arte. */
+export async function readChecklistTeaser(payload: Payload): Promise<ChecklistTeaserDoc> {
+  return (await payload.findGlobal({
+    slug: 'checklists-index',
+    depth: 1,
+    overrideAccess: false,
+    select: { teaser: true },
+  })) as ChecklistTeaserDoc
+}
+
+type CardImages = { scene?: unknown; npc?: unknown }
+const CARD_IMAGES = ['scene', 'npc'] as const
+
+/** Las imágenes de las tarjetas (escena y PNJ) de todas las checklists, por su ID en Media. */
+async function readCardMedia(payload: Payload, docs: { card?: CardImages | null }[]) {
+  const ids = [
+    ...new Set(docs.flatMap((doc) => CARD_IMAGES.map((name) => relationId(doc.card?.[name])))),
+  ].filter((id): id is number => id !== null)
+  if (!ids.length) return new Map<number, Media>()
+  const { docs: found } = await payload.find({
+    collection: 'media',
+    where: { id: { in: ids } },
+    depth: 0,
+    pagination: false,
+    overrideAccess: false,
+  })
+  return new Map(found.map((doc) => [doc.id, doc]))
+}
+
+/** La tarjeta con cada imagen leída en su sitio; una que no esté se queda fuera. */
+function withCardMedia<T extends CardImages>(card: T, media: Map<number, Media>): T {
+  const next: Record<string, unknown> = { ...card }
+  for (const name of CARD_IMAGES) {
+    if (card[name] == null) continue
+    const id = relationId(card[name])
+    const found = id === null ? undefined : media.get(id)
+    if (found) next[name] = found
+    else delete next[name]
+  }
+  return next as T
+}
+
 /**
  * Todas las checklists publicadas, en el orden de Torre, con el huevo y el color de la guía
  * de su Dofus, para el índice, el menú, el pie y la portada. Como un visitante: lo publicado
@@ -482,6 +524,8 @@ type GuideArt = { color?: string | null; dofus?: unknown }
  * El huevo (la imagen del objeto del Dofus, de DofusDB) y el color salen de la guía aunque
  * siga en borrador: son datos del juego. De esa guía se pide solo eso, así que nada de lo que
  * Torre aún no ha publicado llega a un visitante.
+ *
+ * La escena y el PNJ de la tarjeta del índice llegan en una sola lectura de Media.
  */
 export async function readChecklists(payload: Payload): Promise<ChecklistDoc[]> {
   const { docs } = await payload.find({
@@ -495,6 +539,7 @@ export async function readChecklists(payload: Payload): Promise<ChecklistDoc[]> 
       description: true,
       legacyHref: true,
       dofusGuide: true,
+      card: true,
     },
     depth: 0,
     pagination: false,
@@ -504,6 +549,7 @@ export async function readChecklists(payload: Payload): Promise<ChecklistDoc[]> 
   const ids = [
     ...new Set(docs.map((doc) => relationId(doc.dofusGuide)).filter((id) => id !== null)),
   ]
+  const media = await readCardMedia(payload, docs)
   const art = new Map<number, GuideArt>()
   if (ids.length) {
     const guides = await payload.find({
@@ -522,6 +568,10 @@ export async function readChecklists(payload: Payload): Promise<ChecklistDoc[]> 
   }
   return docs.map((doc) => {
     const id = relationId(doc.dofusGuide)
-    return { ...doc, dofusGuide: id === null ? null : (art.get(id) ?? null) } as ChecklistDoc
+    return {
+      ...doc,
+      ...(doc.card && { card: withCardMedia(doc.card, media) }),
+      dofusGuide: id === null ? null : (art.get(id) ?? null),
+    } as ChecklistDoc
   })
 }

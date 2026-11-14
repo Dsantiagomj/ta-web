@@ -34,3 +34,10 @@ describe('refuseReferencedDelete', () => {
     await done
   })
 })
+
+describe('REFERRERS', () => {
+  it('una imagen de la tarjeta de una checklist (escena o PNJ) no se borra sin avisar', () => {
+    const checklists = REFERRERS.media.find((referrer) => referrer.collection === 'checklists')
+    expect(checklists?.paths).toEqual(expect.arrayContaining(['card.scene', 'card.npc']))
+  })
+})

@@ -54,7 +54,7 @@ export const REFERRERS: Record<ReferencedCollection, Referrer[]> = {
     {
       collection: 'checklists',
       title: 'name',
-      paths: ['steps.figure.image', 'steps.icon', 'steps.banner'],
+      paths: ['steps.figure.image', 'steps.icon', 'steps.banner', 'card.scene', 'card.npc'],
     },
     { collection: 'achievement-pages', title: 'name', paths: prosePaths(['intro', 'outro']) },
   ],

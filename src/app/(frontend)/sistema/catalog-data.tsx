@@ -6,7 +6,9 @@ import { Callout } from '@/components/ui/Callout'
 import { Figure } from '@/components/ui/Figure'
 import type { ImageAsset } from '@/components/ui/types'
 import type { AchievementNeeds, QuestCard } from '@/lib/achievements/page'
-import type { ChecklistEntry } from '@/lib/checklists/list'
+import { ASTRUB, CAST, CROCANTERIA, KROSMOZ } from '@/components/home/art'
+import type { ChecklistEntry, ChecklistTeaser } from '@/lib/checklists/list'
+import { posterInk } from '@/lib/checklists/poster-ink'
 import type { DofusCard } from '@/lib/dofus-guides/index-view'
 import type { DofusGuideView } from '@/lib/dofus-guides/page'
 import type { NextQuestCardData, QuestHeaderData } from '@/lib/guides/page'
@@ -280,16 +282,22 @@ export const dofusCards: DofusCard[] = [
   },
 ]
 
-/** Tarjetas del índice de las checklists, como las calcula checklistEntries. */
+/**
+ * Carteles del índice de las checklists, como los calcula checklistEntries: la escena y el PNJ
+ * son el arte de la portada (public/img/inicio); el color del nombre, el de posterInk.
+ */
 export const checklistCards: ChecklistEntry[] = [
   {
     name: 'Dofus Nebuloso',
     slug: 'checklist-nebuloso',
     state: 'published',
     href: '#checklist-nebuloso',
-    description: 'Del primer paso en Pandala al Nebuloso.',
     egg: eggArt('dofus-esmeralda'),
     color: '#2ecd68',
+    ink: posterInk('#2ecd68'),
+    scene: ASTRUB,
+    npc: CAST[0],
+    npcFit: { height: 64, right: -24, top: 6 },
   },
   {
     name: 'Dofus Silvestre',
@@ -297,8 +305,10 @@ export const checklistCards: ChecklistEntry[] = [
     state: 'preparing',
     href: '#checklist-silvestre',
     legacy: true,
-    description: 'Con la guía de Sandglass.',
     egg: { src: '/img/game/checklists/silvestre.webp', width: 200, height: 200 },
+    color: '#b0d62d',
+    ink: posterInk('#b0d62d'),
+    scene: CROCANTERIA,
   },
   {
     name: 'Jyfus',
@@ -307,6 +317,14 @@ export const checklistCards: ChecklistEntry[] = [
     egg: eggArt('jyfus'),
   },
 ]
+
+/** La tarjeta «???» del final del índice, como la da checklistTeaser. */
+export const checklistTeaserCard: ChecklistTeaser = {
+  label: 'En camino',
+  text: '???',
+  scene: KROSMOZ,
+  egg: eggArt('dofus-ebano'),
+}
 
 /** Una nota de Necesitarás de Torre: un párrafo de texto enriquecido. */
 const needNote = (text: string) =>

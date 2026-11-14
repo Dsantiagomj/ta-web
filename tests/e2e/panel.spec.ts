@@ -89,6 +89,7 @@ test.describe('el panel para Torre', () => {
       'Guías de Dofus',
       'Checklists',
       'Índice de guías de Dofus',
+      'Índice de checklists',
     ])
     await expect(page).toHaveTitle(/ · Torrente Arcano$/)
   })

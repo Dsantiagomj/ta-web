@@ -22,6 +22,7 @@ import { QuestGuides } from './collections/QuestGuides'
 import { Quests } from './collections/Quests'
 import { Users } from './collections/Users'
 import { dofusDbValuesEndpoint } from './endpoints/dofusdb-values'
+import { ChecklistsIndex } from './globals/ChecklistsIndex'
 import { DofusGuidesIndex } from './globals/DofusGuidesIndex'
 import { healthEndpoint } from './endpoints/health'
 import { readyEndpoint } from './endpoints/ready'
@@ -88,7 +89,7 @@ export default buildConfig({
     Achievements,
     Users,
   ]),
-  globals: [DofusGuidesIndex],
+  globals: [DofusGuidesIndex, ChecklistsIndex],
   editor: lexicalEditor({ admin: { placeholder: panelStrings.editorPlaceholder } }),
   // GET /api/health, la comprobación de vida que llaman los monitores (nunca toca la base);
   // GET /api/ready, la de la base, para los smoke tests tras un despliegue;
