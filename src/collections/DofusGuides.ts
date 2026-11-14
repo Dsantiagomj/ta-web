@@ -7,6 +7,7 @@ import { RichTextBlock } from '../blocks/RichTextBlock'
 import { StepBlock } from '../blocks/StepBlock'
 import { validateVideoUrl, VideoBlock } from '../blocks/VideoBlock'
 import { validateColor } from '../lib/dofus-guides/color'
+import { needGroupOptions } from '../lib/dofus-guides/need-groups'
 import { dofusGuideStrings } from '../lib/dofus-guides/strings'
 import { stateField } from './achievement-fields'
 import { refuseReferencedDelete } from './delete-guard'
@@ -388,14 +389,18 @@ export const DofusGuides: CollectionConfig = {
                   label: 'Grupos',
                   labels: { singular: 'Grupo', plural: 'Grupos' },
                   type: 'array',
-                  admin: {
-                    components: rowLabel('TextRowLabel', {
-                      singular: panelStrings.rowLabels.group,
-                      field: 'name',
-                    }),
-                  },
+                  admin: { components: rowLabel('NeedGroupLabel') },
                   fields: [
-                    { name: 'name', label: 'Nombre del grupo', type: 'text', localized: true },
+                    {
+                      // De la lista fija: lo que Torre añade sale ordenado como lo importado.
+                      name: 'name',
+                      label: 'Grupo',
+                      type: 'select',
+                      required: true,
+                      options: needGroupOptions,
+                      enumName: 'enum_dofus_guides_needs_group',
+                      admin: { description: s.needGroupDescription },
+                    },
                     {
                       name: 'rows',
                       label: 'Filas',

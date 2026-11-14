@@ -9,7 +9,10 @@ import type { DofusGuide } from '@/payload-types'
 import type { LexicalState } from '../rich-text'
 import type { DofusCatalogEntry } from './catalog'
 import type { ItemMatch } from './game-items'
+import { headingGroup, NEED_GROUPS, type NeedGroup } from '@/lib/dofus-guides/need-groups'
+
 import { fold } from './fold'
+import { needClassifiers, normalizeNeeds, type NeedEntry, type Placement } from './normalize-needs'
 import type { BodyItem, DofusGuideSource, NeedRow, Part, QuestRef, Segment } from './parse'
 
 const SITE = 'https://www.torrentearcano.com'
@@ -32,6 +35,13 @@ export interface LoadDofusGuidesOptions {
    * casa, en singular; null si no hay ninguno o hay duda (gameItems().matchItem).
    */
   findItem: (name: string) => Promise<ItemMatch | null>
+  /** Los nombres de los oficios de DofusDB, para poner en «Oficios» las filas que los nombran. */
+  jobs: string[]
+  /**
+   * Los logros de DofusDB que nombran las filas «Logro:», además de los de la base (que solo
+   * tiene los de misiones y eventos).
+   */
+  achievements?: string[]
   /** El archivo de Media de una captura de Squarespace, subiéndolo si falta. */
   mediaFor: (url: string, alt: string) => Promise<number>
   /** La portada de un vídeo de YouTube como archivo de Media; null si no se pudo traer. */
@@ -54,6 +64,14 @@ export interface LoadDofusGuidesReport {
   singular: GainedItem[]
   /** Filas sin cantidad cuya búsqueda falló (DofusDB no respondió): se quedan como nota. */
   lookupFailures: { slug: string; text: string; error: string }[]
+  /**
+   * Las filas de Necesitarás que cambian de grupo al normalizar (o que estaban sueltas), con
+   * el título de Torre del que vienen, en las guías que cambian. Las de «otros» no se pudieron
+   * clasificar con certeza.
+   */
+  needGroups: (Placement & { slug: string })[]
+  /** Cómo queda Necesitarás, grupo a grupo, en las guías que cambian. */
+  needsAfter: { slug: string; groups: { name: NeedGroup; rows: string[] }[] }[]
 }
 
 /** Las búsquedas de objetos que se hacen a la vez, para no cargar DofusDB. */
@@ -179,6 +197,8 @@ export async function loadDofusGuides(
     withoutQuantity: [],
     singular: [],
     lookupFailures: [],
+    needGroups: [],
+    needsAfter: [],
   }
   const lookups = await lookupAll(
     options.guides.flatMap(({ source }) => allNeedRows(source).flatMap((row) => row.name ?? [])),
@@ -213,6 +233,9 @@ export async function loadDofusGuides(
   })
   const pageBySlug = new Map(pages.docs.map((doc) => [doc.slug, doc]))
   const pageByName = new Map(pages.docs.map((doc) => [fold(doc.name), doc]))
+  const classify = needClassifiers(
+    await gameNames(payload, options.jobs, options.achievements ?? []),
+  )
 
   for (const { entry, source } of options.guides) {
     const unmatched = (kind: 'logro' | 'misión' | 'objeto', name: string) =>
@@ -288,7 +311,9 @@ export async function loadDofusGuides(
     // frente a lo guardado.
     type Gained = GainedItem & { id: number }
     const gained = { withoutQuantity: [] as Gained[], singular: [] as Gained[] }
-    const needRow = async (row: NeedRow): Promise<Record<string, unknown>> => {
+    const needRow = async (
+      row: NeedRow,
+    ): Promise<{ block: Record<string, unknown>; superTypeId?: number | null }> => {
       if (row.name) {
         const withQuantity = row.quantity !== undefined
         const found = lookups.get(row.name) ?? { match: await options.findItem(row.name) }
@@ -304,50 +329,59 @@ export async function loadDofusGuides(
           const line = { slug: entry.slug, text: row.text, item: match.name, id: match.id }
           if (match.singular) gained.singular.push(line)
           else if (!withQuantity) gained.withoutQuantity.push(line)
-          return {
+          const block = {
             blockType: 'needItem',
             item: match.id,
             quantity: row.quantity ?? 1,
             note: row.note ?? null,
           }
+          return { block, superTypeId: match.superTypeId }
         }
         // Una fila sin cantidad que no es un objeto es una nota, como siempre: no se avisa.
         if (withQuantity) unmatched('objeto', row.name)
       }
-      return { blockType: 'needNote', text: lexical(`<p>${segmentsHtml(row.segs)}</p>`) }
+      return { block: noteBlock(row.segs) }
+    }
+    const noteBlock = (segs: Segment[]) => ({
+      blockType: 'needNote',
+      text: lexical(`<p>${segmentsHtml(segs)}</p>`),
+    })
+
+    // Las filas de Torre con sus títulos encima, del más cercano al más lejano. Una fila con
+    // filas debajo («Dependiendo de tu nivel:») es un subtítulo: si no nombra un grupo, va
+    // como nota delante de ellas.
+    const entries = async (rows: NeedRow[], headings: (string | null)[]): Promise<NeedEntry[]> => {
+      const out: NeedEntry[] = []
+      for (const row of rows) {
+        if (!row.children?.length) {
+          out.push({ text: row.text, headings, ...(await needRow(row)) })
+          continue
+        }
+        const heading = row.text.replace(/[:.]\s*$/, '')
+        if (!headingGroup(heading)) {
+          out.push({ text: row.text, headings, block: noteBlock(row.segs), leads: true })
+        }
+        out.push(...(await entries(row.children, [heading, ...headings])))
+      }
+      return out
     }
 
+    // Los grupos de Necesitarás normalizados, y a dónde fue cada fila.
+    let placements: Placement[] = []
     const needs = async (source: DofusGuideSource) => {
       if (!source.needs) return null
-      const groups: { name: string | null; rows: Record<string, unknown>[] }[] = []
+      const all: NeedEntry[] = []
       if (source.needs.note) {
-        groups.push({
-          name: null,
-          rows: [
-            { blockType: 'needNote', text: lexical(`<p>(${escapeHtml(source.needs.note)})</p>`) },
-          ],
-        })
+        const text = `(${source.needs.note})`
+        all.push({ text, headings: [], block: noteBlock([{ t: 'text', v: text }]) })
       }
-      for (const group of source.needs.groups) {
-        let current = { name: group.name, rows: [] as Record<string, unknown>[] }
-        groups.push(current)
-        for (const row of group.rows) {
-          if (!row.children?.length) {
-            current.rows.push(await needRow(row))
-            continue
-          }
-          // «1 x Mazmorra:» con sus opciones debajo: un grupo propio con ese nombre.
-          groups.push({
-            name: row.text.replace(/[:.]\s*$/, ''),
-            rows: await Promise.all(row.children.map(needRow)),
-          })
-          current = { name: null, rows: [] }
-          groups.push(current)
-        }
-      }
+      for (const group of source.needs.groups)
+        all.push(...(await entries(group.rows, [group.name])))
+      const normalized = normalizeNeeds(all, classify)
+      placements = normalized.placements
       return {
         title: source.needs.title === 'Necesitarás' ? null : source.needs.title,
-        groups: groups.filter((group) => group.rows.length > 0),
+        groups: normalized.groups,
       }
     }
 
@@ -367,6 +401,30 @@ export async function loadDofusGuides(
         }
       }
       return blocks
+    }
+
+    // Lo que casó o cambió de grupo en Necesitarás: solo si Necesitarás se escribe. Lo casado,
+    // solo si la guía guardada aún no tenía ese objeto.
+    const reportNeeds = (stored: Set<number>) => {
+      const strip = ({ slug, text, item }: Gained): GainedItem => ({ slug, text, item })
+      report.withoutQuantity.push(
+        ...gained.withoutQuantity.filter((line) => !stored.has(line.id)).map(strip),
+      )
+      report.singular.push(...gained.singular.filter((line) => !stored.has(line.id)).map(strip))
+      const after = new Map<NeedGroup, string[]>()
+      for (const placement of placements) {
+        after.set(placement.to, [...(after.get(placement.to) ?? []), placement.text])
+        if (headingGroup(placement.from) !== placement.to) {
+          report.needGroups.push({ slug: entry.slug, ...placement })
+        }
+      }
+      if (after.size) {
+        const groups = NEED_GROUPS.flatMap((name) => {
+          const rows = after.get(name)
+          return rows ? [{ name, rows }] : []
+        })
+        report.needsAfter.push({ slug: entry.slug, groups })
+      }
     }
 
     const checklist = source?.banner
@@ -396,15 +454,6 @@ export async function loadDofusGuides(
       originalUrl: entry.page ? `${SITE}/${entry.slug}` : null,
     }
 
-    // Lo casado que la guía guardada aún no tenía como objeto.
-    const reportGained = (stored: Set<number>) => {
-      const strip = ({ slug, text, item }: Gained): GainedItem => ({ slug, text, item })
-      report.withoutQuantity.push(
-        ...gained.withoutQuantity.filter((line) => !stored.has(line.id)).map(strip),
-      )
-      report.singular.push(...gained.singular.filter((line) => !stored.has(line.id)).map(strip))
-    }
-
     const existing = await payload.find({
       collection: 'dofus-guides',
       where: { slug: { equals: entry.slug } },
@@ -430,7 +479,7 @@ export async function loadDofusGuides(
         })
       }
       report.created += 1
-      reportGained(new Set())
+      reportNeeds(new Set())
       log(`${entry.slug}: ${options.apply ? 'creada' : 'se crearía'} (${data.state})`)
       continue
     }
@@ -456,7 +505,7 @@ export async function loadDofusGuides(
       report.unchanged += 1
       continue
     }
-    if ('needs' in changes) reportGained(storedItems(current as DofusGuide))
+    if ('needs' in changes) reportNeeds(storedItems(current as DofusGuide))
     if (options.apply) {
       // Si Torre tiene un borrador a medias, el cambio va a su borrador y no se publica.
       const status = current._status === 'draft' ? 'draft' : 'published'
@@ -492,6 +541,33 @@ function storedItems(doc: DofusGuide): Set<number> {
     }
   }
   return ids
+}
+
+/** Los nombres de mazmorras (con sus jefes), monstruos y logros de la base, y los oficios. */
+async function gameNames(payload: Payload, jobs: string[], extraAchievements: string[]) {
+  const all = { limit: 0, pagination: false, overrideAccess: true } as const
+  const [dungeons, monsters, achievements] = await Promise.all([
+    payload.find({
+      collection: 'dungeons',
+      ...all,
+      depth: 1,
+      select: { name: true, bosses: true },
+      populate: { monsters: { name: true } },
+    }),
+    payload.find({ collection: 'monsters', ...all, depth: 0, select: { name: true } }),
+    payload.find({ collection: 'achievements', ...all, depth: 0, select: { name: true } }),
+  ])
+  return {
+    dungeons: dungeons.docs.map((doc) => ({
+      name: doc.name,
+      bosses: (doc.bosses ?? []).flatMap((boss) =>
+        typeof boss === 'object' && boss.name ? [boss.name] : [],
+      ),
+    })),
+    monsters: monsters.docs.map((doc) => doc.name),
+    achievements: [...achievements.docs.map((doc) => doc.name), ...extraAchievements],
+    jobs,
+  }
 }
 
 /**

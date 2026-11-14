@@ -121,7 +121,21 @@ describe('colección dofus-guides', () => {
     expect(field(needs.fields, 'title')).toMatchObject({ type: 'text', localized: true })
     const groups = field(needs.fields, 'groups') as { type: string; fields: Field[] }
     expect(groups.type).toBe('array')
-    expect(field(groups.fields, 'name')).toMatchObject({ type: 'text', localized: true })
+    // El grupo se elige de la lista fija, con su nombre en español: lo nuevo sale ordenado.
+    const name = field(groups.fields, 'name') as { options: unknown; localized?: boolean }
+    expect(name).toMatchObject({ type: 'select', required: true })
+    expect(name.localized).toBeFalsy()
+    expect(name.options).toEqual([
+      { value: 'combates', label: 'Combates' },
+      { value: 'mazmorras', label: 'Mazmorras' },
+      { value: 'recursos', label: 'Recursos' },
+      { value: 'equipables', label: 'Equipables' },
+      { value: 'consumibles', label: 'Consumibles' },
+      { value: 'oficios', label: 'Oficios' },
+      { value: 'emotes', label: 'Emotes' },
+      { value: 'logros', label: 'Logros' },
+      { value: 'otros', label: 'Otros' },
+    ])
     const rows = field(groups.fields, 'rows') as BlocksField
     expect(blockSlugs(rows)).toEqual(['needItem', 'needNote'])
     const item = rows.blocks.find((block) => block.slug === 'needItem')!

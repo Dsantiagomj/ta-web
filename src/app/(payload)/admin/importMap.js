@@ -30,8 +30,9 @@ import { DofusDbNote as DofusDbNote_ef522a00141bf02817f153aea2a46e82 } from '../
 import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { ColorField as ColorField_f18d715b9f5ea63091d1361f9c46fa22 } from '../../../components/admin/ColorField'
 import { ColorSwatch as ColorSwatch_f18d715b9f5ea63091d1361f9c46fa22 } from '../../../components/admin/ColorField'
-import { TextRowLabel as TextRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2 } from '../../../components/admin/RowLabels'
+import { NeedGroupLabel as NeedGroupLabel_a30613d846a340cabc3fc2ee7ca0f9f2 } from '../../../components/admin/RowLabels'
 import { LockedOnceSavedText as LockedOnceSavedText_e39bb667d9a84b668538928625e25395 } from '../../../components/admin/LockedOnceSavedText'
+import { TextRowLabel as TextRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2 } from '../../../components/admin/RowLabels'
 import { StepOutline as StepOutline_860201d5ddeb43f10b04e6d780e8cd5d } from '../../../components/admin/StepOutline'
 import { StopObjectiveField as StopObjectiveField_9a31fb6f80c594e3c26d352bbdafd9df } from '../../../components/admin/StopObjectiveField'
 import { StepRefField as StepRefField_b4f72202da0f71cbbe3433493efa450e } from '../../../components/admin/StepRefField'
@@ -82,8 +83,9 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "/components/admin/ColorField#ColorField": ColorField_f18d715b9f5ea63091d1361f9c46fa22,
   "/components/admin/ColorField#ColorSwatch": ColorSwatch_f18d715b9f5ea63091d1361f9c46fa22,
-  "/components/admin/RowLabels#TextRowLabel": TextRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2,
+  "/components/admin/RowLabels#NeedGroupLabel": NeedGroupLabel_a30613d846a340cabc3fc2ee7ca0f9f2,
   "/components/admin/LockedOnceSavedText#LockedOnceSavedText": LockedOnceSavedText_e39bb667d9a84b668538928625e25395,
+  "/components/admin/RowLabels#TextRowLabel": TextRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2,
   "/components/admin/StepOutline#StepOutline": StepOutline_860201d5ddeb43f10b04e6d780e8cd5d,
   "/components/admin/StopObjectiveField#StopObjectiveField": StopObjectiveField_9a31fb6f80c594e3c26d352bbdafd9df,
   "/components/admin/StepRefField#StepRefField": StepRefField_b4f72202da0f71cbbe3433493efa450e,

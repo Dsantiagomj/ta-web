@@ -1,4 +1,5 @@
 import { checklistStrings } from '../checklists/strings'
+import { isNeedGroup, needGroupLabel } from '../dofus-guides/need-groups'
 import { panelStrings, rowLabelText } from './strings'
 
 // Las etiquetas de las filas del panel (los componentes en src/components/admin/RowLabels.tsx).
@@ -29,6 +30,12 @@ export function segmentRowLabel(data: Row, rowIndex?: number): string {
 }
 
 /** Una fila que se llama por uno de sus campos de texto: «Grupo 1: Recursos». */
+/** Un grupo de Necesitarás de una guía de Dofus: «Grupo 3: Consumibles». */
+export function needGroupRowLabel(data: Row, rowIndex?: number): string {
+  const name = data?.name
+  return rowLabelText(r.group, rowIndex, isNeedGroup(name) ? needGroupLabel(name) : undefined)
+}
+
 export function textRowLabel(singular: string, field: string) {
   return (data: Row, rowIndex?: number): string =>
     rowLabelText(singular, rowIndex, text(data?.[field]))

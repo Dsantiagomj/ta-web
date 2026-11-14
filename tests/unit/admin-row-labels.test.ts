@@ -8,6 +8,7 @@ import {
   relationRowLabel,
   segmentRowLabel,
   stepRowLabel,
+  needGroupRowLabel,
   textRowLabel,
 } from '@/lib/admin/row-labels'
 import { pageAddress, rowLabelText, truncateLabel } from '@/lib/admin/strings'
@@ -96,6 +97,14 @@ describe('segmentRowLabel', () => {
       'Tramo 2 (Detente aquí): Para tras la pelea.',
     )
     expect(segmentRowLabel({ kind: 'resolve', text: '' }, 2)).toBe('Tramo 3 (Aquí se resuelve)')
+  })
+})
+
+describe('needGroupRowLabel', () => {
+  it('un grupo de Necesitarás se llama por el nombre en español de su grupo', () => {
+    expect(needGroupRowLabel({ name: 'consumibles' }, 2)).toBe('Grupo 3: Consumibles')
+    expect(needGroupRowLabel({ name: null }, 0)).toBe('Grupo 1')
+    expect(needGroupRowLabel({ name: 'no-existe' }, 0)).toBe('Grupo 1')
   })
 })
 

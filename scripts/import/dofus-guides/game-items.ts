@@ -18,6 +18,8 @@ export interface ItemMatch {
   id: number
   name: string
   singular: boolean
+  /** Su supertipo en DofusDB (recurso, consumible, equipo…), para el grupo de Necesitarás. */
+  superTypeId: number | null
 }
 
 export function gameItems(
@@ -38,7 +40,13 @@ export function gameItems(
   const byDofusId = new Map<number, Promise<number | null>>()
   const byName = new Map<string, Promise<ItemMatch | null>>()
 
-  type StoredItem = { id: number; name: string; iconId?: number | null; image?: unknown }
+  type StoredItem = {
+    id: number
+    name: string
+    iconId?: number | null
+    image?: unknown
+    superTypeId?: number | null
+  }
 
   /**
    * Un objeto que ya estaba sin imagen (el refresco de DofusDB solo trae las de lo que piden
@@ -115,7 +123,8 @@ export function gameItems(
   /** El objeto de DofusDB como ItemMatch, importándolo si falta. */
   async function matched(raw: RawItem, singular: boolean): Promise<ItemMatch | null> {
     const id = await fromRaw(raw)
-    return id === null ? null : { id, name: raw.name?.es ?? '', singular }
+    if (id === null) return null
+    return { id, name: raw.name?.es ?? '', singular, superTypeId: raw.type?.superTypeId ?? null }
   }
 
   // Lo que casó en singular, para el informe de cada importación.
@@ -162,7 +171,8 @@ export function gameItems(
           options.log?.(`Varios objetos distintos se llaman «${key}» en la base: no se adivina`)
           return null
         }
-        return { id: await withIcon(doc), name: doc.name, singular: false }
+        const id = await withIcon(doc)
+        return { id, name: doc.name, singular: false, superTypeId: doc.superTypeId ?? null }
       }
       const exact = await fromDofusDb([key], key)
       if (exact !== 'none') return exact ? matched(exact, false) : null
