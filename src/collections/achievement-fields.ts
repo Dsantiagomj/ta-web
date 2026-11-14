@@ -3,7 +3,7 @@ import type { SelectField } from 'payload'
 import { linkedQuestId } from '../lib/guides/autofill'
 
 import type { ValuesSource } from '../lib/achievements/dofusdb-values'
-import { achievementStrings, type PageState } from '../lib/achievements/strings'
+import { achievementStrings, PAGE_STATES } from '../lib/achievements/strings'
 import { panelStrings } from '../lib/admin/strings'
 import { validateSlug } from './QuestGuides'
 
@@ -23,8 +23,6 @@ export function dofusDbNote(source: ValuesSource, field: string, help?: string) 
   }
 }
 
-const STATES: PageState[] = ['published', 'preparing']
-
 /**
  * Si la página se ve en el sitio. Es de Torre: el refresco de DofusDB la crea «En
  * preparación» y nunca la cambia.
@@ -35,7 +33,7 @@ export const stateField: SelectField = {
   type: 'select',
   required: true,
   defaultValue: 'preparing',
-  options: STATES.map((value) => ({ value, label: achievementStrings.states[value] })),
+  options: PAGE_STATES.map((value) => ({ value, label: achievementStrings.states[value] })),
   admin: { position: 'sidebar', description: achievementStrings.admin.stateDescription },
 }
 

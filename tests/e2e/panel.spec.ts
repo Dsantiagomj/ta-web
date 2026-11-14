@@ -1,14 +1,13 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Locator, type Page } from '@playwright/test'
 
+import { WCAG } from './panel-helpers.ts'
 import { seedAchievement } from './seed/achievements.ts'
 import { seedChecklists } from './seed/checklists.ts'
 import { E2E_PANEL_USER, seedGuide } from './seed/guides.ts'
 
 // El panel para Torre, ola 1 (docs/research/backlog.md, A-01 a A-12), con el usuario del
 // panel de la base de pruebas.
-
-const WCAG = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']
 
 /**
  * Lo que axe encuentra en las piezas de Payload que no son nuestras y no se cambian con la

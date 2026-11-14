@@ -2,7 +2,6 @@ import type { CollectionBeforeValidateHook, CollectionConfig, Condition, Field }
 
 import { checklistDetailsEndpoint } from '../endpoints/checklist-details'
 import { checklistStrings } from '../lib/checklists/strings'
-import { guidePreviewUrl, previewOrigin } from '../lib/guides/preview'
 import { assignStepIds, type StepIdentity } from '../lib/checklists/step-ids'
 import { stateField } from './achievement-fields'
 import { placeInTabs } from './field-tabs'
@@ -32,8 +31,7 @@ import { rejectSharedSlug } from './root-slug'
 import { rowLabel } from './row-label'
 import { SLUG_LABEL, slugAdmin } from './slug-field'
 import { panelStrings } from '../lib/admin/strings'
-import { livePreviewBreakpoints } from '../lib/admin/live-preview'
-import { publishStatusField } from './publish-status-field'
+import { pagePreview, withPublishStatus } from '../lib/admin/live-preview'
 
 const s = checklistStrings.admin
 const rows = panelStrings.rowLabels
@@ -491,11 +489,7 @@ export const Checklists: CollectionConfig = {
     defaultColumns: ['name', 'order', 'state', '_status', 'updatedAt'],
     listSearchableFields: ['name', 'slug'],
     // La vista previa abre la página de la checklist con el último borrador (/vista-previa).
-    livePreview: {
-      url: ({ data, req }) => guidePreviewUrl(data?.slug, previewOrigin(process.env, req.origin)),
-      breakpoints: livePreviewBreakpoints,
-    },
-    preview: (doc, { req }) => guidePreviewUrl(doc?.slug, previewOrigin(process.env, req.origin)),
+    ...pagePreview,
   },
   endpoints: [checklistDetailsEndpoint],
   access: {
@@ -517,8 +511,7 @@ export const Checklists: CollectionConfig = {
     afterChange: [revalidateChecklistsAfterChange],
     afterDelete: [revalidateChecklistsAfterDelete],
   },
-  fields: [
-    publishStatusField,
+  fields: withPublishStatus([
     {
       name: 'name',
       label: 'Nombre',
@@ -732,5 +725,5 @@ export const Checklists: CollectionConfig = {
       type: 'json',
       admin: { hidden: true },
     },
-  ],
+  ]),
 }

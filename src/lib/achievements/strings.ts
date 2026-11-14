@@ -9,7 +9,12 @@ import { indexIslandStrings } from './index-strings'
 export type GroupSection = 'stories' | 'zones' | 'seasonal'
 
 /** Si la página se ve en el sitio: lo decide Torre, nunca el refresco de DofusDB. */
-export type PageState = 'published' | 'preparing'
+export const PAGE_STATES = ['published', 'preparing'] as const
+export type PageState = (typeof PAGE_STATES)[number]
+
+/** Si un valor es uno de los estados de «Visible en la web». */
+export const isPageState = (value: unknown): value is PageState =>
+  PAGE_STATES.includes(value as PageState)
 
 export const achievementStrings = {
   sections: {

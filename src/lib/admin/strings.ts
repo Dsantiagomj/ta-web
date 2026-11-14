@@ -77,16 +77,48 @@ export const panelStrings = {
   publishStatus: {
     label: 'En la web',
     live: 'En la web: visible',
-    changed: 'Tienes cambios sin publicar',
-    changedDetail:
-      'La web enseña la última versión publicada. Pulsa «Publicar cambios» para que salgan.',
-    preparing: 'No se ve en la web: En preparación',
-    preparingDetail: 'Cambia «Visible en la web» a Publicada y pulsa «Publicar cambios».',
+    changes: 'Tienes cambios sin publicar: la web sigue enseñando la versión publicada.',
     draft: 'No se ve en la web: es un borrador',
     draftDetail: 'Pulsa «Publicar cambios» cuando quieras que salga.',
     unsavedNew: 'No se ve en la web: aún no está guardada',
     unsavedNewDetail: 'Guárdala como borrador o pulsa «Publicar cambios».',
     unsaved: 'Lo que acabas de cambiar aún no está guardado.',
+    trashed: 'No se ve en la web: está en la papelera',
+    loading: 'Comprobando qué se ve en la web…',
+    error: 'No se pudo comprobar qué se ve en la web.',
+    /** Cómo sale en la web lo publicado «En preparación», según la colección (DESIGN.md). */
+    preparing: {
+      'achievement-pages': {
+        text: 'En la web: sale apagado, sin página',
+        detail:
+          'Está En preparación: sale en su metalogro con esa etiqueta y sin enlace. Para que ' +
+          'se abra, pon «Visible en la web» en Publicada y publica.',
+      },
+      'achievement-groups': {
+        text: 'En la web: se abre solo si tiene logros publicados',
+        detail:
+          'Está En preparación: si alguno de sus logros está publicado, su panel se abre; si ' +
+          'no, sale apagado. Pon «Visible en la web» en Publicada cuando esté listo.',
+      },
+      'dofus-guides': {
+        text: 'En la web: el huevo sale apagado, sin página',
+        detail:
+          'Está En preparación: sale en el menú y en las guías de Dofus en gris, sin enlace. ' +
+          'Para que se abra, pon «Visible en la web» en Publicada y publica.',
+      },
+      checklistsLegacy: {
+        text: 'En la web: en el menú, lleva a la checklist de Squarespace',
+        detail:
+          'Está En preparación: su dirección y el menú llevan a la checklist de la web ' +
+          'antigua. Cuando esté lista, pon «Visible en la web» en Publicada y publica.',
+      },
+      checklists: {
+        text: 'En la web: en el menú, apagada y sin enlace',
+        detail:
+          'Está En preparación y sin dirección en la web antigua: sale en el menú sin enlace. ' +
+          'Cuando esté lista, pon «Visible en la web» en Publicada y publica.',
+      },
+    },
   },
   /** Los tamaños de la vista previa en vivo (A-20). */
   livePreview: { mobile: 'Móvil', tablet: 'Tableta', desktop: 'Escritorio' },
