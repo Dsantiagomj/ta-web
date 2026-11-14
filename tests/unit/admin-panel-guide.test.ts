@@ -46,6 +46,16 @@ describe('la guía del panel', () => {
     }
   })
 
+  it('dice qué puede hacer cada cuenta, con los papeles del panel (A-15)', () => {
+    const text = allText()
+    expect(text).toContain('Editor')
+    expect(text).toContain('Administrador')
+    expect(text).toMatch(/borrar/i)
+    expect(panelGuide.yourRole('admin')).toBe('Tu cuenta es de administrador.')
+    expect(panelGuide.yourRole('editor')).toBe('Tu cuenta es de editor.')
+    expect(panelGuide.yourRole(null)).toBe('Tu cuenta es de editor.')
+  })
+
   it('habla de tú, sin usted ni jerga', () => {
     expect(allText()).not.toMatch(/\b(usted|desea|slug|draft|publish|deploy|endpoint)\b/i)
   })

@@ -54,6 +54,11 @@ export function PanelGuide({ initPageResult, params, searchParams }: AdminViewSe
               <p key={paragraph}>{paragraph}</p>
             ))}
             {section.id === 'partes' && (
+              <p className="ta-guide__role">
+                <strong>{panelGuide.yourRole((req.user as { role?: string | null }).role)}</strong>
+              </p>
+            )}
+            {section.id === 'partes' && (
               <dl className="ta-guide__parts">
                 {groups.map((group) => (
                   <div key={group.slug}>

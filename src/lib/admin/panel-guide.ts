@@ -48,6 +48,9 @@ export const panelGuide = {
     'Lo básico para escribir y publicar sin miedo a romper nada. Si algo sale mal, ' +
     '«Versiones» lo deshace.',
   contents: 'En esta guía',
+  /** Bajo «Qué hay en cada parte»: qué cuenta tiene quien lee. Sin papel cuenta como editor. */
+  yourRole: (role: string | null | undefined) =>
+    `Tu cuenta es de ${role === 'admin' ? 'administrador' : 'editor'}.`,
   sections: [
     {
       id: 'borradores',
@@ -117,6 +120,8 @@ export const panelGuide = {
           'publica si quieres que salga en la web.',
         '«Revertir a la versión publicada», junto al estado de arriba, tira los cambios sin ' +
           'publicar y vuelve a lo que está en la web.',
+        'Borrar, en cambio, no se deshace. Por eso el panel no deja borrar una imagen o un logro ' +
+          'que sale en otras páginas, y te dice dónde sale.',
       ],
     },
     {
@@ -135,6 +140,9 @@ export const panelGuide = {
       paragraphs: [
         'El menú de la izquierda pone primero tu contenido, luego las imágenes, los datos del ' +
           'juego y los ajustes. Cada lista empieza con una línea que dice qué guarda.',
+        'Hay dos tipos de cuenta. Editor: crea, edita y publica, y borra las guías que hizo a ' +
+          'mano. Administrador: además borra lo importado y las imágenes, cambia el orden y los ' +
+          'enlaces con DofusDB, y gestiona las cuentas.',
       ],
     },
   ] satisfies GuideSection[],
