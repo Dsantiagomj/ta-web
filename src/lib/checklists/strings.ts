@@ -182,10 +182,18 @@ export const checklistPageStrings = {
   next: 'Paso siguiente',
   close: 'Cerrar el paso',
   totalsIntro: 'Todo lo que piden los pasos, sumado. Lo que solo hace falta tener no cuenta.',
-  totalsSteps: (steps: number[]) =>
-    steps.length === 1
-      ? `Paso ${steps[0]}`
-      : `Pasos ${steps.slice(0, -1).join(', ')} y ${steps.at(-1)}`,
+  /** Dónde se pide un objeto de Objetos; el 0 son los prerrequisitos. */
+  totalsSteps: (steps: number[]) => {
+    const own = steps.filter((n) => n > 0)
+    const list =
+      own.length === 0
+        ? ''
+        : own.length === 1
+          ? `paso ${own[0]}`
+          : `pasos ${own.slice(0, -1).join(', ')} y ${own.at(-1)}`
+    const text = steps.includes(0) ? (list ? `Prerrequisitos y ${list}` : 'Prerrequisitos') : list
+    return text.charAt(0).toUpperCase() + text.slice(1)
+  },
   otherNeeds: 'Otros',
   /** Lo que nombra un objetivo de DofusDB cuando no tenemos su nombre. */
   unnamed: { npc: 'un PNJ', item: 'un objeto', monster: 'un monstruo' },

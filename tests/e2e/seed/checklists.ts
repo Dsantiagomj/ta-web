@@ -320,6 +320,8 @@ async function seedSilvestreDraft(
     id,
     draft: true,
     data: {
+      // Sin previousSteps: lo guardado va numerado como ahora (legacyNumber).
+      legacy: { prefix: 'silvestre:', guideVersion: 4 },
       prerequisites: {
         groups: [{ title: 'Oficios', rows: [d.prerequisite] }],
         notes: [d.note],

@@ -13,12 +13,14 @@ import { mediaImageAsset } from '@/lib/media/image-asset'
 import { fold } from '@/lib/text/fold'
 import type { Checklist, Media, Quest } from '@/payload-types'
 
+import { openStops } from './open-stops'
 import { populated, relationId, type Relation } from './relations'
 import { checklistPageStrings as s, checklistStrings } from './strings'
 
 type Step = NonNullable<Checklist['steps']>[number]
 type Segment = NonNullable<Step['segments']>[number]
 type Need = NonNullable<Step['needs']>[number]
+type PrerequisiteNeed = NonNullable<NonNullable<Checklist['prerequisites']>['needs']>[number]
 export type NeedCategory = NonNullable<Need['category']>
 export type QuestKind = NonNullable<Step['quests']>[number]['kind']
 
@@ -124,7 +126,11 @@ export interface NeedGroupView<Row = NeedRowView> {
   rows: Row[]
 }
 
-export type TotalRowView = NeedRowView & { steps: number[] }
+/**
+ * Una fila de Objetos: lo que piden los pasos sumado. `steps` son sus números (0: los
+ * prerrequisitos) y `prerequisite`, el prerrequisito que gasta lo de los prerrequisitos.
+ */
+export type TotalRowView = NeedRowView & { steps: number[]; prerequisite?: string }
 
 export interface StepView {
   stepId: string
@@ -160,16 +166,25 @@ export interface StepView {
   search: string
 }
 
+export type IslandQuest =
+  [number, QuestKind] | [number, QuestKind, number] | [number, QuestKind, number, 1]
+
 /** Lo único que recibe la isla (plan, sección 3): la estructura, nunca los textos. */
 export interface ChecklistIslandData {
   checklistId: number
   slug: string
   /** Cuándo cambió la checklist: la isla solo vuelve a empezar con una versión nueva. */
   version: string
-  /** [stepId, número antiguo, [[ID de DofusDB de la misión, tipo, objetivo de parada?]]] */
-  steps: [string, number | null, ([number, QuestKind] | [number, QuestKind, number])[]][]
-  /** [stepId, stepIds que cierra] */
+  /**
+   * [stepId, número antiguo, [[ID de DofusDB de la misión, tipo, objetivo donde la deja a medias?,
+   * 1 si la termina un paso posterior?]]]. Solo lleva objetivo lo que el paso deja a medias
+   * (src/lib/checklists/open-stops.ts).
+   */
+  steps: [string, number | null, IslandQuest[]][]
+  /** [stepId, stepIds que cierra]: los de sus «aquí se resuelve» y los que cierra sin verde. */
   closes: [string, string[]][]
+  /** [stepId, misiones opcionales que termina ese paso (por su ID de DofusDB)]. */
+  optionalDoneBy: [string, number[]][]
   legacy: Checklist['legacy']
   /** Por paso, en orden: [su peso, lo que vale en él cada misión] (src/lib/derive/weights.ts). */
   weights: [number, number[]][]
@@ -556,7 +571,7 @@ export function checklistView(data: ChecklistData): ChecklistView {
     }
   })
 
-  const totals = byCategory(totalRows(rawSteps))
+  const totals = byCategory(totalRows(rawSteps, checklist.prerequisites?.needs ?? []))
 
   const guide = populated(checklist.dofusGuide)
   const publishedGuide = guide?.state === 'published' ? guide : null
@@ -613,21 +628,34 @@ export function checklistView(data: ChecklistData): ChecklistView {
     },
     totals,
     totalsCount: totals.reduce((sum, group) => sum + group.rows.length, 0),
-    soonSteps: [...new Set(totals.flatMap((group) => group.rows.flatMap((row) => row.steps)))]
-      .sort((a, b) => a - b)
-      .slice(0, SOON_STEPS),
+    soonSteps: soonSteps(totals),
     island,
   }
 }
 
-/** Lo que piden todos los pasos, sumado por objeto (o por texto) y grupo. */
-function totalRows(steps: Step[]) {
+/**
+ * Sin progreso, los pasos de «Tus próximos pasos»: los prerrequisitos (el 0) si piden algo y los
+ * cinco primeros pasos que piden algo.
+ */
+function soonSteps(totals: NeedGroupView<TotalRowView>[]) {
+  const all = new Set(totals.flatMap((group) => group.rows.flatMap((row) => row.steps)))
+  const steps = [...all].filter((n) => n > 0).sort((a, b) => a - b)
+  return [...(all.has(0) ? [0] : []), ...steps.slice(0, SOON_STEPS)]
+}
+
+/** Lo que piden los prerrequisitos y todos los pasos, sumado por objeto (o por texto) y grupo. */
+function totalRows(steps: Step[], prerequisiteNeeds: PrerequisiteNeed[]) {
   const rows = new Map<
     string,
     { category: NeedCategory | null; row: TotalRowView; parts: number[][] }
   >()
-  steps.forEach((step, index) => {
-    for (const need of step.needs ?? []) {
+  // Los prerrequisitos van como el paso 0, como en silvestre-checklist.
+  const lists: (Need | PrerequisiteNeed)[][] = [
+    prerequisiteNeeds,
+    ...steps.map((step) => step.needs ?? []),
+  ]
+  lists.forEach((needs, n) => {
+    for (const need of needs) {
       if (need.countsInTotal === false) continue
       const row = needRow(need)
       if (!row) continue
@@ -639,12 +667,17 @@ function totalRows(steps: Step[]) {
       if (seen) {
         seen.parts.push(quantities)
         if (row.reusable) seen.row.reusable = true
-        if (!seen.row.steps.includes(index + 1)) seen.row.steps.push(index + 1)
+        if (!seen.row.steps.includes(n)) seen.row.steps.push(n)
+        if (!seen.row.prerequisite && 'prerequisite' in need && need.prerequisite) {
+          seen.row.prerequisite = need.prerequisite
+        }
       } else {
         const { note: _note, ...rest } = row
+        const prerequisite =
+          'prerequisite' in need && need.prerequisite ? { prerequisite: need.prerequisite } : {}
         rows.set(key, {
           category: need.category ?? null,
-          row: { ...rest, steps: [index + 1] },
+          row: { ...rest, steps: [n], ...prerequisite },
           parts: [quantities],
         })
       }
@@ -673,32 +706,35 @@ function totalRows(steps: Step[]) {
 function islandData(data: ChecklistData): ChecklistIslandData {
   const { checklist, questGraph, torreLevels } = data
   const steps = checklist.steps ?? []
+  const closedIds = new Set(steps.flatMap(closedSteps))
   const islandSteps = steps.map((step): ChecklistIslandData['steps'][number] => {
-    // Cada misión donde para algún «detente aquí» del paso, en su primera parada.
-    const stops = new Map<number, number>()
-    for (const segment of step.segments ?? []) {
-      for (const point of segmentStops(segment)) {
-        const quest = relationId(point.quest ?? null)
-        if (quest !== null && point.stopObjective != null && !stops.has(quest)) {
-          stops.set(quest, point.stopObjective)
-        }
-      }
-    }
+    const open = openStops(step.segments ?? [], closedIds.has(step.stepId ?? ''))
     return [
       step.stepId ?? '',
       step.legacyNumber ?? null,
-      (step.quests ?? []).flatMap((row) => {
+      (step.quests ?? []).flatMap((row): IslandQuest[] => {
         const quest = populated(row.quest)
         if (!quest) return []
-        const stop = stops.get(quest.id)
+        const stop = open.get(quest.id)
+        if (!stop) return [[quest.dofusId, row.kind]]
         return [
-          stop !== undefined
-            ? ([quest.dofusId, row.kind, stop] as [number, QuestKind, number])
-            : ([quest.dofusId, row.kind] as [number, QuestKind]),
+          stop.later ? [quest.dofusId, row.kind, stop.at, 1] : [quest.dofusId, row.kind, stop.at],
         ]
       }),
     ]
   })
+  // Las misiones opcionales que termina otro paso, por el paso que las termina.
+  const optionalDoneBy = new Map<string, number[]>()
+  for (const step of steps) {
+    for (const row of step.quests ?? []) {
+      const quest = populated(row.quest)
+      if (!quest || row.kind !== 'optional' || !row.optionalDoneBy) continue
+      optionalDoneBy.set(row.optionalDoneBy, [
+        ...(optionalDoneBy.get(row.optionalDoneBy) ?? []),
+        quest.dofusId,
+      ])
+    }
+  }
 
   // Lo que el progreso necesita de cada misión, por su ID de DofusDB.
   const byDofusId = new Map<number, QuestNode & { level: number }>()
@@ -734,14 +770,12 @@ function islandData(data: ChecklistData): ChecklistIslandData {
     slug: checklist.slug,
     version: checklist.updatedAt,
     steps: islandSteps,
-    closes: steps.flatMap((step) => {
-      const resolves = (step.segments ?? []).filter((segment) => segment.kind === 'resolve')
-      if (!resolves.length) return []
-      return [[step.stepId ?? '', resolves.flatMap((segment) => segment.closes ?? [])]] as [
-        string,
-        string[],
-      ][]
+    closes: steps.flatMap((step): [string, string[]][] => {
+      const resolves = (step.segments ?? []).some((segment) => segment.kind === 'resolve')
+      const closes = closedSteps(step)
+      return resolves || closes.length ? [[step.stepId ?? '', closes]] : []
     }),
+    optionalDoneBy: [...optionalDoneBy],
     legacy: checklist.legacy,
     weights: stepWeights(weightedSteps, points).map(({ w, shares }) => [w, shares]),
     objectives: Object.fromEntries(

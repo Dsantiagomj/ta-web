@@ -20,7 +20,8 @@ type Kind = 'mandatory' | 'optional' | 'take'
 
 interface StepModel {
   id: string
-  quests: { id: number; kind: Kind; stop?: number }[]
+  /** `stop`: el objetivo donde el paso la deja a medias; `later`: la termina un paso posterior. */
+  quests: { id: number; kind: Kind; stop?: number; later?: true }[]
   w: number
   shares: number[]
 }
@@ -35,6 +36,8 @@ export interface ChecklistModel {
   closes: Map<string, string[]>
   /** Los pasos que cierra otro. */
   closed: Set<string>
+  /** Paso → las misiones opcionales que termina (sin llevarlas como obligatorias). */
+  optionalDoneBy: Map<string, number[]>
   objectives: Record<number, number>
   prereqs: Record<number, number[]>
   /** Al revés que `prereqs`: misión → las que la piden terminada. */
@@ -61,10 +64,11 @@ export function checklistModel(data: ChecklistIslandData): ChecklistModel {
     const [w, shares] = data.weights[index] ?? [1, []]
     return {
       id,
-      quests: quests.map(([quest, kind, stop]) => ({
+      quests: quests.map(([quest, kind, stop, later]) => ({
         id: quest,
         kind,
         ...(stop != null && { stop }),
+        ...(later === 1 && { later: true as const }),
       })),
       w,
       shares,
@@ -85,6 +89,7 @@ export function checklistModel(data: ChecklistIslandData): ChecklistModel {
     index: new Map(steps.map((step, index) => [step.id, index])),
     closes: new Map(data.closes),
     closed: new Set(data.closes.flatMap(([, closed]) => closed)),
+    optionalDoneBy: new Map(data.optionalDoneBy ?? []),
     objectives: data.objectives,
     prereqs: data.prereqs,
     requiredBy,
@@ -136,17 +141,16 @@ export const nextPending = (p: Progress, m: ChecklistModel) =>
 const mandatory = (step: StepModel) => step.quests.filter((quest) => quest.kind === 'mandatory')
 
 /**
- * Lo que el paso deja a medias, con el objetivo donde se queda: la misión de su «detente aquí»
- * y la madre de una hija que se queda a medias, en el objetivo donde empieza esa hija. Un paso
- * que se resuelve en sí mismo (con «aquí se resuelve») no deja nada, salvo que otro lo cierre.
+ * Lo que el paso deja a medias, con el objetivo donde se queda: las misiones de sus paradas que
+ * siguen abiertas (la página ya aplica las reglas de silvestre-checklist: un paso que se resuelve
+ * en sí mismo solo deja la parada de su verde y las de un paso posterior; open-stops.ts) y la
+ * madre de una hija que se queda a medias, en el objetivo donde empieza esa hija.
  */
 function openIn(m: ChecklistModel, index: number): Map<number, number> {
-  const step = m.steps[index]
-  const quests = mandatory(step)
-  const stops = !m.closes.has(step.id) || m.closed.has(step.id)
+  const quests = mandatory(m.steps[index])
   const open = new Map(
     quests.flatMap((quest) =>
-      stops && quest.stop != null ? [[quest.id, parked(m, quest.id, quest.stop)]] : [],
+      quest.stop != null ? [[quest.id, parked(m, quest.id, quest.stop)]] : [],
     ),
   )
   for (let grew = true; grew;) {
@@ -163,6 +167,23 @@ function openIn(m: ChecklistModel, index: number): Map<number, number> {
     }
   }
   return open
+}
+
+/** La misión que el paso deja para uno posterior: la que lo cierra no la termina. */
+const laterIn = (m: ChecklistModel, index: number, id: number) =>
+  mandatory(m.steps[index]).some((quest) => quest.id === id && quest.later)
+
+/**
+ * Al cerrarlo, al paso no le falta nada: sus obligatorias terminadas, salvo las que deja para un
+ * paso posterior, que basta con que hayan llegado a su parada (closingPlan de silvestre-checklist).
+ */
+function closable(p: Progress, m: ChecklistModel, index: number) {
+  const open = openIn(m, index)
+  return mandatory(m.steps[index]).every((quest) => {
+    if (questFinished(p, m, quest.id)) return true
+    const at = p.quests[quest.id]?.o
+    return quest.later === true && typeof at === 'number' && at >= (open.get(quest.id) ?? 0)
+  })
 }
 
 const allFinished = (p: Progress, m: ChecklistModel, index: number) => {
@@ -230,14 +251,19 @@ function mark(
         ? { o: 'done', by, at: now }
         : { o: Math.max(stop, typeof was === 'number' ? was : 0), by, at: now }
   }
+  // Las opcionales que termina este paso sin llevarlas (optionalDoneBy).
+  for (const id of m.optionalDoneBy.get(step.id) ?? []) {
+    if (!finishedEntry(m, id, next.quests[id])) next.quests[id] = { o: 'done', by, at: now }
+  }
   for (const closed of m.closes.get(step.id) ?? []) {
     const at = m.index.get(closed)
     if (at === undefined) continue
     for (const quest of openIn(m, at).keys()) {
+      if (laterIn(m, at, quest)) continue
       if (!questFinished(next, m, quest)) next.quests[quest] = { o: 'done', by, at: now }
     }
     if (!markClosed || stepDone(next, m, at)) continue
-    if (allFinished(next, m, at) || !mandatory(m.steps[at]).length) {
+    if (closable(next, m, at) || !mandatory(m.steps[at]).length) {
       next.steps[closed] = { done: true, at: now }
     }
   }
@@ -295,6 +321,7 @@ export function setStep(
     const at = m.index.get(closed)
     if (at === undefined || !stepDone(next, m, at)) continue
     for (const [quest, stop] of openIn(m, at)) {
+      if (laterIn(m, at, quest)) continue
       if (!questFinished(next, m, quest)) {
         next.quests[quest] = { o: stop, by: { c: m.id, s: closed }, at: now }
       }

@@ -17,6 +17,7 @@ import type {
   TextPart,
   TotalRowView,
 } from '@/lib/checklists/page'
+import { PREREQUISITE_PART } from '@/lib/checklists/progress/store'
 import { checklistPageStrings as s } from '@/lib/checklists/strings'
 import { formatAmount } from '@/lib/guides/display'
 
@@ -448,7 +449,7 @@ function NeedGroups({
   heading,
   stepId,
 }: {
-  groups: NeedGroupView[]
+  groups: NeedGroupView<NeedRowView & { prerequisite?: string }>[]
   heading: number
   stepId: string
 }) {
@@ -672,9 +673,6 @@ export function StepDetail({ step, last }: { step: StepView; last: number }) {
   )
 }
 
-/** La parte de lo conseguido de los objetos de los prerrequisitos: «<clave>#pre». */
-const PREREQUISITES_STEP = 'pre'
-
 /**
  * Prerrequisitos: la introducción de Torre, sus avisos y sus grupos, tal cual, cada uno con su
  * casilla, y los objetos que piden.
@@ -728,7 +726,7 @@ export function Prerequisites({ view }: { view: ChecklistView }) {
           <h3 className="ck-micro ck-pg__h" id="ck-pg-needs">
             {s.prerequisiteNeeds}
           </h3>
-          <NeedGroups groups={needs} heading={4} stepId={PREREQUISITES_STEP} />
+          <NeedGroups groups={needs} heading={4} stepId={PREREQUISITE_PART} />
         </section>
       )}
     </div>
@@ -741,6 +739,7 @@ function TotalSlot({ row, category }: { row: TotalRowView; category: string }) {
       className={`ck-slot${soleCopyhost(row) ? ' copyhost' : ''}`}
       data-ck-slot={row.key}
       data-steps={row.steps.join(' ')}
+      {...(row.prerequisite && { 'data-pre': row.prerequisite })}
       data-cat={category}
     >
       <span className="ck-slot__w copywell" aria-hidden="true">

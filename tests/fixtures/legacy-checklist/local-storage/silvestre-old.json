@@ -1,0 +1,7 @@
+{
+  "_": "Una partida del Silvestre de la guía 3, de antes de que las claves de objetos cambiaran (ownedModel) y de questModel 2: los pasos 41 y 90 se juntaron en el 41 y el 75 se partió en el 74, el 75, el 76 y el 77 de ahora (PREVIOUS_STEPS). También el checklist clásico v3, que aún no se había traído.",
+  "silvestre:done": "{\"41\":true,\"90\":true,\"75\":true,\"69\":true}",
+  "silvestre:guide": "3",
+  "silvestre:owned": "{\"519@orden espiritu de la salvacion#78\":true,\"x:esencia de cil|28488#60\":true}",
+  "dofus_silvestre_clean_v3": "{\"checked\":[true,true,true]}"
+}

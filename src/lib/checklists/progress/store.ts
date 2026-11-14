@@ -16,6 +16,9 @@ export function ownedParts(key: string): [string, string | undefined] {
   return at < 0 ? [key, undefined] : [key.slice(0, at), key.slice(at + 1)]
 }
 
+/** La parte de lo conseguido de los objetos de los prerrequisitos: «<clave>#pre». */
+export const PREREQUISITE_PART = 'pre'
+
 export const PROGRESS_KEY = 'ta-web:progress'
 
 export interface QuestEntry {

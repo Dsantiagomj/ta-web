@@ -1,0 +1,11 @@
+{
+  "_": "Lo que guarda silvestre-checklist en localStorage para el Silvestre al día (guía 4): pasos hechos, la misión de clase a medias, objetos con alternativas, de un apartado, de los prerrequisitos (paso 0) y enteros.",
+  "silvestre:done": "{\"1\":true,\"2\":true,\"40\":true,\"93\":true}",
+  "silvestre:questObjective": "{\"clase\":1,\"alt:554:2751\":3,\"1939\":2}",
+  "silvestre:guide": "4",
+  "silvestre:questModel": "2",
+  "silvestre:ownedModel": "2",
+  "silvestre:prereqs": "{\"l11\":true,\"h1\":true}",
+  "silvestre:owned": "{\"7045|7047#40\":true,\"17994@mision opcional#7\":true,\"421#0\":true,\"9687\":true,\"8918@opcional altos vuelos\":true}",
+  "silvestre:classicImported": "1"
+}
