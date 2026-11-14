@@ -242,7 +242,9 @@ export function toChecklistDraft(
   // fuera y el informe las nombra.
   const generic: ChecklistDraft['generic'] = []
   const genericQuests: Record<string, number> = {}
-  type RouteQuest = StepQuest & { label?: string; others?: number[] }
+  // Una fila genérica lleva su id antiguo («alt:…», «clase»): sus notas y el paso que la
+  // termina van por él.
+  type RouteQuest = StepQuest & { label?: string; others?: number[]; legacyId?: string }
   const questsOf = (n: number): RouteQuest[] =>
     (data.STEP_QUESTS[n] ?? []).flatMap((id): RouteQuest[] => {
       const kind = data.STEP_QUEST_KINDS[n]?.[id] ?? 'mandatory'
@@ -255,7 +257,7 @@ export function toChecklistDraft(
       }
       const [first, ...others] = quests
       genericQuests[String(id)] = first
-      return [{ ...data.QUESTS[id], id: first, kind, label: name, others }]
+      return [{ ...data.QUESTS[id], id: first, kind, label: name, others, legacyId: String(id) }]
     })
 
   /** El ID de la misión que se llama así: primero entre las del paso, luego entre todas. */
@@ -364,9 +366,11 @@ export function toChecklistDraft(
         return {
           quest: quest.id,
           kind: quest.kind as StepDraft['quests'][number]['kind'],
-          note: journal.questNotes[step.n]?.[quest.id] ?? null,
+          note: journal.questNotes[step.n]?.[quest.legacyId ?? quest.id] ?? null,
           optionalDoneBy:
-            quest.kind === 'optional' ? (journal.optionalDoneBy[quest.id] ?? null) : null,
+            quest.kind === 'optional'
+              ? (journal.optionalDoneBy[quest.legacyId ?? quest.id] ?? null)
+              : null,
           ...(quest.label && { label: quest.label, alternatives: quest.others ?? [] }),
         }
       }),

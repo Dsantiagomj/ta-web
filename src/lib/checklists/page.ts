@@ -541,21 +541,24 @@ export function checklistView(data: ChecklistData): ChecklistView {
       const objectives = questLines.length
         ? flatObjectives(data.stopQuests[quest.id]?.stages, data.names)
         : []
-      const kids = (island.parents[quest.dofusId] ?? []).flatMap(([at, ids]) => {
-        const names = ids.flatMap((id) => {
-          const kid = (step.quests ?? []).find((other) => populated(other.quest)?.dofusId === id)
-          const kidQuest = populated(kid?.quest)
-          return kidQuest && kid?.kind !== 'take' ? [kidQuest.name] : []
-        })
-        return names.length ? [{ at, names }] : []
-      })
+      const kids = (island.parents[questRowKey(row) ?? quest.dofusId] ?? []).flatMap(
+        ([at, ids]) => {
+          const names = ids.flatMap((id) => {
+            const kid = (step.quests ?? []).find((other) => questRowKey(other) === id)
+            const kidQuest = populated(kid?.quest)
+            return kidQuest && kid?.kind !== 'take' ? [kidQuest.name] : []
+          })
+          return names.length ? [{ at, names }] : []
+        },
+      )
       const key = questRowKey(row) ?? quest.dofusId
       const generic = key < 0
       return [
         {
           dofusId: key,
           name: row.label || quest.name,
-          ...(generic && { anyOf: 1 + (row.alternatives?.length ?? 0) }),
+          // Con nombre pero sin más misiones, no hay «cualquiera» que decir.
+          ...(generic && row.alternatives?.length && { anyOf: 1 + row.alternatives.length }),
           // La guía de su primera misión no es la de todas: una fila genérica no la enlaza.
           ...(slug && !generic && { href: `/${slug}` }),
           ...(quest.levelMin != null && { level: quest.levelMin }),
@@ -783,7 +786,7 @@ function islandData(data: ChecklistData): ChecklistIslandData {
       if (!quest || row.kind !== 'optional' || !row.optionalDoneBy) continue
       optionalDoneBy.set(row.optionalDoneBy, [
         ...(optionalDoneBy.get(row.optionalDoneBy) ?? []),
-        quest.dofusId,
+        questRowKey(row) ?? quest.dofusId,
       ])
     }
   }

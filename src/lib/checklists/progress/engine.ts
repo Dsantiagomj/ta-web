@@ -40,6 +40,8 @@ export interface ChecklistModel {
   optionalDoneBy: Map<string, number[]>
   /** Fila genérica (su clave, en negativo) → las misiones que valen. */
   anyOf: Map<number, number[]>
+  /** Al revés que `anyOf`: misión → la clave de la fila genérica que la lleva. */
+  memberOf: Map<number, number>
   /** Misión → las que, terminadas todas, la terminan sola (COMPLETED_BY). */
   completedBy: Map<number, number[]>
   objectives: Record<number, number>
@@ -104,6 +106,9 @@ export function checklistModel(data: ChecklistIslandData): ChecklistModel {
     closed: new Set(data.closes.flatMap(([, closed]) => closed)),
     optionalDoneBy: new Map(data.optionalDoneBy ?? []),
     anyOf: new Map(data.anyOf ?? []),
+    memberOf: new Map(
+      (data.anyOf ?? []).flatMap(([key, members]) => members.map((id) => [id, key] as const)),
+    ),
     completedBy: new Map(data.completedBy ?? []),
     objectives: data.objectives,
     prereqs: data.prereqs,
@@ -154,20 +159,41 @@ export function aloneBy(
   const by = m.completedBy.get(id)
   if (!by?.length || seen.has(id)) return null
   seen.add(id)
-  const done = by.every(
-    (other) =>
-      finishedEntry(m, other, p.quests[other]) ||
-      aloneBy(p, m, other, seen) !== null ||
-      m.requiredBy.get(other)?.some((need) => finishedEntry(m, need, p.quests[need])),
-  )
+  // Cuándo se terminó cada una de las suyas, o null si no lo está. Una fila genérica marcada
+  // cuenta como su misión (la de «Recolección…» del Hielos, por su primera misión).
+  const when = by.map((other): number | null => {
+    const row = m.memberOf.get(other)
+    const entry = [p.quests[other], row === undefined ? undefined : p.quests[row]].find(
+      (candidate, at) => finishedEntry(m, at === 0 ? other : row!, candidate),
+    )
+    if (entry) return entry.at
+    if (aloneBy(p, m, other, seen) !== null) return 0
+    const need = m.requiredBy.get(other)?.find((x) => finishedEntry(m, x, p.quests[x]))
+    return need === undefined ? null : (p.quests[need]?.at ?? 0)
+  })
   seen.delete(id)
-  return done ? by[by.length - 1] : null
+  if (when.some((at) => at === null)) return null
+  // La que la terminó: la última que se terminó (en empate, la última de la lista).
+  let last = 0
+  when.forEach((at, index) => {
+    if ((at ?? 0) >= (when[last] ?? 0)) last = index
+  })
+  return by[last]
 }
 
-/** La misión de una fila genérica que está hecha (aquí o en otra parte), o null. */
+/**
+ * La misión de una fila genérica que está hecha (aquí o en otra parte, porque otra la pide o
+ * porque el juego la terminó sola), o null.
+ */
 export function anyBy(p: Progress, m: ChecklistModel, id: number): number | null {
   for (const other of m.anyOf.get(id) ?? []) {
-    if (finishedEntry(m, other, p.quests[other]) || impliedBy(p, m, other) !== null) return other
+    if (
+      finishedEntry(m, other, p.quests[other]) ||
+      impliedBy(p, m, other) !== null ||
+      aloneBy(p, m, other) !== null
+    ) {
+      return other
+    }
   }
   return null
 }
@@ -251,7 +277,7 @@ function closable(p: Progress, m: ChecklistModel, index: number) {
   const open = openIn(m, index)
   const later = laterSet(m, index)
   return mandatory(m.steps[index]).every((quest) => {
-    if (questFinished(p, m, quest.id)) return true
+    if (storedFinished(p, m, quest.id)) return true
     const at = p.quests[quest.id]?.o
     return later.has(quest.id) && typeof at === 'number' && at >= (open.get(quest.id) ?? 0)
   })
@@ -268,9 +294,17 @@ export function partUsed(p: Progress, m: ChecklistModel, n: number, pres: string
   return keys.length > 0 && keys.every((key) => Boolean(p.prereqs[`${m.id}:${key}`]))
 }
 
+/**
+ * Terminada por algo que se guarda: aquí, en otro paso o checklist, porque otra la pide o con
+ * una de sus misiones. No la que el juego termina sola: esa no se guarda, y un paso que solo
+ * queda hecho por ella tampoco.
+ */
+const storedFinished = (p: Progress, m: ChecklistModel, id: number) =>
+  finishedEntry(m, id, p.quests[id]) || impliedBy(p, m, id) !== null || anyBy(p, m, id) !== null
+
 const allFinished = (p: Progress, m: ChecklistModel, index: number) => {
   const quests = mandatory(m.steps[index])
-  return quests.length > 0 && quests.every((quest) => questFinished(p, m, quest.id))
+  return quests.length > 0 && quests.every((quest) => storedFinished(p, m, quest.id))
 }
 
 export function questState(p: Progress, m: ChecklistModel, index: number, id: number): QuestState {

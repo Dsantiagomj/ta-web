@@ -221,14 +221,7 @@ function migrateOwn(p: Progress, m: ChecklistModel, input: LegacyInput, prefix: 
 
   // Las filas genéricas antiguas («clase», «alt:…») van a la clave de su fila: la primera de
   // sus misiones en negativo (questRowKey en ../page.ts).
-  const generic = (legacy.genericQuests ?? {}) as Record<string, number>
-  questObj = Object.fromEntries(
-    Object.entries(questObj).flatMap(([id, k]) => {
-      if (Number.isInteger(Number(id))) return [[id, k]]
-      return generic[id] ? [[String(-generic[id]), k]] : []
-    }),
-  )
-  addObjectives(p, m, questObj, { c: m.id }, now)
+  addObjectives(p, m, remapObjectives(data, questObj), { c: m.id }, now)
 
   // Por su número antiguo; un paso nuevo (sin él) no recibe nada.
   const indexOf = new Map(steps.flatMap(([, n], index) => (n == null ? [] : [[n, index] as const])))
@@ -272,10 +265,31 @@ function migrateOwn(p: Progress, m: ChecklistModel, input: LegacyInput, prefix: 
 /** Lo que se comparte entre checklists: los objetos conseguidos enteros, con claves simples. */
 const sharedOwned = (keys: string[]) => keys.filter((key) => !/[#@|]/.test(key))
 
+/**
+ * La clave de una misión antigua: su ID o, si es una fila genérica («clase», «alt:…»), la de la
+ * fila de esta checklist (la primera de sus misiones en negativo, questRowKey en ../page.ts).
+ * Null si no es una misión ni una fila genérica de esta checklist.
+ */
+function questKey(data: ChecklistIslandData, id: string): string | null {
+  if (isQuestId(id)) return id
+  const first = ((data.legacy?.genericQuests ?? {}) as Record<string, number>)[id]
+  return typeof first === 'number' ? String(-first) : null
+}
+
+/** El avance de las misiones antiguas con sus claves de ahora: lo que no tiene clave no va. */
+const remapObjectives = (data: ChecklistIslandData, questObj: Record<string, number>) =>
+  Object.fromEntries(
+    Object.entries(questObj).flatMap(([id, k]) => {
+      const key = questKey(data, id)
+      return key === null ? [] : [[key, k]]
+    }),
+  )
+
 function migrateOthers(p: Progress, m: ChecklistModel, input: LegacyInput, id: string) {
   const { read, data, now } = input
   const by = { c: data.legacyIds[id] ?? id }
-  addObjectives(p, m, numbers(readObject(read, `${id}:questObjective`)), by, now, true)
+  const questObj = remapObjectives(data, numbers(readObject(read, `${id}:questObjective`)))
+  addObjectives(p, m, questObj, by, now, true)
   const owned = readObject(read, `${id}:owned`)
   for (const key of sharedOwned(Object.keys(owned).filter((key) => owned[key] === true))) {
     p.owned[key] ??= now
@@ -299,9 +313,11 @@ function migrateShared(
     const mine = id === own
     const by = { c: mine ? m.id : (data.legacyIds[id] ?? id) }
     for (const quest of Array.isArray(quests) ? quests : []) {
-      if (typeof quest === 'number' || typeof quest === 'string') {
-        addQuest(p, m, String(quest), { o: 'done', by, at: now }, !mine)
-      }
+      const key =
+        typeof quest === 'number' || typeof quest === 'string'
+          ? questKey(data, String(quest))
+          : null
+      if (key !== null) addQuest(p, m, key, { o: 'done', by, at: now }, !mine)
     }
     for (const key of sharedOwned(Array.isArray(owned) ? owned.map(String) : [])) {
       p.owned[key] ??= now

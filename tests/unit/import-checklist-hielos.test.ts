@@ -100,3 +100,31 @@ describe('el Dofus de los Hielos', () => {
     })
   })
 })
+
+describe('revisión de #122', () => {
+  it('la nota y el paso que termina una fila genérica se buscan por su id antiguo', () => {
+    const genericId = 'alt:607:1568'
+    const [n] = Object.entries(legacy.quests.STEP_QUESTS).find(([, ids]) =>
+      ids.map(String).includes(genericId),
+    )!
+    const withNotes: LegacyChecklist = {
+      ...legacy,
+      quests: {
+        ...legacy.quests,
+        STEP_QUEST_KINDS: { ...legacy.quests.STEP_QUEST_KINDS, [n]: { [genericId]: 'optional' } },
+      },
+      config: {
+        ...legacy.config,
+        journal: {
+          ...legacy.config.journal,
+          questNotes: { [n]: { [genericId]: 'La de tu oficio.' } },
+          optionalDoneBy: { [genericId]: 6 },
+        },
+      },
+    }
+    const row = toChecklistDraft(hielos, withNotes, alternatives)
+      .steps.find((step) => step.legacyNumber === Number(n))!
+      .quests.find((quest) => quest.label === 'Recolección en los campos de hielo')!
+    expect(row).toMatchObject({ kind: 'optional', note: 'La de tu oficio.', optionalDoneBy: 6 })
+  })
+})
