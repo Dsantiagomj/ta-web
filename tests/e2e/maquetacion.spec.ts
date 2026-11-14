@@ -14,14 +14,17 @@ import { E2E_PANEL_USER_5, seedGuide } from './seed/guides.ts'
 //
 // En local, sobre la base sembrada, con las vistas previas del Silvestre y del Ocre. Con
 // SMOKE_BASE_URL, contra un despliegue: busca lo publicado por la API de Payload y solo lee.
-// Allí las vistas previas necesitan una cuenta del panel (LAYOUT_LINT_PANEL_EMAIL y
-// LAYOUT_LINT_PANEL_PASSWORD); LAYOUT_LINT_PATHS añade rutas separadas por comas.
+// Allí no entra en el panel salvo que se pida (LAYOUT_LINT_PANEL_LOGIN=1, con
+// LAYOUT_LINT_PANEL_EMAIL y LAYOUT_LINT_PANEL_PASSWORD): iniciar sesión escribe la sesión de la
+// cuenta, y al acabar la cierra. LAYOUT_LINT_PATHS añade rutas separadas por comas.
 
 const WIDTHS = [390, 768, 1024, 1440] as const
 const remote = Boolean(process.env.SMOKE_BASE_URL?.trim())
 
 const panelAccount = remote
-  ? process.env.LAYOUT_LINT_PANEL_EMAIL && process.env.LAYOUT_LINT_PANEL_PASSWORD
+  ? process.env.LAYOUT_LINT_PANEL_LOGIN === '1' &&
+    process.env.LAYOUT_LINT_PANEL_EMAIL &&
+    process.env.LAYOUT_LINT_PANEL_PASSWORD
     ? {
         email: process.env.LAYOUT_LINT_PANEL_EMAIL,
         password: process.env.LAYOUT_LINT_PANEL_PASSWORD,
@@ -116,23 +119,33 @@ async function settle(page: Page) {
   )
 }
 
+/** La página ya cargada, lista para revisar: la isla de la checklist suelta sus controles. */
+async function ready(page: Page) {
+  for (const control of ['[data-ck-more]', '[data-sl-own]']) {
+    if (await page.locator(control).count()) {
+      await expect(page.locator(control).first()).toBeEnabled()
+    }
+  }
+  await settle(page)
+}
+
 async function open(page: Page, path: string) {
   const response = await page.goto(path)
   expect(response?.status(), path).toBeLessThan(400)
-  // La isla de la checklist suelta sus controles cuando ya manda.
-  for (const ready of ['[data-ck-more]', '[data-sl-own]']) {
-    if (await page.locator(ready).count()) await expect(page.locator(ready).first()).toBeEnabled()
-  }
-  await settle(page)
+  await ready(page)
 }
 
 const label = (where: string, defects: LayoutDefect[]) =>
   defects.map((defect) => ({ ...defect, where: `${where}: ${defect.where}` }))
 
-/** Una checklist de pasos: la página, cada paso abierto y las pestañas. */
-async function lintSteps(page: Page, path: string): Promise<LayoutDefect[]> {
-  await open(page, path)
+/**
+ * La checklist que ya está abierta. La de pasos, entera: la página, cada paso abierto y las
+ * pestañas.
+ */
+async function lintOpenChecklist(page: Page, { slug, kind }: Checklist) {
+  const path = `/${slug}`
   const found = label(path, await lintLayout(page))
+  if (kind === 'souls') return found
   const steps = await page
     .locator('.ck-rows [data-pick]')
     .evaluateAll((links) => links.map((link) => Number((link as HTMLElement).dataset.pick)))
@@ -158,12 +171,6 @@ async function lintSteps(page: Page, path: string): Promise<LayoutDefect[]> {
   return found
 }
 
-async function lintChecklist(page: Page, { slug, kind }: Checklist) {
-  if (kind === 'steps') return lintSteps(page, `/${slug}`)
-  await open(page, `/${slug}`)
-  return label(`/${slug}`, await lintLayout(page))
-}
-
 test.describe('maquetación', () => {
   for (const width of WIDTHS) {
     for (const target of pages) {
@@ -177,11 +184,13 @@ test.describe('maquetación', () => {
     }
 
     test(`las checklists publicadas a ${width}px`, async ({ page }) => {
-      test.slow()
+      // Cada paso de cada checklist: varios minutos contra un despliegue.
+      test.setTimeout(10 * 60_000)
       await page.setViewportSize(viewport(width))
       const defects: LayoutDefect[] = []
       for (const checklist of await publishedChecklists(page)) {
-        defects.push(...(await lintChecklist(page, checklist)))
+        await open(page, `/${checklist.slug}`)
+        defects.push(...(await lintOpenChecklist(page, checklist)))
       }
       expect(defects, formatDefects(defects)).toEqual([])
     })
@@ -189,21 +198,91 @@ test.describe('maquetación', () => {
 
   // Un solo test con todas las anchuras: cada inicio de sesión reescribe las sesiones de la
   // cuenta, y dos a la vez se las borrarían entre sí. La vista previa no abre el documento en
-  // el panel, así que no deja bloqueos que soltar.
-  test('las checklists de la vista previa del panel', async ({ page }) => {
-    test.skip(!panelAccount, 'Contra un despliegue, la vista previa necesita una cuenta del panel')
-    test.slow()
+  // el panel, así que no deja bloqueos que soltar; la sesión se cierra al acabar.
+  test('las checklists de la vista previa del panel', async ({ page, baseURL }) => {
+    test.skip(
+      !panelAccount,
+      'Contra un despliegue, solo con LAYOUT_LINT_PANEL_LOGIN=1 y una cuenta del panel',
+    )
+    // Cada paso de cada checklist, en todos los anchos: varios minutos contra un despliegue.
+    test.setTimeout(10 * 60_000)
     const login = await page.request.post('/api/users/login', { data: panelAccount })
     expect(login.ok()).toBe(true)
-    const defects: LayoutDefect[] = []
-    for (const checklist of await previewChecklists(page)) {
-      for (const width of WIDTHS) {
-        await page.setViewportSize(viewport(width))
-        await page.goto(`/vista-previa?slug=${checklist.slug}`)
-        await expect(page).toHaveURL(new RegExp(`/${checklist.slug}`))
-        defects.push(...label(`${width}px`, await lintChecklist(page, checklist)))
+    try {
+      const defects: LayoutDefect[] = []
+      for (const checklist of await previewChecklists(page)) {
+        for (const width of WIDTHS) {
+          await page.setViewportSize(viewport(width))
+          await page.goto(`/vista-previa?slug=${checklist.slug}`)
+          // En esta web y en la checklist: una ficha En preparación sin sesión lleva a
+          // Squarespace, cuya dirección también lleva el slug.
+          const landed = new URL(page.url())
+          expect(landed.origin).toBe(new URL(baseURL!).origin)
+          expect(landed.pathname).toBe(`/${checklist.slug}`)
+          await ready(page)
+          defects.push(...label(`${width}px`, await lintOpenChecklist(page, checklist)))
+        }
       }
+      expect(defects, formatDefects(defects)).toEqual([])
+    } finally {
+      await page.request.post('/api/users/logout')
     }
+  })
+})
+
+// Las reglas, sobre HTML hecho a mano: cada una coge su defecto y deja en paz lo que no lo es.
+test.describe('las reglas de la revisión', () => {
+  const fixture = async (page: Page, body: string) => {
+    await page.setViewportSize({ width: 600, height: 400 })
+    await page.setContent(
+      `<!doctype html><html><body style="margin:0;font:16px sans-serif">${body}</body></html>`,
+    )
+    return lintLayout(page)
+  }
+  const kinds = (defects: LayoutDefect[]) => defects.map((defect) => defect.kind)
+
+  test('una casilla que pisa el icono de su fila es un solape', async ({ page }) => {
+    const defects = await fixture(
+      page,
+      `<ul style="list-style:none;padding:0"><li style="display:flex;align-items:center;gap:12px">
+        <input type="checkbox" style="width:24px;height:24px;margin:0 -20px 0 0">
+        <span style="display:block;width:44px;height:44px;border:1px solid #888"></span>
+        <span>1 × Pico de tofu</span></li></ul>`,
+    )
+    expect(kinds(defects), formatDefects(defects)).toEqual(['se solapan'])
+  })
+
+  test('una casilla en el hueco que le guarda su tarjeta no es un solape', async ({ page }) => {
+    const defects = await fixture(
+      page,
+      `<ul style="list-style:none;padding:0"><li style="position:relative">
+        <input type="checkbox" style="position:relative;top:21px;left:12px;width:22px;height:22px;margin:0">
+        <label style="display:flex;gap:10px;margin-top:-22px;min-height:64px;padding:8px 8px 8px 44px;border:1px solid #888">
+          <span style="display:block;width:48px;height:48px;background:#333"></span>
+          <span>Mob Lasponja</span></label></li></ul>`,
+    )
     expect(defects, formatDefects(defects)).toEqual([])
+  })
+
+  test('lo que oculta un antepasado transparente no cuenta', async ({ page }) => {
+    const defects = await fixture(
+      page,
+      `<div style="opacity:0"><p style="width:40px;margin:0">o 30 000 kamas</p></div>`,
+    )
+    expect(defects, formatDefects(defects)).toEqual([])
+  })
+
+  test('una etiqueta cortada con puntos suspensivos recorta, salvo que lleve el texto entero', async ({
+    page,
+  }) => {
+    const label =
+      'overflow:hidden;white-space:nowrap;text-overflow:ellipsis;width:80px;display:block'
+    const cut = await fixture(page, `<span style="${label}">Llanuras de Cania</span>`)
+    expect(kinds(cut), formatDefects(cut)).toEqual(['recorta'])
+    const named = await fixture(
+      page,
+      `<span style="${label}" title="Llanuras de Cania">Llanuras de Cania</span>`,
+    )
+    expect(named, formatDefects(named)).toEqual([])
   })
 })

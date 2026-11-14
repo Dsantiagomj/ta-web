@@ -253,8 +253,9 @@ async function findChecklist(
 
 /**
  * La checklist de un slug con lo que enseña su página: sus misiones (nombre y nivel), los
- * objetos de Necesitarás, sus logros, figuras, jefes e imágenes, la guía de su Dofus con el
- * huevo, y los slugs de las guías de misión y las páginas de logro publicadas que enlaza.
+ * objetos de Necesitarás, el nombre de sus logros (para enlazarlo en el texto), figuras, jefes
+ * e imágenes, la guía de su Dofus con el huevo, y los slugs de las guías de misión y las
+ * páginas de logro publicadas que enlaza.
  */
 export async function readChecklist(
   payload: Payload,
@@ -264,7 +265,7 @@ export async function readChecklist(
   const checklist = await findChecklist(payload, slug, preview, 3, {
     quests: { dofusId: true, name: true, levelMin: true },
     items: { dofusId: true, name: true, image: true },
-    achievements: { name: true, icon: true },
+    achievements: { name: true },
     npcs: { name: true, renderRight: true },
     monsters: { name: true, image: true },
     'dofus-guides': { name: true, slug: true, state: true, color: true, dofus: true },

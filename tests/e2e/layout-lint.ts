@@ -6,12 +6,14 @@ import type { Page } from '@playwright/test'
 //
 // - «página ancha»: el documento es más ancho que la ventana (barra de desplazamiento lateral).
 // - «desborda»: un elemento que no se desplaza tiene contenido más ancho que él.
-// - «recorta»: un elemento con overflow hidden o clip corta su texto.
+// - «recorta»: un elemento con overflow hidden o clip corta su texto, o lo corta con puntos
+//   suspensivos sin llevarlo entero en aria-label o title.
 // - «una palabra por línea»: un texto de tres palabras o más con tantas líneas como palabras.
 //   Con dos no: un nombre de dos palabras en una tarjeta estrecha («Dofus / Silvestre») se
 //   parte bien así; si la caja es estrecha de verdad, lo coge la regla siguiente.
 // - «estrecho»: un texto de dos palabras o más, partido, en una caja de menos de unos 8ch.
-// - «se solapan»: dos hermanos (tarjetas, botones, campos, filas) se pisan.
+// - «se solapan»: dos hermanos (tarjetas, botones, campos y casillas, filas) se pisan. Una
+//   casilla metida en el relleno de su tarjeta, sin tocar lo de dentro, no cuenta.
 //
 // La salida: `data-layout-lint-ignore` en un elemento lo deja fuera, con él todo lo de
 // dentro. Solo con un comentario al lado que diga por qué.
@@ -58,45 +60,57 @@ export async function lintLayout(page: Page, scope?: string): Promise<LayoutDefe
       const add = (kind: string, el: Element, detail: string) =>
         defects.push({ kind, where: where(el), text: textOf(el), detail })
 
-      // Lo que no se ve no cuenta: sin cajas, oculto, transparente o el patrón sr-only
-      // (1px y recortado).
-      const shown = (el: Element) => {
-        const s = style(el)
-        if (s.display === 'none' || s.visibility === 'hidden' || s.opacity === '0') return false
-        const rect = el.getBoundingClientRect()
-        if (rect.width <= 1 && rect.height <= 1) return false
-        return el.getClientRects().length > 0
+      // Lo que no se ve no cuenta: sin cajas, oculto o transparente (él o un antepasado:
+      // checkVisibility), y el patrón sr-only (1px y recortado). Un `display: contents` no
+      // tiene caja: cuenta lo que cuente su padre.
+      const visibility = new Map<Element, boolean>()
+      const shown = (el: Element): boolean => {
+        const known = visibility.get(el)
+        if (known !== undefined) return known
+        let result: boolean
+        if (style(el).display === 'contents') {
+          result = el.parentElement ? shown(el.parentElement) : false
+        } else {
+          const rect = el.getBoundingClientRect()
+          result =
+            el.checkVisibility({ opacityProperty: true, visibilityProperty: true }) &&
+            !(rect.width <= 1 && rect.height <= 1)
+        }
+        visibility.set(el, result)
+        return result
       }
-      const skippedTags = new Set([
-        'SCRIPT',
-        'STYLE',
-        'NOSCRIPT',
-        'TEMPLATE',
-        'SVG',
-        'IMG',
-        'PICTURE',
-        'VIDEO',
-        'IFRAME',
-        'CANVAS',
-        'BR',
-        'INPUT',
-        'TEXTAREA',
-        'SELECT',
-        'OPTION',
-      ])
+      // Lo que no pinta nada. Las imágenes y los controles no tienen texto que revisar, pero los
+      // controles sí entran en los solapes.
+      const unpainted = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEMPLATE', 'SVG', 'BR', 'OPTION'])
+      const replaced = new Set(['IMG', 'PICTURE', 'VIDEO', 'IFRAME', 'CANVAS'])
+      const controls = new Set(['INPUT', 'TEXTAREA', 'SELECT'])
+      const outOfLint = (el: Element) =>
+        unpainted.has(el.tagName.toUpperCase()) || el.closest('svg') !== null || ignored(el)
       const skipped = (el: Element) =>
-        skippedTags.has(el.tagName.toUpperCase()) || el.closest('svg') !== null || ignored(el)
+        outOfLint(el) || replaced.has(el.tagName) || controls.has(el.tagName)
       const scrolls = (value: string) => value === 'auto' || value === 'scroll'
-      const intentionalClip = (s: CSSStyleDeclaration) =>
+      const ellipsis = (s: CSSStyleDeclaration) =>
         s.textOverflow === 'ellipsis' ||
         (s.getPropertyValue('-webkit-line-clamp') || 'none') !== 'none'
+      // Un corte con puntos suspensivos vale solo si el texto entero sigue en una etiqueta
+      // accesible (aria-label o title) del elemento o de uno que lo contenga.
+      const fullyLabelled = (el: Element) => {
+        const text = textOf(el)
+        for (let at: Element | null = el; at; at = at.parentElement) {
+          const label = `${at.getAttribute('aria-label') ?? ''} ${at.getAttribute('title') ?? ''}`
+          if (label.replace(/\s+/g, ' ').includes(text)) return true
+        }
+        return false
+      }
       const inFlow = (el: Element) => {
         const position = style(el).position
         return position !== 'absolute' && position !== 'fixed'
       }
 
-      const elements = [root, ...root.querySelectorAll('*')].filter(
-        (el) => !skipped(el) && shown(el),
+      const all = [root, ...root.querySelectorAll('*')]
+      const elements = all.filter((el) => !skipped(el) && shown(el))
+      const formControls = all.filter(
+        (el) => controls.has(el.tagName) && !outOfLint(el) && shown(el),
       )
 
       // Página ancha: el documento entero, más los elementos que se salen de la ventana sin
@@ -181,8 +195,19 @@ export async function lintLayout(page: Page, scope?: string): Promise<LayoutDefe
       const overflowing: { el: Element; kind: string; detail: string }[] = []
       for (const el of elements) {
         const s = style(el)
-        if (s.display === 'inline' || s.display === 'contents' || intentionalClip(s)) continue
+        if (s.display === 'inline' || s.display === 'contents') continue
         if (el.clientWidth <= 1 || el.clientHeight <= 1) continue
+        if (ellipsis(s)) {
+          const cut = el.scrollWidth > el.clientWidth + 1 || el.scrollHeight > el.clientHeight + 2
+          if (cut && !fullyLabelled(el)) {
+            overflowing.push({
+              el,
+              kind: 'recorta',
+              detail: 'cortado con puntos suspensivos, sin el texto entero en aria-label o title',
+            })
+          }
+          continue
+        }
         if (!scrolls(s.overflowX) && el.scrollWidth > el.clientWidth + 1) {
           if (s.overflowX === 'visible') {
             const child = culprit(el)
@@ -305,7 +330,32 @@ export async function lintLayout(page: Page, scope?: string): Promise<LayoutDefe
           )
         return painted
       }
-      const boxes = new Set(elements.filter(isBox))
+      const boxes = new Set([...elements, ...formControls].filter(isBox))
+      const hit = (a: DOMRect, b: DOMRect) =>
+        Math.min(a.right, b.right) - Math.max(a.left, b.left) > 1 &&
+        Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top) > 1
+      // Una caja metida entera en otra, en el hueco que esta le guarda (su relleno), sin tocar
+      // nada de lo que la otra lleva dentro: una casilla sobre su tarjeta, a propósito.
+      const nested = (small: Element, big: Element) => {
+        const a = small.getBoundingClientRect()
+        const b = big.getBoundingClientRect()
+        const inside =
+          a.left >= b.left - 0.5 &&
+          a.right <= b.right + 0.5 &&
+          a.top >= b.top - 0.5 &&
+          a.bottom <= b.bottom + 0.5
+        if (!inside) return false
+        const range = document.createRange()
+        for (const node of big.childNodes) {
+          if (node instanceof Element) {
+            if (shown(node) && hit(a, node.getBoundingClientRect())) return false
+          } else if (node.nodeType === Node.TEXT_NODE && node.textContent?.trim()) {
+            range.selectNodeContents(node)
+            for (const rect of range.getClientRects()) if (hit(a, rect)) return false
+          }
+        }
+        return true
+      }
       const parents = new Set([...boxes].map((el) => el.parentElement))
       for (const parent of parents) {
         if (!parent) continue
@@ -316,7 +366,12 @@ export async function lintLayout(page: Page, scope?: string): Promise<LayoutDefe
             const b = siblings[j]!.getBoundingClientRect()
             const x = Math.min(a.right, b.right) - Math.max(a.left, b.left)
             const y = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top)
-            if (x > 1 && y > 1) {
+            if (
+              x > 1 &&
+              y > 1 &&
+              !nested(siblings[i]!, siblings[j]!) &&
+              !nested(siblings[j]!, siblings[i]!)
+            ) {
               add(
                 'se solapan',
                 siblings[i]!,

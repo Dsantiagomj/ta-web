@@ -2,6 +2,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
 
 import { MODES } from '../../src/lib/theme/theme.ts'
+import { formatDefects, lintLayout } from './layout-lint.ts'
 import { seedAchievement } from './seed/achievements.ts'
 import { seedChecklists } from './seed/checklists.ts'
 import { seedDofus } from './seed/dofus-guides.ts'
@@ -87,6 +88,71 @@ test.describe('página de una checklist', () => {
     const item = seedDofus.ocre.needsItems[0]!.name
     await needs.getByRole('button', { name: `Copiar ${item}` }).click()
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(item)
+  })
+
+  test('un tramo resaltado nunca se sale de su párrafo, ancho a ancho', async ({ page }) => {
+    await page.goto(url)
+    await expect(step(page, 1)).toBeVisible()
+    // El texto del paso 23 del Nebuloso de dev, en un párrafo del paso de 180 a 420px.
+    const worst = await page.evaluate(() => {
+      const p = document.createElement('p')
+      p.className = 'ck-text'
+      p.innerHTML =
+        'Logro "El pozo del loco", misión 5: Las arenas del tiempo. ' +
+        '<mark class="hl hl--stop">Avanza hasta tener que pasar la mazmorra de Vórtex.</mark> ' +
+        '<mark class="hl hl--resolve">Pasa la mazmorra y termina las etapas 22 y 23.</mark>'
+      document.querySelector('#paso-1 .ck-dh__main')!.append(p)
+      let out = -Infinity
+      for (let width = 180; width <= 420; width++) {
+        p.style.width = `${width}px`
+        const right = p.getBoundingClientRect().right
+        for (const mark of p.querySelectorAll('mark')) {
+          for (const rect of mark.getClientRects()) out = Math.max(out, rect.right - right)
+        }
+      }
+      return out
+    })
+    expect(worst).toBeLessThanOrEqual(0.5)
+  })
+
+  test('el nombre de cada paso en la lista se lee entero, sin puntos suspensivos', async ({
+    page,
+  }) => {
+    for (const width of [390, 1024, 1440]) {
+      await page.setViewportSize({ width, height: 900 })
+      await page.goto(url)
+      // El nombre más largo del Nebuloso de dev.
+      await page
+        .locator('.ck-row__t')
+        .first()
+        .evaluate((title) => {
+          title.textContent = 'Misión: Hablar con el dios Anutrof'
+        })
+      const defects = await lintLayout(page, '.ck-rows')
+      expect(defects, `${width}px:\n${formatDefects(defects)}`).toEqual([])
+    }
+  })
+
+  test('el título del paso nunca va una palabra por línea, en ningún ancho', async ({ page }) => {
+    for (const width of [390, 768, 1024, 1100, 1200, 1280, 1440]) {
+      await page.setViewportSize({ width, height: 900 })
+      await page.goto(`${url}#paso-1`)
+      await expect(step(page, 1)).toBeVisible()
+      for (const title of ['Las apariencias engañan', 'El perforar se va a acabar']) {
+        await step(page, 1)
+          .locator('.ck-dh__t')
+          .evaluate((h2, text) => {
+            h2.lastChild!.textContent = text
+            // Con el icono del paso al lado, como en dev: el título se queda con menos ancho.
+            if (!h2.parentElement!.querySelector('.well')) {
+              h2.insertAdjacentHTML('beforebegin', '<span class="well" aria-hidden="true"></span>')
+            }
+          }, title)
+        const defects = await lintLayout(page, '#paso-1 .ck-dh__title')
+        expect(defects, `${width}px, «${title}»:\n${formatDefects(defects)}`).toEqual([])
+      }
+      await page.goto('about:blank')
+    }
   })
 
   test('Necesitarás: la cantidad y el nombre en una línea, y la alternativa debajo a todo lo ancho', async ({

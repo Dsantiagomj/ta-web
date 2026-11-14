@@ -74,6 +74,8 @@ export const seedChecklists = {
       icon: 'public/img/sistema/item-388.webp',
       note: 'o 30 000 kamas',
     },
+    // La zona del paso 2, larga como las de dev: en el banner de 390px no cabe en una línea.
+    longZone: 'Llanuras de Cania',
     labels: {
       kama: 'Kama',
       spell: 'Captura de almas',
@@ -193,22 +195,14 @@ export async function seedChecklistPages(payload: Payload): Promise<void> {
   const stop = existing
     ? await payload.update({ collection: 'quests', id: existing.id, data: stopData })
     : await payload.create({ collection: 'quests', data: stopData })
-  // Lo demás ya está si la checklist ya está.
-  if (await findOne(payload, 'checklists', 'slug', neb.slug)) return
+  // Lo demás ya está si la checklist ya está, salvo lo añadido después, que se pone al día.
+  const saved = await findOne(payload, 'checklists', 'slug', neb.slug)
+  if (saved) {
+    await upsertNebulosoRows(payload, saved.id)
+    return
+  }
 
   const banner = await media(payload, 'e2e-checklist-banner', neb.banner, 'Astrub')
-  const { noteRow } = neb
-  const insignia =
-    (await findOne(payload, 'items', 'dofusId', noteRow.dofusId)) ??
-    (await payload.create({
-      collection: 'items',
-      data: {
-        dofusId: noteRow.dofusId,
-        name: noteRow.name,
-        superTypeId: 9,
-        image: (await media(payload, 'e2e-checklist-insignia', noteRow.icon, noteRow.name)).id,
-      },
-    }))
 
   const created = await payload.create({
     collection: 'checklists',
@@ -258,16 +252,7 @@ export async function seedChecklistPages(payload: Payload): Promise<void> {
         {
           legacyNumber: 3,
           segments: [{ kind: 'plain', text: neb.steps.resolvePlain }],
-          needs: [
-            {
-              item: insignia.id,
-              quantity: 1,
-              note: noteRow.note,
-              category: 'resources',
-              countsInTotal: true,
-            },
-            { item: pico.id, quantity: 2, category: 'resources', countsInTotal: true },
-          ],
+          needs: [{ item: pico.id, quantity: 2, category: 'resources', countsInTotal: true }],
         },
       ],
       legacy: {
@@ -298,6 +283,7 @@ export async function seedChecklistPages(payload: Payload): Promise<void> {
       _status: 'published',
     },
   })
+  await upsertNebulosoRows(payload, created.id)
 
   const hielos = seedChecklists.hielos
   if (!(await findOne(payload, 'checklists', 'slug', hielos.slug))) {
@@ -350,6 +336,49 @@ export async function seedChecklistPages(payload: Payload): Promise<void> {
     })
     await seedSilvestreDraft(payload, ficha.id, { achievement, stop, pico, ojo })
   }
+}
+
+/**
+ * Lo que se añadió al Nebuloso después de su primera siembra, también en una base reutilizada:
+ * la zona larga del paso 2 y, primera en el paso 3, la fila de la Insignia con su nota.
+ */
+async function upsertNebulosoRows(payload: Payload, id: number) {
+  const { noteRow, longZone } = seedChecklists.nebuloso
+  const insignia =
+    (await findOne(payload, 'items', 'dofusId', noteRow.dofusId)) ??
+    (await payload.create({
+      collection: 'items',
+      data: {
+        dofusId: noteRow.dofusId,
+        name: noteRow.name,
+        superTypeId: 9,
+        image: (await media(payload, 'e2e-checklist-insignia', noteRow.icon, noteRow.name)).id,
+      },
+    }))
+  const checklist = await payload.findByID({ collection: 'checklists', id, depth: 0 })
+  const steps = checklist.steps ?? []
+  const needs = steps[2]?.needs ?? []
+  const hasRow = needs.some((need) => need.item === insignia.id)
+  if (hasRow && steps[1]?.zone === longZone) return
+  await payload.update({
+    collection: 'checklists',
+    id,
+    data: {
+      steps: steps.map((step, index) => {
+        if (index === 1) return { ...step, zone: longZone }
+        if (index !== 2 || hasRow) return step
+        const row = {
+          item: insignia.id,
+          quantity: 1,
+          note: noteRow.note,
+          category: 'resources' as const,
+          countsInTotal: true,
+        }
+        return { ...step, needs: [row, ...needs] }
+      }),
+      _status: 'published',
+    },
+  })
 }
 
 /**
