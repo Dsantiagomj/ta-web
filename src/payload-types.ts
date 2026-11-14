@@ -67,7 +67,11 @@ export interface Config {
   };
   blocks: {};
   collections: {
-    users: User;
+    'quest-guides': QuestGuide;
+    'achievement-pages': AchievementPage;
+    'achievement-groups': AchievementGroup;
+    'dofus-guides': DofusGuide;
+    checklists: Checklist;
     media: Media;
     quests: Quest;
     items: Item;
@@ -77,11 +81,7 @@ export interface Config {
     subareas: Subarea;
     'achievement-categories': AchievementCategory;
     achievements: Achievement;
-    'quest-guides': QuestGuide;
-    'achievement-pages': AchievementPage;
-    'achievement-groups': AchievementGroup;
-    'dofus-guides': DofusGuide;
-    checklists: Checklist;
+    users: User;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -89,7 +89,11 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
-    users: UsersSelect<false> | UsersSelect<true>;
+    'quest-guides': QuestGuidesSelect<false> | QuestGuidesSelect<true>;
+    'achievement-pages': AchievementPagesSelect<false> | AchievementPagesSelect<true>;
+    'achievement-groups': AchievementGroupsSelect<false> | AchievementGroupsSelect<true>;
+    'dofus-guides': DofusGuidesSelect<false> | DofusGuidesSelect<true>;
+    checklists: ChecklistsSelect<false> | ChecklistsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     quests: QuestsSelect<false> | QuestsSelect<true>;
     items: ItemsSelect<false> | ItemsSelect<true>;
@@ -99,11 +103,7 @@ export interface Config {
     subareas: SubareasSelect<false> | SubareasSelect<true>;
     'achievement-categories': AchievementCategoriesSelect<false> | AchievementCategoriesSelect<true>;
     achievements: AchievementsSelect<false> | AchievementsSelect<true>;
-    'quest-guides': QuestGuidesSelect<false> | QuestGuidesSelect<true>;
-    'achievement-pages': AchievementPagesSelect<false> | AchievementPagesSelect<true>;
-    'achievement-groups': AchievementGroupsSelect<false> | AchievementGroupsSelect<true>;
-    'dofus-guides': DofusGuidesSelect<false> | DofusGuidesSelect<true>;
-    checklists: ChecklistsSelect<false> | ChecklistsSelect<true>;
+    users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -149,125 +149,67 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
+ * via the `definition` "quest-guides".
  */
-export interface User {
+export interface QuestGuide {
   id: number;
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  resetPasswordRequestedAt?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  sessions?:
-    | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
-      }[]
-    | null;
-  password?: string | null;
-  collection: 'users';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
- */
-export interface Media {
-  id: number;
-  alt: string;
-  credits?: string | null;
   /**
-   * Solo en el arte importado de DofusDB, como los renders de PNJ.
+   * Elige primero la misión de DofusDB de la guía, solo una: rellena el título, la dirección, el SEO y el resumen. Luego solo te queda escribir la guía.
    */
-  gameAsset?: string | null;
+  quest?: (number | null) | Quest;
   /**
-   * Solo en las imágenes migradas.
+   * Si lo dejas vacío, se usa el nombre de la misión.
+   */
+  title: string;
+  slug: string;
+  /**
+   * Al elegir la misión, cada campo vacío se rellena con lo que da DofusDB. Cámbialo con libertad: lo que escribas no se sobrescribe.
+   */
+  summary?: {
+    prerequisites?: string | null;
+    needs?: {
+      items?:
+        | {
+            item: number | Item;
+            quantity: number;
+            id?: string | null;
+          }[]
+        | null;
+      /**
+       * Lo que la lista de objetos no recoge, como «1 x Combate (solo)» o «Literalmente nada». No se rellena solo.
+       */
+      notes?: string | null;
+      /**
+       * Para una nota de mazmorra que sale con el icono genérico en «Necesitarás en total» («1 x Mazmorra Ben Ripata.»): copia la nota tal como está en Notas y elige su mazmorra, y la página pintará su jefe. Lo que elijas gana a lo que se adivina por el nombre. Si cambias el texto de la nota, cámbialo también aquí.
+       */
+      dungeons?:
+        | {
+            note: string;
+            dungeon: number | Dungeon;
+            id?: string | null;
+          }[]
+        | null;
+    };
+    rewards?: string | null;
+    startNpc?: string | null;
+    startX?: number | null;
+    startY?: number | null;
+  };
+  body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock | FightBlock | StepBlock)[] | null;
+  /**
+   * Se rellena solo desde la misión si lo dejas vacío. Puedes cambiarlo cuando quieras.
+   */
+  seo?: {
+    metaTitle?: string | null;
+    metaDescription?: string | null;
+  };
+  /**
+   * Dónde estaba en la web antigua. La pone la importación; no hace falta tocarla.
    */
   originalUrl?: string | null;
-  prefix?: string | null;
-  _objectKey?: string | null;
   updatedAt: string;
   createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-  sizes?: {
-    'avif-480'?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    'webp-480'?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    'avif-800'?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    'webp-800'?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    'avif-1200'?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    'webp-1200'?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    'avif-1600'?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    'webp-1600'?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-  };
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * Datos de DofusDB, de solo lectura. Los actualiza un script.
@@ -427,6 +369,108 @@ export interface Item {
   createdAt: string;
 }
 /**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  /**
+   * Describe lo que se ve, para quien no puede ver la imagen y para Google: «Torre frente al PNJ Ganymede en Astrub». Sin «imagen de…» y sin el nombre del archivo.
+   */
+  alt: string;
+  /**
+   * Quién hizo la imagen, si no es tuya ni del juego. Opcional.
+   */
+  credits?: string | null;
+  /**
+   * Arte del juego que trajo DofusDB, como los renders de PNJ.
+   */
+  gameAsset?: string | null;
+  /**
+   * Dónde estaba en la web antigua. La pone la importación; no hace falta tocarla.
+   */
+  originalUrl?: string | null;
+  prefix?: string | null;
+  _objectKey?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    'avif-480'?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    'webp-480'?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    'avif-800'?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    'webp-800'?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    'avif-1200'?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    'webp-1200'?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    'avif-1600'?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    'webp-1600'?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
  * Datos de DofusDB, de solo lectura. Los actualiza un script.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -471,202 +515,6 @@ export interface Dungeon {
   refreshedAt?: string | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * Datos de DofusDB, de solo lectura. Los actualiza un script.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "npcs".
- */
-export interface Npc {
-  id: number;
-  dofusId: number;
-  name: string;
-  /**
-   * Su apariencia en DofusDB, de la que sale el render.
-   */
-  look?: string | null;
-  /**
-   * Junto al título de la guía, en escritorio.
-   */
-  renderRight?: (number | null) | Media;
-  /**
-   * A la derecha del título, en el móvil.
-   */
-  renderLeft?: (number | null) | Media;
-  /**
-   * La pone el script de refresco.
-   */
-  refreshedAt?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Datos de DofusDB, de solo lectura. Los actualiza un script.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "subareas".
- */
-export interface Subarea {
-  id: number;
-  dofusId: number;
-  name: string;
-  areaDofusId?: number | null;
-  areaName?: string | null;
-  /**
-   * La pone el script de refresco.
-   */
-  refreshedAt?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Datos de DofusDB, de solo lectura. Los actualiza un script.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "achievement-categories".
- */
-export interface AchievementCategory {
-  id: number;
-  dofusId: number;
-  name: string;
-  /**
-   * Misiones o Eventos, en las categorías de misiones.
-   */
-  parent?: (number | null) | AchievementCategory;
-  order?: number | null;
-  /**
-   * La pone el script de refresco.
-   */
-  refreshedAt?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Datos de DofusDB, de solo lectura. Los actualiza un script.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "achievements".
- */
-export interface Achievement {
-  id: number;
-  dofusId: number;
-  name: string;
-  icon?: (number | null) | Media;
-  points?: number | null;
-  level?: number | null;
-  order?: number | null;
-  category?: (number | null) | AchievementCategory;
-  /**
-   * Los objetivos del logro, en orden. Varias misiones en una fila son alternativas: se hace una (la misión de clase).
-   */
-  quests?:
-    | {
-        name?: string | null;
-        quests?: (number | Quest)[] | null;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Para un personaje de nivel 200, como en las páginas de Torre.
-   */
-  rewards?: {
-    experience?: number | null;
-    kamas?: number | null;
-    items?:
-      | {
-          item: number | Item;
-          quantity: number;
-          id?: string | null;
-        }[]
-      | null;
-  };
-  /**
-   * Los logros del juego que lo piden, directamente o a través de otro.
-   */
-  countsFor?:
-    | {
-        dofusId?: number | null;
-        name?: string | null;
-        points?: number | null;
-        achievements?: number | null;
-        icon?: (number | null) | Media;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * La pone el script de refresco.
-   */
-  refreshedAt?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "quest-guides".
- */
-export interface QuestGuide {
-  id: number;
-  /**
-   * Elige primero la misión de DofusDB de la guía, solo una: rellena el título, el slug, el SEO y el resumen. Luego solo te queda escribir la guía.
-   */
-  quest?: (number | null) | Quest;
-  /**
-   * Si lo dejas vacío, se usa el nombre de la misión.
-   */
-  title: string;
-  /**
-   * La URL de la guía, como aprendizaje-escudero. Si la dejas vacía, sale del nombre de la misión.
-   */
-  slug: string;
-  /**
-   * Al elegir la misión, cada campo vacío se rellena con lo que da DofusDB. Cámbialo con libertad: lo que escribas no se sobrescribe.
-   */
-  summary?: {
-    prerequisites?: string | null;
-    needs?: {
-      items?:
-        | {
-            item: number | Item;
-            quantity: number;
-            id?: string | null;
-          }[]
-        | null;
-      /**
-       * Lo que la lista de objetos no recoge, como «1 x Combate (solo)» o «Literalmente nada». No se rellena solo.
-       */
-      notes?: string | null;
-      /**
-       * Para una nota de mazmorra que sale con el icono genérico en «Necesitarás en total» («1 x Mazmorra Ben Ripata.»): copia la nota tal como está en Notas y elige su mazmorra, y la página pintará su jefe. Lo que elijas gana a lo que se adivina por el nombre. Si cambias el texto de la nota, cámbialo también aquí.
-       */
-      dungeons?:
-        | {
-            note: string;
-            dungeon: number | Dungeon;
-            id?: string | null;
-          }[]
-        | null;
-    };
-    rewards?: string | null;
-    startNpc?: string | null;
-    startX?: number | null;
-    startY?: number | null;
-  };
-  body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock | FightBlock | StepBlock)[] | null;
-  /**
-   * Se rellena solo desde la misión si lo dejas vacío. Puedes cambiarlo cuando quieras.
-   */
-  seo?: {
-    metaTitle?: string | null;
-    metaDescription?: string | null;
-  };
-  /**
-   * URL de la página en Squarespace
-   */
-  originalUrl?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -782,12 +630,9 @@ export interface AchievementPage {
    */
   achievement: number | Achievement;
   name: string;
-  /**
-   * La URL del logro, la misma que en la web de Torre: la-ocasion-hace-al-ladron.
-   */
   slug: string;
   /**
-   * Publicada: se ve y se puede abrir. En preparación: se ve apagada, sin enlace, con la etiqueta «En preparación». Lo decides tú; el refresco de DofusDB no lo cambia.
+   * Publicada: se ve y se puede abrir. En preparación: se ve apagada, sin enlace, con la etiqueta «En preparación». Lo decides tú; el refresco de DofusDB no lo cambia. Además, pulsa «Publicar cambios» arriba para que lo que cambies salga en la web.
    */
   state: 'published' | 'preparing';
   group?: (number | null) | AchievementGroup;
@@ -867,6 +712,87 @@ export interface AchievementPage {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Datos de DofusDB, de solo lectura. Los actualiza un script.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "achievements".
+ */
+export interface Achievement {
+  id: number;
+  dofusId: number;
+  name: string;
+  icon?: (number | null) | Media;
+  points?: number | null;
+  level?: number | null;
+  order?: number | null;
+  category?: (number | null) | AchievementCategory;
+  /**
+   * Los objetivos del logro, en orden. Varias misiones en una fila son alternativas: se hace una (la misión de clase).
+   */
+  quests?:
+    | {
+        name?: string | null;
+        quests?: (number | Quest)[] | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Para un personaje de nivel 200, como en las páginas de Torre.
+   */
+  rewards?: {
+    experience?: number | null;
+    kamas?: number | null;
+    items?:
+      | {
+          item: number | Item;
+          quantity: number;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Los logros del juego que lo piden, directamente o a través de otro.
+   */
+  countsFor?:
+    | {
+        dofusId?: number | null;
+        name?: string | null;
+        points?: number | null;
+        achievements?: number | null;
+        icon?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * La pone el script de refresco.
+   */
+  refreshedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Datos de DofusDB, de solo lectura. Los actualiza un script.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "achievement-categories".
+ */
+export interface AchievementCategory {
+  id: number;
+  dofusId: number;
+  name: string;
+  /**
+   * Misiones o Eventos, en las categorías de misiones.
+   */
+  parent?: (number | null) | AchievementCategory;
+  order?: number | null;
+  /**
+   * La pone el script de refresco.
+   */
+  refreshedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "achievement-groups".
  */
@@ -877,12 +803,9 @@ export interface AchievementGroup {
    */
   category?: (number | null) | AchievementCategory;
   name: string;
-  /**
-   * El de tu web: metalogro-astrub.
-   */
   slug: string;
   /**
-   * Publicada: se ve y se puede abrir. En preparación: se ve apagada, sin enlace, con la etiqueta «En preparación». Lo decides tú; el refresco de DofusDB no lo cambia.
+   * Publicada: se ve y se puede abrir. En preparación: se ve apagada, sin enlace, con la etiqueta «En preparación». Lo decides tú; el refresco de DofusDB no lo cambia. Además, pulsa «Publicar cambios» arriba para que lo que cambies salga en la web.
    */
   state: 'published' | 'preparing';
   section?: ('stories' | 'zones' | 'seasonal') | null;
@@ -923,6 +846,35 @@ export interface AchievementGroup {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Datos de DofusDB, de solo lectura. Los actualiza un script.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "npcs".
+ */
+export interface Npc {
+  id: number;
+  dofusId: number;
+  name: string;
+  /**
+   * Su apariencia en DofusDB, de la que sale el render.
+   */
+  look?: string | null;
+  /**
+   * Junto al título de la guía, en escritorio.
+   */
+  renderRight?: (number | null) | Media;
+  /**
+   * A la derecha del título, en el móvil.
+   */
+  renderLeft?: (number | null) | Media;
+  /**
+   * La pone el script de refresco.
+   */
+  refreshedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "dofus-guides".
  */
@@ -936,12 +888,9 @@ export interface DofusGuide {
    * El nombre del Dofus, como sale en la tarjeta y en el título de la página.
    */
   name: string;
-  /**
-   * La URL de la guía, la misma que en la web de Torre: dofus-abisal.
-   */
   slug: string;
   /**
-   * Publicada: se ve y se puede abrir. En preparación: se ve apagada, sin enlace, con la etiqueta «En preparación». Lo decides tú; el refresco de DofusDB no lo cambia.
+   * Publicada: se ve y se puede abrir. En preparación: se ve apagada, sin enlace, con la etiqueta «En preparación». Lo decides tú; el refresco de DofusDB no lo cambia. Además, pulsa «Publicar cambios» arriba para que lo que cambies salga en la web.
    */
   state: 'published' | 'preparing';
   /**
@@ -1073,7 +1022,7 @@ export interface DofusGuide {
     | boolean
     | null;
   /**
-   * URL de la página en Squarespace
+   * Dónde estaba en la web antigua. La pone la importación; no hace falta tocarla.
    */
   originalUrl?: string | null;
   updatedAt: string;
@@ -1225,12 +1174,9 @@ export interface Checklist {
    * El nombre de la checklist, como sale en su página y en el menú.
    */
   name: string;
-  /**
-   * La URL de la checklist, la misma que en la web de Torre: checklist-nebuloso.
-   */
   slug: string;
   /**
-   * Publicada: se ve y se puede abrir. En preparación: sale en el menú sin página propia y enlaza a la checklist de Squarespace. Lo decides tú; la importación no lo cambia.
+   * Publicada: se ve y se puede abrir. En preparación: sale en el menú sin página propia y enlaza a la checklist de Squarespace. Lo decides tú; la importación no lo cambia. Además, pulsa «Publicar cambios» arriba para que lo que cambies salga en la web.
    */
   state: 'published' | 'preparing';
   /**
@@ -1279,10 +1225,6 @@ export interface Checklist {
    */
   steps?:
     | {
-        /**
-         * Guarda el progreso de cada persona en este paso. Se crea al guardar y no cambia.
-         */
-        stepId?: string | null;
         legacyNumber?: number | null;
         /**
          * El texto del paso, por tramos y en orden. Un tramo «Detente aquí» dice hasta dónde avanzar una misión; uno «Aquí se resuelve» termina las misiones que otros pasos dejaron a medias.
@@ -1300,7 +1242,7 @@ export interface Checklist {
                */
               stopObjective?: number | null;
               /**
-               * Los identificadores de los pasos cuyas misiones termina este tramo. Copia el identificador del paso, arriba en cada paso.
+               * Los identificadores de los pasos cuyas misiones termina este tramo. Cada paso tiene el suyo en «Datos técnicos», al final del paso.
                */
               closes?: string[] | null;
               id?: string | null;
@@ -1344,7 +1286,7 @@ export interface Checklist {
                */
               note?: string | null;
               /**
-               * El identificador del paso que termina esta misión opcional, si otro paso la termina.
+               * El identificador del paso que termina esta misión opcional, si otro paso la termina. Está en «Datos técnicos», al final de ese paso.
                */
               optionalDoneBy?: string | null;
               id?: string | null;
@@ -1404,6 +1346,7 @@ export interface Checklist {
          * La zona del paso en la lista, como «Anutropía». Agrupa los pasos: no tiene por qué ser donde empiezan sus misiones.
          */
         zone?: string | null;
+        stepId?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -1452,6 +1395,55 @@ export interface Checklist {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Datos de DofusDB, de solo lectura. Los actualiza un script.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subareas".
+ */
+export interface Subarea {
+  id: number;
+  dofusId: number;
+  name: string;
+  areaDofusId?: number | null;
+  areaName?: string | null;
+  /**
+   * La pone el script de refresco.
+   */
+  refreshedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: number;
+  /**
+   * Cómo te llamamos en el panel.
+   */
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  resetPasswordRequestedAt?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
+  password?: string | null;
+  collection: 'users';
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -1476,8 +1468,24 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
-        relationTo: 'users';
-        value: number | User;
+        relationTo: 'quest-guides';
+        value: number | QuestGuide;
+      } | null)
+    | ({
+        relationTo: 'achievement-pages';
+        value: number | AchievementPage;
+      } | null)
+    | ({
+        relationTo: 'achievement-groups';
+        value: number | AchievementGroup;
+      } | null)
+    | ({
+        relationTo: 'dofus-guides';
+        value: number | DofusGuide;
+      } | null)
+    | ({
+        relationTo: 'checklists';
+        value: number | Checklist;
       } | null)
     | ({
         relationTo: 'media';
@@ -1516,24 +1524,8 @@ export interface PayloadLockedDocument {
         value: number | Achievement;
       } | null)
     | ({
-        relationTo: 'quest-guides';
-        value: number | QuestGuide;
-      } | null)
-    | ({
-        relationTo: 'achievement-pages';
-        value: number | AchievementPage;
-      } | null)
-    | ({
-        relationTo: 'achievement-groups';
-        value: number | AchievementGroup;
-      } | null)
-    | ({
-        relationTo: 'dofus-guides';
-        value: number | DofusGuide;
-      } | null)
-    | ({
-        relationTo: 'checklists';
-        value: number | Checklist;
+        relationTo: 'users';
+        value: number | User;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1576,359 +1568,6 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users_select".
- */
-export interface UsersSelect<T extends boolean = true> {
-  updatedAt?: T;
-  createdAt?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  resetPasswordRequestedAt?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
-  sessions?:
-    | T
-    | {
-        id?: T;
-        createdAt?: T;
-        expiresAt?: T;
-      };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media_select".
- */
-export interface MediaSelect<T extends boolean = true> {
-  alt?: T;
-  credits?: T;
-  gameAsset?: T;
-  originalUrl?: T;
-  prefix?: T;
-  _objectKey?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
-  sizes?:
-    | T
-    | {
-        'avif-480'?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        'webp-480'?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        'avif-800'?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        'webp-800'?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        'avif-1200'?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        'webp-1200'?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        'avif-1600'?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        'webp-1600'?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-      };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "quests_select".
- */
-export interface QuestsSelect<T extends boolean = true> {
-  dofusId?: T;
-  name?: T;
-  levelMin?: T;
-  levelMax?: T;
-  categoryId?: T;
-  startCriterion?: T;
-  prerequisites?: T;
-  startPositions?:
-    | T
-    | {
-        npcId?: T;
-        npcName?: T;
-        mapId?: T;
-        x?: T;
-        y?: T;
-        id?: T;
-      };
-  zone?: T;
-  achievement?:
-    | T
-    | {
-        dofusId?: T;
-        name?: T;
-        slug?: T;
-        position?: T;
-        total?: T;
-      };
-  rewards?:
-    | T
-    | {
-        experience?: T;
-        experienceMin?: T;
-        kamas?: T;
-        items?:
-          | T
-          | {
-              item?: T;
-              quantity?: T;
-              id?: T;
-            };
-        emoteIds?: T;
-        spellIds?: T;
-        titleIds?: T;
-        jobIds?: T;
-      };
-  needs?:
-    | T
-    | {
-        items?:
-          | T
-          | {
-              item?: T;
-              quantity?: T;
-              id?: T;
-            };
-        monsters?:
-          | T
-          | {
-              monster?: T;
-              quantity?: T;
-              id?: T;
-            };
-        walksMaps?: T;
-      };
-  stages?:
-    | T
-    | {
-        dofusId?: T;
-        name?: T;
-        objectives?:
-          | T
-          | {
-              dofusId?: T;
-              kind?: T;
-              text?: T;
-              npcId?: T;
-              monsterId?: T;
-              itemId?: T;
-              quantity?: T;
-              mapId?: T;
-              x?: T;
-              y?: T;
-              subAreaId?: T;
-              id?: T;
-            };
-        id?: T;
-      };
-  refreshedAt?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "items_select".
- */
-export interface ItemsSelect<T extends boolean = true> {
-  dofusId?: T;
-  name?: T;
-  level?: T;
-  typeId?: T;
-  superTypeId?: T;
-  iconId?: T;
-  image?: T;
-  refreshedAt?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "monsters_select".
- */
-export interface MonstersSelect<T extends boolean = true> {
-  dofusId?: T;
-  name?: T;
-  iconId?: T;
-  image?: T;
-  refreshedAt?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "dungeons_select".
- */
-export interface DungeonsSelect<T extends boolean = true> {
-  dofusId?: T;
-  name?: T;
-  bosses?: T;
-  refreshedAt?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "npcs_select".
- */
-export interface NpcsSelect<T extends boolean = true> {
-  dofusId?: T;
-  name?: T;
-  look?: T;
-  renderRight?: T;
-  renderLeft?: T;
-  refreshedAt?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "subareas_select".
- */
-export interface SubareasSelect<T extends boolean = true> {
-  dofusId?: T;
-  name?: T;
-  areaDofusId?: T;
-  areaName?: T;
-  refreshedAt?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "achievement-categories_select".
- */
-export interface AchievementCategoriesSelect<T extends boolean = true> {
-  dofusId?: T;
-  name?: T;
-  parent?: T;
-  order?: T;
-  refreshedAt?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "achievements_select".
- */
-export interface AchievementsSelect<T extends boolean = true> {
-  dofusId?: T;
-  name?: T;
-  icon?: T;
-  points?: T;
-  level?: T;
-  order?: T;
-  category?: T;
-  quests?:
-    | T
-    | {
-        name?: T;
-        quests?: T;
-        id?: T;
-      };
-  rewards?:
-    | T
-    | {
-        experience?: T;
-        kamas?: T;
-        items?:
-          | T
-          | {
-              item?: T;
-              quantity?: T;
-              id?: T;
-            };
-      };
-  countsFor?:
-    | T
-    | {
-        dofusId?: T;
-        name?: T;
-        points?: T;
-        achievements?: T;
-        icon?: T;
-        id?: T;
-      };
-  refreshedAt?: T;
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2300,7 +1939,6 @@ export interface ChecklistsSelect<T extends boolean = true> {
   steps?:
     | T
     | {
-        stepId?: T;
         legacyNumber?: T;
         segments?:
           | T
@@ -2353,6 +1991,7 @@ export interface ChecklistsSelect<T extends boolean = true> {
         icon?: T;
         banner?: T;
         zone?: T;
+        stepId?: T;
         id?: T;
       };
   legacy?:
@@ -2368,6 +2007,360 @@ export interface ChecklistsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
+  credits?: T;
+  gameAsset?: T;
+  originalUrl?: T;
+  prefix?: T;
+  _objectKey?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+  sizes?:
+    | T
+    | {
+        'avif-480'?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        'webp-480'?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        'avif-800'?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        'webp-800'?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        'avif-1200'?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        'webp-1200'?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        'avif-1600'?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        'webp-1600'?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "quests_select".
+ */
+export interface QuestsSelect<T extends boolean = true> {
+  dofusId?: T;
+  name?: T;
+  levelMin?: T;
+  levelMax?: T;
+  categoryId?: T;
+  startCriterion?: T;
+  prerequisites?: T;
+  startPositions?:
+    | T
+    | {
+        npcId?: T;
+        npcName?: T;
+        mapId?: T;
+        x?: T;
+        y?: T;
+        id?: T;
+      };
+  zone?: T;
+  achievement?:
+    | T
+    | {
+        dofusId?: T;
+        name?: T;
+        slug?: T;
+        position?: T;
+        total?: T;
+      };
+  rewards?:
+    | T
+    | {
+        experience?: T;
+        experienceMin?: T;
+        kamas?: T;
+        items?:
+          | T
+          | {
+              item?: T;
+              quantity?: T;
+              id?: T;
+            };
+        emoteIds?: T;
+        spellIds?: T;
+        titleIds?: T;
+        jobIds?: T;
+      };
+  needs?:
+    | T
+    | {
+        items?:
+          | T
+          | {
+              item?: T;
+              quantity?: T;
+              id?: T;
+            };
+        monsters?:
+          | T
+          | {
+              monster?: T;
+              quantity?: T;
+              id?: T;
+            };
+        walksMaps?: T;
+      };
+  stages?:
+    | T
+    | {
+        dofusId?: T;
+        name?: T;
+        objectives?:
+          | T
+          | {
+              dofusId?: T;
+              kind?: T;
+              text?: T;
+              npcId?: T;
+              monsterId?: T;
+              itemId?: T;
+              quantity?: T;
+              mapId?: T;
+              x?: T;
+              y?: T;
+              subAreaId?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  refreshedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "items_select".
+ */
+export interface ItemsSelect<T extends boolean = true> {
+  dofusId?: T;
+  name?: T;
+  level?: T;
+  typeId?: T;
+  superTypeId?: T;
+  iconId?: T;
+  image?: T;
+  refreshedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "monsters_select".
+ */
+export interface MonstersSelect<T extends boolean = true> {
+  dofusId?: T;
+  name?: T;
+  iconId?: T;
+  image?: T;
+  refreshedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "dungeons_select".
+ */
+export interface DungeonsSelect<T extends boolean = true> {
+  dofusId?: T;
+  name?: T;
+  bosses?: T;
+  refreshedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "npcs_select".
+ */
+export interface NpcsSelect<T extends boolean = true> {
+  dofusId?: T;
+  name?: T;
+  look?: T;
+  renderRight?: T;
+  renderLeft?: T;
+  refreshedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subareas_select".
+ */
+export interface SubareasSelect<T extends boolean = true> {
+  dofusId?: T;
+  name?: T;
+  areaDofusId?: T;
+  areaName?: T;
+  refreshedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "achievement-categories_select".
+ */
+export interface AchievementCategoriesSelect<T extends boolean = true> {
+  dofusId?: T;
+  name?: T;
+  parent?: T;
+  order?: T;
+  refreshedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "achievements_select".
+ */
+export interface AchievementsSelect<T extends boolean = true> {
+  dofusId?: T;
+  name?: T;
+  icon?: T;
+  points?: T;
+  level?: T;
+  order?: T;
+  category?: T;
+  quests?:
+    | T
+    | {
+        name?: T;
+        quests?: T;
+        id?: T;
+      };
+  rewards?:
+    | T
+    | {
+        experience?: T;
+        kamas?: T;
+        items?:
+          | T
+          | {
+              item?: T;
+              quantity?: T;
+              id?: T;
+            };
+      };
+  countsFor?:
+    | T
+    | {
+        dofusId?: T;
+        name?: T;
+        points?: T;
+        achievements?: T;
+        icon?: T;
+        id?: T;
+      };
+  refreshedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users_select".
+ */
+export interface UsersSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  resetPasswordRequestedAt?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+  sessions?:
+    | T
+    | {
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
