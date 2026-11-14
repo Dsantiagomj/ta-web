@@ -15,14 +15,14 @@ import './checklists-index.css'
  */
 const ABOVE_THE_FOLD = 2
 
-// Lo que mide cada imagen según el ancho del cartel (checklists-index.css): unos 164px en un
-// móvil de 390, 208px en una tableta, 170px a 1024 y 252px desde 1280. La escena cubre el
-// cartel (2:3) con una imagen apaisada (unas 2,3:1): se pinta 3,45 veces más ancha que él. El
-// PNJ llega a tres cuartos de su alto; el huevo, al 54 % de su ancho y como mucho 128px.
+// Lo que mide cada imagen según el ancho del cartel (checklists-index.css): unos 148px en un
+// móvil de 390, 196px en una tableta, 167px a 1024 y 237px desde 1280, en 3:4. La escena cubre
+// el cartel con una imagen apaisada (unas 2,3:1): se pinta unas 3,1 veces más ancha que él. El
+// PNJ llega a tres cuartos de su alto; el huevo, al 46 % de su ancho y como mucho 128px.
 const SCENE_SIZES =
-  '(min-width: 1280px) 880px, (min-width: 1024px) 600px, (min-width: 640px) 740px, 570px'
-const NPC_SIZES = '(min-width: 1280px) 280px, (min-width: 640px) 240px, 190px'
-const EGG_SIZES = '(min-width: 1280px) 128px, (min-width: 640px) 112px, 90px'
+  '(min-width: 1280px) 730px, (min-width: 1024px) 520px, (min-width: 640px) 600px, 460px'
+const NPC_SIZES = '(min-width: 1280px) 240px, (min-width: 640px) 200px, 150px'
+const EGG_SIZES = '(min-width: 1280px) 112px, (min-width: 640px) 92px, 70px'
 
 type Vars = CSSProperties & Record<`--${string}`, string>
 

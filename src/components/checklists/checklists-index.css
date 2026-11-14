@@ -61,11 +61,11 @@
    suelto debajo. La fila llega a los bordes de la pantalla y deja sitio a la sombra, al brillo
    y a la inclinación. */
 .posters {
-  --poster-min: clamp(9.5rem, 42vw, 11rem);
+  --poster-min: clamp(8.75rem, 38vw, 10rem);
   --poster-gap: 0.75rem;
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: minmax(var(--poster-min), 17rem);
+  grid-auto-columns: minmax(var(--poster-min), 13.5rem);
   justify-content: safe center;
   gap: var(--poster-gap);
   margin: -0.75rem calc(-1 * var(--gut)) -0.75rem;
@@ -80,10 +80,11 @@
 .posters > li {
   scroll-snap-align: start;
 }
-/* En la tableta se ven tres carteles y algo del cuarto, que dice que la fila sigue. */
+/* En la tableta se ven tres carteles y algo más de la mitad del cuarto, que dice que la fila
+   sigue. */
 @media (min-width: 40rem) {
   .posters {
-    --poster-min: clamp(11rem, calc((100vw - 3.75rem) / 3.4), 16rem);
+    --poster-min: clamp(9.5rem, calc((100vw - 3.75rem) / 3.6), 12rem);
   }
 }
 @media (min-width: 64rem) {
@@ -98,11 +99,12 @@
   }
 }
 
-/* El cartel: 2:3. Lo inclinado es él; lo pintado va dentro, recortado por su marco. */
+/* El cartel: 3:4, más bajo que la carta del hub (2:3), que llevaba una frase bajo el nombre.
+   Lo inclinado es él; lo pintado va dentro, recortado por su marco. */
 .poster {
   position: relative;
   display: block;
-  aspect-ratio: 2 / 3;
+  aspect-ratio: 3 / 4;
   border-radius: var(--radius-card);
   color: var(--color-ink);
   text-decoration: none;
@@ -201,9 +203,9 @@ a.poster:active .poster__frame {
 .poster__egg {
   position: absolute;
   z-index: 3;
-  top: 8%;
+  top: 7%;
   left: 50%;
-  height: min(54cqw, 7.25rem);
+  height: min(46cqw, 7.25rem);
   transform: translateX(-50%);
 }
 .poster__egg img {
@@ -257,10 +259,10 @@ a.poster:active .poster__frame {
   position: absolute;
   z-index: 5;
   right: 6cqw;
-  bottom: 7cqw;
+  bottom: 6cqw;
   left: 6cqw;
   color: var(--egg-ink-dark, var(--color-ink));
-  font: 700 clamp(0.9375rem, 10cqw, 1.75rem) / 1.05 var(--font-display);
+  font: 700 clamp(0.9375rem, 9.5cqw, 1.5rem) / 1.05 var(--font-display);
   letter-spacing: -0.01em;
   text-shadow: 0 2px 0 rgb(0 0 0 / 0.5);
   text-wrap: balance;
