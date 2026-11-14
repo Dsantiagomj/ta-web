@@ -1,7 +1,8 @@
 // Las checklists de prueba de las E2E y Lighthouse CI: el «Dofus Nebuloso» con tres pasos de
 // verdad recortados (un logro con su página y una misión con guía; un «detente aquí» con los
 // objetivos de su misión; un «aquí se resuelve» que cierra el anterior), sus prerrequisitos y
-// su Necesitarás con filas de texto («Kama», «Captura de almas»); «Dofus de los Hielos»
+// su Necesitarás con filas de texto («Kama», «Captura de almas») y una con la alternativa en la
+// nota («o 30 000 kamas»); «Dofus de los Hielos»
 // publicada, con la misión del primer paso del Nebuloso (lo hecho en una sale hecho en la
 // otra); y «Silvestre» En preparación, que lleva a Squarespace. La misión del «detente aquí»
 // pide terminada la del primer paso. Se siembra después de las guías, el logro y las guías de
@@ -64,6 +65,14 @@ export const seedChecklists = {
       ],
       // El objetivo donde para el paso 2: el segundo.
       stopObjective: 1,
+    },
+    // Una fila con su alternativa en la nota, como la importa el Nebuloso de dev (paso 4):
+    // un nombre largo y «o 30 000 kamas» debajo, nunca en una columna estrecha.
+    noteRow: {
+      dofusId: 991_801,
+      name: 'Insignia de maligilante',
+      icon: 'public/img/sistema/item-388.webp',
+      note: 'o 30 000 kamas',
     },
     labels: {
       kama: 'Kama',
@@ -188,6 +197,18 @@ export async function seedChecklistPages(payload: Payload): Promise<void> {
   if (await findOne(payload, 'checklists', 'slug', neb.slug)) return
 
   const banner = await media(payload, 'e2e-checklist-banner', neb.banner, 'Astrub')
+  const { noteRow } = neb
+  const insignia =
+    (await findOne(payload, 'items', 'dofusId', noteRow.dofusId)) ??
+    (await payload.create({
+      collection: 'items',
+      data: {
+        dofusId: noteRow.dofusId,
+        name: noteRow.name,
+        superTypeId: 9,
+        image: (await media(payload, 'e2e-checklist-insignia', noteRow.icon, noteRow.name)).id,
+      },
+    }))
 
   const created = await payload.create({
     collection: 'checklists',
@@ -237,7 +258,16 @@ export async function seedChecklistPages(payload: Payload): Promise<void> {
         {
           legacyNumber: 3,
           segments: [{ kind: 'plain', text: neb.steps.resolvePlain }],
-          needs: [{ item: pico.id, quantity: 2, category: 'resources', countsInTotal: true }],
+          needs: [
+            {
+              item: insignia.id,
+              quantity: 1,
+              note: noteRow.note,
+              category: 'resources',
+              countsInTotal: true,
+            },
+            { item: pico.id, quantity: 2, category: 'resources', countsInTotal: true },
+          ],
         },
       ],
       legacy: {

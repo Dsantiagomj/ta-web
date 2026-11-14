@@ -87,6 +87,33 @@ test.describe('página de una checklist', () => {
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(item)
   })
 
+  test('Necesitarás: la cantidad y el nombre en una línea, y la alternativa debajo a todo lo ancho', async ({
+    page,
+  }) => {
+    const { noteRow } = neb
+    for (const width of [1440, 1024, 768, 390]) {
+      await page.setViewportSize({ width, height: 900 })
+      await page.goto(`${url}#paso-3`)
+      const row = step(page, 3).locator('.ck-need', { hasText: noteRow.name })
+      await expect(row).toBeVisible()
+      const [amount, name, note] = await Promise.all(
+        [row.locator('b').first(), row.locator('.copyname__t'), row.getByText(noteRow.note)].map(
+          (part) => part.boundingBox(),
+        ),
+      )
+      const where = `${width}px`
+      expect(Math.abs(amount!.y - name!.y), `${where}: «1 ×» en la línea del nombre`).toBeLessThan(
+        3,
+      )
+      expect(note!.y, `${where}: la alternativa, debajo`).toBeGreaterThanOrEqual(
+        name!.y + name!.height - 1,
+      )
+      expect(Math.abs(note!.x - amount!.x), `${where}: desde el borde del texto`).toBeLessThan(1)
+      expect(note!.height, `${where}: «${noteRow.note}» en una línea`).toBeLessThan(24)
+      await page.goto('about:blank')
+    }
+  })
+
   test('el paso que para: su rojo, los objetivos de la misión con la línea y las coordenadas que llegan después', async ({
     page,
   }) => {
