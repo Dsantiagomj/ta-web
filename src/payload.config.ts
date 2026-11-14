@@ -56,6 +56,10 @@ export default buildConfig({
         Icon: '/components/admin/PanelBrand#PanelIcon',
       },
       beforeLogin: ['/components/admin/PanelBrand#LoginWelcome'],
+      // «Pendiente»: lo que Torre tiene a medias, en lugar de la cuadrícula de colecciones.
+      views: {
+        dashboard: { Component: '/components/admin/Dashboard#Dashboard' },
+      },
     },
   },
   // El orden es el del menú: primero el contenido de Torre, luego las imágenes, los datos

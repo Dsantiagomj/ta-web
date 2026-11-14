@@ -120,6 +120,40 @@ export const panelStrings = {
       },
     },
   },
+  /** El panel de control «Pendiente» (A-13, src/components/admin/Dashboard.tsx). */
+  dashboard: {
+    title: 'Pendiente',
+    greeting: (name?: string | null) =>
+      name?.trim()
+        ? `Hola, ${name.trim()}. Esto es lo que tienes a medias.`
+        : 'Esto es lo que tienes a medias.',
+    shortcuts: 'Crear',
+    create: {
+      questGuide: 'Nueva guía de misión',
+      dofusGuide: 'Nueva guía de Dofus',
+      achievementPage: 'Nuevo logro',
+      checklist: 'Nueva checklist',
+      media: 'Subir una imagen',
+    },
+    drafts: 'Borradores sin publicar',
+    draftsHelp: 'Guardados, pero aún no salen en la web. Ábrelos y pulsa «Publicar cambios».',
+    draftsEmpty: 'No tienes borradores a medias.',
+    neverPublished: 'Nunca publicada',
+    changed: 'Cambios sin publicar',
+    preparing: 'En preparación',
+    preparingHelp:
+      'Salen en la web apagadas, sin página. Cuando estén listas, ponlas en Publicada.',
+    preparingEmpty: 'No queda nada en preparación.',
+    seeAll: (total: number) => `Abrir la lista completa (${total})`,
+    dofus: 'Guías de Dofus sin checklist',
+    dofusHelp: 'Su página no enseña la tarjeta de la checklist: falta el enlace en «Checklist».',
+    dofusEmpty: 'Todas las guías de Dofus enlazan su checklist.',
+    dofusHint: (name: string) => `La checklist «${name}» ya apunta a este Dofus: pon su enlace.`,
+    more: (shown: number, total: number) => `Y ${total - shown} más.`,
+    recent: 'Cambios recientes',
+    recentEmpty: 'Aún no has cambiado nada.',
+    count: (total: number) => `(${total})`,
+  },
   /** Los tamaños de la vista previa en vivo (A-20). */
   livePreview: { mobile: 'Móvil', tablet: 'Tableta', desktop: 'Escritorio' },
   originalUrl: {
@@ -252,4 +286,21 @@ export function pageAddress(
   if (!clean) return null
   const path = kind === 'metalogro' ? `metalogros#${clean.replace(/^metalogro-/, '')}` : clean
   return `${SITE_HOST}/${path}`
+}
+
+/**
+ * Cuándo cambió algo, sin depender de la zona horaria del servidor: «hace 5 minutos»,
+ * «hace 3 horas», «hace 2 días»; más de un mes, la fecha.
+ */
+export function relativeTime(iso: string, now: Date = new Date()): string {
+  const then = new Date(iso)
+  const minutes = Math.floor((now.getTime() - then.getTime()) / 60_000)
+  if (!Number.isFinite(minutes)) return ''
+  if (minutes < 1) return 'ahora mismo'
+  if (minutes < 60) return minutes === 1 ? 'hace 1 minuto' : `hace ${minutes} minutos`
+  const hours = Math.floor(minutes / 60)
+  if (hours < 24) return hours === 1 ? 'hace 1 hora' : `hace ${hours} horas`
+  const days = Math.floor(hours / 24)
+  if (days < 31) return days === 1 ? 'hace 1 día' : `hace ${days} días`
+  return then.toLocaleDateString('es', { day: 'numeric', month: 'long', year: 'numeric' })
 }
