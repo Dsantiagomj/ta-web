@@ -13,8 +13,9 @@ import { guideStrings } from '../lib/guides/strings'
 import type { FillableField, NotedField } from '../lib/guides/summary'
 import { refuseReferencedDelete } from './delete-guard'
 import {
-  adminOnlyAfterCreate,
+  lockedOnceSet,
   adminOrNotImported,
+  clearOnDuplicate,
   isPanelUser,
   readPublishedOrAll,
 } from './editorial-access'
@@ -261,7 +262,7 @@ export const QuestGuides: CollectionConfig = {
       label: 'Misión de DofusDB',
       type: 'relationship',
       relationTo: 'quests',
-      access: adminOnlyAfterCreate,
+      access: lockedOnceSet('quest'),
       admin: {
         description: guideStrings.admin.questDescription,
         // Muestra la descripción y rellena el formulario al elegir la misión.
@@ -325,6 +326,8 @@ export const QuestGuides: CollectionConfig = {
       label: panelStrings.originalUrl.label,
       type: 'text',
       validate: validateOptionalUrl,
+      // La copia es del editor que la hace, no de la importación (A-15).
+      hooks: { beforeDuplicate: [clearOnDuplicate] },
       admin: { ...originalUrlAdmin, position: 'sidebar' },
     },
   ],

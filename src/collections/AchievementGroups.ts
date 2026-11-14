@@ -9,7 +9,7 @@ import {
   stateField,
 } from './achievement-fields'
 import { refuseReferencedDelete } from './delete-guard'
-import { adminOnlyAfterCreate, isAdmin, isPanelUser, readPublishedOrAll } from './editorial-access'
+import { lockedOnceSet, isAdmin, isPanelUser, readPublishedOrAll } from './editorial-access'
 import {
   revalidateAchievementPagesAfterChange,
   revalidateAchievementPagesAfterDelete,
@@ -56,7 +56,7 @@ export const AchievementGroups: CollectionConfig = {
       type: 'relationship',
       relationTo: 'achievement-categories',
       unique: true,
-      access: adminOnlyAfterCreate,
+      access: lockedOnceSet('category'),
       admin: {
         description:
           'Sus logros son los de esta categoría. Sin categoría (Misiones de templo), el ' +
@@ -98,7 +98,7 @@ export const AchievementGroups: CollectionConfig = {
       name: 'order',
       label: 'Orden',
       type: 'number',
-      access: adminOnlyAfterCreate,
+      access: lockedOnceSet('order'),
       admin: {
         ...dofusDbNote('group', 'order', panelStrings.locks.order),
         // La nota explica de dónde sale; esto, cómo se usa.

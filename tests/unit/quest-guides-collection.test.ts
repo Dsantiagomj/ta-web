@@ -379,8 +379,9 @@ describe('permisos de quest-guides', () => {
 
   it('un editor solo borra las guías que no vinieron de Squarespace; un administrador, todas', () => {
     expect(questGuidesAccess.delete(accessArgs(null))).toBe(false)
+    // Sin dirección de Squarespace, o con ella en blanco.
     expect(questGuidesAccess.delete(accessArgs(editorUser))).toEqual({
-      originalUrl: { exists: false },
+      or: [{ originalUrl: { exists: false } }, { originalUrl: { equals: '' } }],
     })
     expect(questGuidesAccess.delete(accessArgs(panelUser))).toBe(true)
   })

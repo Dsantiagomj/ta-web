@@ -13,12 +13,12 @@ import {
   validateStopObjective,
 } from './checklist-rules'
 import {
-  adminOnlyAfterCreate,
+  lockedOnceSet,
   adminOrNotImported,
   isPanelUser,
   readPublishedOrAll,
 } from './editorial-access'
-import { keepSavedValue, LOCKED_ONCE_SAVED_FIELD } from './locked-once-saved'
+import { keepSavedValue, LOCKED_ONCE_SAVED_FIELD, rememberRowsWithoutId } from './locked-once-saved'
 import { validateOptionalUrl } from './Media'
 import { validateSlug } from './QuestGuides'
 import {
@@ -363,6 +363,8 @@ export const Checklists: CollectionConfig = {
   versions: { drafts: true, maxPerDoc: 50 },
   defaultSort: 'order',
   hooks: {
+    // Las filas de prerrequisitos que llegan sin id no cambian una clave guardada (A-23).
+    beforeOperation: [rememberRowsWithoutId('prerequisites.groups.rows')],
     beforeValidate: [rejectSharedSlug('checklists'), keepStepIds],
     // Borradores incluidos: es barato y cubre despublicar.
     afterChange: [revalidateChecklistsAfterChange],
@@ -405,7 +407,7 @@ export const Checklists: CollectionConfig = {
       label: 'Orden',
       type: 'number',
       required: true,
-      access: adminOnlyAfterCreate,
+      access: lockedOnceSet('order'),
       admin: {
         position: 'sidebar',
         description: `${s.orderDescription} ${panelStrings.locks.order}`,

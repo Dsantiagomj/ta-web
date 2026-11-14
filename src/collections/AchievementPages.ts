@@ -9,7 +9,7 @@ import {
   stateField,
 } from './achievement-fields'
 import { refuseReferencedDelete } from './delete-guard'
-import { adminOnlyAfterCreate, isAdmin, isPanelUser, readPublishedOrAll } from './editorial-access'
+import { lockedOnceSet, isAdmin, isPanelUser, readPublishedOrAll } from './editorial-access'
 import { proseEditor } from './prose-editor'
 import {
   revalidateAchievementPagesAfterChange,
@@ -65,7 +65,7 @@ export const AchievementPages: CollectionConfig = {
       relationTo: 'achievements',
       required: true,
       unique: true,
-      access: adminOnlyAfterCreate,
+      access: lockedOnceSet('achievement'),
       admin: {
         description:
           'Lo que esté vacío se rellena con sus datos al guardar. Lo que cambies no lo ' +
@@ -108,7 +108,7 @@ export const AchievementPages: CollectionConfig = {
       name: 'order',
       label: 'Orden en el metalogro',
       type: 'number',
-      access: adminOnlyAfterCreate,
+      access: lockedOnceSet('order'),
       admin: dofusDbNote('achievement', 'order', panelStrings.locks.order),
     },
     {

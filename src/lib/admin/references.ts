@@ -15,10 +15,17 @@ function joinNames(names: string[]): string {
   return `${names.slice(0, -1).join(', ')} y ${names.at(-1)}`
 }
 
-/** «Esta imagen sale en 4 guías: «A», «B», «C» y «D». Quítala de ellas antes de borrarla.» */
-export function referencedMessage(collection: ReferencedCollection, names: string[]): string {
+/**
+ * «Esta imagen sale en 4 guías: «A», «B», «C» y «D». Quítala de ellas antes de borrarla.»
+ * `total` cuenta todas las guías cuando solo llegan los nombres de algunas.
+ */
+export function referencedMessage(
+  collection: ReferencedCollection,
+  names: string[],
+  total = names.length,
+): string {
   const { subject, feminine } = panelStrings.references[collection]
-  const count = names.length
+  const count = Math.max(total, names.length)
   const quoted = names.slice(0, MAX_NAMED_REFERENCES).map((name) => `«${name}»`)
   const rest = count - quoted.length
   const list = rest > 0 ? `${quoted.join(', ')} y ${rest} más` : joinNames(quoted)

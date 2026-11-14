@@ -64,12 +64,16 @@ export const panelStrings = {
   /** Por qué un campo no se deja cambiar (docs/research/backlog.md, A-23). */
   locks: {
     order:
-      'Una vez guardado, solo un administrador puede cambiarlo: mueve la página en las ' +
-      'listas y el menú de la web.',
+      'Cuando ya tiene un número, solo un administrador puede cambiarlo: mueve la página en ' +
+      'las listas y el menú de la web.',
     dofusDb:
-      'Una vez guardado, solo un administrador puede cambiarlo: de él salen los datos que se ' +
-      'rellenan solos, y cambiarlo los mezclaría con los de otro.',
+      'Cuando ya tiene uno, solo un administrador puede cambiarlo: de él salen los datos que ' +
+      'se rellenan solos, y cambiarlo los mezclaría con los de otro.',
   },
+  /** Una imagen que trajo DofusDB para sus datos: no se borra desde el panel (A-17). */
+  gameAssetDelete:
+    'Esta imagen es arte del juego: la trae DofusDB y la usan sus datos (misiones, objetos, ' +
+    'monstruos, PNJ y logros). No se borra desde el panel.',
   /** Lo que se dice al negarse a borrar algo que sale en otras guías (A-17). */
   references: {
     media: { subject: 'Esta imagen', feminine: true },

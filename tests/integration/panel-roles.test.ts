@@ -142,6 +142,85 @@ describe.each(Object.keys(editorial) as CollectionSlug[])('papeles en %s', (coll
   )
 })
 
+describe('lo importado y sus copias', () => {
+  it('una copia de una guía importada ya no es importada: el editor la borra', async () => {
+    const original = await payload.create({
+      collection: 'quest-guides',
+      data: {
+        title: 'Guía importada',
+        slug: nextSlug(),
+        originalUrl: 'https://www.torrentearcano.com/guia-importada',
+      },
+    })
+    const copy = await payload.duplicate({
+      collection: 'quest-guides',
+      id: original.id,
+      data: { slug: nextSlug() },
+      user: editor,
+      overrideAccess: false,
+    })
+    expect(copy.originalUrl ?? null).toBeNull()
+    await payload.delete({
+      collection: 'quest-guides',
+      id: copy.id,
+      user: editor,
+      overrideAccess: false,
+    })
+    const count = await payload.count({
+      collection: 'quest-guides',
+      where: { id: { equals: copy.id } },
+    })
+    expect(count.totalDocs).toBe(0)
+  })
+
+  it('la copia de una guía de Dofus importada pierde su marca de importación', async () => {
+    const original = await payload.create({
+      collection: 'dofus-guides',
+      data: {
+        name: 'Dofus importado',
+        slug: nextSlug(),
+        order: 906,
+        state: 'preparing',
+        importSnapshot: { name: 'Dofus importado' },
+        originalUrl: 'https://www.torrentearcano.com/dofus-importado',
+      },
+    })
+    const copy = await payload.duplicate({
+      collection: 'dofus-guides',
+      id: original.id,
+      data: { slug: nextSlug() },
+      user: editor,
+      overrideAccess: false,
+    })
+    expect(copy.importSnapshot ?? null).toBeNull()
+    expect(copy.originalUrl ?? null).toBeNull()
+    await payload.delete({
+      collection: 'dofus-guides',
+      id: copy.id,
+      user: editor,
+      overrideAccess: false,
+    })
+  })
+
+  it('una dirección de Squarespace vacía no cuenta como importada', async () => {
+    const guide = await payload.create({
+      collection: 'quest-guides',
+      data: { title: 'Guía sin dirección', slug: nextSlug(), originalUrl: '' },
+    })
+    await payload.delete({
+      collection: 'quest-guides',
+      id: guide.id,
+      user: editor,
+      overrideAccess: false,
+    })
+    const count = await payload.count({
+      collection: 'quest-guides',
+      where: { id: { equals: guide.id } },
+    })
+    expect(count.totalDocs).toBe(0)
+  })
+})
+
 describe('papeles en media', () => {
   it('el editor sube y edita imágenes, pero no las borra; el administrador sí', async () => {
     const created = await payload.create({
@@ -262,6 +341,43 @@ describe('papeles en users', () => {
         overrideAccess: false,
       }),
     ).rejects.toBeInstanceOf(Forbidden)
+  })
+
+  it('tampoco en lote: no borra ni degrada a la vez a todos los administradores', async () => {
+    const second = await createPanelUser(payload, 'admin')
+    await payload.db.deleteMany({
+      collection: 'users',
+      where: { id: { not_in: [admin.id, second.id, editor.id] } },
+    })
+    const both = { id: { in: [admin.id, second.id] } }
+
+    const deleted = await payload
+      .delete({ collection: 'users', where: both, user: admin, overrideAccess: false })
+      .then(
+        (result) => result.errors.map((error) => error.message).join(' '),
+        (error: Error) => error.message,
+      )
+    expect(deleted).toContain('Tiene que quedar al menos un administrador')
+
+    const demoted = await payload
+      .update({
+        collection: 'users',
+        where: both,
+        data: { role: 'editor' },
+        user: admin,
+        overrideAccess: false,
+      })
+      .then(
+        (result) => result.errors.map((error) => error.message).join(' '),
+        (error: Error) => error.message,
+      )
+    expect(demoted).toContain('Tiene que quedar al menos un administrador')
+
+    const admins = await payload.find({ collection: 'users', where: { role: { equals: 'admin' } } })
+    expect(admins.docs.map((doc) => doc.id).sort()).toEqual([admin.id, second.id].sort())
+
+    // Uno de dos sí: queda el otro.
+    await payload.delete({ collection: 'users', id: second.id, user: admin, overrideAccess: false })
   })
 
   it('no deja el panel sin administradores', async () => {

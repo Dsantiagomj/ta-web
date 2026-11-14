@@ -25,3 +25,12 @@ describe('referencedMessage', () => {
     expect(message).not.toContain('«Guía 11»')
   })
 })
+
+describe('referencedMessage con el total aparte', () => {
+  it('cuenta todas aunque solo lleguen los nombres de las diez primeras', () => {
+    const names = Array.from({ length: 10 }, (_, index) => `Guía ${index + 1}`)
+    const message = referencedMessage('media', names, 14)
+    expect(message).toMatch(/^Esta imagen sale en 14 guías: «Guía 1», /)
+    expect(message).toContain('«Guía 10» y 4 más.')
+  })
+})
