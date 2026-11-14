@@ -2,9 +2,8 @@ import { describe, expect, it } from 'vitest'
 
 import {
   dungeonChooser,
-  dungeonMatcher,
+  dungeonIndex,
   dungeonMatches,
-  matchDungeon,
   type DungeonNames,
 } from '@/lib/achievements/dungeons'
 
@@ -31,13 +30,17 @@ const DUNGEONS: DungeonNames[] = [
   // corriente al final de su nombre.
   { name: 'Sala de la Mazmorra', bosses: ['Guardián'] },
   { name: 'Palacio del Gran Rey', bosses: ['Gran Rey'] },
+  // Para las variantes: un nombre largo, y un templo sin jefe que se parece a otro con jefe.
+  { name: 'Cueva del Gran Dragón Negro de la Montaña Helada', bosses: ['Dragón Negro'] },
+  { name: 'Templo de Araknas Real', bosses: ['Araknas Real'] },
+  { name: 'Templo Maldito de Araknas', bosses: [] },
   // Las expediciones no tienen jefe: nunca se casan.
   { name: 'Expedición - Tofullinero Real', bosses: [] },
 ]
 
-const match = (label: string) => matchDungeon(label, DUNGEONS)?.name ?? null
+const match = (label: string) => dungeonMatches(DUNGEONS)(label).dungeon?.name ?? null
 
-describe('matchDungeon', () => {
+describe('dungeonMatches: qué mazmorra', () => {
   it.each([
     // El nombre de la mazmorra, tras «Mazmorra».
     ['Mazmorra Corte del Jalató Real', 'Corte del Jalató Real'],
@@ -96,15 +99,8 @@ describe('matchDungeon', () => {
     expect(match(label)).toBeNull()
   })
 
-  it('dungeonMatcher prepara las mazmorras una vez y casa cada nota igual que matchDungeon', () => {
-    const match = dungeonMatcher(DUNGEONS)
-    for (const label of ['Mazmorra Kumijo', 'Mazmorra de Grunob', 'Mazmorras nivel 200']) {
-      expect(match(label)).toBe(matchDungeon(label, DUNGEONS))
-    }
-  })
-
   it('sin mazmorras no casa nada', () => {
-    expect(matchDungeon('Mazmorra Kumijo', [])).toBeNull()
+    expect(dungeonMatches([])('Mazmorra Kumijo').dungeon).toBeNull()
   })
 })
 
@@ -117,7 +113,7 @@ describe('dungeonMatches con las mazmorras de dev', () => {
     return found.dungeon
       ? {
           dungeon: found.dungeon.name,
-          via: found.via,
+          how: found.how,
           ...(found.boss && { boss: found.boss }),
           approximate: found.approximate,
         }
@@ -148,7 +144,16 @@ describe('dungeonMatches con las mazmorras de dev', () => {
       undefined,
       true,
     ],
-    ['Mazmorra Blop Multicolor', 'Antro del Blop Multicolor Real', 'name', undefined, true],
+    // Al nombre de la mazmorra le sobran dos palabras; al de su jefe, una.
+    [
+      'Mazmorra Blop Multicolor',
+      'Antro del Blop Multicolor Real',
+      'boss',
+      'Blop Multicolor Real',
+      true,
+    ],
+    // Rata Negra es el jefe de la Raratonera: «Negro» es una errata de una letra.
+    ['Mazmorra Rata Negro', 'Raratonera de la Rata Negra', 'name', undefined, true],
     ['Mazmorra Ratonera de la Rata Negra', 'Raratonera de la Rata Negra', 'name', undefined, true],
     // El nombre de pila del jefe y un mote de Torre.
     [
@@ -158,8 +163,8 @@ describe('dungeonMatches con las mazmorras de dev', () => {
       "Anerice la Fab'huquesa",
       true,
     ],
-  ])('«%s» es %s', (label, dungeon, via, boss, approximate) => {
-    expect(summary(label)).toEqual({ dungeon, via, ...(boss && { boss }), approximate })
+  ])('«%s» es %s', (label, dungeon, how, boss, approximate) => {
+    expect(summary(label)).toEqual({ dungeon, how, ...(boss && { boss }), approximate })
   })
 
   it.each([
@@ -171,6 +176,15 @@ describe('dungeonMatches con las mazmorras de dev', () => {
     'Mazmorras nivel 200',
     'Mazmorras nivel 200 para dropear parangón',
     'Mazmorra Cire Momore',
+    // Un título no es un nombre de pila: el Conde Kontatrás, el Maestro Cuerbok y el Director
+    // Grunob no son los únicos condes, maestros o directores del juego.
+    'Mazmorra Conde Drácula',
+    'Mazmorra Maestro Pandawa',
+    'Mazmorra Director Escolar',
+    // El nombre de pila de cuatro jefes: tiene que ser el de uno solo.
+    'Mazmorra Tynril Loco',
+    // Dos erratas en la misma nota ya no son una variante.
+    'Mazmorra Ratonera de la Rata Negro',
   ])('«%s» sigue genérica', (label) => {
     expect(summary(label)).toBeNull()
   })
@@ -178,42 +192,83 @@ describe('dungeonMatches con las mazmorras de dev', () => {
   it('una variante que vale para varias no casa, y dice entre cuáles duda', () => {
     // «Blop … Real» son el Blop Multicolor Real y los cuatro del Enclave.
     expect(explain('Mazmorra Blop Real')).toEqual({
+      how: 'none',
       dungeon: null,
       candidates: [
         expect.objectContaining({ name: 'Enclave de los Blops' }),
         expect.objectContaining({ name: 'Antro del Blop Multicolor Real' }),
       ],
     })
-    // Dos jefes que empiezan por «Rata».
-    const rata = explain('Mazmorra Rata')
-    expect(rata.dungeon).toBeNull()
-    expect(rata.dungeon === null && rata.candidates.map((d) => d.name).sort()).toEqual([
-      'Despensa de la Rata Blanca',
-      'Raratonera de la Rata Negra',
-    ])
+    // «Rata» es corto para ser un nombre de pila, y lo llevan dos jefes: nada.
+    expect(explain('Mazmorra Rata')).toEqual({ how: 'none', dungeon: null, candidates: [] })
   })
 })
 
 describe('dungeonMatches', () => {
   const explain = dungeonMatches(DUNGEONS)
 
+  it('una variante en una parte y otra distinta en el paréntesis: duda entre las dos', () => {
+    const both = dungeonMatches(DEV_DUNGEONS as DungeonNames[])(
+      'Mazmorra Ring Eskarlata (Mazmorra Anerice la bebesita)',
+    )
+    expect(both).toMatchObject({ how: 'none', dungeon: null })
+    expect(both.how === 'none' && both.candidates.map((d) => d.name)).toEqual([
+      'Ring del Capitán Eskarlata',
+      'Mansión de Kuatropatas',
+    ])
+  })
+
+  it('un título compartido no basta como nombre de pila de un jefe', () => {
+    expect(explain('Mazmorra Gran Jefe Oscuro').dungeon).toBeNull()
+  })
+
+  it('una variante no se salta más de una palabra del nombre', () => {
+    expect(explain('Mazmorra Cueva Helada').dungeon).toBeNull()
+  })
+
+  it('un nombre sin jefe que también se parece causa duda, no se descarta', () => {
+    expect(explain('Mazmorra Templo Araknas')).toEqual({
+      how: 'none',
+      dungeon: null,
+      candidates: [
+        expect.objectContaining({ name: 'Templo de Araknas Real' }),
+        expect.objectContaining({ name: 'Templo Maldito de Araknas' }),
+      ],
+    })
+  })
+
+  it('prepara cada juego de mazmorras una vez, y las vueltas sueltas solo si hacen falta', () => {
+    // Un juego de mazmorras propio: ninguna otra prueba ha preparado ya su índice.
+    const copy = [...DUNGEONS, { name: 'Solo para el índice', bosses: ['Nadie'] }]
+    const index = dungeonIndex(copy)
+    expect(dungeonIndex(copy.map((dungeon) => ({ ...dungeon })))).toBe(index)
+    const explainCopy = dungeonMatches(copy)
+    expect(explainCopy('Mazmorra Kumijo').dungeon).toBe(copy[12])
+    expect(index.looseReady).toBe(false)
+    explainCopy('Mazmorra de Grunob con ídolo')
+    expect(index.looseReady).toBe(true)
+    // Otras mazmorras: otro índice.
+    expect(dungeonIndex(copy.slice(1))).not.toBe(index)
+  })
+
   it('dice si casó por el nombre de la mazmorra o por el de su jefe', () => {
     expect(explain('Mazmorra Corte del Jalató Real')).toMatchObject({
-      via: 'name',
+      how: 'name',
       approximate: false,
     })
     expect(explain('Mazmorra Kumijo')).toEqual({
       dungeon: expect.objectContaining({ name: 'Casa de los Espíritus' }),
-      via: 'boss',
+      how: 'boss',
       boss: 'Kumijo',
       approximate: false,
     })
     // El final del nombre del jefe también es por jefe.
-    expect(explain('Mazmorra de Grunob')).toMatchObject({ via: 'boss', boss: 'Director Grunob' })
+    expect(explain('Mazmorra de Grunob')).toMatchObject({ how: 'boss', boss: 'Director Grunob' })
   })
 
   it('un jefe de dos mazmorras no casa, y dice cuáles son', () => {
     expect(explain('Mazmorra Guerra')).toEqual({
+      how: 'none',
       dungeon: null,
       candidates: [
         expect.objectContaining({ name: 'Trono de Sangre' }),
@@ -229,7 +284,7 @@ describe('dungeonMatches', () => {
   })
 
   it('sin duda y sin nada que case, no hay candidatas', () => {
-    expect(explain('Mazmorras nivel 200')).toEqual({ dungeon: null, candidates: [] })
+    expect(explain('Mazmorras nivel 200')).toEqual({ how: 'none', dungeon: null, candidates: [] })
   })
 })
 
