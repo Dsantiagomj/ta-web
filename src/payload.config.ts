@@ -64,6 +64,8 @@ export default buildConfig({
         panelGuide: { Component: '/components/admin/PanelGuide#PanelGuide', path: '/guia' },
       },
       afterNavLinks: ['/components/admin/PanelGuideNavLink#PanelGuideNavLink'],
+      // Nombres para los controles de Payload que no los traen (A-21).
+      providers: ['/components/admin/PanelA11y#PanelA11y'],
     },
   },
   // El orden es el del menú: primero el contenido de Torre, luego las imágenes, los datos

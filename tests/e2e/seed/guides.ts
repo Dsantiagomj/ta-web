@@ -34,6 +34,13 @@ export const E2E_PANEL_USER_2 = {
   role: 'admin' as const,
 }
 
+/** La tercera, para las pruebas de accesibilidad del panel (panel-a11y.spec.ts). */
+export const E2E_PANEL_USER_3 = {
+  email: 'e2e-a11y@torrentearcano.test',
+  password: 'e2e-clave-solo-local-3',
+  role: 'admin' as const,
+}
+
 export const seedGuide = {
   slug: 'seis-pies-bajo-tierra',
   title: 'Seis pies bajo tierra',
@@ -263,7 +270,7 @@ async function guideExists(payload: Payload, slug: string) {
 
 /** Siembra las guías de prueba; repetirla no duplica nada. */
 export async function seedGuides(payload: Payload): Promise<void> {
-  for (const user of [E2E_PANEL_USER, E2E_EDITOR_USER, E2E_PANEL_USER_2]) {
+  for (const user of [E2E_PANEL_USER, E2E_EDITOR_USER, E2E_PANEL_USER_2, E2E_PANEL_USER_3]) {
     const users = await payload.count({
       collection: 'users',
       where: { email: { equals: user.email } },

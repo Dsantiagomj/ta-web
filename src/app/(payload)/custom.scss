@@ -527,3 +527,34 @@ html[data-theme='dark'] {
   ):hover {
   color: var(--ta-ink);
 }
+
+/*
+ * El foco con teclado (A-21). Payload dibuja 2px con --accessibility-outline, pero quita el
+ * contorno a los enlaces (a:focus) y a los campos les deja solo un borde gris. Todo lo que
+ * recibe el foco lleva el mismo anillo en tinta, como en el sitio (DESIGN.md: al menos 13:1).
+ */
+:root {
+  --accessibility-outline: 2px solid var(--ta-ink);
+  --accessibility-outline-offset: 2px;
+}
+
+html :is(a, button, summary, [role='button'], [tabindex]):focus-visible {
+  outline: var(--accessibility-outline);
+  outline-offset: var(--accessibility-outline-offset);
+}
+
+html :is(input:not(.rs__input), textarea, select, [contenteditable='true']):focus-visible,
+html .rs__control--is-focused {
+  outline: var(--accessibility-outline);
+  outline-offset: 0;
+}
+
+/*
+ * Controles de 20px: llegan a los 24px que pide WCAG 2.5.8 (A-21). En px, porque la regla
+ * mide en px de CSS y el rem del panel de Payload no es 16px.
+ */
+.sort-column__button,
+.array-actions__button {
+  min-width: 24px;
+  min-height: 24px;
+}
