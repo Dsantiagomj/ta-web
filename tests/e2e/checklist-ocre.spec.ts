@@ -246,6 +246,24 @@ test.describe('el Ocre en la vista previa', () => {
     expect(await layout()).toEqual(before)
   })
 
+  test('con todas, «Todas» lo celebra y acaba; al cambiar de vista nada destella a destiempo', async ({
+    page,
+  }) => {
+    await preview(page)
+    for (const name of ['Mob Lasponja', 'Pikopi', ARAKNA]) {
+      await soul(page, name).locator('label').click()
+    }
+    await expect(page.locator('[data-ck-toast]')).toHaveText('¡Tienes todas las almas!')
+    const all = stageButton(page, /^Todas/)
+    await expect(all).toHaveAttribute('data-complete', '')
+    // Su animación corre y, al acabar, quita el atributo; si no hubiera animación se quedaría.
+    await settled(page)
+    await expect(all).not.toHaveAttribute('data-cheer')
+    await page.getByRole('button', { name: 'Por región' }).click()
+    await expect(page.locator('[data-sl-view="region"] [data-just]')).toHaveCount(0)
+    await expect(page.locator('[data-sl-view="region"] [data-cheer]')).toHaveCount(0)
+  })
+
   test('con movimiento reducido no se anima nada', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await preview(page)

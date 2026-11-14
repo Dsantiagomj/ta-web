@@ -61,6 +61,13 @@ export function startSouls(data: SoulsIslandData): () => void {
   const { show: toast, clear: clearToast } = createToast()
   const rows = $$<HTMLLIElement>('.sl-soul')
   const shownView = () => document.querySelector<HTMLElement>(`[data-sl-view="${by}"]`)
+  // Lo que se tiene de cada etapa (y de todas, «all»), contado en render(): de ahí salen el
+  // panel, las etapas completas y lo que se celebra al marcar.
+  let tally = new Map<string, { owned: number; total: number }>()
+  /** Si se ve: sin nada oculto por encima y en la vista elegida. */
+  const isShown = (el: HTMLElement) =>
+    !el.closest('[hidden]') &&
+    (el.closest<HTMLElement>('[data-sl-view]')?.dataset.slView ?? by) === by
 
   function save(next: Progress) {
     if (next === progress) return
@@ -122,22 +129,29 @@ export function startSouls(data: SoulsIslandData): () => void {
       )
     }
     const stageView = document.querySelector<HTMLElement>('[data-sl-view="stage"]')
+    const counts = new Map<string, { owned: number; total: number }>()
+    const all = { owned: 0, total: 0 }
     for (const group of $$('[data-sl-group]')) {
       const inGroup = $$<HTMLElement>('.sl-soul', group)
+      const owned = inGroup.filter(own).length
+      const byStage = Boolean(stageView?.contains(group))
       // La etapa elegida en el panel solo filtra la vista por etapa.
-      const otherStage =
-        stage !== 'all' && group.dataset.slGroup !== stage && Boolean(stageView?.contains(group))
+      const otherStage = stage !== 'all' && group.dataset.slGroup !== stage && byStage
       group.hidden = otherStage || inGroup.every((row) => row.hidden)
       const count = group.querySelector('[data-sl-gc]')
-      if (count) count.textContent = o.groupCount(inGroup.filter(own).length, inGroup.length)
+      if (count) count.textContent = o.groupCount(owned, inGroup.length)
+      if (byStage) {
+        counts.set(group.dataset.slGroup ?? '', { owned, total: inGroup.length })
+        all.owned += owned
+        all.total += inGroup.length
+      }
     }
+    tally = counts.set('all', all)
     // El panel de las etapas: lo que se tiene de cada una, sin contar los filtros.
     for (const button of $$('[data-sl-stage]')) {
-      const key = button.dataset.slStage
-      const selector = key === 'all' ? '.sl-soul' : `[data-sl-group="${key}"] .sl-soul`
-      const inStage = stageView ? $$<HTMLElement>(selector, stageView) : []
+      const { owned = 0, total = 0 } = tally.get(button.dataset.slStage ?? '') ?? {}
       const count = button.querySelector('[data-sl-sc]')
-      if (count) count.textContent = o.groupCount(inStage.filter(own).length, inStage.length)
+      if (count) count.textContent = o.groupCount(owned, total)
     }
     // Una etapa con todas sus almas se ve completa, en su título y en el panel.
     const complete = completeStages()
@@ -146,8 +160,19 @@ export function startSouls(data: SoulsIslandData): () => void {
       el.toggleAttribute('data-complete', complete.has(key))
       if (!complete.has(key)) el.removeAttribute('data-cheer')
     }
+    // Sin almas que enseñar: sin búsqueda y con «Ocultar las que tengo», es que ya se tienen.
     const empty = document.querySelector<HTMLElement>('[data-sl-empty]')
-    if (empty) empty.hidden = shown() > 0
+    if (empty) {
+      empty.hidden = shown() > 0
+      if (!empty.hidden) {
+        const owned = !query && hide
+        empty.textContent = !owned
+          ? o.empty
+          : by === 'stage' && stage !== 'all'
+            ? o.stageOwned(stage)
+            : o.allOwned
+      }
+    }
     const pct = soulsPct(progress, data)
     const pctEl = document.querySelector('[data-sl-pct]')
     if (pctEl) pctEl.textContent = s.pct(pct)
@@ -174,18 +199,11 @@ export function startSouls(data: SoulsIslandData): () => void {
     ...$$('[data-sl-stage]'),
   ]
 
-  /** Las etapas con todas sus almas, y «all» si se tienen todas. */
-  function completeStages(): Set<string> {
-    const complete = new Set<string>()
-    for (const group of $$('[data-sl-view="stage"] [data-sl-group]')) {
-      const ids = $$('.sl-soul', group).map((row) => row.dataset.soul ?? '')
-      if (ids.length && ids.every((id) => progress.souls[id] !== undefined)) {
-        complete.add(group.dataset.slGroup ?? '')
-      }
-    }
-    if (data.souls.length && soulsDone(progress, data) === data.souls.length) complete.add('all')
-    return complete
-  }
+  /** Las etapas con todas sus almas, y «all» si se tienen todas: del último render(). */
+  const completeStages = () =>
+    new Set(
+      [...tally].filter(([, { owned, total }]) => total > 0 && owned === total).map(([key]) => key),
+    )
 
   /** Vuelve a poner un atributo para que su animación empiece otra vez. */
   function replay(el: HTMLElement, name: string, value = '') {
@@ -194,30 +212,59 @@ export function startSouls(data: SoulsIslandData): () => void {
     el.setAttribute(name, value)
   }
 
-  /** Marcar o desmarcar un alma: se anima en las dos vistas y se celebra la etapa que se completa. */
+  /**
+   * Anima lo que se ve con un atributo; lo que no se ve no correría su animación y el atributo se
+   * quedaría puesto hasta que se viera (al cambiar de vista, todo destellaría a la vez): se quita.
+   */
+  function animate(el: HTMLElement, name: string, value = '') {
+    if (isShown(el)) replay(el, name, value)
+    else el.removeAttribute(name)
+  }
+
+  /**
+   * Marcar o desmarcar un alma: se anima la copia que se ve y se celebra la etapa que se completa,
+   * con el alma que la completa (es donde se mira; el título puede quedar fuera de la vista).
+   */
   function mark(id: number, on: boolean) {
     const before = completeStages()
     save(setSoul(progress, id, on, Date.now()))
-    for (const row of $$(`.sl-soul[data-soul="${id}"]`)) replay(row, 'data-just', on ? 'on' : 'off')
     const fresh = [...completeStages()].filter((key) => !before.has(key))
-    for (const el of stageMarks()) {
-      if (fresh.includes(el.dataset.slGroup ?? el.dataset.slStage ?? '')) replay(el, 'data-cheer')
+    for (const row of $$(`.sl-soul[data-soul="${id}"]`)) {
+      animate(row, 'data-just', on ? 'on' : 'off')
+      if (fresh.length) animate(row, 'data-cheer')
     }
-    // También el alma que la completa: es donde se mira, y el título puede quedar fuera de la vista.
-    if (fresh.length) {
-      for (const row of $$(`.sl-soul[data-soul="${id}"]`)) replay(row, 'data-cheer')
+    for (const el of stageMarks()) {
+      if (fresh.includes(el.dataset.slGroup ?? el.dataset.slStage ?? '')) animate(el, 'data-cheer')
     }
     if (fresh.includes('all')) toast(o.allComplete)
     else if (fresh.length) toast(o.stageComplete(fresh[0]))
   }
 
-  // Acabada la animación, se quita su atributo: la siguiente vuelve a empezar.
-  function onAnimationEnd(event: AnimationEvent) {
+  // Cada atributo mueve varias animaciones de distinta duración (la casilla y el destello, el
+  // número y las chispas): se quita cuando no queda ninguna en marcha, también si se corta.
+  const FAMILIES = [
+    ['sl-just', 'data-just'],
+    ['sl-cheer', 'data-cheer'],
+  ] as const
+  function onAnimationDone(event: AnimationEvent) {
+    const family = FAMILIES.find(([prefix]) => event.animationName.startsWith(prefix))
     const target = event.target instanceof Element ? event.target : null
-    if (event.animationName.startsWith('sl-just'))
-      target?.closest('[data-just]')?.removeAttribute('data-just')
-    if (event.animationName.startsWith('sl-cheer'))
-      target?.closest('[data-cheer]')?.removeAttribute('data-cheer')
+    if (!family || !target) return
+    const [prefix, name] = family
+    // El alma que completa la etapa está dentro de la etapa, que también celebra: se miran todos
+    // los que llevan el atributo hacia arriba, no solo el más cercano.
+    for (
+      let host = target.closest<HTMLElement>(`[${name}]`);
+      host;
+      host = host.parentElement?.closest<HTMLElement>(`[${name}]`) ?? null
+    ) {
+      const still = (host.getAnimations?.({ subtree: true }) ?? []).some(
+        (animation) =>
+          animation.playState === 'running' &&
+          ((animation as CSSAnimation).animationName ?? '').startsWith(prefix),
+      )
+      if (!still) host.removeAttribute(name)
+    }
   }
 
   // ---------- el menú «⋯», la copia y el reinicio ----------
@@ -261,11 +308,12 @@ export function startSouls(data: SoulsIslandData): () => void {
       stage = pick(stageKeys, stageButton.dataset.slStage, 'all')
       choose()
       refilter()
-      // Si el principio de la lista quedaba arriba, fuera de la pantalla, se vuelve a las
-      // herramientas, que quedan bajo la cabecera (scroll-margin-top en checklist.css).
+      // Si el principio de la lista quedaba debajo de la cabecera fija o más arriba, se vuelve a
+      // las herramientas, que quedan bajo la cabecera (scroll-margin-top en checklist.css).
       const list = document.querySelector<HTMLElement>('.sl-staged__list')
       const tools = document.querySelector<HTMLElement>('.sl-tools')
-      if (list && tools && list.getBoundingClientRect().top < 0) {
+      const header = document.querySelector('.site-hdr')?.getBoundingClientRect().bottom ?? 0
+      if (list && tools && list.getBoundingClientRect().top < header) {
         tools.scrollIntoView({ block: 'start' })
       }
       return
@@ -334,7 +382,8 @@ export function startSouls(data: SoulsIslandData): () => void {
   document.addEventListener('input', onInput)
   document.addEventListener('keydown', onKeyDown)
   window.addEventListener('storage', onStorage)
-  document.addEventListener('animationend', onAnimationEnd)
+  document.addEventListener('animationend', onAnimationDone)
+  document.addEventListener('animationcancel', onAnimationDone)
   resetDialog?.addEventListener('close', onResetClose)
   choose()
   render()
@@ -368,7 +417,8 @@ export function startSouls(data: SoulsIslandData): () => void {
     document.removeEventListener('input', onInput)
     document.removeEventListener('keydown', onKeyDown)
     window.removeEventListener('storage', onStorage)
-    document.removeEventListener('animationend', onAnimationEnd)
+    document.removeEventListener('animationend', onAnimationDone)
+    document.removeEventListener('animationcancel', onAnimationDone)
     resetDialog?.removeEventListener('close', onResetClose)
   }
 }

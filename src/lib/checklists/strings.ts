@@ -234,6 +234,8 @@ export const soulsStrings = {
   allStages: 'Todas',
   stageNumber: (key: string) => `Etapa ${key}`,
   stageComplete: (key: string) => `¡Etapa ${key} completa!`,
+  stageOwned: (key: string) => `Ya tienes todas las almas de la etapa ${key}.`,
+  allOwned: 'Ya tienes todas estas almas.',
   allComplete: '¡Tienes todas las almas!',
   hideDone: 'Ocultar las que tengo',
   level: (level: number) => `Nv. ${level}`,
