@@ -1311,7 +1311,7 @@ export interface Checklist {
                */
               quest?: (number | null) | Quest;
               /**
-               * El objetivo de esa misión antes del que hay que parar, de la lista de sus objetivos.
+               * La línea roja va justo antes de este objetivo: se hacen los anteriores y este se deja para después.
                */
               stopObjective?: number | null;
               /**
@@ -1336,7 +1336,7 @@ export interface Checklist {
                      */
                     quest?: (number | null) | Quest;
                     /**
-                     * El objetivo de esa misión antes del que hay que parar, de la lista de sus objetivos.
+                     * La línea roja va justo antes de este objetivo: se hacen los anteriores y este se deja para después.
                      */
                     stopObjective?: number | null;
                     /**
@@ -1355,7 +1355,7 @@ export interface Checklist {
                   }[]
                 | null;
               /**
-               * Los pasos cuyas misiones termina este tramo. Un paso nuevo sale aquí al guardarlo.
+               * Los pasos cuyas misiones termina este tramo.
                */
               closes?: string[] | null;
               id?: string | null;

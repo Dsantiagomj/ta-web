@@ -62,6 +62,13 @@ describe('reglas de los tramos', () => {
     expect(await validateStopObjective(null, { siblingData: { kind: 'plain' }, req })).toBe(true)
   })
 
+  it('los errores cuentan los objetivos desde 1, como el selector', async () => {
+    const { req } = requestWith(stages)
+    expect(await validateStopObjective(3, { siblingData: { quest: 7 }, req })).toBe(
+      'Esta misión tiene 3 objetivos: elige uno del 1 al 3',
+    )
+  })
+
   it('una misión sin objetivos guardados no admite ninguno', async () => {
     const { req } = requestWith({ stages: [] })
     const result = await validateStopObjective(0, { siblingData: { kind: 'stop', quest: 7 }, req })

@@ -57,7 +57,7 @@ export async function validateStopObjective(
     .catch(() => null)
   const count = objectiveCount(quest)
   if (count === 0) return s.questWithoutObjectives
-  return value < count ? true : s.stopObjectiveOutOfRange(count - 1)
+  return value < count ? true : s.stopObjectiveOutOfRange(count)
 }
 
 /** Los stepId de los pasos de la checklist que se guarda. */

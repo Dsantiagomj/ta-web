@@ -215,6 +215,12 @@ test.describe('el panel para Torre', () => {
     const closes = third.locator('#field-steps__2__segments__1__closes')
     await openUntil(resolve.locator('> .collapsible'), closes)
     await expect(closes).toContainText(`Paso 2: ${nebuloso.steps.stopPlain}`)
+    // Un paso recién añadido se puede elegir sin guardar: su identificador nace con la fila.
+    await page.locator('#field-steps').getByRole('button', { name: 'Añadir Paso' }).last().click()
+    await expect(page.locator('#steps-row-3')).toBeVisible()
+    await closes.locator('.rs__control').click()
+    await expect(page.locator('.rs__option', { hasText: /^Paso 4$/ })).toBeVisible()
+    await page.keyboard.press('Escape')
 
     // El paso 2 para en el segundo objetivo de su misión: sale por su texto.
     const second = page.locator('#steps-row-1')
