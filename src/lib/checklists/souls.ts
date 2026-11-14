@@ -59,6 +59,8 @@ export interface SoulGroup {
   key: string
   label: string
   souls: number[]
+  /** Solo en las etapas: «Jefes» o «Archis», lo que dice el panel de las etapas. */
+  kind?: string
 }
 
 /** Lo único que recibe la isla: las almas, por su monstruo, y lo que necesita la migración. */
@@ -160,6 +162,7 @@ export function soulsView(data: SoulsData): SoulsView {
     return {
       key: String(stage),
       label: o.stage(stage, kind),
+      kind,
       souls: inStage.map((soul) => soul.id),
     }
   })

@@ -124,6 +124,11 @@ describe('soulsView', () => {
       ['Etapa 1 · Jefes', [928, 147]],
       ['Etapa 2 · Archis', [500, 501]],
     ])
+    // Lo que dice el panel de las etapas: su número y si son jefes o archis.
+    expect(view.stages.map((group) => [group.key, group.kind])).toEqual([
+      ['1', 'Jefes'],
+      ['2', 'Archis'],
+    ])
     expect(view.regions.map((group) => [group.label, group.souls])).toEqual([
       ['Astrub', [928, 147, 501]],
       ['Amakna', [500]],
