@@ -27,6 +27,9 @@ export interface LegacyInput {
   now: number
 }
 
+/** Un ID de misión: un entero escrito con cifras (ni vacío ni espacios, que Number da por 0). */
+export const isQuestId = (id: string) => /^-?\d+$/.test(id)
+
 /** Desde la 2 de silvestre-checklist, questPos ya no da por hechas las misiones de antes. */
 const QUEST_MODEL = '2'
 /** Las claves de objetos están al día desde la 2. */
@@ -169,7 +172,7 @@ function addObjectives(
 ) {
   for (const [id, k] of Object.entries(questObj)) {
     // Las filas genéricas antiguas («clase», «alt:…») no son una misión de DofusDB.
-    if (!Number.isInteger(Number(id))) continue
+    if (!isQuestId(id)) continue
     const total = m.objectives[Number(id)]
     if (k <= 0 || (foreign && !total)) continue
     const o = total && k >= total ? 'done' : k
@@ -240,9 +243,12 @@ function migrateOwn(p: Progress, m: ChecklistModel, input: LegacyInput, prefix: 
   // Las claves son las de la checklist antigua, también las de alternativas («7045|7047») y
   // apartados («…@mision opcional»): las filas de ta-web llevan la misma. La parte de un paso
   // pasa a su stepId, y la de los prerrequisitos (el paso 0) a «#pre».
+  // Una clave compuesta solo si es la de una fila de esta checklist: las demás no tienen dónde ir.
+  const composite = new Set(data.compositeKeys ?? [])
   for (const [name, on] of Object.entries(owned)) {
     if (on !== true) continue
     const [item, n] = ownedParts(name)
+    if (/[|@]/.test(item) && !composite.has(item)) continue
     const part =
       n === undefined
         ? null

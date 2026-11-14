@@ -739,7 +739,7 @@ function TotalSlot({ row, category }: { row: TotalRowView; category: string }) {
       className={`ck-slot${soleCopyhost(row) ? ' copyhost' : ''}`}
       data-ck-slot={row.key}
       data-steps={row.steps.join(' ')}
-      {...(row.prerequisite && { 'data-pre': row.prerequisite })}
+      {...(row.prerequisites?.length && { 'data-pre': row.prerequisites.join(' ') })}
       data-cat={category}
     >
       <span className="ck-slot__w copywell" aria-hidden="true">

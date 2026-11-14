@@ -64,6 +64,8 @@ const data: ChecklistIslandData = {
   ],
   closes: [['c', ['b']]],
   optionalDoneBy: [],
+  prerequisites: [],
+  compositeKeys: [],
   legacy: { prefix: 'nebuloso:', guideVersion: 1 },
   weights: [
     [150, [50, 100, 0]],
@@ -574,9 +576,21 @@ describe('el progreso del Silvestre', () => {
     const reached = { ...emptyProgress(), quests: { 40: { o: 1, at: 1 } } }
     const p = setStep(reached, silvestre, index('b'), true, 2)
     expect(stepDone(p, silvestre, index('a'))).toBe(true)
-    // Sin llegar a ella, el cerrado sigue pendiente.
+    // Sin llegar a ella, cerrarlo la lleva a su parada (lo de este paso está hecho) y el cerrado
+    // queda hecho: la misión sigue sin terminar, para el paso que la termina.
     const q = setStep(emptyProgress(), silvestre, index('b'), true, 2)
-    expect(stepDone(q, silvestre, index('a'))).toBe(false)
+    expect(q.quests[40]).toMatchObject({ o: 1 })
+    expect(questFinished(q, silvestre, 40)).toBe(false)
+    expect(stepDone(q, silvestre, index('a'))).toBe(true)
+    // Desmarcar el que cierra no le quita al cerrado (marcado) su parada.
+    const r = setStep(
+      setStep(emptyProgress(), silvestre, index('a'), true, 1),
+      silvestre,
+      index('b'),
+      true,
+      2,
+    )
+    expect(setStep(r, silvestre, index('b'), false, 3).quests[40]).toMatchObject({ o: 1 })
   })
 
   it('la opcional la termina su paso, no el suyo; desmarcarlo la deja como estaba', () => {
@@ -586,5 +600,53 @@ describe('el progreso del Silvestre', () => {
     expect(questState(p, silvestre, index('a'), 42)).toEqual({ done: true, lock: { step: 4 } })
     p = setStep(p, silvestre, index('d'), false, 3)
     expect(questState(p, silvestre, index('a'), 42)).toEqual({ done: false })
+  })
+})
+
+describe('revisión de #121', () => {
+  it('lo de los prerrequisitos se gasta con su prerrequisito; sin prerrequisitos, nunca solo', async () => {
+    const { partUsed } = await import('@/lib/checklists/progress/engine')
+    const none = checklistModel({ ...data, prerequisites: [] })
+    expect(partUsed(emptyProgress(), none, 0)).toBe(false)
+    const two = checklistModel({ ...data, prerequisites: ['l1', 'l2'] })
+    const one = { ...emptyProgress(), prereqs: { '7:l1': 1 } }
+    const both = { ...emptyProgress(), prereqs: { '7:l1': 1, '7:l2': 1 } }
+    expect(partUsed(one, two, 0, ['l1'])).toBe(true)
+    expect(partUsed(one, two, 0, ['l1', 'l2'])).toBe(false)
+    expect(partUsed(both, two, 0, ['l1', 'l2'])).toBe(true)
+    // Sin prerrequisito propio, al completarlos todos.
+    expect(partUsed(one, two, 0)).toBe(false)
+    expect(partUsed(both, two, 0)).toBe(true)
+    // Un paso, como siempre.
+    expect(partUsed(emptyProgress(), two, 1)).toBe(false)
+  })
+
+  it('la madre de una hija que termina un paso posterior tampoco la termina el que cierra', () => {
+    const family = checklistModel({
+      ...data,
+      steps: [
+        [
+          'a',
+          1,
+          [
+            [30, 'mandatory'],
+            [31, 'mandatory', 1, 1],
+          ],
+        ],
+        ['b', 2, []],
+      ],
+      closes: [['b', ['a']]],
+      weights: [
+        [100, [50, 50]],
+        [1, []],
+      ],
+      objectives: { 30: 5, 31: 3 },
+      prereqs: {},
+      parents: { 30: [[2, [31]]] },
+    })
+    const p = setStep(setStep(emptyProgress(), family, 0, true, 1), family, 1, true, 2)
+    expect(questFinished(p, family, 31)).toBe(false)
+    expect(questFinished(p, family, 30)).toBe(false)
+    expect(p.quests[30]).toMatchObject({ o: 2 })
   })
 })

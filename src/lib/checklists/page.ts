@@ -128,9 +128,10 @@ export interface NeedGroupView<Row = NeedRowView> {
 
 /**
  * Una fila de Objetos: lo que piden los pasos sumado. `steps` son sus números (0: los
- * prerrequisitos) y `prerequisite`, el prerrequisito que gasta lo de los prerrequisitos.
+ * prerrequisitos) y `prerequisites`, los prerrequisitos que gastan lo de los prerrequisitos: se
+ * gasta cuando están todos completos (o, sin ninguno, cuando lo están todos los de la checklist).
  */
-export type TotalRowView = NeedRowView & { steps: number[]; prerequisite?: string }
+export type TotalRowView = NeedRowView & { steps: number[]; prerequisites?: string[] }
 
 export interface StepView {
   stepId: string
@@ -183,6 +184,13 @@ export interface ChecklistIslandData {
   steps: [string, number | null, IslandQuest[]][]
   /** [stepId, stepIds que cierra]: los de sus «aquí se resuelve» y los que cierra sin verde. */
   closes: [string, string[]][]
+  /** Las claves de los prerrequisitos: lo de los prerrequisitos se gasta al completarlos. */
+  prerequisites: string[]
+  /**
+   * Las claves de lo conseguido con alternativas o apartado («7045|7047», «…@mision opcional»):
+   * la migración solo trae las antiguas que son una de estas.
+   */
+  compositeKeys: string[]
   /** [stepId, misiones opcionales que termina ese paso (por su ID de DofusDB)]. */
   optionalDoneBy: [string, number[]][]
   legacy: Checklist['legacy']
@@ -349,6 +357,18 @@ function needRow(need: NeedLike): NeedRowView | null {
     ...(need.reusable && { reusable: true as const }),
   }
 }
+
+/** El prerrequisito de un objeto de los prerrequisitos, si es uno de los que hay. */
+const prerequisiteOf = (need: Need | PrerequisiteNeed, known: Set<string>) =>
+  'prerequisite' in need && need.prerequisite && known.has(need.prerequisite)
+    ? need.prerequisite
+    : undefined
+
+/** Las claves de los prerrequisitos de la checklist. */
+const prerequisiteKeys = (checklist: Checklist) =>
+  (checklist.prerequisites?.groups ?? []).flatMap((group) =>
+    (group.rows ?? []).map((row) => row.key),
+  )
 
 const categoryTitle = (category: NeedCategory | null) =>
   category ? checklistStrings.needCategories[category] : s.otherNeeds
@@ -571,7 +591,9 @@ export function checklistView(data: ChecklistData): ChecklistView {
     }
   })
 
-  const totals = byCategory(totalRows(rawSteps, checklist.prerequisites?.needs ?? []))
+  const totals = byCategory(
+    totalRows(rawSteps, checklist.prerequisites?.needs ?? [], new Set(prerequisiteKeys(checklist))),
+  )
 
   const guide = populated(checklist.dofusGuide)
   const publishedGuide = guide?.state === 'published' ? guide : null
@@ -592,10 +614,9 @@ export function checklistView(data: ChecklistData): ChecklistView {
     (checklist.prerequisites?.needs ?? []).flatMap((need) => {
       const row = needRow(need)
       if (!row) return []
-      const text = need.prerequisite ? prerequisiteTexts.get(need.prerequisite) : undefined
-      const prerequisite = need.prerequisite
-        ? { prerequisite: need.prerequisite, ...(text && { prerequisiteText: text }) }
-        : {}
+      const key = prerequisiteOf(need, new Set(prerequisiteTexts.keys()))
+      const text = key ? prerequisiteTexts.get(key) : undefined
+      const prerequisite = key ? { prerequisite: key, ...(text && { prerequisiteText: text }) } : {}
       return [{ category: need.category ?? null, row: { ...row, ...prerequisite } }]
     }),
     true,
@@ -644,7 +665,7 @@ function soonSteps(totals: NeedGroupView<TotalRowView>[]) {
 }
 
 /** Lo que piden los prerrequisitos y todos los pasos, sumado por objeto (o por texto) y grupo. */
-function totalRows(steps: Step[], prerequisiteNeeds: PrerequisiteNeed[]) {
+function totalRows(steps: Step[], prerequisiteNeeds: PrerequisiteNeed[], known: Set<string>) {
   const rows = new Map<
     string,
     { category: NeedCategory | null; row: TotalRowView; parts: number[][] }
@@ -668,13 +689,14 @@ function totalRows(steps: Step[], prerequisiteNeeds: PrerequisiteNeed[]) {
         seen.parts.push(quantities)
         if (row.reusable) seen.row.reusable = true
         if (!seen.row.steps.includes(n)) seen.row.steps.push(n)
-        if (!seen.row.prerequisite && 'prerequisite' in need && need.prerequisite) {
-          seen.row.prerequisite = need.prerequisite
+        const pre = prerequisiteOf(need, known)
+        if (pre && !seen.row.prerequisites?.includes(pre)) {
+          seen.row.prerequisites = [...(seen.row.prerequisites ?? []), pre]
         }
       } else {
         const { note: _note, ...rest } = row
-        const prerequisite =
-          'prerequisite' in need && need.prerequisite ? { prerequisite: need.prerequisite } : {}
+        const pre = prerequisiteOf(need, known)
+        const prerequisite = pre ? { prerequisites: [pre] } : {}
         rows.set(key, {
           category: need.category ?? null,
           row: { ...rest, steps: [n], ...prerequisite },
@@ -776,6 +798,18 @@ function islandData(data: ChecklistData): ChecklistIslandData {
       return resolves || closes.length ? [[step.stepId ?? '', closes]] : []
     }),
     optionalDoneBy: [...optionalDoneBy],
+    prerequisites: prerequisiteKeys(checklist),
+    compositeKeys: [
+      ...new Set(
+        [
+          ...steps.flatMap((step) => step.needs ?? []),
+          ...(checklist.prerequisites?.needs ?? []),
+        ].flatMap((need) => {
+          const row = needRow(need)
+          return row && /[|@]/.test(row.key) ? [row.key] : []
+        }),
+      ),
+    ],
     legacy: checklist.legacy,
     weights: stepWeights(weightedSteps, points).map(({ w, shares }) => [w, shares]),
     objectives: Object.fromEntries(

@@ -17,6 +17,8 @@ const island = (version: string): ChecklistIslandData => ({
   steps: [['a', 1, []]],
   closes: [],
   optionalDoneBy: [],
+  prerequisites: [],
+  compositeKeys: [],
   legacy: undefined,
   weights: [[1, []]],
   objectives: {},

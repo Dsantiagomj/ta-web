@@ -286,9 +286,16 @@ describe('revisión del PR 5: migración', () => {
   })
 
   it('lo conseguido con claves compuestas (@ o |) se trae: las filas de ta-web llevan la misma', () => {
-    const p = run(data, {
-      'nebuloso:owned': JSON.stringify({ '8918@orden': true, [`13423|6812#3`]: true, '15': true }),
-    })
+    const p = run(
+      { ...data, compositeKeys: ['8918@orden', '13423|6812'] },
+      {
+        'nebuloso:owned': JSON.stringify({
+          '8918@orden': true,
+          [`13423|6812#3`]: true,
+          '15': true,
+        }),
+      },
+    )
     expect(p.owned).toEqual({ '8918@orden': NOW, [`13423|6812#${stepId(3)}`]: NOW, '15': NOW })
   })
 })
@@ -341,5 +348,31 @@ describe('la migración del Silvestre', () => {
       [`519#${stepOf(80)}`]: NOW,
       [`14693|28488#${stepOf(60)}`]: NOW,
     })
+  })
+})
+
+describe('revisión de #121: migración', () => {
+  it('una clave compuesta antigua solo se trae si es la de una fila de esta checklist', () => {
+    const p = migrateLegacy(emptyProgress(), {
+      keys: ['nebuloso:owned'],
+      read: (key) =>
+        key === 'nebuloso:owned'
+          ? JSON.stringify({ '8918@orden': true, '1|2#3': true, '9@perdida': true, '15': true })
+          : null,
+      data: { ...data, compositeKeys: ['8918@orden', '1|2'] },
+      now: NOW,
+    })
+    expect(p.owned).toEqual({ '8918@orden': NOW, [`1|2#${stepId(3)}`]: NOW, '15': NOW })
+  })
+
+  it('una misión antigua sin número (vacía o espacios) no se trae', () => {
+    const p = migrateLegacy(emptyProgress(), {
+      keys: ['nebuloso:questObjective'],
+      read: (key) =>
+        key === 'nebuloso:questObjective' ? JSON.stringify({ '': 2, ' ': 3, '1608': 1 }) : null,
+      data,
+      now: NOW,
+    })
+    expect(Object.keys(p.quests)).toEqual(['1608'])
   })
 })

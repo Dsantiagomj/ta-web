@@ -44,6 +44,8 @@ export interface ChecklistModel {
   requiredBy: Map<number, number[]>
   parents: Record<number, [number, number[]][]>
   names: Record<string, string>
+  /** Las claves de los prerrequisitos de la checklist. */
+  prerequisites: string[]
   total: number
 }
 
@@ -95,6 +97,7 @@ export function checklistModel(data: ChecklistIslandData): ChecklistModel {
     requiredBy,
     parents: data.parents,
     names: data.checklists,
+    prerequisites: data.prerequisites ?? [],
     total: steps.reduce((sum, step) => sum + step.w, 0),
   }
 }
@@ -169,9 +172,25 @@ function openIn(m: ChecklistModel, index: number): Map<number, number> {
   return open
 }
 
-/** La misión que el paso deja para uno posterior: la que lo cierra no la termina. */
-const laterIn = (m: ChecklistModel, index: number, id: number) =>
-  mandatory(m.steps[index]).some((quest) => quest.id === id && quest.later)
+/**
+ * Lo que el paso deja para uno posterior: la que lleva la marca y la madre que espera a una hija
+ * que la lleva. El paso que cierra este no las termina.
+ */
+function laterSet(m: ChecklistModel, index: number): Set<number> {
+  const quests = mandatory(m.steps[index])
+  const later = new Set(quests.flatMap((quest) => (quest.later ? [quest.id] : [])))
+  for (let grew = true; grew;) {
+    grew = false
+    for (const quest of quests) {
+      if (later.has(quest.id)) continue
+      if ((m.parents[quest.id] ?? []).some(([, kids]) => kids.some((kid) => later.has(kid)))) {
+        later.add(quest.id)
+        grew = true
+      }
+    }
+  }
+  return later
+}
 
 /**
  * Al cerrarlo, al paso no le falta nada: sus obligatorias terminadas, salvo las que deja para un
@@ -179,11 +198,23 @@ const laterIn = (m: ChecklistModel, index: number, id: number) =>
  */
 function closable(p: Progress, m: ChecklistModel, index: number) {
   const open = openIn(m, index)
+  const later = laterSet(m, index)
   return mandatory(m.steps[index]).every((quest) => {
     if (questFinished(p, m, quest.id)) return true
     const at = p.quests[quest.id]?.o
-    return quest.later === true && typeof at === 'number' && at >= (open.get(quest.id) ?? 0)
+    return later.has(quest.id) && typeof at === 'number' && at >= (open.get(quest.id) ?? 0)
   })
+}
+
+/**
+ * Si lo de los prerrequisitos (el «paso» 0) o el paso n ya se gastó. Lo de los prerrequisitos se
+ * gasta al completar los suyos (`pres`) o, sin ninguno, al completarlos todos; sin prerrequisitos
+ * en la checklist, nunca solo (rowCovered de silvestre-checklist).
+ */
+export function partUsed(p: Progress, m: ChecklistModel, n: number, pres: string[] = []) {
+  if (n !== 0) return stepDone(p, m, n - 1)
+  const keys = pres.length ? pres : m.prerequisites
+  return keys.length > 0 && keys.every((key) => Boolean(p.prereqs[`${m.id}:${key}`]))
 }
 
 const allFinished = (p: Progress, m: ChecklistModel, index: number) => {
@@ -258,9 +289,14 @@ function mark(
   for (const closed of m.closes.get(step.id) ?? []) {
     const at = m.index.get(closed)
     if (at === undefined) continue
-    for (const quest of openIn(m, at).keys()) {
-      if (laterIn(m, at, quest)) continue
-      if (!questFinished(next, m, quest)) next.quests[quest] = { o: 'done', by, at: now }
+    const later = laterSet(m, at)
+    for (const [quest, stop] of openIn(m, at)) {
+      if (questFinished(next, m, quest)) continue
+      // Lo que termina un paso posterior llega a su parada (lo del paso cerrado está hecho),
+      // pero no se termina: lo termina el paso que la lleva.
+      const was = next.quests[quest]?.o
+      if (!later.has(quest)) next.quests[quest] = { o: 'done', by, at: now }
+      else if (typeof was !== 'number' || was < stop) next.quests[quest] = { o: stop, by, at: now }
     }
     if (!markClosed || stepDone(next, m, at)) continue
     if (closable(next, m, at) || !mandatory(m.steps[at]).length) {
@@ -320,8 +356,8 @@ export function setStep(
   for (const closed of m.closes.get(step.id) ?? []) {
     const at = m.index.get(closed)
     if (at === undefined || !stepDone(next, m, at)) continue
+    // También lo que termina un paso posterior: el cerrado lo deja en su parada.
     for (const [quest, stop] of openIn(m, at)) {
-      if (laterIn(m, at, quest)) continue
       if (!questFinished(next, m, quest)) {
         next.quests[quest] = { o: stop, by: { c: m.id, s: closed }, at: now }
       }

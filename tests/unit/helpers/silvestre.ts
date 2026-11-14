@@ -14,7 +14,7 @@ import {
   type ChecklistDraft,
 } from '../../../scripts/import/checklists/to-checklist'
 import { openStops } from '@/lib/checklists/open-stops'
-import type { ChecklistIslandData, IslandQuest } from '@/lib/checklists/page'
+import { groupKey, type ChecklistIslandData, type IslandQuest } from '@/lib/checklists/page'
 
 export type Weights = Record<string, { w: number; q: number[]; ids: string[]; os: number[] }>
 
@@ -80,6 +80,24 @@ export function silvestreIsland({ legacy, draft, objTotal }: Silvestre): Checkli
       return resolves || closes.length ? [[stepId(step.legacyNumber), closes.map(stepId)]] : []
     }),
     optionalDoneBy: [],
+    prerequisites: draft.prerequisites.groups.flatMap((group) => group.rows.map((row) => row.key)),
+    // Las claves compuestas de sus filas, como las da la página (needRow en page.ts).
+    compositeKeys: [
+      ...new Set(
+        [...draft.steps.flatMap((step) => step.needs), ...draft.prerequisites.needs].flatMap(
+          (need) => {
+            const option = (item: string, name: string) =>
+              item.startsWith('x:') ? `x:${name.toLocaleLowerCase('es')}` : item
+            const key =
+              [
+                option(need.item, need.name),
+                ...(need.alternatives ?? []).map((alt) => option(alt.item, alt.name)),
+              ].join('|') + (need.group ? `@${groupKey(need.group)}` : '')
+            return /[|@]/.test(key) ? [key] : []
+          },
+        ),
+      ),
+    ],
     legacy: draft.legacy,
     weights: draft.steps.map((step) => {
       const own = W[step.legacyNumber]
