@@ -231,3 +231,50 @@ html[data-theme='dark'] {
 .ta-outline__status:empty {
   display: none;
 }
+
+/*
+ * «En la web» arriba de la barra lateral (PublishStatus, A-16). El texto va en tinta; el
+ * punto solo acompaña, lo que cuenta es la frase.
+ */
+.ta-publish {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: var(--style-radius-m);
+  background: var(--theme-elevation-50);
+}
+
+.ta-publish p {
+  margin: 0;
+}
+
+.ta-publish__label {
+  margin-bottom: 0.25rem;
+}
+
+.ta-publish__text {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--ta-ink);
+  font-weight: 600;
+}
+
+.ta-publish__dot {
+  flex: none;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  background: var(--ta-muted);
+}
+
+.ta-publish--live .ta-publish__dot {
+  background: var(--theme-success-500);
+}
+
+.ta-publish--pending .ta-publish__dot {
+  background: var(--theme-warning-500);
+}
+
+.ta-publish .field-description {
+  margin-top: 0.25rem;
+}

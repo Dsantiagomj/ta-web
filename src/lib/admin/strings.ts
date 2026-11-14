@@ -73,6 +73,23 @@ export const panelStrings = {
   },
   /** El campo `state` de Torre: si la página se abre o sale «En preparación». */
   state: { label: 'Visible en la web' },
+  /** La línea de la barra lateral que dice qué ve un visitante (A-16, PublishStatus). */
+  publishStatus: {
+    label: 'En la web',
+    live: 'En la web: visible',
+    changed: 'Tienes cambios sin publicar',
+    changedDetail:
+      'La web enseña la última versión publicada. Pulsa «Publicar cambios» para que salgan.',
+    preparing: 'No se ve en la web: En preparación',
+    preparingDetail: 'Cambia «Visible en la web» a Publicada y pulsa «Publicar cambios».',
+    draft: 'No se ve en la web: es un borrador',
+    draftDetail: 'Pulsa «Publicar cambios» cuando quieras que salga.',
+    unsavedNew: 'No se ve en la web: aún no está guardada',
+    unsavedNewDetail: 'Guárdala como borrador o pulsa «Publicar cambios».',
+    unsaved: 'Lo que acabas de cambiar aún no está guardado.',
+  },
+  /** Los tamaños de la vista previa en vivo (A-20). */
+  livePreview: { mobile: 'Móvil', tablet: 'Tableta', desktop: 'Escritorio' },
   originalUrl: {
     label: 'Dirección en Squarespace',
     description: 'Dónde estaba en la web antigua. La pone la importación; no hace falta tocarla.',

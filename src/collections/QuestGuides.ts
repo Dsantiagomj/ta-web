@@ -30,6 +30,8 @@ import { rowLabel } from './row-label'
 import { SLUG_LABEL, slugAdmin } from './slug-field'
 import { slugFormatProblem } from '../lib/admin/slug'
 import { panelStrings } from '../lib/admin/strings'
+import { livePreviewBreakpoints } from '../lib/admin/live-preview'
+import { publishStatusField } from './publish-status-field'
 
 /**
  * Slug plano en ASCII: minúsculas, cifras y guiones sueltos, sin guiones en los extremos.
@@ -240,7 +242,7 @@ export const QuestGuides: CollectionConfig = {
     // La página pública en el panel, borrador incluido (src/lib/guides/preview.ts).
     livePreview: {
       url: ({ data, req }) => guidePreviewUrl(data?.slug, previewOrigin(process.env, req.origin)),
-      breakpoints: [{ name: 'movil', label: 'Móvil', width: 390, height: 844 }],
+      breakpoints: livePreviewBreakpoints,
     },
     preview: (doc, { req }) => guidePreviewUrl(doc?.slug, previewOrigin(process.env, req.origin)),
   },
@@ -271,6 +273,8 @@ export const QuestGuides: CollectionConfig = {
         },
       },
     },
+    // Tras la misión, que es el primer campo del área principal; es el primero de la barra.
+    publishStatusField,
     {
       name: 'title',
       label: 'Título',

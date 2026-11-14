@@ -17,6 +17,7 @@ import {
 import { rejectSharedSlug } from './root-slug'
 import { SLUG_LABEL, slugAdmin } from './slug-field'
 import { panelStrings } from '../lib/admin/strings'
+import { publishStatusField } from './publish-status-field'
 
 const note = (field: string) => dofusDbNote('group', field)
 const SECTIONS: GroupSection[] = ['stories', 'zones', 'seasonal']
@@ -50,6 +51,7 @@ export const AchievementGroups: CollectionConfig = {
     afterDelete: [revalidateAchievementPagesAfterDelete],
   },
   fields: [
+    publishStatusField,
     {
       name: 'category',
       label: 'Categoría de DofusDB',
