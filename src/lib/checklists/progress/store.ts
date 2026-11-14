@@ -7,6 +7,15 @@
 // Todo acceso a localStorage va en try/catch: sin él (modo privado, cuota llena, bloqueado) la
 // checklist sigue funcionando, solo que no guarda.
 
+/**
+ * Una clave de lo conseguido en sus partes: el objeto y, tras el último «#», el paso. El objeto
+ * puede llevar «#» en su apartado («17994@orden #2»).
+ */
+export function ownedParts(key: string): [string, string | undefined] {
+  const at = key.lastIndexOf('#')
+  return at < 0 ? [key, undefined] : [key.slice(0, at), key.slice(at + 1)]
+}
+
 export const PROGRESS_KEY = 'ta-web:progress'
 
 export interface QuestEntry {

@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from 'react'
+import type { CSSProperties } from 'react'
 
 import { OBJECTIVE_ICONS, GAME_ICONS } from '@/components/game/game-icons'
 import { GuideRichText } from '@/components/game/GuideRichText'
@@ -122,7 +122,8 @@ export function ChecklistTabs({ view }: { view: ChecklistView }) {
     <div className="ck-tabsrow">
       <nav className="ck-seg ck-tabs" aria-label={s.tabsLabel} data-ck-tabs>
         {tab('diario', s.tabs.diary)}
-        {view.prerequisites.count > 0 && tab('pre', s.tabs.prerequisites, view.prerequisites.count)}
+        {view.prerequisites.shown &&
+          tab('pre', s.tabs.prerequisites, view.prerequisites.count || undefined)}
         {view.totalsCount > 0 && tab('obj', s.tabs.items, view.totalsCount)}
       </nav>
       <label className="ck-search ck-find">
@@ -365,54 +366,82 @@ function QuestRow({ quest, n }: { quest: QuestRowView; n: number }) {
   )
 }
 
-/** La cantidad y el nombre de una opción: «3 × Pepita», con el nombre para copiar si es un objeto. */
-function NeedOption({ option }: { option: NeedOptionView }) {
-  return (
-    <>
-      <b>{formatAmount(option.quantity)} ×</b>{' '}
-      {option.kind === 'item' ? (
+/** Las opciones de una fila, la primera y las demás: «Pandaburg o Pandapils». */
+const needOptions = (row: NeedRowView): NeedOptionView[] => [row, ...(row.alternatives ?? [])]
+
+/** El nombre de una fila con sus opciones: «Pandaburg o Pandapils». */
+const needName = (row: NeedRowView) =>
+  needOptions(row)
+    .map((option) => option.name)
+    .join(` ${s.needOr} `)
+
+/**
+ * Las opciones de una fila con su cantidad: «1 × Pandaburg o 1 × Pandapils». La cantidad se ve
+ * o, en una casilla de Objetos que ya la enseña en su icono, solo la oye un lector de
+ * pantalla. Con varias opciones, cada objeto es su propio `copyhost`: copiar uno no tapa al
+ * otro. Con una sola, el `copyhost` es la fila entera (`soleCopyhost`).
+ */
+function NeedOptions({ row, amounts }: { row: NeedRowView; amounts: 'shown' | 'hidden' }) {
+  const options = needOptions(row)
+  return options.map((option, index) => {
+    const amount =
+      amounts === 'shown' ? (
+        <b>{formatAmount(option.quantity)} ×</b>
+      ) : (
+        <span className="sr-only">{formatAmount(option.quantity)} × </span>
+      )
+    const name =
+      option.kind === 'item' ? (
         <CopyName name={option.name} />
       ) : (
         <span className="ck-plain">{option.name}</span>
-      )}
-    </>
-  )
+      )
+    const own = options.length > 1 && option.kind === 'item'
+    return (
+      <span key={index}>
+        {index > 0 && ` ${s.needOr} `}
+        <span className={own ? 'copyhost ck-opt' : undefined}>
+          {amount}
+          {amounts === 'shown' && ' '}
+          {name}
+        </span>
+      </span>
+    )
+  })
 }
 
-/** Las opciones de una fila: «1 × Pandaburg o 1 × Pandapils». */
-function NeedOptions({ row }: { row: NeedRowView }) {
-  return [row, ...(row.alternatives ?? [])].map((option, index) => (
-    <span key={index}>
-      {index > 0 && ` ${s.needOr} `}
-      <NeedOption option={option} />
-    </span>
-  ))
-}
+/** La fila entera copia el nombre solo si es un único objeto del juego. */
+const soleCopyhost = (row: NeedRowView) => row.kind === 'item' && !row.alternatives?.length
 
-function NeedRow({ row, stepId, extra }: { row: NeedRowView; stepId: string; extra?: ReactNode }) {
+function NeedRow({
+  row,
+  stepId,
+}: {
+  row: NeedRowView & { prerequisite?: string; prerequisiteText?: string }
+  stepId: string
+}) {
   return (
-    <li className={`row ck-need${row.kind === 'item' ? ' copyhost' : ''}`}>
+    <li className={`row ck-need${soleCopyhost(row) ? ' copyhost' : ''}`}>
       <input
         type="checkbox"
         className="checkbox ck-js"
         data-own={`${row.key}#${stepId}`}
+        {...(row.prerequisite && { 'data-pre': row.prerequisite })}
         disabled
         data-ck-wait
         aria-label={p.own(needName(row))}
       />
       <IconWell image={row.kind === 'item' ? row.icon : undefined} />
       <span>
-        <NeedOptions row={row} />
+        <NeedOptions row={row} amounts="shown" />
         {row.note && <span className="ck-item__r">{row.note}</span>}
-        {extra}
+        {row.prerequisiteText && (
+          <span className="ck-item__r">{s.prerequisiteFor(row.prerequisiteText)}</span>
+        )}
       </span>
     </li>
   )
 }
-
-/** El nombre de una fila con sus opciones: «Pandaburg o Pandapils». */
-const needName = (row: NeedRowView) =>
-  [row, ...(row.alternatives ?? [])].map((option) => option.name).join(` ${s.needOr} `)
 
 function NeedGroups({
   groups,
@@ -707,10 +736,9 @@ export function Prerequisites({ view }: { view: ChecklistView }) {
 }
 
 function TotalSlot({ row, category }: { row: TotalRowView; category: string }) {
-  const steps = <span className="ck-slot__s">{s.totalsSteps(row.steps)}</span>
   return (
     <li
-      className={`ck-slot${row.kind === 'item' ? ' copyhost' : ''}`}
+      className={`ck-slot${soleCopyhost(row) ? ' copyhost' : ''}`}
       data-ck-slot={row.key}
       data-steps={row.steps.join(' ')}
       data-cat={category}
@@ -718,7 +746,9 @@ function TotalSlot({ row, category }: { row: TotalRowView; category: string }) {
       <span className="ck-slot__w copywell" aria-hidden="true">
         {row.kind === 'item' && row.icon && <Picture image={row.icon} alt="" />}
         <span className="ck-slot__q">
-          {[row, ...(row.alternatives ?? [])].map((o) => formatAmount(o.quantity)).join(' / ')}
+          {needOptions(row)
+            .map((option) => formatAmount(option.quantity))
+            .join(' / ')}
         </span>
       </span>
       <input
@@ -729,20 +759,10 @@ function TotalSlot({ row, category }: { row: TotalRowView; category: string }) {
         data-ck-wait
       />
       <span className="ck-slot__n">
-        {row.alternatives ? (
-          <NeedOptions row={row} />
-        ) : (
-          <>
-            <span className="sr-only">{formatAmount(row.quantity)} × </span>
-            {row.kind === 'item' ? (
-              <CopyName name={row.name} />
-            ) : (
-              <span className="ck-plain">{row.name}</span>
-            )}
-          </>
-        )}
+        <NeedOptions row={row} amounts="hidden" />
       </span>
-      {steps}
+      {row.group && <span className="ck-slot__g">{row.group}</span>}
+      <span className="ck-slot__s">{s.totalsSteps(row.steps)}</span>
     </li>
   )
 }

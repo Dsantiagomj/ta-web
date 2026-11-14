@@ -1,7 +1,7 @@
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 
-import { StepDetail, StepList } from '@/components/checklist/ChecklistParts'
+import { ChecklistTabs, StepDetail, StepList, Totals } from '@/components/checklist/ChecklistParts'
 import type { QuestRowView, StepView } from '@/lib/checklists/page'
 
 // Las partes de la página de una checklist (prototipo A).
@@ -209,6 +209,66 @@ describe('el progreso antes de que llegue su código', () => {
     expect(detail).toMatch(/data-q-hit="true"[^>]*disabled=""|disabled=""[^>]*data-q-hit="true"/)
     expect(detail).toMatch(
       /<button type="button" class="ck-btn ck-complete" data-complete="1"[^>]*disabled=""/,
+    )
+  })
+})
+
+describe('revisión de #119', () => {
+  const twoItems: StepView['needs'] = [
+    {
+      category: 'consumables',
+      title: 'Consumibles',
+      rows: [
+        {
+          kind: 'item',
+          key: '7045|7047',
+          name: 'Pandaburg',
+          quantity: 1,
+          alternatives: [{ kind: 'item', key: '7047', name: 'Pandapils', quantity: 1 }],
+        },
+      ],
+    },
+  ]
+
+  it('con varias opciones, cada objeto copia solo su nombre: cada uno lleva su propio copyhost', () => {
+    const html = renderToStaticMarkup(
+      <StepDetail step={{ ...step(route(0)), needs: twoItems }} last={1} />,
+    )
+    const row = html.match(/<li class="([^"]*ck-need[^"]*)"/)![1]
+    expect(row).not.toContain('copyhost')
+    expect(html.match(/<span class="copyhost ck-opt">/g)).toHaveLength(2)
+  })
+
+  it('la pestaña de prerrequisitos sale aunque solo haya avisos', () => {
+    const view = {
+      prerequisites: { count: 0, shown: true },
+      totalsCount: 0,
+    } as unknown as Parameters<typeof ChecklistTabs>[0]['view']
+    expect(renderToStaticMarkup(<ChecklistTabs view={view} />)).toContain('data-tab="pre"')
+  })
+
+  it('en Objetos, una fila con apartado lo dice en su casilla', () => {
+    const view = {
+      totals: [
+        {
+          category: 'resources',
+          title: 'Recursos',
+          rows: [
+            {
+              kind: 'item',
+              key: '1@mision opcional',
+              name: 'Pepita',
+              quantity: 5,
+              group: 'Misión opcional',
+              steps: [1],
+            },
+          ],
+        },
+      ],
+      soonSteps: [1],
+    } as unknown as Parameters<typeof Totals>[0]['view']
+    expect(renderToStaticMarkup(<Totals view={view} />)).toContain(
+      '<span class="ck-slot__g">Misión opcional</span>',
     )
   })
 })

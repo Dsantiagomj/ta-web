@@ -201,8 +201,10 @@ export interface ChecklistView {
     count: number
     /** Los avisos de Torre (el Dofus Ocre, la orden de alineamiento). */
     notes: { title: string; text: string }[]
-    /** Lo que piden, por grupo, cada fila con el prerrequisito que la gasta. */
-    needs: NeedGroupView<NeedRowView & { prerequisite?: string }>[]
+    /** Lo que piden, por grupo, cada fila con el prerrequisito que la gasta y su texto. */
+    needs: NeedGroupView<NeedRowView & { prerequisite?: string; prerequisiteText?: string }>[]
+    /** Si hay algo que enseñar: grupos, avisos u objetos. */
+    shown: boolean
   }
   totals: NeedGroupView<TotalRowView>[]
   totalsCount: number
@@ -268,9 +270,17 @@ function segmentParts(text: string, links: Map<string, string>): TextPart[] {
 
 type NeedOption = Pick<Need, 'item' | 'label' | 'quantity'>
 
-/** Una opción de una fila: el objeto del juego o, si no lo es, su texto; null sin ninguno. */
+/**
+ * Una opción de una fila: el objeto del juego o, si no lo es, su texto. Un objeto que ya no
+ * existe (borrado de la base) no se pierde: sale como tal, con una clave de su ID guardado,
+ * para no cambiar la de las demás opciones. Null solo sin objeto ni texto.
+ */
 function needOption(option: NeedOption): NeedOptionView | null {
   const item = populated(option.item)
+  const stored = relationId(option.item ?? null)
+  if (!item?.name && stored !== null) {
+    return { kind: 'label', key: `item:${stored}`, name: s.unknownItem, quantity: option.quantity }
+  }
   if (item?.name) {
     const icon = image(item.image)
     return {
@@ -556,6 +566,25 @@ export function checklistView(data: ChecklistData): ChecklistView {
     return rows.length ? [{ title: group.title ?? '', rows }] : []
   })
   const title = s.title(checklist.name)
+  const prerequisiteNotes = (checklist.prerequisites?.notes ?? []).map(({ title, text }) => ({
+    title: title ?? '',
+    text,
+  }))
+  const prerequisiteTexts = new Map(
+    groups.flatMap((group) => group.rows.map((row) => [row.key, row.text] as const)),
+  )
+  const prerequisiteNeeds = byCategory(
+    (checklist.prerequisites?.needs ?? []).flatMap((need) => {
+      const row = needRow(need)
+      if (!row) return []
+      const text = need.prerequisite ? prerequisiteTexts.get(need.prerequisite) : undefined
+      const prerequisite = need.prerequisite
+        ? { prerequisite: need.prerequisite, ...(text && { prerequisiteText: text }) }
+        : {}
+      return [{ category: need.category ?? null, row: { ...row, ...prerequisite } }]
+    }),
+    true,
+  )
 
   return {
     id: checklist.id,
@@ -578,19 +607,9 @@ export function checklistView(data: ChecklistData): ChecklistView {
       intro: checklist.prerequisites?.intro ?? null,
       groups,
       count: groups.reduce((sum, group) => sum + group.rows.length, 0),
-      notes: (checklist.prerequisites?.notes ?? []).map(({ title, text }) => ({
-        title: title ?? '',
-        text,
-      })),
-      needs: byCategory(
-        (checklist.prerequisites?.needs ?? []).flatMap((need) => {
-          const row = needRow(need)
-          if (!row) return []
-          const prerequisite = need.prerequisite ? { prerequisite: need.prerequisite } : {}
-          return [{ category: need.category ?? null, row: { ...row, ...prerequisite } }]
-        }),
-        true,
-      ),
+      notes: prerequisiteNotes,
+      needs: prerequisiteNeeds,
+      shown: groups.length > 0 || prerequisiteNotes.length > 0 || prerequisiteNeeds.length > 0,
     },
     totals,
     totalsCount: totals.reduce((sum, group) => sum + group.rows.length, 0),
@@ -603,7 +622,10 @@ export function checklistView(data: ChecklistData): ChecklistView {
 
 /** Lo que piden todos los pasos, sumado por objeto (o por texto) y grupo. */
 function totalRows(steps: Step[]) {
-  const rows = new Map<string, { category: NeedCategory | null; row: TotalRowView }>()
+  const rows = new Map<
+    string,
+    { category: NeedCategory | null; row: TotalRowView; parts: number[][] }
+  >()
   steps.forEach((step, index) => {
     for (const need of step.needs ?? []) {
       if (need.countsInTotal === false) continue
@@ -613,41 +635,65 @@ function totalRows(steps: Step[]) {
       // casilla, aunque cambie de grupo o de mayúsculas entre pasos. Va en el grupo del primero.
       const key = row.key
       const seen = rows.get(key)
+      const quantities = [row, ...(row.alternatives ?? [])].map((option) => option.quantity)
       if (seen) {
-        // Lo que se conserva tras usarlo cuenta la mayor cantidad; lo demás, la suma.
-        const add = (was: number, more: number) => (row.reusable ? Math.max(was, more) : was + more)
-        seen.row.quantity = add(seen.row.quantity, row.quantity)
-        seen.row.alternatives = seen.row.alternatives?.map((alt, at) => ({
-          ...alt,
-          quantity: add(alt.quantity, row.alternatives?.[at]?.quantity ?? 0),
-        }))
+        seen.parts.push(quantities)
+        if (row.reusable) seen.row.reusable = true
         if (!seen.row.steps.includes(index + 1)) seen.row.steps.push(index + 1)
       } else {
         const { note: _note, ...rest } = row
-        rows.set(key, { category: need.category ?? null, row: { ...rest, steps: [index + 1] } })
+        rows.set(key, {
+          category: need.category ?? null,
+          row: { ...rest, steps: [index + 1] },
+          parts: [quantities],
+        })
       }
     }
   })
-  return [...rows.values()]
+  // Lo que se conserva tras usarlo (si lo dice cualquiera de sus filas) cuenta la mayor
+  // cantidad de cada opción; lo demás, la suma. No depende del orden de los pasos.
+  return [...rows.values()].map(({ category, row, parts }) => {
+    const total = (at: number) => {
+      const amounts = parts.map((part) => part[at] ?? 0)
+      return row.reusable ? Math.max(...amounts) : amounts.reduce((sum, n) => sum + n, 0)
+    }
+    return {
+      category,
+      row: {
+        ...row,
+        quantity: total(0),
+        ...(row.alternatives && {
+          alternatives: row.alternatives.map((alt, at) => ({ ...alt, quantity: total(at + 1) })),
+        }),
+      },
+    }
+  })
 }
 
 function islandData(data: ChecklistData): ChecklistIslandData {
   const { checklist, questGraph, torreLevels } = data
   const steps = checklist.steps ?? []
   const islandSteps = steps.map((step): ChecklistIslandData['steps'][number] => {
-    const stop = (step.segments ?? []).find(
-      (segment) => segment.kind === 'stop' && segment.quest != null,
-    )
-    const stopQuest = relationId(stop?.quest ?? null)
+    // Cada misión donde para algún «detente aquí» del paso, en su primera parada.
+    const stops = new Map<number, number>()
+    for (const segment of step.segments ?? []) {
+      for (const point of segmentStops(segment)) {
+        const quest = relationId(point.quest ?? null)
+        if (quest !== null && point.stopObjective != null && !stops.has(quest)) {
+          stops.set(quest, point.stopObjective)
+        }
+      }
+    }
     return [
       step.stepId ?? '',
       step.legacyNumber ?? null,
       (step.quests ?? []).flatMap((row) => {
         const quest = populated(row.quest)
         if (!quest) return []
+        const stop = stops.get(quest.id)
         return [
-          stop && quest.id === stopQuest && stop.stopObjective != null
-            ? ([quest.dofusId, row.kind, stop.stopObjective] as [number, QuestKind, number])
+          stop !== undefined
+            ? ([quest.dofusId, row.kind, stop] as [number, QuestKind, number])
             : ([quest.dofusId, row.kind] as [number, QuestKind]),
         ]
       }),

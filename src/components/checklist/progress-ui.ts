@@ -18,6 +18,7 @@ import {
 } from '@/lib/checklists/progress/engine'
 import {
   backupFile,
+  ownedParts,
   parseBackup,
   PROGRESS_KEY,
   readProgress,
@@ -156,8 +157,8 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
   function renderItems() {
     // Lo de cada paso de Necesitarás: conseguido, o gastado si el paso está hecho.
     for (const box of $$<HTMLInputElement>('[data-own]')) {
-      const [key, stepId] = (box.dataset.own ?? '').split('#')
-      const used = stepDone(progress, m, m.index.get(stepId) ?? -1)
+      const [key, stepId] = ownedParts(box.dataset.own ?? '')
+      const used = stepDone(progress, m, m.index.get(stepId ?? '') ?? -1)
       box.checked = used || ownedKey(key, stepId)
       box.disabled = used
       box.closest('.ck-need')?.toggleAttribute('data-owned', box.checked)
@@ -321,7 +322,7 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
       steps: stepsDone(progress, m),
       prereqs: Object.keys(progress.prereqs).filter((key) => key.startsWith(`${m.id}:`)).length,
       owned: Object.keys(progress.owned).filter((key) => {
-        const step = key.split('#')[1]
+        const step = ownedParts(key)[1]
         return step ? m.index.has(step) : whole.has(key)
       }).length,
     }
@@ -447,13 +448,13 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
       if (box.checked) return save(setOwned(progress, [box.dataset.own], true, now))
       // Desmarcar quita lo que lo hace conseguido. Si estaba marcado entero (una copia, la
       // checklist antigua), sigue conseguido en los demás pasos que lo piden.
-      const [key, stepId] = box.dataset.own.split('#')
+      const [key, stepId] = ownedParts(box.dataset.own)
       let next = setOwned(progress, [box.dataset.own], false, now)
       if (progress.owned[key]) {
         const others = [
           ...new Set(
             $$<HTMLInputElement>('[data-own]').flatMap((other) => {
-              const [otherKey, otherStep] = (other.dataset.own ?? '').split('#')
+              const [otherKey, otherStep] = ownedParts(other.dataset.own ?? '')
               return otherKey === key && otherStep !== stepId ? [`${key}#${otherStep}`] : []
             }),
           ),
