@@ -67,8 +67,7 @@ export const checklistStrings = {
       'otra clave borraría esas marcas.',
     stepsDescription: 'Los pasos de la guía, en tu orden.',
     stepIdDescription:
-      'Guarda el progreso de cada persona en este paso. Se crea al guardar y no cambia. ' +
-      'Cópialo para «Pasos que termina» o «La termina el paso».',
+      'Guarda el progreso de cada persona en este paso. Se crea al guardar y no cambia.',
     stepIdCopyLabel: 'el identificador del paso',
     segmentsDescription:
       'El texto del paso, por tramos y en orden. Un tramo «Detente aquí» dice hasta dónde ' +
@@ -85,8 +84,7 @@ export const checklistStrings = {
     stopMoreDescription:
       'Otras misiones u objetivos donde para este mismo texto, cuando son varios.',
     stopObjectiveDescription:
-      'El objetivo de esa misión donde hay que parar, contando desde 0 en la lista de ' +
-      'objetivos de la misión, etapa tras etapa.',
+      'El objetivo de esa misión antes del que hay que parar, de la lista de sus objetivos.',
     stopObjectiveRequired: 'Indica el objetivo donde hay que parar',
     stopObjectiveInvalid: 'El objetivo es un número entero desde 0',
     stopObjectiveOutOfRange: (last: number) =>
@@ -94,8 +92,7 @@ export const checklistStrings = {
     questWithoutObjectives:
       'Esta misión no tiene objetivos guardados todavía: refresca los datos de DofusDB',
     closesDescription:
-      'Los identificadores de los pasos cuyas misiones termina este tramo. Cada paso tiene ' +
-      'el suyo en «Datos técnicos», al final del paso.',
+      'Los pasos cuyas misiones termina este tramo. Un paso nuevo sale aquí al guardarlo.',
     stepClosesDescription:
       'Los pasos cuyas misiones termina este paso sin un tramo «Aquí se resuelve». Con ese tramo, van en él.',
     stepUpdatesDescription:
@@ -112,9 +109,7 @@ export const checklistStrings = {
     completedByDescription:
       'Misiones que el juego termina solas al terminar otras, como «Bienvenido a Frigost». Salen hechas sin marcarlas.',
     completedByByDescription: 'Las misiones que, terminadas todas, terminan esta.',
-    optionalDoneByDescription:
-      'El identificador del paso que termina esta misión opcional, si otro paso la termina. ' +
-      'Está en «Datos técnicos», al final de ese paso.',
+    optionalDoneByDescription: 'El paso que termina esta misión opcional, si la termina otro paso.',
     needQuestsDescription: 'Las misiones que piden este objeto.',
     needItemDescription:
       'El objeto del juego. Si no es un objeto (kamas, un hechizo), deja el texto.',

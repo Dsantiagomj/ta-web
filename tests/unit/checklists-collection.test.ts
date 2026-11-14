@@ -230,6 +230,27 @@ describe('colección checklists', () => {
     ])
   })
 
+  it('los pasos se eligen por su nombre y el objetivo de parada por su texto (A-19)', () => {
+    const stepRef = { Field: '/components/admin/StepRefField#StepRefField' }
+    const objective = { Field: '/components/admin/StopObjectiveField#StopObjectiveField' }
+    const quests = field(steps.fields, 'quests') as ArrayField
+    const more = field(segments.fields, 'more') as ArrayField
+    for (const target of [
+      field(segments.fields, 'closes'),
+      field(steps.fields, 'closes'),
+      field(steps.fields, 'updates'),
+      field(quests.fields, 'optionalDoneBy'),
+    ]) {
+      expect(target).toMatchObject({ type: 'text', admin: { components: stepRef } })
+    }
+    for (const target of [
+      field(segments.fields, 'stopObjective'),
+      field(more.fields, 'stopObjective'),
+    ]) {
+      expect(target).toMatchObject({ type: 'number', admin: { components: objective } })
+    }
+  })
+
   it('el esquema de los pasos va antes de los pasos, para reordenarlos (A-18)', () => {
     const names = Checklists.fields.map((f) => ('name' in f ? f.name : null))
     expect(names.indexOf('stepOutline')).toBe(names.indexOf('steps') - 1)

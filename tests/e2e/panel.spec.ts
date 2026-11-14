@@ -202,6 +202,36 @@ test.describe('el panel para Torre', () => {
     await expect(page.locator('#steps-row-0')).toContainText(nebuloso.steps.first)
   })
 
+  test('los pasos y el objetivo de parada se eligen por su nombre (A-19)', async () => {
+    const nebuloso = seedChecklists.nebuloso
+    const id = await docId(page, 'checklists', nebuloso.slug)
+    await page.goto(`/admin/collections/checklists/${id}`)
+
+    // El paso 3 se resuelve y cierra el 2: el 2 sale por su nombre, no por su identificador.
+    const third = page.locator('#steps-row-2')
+    const resolve = third.locator('#steps-2-segments-row-1')
+    await openUntil(third.locator('> .collapsible'), resolve)
+    await page.waitForLoadState('networkidle')
+    const closes = third.locator('#field-steps__2__segments__1__closes')
+    await openUntil(resolve.locator('> .collapsible'), closes)
+    await expect(closes).toContainText(`Paso 2: ${nebuloso.steps.stopPlain}`)
+
+    // El paso 2 para en el segundo objetivo de su misión: sale por su texto.
+    const second = page.locator('#steps-row-1')
+    const stop = second.locator('#steps-1-segments-row-1')
+    await openUntil(second.locator('> .collapsible'), stop)
+    await page.waitForLoadState('networkidle')
+    const objective = second.locator('#field-steps__1__segments__1__stopObjective')
+    await openUntil(stop.locator('> .collapsible'), objective)
+    await expect(objective).toContainText(`2. ${nebuloso.stopQuest.objectives[1].text}`)
+    // Abierto, lista todos los objetivos de la misión, en su orden.
+    await objective.locator('.rs__control').click()
+    await expect(page.locator('.rs__option')).toHaveText(
+      nebuloso.stopQuest.objectives.map((o, i) => `${i + 1}. ${o.text}`),
+    )
+    await page.keyboard.press('Escape')
+  })
+
   test('el formulario de subir una imagen explica el texto alternativo', async () => {
     await page.goto('/admin/collections/media/create')
     await expect(page.getByText('Describe lo que se ve')).toBeVisible()

@@ -68,6 +68,10 @@ const localizedText = (name: string, label: string, description?: string): Field
 // Una parada: la misión que se deja a medias, su objetivo y sus opciones. La lleva el tramo
 // «detente aquí» y cada una de sus «más paradas».
 type PointAdmin = { description: string; condition?: Condition }
+
+// Los selectores del panel (A-19): pasos por su nombre y objetivos por su texto.
+const STEP_REF_FIELD = '/components/admin/StepRefField#StepRefField'
+const STOP_OBJECTIVE_FIELD = '/components/admin/StopObjectiveField#StopObjectiveField'
 const stopPointFields = (
   admin: (description: string) => PointAdmin,
   questValidate?: typeof validateSegmentQuest,
@@ -85,7 +89,8 @@ const stopPointFields = (
     label: 'Objetivo donde parar',
     type: 'number',
     validate: validateStopObjective,
-    admin: admin(s.stopObjectiveDescription),
+    // Se elige por su texto entre los de la misión (A-19); se guarda su índice desde 0.
+    admin: { ...admin(s.stopObjectiveDescription), components: { Field: STOP_OBJECTIVE_FIELD } },
   },
   {
     // Sin valor por defecto: sin marcar se guarda vacío, como lo deja la importación.
@@ -148,7 +153,11 @@ const segmentFields: Field[] = [
     type: 'text',
     hasMany: true,
     validate: validateClosedSteps,
-    admin: { condition: isKind('resolve'), description: s.closesDescription },
+    admin: {
+      condition: isKind('resolve'),
+      description: s.closesDescription,
+      components: { Field: STEP_REF_FIELD },
+    },
   },
 ]
 
@@ -296,7 +305,7 @@ const stepFieldList: Field[] = [
     type: 'text',
     hasMany: true,
     validate: validateStepRefs,
-    admin: { description: s.stepClosesDescription },
+    admin: { description: s.stepClosesDescription, components: { Field: STEP_REF_FIELD } },
   },
   {
     name: 'updates',
@@ -304,7 +313,7 @@ const stepFieldList: Field[] = [
     type: 'text',
     hasMany: true,
     validate: validateStepRefs,
-    admin: { description: s.stepUpdatesDescription },
+    admin: { description: s.stepUpdatesDescription, components: { Field: STEP_REF_FIELD } },
   },
   {
     name: 'note',
@@ -403,7 +412,11 @@ const stepFieldList: Field[] = [
         label: 'La termina el paso',
         type: 'text',
         validate: validateStepRef,
-        admin: { condition: isKind('optional'), description: s.optionalDoneByDescription },
+        admin: {
+          condition: isKind('optional'),
+          description: s.optionalDoneByDescription,
+          components: { Field: STEP_REF_FIELD },
+        },
       },
     ],
   },

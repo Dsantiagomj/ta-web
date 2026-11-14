@@ -1311,7 +1311,7 @@ export interface Checklist {
                */
               quest?: (number | null) | Quest;
               /**
-               * El objetivo de esa misión donde hay que parar, contando desde 0 en la lista de objetivos de la misión, etapa tras etapa.
+               * El objetivo de esa misión antes del que hay que parar, de la lista de sus objetivos.
                */
               stopObjective?: number | null;
               /**
@@ -1336,7 +1336,7 @@ export interface Checklist {
                      */
                     quest?: (number | null) | Quest;
                     /**
-                     * El objetivo de esa misión donde hay que parar, contando desde 0 en la lista de objetivos de la misión, etapa tras etapa.
+                     * El objetivo de esa misión antes del que hay que parar, de la lista de sus objetivos.
                      */
                     stopObjective?: number | null;
                     /**
@@ -1355,7 +1355,7 @@ export interface Checklist {
                   }[]
                 | null;
               /**
-               * Los identificadores de los pasos cuyas misiones termina este tramo. Cada paso tiene el suyo en «Datos técnicos», al final del paso.
+               * Los pasos cuyas misiones termina este tramo. Un paso nuevo sale aquí al guardarlo.
                */
               closes?: string[] | null;
               id?: string | null;
@@ -1404,7 +1404,7 @@ export interface Checklist {
                */
               alternatives?: (number | Quest)[] | null;
               /**
-               * El identificador del paso que termina esta misión opcional, si otro paso la termina. Está en «Datos técnicos», al final de ese paso.
+               * El paso que termina esta misión opcional, si la termina otro paso.
                */
               optionalDoneBy?: string | null;
               id?: string | null;
