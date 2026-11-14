@@ -30,7 +30,7 @@ import * as migration_20261114_022136_checklist_silvestre from './20261114_02213
 import * as migration_20261114_022458_checklist_hielos from './20261114_022458_checklist_hielos';
 import * as migration_20261114_122659_checklist_ocre from './20261114_122659_checklist_ocre';
 import * as migration_20261114_142119_checklist_cards from './20261114_142119_checklist_cards';
-import * as migration_20261114_153902_needs_group_select from './20261114_153902_needs_group_select';
+import * as migration_20261114_163904_needs_group_select from './20261114_163904_needs_group_select';
 
 export const migrations = [
   {
@@ -194,8 +194,8 @@ export const migrations = [
     name: '20261114_142119_checklist_cards',
   },
   {
-    up: migration_20261114_153902_needs_group_select.up,
-    down: migration_20261114_153902_needs_group_select.down,
-    name: '20261114_153902_needs_group_select'
+    up: migration_20261114_163904_needs_group_select.up,
+    down: migration_20261114_163904_needs_group_select.down,
+    name: '20261114_163904_needs_group_select'
   },
 ];

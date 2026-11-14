@@ -4,7 +4,7 @@ import {
   legacyNeedGroup,
   snapshotDown,
   snapshotUp,
-} from '../../src/migrations/20261114_153902_needs_group_select'
+} from '../../src/migrations/20261114_163904_needs_group_select'
 
 // La migración que pasa el nombre libre de los grupos de Necesitarás a la lista fija sin perder
 // lo que escribió Torre: el nombre de siempre queda como subtítulo del grupo y down() lo
