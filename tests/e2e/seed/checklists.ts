@@ -80,6 +80,26 @@ export const seedChecklists = {
     slug: 'checklist-silvestre',
     name: 'Dofus Silvestre',
     legacyHref: 'https://www.torrentearcano.com/checklist-silvestre',
+    // El borrador con lo que trae el Silvestre (lo ve la vista previa del panel): avisos, una
+    // parada con «más paradas» y su parte del verde, una fila con alternativas y otra con
+    // apartado, un logro «hasta la misión», un paso que avanza otro y los avisos y objetos de
+    // los prerrequisitos.
+    draft: {
+      firstPlain: 'Logro "Escapadas y emboscadas", misión 3.',
+      tip: '(Se pueden encadenar las misiones)',
+      stopPlain: 'Logro "El alegre retirado", misión 4.',
+      stop: '(Hasta tener que luchar contra los monstruos de la zona)',
+      resumeLine: 'Se hacen las peleas correspondientes.',
+      laterLine: 'Hasta vencer al Rey Nidas: lo termina un paso posterior.',
+      resolve: 'Se pasa la mazmorra y se actualiza la misión del inciso 1.',
+      must: 'En este punto se debe tomar la misión Sangre fría.',
+      group: 'Misión opcional',
+      prerequisite: { key: 'o1', text: 'Campesino nivel 100' },
+      note: {
+        title: 'Empieza el Dofus Ocre cuanto antes',
+        text: 'Es una misión larga e independiente de la mayoría de las etapas.',
+      },
+    },
   },
 }
 
@@ -269,7 +289,7 @@ export async function seedChecklistPages(payload: Payload): Promise<void> {
 
   const silvestre = seedChecklists.silvestre
   if (!(await findOne(payload, 'checklists', 'slug', silvestre.slug))) {
-    await payload.create({
+    const ficha = await payload.create({
       collection: 'checklists',
       data: {
         name: silvestre.name,
@@ -280,5 +300,94 @@ export async function seedChecklistPages(payload: Payload): Promise<void> {
         _status: 'published',
       },
     })
+    await seedSilvestreDraft(payload, ficha.id, { achievement, stop, pico, ojo })
   }
+}
+
+/**
+ * El borrador del Silvestre sobre su ficha publicada, como lo deja la importación: lo publicado
+ * sigue siendo la ficha En preparación y la vista previa del panel enseña los pasos.
+ */
+async function seedSilvestreDraft(
+  payload: Payload,
+  id: number,
+  refs: Record<'achievement' | 'stop' | 'pico' | 'ojo', { id: number }>,
+) {
+  const d = seedChecklists.silvestre.draft
+  const { achievement, stop, pico, ojo } = refs
+  const first = await payload.update({
+    collection: 'checklists',
+    id,
+    draft: true,
+    data: {
+      prerequisites: {
+        groups: [{ title: 'Oficios', rows: [d.prerequisite] }],
+        notes: [d.note],
+        needs: [
+          {
+            item: pico.id,
+            quantity: 50,
+            category: 'resources',
+            countsInTotal: true,
+            prerequisite: d.prerequisite.key,
+          },
+        ],
+      },
+      steps: [
+        {
+          legacyNumber: 1,
+          segments: [
+            { kind: 'plain', text: d.firstPlain },
+            { kind: 'tip', text: d.tip },
+          ],
+          achievements: [{ achievement: achievement.id, mode: 'upto', on: [1, 2] }],
+          needs: [
+            {
+              item: pico.id,
+              quantity: 1,
+              alternatives: [{ item: ojo.id, quantity: 1 }],
+              category: 'consumables',
+              countsInTotal: true,
+            },
+            {
+              item: pico.id,
+              quantity: 5,
+              group: d.group,
+              category: 'resources',
+              countsInTotal: true,
+            },
+          ],
+        },
+        {
+          legacyNumber: 2,
+          segments: [
+            { kind: 'plain', text: d.stopPlain },
+            {
+              kind: 'stop',
+              text: d.stop,
+              quest: stop.id,
+              stopObjective: 0,
+              resumeLine: d.resumeLine,
+              more: [{ quest: stop.id, stopObjective: 2, later: true, line: d.laterLine }],
+            },
+            { kind: 'resolve', text: d.resolve, closes: [] },
+            { kind: 'must', text: d.must },
+          ],
+          quests: [{ quest: stop.id, kind: 'mandatory' }],
+        },
+      ],
+    },
+  })
+  // El paso 2 avanza el 1 por su stepId, que da el hook al guardar.
+  const steps = first.steps ?? []
+  await payload.update({
+    collection: 'checklists',
+    id,
+    draft: true,
+    data: {
+      steps: steps.map((step, index) =>
+        index === 1 ? { ...step, updates: [steps[0].stepId!] } : step,
+      ),
+    },
+  })
 }

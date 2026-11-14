@@ -15,6 +15,8 @@ const step = (quest: QuestRowView): StepView => ({
   hasResolve: false,
   closes: [],
   closedBy: null,
+  updates: [],
+  resumedIn: [],
   achievements: [],
   quests: [quest],
   needs: [],
@@ -32,7 +34,7 @@ const route = (at: number): QuestRowView => ({
       { kind: 'npc', text: 'Ve a ver a Wello' },
       { kind: 'fight', text: 'Vence a 1 x Rey Nidas' },
     ],
-    line: { at, kind: 'stop', text: 'Para después de todo.' },
+    lines: [{ at, kind: 'stop', text: 'Para después de todo.' }],
   },
 })
 
@@ -57,6 +59,65 @@ describe('StepDetail: la línea de Torre en la ruta de la misión', () => {
       expect(rows(html)).toEqual(['objetivo', 'objetivo', 'línea'])
       expect(html).toContain('Para después de todo.')
     }
+  })
+})
+
+describe('StepDetail: lo que trae el Silvestre', () => {
+  it('varias líneas en una misión, cada una delante de su objetivo', () => {
+    const quest = route(0)
+    quest.route!.lines = [
+      { at: 0, kind: 'resolve', text: 'Se hacen las peleas.' },
+      { at: 1, kind: 'stop', text: 'Hasta la mazmorra.' },
+    ]
+    const html = renderToStaticMarkup(<StepDetail step={step(quest)} last={1} />)
+    expect(rows(html)).toEqual(['línea', 'objetivo', 'línea', 'objetivo'])
+    expect(html).toContain('ck-line--resolve')
+  })
+
+  it('los avisos de la guía van resaltados en su tramo, con su tipo', () => {
+    const withCalls: StepView = {
+      ...step(route(0)),
+      segments: [
+        { kind: 'plain', parts: ['Logro.'] },
+        { kind: 'tip', parts: ['(Se pueden encadenar)'] },
+        { kind: 'must', parts: ['Hay que tomar la misión.'] },
+      ],
+    }
+    const html = renderToStaticMarkup(<StepDetail step={withCalls} last={1} />)
+    expect(html).toContain('<mark class="hl hl--tip">(Se pueden encadenar)</mark>')
+    expect(html).toContain('<mark class="hl hl--must">Hay que tomar la misión.</mark>')
+  })
+
+  it('una fila con alternativas nombra cada opción con su cantidad', () => {
+    const withNeeds: StepView = {
+      ...step(route(0)),
+      needs: [
+        {
+          category: 'consumables',
+          title: 'Consumibles',
+          rows: [
+            {
+              kind: 'item',
+              key: '7045|7047',
+              name: 'Pandaburg',
+              quantity: 1,
+              alternatives: [{ kind: 'item', key: '7047', name: 'Pandapils', quantity: 1 }],
+            },
+          ],
+        },
+      ],
+    }
+    const html = renderToStaticMarkup(<StepDetail step={withNeeds} last={1} />)
+    expect(html).toContain('data-own="7045|7047#a"')
+    expect(html).toMatch(/Pandaburg.*o .*1 ×.*Pandapils/)
+  })
+
+  it('dice qué pasos avanza y en cuál se retoma', () => {
+    const html = renderToStaticMarkup(
+      <StepDetail step={{ ...step(route(0)), updates: [84], resumedIn: [93] }} last={1} />,
+    )
+    expect(html).toContain('avanza el 84')
+    expect(html).toContain('se retoma en el 93')
   })
 })
 

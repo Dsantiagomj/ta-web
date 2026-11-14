@@ -605,6 +605,21 @@ html[data-js] .ck-step[data-open] .ck-step__scroll {
   box-shadow: inset 0 -2px 0 var(--color-success);
 }
 
+/* Los avisos de la guía: sin el rojo ni el verde, que son de las paradas. */
+.hl--note,
+.hl--includes {
+  background: var(--color-raised);
+}
+
+.hl--tip {
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+}
+
+.hl--must {
+  background: color-mix(in srgb, var(--color-warning) 14%, transparent);
+  box-shadow: inset 0 -2px 0 var(--color-warning);
+}
+
 .ck-legend {
   display: flex;
   flex-wrap: wrap;
@@ -651,6 +666,10 @@ html[data-js] .ck-step[data-open] .ck-step__scroll {
 
 .ck-tag--done {
   color: var(--color-success);
+}
+
+.ck-tag--soft {
+  color: var(--color-ink-2);
 }
 
 a.ck-tag {
