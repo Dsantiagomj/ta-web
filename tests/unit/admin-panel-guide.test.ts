@@ -2,7 +2,11 @@ import config from '@payload-config'
 import type { SanitizedConfig } from 'payload'
 import { beforeAll, describe, expect, it } from 'vitest'
 
-import { collectionDescriptions, panelGuide } from '@/lib/admin/panel-guide'
+import { preparingOnSite } from '@/lib/admin/panel-guide'
+import { panelStrings, SITE_HOST } from '@/lib/admin/strings'
+
+const panelGuide = panelStrings.guide
+const collectionDescriptions = panelStrings.collections
 
 // A-14 (docs/research/backlog.md): la «Guía del panel», una vista propia con secciones
 // cortas, y una línea de descripción en cada colección.
@@ -56,6 +60,26 @@ describe('la guía del panel', () => {
     expect(panelGuide.yourRole(null)).toBe('Tu cuenta es de editor.')
   })
 
+  it('«En preparación» se explica caso por caso, como la línea «En la web»', () => {
+    expect(preparingOnSite()).toEqual([
+      'Un logro: sale apagado, sin página.',
+      'Un metalogro: se abre solo si tiene logros publicados.',
+      'Una guía de Dofus: el huevo sale apagado, sin página.',
+      'Una checklist con dirección en la web antigua: en el menú, lleva a la checklist de ' +
+        'Squarespace.',
+      'Una checklist sin ella: en el menú, apagada y sin enlace.',
+    ])
+  })
+
+  it('la dirección de ejemplo usa el dominio del sitio', () => {
+    expect(allText()).toContain(`${SITE_HOST}/aprendizaje-escudero`)
+  })
+
+  it('«Guía del panel» se escribe en un solo sitio', () => {
+    expect(panelGuide.title).toBe('Guía del panel')
+    expect(Object.keys(panelGuide)).not.toContain('navLink')
+  })
+
   it('habla de tú, sin usted ni jerga', () => {
     expect(allText()).not.toMatch(/\b(usted|desea|slug|draft|publish|deploy|endpoint)\b/i)
   })
@@ -73,7 +97,7 @@ describe('la guía del panel', () => {
 
   it('el menú lleva a la guía', () => {
     expect(sanitized.admin.components?.afterNavLinks).toContain(
-      '/components/admin/PanelGuide#PanelGuideNavLink',
+      '/components/admin/PanelGuideNavLink#PanelGuideNavLink',
     )
   })
 })
@@ -91,6 +115,21 @@ describe('una línea de descripción por colección', () => {
       expect(typeof description, collection.slug).toBe('string')
       expect(description as string, collection.slug).not.toContain('\n')
       expect((description as string).length, collection.slug).toBeLessThanOrEqual(140)
+    }
+  })
+
+  it('las de los datos del juego dicen que son de solo lectura', () => {
+    for (const slug of [
+      'quests',
+      'items',
+      'monsters',
+      'dungeons',
+      'npcs',
+      'subareas',
+      'achievement-categories',
+      'achievements',
+    ] as const) {
+      expect(collectionDescriptions[slug], slug).toContain('De solo lectura')
     }
   })
 

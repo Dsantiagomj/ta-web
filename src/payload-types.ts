@@ -214,7 +214,7 @@ export interface QuestGuide {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Las misiones de DofusDB, con sus etapas y recompensas. Las eliges en tus guías.
+ * Las misiones de DofusDB, con sus etapas y recompensas. Las eliges en tus guías. De solo lectura: lo pone al día un script.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "quests".
@@ -340,7 +340,7 @@ export interface Quest {
   createdAt: string;
 }
 /**
- * Los objetos de DofusDB, con su icono. Los eliges en «Necesitarás» y en los Dofus.
+ * Los objetos de DofusDB, con su icono. Los eliges en «Necesitarás» y en los Dofus. De solo lectura: lo pone al día un script.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "items".
@@ -475,7 +475,7 @@ export interface Media {
   };
 }
 /**
- * Los monstruos de DofusDB, con su imagen. Los eliges en los bloques de combate.
+ * Los monstruos de DofusDB, con su imagen. Los eliges en los bloques de combate. De solo lectura: lo pone al día un script.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "monsters".
@@ -500,7 +500,7 @@ export interface Monster {
   createdAt: string;
 }
 /**
- * Las mazmorras de DofusDB y sus jefes. Las eliges en las notas de las guías.
+ * Las mazmorras de DofusDB y sus jefes. Las eliges en las notas de las guías. De solo lectura: lo pone al día un script.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "dungeons".
@@ -718,7 +718,7 @@ export interface AchievementPage {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Los logros de DofusDB. Cada página de logro enlaza uno.
+ * Los logros de DofusDB. Cada página de logro enlaza uno. De solo lectura: lo pone al día un script.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "achievements".
@@ -777,7 +777,7 @@ export interface Achievement {
   createdAt: string;
 }
 /**
- * Las categorías de logros de DofusDB, como «Astrub» o «Eventos».
+ * Las categorías de logros de DofusDB, como «Astrub» o «Eventos». De solo lectura: lo pone al día un script.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "achievement-categories".
@@ -854,7 +854,7 @@ export interface AchievementGroup {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Los PNJ de DofusDB que dan misiones o salen en ellas, con sus dibujos.
+ * Los PNJ de DofusDB que dan misiones o salen en ellas, con sus dibujos. De solo lectura: lo pone al día un script.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "npcs".
@@ -1579,7 +1579,7 @@ export interface Checklist {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Las zonas de DofusDB, con su área. Dan el nombre de los sitios de cada misión.
+ * Las zonas de DofusDB, con su área. Dan el nombre de los sitios de cada misión. De solo lectura: lo pone al día un script.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "subareas".
