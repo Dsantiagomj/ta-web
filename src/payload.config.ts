@@ -63,7 +63,7 @@ export default buildConfig({
         // La «Guía del panel» (A-14), en /admin/guia, enlazada al final del menú.
         panelGuide: { Component: '/components/admin/PanelGuide#PanelGuide', path: '/guia' },
       },
-      afterNavLinks: ['/components/admin/PanelGuide#PanelGuideNavLink'],
+      afterNavLinks: ['/components/admin/PanelGuideNavLink#PanelGuideNavLink'],
     },
   },
   // El orden es el del menú: primero el contenido de Torre, luego las imágenes, los datos

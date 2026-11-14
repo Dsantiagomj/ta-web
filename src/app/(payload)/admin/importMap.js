@@ -38,7 +38,7 @@ import { CopyValueDescription as CopyValueDescription_2baecbdeb96cc0bdee0814f263
 import { ChecklistStepLabel as ChecklistStepLabel_a30613d846a340cabc3fc2ee7ca0f9f2 } from '../../../components/admin/RowLabels'
 import { PanelIcon as PanelIcon_b64368432b45f4624802cb0938bfd691 } from '../../../components/admin/PanelBrand'
 import { PanelLogo as PanelLogo_b64368432b45f4624802cb0938bfd691 } from '../../../components/admin/PanelBrand'
-import { PanelGuideNavLink as PanelGuideNavLink_f0976761ad3e97a531fe95c863d5f963 } from '../../../components/admin/PanelGuide'
+import { PanelGuideNavLink as PanelGuideNavLink_bbc85789170169c628f99d40d0aa0d9d } from '../../../components/admin/PanelGuideNavLink'
 import { LoginWelcome as LoginWelcome_b64368432b45f4624802cb0938bfd691 } from '../../../components/admin/PanelBrand'
 import { Dashboard as Dashboard_16b88e9b8c48e393fa86591406efd08f } from '../../../components/admin/Dashboard'
 import { PanelGuide as PanelGuide_f0976761ad3e97a531fe95c863d5f963 } from '../../../components/admin/PanelGuide'
@@ -87,7 +87,7 @@ export const importMap = {
   "/components/admin/RowLabels#ChecklistStepLabel": ChecklistStepLabel_a30613d846a340cabc3fc2ee7ca0f9f2,
   "/components/admin/PanelBrand#PanelIcon": PanelIcon_b64368432b45f4624802cb0938bfd691,
   "/components/admin/PanelBrand#PanelLogo": PanelLogo_b64368432b45f4624802cb0938bfd691,
-  "/components/admin/PanelGuide#PanelGuideNavLink": PanelGuideNavLink_f0976761ad3e97a531fe95c863d5f963,
+  "/components/admin/PanelGuideNavLink#PanelGuideNavLink": PanelGuideNavLink_bbc85789170169c628f99d40d0aa0d9d,
   "/components/admin/PanelBrand#LoginWelcome": LoginWelcome_b64368432b45f4624802cb0938bfd691,
   "/components/admin/Dashboard#Dashboard": Dashboard_16b88e9b8c48e393fa86591406efd08f,
   "/components/admin/PanelGuide#PanelGuide": PanelGuide_f0976761ad3e97a531fe95c863d5f963,

@@ -141,7 +141,12 @@ test.describe('el panel para Torre, ola 2', () => {
     await expect(page).toHaveURL(/\/admin\/guia$/)
     await expect(page.getByRole('heading', { level: 1, name: 'Guía del panel' })).toBeVisible()
     // Lleva la plantilla del panel: el menú sigue ahí, con su enlace a la guía.
-    await expect(page.locator('nav').getByRole('link', { name: 'Guía del panel' })).toBeVisible()
+    const navLink = page.locator('nav').getByRole('link', { name: 'Guía del panel' })
+    await expect(navLink).toBeVisible()
+    await expect(navLink).toHaveAttribute('aria-current', 'page')
+    await expect(page.locator('.ta-guide__cases')).toContainText(
+      'lleva a la checklist de Squarespace',
+    )
 
     await page.getByRole('link', { name: 'Versiones: tu botón de deshacer' }).click()
     await expect(page).toHaveURL(/#versiones$/)

@@ -6,6 +6,9 @@
 /** El dominio que Torre conoce: la dirección en la web se enseña con él. */
 export const SITE_HOST = 'torrentearcano.com'
 
+/** Las colecciones de DofusDB lo dicen en su línea: no se escriben a mano. */
+const readOnly = (text: string) => `${text} De solo lectura: lo pone al día un script.`
+
 export const panelStrings = {
   /** Los selectores de pasos y de objetivos de una checklist (A-19). */
   pickers: {
@@ -39,6 +42,160 @@ export const panelStrings = {
     up: (n: number) => `Subir el paso ${n}`,
     down: (n: number) => `Bajar el paso ${n}`,
     moved: (from: number, to: number) => `El paso ${from} es ahora el ${to}.`,
+  },
+  /**
+   * Una línea por colección, arriba de su lista (payload.config.ts, withPanelDescriptions).
+   * La guía del panel las repite en «Qué hay en cada parte».
+   */
+  collections: {
+    'quest-guides': 'Tus guías de misiones: una por misión, con sus pasos, combates y vídeo.',
+    'achievement-pages':
+      'Una página por logro: tu entrada, las misiones en orden y lo que necesitas en total.',
+    'achievement-groups':
+      'Los metalogros que agrupan logros en /metalogros. No tienen página propia: abren su panel.',
+    'dofus-guides':
+      'Una guía por Dofus: lo que pide, los logros y misiones que lo dan y su checklist.',
+    checklists:
+      'Las checklists paso a paso de cada Dofus. El progreso de cada visitante va por paso.',
+    media: 'Todas las imágenes: las que subes tú y las del juego que trae DofusDB.',
+    quests: readOnly(
+      'Las misiones de DofusDB, con sus etapas y recompensas. Las eliges en tus guías.',
+    ),
+    items: readOnly(
+      'Los objetos de DofusDB, con su icono. Los eliges en «Necesitarás» y en los Dofus.',
+    ),
+    monsters: readOnly(
+      'Los monstruos de DofusDB, con su imagen. Los eliges en los bloques de combate.',
+    ),
+    dungeons: readOnly(
+      'Las mazmorras de DofusDB y sus jefes. Las eliges en las notas de las guías.',
+    ),
+    npcs: readOnly('Los PNJ de DofusDB que dan misiones o salen en ellas, con sus dibujos.'),
+    subareas: readOnly(
+      'Las zonas de DofusDB, con su área. Dan el nombre de los sitios de cada misión.',
+    ),
+    'achievement-categories': readOnly(
+      'Las categorías de logros de DofusDB, como «Astrub» o «Eventos».',
+    ),
+    achievements: readOnly('Los logros de DofusDB. Cada página de logro enlaza uno.'),
+    users: 'Las cuentas que pueden entrar en este panel.',
+  },
+  /**
+   * La «Guía del panel» (A-14, src/components/admin/PanelGuide.tsx), de tú y con palabras
+   * sencillas. BORRADOR: Torre lo revisa antes de darlo por bueno.
+   */
+  guide: {
+    title: 'Guía del panel',
+    intro:
+      'Lo básico para escribir y publicar sin miedo a romper nada. Si algo sale mal, ' +
+      '«Versiones» lo deshace.',
+    contents: 'En esta guía',
+    /** Los casos de «En preparación» que la guía enumera (preparingOnSite). */
+    preparingCases: [
+      { label: 'Un logro', key: 'achievement-pages' },
+      { label: 'Un metalogro', key: 'achievement-groups' },
+      { label: 'Una guía de Dofus', key: 'dofus-guides' },
+      { label: 'Una checklist con dirección en la web antigua', key: 'checklistsLegacy' },
+      { label: 'Una checklist sin ella', key: 'checklists' },
+    ] as const,
+    /** Bajo «Qué hay en cada parte»: qué cuenta tiene quien lee. Sin papel cuenta como editor. */
+    yourRole: (role: string | null | undefined) =>
+      `Tu cuenta es de ${role === 'admin' ? 'administrador' : 'editor'}.`,
+    sections: [
+      {
+        id: 'borradores',
+        title: 'Borradores: guardar sin que se vea',
+        paragraphs: [
+          '«Guardar borrador» guarda lo que escribiste, pero la web sigue enseñando lo de antes. ' +
+            'Guarda tantas veces como quieras.',
+          'Una página nueva empieza como borrador: nadie la ve hasta que la publicas.',
+          'En «Pendiente», la portada del panel, tienes la lista de borradores a medias.',
+        ],
+      },
+      {
+        id: 'publicar',
+        title: 'Publicar: que salga en la web',
+        paragraphs: [
+          '«Publicar cambios» manda a la web lo que tienes en pantalla. Tarda unos segundos en ' +
+            'verse.',
+          'Arriba a la derecha, «En la web» te dice en una línea qué ve un visitante: «En la ' +
+            'web: visible», «Tienes cambios sin publicar» o por qué no se ve.',
+          'Para ver cómo queda antes de publicar, pulsa el botón del ojo: la vista previa enseña ' +
+            'tu borrador como Móvil, Tableta o Escritorio. Solo la ves tú.',
+        ],
+      },
+      {
+        id: 'en-preparacion',
+        title: '«Visible en la web» y «En preparación»',
+        paragraphs: [
+          'Los logros, los metalogros, las guías de Dofus y las checklists tienen además ' +
+            '«Visible en la web».',
+          'Publicada: se abre. En preparación: cómo sale en la web depende de lo que sea, y lo ' +
+            'dice la línea «En la web» de cada página:',
+          'Para que una página se abra hacen falta las dos cosas: «Visible en la web» en ' +
+            'Publicada y «Publicar cambios».',
+        ],
+      },
+      {
+        id: 'datos-del-juego',
+        title: 'Datos del juego: vienen de DofusDB',
+        paragraphs: [
+          'Las misiones, los objetos, los monstruos, las mazmorras, los PNJ, las zonas y los ' +
+            'logros vienen de DofusDB. No se escriben aquí: los eliges en los campos de tus guías.',
+          'Por eso salen como «solo lectura». Se ponen al día con un proceso aparte, no desde el ' +
+            'panel. Si ves un dato del juego mal, avisa a quien lleva la parte técnica.',
+          'En los logros, lo que dejes vacío se rellena con DofusDB al guardar, y lo que escribas ' +
+            'tú no lo pisa nadie. La nota bajo cada campo te dice de dónde viene.',
+        ],
+      },
+      {
+        id: 'imagenes',
+        title: 'Imágenes',
+        paragraphs: [
+          'Sube una imagen desde «Imágenes» o directamente en el campo de una guía. Sube el ' +
+            'original: la web hace sola las versiones pequeñas y ligeras.',
+          'Escribe siempre el texto alternativo: describe lo que se ve, para quien no puede ver ' +
+            'la imagen y para Google. Sin «imagen de…».',
+          'Los iconos de objetos y los dibujos de monstruos y PNJ ya los trae DofusDB: no hace ' +
+            'falta subirlos.',
+        ],
+      },
+      {
+        id: 'versiones',
+        title: 'Versiones: tu botón de deshacer',
+        paragraphs: [
+          'Cada vez que guardas o publicas, el panel guarda una copia. Las ves en la pestaña ' +
+            '«Versiones» de cada página: las 50 últimas.',
+          'Para volver atrás, abre una versión antigua y pulsa «Restaurar esta versión». Después ' +
+            'publica si quieres que salga en la web.',
+          '«Revertir a la versión publicada», junto al estado de arriba, tira los cambios sin ' +
+            'publicar y vuelve a lo que está en la web.',
+          'Borrar, en cambio, no se deshace. Por eso el panel no deja borrar una imagen o un logro ' +
+            'que sale en otras páginas, y te dice dónde sale.',
+        ],
+      },
+      {
+        id: 'direccion',
+        title: 'La dirección en la web',
+        paragraphs: [
+          `«Dirección en la web» es el final del enlace: ${SITE_HOST}/aprendizaje-escudero. ` +
+            'Solo minúsculas sin tildes, cifras y guiones.',
+          'En una página ya publicada, mejor no cambiarla: los enlaces que la gente guardó dejarían ' +
+            'de funcionar.',
+        ],
+      },
+      {
+        id: 'partes',
+        title: 'Qué hay en cada parte',
+        paragraphs: [
+          'El menú de la izquierda pone primero tu contenido, luego las imágenes, los datos del ' +
+            'juego y los ajustes. Cada lista empieza con una línea que dice qué guarda.',
+          'Hay dos tipos de cuenta. Editor: crea, edita y publica, y borra las guías que hizo a ' +
+            'mano. Administrador: además borra lo importado y las imágenes, cambia el orden y los ' +
+            'enlaces con DofusDB, y gestiona las cuentas.',
+        ],
+      },
+    ] satisfies { id: string; title: string; paragraphs: string[] }[],
   },
   /** Los grupos del menú y del panel de control, en este orden. */
   groups: {
