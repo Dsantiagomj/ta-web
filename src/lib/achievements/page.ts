@@ -4,6 +4,7 @@
 
 import type { GameItem } from '@/components/game/types'
 import type { ImageAsset } from '@/components/ui/types'
+import { itemGroup } from '@/lib/dofus-guides/need-groups'
 import { neededItems } from '@/lib/guides/format'
 import { gameItem, needNote, type NeedNote, type QuestHeaderData } from '@/lib/guides/page'
 import { isDungeonNote, needKey, noteKey } from '@/lib/guides/need-notes'
@@ -32,6 +33,8 @@ export interface QuestDoc {
   levelMin?: number | null
   startPositions?: { npcId?: number | null }[] | null
   prerequisites?: Relation<{ id: number; name?: string | null }>[] | null
+  /** Sus etapas de DofusDB: un objetivo «bring» con objeto es que la misión se lo queda. */
+  stages?: { objectives?: { kind?: string | null; itemId?: number | null }[] | null }[] | null
 }
 
 /** Una página de logro con depth 2: su logro con el icono, su metalogro y sus misiones. */
@@ -202,7 +205,13 @@ export interface AchievementNeeds {
 }
 
 /** Un objeto del juego que nombra una nota, por su nombre exacto (readAchievementPage). */
-export type NoteItemDoc = { id: number; name: string; image?: Media | number | null }
+export type NoteItemDoc = {
+  id: number
+  name: string
+  image?: Media | number | null
+  dofusId?: number | null
+  superTypeId?: number | null
+}
 
 /** Las notas de Necesitarás de unas guías, cada línea como la lee la página. */
 function guideNotes(guides: Pick<GuideRef, 'needs'>[]): NeedNote[] {
@@ -243,70 +252,116 @@ export function dungeonPicks(guides: Pick<GuideRef, 'needs'>[]): Map<string, num
   return picks
 }
 
+/** Un objeto del total mientras se reúne: cada cantidad que lo pide, en una guía o una nota. */
+interface ItemTally {
+  item: GameItem
+  dofusId?: number | null
+  superTypeId?: number | null
+  asked: number[]
+}
+
+/** Una nota mientras se reúne: cada cantidad con que la escriben las guías. */
+interface NoteTally {
+  note: NeedNote
+  asked: number[]
+}
+
+const sum = (asked: number[]) => asked.reduce((total, quantity) => total + quantity, 0)
+
+/**
+ * Si un objeto solo hay que tenerlo: un equipable de DofusDB (equipo, mascota, Dofus o trofeo)
+ * que ninguna misión del logro pide entregar. Las misiones que piden un Dofus Turquesa
+ * comprueban que lo tienes y no se lo quedan, así que basta con uno. Hacen falta las dos
+ * señales: en las guías publicadas de dev (2026-11-14), todas las armas y mascotas que
+ * enlaza Necesitarás y cuatro Dofus (vulbis, zanahowia, moteado y de los vigilantes) se
+ * entregan, y más de 300 filas de recursos se gastan sin objetivo de entrega (se fabrica
+ * con ellos, abren una mazmorra). Sin ID de DofusDB no se puede comprobar la entrega, y se
+ * suma como antes.
+ */
+function onlyHeld(tally: ItemTally, brought: Set<number>): boolean {
+  return (
+    itemGroup(tally.superTypeId) === 'equipables' &&
+    tally.dofusId != null &&
+    !brought.has(tally.dofusId)
+  )
+}
+
 /**
  * Lo que hay que reunir para todas las misiones: los objetos y las notas de las guías. Las
  * notas con cantidad («1 x Combate (solo).») se suman; las que no la tienen («Hechizo
  * Captura de almas.», «1 kama») salen tal cual, una vez aunque las repitan varias guías:
  * nada de lo que Torre escribió se pierde. Una nota con cantidad que nombra un objeto del
- * total («2 x Dragopavo pelirrojo.», cuando otra guía lo enlaza como objeto) se suma a ese
+ * total («2 x Dragopavo pelirrojo.», cuando otra guía lo enlaza como objeto) cuenta para ese
  * objeto: se cruzan al final, así que da igual en qué guía venga cada uno. Una nota cuyo
  * texto es el nombre exacto de un objeto del juego (noteItems) pasa a ser ese objeto, con su
- * icono, y suma su cantidad a la que pidan otras notas; las que solo cambian en mayúsculas o
- * tildes cuentan como él. Nada depende del orden de las guías. El resto se reparte en
- * combates y mazmorras, y otros.
+ * icono, y cuenta su cantidad con la que pidan otras notas; las que solo cambian en
+ * mayúsculas o tildes cuentan como él. Un objeto que se gasta suma cada cantidad que lo pide;
+ * uno que solo hay que tener (onlyHeld) se queda con la más alta, porque la misma guía puede
+ * enlazarlo y además escribirlo en una nota (La última piedra). Nada depende del orden de
+ * las guías. El resto se reparte en combates y mazmorras, y otros.
  */
 function totalNeeds(
   guides: GuideRef[],
   noteItems: Map<string, NoteItemDoc>,
   dungeonBosses: Map<string, MediaRef>,
+  brought: Set<number>,
 ): AchievementNeeds {
-  const notes = new Map<string, NeedNote>()
-  const items = new Map<number, NeedItem>()
+  const notes = new Map<string, NoteTally>()
+  const items = new Map<number, ItemTally>()
+  for (const note of guideNotes(guides)) {
+    // Con y sin cantidad no se mezclan: «1 x Combate» y «Combate» son filas distintas.
+    const key = `${note.quantity == null ? '-' : '#'}${needKey(note.label)}`
+    let same = notes.get(key)
+    if (!same) notes.set(key, (same = { note, asked: [] }))
+    if (note.quantity != null) same.asked.push(note.quantity)
+  }
   for (const guide of guides) {
-    for (const note of guideNotes([guide])) {
-      // Con y sin cantidad no se mezclan: «1 x Combate» y «Combate» son filas distintas.
-      const key = `${note.quantity == null ? '-' : '#'}${needKey(note.label)}`
-      const same = notes.get(key)
-      if (!same) notes.set(key, { ...note })
-      else if (note.quantity != null) same.quantity! += note.quantity
-    }
     for (const { item, quantity } of neededItems(guide.needs as LinkedNeeds | null)) {
-      const known = items.get(item.id)
-      if (known) known.quantity = (known.quantity ?? 0) + quantity
-      else items.set(item.id, { item: gameItem(item), quantity })
+      let known = items.get(item.id)
+      if (!known) {
+        const { dofusId, superTypeId } = item
+        items.set(item.id, (known = { item: gameItem(item), dofusId, superTypeId, asked: [] }))
+      }
+      known.asked.push(quantity)
     }
   }
   const itemByName = new Map([...items.values()].map((entry) => [needKey(entry.item.name), entry]))
   // Los objetos que alguna nota nombra exactamente, por la misma clave que junta las notas:
-  // si «1 x Piedra de alma mediana» y «2 x piedra de alma mediana» se suman en una fila, esa
-  // fila es el objeto venga primero la exacta o la otra.
+  // si «1 x Piedra de alma mediana» y «2 x piedra de alma mediana» se juntan en una fila,
+  // esa fila es el objeto venga primero la exacta o la otra.
   const namedByKey = new Map([...noteItems].map(([name, doc]) => [needKey(name), doc]))
   const needs: AchievementNeeds = { items: [], tasks: [], others: [] }
-  for (const note of notes.values()) {
+  for (const { note, asked } of notes.values()) {
     const { quantity, label } = note
     const linked = quantity == null ? undefined : itemByName.get(needKey(label))
-    if (linked) {
-      linked.quantity = (linked.quantity ?? 0) + quantity!
-      continue
+    const named = linked ? undefined : namedByKey.get(needKey(label))
+    if (named && !items.has(named.id)) {
+      items.set(named.id, {
+        item: gameItem(named),
+        dofusId: named.dofusId,
+        superTypeId: named.superTypeId,
+        asked: [],
+      })
     }
-    const named = namedByKey.get(needKey(label))
-    if (named) {
-      // Una cantidad pedida se suma siempre, aunque otra guía nombrara antes el objeto sin
+    const target = linked ?? (named && items.get(named.id))
+    if (target) {
+      // Una cantidad pedida cuenta siempre, aunque otra guía nombrara antes el objeto sin
       // ella: el resultado no depende del orden de las guías.
-      const known = items.get(named.id)
-      if (!known)
-        items.set(named.id, { item: gameItem(named), ...(quantity != null && { quantity }) })
-      else if (quantity != null) known.quantity = (known.quantity ?? 0) + quantity
+      target.asked.push(...asked)
       continue
     }
-    const row = { ...(quantity != null && { quantity }), label }
+    const row = { ...(quantity != null && { quantity: sum(asked) }), label }
     if (isDungeonNote(label)) {
       const boss = icon(dungeonBosses.get(needKey(label)))
       needs.tasks.push({ ...row, kind: 'dungeon', ...(boss && { boss }) })
     } else if (note.combat) needs.tasks.push({ ...row, kind: 'combat' })
     else needs.others.push(row)
   }
-  needs.items = [...items.values()]
+  needs.items = [...items.values()].map((tally): NeedItem => {
+    if (tally.asked.length === 0) return { item: tally.item }
+    const quantity = onlyHeld(tally, brought) ? Math.max(...tally.asked) : sum(tally.asked)
+    return { item: tally.item, quantity }
+  })
   return needs
 }
 
@@ -390,10 +445,21 @@ export function achievementNeeds(
   const single = questRows(data.page).flatMap((row) =>
     row.quests.length === 1 ? [row.quests[0]!] : [],
   )
+  // Los objetos que alguna de esas misiones se queda (objetivo «bring» de DofusDB).
+  const brought = new Set(
+    single.flatMap((quest) =>
+      (quest.stages ?? []).flatMap((stage) =>
+        (stage.objectives ?? []).flatMap((objective) =>
+          objective.kind === 'bring' && objective.itemId != null ? [objective.itemId] : [],
+        ),
+      ),
+    ),
+  )
   return totalNeeds(
     single.flatMap((quest) => guideByQuest.get(quest.id) ?? []),
     data.noteItems,
     data.dungeonBosses,
+    brought,
   )
 }
 

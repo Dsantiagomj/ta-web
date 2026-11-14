@@ -333,6 +333,83 @@ describe('achievementPageView', () => {
     })
   })
 
+  describe('necesitarás en total: lo que solo hay que tener cuenta una vez', () => {
+    // En el juego, varias misiones comprueban que tienes el Dofus, pero no se lo quedan: basta
+    // con uno. Lo que alguna misión pide entregar (un objetivo «bring» de DofusDB) o lo que se
+    // gasta (recursos, pociones) sí se suma.
+    const turquesa = { id: 20, dofusId: 739, name: 'Dofus Turquesa', superTypeId: 13 }
+    const vulbis = { id: 21, dofusId: 21186, name: 'Dofus vulbis', superTypeId: 13 }
+    const trigo = { id: 22, dofusId: 289, name: 'Trigo', superTypeId: 9 }
+    const ocre = { id: 23, dofusId: 7754, name: 'Dofus Ocre', superTypeId: 13 }
+    const guide = (questId: number, needs: AchievementPageData['guides'][number]['needs']) => ({
+      questId,
+      slug: `guia-${questId}`,
+      needs,
+    })
+    const totals = (
+      guides: AchievementPageData['guides'],
+      extra: Partial<AchievementPageData> = {},
+      page: Partial<AchievementPageData['page']> = {},
+    ) =>
+      achievementPageView({ ...data(page), guides, ...extra }).needs.items.map(
+        ({ item, quantity }) => [item.name, quantity],
+      )
+
+    it('el mismo Dofus en tres misiones: 1', () => {
+      const guides = [2, 3, 4].map((id) => guide(id, { items: [{ item: turquesa, quantity: 1 }] }))
+      expect(totals(guides)).toEqual([['Dofus Turquesa', 1]])
+    })
+
+    it('si una misión lo pide más veces, la que más pide', () => {
+      const guides = [
+        guide(2, { items: [{ item: turquesa, quantity: 1 }] }),
+        guide(3, { items: [{ item: turquesa, quantity: 2 }] }),
+      ]
+      expect(totals(guides)).toEqual([['Dofus Turquesa', 2]])
+    })
+
+    it('un recurso que se gasta en tres misiones: la suma', () => {
+      const guides = [2, 3, 4].map((id) => guide(id, { items: [{ item: trigo, quantity: 5 }] }))
+      expect(totals(guides)).toEqual([['Trigo', 15]])
+    })
+
+    it('un Dofus que una misión pide entregar: la suma', () => {
+      // Amaknomalia entrega el Dofus vulbis (QuestObjectiveBringItemToNpcData).
+      const bring = { stages: [{ objectives: [{ kind: 'bring', itemId: 21186 }] }] }
+      const guides = [2, 3].map((id) => guide(id, { items: [{ item: vulbis, quantity: 1 }] }))
+      const page = {
+        quests: [
+          { name: 'Esto hace aguas', quests: [{ ...aguas, ...bring }] },
+          { name: 'Seis pies bajo tierra', quests: [seis] },
+        ],
+      }
+      expect(totals(guides, {}, page)).toEqual([['Dofus vulbis', 2]])
+    })
+
+    it('una nota que nombra un objeto que solo hay que tener no se suma', () => {
+      const guides = [2, 3, 4].map((id) => guide(id, { notes: '1 x Dofus Ocre.' }))
+      const noteItems = new Map([['Dofus Ocre', ocre as unknown as NoteItemDoc]])
+      expect(totals(guides, { noteItems })).toEqual([['Dofus Ocre', 1]])
+    })
+
+    it('una nota que nombra un Dofus que otra guía enlaza tampoco se suma', () => {
+      const guides = [
+        guide(2, { items: [{ item: turquesa, quantity: 1 }] }),
+        guide(3, { notes: '1 x Dofus turquesa' }),
+      ]
+      expect(totals(guides)).toEqual([['Dofus Turquesa', 1]])
+    })
+
+    it('una guía que enlaza el Dofus y además lo escribe en una nota: 1', () => {
+      // La última piedra: «Dofus Turquesa» enlazado y «1 x Dofus turquesa.» en las notas.
+      const guides = [
+        guide(2, { items: [{ item: turquesa, quantity: 1 }], notes: '1 x Dofus turquesa.' }),
+        guide(3, { notes: '1 x Dofus turquesa.' }),
+      ]
+      expect(totals(guides)).toEqual([['Dofus Turquesa', 1]])
+    })
+  })
+
   it('recompensas del logro: XP de nivel 200, kamas y la bolsa', () => {
     expect(view.facts.rewards).toMatchObject({ xp: { max: 102_128 }, kamas: 1_105 })
     expect(view.facts.rewards.items.map(({ item }) => item.name)).toEqual(['Piel pachucha'])
