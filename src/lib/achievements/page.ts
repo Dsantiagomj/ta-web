@@ -252,21 +252,45 @@ export function dungeonPicks(guides: Pick<GuideRef, 'needs'>[]): Map<string, num
   return picks
 }
 
-/** Un objeto del total mientras se reúne: cada cantidad que lo pide, en una guía o una nota. */
+/** Lo que pide cada guía, por su posición en la lista de guías. */
+type ByGuide = Map<number, number>
+
+/** Un objeto del total mientras se reúne: lo que pide cada guía al enlazarlo y en sus notas. */
 interface ItemTally {
   item: GameItem
   dofusId?: number | null
   superTypeId?: number | null
-  asked: number[]
+  linked: ByGuide
+  noted: ByGuide
 }
 
-/** Una nota mientras se reúne: cada cantidad con que la escriben las guías. */
+/** Una nota mientras se reúne: lo que pide cada guía que la escribe con cantidad. */
 interface NoteTally {
   note: NeedNote
-  asked: number[]
+  asked: ByGuide
 }
 
-const sum = (asked: number[]) => asked.reduce((total, quantity) => total + quantity, 0)
+function add(byGuide: ByGuide, guide: number, quantity: number) {
+  byGuide.set(guide, (byGuide.get(guide) ?? 0) + quantity)
+}
+
+const sum = (quantities: Iterable<number>) => {
+  let total = 0
+  for (const quantity of quantities) total += quantity
+  return total
+}
+
+/**
+ * Lo que pide cada guía de un objeto. Si la guía lo enlaza y además lo escribe en una nota
+ * («25 x Esquíritu majestuoso.» en La última piedra, que enlaza 25), es la misma petición:
+ * cuenta la mayor de las dos, nunca las dos sumadas.
+ */
+function guideAsks(tally: ItemTally): number[] {
+  const guides = new Set([...tally.linked.keys(), ...tally.noted.keys()])
+  return [...guides].map((guide) =>
+    Math.max(tally.linked.get(guide) ?? 0, tally.noted.get(guide) ?? 0),
+  )
+}
 
 /**
  * Si un objeto solo hay que tenerlo: un equipable de DofusDB (equipo, mascota, Dofus o trofeo)
@@ -292,13 +316,14 @@ function onlyHeld(tally: ItemTally, brought: Set<number>): boolean {
  * Captura de almas.», «1 kama») salen tal cual, una vez aunque las repitan varias guías:
  * nada de lo que Torre escribió se pierde. Una nota con cantidad que nombra un objeto del
  * total («2 x Dragopavo pelirrojo.», cuando otra guía lo enlaza como objeto) cuenta para ese
- * objeto: se cruzan al final, así que da igual en qué guía venga cada uno. Una nota cuyo
+ * objeto: se cruzan al final, así que da igual en qué guía venga cada uno. Si la misma guía lo
+ * enlaza, la nota es la misma petición y no se suma (guideAsks). Una nota que dice algo más
+ * que la cantidad y el nombre no casa con el objeto y sale tal cual. Una nota cuyo
  * texto es el nombre exacto de un objeto del juego (noteItems) pasa a ser ese objeto, con su
  * icono, y cuenta su cantidad con la que pidan otras notas; las que solo cambian en
- * mayúsculas o tildes cuentan como él. Un objeto que se gasta suma cada cantidad que lo pide;
- * uno que solo hay que tener (onlyHeld) se queda con la más alta, porque la misma guía puede
- * enlazarlo y además escribirlo en una nota (La última piedra). Nada depende del orden de
- * las guías. El resto se reparte en combates y mazmorras, y otros.
+ * mayúsculas o tildes cuentan como él. Un objeto que se gasta suma lo que pide cada guía; uno
+ * que solo hay que tener (onlyHeld) se queda con lo que pide la guía que más pide. Nada
+ * depende del orden de las guías. El resto se reparte en combates y mazmorras, y otros.
  */
 function totalNeeds(
   guides: GuideRef[],
@@ -308,23 +333,26 @@ function totalNeeds(
 ): AchievementNeeds {
   const notes = new Map<string, NoteTally>()
   const items = new Map<number, ItemTally>()
-  for (const note of guideNotes(guides)) {
-    // Con y sin cantidad no se mezclan: «1 x Combate» y «Combate» son filas distintas.
-    const key = `${note.quantity == null ? '-' : '#'}${needKey(note.label)}`
-    let same = notes.get(key)
-    if (!same) notes.set(key, (same = { note, asked: [] }))
-    if (note.quantity != null) same.asked.push(note.quantity)
-  }
-  for (const guide of guides) {
+  guides.forEach((guide, index) => {
+    for (const note of guideNotes([guide])) {
+      // Con y sin cantidad no se mezclan: «1 x Combate» y «Combate» son filas distintas.
+      const key = `${note.quantity == null ? '-' : '#'}${needKey(note.label)}`
+      let same = notes.get(key)
+      if (!same) notes.set(key, (same = { note, asked: new Map() }))
+      if (note.quantity != null) add(same.asked, index, note.quantity)
+    }
+  })
+  guides.forEach((guide, index) => {
     for (const { item, quantity } of neededItems(guide.needs as LinkedNeeds | null)) {
       let known = items.get(item.id)
       if (!known) {
         const { dofusId, superTypeId } = item
-        items.set(item.id, (known = { item: gameItem(item), dofusId, superTypeId, asked: [] }))
+        known = { item: gameItem(item), dofusId, superTypeId, linked: new Map(), noted: new Map() }
+        items.set(item.id, known)
       }
-      known.asked.push(quantity)
+      add(known.linked, index, quantity)
     }
-  }
+  })
   const itemByName = new Map([...items.values()].map((entry) => [needKey(entry.item.name), entry]))
   // Los objetos que alguna nota nombra exactamente, por la misma clave que junta las notas:
   // si «1 x Piedra de alma mediana» y «2 x piedra de alma mediana» se juntan en una fila,
@@ -340,17 +368,18 @@ function totalNeeds(
         item: gameItem(named),
         dofusId: named.dofusId,
         superTypeId: named.superTypeId,
-        asked: [],
+        linked: new Map(),
+        noted: new Map(),
       })
     }
     const target = linked ?? (named && items.get(named.id))
     if (target) {
       // Una cantidad pedida cuenta siempre, aunque otra guía nombrara antes el objeto sin
       // ella: el resultado no depende del orden de las guías.
-      target.asked.push(...asked)
+      for (const [guide, quantity] of asked) add(target.noted, guide, quantity)
       continue
     }
-    const row = { ...(quantity != null && { quantity: sum(asked) }), label }
+    const row = { ...(quantity != null && { quantity: sum(asked.values()) }), label }
     if (isDungeonNote(label)) {
       const boss = icon(dungeonBosses.get(needKey(label)))
       needs.tasks.push({ ...row, kind: 'dungeon', ...(boss && { boss }) })
@@ -358,8 +387,9 @@ function totalNeeds(
     else needs.others.push(row)
   }
   needs.items = [...items.values()].map((tally): NeedItem => {
-    if (tally.asked.length === 0) return { item: tally.item }
-    const quantity = onlyHeld(tally, brought) ? Math.max(...tally.asked) : sum(tally.asked)
+    const asks = guideAsks(tally)
+    if (asks.length === 0) return { item: tally.item }
+    const quantity = onlyHeld(tally, brought) ? Math.max(...asks) : sum(asks)
     return { item: tally.item, quantity }
   })
   return needs

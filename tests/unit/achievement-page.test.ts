@@ -410,6 +410,67 @@ describe('achievementPageView', () => {
     })
   })
 
+  describe('necesitarás en total: una guía que enlaza un objeto y además lo escribe en una nota', () => {
+    // La última piedra enlaza «25 × Esquíritu majestuoso» y sus notas dicen «25 x Esquíritu
+    // majestuoso.»: es la misma petición, no otra. Entre guías distintas se sigue sumando.
+    const esquiritu = { id: 30, dofusId: 31521, name: 'Esquíritu majestuoso', superTypeId: 6 }
+    const view = (guides: AchievementPageData['guides']) =>
+      achievementPageView({ ...data(), guides })
+    const totals = (guides: AchievementPageData['guides']) =>
+      view(guides).needs.items.map(({ item, quantity }) => [item.name, quantity])
+
+    it('enlazado 25 y nota «25 x Esquíritu majestuoso» en la misma guía: 25', () => {
+      const guides = [
+        {
+          questId: 2,
+          slug: 'la-ultima-piedra',
+          needs: {
+            items: [{ item: esquiritu, quantity: 25 }],
+            notes: '25 x Esquíritu majestuoso.',
+          },
+        },
+      ]
+      expect(totals(guides)).toEqual([['Esquíritu majestuoso', 25]])
+    })
+
+    it('si la nota pide más que el enlace, la que más pide', () => {
+      const guides = [
+        {
+          questId: 2,
+          slug: 'la-ultima-piedra',
+          needs: { items: [{ item: esquiritu, quantity: 20 }], notes: '25 x esquiritu majestuoso' },
+        },
+      ]
+      expect(totals(guides)).toEqual([['Esquíritu majestuoso', 25]])
+    })
+
+    it('el mismo objeto que se gasta en dos guías distintas: la suma', () => {
+      const guides = [
+        { questId: 2, slug: 'a', needs: { items: [{ item: esquiritu, quantity: 25 }] } },
+        { questId: 3, slug: 'b', needs: { notes: '25 x Esquíritu majestuoso.' } },
+      ]
+      expect(totals(guides)).toEqual([['Esquíritu majestuoso', 50]])
+    })
+
+    it('una nota con algo más que el nombre y la cantidad se sigue viendo', () => {
+      const guides = [
+        {
+          questId: 2,
+          slug: 'la-ultima-piedra',
+          needs: {
+            items: [{ item: esquiritu, quantity: 25 }],
+            notes: '25 x Esquíritu majestuoso (los vende el PNJ).',
+          },
+        },
+      ]
+      const { items, others } = view(guides).needs
+      expect(items.map(({ item, quantity }) => [item.name, quantity])).toEqual([
+        ['Esquíritu majestuoso', 25],
+      ])
+      expect(others).toEqual([{ quantity: 25, label: 'Esquíritu majestuoso (los vende el PNJ)' }])
+    })
+  })
+
   it('recompensas del logro: XP de nivel 200, kamas y la bolsa', () => {
     expect(view.facts.rewards).toMatchObject({ xp: { max: 102_128 }, kamas: 1_105 })
     expect(view.facts.rewards.items.map(({ item }) => item.name)).toEqual(['Piel pachucha'])
