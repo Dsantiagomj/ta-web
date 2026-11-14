@@ -48,6 +48,16 @@ export const E2E_PANEL_USER_4 = {
   role: 'admin' as const,
 }
 
+/**
+ * La quinta, para la revisión de la maquetación (maquetacion.spec.ts), que abre las vistas
+ * previas del Silvestre y del Ocre.
+ */
+export const E2E_PANEL_USER_5 = {
+  email: 'e2e-maquetacion@torrentearcano.test',
+  password: 'e2e-clave-solo-local-5',
+  role: 'admin' as const,
+}
+
 export const seedGuide = {
   slug: 'seis-pies-bajo-tierra',
   title: 'Seis pies bajo tierra',
@@ -283,6 +293,7 @@ export async function seedGuides(payload: Payload): Promise<void> {
     E2E_PANEL_USER_2,
     E2E_PANEL_USER_3,
     E2E_PANEL_USER_4,
+    E2E_PANEL_USER_5,
   ]) {
     const users = await payload.count({
       collection: 'users',
