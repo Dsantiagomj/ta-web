@@ -23,6 +23,16 @@ export const E2E_EDITOR_USER = {
   role: 'editor' as const,
 }
 
+/**
+ * Otra cuenta del panel, para las pruebas de la ola 2 del panel (panel-ola2.spec.ts): cada
+ * inicio de sesión reescribe las sesiones de su cuenta, y dos a la vez en la misma cuenta
+ * pueden borrarse entre sí. Solo existe en la base local.
+ */
+export const E2E_PANEL_USER_2 = {
+  email: 'e2e-ola2@torrentearcano.test',
+  password: 'e2e-clave-solo-local-2',
+}
+
 export const seedGuide = {
   slug: 'seis-pies-bajo-tierra',
   title: 'Seis pies bajo tierra',
@@ -258,6 +268,13 @@ export async function seedGuides(payload: Payload): Promise<void> {
       where: { email: { equals: user.email } },
     })
     if (users.totalDocs === 0) await payload.create({ collection: 'users', data: user })
+  }
+  const second = await payload.count({
+    collection: 'users',
+    where: { email: { equals: E2E_PANEL_USER_2.email } },
+  })
+  if (second.totalDocs === 0) {
+    await payload.create({ collection: 'users', data: E2E_PANEL_USER_2 })
   }
 
   // La misión previa es la 1 del mismo logro: su guía acaba con la tarjeta de esta.

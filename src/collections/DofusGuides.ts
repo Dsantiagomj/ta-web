@@ -27,6 +27,8 @@ import { rejectSharedSlug } from './root-slug'
 import { rowLabel } from './row-label'
 import { SLUG_LABEL, slugAdmin } from './slug-field'
 import { panelStrings } from '../lib/admin/strings'
+import { livePreviewBreakpoints } from '../lib/admin/live-preview'
+import { publishStatusField } from './publish-status-field'
 
 const s = dofusGuideStrings.admin
 
@@ -203,7 +205,7 @@ export const DofusGuides: CollectionConfig = {
     // La página pública en el panel, borrador incluido, como las guías y los logros.
     livePreview: {
       url: ({ data, req }) => guidePreviewUrl(data?.slug, previewOrigin(process.env, req.origin)),
-      breakpoints: [{ name: 'movil', label: 'Móvil', width: 390, height: 844 }],
+      breakpoints: livePreviewBreakpoints,
     },
     preview: (doc, { req }) => guidePreviewUrl(doc?.slug, previewOrigin(process.env, req.origin)),
   },
@@ -225,6 +227,7 @@ export const DofusGuides: CollectionConfig = {
     afterDelete: [revalidateDofusGuidesAfterDelete],
   },
   fields: [
+    publishStatusField,
     {
       name: 'dofus',
       label: 'Dofus de DofusDB',
