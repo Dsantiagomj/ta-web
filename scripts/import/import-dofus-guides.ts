@@ -86,13 +86,16 @@ try {
     .filter((name) => name && name !== 'Base')
   // Las filas «Logro: “Cazamonturas”» que nombran un logro de DofusDB van a «Logros».
   const achievements: string[] = []
-  for (const name of new Set(guides.flatMap(({ source }) => achievementRows(source)))) {
-    // El endpoint de logros no acepta $regex: el nombre exacto que escribió Torre.
-    const found = await client.fetchWhere<RawAchievement>(
-      'achievements',
-      { 'name.es': name },
-      { select: ['id', 'name'] },
+  // De una vez: el endpoint de logros no acepta $regex, pero sí $in con los nombres exactos
+  // que escribió Torre (de 50 en 50, lo que da una página).
+  const names = [...new Set(guides.flatMap(({ source }) => achievementRows(source)))]
+  for (let start = 0; start < names.length; start += 50) {
+    const query = Object.fromEntries(
+      names.slice(start, start + 50).map((name, index) => [`name.es[$in][${index}]`, name]),
     )
+    const found = await client.fetchWhere<RawAchievement>('achievements', query, {
+      select: ['id', 'name'],
+    })
     achievements.push(...found.flatMap((row) => row.name?.es ?? []))
   }
   // En seco no se sube nada: lo que falta da 0, un ID que nunca se escribe.

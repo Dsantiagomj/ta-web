@@ -339,28 +339,50 @@ const needNote = (text: string) =>
     },
   }) as unknown as Extract<DofusNeedRow, { kind: 'note' }>['text']
 
-type DofusNeedRow = NonNullable<DofusGuideView['needs']>['groups'][number]['rows'][number]
+type DofusNeedRow = NonNullable<
+  DofusGuideView['needs']
+>['groups'][number]['parts'][number]['rows'][number]
 
 /**
- * Necesitarás y un logro de una guía de Dofus, como los calcula dofusGuideView. La nota que
- * Torre escribió entre los objetos sale detrás de ellos.
+ * Necesitarás y un logro de una guía de Dofus, como los calcula dofusGuideView: la nota de
+ * Torre arriba, los grupos en su orden y, en Mazmorras, un subtítulo con sus opciones. La nota
+ * que Torre escribió entre los objetos sale detrás de ellos.
  */
 export const dofusNeeds: NonNullable<DofusGuideView['needs']> = {
   title: 'Necesitarás',
+  note: '(no te he puesto los recursos de Incarnam porque todos se obtienen de manera artesanal)',
   groups: [
     {
-      rows: [
-        { kind: 'item', item: items.intestino, quantity: 3 },
-        { kind: 'note', text: needNote('Alineamiento 100 (Bonta o Brakmar).') },
-        { kind: 'item', item: items.pelos, quantity: 1, note: '(o fabricarlo)' },
-        { kind: 'item', item: items.ojo, quantity: 5 },
+      key: 'combates',
+      name: 'Combates',
+      parts: [{ rows: [{ kind: 'note', text: needNote('1 x combates.') }] }],
+    },
+    {
+      key: 'mazmorras',
+      name: 'Mazmorras',
+      parts: [
+        { rows: [{ kind: 'note', text: needNote('1 x Mazmorra Rey Nidas.') }] },
+        {
+          subtitle: '1 × Mazmorra:',
+          rows: [
+            { kind: 'note', text: needNote('Mazmorra Malefíscof.') },
+            { kind: 'note', text: needNote('Mazmorra Fraktal.') },
+          ],
+        },
       ],
     },
     {
-      name: 'Mazmorras',
-      rows: [
-        { kind: 'note', text: needNote('1 x Mazmorra Rey Nidas.') },
-        { kind: 'note', text: needNote('1 x combates.') },
+      key: 'recursos',
+      name: 'Recursos',
+      parts: [
+        {
+          rows: [
+            { kind: 'item', item: items.intestino, quantity: 3 },
+            { kind: 'note', text: needNote('Alineamiento 100 (Bonta o Brakmar).') },
+            { kind: 'item', item: items.pelos, quantity: 1, note: '(o fabricarlo)' },
+            { kind: 'item', item: items.ojo, quantity: 5 },
+          ],
+        },
       ],
     },
   ],

@@ -9457,6 +9457,95 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+    "public.dofus_guides_needs_groups_locales": {
+      "name": "dofus_guides_needs_groups_locales",
+      "schema": "",
+      "columns": {
+        "subtitle": {
+          "name": "subtitle",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "_locale": {
+          "name": "_locale",
+          "type": "_locales",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "_parent_id": {
+          "name": "_parent_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "dofus_guides_needs_groups_locales_locale_parent_id_unique": {
+          "name": "dofus_guides_needs_groups_locales_locale_parent_id_unique",
+          "columns": [
+            {
+              "expression": "_locale",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "dofus_guides_needs_groups_locales_parent_id_idx": {
+          "name": "dofus_guides_needs_groups_locales_parent_id_idx",
+          "columns": [
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "dofus_guides_needs_groups_locales_parent_id_fk": {
+          "name": "dofus_guides_needs_groups_locales_parent_id_fk",
+          "tableFrom": "dofus_guides_needs_groups_locales",
+          "tableTo": "dofus_guides_needs_groups",
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.dofus_guides": {
       "name": "dofus_guides",
       "schema": "",
@@ -9739,6 +9828,12 @@
         },
         "needs_title": {
           "name": "needs_title",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "needs_note": {
+          "name": "needs_note",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
@@ -13015,6 +13110,95 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+    "public._dofus_guides_v_version_needs_groups_locales": {
+      "name": "_dofus_guides_v_version_needs_groups_locales",
+      "schema": "",
+      "columns": {
+        "subtitle": {
+          "name": "subtitle",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "_locale": {
+          "name": "_locale",
+          "type": "_locales",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "_parent_id": {
+          "name": "_parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "_dofus_guides_v_version_needs_groups_locales_locale_parent_i": {
+          "name": "_dofus_guides_v_version_needs_groups_locales_locale_parent_i",
+          "columns": [
+            {
+              "expression": "_locale",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_dofus_guides_v_version_needs_groups_locales_parent_id_idx": {
+          "name": "_dofus_guides_v_version_needs_groups_locales_parent_id_idx",
+          "columns": [
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "_dofus_guides_v_version_needs_groups_locales_parent_id_fk": {
+          "name": "_dofus_guides_v_version_needs_groups_locales_parent_id_fk",
+          "tableFrom": "_dofus_guides_v_version_needs_groups_locales",
+          "tableTo": "_dofus_guides_v_version_needs_groups",
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public._dofus_guides_v": {
       "name": "_dofus_guides_v",
       "schema": "",
@@ -13437,6 +13621,12 @@
         },
         "version_needs_title": {
           "name": "version_needs_title",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_needs_note": {
+          "name": "version_needs_note",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
@@ -26703,6 +26893,6 @@
     "tables": {},
     "columns": {}
   },
-  "id": "feab5591-7f5e-49fb-a279-ba15b8e2cc26",
+  "id": "ebb20fe8-3793-4c21-b3ca-5cbd5f965877",
   "prevId": "00000000-0000-0000-0000-000000000000"
 }

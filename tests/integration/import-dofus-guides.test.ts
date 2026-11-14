@@ -507,6 +507,47 @@ describe('loadDofusGuides: grupos de Necesitarás', () => {
   const names = async (slug: string) =>
     ((await read(slug)).needs?.groups ?? []).map((group) => group.name)
 
+  it('«1 x Mazmorra:» con sus opciones queda junto, con su subtítulo, y la nota arriba', async () => {
+    const slug = 'prueba-dofus-subtitulo'
+    const option = (text: string) => ({ text, segs: [{ t: 'text' as const, v: text }] })
+    const report = await loadDofusGuides(
+      payload,
+      options([
+        guideWith(slug, 918050, {
+          title: 'Necesitarás',
+          note: 'no te he puesto los recursos de Incarnam',
+          groups: [
+            {
+              name: null,
+              rows: [
+                {
+                  ...option('1 x Mazmorra:'),
+                  children: [option('Mazmorra Malefíscof.'), option('Mazmorra Fraktal.')],
+                },
+                {
+                  ...option('Para el final:'),
+                  children: [option('14 x combates.'), option('Ser minero nivel 20.')],
+                },
+              ],
+            },
+          ],
+        }),
+      ]),
+    )
+    const doc = await read(slug)
+    expect(doc.needs?.note).toBe('(no te he puesto los recursos de Incarnam)')
+    expect(
+      doc.needs?.groups?.map((group) => [group.name, group.subtitle, group.rows?.length]),
+    ).toEqual([
+      ['mazmorras', '1 x Mazmorra', 2],
+      ['otros', 'Para el final', 2],
+    ])
+    // Un subtítulo cuyas filas no van todas al mismo grupo se avisa.
+    expect(report.mixedSubtitles).toEqual([
+      { slug, subtitle: 'Para el final', groups: ['combates', 'oficios'] },
+    ])
+  })
+
   it('una guía con todo suelto queda en los grupos fijos, y repetirla no cambia nada', async () => {
     const slug = 'prueba-dofus-marfil'
     const guides = [guideWith(slug, 918047, marfil)]

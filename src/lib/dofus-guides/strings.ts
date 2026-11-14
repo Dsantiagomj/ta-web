@@ -25,6 +25,10 @@ export const dofusGuideStrings = {
     needsTitleDescription: 'Vacío: «Necesitarás».',
     needGroupDescription:
       'En la guía, los grupos salen siempre en el orden de esta lista, elijas el que elijas.',
+    needGroupSubtitleDescription:
+      'Opcional: sale bajo el nombre del grupo, encima de sus filas. Por ejemplo «1 x Mazmorra» ' +
+      'o «Dependiendo de tu nivel».',
+    needsNoteDescription: 'Opcional: una nota sobre todo Necesitarás, encima de los grupos.',
     needItemNameDescription:
       'El nombre si el objeto no está enlazado. Enlazado, sale el nombre del objeto.',
     needItemNameRequired: 'Enlaza el objeto o escribe su nombre',

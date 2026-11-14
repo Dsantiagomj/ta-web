@@ -385,6 +385,13 @@ export const DofusGuides: CollectionConfig = {
                   admin: { description: s.needsTitleDescription },
                 },
                 {
+                  name: 'note',
+                  label: 'Nota',
+                  type: 'text',
+                  localized: true,
+                  admin: { description: s.needsNoteDescription },
+                },
+                {
                   name: 'groups',
                   label: 'Grupos',
                   labels: { singular: 'Grupo', plural: 'Grupos' },
@@ -400,6 +407,13 @@ export const DofusGuides: CollectionConfig = {
                       options: needGroupOptions,
                       enumName: 'enum_dofus_guides_needs_group',
                       admin: { description: s.needGroupDescription },
+                    },
+                    {
+                      name: 'subtitle',
+                      label: 'Subtítulo',
+                      type: 'text',
+                      localized: true,
+                      admin: { description: s.needGroupSubtitleDescription },
                     },
                     {
                       name: 'rows',

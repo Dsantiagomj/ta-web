@@ -29,13 +29,13 @@ export function segmentRowLabel(data: Row, rowIndex?: number): string {
   return rowLabelText(r.segment, rowIndex, text(data?.text), { qualifier })
 }
 
-/** Una fila que se llama por uno de sus campos de texto: «Grupo 1: Recursos». */
 /** Un grupo de Necesitarás de una guía de Dofus: «Grupo 3: Consumibles». */
 export function needGroupRowLabel(data: Row, rowIndex?: number): string {
   const name = data?.name
   return rowLabelText(r.group, rowIndex, isNeedGroup(name) ? needGroupLabel(name) : undefined)
 }
 
+/** Una fila que se llama por uno de sus campos de texto: «Grupo 1: Recursos». */
 export function textRowLabel(singular: string, field: string) {
   return (data: Row, rowIndex?: number): string =>
     rowLabelText(singular, rowIndex, text(data?.[field]))

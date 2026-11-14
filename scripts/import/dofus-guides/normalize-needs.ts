@@ -5,10 +5,10 @@
 // - si no, un logro, una mazmorra, un combate o un oficio por su nombre en los datos del juego;
 // - lo demás, a «Otros», y la importación lo lista.
 // Las filas conservan el orden de Torre dentro de cada grupo. Código puro.
-import { dungeonMatcher, type DungeonNames } from '@/lib/achievements/dungeons'
+import { dungeonMatches, type DungeonNames } from '@/lib/achievements/dungeons'
 import {
-  byNeedGroup,
   headingGroup,
+  NEED_GROUPS,
   itemGroup,
   type NeedGroup,
 } from '@/lib/dofus-guides/need-groups'
@@ -26,8 +26,11 @@ export interface NeedEntry {
   block: Record<string, unknown>
   /** El supertipo en DofusDB, si la fila es un objeto del juego. */
   superTypeId?: number | null
-  /** Un subtítulo de Torre («Dependiendo de tu nivel:»): va en el grupo de la fila siguiente. */
-  leads?: boolean
+  /**
+   * El subtítulo de Torre bajo el que va la fila («Dependiendo de tu nivel», «1 x Mazmorra»):
+   * las filas seguidas con el mismo subtítulo van juntas, en un mismo grupo, con él encima.
+   */
+  unit?: string
 }
 
 export type PlacementReason =
@@ -79,32 +82,40 @@ export function needClassifiers(data: {
   achievements: string[]
   jobs: string[]
 }): NeedClassifiers {
-  const matchDungeon = dungeonMatcher(data.dungeons)
+  const matchDungeon = dungeonMatches(data.dungeons)
   const monsters = new Set(data.monsters.map(fold))
   const achievements = new Set(data.achievements.map(fold))
-  const jobs = new Set(data.jobs.map(fold))
+  const jobs = data.jobs.map(fold).filter(Boolean)
+  /** Cómo casa con una mazmorra: por su nombre, por un jefe o nada. */
+  const dungeonVia = (label: string) => {
+    const found = matchDungeon(label)
+    return found.how === 'none' ? null : found.how
+  }
   return {
     achievement: (text) => achievements.has(fold(labelOf(text).replace(/^logro\s*:\s*/iu, ''))),
-    // «1 x Mazmorra Le chuko», o una mazmorra de DofusDB por su nombre («Antro del
-    // Dragocerdo»). Una llave nombra una mazmorra pero es un objeto: no es una mazmorra.
+    // Lo que dice «Mazmorra» o «Llave» («1 x Mazmorra Le chuko», «1 x Llave del Ring
+    // Eskarlata»), o el nombre de una mazmorra de DofusDB («Antro del Dragocerdo»). El nombre
+    // de un jefe solo es un combate.
     dungeon: (text) => {
       const label = labelOf(text)
-      if (/^llaves?\b/iu.test(label)) return false
-      return /^mazmorras?\b/iu.test(label) || matchDungeon(label) !== null
+      return /^(mazmorras?|llaves?)\b/iu.test(label) || dungeonVia(label) === 'name'
     },
-    // La misma palabra que pinta el icono de combate en la página; o un monstruo por su nombre.
+    // La misma palabra que pinta el icono de combate en la página; o un monstruo o un jefe de
+    // mazmorra por su nombre.
     fight: (text) => {
       if (needNote(text.trim()).combat) return 'combate'
-      return monsters.has(fold(labelOf(text))) ? 'monstruo' : null
+      const label = labelOf(text)
+      return monsters.has(fold(label)) || dungeonVia(label) === 'boss' ? 'monstruo' : null
     },
+    // La palabra «oficio» o un oficio de DofusDB entero, en la fila sin su paréntesis.
     job: (text) => {
-      const words = fold(text).split(' ')
-      return words.some((word) => /^oficios?$/.test(word) || jobs.has(word))
+      const label = ` ${fold(labelOf(text))} `
+      return / oficios? /.test(label) || jobs.some((job) => label.includes(` ${job} `))
     },
   }
 }
 
-/** El grupo de una fila y por qué; un subtítulo se decide después, con la fila siguiente. */
+/** El grupo de una fila y por qué. */
 function place(entry: NeedEntry, classify: NeedClassifiers): Omit<Placement, 'text' | 'from'> {
   const heading = entry.headings.map(headingGroup).find((group) => group !== null) ?? null
   if (entry.block.blockType === 'needItem') {
@@ -122,24 +133,77 @@ function place(entry: NeedEntry, classify: NeedClassifiers): Omit<Placement, 'te
   return { to: 'otros', reason: 'sin clasificar' }
 }
 
-/** Las filas en los grupos fijos, en su orden, y a dónde fue cada una. */
+/** Un grupo de Necesitarás: el grupo fijo, el subtítulo de Torre si lo hay y sus filas. */
+export interface NormalizedGroup {
+  name: NeedGroup
+  subtitle?: string
+  rows: Record<string, unknown>[]
+}
+
+/** Un subtítulo cuyas filas no van todas al mismo grupo. */
+export interface MixedUnit {
+  subtitle: string
+  groups: NeedGroup[]
+}
+
+/**
+ * Las filas en los grupos fijos y a dónde fue cada una. Las filas de un subtítulo de Torre
+ * van juntas, al grupo de más de la mitad de ellas, o a «Otros» si no hay mayoría; se avisa de
+ * las que no iban todas al mismo. En cada grupo, las filas sueltas y cada subtítulo, en el
+ * orden de Torre.
+ */
 export function normalizeNeeds(
   entries: NeedEntry[],
   classify: NeedClassifiers,
-): { groups: { name: NeedGroup; rows: Record<string, unknown>[] }[]; placements: Placement[] } {
-  const placed = entries.map((entry) => (entry.leads ? null : place(entry, classify)))
-  // Un subtítulo va con la primera fila que no es subtítulo después de él.
-  for (let index = placed.length - 1; index >= 0; index -= 1) {
-    if (placed[index]) continue
-    const next = placed.slice(index + 1).find(Boolean)
-    placed[index] = { to: next?.to ?? 'otros', reason: 'subtítulo' }
+): {
+  groups: NormalizedGroup[]
+  /** Los mismos grupos con el texto de cada fila, para el informe. */
+  outline: { name: NeedGroup; subtitle?: string; rows: string[] }[]
+  placements: Placement[]
+  mixed: MixedUnit[]
+} {
+  const placed = entries.map((entry) => place(entry, classify))
+  const mixed: MixedUnit[] = []
+  for (let start = 0; start < entries.length;) {
+    const unit = entries[start]!.unit
+    let end = start + 1
+    while (end < entries.length && unit !== undefined && entries[end]!.unit === unit) end += 1
+    if (unit !== undefined) {
+      const run = placed.slice(start, end)
+      const counts = new Map<NeedGroup, number>()
+      for (const { to } of run) counts.set(to, (counts.get(to) ?? 0) + 1)
+      const [top] = [...counts].sort(([, a], [, b]) => b - a)
+      const to = top![1] * 2 > run.length ? top![0] : 'otros'
+      if (counts.size > 1) {
+        const groups = NEED_GROUPS.filter((group) => counts.has(group))
+        mixed.push({ subtitle: unit, groups })
+      }
+      for (let index = start; index < end; index += 1) {
+        if (placed[index]!.to !== to) placed[index] = { to, reason: 'subtítulo' }
+      }
+    }
+    start = end
   }
-  const byGroup = new Map<NeedGroup, Record<string, unknown>[]>()
+
+  const byName = new Map<NeedGroup, Map<string, NormalizedGroup & { texts: string[] }>>()
   const placements = entries.map((entry, index): Placement => {
     const { to, reason } = placed[index]!
-    byGroup.set(to, [...(byGroup.get(to) ?? []), entry.block])
+    const parts = byName.get(to) ?? new Map<string, NormalizedGroup & { texts: string[] }>()
+    byName.set(to, parts)
+    const key = entry.unit ?? ''
+    const part = parts.get(key) ?? {
+      name: to,
+      ...(entry.unit && { subtitle: entry.unit }),
+      rows: [],
+      texts: [],
+    }
+    parts.set(key, part)
+    part.rows.push(entry.block)
+    part.texts.push(entry.text)
     return { text: entry.text, from: entry.headings.find(Boolean) ?? null, to, reason }
   })
-  const groups = [...byGroup].map(([name, rows]) => ({ name, rows })).sort(byNeedGroup)
-  return { groups, placements }
+  const parts = NEED_GROUPS.flatMap((name) => [...(byName.get(name)?.values() ?? [])])
+  const groups = parts.map(({ texts: _texts, ...group }) => group)
+  const outline = parts.map(({ rows: _rows, texts, ...group }) => ({ ...group, rows: texts }))
+  return { groups, outline, placements, mixed }
 }
