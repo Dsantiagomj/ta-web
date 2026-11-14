@@ -151,14 +151,6 @@ export interface StepView {
   icon?: ImageAsset
   banner?: ImageAsset
   figure?: { image?: ImageAsset; name?: string; role?: string }
-  achievements: {
-    name: string
-    href?: string
-    icon?: ImageAsset
-    some: boolean
-    /** «Hasta la misión N»: la última misión del logro que se hace en el paso. */
-    upto?: number
-  }[]
   quests: QuestRowView[]
   needs: NeedGroupView[]
   bosses: { name: string; image?: ImageAsset }[]
@@ -494,23 +486,14 @@ export function checklistView(data: ChecklistData): ChecklistView {
     const resolve = segments.find((segment) => segment.kind === 'resolve')
     const lines = routeLines(step, closedBy.has(step.stepId ?? ''))
 
-    const achievements = (step.achievements ?? []).flatMap((row) => {
-      const achievement = populated(row.achievement)
-      if (!achievement?.name) return []
-      const slug = data.achievementPages[achievement.id]
-      const icon = image(achievement.icon)
-      return [
-        {
-          name: achievement.name,
-          ...(slug && { href: `/${slug}` }),
-          ...(icon && { icon }),
-          some: row.mode === 'some',
-          ...(row.mode === 'upto' && row.on?.length && { upto: Math.max(...row.on) }),
-        },
-      ]
-    })
+    // Los logros del paso no tienen sección propia (la quitó Torre, 2026-11-14): solo enlazan
+    // su nombre en el texto, si tienen página.
     const links = new Map(
-      achievements.flatMap((row) => (row.href ? [[row.name, row.href] as const] : [])),
+      (step.achievements ?? []).flatMap((row) => {
+        const achievement = populated(row.achievement)
+        const slug = achievement?.name && data.achievementPages[achievement.id]
+        return slug ? [[achievement.name!, `/${slug}`] as const] : []
+      }),
     )
 
     const quests = (step.quests ?? []).flatMap((row): QuestRowView[] => {
@@ -591,7 +574,6 @@ export function checklistView(data: ChecklistData): ChecklistView {
           ...(figure?.role && { role: figure.role }),
         },
       }),
-      achievements,
       quests,
       needs,
       bosses: (step.bosses ?? []).flatMap((boss) => {

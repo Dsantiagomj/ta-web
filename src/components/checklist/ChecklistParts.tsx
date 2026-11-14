@@ -586,35 +586,6 @@ export function StepDetail({ step, last }: { step: StepView; last: number }) {
             <NeedGroups groups={step.needs} heading={4} stepId={step.stepId} />
           </section>
         )}
-        {step.achievements.length > 0 && (
-          <section className="ck-sec" aria-labelledby={id('lo')}>
-            <h3 className="ck-h3" id={id('lo')}>
-              {s.achievements}
-            </h3>
-            <ul role="list" className="ck-rowlist">
-              {step.achievements.map((achievement) => (
-                <li key={achievement.name} className="row">
-                  {achievement.icon ? (
-                    <IconWell image={achievement.icon} />
-                  ) : (
-                    <IconWell icon="achievement" />
-                  )}
-                  <span>
-                    {achievement.href ? (
-                      <a href={achievement.href}>{achievement.name}</a>
-                    ) : (
-                      achievement.name
-                    )}
-                    {achievement.some && <span className="ck-item__r">{s.achievementSome}</span>}
-                    {achievement.upto != null && (
-                      <span className="ck-item__r">{s.achievementUpto(achievement.upto)}</span>
-                    )}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
         {step.bosses.length > 0 && (
           <section className="ck-sec" aria-labelledby={id('je')}>
             <h3 className="ck-h3" id={id('je')}>

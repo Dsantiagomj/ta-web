@@ -34,12 +34,14 @@ test.describe('el Silvestre en la vista previa', () => {
     expect(response.headers().location).toBe(silvestre.legacyHref)
   })
 
-  test('los avisos de la guía, resaltados en su tramo, y el logro «hasta la misión»', async ({
+  test('los avisos de la guía, resaltados en su tramo, y sin la sección de logros', async ({
     page,
   }) => {
     await preview(page)
     await expect(step(page, 1).locator('mark.hl--tip')).toHaveText(d.tip)
-    await expect(step(page, 1).getByText('Hasta la misión 2')).toBeVisible()
+    // El logro «hasta la misión 2» no se enseña: Torre ya lo dice en su texto («misión 3»).
+    await expect(step(page, 1).getByRole('region', { name: 'Logros' })).toHaveCount(0)
+    await expect(step(page, 1).getByText('Hasta la misión 2')).toHaveCount(0)
     await page.locator('.ck-row__b[data-pick="2"]').click()
     await expect(step(page, 2).locator('mark.hl--must')).toHaveText(d.must)
     await expect(step(page, 2).getByRole('link', { name: 'avanza el 1' })).toBeVisible()
