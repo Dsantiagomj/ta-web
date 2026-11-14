@@ -178,6 +178,9 @@ try {
   for (const { slug, text } of report.needGroups.filter((row) => row.to === 'otros')) {
     console.log(`Sin clasificar en ${slug}, va a Otros: «${text}»`)
   }
+  for (const { slug, text } of report.leftovers) {
+    console.log(`Pasa a nota en ${slug} (no es una misión con guía): «${text}»`)
+  }
   for (const { slug, achievement, torre, page } of report.differences) {
     console.log(
       `Misiones distintas en ${slug}, logro «${achievement}»:\n` +

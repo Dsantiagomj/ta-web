@@ -1,0 +1,531 @@
+{
+ "heading": "DOFUS MARFIL",
+ "banner": null,
+ "prerequisites": [
+  [
+   {
+    "t": "text",
+    "v": "Nivel mínimo 180."
+   }
+  ]
+ ],
+ "needs": {
+  "title": "Necesitarás en total",
+  "note": null,
+  "groups": [
+   {
+    "name": null,
+    "rows": [
+     {
+      "text": "14 x combates.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "14 x combates."
+       }
+      ],
+      "quantity": 14,
+      "name": "combates"
+     },
+     {
+      "text": "1 x combate (realizablecon 2 máximo).",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x combate (realizablecon 2 máximo)."
+       }
+      ],
+      "quantity": 1,
+      "name": "combate",
+      "note": "(realizablecon 2 máximo)"
+     },
+     {
+      "text": "1 x combate táctico solo.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x combate táctico solo."
+       }
+      ],
+      "quantity": 1,
+      "name": "combate táctico solo"
+     },
+     {
+      "text": "Algunos combates para drop.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "Algunos combates para drop."
+       }
+      ],
+      "name": "Algunos combates para drop"
+     },
+     {
+      "text": "50 x Frostizz",
+      "segs": [
+       {
+        "t": "text",
+        "v": "50 x Frostizz"
+       }
+      ],
+      "quantity": 50,
+      "name": "Frostizz"
+     },
+     {
+      "text": "50 x Grasa gelatinosa",
+      "segs": [
+       {
+        "t": "text",
+        "v": "50 x Grasa gelatinosa"
+       }
+      ],
+      "quantity": 50,
+      "name": "Grasa gelatinosa"
+     },
+     {
+      "text": "20 x Petaca de azufre",
+      "segs": [
+       {
+        "t": "text",
+        "v": "20 x Petaca de azufre"
+       }
+      ],
+      "quantity": 20,
+      "name": "Petaca de azufre"
+     },
+     {
+      "text": "15 x Campanilla de invierno",
+      "segs": [
+       {
+        "t": "text",
+        "v": "15 x Campanilla de invierno"
+       }
+      ],
+      "quantity": 15,
+      "name": "Campanilla de invierno"
+     },
+     {
+      "text": "15 x obsidiana",
+      "segs": [
+       {
+        "t": "text",
+        "v": "15 x obsidiana"
+       }
+      ],
+      "quantity": 15,
+      "name": "obsidiana"
+     },
+     {
+      "text": "5 x Bigote de Riluro",
+      "segs": [
+       {
+        "t": "text",
+        "v": "5 x Bigote de Riluro"
+       }
+      ],
+      "quantity": 5,
+      "name": "Bigote de Riluro"
+     },
+     {
+      "text": "1 x Cuerda de Fanclasma",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Cuerda de Fanclasma"
+       }
+      ],
+      "quantity": 1,
+      "name": "Cuerda de Fanclasma"
+     },
+     {
+      "text": "1 x Llave de la mazmorra del Rey Nidas",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Llave de la mazmorra del Rey Nidas"
+       }
+      ],
+      "quantity": 1,
+      "name": "Llave de la mazmorra del Rey Nidas"
+     },
+     {
+      "text": "1 x Llave del reto de Miauvisor",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Llave del reto de Miauvisor"
+       }
+      ],
+      "quantity": 1,
+      "name": "Llave del reto de Miauvisor"
+     },
+     {
+      "text": "1 x Pico de nocturlabiúho",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Pico de nocturlabiúho"
+       }
+      ],
+      "quantity": 1,
+      "name": "Pico de nocturlabiúho"
+     },
+     {
+      "text": "1 x Piel de Cocabulia",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Piel de Cocabulia"
+       }
+      ],
+      "quantity": 1,
+      "name": "Piel de Cocabulia"
+     },
+     {
+      "text": "Alineamiento 100 (Bonta o Brakmar).",
+      "segs": [
+       {
+        "t": "text",
+        "v": "Alineamiento 100 (Bonta o Brakmar)."
+       }
+      ],
+      "name": "Alineamiento 100",
+      "note": "(Bonta o Brakmar)"
+     },
+     {
+      "text": "Varita Pitusa.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "Varita Pitusa."
+       }
+      ],
+      "name": "Varita Pitusa"
+     },
+     {
+      "text": "1 x Mazmorra del Miauvizor.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Mazmorra del Miauvizor."
+       }
+      ],
+      "quantity": 1,
+      "name": "Mazmorra del Miauvizor"
+     },
+     {
+      "text": "1 x Mazmorra del Protozorror.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Mazmorra del Protozorror."
+       }
+      ],
+      "quantity": 1,
+      "name": "Mazmorra del Protozorror"
+     },
+     {
+      "text": "1 x Mazmorra Rey Nidas.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Mazmorra Rey Nidas."
+       }
+      ],
+      "quantity": 1,
+      "name": "Mazmorra Rey Nidas"
+     },
+     {
+      "text": "1 x Mazmorra Nileza.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Mazmorra Nileza."
+       }
+      ],
+      "quantity": 1,
+      "name": "Mazmorra Nileza"
+     },
+     {
+      "text": "1 x Mazmorra Capitán Meno.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Mazmorra Capitán Meno."
+       }
+      ],
+      "quantity": 1,
+      "name": "Mazmorra Capitán Meno"
+     },
+     {
+      "text": "1 x Mazmorra Anerice.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Mazmorra Anerice."
+       }
+      ],
+      "quantity": 1,
+      "name": "Mazmorra Anerice"
+     },
+     {
+      "text": "1 x Mazmorra Sylargh.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Mazmorra Sylargh."
+       }
+      ],
+      "quantity": 1,
+      "name": "Mazmorra Sylargh"
+     }
+    ]
+   }
+  ]
+ },
+ "intro": [
+  [
+   {
+    "t": "text",
+    "v": "Para obtener tu Dofus marfil, necesitarás cumplir con las siguientes misiones de estos logros. Habrá una bifurcación cuando llegues a la misión Nordalía, y allí te recomiendo hacer la misión El Guerrero Negro primero. No te preocupes, todo eso está explicado en cada misión."
+   }
+  ]
+ ],
+ "parts": [
+  {
+   "type": "quests",
+   "title": "Prerrequisitos de misiones secundarias",
+   "quests": [
+    {
+     "name": "Espionaje industrial",
+     "slug": "espionaje-industrial",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Espionaje industrial.",
+       "href": "/espionaje-industrial",
+       "b": true
+      }
+     ]
+    },
+    {
+     "name": "¡Maldición!",
+     "slug": "maldicion",
+     "segs": [
+      {
+       "t": "link",
+       "v": "¡Maldición!",
+       "href": "/maldicion",
+       "b": true
+      }
+     ]
+    },
+    {
+     "name": "Encender la mecha",
+     "slug": "encender-la-mecha",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Encender la mecha.",
+       "href": "/encender-la-mecha",
+       "b": true
+      }
+     ]
+    },
+    {
+     "name": "La guardia muere, pero no se rinde",
+     "slug": "la-guardia-muere-pero-no-se-rinde",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La guardia muere, pero no se rinde.",
+       "href": "/la-guardia-muere-pero-no-se-rinde",
+       "b": true
+      }
+     ]
+    },
+    {
+     "name": "Su nombre es Ninguno",
+     "slug": "su-nombre-es-ninguno",
+     "note": "en curso o terminada",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Su nombre es Ninguno",
+       "href": "/su-nombre-es-ninguno",
+       "b": true
+      },
+      {
+       "t": "text",
+       "v": "en curso o terminada."
+      }
+     ]
+    },
+    {
+     "name": "100 misiones de alineamiento Bonta o Brakmar + 5 misiones de rango",
+     "slug": "metalogro-alineamiento",
+     "segs": [
+      {
+       "t": "link",
+       "v": "100 misiones de alineamiento Bonta o Brakmar + 5 misiones de rango.",
+       "href": "/metalogro-alineamiento",
+       "b": true
+      }
+     ]
+    },
+    {
+     "name": "Logro: Cazadores cazados",
+     "slug": "cazadores-cazados",
+     "note": "completo",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Logro: Cazadores cazados",
+       "href": "/cazadores-cazados",
+       "b": true
+      },
+      {
+       "t": "text",
+       "v": " ",
+       "b": true
+      },
+      {
+       "t": "text",
+       "v": "completo."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "achievement",
+   "name": "Blanco marfil",
+   "slug": null,
+   "quests": [
+    {
+     "name": "El dragón blanco",
+     "slug": "el-dragon-blanco",
+     "segs": [
+      {
+       "t": "link",
+       "v": "El dragón blanco.",
+       "href": "/el-dragon-blanco",
+       "b": true
+      }
+     ]
+    },
+    {
+     "name": "Examen de paso",
+     "slug": "examen-de-paso",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Examen de paso.",
+       "href": "/examen-de-paso",
+       "b": true
+      }
+     ]
+    },
+    {
+     "name": "El Reino Gris",
+     "slug": "el-reino-gris",
+     "segs": [
+      {
+       "t": "link",
+       "v": "El Reino Gris.",
+       "href": "/el-reino-gris",
+       "b": true
+      }
+     ]
+    },
+    {
+     "name": "Golpe en Anutropía",
+     "slug": "golpe-en-anutropia",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Golpe en Anutropía.",
+       "href": "/golpe-en-anutropia",
+       "b": true
+      }
+     ]
+    },
+    {
+     "name": "Nordalía",
+     "slug": "nordalia",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Nordalía.",
+       "href": "/nordalia",
+       "b": true
+      }
+     ]
+    },
+    {
+     "name": "La felicidad está en campo rociado",
+     "slug": "la-felicidad-esta-en-campo-rociado",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La felicidad está en campo rociado.",
+       "href": "/la-felicidad-esta-en-campo-rociado",
+       "b": true
+      }
+     ]
+    },
+    {
+     "name": "Una voz de cristal",
+     "slug": "una-voz-de-cristal",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Una voz de cristal.",
+       "href": "/una-voz-de-cristal",
+       "b": true
+      }
+     ]
+    },
+    {
+     "name": "Muerto en vida",
+     "slug": "muerto-en-vida",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Muerto en vida.",
+       "href": "/muerto-en-vida",
+       "b": true
+      }
+     ]
+    },
+    {
+     "name": "El Guerrero Negro",
+     "slug": "el-guerrero-negro",
+     "segs": [
+      {
+       "t": "link",
+       "v": "El Guerrero Negro.",
+       "href": "/el-guerrero-negro",
+       "b": true
+      }
+     ]
+    },
+    {
+     "name": "Es hora de morir",
+     "slug": "es-hora-de-morir",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Es hora de morir.",
+       "href": "/es-hora-de-morir",
+       "b": true
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "rewards": null,
+ "video": "IhNZ7fmzW-4",
+ "body": []
+}

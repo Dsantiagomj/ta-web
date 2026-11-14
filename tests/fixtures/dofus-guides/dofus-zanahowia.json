@@ -1,0 +1,315 @@
+{
+ "heading": "DOFUS ZANAHOWIA",
+ "banner": null,
+ "prerequisites": [
+  [
+   {
+    "t": "link",
+    "v": "Un sabio entre los sabios.",
+    "href": "/un-sabio-entre-los-sabios",
+    "b": true
+   }
+  ],
+  [
+   {
+    "t": "text",
+    "v": "Nivel mínimo 60."
+   }
+  ]
+ ],
+ "needs": {
+  "title": "Necesitarás",
+  "note": null,
+  "groups": [
+   {
+    "name": null,
+    "rows": [
+     {
+      "text": "1 x Pata de wabbit.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Pata de wabbit."
+       }
+      ],
+      "quantity": 1,
+      "name": "Pata de wabbit"
+     },
+     {
+      "text": "1 x Zanahowia.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Zanahowia."
+       }
+      ],
+      "quantity": 1,
+      "name": "Zanahowia"
+     },
+     {
+      "text": "1 x Capa del Wey Wabbit.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Capa del Wey Wabbit."
+       }
+      ],
+      "quantity": 1,
+      "name": "Capa del Wey Wabbit"
+     },
+     {
+      "text": "1 x Bastón del Wey Wabbit.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Bastón del Wey Wabbit."
+       }
+      ],
+      "quantity": 1,
+      "name": "Bastón del Wey Wabbit"
+     },
+     {
+      "text": "1 x Corona del Wey Wabbit.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Corona del Wey Wabbit."
+       }
+      ],
+      "quantity": 1,
+      "name": "Corona del Wey Wabbit"
+     }
+    ]
+   },
+   {
+    "name": "Mazmorras",
+    "rows": [
+     {
+      "text": "1 x Mazmorra Wey Wabbit.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Mazmorra Wey Wabbit."
+       }
+      ],
+      "quantity": 1,
+      "name": "Mazmorra Wey Wabbit"
+     },
+     {
+      "text": "1 x Mazmorra Wey Wobot.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "1 x Mazmorra Wey Wobot."
+       }
+      ],
+      "quantity": 1,
+      "name": "Mazmorra Wey Wobot"
+     }
+    ]
+   },
+   {
+    "name": null,
+    "rows": [
+     {
+      "text": "Un par de combates por allí y por allá.",
+      "segs": [
+       {
+        "t": "text",
+        "v": "Un par de combates por allí y por allá."
+       }
+      ],
+      "name": "Un par de combates por allí y por allá"
+     },
+     {
+      "text": "Ayuda de otras 2 personas para baldosas ZzZzZz…",
+      "segs": [
+       {
+        "t": "text",
+        "v": "Ayuda de otras 2 personas para baldosas ZzZzZz…"
+       }
+      ],
+      "name": "Ayuda de otras 2 personas para baldosas ZzZzZz…"
+     }
+    ]
+   }
+  ]
+ },
+ "intro": [
+  [
+   {
+    "t": "text",
+    "v": "A pesar de que las misiones del Dofus Zanahowia se pueden realizar antes del nivel 60, necesitarás ser mínimo de ese nivel para poder ponerte el set Wey Wabbit y cumplir con los logros U,U. Para obtener tu Dofus Zanahowia, necesitarás cumplir con las siguientes misiones de estos logros en este orden:"
+   }
+  ]
+ ],
+ "parts": [
+  {
+   "type": "achievement",
+   "name": "Astuto como un zollo",
+   "slug": null,
+   "quests": [
+    {
+     "name": "Salvar la especie",
+     "slug": "salvar-la-especie",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Salvar la especie.",
+       "href": "/salvar-la-especie",
+       "b": true
+      }
+     ]
+    },
+    {
+     "name": "Haz el amor y no la guerra",
+     "slug": "haz-el-amor-y-no-la-guerra",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Haz el amor y no la guerra.",
+       "href": "/haz-el-amor-y-no-la-guerra",
+       "b": true
+      }
+     ]
+    },
+    {
+     "name": "Aquí huele a zanahowia",
+     "slug": "aqui-huele-a-zanahowia",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Aquí huele a zanahowia.",
+       "href": "/aqui-huele-a-zanahowia",
+       "b": true
+      }
+     ]
+    },
+    {
+     "name": "Es un hueso, de wabbit",
+     "slug": "es-un-hueso-de-wabbit",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Es un hueso, de wabbit.",
+       "href": "/es-un-hueso-de-wabbit",
+       "b": true
+      }
+     ]
+    },
+    {
+     "name": "Arte gastronómico",
+     "slug": "arte-gastronomico",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Arte gastronómico.",
+       "href": "/arte-gastronomico",
+       "b": true
+      }
+     ]
+    },
+    {
+     "name": "Expedición culinaria",
+     "slug": "expedicion-culinaria",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Expedición culinaria.",
+       "href": "/expedicion-culinaria",
+       "b": true
+      }
+     ]
+    },
+    {
+     "name": "Viaje al centro del wabbit",
+     "slug": "viaje-al-centro-del-wabbit",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Viaje al centro del wabbit.",
+       "href": "/viaje-al-centro-del-wabbit",
+       "b": true
+      }
+     ]
+    },
+    {
+     "name": "Unos pwíncipes no muy encantadowes",
+     "slug": "unos-pwincipes-no-muy-encantadowes",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Unos pwíncipes no muy encantadowes.",
+       "href": "/unos-pwincipes-no-muy-encantadowes",
+       "b": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "achievement",
+   "name": "Un wey de pacotilla",
+   "slug": null,
+   "quests": [
+    {
+     "name": "No hay dos sin tres",
+     "slug": "no-hay-dos-sin-tres",
+     "segs": [
+      {
+       "t": "link",
+       "v": "No hay dos sin tres.",
+       "href": "/no-hay-dos-sin-tres",
+       "b": true
+      }
+     ]
+    },
+    {
+     "name": "El castillo del Wey",
+     "slug": "el-castillo-del-wey",
+     "segs": [
+      {
+       "t": "link",
+       "v": "El castillo del Wey.",
+       "href": "/el-castillo-del-wey",
+       "b": true
+      }
+     ]
+    },
+    {
+     "name": "¿El huevo o la zanahowia?",
+     "slug": "el-huevo-o-la-zanahowia",
+     "segs": [
+      {
+       "t": "link",
+       "v": "¿El huevo o la zanahowia?",
+       "href": "/el-huevo-o-la-zanahowia",
+       "b": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "achievement",
+   "name": "Pelo de zanahowia",
+   "slug": "pelo-de-zanahowia",
+   "quests": [
+    {
+     "name": "Hacerse pasar por el Wey Wabbit = básicamente tienes que ir a la mazmorra Wey Wobot después de haber terminado los logros anteriores, ponerte el set Wey Wabbit (nivel 60 mínimo) y hablar con el guardián de la mazmorra. Solo así te dejará agarrar el dofus y huir",
+     "slug": null,
+     "segs": [
+      {
+       "t": "text",
+       "v": "Hacerse pasar por el Wey Wabbit = básicamente tienes que ir a la mazmorra Wey Wobot después de haber terminado los logros anteriores, ponerte el set Wey Wabbit (nivel 60 mínimo) y hablar con el guardián de la mazmorra. Solo así te dejará agarrar el dofus y huir.",
+       "b": true
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "rewards": null,
+ "video": "zJqc6sKeg0g",
+ "body": []
+}

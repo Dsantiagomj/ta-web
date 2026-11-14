@@ -322,22 +322,31 @@ function readStart(element: TextElement): Start | null {
 }
 
 /**
- * El párrafo de cierre de una página («Aquí termina la misión. Espero haberte ayudado…»)
- * y su primera frase, que el importador quitaba antes. Lo usa la restauración de las guías
- * ya importadas (scripts/import/restore-closings.ts). Sin cierre, null.
+ * Los párrafos de cierre de una página («Aquí termina la misión. Espero haberte ayudado…»),
+ * en su orden, con su primera frase, que el importador quitaba antes. Torre a veces deja dos
+ * (Leyenda del otoño). Lo usa la restauración de las guías ya importadas
+ * (scripts/import/restore-closings.ts).
  */
-export function closingParagraph(
+export function closingParagraphs(
   page: SquarespacePage,
-): { html: string; text: string; sentence: string } | null {
+): { html: string; text: string; sentence: string }[] {
+  const found: { html: string; text: string; sentence: string }[] = []
   for (const block of page.blocks) {
     if (block.type !== 'text') continue
     for (const element of block.elements) {
       if (element.tag !== 'p' || !CLOSING.test(element.text)) continue
       const sentence = element.text.slice(0, sentenceCut(element.text, 0)).trim()
-      return { html: element.html, text: element.text, sentence }
+      found.push({ html: element.html, text: element.text, sentence })
     }
   }
-  return null
+  return found
+}
+
+/** El primer párrafo de cierre de una página, o null (closingParagraphs). */
+export function closingParagraph(
+  page: SquarespacePage,
+): { html: string; text: string; sentence: string } | null {
+  return closingParagraphs(page)[0] ?? null
 }
 
 /** Pone en mayúscula la primera letra del texto de un nodo. */

@@ -279,27 +279,105 @@
    "quests": [
     {
      "name": "La isla flotante de chocolate",
-     "slug": "la-isla-flotante-de-chocolate"
+     "slug": "la-isla-flotante-de-chocolate",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La isla flotante de chocolate",
+       "href": "/la-isla-flotante-de-chocolate",
+       "b": true
+      },
+      {
+       "t": "text",
+       "v": ".",
+       "b": true
+      }
+     ]
     },
     {
      "name": "La crisis de fe",
-     "slug": "la-crisis-de-fe"
+     "slug": "la-crisis-de-fe",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La crisis de fe",
+       "href": "/la-crisis-de-fe",
+       "b": true
+      },
+      {
+       "t": "text",
+       "v": ".",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Un huevo aparte",
-     "slug": "un-huevo-aparte"
+     "slug": "un-huevo-aparte",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Un huevo aparte",
+       "href": "/un-huevo-aparte",
+       "b": true
+      },
+      {
+       "t": "text",
+       "v": ".",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Chocomagia contra chocomancia",
-     "slug": "chocomagia-contra-chocomancia"
+     "slug": "chocomagia-contra-chocomancia",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Chocomagia contra chocomancia",
+       "href": "/chocomagia-contra-chocomancia",
+       "b": true
+      },
+      {
+       "t": "text",
+       "v": ".",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Chocomisterio y chocohuevo",
-     "slug": "chocomisterio-y-chocohuevo"
+     "slug": "chocomisterio-y-chocohuevo",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Chocomisterio y chocohuevo",
+       "href": "/chocomisterio-y-chocohuevo",
+       "b": true
+      },
+      {
+       "t": "text",
+       "v": ".",
+       "b": true
+      }
+     ]
     },
     {
      "name": "Ka-kao maravillao",
-     "slug": "ka-kao-maravillao"
+     "slug": "ka-kao-maravillao",
+     "segs": [
+      {
+       "t": "link",
+       "v": "Ka-kao maravillao",
+       "href": "/ka-kao-maravillao",
+       "b": true
+      },
+      {
+       "t": "text",
+       "v": ".",
+       "b": true
+      }
+     ]
     }
    ]
   },
@@ -310,7 +388,20 @@
    "quests": [
     {
      "name": "La manía de reciclar",
-     "slug": "la-mania-de-reciclar"
+     "slug": "la-mania-de-reciclar",
+     "segs": [
+      {
+       "t": "link",
+       "v": "La manía de reciclar",
+       "href": "/la-mania-de-reciclar",
+       "b": true
+      },
+      {
+       "t": "text",
+       "v": ".",
+       "b": true
+      }
+     ]
     }
    ]
   },
