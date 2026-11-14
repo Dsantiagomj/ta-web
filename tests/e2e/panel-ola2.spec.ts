@@ -1,6 +1,7 @@
+import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
 
-import { docId, logInPanel, releaseLocks, restorePublished } from './panel-helpers.ts'
+import { docId, logInPanel, releaseLocks, restorePublished, WCAG } from './panel-helpers.ts'
 import { seedAchievement } from './seed/achievements.ts'
 import { seedChecklists } from './seed/checklists.ts'
 import { seedDofus } from './seed/dofus-guides.ts'
@@ -101,5 +102,36 @@ test.describe('el panel para Torre, ola 2', () => {
       'src',
       new RegExp(`/vista-previa\\?slug=${slug}$`),
     )
+  })
+
+  test('A-13: el panel de control dice qué hay pendiente, con atajos para crear', async () => {
+    await page.goto('/admin')
+    await expect(page.getByRole('heading', { level: 1, name: 'Pendiente' })).toBeVisible()
+    // La cuadrícula de colecciones de Payload ya no está: las colecciones van en el menú.
+    await expect(page.locator('.dashboard__card-list')).toHaveCount(0)
+
+    const drafts = page.getByRole('region', { name: /Borradores sin publicar/ })
+    await expect(drafts.getByRole('link', { name: draftGuide.title })).toBeVisible()
+    await expect(drafts.getByText('Nunca publicada').first()).toBeVisible()
+
+    const preparing = page.getByRole('region', { name: 'En preparación' })
+    await expect(
+      preparing.getByRole('link', { name: seedDofus.jyfus.name, exact: true }),
+    ).toBeVisible()
+
+    const dofus = page.getByRole('region', { name: /Guías de Dofus sin checklist/ })
+    await expect(dofus.getByRole('link', { name: seedDofus.jyfus.name, exact: true })).toBeVisible()
+
+    await expect(page.getByRole('region', { name: 'Cambios recientes' })).toBeVisible()
+
+    await page.getByRole('link', { name: 'Nueva guía de misión' }).click()
+    await expect(page).toHaveURL(/\/admin\/collections\/quest-guides\/create$/)
+  })
+
+  test('A-13: el panel de control pasa axe', async () => {
+    await page.goto('/admin')
+    await expect(page.getByRole('heading', { level: 1, name: 'Pendiente' })).toBeVisible()
+    const results = await new AxeBuilder({ page }).withTags(WCAG).analyze()
+    expect(results.violations.map((violation) => violation.id)).toEqual([])
   })
 })

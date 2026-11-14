@@ -287,3 +287,109 @@ html[data-theme='dark'] {
 .ta-publish .field-description {
   margin-top: 0.25rem;
 }
+
+/* El panel de control «Pendiente» (Dashboard, A-13). */
+.ta-dash {
+  padding-block: 1.5rem 3rem;
+}
+
+.ta-dash__head h1 {
+  margin: 0;
+}
+
+.ta-dash__lead {
+  margin: 0.25rem 0 0;
+  color: var(--ta-muted);
+}
+
+.ta-dash__shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.5rem 0;
+}
+
+.ta-dash__shortcuts .btn {
+  margin: 0;
+}
+
+/* Columnas y no rejilla: las tarjetas miden distinto y no dejan huecos. */
+.ta-dash__grid {
+  column-width: 26rem;
+  column-gap: 1rem;
+}
+
+.ta-dash__card {
+  break-inside: avoid;
+  margin-bottom: 1rem;
+  padding: 1.25rem;
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: var(--style-radius-m);
+  background: var(--theme-elevation-50);
+}
+
+.ta-dash__card h2 {
+  margin: 0 0 0.25rem;
+  font-size: 1.25rem;
+}
+
+.ta-dash__group h3 {
+  margin: 1rem 0 0;
+  font-size: 1rem;
+}
+
+.ta-dash__count {
+  color: var(--ta-muted);
+  font-weight: 500;
+}
+
+.ta-dash__help,
+.ta-dash__empty {
+  margin: 0 0 0.5rem;
+  color: var(--ta-muted);
+}
+
+.ta-dash__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ta-dash__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--theme-elevation-100);
+}
+
+.ta-dash__row:last-child {
+  border-bottom: 0;
+}
+
+.ta-dash__row a,
+.ta-dash__all {
+  color: var(--ta-ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.ta-dash__meta {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  color: var(--ta-muted);
+}
+
+.ta-dash__hint {
+  flex-basis: 100%;
+  color: var(--ta-muted);
+}
+
+.ta-dash__all {
+  display: inline-block;
+  margin-top: 0.5rem;
+}
