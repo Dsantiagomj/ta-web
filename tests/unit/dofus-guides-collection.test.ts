@@ -10,11 +10,10 @@ import { validateSlug } from '@/collections/QuestGuides'
 import { ROOT_SLUG_COLLECTIONS } from '@/collections/root-slug'
 import { isGuideSlug } from '@/lib/guides/slug'
 
-/** Los campos con nombre, también los de una fila (row), que solo los coloca en el panel. */
-const named = layoutFields
-
 function field(fields: Field[], name: string): Field {
-  const found = named(fields).find((candidate) => 'name' in candidate && candidate.name === name)
+  const found = layoutFields(fields).find(
+    (candidate) => 'name' in candidate && candidate.name === name,
+  )
   if (!found) throw new Error(`Falta el campo ${name}`)
   return found
 }

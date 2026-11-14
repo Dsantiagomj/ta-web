@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs'
 import type { CollectionConfig, Field, RowField, TabsField } from 'payload'
 import { describe, expect, it } from 'vitest'
 
@@ -6,6 +7,8 @@ import { AchievementPages } from '@/collections/AchievementPages'
 import { Checklists } from '@/collections/Checklists'
 import { DofusGuides } from '@/collections/DofusGuides'
 import { QuestGuides } from '@/collections/QuestGuides'
+
+import { layoutFields } from './helpers/fields'
 
 // El panel para Torre, ola 2 (docs/research/backlog.md, A-13 a A-22): lo que se configura en
 // las colecciones, sin cambiar quién puede hacer qué.
@@ -72,22 +75,15 @@ describe('A-20: los tamaños de la vista previa', () => {
   })
 })
 
-/** Las pestañas de un formulario: su etiqueta y los campos con nombre de cada una. */
+/** Las pestañas de un formulario: su etiqueta y los campos de datos de cada una. */
 function tabsOf(fields: Field[]): { label: string; names: string[] }[] {
   const tabs = fields.find((candidate) => candidate.type === 'tabs')
   if (!tabs || tabs.type !== 'tabs') return []
-  const names = (inner: Field[]): string[] =>
-    inner.flatMap((candidate) =>
-      candidate.type === 'row' || candidate.type === 'collapsible'
-        ? names(candidate.fields)
-        : 'name' in candidate
-          ? [candidate.name]
-          : [],
-    )
   return tabs.tabs.map((tab) => {
     // Sin nombre: los datos se guardan igual que sin pestañas, sin migración.
     expect('name' in tab && tab.name, String(tab.label)).toBeFalsy()
-    return { label: String(tab.label), names: names(tab.fields) }
+    const names = layoutFields(tab.fields).flatMap((f) => ('name' in f ? [f.name] : []))
+    return { label: String(tab.label), names }
   })
 }
 
@@ -126,7 +122,11 @@ describe('A-22: pestañas en los formularios largos', () => {
     const row = ficha.fields[0]
     expect(row?.type).toBe('row')
     const color = (row as RowField).fields.find((f) => 'name' in f && f.name === 'color')
-    expect(adminOf(color!).components?.Field).toBe('/components/admin/ColorField#ColorField')
+    expect(adminOf(color!).components).toMatchObject({
+      Field: '/components/admin/ColorField#ColorField',
+      beforeInput: ['/components/admin/ColorField#ColorSwatch'],
+    })
+    expect(adminOf(color!).className).toBe('ta-color')
   })
 
   it('la guía de misión: Contenido, Resumen y SEO', () => {
@@ -147,5 +147,28 @@ describe('A-22: pestañas en los formularios largos', () => {
 
   it('la checklist se queda como está (otro agente la reorganiza)', () => {
     expect(tabsOf(Checklists.fields)).toEqual([])
+  })
+})
+
+describe('A-22: las pestañas con error se leen', () => {
+  const scss = readFileSync('src/app/(payload)/custom.scss', 'utf8')
+  /** Las reglas de custom.scss sobre los botones de pestaña: selector y cuerpo. */
+  const tabRules = [...scss.matchAll(/([^{}]*tabs-field__tab-button[^{}]*)\{([^}]*)\}/g)].map(
+    ([, selector, body]) => ({ selector: selector!.replace(/\s+/g, ' ').trim(), body: body! }),
+  )
+
+  it('una pestaña sin elegir, con error o sin él, no se aclara con opacidad', () => {
+    const inactive = tabRules.find(
+      (rule) =>
+        rule.selector.includes(':not(.tabs-field__tab-button--active)') &&
+        /opacity:\s*1/.test(rule.body),
+    )
+    expect(inactive?.selector).toBeDefined()
+    expect(inactive?.selector).not.toContain('has-error')
+  })
+
+  it('al pasar el ratón, una pestaña con error conserva su color', () => {
+    const hover = tabRules.find((rule) => rule.selector.includes(':hover'))
+    expect(hover?.selector.replace(/\s+/g, '')).toMatch(/:not\([^)]*tab-button--has-error[^)]*\)/)
   })
 })

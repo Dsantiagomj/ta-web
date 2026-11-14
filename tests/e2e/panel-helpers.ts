@@ -7,22 +7,6 @@ import { E2E_PANEL_USER_2 } from './seed/guides.ts'
 
 export const WCAG = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']
 
-/**
- * Lo que axe encuentra en piezas de Payload que no son nuestras, como en panel.spec.ts
- * (asas de arrastre y menús sin nombre, el campo de Lexical, react-select, objetivos de
- * 20px). A-21 lo revisa.
- */
-export const PAYLOAD_KNOWN = [
-  'aria-command-name',
-  'aria-hidden-focus',
-  'aria-input-field-name',
-  'button-name',
-  'label',
-  'label-content-name-mismatch',
-  'list',
-  'target-size',
-]
-
 /** Inicia sesión y devuelve el id de la cuenta, para soltar luego sus bloqueos. */
 export async function logInPanel(page: Page): Promise<number> {
   const login = await page.request.post('/api/users/login', { data: E2E_PANEL_USER_2 })

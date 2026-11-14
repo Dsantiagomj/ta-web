@@ -1,14 +1,22 @@
 import type { Field } from 'payload'
 
 /**
- * Los campos con nombre de una lista, también los que van en una fila, un desplegable o una
- * pestaña sin nombre: esos solo los colocan en el panel, no cambian lo guardado.
+ * Los campos de datos de una lista, sin las piezas que solo los colocan en el formulario:
+ * filas, desplegables y pestañas sin nombre no cambian dónde se guardan. Una pestaña con
+ * nombre sí guarda sus campos dentro: sale como un grupo con ese nombre.
  */
-export const layoutFields = (fields: Field[]): Field[] =>
-  fields.flatMap((candidate) =>
-    candidate.type === 'row' || candidate.type === 'collapsible'
-      ? layoutFields(candidate.fields)
-      : candidate.type === 'tabs'
-        ? candidate.tabs.flatMap((tab) => ('name' in tab ? [] : layoutFields(tab.fields)))
-        : [candidate],
-  )
+export function layoutFields(fields: Field[]): Field[] {
+  return fields.flatMap((candidate): Field[] => {
+    if (candidate.type === 'row' || candidate.type === 'collapsible') {
+      return layoutFields(candidate.fields)
+    }
+    if (candidate.type === 'tabs') {
+      return candidate.tabs.flatMap((tab): Field[] =>
+        'name' in tab && tab.name
+          ? [{ type: 'group', name: tab.name, label: tab.label, fields: tab.fields } as Field]
+          : layoutFields(tab.fields),
+      )
+    }
+    return [candidate]
+  })
+}
