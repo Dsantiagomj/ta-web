@@ -160,9 +160,14 @@ try {
   }
   for (const { slug, groups } of report.needsAfter) {
     console.log(`Necesitarás después de normalizar en ${slug}:`)
-    for (const { name, rows } of groups) {
-      console.log(`  ${needGroupLabel(name)}: ${rows.map((row) => `«${row}»`).join(' · ')}`)
+    for (const { name, subtitle, rows } of groups) {
+      const head = subtitle ? `${needGroupLabel(name)} › «${subtitle}»` : needGroupLabel(name)
+      console.log(`  ${head}: ${rows.map((row) => `«${row}»`).join(' · ')}`)
     }
+  }
+  for (const { slug, subtitle, groups } of report.mixedSubtitles) {
+    const names = groups.map(needGroupLabel).join(', ')
+    console.log(`Subtítulo con filas de varios grupos en ${slug}: «${subtitle}» (${names})`)
   }
   let previous = ''
   for (const { slug, text, from, to, reason } of report.needGroups) {
