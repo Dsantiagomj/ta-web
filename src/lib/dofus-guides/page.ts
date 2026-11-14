@@ -16,7 +16,13 @@ import {
   type QuestDoc,
 } from '@/lib/achievements/page'
 import type { PageState } from '@/lib/achievements/strings'
-import { gameItem, type GuideBlock, type RichTextState } from '@/lib/guides/page'
+import {
+  gameItem,
+  guideContent,
+  type GuideContent,
+  type GuideDoc,
+  type RichTextState,
+} from '@/lib/guides/page'
 import { youtubeId } from '@/lib/guides/video'
 import { mediaImageAsset } from '@/lib/media/image-asset'
 import type { Media } from '@/payload-types'
@@ -171,7 +177,7 @@ export interface DofusGuideView {
   intro: RichTextState | null
   outro: RichTextState | null
   /** El paso a paso, con los bloques de las guías de misión. */
-  body: GuideBlock[]
+  body: GuideContent
   needs: { title: string; groups: { name?: string; rows: NeedRowView[] }[] } | null
   parts: PartView[]
   /** Los logros de las partes, para el título de la sección («El logro»). */
@@ -407,7 +413,11 @@ export function dofusGuideView(data: DofusGuideData): DofusGuideView {
     rewards: guide.rewards ?? null,
     intro: guide.intro ?? null,
     outro: guide.outro ?? null,
-    body: (guide.body ?? []) as GuideBlock[],
+    // Los mismos bloques que una guía de misión, ya listos para pintar: entrada, pasos y cierre.
+    body: guideContent(
+      { title: guide.name, body: guide.body as GuideDoc['body'] },
+      { priority: false },
+    ),
     needs: needsView(guide),
     parts,
     achievementCount: counts.achievements,

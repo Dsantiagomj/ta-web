@@ -373,7 +373,7 @@ export const dofusAchievementView: DofusGuideView = {
   rewards: null,
   intro: null,
   outro: null,
-  body: [],
+  body: { intro: [], steps: [], outro: [] },
   needs: null,
   achievementCount: 1,
   parts: [

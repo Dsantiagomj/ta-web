@@ -180,6 +180,19 @@ test.describe('página de una guía de Dofus', () => {
     )
   })
 
+  test('el paso a paso (como la Piñata de pino): prosa, captura, paso y cierre', async ({
+    page,
+  }) => {
+    await page.goto(`/${dofus.dofawa.slug}`)
+    const body = page.getByRole('region', { name: 'Paso a paso' })
+    await expect(body.getByText(dofus.dofawa.bodyIntro)).toBeVisible()
+    await expect(body.getByRole('img', { name: dofus.dofawa.bodyImageAlt })).toBeVisible()
+    await expect(body.getByText(/habla con Goblepino/)).toBeVisible()
+    // Las coordenadas, como en las guías de misión: un chip que se copia.
+    await expect(body.locator('.coord').first()).toContainText(/38,\s*-80/)
+    await expect(body.getByText(dofus.dofawa.bodyOutro)).toBeVisible()
+  })
+
   test('un Dofus En preparación no tiene página', async ({ page }) => {
     const response = await page.goto(`/${dofus.jyfus.slug}`)
     expect(response?.status()).toBe(404)

@@ -38,7 +38,7 @@ export function DofusGuideView({ data, preview }: { data: DofusGuideData; previe
             </div>
           )}
           {view.needs && <DofusNeeds needs={view.needs} />}
-          <DofusBody blocks={view.body} />
+          <DofusBody content={view.body} />
           <DofusParts view={view} />
           {view.outro && (
             <div className="logro__prose guide-body">
