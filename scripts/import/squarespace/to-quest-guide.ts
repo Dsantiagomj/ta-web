@@ -342,13 +342,6 @@ export function closingParagraphs(
   return found
 }
 
-/** El primer párrafo de cierre de una página, o null (closingParagraphs). */
-export function closingParagraph(
-  page: SquarespacePage,
-): { html: string; text: string; sentence: string } | null {
-  return closingParagraphs(page)[0] ?? null
-}
-
 /** Pone en mayúscula la primera letra del texto de un nodo. */
 function capitalizeFirst(node: Element): void {
   const walker = node.ownerDocument.createTreeWalker(node, 4 /* SHOW_TEXT */)

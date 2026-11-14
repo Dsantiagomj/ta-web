@@ -632,9 +632,27 @@ describe('loadDofusGuides: grupos de Necesitarás', () => {
 })
 
 describe('loadDofusGuides: texto que no es una misión', () => {
-  it('lo que no casa con una misión, bajo un logro o entre misiones, queda como nota', async () => {
+  const quest = 919101
+  beforeAll(async () => {
+    await payload.delete({ collection: 'quests', where: { dofusId: { equals: quest } } })
+    // Una misión de DofusDB sin guía todavía, con los puntos suspensivos del juego.
+    await payload.create({
+      collection: 'quests',
+      data: { dofusId: quest, name: '¡No… puedes… bajar!' },
+    })
+  })
+  afterAll(async () => {
+    await payload.delete({ collection: 'quests', where: { dofusId: { equals: quest } } })
+  })
+
+  it('solo lo que no es una misión pasa a nota, en su sitio; una misión sin guía se avisa', async () => {
     const slug = 'prueba-dofus-notas'
     const explanation = 'Hacerse pasar por el Wey Wabbit = ir a la mazmorra Wey Wobot.'
+    const text = (v: string) => ({
+      name: v.replace(/[.:]$/, ''),
+      slug: null,
+      segs: [{ t: 'text' as const, v }],
+    })
     const withNotes: DofusGuideSource = {
       ...source(),
       parts: [
@@ -644,8 +662,10 @@ describe('loadDofusGuides: texto que no es una misión', () => {
           slug: null,
           quests: [
             { name: 'A la pesca de información', slug: 'prueba-a-la-pesca' },
-            // Zanahowia: Torre explica cómo hacer el logro, sin enlace.
-            { name: explanation, slug: null, segs: [{ t: 'text', v: explanation, b: true }] },
+            // Una misión de la página de logro, aunque no tenga guía: no es una nota.
+            text('Otra misión de la página.'),
+            // Zanahowia: Torre explica cómo hacer el logro.
+            text(explanation),
           ],
         },
         {
@@ -661,6 +681,10 @@ describe('loadDofusGuides: texto que no es una misión', () => {
                 { t: 'link', v: '100 misiones de alineamiento', href: '/metalogro-alineamiento' },
               ],
             },
+            text('Hazla antes de la siguiente:'),
+            { name: 'El héroe de Sufokia', slug: 'prueba-el-heroe' },
+            // Una misión de DofusDB sin guía, escrita con «...»: se avisa, no se publica como nota.
+            text('¡No... puedes... bajar!'),
           ],
         },
       ],
@@ -669,21 +693,33 @@ describe('loadDofusGuides: texto que no es una misión', () => {
       payload,
       options([{ entry: { ...entry, slug, dofusId: 918071 }, source: withNotes }]),
     )
-    // Lo que pasó a nota se lista, para revisarlo en el ensayo.
     expect(report.leftovers).toEqual([
-      { slug, text: explanation },
+      { slug, text: explanation.replace(/\.$/, '') },
       { slug, text: '100 misiones de alineamiento' },
+      { slug, text: 'Hazla antes de la siguiente' },
     ])
+    const unmatched = report.unmatched.filter((row) => row.slug === slug && row.kind !== 'objeto')
+    expect(unmatched).toEqual([{ slug, kind: 'misión', name: '¡No... puedes... bajar!' }])
+
+    // La nota se queda entre las misiones donde la puso Torre: el bloque se parte.
     const parts = (await read(slug)).parts ?? []
     expect(parts.map((part) => part.blockType)).toEqual([
       'dofusAchievement',
       'dofusNote',
       'dofusQuests',
       'dofusNote',
+      'dofusQuests',
     ])
     expect(JSON.stringify(parts[1])).toContain('Hacerse pasar por el Wey Wabbit')
-    expect(parts[2]).toMatchObject({ quests: [{ guide: ids.luces }] })
+    expect(JSON.stringify(parts[1])).not.toContain('Otra misión de la página')
+    expect(parts[2]).toMatchObject({
+      title: 'Prerrequisitos de misiones secundarias',
+      quests: [{ guide: ids.luces }],
+    })
     expect(JSON.stringify(parts[3])).toContain('/metalogro-alineamiento')
+    expect(JSON.stringify(parts[3])).toContain('Hazla antes de la siguiente')
+    expect(parts[4]).toMatchObject({ quests: [{ guide: ids.heroe }] })
+    expect((parts[4] as { title?: string | null }).title ?? null).toBeNull()
   })
 })
 

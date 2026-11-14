@@ -18,6 +18,15 @@ const page = (slug: string) =>
   readFileSync(new URL(`../fixtures/dofus-guides/${slug}.html`, import.meta.url), 'utf8')
 const guide = (slug: string) => parseDofusGuide(page(slug)) as DofusGuideSource
 
+/** Una página de Squarespace mínima con un solo bloque de texto, como las de verdad. */
+const squarespace = (html: string) =>
+  '<script>Static.SQUARESPACE_CONTEXT = {"collection":{"title":"Prueba","id":"x"}};</script>' +
+  '<article><div data-fluid-engine="true"><style>' +
+  '@media (min-width: 768px) { .fe-block-b0 { grid-area: 1/2/2/26; } }</style>' +
+  '<div class="fe-block fe-block-b0"><div class="sqs-block" data-sqsp-block="text">' +
+  `<div class="sqs-html-content" data-sqsp-text-block-content>${html}</div></div></div>` +
+  '</div></article>'
+
 const GOLDEN = [
   'dofawa',
   'dofus-plateado',
@@ -120,6 +129,52 @@ describe('parseDofusGuide: lo que Torre escribe', () => {
     const loose = groups.filter((group) => group.name === null).flatMap((group) => group.rows)
     expect(loose.map((row) => row.text)).toContain('1 x Mazmorra Shogun Tofugawa.')
     expect(loose.find((row) => row.name === 'Ginseng')).toMatchObject({ quantity: 12 })
+  })
+
+  it('dentro de una fila anidada, la segunda lista queda al nivel de esa fila', () => {
+    // «Mazmorras:» > «1 x Mazmorra:» con dos listas: sus opciones y otra cuyo título se perdió.
+    // La segunda va junto a «1 x Mazmorra:», dentro de Mazmorras, no debajo de ella.
+    const nested = parseDofusGuide(
+      squarespace(
+        '<p><strong>Necesitarás:</strong></p>' +
+          '<ul><li><p>Mazmorras:</p><ul>' +
+          '<li><p>1 x Mazmorra:</p>' +
+          '<ul><li><p>Mazmorra Kumijo.</p></li><li><p>Mazmorra Shogun.</p></li></ul>' +
+          '<ul><li><p>5 x Bauxita.</p></li><li><p>3 x Fresa.</p></li></ul>' +
+          '</li></ul></li></ul>',
+      ),
+    ) as DofusGuideSource
+    const [mazmorras] = nested.needs!.groups
+    expect(mazmorras!.name).toBe('Mazmorras')
+    expect(
+      mazmorras!.rows.map((row) => [row.text, row.children?.map((child) => child.text)]),
+    ).toEqual([
+      ['1 x Mazmorra:', ['Mazmorra Kumijo.', 'Mazmorra Shogun.']],
+      ['5 x Bauxita.', undefined],
+      ['3 x Fresa.', undefined],
+    ])
+  })
+
+  it('dos niveles más abajo, la segunda lista sigue al nivel de la fila que la lleva', () => {
+    const deep = parseDofusGuide(
+      squarespace(
+        '<p><strong>Necesitarás:</strong></p>' +
+          '<ul><li><p>Mazmorras:</p><ul>' +
+          '<li><p>1 x Mazmorra:</p><ul>' +
+          '<li><p>Dependiendo de tu nivel:</p>' +
+          '<ul><li><p>Nivel 80: Malefíscof.</p></li></ul>' +
+          '<ul><li><p>5 x Bauxita.</p></li></ul>' +
+          '</li></ul></li></ul></li></ul>',
+      ),
+    ) as DofusGuideSource
+    const [option] = deep.needs!.groups[0]!.rows
+    expect(option!.text).toBe('1 x Mazmorra:')
+    expect(
+      option!.children?.map((child) => [child.text, child.children?.map((c) => c.text)]),
+    ).toEqual([
+      ['Dependiendo de tu nivel:', ['Nivel 80: Malefíscof.']],
+      ['5 x Bauxita.', undefined],
+    ])
   })
 
   it('cada fila de un logro guarda su texto con enlaces, aunque no sea una misión', () => {

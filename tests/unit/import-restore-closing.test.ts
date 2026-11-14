@@ -1,11 +1,8 @@
 import { describe, expect, it } from 'vitest'
 
-import { restoreClosing } from '../../scripts/import/restore-closings'
+import { restoreAll, restoreClosing } from '../../scripts/import/restore-closings'
 import { parsePage } from '../../scripts/import/squarespace/parse-page'
-import {
-  closingParagraph,
-  closingParagraphs,
-} from '../../scripts/import/squarespace/to-quest-guide'
+import { closingParagraphs } from '../../scripts/import/squarespace/to-quest-guide'
 
 // La frase de cierre que el importador quitaba («Aquí termina la misión.»): se lee de la
 // página de Squarespace y se devuelve al principio del final de la guía ya importada.
@@ -51,19 +48,21 @@ const page = (...paragraphs: string[]) =>
       '</div></article>',
   )
 
-describe('closingParagraph', () => {
-  it('el primer párrafo que empieza por la frase de cierre, y esa frase', () => {
-    const found = closingParagraph(
+describe('closingParagraphs', () => {
+  it('el párrafo que empieza por la frase de cierre, y esa frase', () => {
+    const found = closingParagraphs(
       page('<p>Un paso.</p>', '<p>Aquí termina la misión. Espero haberte ayudado.</p>'),
     )
-    expect(found).toMatchObject({
-      sentence: 'Aquí termina la misión.',
-      html: '<p>Aquí termina la misión. Espero haberte ayudado.</p>',
-    })
+    expect(found).toMatchObject([
+      {
+        sentence: 'Aquí termina la misión.',
+        html: '<p>Aquí termina la misión. Espero haberte ayudado.</p>',
+      },
+    ])
   })
 
-  it('sin frase de cierre, null', () => {
-    expect(closingParagraph(page('<p>Espero haberte ayudado.</p>'))).toBeNull()
+  it('sin frase de cierre, ninguno', () => {
+    expect(closingParagraphs(page('<p>Espero haberte ayudado.</p>'))).toEqual([])
   })
 
   it('todos los párrafos de cierre, en su orden (Leyenda del otoño tiene dos)', () => {
@@ -105,13 +104,22 @@ describe('restoreClosing', () => {
   it('ya restaurada: no cambia nada', () => {
     const body = [step('s'), richText('z', full)]
     const result = restoreClosing(body, { sentence: 'Aquí termina la misión.', paragraph: full })
-    expect(result).toEqual({ status: 'present', body })
+    expect(result).toMatchObject({ status: 'present', body })
   })
 
-  it('sin el párrafo recortado en el final (lo cambió Torre): no toca nada y lo cuenta', () => {
+  it('sin el párrafo recortado en el final (lo cambió Torre): no toca nada y dice por qué', () => {
     const body = [step('s'), richText('z', paragraph(text('Otro cierre distinto.')))]
     const result = restoreClosing(body, { sentence: 'Aquí termina la misión.', paragraph: full })
-    expect(result).toEqual({ status: 'notFound', body })
+    expect(result).toEqual({ status: 'notFound', reason: 'sin el párrafo recortado', body })
+  })
+
+  it('dos cierres con la misma frase: el primero entero no tapa al segundo recortado', () => {
+    const first = paragraph(text('Aquí termina la misión. Espero haberte ayudado.'))
+    const second = paragraph(text('Aquí termina la misión. Nos vemos en la próxima.'))
+    const body = [step('s'), richText('z', first, paragraph(text('Nos vemos en la próxima.')))]
+    const result = restoreClosing(body, { sentence: 'Aquí termina la misión.', paragraph: second })
+    expect(result.status).toBe('restored')
+    expect(result.body).toEqual([step('s'), richText('z', first, second)])
   })
 
   it('un segundo cierre se restaura aunque el primero empiece por la misma frase', () => {
@@ -127,5 +135,48 @@ describe('restoreClosing', () => {
     const result = restoreClosing(body, { sentence: 'Aquí termina la misión.', paragraph: second })
     expect(result.status).toBe('restored')
     expect(result.body).toEqual([step('s'), richText('z', first, second)])
+  })
+})
+
+describe('restoreAll', () => {
+  const closing = (line: string) => ({
+    sentence: line.split('.')[0]! + '.',
+    paragraph: paragraph(text(line)),
+  })
+
+  it('varios cierres que eran solo la frase quedan en su orden, uno tras otro', () => {
+    const body = [step('s'), richText('z', paragraph(text('Mira el vídeo.')))]
+    const result = restoreAll(body, [
+      closing('Aquí termina la misión.'),
+      closing('Aquí se termina la misión.'),
+    ])
+    const texts = result.body.flatMap((block) =>
+      block.blockType === 'richText'
+        ? (
+            block.content as { root: { children: { children: { text: string }[] }[] } }
+          ).root.children.map((node) => node.children[0]!.text)
+        : [],
+    )
+    expect(texts).toEqual([
+      'Aquí termina la misión.',
+      'Aquí se termina la misión.',
+      'Mira el vídeo.',
+    ])
+    expect(result.statuses).toEqual([{ status: 'inserted' }, { status: 'inserted' }])
+  })
+
+  it('dice cómo quedó cada párrafo, y por qué no se encontró', () => {
+    const result = restoreAll(
+      [richText('z', paragraph(text('Otro final.')))],
+      [
+        closing('Aquí termina la misión.'),
+        closing('Aquí termina la misión. Espero haberte ayudado.'),
+      ],
+    )
+    expect(result.statuses).toEqual([
+      { status: 'notFound', reason: 'sin paso detrás del que ponerlo' },
+      { status: 'notFound', reason: 'sin el párrafo recortado' },
+    ])
+    expect(result.changed).toBe(false)
   })
 })
