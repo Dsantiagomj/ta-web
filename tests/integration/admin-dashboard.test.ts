@@ -111,6 +111,20 @@ describe('readDashboard', () => {
       },
       ...asEditor(),
     })
+    // Solo cuenta una checklist publicada: un borrador aún no tiene a dónde enlazar.
+    await payload.create({
+      collection: 'checklists',
+      data: {
+        name: 'Borrador del Dofus sin enlace',
+        slug: `${PREFIX}-checklist-borrador`,
+        order: 899,
+        state: 'preparing',
+        dofusGuide: missing.id,
+        _status: 'draft',
+      },
+      draft: true,
+      ...asEditor(),
+    })
     await payload.create({
       collection: 'checklists',
       data: {
@@ -119,6 +133,29 @@ describe('readDashboard', () => {
         order: 900,
         state: 'preparing',
         dofusGuide: missing.id,
+        _status: 'published',
+      },
+      ...asEditor(),
+    })
+    const nameOnly = await payload.create({
+      collection: 'dofus-guides',
+      data: {
+        name: 'Dofus sin enlace pero con nombre',
+        slug: `${PREFIX}-solo-nombre`,
+        order: 903,
+        state: 'published',
+        checklist: { name: 'Su checklist' },
+        _status: 'published',
+      },
+      ...asEditor(),
+    })
+    const neverPublished = await payload.create({
+      collection: 'dofus-guides',
+      data: {
+        name: 'Dofus en borrador',
+        slug: `${PREFIX}-borrador`,
+        order: 904,
+        state: 'preparing',
         _status: 'draft',
       },
       draft: true,
@@ -128,6 +165,12 @@ describe('readDashboard', () => {
     const { dofusWithoutChecklist } = await readDashboard(payload, editor)
     const ids = dofusWithoutChecklist.items.map((item) => item.id)
     expect(ids).not.toContain(linked.id)
+    expect(ids).toContain(nameOnly.id)
+    // Lo que la web no enseña no cuenta: ni sin checklist ni En preparación.
+    expect(ids).not.toContain(neverPublished.id)
+    const { preparing } = await readDashboard(payload, editor)
+    const dofus = preparing.find((group) => group.collection === 'dofus-guides')
+    expect(dofus?.items.map((item) => item.id) ?? []).not.toContain(neverPublished.id)
     expect(dofusWithoutChecklist.items.find((item) => item.id === missing.id)).toMatchObject({
       title: 'Dofus sin enlace',
       checklistName: 'Checklist del Dofus sin enlace',

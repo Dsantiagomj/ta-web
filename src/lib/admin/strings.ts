@@ -151,7 +151,7 @@ export const panelStrings = {
     dofusHint: (name: string) => `La checklist «${name}» ya apunta a este Dofus: pon su enlace.`,
     more: (shown: number, total: number) => `Y ${total - shown} más.`,
     recent: 'Cambios recientes',
-    recentEmpty: 'Aún no has cambiado nada.',
+    recentEmpty: 'Nadie ha cambiado nada todavía.',
     count: (total: number) => `(${total})`,
   },
   /** Los tamaños de la vista previa en vivo (A-20). */
@@ -288,9 +288,12 @@ export function pageAddress(
   return `${SITE_HOST}/${path}`
 }
 
+/** La zona horaria de Torre: las fechas del panel se escriben en su hora. */
+export const TORRE_TIME_ZONE = 'Europe/Madrid'
+
 /**
  * Cuándo cambió algo, sin depender de la zona horaria del servidor: «hace 5 minutos»,
- * «hace 3 horas», «hace 2 días»; más de un mes, la fecha.
+ * «hace 3 horas», «hace 2 días»; más de un mes, la fecha en la hora de Torre.
  */
 export function relativeTime(iso: string, now: Date = new Date()): string {
   const then = new Date(iso)
@@ -302,5 +305,10 @@ export function relativeTime(iso: string, now: Date = new Date()): string {
   if (hours < 24) return hours === 1 ? 'hace 1 hora' : `hace ${hours} horas`
   const days = Math.floor(hours / 24)
   if (days < 31) return days === 1 ? 'hace 1 día' : `hace ${days} días`
-  return then.toLocaleDateString('es', { day: 'numeric', month: 'long', year: 'numeric' })
+  return then.toLocaleDateString('es', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: TORRE_TIME_ZONE,
+  })
 }
