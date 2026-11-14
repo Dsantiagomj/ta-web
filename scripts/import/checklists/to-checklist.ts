@@ -8,12 +8,24 @@
 import { gameImageKey } from '@/lib/dofusdb/game-images'
 
 import type { ChecklistCatalogEntry } from './catalog'
-import type { LegacyChecklist, LegacyStep } from './legacy'
-import { stepStops, type StepQuest } from './stops'
+import type { LegacyChecklist, LegacyResourceRow, LegacyStep } from './legacy'
+import { FOLLOW_UP, followUpStop, stepStops, type StepQuest, type StopPoint } from './stops'
+
+/** Los avisos de la guía, en su tramo: nota, consejo, lo que se debe hacer, lo que incluye. */
+export type CallKind = 'note' | 'tip' | 'must' | 'includes'
+
+/** Una parada de un rojo: la misión, su objetivo y sus opciones (stops.ts). */
+export interface StopDraft {
+  quest: number | null
+  stopObjective: number | null
+  later?: true
+  line?: string
+  resumeLine?: string
+}
 
 export type SegmentDraft =
-  | { kind: 'plain'; text: string }
-  | { kind: 'stop'; text: string; quest: number; stopObjective: number }
+  | { kind: 'plain' | CallKind; text: string }
+  | ({ kind: 'stop'; text: string; more?: StopDraft[] } & StopDraft)
   | { kind: 'resolve'; text: string; closes: number[] }
 
 export interface ArtRef {
@@ -36,11 +48,32 @@ const NEED_CATEGORIES = {
 
 export type NeedCategory = (typeof NEED_CATEGORIES)[keyof typeof NEED_CATEGORIES]
 
+export interface NeedOption {
+  /** El ID de DofusDB del objeto o, si DofusDB no lo tiene, «x:<nombre>». */
+  item: string
+  name: string
+  quantity: number
+}
+
+export interface NeedDraft extends NeedOption {
+  /** Las otras opciones de la fila: «A o B». */
+  alternatives?: NeedOption[]
+  note: string | null
+  category: NeedCategory
+  /** El grupo dentro de su categoría («Misión opcional»). */
+  group?: string
+  /** false: sale en el paso pero no cuenta en los totales (la marca x antigua). */
+  countsInTotal: boolean
+  /** Se conserva al usarla: en los totales cuenta la mayor cantidad, no la suma. */
+  reusable?: true
+  quests: number[]
+}
+
 export interface StepDraft {
   legacyNumber: number
   segments: SegmentDraft[]
   note: string | null
-  achievements: { achievement: number; mode: 'all' | 'some'; on: number[] }[]
+  achievements: { achievement: number; mode: 'all' | 'some' | 'upto'; on: number[] }[]
   quests: {
     quest: number
     kind: 'mandatory' | 'optional' | 'take'
@@ -48,17 +81,11 @@ export interface StepDraft {
     /** El número antiguo del paso que la termina. */
     optionalDoneBy: number | null
   }[]
-  needs: {
-    /** El ID de DofusDB del objeto o, si DofusDB no lo tiene, «x:<nombre>». */
-    item: string
-    name: string
-    quantity: number
-    note: string | null
-    category: NeedCategory
-    /** false: sale en el paso pero no cuenta en los totales (la marca x antigua). */
-    countsInTotal: boolean
-    quests: number[]
-  }[]
+  needs: NeedDraft[]
+  /** Los pasos que cierra sin verde (el 93 del Silvestre); con verde van en su tramo. */
+  closes: number[]
+  /** Los pasos cuyas misiones avanza sin terminarlas. */
+  updates: number[]
   figure: { npc: number | null; art: ArtRef | null; role: string } | null
   bosses: number[]
   icon: ArtRef | null
@@ -78,8 +105,14 @@ export interface ChecklistDraft {
   prerequisites: {
     intro: string
     groups: { title: string; rows: { key: string; text: string }[] }[]
+    /** Los avisos de Torre sobre los prerrequisitos (el Dofus Ocre, la orden de alineamiento). */
+    notes: { title: string; text: string }[]
+    /** Los objetos que piden, con el prerrequisito en el que se gasta cada uno. */
+    needs: (NeedDraft & { prerequisite: string | null })[]
   }
   steps: StepDraft[]
+  /** Las filas genéricas de misión que se quedan fuera (no son una misión de DofusDB). */
+  generic?: { step: number; name: string }[]
   /** Los nombres de lo que se enlaza por ID de DofusDB, para el informe de lo que no casa. */
   names?: Partial<Record<'quests' | 'achievements' | 'monsters' | 'npcs', Record<number, string>>>
   legacy: {
@@ -111,29 +144,72 @@ function iconRef(icon: { src: string; label: string } | null | undefined): ArtRe
   return { path: icon.src, alt: icon.label, ...(key ? { key } : {}) }
 }
 
+type MarkKind = 'plain' | 'stop' | 'done' | CallKind
+
 /**
- * El texto del paso en tramos: lo que va entre resaltados queda normal y cada resaltado,
- * rojo o verde, en su tramo. Lanza si un resaltado no está en el texto o si los tramos, unidos,
- * no dan el texto de partida: nunca se pierde ni se cambia una palabra.
+ * El texto del paso en tramos: lo que va entre resaltados queda normal y cada resaltado en su
+ * tramo, con el texto de la guía. El resaltado antiguo puede venir con otra mayúscula y sin
+ * los signos que lo rodean («(hasta tener que pasar X)»): se busca sin mayúsculas y se alarga
+ * hasta los espacios, así los tramos, unidos por un espacio, dan el texto. Lanza si un
+ * resaltado no está en el texto o si los tramos no dan el texto de partida: nunca se pierde ni
+ * se cambia una palabra. `raw` es el resaltado tal como lo guardaba la checklist antigua.
  */
-function splitText(step: LegacyStep): { kind: 'plain' | 'stop' | 'done'; text: string }[] {
-  const parts: { kind: 'plain' | 'stop' | 'done'; text: string }[] = []
-  let rest = step.text
-  const plain = (text: string) => {
-    if (text.trim()) parts.push({ kind: 'plain', text: text.trim() })
+function splitText(step: LegacyStep): { kind: MarkKind; text: string; raw?: string }[] {
+  const parts: { kind: MarkKind; text: string; raw?: string }[] = []
+  const text = step.text
+  const lower = text.toLowerCase()
+  let at = 0
+  const plain = (to: number) => {
+    const piece = text.slice(at, to).trim()
+    if (piece) parts.push({ kind: 'plain', text: piece })
   }
-  for (const [kind, text] of step.marks ?? []) {
-    const at = rest.indexOf(text)
-    if (at < 0) throw new Error(`Paso ${step.n}: el resaltado «${text}» no está en su texto`)
-    plain(rest.slice(0, at))
-    parts.push({ kind, text })
-    rest = rest.slice(at + text.length)
+  for (const [kind, raw] of step.marks ?? []) {
+    let from = lower.indexOf(raw.toLowerCase(), at)
+    if (from < 0) throw new Error(`Paso ${step.n}: el resaltado «${raw}» no está en su texto`)
+    let to = from + raw.length
+    while (from > at && !/\s/.test(text[from - 1])) from--
+    while (to < text.length && !/\s/.test(text[to])) to++
+    plain(from)
+    parts.push({ kind, text: text.slice(from, to), raw })
+    at = to
   }
-  plain(rest)
-  if (parts.map((part) => part.text).join(' ') !== step.text) {
+  plain(text.length)
+  if (parts.map((part) => part.text).join(' ') !== text) {
     throw new Error(`Paso ${step.n}: sus tramos no dan su texto exacto`)
   }
   return parts
+}
+
+const CALL_KINDS = new Set<string>(['note', 'tip', 'must', 'includes'])
+
+/** Una parada como la guarda el tramo: la misión y el objetivo, y sus opciones si las tiene. */
+const stopDraft = (point: StopPoint | undefined): StopDraft => ({
+  quest: point?.quest ?? null,
+  stopObjective: point?.index ?? null,
+  ...(point?.later && { later: true as const }),
+  ...(point?.line && { line: point.line }),
+  ...(point?.resumeLine && { resumeLine: point.resumeLine }),
+})
+
+/**
+ * Los avisos de los prerrequisitos, como los pinta PrereqsPanel.jsx: empezar el Dofus Ocre
+ * cuanto antes (el texto de la guía y la misión que lo da) y la orden de alineamiento que sigue
+ * la guía.
+ */
+function prerequisiteNotes(legacy: LegacyChecklist): { title: string; text: string }[] {
+  const { prereqNote, orderNote } = legacy.config
+  const { ocre, ocreStep } = legacy.prerequisites
+  return [
+    ...(prereqNote
+      ? [
+          {
+            title: prereqNote.title,
+            text: `${ocre} Lo da la misión «${prereqNote.quest}», que la guía termina en el paso ${ocreStep} con el logro «${prereqNote.achievement}».`,
+          },
+        ]
+      : []),
+    ...(orderNote ? [{ title: orderNote.title, text: orderNote.text }] : []),
+  ]
 }
 
 export function toChecklistDraft(
@@ -143,18 +219,26 @@ export function toChecklistDraft(
   const { config, quests: data } = legacy
   const journal = config.journal
 
+  // Las filas genéricas («Misión de clase», o «Prólogo invernal», una misión por alineamiento)
+  // no son una misión de DofusDB: no se elige ninguna por la persona. Se quedan fuera y el
+  // informe las nombra.
+  const generic: ChecklistDraft['generic'] = []
   const questsOf = (n: number): StepQuest[] =>
-    (data.STEP_QUESTS[n] ?? []).map((id) => ({
-      ...data.QUESTS[id],
-      id,
-      kind: data.STEP_QUEST_KINDS[n]?.[id] ?? 'mandatory',
-    }))
+    (data.STEP_QUESTS[n] ?? []).flatMap((id) => {
+      if (!Number.isInteger(Number(id))) {
+        generic.push({ step: n, name: data.QUESTS[id]?.n ?? String(id) })
+        return []
+      }
+      return [{ ...data.QUESTS[id], id, kind: data.STEP_QUEST_KINDS[n]?.[id] ?? 'mandatory' }]
+    })
 
   /** El ID de la misión que se llama así: primero entre las del paso, luego entre todas. */
   const questByName = (name: string, own: StepQuest[]): number | null => {
     const mine = own.find((quest) => quest.n === name)
     if (mine) return mine.id
-    const any = Object.entries(data.QUESTS).find(([, quest]) => quest.n === name)
+    const any = Object.entries(data.QUESTS).find(
+      ([id, quest]) => quest.n === name && Number.isInteger(Number(id)),
+    )
     return any ? Number(any[0]) : null
   }
 
@@ -168,6 +252,32 @@ export function toChecklistDraft(
     return null
   }
 
+  /** Una fila de «Necesitarás», con todas sus opciones, su grupo y si se conserva. */
+  const needDraft = (row: LegacyResourceRow, n: number, quests: StepQuest[]): NeedDraft => {
+    const category = NEED_CATEGORIES[row.c as keyof typeof NEED_CATEGORIES]
+    if (!category) throw new Error(`Paso ${n}: grupo desconocido «${row.c}»`)
+    if (row.a.length === 0) throw new Error(`Paso ${n}: la fila «${row.k}» no lleva ningún objeto`)
+    const option = ([item, quantity]: [string, number]): NeedOption => ({
+      item,
+      name: legacy.resources.items[item]?.name ?? item.replace(/^x:/, ''),
+      quantity,
+    })
+    const [first, ...others] = row.a.map(option)
+    return {
+      ...first,
+      ...(others.length > 0 && { alternatives: others }),
+      note: row.n ?? null,
+      category,
+      ...(row.g && { group: row.g }),
+      countsInTotal: !row.x,
+      ...(row.r && { reusable: true as const }),
+      quests: (row.m ?? []).flatMap((name) => {
+        const id = questByName(name, quests)
+        return id === null ? [] : [id]
+      }),
+    }
+  }
+
   const steps = legacy.steps.map((step): StepDraft => {
     const quests = questsOf(step.n)
     const stops = stepStops(step, quests, journal.stopAt)
@@ -176,18 +286,38 @@ export function toChecklistDraft(
     if (greens > 1 && step.closes?.length) {
       throw new Error(`Paso ${step.n}: varios verdes y no se sabe cuál cierra cada paso`)
     }
-    const segments = splitText(step).map((part): SegmentDraft => {
-      if (part.kind === 'plain') return { kind: 'plain', text: part.text }
+    const segments = splitText(step).flatMap((part): SegmentDraft[] => {
+      if (part.kind === 'plain' || CALL_KINDS.has(part.kind)) {
+        return [{ kind: part.kind as 'plain' | CallKind, text: part.text }]
+      }
       if (part.kind === 'stop') {
-        const point = stops[red++]
-        if (!point) throw new Error(`Paso ${step.n}: no se sabe dónde para «${part.text}»`)
-        return { kind: 'stop', text: part.text, quest: point.quest, stopObjective: point.index }
+        const [first, ...more] = stops[red++] ?? []
+        return [
+          {
+            kind: 'stop',
+            text: part.text,
+            ...stopDraft(first),
+            ...(more.length > 0 && { more: more.map(stopDraft) }),
+          },
+        ]
       }
-      if (!step.closes?.length) {
-        throw new Error(`Paso ${step.n}: el verde «${part.text}» no cierra ningún paso`)
-      }
-      return { kind: 'resolve', text: part.text, closes: step.closes }
+      const closes = step.closes ?? []
+      // El verde que deja una parada nueva («…hasta tener que pasar Kodámade»): esa parte es
+      // un «detente aquí» detrás del «aquí se resuelve».
+      const follow = part.raw?.match(FOLLOW_UP)
+      if (!follow || follow.index === undefined)
+        return [{ kind: 'resolve', text: part.text, closes }]
+      const cut = part.text.toLowerCase().indexOf(part.raw!.toLowerCase()) + follow.index
+      return [
+        { kind: 'resolve', text: part.text.slice(0, cut), closes },
+        {
+          kind: 'stop',
+          text: part.text.slice(cut).trim(),
+          ...stopDraft(followUpStop(part.raw!, quests) ?? undefined),
+        },
+      ]
     })
+    const hasResolve = segments.some((segment) => segment.kind === 'resolve')
 
     const figure = legacy.figures[step.n]
     const npc = figure?.f.img.match(NPC_IMAGE)
@@ -213,31 +343,9 @@ export function toChecklistDraft(
             quest.kind === 'optional' ? (journal.optionalDoneBy[quest.id] ?? null) : null,
         }
       }),
-      needs: (legacy.resources.steps[step.n] ?? []).map((row) => {
-        // El esquema aún no guarda alternativas ni grupos opcionales (Silvestre, Hielos):
-        // mejor parar que perderlos.
-        if (row.a.length !== 1) {
-          throw new Error(`Paso ${step.n}: la fila «${row.k}» tiene alternativas`)
-        }
-        if (row.g) {
-          throw new Error(`Paso ${step.n}: la fila «${row.k}» va en el grupo «${row.g}»`)
-        }
-        const [[item, quantity]] = row.a
-        const category = NEED_CATEGORIES[row.c as keyof typeof NEED_CATEGORIES]
-        if (!category) throw new Error(`Paso ${step.n}: grupo desconocido «${row.c}»`)
-        return {
-          item,
-          name: legacy.resources.items[item]?.name ?? item.replace(/^x:/, ''),
-          quantity,
-          note: row.n ?? null,
-          category,
-          countsInTotal: !row.x,
-          quests: (row.m ?? []).flatMap((name) => {
-            const id = questByName(name, quests)
-            return id === null ? [] : [id]
-          }),
-        }
-      }),
+      needs: (legacy.resources.steps[step.n] ?? []).map((row) => needDraft(row, step.n, quests)),
+      closes: hasResolve ? [] : (step.closes ?? []),
+      updates: step.updates ?? [],
       figure: figure
         ? {
             npc: npc ? Number(npc[1]) : null,
@@ -271,8 +379,14 @@ export function toChecklistDraft(
           title: group.title,
           rows: group.rows.map((row) => ({ key: row.id, text: row.text })),
         })),
+      notes: prerequisiteNotes(legacy),
+      needs: (legacy.resources.steps[0] ?? []).map((row) => ({
+        ...needDraft(row, 0, []),
+        prerequisite: row.p ?? null,
+      })),
     },
     steps,
+    ...(generic.length > 0 && { generic }),
     names: {
       quests: Object.fromEntries(
         Object.entries(data.QUESTS).map(([id, quest]) => [Number(id), quest.n]),

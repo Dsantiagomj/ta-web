@@ -15,7 +15,14 @@ import type { Checklist } from '@/payload-types'
 
 import type { LexicalState } from '../rich-text'
 import type { ChecklistCatalogEntry } from './catalog'
-import type { ArtRef, ChecklistDraft, StepDraft } from './to-checklist'
+import type {
+  ArtRef,
+  ChecklistDraft,
+  NeedDraft,
+  NeedOption,
+  StepDraft,
+  StopDraft,
+} from './to-checklist'
 
 export interface ChecklistInput {
   entry: ChecklistCatalogEntry
@@ -41,7 +48,7 @@ export interface LoadChecklistsOptions {
 }
 
 export type UnmatchedKind =
-  'misión' | 'logro' | 'PNJ' | 'jefe' | 'imagen' | 'guía de Dofus' | 'objetivo'
+  'misión' | 'logro' | 'PNJ' | 'jefe' | 'imagen' | 'guía de Dofus' | 'objetivo' | 'parada'
 
 export interface LoadChecklistsReport {
   created: number
@@ -195,7 +202,13 @@ async function resolveSteps(
   const all = draft.steps
   const quests = await byDofusId(payload, 'quests', [
     ...all.flatMap((step) =>
-      step.segments.flatMap((segment) => (segment.kind === 'stop' ? [segment.quest] : [])),
+      step.segments.flatMap((segment) =>
+        segment.kind === 'stop'
+          ? [segment, ...(segment.more ?? [])].flatMap((point) =>
+              point.quest === null ? [] : [point.quest],
+            )
+          : [],
+      ),
     ),
     ...all.flatMap((step) => step.quests.map((row) => row.quest)),
   ])
@@ -224,6 +237,11 @@ async function resolveSteps(
     return name ? `${name} (${dofusId})` : String(dofusId)
   }
   const stepRef = (n: number | null) => (n === null ? null : (stepIds.get(n) ?? null))
+  const stepRefs = (ns: number[]) =>
+    ns.flatMap((n) => {
+      const id = stepRef(n)
+      return id === null ? [] : [id]
+    })
 
   const questId = (n: number, dofusId: number) => {
     const found = quests.get(dofusId)
@@ -237,7 +255,7 @@ async function resolveSteps(
     else if (id < 0) pending.art.add(ref.path)
     return id
   }
-  const item = async (n: number, need: StepDraft['needs'][number]) => {
+  const item = async (n: number, need: NeedOption) => {
     const id = need.item.startsWith('x:')
       ? await options.findItem(need.name)
       : await options.ensureItem(Number(need.item))
@@ -245,6 +263,28 @@ async function resolveSteps(
     else if (id < 0) pending.items.add(need.item)
     else items.add(id)
     return id
+  }
+  /** Un objeto del juego o, si no lo es, su texto: la fila nunca se pierde. */
+  const option = async (n: number, need: NeedOption) => {
+    const id = await item(n, need)
+    return { ...(id === null ? { label: need.name } : { item: id }), quantity: need.quantity }
+  }
+  const resolveNeed = async (n: number, need: NeedDraft) => {
+    const alternatives = []
+    for (const alt of need.alternatives ?? []) alternatives.push(await option(n, alt))
+    return {
+      ...(await option(n, need)),
+      ...(alternatives.length > 0 && { alternatives }),
+      note: need.note,
+      category: need.category,
+      ...(need.group && { group: need.group }),
+      countsInTotal: need.countsInTotal,
+      ...(need.reusable && { reusable: true }),
+      quests: need.quests.flatMap((dofusId) => {
+        const found = quests.get(dofusId)
+        return found ? [found.id] : []
+      }),
+    }
   }
   const npc = async (n: number, dofusId: number | null) => {
     if (dofusId === null) return null
@@ -256,21 +296,33 @@ async function resolveSteps(
 
   const resolveStep = async (step: StepDraft) => {
     const n = step.legacyNumber
-    const segments = step.segments.map((segment) => {
-      if (segment.kind === 'plain') return { kind: 'plain', text: segment.text }
-      if (segment.kind === 'resolve') {
-        return { kind: 'resolve', text: segment.text, closes: segment.closes.map(stepRef) }
-      }
-      const found = quests.get(segment.quest)
+    const point = (stop: StopDraft) => {
+      const found = stop.quest === null ? undefined : quests.get(stop.quest)
       // La parada tiene que caer en un objetivo que la misión guardada tiene.
-      if (found && segment.stopObjective >= objectiveCount(found)) {
-        unmatched(n, 'objetivo', `${segment.quest}: ${segment.stopObjective}`)
+      if (found && stop.stopObjective !== null && stop.stopObjective >= objectiveCount(found)) {
+        unmatched(n, 'objetivo', `${stop.quest}: ${stop.stopObjective}`)
       }
+      return {
+        quest: stop.quest === null ? null : questId(n, stop.quest),
+        stopObjective: stop.stopObjective,
+        ...(stop.later && { later: true }),
+        ...(stop.line && { line: stop.line }),
+        ...(stop.resumeLine && { resumeLine: stop.resumeLine }),
+      }
+    }
+    const segments = step.segments.map((segment) => {
+      if (segment.kind === 'resolve') {
+        return { kind: 'resolve', text: segment.text, closes: stepRefs(segment.closes) }
+      }
+      if (segment.kind !== 'stop') return { kind: segment.kind, text: segment.text }
+      // Un rojo que no se sabe dónde para queda como aviso: se dice, para que Torre lo mire.
+      if (segment.quest === null) unmatched(n, 'parada', segment.text)
+      const more = (segment.more ?? []).map(point)
       return {
         kind: 'stop',
         text: segment.text,
-        quest: questId(n, segment.quest),
-        stopObjective: segment.stopObjective,
+        ...point(segment),
+        ...(more.length > 0 && { more }),
       }
     })
     const achievementRows = step.achievements.flatMap((row) => {
@@ -287,20 +339,7 @@ async function resolveSteps(
     })
     // Todas las filas, en su orden: la que no es un objeto del juego va con su texto.
     const needs = []
-    for (const need of step.needs) {
-      const id = await item(n, need)
-      needs.push({
-        ...(id === null ? { label: need.name } : { item: id }),
-        quantity: need.quantity,
-        note: need.note,
-        category: need.category,
-        countsInTotal: need.countsInTotal,
-        quests: need.quests.flatMap((dofusId) => {
-          const found = quests.get(dofusId)
-          return found ? [found.id] : []
-        }),
-      })
-    }
+    for (const need of step.needs) needs.push(await resolveNeed(n, need))
     // Un grupo no admite null: sin figura, vacío.
     const figure = step.figure
       ? {
@@ -313,6 +352,8 @@ async function resolveSteps(
       stepId: stepIds.get(n),
       legacyNumber: n,
       segments,
+      closes: stepRefs(step.closes),
+      updates: stepRefs(step.updates),
       note: step.note ? options.htmlToLexical(`<p>${escapeHtml(step.note)}</p>`) : null,
       achievements: achievementRows,
       quests: questRows,
@@ -331,7 +372,54 @@ async function resolveSteps(
 
   const resolved = []
   for (const step of all) resolved.push(await resolveStep(step))
-  return resolved
+  for (const { step, name } of draft.generic ?? []) {
+    unmatched(step, 'misión', `${name} (una de varias según la persona: falta modelarla)`)
+  }
+  // Los objetos de los prerrequisitos, como los de un paso (el 0 en el informe).
+  const prerequisiteNeeds = []
+  for (const need of draft.prerequisites.needs) {
+    prerequisiteNeeds.push({ ...(await resolveNeed(0, need)), prerequisite: need.prerequisite })
+  }
+  return {
+    steps: resolved,
+    prerequisites: { ...draft.prerequisites, needs: prerequisiteNeeds },
+  }
+}
+
+/**
+ * La checklist guardada, entera. En seco contra una base a la que aún le falta la migración de
+ * la colección (dev antes de desplegar), leerla entera falla: entonces se lee solo su ficha y
+ * sus pasos, que es todo lo que tiene una ficha sin portar. Al escribir nunca: sin la
+ * migración, escribir fallaría igual.
+ */
+async function readCurrent(
+  payload: Payload,
+  id: number,
+  apply: boolean,
+  log: (message: string) => void,
+): Promise<Checklist> {
+  const full = () =>
+    payload.findByID({ collection: 'checklists', id, depth: 0, draft: true, overrideAccess: true })
+  if (apply) return (await full()) as Checklist
+  try {
+    return (await full()) as Checklist
+  } catch (error) {
+    const doc = (await payload.findByID({
+      collection: 'checklists',
+      id,
+      depth: 0,
+      draft: true,
+      overrideAccess: true,
+      // Sin los prerrequisitos ni los tramos y objetos de los pasos: las tablas que añade la
+      // migración. Pedir solo unos campos no basta (Payload une igual las de los grupos).
+      select: { prerequisites: false, steps: { segments: false, needs: false } },
+    })) as Checklist
+    if ((doc.steps ?? []).length > 0) throw error
+    log(
+      `${doc.slug}: la base aún no tiene la última migración de checklists; se compara solo su ficha (no tiene pasos).`,
+    )
+    return doc
+  }
 }
 
 export async function loadChecklists(
@@ -377,9 +465,9 @@ export async function loadChecklists(
     const dofusGuide = guides.docs[0]?.id ?? null
     if (dofusGuide === null) unmatched(null, 'guía de Dofus', head.dofusGuide)
 
-    // Primero solo el ID: el documento entero se lee si existe. La consulta corta tampoco
-    // toca las columnas de los pasos, así que la pasada en seco funciona contra una base a
-    // la que aún le falta la última migración de la colección.
+    // Primero solo la ficha: el documento entero se lee si existe. La consulta corta no toca
+    // las tablas de los prerrequisitos ni de los pasos, así que la pasada en seco funciona
+    // contra una base a la que aún le falta la última migración de la colección.
     const found = await payload.find({
       collection: 'checklists',
       where: { slug: { equals: entry.slug } },
@@ -387,16 +475,10 @@ export async function loadChecklists(
       depth: 0,
       draft: true,
       overrideAccess: true,
-      select: { slug: true },
+      select: { prerequisites: false, steps: false },
     })
     const current = found.docs[0]
-      ? ((await payload.findByID({
-          collection: 'checklists',
-          id: found.docs[0].id,
-          depth: 0,
-          draft: true,
-          overrideAccess: true,
-        })) as Checklist)
+      ? await readCurrent(payload, found.docs[0].id, options.apply, log)
       : undefined
 
     const data: Imported = {
@@ -405,17 +487,15 @@ export async function loadChecklists(
       order: head.order,
       dofusGuide,
       legacyHref: head.legacyHref,
-      ...(draft && {
-        prerequisites: draft.prerequisites,
-        steps: await resolveSteps(payload, draft, current, {
+      ...(draft &&
+        (await resolveSteps(payload, draft, current, {
           options,
           unmatched,
           labelled,
           pending,
           items,
-        }),
-        legacy: draft.legacy,
-      }),
+        }))),
+      ...(draft && { legacy: draft.legacy }),
     }
     const fields = draft ? FULL_FIELDS : ENTRY_FIELDS
     // La zona de los pasos se compara aparte (mergeZones): los pasos se comparan sin ella.
@@ -495,8 +575,11 @@ export async function loadChecklists(
       continue
     }
     if (options.apply) {
-      // Si Torre tiene un borrador a medias, el cambio va a su borrador y no se publica.
-      const status = current._status === 'draft' ? 'draft' : 'published'
+      // Si Torre tiene un borrador a medias, el cambio va a su borrador y no se publica. La
+      // primera vez que se porta una ficha (publicada, sin pasos), los pasos también van a un
+      // borrador: lo publicado sigue siendo la ficha hasta que Torre la revise.
+      const porting = Boolean(draft) && !(current.steps ?? []).length && 'steps' in changes
+      const status = current._status === 'draft' || porting ? 'draft' : 'published'
       await payload.update({
         collection: 'checklists',
         id: current.id,

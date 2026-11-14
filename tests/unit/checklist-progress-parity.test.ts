@@ -44,7 +44,9 @@ function legacyPct(done: Set<number>, questObj: Record<number, number>): number 
         resolves.add(step.legacyNumber)
         for (const c of segment.closes) (closers[c] ??= []).push(step.legacyNumber)
       }
-      if (segment.kind === 'stop') (stops[step.legacyNumber] ??= []).push(segment.quest)
+      if (segment.kind === 'stop' && segment.quest !== null) {
+        ;(stops[step.legacyNumber] ??= []).push(segment.quest)
+      }
     }
   }
   // openOf, sin paradas «later» ni las que deja un verde (el Nebuloso no las tiene)

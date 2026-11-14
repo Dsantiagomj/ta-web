@@ -1,5 +1,5 @@
 // Lleva a checklists las checklists de Torre desde una copia de silvestre-checklist: las
-// portadas (hoy el Nebuloso) enteras, en borrador y En preparación; las demás como fichas En
+// portadas (hoy el Silvestre y el Nebuloso) enteras, en borrador y En preparación; las demás como fichas En
 // preparación que enlazan a Squarespace (scripts/import/checklists/catalog.ts). Al repetirla
 // no pisa lo que Torre haya cambiado en el panel y cada paso conserva su stepId (load.ts).
 // Trae de DofusDB los objetos y PNJ que falten, con su icono o sus renders, y sube a Media
@@ -106,19 +106,28 @@ function resolvers(payload: Payload, dryRun: boolean) {
 }
 
 function printUnmatched(report: LoadChecklistsReport) {
-  if (report.unmatched.length === 0) {
+  const where = (step: number | null) =>
+    step === null ? '' : step === 0 ? ', prerrequisitos' : `, paso ${step}`
+  const missing = report.unmatched.filter((row) => row.kind !== 'parada')
+  if (missing.length === 0) {
     console.log('Sin casar: nada. No se queda fuera ninguna misión, logro, PNJ, jefe ni imagen.')
   } else {
     console.log('Sin casar (se queda fuera de la checklist):')
-    for (const { slug, step, kind, name } of report.unmatched) {
-      console.log(`  ${slug}${step === null ? '' : `, paso ${step}`}: ${kind} «${name}»`)
+    for (const { slug, step, kind, name } of missing) {
+      console.log(`  ${slug}${where(step)}: ${kind} «${name}»`)
     }
+  }
+  // Un rojo que la checklist antigua no situaba en ninguna misión: se guarda como aviso.
+  const stops = report.unmatched.filter((row) => row.kind === 'parada')
+  if (stops.length > 0) {
+    console.log('«Detente aquí» sin misión donde parar (se guarda el texto, solo avisa):')
+    for (const { slug, step, name } of stops) console.log(`  ${slug}${where(step)}: «${name}»`)
   }
   // Ninguna fila de «Necesitarás» se pierde: la que no es un objeto del juego va como texto.
   if (report.labels.length > 0) {
     console.log('Se guardan como texto, sin objeto del juego (no se pierde ninguna fila):')
     for (const { slug, step, name } of report.labels) {
-      console.log(`  ${slug}, paso ${step}: «${name}»`)
+      console.log(`  ${slug}${where(step)}: «${name}»`)
     }
   }
 }

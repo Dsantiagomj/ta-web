@@ -5,8 +5,10 @@ import { Checklists } from '@/collections/Checklists'
 import {
   validateClosedSteps,
   validateNeedItem,
+  validateNeedPrerequisite,
   validateSegmentQuest,
   validateStepRef,
+  validateStepRefs,
   validateStopObjective,
 } from '@/collections/checklist-rules'
 
@@ -14,10 +16,22 @@ import {
 // existe en su misión, y un «aquí se resuelve» a pasos de la misma checklist.
 
 describe('reglas de los tramos', () => {
-  it('un tramo «detente aquí» necesita su misión', () => {
-    expect(validateSegmentQuest(null, { siblingData: { kind: 'stop' } })).not.toBe(true)
-    expect(validateSegmentQuest(12, { siblingData: { kind: 'stop' } })).toBe(true)
-    expect(validateSegmentQuest(null, { siblingData: { kind: 'plain' } })).toBe(true)
+  it('una parada de «más paradas» necesita su misión; el tramo puede ir sin ella', () => {
+    expect(validateSegmentQuest(null)).not.toBe(true)
+    expect(validateSegmentQuest(12)).toBe(true)
+  })
+
+  it('sin misión, el tramo «detente aquí» solo avisa y no pide objetivo', async () => {
+    const { req, findByID } = requestWith(stages)
+    expect(await validateStopObjective(null, { siblingData: { kind: 'stop' }, req })).toBe(true)
+    expect(findByID).not.toHaveBeenCalled()
+  })
+
+  it('en «más paradas» (sin tipo) el objetivo se pide como en el tramo', async () => {
+    const { req } = requestWith(stages)
+    expect(await validateStopObjective(null, { siblingData: { quest: 7 }, req })).not.toBe(true)
+    expect(await validateStopObjective(3, { siblingData: { quest: 7 }, req })).not.toBe(true)
+    expect(await validateStopObjective(1, { siblingData: { quest: 7 }, req })).toBe(true)
   })
 
   /** Una misión con dos etapas: tres objetivos en total, índices 0, 1 y 2. */
@@ -57,10 +71,17 @@ describe('reglas de los tramos', () => {
   it('un tramo «aquí se resuelve» cierra pasos de la misma checklist', () => {
     const resolve = { siblingData: { kind: 'resolve' }, data }
     expect(validateClosedSteps(['paso-a'], resolve)).toBe(true)
-    expect(validateClosedSteps([], resolve)).not.toBe(true)
-    expect(validateClosedSteps(null, resolve)).not.toBe(true)
+    // Sin pasos que cerrar, el paso se resuelve en sí mismo.
+    expect(validateClosedSteps([], resolve)).toBe(true)
+    expect(validateClosedSteps(null, resolve)).toBe(true)
     expect(validateClosedSteps(['paso-de-otra'], resolve)).not.toBe(true)
     expect(validateClosedSteps(null, { siblingData: { kind: 'plain' }, data })).toBe(true)
+  })
+
+  it('los pasos que cierra o avanza un paso sin verde son de la misma checklist', () => {
+    expect(validateStepRefs(null, { data })).toBe(true)
+    expect(validateStepRefs(['paso-a', 'paso-b'], { data })).toBe(true)
+    expect(validateStepRefs(['paso-a', 'paso-de-otra'], { data })).not.toBe(true)
   })
 
   it('el paso que termina una misión opcional también es de la misma checklist', () => {
@@ -77,6 +98,13 @@ describe('lo que necesita un paso', () => {
     expect(validateNeedItem(null, { siblingData: { label: '  ' } })).not.toBe(true)
     expect(validateNeedItem(undefined, { siblingData: {} })).not.toBe(true)
   })
+
+  it('el prerrequisito en el que se gasta un objeto es uno de la checklist', () => {
+    const data = { prerequisites: { groups: [{ rows: [{ key: 'l1' }, { key: 'l11' }] }] } }
+    expect(validateNeedPrerequisite(null, { data })).toBe(true)
+    expect(validateNeedPrerequisite('l11', { data })).toBe(true)
+    expect(validateNeedPrerequisite('l9', { data })).not.toBe(true)
+  })
 })
 
 describe('la colección usa estas reglas', () => {
@@ -90,7 +118,16 @@ describe('la colección usa estas reglas', () => {
   const needs = byName(steps.fields, 'needs') as ArrayField
 
   it('en los tramos y en la misión opcional', () => {
-    expect(byName(segments.fields, 'quest').validate).toBe(validateSegmentQuest)
+    expect(byName(segments.fields, 'quest').validate).toBeUndefined()
+    const more = byName(segments.fields, 'more') as ArrayField
+    expect(byName(more.fields, 'quest').validate).toBe(validateSegmentQuest)
+    expect(byName(more.fields, 'stopObjective').validate).toBe(validateStopObjective)
+    expect(byName(steps.fields, 'closes').validate).toBe(validateStepRefs)
+    expect(byName(steps.fields, 'updates').validate).toBe(validateStepRefs)
+    const prerequisites = byName(Checklists.fields, 'prerequisites') as Field & { fields: Field[] }
+    const preNeeds = byName(prerequisites.fields, 'needs') as ArrayField
+    expect(byName(preNeeds.fields, 'prerequisite').validate).toBe(validateNeedPrerequisite)
+    expect(byName(preNeeds.fields, 'item').validate).toBe(validateNeedItem)
     expect(byName(segments.fields, 'stopObjective').validate).toBe(validateStopObjective)
     expect(byName(segments.fields, 'closes').validate).toBe(validateClosedSteps)
     expect(byName(quests.fields, 'optionalDoneBy').validate).toBe(validateStepRef)

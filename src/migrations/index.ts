@@ -26,6 +26,7 @@ import * as migration_20261113_232009_quest_guide_dungeon_picks from './20261113
 import * as migration_20261114_000512_checklist_owned_moves from './20261114_000512_checklist_owned_moves';
 import * as migration_20261114_003108_users_name from './20261114_003108_users_name';
 import * as migration_20261114_011851_users_roles from './20261114_011851_users_roles';
+import * as migration_20261114_022136_checklist_silvestre from './20261114_022136_checklist_silvestre';
 
 export const migrations = [
   {
@@ -166,6 +167,11 @@ export const migrations = [
   {
     up: migration_20261114_011851_users_roles.up,
     down: migration_20261114_011851_users_roles.down,
-    name: '20261114_011851_users_roles'
+    name: '20261114_011851_users_roles',
+  },
+  {
+    up: migration_20261114_022136_checklist_silvestre.up,
+    down: migration_20261114_022136_checklist_silvestre.down,
+    name: '20261114_022136_checklist_silvestre'
   },
 ];

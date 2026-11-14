@@ -14,12 +14,11 @@ type StepsData = { steps?: unknown }
 
 const isStop = (siblingData?: Sibling) => siblingData?.kind === 'stop'
 
-/** Un «detente aquí» necesita la misión que deja a medias. */
-export function validateSegmentQuest(
-  value: unknown,
-  { siblingData }: { siblingData?: Sibling },
-): true | string {
-  if (!isStop(siblingData)) return true
+/**
+ * Una parada de «más paradas» necesita la misión que deja a medias. El tramo «detente aquí» puede
+ * ir sin ella: entonces solo avisa (un paso de solo tomar una misión).
+ */
+export function validateSegmentQuest(value: unknown): true | string {
   return linkedQuestId(value) === null ? s.segmentQuestRequired : true
 }
 
@@ -37,14 +36,15 @@ export async function validateStopObjective(
   value: unknown,
   { siblingData, req }: { siblingData?: Sibling; req: PayloadRequest },
 ): Promise<true | string> {
-  if (!isStop(siblingData)) return true
+  // En el tramo, solo si es un «detente aquí»; en «más paradas» no hay tipo.
+  if (siblingData && 'kind' in siblingData && !isStop(siblingData)) return true
+  const questId = linkedQuestId(siblingData?.quest)
+  // Sin misión no hay objetivo que pedir (un tramo que solo avisa, o el error de su misión).
+  if (questId === null) return true
   if (value === null || value === undefined) return s.stopObjectiveRequired
   if (typeof value !== 'number' || !Number.isInteger(value) || value < 0) {
     return s.stopObjectiveInvalid
   }
-  const questId = linkedQuestId(siblingData?.quest)
-  // Sin misión, el error sale en su campo (validateSegmentQuest).
-  if (questId === null) return true
   const quest = await req.payload
     .findByID({
       collection: 'quests',
@@ -73,13 +73,22 @@ function unknownStep(ids: unknown[], data?: StepsData): string | null {
   return unknown === undefined ? null : String(unknown)
 }
 
-/** Un «aquí se resuelve» termina al menos un paso, y solo pasos de esta checklist. */
+/**
+ * Un «aquí se resuelve» termina solo pasos de esta checklist. Sin ninguno, el paso se resuelve
+ * en sí mismo: termina lo que su rojo dejaba a medias.
+ */
 export function validateClosedSteps(
   value: unknown,
   { siblingData, data }: { siblingData?: Sibling; data?: StepsData },
 ): true | string {
   if (siblingData?.kind !== 'resolve') return true
-  if (!Array.isArray(value) || value.length === 0) return s.closesRequired
+  return validateStepRefs(value, { data })
+}
+
+/** Una lista de pasos (los que cierra o avanza un paso) solo lleva pasos de esta checklist. */
+export function validateStepRefs(value: unknown, { data }: { data?: StepsData }): true | string {
+  if (value === null || value === undefined) return true
+  if (!Array.isArray(value)) return s.stepRefUnknown(String(value))
   const unknown = unknownStep(value, data)
   return unknown === null ? true : s.stepRefUnknown(unknown)
 }
@@ -89,6 +98,24 @@ export function validateStepRef(value: unknown, { data }: { data?: StepsData }):
   if (value === null || value === undefined || value === '') return true
   const unknown = unknownStep([value], data)
   return unknown === null ? true : s.stepRefUnknown(unknown)
+}
+
+/** El prerrequisito en el que se gasta un objeto, si lo hay, es uno de esta checklist. */
+export function validateNeedPrerequisite(
+  value: unknown,
+  {
+    data,
+  }: {
+    data?: { prerequisites?: { groups?: { rows?: { key?: unknown }[] | null }[] | null } | null }
+  },
+): true | string {
+  if (value === null || value === undefined || value === '') return true
+  const keys = new Set(
+    (data?.prerequisites?.groups ?? []).flatMap((group) =>
+      (group.rows ?? []).map((row) => row.key),
+    ),
+  )
+  return keys.has(value) ? true : s.needPrerequisiteUnknown(String(value))
 }
 
 /** Una fila de lo que necesita el paso lleva un objeto del juego o, si no lo es, su texto. */
