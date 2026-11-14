@@ -66,6 +66,9 @@ test.describe('el panel para Torre', () => {
   test.beforeAll(async ({ browser }) => {
     const context = await browser.newContext()
     page = await context.newPage()
+    // Una prueba que deja cambios sin guardar (el orden de los pasos) hace que el navegador
+    // pregunte al salir: se sale sin guardar, también si esa prueba falla a medias.
+    page.on('dialog', (dialog) => void dialog.accept())
     await logIn(page)
     // Sin preferencias guardadas: lo que cerró o abrió otra ejecución no cuenta, y cada
     // desplegable empieza como lo configura el panel.
@@ -197,8 +200,6 @@ test.describe('el panel para Torre', () => {
     await page.keyboard.press('Alt+ArrowUp')
     await expect(rows.first()).toContainText(nebuloso.steps.first)
     await expect(page.locator('#steps-row-0')).toContainText(nebuloso.steps.first)
-    // Sin guardar: al salir, Payload pregunta, y se sale sin guardar.
-    page.once('dialog', (dialog) => void dialog.accept())
   })
 
   test('el formulario de subir una imagen explica el texto alternativo', async () => {

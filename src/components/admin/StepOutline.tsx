@@ -1,9 +1,10 @@
 'use client'
 
-import { useAllFormFields, useForm } from '@payloadcms/ui'
-import { useRef, useState, type KeyboardEvent } from 'react'
+import { useForm, useFormFields } from '@payloadcms/ui'
+import type { UIFieldClientComponent } from 'payload'
+import { useMemo, useRef, useState, type KeyboardEvent } from 'react'
 
-import { moveTo, outlineRows } from '@/lib/admin/step-outline'
+import { liveStatus, moveTo, outlineSignature, type OutlineRow } from '@/lib/admin/step-outline'
 import { panelStrings } from '@/lib/admin/strings'
 
 const o = panelStrings.stepOutline
@@ -12,19 +13,23 @@ const o = panelStrings.stepOutline
  * El esquema de los pasos de una checklist (A-18): cada paso en una línea, con botones para
  * subirlo o bajarlo y, con el foco en él, Alt con las flechas (o con Inicio y Fin). Mueve las
  * filas del formulario, como el asa de arrastre: cada paso se lleva su identificador y nada
- * cambia hasta guardar.
+ * cambia hasta guardar. Solo se vuelve a pintar cuando cambia lo que enseña (outlineSignature).
  */
-export function StepOutline() {
-  const [fields] = useAllFormFields()
+export const StepOutline: UIFieldClientComponent = ({ field }) => {
+  const signature = useFormFields(([fields]) => outlineSignature(fields))
+  const rows = useMemo(() => JSON.parse(signature) as OutlineRow[], [signature])
   const { moveFieldRow } = useForm()
-  const [status, setStatus] = useState('')
+  const [moved, setMoved] = useState<{ message: string; signature: string } | null>(null)
   const list = useRef<HTMLOListElement>(null)
-  const rows = outlineRows(fields)
   if (rows.length < 2) return null
 
   const move = (from: number, to: number) => {
     moveFieldRow({ path: 'steps', moveFromIndex: from, moveToIndex: to })
-    setStatus(o.moved(from + 1, to + 1))
+    // El aviso vale para el esquema tal como queda: cualquier otro cambio lo borra.
+    const after = [...rows]
+    after.splice(to, 0, ...after.splice(from, 1))
+    const next = after.map((row, index) => ({ ...row, index }))
+    setMoved({ message: o.moved(from + 1, to + 1), signature: expectedSignature(next) })
     // El paso sigue con el foco en su sitio nuevo, para seguir moviéndolo con el teclado.
     requestAnimationFrame(() => list.current?.querySelectorAll<HTMLElement>('li')[to]?.focus())
   }
@@ -35,15 +40,18 @@ export function StepOutline() {
     event.preventDefault()
     move(index, target)
   }
+  const label = typeof field.label === 'string' ? field.label : o.label
 
   return (
     <details className="ta-outline">
-      <summary className="ta-outline__summary">{o.title(rows.length)}</summary>
+      <summary className="ta-outline__summary">
+        {label} ({rows.length})
+      </summary>
       <p className="field-description">{o.help}</p>
       <ol className="ta-outline__list" ref={list}>
         {rows.map((row) => (
           <li
-            key={row.stepId ?? `nuevo-${row.index}`}
+            key={row.id ?? `fila-${row.index}`}
             className="ta-outline__row"
             tabIndex={0}
             aria-label={row.label}
@@ -72,8 +80,18 @@ export function StepOutline() {
         ))}
       </ol>
       <p role="status" className="ta-outline__status">
-        {status}
+        {liveStatus(moved, signature)}
       </p>
     </details>
+  )
+}
+
+/**
+ * La firma que tendrá el esquema tras mover un paso: los nombres llevan su número («Paso 2: …»),
+ * que cambia con la posición.
+ */
+function expectedSignature(rows: OutlineRow[]) {
+  return JSON.stringify(
+    rows.map((row) => ({ ...row, label: row.label.replace(/^(\S+) \d+/, `$1 ${row.index + 1}`) })),
   )
 }

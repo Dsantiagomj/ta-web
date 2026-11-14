@@ -10,6 +10,7 @@ import type {
   SanitizedConfig,
 } from 'payload'
 import { toWords } from 'payload/shared'
+import { layoutFields } from './helpers/fields'
 import { beforeAll, describe, expect, it } from 'vitest'
 
 import { AchievementGroups } from '@/collections/AchievementGroups'
@@ -33,15 +34,7 @@ beforeAll(async () => {
 type Admin = Record<string, unknown> & { components?: Record<string, unknown> }
 const adminOf = (target: { admin?: unknown }) => (target.admin ?? {}) as Admin
 
-/** Los campos con nombre, también los de una fila o un desplegable, que solo los colocan. */
-const named = (fields: Field[]): Field[] =>
-  fields.flatMap((candidate) =>
-    candidate.type === 'row' || candidate.type === 'collapsible'
-      ? named(candidate.fields)
-      : candidate.type === 'tabs'
-        ? candidate.tabs.flatMap((tab) => ('name' in tab ? [] : named(tab.fields)))
-        : [candidate],
-  )
+const named = layoutFields
 
 function field(fields: Field[], name: string): Field {
   const found = named(fields).find((candidate) => 'name' in candidate && candidate.name === name)
