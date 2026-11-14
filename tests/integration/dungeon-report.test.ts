@@ -2,6 +2,7 @@ import type { Payload } from 'payload'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 import { dungeonNoteReport, type DungeonRow } from '@/lib/achievements/dungeon-report'
+import { readDungeonBosses } from '@/lib/achievements/queries'
 
 import { startPayload, tinyPng } from './payload'
 
@@ -20,11 +21,14 @@ async function cleanUp() {
   await payload.delete({ collection: 'quests', where: { dofusId: { in: QUESTS } } })
   await payload.delete({
     collection: 'dungeons',
-    where: { dofusId: { in: [990_131, 990_138, 990_139] } },
+    where: { dofusId: { in: [990_131, 990_138, 990_139, 990_141] } },
   })
-  await payload.delete({ collection: 'monsters', where: { dofusId: { in: [990_394, 990_903] } } })
+  await payload.delete({
+    collection: 'monsters',
+    where: { dofusId: { in: [990_394, 990_903, 990_904, 990_905] } },
+  })
   await payload.delete({ collection: 'items', where: { dofusId: { equals: 990_777 } } })
-  await payload.delete({ collection: 'media', where: { alt: { equals: 'Kumijo (informe)' } } })
+  await payload.delete({ collection: 'media', where: { alt: { like: '(informe)' } } })
 }
 
 beforeAll(async () => {
@@ -140,8 +144,6 @@ describe('dungeonNoteReport', () => {
       match: { how: 'manual', dungeon: 'Casa de los Espíritus' },
     }
     expect(ours(report.withBoss)).toEqual([kumijo, ripata])
-    // Las que llevan su jefe porque Torre eligió la mazmorra a mano.
-    expect(ours(report.manual)).toEqual([ripata])
     // Casa, pero su jefe no tiene imagen: icono genérico.
     expect(ours(report.generic)).toEqual([
       {
@@ -181,5 +183,36 @@ describe('dungeonNoteReport', () => {
       data: { title: 'informe-uno (editada)', _status: 'published' },
     })
     expect(saved.summary?.needs?.dungeons).toEqual([])
+  })
+
+  it('una nota que casa por un jefe concreto pinta la imagen de ese jefe', async () => {
+    const [first, second] = await Promise.all(
+      ['Primer Gemelo (informe)', 'Segundo Gemelo (informe)'].map((alt) =>
+        payload.create({ collection: 'media', data: { alt }, file: tinyPng() }),
+      ),
+    )
+    const [uno, dos] = await Promise.all([
+      payload.create({
+        collection: 'monsters',
+        data: { dofusId: 990_904, name: 'Gemelo Primero', image: first!.id },
+      }),
+      payload.create({
+        collection: 'monsters',
+        data: { dofusId: 990_905, name: 'Gemelo Segundo', image: second!.id },
+      }),
+    ])
+    await payload.create({
+      collection: 'dungeons',
+      data: { dofusId: 990_141, name: 'Cripta de los Gemelos', bosses: [uno.id, dos.id] },
+    })
+
+    const bosses = await readDungeonBosses(
+      payload,
+      ['Mazmorra Gemelo Segundo', 'Mazmorra Cripta de los Gemelos'],
+      { overrideAccess: true },
+    )
+    // Por su jefe: el segundo. Por el nombre de la mazmorra: su primer jefe con imagen.
+    expect(bosses.get('mazmorra gemelo segundo')?.id).toBe(second!.id)
+    expect(bosses.get('mazmorra cripta de los gemelos')?.id).toBe(first!.id)
   })
 })

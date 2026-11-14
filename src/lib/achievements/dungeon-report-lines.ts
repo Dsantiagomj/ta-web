@@ -1,6 +1,8 @@
 // El informe de las notas de mazmorra en texto (dungeon-report.ts), para `pnpm data:quests`
 // y `pnpm data:dungeon-notes`: el recuento, y cada nota una vez, con sus páginas, agrupada
 // por cómo casó (por nombre, por jefe, a mano o nada). Código puro.
+import { needKey } from '@/lib/guides/need-notes'
+
 import type { DungeonNoteReport, DungeonRow } from './dungeon-report'
 import type { NoteMatch } from './dungeons'
 
@@ -33,17 +35,23 @@ function describe(label: string, match: NoteMatch, shown: boolean): string {
 }
 
 export function dungeonReportLines(report: DungeonNoteReport): string[] {
+  // Las elegidas a mano, con imagen o sin ella: las mismas que lista su grupo.
+  const manual = [...report.withBoss, ...report.generic].filter(
+    (row) => row.match.how === 'manual',
+  ).length
   const lines = [
     `Filas de mazmorra en las páginas de logro publicadas: ${report.withBoss.length} con su ` +
-      `jefe (${report.manual.length} elegidas a mano en el panel) y ${report.generic.length} ` +
-      `con el icono genérico.`,
+      `jefe y ${report.generic.length} con el icono genérico; ${manual} con la mazmorra ` +
+      `elegida a mano en el panel.`,
   ]
-  // Una nota por texto, con todas sus páginas y si la página pinta su jefe.
+  // Una nota por su clave (needKey), como la junta la página, con todas sus páginas y si la
+  // página pinta su jefe. Se muestra como la escribió la primera página.
   const notes = new Map<string, { row: DungeonRow; pages: string[]; shown: boolean }>()
   const add = (row: DungeonRow, shown: boolean) => {
-    const seen = notes.get(row.label)
+    const key = needKey(row.label)
+    const seen = notes.get(key)
     if (seen) seen.pages.push(row.page)
-    else notes.set(row.label, { row, pages: [row.page], shown })
+    else notes.set(key, { row, pages: [row.page], shown })
   }
   for (const row of report.withBoss) add(row, true)
   for (const row of report.generic) add(row, false)

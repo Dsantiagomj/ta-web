@@ -10,13 +10,12 @@ import config from '@payload-config'
 import { dungeonNoteReport } from '@/lib/achievements/dungeon-report'
 import { dungeonReportLines } from '@/lib/achievements/dungeon-report-lines'
 
-const payload = await getPayload({ config })
-try {
-  for (const line of dungeonReportLines(await dungeonNoteReport(payload))) console.log(line)
-  await payload.destroy()
-} catch (error) {
-  console.error('El informe de las notas de mazmorra falló:', error)
-  await payload.destroy()
-  // `payload run` sale con 0 cuando el script termina sin lanzar: el fallo se marca aquí.
-  process.exit(1)
-}
+import { runPayloadScript } from './payload-script'
+
+await runPayloadScript(
+  () => getPayload({ config }),
+  async (payload) => {
+    for (const line of dungeonReportLines(await dungeonNoteReport(payload))) console.log(line)
+  },
+  { label: 'El informe de las notas de mazmorra' },
+)

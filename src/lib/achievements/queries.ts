@@ -202,7 +202,8 @@ export async function readDungeonBosses(
 
 /**
  * Como readDungeonBosses, para todas las notas de mazmorra: cómo casó cada una (a mano, por
- * nombre, por jefe o nada, con las candidatas si dudó) y la imagen del jefe si la tiene.
+ * nombre, por jefe o nada, con las candidatas si dudó) y la imagen del jefe si la tiene: la
+ * del jefe por el que casó, y si no tiene, la del primero de la mazmorra que la tenga.
  */
 export async function chooseDungeonBosses(
   payload: Payload,
@@ -227,7 +228,7 @@ export async function chooseDungeonBosses(
       id: doc.id,
       name: doc.name,
       bosses: list.flatMap((boss) => boss.name ?? []),
-      bossIds: list.map((boss) => boss.id),
+      bossList: list.map((boss) => ({ id: boss.id, name: boss.name ?? null })),
     }
   })
   const choose = dungeonChooser(dungeons, (label) => picks.get(needKey(label)))
@@ -235,7 +236,16 @@ export async function chooseDungeonBosses(
   for (const label of notes) {
     const choice = choose(label)
     result.set(needKey(label), { match: noteMatch(choice) })
-    if (choice.dungeon) chosen.set(needKey(label), choice.dungeon.bossIds)
+    if (!choice.dungeon) continue
+    // Si casó por un jefe concreto, su imagen va primero; detrás, los demás en su orden.
+    const { bossList } = choice.dungeon
+    const boss = 'boss' in choice ? choice.boss : undefined
+    const named = bossList.filter((entry) => boss !== undefined && entry.name === boss)
+    const ids = [...named, ...bossList.filter((entry) => !named.includes(entry))]
+    chosen.set(
+      needKey(label),
+      ids.map((entry) => entry.id),
+    )
   }
   const ids = [...new Set([...chosen.values()].flat())]
   if (ids.length === 0) return result

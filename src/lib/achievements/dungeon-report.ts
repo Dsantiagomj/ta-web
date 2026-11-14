@@ -27,8 +27,6 @@ export interface DungeonRow {
 
 export interface DungeonNoteReport {
   withBoss: DungeonRow[]
-  /** De las que llevan su jefe, las de una mazmorra que Torre eligió a mano. */
-  manual: DungeonRow[]
   generic: DungeonRow[]
 }
 
@@ -89,19 +87,15 @@ export async function dungeonNoteReport(payload: Payload): Promise<DungeonNoteRe
     [...chosen].flatMap(([key, { image }]) => (image ? [[key, image] as const] : [])),
   )
 
-  const report: DungeonNoteReport = { withBoss: [], manual: [], generic: [] }
+  const report: DungeonNoteReport = { withBoss: [], generic: [] }
   for (const page of pages) {
     const { tasks } = achievementNeeds({ page, guides, noteItems, dungeonBosses })
     for (const task of tasks) {
       if (task.kind !== 'dungeon') continue
       const match = chosen.get(needKey(task.label))?.match ?? { how: 'none' }
       const row: DungeonRow = { page: page.slug, label: task.label, match }
-      if (!task.boss) {
-        report.generic.push(row)
-        continue
-      }
-      report.withBoss.push(row)
-      if (match.how === 'manual') report.manual.push(row)
+      if (task.boss) report.withBoss.push(row)
+      else report.generic.push(row)
     }
   }
   return report
