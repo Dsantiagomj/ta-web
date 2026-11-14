@@ -12,7 +12,13 @@ import {
   validateStepRef,
   validateStopObjective,
 } from './checklist-rules'
-import { isPanelUser, readPublishedOrAll } from './editorial-access'
+import {
+  adminOnlyAfterCreate,
+  adminOrNotImported,
+  isPanelUser,
+  readPublishedOrAll,
+} from './editorial-access'
+import { keepSavedValue, LOCKED_ONCE_SAVED_FIELD } from './locked-once-saved'
 import { validateOptionalUrl } from './Media'
 import { validateSlug } from './QuestGuides'
 import {
@@ -349,7 +355,8 @@ export const Checklists: CollectionConfig = {
     read: readPublishedOrAll,
     create: isPanelUser,
     update: isPanelUser,
-    delete: isPanelUser,
+    // Lo importado solo lo borra un administrador (docs/research/backlog.md, A-15).
+    delete: adminOrNotImported('importSnapshot'),
   },
   // Una copia se llevaría los stepId de sus pasos: dos checklists compartirían progreso.
   disableDuplicate: true,
@@ -398,7 +405,11 @@ export const Checklists: CollectionConfig = {
       label: 'Orden',
       type: 'number',
       required: true,
-      admin: { position: 'sidebar', description: s.orderDescription },
+      access: adminOnlyAfterCreate,
+      admin: {
+        position: 'sidebar',
+        description: `${s.orderDescription} ${panelStrings.locks.order}`,
+      },
     },
     {
       name: 'description',
@@ -451,7 +462,12 @@ export const Checklists: CollectionConfig = {
                   label: 'Clave',
                   type: 'text',
                   required: true,
-                  admin: { description: s.prerequisiteKeyDescription },
+                  // Se escribe al crear la fila y luego no cambia (A-23).
+                  hooks: { beforeChange: [keepSavedValue] },
+                  admin: {
+                    description: s.prerequisiteKeyDescription,
+                    components: { Field: LOCKED_ONCE_SAVED_FIELD },
+                  },
                 },
                 { name: 'text', label: 'Texto', type: 'text', required: true, localized: true },
               ],

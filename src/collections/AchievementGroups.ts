@@ -8,7 +8,8 @@ import {
   linkedSlugValidator,
   stateField,
 } from './achievement-fields'
-import { isPanelUser, readPublishedOrAll } from './editorial-access'
+import { refuseReferencedDelete } from './delete-guard'
+import { adminOnlyAfterCreate, isAdmin, isPanelUser, readPublishedOrAll } from './editorial-access'
 import {
   revalidateAchievementPagesAfterChange,
   revalidateAchievementPagesAfterDelete,
@@ -36,13 +37,16 @@ export const AchievementGroups: CollectionConfig = {
     read: readPublishedOrAll,
     create: isPanelUser,
     update: isPanelUser,
-    delete: isPanelUser,
+    // Salen de DofusDB (pnpm data:quests): solo un administrador borra (backlog A-15).
+    delete: isAdmin,
   },
   versions: { drafts: true, maxPerDoc: 50 },
   hooks: {
     beforeValidate: [fillAchievementGroup, rejectSharedSlug('achievement-groups')],
     // Borradores incluidos: es barato y cubre despublicar.
     afterChange: [revalidateAchievementPagesAfterChange],
+    // No se borra un metalogro que tiene páginas de logro (A-17).
+    beforeDelete: [refuseReferencedDelete('achievement-groups')],
     afterDelete: [revalidateAchievementPagesAfterDelete],
   },
   fields: [
@@ -52,10 +56,12 @@ export const AchievementGroups: CollectionConfig = {
       type: 'relationship',
       relationTo: 'achievement-categories',
       unique: true,
+      access: adminOnlyAfterCreate,
       admin: {
         description:
           'Sus logros son los de esta categoría. Sin categoría (Misiones de templo), el ' +
-          'metalogro tiene solo guías o ninguna página.',
+          'metalogro tiene solo guías o ninguna página.' +
+          ` ${panelStrings.locks.dofusDb}`,
       },
     },
     {
@@ -92,8 +98,9 @@ export const AchievementGroups: CollectionConfig = {
       name: 'order',
       label: 'Orden',
       type: 'number',
+      access: adminOnlyAfterCreate,
       admin: {
-        ...note('order'),
+        ...dofusDbNote('group', 'order', panelStrings.locks.order),
         // La nota explica de dónde sale; esto, cómo se usa.
         placeholder: 'En Zonas el índice ordena de la A a la Z',
       },

@@ -53,6 +53,30 @@ export const panelStrings = {
   users: {
     name: 'Nombre',
     nameDescription: 'Cómo te llamamos en el panel.',
+    role: 'Permisos',
+    roles: { admin: 'Administrador', editor: 'Editor' },
+    roleDescription:
+      'Un editor crea, edita y publica, y borra las guías que hizo a mano. Un administrador, ' +
+      'además, borra lo importado y las imágenes, cambia el orden y los enlaces con DofusDB, ' +
+      'y gestiona las cuentas.',
+    lastAdmin: 'Tiene que quedar al menos un administrador: dale ese permiso a otra cuenta antes.',
+  },
+  /** Por qué un campo no se deja cambiar (docs/research/backlog.md, A-23). */
+  locks: {
+    order:
+      'Una vez guardado, solo un administrador puede cambiarlo: mueve la página en las ' +
+      'listas y el menú de la web.',
+    dofusDb:
+      'Una vez guardado, solo un administrador puede cambiarlo: de él salen los datos que se ' +
+      'rellenan solos, y cambiarlo los mezclaría con los de otro.',
+  },
+  /** Lo que se dice al negarse a borrar algo que sale en otras guías (A-17). */
+  references: {
+    media: { subject: 'Esta imagen', feminine: true },
+    'achievement-pages': { subject: 'Esta página de logro', feminine: true },
+    'achievement-groups': { subject: 'Este metalogro', feminine: false },
+    'quest-guides': { subject: 'Esta guía de misión', feminine: true },
+    'dofus-guides': { subject: 'Esta guía de Dofus', feminine: true },
   },
   technical: {
     label: 'Datos técnicos',

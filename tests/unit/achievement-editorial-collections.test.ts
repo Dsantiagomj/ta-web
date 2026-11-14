@@ -8,6 +8,7 @@ import { proseEditor } from '@/collections/prose-editor'
 import { AchievementGroups } from '@/collections/AchievementGroups'
 import { AchievementPages } from '@/collections/AchievementPages'
 import { validateSlug } from '@/collections/QuestGuides'
+import { panelStrings } from '@/lib/admin/strings'
 
 function field(fields: Field[], name: string): Field {
   const found = fields.find((candidate) => 'name' in candidate && candidate.name === name)
@@ -95,12 +96,18 @@ describe('achievement-groups', () => {
 
 describe('achievement-pages', () => {
   it('lleva la nota de DofusDB en lo que copia', () => {
-    for (const name of ['group', 'order', 'quests', 'points']) {
+    for (const name of ['group', 'quests', 'points']) {
       expect(noteOf(field(AchievementPages.fields, name))).toEqual({
         source: 'achievement',
         field: name,
       })
     }
+    // El orden, además, dice por qué solo lo cambia un administrador (A-23).
+    expect(noteOf(field(AchievementPages.fields, 'order'))).toEqual({
+      source: 'achievement',
+      field: 'order',
+      help: panelStrings.locks.order,
+    })
   })
 })
 

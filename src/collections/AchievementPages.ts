@@ -8,7 +8,8 @@ import {
   linkedSlugValidator,
   stateField,
 } from './achievement-fields'
-import { isPanelUser, readPublishedOrAll } from './editorial-access'
+import { refuseReferencedDelete } from './delete-guard'
+import { adminOnlyAfterCreate, isAdmin, isPanelUser, readPublishedOrAll } from './editorial-access'
 import { proseEditor } from './prose-editor'
 import {
   revalidateAchievementPagesAfterChange,
@@ -44,13 +45,16 @@ export const AchievementPages: CollectionConfig = {
     read: readPublishedOrAll,
     create: isPanelUser,
     update: isPanelUser,
-    delete: isPanelUser,
+    // Salen de DofusDB (pnpm data:quests): solo un administrador borra (backlog A-15).
+    delete: isAdmin,
   },
   versions: { drafts: true, maxPerDoc: 50 },
   hooks: {
     beforeValidate: [fillAchievementPage, rejectSharedSlug('achievement-pages')],
     // Borradores incluidos: es barato y cubre despublicar.
     afterChange: [revalidateAchievementPagesAfterChange],
+    // No se borra una página de logro que sale en una guía de Dofus (A-17).
+    beforeDelete: [refuseReferencedDelete('achievement-pages')],
     afterDelete: [revalidateAchievementPagesAfterDelete],
   },
   fields: [
@@ -61,10 +65,12 @@ export const AchievementPages: CollectionConfig = {
       relationTo: 'achievements',
       required: true,
       unique: true,
+      access: adminOnlyAfterCreate,
       admin: {
         description:
           'Lo que esté vacío se rellena con sus datos al guardar. Lo que cambies no lo ' +
-          'pisa ningún refresco.',
+          'pisa ningún refresco.' +
+          ` ${panelStrings.locks.dofusDb}`,
       },
     },
     {
@@ -102,7 +108,8 @@ export const AchievementPages: CollectionConfig = {
       name: 'order',
       label: 'Orden en el metalogro',
       type: 'number',
-      admin: note('order'),
+      access: adminOnlyAfterCreate,
+      admin: dofusDbNote('achievement', 'order', panelStrings.locks.order),
     },
     {
       name: 'quests',

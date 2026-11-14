@@ -1,4 +1,5 @@
 import type { ArrayField, Field, GroupField, SelectField } from 'payload'
+import type { Access as AccessFn } from 'payload'
 import { describe, expect, it } from 'vitest'
 
 import { Checklists } from '@/collections/Checklists'
@@ -35,13 +36,20 @@ describe('colección checklists', () => {
     expect(Checklists.versions).toEqual({ drafts: true, maxPerDoc: 50 })
   })
 
-  it('Torre edita desde el panel; los visitantes solo leen lo publicado', () => {
-    expect(Checklists.access).toEqual({
+  it('el panel edita y solo un administrador borra; los visitantes solo leen lo publicado', () => {
+    expect(Checklists.access).toMatchObject({
       read: readPublishedOrAll,
       create: isPanelUser,
       update: isPanelUser,
-      delete: isPanelUser,
     })
+  })
+
+  it('un editor solo borra lo que no vino de la importación; un administrador, todo', () => {
+    const remove = (user: unknown) =>
+      Checklists.access!.delete!({ req: { user } } as unknown as Parameters<AccessFn>[0])
+    expect(remove(null)).toBe(false)
+    expect(remove({ id: 1, role: 'admin' })).toBe(true)
+    expect(remove({ id: 2, role: 'editor' })).toEqual({ importSnapshot: { exists: false } })
   })
 
   it('el panel abre la vista previa de la página, borrador incluido', () => {

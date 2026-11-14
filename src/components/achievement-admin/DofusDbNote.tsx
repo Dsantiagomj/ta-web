@@ -14,7 +14,7 @@ import {
 
 import { useApiUrl } from '../quest-guide-admin/linked-quest'
 
-type Props = FieldDescriptionClientProps & { source: ValuesSource; field: string }
+type Props = FieldDescriptionClientProps & { source: ValuesSource; field: string; help?: string }
 
 /** El campo del formulario que enlaza el dato de DofusDB. */
 const LINK: Record<ValuesSource, string> = { achievement: 'achievement', group: 'category' }
@@ -81,7 +81,7 @@ function useFieldValue(path: string, field: string): string {
 }
 
 /** Bajo un campo copiado de DofusDB: si su valor viene de DofusDB o Torre lo cambió. */
-export function DofusDbNote({ path, source, field }: Props) {
+export function DofusDbNote({ path, source, field, help }: Props) {
   const state = useValues(source)
   const json = useFieldValue(path, field)
   const value = useMemo(() => JSON.parse(json) as unknown, [json])
@@ -89,6 +89,7 @@ export function DofusDbNote({ path, source, field }: Props) {
     // field-note (custom.scss): la lista de misiones y la de objetos van en varias líneas
     <div className="field-description field-note">
       {dofusDbNote(source, state, field as ValueField<typeof source>, value)}
+      {help ? `\n${help}` : null}
     </div>
   )
 }

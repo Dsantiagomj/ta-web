@@ -33,7 +33,13 @@ function accessArgs(user: unknown): AccessArgs {
   return { req: { user } } as unknown as AccessArgs
 }
 
-const panelUser = { id: 1, email: 'torre@torrentearcano.test', collection: 'users' }
+const panelUser = { id: 1, email: 'torre@torrentearcano.test', collection: 'users', role: 'admin' }
+const editorUser = {
+  id: 2,
+  email: 'ayuda@torrentearcano.test',
+  collection: 'users',
+  role: 'editor',
+}
 
 describe('colección quest-guides', () => {
   it('usa el slug quest-guides y el título en el panel', () => {
@@ -363,11 +369,20 @@ describe('permisos de quest-guides', () => {
     expect(questGuidesAccess.read(accessArgs(panelUser))).toBe(true)
   })
 
-  it('solo un usuario del panel crea, edita y borra guías', () => {
-    for (const operation of ['create', 'update', 'delete'] as const) {
+  it('solo un usuario del panel crea y edita guías', () => {
+    for (const operation of ['create', 'update'] as const) {
       expect(questGuidesAccess[operation](accessArgs(null))).toBe(false)
       expect(questGuidesAccess[operation](accessArgs(panelUser))).toBe(true)
+      expect(questGuidesAccess[operation](accessArgs(editorUser))).toBe(true)
     }
+  })
+
+  it('un editor solo borra las guías que no vinieron de Squarespace; un administrador, todas', () => {
+    expect(questGuidesAccess.delete(accessArgs(null))).toBe(false)
+    expect(questGuidesAccess.delete(accessArgs(editorUser))).toEqual({
+      originalUrl: { exists: false },
+    })
+    expect(questGuidesAccess.delete(accessArgs(panelUser))).toBe(true)
   })
 
   it('la colección usa estos permisos', () => {

@@ -9,14 +9,15 @@ import { validateSlug } from './QuestGuides'
 
 /**
  * La nota bajo un campo que copia DofusDB: si el valor viene de DofusDB o Torre lo cambió,
- * y qué da DofusDB (src/components/achievement-admin/DofusDbNote.tsx).
+ * y qué da DofusDB (src/components/achievement-admin/DofusDbNote.tsx). `help` va debajo,
+ * como el porqué de un campo que solo cambia un administrador.
  */
-export function dofusDbNote(source: ValuesSource, field: string) {
+export function dofusDbNote(source: ValuesSource, field: string, help?: string) {
   return {
     components: {
       Description: {
         path: '/components/achievement-admin/DofusDbNote#DofusDbNote',
-        clientProps: { source, field },
+        clientProps: help ? { source, field, help } : { source, field },
       },
     },
   }

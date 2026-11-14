@@ -58,7 +58,8 @@ export const checklistStrings = {
     prerequisitesDescription: 'Lo que hay que tener antes de empezar, por grupos.',
     prerequisitesIntroDescription: 'El texto sobre las listas de prerrequisitos.',
     prerequisiteKeyDescription:
-      'Guarda lo que cada persona marcó: no la cambies, o perderá esa marca.',
+      'Guarda lo que cada persona marcó. Se escribe al crear la fila y luego queda fija: ' +
+      'otra clave borraría esas marcas.',
     stepsDescription: 'Los pasos de la guía, en tu orden.',
     stepIdDescription:
       'Guarda el progreso de cada persona en este paso. Se crea al guardar y no cambia. ' +
