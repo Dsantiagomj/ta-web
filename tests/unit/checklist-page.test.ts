@@ -808,7 +808,7 @@ describe('checklistView: el resto del paso', () => {
         ],
         {
           prerequisites: {
-            groups: [],
+            groups: [{ title: 'Oficios', rows: [{ key: 'l11', text: 'Campesino' }] }],
             needs: [
               { item: item(10, 'Trigo'), quantity: 50, category: 'resources', prerequisite: 'l11' },
             ],
@@ -817,7 +817,7 @@ describe('checklistView: el resto del paso', () => {
       ),
     )
     expect(view.totals[0].rows).toEqual([
-      expect.objectContaining({ key: '5010', quantity: 52, steps: [0, 1], prerequisite: 'l11' }),
+      expect.objectContaining({ key: '5010', quantity: 52, steps: [0, 1], prerequisites: ['l11'] }),
     ])
     // Sin progreso, «Tus próximos pasos» empieza por los prerrequisitos.
     expect(view.soonSteps).toEqual([0, 1])
@@ -916,6 +916,8 @@ describe('checklistView: lo que recibe la isla', () => {
         ['c', []],
       ],
       optionalDoneBy: [],
+      prerequisites: ['l1', 'o1'],
+      compositeKeys: [],
       legacy: {
         prefix: 'nebuloso:',
         classicKeys: { v4: 'dofus_nebuloso_clean_v1' },
@@ -1190,5 +1192,62 @@ describe('dónde se pide un objeto de Objetos', () => {
     expect(s.totalsSteps([3, 5, 8])).toBe('Pasos 3, 5 y 8')
     expect(s.totalsSteps([0])).toBe('Prerrequisitos')
     expect(s.totalsSteps([0, 4])).toBe('Prerrequisitos y paso 4')
+  })
+})
+
+describe('revisión de #121: lo de los prerrequisitos en Objetos', () => {
+  const view = (
+    needs: object[],
+    groups = [
+      {
+        title: 'Oficios',
+        rows: [
+          { key: 'l1', text: 'Uno' },
+          { key: 'l2', text: 'Dos' },
+        ],
+      },
+    ],
+  ) =>
+    checklistView(
+      data([step('a')], { prerequisites: { groups, needs } } as unknown as Partial<Checklist>),
+    )
+
+  it('una fila sumada lleva todos sus prerrequisitos, y la isla todas las claves', () => {
+    const trigo = (prerequisite: string) => ({
+      item: item(10, 'Trigo'),
+      quantity: 1,
+      category: 'resources',
+      prerequisite,
+    })
+    const result = view([trigo('l1'), trigo('l2')])
+    expect(result.totals[0].rows[0]).toMatchObject({ prerequisites: ['l1', 'l2'] })
+    expect(result.island.prerequisites).toEqual(['l1', 'l2'])
+  })
+
+  it('un prerrequisito que ya no existe no cuenta: el objeto se gasta al completarlos todos', () => {
+    const result = view([
+      { item: item(10, 'Trigo'), quantity: 1, category: 'resources', prerequisite: 'l9' },
+    ])
+    expect(result.totals[0].rows[0].prerequisites ?? []).toEqual([])
+    expect(result.prerequisites.needs[0].rows[0].prerequisite).toBeUndefined()
+  })
+
+  it('las claves compuestas de sus filas van en la isla, para la migración', () => {
+    const result = checklistView(
+      data([
+        step('a', {
+          needs: [
+            {
+              item: item(12, 'Pandaburg'),
+              quantity: 1,
+              alternatives: [{ item: item(13, 'Pandapils'), quantity: 1 }],
+            },
+            { item: item(14, 'Sacrificio'), quantity: 5, group: 'Misión opcional' },
+            { item: item(15, 'Piedra'), quantity: 1 },
+          ],
+        }),
+      ]),
+    )
+    expect(result.island.compositeKeys).toEqual(['5012|5013', '5014@mision opcional'])
   })
 })

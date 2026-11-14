@@ -80,6 +80,8 @@ export function islandData(checklist: ChecklistDraft): ChecklistIslandData {
       return resolves || closes.length ? [[stepId(step.legacyNumber), closes.map(stepId)]] : []
     }),
     optionalDoneBy: [],
+    prerequisites: [],
+    compositeKeys: [],
     legacy: {
       prefix: 'nebuloso:',
       classicKeys: { v4: 'dofus_nebuloso_clean_v1', v3: null },

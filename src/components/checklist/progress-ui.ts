@@ -12,6 +12,7 @@ import {
   setPrereq,
   setQuest,
   setStep,
+  partUsed,
   stepDone,
   stepsDone,
   type QuestState,
@@ -112,19 +113,10 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
   const ownedKey = (key: string, stepId?: string) =>
     Boolean(progress.owned[key] || (stepId && progress.owned[`${key}#${stepId}`]))
 
-  /**
-   * Lo de los prerrequisitos se gasta al completar el prerrequisito que lo pide; sin él, al
-   * completarlos todos (rowCovered de silvestre-checklist).
-   */
-  const prerequisiteUsed = (pre?: string) =>
-    pre
-      ? Boolean(progress.prereqs[`${m.id}:${pre}`])
-      : $$<HTMLInputElement>('[data-pre-check]').every(
-          (box) => progress.prereqs[`${m.id}:${box.dataset.preCheck}`],
-        )
-  /** La parte del paso n (0: los prerrequisitos) ya se gastó. */
-  const partUsed = (n: number, pre?: string) =>
-    n === 0 ? prerequisiteUsed(pre) : stepDone(progress, m, n - 1)
+  /** Los prerrequisitos que gastan un objeto, de su data-pre («l11 l4»). */
+  const pres = (value?: string) => (value ? value.split(' ').filter(Boolean) : [])
+  /** La parte del paso n (0: los prerrequisitos) ya se gastó (partUsed del motor). */
+  const used = (n: number, pre?: string) => partUsed(progress, m, n, pres(pre))
 
   function lockText(state: QuestState): string {
     const lock = state.lock
@@ -174,12 +166,12 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
     // Lo de cada paso de Necesitarás: conseguido, o gastado si el paso está hecho.
     for (const box of $$<HTMLInputElement>('[data-own]')) {
       const [key, stepId] = ownedParts(box.dataset.own ?? '')
-      const used =
+      const spent =
         stepId === PREREQUISITE_PART
-          ? prerequisiteUsed(box.dataset.pre)
+          ? used(0, box.dataset.pre)
           : stepDone(progress, m, m.index.get(stepId ?? '') ?? -1)
-      box.checked = used || ownedKey(key, stepId)
-      box.disabled = used
+      box.checked = spent || ownedKey(key, stepId)
+      box.disabled = spent
       box.closest('.ck-need')?.toggleAttribute('data-owned', box.checked)
     }
     // Objetos: cada objeto sumado, en su grupo.
@@ -187,7 +179,7 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
     const slots = $$('[data-ck-slot]')
     for (const slot of slots) {
       for (const n of (slot.dataset.steps ?? '').split(' ').map(Number)) {
-        if (!partUsed(n, slot.dataset.pre)) pendingWithItems.add(n)
+        if (!used(n, slot.dataset.pre)) pendingWithItems.add(n)
       }
     }
     // Los prerrequisitos que faltan van primero y no cuentan entre los cinco pasos.
@@ -211,18 +203,18 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
       const key = slot.dataset.ckSlot ?? ''
       const steps = (slot.dataset.steps ?? '').split(' ').map(Number)
       const pre = slot.dataset.pre
-      const used = steps.every((n) => partUsed(n, pre))
-      const have = steps.every((n) => partUsed(n, pre) || ownedKey(key, stepIdOf(n)))
+      const spent = steps.every((n) => used(n, pre))
+      const have = steps.every((n) => used(n, pre) || ownedKey(key, stepIdOf(n)))
       if (!have) pending++
       const box = slot.querySelector<HTMLInputElement>('input')
       if (box) {
         box.checked = have
-        box.disabled = used
+        box.disabled = spent
       }
       slot.toggleAttribute('data-owned', have)
-      slot.toggleAttribute('data-used', used)
+      slot.toggleAttribute('data-used', spent)
       slot.hidden = Boolean(category) && slot.dataset.cat !== category
-      sorted[used ? 'used' : steps.some((n) => soon.has(n)) ? 'soon' : 'later'].push(slot)
+      sorted[spent ? 'used' : steps.some((n) => soon.has(n)) ? 'soon' : 'later'].push(slot)
     }
     for (const [group, list] of Object.entries(sorted)) {
       const section = lists.get(group)
@@ -494,7 +486,7 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
       const steps = (slot.dataset.steps ?? '').split(' ').map(Number)
       const parts = steps.flatMap((n) => {
         const id = stepIdOf(n)
-        return id && !partUsed(n, slot.dataset.pre) ? [`${key}#${id}`] : []
+        return id && !used(n, slot.dataset.pre) ? [`${key}#${id}`] : []
       })
       // Al desmarcarlo, también lo marcado entero (una copia o la checklist antigua).
       return save(setOwned(progress, box.checked ? parts : [...parts, key], box.checked, now))
