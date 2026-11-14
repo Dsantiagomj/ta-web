@@ -24,7 +24,14 @@ const RAW: RawItem[] = [
   { id: 918203, name: { es: 'Capa doble' }, level: 1, typeId: 17, iconId: null },
   { id: 918204, name: { es: 'Capa Doble' }, level: 1, typeId: 16, iconId: null },
   { id: 918205, name: { es: 'Túnica de prueba' }, level: 1, typeId: 16, iconId: null },
-  { id: 916834, name: { es: 'Bananaranja' }, level: 1, typeId: 41, iconId: null },
+  {
+    id: 916834,
+    name: { es: 'Bananaranja' },
+    level: 1,
+    typeId: 41,
+    iconId: null,
+    type: { superTypeId: 9 },
+  },
   { id: 918301, name: { es: 'Flor' }, level: 1, typeId: 41, iconId: null },
   { id: 918302, name: { es: 'Flore' }, level: 1, typeId: 41, iconId: null },
 ]
@@ -181,6 +188,7 @@ describe('gameItems', () => {
       id: expect.any(Number),
       name: 'Varita pitusa',
       singular: false,
+      superTypeId: null,
     })
     const stored = await payload.findByID({ collection: 'items', id: varita!.id, depth: 0 })
     expect(stored).toMatchObject({ dofusId: 918102, name: 'Varita pitusa' })
@@ -217,6 +225,7 @@ describe('gameItems', () => {
       id: -918102,
       name: 'Varita pitusa',
       singular: false,
+      superTypeId: null,
     })
     expect(
       (await payload.find({ collection: 'items', where: { dofusId: { equals: 918102 } } })).docs,
@@ -229,10 +238,12 @@ describe('gameItems', () => {
 
     // «8 x Bananaranjas»: la Bananaranja, y se sabe que casó en singular.
     const banana = await items.matchItem('Bananaranjas')
+    // Con su supertipo de DofusDB, para el grupo de Necesitarás: un recurso.
     expect(banana).toEqual({
       id: expect.any(Number),
       name: 'Bananaranja',
       singular: true,
+      superTypeId: 9,
     })
     expect(await items.findItem('Bananaranjas')).toBe(banana!.id)
 

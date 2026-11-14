@@ -1032,7 +1032,19 @@ export interface DofusGuide {
     title?: string | null;
     groups?:
       | {
-          name?: string | null;
+          /**
+           * En la guía, los grupos salen siempre en el orden de esta lista, elijas el que elijas.
+           */
+          name:
+            | 'combates'
+            | 'mazmorras'
+            | 'recursos'
+            | 'equipables'
+            | 'consumibles'
+            | 'oficios'
+            | 'emotes'
+            | 'logros'
+            | 'otros';
           rows?: (DofusNeedItemBlock | DofusNeedNoteBlock)[] | null;
           id?: string | null;
         }[]

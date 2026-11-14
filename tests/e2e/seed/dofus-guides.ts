@@ -163,6 +163,7 @@ export async function seedDofusGuides(payload: Payload): Promise<void> {
       needs: {
         groups: [
           {
+            name: 'recursos' as const,
             rows: [
               {
                 blockType: 'needItem' as const,

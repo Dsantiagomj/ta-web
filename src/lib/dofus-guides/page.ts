@@ -27,6 +27,7 @@ import { youtubeId } from '@/lib/guides/video'
 import { mediaImageAsset } from '@/lib/media/image-asset'
 import type { Media } from '@/payload-types'
 
+import { isNeedGroup, NEED_GROUPS, needGroupLabel } from './need-groups'
 import { dofusGuideStrings, dofusPageStrings as s } from './strings'
 
 /** El índice de las guías de Dofus. */
@@ -270,11 +271,26 @@ function dofusBody(guide: DofusGuideDoc): GuideContent {
 }
 
 function needsView(guide: DofusGuideDoc): DofusGuideView['needs'] {
-  const groups = (guide.needs?.groups ?? []).flatMap((group) => {
+  // Los grupos en el orden de la lista fija (need-groups.ts), con su nombre en español; dos
+  // grupos iguales salen juntos. Un nombre fuera de la lista va al final, sin título.
+  const rank = (name: string | null | undefined) =>
+    isNeedGroup(name) ? NEED_GROUPS.indexOf(name) : NEED_GROUPS.length
+  const byName = new Map<number, { name?: string; rows: NeedRowView[] }>()
+  for (const group of guide.needs?.groups ?? []) {
     const rows = needRows(group.rows ?? [])
-    return rows.length ? [{ ...(group.name && { name: group.name }), rows }] : []
-  })
+    if (rows.length === 0) continue
+    const at = rank(group.name)
+    const known = byName.get(at)
+    if (known) known.rows.push(...rows)
+    else {
+      const name = isNeedGroup(group.name) ? needGroupLabel(group.name) : undefined
+      byName.set(at, { ...(name && { name }), rows })
+    }
+  }
+  const groups = [...byName].sort(([a], [b]) => a - b).map(([, group]) => group)
   if (groups.length === 0) return null
+  // «Otros» solo dice algo junto a otros grupos: solo, va sin título.
+  if (groups.length === 1 && byName.has(NEED_GROUPS.indexOf('otros'))) delete groups[0]!.name
   return { title: guide.needs?.title || s.needs, groups }
 }
 

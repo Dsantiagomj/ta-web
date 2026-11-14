@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 
 import {
   fetchRelationTitle,
+  needGroupRowLabel,
   relationIds,
   relationRowLabel,
   segmentRowLabel,
@@ -29,6 +30,12 @@ export function ChecklistStepLabel() {
 export function SegmentLabel() {
   const { data, rowNumber } = useRowLabel<Row>()
   return <span>{segmentRowLabel(data, rowNumber)}</span>
+}
+
+/** Un grupo de Necesitarás de una guía de Dofus, por el nombre en español de su grupo. */
+export function NeedGroupLabel() {
+  const { data, rowNumber } = useRowLabel<Row>()
+  return <span>{needGroupRowLabel(data, rowNumber)}</span>
 }
 
 /** Una fila que se llama por uno de sus campos de texto. */

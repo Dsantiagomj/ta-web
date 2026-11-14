@@ -114,12 +114,13 @@ describe('acceso a las guías de Dofus', () => {
         needs: {
           groups: [
             {
+              name: 'recursos',
               rows: [
                 { blockType: 'needItem', quantity: 200, name: 'Pepita' },
                 { blockType: 'needItem', quantity: 1, name: 'Sello', note: '(o fabricarlo)' },
               ],
             },
-            { name: 'Mazmorras', rows: [] },
+            { name: 'mazmorras', rows: [] },
           ],
         },
         parts: [],
@@ -131,7 +132,23 @@ describe('acceso a las guías de Dofus', () => {
     })
     const rows = created.needs?.groups?.[0]?.rows ?? []
     expect(rows.map((row) => row.blockType === 'needItem' && row.name)).toEqual(['Pepita', 'Sello'])
-    expect(created.needs?.groups?.[1]?.name).toBe('Mazmorras')
+    expect(created.needs?.groups?.[1]?.name).toBe('mazmorras')
+  })
+
+  it('el grupo de Necesitarás se elige de la lista fija: sin grupo o con otro, no se guarda', async () => {
+    for (const name of [undefined, 'Recursos y otras movidas']) {
+      await expect(
+        payload.create({
+          collection: 'dofus-guides',
+          data: {
+            ...guide(`${PREFIX}-grupo-libre`, 5),
+            needs: { groups: [{ name, rows: [] }] },
+          } as never,
+          user: editor,
+          overrideAccess: false,
+        }),
+      ).rejects.toThrow(/Grupos 1 > Grupo/)
+    }
   })
 })
 
