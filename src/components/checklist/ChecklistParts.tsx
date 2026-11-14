@@ -407,9 +407,9 @@ function NeedOptions({ row, amounts }: { row: NeedRowView; amounts: 'shown' | 'h
       )
     const own = options.length > 1 && option.kind === 'item'
     return (
-      <span key={index}>
+      <span key={index} className="ck-need__o">
         {index > 0 && ` ${s.needOr} `}
-        <span className={own ? 'copyhost ck-opt' : undefined}>
+        <span className={own ? 'copyhost ck-opt ck-need__q' : 'ck-need__q'}>
           {amount}
           {amounts === 'shown' && ' '}
           {name}
@@ -441,7 +441,7 @@ function NeedRow({
         aria-label={p.own(needName(row))}
       />
       <IconWell image={row.kind === 'item' ? row.icon : undefined} />
-      <span>
+      <span className="ck-need__t">
         <NeedOptions row={row} amounts="shown" />
         {row.note && <span className="ck-item__r">{row.note}</span>}
         {row.prerequisiteText && (

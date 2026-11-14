@@ -841,7 +841,9 @@
   place-items: end center;
   height: 3rem;
 }
-.dg-ql__npc img {
+/* Solo el render del PNJ: el icono genérico de misión (IconWell) mide lo de su hueco; con esta
+   regla salía a 44px en los 42 de dentro del hueco. */
+.dg-ql__npc > picture img {
   width: auto;
   height: auto;
   max-width: 2.75rem;

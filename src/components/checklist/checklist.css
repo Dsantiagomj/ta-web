@@ -547,6 +547,14 @@ html[data-js] .ck-step[data-open] .ck-step__scroll {
   font: 600 var(--text-2xl) / 1.1 var(--font-display);
 }
 
+/* De 1024 a 1152px el paso abierto mide poco más de 500px y al título le quedan 240: a 33px,
+   «Las apariencias engañan» salía una palabra por línea. */
+@media (min-width: 64rem) and (max-width: 72rem) {
+  .ck-dh__t {
+    font-size: var(--text-xl);
+  }
+}
+
 .ck-dh__k {
   margin-top: 0.375rem;
 }
@@ -574,6 +582,12 @@ html[data-js] .ck-step[data-open] .ck-step__scroll {
   margin: 0;
   color: var(--color-ink);
   line-height: 1.65;
+}
+
+/* El relleno de un tramo resaltado (.hl, clonado en cada línea) no cuenta al partir la línea:
+   uno que llegaba al borde se salía 2px de su párrafo (paso 23 del Nebuloso a 768px). */
+.ck-text:has(.hl) {
+  padding-inline-end: 2px;
 }
 
 .ck-text a {
@@ -710,6 +724,13 @@ a.ck-tag:hover {
 
 .ck-needs__g .ck-micro {
   margin-bottom: 0.375rem;
+}
+
+/* Columnas de al menos 19rem, no las 15rem de la cabecera de la guía: cada fila lleva además
+   su casilla, y así «1 × Insignia de maligilante» cabe en una línea a 1440px (dos columnas en
+   el paso abierto, una a 1024px y en el móvil). */
+.ck-needs__g ul.needs__items {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
 }
 
 .ck-item__r {
@@ -1653,6 +1674,32 @@ html[data-js] .ck-q__row:has(.ck-q__hit) {
 
 .ck-need[data-owned] > span:last-child {
   color: var(--color-ink-2);
+}
+
+/* Cada fila igual, sea cual sea su texto: «1 ×» y el nombre en una línea (si el nombre no
+   cabe, se parte debajo de sí mismo, nunca debajo de la cantidad) y, debajo, cada opción
+   («o 1 × Pandapils») y la nota de Torre («o 30 000 kamas») a todo el ancho del texto. Antes
+   la rejilla de dos columnas de .needs__items metía la nota en una columna estrecha, una
+   palabra por línea. Sustituye esa rejilla: va con .row.ck-need para pesar más que ella. */
+.needs__items > .row.ck-need > .ck-need__t {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+/* Arriba y no por la línea base: la del nombre (inline-block) es su última línea. */
+.ck-need__t > .ck-need__o,
+.ck-need__t .ck-need__q {
+  display: flex;
+  align-items: start;
+  column-gap: 0.3em;
+  max-width: 100%;
+}
+
+.ck-need__q > b {
+  flex: none;
+  white-space: nowrap;
 }
 
 /* Prerrequisitos */
