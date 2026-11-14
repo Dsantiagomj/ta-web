@@ -7,7 +7,6 @@ import { RichTextBlock } from '../blocks/RichTextBlock'
 import { StepBlock } from '../blocks/StepBlock'
 import { validateVideoUrl, VideoBlock } from '../blocks/VideoBlock'
 import { dofusGuideStrings } from '../lib/dofus-guides/strings'
-import { guidePreviewUrl, previewOrigin } from '../lib/guides/preview'
 import { stateField } from './achievement-fields'
 import { refuseReferencedDelete } from './delete-guard'
 import {
@@ -27,8 +26,7 @@ import { rejectSharedSlug } from './root-slug'
 import { rowLabel } from './row-label'
 import { SLUG_LABEL, slugAdmin } from './slug-field'
 import { panelStrings } from '../lib/admin/strings'
-import { livePreviewBreakpoints } from '../lib/admin/live-preview'
-import { publishStatusField } from './publish-status-field'
+import { pagePreview, withPublishStatus } from '../lib/admin/live-preview'
 
 const s = dofusGuideStrings.admin
 
@@ -203,11 +201,7 @@ export const DofusGuides: CollectionConfig = {
     defaultColumns: ['name', 'order', 'state', '_status', 'updatedAt'],
     listSearchableFields: ['name', 'slug', 'aliases'],
     // La página pública en el panel, borrador incluido, como las guías y los logros.
-    livePreview: {
-      url: ({ data, req }) => guidePreviewUrl(data?.slug, previewOrigin(process.env, req.origin)),
-      breakpoints: livePreviewBreakpoints,
-    },
-    preview: (doc, { req }) => guidePreviewUrl(doc?.slug, previewOrigin(process.env, req.origin)),
+    ...pagePreview,
   },
   access: {
     read: readPublishedOrAll,
@@ -226,8 +220,7 @@ export const DofusGuides: CollectionConfig = {
     beforeDelete: [refuseReferencedDelete('dofus-guides')],
     afterDelete: [revalidateDofusGuidesAfterDelete],
   },
-  fields: [
-    publishStatusField,
+  fields: withPublishStatus([
     {
       name: 'dofus',
       label: 'Dofus de DofusDB',
@@ -408,5 +401,5 @@ export const DofusGuides: CollectionConfig = {
       hooks: { beforeDuplicate: [clearOnDuplicate] },
       admin: { ...originalUrlAdmin, position: 'sidebar' },
     },
-  ],
+  ]),
 }

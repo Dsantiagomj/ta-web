@@ -33,3 +33,15 @@ export async function docId(page: Page, collection: string, slug: string): Promi
   expect(docs, `${collection}/${slug} sembrado`).toHaveLength(1)
   return docs[0]!.id
 }
+
+/**
+ * Deja un documento como su versión publicada, igual que «Revertir a la versión publicada»
+ * de Payload: una prueba que guarda un borrador no se lo deja a la siguiente.
+ */
+export async function restorePublished(page: Page, collection: string, id: number) {
+  const url = `/api/${collection}/${id}?depth=0`
+  const published = await page.request.get(`${url}&draft=false`)
+  expect(published.ok()).toBe(true)
+  const restored = await page.request.patch(url, { data: await published.json() })
+  expect(restored.ok()).toBe(true)
+}

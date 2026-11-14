@@ -275,6 +275,15 @@ html[data-theme='dark'] {
   background: var(--theme-warning-500);
 }
 
+.ta-publish--preparing .ta-publish__dot {
+  background: var(--theme-warning-500);
+}
+
+.ta-publish--loading .ta-publish__dot {
+  background: transparent;
+  border: 1px solid var(--ta-muted);
+}
+
 .ta-publish .field-description {
   margin-top: 0.25rem;
 }

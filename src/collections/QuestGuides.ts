@@ -8,7 +8,6 @@ import { StepBlock } from '../blocks/StepBlock'
 import { VideoBlock } from '../blocks/VideoBlock'
 import { linkedQuestId } from '../lib/guides/autofill'
 import { isDungeonNoteIn } from '../lib/guides/need-notes'
-import { guidePreviewUrl, previewOrigin } from '../lib/guides/preview'
 import { guideStrings } from '../lib/guides/strings'
 import type { FillableField, NotedField } from '../lib/guides/summary'
 import { refuseReferencedDelete } from './delete-guard'
@@ -30,8 +29,7 @@ import { rowLabel } from './row-label'
 import { SLUG_LABEL, slugAdmin } from './slug-field'
 import { slugFormatProblem } from '../lib/admin/slug'
 import { panelStrings } from '../lib/admin/strings'
-import { livePreviewBreakpoints } from '../lib/admin/live-preview'
-import { publishStatusField } from './publish-status-field'
+import { pagePreview, withPublishStatus } from '../lib/admin/live-preview'
 
 /**
  * Slug plano en ASCII: minúsculas, cifras y guiones sueltos, sin guiones en los extremos.
@@ -240,11 +238,7 @@ export const QuestGuides: CollectionConfig = {
     defaultColumns: ['title', '_status', 'updatedAt'],
     listSearchableFields: ['title', 'slug'],
     // La página pública en el panel, borrador incluido (src/lib/guides/preview.ts).
-    livePreview: {
-      url: ({ data, req }) => guidePreviewUrl(data?.slug, previewOrigin(process.env, req.origin)),
-      breakpoints: livePreviewBreakpoints,
-    },
-    preview: (doc, { req }) => guidePreviewUrl(doc?.slug, previewOrigin(process.env, req.origin)),
+    ...pagePreview,
   },
   access: questGuidesAccess,
   versions: { drafts: true, maxPerDoc: 50 },
@@ -257,7 +251,7 @@ export const QuestGuides: CollectionConfig = {
     beforeDelete: [refuseReferencedDelete('quest-guides')],
     afterDelete: [revalidateGuidePagesAfterDelete],
   },
-  fields: [
+  fields: withPublishStatus([
     {
       // Una sola misión por guía: es la que rellena el título, el slug, el SEO y el resumen.
       name: 'quest',
@@ -273,8 +267,6 @@ export const QuestGuides: CollectionConfig = {
         },
       },
     },
-    // Tras la misión, que es el primer campo del área principal; es el primero de la barra.
-    publishStatusField,
     {
       name: 'title',
       label: 'Título',
@@ -334,5 +326,5 @@ export const QuestGuides: CollectionConfig = {
       hooks: { beforeDuplicate: [clearOnDuplicate] },
       admin: { ...originalUrlAdmin, position: 'sidebar' },
     },
-  ],
+  ]),
 }

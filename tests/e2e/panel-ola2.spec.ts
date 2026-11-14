@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test'
 
-import { docId, logInPanel, releaseLocks } from './panel-helpers.ts'
+import { docId, logInPanel, releaseLocks, restorePublished } from './panel-helpers.ts'
 import { seedAchievement } from './seed/achievements.ts'
 import { seedChecklists } from './seed/checklists.ts'
 import { seedDofus } from './seed/dofus-guides.ts'
@@ -31,6 +31,7 @@ test.describe('el panel para Torre, ola 2', () => {
   })
 
   const publishStatus = () => page.locator('.ta-publish')
+  const statusLine = () => page.locator('.ta-publish__text')
 
   /** Abre la vista previa en vivo; un clic antes de que el panel se monte se pierde. */
   async function openLivePreview() {
@@ -46,30 +47,38 @@ test.describe('el panel para Torre, ola 2', () => {
     // Ni este logro ni la checklist de abajo los abre otra spec: Payload bloquea lo abierto.
     const live = await docId(page, 'achievement-pages', seedAchievement.previous.slug)
     await page.goto(`/admin/collections/achievement-pages/${live}`)
-    await expect(publishStatus()).toContainText('En la web: visible')
+    await expect(statusLine()).toHaveText('En la web: visible')
 
     const preparing = await docId(page, 'achievement-pages', seedAchievement.next.slug)
     await page.goto(`/admin/collections/achievement-pages/${preparing}`)
-    await expect(publishStatus()).toContainText('No se ve en la web: En preparación')
+    await expect(statusLine()).toHaveText('En la web: sale apagado, sin página')
 
     const draft = await docId(page, 'quest-guides', draftGuide.slug)
     await page.goto(`/admin/collections/quest-guides/${draft}`)
-    await expect(publishStatus()).toContainText('No se ve en la web: es un borrador')
+    await expect(statusLine()).toHaveText('No se ve en la web: es un borrador')
   })
 
   test('A-16: avisa de lo no guardado y, tras guardar el borrador, de lo no publicado', async () => {
-    // Jyfus está «En preparación»: un borrador suyo no cambia nada de lo que se ve.
+    // Jyfus está publicada «En preparación»; la prueba la deja como estaba al acabar.
     const id = await docId(page, 'dofus-guides', seedDofus.jyfus.slug)
-    await page.goto(`/admin/collections/dofus-guides/${id}`)
-    // Una ejecución anterior pudo dejar un borrador: solo cuenta que no se ve.
-    await expect(publishStatus()).not.toContainText('En la web: visible')
+    try {
+      await page.goto(`/admin/collections/dofus-guides/${id}`)
+      await expect(statusLine()).toHaveText('En la web: el huevo sale apagado, sin página')
+      await expect(publishStatus()).not.toContainText('Tienes cambios sin publicar')
 
-    await page.locator('#field-aliases').fill(`jyfus prueba ${Date.now()}`)
-    await expect(publishStatus()).toContainText('Lo que acabas de cambiar aún no está guardado.')
+      await page.locator('#field-aliases').fill('jyfus prueba')
+      await expect(publishStatus()).toContainText('Lo que acabas de cambiar aún no está guardado.')
 
-    await page.getByRole('button', { name: 'Guardar borrador' }).click()
-    await expect(publishStatus()).toContainText('Tienes cambios sin publicar')
-    await expect(publishStatus()).not.toContainText('aún no está guardado')
+      await page.getByRole('button', { name: 'Guardar borrador' }).click()
+      // Lo que se ve sigue siendo lo publicado; el borrador solo se menciona.
+      await expect(publishStatus()).toContainText(
+        'Tienes cambios sin publicar: la web sigue enseñando la versión publicada.',
+      )
+      await expect(statusLine()).toHaveText('En la web: el huevo sale apagado, sin página')
+      await expect(publishStatus()).not.toContainText('aún no está guardado')
+    } finally {
+      await restorePublished(page, 'dofus-guides', id)
+    }
   })
 
   test('A-20: la vista previa tiene móvil, tableta y escritorio', async () => {

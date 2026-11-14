@@ -1,6 +1,5 @@
 import type { CollectionConfig } from 'payload'
 
-import { guidePreviewUrl, previewOrigin } from '../lib/guides/preview'
 import { fillAchievementPage } from './achievement-autofill'
 import {
   dofusDbNote,
@@ -19,8 +18,7 @@ import { rejectSharedSlug } from './root-slug'
 import { rowLabel } from './row-label'
 import { SLUG_LABEL, slugAdmin } from './slug-field'
 import { panelStrings } from '../lib/admin/strings'
-import { livePreviewBreakpoints } from '../lib/admin/live-preview'
-import { publishStatusField } from './publish-status-field'
+import { pagePreview, withPublishStatus } from '../lib/admin/live-preview'
 
 const note = (field: string) => dofusDbNote('achievement', field)
 
@@ -37,11 +35,7 @@ export const AchievementPages: CollectionConfig = {
     defaultColumns: ['name', 'group', 'state', '_status', 'updatedAt'],
     listSearchableFields: ['name', 'slug'],
     // La página pública en el panel, borrador incluido, como las guías.
-    livePreview: {
-      url: ({ data, req }) => guidePreviewUrl(data?.slug, previewOrigin(process.env, req.origin)),
-      breakpoints: livePreviewBreakpoints,
-    },
-    preview: (doc, { req }) => guidePreviewUrl(doc?.slug, previewOrigin(process.env, req.origin)),
+    ...pagePreview,
   },
   access: {
     read: readPublishedOrAll,
@@ -59,8 +53,7 @@ export const AchievementPages: CollectionConfig = {
     beforeDelete: [refuseReferencedDelete('achievement-pages')],
     afterDelete: [revalidateAchievementPagesAfterDelete],
   },
-  fields: [
-    publishStatusField,
+  fields: withPublishStatus([
     {
       name: 'achievement',
       label: 'Logro de DofusDB',
@@ -202,5 +195,5 @@ export const AchievementPages: CollectionConfig = {
       type: 'json',
       admin: { hidden: true },
     },
-  ],
+  ]),
 }

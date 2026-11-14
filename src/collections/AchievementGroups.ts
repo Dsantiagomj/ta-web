@@ -17,7 +17,7 @@ import {
 import { rejectSharedSlug } from './root-slug'
 import { SLUG_LABEL, slugAdmin } from './slug-field'
 import { panelStrings } from '../lib/admin/strings'
-import { publishStatusField } from './publish-status-field'
+import { withPublishStatus } from '../lib/admin/live-preview'
 
 const note = (field: string) => dofusDbNote('group', field)
 const SECTIONS: GroupSection[] = ['stories', 'zones', 'seasonal']
@@ -50,8 +50,7 @@ export const AchievementGroups: CollectionConfig = {
     beforeDelete: [refuseReferencedDelete('achievement-groups')],
     afterDelete: [revalidateAchievementPagesAfterDelete],
   },
-  fields: [
-    publishStatusField,
+  fields: withPublishStatus([
     {
       name: 'category',
       label: 'Categoría de DofusDB',
@@ -135,5 +134,5 @@ export const AchievementGroups: CollectionConfig = {
           '(Alineamiento).',
       },
     },
-  ],
+  ]),
 }
