@@ -17,6 +17,7 @@ import {
   revalidateDofusGuidesAfterDelete,
 } from './revalidate-guides'
 import { rejectSharedSlug } from './root-slug'
+import { rowLabel } from './row-label'
 import { SLUG_LABEL, slugAdmin } from './slug-field'
 import { panelStrings } from '../lib/admin/strings'
 
@@ -305,12 +306,10 @@ export const DofusGuides: CollectionConfig = {
           labels: { singular: 'Grupo', plural: 'Grupos' },
           type: 'array',
           admin: {
-            components: {
-              RowLabel: {
-                path: '/components/admin/RowLabels#TextRowLabel',
-                clientProps: { singular: panelStrings.rowLabels.group, field: 'name' },
-              },
-            },
+            components: rowLabel('TextRowLabel', {
+              singular: panelStrings.rowLabels.group,
+              field: 'name',
+            }),
           },
           fields: [
             { name: 'name', label: 'Nombre del grupo', type: 'text', localized: true },

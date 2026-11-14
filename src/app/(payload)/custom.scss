@@ -59,7 +59,8 @@ html[data-theme='dark'] {
 
 /*
  * Un solo idioma: ni el selector de idioma de la cabecera ni el «— Español» tras cada
- * campo traducible dicen nada. Vuelven solos con un segundo idioma, quitando esto.
+ * campo traducible dicen nada. No vuelven solos: con un segundo idioma hay que quitar esta
+ * regla, y tests/unit/admin-panel-config.test.ts falla hasta que se quite.
  */
 .localizer,
 .field-label .localized {

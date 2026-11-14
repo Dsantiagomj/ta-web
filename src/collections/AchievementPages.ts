@@ -15,6 +15,7 @@ import {
   revalidateAchievementPagesAfterDelete,
 } from './revalidate-guides'
 import { rejectSharedSlug } from './root-slug'
+import { rowLabel } from './row-label'
 import { SLUG_LABEL, slugAdmin } from './slug-field'
 import { panelStrings } from '../lib/admin/strings'
 
@@ -85,8 +86,8 @@ export const AchievementPages: CollectionConfig = {
       index: true,
       validate: linkedSlugValidator('achievement'),
       admin: slugAdmin(
-        'La del logro, la misma que en tu web: la-ocasion-hace-al-ladron. Si la dejas vacía, ' +
-          'sale del nombre.',
+        'La del logro, la misma que en tu web: la-ocasion-hace-al-ladron. Si ya elegiste el ' +
+          'logro de DofusDB, puedes dejarla vacía: al guardar sale del nombre.',
       ),
     },
     stateField,
@@ -113,15 +114,12 @@ export const AchievementPages: CollectionConfig = {
         initCollapsed: true,
         components: {
           ...note('quests').components,
-          RowLabel: {
-            path: '/components/admin/RowLabels#RelationRowLabel',
-            clientProps: {
-              singular: panelStrings.rowLabels.quest,
-              textField: 'name',
-              relationField: 'quests',
-              relationTo: 'quests',
-            },
-          },
+          ...rowLabel('RelationRowLabel', {
+            singular: panelStrings.rowLabels.quest,
+            textField: 'name',
+            relationField: 'quests',
+            relationTo: 'quests',
+          }),
         },
       },
       fields: [

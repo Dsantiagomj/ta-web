@@ -148,6 +148,9 @@ test.describe('el panel para Torre', () => {
     // Empieza cerrado: el identificador no se ve hasta abrir «Datos técnicos».
     await expect(first.locator('#field-steps__0__stepId')).toBeHidden()
     await openUntil(first.locator('> .collapsible'), first.locator('#field-steps__0__zone'))
+    // Las filas de misiones se llaman por su misión: el nombre llega en una petición por
+    // colección para todas las filas, no en una por fila.
+    await expect(first.getByText(`Misión 1: ${seedGuide.title}`)).toBeVisible()
     // Payload pinta en el servidor los campos de la fila recién abierta: hasta que termina,
     // abrir «Datos técnicos» puede quedarse sin sus campos.
     await page.waitForLoadState('networkidle')
