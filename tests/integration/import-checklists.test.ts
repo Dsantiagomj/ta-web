@@ -834,7 +834,8 @@ describe('el Ocre: una checklist de almas', () => {
         name: 'La eterna cosecha de prueba',
         stages: [
           { dofusId: 1, objectives: [bring(1, 997_501), bring(2, 997_599)] },
-          { dofusId: 2, objectives: [bring(3, null)] },
+          // Los mismos monstruos otra vez: siguen siendo dos almas.
+          { dofusId: 2, objectives: [bring(3, null), bring(4, 997_501), bring(5, 997_599)] },
         ],
       },
       overrideAccess: true,
@@ -947,6 +948,47 @@ describe('el Ocre: una checklist de almas', () => {
       kind: 'misión',
       name: '997998',
     })
+  })
+
+  // Payload con la búsqueda de monstruos que pide sus datos del juego rota con `error`.
+  const failingMonsters = (error: Error): typeof payload =>
+    new Proxy(payload, {
+      get(target, key, receiver) {
+        if (key !== 'find') return Reflect.get(target, key, receiver)
+        return (args: Parameters<typeof payload.find>[0]) =>
+          args.collection === 'monsters' && args.select && 'levels' in args.select
+            ? Promise.reject(error)
+            : target.find(args)
+      },
+    })
+  // Sin la migración falta la columna de la subzona (42703) o la tabla de los niveles (42P01,
+  // `monsters_numbers`, lo que da dev antes de desplegar).
+  const missingColumn = (code = '42703') =>
+    Object.assign(new Error('Failed query: select "levels"'), {
+      cause: Object.assign(new Error('does not exist'), { code }),
+    })
+
+  it.each(['42703', '42P01'])(
+    'en seco, contra una base sin la migración de monstruos (%s), los da sin datos',
+    async (code) => {
+      const report = await loadChecklists(
+        failingMonsters(missingColumn(code)),
+        options([{ entry: souls(), draft: null }], false),
+      )
+      expect(report.souls[0]).toMatchObject({ withoutGameData: [997_501] })
+    },
+  )
+
+  it('otro error, o el mismo escribiendo, no se traga', async () => {
+    await expect(
+      loadChecklists(
+        failingMonsters(new Error('la conexión se cortó')),
+        options([{ entry: souls(), draft: null }], false),
+      ),
+    ).rejects.toThrow('la conexión se cortó')
+    await expect(
+      loadChecklists(failingMonsters(missingColumn()), options([{ entry: souls(), draft: null }])),
+    ).rejects.toThrow('Failed query')
   })
 })
 

@@ -36,6 +36,9 @@ export interface SoulsData {
   siteUrl: string
 }
 
+/** Lo de una checklist de almas que se lee de la base: todo menos la checklist y el origen. */
+export type SoulsReadData = Omit<SoulsData, 'checklist' | 'siteUrl'>
+
 type Objective = { kind?: string | null; monsterId?: number | null; [key: string]: unknown }
 
 export interface SoulView {
@@ -110,10 +113,14 @@ export function soulsView(data: SoulsData): SoulsView {
       dungeonsOf.set(boss, [...(dungeonsOf.get(boss) ?? []), dungeon])
   }
   const missing: number[] = []
+  // Un monstruo que la misión pide más de una vez es una sola alma, en la primera etapa.
+  const seen = new Set<number>()
   const souls = data.stages.flatMap((stage, index) =>
     (stage.objectives ?? []).flatMap((objective): SoulView[] => {
       if (objective.kind !== 'bring' || objective.monsterId == null) return []
       const id = objective.monsterId
+      if (seen.has(id)) return []
+      seen.add(id)
       const monster = data.monsters[id]
       if (!monster) {
         missing.push(id)

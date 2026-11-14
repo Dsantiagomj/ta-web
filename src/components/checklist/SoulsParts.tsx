@@ -8,8 +8,9 @@ import { progressStrings as p } from './progress-strings'
 
 // La página de una checklist de almas (el Ocre): las almas de «La eterna cosecha» como cromos
 // que se marcan, por etapa o por región, con filtros por tipo y un buscador. Todo se pinta en el
-// servidor, agrupado por etapa; sin JavaScript se ven todas, sin casillas. La isla
-// (SoulsIsland.tsx, souls-ui.ts) marca, agrupa por región, filtra y guarda.
+// servidor, las dos vistas enteras; sin JavaScript se ven todas por etapa, sin casillas ni
+// controles. La isla (SoulsIsland.tsx, souls-ui.ts) marca, elige la vista, filtra y guarda; nunca
+// mueve lo que pinta React.
 
 /** Los avisos de Torre sobre la checklist (los de sus prerrequisitos), tal cual. */
 export function SoulsIntro({ view }: { view: SoulsView }) {
@@ -90,7 +91,7 @@ export function SoulsTools({ view }: { view: SoulsView }) {
           </button>
         ))}
       </div>
-      <label className="ck-search ck-find sl-find">
+      <label className="ck-search ck-find sl-find ck-js">
         <span className="sr-only">{o.searchLabel}</span>
         <input type="search" placeholder={o.search} autoComplete="off" data-sl-q />
       </label>
@@ -127,9 +128,12 @@ export function SoulsTools({ view }: { view: SoulsView }) {
 /** Dónde se lucha el alma: su mazmorra o, si no es de mazmorra, su subzona. */
 const whereOf = (soul: SoulView) => soul.dungeon ?? soul.zone
 
-/** Un alma: su casilla, su imagen, su nombre, su nivel y dónde se lucha. */
-function Soul({ soul }: { soul: SoulView }) {
+type By = 'stage' | 'region'
+
+/** Un alma: su casilla, su imagen, su nombre, su nivel y dónde se lucha. Sale en las dos vistas. */
+function Soul({ soul, by }: { soul: SoulView; by: By }) {
   const where = whereOf(soul)
+  const id = `sl-${by}-${soul.id}`
   return (
     <li
       className="sl-soul"
@@ -142,12 +146,12 @@ function Soul({ soul }: { soul: SoulView }) {
       <input
         type="checkbox"
         className="checkbox sl-soul__chk ck-js"
-        id={`sl-${soul.id}`}
+        id={id}
         data-sl-own={soul.id}
         disabled
         data-ck-wait
       />
-      <label className="sl-soul__b" htmlFor={`sl-${soul.id}`}>
+      <label className="sl-soul__b" htmlFor={id}>
         <span className="sl-soul__img well" aria-hidden="true">
           {soul.image && <Picture image={soul.image} alt="" sizes="48px" />}
         </span>
@@ -167,38 +171,29 @@ function Soul({ soul }: { soul: SoulView }) {
   )
 }
 
-function Group({
-  group,
-  by,
-  souls,
-}: {
-  group: SoulGroup
-  by: 'stage' | 'region'
-  souls: Map<number, SoulView>
-}) {
+function Group({ group, by, souls }: { group: SoulGroup; by: By; souls: Map<number, SoulView> }) {
   const id = `sl-${by}-${group.key.replace(/\W+/g, '-')}`
   return (
     <section className="sl-group" aria-labelledby={id} data-sl-group={group.key}>
       <h2 className="sl-gh" id={id}>
         {group.label}{' '}
         <span className="sl-gh__c" data-sl-gc>
-          {by === 'stage' ? o.groupCount(0, group.souls.length) : ''}
+          {o.groupCount(0, group.souls.length)}
         </span>
       </h2>
       <ul className="sl-list" role="list">
-        {by === 'stage' &&
-          group.souls.map((id) => {
-            const soul = souls.get(id)
-            return soul ? <Soul key={id} soul={soul} /> : null
-          })}
+        {group.souls.map((id) => {
+          const soul = souls.get(id)
+          return soul ? <Soul key={id} soul={soul} by={by} /> : null
+        })}
       </ul>
     </section>
   )
 }
 
 /**
- * Las almas por etapa, en el orden de la misión. Las secciones por región van vacías: la isla
- * mueve cada alma a la suya al elegir «Por región».
+ * Las almas por etapa, en el orden de la misión, y por región. Se ve una: la que dice
+ * `data-sl-shown` en la ventana (`.sl-win`), que pone la isla; sin él, por etapa (checklist.css).
  */
 export function SoulsList({ view }: { view: SoulsView }) {
   const souls = new Map(view.souls.map((soul) => [soul.id, soul]))
@@ -210,7 +205,7 @@ export function SoulsList({ view }: { view: SoulsView }) {
           <Group key={group.key} group={group} by="stage" souls={souls} />
         ))}
       </div>
-      <div data-sl-view="region" hidden>
+      <div data-sl-view="region">
         {view.regions.map((group) => (
           <Group key={group.key} group={group} by="region" souls={souls} />
         ))}

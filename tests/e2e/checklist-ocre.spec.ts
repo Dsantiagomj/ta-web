@@ -23,9 +23,11 @@ async function preview(page: Page) {
   await expect(page.locator('[data-sl-own]').first()).toBeEnabled()
 }
 
-const soul = (page: Page, name: string) => page.locator('.sl-soul', { hasText: name })
+// Cada alma sale en las dos vistas (por etapa y por región): se mira la que se ve.
+const soul = (page: Page, name: string) =>
+  page.locator('[data-sl-view]:visible .sl-soul', { hasText: name })
 const visibleNames = (page: Page) =>
-  page.locator('.sl-soul:not([hidden]) .sl-soul__n').allTextContents()
+  page.locator('[data-sl-view]:visible .sl-soul:not([hidden]) .sl-soul__n').allTextContents()
 const settled = (page: Page) =>
   page.waitForFunction(() => document.getAnimations().every((a) => a.playState !== 'running'))
 
@@ -92,7 +94,9 @@ test.describe('el Ocre en la vista previa', () => {
     await expect(soul(page, 'Arakna Maja').locator('[data-sl-own]')).toBeChecked()
     const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('ta-web:progress')!))
     expect(stored.souls).toHaveProperty('991603')
-    expect(stored.souls).not.toHaveProperty('7')
+    // 7 no es de la checklist hoy, pero se guarda por si su monstruo llega después; no cuenta.
+    expect(stored.souls).toHaveProperty('7')
+    await expect(page.locator('[data-sl-done]')).toHaveText('1')
     expect(stored.migrated).toHaveProperty('cosecha')
     // La clave antigua se queda donde estaba.
     expect(await page.evaluate(() => localStorage.getItem('cosecha:done'))).not.toBeNull()

@@ -39,7 +39,6 @@ export function resetSouls(p: Progress, data: SoulsIslandData): Progress {
 export interface SoulsLegacyInput {
   keys: string[]
   read: (key: string) => string | null
-  data: SoulsIslandData
   now: number
 }
 
@@ -47,7 +46,9 @@ export interface SoulsLegacyInput {
 function parseDone(raw: string | null): number[] {
   try {
     const list = JSON.parse(raw ?? 'null')
-    return Array.isArray(list) ? list.filter(Number.isInteger) : []
+    return Array.isArray(list)
+      ? list.filter((id): id is number => Number.isInteger(id) && id > 0)
+      : []
   } catch {
     return []
   }
@@ -55,14 +56,13 @@ function parseDone(raw: string | null): number[] {
 
 /**
  * Trae una vez lo marcado en el Ocre de silvestre-checklist: suma, nunca quita, y no toca la
- * clave antigua. Solo las almas de esta checklist. Sin nada que traer devuelve lo mismo.
+ * clave antigua. Guarda todas las almas, también las de un monstruo que la checklist aún no
+ * tiene: no vuelve a correr, y lo que se cuenta lo filtra soulsDone. Sin nada que traer
+ * devuelve lo mismo.
  */
 export function migrateSouls(p: Progress, input: SoulsLegacyInput): Progress {
   if (p.migrated[COSECHA] || !input.keys.includes(COSECHA_DONE)) return p
-  const mine = new Set(input.data.souls)
   const souls = { ...p.souls }
-  for (const id of parseDone(input.read(COSECHA_DONE))) {
-    if (mine.has(id)) souls[id] ??= input.now
-  }
+  for (const id of parseDone(input.read(COSECHA_DONE))) souls[id] ??= input.now
   return { ...p, souls, migrated: { ...p.migrated, [COSECHA]: input.now } }
 }
