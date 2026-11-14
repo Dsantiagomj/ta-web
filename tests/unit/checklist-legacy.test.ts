@@ -379,3 +379,22 @@ describe('revisión de #121: migración', () => {
     expect(Object.keys(p.quests)).toEqual(['1608'])
   })
 })
+
+describe('revisión de #122: las misiones genéricas antiguas en lo compartido', () => {
+  it('«clase» de lo compartido y de otra checklist va a la clave de la fila de esta checklist', () => {
+    const generic = { ...data, legacy: { ...data.legacy, genericQuests: { clase: 1841 } } }
+    const p = migrateLegacy(emptyProgress(), {
+      keys: ['dofus-checklists:shared', 'silvestre:questObjective'],
+      read: (key) =>
+        key === 'dofus-checklists:shared'
+          ? JSON.stringify({ silvestre: { quests: ['clase', 'alt:9:9', 1608] } })
+          : key === 'silvestre:questObjective'
+            ? JSON.stringify({ clase: 1, 'alt:1:1': 2 })
+            : null,
+      data: { ...generic, objectives: { ...generic.objectives, [-1841]: 1 } },
+      now: NOW,
+    })
+    expect(p.quests[-1841]).toMatchObject({ o: 'done' })
+    expect(Object.keys(p.quests).every((id) => /^-?\d+$/.test(id))).toBe(true)
+  })
+})

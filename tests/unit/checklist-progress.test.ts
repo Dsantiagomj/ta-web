@@ -720,3 +720,112 @@ describe('el progreso del Hielos', () => {
     expect(questFinished(p, hielos, 649)).toBe(false)
   })
 })
+
+describe('revisión de #122', () => {
+  const model = (steps: ChecklistIslandData['steps'], extra: Partial<ChecklistIslandData> = {}) =>
+    checklistModel({
+      ...data,
+      steps,
+      closes: [],
+      optionalDoneBy: [],
+      anyOf: [],
+      completedBy: [],
+      weights: steps.map(([, , quests]) => [100, quests.map(() => 50)]),
+      objectives: {},
+      prereqs: {},
+      parents: {},
+      ...extra,
+    })
+
+  it('una fila genérica hecha cuenta como su misión para las que se terminan solas', () => {
+    const m = model(
+      [
+        [
+          'a',
+          1,
+          [
+            [-556, 'mandatory'],
+            [-557, 'mandatory'],
+          ],
+        ],
+        ['b', 2, [[652, 'mandatory']]],
+      ],
+      {
+        anyOf: [
+          [-556, [556, 566]],
+          [-557, [557, 567]],
+        ],
+        completedBy: [[652, [556, 557]]],
+        objectives: { [-556]: 1, [-557]: 1, 652: 1 },
+      },
+    )
+    let p = setQuest(emptyProgress(), m, 0, -556, true, 1)
+    expect(questFinished(p, m, 652)).toBe(false)
+    p = setQuest(p, m, 0, -557, true, 2)
+    expect(questFinished(p, m, 652)).toBe(true)
+  })
+
+  it('un paso que solo queda hecho porque el juego terminó solas sus misiones no se guarda hecho', () => {
+    const m = model(
+      [
+        ['x', 1, [[649, 'mandatory']]],
+        [
+          'b',
+          2,
+          [
+            [612, 'mandatory'],
+            [613, 'mandatory'],
+          ],
+        ],
+      ],
+      {
+        completedBy: [[649, [612, 613]]],
+        objectives: { 649: 1, 612: 1, 613: 1 },
+      },
+    )
+    let p = setQuest(emptyProgress(), m, 1, 612, true, 1)
+    p = setQuest(p, m, 1, 613, true, 2)
+    expect(questFinished(p, m, 649)).toBe(true)
+    expect(stepDone(p, m, 0)).toBe(false)
+    expect(p.steps.x).toBeUndefined()
+  })
+
+  it('una fila genérica sale hecha si el juego terminó sola una de sus misiones', () => {
+    const m = model(
+      [
+        ['a', 1, [[-556, 'mandatory']]],
+        ['b', 2, [[612, 'mandatory']]],
+      ],
+      {
+        anyOf: [[-556, [556, 566]]],
+        completedBy: [[566, [612]]],
+        objectives: { [-556]: 1, 612: 1 },
+      },
+    )
+    const p = setQuest(emptyProgress(), m, 1, 612, true, 1)
+    expect(questFinished(p, m, -556)).toBe(true)
+  })
+
+  it('la que se termina sola nombra la última que se terminó, no la última de la lista', () => {
+    const m = model(
+      [
+        [
+          'a',
+          1,
+          [
+            [649, 'mandatory'],
+            [612, 'mandatory'],
+            [613, 'mandatory'],
+          ],
+        ],
+      ],
+      {
+        completedBy: [[649, [612, 613]]],
+        objectives: { 649: 1, 612: 1, 613: 1 },
+      },
+    )
+    let p = setQuest(emptyProgress(), m, 0, 613, true, 1)
+    p = setQuest(p, m, 0, 612, true, 2)
+    expect(questState(p, m, 0, 649)).toEqual({ done: true, lock: { alone: 612 } })
+  })
+})

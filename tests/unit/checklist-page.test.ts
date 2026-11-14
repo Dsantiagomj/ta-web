@@ -1292,3 +1292,35 @@ describe('revisión de #121: lo de los prerrequisitos en Objetos', () => {
     expect(result.island.compositeKeys).toEqual(['5012|5013', '5014@mision opcional'])
   })
 })
+
+describe('revisión de #122: la clave de una fila genérica en todas partes', () => {
+  const generic = {
+    quest: quest(5, 'Recolección (agricultor)'),
+    kind: 'optional',
+    label: 'Recolección en los campos de hielo',
+    alternatives: [quest(6, 'Recolección (alquimista)')],
+    optionalDoneBy: 'b',
+  }
+
+  it('el paso que termina una opcional genérica y su parada van con su clave en negativo', () => {
+    const { island } = checklistView(
+      data([
+        step('a', {
+          segments: [{ kind: 'stop', text: 'Para.', quest: 5, stopObjective: 0 }],
+          quests: [{ ...generic, kind: 'mandatory', optionalDoneBy: null }],
+        }),
+        step('b', { quests: [generic] }),
+      ]),
+    )
+    expect(island.steps[0][2]).toEqual([[-1005, 'mandatory', 0]])
+    expect(island.optionalDoneBy).toEqual([['b', [-1005]]])
+  })
+
+  it('una fila con nombre pero sin más misiones no dice «cualquiera de sus 1 misiones»', () => {
+    const [view] = checklistView(
+      data([step('a', { quests: [{ ...generic, alternatives: [], optionalDoneBy: null }] })]),
+    ).steps
+    expect(view.quests[0].anyOf).toBeUndefined()
+    expect(view.quests[0].name).toBe('Recolección en los campos de hielo')
+  })
+})

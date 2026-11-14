@@ -20,7 +20,7 @@ import type { RawNpc } from '@/lib/dofusdb/types'
 import { checklistArt } from './checklists/art'
 import { CHECKLIST_CATALOG } from './checklists/catalog'
 import { genericAlternatives, genericSource } from './checklists/generic'
-import { readLegacyChecklist } from './checklists/legacy'
+import { readLegacyChecklist, type LegacyChecklist } from './checklists/legacy'
 import {
   loadChecklists,
   type ChecklistInput,
@@ -73,18 +73,24 @@ const apply = args.includes('--apply')
 // DofusDB (generic.ts).
 const checklists: ChecklistInput[] = []
 const dofusDb = createDofusDbClient({ log: (message: string) => console.log(message) })
+const legacies = new Map<string, LegacyChecklist>()
 for (const entry of selected) {
-  if (!entry.ported) {
-    checklists.push({ entry, draft: null })
-    continue
-  }
-  const legacy = await readLegacyChecklist(from, entry.id)
-  const genericIds = Object.values(legacy.quests.STEP_QUESTS)
+  if (entry.ported) legacies.set(entry.id, await readLegacyChecklist(from, entry.id))
+}
+// Las de todas las checklists de una vez: varias comparten fila (la de alineamiento).
+const genericIds = [...legacies.values()].flatMap((legacy) =>
+  Object.values(legacy.quests.STEP_QUESTS)
     .flat()
     .map(String)
-    .filter((id) => genericSource(id) !== null)
-  const alternatives = await genericAlternatives(dofusDb, [...new Set(genericIds)])
-  checklists.push({ entry, draft: toChecklistDraft(entry, legacy, alternatives) })
+    .filter((id) => genericSource(id) !== null),
+)
+const alternatives = await genericAlternatives(dofusDb, [...new Set(genericIds)])
+for (const entry of selected) {
+  const legacy = legacies.get(entry.id)
+  checklists.push({
+    entry,
+    draft: legacy ? toChecklistDraft(entry, legacy, alternatives) : null,
+  })
 }
 
 const log = (message: string) => console.log(message)
