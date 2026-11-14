@@ -78,6 +78,42 @@ test.describe('el Silvestre en la vista previa', () => {
     ).toBeVisible()
   })
 
+  test('un objeto de los prerrequisitos se gasta al completar su prerrequisito', async ({
+    page,
+  }) => {
+    await preview(page)
+    await page.getByRole('tab', { name: /Prerrequisitos/ }).click()
+    const own = page.locator('#ck-p-pre [data-own$="#pre"]')
+    await expect(own).toBeEnabled()
+    await expect(own).not.toBeChecked()
+    await page.getByRole('checkbox', { name: d.prerequisite.text }).check()
+    await expect(own).toBeChecked()
+    await expect(own).toBeDisabled()
+    // En Objetos, lo que solo piden los prerrequisitos queda en «Ya utilizados».
+    await page.getByRole('tab', { name: /Objetos/ }).click()
+    await page.getByRole('checkbox', { name: 'Solo pasos pendientes' }).uncheck()
+    await expect(page.locator('[data-ck-group="used"] [data-steps="0"]')).toHaveCount(1)
+  })
+
+  test('las marcas de la checklist antigua: el paso y el objeto con alternativas', async ({
+    page,
+  }) => {
+    await preview(page)
+    const own = step(page, 1).locator('[data-own*="|"]')
+    const key = (await own.getAttribute('data-own'))!.split('#')[0]
+    await page.evaluate((key) => {
+      localStorage.setItem('silvestre:done', JSON.stringify({ 1: true }))
+      localStorage.setItem('silvestre:owned', JSON.stringify({ [`${key}#1`]: true }))
+    }, key)
+    await page.reload()
+    await expect(page.getByRole('checkbox', { name: 'Paso 1 hecho' })).toBeChecked()
+    // El paso hecho gasta lo que pedía; lo conseguido se trajo a su stepId.
+    const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('ta-web:progress')!))
+    expect(Object.keys(stored.owned)).toHaveLength(1)
+    expect(Object.keys(stored.owned)[0].startsWith(`${key}#`)).toBe(true)
+    expect(stored.migrated).toHaveProperty('silvestre')
+  })
+
   for (const mode of MODES) {
     test(`pasa axe (WCAG 2.2 AA) en Arcano ${mode}`, async ({ page, context, baseURL }) => {
       await context.addCookies([{ name: 'ta-mode', value: mode, url: baseURL! }])

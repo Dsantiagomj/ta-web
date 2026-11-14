@@ -14,7 +14,7 @@
 import type { ChecklistIslandData } from '../page'
 import { checklistModel, finishedEntry, isSelf, markSteps, type ChecklistModel } from './engine'
 import { legacySource, SHARED_KEY } from './legacy-keys'
-import { ownedParts, type Progress, type QuestEntry } from './store'
+import { ownedParts, PREREQUISITE_PART, type Progress, type QuestEntry } from './store'
 
 type Flags = Record<string, unknown>
 type Moves = Record<string, [string, number[]]>
@@ -168,15 +168,14 @@ function addObjectives(
   foreign = false,
 ) {
   for (const [id, k] of Object.entries(questObj)) {
+    // Las filas genéricas antiguas («clase», «alt:…») no son una misión de DofusDB.
+    if (!Number.isInteger(Number(id))) continue
     const total = m.objectives[Number(id)]
     if (k <= 0 || (foreign && !total)) continue
     const o = total && k >= total ? 'done' : k
     addQuest(p, m, id, { o, by, at: now }, foreign)
   }
 }
-
-/** Lo conseguido con claves de cada guía (con «@» o «|»): en ta-web no hay a qué llevarlas. */
-const simpleKey = (key: string) => !/[@|]/.test(ownedParts(key)[0])
 
 function migrateOwn(p: Progress, m: ChecklistModel, input: LegacyInput, prefix: string) {
   const { read, data, now } = input
@@ -238,13 +237,20 @@ function migrateOwn(p: Progress, m: ChecklistModel, input: LegacyInput, prefix: 
   if (read(key('ownedModel')) !== OWNED_MODEL) {
     owned = migrateOwned(owned, (legacy.ownedMoves ?? {}) as Moves)
   }
+  // Las claves son las de la checklist antigua, también las de alternativas («7045|7047») y
+  // apartados («…@mision opcional»): las filas de ta-web llevan la misma. La parte de un paso
+  // pasa a su stepId, y la de los prerrequisitos (el paso 0) a «#pre».
   for (const [name, on] of Object.entries(owned)) {
-    if (on !== true || !simpleKey(name)) continue
+    if (on !== true) continue
     const [item, n] = ownedParts(name)
-    const index = n === undefined ? undefined : indexOf.get(Number(n))
-    if (n !== undefined && index === undefined) continue
-    const ownedKey = index === undefined ? item : `${item}#${steps[index][0]}`
-    p.owned[ownedKey] ??= now
+    const part =
+      n === undefined
+        ? null
+        : n === '0'
+          ? PREREQUISITE_PART
+          : (steps[indexOf.get(Number(n)) ?? -1]?.[0] ?? undefined)
+    if (part === undefined) continue
+    p.owned[part === null ? item : `${item}#${part}`] ??= now
   }
 }
 

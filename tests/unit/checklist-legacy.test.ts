@@ -16,6 +16,7 @@ import { pendingLegacy } from '@/lib/checklists/progress/legacy-keys'
 import { emptyProgress, type Progress } from '@/lib/checklists/progress/store'
 
 import { islandData, nebulosoDraft, stepId } from './helpers/nebuloso'
+import { silvestre, silvestreIsland } from './helpers/silvestre'
 
 // La migración del progreso de silvestre-checklist: una vez por checklist antigua, sin borrar
 // sus claves y sumando a lo que ya hay. Las partidas de tests/fixtures/legacy-checklist/
@@ -284,10 +285,61 @@ describe('revisión del PR 5: migración', () => {
     expect(p.owned).toEqual({ '15533': NOW })
   })
 
-  it('lo conseguido con claves compuestas (@ o |) no se trae', () => {
+  it('lo conseguido con claves compuestas (@ o |) se trae: las filas de ta-web llevan la misma', () => {
     const p = run(data, {
       'nebuloso:owned': JSON.stringify({ '8918@orden': true, [`13423|6812#3`]: true, '15': true }),
     })
-    expect(p.owned).toEqual({ '15': NOW })
+    expect(p.owned).toEqual({ '8918@orden': NOW, [`13423|6812#${stepId(3)}`]: NOW, '15': NOW })
+  })
+})
+
+describe('la migración del Silvestre', () => {
+  let silvestreData: ChecklistIslandData
+  beforeAll(async () => {
+    silvestreData = { ...silvestreIsland(await silvestre()), checklistId: 2 }
+  })
+  const stepOf = (n: number) => `paso-${n}`
+  const migrateSilvestre = (keys: Record<string, string>) =>
+    migrateLegacy(emptyProgress(), {
+      keys: Object.keys(keys),
+      read: (key) => keys[key] ?? null,
+      data: silvestreData,
+      now: NOW,
+    })
+
+  it('los pasos, los prerrequisitos y los objetos con alternativas, apartado o de los prerrequisitos', () => {
+    const p = migrateSilvestre(storageFixture('silvestre-current'))
+    const m = checklistModel(silvestreData)
+    for (const n of [1, 2, 40, 93]) expect(stepDone(p, m, n - 1)).toBe(true)
+    expect(p.prereqs).toEqual({ '2:l11': NOW, '2:h1': NOW })
+    expect(p.owned).toEqual({
+      [`7045|7047#${stepOf(40)}`]: NOW,
+      [`17994@mision opcional#${stepOf(7)}`]: NOW,
+      '421#pre': NOW,
+      '9687': NOW,
+      '8918@opcional altos vuelos': NOW,
+    })
+    expect(p.migrated).toEqual({ silvestre: NOW })
+  })
+
+  it('las misiones genéricas (la de clase, la de alineamiento) no son de DofusDB: no se traen', () => {
+    const p = migrateSilvestre(storageFixture('silvestre-current'))
+    expect(Object.keys(p.quests).every((id) => Number.isInteger(Number(id)))).toBe(true)
+    expect(p.quests[1939]).toMatchObject({ o: 2 })
+  })
+
+  it('una partida de la guía 3: pasos juntados y partidos, el clásico v3 y las claves de objetos de antes', () => {
+    const p = migrateSilvestre(storageFixture('silvestre-old'))
+    const m = checklistModel(silvestreData)
+    const done = m.steps.flatMap((_, index) => (stepDone(p, m, index) ? [index + 1] : []))
+    // El 41 de ahora junta el 41 y el 90; el 75 de antes es del 74 al 77 de ahora; el 69 y el 70
+    // de antes son el 69 de ahora, al que le falta el 70; el clásico v3 trae del 1 al 3.
+    expect(done).toEqual([1, 2, 3, 41, 74, 75, 76, 77])
+    // «519@orden…» pasó a ser el 519 de los pasos 78 y 80; la «Esencia de cil», la 14693.
+    expect(p.owned).toEqual({
+      [`519#${stepOf(78)}`]: NOW,
+      [`519#${stepOf(80)}`]: NOW,
+      [`14693|28488#${stepOf(60)}`]: NOW,
+    })
   })
 })

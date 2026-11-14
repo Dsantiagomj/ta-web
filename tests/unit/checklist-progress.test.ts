@@ -63,6 +63,7 @@ const data: ChecklistIslandData = {
     ],
   ],
   closes: [['c', ['b']]],
+  optionalDoneBy: [],
   legacy: { prefix: 'nebuloso:', guideVersion: 1 },
   weights: [
     [150, [50, 100, 0]],
@@ -445,12 +446,13 @@ describe('revisión del PR 5: paradas y madres al final de la misión', () => {
 
 describe('revisión del PR 5: un paso que para y se resuelve en sí mismo', () => {
   // Como el 9 del Nebuloso: para en su misión y su verde cierra el 8 y la termina. Nadie lo
-  // cierra, así que la termina él (openOf de silvestre-checklist).
+  // cierra, así que la termina él (openOf de silvestre-checklist): la página ya no le manda la
+  // parada (open-stops.ts).
   const nine = checklistModel({
     ...data,
     steps: [
       ['ocho', 8, [[60, 'mandatory', 1]]],
-      ['nueve', 9, [[61, 'mandatory', 2]]],
+      ['nueve', 9, [[61, 'mandatory']]],
     ],
     weights: [
       [100, [100]],
@@ -519,5 +521,70 @@ describe('revisión de #119: las partes de una clave de lo conseguido', () => {
     expect(ownedParts('7045|7047#paso-1')).toEqual(['7045|7047', 'paso-1'])
     expect(ownedParts('17994@orden #2#paso-3')).toEqual(['17994@orden #2', 'paso-3'])
     expect(ownedParts('9687')).toEqual(['9687', undefined])
+  })
+})
+
+// Lo que trae el Silvestre. a: la 40 para en el objetivo 1 y la termina un paso posterior (c),
+// la 41 para en el 0 y la 42 es opcional (la termina d); b cierra a; c lleva la 40; d termina
+// la opcional 42 sin llevarla.
+describe('el progreso del Silvestre', () => {
+  const silvestre = checklistModel({
+    ...data,
+    steps: [
+      [
+        'a',
+        1,
+        [
+          [40, 'mandatory', 1, 1],
+          [41, 'mandatory', 0],
+          [42, 'optional'],
+        ],
+      ],
+      ['b', 2, []],
+      ['c', 3, [[40, 'mandatory']]],
+      ['d', 4, []],
+    ],
+    closes: [['b', ['a']]],
+    optionalDoneBy: [['d', [42]]],
+    weights: [
+      [300, [100, 200, 0]],
+      [1, []],
+      [100, [100]],
+      [1, []],
+    ],
+    objectives: { 40: 3, 41: 2, 42: 1 },
+    prereqs: {},
+    parents: {},
+  })
+  const index = (id: string) => silvestre.index.get(id)!
+
+  it('el paso que cierra termina lo que el otro dejó a medias, pero no la que termina uno posterior', () => {
+    let p = setStep(emptyProgress(), silvestre, index('a'), true, 1)
+    expect(p.quests[40]).toMatchObject({ o: 1 })
+    expect(p.quests[41]).toMatchObject({ o: 0 })
+    p = setStep(p, silvestre, index('b'), true, 2)
+    expect(questFinished(p, silvestre, 41)).toBe(true)
+    expect(p.quests[40]).toMatchObject({ o: 1 })
+    expect(questFinished(p, silvestre, 40)).toBe(false)
+    p = setStep(p, silvestre, index('c'), true, 3)
+    expect(questFinished(p, silvestre, 40)).toBe(true)
+  })
+
+  it('al cerrar, el paso cerrado queda hecho si la de un paso posterior ya llegó a su parada', () => {
+    const reached = { ...emptyProgress(), quests: { 40: { o: 1, at: 1 } } }
+    const p = setStep(reached, silvestre, index('b'), true, 2)
+    expect(stepDone(p, silvestre, index('a'))).toBe(true)
+    // Sin llegar a ella, el cerrado sigue pendiente.
+    const q = setStep(emptyProgress(), silvestre, index('b'), true, 2)
+    expect(stepDone(q, silvestre, index('a'))).toBe(false)
+  })
+
+  it('la opcional la termina su paso, no el suyo; desmarcarlo la deja como estaba', () => {
+    let p = setStep(emptyProgress(), silvestre, index('a'), true, 1)
+    expect(questState(p, silvestre, index('a'), 42)).toEqual({ done: false })
+    p = setStep(p, silvestre, index('d'), true, 2)
+    expect(questState(p, silvestre, index('a'), 42)).toEqual({ done: true, lock: { step: 4 } })
+    p = setStep(p, silvestre, index('d'), false, 3)
+    expect(questState(p, silvestre, index('a'), 42)).toEqual({ done: false })
   })
 })

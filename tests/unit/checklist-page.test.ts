@@ -798,6 +798,31 @@ describe('checklistView: el resto del paso', () => {
     ])
   })
 
+  it('en Objetos, lo de los prerrequisitos va como el paso 0, con el prerrequisito que lo gasta', () => {
+    const view = checklistView(
+      data(
+        [
+          step('a', {
+            needs: [{ item: item(10, 'Trigo'), quantity: 2, category: 'resources' }],
+          }),
+        ],
+        {
+          prerequisites: {
+            groups: [],
+            needs: [
+              { item: item(10, 'Trigo'), quantity: 50, category: 'resources', prerequisite: 'l11' },
+            ],
+          },
+        } as unknown as Partial<Checklist>,
+      ),
+    )
+    expect(view.totals[0].rows).toEqual([
+      expect.objectContaining({ key: '5010', quantity: 52, steps: [0, 1], prerequisite: 'l11' }),
+    ])
+    // Sin progreso, «Tus próximos pasos» empieza por los prerrequisitos.
+    expect(view.soonSteps).toEqual([0, 1])
+  })
+
   it('un logro «hasta la misión N» dice hasta cuál', () => {
     const [view] = checklistView(
       data([
@@ -890,6 +915,7 @@ describe('checklistView: lo que recibe la isla', () => {
         ['b', ['a']],
         ['c', []],
       ],
+      optionalDoneBy: [],
       legacy: {
         prefix: 'nebuloso:',
         classicKeys: { v4: 'dofus_nebuloso_clean_v1' },
@@ -909,6 +935,42 @@ describe('checklistView: lo que recibe la isla', () => {
       legacyIds: { nebuloso: 7 },
     })
     expect(JSON.stringify(island)).not.toContain('Sangre fría')
+  })
+
+  it('solo lleva lo que cada paso deja a medias: la de un paso posterior, con su marca', () => {
+    const { island } = checklistView(
+      data([
+        step('a', {
+          segments: [
+            {
+              kind: 'stop',
+              text: 'Para.',
+              quest: 5,
+              stopObjective: 0,
+              more: [{ quest: 6, stopObjective: 2, later: true }],
+            },
+            { kind: 'resolve', text: 'Se resuelve.', closes: [] },
+          ],
+          quests: [
+            { quest: quest(5, 'Pesca'), kind: 'mandatory' },
+            { quest: quest(6, 'Bendición'), kind: 'mandatory' },
+            { quest: quest(7, 'Arma letal'), kind: 'optional', optionalDoneBy: 'b' },
+          ],
+        }),
+        step('b', { closes: ['a'] }),
+      ]),
+    )
+    // Se resuelve en sí mismo, pero lo cierra el b: sus paradas siguen abiertas.
+    expect(island.steps[0][2]).toEqual([
+      [1005, 'mandatory', 0],
+      [1006, 'mandatory', 2, 1],
+      [1007, 'optional'],
+    ])
+    expect(island.closes).toEqual([
+      ['a', []],
+      ['b', ['a']],
+    ])
+    expect(island.optionalDoneBy).toEqual([['b', [1007]]])
   })
 
   it('sin nivel de Torre, el de DofusDB', () => {
@@ -1118,5 +1180,15 @@ describe('revisión de #119', () => {
       prerequisite: 'l11',
       prerequisiteText: 'Campesino nivel 100',
     })
+  })
+})
+
+describe('dónde se pide un objeto de Objetos', () => {
+  it('sus pasos y, con el 0, los prerrequisitos', async () => {
+    const { checklistPageStrings: s } = await import('@/lib/checklists/strings')
+    expect(s.totalsSteps([3])).toBe('Paso 3')
+    expect(s.totalsSteps([3, 5, 8])).toBe('Pasos 3, 5 y 8')
+    expect(s.totalsSteps([0])).toBe('Prerrequisitos')
+    expect(s.totalsSteps([0, 4])).toBe('Prerrequisitos y paso 4')
   })
 })
