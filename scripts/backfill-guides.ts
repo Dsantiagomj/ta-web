@@ -42,11 +42,15 @@ try {
   const fights = await backfillFightLists(payload, { apply, log })
   const seconds = ((Date.now() - started) / 1000).toFixed(1)
   const [restored, inserted] = apply ? ['restaurados', 'añadidos'] : ['por restaurar', 'por añadir']
+  const { paragraphs } = closings
+  const notFound = Object.entries(paragraphs.notFound)
+    .map(([reason, count]) => `${count} ${reason}`)
+    .join(', ')
   console.log(
-    `Cierres: ${closings.guides} guías leídas; ${closings.restored} párrafos ${restored} y ` +
-      `${closings.inserted} ${inserted}, ${closings.present} ya con la frase, ` +
-      `${closings.noClosing} sin frase de cierre en su página, ${closings.noSource} sin página ` +
-      `guardada y ${closings.notFound} sin el párrafo recortado.`,
+    `Cierres: ${closings.guides} guías leídas y ${closings.changed} ${apply ? 'cambiadas' : 'por cambiar'} ` +
+      `(${closings.noClosing} sin frase de cierre en su página, ${closings.noSource} sin página ` +
+      `guardada). Párrafos: ${paragraphs.restored} ${restored}, ${paragraphs.inserted} ${inserted}, ` +
+      `${paragraphs.present} ya enteros${notFound ? `, sin poder devolver: ${notFound}` : ''}.`,
   )
   const names = Object.entries(fights.unmatched).sort((a, b) => b[1] - a[1])
   for (const [name, count] of names) console.log(`Sin casar: ${name} (${count})`)

@@ -240,6 +240,17 @@ export async function loadDofusGuides(
     overrideAccess: true,
     select: { slug: true, name: true, quests: true },
   })
+  // Los nombres de las misiones de DofusDB: una fila que se llama así es una misión, aunque
+  // aún no tenga guía.
+  const quests = await payload.find({
+    collection: 'quests',
+    limit: 0,
+    depth: 0,
+    pagination: false,
+    overrideAccess: true,
+    select: { name: true },
+  })
+  const questNames = new Set(quests.docs.map((doc) => fold(doc.name)))
   const pageBySlug = new Map(pages.docs.map((doc) => [doc.slug, doc]))
   const pageByName = new Map(pages.docs.map((doc) => [fold(doc.name), doc]))
   const classify = needClassifiers(
@@ -260,41 +271,73 @@ export async function loadDofusGuides(
       return null
     }
 
-    const findGuide = (ref: QuestRef): number | null => {
-      const id = guideOf(ref)
-      if (!id) unmatched('misión', ref.name)
-      return id
-    }
-
-    const questRows = (refs: QuestRef[]) =>
-      refs.flatMap((ref) => {
-        const guide = findGuide(ref)
-        return guide ? [{ guide, note: ref.note ?? null }] : []
+    /**
+     * Cada fila de una lista de misiones, mirada una vez: una misión con guía, una misión sin
+     * guía (su nombre es una misión de DofusDB o de la página de logro: se avisa y no se
+     * publica) o algo que no es una misión (una explicación, un enlace a un metalogro): una
+     * nota, con sus enlaces.
+     */
+    type Resolved =
+      | { kind: 'guide'; ref: QuestRef; guide: number }
+      | { kind: 'quest'; ref: QuestRef }
+      | { kind: 'note'; ref: QuestRef }
+    const resolve = (refs: QuestRef[], known: Set<string> = new Set()): Resolved[] =>
+      refs.map((ref) => {
+        const guide = guideOf(ref)
+        if (guide) return { kind: 'guide', ref, guide }
+        const names = (ref.alternatives ?? [ref]).map((candidate) => fold(candidate.name))
+        const isQuest = names.some((name) => questNames.has(name) || known.has(name))
+        return { kind: isQuest ? 'quest' : 'note', ref }
       })
 
-    // Lo que Torre escribió en una lista de misiones y no es una misión con guía (una
-    // explicación, un enlace a un metalogro) no se pierde: va como nota detrás del bloque,
-    // con sus enlaces.
-    const leftoverNote = (refs: QuestRef[]): Record<string, unknown>[] => {
+    const questNote = (refs: QuestRef[]): Record<string, unknown> => {
       for (const ref of refs) report.leftovers.push({ slug: entry.slug, text: ref.name })
-      return refs.length === 0
-        ? []
-        : [
-            {
-              blockType: 'dofusNote',
-              text: lexical(
-                refs
-                  .map((ref) => `<p>${segmentsHtml(ref.segs ?? [{ t: 'text', v: ref.name }])}</p>`)
-                  .join(''),
-              ),
-            },
-          ]
+      const html = refs
+        .map((ref) => `<p>${segmentsHtml(ref.segs ?? [{ t: 'text', v: ref.name }])}</p>`)
+        .join('')
+      return { blockType: 'dofusNote', text: lexical(html) }
     }
-    const withLeftovers = (block: Record<string, unknown>, refs: QuestRef[]) => [
-      block,
-      ...leftoverNote(refs.filter((ref) => !guideOf(ref))),
-    ]
 
+    /**
+     * Una lista de misiones en bloques, en el orden de Torre: las misiones con guía en
+     * dofusQuests (el título, en el primero) y lo que no es una misión como nota en su sitio
+     * («Hazla antes de la siguiente:» entre dos misiones parte la lista). Una misión sin guía
+     * se avisa y no sale.
+     */
+    const questBlocks = (title: string | null, refs: QuestRef[]): Record<string, unknown>[] => {
+      const blocks: Record<string, unknown>[] = []
+      let quests: { guide: number; note: string | null }[] = []
+      let notes: QuestRef[] = []
+      let titled = false
+      const flushQuests = () => {
+        if (!quests.length) return
+        blocks.push({ blockType: 'dofusQuests', title: titled ? null : title, quests })
+        titled = true
+        quests = []
+      }
+      const flushNotes = () => {
+        if (notes.length) blocks.push(questNote(notes))
+        notes = []
+      }
+      for (const item of resolve(refs)) {
+        if (item.kind === 'note') {
+          flushQuests()
+          notes.push(item.ref)
+          continue
+        }
+        if (item.kind === 'quest') {
+          unmatched('misión', item.ref.name)
+          continue
+        }
+        flushNotes()
+        quests.push({ guide: item.guide, note: item.ref.note ?? null })
+      }
+      flushQuests()
+      flushNotes()
+      return blocks
+    }
+
+    /** La página de logro de un logro de Torre, o null; avisa si sus misiones no coinciden. */
     const findAchievement = (part: Extract<Part, { type: 'achievement' }>) => {
       const page =
         (part.slug && pageBySlug.get(part.slug)) || pageByName.get(fold(part.name)) || null
@@ -312,51 +355,48 @@ export async function loadDofusGuides(
           page: pageQuests,
         })
       }
-      return page.id
+      return page
     }
 
     const toBlocks = (part: Part): Record<string, unknown>[] => {
       switch (part.type) {
         case 'achievement': {
-          const achievement = findAchievement(part)
-          if (achievement) {
-            // Las misiones salen de la página de logro; lo que no es una de ellas ni una guía
-            // (Zanahowia: cómo hacer el logro) va como nota detrás.
-            const page = pages.docs.find((doc) => doc.id === achievement)
-            const pageQuests = new Set((page?.quests ?? []).map((row) => fold(row.name ?? '')))
-            const extra = part.quests.filter(
-              (ref) => !guideOf(ref) && !pageQuests.has(fold(ref.name)),
+          const page = findAchievement(part)
+          if (page) {
+            // Las misiones salen de la página de logro; lo que no es una misión (Zanahowia:
+            // cómo hacer el logro) va como nota detrás.
+            const known = new Set((page.quests ?? []).map((row) => fold(row.name ?? '')))
+            const notes = resolve(part.quests, known).flatMap((item) =>
+              item.kind === 'note' ? [item.ref] : [],
             )
             return [
-              { blockType: 'dofusAchievement', achievement, note: null },
-              ...leftoverNote(extra),
+              { blockType: 'dofusAchievement', achievement: page.id, note: null },
+              ...(notes.length ? [questNote(notes)] : []),
             ]
           }
           // Sin página de logro, sus misiones no se pierden: van como lista con su nombre.
-          return withLeftovers(
-            { blockType: 'dofusQuests', title: part.name, quests: questRows(part.quests) },
-            part.quests,
-          )
+          return questBlocks(part.name, part.quests)
         }
         case 'metalogro': {
           const achievements = part.achievements.flatMap((inner) =>
             inner.type === 'achievement'
-              ? [findAchievement(inner)].flatMap((id) =>
-                  id ? [{ achievement: id, note: null }] : [],
+              ? [findAchievement(inner)].flatMap((page) =>
+                  page ? [{ achievement: page.id, note: null }] : [],
                 )
               : [],
           )
           return [{ blockType: 'dofusMetalogro', name: part.name, achievements }]
         }
         case 'quests':
-          return withLeftovers(
-            { blockType: 'dofusQuests', title: part.title, quests: questRows(part.quests) },
-            part.quests,
-          )
+          return questBlocks(part.title, part.quests)
         case 'quest': {
-          const guide = findGuide(part.quest)
-          if (guide) return [{ blockType: 'dofusQuest', guide, note: part.quest.note ?? null }]
-          return leftoverNote([part.quest])
+          const [item] = resolve([part.quest])
+          if (item!.kind === 'guide') {
+            return [{ blockType: 'dofusQuest', guide: item!.guide, note: part.quest.note ?? null }]
+          }
+          if (item!.kind === 'note') return [questNote([part.quest])]
+          unmatched('misión', part.quest.name)
+          return []
         }
         case 'note':
           return [{ blockType: 'dofusNote', text: lexical(`<p>${segmentsHtml(part.segs)}</p>`) }]

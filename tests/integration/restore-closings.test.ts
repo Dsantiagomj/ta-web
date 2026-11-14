@@ -110,20 +110,30 @@ beforeEach(async () => {
 describe('restoreClosings', () => {
   it('en seco cuenta lo que haría y no escribe nada', async () => {
     const result = await restoreClosings(payload, { dir, apply: false, slugs: [SLUG] })
-    expect(result).toMatchObject({ guides: 1, restored: 1, published: 0 })
+    // Cuenta guías y párrafos por separado.
+    expect(result).toMatchObject({
+      guides: 1,
+      changed: 1,
+      published: 0,
+      paragraphs: { restored: 1, inserted: 0, present: 0, notFound: {} },
+    })
     expect(outroText(await guide())).not.toContain('Aquí termina la misión')
   })
 
   it('con apply devuelve el párrafo entero, con su enlace, y repetirlo no cambia nada', async () => {
     const result = await restoreClosings(payload, { dir, apply: true, slugs: [SLUG] })
-    expect(result).toMatchObject({ restored: 1, published: 1 })
+    expect(result).toMatchObject({ changed: 1, published: 1, paragraphs: { restored: 1 } })
     const saved = await guide()
     expect(saved._status).toBe('published')
     expect(outroText(saved)).toContain('Aquí termina la misión. Espero haberte ayudado: ')
     expect(outroText(saved)).toContain('"url":"/otra"')
 
     const again = await restoreClosings(payload, { dir, apply: true, slugs: [SLUG] })
-    expect(again).toMatchObject({ restored: 0, present: 1, published: 0 })
+    expect(again).toMatchObject({
+      changed: 0,
+      published: 0,
+      paragraphs: { restored: 0, present: 1 },
+    })
   })
 
   it('una guía sin página guardada se cuenta y no se toca', async () => {
@@ -132,6 +142,6 @@ describe('restoreClosings', () => {
       apply: true,
       slugs: [SLUG],
     })
-    expect(result).toMatchObject({ noSource: 1, restored: 0 })
+    expect(result).toMatchObject({ noSource: 1, changed: 0, paragraphs: { restored: 0 } })
   })
 })

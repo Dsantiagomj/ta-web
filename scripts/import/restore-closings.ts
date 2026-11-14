@@ -19,6 +19,18 @@ type Block = { blockType: string; content?: unknown; [field: string]: unknown }
 
 export type RestoreStatus = 'restored' | 'inserted' | 'present' | 'notFound'
 
+/** Por qué no se pudo devolver un párrafo de cierre. */
+export type NotFoundReason =
+  'sin el párrafo recortado' | 'sin paso detrás del que ponerlo' | 'párrafo vacío'
+
+export interface RestoreResult {
+  status: RestoreStatus
+  reason?: NotFoundReason
+  body: Block[]
+  /** El bloque donde quedó el párrafo, para poner el siguiente cierre detrás. */
+  at?: number
+}
+
 function plain(node: LexicalNode): string {
   if (node.type === 'text') return node.text ?? ''
   return (node.children ?? []).map(plain).join('')
@@ -38,13 +50,16 @@ function rootOf(block: Block): (LexicalNode & { children: LexicalNode[] }) | nul
  * Pone el párrafo de cierre entero (`paragraph`, ya en Lexical) en el final de la guía, a
  * partir del bloque que sigue al último paso (sin pasos, en todo el cuerpo): cambia el
  * párrafo recortado, el que dice lo mismo sin la primera frase, por el entero. Si el párrafo
- * era solo la frase, lo añade como texto propio detrás del último paso. Si el final ya
- * empieza por la frase, o no aparece el párrafo recortado (Torre lo cambió), no toca nada.
+ * era solo la frase, lo añade como texto propio detrás del último paso, o detrás de `after`
+ * (el cierre anterior), para que varios queden en su orden. Ya está si el final tiene ese
+ * párrafo entero: dos cierres que empiezan por la misma frase no se tapan. Si no aparece el
+ * párrafo recortado (Torre lo cambió), no toca nada y dice por qué.
  */
 export function restoreClosing(
   body: Block[],
   closing: { sentence: string; paragraph: LexicalNode },
-): { status: RestoreStatus; body: Block[] } {
+  after?: number,
+): RestoreResult {
   const lastStep = body.map((block) => block.blockType).lastIndexOf('step')
   const sentence = comparable(closing.sentence)
   const full = comparable(plain(closing.paragraph))
@@ -53,21 +68,24 @@ export function restoreClosing(
     .map((block, index) => ({ block, index }))
     .filter(({ block, index }) => index > lastStep && block.blockType === 'richText')
 
-  for (const { block } of texts) {
+  for (const { block, index } of texts) {
     const paragraphs = rootOf(block)?.children ?? []
-    if (paragraphs.some((node) => comparable(plain(node)).startsWith(sentence))) {
-      return { status: 'present', body }
+    if (paragraphs.some((node) => comparable(plain(node)) === full)) {
+      return { status: 'present', body, at: index }
     }
   }
   if (!rest) {
-    if (lastStep === -1) return { status: 'notFound', body }
+    const anchor = after ?? lastStep
+    if (anchor === -1)
+      return { status: 'notFound', reason: 'sin paso detrás del que ponerlo', body }
     const inserted: Block = {
       blockType: 'richText',
       content: { root: { type: 'root', version: 1, children: [closing.paragraph] } },
     }
     return {
       status: 'inserted',
-      body: [...body.slice(0, lastStep + 1), inserted, ...body.slice(lastStep + 1)],
+      body: [...body.slice(0, anchor + 1), inserted, ...body.slice(anchor + 1)],
+      at: anchor + 1,
     }
   }
   for (const { block, index } of texts) {
@@ -79,9 +97,40 @@ export function restoreClosing(
     return {
       status: 'restored',
       body: body.map((candidate, i) => (i === index ? { ...block, content } : candidate)),
+      at: index,
     }
   }
-  return { status: 'notFound', body }
+  return { status: 'notFound', reason: 'sin el párrafo recortado', body }
+}
+
+/**
+ * Todos los cierres de una página, uno tras otro (Torre a veces deja dos): cada uno se busca
+ * por su párrafo entero y los que se añaden van detrás del anterior.
+ */
+export function restoreAll(
+  body: Block[],
+  closings: { sentence: string; paragraph: LexicalNode | undefined }[],
+): {
+  body: Block[]
+  statuses: { status: RestoreStatus; reason?: NotFoundReason }[]
+  changed: boolean
+} {
+  let current = body
+  let after: number | undefined
+  let changed = false
+  const statuses = closings.map(({ sentence, paragraph }) => {
+    if (!paragraph) return { status: 'notFound' as const, reason: 'párrafo vacío' as const }
+    const result = restoreClosing(current, { sentence, paragraph }, after)
+    if (result.at !== undefined) after = result.at
+    if (result.status === 'restored' || result.status === 'inserted') {
+      current = result.body
+      changed = true
+    }
+    return result.reason
+      ? { status: result.status, reason: result.reason }
+      : { status: result.status }
+  })
+  return { body: current, statuses, changed }
 }
 
 export interface RestoreClosingsOptions {
@@ -92,10 +141,22 @@ export interface RestoreClosingsOptions {
   log?: (message: string) => void
 }
 
-export type RestoreClosingsResult = Record<
-  RestoreStatus | 'guides' | 'noSource' | 'noClosing' | 'published' | 'drafts',
-  number
->
+/** Las guías leídas y cambiadas, y los párrafos de cierre por cómo quedaron. */
+export interface RestoreClosingsResult {
+  guides: number
+  noSource: number
+  noClosing: number
+  /** Guías con algún párrafo devuelto (en seco, las que lo tendrían). */
+  changed: number
+  published: number
+  drafts: number
+  paragraphs: {
+    present: number
+    restored: number
+    inserted: number
+    notFound: Partial<Record<NotFoundReason, number>>
+  }
+}
 
 /**
  * Recorre las guías por su última versión y devuelve la frase de cierre a las que su página
@@ -112,12 +173,10 @@ export async function restoreClosings(
     guides: 0,
     noSource: 0,
     noClosing: 0,
-    present: 0,
-    restored: 0,
-    inserted: 0,
-    notFound: 0,
+    changed: 0,
     published: 0,
     drafts: 0,
+    paragraphs: { present: 0, restored: 0, inserted: 0, notFound: {} },
   }
   const ids = await payload.find({
     collection: 'quest-guides',
@@ -156,23 +215,24 @@ export async function restoreClosings(
       overrideAccess: true,
     })
     // Cada párrafo de cierre, uno tras otro: Torre a veces deja dos (Leyenda del otoño).
-    let body = (guide.body ?? []) as Block[]
-    let changed = false
-    closings.forEach((closing, index) => {
-      const paragraph = paragraphs[index]
-      if (!paragraph) {
-        result.notFound += 1
-        return
+    const restored = restoreAll(
+      (guide.body ?? []) as Block[],
+      closings.map((closing, index) => ({
+        sentence: closing.sentence,
+        paragraph: paragraphs[index],
+      })),
+    )
+    for (const { status, reason } of restored.statuses) {
+      if (status !== 'notFound') result.paragraphs[status] += 1
+      else {
+        const counts = result.paragraphs.notFound
+        counts[reason!] = (counts[reason!] ?? 0) + 1
+        log(`Guía ${slug}: párrafo de cierre ${reason}`)
       }
-      const restored = restoreClosing(body, { sentence: closing.sentence, paragraph })
-      result[restored.status] += 1
-      if (restored.status === 'notFound') log(`Guía ${slug}: no aparece el párrafo de cierre`)
-      if (restored.status === 'restored' || restored.status === 'inserted') {
-        body = restored.body
-        changed = true
-      }
-    })
-    if (!changed) continue
+    }
+    if (!restored.changed) continue
+    result.changed += 1
+    const body = restored.body
     if (!options.apply) {
       log(`Guía ${slug}: cierre por restaurar`)
       continue
