@@ -164,6 +164,7 @@ export interface QuestGuide {
    */
   title: string;
   slug: string;
+  body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock | FightBlock | StepBlock)[] | null;
   /**
    * Al elegir la misión, cada campo vacío se rellena con lo que da DofusDB. Cámbialo con libertad: lo que escribas no se sobrescribe.
    */
@@ -197,7 +198,6 @@ export interface QuestGuide {
     startX?: number | null;
     startY?: number | null;
   };
-  body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock | FightBlock | StepBlock)[] | null;
   /**
    * Se rellena solo desde la misión si lo dejas vacío. Puedes cambiarlo cuando quieras.
    */
@@ -500,27 +500,6 @@ export interface Monster {
   createdAt: string;
 }
 /**
- * Las mazmorras de DofusDB y sus jefes. Las eliges en las notas de las guías. De solo lectura: lo pone al día un script.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "dungeons".
- */
-export interface Dungeon {
-  id: number;
-  dofusId: number;
-  name: string;
-  /**
-   * En el orden de DofusDB; la página pinta el primero.
-   */
-  bosses?: (number | Monster)[] | null;
-  /**
-   * La pone el script de refresco.
-   */
-  refreshedAt?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "RichTextBlock".
  */
@@ -624,6 +603,27 @@ export interface StepBlock {
   blockType: 'step';
 }
 /**
+ * Las mazmorras de DofusDB y sus jefes. Las eliges en las notas de las guías. De solo lectura: lo pone al día un script.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "dungeons".
+ */
+export interface Dungeon {
+  id: number;
+  dofusId: number;
+  name: string;
+  /**
+   * En el orden de DofusDB; la página pinta el primero.
+   */
+  bosses?: (number | Monster)[] | null;
+  /**
+   * La pone el script de refresco.
+   */
+  refreshedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Una página por logro: tu entrada, las misiones en orden y lo que necesitas en total.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -653,21 +653,6 @@ export interface AchievementPage {
         id?: string | null;
       }[]
     | null;
-  points?: number | null;
-  /**
-   * Para un personaje de nivel 200, como en tus páginas.
-   */
-  rewards?: {
-    experience?: number | null;
-    kamas?: number | null;
-    items?:
-      | {
-          item: number | Item;
-          quantity: number;
-          id?: string | null;
-        }[]
-      | null;
-  };
   /**
    * Texto antes de las misiones. Opcional. Admite vídeos de YouTube: «+» o «/», Vídeo.
    */
@@ -704,6 +689,21 @@ export interface AchievementPage {
     };
     [k: string]: unknown;
   } | null;
+  points?: number | null;
+  /**
+   * Para un personaje de nivel 200, como en tus páginas.
+   */
+  rewards?: {
+    experience?: number | null;
+    kamas?: number | null;
+    items?:
+      | {
+          item: number | Item;
+          quantity: number;
+          id?: string | null;
+        }[]
+      | null;
+  };
   importSnapshot?:
     | {
         [k: string]: unknown;
@@ -907,68 +907,6 @@ export interface DofusGuide {
    * Su lugar en la lista de guías: el 1 sale primero. Cuando ya tiene un número, solo un administrador puede cambiarlo: mueve la página en las listas y el menú de la web.
    */
   order: number;
-  /**
-   * El nivel del Dofus en DofusDB.
-   */
-  level?: number | null;
-  /**
-   * Los filtros del índice. Vacío si no es primordial ni de evento.
-   */
-  tag?: ('primordial' | 'event') | null;
-  /**
-   * El brillo detrás del huevo, en hexadecimal (#2a5aaa).
-   */
-  color?: string | null;
-  /**
-   * Otros nombres con los que se busca, separados por comas (zanahoria, kaliptus).
-   */
-  aliases?: string | null;
-  prerequisites?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  /**
-   * Lo que pide el Dofus, por grupos. Un objeto enlazado sale con su icono y se copia de un clic.
-   */
-  needs?: {
-    /**
-     * Vacío: «Necesitarás».
-     */
-    title?: string | null;
-    groups?:
-      | {
-          name?: string | null;
-          rows?: (DofusNeedItemBlock | DofusNeedNoteBlock)[] | null;
-          id?: string | null;
-        }[]
-      | null;
-  };
-  rewards?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
   intro?: {
     root: {
       type: string;
@@ -1008,6 +946,59 @@ export interface DofusGuide {
     [k: string]: unknown;
   } | null;
   /**
+   * El nivel del Dofus en DofusDB.
+   */
+  level?: number | null;
+  /**
+   * Los filtros del índice. Vacío si no es primordial ni de evento.
+   */
+  tag?: ('primordial' | 'event') | null;
+  /**
+   * El brillo detrás del huevo, en hexadecimal (#2a5aaa).
+   */
+  color?: string | null;
+  /**
+   * Otros nombres con los que se busca, separados por comas (zanahoria, kaliptus).
+   */
+  aliases?: string | null;
+  prerequisites?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  rewards?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * La checklist de este Dofus, si tiene: sale como tarjeta en la guía.
+   */
+  checklist?: {
+    name?: string | null;
+    url?: string | null;
+  };
+  /**
    * Enlace al vídeo de la guía en YouTube (youtube.com o youtu.be).
    */
   video?: string | null;
@@ -1016,11 +1007,20 @@ export interface DofusGuide {
    */
   videoPoster?: (number | null) | Media;
   /**
-   * La checklist de este Dofus, si tiene: sale como tarjeta en la guía.
+   * Lo que pide el Dofus, por grupos. Un objeto enlazado sale con su icono y se copia de un clic.
    */
-  checklist?: {
-    name?: string | null;
-    url?: string | null;
+  needs?: {
+    /**
+     * Vacío: «Necesitarás».
+     */
+    title?: string | null;
+    groups?:
+      | {
+          name?: string | null;
+          rows?: (DofusNeedItemBlock | DofusNeedNoteBlock)[] | null;
+          id?: string | null;
+        }[]
+      | null;
   };
   importSnapshot?:
     | {
@@ -1038,49 +1038,6 @@ export interface DofusGuide {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "DofusNeedItemBlock".
- */
-export interface DofusNeedItemBlock {
-  item?: (number | null) | Item;
-  quantity: number;
-  /**
-   * El nombre si el objeto no está enlazado. Enlazado, sale el nombre del objeto.
-   */
-  name?: string | null;
-  /**
-   * Una nota corta junto al nombre, como «(solo empezarla)».
-   */
-  note?: string | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'needItem';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "DofusNeedNoteBlock".
- */
-export interface DofusNeedNoteBlock {
-  text: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'needNote';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1173,6 +1130,49 @@ export interface DofusNoteBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'dofusNote';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DofusNeedItemBlock".
+ */
+export interface DofusNeedItemBlock {
+  item?: (number | null) | Item;
+  quantity: number;
+  /**
+   * El nombre si el objeto no está enlazado. Enlazado, sale el nombre del objeto.
+   */
+  name?: string | null;
+  /**
+   * Una nota corta junto al nombre, como «(solo empezarla)».
+   */
+  note?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'needItem';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DofusNeedNoteBlock".
+ */
+export interface DofusNeedNoteBlock {
+  text: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'needNote';
 }
 /**
  * Las checklists paso a paso de cada Dofus. El progreso de cada visitante va por paso.
@@ -1767,6 +1767,16 @@ export interface QuestGuidesSelect<T extends boolean = true> {
   quest?: T;
   title?: T;
   slug?: T;
+  body?:
+    | T
+    | {
+        richText?: T | RichTextBlockSelect<T>;
+        image?: T | ImageBlockSelect<T>;
+        video?: T | VideoBlockSelect<T>;
+        callout?: T | CalloutBlockSelect<T>;
+        fight?: T | FightBlockSelect<T>;
+        step?: T | StepBlockSelect<T>;
+      };
   summary?:
     | T
     | {
@@ -1794,16 +1804,6 @@ export interface QuestGuidesSelect<T extends boolean = true> {
         startNpc?: T;
         startX?: T;
         startY?: T;
-      };
-  body?:
-    | T
-    | {
-        richText?: T | RichTextBlockSelect<T>;
-        image?: T | ImageBlockSelect<T>;
-        video?: T | VideoBlockSelect<T>;
-        callout?: T | CalloutBlockSelect<T>;
-        fight?: T | FightBlockSelect<T>;
-        step?: T | StepBlockSelect<T>;
       };
   seo?:
     | T
@@ -1907,6 +1907,8 @@ export interface AchievementPagesSelect<T extends boolean = true> {
         quests?: T;
         id?: T;
       };
+  intro?: T;
+  outro?: T;
   points?: T;
   rewards?:
     | T
@@ -1921,8 +1923,6 @@ export interface AchievementPagesSelect<T extends boolean = true> {
               id?: T;
             };
       };
-  intro?: T;
-  outro?: T;
   importSnapshot?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1956,29 +1956,6 @@ export interface DofusGuidesSelect<T extends boolean = true> {
   slug?: T;
   state?: T;
   order?: T;
-  level?: T;
-  tag?: T;
-  color?: T;
-  aliases?: T;
-  prerequisites?: T;
-  needs?:
-    | T
-    | {
-        title?: T;
-        groups?:
-          | T
-          | {
-              name?: T;
-              rows?:
-                | T
-                | {
-                    needItem?: T | DofusNeedItemBlockSelect<T>;
-                    needNote?: T | DofusNeedNoteBlockSelect<T>;
-                  };
-              id?: T;
-            };
-      };
-  rewards?: T;
   intro?: T;
   parts?:
     | T
@@ -2000,40 +1977,42 @@ export interface DofusGuidesSelect<T extends boolean = true> {
         step?: T | StepBlockSelect<T>;
       };
   outro?: T;
-  video?: T;
-  videoPoster?: T;
+  level?: T;
+  tag?: T;
+  color?: T;
+  aliases?: T;
+  prerequisites?: T;
+  rewards?: T;
   checklist?:
     | T
     | {
         name?: T;
         url?: T;
       };
+  video?: T;
+  videoPoster?: T;
+  needs?:
+    | T
+    | {
+        title?: T;
+        groups?:
+          | T
+          | {
+              name?: T;
+              rows?:
+                | T
+                | {
+                    needItem?: T | DofusNeedItemBlockSelect<T>;
+                    needNote?: T | DofusNeedNoteBlockSelect<T>;
+                  };
+              id?: T;
+            };
+      };
   importSnapshot?: T;
   originalUrl?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "DofusNeedItemBlock_select".
- */
-export interface DofusNeedItemBlockSelect<T extends boolean = true> {
-  item?: T;
-  quantity?: T;
-  name?: T;
-  note?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "DofusNeedNoteBlock_select".
- */
-export interface DofusNeedNoteBlockSelect<T extends boolean = true> {
-  text?: T;
-  id?: T;
-  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2092,6 +2071,27 @@ export interface DofusQuestBlockSelect<T extends boolean = true> {
  * via the `definition` "DofusNoteBlock_select".
  */
 export interface DofusNoteBlockSelect<T extends boolean = true> {
+  text?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DofusNeedItemBlock_select".
+ */
+export interface DofusNeedItemBlockSelect<T extends boolean = true> {
+  item?: T;
+  quantity?: T;
+  name?: T;
+  note?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DofusNeedNoteBlock_select".
+ */
+export interface DofusNeedNoteBlockSelect<T extends boolean = true> {
   text?: T;
   id?: T;
   blockName?: T;

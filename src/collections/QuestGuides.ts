@@ -287,33 +287,54 @@ export const QuestGuides: CollectionConfig = {
       validate: validateGuideSlug,
       admin: slugAdmin(guideStrings.admin.slugDescription),
     },
+    // Pestañas sin nombre: solo ordenan el formulario; los datos se guardan igual (A-22).
     {
-      name: 'summary',
-      label: 'Resumen',
-      type: 'group',
-      admin: { description: guideStrings.admin.summaryDescription },
-      fields: summaryFields,
-    },
-    {
-      name: 'body',
-      label: 'Contenido',
-      labels: { singular: 'Bloque', plural: 'Bloques' },
-      type: 'blocks',
-      blocks: [RichTextBlock, ImageBlock, VideoBlock, CalloutBlock, FightBlock, StepBlock],
-    },
-    {
-      name: 'seo',
-      label: 'SEO',
-      type: 'group',
-      admin: { description: guideStrings.admin.seoDescription },
-      fields: [
-        { name: 'metaTitle', label: 'Título SEO', type: 'text', localized: true },
+      type: 'tabs',
+      tabs: [
         {
-          name: 'metaDescription',
-          label: 'Descripción SEO',
-          type: 'textarea',
-          localized: true,
-          maxLength: 160,
+          label: guideStrings.admin.tabs.content,
+          fields: [
+            {
+              name: 'body',
+              label: 'Contenido',
+              labels: { singular: 'Bloque', plural: 'Bloques' },
+              type: 'blocks',
+              blocks: [RichTextBlock, ImageBlock, VideoBlock, CalloutBlock, FightBlock, StepBlock],
+            },
+          ],
+        },
+        {
+          label: guideStrings.admin.tabs.summary,
+          fields: [
+            {
+              name: 'summary',
+              label: 'Resumen',
+              type: 'group',
+              admin: { description: guideStrings.admin.summaryDescription },
+              fields: summaryFields,
+            },
+          ],
+        },
+        {
+          label: guideStrings.admin.tabs.seo,
+          fields: [
+            {
+              name: 'seo',
+              label: 'SEO',
+              type: 'group',
+              admin: { description: guideStrings.admin.seoDescription },
+              fields: [
+                { name: 'metaTitle', label: 'Título SEO', type: 'text', localized: true },
+                {
+                  name: 'metaDescription',
+                  label: 'Descripción SEO',
+                  type: 'textarea',
+                  localized: true,
+                  maxLength: 160,
+                },
+              ],
+            },
+          ],
         },
       ],
     },

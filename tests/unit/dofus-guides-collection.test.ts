@@ -2,6 +2,8 @@ import type { Block, BlocksField, Field, GroupField, SelectField } from 'payload
 import type { Access as AccessFn } from 'payload'
 import { describe, expect, it } from 'vitest'
 
+import { layoutFields } from './helpers/fields'
+
 import { DofusGuides, validateColor } from '@/collections/DofusGuides'
 import { isPanelUser, readPublishedOrAll } from '@/collections/editorial-access'
 import { validateSlug } from '@/collections/QuestGuides'
@@ -9,8 +11,7 @@ import { ROOT_SLUG_COLLECTIONS } from '@/collections/root-slug'
 import { isGuideSlug } from '@/lib/guides/slug'
 
 /** Los campos con nombre, también los de una fila (row), que solo los coloca en el panel. */
-const named = (fields: Field[]): Field[] =>
-  fields.flatMap((candidate) => (candidate.type === 'row' ? named(candidate.fields) : [candidate]))
+const named = layoutFields
 
 function field(fields: Field[], name: string): Field {
   const found = named(fields).find((candidate) => 'name' in candidate && candidate.name === name)

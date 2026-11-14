@@ -1,6 +1,8 @@
 import type { AccessArgs, ArrayField, BlocksField, Field, GroupField } from 'payload'
 import { describe, expect, it } from 'vitest'
 
+import { layoutFields } from './helpers/fields'
+
 import { CalloutBlock } from '@/blocks/CalloutBlock'
 import { FightBlock } from '@/blocks/FightBlock'
 import { ImageBlock } from '@/blocks/ImageBlock'
@@ -23,7 +25,9 @@ import { guideStrings } from '@/lib/guides/strings'
 import { panelStrings } from '@/lib/admin/strings'
 
 function field(name: string, fields: Field[] = QuestGuides.fields): Field {
-  const found = fields.find((candidate) => 'name' in candidate && candidate.name === name)
+  const found = layoutFields(fields).find(
+    (candidate) => 'name' in candidate && candidate.name === name,
+  )
   if (!found) throw new Error(`Falta el campo ${name}`)
   return found
 }

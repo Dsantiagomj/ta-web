@@ -312,6 +312,8 @@ export const panelStrings = {
     recentEmpty: 'Nadie ha cambiado nada todavía.',
     count: (total: number) => `(${total})`,
   },
+  /** El selector de color junto a un hexadecimal (A-22, ColorField). */
+  color: { pick: (label: string) => `Elegir ${label.toLowerCase()} con el selector` },
   /** Los tamaños de la vista previa en vivo (A-20). */
   livePreview: { mobile: 'Móvil', tablet: 'Tableta', desktop: 'Escritorio' },
   originalUrl: {

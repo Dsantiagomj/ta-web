@@ -37,6 +37,8 @@ export const dofusGuideStrings = {
     indexDescription:
       'El índice /guias-dofus: las tarjetas salen de las guías de Dofus, en su orden.',
     indexIntroDescription: 'El texto bajo el título del índice.',
+    /** Las pestañas del formulario (A-22). */
+    tabs: { content: 'Contenido', facts: 'Ficha', needs: 'Necesitarás' },
     checklistDescription: 'La checklist de este Dofus, si tiene: sale como tarjeta en la guía.',
   },
 } as const

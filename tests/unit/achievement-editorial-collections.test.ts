@@ -1,6 +1,8 @@
 import type { Field, SelectField } from 'payload'
 import { describe, expect, it } from 'vitest'
 
+import { layoutFields } from './helpers/fields'
+
 import { ProseVideoBlock } from '@/blocks/ProseVideoBlock'
 import { validateVideoUrl } from '@/blocks/VideoBlock'
 import { fillAchievementGroup, fillAchievementPage } from '@/collections/achievement-autofill'
@@ -11,7 +13,9 @@ import { validateSlug } from '@/collections/QuestGuides'
 import { panelStrings } from '@/lib/admin/strings'
 
 function field(fields: Field[], name: string): Field {
-  const found = fields.find((candidate) => 'name' in candidate && candidate.name === name)
+  const found = layoutFields(fields).find(
+    (candidate) => 'name' in candidate && candidate.name === name,
+  )
   if (!found) throw new Error(`Falta el campo ${name}`)
   return found
 }

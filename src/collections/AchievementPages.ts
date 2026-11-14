@@ -1,3 +1,4 @@
+import { achievementStrings } from '../lib/achievements/strings'
 import type { CollectionConfig } from 'payload'
 
 import { fillAchievementPage } from './achievement-autofill'
@@ -93,99 +94,127 @@ export const AchievementPages: CollectionConfig = {
       ),
     },
     stateField,
+    // Pestañas sin nombre: solo ordenan el formulario; los datos se guardan igual (A-22).
     {
-      name: 'group',
-      label: 'Metalogro',
-      type: 'relationship',
-      relationTo: 'achievement-groups',
-      admin: note('group'),
-    },
-    {
-      name: 'order',
-      label: 'Orden en el metalogro',
-      type: 'number',
-      access: lockedOnceSet('order'),
-      admin: dofusDbNote('achievement', 'order', panelStrings.locks.order),
-    },
-    {
-      name: 'quests',
-      label: 'Misiones',
-      labels: { singular: 'Misión', plural: 'Misiones' },
-      type: 'array',
-      admin: {
-        ...note('quests'),
-        initCollapsed: true,
-        components: {
-          ...note('quests').components,
-          ...rowLabel('RelationRowLabel', {
-            singular: panelStrings.rowLabels.quest,
-            textField: 'name',
-            relationField: 'quests',
-            relationTo: 'quests',
-          }),
-        },
-      },
-      fields: [
-        { name: 'name', label: 'Nombre', type: 'text', localized: true },
+      type: 'tabs',
+      tabs: [
         {
-          name: 'quests',
-          label: 'Misiones de DofusDB',
-          type: 'relationship',
-          relationTo: 'quests',
-          hasMany: true,
-          admin: { description: 'Varias son alternativas: se hace una (la misión de clase).' },
-        },
-      ],
-    },
-    { name: 'points', label: 'Puntos', type: 'number', admin: note('points') },
-    {
-      name: 'rewards',
-      label: 'Recompensas',
-      type: 'group',
-      admin: { description: 'Para un personaje de nivel 200, como en tus páginas.' },
-      fields: [
-        { name: 'experience', label: 'Experiencia', type: 'number', admin: note('experience') },
-        { name: 'kamas', label: 'Kamas', type: 'number', admin: note('kamas') },
-        {
-          name: 'items',
-          label: 'Objetos',
-          labels: { singular: 'Objeto', plural: 'Objetos' },
-          type: 'array',
-          admin: note('items'),
+          label: achievementStrings.admin.tabs.quests,
           fields: [
             {
-              name: 'item',
-              label: 'Objeto',
+              name: 'group',
+              label: 'Metalogro',
               type: 'relationship',
-              relationTo: 'items',
-              required: true,
+              relationTo: 'achievement-groups',
+              admin: note('group'),
             },
-            { name: 'quantity', label: 'Cantidad', type: 'number', required: true, min: 1 },
+            {
+              name: 'order',
+              label: 'Orden en el metalogro',
+              type: 'number',
+              access: lockedOnceSet('order'),
+              admin: dofusDbNote('achievement', 'order', panelStrings.locks.order),
+            },
+            {
+              name: 'quests',
+              label: 'Misiones',
+              labels: { singular: 'Misión', plural: 'Misiones' },
+              type: 'array',
+              admin: {
+                ...note('quests'),
+                initCollapsed: true,
+                components: {
+                  ...note('quests').components,
+                  ...rowLabel('RelationRowLabel', {
+                    singular: panelStrings.rowLabels.quest,
+                    textField: 'name',
+                    relationField: 'quests',
+                    relationTo: 'quests',
+                  }),
+                },
+              },
+              fields: [
+                { name: 'name', label: 'Nombre', type: 'text', localized: true },
+                {
+                  name: 'quests',
+                  label: 'Misiones de DofusDB',
+                  type: 'relationship',
+                  relationTo: 'quests',
+                  hasMany: true,
+                  admin: {
+                    description: 'Varias son alternativas: se hace una (la misión de clase).',
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        {
+          label: achievementStrings.admin.tabs.text,
+          fields: [
+            {
+              name: 'intro',
+              label: 'Entrada',
+              type: 'richText',
+              localized: true,
+              editor: proseEditor,
+              admin: {
+                description:
+                  'Texto antes de las misiones. Opcional. Admite vídeos de YouTube: «+» o «/», Vídeo.',
+              },
+            },
+            {
+              name: 'outro',
+              label: 'Cierre',
+              type: 'richText',
+              localized: true,
+              editor: proseEditor,
+              admin: {
+                description:
+                  'Texto después de las misiones. Opcional. Admite vídeos de YouTube: «+» o «/», Vídeo.',
+              },
+            },
+          ],
+        },
+        {
+          label: achievementStrings.admin.tabs.rewards,
+          fields: [
+            { name: 'points', label: 'Puntos', type: 'number', admin: note('points') },
+            {
+              name: 'rewards',
+              label: 'Recompensas',
+              type: 'group',
+              admin: { description: 'Para un personaje de nivel 200, como en tus páginas.' },
+              fields: [
+                {
+                  name: 'experience',
+                  label: 'Experiencia',
+                  type: 'number',
+                  admin: note('experience'),
+                },
+                { name: 'kamas', label: 'Kamas', type: 'number', admin: note('kamas') },
+                {
+                  name: 'items',
+                  label: 'Objetos',
+                  labels: { singular: 'Objeto', plural: 'Objetos' },
+                  type: 'array',
+                  admin: note('items'),
+                  fields: [
+                    {
+                      name: 'item',
+                      label: 'Objeto',
+                      type: 'relationship',
+                      relationTo: 'items',
+                      required: true,
+                    },
+                    { name: 'quantity', label: 'Cantidad', type: 'number', required: true, min: 1 },
+                  ],
+                },
+              ],
+            },
           ],
         },
       ],
-    },
-    {
-      name: 'intro',
-      label: 'Entrada',
-      type: 'richText',
-      localized: true,
-      editor: proseEditor,
-      admin: {
-        description:
-          'Texto antes de las misiones. Opcional. Admite vídeos de YouTube: «+» o «/», Vídeo.',
-      },
-    },
-    {
-      name: 'outro',
-      label: 'Cierre',
-      type: 'richText',
-      localized: true,
-      editor: proseEditor,
-      admin: {
-        description:
-          'Texto después de las misiones. Opcional. Admite vídeos de YouTube: «+» o «/», Vídeo.',
-      },
     },
     {
       // Lo último que escribió la importación de la prosa de Torre en la entrada y el cierre:
