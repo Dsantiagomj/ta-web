@@ -13,7 +13,7 @@ import { QuestHeader } from '@/components/game/QuestHeader'
 import { QuestSteps } from '@/components/game/QuestSteps'
 import { TorreTips } from '@/components/game/TorreTips'
 import { VideoFacade } from '@/components/game/VideoFacade'
-import { DofusNeeds, DofusParts } from '@/components/dofus/DofusGuideParts'
+import { DofusBody, DofusNeeds, DofusParts } from '@/components/dofus/DofusGuideParts'
 import { ChecklistPosters } from '@/components/checklists/ChecklistsIndex'
 import { DofusCards } from '@/components/dofus/DofusIndex'
 import { CopyIcon } from '@/components/game/icons'
@@ -285,6 +285,7 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
                 <DofusCards cards={dofusCards} />
               </div>
               <DofusNeeds needs={dofusNeeds} />
+              <DofusBody content={dofusAchievementView.body} />
               <DofusParts view={dofusAchievementView} />
             </div>
           </Group>

@@ -232,6 +232,45 @@ describe('dofusGuideView', () => {
     expect(outro.map((block) => block.kind)).toEqual(['richText'])
   })
 
+  it('un paso sin nada que pintar no cuenta: sin bloques ni coordenadas, no hay paso a paso', () => {
+    const view = dofusGuideView(
+      data({
+        // La imagen sin poblar (un ID) no se puede pintar: el paso se queda vacío.
+        body: [
+          { id: 's1', blockType: 'step', body: [{ id: 'i1', blockType: 'image', image: 81 }] },
+        ],
+      }),
+    )
+    expect(view.body).toEqual({ intro: [], steps: [], outro: [] })
+  })
+
+  it('un combate y una captura dentro de un paso salen con lo que la consulta trae poblado', () => {
+    const view = dofusGuideView(
+      data({
+        body: [
+          {
+            id: 'f1',
+            blockType: 'fight',
+            monsters: [
+              { monster: { id: 5, name: 'Gobalden', image: media(50, 'gobalden') }, quantity: 1 },
+            ],
+          },
+          {
+            id: 's1',
+            blockType: 'step',
+            x: 38,
+            y: -80,
+            body: [{ id: 'i1', blockType: 'image', image: media(81, '579153') }],
+          },
+        ],
+      }),
+    )
+    expect(view.body.intro).toMatchObject([
+      { kind: 'fight', monsters: [{ item: { name: 'Gobalden' }, quantity: 1 }] },
+    ])
+    expect(view.body.steps[0]!.blocks).toMatchObject([{ kind: 'image', priority: false }])
+  })
+
   it('un logro trae las misiones de su página de logro, con PNJ, nivel y enlace', () => {
     const [part] = dofusGuideView(data()).parts
     expect(part).toMatchObject({

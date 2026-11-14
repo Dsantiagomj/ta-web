@@ -373,7 +373,31 @@ export const dofusAchievementView: DofusGuideView = {
   rewards: null,
   intro: null,
   outro: null,
-  body: { intro: [], steps: [], outro: [] },
+  // El paso a paso de la Piñata de pino: prosa, una captura y un paso con sus coordenadas.
+  body: {
+    intro: [
+      {
+        kind: 'richText',
+        key: 'paso-1',
+        content: needNote('Allí encontrarás a Gobalden: elige las respuestas correctas.'),
+      },
+      {
+        kind: 'image',
+        key: 'paso-2',
+        image: images.hupeEsse,
+        alt: imageAlt.hupeEsse,
+        priority: false,
+      },
+    ],
+    steps: [
+      {
+        key: 'paso-3',
+        coordinates: { x: 38, y: -80 },
+        blocks: [{ kind: 'richText', key: 'paso-4', content: needNote('Habla con Goblepino.') }],
+      },
+    ],
+    outro: [{ kind: 'richText', key: 'paso-5', content: needNote('Por fin obtendrás tu piñata.') }],
+  },
   needs: null,
   achievementCount: 1,
   parts: [

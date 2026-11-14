@@ -3,7 +3,7 @@ import type { ReactNode } from 'react'
 import { Callout } from '@/components/ui/Callout'
 import { Figure } from '@/components/ui/Figure'
 import { IMAGE_SIZES } from '@/components/ui/image-sizes'
-import type { GuideBlock, GuideStep } from '@/lib/guides/page'
+import type { GuideBlock, GuideContent, GuideStep } from '@/lib/guides/page'
 import { type GuideStart, startSentenceNpc, stepAnchor, stepPin } from '@/lib/guides/step-nav'
 
 import './game.css'
@@ -114,9 +114,19 @@ export function GuideBody({ blocks }: { blocks: GuideBlock[] }) {
  * contenido. Las coordenadas del paso que su texto no nombra van como chip al principio;
  * en un paso 1 sin texto con las coordenadas del inicio, dentro de la frase de inicio.
  */
-export function GuideSteps({ steps, start }: { steps: GuideStep[]; start?: GuideStart }) {
+export function GuideSteps({
+  steps,
+  start,
+  headingLevel,
+}: {
+  steps: GuideStep[]
+  start?: GuideStart
+  /** 3 si los pasos van dentro de otra sección con su h2 (el paso a paso de una guía de Dofus). */
+  headingLevel?: 2 | 3
+}) {
   return (
     <QuestSteps
+      headingLevel={headingLevel}
       steps={steps.map((step, index) => ({
         id: stepAnchor(index),
         pin: stepPin(step),
@@ -124,5 +134,41 @@ export function GuideSteps({ steps, start }: { steps: GuideStep[]; start?: Guide
         content: <GuideBlocks blocks={step.blocks} minHeading={3} figures />,
       }))}
     />
+  )
+}
+
+/**
+ * El cuerpo partido de una guía (guideContent): la entrada, los pasos y el cierre, cada uno
+ * solo si tiene algo. Lo comparten las guías de misión y el paso a paso de las de Dofus.
+ */
+export function GuideSections({
+  content,
+  start,
+  headingLevel,
+  introClassName,
+  outroClassName,
+}: {
+  content: GuideContent
+  start?: GuideStart
+  headingLevel?: 2 | 3
+  introClassName?: string
+  outroClassName?: string
+}) {
+  const { intro, steps, outro } = content
+  // Con clase, cada parte va en su caja (la entrada y el cierre de una guía de misión).
+  const part = (blocks: GuideBlock[], className?: string) =>
+    blocks.length === 0 ? null : className ? (
+      <div className={className}>
+        <GuideBody blocks={blocks} />
+      </div>
+    ) : (
+      <GuideBody blocks={blocks} />
+    )
+  return (
+    <>
+      {part(intro, introClassName)}
+      {steps.length > 0 && <GuideSteps steps={steps} start={start} headingLevel={headingLevel} />}
+      {part(outro, outroClassName)}
+    </>
   )
 }
