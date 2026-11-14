@@ -1,7 +1,7 @@
 import type { Payload } from 'payload'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
-import { dungeonNoteReport } from '@/lib/achievements/dungeon-report'
+import { dungeonNoteReport, type DungeonRow } from '@/lib/achievements/dungeon-report'
 
 import { startPayload, tinyPng } from './payload'
 
@@ -127,15 +127,34 @@ afterAll(async () => {
 describe('dungeonNoteReport', () => {
   it('las filas de mazmorra de cada página publicada, con jefe solo si tiene imagen', async () => {
     const report = await dungeonNoteReport(payload)
-    const ours = (rows: { page: string; label: string }[]) =>
-      rows.filter((row) => row.page.startsWith('informe-'))
-    expect(ours(report.withBoss)).toEqual([
-      { page: 'informe-logro', label: 'Mazmorra Kumijo' },
-      { page: 'informe-logro', label: 'Mazmorra Ben Ripata' },
-    ])
+    const ours = (rows: DungeonRow[]) => rows.filter((row) => row.page.startsWith('informe-'))
+    // Cada fila dice cómo casó su nota: por nombre, por jefe, a mano o nada.
+    const kumijo = {
+      page: 'informe-logro',
+      label: 'Mazmorra Kumijo',
+      match: { how: 'boss', dungeon: 'Casa de los Espíritus', boss: 'Kumijo', approximate: false },
+    }
+    const ripata = {
+      page: 'informe-logro',
+      label: 'Mazmorra Ben Ripata',
+      match: { how: 'manual', dungeon: 'Casa de los Espíritus' },
+    }
+    expect(ours(report.withBoss)).toEqual([kumijo, ripata])
     // Las que llevan su jefe porque Torre eligió la mazmorra a mano.
-    expect(ours(report.manual)).toEqual([{ page: 'informe-logro', label: 'Mazmorra Ben Ripata' }])
-    expect(ours(report.generic)).toEqual([{ page: 'informe-logro', label: 'Mazmorra de Grunob' }])
+    expect(ours(report.manual)).toEqual([ripata])
+    // Casa, pero su jefe no tiene imagen: icono genérico.
+    expect(ours(report.generic)).toEqual([
+      {
+        page: 'informe-logro',
+        label: 'Mazmorra de Grunob',
+        match: {
+          how: 'boss',
+          dungeon: 'Akademia de los Goblins',
+          boss: 'Director Grunob',
+          approximate: false,
+        },
+      },
+    ])
   })
 
   it('una mazmorra elegida que se borra no impide publicar la guía: su fila se quita', async () => {

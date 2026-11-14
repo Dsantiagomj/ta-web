@@ -1,7 +1,9 @@
-// Lo que imprime `pnpm data:quests` de las filas de mazmorra de «Necesitarás en total»: cuáles
-// llevan el jefe de su mazmorra y cuáles el icono genérico. Clasifica por el mismo camino que
-// la página (achievementNeeds, readNoteItems, readDungeonBosses), página por página, así que
-// dice exactamente lo que se ve: un jefe sin imagen en Media cuenta como icono genérico.
+// Lo que imprimen `pnpm data:quests` y `pnpm data:dungeon-notes` de las filas de mazmorra de
+// «Necesitarás en total»: cuáles llevan el jefe de su mazmorra, cuáles el icono genérico, y
+// cómo casó cada nota (dungeon-report-lines.ts lo pone en texto). Clasifica por el mismo
+// camino que la página (achievementNeeds, readNoteItems, readDungeonBosses), página por
+// página, así que dice exactamente lo que se ve: un jefe sin imagen en Media cuenta como
+// icono genérico. Solo lee.
 import type { Payload } from 'payload'
 
 import {
@@ -12,12 +14,15 @@ import {
   noteLabels,
   type PageDoc,
 } from './page'
+import type { NoteMatch } from './dungeons'
 import { chooseDungeonBosses, readNoteItems } from './queries'
 
 export interface DungeonRow {
   /** El slug de la página de logro. */
   page: string
   label: string
+  /** Cómo casó la nota: a mano, por nombre, por jefe o nada. */
+  match: NoteMatch
 }
 
 export interface DungeonNoteReport {
@@ -80,20 +85,23 @@ export async function dungeonNoteReport(payload: Payload): Promise<DungeonNoteRe
     overrideAccess: true,
     picks: dungeonPicks(guides),
   })
-  const dungeonBosses = new Map([...chosen].map(([key, { image }]) => [key, image]))
+  const dungeonBosses = new Map(
+    [...chosen].flatMap(([key, { image }]) => (image ? [[key, image] as const] : [])),
+  )
 
   const report: DungeonNoteReport = { withBoss: [], manual: [], generic: [] }
   for (const page of pages) {
     const { tasks } = achievementNeeds({ page, guides, noteItems, dungeonBosses })
     for (const task of tasks) {
       if (task.kind !== 'dungeon') continue
-      const row = { page: page.slug, label: task.label }
+      const match = chosen.get(needKey(task.label))?.match ?? { how: 'none' }
+      const row: DungeonRow = { page: page.slug, label: task.label, match }
       if (!task.boss) {
         report.generic.push(row)
         continue
       }
       report.withBoss.push(row)
-      if (chosen.get(needKey(task.label))?.manual) report.manual.push(row)
+      if (match.how === 'manual') report.manual.push(row)
     }
   }
   return report
