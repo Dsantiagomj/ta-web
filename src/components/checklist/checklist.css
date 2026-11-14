@@ -1935,6 +1935,12 @@ html[data-js] .ck-slot:not([data-owned], [data-used]) .ck-slot__w img {
   padding: 0.75rem;
 }
 
+/* Las dos vistas están en el HTML; se ve la que la isla pone en .sl-win y, sin ella, por etapa. */
+.sl-win[data-sl-shown='region'] [data-sl-view='stage'],
+.sl-win:not([data-sl-shown='region']) [data-sl-view='region'] {
+  display: none;
+}
+
 .sl-group + .sl-group {
   margin-top: 1.25rem;
 }

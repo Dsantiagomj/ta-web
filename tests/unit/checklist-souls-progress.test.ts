@@ -74,13 +74,18 @@ describe('migrateSouls: «cosecha:done» de silvestre-checklist', () => {
     migrateSouls(progress, {
       keys: Object.keys(stored),
       read: (key) => stored[key] ?? null,
-      data,
       now: NOW,
     })
 
-  it('trae las almas marcadas de esta checklist, una sola vez, sumando', () => {
-    const p = run(keys('[928, 500, 7777, "x", 1.5]'), { ...emptyProgress(), souls: { 147: 1 } })
-    expect(p.souls).toEqual({ 147: 1, 928: NOW, 500: NOW })
+  it('trae todas las almas marcadas, una sola vez, sumando', () => {
+    const p = run(keys('[928, 500, 7777, "x", 1.5, -3, 0]'), {
+      ...emptyProgress(),
+      souls: { 147: 1 },
+    })
+    // 7777 no es de la checklist hoy, pero se guarda: su monstruo puede importarse después y la
+    // migración no vuelve a correr. Solo la cuenta lo que la checklist tiene.
+    expect(p.souls).toEqual({ 147: 1, 928: NOW, 500: NOW, 7777: NOW })
+    expect(soulsDone(p, data)).toBe(3)
     expect(p.migrated).toEqual({ cosecha: NOW })
     // Otra vez, nada: ya se migró.
     expect(run(keys('[501]'), p)).toBe(p)

@@ -3,16 +3,13 @@ import type { Payload, Where } from 'payload'
 import { isGuideSlug } from '@/lib/guides/slug'
 import type { Checklist, User } from '@/payload-types'
 
-/** Lo de una checklist de almas que se lee de la base: todo menos la checklist y el origen. */
-export type ChecklistSouls = Omit<SoulsData, 'checklist' | 'siteUrl'>
-
 import { torreLevel } from '@/lib/derive/weights'
 import { SITE_LOCALE } from '@/lib/site/locale'
 
 import { checklistDetails, type ChecklistDetails, type DetailsQuest } from './details'
 import type { ChecklistDoc } from './list'
 import { relationId } from './relations'
-import type { SoulsData } from './souls'
+import type { SoulsReadData } from './souls'
 import {
   OBJECTIVE_REFERENCE,
   stopQuestIds,
@@ -355,7 +352,7 @@ export async function readChecklist(
  * monstruos de sus almas con su imagen, sus subzonas y las mazmorras de sus jefes. Datos del
  * juego, que lee cualquiera.
  */
-async function readSouls(payload: Payload, checklist: Checklist): Promise<ChecklistSouls> {
+async function readSouls(payload: Payload, checklist: Checklist): Promise<SoulsReadData> {
   const questId = relationId(checklist.soulsQuest)
   const quest =
     questId === null
@@ -410,14 +407,16 @@ async function readSouls(payload: Payload, checklist: Checklist): Promise<Checkl
           ...visitor,
         })
       : { docs: [] },
-    payload.find({
-      collection: 'dungeons',
-      where: { bosses: { in: monsters.map((m) => m.id) } },
-      select: { name: true, level: true, bosses: true },
-      depth: 0,
-      pagination: false,
-      ...visitor,
-    }),
+    monsters.length
+      ? payload.find({
+          collection: 'dungeons',
+          where: { bosses: { in: monsters.map((m) => m.id) } },
+          select: { name: true, level: true, bosses: true },
+          depth: 0,
+          pagination: false,
+          ...visitor,
+        })
+      : { docs: [] },
   ])
   const dofusIdOf = new Map(monsters.map((m) => [m.id, m.dofusId]))
   return {

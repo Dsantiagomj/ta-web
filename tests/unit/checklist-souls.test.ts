@@ -137,6 +137,31 @@ describe('soulsView', () => {
     expect(view.missing).toEqual([147, 500, 501])
   })
 
+  it('un monstruo que la misión pide dos veces es una sola alma, en la primera etapa que lo pide', () => {
+    const view = soulsView(
+      data({
+        stages: [
+          { objectives: [bring(928), bring(147), bring(928)] },
+          { objectives: [bring(500), bring(147), bring(501)] },
+        ],
+      }),
+    )
+    expect(view.souls.map((soul) => [soul.id, soul.stage])).toEqual([
+      [928, 1],
+      [147, 1],
+      [500, 2],
+      [501, 2],
+    ])
+    expect(view.stages.map((group) => group.souls)).toEqual([
+      [928, 147],
+      [500, 501],
+    ])
+    expect(view.counts).toEqual({ total: 4, boss: 2, archi: 2 })
+    expect(view.island.souls).toEqual([928, 147, 500, 501])
+    // Uno que falta, aunque se pida dos veces, se cuenta una.
+    expect(soulsView(data({ stages: [{ objectives: [bring(1), bring(1)] }] })).missing).toEqual([1])
+  })
+
   it('un jefe de dos mazmorras no elige ninguna', () => {
     const view = soulsView(
       data({ dungeons: [...data().dungeons, { name: 'Otra mazmorra', level: 90, bosses: [928] }] }),

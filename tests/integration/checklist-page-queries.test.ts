@@ -19,6 +19,11 @@ const NPC = 990_203
 const ITEM = 990_204
 const ACHIEVEMENT = 990_205
 const SUBAREA = 990_207
+// El Ocre de prueba: una misión de almas con un monstruo que está (jefe de su mazmorra) y otro
+// que no; otra que solo pide uno que no está; y una mazmorra de un jefe que no es alma.
+const SOULS = { quest: 990_210, onlyMissing: 990_211 }
+const MONSTERS = { boss: 990_301, other: 990_302, missing: 990_399 }
+const DUNGEONS = { boss: 990_401, other: 990_402 }
 
 async function cleanUp() {
   for (const [collection, where] of [
@@ -30,6 +35,9 @@ async function cleanUp() {
     ['items', { dofusId: { equals: ITEM } }],
     ['achievements', { dofusId: { equals: ACHIEVEMENT } }],
     ['subareas', { dofusId: { equals: SUBAREA } }],
+    ['quests', { dofusId: { in: Object.values(SOULS) } }],
+    ['dungeons', { dofusId: { in: Object.values(DUNGEONS) } }],
+    ['monsters', { dofusId: { in: Object.values(MONSTERS) } }],
   ] as const) {
     await payload.delete({ collection, where, overrideAccess: true })
   }
@@ -161,6 +169,55 @@ beforeAll(async () => {
     data: { name: 'Solo borrador', slug: `${PREFIX}-borrador`, order: 91, state: 'published' },
     draft: true,
   })
+
+  const monster = async (dofusId: number, name: string) =>
+    (
+      await payload.create({
+        collection: 'monsters',
+        data: { dofusId, name, levels: [20, 30], boss: true, subAreaId: SUBAREA },
+      })
+    ).id
+  const boss = await monster(MONSTERS.boss, 'Mob Lasponja')
+  const other = await monster(MONSTERS.other, 'Otro jefe')
+  await payload.create({
+    collection: 'dungeons',
+    data: { dofusId: DUNGEONS.boss, name: 'Castillo de Arena', level: 25, bosses: [boss] },
+  })
+  await payload.create({
+    collection: 'dungeons',
+    data: { dofusId: DUNGEONS.other, name: 'Otra mazmorra', level: 90, bosses: [other] },
+  })
+  const bring = (dofusId: number, monsterId: number) => ({
+    dofusId,
+    kind: 'bring' as const,
+    monsterId,
+    text: 'Lleva 1 alma',
+  })
+  for (const [dofusId, objectives] of [
+    [SOULS.quest, [bring(1, MONSTERS.boss), bring(2, MONSTERS.missing)]],
+    [SOULS.onlyMissing, [bring(1, MONSTERS.missing)]],
+  ] as const) {
+    const quest = await payload.create({
+      collection: 'quests',
+      data: {
+        dofusId,
+        name: `Almas ${dofusId}`,
+        stages: [{ dofusId: 1, objectives: [...objectives] }],
+      },
+    })
+    await payload.create({
+      collection: 'checklists',
+      data: {
+        name: `Almas ${dofusId}`,
+        slug: `${PREFIX}-almas-${dofusId}`,
+        order: 92,
+        state: 'published',
+        kind: 'souls',
+        soulsQuest: quest.id,
+        _status: 'published',
+      },
+    })
+  }
 }, 60_000)
 
 afterAll(async () => {
@@ -244,6 +301,33 @@ describe('readChecklist', () => {
   it('un slug reservado o con mal formato no consulta nada', async () => {
     expect(await readChecklist(payload, 'admin')).toBeNull()
     expect(await readChecklist(payload, 'No Vale')).toBeNull()
+  })
+})
+
+describe('readChecklist de una checklist de almas', () => {
+  it('lee sus monstruos, sus subzonas y solo las mazmorras de sus jefes', async () => {
+    const data = await readChecklist(payload, `${PREFIX}-almas-${SOULS.quest}`)
+    expect(Object.keys(data?.souls?.monsters ?? {})).toEqual([String(MONSTERS.boss)])
+    expect(data?.souls?.subareas[SUBAREA]).toMatchObject({ name: 'Anutropía' })
+    expect(data?.souls?.dungeons).toEqual([
+      { name: 'Castillo de Arena', level: 25, bosses: [MONSTERS.boss] },
+    ])
+  })
+
+  it('sin ninguno de sus monstruos en la base, no busca mazmorras', async () => {
+    const asked: string[] = []
+    const counting = new Proxy(payload, {
+      get(target, key, receiver) {
+        if (key !== 'find') return Reflect.get(target, key, receiver)
+        return (args: Parameters<Payload['find']>[0]) => {
+          asked.push(args.collection)
+          return target.find(args)
+        }
+      },
+    })
+    const data = await readChecklist(counting, `${PREFIX}-almas-${SOULS.onlyMissing}`)
+    expect(data?.souls).toMatchObject({ monsters: {}, subareas: {}, dungeons: [] })
+    expect(asked).not.toContain('dungeons')
   })
 })
 

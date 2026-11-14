@@ -259,11 +259,7 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
   }
 
   // ---------- la copia de seguridad y el reinicio ----------
-  const dialog = progressDialog
   const backup = createBackup({ get: () => progress, save, toast })
-  const backupState = backup.state
-  const download = backup.download
-  const restore = backup.restore
 
   function wholeKeys() {
     return $$('[data-ck-slot]').map((slot) => slot.dataset.ckSlot ?? '')
@@ -282,7 +278,7 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
     for (const el of $$('[data-ck-reset-count]')) {
       el.textContent = s.resetCount(counts[el.dataset.ckResetCount as keyof typeof counts])
     }
-    const reset = dialog('reset')
+    const reset = progressDialog('reset')
     if (!reset) return
     // Sin esto, cerrar con Escape o fuera del diálogo dejaría el «reset» de la vez anterior.
     reset.returnValue = ''
@@ -374,11 +370,11 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
     if (tool) {
       setMenu(false)
       if (tool.dataset.ckTool === 'reset') return openReset()
-      backupState()
-      return dialog('backup')?.showModal()
+      backup.state()
+      return progressDialog('backup')?.showModal()
     }
     if (target.closest('[data-ck-dialog-close]')) return target.closest('dialog')?.close()
-    if (target.closest('[data-ck-download]')) return download()
+    if (target.closest('[data-ck-download]')) return backup.download()
     closeOnOutsideClick(target, event)
   }
 
@@ -424,7 +420,7 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
     }
     if (box.hasAttribute('data-ck-pending')) return renderItems()
     if (box.hasAttribute('data-ck-restore') && box.files?.[0]) {
-      void restore(box.files[0])
+      void backup.restore(box.files[0])
       box.value = ''
     }
   }
@@ -463,7 +459,7 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
   }
   const howto = document.querySelectorAll('.ck-q__howto')
   for (const el of howto) el.textContent = s.questHowto
-  const resetDialog = dialog('reset')
+  const resetDialog = progressDialog('reset')
   document.addEventListener('click', onClick)
   document.addEventListener('change', onChange)
   document.addEventListener('keydown', onKeyDown)
