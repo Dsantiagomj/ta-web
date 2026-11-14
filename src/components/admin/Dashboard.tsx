@@ -3,6 +3,7 @@ import Link from 'next/link'
 import type { AdminViewServerProps } from 'payload'
 
 import { adminCreateHref, readDashboard, type DashboardItem } from '@/lib/admin/dashboard'
+import { PANEL_GUIDE_PATH } from '@/lib/admin/panel-guide'
 import { panelStrings, relativeTime } from '@/lib/admin/strings'
 import type { User } from '@/payload-types'
 
@@ -24,7 +25,9 @@ export async function Dashboard({ initPageResult }: AdminViewServerProps) {
     <Gutter className="ta-dash">
       <header className="ta-dash__head">
         <h1>{s.title}</h1>
-        <p className="ta-dash__lead">{s.greeting(user.name)}</p>
+        <p className="ta-dash__lead">
+          {s.greeting(user.name)} <Link href={`${adminRoute}${PANEL_GUIDE_PATH}`}>{s.guide}</Link>
+        </p>
       </header>
 
       <nav className="ta-dash__shortcuts" aria-label={s.shortcuts}>

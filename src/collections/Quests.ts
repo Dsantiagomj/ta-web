@@ -42,7 +42,6 @@ export const Quests: CollectionConfig = {
     group: panelStrings.groups.gameData,
     hideAPIURL: true,
     defaultColumns: ['name', 'dofusId', 'levelMin'],
-    description: 'Datos de DofusDB, de solo lectura. Los actualiza un script.',
   },
   access: questsAccess,
   fields: [

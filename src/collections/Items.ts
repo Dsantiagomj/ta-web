@@ -12,7 +12,6 @@ export const Items: CollectionConfig = {
     group: panelStrings.groups.gameData,
     hideAPIURL: true,
     defaultColumns: ['name', 'dofusId', 'level'],
-    description: 'Datos de DofusDB, de solo lectura. Los actualiza un script.',
   },
   access: gameDataAccess,
   fields: [

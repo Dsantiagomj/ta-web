@@ -134,4 +134,37 @@ test.describe('el panel para Torre, ola 2', () => {
     const results = await new AxeBuilder({ page }).withTags(WCAG).analyze()
     expect(results.violations.map((violation) => violation.id)).toEqual([])
   })
+
+  test('A-14: la guía del panel se abre desde el menú y desde «Pendiente»', async () => {
+    await page.goto('/admin')
+    await page.getByRole('link', { name: 'Lee la guía del panel' }).click()
+    await expect(page).toHaveURL(/\/admin\/guia$/)
+    await expect(page.getByRole('heading', { level: 1, name: 'Guía del panel' })).toBeVisible()
+    // Lleva la plantilla del panel: el menú sigue ahí, con su enlace a la guía.
+    await expect(page.locator('nav').getByRole('link', { name: 'Guía del panel' })).toBeVisible()
+
+    await page.getByRole('link', { name: 'Versiones: tu botón de deshacer' }).click()
+    await expect(page).toHaveURL(/#versiones$/)
+    await expect(page.getByText('Restaurar esta versión', { exact: false })).toBeVisible()
+
+    const parts = page.locator('.ta-guide__parts')
+    await expect(parts.getByRole('link', { name: 'Guías de misiones' })).toBeVisible()
+  })
+
+  test('A-14: cada lista empieza con la línea que dice qué guarda', async () => {
+    await page.goto('/admin/collections/dofus-guides')
+    await expect(page.getByText('Una guía por Dofus: lo que pide')).toBeVisible()
+  })
+
+  test('A-14: la guía del panel pasa axe', async () => {
+    await page.goto('/admin/guia')
+    await expect(page.getByRole('heading', { level: 1, name: 'Guía del panel' })).toBeVisible()
+    const results = await new AxeBuilder({ page }).withTags(WCAG).analyze()
+    expect(results.violations.map((violation) => violation.id)).toEqual([])
+  })
+})
+
+test('A-14: la guía del panel pide iniciar sesión', async ({ page }) => {
+  await page.goto('/admin/guia')
+  await expect(page).toHaveURL(/\/admin\/login/)
 })

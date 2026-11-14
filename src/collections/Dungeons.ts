@@ -13,7 +13,6 @@ export const Dungeons: CollectionConfig = {
     group: panelStrings.groups.gameData,
     hideAPIURL: true,
     defaultColumns: ['name', 'bosses', 'dofusId'],
-    description: 'Datos de DofusDB, de solo lectura. Los actualiza un script.',
   },
   access: gameDataAccess,
   fields: [

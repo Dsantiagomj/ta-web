@@ -148,6 +148,8 @@ export interface UserAuthOperations {
   };
 }
 /**
+ * Tus guías de misiones: una por misión, con sus pasos, combates y vídeo.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "quest-guides".
  */
@@ -212,7 +214,7 @@ export interface QuestGuide {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Datos de DofusDB, de solo lectura. Los actualiza un script.
+ * Las misiones de DofusDB, con sus etapas y recompensas. Las eliges en tus guías.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "quests".
@@ -338,7 +340,7 @@ export interface Quest {
   createdAt: string;
 }
 /**
- * Datos de DofusDB, de solo lectura. Los actualiza un script.
+ * Los objetos de DofusDB, con su icono. Los eliges en «Necesitarás» y en los Dofus.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "items".
@@ -369,6 +371,8 @@ export interface Item {
   createdAt: string;
 }
 /**
+ * Todas las imágenes: las que subes tú y las del juego que trae DofusDB.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
@@ -471,7 +475,7 @@ export interface Media {
   };
 }
 /**
- * Datos de DofusDB, de solo lectura. Los actualiza un script.
+ * Los monstruos de DofusDB, con su imagen. Los eliges en los bloques de combate.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "monsters".
@@ -496,7 +500,7 @@ export interface Monster {
   createdAt: string;
 }
 /**
- * Datos de DofusDB, de solo lectura. Los actualiza un script.
+ * Las mazmorras de DofusDB y sus jefes. Las eliges en las notas de las guías.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "dungeons".
@@ -620,6 +624,8 @@ export interface StepBlock {
   blockType: 'step';
 }
 /**
+ * Una página por logro: tu entrada, las misiones en orden y lo que necesitas en total.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "achievement-pages".
  */
@@ -712,7 +718,7 @@ export interface AchievementPage {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Datos de DofusDB, de solo lectura. Los actualiza un script.
+ * Los logros de DofusDB. Cada página de logro enlaza uno.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "achievements".
@@ -771,7 +777,7 @@ export interface Achievement {
   createdAt: string;
 }
 /**
- * Datos de DofusDB, de solo lectura. Los actualiza un script.
+ * Las categorías de logros de DofusDB, como «Astrub» o «Eventos».
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "achievement-categories".
@@ -793,6 +799,8 @@ export interface AchievementCategory {
   createdAt: string;
 }
 /**
+ * Los metalogros que agrupan logros en /metalogros. No tienen página propia: abren su panel.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "achievement-groups".
  */
@@ -846,7 +854,7 @@ export interface AchievementGroup {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Datos de DofusDB, de solo lectura. Los actualiza un script.
+ * Los PNJ de DofusDB que dan misiones o salen en ellas, con sus dibujos.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "npcs".
@@ -875,6 +883,8 @@ export interface Npc {
   createdAt: string;
 }
 /**
+ * Una guía por Dofus: lo que pide, los logros y misiones que lo dan y su checklist.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "dofus-guides".
  */
@@ -1165,6 +1175,8 @@ export interface DofusNoteBlock {
   blockType: 'dofusNote';
 }
 /**
+ * Las checklists paso a paso de cada Dofus. El progreso de cada visitante va por paso.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "checklists".
  */
@@ -1567,7 +1579,7 @@ export interface Checklist {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Datos de DofusDB, de solo lectura. Los actualiza un script.
+ * Las zonas de DofusDB, con su área. Dan el nombre de los sitios de cada misión.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "subareas".
@@ -1586,6 +1598,8 @@ export interface Subarea {
   createdAt: string;
 }
 /**
+ * Las cuentas que pueden entrar en este panel.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */

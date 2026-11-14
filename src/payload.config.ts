@@ -26,6 +26,7 @@ import { DofusGuidesIndex } from './globals/DofusGuidesIndex'
 import { healthEndpoint } from './endpoints/health'
 import { readyEndpoint } from './endpoints/ready'
 import { searchIndexEndpoint } from './endpoints/search-index'
+import { withPanelDescriptions } from './lib/admin/panel-guide'
 import { panelStrings } from './lib/admin/strings'
 import { resolveDatabaseUrl, shouldPushSchema } from './lib/db/database-url'
 import { SITE_LOCALE } from './lib/site/locale'
@@ -59,12 +60,16 @@ export default buildConfig({
       // «Pendiente»: lo que Torre tiene a medias, en lugar de la cuadrícula de colecciones.
       views: {
         dashboard: { Component: '/components/admin/Dashboard#Dashboard' },
+        // La «Guía del panel» (A-14), en /admin/guia, enlazada al final del menú.
+        panelGuide: { Component: '/components/admin/PanelGuide#PanelGuide', path: '/guia' },
       },
+      afterNavLinks: ['/components/admin/PanelGuide#PanelGuideNavLink'],
     },
   },
   // El orden es el del menú: primero el contenido de Torre, luego las imágenes, los datos
   // del juego (solo lectura) y las cuentas del panel. Cada grupo sale de `admin.group`.
-  collections: [
+  // Cada colección lleva arriba de su lista la línea de src/lib/admin/panel-guide.ts.
+  collections: withPanelDescriptions([
     QuestGuides,
     AchievementPages,
     AchievementGroups,
@@ -80,7 +85,7 @@ export default buildConfig({
     AchievementCategories,
     Achievements,
     Users,
-  ],
+  ]),
   globals: [DofusGuidesIndex],
   editor: lexicalEditor({ admin: { placeholder: panelStrings.editorPlaceholder } }),
   // GET /api/health, la comprobación de vida que llaman los monitores (nunca toca la base);

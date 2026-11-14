@@ -123,6 +123,7 @@ export const panelStrings = {
   /** El panel de control «Pendiente» (A-13, src/components/admin/Dashboard.tsx). */
   dashboard: {
     title: 'Pendiente',
+    guide: '¿Dudas? Lee la guía del panel.',
     greeting: (name?: string | null) =>
       name?.trim()
         ? `Hola, ${name.trim()}. Esto es lo que tienes a medias.`
