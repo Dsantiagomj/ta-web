@@ -1333,10 +1333,22 @@ mark.hit {
   gap: 1rem;
 }
 
+/* La sombra de Torre es un degradado detrás de la imagen, no un `filter`: con un `filter`, Chrome
+   cuenta la imagen como un recuadro mayor que el que se ve y, en una página corta como
+   /checklists, la cara diferida del pie pasaba a ser el LCP en el móvil. */
+.ft-torre::before {
+  content: '';
+  grid-area: 1 / 1;
+  aspect-ratio: 1;
+  translate: 0 0.75rem;
+  background: radial-gradient(closest-side, rgb(0 0 0 / 0.35), rgb(0 0 0 / 0.15) 60%, transparent);
+}
+
 .ft-torre__face {
+  position: relative;
+  grid-area: 1 / 1;
   width: 5.25rem;
   height: auto;
-  filter: drop-shadow(0 0.75rem 1.25rem rgb(0 0 0 / 0.35));
 }
 
 @media (min-width: 40rem) {
