@@ -22,12 +22,25 @@ test.describe('el panel para un editor', () => {
   // sesiones de la cuenta.
   test.describe.configure({ mode: 'serial' })
   let page: Page
+  let editorId: number
 
   test.beforeAll(async ({ browser }) => {
     page = await (await browser.newContext()).newPage()
     const { email, password } = E2E_EDITOR_USER
     const login = await page.request.post('/api/users/login', { data: { email, password } })
     expect(login.ok()).toBe(true)
+    editorId = ((await login.json()) as { user: { id: number } }).user.id
+  })
+
+  // Payload bloquea el documento que alguien tiene abierto, y cerrar el navegador no lo suelta:
+  // la checklist y la guía sembradas quedarían bloqueadas para las pruebas del panel de Torre
+  // (panel.spec.ts), que las abren después. El editor suelta lo que bloqueó.
+  test.afterEach(async () => {
+    const mine = `where[user.value][equals]=${editorId}`
+    const released = await page.request.delete(`/api/payload-locked-documents?${mine}`)
+    expect(released.ok()).toBe(true)
+    const left = await page.request.get(`/api/payload-locked-documents?${mine}&depth=0`)
+    expect(((await left.json()) as { totalDocs: number }).totalDocs).toBe(0)
   })
 
   test.afterAll(async () => {
