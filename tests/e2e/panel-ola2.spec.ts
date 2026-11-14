@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test'
 
-import { docId, logInPanel } from './panel-helpers.ts'
+import { docId, logInPanel, releaseLocks } from './panel-helpers.ts'
 import { seedAchievement } from './seed/achievements.ts'
 import { seedChecklists } from './seed/checklists.ts'
 import { seedDofus } from './seed/dofus-guides.ts'
@@ -14,11 +14,16 @@ test.describe('el panel para Torre, ola 2', () => {
   // sesiones de la cuenta.
   test.describe.configure({ mode: 'serial' })
   let page: Page
+  let userId: number
 
   test.beforeAll(async ({ browser }) => {
     page = await (await browser.newContext()).newPage()
-    await logInPanel(page)
+    userId = await logInPanel(page)
     await page.setViewportSize({ width: 1440, height: 900 })
+  })
+
+  test.afterEach(async () => {
+    await releaseLocks(page, userId)
   })
 
   test.afterAll(async () => {
