@@ -26,16 +26,40 @@ const icon = { src: '/img/item-366.webp', width: 96, height: 96 }
 
 const needs: NonNullable<DofusGuideView['needs']> = {
   title: 'Necesitarás',
+  note: '(no te he puesto los recursos de Incarnam)',
   groups: [
     {
-      rows: [
-        { kind: 'note', text: note('1 x combates.') },
-        { kind: 'item', item: { name: 'Pico de tofu', icon }, quantity: 3 },
-        { kind: 'note', text: note('Alineamiento 100 (Bonta o Brakmar).') },
-        { kind: 'item', item: { name: 'Ojo de arakmutada' }, quantity: 1, note: '(o fabricarlo)' },
+      key: null,
+      parts: [
+        {
+          rows: [
+            { kind: 'note', text: note('1 x combates.') },
+            { kind: 'item', item: { name: 'Pico de tofu', icon }, quantity: 3 },
+            { kind: 'note', text: note('Alineamiento 100 (Bonta o Brakmar).') },
+            {
+              kind: 'item',
+              item: { name: 'Ojo de arakmutada' },
+              quantity: 1,
+              note: '(o fabricarlo)',
+            },
+          ],
+        },
       ],
     },
-    { name: 'Mazmorras', rows: [{ kind: 'note', text: note('1 x Mazmorra Rey Nidas.') }] },
+    {
+      key: 'mazmorras',
+      name: 'Mazmorras',
+      parts: [
+        { rows: [{ kind: 'note', text: note('1 x Mazmorra Rey Nidas.') }] },
+        {
+          subtitle: '1 × Mazmorra:',
+          rows: [
+            { kind: 'note', text: note('Mazmorra Malefíscof.') },
+            { kind: 'note', text: note('Mazmorra Fraktal.') },
+          ],
+        },
+      ],
+    },
   ],
 }
 
@@ -70,5 +94,15 @@ describe('DofusNeeds', () => {
     const last = html.slice(html.indexOf('Mazmorras'))
     expect(last).not.toContain('needs__items')
     expect(last).toContain('<ul role="list" class="needs__notes">')
+  })
+
+  it('la nota de Torre va encima de los grupos, y cada subtítulo encima de sus filas', () => {
+    const plain = text(html)
+    expect(plain.indexOf('(no te he puesto los recursos de Incarnam)')).toBeLessThan(
+      plain.indexOf('1 x combates.'),
+    )
+    expect(html).toContain('<p class="dg-needs__sub">1 × Mazmorra:</p>')
+    expect(plain.indexOf('1 × Mazmorra:')).toBeLessThan(plain.indexOf('Mazmorra Malefíscof.'))
+    expect(plain.indexOf('1 x Mazmorra Rey Nidas.')).toBeLessThan(plain.indexOf('1 × Mazmorra:'))
   })
 })

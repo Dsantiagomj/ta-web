@@ -188,42 +188,83 @@ describe('dofusGuideView', () => {
     const [first, second] = view.needs!.groups
     expect(first!.name).toBe('Mazmorras')
     expect(second!.name).toBe('Recursos')
-    expect(second!.rows[0]).toMatchObject({ kind: 'item', quantity: 200, item: { name: 'Pepita' } })
-    expect(second!.rows[1]).toMatchObject({ kind: 'note' })
+    const [rows] = second!.parts.map((part) => part.rows)
+    expect(rows![0]).toMatchObject({ kind: 'item', quantity: 200, item: { name: 'Pepita' } })
+    expect(rows![1]).toMatchObject({ kind: 'note' })
+  })
+
+  const note = (line: string) => ({ blockType: 'needNote' as const, text: text(line) })
+  const groupsOf = (groups: NonNullable<DofusGuideDoc['needs']>['groups']) =>
+    dofusGuideView(data({ needs: { title: null, groups } })).needs!.groups.map((group) => [
+      group.name ?? null,
+      group.parts.map((part) => [part.subtitle ?? null, part.rows.length]),
+    ])
+
+  it('dos grupos iguales salen juntos; cada subtítulo de Torre, encima de sus filas', () => {
+    expect(
+      groupsOf([
+        { name: 'otros', rows: [note('Ayuda de otras 2 personas.')] },
+        { name: 'mazmorras', rows: [note('1 x Mazmorra Kutulú.')] },
+        {
+          name: 'mazmorras',
+          subtitle: '1 x Mazmorra',
+          rows: [note('Mazmorra Malefíscof.'), note('Mazmorra Fraktal.')],
+        },
+        { name: 'otros', rows: [note('Sueños infinitos.')] },
+      ]),
+    ).toEqual([
+      [
+        'Mazmorras',
+        [
+          [null, 1],
+          ['1 × Mazmorra:', 2],
+        ],
+      ],
+      ['Otros', [[null, 2]]],
+    ])
+  })
+
+  it('un subtítulo que solo repite el nombre del grupo no sale', () => {
+    expect(
+      groupsOf([{ name: 'combates', subtitle: 'Combates', rows: [note('2 x combates.')] }]),
+    ).toEqual([['Combates', [[null, 1]]]])
+  })
+
+  it('una guía migrada sin reimportar: los grupos sin nombre quedan en su sitio, sin título', () => {
+    // La migración deja sin grupo lo que no tenía nombre; la importación lo ordenará.
+    expect(
+      groupsOf([
+        { name: null, rows: [note('Algún oficio nivel 200.')] },
+        { name: 'mazmorras', subtitle: 'Mazmorras', rows: [note('1 x Mazmorra Kutulú.')] },
+        { name: null, rows: [note('Un par de combates.')] },
+      ] as never),
+    ).toEqual([
+      [null, [[null, 1]]],
+      ['Mazmorras', [[null, 1]]],
+      [null, [[null, 1]]],
+    ])
   })
 
   it('«Otros» como único grupo no lleva título: solo dice algo junto a otros grupos', () => {
-    const only = (name: 'otros' | 'combates') =>
-      dofusGuideView(
-        data({
-          needs: {
-            title: null,
-            groups: [{ name, rows: [{ blockType: 'needNote', text: text('Piedras de alma.') }] }],
-          },
-        }),
-      ).needs!.groups[0]!.name
-    expect(only('otros')).toBeUndefined()
-    expect(only('combates')).toBe('Combates')
+    expect(groupsOf([{ name: 'otros', rows: [note('Piedras de alma.')] }])).toEqual([
+      [null, [[null, 1]]],
+    ])
+    expect(groupsOf([{ name: 'combates', rows: [note('2 x combates.')] }])).toEqual([
+      ['Combates', [[null, 1]]],
+    ])
   })
 
-  it('dos grupos iguales salen juntos, en el orden de sus filas', () => {
-    const note = (line: string) => ({ blockType: 'needNote' as const, text: text(line) })
+  it('la nota de Torre sobre Necesitarás sale encima de los grupos', () => {
     const view = dofusGuideView(
       data({
         needs: {
           title: null,
-          groups: [
-            { name: 'otros', rows: [note('Ayuda de otras 2 personas.')] },
-            { name: 'combates', rows: [note('14 x combates.')] },
-            { name: 'otros', rows: [note('Sueños infinitos.')] },
-          ],
+          note: '(no te he puesto los recursos de Incarnam)',
+          groups: [{ name: 'recursos', rows: [note('Algo.')] }],
         },
       }),
     )
-    expect(view.needs!.groups.map((group) => [group.name, group.rows.length])).toEqual([
-      ['Combates', 1],
-      ['Otros', 2],
-    ])
+    expect(view.needs?.note).toBe('(no te he puesto los recursos de Incarnam)')
   })
 
   it('un título propio de Necesitarás gana al de siempre', () => {

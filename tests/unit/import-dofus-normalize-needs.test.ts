@@ -23,6 +23,13 @@ const classify = needClassifiers({
   jobs: ['Minero', 'Campesino', 'Alquimista', 'Ganadero'],
 })
 
+const jobs = needClassifiers({
+  dungeons: [],
+  monsters: [],
+  achievements: [],
+  jobs: ['Maestro de armas', 'Pescador'],
+})
+
 const note = (text: string, headings: (string | null)[] = []): NeedEntry => ({
   text,
   headings,
@@ -36,10 +43,13 @@ const item = (text: string, superTypeId: number | null, headings: (string | null
 })
 
 const groupsOf = (entries: NeedEntry[]) =>
-  normalizeNeeds(entries, classify).groups.map((group) => [
-    group.name,
-    group.rows.map((row) => row.text),
-  ])
+  normalizeNeeds(entries, classify).groups.map((group) =>
+    group.subtitle
+      ? [group.name, group.subtitle, group.rows.map((row) => row.text)]
+      : [group.name, group.rows.map((row) => row.text)],
+  )
+/** Una fila bajo un subtítulo de Torre («Dependiendo de tu nivel:»). */
+const under = (unit: string, entry: NeedEntry): NeedEntry => ({ ...entry, unit })
 
 describe('normalizeNeeds', () => {
   it('los objetos van por su tipo en DofusDB, aunque Torre los pusiera en Recursos', () => {
@@ -96,8 +106,6 @@ describe('normalizeNeeds', () => {
   it('lo que no se puede clasificar con certeza va a Otros', () => {
     expect(
       groupsOf([
-        // Una llave no es una mazmorra, aunque nombre una.
-        note('1 x Llave del Ring Eskarlata.'),
         // Habla de mazmorras, pero no es una mazmorra que hacer.
         note('Piedras de alma de jefes de mazmorra y archimonstruos.'),
         note('Ayuda de otras 2 personas para baldosas ZzZzZz…'),
@@ -107,7 +115,6 @@ describe('normalizeNeeds', () => {
       [
         'otros',
         [
-          '1 x Llave del Ring Eskarlata.',
           'Piedras de alma de jefes de mazmorra y archimonstruos.',
           'Ayuda de otras 2 personas para baldosas ZzZzZz…',
           'Sueños infinitos.',
@@ -122,20 +129,66 @@ describe('normalizeNeeds', () => {
     ])
   })
 
-  it('un subtítulo que no es grupo va delante de sus filas, en su grupo (Cacao)', () => {
+  it('un subtítulo de Torre va con todas sus filas, bajo el título que lo engloba (Cacao)', () => {
+    const unit = 'Dependiendo de tu nivel'
+    const headings = [unit, 'Mazmorras']
     expect(
       groupsOf([
-        { ...note('Dependiendo de tu nivel:', ['Mazmorras']), leads: true },
-        note('Nivel 20 a 119: Fundición de los waddictos.', [
-          'Dependiendo de tu nivel',
-          'Mazmorras',
-        ]),
+        note('1 x Mazmorra Kutulú.', ['Mazmorras']),
+        under(unit, note('Nivel 20 a 119: Fundición de los waddictos.', headings)),
+        under(unit, note('Nivel 129 a 179: Crocantería.', headings)),
         note('Un par de combates por allí y por allá.'),
       ]),
     ).toEqual([
       ['combates', ['Un par de combates por allí y por allá.']],
-      ['mazmorras', ['Dependiendo de tu nivel:', 'Nivel 20 a 119: Fundición de los waddictos.']],
+      ['mazmorras', ['1 x Mazmorra Kutulú.']],
+      [
+        'mazmorras',
+        unit,
+        ['Nivel 20 a 119: Fundición de los waddictos.', 'Nivel 129 a 179: Crocantería.'],
+      ],
     ])
+  })
+
+  it('las filas de un subtítulo van al grupo de la mayoría, y se avisa de la mezcla', () => {
+    const unit = 'Para el final'
+    const { groups, mixed } = normalizeNeeds(
+      [
+        under(unit, note('1 x Mazmorra Malefíscof.', [unit])),
+        under(unit, note('1 x Mazmorra Fraktal.', [unit])),
+        under(unit, note('2 x combates.', [unit])),
+      ],
+      classify,
+    )
+    expect(groups.map((group) => [group.name, group.subtitle, group.rows.length])).toEqual([
+      ['mazmorras', unit, 3],
+    ])
+    expect(mixed).toEqual([{ subtitle: unit, groups: ['combates', 'mazmorras'] }])
+  })
+
+  it('«1 x Mazmorra:» con sus opciones: el subtítulo guarda la cantidad y el «una de»', () => {
+    const unit = '1 x Mazmorra'
+    expect(
+      groupsOf([
+        under(unit, note('Mazmorra Malefíscof.', [unit])),
+        under(unit, note('Mazmorra Fraktal.', [unit])),
+      ]),
+    ).toEqual([['mazmorras', unit, ['Mazmorra Malefíscof.', 'Mazmorra Fraktal.']]])
+  })
+
+  it('un subtítulo con filas de grupos distintos y sin mayoría va entero a Otros, y se avisa', () => {
+    const unit = 'Para el elixir'
+    const { groups, mixed } = normalizeNeeds(
+      [
+        under(unit, note('14 x combates.', [unit])),
+        under(unit, note('Ser minero nivel 20.', [unit])),
+      ],
+      classify,
+    )
+    expect(groups).toEqual([
+      { name: 'otros', subtitle: unit, rows: [expect.anything(), expect.anything()] },
+    ])
+    expect(mixed).toEqual([{ subtitle: unit, groups: ['combates', 'oficios'] }])
   })
 
   it('dice de dónde viene cada fila, a dónde va y por qué', () => {
@@ -161,17 +214,24 @@ describe('normalizeNeeds', () => {
 })
 
 describe('needClassifiers', () => {
-  it('una mazmorra: la palabra al principio o el emparejador, nunca una llave', () => {
+  it('una mazmorra: dice «Mazmorra» o «Llave», o es el nombre de una mazmorra', () => {
     expect(classify.dungeon('1 x Mazmorra Le chuko.')).toBe(true)
+    expect(classify.dungeon('1 x Llave del Ring Eskarlata.')).toBe(true)
     expect(classify.dungeon('1 x Antro del Dragocerdo.')).toBe(true)
-    expect(classify.dungeon('1 x Llave del Ring Eskarlata.')).toBe(false)
     expect(classify.dungeon('Capturar jefes de mazmorra.')).toBe(false)
+    // El nombre de un jefe solo no es una mazmorra: es un combate.
+    expect(classify.dungeon('1 x Wey Wabbit.')).toBe(false)
   })
 
-  it('un combate: la palabra «combate» o el nombre exacto de un monstruo', () => {
+  it('un combate: la palabra «combate», un monstruo o un jefe por su nombre', () => {
     expect(classify.fight('6 x combate (realizable en grupo).')).toBe('combate')
     expect(classify.fight('3 x Jalato.')).toBe('monstruo')
+    expect(classify.fight('1 x Wey Wabbit.')).toBe('monstruo')
     expect(classify.fight('Jalatín negro.')).toBeNull()
+  })
+
+  it('el nombre de un jefe va a Combates, no a Mazmorras', () => {
+    expect(groupsOf([note('1 x Wey Wabbit.')])).toEqual([['combates', ['1 x Wey Wabbit.']]])
   })
 
   it('un logro por su nombre exacto, con o sin «Logro:» y comillas', () => {
@@ -180,10 +240,15 @@ describe('needClassifiers', () => {
     expect(classify.achievement('La primera montura.')).toBe(false)
   })
 
-  it('un oficio: la palabra «oficio» o el nombre de un oficio de DofusDB', () => {
+  it('un oficio: la palabra «oficio» o un oficio entero de DofusDB, fuera del paréntesis', () => {
     expect(classify.job('Ser alquimista y/o campesino 200.')).toBe(true)
     expect(classify.job('Algún oficio nivel 200 (sea cual sea).')).toBe(true)
     expect(classify.job('Tener el Dofus vigilante.')).toBe(false)
+    // Lo que va entre paréntesis no cuenta.
+    expect(classify.job('Una caña (de un pescador).')).toBe(false)
+    // Un oficio de varias palabras casa entero.
+    expect(jobs.job('Ser maestro de armas 100.')).toBe(true)
+    expect(jobs.job('Ser maestro 100.')).toBe(false)
   })
 })
 

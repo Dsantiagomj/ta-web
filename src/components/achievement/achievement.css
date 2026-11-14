@@ -709,6 +709,21 @@
 .dg-needs__g + .dg-needs__g {
   margin-top: 1.5rem;
 }
+/* La nota de Torre sobre todo Necesitarás, encima de los grupos. */
+.dg-needs__note {
+  margin: 0 0 1rem;
+  color: var(--color-ink-2);
+  font-size: var(--text-sm);
+}
+/* El subtítulo de Torre de unas filas («1 × Mazmorra:»), bajo el nombre del grupo. */
+.dg-needs__sub {
+  margin: 0.75rem 0 0.375rem;
+  color: var(--color-ink-2);
+  font: 600 var(--text-sm) / 1.4 var(--font-body);
+}
+.dg-needs__g > .dg-h3 + .dg-needs__sub {
+  margin-top: 0;
+}
 /* La nota de Torre de un objeto («(o fabricarlo)»), bajo su nombre. */
 .dg-needs .needs__items .dg-muted {
   grid-column: 2;

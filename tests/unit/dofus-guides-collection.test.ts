@@ -136,6 +136,11 @@ describe('colección dofus-guides', () => {
       { value: 'logros', label: 'Logros' },
       { value: 'otros', label: 'Otros' },
     ])
+    // Lo que escribió Torre encima de unas filas («1 x Mazmorra», «Dependiendo de tu nivel»).
+    expect(field(groups.fields, 'subtitle')).toMatchObject({ type: 'text', localized: true })
+    expect(field(groups.fields, 'subtitle')).not.toHaveProperty('required', true)
+    // La nota de Torre sobre todo Necesitarás, encima de los grupos.
+    expect(field(needs.fields, 'note')).toMatchObject({ type: 'text', localized: true })
     const rows = field(groups.fields, 'rows') as BlocksField
     expect(blockSlugs(rows)).toEqual(['needItem', 'needNote'])
     const item = rows.blocks.find((block) => block.slug === 'needItem')!
