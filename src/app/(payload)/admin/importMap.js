@@ -29,6 +29,7 @@ import { DofusDbNote as DofusDbNote_ef522a00141bf02817f153aea2a46e82 } from '../
 import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { TextRowLabel as TextRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2 } from '../../../components/admin/RowLabels'
 import { LockedOnceSavedText as LockedOnceSavedText_e39bb667d9a84b668538928625e25395 } from '../../../components/admin/LockedOnceSavedText'
+import { StepOutline as StepOutline_860201d5ddeb43f10b04e6d780e8cd5d } from '../../../components/admin/StepOutline'
 import { SegmentLabel as SegmentLabel_a30613d846a340cabc3fc2ee7ca0f9f2 } from '../../../components/admin/RowLabels'
 import { CopyValueDescription as CopyValueDescription_2baecbdeb96cc0bdee0814f26368c33f } from '../../../components/admin/CopyValueDescription'
 import { ChecklistStepLabel as ChecklistStepLabel_a30613d846a340cabc3fc2ee7ca0f9f2 } from '../../../components/admin/RowLabels'
@@ -71,6 +72,7 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "/components/admin/RowLabels#TextRowLabel": TextRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2,
   "/components/admin/LockedOnceSavedText#LockedOnceSavedText": LockedOnceSavedText_e39bb667d9a84b668538928625e25395,
+  "/components/admin/StepOutline#StepOutline": StepOutline_860201d5ddeb43f10b04e6d780e8cd5d,
   "/components/admin/RowLabels#SegmentLabel": SegmentLabel_a30613d846a340cabc3fc2ee7ca0f9f2,
   "/components/admin/CopyValueDescription#CopyValueDescription": CopyValueDescription_2baecbdeb96cc0bdee0814f26368c33f,
   "/components/admin/RowLabels#ChecklistStepLabel": ChecklistStepLabel_a30613d846a340cabc3fc2ee7ca0f9f2,

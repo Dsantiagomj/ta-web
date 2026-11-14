@@ -270,7 +270,7 @@ function needsField(
   }
 }
 
-const stepFields: Field[] = [
+const stepFieldList: Field[] = [
   {
     // El número del paso en la checklist antigua: la migración del progreso guardado.
     name: 'legacyNumber',
@@ -441,6 +441,31 @@ const stepFields: Field[] = [
     admin: { description: s.bannerDescription },
   },
   localizedText('zone', 'Zona', s.zoneDescription),
+]
+
+const stepField = (name: string): Field => {
+  const found = stepFieldList.find((candidate) => 'name' in candidate && candidate.name === name)
+  if (!found) throw new Error(`Falta el campo ${name} del paso`)
+  return found
+}
+const tabsOf = panelStrings.stepTabs
+
+// Un paso abierto pasaba de los 4 000 px (A-18): sus campos van en pestañas, que solo los
+// colocan (no tienen nombre, así que no cambian lo guardado), y los datos técnicos al final.
+const stepFields: Field[] = [
+  stepField('legacyNumber'),
+  {
+    type: 'tabs',
+    tabs: [
+      {
+        label: tabsOf.text,
+        fields: ['zone', 'segments', 'closes', 'updates', 'note'].map(stepField),
+      },
+      { label: tabsOf.quests, fields: ['quests', 'achievements', 'bosses'].map(stepField) },
+      { label: tabsOf.needs, fields: [stepField('needs')] },
+      { label: tabsOf.images, fields: ['banner', 'icon', 'figure'].map(stepField) },
+    ],
+  },
   technicalFields,
 ]
 
@@ -617,6 +642,13 @@ export const Checklists: CollectionConfig = {
           ],
         }),
       ],
+    },
+    {
+      // El esquema que reordena los pasos con botones y con el teclado (A-18).
+      name: 'stepOutline',
+      label: panelStrings.stepOutline.label,
+      type: 'ui',
+      admin: { components: { Field: '/components/admin/StepOutline#StepOutline' } },
     },
     {
       name: 'steps',

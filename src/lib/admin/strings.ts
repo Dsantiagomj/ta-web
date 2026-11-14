@@ -7,6 +7,25 @@
 export const SITE_HOST = 'torrentearcano.com'
 
 export const panelStrings = {
+  /** Las pestañas de un paso de una checklist (A-18). */
+  stepTabs: {
+    text: 'Texto',
+    quests: 'Misiones y logros',
+    needs: 'Necesitarás',
+    images: 'Imágenes',
+  },
+  /** El esquema de los pasos de una checklist, para reordenarlos (A-18). */
+  stepOutline: {
+    label: 'Orden de los pasos',
+    title: (count: number) => `Orden de los pasos (${count})`,
+    help:
+      'Sube o baja cada paso con sus flechas o, con el paso elegido, con Alt y las flechas ' +
+      '(Alt con Inicio o Fin lo lleva al principio o al final). Cada paso guarda su progreso ' +
+      'al moverlo. Pulsa «Guardar» para quedarte con el orden nuevo.',
+    up: (n: number) => `Subir el paso ${n}`,
+    down: (n: number) => `Bajar el paso ${n}`,
+    moved: (from: number, to: number) => `El paso ${from} es ahora el ${to}.`,
+  },
   /** Los grupos del menú y del panel de control, en este orden. */
   groups: {
     content: 'Contenido',

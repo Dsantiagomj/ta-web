@@ -12,7 +12,9 @@ const named = (fields: Field[]): Field[] =>
   fields.flatMap((candidate) =>
     candidate.type === 'row' || candidate.type === 'collapsible'
       ? named(candidate.fields)
-      : [candidate],
+      : candidate.type === 'tabs'
+        ? candidate.tabs.flatMap((tab) => ('name' in tab ? [] : named(tab.fields)))
+        : [candidate],
   )
 
 function field(fields: Field[], name: string): Field {
@@ -213,6 +215,34 @@ describe('colección checklists', () => {
     expect(field(steps.fields, 'banner')).toMatchObject({ type: 'upload', relationTo: 'media' })
     expect(field(steps.fields, 'note')).toMatchObject({ type: 'richText', localized: true })
     expect(field(steps.fields, 'icon')).toMatchObject({ type: 'upload', relationTo: 'media' })
+  })
+
+  it('un paso va en pestañas sin nombre (no cambian lo guardado) y los datos técnicos al final (A-18)', () => {
+    const [legacyNumber, tabs, technical] = steps.fields as [Field, Field, Field]
+    expect(legacyNumber).toMatchObject({ name: 'legacyNumber', admin: { hidden: true } })
+    expect(technical).toMatchObject({ type: 'collapsible', label: 'Datos técnicos' })
+    if (tabs.type !== 'tabs') throw new Error('Faltan las pestañas del paso')
+    expect(
+      tabs.tabs.map((tab) => [
+        tab.label,
+        'name' in tab,
+        tab.fields.map((f) => ('name' in f ? f.name : f.type)),
+      ]),
+    ).toEqual([
+      ['Texto', false, ['zone', 'segments', 'closes', 'updates', 'note']],
+      ['Misiones y logros', false, ['quests', 'achievements', 'bosses']],
+      ['Necesitarás', false, ['needs']],
+      ['Imágenes', false, ['banner', 'icon', 'figure']],
+    ])
+  })
+
+  it('el esquema de los pasos va antes de los pasos, para reordenarlos (A-18)', () => {
+    const names = Checklists.fields.map((f) => ('name' in f ? f.name : null))
+    expect(names.indexOf('stepOutline')).toBe(names.indexOf('steps') - 1)
+    expect(field(Checklists.fields, 'stepOutline')).toMatchObject({
+      type: 'ui',
+      admin: { components: { Field: '/components/admin/StepOutline#StepOutline' } },
+    })
   })
 
   it('cada paso guarda su zona, la de Torre, que agrupa los pasos en la lista', () => {
