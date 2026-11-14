@@ -87,6 +87,14 @@ describe('parseDofusGuide: lo que Torre escribe', () => {
     expect(oficio).toMatchObject({ name: 'Algún oficio nivel 200', note: '(sea cual sea)' })
     expect(oficio.quantity).toBeUndefined()
 
+    // Una fila toda en negrita sin cantidad es una etiqueta de Torre («**Opcional**»), no un
+    // objeto: se queda sin nombre.
+    const label = guide('misiones-nebuloso')
+      .needs!.groups.flatMap((group) => group.rows)
+      .find((row) => row.text === 'Tener el Dofus vigilante.')!
+    expect(label.strong).toBe(true)
+    expect(label.name).toBeUndefined()
+
     // Una fila con enlaces (los emotes) no es un objeto: se queda sin nombre.
     const emotes = cacao.needs!.groups.find((group) => group.name === 'Emotes')!
     expect(emotes.rows.every((row) => row.name === undefined)).toBe(true)

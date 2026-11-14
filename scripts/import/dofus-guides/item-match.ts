@@ -2,9 +2,7 @@
 // («Varita pitusa.») es un objeto solo si un único objeto se llama así, sin mirar mayúsculas
 // ni tildes. Un nombre en plural («8 x Bananaranjas») se prueba en singular, con la misma
 // regla: cuenta solo si un único objeto casa. Con ninguno o con varios, la fila queda como nota.
-import type { RawItem } from '@/lib/dofusdb/types'
-
-import { fold } from './load'
+import { fold } from './fold'
 
 /** Cada vocal (y la n) con sus variantes con tilde, en minúscula y mayúscula. */
 const VARIANTS: Record<string, string> = {
@@ -37,20 +35,37 @@ export function itemNamePattern(names: string | string[]): string {
     : `^(?:${list.map(namePattern).join('|')})$`
 }
 
+/** Un objeto de la base (nombre en texto) o de DofusDB (nombre por idioma). */
+type Candidate = {
+  id: number
+  dofusId?: number | null
+  typeId?: number | null
+  name?: string | { es?: string | null } | null
+}
+
+const nameOf = (row: Candidate) => (typeof row.name === 'string' ? row.name : (row.name?.es ?? ''))
+
 /**
- * El único objeto de rows que se llama como uno de los nombres (sin mayúsculas ni tildes);
- * null si ninguno o varios.
+ * El objeto entre varios que casan: si todos son el mismo objeto repetido (mismo nombre y
+ * mismo tipo), el de ID de DofusDB más bajo; si hay dos distintos, null. Nunca se adivina.
  */
-export function onlyItem<T extends Pick<RawItem, 'id' | 'name'>>(
-  names: string | string[],
-  rows: T[],
-): T | null {
+export function sameItem<T extends Candidate>(rows: T[]): T | null {
+  if (rows.length === 0) return null
+  const [first] = rows
+  const same = rows.every(
+    (row) => nameOf(row) === nameOf(first!) && (row.typeId ?? null) === (first!.typeId ?? null),
+  )
+  if (!same) return null
+  return [...rows].sort((a, b) => (a.dofusId ?? a.id) - (b.dofusId ?? b.id))[0]!
+}
+
+/**
+ * El objeto de rows que se llama como uno de los nombres (sin mayúsculas ni tildes), con la
+ * regla de sameItem para los repetidos; null si ninguno o si hay duda.
+ */
+export function onlyItem<T extends Candidate>(names: string | string[], rows: T[]): T | null {
   const keys = new Set((typeof names === 'string' ? [names] : names).map(fold))
-  const matches = new Map<number, T>()
-  for (const row of rows) {
-    if (keys.has(fold(row.name?.es ?? ''))) matches.set(row.id, row)
-  }
-  return matches.size === 1 ? [...matches.values()][0]! : null
+  return sameItem(rows.filter((row) => keys.has(fold(nameOf(row)))))
 }
 
 /** «Flores»: «Flore» y «Flor». Una palabra de tres letras o menos («gas», «más») se deja. */
