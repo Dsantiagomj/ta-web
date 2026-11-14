@@ -8,9 +8,6 @@
   --color-section: var(--color-sec-checklists);
   --gut: 1rem;
   max-width: calc(var(--width-wide) + 2 * var(--gut));
-  /* Ocupa la pantalla bajo la cabecera, como el hub antiguo: el pie empieza fuera de la primera
-     pantalla, así que su imagen diferida (la cara de Torre) no puede ser el LCP. */
-  min-height: calc(100svh - 4rem);
   margin: 0 auto;
   padding: 1.75rem var(--gut) 1.5rem;
 }

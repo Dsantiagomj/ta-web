@@ -152,25 +152,65 @@ test.describe('índice de las checklists', () => {
     await expect(soon).not.toHaveAttribute('data-tilt')
   })
 
-  // El LCP (DESIGN.md, Performance budgets): con el pie en la primera pantalla, la cara de
-  // Torre, diferida, pasaba a ser lo más grande y llegaba tarde (3,6 s en Lighthouse CI). El
-  // índice ocupa la pantalla, como el hub antiguo, y los primeros carteles cargan su escena y
-  // su huevo sin esperar.
+  // Sin hueco bajo los carteles: el índice mide lo que ocupa y el pie va justo después (antes
+  // ocupaba la pantalla entera y en escritorio dejaba un hueco oscuro bajo la fila).
   for (const viewport of [
-    { width: 390, height: 844 },
-    { width: 412, height: 823 },
     { width: 1440, height: 900 },
+    { width: 1920, height: 1080 },
   ]) {
-    test(`el pie queda fuera de la primera pantalla a ${viewport.width}px`, async ({ page }) => {
+    test(`el pie sigue a los carteles sin un hueco a ${viewport.width}px`, async ({ page }) => {
       await page.setViewportSize(viewport)
       await page.goto('/checklists')
-      const top = await page
+      const rowBottom = await page
+        .locator('[data-checklist-grid]')
+        .evaluate((el) => el.getBoundingClientRect().bottom)
+      const footerTop = await page
         .locator('footer')
         .first()
         .evaluate((el) => el.getBoundingClientRect().top)
-      expect(top).toBeGreaterThanOrEqual(viewport.height)
+      // El margen inferior del índice, unos 48px.
+      expect(footerTop - rowBottom).toBeGreaterThanOrEqual(0)
+      expect(footerTop - rowBottom).toBeLessThan(80)
     })
   }
+
+  // El LCP (DESIGN.md, Performance budgets). En un móvil el pie entra en la primera pantalla y
+  // la cara de Torre, diferida, llega tarde. Se ve más pequeña que el huevo de un cartel o la
+  // entradilla, pero con un `filter` Chrome la contaba como un recuadro mayor y pasaba a ser el
+  // LCP (3,6 s en Lighthouse CI). Su sombra es un degradado detrás, sin `filter`.
+  test('la cara de Torre del pie no es el LCP en el móvil de Lighthouse', async ({ browser }) => {
+    const context = await browser.newContext({
+      viewport: { width: 412, height: 823 },
+      deviceScaleFactor: 1.75,
+      isMobile: true,
+    })
+    try {
+      const page = await context.newPage()
+      await page.addInitScript(() => {
+        const w = window as unknown as { lcp: Element[] }
+        w.lcp = []
+        new PerformanceObserver((list) => {
+          for (const entry of list.getEntries() as LargestContentfulPaint[]) {
+            if (entry.element) w.lcp.push(entry.element)
+          }
+        }).observe({ type: 'largest-contentful-paint', buffered: true })
+      })
+      await page.goto('/checklists', { waitUntil: 'networkidle' })
+      const face = page.locator('footer .ft-torre__face')
+      await expect(face).toHaveJSProperty('complete', true)
+      const last = await page.evaluate(() => {
+        const lcp = (window as unknown as { lcp: Element[] }).lcp
+        const element = lcp.at(-1)
+        return element ? { inFooter: !!element.closest('footer'), name: element.className } : null
+      })
+      expect(last).not.toBeNull()
+      expect(last?.inFooter, `LCP: ${last?.name}`).toBe(false)
+      // Lo que lo hace posible: ningún `filter` en la imagen.
+      await expect(face).toHaveCSS('filter', 'none')
+    } finally {
+      await context.close()
+    }
+  })
 
   test('los dos primeros carteles cargan su escena y su huevo con prioridad, sin diferir', async ({
     page,
