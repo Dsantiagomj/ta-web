@@ -2,20 +2,14 @@ import type { ArrayField, Field, GroupField, SelectField } from 'payload'
 import type { Access as AccessFn } from 'payload'
 import { describe, expect, it } from 'vitest'
 
+import { layoutFields } from './helpers/fields'
+
 import { Checklists } from '@/collections/Checklists'
 import { isPanelUser, readPublishedOrAll } from '@/collections/editorial-access'
 import { validateSlug } from '@/collections/QuestGuides'
 import { ROOT_SLUG_COLLECTIONS } from '@/collections/root-slug'
 
-/** Los campos con nombre, también los de una fila o un desplegable, que solo los colocan. */
-const named = (fields: Field[]): Field[] =>
-  fields.flatMap((candidate) =>
-    candidate.type === 'row' || candidate.type === 'collapsible'
-      ? named(candidate.fields)
-      : candidate.type === 'tabs'
-        ? candidate.tabs.flatMap((tab) => ('name' in tab ? [] : named(tab.fields)))
-        : [candidate],
-  )
+const named = layoutFields
 
 function field(fields: Field[], name: string): Field {
   const found = named(fields).find((candidate) => 'name' in candidate && candidate.name === name)

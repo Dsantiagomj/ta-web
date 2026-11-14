@@ -5,6 +5,7 @@ import { checklistStrings } from '../lib/checklists/strings'
 import { guidePreviewUrl, previewOrigin } from '../lib/guides/preview'
 import { assignStepIds, type StepIdentity } from '../lib/checklists/step-ids'
 import { stateField } from './achievement-fields'
+import { placeInTabs } from './field-tabs'
 import {
   validateClosedSteps,
   validateNeedItem,
@@ -443,29 +444,20 @@ const stepFieldList: Field[] = [
   localizedText('zone', 'Zona', s.zoneDescription),
 ]
 
-const stepField = (name: string): Field => {
-  const found = stepFieldList.find((candidate) => 'name' in candidate && candidate.name === name)
-  if (!found) throw new Error(`Falta el campo ${name} del paso`)
-  return found
-}
 const tabsOf = panelStrings.stepTabs
+const [legacyNumber, ...visibleStepFields] = stepFieldList
 
 // Un paso abierto pasaba de los 4 000 px (A-18): sus campos van en pestañas, que solo los
 // colocan (no tienen nombre, así que no cambian lo guardado), y los datos técnicos al final.
+// placeInTabs para si un campo del paso se queda sin pestaña.
 const stepFields: Field[] = [
-  stepField('legacyNumber'),
-  {
-    type: 'tabs',
-    tabs: [
-      {
-        label: tabsOf.text,
-        fields: ['zone', 'segments', 'closes', 'updates', 'note'].map(stepField),
-      },
-      { label: tabsOf.quests, fields: ['quests', 'achievements', 'bosses'].map(stepField) },
-      { label: tabsOf.needs, fields: [stepField('needs')] },
-      { label: tabsOf.images, fields: ['banner', 'icon', 'figure'].map(stepField) },
-    ],
-  },
+  legacyNumber,
+  placeInTabs(visibleStepFields, [
+    { label: tabsOf.text, names: ['zone', 'segments', 'closes', 'updates', 'note'] },
+    { label: tabsOf.quests, names: ['quests', 'achievements', 'bosses'] },
+    { label: tabsOf.needs, names: ['needs'] },
+    { label: tabsOf.images, names: ['banner', 'icon', 'figure'] },
+  ]),
   technicalFields,
 ]
 

@@ -17,7 +17,6 @@ export const panelStrings = {
   /** El esquema de los pasos de una checklist, para reordenarlos (A-18). */
   stepOutline: {
     label: 'Orden de los pasos',
-    title: (count: number) => `Orden de los pasos (${count})`,
     help:
       'Sube o baja cada paso con sus flechas o, con el paso elegido, con Alt y las flechas ' +
       '(Alt con Inicio o Fin lo lleva al principio o al final). Cada paso guarda su progreso ' +

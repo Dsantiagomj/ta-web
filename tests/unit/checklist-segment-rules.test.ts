@@ -1,6 +1,8 @@
 import type { ArrayField, Field } from 'payload'
 import { describe, expect, it, vi } from 'vitest'
 
+import { layoutFields } from './helpers/fields'
+
 import { Checklists } from '@/collections/Checklists'
 import {
   validateClosedSteps,
@@ -108,15 +110,10 @@ describe('lo que necesita un paso', () => {
 })
 
 describe('la colección usa estas reglas', () => {
-  // Los campos del paso van en pestañas sin nombre, que solo los colocan.
-  const flat = (fields: Field[]): Field[] =>
-    fields.flatMap((candidate) =>
-      candidate.type === 'tabs'
-        ? candidate.tabs.flatMap((tab) => ('name' in tab ? [] : flat(tab.fields)))
-        : [candidate],
-    )
   const byName = (fields: Field[], name: string) =>
-    flat(fields).find((candidate) => 'name' in candidate && candidate.name === name) as Field & {
+    layoutFields(fields).find(
+      (candidate) => 'name' in candidate && candidate.name === name,
+    ) as Field & {
       validate?: unknown
     }
   const steps = byName(Checklists.fields, 'steps') as ArrayField
