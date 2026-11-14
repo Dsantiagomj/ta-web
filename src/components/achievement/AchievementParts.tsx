@@ -1,8 +1,15 @@
 import { type CSSProperties, useId } from 'react'
 
+import { ChevronIcon } from '@/components/game/icons'
 import { IconWell } from '@/components/game/IconWell'
 import { CopyName } from '@/components/game/Item'
-import { QuestFacts, type QuestFactsData } from '@/components/game/QuestFacts'
+import { gameStrings } from '@/components/game/strings'
+import {
+  hasRewards,
+  PrerequisiteRows,
+  RewardRows,
+  type QuestFactsData,
+} from '@/components/game/QuestFacts'
 import { Picture } from '@/components/ui/Picture'
 import type { ImageAsset } from '@/components/ui/types'
 import type {
@@ -32,32 +39,66 @@ function PreparingTag() {
   return <span className="ztag">{s.preparing}</span>
 }
 
-const NO_NEEDS: QuestFactsData['needs'] = { items: [], notes: [] }
-
 /**
- * La cabecera del logro (DESIGN.md, Achievement page): la de la guía con el icono del logro
- * donde va el PNJ, el subtítulo «3 misiones - Niveles 15 a 25 - 10 puntos» y la banda de
- * Prerrequisitos y «Recompensas del logro». «Necesitarás en total» va aparte
- * (AchievementNeeds).
+ * La cabecera del logro (DESIGN.md, Achievement page): el icono del logro en su hueco, el
+ * título y el subtítulo «3 misiones - Niveles 15 a 25 - 10 puntos». Prerrequisitos,
+ * Recompensas y «Necesitarás en total» van en la ficha (AchievementSheet).
  */
 export function AchievementHeader({
   title,
   icon,
   meta,
-  facts,
 }: {
   title: string
   icon?: ImageAsset
   meta: string[]
-  facts: Omit<QuestFactsData, 'needs'>
 }) {
   return (
-    <header className="qhead lhead">
+    <header className="qhead lhead lhead--logro">
       <AchievementIcon icon={icon} className="lhead__icon" />
       <h1 className="qhead__title">{title}</h1>
       {meta.length > 0 && <p className="qhead__meta">{meta.join(s.metaSeparator)}</p>}
-      <QuestFacts facts={{ ...facts, needs: NO_NEEDS }} labels={{ rewards: s.rewards }} />
     </header>
+  )
+}
+
+type SheetFacts = Pick<QuestFactsData, 'prerequisites' | 'rewards'>
+
+const hasNeeds = ({ items, tasks, others }: Needs) =>
+  items.length > 0 || tasks.length > 0 || others.length > 0
+
+/** Si la ficha tiene algo que enseñar. Sin ella, la página es una sola columna. */
+export const hasSheet = (facts: SheetFacts, needs: Needs) =>
+  facts.prerequisites.length > 0 || hasRewards(facts.rewards) || hasNeeds(needs)
+
+/**
+ * Una parte plegable de la ficha: su título es el resumen de un <details>, con el chevron.
+ * Cerrada en el HTML: en el móvil y la tableta se abre al pulsarla; desde 64rem el CSS ya la
+ * enseña abierta y la isla de la página la abre y no deja cerrarla.
+ */
+function SheetFold({
+  id,
+  label,
+  className = 'lsheet__p',
+  children,
+}: {
+  id: string
+  label: string
+  className?: string
+  children: React.ReactNode
+}) {
+  return (
+    <section className={className} aria-labelledby={id}>
+      <details className="lsheet__d" data-sheet="">
+        <summary className="lsheet__s">
+          <h2 className="lsheet__k" id={id}>
+            {label}
+          </h2>
+          <ChevronIcon className="lsheet__chev" />
+        </summary>
+        <div className="lsheet__body">{children}</div>
+      </details>
+    </section>
   )
 }
 
@@ -66,28 +107,17 @@ function NeedsGroup({
   id,
   label,
   className,
-  columns = 1,
-  count = 0,
   modifier,
   children,
 }: {
   id: string
   label: string
   className: string
-  /** En cuántas columnas va la lista cuando hay sitio (needsColumns), y cuántas filas tiene. */
-  columns?: number
-  count?: number
   modifier?: string
   children: React.ReactNode
 }) {
-  const split = columns > 1
-  const groupClass = ['lneeds__g', split && 'lneeds__g--cols', modifier].filter(Boolean).join(' ')
-  // Nombres propios de la zona: un --cols de un antepasado no puede colarse.
-  const style = split
-    ? ({ '--lneeds-cols': columns, '--lneeds-rows': Math.ceil(count / columns) } as CSSProperties)
-    : undefined
   return (
-    <div className={groupClass} style={style}>
+    <div className={modifier ? `lneeds__g ${modifier}` : 'lneeds__g'}>
       <h3 className="lneeds__k" id={id}>
         {label}
       </h3>
@@ -96,39 +126,6 @@ function NeedsGroup({
       </ul>
     </div>
   )
-}
-
-// Las columnas de las listas con iconos (objetos, y combates y mazmorras) a lo ancho: tres
-// entre las dos, que con sus nombres cortos en una línea es lo que cabe junto al filete.
-// Otros va siempre en su propia fila, fuera del reparto. Solo se parte una lista de más de
-// cinco filas, y cada columna se queda con tres al menos.
-const NEEDS_COLUMNS = 3
-const NEEDS_TALL = 5
-const NEEDS_MIN_ROWS = 3
-
-/**
- * En cuántas columnas va cada lista para que ningún grupo quede mucho más alto que los
- * otros: una columna más, cada vez, para la lista más alta, mientras queden columnas y
- * pase de cinco filas. Ocre de ámbar (5 objetos, 10 combates): los combates en dos de 5.
- */
-export function needsColumns(lengths: number[]): number[] {
-  const columns = lengths.map(() => 1)
-  const height = (i: number) => Math.ceil(lengths[i]! / columns[i]!)
-  let used = lengths.filter((n) => n > 0).length
-  while (used < NEEDS_COLUMNS) {
-    const tallest = lengths.reduce((best, _, i) => (height(i) > height(best) ? i : best), 0)
-    const n = lengths[tallest]!
-    if (height(tallest) <= NEEDS_TALL || n / (columns[tallest]! + 1) < NEEDS_MIN_ROWS) break
-    columns[tallest]! += 1
-    used += 1
-  }
-  return columns
-}
-
-/** Las columnas de los objetos y de los combates, y si la zona sale de la columna de lectura. */
-export function needsLayout({ items, tasks }: Pick<Needs, 'items' | 'tasks'>) {
-  const [itemColumns, taskColumns] = needsColumns([items.length, tasks.length]) as [number, number]
-  return { itemColumns, taskColumns, wide: itemColumns > 1 || taskColumns > 1 }
 }
 
 /**
@@ -143,85 +140,105 @@ const Quantity = ({ value }: { value?: number }) =>
   )
 
 /**
- * «Necesitarás en total», su propia zona bajo la cabecera (DESIGN.md, Achievement page): los
- * objetos (icono, cantidad y el nombre, que se copia), los combates y mazmorras, y lo demás
- * que escribió Torre, cada grupo con su título. Los objetos y los combates llevan su hueco
- * de 44px, con la primera línea del texto a su altura; una mazmorra casada, su jefe. Lo
- * demás no tiene icono ni deja su hueco. Un grupo vacío no se pinta; sin nada, no hay zona.
+ * Los grupos de «Necesitarás en total» (DESIGN.md, Achievement page): los objetos (icono,
+ * cantidad y el nombre, que se copia) y los combates y mazmorras, cada uno con su título y
+ * su hueco de icono a la altura de la primera línea del texto; una mazmorra casada, con su
+ * jefe. Debajo, Otros: lo demás que escribió Torre, tal cual, en una sola línea de prosa
+ * tras su título, sin huecos. Un grupo vacío no se pinta.
  */
-export function AchievementNeeds({ needs }: { needs: Needs }) {
-  // Ids propios: el catálogo (/sistema) pinta la zona en cada tema y modo.
-  const id = useId()
+function NeedsGroups({ id, needs }: { id: string; needs: Needs }) {
   const { items, tasks, others } = needs
-  if (items.length === 0 && tasks.length === 0 && others.length === 0) return null
-  const { itemColumns, taskColumns, wide } = needsLayout(needs)
   return (
-    <section className={wide ? 'lneeds lneeds--wide' : 'lneeds'} aria-labelledby={`${id}-h`}>
-      <h2 className="lzone__h" id={`${id}-h`}>
-        {s.needsTotal}
-      </h2>
-      <div className={wide ? 'lneeds__groups lneeds__groups--cols' : 'lneeds__groups'}>
-        {items.length > 0 && (
-          <NeedsGroup
-            id={`${id}-objetos`}
-            label={s.needsGroups.items}
-            className="lneeds__items"
-            columns={itemColumns}
-            count={items.length}
-          >
-            {items.map(({ item, quantity }) => (
-              <li key={item.name} className="row copyhost">
-                <IconWell image={item.icon} />
-                <span className="lneeds__t">
-                  <Quantity value={quantity} />
-                  <CopyName name={item.name} />
-                </span>
-              </li>
-            ))}
-          </NeedsGroup>
-        )}
-        {tasks.length > 0 && (
-          <NeedsGroup
-            id={`${id}-tareas`}
-            label={s.needsGroups.tasks}
-            className="lneeds__tasks"
-            columns={taskColumns}
-            count={tasks.length}
-          >
-            {tasks.map(({ quantity, label, kind, boss }) => (
-              <li key={label} className="row">
-                {boss ? (
-                  <IconWell image={boss} />
-                ) : (
-                  <IconWell icon={kind === 'dungeon' ? 'dungeon' : 'combat'} />
-                )}
-                <span className="lneeds__t">
-                  <Quantity value={quantity} />
-                  {label}
-                </span>
-              </li>
-            ))}
-          </NeedsGroup>
-        )}
-        {others.length > 0 && (
-          <NeedsGroup
-            id={`${id}-otros`}
-            label={s.needsGroups.others}
-            className="lneeds__others"
-            modifier="lneeds__g--others"
-          >
-            {others.map(({ quantity, label }) => (
-              <li key={label} className="row">
-                <span className="lneeds__t">
-                  <Quantity value={quantity} />
-                  {label}
-                </span>
-              </li>
-            ))}
-          </NeedsGroup>
-        )}
-      </div>
-    </section>
+    <div className="lneeds__groups">
+      {items.length > 0 && (
+        <NeedsGroup id={`${id}-objetos`} label={s.needsGroups.items} className="lneeds__items">
+          {items.map(({ item, quantity }) => (
+            <li key={item.name} className="row copyhost">
+              <IconWell image={item.icon} />
+              <span className="lneeds__t">
+                <Quantity value={quantity} />
+                <CopyName name={item.name} />
+              </span>
+            </li>
+          ))}
+        </NeedsGroup>
+      )}
+      {tasks.length > 0 && (
+        <NeedsGroup id={`${id}-tareas`} label={s.needsGroups.tasks} className="lneeds__tasks">
+          {tasks.map(({ quantity, label, kind, boss }) => (
+            <li key={label} className="row">
+              {boss ? (
+                <IconWell image={boss} />
+              ) : (
+                <IconWell icon={kind === 'dungeon' ? 'dungeon' : 'combat'} />
+              )}
+              <span className="lneeds__t">
+                <Quantity value={quantity} />
+                {label}
+              </span>
+            </li>
+          ))}
+        </NeedsGroup>
+      )}
+      {others.length > 0 && (
+        <NeedsGroup
+          id={`${id}-otros`}
+          label={s.needsGroups.others}
+          className="lneeds__others"
+          modifier="lneeds__g--others"
+        >
+          {others.map(({ quantity, label }) => (
+            <li key={label} className="row">
+              <span className="lneeds__t">
+                <Quantity value={quantity} />
+                {label}
+              </span>
+            </li>
+          ))}
+        </NeedsGroup>
+      )}
+    </div>
+  )
+}
+
+/**
+ * La ficha del logro (DESIGN.md, Achievement page, opción C de «Logro más compacto»):
+ * «Recompensas del logro», siempre a la vista, y Prerrequisitos y «Necesitarás en total»,
+ * plegables. En el escritorio es una columna a la derecha de las misiones, abierta, que no
+ * suma altura encima de ellas; en el móvil y la tableta va entre la cabecera y la página,
+ * con las dos partes plegadas en una fila cada una. Una parte vacía no se pinta; sin nada,
+ * no hay ficha.
+ */
+export function AchievementSheet({ facts, needs }: { facts: SheetFacts; needs: Needs }) {
+  // Ids propios: el catálogo (/sistema) pinta la ficha en cada tema y modo.
+  const id = useId()
+  if (!hasSheet(facts, needs)) return null
+  const { prerequisites, rewards } = facts
+  return (
+    <div className="lsheet">
+      {hasRewards(rewards) && (
+        <section className="lsheet__p" aria-labelledby={`${id}-rec`}>
+          <h2 className="lsheet__k" id={`${id}-rec`}>
+            {s.rewards}
+          </h2>
+          <ul role="list" className="lsheet__rew">
+            <RewardRows rewards={rewards} bagId={`${id}-bag`} />
+          </ul>
+        </section>
+      )}
+      {prerequisites.length > 0 && (
+        <SheetFold id={`${id}-pre`} label={gameStrings.header.prerequisites}>
+          <ul role="list" className="lsheet__pre">
+            <PrerequisiteRows lines={prerequisites} />
+          </ul>
+        </SheetFold>
+      )}
+      {hasNeeds(needs) && (
+        <SheetFold id={`${id}-nec`} label={s.needsTotal} className="lsheet__p lneeds">
+          <NeedsGroups id={id} needs={needs} />
+        </SheetFold>
+      )}
+    </div>
   )
 }
 

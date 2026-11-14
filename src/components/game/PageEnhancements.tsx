@@ -28,8 +28,8 @@ interface Viewed {
  * La única isla de las páginas de guía (DESIGN.md, Coordinates chip, Video facade, Figure
  * y Quest header). Se pinta una vez por página y escucha con delegación: copia el
  * data-copy de los chips de coordenadas y de los objetos, cambia el enlace de un vídeo por su reproductor,
- * abre las capturas en un visor a pantalla completa y abre y cierra la bolsa de
- * recompensas. Sin ella, los chips son texto, el vídeo un enlace, la captura un enlace a su
+ * abre las capturas en un visor a pantalla completa, abre y cierra la bolsa de
+ * recompensas y abre la ficha del logro desde 64rem. Sin ella, los chips son texto, el vídeo un enlace, la captura un enlace a su
  * archivo y la lista de la bolsa se ve abierta.
  */
 export function PageEnhancements() {
@@ -128,8 +128,23 @@ export function PageEnhancements() {
         button.parentElement ? [button.parentElement] : [],
       )
 
+    // La ficha de la página del logro (achievement.css): desde 64rem es una columna abierta
+    // al lado de las misiones; el CSS ya la enseña así, y aquí sus <details> pasan a estar
+    // abiertos, para que lo diga su estado, y su título deja de plegarla. Debajo se pliegan.
+    const wide = window.matchMedia('(min-width: 64rem)')
+    const placeSheet = () => {
+      for (const fold of document.querySelectorAll<HTMLDetailsElement>('details[data-sheet]')) {
+        fold.open = wide.matches
+      }
+    }
+    placeSheet()
+
     const onClick = (event: MouseEvent) => {
       const target = event.target instanceof Element ? event.target : null
+      if (wide.matches && target?.closest('details[data-sheet] > summary')) {
+        event.preventDefault()
+        return
+      }
       // Un clic fuera de una bolsa abierta la cierra; en su botón, la abre o la cierra.
       const bag = target?.closest('[data-bag]')
       for (const open of openBags()) if (open !== bag) setBag(open, false)
@@ -192,12 +207,14 @@ export function PageEnhancements() {
     document.addEventListener('keydown', onKeyDown)
     document.addEventListener('focusout', onFocusOut)
     window.addEventListener('resize', onResize)
+    wide.addEventListener('change', placeSheet)
     return () => {
       clearTimeout(timer)
       document.removeEventListener('click', onClick)
       document.removeEventListener('keydown', onKeyDown)
       document.removeEventListener('focusout', onFocusOut)
       window.removeEventListener('resize', onResize)
+      wide.removeEventListener('change', placeSheet)
     }
   }, [])
 

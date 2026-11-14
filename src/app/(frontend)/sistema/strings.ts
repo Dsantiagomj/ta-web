@@ -61,7 +61,7 @@ export const catalogStrings = {
     checklists:
       'Tarjetas del índice: una Publicada que abre su página, una En preparación que abre la web anterior y lo dice, y otra sin enlace, apagada.',
     achievement:
-      'Necesitarás en total en sus grupos (Objetos, Combates y mazmorras, y Otros; el objeto copia su nombre) y con un solo grupo. Las misiones en orden, numeradas: un logro corto en una columna y uno largo en dos; la misión sin guía publicada no es un enlace.',
+      'La ficha del logro, como en la columna del escritorio: las recompensas (la bolsa se abre), Prerrequisitos y Necesitarás en total en sus grupos (Objetos, Combates y mazmorras, y Otros en una línea; el objeto copia su nombre); y otra con un solo grupo. En el móvil, Prerrequisitos y Necesitarás se pliegan. Las misiones en orden, numeradas: un logro corto en una columna y uno largo en dos; la misión sin guía publicada no es un enlace.',
     image:
       'Pulsa la captura para verla a pantalla completa; Esc, Cerrar o un clic fuera la cierran. Sin JavaScript abre el archivo.',
   },

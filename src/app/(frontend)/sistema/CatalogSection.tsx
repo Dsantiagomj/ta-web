@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-import { AchievementNeeds, AchievementQuests } from '@/components/achievement/AchievementParts'
+import { AchievementQuests, AchievementSheet } from '@/components/achievement/AchievementParts'
 import { Emblem } from '@/components/brand/Emblem'
 import { Lockup } from '@/components/brand/Lockup'
 import { AchievementChain } from '@/components/game/AchievementChain'
@@ -36,6 +36,8 @@ import type { Mode, Theme } from '@/lib/theme/theme'
 
 import {
   achievement,
+  achievementFacts,
+  achievementFactsEmpty,
   achievementNeeds,
   achievementNeedsItems,
   achievementQuests,
@@ -299,8 +301,15 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
           <Group name="achievement" note={s.notes.achievement} wide>
             {/* La columna del logro es el contenedor de sus consultas de anchura. */}
             <div className="logro__main grid w-full gap-6 [--color-section:var(--color-sec-logros)]">
-              <AchievementNeeds needs={achievementNeeds} />
-              <AchievementNeeds needs={achievementNeedsItems} />
+              {/* La ficha, al ancho de su columna del escritorio. */}
+              <div className="flex flex-wrap items-start gap-12">
+                <div className="w-full max-w-80">
+                  <AchievementSheet facts={achievementFacts} needs={achievementNeeds} />
+                </div>
+                <div className="w-full max-w-80">
+                  <AchievementSheet facts={achievementFactsEmpty} needs={achievementNeedsItems} />
+                </div>
+              </div>
               <AchievementQuests quests={achievementQuests} />
               <AchievementQuests quests={achievementQuestsLong} />
             </div>

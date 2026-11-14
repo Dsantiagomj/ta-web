@@ -2,9 +2,9 @@ import {
   AchievementCountsFor,
   AchievementHeader,
   AchievementNav,
-  AchievementNeeds,
   AchievementQuests,
-  needsLayout,
+  AchievementSheet,
+  hasSheet,
 } from '@/components/achievement/AchievementParts'
 import { GuideRichText } from '@/components/game/GuideRichText'
 import { PageEnhancements } from '@/components/game/PageEnhancements'
@@ -17,10 +17,12 @@ import { PreviewBar } from './PreviewBar'
 
 /**
  * La página de un logro (DESIGN.md, Achievement page): las migas, la cabecera con el icono,
- * «Necesitarás en total», la entrada de Torre, las misiones en orden, el cierre, «Cuenta para» y el logro anterior y
- * el siguiente, en una sola columna centrada. «Necesitarás en total» sale de ella solo cuando
- * una de sus listas se parte en columnas (logro--needs-wide). La única isla es la de la
- * guía, para la bolsa de recompensas; la de la vista previa, solo en draft mode.
+ * la ficha (Recompensas, Prerrequisitos y «Necesitarás en total») y, en logro__body, la
+ * entrada de Torre, las misiones en orden, el cierre, «Cuenta para» y el logro anterior y el
+ * siguiente. En el escritorio la ficha es una columna a la derecha y las misiones van justo
+ * debajo del título (logro--sheet); en el móvil, la ficha va entre la cabecera y lo demás.
+ * La única isla es la de la guía, para la bolsa de recompensas y la ficha abierta desde
+ * 64rem; la de la vista previa, solo en draft mode.
  */
 export function AchievementView({
   data,
@@ -39,34 +41,29 @@ export function AchievementView({
       {preview && <PreviewBar slug={data.page.slug} />}
       <main
         id="contenido"
-        className={
-          needsLayout(view.needs).wide ? 'logro logro--wide logro--needs-wide' : 'logro logro--wide'
-        }
+        className={hasSheet(view.facts, view.needs) ? 'logro logro--sheet' : 'logro'}
       >
         <article className="logro__main">
           <Breadcrumb {...view.breadcrumb} />
-          <AchievementHeader
-            title={view.title}
-            icon={view.icon}
-            meta={view.meta}
-            facts={view.facts}
-          />
-          <AchievementNeeds needs={view.needs} />
-          {intro && (
-            <div className="logro__prose guide-body">
-              <GuideRichText content={intro} />
-            </div>
-          )}
-          <AchievementQuests quests={view.quests} />
-          {outro && (
-            <div className="logro__prose guide-body">
-              <GuideRichText content={outro} />
-            </div>
-          )}
-          <AchievementCountsFor countsFor={view.countsFor} />
-          {view.group && (
-            <AchievementNav group={view.group.name} previous={view.previous} next={view.next} />
-          )}
+          <AchievementHeader title={view.title} icon={view.icon} meta={view.meta} />
+          <AchievementSheet facts={view.facts} needs={view.needs} />
+          <div className="logro__body">
+            {intro && (
+              <div className="logro__prose guide-body">
+                <GuideRichText content={intro} />
+              </div>
+            )}
+            <AchievementQuests quests={view.quests} />
+            {outro && (
+              <div className="logro__prose guide-body">
+                <GuideRichText content={outro} />
+              </div>
+            )}
+            <AchievementCountsFor countsFor={view.countsFor} />
+            {view.group && (
+              <AchievementNav group={view.group.name} previous={view.previous} next={view.next} />
+            )}
+          </div>
         </article>
       </main>
       <PageEnhancements />
