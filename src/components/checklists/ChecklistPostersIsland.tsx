@@ -4,7 +4,7 @@ import { useEffect, useEffectEvent } from 'react'
 
 import type { PosterProgressModel } from '@/lib/checklists/poster-progress'
 
-import { startPosters } from './posters-ui'
+import { hasProgress, startTilt } from './posters-ui'
 
 /** localStorage, o null si el navegador no deja tocarlo (modo privado estricto). */
 function browserStorage(): Storage | null {
@@ -16,19 +16,28 @@ function browserStorage(): Storage | null {
 }
 
 /**
- * La isla del índice /checklists: el porcentaje de cada cartel y la inclinación hacia el ratón
- * (posters-ui.ts). Sin ella los carteles se ven igual, sin porcentaje ni inclinación.
+ * La isla del índice /checklists: la inclinación hacia el ratón (posters-ui.ts) y, si el
+ * navegador tiene progreso, el porcentaje de cada cartel (poster-progress-ui.ts, con import()).
+ * Sin ella los carteles se ven igual, sin porcentaje ni inclinación.
  */
 export function ChecklistPostersIsland({ models }: { models: PosterProgressModel[] }) {
   const latest = useEffectEvent(() => models)
-  // El DOM que pinta el servidor, localStorage y los eventos del puntero.
-  useEffect(
-    () =>
-      startPosters(document, latest(), {
-        storage: browserStorage(),
-        motion: window.matchMedia('(prefers-reduced-motion: reduce)'),
-      }),
-    [],
-  )
+  // El DOM que pinta el servidor, los eventos del puntero y localStorage.
+  useEffect(() => {
+    const stop = startTilt(document, window.matchMedia('(prefers-reduced-motion: reduce)'))
+    const storage = browserStorage()
+    let cancelled = false
+    if (storage && hasProgress(storage)) {
+      import('./poster-progress-ui')
+        .then(({ paintProgress }) => {
+          if (!cancelled) paintProgress(document, latest(), storage)
+        })
+        .catch((error: unknown) => console.error(error))
+    }
+    return () => {
+      cancelled = true
+      stop()
+    }
+  }, [])
   return null
 }
