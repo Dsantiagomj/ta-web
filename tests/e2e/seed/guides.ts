@@ -170,6 +170,10 @@ export const draftGuide = {
   body: 'Este borrador todavía no se ha publicado.',
 }
 
+// Una misión previa de fuera del logro, sin guía: el Prerrequisito de la página del logro
+// (la previa de Seis pies bajo tierra es del mismo logro y no cuenta).
+export const outsidePrerequisite = { dofusId: 1940, title: 'Un encargo en Astrub' }
+
 // ---------- Lexical ----------
 
 type LexicalNode = Record<string, unknown>
@@ -365,11 +369,17 @@ export async function seedGuides(payload: Payload): Promise<void> {
       items: [...rewardIds].reverse().map((reward) => ({ item: reward.id, quantity: 1 })),
     },
   })
+  const errand = await quest(payload, {
+    dofusId: outsidePrerequisite.dofusId,
+    name: outsidePrerequisite.title,
+    levelMin: 10,
+  })
   const hunter = await quest(payload, {
     dofusId: 1977,
     name: draftGuide.title,
     levelMin: 25,
     achievement: { dofusId: 1671, position: 3, total: 3 },
+    prerequisites: [errand.id],
   })
 
   const { npcId, right, left } = seedGuide.giver

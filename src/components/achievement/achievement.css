@@ -4,10 +4,10 @@
 @import '../checklist/checklist.css';
 
 /*
- * La página del logro (DESIGN.md, Achievement page): una sola columna de lectura centrada,
- * la cabecera de la guía con el icono del logro, las tarjetas de las misiones, «Cuenta para»
- * y el anterior y el siguiente. Las piezas de la
- * guía (columnas, filas, huecos, bolsa, tarjeta de siguiente) vienen de game.css.
+ * La página del logro (DESIGN.md, Achievement page): la cabecera de la guía con el icono del
+ * logro, la ficha (Recompensas, Prerrequisitos y «Necesitarás en total»), la lista numerada
+ * de las misiones, «Cuenta para» y el anterior y el siguiente. Las piezas de la guía
+ * (filas, huecos, bolsa, tarjeta de siguiente) vienen de game.css.
  */
 
 /* ---------- página ---------- */
@@ -42,53 +42,65 @@
   container-type: inline-size;
 }
 
-/* La página del logro llega al ancho del sitio (--width-wide, los bordes de la cabecera) en
-   una rejilla con líneas con nombre: todo va en la columna de lectura (col) y «Necesitarás en
-   total» sale a todo lo ancho (full) solo cuando una de sus listas se parte en columnas
-   (lneeds--wide, needsLayout); con totales cortos se queda en la columna. Las consultas de
-   contenedor de las partes no cambian: miden el artículo, que nunca es más estrecho que la
-   columna, y todas saltan por debajo de 55rem. */
-.logro--wide {
-  max-width: var(--width-wide);
-}
-
-.logro--wide > .logro__main {
-  display: grid;
-  grid-template-columns:
-    [full-start] minmax(0, 1fr) [col-start] min(var(--logro-col), 100%)
-    [col-end] minmax(0, 1fr) [full-end];
-}
-
-.logro--wide > .logro__main > * {
-  grid-column: col;
+/* Lo que sigue a la cabecera y la ficha: las consultas de anchura de sus partes (las dos
+   columnas de las misiones, el anterior y el siguiente) miden esta columna. */
+.logro__body {
   min-width: 0;
-}
-
-.logro--wide > .logro__main > .lneeds--wide {
-  grid-column: full;
-}
-
-/* La zona ancha es una franja entre dos filetes a su ancho: el de debajo de la cabecera pasa
-   a ser el suyo de arriba, y el suyo de abajo, el de «Las misiones, en orden» cuando van
-   seguidas. Así el título de la zona arranca donde arrancan sus grupos y la franja se lee
-   aparte de la columna, con las mismas distancias que antes. */
-.logro--needs-wide .lhead {
-  border-bottom: 0;
-}
-
-.logro--wide .lneeds--wide {
-  margin-top: 0;
-  padding-block: 2.25rem 2.5rem;
-  border-block: 1px solid var(--color-line);
-}
-
-.logro--wide .lneeds--wide + .lq {
-  margin-top: 0;
-  border-top: 0;
+  container-type: inline-size;
 }
 
 .logro__prose {
   margin-top: 2.25rem;
+}
+
+/* La ficha al lado (opción C de «Logro más compacto»): desde 64rem, una rejilla de dos
+   columnas. Las migas, la cabecera y logro__body van en la de la izquierda, una debajo de
+   otra, y la ficha en la de la derecha, de arriba abajo, a la altura de las migas: no suma
+   altura encima de las misiones. La última fila es flexible, así que una ficha más alta que
+   las migas y la cabecera solo alarga esa fila, sin separar las de arriba. */
+@media (min-width: 64rem) {
+  .logro--sheet {
+    max-width: 78rem;
+  }
+
+  .logro--sheet > .logro__main {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 20rem;
+    grid-template-rows: auto auto 1fr;
+    column-gap: 3rem;
+  }
+
+  .logro--sheet > .logro__main > * {
+    grid-column: 1;
+    min-width: 0;
+  }
+
+  .logro--sheet > .logro__main > .lsheet {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    align-self: start;
+    padding-left: 2rem;
+    border-left: 1px solid var(--color-line);
+  }
+
+  .logro--sheet .qhead.lhead--logro {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .logro--sheet .lq {
+    margin-top: 1.75rem;
+    padding-top: 1.75rem;
+  }
+}
+
+/* En el móvil y la tableta la ficha va entre la cabecera y lo demás, y su último filete
+   separa las misiones cuando siguen. */
+@media (max-width: 63.99rem) {
+  .lsheet + .logro__body > .lq:first-child {
+    margin-top: 0;
+    border-top: 0;
+  }
 }
 
 /* ---------- cabecera: la de la guía, con el icono del logro donde va el PNJ ---------- */
@@ -134,56 +146,233 @@
   }
 }
 
-/* ---------- Necesitarás en total: su propia zona, en grupos ---------- */
+/* La del logro, más corta: el icono (56px, 68px desde 576px), el título y el subtítulo, sin
+   banda; lo demás va en la ficha. Dos clases: game.css (.qhead) puede cargar después. */
+.qhead.lhead--logro {
+  grid-template: 'icon title' 'icon meta' / 3.5rem minmax(0, 1fr);
+  column-gap: 0.875rem;
+  padding-bottom: 1.25rem;
+}
 
-.lzone__h,
-.lq__h {
+.lhead--logro .lhead__icon {
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+.lhead--logro .lhead__icon img {
+  width: 2.625rem;
+  height: 2.625rem;
+}
+
+.lhead--logro .qhead__meta {
+  margin-top: 0.375rem;
+  line-height: 1.45;
+}
+
+@media (min-width: 36rem) {
+  .qhead.lhead--logro {
+    grid-template-columns: 4.25rem minmax(0, 1fr);
+    column-gap: 1.25rem;
+  }
+
+  .lhead--logro .lhead__icon {
+    width: 4.25rem;
+    height: 4.25rem;
+  }
+
+  .lhead--logro .lhead__icon img {
+    width: 3.125rem;
+    height: 3.125rem;
+  }
+}
+
+/* ---------- la ficha: Recompensas, Prerrequisitos y Necesitarás en total ---------- */
+
+/* En el móvil y la tableta, tres filas con un filete debajo: Recompensas abierta, con su
+   título encima de su línea, y Prerrequisitos y «Necesitarás en total» plegadas, cada una
+   un <details> que se abre al pulsar su título. Se abren y se cierran deslizando su altura
+   (interpolate-size), salvo con movimiento reducido. */
+.lsheet {
+  container: lsheet / inline-size;
+  interpolate-size: allow-keywords;
+}
+
+.lsheet__p {
+  border-bottom: 1px solid var(--color-line);
+}
+
+.lsheet__k {
   color: var(--color-ink);
-  font: 600 1.5rem / 1.2 var(--font-display);
+  font: 700 1.0625rem / 1.3 var(--font-display);
 }
 
-.lneeds {
-  container: lneeds / inline-size;
-  margin-top: 2.25rem;
+/* El título de Recompensas, que no se pliega. */
+.lsheet__p > .lsheet__k {
+  padding-top: 0.875rem;
+  margin-bottom: 0.375rem;
 }
 
-/* Los grupos uno debajo de otro; con sitio, dos lado a lado con un filete entre ellos y el
-   tercero debajo, y con más sitio los tres en una fila. Las consultas miden la zona, que en
-   la página del logro es más ancha que la columna de lectura. */
+.lsheet__s {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-height: 3.25rem;
+  list-style: none;
+  cursor: pointer;
+}
+
+.lsheet__s::-webkit-details-marker {
+  display: none;
+}
+
+.lsheet__s:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+  border-radius: 0.375rem;
+}
+
+.lsheet__chev {
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  margin-left: auto;
+  color: var(--color-ink-2);
+  transition: rotate var(--duration-fast) var(--ease-out);
+}
+
+.lsheet__d[open] .lsheet__chev {
+  rotate: 180deg;
+}
+
+.lsheet__d::details-content {
+  block-size: 0;
+  overflow: clip;
+  overflow-clip-margin: 0.25rem;
+  transition:
+    block-size var(--duration-base) var(--ease-out),
+    content-visibility var(--duration-base) allow-discrete;
+}
+
+.lsheet__d[open]::details-content {
+  block-size: auto;
+}
+
+.lsheet__body,
+.lsheet__rew {
+  padding-bottom: 1rem;
+}
+
+/* Las filas de la ficha, más juntas que las de la cabecera de la guía: huecos de 32px con
+   el icono a 24px y el texto a 15px (16.5px desde 64rem). */
+.lsheet .row {
+  gap: 0.5rem;
+  min-height: 2rem;
+  font-size: 0.9375rem;
+  line-height: 1.35;
+}
+
+.lsheet .well {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+}
+
+.lsheet .well img {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Las recompensas en una fila que se parte: la XP, los kamas y la bolsa. */
+.lsheet__rew {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 1.25rem;
+}
+
+.lsheet__rew .bag__btn {
+  gap: 0.5rem;
+  min-height: 2rem;
+}
+
+.lsheet__pre {
+  display: grid;
+  gap: 0.25rem;
+}
+
+/* Desde 64rem, una columna abierta al lado de las misiones: las partes una debajo de otra
+   con un filete entre ellas, cada título encima de lo suyo, sin chevron. El contenido se ve
+   aunque el <details> siga cerrado (sin JavaScript, o antes de que la isla lo abra). */
+@media (min-width: 64rem) {
+  .lsheet__p {
+    border-bottom: 0;
+  }
+
+  .lsheet__p + .lsheet__p {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .lsheet__p > .lsheet__k {
+    padding-top: 0;
+  }
+
+  .lsheet__s {
+    min-height: 0;
+    margin-bottom: 0.5rem;
+    cursor: default;
+  }
+
+  .lsheet__chev {
+    display: none;
+  }
+
+  .lsheet__body,
+  .lsheet__rew {
+    padding-bottom: 0;
+  }
+
+  .lsheet__d::details-content {
+    content-visibility: visible;
+    block-size: auto;
+    overflow: visible;
+    transition: none;
+  }
+}
+
+/* ---------- Necesitarás en total: los grupos, uno debajo de otro ---------- */
+
 .lneeds__groups {
   display: grid;
-  gap: 1.25rem;
-  margin-top: 0.875rem;
+  gap: 0.875rem;
 }
 
-/* Como los títulos de las partes de la cabecera (game.css, .qhead__facts). */
+/* Como los títulos de la ficha, un punto más pequeños. */
 .lneeds__k {
   margin-bottom: 0.375rem;
   color: var(--color-ink);
-  font: 700 1.125rem / 1.3 var(--font-display);
+  font: 700 1rem / 1.3 var(--font-display);
 }
 
-/* Una columna por grupo, con las filas a 8px. */
 .lneeds ul.lneeds__list {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 0.5rem;
+  gap: 0.25rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-/* Cada fila arriba, no centrada: el hueco de 44px (.row de game.css) va a la altura de la
-   primera línea del texto, que baja lo justo para quedar en su centro, y el texto que no
-   cabe sigue debajo. Lo que no tiene icono (Otros) baja lo mismo, sin hueco delante: sus
-   primeras líneas quedan a la altura de las de los otros grupos. */
+/* Cada fila arriba, no centrada: el hueco va a la altura de la primera línea del texto, que
+   baja lo justo para quedar en su centro, y el texto que no cabe sigue debajo. */
 .lneeds .row {
   align-items: flex-start;
 }
 
 .lneeds__t {
   min-width: 0;
-  padding-top: calc((2.75rem - 1lh) / 2);
+  padding-top: calc((2rem - 1lh) / 2);
 }
 
 /* «3 ×» y el texto en un solo párrafo (Quantity): una línea larga sigue bajo la cifra. El
@@ -218,98 +407,52 @@
   visibility: hidden;
 }
 
-/* Dos grupos lado a lado con un filete entre ellos y el tercero debajo, tras otro filete. */
-@container (min-width: 37.5rem) {
-  .lneeds__groups {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 0;
-  }
-
-  .lneeds__g:nth-child(2) {
-    margin-left: 1.5rem;
-    padding-left: 1.5rem;
-    border-left: 1px solid var(--color-line);
-  }
-
-  .lneeds__g:nth-child(3) {
-    grid-column: 1 / -1;
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--color-line);
-  }
+/* Otros es prosa, no objetos: una sola línea debajo de las listas, «Otros» delante y las
+   notas una detrás de otra con un punto medio entre ellas, tal como las escribió Torre. */
+.lneeds__g--others .lneeds__k {
+  display: inline;
+  margin-right: 0.625rem;
 }
 
-/* Los grupos en una fila, cada uno con el ancho que pide lo que lleva: parten de su texto
-   en una línea y encogen en proporción, sin que su contenido baje de 14.5rem (donde cabe
-   «Combates y mazmorras» en una línea; el filete y su aire van aparte). Así los objetos, de
-   nombres cortos, no se quedan media columna vacía mientras las notas largas de Otros se
-   parten en ocho líneas. Tres columnas así con sus filetes piden 49.6rem: desde 50rem,
-   también a 1024px, donde la columna mide unos 52.2rem (la raíz es el 110 %). */
-@container (min-width: 50rem) {
-  .lneeds__groups {
-    display: flex;
-  }
-
-  .lneeds__g {
-    box-sizing: content-box;
-    flex: 1 1 auto;
-    min-width: 14.5rem;
-  }
-
-  .lneeds__g:nth-child(3) {
-    margin-left: 1.5rem;
-    padding: 0 0 0 1.5rem;
-    border-top: 0;
-    border-left: 1px solid var(--color-line);
-  }
+.lneeds ul.lneeds__others {
+  display: inline;
 }
 
-/* Otros es prosa: a la medida de lectura, nunca a todo lo ancho de la zona. */
-.lneeds__others {
-  max-width: 36rem;
+.lneeds__others > .row {
+  display: inline;
+  min-height: 0;
+  line-height: 1.55;
 }
 
-/* A lo ancho, una lista larga (needsColumns: --lneeds-cols, --lneeds-rows) se reparte en
-   columnas que se leen de arriba abajo, con las filas a la misma altura de una columna a
-   otra. Objetos y combates se reparten el ancho por columnas, y Otros va en su propia fila
-   tras un filete, con sus notas en dos columnas a medida de lectura: a 1280 y 1440px, tres
-   columnas de iconos y Otros al lado partirían en dos líneas nombres cortos como «6 ×
-   Combates solitarios». lneeds__groups--cols lo pone el servidor, con la lista partida. */
-@container lneeds (min-width: 62rem) {
-  .lneeds__g--cols ul.lneeds__list {
-    grid-template-rows: repeat(var(--lneeds-rows), auto);
-    grid-template-columns: repeat(var(--lneeds-cols), minmax(0, 1fr));
-    grid-auto-flow: column;
+.lneeds__others > .row + .row::before {
+  content: '·' / '';
+  margin-inline: 0.5rem;
+  color: var(--color-ink-2);
+}
+
+.lneeds__others .lneeds__t {
+  padding: 0;
+}
+
+/* Con la ficha plegada a lo ancho (la tableta), una lista larga se reparte en dos columnas
+   que se leen de arriba abajo. En la columna del escritorio no caben. */
+@container lsheet (min-width: 36rem) {
+  .lneeds ul.lneeds__list:not(.lneeds__others):has(> li:nth-child(7)) {
+    display: block;
+    columns: 2 15rem;
     column-gap: 1.5rem;
   }
 
-  .lneeds__groups--cols {
-    flex-wrap: wrap;
-    row-gap: 1.25rem;
-  }
-
-  .lneeds__groups--cols .lneeds__g {
-    flex: var(--lneeds-cols, 1) 1 0;
-    min-width: 0;
-  }
-
-  .lneeds__groups--cols .lneeds__g--others {
-    flex-basis: 100%;
-    margin-left: 0;
-    padding: 1.25rem 0 0;
-    border-top: 1px solid var(--color-line);
-    border-left: 0;
-  }
-
-  .lneeds__groups--cols ul.lneeds__others {
-    display: block;
-    max-width: 71rem;
-    columns: 2 22rem;
-    column-gap: 3rem;
-  }
-
-  .lneeds__groups--cols .lneeds__others > li {
+  .lneeds ul.lneeds__list:has(> li:nth-child(7)) > li {
     break-inside: avoid;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lsheet__d::details-content,
+  .lsheet__chev {
+    transition: none;
   }
 }
 
@@ -321,6 +464,11 @@
   margin-top: 2.5rem;
   padding-top: 2rem;
   border-top: 1px solid var(--color-line);
+}
+
+.lq__h {
+  color: var(--color-ink);
+  font: 600 1.5rem / 1.2 var(--font-display);
 }
 
 .lq__list {

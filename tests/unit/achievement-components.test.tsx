@@ -5,8 +5,9 @@ import {
   AchievementCountsFor,
   AchievementHeader,
   AchievementNav,
-  AchievementNeeds,
   AchievementQuests,
+  AchievementSheet,
+  hasSheet,
 } from '@/components/achievement/AchievementParts'
 import { Breadcrumb } from '@/components/site/Breadcrumb'
 import type { AchievementPageView } from '@/lib/achievements/page'
@@ -59,30 +60,36 @@ describe('Breadcrumb', () => {
 })
 
 describe('AchievementHeader', () => {
-  it('el icono, el título, el subtítulo y la banda de Prerrequisitos y Recompensas', () => {
+  it('el icono, el título y el subtítulo; Prerrequisitos y Recompensas van en la ficha', () => {
     const markup = html(
       <AchievementHeader
         title="La ocasión hace al ladrón"
         icon={icon}
         meta={['3 misiones', 'Niveles 15 a 25', '10 puntos']}
-        facts={{
-          prerequisites: [{ label: 'Archi y sus principios', quest: true }],
-          rewards: { xp: { max: 102_128 }, kamas: 1_105, items: [], notes: [] },
-        }}
       />,
     )
+    expect(markup).toMatch(/^<header class="qhead lhead lhead--logro">/)
     expect(markup).toContain('<h1 class="qhead__title">La ocasión hace al ladrón</h1>')
     expect(markup).toContain('3 misiones - Niveles 15 a 25 - 10 puntos')
-    expect(markup).toContain('Prerrequisitos')
-    expect(markup).toContain('Recompensas del logro')
-    // «Necesitarás en total» es su propia zona, fuera de la cabecera.
-    expect(markup).not.toContain('Necesitarás')
     expect(markup).toContain('src="/img/logro-203.webp"')
+    expect(markup).not.toMatch(/Prerrequisitos|Recompensas|Necesitarás/)
   })
 })
 
-describe('AchievementNeeds', () => {
+describe('AchievementSheet', () => {
   const text = (markup: string) => markup.replace(/<[^>]+>/g, '')
+  const facts = {
+    prerequisites: [
+      { label: 'Archi y sus principios', quest: true, href: '/archi-y-sus-principios' },
+      { label: 'Nivel 20', quest: false },
+    ],
+    rewards: {
+      xp: { max: 102_128 },
+      kamas: 1_105,
+      items: [{ item: { name: 'Pergamino de sabiduría', icon }, quantity: 2 }],
+      notes: [],
+    },
+  }
   const needs = {
     items: [
       { item: { name: 'Piedra de alma mediana', icon }, quantity: 1 },
@@ -92,55 +99,112 @@ describe('AchievementNeeds', () => {
       { quantity: 3, label: 'Combates realizables en grupo', kind: 'combat' as const },
       { quantity: 1, label: 'Mazmorra Malefíscof', kind: 'dungeon' as const },
     ],
-    others: [{ label: 'Hechizo Captura de almas' }, { label: '1 kama' }],
+    others: [
+      { label: 'Hechizo Captura de almas' },
+      { quantity: 12, label: 'Delicia de los kitsus (un consumible que se compra en Pandala).' },
+    ],
   }
+  const sheet = (props: Partial<React.ComponentProps<typeof AchievementSheet>> = {}) =>
+    html(<AchievementSheet facts={facts} needs={needs} {...props} />)
 
-  it('su propia zona, con tres grupos con título: Objetos, Combates y mazmorras, y Otros', () => {
-    const markup = html(<AchievementNeeds needs={needs} />)
-    const zone = /<section class="lneeds" aria-labelledby="([^"]+)">/.exec(markup)?.[1]
-    expect(zone).toBeTruthy()
-    expect(markup).toContain(`<h2 class="lzone__h" id="${zone}">Necesitarás en total</h2>`)
+  /** Cada parte de la ficha: su clase, su título y si se pliega. */
+  const parts = (markup: string) =>
+    [
+      ...markup.matchAll(/<section class="([^"]+)" aria-labelledby="([^"]+)">(.*?)<\/section>/g),
+    ].map(([, className, id, body]) => ({
+      className,
+      heading: new RegExp(`<h2 class="lsheet__k" id="${id}">([^<]+)</h2>`).exec(body!)?.[1],
+      folds: body!.startsWith('<details'),
+    }))
+
+  it('las recompensas, siempre a la vista; Prerrequisitos y Necesitarás en total, plegables', () => {
+    const markup = sheet()
+    expect(markup).toContain('<div class="lsheet">')
+    expect(parts(markup)).toEqual([
+      { className: 'lsheet__p', heading: 'Recompensas del logro', folds: false },
+      { className: 'lsheet__p', heading: 'Prerrequisitos', folds: true },
+      { className: 'lsheet__p lneeds', heading: 'Necesitarás en total', folds: true },
+    ])
+    // Cerradas en el HTML: la isla las abre desde 64rem y el CSS ya las enseña antes.
+    expect(markup.match(/<details class="lsheet__d" data-sheet="">/g)).toHaveLength(2)
+    expect(markup).not.toMatch(/<details[^>]* open/)
+  })
+
+  it('el título de cada parte plegable es el resumen, con su chevron y sin cifras', () => {
+    const summaries = [...sheet().matchAll(/<summary class="lsheet__s">(.*?)<\/summary>/g)].map(
+      ([, body]) => body!,
+    )
+    expect(summaries.map(text)).toEqual(['Prerrequisitos', 'Necesitarás en total'])
+    for (const summary of summaries) expect(summary).toContain('lsheet__chev')
+  })
+
+  it('las recompensas en una fila: la XP, los kamas y la bolsa, como en la cabecera', () => {
+    const markup = sheet()
+    expect(markup).toContain('<ul role="list" class="lsheet__rew">')
+    // Los miles, con un espacio que no se parte.
+    expect(text(markup)).toMatch(/102\s128 XP/)
+    expect(text(markup)).toMatch(/1\s105 kamas/)
+    expect(markup).toContain('data-bag=""')
+    expect(text(markup)).toContain('2 × Pergamino de sabiduría')
+  })
+
+  it('los prerrequisitos, con el libro de misión y su enlace cuando la guía está publicada', () => {
+    const markup = sheet()
+    expect(markup).toContain('<ul role="list" class="lsheet__pre">')
+    expect(markup).toContain('<a href="/archi-y-sus-principios">Archi y sus principios</a>')
+    expect(markup).toContain('src="/img/game/mision.webp"')
+    expect(text(markup)).toContain('Nivel 20')
+  })
+
+  it('Necesitarás: Objetos y Combates y mazmorras en listas, y Otros en una sola línea después', () => {
+    const markup = sheet()
     const groups = [...markup.matchAll(/<h3 class="lneeds__k" id="([^"]+)">([^<]+)<\/h3>/g)]
     expect(groups.map((group) => group[2])).toEqual(['Objetos', 'Combates y mazmorras', 'Otros'])
     // Cada lista se llama como su grupo.
     for (const [, id] of groups) expect(markup).toContain(`aria-labelledby="${id}"`)
+    // Otros, la última, es prosa: sin huecos de icono y con el texto de Torre tal cual.
+    const others = /<div class="lneeds__g lneeds__g--others">(.*?)<\/div>/.exec(markup)?.[1]
+    expect(others).toBeTruthy()
+    expect(others).toContain('class="lneeds__list lneeds__others"')
+    expect(others).not.toContain('class="well')
+    expect(text(others!)).toBe(
+      'OtrosHechizo Captura de almas12 × Delicia de los kitsus (un consumible que se compra en Pandala).',
+    )
   })
 
   it('los objetos con su icono, cantidad y nombre que se copia; sin cantidad, solo el nombre', () => {
-    const markup = html(<AchievementNeeds needs={needs} />)
+    const markup = sheet()
     expect(markup).toContain('data-copy="Piedra de alma mediana"')
     expect(markup).toContain('data-copy="Llave de la Fábrica de Malefíscof"')
     expect(text(markup)).toContain('1 × Piedra de alma mediana')
     expect(text(markup)).not.toContain('× Llave')
   })
 
-  it('combates con su icono, la mazmorra con el de mazmorra; los otros, tal cual', () => {
-    const markup = html(<AchievementNeeds needs={needs} />)
+  it('combates con su icono, la mazmorra con el de mazmorra; las notas no copian nada', () => {
+    const markup = sheet()
     expect(markup).toContain('src="/img/game/combate.webp"')
     expect(markup).toContain('src="/img/game/jefes/crunchidor.webp"')
     expect(text(markup)).toContain('3 × Combates realizables en grupo')
     expect(text(markup)).toContain('1 × Mazmorra Malefíscof')
-    expect(text(markup)).toContain('Hechizo Captura de almas')
-    expect(text(markup)).toContain('1 kama')
-    // Las notas no copian nada.
     expect(markup).not.toContain('data-copy="Hechizo')
   })
 
   it('una mazmorra casada pinta su jefe; la que no, el icono de mazmorra', () => {
     const boss = { ...icon, src: '/api/media/file/kumijo.webp' }
-    const markup = html(
-      <AchievementNeeds
-        needs={{
-          items: [],
-          tasks: [
-            { quantity: 1, label: 'Mazmorra Kumijo', kind: 'dungeon', boss },
-            { label: 'Mazmorras nivel 200', kind: 'dungeon' },
-          ],
-          others: [],
-        }}
-      />,
-    )
-    const rows = markup.split(/<li[ >]/).slice(1)
+    const markup = sheet({
+      needs: {
+        items: [],
+        tasks: [
+          { quantity: 1, label: 'Mazmorra Kumijo', kind: 'dungeon', boss },
+          { label: 'Mazmorras nivel 200', kind: 'dungeon' },
+        ],
+        others: [],
+      },
+    })
+    const rows = markup
+      .split('lneeds__tasks"')[1]!
+      .split(/<li[ >]/)
+      .slice(1)
     expect(rows[0]).toContain('kumijo.webp')
     expect(rows[0]).not.toContain('crunchidor')
     expect(rows[1]).toContain('src="/img/game/jefes/crunchidor.webp"')
@@ -149,8 +213,8 @@ describe('AchievementNeeds', () => {
   it('dos en la misma página no repiten ids (el catálogo los pinta en cada tema)', () => {
     const markup = html(
       <>
-        <AchievementNeeds needs={needs} />
-        <AchievementNeeds needs={needs} />
+        <AchievementSheet facts={facts} needs={needs} />
+        <AchievementSheet facts={facts} needs={needs} />
         <AchievementQuests quests={[{ position: 1, title: 'Esto hace aguas' }]} />
         <AchievementQuests quests={[{ position: 1, title: 'Esto hace aguas' }]} />
       </>,
@@ -160,66 +224,31 @@ describe('AchievementNeeds', () => {
     expect(new Set(ids).size).toBe(ids.length)
   })
 
-  it('una lista larga se reparte en columnas que se leen de arriba abajo, equilibrando los grupos', () => {
-    const task = (label: string) => ({ quantity: 1, label, kind: 'combat' as const })
-    const item = (name: string) => ({ item: { name } })
-    const tasks = Array.from({ length: 10 }, (_, i) => task(`Combate ${i}`))
-    const items = Array.from({ length: 5 }, (_, i) => item(`Objeto ${i}`))
-    const groups = (markup: string) =>
-      [...markup.matchAll(/<div class="(lneeds__g(?: [^"]*)?)"(?: style="([^"]*)")?>/g)].map(
-        ([, className, style]) => ({ className, style }),
-      )
-    // Ocre de ámbar: 5 objetos y 10 combates. Los combates, en dos columnas de 5.
+  it('una parte o un grupo vacíos no se pintan; sin nada, no hay ficha', () => {
+    const empty = { items: [], tasks: [], others: [] }
+    const noRewards = { items: [], notes: [] }
+    expect(text(sheet({ needs: { ...needs, others: [] } }))).not.toContain('Otros')
+    expect(text(sheet({ needs: empty }))).not.toContain('Necesitarás')
+    expect(text(sheet({ facts: { ...facts, prerequisites: [] } }))).not.toContain('Prerrequisitos')
+    expect(text(sheet({ facts: { ...facts, rewards: noRewards } }))).not.toContain('Recompensas')
     expect(
-      groups(html(<AchievementNeeds needs={{ items, tasks, others: needs.others }} />)),
-    ).toEqual([
-      { className: 'lneeds__g', style: undefined },
-      { className: 'lneeds__g lneeds__g--cols', style: '--lneeds-cols:2;--lneeds-rows:5' },
-      { className: 'lneeds__g lneeds__g--others', style: undefined },
-    ])
-    // Dos listas largas: tres columnas en total, para la más alta.
-    const twelve = Array.from({ length: 12 }, (_, i) => item(`Objeto ${i}`))
-    expect(groups(html(<AchievementNeeds needs={{ items: twelve, tasks, others: [] }} />))).toEqual(
-      [
-        { className: 'lneeds__g lneeds__g--cols', style: '--lneeds-cols:2;--lneeds-rows:6' },
-        { className: 'lneeds__g', style: undefined },
-      ],
+      html(<AchievementSheet facts={{ prerequisites: [], rewards: noRewards }} needs={empty} />),
+    ).toBe('')
+  })
+})
+
+describe('hasSheet', () => {
+  it('dice si la ficha tiene algo que enseñar: sin ella, la página es una sola columna', () => {
+    const empty = { items: [], tasks: [], others: [] }
+    const rewards = { items: [], notes: [] }
+    expect(hasSheet({ prerequisites: [], rewards }, empty)).toBe(false)
+    expect(hasSheet({ prerequisites: [], rewards: { ...rewards, kamas: 10 } }, empty)).toBe(true)
+    expect(hasSheet({ prerequisites: [{ label: 'Nivel 20', quest: false }], rewards }, empty)).toBe(
+      true,
     )
-    // Una sola lista muy larga: hasta tres columnas, de al menos tres filas.
-    const many = Array.from({ length: 20 }, (_, i) => task(`Combate ${i}`))
     expect(
-      groups(html(<AchievementNeeds needs={{ items: [], tasks: many, others: [] }} />)),
-    ).toEqual([
-      { className: 'lneeds__g lneeds__g--cols', style: '--lneeds-cols:3;--lneeds-rows:7' },
-    ])
-    // Cinco filas o menos no se parten.
-    expect(groups(html(<AchievementNeeds needs={{ items, tasks: [], others: [] }} />))).toEqual([
-      { className: 'lneeds__g', style: undefined },
-    ])
-  })
-
-  it('la zona solo se ensancha cuando una lista se parte: lo dice el servidor, en clases', () => {
-    const task = (label: string) => ({ quantity: 1, label, kind: 'combat' as const })
-    const classes = (markup: string) => ({
-      zone: /<section class="([^"]+)"/.exec(markup)?.[1],
-      groups: /<div class="(lneeds__groups[^"]*)"/.exec(markup)?.[1],
-    })
-    const long = Array.from({ length: 10 }, (_, i) => task(`Combate ${i}`))
-    expect(classes(html(<AchievementNeeds needs={{ ...needs, tasks: long }} />))).toEqual({
-      zone: 'lneeds lneeds--wide',
-      groups: 'lneeds__groups lneeds__groups--cols',
-    })
-    // Totales cortos, lo más común: en la columna de lectura, como antes.
-    expect(classes(html(<AchievementNeeds needs={needs} />))).toEqual({
-      zone: 'lneeds',
-      groups: 'lneeds__groups',
-    })
-  })
-
-  it('un grupo vacío no se pinta; sin nada, no hay zona', () => {
-    const markup = html(<AchievementNeeds needs={{ ...needs, others: [] }} />)
-    expect(markup).not.toContain('Otros')
-    expect(html(<AchievementNeeds needs={{ items: [], tasks: [], others: [] }} />)).toBe('')
+      hasSheet({ prerequisites: [], rewards }, { ...empty, others: [{ label: '1 kama' }] }),
+    ).toBe(true)
   })
 })
 

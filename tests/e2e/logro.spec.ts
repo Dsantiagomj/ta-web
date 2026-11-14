@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test'
 
 import { MODES } from '../../src/lib/theme/theme.ts'
 import { seedAchievement as logro } from './seed/achievements.ts'
-import { seedGuide } from './seed/guides.ts'
+import { outsidePrerequisite, seedGuide } from './seed/guides.ts'
 
 // La página pública de un logro (DESIGN.md, Achievement page), sobre el logro que siembra
 // scripts/seed-e2e.ts con las misiones de las guías de prueba.
@@ -11,9 +11,10 @@ import { seedGuide } from './seed/guides.ts'
 const url = `/${logro.slug}`
 
 test.describe('página de logro', () => {
-  test('pinta las migas y la cabecera: Prerrequisitos y Recompensas, sin Necesitarás', async ({
+  test('pinta las migas y la cabecera, con la ficha al lado de las misiones en el escritorio', async ({
     page,
   }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
     const response = await page.goto(url)
     expect(response?.status()).toBe(200)
 
@@ -31,28 +32,168 @@ test.describe('página de logro', () => {
     const jsonLd = JSON.parse((await crumbs.locator('script').textContent()) ?? '{}')
     expect(jsonLd.itemListElement.at(-1)).toMatchObject({ position: 3, name: logro.name })
 
+    // La cabecera: el icono, el título y el subtítulo; lo demás va en la ficha.
     const header = page.locator('header.lhead')
     await expect(header.getByRole('heading', { level: 1, name: logro.name })).toBeVisible()
     await expect(header.locator('.qhead__meta')).toHaveText(logro.meta)
-    await expect(header.getByRole('heading', { name: 'Necesitarás en total' })).toHaveCount(0)
-    await expect(header.getByRole('heading', { name: 'Recompensas del logro' })).toBeVisible()
-    await expect(header.getByText(`${logro.reward.xp} XP`)).toBeVisible()
-    // Las recompensas en una fila, a todo el ancho de la banda aunque vayan solas.
+    await expect(header.getByRole('heading', { level: 2 })).toHaveCount(0)
+
+    const rewards = page.getByRole('region', { name: 'Recompensas del logro' })
+    const prerequisites = page.getByRole('region', { name: 'Prerrequisitos' })
+    const needs = page.getByRole('region', { name: 'Necesitarás en total' })
+    const quests = page.getByRole('region', { name: 'Las misiones, en orden' })
+    await expect(rewards.getByText(`${logro.reward.xp} XP`)).toBeVisible()
+    await expect(rewards.getByText(`${logro.reward.kamas} kamas`)).toBeVisible()
+    // La previa de fuera del logro, sin guía: texto, no enlace.
+    await expect(prerequisites.getByText(outsidePrerequisite.title)).toBeVisible()
+    await expect(prerequisites.getByRole('link')).toHaveCount(0)
+    await expect(needs.getByRole('list', { name: 'Objetos' })).toBeVisible()
+
+    // La ficha, a la derecha de las misiones y a la altura de las migas: las misiones van
+    // justo debajo del título, sin nada encima.
+    const top = async (locator: typeof needs) => (await locator.boundingBox())!.y
+    const beside = async () => {
+      const sheet = (await page.locator('.lsheet').boundingBox())!
+      const list = (await quests.boundingBox())!
+      expect(sheet.x).toBeGreaterThanOrEqual(list.x + list.width)
+      expect(Math.abs(sheet.y - (await top(crumbs)))).toBeLessThan(2)
+      // Lo que sigue a la cabecera (la entrada de Torre, aquí; sin ella, las misiones).
+      const body = page.locator('.logro__body')
+      expect((await top(body)) - (await top(crumbs))).toBeLessThan(230)
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
+        page.viewportSize()!.width,
+      )
+    }
+    await beside()
+    await page.setViewportSize({ width: 1024, height: 768 })
+    await beside()
+
+    // Abierta y quieta: pulsar su título no la pliega, y dice que está abierta.
     await page.setViewportSize({ width: 1440, height: 900 })
-    const rows = header.locator('.qhead__rew > li')
-    const [xp, kamas] = [(await rows.nth(0).boundingBox())!, (await rows.nth(1).boundingBox())!]
-    expect(Math.abs(xp.y - kamas.y)).toBeLessThan(1)
+    for (const part of [prerequisites, needs]) {
+      await expect(part.locator('details')).toHaveAttribute('open', '')
+      await part.locator('summary').click()
+      await expect(part.locator('details')).toHaveAttribute('open', '')
+      await expect(part.getByRole('list').first()).toBeVisible()
+    }
   })
 
-  test('Necesitarás en total: su zona, con Objetos, Combates y mazmorras, y Otros', async ({
+  test('en el móvil y la tableta: las recompensas a la vista, Prerrequisitos y Necesitarás en total plegados', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto(url)
+    const crumbs = page.getByRole('navigation', { name: 'Ruta de navegación' })
+    const header = page.locator('header.lhead')
+    const rewards = page.getByRole('region', { name: 'Recompensas del logro' })
+    const prerequisites = page.getByRole('region', { name: 'Prerrequisitos' })
+    const needs = page.getByRole('region', { name: 'Necesitarás en total' })
+    const quests = page.getByRole('region', { name: 'Las misiones, en orden' })
+    const prerequisite = prerequisites.getByText(outsidePrerequisite.title)
+    const items = needs.getByRole('list', { name: 'Objetos' })
+
+    await expect(rewards.getByText(`${logro.reward.xp} XP`)).toBeVisible()
+    await expect(prerequisites.getByRole('heading', { name: 'Prerrequisitos' })).toBeVisible()
+    await expect(needs.getByRole('heading', { name: 'Necesitarás en total' })).toBeVisible()
+    await expect(prerequisite).toBeHidden()
+    await expect(items).toBeHidden()
+
+    // Las recompensas en una fila (en la columna del escritorio, de 20rem, se parten).
+    const rows = rewards.locator('.lsheet__rew > li')
+    const [xp, kamas] = [(await rows.nth(0).boundingBox())!, (await rows.nth(1).boundingBox())!]
+    expect(Math.abs(xp.y - kamas.y)).toBeLessThan(1)
+
+    // De arriba abajo: la cabecera, las recompensas, las dos filas, la entrada de Torre y
+    // las misiones.
+    const y = async (locator: typeof needs) => (await locator.boundingBox())!.y
+    const heading = quests.getByRole('heading', { level: 2 })
+    const order = [header, rewards, prerequisites, needs, page.getByText(logro.intro), heading]
+    const tops = await Promise.all(order.map(y))
+    expect(tops).toEqual([...tops].sort((a, b) => a - b))
+    expect((await y(page.locator('.logro__body'))) - (await y(crumbs))).toBeLessThan(470)
+
+    // Una fila se abre y se cierra al pulsarla, con su chevron.
+    await prerequisites.locator('summary').click()
+    await expect(prerequisite).toBeVisible()
+    await prerequisites.locator('summary').click()
+    await expect(prerequisite).toBeHidden()
+
+    // Abierta, Necesitarás en total va en una columna, sin scroll horizontal.
+    await needs.locator('summary').click()
+    await expect(items).toBeVisible()
+    const stacked = await needs
+      .locator('.lneeds__g')
+      .evaluateAll((groups) => groups.map((g) => Math.round(g.getBoundingClientRect().y)))
+    expect(stacked).toEqual([...stacked].sort((a, b) => a - b))
+    expect(new Set(stacked).size).toBe(3)
+    for (const width of [390, 320]) {
+      await page.setViewportSize({ width, height: 800 })
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
+        width,
+      )
+    }
+
+    // En la tableta, igual de plegada; abierta, una lista larga (los diez combates) se
+    // reparte en dos columnas que se leen de arriba abajo.
+    await page.setViewportSize({ width: 768, height: 1024 })
+    await page.goto(url)
+    await expect(items).toBeHidden()
+    await needs.locator('summary').click()
+    const tasks = needs.getByRole('list', { name: 'Combates y mazmorras' }).getByRole('listitem')
+    await expect(tasks.first()).toBeVisible()
+    const boxes = await tasks.evaluateAll((rows) =>
+      rows.map((row) => {
+        const box = row.getBoundingClientRect()
+        return { left: Math.round(box.left), top: Math.round(box.top) }
+      }),
+    )
+    expect(new Set(boxes.map((box) => box.left)).size).toBe(2)
+    expect(boxes[1]!.top).toBeGreaterThan(boxes[0]!.top)
+    expect(boxes.at(-1)!.left).toBeGreaterThan(boxes[0]!.left)
+  })
+
+  test('la ficha sin JavaScript: abierta en el escritorio, plegable en el móvil', async ({
+    browser,
+    baseURL,
+  }) => {
+    const context = await browser.newContext({
+      baseURL,
+      javaScriptEnabled: false,
+      viewport: { width: 1440, height: 900 },
+    })
+    const page = await context.newPage()
+    await page.goto(url)
+    const needs = page.getByRole('region', { name: 'Necesitarás en total' })
+    const items = needs.getByRole('list', { name: 'Objetos' })
+    await expect(items).toBeVisible()
+    await page.setViewportSize({ width: 390, height: 844 })
+    await expect(items).toBeHidden()
+    await needs.locator('summary').click()
+    await expect(items).toBeVisible()
+    await context.close()
+  })
+
+  test('las filas plegables se abren con movimiento, y sin él con movimiento reducido', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    const duration = () =>
+      page
+        .getByRole('region', { name: 'Necesitarás en total' })
+        .locator('details')
+        .evaluate((details) => getComputedStyle(details, '::details-content').transitionDuration)
+    await page.goto(url)
+    expect(await duration()).not.toMatch(/^0s(, 0s)*$/)
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    expect(await duration()).toMatch(/^0s(, 0s)*$/)
+  })
+
+  test('Necesitarás en total: Objetos, Combates y mazmorras, y Otros en una línea debajo', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
     await page.goto(url)
     const needs = page.getByRole('region', { name: 'Necesitarás en total' })
-    // Bajo la cabecera, antes de las misiones.
-    const header = (await page.locator('header.lhead').boundingBox())!
-    expect((await needs.boundingBox())!.y).toBeGreaterThanOrEqual(header.y + header.height)
     const group = (name: string) => needs.getByRole('list', { name })
     await expect(needs.getByRole('heading', { level: 3 })).toHaveText([
       'Objetos',
@@ -107,213 +248,62 @@ test.describe('página de logro', () => {
       'Hechizo Captura de almas',
       /^12 × Delicia de los kitsus \(un consumible/,
     ])
-
-    // Cada fila: el hueco a la altura de la primera línea del texto; sin hueco (Otros), el
-    // texto empieza en el borde del grupo, sin dejar el sitio del hueco vacío. Una línea que
-    // no cabe sigue debajo de la cantidad. Las filas, a la misma distancia.
-    const layout = () =>
-      needs.locator('.lneeds__g').evaluateAll((groups) =>
-        groups.map((g) => {
-          const style = getComputedStyle(g)
-          const left =
-            g.getBoundingClientRect().x +
-            parseFloat(style.paddingLeft) +
-            parseFloat(style.borderLeftWidth)
-          const rows = [...g.querySelectorAll('li')]
-          return {
-            width: g.getBoundingClientRect().width,
-            top: Math.round(g.getBoundingClientRect().top),
-            bottom: Math.round(g.getBoundingClientRect().bottom),
-            // Entre filas seguidas de una misma columna.
-            gaps: rows
-              .slice(1)
-              .filter(
-                (row, i) =>
-                  row.getBoundingClientRect().left === rows[i]!.getBoundingClientRect().left,
-              )
-              .map((row) => {
-                const previous = rows[rows.indexOf(row) - 1]!
-                return Math.round(
-                  row.getBoundingClientRect().top - previous.getBoundingClientRect().bottom,
-                )
-              }),
-            rows: rows.map((row) => {
-              const text = row.querySelector('.lneeds__t')!
-              const range = document.createRange()
-              range.selectNodeContents(text)
-              const lines = [...range.getClientRects()].filter((r) => r.width > 0)
-              const well = row.querySelector('.well')?.getBoundingClientRect()
-              const first = lines[0]!
-              // El borde izquierdo de cada línea: el más a la izquierda de sus trozos.
-              const starts = new Map<number, number>()
-              for (const r of lines) {
-                const top = Math.round(r.top)
-                starts.set(top, Math.min(starts.get(top) ?? Infinity, Math.round(r.left)))
-              }
-              const box = row.getBoundingClientRect()
-              return {
-                label: text.textContent!.replace(/\s+/g, ' ').trim(),
-                top: Math.round(box.top),
-                left: Math.round(box.left),
-                right: Math.round(box.right),
-                // Desde el borde de su columna: el de la fila, que en Otros es el del grupo.
-                textLeft: Math.round(text.getBoundingClientRect().x - box.x) + 0,
-                // Desde el borde del contenido del grupo, para las filas de su primera
-                // columna: el hueco y el texto de los iconos, y el texto sin hueco de Otros.
-                firstColumn: Math.round(box.x - left) === 0,
-                fromGroup: Math.round(text.getBoundingClientRect().x - left) + 0,
-                wellFromGroup: well ? Math.round(well.left - left) + 0 : null,
-                wellOffset: well
-                  ? Math.abs(first.top + first.height / 2 - (well.top + well.height / 2))
-                  : null,
-                lineLefts: new Set(starts.values()).size,
-                lines: starts.size,
-              }
-            }),
-          }
-        }),
-      )
-    const [objetos, tareas, otros] = await layout()
-    for (const row of [...objetos!.rows, ...tareas!.rows]) {
-      expect(row.wellOffset).toBeLessThan(2)
-    }
-    const icons = [...objetos!.rows, ...tareas!.rows]
-    expect(new Set(icons.map((row) => row.textLeft)).size).toBe(1)
-    expect(otros!.rows.map((row) => row.textLeft)).toEqual([0, 0])
-    // Medido desde el grupo: en la primera columna de cada grupo, el hueco empieza en su
-    // borde y el texto a la misma distancia en Objetos y en Combates; Otros, sin hueco,
-    // empieza en el borde, sin dejar el sitio vacío.
-    const firstColumn = icons.filter((row) => row.firstColumn)
-    expect(firstColumn.length).toBeGreaterThan(objetos!.rows.length)
-    expect(new Set(firstColumn.map((row) => row.wellFromGroup))).toEqual(new Set([0]))
-    expect(new Set(firstColumn.map((row) => row.fromGroup)).size).toBe(1)
-    const othersFirst = otros!.rows.filter((row) => row.firstColumn)
-    expect(othersFirst.length).toBeGreaterThan(0)
-    for (const row of othersFirst) expect(row.fromGroup).toBe(0)
     await expect(group('Otros').locator('.well')).toHaveCount(0)
-    const delicia = otros!.rows[1]!
-    expect(delicia.lines).toBeGreaterThan(1)
-    // Las líneas de la nota empiezan todas en el mismo sitio: el de «12 ×».
-    expect(delicia.lineLefts).toBe(1)
-    const gaps = [objetos!, tareas!, otros!].flatMap((g) => g.gaps)
-    expect(new Set(gaps).size).toBe(1)
 
-    // Los grupos, cada título en una línea; y las etiquetas cortas, también.
-    const headingsOnOneLine = async () => {
-      const headings = await needs
-        .locator('.lneeds__k')
-        .evaluateAll((hs) =>
-          hs.map(
-            (h) => h.getBoundingClientRect().height / parseFloat(getComputedStyle(h).lineHeight),
-          ),
-        )
-      for (const lines of headings) expect(lines).toBeLessThan(1.5)
-    }
-    const shortLabelsOnOneLine = (rows: { label: string; lines: number }[]) => {
-      for (const label of ['6 × Combates solitarios', '1 × Mazmorra de Grunob']) {
-        expect(rows.find((row) => row.label === label)?.lines, label).toBe(1)
-      }
-    }
-    // Los combates en dos columnas que se leen de arriba abajo: el sexto arriba de la
-    // segunda, a la altura del primero.
-    const tasksInColumns = (rows: { top: number; left: number; right: number }[], n: number) => {
-      const [first, sixth, fifth] = [rows[0]!, rows[5]!, rows[4]!]
-      if (n === 2) {
-        expect(Math.abs(sixth.top - first.top)).toBeLessThan(2)
-        expect(sixth.left).toBeGreaterThan(first.right)
-        expect(new Set(rows.map((row) => row.left)).size).toBe(2)
-      } else {
-        expect(sixth.top).toBeGreaterThan(fifth.top)
-        expect(new Set(rows.map((row) => row.left)).size).toBe(1)
-      }
-    }
-    // La zona sale de la columna de lectura al ancho del sitio: los bordes de la cabecera.
-    const wideZone = async (wide: boolean) => {
-      const zone = (await needs.boundingBox())!
-      const column = (await page.locator('section.lq').boundingBox())!
-      const header = await page.locator('.site-hdr__in').evaluate((el) => {
-        const box = el.getBoundingClientRect()
-        const style = getComputedStyle(el)
+    // Las listas una debajo de otra en la columna de la ficha; cada fila con su hueco a la
+    // altura de la primera línea del texto, el texto de todas en el mismo sitio y las filas
+    // a la misma distancia.
+    const layout = await needs.locator('.lneeds__g').evaluateAll((groups) =>
+      groups.map((g) => {
+        const rows = [...g.querySelectorAll('li')]
         return {
-          x: box.x + parseFloat(style.paddingLeft),
-          width: box.width - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight),
+          top: Math.round(g.getBoundingClientRect().top),
+          bottom: Math.round(g.getBoundingClientRect().bottom),
+          gaps: rows
+            .slice(1)
+            .map((row, i) =>
+              Math.round(row.getBoundingClientRect().top - rows[i]!.getBoundingClientRect().bottom),
+            ),
+          rows: rows.map((row) => {
+            const text = row.querySelector('.lneeds__t')!
+            const range = document.createRange()
+            range.selectNodeContents(text)
+            const first = [...range.getClientRects()].find((r) => r.width > 0)!
+            const well = row.querySelector('.well')?.getBoundingClientRect()
+            return {
+              textLeft: Math.round(text.getBoundingClientRect().x - row.getBoundingClientRect().x),
+              wellOffset: well
+                ? Math.abs(first.top + first.height / 2 - (well.top + well.height / 2))
+                : null,
+            }
+          }),
         }
-      })
-      expect(Math.abs(zone.x - header.x)).toBeLessThan(1)
-      expect(Math.abs(zone.width - header.width)).toBeLessThan(1)
-      if (wide) expect(zone.width).toBeGreaterThan(column.width + 100)
-      else expect(Math.abs(zone.width - column.width)).toBeLessThan(1)
-      // Una franja entre dos filetes a su ancho; el de arriba toma el sitio del de la
-      // cabecera. La entrada de Torre va entre la franja y las misiones, así que «Las
-      // misiones, en orden» conserva su filete (sin entrada, el de la franja lo sustituye).
-      // Su título arranca donde sus grupos, no en la columna.
-      const rules = await page.evaluate(() => {
-        const width = (selector: string, side: 'Top' | 'Bottom') =>
-          parseFloat(getComputedStyle(document.querySelector(selector)!)[`border${side}Width`])
-        return {
-          header: width('header.lhead', 'Bottom'),
-          top: width('section.lneeds', 'Top'),
-          bottom: width('section.lneeds', 'Bottom'),
-          quests: width('section.lq', 'Top'),
-        }
-      })
-      expect(rules).toEqual({ header: 0, top: 1, bottom: 1, quests: 1 })
-      const heading = (await needs.getByRole('heading', { level: 2 }).boundingBox())!
-      expect(Math.abs(heading.x - zone.x)).toBeLessThan(1)
-      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
-        page.viewportSize()!.width,
-      )
-    }
+      }),
+    )
+    const [objetos, tareas, otros] = layout as [
+      (typeof layout)[0],
+      (typeof layout)[0],
+      (typeof layout)[0],
+    ]
+    expect(objetos.bottom).toBeLessThanOrEqual(tareas.top)
+    expect(tareas.bottom).toBeLessThanOrEqual(otros.top)
+    const icons = [...objetos.rows, ...tareas.rows]
+    for (const row of icons) expect(row.wellOffset).toBeLessThan(2)
+    expect(new Set(icons.map((row) => row.textLeft)).size).toBe(1)
+    expect(new Set([...objetos.gaps, ...tareas.gaps]).size).toBe(1)
 
-    // A 1440 px: Objetos y los combates, en dos columnas, lado a lado, y Otros debajo de
-    // los dos, en su propia fila. Ningún grupo mucho más alto que otro.
-    await wideZone(true)
-    await headingsOnOneLine()
-    shortLabelsOnOneLine(tareas!.rows)
-    tasksInColumns(tareas!.rows, 2)
-    expect(Math.abs(objetos!.top - tareas!.top)).toBeLessThan(1)
-    expect(otros!.top).toBeGreaterThanOrEqual(tareas!.bottom)
-    expect(tareas!.bottom - tareas!.top).toBeLessThan(450)
-
-    // A 1280 px, igual.
-    await page.setViewportSize({ width: 1280, height: 900 })
-    await wideZone(true)
-    const [, tareas1280] = await layout()
-    shortLabelsOnOneLine(tareas1280!.rows)
-    tasksInColumns(tareas1280!.rows, 2)
-
-    // A 1920 px, igual: Otros sigue en su propia fila, fuera del reparto de columnas.
-    await page.setViewportSize({ width: 1920, height: 900 })
-    await wideZone(true)
-    await headingsOnOneLine()
-    const wide = await layout()
-    expect(Math.abs(wide[0]!.top - wide[1]!.top)).toBeLessThan(1)
-    expect(wide[2]!.top).toBeGreaterThanOrEqual(wide[1]!.bottom)
-    shortLabelsOnOneLine(wide[1]!.rows)
-    tasksInColumns(wide[1]!.rows, 2)
-
-    // A 1024 px, la columna ya llena la ventana (la franja mide lo mismo): los tres grupos en una fila, cada uno con
-    // el ancho que pide (Otros, con la nota larga, más ancho que Objetos), y los combates
-    // en una sola columna.
-    await page.setViewportSize({ width: 1024, height: 900 })
-    await wideZone(false)
-    await headingsOnOneLine()
-    const narrow = await layout()
-    expect(new Set(narrow.map((g) => g.top)).size).toBe(1)
-    expect(narrow[2]!.width).toBeGreaterThan(narrow[0]!.width)
-    tasksInColumns(narrow[1]!.rows, 1)
-
-    // En el móvil, uno debajo de otro y sin scroll horizontal.
-    await page.setViewportSize({ width: 390, height: 844 })
-    const stacked = await needs
-      .locator('.lneeds__g')
-      .evaluateAll((groups) => groups.map((g) => Math.round(g.getBoundingClientRect().y)))
-    expect(stacked).toEqual([...stacked].sort((a, b) => a - b))
-    expect(new Set(stacked).size).toBe(3)
-    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
-    for (const row of (await layout()).flatMap((g) => g.rows)) {
-      if (row.wellOffset !== null) expect(row.wellOffset).toBeLessThan(2)
-    }
+    // Otros es una sola línea de prosa: «Otros» y, a su lado, las notas una detrás de otra.
+    const line = await needs.locator('.lneeds__g--others').evaluate((g) => {
+      const heading = g.querySelector('h3')!.getBoundingClientRect()
+      const notes = [...g.querySelectorAll('li')]
+      const first = notes[0]!.getClientRects()[0]!
+      return {
+        sameLine: Math.abs(first.top + first.height / 2 - (heading.top + heading.height / 2)) < 4,
+        after: first.left > heading.right,
+        inline: notes.every((li) => getComputedStyle(li).display === 'inline'),
+      }
+    })
+    expect(line).toEqual({ sameLine: true, after: true, inline: true })
   })
 
   test('Necesitarás en total: el nombre que se copia no mueve nada al cargar la isla', async ({
@@ -385,10 +375,11 @@ test.describe('página de logro', () => {
     }
   })
 
-  test('una sola columna: sin la lista lateral del metalogro; Cuenta para y el anterior y el siguiente en ella', async ({
+  test('sin la lista del metalogro; Cuenta para y el anterior y el siguiente, en la columna de las misiones', async ({
     page,
   }) => {
     await page.goto(url)
+    // La ficha del lado no es un complemento de la página: es del logro.
     await expect(page.getByRole('complementary')).toHaveCount(0)
     await expect(page.getByRole('heading', { name: `Metalogro ${logro.group.name}` })).toHaveCount(
       0,
@@ -407,10 +398,19 @@ test.describe('página de logro', () => {
     await expect(off).toContainText(logro.next.name)
     await expect(off).toContainText('En preparación')
 
-    // Centrada: el mismo margen a cada lado en el escritorio.
+    // Centrada: el mismo margen a cada lado en el escritorio. Cuenta para y la navegación,
+    // en la columna de las misiones, no bajo la ficha.
     await page.setViewportSize({ width: 1440, height: 900 })
     const box = (await article.boundingBox())!
     expect(Math.abs(box.x - (1440 - box.x - box.width))).toBeLessThan(24)
+    const quests = (await page
+      .getByRole('region', { name: 'Las misiones, en orden' })
+      .boundingBox())!
+    for (const part of [article.locator('section.lcuenta'), nav]) {
+      const { x, width } = (await part.boundingBox())!
+      expect(Math.abs(x - quests.x)).toBeLessThan(1)
+      expect(Math.abs(width - quests.width)).toBeLessThan(1)
+    }
   })
 
   test('la prosa de Torre: la entrada antes de las misiones y el cierre con su vídeo en fachada', async ({
@@ -431,10 +431,12 @@ test.describe('página de logro', () => {
     await expect(intro).toBeVisible()
     await expect(before).toBeVisible()
     const quests = page.getByRole('region', { name: 'Las misiones, en orden' })
-    const needs = page.getByRole('region', { name: 'Necesitarás en total' })
+    const header = page.locator('header.lhead')
     const y = async (locator: typeof intro) => (await locator.boundingBox())!.y
-    // Necesitarás, la entrada, las misiones, el cierre: el vídeo entre sus dos párrafos.
-    expect(await y(needs)).toBeLessThan(await y(intro))
+    // La cabecera, la entrada, las misiones, el cierre: el vídeo entre sus dos párrafos. La
+    // ficha va al lado.
+    const head = (await header.boundingBox())!
+    expect(await y(intro)).toBeGreaterThanOrEqual(head.y + head.height)
     expect(await y(intro)).toBeLessThan(await y(quests))
     expect(await y(quests)).toBeLessThan(await y(before))
 

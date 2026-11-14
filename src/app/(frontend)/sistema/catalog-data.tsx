@@ -455,6 +455,23 @@ export const dofusAchievementView: DofusGuideView = {
   },
 }
 
+/** Lo que pide y lo que da un logro, en su ficha: un prerrequisito y las recompensas. */
+export const achievementFacts: Pick<QuestHeaderData, 'prerequisites' | 'rewards'> = {
+  prerequisites: [{ label: 'Esto hace aguas', href: '#esto-hace-aguas', quest: true }],
+  rewards: {
+    xp: { max: 102128 },
+    kamas: 1105,
+    items: [{ item: items.pico, quantity: 1 }],
+    notes: [],
+  },
+}
+
+/** Una ficha sin prerrequisitos ni recompensas. */
+export const achievementFactsEmpty: Pick<QuestHeaderData, 'prerequisites' | 'rewards'> = {
+  prerequisites: [],
+  rewards: { items: [], notes: [] },
+}
+
 /**
  * «Necesitarás en total» de una página de logro: los tres grupos, con un objeto que nombra
  * una nota sin cantidad, una mazmorra y lo que no es objeto ni combate («Otros»).
