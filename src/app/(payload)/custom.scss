@@ -510,15 +510,20 @@ html[data-theme='dark'] {
 
 /*
  * Las pestañas sin elegir: Payload las aclara con opacidad y en claro no llegan a 4.5:1
- * (3.17). Van en el muted de Arcano, sin opacidad; la elegida sigue en tinta con su raya.
+ * (3.17). Ninguna se aclara, tampoco una con error, que conserva el rojo de Payload; las
+ * demás van en el muted de Arcano. La elegida sigue en tinta con su raya.
  */
-.tabs-field__tab-button:not(.tabs-field__tab-button--active):not(
-    .tabs-field__tab-button--has-error
-  ) {
-  color: var(--ta-muted);
+.tabs-field__tab-button:not(.tabs-field__tab-button--active) {
   opacity: 1;
 }
 
-.tabs-field__tab-button:not(.tabs-field__tab-button--active):hover {
+.tabs-field__tab-button:not(.tabs-field__tab-button--active, .tabs-field__tab-button--has-error) {
+  color: var(--ta-muted);
+}
+
+.tabs-field__tab-button:not(
+    .tabs-field__tab-button--active,
+    .tabs-field__tab-button--has-error
+  ):hover {
   color: var(--ta-ink);
 }

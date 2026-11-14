@@ -10,7 +10,6 @@ import type {
   SanitizedConfig,
 } from 'payload'
 import { toWords } from 'payload/shared'
-import { layoutFields } from './helpers/fields'
 import { beforeAll, describe, expect, it } from 'vitest'
 
 import { layoutFields } from './helpers/fields'
@@ -36,10 +35,10 @@ beforeAll(async () => {
 type Admin = Record<string, unknown> & { components?: Record<string, unknown> }
 const adminOf = (target: { admin?: unknown }) => (target.admin ?? {}) as Admin
 
-const named = layoutFields
-
 function field(fields: Field[], name: string): Field {
-  const found = named(fields).find((candidate) => 'name' in candidate && candidate.name === name)
+  const found = layoutFields(fields).find(
+    (candidate) => 'name' in candidate && candidate.name === name,
+  )
   if (!found) throw new Error(`Falta el campo ${name}`)
   return found
 }
@@ -373,7 +372,7 @@ describe('cada campo que Torre ve tiene etiqueta propia', () => {
     const legacy = field(Checklists.fields, 'legacy') as GroupField
     expect(adminOf(legacy).hidden).toBe(true)
     expect(
-      named(legacy.fields).map((candidate) => ('name' in candidate ? candidate.name : null)),
+      layoutFields(legacy.fields).map((candidate) => ('name' in candidate ? candidate.name : null)),
     ).toContain('ownedMoves')
   })
 })
@@ -391,7 +390,7 @@ describe('A-08: el identificador del paso, apartado', () => {
       admin: { initCollapsed: true },
     })
     expect(
-      named(last.fields).map((candidate) => ('name' in candidate ? candidate.name : null)),
+      layoutFields(last.fields).map((candidate) => ('name' in candidate ? candidate.name : null)),
     ).toContain('stepId')
     expect(visible.slice(0, -1).some((f) => 'name' in f && f.name === 'stepId')).toBe(false)
   })

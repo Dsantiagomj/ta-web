@@ -34,15 +34,6 @@ test.describe('el panel para Torre, ola 2', () => {
   const publishStatus = () => page.locator('.ta-publish')
   const statusLine = () => page.locator('.ta-publish__text')
 
-  /** Cierra la vista previa en vivo si Payload la recuerda abierta. */
-  async function closeLivePreview() {
-    await expect(async () => {
-      const active = page.locator('.live-preview-toggler--active')
-      if (await active.isVisible()) await active.click()
-      await expect(active).toHaveCount(0, { timeout: 1500 })
-    }).toPass()
-  }
-
   /** Abre la vista previa en vivo; un clic antes de que el panel se monte se pierde. */
   async function openLivePreview() {
     await expect(async () => {
@@ -201,6 +192,14 @@ test.describe('el panel para Torre, ola 2', () => {
     await swatch.fill('#2a5aaa')
     await expect(page.locator('#field-color')).toHaveValue('#2a5aaa')
 
+    // Un color mal escrito lo marca el navegador al publicar (un borrador no se valida),
+    // antes de llegar al servidor, que también lo rechazaría. No se guarda nada.
+    await page.locator('#field-color').fill('azul')
+    await page.getByRole('button', { name: 'Publicar cambios' }).click()
+    await expect(page.locator('.ta-color')).toContainText(
+      'Tiene que ser un color hexadecimal de seis cifras',
+    )
+
     await tabs.getByRole('button', { name: 'Necesitarás', exact: true }).click()
     await expect(page.getByText('Añadir Grupo')).toBeVisible()
   })
@@ -216,17 +215,16 @@ test.describe('el panel para Torre, ola 2', () => {
     await expect(tabs.getByRole('button')).toHaveText(['Misiones', 'Texto', 'Recompensas'])
   })
 
-  test('A-22: la guía de Dofus en pestañas pasa axe, salvo lo conocido de Payload', async () => {
+  test('A-22: el selector de color pasa axe, sin excepciones', async () => {
     const id = await docId(page, 'dofus-guides', seedDofus.ocre.slug)
     await page.goto(`/admin/collections/dofus-guides/${id}`)
-    // Payload recuerda la vista previa abierta de A-20; aquí se mira solo el formulario.
-    await closeLivePreview()
-    await page.getByRole('button', { name: 'Ficha', exact: true }).click()
-    await expect(page.locator('#field-color')).toBeVisible()
-    const results = await new AxeBuilder({ page })
-      .withTags(WCAG)
-      .disableRules(PAYLOAD_KNOWN)
-      .analyze()
+    await page
+      .locator('.tabs-field__tabs')
+      .getByRole('button', { name: 'Ficha', exact: true })
+      .click()
+    await expect(page.getByLabel('Elegir color con el selector')).toBeVisible()
+    // Solo el campo del color: el resto del formulario lo mira panel-a11y.spec.ts (A-21).
+    const results = await new AxeBuilder({ page }).include('.ta-color').withTags(WCAG).analyze()
     expect(results.violations.map((violation) => violation.id)).toEqual([])
   })
 })

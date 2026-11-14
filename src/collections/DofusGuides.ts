@@ -6,6 +6,7 @@ import { ImageBlock } from '../blocks/ImageBlock'
 import { RichTextBlock } from '../blocks/RichTextBlock'
 import { StepBlock } from '../blocks/StepBlock'
 import { validateVideoUrl, VideoBlock } from '../blocks/VideoBlock'
+import { validateColor } from '../lib/dofus-guides/color'
 import { dofusGuideStrings } from '../lib/dofus-guides/strings'
 import { stateField } from './achievement-fields'
 import { refuseReferencedDelete } from './delete-guard'
@@ -30,11 +31,8 @@ import { pagePreview, withPublishStatus } from '../lib/admin/live-preview'
 
 const s = dofusGuideStrings.admin
 
-/** Un color hexadecimal de seis cifras (#2a5aaa), o nada. Devuelve true o el mensaje. */
-export function validateColor(value: string | null | undefined): true | string {
-  if (!value) return true
-  return /^#[0-9a-f]{6}$/i.test(value) ? true : s.colorInvalid
-}
+/** El color del brillo: la misma regla al guardar que en el navegador (src/lib/dofus-guides/color.ts). */
+export { validateColor }
 
 /** El vídeo es opcional; si lo hay, un enlace https de YouTube, como el bloque de vídeo. */
 function validateOptionalVideo(value: string | null | undefined): true | string {
@@ -324,8 +322,12 @@ export const DofusGuides: CollectionConfig = {
                   validate: validateColor,
                   admin: {
                     description: s.colorDescription,
-                    // Un selector de color junto al hexadecimal (A-22).
-                    components: { Field: '/components/admin/ColorField#ColorField' },
+                    className: 'ta-color',
+                    // El campo de texto de Payload con un selector de color delante (A-22).
+                    components: {
+                      Field: '/components/admin/ColorField#ColorField',
+                      beforeInput: ['/components/admin/ColorField#ColorSwatch'],
+                    },
                   },
                 },
               ],
