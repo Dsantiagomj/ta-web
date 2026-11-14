@@ -18,6 +18,12 @@ export interface ChecklistCatalogEntry {
   legacyHref: string
   /** Si se trae entera desde silvestre-checklist. */
   ported: boolean
+  /**
+   * Una checklist de almas (el Ocre): sus filas salen de las almas que pide `soulsQuest` (su ID
+   * de DofusDB) y de sus monstruos, no de pasos.
+   */
+  kind?: 'souls'
+  soulsQuest?: number
 }
 
 const entry = (fields: Omit<ChecklistCatalogEntry, 'legacyHref'>): ChecklistCatalogEntry => ({
@@ -60,6 +66,13 @@ export const CHECKLIST_CATALOG: ChecklistCatalogEntry[] = [
     description: 'Las almas de la eterna cosecha, una a una, hasta el Dofus Ocre.',
     order: 4,
     dofusGuide: 'dofus-ocre',
-    ported: false,
+    ported: true,
+    // «La eterna cosecha»: las 337 almas, de los objetivos que guarda la misión.
+    kind: 'souls',
+    soulsQuest: 439,
   }),
 ]
+
+/** Si se traen sus pasos de silvestre-checklist (src/dofus/<id>/steps.js): las de almas no tienen. */
+export const hasLegacySteps = (entry: ChecklistCatalogEntry): boolean =>
+  entry.ported && entry.kind !== 'souls'

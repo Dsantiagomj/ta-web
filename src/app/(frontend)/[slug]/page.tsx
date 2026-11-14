@@ -27,6 +27,7 @@ import { loadAchievementPage } from './achievement-data'
 import { AchievementView } from './AchievementView'
 import { loadChecklist } from './checklist-data'
 import { ChecklistView } from './ChecklistView'
+import { SoulsView } from './SoulsView'
 import { loadGuidePage } from './data'
 import { loadDofusGuide } from './dofus-data'
 import { DofusGuideView } from './DofusGuideView'
@@ -71,7 +72,8 @@ async function slugSeo(slug: string) {
   ) {
     const { name, description, slug: url } = checklist.checklist
     return {
-      title: checklistPageStrings.title(name),
+      // Una checklist de almas se llama por su nombre («Almas del Ocre»).
+      title: checklist.checklist.kind === 'souls' ? name : checklistPageStrings.title(name),
       description: description || checklistPageStrings.seoDescription(name),
       url: `/${url}`,
       preview: checklist.preview,
@@ -120,6 +122,9 @@ export default async function SlugPage({ params }: Props) {
   const route = checklistRoute(checklist.checklist, checklist.preview, SITE_URL)
   if (route.kind === 'legacy') redirect(route.href)
   if (route.kind === 'none') notFound()
+  if (checklist.checklist.kind === 'souls') {
+    return <SoulsView data={checklist} preview={checklist.preview} />
+  }
   return <ChecklistView data={checklist} preview={checklist.preview} />
 }
 

@@ -41,6 +41,13 @@ export const E2E_PANEL_USER_3 = {
   role: 'admin' as const,
 }
 
+/** La cuarta, para el Ocre (checklist-ocre.spec.ts), que abre su vista previa en cada prueba. */
+export const E2E_PANEL_USER_4 = {
+  email: 'e2e-ocre@torrentearcano.test',
+  password: 'e2e-clave-solo-local-4',
+  role: 'admin' as const,
+}
+
 export const seedGuide = {
   slug: 'seis-pies-bajo-tierra',
   title: 'Seis pies bajo tierra',
@@ -270,7 +277,13 @@ async function guideExists(payload: Payload, slug: string) {
 
 /** Siembra las guías de prueba; repetirla no duplica nada. */
 export async function seedGuides(payload: Payload): Promise<void> {
-  for (const user of [E2E_PANEL_USER, E2E_EDITOR_USER, E2E_PANEL_USER_2, E2E_PANEL_USER_3]) {
+  for (const user of [
+    E2E_PANEL_USER,
+    E2E_EDITOR_USER,
+    E2E_PANEL_USER_2,
+    E2E_PANEL_USER_3,
+    E2E_PANEL_USER_4,
+  ]) {
     const users = await payload.count({
       collection: 'users',
       where: { email: { equals: user.email } },

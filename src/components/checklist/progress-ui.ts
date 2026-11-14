@@ -18,40 +18,28 @@ import {
   type QuestState,
 } from '@/lib/checklists/progress/engine'
 import {
-  backupFile,
   ownedParts,
-  parseBackup,
   PREREQUISITE_PART,
   PROGRESS_KEY,
   readProgress,
   writeProgress,
   type Progress,
-  type ProgressStorage,
 } from '@/lib/checklists/progress/store'
 import { pendingLegacy } from '@/lib/checklists/progress/legacy-keys'
 import type { ChecklistIslandData } from '@/lib/checklists/page'
 
-import { calendarDaysBetween, progressStrings as s } from './progress-strings'
+import {
+  closeOnOutsideClick,
+  createBackup,
+  createToast,
+  progressDialog,
+  safeStorage,
+} from './progress-shared'
+import { progressStrings as s } from './progress-strings'
 
 type Filter = 'todo' | 'done' | 'all'
 
-/** Cuándo se descargó la última copia de seguridad. */
-const BACKUP_AT_KEY = 'ta-web:backup-at'
 const SOON_STEPS = 5
-
-/** localStorage en try/catch: sin él (modo privado, bloqueado) la página sigue sin guardar. */
-export const safeStorage: ProgressStorage = {
-  getItem(key) {
-    try {
-      return window.localStorage.getItem(key)
-    } catch {
-      return null
-    }
-  },
-  setItem(key, value) {
-    window.localStorage.setItem(key, value)
-  },
-}
 
 export interface ProgressUi {
   /** Si el paso N pasa el filtro Pendientes, Hechos o Todos. */
@@ -84,20 +72,7 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
   const stepIdOf = (n: number) => (n === 0 ? PREREQUISITE_PART : m.steps[n - 1]?.id)
   const nameOf = (id: number) =>
     document.querySelector(`.ck-q[data-q="${id}"] .ck-q__t`)?.textContent ?? String(id)
-  const toastEl = document.querySelector<HTMLElement>('[data-ck-toast]')
-  let toastTimer: ReturnType<typeof setTimeout> | undefined
-
-  function toast(text: string) {
-    if (!toastEl) return
-    // Con un diálogo abierto, lo de fuera queda inerte y debajo: el aviso va dentro de él, en
-    // la capa de arriba, donde se ve y se anuncia.
-    const host = document.querySelector('dialog[open]') ?? document.body
-    if (toastEl.parentElement !== host) host.append(toastEl)
-    toastEl.textContent = text
-    toastEl.hidden = false
-    clearTimeout(toastTimer)
-    toastTimer = setTimeout(() => (toastEl.hidden = true), 5000)
-  }
+  const { show: toast, clear: clearToast } = createToast()
 
   function save(next: Progress) {
     if (next === progress) return
@@ -284,55 +259,11 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
   }
 
   // ---------- la copia de seguridad y el reinicio ----------
-  const dialog = (name: string) =>
-    document.querySelector<HTMLDialogElement>(`[data-ck-dialog="${name}"]`)
-
-  function backupState() {
-    const el = document.querySelector<HTMLElement>('[data-ck-backup-state]')
-    if (!el) return
-    const at = Number(safeStorage.getItem(BACKUP_AT_KEY))
-    if (!at) {
-      el.textContent = s.backupNever
-      el.setAttribute('data-warn', '')
-      return
-    }
-    const days = calendarDaysBetween(new Date(at), new Date())
-    el.textContent = s.backupAge(days)
-    el.toggleAttribute('data-warn', days > 14)
-  }
-
-  function download() {
-    const at = new Date()
-    const body = backupFile(progress, at)
-    const link = document.createElement('a')
-    link.href = URL.createObjectURL(
-      new Blob([JSON.stringify(body, null, 2)], { type: 'application/json' }),
-    )
-    link.download = `progreso-checklists-${at.toISOString().slice(0, 10)}.json`
-    link.click()
-    setTimeout(() => URL.revokeObjectURL(link.href), 1000)
-    try {
-      safeStorage.setItem(BACKUP_AT_KEY, String(at.getTime()))
-    } catch {
-      // Sin guardar la fecha: la próxima vez dirá que no hay copia
-    }
-    backupState()
-    toast(s.downloaded)
-  }
-
-  async function restore(file: File) {
-    let restored: Progress | null = null
-    try {
-      restored = parseBackup(await file.text())
-    } catch {
-      restored = null
-    }
-    // Una copia que no se entiende entera no escribe nada.
-    if (!restored) return toast(s.badBackup)
-    save(restored)
-    dialog('backup')?.close()
-    toast(s.restored)
-  }
+  const dialog = progressDialog
+  const backup = createBackup({ get: () => progress, save, toast })
+  const backupState = backup.state
+  const download = backup.download
+  const restore = backup.restore
 
   function wholeKeys() {
     return $$('[data-ck-slot]').map((slot) => slot.dataset.ckSlot ?? '')
@@ -448,12 +379,7 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
     }
     if (target.closest('[data-ck-dialog-close]')) return target.closest('dialog')?.close()
     if (target.closest('[data-ck-download]')) return download()
-    // Un clic fuera del rectángulo del diálogo lo cierra.
-    if (target instanceof HTMLDialogElement && target.matches('.ck-dlg')) {
-      const box = target.getBoundingClientRect()
-      const { clientX: x, clientY: y } = event
-      if (x < box.left || x > box.right || y < box.top || y > box.bottom) target.close()
-    }
+    closeOnOutsideClick(target, event)
   }
 
   function onChange(event: Event) {
@@ -578,7 +504,7 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
     emptyText: () => (filter === 'all' ? null : s.filterEmpty[filter]),
     reload,
     destroy() {
-      clearTimeout(toastTimer)
+      clearToast()
       document.removeEventListener('click', onClick)
       document.removeEventListener('change', onChange)
       document.removeEventListener('keydown', onKeyDown)

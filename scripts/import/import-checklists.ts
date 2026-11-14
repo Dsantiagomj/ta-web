@@ -1,6 +1,7 @@
 // Lleva a checklists las checklists de Torre desde una copia de silvestre-checklist: las
-// portadas (hoy el Silvestre y el Nebuloso) enteras, en borrador y En preparación; las demás como fichas En
-// preparación que enlazan a Squarespace (scripts/import/checklists/catalog.ts). Al repetirla
+// portadas (`ported` en scripts/import/checklists/catalog.ts) enteras, en borrador y En
+// preparación; el Ocre, de almas, sale de su misión y sus monstruos; las demás, como fichas En
+// preparación que enlazan a Squarespace. Al repetirla
 // no pisa lo que Torre haya cambiado en el panel y cada paso conserva su stepId (load.ts).
 // Trae de DofusDB los objetos y PNJ que falten, con su icono o sus renders, y sube a Media
 // los mapas de inicio, las zonas y las figuras que no son PNJ.
@@ -18,7 +19,7 @@ import { createDofusDbClient } from '@/lib/dofusdb/client'
 import type { RawNpc } from '@/lib/dofusdb/types'
 
 import { checklistArt } from './checklists/art'
-import { CHECKLIST_CATALOG } from './checklists/catalog'
+import { CHECKLIST_CATALOG, hasLegacySteps } from './checklists/catalog'
 import { genericAlternatives, genericSource } from './checklists/generic'
 import { readLegacyChecklist, type LegacyChecklist } from './checklists/legacy'
 import {
@@ -75,7 +76,7 @@ const checklists: ChecklistInput[] = []
 const dofusDb = createDofusDbClient({ log: (message: string) => console.log(message) })
 const legacies = new Map<string, LegacyChecklist>()
 for (const entry of selected) {
-  if (entry.ported) legacies.set(entry.id, await readLegacyChecklist(from, entry.id))
+  if (hasLegacySteps(entry)) legacies.set(entry.id, await readLegacyChecklist(from, entry.id))
 }
 // Las de todas las checklists de una vez: varias comparten fila (la de alineamiento).
 const genericIds = [...legacies.values()].flatMap((legacy) =>
@@ -122,6 +123,27 @@ function resolvers(payload: Payload, dryRun: boolean) {
   } satisfies Partial<LoadChecklistsOptions>
 }
 
+/** Las checklists de almas: cuántas pide su misión y las que no se pueden pintar aún. */
+function printSouls(report: LoadChecklistsReport) {
+  const ids = (list: number[]) =>
+    list.length > 8 ? `${list.slice(0, 8).join(', ')}…` : list.join(', ')
+  for (const { slug, souls, missingMonsters, withoutGameData, notSouls } of report.souls) {
+    console.log(`${slug}: ${souls} almas.`)
+    if (missingMonsters.length > 0) {
+      console.log(
+        `  ${missingMonsters.length} sin monstruo en la base (se quedan fuera): ${ids(missingMonsters)}`,
+      )
+    }
+    if (withoutGameData.length > 0) {
+      console.log(
+        `  ${withoutGameData.length} sin nivel o subzona: corre pnpm data:quests antes de publicarla (${ids(withoutGameData)})`,
+      )
+    }
+    if (notSouls > 0)
+      console.log(`  ${notSouls} objetivos de llevar algo que no es un alma, fuera.`)
+  }
+}
+
 function printUnmatched(report: LoadChecklistsReport) {
   const where = (step: number | null) =>
     step === null ? '' : step === 0 ? ', prerrequisitos' : `, paso ${step}`
@@ -161,6 +183,7 @@ try {
     ...resolvers(payload, true),
   })
   printUnmatched(plan)
+  printSouls(plan)
   console.log(
     `Se traerían de DofusDB ${plan.pending.items} objetos, ${plan.pending.npcs} PNJ y ` +
       `${plan.pending.icons} iconos de objetos que no lo tienen, y se subirían ` +

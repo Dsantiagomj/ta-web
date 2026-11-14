@@ -14,6 +14,7 @@ import { fold } from '@/lib/text/fold'
 import type { Checklist, Media, Quest } from '@/payload-types'
 
 import { openStops } from './open-stops'
+import type { SoulsData } from './souls'
 import { objectiveText, type ObjectiveNames } from './objective-text'
 import { populated, relationId, type Relation } from './relations'
 import { checklistPageStrings as s, checklistStrings } from './strings'
@@ -43,6 +44,8 @@ export interface ChecklistData {
   /** Todas las checklists: «Hecha en la checklist del Dofus X». */
   checklists: ChecklistName[]
   siteUrl: string
+  /** Solo en una checklist de almas (el Ocre): lo que pinta su página (souls.ts). */
+  souls?: Omit<SoulsData, 'checklist' | 'siteUrl'>
 }
 
 export interface QuestNode {

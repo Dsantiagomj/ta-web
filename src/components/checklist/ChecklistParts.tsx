@@ -51,7 +51,7 @@ const CHECK = (
     <path d="M3.5 8.5l3 3 6-7" />
   </svg>
 )
-const DOTS = (
+export const DOTS = (
   <svg viewBox="0 0 16 16" aria-hidden="true">
     <circle cx="3" cy="8" r="1.5" fill="currentColor" />
     <circle cx="8" cy="8" r="1.5" fill="currentColor" />
@@ -60,7 +60,11 @@ const DOTS = (
 )
 
 /** El huevo del Dofus en la cabecera, sin marco, con el brillo de su color. */
-export function ChecklistHeader({ view }: { view: ChecklistView }) {
+export function ChecklistHeader({
+  view,
+}: {
+  view: Pick<ChecklistView, 'egg' | 'title' | 'description'>
+}) {
   return (
     <header className="ck-head">
       <span className="ck-egg" aria-hidden="true">
@@ -861,7 +865,19 @@ export function Totals({ view }: { view: ChecklistView }) {
  * La copia de seguridad, el reinicio y el aviso de abajo. Los abre la isla; sin JavaScript no
  * hacen falta, porque no hay progreso que guardar.
  */
-export function ProgressDialogs() {
+/** Lo que se puede reiniciar de una checklist de pasos. */
+const STEP_RESETS = [
+  ['steps', p.resetSteps],
+  ['prereqs', p.resetPrereqs],
+  ['owned', p.resetOwned],
+] as const
+
+export function ProgressDialogs({
+  resets = STEP_RESETS,
+}: {
+  /** Lo que se puede elegir al reiniciar; las de almas solo reinician sus almas. */
+  resets?: readonly (readonly [string, string])[]
+} = {}) {
   return (
     <>
       <dialog className="ck-dlg" aria-labelledby="ck-backup-t" data-ck-dialog="backup">
@@ -898,13 +914,7 @@ export function ProgressDialogs() {
           <p>{p.resetIntro}</p>
           <fieldset className="ck-dlg__opts">
             <legend className="sr-only">{p.resetWhat}</legend>
-            {(
-              [
-                ['steps', p.resetSteps],
-                ['prereqs', p.resetPrereqs],
-                ['owned', p.resetOwned],
-              ] as const
-            ).map(([key, label]) => (
+            {resets.map(([key, label]) => (
               <label key={key}>
                 <input type="checkbox" className="checkbox" defaultChecked data-ck-reset={key} />
                 <span>

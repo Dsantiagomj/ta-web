@@ -11,7 +11,7 @@ import { randomUUID } from 'node:crypto'
 
 import type { Payload } from 'payload'
 
-import type { Checklist } from '@/payload-types'
+import type { Checklist, Monster, Quest } from '@/payload-types'
 
 import type { LexicalState } from '../rich-text'
 import type { ChecklistCatalogEntry } from './catalog'
@@ -58,6 +58,18 @@ export interface LoadChecklistsReport {
   kept: { slug: string; field: string }[]
   /** Lo que no se pudo casar y se queda fuera, por paso (null: la checklist). */
   unmatched: { slug: string; step: number | null; kind: UnmatchedKind; name: string }[]
+  /**
+   * Las checklists de almas: cuántas almas pide su misión, los monstruos que no están en la base,
+   * los que están sin los datos del juego que pinta la página (hay que refrescarlos) y los
+   * objetivos de llevar algo que no es un alma.
+   */
+  souls: {
+    slug: string
+    souls: number
+    missingMonsters: number[]
+    withoutGameData: number[]
+    notSouls: number
+  }[]
   /** Filas de «Necesitarás» sin objeto del juego: se guardan con su texto, nunca se pierden. */
   labels: { slug: string; step: number; name: string }[]
   /**
@@ -81,8 +93,11 @@ const FULL_FIELDS = [
 ] as const
 /** Una checklist sin portar solo lleva su ficha: sus pasos y prerrequisitos son de Torre. */
 const ENTRY_FIELDS = ['name', 'description', 'order', 'dofusGuide', 'legacyHref'] as const
+/** Una checklist de almas: su ficha, su tipo, su misión y lo que necesita la migración. */
+const SOULS_FIELDS = [...ENTRY_FIELDS, 'kind', 'soulsQuest', 'legacy'] as const
 
-type ImportedField = (typeof FULL_FIELDS)[number]
+type ImportedField = (typeof FULL_FIELDS)[number] | (typeof SOULS_FIELDS)[number]
+
 type Imported = Partial<Record<ImportedField, unknown>>
 
 /**
@@ -451,6 +466,8 @@ async function readCurrent(
         prerequisites: false,
         completedBy: false,
         legacy: false,
+        kind: false,
+        soulsQuest: false,
         steps: { segments: false, needs: false, quests: false },
       },
     })) as Checklist
@@ -460,6 +477,66 @@ async function readCurrent(
     )
     return doc
   }
+}
+
+/**
+ * La misión de una checklist de almas y lo que se puede decir de sus almas: los objetivos de
+ * llevar un alma (con su monstruo), los monstruos que faltan y los que están sin los datos del
+ * juego que pinta la página. Ningún monstruo se adivina: solo los que nombra el objetivo.
+ */
+async function resolveSouls(
+  payload: Payload,
+  entry: ChecklistCatalogEntry,
+  unmatched: (step: number | null, kind: UnmatchedKind, name: string) => void,
+  report: LoadChecklistsReport,
+): Promise<number | null> {
+  const { docs } = await payload.find({
+    collection: 'quests',
+    where: { dofusId: { equals: entry.soulsQuest } },
+    limit: 1,
+    depth: 0,
+    overrideAccess: true,
+    select: { stages: true },
+  })
+  const quest = docs[0] as Pick<Quest, 'id' | 'stages'> | undefined
+  if (!quest) {
+    unmatched(null, 'misión', String(entry.soulsQuest))
+    return null
+  }
+  const brings = (quest.stages ?? [])
+    .flatMap((stage) => stage.objectives ?? [])
+    .filter((objective) => objective.kind === 'bring')
+  const monsterIds = brings.flatMap((objective) =>
+    objective.monsterId == null ? [] : [objective.monsterId],
+  )
+  const find = (select: Record<string, true>) =>
+    payload.find({
+      collection: 'monsters',
+      where: { dofusId: { in: [...new Set(monsterIds)] } },
+      pagination: false,
+      depth: 0,
+      overrideAccess: true,
+      select,
+    })
+  // En seco contra una base sin la migración de los monstruos (dev antes de desplegar), sus
+  // datos del juego aún no existen: se buscan solo por su ID y se dan por faltar.
+  const monsters = monsterIds.length
+    ? await find({ dofusId: true, levels: true, subAreaId: true })
+        .catch(() => find({ dofusId: true }))
+        .then((result) => result.docs as Pick<Monster, 'dofusId' | 'levels' | 'subAreaId'>[])
+    : []
+  const found = new Map(monsters.map((monster) => [monster.dofusId, monster]))
+  report.souls.push({
+    slug: entry.slug,
+    souls: monsterIds.length,
+    missingMonsters: monsterIds.filter((id) => !found.has(id)),
+    withoutGameData: monsterIds.filter((id) => {
+      const monster = found.get(id)
+      return monster !== undefined && (!monster.levels?.length || monster.subAreaId == null)
+    }),
+    notSouls: brings.length - monsterIds.length,
+  })
+  return quest.id
 }
 
 export async function loadChecklists(
@@ -473,6 +550,7 @@ export async function loadChecklists(
     unchanged: 0,
     kept: [],
     unmatched: [],
+    souls: [],
     labels: [],
     pending: { items: 0, npcs: 0, icons: 0, art: 0 },
   }
@@ -515,7 +593,14 @@ export async function loadChecklists(
       depth: 0,
       draft: true,
       overrideAccess: true,
-      select: { prerequisites: false, steps: false, completedBy: false, legacy: false },
+      select: {
+        prerequisites: false,
+        steps: false,
+        completedBy: false,
+        legacy: false,
+        kind: false,
+        soulsQuest: false,
+      },
     })
     const current = found.docs[0]
       ? await readCurrent(payload, found.docs[0].id, options.apply, log)
@@ -536,8 +621,14 @@ export async function loadChecklists(
           items,
         }))),
       ...(draft && { legacy: draft.legacy }),
+      ...(entry.kind === 'souls' && {
+        kind: 'souls',
+        soulsQuest: await resolveSouls(payload, entry, unmatched, report),
+        // El progreso del Ocre antiguo: la lista de almas de «cosecha:done».
+        legacy: { prefix: 'cosecha:' },
+      }),
     }
-    const fields = draft ? FULL_FIELDS : ENTRY_FIELDS
+    const fields = draft ? FULL_FIELDS : entry.kind === 'souls' ? SOULS_FIELDS : ENTRY_FIELDS
     // La zona de los pasos se compara aparte (mergeZones): los pasos se comparan sin ella.
     const valueOf = (values: Partial<Record<ImportedField, unknown>>, field: ImportedField) =>
       field === 'steps' ? withoutZones(values.steps) : values[field]
@@ -555,7 +646,7 @@ export async function loadChecklists(
       if (options.apply) {
         // Una checklist portada queda en borrador hasta que tenga página; las fichas sin
         // portar se publican: solo enlazan a Squarespace.
-        const status = draft ? 'draft' : 'published'
+        const status = draft || entry.kind === 'souls' ? 'draft' : 'published'
         await payload.create({
           collection: 'checklists',
           data: {
@@ -618,7 +709,9 @@ export async function loadChecklists(
       // Si Torre tiene un borrador a medias, el cambio va a su borrador y no se publica. La
       // primera vez que se porta una ficha (publicada, sin pasos), los pasos también van a un
       // borrador: lo publicado sigue siendo la ficha hasta que Torre la revise.
-      const porting = Boolean(draft) && !(current.steps ?? []).length && 'steps' in changes
+      const porting =
+        (Boolean(draft) && !(current.steps ?? []).length && 'steps' in changes) ||
+        (entry.kind === 'souls' && 'kind' in changes)
       const status = current._status === 'draft' || porting ? 'draft' : 'published'
       await payload.update({
         collection: 'checklists',

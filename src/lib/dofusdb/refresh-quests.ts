@@ -90,7 +90,15 @@ function storedItem(doc: Item) {
 }
 
 function storedMonster(doc: Monster) {
-  return { dofusId: doc.dofusId, name: doc.name, iconId: doc.iconId ?? null }
+  return {
+    dofusId: doc.dofusId,
+    name: doc.name,
+    iconId: doc.iconId ?? null,
+    levels: doc.levels ?? [],
+    boss: doc.boss ?? false,
+    archmonster: doc.archmonster ?? false,
+    subAreaId: doc.subAreaId ?? null,
+  }
 }
 
 // Solo para el progreso: el catálogo de objetos pasa de 20.000 filas.
@@ -106,6 +114,7 @@ function storedDungeon(doc: Dungeon) {
     dofusId: doc.dofusId,
     name: doc.name,
     bosses: (doc.bosses ?? []).map((boss) => relationId(boss)),
+    level: doc.level ?? null,
   }
 }
 

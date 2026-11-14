@@ -533,6 +533,30 @@ export const Checklists: CollectionConfig = {
     },
     { ...stateField, admin: { ...stateField.admin, description: s.stateDescription } },
     {
+      // Una checklist de pasos (una guía) o de almas (el Ocre): las almas salen de la misión.
+      name: 'kind',
+      label: 'Tipo de checklist',
+      type: 'select',
+      // Vacío es una de pasos: lo que ya había no cambia.
+      defaultValue: 'steps',
+      options: (['steps', 'souls'] as const).map((value) => ({
+        value,
+        label: checklistStrings.kinds[value],
+      })),
+      admin: { position: 'sidebar', description: s.kindDescription },
+    },
+    {
+      name: 'soulsQuest',
+      label: 'Misión de las almas',
+      type: 'relationship',
+      relationTo: 'quests',
+      admin: {
+        position: 'sidebar',
+        condition: (data) => data?.kind === 'souls',
+        description: s.soulsQuestDescription,
+      },
+    },
+    {
       name: 'legacyHref',
       label: 'Enlace en Squarespace',
       type: 'text',

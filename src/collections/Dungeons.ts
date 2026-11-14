@@ -34,6 +34,12 @@ export const Dungeons: CollectionConfig = {
       admin: { description: 'En el orden de DofusDB; la página pinta el primero.' },
     },
     {
+      name: 'level',
+      label: 'Nivel',
+      type: 'number',
+      admin: { description: 'El nivel de la mazmorra en DofusDB (optimalPlayerLevel).' },
+    },
+    {
       name: 'refreshedAt',
       label: 'Actualizado el',
       type: 'date',

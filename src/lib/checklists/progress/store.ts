@@ -35,6 +35,8 @@ export interface Progress {
   steps: Record<string, { done: boolean; at: number }>
   prereqs: Record<string, number>
   owned: Record<string, number>
+  /** Las almas que se tienen (el Ocre), por el ID de DofusDB de su monstruo. */
+  souls: Record<string, number>
   /** Las checklists antiguas ya migradas, por su id («nebuloso»). */
   migrated: Record<string, number>
 }
@@ -50,6 +52,7 @@ export const emptyProgress = (): Progress => ({
   steps: {},
   prereqs: {},
   owned: {},
+  souls: {},
   migrated: {},
 })
 
@@ -96,6 +99,7 @@ export function parseProgress(text: string | null): Progress {
     steps: entries(raw.steps, isStep),
     prereqs: entries(raw.prereqs, isTime),
     owned: entries(raw.owned, isTime),
+    souls: entries(raw.souls, isTime),
     migrated: entries(raw.migrated, isTime),
   }
 }
@@ -131,11 +135,16 @@ export function parseBackup(text: string): Progress | null {
   if (!isObject(progress) || progress.v !== 1) return null
   const parsed = parseProgress(JSON.stringify(progress))
   const maps = ['quests', 'steps', 'prereqs', 'owned', 'migrated'] as const
-  const intact = maps.every(
-    (name) =>
-      isObject(progress[name]) &&
-      Object.keys(progress[name] as object).length === Object.keys(parsed[name]).length,
-  )
+  const intact =
+    maps.every(
+      (name) =>
+        isObject(progress[name]) &&
+        Object.keys(progress[name] as object).length === Object.keys(parsed[name]).length,
+    ) &&
+    // Las almas llegaron después: una copia de antes no las lleva y vale igual.
+    (progress.souls === undefined ||
+      (isObject(progress.souls) &&
+        Object.keys(progress.souls).length === Object.keys(parsed.souls).length))
   return intact ? parsed : null
 }
 

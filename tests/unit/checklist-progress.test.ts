@@ -130,6 +130,7 @@ describe('store', () => {
       steps: { a: { done: true, at: 1 } },
       prereqs: { '7:l1': 1 },
       owned: { '15533#a': 1 },
+      souls: {},
       migrated: { nebuloso: 1 },
     })
   })
