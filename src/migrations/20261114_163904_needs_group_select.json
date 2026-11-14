@@ -16402,6 +16402,42 @@
           "primaryKey": false,
           "notNull": false
         },
+        "card_scene_id": {
+          "name": "card_scene_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "card_npc_id": {
+          "name": "card_npc_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "card_npc_height": {
+          "name": "card_npc_height",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "card_npc_right": {
+          "name": "card_npc_right",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "card_npc_top": {
+          "name": "card_npc_top",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "card_color": {
+          "name": "card_color",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
         "legacy_prefix": {
           "name": "legacy_prefix",
           "type": "varchar",
@@ -16513,6 +16549,36 @@
           "method": "btree",
           "with": {}
         },
+        "checklists_card_card_scene_idx": {
+          "name": "checklists_card_card_scene_idx",
+          "columns": [
+            {
+              "expression": "card_scene_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "checklists_card_card_npc_idx": {
+          "name": "checklists_card_card_npc_idx",
+          "columns": [
+            {
+              "expression": "card_npc_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "checklists_updated_at_idx": {
           "name": "checklists_updated_at_idx",
           "columns": [
@@ -16579,6 +16645,32 @@
           "tableTo": "dofus_guides",
           "columnsFrom": [
             "dofus_guide_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "checklists_card_scene_id_media_id_fk": {
+          "name": "checklists_card_scene_id_media_id_fk",
+          "tableFrom": "checklists",
+          "tableTo": "media",
+          "columnsFrom": [
+            "card_scene_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "checklists_card_npc_id_media_id_fk": {
+          "name": "checklists_card_npc_id_media_id_fk",
+          "tableFrom": "checklists",
+          "tableTo": "media",
+          "columnsFrom": [
+            "card_npc_id"
           ],
           "columnsTo": [
             "id"
@@ -19793,6 +19885,42 @@
           "primaryKey": false,
           "notNull": false
         },
+        "version_card_scene_id": {
+          "name": "version_card_scene_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_card_npc_id": {
+          "name": "version_card_npc_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_card_npc_height": {
+          "name": "version_card_npc_height",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_card_npc_right": {
+          "name": "version_card_npc_right",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_card_npc_top": {
+          "name": "version_card_npc_top",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "version_card_color": {
+          "name": "version_card_color",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
         "version_legacy_prefix": {
           "name": "version_legacy_prefix",
           "type": "varchar",
@@ -19940,6 +20068,36 @@
           "columns": [
             {
               "expression": "version_dofus_guide_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_checklists_v_version_card_version_card_scene_idx": {
+          "name": "_checklists_v_version_card_version_card_scene_idx",
+          "columns": [
+            {
+              "expression": "version_card_scene_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "_checklists_v_version_card_version_card_npc_idx": {
+          "name": "_checklists_v_version_card_version_card_npc_idx",
+          "columns": [
+            {
+              "expression": "version_card_npc_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -20104,6 +20262,32 @@
           "tableTo": "dofus_guides",
           "columnsFrom": [
             "version_dofus_guide_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "_checklists_v_version_card_scene_id_media_id_fk": {
+          "name": "_checklists_v_version_card_scene_id_media_id_fk",
+          "tableFrom": "_checklists_v",
+          "tableTo": "media",
+          "columnsFrom": [
+            "version_card_scene_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "_checklists_v_version_card_npc_id_media_id_fk": {
+          "name": "_checklists_v_version_card_npc_id_media_id_fk",
+          "tableFrom": "_checklists_v",
+          "tableTo": "media",
+          "columnsFrom": [
+            "version_card_npc_id"
           ],
           "columnsTo": [
             "id"
@@ -26462,6 +26646,217 @@
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
+    },
+    "public.checklists_index": {
+      "name": "checklists_index",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "teaser_enabled": {
+          "name": "teaser_enabled",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": true
+        },
+        "teaser_scene_id": {
+          "name": "teaser_scene_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "teaser_egg_id": {
+          "name": "teaser_egg_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "import_snapshot": {
+          "name": "import_snapshot",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "checklists_index_teaser_teaser_scene_idx": {
+          "name": "checklists_index_teaser_teaser_scene_idx",
+          "columns": [
+            {
+              "expression": "teaser_scene_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "checklists_index_teaser_teaser_egg_idx": {
+          "name": "checklists_index_teaser_teaser_egg_idx",
+          "columns": [
+            {
+              "expression": "teaser_egg_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "checklists_index_teaser_scene_id_media_id_fk": {
+          "name": "checklists_index_teaser_scene_id_media_id_fk",
+          "tableFrom": "checklists_index",
+          "tableTo": "media",
+          "columnsFrom": [
+            "teaser_scene_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "checklists_index_teaser_egg_id_media_id_fk": {
+          "name": "checklists_index_teaser_egg_id_media_id_fk",
+          "tableFrom": "checklists_index",
+          "tableTo": "media",
+          "columnsFrom": [
+            "teaser_egg_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.checklists_index_locales": {
+      "name": "checklists_index_locales",
+      "schema": "",
+      "columns": {
+        "teaser_label": {
+          "name": "teaser_label",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'En camino'"
+        },
+        "teaser_text": {
+          "name": "teaser_text",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'???'"
+        },
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "_locale": {
+          "name": "_locale",
+          "type": "_locales",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "_parent_id": {
+          "name": "_parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "checklists_index_locales_locale_parent_id_unique": {
+          "name": "checklists_index_locales_locale_parent_id_unique",
+          "columns": [
+            {
+              "expression": "_locale",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "checklists_index_locales_parent_id_idx": {
+          "name": "checklists_index_locales_parent_id_idx",
+          "columns": [
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "checklists_index_locales_parent_id_fk": {
+          "name": "checklists_index_locales_parent_id_fk",
+          "tableFrom": "checklists_index_locales",
+          "tableTo": "checklists_index",
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     }
   },
   "enums": {
@@ -26893,6 +27288,6 @@
     "tables": {},
     "columns": {}
   },
-  "id": "ebb20fe8-3793-4c21-b3ca-5cbd5f965877",
+  "id": "4f5e4c10-33a6-42ce-ba71-de7eeb54cfbf",
   "prevId": "00000000-0000-0000-0000-000000000000"
 }
