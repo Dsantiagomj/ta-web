@@ -27,6 +27,7 @@
     "seed:e2e": "NODE_OPTIONS=--no-deprecation payload run scripts/seed-e2e.ts",
     "db:dev": "node scripts/db-dev.ts",
     "data:quests": "NODE_OPTIONS=--no-deprecation payload run scripts/refresh-quests.ts",
+    "data:dungeon-notes": "NODE_OPTIONS=--no-deprecation payload run scripts/dungeon-notes.ts",
     "import:guides": "NODE_OPTIONS=--no-deprecation payload run scripts/import/import-guides.ts",
     "import:dofus-guides": "NODE_OPTIONS=--no-deprecation payload run scripts/import/import-dofus-guides.ts --",
     "import:checklists": "NODE_OPTIONS=--no-deprecation payload run scripts/import/import-checklists.ts --",

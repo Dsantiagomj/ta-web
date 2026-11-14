@@ -7,7 +7,8 @@
 // los que aún no están (la primera vez tarda: dos imágenes por PNJ), y los iconos de los
 // objetos y las imágenes de los monstruos que pinta alguna guía, también una sola vez.
 // También guarda las mazmorras con sus jefes, cuyas imágenes importa, y al final dice qué
-// filas de mazmorra de las páginas de logro publicadas llevan el icono genérico.
+// filas de mazmorra de las páginas de logro publicadas llevan el icono genérico y cómo casó
+// cada nota (`pnpm data:dungeon-notes` imprime solo eso, sin escribir nada).
 // Uso: pnpm data:quests. Escribe en la base de DATABASE_URL (vacía: la de pnpm db:dev).
 // DOFUSDB_WRITE_CONCURRENCY fija cuántas escrituras van a la vez (por defecto 8).
 // Corre con `payload run`, que carga .env y transpila TypeScript; el script arranca
@@ -19,6 +20,7 @@ import { createDofusDbClient } from '@/lib/dofusdb/client'
 import { fetchQuestData } from '@/lib/dofusdb/fetch-quest-data'
 import { gameImageTargets, refreshGameImages } from '@/lib/dofusdb/game-images'
 import { dungeonNoteReport } from '@/lib/achievements/dungeon-report'
+import { dungeonReportLines } from '@/lib/achievements/dungeon-report-lines'
 import { ensureAchievementPages } from '@/lib/achievements/ensure-pages'
 import { refreshAchievements } from '@/lib/dofusdb/refresh-achievements'
 import { refreshNpcs } from '@/lib/dofusdb/refresh-npcs'
@@ -131,19 +133,10 @@ try {
   )
 
   // Las filas de mazmorra de las páginas publicadas, clasificadas como las pinta la página:
-  // con el jefe solo si su imagen está en Media. Las demás llevan el icono genérico hasta que
-  // Torre escriba la mazmorra con su nombre o el de su jefe, o la elija a mano en la guía
-  // («Mazmorras de las notas», en Necesitarás).
-  const report = await dungeonNoteReport(payload)
-  console.log(
-    `Filas de mazmorra en las páginas de logro publicadas: ${report.withBoss.length} con su ` +
-      `jefe (${report.manual.length} elegidas a mano en el panel) y ${report.generic.length} ` +
-      `con el icono genérico.`,
-  )
-  const generic = new Map<string, string[]>()
-  for (const { page, label } of report.generic)
-    generic.set(label, [...(generic.get(label) ?? []), page])
-  for (const [label, pages] of generic) console.log(`  Sin jefe: «${label}» (${pages.join(', ')})`)
+  // con el jefe solo si su imagen está en Media, y cómo casó cada nota. Las demás llevan el
+  // icono genérico hasta que Torre escriba la mazmorra con su nombre o el de su jefe, o la
+  // elija a mano en la guía («Mazmorras de las notas», en Necesitarás).
+  for (const line of dungeonReportLines(await dungeonNoteReport(payload))) console.log(line)
   await payload.destroy()
 } catch (error) {
   console.error('El refresco de misiones falló:', error)

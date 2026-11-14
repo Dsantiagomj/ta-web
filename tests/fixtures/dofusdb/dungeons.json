@@ -1,0 +1,755 @@
+[
+  {
+    "name": "Corte del Jalató Real",
+    "bosses": ["Jalató Real"]
+  },
+  {
+    "name": "Claro del Roble Blando",
+    "bosses": ["Roble Blando"]
+  },
+  {
+    "name": "Granero del Girasol Hambriento",
+    "bosses": ["Girasol Hambriento"]
+  },
+  {
+    "name": "Territorio Ancestral",
+    "bosses": ["Abráknido Ancestral"]
+  },
+  {
+    "name": "Antro de Cocabulia",
+    "bosses": ["Cocabulia"]
+  },
+  {
+    "name": "Centro del Laberinto del Minotauroro",
+    "bosses": ["Minotauroro"]
+  },
+  {
+    "name": "Biblioteca del Maestro Cuerbok",
+    "bosses": ["Maestro Cuerbok"]
+  },
+  {
+    "name": "Antro del Dragocerdo",
+    "bosses": ["Dragocerdo"]
+  },
+  {
+    "name": "Enclave de los Blops",
+    "bosses": ["Blop Coco Real", "Blop Índigo Real", "Blop Reineta Real", "Blop Guinda Real"]
+  },
+  {
+    "name": "Mazmorra de los Bworks",
+    "bosses": ["Bworka"]
+  },
+  {
+    "name": "Cueva de Bworker",
+    "bosses": ["Bworker"]
+  },
+  {
+    "name": "Guarida del Maxilubo",
+    "bosses": ["Maxilubo"]
+  },
+  {
+    "name": "Madriguera del Wey Wabbit",
+    "bosses": ["Wey Wobot"]
+  },
+  {
+    "name": "Castillo de Arena",
+    "bosses": ["Mob Lasponja"]
+  },
+  {
+    "name": "Picos Rocosos de los Crujidores",
+    "bosses": ["Crujidor Legendario"]
+  },
+  {
+    "name": "Mazmorra de los Herreros",
+    "bosses": ["Cofrerrero"]
+  },
+  {
+    "name": "Templo del Gran Ugah",
+    "bosses": ["Ugah"]
+  },
+  {
+    "name": "La Gelexta Dimensión",
+    "bosses": [
+      "Gelatina Real de Aciano",
+      "Gelatina Real de Limón",
+      "Gelatina Real de Fresa",
+      "Gelatina Real de Menta"
+    ]
+  },
+  {
+    "name": "Gruta Grut'Hesqua",
+    "bosses": ["Coralador Magistral"]
+  },
+  {
+    "name": "Pueblo Kaníbola",
+    "bosses": ["Kaníbola Daldrrak"]
+  },
+  {
+    "name": "Canopea del Kimbo",
+    "bosses": ["Kimbo"]
+  },
+  {
+    "name": "Cueva del Trankitronko",
+    "bosses": ["Trankitronko"]
+  },
+  {
+    "name": "Antro del Kralamar Gigante",
+    "bosses": ["Kralamar Gigante"]
+  },
+  {
+    "name": "Nido de Kwoknan",
+    "bosses": ["Kwoknan"]
+  },
+  {
+    "name": "Mazmorra de las Larvas",
+    "bosses": ["Shin Larva"]
+  },
+  {
+    "name": "Mansión Encantada",
+    "bosses": ["Boostacho"]
+  },
+  {
+    "name": "Laboratorio de Brumen Tinctorias",
+    "bosses": ["Nelwynn"]
+  },
+  {
+    "name": "Mazmorra de Nawidad",
+    "bosses": ["Pikabeto"]
+  },
+  {
+    "name": "Cueva de Nawidad",
+    "bosses": ["Chanta Klaus"]
+  },
+  {
+    "name": "Casa de Chanta Klaus",
+    "bosses": ["Papa No-es"]
+  },
+  {
+    "name": "Cala del Arca de Otomai",
+    "bosses": ["Gurlo el Terrible"]
+  },
+  {
+    "name": "Boca del Rasgabola",
+    "bosses": ["Silf el Rasgabola Mayor"]
+  },
+  {
+    "name": "Raratonera de la Rata Negra",
+    "bosses": ["Rata Negra"]
+  },
+  {
+    "name": "Despensa de la Rata Blanca",
+    "bosses": ["Rata Blanca"]
+  },
+  {
+    "name": "Guarida de Sfinter Cell",
+    "bosses": ["Sfinter Cell"]
+  },
+  {
+    "name": "Guarida de Skonk",
+    "bosses": ["Skonk"]
+  },
+  {
+    "name": "Mazmorra de los Escarahojas",
+    "bosses": ["Escarajefe Dorado"]
+  },
+  {
+    "name": "Mazmorra de los Esqueletos",
+    "bosses": ["Chafer Rōnin"]
+  },
+  {
+    "name": "Mazmorra de los Tofus",
+    "bosses": ["Batofu"]
+  },
+  {
+    "name": "Antro del Blop Multicolor Real",
+    "bosses": ["Blop Multicolor Real"]
+  },
+  {
+    "name": "Tofullinero Real",
+    "bosses": ["Tofu Real"]
+  },
+  {
+    "name": "Castillo del Wey Wabbit",
+    "bosses": ["Wey Wabbit"]
+  },
+  {
+    "name": "Invernáculo de Jalamut Real",
+    "bosses": ["Jalamut Real"]
+  },
+  {
+    "name": "Sala del Minotot",
+    "bosses": ["Minotot"]
+  },
+  {
+    "name": "Laboratorio del Tynril",
+    "bosses": ["Tynril Atónito", "Tynril Estupefacto", "Tynril Absorto", "Tynril Pérfido"]
+  },
+  {
+    "name": "Excavación de Morsagüino Real",
+    "bosses": ["Morsagüino Real"]
+  },
+  {
+    "name": "Restos del Roca Negra",
+    "bosses": ["Ben el Ripata"]
+  },
+  {
+    "name": "Hipogeo del Obsidiantre",
+    "bosses": ["Obsidiantre"]
+  },
+  {
+    "name": "Guarida de los Gélifux",
+    "bosses": ["Tengu Gélifux", "Fuji Gélifux Nodriza"]
+  },
+  {
+    "name": "Antro del Cil",
+    "bosses": ["Cil"]
+  },
+  {
+    "name": "Cavernas de Tejossus",
+    "bosses": ["Tejossus", "Profesor Xa"]
+  },
+  {
+    "name": "Antecámara de los Golosotes",
+    "bosses": ["Golosotrón Real"]
+  },
+  {
+    "name": "Huerto de Haluín",
+    "bosses": ["Haluín"]
+  },
+  {
+    "name": "Transportador de Sylargh",
+    "bosses": ["Sylargh"]
+  },
+  {
+    "name": "Mazmorra de la Mina de Kéfriho",
+    "bosses": ["Esmígol"]
+  },
+  {
+    "name": "Sala Privada de Klim",
+    "bosses": ["Klim"]
+  },
+  {
+    "name": "Forjafría de Mizz Frizz",
+    "bosses": ["Mizz Frizz"]
+  },
+  {
+    "name": "Laboratorio de Nileza",
+    "bosses": ["Nileza"]
+  },
+  {
+    "name": "Mazmorra del Conde Kontatrás",
+    "bosses": ["Conde Kontatrás"]
+  },
+  {
+    "name": "Teatro de Dramak",
+    "bosses": ["Señor de las Marionetas"]
+  },
+  {
+    "name": "Acuadomo de Merkator",
+    "bosses": ["Merkator"]
+  },
+  {
+    "name": "Pirámide de Sombra",
+    "bosses": ["Sombra"]
+  },
+  {
+    "name": "Gruta de Kanígrula",
+    "bosses": ["Kanígrula"]
+  },
+  {
+    "name": "Palacio del Rey Nidas",
+    "bosses": ["Rey Nidas"]
+  },
+  {
+    "name": "Fábrica de Malefíscof",
+    "bosses": ["Malefíscof"]
+  },
+  {
+    "name": "Galería de Perfósil",
+    "bosses": ["Perfósil"]
+  },
+  {
+    "name": "Pajarera de Thor Pestruz",
+    "bosses": ["Thor Pestruz"]
+  },
+  {
+    "name": "Ring del Capitán Eskarlata",
+    "bosses": ["Capitán Eskarlata"]
+  },
+  {
+    "name": "Cueva de Toxoliat",
+    "bosses": ["Toxoliat"]
+  },
+  {
+    "name": "Trono de la Corte Tenebrosa",
+    "bosses": ["Reina de los Ladrones"]
+  },
+  {
+    "name": "Vientre de la Ballena",
+    "bosses": ["Protozorror"]
+  },
+  {
+    "name": "Relojarium de XLII",
+    "bosses": ["XLII"]
+  },
+  {
+    "name": "Megalito de Fraktal",
+    "bosses": ["Fraktal"]
+  },
+  {
+    "name": "Ojo de Vórtex",
+    "bosses": ["Vórtex"]
+  },
+  {
+    "name": "Escondrijo de Blatarata",
+    "bosses": ["Blatarata"]
+  },
+  {
+    "name": "Guarida de Lasoberaña",
+    "bosses": ["Lasoberaña"]
+  },
+  {
+    "name": "Cripta de Chadalid",
+    "bosses": ["Chadalid"]
+  },
+  {
+    "name": "Navío de Le Chuko",
+    "bosses": ["Le Chuko"]
+  },
+  {
+    "name": "Árbol de Moon",
+    "bosses": ["Moon"]
+  },
+  {
+    "name": "Miausoleo de Piojoporojo",
+    "bosses": ["Piojoporojo"]
+  },
+  {
+    "name": "Plataforma de Ush",
+    "bosses": ["Ush Galesh"]
+  },
+  {
+    "name": "Reto de Miauvizor",
+    "bosses": ["Miauvizor"]
+  },
+  {
+    "name": "Templo Maldito de Araknas",
+    "bosses": []
+  },
+  {
+    "name": "Nave del Capitán Meno",
+    "bosses": ["Capitán Meno"]
+  },
+  {
+    "name": "Templo de Kutulú",
+    "bosses": ["Larva de Kutulú"]
+  },
+  {
+    "name": "Palacio de Dientinea",
+    "bosses": ["Dientinea"]
+  },
+  {
+    "name": "Cementerio de los Mastodontes",
+    "bosses": ["Mantícoro"]
+  },
+  {
+    "name": "Caverna de El Piko",
+    "bosses": ["El Piko"]
+  },
+  {
+    "name": "Tripas de Anelidón",
+    "bosses": ["Anelidón"]
+  },
+  {
+    "name": "Campamento del Conde Razof",
+    "bosses": ["Conde Razof"]
+  },
+  {
+    "name": "Carpa de los Magik Riktus",
+    "bosses": ["Judini"]
+  },
+  {
+    "name": "Cámara de Tal Kasha",
+    "bosses": ["Tal Kasha"]
+  },
+  {
+    "name": "Mansión de Kuatropatas",
+    "bosses": ["Anerice la Fab'huquesa"]
+  },
+  {
+    "name": "Mirador de Ilyzaelle",
+    "bosses": ["Ilyzaelle"]
+  },
+  {
+    "name": "Torre de Bethel",
+    "bosses": ["Bethel Akarna"]
+  },
+  {
+    "name": "Torre de Solar",
+    "bosses": ["Solar"]
+  },
+  {
+    "name": "Cervecería del Rey Dazahk",
+    "bosses": ["Dazahk Martillelo"]
+  },
+  {
+    "name": "Crocantería",
+    "bosses": ["Crunchidor"]
+  },
+  {
+    "name": "Templo del Dios Kao",
+    "bosses": ["Sacerdotisa de Kao"]
+  },
+  {
+    "name": "Fundición de los Waddictos",
+    "bosses": ["Zahowí"]
+  },
+  {
+    "name": "Santuario de Torkelonia",
+    "bosses": ["Torkelonia"]
+  },
+  {
+    "name": "Guarida de Karnozor",
+    "bosses": ["Karnozor"]
+  },
+  {
+    "name": "Prueba de Dragenerys",
+    "bosses": ["Dragenerys"]
+  },
+  {
+    "name": "Árbol de Muerte",
+    "bosses": ["Corrupción"]
+  },
+  {
+    "name": "Cadenas de la Tiranía",
+    "bosses": ["Servidumbre"]
+  },
+  {
+    "name": "Sentencia de la Balanza",
+    "bosses": ["Miseria"]
+  },
+  {
+    "name": "Trono de Sangre",
+    "bosses": ["Guerra"]
+  },
+  {
+    "name": "Dojo del Viento",
+    "bosses": ["Shihan", "Hanshi"]
+  },
+  {
+    "name": "Tormenta del Selocalipsis",
+    "bosses": ["Guerra", "Servidumbre", "Miseria", "Corrupción"]
+  },
+  {
+    "name": "Valle de la Dama del Agua",
+    "bosses": ["Nagate"]
+  },
+  {
+    "name": "Fábrica de Fux Artificiales",
+    "bosses": ["Funoroshi"]
+  },
+  {
+    "name": "Bambusería de Kodámade",
+    "bosses": ["Kodámade"]
+  },
+  {
+    "name": "Taller de Tanukui San",
+    "bosses": ["Tanukui San"]
+  },
+  {
+    "name": "Casa de los Espíritus",
+    "bosses": ["Kumijo"]
+  },
+  {
+    "name": "Tumba del Shogun Tofugawa",
+    "bosses": ["Shogun Tofugawa"]
+  },
+  {
+    "name": "Memoria de Orukam",
+    "bosses": ["Rey Imagami"]
+  },
+  {
+    "name": "Recuerdo de Imagiro",
+    "bosses": ["Reina Amirukam"]
+  },
+  {
+    "name": "Ritual de Kabaal",
+    "bosses": ["Kabaal"]
+  },
+  {
+    "name": "Batalla de la Aurora Púrpura",
+    "bosses": ["Conflicto Eterno"]
+  },
+  {
+    "name": "Akademia de los Goblins",
+    "bosses": ["Director Grunob"]
+  },
+  {
+    "name": "Túmulo del Largo Sueño",
+    "bosses": ["Hell Mina"]
+  },
+  {
+    "name": "Cámara de los Maleficios",
+    "bosses": ["Belladona"]
+  },
+  {
+    "name": "Bastión de los Martilloseco",
+    "bosses": ["Demena Decobre"]
+  },
+  {
+    "name": "Refugio Silvestre",
+    "bosses": ["Rakooper"]
+  },
+  {
+    "name": "Expedición - Tofullinero Real",
+    "bosses": []
+  },
+  {
+    "name": "Expedición - Corte del Jalató Real",
+    "bosses": []
+  },
+  {
+    "name": "Expedición - Claro del Roble Blando",
+    "bosses": []
+  },
+  {
+    "name": "Expedición - Mazmorra de los Herreros",
+    "bosses": []
+  },
+  {
+    "name": "Expedición - Antro de Cocabulia",
+    "bosses": []
+  },
+  {
+    "name": "Expedición - Centro del Laberinto del Minotauroro",
+    "bosses": []
+  },
+  {
+    "name": "Expedición - Biblioteca del Maestro Cuerbok",
+    "bosses": []
+  },
+  {
+    "name": "Expedición - Granero del Girasol Hambriento",
+    "bosses": []
+  },
+  {
+    "name": "Expedición - Antro del Blop Multicolor Real",
+    "bosses": []
+  },
+  {
+    "name": "Expedición - Raratonera de la Rata Negra",
+    "bosses": []
+  },
+  {
+    "name": "Expedición - Mazmorra de los Bworks",
+    "bosses": []
+  },
+  {
+    "name": "Expedición - Picos Rocosos de los Crujidores",
+    "bosses": []
+  },
+  {
+    "name": "Expedición - Despensa de la Rata Blanca",
+    "bosses": []
+  },
+  {
+    "name": "Expedición - Guarida del Maxilubo",
+    "bosses": []
+  },
+  {
+    "name": "Expedición - Mazmorra de los Esqueletos",
+    "bosses": []
+  },
+  {
+    "name": "Expedición - Cueva del Trankitronko",
+    "bosses": []
+  },
+  {
+    "name": "Expedición - Árbol de Moon",
+    "bosses": []
+  },
+  {
+    "name": "Expedición - Castillo de Arena",
+    "bosses": []
+  },
+  {
+    "name": "Expedición - Mazmorra de los Escarahojas",
+    "bosses": []
+  },
+  {
+    "name": "Expedición - Antro del Dragocerdo",
+    "bosses": []
+  },
+  {
+    "name": "Puesto de Control del Bzupervibzor",
+    "bosses": ["Bzupervibzor"]
+  },
+  {
+    "name": "Coto del Venerable",
+    "bosses": ["Venerable Durmiente"]
+  },
+  {
+    "name": "Altar de la Despedazadora",
+    "bosses": ["Despedazadora"]
+  },
+  {
+    "name": "Expedición de Audacia - Cueva de Bworker",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Audacia - Sala de Minotot",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Audacia - Mazmorra de la Mina de Kéfriho",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Audacia - Sala Privada de Klim",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Audacia - Forjafría de Mizz Frizz",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Audacia - Mazmorra del Conde Kontatrás",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Audacia - Acuadomo de Merkator",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Audacia - Pirámide de Sombra",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Audacia - Gruta de Kanígrula",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Audacia - Cueva de Toxoliat",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Audacia - Galería de Perfósil",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Audacia - Relojarium de XLII",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Audacia - Vientre de la Ballena",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Audacia - Nave del Capitán Meno",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Audacia - Templo de Kutulú",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Audacia - Palacio de Dientinea",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Audacia - Mirador de Ilyzaelle",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Audacia - Torre de Solar",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Audacia - Trono de Sangre",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Audacia - Cervecería del Rey Dazahk",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Bravura - Cueva de Bworker",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Bravura - Trono de Sangre",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Bravura - Cervecería del Rey Dazahk",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Bravura - Torre de Solar",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Bravura - Mirador de Ilyzaelle",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Bravura - Palacio de Dientinea",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Bravura - Templo de Kutulú",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Bravura - Nave del Capitán Meno",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Bravura - Relojarium de XLII",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Bravura - Vientre de la Ballena",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Bravura - Cueva de Toxoliat",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Bravura - Galería de Perfósil",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Bravura - Gruta de Kanígrula",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Bravura - Pirámide de Sombra",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Bravura - Acuadomo de Merkator",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Bravura - Mazmorra del Conde Kontatrás",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Bravura - Forjafría de Mizz Frizz",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Bravura - Mazmorra de la Mina de Kéfriho",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Bravura - Sala de Minotot",
+    "bosses": []
+  },
+  {
+    "name": "Expedición de Bravura - Sala Privada de Klim",
+    "bosses": []
+  }
+]
