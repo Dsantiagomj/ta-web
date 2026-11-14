@@ -393,3 +393,87 @@ html[data-theme='dark'] {
   display: inline-block;
   margin-top: 0.5rem;
 }
+
+.ta-dash__lead a {
+  color: var(--ta-ink);
+  text-decoration: underline;
+}
+
+/* La «Guía del panel» (PanelGuide, A-14): texto a una medida cómoda de leer. */
+.ta-guide {
+  max-width: 46rem;
+  padding-block: 1.5rem 4rem;
+}
+
+.ta-guide h1 {
+  margin: 0;
+}
+
+.ta-guide__intro {
+  margin: 0.5rem 0 1.5rem;
+  color: var(--ta-muted);
+  font-size: 1.0625rem;
+}
+
+.ta-guide__toc {
+  margin-bottom: 2rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: var(--style-radius-m);
+  background: var(--theme-elevation-50);
+}
+
+.ta-guide__toc h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.ta-guide__toc ol {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+/* Cada enlace del índice mide al menos 24px de alto (WCAG 2.5.8). */
+.ta-guide__toc a {
+  display: inline-block;
+  min-height: 1.75rem;
+  padding-block: 0.25rem;
+}
+
+.ta-guide a {
+  color: var(--ta-ink);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.ta-guide__section {
+  scroll-margin-top: 5rem;
+}
+
+.ta-guide__section h2 {
+  margin: 2rem 0 0.5rem;
+  font-size: 1.375rem;
+}
+
+.ta-guide__section p {
+  margin: 0 0 0.75rem;
+  line-height: 1.6;
+}
+
+.ta-guide__parts {
+  margin: 0;
+}
+
+.ta-guide__parts div {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--theme-elevation-100);
+}
+
+.ta-guide__parts dt {
+  font-weight: 600;
+}
+
+.ta-guide__parts dd {
+  margin: 0.125rem 0 0;
+  color: var(--ta-muted);
+}

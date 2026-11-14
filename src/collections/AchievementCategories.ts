@@ -13,7 +13,6 @@ export const AchievementCategories: CollectionConfig = {
     group: panelStrings.groups.gameData,
     hideAPIURL: true,
     defaultColumns: ['name', 'dofusId', 'parent', 'order'],
-    description: 'Datos de DofusDB, de solo lectura. Los actualiza un script.',
   },
   access: gameDataAccess,
   fields: [

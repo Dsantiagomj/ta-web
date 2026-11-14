@@ -14,7 +14,6 @@ export const Achievements: CollectionConfig = {
     group: panelStrings.groups.gameData,
     hideAPIURL: true,
     defaultColumns: ['name', 'dofusId', 'category', 'points'],
-    description: 'Datos de DofusDB, de solo lectura. Los actualiza un script.',
   },
   access: gameDataAccess,
   fields: [
