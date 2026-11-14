@@ -1,7 +1,7 @@
 // El texto de un objetivo de DofusDB tal como se lee: sin sus marcas y con el nombre de lo que
 // nombra. Sin dependencias pesadas: lo usan la página de una checklist y el panel (el objetivo
 // donde para un «detente aquí»).
-import { checklistPageStrings as s } from './strings'
+import { objectiveStrings as s } from './objective-strings'
 
 /** Por ID de DofusDB: los PNJ, objetos y monstruos que los objetivos nombran como {npc,123}. */
 export interface ObjectiveNames {

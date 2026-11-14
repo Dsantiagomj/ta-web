@@ -17,7 +17,10 @@ export const panelStrings = {
     questFirst: 'Elige antes la misión.',
     loading: 'Cargando los objetivos de la misión…',
     noObjectives: 'Esta misión no tiene objetivos guardados todavía.',
-    failed: 'No se pudieron cargar los objetivos. Vuelve a abrir el paso.',
+    failed: 'No se pudieron cargar los objetivos de la misión.',
+    retry: 'Reintentar',
+    staleObjective: (n: number) => `Objetivo ${n}, que ya no está en la misión`,
+    questCleared: 'Sin misión, este objetivo ya no vale: quítalo.',
   },
   /** Las pestañas de un paso de una checklist (A-18). */
   stepTabs: {

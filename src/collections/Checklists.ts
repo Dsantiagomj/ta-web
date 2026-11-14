@@ -86,7 +86,7 @@ const stopPointFields = (
   },
   {
     name: 'stopObjective',
-    label: 'Objetivo donde parar',
+    label: 'Parar antes del objetivo',
     type: 'number',
     validate: validateStopObjective,
     // Se elige por su texto entre los de la misión (A-19); se guarda su índice desde 0.
@@ -174,6 +174,9 @@ const technicalFields: Field = {
       label: 'Identificador',
       type: 'text',
       index: true,
+      // Nace con la fila: un paso recién añadido se puede elegir en «Pasos que termina» sin
+      // guardar antes. keepStepIds lo conserva si ningún otro paso lo tiene (un duplicado no).
+      defaultValue: () => globalThis.crypto.randomUUID(),
       admin: {
         readOnly: true,
         components: {

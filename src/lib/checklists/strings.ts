@@ -1,5 +1,6 @@
 // Los textos de las checklists: el panel y el índice /checklists. Un segundo idioma sería
 // traducir este módulo.
+import { objectiveStrings } from './objective-strings'
 
 /** El índice /checklists (DESIGN.md, Checklists index). Sin cifras: Torre suma checklists. */
 export const checklistIndexStrings = {
@@ -84,15 +85,14 @@ export const checklistStrings = {
     stopMoreDescription:
       'Otras misiones u objetivos donde para este mismo texto, cuando son varios.',
     stopObjectiveDescription:
-      'El objetivo de esa misión antes del que hay que parar, de la lista de sus objetivos.',
-    stopObjectiveRequired: 'Indica el objetivo donde hay que parar',
-    stopObjectiveInvalid: 'El objetivo es un número entero desde 0',
-    stopObjectiveOutOfRange: (last: number) =>
-      `Esta misión tiene objetivos del 0 al ${last}: elige uno de ellos`,
+      'La línea roja va justo antes de este objetivo: se hacen los anteriores y este se deja para después.',
+    stopObjectiveRequired: 'Elige el objetivo antes del que hay que parar',
+    stopObjectiveInvalid: 'Elige uno de los objetivos de la misión',
+    stopObjectiveOutOfRange: (count: number) =>
+      `Esta misión tiene ${count} objetivos: elige uno del 1 al ${count}`,
     questWithoutObjectives:
       'Esta misión no tiene objetivos guardados todavía: refresca los datos de DofusDB',
-    closesDescription:
-      'Los pasos cuyas misiones termina este tramo. Un paso nuevo sale aquí al guardarlo.',
+    closesDescription: 'Los pasos cuyas misiones termina este tramo.',
     stepClosesDescription:
       'Los pasos cuyas misiones termina este paso sin un tramo «Aquí se resuelve». Con ese tramo, van en él.',
     stepUpdatesDescription:
@@ -200,7 +200,7 @@ export const checklistPageStrings = {
   },
   otherNeeds: 'Otros',
   /** Lo que nombra un objetivo de DofusDB cuando no tenemos su nombre. */
-  unnamed: { npc: 'un PNJ', item: 'un objeto', monster: 'un monstruo' },
+  unnamed: objectiveStrings.unnamed,
   credit:
     'Guía original de Torrente Arcano. Texto reproducido tal cual; misiones e imágenes vía DofusDB.',
   seoDescription: (name: string) =>

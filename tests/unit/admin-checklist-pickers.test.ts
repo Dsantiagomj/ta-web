@@ -1,10 +1,13 @@
 import { describe, expect, it } from 'vitest'
 
 import {
+  objectivePickerOptions,
   objectiveOptions,
   ownStepIndex,
   siblingPath,
+  stepOptions,
   stepRefOptions,
+  stepsSignature,
 } from '@/lib/admin/checklist-pickers'
 
 // Los selectores del panel que sustituyen a copiar identificadores y contar objetivos desde 0
@@ -62,5 +65,35 @@ describe('objectiveOptions', () => {
       { value: '2', label: '3. Objetivo sin texto' },
     ])
     expect(objectiveOptions(null)).toEqual([])
+  })
+})
+
+describe('revisión de #125', () => {
+  it('los pasos que se pueden elegir, también uno recién añadido: su identificador nace con la fila', () => {
+    expect(stepOptions(form)).toEqual([
+      { value: 'a', label: 'Paso 1: Anutropía' },
+      { value: 'b', label: 'Paso 2: Avanza hasta las muestras.' },
+      { value: 'c', label: 'Paso 3: Se termina la etapa 2.' },
+    ])
+  })
+
+  it('la firma de los pasos solo cambia con lo que enseñan los selectores', () => {
+    const signature = stepsSignature(form)
+    expect(stepsSignature({ ...form, name: { value: 'otro campo' } })).toBe(signature)
+    expect(stepsSignature({ ...form, 'steps.0.zone': { value: 'Sramvil' } })).not.toBe(signature)
+    expect(JSON.parse(signature)).toEqual(stepOptions(form))
+  })
+
+  it('un objetivo guardado que no está entre las opciones sigue saliendo, para verlo y quitarlo', () => {
+    const options = [{ value: '0', label: '1. Uno' }]
+    expect(objectivePickerOptions(options, 0)).toEqual(options)
+    expect(objectivePickerOptions(options, 4)).toEqual([
+      ...options,
+      { value: '4', label: 'Objetivo 5, que ya no está en la misión' },
+    ])
+    expect(objectivePickerOptions([], 2)).toEqual([
+      { value: '2', label: 'Objetivo 3, que ya no está en la misión' },
+    ])
+    expect(objectivePickerOptions(options, null)).toEqual(options)
   })
 })

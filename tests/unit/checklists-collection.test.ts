@@ -251,6 +251,17 @@ describe('colección checklists', () => {
     }
   })
 
+  it('el objetivo de parada dice dónde va la línea, y cada paso nuevo nace con su identificador', () => {
+    expect(field(segments.fields, 'stopObjective')).toMatchObject({
+      label: 'Parar antes del objetivo',
+    })
+    const stepId = field(steps.fields, 'stepId') as { defaultValue?: unknown }
+    expect(typeof stepId.defaultValue).toBe('function')
+    const make = stepId.defaultValue as () => string
+    expect(make()).toMatch(/^[0-9a-f-]{36}$/)
+    expect(make()).not.toBe(make())
+  })
+
   it('el esquema de los pasos va antes de los pasos, para reordenarlos (A-18)', () => {
     const names = Checklists.fields.map((f) => ('name' in f ? f.name : null))
     expect(names.indexOf('stepOutline')).toBe(names.indexOf('steps') - 1)
