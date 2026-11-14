@@ -329,9 +329,12 @@ describe('la migración del Silvestre', () => {
     expect(p.migrated).toEqual({ silvestre: NOW })
   })
 
-  it('las misiones genéricas (la de clase, la de alineamiento) no son de DofusDB: no se traen', () => {
+  it('las misiones genéricas (la de clase, la de alineamiento) van a la clave de su fila', () => {
     const p = migrateSilvestre(storageFixture('silvestre-current'))
-    expect(Object.keys(p.quests).every((id) => Number.isInteger(Number(id)))).toBe(true)
+    // La de clase tiene un objetivo: terminada. «Prólogo invernal», a medias en el 3.
+    expect(p.quests[-1841]).toMatchObject({ o: 'done' })
+    expect(p.quests[-710]).toMatchObject({ o: 3 })
+    expect(p.quests.clase).toBeUndefined()
     expect(p.quests[1939]).toMatchObject({ o: 2 })
   })
 

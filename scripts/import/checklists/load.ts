@@ -76,6 +76,7 @@ const FULL_FIELDS = [
   'legacyHref',
   'prerequisites',
   'steps',
+  'completedBy',
   'legacy',
 ] as const
 /** Una checklist sin portar solo lleva su ficha: sus pasos y prerrequisitos son de Torre. */
@@ -216,6 +217,8 @@ async function resolveSteps(
     ...[...all.flatMap((step) => step.needs), ...draft.prerequisites.needs].flatMap(
       (need) => need.quests,
     ),
+    ...all.flatMap((step) => step.quests.flatMap((row) => row.alternatives ?? [])),
+    ...draft.completedBy.flatMap((row) => [row.quest, ...row.by]),
   ])
   const achievements = await byDofusId(
     payload,
@@ -254,7 +257,7 @@ async function resolveSteps(
       return id === null ? [] : [id]
     })
 
-  const questId = (n: number, dofusId: number) => {
+  const questId = (n: number | null, dofusId: number) => {
     const found = quests.get(dofusId)
     if (!found) unmatched(n, 'misión', label('quests', dofusId))
     return found?.id ?? null
@@ -344,8 +347,19 @@ async function resolveSteps(
     const questRows = step.quests.flatMap((row) => {
       const quest = questId(n, row.quest)
       if (quest === null) return []
+      // Una fila genérica: las demás misiones que también valen.
+      const alternatives = (row.alternatives ?? []).flatMap((id) => {
+        const found = questId(n, id)
+        return found === null ? [] : [found]
+      })
       return [
-        { quest, kind: row.kind, note: row.note, optionalDoneBy: stepRef(n, row.optionalDoneBy) },
+        {
+          quest,
+          kind: row.kind,
+          note: row.note,
+          optionalDoneBy: stepRef(n, row.optionalDoneBy),
+          ...(row.label && { label: row.label, alternatives }),
+        },
       ]
     })
     // Todas las filas, en su orden: la que no es un objeto del juego va con su texto.
@@ -391,9 +405,19 @@ async function resolveSteps(
   for (const need of draft.prerequisites.needs) {
     prerequisiteNeeds.push({ ...(await resolveNeed(0, need)), prerequisite: need.prerequisite })
   }
+  // Las misiones que se terminan solas: una que falta se dice y la fila se queda fuera.
+  const completedBy = draft.completedBy.flatMap((row) => {
+    const quest = questId(null, row.quest)
+    const by = row.by.flatMap((id) => {
+      const found = questId(null, id)
+      return found === null ? [] : [found]
+    })
+    return quest !== null && by.length === row.by.length ? [{ quest, by }] : []
+  })
   return {
     steps: resolved,
     prerequisites: { ...draft.prerequisites, needs: prerequisiteNeeds },
+    completedBy,
   }
 }
 
@@ -421,9 +445,14 @@ async function readCurrent(
       depth: 0,
       draft: true,
       overrideAccess: true,
-      // Sin los prerrequisitos ni los tramos y objetos de los pasos: las tablas que añade la
-      // migración. Pedir solo unos campos no basta (Payload une igual las de los grupos).
-      select: { prerequisites: false, steps: { segments: false, needs: false } },
+      // Sin los prerrequisitos, las misiones que se terminan solas, lo antiguo ni los tramos,
+      // misiones y objetos de los pasos: lo que añaden las migraciones. Pedir solo unos campos no basta (Payload une igual las de los grupos).
+      select: {
+        prerequisites: false,
+        completedBy: false,
+        legacy: false,
+        steps: { segments: false, needs: false, quests: false },
+      },
     })) as Checklist
     if ((doc.steps ?? []).length > 0) throw error
     log(
@@ -486,7 +515,7 @@ export async function loadChecklists(
       depth: 0,
       draft: true,
       overrideAccess: true,
-      select: { prerequisites: false, steps: false },
+      select: { prerequisites: false, steps: false, completedBy: false, legacy: false },
     })
     const current = found.docs[0]
       ? await readCurrent(payload, found.docs[0].id, options.apply, log)

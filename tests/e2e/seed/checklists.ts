@@ -75,6 +75,10 @@ export const seedChecklists = {
     slug: 'checklist-dofus-de-los-hielos',
     name: 'Dofus de los Hielos',
     text: 'Logro "Seis pies bajo tierra". Completo.',
+    // El paso 2: una fila genérica (vale con la misión del paso 1 o con «Sangre fría») y
+    // «Sangre fría», que el juego termina sola al terminar la del paso 1 (COMPLETED_BY).
+    second: 'Logro "Bienvenido a Frigost". Completo.',
+    generic: 'Misión de clase',
   },
   silvestre: {
     slug: 'checklist-silvestre',
@@ -280,7 +284,21 @@ export async function seedChecklistPages(payload: Payload): Promise<void> {
             segments: [{ kind: 'plain', text: hielos.text }],
             quests: [{ quest: giverQuest.id, kind: 'mandatory' }],
           },
+          {
+            legacyNumber: 2,
+            segments: [{ kind: 'plain', text: hielos.second }],
+            quests: [
+              {
+                quest: giverQuest.id,
+                kind: 'mandatory',
+                label: hielos.generic,
+                alternatives: [stop.id],
+              },
+              { quest: stop.id, kind: 'mandatory' },
+            ],
+          },
         ],
+        completedBy: [{ quest: stop.id, by: [giverQuest.id] }],
         legacy: { prefix: 'hielos:', guideVersion: 1 },
         _status: 'published',
       },

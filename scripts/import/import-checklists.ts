@@ -19,6 +19,7 @@ import type { RawNpc } from '@/lib/dofusdb/types'
 
 import { checklistArt } from './checklists/art'
 import { CHECKLIST_CATALOG } from './checklists/catalog'
+import { genericAlternatives, genericSource } from './checklists/generic'
 import { readLegacyChecklist } from './checklists/legacy'
 import {
   loadChecklists,
@@ -68,12 +69,22 @@ const apply = args.includes('--apply')
 
 // Los datos antiguos se leen y se convierten antes de tocar la base: un paso que no cuadra
 // para aquí, sin escribir nada.
+// Las filas genéricas («Misión de clase», «Recolección en…») van con sus misiones, que salen de
+// DofusDB (generic.ts).
 const checklists: ChecklistInput[] = []
+const dofusDb = createDofusDbClient({ log: (message: string) => console.log(message) })
 for (const entry of selected) {
-  const draft = entry.ported
-    ? toChecklistDraft(entry, await readLegacyChecklist(from, entry.id))
-    : null
-  checklists.push({ entry, draft })
+  if (!entry.ported) {
+    checklists.push({ entry, draft: null })
+    continue
+  }
+  const legacy = await readLegacyChecklist(from, entry.id)
+  const genericIds = Object.values(legacy.quests.STEP_QUESTS)
+    .flat()
+    .map(String)
+    .filter((id) => genericSource(id) !== null)
+  const alternatives = await genericAlternatives(dofusDb, [...new Set(genericIds)])
+  checklists.push({ entry, draft: toChecklistDraft(entry, legacy, alternatives) })
 }
 
 const log = (message: string) => console.log(message)

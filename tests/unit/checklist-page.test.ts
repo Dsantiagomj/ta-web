@@ -918,6 +918,8 @@ describe('checklistView: lo que recibe la isla', () => {
       optionalDoneBy: [],
       prerequisites: ['l1', 'o1'],
       compositeKeys: [],
+      anyOf: [],
+      completedBy: [],
       legacy: {
         prefix: 'nebuloso:',
         classicKeys: { v4: 'dofus_nebuloso_clean_v1' },
@@ -973,6 +975,45 @@ describe('checklistView: lo que recibe la isla', () => {
       ['b', ['a']],
     ])
     expect(island.optionalDoneBy).toEqual([['b', [1007]]])
+  })
+
+  it('una fila genérica va con su clave en negativo y todas sus misiones; las que se terminan solas', () => {
+    const { island, steps } = checklistView(
+      data(
+        [
+          step('a', {
+            quests: [
+              {
+                quest: quest(5, 'Recolección (agricultor)', 110),
+                kind: 'mandatory',
+                label: 'Recolección en los campos de hielo',
+                alternatives: [quest(6, 'Recolección (alquimista)', 100)],
+              },
+              { quest: quest(7, 'Bienvenido a Frigost'), kind: 'mandatory' },
+            ],
+          }),
+        ],
+        {
+          completedBy: [
+            { quest: quest(7, 'Bienvenido a Frigost'), by: [quest(8, 'Una'), quest(9, 'Otra')] },
+            { quest: quest(10, 'Sin poblar'), by: [quest(8, 'Una'), 9] },
+          ],
+        } as unknown as Partial<Checklist>,
+      ),
+    )
+    expect(island.steps[0][2]).toEqual([
+      [-1005, 'mandatory'],
+      [1007, 'mandatory'],
+    ])
+    expect(island.anyOf).toEqual([[-1005, [1005, 1006]]])
+    // Sin todas las que la terminan pobladas, la fila no va: se terminaría antes de tiempo.
+    expect(island.completedBy).toEqual([[1007, [1008, 1009]]])
+    expect(steps[0].quests[0]).toMatchObject({
+      dofusId: -1005,
+      name: 'Recolección en los campos de hielo',
+      anyOf: 2,
+    })
+    expect(steps[0].quests[0].href).toBeUndefined()
   })
 
   it('sin nivel de Torre, el de DofusDB', () => {

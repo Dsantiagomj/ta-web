@@ -37,6 +37,11 @@ export const progressStrings = {
   lockedChecklist: (name: string | null) =>
     name ? `Hecha en la checklist del ${name}` : 'Hecha en otra checklist',
   lockedNeed: (name: string) => `La pide “${name}”`,
+  /** La terminó sola el juego al terminar otra («Bienvenido a Frigost»). */
+  lockedAlone: (name: string | null) =>
+    name ? `Se terminó sola con “${name}”` : 'Se terminó sola con las que la terminan',
+  /** Una fila genérica hecha con una de sus misiones en otra parte. */
+  lockedAny: 'Hecha con una de sus misiones',
   /** Una madre a medias que espera a sus hijas. */
   waiting: (kids: string[]) => `Espera a ${names(kids)}`,
   /** En la ruta de la madre: dónde se hacen sus hijas. */

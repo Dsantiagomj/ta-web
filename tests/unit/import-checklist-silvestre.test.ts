@@ -17,6 +17,7 @@ import {
   type SegmentDraft,
 } from '../../scripts/import/checklists/to-checklist'
 
+import alternatives from '../fixtures/legacy-checklist/generic-alternatives.json'
 import oldStops from '../fixtures/legacy-checklist/silvestre-stops.json'
 
 const ROOT = path.resolve(__dirname, '../fixtures/silvestre-checklist')
@@ -27,7 +28,7 @@ let draft: ChecklistDraft
 
 beforeAll(async () => {
   legacy = await readLegacyChecklist(ROOT, 'silvestre')
-  draft = toChecklistDraft(silvestre, legacy)
+  draft = toChecklistDraft(silvestre, legacy, alternatives as unknown as Record<string, number[]>)
 })
 
 const step = (n: number) => {
@@ -171,17 +172,33 @@ describe('lo demás de cada paso', () => {
     )
   })
 
-  it('las filas genéricas (la misión de clase, una por alineamiento) se quedan fuera y se dicen', () => {
-    expect(draft.generic).toEqual([
+  it('las filas genéricas van con sus misiones: la primera y las demás que también valen', () => {
+    expect(draft.generic).toBeUndefined()
+    expect(step(1).quests).toHaveLength(16)
+    expect(step(1).quests[8]).toEqual({
+      quest: 1841,
+      kind: 'mandatory',
+      note: null,
+      optionalDoneBy: null,
+      label: 'Misión de clase',
+      alternatives: alternatives.clase.slice(1),
+    })
+    expect(step(63).quests[0]).toMatchObject({ quest: 710, label: 'Prólogo invernal' })
+    expect(draft.legacy.genericQuests).toEqual({ clase: 1841, 'alt:554:2751': 710 })
+  })
+
+  it('sin sus misiones, una fila genérica se queda fuera y se dice', () => {
+    const without = toChecklistDraft(silvestre, legacy)
+    expect(without.generic).toEqual([
       { step: 1, name: 'Misión de clase' },
       { step: 63, name: 'Prólogo invernal' },
     ])
-    for (const ours of draft.steps) {
+    for (const ours of without.steps) {
       for (const row of ours.quests) expect(Number.isInteger(row.quest)).toBe(true)
-      for (const need of ours.needs)
+      for (const need of ours.needs) {
         for (const id of need.quests) expect(Number.isInteger(id)).toBe(true)
+      }
     }
-    expect(step(1).quests).toHaveLength(15)
   })
 
   it('los logros «hasta la misión N» guardan su modo', () => {

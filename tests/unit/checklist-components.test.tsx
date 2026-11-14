@@ -112,6 +112,18 @@ describe('StepDetail: lo que trae el Silvestre', () => {
     expect(html).toMatch(/Pandaburg.*o .*1 ×.*Pandapils/)
   })
 
+  it('una fila genérica dice con cuántas misiones vale', () => {
+    const generic: QuestRowView = {
+      dofusId: -1841,
+      name: 'Misión de clase',
+      kind: 'mandatory',
+      anyOf: 19,
+    }
+    const html = renderToStaticMarkup(<StepDetail step={step(generic)} last={1} />)
+    expect(html).toContain('data-q="-1841"')
+    expect(html).toContain('Vale con cualquiera de sus 19 misiones')
+  })
+
   it('dice qué pasos avanza y en cuál se retoma', () => {
     const html = renderToStaticMarkup(
       <StepDetail step={{ ...step(route(0)), updates: [84], resumedIn: [93] }} last={1} />,

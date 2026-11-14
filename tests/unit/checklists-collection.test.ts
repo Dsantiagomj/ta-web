@@ -114,8 +114,33 @@ describe('colección checklists', () => {
       'guideVersion',
       'previousSteps',
       'ownedMoves',
+      'genericQuests',
     ])
     expect(field(legacy.fields, 'ownedMoves')).toMatchObject({ type: 'json' })
+    expect(field(legacy.fields, 'genericQuests')).toMatchObject({ type: 'json' })
+  })
+
+  it('una fila de misión puede valer con cualquiera de varias, con su propio nombre', () => {
+    const quests = field(steps.fields, 'quests') as ArrayField
+    expect(field(quests.fields, 'label')).toMatchObject({ type: 'text', localized: true })
+    expect(field(quests.fields, 'alternatives')).toMatchObject({
+      type: 'relationship',
+      relationTo: 'quests',
+      hasMany: true,
+    })
+  })
+
+  it('las misiones que se terminan solas, con las que las terminan', () => {
+    const completedBy = field(Checklists.fields, 'completedBy') as ArrayField
+    expect(field(completedBy.fields, 'quest')).toMatchObject({
+      relationTo: 'quests',
+      required: true,
+    })
+    expect(field(completedBy.fields, 'by')).toMatchObject({
+      relationTo: 'quests',
+      hasMany: true,
+      required: true,
+    })
   })
 
   it('los prerrequisitos van por grupos de filas con su clave de progreso', () => {

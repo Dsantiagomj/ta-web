@@ -80,6 +80,9 @@ export interface StepDraft {
     note: string | null
     /** El número antiguo del paso que la termina. */
     optionalDoneBy: number | null
+    /** Una fila genérica: su nombre y las demás misiones que también valen. */
+    label?: string
+    alternatives?: number[]
   }[]
   needs: NeedDraft[]
   /** Los pasos que cierra sin verde (el 93 del Silvestre); con verde van en su tramo. */
@@ -111,6 +114,8 @@ export interface ChecklistDraft {
     needs: (NeedDraft & { prerequisite: string | null })[]
   }
   steps: StepDraft[]
+  /** Las misiones que el juego termina solas al terminar todas las de `by` (COMPLETED_BY). */
+  completedBy: { quest: number; by: number[] }[]
   /** Las filas genéricas de misión que se quedan fuera (no son una misión de DofusDB). */
   generic?: { step: number; name: string }[]
   /** Los nombres de lo que se enlaza por ID de DofusDB, para el informe de lo que no casa. */
@@ -121,6 +126,8 @@ export interface ChecklistDraft {
     guideVersion: number
     previousSteps: number[][]
     ownedMoves: Record<string, [string, number[]]>
+    /** Las filas genéricas antiguas («clase», «alt:…») por la primera de sus misiones. */
+    genericQuests?: Record<string, number>
   }
 }
 
@@ -217,24 +224,38 @@ function prerequisiteNotes(legacy: LegacyChecklist): { title: string; text: stri
   ]
 }
 
+/**
+ * `alternatives` son las misiones de cada fila genérica, por su id antiguo («clase»,
+ * «alt:607:1568»; generic.ts): la fila va con la primera y las demás también valen. Una fila
+ * genérica sin ellas se queda fuera y el informe la nombra.
+ */
 export function toChecklistDraft(
   entry: ChecklistCatalogEntry,
   legacy: LegacyChecklist,
+  alternatives: Record<string, number[]> = {},
 ): ChecklistDraft {
   const { config, quests: data } = legacy
   const journal = config.journal
 
-  // Las filas genéricas («Misión de clase», o «Prólogo invernal», una misión por alineamiento)
-  // no son una misión de DofusDB: no se elige ninguna por la persona. Se quedan fuera y el
-  // informe las nombra.
+  // Las filas genéricas («Misión de clase», una misión por alineamiento…) no son una misión de
+  // DofusDB: van con sus misiones, sin elegir ninguna por la persona. Sin ellas se quedan
+  // fuera y el informe las nombra.
   const generic: ChecklistDraft['generic'] = []
-  const questsOf = (n: number): StepQuest[] =>
-    (data.STEP_QUESTS[n] ?? []).flatMap((id) => {
-      if (!Number.isInteger(Number(id))) {
-        generic.push({ step: n, name: data.QUESTS[id]?.n ?? String(id) })
+  const genericQuests: Record<string, number> = {}
+  type RouteQuest = StepQuest & { label?: string; others?: number[] }
+  const questsOf = (n: number): RouteQuest[] =>
+    (data.STEP_QUESTS[n] ?? []).flatMap((id): RouteQuest[] => {
+      const kind = data.STEP_QUEST_KINDS[n]?.[id] ?? 'mandatory'
+      if (Number.isInteger(Number(id))) return [{ ...data.QUESTS[id], id, kind }]
+      const quests = alternatives[String(id)]
+      const name = data.QUESTS[id]?.n ?? String(id)
+      if (!quests?.length) {
+        generic.push({ step: n, name })
         return []
       }
-      return [{ ...data.QUESTS[id], id, kind: data.STEP_QUEST_KINDS[n]?.[id] ?? 'mandatory' }]
+      const [first, ...others] = quests
+      genericQuests[String(id)] = first
+      return [{ ...data.QUESTS[id], id: first, kind, label: name, others }]
     })
 
   /** El ID de la misión que se llama así: primero entre las del paso, luego entre todas. */
@@ -346,6 +367,7 @@ export function toChecklistDraft(
           note: journal.questNotes[step.n]?.[quest.id] ?? null,
           optionalDoneBy:
             quest.kind === 'optional' ? (journal.optionalDoneBy[quest.id] ?? null) : null,
+          ...(quest.label && { label: quest.label, alternatives: quest.others ?? [] }),
         }
       }),
       needs: (legacy.resources.steps[step.n] ?? []).map((row) => needDraft(row, step.n, quests)),
@@ -391,6 +413,10 @@ export function toChecklistDraft(
       })),
     },
     steps,
+    completedBy: Object.entries(data.COMPLETED_BY ?? {}).map(([quest, by]) => ({
+      quest: Number(quest),
+      by,
+    })),
     ...(generic.length > 0 && { generic }),
     names: {
       quests: Object.fromEntries(
@@ -419,6 +445,7 @@ export function toChecklistDraft(
       guideVersion: config.guideVersion,
       previousSteps: legacy.previousSteps,
       ownedMoves: config.ownedMoves ?? {},
+      ...(Object.keys(genericQuests).length > 0 && { genericQuests }),
     },
   }
 }

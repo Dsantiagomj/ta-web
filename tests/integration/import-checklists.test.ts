@@ -161,6 +161,7 @@ const draftFor = (slug: string, overrides: Partial<ChecklistDraft> = {}): Checkl
       ownedMoves: { '519@orden': ['519', [1]] },
       previousSteps: [[1], [2], [3]],
     },
+    completedBy: [],
     names: { quests: { [IDS.missingQuest]: 'Misión que falta' } },
     ...overrides,
   }
@@ -744,6 +745,72 @@ describe('revisión de #115: nada se pierde sin decirlo', () => {
     )
     const doc = (await read(slug))!
     expect(doc.prerequisites?.needs?.[0].quests).toEqual([ids.stopQuest])
+  })
+})
+
+describe('lo que trae el Hielos', () => {
+  const slug = `${PREFIX}-hielos`
+  const hielosDraft = () => {
+    const draft = draftFor(slug)
+    draft.steps[0].quests = [
+      {
+        quest: IDS.quest,
+        kind: 'mandatory',
+        note: null,
+        optionalDoneBy: null,
+        label: 'Recolección en los campos de hielo',
+        alternatives: [IDS.stopQuest],
+      },
+    ]
+    draft.completedBy = [{ quest: IDS.stopQuest, by: [IDS.quest] }]
+    draft.legacy = { ...draft.legacy, genericQuests: { 'alt:607:1568': IDS.quest } }
+    return draft
+  }
+
+  it('guarda las filas genéricas y las misiones que se terminan solas', async () => {
+    const report = await loadChecklists(
+      payload,
+      options([{ entry: entry(slug), draft: hielosDraft() }]),
+    )
+    expect(report.created).toBe(1)
+    const doc = (await read(slug))!
+    expect(doc.steps![0].quests).toMatchObject([
+      {
+        quest: ids.quest,
+        label: 'Recolección en los campos de hielo',
+        alternatives: [ids.stopQuest],
+      },
+    ])
+    expect(doc.completedBy).toMatchObject([{ quest: ids.stopQuest, by: [ids.quest] }])
+    expect(doc.legacy?.genericQuests).toEqual({ 'alt:607:1568': IDS.quest })
+  })
+
+  it('una segunda pasada no cambia nada', async () => {
+    const before = (await read(slug))!
+    const report = await loadChecklists(
+      payload,
+      options([{ entry: entry(slug), draft: hielosDraft() }]),
+    )
+    expect(report).toMatchObject({ created: 0, updated: 0, unchanged: 1, kept: [] })
+    expect((await read(slug))!.updatedAt).toBe(before.updatedAt)
+  })
+
+  it('lo que Torre cambia en las que se terminan solas no se pisa', async () => {
+    const editor = await createPanelUser(payload)
+    const doc = (await read(slug))!
+    await payload.update({
+      collection: 'checklists',
+      id: doc.id,
+      data: { completedBy: [] },
+      draft: true,
+      user: editor,
+    })
+    const report = await loadChecklists(
+      payload,
+      options([{ entry: entry(slug), draft: hielosDraft() }]),
+    )
+    expect(report.kept).toEqual([{ slug, field: 'completedBy' }])
+    expect((await read(slug))!.completedBy ?? []).toEqual([])
   })
 })
 

@@ -334,7 +334,7 @@ describe('la checklist', () => {
 })
 
 describe('el catálogo', () => {
-  it('las cuatro checklists de Torre con su slug de Squarespace; se portan Silvestre y Nebuloso', () => {
+  it('las cuatro checklists de Torre con su slug de Squarespace; todas se portan salvo el Ocre', () => {
     expect(
       CHECKLIST_CATALOG.map(({ id, slug, legacyHref, ported }) => [id, slug, legacyHref, ported]),
     ).toEqual([
@@ -348,7 +348,7 @@ describe('el catálogo', () => {
         'hielos',
         'checklist-dofus-de-los-hielos',
         'https://www.torrentearcano.com/checklist-dofus-de-los-hielos',
-        false,
+        true,
       ],
       ['nebuloso', 'checklist-nebuloso', 'https://www.torrentearcano.com/checklist-nebuloso', true],
       ['ocre', 'lista-ocre', 'https://www.torrentearcano.com/lista-ocre', false],
