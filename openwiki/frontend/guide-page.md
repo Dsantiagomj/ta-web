@@ -20,8 +20,12 @@ sources:
     resource: repo://src/collections/revalidate-guides.ts
   - id: openwiki-source-5439148ebc92dee697c9d9aa
     resource: repo://src/lib/guides/cache.ts
+  - id: openwiki-source-78db5ac3e6e2f889c846f969
+    resource: repo://src/lib/guides/need-notes.ts
   - id: openwiki-source-09ec39f59a9916ea0a2bf2d6
     resource: repo://src/lib/guides/page.ts
+  - id: openwiki-source-4816d0085d52caa629c733e4
+    resource: repo://src/lib/guides/preview-target.ts
   - id: openwiki-source-8ed39edff3cde5d6dec00a2b
     resource: repo://src/lib/guides/queries.ts
   - id: openwiki-source-7c8d27e389afcc66bc579a2f
@@ -38,15 +42,15 @@ sources:
     resource: repo://tests/unit/guide-step-nav.test.ts
   - id: openwiki-source-bf9fb1ff7357ca38b1ad1283
     resource: repo://tests/unit/revalidate-guides.test.ts
-generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
+generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-12T11:00:44.802Z
+    at: 2026-11-14T11:00:46.827Z
 ---
 
 # Public quest guide page
 
-Quest guides are served at the site root, `/<slug>`, the same flat Spanish slugs as the old torrentearcano.com (`/seis-pies-bajo-tierra`). The route is `src/app/(frontend)/[slug]/page.tsx`. It is a server component that loads one guide and renders the v5 layout from DESIGN.md (Quest guide): a single centred reading column of 880 px with the breadcrumb to the guide's achievement, the quest header (the NPC who gives the quest, title, subtitle, and the "Prerrequisitos", "Necesitarás" and "Recompensas" columns, with the reward items in the rewards bag), the introduction, the steps separated by a line, the closing and the next quest card. What the guide does not store is not rendered. When no guide has the slug, the same route renders an achievement page instead, and then a Dofus guide (see [Achievement page](../achievements/achievement-page.md) and [Dofus guide page](../dofus-guides/dofus-guide-page.md)).
+Quest guides are served at the site root, `/<slug>`, the same flat Spanish slugs as the old torrentearcano.com (`/seis-pies-bajo-tierra`). The route is `src/app/(frontend)/[slug]/page.tsx`. It is a server component that loads one guide and renders the v5 layout from DESIGN.md (Quest guide): a single centred reading column of 880 px with the breadcrumb to the guide's achievement, the quest header (the render of the NPC who gives the quest, title, subtitle, a start line «Empieza con» with the NPC's name and start coordinates, and the "Prerrequisitos", "Necesitarás" and "Recompensas" parts in one band, with the reward items in the rewards bag), the introduction, the steps separated by a line, the closing and the next quest card. What the guide does not store is not rendered. When no guide has the slug, the same route renders an achievement page instead, then a Dofus guide, then a checklist (see [Achievement page](../achievements/achievement-page.md), [Dofus guide page](../dofus-guides/dofus-guide-page.md) and [Checklist page](../checklists/checklist-page.md)). A checklist still in preparation has no page: the route redirects to its old Squarespace page or answers 404.
 
 ```
 GET /<slug>
@@ -79,13 +83,13 @@ GET /<slug>
 
 `loadGuidePage(slug)` in `[slug]/data.ts` is wrapped in React's `cache`, so the page and `generateMetadata` share one load per request. When Next's draft mode is on and `payload.auth` finds a panel user in the request headers, it reads the latest draft without any cache and marks the result `preview: true`. Otherwise, even with the draft mode cookie set, it reads the published guide through `unstable_cache`.
 
-An unknown slug, an unpublished guide and a malformed slug all end in `notFound()`. Next renders the Spanish 404 (`not-found.tsx`) and adds `noindex`. When no guide matches, the route tries an achievement page and then a Dofus guide before giving up. Top-level routes such as `/sistema`, `/admin`, `/vista-previa`, `/metalogros` and `/guias-dofus` win over `/[slug]`; the reserved slug list in `src/lib/guides/slug.ts` keeps a guide from taking one of them (see [Collections and access](../cms/collections.md#quest-guides-editorial-guides-with-drafts)).
+An unknown slug, an unpublished guide and a malformed slug all end in `notFound()`. Next renders the Spanish 404 (`not-found.tsx`) and adds `noindex`. When no guide matches, the route tries an achievement page, a Dofus guide and then a checklist before giving up. Top-level routes such as `/sistema`, `/admin`, `/vista-previa`, `/metalogros`, `/guias-dofus` and `/checklists` win over `/[slug]`; the reserved slug list in `src/lib/guides/slug.ts` keeps a guide from taking one of them (see [Collections and access](../cms/collections.md#quest-guides-editorial-guides-with-drafts)).
 
 ## Caching and revalidation
 
 The frontend layout reads the mode cookie, so every guide page is rendered per request. What is cached is the guide data read from Postgres: `readPublishedGuide` is an `unstable_cache` entry tagged `guide-pages` (`GUIDE_PAGES_TAG`), with `revalidate` set to `GUIDE_PAGES_REVALIDATE`, 600 seconds.
 
-- **Saves from the panel.** `quest-guides` and `media` run their `afterChange` and `afterDelete` hooks, which call `revalidateTag('guide-pages', { expire: 0 })` and the same for `achievement-pages` and `dofus-guides`, since achievement pages and Dofus guides link the published guides. `achievement-pages` and `achievement-groups` expire all three too, because a guide shows its achievement page in its breadcrumb and "Misión 2 de 3". A saved or deleted Dofus guide expires `guide-pages` as well as its own tag: every page's menu lists the published Dofus. The next visit reads what is published. Drafts revalidate too: it is cheap and covers unpublishing. Media is included because guides render each image's alt text and size.
+- **Saves from the panel.** `quest-guides` and `media` run their `afterChange` and `afterDelete` hooks, which call `revalidateTag('guide-pages', { expire: 0 })` and the same for `achievement-pages`, `dofus-guides` and `checklists`, since achievement pages, Dofus guides and checklists link the published guides. `achievement-pages` and `achievement-groups` expire all four too, because a guide shows its achievement page in its breadcrumb and "Misión 2 de 3". A saved or deleted Dofus guide expires `guide-pages` and `checklists` as well as its own tag: every page's menu lists the published Dofus, and a checklist takes its egg, color and breadcrumb from its Dofus guide. A saved or deleted checklist expires only `checklists`. The next visit reads what is published. Drafts revalidate too: it is cheap and covers unpublishing. Media is included because guides render each image's alt text and size.
 - **Writes outside the server.** The Squarespace import, `pnpm data:quests` and tests run outside a Next request, where `revalidateTag` throws a "static generation store missing" invariant. The hooks ignore that error and rethrow any other. Such writes show up after at most ten minutes.
 - **Tests.** The E2E app server runs `scripts/clear-data-cache.ts` before `pnpm start`, so a cached guide from an earlier run never hides a freshly seeded database.
 
@@ -98,9 +102,9 @@ The frontend layout reads the mode cookie, so every guide page is rendered per r
 `questHeaderProps(guide, links, giver, place)` builds the `QuestHeader` data:
 
 - **Subtitle.** The quest's `zone`, the level (`guideLevel`: the linked quest's `levelMin`) and "Misión k de n". `place` is the quest's row and the row count in its achievement page, counted as Torre counts them (a class quest with alternatives is one); without an achievement page, the DofusDB position and total stored on the quest. The subtitle has no link: the achievement page is in the breadcrumb above the title.
-- **Quest giver.** Only when the NPC has a right-facing render. The left-facing render is used on phones when it exists. The name is the guide's `summary.startNpc`, else the NPC's name; the start coordinates come from `startX` and `startY`.
+- **Quest giver.** Only when the NPC has a right-facing render. The left-facing render is used on phones when it exists. The name is the guide's `summary.startNpc`, else the NPC's name; the start coordinates come from `startX` and `startY`. The header shows the render on its own and puts the name and the coordinates chip in the start line under the subtitle.
 - **Prerrequisitos.** One row per line of `summary.prerequisites`, without the final full stop. A line that matches a prerequisite quest's name (ignoring accents, case and punctuation) gets the quest icon, and a link to that quest's guide when one is published.
-- **Necesitarás.** The `summary.needs.items` list without quest items (supertype 14), plus one row per line of the notes. A note such as "1 x Combate (solo)" shows the quantity apart in bold, and a note about a fight gets the combat icon.
+- **Necesitarás.** The `summary.needs.items` list without quest items (supertype 14), plus one row per line of the notes. A note such as "1 x Combate (solo)" shows the quantity apart in bold, and a note about a fight gets the combat icon. The note parsing (`needNote`, `rowText`) lives in `src/lib/guides/need-notes.ts`, pure code shared with the achievement page and the panel.
 - **Recompensas.** From the linked quest: the XP as a range from `experienceMin` to `experience` when the minimum is lower, otherwise one figure; kamas; and the reward items in Torre's order, the reverse of DofusDB's, which the header shows in the rewards bag. With no DofusDB rewards, the lines Torre wrote in `summary.rewards`.
 - **Item and monster icons.** `gameItem` uses the item's or monster's imported `image` from Media when the refresh has imported it; otherwise the well stays empty.
 
@@ -117,7 +121,7 @@ The frontend layout reads the mode cookie, so every guide page is rendered per r
 - An image without a file is skipped; images with Payload's generated sizes get `srcset` (see [Media storage](../media/storage.md)). A video without a title gets one built from the guide's title (`guideStrings.page.videoTitle`).
 - The first image in document order, whether an image block or an image uploaded inside a text or callout, inside a step or not, gets `priority`: no lazy loading and `fetchPriority="high"`, because it is the LCP candidate. Only that one.
 
-The page renders the introduction and closing with `GuideBody`, and the steps with `GuideSteps`, which gives each the anchor `paso-N` and separates them with a line; they carry no visible number. Rich text becomes server-rendered HTML with coordinate chips, a warning callout renders as `Callout` and a tip as Torre's tips. See [Design system components](design-system-components.md).
+The page renders the introduction and closing with `GuideBody`, and the steps with `GuideSteps`, which gives each the anchor `paso-N` and separates them with a line; they carry no visible number. Consecutive screenshots inside a step go together in a grid, two per row and the same size from 40rem, one per row on a phone; a screenshot outside the steps keeps the full column width. Rich text becomes server-rendered HTML with coordinate chips, a warning callout renders as `Callout` and a tip as Torre's tips. See [Design system components](design-system-components.md).
 
 ### Step pin and the start sentence
 
@@ -142,7 +146,7 @@ The "Pasos" side list and its current-step tracking were removed with the v5 sin
 Editors preview a draft from the panel without a secret in the URL; the Payload session protects it.
 
 1. The collection's `preview` button and `livePreview` iframe point at `guidePreviewUrl(slug, origin)`: `/vista-previa?slug=…`, or nothing until the guide has a valid, non-reserved slug. The origin is `NEXT_PUBLIC_SITE_URL` when set, because behind Railway's proxy the request does not know the public domain and the live preview posts messages to that exact origin.
-2. `GET /vista-previa` checks the slug (400 otherwise), authenticates the request with Payload (401 without a panel user) and finds the guide as that user, drafts included, or else the achievement page, or else the Dofus guide with that slug (404 if none). Only then does it enable Next's draft mode and redirect to `/<slug>`, never to any other address. Achievement pages and Dofus guides use the same preview URL. Error answers are `text/plain` with `Cache-Control: no-store`.
+2. `GET /vista-previa` checks the slug (400 otherwise), authenticates the request with Payload (401 without a panel user) and finds the guide as that user, drafts included, or else the achievement page, the Dofus guide or the checklist with that slug (`findPreviewSlug` in `src/lib/guides/preview-target.ts`; 404 if none). Only then does it enable Next's draft mode and redirect to `/<slug>`, never to any other address. Achievement pages, Dofus guides and checklists use the same preview URL. Error answers are `text/plain` with `Cache-Control: no-store`.
 3. In draft mode with a session, the page shows the latest draft, a `PreviewBar` with a note and an exit button, and `LivePreviewRefresh`. That client component renders Payload's `RefreshRouteOnSave` with the browser's origin, so each save in the panel re-renders the page on the server. Both only render in draft mode, so their JavaScript never reaches visitors.
 4. The exit button posts to `/vista-previa/salir`, which disables draft mode and answers `303` back to `/<slug>` (or `/` for a bad slug).
 
@@ -154,7 +158,7 @@ Without a panel session the draft mode cookie does nothing: the page shows what 
 - `tests/unit/guide-step-nav.test.ts` covers stable anchors and the pin rule.
 - `tests/unit/guide-slug.test.ts`, `tests/unit/guide-preview.test.ts` and `tests/unit/revalidate-guides.test.ts` cover reserved slugs, preview URLs and origins, and the revalidation hooks.
 - `tests/integration/guide-page-queries.test.ts` runs the queries against Postgres: the published guide with its quest and rewards populated; no draft-only guide for a visitor; no result for unknown, malformed or reserved slugs; the latest draft in preview with a user and none without; links only to published prerequisite guides; the NPC with its renders; the next quest and its published guide.
-- `tests/e2e/guia.spec.ts` runs against the seeded guides (`pnpm seed:e2e`, `tests/e2e/seed/guides.ts`): the header with NPC, subtitle and columns; Prerrequisitos above Necesitarás, its items in columns and the note below; the left-facing NPC and the one-crumb breadcrumb on mobile; introduction, steps without numbers, titles or checkboxes, and closing; the fight block; the next quest card only when its guide is published; one 880 px reading column with the steps separated by a line; the rewards bag with the keyboard (Enter opens, Esc and tabbing out close), open in the page on mobile and visible without JavaScript; a guide without steps read as prose; SEO, canonical and Open Graph; 404 with `noindex`; site routes winning over `/[slug]`; the fullscreen viewer; the video facade at 390 px; copying a coordinates chip; axe WCAG 2.2 AA in Arcano dark and light with the bag open and closed; and preview (inactive without a session, the draft with `noindex` and an exit button with one, no preview JavaScript for visitors).
+- `tests/e2e/guia.spec.ts` runs against the seeded guides (`pnpm seed:e2e`, `tests/e2e/seed/guides.ts`): the header with NPC, subtitle and columns; Prerrequisitos and Necesitarás side by side with Recompensas below, stacked on mobile; the left-facing NPC with «Empieza con» under the title and the one-crumb breadcrumb on mobile; everything 10 percent bigger from 1024px; introduction, steps without numbers, titles or checkboxes, and closing; the fight block; the next quest card only when its guide is published; one 55rem reading column with the steps separated by a line; a step's screenshots two per row and the same size, one per row on mobile; the rewards bag with the keyboard (Enter opens, Esc and tabbing out close), open in the page on mobile, visible without JavaScript, without horizontal scroll at any width and inside the window after a resize; a guide without steps read as prose; SEO, canonical and Open Graph; 404 with `noindex`; site routes winning over `/[slug]`; the fullscreen viewer showing the original, enlarged without cropping; the video facade at 390 px; copying a coordinates chip; axe WCAG 2.2 AA in Arcano dark and light with the bag open and closed; and preview (inactive without a session, the draft with `noindex` and an exit button with one, no preview JavaScript for visitors).
 - Lighthouse CI measures `/seis-pies-bajo-tierra` next to the home page, an achievement page and `/metalogros`. See [Performance budgets](../testing/performance-budgets.md).
 
 ## Related pages

@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:fbec6136d9e57be6ed00b2a8c241b386402d0743409772388d3debc8a5fd70dc",
+  "claims": [
+    {
+      "id": "claim_37b13ecf9b5544928a36841765b9fae7",
+      "statement": "All checklists share one browser progress store under ta-web:progress, with quests and items keyed by DofusDB id, steps by stepId, prerequisites by checklist id and row key, and each entry carrying a timestamp.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/progress/store.ts#L1-L42",
+          "version": "repo-lines-v1:sha256:9f2d5f9242f1a84d2fa62a5bb375b0451513c94d632afb77033e299eec60a505:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyYmE2YTNkOGU2YTUzYzY0MWNiNTI2MmYyNTAwNGYyNjJmMWRiNWJlMDdiNTZiODA5NTQ3YzVlZTNkMmYwOTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZiMTFiZjJjYmVlYTEzZWIyYjI1N2ZhM2JkZTkwNDk0ZjdiOGUyNTk5ODQ5ZTJiOTg5ZWQxYmQ0OTJiYTA4MDkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3b15c8bddea748e1b99a64043fb237a1",
+      "statement": "parseProgress discards entries it does not understand and returns an empty store for invalid JSON or another version, and every localStorage read and write is wrapped in try/catch.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/progress/store.ts#L130-L146",
+          "version": "repo-lines-v1:sha256:ef0404b06a78b768391c2337f872c0d168c852356c3c542992fd28d5f54dd81b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllZDk1YTc1ZDE0ZWU2ZDRlNmFkMTQ2YjIzMWVjNmY2Y2RkYTI2ZTg4MTQ3Zjk2NjcyOWU3YjY5MmJmNjM4M2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE5ZDcxOWE2MGZmOWMyZDI4YTIyN2Q1OGQ3NjM1ZDA2YWIxNjIxODFiNjllNjViZjllNzQwZjU0ODFhNzY0N2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/checklists/progress/store.ts#L72-L89",
+          "version": "repo-lines-v1:sha256:f9e51ebbdfafc6847ba872525e8d5a43801d34bb45f3b89e9ac6ec6b66eb976e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRiZDJmNDc5ODdiNDMxZjNjNGNkYTlhZDNmNjIzN2Q4ODgyYmJlZmU0M2Y4YjhkMDU1MDVkZDVmOTRhMjIyYzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMyMWM4MjViZmNjYTA3NjMzY2M2NmQ5MTkyOGU1OWJiYzRkZWJkNjEyMzgwOTU3N2Q5N2M0MmI5YjM1NWUzNjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEwOWIzZGM4ZjBkZTBlMThkNDY3ZDI2OGZmMjE5N2QwZjJlNzM4YTViYmFjMGRiOGNhNjA2ZTdhYzJmNzFlNTMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e811aa4bbc1849049ca4493e1008911c",
+      "statement": "parseBackup restores only an intact backup of the ta-web checklist-progress kind and version, never a partial one.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/progress/store.ts#L91-L128",
+          "version": "repo-lines-v1:sha256:9019c69e8eb8a5e6308bacc8988d7f1bbd5f2bc13f1aa6a9a1fc8d9d45a45e27:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzMTkyZTRjMzg0ZGQ1NTczNzY3OWFjODA5NWVmY2ExYzVkOGNjYmIxNTVlYjcyZWRiNmZkYWM5N2Y3NTNkZDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJiMzc5ZDY5ZGRlNjVjN2Y3ZDcwZjJjMTQ1MWE1ZDU2YWFlOWIyNTM4MzU3MmZiOTc3NjY2NzU2ODI3NjEwNmQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b752f5a900114c7bbeeda21fd3a8091b",
+      "statement": "The engine is pure: a quest shows done if done in this step, done in another step, required by another done quest, its step is marked, or done in another checklist, in that order.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/progress/engine.ts#L1-L15",
+          "version": "repo-lines-v1:sha256:7e013dba7f9c479ab941b066363c2e6fa57ad7ed1e32e25a8063ae31e8981dc4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzNGY5ZGU3MGEwNmIzOTBjOTUzMmVmOWE1ZTBjMGZiYjM1YmNmNTNmMWQ4NGZkZThhMmNiM2M5MmQwMGZjY2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYxNWNjNTljNWI0NjVkNTM1Mjg2YTliOWE3ZDUyYmU0ZjA5MzVhN2ZhN2NjNmY1NTE0YmJhOGNiYmY4ZWUyNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY5NzkxZTBiYTQ2ZDdkZjA4ZDExOWI0ODUzYTM0OWNjZGQwMDU2OTNkZDFiMjEzYWZlZGJjOWYyYzA1YjJkNDUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2a3626ae6b2a4ffe85fd7b8e9eff9fbc",
+      "statement": "progressPct adds a marked step's weight or the shares of an unmarked step's finished quests, returns 100 only when every step is marked, 0 only with nothing done, and otherwise a one-decimal value between 0.1 and 99.9.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/progress/engine.ts#L373-L392",
+          "version": "repo-lines-v1:sha256:b3a18dc7940122f6189f8d5623199e1fe05edae9195b65a6a9b3399f4f41b9db:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM3ZWUyM2QyMzFhZTRjYmQ4MmVjMjdlNTQ2NjgwMGI1NDhlMTZhNWI2MjkyOGE2ZmJmZGQ3YjZiZTQ2NTZjOTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhkM2NhMTRiZGIzZWJlNmVmNTk1NmViNDlkZGZiODAwMTZmODEwNTM1MTMwYjFlNjY0YWRmMzJjYzNlYjY3ZjQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ecbff5b57a404125b900e1508a7ea04e",
+      "statement": "A quest is worth its level times the square root of its objective count; optional and take-only quests are worth 0, a mandatory quest carried by several steps splits its points, and a step weighs at least 1.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/derive/weights.ts#L1-L73",
+          "version": "repo-lines-v1:sha256:ef304deb87c5c7fbb93b24e38b11377a646347a445a2a3fd930db701e5e22bc5:eyJzZWxlY3RlZExpbmVDb3VudCI6NzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY4ZWQ2NjVmMzdlYThlZTI5MWJkYWQ4Yjg0YjJkOGQ2ZjU0YTNkNmI5ZGU3NjBlY2FiYTlhMjAyYjA5NDYxYzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c16816bd4aee49e4a0fefbf9d368e756",
+      "statement": "The weight level is Torre's level from his quest guide's prerequisites, else DofusDB's levelMin, else 1, and the checklist view computes weights on the server from stored quest data.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/page.ts#L500-L537",
+          "version": "repo-lines-v1:sha256:11eaf24d332eb89c9450631274e28f6f74a6548abe6cc9624220f55443bd26d6:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0NDBjYjFmZDM3NzY2MmNhMTZkMzZmYTVlOTJkMDUwODEwMWZmZDk2MTk0NmEyN2M4ZmIxMDk5MGIyZTU1YmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkyZWMxNzQ3MDE5MGYzODVhYjAwZjA1NjExNDQxYzlhOGUwNTQ2OTVmMGUxZThhODE2NGIxY2Y2NWFmZmQ3N2EiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRlZjViODM0ZDI3ODEyYWQ5YzQxYmVjZGZjMWQzZjkyMTA4Njk2ZDA0NjBiZGNkN2ZlYWI5YTcyNWQ1YzQ1NjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE1MWI3MTQxMzQ5ZDY4NzZiNGQyMjg3ZDZlMzIyYWZlNzI4MjkwYzU0MjE5ZmRmZjA0MzEzZDU3YTU5YTY1MmQifQ"
+        },
+        {
+          "resource": "repo://src/lib/derive/weights.ts#L26-L44",
+          "version": "repo-lines-v1:sha256:c8ffcd38120e8e159cc361e46a3f068ee9981d7f1bd2b774ec8ac31eec33ffe3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliZDdlZjdjNTgzMTEwODRlNDU1YmMzNWQ0MmNhNGMwZjQ1NTMwOTdmNmQxYmJiY2Y1MWEyNTI4YzdiMWE5NzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVlNzFlZWZjMDFhOWIwMGUyN2U1ZjgwZjZhNzJmNjk3NDE3NGM5MjcwNDJmZTZhNDdjMWY1NTg1YjM0M2FkZjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgyYzI4YTY3MjQ5MzkyNjdhOGFkNjYxNTkzZDJjY2NhYTc3YTQ2MTg2MmNmNzQzMjU1ODA4NzM5MTQ1YmY0ZTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI3NDNiOWU1ZTgyNDU2NTU2ZDQ0YTQ1Yjg4YWE4YzI4YjMyZGM2ODQ2Mzc5MDc3N2FlM2M3ODQ0MjE4NzBiYTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f54dd1735b9140efba3f69e34bbb9bf5",
+      "statement": "questParents finds quests that start inside another quest of the same step from the child's start criteria, and routePrerequisites follows prerequisites through any quest while keeping only route quests.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/derive/checklist.ts#L17-L80",
+          "version": "repo-lines-v1:sha256:4c6857cc625e82b810d956a4c6ec1ba9c227958d2fbb6ae6b34bf319d762d2a6:eyJzZWxlY3RlZExpbmVDb3VudCI6NjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJiZWZjYmNlMGM0ZTQxMDc0M2EwYzFhZjllZGFkYzliNDVlMGQ4ODcwODBjYzdhODM3NTFkMDNlNDU0NTk0ZWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJjYmFlNmE5ZGI3NjBmMzg3ZWMwMWEwOGQzNDMxOTBmN2U3MTBiMDhmNDBkOTMxYWFmYzAwMzUxZGM3ZTZjNTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFmMTU0MjcwYWRmY2VmMjMzNzVlYjU1YjliYWFkMDcwM2RkNjZiN2I4NzE3MDA5OWMwOTUxMDg2MzhhNGRhZWIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b74727b2a2d545c8bb2c234fa3ca5c9f",
+      "statement": "The progress UI checks for unmigrated silvestre-checklist keys and loads the migration with import() only when some exist.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/checklist/progress-ui.ts#L526-L552",
+          "version": "repo-lines-v1:sha256:b94121774fcfc087372a469372100c95ab27aed2c8fd1cd83fe0e556ed22fb76:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRmMmEyZjk5NmYwOGU2ODBiZDI5MjEzNWE2ZmE0OTc4YmRhMjZlNjAyZDg0ZjMzY2IxZDU5NDc3NWQ0MzA0YjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZkOWRhNWNlZDE1NmU2MTI1NjY0M2QzNGNlZTkyOTEwZTA3OGEwMjYyYTAyNzVjYzFlMjcxZWIwZjU1OWIyYzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlkYjgyM2IyZDJiNDNiNGNhYzRmM2M3ODczMTMyMzU2Mjg5ZDBmMzkxYjI4NTZjZTU0OGY2NDYzZTY4ZWUyYjUifQ"
+        },
+        {
+          "resource": "repo://src/lib/checklists/progress/legacy-keys.ts#L1-L38",
+          "version": "repo-lines-v1:sha256:b082a590333ecdb0e137428183a8508041ca0af01c7cde0467478ddda75cef8c:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkODliNjU4MDUyMmU4MzUxOTY1ODZhZDMwN2I0ZjI0ZmI4ZWQ2OGE0ZThkNDNjN2EyMTI2ZDcxOGUxODk4NmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_48c2bf4ab0664c48a6e603cff83604c9",
+      "statement": "The legacy migration runs once per old checklist, never deletes or changes the old keys, never removes what ta-web:progress has, and brings only quests and items from other old checklists.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/progress/legacy.ts#L1-L13",
+          "version": "repo-lines-v1:sha256:65871df264a2c1adc2f1c0c6127c8f5a794833b9174c0543efbcc0bb4dc776ed:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgxNjIyZjhmNjI2MjM1YTg3NDE3ZmNlN2E5NmE1MzgwMjhlNDY0YWVlMjVmMWIyMDUzYzQ4MDAzOWU5N2U3NTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU2MjVkMDM5NDljNjlkYzQxNmY4ZGY2YmUzODg0MjI0Y2QxNmRkOWQ3M2Y3ODFkMmNlYzdiMGMwNTdlN2M5MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUxZWQyNjFmMDFmZDI5MWYzMzBiNDU5ZjY3YjViZTRiMjk1N2QyN2VjYWUxZmI4YjQxMjYwZGQ4OTIyYWZmODkifQ"
+        },
+        {
+          "resource": "repo://src/lib/checklists/progress/legacy.ts#L144-L160",
+          "version": "repo-lines-v1:sha256:a768cfdb39a9470c098cbb29cc5acdcd65acb6a64cffae283f43b9cfd698633d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI5NDJlM2JiMDY2YzkwMjFjYjhkMDhiNjA1ZTYzZDQ3Mjk0YjJlYWExYWYxMjJkZmYzNTQyYzllZTdmOGY1NmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjllYTJiZTUzNzAyZmM5YWNmOGU0MDQ0NWQyMTUxMDI2M2VmOThmMGZjNGYxNmU5ZWI3MjRjNjk1NmM0Y2NmNjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFmZWFmYmE2N2I1YTA5NDkwMTNlN2VlZDgyOTUwMmE2OTgxZDk3NTdjZjBmZDVhYzkxOTYwNjE1ZmM1ZWI2MTQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d4fdfc88727b474ebb38ff9d64f6be5a",
+      "statement": "Progress saved in another tab appears without reload through the storage event, and a failed write shows a one-time toast.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/checklist/progress-ui.ts#L498-L508",
+          "version": "repo-lines-v1:sha256:b7d6e7bf71ab17bc813f9444ea0d121df656b16caa4eac38cc255be06dcec8e3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFmYWU4YjZhNTVlYWY1ZTA0ZjUzMDZiZjc1ZWNkOTBkMWE4MzUwMTBjZTdlYTFhYWMxYWIzODJiN2ExY2U4MDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk3ZDg2MzJlNTRlOTI5OGFiYjk1ODcyN2UyZDUxNDA4YWJhZjEzNjYwMzUzNzkxMDE0MGFiZjY1YjMwYWI2MTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIwZjg4MDY0ZGUyY2VmZjI5OTJlZDNmMmE4MWFlYTk5MmNhYzJiZTFjMmZjM2FiZWRlZjZhOTA5ZDk0MDcyZmEifQ"
+        },
+        {
+          "resource": "repo://src/components/checklist/progress-ui.ts#L97-L106",
+          "version": "repo-lines-v1:sha256:3ba5fb36b070dfcec11442de2a2a1d12d4a6c955c190c2ace664c1ccfa576bdc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZkOTk5MmFkMzU1NmZhMmI5MGRlYTFjNGMxYjQwOGI3N2FlMjA4NjExNmMwOTQyNjhmMmE4YzA1ZDliZGRjYzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFhMzc1ZDM5ZTNlZTIwMDlhZWU3ZTA0ZDlhZjVjMGY2ZGFiNDVkNDE0YWNmZDc4MjUzMjhkNzQ3OTkyODE1OTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRlZDMzMGZmNWFjZTEyNWIxZGMzMGNmZTFjMDYwNDUyZjc2YzliYjI1MjYzM2Q4ZjgyMWRiNzQ1ODI2OTAzZDcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ff566b79617542e6ab67bf34c98ef5a8",
+      "statement": "A unit test checks that the real Nebuloso checklist gives the same percentage as the old silvestre-checklist calculation for the same progress.",
+      "evidence": [
+        {
+          "resource": "repo://tests/unit/checklist-progress-parity.test.ts#L1-L5",
+          "version": "repo-lines-v1:sha256:75551fc5abeade9116c33f0179ecba9e7f2aee57d72350683893a320a968dca9:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjIzMWVkM2QwM2IyZmFmZDMxYzIxNzQ3ZWI2OWM0MzVjOWE3MzdmODMzZTMxM2E0ZWRmMzM2NmMzNTRkMGFmNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGFhOGUxZmZhYmI5NmE2NzQxZTI3OTQwMmE2MTMzMGM3ZDNlMmQwYzM5MDE5YWQ5YjRmNDkwYWExMGY1NGVlYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDc0ZDk2MjRlYjc0MzFkYTU5OTdkYzkyZWI2NTgxZjdkZWFlMjk0NGI1Nzc2YzVkNjAxMmVhOWEyMTkxMDQ1ZCJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-14T11:00:46.827Z"
+  }
+}

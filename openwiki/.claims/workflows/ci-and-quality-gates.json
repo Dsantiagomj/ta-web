@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:7017c6426ae7518ed6fee33d8260a0628b00eb18ae1344170c501e67c70500d1",
+  "pageVersion": "sha256:760f3a016be8fef98ab9e0ac73fc4089b926364a313dc6941f2c27e47c498b63",
   "claims": [
     {
       "id": "claim_cb74801dca844af99590395d68fa512d",
@@ -28,7 +28,7 @@
       "evidence": [
         {
           "resource": "repo://.gga#L1-L25",
-          "version": "repo-lines-v1:sha256:c57fc24bd45b6d7c8ed6a22eea5bddb1ac8711c7517c5478d46ce9e8b3eb37a5:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmMTFkNDFjMThiMmVhYTZiZjBkMmE1YmM0OGE1Y2I5ODhkZjM1OTc1MDdlZTFlNWQ0NzBmY2U2YTFlZWU5YzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4NjE5ZmFmZDFhNDA0M2FmY2MyZWQzMzNiYzZhNDVkZDFmNjc0YjFjODUwODdlZTViNTA3MzRiNDg4MzVkZDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:659f9770501222bec12d3b8fc9958e9755d95f0005b979d5efddd13c99bb1ca9:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmMTFkNDFjMThiMmVhYTZiZjBkMmE1YmM0OGE1Y2I5ODhkZjM1OTc1MDdlZTFlNWQ0NzBmY2U2YTFlZWU5YzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4NjE5ZmFmZDFhNDA0M2FmY2MyZWQzMzNiYzZhNDVkZDFmNjc0YjFjODUwODdlZTViNTA3MzRiNDg4MzVkZDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -68,21 +68,21 @@
     },
     {
       "id": "claim_f2ecd7617e864da78507931afeda79cf",
-      "statement": "CI runs lint and format check, typecheck plus a stale Payload types check, unit tests, build, integration tests and E2E plus the dev environment E2E and Lighthouse CI budgets against empty Postgres 17.11 services.",
+      "statement": "CI runs a change-scope job, lint and format check, typecheck plus a stale Payload types check, unit tests, build, integration tests, E2E plus the dev environment E2E, a two-part Lighthouse job and a dependency audit, each test job gated on the jobs the change scope selects.",
       "evidence": [
         {
-          "resource": "repo://.github/workflows/ci.yml#L29-L187",
-          "version": "repo-lines-v1:sha256:f8c74c5a8a86a71661862e0e7b10f42663f3e94c26cc4cf6fb144cf821262493:eyJzZWxlY3RlZExpbmVDb3VudCI6MTU5LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJmOGZiNzI3N2ZkZDIwZDJmODQ2NmZjNzNiNWU0MjcwNDc4OWIwOTk5MTY2Mjg5ZGNiMTkzNWMwMDQ4NTE2ZWRhIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0NDcxZThiZjM0MDY2ZGFlMmViNTI5MDVjNzEyNjc0MDg2ZWRlYjdmOWU3Nzk3ZGMzMDJmMWRkOGEyOWI5ZjBkIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmZmU0N2I5NTFhNDA2YTFkYTYxZGZkMjU2MTA4NzY4ZWY5OGRjNzk3ZTczNzBkZjM1YWZlNGJiYWI3NDYxZDEwIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI3ZDQzNGIwZDhkN2RlZWNiZjkwMGYzMmE0YmU2MGJjMTY2ZjQzOTUwNTBjMTY5Y2Y3YjQ3ZTgxM2MwMzk1NDRhIn0"
+          "resource": "repo://.github/workflows/ci.yml#L21-L285",
+          "version": "repo-lines-v1:sha256:9628d78cf7b61a28514968cee37e4964b955a0e7003b96af96155e03803f7bb5:eyJzZWxlY3RlZExpbmVDb3VudCI6MjY1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlOWQ4MDE1NGVkNDJmYzVjNzc5YjEzMzE1NzhiNThiODljODAxZWFjZTc0ZjI0Y2Q0OGViNGEyMzU3OTQwYTk1IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIwZDhiOWY4MDAyNjQyMmNkNDNmNzU2YzljYWRhZGUzZGJjMzVkY2FkODFmNTk3YTI3OTdmYTZhZmU1MWIwZDQ5IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI0OWUwYjFlM2Q0ZmQxMmE3N2U5NDM0YjlhODYzN2RiMDVlN2NkMDE3MzNiNGJkYWNhOTEyNzcwNzQ3ZTMyYzM4IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI3MDVlZmVhYWEwYWI2ZGVjOGNiOGQ5ZGJjMzc0NDViNjRjYTBmNjI3MmJkMmRmOWE5ZjVhYTEyYTlmMWUwZDgzIn0"
         }
       ]
     },
     {
       "id": "claim_9b875d3dbff74efdba556c2e0374efc5",
-      "statement": "The Pruebas job always runs, depends on every job except the GGA review, and fails unless all results are success.",
+      "statement": "The Pruebas job always runs, depends on every job, and fails when the change-scope job did not succeed, when any job failed or was cancelled, or when a job the change scope requested did not succeed.",
       "evidence": [
         {
-          "resource": "repo://.github/workflows/ci.yml#L210-L227",
-          "version": "repo-lines-v1:sha256:209ea43c84fd730f929b92dbea74997d90c28a28a181b7fed5e0070dde852421:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQzNDYyNjkxNzkwZTcyODVmMmVlYTMzNmVhZTFhZGNhOTc4YjU2OTdhYWQ5MTRiM2YyZTNkZjQ2YTQwNjU2OTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM4MTMzM2RmNjZkNTk1YzYyMjM3NDEyZTdkMTYwN2I1Y2ZiMDExNDdmMGYzYTlkYjdiN2FjNGU3MjljNDNkMjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM1N2MzMTkzYmYzNTIxNmExNjVlNTdiYmEyNmEyNzFkMjI3OTUyNWNjM2YxNmI2YTU2MWU0YzFjMjA2MjRlOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjljODg2YjI0MjU4NTU3N2FjODBkYzllN2RlZjdmODk5MzZiOGVmZDNlMGVhY2RlNmVkYWI3YmUxZjcwZDM4MTEifQ"
+          "resource": "repo://.github/workflows/ci.yml#L286-L318",
+          "version": "repo-lines-v1:sha256:84cdc197f1ebbfb8eaecf62ee6f6a5e0c198dff8724377ea5f7aaf6f1dcac538:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYzMGNmZjYzMDg5ZjJjYjE2MzQ0ZTkwM2RkNmE2M2NlODQyODkzYmJmMzAwMTVmOTYxYmUxNGMxN2FlNmYwZWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQxNzk1OTNjNjhmNGEwMzNiMDA2M2NlY2ZkMjZiY2UyMmVhMmYwNzE5ZWQ5NjZmYWU5OGUzNmQ2YTViZmEzNGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhN2I4YzcxYWQzMDljMmFiMGE2NDNhZjJkNGE2YzdiMzUxOTcwYzQwYmM4ZmM4NjcxM2JmZTkxMmFiNTdjMzIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -91,8 +91,8 @@
       "statement": "The audit job fails on critical production advisories and only warns on high ones, reading the lockfile without installing.",
       "evidence": [
         {
-          "resource": "repo://.github/workflows/ci.yml#L186-L208",
-          "version": "repo-lines-v1:sha256:f1051b36d64ff30a12cd520276ce68587d12e14b3ec2f6c541de48b3705bfb7f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmNTU5NzljZTczMDIwMzNlNmIyZmQ3ZDg4ZjUzN2EzYjhlMDkxZWEzMDVjODExZmZhMTI3NGJmNTc2NGVhNWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM0YmM2MWMxMjA0ODIxYTBlMmI1NjZiMjE0M2EyZDI4MTQ4ZTBlN2FkMDY5YmI1MWQ4NTFlOGIzNTZiNTc2OWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZlZDNiNzczYTBiMDFlNmIwN2U2MmQyNGMwMTI4YTU0MmJjZWQ4ZGIxYWNjZWNiYTE4YmY2NWYxOTFmNWRiZDgifQ"
+          "resource": "repo://.github/workflows/ci.yml#L261-L285",
+          "version": "repo-lines-v1:sha256:82fa9f8908b95c6de98350434777cd1d2db743d227565cb002ba610989102278:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdhZjgwMGE5NDY3ZDZmZTAxM2I3YjJlODk0YTZkYTkzZmJjYWMwYTNkYTdmMjMzYzExZDU5NDBiODMwNTEwYmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBkOGI5ZjgwMDI2NDIyY2Q0M2Y3NTZjOWNhZGFkZTNkYmMzNWRjYWQ4MWY1OTdhMjc5N2ZhNmFmZTUxYjBkNDkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMyMzEyNGEyYWEyOTQxMDA1YWMzMTBmMTllMDhhMmFhNTZkMGRlMDBlNjcwOGIyMzkzYWJjMzJiZmY5ZjEzMmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjcwNWVmZWFhYTBhYjZkZWM4Y2I4ZDlkYmMzNzQ0NWI2NGNhMGY2MjcyYmQyZGY5YTlmNWFhMTJhOWYxZTBkODMifQ"
         }
       ]
     },
@@ -103,16 +103,6 @@
         {
           "resource": "repo://pnpm-workspace.yaml#L13-L24",
           "version": "repo-lines-v1:sha256:1103048dcbc0298952f115af2657501f87807143f2394dde6dd6b94711857f55:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3OTNkNGFhMDk4YTAxNWY0NmU1ODQ4YWMzNjgzOTdjMTBiZWRlZTkzNzViNGMwMmExYjFmZjRlNmMwNDc5ZTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4YWRjMWY1NjJiY2JjMWY4ZmVmZTY2NGE3MjIzMmMzODczMWE0ZmRiNmUyMmU5ZWQ5YTY5MThjZmQ3N2U3YTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZkZjM0ZDE4YTdiZTQ4Yjk4Nzk3N2I3NmEwNDk0Y2MyMTc1ODQ4ZmUxMWM4NjNkNjFhMWYxMWZkMTJlYTU5NDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
-        }
-      ]
-    },
-    {
-      "id": "claim_e9a5182cb35a49b89ef1a666c2c134e0",
-      "statement": "The GGA review runs only on pull requests with the Codex provider, skips without the CODEX_AUTH_JSON secret, deletes the credentials afterwards, and serializes runs in one concurrency group.",
-      "evidence": [
-        {
-          "resource": "repo://.github/workflows/ci.yml#L229-L300",
-          "version": "repo-lines-v1:sha256:c88e952b18adbe2b4cb01ddc3b8f2797553752c1e3b11134bbaba7b352d55d33:eyJzZWxlY3RlZExpbmVDb3VudCI6NzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEyNDJhYjc4OGI3OTFlMjcxODJkODBkNDk4OGFiMmRlZGY5NmNjZjA3MGUyMjRmN2Y1MzIyNzI0M2U4ZmQwNDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmOGNkOTJiM2RkYzdiZmE3ODZhYzM2NTk2NjczNGU1NTAwM2MzNDNhZTU4OGYxNTRmMGIyYWZjNTg4MDg1MGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE4YTE0MTA0NjFhYjQ0MjM3MTkyMmY0MGE2NjNmODUzNWU1YzRjMGNlNTY5YTY5OGZjMmI5ZjU3MDU0MTM0MjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -166,11 +156,11 @@
     },
     {
       "id": "claim_072dd2cc012d40d48c3b4102230cd346",
-      "statement": "The E2E job runs pnpm test:lhci with E2E_SKIP_BUILD=1 on its own build and uploads the Lighthouse reports and assertion results as the lighthouse artifact for 7 days unless the run was cancelled.",
+      "statement": "The Lighthouse job runs pnpm test:lhci in two parts with LHCI_SHARD, each on its own empty Postgres and the restored .next cache, and uploads each part's reports and assertion results as an artifact for 7 days.",
       "evidence": [
         {
-          "resource": "repo://.github/workflows/ci.yml#L159-L177",
-          "version": "repo-lines-v1:sha256:120f723daaa71e61cae7d440f7784f2f6e14bcacc043f574399df9e8536f5076:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiMDU4YzU4NDQ4MTBkNGVkNzE4YTgwZTk5OTI4OTYxMzYwMWQ1Y2QzNDE0ODEzOGMwZWU3MDVkNTJjNGJmNWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliZjQ1ZDJiYzIxMDg5NWU2N2JkMWQyMGRhYWFjMWI1OTgyYTc2NjQwODI5ZmQxZjFiYjRhNjk5NTUyOTI5NDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVjZDQ0MWE1MDQzZjg1NzU1YTBhNzQ5NmY1MzY0NzYxMDMyZTFjMmI4ODkyZjY4MzI1Y2I0MDM3MWYzNjEwNGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZkMzRlMTJmMGVkMjNiNGFjNzBmYjk0ZTA0Mjk1Zjg0MGY3MjkxNGI3NTU0MzI5OTBjYTRjNDY0NzZkMTc0ZTEifQ"
+          "resource": "repo://.github/workflows/ci.yml#L200-L259",
+          "version": "repo-lines-v1:sha256:df595e49e0f600f5f88fcd5816e34574248d3df55d0b09f3f8d97da61841742f:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4MTY4OTY2ZDE1NjA3ODk1ZDcyYjFjYmFlN2FkZGI1ODYyNTE5NDdlNmI4MWJhZWE3M2JkOGUzYzgzNGI3MDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliZjQ1ZDJiYzIxMDg5NWU2N2JkMWQyMGRhYWFjMWI1OTgyYTc2NjQwODI5ZmQxZjFiYjRhNjk5NTUyOTI5NDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5NDE4NzgzNDZmMDY3MzZjZDI3NTBjMjkyYWNkOWVjODQ1N2RlOTg0NzllYzg2MzhlZjRhYmE5NGY0NjI2ZjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZlODE1ZDcxMDllZWVlZDlhYTE1YzY3NTcyYTI4MWNlMWI3MDgwYzY3NThjZTM1ZGZhOTliMDhiMjhlYTIxMTkifQ"
         }
       ]
     },
@@ -186,35 +176,81 @@
     },
     {
       "id": "claim_d28f84dc07e64fd39fa6f574612e21f7",
-      "statement": "The gga hook exports ANTHROPIC_MODEL as GGA_CLAUDE_MODEL or sonnet so the per-commit review never uses Claude Code's default model, even when the shell sets ANTHROPIC_MODEL.",
+      "statement": "The gga hook exports ANTHROPIC_MODEL as GGA_CLAUDE_MODEL or claude-sonnet-5-5 so the per-commit review never uses Claude Code's default model, even when the shell sets ANTHROPIC_MODEL.",
       "evidence": [
         {
-          "resource": "repo://scripts/hooks/gga-review.sh#L10-L15",
-          "version": "repo-lines-v1:sha256:bde57b12ac7d3ae0b1ef992c7833b9d5fcfdec99f3d3fa1647c167c25dc78808:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTNmNzFlOWExODBmZTcxNDZkZmQ3YzFlNDBmMTc3M2VmOTAwY2I5NWJhNDBiY2M1ZWYyZGU4NzJjMGNmODIwNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTdiNDcwM2JlM2RhNjFhN2I4ZWYyZjk3OTRlMDM5ODVmMWU2NjRjNTIwNWM0YjU0ZDdmOGUzNmY4MjgzZjAwMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2QyZDFiMjBkM2NiMmI4MzEyNWI5YmM3YzIzY2QzZDNlZWM4OTRlZGIwYjYxZjY2OTI0MzEwZjgwNjRiNTQ1MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+          "resource": "repo://scripts/hooks/gga-review.sh#L9-L15",
+          "version": "repo-lines-v1:sha256:0527ad61ba8fe3949b916f791ed1b54c5d9994be10dbfb21825f3dbbf4398168:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTdiNDcwM2JlM2RhNjFhN2I4ZWYyZjk3OTRlMDM5ODVmMWU2NjRjNTIwNWM0YjU0ZDdmOGUzNmY4MjgzZjAwMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTE3ZjY0ZmQ2YTg1YWZjZmQ4YWVmMWI4ZGY2NjE0OTQ3ZGIwZTBkYmRlODU4MDcyOGZkYWRhZTkxM2M5OWQ3NyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         },
         {
           "resource": "repo://tests/unit/gga-review-hook.test.ts#L27-L38",
-          "version": "repo-lines-v1:sha256:fec52b7ee7b85a6a266908dd55ee3126ae58f7239a71b1e02fbcab5ff449c8ad:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAzZTUxMWMyOWE4ZmZiYmQ1YWZkYjkwZTkwODdkNDlmMTg5YWY0MzNkMDVkYjZhYWU5NWFiNzIyMWRiYTY1ZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY1MDhmOWU2NDQ5YTUxMzI2YzUwNGI3YjlhNDJiMzUxNDdjYzU1NzI1YzZmZWNjYjg5YThiM2VkNDlmMmM5YzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:94bfd19824b60e22aec7b9f9ea09672c79c16d496f39bb6e360f54e96f3c2517:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAzZTUxMWMyOWE4ZmZiYmQ1YWZkYjkwZTkwODdkNDlmMTg5YWY0MzNkMDVkYjZhYWU5NWFiNzIyMWRiYTY1ZTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY1MDhmOWU2NDQ5YTUxMzI2YzUwNGI3YjlhNDJiMzUxNDdjYzU1NzI1YzZmZWNjYjg5YThiM2VkNDlmMmM5YzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
     {
       "id": "claim_ef7fb286bb0c4a0f93c5da5dce0f1bf1",
-      "statement": "The E2E job installs Chromium or its system dependencies through scripts/ci/playwright-chromium.sh with a 20-minute step limit, and the script skips apt when Chromium already launches and retries each attempt with a 5-minute limit.",
+      "statement": "The E2E and Lighthouse jobs install Chromium through the .github/actions/chromium composite action with a 20-minute step limit; it caches the Playwright browsers and runs scripts/ci/playwright-chromium.sh, which skips apt when Chromium already launches.",
       "evidence": [
         {
-          "resource": "repo://.github/workflows/ci.yml#L144-L153",
-          "version": "repo-lines-v1:sha256:3c62d55d6813b9f7904f2ea60d9a2e4cf417c077a36a0cfabad7bb033f8d134e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiM2Y5NDUwYmE5YWZkODlhM2I1YWIzZDRmZTc3NWQwNjEyNDcyZTY5YTQ1MTZkMzU0Zjg0ZWJkNmI1MmIzNzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM4Y2ExNDE1YTdhNzhkZWFkMzRmMjI2YmY4MDk0NGU2MTdmOGRjNzBkMDNjM2Q3OGZjOTkzZGMwNDhiYzgyZWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA3ZDUyYTZhMGE2YWViY2Q5OWVjNjY4YzM0MjhiMjUyZTgwZWU2YjEyMTI5NjFmYzg5NjI0NDgwNDg1ZmViMjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI3OWRmMWQxYjkyMmViNDU1NTBlMzk4MmJlY2M3OWEwNDMzZmE0N2RmZmRkOTc3MzIwNDQ2ZjM5ODU4YTlkYTMifQ"
+          "resource": "repo://.github/actions/chromium/action.yml#L1-L29",
+          "version": "repo-lines-v1:sha256:b35cbc2bfb0d9185ae0520484417fee3c8cc93d4f6999cc905281816990f9bb0:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmMDQwOTQwMjg4NDEwYTRjMDhkYWVlY2YyYWUwN2MyMzgzYTE4YjYyODJlZTZmOTA5ODc3YTZhOGQ4ZTdlN2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRhZjE3ZTg0ZTZjYWQ1MTc2YjA0MTdmNzA2MTYwOTVmMTgwMDIzMTg1NzIzNDYwYjY2NTU2M2ZkNzBmYWQxMDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://.github/workflows/ci.yml#L181-L183",
+          "version": "repo-lines-v1:sha256:5ab4d1798d1e8ffec1848e4d04ef3666f6aa612266d7e516edb67cef5bb62184:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTM0MTgwZDBkZjQxNThiMjAzYThiODMzYzhhM2JlZmQ0ZWUxZWUzZjhhMTMwMDNkZTg3NGJkYWZjMDcxOGU1NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzNiMGJkN2I2YjlkYWU5MTc5ZGU3MDQxNTdkNzRkNWJmYzA0MzAxZmVjOGNiMTBkMDBmNDRjZjJjZGNkNzFkOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjc5ZGYxZDFiOTIyZWI0NTU1MGUzOTgyYmVjYzc5YTA0MzNmYTQ3ZGZmZGQ5NzczMjA0NDZmMzk4NThhOWRhMyJ9"
         },
         {
           "resource": "repo://scripts/ci/playwright-chromium.sh#L1-L47",
           "version": "repo-lines-v1:sha256:d6d1bfedeb980df6f935a5c888f85cab4bae3be568d5abd75e7751f806fe844b:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MDc2ZDNkMjhkMjFlMDIwMTJiMjBlYWY3ZGJmNzU0MDlhNjI3NzEzNDQzOTAyNWYyODJlMzY4ZTMzMDVhYmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBjNjg2OGMyYzQ0ZjA1MzYxOWNlZjFjYzM4M2UxZDUzMDc0M2I1NzRjYTE5MmFjZTkxNjhhOWNjZjQ2YTg2ZTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_2b2b9beef2934ad9b176f865256f5c9d",
+      "statement": "ci-scope.ts classifies changed files as docs, offline or full, with the highest scope winning and unknown files counting as full, and maps docs to install, lint and audit, offline to adding typecheck, unit and integration, and full to every job.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/ci/ci-scope.ts#L1-L75",
+          "version": "repo-lines-v1:sha256:1939c0a0d704f71ba4cb594b98e5e02ec53c9b790237b6271bfe742c7daf123a:eyJzZWxlY3RlZExpbmVDb3VudCI6NzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmMWE5YzFkNDAxNzY0NzAyYjY1MzgxOWVkNmUyZmI1NjQ5NDcwZGViYzc3MGIzMWU2MjY4MjljZDUzM2RmMGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYxNGFmZmQzM2U0OWY3NGQxNmM4NjY3MTIwZTk5ZGI0ZTA0NTkwOTIxZGNiYmI2OWI5ODZmNTMwZTYwN2JiNzUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/ci-scope.test.ts#L1-L161",
+          "version": "repo-lines-v1:sha256:98fcf6593956c0b9fe46fd5e112de99b55d5aabc4c4481eedd0ccb2aea87fa11:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI0ZjMxODcyZjI0N2IzZjg0MmY4MzhkN2VjZTVhMWRiYTJmMGNiZjk1NTBkMTgxNjA5MjJkODRkODVlYTRmZTljIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_87a08540b3ff40b5ae8b7e7c0cd448e9",
+      "statement": "The changes job lists the PR's files with git diff --no-renames against the merge base, runs everything on a push to main or when the diff cannot be computed, and fails if ci-scope.ts writes no jobs.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml#L21-L59",
+          "version": "repo-lines-v1:sha256:2f5f4598d5846ba001c847a2b8aaf3ce3577a4653c15158406dea8448cf0d9a6:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5ZDgwMTU0ZWQ0MmZjNWM3NzliMTMzMTU3OGI1OGI4OWM4MDFlYWNlNzRmMjRjZDQ4ZWI0YTIzNTc5NDBhOTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmNTU5NzljZTczMDIwMzNlNmIyZmQ3ZDg4ZjUzN2EzYjhlMDkxZWEzMDVjODExZmZhMTI3NGJmNTc2NGVhNWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ5ZTBiMWUzZDRmZDEyYTc3ZTk0MzRiOWE4NjM3ZGIwNWU3Y2QwMTczM2I0YmRhY2E5MTI3NzA3NDdlMzJjMzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgzZjBjZWZkOWIwYjBmZDdkYzNlNWEyNWM4Yjc2ZTA5ZWZmM2EyYzc2Yjc2YzZhMTY5MGEwZWUzNzk2NjNjNDkifQ"
+        },
+        {
+          "resource": "repo://scripts/ci/ci-scope.ts#L76-L89",
+          "version": "repo-lines-v1:sha256:08f3bd8ef1882315cfdcc98aaf7fa62457a5d65c439f35a655f1cd9de83815cf:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0YmI4NzBkODg2NmYyNjdiY2NhNjEyMDhmN2FhZDRhMzQyZTdhY2JmMjQxMjY4NGIxOGU0MzQ4NzdkNWVmMWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_daf12ef21e0743868508f47384ec893f",
+      "statement": "The gga AI review runs only in the pre-commit hook; CI stopped running it on 2026-11-13 after the CI copy failed on Codex usage limits.",
+      "evidence": [
+        {
+          "resource": "repo://docs/legacy/infra.md#L40-L40",
+          "version": "repo-lines-v1:sha256:754ca225da66e14eb1637da95cf7a76b3556f37cee1ff3ddbbae2df89ab0bcc9:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzU0Y2EyMjVkYTY2ZTE0ZWIxNjM3ZGE5NWNmN2E3NmIzNTU2ZjM3Y2VlMWZmM2RkYmJhZTJkZjg5YWIwYmNjOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzU0Y2EyMjVkYTY2ZTE0ZWIxNjM3ZGE5NWNmN2E3NmIzNTU2ZjM3Y2VlMWZmM2RkYmJhZTJkZjg5YWIwYmNjOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDViZGMwYTNmMzQ1OWE1NzFiZDRkMGY0NDI2NDdmMzVlMGMwYjMwZDdmZjg2NDBjNTA5MTdkNjUwZDU3NDVjZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDM2NGEzNDQ0MDA2NmE4ZjYyNDhhZWUwZTdmYjc2MDUwZTI5YzYzMGQ1NzkxY2I1Y2EzZGI3OTczNTlhZGU3NSJ9"
+        },
+        {
+          "resource": "repo://lefthook.yml#L5-L21",
+          "version": "repo-lines-v1:sha256:d0182f32f0548c7099a5bde8f15223be1d6a36156eb85859cf9f2a7833e3a548:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE2NGJmNDdhNDNjMzE3MzgxM2Y2NzdmNzRkZjIzZDc3MjdmMTM1YzI1MTUyYzcxZGM5Mjk4ZmFhZGZiZTA0NTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk3YTUxNTc0NGJmZTUwMGZjZDU5MGMxYTQzZjcwN2RjM2ZjM2I3YjdlOTI5YmU3ODY2NWZjNjViYWRjN2UxYzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY5MTIzZDQ4NTJiM2Y1NmNhOWNhMTdkZWE1YjE2NjZjNGIxOTEwODA5NzE0Y2FjMmNhOTZjZDNmZWQzYzcxOGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZjNTU2OTkyZWY2ODRmZWFjNTMzNGJkNDNhODQ2MjE3YTBmMzQ4NThlYTZkMDMzNmMzM2QyZmU3YzllMDJhZjEifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-12T11:00:44.802Z"
+    "at": "2026-11-14T11:00:46.827Z"
   }
 }

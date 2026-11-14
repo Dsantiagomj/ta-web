@@ -8,6 +8,8 @@ sources:
     resource: repo://scripts/build-mode-eggs.ts
   - id: openwiki-source-7a2845694b67f1018000b585
     resource: repo://src/app/(frontend)/layout.tsx
+  - id: openwiki-source-09c2bfa24e5ac15be5d30d29
+    resource: repo://src/components/mode-toggle/mode-toggle.css
   - id: openwiki-source-3c5ad46d7eaeabd20ff4b64b
     resource: repo://src/components/mode-toggle/ModeToggle.tsx
   - id: openwiki-source-494435f3df1838e49db8671d
@@ -22,10 +24,10 @@ sources:
     resource: repo://tests/unit/mode-script.test.ts
   - id: openwiki-source-ca22a46c7864184d49dc01b8
     resource: repo://tests/unit/theme.test.ts
-generated: { by: "claude-code", at: "2026-11-08T11:00:21.339Z" }
+generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-08T11:00:21.339Z
+    at: 2026-11-14T11:00:46.827Z
 ---
 
 # Theme and mode
@@ -81,6 +83,7 @@ Because the script may change `data-mode` and adds `data-js` before React hydrat
 - The button is a `role="switch"` with `aria-checked` true in light mode, a fixed Spanish accessible name ("Modo claro") and a `title` that names the current mode, its egg and the action.
 - It shows two game item icons, Dofus Marfil for light and Dofus Ébano for dark, as `<picture>` elements with AVIF and WebP sources at 1x and 2x of the 28px display size. The variants were generated offline by `scripts/build-mode-eggs.ts` from the PNGs in `public/img/mode/`; nothing is optimized on request.
 - Click animations (arc, hatch, sparks, pop) are restarted by removing and re-adding classes, and are skipped under reduced motion.
+- The medallion takes the header search's background and border (`--color-surface`, `--color-line`), so it is light in light mode and dark in dark mode. Its sizes are in rem, and each spark's end offset passes to the CSS in rem as `--dx` and `--dy`, so the switch grows with the root font.
 
 Copy and asset paths live in `src/components/mode-toggle/strings.ts`; styles and keyframes in `mode-toggle.css`.
 

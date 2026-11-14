@@ -1,0 +1,190 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:61dfefce60d73bf144fab539eac31cb6e80309829c5323c670904c79a92c1a9c",
+  "claims": [
+    {
+      "id": "claim_07a0fdb5e1c84279a898734e68b74496",
+      "statement": "The checklists collection has drafts with up to 50 versions and live preview; visitors read only published documents, panel users create and update, and deletion uses adminOrNotImported('importSnapshot') so editors delete only checklists the import did not create.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/Checklists.ts#L337-L372",
+          "version": "repo-lines-v1:sha256:1b01614f0bf33c133f90d7fc6a841fa7cf9b480257b12706e14062e6c0c5692b:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhNWIzMzFmZmI2OGE2ZDk4ZTRiMWU2YmM2YzI5NDM4NmEyM2Y3NGNkMjEyNTQ1MzQ1YTBmMmE1ZWJlNzMxNjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE5OGI1MDg1OTI0N2JlMDdlN2U4OGRmYzRkNTQ2ZTAyODFiYTlkNGIzZTc4MjRkYTYwNTk2NzhlMjZmZWE2OGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY2NWIyMzQyMTk3YTZjYTc1YmVkZjJkYjZlZjNjOWI1OGQwMzkxZWFiYjU3NzU5Y2YzOTNmOGVjMTBhZDgyZTUifQ"
+        },
+        {
+          "resource": "repo://src/collections/editorial-access.ts#L26-L45",
+          "version": "repo-lines-v1:sha256:c1cd46d20a69178c2bdb6c02af63101781c54b56d4574ec5e3df7ca2b15c9bdc:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhhOWUzY2I0ZTFkOWFkNTYxOWZiOWVmMGU0NGM0OTZlODNiNjI5YjE4Mzc0ZDJlMGVmNmNmNGQwNzMzODQ2NzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAwOGI0NmMyMmU2NjA4ZWEwMjgzNGRlM2MyYjUxMTI5MzUwMTkzN2M3NWU0YjA2YWUxYmZmOTNiNGEwMGNmMjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlhZGUxYzU4NTQ4Y2Y5YTU5ZTg4ZTk4ZmQzMDM3M2Q5ODEyYjJiNDI2ODY1MjkyNzFkOTkxOTQzYjAwOTlkYzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM1NGJkM2JlMTAxNWE1MzFiODBkYjJhYzExMDAzOGMwODIzOWI1NTQwYjc1YTI2MWIyMGFiY2JiZGQ4MjFlM2EifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f75089a570494ea4b2fa2b17de4be7ce",
+      "statement": "The checklists collection disables duplication because a copy would carry the same step identifiers and share progress.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/Checklists.ts#L361-L362",
+          "version": "repo-lines-v1:sha256:e78403431ee195f88ba560e4a5580d68662383d10fc12aca6f9cf0118ec45c5c:eyJzZWxlY3RlZExpbmVDb3VudCI6MiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYmM2ZDM0MzM1N2JmZjQ4NTkzMzNmY2EyYmQ3MDhhZjBjZDc4NDAwNjRlMWEwNjZiMzdmYzUzYjcxM2JiNWExYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTcxMzQ2NDllZGQwMzExMzYwOWNjMGQyMDliMGQ2YTYxZTRiMWQwNWJkODJkMzdjNTc5NWM3NzVlOWFkMGYxNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWNkZGI3YTcwZjYwZDYxNWJhYjcwYzJmMTk3MmNhMTQ4M2RmNDI2NjE1MmJkYjEzZjE3MWUwOGMxYTM4ODc4ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDcyYzczZDQwMWRmZmIyMTBkYmMyNDk4Y2YxOTkyMzZjMGU1NGY3ZmQ5MzkyZTVkOTVmYzgyNmQ3NjQxMmYzMyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_6ff4cc0c4a3d4e48b4c1df50304d1db6",
+      "statement": "legacyHref, the Squarespace link, is shown only while the checklist's state is preparing, and order is locked once set.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/Checklists.ts#L393-L415",
+          "version": "repo-lines-v1:sha256:8b1d05e75d449e9c584cdc3d3b8a634f1627326bb352923660e175f80f4cdb21:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBjMTgyY2UzYWZkOTc2Zjg1MDY5ZjE5ZTI2MmMwMGYzODYzYTk1NWZhYTQ1ZTVmYjA0MjFmNWEwNTE3MzQ3NjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkzM2UxOTc0ZGEzMzg3MThiYjJmODU0N2RmMTg0YWU2MTQ1OGNhZTBjZTNhNTRhY2I0NzI3NDQ2MzBmZDZlZGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMyMjE0MTE0MWY5M2JmMDc1NDM1N2Q0YzdlZjBlNTg4ODcwMjRhMGNkZGVkMmVmZjUyMTY4OTM4OGU0NGMyYjUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f1314446fbe243d08554130227a5e22d",
+      "statement": "A step's text is a list of segments whose kind is plain, stop (with a quest and an objective index) or resolve (with the stepIds it closes).",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/Checklists.ts#L62-L100",
+          "version": "repo-lines-v1:sha256:9ed98cc43c5ec2eaa3b7dacadf5b577395b5eef460a1cc58b726c71ebb99db22:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhODk4NDJhNGRjYzJiNThmMDI5MDhlNWMxZGU3NjgwZDcwNjhiZjczZTI4ODdhMDU5Y2JlZTQyZTYzNjE4ZDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5NDE2ZTA5Zjc4YmEzMTZjMDMyNTY4MjEzYjg1NWVlNzU2ZTQxNTY1ZDkxOGYwOTUxOWM4MWZkNjIwZjQwNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFiOWU3MTg2ZmNlNzU4NWMwNjgxMzJkMDg1ZjY4ZDZiNjU1ZjAzZWNiMzM4NGI4ODg0OThiNzQ2NzQ1ZDEwNjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY2YjhmMDI1NmQ4OGVlZDlhYWIyZmNkYzc1NmViYTlmMzBiYzQ3NTY5MWIxNTgzYjg1MzhhODQ0M2ZhNzBjYTQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4c7f0f8dcc98425cbfe9f377662c2a7d",
+      "statement": "A Necesitarás row is a game item or a text label, with a quantity, one of six groups, whether it counts in the totals and the quests that need it; validateNeedItem requires an item or a non-blank label.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/Checklists.ts#L239-L297",
+          "version": "repo-lines-v1:sha256:e8e2ae45a448663dddea8bfba05b5163677b1c582d712cf9ba53892ba1a9ff03:eyJzZWxlY3RlZExpbmVDb3VudCI6NTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIxMTFmMjM5YWM2NWM5ZmVjZDRmNzk3NWQ0ZWUwYzY3N2I1OGE4ZWE2Nzg1MmVhMjVkMjc5MjM5MjUxOGQyZjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFjZjk3YThlOGIwOGI1MDI2NzAxMDVmNzMzMzZhZTQ4ZGVmYTdlYWVmYzc0NDZmNTY4ODFmNjIwZGIzMTk0NzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFmMTlhMWJlMjg3YmNjOTMzZGM2MGIxMWU1NTM0NGJkYjg0ZTg4Nzk3OWRiMjliY2Y2YTM2ZDEyNDkxY2ExYmMifQ"
+        },
+        {
+          "resource": "repo://src/collections/checklist-rules.ts#L94-L102",
+          "version": "repo-lines-v1:sha256:64a8470073f61f8a61d7d2ad6a781c900a21086a2518bf2ea34a29f0d138fa5d:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2FhZThkN2FjNjdhM2JiNDEwYTE0M2E2MmZiMWE2MGY0MzkyNTUxNzQyM2MyNzMzODE3YjlhMjc3NWQ3ZGQ4YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzMwNTQ2ZjFlYmJiNDA3ODVhMmMwMmUxOTQwMWU1YmJlNzE2M2I3MGQxMWZmMWM0Y2E1YTQ4MGE1YWJiMTJiMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_dab0e03182874aeb88f39178eb698e8e",
+      "statement": "A beforeValidate hook assigns each step its stepId: the one of its saved row, else the one it brings if unused, else the one of the saved step with the same legacyNumber, else a new UUID, never repeating an identifier.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/Checklists.ts#L44-L52",
+          "version": "repo-lines-v1:sha256:7538360fdb13a2c217a3d0022443890cd05fa79979faadb919d04cd56dd36398:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDA4NDg2OWY0ZDExMjhhZTE5MDY0NmI5MmU0MWY2Y2JmMDhjYTllNTY2YmI4MmQ4OGZhZjY4MjViZWE3ZGIzOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTU5N2Q2Y2MwMGFkYTc0MmUzNTQzM2I2ZGQ4ZGMwYjMzOTJlNjhjNWNlNTVmZGQ3ZWJlOGQ3YmYyZmJlN2M3YyJ9"
+        },
+        {
+          "resource": "repo://src/lib/checklists/step-ids.ts#L17-L59",
+          "version": "repo-lines-v1:sha256:8a9ea71ce2197a63488faadedbdd71684eb91c366de694d8c10b4ab50349834e:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY3NjIxMDM5YmVhYzI0MWQ5NGEwOGFhMjdmZWYxY2RiOWFiMTFlZDFkZGRkYWFhYTg2MDc5YTUyZDZmOGU2YTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a6e0aa9632994889a74793943a248e3e",
+      "statement": "A stop segment's objective must be a non-negative integer smaller than the number of objectives in its quest's stored stages, flattened stage by stage; a quest without objectives is rejected.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/checklist-rules.ts#L26-L61",
+          "version": "repo-lines-v1:sha256:0cb69a28496b2fd035444abd93f788934dc962176ff35262221b241f5c5537a0:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg4MjA2MThkOGU3YzM5NGVjZWFkNDYwYWFkZjg3YTNkOWNhZDAwNDM1N2MwMWYyOTlmNzcwYjQ1NDdhMDk1NDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZkOTYxNjYwODY5NzdlMzg1NmFkZjBmYjhlNWFiZGQzZjE5YmUxNzNiM2YzZWRlNzg5NmQzNzBmMzM1MzE3MDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJlODFiZGNiZDE5OWQ3MjcxMjkwMWU1Y2RiNDU2OWUzMDdkMjYyNjIwZmVlOWY1NmM0ZTI2YzQ1YzI3NjgzZjQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_09e21ae24da04f01a623988fda341da5",
+      "statement": "A resolve segment must close at least one step and an optional quest's finishing step must be a step of the same checklist.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/checklist-rules.ts#L63-L92",
+          "version": "repo-lines-v1:sha256:bab4c3efce6085ec4c979d0fb5069bbf687606ed68d11dd029270e2b3a747f80:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmZjI3NWM0MGM5ODRmYTA4MzFiOGE1ZTEyYzI2MjNmMzg1NjFmZjdhZjUwN2JjMDlhYzRjNWQyNjFkNTllYzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhOWRkYmNiNTA5ZjMxNGU4NzFmNmQ2ZjM0NWFiZjE0MDdkMzE5MDhhYjdhM2Q5ZTFmMWUyOGI2NzdkMjQzYjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNkZDczM2I5YTEyNTI1ZGJkMDI2ZmIxMjJlNTRkNjE1YmM1MWFmNjI0YzBlZjdhMzg5YjJkY2YzZTI2MjVjMDEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_29bc5c7e9a0141dba914552f5d5f9918",
+      "statement": "A prerequisite row's key keeps its saved value through keepSavedValue, and rememberRowsWithoutId stops a row sent without an id from replacing a saved key.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/Checklists.ts#L364-L369",
+          "version": "repo-lines-v1:sha256:3bfe43df4f59b2f56189bc9fc289b2506f02b64cbf780e040845feb0cb32c857:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDQ4YjkzM2MzYWMyYWI4ZWUxZGEyODkyOWI0NjAwMTBmYzBmZDQ4YmMzNzFhNzg4MjUwNmNmOWI4OTJkODc4YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDExZmVhNTZkYzlkZWI5MzA1OTQ3NmMwMTIxZWQ5NDM3NjdhMmI2Y2RmY2JhZWIyMmQ4YWI1MTI3NTI1ZjFkYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2M0OThiZWE3NThhMWNhZWUzM2RjMjdiMzM5YjU4NjAwMGJiMTRmN2Y3NmJjNWZlYjExNzY1YTgwZWM2ZDAzNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2MyNGM5OThlMTlmMWNmY2ZkZDgzMGFkNzA0NmI1Njg1MGIxMDYzY2E5NmQ5MTJiMjlkZTQ4ODAwMTIwMmZhNiJ9"
+        },
+        {
+          "resource": "repo://src/collections/Checklists.ts#L460-L475",
+          "version": "repo-lines-v1:sha256:22895cbafeee6ba7a76467d67c18057d8d4ea7f0f1272633e653e990fde8a7d6:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI2OGY3YzRhZTExMmZkNmVjMmY1ZjJiNTRlNzAwYzk4ODU3MTY1OGM4Y2Q0ZjE5YzljOWQzYTZiNzFhN2ZjMTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYwYzVjYjg2NzEzMGYxZGY2ZDM5MTRjYjVlMjM2MjhmZWY2ZDkzOWMzZjUxNjE5OGZiZWZkOWI3ZmM4YWFjOTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNiZGIyNDMxOWFkNDExYzlmNTBlZWQ3ZGYyNGRkZDAzMjRkYzk4MWM1ZTIyOTQwOGFlNjRkZGEyOGU0NWUzMTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNmMDYxNGIyNTJmOWIzYTFjZmViYjBmMDNjZTc3OTYyYzFkNjU2YWIxM2U4NzFmMTA2YjJmZGM1ZDRhNWJkY2MifQ"
+        },
+        {
+          "resource": "repo://src/collections/locked-once-saved.ts#L31-L60",
+          "version": "repo-lines-v1:sha256:2f68e32e3af3b86838ef125e94ce642660e0efa1f53403fd70c72e4bf801d43d:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY0Yjk1ZmQ2ZjBlNWRhMjlhMjc4ZTRjZGMxYTM2ZGZiYTljOTUzOWE0NGE2ZGNlYTFlYjYxYzEyMDBhZjVkZTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzYjRkZDc2NDM1M2ExNzVhYmM3NjA1ZTRiOWVjN2UxZGQyOWVhNThlYzg1ZjJkZTUzMTNjOTQxODA0ZWYxOTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFiMjk2NTFmYTVjNjEwNTkyMDJhZTRmOTJkNmJkYjQwODk4MTM5ODJiMGNkZjk5YTUwZjFmMzFiZWVlNTFkNDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRjZjk1ZjJhMmZmNDU0NDJlMTM1ZDA0ZjY2ZmIyNTRiYTcwMTBlZTMyYmU4YjNhY2EwMDI3M2UxNzdkMDlmMjMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_be15d75e74e74004a13016b6920380a1",
+      "statement": "pnpm import:checklists reads silvestre-checklist from --from, refuses remote or production databases without their flags, always runs a dry pass that prints unmatched references and rows kept as text, and writes only with --apply.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/import-checklists.ts#L1-L10",
+          "version": "repo-lines-v1:sha256:ab7675ba2c574c0282c7583864e1c65c6fd493169cfef6cc45492280f789c2a9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNjMWZjYjA3NmU5MjM5ZjE3YTYzMDcwOGU1MjJhOWNlZTM1MjEyNjJjYzc4ZDBlOTcwNWU0N2QxMzdlN2Q2NTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRiZDM3ODE5NDg0ODJiN2E5YjU2NjNiOTkxYjMxNTg1NDkyZDJjZjJiYWI0ODg3YjdjZmFmYTFiMjFlMTA3YTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFiNDdiNmVkOWMzYWU3ZDVlYzgyZGNiZTIzOTQ2MzMzOTE0ZWQ5MmRhODNkOGEyMTkwZjNhNmJjNGY5NzFjMzIifQ"
+        },
+        {
+          "resource": "repo://scripts/import/import-checklists.ts#L61-L165",
+          "version": "repo-lines-v1:sha256:77e0d3faad0b7cb224c4544919732a066800298d0db7968cd087f7f315cb53c5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI3MzgxZGZlMTg3MDY5MzllNTY3MDVlN2Y5YjY1YzUzNTIzZWU1MWQzNTZjODZkZGRlMzQ1ZDFiNmZhOGY2NGMwIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIxYWM2NmQwY2JmZjkxOGM0OTM0MWEwYmU1ZmM5Y2EwNzQ1OTVmNzA0MGRkNWVkMjQ5MTIwY2U5YjQwZDk1NGEwIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_cf78055313da4ca692adb3304b7b632c",
+      "statement": "A ported checklist is created as a draft in preparing state, while catalog entries that are not ported are created published, preparing and without steps, linking to Squarespace.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/checklists/catalog.ts#L1-L30",
+          "version": "repo-lines-v1:sha256:e666c9d84fcae9bc92cf9b6a81ffda88905f26ce148fdf5f1ba6e5f8c14a438a:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllYWU2ZjI3YWQzMmFjZWIyMTE4ZTE1MDc1ZWEzMWJkMzNkYWVhMmQ3NzQ5Nzg1NjZkOTNmMjk3ZDNmODk1OWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjZWVmYTczZTA1YjU2MTQzOTc3NGJhNjU3MzhiYTE3NGJkMTViNDRkNjg5NWQwMzJmYmIwOTkyMjQxOWRjMjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ5OTAxNmNlNzQxZTMwOGM3ZTUxZGQ2ZWRlZTdjZTNhYjVkMzE5ZjZkMjdkZTQyOTdhODVhY2IzYzI2OTc5MTcifQ"
+        },
+        {
+          "resource": "repo://scripts/import/checklists/load.ts#L434-L452",
+          "version": "repo-lines-v1:sha256:a5a2379db3a71cd8b832fb2ba95350eba59f0a0f1ec70512f6e6c2cb17574096:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhjYzM1ZGVjODg4OTc2NjliZTY1OWUwNmQ5YWI4YmI1OTA2OWM0OTRlYzhlNTIwMTIwMDI5MjIyODRlODNmN2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliNjJmNjBkODU5MGE1NzljZjQ2ZjhkNjczNzhjNGM1NzJiOTYyY2VjY2RiOTBjN2E1ZjdiNDJiOTYwNzgyYTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNkMTI2ODc0NDkxOTIwNTUxNjJiNmM0MzkzMjYxNDBjMjdkNjJkYmZjODZmNDZiODI4NDdmZGJmM2QxM2JjODEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQzODQxZmQ3NGY0NzAxNjhlNTQ0MzdlZWRjYjM5Njc5ZTg1ZjVhZmVkZjE5YWYwZjAzN2Q4ZDI0M2E3NmEyNWEifQ"
+        },
+        {
+          "resource": "repo://tests/integration/import-checklists.test.ts#L558-L588",
+          "version": "repo-lines-v1:sha256:46b7ee607a178ab3759c34f8889ea7ddb23245a7157da9362da4f50e2ea91e11:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjMWI0ZjQ5ZWU1OGE1NjkyY2I3YmE0NzQ5ZmRkZDEwODQ5ZGJlYmZhNjU1NDhkMzYwZDQ4OGE4MGNmNWQ1ZDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d429247cefe04e5a8e0ac9db7b214c6f",
+      "statement": "toChecklistDraft cuts each step's text into segments around its highlights and throws when the segments do not rebuild the original text.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/checklists/to-checklist.ts#L114-L138",
+          "version": "repo-lines-v1:sha256:62f4a96824b545693ae4528c77135d1e7b66754375eea94f6158d61a926ea256:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNlNDY2MzEwZGFiYjU3ZTgwODk3ZmE1NWIwZjhhMzlmYzk5MTlmZjQxMGI1MTAyMWRlNzRiNGExYWU5N2NiZTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMyY2MwNjk2OGM1MmZlMGJkMTJkMDU1NTBmNjY0Zjc5OWZmNmE3ZmZhOWM4YjNlYzZiNzNkNTY0MDEzYzY2NmQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_03e6b248c7a34b479c477aae7448bceb",
+      "statement": "On a rerun the import rewrites a field only when its stored value still equals the importSnapshot, and tracks step zones per stepId so a new zone arrives while a zone Torre changed stays.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/checklists/load.ts#L1-L10",
+          "version": "repo-lines-v1:sha256:76ac21dbb648f071db8d67bd1db55ce8615054c9082790593f995d3009dc2eec:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUzNzRlNTA0MjVhZmFiMzZjM2FiNWViMzcxM2ExZDNjNWQxZGRiN2ZlZjFhNWExMmEwYzYwZGJmNGIzOTU5OWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlNDY2ZDdmYWE5Njk5YWMzZWFlOGJiMzIyZGM3ZDk4YjdmOGQzOTkyYjE1OGRiMDZkNmRkZmIwMTBmZGI5NGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzZTlhNjkzNjUyNGNkMmMxNjk5NWEwYjlmZGJjODVlMTcwOGJjN2UxM2Q1OGQyYTZmMDNlNjM2Nzg5ZDg5ODUifQ"
+        },
+        {
+          "resource": "repo://scripts/import/checklists/load.ts#L106-L141",
+          "version": "repo-lines-v1:sha256:c9c5ccdb8d584c46b89212531c603e87a5d0249580fdfc518f7b743ff668b863:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVhN2NkYTVjNjFiY2E4NTQ3MzRhZTI5ZGJjMWJiOWVkZjJmZTVjMzcwNTY1ZmIyMDMyMzMxZGU5ZDYzMGE0MzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmI4ZTRjZGM3NmI0NjMwY2YzYTVkNTc5ZWQ4YzdmZjg3OWY3NmNmZTA4NjM1Yzc5NzkzMjgwYjY5NmE2MTgifQ"
+        },
+        {
+          "resource": "repo://tests/integration/import-checklists.test.ts#L403-L556",
+          "version": "repo-lines-v1:sha256:b0834df4dd7b90a87fb5ef17d72c3d298f9784a88b141be538459633e35c4fd8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTU0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI0NWQwN2Y4ZGVhYmIxMGRlMTAyZGZkOTE1MmJjMWUwMWNhZTI3YWQwNzEwMGExNjc1ZTA1MDQwMDE1MzA0ODBlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlYzI1ZmNkMDE0YzI2ZjdlY2E3ZGY0ZTJiNDMwOTlkNTMwZWQ1NWJmMTg3N2JjM2EyODhlMjM0MTA0ZjJmYmY1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIxZTk3MzZmMmIxNjlmNDc4ZDM3YzZkMDBmNjU5NjRlZTJmNjg3OWE5MGQ4MDBjYjcxZTIxMGRhN2NiNDkzZGRhIn0"
+        }
+      ]
+    },
+    {
+      "id": "claim_9a5b1212ee9d406d89385eccbb38adbd",
+      "statement": "Checklist art that is not in DofusDB is uploaded to Media once under a silvestre-checklist-img key in media.gameAsset, so reruns never duplicate files.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/checklists/art.ts#L1-L30",
+          "version": "repo-lines-v1:sha256:ce15ee60896779bd445ba1f8057d25b738937611c31bc07e8269ec8452fa090d:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVjNzBiZjgwYTQ4MzJmY2I5NDI3NTk5MmI2ZmRhNzFjYjE5YTEwOWJhYTZjZGQ3OTJlMzM4MzFlNzYwYjhjODciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2OGM5OTliZmJiZGI2N2U1ZDRjZTcwNWQ5ZGIxYmQ1ZWYxNWIzZTZhMDY5NmI4YzFkZjM2ZjQyOTY4YWUyYmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE2MjQzN2NjNjYwMTNmOWEzZTQzYTE0NDEzZDQ5NWNmNmEyOGFmYjAxYjEyMTc5OTk4ZDAxMDMwZDkzNDNjMzEifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-14T11:00:46.827Z"
+  }
+}

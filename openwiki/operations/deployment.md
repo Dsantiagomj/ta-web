@@ -16,12 +16,14 @@ sources:
     resource: repo://docs/legacy/infra.md
   - id: openwiki-source-8a351af10d89cd949447bf39
     resource: repo://scripts/ci/playwright-chromium.sh
+  - id: openwiki-source-a493eb920ff6a7f8859a6c69
+    resource: repo://tests/e2e/smoke.spec.ts
   - id: openwiki-source-6d7290acd85912e8a5ebb6cc
     resource: repo://tests/unit/railway-config.test.ts
-generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
+generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-12T11:00:44.802Z
+    at: 2026-11-14T11:00:46.827Z
 ---
 
 # Deployment and releases
@@ -47,7 +49,7 @@ The service is described as code with `railway/iac`. Railway does not read this 
 | Builder | Railpack, `RAILPACK_NODE_VERSION=24.22.2` |
 | Build / start | `pnpm build` / `pnpm start` |
 | Pre-deploy | `pnpm migrate`, timeout 600 s |
-| Health check | `/api/health`, timeout 120 s (room for a Neon compute waking up) |
+| Health check | `/api/health`, timeout 120 s. It only says the process answers and never touches the database |
 | Restart policy | `ON_FAILURE`, up to 5 retries |
 | Replicas | 1, in `us-east4-eqdc4a` (US East, next to Neon `us-east-1`) |
 | Source | `dev`: GitHub `main` with `checkSuites: false`. `production`: none |
@@ -58,8 +60,8 @@ The function throws for any environment other than `dev` or `production` rather 
 
 ### What protects a deploy
 
-1. `pnpm migrate` runs before the new version starts. If it fails or times out, the deploy stops and the previous version keeps serving.
-2. Railway waits for `/api/health` to return `200`, which requires the database to answer. See [Health check endpoint](health-check.md).
+1. `pnpm migrate` runs before the new version starts. If it fails or times out, the deploy stops and the previous version keeps serving. A database that does not answer stops the deploy here, because the migration cannot connect.
+2. Railway waits for `/api/health` to return `200`, which only needs the process to answer; the database check lives in `/api/ready`. See [Health check endpoint](health-check.md).
 3. A crashed process restarts up to five times.
 
 There is no automatic down-migration. A bad migration is fixed by a new forward migration.
@@ -99,7 +101,7 @@ Railway reports each deploy as a GitHub deployment, and `.github/workflows/deplo
 
 ## Reusable smoke workflow
 
-`.github/workflows/smoke.yml` runs on `workflow_call` (with `base_url`) or by hand. It installs dependencies and Chromium (cached by Playwright version) through `scripts/ci/playwright-chromium.sh`, the same script as CI (see [CI and quality gates](../workflows/ci-and-quality-gates.md)): it skips apt when Chromium already starts with the runner's libraries, and retries each step with a time limit. It then runs `pnpm test:smoke` with `SMOKE_BASE_URL` set, which makes Playwright test the remote URL without building or starting anything locally. The `@smoke` tests only read: home page, `/admin` and `/api/health`. See [Test suites](../testing/test-suites.md).
+`.github/workflows/smoke.yml` runs on `workflow_call` (with `base_url`) or by hand. It installs dependencies and Chromium (cached by Playwright version) through `scripts/ci/playwright-chromium.sh`, the same script CI runs through its `.github/actions/chromium` composite action (see [CI and quality gates](../workflows/ci-and-quality-gates.md)): it skips apt when Chromium already starts with the runner's libraries, and retries each step with a time limit. It then runs `pnpm test:smoke` with `SMOKE_BASE_URL` set, which makes Playwright test the remote URL without building or starting anything locally. The `@smoke` tests only read: home page, `/admin`, `/api/health` and `/api/ready`, which must report the database as `ok`. See [Test suites](../testing/test-suites.md).
 
 ## Related pages
 

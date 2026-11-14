@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:6dd208880bac896df59f538f9bbd946cb09d68599b90fbd7e6c7d5e8bcb61adf",
+  "pageVersion": "sha256:2d9240d8640fbfcd10972054b8b4431165101ca5e5e908325f8778a0bf81bf35",
   "claims": [
     {
       "id": "claim_764b0485963845c99d60b85472ceccba",
@@ -38,11 +38,11 @@
     },
     {
       "id": "claim_3478d35936564ec38d8fae1c1182883c",
-      "statement": "Integration helpers start Payload with getPayload, build an in-memory 1x1 PNG, and create and log in a panel user.",
+      "statement": "Integration helpers start Payload with getPayload, build an in-memory 1x1 PNG, and create and log in a panel user with a role that defaults to administrator.",
       "evidence": [
         {
-          "resource": "repo://tests/integration/payload.ts#L7-L31",
-          "version": "repo-lines-v1:sha256:15bd774fc1b290bf8dbd764cafa98b56156b7683bc12189b80d79ded85e785b7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ0MjgyYWM3NzE0MmEyNzgzM2Q5YzhiMDYxYzllMTI5MDRjOGE2NzY2ZDM5NjMxMjQ2ZWJmNGNlMmMwODU3ZTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ1NDBjY2YwYmMxMGY1ZGIwMzQ1NDU5NDA2MjRmZTczNzkzNDA3MmFlNjcyMzk1YTM3OWRhNTJkNTY5YTExYmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://tests/integration/payload.ts#L1-L35",
+          "version": "repo-lines-v1:sha256:5878bb207b7020bcde99b8e4d92f2b28e9632297e0592e95f2bffe5654071ba2:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlNDY2ZDdmYWE5Njk5YWMzZWFlOGJiMzIyZGM3ZDk4YjdmOGQzOTkyYjE1OGRiMDZkNmRkZmIwMTBmZGI5NGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -51,8 +51,8 @@
       "statement": "E2E servers build the app unless E2E_SKIP_BUILD is 1, reset the E2E database when using the embedded database, run migrations, seed the test guides, clear Next's data cache and start the production server on the configured port.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/app-server.ts#L21-L77",
-          "version": "repo-lines-v1:sha256:2136a915e19af1d8062890da0b4e4daf164a77b58253f70c8af60b660278d5f3:eyJzZWxlY3RlZExpbmVDb3VudCI6NTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://tests/e2e/app-server.ts#L21-L79",
+          "version": "repo-lines-v1:sha256:8f80d8ea50d1e05c7405066fa2a89b46d12a3d643ac3095ca1392a5ef2f3cd38:eyJzZWxlY3RlZExpbmVDb3VudCI6NTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -82,15 +82,15 @@
     },
     {
       "id": "claim_9754a2db4fff4e819509b15dec4edc47",
-      "statement": "The @smoke subset covers the home page, the Payload admin and /api/health.",
+      "statement": "The @smoke subset covers the home page, the Payload admin, /api/health without a db field and /api/ready with the database ok.",
       "evidence": [
         {
           "resource": "repo://tests/e2e/smoke.spec.ts#L114-L123",
           "version": "repo-lines-v1:sha256:10cf4cf4ebb66142f6c7f37f170760de43e897871da370a8ce2cb5743597e862:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkyNDI2YzUwOWRmOWI2NjU3NWFmMjAyMGI3ODVjYzQ1YWNmNWM5M2FlZmNiNmIzNzg4ZTg2NjMyMjcxYTlmMGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVjYzY5Yjk1YTQ3ZjY2N2NmMmZlZjA1ZWY5YWVhNTI3ZjllMWFmNDE5N2QxY2IzZWVmNDY4ZWMzZDcyODE3MWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRhN2Q3MzVkODBhMTEyZDQ3MjQ2NDEzZGE0ZjE3NWNiNTlkNmRmNmUwODk4ZTE5YTBjNTQyYjhkMDJlM2JjNmQifQ"
         },
         {
-          "resource": "repo://tests/e2e/smoke.spec.ts#L145-L151",
-          "version": "repo-lines-v1:sha256:694a3bcdfd46526c213a083ea8e8e85f44edd4b4c7b4a0ee31cf4841f2a89583:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZjM1ZTllNzEwMWU0ZDU4ZTc4OTYxZDAxMzQyMDQ0MzFmYmMzNGI5OWVlNTUyMDdiOTZhODgyYzg2M2UzMTI1YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODU4MGI3NjUxOGRhZTk3OWZhZWJkMDIzNjdhMjkyOTJhNTBkOTc2MDkyMjUxYTM4YTZjZTMwODgwYmE0MjgyNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTg5NWY1NDBhYzcyZWQ1MzQxOGE3YTFiYjY4MWRkZGZhYTVlYmQwZGI1ZDQ1MWQ1OTY0YzY0MmIxOThiMzE2YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+          "resource": "repo://tests/e2e/smoke.spec.ts#L144-L164",
+          "version": "repo-lines-v1:sha256:fe0df5914355750653d101bc4a834ed692ff639afe354e6732beff8d3e53640a:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhNTQ0NDdmOTBmMzVlOWQ2N2YyNmZmZDJkN2VjNTg4YTJiNTM0MDJkOGI5Y2YzOTkzN2I4ZmQ5ODM5ZGIwN2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY4YjUyZDE4NDExMjM3YzFlNGNiODc1YWE4MGZkMjU3MDUwYTFlNWVlYmE1MDk3ZjY0YjRmMzBlN2UyYTUzZjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://tests/e2e/smoke.spec.ts#L4-L12",
@@ -133,8 +133,8 @@
       "statement": "Unit tests include a quests-collection test that pins the quests collection's field shapes, including the zone, achievement, rewards and needs groups, and its access functions.",
       "evidence": [
         {
-          "resource": "repo://tests/unit/quests-collection.test.ts#L12-L131",
-          "version": "repo-lines-v1:sha256:09113364f1a8cf31a0ff22b35eb36a5ae04b5e391e650016f7672ab3797e6579:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIwLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlM2NhYmFhNjRmZWY2MjRjYTkwMTU1ZTcxY2Q1MjdiMDdlOTIwYjFiZGI5ZDM3ZTYxNWM3ZTdkYTZlZGRlZTQzIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIxNzIzOGFkZWQxMTMwNmY4NTMzYmJjZTkzODk0OTY5YWU5YzU3MzUzOWY4ZmJjODg0MzUxYTUyMzczOWFhMjc1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://tests/unit/quests-collection.test.ts#L12-L168",
+          "version": "repo-lines-v1:sha256:deab187d6983f2330c8d67ab5477b04ddd0fe3a67aa7c40d7411470dd867ad16:eyJzZWxlY3RlZExpbmVDb3VudCI6MTU3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlM2NhYmFhNjRmZWY2MjRjYTkwMTU1ZTcxY2Q1MjdiMDdlOTIwYjFiZGI5ZDM3ZTYxNWM3ZTdkYTZlZGRlZTQzIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIxNzIzOGFkZWQxMTMwNmY4NTMzYmJjZTkzODk0OTY5YWU5YzU3MzUzOWY4ZmJjODg0MzUxYTUyMzczOWFhMjc1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -163,12 +163,12 @@
       "statement": "Unit tests pin quest mapping, zone, achievement and the prerequisite rule, and that fetchQuestData looks up by ID only the NPCs and maps named in start positions and their sub-areas and areas, while fetching the whole monster and item catalogs, every achievement and every achievement category with select lists.",
       "evidence": [
         {
-          "resource": "repo://tests/unit/dofusdb-fetch-quest-data.test.ts#L35-L124",
-          "version": "repo-lines-v1:sha256:ad66d707090704c1562364219b6c0cd4e77167b7eed9d071023c99639abf6ace:eyJzZWxlY3RlZExpbmVDb3VudCI6OTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmYzczZjYyOTgxMmVjNTk4ZDZiMjYxYjBkNTY1MzQyMGYwOTE4Njc1OGYzNTE5NDZiNjk1ZDg5ODU3NzAwZGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRlYjJkMDQ3OWNlNWE3NTgxYTg3OTJkMGNiZGExMmM5NzZmODQ0NjkzN2E1YTkxZTY5YjZlMzYxYWQwMDUyZDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://tests/unit/dofusdb-fetch-quest-data.test.ts#L35-L176",
+          "version": "repo-lines-v1:sha256:2bccd3ff4721614675cb29a24b69ccb76d00dc4499213bc3e3276f98a10e99a8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQyLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJkYjNiZmQyYjFhNDgwY2Y0Y2ZmMWE0ZDE3OTQ2MmRkNTM5YWU3MGRlNTE0YTVkZDQ1Mjg1M2Y4ZjJjMDY3NDE4IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI0NjM5MzhjYTA5NDFmNzUyMGM3OGY1MmZkNDUyOTcwY2IxZDM4OTkyYzFmODIxNTBlNWYxNmQ2OWQwMjRjYzYzIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         },
         {
-          "resource": "repo://tests/unit/dofusdb-map-quest.test.ts#L20-L197",
-          "version": "repo-lines-v1:sha256:1da8e3a85ecf4d24d423ca667d487848e103ccc035d4e98af6008d37fbfffb43:eyJzZWxlY3RlZExpbmVDb3VudCI6MTc4LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI3MDZkZWM2ZmM5YWNjMDAwNmYxNDM5M2I4YTY5MjY3OTE0MDQ5Y2Y5MTZjN2ExODBjMzU2MDI3NzVhM2ZlNWM4IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmYjVhNDYwZWM0OWI5Yjc5OGRhMmM4ZmU4YzVhN2I1ZTg0MzEyYmI2NjI2MDQ2MTM3ZTk2YzQ0OGQ1NmQzZTI4IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://tests/unit/dofusdb-map-quest.test.ts#L20-L198",
+          "version": "repo-lines-v1:sha256:481e4928774796134c0501052662bc112317e2081fc139f7b0be34ad6e580238:eyJzZWxlY3RlZExpbmVDb3VudCI6MTc5LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI3MDZkZWM2ZmM5YWNjMDAwNmYxNDM5M2I4YTY5MjY3OTE0MDQ5Y2Y5MTZjN2ExODBjMzU2MDI3NzVhM2ZlNWM4IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmYjVhNDYwZWM0OWI5Yjc5OGRhMmM4ZmU4YzVhN2I1ZTg0MzEyYmI2NjI2MDQ2MTM3ZTk2YzQ0OGQ1NmQzZTI4IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -177,12 +177,12 @@
       "statement": "The refresh-quests integration test runs refreshQuests three times: the first creates the fixture quests and skips missing prerequisites, the second changes nothing and keeps refreshedAt, and the third updates only what changed and links a prerequisite that now exists; a second block does the same for items, monsters, rewards and needs, and the test removes its fixture rows before and after.",
       "evidence": [
         {
-          "resource": "repo://tests/integration/refresh-quests.test.ts#L150-L338",
-          "version": "repo-lines-v1:sha256:a4c83c6840239177a8566dcf7f15e4400092d8826a37a34195848e14ffa59221:eyJzZWxlY3RlZExpbmVDb3VudCI6MTg5LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJkNzVlYTBiYTM2YTAyMWM0ODg0M2E2MTVjNDI4MmQ2YThkZmZkMmVjZTZmZjA4ZWU5ZDZhZDY1ZTk3YTliZjAwIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0YzY5NDQ3NTY3OTE3YjBmZTZkMzlkNWNhOTA0MDE1Yjc4OGQ4ZTc2YjQyY2RlYTE2YmFkNjEyNjVkODMwNjI2IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIyMzBlZTNhYzZkNTRkOGZjZGQ0NzI2MTM2OGQ0MDNkNmViYjYyMTUyMGZiZTNkYjI0N2VlOWY2MmM1OGNlZmU5IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJmMzA1ZTRkNTEwOGQwMDEyZTMzZDc1OTgxYmI3M2YxYTljNzI2MzZmNzZiYzU4OTczN2VhZmRjNGY5NTk0ZWY5In0"
+          "resource": "repo://tests/integration/refresh-quests.test.ts#L154-L343",
+          "version": "repo-lines-v1:sha256:0c4fb2cf77c853eac7beb18343c1119ee4ddd97ea2672907db01605f899a1a10:eyJzZWxlY3RlZExpbmVDb3VudCI6MTkwLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJkNzVlYTBiYTM2YTAyMWM0ODg0M2E2MTVjNDI4MmQ2YThkZmZkMmVjZTZmZjA4ZWU5ZDZhZDY1ZTk3YTliZjAwIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJlMDNkZmRhN2ZmMjBmMTVlODUzYmVkNTY5ZGJjZmFkN2U1ZWY5YTUzMzMxZjYyMWQzZmJmNTE3MmIxODg2NWVkIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIyMzBlZTNhYzZkNTRkOGZjZGQ0NzI2MTM2OGQ0MDNkNmViYjYyMTUyMGZiZTNkYjI0N2VlOWY2MmM1OGNlZmU5IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJmOTVkZGJmOTc3M2RiNDk2ZWM5OGE0OTc1MjAwMDMzNTAzYWU5ZWM4NzJlYjkxMGM3ZTAzMDkzZGU3YjMzOTY2In0"
         },
         {
-          "resource": "repo://tests/integration/refresh-quests.test.ts#L46-L148",
-          "version": "repo-lines-v1:sha256:d9923bbe92d0198bedf445a6777894b4e1cc808b7b03545a714bd9fb112cc68c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI4NTBkZDc0OGRhZWY1MzgzOWE2NGQ1NTI4ODNmMTY0ZjRiMmM2NDgzNmZlZTNhYTA2NjQzZDk3Y2JhMGJmMDVhIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJmZDk1MjgyMDg4OGM5NGY2Y2M3YzVlZWQwYzE0ZTNhYThlNTg5OWU5NGUxZDA1YzdjNmM2NzRiOTlhZjJiMWI0IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIxZTNlNWI5MjJkMjc3NTY4MmQ0NGFmZjhjNjAwOGZiMjM1NGUyZTY2MmNmNTJlOWIxNzJiMjUzOTY5MzQzOWY3IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJhYTk4MThkMTNhNDc5ZjFjNWMwMDQwOWEwY2FkMzNmOWMzYzUxNDNjNDkwNTY3MGU5YTk2MGU0M2YwZDc5NDI0In0"
+          "resource": "repo://tests/integration/refresh-quests.test.ts#L48-L153",
+          "version": "repo-lines-v1:sha256:c5ed14c9f4af9c19de80ef105398de63dffc38ff149230ea2265ddd707e961b2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI4NTBkZDc0OGRhZWY1MzgzOWE2NGQ1NTI4ODNmMTY0ZjRiMmM2NDgzNmZlZTNhYTA2NjQzZDk3Y2JhMGJmMDVhIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4ZTcwNmJkMGFiYzk3YTE2M2JiMDRlNWE0ODQwYzkzN2QzODZkNTJmNTMwMzk1ZTYyMDhlZGUzZGNlMTFhOGQzIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIxZTNlNWI5MjJkMjc3NTY4MmQ0NGFmZjhjNjAwOGZiMjM1NGUyZTY2MmNmNTJlOWIxNzJiMjUzOTY5MzQzOWY3IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI3NTUxNzdjY2UwMzYxOGJhYzIxMDA5Y2IyMDlhYTljYzQ1MDliYTQyNmJkZWUzOTEwNGJlZGM5MzQ1MTdhM2IxIn0"
         }
       ]
     },
@@ -195,12 +195,12 @@
           "version": "repo-file-v1:sha256:f3170867e94003ba2be22133f21d1e4bcf05541500516d822b8411e77340c24c"
         },
         {
-          "resource": "repo://tests/integration/refresh-quests.test.ts#L10-L15",
-          "version": "repo-lines-v1:sha256:f77a6da65c621040cc7296d0249386720882cdb1f7bb0d234c7cc56de874ce36:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmZiNGE2NmNlMjM4NmRjYWRmY2U2ZDUwMjFlODZkMTk4MmQ1NGRjYWRiMjU0NjUzZTA5YmY5ZjJlZWJlY2E4NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzBkMmM1YThlNzNiMzY4MjJjM2UzNjhmYTAwZTZlZWI0YWVkOWE0Mjc1MTdjOGY0NTE0NzQ3ODc0NTNmNjhlYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTExMTc4MDAzMmU0MGQ5YTVkZGU4YWIyYmMwNzcxMzZmZjYyZWY2YjA1MThkM2I5NWYwYWY1NmEyZWFjYTAxNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDk3Yjk0OGJiMjI2YjRhYzI0ZmIxMDBmZDA2ZmFjMmEzOWZiZDYyMGMwMzdjMWFkYzQ0YzI2NTEwZjQyOTBhZiJ9"
+          "resource": "repo://tests/integration/refresh-quests.test.ts#L1-L47",
+          "version": "repo-lines-v1:sha256:c7ca6a4c49fffb1ecb31f924284fa66de0288bb12644713c799193737ad1a1a7:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5YWQ0Yzc1YmIzOTlhZTAxOTM0ZjYwZGQ0ODQ5YmIyYjJkOWUwMjk2OWU3M2IzMDNmNjFmYmJhMjE3ZDYxN2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM0MGUzZjY4MjkwZjc5NTQ4NDhkYWI1MTBkYmUzOWJlNjM1ZmI4YTlhOWY3ZTJmOTUyZDMyNzRjNDg3YjQ0MDIifQ"
         },
         {
-          "resource": "repo://tests/unit/dofusdb-map-quest.test.ts#L6-L9",
-          "version": "repo-lines-v1:sha256:88d7ab2878b28d88aed758a04552ed1a5cede370e0cfa82c917082266e413611:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMThiOTYwODQ5NTRlZTYwMDhhNDEzZDMyMzY3NjEwNzMxZWFjZTUwNGJiODI0YmNhYzkzZDBjMTIzNmM5OTY2OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzBkMmM1YThlNzNiMzY4MjJjM2UzNjhmYTAwZTZlZWI0YWVkOWE0Mjc1MTdjOGY0NTE0NzQ3ODc0NTNmNjhlYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTQ0NDliZGY2MjZiZmEwODNjZjIwODM4ZGNiZDU4Y2FhNzY3ODIxZTg5ZDg1MzU3YzE5NzlhZjVhYTE5Zjg5ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzBmOGNmNDVkNTQwMjNlMmY0MmU2Nzk4YjE4ODg1MjA0MzU5ZTMwNWUzZmM1ZTE0NmZlYTAwMWE3MzYzZTBiYyJ9"
+          "resource": "repo://tests/unit/dofusdb-map-quest.test.ts#L1-L19",
+          "version": "repo-lines-v1:sha256:67ea6aba942c90cc3bfb8becd52165a99e6569007252d58ad8671b2bd53a5f10:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI2MDM3NzM4NmIzNjVjOTI0NzIyYzU0MzRhZDQ0ZTk1YzM0YmQ5MGEzZTk4ZjlkMzA5NjdiYmM2ODRkY2Y1ZDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM1ODMxMTAwODc3NjMxYThiN2M2NTVmYTRmNzMzYTRjNzg1NmQ2NjZjZjNjY2ZjZTUxZTQ0ZGUyOGY5ZjViZTQifQ"
         }
       ]
     },
@@ -213,8 +213,8 @@
           "version": "repo-lines-v1:sha256:32709bdf180ea6f16f11995997b89989021dd70e7cdd0758986f876576bc2c23:eyJzZWxlY3RlZExpbmVDb3VudCI6MTkyLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJjZTIwODk0NmJhYTEyODZhZmFiZjM2NWUzMGJiNjRjNWRlZTBiNzAxZGI2YzA4YzM3ZTFiYzk1OTM4NDA5NDNhIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIwMDNmYzA1ZTExNTYzMjk5ZDZjNjljZjllM2ViODk3OGJhNjliMWYxY2EyZTUzYWRjMjM1NjZlNDc1OGYyZjI4IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         },
         {
-          "resource": "repo://tests/unit/quest-guides-collection.test.ts#L32-L282",
-          "version": "repo-lines-v1:sha256:7417ba40a79336f54492de28b196c9fa434fd72afd8f8069904205e0a84c6bc4:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJjMjA2OWZjYzZhMzYxYjEyZTBmMjVjOThiMzZhMjI0NTJmZTZiMWI0ZWM0ZmE4MDY5ZDk5NTA1NjY1NjJmM2U2IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJhMDRlNGRlZmMyNzljNDQ0M2FkYTQ5ZDk5NjUwYWUzZGQ1MzRhODMwNDUwMzllYjdhMDc3NGNkNWEyYzU3ODA3IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://tests/unit/quest-guides-collection.test.ts#L32-L392",
+          "version": "repo-lines-v1:sha256:160c1b5d840e1940983b10e670ba5a007908931f459c32e739287de1d1f0a1cc:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIxYjNmOTE5YjE4NzEwMmEzOGVlMGE4YWRlOGYzYzM5ZmY0NGJhZTliMWRiNDNmNmQzZWM5MmRiZWUxMThiOWQ4IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI5YzkwZjY0YTE5MGNhNDQ3OGQwYzVjZmY4MTA4ODkxNjU1MjEyZjFlMGM1YmZiNmViNTEzMThkNGMzY2M4OTRjIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -251,8 +251,8 @@
           "version": "repo-lines-v1:sha256:001dbf8ef9d5e10da981556d90a93702d4f21de824ecd2de839736c25651e865:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlN2I0NjlmYzUwYzA4NjIwMjE1YzMwODBjZDVjOWQ1MmQxMjVlMzEyMTAyNjYzMzFkNTE0ZGQ4YzM5ODk3MDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI5OTZhZGM0MWY1MzBhYzk1NzQzZmY4OGUyNDk5OTIwNzQ1NTc5Y2IxZGRlYzI1YTkzN2UyYTNhZGNjZDhmMzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://tests/unit/import-parse-page.test.ts#L43-L151",
-          "version": "repo-lines-v1:sha256:1d14b6896efd893222cb23c8468c4bf6e3c1561dd0f8298d3d0e70af09abddc0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA5LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI4N2FlOWFmNTg2ZDBjMDdkYzI0ZTViYWE5Yzc3ZTY1ZDMwNWI4MjQ4ODMxN2RiNzdmMDEwYWE0YWRiNWY2MDZmIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmZmZlNzExZDY0ZTUzZmRhOGYyMjM5ZDAzN2Q4NzMyOTExYjhiNWVmZGUyM2RkODkxNjgwN2ZlMGI5ODExY2JjIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://tests/unit/import-parse-page.test.ts#L43-L187",
+          "version": "repo-lines-v1:sha256:9dc4cc02e6f03ed7979346210427696cc04ab5c6f416b74840319d26314e8b03:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQ1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI4N2FlOWFmNTg2ZDBjMDdkYzI0ZTViYWE5Yzc3ZTY1ZDMwNWI4MjQ4ODMxN2RiNzdmMDEwYWE0YWRiNWY2MDZmIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmZmZlNzExZDY0ZTUzZmRhOGYyMjM5ZDAzN2Q4NzMyOTExYjhiNWVmZGUyM2RkODkxNjgwN2ZlMGI5ODExY2JjIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         },
         {
           "resource": "repo://tests/unit/import-quest-matches.test.ts#L14-L40",
@@ -301,8 +301,8 @@
       "statement": "The import-quest-guides integration test runs the loader on the five fixture pages with a fake fetchImage that returns a 1x1 PNG, checks drafts with blocks, images and the existing quest, one media record per image, oddities, an idempotent second run, one new draft for a changed guide, a summary field that disappears being filled from the linked quest without extra versions on the next run, hidden drafts for anonymous readers, skipping an invalid slug, a guide with several DofusDB IDs saved without a quest, steps with marker titles as bold paragraphs and fight lists turned into fight blocks, and cleans up before and after.",
       "evidence": [
         {
-          "resource": "repo://tests/integration/import-quest-guides.test.ts#L143-L401",
-          "version": "repo-lines-v1:sha256:9022e1472615c20ffbb45f6a24d8c36b26d31ab35f86971c9c7e22dc16b6edbf:eyJzZWxlY3RlZExpbmVDb3VudCI6MjU5LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJjZDBlNDExYWI0NWUyYzc0ODZmYjZiZDI4OWY1MzFlNDFiYzAzNzdmYWYzNDJhNjlmY2M0Y2IwYTNjMDVjNzI1IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIwZmQxNWVkNGFmMTA2ZDlkNDk5ZmFkZTUwM2I0NDE4NjZiY2UyMWQ4YzFjY2M3MDY3NjYxN2E0NzFmYWViNDQ0IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://tests/integration/import-quest-guides.test.ts#L143-L452",
+          "version": "repo-lines-v1:sha256:92544a56f58bae4d82de5ddb2343d57c41ba0186aec696fee946f26b79bc9f15:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEwLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIyMGRjMjYxZGNhYTljMzNjMTY3MDU0YzcxZmExM2Q2NWY2OWVmN2YwYWNjZmFkOGFkN2M2ZWEyN2M1OGVjZWNiIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJiYWU2MmIyNzE3NGUyNjc4ZTM2YjA1NzcxNzYzZTQzOGQ5N2JjZTc4Nzc4Mzk2MzIzYWUxNDAwY2QwOTc1OGRjIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -311,8 +311,8 @@
       "statement": "The game-data-collections unit test pins the items, monsters and npcs slugs, admin settings, field shapes including the imported images, and their use of the shared read-only gameDataAccess.",
       "evidence": [
         {
-          "resource": "repo://tests/unit/game-data-collections.test.ts#L17-L107",
-          "version": "repo-lines-v1:sha256:3277e8981dc55d2801c8998cd94f35a3b8045335332e35daf31d81fb399baaa2:eyJzZWxlY3RlZExpbmVDb3VudCI6OTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRmOTE2ZDhkNzhmMzdmOTE4ZWUzMTUxYzkwMTAxZGI5MWNiMGY5YWQyNTVlN2RhMjFjMjI2ZTI3MTI5N2MwM2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE3MjM4YWRlZDExMzA2Zjg1MzNiYmNlOTM4OTQ5NjlhZTljNTczNTM5ZjhmYmM4ODQzNTFhNTIzNzM5YWEyNzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://tests/unit/game-data-collections.test.ts#L17-L134",
+          "version": "repo-lines-v1:sha256:16536b8cbe560f86db0238acf7c3adf6e60241023967ba0e850f9a7699863039:eyJzZWxlY3RlZExpbmVDb3VudCI6MTE4LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIwMWJhNDcxOWM4MGI2ZmU5MTFiMDkxYTdjMDUxMjRiNjRlZWVjZTk2NGUwOWMwNThlZjhmOTgwNWRhY2E1NDZiIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIwYTNjNDk5OTM2OTc0MmYwZTkyN2ZjMzM0YWFjY2E3MzJhNGVkZmJjZGY2Njk3ZjFiY2JmNTE2Y2E5MzYzY2M1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -355,12 +355,12 @@
           "version": "repo-file-v1:sha256:ae5651b9dc9c386378e32d9350d34a239e009232e51453889457395219b21163"
         },
         {
-          "resource": "repo://tests/integration/refresh-quests.test.ts#L146-L163",
-          "version": "repo-lines-v1:sha256:40c5c2fb836eedd61514b541fe48fec72c0c5450c95b5ba411f5fc3701120275:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkNmI4ZmI0OTFhMmZjNjYzOTBhMDcxOTM5YjEyODZlZDY1ZjAzOTkwMjVlN2Y1YzdhYzBhM2U5ZmNhNWZhOGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM3MmZhZWM3YzZkODQwNTJmMzVlMGYwNzA3NDZkMDZlYjAwMTkwNzc5ZTZhOThhNTk4YzY5NjM2MmIwYWNlN2IifQ"
+          "resource": "repo://tests/integration/refresh-quests.test.ts#L154-L200",
+          "version": "repo-lines-v1:sha256:e83db818c297d01aa980f6d19d260a75e4ed77549edc0695e700e1b084c2e7aa:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ3NWVhMGJhMzZhMDIxYzQ4ODQzYTYxNWM0MjgyZDZhOGRmZmQyZWNlNmZmMDhlZTlkNmFkNjVlOTdhOWJmMDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIzMGVlM2FjNmQ1NGQ4ZmNkZDQ3MjYxMzY4ZDQwM2Q2ZWJiNjIxNTIwZmJlM2RiMjQ3ZWU5ZjYyYzU4Y2VmZTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVkM2IzYjBjYTliYTZkMzNiZmVlNTgwNTA5ZjQzYWRkZWRiYTRhMTA2NDJiNjRmYjE1ZTQzZDJjY2EwYWU3ZDYifQ"
         },
         {
           "resource": "repo://tests/unit/dofusdb-fetch-quest-data.test.ts#L49-L58",
-          "version": "repo-lines-v1:sha256:a819544a3a4db7d2990510c8b084f80c45e152b45f211a5125f74724077ebc9b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY0NjQwOGY3YmU1ZGViZDkxNWUyZDNjOGQwODkwN2YwZDk1NzdjZjE1YTA0NzQ0MDM3MzI4OTNhMmEzZTZiYTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFjNjQ1ZTIwZGU5MDUzNTE3YzUxZGNlOWI3ZDczMzc0NDMxYTMyYjgyMGUzZDhjYTJjZjM1MWI3ZDdjZWUzZDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQwMjE3MGE2N2MzMjQ0N2RiMDU0OWQxMDA5MTRiZGFiNmVlZGVhOTViN2JmZGJkODAzNzM1NGQ3Yjc1YTg4YjMifQ"
+          "version": "repo-lines-v1:sha256:12befff31608a3b0a445fb715e5476bf1a79708f35e574249bc0e0125ae9a5e9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYzFmMTg4ZjE0MmVkN2E4MjQ2ODBiMjA3MTcyYzU1MTliYzYxNGE0OGZkYTdjZjE2N2VkYjhkZGY3OTk1NmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNjNzY3Yjk0ZDY2YWE5ZmNkZmEwMDY5YzVjNGEyODE1NzNlYzc4MmMzOGJlZWIyYTAyMDE4YzNmODBkYmIxNjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc5ODdjNzc0ODM2Nzk0NGJiZmJhNzY2NGRmZWRlYzhiOWU2MjU0OGY2ZTEyNjU3YmYwYjUxZWQzZmJkODA0MDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjcyMTllMWVmZmEyY2IzYzhlOTE5OTM5ZWE5YjQ4NTYyYzUxZmUzYzRjNDhhODc4ZTBlYWE4MzExZjFkNmVlNzAifQ"
         }
       ]
     },
@@ -389,8 +389,8 @@
       "statement": "A third refresh-quests integration block runs the refresh over both fixtures with concurrency 1 and then with concurrency 8 and expects equal counts and equal stored data, comparing relationships by DofusDB ID.",
       "evidence": [
         {
-          "resource": "repo://tests/integration/refresh-quests.test.ts#L340-L440",
-          "version": "repo-lines-v1:sha256:4653626e195f423375f4bf32fe9507bd3019f0d3d25ba5ce159b39301c3f5c34:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJiNWU0YTFhNDc2NDZkNWUyMWQ2NTAwNTIxZjFlYjQxZDc0Njg5MTk1OWY4MzI5OGYxMGVmZTQ5ZTFkZjlhMzhjIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJhNDlmMmRiMmVhMTNjZWY3NWY1YTU4NzgzNjU2MTU0MWY0NmQ2OWU2NGJlNzQ0OTkxZjM0N2UzMGE0ODc2NDY4IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJkOGJkZGM1MmQ3MzExM2VjMDA5ZTY5NGRhOTc0OTA3Nzg5MTZkZWExOTg5MGVkOTRjNTMzNDdkMzc4NmY4YWY3IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJmOTE1MWEzN2E3YzllNDNlMTE4NDJjYzNlY2EzMjZkNDk1NWIxYTcxMmIzZmI3YTJkY2FhY2RhMWJmMWRjZDAxIn0"
+          "resource": "repo://tests/integration/refresh-quests.test.ts#L344-L449",
+          "version": "repo-lines-v1:sha256:d60218c278ae1e7ab5b1b97c8da548a3b0d0045798398522f903e8c116643db1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJiNWU0YTFhNDc2NDZkNWUyMWQ2NTAwNTIxZjFlYjQxZDc0Njg5MTk1OWY4MzI5OGYxMGVmZTQ5ZTFkZjlhMzhjIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI3MGFhNzA1ODJiNTY3NjA0ZDkzODA0YmE2M2JhZDhiOTQ1NjRmNmUzOGE4ZjI3NjllMjBlZTMwYmQ2MDk1M2ViIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJkOGJkZGM1MmQ3MzExM2VjMDA5ZTY5NGRhOTc0OTA3Nzg5MTZkZWExOTg5MGVkOTRjNTMzNDdkMzc4NmY4YWY3IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI0NzAyOGM5ODkxNTc3MjM2ODk4YTU3ZGQxNWU0Yzk0NTBjNmRkODUyODZkMGZkNDdhOGZmMDc0MWZiMjYxZTNiIn0"
         }
       ]
     },
@@ -399,8 +399,8 @@
       "statement": "A fourth refresh-quests integration block feeds the fixture items plus items no quest names, expects every item created with its superTypeId, and expects a second run with the same catalog to write no item and keep refreshedAt.",
       "evidence": [
         {
-          "resource": "repo://tests/integration/refresh-quests.test.ts#L442-L521",
-          "version": "repo-lines-v1:sha256:065d23c05be9720ecbfc1089efa13ebf5e0850ccefaa72d5fbff8313a651e211:eyJzZWxlY3RlZExpbmVDb3VudCI6ODAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU0MGU2OTdmZTI3NmQ5MjkyZjJhZWQ1NjNjZTU2YWE4NmVjNjFjMjhiNWQ3YzM0YTIyMGQxZWVlNDhmNjdmYTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhhMjBiODA1OGE4MGM1MzgxNzdmNzE5MGE4OWQyNjQ1MjdkYjZiYmZkMTUxOGM4NDQyZmM5YTJjZTMyOWJiOWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://tests/integration/refresh-quests.test.ts#L450-L532",
+          "version": "repo-lines-v1:sha256:12d6cdb89980f9cd7a55ea56134d3626c8a9620150f2618959e293ca9fbe1502:eyJzZWxlY3RlZExpbmVDb3VudCI6ODMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU0MGU2OTdmZTI3NmQ5MjkyZjJhZWQ1NjNjZTU2YWE4NmVjNjFjMjhiNWQ3YzM0YTIyMGQxZWVlNDhmNjdmYTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgwMGUzMGM5ZGE4NGYyZDc2NmJhYzdjOGVlZmVjZDBhYzJkNThhM2I5NDA1ZGZmZjkwZmFhNzgxNmI4Nzc4ZjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhhMjBiODA1OGE4MGM1MzgxNzdmNzE5MGE4OWQyNjQ1MjdkYjZiYmZkMTUxOGM4NDQyZmM5YTJjZTMyOWJiOWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU5ODY3N2U1OWQzZTc2Y2IxODAxODBkNzlmNmI3N2RiNmVlNDg0MDllODIzZTg1NmQ3N2UyM2Q3ZmIzNDVlMTIifQ"
         }
       ]
     },
@@ -531,8 +531,8 @@
       "statement": "tests/e2e/sistema.spec.ts checks the /sistema catalog in every theme and mode, including coordinate and item name copy, hit targets, the video facade, the fullscreen viewer and axe WCAG 2.2 AA checks.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/sistema.spec.ts#L44-L309",
-          "version": "repo-lines-v1:sha256:4b7b97e6afdff170a33d849fcc455b119622ee5aecfd1d6292a9f30426b87c28:eyJzZWxlY3RlZExpbmVDb3VudCI6MjY2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIwOGY5YWI0ZDJiMDEyZjk5MzlmYjYxZTQzMjI4MjBkMDdlZjM4YzBjY2NhNTBmNzIxYzAyYjZjOWQ0ZDYxOGJmIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI2NjAxYTAxYmE3OWJmNmQyMTY4ZGI5ZjEyZjQ2NDA3OWI4ODQ4NjUxZDUwNDRkMDhhMjhkNGQwMzQ4MzdmZjI0IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://tests/e2e/sistema.spec.ts#L44-L344",
+          "version": "repo-lines-v1:sha256:d4cea54e316120b201c52e8978438deaca1be48be13954737266284ead1ed5ef:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIyNTA1NGM4NzUwZTQ4YTM5MGExM2IyYThmN2YxODc3ZTM5NDA5MDk4NGQ2MzBhMTczYTM2NWE0ZTJiZjI3YmYyIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -542,11 +542,11 @@
       "evidence": [
         {
           "resource": "repo://package.json#L25-L25",
-          "version": "repo-lines-v1:sha256:41337da7426b3eaa72b362d2fc78be0ce7f2f53ca45b798ce3c8bf5b96f5375b:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEzMzdkYTc0MjZiM2VhYTcyYjM2MmQyZmM3OGJlMGNlN2YyZjUzY2E0NWI3OThjZTNjOGJmNWI5NmY1Mzc1YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEzMzdkYTc0MjZiM2VhYTcyYjM2MmQyZmM3OGJlMGNlN2YyZjUzY2E0NWI3OThjZTNjOGJmNWI5NmY1Mzc1YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODM0OTAwOTA3ZTczZjIzOGQ2ZGFlMzgzMTRlMGFhMDFkYzNlOWNlYjQ2YTlkMGY0ZTI4MmFlNzU1NTg4ZTUzNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjRjZmQzMTg3YjA1N2QwMDQ3YWQyZjlhY2VlMDFiOWExMTdlODExZTFlZTVjZDgzMWNlNTBhYmFjYWY3OWYzZCJ9"
+          "version": "repo-lines-v1:sha256:41337da7426b3eaa72b362d2fc78be0ce7f2f53ca45b798ce3c8bf5b96f5375b:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEzMzdkYTc0MjZiM2VhYTcyYjM2MmQyZmM3OGJlMGNlN2YyZjUzY2E0NWI3OThjZTNjOGJmNWI5NmY1Mzc1YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEzMzdkYTc0MjZiM2VhYTcyYjM2MmQyZmM3OGJlMGNlN2YyZjUzY2E0NWI3OThjZTNjOGJmNWI5NmY1Mzc1YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODM0OTAwOTA3ZTczZjIzOGQ2ZGFlMzgzMTRlMGFhMDFkYzNlOWNlYjQ2YTlkMGY0ZTI4MmFlNzU1NTg4ZTUzNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGQ5MDRlZTg3ZmU2ZTk1ODQ5M2RhZjVkNzg0YjYxNTQ3NjcyNmE1NGExZjk5ZGZlNjRhOGI2MjliOWUxM2I1NiJ9"
         },
         {
-          "resource": "repo://scripts/lhci-env.ts#L10-L27",
-          "version": "repo-lines-v1:sha256:5e072c83cca16aeb91d3136db917546c33f32e9ba67dc41603f5649b1b5eeabd:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMzZjQ5NmFkMDI4YTgxZGRiOGEwMGI4MzZiYmUyYTkxZjhlMjM5ZGE0OGNkODEwZWJkZTUwZjQ4YmVmNGQ0MjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUyNGQzZDUxMDkyMDU3NDU5ODcwYjIzMTNkNTA3Yjg1NDBiNDk2M2VhZTZmMWVmYjkwODY4Y2M1Y2U1YjZiZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://scripts/lhci-env.ts#L10-L29",
+          "version": "repo-lines-v1:sha256:312385d01cdd1237af6af3177bc6565b4eb2bb61e539e320a26e1d49982a9818:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5ZWI1Yzc3ZjllZmZkNWM5NzFjMmY0ZmVjNDUxNTQ4OGU5YjVhNmI4ZmZjOTQ1MjY4ZGEzNjcyMzk3OGZhMzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUyNGQzZDUxMDkyMDU3NDU5ODcwYjIzMTNkNTA3Yjg1NDBiNDk2M2VhZTZmMWVmYjkwODY4Y2M1Y2U1YjZiZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -566,15 +566,23 @@
     },
     {
       "id": "claim_d6967430a6a14fed8b3fb2682207ccc8",
-      "statement": "The E2E seed publishes Seis pies bajo tierra with steps, zone, achievement, XP range and NPC renders, its prerequisite's guide and an unpublished draft, seeds the La ocasión hace al ladrón achievement page in the Astrub metalogro, seeds the Dofus Ocre, Dofawa and a preparing Jyfus Dofus guides with the index intro, and creates a local panel user for the preview tests.",
+      "statement": "The E2E seed publishes Seis pies bajo tierra with steps, zone, achievement, XP range and NPC renders, its prerequisite's guide and an unpublished draft, seeds the La ocasión hace al ladrón achievement page in the Astrub metalogro, seeds the Dofus Ocre, Dofawa and a preparing Jyfus Dofus guides with the index intro, seeds the Nebuloso, Hielos and Silvestre checklists plus extra index entries, and creates a local panel user for the preview tests.",
       "evidence": [
         {
-          "resource": "repo://scripts/seed-e2e.ts#L1-L28",
-          "version": "repo-lines-v1:sha256:3c5c9f22534ba0dcebc9cf2376b8ed38e2223d0edd88d9d3820cf88f8222f6bc:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU1MTM5YWRmMDNkNjA0NjhjNGNkODE2OGExYjY4OGZlMzVkOTVhM2FmNjVmNjQ0YzZhNDE1OGU0MjY2OGRlOGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1NDY5NjE2MTRhNjhkMTQxZDNhNGUxNGNhMjkwNjRiNGI2MjBjNTc3OWUzOGYzY2YzMmYyYWJlZDIwYWU4NzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://scripts/seed-e2e.ts#L1-L32",
+          "version": "repo-lines-v1:sha256:12bb6377b7e9f1810657bf52bbd5540e576975518c2f45225eb94a7553913a9d:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3OTBiZTM5MjUxNWJhYzY3ZDZjZDJmZWE5MGNkYmJmMGM1ZGIwNjRlZTUyYjQxOTQzNWFiNTIxNDFjODZhYzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1NDY5NjE2MTRhNjhkMTQxZDNhNGUxNGNhMjkwNjRiNGI2MjBjNTc3OWUzOGYzY2YzMmYyYWJlZDIwYWU4NzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://tests/e2e/seed/achievements.ts#L1-L15",
           "version": "repo-lines-v1:sha256:b8de3ad1440d9b1e6d3b5d1267310c65d49735403cb75fe2001204414fd0b483:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ5ZjE1NGRjYTI0OTk5NmQ2MTM4ODc0OGNlM2E5NTM5NGY4OTFlMmEwOTRjOTdiNGU5ODZmMjJlMjRkNTljNzEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYzNTFlN2U2YTlhY2NlN2FkNjc4OGExMGY3MmFkOGM1NjlmZThkNzllNjVkYzE4N2VjNGEyM2E1ZTNkNWY5ZWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJkNjM3MTEwMDQzNGI5ODIxZDU3Yjc5YTVlNjY3YTMxMDAyODk0N2EzNmRjNGFhOWJmMmIzZmFlZDU2Y2ZmNjQifQ"
+        },
+        {
+          "resource": "repo://tests/e2e/seed/checklists-index.ts#L1-L8",
+          "version": "repo-lines-v1:sha256:265c78690bce3a888c2c9ed83343ac867f543dc6274e06fec401df183d2a4f26:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGFkMzEwNzVkODM3ZmMwYzhmN2VmZGJlZTNlMGVlYWU4NDYwMjk4OTdjNjBiZWQxNDk1ZWQ5NjVhZTM4NTYxNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGVkNDg5N2UzZDc3MzliNjI1MThhYTQ3OWZjNTk4OGI5YmZjZDdmODRlMGJiM2Q0MjYzNzQyYzAzYzBjMjcyOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDRkYjhkZDkyYWY3ZTllMjM1OTFkZTdiMzY2N2QyZjE4YmUyNjdiZGU5NTEzOTNjMGJlNWY5ZWQwNzZmNzA2NyJ9"
+        },
+        {
+          "resource": "repo://tests/e2e/seed/checklists.ts#L1-L12",
+          "version": "repo-lines-v1:sha256:0c2fce040adaf39a50321caad85409c68214de6d6c9d004bf1f7d6f841d128d8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg2NzZhY2UyNjg5ZTliOTUzNGM2ODQ3ZmQxYjlhMDNmYzllY2NmNWQwNzI1MjU1MTBkZjA5MDM4NDA2ZmUyMTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3YWI3YWY5YzU1MWNhYmM1YjdjNmIwNWE3YTY1MDJiMWYyODg5Y2FhMmZkMDEwYjdlYzI1Y2QzMjgyNGUyZmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZmMTFkM2U1MDcyOGRlZjkyYTEwYmJlYTU1YmJhOWM1ZDY5NGFiYzllZGMzODNkOWY5MThiOGUzOTMyYzM1NDIifQ"
         },
         {
           "resource": "repo://tests/e2e/seed/dofus-guides.ts#L1-L5",
@@ -582,7 +590,7 @@
         },
         {
           "resource": "repo://tests/e2e/seed/guides.ts#L1-L80",
-          "version": "repo-lines-v1:sha256:6063c2f4f51fb98c115cc7597fd677f315d9c50147d0211b41f5282907f111e8:eyJzZWxlY3RlZExpbmVDb3VudCI6ODAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwNjE1YzFhMDkwMDhmMjY0ZmJlM2Y3NjYwNDljNmE3YmI4YmRlMWQ2YjkxMjdjZGFiOTllNTYxODMzZTE1YTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYyNGVjMDY3NzcyZDcxMzkxMTFmNzZmN2MwYmQ5MDI1MTgyYjI0ODIxNWQxNzNkMjEwOTIzYThjNThkMzk4OGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE0ZjAxMzhlMzI4NmZjNWFjMzVkYTQxMDIzZjQ5ZDdkYjU2YzIwNDc2ZTA2MDI5NGE4ZWEyYjk2MjEzYTdlMGUifQ"
+          "version": "repo-lines-v1:sha256:113a6138efb214634ad668474ef2f8530bc09169b722d75c7b803c403ad9ca29:eyJzZWxlY3RlZExpbmVDb3VudCI6ODAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwNjE1YzFhMDkwMDhmMjY0ZmJlM2Y3NjYwNDljNmE3YmI4YmRlMWQ2YjkxMjdjZGFiOTllNTYxODMzZTE1YTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZkNTUxZjE5MDgxYmE2MzQzNjJhYTNiMmVhZDNlODk2ZThiNDQzNjI0YjFiMWM1Nzk3Nzg5YzEzY2U4MTk2M2EiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVhNjgwMWM0ODk5MzI3NTQxNWZhYmYzZjFlZTBjN2Q5ZGVkZTY0ZWExZjg4ZDNjNGM4YmY5ZWFmYWE3ZTc3MDQifQ"
         }
       ]
     },
@@ -591,16 +599,16 @@
       "statement": "The guia, brand and fonts E2E specs cover the public guide page and preview, the emblem and favicon links, and that only the Montserrat file is preloaded with every weight from it.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/brand.spec.ts#L21-L80",
-          "version": "repo-lines-v1:sha256:796daf06ceaec2bf1c9acca990b024cc3425eaea3b1e05935198ac1017e77b2a:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNiNWFjNmJhOGI5YmZlMTdhN2Q1OTBiOThmNTFlMWM4ZjA5NTUyM2Q0MTc5ZDIxYTBiMzQyZmIxYTUyNjU4YWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4ZGM2NzkxYjZjOTVlNWY2MzMxMGYwOGUyNzUzOWMxOTcwMjFjZDFiYzVmYTYxMTNlYTljN2MxZDNmM2ZlOGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlkMzc5Njc3ZmMyODI2MmJjODUwNzBlNTZjMWZjMmJjZjZmZDAzYTRhMzE1MGRiNmY1NmM3ODg5ODM4ZGI3ZDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ5ZWZhYzViODUzOThiOTliNzEzOTEzNTMzZDI0MDY0OTk2ZmMyODNiN2I5MWI5ZDQ1ZjYwODBiOGRiZTNhMjMifQ"
+          "resource": "repo://tests/e2e/brand.spec.ts#L21-L96",
+          "version": "repo-lines-v1:sha256:874178bfc49162cff3c7b1bdc4b37945575476d4a57f74bd7c8faa8454515ceb:eyJzZWxlY3RlZExpbmVDb3VudCI6NzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNiNWFjNmJhOGI5YmZlMTdhN2Q1OTBiOThmNTFlMWM4ZjA5NTUyM2Q0MTc5ZDIxYTBiMzQyZmIxYTUyNjU4YWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlkMzc5Njc3ZmMyODI2MmJjODUwNzBlNTZjMWZjMmJjZjZmZDAzYTRhMzE1MGRiNmY1NmM3ODg5ODM4ZGI3ZDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://tests/e2e/fonts.spec.ts#L30-L78",
           "version": "repo-lines-v1:sha256:6c10c6ba64ee18829c6372417a075b8889762131cce7f8e6cbf7f34b0117f91a:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhOWRiYTZhMDgzNWIyYzg0ZDQ2NzVjNjNjNDczODkxMTliYTdlZGJlOGQ3MTQ1OGQzZjhjMDViYzFhZDhmODIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjllZmJjZDZjN2QwODgzMzE2YWZiN2NiN2I4OWJjZGIzMzZlYjc0ZDNhZDVlYjg5Zjk4NzA0YjY3MWY2YTQ1ZmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://tests/e2e/guia.spec.ts#L20-L416",
-          "version": "repo-lines-v1:sha256:98a02f45b5c893a30e7d5071527afb89c731c839a41714e055c14d766715a49e:eyJzZWxlY3RlZExpbmVDb3VudCI6Mzk3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJiMTAwY2EzYjQzOTRhMmU0ZjQzZjkzNDBhYjhkMGIyYmRmNWM5MTg1M2M1OWIyMzFjMGZhYjU0ZmMxZDk2MDNjIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIzNDBjNWQzZGMzYTc3MzA3OTNjODkyNzk0OGI1NTk2NjQyMDdmNzliYTg3NzczYzIxNTAwNDQzMTk2MmZkNDg4IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://tests/e2e/guia.spec.ts#L20-L562",
+          "version": "repo-lines-v1:sha256:9948975991c9caf8e12a733938681a1a1b2523657ab2dbb90ab88e6a6e066de8:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJiMTAwY2EzYjQzOTRhMmU0ZjQzZjkzNDBhYjhkMGIyYmRmNWM5MTg1M2M1OWIyMzFjMGZhYjU0ZmMxZDk2MDNjIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIzNDBjNWQzZGMzYTc3MzA3OTNjODkyNzk0OGI1NTk2NjQyMDdmNzliYTg3NzczYzIxNTAwNDQzMTk2MmZkNDg4IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -663,20 +671,20 @@
       "statement": "E2E specs cover the achievement page, the metalogros index, the site header and search, and the home page with its hero search.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/cabecera.spec.ts#L31-L616",
-          "version": "repo-lines-v1:sha256:0646423491eb1f436e5eb7e883a7810b481d791401c5b10fb0c9849028caff83:eyJzZWxlY3RlZExpbmVDb3VudCI6NTg2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJmZGMwZTJmMjM0ZWM4MDA2ZTYxMDU0OTMwYTEyZDA4ZjljOTE5MGM3MWY3ZWU3NGVkNDE0MmNiNGU4MjAyZmQyIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmYzVkOTRlZjg1MTIzNDhiNmMwZjYzMWMyNmQzMThiYzQwYTU4NjllMjYzNTQ2YjJjZjcxNTQ5MTc1OTk5NTQ3IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://tests/e2e/cabecera.spec.ts#L31-L655",
+          "version": "repo-lines-v1:sha256:aac8ee69afe24e95374c185bf099e42511e09b09b41689d40016338dc7344ebe:eyJzZWxlY3RlZExpbmVDb3VudCI6NjI1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIwMWJhNDcxOWM4MGI2ZmU5MTFiMDkxYTdjMDUxMjRiNjRlZWVjZTk2NGUwOWMwNThlZjhmOTgwNWRhY2E1NDZiIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJiMjdlNWEwYTU1ZmY5YjRjYjY4ZTM4NmEwMjE4OTM1MGJiNWExM2FmZjczNTRiN2I5NzA3OWJkNzA1ZTA4NjM2IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         },
         {
-          "resource": "repo://tests/e2e/inicio.spec.ts#L30-L450",
-          "version": "repo-lines-v1:sha256:2706d724947b35fa58d6ae0a452d13e4fa136ee2244e6536934ad4a1ef8c9aac:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI3MDJjNDE0YjU0Y2Y4NmRmYjRmOTBkZmU3ZDdiZGJmYTY2NmI3ZGRkZDMyZjEyODZmMjMwYTViNTMyNDE4MThhIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIwMWJhNDcxOWM4MGI2ZmU5MTFiMDkxYTdjMDUxMjRiNjRlZWVjZTk2NGUwOWMwNThlZjhmOTgwNWRhY2E1NDZiIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI1ZDg3NTg5OTkxOTA2NDBiZmZhNGFlNTk0ZDc4ZmY5MDExNWIwZGEyY2FiOGIxM2QxZWJkZGMxOWFkYmIyOTQ1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlZTg0NmY3ZDc5MzczYzQ2MGY1ZGQwN2E0MzlmZWFhODNmMzQ3YTMzZjJkMDRmZTg2Y2Y3ZDU0ODE2ZmQ3MzA0In0"
+          "resource": "repo://tests/e2e/inicio.spec.ts#L37-L519",
+          "version": "repo-lines-v1:sha256:176dab66dbb4be2b31159174e9a85221e3bde8eba04269028feb59f859d47d4b:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIwNmQ4NmRiNDk4OGQxODZmOGNiNjYzM2U4MDZkOWVmNzliMTk3NDA0YTAwYWJlMTYzMDViMTNjNzM4NzgzNzA2IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI0ZGMxN2Q5OWUzZDI4NWE2OTE3NTQ3ZjU1MTMwMDM5M2NjYWViNWM2MzVmNjU5MjQyMGU4ZTdlM2FhNWYzNDcwIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         },
         {
-          "resource": "repo://tests/e2e/logro.spec.ts#L14-L136",
-          "version": "repo-lines-v1:sha256:7219503ea14df38714d50ff336c3c1022e70f03db2889b53905ba89d0afefd28:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJjZjE5MzQ1MzQ2YzIzMzdlNmEyYjE3ZTdmMzI3NjEzNzVhY2FjOWYyM2ZiYTdkYTNlNDg5MTBiMzcyMTZmZTAyIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI3NmY4MzY0MGNkMjQ1MzE3MGVlNzZiZTZkNjc3NzZlYWNjNjM0MzRiOWRjNGM3MTBiYzBiNDJmYTQxMjg4Yjg1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://tests/e2e/logro.spec.ts#L14-L514",
+          "version": "repo-lines-v1:sha256:3c69a2e8fbf2cd9a9dabc0ea2c04357dd5b491618189c726ca72ab1bfce07b20:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJiNjQ0ZDZiNGVlZTUyMWFhYmE0ZTEyOGU1YzllMGU5MWZhNWE4N2UzMjEyNGYwZjY4ZTcyMGNlOWY1MTQ5MGQ4IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmNzBjN2UyYzMxYzFkOTUxOWE1MmJiM2Q5MzcxZjk0MzE1M2EzODc1YjkzODM0OTljMThiZDY3NTdmZDNmN2U4IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         },
         {
-          "resource": "repo://tests/e2e/metalogros.spec.ts#L13-L90",
-          "version": "repo-lines-v1:sha256:a5ee4577b42b6edb7485f5c443ee39efb08ccebc77b9ba8fb6b1c909b025bdba:eyJzZWxlY3RlZExpbmVDb3VudCI6NzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkMjdmN2ViZDRhZDRlZTQwYjk0MzdhMjMzZDMxZDhhMWE2ZDk2ZDBmZGI5NTE2NTY2MTYxNzYxYzQzMzc1OTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk4ZTkwYzI1MDE5OTlmMTQwNWRkN2IwOGQwMzkzOTEzZTczNGFmMmEyNGEyM2FkMDA5YmEwODI2MGI4NmYxZDQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFjZWJmOTI0YjI4OTE3NDczZmQ1ZTI0ZDA0YjViNTY5MmU1MDdmM2YzOWQwNDAyZjYwNWQ4OGI4Y2NjYTVhNTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY4ZTE5ZWM5OWVlYjIzMTlmNTgzYzNkYjFhNGEwZmE5OTE2ZGEyZjUzNzE4NWU3YWQ5ODAzMGZkZmQ4YmU4YzEifQ"
+          "resource": "repo://tests/e2e/metalogros.spec.ts#L13-L107",
+          "version": "repo-lines-v1:sha256:fdffdfed7cb8318244237adc875cf5471f41a6688d32b43fd8adefdde2d93544:eyJzZWxlY3RlZExpbmVDb3VudCI6OTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkMjdmN2ViZDRhZDRlZTQwYjk0MzdhMjMzZDMxZDhhMWE2ZDk2ZDBmZGI5NTE2NTY2MTYxNzYxYzQzMzc1OTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFjZWJmOTI0YjI4OTE3NDczZmQ1ZTI0ZDA0YjViNTY5MmU1MDdmM2YzOWQwNDAyZjYwNWQ4OGI4Y2NjYTVhNTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -686,7 +694,7 @@
       "evidence": [
         {
           "resource": "repo://tests/integration/achievement-page-queries.test.ts#L119-L197",
-          "version": "repo-lines-v1:sha256:200310f0522c148f2c0904048d664fa1a8b771c69fe8addf22006107efc69263:eyJzZWxlY3RlZExpbmVDb3VudCI6NzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNiODQ2Y2ZkYjdiZjQ4NGJlYTMyMDBlZGJhN2E4MTJkZTBjNTBkZmUxZjE4MDMwMjYzYmE4MjZiYjBiNWI2OGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5ZDU3YzcxMWEyOTA4NmNhM2Y2Y2NkNTVmMjExNjMwNDFkNjA3YjE0ZTEzOTRiYzYyNWM3ZjA1NjM0YmE5NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhlZmYxOGFlODNhZGM5MDJjYWY2OWRmZDMwZDRlNzhkNjJjMTk5MzQ2ZjgwZWQ4NTFmZGY4NjhkYjljMzkwY2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFkNzIzZjMyMTM1ZmMwZWU2MTg2ZmUxYjc2NzBjYzczMjk4OTI4Zjk2YTQ0YmQxYTlmMDZlMmQ0ZWQ1YWMyMDAifQ"
+          "version": "repo-lines-v1:sha256:d5b2b8673e28a34edc0f55e863a45f64026a79e43d67a8f76ee9bafadbd899b7:eyJzZWxlY3RlZExpbmVDb3VudCI6NzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMTQ0N2Y1MmI2OTIwMjFlMWRkM2VmNmVlNzljNWU2NzY4ODc5MmM2ZmUyOTU3NTQyMGIzZjJkNmJkMmYxYzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ5YTEwMTI0OWYyYjMxMzNkZTRiOTdlMDRjYjI0ZmY0Y2JjMmZiNDU2ZWQyZGUyMmMyNTE3ZDNhMTE1ZWFlMjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVhMjhkNmEzN2U1MTY4YmRmNGVjY2ZmOTdjNjc0MmRiM2JmMzgyOWI1MGQ2ZWRmMjQwY2RmZjY1ZTllZTk0YTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZmODk4NjUzYTc3NTc3MjBjNjZiYjBmNzViYWFiZDEyNzFkNDQ0YjFjY2U5OWFjY2Y4NzMwYjEzNmVmODg3ODgifQ"
         },
         {
           "resource": "repo://tests/integration/achievement-pages.test.ts#L88-L300",
@@ -698,11 +706,11 @@
         },
         {
           "resource": "repo://tests/integration/guide-search-index.test.ts#L28-L100",
-          "version": "repo-lines-v1:sha256:152e368ec067d659c293815bfa1298aef8970e08855a38401aa46fb6ebf43d00:eyJzZWxlY3RlZExpbmVDb3VudCI6NzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ0MDNhMjgyY2UzMjFmN2ZhNjlmZGY4MGU2Y2NkMTM0ODk1MDc3N2ZmNjAyNmQ1ZTFiNjU5NjhhN2FhYmI4MzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZiMjQ2Zjg2YTBhYjA0MGYyNzNiYzllNWM0Y2RmNTYxMTFlMDUyNzQ3YzcyZDE5NGNjOGJiYjY2NTM4M2NjZTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM4MDFmN2M1ZGIzOTYyMDRiNjIyMDg2YWZkMzMxZTY5YzNhMDRiZDYyZDgwNTRiOTYzOGFlY2Q0ODhhYmI2Y2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE3MDgxMzU5MGFmMzNjNDI0MDMwOWU2NWE4YjA3OWUxMjUyZjQ3YTM5N2I1MzUyMDU5NDJkZDM0NzM4ZDk3NzYifQ"
+          "version": "repo-lines-v1:sha256:152e368ec067d659c293815bfa1298aef8970e08855a38401aa46fb6ebf43d00:eyJzZWxlY3RlZExpbmVDb3VudCI6NzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ0MDNhMjgyY2UzMjFmN2ZhNjlmZGY4MGU2Y2NkMTM0ODk1MDc3N2ZmNjAyNmQ1ZTFiNjU5NjhhN2FhYmI4MzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZiMjQ2Zjg2YTBhYjA0MGYyNzNiYzllNWM0Y2RmNTYxMTFlMDUyNzQ3YzcyZDE5NGNjOGJiYjY2NTM4M2NjZTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM4MDFmN2M1ZGIzOTYyMDRiNjIyMDg2YWZkMzMxZTY5YzNhMDRiZDYyZDgwNTRiOTYzOGFlY2Q0ODhhYmI2Y2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc2YWUzOGQ4NzM4ZTQxZTljZWE5YTlhNGY5ZDczNjk3YjlkOTA4YjA4MmFmMjVlYjQ3YWUyYTI1MGVhMWIzOGQifQ"
         },
         {
-          "resource": "repo://tests/integration/refresh-game-images.test.ts#L93-L234",
-          "version": "repo-lines-v1:sha256:f48888831c45c7dad6063152977b31e2ceb7cc6152f0c01c388c5ac62f9957bf:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQyLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI2OWY3ZmZiNjk1NWUzYmY2NDQ3OGUwODNiNGE0MTczYWMwNzU4NzEyMWI5OGM2MmMyZjIyOWI3NGIzMzZmYzNiIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0OTc5MjQwYmEyODFmOTUzZjE0ODU3ZjUzOTM3ZWRlYWNhMDRkOWYwNDc4MDRhMzc4NzAyNDFmNmNlOTFiYWJkIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIxZWYwYjlkYzJiNWUxYjlhYmVjYmYyZjEwMTVhNDUyM2NiMmE3NTFlZWQ4MjQ0MmEwYTcwODgwZmZjYWY5YmZmIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlMzJiZmNlOGViYzM5NWNlMWEyZjQzZjRhZDFmN2JhMjRmNGQ5MWM2NjAyYWI3MGEwOGU2ZDYxODE4MjEyNjE1In0"
+          "resource": "repo://tests/integration/refresh-game-images.test.ts#L93-L264",
+          "version": "repo-lines-v1:sha256:d2efbb8e49f11fb1eae481bf9ddafb5a044998e1d53eba5a97ff7b2670b9681b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcyLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI2OWY3ZmZiNjk1NWUzYmY2NDQ3OGUwODNiNGE0MTczYWMwNzU4NzEyMWI5OGM2MmMyZjIyOWI3NGIzMzZmYzNiIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIxZWYwYjlkYzJiNWUxYjlhYmVjYmYyZjEwMTVhNDUyM2NiMmE3NTFlZWQ4MjQ0MmEwYTcwODgwZmZjYWY5YmZmIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         },
         {
           "resource": "repo://tests/integration/remove-step-title-migration.test.ts#L65-L65",
@@ -739,16 +747,16 @@
       "statement": "The site-shell unit test and the header and home E2E specs check that Clases and Mazmorras appear with the Próximamente tag and no link, and that the Dofus in preparation are not links.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/inicio.spec.ts#L335-L352",
-          "version": "repo-lines-v1:sha256:cabd795b8253036c3b1966f8e7fd5a18e5e60eed996aa9335e0ede2dc8d47192:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmYWYxOTBmMzgyNmIyYzUxMzEzM2Y3NjM3NTJlZDg4NDkyNmQ5MDQ3YjY5M2ZmZGQwOWQ1YjQxMTQ3NTk2ODIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFkYjNjYzg4NDM3NDA5ZWI3ZTQyOWJlZTE3MjE0YTUxYTFjOTA5M2IyODE0MzdiZWQzZmI0MzVmYTA1NmVjZGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVhODdmZDJjNDg2YTRiYTc0M2NiOGRmNjhjZTAwZTMwOTkxOGUyZTg4ODc0M2UyNTA0MWU2YjljYTllZDU2NzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJjNWU3MWYwYjYxM2I4YzYxZDQ1YzEzNWJiM2VmOTlmMGZmMzgxNjExYjZkYWRkMmFiN2E4ODQ0MmE2MjA1ZTYifQ"
+          "resource": "repo://tests/e2e/inicio.spec.ts#L340-L360",
+          "version": "repo-lines-v1:sha256:725b33834d9de07c3895410e8023e1dbcb5481b92a6a5476407ce4fc9da03891:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYzFmMTg4ZjE0MmVkN2E4MjQ2ODBiMjA3MTcyYzU1MTliYzYxNGE0OGZkYTdjZjE2N2VkYjhkZGY3OTk1NmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk3MmQ5YTdiZjE2YjRmMjIxNDk1OTg4YzZjNDBmM2NhZWRjMmQ4NTk2MGUyYmVjZjM5YWRhMDEwZjFhODQyNDUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRlNzJiZjQ0Yzg5Y2U2NzU0NGNmNzVjNjI5ZGE3YWQxNzE0NjYwMjI0ZTFjZDI3ZDBlYmU1YThjMmI5NzM4N2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE1MDBhODQ5MDdiY2FlOWJhNWMzZWY4ZDQ2M2QxNGRlMDhiYWJhMmNhYjEyZWY4YTQ5YmEzNmIzZmRiNDQzYjYifQ"
         },
         {
-          "resource": "repo://tests/unit/home-sections.test.tsx#L31-L41",
-          "version": "repo-lines-v1:sha256:67b1887ace6c889abf66e086a2355a805c35fd4f6691ed2ed5af17fb448f567c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4ZDFhZDYyZTU0NTk1N2JmODNhMmVmNjg2MzkyNDQ5OGZmMmJlYzQzM2JkZGVlYWMyOGU3NmMyYTkyNzljNzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFjNjQ1ZTIwZGU5MDUzNTE3YzUxZGNlOWI3ZDczMzc0NDMxYTMyYjgyMGUzZDhjYTJjZjM1MWI3ZDdjZWUzZDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVjNTg3ZDQ4ODUzMTc4YmUzMTllOTk1NmE3MDA3NTE4YTEyNDdmZGY0NjYwZjgyNGEyYmNiMzQ2OTU4NzM5MjcifQ"
+          "resource": "repo://tests/unit/home-sections.test.tsx#L31-L42",
+          "version": "repo-lines-v1:sha256:d8b1cacd20e23ca92a6b0ed1e1377f7aaf8df179bf77382ca2f5825b58be0389:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4ZDFhZDYyZTU0NTk1N2JmODNhMmVmNjg2MzkyNDQ5OGZmMmJlYzQzM2JkZGVlYWMyOGU3NmMyYTkyNzljNzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFjNjQ1ZTIwZGU5MDUzNTE3YzUxZGNlOWI3ZDczMzc0NDMxYTMyYjgyMGUzZDhjYTJjZjM1MWI3ZDdjZWUzZDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM5ZjkxMjU4MzU5Y2EwMWY5ZjI0MGE3YTIxOTQzNzAzNGE3MGFiNTcxMmIzNmViZTFkYmFmMTg3NDgyZWZhYmIifQ"
         },
         {
-          "resource": "repo://tests/unit/site-shell.test.tsx#L138-L200",
-          "version": "repo-lines-v1:sha256:41d3fc2b2bbe1a643f2a5ac148f6da988360e6e3a5e37d71fff29667e610688a:eyJzZWxlY3RlZExpbmVDb3VudCI6NjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMzMzQ5NzdjZTQzNzgyZmMwMjc1NDgxOTg0NGQ4YTg0NWE0MmRlNGM3YTE3N2FkNTRlZTRhODgyZGM1MDE5NzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNmNGM0ODYzNTljY2ZjNjJkOTRkZjIwNWI5NmI4MTBmYjgxN2U2ZjMwYTVmYWQzN2ViYzljNjI5ZTIyY2RlMDUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZkM2QwMGQyMTE0ZTQ1ZGRjYWU2MmNmZjEwODg4N2FhY2Q3NmVhNmU1NmMyMDgyNmI0YzI3NDFmNjI5NzU1NTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYxYTAxMmYzNjlhMjU0MzFhY2YyMTQ1OTE0YTYxMGNkYTE1ZTkxMWQ2MjhhOTJiMGIzOTdjNWFiMWIwMjFhYWQifQ"
+          "resource": "repo://tests/unit/site-shell.test.tsx#L160-L293",
+          "version": "repo-lines-v1:sha256:c52eee6af1208e37a44f879ea5305f290b5d6e0cbdfd382207d34fdab94232f1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTM0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJkMTZhNjJkZGNmOWZhNDMyNWYzYjE3NTA1YWM4NzFlNmExZTJhMTIxNjBjZjMzMjUxMTBjMGY5M2U2NGIyMTk1IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIwMWJhNDcxOWM4MGI2ZmU5MTFiMDkxYTdjMDUxMjRiNjRlZWVjZTk2NGUwOWMwNThlZjhmOTgwNWRhY2E1NDZiIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIxZWYwYjlkYzJiNWUxYjlhYmVjYmYyZjEwMTVhNDUyM2NiMmE3NTFlZWQ4MjQ0MmEwYTcwODgwZmZjYWY5YmZmIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJkNGYwNDZhNmY4N2Q1ZDA1N2IwZTFjZWRhZTFjMmU5Y2Q5YjMxODc0OTY1MGE2ZDU2ZDNjNzFmNzYxZTk3MTIwIn0"
         }
       ]
     },
@@ -757,22 +765,22 @@
       "statement": "The Dofus guides E2E spec covers the /guias-dofus index with its filter, search and no-JavaScript fallback, the seeded Dofus guide page, a 404 for a preparing Dofus, axe in both modes and the header's Dofus panel.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/guias-dofus.spec.ts#L1-L213",
-          "version": "repo-lines-v1:sha256:899f4c7bdc5317458772567bcf4b33ac14cb2f7e34bfc6e24627427ea752f8cb:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5OTkyZjI2MWE0ZDMxMmIwMzQ0ZTFjYmJhZmVhMDcyOTI3MTU2Mjk2ZjhiOWIxODY2ZjJmOWJkMmU4NmM1N2EzIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://tests/e2e/guias-dofus.spec.ts#L1-L214",
+          "version": "repo-lines-v1:sha256:53d881e334e8284b42f549a653121d65fb2a4c61189788da1926d33f3ddc8579:eyJzZWxlY3RlZExpbmVDb3VudCI6MjE0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5OTkyZjI2MWE0ZDMxMmIwMzQ0ZTFjYmJhZmVhMDcyOTI3MTU2Mjk2ZjhiOWIxODY2ZjJmOWJkMmU4NmM1N2EzIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
     {
       "id": "claim_510c537f402e47f3b8c1ce5d1e6dfbb6",
-      "statement": "expectNeedsColumns checks Necesitás items in columns with the notes below at 1440, 390 and 320 px and is shared by the guide, achievement and Dofus guide specs.",
+      "statement": "expectNeedsColumns checks Necesitarás items in columns with the notes below at 1440, 390 and 320 px and is shared by the guide, achievement and Dofus guide specs.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/guias-dofus.spec.ts#L129-L143",
-          "version": "repo-lines-v1:sha256:ef90763c93f67ff371867d3eb37c425b3501abaf2815e17ab7de8b58f7031864:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRiMjI4MmNhOTY5ODBiMWEyMDc0MjIzMzM0NmE3NjE3ODk0MmM4YWMzMzQ2MDQ0ZWFmODZhZjc2MjNmMmYwNTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc4OTFjMjQwZWE5N2RlNjhiN2ZhYjU5Y2Q0OThmOTNmNTVmMDk1MzIzNmExMzdkMzFkZDg5Nzk3YjgwZGViNTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQwMzFkNDUzZTlkNDljNjM0YzYzNmFkZDM4NjZkZGQ1NGFiMWIzMGJkNDE2MTU5ZWM4ODZmMzBiNTMxYzViMWUifQ"
+          "resource": "repo://tests/e2e/guias-dofus.spec.ts#L120-L140",
+          "version": "repo-lines-v1:sha256:21425af76c5a18a3147c0567a5ffaf1d630749d41b9e5a4299d8ee1ac33179aa:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMwMjcxODUwNjcwNWQ4YjM0MWNjNGQ0YjE0ZWQyNGVhYmU1NDUwNGMwNGEyMzYyNDM4ZWYzZmY2ZWVmODM4OWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFiYmRjNTkyZDY5MjRhYjk0MTA2YmFiNTE1NTRhMTE1YzZiOTUzNzE2NTAxMGRjNGY4OWY1OWIyNWNhMGYxNDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg3MWE4NzNiYmI4NGU5YjAyZjYwMWRmNTI4MWRiZGY1M2MyOGRjOGM2NDA1MDBkNWY1MjAxNDQ3OWM0ZDVkYzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzMzEzZmJmMjE0OTZmZjgyOGUyNmRiYzNlZjk4MDk3MWU0YjI4NzczYjFlNmJlNDUzMjc4MDNkZTQ0Y2IyNjEifQ"
         },
         {
-          "resource": "repo://tests/e2e/needs-layout.ts#L1-L44",
-          "version": "repo-lines-v1:sha256:f5495ef867566f45fd307d10346a01b03c5c405f2dd9c97fca912917b3cb4dc8:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmNDNiZDI1MzgwMDU2NzBjZjIwNzUwNjUwMjE4YmY1YzNkN2M1YjNkMDgwY2IwMjY5ZjBlODU5ODAzYTgyYjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://tests/e2e/needs-layout.ts#L1-L56",
+          "version": "repo-lines-v1:sha256:4d8aabb4dc131000d19997ec02b212537e31b36cb168f575c5cdfcb8db8d0681:eyJzZWxlY3RlZExpbmVDb3VudCI6NTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmNDNiZDI1MzgwMDU2NzBjZjIwNzUwNjUwMjE4YmY1YzNkN2M1YjNkMDgwY2IwMjY5ZjBlODU5ODAzYTgyYjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -781,14 +789,82 @@
       "statement": "The movimiento E2E spec checks page view transitions with a still header, the reduced-motion fallback, and the entry and exit transitions of header panels, the search, the phone menu, the viewer, the video player and the metalogros tiles.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/movimiento.spec.ts#L95-L360",
-          "version": "repo-lines-v1:sha256:97640f9a89bd29060682a601a14922e417db9402fb613ddaffece2ca1fcb4256:eyJzZWxlY3RlZExpbmVDb3VudCI6MjY2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5MDFkMzE0MzM1NWQ3YzA2ZjNhM2QxM2FiMjAyYzRhNWJiY2RlYmNkMTBlZTJiNzBlYmFhYTBjMjUzZTE1NzczIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJkYTAzNTFiZTE0MTU1ZjFiM2E0Zjk5N2I4YzdlNzA4NDAxYzQzMzg4ZGQyMWZlNDFmOGQwMjE2ZGIxYjdhMzRkIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://tests/e2e/movimiento.spec.ts#L95-L363",
+          "version": "repo-lines-v1:sha256:f069c230868ea6c91edf8ba10f451671a2f0fa5e9fd74741699dda4fb66b9dbe:eyJzZWxlY3RlZExpbmVDb3VudCI6MjY5LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5MDFkMzE0MzM1NWQ3YzA2ZjNhM2QxM2FiMjAyYzRhNWJiY2RlYmNkMTBlZTJiNzBlYmFhYTBjMjUzZTE1NzczIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJkYTAzNTFiZTE0MTU1ZjFiM2E0Zjk5N2I4YzdlNzA4NDAxYzQzMzg4ZGQyMWZlNDFmOGQwMjE2ZGIxYjdhMzRkIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_64ccd9b29a7644f2acfaf2096b9a22ed",
+      "statement": "The E2E seed also creates the checklist pages and the extra /checklists index entries after the guides, achievements and Dofus guides, refusing non-local databases.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/seed-e2e.ts#L1-L32",
+          "version": "repo-lines-v1:sha256:12bb6377b7e9f1810657bf52bbd5540e576975518c2f45225eb94a7553913a9d:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3OTBiZTM5MjUxNWJhYzY3ZDZjZDJmZWE5MGNkYmJmMGM1ZGIwNjRlZTUyYjQxOTQzNWFiNTIxNDFjODZhYzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1NDY5NjE2MTRhNjhkMTQxZDNhNGUxNGNhMjkwNjRiNGI2MjBjNTc3OWUzOGYzY2YzMmYyYWJlZDIwYWU4NzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bc4b166637294842859fba387bf365ca",
+      "statement": "Checklist E2E specs cover the checklist page, its browser progress, the merge of the old app's progress keys and the /checklists index.",
+      "evidence": [
+        {
+          "resource": "repo://tests/e2e/checklist-migracion.spec.ts",
+          "version": "repo-file-v1:sha256:b8cf505fb799a3c3751c16a9e47ee01daef982a5fb02aa653a8a759369483865"
+        },
+        {
+          "resource": "repo://tests/e2e/checklist-progreso.spec.ts",
+          "version": "repo-file-v1:sha256:f99a05098b1fbdedc9a2374eb077cd08ed9c8fc7f60666fbcf361bd2bf2e032d"
+        },
+        {
+          "resource": "repo://tests/e2e/checklist.spec.ts",
+          "version": "repo-file-v1:sha256:14357bfc522e7f208028336fdc66aaa84c777ffbd11241a74df0118a52b5a033"
+        },
+        {
+          "resource": "repo://tests/e2e/checklists-index.spec.ts",
+          "version": "repo-file-v1:sha256:b1d6bb47635496b60584c189d5c4765da039503bd863b6c2fd4e10e8d35b5648"
+        }
+      ]
+    },
+    {
+      "id": "claim_9588f59b6bd6461ab898448928d3b6fb",
+      "statement": "Panel E2E specs and integration tests cover panel roles, refused deletes of referenced documents and locked fields.",
+      "evidence": [
+        {
+          "resource": "repo://tests/e2e/panel-papeles.spec.ts",
+          "version": "repo-file-v1:sha256:23383c20f9d615df837e1fe0c3aeeb2ef365e1f263211c37955b357830ed530c"
+        },
+        {
+          "resource": "repo://tests/e2e/panel.spec.ts",
+          "version": "repo-file-v1:sha256:1220299c1369c55ed9d450c799a7f771e441d8adc0febb232fcb1d6aa4082c19"
+        },
+        {
+          "resource": "repo://tests/integration/delete-references.test.ts",
+          "version": "repo-file-v1:sha256:61eec251c161e2db3049a2aa3fdf7be236e9215e5d0b265cebfe3ef562d22fff"
+        },
+        {
+          "resource": "repo://tests/integration/field-locks.test.ts",
+          "version": "repo-file-v1:sha256:fa1852f25bd8e6372a73081afe022ce44aebab801db0e927194035faa98da94b"
+        },
+        {
+          "resource": "repo://tests/integration/panel-roles.test.ts",
+          "version": "repo-file-v1:sha256:a4f1908cacf79a2d45accc534ae855baecbe5e72a37a2bd16cccbd9036d78c8d"
+        }
+      ]
+    },
+    {
+      "id": "claim_ba1376a65e194255901512b0bec11ab0",
+      "statement": "The E2E app server sets NEXT_PUBLIC_SITE_URL to the local origin because next start requires a public origin.",
+      "evidence": [
+        {
+          "resource": "repo://tests/e2e/app-server.ts#L40-L79",
+          "version": "repo-lines-v1:sha256:070ee8ad59ec9e39b36bed9f073b54699651696d1d22d37f493e2e06ed12eb93:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUxM2RkNTcyM2U1MzQ1ZTk0NWUzMjk4OTViMmNjOTE0OWM4MjA0MDNkOTBlYTliY2U3OWM4YjI1Yzg3N2QwMDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY2MDM0MDljOWJhN2UzNmM1NTM2YzAzYzg4YWVlNjg4MWM0MjkxMWI4ZGNkYmZiYzIzMWZlYTRiNmRjNmQzMjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-12T11:00:44.802Z"
+    "at": "2026-11-14T11:00:46.827Z"
   }
 }

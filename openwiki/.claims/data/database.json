@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ac020a176f225ccd390525438e45cb5dc0fa59d070fad1f12592a6623d1eaee7",
+  "pageVersion": "sha256:3613e46d7e5eaeaf080418528a0cc616708801ff709c88ab3b56cbe68a23092c",
   "claims": [
     {
       "id": "claim_c4d0210fcc834f69a874cfcee7b4d598",
@@ -80,11 +80,11 @@
     },
     {
       "id": "claim_08141421a97143cc8073d709e4bf1805",
-      "statement": "There are seventeen migrations today, from 20261103_030359_initial to 20261110_131101_dofus_guides_index, including the three of November 10 (dofus_guides, dofus_guides_import and dofus_guides_index), registered in src/migrations/index.ts.",
+      "statement": "There are twenty-eight migrations today, from 20261103_030359_initial to 20261114_011851_users_roles, including those for quest stages, checklists, subareas, dungeons, the achievement prose snapshot, dungeon picks and panel roles, registered in src/migrations/index.ts.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/index.ts#L1-L105",
-          "version": "repo-lines-v1:sha256:ca4795051a515f954be3ba3282c15a54c04a0458464f3bb20b36203669c7416c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5NDUxNjQyYmM1OWNhMTA2MjdjOWM1YzE3NmE0NTA0NzE0ZThjZTI3ODBlYTgzNjZiZDc2YzYyMTdjMTE1OGFlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiMDJkMmMwZDZkYzVlNzRkOTJmYTE0YjkxZGJlYTI2NDA5MGJlYjM1ZmRiOTE4OGQ5YjM0MTE4MWRjZTlmNGNlIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://src/migrations/index.ts#L1-L171",
+          "version": "repo-lines-v1:sha256:93f605d10d2b2d9e220b4cedf386e0c53d77ed67cfe3d024a7c955bbd8268ae5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5NDUxNjQyYmM1OWNhMTA2MjdjOWM1YzE3NmE0NTA0NzE0ZThjZTI3ODBlYTgzNjZiZDc2YzYyMTdjMTE1OGFlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiMDJkMmMwZDZkYzVlNzRkOTJmYTE0YjkxZGJlYTI2NDA5MGJlYjM1ZmRiOTE4OGQ5YjM0MTE4MWRjZTlmNGNlIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -103,8 +103,8 @@
       "statement": "Railway runs pnpm migrate as the pre-deploy command with a 600-second timeout, and a failed migration stops the deploy while the previous version keeps serving.",
       "evidence": [
         {
-          "resource": "repo://.railway/railway.ts#L35-L47",
-          "version": "repo-lines-v1:sha256:fffb75be440595f712ddebc351587b38e86d5754c51e1cdebb4985ba395a91e1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliOGI4YWFmYjk5NzRiYzE2YWZkMmQ2YWE1YjVlOGViOWQ1ZWEwMDkzZWY1YzU5ZTc2MDNjZGE3ZWYyYzY5N2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhkZTE2MzliYTNkZmU4MjIyYTRmZmE5ZDkzNmI4NzcwYTFmZmNiZWEzM2Y2NGM4MDA1NWQxNTlkMDE1NzYxMmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkzYWY5NjhmOWRjZWJhZjZmMGY4Mzg3NTY5N2EwODk0ZGUyNGM3ZDMwMWQ0MTk4YjgxOWRlYWQzNmVjYjE4MWYifQ"
+          "resource": "repo://.railway/railway.ts#L35-L46",
+          "version": "repo-lines-v1:sha256:8671d8dfa736df1df5e351c45f737640969691043873c6c5076602a4cb024538:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliOGI4YWFmYjk5NzRiYzE2YWZkMmQ2YWE1YjVlOGViOWQ1ZWEwMDkzZWY1YzU5ZTc2MDNjZGE3ZWYyYzY5N2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3ZTNmZDE4MmIwNDEzMTcwZWZkZjZiODI3MjlmMWNiNzExMDlkZWM0YzIyZTY2ZjI5MjQzYWI2ZjAxNTc0MWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhkZTE2MzliYTNkZmU4MjIyYTRmZmE5ZDkzNmI4NzcwYTFmZmNiZWEzM2Y2NGM4MDA1NWQxNTlkMDE1NzYxMmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ2NmUyYjdmZWM1NTgwZmYyYjYyNDI2MmZiMDNhNjA0MDUxYTliMWJmMmJkMjI4N2VlZjVmNTgwMzk5Y2IwZTgifQ"
         }
       ]
     },
@@ -113,8 +113,8 @@
       "statement": "The Postgres pool uses a 5 second connection timeout and logs pool errors instead of crashing.",
       "evidence": [
         {
-          "resource": "repo://src/payload.config.ts#L69-L93",
-          "version": "repo-lines-v1:sha256:468648f1fe243c33887ff86c3991e30871c2d3dbb9b4242ff639de3c89489237:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMxNWFkZTY3NjQ0YjE5ZWZkNjMzMTZkNWQ3NzJkZTNlMTE0YTFkN2QwNGQyNjNlYzEwNjJiNGQ2Y2I1ZDZjNDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUyNThlMDc1NzNjMmMzODBmMWM4YWFmNmU5M2U1YjZhODdkMzM3OWE3YTY4ZjYyNjNhNDE5NGMxZTA2NTJmM2YifQ"
+          "resource": "repo://src/payload.config.ts#L106-L130",
+          "version": "repo-lines-v1:sha256:d24c552ada683316dafb1fc97e8332a061aa77022461747e5b02e6cd2cee6ef1:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0MWVjZWZhMDgyNTAxMzE0NWYwNjBhMThkNTFkN2Q1OTE0NGY3MDg4NmQ3NDBhODkwZmZiMzI0ZjFjN2M2MjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1N2U3YzQ4YjRhMzQzODIxNmU2OGVlMDAyZjJhYmQzZGZjYmFiMzEyMmQwNDk0MjNlMDAwZjE5ZjlhMmYyYTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg0OGQ2NzZjNjJjNzA1ODYwNGE1Yjg1MDE4NTcyZDk5OWVlMTk1NzY2Y2ExM2U1NWY0OWVmYWFiNWNlOGVmMDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNmNGZlZjZhMGM4OTI5ZWY5MGZkNTZiY2EzYWY2YTMxZGMxNmMyYzEwMTVkOWU1ODRjNGM1NDM3NzE5NjFmMGQifQ"
         }
       ]
     },
@@ -143,8 +143,8 @@
       "statement": "tests/integration/migrations.test.ts runs pnpm payload migrate:down and then pnpm payload migrate against the integration database with DATABASE_CONNECTION=direct, asserting the latest migration in src/migrations/index.ts is rolled back and re-applied.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/index.ts#L12-L105",
-          "version": "repo-lines-v1:sha256:95bbfdb5690225622b4811fc52f232fd713f4ab15738e172026c17b57ece4690:eyJzZWxlY3RlZExpbmVDb3VudCI6OTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJjOGVhNDQyODU1NDg0ZWMwMWE3NGRkMzk4YjQzY2Y5YjE2ODQyZTU2MjZiNjE1NDUxMGRlYjUxYzI1NWRkOWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwMmQyYzBkNmRjNWU3NGQ5MmZhMTRiOTFkYmVhMjY0MDkwYmViMzVmZGI5MTg4ZDliMzQxMTgxZGNlOWY0Y2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZjMDljYmVkNjVlMmM0MTgxMDIyZjlmYWJiMGJkOGIyMWNkMjFiZTdiNmIwMGMzZThkZGI1Y2FlMjA2MmViZDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/migrations/index.ts#L1-L171",
+          "version": "repo-lines-v1:sha256:93f605d10d2b2d9e220b4cedf386e0c53d77ed67cfe3d024a7c955bbd8268ae5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5NDUxNjQyYmM1OWNhMTA2MjdjOWM1YzE3NmE0NTA0NzE0ZThjZTI3ODBlYTgzNjZiZDc2YzYyMTdjMTE1OGFlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiMDJkMmMwZDZkYzVlNzRkOTJmYTE0YjkxZGJlYTI2NDA5MGJlYjM1ZmRiOTE4OGQ5YjM0MTE4MWRjZTlmNGNlIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         },
         {
           "resource": "repo://tests/integration/migrations.test.ts#L8-L39",
@@ -383,7 +383,7 @@
       "statement": "A Postgres client lost while checked out for a transaction is logged by the per-client error listener installed in pool.onConnect instead of crashing the process; the transaction owner receives the error and the transaction is not retried.",
       "evidence": [
         {
-          "resource": "repo://src/payload.config.ts#L77-L84",
+          "resource": "repo://src/payload.config.ts#L113-L120",
           "version": "repo-lines-v1:sha256:46c713f1c25885edcc8019021498aba8c91ac003e0b70fc36f2c51e50e03155f:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWQ2YTdhYjlhOWNlMDZkNjY4NTBjNTk3Y2ZkOGIyNWRmZWRjNzdmYWNmZGUxYzA3ZjZlYmIyN2FkNmYwMTUxOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjk3OGUyNTAzYjhjZjM3YTA2ZjdkNmYwYTNhNmI2ZmUzNTY5MWZiY2FiNTBiODc3NWNhYjZmYWJjNzFjNTkyYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGU4MDhiY2ZjZTU0OGIxYTkwODgzOWQzNjdlYmNkZGRhNWM2NDEzZjRjMDJhZWU2MjJlY2RmNmUyMmJlZmQwMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzg5ZTBjMDgzNzcyNWI0N2IwODkwNTAyY2EzZTVhYzk3NTUwN2E5Mzg3NGE5NTc3MDMzMmZkNTI0OTA4OWI1MyJ9"
         },
         {
@@ -447,10 +447,34 @@
           "version": "repo-lines-v1:sha256:16a7c6f97e25a93e55c5ee6e593ff350e1a65f15fef92b612b6a5c7f3c17e832:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwMjRjMDc5NmMwNDAwOTU3YWM3ZDk5NmY1NDViYzdjNjViZjk5MzJkNzUzYjRlN2NhZGJjOTE2YWRhNTkyNjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0NmI2OGYzYzBjZTE2YjY4ZWE2NDkzNDM4OTg0Mzc4ODMyODA4ZGI2MjkwODlkMmFkMmY4NmJjOWZhZGMwNWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoyLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5ZjMzOGZiMGIxYzNkOGU1NzcwYTU2MjQxYTU3NDc0NTA2MTM2YjM4MDM4ZjdlZTRiMTJiNjU1OTYyZWRkZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1NjBmOTlkNjBjOWU3NWE4YzYzZDEzNmViNjgxYmVmNjA5ZDVjZTc1NmYyNzkyNDhhOGU2NDNkYzk4YTVkNGMifQ"
         }
       ]
+    },
+    {
+      "id": "claim_96640aad38f8475ab68c8356deb23f29",
+      "statement": "The users_roles migration adds a role column defaulting to admin so existing accounts become admins, then sets the default to editor.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261114_011851_users_roles.ts#L1-L12",
+          "version": "repo-lines-v1:sha256:10f42cbc1dd71ab4cee5ce09524ae0512da444a78cf58ce0219ad88ef1ecc693:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1NWQxYTdmNDMwNmVmNTVlMDVjZjAyMzBlNjQwZjVjZTFlN2MzYTU3MDMwMzBmMjQ1YjE3M2U4ZmE3ODc3NTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMwNmVlNjc3ZTM3YTRhNzU4NGE0OTAzZjUwZDUyMjdlYmIxZmRiNmIyMmI0ODMxNjQyYjJiOTE1ZjExM2U1YzMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_360edeaf3c2d46cc8f4084e5a23f2922",
+      "statement": "The quest_stages migration creates quests_stages and quests_stages_objectives with their locales tables, and the quest_guide_dungeon_picks migration creates quest_guides_summary_needs_dungeons with locales and version twins.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261113_011531_quest_stages.ts",
+          "version": "repo-file-v1:sha256:db3cd2520f1843b4d4e56282ee43840b8b81eeaadd98243cedae8386c6ac541c"
+        },
+        {
+          "resource": "repo://src/migrations/20261113_232009_quest_guide_dungeon_picks.ts",
+          "version": "repo-file-v1:sha256:f9b744c9c2900a575a6ba36e53b2c8d28f2736a9afd66c733be2fa25e39dcfe1"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-12T11:00:44.802Z"
+    "at": "2026-11-14T11:00:46.827Z"
   }
 }

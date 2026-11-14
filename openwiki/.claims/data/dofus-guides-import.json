@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:2b590a6d9a55bf2f744e6bf2fa9d8fd9157230286512bd1fec44c4a9c5cf11d5",
+  "pageVersion": "sha256:f68ade849cc1d98f63778d1c8bfdb16c2cf444bdd07b2ab74767bd39172097e2",
   "claims": [
     {
       "id": "claim_9569fdd409a944ff92b2c1726085be24",
@@ -8,11 +8,11 @@
       "evidence": [
         {
           "resource": "repo://package.json#L31-L31",
-          "version": "repo-lines-v1:sha256:cd6dd651045b58bac56c5ffd886feed870c6822f6be248c5bcd51352b2fb259c:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2Q2ZGQ2NTEwNDViNThiYWM1NmM1ZmZkODg2ZmVlZDg3MGM2ODIyZjZiZTI0OGM1YmNkNTEzNTJiMmZiMjU5YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2Q2ZGQ2NTEwNDViNThiYWM1NmM1ZmZkODg2ZmVlZDg3MGM2ODIyZjZiZTI0OGM1YmNkNTEzNTJiMmZiMjU5YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDE4NTZjMTcwNWJlZDliOGVlZGFmZGY5MjhlZWIwZmI0NDQwNGU3OWRkNjhiNzI1MmE2ZTFlYWRkN2Y1YTUxNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTkyNGQ4MGQzOTAyNDljMTZiZDg0M2RjZWYxYjRjNzBlNTZhOWRjMDdmZmZhMzI0MDk5MmU1YzUxZmFlYTZlNCJ9"
+          "version": "repo-lines-v1:sha256:cd6dd651045b58bac56c5ffd886feed870c6822f6be248c5bcd51352b2fb259c:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiY2Q2ZGQ2NTEwNDViNThiYWM1NmM1ZmZkODg2ZmVlZDg3MGM2ODIyZjZiZTI0OGM1YmNkNTEzNTJiMmZiMjU5YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiY2Q2ZGQ2NTEwNDViNThiYWM1NmM1ZmZkODg2ZmVlZDg3MGM2ODIyZjZiZTI0OGM1YmNkNTEzNTJiMmZiMjU5YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDE4NTZjMTcwNWJlZDliOGVlZGFmZGY5MjhlZWIwZmI0NDQwNGU3OWRkNjhiNzI1MmE2ZTFlYWRkN2Y1YTUxNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzU3OWM0YmUzYjliMmQyMjM2MTdkYjJkZDZiZGM0YWIzYzA0YjJjMjMxNTFjMTEyZmI3ZTkyZTJmN2FjNjNjYSJ9"
         },
         {
-          "resource": "repo://scripts/import/import-dofus-guides.ts#L1-L54",
-          "version": "repo-lines-v1:sha256:dec056703aa929f71bc55b70ce6beaaef6c51fad04fc5e2ad9331030cfefd729:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ2Y2RjNzJhMjQxMWRhMDM5YWE4NzZiYjZkMzhmYmMyYjk0NWQwM2JjODdjODkzYjc3ZWY2YWUyMDA2NmMzNjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU3MzA2ZDlhNDcxNWQ3NjMzYjI4ZTczYTA3ZWY4MzE5YmI4ZjE4ZDhiZjU1NTFjOGVlMTllMmYwOTYwMjAyYzYifQ"
+          "resource": "repo://scripts/import/import-dofus-guides.ts#L1-L60",
+          "version": "repo-lines-v1:sha256:98f6f5874865129eba78154ba9e1684c031129ad00e141f577681d39af5681a6:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ2Y2RjNzJhMjQxMWRhMDM5YWE4NzZiYjZkMzhmYmMyYjk0NWQwM2JjODdjODkzYjc3ZWY2YWUyMDA2NmMzNjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNjYjgzOTdjMjA1YzM2N2MwOWY4NmU4OTA4NTUyMjYzNmNlOWY4YWY3OTY1NWFkOWZiMDYyODgzMjFiNzBhMDUifQ"
         }
       ]
     },
@@ -86,15 +86,15 @@
     },
     {
       "id": "claim_db119831cbf644739da5e79bd9f0645b",
-      "statement": "Video posters are YouTube's hqdefault thumbnail copied once into Media; the fetcher rejects non-YouTube IDs, refuses redirects and rejects non-image responses, and a failed poster leaves the guide without one.",
+      "statement": "Video posters are YouTube's hqdefault thumbnail copied once into Media; the fetcher rejects non-YouTube IDs, refuses redirects and rejects non-image responses, and a failed poster download leaves the guide without one while any other error stops the import.",
       "evidence": [
         {
           "resource": "repo://scripts/import/dofus-guides/video-poster.ts#L1-L27",
           "version": "repo-lines-v1:sha256:7288169491f2728c35a693feea66ff0b53ba99cb8c9e22f5c7d4204de13650d2:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmYTU3NWY0OTBjNzU3NDEyMWVlNTBiODJmZDVkZWMxNWJiNzcwY2YyN2YwNDI0YmRmZmY3ZDU0MjI0ZTlkNzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://scripts/import/import-dofus-guides.ts#L117-L124",
-          "version": "repo-lines-v1:sha256:b73fed0b29020088fe98869fbdfe0efcfc11289895141409af00d0a73c4caa0c:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODY1ZGUxZmQ1YzBhNjk5MDQwY2ExM2M0MzVlMzA0ZTI3YjVkMmYwZGVkMzdkNDg5MDRjZjk2N2I5MGU5NjM4MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTBhYjM0NWYzNWViZmJmMjI3NTI3ZWVmNWUzYWQ5YzY0OGQ1M2M1ZDdjZjhhNWEyZjQ1YjY5MDdjOWMyMDBiNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWMyYTczNDA0ZTA4YzY4ZmFiMzVmNjJhNDQwN2Q5MmU1YmZhYzk3M2ZjMjNkMWE2MjE1MjFlM2JlNGE3YTRmMiJ9"
+          "resource": "repo://scripts/import/import-dofus-guides.ts#L91-L100",
+          "version": "repo-lines-v1:sha256:0dcbbff1c71cc948ec3f1e9c9c7e8beed82ea9d5c6cd9370993ecb7905ec3248:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg2NWRlMWZkNWMwYTY5OTA0MGNhMTNjNDM1ZTMwNGUyN2I1ZDJmMGRlZDM3ZDQ4OTA0Y2Y5NjdiOTBlOTYzODEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUwYWIzNDVmMzVlYmZiZjIyNzUyN2VlZjVlM2FkOWM2NDhkNTNjNWQ3Y2Y4YTVhMmY0NWI2OTA3YzljMjAwYjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFjMmE3MzQwNGUwOGM2OGZhYjM1ZjYyYTQ0MDdkOTJlNWJmYWM5NzNmYzIzZDFhNjIxNTIxZTNiZTRhN2E0ZjIifQ"
         }
       ]
     },
@@ -151,14 +151,28 @@
       "statement": "The script prints totals of created, updated and unchanged guides, the fields Torre changed that were kept, unmatched names and quest list differences, and exits with 1 on failure.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/import-dofus-guides.ts#L128-L149",
-          "version": "repo-lines-v1:sha256:f9070aa7d2e88b4464487446651addc284d3ff6f77d2441915d3101e5a81daa6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUyYTQ2ZGQxNTI2Y2FiMjBiMjJkZWFmZjFlNjY1MGY3NDVmODBiOWRiMWNkNmQ5ZGRkMDRmMDdjZWZlYmVlMzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFjMmE3MzQwNGUwOGM2OGZhYjM1ZjYyYTQ0MDdkOTJlNWJmYWM5NzNmYzIzZDFhNjIxNTIxZTNiZTRhN2E0ZjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://scripts/import/import-dofus-guides.ts#L102-L125",
+          "version": "repo-lines-v1:sha256:ea47f0c52ee67399160a8db4773d3d5a2b5dbf1e18eae72ed38a1ea2b55f4bf8:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIyY2YwMjg3YjE5ZjlhNTllZTdhNWQ4NzhkNTMzMDA5NmI1NTRhOGIxOTc4ZGNmMTJmMmE2NDE5NTQ5OTI4YjQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_eb9297c57923444c8ebd2ef38802b61f",
+      "statement": "Screenshots and posters go through the shared mediaByUrl, which finds a file by originalUrl and uploads it only when the run applies.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/import-dofus-guides.ts#L66-L80",
+          "version": "repo-lines-v1:sha256:9c84f2ba30bc41ea057a4ab24cb39aae80823be2960c3955972e44faa1e4508e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmNjljZTYyM2JlNDkwMjEyYzM3NDNkODBhZGExZjMxMDAzOWYzYWYxNmNkNTE4NzU3ZDNlMTBkMWVlOTRlZTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhYzVmZTA0OGVmOTBiMGU3OTdiMGJjYjNmMTAxZmEwZTNkZmIxZTdmZTM3MDMyYzc4M2RiYWVlYWFlYmIwMjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImViOGI5NzFmZDMzZTI1ZmU2ZWYxNTNkNGYyODYwNDAwYzE1ZjdkY2Q5ZjFhNTEwZWVmOTY1NGYyYzg4ZGNlODYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk3NzdmZDE0Yzc4NDhjMjU0YjIzZTc1MDAwY2U3OThiNzFlZDk2YTg3MGQxMTI2ZDI5YjQ0MTdkNjhjNjhiZDgifQ"
+        },
+        {
+          "resource": "repo://scripts/import/media-by-url.ts#L1-L20",
+          "version": "repo-lines-v1:sha256:3e56f31f902c8c0eca7765cd31178d1c4adbf4b8eec84ca36779d4466e54691c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZkOTQzNTU0MTEyNWQzNDc3NGU5ZWE0N2MwMzYzOGZlNGNmYmEzYjNjYWZhOTBlNjY3NWVjOWM3N2E5NjcxYzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhjNTZkNmM4ZTE3ODNmZDI5ZTA2ODU0MmYwOGI2N2Q0ZmY5YjM5NzkxYTU0NWMwNTM3ZWZiNTRkZTYxNzMzZDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFjNzM3YTg3Y2NmYWM4M2U2Zjc0ZWI4ZTM2NDM3OTAwY2M4MWRkY2VjMTg1MmE2YTdlM2ZjODdlNmNjNDk2ZTQifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-12T11:00:44.802Z"
+    "at": "2026-11-14T11:00:46.827Z"
   }
 }

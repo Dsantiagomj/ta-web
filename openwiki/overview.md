@@ -24,6 +24,8 @@ sources:
     resource: repo://scripts/import/fix-achievements.ts
   - id: openwiki-source-97e144348afe72981f00c973
     resource: repo://scripts/import/import-achievements.ts
+  - id: openwiki-source-5e5a9deaf2d00890b3600afb
+    resource: repo://scripts/import/import-checklists.ts
   - id: openwiki-source-d669905ebde3b9714d879fbc
     resource: repo://scripts/import/import-dofus-guides.ts
   - id: openwiki-source-3fc9f0484081f9ab441d6219
@@ -36,6 +38,8 @@ sources:
     resource: repo://scripts/review-release.ts
   - id: openwiki-source-cb49e3c4d1015b8673e71275
     resource: repo://src/app/(frontend)/%5Bslug%5D/page.tsx
+  - id: openwiki-source-5f0afecf4f0bcd886ec62fb5
+    resource: repo://src/app/(frontend)/checklists/page.tsx
   - id: openwiki-source-2335a47ac9395688d636b848
     resource: repo://src/app/(frontend)/guias-dofus/page.tsx
   - id: openwiki-source-2db76d84ebc87095c44118ff
@@ -58,8 +62,12 @@ sources:
     resource: repo://src/collections/QuestGuides.ts
   - id: openwiki-source-633cb155d38055ddc4af30fc
     resource: repo://src/collections/Quests.ts
+  - id: openwiki-source-c46dfd6e94656494b7d9df7b
+    resource: repo://src/collections/Users.ts
   - id: openwiki-source-96b94ee077b0d0a0987ef203
     resource: repo://src/components/quest-guide-admin/QuestAutofill.tsx
+  - id: openwiki-source-ede372402a144740e1c5a80c
+    resource: repo://src/lib/derive/checklist.ts
   - id: openwiki-source-cbc6ab52e896365649760a9f
     resource: repo://src/lib/dev-gate/design-catalog.ts
   - id: openwiki-source-54227c78b7c2e57bc6f3d29b
@@ -74,10 +82,10 @@ sources:
     resource: repo://src/migrations/index.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
     resource: repo://src/payload.config.ts
-generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
+generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-12T11:00:44.802Z
+    at: 2026-11-14T11:00:46.827Z
 ---
 
 # Project overview
@@ -104,27 +112,27 @@ Runtime: Node 24 (`>=24.22.1 <25`) and pnpm 11, pinned in `package.json`.
 
 ## What exists today
 
-The skeleton is done, quest guides, achievement pages and Dofus guides are live in the app, and member features are not built yet.
+The skeleton is done, quest guides, achievement pages, Dofus guides and checklists are live in the app, and member features are not built yet.
 
-- **Public site**: a site-wide header (the Sello lockup, a menu panel per section, the search dialog and the dark/light mode switch) and footer; the home page with its hero search for quests and achievements; quest guide pages at `/<slug>` in the v5 single-column layout (breadcrumb to the achievement, quest giver NPC, summary columns with the rewards bag, steps separated by a line, fight blocks and the next quest card); achievement pages and Dofus guides at the same `/<slug>`; the metalogros index at `/metalogros`; and the Dofus guides index at `/guias-dofus`, whose list also feeds the header's Dofus menu. Guides, achievement pages and Dofus guides have draft preview from the panel and revalidate on save. Pages the app does not have yet (checklists, classes, dungeons, legal) are linked on the legacy Squarespace site; quest, achievement and Dofus guide links never go there. Every link loads the whole page, which the browser crosses with a view transition while the header and footer stay still, and panels, dialogs and lists animate in and out (DESIGN.md, Motion). Fonts are Montserrat and Lilita One. See [Home page](frontend/home-page.md), [Site header, footer and search](frontend/site-shell-and-search.md), [Public quest guide page](frontend/guide-page.md), [Achievement page](achievements/achievement-page.md), [Metalogros index](achievements/metalogros-index.md), [Dofus guide page](dofus-guides/dofus-guide-page.md), [Dofus guides index and menu](dofus-guides/dofus-guides-index.md), [Styles, tokens and site shell](frontend/styles-and-shell.md) and [Theme and mode](frontend/theme-and-mode.md).
+- **Public site**: a site-wide header (the Sello lockup, a menu panel per section, the search dialog and the dark/light mode switch) and footer; the home page with its hero search for quests and achievements; quest guide pages at `/<slug>` in the v5 single-column layout (breadcrumb to the achievement, quest giver NPC, summary columns with the rewards bag, steps separated by a line, fight blocks and the next quest card); achievement pages and Dofus guides at the same `/<slug>`; the metalogros index at `/metalogros`; the Dofus guides index at `/guias-dofus`, whose list also feeds the header's Dofus menu; and checklists at `/<slug>` with the `/checklists` index, their progress kept in the browser per step, and a checklist still «En preparación» redirecting to its Squarespace page. Guides, achievement pages, Dofus guides and checklists have draft preview from the panel and revalidate on save. Pages the app does not have yet (classes, dungeons, legal) are linked on the legacy Squarespace site; quest, achievement, Dofus guide and checklist links never go there. Old Squarespace URLs without a page of their own get a redirect or a 410 from one table before Next renders, and `/sitemap.xml` lists what a visitor can open. Every link loads the whole page, which the browser crosses with a view transition while the header and footer stay still, and panels, dialogs and lists animate in and out (DESIGN.md, Motion). Fonts are Montserrat and Lilita One. See [Home page](frontend/home-page.md), [Site header, footer and search](frontend/site-shell-and-search.md), [Public quest guide page](frontend/guide-page.md), [Achievement page](achievements/achievement-page.md), [Metalogros index](achievements/metalogros-index.md), [Dofus guide page](dofus-guides/dofus-guide-page.md), [Dofus guides index and menu](dofus-guides/dofus-guides-index.md), [Checklist page and index](checklists/checklist-page.md), [Checklist progress engine](checklists/progress.md), [Legacy redirects, sitemap and robots.txt](operations/redirects-and-seo.md), [Styles, tokens and site shell](frontend/styles-and-shell.md) and [Theme and mode](frontend/theme-and-mode.md).
 - **Design system**: the generic components (`src/components/ui/`) and the quest guide components (`src/components/game/`) from `DESIGN.md`, with one client island on guide and achievement pages, `PageEnhancements`, that copies coordinates and item names, plays videos on click, opens images fullscreen and opens and closes the rewards bag. The guide page renders them, and `/sistema` shows every component in the five themes and both modes; it answers 404 in production. See [Design system components](frontend/design-system-components.md) and [Component catalog (/sistema)](frontend/component-catalog.md).
-- **CMS**: Payload with twelve collections and one global: `users` (panel accounts, locked for ten minutes after five failed logins), `media`; `quests`, `items`, `monsters`, `npcs`, `achievements` and `achievement-categories` (read-only DofusDB game data); and Torre's editorial collections with drafts and versions, readable by the public only once published: `quest-guides`, `achievement-pages`, `achievement-groups` (metalogros) and `dofus-guides` (one guide per Dofus, pointing at achievement pages and quest guides), plus the `dofus-guides-index` global with the index's intro. Spanish admin UI and a single `es` locale. Guides, achievement pages, metalogros and Dofus guides share one slug space at the root. A guide starts from its DofusDB quest, one per guide: picking it fills the empty title, slug, SEO fields and summary (prerequisites, the "Necesitarás" item list, rewards, start NPC and coordinates), live in the panel form and again on save, and never overwrites what is already written. Guide bodies are built from rich text, image, video (YouTube only), callout, fight and step blocks. Achievement pages and metalogros fill their empty fields from their DofusDB record the same way, with a note under each field comparing it with DofusDB, and their state (Publicada or En preparación) is Torre's. See [Writing a quest guide](cms/guide-authoring.md), [Achievement data model](achievements/achievement-data.md), [Dofus guide data model](dofus-guides/dofus-guide-data.md), [Payload CMS configuration](cms/payload-config.md), [Collections and access](cms/collections.md) and [Guide body blocks](cms/blocks.md).
-- **Data**: seventeen committed migrations; schema push only under `next dev`. See [Database and migrations](data/database.md).
+- **CMS**: Payload with fifteen collections and one global: `users` (panel accounts with an administrator or editor role, at least one administrator always kept, locked for ten minutes after five failed logins), `media`; `quests`, `items`, `monsters`, `dungeons`, `npcs`, `subareas`, `achievements` and `achievement-categories` (read-only DofusDB game data); and Torre's editorial collections with drafts and versions, readable by the public only once published: `quest-guides`, `achievement-pages`, `achievement-groups` (metalogros), `dofus-guides` (one guide per Dofus, pointing at achievement pages and quest guides) and `checklists` (Torre's step-by-step route to one Dofus), plus the `dofus-guides-index` global with the index's intro. Editors write; only an administrator deletes, and nothing a guide still uses, nor game art, can be deleted. Spanish admin UI and a single `es` locale. Guides, achievement pages, metalogros, Dofus guides and checklists share one slug space at the root, which never takes a slug from the legacy redirect table. A guide starts from its DofusDB quest, one per guide: picking it fills the empty title, slug, SEO fields and summary (prerequisites, the "Necesitarás" item list, rewards, start NPC and coordinates), live in the panel form and again on save, and never overwrites what is already written. Guide bodies are built from rich text, image, video (YouTube only), callout, fight and step blocks. Achievement pages and metalogros fill their empty fields from their DofusDB record the same way, with a note under each field comparing it with DofusDB, and their state (Publicada or En preparación) is Torre's. See [Admin panel](cms/admin-panel.md), [Writing a quest guide](cms/guide-authoring.md), [Achievement data model](achievements/achievement-data.md), [Checklist data and import](checklists/checklist-data.md), [Dofus guide data model](dofus-guides/dofus-guide-data.md), [Payload CMS configuration](cms/payload-config.md), [Collections and access](cms/collections.md) and [Guide body blocks](cms/blocks.md).
+- **Data**: twenty-eight committed migrations; schema push only under `next dev`. See [Database and migrations](data/database.md).
 - **Game data**: `pnpm data:quests` copies every quest from the public DofusDB API into `quests`, the whole DofusDB monster and item catalogs into `monsters` and `items`, so a guide can name any of them, every achievement category and the achievements under Misiones and Eventos, and the quest-giving NPCs into `npcs`. It imports into `media` once the NPC renders, the achievement icons and the images of the items and monsters some page shows, and creates the missing metalogros and achievement pages «En preparación»; idempotently and without deleting anything. Each quest stores its zone, its achievement and position in it, its rewards for a level-200 character (XP and the XP at the optimal level, kamas, items, emote, spell, title and job IDs) and its needs (items, monsters, whether you walk new maps). See [DofusDB game data refresh](data/dofusdb-refresh.md).
-- **Squarespace import**: `scripts/import/` turns a cached Squarespace page into a quest guide draft (summary, start NPC, an introduction, steps and a closing, callouts and Torre's recommendations) and lists what it could not convert. `pnpm import:guides` loads them into `quest-guides` as drafts, with each image stored once in `media` and the guide's DofusDB quest linked when the page names exactly one that is already in `quests`; the summary gaps are filled from DofusDB as on save, so re-running it changes only what changed and never publishes. Five demo guides are covered by tests. `pnpm guides:backfill` brings guides imported earlier up to the current importer (closing sentence, fight blocks), and `pnpm import:achievements` copies Torre's metalogros index (order, names, slugs, states) onto the metalogros and achievement pages, with `pnpm fix:achievements` for targeted corrections afterwards. `pnpm import:dofus-guides` reads each Dofus page of Torre's site into `dofus-guides`, linking its achievements, quests and items, and on a rerun leaves alone what Torre changed in the panel. See [Squarespace import](data/squarespace-import.md), [Importing Torre's achievement pages](data/achievements-import.md) and [Importing Torre's Dofus guides](data/dofus-guides-import.md).
+- **Squarespace import**: `scripts/import/` turns a cached Squarespace page into a quest guide draft (summary, start NPC, an introduction, steps and a closing, callouts and Torre's recommendations) and lists what it could not convert. `pnpm import:guides` loads them into `quest-guides` as drafts, with each image stored once in `media` and the guide's DofusDB quest linked when the page names exactly one that is already in `quests`; the summary gaps are filled from DofusDB as on save, so re-running it changes only what changed and never publishes. Five demo guides are covered by tests. `pnpm guides:backfill` brings guides imported earlier up to the current importer (closing sentence, fight blocks), and `pnpm import:achievements` copies Torre's metalogros index (order, names, slugs, states) onto the metalogros and achievement pages, with `pnpm fix:achievements` for targeted corrections afterwards and `pnpm import:achievement-prose` for the prose of each achievement page. `pnpm import:dofus-guides` reads each Dofus page of Torre's site into `dofus-guides`, linking its achievements, quests and items, and on a rerun leaves alone what Torre changed in the panel. `pnpm import:checklists` loads Torre's checklists from a copy of `silvestre-checklist` into `checklists`: the ported ones whole, as drafts «En preparación», the rest as «En preparación» cards linking to Squarespace, keeping each step's identifier on a rerun. See [Squarespace import](data/squarespace-import.md), [Importing Torre's achievement pages](data/achievements-import.md), [Achievement prose import](data/achievement-prose-import.md) and [Importing Torre's Dofus guides](data/dofus-guides-import.md).
 - **Media**: R2 or disk, chosen by environment. See [Media storage](media/storage.md).
-- **Operations**: `GET /api/health`, the search index at `GET /api/search/guides`, the panel's `GET /api/dofusdb-values/:source/:id`, a public dev environment that is never indexed, server-side Sentry, Railway infrastructure as code, and GitHub workflows for CI, dev smoke tests and production releases. See the operations pages.
-- **Quality**: unit, integration, E2E (including axe WCAG 2.2 AA on every public page type), dev environment and smoke suites; Lighthouse CI performance budgets on the home page, a seeded guide, a seeded achievement page, `/metalogros`, `/guias-dofus` and a seeded Dofus guide; lint, format, types and dependency audit in CI; git hooks for formatting, linting, AI review and commit messages; and `pnpm review:release`, an AI review of everything entering the next release. See [Test suites](testing/test-suites.md), [Performance budgets](testing/performance-budgets.md) and [Release review](workflows/release-review.md).
+- **Operations**: `GET /api/health` (liveness, never touching the database) and `GET /api/ready` (with the database), the legacy URL redirects in `src/proxy.ts`, `/sitemap.xml`, the search index at `GET /api/search/guides`, the panel's `GET /api/dofusdb-values/:source/:id`, a public dev environment that is never indexed, server-side Sentry, Railway infrastructure as code, and GitHub workflows for CI, dev smoke tests and production releases. See the operations pages.
+- **Quality**: unit, integration, E2E (including axe WCAG 2.2 AA on every public page type), dev environment and smoke suites; Lighthouse CI performance budgets, split in two shards, on the home page, a seeded guide, a seeded achievement page, `/metalogros`, `/guias-dofus`, `/checklists`, a seeded Dofus guide and a seeded checklist; lint, format, types and dependency audit in CI; git hooks for formatting, linting, AI review and commit messages; and `pnpm review:release`, an AI review of everything entering the next release. See [Test suites](testing/test-suites.md), [Performance budgets](testing/performance-budgets.md) and [Release review](workflows/release-review.md).
 
 ## What is planned
 
 AGENTS.md describes the target layout and rules. Not yet in the code:
 
-- The other editorial collections: checklists, classes, dungeons, pages (`src/collections/`).
+- The other editorial collections: classes, dungeon guides, pages (`src/collections/`).
 - The site globals in `src/globals/` (navigation, socials, Ko-fi, Twitch card, announcement bar), and the dialogue block in `src/blocks/`.
 - Members with Better Auth, per-member progress in Drizzle tables, entitlement checks, premium themes and view modes.
 - The rest of the Squarespace import (`scripts/import/`): the review queue and the other page types.
-- Postgres full-text search, the Twitch live state, and the derived checklist data.
+- Postgres full-text search and the Twitch live state. Derived checklist data has started in `src/lib/derive/`, computed from stored quests at render time.
 
 When a rule names a path that does not exist yet, create it with that name.
 
@@ -133,9 +141,9 @@ When a rule names a path that does not exist yet, create it with that name.
 ```
 Browser ──▶ Railway container (Node 24)
               └─ Next.js
-                   ├─ proxy.ts ─ noindex header (dev only)
+                   ├─ proxy.ts ─ legacy URL redirects and 410s; noindex header (dev only)
                    ├─ (frontend) routes ─ server components ─ Payload local API
-                   ├─ (payload) routes ─ /admin, REST, GraphQL, /api/health
+                   ├─ (payload) routes ─ /admin, REST, GraphQL, /api/health, /api/ready
                    └─ instrumentation ─ Sentry
               ├──▶ Neon Postgres (pooled URL; direct URL for migrations)
               └──▶ Cloudflare R2 (uploads; public CDN URLs)

@@ -3,9 +3,6 @@ type: feature
 title: Dofus guide page
 description: How /<slug> renders a published Dofus guide - the route order, what readDofusGuide loads and hides from visitors, the cached loader and draft preview, the dofusGuideView view model (counts, Necesitarás, parts, video, checklist, previous and next) and the components that draw it.
 tags: [dofus-guides, frontend, page, cache, preview]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-12T11:00:44.802Z
 sources:
   - id: openwiki-source-416f8fbc8990e6277cc33995
     resource: repo://src/app/(frontend)/%5Bslug%5D/dofus-data.ts
@@ -25,7 +22,10 @@ sources:
     resource: repo://tests/integration/dofus-guide-queries.test.ts
   - id: openwiki-source-dfcb2081da061b860bb5cf7e
     resource: repo://tests/unit/dofus-guide-page.test.ts
-generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
+generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-14T11:00:46.827Z
 ---
 
 # Dofus guide page
@@ -34,7 +34,7 @@ A published Dofus guide (see [Dofus guide data model](dofus-guide-data.md)) rend
 
 ## Route
 
-`src/app/(frontend)/[slug]/page.tsx` tries, in order, a quest guide, an achievement page and a Dofus guide; slugs never collide across them. `loadDofusGuide(slug)` runs only when neither of the first two exists, and `notFound()` follows when it returns null. `generateMetadata` uses the same order: for a Dofus guide the title and description come from `dofusPageStrings.seo` with the guide name, the canonical URL is `/<slug>`, Open Graph type is `article`, and a preview sets `robots: { index: false, follow: false }`.
+`src/app/(frontend)/[slug]/page.tsx` tries, in order, a quest guide, an achievement page, a Dofus guide and a checklist; slugs never collide across them. `loadDofusGuide(slug)` runs only when neither of the first two exists; when it returns null the route tries a checklist and then calls `notFound()` (see [Checklist page and index](../checklists/checklist-page.md)). `generateMetadata` uses the same order: for a Dofus guide the title and description come from `dofusPageStrings.seo` with the guide name, the canonical URL is `/<slug>`, Open Graph type is `article`, and a preview sets `robots: { index: false, follow: false }`.
 
 A guide in state `preparing` has no page: the query filters it out for visitors, so the route returns 404.
 

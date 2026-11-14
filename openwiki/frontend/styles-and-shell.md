@@ -16,6 +16,10 @@ sources:
     resource: repo://src/components/achievement/MetalogrosIsland.tsx
   - id: openwiki-source-abb20cd71cbe6f9faaed0ea7
     resource: repo://src/components/dofus/DofusIndexIsland.tsx
+  - id: openwiki-source-7ba3e6f5057719fdf70c6941
+    resource: repo://src/components/game/game.css
+  - id: openwiki-source-2a67994ef743619f0decb35a
+    resource: repo://src/components/site/Breadcrumb.tsx
   - id: openwiki-source-2f580cf8b5193905cc52f99b
     resource: repo://src/components/ui/view-transition.ts
   - id: openwiki-source-ebaecf0b9cf2bccc008459f4
@@ -28,8 +32,12 @@ sources:
     resource: repo://src/styles/globals.css
   - id: openwiki-source-8728a958dd5a79ae9c3ca846
     resource: repo://src/styles/theme.css
+  - id: openwiki-source-f2beaf80b1decf5de1f10e4c
+    resource: repo://tests/e2e/hojas-de-estilo.spec.ts
   - id: openwiki-source-0d3ca97f277fd81c10735a75
     resource: repo://tests/e2e/movimiento.spec.ts
+  - id: openwiki-source-3406b948c35715146f1380ae
+    resource: repo://tests/unit/css-units.test.ts
   - id: openwiki-source-82f08a433a1f3b4a0e0ee9bb
     resource: repo://tests/unit/emblem.test.tsx
   - id: openwiki-source-a43a9e5ed45afaa192ecca23
@@ -38,10 +46,10 @@ sources:
     resource: repo://tests/unit/theme-css.test.ts
   - id: openwiki-source-a6bbe9fe2145f44825758407
     resource: repo://tests/unit/view-transition.test.ts
-generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
+generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-12T11:00:44.802Z
+    at: 2026-11-14T11:00:46.827Z
 ---
 
 # Styles, tokens and site shell
@@ -52,16 +60,28 @@ Visual rules live in `DESIGN.md`. The tokens ship in `src/styles/theme.css`, and
 
 PostCSS runs only `@tailwindcss/postcss` (`postcss.config.mjs`). `src/styles/globals.css` imports `tailwindcss`, then `theme.css` and `fonts-fallback.css`, and the frontend layout imports `globals.css`. There is no `tailwind.config` file: Tailwind v4 reads everything from the `@theme` blocks.
 
+## Units and root size
+
+Sizes are written in rem, px ÷ 16 (24px is `1.5rem`), in `theme.css`, in every hand-written stylesheet and in Tailwind arbitrary values (`size-10.5`, not `size-[42px]`), so the whole interface scales with the root font size. Only hairlines under 3px (borders, outlines, their offsets and 1px shadow offsets) stay in px so they stay sharp. From 1024px `globals.css` sets `html { font-size: 110% }` (`@media (min-width: 64rem)`), so text and interface, header and footer included, render 10 percent bigger; phones and tablets keep the 16px root.
+
+Inline styles only pass data: a `style={…}` sets custom properties that carry data into the CSS (a section's `--color-section`, a progress bar's `--ratio`, an icon's size in `--icon`) and nothing else.
+
+`tests/unit/css-units.test.ts` enforces both rules: it reads every `.css` and `.tsx` file under `src` and fails on a px value of 3 or more in hand-written CSS or a Tailwind arbitrary class, on an SVG part's `transform-origin` in rem instead of viewBox percentages, and on an inline style key that is not a custom property.
+
+## Stylesheets per page
+
+A page loads at most four stylesheets. Each one blocks the first paint, and over HTTP/1.1 Chrome opens six connections per origin, two of which go to the preloaded font and the first content image, so a fifth stylesheet waits for a free connection; on the `/<slug>` pages, whose LCP is text, that pushed the LCP past the 2.5 s budget. Shared rules therefore join an existing stylesheet instead of adding one: the breadcrumb's styles live in `game.css`, which the guide, achievement and Dofus guide pages already load. `tests/e2e/hojas-de-estilo.spec.ts` requests every page in `lighthouserc.cjs` and fails when its HTML links more than four stylesheets, so a page added to Lighthouse CI is checked too (see [Performance budgets](../testing/performance-budgets.md)).
+
 ## Token layers in theme.css
 
 `theme.css` has four token layers and one rule for nested themes.
 
 1. **`@theme static`: scales.** It first resets Tailwind's defaults (`--color-*: initial`, `--font-*`, `--text-*`, `--radius-*`, `--shadow-*`, `--ease-*`, `--breakpoint-*`), so only our tokens exist and a stray `bg-blue-500` does not compile to anything. Then it defines `--spacing`, the type scale (`--text-hero` down to `--text-micro`, with line height, weight and tracking per step; the display steps are weight 600 with no extra tracking), radii (`--radius-xs` … `--radius-pill`, including `--radius-card`), easings and breakpoints (`sm` 40rem, `md` 48rem, `lg` 64rem, `xl` 80rem). `--color-section` defaults to the theme accent; each section root will set it to its own accent.
 2. **`@theme static inline`: semantic tokens.** `--color-bg`, `--color-surface`, `--color-ink`, `--color-accent` and the rest point at raw `--t-*` variables. Fonts (`--font-display`, `--font-body`, `--font-accent`) point at the `next/font` variables (`--font-montserrat` for display and body, `--font-lilita-one` for the accent), then the Linux fallback faces, then the family names. The icon well and slot colors (`--color-well`, `--color-slot` and their lines) point at `--t-well` and `--t-slot`. Shadows are built from per-mode alpha variables. Because these are `inline`, utilities like `bg-surface` resolve to `var(--t-surface)` at use time, so switching a palette is just changing which `--t-*` values apply.
-3. **`:root` plain variables** for things Tailwind has no namespace for: `--z-*` layers, `--duration-*` and `--width-*` containers (`wide` 1400px, `page` 1200px, `hero` 1100px, `prose` 800px).
-4. **Palettes.** One selector per theme and mode, `[data-theme='…'][data-mode='…']`, for the five themes `arcano`, `amakna`, `bonta`, `brakmar` and `ocre`. Arcano dark is also the `:root` value, so a page with missing or unknown attributes still renders correctly. Status colors and the seven section accents (`misiones`, `logros`, `dofus`, `checklists`, `clases`, `mazmorras`, `herramientas`) depend only on the mode. Shadow alphas are halved in light mode. The game icon wells also depend only on the mode: in dark mode a well is a mix of background and surface; in light mode the step-number well is the raised color, while the slot behind a full-color game icon stays dark (84 percent ink), because the game paints its icons for a dark background.
+3. **`:root` plain variables** for things Tailwind has no namespace for: `--z-*` layers, `--duration-*` and `--width-*` containers (`wide` 87.5rem, `page` 75rem, `hero` 68.75rem, `prose` 50rem: 1400, 1200, 1100 and 800px at the 16px root).
+4. **Palettes.** One selector per theme and mode, `[data-theme='…'][data-mode='…']`, for the five themes `arcano`, `amakna`, `bonta`, `brakmar` and `ocre`. Arcano dark is also the `:root` value, so a page with missing or unknown attributes still renders correctly. Status colors and the seven section accents (`misiones`, `logros`, `dofus`, `checklists`, `clases`, `mazmorras`, `herramientas`) depend only on the mode. Shadow alphas are halved in light mode. The game icon wells also depend only on the mode: in dark mode a well is a mix of background and surface; in light mode the well is the raised color. The slot behind a game icon takes the well's colors in both modes (`--t-slot: var(--t-well)`), so it is light in light mode: the game's icons carry an outline and read on a light background.
 
-The same names work as Tailwind utilities and in hand-written CSS (`var(--color-surface)`), which the ModeToggle stylesheet, `ui.css`, `game.css`, `site.css`, `home.css`, the achievement stylesheets and the future checklist app rely on.
+The same names work as Tailwind utilities and in hand-written CSS (`var(--color-surface)`), which the ModeToggle stylesheet, `ui.css`, `game.css`, `site.css`, `home.css`, the achievement, Dofus guide and checklist stylesheets rely on.
 
 ### Nested themes
 
@@ -86,6 +106,7 @@ These choices serve the LCP and CLS budgets in [Performance budgets](../testing/
 
 `globals.css` sets, in `@layer base`:
 
+- `font-size: 110%` on `html` from 64rem (see [Units and root size](#units-and-root-size)).
 - `color-scheme: dark` on `html`, switched to `light` under `html[data-mode='light']`, with background and text from the tokens.
 - Body font, size and line height from the tokens, no mid-word breaking or automatic hyphenation, and `font-synthesis: none`.
 - A visible `:focus-visible` outline in the ink color.
@@ -104,7 +125,7 @@ DESIGN.md (Motion) asks for every tab, panel and page change to be animated. Und
 Every link of the site loads the whole page (there is no client-side navigation between them), and the browser crosses the two documents with a cross-document view transition. `globals.css` opts in with `@view-transition { navigation: auto; types: pagina; }`, only under `prefers-reduced-motion: no-preference`. During a transition of type `pagina`:
 
 - `.site-hdr` and `.site-ft` get a `view-transition-name`, their groups and new snapshots are not animated and their old snapshots are hidden, so the header and footer stay still. They carry the name only during this transition, so the mode switch (another view transition, without that type) still reveals them with the rest of the page.
-- The old page sits on top (`z-index: 1`) and fades out in 160 ms (`--ease-in`), while the new page, underneath and never at opacity 0, rises 8 px over `--duration-base` (`--ease-out`). `mix-blend-mode: normal` replaces the default `plus-lighter`, which would add the brightness of two opaque pages.
+- The old page sits on top (`z-index: 1`) and fades out in 160 ms (`--ease-in`), while the new page, underneath and never at opacity 0, rises 8 px (`0.5rem`) over `--duration-base` (`--ease-out`). `mix-blend-mode: normal` replaces the default `plus-lighter`, which would add the brightness of two opaque pages.
 
 ### Inside a page
 

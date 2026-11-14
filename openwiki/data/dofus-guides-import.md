@@ -3,9 +3,6 @@ type: workflow
 title: Importing Torre's Dofus guides
 description: How pnpm import:dofus-guides reads each Dofus page of Torre's Squarespace site, links its achievements, quests and items, fetches missing items and video posters, and creates or updates the dofus-guides collection without overwriting what Torre changed in the panel.
 tags: [import, dofus-guides, squarespace, dofusdb, media, scripts]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-12T11:00:44.802Z
 sources:
   - id: openwiki-source-5b54a58d1b51cd490b0e7162
     resource: repo://package.json
@@ -21,11 +18,16 @@ sources:
     resource: repo://scripts/import/dofus-guides/video-poster.ts
   - id: openwiki-source-d669905ebde3b9714d879fbc
     resource: repo://scripts/import/import-dofus-guides.ts
+  - id: openwiki-source-5405923907e430198e1340e6
+    resource: repo://scripts/import/media-by-url.ts
   - id: openwiki-source-aca8c5eca0bb9faed8b02eb3
     resource: repo://tests/integration/import-dofus-guides.test.ts
   - id: openwiki-source-97156998ae416ce7b748cfeb
     resource: repo://tests/integration/import-dofus-items.test.ts
-generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
+generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-14T11:00:46.827Z
 ---
 
 # Importing Torre's Dofus guides
@@ -74,8 +76,8 @@ The database only holds the items quests use, so most Dofus and many Necesitará
 
 ## Media
 
-- **Screenshots** in a step-by-step body are looked up in `media` by `originalUrl` and uploaded once through the Squarespace image fetcher.
-- **Video posters**: the page never asks YouTube for anything (DESIGN.md, Video facade). The import copies the `hqdefault.jpg` thumbnail (`posterUrl` in `scripts/import/dofus-guides/video-poster.ts`) into `media` once and stores it as `videoPoster`. The fetcher accepts only a YouTube-shaped ID, refuses redirects (they could lead to another host) and rejects non-image responses. A poster that fails is logged and the guide is saved without one.
+- **Screenshots** in a step-by-step body are looked up in `media` by `originalUrl` and uploaded once through the Squarespace image fetcher, via the shared `mediaByUrl` (`scripts/import/media-by-url.ts`) that the achievement prose import also uses. In a dry run nothing is uploaded.
+- **Video posters**: the page never asks YouTube for anything (DESIGN.md, Video facade). The import copies the `hqdefault.jpg` thumbnail (`posterUrl` in `scripts/import/dofus-guides/video-poster.ts`) into `media` once and stores it as `videoPoster`. The fetcher accepts only a YouTube-shaped ID, refuses redirects (they could lead to another host) and rejects non-image responses. A poster whose download fails (`ImageDownloadError`) is logged and the guide is saved without one; any other error, such as a database error, stops the import.
 
 ## Creating and re-running
 

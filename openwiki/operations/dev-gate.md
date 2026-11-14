@@ -2,9 +2,6 @@
 type: "Reference"
 title: "Dev environment: public, never indexed"
 openwiki_generated: true
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-06T15:25:11.354Z
 sources:
   - id: openwiki-source-2615540ec7553288b52f775d
     resource: repo://docs/legacy/infra.md
@@ -24,7 +21,12 @@ sources:
     resource: repo://tests/e2e-dev-gate/gate.spec.ts
   - id: openwiki-source-cd6d0cbf6430870fd37a8762
     resource: repo://tests/unit/dev-gate.test.ts
-generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
+  - id: openwiki-source-299f708a96902b808ff05ee6
+    resource: repo://tests/unit/robots.test.ts
+generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-14T11:00:46.827Z
 ---
 
 
@@ -32,7 +34,7 @@ generated: { by: "claude-code", at: "2026-11-06T15:25:11.354Z" }
 
 The `dev` deployment runs the same build as production with `APP_ENV=dev` (or Railway's `RAILWAY_ENVIRONMENT_NAME=dev`). Since 2026-11-05 it is public: nothing asks for credentials. It is kept out of search engines instead. Until that date the same proxy put the whole site behind basic auth; it was dropped once Torre had his own panel account (`docs/legacy/infra.md`, sections 1 and 7).
 
-The code lives in `src/lib/dev-gate/` and `src/proxy.ts`. In production, locally and in CI none of it changes anything.
+The code lives in `src/lib/dev-gate/` and `src/proxy.ts`. In production, locally and in CI none of it changes anything. The proxy also answers old Squarespace URLs with a redirect or a 410 in every environment; that part is described in [Legacy redirects and SEO](redirects-and-seo.md).
 
 ## Detecting dev
 
@@ -42,8 +44,8 @@ The code lives in `src/lib/dev-gate/` and `src/proxy.ts`. In production, locally
 
 | Piece | In dev | Elsewhere |
 |---|---|---|
-| `src/proxy.ts` | Lets every request through and adds `X-Robots-Tag: noindex, nofollow` (`NOINDEX_HEADER`) | Plain pass-through: production is indexed |
-| `robots.txt` (`robotsFor` in `src/lib/dev-gate/robots.ts`, served by the force-dynamic `src/app/robots.ts`) | `User-Agent: *` / `Disallow: /` | Allows everything except `/admin` |
+| `src/proxy.ts` | Adds `X-Robots-Tag: noindex, nofollow` (`NOINDEX_HEADER`) to every response, without asking for credentials | No header: production is indexed |
+| `robots.txt` (`robotsFor` in `src/lib/dev-gate/robots.ts`, served by the force-dynamic `src/app/robots.ts`) | `User-Agent: *` / `Disallow: /` | Allows everything except `/admin` and points at `<public origin>/sitemap.xml` (`siteUrl`) |
 | `/sistema` (`isDesignCatalogEnabled`) | Renders the component catalog, itself `noindex` | 404 in production |
 | Sentry | Reports with the `dev` environment when `SENTRY_DSN` is set | `production`, or off locally and in CI |
 
@@ -56,8 +58,8 @@ With no basic auth in front, the panel relies on Payload's login. The `users` co
 ## Tests
 
 - `tests/unit/dev-gate.test.ts` covers `isDevEnvironment` (`APP_ENV`, Railway's variable, spaces and case, non-dev values) and the proxy: in dev it passes without asking for credentials and adds `noindex`, outside dev it leaves the response alone, and the module no longer exports a basic-auth gate.
-- `pnpm test:e2e:dev-gate` (`playwright.dev-gate.config.ts`) builds and starts the app the E2E way with `APP_ENV=dev` on `E2E_DEV_GATE_PORT` (3101); `E2E_SKIP_BUILD=1` reuses the `pnpm test:e2e` build because the proxy reads the environment at start. `tests/e2e-dev-gate/gate.spec.ts` checks that the home page and a seeded guide load with no credentials and with `noindex`; that `/admin` asks for Payload's own login; that Next's static files and API responses (`/api/health`, `/api/users`) carry `noindex` and never a `WWW-Authenticate` challenge; and that `robots.txt` disallows everything.
-- `tests/unit/robots.test.ts` covers `robotsFor` in and out of dev.
+- `pnpm test:e2e:dev-gate` (`playwright.dev-gate.config.ts`) builds and starts the app the E2E way with `APP_ENV=dev` on `E2E_DEV_GATE_PORT` (3101); `E2E_SKIP_BUILD=1` reuses the `pnpm test:e2e` build because the proxy reads the environment at start. `tests/e2e-dev-gate/gate.spec.ts` checks that the home page and a seeded guide load with no credentials and with `noindex`; that `/admin` asks for Payload's own login; that Next's static files and API responses (`/api/ready`, which reports the database as `ok`, and `/api/users`) carry `noindex` and never a `WWW-Authenticate` challenge; and that `robots.txt` disallows everything.
+- `tests/unit/robots.test.ts` covers `robotsFor` in and out of dev, including the sitemap pointer, which in production needs `NEXT_PUBLIC_SITE_URL`: without it `robotsFor` throws rather than announce localhost.
 - `tests/unit/railway-config.test.ts` checks that `dev` sets `APP_ENV=dev` and declares no basic-auth variables.
 
 ## Related pages

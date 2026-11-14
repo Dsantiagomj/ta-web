@@ -3,10 +3,9 @@ type: data-model
 title: Dofus guide data model
 description: The dofus-guides collection (one guide per Dofus, with Necesitarás groups, ordered achievement and quest parts, an optional step-by-step body, video and checklist) and the dofus-guides-index global, with their access rules, shared root slugs, cache tag and migrations.
 tags: [dofus-guides, payload, collections, globals, slugs, cache]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-12T11:00:44.802Z
 sources:
+  - id: openwiki-source-153285322f1fa0bfb7572570
+    resource: repo://src/collections/delete-guard.ts
   - id: openwiki-source-708be0163b21a8d064e79c3c
     resource: repo://src/collections/DofusGuides.ts
   - id: openwiki-source-4f2e53306895c158accd92ec
@@ -27,12 +26,15 @@ sources:
     resource: repo://tests/unit/dofus-guides-index-global.test.ts
   - id: openwiki-source-bf9fb1ff7357ca38b1ad1283
     resource: repo://tests/unit/revalidate-guides.test.ts
-generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
+generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-14T11:00:46.827Z
 ---
 
 # Dofus guide data model
 
-Torre's Dofus guides say what each Dofus asks for and which achievements and quests give it. They live in the `dofus-guides` collection (`src/collections/DofusGuides.ts`, "Guías de Dofus" in the panel group "Guías"), one document per Dofus. Each published guide renders at `/<slug>` (see [Dofus guide page](dofus-guide-page.md)), and every guide, published or not, has a card on `/guias-dofus` (see [Dofus guides index and menu](dofus-guides-index.md)). The [Dofus guides import](../data/dofus-guides-import.md) seeds them from Torre's current site.
+Torre's Dofus guides say what each Dofus asks for and which achievements and quests give it. They live in the `dofus-guides` collection (`src/collections/DofusGuides.ts`, "Guías de Dofus" in the panel group «Contenido», searchable by name, slug and aliases), one document per Dofus. Each published guide renders at `/<slug>` (see [Dofus guide page](dofus-guide-page.md)), and every guide, published or not, has a card on `/guias-dofus` (see [Dofus guides index and menu](dofus-guides-index.md)). The [Dofus guides import](../data/dofus-guides-import.md) seeds them from Torre's current site.
 
 A Dofus guide does not copy quests. It points to achievement pages and quest guides, and the page reads their quests and links at render time. Editing an achievement page's quests therefore changes every Dofus guide that lists it.
 
@@ -41,7 +43,8 @@ A Dofus guide does not copy quests. It points to achievement pages and quest gui
 The collection follows the rules of the other editorial collections (see [Collections and access](../cms/collections.md)):
 
 - **Drafts** with up to 50 versions per document (`versions: { drafts: true, maxPerDoc: 50 }`).
-- **Access**: `readPublishedOrAll` (panel users read drafts, visitors only `_status: published`); create, update and delete need a panel user.
+- **Access**: `readPublishedOrAll` (panel users read drafts, visitors only `_status: published`); create and update need a panel user. Delete is `adminOrNotImported('importSnapshot')`: an admin deletes any guide, an editor only one the import did not create; a duplicate drops `importSnapshot` and `originalUrl` (`clearOnDuplicate`), so the copy is the editor's. A `beforeDelete` hook (`refuseReferencedDelete('dofus-guides')`) refuses to delete a guide a checklist points at. See [Admin panel](../cms/admin-panel.md).
+- **Locked fields**: the Dofus item (`dofus`) and `order` take `lockedOnceSet`: anyone fills them while empty, only an admin changes a saved value.
 - **Preview**: `livePreview` with a 390 × 844 "Móvil" breakpoint and `preview`, both through `guidePreviewUrl`, the same `/vista-previa` route as quest guides.
 - **Default order**: `order`. The default columns are name, order, state, status and updated date.
 
@@ -92,11 +95,11 @@ The quests of an achievement come from its achievement page, where they are edit
 
 ## One slug space at the root
 
-Dofus guides share `/<slug>` with quest guides, achievement pages and metalogros. `dofus-guides` is the fourth entry of `ROOT_SLUG_COLLECTIONS` in `src/collections/root-slug.ts`, and the collection runs `rejectSharedSlug('dofus-guides')` in `beforeValidate`: a slug another of the four collections uses, stored or in its latest draft, is rejected with a message naming the owner ("una guía de Dofus" from the other side). `/guias-dofus` is a reserved route segment, so no document of any of the four can take it. Unlike the achievement pages, a Dofus guide's slug is never filled automatically. See [Achievement data model](../achievements/achievement-data.md#one-slug-space-at-the-root).
+Dofus guides share `/<slug>` with quest guides, achievement pages, metalogros and checklists. `dofus-guides` is one of the five `ROOT_SLUG_COLLECTIONS` in `src/collections/root-slug.ts`, and the collection runs `rejectSharedSlug('dofus-guides')` in `beforeValidate`: a slug another of the five collections uses, stored or in its latest draft, is rejected with a message naming the owner ("una guía de Dofus" from the other side), and so is a source of the legacy redirect table. `/guias-dofus` is a reserved route segment, so no document of any of the five can take it. Unlike the achievement pages, a Dofus guide's slug is never filled automatically. See [Achievement data model](../achievements/achievement-data.md#one-slug-space-at-the-root).
 
 ## The index global
 
-`dofus-guides-index` (`src/globals/DofusGuidesIndex.ts`, "Índice de guías de Dofus" in the "Guías" group) holds the index's only hand-written content: a localized rich-text `intro` under the page title. Anyone can read it and panel users can update it. The cards themselves come from the collection.
+`dofus-guides-index` (`src/globals/DofusGuidesIndex.ts`, "Índice de guías de Dofus" in the «Contenido» group) holds the index's only hand-written content: a localized rich-text `intro` under the page title. Anyone can read it and panel users can update it. The cards themselves come from the collection.
 
 ## Cache and revalidation
 
@@ -104,10 +107,10 @@ Every reader of Dofus guide data caches it under the `dofus-guides` tag with a 6
 
 | Saved or deleted | Tags expired |
 |---|---|
-| A Dofus guide | `dofus-guides` and `guide-pages` (the hook's reason: every page's menu links the published Dofus) |
+| A Dofus guide | `dofus-guides`, `guide-pages` (every page's menu links the published Dofus) and `checklists` (a checklist takes its egg, color and breadcrumb from its Dofus guide) |
 | The index global | `dofus-guides` |
-| A quest guide or a Media file | `guide-pages`, `achievement-pages` and `dofus-guides` |
-| An achievement page or a metalogro | `achievement-pages`, `guide-pages` and `dofus-guides` |
+| A quest guide or a Media file | `guide-pages`, `achievement-pages`, `dofus-guides` and `checklists` |
+| An achievement page or a metalogro | `achievement-pages`, `guide-pages`, `dofus-guides` and `checklists` |
 
 The hooks run on drafts too, which is cheap and also covers unpublishing. Outside a Next request (the import, scripts, tests) `revalidateTag` throws a "static generation store missing" invariant, which `expire` ignores. Writes made outside the server, such as the import, show within ten minutes.
 

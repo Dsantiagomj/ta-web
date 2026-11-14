@@ -20,10 +20,10 @@ sources:
     resource: repo://tests/e2e/sistema.spec.ts
   - id: openwiki-source-6da55c25d9257d55461d50ff
     resource: repo://tests/unit/design-catalog.test.ts
-generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
+generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-12T11:00:44.802Z
+    at: 2026-11-14T11:00:46.827Z
 ---
 
 # Component catalog (/sistema)
@@ -46,13 +46,13 @@ Anything else gets a 404, including production, `NODE_ENV=test`, and `E2E_DESIGN
 
 The page calls `await connection()` before reading the environment, so the decision is made on every request and never baked in at build time. That is what lets one `pnpm build` serve both the E2E run (catalog on) and a production start (catalog off). The page metadata also sets `robots: { index: false, follow: false }`.
 
-`/sistema` is not in the Lighthouse CI page list (`lighthouserc.cjs` measures the home page, the seeded guide `/seis-pies-bajo-tierra`, the seeded achievement page `/la-ocasion-hace-al-ladron`, `/metalogros`, `/guias-dofus` and the seeded Dofus guide `/dofus-ocre`). See [Performance budgets](../testing/performance-budgets.md).
+`/sistema` is not in the Lighthouse CI page list (`lighthouserc.cjs` measures the home page, the seeded guide `/seis-pies-bajo-tierra`, the seeded achievement page `/la-ocasion-hace-al-ladron`, `/metalogros`, `/guias-dofus`, `/checklists`, the seeded Dofus guide `/dofus-ocre` and the seeded checklist `/checklist-nebuloso`). See [Performance budgets](../testing/performance-budgets.md).
 
 ## Page structure
 
 - The page header has the title "Sistema de diseño", a lead paragraph and a jump list with one link per section (`#arcano-dark`, `#bonta-light`, …).
 - `CatalogSection` renders one `<section>` per theme and mode with its own `id`, `data-theme`, `data-mode` and `aria-labelledby`. Every id inside a section carries the `theme-mode` key, so the ten copies never repeat an id. The section sets `--color-section` to the missions accent, as a guide page root would.
-- Inside, each component group is a `Group` with a `data-component` attribute (`brand`, `site`, `buttons`, `chips`, `callouts`, `torre`, `figures`, `checkbox`, `cards`, `items`, `header`, `wells`, `fight`, `coordinates`, `steps`, `next`, `chain`, `video`, `dofus`, `image`) and a heading from `catalogStrings.groups`. Groups show several states side by side: the Torre emblem in its simple 16 px variant and at 30, 36 and 64 px, the Sello lockup in its header and footer sizes, a header menu panel (`MenuPanelPreview`; the Dofus panel gets a sample `dofusNav` list with one Dofus in preparation, as `loadDofusNav` would give it), the site footer and a figure written with `Amount`, disabled and compact buttons, a checked and a disabled checkbox, a quest header with the NPC and full data and one without, every fixed game icon well plus an item icon and an empty well, the steps separated by a line, the next quest card with art and without it, a short and a trimmed achievement chain, a video with and without a poster, item chips whose name copies on click, and the Dofus guide parts: index cards (one tagged, one in preparation, dimmed and without a link), Necesitarás by groups and an achievement with its quests as a ruled list (see [Dofus guide page](../dofus-guides/dofus-guide-page.md)).
+- Inside, each component group is a `Group` with a `data-component` attribute (`brand`, `site`, `buttons`, `chips`, `callouts`, `torre`, `figures`, `checkbox`, `cards`, `items`, `header`, `wells`, `fight`, `coordinates`, `steps`, `next`, `chain`, `video`, `dofus`, `checklists`, `achievement`, `image`) and a heading from `catalogStrings.groups`. Groups show several states side by side: the Torre emblem in its simple 16 px variant and at 30, 36 and 64 px, the Sello lockup in its header and footer sizes, a header menu panel (`MenuPanelPreview`; the Dofus panel gets a sample `dofusNav` list with one Dofus in preparation, as `loadDofusNav` would give it), the site footer and a figure written with `Amount`, disabled and compact buttons, a checked and a disabled checkbox, a quest header with the NPC and full data and one without, every fixed game icon well plus an item icon and an empty well, the steps separated by a line, the next quest card with art and without it, a short and a trimmed achievement chain, a video with and without a poster, item chips whose name copies on click, and the Dofus guide parts: index cards (one tagged, one in preparation, dimmed and without a link), Necesitarás by groups and an achievement with its quests as a ruled list (see [Dofus guide page](../dofus-guides/dofus-guide-page.md)); the checklist index cards (see [Checklist page and index](../checklists/checklist-page.md)); and the achievement page parts: «Necesitarás en total» in its groups (one sample with every group, one with items only) and the numbered quest list, short and long (see [Achievement page](../achievements/achievement-page.md)).
 - `<PageEnhancements />` is rendered once at the end, so coordinate copy, the video player and the fullscreen image viewer work on the page.
 
 `?tema=` and `?modo=` filter the sections: `/sistema?tema=bonta&modo=light` keeps a single section, which is how screenshots and most E2E tests target one theme.
@@ -77,7 +77,7 @@ Each section sets `data-theme` and `data-mode` on an element below `<html>`. Tai
 - clicking a coordinates chip copies `/travel 1,-17` and the status toast says "Copiado: /travel 1,-17"; Enter on another chip does the same;
 - an item name in the quest header copies the name without the quantity (a click on the icon well's center works too), the status says "Copiado: <name>", the copy icon is hidden at rest and shown on hover, an item chip never shows it, and Enter copies as well;
 - every `.hit-target` element has an `::after` of at least 40px, and the 32px coordinates chip has a target of at least 40px;
-- the icon wells stay dark in light mode, in every theme;
+- the icon wells are light in light mode, in every theme;
 - the video facade makes no request to a YouTube, `ytimg` or `googlevideo` host until clicked, and the click inserts a `youtube-nocookie.com/embed/…?autoplay=1` iframe;
 - a figure opens the viewer dialog with the loaded image and its caption, the dialog copies the section's `data-theme`, Esc closes it, and focus returns to the link; at 390px the image fits the viewport, and both the "Cerrar" button and a click on the backdrop close it;
 - axe (`@axe-core/playwright`, tags `wcag2a`, `wcag2aa`, `wcag21a`, `wcag21aa`, `wcag22aa`) reports no violations for the open viewer and for the whole page, after waiting for every animation to finish so contrast is measured at rest;

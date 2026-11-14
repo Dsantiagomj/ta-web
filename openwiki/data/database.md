@@ -54,6 +54,12 @@ sources:
     resource: repo://src/migrations/20261110_052805_dofus_guides_import.ts
   - id: openwiki-source-4bfd0e775c12eadebbe4636f
     resource: repo://src/migrations/20261110_131101_dofus_guides_index.ts
+  - id: openwiki-source-5adca977fa05d4c902072c3e
+    resource: repo://src/migrations/20261113_011531_quest_stages.ts
+  - id: openwiki-source-0d658c90872d5b6e2aaf6873
+    resource: repo://src/migrations/20261113_232009_quest_guide_dungeon_picks.ts
+  - id: openwiki-source-283eae30e65b21a6738bd616
+    resource: repo://src/migrations/20261114_011851_users_roles.ts
   - id: openwiki-source-c306fbe28866186a2df852b4
     resource: repo://src/migrations/index.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
@@ -70,10 +76,10 @@ sources:
     resource: repo://tests/integration/needs-list-migration.test.ts
   - id: openwiki-source-b031ce15fe3cb852929a85bf
     resource: repo://tests/unit/database-url.test.ts
-generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
+generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-12T11:00:44.802Z
+    at: 2026-11-14T11:00:46.827Z
 ---
 
 # Database and migrations
@@ -140,7 +146,7 @@ This means E2E and CI exercise the same path as production: an empty database pl
 
 ## Migrations
 
-Migrations live in `src/migrations/` and are listed in `src/migrations/index.ts`. Each has a `.ts` file with `up` and `down` (raw SQL through `db.execute(sql\`…\`)`) and a `.json` snapshot Payload uses to compute the next diff. There are seventeen today:
+Migrations live in `src/migrations/` and are listed in `src/migrations/index.ts`. Each has a `.ts` file with `up` and `down` (raw SQL through `db.execute(sql\`…\`)`) and a `.json` snapshot Payload uses to compute the next diff. There are twenty-eight today:
 
 - `20261103_030359_initial` creates the `users`, `users_sessions`, `media`, `media_variants`, `media_locales` and Payload system tables (`payload_kv`, `payload_locked_documents`, `payload_preferences`, `payload_migrations` and their relation tables).
 - `20261104_070541_quests` adds the [quests collection](../cms/collections.md): `quests` with a unique index on `dofus_id`, `quests_locales`, `quests_rels` (for `prerequisites`), `quests_start_positions` and `quests_start_positions_locales`, plus a `quests_id` column on `payload_locked_documents_rels`. Its `down` drops all of them. It does not drop the `payload_locked_documents_rels_quests_fk` constraint separately, because `DROP TABLE "quests" CASCADE` already removes it and a second drop would make the rollback fail.
@@ -159,8 +165,19 @@ Migrations live in `src/migrations/` and are listed in `src/migrations/index.ts`
 - `20261110_000232_dofus_guides` adds Torre's Dofus guides: `dofus_guides` with `_locales` and `_rels`, the Necesitarás group tables, one table (and `_locales` table) per part block and body block, the metalogro rows in `dofus_meta_ach` (a short `dbName`, because the default name of its version index passes Postgres's 63-character limit), and the `_dofus_guides_v` version twins. See [Dofus guide data model](../dofus-guides/dofus-guide-data.md).
 - `20261110_052805_dofus_guides_import` adds the columns the import needs: `video_poster_id` (a foreign key to `media`, `ON DELETE set null`) and the `import_snapshot` jsonb, on `dofus_guides` and its version table.
 - `20261110_131101_dofus_guides_index` adds the `dofus-guides-index` global: `dofus_guides_index` and `dofus_guides_index_locales` with the localized `intro`.
+- `20261113_011531_quest_stages` adds each quest's DofusDB stages and objectives: `quests_stages`, `quests_stages_objectives` and their `_locales` tables.
+- `20261113_151549_checklists` adds the [checklists collection](../checklists/checklist-data.md): `checklists` with its steps, segments, prerequisite groups and rows, step achievements and quests, their `_locales`, `_rels`, `_texts` and `_numbers` tables, and the `_checklists_v` version twins.
+- `20261113_160051_checklist_needs` adds the steps' «Necesitarás» rows (`checklists_steps_needs` and its locales, with the text label, group and totals flag) and their version twins.
+- `20261113_174951_subareas` adds the `subareas` game data collection with its locales.
+- `20261113_175047_checklist_step_zone` adds the localized `zone` of each checklist step.
+- `20261113_183838_dungeons` adds the `dungeons` game data collection, its locales and `dungeons_rels` for the bosses.
+- `20261113_232007_achievement_prose_snapshot` adds `import_snapshot` to `achievement_pages` and its version table, for the [prose import](achievement-prose-import.md).
+- `20261113_232009_quest_guide_dungeon_picks` adds a quest guide's hand-picked dungeons (`quest_guides_summary_needs_dungeons` and its locales) and their version twins.
+- `20261114_000512_checklist_owned_moves` adds `legacy.ownedMoves` to checklists, for the progress migration.
+- `20261114_003108_users_name` adds a panel account's `name`.
+- `20261114_011851_users_roles` adds `users.role` (`admin` or `editor`). It creates the column with default `admin`, so every account that existed then becomes an admin, and then sets the default to `editor` for new accounts. `tests/integration/users-roles-migration.test.ts` checks this. See [Admin panel](../cms/admin-panel.md).
 
-Every migration must roll back cleanly: if a `down` fails, a bad deploy has no way back. `tests/integration/migrations.test.ts` checks this for the latest migration (the last entry in `src/migrations/index.ts`, today `20261110_131101_dofus_guides_index`). It runs the Payload CLI, `pnpm payload migrate:down` and then `pnpm payload migrate`, against the integration database with `DATABASE_CONNECTION=direct`, and asserts the latest migration is rolled back and then re-applied, so the database ends as it started. It uses the CLI because Payload imports migration files with Node, not Vitest. It avoids `migrate:refresh`, which in Payload 3.92 rolls back oldest first and fails. When a command fails, the test rethrows with the CLI's stdout and stderr so the Postgres error is visible. Starting the CLI twice can pass the suite's 30 s default on a loaded machine, so this test has its own 120 s timeout.
+Every migration must roll back cleanly: if a `down` fails, a bad deploy has no way back. `tests/integration/migrations.test.ts` checks this for the latest migration (the last entry in `src/migrations/index.ts`, today `20261114_011851_users_roles`). It runs the Payload CLI, `pnpm payload migrate:down` and then `pnpm payload migrate`, against the integration database with `DATABASE_CONNECTION=direct`, and asserts the latest migration is rolled back and then re-applied, so the database ends as it started. It uses the CLI because Payload imports migration files with Node, not Vitest. It avoids `migrate:refresh`, which in Payload 3.92 rolls back oldest first and fails. When a command fails, the test rethrows with the CLI's stdout and stderr so the Postgres error is visible. Starting the CLI twice can pass the suite's 30 s default on a loaded machine, so this test has its own 120 s timeout.
 
 `tests/integration/needs-list-migration.test.ts` checks the needs list migration on real data rather than an empty schema. It creates a guide with notes, calls that migration's `down` and `up` functions directly on the fully migrated integration database, and in between checks the text is back in `summary_needs` and writes a different text into the old columns of the guide and its versions, as a guide imported before the list would have. After `up`, the guide and its version read that text as `summary.needs.notes`, with an empty item list. `up` runs in a `finally` so a failed assertion never leaves the test database on the old schema.
 

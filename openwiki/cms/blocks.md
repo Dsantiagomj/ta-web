@@ -12,14 +12,20 @@ sources:
     resource: repo://src/blocks/FightBlock.ts
   - id: openwiki-source-9fc249cbcc23760458b89f17
     resource: repo://src/blocks/ImageBlock.ts
+  - id: openwiki-source-2c8962e2c6b449aac46f9e28
+    resource: repo://src/blocks/ProseVideoBlock.ts
   - id: openwiki-source-27363e3cad65dad5db477db7
     resource: repo://src/blocks/RichTextBlock.ts
   - id: openwiki-source-ad08ffda0491e36563bfa2bc
     resource: repo://src/blocks/StepBlock.ts
   - id: openwiki-source-f39acc8c60346c7f65fe191c
     resource: repo://src/blocks/VideoBlock.ts
+  - id: openwiki-source-153285322f1fa0bfb7572570
+    resource: repo://src/collections/delete-guard.ts
   - id: openwiki-source-d58a4d3cf178bb2fa2e94831
     resource: repo://src/collections/Media.ts
+  - id: openwiki-source-38614666f550e90edceb8c65
+    resource: repo://src/collections/prose-editor.ts
   - id: openwiki-source-7a2723ea85824e431ff5eb54
     resource: repo://src/collections/QuestGuides.ts
   - id: openwiki-source-7c8d27e389afcc66bc579a2f
@@ -50,10 +56,10 @@ sources:
     resource: repo://tests/unit/quest-guides-collection.test.ts
   - id: openwiki-source-d474a682c3ea9ebeaa53059c
     resource: repo://tests/unit/video-url.test.ts
-generated: { by: "claude-code", at: "2026-11-08T11:00:21.339Z" }
+generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-08T11:00:21.339Z
+    at: 2026-11-14T11:00:46.827Z
 ---
 
 # Guide body blocks
@@ -77,7 +83,7 @@ Each block sets a `slug` (stored as the item's `blockType`), Spanish panel label
 
 ### Rich text
 
-`RichTextBlock` and `CalloutBlock` use the `richText` field type with no editor of their own, so they take the global `lexicalEditor()` from `src/payload.config.ts`. These are the first rich text fields in the project, which is why the admin import map now carries the Lexical field, cell, diff and feature components. See [Payload CMS configuration](payload-config.md).
+`RichTextBlock` and `CalloutBlock` use the `richText` field type with no editor of their own, so they take the global `lexicalEditor()` from `src/payload.config.ts` (with the panel's Spanish placeholder). These were the first rich text fields in the project, which is why the admin import map carries the Lexical field, cell, diff and feature components. See [Payload CMS configuration](payload-config.md).
 
 ### Image
 
@@ -111,11 +117,15 @@ The step title existed until the `20261107_143215_remove_step_title` migration. 
 
 `validateStepCoordinate` enforces "both or neither" and whole numbers. A filled value that is not an integer fails with "Las coordenadas del juego son números enteros."; an empty value fails with "Pon X e Y, o deja las dos vacías." only when its sibling is filled, so the error lands on the missing field.
 
+## Video inside prose
+
+`ProseVideoBlock` (`src/blocks/ProseVideoBlock.ts`, `blockType` `proseVideo`) is not a body block. It is a Lexical block that the shared prose editor (`src/collections/prose-editor.ts`) adds to the default features through `BlocksFeature`, so Torre can drop a YouTube video between paragraphs of an achievement page's intro and outro. It has a required `url` (validated by the same `validateVideoUrl`), a required `title` (shown under the video and read by screen readers) and an optional `poster` upload; without a poster the facade shows the title. It is separate from `VideoBlock` because it carries its own poster. The page renders it as the video facade, so nothing loads from YouTube until a click. See [Achievement page](../achievements/achievement-page.md).
+
 ## How blocks are stored
 
 The `20261104_124207_quest_guides` migration gives each block type its own table, named after the collection and the block slug: `quest_guides_blocks_rich_text`, `quest_guides_blocks_image`, `quest_guides_blocks_video` and `quest_guides_blocks_callout`. The `20261105_135506_guide_step_block` migration added `quest_guides_blocks_step` (with numeric `x` and `y`) and a `_locales` table for the title, which `20261107_143215_remove_step_title` drops. The `20261107_020402_guide_v5_game_images_fight` migration added `quest_guides_blocks_fight` and its `quest_guides_blocks_fight_monsters` rows. Each row carries `_order` (position in the list), `_parent_id` (the guide), `_path` (the field path, `body`), a string `id` and an optional `block_name`. Localized fields go to a matching `_locales` table keyed by `_locale`; rich text is stored there as `jsonb`.
 
-`quest_guides_blocks_image.image_id` references `media.id` with `ON DELETE set null`, so deleting a media file leaves the block in place with no image rather than deleting it.
+`quest_guides_blocks_image.image_id` references `media.id` with `ON DELETE set null`, so at the database level deleting a media file would leave the block in place with no image. In practice the panel refuses that delete: the media collection's delete guard finds body images (`body.image`, which also covers images inside steps) in published guides and drafts and names the guides (see [Admin panel](admin-panel.md)).
 
 Because the collection has drafts and versions, every block table has a twin under `_quest_guides_v_blocks_*` that holds the body of each saved version. See [Collections and access](collections.md) and [Database and migrations](../data/database.md).
 

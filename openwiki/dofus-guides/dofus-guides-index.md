@@ -3,9 +3,6 @@ type: feature
 title: Dofus guides index and menu
 description: The /guias-dofus index (Torre's intro, one card per Dofus in her order, a search and tag filter island that animates with view transitions) and how the site header's Dofus menu and search list the Dofus from the dofus-guides collection.
 tags: [dofus-guides, frontend, index, search, navigation, cache]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-12T11:00:44.802Z
 sources:
   - id: openwiki-source-2335a47ac9395688d636b848
     resource: repo://src/app/(frontend)/guias-dofus/page.tsx
@@ -30,6 +27,9 @@ sources:
   - id: openwiki-source-b9fc2eac8ee9b162727decdc
     resource: repo://tests/unit/dofus-nav.test.ts
 generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-14T11:00:46.827Z
 ---
 
 # Dofus guides index and menu

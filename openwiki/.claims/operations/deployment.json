@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:a860b727966813f914094adb340d990d377d06a6bdd7ed43a0f4591dfa703621",
+  "pageVersion": "sha256:adb6772d2fbca41889ff84459e5dd3b3bdd8f58f00db113ccd3cc7d8419db0bc",
   "claims": [
     {
       "id": "claim_ef4f404736644b89ae37b4f3e616fbb9",
       "statement": "The Railway IaC defines one web service built with Railpack and pnpm build, started with pnpm start, running pnpm migrate as a pre-deploy command with a 600 second timeout, health-checked on /api/health with a 120 second timeout, restarting on failure up to 5 times, with one replica in US East.",
       "evidence": [
         {
-          "resource": "repo://.railway/railway.ts#L27-L47",
-          "version": "repo-lines-v1:sha256:ecfc180cd9b0d848faa069365b0ba76f7cb47637eb1812ae03af2804226e7ed9:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMxYWE4OGQ2ZGE5NjUxMGU4ZjAxOGFkMDFjNDBjMTdjZDdlZWZkMzVmNWNiNjZjOTYzZGVhODE1ZmEwODkzNGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIwNzE1Y2RhNWVjNDEwNjlmMTAxY2JjNDk0OTI2NDMxZTkwNDgwNWNhNjA1NTZlMGM3ZGIxOGJmMjhiM2NkNTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkzYWY5NjhmOWRjZWJhZjZmMGY4Mzg3NTY5N2EwODk0ZGUyNGM3ZDMwMWQ0MTk4YjgxOWRlYWQzNmVjYjE4MWYifQ"
+          "resource": "repo://.railway/railway.ts#L27-L49",
+          "version": "repo-lines-v1:sha256:a1fc8baa7429569cab18a5487bbb9c496bd892d76137750427e5ab7de3817338:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMxYWE4OGQ2ZGE5NjUxMGU4ZjAxOGFkMDFjNDBjMTdjZDdlZWZkMzVmNWNiNjZjOTYzZGVhODE1ZmEwODkzNGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmZGZmMjA5OWRkMTY4OTJhZDc2MTg4ZmNkYTBkZjFkMzU1ODdhZmE3ZDc3NjE1ZDVhNDM3M2VjNmJmN2EwOWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIwNzE1Y2RhNWVjNDEwNjlmMTAxY2JjNDk0OTI2NDMxZTkwNDgwNWNhNjA1NTZlMGM3ZGIxOGJmMjhiM2NkNTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdmZTdhNmE5YWM0MTczNzYzNjY1NWI5M2ExM2QyOTllZTY0MDA5ZTI1MzNmNjc0ODg1ZTFlMDkxNzU5YzI1OTIifQ"
         },
         {
           "resource": "repo://tests/unit/railway-config.test.ts#L25-L55",
@@ -165,10 +165,34 @@
           "version": "repo-lines-v1:sha256:d6d1bfedeb980df6f935a5c888f85cab4bae3be568d5abd75e7751f806fe844b:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MDc2ZDNkMjhkMjFlMDIwMTJiMjBlYWY3ZGJmNzU0MDlhNjI3NzEzNDQzOTAyNWYyODJlMzY4ZTMzMDVhYmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBjNjg2OGMyYzQ0ZjA1MzYxOWNlZjFjYzM4M2UxZDUzMDc0M2I1NzRjYTE5MmFjZTkxNjhhOWNjZjQ2YTg2ZTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_3e38a00cb0f044ddbc952605ed062c05",
+      "statement": "Railway's health check on /api/health only confirms the process answers and never touches the database; a database that does not answer stops the deploy at the pnpm migrate pre-deploy step.",
+      "evidence": [
+        {
+          "resource": "repo://.railway/railway.ts#L35-L41",
+          "version": "repo-lines-v1:sha256:0c160013249affb81fc0156a800a7c1dca6739ff5c960f621434e2e57b024dfc:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWI4YjhhYWZiOTk3NGJjMTZhZmQyZDZhYTViNWU4ZWI5ZDVlYTAwOTNlZjVjNTllNzYwM2NkYTdlZjJjNjk3ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDQ1YmY2MzYzMTIzM2I0Mjg4YjNhM2Y3MzM5MDMwYjIzMzBjODIxYmU3NTMwYWNhNTIwOTZjYWRiY2M0ZDY2YSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGRlMTYzOWJhM2RmZTgyMjJhNGZmYTlkOTM2Yjg3NzBhMWZmY2JlYTMzZjY0YzgwMDU1ZDE1OWQwMTU3NjEyYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDE4NDAwNjFhNmE5NmMyZWM0NmJlMTZmZWVjOTUxMGM0NmZmOTIzYmZiNGUwZTA3MmMzZjNjNzY2YmJkYWMxNiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_e51968e072e847138ea9fe9be79a4525",
+      "statement": "The @smoke tests check /api/health without the database and /api/ready reporting the database as ok, so the post-deploy smoke covers the database.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/smoke.yml#L1-L10",
+          "version": "repo-lines-v1:sha256:a939cb608eda3473077601442d22868a5c0b7864270118813d38e319cbe27d75:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4ZGI3MWQ2MjUyMzc2M2E3ODA2YTUzMzU0MTBhZWNkZTM3ODQwOGE0MWVhNmQ3ODI4NmY1YjQ2YTkwMjJkN2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA4ZGNmZDU4NDliNWFlYTIxMTE5MGMxZTM4ZTMzZmY3M2NhYTJlMTMyYmQyNWE2NWM1YjcyMGE5MjNjY2Q3M2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzOWU1YjJlNjVjYmQwMmE1ZjM1YzAxY2FjMjJiMTZkMGE3YzE2Mzk1Zjg5NjcxNzBhM2Q2ZDRlNDZiMzVlZmEifQ"
+        },
+        {
+          "resource": "repo://tests/e2e/smoke.spec.ts#L145-L164",
+          "version": "repo-lines-v1:sha256:c76eb101ea2ff88fbf376b96f6e3ef972ed4e5c0817805d3c6dcf15893bdda1c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE1Y2JmMjFmYWY1MTQ0MDc2YzczMDRlMzQ5MGU3NjQxY2NiMWZiNGFiZWNlZGIwZWZiMmRjODI5Mjg5OWQ5N2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE4OTVmNTQwYWM3MmVkNTM0MThhN2ExYmI2ODFkZGRmYWE1ZWJkMGRiNWQ0NTFkNTk2NGM2NDJiMTk4YjMxNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-12T11:00:44.802Z"
+    "at": "2026-11-14T11:00:46.827Z"
   }
 }

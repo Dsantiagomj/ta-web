@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:992502a1215b59ad4580b5d7be272cae34603c7b6e04454c4736eef78964e512",
+  "pageVersion": "sha256:0bfaa3d83979649a3776d3f2e0642b8ff0f749d322f244c5c20a1d6929f96c50",
   "claims": [
     {
       "id": "claim_9936ebd9dea946e4b427e760c2d1f74d",
       "statement": "The quest relationship is the first field of a quest guide, in the main area, and its description component QuestAutofill fills the form when a quest is picked.",
       "evidence": [
         {
-          "resource": "repo://src/collections/QuestGuides.ts#L170-L184",
-          "version": "repo-lines-v1:sha256:424c8950526c6816ebff5873a61197def412575f1ac3f86590b1ce74423458b0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNjZWY1NjQyYjU0MzZjOTg0YjAzZjAwMWUwMjBmMjlkOWFlZTBkYzIyYTA0ZjU0NmMzMzJlMTllNTA0YmFhZGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE2YTkyODg1NmIxNzZmNTliYzdkMDVlNTQ2ODIzYTUxMjU0MGQxZWJkYWNlNDQzNzY5YjIwOTBlOWYxMjYwZDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFjNzZiNzQyMTU3N2E5YThlZDFlMzZkZTM3NTg3NjI4MThkZTk3OWZlMzczNDgwOTRkN2FiY2M5OWVjNzNhNzcifQ"
+          "resource": "repo://src/collections/QuestGuides.ts#L258-L273",
+          "version": "repo-lines-v1:sha256:b3e7a1e9e77145b8bcf569af8a39aa64d1c485f4677b6087e38b536708e4714d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNjZWY1NjQyYjU0MzZjOTg0YjAzZjAwMWUwMjBmMjlkOWFlZTBkYzIyYTA0ZjU0NmMzMzJlMTllNTA0YmFhZGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZhMDg3NGRiNGEzZmZiZGRkMWI0NzBmOGE1YjAwNDczNzYyOTM3OGU3ZjNlYjNlM2JmNzZlNzRhYmFiNTZlZTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFjNzZiNzQyMTU3N2E5YThlZDFlMzZkZTM3NTg3NjI4MThkZTk3OWZlMzczNDgwOTRkN2FiY2M5OWVjNzNhNzcifQ"
         },
         {
           "resource": "repo://tests/unit/quest-guides-collection.test.ts#L88-L96",
-          "version": "repo-lines-v1:sha256:d292cc35765ecae948acbc351d83c11483733043b494e81cd2f18c435a1f9666:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmQ3NTEzNzI0YWI3Nzc3NmVkODI3YjQ0MmYxZTEyNjMzMmE5YzkxYjQxNTM0NjliMDA3NTY0NzIyMzU5ZGFhMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjdiODNmZjljNjk3ZTk2NmE0MjhjMTRiYTJhMDc2NWUzOWRkZjJlMmI2MGRlZWQ4MzA0ZmJlNzhlODdkY2JlMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzViNTM4ZWE1OGMwYTkzMDkzYWZkNmZiMjZjNWRjMDhlNzY2ZWM5MGE1MWViMGYzZmI1YWNlMDM4ZTdiZDEzMSJ9"
+          "version": "repo-lines-v1:sha256:671bcf8ff6325d38343966bae427e51413bd8048705d96e58d38da28d6a6e421:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGM1OGUxYjEyZDQxN2ViOTU3ZDA0MjVlOGQ5YzEzMTVlNzhiODIwNWM0MmUxZTQ5NjAyNzhhMmI4NDMzY2E2MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjIzNTI1ODljMzRkM2M2MDY4NTkzMWI2ZWNjNGQ1MDk5MWE3YzU2YzhmYmEyODk0MTE0NjU3NjkwMjcyY2FjMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGVjNzczOTNmY2Q2NmU3OTdjYTFhYjRhOWE4OGE4YWU1ZmNkNTM5NTkxNGJhNjA3NTQ3NzQ1ZTkxNTYzZjQ1OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTlhNjhhZDllNjRhZTBkNjRjNjAyMGUxODEyMWU0MWYxYWZlNDM4NmU1NWMzM2IxZTk5ODY0NmMwYzIyODQzMSJ9"
         }
       ]
     },
@@ -239,8 +239,8 @@
       "statement": "summaryNote tells whether a summary field's value comes from DofusDB, was changed (showing DofusDB's value), is empty and will be filled on save, or has no DofusDB value, and reports missing, loading or failed quest data.",
       "evidence": [
         {
-          "resource": "repo://src/lib/guides/strings.ts#L63-L71",
-          "version": "repo-lines-v1:sha256:97e8e9cdd48a52da5d03877b1d505b4c9a18c6a61ed533fb2fb25fcba911086f:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzdkZGVjYTcwZDc5OTgwOTg5ZGVkZDA4MGQ2YTczYjRhNjNhMzY3N2JlOTBlNTMzMGMwNWJmZDIxMDViN2E0NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGU1NTFiYjZmYjBmOGVhODY4MzQzNTAyMmUzMTc4ZmE4NzdmYzFhMTNhOGI5N2ZmZGZkNTIzODI3YTAxNjVkZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjEwMDhkMDllZmQ2YTY2MmViZDhmMmQ1MWY4NGQ1ZTRlYjg4MmI5MTUwYTMzMjIyZTcyMWQ3YzIwZGNkMDNhZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2U3MWU0NzA2NTMxODdmOGZhYWI0YTQzMThlMTk2ZmM0OThmNmRjZTAxOTQ0MGRkODM5NDBlMDAxMjY4ZGZkMSJ9"
+          "resource": "repo://src/lib/guides/strings.ts#L70-L80",
+          "version": "repo-lines-v1:sha256:0189213b700969aac3f0843859ee6569870cd7cfde68b15db07662c94ecf4481:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5NWM2MjExZGU0MWQ1ZWZiYjRiYWY3ZjdkNThmNjg5MTAxMGU1YTBmMDQ3ZTFiMDljOTllYjczY2MwNzkwM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlNTUxYmI2ZmIwZjhlYTg2ODM0MzUwMjJlMzE3OGZhODc3ZmMxYTEzYThiOTdmZmRmZDUyMzgyN2EwMTY1ZGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE4ZjY5YzgxMjg1MzBkNDE2NTBiMzk5ZmQxMmNkZDQ5Y2Y4OTEyMzVlMDljYTRhNjY2Zjc5MjFmZTVhMDdhNGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNlNzFlNDcwNjUzMTg3ZjhmYWFiNGE0MzE4ZTE5NmZjNDk4ZjZkY2UwMTk0NDBkZDgzOTQwZTAwMTI2OGRmZDEifQ"
         },
         {
           "resource": "repo://src/lib/guides/summary.ts#L167-L196",
@@ -272,11 +272,11 @@
     },
     {
       "id": "claim_fda6bca9660741e189623f5fd0097cb3",
-      "statement": "SummaryNote renders the note for its field from the live form value and the linked quest, keeping line breaks.",
+      "statement": "SummaryNote renders the note for its field from the live form value and the linked quest, keeping line breaks through the field-note class.",
       "evidence": [
         {
-          "resource": "repo://src/components/quest-guide-admin/SummaryNote.tsx#L17-L44",
-          "version": "repo-lines-v1:sha256:e0b189a43662a61b68c80de9e61a65fc6698db3a1fda8439b065aa852d3edf6b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NDM4NDE5NjVlMGJlZjYwNjhjNjJiNDZhMTNkMjg5NDRhNGY4ODliMGU4MjBlNDM1MWFmYzgwNmM5ZTE2MTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVmMzU5NTdjMjg5MzRiZTVjMDk4MDE0ODhlMzBiYTc1OTIwYTNlODEwMWY4OTMwMTEyMGRmZGVhYmZhNmMyYzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/components/quest-guide-admin/SummaryNote.tsx#L17-L42",
+          "version": "repo-lines-v1:sha256:33c51555461c72b76ede3ebd691aec91ce067ee24294e5f05ac8a6b485fb4cd2:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NDM4NDE5NjVlMGJlZjYwNjhjNjJiNDZhMTNkMjg5NDRhNGY4ODliMGU4MjBlNDM1MWFmYzgwNmM5ZTE2MTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVmMzU5NTdjMjg5MzRiZTVjMDk4MDE0ODhlMzBiYTc1OTIwYTNlODEwMWY4OTMwMTEyMGRmZGVhYmZhNmMyYzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://src/components/quest-guide-admin/linked-quest.ts#L53-L72",
@@ -374,19 +374,19 @@
     },
     {
       "id": "claim_c7636acf55d14795a44e34f490c5b1b9",
-      "statement": "The guide's quest field is an optional single relationship to quests labelled 'Misión de DofusDB', described in the panel as 'Elige primero la misión de DofusDB de la guía, solo una: rellena el título, el slug, el SEO y el resumen. Luego solo te queda escribir la guía.'",
+      "statement": "The guide's quest field is an optional single relationship to quests labelled 'Misión de DofusDB', locked once set for editors, whose panel description tells Torre to pick one quest first and that only an admin can change it later.",
       "evidence": [
         {
-          "resource": "repo://src/collections/QuestGuides.ts#L171-L184",
-          "version": "repo-lines-v1:sha256:b5f1f921d69a306efe06d93f2412b357e1db6ce1de9d215b779c2fc40c852adb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5Y2E4OTFiZmY3YWMxZjdjZWFhZTQwZWYwNTEwNjZiZTllZmU0N2I0ZTQyODFlODZjMzE5YmUyYzU1ZWJjZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImExNjYwMGYxZTNjN2UzZmY3Mjg4ZjY2NjQzMTUwYzU5OTA4M2Y1YjViNDQ3NzdiYzFlY2I5OGQ4OGNlMDcwYzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFjNzZiNzQyMTU3N2E5YThlZDFlMzZkZTM3NTg3NjI4MThkZTk3OWZlMzczNDgwOTRkN2FiY2M5OWVjNzNhNzcifQ"
+          "resource": "repo://src/collections/QuestGuides.ts#L258-L273",
+          "version": "repo-lines-v1:sha256:b3e7a1e9e77145b8bcf569af8a39aa64d1c485f4677b6087e38b536708e4714d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNjZWY1NjQyYjU0MzZjOTg0YjAzZjAwMWUwMjBmMjlkOWFlZTBkYzIyYTA0ZjU0NmMzMzJlMTllNTA0YmFhZGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZhMDg3NGRiNGEzZmZiZGRkMWI0NzBmOGE1YjAwNDczNzYyOTM3OGU3ZjNlYjNlM2JmNzZlNzRhYmFiNTZlZTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFjNzZiNzQyMTU3N2E5YThlZDFlMzZkZTM3NTg3NjI4MThkZTk3OWZlMzczNDgwOTRkN2FiY2M5OWVjNzNhNzcifQ"
         },
         {
-          "resource": "repo://src/lib/guides/strings.ts#L45-L47",
-          "version": "repo-lines-v1:sha256:1e633b5861c87b44e76fc8122b4fa7c8caf2859fa66a3713eb18f915ab67dd3b:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWRlOWFhNGVhZjY1ZDQ5YWQxNWQ0NjYzZjMyNmU4MjdjOTMzODdjNTMxMjQ1MjkxOTI5MDhiNzdjZWMzNjM3OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTZlNzIxYzdlNzMyNGVlOGRlMjNiMWUzMDdmZTQ5YTU5MWQ1NGM5YjRkZDBlNWJhNTMxMmQwNGIyMzFiOTk4YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTNjN2U0ZDVkZDI4MTU3M2Q2MTVlMjY0YzFlZjkzYTE4NGJkNTViNGU1ODJmOGIzN2E0ZGZjMjEwODE1ODZiYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTVmNTE4MjZjYTE0MTEzMWNjYzRmOGEyNzVkMGNlZDhmMTZmZWI0YjEzZDhkN2EwODljY2ZlOTY5NmM4NjgxZSJ9"
+          "resource": "repo://src/lib/guides/strings.ts#L44-L48",
+          "version": "repo-lines-v1:sha256:6a24fbbcf6986ac36b64e0f3ab2a2546f6983f510eb4e848e057243bcf3da9f1:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDc2YjhhMGU4ODJmOGUzN2M4MjA4NWZmMTU0OTgzNzI4MWE1MThiYTA4MzUxNWRmZTRhMDIyYjA1MmIwNDQyMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjhmY2QwZjMxMDYwMTBlMTBiMmY0Mzc2YmU3ZjE0YjgzN2VjMTY0YjdkZmY0MDlmODdiYmUxMDcwZDAyNzZiOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzYwOWMzNWZjMDc2NjBiOTJkYjEyNTdiMzkwYzgwNTEwNWJmNGUxYWQ0YzAzZDg0NTg0NzVjNTEzNTk0M2UzOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjgxNzEwZTgxN2JlZTk5NjI1NDFlNjA5ZjM3Yjc4YWE4YzY5MDBkNmQwM2IwOTU3MTIzNTEwNGNmZjQyNmYzOSJ9"
         },
         {
           "resource": "repo://tests/unit/quest-guides-collection.test.ts#L76-L87",
-          "version": "repo-lines-v1:sha256:d94ab845767226eefe05267a0bfcd5b4259d22c70a241a96e18ddd23b39299ea:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2ZTMxYzVlYjJlZTllNzY5ZTVmMDNjMWM0ZjJkOTc3NzBiZTFiYWI0YzY0Y2I1YjEzNjMxNGVhNTU2Y2ViOTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQzMDI5NGM5OTk5Zjg0YjIxZTQ3YmEyNjBlOTNhMzE4MDY1ZWEzYWEyYWMzMTM3YTYzNGVhNjQ1MzU5OWY3ZjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ5ZjViNDA0ZDMwNzQ0NWQ1NTVlMzBmZTQ2M2Y5ODYxMjY0NWNhZThkYmFlMzgwNmUzZDcyM2Q1YzRmODUxMzMifQ"
+          "version": "repo-lines-v1:sha256:085b3f082d1113fdb29c08b83f5eeee1893082f7f86b96becae3fb1109201947:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0OWIyMDU2ZmVjNDg1ZGRmMmZlY2IzM2I4NGRiOWQxNDUzZmZiYzY2NmQ4ZjFlZDEzY2JlNjY3ZTM2YmYzNjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhkNzRlZWM3NmVjNzgzNzIzMTg5NmQ2ODI4NDZkOWE1OTMxMjJlY2MyYzI0Y2EzOGFiMThjZGMwM2M2Y2E1YTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEwYzM0NjkyNDhlM2I3YjE2ZmZkYjAwOTU5OTM2ZTYzZTJlYjIxMmE5ODljZTQ4ODdhMjY1MzM0NzdjNWMyNDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc3Njg4ZTg4YmFiODRmNDI3M2ZkMDBhZjFlZjZkN2ZhYWYyMjgyOThlZjY0MzJjODg3Y2UwMTlhNWFlM2I4YzkifQ"
         }
       ]
     },
@@ -409,8 +409,8 @@
       "statement": "The Squarespace import leaves a guide that names several DofusDB quest IDs without a linked quest and records an oddity asking Torre to pick one in the panel.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/load-quest-guides.ts#L229-L239",
-          "version": "repo-lines-v1:sha256:ad8f579c06b508f1672410d32a817c67e744a7bd4c7d0195ea27c462c198c3e3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjOTE3Mjg1NzBmNDYwYWM1YzkzYzUxMzczODcyYWQxMjM1ZmJiZmMyMzE1NDZjNmQ3YTI2MDE5ODgwMzY1ZjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5YjJjOGQxNjQ4MTE4YzJhMWE0ZTQzY2I4YzZhN2U1MDA4OTIwZjU3NzQyZWMzYTgxODQ3NTQyNTRhNzlhNWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJmYjE5NTQ1ZjJmNzQyMzdlNjAyMTM5YmU4ZGFlY2IwOWZmMjhkNTVmNmE3ZmMwYTgyN2E3MThkYmI0MGU0NGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJmM2I0OWY0YjY5OTRkZTVlYTJhNmQzNzViMDc0NjhjNWU5NWQ2ZTIwOGNkZmQ2MTc0MDQ2YWJmNDllMDZjYTIifQ"
+          "resource": "repo://scripts/import/load-quest-guides.ts#L249-L258",
+          "version": "repo-lines-v1:sha256:c39ed6214a1d8303de83242a8cca3708aa23b14e6046e3e4af51a6636c587887:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0MTY5NGJhNTRkMDZlMzQyZTJmOWUwNWE5ODMyOWY3YmFlOWNjNWQ0MWQwMDg4NzU4NWUxMGYzOTRmNmRkNzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE3N2ZkZjRjNWQwMTEzNmUwOGZjMjllY2Q1NGMwMzM0NTFhYWMwYjM5MzVlZjFkZWE3MTM1YTQ2M2UxZGViNzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZiODVkMWNiNzUyZWQ5MjlhY2VjMDM3YzU1YjBiMzgyYmVkM2I3YTEzMjE3YmE5ODBlYzg0ZDg3YTY1YmE3YzcifQ"
         }
       ]
     },
@@ -444,21 +444,53 @@
     },
     {
       "id": "claim_058cec063b00426daed6f96687467c9d",
-      "statement": "On save, the guide slug fill checks collisions with isRootSlugTaken across quest guides, achievement pages and metalogros, while the panel's live slug check only queries quest guides.",
+      "statement": "On save, the guide slug fill checks collisions with isRootSlugTaken across the whole root slug space and the redirect table, while the panel's live slug check only queries quest guides.",
       "evidence": [
         {
           "resource": "repo://src/collections/quest-guide-autofill.ts#L57-L65",
           "version": "repo-lines-v1:sha256:b3090ec1b29d380f24ace0dd4d41e62bdf4129c263b6267ec8ec370d605613df:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzlhZjIxOTljYjZjZDdmOGU2ODllMzFiZDNhZjQxNjY5NzcxNzJkMGE5MmJjYjYxZjVkYzdkYWQ5NDBhODg1OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTM3MDJhZWFlYzNhNzc0M2IwMGU5MDE3ZWZiNjlmNTA5MzQ0M2Q3Y2MxYWRjMGJkNjkwMWEzNDY0ZTE4NDZmZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZThjZTIyMzY0OWVkMjQ4MGY2ZjQyMTQ4YWE2NzczYTg2M2ZjODRmNDJmNjdjMDgwOTVlZDAxMGJjZWNkNDdlNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWY3ZmQ4ZjRjMmU4MDQ5ZDFmN2Y4NWNjNDg5YTJiMjE0NTJjNjA2MzE3NDEwYWEwNThiNzBhNzFhOWYwYmJlZiJ9"
         },
         {
+          "resource": "repo://src/collections/root-slug.ts#L85-L99",
+          "version": "repo-lines-v1:sha256:cd8add02e5a04174191a40d6caee56fbc25ead7a64a2573a7f831e7c8f3f7658:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ4MDAzMmZkZGViNzBmMTg0NjBlM2JiZGEyMDRmYjg3ZmVkMmU4ZTQ1N2FkZGFkOGFmZDc2NTA1NGY2NGRhODMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU0MTg0NGUxMjAyOTIxNjYyZWExODI0OWM3YWU4MTMyN2YzNWQxOGVjYzIwOGRmOWI0YjMxNTg2MjI5ODM1NDcifQ"
+        },
+        {
           "resource": "repo://src/components/quest-guide-admin/linked-quest.ts#L29-L33",
           "version": "repo-lines-v1:sha256:eacce7eebc7127d16f3bad5d0c6d925f5b8aca900a2548edf531676777605ab3:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWEwNWIzNjYzMDEyMWRiNjIyMzJmZTA0MDVjOTUyZDMwNDUzZDdkZjZmYjE2YjVlNmMwNDI0OWMxOTIwODZkZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjI4NzI5Y2UzZDdiOTZiMTNjZTc1ODUzMmUxZjA0MThlNTMyMWZjNTYwMDRmNjM4N2Y5MzFmOWM5M2JlNmQzNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjJjMzlhZGYyZjI5OWVjMTIyZDkzOGQzMzgwZjZiMzE1YTNmNGMzYzUxYzMxNzBiYTEzYjBmODJmYTYyMDNjMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODllNGU4OTFmZGZkNTZlMWQ1MWUzNDNiMGZjMzlmYzYwNjY2NzAxM2M5MzhlZmJkNjYyNjJiNDYzM2JiMTAxMCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_db9b88690d8c46529fe0f8e0ba3b869d",
+      "statement": "A hand-picked dungeon row must copy a dungeon note present in the guide's Notes, ignoring quantity, case and accents, and rows whose dungeon was deleted are dropped on save.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/QuestGuides.ts#L71-L96",
+          "version": "repo-lines-v1:sha256:90c27d532bf2f38e58e3f0dc8c288495737319e168382bebf2348157fc45bae0:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ0M2YwNDNkZDhlNjY0ZjcxZmJkZmQwNWVmNmIxY2UxOTNmOTA1MDY0ODJhODY3YTY1MWZjNWM5YmJhZTRjODciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0M2ZiYTU4MWY0MTgyOTE1OTUwNGU3OGQwMTkxYTQzNjQ2ZDViZDA4ZjFhMmFmMWU3OWI4MTk3YTg0YjdlYTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVmM2I2ZTViMGIwYzUxMmE5NGY2NmE2N2I5ZjFkOThjNzYxYjU0MTk5NmVhM2RlMTE3MDcxMDM0ODE4YjdhMDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdmZTM2OWY4OWViOTBiOGYwMjM3MjkwY2E0ZDE2NDVlM2Q1YzU1NGE1OGFmYjJlNGQ3OTRkNDg2ODkyYTMzZGMifQ"
+        },
+        {
+          "resource": "repo://src/lib/guides/need-notes.ts#L38-L56",
+          "version": "repo-lines-v1:sha256:ad75152cb638c9c16c7fb666ced6c871c640bd2fb1b4a3d8e59c1b739aec4891:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg4MDIwYmNiZmM2NzU5MTg0OWFhYmQzNjc5YWFjMmE5NzI1ZDNhYWJhODA2NDkwOTZiNWMwOTc1MDhjZjc2YTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU0NmM1NDRkNjM4MGRjNjMxMDVkZGQ4YWY0ZDYyNTgyMmZjNjZmODkwNWI5ZmQxOWZlYzQ1MzM4M2Y2NzA0NjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzYWMyM2NjMThjOWFlZTgxNDNmOWM4OGQ5NGU3NjZmODRiY2EyZDUzOWE1ZmE0MGI4ZjIyMmViZDgxYWRhZDMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_001f1d23aeb545fcb14a8979657e57d8",
+      "statement": "The Squarespace import keeps Torre's dungeon picks when it rewrites Notes, removing and reporting only picks whose note is gone.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/load-quest-guides.ts#L285-L310",
+          "version": "repo-lines-v1:sha256:3d2d565933f117bf5a381c8d15b738d4fdc2262c12dcecc41a2b877802640b16:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjExNzAzNTdiZTkwNGQ0Y2JjYTY3YjQyZTc2MzVkMzc5N2E4YWNmODJmODIwMDgyNTYyM2IzYzdkNTIzMjBlZDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkOTZiNGMyMmU4MTUwYzYxODVjMmY2ODRiMzI0NjEwZjIyMmQzZjliYmVjYzI1YjQyNTkxZDgxMGQzZmU1OTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxNWE5YjkyYTFiNWM3MDA2NGMzMjQ0YTNjZjg2ZmFhNDJkODAyNTZlOTFkMTM5ZTBjM2U3MGIxOTJmNjUzM2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU5ZGY5MzMwZDEwYjE4NmY3M2RjYmJkZGM2NzM2OTMwNzVmMmEyMDBiZDBiYjE3OTI1MGI5YzYwNzNkYmFhYjcifQ"
+        },
+        {
+          "resource": "repo://src/lib/guides/need-notes.ts#L58-L68",
+          "version": "repo-lines-v1:sha256:114fc87705c3f14119cd94dc760b26db1e317fc5ee1b0a9a6bfb4482d38fc34f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAxZTI4MjI1ZTAzN2IwYzVlNzk1NzJjMjdkZGYxMTIxNDUzMmMzYjk4NWEzYWQ5NzU5M2Q2YTlhMGFkODIwYTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-08T11:00:21.339Z"
+    "at": "2026-11-14T11:00:46.827Z"
   }
 }

@@ -24,6 +24,8 @@ sources:
     resource: repo://scripts/import/import-guides.ts
   - id: openwiki-source-3fc9f0484081f9ab441d6219
     resource: repo://scripts/import/load-quest-guides.ts
+  - id: openwiki-source-5405923907e430198e1340e6
+    resource: repo://scripts/import/media-by-url.ts
   - id: openwiki-source-67065515ce882079f0fd6f1e
     resource: repo://scripts/import/restore-closings.ts
   - id: openwiki-source-0e8df94882ff3664a5b6176f
@@ -64,10 +66,10 @@ sources:
     resource: repo://tests/unit/import-rich-text.test.ts
   - id: openwiki-source-299c190cabc2f0753a302110
     resource: repo://tests/unit/import-to-quest-guide.test.ts
-generated: { by: "claude-code", at: "2026-11-12T11:00:44.802Z" }
+generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-12T11:00:44.802Z
+    at: 2026-11-14T11:00:46.827Z
 ---
 
 # Squarespace import
@@ -103,7 +105,7 @@ happy-dom was already in the tree through `@lexical/headless`, pinned by a secur
 |---|---|
 | `text` | `text`, with each top-level element's tag, outer HTML and normalized text |
 | `image` | `image`, with the original URL (`data-image`, else `data-src`) without its query string, and the trimmed `alt` (empty when missing) |
-| `embed` | `video`, with an `https` URL. An Embedly wrapper is unwrapped to the YouTube URL in its `url` (or `src`) parameter. A URL that does not end up as `https`, such as `javascript:` or `data:` (also inside Embedly's `url`), is not a video |
+| `embed` | `video`, with an `https` URL. An Embedly wrapper is unwrapped to the YouTube URL in its `url` (or `src`) parameter. A URL that does not end up as `https`, such as `javascript:` or `data:` (also inside Embedly's `url`), is not a video. The iframe's `title` is kept as the video's title when Squarespace copied YouTube's title there, but not Embedly's generic «YouTube embed»; the achievement prose import uses it |
 | anything else, or an image or embed without a usable URL | `unknown`, keeping the Squarespace type; the converter lists it as an oddity |
 
 ## From page to guide
@@ -166,7 +168,7 @@ The Squarespace inventory in `out/` (outside the repo, described in `docs/legacy
 - **Database failures.** A lost Postgres connection is not treated as a broken image. The loader wraps any `fetchImage` error in an internal `ImageDownloadError`, because the CDN transport can fail with the same codes as Postgres (`ECONNRESET`, `ETIMEDOUT`, `ECONNREFUSED`). Any other error from saving an image is checked by `connectionFailed`, which follows the `cause` chain (Drizzle wraps client errors) and matches SQLSTATE classes `08` and `57P0`, the socket codes `ECONNRESET`, `ETIMEDOUT`, `EADDRNOTAVAIL`, `EPIPE` and `ECONNREFUSED`, and messages such as "not queryable" or "connection terminated". On a match the error is rethrown and the load stops, so the guide is not saved without its image and marked as imported. The failed transaction leaves no `media` record, and the next run creates the missing guide and image and leaves finished guides unchanged.
 - **Body.** Rich text and callouts go through `createHtmlToLexical`; videos keep their URL. A step becomes a `step` block with its `x` and `y` (`null` when absent) and its own content blocks converted the same way.
 - **Fights.** Torre writes a fight as a paragraph ending in "lucha contra:" followed by a list of "N x Monstruo" rows. After converting the body, the loader runs `splitFightLists` (`src/lib/guides/fight-lists.ts`) over it, steps included. When every row of such a list matches a monster in the database, the text is split into what comes before, a `fight` block with the monsters and quantities, and what comes after. Names are compared after NFC normalization, lowercasing, collapsing spaces and dropping a final period; when two monsters share a name, the one with the lowest DofusDB ID wins. Rows may end in a period, comma or semicolon. If one name does not match, the whole list stays as text and an oddity names it. Run `pnpm data:quests` first: it brings the whole monster catalog.
-- **Guides.** It finds the guide by `slug` (drafts included) and writes `title`, `slug`, `originalUrl`, `summary`, `quest` and `body` with `_status: 'draft'`. It never publishes: a published guide gets a new draft and stays published as it was until Torre publishes the draft.
+- **Guides.** It finds the guide by `slug` (drafts included) and writes `title`, `slug`, `originalUrl`, `summary`, `quest` and `body` with `_status: 'draft'`. It never publishes: a published guide gets a new draft and stays published as it was until Torre publishes the draft. The hand-picked dungeons of the stored guide's summary (`needs.dungeons`) are Torre's and are carried over, except a pick whose note is no longer in the new Notes (`livePicks` in `src/lib/guides/need-notes.ts`): it would pick nothing and block the guide on save, so it is dropped and reported as an oddity (see [Writing a quest guide](../cms/guide-authoring.md)).
 - **Summary.** It sends the whole `summary` group every time: `prerequisites`, `rewards`, `startNpc`, `startX`, `startY` and `needs` (`notes` plus an empty `items` list), with `null` for whatever the conversion did not bring. Payload keeps group fields that an update leaves out, so without this a value removed from the Squarespace page would stay stored, and every run would see a difference and save another version.
 - **DofusDB fill before comparing.** The collection's `beforeValidate` hook fills every empty summary field from the guide's linked quest on save (see [Writing a quest guide](../cms/guide-authoring.md)), so the stored guide differs from the raw conversion. The loader therefore applies the same pure functions, `summaryToFill` and `applySummaryFill` from `src/lib/guides/summary.ts`, with the linked quest before comparing and writing. Converted and stored guides then compare equal and a rerun saves no version. A value removed from Squarespace is replaced by DofusDB's value once, or cleared when DofusDB gives none, and the next run finds the guide unchanged. Torre's Squarespace text always wins over DofusDB, because only empty fields are filled. The hook also fills an empty `seo` group from the quest; the loader neither sends nor compares `seo`.
 - **Unchanged guides.** Before writing, it compares the six written fields (`title`, `slug`, `originalUrl`, `summary`, `quest`, `body`) with the stored draft, ignoring IDs (block IDs and the random link IDs Lexical adds) and empty values Payload returns as `null`. An equal guide is left alone, so a re-run adds no empty versions.
