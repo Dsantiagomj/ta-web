@@ -142,9 +142,9 @@ describe('ChecklistsIndex', () => {
         .match(new RegExp(`<img [^>]*src="/media/${name}[^>]*>`))![0]
         .match(/sizes="([^"]+)"/)![1]
     // Lo último de cada sizes es el móvil: lo que mide de verdad a 390 px.
-    expect(sizesOf('huevo')).toMatch(/, 90px$/)
-    expect(sizesOf('zona')).toMatch(/, 570px$/)
-    expect(sizesOf('pnj')).toMatch(/, 190px$/)
+    expect(sizesOf('huevo')).toMatch(/, 70px$/)
+    expect(sizesOf('zona')).toMatch(/, 460px$/)
+    expect(sizesOf('pnj')).toMatch(/, 150px$/)
   })
 
   it('sin la tarjeta «???» (apagada en el panel), solo las checklists', () => {
