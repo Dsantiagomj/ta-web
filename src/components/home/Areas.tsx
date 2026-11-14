@@ -132,7 +132,10 @@ export function Areas({ counts }: { counts: SiteGuideCounts }) {
             text={s.checklistsText}
             art={
               <span className="area__zone area__zone--plain">
-                <span className="mini" aria-hidden="true">
+                {/* Fuera de la revisión de la maquetación: es un dibujo de una checklist, oculto
+                    a los lectores de pantalla; sus filas se cortan con puntos suspensivos a
+                    propósito, como en una miniatura. */}
+                <span className="mini" aria-hidden="true" data-layout-lint-ignore="">
                   <span className="mini__bar">
                     <span />
                   </span>
