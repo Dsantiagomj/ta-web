@@ -1,7 +1,8 @@
 // @vitest-environment happy-dom
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
-import { startPosters } from '@/components/checklists/posters-ui'
+import { paintProgress } from '@/components/checklists/poster-progress-ui'
+import { hasProgress, startTilt } from '@/components/checklists/posters-ui'
 import type { PosterProgressModel } from '@/lib/checklists/poster-progress'
 import { emptyProgress, PROGRESS_KEY, type Progress } from '@/lib/checklists/progress/store'
 
@@ -53,7 +54,7 @@ function storage(progress: Progress | null) {
   }
 }
 
-const motion = (reduce: boolean) => ({ matches: reduce }) as MediaQueryList
+const motion = (reduce: boolean) => ({ matches: reduce })
 
 let stop: (() => void) | undefined
 beforeEach(() => {
@@ -74,7 +75,7 @@ describe('el porcentaje de cada cartel', () => {
       steps: { a: { done: true, at: 1 } },
       souls: { 1: 1, 2: 1, 3: 1, 4: 1 },
     }
-    stop = startPosters(document, models, { storage: storage(progress), motion: motion(false) })
+    paintProgress(document, models, storage(progress))
     const nebuloso = ring('checklist-nebuloso')
     expect(nebuloso.hidden).toBe(false)
     expect(nebuloso.querySelector('[data-poster-pct]')!.textContent).toBe('25 %')
@@ -86,9 +87,15 @@ describe('el porcentaje de cada cartel', () => {
   })
 
   it('sin nada marcado, nada: ni un 0 %', () => {
-    stop = startPosters(document, models, { storage: storage(null), motion: motion(false) })
+    paintProgress(document, models, storage(emptyProgress()))
     expect(ring('checklist-nebuloso').hidden).toBe(true)
     expect(ring('lista-ocre').hidden).toBe(true)
+  })
+
+  it('el motor solo se carga si el navegador guarda progreso', () => {
+    expect(hasProgress(storage(null))).toBe(false)
+    expect(hasProgress(storage(emptyProgress()))).toBe(true)
+    expect(hasProgress(null)).toBe(false)
   })
 
   it('sin localStorage (modo privado estricto), nada y sin errores', () => {
@@ -98,7 +105,8 @@ describe('el porcentaje de cada cartel', () => {
       },
       setItem: () => {},
     }
-    stop = startPosters(document, models, { storage: blocked, motion: motion(false) })
+    expect(hasProgress(blocked)).toBe(false)
+    paintProgress(document, models, blocked)
     expect(ring('checklist-nebuloso').hidden).toBe(true)
   })
 })
@@ -115,7 +123,7 @@ describe('la inclinación', () => {
   }
 
   it('con el ratón se inclina hacia él, hasta 9° por lado, y el brillo lo sigue', () => {
-    stop = startPosters(document, models, { storage: storage(null), motion: motion(false) })
+    stop = startTilt(document, motion(false))
     move('mouse', 200, 0)
     expect(card().classList.contains('is-tilted')).toBe(true)
     expect(card().style.transform).toBe('perspective(800px) rotateY(9.00deg) rotateX(9.00deg)')
@@ -124,7 +132,7 @@ describe('la inclinación', () => {
   })
 
   it('al salir vuelve a su sitio', () => {
-    stop = startPosters(document, models, { storage: storage(null), motion: motion(false) })
+    stop = startTilt(document, motion(false))
     move('mouse', 50, 150)
     card().dispatchEvent(new PointerEvent('pointerleave', { pointerType: 'mouse' }))
     expect(card().style.transform).toBe('')
@@ -132,7 +140,7 @@ describe('la inclinación', () => {
   })
 
   it('con el dedo o el lápiz no se inclina', () => {
-    stop = startPosters(document, models, { storage: storage(null), motion: motion(false) })
+    stop = startTilt(document, motion(false))
     move('touch', 200, 0)
     move('pen', 200, 0)
     expect(card().style.transform).toBe('')
@@ -140,13 +148,13 @@ describe('la inclinación', () => {
   })
 
   it('con movimiento reducido no se inclina', () => {
-    stop = startPosters(document, models, { storage: storage(null), motion: motion(true) })
+    stop = startTilt(document, motion(true))
     move('mouse', 200, 0)
     expect(card().style.transform).toBe('')
   })
 
   it('al pararla deja de escuchar', () => {
-    stop = startPosters(document, models, { storage: storage(null), motion: motion(false) })
+    stop = startTilt(document, motion(false))
     stop()
     stop = undefined
     move('mouse', 200, 0)
