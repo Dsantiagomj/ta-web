@@ -13,6 +13,8 @@ import { toWords } from 'payload/shared'
 import { layoutFields } from './helpers/fields'
 import { beforeAll, describe, expect, it } from 'vitest'
 
+import { layoutFields } from './helpers/fields'
+
 import { AchievementGroups } from '@/collections/AchievementGroups'
 import { AchievementPages } from '@/collections/AchievementPages'
 import { Checklists } from '@/collections/Checklists'

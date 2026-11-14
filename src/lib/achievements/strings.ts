@@ -27,6 +27,8 @@ export const achievementStrings = {
     preparing: 'En preparación',
   } satisfies Record<PageState, string>,
   admin: {
+    /** Las pestañas del formulario (A-22). */
+    tabs: { quests: 'Misiones', text: 'Texto', rewards: 'Recompensas' },
     noAchievement: 'Sin logro de DofusDB: escribe tú este dato.',
     nameRequired: 'Escribe un nombre o enlaza el dato de DofusDB.',
     noCategory: 'Sin categoría de DofusDB: escribe tú este dato.',

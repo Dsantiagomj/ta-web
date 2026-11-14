@@ -483,3 +483,42 @@ html[data-theme='dark'] {
   margin: 0.125rem 0 0;
   color: var(--ta-muted);
 }
+
+/* El selector de color junto al hexadecimal (ColorField, A-22). */
+/* El selector y el campo en una fila; la ayuda y el error, debajo, a todo el ancho. */
+.ta-color .field-type__wrap {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0 0.5rem;
+  align-items: stretch;
+}
+
+.ta-color .field-type__wrap > :not(.ta-color__swatch, input) {
+  grid-column: 1 / -1;
+}
+
+.ta-color__swatch {
+  flex: none;
+  width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0.25rem;
+  border: 1px solid var(--theme-elevation-250);
+  border-radius: var(--style-radius-s);
+  background: var(--theme-input-bg);
+  cursor: pointer;
+}
+
+/*
+ * Las pestañas sin elegir: Payload las aclara con opacidad y en claro no llegan a 4.5:1
+ * (3.17). Van en el muted de Arcano, sin opacidad; la elegida sigue en tinta con su raya.
+ */
+.tabs-field__tab-button:not(.tabs-field__tab-button--active):not(
+    .tabs-field__tab-button--has-error
+  ) {
+  color: var(--ta-muted);
+  opacity: 1;
+}
+
+.tabs-field__tab-button:not(.tabs-field__tab-button--active):hover {
+  color: var(--ta-ink);
+}

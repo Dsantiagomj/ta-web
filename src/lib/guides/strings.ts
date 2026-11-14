@@ -42,6 +42,8 @@ export const guideStrings = {
   /** Slug de reserva cuando el nombre de la misión no deja ni una letra. */
   fallbackSlug: 'guia',
   admin: {
+    /** Las pestañas del formulario (A-22). */
+    tabs: { content: 'Contenido', summary: 'Resumen', seo: 'SEO' },
     questDescription:
       'Elige primero la misión de DofusDB de la guía, solo una: rellena el título, la dirección, ' +
       'el SEO y el resumen. Luego solo te queda escribir la guía. Cuando ya tiene una, solo un ' +

@@ -1,8 +1,6 @@
 import { QuestAutofill as QuestAutofill_db21c2373e5db7b21dde152dffc07347 } from '../../../components/quest-guide-admin/QuestAutofill'
 import { PublishStatus as PublishStatus_ac4bf174ae52f063700189610d23cd3c } from '../../../components/admin/PublishStatus'
 import { SlugDescription as SlugDescription_e88767310d6ebe16b890909890a6cc49 } from '../../../components/admin/SlugDescription'
-import { SummaryNote as SummaryNote_666e24196e21524e3cb0a6dcd90c8518 } from '../../../components/quest-guide-admin/SummaryNote'
-import { RelationRowLabel as RelationRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2 } from '../../../components/admin/RowLabels'
 import { RscEntryLexicalCell as RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
 import { RscEntryLexicalField as RscEntryLexicalField_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
 import { LexicalDiffComponent as LexicalDiffComponent_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
@@ -26,8 +24,11 @@ import { StrikethroughFeatureClient as StrikethroughFeatureClient_e70f5e05f09f93
 import { UnderlineFeatureClient as UnderlineFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { BoldFeatureClient as BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
+import { SummaryNote as SummaryNote_666e24196e21524e3cb0a6dcd90c8518 } from '../../../components/quest-guide-admin/SummaryNote'
+import { RelationRowLabel as RelationRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2 } from '../../../components/admin/RowLabels'
 import { DofusDbNote as DofusDbNote_ef522a00141bf02817f153aea2a46e82 } from '../../../components/achievement-admin/DofusDbNote'
 import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
+import { ColorField as ColorField_f18d715b9f5ea63091d1361f9c46fa22 } from '../../../components/admin/ColorField'
 import { TextRowLabel as TextRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2 } from '../../../components/admin/RowLabels'
 import { LockedOnceSavedText as LockedOnceSavedText_e39bb667d9a84b668538928625e25395 } from '../../../components/admin/LockedOnceSavedText'
 import { StepOutline as StepOutline_860201d5ddeb43f10b04e6d780e8cd5d } from '../../../components/admin/StepOutline'
@@ -50,8 +51,6 @@ export const importMap = {
   "/components/quest-guide-admin/QuestAutofill#QuestAutofill": QuestAutofill_db21c2373e5db7b21dde152dffc07347,
   "/components/admin/PublishStatus#PublishStatus": PublishStatus_ac4bf174ae52f063700189610d23cd3c,
   "/components/admin/SlugDescription#SlugDescription": SlugDescription_e88767310d6ebe16b890909890a6cc49,
-  "/components/quest-guide-admin/SummaryNote#SummaryNote": SummaryNote_666e24196e21524e3cb0a6dcd90c8518,
-  "/components/admin/RowLabels#RelationRowLabel": RelationRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2,
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell": RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalField": RscEntryLexicalField_44fe37237e0ebf4470c9990d8cb7b07e,
   "@payloadcms/richtext-lexical/rsc#LexicalDiffComponent": LexicalDiffComponent_44fe37237e0ebf4470c9990d8cb7b07e,
@@ -75,8 +74,11 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#UnderlineFeatureClient": UnderlineFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#BoldFeatureClient": BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#ItalicFeatureClient": ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  "/components/quest-guide-admin/SummaryNote#SummaryNote": SummaryNote_666e24196e21524e3cb0a6dcd90c8518,
+  "/components/admin/RowLabels#RelationRowLabel": RelationRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2,
   "/components/achievement-admin/DofusDbNote#DofusDbNote": DofusDbNote_ef522a00141bf02817f153aea2a46e82,
   "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  "/components/admin/ColorField#ColorField": ColorField_f18d715b9f5ea63091d1361f9c46fa22,
   "/components/admin/RowLabels#TextRowLabel": TextRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2,
   "/components/admin/LockedOnceSavedText#LockedOnceSavedText": LockedOnceSavedText_e39bb667d9a84b668538928625e25395,
   "/components/admin/StepOutline#StepOutline": StepOutline_860201d5ddeb43f10b04e6d780e8cd5d,

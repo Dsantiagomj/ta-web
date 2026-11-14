@@ -261,127 +261,152 @@ export const DofusGuides: CollectionConfig = {
         description: `${s.orderDescription} ${panelStrings.locks.order}`,
       },
     },
+    // Pestañas sin nombre: solo ordenan el formulario; los datos se guardan igual (A-22).
     {
-      type: 'row',
-      fields: [
+      type: 'tabs',
+      tabs: [
         {
-          name: 'level',
-          label: 'Nivel',
-          type: 'number',
-          min: 1,
-          admin: { description: s.levelDescription },
-        },
-        {
-          name: 'tag',
-          label: 'Etiqueta',
-          type: 'select',
-          options: (['primordial', 'event'] as const).map((value) => ({
-            value,
-            label: dofusGuideStrings.tags[value],
-          })),
-          admin: { description: s.tagDescription },
-        },
-        {
-          name: 'color',
-          label: 'Color',
-          type: 'text',
-          validate: validateColor,
-          admin: { description: s.colorDescription },
-        },
-      ],
-    },
-    {
-      name: 'aliases',
-      label: 'Otros nombres',
-      type: 'text',
-      localized: true,
-      admin: { description: s.aliasesDescription },
-    },
-    richText('prerequisites', 'Prerrequisitos'),
-    {
-      name: 'needs',
-      label: 'Necesitarás',
-      type: 'group',
-      admin: { description: s.needsDescription },
-      fields: [
-        {
-          name: 'title',
-          label: 'Título',
-          type: 'text',
-          localized: true,
-          admin: { description: s.needsTitleDescription },
-        },
-        {
-          name: 'groups',
-          label: 'Grupos',
-          labels: { singular: 'Grupo', plural: 'Grupos' },
-          type: 'array',
-          admin: {
-            components: rowLabel('TextRowLabel', {
-              singular: panelStrings.rowLabels.group,
-              field: 'name',
-            }),
-          },
+          label: s.tabs.content,
           fields: [
-            { name: 'name', label: 'Nombre del grupo', type: 'text', localized: true },
+            richText('intro', 'Introducción'),
             {
-              name: 'rows',
-              label: 'Filas',
-              labels: { singular: 'Fila', plural: 'Filas' },
+              name: 'parts',
+              label: 'Logros y misiones',
+              labels: { singular: 'Parte', plural: 'Partes' },
               type: 'blocks',
-              blocks: [NeedItemBlock, NeedNoteBlock],
+              admin: { description: s.partsDescription, initCollapsed: true },
+              blocks: [
+                AchievementPartBlock,
+                MetalogroPartBlock,
+                QuestsPartBlock,
+                QuestPartBlock,
+                NotePartBlock,
+              ],
+            },
+            {
+              name: 'body',
+              label: 'Paso a paso',
+              labels: { singular: 'Bloque', plural: 'Bloques' },
+              type: 'blocks',
+              admin: { description: s.bodyDescription },
+              blocks: [RichTextBlock, ImageBlock, VideoBlock, CalloutBlock, FightBlock, StepBlock],
+            },
+            richText('outro', 'Cierre'),
+          ],
+        },
+        {
+          label: s.tabs.facts,
+          fields: [
+            {
+              type: 'row',
+              fields: [
+                {
+                  name: 'level',
+                  label: 'Nivel',
+                  type: 'number',
+                  min: 1,
+                  admin: { description: s.levelDescription },
+                },
+                {
+                  name: 'tag',
+                  label: 'Etiqueta',
+                  type: 'select',
+                  options: (['primordial', 'event'] as const).map((value) => ({
+                    value,
+                    label: dofusGuideStrings.tags[value],
+                  })),
+                  admin: { description: s.tagDescription },
+                },
+                {
+                  name: 'color',
+                  label: 'Color',
+                  type: 'text',
+                  validate: validateColor,
+                  admin: {
+                    description: s.colorDescription,
+                    // Un selector de color junto al hexadecimal (A-22).
+                    components: { Field: '/components/admin/ColorField#ColorField' },
+                  },
+                },
+              ],
+            },
+            {
+              name: 'aliases',
+              label: 'Otros nombres',
+              type: 'text',
+              localized: true,
+              admin: { description: s.aliasesDescription },
+            },
+            richText('prerequisites', 'Prerrequisitos'),
+            richText('rewards', 'Recompensas'),
+            {
+              name: 'checklist',
+              label: 'Checklist',
+              type: 'group',
+              admin: { description: s.checklistDescription },
+              fields: [
+                { name: 'name', label: 'Nombre', type: 'text', localized: true },
+                { name: 'url', label: 'Enlace', type: 'text', validate: validateOptionalUrl },
+              ],
+            },
+            {
+              name: 'video',
+              label: 'Vídeo',
+              type: 'text',
+              validate: validateOptionalVideo,
+              admin: { description: s.videoDescription },
+            },
+            {
+              name: 'videoPoster',
+              label: 'Portada del vídeo',
+              type: 'upload',
+              relationTo: 'media',
+              admin: { description: s.videoPosterDescription },
             },
           ],
         },
-      ],
-    },
-    richText('rewards', 'Recompensas'),
-    richText('intro', 'Introducción'),
-    {
-      name: 'parts',
-      label: 'Logros y misiones',
-      labels: { singular: 'Parte', plural: 'Partes' },
-      type: 'blocks',
-      admin: { description: s.partsDescription, initCollapsed: true },
-      blocks: [
-        AchievementPartBlock,
-        MetalogroPartBlock,
-        QuestsPartBlock,
-        QuestPartBlock,
-        NotePartBlock,
-      ],
-    },
-    {
-      name: 'body',
-      label: 'Paso a paso',
-      labels: { singular: 'Bloque', plural: 'Bloques' },
-      type: 'blocks',
-      admin: { description: s.bodyDescription },
-      blocks: [RichTextBlock, ImageBlock, VideoBlock, CalloutBlock, FightBlock, StepBlock],
-    },
-    richText('outro', 'Cierre'),
-    {
-      name: 'video',
-      label: 'Vídeo',
-      type: 'text',
-      validate: validateOptionalVideo,
-      admin: { description: s.videoDescription },
-    },
-    {
-      name: 'videoPoster',
-      label: 'Portada del vídeo',
-      type: 'upload',
-      relationTo: 'media',
-      admin: { description: s.videoPosterDescription },
-    },
-    {
-      name: 'checklist',
-      label: 'Checklist',
-      type: 'group',
-      admin: { description: s.checklistDescription },
-      fields: [
-        { name: 'name', label: 'Nombre', type: 'text', localized: true },
-        { name: 'url', label: 'Enlace', type: 'text', validate: validateOptionalUrl },
+        {
+          label: s.tabs.needs,
+          fields: [
+            {
+              name: 'needs',
+              label: 'Necesitarás',
+              type: 'group',
+              admin: { description: s.needsDescription },
+              fields: [
+                {
+                  name: 'title',
+                  label: 'Título',
+                  type: 'text',
+                  localized: true,
+                  admin: { description: s.needsTitleDescription },
+                },
+                {
+                  name: 'groups',
+                  label: 'Grupos',
+                  labels: { singular: 'Grupo', plural: 'Grupos' },
+                  type: 'array',
+                  admin: {
+                    components: rowLabel('TextRowLabel', {
+                      singular: panelStrings.rowLabels.group,
+                      field: 'name',
+                    }),
+                  },
+                  fields: [
+                    { name: 'name', label: 'Nombre del grupo', type: 'text', localized: true },
+                    {
+                      name: 'rows',
+                      label: 'Filas',
+                      labels: { singular: 'Fila', plural: 'Filas' },
+                      type: 'blocks',
+                      blocks: [NeedItemBlock, NeedNoteBlock],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
       ],
     },
     {

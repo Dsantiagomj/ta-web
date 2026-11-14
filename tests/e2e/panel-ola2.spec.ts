@@ -34,6 +34,15 @@ test.describe('el panel para Torre, ola 2', () => {
   const publishStatus = () => page.locator('.ta-publish')
   const statusLine = () => page.locator('.ta-publish__text')
 
+  /** Cierra la vista previa en vivo si Payload la recuerda abierta. */
+  async function closeLivePreview() {
+    await expect(async () => {
+      const active = page.locator('.live-preview-toggler--active')
+      if (await active.isVisible()) await active.click()
+      await expect(active).toHaveCount(0, { timeout: 1500 })
+    }).toPass()
+  }
+
   /** Abre la vista previa en vivo; un clic antes de que el panel se monte se pierde. */
   async function openLivePreview() {
     await expect(async () => {
@@ -67,6 +76,11 @@ test.describe('el panel para Torre, ola 2', () => {
       await expect(statusLine()).toHaveText('En la web: el huevo sale apagado, sin página')
       await expect(publishStatus()).not.toContainText('Tienes cambios sin publicar')
 
+      // «Otros nombres» va en la pestaña «Ficha» (A-22).
+      await page
+        .locator('.tabs-field__tabs')
+        .getByRole('button', { name: 'Ficha', exact: true })
+        .click()
       await page.locator('#field-aliases').fill('jyfus prueba')
       await expect(publishStatus()).toContainText('Lo que acabas de cambiar aún no está guardado.')
 
@@ -167,6 +181,52 @@ test.describe('el panel para Torre, ola 2', () => {
     await page.goto('/admin/guia')
     await expect(page.getByRole('heading', { level: 1, name: 'Guía del panel' })).toBeVisible()
     const results = await new AxeBuilder({ page }).withTags(WCAG).analyze()
+    expect(results.violations.map((violation) => violation.id)).toEqual([])
+  })
+
+  test('A-22: la guía de Dofus va en pestañas y el color se elige con un selector', async () => {
+    const id = await docId(page, 'dofus-guides', seedDofus.ocre.slug)
+    await page.goto(`/admin/collections/dofus-guides/${id}`)
+    const tabs = page.locator('.tabs-field__tabs')
+    for (const label of ['Contenido', 'Ficha', 'Necesitarás']) {
+      await expect(tabs.getByRole('button', { name: label, exact: true })).toBeVisible()
+    }
+    // El Dofus y el nombre siguen fuera, siempre a la vista.
+    await expect(page.locator('#field-name')).toBeVisible()
+
+    await tabs.getByRole('button', { name: 'Ficha', exact: true }).click()
+    await expect(page.locator('#field-color')).toHaveValue('#d18b23')
+    const swatch = page.getByLabel('Elegir color con el selector')
+    await expect(swatch).toHaveValue('#d18b23')
+    await swatch.fill('#2a5aaa')
+    await expect(page.locator('#field-color')).toHaveValue('#2a5aaa')
+
+    await tabs.getByRole('button', { name: 'Necesitarás', exact: true }).click()
+    await expect(page.getByText('Añadir Grupo')).toBeVisible()
+  })
+
+  test('A-22: la guía de misión y el logro también van en pestañas', async () => {
+    const guide = await docId(page, 'quest-guides', draftGuide.slug)
+    await page.goto(`/admin/collections/quest-guides/${guide}`)
+    const tabs = page.locator('.tabs-field__tabs')
+    await expect(tabs.getByRole('button')).toHaveText(['Contenido', 'Resumen', 'SEO'])
+
+    const achievement = await docId(page, 'achievement-pages', seedAchievement.previous.slug)
+    await page.goto(`/admin/collections/achievement-pages/${achievement}`)
+    await expect(tabs.getByRole('button')).toHaveText(['Misiones', 'Texto', 'Recompensas'])
+  })
+
+  test('A-22: la guía de Dofus en pestañas pasa axe, salvo lo conocido de Payload', async () => {
+    const id = await docId(page, 'dofus-guides', seedDofus.ocre.slug)
+    await page.goto(`/admin/collections/dofus-guides/${id}`)
+    // Payload recuerda la vista previa abierta de A-20; aquí se mira solo el formulario.
+    await closeLivePreview()
+    await page.getByRole('button', { name: 'Ficha', exact: true }).click()
+    await expect(page.locator('#field-color')).toBeVisible()
+    const results = await new AxeBuilder({ page })
+      .withTags(WCAG)
+      .disableRules(PAYLOAD_KNOWN)
+      .analyze()
     expect(results.violations.map((violation) => violation.id)).toEqual([])
   })
 })
