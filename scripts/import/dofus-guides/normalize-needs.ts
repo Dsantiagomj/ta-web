@@ -31,6 +31,11 @@ export interface NeedEntry {
    * las filas seguidas con el mismo subtítulo van juntas, en un mismo grupo, con él encima.
    */
   unit?: string
+  /**
+   * El título de Torre del grupo de la fila cuando mezcla grupos («Recursos y otras movidas»):
+   * queda de subtítulo del grupo que se lleva más filas suyas.
+   */
+  heading?: string
 }
 
 export type PlacementReason =
@@ -185,15 +190,34 @@ export function normalizeNeeds(
     start = end
   }
 
+  // Un título de Torre que mezcla grupos va de subtítulo al grupo con más filas suyas (con
+  // empate, el primero de la lista fija), sobre esas filas; las demás van sin él.
+  const headingGroupOf = new Map<string, NeedGroup>()
+  for (const heading of new Set(entries.flatMap((entry) => entry.heading ?? []))) {
+    const counts = new Map<NeedGroup, number>()
+    entries.forEach((entry, index) => {
+      if (entry.heading !== heading || entry.unit) return
+      const { to } = placed[index]!
+      counts.set(to, (counts.get(to) ?? 0) + 1)
+    })
+    const best = Math.max(0, ...counts.values())
+    const group = NEED_GROUPS.find((name) => (counts.get(name) ?? 0) === best && best > 0)
+    if (group) headingGroupOf.set(heading, group)
+  }
+  const subtitleOf = (entry: NeedEntry, to: NeedGroup) =>
+    entry.unit ??
+    (entry.heading && headingGroupOf.get(entry.heading) === to ? entry.heading : undefined)
+
   const byName = new Map<NeedGroup, Map<string, NormalizedGroup & { texts: string[] }>>()
   const placements = entries.map((entry, index): Placement => {
     const { to, reason } = placed[index]!
     const parts = byName.get(to) ?? new Map<string, NormalizedGroup & { texts: string[] }>()
     byName.set(to, parts)
-    const key = entry.unit ?? ''
+    const subtitle = subtitleOf(entry, to)
+    const key = subtitle ?? ''
     const part = parts.get(key) ?? {
       name: to,
-      ...(entry.unit && { subtitle: entry.unit }),
+      ...(subtitle && { subtitle }),
       rows: [],
       texts: [],
     }

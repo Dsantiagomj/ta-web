@@ -380,8 +380,12 @@ export async function loadDofusGuides(
     const needs = async (source: DofusGuideSource) => {
       if (!source.needs) return null
       const all: NeedEntry[] = []
-      for (const group of source.needs.groups)
-        all.push(...(await entries(group.rows, [group.name])))
+      for (const group of source.needs.groups) {
+        const rows = await entries(group.rows, [group.name])
+        // Un título que no es un grupo («Recursos y otras movidas») se guarda como subtítulo.
+        const heading = group.name && !headingGroup(group.name) ? group.name : undefined
+        all.push(...rows.map((row) => (heading ? { ...row, heading } : row)))
+      }
       normalized = normalizeNeeds(all, classify)
       return {
         title: source.needs.title === 'Necesitarás' ? null : source.needs.title,
