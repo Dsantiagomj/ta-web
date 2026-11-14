@@ -8,6 +8,7 @@ import type { DofusGuide } from '@/payload-types'
 
 import type { LexicalState } from '../rich-text'
 import type { DofusCatalogEntry } from './catalog'
+import type { ItemMatch } from './game-items'
 import type { BodyItem, DofusGuideSource, NeedRow, Part, QuestRef, Segment } from './parse'
 
 const SITE = 'https://www.torrentearcano.com'
@@ -25,8 +26,16 @@ export interface LoadDofusGuidesOptions {
   htmlToLexical: (html: string) => LexicalState
   /** El ID en Payload del objeto de DofusDB, importándolo con su icono si falta; null si no existe. */
   ensureItem: (dofusId: number) => Promise<number | null>
-  /** El ID del objeto que se llama así, buscándolo en DofusDB si no está; null si no hay ninguno. */
-  findItem: (name: string) => Promise<number | null>
+  /**
+   * El objeto que se llama así (una fila con cantidad), buscándolo en DofusDB si no está y, si
+   * no casa, en singular; null si no hay ninguno.
+   */
+  findItem: (name: string) => Promise<ItemMatch | null>
+  /**
+   * Para una fila sin cantidad: el único objeto que se llama así (o, si ninguno, en singular);
+   * null si ninguno o varios.
+   */
+  findOnlyItem: (name: string) => Promise<ItemMatch | null>
   /** El archivo de Media de una captura de Squarespace, subiéndolo si falta. */
   mediaFor: (url: string, alt: string) => Promise<number>
   /** La portada de un vídeo de YouTube como archivo de Media; null si no se pudo traer. */
@@ -43,6 +52,17 @@ export interface LoadDofusGuidesReport {
   unmatched: { slug: string; kind: 'logro' | 'misión' | 'objeto'; name: string }[]
   /** Logros cuya lista de misiones en la página de Torre no es la de su página de logro. */
   differences: { slug: string; achievement: string; torre: string[]; page: string[] }[]
+  /** Filas sin cantidad que pasan a ser un objeto (con cantidad 1), en las guías que cambian. */
+  withoutQuantity: GainedItem[]
+  /** Filas que casaron con un objeto en singular («8 x Bananaranjas»), en las guías que cambian. */
+  singular: GainedItem[]
+}
+
+/** Una fila de Necesitarás y el objeto con el que casó. */
+export interface GainedItem {
+  slug: string
+  text: string
+  item: string
 }
 
 /** Los campos que escribe la importación; el resto (el estado incluido al repetir) es de Torre. */
@@ -131,6 +151,8 @@ export async function loadDofusGuides(
     kept: [],
     unmatched: [],
     differences: [],
+    withoutQuantity: [],
+    singular: [],
   }
   const lexical = (html: string) => (html ? options.htmlToLexical(html) : null)
   const list = (rows: Segment[][]) =>
@@ -232,13 +254,26 @@ export async function loadDofusGuides(
       }
     }
 
+    // Lo que casó sin cantidad o en singular: se informa solo si Necesitarás cambia.
+    const gained = { withoutQuantity: [] as GainedItem[], singular: [] as GainedItem[] }
     const needRow = async (row: NeedRow): Promise<Record<string, unknown>> => {
-      if (row.quantity !== undefined && row.name) {
-        const item = await options.findItem(row.name)
-        if (item) {
-          return { blockType: 'needItem', item, quantity: row.quantity, note: row.note ?? null }
+      if (row.name) {
+        const withQuantity = row.quantity !== undefined
+        // Sin «1 x», solo si un único objeto se llama así: nunca se adivina.
+        const match = await (withQuantity ? options.findItem : options.findOnlyItem)(row.name)
+        if (match) {
+          const line = { slug: entry.slug, text: row.text, item: match.name }
+          if (match.singular) gained.singular.push(line)
+          else if (!withQuantity) gained.withoutQuantity.push(line)
+          return {
+            blockType: 'needItem',
+            item: match.id,
+            quantity: row.quantity ?? 1,
+            note: row.note ?? null,
+          }
         }
-        unmatched('objeto', row.name)
+        // Una fila sin cantidad que no es un objeto es una nota, como siempre: no se avisa.
+        if (withQuantity) unmatched('objeto', row.name)
       }
       return { blockType: 'needNote', text: lexical(`<p>${segmentsHtml(row.segs)}</p>`) }
     }
@@ -347,6 +382,8 @@ export async function loadDofusGuides(
         })
       }
       report.created += 1
+      report.withoutQuantity.push(...gained.withoutQuantity)
+      report.singular.push(...gained.singular)
       log(`${entry.slug}: ${options.apply ? 'creada' : 'se crearía'} (${data.state})`)
       continue
     }
@@ -371,6 +408,10 @@ export async function loadDofusGuides(
     if (Object.keys(changes).length === 0) {
       report.unchanged += 1
       continue
+    }
+    if ('needs' in changes) {
+      report.withoutQuantity.push(...gained.withoutQuantity)
+      report.singular.push(...gained.singular)
     }
     if (options.apply) {
       // Si Torre tiene un borrador a medias, el cambio va a su borrador y no se publica.

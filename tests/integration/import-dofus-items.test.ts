@@ -16,7 +16,14 @@ const PNG = tinyPng().data
 const RAW: RawItem[] = [
   { id: 918043, name: { es: 'Dofus abisal' }, level: 180, typeId: 23, iconId: 923023 },
   { id: 917298, name: { es: 'Piel de rojiva' }, level: 60, typeId: 15, iconId: 959042 },
+  { id: 918102, name: { es: 'Varita pitusa' }, level: 1, typeId: 4, iconId: 904012 },
+  { id: 918201, name: { es: 'Llave doble' }, level: 1, typeId: 84, iconId: null },
+  { id: 918202, name: { es: 'Llave Doble' }, level: 1, typeId: 84, iconId: null },
+  { id: 916834, name: { es: 'Bananaranja' }, level: 1, typeId: 41, iconId: null },
+  { id: 918301, name: { es: 'Flor' }, level: 1, typeId: 41, iconId: null },
+  { id: 918302, name: { es: 'Flore' }, level: 1, typeId: 41, iconId: null },
 ]
+const RAW_IDS = RAW.map((row) => row.id)
 
 /** Un DofusDB falso: sirve RAW por ID y por nombre, y apunta lo que le piden. */
 function fakeClient() {
@@ -52,7 +59,7 @@ const fetchImage = async (url: string) => {
 async function cleanUp() {
   await payload.delete({
     collection: 'items',
-    where: { dofusId: { in: [918043, 917298, 914635] } },
+    where: { dofusId: { in: [...RAW_IDS, 914635] } },
   })
   await payload.delete({
     collection: 'media',
@@ -153,5 +160,62 @@ describe('gameItems', () => {
     expect(item).toMatchObject({ dofusId: 917298, name: 'Piel de rojiva' })
 
     expect(await items.findItem('Algo que no existe')).toBeNull()
+  })
+
+  it('una fila sin cantidad: solo el único objeto que se llama así, sin mirar tildes ni mayúsculas', async () => {
+    const { client } = fakeClient()
+    const items = gameItems(payload, { client, fetchImage })
+
+    // El Cacao: «Varita pitusa.» sin «1 x». Torre la escribe sin la tilde que no lleva.
+    const varita = await items.findOnlyItem('varita pitusa')
+    expect(varita).toEqual({ id: expect.any(Number), name: 'Varita pitusa', singular: false })
+    const stored = await payload.findByID({ collection: 'items', id: varita!.id, depth: 0 })
+    expect(stored).toMatchObject({ dofusId: 918102, name: 'Varita pitusa' })
+
+    // Dos objetos con el mismo nombre: no se adivina, y no se crea ninguno.
+    expect(await items.findOnlyItem('Llave doble')).toBeNull()
+    const doubles = await payload.find({
+      collection: 'items',
+      where: { dofusId: { in: [918201, 918202] } },
+    })
+    expect(doubles.docs).toEqual([])
+
+    expect(await items.findOnlyItem('Un par de combates por allí y por allá')).toBeNull()
+  })
+
+  it('en seco, la fila sin cantidad tampoco crea el objeto: su ID de DofusDB en negativo', async () => {
+    const { client } = fakeClient()
+    await payload.delete({ collection: 'items', where: { dofusId: { equals: 918102 } } })
+    const items = gameItems(payload, { client, fetchImage, dryRun: true })
+    expect(await items.findOnlyItem('Varita pitusa')).toEqual({
+      id: -918102,
+      name: 'Varita pitusa',
+      singular: false,
+    })
+    expect(
+      (await payload.find({ collection: 'items', where: { dofusId: { equals: 918102 } } })).docs,
+    ).toEqual([])
+  })
+
+  it('un nombre en plural que no casa se prueba en singular, solo si casa un único objeto', async () => {
+    const { client } = fakeClient()
+    const items = gameItems(payload, { client, fetchImage })
+
+    // «8 x Bananaranjas»: la Bananaranja, y se sabe que casó en singular.
+    const banana = await items.matchItem('Bananaranjas')
+    expect(banana).toEqual({ id: expect.any(Number), name: 'Bananaranja', singular: true })
+    expect(await items.findItem('Bananaranjas')).toBe(banana!.id)
+    // El nombre exacto sigue mandando: Pepita no pasa por el singular.
+    expect(await items.matchItem('Pepita')).toMatchObject({ name: 'Pepita', singular: false })
+
+    // «Flores»: «Flore» y «Flor» son dos objetos. No se adivina, en ninguna de las dos búsquedas.
+    expect(await items.matchItem('Flores')).toBeNull()
+    expect(await items.findOnlyItem('Flores')).toBeNull()
+
+    // Sin cantidad, igual: «Bananaranjas.» es la Bananaranja.
+    expect(await items.findOnlyItem('Bananaranjas')).toMatchObject({
+      name: 'Bananaranja',
+      singular: true,
+    })
   })
 })
