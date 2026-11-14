@@ -74,6 +74,24 @@ describe('parseDofusGuide: lo que Torre escribe', () => {
     ])
   })
 
+  it('una fila sin cantidad deja su nombre para buscar el objeto, sin punto ni nota', () => {
+    // En el Cacao Torre escribió «Varita pitusa.» sin «1 x»: la cantidad no se inventa aquí.
+    const cacao = guide('dofus-cacao')
+    const rows = cacao.needs!.groups.flatMap((group) => group.rows)
+    const varita = rows.find((row) => row.text === 'Varita pitusa.')
+    expect(varita).toMatchObject({ name: 'Varita pitusa' })
+    expect(varita!.quantity).toBeUndefined()
+    expect(varita!.note).toBeUndefined()
+
+    const oficio = guide('dofus-abisal').needs!.groups[0]!.rows[0]!
+    expect(oficio).toMatchObject({ name: 'Algún oficio nivel 200', note: '(sea cual sea)' })
+    expect(oficio.quantity).toBeUndefined()
+
+    // Una fila con enlaces (los emotes) no es un objeto: se queda sin nombre.
+    const emotes = cacao.needs!.groups.find((group) => group.name === 'Emotes')!
+    expect(emotes.rows.every((row) => row.name === undefined)).toBe(true)
+  })
+
   it('los logros llevan las misiones de Torre en su orden, sin el punto final', () => {
     const abisal = guide('dofus-abisal')
     const achievements = abisal.parts as AchievementPart[]

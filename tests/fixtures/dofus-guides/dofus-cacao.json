@@ -133,7 +133,8 @@
         "t": "text",
         "v": "Varita pitusa."
        }
-      ]
+      ],
+      "name": "Varita pitusa"
      }
     ]
    },
@@ -208,7 +209,8 @@
           "t": "text",
           "v": ": Fundición de los waddictos."
          }
-        ]
+        ],
+        "name": "Nivel 20 a 119: Fundición de los waddictos"
        },
        {
         "text": "Nivel 129 a 179: Crocantería.",
@@ -222,7 +224,8 @@
           "t": "text",
           "v": ": Crocantería."
          }
-        ]
+        ],
+        "name": "Nivel 129 a 179: Crocantería"
        },
        {
         "text": "Nivel 180+: Templo del Dios Kao.",
@@ -236,7 +239,8 @@
           "t": "text",
           "v": ": Templo del Dios Kao."
          }
-        ]
+        ],
+        "name": "Nivel 180+: Templo del Dios Kao"
        }
       ]
      }
@@ -252,7 +256,8 @@
         "t": "text",
         "v": "Un par de combates por allí y por allá."
        }
-      ]
+      ],
+      "name": "Un par de combates por allí y por allá"
      }
     ]
    }

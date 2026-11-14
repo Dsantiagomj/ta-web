@@ -46,7 +46,8 @@
         "t": "text",
         "v": "Algunos combates contra los monstruos de la zona."
        }
-      ]
+      ],
+      "name": "Algunos combates contra los monstruos de la zona"
      }
     ]
    },
@@ -60,7 +61,8 @@
         "t": "text",
         "v": "Hacer mazmorras de nivel 200 para un drop del 0,7% xD."
        }
-      ]
+      ],
+      "name": "Hacer mazmorras de nivel 200 para un drop del 0,7% xD"
      }
     ]
    },
@@ -200,7 +202,8 @@
         "t": "text",
         "v": "Sueños infinitos."
        }
-      ]
+      ],
+      "name": "Sueños infinitos"
      },
      {
       "text": "Ser alquimista y/o campesino 200.",
@@ -209,7 +212,8 @@
         "t": "text",
         "v": "Ser alquimista y/o campesino 200."
        }
-      ]
+      ],
+      "name": "Ser alquimista y/o campesino 200"
      }
     ]
    }

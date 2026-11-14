@@ -23,7 +23,9 @@
         "t": "text",
         "v": "Algún oficio nivel 200 (sea cual sea)."
        }
-      ]
+      ],
+      "name": "Algún oficio nivel 200",
+      "note": "(sea cual sea)"
      },
      {
       "text": "1 x Sello de los fundadores (o fabricarlo).",
@@ -464,7 +466,8 @@
         "t": "text",
         "v": "Un par de combates por allí y por allá."
        }
-      ]
+      ],
+      "name": "Un par de combates por allí y por allá"
      }
     ]
    }
