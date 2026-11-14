@@ -1,7 +1,7 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Locator, type Page } from '@playwright/test'
 
-import { WCAG } from './panel-helpers.ts'
+import { waitForPanelNames, WCAG } from './panel-helpers.ts'
 import { seedAchievement } from './seed/achievements.ts'
 import { seedChecklists } from './seed/checklists.ts'
 import { E2E_PANEL_USER, seedGuide } from './seed/guides.ts'
@@ -231,7 +231,7 @@ test.describe('el panel para Torre', () => {
     await page.goto(`/admin/collections/quest-guides/${id}`)
     await expect(page.locator('#field-slug')).toBeVisible()
 
-    await page.waitForLoadState('networkidle')
+    await waitForPanelNames(page)
     const results = await new AxeBuilder({ page }).withTags(WCAG).analyze()
     expect(results.violations.map((violation) => violation.id)).toEqual([])
   })
