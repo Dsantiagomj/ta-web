@@ -252,6 +252,10 @@ test.describe('progreso de una checklist', () => {
   test('cerrar el reinicio sin elegir (Escape o un clic fuera) después de reiniciar no vuelve a borrar', async ({
     page,
   }) => {
+    // Con la CPU seis veces más lenta, como el runner de CI: el clic o la tecla llegan antes
+    // que cualquier script que la prueba mande a la vez, porque Chrome antepone la entrada.
+    const cdp = await page.context().newCDPSession(page)
+    await cdp.send('Emulation.setCPUThrottlingRate', { rate: 6 })
     await page.goto(url)
     const reset = page.getByRole('dialog', { name: 'Reiniciar el progreso' })
     const open = async () => {
@@ -259,18 +263,22 @@ test.describe('progreso de una checklist', () => {
       await page.getByRole('button', { name: 'Reiniciar el progreso' }).click()
       await expect(reset).toBeVisible()
     }
-    /** Cierra el diálogo y espera a su evento «close», que llega después, en otra tarea. */
+    /**
+     * Cierra el diálogo y espera a su evento «close», que llega después, en otra tarea. El
+     * oyente se pone, y se espera a que esté, antes de cerrar: puesto a la vez que el clic, el
+     * «close» podía llegar antes que él y la prueba esperaba para siempre.
+     */
     const closeBy = async (action: () => Promise<void>) => {
-      const closed = page.evaluate(
-        () =>
-          new Promise<void>((resolve) =>
-            document
-              .querySelector('[data-ck-dialog="reset"]')!
-              .addEventListener('close', () => setTimeout(resolve), { once: true }),
-          ),
-      )
+      await page.evaluate(() => {
+        const dialog = document.querySelector<HTMLElement>('[data-ck-dialog="reset"]')!
+        const flag = 'ckResetClosed'
+        delete dialog.dataset[flag]
+        dialog.addEventListener('close', () => setTimeout(() => (dialog.dataset[flag] = '')), {
+          once: true,
+        })
+      })
       await action()
-      await closed
+      await expect(page.locator('[data-ck-dialog="reset"][data-ck-reset-closed]')).toHaveCount(1)
     }
     await open()
     await closeBy(() => reset.getByRole('button', { name: 'Reiniciar', exact: true }).click())
