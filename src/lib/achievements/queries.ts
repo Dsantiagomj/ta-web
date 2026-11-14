@@ -95,7 +95,7 @@ export async function readAchievementPage(
           select: { slug: true, quest: true, summary: { needs: true } },
           // Los objetos de Necesitarás con su nombre y su icono.
           populate: {
-            items: { name: true, superTypeId: true, image: true },
+            items: { name: true, dofusId: true, superTypeId: true, image: true },
             dungeons: { name: true },
           },
           depth: 2,
@@ -160,7 +160,7 @@ export async function readNoteItems(
   const { docs } = await payload.find({
     collection: 'items',
     where: { name: { in: labels } },
-    select: { name: true, image: true },
+    select: { name: true, dofusId: true, superTypeId: true, image: true },
     sort: 'dofusId',
     depth: 1,
     pagination: false,

@@ -14,6 +14,8 @@ export interface NamedDoc {
 
 export interface LinkedItem extends NamedDoc {
   id?: number
+  /** Su ID en DofusDB, para cruzarlo con los objetivos de las misiones. */
+  dofusId?: number | null
   superTypeId?: number | null
   /** El icono importado de DofusDB (Media), si ya está. */
   image?: number | Media | null
