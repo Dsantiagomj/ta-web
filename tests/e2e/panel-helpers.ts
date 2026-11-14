@@ -2,14 +2,20 @@ import { expect, type Page } from '@playwright/test'
 
 import { E2E_PANEL_USER_2 } from './seed/guides.ts'
 
-// Lo que comparten las pruebas de la ola 2 del panel: una sesión de su propia cuenta y el
-// id de un documento sembrado.
+// Lo que comparten las pruebas de la ola 2 del panel: una sesión de su propia cuenta, el id
+// de un documento sembrado, soltar los documentos que Payload bloquea al abrirlos y dejar
+// uno como su versión publicada.
+
+type Account = { email: string; password: string }
 
 export const WCAG = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']
 
-/** Inicia sesión y devuelve el id de la cuenta, para soltar luego sus bloqueos. */
-export async function logInPanel(page: Page): Promise<number> {
-  const login = await page.request.post('/api/users/login', { data: E2E_PANEL_USER_2 })
+/**
+ * Inicia sesión y devuelve el id de la cuenta, para soltar luego sus bloqueos. Cada archivo
+ * de pruebas usa su propia cuenta.
+ */
+export async function logInPanel(page: Page, account: Account = E2E_PANEL_USER_2): Promise<number> {
+  const login = await page.request.post('/api/users/login', { data: account })
   expect(login.ok()).toBe(true)
   return ((await login.json()) as { user: { id: number } }).user.id
 }

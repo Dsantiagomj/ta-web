@@ -9,24 +9,6 @@ import { E2E_PANEL_USER, seedGuide } from './seed/guides.ts'
 // El panel para Torre, ola 1 (docs/research/backlog.md, A-01 a A-12), con el usuario del
 // panel de la base de pruebas.
 
-/**
- * Lo que axe encuentra en las piezas de Payload que no son nuestras y no se cambian con la
- * configuración: asas de arrastre y menús «…» sin nombre, el campo de texto de Lexical y los
- * selectores de react-select sin etiqueta, objetivos de 20px. Son de la ola 2 (A-21, la
- * accesibilidad del panel). Cualquier otra regla, y el contraste, que es nuestro (A-11),
- * tiene que pasar.
- */
-const PAYLOAD_KNOWN = [
-  'aria-command-name',
-  'aria-hidden-focus',
-  'aria-input-field-name',
-  'button-name',
-  'label',
-  'label-content-name-mismatch',
-  'list',
-  'target-size',
-]
-
 async function logIn(page: Page) {
   const login = await page.request.post('/api/users/login', { data: E2E_PANEL_USER })
   expect(login.ok()).toBe(true)
@@ -244,15 +226,13 @@ test.describe('el panel para Torre', () => {
     await expect(page.getByText('Dirección en Squarespace')).toHaveCount(0)
   })
 
-  test('la vista de edición pasa axe, salvo lo conocido de Payload (A-21)', async () => {
+  test('la vista de edición pasa axe entera (A-21)', async () => {
     const id = await docId(page, 'quest-guides', seedGuide.slug)
     await page.goto(`/admin/collections/quest-guides/${id}`)
     await expect(page.locator('#field-slug')).toBeVisible()
 
-    const results = await new AxeBuilder({ page })
-      .withTags(WCAG)
-      .disableRules(PAYLOAD_KNOWN)
-      .analyze()
+    await page.waitForLoadState('networkidle')
+    const results = await new AxeBuilder({ page }).withTags(WCAG).analyze()
     expect(results.violations.map((violation) => violation.id)).toEqual([])
   })
 })

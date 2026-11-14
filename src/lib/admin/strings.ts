@@ -314,6 +314,26 @@ export const panelStrings = {
   },
   /** El selector de color junto a un hexadecimal (A-22, ColorField). */
   color: { pick: (label: string) => `Elegir ${label.toLowerCase()} con el selector` },
+  /** Nombres para los controles de Payload que no los traen (A-21, a11y-fixes.ts). */
+  a11y: {
+    dragHandle: 'Mover la fila: arrástrala, o pulsa Espacio y usa las flechas',
+    rowActions: 'Más acciones de la fila: mover, duplicar o quitar',
+    clipboard: 'Copiar o pegar',
+    documentActions: 'Más acciones de esta página',
+    moreOptionsOf: (label: string) => `Más opciones de «${label}»`,
+    moreOptions: 'Más opciones',
+    selectAll: 'Elegir todas',
+    selectRow: (title: string) => `Elegir ${title}`,
+    selectThisRow: 'Elegir esta fila',
+    text: 'Texto',
+    select: 'Elegir',
+    previewFrame: 'Vista previa de la página',
+    locked: 'Otra cuenta está editando esta página',
+    editUpload: 'Editar esta imagen',
+    removeUpload: 'Quitar esta imagen',
+    previewWidth: 'Ancho de la vista previa, en px',
+    previewHeight: 'Alto de la vista previa, en px',
+  },
   /** Los tamaños de la vista previa en vivo (A-20). */
   livePreview: { mobile: 'Móvil', tablet: 'Tableta', desktop: 'Escritorio' },
   originalUrl: {

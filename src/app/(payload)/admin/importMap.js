@@ -42,6 +42,7 @@ import { PanelIcon as PanelIcon_b64368432b45f4624802cb0938bfd691 } from '../../.
 import { PanelLogo as PanelLogo_b64368432b45f4624802cb0938bfd691 } from '../../../components/admin/PanelBrand'
 import { PanelGuideNavLink as PanelGuideNavLink_bbc85789170169c628f99d40d0aa0d9d } from '../../../components/admin/PanelGuideNavLink'
 import { LoginWelcome as LoginWelcome_b64368432b45f4624802cb0938bfd691 } from '../../../components/admin/PanelBrand'
+import { PanelA11y as PanelA11y_b451dea695f7ccd0c256c68b1f185174 } from '../../../components/admin/PanelA11y'
 import { Dashboard as Dashboard_16b88e9b8c48e393fa86591406efd08f } from '../../../components/admin/Dashboard'
 import { PanelGuide as PanelGuide_f0976761ad3e97a531fe95c863d5f963 } from '../../../components/admin/PanelGuide'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
@@ -93,6 +94,7 @@ export const importMap = {
   "/components/admin/PanelBrand#PanelLogo": PanelLogo_b64368432b45f4624802cb0938bfd691,
   "/components/admin/PanelGuideNavLink#PanelGuideNavLink": PanelGuideNavLink_bbc85789170169c628f99d40d0aa0d9d,
   "/components/admin/PanelBrand#LoginWelcome": LoginWelcome_b64368432b45f4624802cb0938bfd691,
+  "/components/admin/PanelA11y#PanelA11y": PanelA11y_b451dea695f7ccd0c256c68b1f185174,
   "/components/admin/Dashboard#Dashboard": Dashboard_16b88e9b8c48e393fa86591406efd08f,
   "/components/admin/PanelGuide#PanelGuide": PanelGuide_f0976761ad3e97a531fe95c863d5f963,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1,
