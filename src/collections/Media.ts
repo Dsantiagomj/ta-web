@@ -2,7 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { panelStrings } from '../lib/admin/strings'
 import { IMAGE_WIDTHS, imageSizeName, mediaImageSizes } from '../lib/media/sizes'
-import { refuseReferencedDelete } from './delete-guard'
+import { refuseGameAssetDelete, refuseReferencedDelete } from './delete-guard'
 import { isAdmin } from './editorial-access'
 import {
   revalidateGuidePagesAfterChange,
@@ -51,8 +51,8 @@ export const Media: CollectionConfig = {
   // Las guías pintan el texto alternativo y el tamaño de sus imágenes.
   hooks: {
     afterChange: [revalidateGuidePagesAfterChange],
-    // No se borra una imagen que sale en una guía (A-17).
-    beforeDelete: [refuseReferencedDelete('media')],
+    // No se borra el arte del juego ni una imagen que sale en una guía (A-17).
+    beforeDelete: [refuseGameAssetDelete, refuseReferencedDelete('media')],
     afterDelete: [revalidateGuidePagesAfterDelete],
   },
   fields: [

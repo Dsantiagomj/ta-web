@@ -171,6 +171,61 @@ describe.each(locks)('$collection, campo $field', ({ collection, field, data, ch
   })
 })
 
+describe('un campo bloqueado que se guardó vacío', () => {
+  const empties: {
+    collection: CollectionSlug
+    field: string
+    data: (slug: string) => Record<string, unknown>
+    value: () => unknown
+  }[] = [
+    {
+      collection: 'quest-guides',
+      field: 'quest',
+      data: (slug) => ({ title: 'Guía', slug }),
+      value: () => gameIds.quests![0],
+    },
+    {
+      collection: 'dofus-guides',
+      field: 'dofus',
+      data: (slug) => ({ name: 'Dofus', slug, order: 10, state: 'preparing' }),
+      value: () => gameIds.items![0],
+    },
+    {
+      collection: 'achievement-groups',
+      field: 'category',
+      data: (slug) => ({ name: 'Metalogro', slug, state: 'preparing' }),
+      value: () => gameIds['achievement-categories']![0],
+    },
+    {
+      collection: 'achievement-groups',
+      field: 'order',
+      data: (slug) => ({ name: 'Metalogro', slug, state: 'preparing' }),
+      value: () => 5,
+    },
+  ]
+
+  it.each(empties)(
+    'el editor rellena $collection, campo $field, una vez',
+    async ({ collection, field, data, value }) => {
+      await payload.delete({ collection, where: { slug: { like: PREFIX } } })
+      const created = await payload.create({
+        collection,
+        data: data(`${PREFIX}-${++counter}`) as never,
+        user: editor,
+        overrideAccess: false,
+      })
+      const filled = await payload.update({
+        collection,
+        id: created.id,
+        data: { [field]: value() } as never,
+        user: editor,
+        overrideAccess: false,
+      })
+      expect(relationId((filled as unknown as Record<string, unknown>)[field])).toBe(value())
+    },
+  )
+})
+
 describe('la clave de un prerrequisito', () => {
   const keys = (doc: Checklist) =>
     (doc.prerequisites?.groups ?? []).flatMap((group) => (group.rows ?? []).map((row) => row.key))
@@ -220,5 +275,75 @@ describe('la clave de un prerrequisito', () => {
     })
     expect(keys(updated)).toEqual(['nivel-200', 'nivel-100'])
     expect(updated.prerequisites!.groups![0]!.rows![0]!.text).toBe('Nivel 200 o más')
+  })
+
+  async function savedChecklist() {
+    await payload.delete({ collection: 'checklists', where: { slug: { like: PREFIX } } })
+    return payload.create({
+      collection: 'checklists',
+      data: {
+        name: 'Checklist',
+        slug: `${PREFIX}-${++counter}`,
+        order: 10,
+        state: 'preparing',
+        prerequisites: {
+          groups: [
+            { title: 'Nivel', rows: [{ key: 'nivel-200', text: 'Nivel 200' }] },
+            { title: 'Hechizos', rows: [{ key: 'captura', text: 'Captura de almas' }] },
+          ],
+        },
+      },
+    })
+  }
+
+  it('movida a otro grupo por la API, la fila guarda su clave', async () => {
+    const created = await savedChecklist()
+    const [level, spells] = created.prerequisites!.groups!
+    const updated = await payload.update({
+      collection: 'checklists',
+      id: created.id,
+      data: {
+        prerequisites: {
+          groups: [
+            { id: level!.id, title: 'Nivel', rows: [] },
+            {
+              id: spells!.id,
+              title: 'Hechizos',
+              rows: [
+                { id: spells!.rows![0]!.id, key: 'captura', text: 'Captura de almas' },
+                { id: level!.rows![0]!.id, key: 'otra-clave', text: 'Nivel 200' },
+              ],
+            },
+          ],
+        },
+      },
+      user: admin,
+      overrideAccess: false,
+    })
+    expect(keys(updated)).toEqual(['captura', 'nivel-200'])
+  })
+
+  it('sin su id, la fila guardada de ese sitio no cambia de clave', async () => {
+    const created = await savedChecklist()
+    const [level, spells] = created.prerequisites!.groups!
+    const updated = await payload.update({
+      collection: 'checklists',
+      id: created.id,
+      data: {
+        prerequisites: {
+          groups: [
+            { id: level!.id, title: 'Nivel', rows: [{ key: 'otra-clave', text: 'Nivel 200' }] },
+            {
+              id: spells!.id,
+              title: 'Hechizos',
+              rows: [{ key: 'captura', text: 'Captura de almas' }],
+            },
+          ],
+        },
+      },
+      user: admin,
+      overrideAccess: false,
+    })
+    expect(keys(updated)).toEqual(['nivel-200', 'captura'])
   })
 })

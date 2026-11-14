@@ -11,8 +11,9 @@ import { guidePreviewUrl, previewOrigin } from '../lib/guides/preview'
 import { stateField } from './achievement-fields'
 import { refuseReferencedDelete } from './delete-guard'
 import {
-  adminOnlyAfterCreate,
+  lockedOnceSet,
   adminOrNotImported,
+  clearOnDuplicate,
   isPanelUser,
   readPublishedOrAll,
 } from './editorial-access'
@@ -230,7 +231,7 @@ export const DofusGuides: CollectionConfig = {
       type: 'relationship',
       relationTo: 'items',
       unique: true,
-      access: adminOnlyAfterCreate,
+      access: lockedOnceSet('dofus'),
       admin: { description: `${s.dofusDescription} ${panelStrings.locks.dofusDb}` },
     },
     {
@@ -258,7 +259,7 @@ export const DofusGuides: CollectionConfig = {
       label: 'Orden',
       type: 'number',
       required: true,
-      access: adminOnlyAfterCreate,
+      access: lockedOnceSet('order'),
       admin: {
         position: 'sidebar',
         description: `${s.orderDescription} ${panelStrings.locks.order}`,
@@ -392,6 +393,7 @@ export const DofusGuides: CollectionConfig = {
       // coincide lo cambió Torre y no se toca (scripts/import/dofus-guides/load.ts).
       name: 'importSnapshot',
       type: 'json',
+      hooks: { beforeDuplicate: [clearOnDuplicate] },
       admin: { hidden: true },
     },
     {
@@ -399,6 +401,8 @@ export const DofusGuides: CollectionConfig = {
       label: panelStrings.originalUrl.label,
       type: 'text',
       validate: validateOptionalUrl,
+      // La copia es del editor que la hace, no de la importación (A-15).
+      hooks: { beforeDuplicate: [clearOnDuplicate] },
       admin: { ...originalUrlAdmin, position: 'sidebar' },
     },
   ],

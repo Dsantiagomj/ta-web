@@ -1,4 +1,4 @@
-import type { Access, FieldAccess } from 'payload'
+import type { Access, FieldAccess, FieldHook, Where } from 'payload'
 
 // Permisos compartidos de las colecciones editoriales (guías y logros) y los papeles del
 // panel (docs/research/backlog.md, A-15): el editor crea, edita y publica; el administrador,
@@ -23,17 +23,26 @@ export const readPublishedOrAll: Access = ({ req: { user } }) =>
 /** Borrar lo importado y las imágenes, y gestionar las cuentas: solo un administrador. */
 export const isAdmin: Access = ({ req: { user } }) => isAdminUser(user)
 
+/** Lo que deja la importación: la dirección en Squarespace o lo último que escribió. */
+export type ImportMarker = 'originalUrl' | 'importSnapshot'
+
 /**
  * Borrar en una colección que también llena la importación: un administrador, todo; un
- * editor, solo lo que no vino de ella, que es lo que tiene vacío `marker` (la dirección en
- * Squarespace o lo último que escribió la importación).
+ * editor, solo lo que no vino de ella, que es lo que tiene `marker` vacío. Una dirección
+ * escrita en blanco tampoco es de la importación. Al duplicar, la copia pierde la marca
+ * (`clearOnDuplicate`): es del editor que la hizo.
  */
 export const adminOrNotImported =
-  (marker: string): Access =>
+  (marker: ImportMarker): Access =>
   ({ req: { user } }) => {
     if (!user) return false
-    return isAdminUser(user) ? true : { [marker]: { exists: false } }
+    if (isAdminUser(user)) return true
+    const empty: Where = { [marker]: { exists: false } }
+    return marker === 'originalUrl' ? { or: [empty, { [marker]: { equals: '' } }] } : empty
   }
+
+/** Una marca de importación no pasa a la copia de un documento. */
+export const clearOnDuplicate: FieldHook = () => null
 
 /** El mismo permiso para un campo: un editor lo ve, pero no lo cambia. */
 export const isAdminField: FieldAccess = ({ req: { user } }) => isAdminUser(user)
@@ -44,9 +53,17 @@ export const adminOrSelf: Access = ({ req: { user } }) => {
   return isAdminUser(user) ? true : { id: { equals: user.id } }
 }
 
+const isEmpty = (value: unknown) =>
+  value === null || value === undefined || (typeof value === 'string' && value.trim() === '')
+
 /**
  * Los campos que rompen datos si cambian, como el orden o el enlace con DofusDB (A-23):
- * cualquiera los pone al crear; después, solo un administrador los cambia. Payload descarta
- * lo que mande un editor y deja el valor guardado.
+ * mientras estén vacíos, cualquiera los rellena; con un valor guardado, solo un administrador
+ * los cambia. Payload descarta lo que mande un editor y deja el valor guardado. `name` es el
+ * del campo, en lo más alto del documento.
  */
-export const adminOnlyAfterCreate = { update: isAdminField }
+export const lockedOnceSet = (name: string) => ({
+  update: (({ req: { user }, doc }) =>
+    isAdminUser(user) ||
+    isEmpty((doc as Record<string, unknown> | undefined)?.[name])) as FieldAccess,
+})

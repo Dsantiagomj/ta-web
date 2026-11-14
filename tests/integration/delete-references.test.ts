@@ -12,7 +12,7 @@ let payload: Payload
 let admin: User
 
 const PREFIX = 'prueba-referencias'
-const ACHIEVEMENT_IDS = [990_701, 990_702, 990_703]
+const ACHIEVEMENT_IDS = [990_701, 990_702, 990_703, 990_704]
 
 async function cleanUp() {
   // Primero lo que apunta a otros, para que nada quede referenciado.
@@ -45,6 +45,17 @@ const slug = () => `${PREFIX}-${++counter}`
 
 const image = async (alt = 'imagen') =>
   payload.create({ collection: 'media', data: { alt: `${PREFIX} ${alt}` }, file: tinyPng() })
+
+/** Una fila de una lista de Lexical. */
+const listItem = (children: unknown[]) => ({
+  type: 'listitem',
+  value: 1,
+  format: '',
+  indent: 0,
+  version: 1,
+  direction: null,
+  children,
+})
 
 /** Un texto de Lexical con los nodos que se le pasen. */
 const lexical = (children: unknown[]) => ({
@@ -207,6 +218,95 @@ describe('una imagen', () => {
     const message = await refusal('media', media.id)
     expect(message).toMatch(/^Esta imagen sale en 12 guías: /)
     expect(message).toContain('y 2 más')
+  })
+})
+
+describe('una imagen dentro del texto', () => {
+  it('una captura dentro de una lista o una portada dentro de una cita también cuentan', async () => {
+    const screenshot = await image('captura anidada')
+    const poster = await image('portada anidada')
+    const achievement = await payload.create({
+      collection: 'achievements',
+      data: { dofusId: ACHIEVEMENT_IDS[3]!, name: 'Anidado' },
+    })
+    const upload = {
+      type: 'upload',
+      version: 3,
+      format: '',
+      id: 'n1',
+      fields: null,
+      relationTo: 'media',
+      value: screenshot.id,
+    }
+    const video = {
+      type: 'block',
+      version: 2,
+      format: '',
+      fields: {
+        id: 'n2',
+        blockName: '',
+        blockType: 'proseVideo',
+        url: 'https://youtu.be/dQw4w9WgXcQ',
+        title: 'Vídeo',
+        poster: poster.id,
+      },
+    }
+    await payload.create({
+      collection: 'achievement-pages',
+      data: {
+        achievement: achievement.id,
+        name: 'Logro anidado',
+        slug: slug(),
+        state: 'preparing',
+        intro: lexical([
+          {
+            type: 'list',
+            listType: 'bullet',
+            tag: 'ul',
+            start: 1,
+            format: '',
+            indent: 0,
+            version: 1,
+            direction: null,
+            children: [
+              listItem([
+                {
+                  type: 'list',
+                  listType: 'bullet',
+                  tag: 'ul',
+                  start: 1,
+                  format: '',
+                  indent: 0,
+                  version: 1,
+                  direction: null,
+                  children: [listItem([upload])],
+                },
+              ]),
+            ],
+          },
+        ]),
+        outro: lexical([
+          { type: 'quote', format: '', indent: 0, version: 1, direction: null, children: [video] },
+        ]),
+      } as never,
+    })
+
+    expect(await refusal('media', screenshot.id)).toContain('«Logro anidado»')
+    expect(await refusal('media', poster.id)).toContain('«Logro anidado»')
+  })
+})
+
+describe('el arte del juego', () => {
+  it('una imagen que trajo DofusDB no se borra desde el panel', async () => {
+    const art = await payload.create({
+      collection: 'media',
+      data: { alt: `${PREFIX} render`, gameAsset: `${PREFIX}-npc-render` },
+      file: tinyPng(),
+    })
+    expect(await refusal('media', art.id)).toBe(
+      'Esta imagen es arte del juego: la trae DofusDB y la usan sus datos (misiones, objetos, ' +
+        'monstruos, PNJ y logros). No se borra desde el panel.',
+    )
   })
 })
 

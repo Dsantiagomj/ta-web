@@ -1,56 +1,71 @@
 import {
   APIError,
   type CollectionBeforeChangeHook,
-  type CollectionBeforeDeleteHook,
+  type CollectionBeforeOperationHook,
   type CollectionConfig,
-  type PayloadRequest,
+  type Where,
 } from 'payload'
 
 import { panelStrings } from '../lib/admin/strings'
-import { PANEL_ROLES, adminOrSelf, isAdmin, isAdminField } from './editorial-access'
+import { PANEL_ROLES, adminOrSelf, isAdmin, isAdminField, isAdminUser } from './editorial-access'
 
 const s = panelStrings.users
 
-const countAdmins = async (req: PayloadRequest) =>
-  (
-    await req.payload.count({
-      collection: 'users',
-      where: { role: { equals: 'admin' } },
-      overrideAccess: true,
-      req,
-    })
-  ).totalDocs
+const lastAdminError = () => new APIError(s.lastAdmin, 400, null, true)
 
 /**
  * La primera cuenta, la que se crea en /admin con la base vacía, es administradora: si no,
- * nadie podría gestionar las demás. Y nunca se queda el panel sin administradores.
+ * nadie podría gestionar las demás. Basta con mirar si hay una cuenta. Dos altas a la vez con
+ * la base vacía solo pueden darse al arrancar el panel, y las dos saldrían administradoras.
  */
-const keepAnAdmin: CollectionBeforeChangeHook = async ({ data, operation, originalDoc, req }) => {
-  if (operation === 'create') {
-    const { totalDocs } = await req.payload.count({
-      collection: 'users',
-      overrideAccess: true,
-      req,
-    })
-    return totalDocs === 0 ? { ...data, role: 'admin' } : data
-  }
-  if (originalDoc?.role === 'admin' && 'role' in data && data.role !== 'admin') {
-    if ((await countAdmins(req)) <= 1) throw new APIError(s.lastAdmin, 400, null, true)
-  }
-  return data
-}
-
-const keepAnAdminOnDelete: CollectionBeforeDeleteHook = async ({ id, req }) => {
-  const doc = await req.payload.findByID({
+export const firstAccountIsAdmin: CollectionBeforeChangeHook = async ({ data, operation, req }) => {
+  if (operation !== 'create' || data.role === 'admin') return data
+  const { docs } = await req.payload.find({
     collection: 'users',
-    id,
+    limit: 1,
     depth: 0,
+    pagination: false,
+    select: {},
     overrideAccess: true,
     req,
   })
-  if (doc.role === 'admin' && (await countAdmins(req)) <= 1) {
-    throw new APIError(s.lastAdmin, 400, null, true)
+  return docs.length === 0 ? { ...data, role: 'admin' } : data
+}
+
+/**
+ * Nunca se queda el panel sin administradores. Se mira una vez por operación, antes de que
+ * Payload reparta un borrado o un cambio en lote entre documentos en paralelo: si las cuentas
+ * que se borran o dejan de ser administradoras son todas las administradoras, no se hace.
+ */
+const keepAnAdmin: CollectionBeforeOperationHook = async ({
+  args,
+  operation,
+  overrideAccess,
+  req,
+}) => {
+  if (operation !== 'delete' && operation !== 'update') return args
+  // Un editor no borra ni cambia otras cuentas: el permiso de la operación lo rechaza.
+  if (!overrideAccess && !isAdminUser(req.user)) return args
+  // Un borrado o un cambio, de un documento (id) o en lote (where).
+  const { data, id, where } = args as {
+    data?: Record<string, unknown>
+    id?: number | string
+    where?: Where
   }
+  if (operation === 'update' && (!data || !('role' in data) || data.role === 'admin')) return args
+  const targets: Where = id != null ? { id: { equals: id } } : (where ?? {})
+  const isAdminRow: Where = { role: { equals: 'admin' } }
+  const [admins, removed] = await Promise.all([
+    req.payload.count({ collection: 'users', where: isAdminRow, overrideAccess: true, req }),
+    req.payload.count({
+      collection: 'users',
+      where: { and: [targets, isAdminRow] },
+      overrideAccess: true,
+      req,
+    }),
+  ])
+  if (removed.totalDocs > 0 && removed.totalDocs >= admins.totalDocs) throw lastAdminError()
+  return args
 }
 
 // Cuentas del panel (Torre y editores). Los miembros de la web usan Better Auth, no esta colección.
@@ -76,8 +91,8 @@ export const Users: CollectionConfig = {
   // sin que nadie lo note.
   auth: { maxLoginAttempts: 5, lockTime: 10 * 60 * 1000 },
   hooks: {
-    beforeChange: [keepAnAdmin],
-    beforeDelete: [keepAnAdminOnDelete],
+    beforeOperation: [keepAnAdmin],
+    beforeChange: [firstAccountIsAdmin],
   },
   fields: [
     {
