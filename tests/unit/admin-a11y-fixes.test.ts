@@ -110,12 +110,23 @@ describe('applyPanelA11yFixes', () => {
     expect(document.body.innerHTML).toBe(before)
   })
 
-  it('los iconos de react-select ocultos al lector tampoco reciben el foco', () => {
+  it('la flecha de react-select sale del tabulador; los dibujos se dejan como están', () => {
     render(`<div class="rs__indicators">
-      <div class="clear-indicator" aria-hidden="true" role="button" tabindex="0"></div>
-      <button class="dropdown-indicator" aria-hidden="true" type="button"></button></div>`)
-    expect($('.clear-indicator').getAttribute('tabindex')).toBe('-1')
+      <button class="dropdown-indicator" aria-hidden="true" type="button">
+        <svg aria-hidden="true" class="icon"></svg></button></div>`)
     expect($('.dropdown-indicator').getAttribute('tabindex')).toBe('-1')
+    expect($('svg').hasAttribute('tabindex')).toBe(false)
+  })
+
+  it('la cruz de react-select sigue a mano con el teclado (Intro la vacía), con nombre', () => {
+    render(`<div class="rs__indicators">
+      <div class="clear-indicator" aria-hidden="true" role="button" tabindex="0">
+        <svg aria-hidden="true"></svg></div></div>`)
+    const clear = $('.clear-indicator')
+    expect(clear.getAttribute('tabindex')).toBe('0')
+    expect(clear.hasAttribute('aria-hidden')).toBe(false)
+    expect(clear.getAttribute('aria-label')).toBe('Vaciar el campo')
+    expect($('svg').getAttribute('aria-hidden')).toBe('true')
   })
 
   it('los botones de una imagen elegida dicen qué hacen', () => {
@@ -147,5 +158,43 @@ describe('applyPanelA11yFixes', () => {
       <div class="locked" role="button" tabindex="0" id="sin-texto"><svg></svg></div>`)
     expect($('.locked').getAttribute('aria-label')).toBe('e2e@torrentearcano.test está editando')
     expect($('#sin-texto').getAttribute('aria-label')).toBe('Otra cuenta está editando esta página')
+  })
+
+  it('el nombre de una casilla sigue al título de su fila', () => {
+    render(`<table><tbody><tr><td><input aria-label="" id="f" type="checkbox"></td>
+      <td><a href="#">Dofawa</a></td></tr></tbody></table>`)
+    $('a').textContent = 'Dofawa Abisal'
+    applyPanelA11yFixes(document.body)
+    expect($('#f').getAttribute('aria-label')).toBe('Elegir Dofawa Abisal')
+  })
+
+  it('el candado sigue a quien edita ahora', () => {
+    render(`<div class="locked" role="button" tabindex="0">
+      <div class="locked__tooltip">ana@torrentearcano.test está editando</div></div>`)
+    $('.locked__tooltip').textContent = 'luis@torrentearcano.test está editando'
+    applyPanelA11yFixes(document.body)
+    expect($('.locked').getAttribute('aria-label')).toBe('luis@torrentearcano.test está editando')
+  })
+
+  it('si Payload vacía un nombre nuestro, vuelve a ponerse', () => {
+    render('<div class="collapsible__drag" role="button"></div>')
+    $('.collapsible__drag').setAttribute('aria-label', '')
+    expect(applyPanelA11yFixes(document.body)).toBe(1)
+    expect($('.collapsible__drag').getAttribute('aria-label')).toContain('Mover la fila')
+  })
+
+  it('si Payload pone su propio nombre después, no se pisa', () => {
+    render('<div class="collapsible__drag" role="button"></div>')
+    $('.collapsible__drag').setAttribute('aria-label', 'Arrastrar')
+    expect(applyPanelA11yFixes(document.body)).toBe(0)
+    expect($('.collapsible__drag').getAttribute('aria-label')).toBe('Arrastrar')
+  })
+
+  it('un nombre fijo ya puesto no se vuelve a calcular', () => {
+    render(`<div class="field-type"><label class="field-label">Introducción</label>
+      <div class="ContentEditable__root" role="textbox"></div></div>`)
+    $('.field-label').textContent = 'Otra etiqueta'
+    expect(applyPanelA11yFixes(document.body)).toBe(0)
+    expect($('.ContentEditable__root').getAttribute('aria-label')).toBe('Introducción')
   })
 })

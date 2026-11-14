@@ -329,6 +329,7 @@ export const panelStrings = {
     select: 'Elegir',
     previewFrame: 'Vista previa de la página',
     locked: 'Otra cuenta está editando esta página',
+    clearSelect: 'Vaciar el campo',
     editUpload: 'Editar esta imagen',
     removeUpload: 'Quitar esta imagen',
     previewWidth: 'Ancho de la vista previa, en px',

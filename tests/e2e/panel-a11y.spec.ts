@@ -1,7 +1,14 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
 
-import { docId, logInPanel, releaseLocks, WCAG } from './panel-helpers.ts'
+import {
+  cookieDomain,
+  docId,
+  logInPanel,
+  releaseLocks,
+  waitForPanelNames,
+  WCAG,
+} from './panel-helpers.ts'
 import { E2E_PANEL_USER_3, seedGuide } from './seed/guides.ts'
 
 // A-21 (docs/research/backlog.md): axe WCAG 2.2 AA sobre cinco páginas del panel, en claro y
@@ -9,10 +16,8 @@ import { E2E_PANEL_USER_3, seedGuide } from './seed/guides.ts'
 // src/lib/admin/a11y-fixes.ts; si Payload cambia su HTML, esto falla.
 
 async function setMode(page: Page, mode: 'light' | 'dark') {
-  const { hostname } = new URL(page.url() === 'about:blank' ? 'http://localhost' : page.url())
-  await page
-    .context()
-    .addCookies([{ name: 'payload-theme', value: mode, domain: hostname, path: '/' }])
+  const domain = cookieDomain(test.info().project.use.baseURL)
+  await page.context().addCookies([{ name: 'payload-theme', value: mode, domain, path: '/' }])
 }
 
 async function expectNoViolations(page: Page) {
@@ -27,6 +32,7 @@ for (const mode of ['light', 'dark'] as const) {
     await setMode(page, mode)
     await page.goto('/admin/login')
     await expect(page.locator('input[name="email"]')).toBeVisible()
+    await expect(page.locator('html')).toHaveAttribute('data-theme', mode)
     await expectNoViolations(page)
   })
 }
@@ -71,8 +77,8 @@ test.describe('el panel pasa axe sin excepciones', () => {
         await page.goto(await target.path(page))
         await expect(page.locator(target.ready).first()).toBeVisible()
         await expect(page.locator('html')).toHaveAttribute('data-theme', mode)
-        // Los nombres se ponen tras pintar: se espera a que la página quede quieta.
-        await page.waitForLoadState('networkidle')
+        // Los nombres se ponen un fotograma después de pintar.
+        await waitForPanelNames(page)
         await expectNoViolations(page)
       })
     }

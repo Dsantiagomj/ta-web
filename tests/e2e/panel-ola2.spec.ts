@@ -195,7 +195,7 @@ test.describe('el panel para Torre, ola 2', () => {
     // Un color mal escrito lo marca el navegador al publicar (un borrador no se valida),
     // antes de llegar al servidor, que también lo rechazaría. No se guarda nada.
     await page.locator('#field-color').fill('azul')
-    await page.getByRole('button', { name: 'Publicar cambios' }).click()
+    await page.getByRole('button', { name: 'Publicar cambios', exact: true }).click()
     await expect(page.locator('.ta-color')).toContainText(
       'Tiene que ser un color hexadecimal de seis cifras',
     )
