@@ -147,6 +147,8 @@ test.describe('el panel para Torre, ola 2', () => {
     await expect(page).toHaveURL(/#versiones$/)
     await expect(page.getByText('Restaurar esta versión', { exact: false })).toBeVisible()
 
+    // La segunda cuenta de las pruebas es administradora, como la de Torre.
+    await expect(page.getByText('Tu cuenta es de administrador.')).toBeVisible()
     const parts = page.locator('.ta-guide__parts')
     await expect(parts.getByRole('link', { name: 'Guías de misiones' })).toBeVisible()
   })
