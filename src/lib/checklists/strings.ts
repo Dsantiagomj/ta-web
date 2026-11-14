@@ -105,6 +105,13 @@ export const checklistStrings = {
     noteDescription: 'Una nota del paso, aparte de su texto.',
     achievementOnDescription: 'Las misiones del logro que se hacen en este paso: 1, 2…',
     questNoteDescription: 'Una nota corta junto a la misión.',
+    questLabelDescription:
+      'Para una fila que vale con cualquiera de varias misiones («Misión de clase»): el nombre que sale en lugar del de la misión.',
+    questAlternativesDescription:
+      'Las demás misiones que también valen para esta fila, como la de cada clase o alineamiento. La fila queda hecha con cualquiera.',
+    completedByDescription:
+      'Misiones que el juego termina solas al terminar otras, como «Bienvenido a Frigost». Salen hechas sin marcarlas.',
+    completedByByDescription: 'Las misiones que, terminadas todas, terminan esta.',
     optionalDoneByDescription:
       'El identificador del paso que termina esta misión opcional, si otro paso la termina. ' +
       'Está en «Datos técnicos», al final de ese paso.',
@@ -177,6 +184,8 @@ export const checklistPageStrings = {
   noQuests: 'Este paso no tiene misiones en DofusDB.',
   questLevel: (level: number) => `Niv. ${level}`,
   questKinds: { optional: 'Opcional', take: 'Solo tomarla' },
+  /** Una fila que vale con cualquiera de varias misiones («Misión de clase»). */
+  questAnyOf: (n: number) => `Vale con cualquiera de sus ${n} misiones`,
   guideTitle: 'Guía de Torrente Arcano',
   previous: 'Paso anterior',
   next: 'Paso siguiente',

@@ -42,7 +42,7 @@ export const CHECKLIST_CATALOG: ChecklistCatalogEntry[] = [
     description: 'Los misterios de la isla de Frigost, hasta el temible Conde Kontatrás.',
     order: 2,
     dofusGuide: 'dofus-de-los-hielos',
-    ported: false,
+    ported: true,
   }),
   entry({
     id: 'nebuloso',

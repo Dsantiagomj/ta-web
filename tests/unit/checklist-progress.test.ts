@@ -66,6 +66,8 @@ const data: ChecklistIslandData = {
   optionalDoneBy: [],
   prerequisites: [],
   compositeKeys: [],
+  anyOf: [],
+  completedBy: [],
   legacy: { prefix: 'nebuloso:', guideVersion: 1 },
   weights: [
     [150, [50, 100, 0]],
@@ -648,5 +650,73 @@ describe('revisión de #121', () => {
     expect(questFinished(p, family, 31)).toBe(false)
     expect(questFinished(p, family, 30)).toBe(false)
     expect(p.quests[30]).toMatchObject({ o: 2 })
+  })
+})
+
+// Lo que trae el Hielos. a: la fila genérica -556 («Recolección…»: la 556 o la 566) y la 649,
+// que el juego termina sola al terminar la 612 y la 613; b: la 612 y la 613.
+describe('el progreso del Hielos', () => {
+  const hielos = checklistModel({
+    ...data,
+    steps: [
+      [
+        'a',
+        1,
+        [
+          [-556, 'mandatory'],
+          [649, 'mandatory'],
+        ],
+      ],
+      [
+        'b',
+        2,
+        [
+          [612, 'mandatory'],
+          [613, 'mandatory'],
+        ],
+      ],
+    ],
+    closes: [],
+    optionalDoneBy: [],
+    anyOf: [[-556, [556, 566]]],
+    completedBy: [[649, [612, 613]]],
+    weights: [
+      [200, [100, 100]],
+      [100, [50, 50]],
+    ],
+    objectives: { [-556]: 3, 556: 3, 566: 3, 649: 2, 612: 1, 613: 1 },
+    prereqs: {},
+    parents: {},
+  })
+  const index = (id: string) => hielos.index.get(id)!
+
+  it('la fila genérica se marca sola, sin dar por hecha ninguna de sus misiones', () => {
+    const p = setQuest(emptyProgress(), hielos, index('a'), -556, true, 1)
+    expect(questState(p, hielos, index('a'), -556)).toEqual({ done: true })
+    expect(questFinished(p, hielos, 556)).toBe(false)
+    expect(questFinished(p, hielos, 566)).toBe(false)
+  })
+
+  it('la fila genérica sale hecha con cualquiera de sus misiones, hecha en otra parte', () => {
+    const p = { ...emptyProgress(), quests: { 566: { o: 'done' as const, by: { c: 8 }, at: 1 } } }
+    expect(questFinished(p, hielos, -556)).toBe(true)
+    expect(questState(p, hielos, index('a'), -556)).toEqual({
+      done: true,
+      lock: { any: 566 },
+    })
+    // Y no se deshace aquí.
+    expect(setQuest(p, hielos, index('a'), -556, false, 2)).toBe(p)
+  })
+
+  it('una misión que se termina sola sale hecha al terminar las que la terminan, y cuenta', () => {
+    let p = setQuest(emptyProgress(), hielos, index('b'), 612, true, 1)
+    expect(questFinished(p, hielos, 649)).toBe(false)
+    p = setQuest(p, hielos, index('b'), 613, true, 2)
+    expect(questFinished(p, hielos, 649)).toBe(true)
+    expect(questState(p, hielos, index('a'), 649)).toEqual({ done: true, lock: { alone: 613 } })
+    expect(progressPct(p, hielos)).toBeCloseTo(((100 + 100) / 300) * 100, 0)
+    // Deshacer una de las suyas la deja como estaba.
+    p = setQuest(p, hielos, index('b'), 613, false, 3)
+    expect(questFinished(p, hielos, 649)).toBe(false)
   })
 })

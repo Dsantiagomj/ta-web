@@ -338,8 +338,12 @@ function QuestRow({ quest, n }: { quest: QuestRowView; n: number }) {
             <span className="ck-q__t">{quest.name}</span>
           )}
           <span className="ck-q__m" data-ck-npc />
-          {(kind || quest.note) && (
-            <span className="ck-q__m">{[kind, quest.note].filter(Boolean).join(' · ')}</span>
+          {(kind || quest.note || quest.anyOf) && (
+            <span className="ck-q__m">
+              {[kind, quest.anyOf && s.questAnyOf(quest.anyOf), quest.note]
+                .filter(Boolean)
+                .join(' · ')}
+            </span>
           )}
           <span className="ck-q__m ck-q__lock" data-ck-lock hidden />
         </span>

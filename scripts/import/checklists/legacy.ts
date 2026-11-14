@@ -74,6 +74,8 @@ export interface LegacyQuests {
   STEP_QUESTS: Record<string, number[]>
   STEP_QUEST_KINDS: Record<string, Record<string, string>>
   QUESTS: Record<string, LegacyQuest>
+  /** Misión → las misiones que, terminadas todas, la terminan sola (de la ruta o no). */
+  COMPLETED_BY?: Record<string, number[]>
 }
 
 export interface LegacyPlan {

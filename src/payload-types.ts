@@ -1403,6 +1403,14 @@ export interface Checklist {
                */
               note?: string | null;
               /**
+               * Para una fila que vale con cualquiera de varias misiones («Misión de clase»): el nombre que sale en lugar del de la misión.
+               */
+              label?: string | null;
+              /**
+               * Las demás misiones que también valen para esta fila, como la de cada clase o alineamiento. La fila queda hecha con cualquiera.
+               */
+              alternatives?: (number | Quest)[] | null;
+              /**
                * El identificador del paso que termina esta misión opcional, si otro paso la termina. Está en «Datos técnicos», al final de ese paso.
                */
               optionalDoneBy?: string | null;
@@ -1492,6 +1500,19 @@ export interface Checklist {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Misiones que el juego termina solas al terminar otras, como «Bienvenido a Frigost». Salen hechas sin marcarlas.
+   */
+  completedBy?:
+    | {
+        quest: number | Quest;
+        /**
+         * Las misiones que, terminadas todas, terminan esta.
+         */
+        by: (number | Quest)[];
+        id?: string | null;
+      }[]
+    | null;
   legacy?: {
     prefix?: string | null;
     classicKeys?:
@@ -1514,6 +1535,15 @@ export interface Checklist {
       | boolean
       | null;
     ownedMoves?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    genericQuests?:
       | {
           [k: string]: unknown;
         }
@@ -2156,6 +2186,8 @@ export interface ChecklistsSelect<T extends boolean = true> {
               quest?: T;
               kind?: T;
               note?: T;
+              label?: T;
+              alternatives?: T;
               optionalDoneBy?: T;
               id?: T;
             };
@@ -2195,6 +2227,13 @@ export interface ChecklistsSelect<T extends boolean = true> {
         stepId?: T;
         id?: T;
       };
+  completedBy?:
+    | T
+    | {
+        quest?: T;
+        by?: T;
+        id?: T;
+      };
   legacy?:
     | T
     | {
@@ -2203,6 +2242,7 @@ export interface ChecklistsSelect<T extends boolean = true> {
         guideVersion?: T;
         previousSteps?: T;
         ownedMoves?: T;
+        genericQuests?: T;
       };
   importSnapshot?: T;
   updatedAt?: T;

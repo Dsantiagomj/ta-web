@@ -38,6 +38,10 @@ export interface ChecklistModel {
   closed: Set<string>
   /** Paso → las misiones opcionales que termina (sin llevarlas como obligatorias). */
   optionalDoneBy: Map<string, number[]>
+  /** Fila genérica (su clave, en negativo) → las misiones que valen. */
+  anyOf: Map<number, number[]>
+  /** Misión → las que, terminadas todas, la terminan sola (COMPLETED_BY). */
+  completedBy: Map<number, number[]>
   objectives: Record<number, number>
   prereqs: Record<number, number[]>
   /** Al revés que `prereqs`: misión → las que la piden terminada. */
@@ -49,7 +53,14 @@ export interface ChecklistModel {
   total: number
 }
 
-export type QuestLock = { step: number } | { checklist: string | null } | { need: number }
+export type QuestLock =
+  | { step: number }
+  | { checklist: string | null }
+  | { need: number }
+  /** La terminó sola el juego al terminar esta (la última de las suyas). */
+  | { alone: number }
+  /** Una fila genérica hecha con esta de sus misiones, en otra parte. */
+  | { any: number }
 
 export interface QuestState {
   done: boolean
@@ -92,6 +103,8 @@ export function checklistModel(data: ChecklistIslandData): ChecklistModel {
     closes: new Map(data.closes),
     closed: new Set(data.closes.flatMap(([, closed]) => closed)),
     optionalDoneBy: new Map(data.optionalDoneBy ?? []),
+    anyOf: new Map(data.anyOf ?? []),
+    completedBy: new Map(data.completedBy ?? []),
     objectives: data.objectives,
     prereqs: data.prereqs,
     requiredBy,
@@ -119,17 +132,55 @@ const parked = (m: ChecklistModel, id: number, at: number) => {
   return total > 0 ? Math.min(at, total - 1) : at
 }
 
-/** La misión hecha que pide terminada a `id`, o null. */
+/** La misión hecha que pide terminada a `id`, o null: hecha de verdad o terminada sola. */
 export function impliedBy(p: Progress, m: ChecklistModel, id: number): number | null {
   for (const other of m.requiredBy.get(id) ?? []) {
-    if (finishedEntry(m, other, p.quests[other])) return other
+    if (finishedEntry(m, other, p.quests[other]) || aloneBy(p, m, other) !== null) return other
   }
   return null
 }
 
-/** Terminada por cualquier camino: aquí, en otro paso, en otra checklist o porque otra la pide. */
+/**
+ * La misión con la que el juego terminó sola a `id` (la última de las que la terminan, todas
+ * terminadas), o null (completedBy de silvestre-checklist). No se guarda: deshacer una de las
+ * suyas la deja como estaba.
+ */
+export function aloneBy(
+  p: Progress,
+  m: ChecklistModel,
+  id: number,
+  seen: Set<number> = new Set(),
+): number | null {
+  const by = m.completedBy.get(id)
+  if (!by?.length || seen.has(id)) return null
+  seen.add(id)
+  const done = by.every(
+    (other) =>
+      finishedEntry(m, other, p.quests[other]) ||
+      aloneBy(p, m, other, seen) !== null ||
+      m.requiredBy.get(other)?.some((need) => finishedEntry(m, need, p.quests[need])),
+  )
+  seen.delete(id)
+  return done ? by[by.length - 1] : null
+}
+
+/** La misión de una fila genérica que está hecha (aquí o en otra parte), o null. */
+export function anyBy(p: Progress, m: ChecklistModel, id: number): number | null {
+  for (const other of m.anyOf.get(id) ?? []) {
+    if (finishedEntry(m, other, p.quests[other]) || impliedBy(p, m, other) !== null) return other
+  }
+  return null
+}
+
+/**
+ * Terminada por cualquier camino: aquí, en otro paso, en otra checklist, porque otra la pide,
+ * porque el juego la terminó sola o, si es una fila genérica, con cualquiera de sus misiones.
+ */
 export const questFinished = (p: Progress, m: ChecklistModel, id: number) =>
-  finishedEntry(m, id, p.quests[id]) || impliedBy(p, m, id) !== null
+  finishedEntry(m, id, p.quests[id]) ||
+  impliedBy(p, m, id) !== null ||
+  aloneBy(p, m, id) !== null ||
+  anyBy(p, m, id) !== null
 
 export const stepDone = (p: Progress, m: ChecklistModel, index: number) =>
   p.steps[m.steps[index]?.id]?.done === true
@@ -232,6 +283,10 @@ export function questState(p: Progress, m: ChecklistModel, index: number, id: nu
   }
   const need = impliedBy(p, m, id)
   if (need !== null) return { done: true, lock: { need } }
+  const alone = aloneBy(p, m, id)
+  if (alone !== null) return { done: true, lock: { alone } }
+  const any = anyBy(p, m, id)
+  if (any !== null) return { done: true, lock: { any } }
   const row = step.quests.find((quest) => quest.id === id)
   if (row?.kind === 'mandatory' && stepDone(p, m, index)) return { done: true }
   // Hecha en otra checklist, y aquí no

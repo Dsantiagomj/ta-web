@@ -82,6 +82,8 @@ export function islandData(checklist: ChecklistDraft): ChecklistIslandData {
     optionalDoneBy: [],
     prerequisites: [],
     compositeKeys: [],
+    anyOf: [],
+    completedBy: [],
     legacy: {
       prefix: 'nebuloso:',
       classicKeys: { v4: 'dofus_nebuloso_clean_v1', v3: null },

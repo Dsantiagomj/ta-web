@@ -388,6 +388,15 @@ const stepFields: Field[] = [
         })),
       },
       localizedText('note', 'Nota', s.questNoteDescription),
+      localizedText('label', 'Nombre de la fila', s.questLabelDescription),
+      {
+        name: 'alternatives',
+        label: 'O cualquiera de estas',
+        type: 'relationship',
+        relationTo: 'quests',
+        hasMany: true,
+        admin: { description: s.questAlternativesDescription },
+      },
       {
         name: 'optionalDoneBy',
         label: 'La termina el paso',
@@ -622,6 +631,39 @@ export const Checklists: CollectionConfig = {
       fields: stepFields,
     },
     {
+      name: 'completedBy',
+      label: 'Misiones que se terminan solas',
+      labels: { singular: 'Misión', plural: 'Misiones' },
+      type: 'array',
+      admin: {
+        description: s.completedByDescription,
+        initCollapsed: true,
+        components: rowLabel('RelationRowLabel', {
+          singular: rows.quest,
+          relationField: 'quest',
+          relationTo: 'quests',
+        }),
+      },
+      fields: [
+        {
+          name: 'quest',
+          label: 'Misión',
+          type: 'relationship',
+          relationTo: 'quests',
+          required: true,
+        },
+        {
+          name: 'by',
+          label: 'Se termina al terminar',
+          type: 'relationship',
+          relationTo: 'quests',
+          hasMany: true,
+          required: true,
+          admin: { description: s.completedByByDescription },
+        },
+      ],
+    },
+    {
       // Lo que necesita la migración del progreso guardado en la checklist antigua: el
       // prefijo de sus claves, las del checklist clásico, la versión de la guía, la
       // numeración de sus pasos en cada versión y las claves de objetos que cambiaron. Lo
@@ -636,6 +678,8 @@ export const Checklists: CollectionConfig = {
         { name: 'previousSteps', type: 'json' },
         // Las claves de objetos que cambiaron en la checklist antigua: vieja → [nueva, pasos].
         { name: 'ownedMoves', type: 'json' },
+        // Las filas genéricas antiguas («clase», «alt:…») → la primera de sus misiones.
+        { name: 'genericQuests', type: 'json' },
       ],
     },
     {

@@ -219,6 +219,15 @@ function migrateOwn(p: Progress, m: ChecklistModel, input: LegacyInput, prefix: 
     for (const n of readClassic(read, classicKeys, previous)) done[n] = true
   }
 
+  // Las filas genéricas antiguas («clase», «alt:…») van a la clave de su fila: la primera de
+  // sus misiones en negativo (questRowKey en ../page.ts).
+  const generic = (legacy.genericQuests ?? {}) as Record<string, number>
+  questObj = Object.fromEntries(
+    Object.entries(questObj).flatMap(([id, k]) => {
+      if (Number.isInteger(Number(id))) return [[id, k]]
+      return generic[id] ? [[String(-generic[id]), k]] : []
+    }),
+  )
   addObjectives(p, m, questObj, { c: m.id }, now)
 
   // Por su número antiguo; un paso nuevo (sin él) no recibe nada.

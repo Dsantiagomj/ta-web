@@ -15,18 +15,24 @@ import {
 } from '@/lib/checklists/progress/engine'
 import { emptyProgress, type Progress } from '@/lib/checklists/progress/store'
 
-import oldStops from '../fixtures/legacy-checklist/silvestre-stops.json'
-import { silvestre, silvestreIsland, stepId, W, type Silvestre } from './helpers/silvestre'
+import hielosStops from '../fixtures/legacy-checklist/hielos-stops.json'
+import silvestreStops from '../fixtures/legacy-checklist/silvestre-stops.json'
+import { silvestre, silvestreIsland, stepId, weightsOf, type Silvestre } from './helpers/silvestre'
 
 let legacy: LegacyChecklist
 let model: ChecklistModel
 let objTotal: Silvestre['objTotal']
+let W: ReturnType<typeof weightsOf>
+let oldStops: typeof silvestreStops
 
-beforeAll(async () => {
-  const loaded = await silvestre()
+/** Carga la checklist que miden las pruebas que siguen. */
+async function load(id: 'silvestre' | 'hielos') {
+  const loaded = await silvestre(id)
   ;({ legacy, objTotal } = loaded)
   model = checklistModel(silvestreIsland(loaded))
-})
+  W = weightsOf(id)
+  oldStops = (id === 'silvestre' ? silvestreStops : hielosStops) as typeof silvestreStops
+}
 
 /** El porcentaje de silvestre-checklist con sus pasos hechos y el objetivo de cada misión. */
 function legacyPct(done: Set<number>, questObj: Record<number, number>): number {
@@ -35,6 +41,7 @@ function legacyPct(done: Set<number>, questObj: Record<number, number>): number 
     STEP_QUEST_KINDS: Record<string, Record<string, string>>
     PREREQS: Record<string, (number | string)[]>
     PARENT: Record<string, [number, number[]][]>
+    COMPLETED_BY?: Record<string, number[]>
   }
   const numbers = legacy.steps.map((step) => step.n)
   const weight = (n: number) => W[n]?.w ?? 1
@@ -108,11 +115,29 @@ function legacyPct(done: Set<number>, questObj: Record<number, number>): number 
     for (const id of mandatory(n)) if (doneElsewhere(id, -1)) finishedQuests.add(id)
   }
   imply()
+  // Las que el juego termina solas (doneAlone): con todas las suyas terminadas, y las que piden.
+  const alone = new Set<string>()
+  for (let more = true; more;) {
+    more = false
+    for (const [id, by] of Object.entries(data.COMPLETED_BY ?? {})) {
+      if (alone.has(id) || finishedQuests.has(id)) continue
+      const all = by.every((x) =>
+        [finishedQuests, implied, alone].some((set) => set.has(String(x))),
+      )
+      if (!all) continue
+      alone.add(id)
+      for (const x of data.PREREQS[id] ?? []) implied.add(String(x))
+      more = true
+    }
+  }
   const questPts = (n: number) =>
     (W[n]?.q ?? []).reduce((sum, share, i) => {
       const id = W[n].ids[i]
       const finished =
-        (questObj[Number(id)] ?? 0) >= W[n].os[i] || implied.has(id) || doneElsewhere(id, n)
+        (questObj[Number(id)] ?? 0) >= W[n].os[i] ||
+        implied.has(id) ||
+        alone.has(id) ||
+        doneElsewhere(id, n)
       return sum + (finished ? share : 0)
     }, 0)
   const total = numbers.reduce((sum, n) => sum + weight(n), 0)
@@ -139,6 +164,7 @@ const questOf = (name: string) =>
   Number(Object.entries(legacy.quests.QUESTS).find(([, quest]) => quest.n === name)![0])
 
 describe('el porcentaje del Silvestre, como en silvestre-checklist', () => {
+  beforeAll(() => load('silvestre'))
   const cases: [string, () => number[], () => Record<number, number>][] = [
     ['nada', () => [], () => ({})],
     ['los treinta primeros pasos', () => range(1, 30), () => ({})],
@@ -159,6 +185,33 @@ describe('el porcentaje del Silvestre, como en silvestre-checklist', () => {
     ['una a medias no cuenta', () => range(1, 9), () => ({ [questOf('Encender la mecha')]: 1 })],
     ['todos menos uno', () => range(1, 100).filter((n) => n !== 50), () => ({})],
     ['todos', () => range(1, 100), () => ({})],
+  ]
+
+  it.each(cases)('%s', (_, steps, questObj) => {
+    const done = new Set(steps())
+    const objectives = questObj()
+    expect(progressPct(progressOf(done, objectives), model)).toBe(legacyPct(done, objectives))
+  })
+})
+
+describe('el porcentaje del Hielos, como en silvestre-checklist', () => {
+  beforeAll(() => load('hielos'))
+  // El 2 y el 4 terminan las misiones de «Bienvenido a Frigost» (COMPLETED_BY), que pide el 1.
+  const cases: [string, () => number[], () => Record<number, number>][] = [
+    ['nada', () => [], () => ({})],
+    ['los cinco primeros pasos', () => range(1, 5), () => ({})],
+    [
+      'las que terminan «Bienvenido a Frigost», a mano',
+      () => [],
+      () => finished(612, 613, 614, 615),
+    ],
+    // Al marcar el 13, la app antigua también termina lo que dejaban a medias el 8 y el 12
+    // (closeSteps): esas misiones van terminadas en su progreso.
+    ['el 8 para y el 13 lo cierra', () => [...range(1, 8), 13], () => finished(591, 577)],
+    ['el 58, que deja una para un paso posterior', () => range(1, 58), () => ({})],
+    ['hasta el 61 y el 62, que la termina', () => range(1, 62), () => ({})],
+    ['todos menos uno', () => range(1, 70).filter((n) => n !== 30), () => ({})],
+    ['todos', () => range(1, 70), () => ({})],
   ]
 
   it.each(cases)('%s', (_, steps, questObj) => {

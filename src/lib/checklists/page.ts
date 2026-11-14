@@ -86,8 +86,11 @@ export interface RouteLine {
 }
 
 export interface QuestRowView {
+  /** Su clave en el progreso (questRowKey): el ID de DofusDB, o en negativo si es genérica. */
   dofusId: number
   name: string
+  /** Una fila genérica: cuántas misiones valen. */
+  anyOf?: number
   href?: string
   level?: number
   kind: QuestKind
@@ -170,6 +173,23 @@ export interface StepView {
 export type IslandQuest =
   [number, QuestKind] | [number, QuestKind, number] | [number, QuestKind, number, 1]
 
+/**
+ * La clave de una fila de misión en el progreso: el ID de DofusDB de su misión o, si es una fila
+ * genérica (vale con cualquiera de varias), el de su primera misión en negativo, para no dar por
+ * hecha ninguna de ellas en concreto.
+ */
+export function questRowKey(row: {
+  quest: unknown
+  label?: string | null
+  alternatives?: unknown
+}) {
+  const quest = populated(row.quest as Relation<Quest>)
+  if (!quest) return null
+  const generic =
+    Boolean(row.label) || (Array.isArray(row.alternatives) && row.alternatives.length > 0)
+  return generic ? -quest.dofusId : quest.dofusId
+}
+
 /** Lo único que recibe la isla (plan, sección 3): la estructura, nunca los textos. */
 export interface ChecklistIslandData {
   checklistId: number
@@ -193,6 +213,13 @@ export interface ChecklistIslandData {
   compositeKeys: string[]
   /** [stepId, misiones opcionales que termina ese paso (por su ID de DofusDB)]. */
   optionalDoneBy: [string, number[]][]
+  /**
+   * Las filas genéricas («Misión de clase»): su clave (el ID de su primera misión en negativo)
+   * y todas las misiones que valen. La fila queda hecha con cualquiera.
+   */
+  anyOf: [number, number[]][]
+  /** Las misiones que el juego termina solas: [misión, las que terminadas todas la terminan]. */
+  completedBy: [number, number[]][]
   legacy: Checklist['legacy']
   /** Por paso, en orden: [su peso, lo que vale en él cada misión] (src/lib/derive/weights.ts). */
   weights: [number, number[]][]
@@ -522,11 +549,15 @@ export function checklistView(data: ChecklistData): ChecklistView {
         })
         return names.length ? [{ at, names }] : []
       })
+      const key = questRowKey(row) ?? quest.dofusId
+      const generic = key < 0
       return [
         {
-          dofusId: quest.dofusId,
-          name: quest.name,
-          ...(slug && { href: `/${slug}` }),
+          dofusId: key,
+          name: row.label || quest.name,
+          ...(generic && { anyOf: 1 + (row.alternatives?.length ?? 0) }),
+          // La guía de su primera misión no es la de todas: una fila genérica no la enlaza.
+          ...(slug && !generic && { href: `/${slug}` }),
           ...(quest.levelMin != null && { level: quest.levelMin }),
           kind: row.kind,
           ...(row.note && { note: row.note }),
@@ -736,12 +767,11 @@ function islandData(data: ChecklistData): ChecklistIslandData {
       step.legacyNumber ?? null,
       (step.quests ?? []).flatMap((row): IslandQuest[] => {
         const quest = populated(row.quest)
-        if (!quest) return []
+        const key = questRowKey(row)
+        if (!quest || key === null) return []
         const stop = open.get(quest.id)
-        if (!stop) return [[quest.dofusId, row.kind]]
-        return [
-          stop.later ? [quest.dofusId, row.kind, stop.at, 1] : [quest.dofusId, row.kind, stop.at],
-        ]
+        if (!stop) return [[key, row.kind]]
+        return [stop.later ? [key, row.kind, stop.at, 1] : [key, row.kind, stop.at]]
       }),
     ]
   })
@@ -760,14 +790,36 @@ function islandData(data: ChecklistData): ChecklistIslandData {
 
   // Lo que el progreso necesita de cada misión, por su ID de DofusDB.
   const byDofusId = new Map<number, QuestNode & { level: number }>()
+  const anyOf = new Map<number, number[]>()
   for (const step of steps) {
     for (const row of step.quests ?? []) {
       const quest = populated(row.quest)
-      if (!quest || byDofusId.has(quest.dofusId)) continue
+      const key = questRowKey(row)
+      if (!quest || key === null || byDofusId.has(key)) continue
       const node = questGraph[quest.id]
+      if (key < 0) {
+        // Una fila genérica pesa como la más fácil de sus misiones, con los objetivos de la
+        // primera; no pide ni es madre de nada.
+        const others = (row.alternatives ?? []).flatMap((alt) => {
+          const found = populated(alt as Relation<Quest>)
+          return found ? [found] : []
+        })
+        anyOf.set(key, [quest.dofusId, ...others.map((other) => other.dofusId)])
+        const levels = [quest, ...others].flatMap((q) => (q.levelMin == null ? [] : [q.levelMin]))
+        const levelMin = levels.length ? Math.min(...levels) : null
+        byDofusId.set(key, {
+          dofusId: key,
+          levelMin,
+          startCriterion: null,
+          objectives: node?.objectives ?? [],
+          prerequisites: [],
+          level: questLevel(undefined, levelMin),
+        })
+        continue
+      }
       const levelMin = node?.levelMin ?? quest.levelMin ?? null
-      byDofusId.set(quest.dofusId, {
-        dofusId: quest.dofusId,
+      byDofusId.set(key, {
+        dofusId: key,
         levelMin,
         startCriterion: node?.startCriterion ?? null,
         objectives: node?.objectives ?? [],
@@ -810,6 +862,16 @@ function islandData(data: ChecklistData): ChecklistIslandData {
         }),
       ),
     ],
+    anyOf: [...anyOf],
+    completedBy: (checklist.completedBy ?? []).flatMap((row): [number, number[]][] => {
+      const quest = populated(row.quest)
+      const by = (row.by ?? []).flatMap((id) => {
+        const found = populated(id as Relation<Quest>)
+        return found ? [found.dofusId] : []
+      })
+      // Sin todas las que la terminan, terminarla sola sería adelantarse: la fila no va.
+      return quest && by.length && by.length === (row.by ?? []).length ? [[quest.dofusId, by]] : []
+    }),
     legacy: checklist.legacy,
     weights: stepWeights(weightedSteps, points).map(({ w, shares }) => [w, shares]),
     objectives: Object.fromEntries(
