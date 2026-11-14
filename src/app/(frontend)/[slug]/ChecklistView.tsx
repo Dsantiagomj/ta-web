@@ -52,7 +52,7 @@ export function ChecklistView({ data, preview }: { data: ChecklistData; preview:
               </div>
             </div>
           </div>
-          {view.prerequisites.count > 0 && (
+          {view.prerequisites.shown && (
             <div className="ck-panel" id="ck-p-pre" data-panel="pre">
               <Prerequisites view={view} />
             </div>

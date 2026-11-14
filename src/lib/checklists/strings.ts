@@ -166,6 +166,10 @@ export const checklistPageStrings = {
   /** Entre las opciones de una fila de Necesitarás: «Pandaburg o Pandapils». */
   needOr: 'o',
   prerequisiteNeeds: 'Objetos para los prerrequisitos',
+  /** Para qué prerrequisito es un objeto de los prerrequisitos. */
+  prerequisiteFor: (text: string) => `Para «${text}»`,
+  /** Una opción de «Necesitarás» cuyo objeto se borró de la base. */
+  unknownItem: 'Un objeto que ya no existe',
   bosses: 'Jefes',
   quests: 'Misiones',
   questsHowto:

@@ -668,6 +668,11 @@ html[data-js] .ck-step[data-open] .ck-step__scroll {
   color: var(--color-success);
 }
 
+.ck-slot__g {
+  color: var(--color-ink-2);
+  font-size: var(--text-xs);
+}
+
 .ck-tag--soft {
   color: var(--color-ink-2);
 }

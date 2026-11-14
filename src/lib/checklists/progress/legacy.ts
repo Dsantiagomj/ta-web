@@ -14,7 +14,7 @@
 import type { ChecklistIslandData } from '../page'
 import { checklistModel, finishedEntry, isSelf, markSteps, type ChecklistModel } from './engine'
 import { legacySource, SHARED_KEY } from './legacy-keys'
-import type { Progress, QuestEntry } from './store'
+import { ownedParts, type Progress, type QuestEntry } from './store'
 
 type Flags = Record<string, unknown>
 type Moves = Record<string, [string, number[]]>
@@ -100,7 +100,7 @@ export function migrateQuestPos(
 export function migrateOwned(owned: Flags, moves: Moves): Flags {
   const out: Flags = {}
   for (const [key, value] of Object.entries(owned)) {
-    const move = moves[key.split('#')[0]]
+    const move = moves[ownedParts(key)[0]]
     if (!move) {
       out[key] = value
       continue
@@ -176,7 +176,7 @@ function addObjectives(
 }
 
 /** Lo conseguido con claves de cada guía (con «@» o «|»): en ta-web no hay a qué llevarlas. */
-const simpleKey = (key: string) => !/[@|]/.test(key.split('#')[0])
+const simpleKey = (key: string) => !/[@|]/.test(ownedParts(key)[0])
 
 function migrateOwn(p: Progress, m: ChecklistModel, input: LegacyInput, prefix: string) {
   const { read, data, now } = input
@@ -240,7 +240,7 @@ function migrateOwn(p: Progress, m: ChecklistModel, input: LegacyInput, prefix: 
   }
   for (const [name, on] of Object.entries(owned)) {
     if (on !== true || !simpleKey(name)) continue
-    const [item, n] = name.split('#')
+    const [item, n] = ownedParts(name)
     const index = n === undefined ? undefined : indexOf.get(Number(n))
     if (n !== undefined && index === undefined) continue
     const ownedKey = index === undefined ? item : `${item}#${steps[index][0]}`

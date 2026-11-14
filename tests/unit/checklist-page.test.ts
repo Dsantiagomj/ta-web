@@ -991,6 +991,132 @@ describe('revisión de #115: lo nuevo del esquema en la página', () => {
         }),
       ]),
     ).steps
-    expect(view.achievements[0].some).toBe(true)
+    // Ni completo ni «solo algunas»: dice hasta qué misión (#119).
+    expect(view.achievements[0]).toMatchObject({ some: false, upto: 2 })
+  })
+})
+
+describe('revisión de #119', () => {
+  it('los prerrequisitos se ven aunque solo haya avisos u objetos, sin grupos', () => {
+    const only = (prerequisites: object) =>
+      checklistView(data([step('a')], { prerequisites } as unknown as Partial<Checklist>))
+        .prerequisites.shown
+    expect(only({ groups: [], notes: [{ title: 'Aviso', text: 'Texto.' }] })).toBe(true)
+    expect(
+      only({
+        groups: [],
+        needs: [{ item: item(10, 'Trigo'), quantity: 1, category: 'resources' }],
+      }),
+    ).toBe(true)
+    expect(only({ groups: [] })).toBe(false)
+  })
+
+  it('una opción cuyo objeto ya no existe no se pierde ni cambia la clave de las demás', () => {
+    const [view] = checklistView(
+      data([
+        step('a', {
+          needs: [
+            {
+              item: item(12, 'Pandaburg'),
+              quantity: 1,
+              alternatives: [{ item: 77, quantity: 1 }],
+              category: 'consumables',
+            },
+            { item: 78, quantity: 2, category: 'resources' },
+          ],
+        }),
+      ]),
+    ).steps
+    const rows = view.needs.flatMap((group) => group.rows)
+    expect(rows.map((row) => row.key)).toEqual(['item:78', '5012|item:77'])
+    expect(rows[1].alternatives?.[0]).toMatchObject({
+      kind: 'label',
+      name: 'Un objeto que ya no existe',
+    })
+  })
+
+  it('el apartado va en la clave como en build_resources.py (slug), con las claves de la checklist antigua', async () => {
+    const { groupKey } = await import('@/lib/checklists/page')
+    const { readFileSync } = await import('node:fs')
+    for (const id of ['silvestre', 'hielos']) {
+      const file = `tests/fixtures/silvestre-checklist/src/dofus/${id}/resources.json`
+      let resources: { steps: Record<string, { k: string; g: string | null }[]> }
+      try {
+        resources = JSON.parse(readFileSync(file, 'utf8'))
+      } catch {
+        continue
+      }
+      for (const row of Object.values(resources.steps).flat()) {
+        if (row.g) expect(groupKey(row.g)).toBe(row.k.split('@')[1])
+      }
+    }
+    expect(groupKey('Orden: «Espíritu» #2 — ya')).toBe(
+      'orden: espiritu #2  ya'.replace(/\s+/g, ' '),
+    )
+  })
+
+  it('en los totales, lo que se conserva cuenta la mayor cantidad sea cual sea el orden de los pasos', () => {
+    const soul = (quantity: number, reusable?: boolean) =>
+      step(`s${quantity}`, {
+        needs: [
+          { item: item(15, 'Piedra'), quantity, category: 'souls', ...(reusable && { reusable }) },
+        ],
+      })
+    const total = (steps: Step[]) => checklistView(data(steps)).totals[0].rows[0].quantity
+    expect(total([soul(2, true), soul(1)])).toBe(2)
+    expect(total([soul(1), soul(2, true)])).toBe(2)
+  })
+
+  it('la isla lleva cada «detente aquí» con misión, no solo el primero', () => {
+    const { island } = checklistView(
+      data([
+        step('a', {
+          segments: [
+            { kind: 'stop', text: 'Para una.', quest: 5, stopObjective: 1 },
+            {
+              kind: 'stop',
+              text: 'Para otra.',
+              quest: 6,
+              stopObjective: 0,
+              more: [{ quest: 7, stopObjective: 2 }],
+            },
+          ],
+          quests: [
+            { quest: quest(5, 'Una'), kind: 'mandatory' },
+            { quest: quest(6, 'Otra'), kind: 'mandatory' },
+            { quest: quest(7, 'Tercera'), kind: 'mandatory' },
+          ],
+        }),
+      ]),
+    )
+    expect(island.steps[0][2]).toEqual([
+      [1005, 'mandatory', 1],
+      [1006, 'mandatory', 0],
+      [1007, 'mandatory', 2],
+    ])
+  })
+
+  it('el paso que cierra a otro es el primero que lo cierra, como CLOSED_BY de silvestre-checklist', () => {
+    const view = checklistView(
+      data([step('a'), step('b', { closes: ['a'] }), step('c', { closes: ['a'] })]),
+    )
+    expect(view.steps[0].closedBy).toBe(2)
+  })
+
+  it('cada objeto de los prerrequisitos dice en qué prerrequisito se gasta', () => {
+    const view = checklistView(
+      data([step('a')], {
+        prerequisites: {
+          groups: [{ title: 'Oficios', rows: [{ key: 'l11', text: 'Campesino nivel 100' }] }],
+          needs: [
+            { item: item(10, 'Trigo'), quantity: 50, category: 'resources', prerequisite: 'l11' },
+          ],
+        },
+      } as unknown as Partial<Checklist>),
+    )
+    expect(view.prerequisites.needs[0].rows[0]).toMatchObject({
+      prerequisite: 'l11',
+      prerequisiteText: 'Campesino nivel 100',
+    })
   })
 })

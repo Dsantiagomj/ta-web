@@ -512,3 +512,12 @@ describe('revisión del PR 5: lo hecho en otra checklist', () => {
     })
   })
 })
+
+describe('revisión de #119: las partes de una clave de lo conseguido', () => {
+  it('el paso va tras el último «#»: un apartado con «#» no parte la clave', async () => {
+    const { ownedParts } = await import('@/lib/checklists/progress/store')
+    expect(ownedParts('7045|7047#paso-1')).toEqual(['7045|7047', 'paso-1'])
+    expect(ownedParts('17994@orden #2#paso-3')).toEqual(['17994@orden #2', 'paso-3'])
+    expect(ownedParts('9687')).toEqual(['9687', undefined])
+  })
+})

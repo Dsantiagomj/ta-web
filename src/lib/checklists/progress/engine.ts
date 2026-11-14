@@ -14,7 +14,7 @@
 // paso que lo cierra. Una madre cuya hija para en el paso espera en el objetivo donde empieza
 // la hija (PARENT de silvestre-checklist).
 import type { ChecklistIslandData } from '../page'
-import type { Progress, QuestEntry } from './store'
+import { ownedParts, type Progress, type QuestEntry } from './store'
 
 type Kind = 'mandatory' | 'optional' | 'take'
 
@@ -424,7 +424,7 @@ export function resetChecklist(
   if (choice.owned) {
     const whole = new Set(wholeKeys)
     for (const key of Object.keys(next.owned)) {
-      const step = key.split('#')[1]
+      const step = ownedParts(key)[1]
       if (step ? m.index.has(step) : whole.has(key)) delete next.owned[key]
     }
   }
