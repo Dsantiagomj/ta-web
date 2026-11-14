@@ -68,6 +68,8 @@ test.describe('página de una checklist', () => {
       `/${seedGuide.slug}`,
     )
     await expect(quest).toContainText(`Niv. ${seedGuide.level}`)
+    // Sin sección de logros debajo de Necesitarás: el logro ya va enlazado en el texto.
+    await expect(first.getByRole('region', { name: 'Logros' })).toHaveCount(0)
   })
 
   test('Necesitarás: los objetos copian su nombre; «Kama» y «Captura de almas» son texto', async ({

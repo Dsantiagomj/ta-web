@@ -17,7 +17,6 @@ const step = (quest: QuestRowView): StepView => ({
   closedBy: null,
   updates: [],
   resumedIn: [],
-  achievements: [],
   quests: [quest],
   needs: [],
   bosses: [],

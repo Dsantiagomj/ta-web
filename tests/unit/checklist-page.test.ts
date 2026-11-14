@@ -171,13 +171,6 @@ describe('checklistView: el texto de cada paso', () => {
       { text: 'De un mundo a otro', href: '/de-un-mundo-a-otro' },
       '". Completo.',
     ])
-    expect(view.steps[0].achievements).toEqual([
-      expect.objectContaining({
-        name: 'De un mundo a otro',
-        href: '/de-un-mundo-a-otro',
-        some: false,
-      }),
-    ])
   })
 
   it('enlaza cada logro citado en el orden del texto, aunque el que va antes sea el segundo de la lista', () => {
@@ -823,19 +816,6 @@ describe('checklistView: el resto del paso', () => {
     expect(view.soonSteps).toEqual([0, 1])
   })
 
-  it('un logro «hasta la misión N» dice hasta cuál', () => {
-    const [view] = checklistView(
-      data([
-        step('a', {
-          achievements: [
-            { achievement: { id: 3, name: 'Las leguas muertas' }, mode: 'upto', on: [1, 2] },
-          ],
-        }),
-      ]),
-    ).steps
-    expect(view.achievements).toEqual([{ name: 'Las leguas muertas', some: false, upto: 2 }])
-  })
-
   it('lleva los prerrequisitos en sus grupos y cuántos son', () => {
     const view = checklistView(data([step('a')]))
 
@@ -1086,18 +1066,6 @@ describe('revisión de #115: lo nuevo del esquema en la página', () => {
     const view = checklistView(data(steps, {}, { stopQuests: objectives }))
     expect(view.steps[0].quests[0].route).toBeDefined()
     expect(view.island.steps[0][2]).toEqual([[1005, 'mandatory', 1]])
-  })
-
-  it('un logro «hasta la misión N» no sale como completo', () => {
-    const [view] = checklistView(
-      data([
-        step('a', {
-          achievements: [{ achievement: { id: 3, name: 'Las leguas' }, mode: 'upto', on: [1, 2] }],
-        }),
-      ]),
-    ).steps
-    // Ni completo ni «solo algunas»: dice hasta qué misión (#119).
-    expect(view.achievements[0]).toMatchObject({ some: false, upto: 2 })
   })
 })
 
