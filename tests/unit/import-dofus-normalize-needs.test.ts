@@ -191,6 +191,41 @@ describe('normalizeNeeds', () => {
     expect(mixed).toEqual([{ subtitle: unit, groups: ['combates', 'oficios'] }])
   })
 
+  it('un título de Torre que mezcla grupos queda de subtítulo del grupo con más filas suyas', () => {
+    // Ébano: «Recursos y otras movidas» lleva recursos, un consumible y un oficio.
+    const mixed = 'Recursos y otras movidas'
+    const own = (entry: NeedEntry): NeedEntry => ({ ...entry, heading: mixed })
+    expect(
+      groupsOf([
+        own(item('18 x Medida de sal.', 9, [mixed])),
+        own(item('36 x Polvos mágicos.', 9, [mixed])),
+        own(item('5 x Barbarba.', 6, [mixed])),
+        own(note('Ser campesino nivel 80 mínimo.', [mixed])),
+        item('1 x Kobalita.', 9),
+      ]),
+    ).toEqual([
+      // En el orden de Torre: sus filas venían antes que la Kobalita.
+      ['recursos', mixed, ['18 x Medida de sal.', '36 x Polvos mágicos.']],
+      ['recursos', ['1 x Kobalita.']],
+      ['consumibles', ['5 x Barbarba.']],
+      ['oficios', ['Ser campesino nivel 80 mínimo.']],
+    ])
+  })
+
+  it('con un empate, el subtítulo va al primer grupo de la lista fija (Vulbis)', () => {
+    const mixed = 'Otros detalles y oficios'
+    const own = (entry: NeedEntry): NeedEntry => ({ ...entry, heading: mixed })
+    expect(
+      groupsOf([
+        own(note('Sueños infinitos.', [mixed])),
+        own(note('Ser alquimista y/o campesino 200.', [mixed])),
+      ]),
+    ).toEqual([
+      ['oficios', mixed, ['Ser alquimista y/o campesino 200.']],
+      ['otros', ['Sueños infinitos.']],
+    ])
+  })
+
   it('dice de dónde viene cada fila, a dónde va y por qué', () => {
     const { placements } = normalizeNeeds(
       [
