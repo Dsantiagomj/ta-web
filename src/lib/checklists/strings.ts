@@ -24,6 +24,10 @@ export const checklistStrings = {
     plain: 'Normal',
     stop: 'Detente aquí',
     resolve: 'Aquí se resuelve',
+    note: 'Nota',
+    tip: 'Consejo',
+    must: 'Hay que hacerlo',
+    includes: 'Incluye',
   },
   questKinds: {
     mandatory: 'Obligatoria',
@@ -41,6 +45,7 @@ export const checklistStrings = {
   achievementModes: {
     all: 'Completo',
     some: 'Solo algunas misiones',
+    upto: 'Hasta una misión',
   },
   admin: {
     nameDescription: 'El nombre de la checklist, como sale en su página y en el menú.',
@@ -68,8 +73,17 @@ export const checklistStrings = {
     segmentsDescription:
       'El texto del paso, por tramos y en orden. Un tramo «Detente aquí» dice hasta dónde ' +
       'avanzar una misión; uno «Aquí se resuelve» termina las misiones que otros pasos dejaron a medias.',
-    segmentQuestDescription: 'La misión que se deja a medias.',
+    segmentQuestDescription:
+      'La misión que se deja a medias. Déjala vacía si el tramo solo avisa y ninguna misión para aquí.',
     segmentQuestRequired: 'Elige la misión que se deja a medias',
+    stopLaterDescription:
+      'Márcalo si esta misión no la termina el paso que cierra este, sino uno posterior que también la lleva.',
+    stopLineDescription:
+      'El texto de la parada dentro de la misión, si no es el del tramo. Vacío: el del tramo.',
+    stopResumeLineDescription:
+      'El texto dentro de la misión cuando el paso se resuelve en sí mismo, si no es el de su tramo «Aquí se resuelve».',
+    stopMoreDescription:
+      'Otras misiones u objetivos donde para este mismo texto, cuando son varios.',
     stopObjectiveDescription:
       'El objetivo de esa misión donde hay que parar, contando desde 0 en la lista de ' +
       'objetivos de la misión, etapa tras etapa.',
@@ -83,6 +97,10 @@ export const checklistStrings = {
       'Los identificadores de los pasos cuyas misiones termina este tramo. Cada paso tiene ' +
       'el suyo en «Datos técnicos», al final del paso.',
     closesRequired: 'Indica qué pasos termina este tramo',
+    stepClosesDescription:
+      'Los pasos cuyas misiones termina este paso sin un tramo «Aquí se resuelve». Con ese tramo, van en él.',
+    stepUpdatesDescription:
+      'Los pasos cuyas misiones avanza este sin terminarlas. En ellos sale «Se retoma en el paso N».',
     stepRefUnknown: (stepId: string) =>
       `Ningún paso de esta checklist tiene el identificador ${stepId}`,
     noteDescription: 'Una nota del paso, aparte de su texto.',
@@ -100,6 +118,18 @@ export const checklistStrings = {
     needCategoryDescription: 'El grupo en el que sale en «Necesitarás».',
     needCountsInTotalDescription:
       'Desmárcalo si sale en el paso pero no cuenta en los totales de lo que hay que reunir.',
+    needAlternativesDescription:
+      'Otras opciones que valen en lugar de esta, cada una con su cantidad: «Pandaburg o Pandapils».',
+    needGroupDescription:
+      'Un grupo dentro de su categoría, como «Misión opcional». Vacío: sin grupo.',
+    needReusableDescription:
+      'Márcalo si se conserva tras usarlo: en los totales cuenta la mayor cantidad, no la suma.',
+    prerequisiteNotesDescription:
+      'Avisos sobre los prerrequisitos, como empezar el Dofus Ocre cuanto antes.',
+    prerequisiteNeedsDescription: 'Los objetos que piden los prerrequisitos.',
+    needPrerequisiteDescription:
+      'La clave del prerrequisito en el que se gasta, como l11. Al marcarlo, el objeto deja de faltar.',
+    needPrerequisiteUnknown: (key: string) => `Ningún prerrequisito tiene la clave ${key}`,
     iconDescription: 'El icono del paso: la recompensa de su logro, su jefe o el icono del logro.',
     figureDescription: 'La imagen del paso: un PNJ o una imagen subida.',
     figureRoleDescription: 'Qué papel tiene, como «Inicia el paso».',

@@ -1,4 +1,4 @@
-import type { CollectionBeforeValidateHook, CollectionConfig, Field } from 'payload'
+import type { CollectionBeforeValidateHook, CollectionConfig, Condition, Field } from 'payload'
 
 import { checklistDetailsEndpoint } from '../endpoints/checklist-details'
 import { checklistStrings } from '../lib/checklists/strings'
@@ -8,8 +8,10 @@ import { stateField } from './achievement-fields'
 import {
   validateClosedSteps,
   validateNeedItem,
+  validateNeedPrerequisite,
   validateSegmentQuest,
   validateStepRef,
+  validateStepRefs,
   validateStopObjective,
 } from './checklist-rules'
 import {
@@ -36,7 +38,10 @@ const rows = panelStrings.rowLabels
 type SiblingData = { kind?: unknown; mode?: unknown } | undefined
 const isKind = (kind: string) => (_: unknown, siblingData: SiblingData) =>
   siblingData?.kind === kind
-const someQuests = (_: unknown, siblingData: SiblingData) => siblingData?.mode === 'some'
+const someQuests = (_: unknown, siblingData: SiblingData) =>
+  siblingData?.mode === 'some' || siblingData?.mode === 'upto'
+
+const SEGMENT_KINDS = ['plain', 'stop', 'resolve', 'note', 'tip', 'must', 'includes'] as const
 
 const steps = (value: unknown): StepIdentity[] =>
   Array.isArray(value) ? (value as StepIdentity[]) : []
@@ -59,8 +64,58 @@ const localizedText = (name: string, label: string, description?: string): Field
   ...(description ? { admin: { description } } : {}),
 })
 
+// Una parada: la misión que se deja a medias, su objetivo y sus opciones. La lleva el tramo
+// «detente aquí» y cada una de sus «más paradas».
+type PointAdmin = { description: string; condition?: Condition }
+const stopPointFields = (
+  admin: (description: string) => PointAdmin,
+  questValidate?: typeof validateSegmentQuest,
+): Field[] => [
+  {
+    name: 'quest',
+    label: 'Misión',
+    type: 'relationship',
+    relationTo: 'quests',
+    ...(questValidate && { validate: questValidate }),
+    admin: admin(s.segmentQuestDescription),
+  },
+  {
+    name: 'stopObjective',
+    label: 'Objetivo donde parar',
+    type: 'number',
+    validate: validateStopObjective,
+    admin: admin(s.stopObjectiveDescription),
+  },
+  {
+    // Sin valor por defecto: sin marcar se guarda vacío, como lo deja la importación.
+    name: 'later',
+    label: 'La termina un paso posterior',
+    type: 'checkbox',
+    admin: admin(s.stopLaterDescription),
+  },
+  {
+    name: 'line',
+    label: 'Texto en la misión',
+    type: 'text',
+    localized: true,
+    admin: admin(s.stopLineDescription),
+  },
+  {
+    name: 'resumeLine',
+    label: 'Texto al resolverse',
+    type: 'text',
+    localized: true,
+    admin: admin(s.stopResumeLineDescription),
+  },
+]
+
 // El texto de Torre en tramos, en su orden: normal, «detente aquí» (deja una misión a medias
-// en un objetivo) o «aquí se resuelve» (termina las que otros pasos dejaron a medias).
+// en un objetivo), «aquí se resuelve» (termina las que otros pasos dejaron a medias) o un aviso
+// de la guía (nota, consejo, lo que hay que hacer, lo que incluye el paso).
+const onStop = (description: string): PointAdmin => ({
+  condition: isKind('stop') as Condition,
+  description,
+})
 const segmentFields: Field[] = [
   {
     name: 'kind',
@@ -68,26 +123,23 @@ const segmentFields: Field[] = [
     type: 'select',
     required: true,
     defaultValue: 'plain',
-    options: (['plain', 'stop', 'resolve'] as const).map((value) => ({
+    options: SEGMENT_KINDS.map((value) => ({
       value,
       label: checklistStrings.segmentKinds[value],
     })),
   },
   { name: 'text', label: 'Texto', type: 'textarea', required: true, localized: true },
+  ...stopPointFields(onStop),
   {
-    name: 'quest',
-    label: 'Misión',
-    type: 'relationship',
-    relationTo: 'quests',
-    validate: validateSegmentQuest,
-    admin: { condition: isKind('stop'), description: s.segmentQuestDescription },
-  },
-  {
-    name: 'stopObjective',
-    label: 'Objetivo donde parar',
-    type: 'number',
-    validate: validateStopObjective,
-    admin: { condition: isKind('stop'), description: s.stopObjectiveDescription },
+    name: 'more',
+    label: 'Más paradas',
+    labels: { singular: 'Parada', plural: 'Paradas' },
+    type: 'array',
+    // Con el nombre por defecto, las claves foráneas de su tabla de versiones pasan de los 63
+    // caracteres de Postgres.
+    dbName: 'checklists_seg_more',
+    admin: onStop(s.stopMoreDescription),
+    fields: stopPointFields((description) => ({ description }), validateSegmentQuest),
   },
   {
     name: 'closes',
@@ -125,6 +177,99 @@ const technicalFields: Field = {
   ],
 }
 
+const needItemFields: Field[] = [
+  {
+    name: 'item',
+    label: 'Objeto',
+    type: 'relationship',
+    relationTo: 'items',
+    validate: validateNeedItem,
+    admin: { description: s.needItemDescription },
+  },
+  localizedText('label', 'Texto', s.needLabelDescription),
+  {
+    name: 'quantity',
+    label: 'Cantidad',
+    type: 'number',
+    required: true,
+    min: 1,
+    defaultValue: 1,
+  },
+]
+
+/**
+ * Una lista de «Necesitarás»: la de un paso o la de los prerrequisitos. Cada fila es un objeto
+ * del juego o un texto, con sus otras opciones, su grupo y si cuenta en los totales.
+ */
+function needsField(
+  name: string,
+  { description, dbName, extra = [] }: { description?: string; dbName?: string; extra?: Field[] },
+): Field {
+  return {
+    name,
+    label: 'Necesitarás',
+    labels: { singular: 'Objeto', plural: 'Objetos' },
+    type: 'array',
+    ...(dbName && { dbName }),
+    admin: {
+      initCollapsed: true,
+      ...(description && { description }),
+      components: rowLabel('RelationRowLabel', {
+        singular: rows.need,
+        textField: 'label',
+        relationField: 'item',
+        relationTo: 'items',
+      }),
+    },
+    fields: [
+      ...needItemFields,
+      {
+        name: 'alternatives',
+        label: 'O también',
+        labels: { singular: 'Opción', plural: 'Opciones' },
+        type: 'array',
+        dbName: `${dbName ?? 'checklists_need'}_alts`,
+        admin: { initCollapsed: true, description: s.needAlternativesDescription },
+        fields: needItemFields,
+      },
+      localizedText('note', 'Nota'),
+      {
+        name: 'category',
+        label: 'Grupo',
+        type: 'select',
+        options: (
+          ['resources', 'consumables', 'equipment', 'souls', 'creatures', 'cosmetics'] as const
+        ).map((value) => ({ value, label: checklistStrings.needCategories[value] })),
+        admin: { description: s.needCategoryDescription },
+      },
+      localizedText('group', 'Apartado', s.needGroupDescription),
+      {
+        name: 'countsInTotal',
+        label: 'Cuenta en los totales',
+        type: 'checkbox',
+        defaultValue: true,
+        admin: { description: s.needCountsInTotalDescription },
+      },
+      {
+        // Sin valor por defecto, como «La termina un paso posterior».
+        name: 'reusable',
+        label: 'Se conserva',
+        type: 'checkbox',
+        admin: { description: s.needReusableDescription },
+      },
+      ...extra,
+      {
+        name: 'quests',
+        label: 'Para las misiones',
+        type: 'relationship',
+        relationTo: 'quests',
+        hasMany: true,
+        admin: { description: s.needQuestsDescription },
+      },
+    ],
+  }
+}
+
 const stepFields: Field[] = [
   {
     // El número del paso en la checklist antigua: la migración del progreso guardado.
@@ -143,6 +288,22 @@ const stepFields: Field[] = [
       components: rowLabel('SegmentLabel'),
     },
     fields: segmentFields,
+  },
+  {
+    name: 'closes',
+    label: 'También termina',
+    type: 'text',
+    hasMany: true,
+    validate: validateStepRefs,
+    admin: { description: s.stepClosesDescription },
+  },
+  {
+    name: 'updates',
+    label: 'Avanza los pasos',
+    type: 'text',
+    hasMany: true,
+    validate: validateStepRefs,
+    admin: { description: s.stepUpdatesDescription },
   },
   {
     name: 'note',
@@ -180,7 +341,7 @@ const stepFields: Field[] = [
         type: 'select',
         required: true,
         defaultValue: 'all',
-        options: (['all', 'some'] as const).map((value) => ({
+        options: (['all', 'some', 'upto'] as const).map((value) => ({
           value,
           label: checklistStrings.achievementModes[value],
         })),
@@ -236,65 +397,7 @@ const stepFields: Field[] = [
       },
     ],
   },
-  {
-    name: 'needs',
-    label: 'Necesitarás',
-    labels: { singular: 'Objeto', plural: 'Objetos' },
-    type: 'array',
-    admin: {
-      initCollapsed: true,
-      components: rowLabel('RelationRowLabel', {
-        singular: rows.need,
-        textField: 'label',
-        relationField: 'item',
-        relationTo: 'items',
-      }),
-    },
-    fields: [
-      {
-        name: 'item',
-        label: 'Objeto',
-        type: 'relationship',
-        relationTo: 'items',
-        validate: validateNeedItem,
-        admin: { description: s.needItemDescription },
-      },
-      localizedText('label', 'Texto', s.needLabelDescription),
-      {
-        name: 'quantity',
-        label: 'Cantidad',
-        type: 'number',
-        required: true,
-        min: 1,
-        defaultValue: 1,
-      },
-      localizedText('note', 'Nota'),
-      {
-        name: 'category',
-        label: 'Grupo',
-        type: 'select',
-        options: (
-          ['resources', 'consumables', 'equipment', 'souls', 'creatures', 'cosmetics'] as const
-        ).map((value) => ({ value, label: checklistStrings.needCategories[value] })),
-        admin: { description: s.needCategoryDescription },
-      },
-      {
-        name: 'countsInTotal',
-        label: 'Cuenta en los totales',
-        type: 'checkbox',
-        defaultValue: true,
-        admin: { description: s.needCountsInTotalDescription },
-      },
-      {
-        name: 'quests',
-        label: 'Para las misiones',
-        type: 'relationship',
-        relationTo: 'quests',
-        hasMany: true,
-        admin: { description: s.needQuestsDescription },
-      },
-    ],
-  },
+  needsField('needs', {}),
   {
     name: 'figure',
     label: 'Figura',
@@ -476,6 +579,34 @@ export const Checklists: CollectionConfig = {
             },
           ],
         },
+        {
+          name: 'notes',
+          label: 'Avisos',
+          labels: { singular: 'Aviso', plural: 'Avisos' },
+          type: 'array',
+          dbName: 'checklists_pre_notes',
+          admin: {
+            description: s.prerequisiteNotesDescription,
+            components: rowLabel('TextRowLabel', { singular: rows.note, field: 'title' }),
+          },
+          fields: [
+            localizedText('title', 'Título'),
+            { name: 'text', label: 'Texto', type: 'textarea', required: true, localized: true },
+          ],
+        },
+        needsField('needs', {
+          description: s.prerequisiteNeedsDescription,
+          dbName: 'checklists_pre_needs',
+          extra: [
+            {
+              name: 'prerequisite',
+              label: 'Prerrequisito',
+              type: 'text',
+              validate: validateNeedPrerequisite,
+              admin: { description: s.needPrerequisiteDescription },
+            },
+          ],
+        }),
       ],
     },
     {

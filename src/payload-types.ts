@@ -1219,6 +1219,75 @@ export interface Checklist {
           id?: string | null;
         }[]
       | null;
+    /**
+     * Avisos sobre los prerrequisitos, como empezar el Dofus Ocre cuanto antes.
+     */
+    notes?:
+      | {
+          title?: string | null;
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Los objetos que piden los prerrequisitos.
+     */
+    needs?:
+      | {
+          /**
+           * El objeto del juego. Si no es un objeto (kamas, un hechizo), deja el texto.
+           */
+          item?: (number | null) | Item;
+          /**
+           * Lo que se necesita, cuando no es un objeto del juego: «Kama», un hechizo…
+           */
+          label?: string | null;
+          quantity: number;
+          /**
+           * Otras opciones que valen en lugar de esta, cada una con su cantidad: «Pandaburg o Pandapils».
+           */
+          alternatives?:
+            | {
+                /**
+                 * El objeto del juego. Si no es un objeto (kamas, un hechizo), deja el texto.
+                 */
+                item?: (number | null) | Item;
+                /**
+                 * Lo que se necesita, cuando no es un objeto del juego: «Kama», un hechizo…
+                 */
+                label?: string | null;
+                quantity: number;
+                id?: string | null;
+              }[]
+            | null;
+          note?: string | null;
+          /**
+           * El grupo en el que sale en «Necesitarás».
+           */
+          category?: ('resources' | 'consumables' | 'equipment' | 'souls' | 'creatures' | 'cosmetics') | null;
+          /**
+           * Un grupo dentro de su categoría, como «Misión opcional». Vacío: sin grupo.
+           */
+          group?: string | null;
+          /**
+           * Desmárcalo si sale en el paso pero no cuenta en los totales de lo que hay que reunir.
+           */
+          countsInTotal?: boolean | null;
+          /**
+           * Márcalo si se conserva tras usarlo: en los totales cuenta la mayor cantidad, no la suma.
+           */
+          reusable?: boolean | null;
+          /**
+           * La clave del prerrequisito en el que se gasta, como l11. Al marcarlo, el objeto deja de faltar.
+           */
+          prerequisite?: string | null;
+          /**
+           * Las misiones que piden este objeto.
+           */
+          quests?: (number | Quest)[] | null;
+          id?: string | null;
+        }[]
+      | null;
   };
   /**
    * Los pasos de la guía, en tu orden.
@@ -1231,10 +1300,10 @@ export interface Checklist {
          */
         segments?:
           | {
-              kind: 'plain' | 'stop' | 'resolve';
+              kind: 'plain' | 'stop' | 'resolve' | 'note' | 'tip' | 'must' | 'includes';
               text: string;
               /**
-               * La misión que se deja a medias.
+               * La misión que se deja a medias. Déjala vacía si el tramo solo avisa y ninguna misión para aquí.
                */
               quest?: (number | null) | Quest;
               /**
@@ -1242,12 +1311,60 @@ export interface Checklist {
                */
               stopObjective?: number | null;
               /**
+               * Márcalo si esta misión no la termina el paso que cierra este, sino uno posterior que también la lleva.
+               */
+              later?: boolean | null;
+              /**
+               * El texto de la parada dentro de la misión, si no es el del tramo. Vacío: el del tramo.
+               */
+              line?: string | null;
+              /**
+               * El texto dentro de la misión cuando el paso se resuelve en sí mismo, si no es el de su tramo «Aquí se resuelve».
+               */
+              resumeLine?: string | null;
+              /**
+               * Otras misiones u objetivos donde para este mismo texto, cuando son varios.
+               */
+              more?:
+                | {
+                    /**
+                     * La misión que se deja a medias. Déjala vacía si el tramo solo avisa y ninguna misión para aquí.
+                     */
+                    quest?: (number | null) | Quest;
+                    /**
+                     * El objetivo de esa misión donde hay que parar, contando desde 0 en la lista de objetivos de la misión, etapa tras etapa.
+                     */
+                    stopObjective?: number | null;
+                    /**
+                     * Márcalo si esta misión no la termina el paso que cierra este, sino uno posterior que también la lleva.
+                     */
+                    later?: boolean | null;
+                    /**
+                     * El texto de la parada dentro de la misión, si no es el del tramo. Vacío: el del tramo.
+                     */
+                    line?: string | null;
+                    /**
+                     * El texto dentro de la misión cuando el paso se resuelve en sí mismo, si no es el de su tramo «Aquí se resuelve».
+                     */
+                    resumeLine?: string | null;
+                    id?: string | null;
+                  }[]
+                | null;
+              /**
                * Los identificadores de los pasos cuyas misiones termina este tramo. Cada paso tiene el suyo en «Datos técnicos», al final del paso.
                */
               closes?: string[] | null;
               id?: string | null;
             }[]
           | null;
+        /**
+         * Los pasos cuyas misiones termina este paso sin un tramo «Aquí se resuelve». Con ese tramo, van en él.
+         */
+        closes?: string[] | null;
+        /**
+         * Los pasos cuyas misiones avanza este sin terminarlas. En ellos sale «Se retoma en el paso N».
+         */
+        updates?: string[] | null;
         /**
          * Una nota del paso, aparte de su texto.
          */
@@ -1269,7 +1386,7 @@ export interface Checklist {
         achievements?:
           | {
               achievement: number | Achievement;
-              mode: 'all' | 'some';
+              mode: 'all' | 'some' | 'upto';
               /**
                * Las misiones del logro que se hacen en este paso: 1, 2…
                */
@@ -1303,15 +1420,40 @@ export interface Checklist {
                */
               label?: string | null;
               quantity: number;
+              /**
+               * Otras opciones que valen en lugar de esta, cada una con su cantidad: «Pandaburg o Pandapils».
+               */
+              alternatives?:
+                | {
+                    /**
+                     * El objeto del juego. Si no es un objeto (kamas, un hechizo), deja el texto.
+                     */
+                    item?: (number | null) | Item;
+                    /**
+                     * Lo que se necesita, cuando no es un objeto del juego: «Kama», un hechizo…
+                     */
+                    label?: string | null;
+                    quantity: number;
+                    id?: string | null;
+                  }[]
+                | null;
               note?: string | null;
               /**
                * El grupo en el que sale en «Necesitarás».
                */
               category?: ('resources' | 'consumables' | 'equipment' | 'souls' | 'creatures' | 'cosmetics') | null;
               /**
+               * Un grupo dentro de su categoría, como «Misión opcional». Vacío: sin grupo.
+               */
+              group?: string | null;
+              /**
                * Desmárcalo si sale en el paso pero no cuenta en los totales de lo que hay que reunir.
                */
               countsInTotal?: boolean | null;
+              /**
+               * Márcalo si se conserva tras usarlo: en los totales cuenta la mayor cantidad, no la suma.
+               */
+              reusable?: boolean | null;
               /**
                * Las misiones que piden este objeto.
                */
@@ -1939,6 +2081,36 @@ export interface ChecklistsSelect<T extends boolean = true> {
                   };
               id?: T;
             };
+        notes?:
+          | T
+          | {
+              title?: T;
+              text?: T;
+              id?: T;
+            };
+        needs?:
+          | T
+          | {
+              item?: T;
+              label?: T;
+              quantity?: T;
+              alternatives?:
+                | T
+                | {
+                    item?: T;
+                    label?: T;
+                    quantity?: T;
+                    id?: T;
+                  };
+              note?: T;
+              category?: T;
+              group?: T;
+              countsInTotal?: T;
+              reusable?: T;
+              prerequisite?: T;
+              quests?: T;
+              id?: T;
+            };
       };
   steps?:
     | T
@@ -1951,9 +2123,24 @@ export interface ChecklistsSelect<T extends boolean = true> {
               text?: T;
               quest?: T;
               stopObjective?: T;
+              later?: T;
+              line?: T;
+              resumeLine?: T;
+              more?:
+                | T
+                | {
+                    quest?: T;
+                    stopObjective?: T;
+                    later?: T;
+                    line?: T;
+                    resumeLine?: T;
+                    id?: T;
+                  };
               closes?: T;
               id?: T;
             };
+        closes?: T;
+        updates?: T;
         note?: T;
         achievements?:
           | T
@@ -1978,9 +2165,19 @@ export interface ChecklistsSelect<T extends boolean = true> {
               item?: T;
               label?: T;
               quantity?: T;
+              alternatives?:
+                | T
+                | {
+                    item?: T;
+                    label?: T;
+                    quantity?: T;
+                    id?: T;
+                  };
               note?: T;
               category?: T;
+              group?: T;
               countsInTotal?: T;
+              reusable?: T;
               quests?: T;
               id?: T;
             };

@@ -1,0 +1,410 @@
+[
+  {
+    "step": 5,
+    "quest": 703,
+    "index": 6,
+    "text": "Hasta que puedas entrar a la mazmorra Laboratorio de Brumen Tinctorias"
+  },
+  {
+    "step": 7,
+    "quest": 1939,
+    "index": 12,
+    "text": "Hasta tener que dropear sacrificios de armatudinados, quemaalmas, ghuls y malditos"
+  },
+  {
+    "step": 10,
+    "quest": 1872,
+    "index": 6,
+    "text": "Hasta tener que pasar Maxilubo"
+  },
+  {
+    "step": 11,
+    "quest": 1475,
+    "index": 7,
+    "text": "Hasta tener que pasar Kanigrula"
+  },
+  {
+    "step": 13,
+    "quest": 1869,
+    "index": 5,
+    "text": "Hasta la parte de ir a ver a Volkaragnar"
+  },
+  {
+    "step": 15,
+    "quest": 1736,
+    "index": 5,
+    "text": "Hasta después de pasar Capitán Meno y avanzar con la misión. IMPORTANTE: no pelear con el Selatrop fuera la mazmorra"
+  },
+  {
+    "step": 17,
+    "quest": 1470,
+    "index": 2,
+    "text": "Hasta tener que pasar Maxilubo"
+  },
+  {
+    "step": 19,
+    "quest": 1524,
+    "index": 4,
+    "text": "Hasta tener que pasar la mazmorra del Blop multicolor real"
+  },
+  {
+    "step": 20,
+    "quest": 73,
+    "index": 1,
+    "text": "Hasta tener que pasar la mazmorra de los Blops"
+  },
+  {
+    "step": 22,
+    "quest": 83,
+    "index": 1,
+    "text": "Hasta tener que pasar la mazmorra Laboratorio de Brumen Tinctorias"
+  },
+  {
+    "step": 25,
+    "quest": 591,
+    "index": 4,
+    "text": "Hasta tener que pasar Morzagüino real"
+  },
+  {
+    "step": 26,
+    "quest": 583,
+    "index": 0,
+    "text": "Hasta tener que luchar contra güinos y monstruos de la zona Bosque de los pinos perdidos"
+  },
+  {
+    "step": 27,
+    "quest": 646,
+    "index": 6,
+    "text": "Hasta tener que luchar contra monstruos de la zona Bosque de los pinos perdidos"
+  },
+  {
+    "step": 27,
+    "quest": 543,
+    "index": 0,
+    "text": "Hasta tener que luchar contra güinos"
+  },
+  {
+    "step": 28,
+    "quest": 577,
+    "index": 6,
+    "text": "Hasta tener que luchar contra güinos y posteriormente pasar Morzagúino real",
+    "done": "Se hacen las peleas correspondientes."
+  },
+  {
+    "step": 28,
+    "quest": 577,
+    "index": 9,
+    "text": "Hasta tener que luchar contra güinos y posteriormente pasar Morzagúino real",
+    "done": "Se pasa Morsagüino real terminando las misiones de los incisos 25, 26, 27 y 28. Se obtiene el acceso a Cuna del alma. Se obtienen los skies."
+  },
+  {
+    "step": 32,
+    "quest": 1653,
+    "index": 3,
+    "text": "Se pasa dragocerdo y se deja pendiente roble blando"
+  },
+  {
+    "step": 33,
+    "quest": 2444,
+    "index": 3,
+    "text": "Hasta tener que pasar Lasoberaña"
+  },
+  {
+    "step": 34,
+    "quest": 1619,
+    "index": 8,
+    "text": "Hasta tener que pasar Lasoberaña"
+  },
+  {
+    "step": 35,
+    "quest": 1620,
+    "index": 6,
+    "text": "Hasta tener que pasar Abráknido ancestral"
+  },
+  {
+    "step": 36,
+    "quest": 87,
+    "index": 1,
+    "text": "Hasta tener que pasar Abráknido ancentral"
+  },
+  {
+    "step": 37,
+    "quest": 1621,
+    "index": 6,
+    "text": "Hasta tener que pasar Roble blando"
+  },
+  {
+    "step": 38,
+    "quest": 1657,
+    "index": 2,
+    "text": "Hasta tener que matar 7 monstruos de cada uno de la zona Cuna del alma. En algún momento de la misión 3 se puede lanzar la misión La sombra del reino, necesaria para el logro \"Cuatro de seis\", por lo que puede realizarse en cualquier punto hasta antes del inciso 80"
+  },
+  {
+    "step": 38,
+    "quest": 1657,
+    "index": 10,
+    "text": "Hasta obtener la bendición de Viti: la da «La bendición de Viti», en el paso 39",
+    "later": true
+  },
+  {
+    "step": 39,
+    "quest": 1660,
+    "index": 2,
+    "text": "Se pasa tynril y Morsagüino con sus respectivos ídolos, dejando pendiente Funoroshi"
+  },
+  {
+    "step": 41,
+    "quest": 2037,
+    "index": 2,
+    "text": "Hasta tener que completar una run de sueños"
+  },
+  {
+    "step": 43,
+    "quest": 2161,
+    "index": 7,
+    "text": "Hasta tener que matar monstruos de la zona de Plantala"
+  },
+  {
+    "step": 43,
+    "quest": 2163,
+    "index": 0,
+    "text": "Hasta tener que matar monstruos de la zona de Plantala"
+  },
+  {
+    "step": 43,
+    "quest": 2161,
+    "index": 16,
+    "text": "Hasta tener que pasar Kodámade",
+    "followUp": true
+  },
+  {
+    "step": 44,
+    "quest": 2445,
+    "index": 5,
+    "text": "Hasta tener que pasar Kodámade"
+  },
+  {
+    "step": 45,
+    "quest": 2151,
+    "index": 11,
+    "text": "Hasta tener que pasar Kodámade"
+  },
+  {
+    "step": 46,
+    "quest": 2152,
+    "index": 4,
+    "text": "Hasta tener que pasar Tanukui san"
+  },
+  {
+    "step": 47,
+    "quest": 284,
+    "index": 3,
+    "text": "Hasta tener que entrar en la mazmorra de Tanukui san"
+  },
+  {
+    "step": 48,
+    "quest": 2154,
+    "index": 19,
+    "text": "Hasta tener que pasar Funoroshi"
+  },
+  {
+    "step": 50,
+    "quest": 1661,
+    "index": 3,
+    "text": "Se pasa Roca negra, Obsidiantre y Kimbo con sus respectivos ídolos, quedando pendiente Sfinter cell"
+  },
+  {
+    "step": 51,
+    "quest": 302,
+    "index": 0,
+    "text": "Hasta tener que pasar Sfinter cell"
+  },
+  {
+    "step": 52,
+    "quest": 596,
+    "index": 9,
+    "text": "Hasta completar la misión: El slip está que arde. Requiere pasar Tengu gélifux en algún punto entre las misiones, por lo que se desbloquea el paso al Pueblo sepultado, al Bosque petrificado y la puerta de los Taponanos"
+  },
+  {
+    "step": 53,
+    "quest": 2180,
+    "index": 3,
+    "text": "Hasta tener que pasar Kumijo"
+  },
+  {
+    "step": 54,
+    "quest": 2447,
+    "index": 4,
+    "text": "Hasta tener que pasar Kumijo. Retomar sala 5 como se indicó en el inciso anterior para no perder combates de la alteración de la Encantarela"
+  },
+  {
+    "step": 58,
+    "quest": 1662,
+    "index": 1,
+    "text": "Se pasa Perfósil con el respectivo ídolo, dejando pendiente Kanigrula y Cil"
+  },
+  {
+    "step": 59,
+    "quest": 333,
+    "index": 6,
+    "text": "Hasta tener que pasar Kanigrula"
+  },
+  {
+    "step": 60,
+    "quest": 2486,
+    "index": 11,
+    "text": "Hasta tener que pasar Cil"
+  },
+  {
+    "step": 61,
+    "quest": 1719,
+    "index": 7,
+    "text": "Hasta tener que pasar Cil"
+  },
+  {
+    "step": 63,
+    "quest": 1318,
+    "index": 3,
+    "text": "Hasta tener que dropear los corazones de Tejaiss"
+  },
+  {
+    "step": 64,
+    "quest": 2200,
+    "index": 21,
+    "text": "Hasta poder entrar en la taberna"
+  },
+  {
+    "step": 65,
+    "quest": 2204,
+    "index": 7,
+    "text": "Hasta tener que dropear en la zona de papel"
+  },
+  {
+    "step": 66,
+    "quest": 2201,
+    "index": 20,
+    "text": "Hasta tener que pasar la mazmorra Recuerdo de Imagiro"
+  },
+  {
+    "step": 68,
+    "quest": 2407,
+    "index": 16,
+    "text": "Hasta tener que dropear en la zona de tinta y papel"
+  },
+  {
+    "step": 72,
+    "quest": 2480,
+    "index": 2,
+    "text": "Hasta tener que dropear en la zona de tinta y papel. Requiere la alteración del elixir de los barquerontes"
+  },
+  {
+    "step": 72,
+    "quest": 2480,
+    "index": 10,
+    "text": "Hasta tener que pasar Ilyzaelle",
+    "followUp": true
+  },
+  {
+    "step": 73,
+    "quest": 2122,
+    "index": 1,
+    "text": "Específicamente hasta tener que hacer las misiones de las dimensiones de Selocalipsis"
+  },
+  {
+    "step": 77,
+    "quest": 2131,
+    "index": 18,
+    "text": "Hasta tener que pasar Roble Blando con el ídolo del dios Sadida (se pasa en el inciso 80, junto a Ugah)"
+  },
+  {
+    "step": 78,
+    "quest": 121,
+    "index": 4,
+    "text": "Hasta tener que pasar Roble Blando"
+  },
+  {
+    "step": 80,
+    "quest": 1784,
+    "index": 3,
+    "text": "Hasta tener que pasar Ugah"
+  },
+  {
+    "step": 80,
+    "quest": 423,
+    "index": 11,
+    "text": "Hasta tener que pasar Ugah"
+  },
+  {
+    "step": 82,
+    "quest": 1897,
+    "index": 4,
+    "text": "Hasta tener que pasar Mizz Frizz"
+  },
+  {
+    "step": 83,
+    "quest": 2011,
+    "index": 24,
+    "text": "Hasta justo después de pasar Dazahk Martegel y obtener la misión: La biblia de los rencores"
+  },
+  {
+    "step": 84,
+    "quest": 1326,
+    "index": 22,
+    "text": "Hasta después de haber pasado Nileza y tener que pasar Mizz Frizz, Sylargh y Klim"
+  },
+  {
+    "step": 85,
+    "quest": 1901,
+    "index": 7,
+    "text": "Hasta tener que pasar Ilyzaelle"
+  },
+  {
+    "step": 86,
+    "quest": 1910,
+    "index": 0,
+    "text": "Hasta tener que matar 10 monstruos de cada uno de la zona del Cuartel del día sin fin"
+  },
+  {
+    "step": 87,
+    "quest": 2136,
+    "index": 2,
+    "text": "Hasta tener que pasar Ilyzaelle"
+  },
+  {
+    "step": 90,
+    "quest": 2424,
+    "index": 0,
+    "text": "Hasta tener que dropear en sueños"
+  },
+  {
+    "step": 91,
+    "quest": 2138,
+    "index": 15,
+    "text": "Hasta tener que dropear en sueños"
+  },
+  {
+    "step": 92,
+    "quest": 2423,
+    "index": 2,
+    "text": "Hasta tener que dropear los 6 tótems",
+    "later": true
+  },
+  {
+    "step": 92,
+    "quest": 2425,
+    "index": 0,
+    "text": "Hasta tener que dropear los 6 tótems"
+  },
+  {
+    "step": 95,
+    "quest": 1327,
+    "index": 9,
+    "text": "Hasta tener que pasar Conde Kontatrás"
+  },
+  {
+    "step": 96,
+    "quest": 2049,
+    "index": 19,
+    "text": "Hasta tener que pasar Conde Kontatrás"
+  }
+]

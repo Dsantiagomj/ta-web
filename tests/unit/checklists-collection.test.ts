@@ -162,9 +162,11 @@ describe('colección checklists', () => {
     expect((field(achievements.fields, 'mode') as SelectField).options).toEqual([
       { value: 'all', label: 'Completo' },
       { value: 'some', label: 'Solo algunas misiones' },
+      { value: 'upto', label: 'Hasta una misión' },
     ])
     expect(field(achievements.fields, 'on')).toMatchObject({ type: 'number', hasMany: true })
     expect(condition(field(achievements.fields, 'on'))!({}, { mode: 'some' })).toBe(true)
+    expect(condition(field(achievements.fields, 'on'))!({}, { mode: 'upto' })).toBe(true)
     expect(condition(field(achievements.fields, 'on'))!({}, { mode: 'all' })).toBe(false)
 
     const quests = field(steps.fields, 'quests') as ArrayField
@@ -214,15 +216,67 @@ describe('colección checklists', () => {
     })
   })
 
-  it('el texto de Torre va en tramos: normal, «detente aquí» y «aquí se resuelve»', () => {
+  it('una fila puede llevar otras opciones, un apartado y conservarse tras usarla', () => {
+    const needs = field(steps.fields, 'needs') as ArrayField
+    const alternatives = field(needs.fields, 'alternatives') as ArrayField
+    // Nombres de tabla cortos: los de sus versiones pasarían de los 63 caracteres de Postgres.
+    expect(alternatives.dbName).toBe('checklists_need_alts')
+    expect(alternatives.fields.map((f) => ('name' in f ? f.name : null))).toEqual([
+      'item',
+      'label',
+      'quantity',
+    ])
+    expect(field(needs.fields, 'group')).toMatchObject({ type: 'text', localized: true })
+    // Sin valor por defecto: lo no marcado se guarda vacío, como lo deja la importación.
+    expect(field(needs.fields, 'reusable')).toMatchObject({ type: 'checkbox' })
+    expect('defaultValue' in field(needs.fields, 'reusable')).toBe(false)
+  })
+
+  it('un paso puede cerrar o avanzar otros sin tramo «Aquí se resuelve»', () => {
+    expect(field(steps.fields, 'closes')).toMatchObject({ type: 'text', hasMany: true })
+    expect(field(steps.fields, 'updates')).toMatchObject({ type: 'text', hasMany: true })
+  })
+
+  it('los prerrequisitos llevan avisos y los objetos que piden, con el que los gasta', () => {
+    const prerequisites = field(Checklists.fields, 'prerequisites') as GroupField
+    const notes = field(prerequisites.fields, 'notes') as ArrayField
+    expect(notes.dbName).toBe('checklists_pre_notes')
+    expect(field(notes.fields, 'text')).toMatchObject({ type: 'textarea', localized: true })
+    const needs = field(prerequisites.fields, 'needs') as ArrayField
+    expect(needs.dbName).toBe('checklists_pre_needs')
+    expect(field(needs.fields, 'prerequisite')).toMatchObject({ type: 'text' })
+    expect(field(needs.fields, 'item')).toMatchObject({ relationTo: 'items' })
+  })
+
+  it('el texto de Torre va en tramos: normal, «detente aquí», «aquí se resuelve» y avisos', () => {
     expect((field(segments.fields, 'kind') as SelectField).options).toEqual([
       { value: 'plain', label: 'Normal' },
       { value: 'stop', label: 'Detente aquí' },
       { value: 'resolve', label: 'Aquí se resuelve' },
+      { value: 'note', label: 'Nota' },
+      { value: 'tip', label: 'Consejo' },
+      { value: 'must', label: 'Hay que hacerlo' },
+      { value: 'includes', label: 'Incluye' },
     ])
     expect(field(segments.fields, 'text')).toMatchObject({ required: true, localized: true })
     expect(condition(field(segments.fields, 'quest'))!({}, { kind: 'stop' })).toBe(true)
     expect(condition(field(segments.fields, 'quest'))!({}, { kind: 'plain' })).toBe(false)
     expect(condition(field(segments.fields, 'closes'))!({}, { kind: 'resolve' })).toBe(true)
+  })
+
+  it('un «detente aquí» puede parar varias misiones y dejar una para un paso posterior', () => {
+    for (const name of ['later', 'line', 'resumeLine', 'more']) {
+      expect(condition(field(segments.fields, name))!({}, { kind: 'stop' })).toBe(true)
+      expect(condition(field(segments.fields, name))!({}, { kind: 'plain' })).toBe(false)
+    }
+    const more = field(segments.fields, 'more') as ArrayField
+    expect(more.dbName).toBe('checklists_seg_more')
+    expect(more.fields.map((f) => ('name' in f ? f.name : null))).toEqual([
+      'quest',
+      'stopObjective',
+      'later',
+      'line',
+      'resumeLine',
+    ])
   })
 })

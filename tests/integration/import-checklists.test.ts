@@ -52,6 +52,8 @@ const draftFor = (slug: string, overrides: Partial<ChecklistDraft> = {}): Checkl
     prerequisites: {
       intro: 'Nivel recomendado: 180 o superior.',
       groups: [{ title: 'Oficios', rows: [{ key: 'o1', text: 'Cualquier oficio nivel 200' }] }],
+      notes: [],
+      needs: [],
     },
     steps: [
       {
@@ -97,6 +99,8 @@ const draftFor = (slug: string, overrides: Partial<ChecklistDraft> = {}): Checkl
         icon: { path: 'prueba-checklist/icono.png', alt: 'Kamatrix', key: ICON_KEY },
         banner: { path: ART[0], alt: 'Caminos rocosos' },
         zone: 'Llanuras de prueba',
+        closes: [],
+        updates: [],
       },
       {
         legacyNumber: 2,
@@ -128,6 +132,8 @@ const draftFor = (slug: string, overrides: Partial<ChecklistDraft> = {}): Checkl
         icon: null,
         banner: { path: ART[1], alt: 'Dios de prueba' },
         zone: 'Llanuras de prueba',
+        closes: [],
+        updates: [],
       },
       {
         legacyNumber: 3,
@@ -144,6 +150,8 @@ const draftFor = (slug: string, overrides: Partial<ChecklistDraft> = {}): Checkl
         icon: null,
         banner: { path: ART[2], alt: 'Zona de prueba' },
         zone: 'Zona de prueba',
+        closes: [],
+        updates: [],
       },
     ],
     legacy: {
@@ -552,6 +560,157 @@ describe('la zona de cada paso', () => {
     )
 
     expect(await zonesOf()).toEqual(['Zona de Torre', 'Llanuras nuevas', 'Zona nueva'])
+  })
+})
+
+describe('lo que trae el Silvestre', () => {
+  const slug = `${PREFIX}-silvestre`
+  /** Los tres pasos de prueba con avisos, varias paradas, alternativas y objetos de prerrequisito. */
+  const silvestreDraft = () => {
+    const draft = draftFor(slug)
+    draft.prerequisites = {
+      ...draft.prerequisites,
+      notes: [{ title: 'Empieza el Dofus Ocre cuanto antes', text: 'Es una misión larga.' }],
+      needs: [
+        {
+          item: '997301',
+          name: 'Pepita',
+          quantity: 50,
+          note: null,
+          category: 'resources',
+          group: 'Opcional · Altos vuelos',
+          countsInTotal: true,
+          quests: [],
+          prerequisite: 'o1',
+        },
+      ],
+    }
+    draft.steps[0].segments = [
+      { kind: 'plain', text: 'Logro "De prueba".' },
+      { kind: 'note', text: '(opcional pero útil):' },
+      { kind: 'tip', text: '(Se pueden encadenar)' },
+    ]
+    draft.steps[0].needs[0] = {
+      ...draft.steps[0].needs[0],
+      alternatives: [{ item: '997302', name: 'Llave', quantity: 2 }],
+      reusable: true,
+    }
+    draft.steps[1].segments = [
+      { kind: 'plain', text: 'Logro "De prueba", misión 2.' },
+      {
+        kind: 'stop',
+        text: '(Hasta tener que luchar)',
+        quest: IDS.stopQuest,
+        stopObjective: 0,
+        resumeLine: 'Se hacen las peleas.',
+        more: [{ quest: IDS.stopQuest, stopObjective: 2, later: true, line: 'Hasta la bendición' }],
+      },
+    ]
+    draft.steps[2].closes = [2]
+    draft.steps[2].updates = [1]
+    draft.steps[2].segments = [{ kind: 'plain', text: 'Logro "De prueba".' }]
+    draft.steps[2].achievements = [{ achievement: IDS.quest, mode: 'upto', on: [1, 2] }]
+    return draft
+  }
+
+  it('lo guarda todo: avisos, paradas, alternativas, pasos que cierra y prerrequisitos', async () => {
+    const report = await loadChecklists(
+      payload,
+      options([{ entry: entry(slug), draft: silvestreDraft() }]),
+    )
+    expect(report.created).toBe(1)
+    const doc = (await read(slug))!
+    const [first, second, third] = doc.steps!
+    expect(first.segments?.map((segment) => segment.kind)).toEqual(['plain', 'note', 'tip'])
+    expect(first.needs?.[0]).toMatchObject({
+      item: ids.item,
+      reusable: true,
+      alternatives: [{ quantity: 2 }],
+    })
+    expect(second.segments?.[1]).toMatchObject({
+      kind: 'stop',
+      quest: ids.stopQuest,
+      stopObjective: 0,
+      resumeLine: 'Se hacen las peleas.',
+      more: [{ quest: ids.stopQuest, stopObjective: 2, later: true, line: 'Hasta la bendición' }],
+    })
+    expect(third).toMatchObject({ closes: [second.stepId], updates: [first.stepId] })
+    expect(third.achievements).toMatchObject([{ mode: 'upto', on: [1, 2] }])
+    expect(doc.prerequisites).toMatchObject({
+      notes: [{ title: 'Empieza el Dofus Ocre cuanto antes', text: 'Es una misión larga.' }],
+      needs: [
+        { item: ids.item, quantity: 50, group: 'Opcional · Altos vuelos', prerequisite: 'o1' },
+      ],
+    })
+  })
+
+  it('una segunda pasada no cambia nada', async () => {
+    const before = (await read(slug))!
+    const report = await loadChecklists(
+      payload,
+      options([{ entry: entry(slug), draft: silvestreDraft() }]),
+    )
+    expect(report).toMatchObject({ created: 0, updated: 0, unchanged: 1, kept: [] })
+    expect((await read(slug))!.updatedAt).toBe(before.updatedAt)
+  })
+
+  it('lo que Torre cambia en los avisos o en una parada no se pisa', async () => {
+    const editor = await createPanelUser(payload)
+    const doc = (await read(slug))!
+    await payload.update({
+      collection: 'checklists',
+      id: doc.id,
+      data: {
+        prerequisites: {
+          ...doc.prerequisites,
+          notes: [{ title: 'Aviso de Torre', text: 'Con sus palabras.' }],
+        },
+        steps: doc.steps!.map((step, index) =>
+          index === 1
+            ? {
+                ...step,
+                segments: step.segments!.map((segment) =>
+                  segment.kind === 'stop'
+                    ? { ...segment, more: [{ ...segment.more![0], later: false }] }
+                    : segment,
+                ),
+              }
+            : step,
+        ),
+      },
+      draft: true,
+      user: editor,
+    })
+    const report = await loadChecklists(
+      payload,
+      options([{ entry: entry(slug), draft: silvestreDraft() }]),
+    )
+    expect(report.kept).toEqual([
+      { slug, field: 'prerequisites' },
+      { slug, field: 'steps' },
+    ])
+    const after = (await read(slug))!
+    expect(after.prerequisites?.notes).toMatchObject([{ title: 'Aviso de Torre' }])
+    expect(after.steps![1].segments?.[1].more?.[0].later).toBe(false)
+  })
+
+  it('al portar una ficha publicada, los pasos van a un borrador: la ficha publicada no cambia', async () => {
+    const ported = `${PREFIX}-ficha-portada`
+    await loadChecklists(
+      payload,
+      options([{ entry: entry(ported, { ported: false }), draft: null }]),
+    )
+    await loadChecklists(payload, options([{ entry: entry(ported), draft: draftFor(ported) }]))
+    expect((await read(ported))!.steps).toHaveLength(3)
+    const published = await payload.find({
+      collection: 'checklists',
+      where: { slug: { equals: ported } },
+      draft: false,
+      depth: 0,
+      overrideAccess: true,
+    })
+    expect(published.docs[0]).toMatchObject({ _status: 'published', state: 'preparing' })
+    expect(published.docs[0].steps ?? []).toEqual([])
   })
 })
 

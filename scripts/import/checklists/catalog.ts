@@ -1,6 +1,7 @@
 // Las checklists de Torre, en el orden del hub de silvestre-checklist (src/embeds/hub/
-// manifest.js). Solo las que tienen `ported` se traen enteras; las demás se crean En
-// preparación, sin pasos, con su enlace a Squarespace. Las descripciones no llevan cifras:
+// manifest.js). Las que tienen `ported` se traen enteras (y siguen En preparación hasta que
+// Torre las publique); las demás se crean En preparación, sin pasos, con su enlace a
+// Squarespace. Las descripciones no llevan cifras:
 // cambian con la guía.
 
 const SITE = 'https://www.torrentearcano.com'
@@ -32,7 +33,7 @@ export const CHECKLIST_CATALOG: ChecklistCatalogEntry[] = [
     description: 'Todo el Mundo de los Doce con la guía de Sandglass, hasta Silvosse.',
     order: 1,
     dofusGuide: 'dofus-silvestre',
-    ported: false,
+    ported: true,
   }),
   entry({
     id: 'hielos',

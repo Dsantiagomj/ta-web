@@ -122,6 +122,7 @@ export const panelStrings = {
     need: 'Objeto',
     group: 'Grupo',
     row: 'Fila',
+    note: 'Aviso',
     achievement: 'Logro',
     dungeon: 'Mazmorra',
     /** Tras el nombre de la primera de varias misiones alternativas. */

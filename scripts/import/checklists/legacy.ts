@@ -6,8 +6,11 @@ import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 
-/** Un tramo resaltado del texto: rojo («detente aquí») o verde («aquí se resuelve»). */
-export type LegacyMark = ['stop' | 'done', string]
+/**
+ * Un tramo resaltado del texto: rojo («detente aquí»), verde («aquí se resuelve») o un aviso
+ * de la guía: nota, consejo, lo que se debe hacer («must») o lo que el paso incluye.
+ */
+export type LegacyMark = ['stop' | 'done' | 'note' | 'tip' | 'must' | 'includes', string]
 
 export interface LegacyStep {
   /** El número del paso: la clave de su progreso en la checklist antigua. */
@@ -18,6 +21,8 @@ export interface LegacyStep {
   marks?: LegacyMark[]
   /** Los pasos cuyas misiones termina este. */
   closes?: number[]
+  /** Los pasos cuyas misiones avanza sin terminarlas («se actualiza la misión del inciso N»). */
+  updates?: number[]
 }
 
 export interface LegacyPrereq {
@@ -53,6 +58,10 @@ export interface LegacyConfig {
   guideVersion: number
   /** Las claves de objetos que cambiaron: vieja → [nueva, pasos donde está ahora]. */
   ownedMoves?: Record<string, [string, number[]]>
+  /** El aviso sobre el Dofus Ocre en los prerrequisitos: su título, la misión y el logro. */
+  prereqNote?: { title: string; quest: string; achievement: string } | null
+  /** La orden de alineamiento que sigue la guía, en los prerrequisitos. */
+  orderNote?: { title: string; text: string } | null
   journal: {
     extraNotes: Record<string, string>
     questNotes: Record<string, Record<string, string>>
@@ -71,17 +80,25 @@ export interface LegacyPlan {
   t: string
   id: number
   name: string
-  mode: 'all' | 'some'
+  mode: 'all' | 'some' | 'upto'
   on: number[]
 }
 
 export interface LegacyResourceRow {
+  /** Su clave en lo conseguido: las opciones unidas por «|» y «@grupo». */
   k: string
   c: string
+  /** El grupo dentro de su categoría («Misión opcional»). */
   g: string | null
+  /** Las opciones de la fila, cada una con su cantidad: «A o B». */
   a: [string, number][]
   n?: string
+  /** Sale en el paso pero no cuenta en los totales. */
   x?: number
+  /** Se conserva al usarla: en los totales cuenta la mayor cantidad, no la suma. */
+  r?: number
+  /** En los prerrequisitos (el paso 0): la clave del prerrequisito en el que se gasta. */
+  p?: string | null
   m?: string[]
 }
 
@@ -102,6 +119,9 @@ export interface LegacyChecklist {
   prerequisites: {
     intro: string
     groups: { title: string; rows: LegacyPrereq[] }[]
+    /** El aviso de empezar el Dofus Ocre cuanto antes y el paso que lo termina. */
+    ocre: string
+    ocreStep: number | null
   }
   quests: LegacyQuests
   plans: Record<string, LegacyPlan[]>
@@ -149,6 +169,8 @@ export async function readLegacyChecklist(root: string, id: string): Promise<Leg
         title,
         rows: (steps[name] ?? []) as LegacyPrereq[],
       })),
+      ocre: (steps.PREREQS_OCRE ?? '') as string,
+      ocreStep: (steps.OCRE_STEP ?? null) as number | null,
     },
     quests: await json(dir, 'quests.json'),
     plans: await json(dir, 'plans.json'),

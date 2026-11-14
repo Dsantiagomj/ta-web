@@ -199,7 +199,7 @@ describe('lo demás de cada paso', () => {
     }
   })
 
-  it('para con un error, sin perder nada, ante filas que el esquema aún no guarda', () => {
+  it('una fila con grupo o con alternativas se guarda entera (las tiene el Silvestre)', () => {
     const withRows = (row: Partial<LegacyChecklist['resources']['steps'][string][number]>) => ({
       ...legacy,
       resources: {
@@ -207,20 +207,20 @@ describe('lo demás de cada paso', () => {
         steps: { ...legacy.resources.steps, 2: [{ ...legacy.resources.steps[2][0], ...row }] },
       },
     })
-    expect(() => toChecklistDraft(nebuloso, withRows({ g: 'Opcional' }))).toThrow(
-      /grupo «Opcional»/,
+    expect(toChecklistDraft(nebuloso, withRows({ g: 'Opcional' })).steps[1].needs[0]).toMatchObject(
+      { group: 'Opcional' },
     )
-    expect(() =>
+    expect(
       toChecklistDraft(
         nebuloso,
         withRows({
           a: [
             ['15533', 1],
-            ['15534', 1],
+            ['15534', 2],
           ],
         }),
-      ),
-    ).toThrow(/alternativas/)
+      ).steps[1].needs[0],
+    ).toMatchObject({ item: '15533', quantity: 1, alternatives: [{ item: '15534', quantity: 2 }] })
   })
 
   it('el icono del paso, con la clave del arte del juego que ya usa Media', () => {
@@ -299,6 +299,8 @@ describe('la checklist', () => {
         },
         { title: 'Hechizos', rows: [{ key: 'h1', text: 'Captura de almas (obligatorio)' }] },
       ],
+      notes: [],
+      needs: [],
     })
   })
 
@@ -330,7 +332,7 @@ describe('la checklist', () => {
 })
 
 describe('el catálogo', () => {
-  it('las cuatro checklists de Torre con su slug de Squarespace; solo el Nebuloso se porta', () => {
+  it('las cuatro checklists de Torre con su slug de Squarespace; se portan Silvestre y Nebuloso', () => {
     expect(
       CHECKLIST_CATALOG.map(({ id, slug, legacyHref, ported }) => [id, slug, legacyHref, ported]),
     ).toEqual([
@@ -338,7 +340,7 @@ describe('el catálogo', () => {
         'silvestre',
         'checklist-silvestre',
         'https://www.torrentearcano.com/checklist-silvestre',
-        false,
+        true,
       ],
       [
         'hielos',
