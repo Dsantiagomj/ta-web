@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react'
 
-import { GuideBody, GuideSteps } from '@/components/game/GuideBody'
+import { GuideSections } from '@/components/game/GuideBody'
 import { GuideRichText } from '@/components/game/GuideRichText'
 import { IconWell } from '@/components/game/IconWell'
 import { CopyName } from '@/components/game/Item'
@@ -263,9 +263,7 @@ export function DofusBody({ content }: { content: GuideContent }) {
       <h2 className="lq__h" id="dg-paso">
         {s.body}
       </h2>
-      {intro.length > 0 && <GuideBody blocks={intro} />}
-      {steps.length > 0 && <GuideSteps steps={steps} />}
-      {outro.length > 0 && <GuideBody blocks={outro} />}
+      <GuideSections content={content} headingLevel={3} />
     </section>
   )
 }

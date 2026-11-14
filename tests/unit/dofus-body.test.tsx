@@ -59,6 +59,12 @@ describe('DofusBody', () => {
     expect(html).toContain('Por fin obtendrás tu piñata de pino.')
   })
 
+  it('los pasos van bajo «Paso a paso»: un solo h2 y el título de los pasos en h3', () => {
+    const html = renderToStaticMarkup(<DofusBody content={content} />)
+    expect(html.match(/<h2[ >]/g)).toHaveLength(1)
+    expect(html).toMatch(/<h3[^>]*class="sr-only"[^>]*>Pasos<\/h3>/)
+  })
+
   it('sin cuerpo no hay sección', () => {
     expect(renderToStaticMarkup(<DofusBody content={{ intro: [], steps: [], outro: [] }} />)).toBe(
       '',

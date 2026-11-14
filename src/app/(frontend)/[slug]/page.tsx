@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
 
-import { GuideBody, GuideSteps } from '@/components/game/GuideBody'
+import { GuideSections } from '@/components/game/GuideBody'
 import { NextQuestCard } from '@/components/game/NextQuestCard'
 import { PageEnhancements } from '@/components/game/PageEnhancements'
 import { QuestHeader } from '@/components/game/QuestHeader'
@@ -143,7 +143,6 @@ function QuestGuideView({
   const { guide, links, giver, next, preview, achievement } = page
   const crumbs = guideBreadcrumb(achievement, guide, SITE_URL)
   const place = achievement && { position: achievement.position, total: achievement.total }
-  const { intro, steps, outro } = guideContent(guide)
   const card = next && nextQuestCard(next.quest, next.guide)
 
   return (
@@ -153,17 +152,12 @@ function QuestGuideView({
         <article>
           {crumbs && <Breadcrumb {...crumbs} />}
           <QuestHeader title={guide.title} data={questHeaderProps(guide, links, giver, place)} />
-          {intro.length > 0 && (
-            <div className="quest__intro">
-              <GuideBody blocks={intro} />
-            </div>
-          )}
-          {steps.length > 0 && <GuideSteps steps={steps} start={guideStart(guide)} />}
-          {outro.length > 0 && (
-            <div className="quest__outro">
-              <GuideBody blocks={outro} />
-            </div>
-          )}
+          <GuideSections
+            content={guideContent(guide)}
+            start={guideStart(guide)}
+            introClassName="quest__intro"
+            outroClassName="quest__outro"
+          />
           {card && <NextQuestCard card={card} />}
         </article>
       </main>

@@ -195,7 +195,16 @@ export async function seedDofusGuides(payload: Payload): Promise<void> {
     },
   ]
   for (const guide of guides) {
-    if (await findOne(payload, 'dofus-guides', 'slug', guide.slug)) continue
+    const existing = await findOne(payload, 'dofus-guides', 'slug', guide.slug)
+    // En una base reutilizada, la Dofawa sembrada antes del paso a paso lo recibe ahora.
+    if (existing && 'body' in guide) {
+      await payload.update({
+        collection: 'dofus-guides',
+        id: existing.id,
+        data: { body: guide.body } as never,
+      })
+    }
+    if (existing) continue
     await payload.create({
       collection: 'dofus-guides',
       data: { ...guide, _status: 'published' } as never,

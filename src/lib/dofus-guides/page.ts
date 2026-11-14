@@ -79,7 +79,8 @@ export interface DofusGuideDoc {
   rewards?: RichTextState | null
   intro?: RichTextState | null
   parts?: PartDoc[] | null
-  body?: unknown[] | null
+  /** Los bloques de las guías de misión (src/blocks), con imágenes y monstruos poblados. */
+  body?: GuideDoc['body']
   outro?: RichTextState | null
   video?: string | null
   videoPoster?: MediaRef
@@ -257,6 +258,17 @@ function needRows(rows: NeedRowDoc[]): NeedRowView[] {
   })
 }
 
+/**
+ * El paso a paso: los mismos bloques que una guía de misión, ya listos para pintar (entrada,
+ * pasos y cierre). Un paso sin bloques que pintar ni coordenadas no cuenta. Su primera
+ * captura no va con prioridad: está debajo de la ficha.
+ */
+function dofusBody(guide: DofusGuideDoc): GuideContent {
+  const content = guideContent({ title: guide.name, body: guide.body }, { priority: false })
+  const steps = content.steps.filter((step) => step.blocks.length > 0 || step.coordinates)
+  return { ...content, steps }
+}
+
 function needsView(guide: DofusGuideDoc): DofusGuideView['needs'] {
   const groups = (guide.needs?.groups ?? []).flatMap((group) => {
     const rows = needRows(group.rows ?? [])
@@ -413,11 +425,7 @@ export function dofusGuideView(data: DofusGuideData): DofusGuideView {
     rewards: guide.rewards ?? null,
     intro: guide.intro ?? null,
     outro: guide.outro ?? null,
-    // Los mismos bloques que una guía de misión, ya listos para pintar: entrada, pasos y cierre.
-    body: guideContent(
-      { title: guide.name, body: guide.body as GuideDoc['body'] },
-      { priority: false },
-    ),
+    body: dofusBody(guide),
     needs: needsView(guide),
     parts,
     achievementCount: counts.achievements,
