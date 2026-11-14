@@ -68,6 +68,8 @@ export interface RawDungeon {
   id: number
   name?: LocalizedText | null
   bosses?: number[] | null
+  /** El nivel de la mazmorra: acota el grado del jefe que se lucha en ella. */
+  optimalPlayerLevel?: number | null
 }
 
 export interface RawMonster {
@@ -75,6 +77,11 @@ export interface RawMonster {
   name?: LocalizedText | null
   /** El ID de su imagen; DofusDB lo llama gfxId. */
   gfxId?: number | null
+  isBoss?: boolean | null
+  /** Archimonstruo. */
+  isMiniBoss?: boolean | null
+  subareas?: number[] | null
+  grades?: { level?: number | null }[] | null
 }
 
 /** Un objeto o monstruo por su ID de DofusDB, con su cantidad. */
@@ -299,10 +306,17 @@ export interface MappedDungeon {
   name: string
   /** Los jefes, por el ID de Payload de su monstruo. */
   bosses: number[]
+  level: number | null
 }
 
 export interface MappedMonster {
   dofusId: number
   name: string
   iconId: number | null
+  /** El nivel de cada grado, en el orden de DofusDB. */
+  levels: number[]
+  boss: boolean
+  archmonster: boolean
+  /** Su primera subzona, por su ID de DofusDB. */
+  subAreaId: number | null
 }

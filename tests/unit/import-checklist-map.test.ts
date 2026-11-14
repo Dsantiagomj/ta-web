@@ -7,7 +7,7 @@ import path from 'node:path'
 
 import { beforeAll, describe, expect, it } from 'vitest'
 
-import { CHECKLIST_CATALOG } from '../../scripts/import/checklists/catalog'
+import { CHECKLIST_CATALOG, hasLegacySteps } from '../../scripts/import/checklists/catalog'
 import { readLegacyChecklist, type LegacyChecklist } from '../../scripts/import/checklists/legacy'
 import {
   stepText,
@@ -334,7 +334,7 @@ describe('la checklist', () => {
 })
 
 describe('el catálogo', () => {
-  it('las cuatro checklists de Torre con su slug de Squarespace; todas se portan salvo el Ocre', () => {
+  it('las cuatro checklists de Torre con su slug de Squarespace; todas se portan; el Ocre, como checklist de almas', () => {
     expect(
       CHECKLIST_CATALOG.map(({ id, slug, legacyHref, ported }) => [id, slug, legacyHref, ported]),
     ).toEqual([
@@ -351,9 +351,22 @@ describe('el catálogo', () => {
         true,
       ],
       ['nebuloso', 'checklist-nebuloso', 'https://www.torrentearcano.com/checklist-nebuloso', true],
-      ['ocre', 'lista-ocre', 'https://www.torrentearcano.com/lista-ocre', false],
+      ['ocre', 'lista-ocre', 'https://www.torrentearcano.com/lista-ocre', true],
     ])
     for (const entry of CHECKLIST_CATALOG) expect(entry.description).not.toMatch(/\d/)
+    // El Ocre es de almas: las de «La eterna cosecha» (misión 439 de DofusDB).
+    expect(CHECKLIST_CATALOG.find((entry) => entry.id === 'ocre')).toMatchObject({
+      kind: 'souls',
+      soulsQuest: 439,
+    })
+  })
+
+  it('solo las checklists de pasos leen sus pasos antiguos: el Ocre no tiene steps.js', () => {
+    expect(CHECKLIST_CATALOG.filter(hasLegacySteps).map((entry) => entry.id)).toEqual([
+      'silvestre',
+      'hielos',
+      'nebuloso',
+    ])
   })
 })
 

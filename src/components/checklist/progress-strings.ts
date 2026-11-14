@@ -85,6 +85,7 @@ export const progressStrings = {
   resetSteps: 'Pasos y misiones',
   resetPrereqs: 'Prerrequisitos',
   resetOwned: 'Objetos',
+  resetSouls: 'Las almas que tienes',
   resetCount: (count: number) => `(${count})`,
   resetConfirm: 'Reiniciar',
   cancel: 'Cancelar',

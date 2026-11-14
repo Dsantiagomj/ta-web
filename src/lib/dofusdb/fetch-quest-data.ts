@@ -49,10 +49,11 @@ const ACHIEVEMENT_FIELDS = [
   'rewardIds',
 ]
 const CATEGORY_FIELDS = ['id', 'name', 'parentId', 'order']
-const MONSTER_FIELDS = ['id', 'name', 'gfxId']
+// Los niveles de los grados, sin el resto de cada grado: el Ocre los necesita y pesan poco.
+const MONSTER_FIELDS = ['id', 'name', 'gfxId', 'isBoss', 'isMiniBoss', 'subareas', 'grades.level']
 const SUBAREA_FIELDS = ['id', 'name', 'areaId']
 const AREA_FIELDS = ['id', 'name']
-const DUNGEON_FIELDS = ['id', 'name', 'bosses']
+const DUNGEON_FIELDS = ['id', 'name', 'bosses', 'optimalPlayerLevel']
 
 /**
  * Todas las misiones de DofusDB, más los PNJ de sus posiciones de inicio y de sus objetivos y

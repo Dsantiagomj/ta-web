@@ -1907,3 +1907,152 @@ html[data-js] .ck-slot:not([data-owned], [data-used]) .ck-slot__w img {
   color: var(--color-ink-2);
   font-size: var(--text-xs);
 }
+
+/* ---------- una checklist de almas (el Ocre) ----------
+   Las almas como cromos que se marcan: una columna en el móvil y tantas como quepan después.
+   Va en este archivo, que la ruta ya carga: una hoja más pasaría de las cuatro. */
+.sl-intro {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 72ch;
+  margin: 0 0 1rem;
+}
+
+.sl-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--color-well-line);
+}
+
+.sl-find {
+  flex: 1 1 14rem;
+}
+
+.sl-groups {
+  padding: 0.75rem;
+}
+
+.sl-group + .sl-group {
+  margin-top: 1.25rem;
+}
+
+.sl-gh {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.5rem;
+  margin: 0 0 0.5rem;
+  color: var(--color-ink);
+  font: 600 var(--text-sm) / 1.3 var(--font-body);
+}
+
+.sl-gh__c {
+  color: var(--color-ink-2);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.sl-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sl-soul {
+  position: relative;
+}
+
+.sl-soul__chk {
+  position: absolute;
+  top: 50%;
+  left: 0.75rem;
+  z-index: 1;
+  translate: 0 -50%;
+}
+
+.sl-soul__b {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-height: 4rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-well-line);
+  border-radius: var(--radius-md);
+  background: var(--color-raised);
+  cursor: pointer;
+}
+
+html[data-js] .sl-soul__b {
+  padding-left: 2.75rem;
+}
+
+.sl-soul[data-owned] .sl-soul__b {
+  border-color: color-mix(in srgb, var(--color-section) 55%, transparent);
+  background: color-mix(in srgb, var(--color-section) 10%, var(--color-raised));
+}
+
+.sl-soul__img {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+}
+
+.sl-soul__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Lo que aún no se tiene, en gris (DESIGN.md, Imagery): solo con el progreso, que lo sabe. */
+html[data-js] .sl-soul:not([data-owned]) .sl-soul__img img {
+  filter: grayscale(1);
+  opacity: 0.6;
+}
+
+.sl-soul__x {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+}
+
+.sl-soul__n {
+  color: var(--color-ink);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.sl-soul__m {
+  color: var(--color-ink-2);
+  font-size: var(--text-xs);
+}
+
+.sl-tag {
+  flex: none;
+  padding: 1px 0.5rem;
+  border: 1px solid currentColor;
+  border-radius: var(--radius-pill);
+  font: 600 var(--text-xs) / 1.2 var(--font-body);
+}
+
+.sl-tag--boss {
+  color: var(--color-ink);
+}
+
+.sl-tag--archi {
+  color: var(--color-ink-2);
+}
+
+@media (width >= 64rem) {
+  .sl-tools,
+  .sl-groups {
+    padding: 1rem 1.25rem;
+  }
+}

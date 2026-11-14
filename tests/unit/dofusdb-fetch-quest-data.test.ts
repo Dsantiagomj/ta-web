@@ -56,7 +56,16 @@ describe('fetchQuestData', () => {
 
     expect(data.monsters).toEqual(monsters)
     expect(lookups).not.toHaveProperty('monsters')
-    expect(selects.monsters).toEqual(['id', 'name', 'gfxId'])
+    // Los niveles de sus grados, si es jefe o archimonstruo y su subzona: el Ocre los pinta.
+    expect(selects.monsters).toEqual([
+      'id',
+      'name',
+      'gfxId',
+      'isBoss',
+      'isMiniBoss',
+      'subareas',
+      'grades.level',
+    ])
   })
 
   it('trae todo el catálogo de objetos, también los que no nombra ninguna misión', async () => {
@@ -138,7 +147,7 @@ describe('fetchQuestData', () => {
     const data = await fetchQuestData(client)
 
     expect(data.dungeons).toEqual(dungeons)
-    expect(selects.dungeons).toEqual(['id', 'name', 'bosses'])
+    expect(selects.dungeons).toEqual(['id', 'name', 'bosses', 'optimalPlayerLevel'])
   })
 
   it('trae todos los logros', async () => {

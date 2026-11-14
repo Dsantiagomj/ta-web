@@ -27,6 +27,12 @@ export function mapMonster(raw: RawMonster): MappedMonster {
     dofusId: raw.id,
     name: spanish(raw.name) ?? `Monstruo ${raw.id}`,
     iconId: raw.gfxId ?? null,
+    levels: (raw.grades ?? []).flatMap((grade) =>
+      typeof grade?.level === 'number' ? [grade.level] : [],
+    ),
+    boss: raw.isBoss === true,
+    archmonster: raw.isMiniBoss === true,
+    subAreaId: raw.subareas?.[0] ?? null,
   }
 }
 
@@ -46,7 +52,12 @@ export function mapDungeon(
     else bosses.push(id)
   }
   return {
-    dungeon: { dofusId: raw.id, name: spanish(raw.name) ?? `Mazmorra ${raw.id}`, bosses },
+    dungeon: {
+      dofusId: raw.id,
+      name: spanish(raw.name) ?? `Mazmorra ${raw.id}`,
+      bosses,
+      level: raw.optimalPlayerLevel ?? null,
+    },
     missingBosses,
   }
 }

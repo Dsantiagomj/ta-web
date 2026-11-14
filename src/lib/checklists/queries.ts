@@ -3,12 +3,16 @@ import type { Payload, Where } from 'payload'
 import { isGuideSlug } from '@/lib/guides/slug'
 import type { Checklist, User } from '@/payload-types'
 
+/** Lo de una checklist de almas que se lee de la base: todo menos la checklist y el origen. */
+export type ChecklistSouls = Omit<SoulsData, 'checklist' | 'siteUrl'>
+
 import { torreLevel } from '@/lib/derive/weights'
 import { SITE_LOCALE } from '@/lib/site/locale'
 
 import { checklistDetails, type ChecklistDetails, type DetailsQuest } from './details'
 import type { ChecklistDoc } from './list'
 import { relationId } from './relations'
+import type { SoulsData } from './souls'
 import {
   OBJECTIVE_REFERENCE,
   stopQuestIds,
@@ -269,6 +273,20 @@ export async function readChecklist(
     'dofus-guides': { name: true, slug: true, state: true, color: true, dofus: true },
   })
   if (!checklist) return null
+  // Una checklist de almas (el Ocre) no tiene pasos: sus almas salen de su misión.
+  if (checklist.kind === 'souls') {
+    return {
+      checklist,
+      questGuides: {},
+      torreLevels: {},
+      questGraph: {},
+      checklists: [],
+      achievementPages: {},
+      stopQuests: {},
+      names: { npc: {}, item: {}, monster: {} },
+      souls: await readSouls(payload, checklist),
+    }
+  }
 
   const steps = checklist.steps ?? []
   const questIds = ids(steps.flatMap((step) => (step.quests ?? []).map((row) => row.quest)))
@@ -329,6 +347,91 @@ export async function readChecklist(
     achievementPages: slugsBy(pages.docs, 'achievement'),
     stopQuests: Object.fromEntries(stops.docs.map((doc) => [doc.id, { stages: doc.stages }])),
     names: await readObjectiveNames(payload, stops.docs),
+  }
+}
+
+/**
+ * Lo que pinta una checklist de almas (src/lib/checklists/souls.ts): las etapas de su misión, los
+ * monstruos de sus almas con su imagen, sus subzonas y las mazmorras de sus jefes. Datos del
+ * juego, que lee cualquiera.
+ */
+async function readSouls(payload: Payload, checklist: Checklist): Promise<ChecklistSouls> {
+  const questId = relationId(checklist.soulsQuest)
+  const quest =
+    questId === null
+      ? null
+      : await payload
+          .findByID({
+            collection: 'quests',
+            id: questId,
+            depth: 0,
+            select: { stages: true },
+            ...visitor,
+          })
+          .catch(() => null)
+  const stages = quest?.stages ?? []
+  const monsterIds = [
+    ...new Set(
+      stages.flatMap((stage) =>
+        (stage.objectives ?? []).flatMap((objective) =>
+          objective.kind === 'bring' && objective.monsterId != null ? [objective.monsterId] : [],
+        ),
+      ),
+    ),
+  ]
+  if (!monsterIds.length) return { stages, monsters: {}, subareas: {}, dungeons: [] }
+  const { docs: monsters } = await payload.find({
+    collection: 'monsters',
+    where: { dofusId: { in: monsterIds } },
+    select: {
+      dofusId: true,
+      name: true,
+      image: true,
+      levels: true,
+      boss: true,
+      archmonster: true,
+      subAreaId: true,
+    },
+    depth: 1,
+    pagination: false,
+    ...visitor,
+  })
+  const subAreaIds = [
+    ...new Set(monsters.flatMap((m) => (m.subAreaId == null ? [] : [m.subAreaId]))),
+  ]
+  const [subareas, dungeons] = await Promise.all([
+    subAreaIds.length
+      ? payload.find({
+          collection: 'subareas',
+          where: { dofusId: { in: subAreaIds } },
+          select: { dofusId: true, name: true, areaName: true },
+          depth: 0,
+          pagination: false,
+          ...visitor,
+        })
+      : { docs: [] },
+    payload.find({
+      collection: 'dungeons',
+      where: { bosses: { in: monsters.map((m) => m.id) } },
+      select: { name: true, level: true, bosses: true },
+      depth: 0,
+      pagination: false,
+      ...visitor,
+    }),
+  ])
+  const dofusIdOf = new Map(monsters.map((m) => [m.id, m.dofusId]))
+  return {
+    stages,
+    monsters: Object.fromEntries(monsters.map((m) => [m.dofusId, m])),
+    subareas: Object.fromEntries(subareas.docs.map((sub) => [sub.dofusId, sub])),
+    dungeons: dungeons.docs.map((dungeon) => ({
+      name: dungeon.name,
+      level: dungeon.level ?? null,
+      bosses: (dungeon.bosses ?? []).flatMap((boss) => {
+        const id = dofusIdOf.get(relationId(boss) ?? -1)
+        return id === undefined ? [] : [id]
+      }),
+    })),
   }
 }
 

@@ -30,6 +30,10 @@ export const checklistStrings = {
     must: 'Hay que hacerlo',
     includes: 'Incluye',
   },
+  kinds: {
+    steps: 'Pasos de una guía',
+    souls: 'Almas de una misión',
+  },
   questKinds: {
     mandatory: 'Obligatoria',
     optional: 'Opcional',
@@ -50,6 +54,10 @@ export const checklistStrings = {
   },
   admin: {
     nameDescription: 'El nombre de la checklist, como sale en su página y en el menú.',
+    kindDescription:
+      'Pasos de una guía, como el Silvestre, o las almas que pide una misión, como el Ocre.',
+    soulsQuestDescription:
+      'La misión cuyas almas se marcan («La eterna cosecha»). Las almas salen de sus objetivos y de sus monstruos: no se escriben aquí.',
     slugDescription: 'La de la checklist, la misma que en tu web: checklist-nebuloso.',
     stateDescription:
       'Publicada: se ve y se puede abrir. En preparación: sale en el menú sin página propia y ' +
@@ -206,3 +214,29 @@ export const checklistPageStrings = {
   seoDescription: (name: string) =>
     `La checklist del ${name}: los pasos de la guía de Torre con sus misiones y objetivos y lo que necesitas.`,
 } as const
+
+/** La página de una checklist de almas, el Ocre (src/components/checklist/SoulsParts.tsx). */
+export const soulsStrings = {
+  lead: 'Las almas que pide «La eterna cosecha», una a una, hasta el Dofus Ocre.',
+  bosses: 'Jefes',
+  archis: 'Archis',
+  stage: (n: number, kind: string) => `Etapa ${n} · ${kind}`,
+  noRegion: 'Sin región',
+  groupBy: 'Agrupar',
+  byStage: 'Por etapa',
+  byRegion: 'Por región',
+  typeLabel: 'Tipo de alma',
+  types: { all: 'Todas', boss: 'Jefes', archi: 'Archis' },
+  search: 'Buscar alma, mazmorra, zona o región',
+  searchLabel: 'Buscar un alma por su nombre, su mazmorra, su zona o su región',
+  hideDone: 'Ocultar las que tengo',
+  level: (level: number) => `Nv. ${level}`,
+  bossTag: 'Jefe',
+  archiTag: 'Archi',
+  unit: 'almas',
+  groupCount: (done: number, total: number) => `${done}/${total}`,
+  souls: (n: number) => `${n} ${n === 1 ? 'alma' : 'almas'}`,
+  barLabel: (name: string) => `Progreso de ${name}`,
+  empty: 'Ningún alma coincide con la búsqueda.',
+  listLabel: 'Almas',
+}

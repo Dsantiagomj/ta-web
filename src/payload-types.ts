@@ -493,6 +493,16 @@ export interface Monster {
    */
   image?: (number | null) | Media;
   /**
+   * El nivel de cada grado, en el orden de DofusDB.
+   */
+  levels?: number[] | null;
+  boss?: boolean | null;
+  archmonster?: boolean | null;
+  /**
+   * La primera subzona donde vive; su nombre y su área, en subareas.
+   */
+  subAreaId?: number | null;
+  /**
    * La pone el script de refresco.
    */
   refreshedAt?: string | null;
@@ -616,6 +626,10 @@ export interface Dungeon {
    * En el orden de DofusDB; la página pinta el primero.
    */
   bosses?: (number | Monster)[] | null;
+  /**
+   * El nivel de la mazmorra en DofusDB (optimalPlayerLevel).
+   */
+  level?: number | null;
   /**
    * La pone el script de refresco.
    */
@@ -1191,6 +1205,14 @@ export interface Checklist {
    * Publicada: se ve y se puede abrir. En preparación: sale en el menú sin página propia y enlaza a la checklist de Squarespace. Lo decides tú; la importación no lo cambia. Además, pulsa «Publicar cambios» arriba para que lo que cambies salga en la web.
    */
   state: 'published' | 'preparing';
+  /**
+   * Pasos de una guía, como el Silvestre, o las almas que pide una misión, como el Ocre.
+   */
+  kind?: ('steps' | 'souls') | null;
+  /**
+   * La misión cuyas almas se marcan («La eterna cosecha»). Las almas salen de sus objetivos y de sus monstruos: no se escriben aquí.
+   */
+  soulsQuest?: (number | null) | Quest;
   /**
    * La checklist en Squarespace mientras esta no esté lista. Deja de usarse al publicarla.
    */
@@ -2104,6 +2126,8 @@ export interface ChecklistsSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
   state?: T;
+  kind?: T;
+  soulsQuest?: T;
   legacyHref?: T;
   order?: T;
   description?: T;
@@ -2491,6 +2515,10 @@ export interface MonstersSelect<T extends boolean = true> {
   name?: T;
   iconId?: T;
   image?: T;
+  levels?: T;
+  boss?: T;
+  archmonster?: T;
+  subAreaId?: T;
   refreshedAt?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2503,6 +2531,7 @@ export interface DungeonsSelect<T extends boolean = true> {
   dofusId?: T;
   name?: T;
   bosses?: T;
+  level?: T;
   refreshedAt?: T;
   updatedAt?: T;
   createdAt?: T;

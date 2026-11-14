@@ -814,6 +814,142 @@ describe('lo que trae el Hielos', () => {
   })
 })
 
+describe('el Ocre: una checklist de almas', () => {
+  const slug = `${PREFIX}-almas`
+  const SOULS_QUEST = 997_003
+  const souls = (fields: Partial<ChecklistCatalogEntry> = {}) =>
+    entry(slug, { ported: true, kind: 'souls', soulsQuest: SOULS_QUEST, ...fields })
+
+  beforeAll(async () => {
+    const bring = (dofusId: number, monsterId: number | null) => ({
+      dofusId,
+      kind: 'bring' as const,
+      monsterId,
+      text: 'Lleva 1 alma(s) de {monster,1} a {npc,2}',
+    })
+    await payload.create({
+      collection: 'quests',
+      data: {
+        dofusId: SOULS_QUEST,
+        name: 'La eterna cosecha de prueba',
+        stages: [
+          { dofusId: 1, objectives: [bring(1, 997_501), bring(2, 997_599)] },
+          { dofusId: 2, objectives: [bring(3, null)] },
+        ],
+      },
+      overrideAccess: true,
+    })
+  })
+
+  afterAll(async () => {
+    await payload.delete({
+      collection: 'quests',
+      where: { dofusId: { equals: SOULS_QUEST } },
+      overrideAccess: true,
+    })
+  })
+
+  it('se crea con su misión, sin filas propias, y dice qué almas no puede pintar', async () => {
+    const report = await loadChecklists(payload, options([{ entry: souls(), draft: null }]))
+    expect(report.created).toBe(1)
+    const doc = (await read(slug))!
+    expect(doc).toMatchObject({ kind: 'souls', state: 'preparing', legacy: { prefix: 'cosecha:' } })
+    expect(
+      (
+        await payload.find({
+          collection: 'quests',
+          where: { dofusId: { equals: SOULS_QUEST } },
+          depth: 0,
+        })
+      ).docs[0].id,
+    ).toBe(doc.soulsQuest)
+    expect(doc.steps ?? []).toEqual([])
+    expect(report.souls).toEqual([
+      {
+        slug,
+        souls: 2,
+        missingMonsters: [997_599],
+        // Vórtex está, pero sin niveles ni subzona: hace falta refrescar los datos del juego.
+        withoutGameData: [997_501],
+        notSouls: 1,
+      },
+    ])
+  })
+
+  it('una segunda pasada no cambia nada, y lo que Torre cambia se queda', async () => {
+    expect(await loadChecklists(payload, options([{ entry: souls(), draft: null }]))).toMatchObject(
+      {
+        created: 0,
+        updated: 0,
+        unchanged: 1,
+      },
+    )
+    const editor = await createPanelUser(payload)
+    const doc = (await read(slug))!
+    await payload.update({
+      collection: 'checklists',
+      id: doc.id,
+      data: { description: 'Las almas, con las palabras de Torre.' },
+      draft: true,
+      user: editor,
+    })
+    const report = await loadChecklists(payload, options([{ entry: souls(), draft: null }]))
+    expect(report.kept).toEqual([{ slug, field: 'description' }])
+    expect((await read(slug))!.description).toBe('Las almas, con las palabras de Torre.')
+  })
+
+  it('al portar la ficha publicada, el tipo y la misión van a un borrador', async () => {
+    const ported = `${PREFIX}-almas-ficha`
+    await loadChecklists(
+      payload,
+      options([{ entry: entry(ported, { ported: false }), draft: null }]),
+    )
+    await loadChecklists(
+      payload,
+      options([
+        {
+          entry: entry(ported, { ported: true, kind: 'souls', soulsQuest: SOULS_QUEST }),
+          draft: null,
+        },
+      ]),
+    )
+    expect((await read(ported))!.kind).toBe('souls')
+    const published = await payload.find({
+      collection: 'checklists',
+      where: { slug: { equals: ported } },
+      draft: false,
+      depth: 0,
+      overrideAccess: true,
+    })
+    expect(published.docs[0].kind).toBe('steps')
+  })
+
+  it('sin su misión en la base, lo dice', async () => {
+    const report = await loadChecklists(
+      payload,
+      options(
+        [
+          {
+            entry: entry(`${PREFIX}-almas-sin-mision`, {
+              ported: true,
+              kind: 'souls',
+              soulsQuest: 997_998,
+            }),
+            draft: null,
+          },
+        ],
+        false,
+      ),
+    )
+    expect(report.unmatched).toContainEqual({
+      slug: `${PREFIX}-almas-sin-mision`,
+      step: null,
+      kind: 'misión',
+      name: '997998',
+    })
+  })
+})
+
 describe('las checklists sin portar', () => {
   const slug = `${PREFIX}-ficha`
 

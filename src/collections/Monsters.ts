@@ -44,6 +44,21 @@ export const Monsters: CollectionConfig = {
       },
     },
     {
+      name: 'levels',
+      label: 'Niveles de sus grados',
+      type: 'number',
+      hasMany: true,
+      admin: { description: 'El nivel de cada grado, en el orden de DofusDB.' },
+    },
+    { name: 'boss', label: 'Jefe', type: 'checkbox' },
+    { name: 'archmonster', label: 'Archimonstruo', type: 'checkbox' },
+    {
+      name: 'subAreaId',
+      label: 'ID de su subzona en DofusDB',
+      type: 'number',
+      admin: { description: 'La primera subzona donde vive; su nombre y su área, en subareas.' },
+    },
+    {
       name: 'refreshedAt',
       label: 'Actualizado el',
       type: 'date',
