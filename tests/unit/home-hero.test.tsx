@@ -13,7 +13,7 @@ describe('el hero de la portada', () => {
   it('el h1 lleva qué es y el nombre, y debajo la frase', () => {
     const markup = hero()
     expect(markup).toMatch(
-      /<h1[^>]*><span class="hero__eyebrow">Guías de Dofus en español<\/span> <span class="hero__name">Torrente Arcano<\/span><\/h1>/,
+      /<h1[^>]*><span class="hero__eyebrow">Guías de Dofus en español<\/span> <span class="hero__name"[^>]*>Torrente Arcano<\/span><\/h1>/,
     )
     expect(markup).toContain(
       'Misiones, logros y Dofus explicados paso a paso, con capturas y coordenadas para copiar en el chat.',

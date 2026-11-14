@@ -248,7 +248,7 @@ describe('revisión de #119', () => {
     )
     const row = html.match(/<li class="([^"]*ck-need[^"]*)"/)![1]
     expect(row).not.toContain('copyhost')
-    expect(html.match(/<span class="copyhost ck-opt">/g)).toHaveLength(2)
+    expect(html.match(/<span class="copyhost ck-opt[ "]/g)).toHaveLength(2)
   })
 
   it('la pestaña de prerrequisitos sale aunque solo haya avisos', () => {

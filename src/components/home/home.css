@@ -1757,7 +1757,9 @@ html.hs-on .site-hdr .sbtn {
   position: relative;
   display: grid;
   place-items: center;
-  width: clamp(5.25rem, 9vw + 2.5rem, 10.5rem);
+  /* Nunca más ancho que su columna: a 1024px el clamp pedía 132px en columnas de 120 y los
+     huevos se pisaban. */
+  width: min(100%, clamp(5.25rem, 9vw + 2.5rem, 10.5rem));
   aspect-ratio: 1;
   margin-bottom: 0.625rem;
 }

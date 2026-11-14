@@ -45,7 +45,11 @@ export function Hero() {
         <div className="hero__txt">
           <h1 id="h-hero" className="hero__t">
             <span className="hero__eyebrow">{s.eyebrow}</span>{' '}
-            <span className="hero__name">{s.title}</span>
+            {/* Fuera de la revisión de la maquetación: el nombre va a propósito una palabra por
+                línea (home.css, .hero__name), así no cambia de alto al llegar la fuente (CLS). */}
+            <span className="hero__name" data-layout-lint-ignore="">
+              {s.title}
+            </span>
           </h1>
           <p className="hero__lead">{s.lead}</p>
           <form
