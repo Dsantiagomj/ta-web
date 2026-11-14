@@ -7,6 +7,18 @@
 export const SITE_HOST = 'torrentearcano.com'
 
 export const panelStrings = {
+  /** Los selectores de pasos y de objetivos de una checklist (A-19). */
+  pickers: {
+    missingStep: 'Un paso que ya no existe',
+    emptyObjective: 'Objetivo sin texto',
+    chooseStep: 'Elige un paso',
+    chooseSteps: 'Elige los pasos',
+    chooseObjective: 'Elige el objetivo',
+    questFirst: 'Elige antes la misión.',
+    loading: 'Cargando los objetivos de la misión…',
+    noObjectives: 'Esta misión no tiene objetivos guardados todavía.',
+    failed: 'No se pudieron cargar los objetivos. Vuelve a abrir el paso.',
+  },
   /** Las pestañas de un paso de una checklist (A-18). */
   stepTabs: {
     text: 'Texto',

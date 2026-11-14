@@ -14,6 +14,7 @@ import { fold } from '@/lib/text/fold'
 import type { Checklist, Media, Quest } from '@/payload-types'
 
 import { openStops } from './open-stops'
+import { objectiveText, type ObjectiveNames } from './objective-text'
 import { populated, relationId, type Relation } from './relations'
 import { checklistPageStrings as s, checklistStrings } from './strings'
 
@@ -61,14 +62,7 @@ export interface ChecklistName {
   legacyId: string | null
 }
 
-/** Por ID de DofusDB: los PNJ, objetos y monstruos que los objetivos nombran como {npc,123}. */
-export interface ObjectiveNames {
-  npc: Record<number, string>
-  item: Record<number, string>
-  monster: Record<number, string>
-}
-
-export const OBJECTIVE_REFERENCE = /\{(npc|item|monster),(\d+)\}/g
+export { OBJECTIVE_REFERENCE, objectiveText, type ObjectiveNames } from './objective-text'
 
 /** Un trozo de texto o un enlace dentro de un tramo. */
 export type TextPart = string | { text: string; href: string }
@@ -269,23 +263,6 @@ const DOFUS_INDEX_PATH = '/guias-dofus'
 const CATEGORIES = Object.keys(checklistStrings.needCategories) as NeedCategory[]
 
 const image = (value: Relation<Media>) => mediaImageAsset(populated(value)) ?? undefined
-
-/**
- * El texto de un objetivo de DofusDB sin sus marcas: «{map,1::Banco real}» es «Banco real»
- * y «{npc,2351}» el nombre de ese PNJ; si no lo tenemos, «un PNJ».
- */
-export function objectiveText(
-  text: string | null | undefined,
-  names: ObjectiveNames = { npc: {}, item: {}, monster: {} },
-): string {
-  return (text ?? '')
-    .replace(/\{[a-zA-Z]+,[^{}]*?::([^{}]*)\}/g, '$1')
-    .replace(
-      OBJECTIVE_REFERENCE,
-      (_, kind: keyof ObjectiveNames, id: string) => names[kind][Number(id)] ?? s.unnamed[kind],
-    )
-    .trim()
-}
 
 const ACHIEVEMENT_QUOTE = /Logro "([^"]+)"/
 
