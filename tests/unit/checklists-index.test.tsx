@@ -47,7 +47,7 @@ const teaser: ChecklistTeaser = {
 }
 
 const render = (entries: ChecklistEntry[], soon: ChecklistTeaser | null = null) =>
-  renderToStaticMarkup(<ChecklistsIndex entries={entries} teaser={soon} progress={[]} />)
+  renderToStaticMarkup(<ChecklistsIndex entries={entries} teaser={soon} />)
 
 describe('ChecklistsIndex', () => {
   it('sin checklists que enseñar, el título y un aviso en vez de una fila vacía', () => {
@@ -120,6 +120,31 @@ describe('ChecklistsIndex', () => {
     expect(soon).toContain('<span class="poster__badge">En camino</span>')
     expect(soon).toContain('<span class="poster__name">???</span>')
     expect(soon).toContain('krosmoz.jpg')
+  })
+
+  it('cada imagen dice cuánto ocupa, así un móvil no baja el archivo más ancho', () => {
+    const variants = (name: string, widths: number[]): ImageAsset => ({
+      src: `/media/${name}-${widths.at(-1)}.webp`,
+      width: widths.at(-1)!,
+      height: widths.at(-1)!,
+      srcSet: widths.map((width) => ({ src: `/media/${name}-${width}.webp`, width })),
+    })
+    const markup = render([
+      {
+        ...published,
+        egg: variants('huevo', [96, 128]),
+        scene: variants('zona', [480, 800, 960]),
+        npc: variants('pnj', [300, 600]),
+      },
+    ])
+    const sizesOf = (name: string) =>
+      markup
+        .match(new RegExp(`<img [^>]*src="/media/${name}[^>]*>`))![0]
+        .match(/sizes="([^"]+)"/)![1]
+    // Lo último de cada sizes es el móvil: lo que mide de verdad a 390 px.
+    expect(sizesOf('huevo')).toMatch(/, 90px$/)
+    expect(sizesOf('zona')).toMatch(/, 570px$/)
+    expect(sizesOf('pnj')).toMatch(/, 190px$/)
   })
 
   it('sin la tarjeta «???» (apagada en el panel), solo las checklists', () => {

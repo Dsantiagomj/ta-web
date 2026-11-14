@@ -2,17 +2,19 @@
 // (src/embeds/hub/manifest.js). Sube a Media cada imagen una vez (art.ts, con su clave en
 // media.gameAsset) y rellena la tarjeta de cada checklist (su escena, su PNJ y el encuadre) y la
 // tarjeta «???» del global checklists-index (su escena y su huevo). El color no se trae: vacío,
-// la tarjeta usa el de la guía de su Dofus.
+// la tarjeta usa el de la guía de su Dofus. También pone el nombre del hub («Dofus Ocre») si el
+// guardado sigue siendo el que escribió la importación de las checklists.
 //
-// Al repetirla, un campo cambia solo si sigue como lo dejó la última importación: lo que
-// escribió cada vez se guarda en importSnapshot (`card` en la checklist, `teaser` en el global),
-// así que nunca deshace lo que Torre cambió en el panel.
+// Un campo cambia solo si sigue como lo dejó la última importación: lo que escribió cada vez se
+// guarda en importSnapshot (`card` en la checklist, `teaser` en el global, `name` compartido con
+// pnpm import:checklists). Sin nada importado antes, un campo que ya tiene valor es de Torre y
+// se queda. Se decide antes de subir nada: una imagen que no se va a usar no se sube.
 //
-// Una checklist con un borrador a medias (las portadas, que esperan la revisión de Torre)
-// recibe la tarjeta en lo publicado, que es lo que enseña el índice, y en su borrador, que sigue
-// siendo el último y sin publicar. Payload solo publica lo último guardado, así que se hace en
-// tres pasos: se restaura lo publicado, se publica con la tarjeta y se guarda otra vez el
-// borrador entero, con la tarjeta.
+// Una checklist con un borrador a medias (las portadas, que esperan la revisión de Torre) se
+// decide dos veces: lo publicado, que es lo que enseña el índice, con lo publicado; y el
+// borrador con el borrador, que sigue siendo el último y sin publicar. Así lo que Torre cambió
+// en el borrador no se publica. Payload publica lo último guardado, así que se restaura lo
+// publicado, se publica con sus cambios y se vuelve a guardar el borrador entero con los suyos.
 import type { Payload } from 'payload'
 
 import type { Checklist, ChecklistsIndex } from '@/payload-types'
@@ -29,6 +31,8 @@ export interface CardArt {
 
 export interface CardImportEntry {
   slug: string
+  /** Su nombre en el hub; solo cambia el que escribió la importación. */
+  name?: string
   card: CardArt
 }
 
@@ -38,13 +42,20 @@ export const TEASER_ART = {
   egg: { path: 'hub/dofus-soon.png', alt: 'Un Dofus por descubrir' },
 } satisfies Record<string, ArtRef>
 
+/** Las imágenes, como las da checklistArt (art.ts). */
+export interface CardArtStore {
+  /** El ID en Media, subiéndola si hace falta; en seco, -1 si la subiría. null si no existe. */
+  media: (art: ArtRef) => Promise<number | null>
+  /** El ID en Media sin subir nada; -1 si habría que subirla. null si no existe. */
+  find: (art: ArtRef) => Promise<number | null>
+}
+
 export interface LoadChecklistCardsOptions {
   entries: CardImportEntry[]
   teaser: { scene: ArtRef; egg: ArtRef } | null
   /** Sin él solo cuenta y avisa de lo que haría. */
   apply: boolean
-  /** El archivo de Media de una imagen de la checklist antigua; negativo si la subiría. */
-  artFor: (art: ArtRef) => Promise<number | null>
+  art: CardArtStore
   log?: (message: string) => void
 }
 
@@ -53,64 +64,173 @@ export interface LoadChecklistCardsReport {
   unchanged: string[]
   /** Las checklists del catálogo que todavía no están en la base (pnpm import:checklists). */
   missing: string[]
-  /** Las que tenían un borrador a medias: la tarjeta fue a lo publicado y al borrador. */
+  /** Las que tenían un borrador a medias: se decidieron lo publicado y el borrador por separado. */
   withDraft: string[]
+  /** Las que reciben el nombre del hub. */
+  renamed: string[]
   /** Campos que Torre cambió en el panel y la importación respetó. */
   kept: { slug: string; field: string }[]
   /** Imágenes que no están en la copia de silvestre-checklist. */
   missingArt: string[]
-  /** Imágenes que se subirían (en seco). */
+  /** Imágenes que se subirían (en seco) o que se subieron. */
   pendingArt: number
   teaser: 'updated' | 'unchanged' | 'skipped'
 }
 
-const CARD_FIELDS = ['scene', 'npc', 'npcHeight', 'npcRight', 'npcTop'] as const
-const TEASER_FIELDS = ['scene', 'egg'] as const
+type Value = number | string | null
+type Values = Record<string, Value>
+type Snapshot = Record<string, unknown> & { card?: Values; teaser?: Values; name?: string }
 
-type Values = Record<string, number | null>
-type Snapshot = Record<string, unknown> & { card?: Values; teaser?: Values }
+/** Lo importado de un campo: un valor, o una imagen que hay que buscar o subir. */
+type Wanted = { value: Value } | { art: ArtRef }
 
-const idOf = (value: unknown): number | null =>
-  typeof value === 'number'
-    ? value
-    : value && typeof value === 'object' && 'id' in value && typeof value.id === 'number'
-      ? value.id
-      : null
-
-const valueOf = (value: unknown): number | null => (typeof value === 'number' ? value : idOf(value))
-
-/**
- * Lo que cambia: cada campo que no está como lo importado y que sigue como lo dejó la última
- * importación (o que nunca se importó). Lo que Torre cambió va a `kept`.
- */
-function diff(
-  fields: readonly string[],
-  stored: Record<string, unknown>,
-  imported: Values,
-  snapshot: Values | undefined,
-) {
-  const changes: Values = {}
-  const kept: string[] = []
-  const next: Values = { ...snapshot }
-  for (const field of fields) {
-    if (!(field in imported)) continue
-    const current = valueOf(stored[field])
-    const wanted = imported[field]
-    if (current === wanted) {
-      next[field] = wanted
-      continue
-    }
-    if (snapshot && field in snapshot && current !== snapshot[field]) {
-      kept.push(field)
-      continue
-    }
-    changes[field] = wanted
-    next[field] = wanted
+const valueOf = (value: unknown): Value => {
+  if (typeof value === 'number' || typeof value === 'string') return value
+  if (value && typeof value === 'object' && 'id' in value && typeof value.id === 'number') {
+    return value.id
   }
-  return { changes, kept, next }
+  return null
 }
 
+const empty = (value: Value) => value === null || value === ''
+
 const same = (a: unknown, b: unknown) => JSON.stringify(a ?? {}) === JSON.stringify(b ?? {})
+
+/** Lo que pide cambiar una importación en unos campos. */
+interface Plan {
+  changes: Values
+  kept: string[]
+  /** El snapshot nuevo de esos campos. */
+  next: Values
+  /** Los campos con imagen por subir: solo se suben si de verdad cambian. */
+  uploads: Record<string, ArtRef>
+}
+
+/**
+ * Decide campo a campo, antes de subir nada. Con snapshot, cambia lo que sigue como lo dejó;
+ * sin él, lo vacío. Lo demás es de Torre, y su imagen ni se busca.
+ */
+async function plan(
+  wanted: Record<string, Wanted>,
+  stored: Record<string, unknown>,
+  snapshot: Values | undefined,
+  art: CardArtStore,
+  missingArt: Set<string>,
+): Promise<Plan> {
+  const result: Plan = { changes: {}, kept: [], next: { ...snapshot }, uploads: {} }
+  for (const [field, want] of Object.entries(wanted)) {
+    const current = valueOf(stored[field])
+    const known = snapshot !== undefined && field in snapshot
+    // Torre lo cambió desde la última importación.
+    if (known && current !== snapshot[field]) {
+      result.kept.push(field)
+      continue
+    }
+    let value: Value
+    if ('art' in want) {
+      // Sin importación anterior y con valor: solo se busca para saber si es la misma imagen.
+      const id = await art.find(want.art)
+      // Una imagen que no está no borra la que hubiera.
+      if (id === null) {
+        missingArt.add(want.art.path)
+        continue
+      }
+      value = id
+    } else value = want.value
+    if (current === value) {
+      result.next[field] = value
+      continue
+    }
+    // Sin importación anterior, lo que ya tiene valor es de Torre.
+    if (!known && !empty(current)) {
+      result.kept.push(field)
+      continue
+    }
+    result.changes[field] = value
+    result.next[field] = value
+    if ('art' in want && value === -1) result.uploads[field] = want.art
+  }
+  return result
+}
+
+/** Sube las imágenes que de verdad cambian y pone su ID; en seco se quedan en -1. */
+async function upload(target: Plan, art: CardArtStore, pending: Set<string>, apply: boolean) {
+  for (const [field, ref] of Object.entries(target.uploads)) {
+    pending.add(ref.path)
+    if (!apply) continue
+    const id = await art.media(ref)
+    target.changes[field] = id
+    target.next[field] = id
+  }
+}
+
+type Version = Pick<Checklist, 'name' | 'card' | 'importSnapshot'>
+
+const cardWanted = (entry: CardImportEntry): Record<string, Wanted> => ({
+  scene: { art: entry.card.scene },
+  ...(entry.card.npc && { npc: { art: entry.card.npc } }),
+  ...(entry.card.npcFit && {
+    npcHeight: { value: entry.card.npcFit.height },
+    npcRight: { value: entry.card.npcFit.right },
+    npcTop: { value: entry.card.npcFit.top },
+  }),
+})
+
+/** Lo que cambia en una versión: su tarjeta y su nombre. */
+async function planVersion(
+  entry: CardImportEntry,
+  version: Version,
+  art: CardArtStore,
+  missingArt: Set<string>,
+) {
+  const snapshot = (version.importSnapshot ?? {}) as Snapshot
+  const card = await plan(
+    cardWanted(entry),
+    (version.card ?? {}) as Record<string, unknown>,
+    snapshot.card,
+    art,
+    missingArt,
+  )
+  // El nombre comparte su snapshot con pnpm import:checklists: sin él, es de Torre.
+  const name = entry.name
+    ? await plan(
+        { name: { value: entry.name } },
+        { name: version.name },
+        'name' in snapshot ? { name: snapshot.name ?? null } : {},
+        art,
+        missingArt,
+      )
+    : null
+  return { snapshot, card, name }
+}
+
+type VersionPlan = Awaited<ReturnType<typeof planVersion>>
+
+const hasChanges = (p: VersionPlan) =>
+  Object.keys(p.card.changes).length > 0 || Object.keys(p.name?.changes ?? {}).length > 0
+const snapshotChanged = (p: VersionPlan) =>
+  !same(p.card.next, p.snapshot.card) ||
+  (p.name !== null && (p.name.next.name ?? null) !== (p.snapshot.name ?? null))
+const touches = (p: VersionPlan) => hasChanges(p) || snapshotChanged(p)
+
+/** Lo que se escribe en una versión: su tarjeta con sus cambios, el nombre y el snapshot. */
+function dataOf(version: Version, p: VersionPlan) {
+  const stored = Object.fromEntries(
+    Object.entries(version.card ?? {}).map(([field, value]) => [field, valueOf(value) ?? value]),
+  )
+  const name = p.name?.changes.name
+  return {
+    card: { ...stored, ...p.card.changes },
+    ...(typeof name === 'string' && { name }),
+    importSnapshot: {
+      ...p.snapshot,
+      card: p.card.next,
+      ...(p.name && { name: p.name.next.name ?? p.snapshot.name }),
+    },
+  }
+}
+
+const SELECT = { name: true, card: true, importSnapshot: true, _status: true } as const
 
 export async function loadChecklistCards(
   payload: Payload,
@@ -122,18 +242,20 @@ export async function loadChecklistCards(
     unchanged: [],
     missing: [],
     withDraft: [],
+    renamed: [],
     kept: [],
     missingArt: [],
     pendingArt: 0,
     teaser: 'skipped',
   }
   const pending = new Set<string>()
-  const art = async (ref: ArtRef | undefined): Promise<number | null> => {
-    if (!ref) return null
-    const id = await options.artFor(ref)
-    if (id === null) report.missingArt.push(ref.path)
-    else if (id < 0) pending.add(ref.path)
-    return id
+  const missingArt = new Set<string>()
+  const keep = (slug: string, fields: string[]) => {
+    for (const field of fields) {
+      if (!report.kept.some((row) => row.slug === slug && row.field === field)) {
+        report.kept.push({ slug, field })
+      }
+    }
   }
 
   for (const entry of options.entries) {
@@ -145,63 +267,78 @@ export async function loadChecklistCards(
       draft: true,
       overrideAccess: true,
       showHiddenFields: true,
-      select: { card: true, importSnapshot: true, _status: true },
+      select: SELECT,
     })
-    const current = found.docs[0] as Pick<Checklist, 'id' | 'card' | 'importSnapshot' | '_status'>
-    if (!current) {
+    const latest = found.docs[0] as (Version & Pick<Checklist, 'id' | '_status'>) | undefined
+    if (!latest) {
       report.missing.push(entry.slug)
       log(`${entry.slug}: no está en la base; importa antes las checklists`)
       continue
     }
-    const imported: Values = {
-      scene: await art(entry.card.scene),
-      ...(entry.card.npc && { npc: await art(entry.card.npc) }),
-      ...(entry.card.npcFit && {
-        npcHeight: entry.card.npcFit.height,
-        npcRight: entry.card.npcFit.right,
-        npcTop: entry.card.npcFit.top,
-      }),
-    }
-    // Una imagen que no está no borra la que hubiera.
-    for (const field of ['scene', 'npc']) if (imported[field] === null) delete imported[field]
-    const snapshot = (current.importSnapshot ?? {}) as Snapshot
-    const { changes, kept, next } = diff(
-      CARD_FIELDS,
-      (current.card ?? {}) as Record<string, unknown>,
-      imported,
-      snapshot.card,
-    )
-    report.kept.push(...kept.map((field) => ({ slug: entry.slug, field })))
-    if (!Object.keys(changes).length && same(next, snapshot.card)) {
+    // Con un borrador a medias, lo publicado se decide aparte, con lo publicado.
+    const publishedVersionId =
+      latest._status === 'draft' ? await publishedVersion(payload, latest.id) : null
+    const published = publishedVersionId
+      ? ((await payload.findByID({
+          collection: 'checklists',
+          id: latest.id,
+          depth: 0,
+          draft: false,
+          overrideAccess: true,
+          showHiddenFields: true,
+          select: SELECT,
+        })) as Version)
+      : null
+
+    const draftPlan = await planVersion(entry, latest, options.art, missingArt)
+    const pubPlan = published ? await planVersion(entry, published, options.art, missingArt) : null
+    const plans = pubPlan ? [pubPlan, draftPlan] : [draftPlan]
+    for (const p of plans) keep(entry.slug, [...p.card.kept, ...(p.name?.kept ?? [])])
+    if (!plans.some(touches)) {
       report.unchanged.push(entry.slug)
       continue
     }
+    for (const p of plans) await upload(p.card, options.art, pending, options.apply)
     report.updated.push(entry.slug)
-    const stored = Object.fromEntries(
-      Object.entries(current.card ?? {}).map(([field, value]) => [field, valueOf(value) ?? value]),
+    if (plans.some((p) => p.name && 'name' in p.name.changes)) report.renamed.push(entry.slug)
+    if (published) report.withDraft.push(entry.slug)
+    const fields = new Set(
+      plans.flatMap((p) => [...Object.keys(p.card.changes), ...Object.keys(p.name?.changes ?? {})]),
     )
-    const data = {
-      card: { ...stored, ...changes },
-      importSnapshot: { ...snapshot, card: next },
-    }
-    const withDraft = current._status === 'draft' && (await publishedVersion(payload, current.id))
-    if (withDraft) report.withDraft.push(entry.slug)
     log(
       `${entry.slug}: ${options.apply ? 'tarjeta actualizada' : 'se actualizaría la tarjeta'} ` +
-        `(${Object.keys(changes).join(', ') || 'importSnapshot'})` +
-        (withDraft ? ', en lo publicado y en su borrador' : ''),
+        `(${[...fields].join(', ') || 'importSnapshot'})` +
+        (published ? '; lo publicado y su borrador, cada uno con lo suyo' : ''),
     )
     if (!options.apply) continue
-    if (withDraft) await writeAroundDraft(payload, current.id, withDraft, data)
-    else {
+
+    if (!published || !pubPlan) {
       await payload.update({
         collection: 'checklists',
-        id: current.id,
-        data: { ...data, _status: current._status ?? 'published' } as never,
-        draft: current._status === 'draft',
+        id: latest.id,
+        data: { ...dataOf(latest, draftPlan), _status: latest._status ?? 'published' } as never,
+        draft: latest._status === 'draft',
         depth: 0,
         overrideAccess: true,
       })
+    } else if (!touches(pubPlan)) {
+      // Solo cambia el borrador: se guarda encima de él, sin tocar lo publicado.
+      await payload.update({
+        collection: 'checklists',
+        id: latest.id,
+        data: dataOf(latest, draftPlan) as never,
+        draft: true,
+        depth: 0,
+        overrideAccess: true,
+      })
+    } else {
+      await writeAroundDraft(
+        payload,
+        latest.id,
+        publishedVersionId!,
+        dataOf(published, pubPlan),
+        dataOf(latest, draftPlan),
+      )
     }
   }
 
@@ -212,30 +349,28 @@ export async function loadChecklistCards(
       overrideAccess: true,
       showHiddenFields: true,
     })) as ChecklistsIndex
-    const imported: Values = {
-      scene: await art(options.teaser.scene),
-      egg: await art(options.teaser.egg),
-    }
-    for (const field of TEASER_FIELDS) if (imported[field] === null) delete imported[field]
     const snapshot = (index.importSnapshot ?? {}) as Snapshot
-    const { changes, kept, next } = diff(
-      TEASER_FIELDS,
+    const teaser = await plan(
+      { scene: { art: options.teaser.scene }, egg: { art: options.teaser.egg } },
       (index.teaser ?? {}) as Record<string, unknown>,
-      imported,
       snapshot.teaser,
+      options.art,
+      missingArt,
     )
-    report.kept.push(...kept.map((field) => ({ slug: 'checklists-index', field })))
-    if (!Object.keys(changes).length && same(next, snapshot.teaser)) report.teaser = 'unchanged'
-    else {
+    keep('checklists-index', teaser.kept)
+    if (!Object.keys(teaser.changes).length && same(teaser.next, snapshot.teaser)) {
+      report.teaser = 'unchanged'
+    } else {
+      await upload(teaser, options.art, pending, options.apply)
       report.teaser = 'updated'
       log(
         `checklists-index: ${options.apply ? 'tarjeta «???» actualizada' : 'se actualizaría la tarjeta «???»'} ` +
-          `(${Object.keys(changes).join(', ') || 'importSnapshot'})`,
+          `(${Object.keys(teaser.changes).join(', ') || 'importSnapshot'})`,
       )
       if (options.apply) {
         await payload.updateGlobal({
           slug: 'checklists-index',
-          data: { teaser: changes, importSnapshot: { ...snapshot, teaser: next } },
+          data: { teaser: teaser.changes, importSnapshot: { ...snapshot, teaser: teaser.next } },
           depth: 0,
           overrideAccess: true,
         })
@@ -244,6 +379,7 @@ export async function loadChecklistCards(
   }
 
   report.pendingArt = pending.size
+  report.missingArt = [...missingArt]
   return report
 }
 
@@ -261,16 +397,17 @@ async function publishedVersion(payload: Payload, id: number): Promise<string | 
 }
 
 /**
- * La tarjeta en lo publicado y en el borrador a medias, que queda el último y sin publicar.
- * Payload publica lo último guardado: primero vuelve lo publicado y se publica con la tarjeta;
- * luego se guarda otra vez el borrador, entero, con la tarjeta. (restoreVersion con draft
- * escribe el borrador también en la tabla de lo publicado: no sirve para esto.)
+ * Lo publicado con sus cambios y el borrador a medias con los suyos, que queda el último y sin
+ * publicar. Payload publica lo último guardado: primero vuelve lo publicado y se publica; luego
+ * se guarda otra vez el borrador, entero. (restoreVersion con draft escribe el borrador también
+ * en la tabla de lo publicado: no sirve para esto.)
  */
 async function writeAroundDraft(
   payload: Payload,
   id: number,
   publishedVersionId: string | number,
-  data: Record<string, unknown>,
+  publishedData: Record<string, unknown>,
+  draftData: Record<string, unknown>,
 ) {
   const latest = await payload.findVersions({
     collection: 'checklists',
@@ -297,14 +434,14 @@ async function writeAroundDraft(
   await payload.update({
     collection: 'checklists',
     id,
-    data: { ...data, _status: 'published' } as never,
+    data: { ...publishedData, _status: 'published' } as never,
     depth: 0,
     overrideAccess: true,
   })
   await payload.update({
     collection: 'checklists',
     id,
-    data: { ...draft, ...data } as never,
+    data: { ...draft, ...draftData } as never,
     draft: true,
     depth: 0,
     overrideAccess: true,

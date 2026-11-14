@@ -77,9 +77,10 @@ export const ChecklistsIndex: GlobalConfig = {
     {
       // Lo último que escribió la importación de las tarjetas (pnpm import:checklist-cards): al
       // repetirla, lo que ya no coincide lo cambió Torre y no se toca.
+      // Ni en el panel ni en la API pública: solo la lee la importación (showHiddenFields).
       name: 'importSnapshot',
       type: 'json',
-      admin: { hidden: true },
+      hidden: true,
     },
   ],
 }

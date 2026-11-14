@@ -36,7 +36,7 @@ if (refusal) {
 const apply = args.includes('--apply')
 
 const entries: CardImportEntry[] = CHECKLIST_CATALOG.flatMap((entry) =>
-  entry.card ? [{ slug: entry.slug, card: entry.card }] : [],
+  entry.card ? [{ slug: entry.slug, name: entry.name, card: entry.card }] : [],
 )
 const readArt = (file: string) => readFile(path.join(from, 'public', 'img', file)).catch(() => null)
 
@@ -46,9 +46,12 @@ try {
     entries,
     teaser: TEASER_ART,
     apply,
-    artFor: checklistArt(payload, { readArt, dryRun: !apply }).media,
+    art: checklistArt(payload, { readArt, dryRun: !apply }),
     log: (message) => console.log(message),
   })
+  for (const slug of report.renamed) {
+    console.log(`${slug}: ${apply ? 'pasa' : 'pasaría'} a llamarse como en el hub`)
+  }
   for (const slug of report.missing) {
     console.log(`${slug}: no está en la base. Corre antes pnpm import:checklists.`)
   }
@@ -62,7 +65,7 @@ try {
     `${apply ? 'Hecho' : 'En seco (sin --apply)'}: ${report.updated.length} tarjetas ` +
       `${apply ? 'actualizadas' : 'por actualizar'}, ${report.unchanged.length} sin cambios; ` +
       `tarjeta «???»: ${{ updated: apply ? 'actualizada' : 'por actualizar', unchanged: 'sin cambios', skipped: 'sin tocar' }[report.teaser]}.` +
-      (apply ? '' : ` Se subirían ${report.pendingArt} imágenes a Media.`),
+      ` ${apply ? 'Subidas' : 'Se subirían'} ${report.pendingArt} imágenes a Media.`,
   )
   await payload.destroy()
 } catch (error) {

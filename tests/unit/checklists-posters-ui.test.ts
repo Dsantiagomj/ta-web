@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
-import { paintProgress } from '@/components/checklists/poster-progress-ui'
+import { paintProgress, startProgress } from '@/components/checklists/poster-progress-ui'
 import { hasProgress, startTilt } from '@/components/checklists/posters-ui'
 import type { PosterProgressModel } from '@/lib/checklists/poster-progress'
 import { emptyProgress, PROGRESS_KEY, type Progress } from '@/lib/checklists/progress/store'
@@ -108,6 +108,78 @@ describe('el porcentaje de cada cartel', () => {
     expect(hasProgress(blocked)).toBe(false)
     paintProgress(document, models, blocked)
     expect(ring('checklist-nebuloso').hidden).toBe(true)
+  })
+})
+
+describe('el porcentaje al volver o cambiar en otra pestaña', () => {
+  const marked = (steps: string[]) => ({
+    ...emptyProgress(),
+    steps: Object.fromEntries(steps.map((id) => [id, { done: true, at: 1 }])),
+  })
+
+  it('pide los modelos una sola vez, y solo cuando arranca', async () => {
+    let calls = 0
+    const store = storage(marked(['a']))
+    stop = startProgress(document, {
+      storage: store,
+      loadModels: async () => {
+        calls += 1
+        return models
+      },
+      events: window,
+    })
+    await expect.poll(() => ring('checklist-nebuloso').hidden).toBe(false)
+    window.dispatchEvent(new StorageEvent('storage', { key: PROGRESS_KEY }))
+    await Promise.resolve()
+    expect(calls).toBe(1)
+  })
+
+  it('vuelve a pintarlo cuando otra pestaña cambia el progreso', async () => {
+    const store = storage(marked(['a']))
+    stop = startProgress(document, {
+      storage: store,
+      loadModels: async () => models,
+      events: window,
+    })
+    const pct = () => ring('checklist-nebuloso').querySelector('[data-poster-pct]')!.textContent
+    await expect.poll(pct).toBe('25 %')
+    store.setItem(PROGRESS_KEY, JSON.stringify(marked(['a', 'b'])))
+    window.dispatchEvent(new StorageEvent('storage', { key: PROGRESS_KEY }))
+    await expect.poll(pct).toBe('100 %')
+    // Otra clave no cambia nada.
+    store.setItem(PROGRESS_KEY, JSON.stringify(emptyProgress()))
+    window.dispatchEvent(new StorageEvent('storage', { key: 'otra' }))
+    await Promise.resolve()
+    expect(pct()).toBe('100 %')
+  })
+
+  it('al volver con atrás (bfcache) lo vuelve a leer; sin nada marcado, se esconde', async () => {
+    const store = storage(marked(['a']))
+    stop = startProgress(document, {
+      storage: store,
+      loadModels: async () => models,
+      events: window,
+    })
+    await expect.poll(() => ring('checklist-nebuloso').hidden).toBe(false)
+    store.setItem(PROGRESS_KEY, JSON.stringify(emptyProgress()))
+    window.dispatchEvent(Object.assign(new Event('pageshow'), { persisted: true }))
+    await expect.poll(() => ring('checklist-nebuloso').hidden).toBe(true)
+  })
+
+  it('al pararlo deja de escuchar', async () => {
+    const store = storage(marked(['a']))
+    stop = startProgress(document, {
+      storage: store,
+      loadModels: async () => models,
+      events: window,
+    })
+    await expect.poll(() => ring('checklist-nebuloso').hidden).toBe(false)
+    stop()
+    stop = undefined
+    store.setItem(PROGRESS_KEY, JSON.stringify(emptyProgress()))
+    window.dispatchEvent(new StorageEvent('storage', { key: PROGRESS_KEY }))
+    await Promise.resolve()
+    expect(ring('checklist-nebuloso').hidden).toBe(false)
   })
 })
 

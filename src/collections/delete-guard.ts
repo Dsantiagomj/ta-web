@@ -1,4 +1,10 @@
-import { APIError, type CollectionBeforeDeleteHook, type CollectionSlug, type Where } from 'payload'
+import {
+  APIError,
+  type CollectionBeforeDeleteHook,
+  type CollectionSlug,
+  type GlobalSlug,
+  type Where,
+} from 'payload'
 
 import {
   MAX_NAMED_REFERENCES,
@@ -73,11 +79,62 @@ export const REFERRERS: Record<ReferencedCollection, Referrer[]> = {
   'dofus-guides': [{ collection: 'checklists', title: 'name', paths: ['dofusGuide'] }],
 }
 
+interface GlobalReferrer {
+  global: GlobalSlug
+  /** Cómo se nombra en el mensaje: el nombre del global en el panel. */
+  title: string
+  /** Los caminos de sus campos que guardan la referencia. */
+  paths: string[]
+}
+
+/** Los globales que apuntan a algo: no tienen borradores ni consultas, se leen enteros. */
+export const GLOBAL_REFERRERS: Partial<Record<ReferencedCollection, GlobalReferrer[]>> = {
+  media: [
+    {
+      global: 'checklists-index',
+      title: 'Índice de checklists',
+      paths: ['teaser.scene', 'teaser.egg'],
+    },
+  ],
+}
+
+const at = (doc: unknown, path: string): unknown =>
+  path
+    .split('.')
+    .reduce<unknown>(
+      (value, key) =>
+        value && typeof value === 'object' ? (value as Record<string, unknown>)[key] : undefined,
+      doc,
+    )
+
+const idOf = (value: unknown) =>
+  value && typeof value === 'object' && 'id' in value ? (value as { id: unknown }).id : value
+
+/** Los globales que usan el documento, por su nombre en el panel. */
+async function globalReferences(
+  target: ReferencedCollection,
+  id: number | string,
+  req: Parameters<CollectionBeforeDeleteHook>[0]['req'],
+) {
+  const names = await Promise.all(
+    (GLOBAL_REFERRERS[target] ?? []).map(async ({ global, title, paths }) => {
+      const doc = await req.payload.findGlobal({
+        slug: global,
+        depth: 0,
+        overrideAccess: true,
+        req,
+      })
+      return paths.some((path) => String(idOf(at(doc, path))) === String(id)) ? [title] : []
+    }),
+  )
+  return names.flat()
+}
+
 /** Las guías que se nombran de cada colección; del resto solo se cuenta cuántas son. */
 const NAMED_PER_REFERRER = MAX_NAMED_REFERENCES
 
 /**
- * Se niega a borrar si alguna guía lo usa, en lo publicado o en su último borrador: un
+ * Se niega a borrar si alguna guía (o un global) lo usa, en lo publicado o en su último borrador: un
  * borrador que se publique después también dejaría el hueco. Todas las consultas van a la
  * vez, cada una con diez guías como mucho y el total. Una guía puede salir en las dos
  * consultas: se cuenta una vez si llegó en las dos listas, y si alguna se cortó, el total es
@@ -116,10 +173,10 @@ export function refuseReferencedDelete(target: ReferencedCollection): Collection
         return { names: [...names.values()], total }
       }),
     )
-    const total = results.reduce((sum, result) => sum + result.total, 0)
+    const globals = await globalReferences(target, id, req)
+    const total = results.reduce((sum, result) => sum + result.total, 0) + globals.length
     if (total === 0) return
-    const names = results
-      .flatMap((result) => result.names)
+    const names = [...results.flatMap((result) => result.names), ...globals]
       .sort((a, b) => a.localeCompare(b, 'es'))
       .slice(0, MAX_NAMED_REFERENCES)
     throw new APIError(referencedMessage(target, names, total), 409, null, true)

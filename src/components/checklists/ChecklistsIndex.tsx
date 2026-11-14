@@ -3,7 +3,6 @@ import type { CSSProperties, ReactNode } from 'react'
 import { Picture } from '@/components/ui/Picture'
 import type { ImageAsset } from '@/components/ui/types'
 import type { ChecklistEntry, ChecklistTeaser } from '@/lib/checklists/list'
-import type { PosterProgressModel } from '@/lib/checklists/poster-progress'
 import { checklistIndexStrings as s } from '@/lib/checklists/strings'
 
 import { ChecklistPostersIsland } from './ChecklistPostersIsland'
@@ -16,10 +15,14 @@ import './checklists-index.css'
  */
 const ABOVE_THE_FOLD = 2
 
-// La escena cubre el cartel (2:3) con una imagen apaisada: se pinta unas 3,5 veces más ancha
-// que el cartel. El PNJ ocupa la mitad o tres cuartos de su alto.
-const SCENE_SIZES = '(min-width: 1024px) 900px, 560px'
-const NPC_SIZES = '(min-width: 1024px) 280px, 180px'
+// Lo que mide cada imagen según el ancho del cartel (checklists-index.css): unos 164px en un
+// móvil de 390, 208px en una tableta, 170px a 1024 y 252px desde 1280. La escena cubre el
+// cartel (2:3) con una imagen apaisada (unas 2,3:1): se pinta 3,45 veces más ancha que él. El
+// PNJ llega a tres cuartos de su alto; el huevo, al 54 % de su ancho y como mucho 128px.
+const SCENE_SIZES =
+  '(min-width: 1280px) 880px, (min-width: 1024px) 600px, (min-width: 640px) 740px, 570px'
+const NPC_SIZES = '(min-width: 1280px) 280px, (min-width: 640px) 240px, 190px'
+const EGG_SIZES = '(min-width: 1280px) 128px, (min-width: 640px) 112px, 90px'
 
 type Vars = CSSProperties & Record<`--${string}`, string>
 
@@ -70,7 +73,7 @@ function Art({
       <span className="poster__shade" aria-hidden="true" />
       {egg && (
         <span className="poster__egg" aria-hidden="true">
-          <Picture image={egg} alt="" priority={priority} />
+          <Picture image={egg} alt="" sizes={EGG_SIZES} priority={priority} />
         </span>
       )}
       <span className="poster__foil" aria-hidden="true" />
@@ -159,11 +162,9 @@ export function ChecklistPosters({
 export function ChecklistsIndex({
   entries,
   teaser,
-  progress,
 }: {
   entries: ChecklistEntry[]
   teaser: ChecklistTeaser | null
-  progress: PosterProgressModel[]
 }) {
   return (
     <main id="contenido" className="ck-index">
@@ -175,7 +176,7 @@ export function ChecklistsIndex({
       {entries.length ? (
         <>
           <ChecklistPosters entries={entries} teaser={teaser} />
-          <ChecklistPostersIsland models={progress} />
+          <ChecklistPostersIsland />
         </>
       ) : (
         <p className="ck-empty">{s.empty}</p>

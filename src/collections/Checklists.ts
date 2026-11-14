@@ -1,6 +1,7 @@
 import type { CollectionBeforeValidateHook, CollectionConfig, Condition, Field } from 'payload'
 
 import { checklistDetailsEndpoint } from '../endpoints/checklist-details'
+import { checklistPosterProgressEndpoint } from '../endpoints/checklist-poster-progress'
 import { validateColor } from '../lib/dofus-guides/color'
 import { checklistStrings } from '../lib/checklists/strings'
 import { assignStepIds, type StepIdentity } from '../lib/checklists/step-ids'
@@ -492,7 +493,7 @@ export const Checklists: CollectionConfig = {
     // La vista previa abre la página de la checklist con el último borrador (/vista-previa).
     ...pagePreview,
   },
-  endpoints: [checklistDetailsEndpoint],
+  endpoints: [checklistDetailsEndpoint, checklistPosterProgressEndpoint],
   access: {
     read: readPublishedOrAll,
     create: isPanelUser,

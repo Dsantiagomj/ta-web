@@ -20,7 +20,11 @@ import { startPayload, tinyPng } from './payload'
 let payload: Payload
 
 const PREFIX = 'prueba-tarjeta-checklist'
-const slugs = { plain: `${PREFIX}-nebuloso`, draft: `${PREFIX}-silvestre` }
+const slugs = {
+  plain: `${PREFIX}-nebuloso`,
+  draft: `${PREFIX}-silvestre`,
+  ocre: `${PREFIX}-ocre`,
+}
 const ART = {
   scene: 'prueba-tarjetas/zona.jpg',
   npc: 'prueba-tarjetas/pnj.png',
@@ -42,6 +46,8 @@ const entries: CardImportEntry[] = [
     },
   },
   { slug: slugs.draft, card: { scene: { path: ART.scene, alt: 'Xelorium' } } },
+  // El nombre del hub: «Almas del Ocre» pasa a «Dofus Ocre» si Torre no lo cambió.
+  { slug: slugs.ocre, name: 'Dofus Ocre', card: { scene: { path: ART.scene, alt: 'Xelorium' } } },
   // Una que todavía no está en la base: se avisa y no se crea.
   { slug: `${PREFIX}-sin-importar`, card: { scene: { path: ART.scene, alt: 'Xelorium' } } },
 ]
@@ -55,7 +61,7 @@ const options = (apply = true, list = entries): LoadChecklistCardsOptions => ({
   entries: list,
   teaser,
   apply,
-  artFor: checklistArt(payload, { readArt: async () => tinyPng().data, dryRun: !apply }).media,
+  art: checklistArt(payload, { readArt: async () => tinyPng().data, dryRun: !apply }),
 })
 
 /** Lo último guardado (el borrador si lo hay) o lo publicado. */
@@ -79,6 +85,17 @@ const mediaId = async (path: string) =>
       overrideAccess: true,
     })
   ).docs[0]?.id
+
+/** Una imagen que sube Torre en el panel; con clave, para borrarla al terminar. */
+const ownMedia = async () =>
+  (
+    await payload.create({
+      collection: 'media',
+      data: { alt: 'Su imagen', gameAsset: OWN_KEY },
+      file: tinyPng(),
+      overrideAccess: true,
+    })
+  ).id
 
 const readIndex = async () =>
   (await payload.findGlobal({
@@ -131,6 +148,19 @@ beforeEach(async () => {
     },
     overrideAccess: true,
   })
+  // El Ocre como lo dejó la importación de las checklists: su nombre de entonces, en el snapshot.
+  await payload.create({
+    collection: 'checklists',
+    data: {
+      name: 'Almas del Ocre',
+      slug: slugs.ocre,
+      order: 903,
+      state: 'published',
+      importSnapshot: { name: 'Almas del Ocre', order: 903 },
+      _status: 'published',
+    },
+    overrideAccess: true,
+  })
   // La ficha publicada y, encima, un borrador a medias: lo que deja la importación al portar.
   const ficha = await payload.create({
     collection: 'checklists',
@@ -162,7 +192,7 @@ describe('loadChecklistCards', () => {
     const report = await loadChecklistCards(payload, options(false))
     expect(await artCount()).toBe(0)
     expect((await read(slugs.plain)).card?.scene ?? null).toBeNull()
-    expect(report.updated).toEqual([slugs.plain, slugs.draft])
+    expect(report.updated).toEqual([slugs.plain, slugs.draft, slugs.ocre])
     expect(report.missing).toEqual([`${PREFIX}-sin-importar`])
     expect(report.teaser).toBe('updated')
     expect(report.pendingArt).toBe(4)
@@ -217,7 +247,7 @@ describe('loadChecklistCards', () => {
     const report = await loadChecklistCards(payload, options())
     expect(await artCount()).toBe(4)
     expect(report.updated).toEqual([])
-    expect(report.unchanged).toEqual([slugs.plain, slugs.draft])
+    expect(report.unchanged).toEqual([slugs.plain, slugs.draft, slugs.ocre])
     expect(report.teaser).toBe('unchanged')
     expect((await read(slugs.draft)).updatedAt).toBe(before.updatedAt)
   })
@@ -273,5 +303,68 @@ describe('loadChecklistCards', () => {
       ]),
     )
     expect((await readIndex()).teaser?.egg).toBe(own)
+  })
+
+  it('con un borrador a medias, lo publicado sale de lo publicado: lo que Torre cambió en el borrador no se publica', async () => {
+    const own = await ownMedia()
+    const silvestre = await read(slugs.draft)
+    await payload.update({
+      collection: 'checklists',
+      id: silvestre.id,
+      data: { card: { scene: own, npcHeight: 60 } },
+      draft: true,
+      overrideAccess: true,
+    })
+    const report = await loadChecklistCards(payload, options())
+    const published = await read(slugs.draft, false)
+    expect(published.card?.scene).toBe(await mediaId(ART.scene))
+    expect(published.card?.npcHeight ?? null).toBeNull()
+    const latest = await read(slugs.draft)
+    expect(latest._status).toBe('draft')
+    expect(latest.card).toMatchObject({ scene: own, npcHeight: 60 })
+    expect(report.kept).toEqual(expect.arrayContaining([{ slug: slugs.draft, field: 'scene' }]))
+  })
+
+  it('la primera vez, sin nada importado antes, lo que Torre ya puso se queda y no sube su imagen', async () => {
+    const own = await ownMedia()
+    const plain = await read(slugs.plain)
+    await payload.update({
+      collection: 'checklists',
+      id: plain.id,
+      data: { card: { scene: own, npcHeight: 60 }, _status: 'published' },
+      overrideAccess: true,
+    })
+    const dry = await loadChecklistCards(payload, options(false, [entries[0]!]))
+    // Solo el PNJ: la escena de Torre se queda, así que no se sube la del hub.
+    expect(dry.pendingArt).toBe(3)
+    expect(dry.kept).toEqual(
+      expect.arrayContaining([
+        { slug: slugs.plain, field: 'scene' },
+        { slug: slugs.plain, field: 'npcHeight' },
+      ]),
+    )
+    await loadChecklistCards(payload, options(true, [entries[0]!]))
+    const card = (await read(slugs.plain)).card!
+    expect(card).toMatchObject({ scene: own, npcHeight: 60, npcRight: -30, npcTop: 4 })
+    expect(card.npc).toBe(await mediaId(ART.npc))
+    expect(await mediaId(ART.scene)).toBeUndefined()
+  })
+
+  it('«Almas del Ocre» pasa a «Dofus Ocre»; un nombre que Torre cambió se queda', async () => {
+    const report = await loadChecklistCards(payload, options())
+    const ocre = await read(slugs.ocre)
+    expect(ocre.name).toBe('Dofus Ocre')
+    expect((ocre.importSnapshot as { name?: string }).name).toBe('Dofus Ocre')
+    expect(report.renamed).toEqual([slugs.ocre])
+
+    await payload.update({
+      collection: 'checklists',
+      id: ocre.id,
+      data: { name: 'Las almas', _status: 'published' },
+      overrideAccess: true,
+    })
+    const again = await loadChecklistCards(payload, options())
+    expect((await read(slugs.ocre)).name).toBe('Las almas')
+    expect(again.kept).toEqual(expect.arrayContaining([{ slug: slugs.ocre, field: 'name' }]))
   })
 })
