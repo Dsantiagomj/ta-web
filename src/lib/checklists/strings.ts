@@ -156,10 +156,16 @@ export const checklistPageStrings = {
   legendResolve: 'Lo que se resuelve',
   closedIn: (n: number) => `se cierra en el ${n}`,
   closes: (n: number) => `cierra el ${n}`,
+  updates: (n: number) => `avanza el ${n}`,
+  resumedIn: (n: number) => `se retoma en el ${n}`,
   note: 'Nota de la checklist.',
   needs: 'Necesitarás',
   achievements: 'Logros',
   achievementSome: 'Solo algunas misiones',
+  achievementUpto: (n: number) => `Hasta la misión ${n}`,
+  /** Entre las opciones de una fila de Necesitarás: «Pandaburg o Pandapils». */
+  needOr: 'o',
+  prerequisiteNeeds: 'Objetos para los prerrequisitos',
   bosses: 'Jefes',
   quests: 'Misiones',
   questsHowto:

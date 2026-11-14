@@ -5,10 +5,12 @@ import { GuideRichText } from '@/components/game/GuideRichText'
 import { IconWell } from '@/components/game/IconWell'
 import { CloseIcon } from '@/components/game/icons'
 import { CopyName } from '@/components/game/Item'
+import { Callout } from '@/components/ui/Callout'
 import { Picture } from '@/components/ui/Picture'
 import type {
   ChecklistView,
   NeedGroupView,
+  NeedOptionView,
   NeedRowView,
   QuestRowView,
   StepView,
@@ -270,18 +272,18 @@ function GameIcon({ file, px }: { file: { src: string }; px: number }) {
  * donde para. Si para después del último (la etapa que DofusDB no lista), la línea va al final.
  */
 function Route({ route }: { route: NonNullable<QuestRowView['route']> }) {
-  const { objectives, line, kids = [] } = route
+  const { objectives, kids = [] } = route
   const end = objectives.length
   const place = (index: number) => Math.min(Math.max(index, 0), end)
   const lines = [
-    {
+    ...route.lines.map((line, index) => ({
       at: place(line.at),
       row: (
-        <li key="line" className={`ck-line ck-line--${line.kind}`}>
+        <li key={`line-${index}`} className={`ck-line ck-line--${line.kind}`}>
           {line.text}
         </li>
       ),
-    },
+    })),
     ...kids.map((kid) => ({
       at: place(kid.at),
       row: (
@@ -363,43 +365,54 @@ function QuestRow({ quest, n }: { quest: QuestRowView; n: number }) {
   )
 }
 
-function NeedRow({ row, stepId, extra }: { row: NeedRowView; stepId: string; extra?: ReactNode }) {
-  const amount = <b>{formatAmount(row.quantity)} ×</b>
-  const own = (
-    <input
-      type="checkbox"
-      className="checkbox ck-js"
-      data-own={`${row.key}#${stepId}`}
-      disabled
-      data-ck-wait
-      aria-label={p.own(row.name)}
-    />
-  )
-  if (row.kind === 'label') {
-    return (
-      <li className="row ck-need">
-        {own}
-        <IconWell />
-        <span>
-          {amount} <span className="ck-plain">{row.name}</span>
-          {row.note && <span className="ck-item__r">{row.note}</span>}
-          {extra}
-        </span>
-      </li>
-    )
-  }
+/** La cantidad y el nombre de una opción: «3 × Pepita», con el nombre para copiar si es un objeto. */
+function NeedOption({ option }: { option: NeedOptionView }) {
   return (
-    <li className="row copyhost ck-need">
-      {own}
-      <IconWell image={row.icon} />
+    <>
+      <b>{formatAmount(option.quantity)} ×</b>{' '}
+      {option.kind === 'item' ? (
+        <CopyName name={option.name} />
+      ) : (
+        <span className="ck-plain">{option.name}</span>
+      )}
+    </>
+  )
+}
+
+/** Las opciones de una fila: «1 × Pandaburg o 1 × Pandapils». */
+function NeedOptions({ row }: { row: NeedRowView }) {
+  return [row, ...(row.alternatives ?? [])].map((option, index) => (
+    <span key={index}>
+      {index > 0 && ` ${s.needOr} `}
+      <NeedOption option={option} />
+    </span>
+  ))
+}
+
+function NeedRow({ row, stepId, extra }: { row: NeedRowView; stepId: string; extra?: ReactNode }) {
+  return (
+    <li className={`row ck-need${row.kind === 'item' ? ' copyhost' : ''}`}>
+      <input
+        type="checkbox"
+        className="checkbox ck-js"
+        data-own={`${row.key}#${stepId}`}
+        disabled
+        data-ck-wait
+        aria-label={p.own(needName(row))}
+      />
+      <IconWell image={row.kind === 'item' ? row.icon : undefined} />
       <span>
-        {amount} <CopyName name={row.name} />
+        <NeedOptions row={row} />
         {row.note && <span className="ck-item__r">{row.note}</span>}
         {extra}
       </span>
     </li>
   )
 }
+
+/** El nombre de una fila con sus opciones: «Pandaburg o Pandapils». */
+const needName = (row: NeedRowView) =>
+  [row, ...(row.alternatives ?? [])].map((option) => option.name).join(` ${s.needOr} `)
 
 function NeedGroups({
   groups,
@@ -468,7 +481,10 @@ export function StepDetail({ step, last }: { step: StepView; last: number }) {
                 {step.hasResolve && <span className="l-done">{s.legendResolve}</span>}
               </p>
             )}
-            {(step.closedBy || step.closes.length > 0) && (
+            {(step.closedBy ||
+              step.closes.length > 0 ||
+              step.updates.length > 0 ||
+              step.resumedIn.length > 0) && (
               <p className="ck-dh__rel">
                 {step.closedBy && (
                   <a
@@ -487,6 +503,26 @@ export function StepDetail({ step, last }: { step: StepView; last: number }) {
                     data-pick={n}
                   >
                     {s.closes(n)}
+                  </a>
+                ))}
+                {step.updates.map((n) => (
+                  <a
+                    key={`u${n}`}
+                    className="ck-tag ck-tag--soft hit-target"
+                    href={`#paso-${n}`}
+                    data-pick={n}
+                  >
+                    {s.updates(n)}
+                  </a>
+                ))}
+                {step.resumedIn.map((n) => (
+                  <a
+                    key={`r${n}`}
+                    className="ck-tag ck-tag--soft hit-target"
+                    href={`#paso-${n}`}
+                    data-pick={n}
+                  >
+                    {s.resumedIn(n)}
                   </a>
                 ))}
               </p>
@@ -532,6 +568,9 @@ export function StepDetail({ step, last }: { step: StepView; last: number }) {
                       achievement.name
                     )}
                     {achievement.some && <span className="ck-item__r">{s.achievementSome}</span>}
+                    {achievement.upto != null && (
+                      <span className="ck-item__r">{s.achievementUpto(achievement.upto)}</span>
+                    )}
                   </span>
                 </li>
               ))}
@@ -604,9 +643,15 @@ export function StepDetail({ step, last }: { step: StepView; last: number }) {
   )
 }
 
-/** Prerrequisitos: la introducción de Torre y sus grupos, tal cual, cada uno con su casilla. */
+/** La parte de lo conseguido de los objetos de los prerrequisitos: «<clave>#pre». */
+const PREREQUISITES_STEP = 'pre'
+
+/**
+ * Prerrequisitos: la introducción de Torre, sus avisos y sus grupos, tal cual, cada uno con su
+ * casilla, y los objetos que piden.
+ */
 export function Prerequisites({ view }: { view: ChecklistView }) {
-  const { intro, groups } = view.prerequisites
+  const { intro, groups, notes, needs } = view.prerequisites
   return (
     <div className="ck-pad">
       <h2 className="sr-only">{s.tabs.prerequisites}</h2>
@@ -622,6 +667,11 @@ export function Prerequisites({ view }: { view: ChecklistView }) {
         </div>
       </div>
       {intro && <p className="ck-text ck-intro">{intro}</p>}
+      {notes.map((note, index) => (
+        <Callout key={index} variant="warning" title={note.title}>
+          <p>{note.text}</p>
+        </Callout>
+      ))}
       {groups.map((group, index) => (
         <section key={index} className="ck-pg" aria-labelledby={`ck-pg-${index}`}>
           <h3 className="ck-micro ck-pg__h" id={`ck-pg-${index}`}>
@@ -644,6 +694,14 @@ export function Prerequisites({ view }: { view: ChecklistView }) {
           </ul>
         </section>
       ))}
+      {needs.length > 0 && (
+        <section className="ck-pg" aria-labelledby="ck-pg-needs">
+          <h3 className="ck-micro ck-pg__h" id="ck-pg-needs">
+            {s.prerequisiteNeeds}
+          </h3>
+          <NeedGroups groups={needs} heading={4} stepId={PREREQUISITES_STEP} />
+        </section>
+      )}
     </div>
   )
 }
@@ -659,21 +717,29 @@ function TotalSlot({ row, category }: { row: TotalRowView; category: string }) {
     >
       <span className="ck-slot__w copywell" aria-hidden="true">
         {row.kind === 'item' && row.icon && <Picture image={row.icon} alt="" />}
-        <span className="ck-slot__q">{formatAmount(row.quantity)}</span>
+        <span className="ck-slot__q">
+          {[row, ...(row.alternatives ?? [])].map((o) => formatAmount(o.quantity)).join(' / ')}
+        </span>
       </span>
       <input
         type="checkbox"
         className="checkbox ck-slot__chk ck-js"
-        aria-label={p.own(row.name)}
+        aria-label={p.own(needName(row))}
         disabled
         data-ck-wait
       />
       <span className="ck-slot__n">
-        <span className="sr-only">{formatAmount(row.quantity)} × </span>
-        {row.kind === 'item' ? (
-          <CopyName name={row.name} />
+        {row.alternatives ? (
+          <NeedOptions row={row} />
         ) : (
-          <span className="ck-plain">{row.name}</span>
+          <>
+            <span className="sr-only">{formatAmount(row.quantity)} × </span>
+            {row.kind === 'item' ? (
+              <CopyName name={row.name} />
+            ) : (
+              <span className="ck-plain">{row.name}</span>
+            )}
+          </>
         )}
       </span>
       {steps}

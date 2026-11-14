@@ -11,6 +11,7 @@ import type { ChecklistDoc } from './list'
 import { relationId } from './relations'
 import {
   OBJECTIVE_REFERENCE,
+  stopQuestIds,
   type ChecklistData,
   type ChecklistName,
   type ObjectiveNames,
@@ -274,11 +275,8 @@ export async function readChecklist(
   const achievementIds = ids(
     steps.flatMap((step) => (step.achievements ?? []).map((row) => row.achievement)),
   )
-  const stopIds = ids(
-    steps.flatMap((step) =>
-      (step.segments ?? []).flatMap((segment) => (segment.kind === 'stop' ? [segment.quest] : [])),
-    ),
-  )
+  // Las misiones donde para algún paso, también las de «más paradas»: llevan ruta.
+  const stopIds = ids(stopQuestIds(steps))
 
   const [guides, pages, stops, questGraph, checklists] = await Promise.all([
     questIds.length
@@ -360,15 +358,7 @@ export async function readChecklistDetails(
     : { docs: [] }
   const quests = docs as DetailsQuest[]
   // Solo las misiones donde para algún paso tienen ruta en la página: solo sus subzonas.
-  const stopIds = new Set(
-    ids(
-      (checklist.steps ?? []).flatMap((step) =>
-        (step.segments ?? []).flatMap((segment) =>
-          segment.kind === 'stop' ? [segment.quest] : [],
-        ),
-      ),
-    ),
-  )
+  const stopIds = new Set(ids(stopQuestIds(checklist.steps ?? [])))
   const routed = (docs as (DetailsQuest & { id: number })[]).filter((quest) =>
     stopIds.has(quest.id),
   )

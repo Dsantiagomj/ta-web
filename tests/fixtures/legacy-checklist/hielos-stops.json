@@ -1,0 +1,208 @@
+[
+  {
+    "step": 3,
+    "quest": "alt:607:1568",
+    "index": 0,
+    "text": "Avanza hasta que te pida farmear 40 monstruos jalamuts."
+  },
+  {
+    "step": 7,
+    "quest": "alt:607:1569",
+    "index": 0,
+    "text": "Avanza hasta tener que farmear 40 monstruos del Bosque de los Pinos Perdidos."
+  },
+  {
+    "step": 8,
+    "quest": 591,
+    "index": 4,
+    "text": "Avanza hasta tener que pasar Morsagüino Real."
+  },
+  {
+    "step": 10,
+    "quest": "alt:607:1570",
+    "index": 0,
+    "text": "Avanza hasta que te pida farmear 40 monstruos pingüinos."
+  },
+  {
+    "step": 11,
+    "quest": 543,
+    "index": 0,
+    "text": "Avanza hasta tener que dropear Mamagüinas."
+  },
+  {
+    "step": 12,
+    "quest": 577,
+    "index": 6,
+    "text": "Avanza hasta tener que farmear grasa de güino."
+  },
+  {
+    "step": 12,
+    "quest": 577,
+    "index": 9,
+    "text": "Hasta que te pida pasar la mazmorra del Morsagüino Real",
+    "followUp": true
+  },
+  {
+    "step": 18,
+    "quest": 1317,
+    "index": 16,
+    "text": "Avanza hasta tener que descubrir la entrada de la Caverna del Destino."
+  },
+  {
+    "step": 19,
+    "quest": "alt:607:1571",
+    "index": 0,
+    "text": "Avanza hasta que te pida farmear 40 monstruos pirata."
+  },
+  {
+    "step": 22,
+    "quest": "alt:607:1572",
+    "index": 0,
+    "text": "Avanza hasta que te pida farmear 40 monstruos de las Lágrimas de Uronigrido."
+  },
+  {
+    "step": 24,
+    "quest": "alt:607:1573",
+    "index": 0,
+    "text": "Avanza hasta que te pida farmear 40 monstruos de la mazmorra del Obsidiantre."
+  },
+  {
+    "step": 27,
+    "quest": "alt:607:1574",
+    "index": 0,
+    "text": "Avanza hasta que te pida farmear 40 monstruos gélifux."
+  },
+  {
+    "step": 31,
+    "quest": "alt:607:1575",
+    "index": 0,
+    "text": "Avanza hasta que te pida farmear 40 monstruos del Bosque Petrificado."
+  },
+  {
+    "step": 33,
+    "quest": 1318,
+    "index": 1,
+    "text": "Avanza hasta que te diga \"Descubre cuál es la secta activa de El Pueblo Sepultado\". Puedes conseguir todo menos la miel cobriza."
+  },
+  {
+    "step": 34,
+    "quest": 596,
+    "index": 8,
+    "text": "Avanza hasta hablar con Pochi Rococotte en el Hipogeo del Obsidiantre."
+  },
+  {
+    "step": 36,
+    "quest": 1318,
+    "index": 3,
+    "text": "Avanza hasta que Marta Angaha te pida 10 Corazón de tejaiss."
+  },
+  {
+    "step": 38,
+    "quest": "alt:607:1576",
+    "index": 0,
+    "text": "Avanza hasta que te pida farmear 40 monstruos Tejarvales."
+  },
+  {
+    "step": 39,
+    "quest": 597,
+    "index": 0,
+    "text": "Avanza hasta que te diga \"Busca el cadáver de Francís en los Colmillos de Cristal\"."
+  },
+  {
+    "step": 42,
+    "quest": "alt:607:1577",
+    "index": 0,
+    "text": "Avanza hasta que te pida farmear 40 monstruos golosones."
+  },
+  {
+    "step": 48,
+    "quest": 919,
+    "index": 0,
+    "text": "Avanza hasta tener que pasar Esmígol."
+  },
+  {
+    "step": 49,
+    "quest": 1326,
+    "index": 3,
+    "text": "Avanza hasta tener que dropear las válvulas, cueros y cascos."
+  },
+  {
+    "step": 50,
+    "quest": 1334,
+    "index": 0,
+    "text": "Avanza hasta \"Demuestra que eres un soldado de patrulla concienzudo\". Esta misión se actualizará sola a partir de ahora; la ignoraremos temporalmente."
+  },
+  {
+    "step": 52,
+    "quest": 1336,
+    "index": 0,
+    "text": "Avanza hasta tener que luchar contra 5 monstruos de cada tipo y de cada zona."
+  },
+  {
+    "step": 53,
+    "quest": 1325,
+    "index": 0,
+    "text": "Avanza hasta tener que hablar con Darwin, Karla, Mina y Valero. Esta misión se irá actualizando sola a partir de ahora; la ignoraremos temporalmente."
+  },
+  {
+    "step": 54,
+    "quest": 1319,
+    "index": 7,
+    "text": "Avanza hasta tener que farmear 5 monstruos para dropear cenizas."
+  },
+  {
+    "step": 55,
+    "quest": 1326,
+    "index": 20,
+    "text": "Avanza hasta tener que ver a Nileza."
+  },
+  {
+    "step": 56,
+    "quest": 1337,
+    "index": 4,
+    "text": "Avanza hasta tener que registrar el Transportador de Sylargh en busca de una pista."
+  },
+  {
+    "step": 58,
+    "quest": 1323,
+    "index": 1,
+    "text": "Avanza hasta tener que buscar pistas sobre el paso de Juan Nieve en el Laboratorio de Nileza."
+  },
+  {
+    "step": 58,
+    "quest": 1309,
+    "index": 2,
+    "text": "Hasta vencer a Nileza: Sylargh, Klim y Mizz Frizz se pasan en los pasos 60, 61 y 62",
+    "later": true
+  },
+  {
+    "step": 59,
+    "quest": 1324,
+    "index": 10,
+    "text": "Avanza hasta que te diga que registres la Torre de la Clepsidra en busca de Emma Haskulada."
+  },
+  {
+    "step": 63,
+    "quest": 1327,
+    "index": 5,
+    "text": "Avanza hasta que te pida encontrar el antiguo emplazamiento de explotación de tarudio."
+  },
+  {
+    "step": 64,
+    "quest": 1327,
+    "index": 9,
+    "text": "Avanza hasta tener que vencer al Conde Kontatrás."
+  },
+  {
+    "step": 65,
+    "quest": 1333,
+    "index": 3,
+    "text": "Avanza hasta tener que vencer a Esmígol."
+  },
+  {
+    "step": 67,
+    "quest": 630,
+    "index": 0,
+    "text": "Avanza hasta tener que capturar al Conde Kontatrás. Es para conseguir 2 040 doplones gratis. También empezarás la misión: Los caminantes blancos. Puedes ignorarla."
+  }
+]

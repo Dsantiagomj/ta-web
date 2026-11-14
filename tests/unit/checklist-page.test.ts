@@ -4,6 +4,7 @@ import {
   checklistRoute,
   checklistView,
   objectiveText,
+  stopQuestIds,
   type ChecklistData,
 } from '@/lib/checklists/page'
 import type { Checklist, Media } from '@/payload-types'
@@ -202,6 +203,37 @@ describe('checklistView: el texto de cada paso', () => {
     ])
   })
 
+  it('los avisos de la guía (nota, consejo, «hay que hacerlo», «incluye») van en su tramo', () => {
+    const [view] = checklistView(
+      data([
+        step('a', {
+          segments: ['plain', 'note', 'tip', 'must', 'includes'].map((kind) => ({
+            kind,
+            text: `Tramo ${kind}.`,
+          })),
+        }),
+      ]),
+    ).steps
+    expect(view.segments.map((segment) => [segment.kind, segment.parts])).toEqual([
+      ['plain', ['Tramo plain.']],
+      ['note', ['Tramo note.']],
+      ['tip', ['Tramo tip.']],
+      ['must', ['Tramo must.']],
+      ['includes', ['Tramo includes.']],
+    ])
+  })
+
+  it('un paso sin verde también cierra pasos, y dice qué pasos avanza y dónde se retoma', () => {
+    const view = checklistView(
+      data([step('a'), step('b'), step('c', { closes: ['b'], updates: ['a'] })]),
+    )
+    expect(view.steps.map((s) => [s.n, s.closes, s.closedBy, s.updates, s.resumedIn])).toEqual([
+      [1, [], null, [], [3]],
+      [2, [], 3, [], []],
+      [3, [2], null, [1], []],
+    ])
+  })
+
   it('numera los pasos en el orden de Torre y dice qué pasos cierra cada uno y dónde se cierra', () => {
     const steps = [
       step('a'),
@@ -313,7 +345,7 @@ describe('checklistView: las misiones', () => {
         { kind: 'bring', text: 'Entrégale a Wello: 3 x Muestra' },
         { kind: 'fight', text: 'Vence a 1 x Rey Nidas' },
       ],
-      line: { at: 1, kind: 'stop', text: 'Avanza hasta que te pida entregar muestras.' },
+      lines: [{ at: 1, kind: 'stop', text: 'Avanza hasta que te pida entregar muestras.' }],
     })
   })
 
@@ -336,7 +368,124 @@ describe('checklistView: las misiones', () => {
     }
     const [row] = checklistView(data(steps, {}, { stopQuests })).steps[0].quests
 
-    expect(row.route?.line).toEqual({ at: 0, kind: 'resolve', text: 'Pasa la mazmorra.' })
+    expect(row.route?.lines).toEqual([{ at: 0, kind: 'resolve', text: 'Pasa la mazmorra.' }])
+  })
+
+  /** Dos misiones con tres objetivos cada una, para las paradas del Silvestre. */
+  const twoQuests = {
+    5: { stages: [{ dofusId: 1, objectives: ['a', 'b', 'c'].map(objective) }] },
+    6: { stages: [{ dofusId: 2, objectives: ['d', 'e', 'f'].map(objective) }] },
+  }
+  function objective(text: string, index: number) {
+    return { dofusId: 100 + index, kind: 'free' as const, text }
+  }
+  const questsOf = (steps: Step[], index = 0) =>
+    checklistView(data(steps, {}, { stopQuests: twoQuests })).steps[index].quests
+  const rows = [
+    { quest: quest(5, 'Pesca'), kind: 'mandatory' },
+    { quest: quest(6, 'Bendición'), kind: 'mandatory' },
+  ]
+
+  it('un rojo con «más paradas» pinta una línea en cada misión, en su objetivo', () => {
+    const steps = [
+      step('a', {
+        segments: [
+          {
+            kind: 'stop',
+            text: '(Hasta tener que luchar)',
+            quest: 5,
+            stopObjective: 1,
+            more: [
+              { quest: 6, stopObjective: 2 },
+              { quest: 5, stopObjective: 2 },
+            ],
+          },
+        ],
+        quests: rows,
+      }),
+    ]
+    const [pesca, bendicion] = questsOf(steps)
+    expect(pesca.route?.lines).toEqual([
+      { at: 1, kind: 'stop', text: '(Hasta tener que luchar)' },
+      { at: 2, kind: 'stop', text: '(Hasta tener que luchar)' },
+    ])
+    expect(bendicion.route?.lines).toEqual([
+      { at: 2, kind: 'stop', text: '(Hasta tener que luchar)' },
+    ])
+  })
+
+  it('con verde, cada parada lleva su parte; la que termina un paso posterior sigue en rojo', () => {
+    const steps = [
+      step('a', {
+        segments: [
+          {
+            kind: 'stop',
+            text: 'Hasta luchar.',
+            quest: 5,
+            stopObjective: 0,
+            resumeLine: 'Se hacen las peleas.',
+            more: [{ quest: 6, stopObjective: 1, later: true, line: 'Hasta la bendición.' }],
+          },
+          { kind: 'resolve', text: 'Se pasa la mazmorra.', closes: [] },
+        ],
+        quests: rows,
+      }),
+    ]
+    const [pesca, bendicion] = questsOf(steps)
+    expect(pesca.route?.lines).toEqual([{ at: 0, kind: 'resolve', text: 'Se hacen las peleas.' }])
+    expect(bendicion.route?.lines).toEqual([{ at: 1, kind: 'stop', text: 'Hasta la bendición.' }])
+  })
+
+  it('el verde que deja una parada: el rojo de antes se retoma y el de después para', () => {
+    const steps = [
+      step('a', {
+        segments: [
+          { kind: 'stop', text: 'Hasta los monstruos.', quest: 5, stopObjective: 0 },
+          { kind: 'resolve', text: 'Se matan los monstruos', closes: [] },
+          { kind: 'stop', text: 'hasta tener que pasar Kodámade.', quest: 6, stopObjective: 2 },
+        ],
+        quests: rows,
+      }),
+      step('b', {
+        segments: [{ kind: 'resolve', text: 'Se pasa Kodámade.', closes: ['a'] }],
+      }),
+    ]
+    const [pesca, bendicion] = questsOf(steps)
+    expect(pesca.route?.lines).toEqual([{ at: 0, kind: 'resolve', text: 'Se matan los monstruos' }])
+    expect(bendicion.route?.lines).toEqual([
+      { at: 2, kind: 'stop', text: 'hasta tener que pasar Kodámade.' },
+    ])
+  })
+
+  it('con verde pero cerrado por otro paso, el rojo vuelve a ser dónde parar', () => {
+    const steps = [
+      step('a', {
+        segments: [
+          { kind: 'stop', text: 'Hasta la run de sueños.', quest: 5, stopObjective: 1 },
+          { kind: 'resolve', text: 'Se hace Fraktal.', closes: [] },
+        ],
+        quests: rows,
+      }),
+      step('b', { closes: ['a'] }),
+    ]
+    expect(questsOf(steps)[0].route?.lines).toEqual([
+      { at: 1, kind: 'stop', text: 'Hasta la run de sueños.' },
+    ])
+  })
+})
+
+describe('stopQuestIds', () => {
+  it('las misiones donde para algún paso, también las de «más paradas», pobladas o no', () => {
+    const steps = [
+      step('a', {
+        segments: [
+          { kind: 'stop', text: 'Para.', quest: { id: 5 }, more: [{ quest: 6 }, { quest: null }] },
+          { kind: 'stop', text: 'Solo avisa.', quest: null },
+          { kind: 'plain', text: 'Nada.' },
+        ],
+      }),
+    ]
+    expect(stopQuestIds(steps)).toEqual([5, 6])
   })
 })
 
@@ -398,6 +547,58 @@ describe('checklistView: Necesitarás', () => {
       ['Recursos', ['Kama', 'Cuerno', 'Captura de almas']],
       ['Almas', ['Alma de Kwak']],
     ])
+  })
+
+  const silvestreStep = (stepId: string, quantity: number) =>
+    step(stepId, {
+      needs: [
+        {
+          item: item(12, 'Pandaburg'),
+          quantity,
+          alternatives: [{ item: item(13, 'Pandapils'), quantity }],
+          category: 'consumables',
+          countsInTotal: true,
+        },
+        {
+          item: item(14, 'Sacrificio'),
+          quantity: 5,
+          group: 'Misión opcional',
+          category: 'resources',
+          countsInTotal: true,
+        },
+        {
+          item: item(15, 'Piedra de alma'),
+          quantity,
+          reusable: true,
+          category: 'souls',
+          countsInTotal: true,
+        },
+      ],
+    })
+
+  it('las alternativas, el apartado y lo que se conserva llevan la clave de la checklist antigua', () => {
+    const [view] = checklistView(data([silvestreStep('a', 1)])).steps
+    expect(view.needs.map((group) => [group.title, group.rows.map((row) => row.key)])).toEqual([
+      ['Recursos · Misión opcional', ['5014@mision opcional']],
+      ['Consumibles', ['5012|5013']],
+      ['Almas', ['5015']],
+    ])
+    expect(view.needs[1].rows[0]).toMatchObject({
+      name: 'Pandaburg',
+      quantity: 1,
+      alternatives: [{ name: 'Pandapils', quantity: 1 }],
+    })
+  })
+
+  it('en los totales, lo que se conserva cuenta la mayor cantidad y las alternativas se suman', () => {
+    const view = checklistView(data([silvestreStep('a', 1), silvestreStep('b', 2)]))
+    const rows = view.totals.flatMap((group) => group.rows)
+    expect(rows.find((row) => row.key === '5015')).toMatchObject({ quantity: 2, steps: [1, 2] })
+    expect(rows.find((row) => row.key === '5012|5013')).toMatchObject({
+      quantity: 3,
+      alternatives: [{ quantity: 3 }],
+    })
+    expect(rows.find((row) => row.key === '5014@mision opcional')).toMatchObject({ quantity: 10 })
   })
 
   it('una fila con texto y sin objeto sale como texto, sin copiar ni icono', () => {
@@ -562,6 +763,52 @@ describe('checklistView: el resto del paso', () => {
     expect(second.figure).toEqual(
       expect.objectContaining({ name: 'Dios Anutrof', role: 'Se habla con' }),
     )
+  })
+
+  it('lleva los avisos de los prerrequisitos y lo que piden, con el prerrequisito que lo gasta', () => {
+    const view = checklistView(
+      data([step('a')], {
+        prerequisites: {
+          intro: null,
+          groups: [{ title: 'Oficios', rows: [{ key: 'l11', text: 'Ganadería' }] }],
+          notes: [{ title: 'Empieza el Dofus Ocre cuanto antes', text: 'Es larga.' }],
+          needs: [
+            { item: item(10, 'Trigo'), quantity: 50, category: 'resources', prerequisite: 'l11' },
+            {
+              item: item(11, 'Dragopavo'),
+              quantity: 1,
+              category: 'equipment',
+              group: 'Opcional · Altos vuelos',
+            },
+          ],
+        },
+      } as Partial<Checklist>),
+    )
+    expect(view.prerequisites.notes).toEqual([
+      { title: 'Empieza el Dofus Ocre cuanto antes', text: 'Es larga.' },
+    ])
+    expect(
+      view.prerequisites.needs.map((group) => [
+        group.title,
+        group.rows.map((row) => [row.key, row.quantity, row.prerequisite ?? null]),
+      ]),
+    ).toEqual([
+      ['Recursos', [['5010', 50, 'l11']]],
+      ['Equipables · Opcional · Altos vuelos', [['5011@opcional altos vuelos', 1, null]]],
+    ])
+  })
+
+  it('un logro «hasta la misión N» dice hasta cuál', () => {
+    const [view] = checklistView(
+      data([
+        step('a', {
+          achievements: [
+            { achievement: { id: 3, name: 'Las leguas muertas' }, mode: 'upto', on: [1, 2] },
+          ],
+        }),
+      ]),
+    ).steps
+    expect(view.achievements).toEqual([{ name: 'Las leguas muertas', some: false, upto: 2 }])
   })
 
   it('lleva los prerrequisitos en sus grupos y cuántos son', () => {

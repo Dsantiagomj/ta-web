@@ -76,6 +76,13 @@ export interface SegmentView {
   parts: TextPart[]
 }
 
+/** Una línea de Torre dentro de una misión: dónde para (rojo) o lo que la retoma (verde). */
+export interface RouteLine {
+  at: number
+  kind: 'stop' | 'resolve'
+  text: string
+}
+
 export interface QuestRowView {
   dofusId: number
   name: string
@@ -83,22 +90,33 @@ export interface QuestRowView {
   level?: number
   kind: QuestKind
   note?: string
-  /** Solo en la misión donde para el paso: sus objetivos y la línea de Torre en su sitio. */
+  /** Solo en las misiones donde para el paso: sus objetivos y las líneas de Torre en su sitio. */
   route?: {
     objectives: { kind: QuestObjectiveKind; text: string }[]
-    line: { at: number; kind: 'stop' | 'resolve'; text: string }
+    lines: RouteLine[]
     /** Las hijas del mismo paso que empiezan dentro de ella, en el objetivo donde empiezan. */
     kids?: { at: number; names: string[] }[]
   }
 }
 
+/** Una opción de una fila de Necesitarás: un objeto del juego o, si no lo es, su texto. */
+export type NeedOptionView =
+  | { kind: 'item'; key: string; name: string; icon?: ImageAsset; quantity: number }
+  | { kind: 'label'; key: string; name: string; quantity: number }
+
 /**
- * Una fila de Necesitarás. `key` es su clave en lo conseguido: el ID de DofusDB del objeto o,
- * si no es un objeto, «x:<texto>», como en silvestre-checklist.
+ * Una fila de Necesitarás: su primera opción y las demás («A o B»). `key` es su clave en lo
+ * conseguido, como en silvestre-checklist: las claves de sus opciones (el ID de DofusDB del
+ * objeto o «x:<texto>») unidas por «|», y «@<apartado>» si va en uno.
  */
-export type NeedRowView =
-  | { kind: 'item'; key: string; name: string; icon?: ImageAsset; quantity: number; note?: string }
-  | { kind: 'label'; key: string; name: string; quantity: number; note?: string }
+export type NeedRowView = NeedOptionView & {
+  alternatives?: NeedOptionView[]
+  note?: string
+  /** Su apartado dentro del grupo («Misión opcional»). */
+  group?: string
+  /** Se conserva al usarla: en los totales cuenta la mayor cantidad, no la suma. */
+  reusable?: true
+}
 
 export interface NeedGroupView<Row = NeedRowView> {
   category: NeedCategory | null
@@ -120,10 +138,20 @@ export interface StepView {
   /** Los números de los pasos que cierra; y el del paso que lo cierra a él. */
   closes: number[]
   closedBy: number | null
+  /** Los pasos cuyas misiones avanza sin terminarlas, y los que avanzan las suyas. */
+  updates: number[]
+  resumedIn: number[]
   icon?: ImageAsset
   banner?: ImageAsset
   figure?: { image?: ImageAsset; name?: string; role?: string }
-  achievements: { name: string; href?: string; icon?: ImageAsset; some: boolean }[]
+  achievements: {
+    name: string
+    href?: string
+    icon?: ImageAsset
+    some: boolean
+    /** «Hasta la misión N»: la última misión del logro que se hace en el paso. */
+    upto?: number
+  }[]
   quests: QuestRowView[]
   needs: NeedGroupView[]
   bosses: { name: string; image?: ImageAsset }[]
@@ -171,6 +199,10 @@ export interface ChecklistView {
     intro: string | null
     groups: { title: string; rows: { key: string; text: string }[] }[]
     count: number
+    /** Los avisos de Torre (el Dofus Ocre, la orden de alineamiento). */
+    notes: { title: string; text: string }[]
+    /** Lo que piden, por grupo, cada fila con el prerrequisito que la gasta. */
+    needs: NeedGroupView<NeedRowView & { prerequisite?: string }>[]
   }
   totals: NeedGroupView<TotalRowView>[]
   totalsCount: number
@@ -234,9 +266,11 @@ function segmentParts(text: string, links: Map<string, string>): TextPart[] {
   return parts
 }
 
-function needRow(need: Need): NeedRowView | null {
-  const item = populated(need.item)
-  const note = need.note ? { note: need.note } : {}
+type NeedOption = Pick<Need, 'item' | 'label' | 'quantity'>
+
+/** Una opción de una fila: el objeto del juego o, si no lo es, su texto; null sin ninguno. */
+function needOption(option: NeedOption): NeedOptionView | null {
+  const item = populated(option.item)
   if (item?.name) {
     const icon = image(item.image)
     return {
@@ -244,30 +278,135 @@ function needRow(need: Need): NeedRowView | null {
       key: String(item.dofusId),
       name: item.name,
       ...(icon && { icon }),
-      quantity: need.quantity,
-      ...note,
+      quantity: option.quantity,
     }
   }
-  if (need.label) {
-    const key = `x:${need.label.toLocaleLowerCase('es')}`
-    return { kind: 'label', key, name: need.label, quantity: need.quantity, ...note }
+  if (option.label) {
+    const key = `x:${option.label.toLocaleLowerCase('es')}`
+    return { kind: 'label', key, name: option.label, quantity: option.quantity }
   }
   return null
+}
+
+/** El apartado en la clave, como `slug` de build_resources.py: sin tildes ni signos, en minúsculas. */
+export const groupKey = (group: string) =>
+  group
+    .replace(/’/g, "'")
+    .normalize('NFKD')
+    .replace(/[^\x00-\x7f]/g, '')
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .trim()
+
+type NeedLike = NeedOption & {
+  alternatives?: NeedOption[] | null
+  note?: string | null
+  group?: string | null
+  reusable?: boolean | null
+}
+
+function needRow(need: NeedLike): NeedRowView | null {
+  const first = needOption(need)
+  if (!first) return null
+  const alternatives = (need.alternatives ?? []).flatMap((alt) => {
+    const option = needOption(alt)
+    return option ? [option] : []
+  })
+  const key =
+    [first, ...alternatives].map((option) => option.key).join('|') +
+    (need.group ? `@${groupKey(need.group)}` : '')
+  return {
+    ...first,
+    key,
+    ...(alternatives.length > 0 && { alternatives }),
+    ...(need.note && { note: need.note }),
+    ...(need.group && { group: need.group }),
+    ...(need.reusable && { reusable: true as const }),
+  }
 }
 
 const categoryTitle = (category: NeedCategory | null) =>
   category ? checklistStrings.needCategories[category] : s.otherNeeds
 
-/** Filas agrupadas por su grupo, en el orden de los grupos; dentro, en el de llegada. */
-function byCategory<Row>(
+/**
+ * Filas agrupadas por su grupo, en el orden de los grupos; dentro, en el de llegada. Con
+ * `byGroup`, cada apartado («Misión opcional») va aparte, tras las filas sin apartado.
+ */
+function byCategory<Row extends { group?: string }>(
   rows: { category: NeedCategory | null; row: Row }[],
+  byGroup = false,
 ): NeedGroupView<Row>[] {
   const order = [...CATEGORIES, null]
   return order.flatMap((category) => {
     const inGroup = rows.filter((entry) => entry.category === category).map((entry) => entry.row)
-    return inGroup.length ? [{ category, title: categoryTitle(category), rows: inGroup }] : []
+    if (!byGroup) {
+      return inGroup.length ? [{ category, title: categoryTitle(category), rows: inGroup }] : []
+    }
+    const groups = [...new Set(inGroup.map((row) => row.group ?? ''))].sort((a, b) =>
+      a === '' ? -1 : b === '' ? 1 : 0,
+    )
+    return groups.map((group) => ({
+      category,
+      title: group ? `${categoryTitle(category)} · ${group}` : categoryTitle(category),
+      rows: inGroup.filter((row) => (row.group ?? '') === group),
+    }))
   })
 }
+
+/** Las paradas de un tramo «detente aquí»: la suya y sus «más paradas». */
+export function segmentStops(segment: Segment) {
+  if (segment.kind !== 'stop') return []
+  return [segment, ...(segment.more ?? [])]
+}
+
+/** Los IDs de las misiones donde para algún paso: las que llevan ruta en la página. */
+export const stopQuestIds = (steps: Step[]) =>
+  steps.flatMap((step) =>
+    (step.segments ?? []).flatMap((segment) =>
+      segmentStops(segment).flatMap((point) => {
+        const id = relationId(point.quest ?? null)
+        return id === null ? [] : [id]
+      }),
+    ),
+  )
+
+/**
+ * Las líneas de Torre dentro de las misiones del paso, por misión (questStops de
+ * silvestre-checklist). Sin verde, cada parada es dónde parar. Con verde, el rojo es dónde se
+ * retoma y la línea es la verde (o su parte, `resumeLine`), salvo que otro paso lo cierre sin
+ * que el verde deje parada propia; la parada que deja el verde (un «detente aquí» detrás del
+ * «aquí se resuelve») y la que termina un paso posterior siguen en rojo.
+ */
+function routeLines(step: Step, closed: boolean): Map<number, RouteLine[]> {
+  const segments = step.segments ?? []
+  const resolveAt = segments.findIndex((segment) => segment.kind === 'resolve')
+  const follows = resolveAt >= 0 && segments.some((s, i) => i > resolveAt && s.kind === 'stop')
+  const redIsStop = resolveAt < 0 || (closed && !follows)
+  const green = resolveAt >= 0 ? segments[resolveAt].text : ''
+  const lines = new Map<number, RouteLine[]>()
+  segments.forEach((segment, index) => {
+    const follow = resolveAt >= 0 && index > resolveAt
+    for (const point of segmentStops(segment)) {
+      const quest = relationId(point.quest ?? null)
+      if (quest === null) continue
+      const stop = redIsStop || follow || Boolean(point.later)
+      const line: RouteLine = stop
+        ? { at: point.stopObjective ?? 0, kind: 'stop', text: point.line || segment.text }
+        : { at: point.stopObjective ?? 0, kind: 'resolve', text: point.resumeLine || green }
+      lines.set(quest, [...(lines.get(quest) ?? []), line])
+    }
+  })
+  for (const list of lines.values()) list.sort((a, b) => a.at - b.at)
+  return lines
+}
+
+/** Los pasos que cierra un paso: los de sus «aquí se resuelve» y los que cierra sin verde. */
+export const closedSteps = (step: Step) => [
+  ...(step.segments ?? []).flatMap((segment) =>
+    segment.kind === 'resolve' ? (segment.closes ?? []) : [],
+  ),
+  ...(step.closes ?? []),
+]
 
 function flatObjectives(stages: Quest['stages'], names: ObjectiveNames) {
   return (stages ?? []).flatMap((stage) =>
@@ -284,12 +423,16 @@ export function checklistView(data: ChecklistData): ChecklistView {
   const rawSteps = checklist.steps ?? []
   const numberOf = new Map(rawSteps.map((step, index) => [step.stepId ?? '', index + 1]))
   const closedBy = new Map<string, number>()
+  const resumedIn = new Map<string, number[]>()
   rawSteps.forEach((step, index) => {
-    for (const segment of step.segments ?? []) {
-      if (segment.kind !== 'resolve') continue
-      for (const closed of segment.closes ?? []) closedBy.set(closed, index + 1)
+    for (const closed of closedSteps(step))
+      if (!closedBy.has(closed)) closedBy.set(closed, index + 1)
+    for (const updated of step.updates ?? []) {
+      resumedIn.set(updated, [...(resumedIn.get(updated) ?? []), index + 1])
     }
   })
+  const numbers = (ids: string[]) =>
+    ids.flatMap((id) => (numberOf.has(id) ? [numberOf.get(id) as number] : []))
 
   const steps = rawSteps.map((step, index): StepView => {
     const segments = step.segments ?? []
@@ -297,6 +440,7 @@ export function checklistView(data: ChecklistData): ChecklistView {
     // El primer «detente aquí» con misión: uno que solo avisa no para ninguna.
     const stop = segments.find((segment) => segment.kind === 'stop' && segment.quest != null)
     const resolve = segments.find((segment) => segment.kind === 'resolve')
+    const lines = routeLines(step, closedBy.has(step.stepId ?? ''))
 
     const achievements = (step.achievements ?? []).flatMap((row) => {
       const achievement = populated(row.achievement)
@@ -308,8 +452,8 @@ export function checklistView(data: ChecklistData): ChecklistView {
           name: achievement.name,
           ...(slug && { href: `/${slug}` }),
           ...(icon && { icon }),
-          // «Hasta una misión» tampoco es el logro completo.
-          some: row.mode === 'some' || row.mode === 'upto',
+          some: row.mode === 'some',
+          ...(row.mode === 'upto' && row.on?.length && { upto: Math.max(...row.on) }),
         },
       ]
     })
@@ -317,15 +461,14 @@ export function checklistView(data: ChecklistData): ChecklistView {
       achievements.flatMap((row) => (row.href ? [[row.name, row.href] as const] : [])),
     )
 
-    const stopQuestId = relationId(stop?.quest ?? null)
     const quests = (step.quests ?? []).flatMap((row): QuestRowView[] => {
       const quest = populated(row.quest)
       if (!quest) return []
       const slug = data.questGuides[quest.id]
-      const objectives =
-        stop && quest.id === stopQuestId
-          ? flatObjectives(data.stopQuests[quest.id]?.stages, data.names)
-          : []
+      const questLines = lines.get(quest.id) ?? []
+      const objectives = questLines.length
+        ? flatObjectives(data.stopQuests[quest.id]?.stages, data.names)
+        : []
       const kids = (island.parents[quest.dofusId] ?? []).flatMap(([at, ids]) => {
         const names = ids.flatMap((id) => {
           const kid = (step.quests ?? []).find((other) => populated(other.quest)?.dofusId === id)
@@ -334,10 +477,6 @@ export function checklistView(data: ChecklistData): ChecklistView {
         })
         return names.length ? [{ at, names }] : []
       })
-      const line =
-        resolve && stop
-          ? { at: stop.stopObjective ?? 0, kind: 'resolve' as const, text: resolve.text }
-          : stop && { at: stop.stopObjective ?? 0, kind: 'stop' as const, text: stop.text }
       return [
         {
           dofusId: quest.dofusId,
@@ -346,8 +485,9 @@ export function checklistView(data: ChecklistData): ChecklistView {
           ...(quest.levelMin != null && { level: quest.levelMin }),
           kind: row.kind,
           ...(row.note && { note: row.note }),
-          ...(objectives.length > 0 &&
-            line && { route: { objectives, line, ...(kids.length > 0 && { kids }) } }),
+          ...(objectives.length > 0 && {
+            route: { objectives, lines: questLines, ...(kids.length > 0 && { kids }) },
+          }),
         },
       ]
     })
@@ -357,6 +497,7 @@ export function checklistView(data: ChecklistData): ChecklistView {
         const row = needRow(need)
         return row ? [{ category: need.category ?? null, row }] : []
       }),
+      true,
     )
 
     const figure = step.figure
@@ -378,10 +519,10 @@ export function checklistView(data: ChecklistData): ChecklistView {
       })),
       hasStop: Boolean(stop),
       hasResolve: Boolean(resolve),
-      closes: (resolve ? segments : [])
-        .flatMap((segment) => (segment.kind === 'resolve' ? (segment.closes ?? []) : []))
-        .flatMap((id) => (numberOf.has(id) ? [numberOf.get(id) as number] : [])),
+      closes: numbers(closedSteps(step)),
       closedBy: closedBy.get(step.stepId ?? '') ?? null,
+      updates: numbers(step.updates ?? []),
+      resumedIn: resumedIn.get(step.stepId ?? '') ?? [],
       ...(icon && { icon }),
       ...(banner && { banner }),
       ...((figureImage || figureName) && {
@@ -437,6 +578,19 @@ export function checklistView(data: ChecklistData): ChecklistView {
       intro: checklist.prerequisites?.intro ?? null,
       groups,
       count: groups.reduce((sum, group) => sum + group.rows.length, 0),
+      notes: (checklist.prerequisites?.notes ?? []).map(({ title, text }) => ({
+        title: title ?? '',
+        text,
+      })),
+      needs: byCategory(
+        (checklist.prerequisites?.needs ?? []).flatMap((need) => {
+          const row = needRow(need)
+          if (!row) return []
+          const prerequisite = need.prerequisite ? { prerequisite: need.prerequisite } : {}
+          return [{ category: need.category ?? null, row: { ...row, ...prerequisite } }]
+        }),
+        true,
+      ),
     },
     totals,
     totalsCount: totals.reduce((sum, group) => sum + group.rows.length, 0),
@@ -460,7 +614,13 @@ function totalRows(steps: Step[]) {
       const key = row.key
       const seen = rows.get(key)
       if (seen) {
-        seen.row.quantity += row.quantity
+        // Lo que se conserva tras usarlo cuenta la mayor cantidad; lo demás, la suma.
+        const add = (was: number, more: number) => (row.reusable ? Math.max(was, more) : was + more)
+        seen.row.quantity = add(seen.row.quantity, row.quantity)
+        seen.row.alternatives = seen.row.alternatives?.map((alt, at) => ({
+          ...alt,
+          quantity: add(alt.quantity, row.alternatives?.[at]?.quantity ?? 0),
+        }))
         if (!seen.row.steps.includes(index + 1)) seen.row.steps.push(index + 1)
       } else {
         const { note: _note, ...rest } = row
