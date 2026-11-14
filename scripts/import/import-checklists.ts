@@ -103,7 +103,7 @@ function resolvers(payload: Payload, dryRun: boolean) {
   const items = gameItems(payload, { client, log, dryRun })
   const art = checklistArt(payload, { readArt, dryRun })
   const ensureNpc = npcEnsurer(payload, log)
-  return {
+  const options = {
     ensureItem: items.ensureItem,
     findItem: items.findItem,
     artFor: art.media,
@@ -121,6 +121,7 @@ function resolvers(payload: Payload, dryRun: boolean) {
       return raw ? -dofusId : null
     },
   } satisfies Partial<LoadChecklistsOptions>
+  return { options, singularMatches: items.singularMatches }
 }
 
 /** Las checklists de almas: cuántas pide su misión y las que no se pueden pintar aún. */
@@ -176,13 +177,18 @@ try {
   const htmlToLexical = await createHtmlToLexical(payload.config)
 
   // Primero en seco, siempre: lo que no casa se ve antes de escribir nada.
+  const dry = resolvers(payload, true)
   const plan = await loadChecklists(payload, {
     checklists,
     apply: false,
     htmlToLexical,
-    ...resolvers(payload, true),
+    ...dry.options,
   })
   printUnmatched(plan)
+  // Los nombres en plural que casaron con un objeto en singular, para revisarlos.
+  for (const { name, item } of dry.singularMatches()) {
+    console.log(`Casado en singular: «${name}» → «${item}»`)
+  }
   printSouls(plan)
   console.log(
     `Se traerían de DofusDB ${plan.pending.items} objetos, ${plan.pending.npcs} PNJ y ` +
@@ -195,7 +201,7 @@ try {
         checklists,
         apply: true,
         htmlToLexical,
-        ...resolvers(payload, false),
+        ...resolvers(payload, false).options,
         log,
       })
     : plan

@@ -116,12 +116,13 @@ function options(guides: LoadDofusGuidesOptions['guides'], apply = true): LoadDo
     apply,
     htmlToLexical,
     ensureItem: async (dofusId) => (dofusId === entry.dofusId ? ids.dofus : null),
-    findItem: async (name) =>
-      name === 'Pepita' || name === 'Pepitas'
-        ? { id: ids.pepita, name: 'Pepita', singular: name === 'Pepitas' }
-        : null,
-    findOnlyItem: async (name) =>
-      name === 'Varita pitusa' ? { id: ids.varita, name: 'Varita pitusa', singular: false } : null,
+    findItem: async (name) => {
+      if (name === 'Pepita' || name === 'Pepitas')
+        return { id: ids.pepita, name: 'Pepita', singular: name === 'Pepitas' }
+      if (name === 'Varita pitusa')
+        return { id: ids.varita, name: 'Varita pitusa', singular: false }
+      return null
+    },
     mediaFor: async () => {
       throw new Error('Esta guía no tiene capturas')
     },
@@ -315,7 +316,9 @@ describe('loadDofusGuides', () => {
 
 describe('loadDofusGuides: filas sin cantidad en guías ya importadas', () => {
   // Una guía importada antes del arreglo guardó «Varita pitusa.» como nota.
-  const before: Pick<LoadDofusGuidesOptions, 'findOnlyItem'> = { findOnlyItem: async () => null }
+  const before: Pick<LoadDofusGuidesOptions, 'findItem'> = {
+    findItem: async (name) => (name === 'Varita pitusa' ? null : options([]).findItem(name)),
+  }
   // Sin Dofus en la base (ensureItem da null): el Dofus de una guía es único.
   const cacao = (slug: string, dofusId: number): DofusCatalogEntry => ({
     ...entry,
@@ -392,6 +395,71 @@ describe('loadDofusGuides: filas sin cantidad en guías ya importadas', () => {
     const after = await read(slug)
     expect(after.needs?.groups?.[0]?.rows?.map((row) => row.blockType)).toEqual(['needNote'])
     expect(JSON.stringify(after.needs)).toContain('Varita pitusa (de Torre).')
+  })
+})
+
+describe('loadDofusGuides: búsquedas de objetos', () => {
+  const guide = (slug: string, dofusId: number, extra: string[] = []) => ({
+    entry: { ...entry, slug, name: 'Dofus de prueba', dofusId },
+    source: {
+      ...source(),
+      needs: {
+        title: 'Necesitarás',
+        note: null,
+        groups: [
+          {
+            name: null,
+            rows: ['Varita pitusa', 'Mucha paciencia', ...extra].map((name) => ({
+              text: `${name}.`,
+              segs: [{ t: 'text' as const, v: `${name}.` }],
+              name,
+            })),
+          },
+        ],
+      },
+    },
+  })
+
+  it('cada nombre se busca una vez en toda la importación', async () => {
+    const asked: string[] = []
+    const counting = {
+      findItem: async (name: string) => {
+        asked.push(name)
+        return options([]).findItem(name)
+      },
+    }
+    await loadDofusGuides(payload, {
+      ...options([guide('prueba-dofus-busca-1', 918061), guide('prueba-dofus-busca-2', 918062)]),
+      ...counting,
+      apply: false,
+    })
+    expect(asked.filter((name) => name === 'Varita pitusa')).toHaveLength(1)
+    expect(asked.filter((name) => name === 'Mucha paciencia')).toHaveLength(1)
+  })
+
+  it('si falla la búsqueda de una fila sin cantidad, queda como nota y se avisa', async () => {
+    const report = await loadDofusGuides(payload, {
+      ...options([guide('prueba-dofus-busca-3', 918063)]),
+      findItem: async (name) => {
+        if (name === 'Mucha paciencia') throw new Error('DofusDB tardó demasiado')
+        return options([]).findItem(name)
+      },
+      apply: false,
+    })
+    expect(report.created).toBe(1)
+    expect(report.lookupFailures).toEqual([
+      { slug: 'prueba-dofus-busca-3', text: 'Mucha paciencia.', error: 'DofusDB tardó demasiado' },
+    ])
+  })
+
+  it('lo casado se informa solo si es nuevo frente a lo guardado', async () => {
+    const slug = 'prueba-dofus-busca-4'
+    await loadDofusGuides(payload, options([guide(slug, 918064)]))
+    // Necesitarás cambia por otra fila, pero la Varita ya estaba guardada como objeto.
+    const report = await loadDofusGuides(payload, options([guide(slug, 918064, ['Pepitas'])]))
+    expect(report.updated).toBe(1)
+    expect(report.withoutQuantity).toEqual([])
+    expect(report.singular).toEqual([{ slug, text: 'Pepitas.', item: 'Pepita' }])
   })
 })
 
