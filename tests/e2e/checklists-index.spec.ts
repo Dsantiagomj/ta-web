@@ -152,6 +152,42 @@ test.describe('índice de las checklists', () => {
     await expect(soon).not.toHaveAttribute('data-tilt')
   })
 
+  // El LCP (DESIGN.md, Performance budgets): con el pie en la primera pantalla, la cara de
+  // Torre, diferida, pasaba a ser lo más grande y llegaba tarde (3,6 s en Lighthouse CI). El
+  // índice ocupa la pantalla, como el hub antiguo, y los primeros carteles cargan su escena y
+  // su huevo sin esperar.
+  for (const viewport of [
+    { width: 390, height: 844 },
+    { width: 412, height: 823 },
+    { width: 1440, height: 900 },
+  ]) {
+    test(`el pie queda fuera de la primera pantalla a ${viewport.width}px`, async ({ page }) => {
+      await page.setViewportSize(viewport)
+      await page.goto('/checklists')
+      const top = await page
+        .locator('footer')
+        .first()
+        .evaluate((el) => el.getBoundingClientRect().top)
+      expect(top).toBeGreaterThanOrEqual(viewport.height)
+    })
+  }
+
+  test('los dos primeros carteles cargan su escena y su huevo con prioridad, sin diferir', async ({
+    page,
+  }) => {
+    await page.goto('/checklists')
+    const priority = page.locator(
+      '[data-checklist-grid] > li:nth-child(-n+2) :is(.poster__art, .poster__egg) img',
+    )
+    for (const img of await priority.all()) {
+      await expect(img).toHaveAttribute('fetchpriority', 'high')
+      await expect(img).not.toHaveAttribute('loading', 'lazy')
+    }
+    expect(await priority.count()).toBeGreaterThan(0)
+    const later = page.locator('[data-checklist-grid] > li:nth-child(n+3) .poster__art img')
+    for (const img of await later.all()) await expect(img).toHaveAttribute('loading', 'lazy')
+  })
+
   test.describe('con el ratón', () => {
     test.use({ viewport: { width: 1440, height: 900 } })
 
