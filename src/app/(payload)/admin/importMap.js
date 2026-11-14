@@ -1,5 +1,5 @@
-import { PublishStatus as PublishStatus_ac4bf174ae52f063700189610d23cd3c } from '../../../components/admin/PublishStatus'
 import { QuestAutofill as QuestAutofill_db21c2373e5db7b21dde152dffc07347 } from '../../../components/quest-guide-admin/QuestAutofill'
+import { PublishStatus as PublishStatus_ac4bf174ae52f063700189610d23cd3c } from '../../../components/admin/PublishStatus'
 import { SlugDescription as SlugDescription_e88767310d6ebe16b890909890a6cc49 } from '../../../components/admin/SlugDescription'
 import { SummaryNote as SummaryNote_666e24196e21524e3cb0a6dcd90c8518 } from '../../../components/quest-guide-admin/SummaryNote'
 import { RelationRowLabel as RelationRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2 } from '../../../components/admin/RowLabels'
@@ -44,8 +44,8 @@ import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc056
 
 /** @type import('payload').ImportMap */
 export const importMap = {
-  "/components/admin/PublishStatus#PublishStatus": PublishStatus_ac4bf174ae52f063700189610d23cd3c,
   "/components/quest-guide-admin/QuestAutofill#QuestAutofill": QuestAutofill_db21c2373e5db7b21dde152dffc07347,
+  "/components/admin/PublishStatus#PublishStatus": PublishStatus_ac4bf174ae52f063700189610d23cd3c,
   "/components/admin/SlugDescription#SlugDescription": SlugDescription_e88767310d6ebe16b890909890a6cc49,
   "/components/quest-guide-admin/SummaryNote#SummaryNote": SummaryNote_666e24196e21524e3cb0a6dcd90c8518,
   "/components/admin/RowLabels#RelationRowLabel": RelationRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2,

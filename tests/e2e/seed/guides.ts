@@ -24,13 +24,14 @@ export const E2E_EDITOR_USER = {
 }
 
 /**
- * Otra cuenta del panel, para las pruebas de la ola 2 del panel (panel-ola2.spec.ts): cada
- * inicio de sesión reescribe las sesiones de su cuenta, y dos a la vez en la misma cuenta
- * pueden borrarse entre sí. Solo existe en la base local.
+ * Otra cuenta de administrador, como la de Torre, para las pruebas de la ola 2 del panel
+ * (panel-ola2.spec.ts): cada inicio de sesión reescribe las sesiones de su cuenta, y dos a
+ * la vez en la misma cuenta pueden borrarse entre sí. Solo existe en la base local.
  */
 export const E2E_PANEL_USER_2 = {
   email: 'e2e-ola2@torrentearcano.test',
   password: 'e2e-clave-solo-local-2',
+  role: 'admin' as const,
 }
 
 export const seedGuide = {
@@ -262,19 +263,12 @@ async function guideExists(payload: Payload, slug: string) {
 
 /** Siembra las guías de prueba; repetirla no duplica nada. */
 export async function seedGuides(payload: Payload): Promise<void> {
-  for (const user of [E2E_PANEL_USER, E2E_EDITOR_USER]) {
+  for (const user of [E2E_PANEL_USER, E2E_EDITOR_USER, E2E_PANEL_USER_2]) {
     const users = await payload.count({
       collection: 'users',
       where: { email: { equals: user.email } },
     })
     if (users.totalDocs === 0) await payload.create({ collection: 'users', data: user })
-  }
-  const second = await payload.count({
-    collection: 'users',
-    where: { email: { equals: E2E_PANEL_USER_2.email } },
-  })
-  if (second.totalDocs === 0) {
-    await payload.create({ collection: 'users', data: E2E_PANEL_USER_2 })
   }
 
   // La misión previa es la 1 del mismo logro: su guía acaba con la tarjeta de esta.
