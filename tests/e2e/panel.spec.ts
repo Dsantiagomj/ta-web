@@ -73,6 +73,16 @@ test.describe('el panel para Torre', () => {
     expect(cleared.ok()).toBe(true)
   })
 
+  // Payload bloquea el documento que alguien tiene abierto, y cerrar el navegador no lo
+  // suelta: lo que se abre aquí quedaría bloqueado para la prueba siguiente que lo abra.
+  test.afterEach(async () => {
+    const me = await page.request.get('/api/users/me')
+    const id = ((await me.json()) as { user?: { id: number } }).user?.id
+    if (id === undefined) return
+    const mine = `where[user.value][equals]=${id}`
+    expect((await page.request.delete(`/api/payload-locked-documents?${mine}`)).ok()).toBe(true)
+  })
+
   test.afterAll(async () => {
     await page.context().close()
   })
@@ -148,8 +158,9 @@ test.describe('el panel para Torre', () => {
     // Empieza cerrado: el identificador no se ve hasta abrir «Datos técnicos».
     await expect(first.locator('#field-steps__0__stepId')).toBeHidden()
     await openUntil(first.locator('> .collapsible'), first.locator('#field-steps__0__zone'))
-    // Las filas de misiones se llaman por su misión: el nombre llega en una petición por
-    // colección para todas las filas, no en una por fila.
+    // Las misiones van en su pestaña (A-18). Sus filas se llaman por su misión: el nombre
+    // llega en una petición por colección para todas las filas, no en una por fila.
+    await first.getByRole('button', { name: 'Misiones y logros' }).click()
     await expect(first.getByText(`Misión 1: ${seedGuide.title}`)).toBeVisible()
     // Payload pinta en el servidor los campos de la fila recién abierta: hasta que termina,
     // abrir «Datos técnicos» puede quedarse sin sus campos.
@@ -162,6 +173,32 @@ test.describe('el panel para Torre', () => {
     await expect(
       first.getByRole('button', { name: 'Copiar el identificador del paso' }),
     ).toBeVisible()
+  })
+
+  test('el orden de los pasos se cambia con sus flechas y con el teclado (A-18)', async () => {
+    const nebuloso = seedChecklists.nebuloso
+    const id = await docId(page, 'checklists', nebuloso.slug)
+    await page.goto(`/admin/collections/checklists/${id}`)
+    const outline = page.locator('.ta-outline')
+    await outline.locator('summary').click()
+    const rows = outline.locator('.ta-outline__row')
+    await expect(rows).toHaveCount(3)
+    await expect(rows.first()).toContainText(`Paso 1: ${nebuloso.steps.first}`)
+    const results = await new AxeBuilder({ page }).include('.ta-outline').withTags(WCAG).analyze()
+    expect(results.violations.map((violation) => violation.id)).toEqual([])
+
+    await outline.getByRole('button', { name: 'Bajar el paso 1' }).click()
+    await expect(rows.nth(1)).toContainText(nebuloso.steps.first)
+    await expect(page.locator('#steps-row-1')).toContainText(nebuloso.steps.first)
+    await expect(outline.getByRole('status')).toHaveText('El paso 1 es ahora el 2.')
+
+    // Con el foco en el paso movido, Alt y la flecha arriba lo devuelven a su sitio.
+    await expect(rows.nth(1)).toBeFocused()
+    await page.keyboard.press('Alt+ArrowUp')
+    await expect(rows.first()).toContainText(nebuloso.steps.first)
+    await expect(page.locator('#steps-row-0')).toContainText(nebuloso.steps.first)
+    // Sin guardar: al salir, Payload pregunta, y se sale sin guardar.
+    page.once('dialog', (dialog) => void dialog.accept())
   })
 
   test('el formulario de subir una imagen explica el texto alternativo', async () => {

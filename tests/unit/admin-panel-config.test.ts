@@ -38,7 +38,9 @@ const named = (fields: Field[]): Field[] =>
   fields.flatMap((candidate) =>
     candidate.type === 'row' || candidate.type === 'collapsible'
       ? named(candidate.fields)
-      : [candidate],
+      : candidate.type === 'tabs'
+        ? candidate.tabs.flatMap((tab) => ('name' in tab ? [] : named(tab.fields)))
+        : [candidate],
   )
 
 function field(fields: Field[], name: string): Field {

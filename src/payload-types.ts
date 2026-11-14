@@ -1296,6 +1296,10 @@ export interface Checklist {
     | {
         legacyNumber?: number | null;
         /**
+         * La zona del paso en la lista, como «Anutropía». Agrupa los pasos: no tiene por qué ser donde empiezan sus misiones.
+         */
+        zone?: string | null;
+        /**
          * El texto del paso, por tramos y en orden. Un tramo «Detente aquí» dice hasta dónde avanzar una misión; uno «Aquí se resuelve» termina las misiones que otros pasos dejaron a medias.
          */
         segments?:
@@ -1383,17 +1387,6 @@ export interface Checklist {
           };
           [k: string]: unknown;
         } | null;
-        achievements?:
-          | {
-              achievement: number | Achievement;
-              mode: 'all' | 'some' | 'upto';
-              /**
-               * Las misiones del logro que se hacen en este paso: 1, 2…
-               */
-              on?: number[] | null;
-              id?: string | null;
-            }[]
-          | null;
         quests?:
           | {
               quest: number | Quest;
@@ -1417,6 +1410,21 @@ export interface Checklist {
               id?: string | null;
             }[]
           | null;
+        achievements?:
+          | {
+              achievement: number | Achievement;
+              mode: 'all' | 'some' | 'upto';
+              /**
+               * Las misiones del logro que se hacen en este paso: 1, 2…
+               */
+              on?: number[] | null;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * Los jefes que hay que vencer en el paso.
+         */
+        bosses?: (number | Monster)[] | null;
         needs?:
           | {
               /**
@@ -1470,6 +1478,14 @@ export interface Checklist {
             }[]
           | null;
         /**
+         * La imagen de cabecera del paso, normalmente el mapa donde empieza.
+         */
+        banner?: (number | null) | Media;
+        /**
+         * El icono del paso: la recompensa de su logro, su jefe o el icono del logro.
+         */
+        icon?: (number | null) | Media;
+        /**
          * La imagen del paso: un PNJ o una imagen subida.
          */
         figure?: {
@@ -1480,22 +1496,6 @@ export interface Checklist {
            */
           role?: string | null;
         };
-        /**
-         * Los jefes que hay que vencer en el paso.
-         */
-        bosses?: (number | Monster)[] | null;
-        /**
-         * El icono del paso: la recompensa de su logro, su jefe o el icono del logro.
-         */
-        icon?: (number | null) | Media;
-        /**
-         * La imagen de cabecera del paso, normalmente el mapa donde empieza.
-         */
-        banner?: (number | null) | Media;
-        /**
-         * La zona del paso en la lista, como «Anutropía». Agrupa los pasos: no tiene por qué ser donde empiezan sus misiones.
-         */
-        zone?: string | null;
         stepId?: string | null;
         id?: string | null;
       }[]
@@ -2146,6 +2146,7 @@ export interface ChecklistsSelect<T extends boolean = true> {
     | T
     | {
         legacyNumber?: T;
+        zone?: T;
         segments?:
           | T
           | {
@@ -2172,14 +2173,6 @@ export interface ChecklistsSelect<T extends boolean = true> {
         closes?: T;
         updates?: T;
         note?: T;
-        achievements?:
-          | T
-          | {
-              achievement?: T;
-              mode?: T;
-              on?: T;
-              id?: T;
-            };
         quests?:
           | T
           | {
@@ -2191,6 +2184,15 @@ export interface ChecklistsSelect<T extends boolean = true> {
               optionalDoneBy?: T;
               id?: T;
             };
+        achievements?:
+          | T
+          | {
+              achievement?: T;
+              mode?: T;
+              on?: T;
+              id?: T;
+            };
+        bosses?: T;
         needs?:
           | T
           | {
@@ -2213,6 +2215,8 @@ export interface ChecklistsSelect<T extends boolean = true> {
               quests?: T;
               id?: T;
             };
+        banner?: T;
+        icon?: T;
         figure?:
           | T
           | {
@@ -2220,10 +2224,6 @@ export interface ChecklistsSelect<T extends boolean = true> {
               image?: T;
               role?: T;
             };
-        bosses?: T;
-        icon?: T;
-        banner?: T;
-        zone?: T;
         stepId?: T;
         id?: T;
       };
