@@ -16,14 +16,6 @@ export const EDITORIAL_COLLECTIONS = [
 
 export type EditorialCollection = (typeof EDITORIAL_COLLECTIONS)[number]
 
-/** Las que tienen «Visible en la web» (`state`). Las guías de misiones no lo tienen. */
-export const STATE_COLLECTIONS = [
-  'achievement-pages',
-  'achievement-groups',
-  'dofus-guides',
-  'checklists',
-] as const satisfies readonly EditorialCollection[]
-
 /** Cuántas filas enseña cada parte: el panel de control es un resumen, no una lista. */
 export const DASHBOARD_LIMITS = { drafts: 8, preparing: 5, dofus: 12, recent: 8 } as const
 
@@ -59,23 +51,36 @@ export function adminDocHref(adminRoute: string, collection: string, id: number 
   return `${adminRoute}/collections/${collection}/${id}`
 }
 
+/** La vista de crear un documento nuevo: /admin/collections/media/create. */
+export function adminCreateHref(adminRoute: string, collection: string) {
+  return `${adminRoute}/collections/${collection}/create`
+}
+
 /** Una lista del panel, con filtros de igualdad en la dirección, como los pone Payload. */
 export function adminListHref(
   adminRoute: string,
   collection: string,
   equals: Record<string, string> = {},
 ) {
-  const query = Object.entries(equals)
-    .map(([field, value]) => `${encodeURIComponent(`where[${field}][equals]`)}=${value}`)
-    .join('&')
+  const query = new URLSearchParams(
+    Object.entries(equals).map(([field, value]) => [`where[${field}][equals]`, value]),
+  ).toString()
   return `${adminRoute}/collections/${collection}${query ? `?${query}` : ''}`
 }
 
-/** Junta listas ya ordenadas de varias colecciones: lo más nuevo primero, hasta `limit`. */
+const time = (item: DashboardItem) => {
+  const parsed = Date.parse(item.updatedAt)
+  return Number.isNaN(parsed) ? -Infinity : parsed
+}
+
+/**
+ * Junta listas de varias colecciones: lo más nuevo primero, hasta `limit`. Lo que no tiene
+ * fecha va al final.
+ */
 export function mergeRecent<T extends DashboardItem>(lists: T[][], limit: number): T[] {
   return lists
     .flat()
-    .sort((a, b) => Date.parse(b.updatedAt) - Date.parse(a.updatedAt))
+    .sort((a, b) => time(b) - time(a))
     .slice(0, limit)
 }
 
@@ -93,9 +98,24 @@ function labelText(label: Label, fallback: string): string {
   return fallback
 }
 
+const PUBLISHED: Where = { _status: { equals: 'published' } }
+const DRAFT: Where = { _status: { equals: 'draft' } }
+
+const filled = (value: unknown) => typeof value === 'string' && value.trim() !== ''
+
+/** Lo que pinta la tarjeta de la checklist en la página del Dofus: nombre y enlace. */
+const hasChecklistCard = (doc: Doc) => {
+  const checklist = doc.checklist as { name?: unknown; url?: unknown } | null | undefined
+  return filled(checklist?.name) && filled(checklist?.url)
+}
+
+const relationId = (value: unknown) =>
+  typeof value === 'object' && value ? (value as Doc).id : value
+
 /**
- * Lo que Torre tiene pendiente: borradores sin publicar, lo que sigue «En preparación», los
- * Dofus cuya página no enlaza su checklist y lo último que cambió.
+ * Lo que Torre tiene pendiente: borradores sin publicar, lo publicado «En preparación», los
+ * Dofus publicados cuya página no enseña su checklist y lo último que cambió. Todas las
+ * consultas van a la vez: ninguna depende de otra.
  */
 export async function readDashboard(payload: Payload, user: User): Promise<Dashboard> {
   const adminRoute = payload.config.routes?.admin ?? '/admin'
@@ -133,123 +153,109 @@ export async function readDashboard(payload: Payload, user: User): Promise<Dashb
     return found as unknown as { docs: Doc[]; totalDocs: number }
   }
 
-  const [drafts, preparing, dofusWithoutChecklist, recent] = await Promise.all([
-    readDrafts(),
-    readPreparing(),
-    readDofusWithoutChecklist(),
-    readRecent(),
-  ])
-  return { drafts, preparing, dofusWithoutChecklist, recent }
+  const preparingGroup = (collection: EditorialCollection, docs: Doc[], total: number) => ({
+    collection,
+    label: labels(collection).plural,
+    total,
+    items: docs.slice(0, DASHBOARD_LIMITS.preparing).map((doc) => toItem(collection, doc)),
+    listHref: adminListHref(adminRoute, collection, { state: 'preparing' }),
+  })
 
-  async function readDrafts(): Promise<Dashboard['drafts']> {
-    const perCollection = await Promise.all(
-      EDITORIAL_COLLECTIONS.map(async (collection) => {
+  const perCollection = Promise.all(
+    EDITORIAL_COLLECTIONS.map(async (collection) => {
+      const [drafts, neverPublished, latest] = await Promise.all([
         // Con draft: true, Payload lee la última versión de cada documento: un borrador es
         // tanto lo nunca publicado como los cambios guardados sobre lo publicado.
-        const found = await find(collection, {
+        find(collection, {
           draft: true,
-          where: { _status: { equals: 'draft' } },
+          where: DRAFT,
           sort: '-updatedAt',
           limit: DASHBOARD_LIMITS.drafts,
-        })
-        const docs = found.docs
-        const ids = docs.map((doc) => doc.id)
-        const published = ids.length
-          ? await find(collection, {
-              where: { and: [{ id: { in: ids } }, { _status: { equals: 'published' } }] },
-              limit: ids.length,
-              select: {},
-            })
-          : { docs: [] as Doc[] }
-        const live = new Set(published.docs.map((doc) => doc.id))
-        return {
-          total: found.totalDocs,
-          items: docs.map((doc) => ({
-            ...toItem(collection, doc),
-            neverPublished: !live.has(doc.id),
-          })),
-        }
-      }),
-    )
-    return {
-      total: perCollection.reduce((sum, part) => sum + part.total, 0),
+        }),
+        // Sin versión publicada, lo guardado sigue como borrador en la colección. Mismo orden
+        // y límite: los nunca publicados de la lista de arriba están todos aquí.
+        find(collection, {
+          where: DRAFT,
+          sort: '-updatedAt',
+          limit: DASHBOARD_LIMITS.drafts,
+          select: {},
+        }),
+        find(collection, { draft: true, sort: '-updatedAt', limit: DASHBOARD_LIMITS.recent }),
+      ])
+      const never = new Set(neverPublished.docs.map((doc) => doc.id))
+      return {
+        draftTotal: drafts.totalDocs,
+        drafts: drafts.docs.map((doc) => ({
+          ...toItem(collection, doc),
+          neverPublished: never.has(doc.id),
+        })),
+        recent: latest.docs.map((doc) => toItem(collection, doc)),
+      }
+    }),
+  )
+
+  // Los logros y los metalogros pueden ser cientos: se cuentan y se enseñan los últimos.
+  const preparingLarge = Promise.all(
+    (['achievement-pages', 'achievement-groups'] as const).map(async (collection) => {
+      const found = await find(collection, {
+        where: { and: [PUBLISHED, { state: { equals: 'preparing' } }] },
+        sort: '-updatedAt',
+        limit: DASHBOARD_LIMITS.preparing,
+      })
+      return preparingGroup(collection, found.docs, found.totalDocs)
+    }),
+  )
+
+  // Las guías de Dofus y las checklists son pocas: se leen enteras, una vez, y de ellas sale
+  // todo lo demás.
+  const dofusGuides = find('dofus-guides', { where: PUBLISHED, sort: 'order', pagination: false })
+  const checklists = find('checklists', { where: PUBLISHED, sort: 'order', pagination: false })
+
+  const [collections, large, dofus, lists] = await Promise.all([
+    perCollection,
+    preparingLarge,
+    dofusGuides,
+    checklists,
+  ])
+
+  const byState = (docs: Doc[]) => docs.filter((doc) => doc.state === 'preparing')
+  const preparingDofus = byState(dofus.docs)
+  const preparingLists = byState(lists.docs)
+  const preparing = [
+    ...large,
+    preparingGroup('dofus-guides', preparingDofus, preparingDofus.length),
+    preparingGroup('checklists', preparingLists, preparingLists.length),
+  ].filter((group) => group.total > 0)
+
+  // La primera checklist publicada, en el orden de Torre, que apunta a cada Dofus.
+  const checklistOf = new Map<unknown, string>()
+  for (const list of lists.docs) {
+    const guide = relationId(list.dofusGuide)
+    if (guide !== undefined && !checklistOf.has(guide) && typeof list.name === 'string') {
+      checklistOf.set(guide, list.name)
+    }
+  }
+  const withoutCard = dofus.docs.filter((doc) => !hasChecklistCard(doc))
+
+  return {
+    drafts: {
+      total: collections.reduce((sum, part) => sum + part.draftTotal, 0),
       items: mergeRecent(
-        perCollection.map((part) => part.items),
+        collections.map((part) => part.drafts),
         DASHBOARD_LIMITS.drafts,
       ),
-    }
-  }
-
-  async function readPreparing(): Promise<PreparingGroup[]> {
-    const groups = await Promise.all(
-      STATE_COLLECTIONS.map(async (collection) => {
-        const found = await find(collection, {
-          draft: true,
-          where: { state: { equals: 'preparing' } },
-          sort: '-updatedAt',
-          limit: DASHBOARD_LIMITS.preparing,
-        })
-        return {
-          collection,
-          label: labels(collection).plural,
-          total: found.totalDocs,
-          items: found.docs.map((doc) => toItem(collection, doc)),
-          listHref: adminListHref(adminRoute, collection, { state: 'preparing' }),
-        }
-      }),
-    )
-    return groups.filter((group) => group.total > 0)
-  }
-
-  async function readDofusWithoutChecklist(): Promise<Dashboard['dofusWithoutChecklist']> {
-    // La tarjeta de la checklist en la página del Dofus sale de `checklist.url`.
-    const noLink: Where = {
-      or: [{ 'checklist.url': { exists: false } }, { 'checklist.url': { equals: '' } }],
-    }
-    const found = await find('dofus-guides', {
-      draft: true,
-      where: noLink,
-      sort: 'order',
-      limit: DASHBOARD_LIMITS.dofus,
-    })
-    const docs = found.docs
-    const ids = docs.map((doc) => doc.id)
-    // Una checklist que ya apunta a ese Dofus: solo falta poner su enlace en la guía.
-    const checklists = ids.length
-      ? await find('checklists', {
-          draft: true,
-          where: { dofusGuide: { in: ids } },
-          limit: ids.length * 2,
-        })
-      : { docs: [] as Doc[] }
-    const byGuide = new Map<number, string>()
-    for (const checklist of checklists.docs as Doc[]) {
-      const guide = checklist.dofusGuide
-      const guideId = typeof guide === 'object' && guide ? (guide as Doc).id : guide
-      if (typeof guideId === 'number' && typeof checklist.name === 'string') {
-        byGuide.set(guideId, checklist.name)
-      }
-    }
-    return {
-      total: found.totalDocs,
-      items: docs.map((doc) => ({
+    },
+    preparing,
+    dofusWithoutChecklist: {
+      total: withoutCard.length,
+      items: withoutCard.slice(0, DASHBOARD_LIMITS.dofus).map((doc) => ({
         ...toItem('dofus-guides', doc),
-        checklistName: byGuide.get(doc.id) ?? null,
+        checklistName: checklistOf.get(doc.id) ?? null,
       })),
-    }
-  }
-
-  async function readRecent(): Promise<DashboardItem[]> {
-    const lists = await Promise.all(
-      EDITORIAL_COLLECTIONS.map(async (collection) => {
-        const found = await find(collection, {
-          draft: true,
-          sort: '-updatedAt',
-          limit: DASHBOARD_LIMITS.recent,
-        })
-        return found.docs.map((doc) => toItem(collection, doc))
-      }),
-    )
-    return mergeRecent(lists, DASHBOARD_LIMITS.recent)
+    },
+    recent: mergeRecent(
+      collections.map((part) => part.recent),
+      DASHBOARD_LIMITS.recent,
+    ),
   }
 }

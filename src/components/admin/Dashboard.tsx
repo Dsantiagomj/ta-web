@@ -2,7 +2,7 @@ import { Gutter } from '@payloadcms/ui'
 import Link from 'next/link'
 import type { AdminViewServerProps } from 'payload'
 
-import { readDashboard, type DashboardItem } from '@/lib/admin/dashboard'
+import { adminCreateHref, readDashboard, type DashboardItem } from '@/lib/admin/dashboard'
 import { panelStrings, relativeTime } from '@/lib/admin/strings'
 import type { User } from '@/payload-types'
 
@@ -18,7 +18,7 @@ export async function Dashboard({ initPageResult }: AdminViewServerProps) {
   const data = await readDashboard(req.payload, user)
   const adminRoute = req.payload.config.routes.admin
   const now = new Date()
-  const create = (collection: string) => `${adminRoute}/collections/${collection}/create`
+  const create = (collection: string) => adminCreateHref(adminRoute, collection)
 
   return (
     <Gutter className="ta-dash">
