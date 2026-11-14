@@ -96,7 +96,6 @@ export const checklistStrings = {
     closesDescription:
       'Los identificadores de los pasos cuyas misiones termina este tramo. Cada paso tiene ' +
       'el suyo en «Datos técnicos», al final del paso.',
-    closesRequired: 'Indica qué pasos termina este tramo',
     stepClosesDescription:
       'Los pasos cuyas misiones termina este paso sin un tramo «Aquí se resuelve». Con ese tramo, van en él.',
     stepUpdatesDescription:

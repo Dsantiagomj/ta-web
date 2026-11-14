@@ -66,8 +66,8 @@ export function followUpStop(green: string, quests: StepQuest[]): StopPoint | nu
 /**
  * Las paradas de cada rojo del paso, en su orden. Las de journal.stopAt se reparten como en
  * ownStops: la i-ésima va al i-ésimo rojo, o al último si hay menos rojos, con sus opciones
- * (`later`, su línea, su parte del verde). Sin ellas, el primer rojo que se sitúa por su texto
- * lleva la única parada (stopPoint). Un rojo puede quedarse sin ninguna.
+ * (`later`, su línea, su parte del verde). Sin ellas, cada rojo se sitúa por su texto (stopPoint).
+ * Un rojo puede quedarse sin ninguna.
  */
 export function stepStops(
   step: LegacyStep,
@@ -94,12 +94,10 @@ export function stepStops(
     for (const { red, point } of written) out[red].push(point)
     return out
   }
+  // Sin ellas, cada rojo se sitúa por su texto, uno a uno: dos rojos pueden parar dos misiones.
   for (const [red, text] of reds.entries()) {
     const point = stopFromText(text, quests)
-    if (point) {
-      out[red].push(point)
-      break
-    }
+    if (point) out[red].push(point)
   }
   return out
 }

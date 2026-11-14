@@ -163,7 +163,9 @@ function splitText(step: LegacyStep): { kind: MarkKind; text: string; raw?: stri
     const piece = text.slice(at, to).trim()
     if (piece) parts.push({ kind: 'plain', text: piece })
   }
-  for (const [kind, raw] of step.marks ?? []) {
+  for (const [kind, marked] of step.marks ?? []) {
+    // Sin los espacios de alrededor: alargar hasta el espacio se comería la palabra siguiente.
+    const raw = marked.trim()
     let from = lower.indexOf(raw.toLowerCase(), at)
     if (from < 0) throw new Error(`Paso ${step.n}: el resaltado «${raw}» no está en su texto`)
     let to = from + raw.length
@@ -199,6 +201,9 @@ const stopDraft = (point: StopPoint | undefined): StopDraft => ({
 function prerequisiteNotes(legacy: LegacyChecklist): { title: string; text: string }[] {
   const { prereqNote, orderNote } = legacy.config
   const { ocre, ocreStep } = legacy.prerequisites
+  if (prereqNote && (!ocre.trim() || ocreStep == null)) {
+    throw new Error('El aviso del Dofus Ocre necesita PREREQS_OCRE y OCRE_STEP en steps.js')
+  }
   return [
     ...(prereqNote
       ? [

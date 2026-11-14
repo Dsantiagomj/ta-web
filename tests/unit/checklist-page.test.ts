@@ -709,3 +709,41 @@ describe('checklistRoute', () => {
     ).toEqual({ kind: 'page' })
   })
 })
+
+describe('revisión de #115: lo nuevo del esquema en la página', () => {
+  const objectives = {
+    5: {
+      stages: [
+        { dofusId: 1, objectives: [{ dofusId: 11, kind: 'free' as const, text: 'Uno' }] },
+        { dofusId: 2, objectives: [{ dofusId: 12, kind: 'free' as const, text: 'Dos' }] },
+      ],
+    },
+  }
+
+  it('un primer «detente aquí» sin misión no tapa el que sí la lleva', () => {
+    const steps = [
+      step('a', {
+        legacyNumber: 1,
+        segments: [
+          { kind: 'stop', text: 'Solo avisa.', quest: null, stopObjective: null },
+          { kind: 'stop', text: 'Para aquí.', quest: 5, stopObjective: 1 },
+        ],
+        quests: [{ quest: quest(5, 'Sangre fría'), kind: 'mandatory' }],
+      }),
+    ]
+    const view = checklistView(data(steps, {}, { stopQuests: objectives }))
+    expect(view.steps[0].quests[0].route).toBeDefined()
+    expect(view.island.steps[0][2]).toEqual([[1005, 'mandatory', 1]])
+  })
+
+  it('un logro «hasta la misión N» no sale como completo', () => {
+    const [view] = checklistView(
+      data([
+        step('a', {
+          achievements: [{ achievement: { id: 3, name: 'Las leguas' }, mode: 'upto', on: [1, 2] }],
+        }),
+      ]),
+    ).steps
+    expect(view.achievements[0].some).toBe(true)
+  })
+})

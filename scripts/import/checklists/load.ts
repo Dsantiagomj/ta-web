@@ -48,7 +48,7 @@ export interface LoadChecklistsOptions {
 }
 
 export type UnmatchedKind =
-  'misión' | 'logro' | 'PNJ' | 'jefe' | 'imagen' | 'guía de Dofus' | 'objetivo' | 'parada'
+  'misión' | 'logro' | 'PNJ' | 'jefe' | 'imagen' | 'guía de Dofus' | 'objetivo' | 'parada' | 'paso'
 
 export interface LoadChecklistsReport {
   created: number
@@ -211,6 +211,11 @@ async function resolveSteps(
       ),
     ),
     ...all.flatMap((step) => step.quests.map((row) => row.quest)),
+    // Las misiones de cada fila de «Necesitarás», también las de los prerrequisitos: pueden
+    // no estar en ningún paso.
+    ...[...all.flatMap((step) => step.needs), ...draft.prerequisites.needs].flatMap(
+      (need) => need.quests,
+    ),
   ])
   const achievements = await byDofusId(
     payload,
@@ -236,10 +241,16 @@ async function resolveSteps(
     const name = draft.names?.[kind]?.[dofusId]
     return name ? `${name} (${dofusId})` : String(dofusId)
   }
-  const stepRef = (n: number | null) => (n === null ? null : (stepIds.get(n) ?? null))
-  const stepRefs = (ns: number[]) =>
+  /** El stepId de un paso antiguo; uno que no está en la checklist se dice y queda fuera. */
+  const stepRef = (from: number, n: number | null) => {
+    if (n === null) return null
+    const id = stepIds.get(n) ?? null
+    if (id === null) unmatched(from, 'paso', `paso ${n}`)
+    return id
+  }
+  const stepRefs = (from: number, ns: number[]) =>
     ns.flatMap((n) => {
-      const id = stepRef(n)
+      const id = stepRef(from, n)
       return id === null ? [] : [id]
     })
 
@@ -281,8 +292,8 @@ async function resolveSteps(
       countsInTotal: need.countsInTotal,
       ...(need.reusable && { reusable: true }),
       quests: need.quests.flatMap((dofusId) => {
-        const found = quests.get(dofusId)
-        return found ? [found.id] : []
+        const found = questId(n, dofusId)
+        return found === null ? [] : [found]
       }),
     }
   }
@@ -312,7 +323,7 @@ async function resolveSteps(
     }
     const segments = step.segments.map((segment) => {
       if (segment.kind === 'resolve') {
-        return { kind: 'resolve', text: segment.text, closes: stepRefs(segment.closes) }
+        return { kind: 'resolve', text: segment.text, closes: stepRefs(n, segment.closes) }
       }
       if (segment.kind !== 'stop') return { kind: segment.kind, text: segment.text }
       // Un rojo que no se sabe dónde para queda como aviso: se dice, para que Torre lo mire.
@@ -334,7 +345,7 @@ async function resolveSteps(
       const quest = questId(n, row.quest)
       if (quest === null) return []
       return [
-        { quest, kind: row.kind, note: row.note, optionalDoneBy: stepRef(row.optionalDoneBy) },
+        { quest, kind: row.kind, note: row.note, optionalDoneBy: stepRef(n, row.optionalDoneBy) },
       ]
     })
     // Todas las filas, en su orden: la que no es un objeto del juego va con su texto.
@@ -352,8 +363,8 @@ async function resolveSteps(
       stepId: stepIds.get(n),
       legacyNumber: n,
       segments,
-      closes: stepRefs(step.closes),
-      updates: stepRefs(step.updates),
+      closes: stepRefs(n, step.closes),
+      updates: stepRefs(n, step.updates),
       note: step.note ? options.htmlToLexical(`<p>${escapeHtml(step.note)}</p>`) : null,
       achievements: achievementRows,
       quests: questRows,

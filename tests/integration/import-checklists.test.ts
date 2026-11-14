@@ -714,6 +714,39 @@ describe('lo que trae el Silvestre', () => {
   })
 })
 
+describe('revisión de #115: nada se pierde sin decirlo', () => {
+  const slug = `${PREFIX}-referencias`
+
+  it('un paso antiguo que no existe y la misión de un objeto de los prerrequisitos se dicen', async () => {
+    const draft = draftFor(slug)
+    draft.steps[2].closes = [2, 9]
+    draft.steps[0].quests[0].optionalDoneBy = 8
+    draft.prerequisites.needs = [
+      {
+        item: '997301',
+        name: 'Pepita',
+        quantity: 1,
+        note: null,
+        category: 'resources',
+        countsInTotal: true,
+        // La misión del paso 2, que solo está en otro paso, y una que no existe.
+        quests: [IDS.stopQuest, IDS.missingQuest],
+        prerequisite: 'o1',
+      },
+    ]
+    const report = await loadChecklists(payload, options([{ entry: entry(slug), draft }]))
+    expect(report.unmatched).toEqual(
+      expect.arrayContaining([
+        { slug, step: 3, kind: 'paso', name: 'paso 9' },
+        { slug, step: 1, kind: 'paso', name: 'paso 8' },
+        { slug, step: 0, kind: 'misión', name: `Misión que falta (${IDS.missingQuest})` },
+      ]),
+    )
+    const doc = (await read(slug))!
+    expect(doc.prerequisites?.needs?.[0].quests).toEqual([ids.stopQuest])
+  })
+})
+
 describe('las checklists sin portar', () => {
   const slug = `${PREFIX}-ficha`
 
