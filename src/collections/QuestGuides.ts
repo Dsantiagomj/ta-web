@@ -161,7 +161,16 @@ const summaryFields: Field[] = [
         label: guideStrings.admin.dungeonPicksLabel,
         labels: { singular: 'Mazmorra', plural: 'Mazmorras' },
         type: 'array',
-        admin: { description: guideStrings.admin.dungeonPicksDescription },
+        admin: {
+          description: guideStrings.admin.dungeonPicksDescription,
+          // La fila se llama por la nota que resuelve y, sin ella, por su mazmorra.
+          components: rowLabel('RelationRowLabel', {
+            singular: panelStrings.rowLabels.dungeon,
+            textField: 'note',
+            relationField: 'dungeon',
+            relationTo: 'dungeons',
+          }),
+        },
         hooks: { beforeValidate: [withoutDeletedDungeons] },
         fields: [
           {

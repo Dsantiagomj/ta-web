@@ -95,6 +95,7 @@ export const panelStrings = {
     group: 'Grupo',
     row: 'Fila',
     achievement: 'Logro',
+    dungeon: 'Mazmorra',
     /** Tras el nombre de la primera de varias misiones alternativas. */
     alternatives: (more: number) => ` (o ${more} más)`,
   },

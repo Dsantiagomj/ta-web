@@ -160,6 +160,18 @@ describe('A-02: fechas, editor y listas', () => {
     expect(panelStrings.editorPlaceholder).not.toMatch(/comandos|presione|comience/i)
   })
 
+  it('el editor de la prosa de los logros, el del vídeo, también habla de tú', () => {
+    // Al sanear la configuración, Payload cambia el editor del campo por el ya construido.
+    for (const name of ['intro', 'outro']) {
+      const prose = field(AchievementPages.fields, name) as {
+        editor?: { FieldComponent?: unknown; features?: unknown }
+      }
+      expect(JSON.stringify(prose.editor?.FieldComponent), name).toContain(
+        panelStrings.editorPlaceholder,
+      )
+    }
+  })
+
   it('cada lista y cada grupo de bloques dice qué añade («Añadir Paso», no «Añadir Item»)', () => {
     const missing = sanitized.collections
       .filter((collection) => !collection.slug.startsWith('payload-'))
@@ -356,6 +368,15 @@ describe('A-09: filas con nombre', () => {
     expect(rowLabel(field(AchievementPages.fields, 'quests'))).toMatchObject({
       path: expect.stringContaining('#RelationRowLabel'),
       clientProps: { textField: 'name', relationField: 'quests', relationTo: 'quests' },
+    })
+  })
+
+  it('las mazmorras elegidas de una guía se llaman por su nota o su mazmorra', () => {
+    const summary = field(QuestGuides.fields, 'summary') as { fields: Field[] }
+    const needs = field(summary.fields, 'needs') as { fields: Field[] }
+    expect(rowLabel(field(needs.fields, 'dungeons'))).toMatchObject({
+      path: expect.stringContaining('#RelationRowLabel'),
+      clientProps: { textField: 'note', relationField: 'dungeon', relationTo: 'dungeons' },
     })
   })
 
