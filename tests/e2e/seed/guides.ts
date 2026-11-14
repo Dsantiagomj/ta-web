@@ -13,6 +13,14 @@ import type { RichTextBlock } from '../../../src/payload-types.ts'
 export const E2E_PANEL_USER = {
   email: 'e2e@torrentearcano.test',
   password: 'e2e-clave-solo-local',
+  role: 'admin' as const,
+}
+
+/** Un editor del panel (backlog A-15): crea, edita y publica, pero no borra lo importado. */
+export const E2E_EDITOR_USER = {
+  email: 'e2e-editor@torrentearcano.test',
+  password: 'e2e-editor-solo-local',
+  role: 'editor' as const,
 }
 
 export const seedGuide = {
@@ -244,12 +252,12 @@ async function guideExists(payload: Payload, slug: string) {
 
 /** Siembra las guías de prueba; repetirla no duplica nada. */
 export async function seedGuides(payload: Payload): Promise<void> {
-  const users = await payload.count({
-    collection: 'users',
-    where: { email: { equals: E2E_PANEL_USER.email } },
-  })
-  if (users.totalDocs === 0) {
-    await payload.create({ collection: 'users', data: E2E_PANEL_USER })
+  for (const user of [E2E_PANEL_USER, E2E_EDITOR_USER]) {
+    const users = await payload.count({
+      collection: 'users',
+      where: { email: { equals: user.email } },
+    })
+    if (users.totalDocs === 0) await payload.create({ collection: 'users', data: user })
   }
 
   // La misión previa es la 1 del mismo logro: su guía acaba con la tarjeta de esta.

@@ -44,7 +44,8 @@ export const guideStrings = {
   admin: {
     questDescription:
       'Elige primero la misión de DofusDB de la guía, solo una: rellena el título, la dirección, ' +
-      'el SEO y el resumen. Luego solo te queda escribir la guía.',
+      'el SEO y el resumen. Luego solo te queda escribir la guía. Una vez guardada, solo un ' +
+      'administrador puede cambiarla: otra misión mezclaría sus datos con los de esta.',
     titleDescription: 'Si lo dejas vacío, se usa el nombre de la misión.',
     slugDescription:
       'La de la guía, como aprendizaje-escudero. Si la dejas vacía, sale del nombre de la misión.',

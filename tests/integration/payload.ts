@@ -19,12 +19,16 @@ export function tinyPng(name = `prueba-${randomUUID()}.png`) {
 
 /**
  * Crea un usuario del panel (como haría Torre desde el panel) e inicia sesión con él.
+ * Por defecto es administrador, como Torre; `editor` crea, edita y publica, pero no borra.
  * Devuelve el usuario que Payload pone en req.user.
  */
-export async function createPanelUser(payload: Payload): Promise<User> {
-  const email = `editor-${randomUUID()}@torrentearcano.test`
+export async function createPanelUser(
+  payload: Payload,
+  role: NonNullable<User['role']> = 'admin',
+): Promise<User> {
+  const email = `${role}-${randomUUID()}@torrentearcano.test`
   const password = `clave-${randomUUID()}`
-  await payload.create({ collection: 'users', data: { email, password } })
+  await payload.create({ collection: 'users', data: { email, password, role } })
   const { user } = await payload.login({ collection: 'users', data: { email, password } })
   if (!user) throw new Error(`No se pudo iniciar sesión con ${email}`)
   return user

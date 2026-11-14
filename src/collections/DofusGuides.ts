@@ -9,7 +9,13 @@ import { validateVideoUrl, VideoBlock } from '../blocks/VideoBlock'
 import { dofusGuideStrings } from '../lib/dofus-guides/strings'
 import { guidePreviewUrl, previewOrigin } from '../lib/guides/preview'
 import { stateField } from './achievement-fields'
-import { isPanelUser, readPublishedOrAll } from './editorial-access'
+import { refuseReferencedDelete } from './delete-guard'
+import {
+  adminOnlyAfterCreate,
+  adminOrNotImported,
+  isPanelUser,
+  readPublishedOrAll,
+} from './editorial-access'
 import { originalUrlAdmin, validateOptionalUrl } from './Media'
 import { validateSlug } from './QuestGuides'
 import {
@@ -204,7 +210,8 @@ export const DofusGuides: CollectionConfig = {
     read: readPublishedOrAll,
     create: isPanelUser,
     update: isPanelUser,
-    delete: isPanelUser,
+    // Lo importado solo lo borra un administrador (docs/research/backlog.md, A-15).
+    delete: adminOrNotImported('importSnapshot'),
   },
   versions: { drafts: true, maxPerDoc: 50 },
   defaultSort: 'order',
@@ -212,6 +219,8 @@ export const DofusGuides: CollectionConfig = {
     beforeValidate: [rejectSharedSlug('dofus-guides')],
     // Borradores incluidos: es barato y cubre despublicar.
     afterChange: [revalidateDofusGuidesAfterChange],
+    // No se borra una guía de Dofus que enlaza una checklist (A-17).
+    beforeDelete: [refuseReferencedDelete('dofus-guides')],
     afterDelete: [revalidateDofusGuidesAfterDelete],
   },
   fields: [
@@ -221,7 +230,8 @@ export const DofusGuides: CollectionConfig = {
       type: 'relationship',
       relationTo: 'items',
       unique: true,
-      admin: { description: s.dofusDescription },
+      access: adminOnlyAfterCreate,
+      admin: { description: `${s.dofusDescription} ${panelStrings.locks.dofusDb}` },
     },
     {
       name: 'name',
@@ -248,7 +258,11 @@ export const DofusGuides: CollectionConfig = {
       label: 'Orden',
       type: 'number',
       required: true,
-      admin: { position: 'sidebar', description: s.orderDescription },
+      access: adminOnlyAfterCreate,
+      admin: {
+        position: 'sidebar',
+        description: `${s.orderDescription} ${panelStrings.locks.order}`,
+      },
     },
     {
       type: 'row',

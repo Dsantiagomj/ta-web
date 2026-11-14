@@ -2,6 +2,8 @@ import type { CollectionConfig } from 'payload'
 
 import { panelStrings } from '../lib/admin/strings'
 import { IMAGE_WIDTHS, imageSizeName, mediaImageSizes } from '../lib/media/sizes'
+import { refuseReferencedDelete } from './delete-guard'
+import { isAdmin } from './editorial-access'
 import {
   revalidateGuidePagesAfterChange,
   revalidateGuidePagesAfterDelete,
@@ -41,12 +43,16 @@ export const Media: CollectionConfig = {
     defaultColumns: ['filename', 'alt', 'updatedAt'],
     listSearchableFields: ['alt', 'filename'],
   },
+  // Subir y editar, cualquier cuenta del panel; borrar, solo un administrador (A-15).
   access: {
     read: () => true,
+    delete: isAdmin,
   },
   // Las guías pintan el texto alternativo y el tamaño de sus imágenes.
   hooks: {
     afterChange: [revalidateGuidePagesAfterChange],
+    // No se borra una imagen que sale en una guía (A-17).
+    beforeDelete: [refuseReferencedDelete('media')],
     afterDelete: [revalidateGuidePagesAfterDelete],
   },
   fields: [

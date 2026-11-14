@@ -154,7 +154,7 @@ export interface UserAuthOperations {
 export interface QuestGuide {
   id: number;
   /**
-   * Elige primero la misión de DofusDB de la guía, solo una: rellena el título, la dirección, el SEO y el resumen. Luego solo te queda escribir la guía.
+   * Elige primero la misión de DofusDB de la guía, solo una: rellena el título, la dirección, el SEO y el resumen. Luego solo te queda escribir la guía. Una vez guardada, solo un administrador puede cambiarla: otra misión mezclaría sus datos con los de esta.
    */
   quest?: (number | null) | Quest;
   /**
@@ -626,7 +626,7 @@ export interface StepBlock {
 export interface AchievementPage {
   id: number;
   /**
-   * Lo que esté vacío se rellena con sus datos al guardar. Lo que cambies no lo pisa ningún refresco.
+   * Lo que esté vacío se rellena con sus datos al guardar. Lo que cambies no lo pisa ningún refresco. Una vez guardado, solo un administrador puede cambiarlo: de él salen los datos que se rellenan solos, y cambiarlo los mezclaría con los de otro.
    */
   achievement: number | Achievement;
   name: string;
@@ -799,7 +799,7 @@ export interface AchievementCategory {
 export interface AchievementGroup {
   id: number;
   /**
-   * Sus logros son los de esta categoría. Sin categoría (Misiones de templo), el metalogro tiene solo guías o ninguna página.
+   * Sus logros son los de esta categoría. Sin categoría (Misiones de templo), el metalogro tiene solo guías o ninguna página. Una vez guardado, solo un administrador puede cambiarlo: de él salen los datos que se rellenan solos, y cambiarlo los mezclaría con los de otro.
    */
   category?: (number | null) | AchievementCategory;
   name: string;
@@ -881,7 +881,7 @@ export interface Npc {
 export interface DofusGuide {
   id: number;
   /**
-   * El objeto Dofus de DofusDB: de él sale el huevo de la tarjeta, del menú y de la página.
+   * El objeto Dofus de DofusDB: de él sale el huevo de la tarjeta, del menú y de la página. Una vez guardado, solo un administrador puede cambiarlo: de él salen los datos que se rellenan solos, y cambiarlo los mezclaría con los de otro.
    */
   dofus?: (number | null) | Item;
   /**
@@ -894,7 +894,7 @@ export interface DofusGuide {
    */
   state: 'published' | 'preparing';
   /**
-   * Su lugar en la lista de guías: el 1 sale primero.
+   * Su lugar en la lista de guías: el 1 sale primero. Una vez guardado, solo un administrador puede cambiarlo: mueve la página en las listas y el menú de la web.
    */
   order: number;
   /**
@@ -1184,7 +1184,7 @@ export interface Checklist {
    */
   legacyHref?: string | null;
   /**
-   * Su lugar en la lista de checklists: la 1 sale primero.
+   * Su lugar en la lista de checklists: la 1 sale primero. Una vez guardado, solo un administrador puede cambiarlo: mueve la página en las listas y el menú de la web.
    */
   order: number;
   /**
@@ -1209,7 +1209,7 @@ export interface Checklist {
           rows?:
             | {
                 /**
-                 * Guarda lo que cada persona marcó: no la cambies, o perderá esa marca.
+                 * Guarda lo que cada persona marcó. Se escribe al crear la fila y luego queda fija: otra clave borraría esas marcas.
                  */
                 key: string;
                 text: string;
@@ -1423,6 +1423,10 @@ export interface User {
    * Cómo te llamamos en el panel.
    */
   name?: string | null;
+  /**
+   * Un editor crea, edita y publica, y borra las guías que hizo a mano. Un administrador, además, borra lo importado y las imágenes, cambia el orden y los enlaces con DofusDB, y gestiona las cuentas.
+   */
+  role?: ('admin' | 'editor') | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -2344,6 +2348,7 @@ export interface AchievementsSelect<T extends boolean = true> {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;

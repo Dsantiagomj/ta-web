@@ -11,7 +11,13 @@ import { isDungeonNoteIn } from '../lib/guides/need-notes'
 import { guidePreviewUrl, previewOrigin } from '../lib/guides/preview'
 import { guideStrings } from '../lib/guides/strings'
 import type { FillableField, NotedField } from '../lib/guides/summary'
-import { isPanelUser, readPublishedOrAll } from './editorial-access'
+import { refuseReferencedDelete } from './delete-guard'
+import {
+  adminOnlyAfterCreate,
+  adminOrNotImported,
+  isPanelUser,
+  readPublishedOrAll,
+} from './editorial-access'
 import { originalUrlAdmin, validateOptionalUrl } from './Media'
 import { fillFromQuest } from './quest-guide-autofill'
 import {
@@ -214,7 +220,8 @@ export const questGuidesAccess = {
   read: readPublishedOrAll,
   create: isPanelUser,
   update: isPanelUser,
-  delete: isPanelUser,
+  // Lo importado de Squarespace solo lo borra un administrador (docs/research/backlog.md, A-15).
+  delete: adminOrNotImported('originalUrl'),
 }
 
 // Guías de misiones de Torre. Se empieza eligiendo la misión de DofusDB: de ella salen el
@@ -243,6 +250,8 @@ export const QuestGuides: CollectionConfig = {
     beforeValidate: [fillFromQuest, rejectSharedSlug('quest-guides')],
     // Borradores incluidos: es barato y cubre despublicar.
     afterChange: [revalidateGuidePagesAfterChange],
+    // No se borra una guía que sale en una guía de Dofus o en un metalogro (A-17).
+    beforeDelete: [refuseReferencedDelete('quest-guides')],
     afterDelete: [revalidateGuidePagesAfterDelete],
   },
   fields: [
@@ -252,6 +261,7 @@ export const QuestGuides: CollectionConfig = {
       label: 'Misión de DofusDB',
       type: 'relationship',
       relationTo: 'quests',
+      access: adminOnlyAfterCreate,
       admin: {
         description: guideStrings.admin.questDescription,
         // Muestra la descripción y rellena el formulario al elegir la misión.

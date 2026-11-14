@@ -120,10 +120,20 @@ describe('A-03: el orden del menú', () => {
     expect(loose.map((collection) => collection.slug)).toEqual([])
   })
 
-  it('las cuentas del panel van en Ajustes, con su nombre', () => {
+  it('las cuentas del panel van en Ajustes, con su nombre y sus permisos', () => {
     expect(adminOf(Users).group).toBe('Ajustes')
     expect(field(Users.fields, 'name')).toMatchObject({ type: 'text', label: 'Nombre' })
-    expect(adminOf(Users).defaultColumns).toEqual(['name', 'email', 'updatedAt'])
+    // A-15: administrador o editor; una cuenta nueva es editora.
+    expect(field(Users.fields, 'role')).toMatchObject({
+      type: 'select',
+      label: 'Permisos',
+      defaultValue: 'editor',
+      options: [
+        { value: 'admin', label: 'Administrador' },
+        { value: 'editor', label: 'Editor' },
+      ],
+    })
+    expect(adminOf(Users).defaultColumns).toEqual(['name', 'email', 'role', 'updatedAt'])
   })
 })
 
