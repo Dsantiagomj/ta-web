@@ -5,12 +5,12 @@ import { useEffect, useState } from 'react'
 
 import {
   fetchRelationTitle,
-  relationId,
+  relationIds,
+  relationRowLabel,
   segmentRowLabel,
   stepRowLabel,
   textRowLabel,
 } from '@/lib/admin/row-labels'
-import { rowLabelText } from '@/lib/admin/strings'
 
 import { useApiUrl } from '../quest-guide-admin/linked-quest'
 
@@ -46,7 +46,11 @@ type RelationProps = {
   relationTo: string
 }
 
-/** Una fila que se llama por su texto o, sin él, por el nombre del documento que enlaza. */
+/**
+ * Una fila que se llama por su texto o, sin él, por el nombre del documento que enlaza. Si
+ * enlaza varios (misiones alternativas), nombra el primero y dice cuántos más hay; un texto
+ * propio («Misión de clase») ya nombra el grupo y va solo.
+ */
 export function RelationRowLabel({
   singular,
   textField,
@@ -57,7 +61,8 @@ export function RelationRowLabel({
   const apiUrl = useApiUrl()
   const own = textField ? data?.[textField] : undefined
   const ownText = typeof own === 'string' && own.trim() ? own : undefined
-  const id = ownText ? null : relationId(data?.[relationField])
+  const ids = relationIds(data?.[relationField])
+  const id = ownText ? null : (ids[0] ?? null)
   const [loaded, setLoaded] = useState<{ id: number; title: string | null } | null>(null)
 
   // Sincroniza con la API REST de Payload, fuera de React: el nombre del documento enlazado.
@@ -73,5 +78,11 @@ export function RelationRowLabel({
   }, [apiUrl, id, relationTo])
 
   const title = loaded && loaded.id === id ? loaded.title : null
-  return <span>{rowLabelText(singular, rowNumber, ownText ?? title ?? undefined)}</span>
+  return (
+    <span>
+      {ownText
+        ? relationRowLabel(singular, rowNumber, ownText, 1)
+        : relationRowLabel(singular, rowNumber, title ?? undefined, ids.length)}
+    </span>
+  )
 }

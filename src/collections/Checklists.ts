@@ -20,20 +20,12 @@ import {
   revalidateChecklistsAfterDelete,
 } from './revalidate-guides'
 import { rejectSharedSlug } from './root-slug'
+import { rowLabel } from './row-label'
 import { SLUG_LABEL, slugAdmin } from './slug-field'
 import { panelStrings } from '../lib/admin/strings'
 
 const s = checklistStrings.admin
 const rows = panelStrings.rowLabels
-
-// Las etiquetas de las filas en el panel (src/components/admin/RowLabels.tsx): Torre
-// encuentra un paso por su texto, no por «Paso 17».
-const rowLabel = (name: string, clientProps?: Record<string, string>) => ({
-  RowLabel: {
-    path: `/components/admin/RowLabels#${name}`,
-    ...(clientProps ? { clientProps } : {}),
-  },
-})
 
 type SiblingData = { kind?: unknown; mode?: unknown } | undefined
 const isKind = (kind: string) => (_: unknown, siblingData: SiblingData) =>

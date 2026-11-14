@@ -1,4 +1,5 @@
 import config from '@payload-config'
+import { readFileSync } from 'node:fs'
 import type {
   ArrayField,
   CollapsibleField,
@@ -134,6 +135,18 @@ describe('A-04: sin la pestaña API', () => {
   })
 })
 
+describe('A-04: el selector de idioma, oculto solo con un idioma', () => {
+  it('la regla de custom.scss que lo oculta no sobrevive a un segundo idioma', () => {
+    const scss = readFileSync('src/app/(payload)/custom.scss', 'utf8')
+    const hidesLocale = /\.localizer\b[^{]*\{[^}]*display:\s*none/.test(scss)
+    const locales = sanitized.localization ? sanitized.localization.locales.length : 1
+    // Si falla: con un segundo idioma, quita de custom.scss la regla de .localizer y de
+    // .field-label .localized, o Torre no podrá cambiar de idioma.
+    expect(hidesLocale && locales > 1).toBe(false)
+    expect(hidesLocale).toBe(locales === 1)
+  })
+})
+
 describe('A-02: fechas, editor y listas', () => {
   it('las fechas se leen en español y con reloj de 24 horas', () => {
     expect(sanitized.admin.dateFormat).toBe("d 'de' MMMM 'de' yyyy, HH:mm")
@@ -256,6 +269,20 @@ describe('A-07: «Dirección en la web»', () => {
         clientProps: { help: expect.any(String) },
       })
     }
+  })
+
+  it('la ayuda de un logro dice lo mismo que su validador: vacía solo con el logro de DofusDB', () => {
+    const slug = field(AchievementPages.fields, 'slug')
+    const validate = (slug as { validate: (value: string, options: unknown) => true | string })
+      .validate
+    // Lo que hace el validador.
+    expect(validate('', { data: {} })).toBe(panelStrings.slug.required)
+    expect(validate('', { data: { achievement: 7 } })).toBe(true)
+    // Lo que dice la ayuda: la condición, no un «sale del nombre» sin más.
+    const help = (adminOf(slug).components?.Description as { clientProps: { help: string } })
+      .clientProps.help
+    expect(help).toMatch(/vacía/)
+    expect(help).toMatch(/logro de DofusDB/)
   })
 
   it('la de un metalogro se enseña como su panel del índice, que es donde se abre', () => {

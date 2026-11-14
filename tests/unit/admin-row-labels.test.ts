@@ -2,7 +2,10 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import {
   fetchRelationTitle,
+  RELATION_TITLE_TTL_MS,
   relationId,
+  relationIds,
+  relationRowLabel,
   segmentRowLabel,
   stepRowLabel,
   textRowLabel,
@@ -125,33 +128,120 @@ describe('relationId', () => {
 })
 
 describe('fetchRelationTitle', () => {
-  afterEach(() => vi.unstubAllGlobals())
-
-  it('pide solo el nombre del documento y lo devuelve', async () => {
-    const fetchMock = vi.fn(async () => Response.json({ id: 1976, name: 'Seis pies bajo tierra' }))
-    vi.stubGlobal('fetch', fetchMock)
-    await expect(fetchRelationTitle('/api', 'quests', 1976)).resolves.toBe('Seis pies bajo tierra')
-    expect(fetchMock).toHaveBeenCalledWith(
-      '/api/quests/1976?depth=0&select[name]=true',
-      expect.objectContaining({ credentials: 'include' }),
-    )
+  afterEach(() => {
+    vi.unstubAllGlobals()
+    vi.useRealTimers()
   })
 
-  it('pide cada documento una sola vez mientras la página siga abierta', async () => {
-    const fetchMock = vi.fn(async () => Response.json({ name: 'Plumas de jalató' }))
+  // Cada prueba usa su propia apiUrl: la caché de nombres es del módulo.
+  const docs = (...rows: [number, string][]) =>
+    Response.json({ docs: rows.map(([id, name]) => ({ id, name })) })
+
+  it('una sola petición por colección trae los nombres de muchas filas a la vez', async () => {
+    const fetchMock = vi.fn(async () =>
+      docs([1976, 'Seis pies bajo tierra'], [1977, 'Esto hace aguas'], [12, 'Ganymede']),
+    )
     vi.stubGlobal('fetch', fetchMock)
-    await fetchRelationTitle('/api', 'items', 31)
-    await fetchRelationTitle('/api', 'items', 31)
+    const titles = await Promise.all([
+      fetchRelationTitle('/api-lote', 'quests', 1976),
+      fetchRelationTitle('/api-lote', 'quests', 1977),
+      fetchRelationTitle('/api-lote', 'quests', 1976),
+      fetchRelationTitle('/api-lote', 'quests', 12),
+    ])
+    expect(titles).toEqual([
+      'Seis pies bajo tierra',
+      'Esto hace aguas',
+      'Seis pies bajo tierra',
+      'Ganymede',
+    ])
     expect(fetchMock).toHaveBeenCalledTimes(1)
+    const [url, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit]
+    expect(url).toBe(
+      '/api-lote/quests?where[id][in]=1976,1977,12&depth=0&limit=0&pagination=false&select[name]=true',
+    )
+    expect(init).toMatchObject({ credentials: 'include' })
+  })
+
+  it('una colección distinta va en su propia petición', async () => {
+    const fetchMock = vi.fn(async (url: string) =>
+      url.includes('/items') ? docs([31, 'Pluma de jalató']) : docs([7, 'El rey y yo']),
+    )
+    vi.stubGlobal('fetch', fetchMock)
+    const [quest, item] = await Promise.all([
+      fetchRelationTitle('/api-dos', 'quests', 7),
+      fetchRelationTitle('/api-dos', 'items', 31),
+    ])
+    expect([quest, item]).toEqual(['El rey y yo', 'Pluma de jalató'])
+    expect(fetchMock).toHaveBeenCalledTimes(2)
+  })
+
+  it('pide cada documento una sola vez mientras el nombre está fresco', async () => {
+    const fetchMock = vi.fn(async () => docs([31, 'Pluma de jalató']))
+    vi.stubGlobal('fetch', fetchMock)
+    await fetchRelationTitle('/api-cache', 'items', 31)
+    await fetchRelationTitle('/api-cache', 'items', 31)
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+  })
+
+  it('un nombre caduca al minuto: si Torre lo cambió, la fila lo vuelve a leer', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] })
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(docs([31, 'Pluma de jalató']))
+      .mockResolvedValueOnce(docs([31, 'Pluma de jalató real']))
+    vi.stubGlobal('fetch', fetchMock)
+    await expect(fetchRelationTitle('/api-ttl', 'items', 31)).resolves.toBe('Pluma de jalató')
+    vi.setSystemTime(Date.now() + RELATION_TITLE_TTL_MS + 1)
+    await expect(fetchRelationTitle('/api-ttl', 'items', 31)).resolves.toBe('Pluma de jalató real')
+    expect(fetchMock).toHaveBeenCalledTimes(2)
   })
 
   it('si falla devuelve null y la próxima vez lo vuelve a intentar', async () => {
     const fetchMock = vi
       .fn()
       .mockResolvedValueOnce(new Response('', { status: 500 }))
-      .mockResolvedValueOnce(Response.json({ name: 'Ganymede' }))
+      .mockResolvedValueOnce(docs([8, 'Ganymede']))
     vi.stubGlobal('fetch', fetchMock)
-    await expect(fetchRelationTitle('/api', 'npcs', 8)).resolves.toBeNull()
-    await expect(fetchRelationTitle('/api', 'npcs', 8)).resolves.toBe('Ganymede')
+    await expect(fetchRelationTitle('/api-fallo', 'npcs', 8)).resolves.toBeNull()
+    await expect(fetchRelationTitle('/api-fallo', 'npcs', 8)).resolves.toBe('Ganymede')
+  })
+
+  it('un documento que no llega se queda sin nombre, sin tumbar a los demás', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => docs([1, 'Uno'])),
+    )
+    const [one, missing] = await Promise.all([
+      fetchRelationTitle('/api-falta', 'quests', 1),
+      fetchRelationTitle('/api-falta', 'quests', 2),
+    ])
+    expect([one, missing]).toEqual(['Uno', null])
+  })
+
+  it('reparte una lista muy larga en varias peticiones, para no pasar del largo de la URL', async () => {
+    const fetchMock = vi.fn(async () => docs())
+    vi.stubGlobal('fetch', fetchMock)
+    const ids = Array.from({ length: 150 }, (_, index) => index + 1)
+    await Promise.all(ids.map((id) => fetchRelationTitle('/api-largo', 'quests', id)))
+    expect(fetchMock).toHaveBeenCalledTimes(2)
+  })
+})
+
+describe('relationIds y la etiqueta con alternativas', () => {
+  it('lee todos los ids de una relación con varias', () => {
+    expect(relationIds([5, { id: 6 }, { relationTo: 'quests', value: 7 }])).toEqual([5, 6, 7])
+    expect(relationIds(9)).toEqual([9])
+    expect(relationIds(null)).toEqual([])
+  })
+
+  it('con varias misiones alternativas, dice cuántas más hay', () => {
+    expect(relationRowLabel('Misión', 2, 'La forja', 18)).toBe('Misión 3: La forja (o 17 más)')
+    expect(relationRowLabel('Misión', 0, 'La forja', 2)).toBe('Misión 1: La forja (o 1 más)')
+    expect(relationRowLabel('Misión', 0, 'La forja', 1)).toBe('Misión 1: La forja')
+  })
+
+  it('aunque corte un nombre largo, conserva cuántas más hay', () => {
+    const label = relationRowLabel('Misión', 0, 'x'.repeat(30) + ' ' + 'y'.repeat(40), 5)
+    expect(label.endsWith('… (o 4 más)')).toBe(true)
   })
 })

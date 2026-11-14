@@ -9,7 +9,6 @@ import { VideoBlock } from '../blocks/VideoBlock'
 import { linkedQuestId } from '../lib/guides/autofill'
 import { isDungeonNoteIn } from '../lib/guides/need-notes'
 import { guidePreviewUrl, previewOrigin } from '../lib/guides/preview'
-import { isReservedSlug, isSlugFormat } from '../lib/guides/slug'
 import { guideStrings } from '../lib/guides/strings'
 import type { FillableField, NotedField } from '../lib/guides/summary'
 import { isPanelUser, readPublishedOrAll } from './editorial-access'
@@ -20,7 +19,9 @@ import {
   revalidateGuidePagesAfterDelete,
 } from './revalidate-guides'
 import { rejectSharedSlug } from './root-slug'
+import { rowLabel } from './row-label'
 import { SLUG_LABEL, slugAdmin } from './slug-field'
+import { slugFormatProblem } from '../lib/admin/slug'
 import { panelStrings } from '../lib/admin/strings'
 
 /**
@@ -30,8 +31,7 @@ import { panelStrings } from '../lib/admin/strings'
  */
 export function validateSlug(value: string | null | undefined): true | string {
   if (!value?.trim()) return panelStrings.slug.required
-  if (!isSlugFormat(value)) return panelStrings.slug.format
-  return isReservedSlug(value) ? guideStrings.admin.slugReserved(value) : true
+  return slugFormatProblem(value) ?? true
 }
 
 type GuideValidationOptions = { data: { quest?: unknown } }
@@ -122,14 +122,11 @@ const summaryFields: Field[] = [
         admin: {
           components: {
             Description: noteComponent('needs'),
-            RowLabel: {
-              path: '/components/admin/RowLabels#RelationRowLabel',
-              clientProps: {
-                singular: panelStrings.rowLabels.need,
-                relationField: 'item',
-                relationTo: 'items',
-              },
-            },
+            ...rowLabel('RelationRowLabel', {
+              singular: panelStrings.rowLabels.need,
+              relationField: 'item',
+              relationTo: 'items',
+            }),
           },
         },
         fields: [

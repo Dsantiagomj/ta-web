@@ -95,15 +95,26 @@ export const panelStrings = {
     group: 'Grupo',
     row: 'Fila',
     achievement: 'Logro',
+    /** Tras el nombre de la primera de varias misiones alternativas. */
+    alternatives: (more: number) => ` (o ${more} más)`,
   },
 } as const
 
-/** Una fila numerada: «Paso 3», y con su texto «Paso 3: Habla con Ganymede». */
-export function rowLabelText(singular: string, rowIndex: number | undefined, text?: string) {
+/**
+ * Una fila numerada: «Paso 3», y con su texto «Paso 3: Habla con Ganymede». `qualifier` va
+ * tras el número («Tramo 2 (Detente aquí)») y `suffix` tras el texto ya cortado, así que
+ * nunca se pierde («… (o 17 más)»).
+ */
+export function rowLabelText(
+  singular: string,
+  rowIndex: number | undefined,
+  text?: string,
+  { qualifier, suffix = '' }: { qualifier?: string; suffix?: string } = {},
+) {
   const number = (rowIndex ?? 0) + 1
-  const head = `${singular} ${number}`
+  const head = qualifier ? `${singular} ${number} (${qualifier})` : `${singular} ${number}`
   const clean = text?.replace(/\s+/g, ' ').trim()
-  return clean ? `${head}: ${truncateLabel(clean)}` : head
+  return clean ? `${head}: ${truncateLabel(clean)}${suffix}` : head
 }
 
 /** Corta un texto largo en una palabra y añade «…»: la fila cabe en una línea. */

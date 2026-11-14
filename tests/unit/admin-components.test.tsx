@@ -21,11 +21,18 @@ vi.mock('@payloadcms/ui', () => ({
 const { ChecklistStepLabel, RelationRowLabel, SegmentLabel, TextRowLabel } =
   await import('@/components/admin/RowLabels')
 const { SlugDescription } = await import('@/components/admin/SlugDescription')
-const { CopyValueDescription } = await import('@/components/admin/CopyValueDescription')
+const { COPIED_RESET_MS, CopyValueDescription } =
+  await import('@/components/admin/CopyValueDescription')
 const { LoginWelcome, PanelIcon, PanelLogo } = await import('@/components/admin/PanelBrand')
 
 // React necesita saber que corre en pruebas para que act() espere sus efectos.
 ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+
+/**
+ * Deja correr el lote de nombres (se junta en un setTimeout) y su respuesta. Va en su propio
+ * act, después del que pinta: React lanza los efectos al cerrar ese act.
+ */
+const settle = () => new Promise((resolve) => setTimeout(resolve, 20))
 
 let container: HTMLElement
 let root: Root
@@ -90,14 +97,38 @@ describe('etiquetas de las filas', () => {
   it('sin texto, la fila de una relación se llama por el nombre del documento enlazado', async () => {
     vi.stubGlobal(
       'fetch',
-      vi.fn(async () => Response.json({ name: 'Seis pies bajo tierra' })),
+      vi.fn(async () => Response.json({ docs: [{ id: 1976, name: 'Seis pies bajo tierra' }] })),
     )
     row.data = { quest: 1976, kind: 'mandatory' }
     row.rowNumber = 2
-    await act(async () =>
+    act(() =>
       root.render(<RelationRowLabel singular="Misión" relationField="quest" relationTo="quests" />),
     )
+    await act(settle)
     expect(container.textContent).toBe('Misión 3: Seis pies bajo tierra')
+  })
+
+  it('con misiones alternativas, nombra la primera y dice cuántas más hay', async () => {
+    const fetchMock = vi.fn(async (_url: string) =>
+      Response.json({ docs: [{ id: 501, name: 'La forja' }] }),
+    )
+    vi.stubGlobal('fetch', fetchMock)
+    row.data = { name: '', quests: [501, 502, 503] }
+    row.rowNumber = 0
+    act(() =>
+      root.render(
+        <RelationRowLabel
+          singular="Misión"
+          textField="name"
+          relationField="quests"
+          relationTo="quests"
+        />,
+      ),
+    )
+    await act(settle)
+    expect(container.textContent).toBe('Misión 1: La forja (o 2 más)')
+    // Solo hace falta el nombre de la primera.
+    expect(String(fetchMock.mock.calls[0]?.[0])).toContain('where[id][in]=501&')
   })
 
   it('mientras llega el nombre, o si no llega, queda el número', () => {
@@ -126,6 +157,24 @@ describe('SlugDescription', () => {
     expect(
       renderToStaticMarkup(<SlugDescription {...fieldProps} help="Ayuda" address="metalogro" />),
     ).toContain('torrentearcano.com/metalogros#astrub')
+  })
+
+  it('mal escrita, no enseña una dirección falsa: dice lo que diría al guardar', () => {
+    form.fields = { slug: { value: 'La Misión' } }
+    const html = renderToStaticMarkup(<SlugDescription {...fieldProps} help="Ayuda" />)
+    expect(html).not.toContain('torrentearcano.com')
+    expect(html).toContain('La dirección solo admite minúsculas')
+  })
+
+  it('una ruta del sitio o de la tabla de redirecciones tampoco se enseña como dirección', () => {
+    form.fields = { slug: { value: 'sistema' } }
+    expect(renderToStaticMarkup(<SlugDescription {...fieldProps} help="Ayuda" />)).toContain(
+      '/sistema es una página del sitio',
+    )
+    form.fields = { slug: { value: 'home' } }
+    expect(renderToStaticMarkup(<SlugDescription {...fieldProps} help="Ayuda" />)).toContain(
+      'tabla de redirecciones',
+    )
   })
 
   it('sin dirección, dice que hay que escribirla', () => {
@@ -157,6 +206,66 @@ describe('CopyValueDescription', () => {
     await act(async () => button?.click())
     expect(writeText).toHaveBeenCalledWith('b7f1c2')
     expect(container.querySelector('[role="status"]')?.textContent).toBe('Copiado')
+  })
+
+  const renderCopy = () =>
+    act(() =>
+      root.render(
+        <CopyValueDescription path="steps.0.stepId" help="Ayuda" what="el identificador" />,
+      ),
+    )
+  const status = () => container.querySelector('[role="status"]')?.textContent
+  const copyButton = () => container.querySelector('button') as HTMLButtonElement
+
+  it('«Copiado» se borra a los pocos segundos', async () => {
+    vi.useFakeTimers()
+    try {
+      Object.defineProperty(navigator, 'clipboard', {
+        value: { writeText: vi.fn(async () => {}) },
+        configurable: true,
+      })
+      form.fields = { 'steps.0.stepId': { value: 'b7f1c2' } }
+      renderCopy()
+      await act(async () => copyButton().click())
+      expect(status()).toBe('Copiado')
+      await act(async () => vi.advanceTimersByTime(COPIED_RESET_MS))
+      expect(status()).toBe('')
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
+  it('«Copiado» se borra si cambia el valor', async () => {
+    Object.defineProperty(navigator, 'clipboard', {
+      value: { writeText: vi.fn(async () => {}) },
+      configurable: true,
+    })
+    form.fields = { 'steps.0.stepId': { value: 'b7f1c2' } }
+    renderCopy()
+    await act(async () => copyButton().click())
+    expect(status()).toBe('Copiado')
+    form.fields = { 'steps.0.stepId': { value: 'c8a2d3' } }
+    renderCopy()
+    expect(status()).toBe('')
+  })
+
+  it('cada copia vuelve a anunciarse: el aviso se vacía antes de decir «Copiado» otra vez', async () => {
+    Object.defineProperty(navigator, 'clipboard', {
+      value: { writeText: vi.fn(async () => {}) },
+      configurable: true,
+    })
+    form.fields = { 'steps.0.stepId': { value: 'b7f1c2' } }
+    renderCopy()
+    await act(async () => copyButton().click())
+    const seen: string[] = []
+    const region = container.querySelector('[role="status"]') as HTMLElement
+    const observer = new MutationObserver(() => seen.push(region.textContent ?? ''))
+    observer.observe(region, { childList: true, characterData: true, subtree: true })
+    await act(async () => copyButton().click())
+    await act(async () => {})
+    observer.disconnect()
+    expect(seen).toContain('')
+    expect(status()).toBe('Copiado')
   })
 
   it('sin valor todavía, no enseña el botón', () => {

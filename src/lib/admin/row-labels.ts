@@ -1,5 +1,5 @@
 import { checklistStrings } from '../checklists/strings'
-import { panelStrings, rowLabelText, truncateLabel } from './strings'
+import { panelStrings, rowLabelText } from './strings'
 
 // Las etiquetas de las filas del panel (los componentes en src/components/admin/RowLabels.tsx).
 // Payload numera las filas desde 0 («Paso 01»); Torre las busca por su texto.
@@ -24,11 +24,8 @@ type SpecialKind = (typeof SPECIAL_KINDS)[number]
 /** Un tramo del texto de un paso: su texto y, si no es normal, su tipo. */
 export function segmentRowLabel(data: Row, rowIndex?: number): string {
   const kind = data?.kind as SpecialKind
-  const singular = SPECIAL_KINDS.includes(kind)
-    ? `${r.segment} ${(rowIndex ?? 0) + 1} (${checklistStrings.segmentKinds[kind]})`
-    : `${r.segment} ${(rowIndex ?? 0) + 1}`
-  const body = text(data?.text)?.replace(/\s+/g, ' ').trim()
-  return body ? `${singular}: ${truncateLabel(body)}` : singular
+  const qualifier = SPECIAL_KINDS.includes(kind) ? checklistStrings.segmentKinds[kind] : undefined
+  return rowLabelText(r.segment, rowIndex, text(data?.text), { qualifier })
 }
 
 /** Una fila que se llama por uno de sus campos de texto: «Grupo 1: Recursos». */
@@ -52,9 +49,73 @@ export function relationId(value: unknown): number | null {
   return null
 }
 
-// El panel lee los nombres por la API REST, en el navegador. Una petición por documento
-// mientras la página siga abierta; si falla, se reintenta la próxima vez.
-const titles = new Map<string, Promise<string | null>>()
+/** Todos los ids de una relación, también de una con varias (hasMany). */
+export function relationIds(value: unknown): number[] {
+  const values = Array.isArray(value) ? value : [value]
+  return values.map(relationId).filter((id): id is number => id !== null)
+}
+
+/**
+ * La fila de una relación: el nombre del primer documento y, si enlaza varios (las misiones
+ * alternativas de un logro), cuántos más hay: «Misión 3: La forja (o 17 más)».
+ */
+export function relationRowLabel(
+  singular: string,
+  rowIndex: number | undefined,
+  title: string | undefined,
+  count: number,
+): string {
+  const suffix = count > 1 ? r.alternatives(count - 1) : ''
+  return rowLabelText(singular, rowIndex, title, { suffix })
+}
+
+// El panel lee los nombres por la API REST, en el navegador. Las filas que piden en el mismo
+// momento se juntan: una petición por colección (`where[id][in]`), no una por fila, que en
+// una checklist de 40 pasos eran unas 150. Un nombre vale un minuto: si Torre cambia uno
+// en otra pestaña, la fila lo vuelve a leer.
+export const RELATION_TITLE_TTL_MS = 60_000
+/** Ids por petición: la URL se queda corta de sobra. */
+const BATCH_SIZE = 100
+
+type Cached = { title: Promise<string | null>; at: number }
+type Waiting = { id: number; resolve: (title: string | null) => void }
+
+const titles = new Map<string, Cached>()
+const queues = new Map<string, Waiting[]>()
+
+async function loadBatch(apiUrl: string, relationTo: string, ids: number[]) {
+  const url =
+    `${apiUrl}/${relationTo}?where[id][in]=${ids.join(',')}` +
+    '&depth=0&limit=0&pagination=false&select[name]=true'
+  try {
+    const response = await fetch(url, { credentials: 'include' })
+    if (!response.ok) return new Map<number, string>()
+    const { docs } = (await response.json()) as { docs?: { id?: unknown; name?: unknown }[] }
+    return new Map(
+      (docs ?? []).flatMap((doc) => {
+        const name = text(doc.name)
+        return typeof doc.id === 'number' && name ? [[doc.id, name] as const] : []
+      }),
+    )
+  } catch {
+    return new Map<number, string>()
+  }
+}
+
+function flush(apiUrl: string, relationTo: string) {
+  const queueKey = `${apiUrl} ${relationTo}`
+  const waiting = queues.get(queueKey) ?? []
+  queues.delete(queueKey)
+  const ids = [...new Set(waiting.map((entry) => entry.id))]
+  for (let start = 0; start < ids.length; start += BATCH_SIZE) {
+    const batch = ids.slice(start, start + BATCH_SIZE)
+    void loadBatch(apiUrl, relationTo, batch).then((names) => {
+      for (const entry of waiting) {
+        if (batch.includes(entry.id)) entry.resolve(names.get(entry.id) ?? null)
+      }
+    })
+  }
+}
 
 /** El nombre de un documento enlazado (una misión, un objeto), o null si no llega. */
 export function fetchRelationTitle(
@@ -62,17 +123,24 @@ export function fetchRelationTitle(
   relationTo: string,
   id: number,
 ): Promise<string | null> {
-  const url = `${apiUrl}/${relationTo}/${id}?depth=0&select[name]=true`
-  const cached = titles.get(url)
-  if (cached) return cached
-  const request = fetch(url, { credentials: 'include' })
-    .then((response) => (response.ok ? (response.json() as Promise<{ name?: unknown }>) : null))
-    .catch(() => null)
-    .then((doc) => {
-      const name = text(doc?.name) ?? null
-      if (!name) titles.delete(url)
-      return name
-    })
-  titles.set(url, request)
-  return request
+  const key = `${apiUrl} ${relationTo} ${id}`
+  const cached = titles.get(key)
+  if (cached && Date.now() - cached.at < RELATION_TITLE_TTL_MS) return cached.title
+
+  const queueKey = `${apiUrl} ${relationTo}`
+  const title = new Promise<string | null>((resolve) => {
+    const queue = queues.get(queueKey)
+    if (queue) queue.push({ id, resolve })
+    else {
+      queues.set(queueKey, [{ id, resolve }])
+      // Las filas se montan juntas: todo lo pedido en esta vuelta va en el mismo lote.
+      setTimeout(() => flush(apiUrl, relationTo), 0)
+    }
+  }).then((name) => {
+    // Sin nombre (un fallo, o un documento que no llegó), la próxima fila lo reintenta.
+    if (!name) titles.delete(key)
+    return name
+  })
+  titles.set(key, { title, at: Date.now() })
+  return title
 }
