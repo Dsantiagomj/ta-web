@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react'
 
-import { GuideBody } from '@/components/game/GuideBody'
+import { GuideBody, GuideSteps } from '@/components/game/GuideBody'
 import { GuideRichText } from '@/components/game/GuideRichText'
 import { IconWell } from '@/components/game/IconWell'
 import { CopyName } from '@/components/game/Item'
@@ -17,7 +17,7 @@ import type {
 } from '@/lib/dofus-guides/page'
 import { dofusPageStrings as s } from '@/lib/dofus-guides/strings'
 import { formatAmount } from '@/lib/guides/display'
-import type { GuideBlock } from '@/lib/guides/page'
+import type { GuideContent } from '@/lib/guides/page'
 import { youtubeWatchUrl } from '@/lib/guides/video'
 
 import '../achievement/achievement.css'
@@ -251,15 +251,21 @@ export function DofusParts({ view }: { view: DofusGuideView }) {
   )
 }
 
-/** El paso a paso de las guías como la de la Piñata de pino, con los bloques de las guías. */
-export function DofusBody({ blocks }: { blocks: GuideBlock[] }) {
-  if (blocks.length === 0) return null
+/**
+ * El paso a paso de las guías como la de la Piñata de pino: la prosa, las capturas y los
+ * pasos, como en una guía de misión (src/lib/guides/page.ts, guideContent).
+ */
+export function DofusBody({ content }: { content: GuideContent }) {
+  const { intro, steps, outro } = content
+  if (intro.length + steps.length + outro.length === 0) return null
   return (
     <section className="dg-sec" aria-labelledby="dg-paso">
       <h2 className="lq__h" id="dg-paso">
         {s.body}
       </h2>
-      <GuideBody blocks={blocks} />
+      {intro.length > 0 && <GuideBody blocks={intro} />}
+      {steps.length > 0 && <GuideSteps steps={steps} />}
+      {outro.length > 0 && <GuideBody blocks={outro} />}
     </section>
   )
 }

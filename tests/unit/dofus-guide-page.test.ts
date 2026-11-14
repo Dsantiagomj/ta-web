@@ -204,6 +204,34 @@ describe('dofusGuideView', () => {
     expect(withRows.needs?.title).toBe('Necesitarás en total')
   })
 
+  it('el paso a paso de la Piñata de pino: su prosa y sus capturas, listas para pintar', () => {
+    // Lo que guarda la importación: bloques de Payload, con la imagen ya poblada.
+    const view = dofusGuideView(
+      data({
+        body: [
+          { id: 'b1', blockType: 'richText', content: text('Allí encontrarás a Gobalden.') },
+          { id: 'b2', blockType: 'image', image: media(80, '579152') },
+          {
+            id: 'b3',
+            blockType: 'step',
+            x: 38,
+            y: -80,
+            body: [{ id: 'b4', blockType: 'richText', content: text('Habla con Goblepino.') }],
+          },
+          { id: 'b5', blockType: 'richText', content: text('Por fin obtendrás tu piñata.') },
+        ],
+      }),
+    )
+    const { intro, steps, outro } = view.body
+    expect(intro.map((block) => block.kind)).toEqual(['richText', 'image'])
+    // El cuerpo va debajo de la ficha: su primera captura no es la LCP de la página.
+    expect(intro[1]).toMatchObject({ kind: 'image', priority: false })
+    expect(steps).toHaveLength(1)
+    expect(steps[0]).toMatchObject({ coordinates: { x: 38, y: -80 } })
+    expect(steps[0]!.blocks.map((block) => block.kind)).toEqual(['richText'])
+    expect(outro.map((block) => block.kind)).toEqual(['richText'])
+  })
+
   it('un logro trae las misiones de su página de logro, con PNJ, nivel y enlace', () => {
     const [part] = dofusGuideView(data()).parts
     expect(part).toMatchObject({

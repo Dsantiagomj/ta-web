@@ -55,7 +55,15 @@ export const seedDofus = {
     checklist: { name: 'Almas del Ocre', url: 'https://www.torrentearcano.com/lista-ocre' },
     video: 'https://www.youtube.com/watch?v=ovPAxnBdKYQ',
   },
-  dofawa: { slug: 'dofawa', name: 'Dofawa' },
+  // Un paso a paso como el de la Piñata de pino: prosa, una captura, un paso y el cierre.
+  dofawa: {
+    slug: 'dofawa',
+    name: 'Dofawa',
+    bodyIntro: 'Allí encontrarás a Gobalden con el que tienes que hablar.',
+    bodyImageAlt: 'Las respuestas correctas para Gobalden',
+    bodyStep: 'Después, dirígete a Valonia [38,-80] y habla con Goblepino.',
+    bodyOutro: 'Por fin obtendrás tu Dofawa xD Así de simple.',
+  },
   jyfus: { slug: 'jyfus', name: 'Jyfus' },
 }
 
@@ -101,6 +109,14 @@ export async function seedDofusGuides(payload: Payload): Promise<void> {
       data: { dofusId: 7754, name: 'Dofus Ocre', level: 160, image: egg.id },
     }))
 
+  const bodyImage =
+    (await findOne(payload, 'media', 'alt', seedDofus.dofawa.bodyImageAlt)) ??
+    (await payload.create({
+      collection: 'media',
+      data: { alt: seedDofus.dofawa.bodyImageAlt },
+      filePath: path.resolve(seedDofus.ocre.egg),
+    }))
+
   const { ocre } = seedDofus
   const guides = [
     {
@@ -110,6 +126,20 @@ export async function seedDofusGuides(payload: Payload): Promise<void> {
       state: 'published' as const,
       level: 6,
       color: '#ff9118',
+      body: [
+        { blockType: 'richText' as const, content: paragraph(seedDofus.dofawa.bodyIntro) },
+        {
+          blockType: 'image' as const,
+          image: bodyImage.id,
+        },
+        {
+          blockType: 'step' as const,
+          x: 38,
+          y: -80,
+          body: [{ blockType: 'richText' as const, content: paragraph(seedDofus.dofawa.bodyStep) }],
+        },
+        { blockType: 'richText' as const, content: paragraph(seedDofus.dofawa.bodyOutro) },
+      ],
     },
     {
       slug: seedDofus.jyfus.slug,

@@ -343,10 +343,14 @@ export interface GuideContent {
  * de lectura. Una imagen sin archivo se salta; las que tienen sus variantes llevan
  * srcset. Un vídeo sin título usa el de la guía. La primera imagen en el orden del
  * documento, sea un bloque Imagen o una imagen dentro de un texto, y esté o no dentro de
- * un paso, va con prioridad.
+ * un paso, va con prioridad, salvo con priority: false (un cuerpo que va debajo de otra
+ * cosa, como el paso a paso de una guía de Dofus).
  */
-export function guideContent(guide: GuideDoc): GuideContent {
-  let firstImage = true
+export function guideContent(
+  guide: Pick<GuideDoc, 'title' | 'body'>,
+  { priority = true }: { priority?: boolean } = {},
+): GuideContent {
+  let firstImage = priority
 
   const toBlocks = (block: ContentBlockDoc, key: string): GuideBlock[] => {
     switch (block.blockType) {
