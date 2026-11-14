@@ -86,7 +86,8 @@ try {
     apply,
     htmlToLexical,
     ensureItem: items.ensureItem,
-    findItem: items.findItem,
+    findItem: items.matchItem,
+    findOnlyItem: items.findOnlyItem,
     mediaFor: images,
     posterFor: async (videoId) => {
       try {
@@ -110,6 +111,12 @@ try {
   }
   for (const { slug, kind, name } of report.unmatched) {
     console.log(`Sin casar en ${slug}: ${kind} «${name}»`)
+  }
+  for (const { slug, text, item } of report.withoutQuantity) {
+    console.log(`Fila sin cantidad casada en ${slug}: «${text}» → «${item}» (1)`)
+  }
+  for (const { slug, text, item } of report.singular) {
+    console.log(`Fila casada en singular en ${slug}: «${text}» → «${item}»`)
   }
   for (const { slug, achievement, torre, page } of report.differences) {
     console.log(

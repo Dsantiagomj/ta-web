@@ -506,7 +506,8 @@
         "t": "text",
         "v": "Cualquier oficio al nivel 200."
        }
-      ]
+      ],
+      "name": "Cualquier oficio al nivel 200"
      },
      {
       "text": "Tener más de 3 000 puntos de logro en tu personaje.",
@@ -515,7 +516,8 @@
         "t": "text",
         "v": "Tener más de 3 000 puntos de logro en tu personaje."
        }
-      ]
+      ],
+      "name": "Tener más de 3 000 puntos de logro en tu personaje"
      },
      {
       "text": "En algunas ocasiones, tener más de 800 en algún elemento.",
@@ -524,7 +526,8 @@
         "t": "text",
         "v": "En algunas ocasiones, tener más de 800 en algún elemento."
        }
-      ]
+      ],
+      "name": "En algunas ocasiones, tener más de 800 en algún elemento"
      },
      {
       "text": "Tener el Dofus vigilante.",
@@ -535,7 +538,8 @@
         "b": true
        }
       ],
-      "strong": true
+      "strong": true,
+      "name": "Tener el Dofus vigilante"
      },
      {
       "text": "Muchos muchos combates xD.",
@@ -544,7 +548,8 @@
         "t": "text",
         "v": "Muchos muchos combates xD."
        }
-      ]
+      ],
+      "name": "Muchos muchos combates xD"
      }
     ]
    }

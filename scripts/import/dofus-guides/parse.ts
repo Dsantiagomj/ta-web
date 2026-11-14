@@ -15,7 +15,10 @@ export interface NeedRow {
   /** El texto plano de la fila. */
   text: string
   segs: Segment[]
-  /** «1 x Sello de los fundadores (o fabricarlo).»: 1, el nombre y la nota. */
+  /**
+   * «1 x Sello de los fundadores (o fabricarlo).»: 1, el nombre y la nota. Sin «1 x» no hay
+   * cantidad, pero sí nombre y nota: «Varita pitusa.» da el nombre «Varita pitusa».
+   */
   quantity?: number
   name?: string
   note?: string
@@ -198,12 +201,17 @@ function needRow(item: ListItem): NeedRow {
   const row: NeedRow = { text, segs: inline(item.text) }
   if (allBold(item.text)) row.strong = true
   const match = QUANTITY.exec(text)
-  if (match && !item.text.includes('[[')) {
-    row.quantity = Number(match[1]!.replace(/\s/g, ''))
-    const rest = unDot(match[2]!)
+  // Una fila con enlaces (emotes, misiones) no es un objeto. Sin «1 x» también queda su
+  // nombre, salvo si encabeza otras filas: la importación lo da por objeto solo si un único
+  // objeto del juego se llama así.
+  const named = match || (!item.children.length && !/:$/.test(unDot(text)))
+  if (named && !item.text.includes('[[')) {
+    if (match) row.quantity = Number(match[1]!.replace(/\s/g, ''))
+    const rest = unDot(match ? match[2]! : text)
     const note = /^(.*?)\s*(\(.*\))$/.exec(rest)
-    row.name = note ? note[1]! : rest
-    if (note) row.note = note[2]!
+    const name = note ? note[1]! : rest
+    if (name) row.name = name
+    if (name && note) row.note = note[2]!
   }
   if (item.children.length) row.children = item.children.map(needRow)
   return row

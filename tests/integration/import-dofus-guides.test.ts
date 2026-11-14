@@ -18,7 +18,7 @@ import { startPayload, tinyPng } from './payload'
 
 let payload: Payload
 let htmlToLexical: LoadDofusGuidesOptions['htmlToLexical']
-const ids = { pepita: 0, dofus: 0, page: 0, pesca: 0, heroe: 0, luces: 0, poster: 0 }
+const ids = { pepita: 0, varita: 0, dofus: 0, page: 0, pesca: 0, heroe: 0, luces: 0, poster: 0 }
 
 const SLUG = 'prueba-dofus-abisal'
 const entry: DofusCatalogEntry = {
@@ -48,7 +48,11 @@ const source = (intro = 'Para obtener tu Dofus Abisal…'): DofusGuideSource => 
       {
         name: null,
         rows: [
-          { text: 'Algún oficio nivel 200.', segs: [{ t: 'text', v: 'Algún oficio nivel 200.' }] },
+          {
+            text: 'Algún oficio nivel 200.',
+            segs: [{ t: 'text', v: 'Algún oficio nivel 200.' }],
+            name: 'Algún oficio nivel 200',
+          },
           {
             text: '200 x Pepita.',
             segs: [{ t: 'text', v: '200 x Pepita.' }],
@@ -60,6 +64,19 @@ const source = (intro = 'Para obtener tu Dofus Abisal…'): DofusGuideSource => 
             segs: [{ t: 'text', v: '1 x Objeto que no existe.' }],
             quantity: 1,
             name: 'Objeto que no existe',
+          },
+          // Torre escribe el plural tras la cantidad.
+          {
+            text: '8 x Pepitas.',
+            segs: [{ t: 'text', v: '8 x Pepitas.' }],
+            quantity: 8,
+            name: 'Pepitas',
+          },
+          // El Cacao: Torre no escribió «1 x».
+          {
+            text: 'Varita pitusa.',
+            segs: [{ t: 'text', v: 'Varita pitusa.' }],
+            name: 'Varita pitusa',
           },
         ],
       },
@@ -99,7 +116,12 @@ function options(guides: LoadDofusGuidesOptions['guides'], apply = true): LoadDo
     apply,
     htmlToLexical,
     ensureItem: async (dofusId) => (dofusId === entry.dofusId ? ids.dofus : null),
-    findItem: async (name) => (name === 'Pepita' ? ids.pepita : null),
+    findItem: async (name) =>
+      name === 'Pepita' || name === 'Pepitas'
+        ? { id: ids.pepita, name: 'Pepita', singular: name === 'Pepitas' }
+        : null,
+    findOnlyItem: async (name) =>
+      name === 'Varita pitusa' ? { id: ids.varita, name: 'Varita pitusa', singular: false } : null,
     mediaFor: async () => {
       throw new Error('Esta guía no tiene capturas')
     },
@@ -115,7 +137,10 @@ async function cleanUp() {
   })
   await payload.delete({ collection: 'achievements', where: { dofusId: { equals: 919001 } } })
   await payload.delete({ collection: 'quest-guides', where: { slug: { like: 'prueba-' } } })
-  await payload.delete({ collection: 'items', where: { dofusId: { in: [918043, 914635] } } })
+  await payload.delete({
+    collection: 'items',
+    where: { dofusId: { in: [918043, 914635, 918102] } },
+  })
 }
 
 const read = async (slug: string) =>
@@ -135,6 +160,9 @@ beforeAll(async () => {
   htmlToLexical = await createHtmlToLexical(payload.config)
   ids.pepita = (
     await payload.create({ collection: 'items', data: { dofusId: 914635, name: 'Pepita' } })
+  ).id
+  ids.varita = (
+    await payload.create({ collection: 'items', data: { dofusId: 918102, name: 'Varita pitusa' } })
   ).id
   ids.dofus = (
     await payload.create({ collection: 'items', data: { dofusId: 918043, name: 'Dofus abisal' } })
@@ -200,8 +228,22 @@ describe('loadDofusGuides', () => {
       originalUrl: `https://www.torrentearcano.com/${SLUG}`,
     })
     const rows = doc.needs?.groups?.[0]?.rows ?? []
-    expect(rows.map((row) => row.blockType)).toEqual(['needNote', 'needItem', 'needNote'])
+    expect(rows.map((row) => row.blockType)).toEqual([
+      'needNote',
+      'needItem',
+      'needNote',
+      'needItem',
+      'needItem',
+    ])
     expect(rows[1]).toMatchObject({ item: ids.pepita, quantity: 200 })
+    expect(rows[3]).toMatchObject({ item: ids.pepita, quantity: 8 })
+    // Sin «1 x», el único objeto que se llama así, con cantidad 1; lo que no casa, nota.
+    expect(rows[4]).toMatchObject({ item: ids.varita, quantity: 1 })
+    expect(report.withoutQuantity).toEqual([
+      { slug: SLUG, text: 'Varita pitusa.', item: 'Varita pitusa' },
+    ])
+    // Lo que casó en singular va aparte, para revisarlo.
+    expect(report.singular).toEqual([{ slug: SLUG, text: '8 x Pepitas.', item: 'Pepita' }])
     // Las misiones del logro salen de su página; el logro sin página no pierde las suyas.
     expect(doc.parts?.map((part) => part.blockType)).toEqual([
       'dofusAchievement',
@@ -268,6 +310,88 @@ describe('loadDofusGuides', () => {
     expect(after.color).toBe('#123456')
     expect(after.tag).toBe('primordial')
     expect(JSON.stringify(after.intro)).toContain('La intro que escribió Torre')
+  })
+})
+
+describe('loadDofusGuides: filas sin cantidad en guías ya importadas', () => {
+  // Una guía importada antes del arreglo guardó «Varita pitusa.» como nota.
+  const before: Pick<LoadDofusGuidesOptions, 'findOnlyItem'> = { findOnlyItem: async () => null }
+  // Sin Dofus en la base (ensureItem da null): el Dofus de una guía es único.
+  const cacao = (slug: string, dofusId: number): DofusCatalogEntry => ({
+    ...entry,
+    slug,
+    name: 'Dofus Cacao',
+    dofusId,
+  })
+  const blockTypes = async (slug: string) =>
+    ((await read(slug)).needs?.groups ?? []).flatMap((group) =>
+      (group.rows ?? []).map((row) => row.blockType),
+    )
+
+  it('la nota pasa a objeto si Torre no tocó Necesitarás, y repetirla no cambia nada', async () => {
+    const slug = 'prueba-dofus-cacao'
+    const guides = [{ entry: cacao(slug, 918045), source: source() }]
+    await loadDofusGuides(payload, { ...options(guides), ...before })
+    expect(await blockTypes(slug)).toEqual([
+      'needNote',
+      'needItem',
+      'needNote',
+      'needItem',
+      'needNote',
+    ])
+
+    const report = await loadDofusGuides(payload, options(guides))
+    expect(report).toMatchObject({ updated: 1, kept: [] })
+    expect(report.withoutQuantity).toEqual([
+      { slug, text: 'Varita pitusa.', item: 'Varita pitusa' },
+    ])
+    expect(await blockTypes(slug)).toEqual([
+      'needNote',
+      'needItem',
+      'needNote',
+      'needItem',
+      'needItem',
+    ])
+
+    const again = await loadDofusGuides(payload, options(guides))
+    expect(again).toMatchObject({
+      updated: 0,
+      unchanged: 1,
+      kept: [],
+      withoutQuantity: [],
+      singular: [],
+    })
+  })
+
+  it('si Torre cambió Necesitarás en el panel, la importación no lo pisa', async () => {
+    const slug = 'prueba-dofus-cacao-editada'
+    const guides = [{ entry: cacao(slug, 918046), source: source() }]
+    await loadDofusGuides(payload, { ...options(guides), ...before })
+    const doc = await read(slug)
+    const needs = {
+      title: null,
+      groups: [
+        {
+          name: null,
+          rows: [
+            { blockType: 'needNote', text: htmlToLexical('<p>Varita pitusa (de Torre).</p>') },
+          ],
+        },
+      ],
+    }
+    await payload.update({
+      collection: 'dofus-guides',
+      id: doc.id,
+      data: { needs } as never,
+      overrideAccess: true,
+    })
+
+    const report = await loadDofusGuides(payload, options(guides))
+    expect(report.kept).toEqual([{ slug, field: 'needs' }])
+    expect(report.withoutQuantity).toEqual([])
+    const after = await read(slug)
+    expect(after.needs?.groups?.[0]?.rows?.map((row) => row.blockType)).toEqual(['needNote'])
+    expect(JSON.stringify(after.needs)).toContain('Varita pitusa (de Torre).')
   })
 })
 
