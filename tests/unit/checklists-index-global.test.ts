@@ -48,10 +48,10 @@ describe('global checklists-index', () => {
     }
   })
 
-  it('guarda lo que escribió la importación, oculto en el panel', () => {
+  it('guarda lo que escribió la importación, oculto en el panel y en la API pública', () => {
     expect(named(ChecklistsIndex.fields, 'importSnapshot')).toMatchObject({
       type: 'json',
-      admin: { hidden: true },
+      hidden: true,
     })
   })
 

@@ -86,6 +86,24 @@ test.describe('índice de las checklists', () => {
     )
   })
 
+  test('el huevo y el color salen de la guía de su Dofus; el color de la ficha gana', async ({
+    page,
+  }) => {
+    await page.goto('/checklists')
+    const hielos = page.getByRole('link', { name: new RegExp(seedCards.hielosGuide.name) })
+    await expect(hielos).toHaveAttribute(
+      'style',
+      new RegExp(`--egg:${seedCards.hielosGuide.color}`),
+    )
+    const egg = hielos.locator('.poster__egg img')
+    await egg.scrollIntoViewIfNeeded()
+    await expect
+      .poll(() => egg.evaluate((node: HTMLImageElement) => node.complete && node.naturalWidth))
+      .toBeGreaterThan(0)
+    const nebuloso = page.getByRole('link', { name: new RegExp(cl.published.name) })
+    await expect(nebuloso).toHaveAttribute('style', new RegExp(`--egg:${seedCards.nebulosoColor}`))
+  })
+
   test('una Publicada lleva a su página, que responde', async ({ page }) => {
     await page.goto('/checklists')
     await followToChecklist(

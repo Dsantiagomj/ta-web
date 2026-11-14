@@ -306,6 +306,20 @@ describe('readChecklists', () => {
     expect(second!.card).toEqual({ scene })
   })
 
+  it('lee las imágenes de las tarjetas y las guías a la vez: esta lectura va en el menú de cada página', async () => {
+    const pending: { collection: string; resolve: (value: unknown) => void }[] = []
+    const find = vi.fn(({ collection }: { collection: string }) =>
+      collection === 'checklists'
+        ? Promise.resolve({ docs: [doc({ dofusGuide: 7, card: { scene: 8 } })] })
+        : new Promise((resolve) => pending.push({ collection, resolve })),
+    )
+    const read = readChecklists({ find } as unknown as Payload)
+    await vi.waitFor(() => expect(pending).toHaveLength(2))
+    expect(pending.map((call) => call.collection).sort()).toEqual(['dofus-guides', 'media'])
+    for (const call of pending) call.resolve({ docs: [] })
+    await read
+  })
+
   it('sin guías enlazadas no hace la segunda lectura', async () => {
     const find = vi.fn().mockResolvedValue({ docs: [doc({})] })
     await readChecklists({ find } as unknown as Payload)

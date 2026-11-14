@@ -78,5 +78,30 @@ export function checklistArt(
     return pending
   }
 
-  return { media }
+  const found = new Map<string, Promise<number | null>>()
+
+  /**
+   * El ID en Media de la imagen sin subir nada: el que ya tiene, -1 si habría que subirla o null
+   * si el archivo no existe. Para decidir antes de subir.
+   */
+  function find(art: ArtRef): Promise<number | null> {
+    const key = art.key ?? checklistArtKey(art.path)
+    const known = byKey.get(key) ?? found.get(key)
+    if (known) return known
+    const pending = (async () => {
+      const { docs } = await payload.find({
+        collection: 'media',
+        where: { gameAsset: { equals: key } },
+        limit: 1,
+        depth: 0,
+        overrideAccess: true,
+      })
+      if (docs[0]) return docs[0].id
+      return (await options.readArt(art.path)) ? -1 : null
+    })()
+    found.set(key, pending)
+    return pending
+  }
+
+  return { media, find }
 }

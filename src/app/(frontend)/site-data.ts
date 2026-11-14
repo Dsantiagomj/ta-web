@@ -4,7 +4,6 @@ import { getPayload } from 'payload'
 
 import { CHECKLISTS_REVALIDATE, CHECKLISTS_TAG } from '@/lib/checklists/cache'
 import { checklistEntries, checklistNavItems, checklistTeaser } from '@/lib/checklists/list'
-import { readPosterModels } from '@/lib/checklists/poster-models'
 import { readChecklists, readChecklistTeaser } from '@/lib/checklists/queries'
 import { DOFUS_GUIDES_REVALIDATE, DOFUS_GUIDES_TAG } from '@/lib/dofus-guides/cache'
 import { dofusNavItems } from '@/lib/dofus-guides/nav'
@@ -44,19 +43,5 @@ export const loadChecklistNav = async () => checklistNavItems(await loadChecklis
 export const loadChecklistTeaser = unstable_cache(
   async () => checklistTeaser(await readChecklistTeaser(await getPayload({ config }))),
   ['checklist-teaser'],
-  { tags: [CHECKLISTS_TAG], revalidate: CHECKLISTS_REVALIDATE },
-)
-
-// Lo que el índice manda para el porcentaje de cada cartel: de cada Publicada, lo justo de lo
-// que recibe la isla de su página. Lo caducan los mismos hooks que la página de la checklist.
-export const loadPosterModels = unstable_cache(
-  async () => {
-    const published = (await loadChecklists()).filter((entry) => entry.state === 'published')
-    return readPosterModels(
-      await getPayload({ config }),
-      published.map((entry) => entry.slug),
-    )
-  },
-  ['checklist-poster-models'],
   { tags: [CHECKLISTS_TAG], revalidate: CHECKLISTS_REVALIDATE },
 )

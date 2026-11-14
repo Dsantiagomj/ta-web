@@ -1,8 +1,6 @@
 'use client'
 
-import { useEffect, useEffectEvent } from 'react'
-
-import type { PosterProgressModel } from '@/lib/checklists/poster-progress'
+import { useEffect } from 'react'
 
 import { hasProgress, startTilt } from './posters-ui'
 
@@ -16,27 +14,45 @@ function browserStorage(): Storage | null {
 }
 
 /**
- * La isla del índice /checklists: la inclinación hacia el ratón (posters-ui.ts) y, si el
- * navegador tiene progreso, el porcentaje de cada cartel (poster-progress-ui.ts, con import()).
- * Sin ella los carteles se ven igual, sin porcentaje ni inclinación.
+ * La isla del índice /checklists: la inclinación hacia el ratón (posters-ui.ts) y, cuando el
+ * navegador tiene progreso, el porcentaje de cada cartel (poster-progress-ui.ts, con import():
+ * el motor y lo que pide no viajan a quien no ha marcado nada). Si el progreso aparece después,
+ * en otra pestaña o al volver con atrás, arranca entonces. Sin ella los carteles se ven igual,
+ * sin porcentaje ni inclinación.
  */
-export function ChecklistPostersIsland({ models }: { models: PosterProgressModel[] }) {
-  const latest = useEffectEvent(() => models)
-  // El DOM que pinta el servidor, los eventos del puntero y localStorage.
+export function ChecklistPostersIsland() {
+  // El DOM que pinta el servidor, los eventos del puntero y de la ventana, y localStorage.
   useEffect(() => {
-    const stop = startTilt(document, window.matchMedia('(prefers-reduced-motion: reduce)'))
+    const stopTilt = startTilt(document, window.matchMedia('(prefers-reduced-motion: reduce)'))
     const storage = browserStorage()
+    let stopProgress: (() => void) | undefined
+    let starting = false
     let cancelled = false
-    if (storage && hasProgress(storage)) {
+    const start = () => {
+      if (starting || !storage || !hasProgress(storage)) return
+      starting = true
+      window.removeEventListener('storage', start)
+      window.removeEventListener('pageshow', start)
       import('./poster-progress-ui')
-        .then(({ paintProgress }) => {
-          if (!cancelled) paintProgress(document, latest(), storage)
+        .then(({ fetchPosterModels, startProgress }) => {
+          if (cancelled) return
+          stopProgress = startProgress(document, {
+            storage,
+            loadModels: fetchPosterModels,
+            events: window,
+          })
         })
         .catch((error: unknown) => console.error(error))
     }
+    window.addEventListener('storage', start)
+    window.addEventListener('pageshow', start)
+    start()
     return () => {
       cancelled = true
-      stop()
+      window.removeEventListener('storage', start)
+      window.removeEventListener('pageshow', start)
+      stopTilt()
+      stopProgress?.()
     }
   }, [])
   return null

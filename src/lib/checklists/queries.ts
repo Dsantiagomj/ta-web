@@ -549,22 +549,25 @@ export async function readChecklists(payload: Payload): Promise<ChecklistDoc[]> 
   const ids = [
     ...new Set(docs.map((doc) => relationId(doc.dofusGuide)).filter((id) => id !== null)),
   ]
-  const media = await readCardMedia(payload, docs)
+  // Las dos lecturas a la vez: esta lista va en el menú de cada página.
+  const [media, guides] = await Promise.all([
+    readCardMedia(payload, docs),
+    ids.length
+      ? payload.find({
+          collection: 'dofus-guides',
+          where: { id: { in: ids } },
+          select: { color: true, dofus: true },
+          populate: { items: { image: true } },
+          depth: 2,
+          pagination: false,
+          draft: false,
+          overrideAccess: true,
+        })
+      : null,
+  ])
   const art = new Map<number, GuideArt>()
-  if (ids.length) {
-    const guides = await payload.find({
-      collection: 'dofus-guides',
-      where: { id: { in: ids } },
-      select: { color: true, dofus: true },
-      populate: { items: { image: true } },
-      depth: 2,
-      pagination: false,
-      draft: false,
-      overrideAccess: true,
-    })
-    for (const guide of guides.docs) {
-      art.set(guide.id, { color: guide.color ?? null, dofus: guide.dofus ?? null })
-    }
+  for (const guide of guides?.docs ?? []) {
+    art.set(guide.id, { color: guide.color ?? null, dofus: guide.dofus ?? null })
   }
   return docs.map((doc) => {
     const id = relationId(doc.dofusGuide)

@@ -56,6 +56,8 @@ describe('colección checklists', () => {
   it('sirve los detalles de sus misiones para la isla de la página: GET /api/checklists/<slug>/details', () => {
     expect(Checklists.endpoints).toEqual([
       expect.objectContaining({ path: '/:slug/details', method: 'get' }),
+      // Lo que pide el porcentaje de los carteles del índice, solo con progreso guardado.
+      expect.objectContaining({ path: '/poster-progress', method: 'get' }),
     ])
   })
 
