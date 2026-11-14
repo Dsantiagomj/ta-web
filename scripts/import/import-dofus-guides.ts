@@ -13,11 +13,13 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { databaseScriptRefusal } from '@/lib/db/script-guard'
 import { createDofusDbClient } from '@/lib/dofusdb/client'
+import { needGroupLabel } from '@/lib/dofus-guides/need-groups'
 
 import { DOFUS_CATALOG, DOFUS_INDEX_INTRO } from './dofus-guides/catalog'
 import { gameItems } from './dofus-guides/game-items'
 import { loadDofusGuides, loadDofusIndexIntro, type DofusGuideInput } from './dofus-guides/load'
-import { parseDofusGuide } from './dofus-guides/parse'
+import { achievementName } from './dofus-guides/normalize-needs'
+import { parseDofusGuide, type NeedRow } from './dofus-guides/parse'
 import { createPosterFetcher, posterUrl } from './dofus-guides/video-poster'
 import { ImageDownloadError, mediaByUrl } from './media-by-url'
 import { createHtmlToLexical } from './rich-text'
@@ -25,6 +27,18 @@ import { releaseDom } from './squarespace/dom'
 import { createImageFetcher } from './squarespace/fetch-image'
 
 const SITE = 'https://www.torrentearcano.com'
+
+type RawJob = { id: number; name?: { es?: string } | null }
+type RawAchievement = RawJob
+
+/** Los nombres de logro de las filas «Logro:» de Necesitarás de una guía. */
+function achievementRows(source: DofusGuideInput['source']): string[] {
+  const rows = (list: NeedRow[]): NeedRow[] =>
+    list.flatMap((row) => [row, ...rows(row.children ?? [])])
+  return rows((source?.needs?.groups ?? []).flatMap((group) => group.rows)).flatMap(
+    (row) => achievementName(row.text) ?? [],
+  )
+}
 const USAGE = 'Uso: pnpm import:dofus-guides [--from <carpeta>] [--apply] [--remote] [--production]'
 
 const args = process.argv.slice(2)
@@ -64,7 +78,23 @@ await releaseDom()
 const payload = await getPayload({ config })
 try {
   const log = (message: string) => console.log(message)
-  const items = gameItems(payload, { client: createDofusDbClient({ log }), log, dryRun: !apply })
+  const client = createDofusDbClient({ log })
+  const items = gameItems(payload, { client, log, dryRun: !apply })
+  // Los oficios de DofusDB («Minero»), para el grupo «Oficios» de Necesitarás. «Base» no lo es.
+  const jobs = (await client.fetchAll<RawJob>('jobs', { select: ['id', 'name'] }))
+    .map((job) => job.name?.es ?? '')
+    .filter((name) => name && name !== 'Base')
+  // Las filas «Logro: “Cazamonturas”» que nombran un logro de DofusDB van a «Logros».
+  const achievements: string[] = []
+  for (const name of new Set(guides.flatMap(({ source }) => achievementRows(source)))) {
+    // El endpoint de logros no acepta $regex: el nombre exacto que escribió Torre.
+    const found = await client.fetchWhere<RawAchievement>(
+      'achievements',
+      { 'name.es': name },
+      { select: ['id', 'name'] },
+    )
+    achievements.push(...found.flatMap((row) => row.name?.es ?? []))
+  }
   // En seco no se sube nada: lo que falta da 0, un ID que nunca se escribe.
   const findImage = mediaByUrl(payload, createImageFetcher())
   const images = async (url: string, alt: string) =>
@@ -87,6 +117,8 @@ try {
     htmlToLexical,
     ensureItem: items.ensureItem,
     findItem: items.matchItem,
+    jobs,
+    achievements,
     mediaFor: images,
     posterFor: async (videoId) => {
       try {
@@ -119,6 +151,24 @@ try {
   }
   for (const { slug, text, error } of report.lookupFailures) {
     console.log(`Búsqueda fallida en ${slug}, queda como nota: «${text}» (${error})`)
+  }
+  for (const { slug } of report.kept.filter((kept) => kept.field === 'needs')) {
+    console.log(`Necesitarás sin normalizar en ${slug}: Torre lo cambió en el panel`)
+  }
+  for (const { slug, groups } of report.needsAfter) {
+    console.log(`Necesitarás después de normalizar en ${slug}:`)
+    for (const { name, rows } of groups) {
+      console.log(`  ${needGroupLabel(name)}: ${rows.map((row) => `«${row}»`).join(' · ')}`)
+    }
+  }
+  let previous = ''
+  for (const { slug, text, from, to, reason } of report.needGroups) {
+    if (slug !== previous) console.log(`Grupos de Necesitarás en ${slug}:`)
+    previous = slug
+    console.log(`  «${text}»: ${from ?? '(suelta)'} → ${needGroupLabel(to)} (${reason})`)
+  }
+  for (const { slug, text } of report.needGroups.filter((row) => row.to === 'otros')) {
+    console.log(`Sin clasificar en ${slug}, va a Otros: «${text}»`)
   }
   for (const { slug, achievement, torre, page } of report.differences) {
     console.log(

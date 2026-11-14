@@ -3,6 +3,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 import type { DofusCatalogEntry } from '../../scripts/import/dofus-guides/catalog'
 import {
+  comparable,
   loadDofusGuides,
   loadDofusIndexIntro,
   type LoadDofusGuidesOptions,
@@ -78,6 +79,11 @@ const source = (intro = 'Para obtener tu Dofus Abisal…'): DofusGuideSource => 
             segs: [{ t: 'text', v: 'Varita pitusa.' }],
             name: 'Varita pitusa',
           },
+          {
+            text: 'Un par de combates por allí y por allá.',
+            segs: [{ t: 'text', v: 'Un par de combates por allí y por allá.' }],
+            name: 'Un par de combates por allí y por allá',
+          },
         ],
       },
     ],
@@ -118,11 +124,12 @@ function options(guides: LoadDofusGuidesOptions['guides'], apply = true): LoadDo
     ensureItem: async (dofusId) => (dofusId === entry.dofusId ? ids.dofus : null),
     findItem: async (name) => {
       if (name === 'Pepita' || name === 'Pepitas')
-        return { id: ids.pepita, name: 'Pepita', singular: name === 'Pepitas' }
+        return { id: ids.pepita, name: 'Pepita', singular: name === 'Pepitas', superTypeId: 9 }
       if (name === 'Varita pitusa')
-        return { id: ids.varita, name: 'Varita pitusa', singular: false }
+        return { id: ids.varita, name: 'Varita pitusa', singular: false, superTypeId: 2 }
       return null
     },
+    jobs: ['Minero', 'Campesino'],
     mediaFor: async () => {
       throw new Error('Esta guía no tiene capturas')
     },
@@ -228,21 +235,38 @@ describe('loadDofusGuides', () => {
       videoPoster: ids.poster,
       originalUrl: `https://www.torrentearcano.com/${SLUG}`,
     })
-    const rows = doc.needs?.groups?.[0]?.rows ?? []
-    expect(rows.map((row) => row.blockType)).toEqual([
-      'needNote',
-      'needItem',
-      'needNote',
-      'needItem',
-      'needItem',
+    // Necesitarás en los grupos fijos: los objetos por su tipo, las notas por sus datos.
+    const groups = doc.needs?.groups ?? []
+    expect(groups.map((group) => [group.name, group.rows?.map((row) => row.blockType)])).toEqual([
+      ['combates', ['needNote']],
+      ['recursos', ['needItem', 'needItem']],
+      ['equipables', ['needItem']],
+      ['oficios', ['needNote']],
+      ['otros', ['needNote']],
     ])
-    expect(rows[1]).toMatchObject({ item: ids.pepita, quantity: 200 })
-    expect(rows[3]).toMatchObject({ item: ids.pepita, quantity: 8 })
+    const [pepita, pepitas] = groups[1]!.rows!
+    expect(pepita).toMatchObject({ item: ids.pepita, quantity: 200 })
+    expect(pepitas).toMatchObject({ item: ids.pepita, quantity: 8 })
     // Sin «1 x», el único objeto que se llama así, con cantidad 1; lo que no casa, nota.
-    expect(rows[4]).toMatchObject({ item: ids.varita, quantity: 1 })
+    expect(groups[2]!.rows![0]).toMatchObject({ item: ids.varita, quantity: 1 })
     expect(report.withoutQuantity).toEqual([
       { slug: SLUG, text: 'Varita pitusa.', item: 'Varita pitusa' },
     ])
+    // Cada fila suelta dice a qué grupo fue y por qué; lo que no se clasifica, a Otros.
+    expect(report.needGroups).toContainEqual({
+      slug: SLUG,
+      text: '1 x Objeto que no existe.',
+      from: null,
+      to: 'otros',
+      reason: 'sin clasificar',
+    })
+    expect(report.needGroups).toContainEqual({
+      slug: SLUG,
+      text: 'Algún oficio nivel 200.',
+      from: null,
+      to: 'oficios',
+      reason: 'oficio',
+    })
     // Lo que casó en singular va aparte, para revisarlo.
     expect(report.singular).toEqual([{ slug: SLUG, text: '8 x Pepitas.', item: 'Pepita' }])
     // Las misiones del logro salen de su página; el logro sin página no pierde las suyas.
@@ -326,35 +350,23 @@ describe('loadDofusGuides: filas sin cantidad en guías ya importadas', () => {
     name: 'Dofus Cacao',
     dofusId,
   })
-  const blockTypes = async (slug: string) =>
-    ((await read(slug)).needs?.groups ?? []).flatMap((group) =>
-      (group.rows ?? []).map((row) => row.blockType),
+  const hasVarita = async (slug: string) =>
+    ((await read(slug)).needs?.groups ?? []).some((group) =>
+      (group.rows ?? []).some((row) => row.blockType === 'needItem' && row.item === ids.varita),
     )
 
   it('la nota pasa a objeto si Torre no tocó Necesitarás, y repetirla no cambia nada', async () => {
     const slug = 'prueba-dofus-cacao'
     const guides = [{ entry: cacao(slug, 918045), source: source() }]
     await loadDofusGuides(payload, { ...options(guides), ...before })
-    expect(await blockTypes(slug)).toEqual([
-      'needNote',
-      'needItem',
-      'needNote',
-      'needItem',
-      'needNote',
-    ])
+    expect(await hasVarita(slug)).toBe(false)
 
     const report = await loadDofusGuides(payload, options(guides))
     expect(report).toMatchObject({ updated: 1, kept: [] })
     expect(report.withoutQuantity).toEqual([
       { slug, text: 'Varita pitusa.', item: 'Varita pitusa' },
     ])
-    expect(await blockTypes(slug)).toEqual([
-      'needNote',
-      'needItem',
-      'needNote',
-      'needItem',
-      'needItem',
-    ])
+    expect(await hasVarita(slug)).toBe(true)
 
     const again = await loadDofusGuides(payload, options(guides))
     expect(again).toMatchObject({
@@ -375,7 +387,7 @@ describe('loadDofusGuides: filas sin cantidad en guías ya importadas', () => {
       title: null,
       groups: [
         {
-          name: null,
+          name: 'otros',
           rows: [
             { blockType: 'needNote', text: htmlToLexical('<p>Varita pitusa (de Torre).</p>') },
           ],
@@ -460,6 +472,121 @@ describe('loadDofusGuides: búsquedas de objetos', () => {
     expect(report.updated).toBe(1)
     expect(report.withoutQuantity).toEqual([])
     expect(report.singular).toEqual([{ slug, text: 'Pepitas.', item: 'Pepita' }])
+  })
+})
+
+describe('loadDofusGuides: grupos de Necesitarás', () => {
+  const rows = (texts: string[]) => ({
+    name: null,
+    rows: texts.map((text) => ({ text, segs: [{ t: 'text' as const, v: text }] })),
+  })
+  const guideWith = (slug: string, dofusId: number, groups: DofusGuideSource['needs']) => ({
+    entry: { ...entry, slug, name: 'Dofus Marfil', dofusId },
+    source: { ...source(), needs: groups },
+  })
+  // El Marfil: todo suelto, combates, mazmorras y objetos mezclados.
+  const marfil = {
+    title: 'Necesitarás',
+    note: null,
+    groups: [
+      {
+        name: null,
+        rows: [
+          ...rows(['14 x combates.', '1 x Mazmorra Kutulú.']).rows,
+          {
+            text: '200 x Pepita.',
+            segs: [{ t: 'text' as const, v: '200 x Pepita.' }],
+            quantity: 200,
+            name: 'Pepita',
+          },
+          ...rows(['Ser minero nivel 20 mínimo.', 'Ayuda de otras 2 personas.']).rows,
+        ],
+      },
+    ],
+  }
+  const names = async (slug: string) =>
+    ((await read(slug)).needs?.groups ?? []).map((group) => group.name)
+
+  it('una guía con todo suelto queda en los grupos fijos, y repetirla no cambia nada', async () => {
+    const slug = 'prueba-dofus-marfil'
+    const guides = [guideWith(slug, 918047, marfil)]
+    const first = await loadDofusGuides(payload, options(guides))
+    expect(await names(slug)).toEqual(['combates', 'mazmorras', 'recursos', 'oficios', 'otros'])
+    // Cómo queda Necesitarás, grupo a grupo, para revisarlo en seco antes de aplicar.
+    expect(first.needsAfter).toEqual([
+      {
+        slug,
+        groups: [
+          { name: 'combates', rows: ['14 x combates.'] },
+          { name: 'mazmorras', rows: ['1 x Mazmorra Kutulú.'] },
+          { name: 'recursos', rows: ['200 x Pepita.'] },
+          { name: 'oficios', rows: ['Ser minero nivel 20 mínimo.'] },
+          { name: 'otros', rows: ['Ayuda de otras 2 personas.'] },
+        ],
+      },
+    ])
+
+    const again = await loadDofusGuides(payload, options(guides))
+    expect(again).toMatchObject({
+      updated: 0,
+      unchanged: 1,
+      kept: [],
+      needGroups: [],
+      needsAfter: [],
+    })
+  })
+
+  it('una guía que la migración dejó con un solo grupo «otros» se normaliza al repetirla', async () => {
+    const slug = 'prueba-dofus-marfil-antes'
+    const guides = [guideWith(slug, 918048, marfil)]
+    await loadDofusGuides(payload, options(guides))
+    // Como la dejó la migración: un grupo «otros» con todo, y la copia de la importación igual.
+    const doc = await read(slug)
+    const before = {
+      title: null,
+      groups: [{ name: 'otros', rows: doc.needs!.groups!.flatMap((group) => group.rows ?? []) }],
+    }
+    const snapshot = { ...(doc.importSnapshot as object), needs: comparable(before) }
+    await payload.update({
+      collection: 'dofus-guides',
+      id: doc.id,
+      data: { needs: before, importSnapshot: snapshot } as never,
+      overrideAccess: true,
+    })
+    expect(await names(slug)).toEqual(['otros'])
+
+    const report = await loadDofusGuides(payload, options(guides))
+    expect(report).toMatchObject({ updated: 1, kept: [] })
+    expect(await names(slug)).toEqual(['combates', 'mazmorras', 'recursos', 'oficios', 'otros'])
+    expect(report.needGroups.map((row) => [row.text, row.to, row.reason])).toEqual([
+      ['14 x combates.', 'combates', 'combate'],
+      ['1 x Mazmorra Kutulú.', 'mazmorras', 'mazmorra'],
+      ['200 x Pepita.', 'recursos', 'tipo de objeto'],
+      ['Ser minero nivel 20 mínimo.', 'oficios', 'oficio'],
+      ['Ayuda de otras 2 personas.', 'otros', 'sin clasificar'],
+    ])
+  })
+
+  it('si Torre ordenó Necesitarás a su manera en el panel, no se toca y se avisa', async () => {
+    const slug = 'prueba-dofus-marfil-torre'
+    const guides = [guideWith(slug, 918049, marfil)]
+    await loadDofusGuides(payload, options(guides))
+    const doc = await read(slug)
+    const mine = {
+      title: null,
+      groups: [{ name: 'recursos', rows: doc.needs!.groups!.flatMap((group) => group.rows ?? []) }],
+    }
+    await payload.update({
+      collection: 'dofus-guides',
+      id: doc.id,
+      data: { needs: mine } as never,
+      overrideAccess: true,
+    })
+
+    const report = await loadDofusGuides(payload, options(guides))
+    expect(report.kept).toEqual([{ slug, field: 'needs' }])
+    expect(report.needGroups).toEqual([])
+    expect(await names(slug)).toEqual(['recursos'])
   })
 })
 

@@ -76,7 +76,7 @@ function data(overrides: Partial<DofusGuideDoc> = {}): DofusGuideData {
       title: null,
       groups: [
         {
-          name: null,
+          name: 'recursos',
           rows: [
             {
               blockType: 'needItem',
@@ -88,7 +88,7 @@ function data(overrides: Partial<DofusGuideDoc> = {}): DofusGuideData {
           ],
         },
         {
-          name: 'Mazmorras',
+          name: 'mazmorras',
           rows: [{ blockType: 'needNote', text: text('1 x Mazmorra Kutulú.') }],
         },
       ],
@@ -184,10 +184,46 @@ describe('dofusGuideView', () => {
     const view = dofusGuideView(data())
     expect(view.needs?.title).toBe('Necesitarás')
     expect(view.needs?.groups).toHaveLength(2)
+    // En el orden de la lista fija, con el nombre en español: Mazmorras antes que Recursos.
     const [first, second] = view.needs!.groups
-    expect(first!.rows[0]).toMatchObject({ kind: 'item', quantity: 200, item: { name: 'Pepita' } })
-    expect(first!.rows[1]).toMatchObject({ kind: 'note' })
-    expect(second!.name).toBe('Mazmorras')
+    expect(first!.name).toBe('Mazmorras')
+    expect(second!.name).toBe('Recursos')
+    expect(second!.rows[0]).toMatchObject({ kind: 'item', quantity: 200, item: { name: 'Pepita' } })
+    expect(second!.rows[1]).toMatchObject({ kind: 'note' })
+  })
+
+  it('«Otros» como único grupo no lleva título: solo dice algo junto a otros grupos', () => {
+    const only = (name: 'otros' | 'combates') =>
+      dofusGuideView(
+        data({
+          needs: {
+            title: null,
+            groups: [{ name, rows: [{ blockType: 'needNote', text: text('Piedras de alma.') }] }],
+          },
+        }),
+      ).needs!.groups[0]!.name
+    expect(only('otros')).toBeUndefined()
+    expect(only('combates')).toBe('Combates')
+  })
+
+  it('dos grupos iguales salen juntos, en el orden de sus filas', () => {
+    const note = (line: string) => ({ blockType: 'needNote' as const, text: text(line) })
+    const view = dofusGuideView(
+      data({
+        needs: {
+          title: null,
+          groups: [
+            { name: 'otros', rows: [note('Ayuda de otras 2 personas.')] },
+            { name: 'combates', rows: [note('14 x combates.')] },
+            { name: 'otros', rows: [note('Sueños infinitos.')] },
+          ],
+        },
+      }),
+    )
+    expect(view.needs!.groups.map((group) => [group.name, group.rows.length])).toEqual([
+      ['Combates', 1],
+      ['Otros', 2],
+    ])
   })
 
   it('un título propio de Necesitarás gana al de siempre', () => {
@@ -197,7 +233,7 @@ describe('dofusGuideView', () => {
       data({
         needs: {
           title: 'Necesitarás en total',
-          groups: [{ name: null, rows: [{ blockType: 'needNote', text: text('Nada.') }] }],
+          groups: [{ name: 'otros', rows: [{ blockType: 'needNote', text: text('Nada.') }] }],
         },
       }),
     )

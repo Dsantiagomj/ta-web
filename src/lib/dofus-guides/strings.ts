@@ -23,6 +23,8 @@ export const dofusGuideStrings = {
     needsDescription:
       'Lo que pide el Dofus, por grupos. Un objeto enlazado sale con su icono y se copia de un clic.',
     needsTitleDescription: 'Vacío: «Necesitarás».',
+    needGroupDescription:
+      'En la guía, los grupos salen siempre en el orden de esta lista, elijas el que elijas.',
     needItemNameDescription:
       'El nombre si el objeto no está enlazado. Enlazado, sale el nombre del objeto.',
     needItemNameRequired: 'Enlaza el objeto o escribe su nombre',
@@ -41,6 +43,19 @@ export const dofusGuideStrings = {
     tabs: { content: 'Contenido', facts: 'Ficha', needs: 'Necesitarás' },
     checklistDescription: 'La checklist de este Dofus, si tiene: sale como tarjeta en la guía.',
   },
+} as const
+
+/** Los grupos de Necesitarás (need-groups.ts), en el panel y en la página. */
+export const dofusNeedGroupLabels = {
+  combates: 'Combates',
+  mazmorras: 'Mazmorras',
+  recursos: 'Recursos',
+  equipables: 'Equipables',
+  consumibles: 'Consumibles',
+  oficios: 'Oficios',
+  emotes: 'Emotes',
+  logros: 'Logros',
+  otros: 'Otros',
 } as const
 
 /** El índice de las guías de Dofus, /guias-dofus (DESIGN.md, Dofus guides index). */

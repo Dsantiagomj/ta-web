@@ -447,11 +447,10 @@ describe('A-09: filas con nombre', () => {
     })
   })
 
-  it('los grupos de Necesitarás de una guía de Dofus se llaman por su nombre', () => {
+  it('los grupos de Necesitarás de una guía de Dofus se llaman por el nombre de su grupo', () => {
     const needs = field(DofusGuides.fields, 'needs') as { fields: Field[] }
     expect(rowLabel(field(needs.fields, 'groups'))).toMatchObject({
-      path: expect.stringContaining('#TextRowLabel'),
-      clientProps: { field: 'name' },
+      path: expect.stringContaining('#NeedGroupLabel'),
     })
   })
 
