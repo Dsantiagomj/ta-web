@@ -1030,6 +1030,10 @@ export interface DofusGuide {
      * Vacío: «Necesitarás».
      */
     title?: string | null;
+    /**
+     * Opcional: una nota sobre todo Necesitarás, encima de los grupos.
+     */
+    note?: string | null;
     groups?:
       | {
           /**
@@ -1045,6 +1049,10 @@ export interface DofusGuide {
             | 'emotes'
             | 'logros'
             | 'otros';
+          /**
+           * Opcional: sale bajo el nombre del grupo, encima de sus filas. Por ejemplo «1 x Mazmorra» o «Dependiendo de tu nivel».
+           */
+          subtitle?: string | null;
           rows?: (DofusNeedItemBlock | DofusNeedNoteBlock)[] | null;
           id?: string | null;
         }[]
@@ -2060,10 +2068,12 @@ export interface DofusGuidesSelect<T extends boolean = true> {
     | T
     | {
         title?: T;
+        note?: T;
         groups?:
           | T
           | {
               name?: T;
+              subtitle?: T;
               rows?:
                 | T
                 | {

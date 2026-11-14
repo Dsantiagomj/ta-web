@@ -27,7 +27,7 @@ import { youtubeId } from '@/lib/guides/video'
 import { mediaImageAsset } from '@/lib/media/image-asset'
 import type { Media } from '@/payload-types'
 
-import { isNeedGroup, NEED_GROUPS, needGroupLabel } from './need-groups'
+import { isNeedGroup, NEED_GROUPS, type NeedGroup, needGroupLabel } from './need-groups'
 import { dofusGuideStrings, dofusPageStrings as s } from './strings'
 
 /** El índice de las guías de Dofus. */
@@ -75,7 +75,8 @@ export interface DofusGuideDoc {
   prerequisites?: RichTextState | null
   needs?: {
     title?: string | null
-    groups?: { name?: string | null; rows?: NeedRowDoc[] | null }[] | null
+    note?: string | null
+    groups?: { name?: string | null; subtitle?: string | null; rows?: NeedRowDoc[] | null }[] | null
   } | null
   rewards?: RichTextState | null
   intro?: RichTextState | null
@@ -102,6 +103,14 @@ export interface QuestGuideDoc {
   slug: string
   title: string
   quest?: QuestDoc | null
+}
+
+/** Un grupo de Necesitarás en la página: su nombre y sus partes (cada subtítulo y sus filas). */
+export interface NeedGroupView {
+  /** El grupo de la lista fija, o null en una guía migrada sin ordenar. */
+  key: string | null
+  name?: string
+  parts: { subtitle?: string; rows: NeedRowView[] }[]
 }
 
 /** Un Dofus de la lista de todos, con sus cifras ya contadas. */
@@ -180,7 +189,12 @@ export interface DofusGuideView {
   outro: RichTextState | null
   /** El paso a paso, con los bloques de las guías de misión. */
   body: GuideContent
-  needs: { title: string; groups: { name?: string; rows: NeedRowView[] }[] } | null
+  needs: {
+    title: string
+    /** La nota de Torre sobre todo Necesitarás, encima de los grupos. */
+    note?: string
+    groups: NeedGroupView[]
+  } | null
   parts: PartView[]
   /** Los logros de las partes, para el título de la sección («El logro»). */
   achievementCount: number
@@ -270,28 +284,69 @@ function dofusBody(guide: DofusGuideDoc): GuideContent {
   return { ...content, steps }
 }
 
+/** Sin mayúsculas, tildes ni «:» final: para ver si un subtítulo solo repite el grupo. */
+const plainKey = (text: string) =>
+  text
+    .normalize('NFD')
+    .replace(/\p{M}/gu, '')
+    .toLocaleLowerCase('es')
+    .replace(/[:.\s]+$/u, '')
+    .trim()
+
+/**
+ * El subtítulo de Torre como sale en la página («1 × Mazmorra:»), o nada si solo repite el
+ * nombre del grupo («Combates» bajo Combates).
+ */
+function subtitleView(subtitle: string | null | undefined, label: string | undefined) {
+  const text = subtitle?.trim()
+  if (!text) return undefined
+  if (label && [plainKey(label), plainKey(label).replace(/s$/u, '')].includes(plainKey(text))) {
+    return undefined
+  }
+  const shown = text.replace(/^(\d[\d\s]*?)\s*x\s+/iu, '$1 × ').replace(/[:.\s]+$/u, '')
+  return `${shown}:`
+}
+
+/**
+ * Necesitarás por grupos. Con todos los grupos en la lista fija (need-groups.ts), en su orden
+ * y con su nombre en español: los grupos iguales salen juntos, cada uno con su subtítulo de
+ * Torre encima de sus filas, y «Otros» solo va sin título. Si alguno no tiene grupo (una guía
+ * migrada que la importación aún no ordenó), todo queda en el orden guardado, sin mover filas.
+ */
 function needsView(guide: DofusGuideDoc): DofusGuideView['needs'] {
-  // Los grupos en el orden de la lista fija (need-groups.ts), con su nombre en español; dos
-  // grupos iguales salen juntos. Un nombre fuera de la lista va al final, sin título.
-  const rank = (name: string | null | undefined) =>
-    isNeedGroup(name) ? NEED_GROUPS.indexOf(name) : NEED_GROUPS.length
-  const byName = new Map<number, { name?: string; rows: NeedRowView[] }>()
-  for (const group of guide.needs?.groups ?? []) {
+  const stored = (guide.needs?.groups ?? []).flatMap((group) => {
     const rows = needRows(group.rows ?? [])
-    if (rows.length === 0) continue
-    const at = rank(group.name)
-    const known = byName.get(at)
-    if (known) known.rows.push(...rows)
-    else {
-      const name = isNeedGroup(group.name) ? needGroupLabel(group.name) : undefined
-      byName.set(at, { ...(name && { name }), rows })
+    return rows.length ? [{ ...group, rows }] : []
+  })
+  const legacy = stored.some((group) => !isNeedGroup(group.name))
+  const groups: NeedGroupView[] = []
+  for (const group of stored) {
+    const name = isNeedGroup(group.name) ? needGroupLabel(group.name) : undefined
+    const subtitle = subtitleView(group.subtitle, name)
+    const part = { ...(subtitle && { subtitle }), rows: group.rows }
+    const same = legacy ? undefined : groups.find((known) => known.key === group.name)
+    if (!same) {
+      groups.push({ key: group.name ?? null, ...(name && { name }), parts: [part] })
+      continue
+    }
+    const last = same.parts.at(-1)!
+    // Las filas sueltas de un mismo grupo van juntas.
+    if (!part.subtitle && !last.subtitle) last.rows.push(...part.rows)
+    else same.parts.push(part)
+  }
+  if (groups.length === 0) return null
+  if (!legacy) {
+    groups.sort(
+      (a, b) => NEED_GROUPS.indexOf(a.key as NeedGroup) - NEED_GROUPS.indexOf(b.key as NeedGroup),
+    )
+    // «Otros» solo dice algo junto a otros grupos: solo y sin subtítulos, va sin título.
+    const [only] = groups
+    if (groups.length === 1 && only!.key === 'otros' && !only!.parts.some((p) => p.subtitle)) {
+      delete only!.name
     }
   }
-  const groups = [...byName].sort(([a], [b]) => a - b).map(([, group]) => group)
-  if (groups.length === 0) return null
-  // «Otros» solo dice algo junto a otros grupos: solo, va sin título.
-  if (groups.length === 1 && byName.has(NEED_GROUPS.indexOf('otros'))) delete groups[0]!.name
-  return { title: guide.needs?.title || s.needs, groups }
+  const note = guide.needs?.note?.trim()
+  return { title: guide.needs?.title || s.needs, ...(note && { note }), groups }
 }
 
 /** Una guía de misión de una parte como tarjeta: su PNJ, su nivel y su título enlazado. */

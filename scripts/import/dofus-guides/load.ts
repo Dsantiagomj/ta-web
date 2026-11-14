@@ -9,7 +9,7 @@ import type { DofusGuide } from '@/payload-types'
 import type { LexicalState } from '../rich-text'
 import type { DofusCatalogEntry } from './catalog'
 import type { ItemMatch } from './game-items'
-import { headingGroup, NEED_GROUPS, type NeedGroup } from '@/lib/dofus-guides/need-groups'
+import { headingGroup, type NeedGroup } from '@/lib/dofus-guides/need-groups'
 
 import { fold } from './fold'
 import { needClassifiers, normalizeNeeds, type NeedEntry, type Placement } from './normalize-needs'
@@ -70,8 +70,13 @@ export interface LoadDofusGuidesReport {
    * clasificar con certeza.
    */
   needGroups: (Placement & { slug: string })[]
-  /** Cómo queda Necesitarás, grupo a grupo, en las guías que cambian. */
-  needsAfter: { slug: string; groups: { name: NeedGroup; rows: string[] }[] }[]
+  /** Cómo queda Necesitarás, grupo a grupo y con sus subtítulos, en las guías que cambian. */
+  needsAfter: {
+    slug: string
+    groups: { name: NeedGroup; subtitle?: string; rows: string[] }[]
+  }[]
+  /** Subtítulos de Torre cuyas filas no iban todas al mismo grupo (van al de la mayoría). */
+  mixedSubtitles: { slug: string; subtitle: string; groups: NeedGroup[] }[]
 }
 
 /** Las búsquedas de objetos que se hacen a la vez, para no cargar DofusDB. */
@@ -199,6 +204,7 @@ export async function loadDofusGuides(
     lookupFailures: [],
     needGroups: [],
     needsAfter: [],
+    mixedSubtitles: [],
   }
   const lookups = await lookupAll(
     options.guides.flatMap(({ source }) => allNeedRows(source).flatMap((row) => row.name ?? [])),
@@ -348,39 +354,39 @@ export async function loadDofusGuides(
     })
 
     // Las filas de Torre con sus títulos encima, del más cercano al más lejano. Una fila con
-    // filas debajo («Dependiendo de tu nivel:») es un subtítulo: si no nombra un grupo, va
-    // como nota delante de ellas.
-    const entries = async (rows: NeedRow[], headings: (string | null)[]): Promise<NeedEntry[]> => {
+    // filas debajo («1 x Mazmorra:», «Dependiendo de tu nivel:») es un subtítulo: sus filas
+    // van juntas y él encima, con la cantidad y el sentido que le dio Torre. Dos subtítulos
+    // anidados van seguidos: «1 x Mazmorra: Dependiendo de tu nivel».
+    const entries = async (
+      rows: NeedRow[],
+      headings: (string | null)[],
+      unit?: string,
+    ): Promise<NeedEntry[]> => {
       const out: NeedEntry[] = []
       for (const row of rows) {
         if (!row.children?.length) {
-          out.push({ text: row.text, headings, ...(await needRow(row)) })
+          out.push({ text: row.text, headings, ...(unit && { unit }), ...(await needRow(row)) })
           continue
         }
         const heading = row.text.replace(/[:.]\s*$/, '')
-        if (!headingGroup(heading)) {
-          out.push({ text: row.text, headings, block: noteBlock(row.segs), leads: true })
-        }
-        out.push(...(await entries(row.children, [heading, ...headings])))
+        const inner = unit ? `${unit}: ${heading}` : heading
+        out.push(...(await entries(row.children, [heading, ...headings], inner)))
       }
       return out
     }
 
     // Los grupos de Necesitarás normalizados, y a dónde fue cada fila.
-    let placements: Placement[] = []
+    let normalized: ReturnType<typeof normalizeNeeds> | null = null
     const needs = async (source: DofusGuideSource) => {
       if (!source.needs) return null
       const all: NeedEntry[] = []
-      if (source.needs.note) {
-        const text = `(${source.needs.note})`
-        all.push({ text, headings: [], block: noteBlock([{ t: 'text', v: text }]) })
-      }
       for (const group of source.needs.groups)
         all.push(...(await entries(group.rows, [group.name])))
-      const normalized = normalizeNeeds(all, classify)
-      placements = normalized.placements
+      normalized = normalizeNeeds(all, classify)
       return {
         title: source.needs.title === 'Necesitarás' ? null : source.needs.title,
+        // La nota de Torre sobre todo Necesitarás va encima de los grupos.
+        note: source.needs.note ? `(${source.needs.note})` : null,
         groups: normalized.groups,
       }
     }
@@ -411,19 +417,17 @@ export async function loadDofusGuides(
         ...gained.withoutQuantity.filter((line) => !stored.has(line.id)).map(strip),
       )
       report.singular.push(...gained.singular.filter((line) => !stored.has(line.id)).map(strip))
-      const after = new Map<NeedGroup, string[]>()
-      for (const placement of placements) {
-        after.set(placement.to, [...(after.get(placement.to) ?? []), placement.text])
+      if (!normalized) return
+      for (const placement of normalized.placements) {
         if (headingGroup(placement.from) !== placement.to) {
           report.needGroups.push({ slug: entry.slug, ...placement })
         }
       }
-      if (after.size) {
-        const groups = NEED_GROUPS.flatMap((name) => {
-          const rows = after.get(name)
-          return rows ? [{ name, rows }] : []
-        })
-        report.needsAfter.push({ slug: entry.slug, groups })
+      for (const { subtitle, groups } of normalized.mixed) {
+        report.mixedSubtitles.push({ slug: entry.slug, subtitle, groups })
+      }
+      if (normalized.outline.length) {
+        report.needsAfter.push({ slug: entry.slug, groups: normalized.outline })
       }
     }
 

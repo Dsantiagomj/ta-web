@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react'
+import { type CSSProperties, Fragment } from 'react'
 
 import { GuideSections } from '@/components/game/GuideBody'
 import { GuideRichText } from '@/components/game/GuideRichText'
@@ -84,12 +84,14 @@ function NeedItem({ row }: { row: NeedItemRow }) {
 }
 
 /** Un grupo: sus objetos en columnas y después sus notas, cada uno en el orden de Torre. */
-function NeedGroup({ group }: { group: NonNullable<DofusGuideView['needs']>['groups'][number] }) {
-  const items = group.rows.filter((row): row is NeedItemRow => row.kind === 'item')
-  const notes = group.rows.filter((row): row is NeedNoteRow => row.kind === 'note')
+type NeedRows = NonNullable<DofusGuideView['needs']>['groups'][number]['parts'][number]['rows']
+
+/** Unas filas de Necesitarás: los objetos en columnas y después las notas de Torre. */
+function NeedRowsList({ rows }: { rows: NeedRows }) {
+  const items = rows.filter((row): row is NeedItemRow => row.kind === 'item')
+  const notes = rows.filter((row): row is NeedNoteRow => row.kind === 'note')
   return (
-    <div className="dg-needs__g">
-      {group.name && <h3 className="dg-h3">{group.name}</h3>}
+    <>
       {items.length > 0 && (
         <ul role="list" className="needs__items">
           {items.map((row, index) => (
@@ -106,6 +108,21 @@ function NeedGroup({ group }: { group: NonNullable<DofusGuideView['needs']>['gro
           ))}
         </ul>
       )}
+    </>
+  )
+}
+
+/** Un grupo: su nombre y, por partes, el subtítulo de Torre encima de sus filas. */
+function NeedGroup({ group }: { group: NonNullable<DofusGuideView['needs']>['groups'][number] }) {
+  return (
+    <div className="dg-needs__g">
+      {group.name && <h3 className="dg-h3">{group.name}</h3>}
+      {group.parts.map((part, index) => (
+        <Fragment key={index}>
+          {part.subtitle && <p className="dg-needs__sub">{part.subtitle}</p>}
+          <NeedRowsList rows={part.rows} />
+        </Fragment>
+      ))}
     </div>
   )
 }
@@ -121,6 +138,7 @@ export function DofusNeeds({ needs }: { needs: NonNullable<DofusGuideView['needs
       <h2 className="lq__h" id="dg-nec">
         {needs.title}
       </h2>
+      {needs.note && <p className="dg-needs__note">{needs.note}</p>}
       {needs.groups.map((group, index) => (
         <NeedGroup key={`${group.name ?? ''}-${index}`} group={group} />
       ))}
