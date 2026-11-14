@@ -43,11 +43,15 @@ const $ = <T extends Element = HTMLElement>(selector: string) =>
 const $$ = <T extends Element = HTMLElement>(selector: string) => [
   ...document.querySelectorAll<T>(selector),
 ]
-const shownView = () => $$('[data-sl-view]').filter((el) => getComputedStyle(el).display !== 'none')
-/** Las almas que se ven: en la vista elegida y sin ocultar. */
+// La vista que enseña checklist.css: la que dice `.sl-win` y, sin nada, por etapa. (happy-dom
+// guarda el primer getComputedStyle y no ve el cambio de un antepasado.)
+const shownView = () => $$(`[data-sl-view="${$('.sl-win').dataset.slShown ?? 'stage'}"]`)
+/** Las almas que se ven: en la vista elegida, en un grupo que se ve y sin ocultar. */
 const visible = () =>
   shownView()
-    .flatMap((el) => [...el.querySelectorAll<HTMLElement>('.sl-soul:not([hidden])')])
+    .flatMap((el) => [
+      ...el.querySelectorAll<HTMLElement>('[data-sl-group]:not([hidden]) .sl-soul:not([hidden])'),
+    ])
     .map((row) => row.querySelector('.sl-soul__n')!.textContent)
 const click = (selector: string) => $(selector).click()
 const tick = (id: number) => {
@@ -60,19 +64,82 @@ let stop: (() => void) | undefined
 beforeEach(() => {
   localStorage.clear()
   document.documentElement.setAttribute('data-js', '')
-  document.head.innerHTML = `<style>
-    .sl-win[data-sl-shown='region'] [data-sl-view='stage'],
-    .sl-win:not([data-sl-shown='region']) [data-sl-view='region'] { display: none; }
-  </style>`
   document.body.innerHTML = renderToStaticMarkup(
-    <section className="ck-win sl-win">
-      <SoulsStrip view={view} />
-      <SoulsTools view={view} />
-      <SoulsList view={view} />
-    </section>,
+    <>
+      <section className="ck-win sl-win">
+        <SoulsStrip view={view} />
+        <SoulsTools view={view} />
+        <SoulsList view={view} />
+      </section>
+      <div className="ck-toast" role="status" data-ck-toast hidden />
+    </>,
   )
 })
 afterEach(() => stop?.())
+
+describe('marcar se nota', () => {
+  const just = (id: number) => $$(`[data-soul="${id}"]`).map((row) => row.getAttribute('data-just'))
+  const toast = () => $('[data-ck-toast]')
+
+  it('marcar y desmarcar un alma la anima en las dos vistas; lo que llega de otra pestaña, no', () => {
+    stop = startSouls(view.island)
+    expect(just(500)).toEqual([null, null])
+    tick(500)
+    expect(just(500)).toEqual(['on', 'on'])
+    tick(500)
+    expect(just(500)).toEqual(['off', 'off'])
+    localStorage.setItem(
+      'ta-web:progress',
+      JSON.stringify({ v: 1, quests: {}, steps: {}, souls: { 501: 1 } }),
+    )
+    window.dispatchEvent(new StorageEvent('storage', { key: 'ta-web:progress' }))
+    expect(just(501)).toEqual([null, null])
+  })
+
+  it('completar una etapa la celebra una vez, con un aviso; quitar una la deja sin completar', () => {
+    stop = startSouls(view.island)
+    const group = () => $('[data-sl-view="stage"] [data-sl-group="2"]')
+    const button = () => $('[data-sl-stage="2"]')
+    tick(500)
+    expect(group().hasAttribute('data-complete')).toBe(false)
+    tick(501)
+    expect(group().hasAttribute('data-complete')).toBe(true)
+    expect(group().hasAttribute('data-cheer')).toBe(true)
+    expect(button().hasAttribute('data-complete')).toBe(true)
+    expect(button().hasAttribute('data-cheer')).toBe(true)
+    // Y el alma que la completa, donde se ha hecho clic: el título puede quedar fuera de la vista.
+    expect($$('[data-soul="501"]').map((row) => row.hasAttribute('data-cheer'))).toEqual([
+      true,
+      true,
+    ])
+    expect($$('[data-soul="500"][data-cheer]')).toEqual([])
+    expect(toast().textContent).toBe('¡Etapa 2 completa!')
+    expect(toast().hidden).toBe(false)
+    tick(501)
+    expect(group().hasAttribute('data-complete')).toBe(false)
+    expect(group().hasAttribute('data-cheer')).toBe(false)
+  })
+
+  it('una etapa que ya estaba completa al cargar se ve completa, sin celebrarla', () => {
+    localStorage.setItem(
+      'ta-web:progress',
+      JSON.stringify({ v: 1, quests: {}, steps: {}, souls: { 928: 1 } }),
+    )
+    stop = startSouls(view.island)
+    const group = $('[data-sl-view="stage"] [data-sl-group="1"]')
+    expect(group.hasAttribute('data-complete')).toBe(true)
+    expect(group.hasAttribute('data-cheer')).toBe(false)
+    expect(toast().hidden).toBe(true)
+  })
+
+  it('con la última alma, el aviso es de todas', () => {
+    stop = startSouls(view.island)
+    tick(928)
+    tick(500)
+    tick(501)
+    expect(toast().textContent).toBe('¡Tienes todas las almas!')
+  })
+})
 
 describe('la isla del Ocre', () => {
   it('por región no mueve las filas: cada vista pinta las suyas, con ids que no se repiten', () => {
@@ -126,5 +193,77 @@ describe('la isla del Ocre', () => {
   it('sin JavaScript no salen los controles que no hacen nada: el buscador tampoco', () => {
     expect($('[data-sl-q]').closest('.ck-js')).not.toBeNull()
     expect($('[data-sl-hide]').closest('.ck-js')).not.toBeNull()
+    expect($('[data-sl-stages]').closest('.ck-js')).not.toBeNull()
+  })
+})
+
+describe('las etapas al lado de la lista', () => {
+  const stageButtons = () =>
+    $$('[data-sl-stage]').map((button) => [
+      button.dataset.slStage,
+      button.querySelector('[data-sl-sc]')!.textContent,
+      button.getAttribute('aria-pressed'),
+    ])
+
+  it('todas las etapas con lo que se tiene de cada una, y «Todas» para volver', () => {
+    stop = startSouls(view.island)
+    tick(500)
+    expect(stageButtons()).toEqual([
+      ['all', '1/3', 'true'],
+      ['1', '0/1', 'false'],
+      ['2', '1/2', 'false'],
+    ])
+  })
+
+  it('elegir una etapa enseña solo sus almas; «Todas» las vuelve a enseñar', () => {
+    stop = startSouls(view.island)
+    click('[data-sl-stage="2"]')
+    expect(visible()).toEqual(['Pikopi', 'Arakna Maja'])
+    expect($('[data-sl-stage="2"]').getAttribute('aria-pressed')).toBe('true')
+    expect($('[data-sl-status]').textContent).toBe('2 almas')
+    click('[data-sl-stage="all"]')
+    expect(visible()).toEqual(['Mob Lasponja', 'Pikopi', 'Arakna Maja'])
+  })
+
+  it('la etapa elegida sigue al volver a arrancar, y por región no filtra', () => {
+    stop = startSouls(view.island)
+    click('[data-sl-stage="1"]')
+    stop()
+    stop = startSouls(view.island)
+    expect($('[data-sl-stage="1"]').getAttribute('aria-pressed')).toBe('true')
+    expect(visible()).toEqual(['Mob Lasponja'])
+    click('[data-sl-by="region"]')
+    expect(visible()).toEqual(['Mob Lasponja', 'Arakna Maja', 'Pikopi'])
+  })
+})
+
+describe('el buscador y las tarjetas', () => {
+  const search = (text: string) => {
+    const input = $<HTMLInputElement>('[data-sl-q]')
+    input.value = text
+    input.dispatchEvent(new Event('input', { bubbles: true }))
+  }
+
+  it('busca por nivel, por rango de niveles, por región y por mazmorra', () => {
+    stop = startSouls(view.island)
+    search('55')
+    expect(visible()).toEqual(['Pikopi'])
+    search('10-25')
+    expect(visible()).toEqual(['Mob Lasponja', 'Arakna Maja'])
+    search('amakna')
+    expect(visible()).toEqual(['Pikopi'])
+    search('castillo')
+    expect(visible()).toEqual(['Mob Lasponja', 'Arakna Maja'])
+  })
+
+  it('la casilla dice el nombre entero, el nivel y dónde se lucha; sin etiqueta de tipo', () => {
+    const box = $('[data-sl-view="stage"] [data-sl-own="928"]')
+    expect(box.getAttribute('aria-label')).toBe('Mob Lasponja, Nv. 20 · Castillo de Arena')
+    // La etiqueta «Jefe» o «Archi» no decía nada: el filtro por tipo se queda.
+    expect($$('.sl-tag')).toEqual([])
+    expect($$('[data-sl-type]')).toHaveLength(3)
+    expect($('[data-sl-view="stage"] [data-soul="928"] .sl-soul__n').getAttribute('title')).toBe(
+      'Mob Lasponja',
+    )
   })
 })

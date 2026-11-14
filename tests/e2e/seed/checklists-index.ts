@@ -41,7 +41,8 @@ export const indexChecklists = {
       { dofusId: 991_602, name: 'Pikopi', levels: [55], archmonster: true, subAreaId: 991_402 },
       {
         dofusId: 991_603,
-        name: 'Arakna Maja',
+        // Largo a propósito: la tarjeta lo corta en dos líneas y mide lo mismo que las demás.
+        name: 'Arakna Maja, la Tejedora Incansable de las Telarañas del Bosque Sombrío',
         levels: [12, 13],
         archmonster: true,
         subAreaId: 991_401,
