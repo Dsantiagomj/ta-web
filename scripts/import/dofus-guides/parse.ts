@@ -202,9 +202,10 @@ function needRow(item: ListItem): NeedRow {
   if (allBold(item.text)) row.strong = true
   const match = QUANTITY.exec(text)
   // Una fila con enlaces (emotes, misiones) no es un objeto. Sin «1 x» también queda su
-  // nombre, salvo si encabeza otras filas: la importación lo da por objeto solo si un único
+  // nombre, salvo si encabeza otras filas o es una etiqueta en negrita: la importación lo da por objeto solo si un único
   // objeto del juego se llama así.
-  const named = match || (!item.children.length && !/:$/.test(unDot(text)))
+  // Una fila toda en negrita sin cantidad es una etiqueta de Torre («**Opcional**»).
+  const named = match || (!item.children.length && !row.strong && !/:$/.test(unDot(text)))
   if (named && !item.text.includes('[[')) {
     if (match) row.quantity = Number(match[1]!.replace(/\s/g, ''))
     const rest = unDot(match ? match[2]! : text)

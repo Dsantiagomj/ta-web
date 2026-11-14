@@ -19,7 +19,7 @@ const varita = cacao
   .needs!.groups.flatMap((group) => group.rows)
   .find((row) => row.text === 'Varita pitusa.')!
 
-const item = (id: number, name: string): RawItem => ({ id, name: { es: name } })
+const item = (id: number, name: string, typeId = 1): RawItem => ({ id, name: { es: name }, typeId })
 
 /** Lo que devolvería DofusDB para el patrón: lo filtra igual que su $regex con $options i. */
 const search = (name: string | string[], items: RawItem[]) => {
@@ -86,8 +86,12 @@ describe('onlyItem en singular', () => {
     item(380, 'Oreja de buldogro'),
     item(401, 'Flor'),
     item(402, 'Flore'),
+    // El mismo objeto repetido (mismo nombre y tipo): el de ID más bajo.
     item(501, 'Llave'),
     item(502, 'Llave'),
+    // Dos objetos distintos con el mismo nombre (otro tipo): no se adivina.
+    item(601, 'Capa', 17),
+    item(602, 'Capa', 16),
   ]
   const singular = (name: string) => {
     const forms = singularForms(name)
@@ -103,8 +107,12 @@ describe('onlyItem en singular', () => {
   it('si el singular casa con varios objetos no adivina', () => {
     // «Flores»: «Flore» y «Flor» son dos objetos distintos.
     expect(singular('Flores')).toBeNull()
-    // «Llaves»: dos objetos que se llaman «Llave».
-    expect(singular('Llaves')).toBeNull()
+    // «Capas»: dos objetos distintos que se llaman «Capa».
+    expect(singular('Capas')).toBeNull()
+  })
+
+  it('el mismo objeto repetido en DofusDB no es duda: vale el de ID más bajo', () => {
+    expect(singular('Llaves')).toEqual(item(501, 'Llave'))
   })
 
   it('si el singular no casa con nada, nada', () => {

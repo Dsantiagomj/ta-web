@@ -87,7 +87,6 @@ try {
     htmlToLexical,
     ensureItem: items.ensureItem,
     findItem: items.matchItem,
-    findOnlyItem: items.findOnlyItem,
     mediaFor: images,
     posterFor: async (videoId) => {
       try {
@@ -117,6 +116,9 @@ try {
   }
   for (const { slug, text, item } of report.singular) {
     console.log(`Fila casada en singular en ${slug}: «${text}» → «${item}»`)
+  }
+  for (const { slug, text, error } of report.lookupFailures) {
+    console.log(`Búsqueda fallida en ${slug}, queda como nota: «${text}» (${error})`)
   }
   for (const { slug, achievement, torre, page } of report.differences) {
     console.log(

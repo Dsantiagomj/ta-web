@@ -9,6 +9,7 @@ import type { DofusGuide } from '@/payload-types'
 import type { LexicalState } from '../rich-text'
 import type { DofusCatalogEntry } from './catalog'
 import type { ItemMatch } from './game-items'
+import { fold } from './fold'
 import type { BodyItem, DofusGuideSource, NeedRow, Part, QuestRef, Segment } from './parse'
 
 const SITE = 'https://www.torrentearcano.com'
@@ -27,15 +28,10 @@ export interface LoadDofusGuidesOptions {
   /** El ID en Payload del objeto de DofusDB, importándolo con su icono si falta; null si no existe. */
   ensureItem: (dofusId: number) => Promise<number | null>
   /**
-   * El objeto que se llama así (una fila con cantidad), buscándolo en DofusDB si no está y, si
-   * no casa, en singular; null si no hay ninguno.
+   * El objeto que se llama así, con cantidad o sin ella: en la base, si no en DofusDB y, si no
+   * casa, en singular; null si no hay ninguno o hay duda (gameItems().matchItem).
    */
   findItem: (name: string) => Promise<ItemMatch | null>
-  /**
-   * Para una fila sin cantidad: el único objeto que se llama así (o, si ninguno, en singular);
-   * null si ninguno o varios.
-   */
-  findOnlyItem: (name: string) => Promise<ItemMatch | null>
   /** El archivo de Media de una captura de Squarespace, subiéndolo si falta. */
   mediaFor: (url: string, alt: string) => Promise<number>
   /** La portada de un vídeo de YouTube como archivo de Media; null si no se pudo traer. */
@@ -56,6 +52,43 @@ export interface LoadDofusGuidesReport {
   withoutQuantity: GainedItem[]
   /** Filas que casaron con un objeto en singular («8 x Bananaranjas»), en las guías que cambian. */
   singular: GainedItem[]
+  /** Filas sin cantidad cuya búsqueda falló (DofusDB no respondió): se quedan como nota. */
+  lookupFailures: { slug: string; text: string; error: string }[]
+}
+
+/** Las búsquedas de objetos que se hacen a la vez, para no cargar DofusDB. */
+const LOOKUP_CONCURRENCY = 4
+
+/** Las filas de Necesitarás de una guía, con las que van debajo de otras. */
+function allNeedRows(source: DofusGuideSource | null): NeedRow[] {
+  const walk = (rows: NeedRow[]): NeedRow[] =>
+    rows.flatMap((row) => [row, ...walk(row.children ?? [])])
+  return walk((source?.needs?.groups ?? []).flatMap((group) => group.rows))
+}
+
+type Lookup = { match: ItemMatch | null } | { error: unknown }
+
+/**
+ * Busca todos los nombres una vez, como mucho LOOKUP_CONCURRENCY a la vez, antes de cargar
+ * las guías. Un fallo se guarda: decide la fila que lo use.
+ */
+async function lookupAll(
+  names: string[],
+  find: (name: string) => Promise<ItemMatch | null>,
+): Promise<Map<string, Lookup>> {
+  const results = new Map<string, Lookup>()
+  const queue = [...new Set(names)]
+  const worker = async () => {
+    for (let name = queue.shift(); name !== undefined; name = queue.shift()) {
+      try {
+        results.set(name, { match: await find(name) })
+      } catch (error) {
+        results.set(name, { error })
+      }
+    }
+  }
+  await Promise.all(Array.from({ length: LOOKUP_CONCURRENCY }, worker))
+  return results
 }
 
 /** Una fila de Necesitarás y el objeto con el que casó. */
@@ -115,15 +148,7 @@ const same = (a: unknown, b: unknown) =>
 const snapshotOf = (data: Imported): Imported =>
   Object.fromEntries(IMPORTED_FIELDS.map((field) => [field, comparable(data[field]) ?? null]))
 
-/** Minúsculas, sin tildes ni puntuación: para casar los nombres de Torre con los del juego. */
-export function fold(text: string): string {
-  return text
-    .normalize('NFD')
-    .replace(/\p{M}/gu, '')
-    .toLocaleLowerCase('es')
-    .replace(/[^a-z0-9ñ]+/g, ' ')
-    .trim()
-}
+export { fold } from './fold'
 
 const escapeHtml = (text: string) =>
   text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
@@ -153,7 +178,12 @@ export async function loadDofusGuides(
     differences: [],
     withoutQuantity: [],
     singular: [],
+    lookupFailures: [],
   }
+  const lookups = await lookupAll(
+    options.guides.flatMap(({ source }) => allNeedRows(source).flatMap((row) => row.name ?? [])),
+    options.findItem,
+  )
   const lexical = (html: string) => (html ? options.htmlToLexical(html) : null)
   const list = (rows: Segment[][]) =>
     rows.length
@@ -254,15 +284,24 @@ export async function loadDofusGuides(
       }
     }
 
-    // Lo que casó sin cantidad o en singular: se informa solo si Necesitarás cambia.
-    const gained = { withoutQuantity: [] as GainedItem[], singular: [] as GainedItem[] }
+    // Lo que casó sin cantidad o en singular, con el ID del objeto: se informa solo si es nuevo
+    // frente a lo guardado.
+    type Gained = GainedItem & { id: number }
+    const gained = { withoutQuantity: [] as Gained[], singular: [] as Gained[] }
     const needRow = async (row: NeedRow): Promise<Record<string, unknown>> => {
       if (row.name) {
         const withQuantity = row.quantity !== undefined
-        // Sin «1 x», solo si un único objeto se llama así: nunca se adivina.
-        const match = await (withQuantity ? options.findItem : options.findOnlyItem)(row.name)
+        const found = lookups.get(row.name) ?? { match: await options.findItem(row.name) }
+        if ('error' in found) {
+          // Con cantidad es un objeto seguro: el fallo para la importación. Sin ella, nota.
+          if (withQuantity) throw found.error
+          const error = found.error instanceof Error ? found.error.message : String(found.error)
+          report.lookupFailures.push({ slug: entry.slug, text: row.text, error })
+          log(`No se pudo buscar «${row.name}» en ${entry.slug}: queda como nota (${error})`)
+        }
+        const match = 'match' in found ? found.match : null
         if (match) {
-          const line = { slug: entry.slug, text: row.text, item: match.name }
+          const line = { slug: entry.slug, text: row.text, item: match.name, id: match.id }
           if (match.singular) gained.singular.push(line)
           else if (!withQuantity) gained.withoutQuantity.push(line)
           return {
@@ -357,6 +396,15 @@ export async function loadDofusGuides(
       originalUrl: entry.page ? `${SITE}/${entry.slug}` : null,
     }
 
+    // Lo casado que la guía guardada aún no tenía como objeto.
+    const reportGained = (stored: Set<number>) => {
+      const strip = ({ slug, text, item }: Gained): GainedItem => ({ slug, text, item })
+      report.withoutQuantity.push(
+        ...gained.withoutQuantity.filter((line) => !stored.has(line.id)).map(strip),
+      )
+      report.singular.push(...gained.singular.filter((line) => !stored.has(line.id)).map(strip))
+    }
+
     const existing = await payload.find({
       collection: 'dofus-guides',
       where: { slug: { equals: entry.slug } },
@@ -382,8 +430,7 @@ export async function loadDofusGuides(
         })
       }
       report.created += 1
-      report.withoutQuantity.push(...gained.withoutQuantity)
-      report.singular.push(...gained.singular)
+      reportGained(new Set())
       log(`${entry.slug}: ${options.apply ? 'creada' : 'se crearía'} (${data.state})`)
       continue
     }
@@ -409,10 +456,7 @@ export async function loadDofusGuides(
       report.unchanged += 1
       continue
     }
-    if ('needs' in changes) {
-      report.withoutQuantity.push(...gained.withoutQuantity)
-      report.singular.push(...gained.singular)
-    }
+    if ('needs' in changes) reportGained(storedItems(current as DofusGuide))
     if (options.apply) {
       // Si Torre tiene un borrador a medias, el cambio va a su borrador y no se publica.
       const status = current._status === 'draft' ? 'draft' : 'published'
@@ -430,7 +474,24 @@ export async function loadDofusGuides(
       `${entry.slug}: ${options.apply ? 'actualizada' : 'se actualizaría'} (${Object.keys(changes).join(', ')})`,
     )
   }
+  // Ordenados: el ensayo sale igual en cada pasada.
+  const byLine = (a: GainedItem, b: GainedItem) =>
+    a.slug.localeCompare(b.slug) || a.text.localeCompare(b.text, 'es')
+  report.withoutQuantity.sort(byLine)
+  report.singular.sort(byLine)
   return report
+}
+
+/** Los objetos que la guía guardada ya tiene en Necesitarás. */
+function storedItems(doc: DofusGuide): Set<number> {
+  const ids = new Set<number>()
+  for (const group of doc.needs?.groups ?? []) {
+    for (const row of group.rows ?? []) {
+      if (row.blockType !== 'needItem' || row.item == null) continue
+      ids.add(typeof row.item === 'object' ? row.item.id : row.item)
+    }
+  }
+  return ids
 }
 
 /**

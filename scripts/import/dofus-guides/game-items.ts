@@ -8,12 +8,10 @@ import { gameImageImporter, type FetchImage } from '@/lib/dofusdb/game-images'
 import { mapItem } from '@/lib/dofusdb/map-items-monsters'
 import type { RawItem } from '@/lib/dofusdb/types'
 
-import { itemNamePattern, onlyItem, singularForms } from './item-match'
+import { fold } from './fold'
+import { itemNamePattern, sameItem, singularForms } from './item-match'
 
 const ITEM_FIELDS = ['id', 'name', 'level', 'typeId', 'iconId', 'type']
-
-/** Escapa un texto para usarlo literal en un $regex de DofusDB. */
-const literal = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
 /** El objeto que casó con un nombre: su ID en Payload, su nombre en el juego y si casó en singular. */
 export interface ItemMatch {
@@ -39,7 +37,6 @@ export function gameItems(
   // Una promesa por objeto: dos filas con el mismo objeto no lo crean dos veces.
   const byDofusId = new Map<number, Promise<number | null>>()
   const byName = new Map<string, Promise<ItemMatch | null>>()
-  const byOnlyName = new Map<string, Promise<ItemMatch | null>>()
 
   type StoredItem = { id: number; name: string; iconId?: number | null; image?: unknown }
 
@@ -121,29 +118,30 @@ export function gameItems(
     return id === null ? null : { id, name: raw.name?.es ?? '', singular }
   }
 
+  // Lo que casó en singular, para el informe de cada importación.
+  const singulars = new Map<string, string>()
+
   /**
-   * Un nombre en plural que no casó («Bananaranjas»), en singular («Bananaranja»): solo si un
-   * único objeto casa con sus formas en singular. Con varios no se adivina.
+   * Busca en DofusDB uno de los nombres (sin mayúsculas ni tildes) y se queda con el objeto
+   * que casa (sameItem); null si ninguno o si hay duda. Los nombres que no casan del todo
+   * tras plegar (fold) no cuentan.
    */
-  async function bySingular(name: string): Promise<ItemMatch | null> {
-    const forms = singularForms(name)
-    if (forms.length === 0) return null
-    const rows = await searchNames(forms)
-    const raw = onlyItem(forms, rows)
-    if (!raw) {
-      if (rows.length > 1)
-        options.log?.(`Varios objetos casan en singular con «${name}»: no se adivina`)
-      return null
-    }
-    options.log?.(`Casado en singular: «${name}» → «${raw.name?.es ?? ''}» (${raw.id})`)
-    return matched(raw, true)
+  async function fromDofusDb(names: string[], label: string): Promise<RawItem | null | 'none'> {
+    const rows = await searchNames(names)
+    const keys = new Set(names.map(fold))
+    const candidates = rows.filter((row) => keys.has(fold(row.name?.es ?? '')))
+    if (candidates.length === 0) return 'none'
+    const raw = sameItem(candidates)
+    if (!raw) options.log?.(`Varios objetos distintos casan con «${label}»: no se adivina`)
+    return raw
   }
 
   /**
-   * El objeto que se llama así: en la base con el nombre exacto; si no, en DofusDB con el
-   * nombre exacto y luego sin mayúsculas (Torre escribe «Piel de Rojiva»). Con varios, el de
-   * ID más bajo. Si no hay ninguno, en singular (bySingular). null si tampoco: la fila queda
-   * como nota.
+   * El objeto que se llama así, con cantidad o sin ella: en la base con el nombre exacto; si
+   * no, en DofusDB sin mirar mayúsculas ni tildes (Torre escribe «Piel de Rojiva»). Si no hay
+   * ninguno, en singular («Bananaranjas» → «Bananaranja»). Con varios, el de ID más bajo solo
+   * si son el mismo objeto (mismo nombre y tipo); si no, null: nunca se adivina. Una promesa
+   * por nombre: cada nombre se busca una vez.
    */
   function matchItem(name: string): Promise<ItemMatch | null> {
     const key = name.trim()
@@ -154,23 +152,27 @@ export function gameItems(
         collection: 'items',
         where: { name: { equals: key } },
         sort: 'dofusId',
-        limit: 1,
+        limit: 10,
         depth: 0,
         overrideAccess: true,
       })
-      const doc = local.docs[0]
-      if (doc) return { id: await withIcon(doc), name: doc.name, singular: false }
-      const select = { select: ITEM_FIELDS }
-      let rows = await options.client.fetchWhere<RawItem>('items', { 'name.es': key }, select)
-      if (rows.length === 0) {
-        rows = await options.client.fetchWhere<RawItem>(
-          'items',
-          { 'name.es[$regex]': `^${literal(key)}$`, 'name.es[$options]': 'i' },
-          select,
-        )
+      if (local.docs.length > 0) {
+        const doc = sameItem(local.docs)
+        if (!doc) {
+          options.log?.(`Varios objetos distintos se llaman «${key}» en la base: no se adivina`)
+          return null
+        }
+        return { id: await withIcon(doc), name: doc.name, singular: false }
       }
-      const [first] = [...rows].sort((a, b) => a.id - b.id)
-      return first ? matched(first, false) : bySingular(key)
+      const exact = await fromDofusDb([key], key)
+      if (exact !== 'none') return exact ? matched(exact, false) : null
+      const forms = singularForms(key)
+      if (forms.length === 0) return null
+      const singular = await fromDofusDb(forms, key)
+      if (singular === 'none' || !singular) return null
+      singulars.set(key, singular.name?.es ?? '')
+      options.log?.(`Casado en singular: «${key}» → «${singular.name?.es ?? ''}» (${singular.id})`)
+      return matched(singular, true)
     })()
     byName.set(key, pending)
     return pending
@@ -181,28 +183,12 @@ export function gameItems(
     return (await matchItem(name))?.id ?? null
   }
 
-  /**
-   * Para una fila sin cantidad: el único objeto de DofusDB que se llama así, sin mirar
-   * mayúsculas ni tildes, importándolo si falta. Si no hay ninguno, en singular. null si
-   * ninguno o varios: nunca se adivina.
-   */
-  function findOnlyItem(name: string): Promise<ItemMatch | null> {
-    const key = name.trim()
-    const known = byOnlyName.get(key)
-    if (known) return known
-    const pending = (async () => {
-      const rows = await searchNames([key])
-      if (rows.length === 0) return bySingular(key)
-      const raw = onlyItem(key, rows)
-      if (!raw) {
-        options.log?.(`Varios objetos se llaman «${key}»: la fila queda como nota`)
-        return null
-      }
-      return matched(raw, false)
-    })()
-    byOnlyName.set(key, pending)
-    return pending
+  /** Lo que casó en singular hasta ahora, ordenado por el nombre que escribió Torre. */
+  function singularMatches(): { name: string; item: string }[] {
+    return [...singulars]
+      .map(([name, item]) => ({ name, item }))
+      .sort((a, b) => a.name.localeCompare(b.name, 'es'))
   }
 
-  return { ensureItem, findItem, matchItem, findOnlyItem, images: images.counts }
+  return { ensureItem, findItem, matchItem, singularMatches, images: images.counts }
 }

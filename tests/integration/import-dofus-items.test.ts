@@ -17,8 +17,13 @@ const RAW: RawItem[] = [
   { id: 918043, name: { es: 'Dofus abisal' }, level: 180, typeId: 23, iconId: 923023 },
   { id: 917298, name: { es: 'Piel de rojiva' }, level: 60, typeId: 15, iconId: 959042 },
   { id: 918102, name: { es: 'Varita pitusa' }, level: 1, typeId: 4, iconId: 904012 },
+  // El mismo objeto dos veces en DofusDB (mismo nombre y tipo): vale el de ID más bajo.
   { id: 918201, name: { es: 'Llave doble' }, level: 1, typeId: 84, iconId: null },
-  { id: 918202, name: { es: 'Llave Doble' }, level: 1, typeId: 84, iconId: null },
+  { id: 918202, name: { es: 'Llave doble' }, level: 1, typeId: 84, iconId: null },
+  // Dos objetos distintos que se escriben casi igual: no se adivina.
+  { id: 918203, name: { es: 'Capa doble' }, level: 1, typeId: 17, iconId: null },
+  { id: 918204, name: { es: 'Capa Doble' }, level: 1, typeId: 16, iconId: null },
+  { id: 918205, name: { es: 'Túnica de prueba' }, level: 1, typeId: 16, iconId: null },
   { id: 916834, name: { es: 'Bananaranja' }, level: 1, typeId: 41, iconId: null },
   { id: 918301, name: { es: 'Flor' }, level: 1, typeId: 41, iconId: null },
   { id: 918302, name: { es: 'Flore' }, level: 1, typeId: 41, iconId: null },
@@ -162,32 +167,53 @@ describe('gameItems', () => {
     expect(await items.findItem('Algo que no existe')).toBeNull()
   })
 
-  it('una fila sin cantidad: solo el único objeto que se llama así, sin mirar tildes ni mayúsculas', async () => {
-    const { client } = fakeClient()
+  it('con cantidad o sin ella, la misma búsqueda: la base primero y DofusDB sin tildes ni mayúsculas', async () => {
+    const { client, asked } = fakeClient()
     const items = gameItems(payload, { client, fetchImage })
 
-    // El Cacao: «Varita pitusa.» sin «1 x». Torre la escribe sin la tilde que no lleva.
-    const varita = await items.findOnlyItem('varita pitusa')
-    expect(varita).toEqual({ id: expect.any(Number), name: 'Varita pitusa', singular: false })
+    // Pepita está en la base: ni se pregunta a DofusDB.
+    expect(await items.matchItem('Pepita')).toMatchObject({ name: 'Pepita', singular: false })
+    expect(asked).toEqual([])
+
+    // El Cacao: «Varita pitusa.» sin «1 x», en minúsculas.
+    const varita = await items.matchItem('varita pitusa')
+    expect(varita).toEqual({
+      id: expect.any(Number),
+      name: 'Varita pitusa',
+      singular: false,
+    })
     const stored = await payload.findByID({ collection: 'items', id: varita!.id, depth: 0 })
     expect(stored).toMatchObject({ dofusId: 918102, name: 'Varita pitusa' })
 
-    // Dos objetos con el mismo nombre: no se adivina, y no se crea ninguno.
-    expect(await items.findOnlyItem('Llave doble')).toBeNull()
-    const doubles = await payload.find({
-      collection: 'items',
-      where: { dofusId: { in: [918201, 918202] } },
-    })
-    expect(doubles.docs).toEqual([])
-
-    expect(await items.findOnlyItem('Un par de combates por allí y por allá')).toBeNull()
+    // Torre escribe «Tunica» sin la tilde: casa igual.
+    expect(await items.matchItem('Tunica de prueba')).toMatchObject({ name: 'Túnica de prueba' })
+    expect(await items.matchItem('Un par de combates por allí y por allá')).toBeNull()
   })
 
-  it('en seco, la fila sin cantidad tampoco crea el objeto: su ID de DofusDB en negativo', async () => {
+  it('repetidos: el de ID más bajo si son el mismo objeto (nombre y tipo); si no, nada', async () => {
+    const { client } = fakeClient()
+    const items = gameItems(payload, { client, fetchImage })
+
+    const llave = await items.matchItem('Llave doble')
+    const stored = await payload.findByID({ collection: 'items', id: llave!.id, depth: 0 })
+    expect(stored.dofusId).toBe(918201)
+    // En singular, la misma regla.
+    expect(await items.matchItem('Llaves dobles')).toMatchObject({ id: llave!.id, singular: true })
+
+    // «Capa doble»: dos objetos distintos. No se adivina ni se crea ninguno.
+    expect(await items.matchItem('Capa doble')).toBeNull()
+    const capes = await payload.find({
+      collection: 'items',
+      where: { dofusId: { in: [918203, 918204] } },
+    })
+    expect(capes.docs).toEqual([])
+  })
+
+  it('en seco no crea el objeto: su ID de DofusDB en negativo', async () => {
     const { client } = fakeClient()
     await payload.delete({ collection: 'items', where: { dofusId: { equals: 918102 } } })
     const items = gameItems(payload, { client, fetchImage, dryRun: true })
-    expect(await items.findOnlyItem('Varita pitusa')).toEqual({
+    expect(await items.matchItem('Varita pitusa')).toEqual({
       id: -918102,
       name: 'Varita pitusa',
       singular: false,
@@ -197,25 +223,23 @@ describe('gameItems', () => {
     ).toEqual([])
   })
 
-  it('un nombre en plural que no casa se prueba en singular, solo si casa un único objeto', async () => {
+  it('un nombre en plural que no casa se prueba en singular, y se apunta para el informe', async () => {
     const { client } = fakeClient()
     const items = gameItems(payload, { client, fetchImage })
 
     // «8 x Bananaranjas»: la Bananaranja, y se sabe que casó en singular.
     const banana = await items.matchItem('Bananaranjas')
-    expect(banana).toEqual({ id: expect.any(Number), name: 'Bananaranja', singular: true })
-    expect(await items.findItem('Bananaranjas')).toBe(banana!.id)
-    // El nombre exacto sigue mandando: Pepita no pasa por el singular.
-    expect(await items.matchItem('Pepita')).toMatchObject({ name: 'Pepita', singular: false })
-
-    // «Flores»: «Flore» y «Flor» son dos objetos. No se adivina, en ninguna de las dos búsquedas.
-    expect(await items.matchItem('Flores')).toBeNull()
-    expect(await items.findOnlyItem('Flores')).toBeNull()
-
-    // Sin cantidad, igual: «Bananaranjas.» es la Bananaranja.
-    expect(await items.findOnlyItem('Bananaranjas')).toMatchObject({
+    expect(banana).toEqual({
+      id: expect.any(Number),
       name: 'Bananaranja',
       singular: true,
     })
+    expect(await items.findItem('Bananaranjas')).toBe(banana!.id)
+
+    // «Flores»: «Flore» y «Flor» son dos objetos. No se adivina.
+    expect(await items.matchItem('Flores')).toBeNull()
+
+    // Lo que casó en singular, ordenado: las checklists lo listan al final.
+    expect(items.singularMatches()).toEqual([{ name: 'Bananaranjas', item: 'Bananaranja' }])
   })
 })
