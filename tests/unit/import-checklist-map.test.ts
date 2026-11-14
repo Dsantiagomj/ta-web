@@ -15,6 +15,8 @@ import {
   type ChecklistDraft,
 } from '../../scripts/import/checklists/to-checklist'
 
+import { stepStops, type StepQuest } from '../../scripts/import/checklists/stops'
+
 import legacyObjectives from '../fixtures/legacy-checklist/objectives.json'
 
 const ROOT = path.resolve(__dirname, '../fixtures/silvestre-checklist')
@@ -352,5 +354,74 @@ describe('el catálogo', () => {
       ['ocre', 'lista-ocre', 'https://www.torrentearcano.com/lista-ocre', false],
     ])
     for (const entry of CHECKLIST_CATALOG) expect(entry.description).not.toMatch(/\d/)
+  })
+})
+
+describe('revisión de #115', () => {
+  it('un resaltado con espacios alrededor no se come la palabra siguiente', () => {
+    const withSpaces: LegacyChecklist = {
+      ...legacy,
+      steps: [
+        {
+          ...legacy.steps[0],
+          text: 'Logro "De prueba". Hasta pasar a Nidas Se pasa la mazmorra.',
+          marks: [['stop', ' Hasta pasar a Nidas ']],
+          closes: undefined,
+        },
+        ...legacy.steps.slice(1),
+      ],
+    }
+    expect(toChecklistDraft(nebuloso, withSpaces).steps[0].segments.map((s) => s.text)).toEqual([
+      'Logro "De prueba".',
+      'Hasta pasar a Nidas',
+      'Se pasa la mazmorra.',
+    ])
+  })
+
+  it('sin paradas escritas a mano, cada rojo se sitúa por su texto, cada uno en su misión', () => {
+    const quest = (id: number, boss: string): StepQuest => ({
+      id,
+      kind: 'mandatory',
+      n: `Misión ${id}`,
+      s: [
+        {
+          n: '',
+          o: [
+            { k: 'npc', t: 'Habla' },
+            { k: 'fight', t: `Vence a 1 x ${boss}` },
+          ],
+        },
+      ],
+    })
+    const step = {
+      n: 1,
+      zone: 'Zona',
+      text: 'Hasta tener que pasar Nidas. Hasta tener que pasar Vórtex.',
+      base: '',
+      marks: [
+        ['stop', 'Hasta tener que pasar Nidas.'],
+        ['stop', 'Hasta tener que pasar Vórtex.'],
+      ] as LegacyChecklist['steps'][number]['marks'],
+    }
+    expect(stepStops(step, [quest(1, 'Nidas'), quest(2, 'Vórtex')], {})).toEqual([
+      [{ quest: 1, index: 1 }],
+      [{ quest: 2, index: 1 }],
+    ])
+  })
+
+  it('el aviso del Dofus Ocre sin paso o sin texto para con un error, no dice «paso null»', () => {
+    const withNote = (ocre: string, ocreStep: number | null): LegacyChecklist => ({
+      ...legacy,
+      config: {
+        ...legacy.config,
+        prereqNote: { title: 'Empieza el Ocre', quest: 'La eterna cosecha', achievement: 'Fin' },
+      },
+      prerequisites: { ...legacy.prerequisites, ocre, ocreStep },
+    })
+    expect(() => toChecklistDraft(nebuloso, withNote('Empieza pronto.', null))).toThrow(/Ocre/)
+    expect(() => toChecklistDraft(nebuloso, withNote('', 79))).toThrow(/Ocre/)
+    expect(toChecklistDraft(nebuloso, withNote('Empieza pronto.', 79)).prerequisites.notes).toEqual(
+      [expect.objectContaining({ text: expect.stringContaining('en el paso 79') })],
+    )
   })
 })

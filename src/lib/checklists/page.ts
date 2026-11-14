@@ -294,7 +294,8 @@ export function checklistView(data: ChecklistData): ChecklistView {
   const steps = rawSteps.map((step, index): StepView => {
     const segments = step.segments ?? []
     const text = segments.map((segment) => segment.text).join(' ')
-    const stop = segments.find((segment) => segment.kind === 'stop')
+    // El primer «detente aquí» con misión: uno que solo avisa no para ninguna.
+    const stop = segments.find((segment) => segment.kind === 'stop' && segment.quest != null)
     const resolve = segments.find((segment) => segment.kind === 'resolve')
 
     const achievements = (step.achievements ?? []).flatMap((row) => {
@@ -307,7 +308,8 @@ export function checklistView(data: ChecklistData): ChecklistView {
           name: achievement.name,
           ...(slug && { href: `/${slug}` }),
           ...(icon && { icon }),
-          some: row.mode === 'some',
+          // «Hasta una misión» tampoco es el logro completo.
+          some: row.mode === 'some' || row.mode === 'upto',
         },
       ]
     })
@@ -473,7 +475,9 @@ function islandData(data: ChecklistData): ChecklistIslandData {
   const { checklist, questGraph, torreLevels } = data
   const steps = checklist.steps ?? []
   const islandSteps = steps.map((step): ChecklistIslandData['steps'][number] => {
-    const stop = (step.segments ?? []).find((segment) => segment.kind === 'stop')
+    const stop = (step.segments ?? []).find(
+      (segment) => segment.kind === 'stop' && segment.quest != null,
+    )
     const stopQuest = relationId(stop?.quest ?? null)
     return [
       step.stepId ?? '',

@@ -273,6 +273,13 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
 
 export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
   await db.execute(sql`
+   -- Las filas con los valores nuevos de los enums vuelven a los de antes, sin perder su texto:
+   -- los avisos pasan a tramos normales y «Hasta una misión», a «Solo algunas misiones».
+   UPDATE "checklists_steps_segments" SET "kind" = 'plain' WHERE "kind" IN ('note', 'tip', 'must', 'includes');
+  UPDATE "_checklists_v_version_steps_segments" SET "kind" = 'plain' WHERE "kind" IN ('note', 'tip', 'must', 'includes');
+  UPDATE "checklists_step_ach" SET "mode" = 'some' WHERE "mode" = 'upto';
+  UPDATE "_checklists_step_ach_v" SET "mode" = 'some' WHERE "mode" = 'upto';
+
    DROP TABLE "checklists_pre_notes" CASCADE;
   DROP TABLE "checklists_pre_notes_locales" CASCADE;
   DROP TABLE "checklists_pre_needs_alts" CASCADE;
