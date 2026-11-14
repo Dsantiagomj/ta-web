@@ -81,13 +81,14 @@ describe('marcar se nota', () => {
   const just = (id: number) => $$(`[data-soul="${id}"]`).map((row) => row.getAttribute('data-just'))
   const toast = () => $('[data-ck-toast]')
 
-  it('marcar y desmarcar un alma la anima en las dos vistas; lo que llega de otra pestaña, no', () => {
+  it('marcar y desmarcar anima solo la copia que se ve; lo que llega de otra pestaña, nada', () => {
     stop = startSouls(view.island)
     expect(just(500)).toEqual([null, null])
     tick(500)
-    expect(just(500)).toEqual(['on', 'on'])
+    // Por etapa: la copia de la vista por región no se ve y no se anima.
+    expect(just(500)).toEqual(['on', null])
     tick(500)
-    expect(just(500)).toEqual(['off', 'off'])
+    expect(just(500)).toEqual(['off', null])
     localStorage.setItem(
       'ta-web:progress',
       JSON.stringify({ v: 1, quests: {}, steps: {}, souls: { 501: 1 } }),
@@ -110,7 +111,7 @@ describe('marcar se nota', () => {
     // Y el alma que la completa, donde se ha hecho clic: el título puede quedar fuera de la vista.
     expect($$('[data-soul="501"]').map((row) => row.hasAttribute('data-cheer'))).toEqual([
       true,
-      true,
+      false,
     ])
     expect($$('[data-soul="500"][data-cheer]')).toEqual([])
     expect(toast().textContent).toBe('¡Etapa 2 completa!')
@@ -138,6 +139,113 @@ describe('marcar se nota', () => {
     tick(500)
     tick(501)
     expect(toast().textContent).toBe('¡Tienes todas las almas!')
+    expect($('[data-sl-stage="all"]').hasAttribute('data-cheer')).toBe(true)
+  })
+
+  it('con «Ocultar las que tengo», el alma que se marca se oculta y no queda animada', () => {
+    stop = startSouls(view.island)
+    $<HTMLInputElement>('[data-sl-hide]').checked = true
+    $('[data-sl-hide]').dispatchEvent(new Event('change', { bubbles: true }))
+    tick(500)
+    expect(just(500)).toEqual([null, null])
+  })
+
+  // Cada atributo mueve varias animaciones de distinta duración: se quita al acabar la última.
+  const running = (el: HTMLElement, names: string[]) => {
+    Object.defineProperty(el, 'getAnimations', {
+      configurable: true,
+      value: () => names.map((animationName) => ({ animationName, playState: 'running' })),
+    })
+  }
+  const end = (el: Element, animationName: string, type = 'animationend') =>
+    el.dispatchEvent(Object.assign(new Event(type, { bubbles: true }), { animationName }))
+
+  it('el atributo de la animación se quita cuando acaba la más larga, no la primera', () => {
+    stop = startSouls(view.island)
+    tick(500)
+    const row = $<HTMLElement>('[data-sl-view="stage"] [data-soul="500"]')
+    running(row, ['sl-just-on', 'sl-just-flash'])
+    end(row.querySelector('[data-sl-own]')!, 'sl-just-tick')
+    expect(row.getAttribute('data-just')).toBe('on')
+    running(row, [])
+    end(row.querySelector('.sl-soul__img')!, 'sl-just-on')
+    expect(row.hasAttribute('data-just')).toBe(false)
+  })
+
+  it('la etapa que celebra se suelta cuando acaba también el alma que la completó, de dentro', () => {
+    stop = startSouls(view.island)
+    tick(928)
+    const group = $<HTMLElement>('[data-sl-view="stage"] [data-sl-group="1"]')
+    const row = $<HTMLElement>('[data-sl-view="stage"] [data-soul="928"]')
+    // Las chispas del título acaban con las del alma aún en marcha: la etapa sigue celebrando.
+    running(group, ['sl-cheer-card'])
+    end(group.querySelector('[data-sl-gc]')!, 'sl-cheer-sparks')
+    expect(group.hasAttribute('data-cheer')).toBe(true)
+    // Acaban las del alma: se sueltan las dos.
+    running(group, [])
+    running(row, [])
+    end(row.querySelector('.sl-soul__b')!, 'sl-cheer-card')
+    expect(row.hasAttribute('data-cheer')).toBe(false)
+    expect(group.hasAttribute('data-cheer')).toBe(false)
+  })
+
+  it('una animación cortada (la vista cambia a mitad) también quita su atributo', () => {
+    stop = startSouls(view.island)
+    tick(928)
+    const group = $<HTMLElement>('[data-sl-view="stage"] [data-sl-group="1"]')
+    running(group, [])
+    end(group.querySelector('[data-sl-gc]')!, 'sl-cheer-pop', 'animationcancel')
+    expect(group.hasAttribute('data-cheer')).toBe(false)
+  })
+})
+
+describe('lo que dice la lista vacía y volver arriba', () => {
+  const hideOwned = () => {
+    $<HTMLInputElement>('[data-sl-hide]').checked = true
+    $('[data-sl-hide]').dispatchEvent(new Event('change', { bubbles: true }))
+  }
+
+  it('una etapa elegida y completa con «Ocultar las que tengo» dice que ya están todas', () => {
+    localStorage.setItem(
+      'ta-web:progress',
+      JSON.stringify({ v: 1, quests: {}, steps: {}, souls: { 928: 1 } }),
+    )
+    stop = startSouls(view.island)
+    click('[data-sl-stage="1"]')
+    hideOwned()
+    const empty = $('[data-sl-empty]')
+    expect(empty.hidden).toBe(false)
+    expect(empty.textContent).toBe('Ya tienes todas las almas de la etapa 1.')
+  })
+
+  it('una búsqueda sin almas dice que nada coincide', () => {
+    stop = startSouls(view.island)
+    const input = $<HTMLInputElement>('[data-sl-q]')
+    input.value = 'zzz'
+    input.dispatchEvent(new Event('input', { bubbles: true }))
+    expect($('[data-sl-empty]').textContent).toBe('Ningún alma coincide con la búsqueda.')
+  })
+
+  it('al elegir una etapa vuelve arriba si la lista empieza bajo la cabecera fija', () => {
+    stop = startSouls(view.island)
+    const rect =
+      (top: number, bottom = top) =>
+      () =>
+        ({ top, bottom }) as DOMRect
+    const header = document.createElement('header')
+    header.className = 'site-hdr'
+    document.body.prepend(header)
+    header.getBoundingClientRect = rect(0, 64)
+    const list = $('.sl-staged__list')
+    const tools = $('.sl-tools')
+    let scrolled = 0
+    tools.scrollIntoView = () => void scrolled++
+    list.getBoundingClientRect = rect(40)
+    click('[data-sl-stage="2"]')
+    expect(scrolled).toBe(1)
+    list.getBoundingClientRect = rect(200)
+    click('[data-sl-stage="1"]')
+    expect(scrolled).toBe(1)
   })
 })
 

@@ -2107,6 +2107,53 @@ html[data-js] .ck-slot:not([data-owned], [data-used]) .ck-slot__w img {
   color: var(--color-accent);
 }
 
+/* «Todas» no tiene número: con todas las almas, el botón entero se marca y lo celebra. */
+.sl-st--all[data-complete] {
+  border-color: var(--color-accent);
+}
+
+.sl-st--all::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border: 2px solid var(--color-accent);
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sl-st--all[data-cheer] {
+  animation: sl-cheer-all 600ms var(--ease-out);
+}
+
+.sl-st--all[data-cheer]::after {
+  animation: sl-cheer-ring 600ms var(--ease-out);
+}
+
+@keyframes sl-cheer-all {
+  0% {
+    transform: scale(1);
+  }
+
+  40% {
+    transform: scale(1.06);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes sl-cheer-ring {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
 @media (width >= 64rem) {
   .sl-staged {
     grid-template-columns: 12rem minmax(0, 1fr);
