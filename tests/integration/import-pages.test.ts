@@ -193,6 +193,41 @@ describe('loadSitePages', () => {
     expect(JSON.stringify(after?.body)).toContain('Texto nuevo de Squarespace.')
   })
 
+  it('el texto y el SEO que Torre reescribe en el panel sobreviven a otra importación', async () => {
+    const beso = await find('beso')
+    const torre = await htmlToLexical('<p>Lo escribió Torre en el panel.</p>')
+    await payload.update({
+      collection: 'pages',
+      id: beso!.id,
+      data: {
+        body: [{ blockType: 'richText', content: torre }],
+        seo: { metaDescription: 'La descripción de Torre.' },
+      },
+      overrideAccess: true,
+    })
+    // Squarespace cambia el texto y el SEO de esa página: no importa, Torre ya los tocó.
+    const changed = converted({
+      [slug('beso')]: {
+        title: 'Dar un beso',
+        pieces: [{ type: 'html', html: '<p>Texto nuevo de Squarespace.</p>' }],
+        seo: { metaDescription: 'Otra descripción de Squarespace.' },
+        oddities: [],
+      },
+    })
+    const report = await load(true, changed)
+    expect(report.kept).toEqual(
+      expect.arrayContaining([
+        { slug: slug('beso'), field: 'body' },
+        { slug: slug('beso'), field: 'seo' },
+      ]),
+    )
+    expect(report.updated).not.toContain(slug('beso'))
+    const after = await find('beso')
+    expect(JSON.stringify(after?.body)).toContain('Lo escribió Torre en el panel.')
+    expect(JSON.stringify(after?.body)).not.toContain('Texto nuevo de Squarespace.')
+    expect(after?.seo?.metaDescription).toBe('La descripción de Torre.')
+  })
+
   it('con un borrador de Torre a medias, la página no se toca', async () => {
     const emotes = await find('emotes')
     await payload.update({
