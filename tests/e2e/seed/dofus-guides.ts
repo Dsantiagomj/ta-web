@@ -32,6 +32,9 @@ const paragraph = (...texts: string[]) => ({
   },
 })
 
+/** Una nota de Necesitarás, como la guarda el panel. */
+const needNote = (text: string) => ({ blockType: 'needNote' as const, text: paragraph(text) })
+
 export const seedDofus = {
   index: { intro: 'Descubre aquí todas las diferentes guías de los Dofus.' },
   ocre: {
@@ -63,6 +66,11 @@ export const seedDofus = {
     bodyImageAlt: 'Las respuestas correctas para Gobalden',
     bodyStep: 'Después, dirígete a Valonia [38,-80] y habla con Goblepino.',
     bodyOutro: 'Por fin obtendrás tu Dofawa xD Así de simple.',
+    // Necesitarás con sus mazmorras: la que nombra la mazmorra sembrada (la Casa de los
+    // Espíritus, por su jefe Kumijo) lleva su jefe; la que no nombra ninguna, el icono de
+    // mazmorra; el combate, nada.
+    needsDungeons: ['1 x Mazmorra Kumijo.', 'Mazmorras nivel 200'],
+    needsCombat: 'Un par de combates por allí y por allá.',
   },
   jyfus: { slug: 'jyfus', name: 'Jyfus' },
 }
@@ -126,6 +134,12 @@ export async function seedDofusGuides(payload: Payload): Promise<void> {
       state: 'published' as const,
       level: 6,
       color: '#ff9118',
+      needs: {
+        groups: [
+          { name: 'combates' as const, rows: [needNote(seedDofus.dofawa.needsCombat)] },
+          { name: 'mazmorras' as const, rows: seedDofus.dofawa.needsDungeons.map(needNote) },
+        ],
+      },
       body: [
         { blockType: 'richText' as const, content: paragraph(seedDofus.dofawa.bodyIntro) },
         {
@@ -197,12 +211,13 @@ export async function seedDofusGuides(payload: Payload): Promise<void> {
   ]
   for (const guide of guides) {
     const existing = await findOne(payload, 'dofus-guides', 'slug', guide.slug)
-    // En una base reutilizada, la Dofawa sembrada antes del paso a paso lo recibe ahora.
+    // En una base reutilizada, la Dofawa sembrada antes del paso a paso y de sus mazmorras
+    // los recibe ahora.
     if (existing && 'body' in guide) {
       await payload.update({
         collection: 'dofus-guides',
         id: existing.id,
-        data: { body: guide.body } as never,
+        data: { body: guide.body, needs: guide.needs } as never,
       })
     }
     if (existing) continue

@@ -23,6 +23,7 @@ import {
   type GuideDoc,
   type RichTextState,
 } from '@/lib/guides/page'
+import { isDungeonNote, needKey, needNote } from '@/lib/guides/need-notes'
 import { youtubeId } from '@/lib/guides/video'
 import { mediaImageAsset } from '@/lib/media/image-asset'
 import type { Media } from '@/payload-types'
@@ -140,12 +141,21 @@ export interface DofusGuideData {
   givers: Map<number, { renderRight?: MediaRef }>
   /** Todos los Dofus, en el orden de Torre: el anterior y el siguiente salen de aquí. */
   list: DofusListDoc[]
+  /**
+   * La imagen del jefe de la mazmorra que nombra cada nota que va como mazmorra, por su
+   * clave (needKey): solo las casadas cuyo jefe tiene imagen (readDungeonBosses).
+   */
+  dungeonBosses: Map<string, MediaRef>
   siteUrl: string
 }
 
+/**
+ * Una fila de Necesitarás. Una nota que va como mazmorra (dungeon) lleva en su hueco el jefe
+ * de la mazmorra que nombra (boss) o, si no nombra una sola, el icono de mazmorra.
+ */
 export type NeedRowView =
   | { kind: 'item'; item: GameItem; quantity: number; note?: string }
-  | { kind: 'note'; text: RichTextState }
+  | { kind: 'note'; text: RichTextState; dungeon?: true; boss?: ImageAsset }
 
 export interface AchievementPartView {
   name: string
@@ -262,9 +272,60 @@ export function countParts(
   return { achievements, quests }
 }
 
-function needRows(rows: NeedRowDoc[]): NeedRowView[] {
+/** El texto de una nota de Torre, con sus párrafos seguidos. */
+function plainText(node: unknown): string {
+  if (!node || typeof node !== 'object') return ''
+  const { text, children } = node as { text?: unknown; children?: unknown }
+  if (typeof text === 'string') return text
+  return Array.isArray(children)
+    ? children
+        .map(plainText)
+        .filter((part) => part.trim())
+        .join(' ')
+    : ''
+}
+
+/** Lo que dice una nota sin cantidad ni punto final («Mazmorra Wey Wabbit»). */
+const noteLabel = (text: RichTextState) => needNote(plainText(text?.root).trim()).label
+
+/**
+ * Si una nota va como mazmorra: todas las del grupo Mazmorras, que Torre (o la importación,
+ * con datos) puso ahí, y en Combates, como en «Necesitarás en total» de las páginas de logro,
+ * las que dicen «mazmorra». En los demás grupos una nota sale tal cual.
+ */
+function isDungeonRow(group: string | null | undefined, label: string): boolean {
+  if (!label) return false
+  return group === 'mazmorras' || (group === 'combates' && isDungeonNote(label))
+}
+
+/**
+ * Las notas de Necesitarás que van como mazmorra, sin cantidad y una vez cada una: con ellas
+ * se buscan los jefes (readDungeonBosses).
+ */
+export function dungeonNoteLabels(guide: Pick<DofusGuideDoc, 'needs'>): string[] {
+  const labels = (guide.needs?.groups ?? []).flatMap((group) =>
+    (group.rows ?? []).flatMap((row) => {
+      if (row.blockType !== 'needNote') return []
+      const label = noteLabel(row.text)
+      return isDungeonRow(group.name, label) ? [label] : []
+    }),
+  )
+  return [...new Set(labels)]
+}
+
+function needRows(
+  rows: NeedRowDoc[],
+  group: string | null | undefined,
+  bosses: DofusGuideData['dungeonBosses'],
+): NeedRowView[] {
   return rows.flatMap((row): NeedRowView[] => {
-    if (row.blockType === 'needNote') return [{ kind: 'note', text: row.text }]
+    if (row.blockType === 'needNote') {
+      const label = noteLabel(row.text)
+      if (!isDungeonRow(group, label)) return [{ kind: 'note', text: row.text }]
+      // El texto de Torre no cambia: el jefe va en el hueco, al lado.
+      const boss = image(bosses.get(needKey(label)))
+      return [{ kind: 'note', text: row.text, dungeon: true, ...(boss && { boss }) }]
+    }
     const linked = populated(row.item)
     const name = linked?.name || row.name
     if (!name) return []
@@ -313,9 +374,12 @@ function subtitleView(subtitle: string | null | undefined, label: string | undef
  * Torre encima de sus filas, y «Otros» solo va sin título. Si alguno no tiene grupo (una guía
  * migrada que la importación aún no ordenó), todo queda en el orden guardado, sin mover filas.
  */
-function needsView(guide: DofusGuideDoc): DofusGuideView['needs'] {
+function needsView(
+  guide: DofusGuideDoc,
+  bosses: DofusGuideData['dungeonBosses'],
+): DofusGuideView['needs'] {
   const stored = (guide.needs?.groups ?? []).flatMap((group) => {
-    const rows = needRows(group.rows ?? [])
+    const rows = needRows(group.rows ?? [], group.name, bosses)
     return rows.length ? [{ ...group, rows }] : []
   })
   const legacy = stored.some((group) => !isNeedGroup(group.name))
@@ -497,7 +561,7 @@ export function dofusGuideView(data: DofusGuideData): DofusGuideView {
     intro: guide.intro ?? null,
     outro: guide.outro ?? null,
     body: dofusBody(guide),
-    needs: needsView(guide),
+    needs: needsView(guide, data.dungeonBosses),
     parts,
     achievementCount: counts.achievements,
     video: videoId ? { id: videoId, title: guide.name, ...(poster && { poster }) } : null,

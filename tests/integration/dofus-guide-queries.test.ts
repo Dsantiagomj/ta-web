@@ -4,7 +4,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { readDofusGuide, readDofusList } from '@/lib/dofus-guides/queries'
 import type { User } from '@/payload-types'
 
-import { createPanelUser, startPayload } from './payload'
+import { createPanelUser, startPayload, tinyPng } from './payload'
 
 // Lo que lee la página de una guía de Dofus, como un visitante (overrideAccess: false): solo
 // lo publicado, y una guía En preparación no tiene página. Con la vista previa del panel, sí.
@@ -12,7 +12,7 @@ import { createPanelUser, startPayload } from './payload'
 
 let payload: Payload
 let editor: User
-const ids = { page: 0, hidden: 0, loose: 0, draftGuide: 0 }
+const ids = { page: 0, hidden: 0, loose: 0, draftGuide: 0, bossImage: 0 }
 
 async function cleanUp() {
   await payload.delete({ collection: 'dofus-guides', where: { slug: { like: 'prueba-dq' } } })
@@ -24,7 +24,37 @@ async function cleanUp() {
     where: { dofusId: { in: [929101, 929102, 929103] } },
   })
   await payload.delete({ collection: 'npcs', where: { dofusId: { equals: 929201 } } })
+  await payload.delete({ collection: 'dungeons', where: { dofusId: { equals: 929301 } } })
+  await payload.delete({ collection: 'monsters', where: { dofusId: { equals: 929302 } } })
+  await payload.delete({ collection: 'media', where: { alt: { equals: 'Jefazo Dqprueba' } } })
 }
+
+/** Una nota de Necesitarás como la guarda el editor del panel: un párrafo. */
+const needNote = (text: string) => ({
+  blockType: 'needNote' as const,
+  text: {
+    root: {
+      type: 'root',
+      direction: null,
+      format: '' as const,
+      indent: 0,
+      version: 1,
+      children: [
+        {
+          type: 'paragraph',
+          direction: null,
+          format: '',
+          indent: 0,
+          version: 1,
+          textFormat: 0,
+          children: [
+            { type: 'text', text, format: 0, detail: 0, mode: 'normal', style: '', version: 1 },
+          ],
+        },
+      ],
+    },
+  },
+})
 
 beforeAll(async () => {
   payload = await startPayload()
@@ -105,6 +135,22 @@ beforeAll(async () => {
     })
   ).id
 
+  // Una mazmorra con su jefe, y el jefe con su imagen: las notas de Mazmorras la nombran.
+  const image = await payload.create({
+    collection: 'media',
+    data: { alt: 'Jefazo Dqprueba' },
+    file: tinyPng(),
+  })
+  ids.bossImage = image.id
+  const boss = await payload.create({
+    collection: 'monsters',
+    data: { dofusId: 929302, name: 'Jefazo Dqprueba', image: image.id },
+  })
+  await payload.create({
+    collection: 'dungeons',
+    data: { dofusId: 929301, name: 'Antro de Prueba Dqjefe', bosses: [boss.id] },
+  })
+
   const base = { level: 180, _status: 'published' as const }
   await payload.create({
     collection: 'dofus-guides',
@@ -114,6 +160,19 @@ beforeAll(async () => {
       slug: 'prueba-dq-abisal',
       order: 1,
       state: 'published',
+      needs: {
+        groups: [
+          { name: 'combates', rows: [needNote('Un par de combates.')] },
+          {
+            name: 'mazmorras',
+            rows: [
+              needNote('1 x Mazmorra Jefazo Dqprueba.'),
+              needNote('1 x Antro de Prueba Dqjefe.'),
+              needNote('Mazmorras nivel 200'),
+            ],
+          },
+        ],
+      },
       parts: [
         { blockType: 'dofusAchievement', achievement: ids.page },
         { blockType: 'dofusAchievement', achievement: ids.hidden },
@@ -150,6 +209,18 @@ describe('readDofusGuide', () => {
     expect([...data!.questGuides.keys()]).toEqual([ids.loose])
     expect([...data!.guideByQuest.values()]).toEqual([{ slug: 'prueba-dq-pesca' }])
     expect([...data!.givers.keys()]).toEqual([929201])
+  })
+
+  it('trae la imagen del jefe de cada mazmorra de Necesitarás, por la clave de la nota', async () => {
+    const data = await readDofusGuide(payload, 'prueba-dq-abisal')
+    // Por su jefe y, en el grupo Mazmorras, por el nombre de la mazmorra aunque no diga
+    // «Mazmorra». La que no nombra ninguna, y el combate, no están.
+    expect([...data!.dungeonBosses.keys()].sort()).toEqual([
+      'antro de prueba dqjefe',
+      'mazmorra jefazo dqprueba',
+    ])
+    const found = data!.dungeonBosses.get('mazmorra jefazo dqprueba')
+    expect(typeof found === 'object' && found?.id).toBe(ids.bossImage)
   })
 
   it('una guía En preparación no tiene página para un visitante; sí en la vista previa', async () => {

@@ -1,10 +1,12 @@
 import type { Payload } from 'payload'
 
+import { readDungeonBosses } from '@/lib/guides/dungeon-bosses'
 import { isGuideSlug } from '@/lib/guides/slug'
 import type { User } from '@/payload-types'
 
 import {
   countParts,
+  dungeonNoteLabels,
   type AchievementDoc,
   type DofusGuideData,
   type DofusGuideDoc,
@@ -126,8 +128,8 @@ export async function readDofusList(payload: Payload): Promise<DofusListDoc[]> {
 
 /**
  * La guía de Dofus de un slug y lo que enlaza: sus páginas de logro con sus misiones, las
- * guías publicadas de esas misiones y de las misiones sueltas, los PNJ que las dan y la
- * lista de todos los Dofus. Null si no hay guía que enseñar: a un visitante, una En
+ * guías publicadas de esas misiones y de las misiones sueltas, los PNJ que las dan, la
+ * imagen del jefe de cada mazmorra de Necesitarás y la lista de todos los Dofus. Null si no hay guía que enseñar: a un visitante, una En
  * preparación tampoco (no tiene página).
  */
 export async function readDofusGuide(
@@ -163,7 +165,7 @@ export async function readDofusGuide(
   const ids = partIds(guide.parts ?? [])
   // Lo enlazado siempre como lo ve un visitante: un logro o una guía sin publicar no sale.
   const visitor = { draft: false, overrideAccess: false } as const
-  const [achievementDocs, guideDocs, list] = await Promise.all([
+  const [achievementDocs, guideDocs, list, dungeonBosses] = await Promise.all([
     ids.achievements.length
       ? payload.find({
           collection: 'achievement-pages',
@@ -191,6 +193,8 @@ export async function readDofusGuide(
         })
       : { docs: [] },
     readDofusList(payload),
+    // Las guías de Dofus no eligen mazmorras a mano: casan por nombre o por jefe.
+    readDungeonBosses(payload, dungeonNoteLabels(guide)),
   ])
   const achievements = new Map(
     (achievementDocs.docs as unknown as AchievementDoc[]).map((doc) => [doc.id, doc]),
@@ -250,5 +254,5 @@ export async function readDofusGuide(
     : []
   const givers = new Map(npcs.map((npc) => [npc.dofusId, { renderRight: npc.renderRight }]))
 
-  return { guide, achievements, questGuides, guideByQuest, givers, list }
+  return { guide, achievements, questGuides, guideByQuest, givers, list, dungeonBosses }
 }
