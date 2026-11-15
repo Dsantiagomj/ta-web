@@ -5,7 +5,7 @@
 // Uso: pnpm media:sizes [--remote] [--production]
 // Escribe en la base de DATABASE_URL (vacía: la de pnpm db:dev). Contra una base remota
 // pide --remote, y en producción --production. Corre con `payload run`, como
-// scripts/refresh-quests.ts.
+// scripts/refresh-game-data.ts.
 import { getPayload } from 'payload'
 
 import config from '@payload-config'

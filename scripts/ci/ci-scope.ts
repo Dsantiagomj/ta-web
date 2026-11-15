@@ -29,7 +29,7 @@ const OFFLINE: RegExp[] = [
   /^scripts\/import\//,
   /^scripts\/hooks\//,
   /^scripts\/redirects\//,
-  /^scripts\/(review-release|review-release-plan|backfill-guides|backfill-shown-items|backfill-guide-rewards|refresh-quests|dungeon-notes|payload-script|media-sizes)\.ts$/,
+  /^scripts\/(review-release|review-release-plan|backfill-guides|backfill-shown-items|backfill-guide-rewards|refresh-game-data|dungeon-notes|payload-script|media-sizes)\.ts$/,
   /^scripts\/build-[\w-]+\.ts$/,
   /^tests\/(unit|integration|fixtures)\//,
   /^vitest(\.integration)?\.config\.mts$/,
