@@ -899,5 +899,5 @@ Answered on 2026-11-05:
 1. **Image widths**: flexible widths, generated at upload by Payload: 480, 800, 1200 and 1600 px in AVIF and WebP, served with `srcset` and `sizes` (Imagery). Guide images open fullscreen at the widest variant (Figure and fullscreen viewer); since 2026-11-12 the viewer opens the original upload instead.
 2. **Hero art**: guide v4 (2026-11-05) has no hero art; the quest giver's render stands beside the title instead (Quest header). A per-zone image library is no longer needed for the guide page.
 3. **Callout icons**: game art may replace the `i`, `!` and `×` glyphs only if it clearly conveys the same meaning (tip or info, warning, stop); otherwise the glyphs stay (Callout row).
-4. **Start place**: from DofusDB, editable in the panel. Already implemented for the start NPC and position (`startNpc`, `startX`, `startY`, filled through `src/lib/guides/summary.ts`).
+4. **Start place**: from DofusDB, editable in the panel. Already implemented for the start NPC and position (`startNpc`, `startX`, `startY`, filled through `src/lib/guides/summary.ts` when the guide is created or its quest changes, and on demand with «Rellenar desde DofusDB»; a field Torre empties stays empty).
 5. **Video hosts**: YouTube only. All 44 video embeds in the 1796 legacy Squarespace pages are YouTube (Video facade).

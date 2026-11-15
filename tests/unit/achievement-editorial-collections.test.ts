@@ -74,6 +74,16 @@ describe.each([
     ])
   })
 
+  it('el enlace de DofusDB lleva el botón «Rellenar desde DofusDB» y su ayuda', () => {
+    const admin = field(collection.fields, link).admin as {
+      components?: { Description?: { path?: string; clientProps?: Record<string, unknown> } }
+    }
+    expect(admin.components?.Description).toMatchObject({
+      path: '/components/achievement-admin/DofusDbFill#DofusDbFill',
+      clientProps: { source, description: expect.stringContaining('Rellenar desde DofusDB') },
+    })
+  })
+
   it('el nombre lleva la nota de DofusDB', () => {
     expect(noteOf(field(collection.fields, 'name'))).toEqual({ source, field: 'name' })
   })

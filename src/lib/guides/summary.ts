@@ -174,7 +174,7 @@ export type NotedValue = FillableValue | NeedRow[]
 
 /**
  * La nota bajo un campo del resumen: si su valor es el de DofusDB, si Torre lo cambió
- * (y qué da DofusDB) o si está vacío y se rellenará al guardar.
+ * (y qué da DofusDB) o si está vacío (y qué copiaría el botón «Rellenar desde DofusDB»).
  */
 export function summaryNote(
   state: LinkedQuestState,
@@ -191,7 +191,7 @@ export function summaryNote(
     const rows = Array.isArray(current) ? current : []
     const shown = itemsText(fromQuest.needs)
     if (shown === null) return rows.length ? admin.dofusDbEmptyChanged : admin.dofusDbEmpty
-    if (!rows.length) return admin.emptyWillFill(shown)
+    if (!rows.length) return admin.emptyCanFill(shown)
     return rowsKey(rows) === rowsKey(fromQuest.needs) ? admin.fromDofusDb : admin.changed(shown)
   }
 
@@ -199,6 +199,6 @@ export function summaryNote(
   const given = fromQuest[field]
   if (given === null) return isEmpty(value) ? admin.dofusDbEmpty : admin.dofusDbEmptyChanged
   const shown = String(given)
-  if (isEmpty(value)) return admin.emptyWillFill(shown)
+  if (isEmpty(value)) return admin.emptyCanFill(shown)
   return sameValue(value, given) ? admin.fromDofusDb : admin.changed(shown)
 }

@@ -10,7 +10,8 @@ const hunterDescription =
   'Guía paso a paso de la misión El cazador cazado de Dofus, de nivel 25: ' +
   'requisitos, recompensas (24 316 XP) y cómo completarla.'
 
-// Torre elige la misión de DofusDB y, al guardar, la guía saca de ella lo que esté vacío.
+// Torre elige la misión de DofusDB y, al crear la guía o cambiar de misión, la guía saca de
+// ella lo que esté vacío. Después, lo que Torre vacía se queda vacío.
 describe('guía de misión rellenada desde DofusDB', () => {
   let payload: Payload
   let editor: User
@@ -195,19 +196,77 @@ describe('guía de misión rellenada desde DofusDB', () => {
     })
   })
 
-  it('un campo del resumen que se vacía se rellena de nuevo al guardar', async () => {
-    const guide = await createGuide({ quest: hunter.id })
-    const updated = await payload.update({
+  function editorUpdate(id: number, data: Record<string, unknown>) {
+    return payload.update({
       collection: 'quest-guides',
-      id: guide.id,
-      data: { summary: { startNpc: '' } },
+      id,
+      data,
       draft: true,
+      depth: 0,
       overrideAccess: false,
       user: editor,
     })
+  }
+
+  it('un campo del resumen que Torre vacía se queda vacío al guardar', async () => {
+    const guide = await createGuide({ quest: hunter.id })
+    const updated = await editorUpdate(guide.id, {
+      summary: { startNpc: '', rewards: null },
+      seo: { metaDescription: '' },
+    })
+    expect(updated.summary?.startNpc ?? '').toBe('')
+    expect(updated.summary?.rewards ?? null).toBeNull()
+    expect(updated.seo?.metaDescription ?? '').toBe('')
+    // Lo que no tocó sigue como estaba
+    expect(updated.summary?.prerequisites).toBe('Seis pies bajo tierra.')
+  })
+
+  // la-espada-de-la-roca: la misión da la espada, así que su Necesitarás va vacío.
+  it('quitar la única fila de Necesitarás deja la lista vacía al guardar', async () => {
+    const guide = await createGuide({ quest: hunter.id })
+    expect(guide.summary?.needs?.items).toHaveLength(1)
+    const updated = await editorUpdate(guide.id, { summary: { needs: { items: [] } } })
+    expect(updated.summary?.needs?.items ?? []).toEqual([])
+    const reread = await payload.findByID({
+      collection: 'quest-guides',
+      id: guide.id,
+      draft: true,
+      depth: 0,
+    })
+    expect(reread.summary?.needs?.items ?? []).toEqual([])
+  })
+
+  it('el título vaciado vuelve al nombre de la misión: es obligatorio', async () => {
+    const guide = await createGuide({ quest: hunter.id })
+    const updated = await editorUpdate(guide.id, { title: '' })
+    expect(updated.title).toBe('El cazador cazado')
+  })
+
+  it('cambiar la misión rellena con la nueva lo que esté vacío, y nada más', async () => {
+    const other = await payload.create({
+      collection: 'quests',
+      data: {
+        dofusId: 990_777,
+        name: 'Otra misión',
+        startPositions: [{ npcName: 'Otro PNJ', x: 7, y: 8 }],
+      },
+    })
+    const guide = await createGuide({ quest: hunter.id })
+    // El enlace solo lo cambia un administrador: aquí, sin control de acceso.
+    const updated = await payload.update({
+      collection: 'quest-guides',
+      id: guide.id,
+      data: { quest: other.id, summary: { startNpc: '', startX: null, startY: null } },
+      draft: true,
+      depth: 0,
+    })
     expect(updated.summary).toMatchObject({
-      startNpc: 'Kerubim Crepin',
+      startNpc: 'Otro PNJ',
+      startX: 7,
+      startY: 8,
+      // Escrito antes del cambio: se queda
       prerequisites: 'Seis pies bajo tierra.',
     })
+    expect(updated.title).toBe('El cazador cazado')
   })
 })

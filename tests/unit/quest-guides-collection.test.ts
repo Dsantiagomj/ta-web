@@ -108,6 +108,15 @@ describe('colección quest-guides', () => {
     })
   })
 
+  it('la ayuda explica cuándo se rellena y el botón «Rellenar desde DofusDB»', () => {
+    for (const text of [
+      guideStrings.admin.questDescription,
+      guideStrings.admin.summaryDescription,
+    ]) {
+      expect(text).toContain('«Rellenar desde DofusDB»')
+    }
+  })
+
   it('guarda un resumen propio con prerrequisitos, objetos, recompensas e inicio', () => {
     const summary = field('summary') as GroupField
     expect(summary.type).toBe('group')

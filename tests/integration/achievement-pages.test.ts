@@ -8,7 +8,8 @@ import type { Achievement, AchievementCategory, Npc, Quest, User } from '@/paylo
 import { createPanelUser, startPayload } from './payload'
 
 // Las páginas de logro y los metalogros de Torre: copian lo que da DofusDB en lo vacío al
-// guardar, nunca pisan lo escrito, y el refresco crea las que faltan sin tocar las demás.
+// crearse o al cambiar de enlace, nunca pisan lo escrito, lo que Torre vacía se queda vacío,
+// y el refresco crea las que faltan sin tocar las demás.
 
 let payload: Payload
 let editor: User
@@ -199,16 +200,70 @@ describe('lo de Torre manda', () => {
     expect(await page()).toMatchObject({ name: 'La ocasión', points: 12, state: 'published' })
   })
 
-  it('un campo vaciado vuelve a lo que da DofusDB al guardar', async () => {
+  it('un campo vaciado se queda vacío al guardar', async () => {
     const current = await page()
     const saved = await payload.update({
       collection: 'achievement-pages',
       id: current.id,
-      data: { points: null },
+      data: { points: null, quests: [], group: null, rewards: { items: [], kamas: null } },
+      depth: 0,
       overrideAccess: false,
       user: editor,
     })
-    expect(saved.points).toBe(20)
+    expect(saved.points ?? null).toBeNull()
+    expect(saved.quests ?? []).toEqual([])
+    expect(saved.group ?? null).toBeNull()
+    expect(saved.rewards?.kamas ?? null).toBeNull()
+    expect(saved.rewards?.items ?? []).toEqual([])
+    // Lo que no tocó sigue como estaba
+    expect(saved.rewards?.experience).toBe(102_128)
+  })
+
+  it('el nombre vaciado vuelve al del logro: es obligatorio', async () => {
+    const current = await page()
+    const saved = await payload.update({
+      collection: 'achievement-pages',
+      id: current.id,
+      data: { name: '' },
+      depth: 0,
+      overrideAccess: false,
+      user: editor,
+    })
+    expect(saved.name).toBe('La ocasión hace al ladrón')
+  })
+
+  it('cambiar el logro rellena con el nuevo lo que esté vacío', async () => {
+    const other = await payload.create({
+      collection: 'achievements',
+      data: { dofusId: 1690, name: 'Otro logro', points: 30, category: astrub.id, quests: [] },
+    })
+    const current = await page()
+    // El enlace solo lo cambia un administrador: aquí, sin control de acceso.
+    const saved = await payload.update({
+      collection: 'achievement-pages',
+      id: current.id,
+      data: { achievement: other.id },
+      depth: 0,
+    })
+    expect(saved.points).toBe(30)
+    await payload.update({
+      collection: 'achievement-pages',
+      id: current.id,
+      data: { achievement: ocasion.id },
+      depth: 0,
+    })
+  })
+
+  it('un metalogro vaciado se queda vacío al guardar', async () => {
+    const { docs } = await payload.find({ collection: 'achievement-groups', depth: 0, limit: 1 })
+    const saved = await payload.update({
+      collection: 'achievement-groups',
+      id: docs[0]!.id,
+      data: { representative: null, order: null },
+      depth: 0,
+    })
+    expect(saved.representative ?? null).toBeNull()
+    expect(saved.order ?? null).toBeNull()
   })
 
   it('nadie crea ni borra páginas sin sesión', async () => {

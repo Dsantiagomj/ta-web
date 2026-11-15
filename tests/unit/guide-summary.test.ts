@@ -330,9 +330,9 @@ describe('summaryNote', () => {
     expect(summaryNote(ready, 'startX', 0)).toBe('Cambiado. DofusDB da: 3')
   })
 
-  it('vacío, avisa de que se rellena al guardar', () => {
+  it('vacío, dice lo que da DofusDB y que el botón lo copia', () => {
     expect(summaryNote(ready, 'startNpc', '')).toBe(
-      'Vacío: al guardar se rellena con lo que da DofusDB: Kerubim Crepin',
+      'Vacío. DofusDB da: Kerubim Crepin. «Rellenar desde DofusDB» lo copia aquí.',
     )
   })
 
@@ -367,8 +367,8 @@ describe('summaryNote para la lista de Necesitarás', () => {
     )
   })
 
-  it('vacía, avisa de que se rellena al guardar', () => {
-    expect(summaryNote(ready, 'needs', [])).toBe(admin.emptyWillFill(PRIMORDIAL_DOFUS_TEXT))
+  it('vacía, dice lo que da DofusDB', () => {
+    expect(summaryNote(ready, 'needs', [])).toBe(admin.emptyCanFill(PRIMORDIAL_DOFUS_TEXT))
   })
 
   it('cuando DofusDB no pide objetos, pide escribirlos', () => {

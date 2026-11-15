@@ -24,6 +24,21 @@ export function linkedQuestId(quest: unknown): number | null {
   return null
 }
 
+/**
+ * Si guardar copia DofusDB en lo vacío: al crear el documento o al cambiar su enlace (la
+ * misión, el logro o la categoría). Después, lo que Torre vacía se queda vacío; el botón
+ * «Rellenar desde DofusDB» del panel lo rellena cuando él lo pide. `sent` es el enlace que
+ * llega al guardar (undefined si no llega) y `saved`, el del documento guardado.
+ */
+export function fillsFromDofusDb(
+  operation: 'create' | 'update',
+  sent: unknown,
+  saved: unknown,
+): boolean {
+  if (operation === 'create') return true
+  return sent !== undefined && linkedQuestId(sent) !== linkedQuestId(saved)
+}
+
 /** Slug plano en ASCII, el formato que exige validateSlug. */
 export function slugFromName(name: string): string {
   const slug = name
