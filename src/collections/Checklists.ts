@@ -434,6 +434,7 @@ const stepFieldList: Field[] = [
     fields: [
       { name: 'npc', label: 'PNJ', type: 'relationship', relationTo: 'npcs' },
       { name: 'image', label: 'Imagen', type: 'upload', relationTo: 'media' },
+      localizedText('name', 'Nombre', s.figureNameDescription),
       localizedText('role', 'Papel', s.figureRoleDescription),
     ],
   },

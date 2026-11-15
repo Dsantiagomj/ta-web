@@ -154,9 +154,26 @@ describe('questHeaderProps', () => {
     })
   })
 
-  it('sin render mirando a la derecha no hay PNJ; sin el de la izquierda, el móvil usa el otro', () => {
-    expect(questHeaderProps(guide, [], { name: 'x', renderRight: null }).giver).toBeUndefined()
-    expect(questHeaderProps(guide, []).giver).toBeUndefined()
+  it('sin render, el PNJ va solo como texto: su nombre y la posición de inicio', () => {
+    expect(questHeaderProps(guide, [], { name: 'x', renderRight: null }).giver).toEqual({
+      name: 'Hupe Esse',
+      coordinates: { x: 7, y: -19 },
+    })
+    // Sin PNJ de DofusDB, lo que Torre escribió en el resumen.
+    expect(questHeaderProps(guide, []).giver).toEqual({
+      name: 'Hupe Esse',
+      coordinates: { x: 7, y: -19 },
+    })
+    // Sin nombre en el resumen, el del PNJ de DofusDB.
+    const unnamed = { ...guide, summary: { ...guide.summary, startNpc: null } }
+    expect(questHeaderProps(unnamed, [], { name: 'Hupe', renderRight: null }).giver?.name).toBe(
+      'Hupe',
+    )
+    // Sin nombre en ningún sitio, no hay línea.
+    expect(questHeaderProps(unnamed, []).giver).toBeUndefined()
+  })
+
+  it('sin el render de la izquierda, el móvil usa el otro', () => {
     const onlyRight = { name: 'x', renderRight: render(10, 'derecha'), renderLeft: null }
     expect(questHeaderProps(guide, [], onlyRight).giver?.left).toBeUndefined()
   })

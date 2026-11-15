@@ -243,6 +243,16 @@ describe('QuestHeader', () => {
     expect(markup).toContain('Empieza con <strong class="giver__name">Hupe Esse</strong></p>')
   })
 
+  it('un PNJ sin render: «Empieza con» y su chip, sin columna ni sustituto', () => {
+    const { right: _r, left: _l, ...giver } = data.giver!
+    const markup = html(<QuestHeader title="x" data={{ ...data, giver }} />)
+    expect(markup).not.toContain('data-giver')
+    expect(markup).not.toContain('<figure')
+    expect(markup).toMatch(
+      /<p class="qhead__start">Empieza con <strong class="giver__name">Hupe Esse<\/strong> <span class="giver__pin"><span class="coord"/,
+    )
+  })
+
   it('sin PNJ no hay columna ni sustituto', () => {
     const { giver: _giver, ...noGiver } = data
     const markup = html(<QuestHeader title="x" data={noGiver} />)

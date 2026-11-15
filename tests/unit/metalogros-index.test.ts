@@ -189,4 +189,17 @@ describe('metalogrosIndexView', () => {
     const ocasion = view.search.a.findIndex((a) => a[0] === 'La ocasión hace al ladrón')
     expect(view.search.q).toContainEqual(['Seis pies bajo tierra', 2, ocasion])
   })
+
+  it('una misión se busca por el nombre que Torre dio a su fila; sin él, por el de DofusDB', () => {
+    const input = data()
+    input.pages[0]!.quests = [
+      { name: 'El safari de almas jaras', quests: [quest('Trofeo de caza', 15)] },
+      { name: '', quests: [quest('Seis pies bajo tierra', 20)] },
+    ]
+    const { search } = metalogrosIndexView(input)
+    const ocasion = search.a.findIndex((a) => a[0] === 'La ocasión hace al ladrón')
+    expect(search.q).toContainEqual(['El safari de almas jaras', 1, ocasion])
+    expect(search.q).toContainEqual(['Seis pies bajo tierra', 2, ocasion])
+    expect(search.q.map((row) => row[0])).not.toContain('Trofeo de caza')
+  })
 })

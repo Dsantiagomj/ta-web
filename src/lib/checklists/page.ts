@@ -545,8 +545,10 @@ export function checklistView(data: ChecklistData): ChecklistView {
 
     const figure = step.figure
     const npc = populated(figure?.npc)
-    const figureImage = image(npc ? npc.renderRight : figure?.image)
-    const figureName = npc?.name ?? populated(figure?.image)?.alt ?? undefined
+    // Lo que subió o escribió Torre manda; el PNJ de DofusDB llena lo que falta.
+    const figureImage = image(figure?.image) ?? image(npc?.renderRight)
+    const figureName =
+      figure?.name?.trim() || npc?.name || populated(figure?.image)?.alt || undefined
     const icon = image(step.icon)
     const banner = image(step.banner)
     const n = index + 1

@@ -455,6 +455,19 @@ test.describe('página de guía', () => {
     await context.close()
   })
 
+  test('sin render del PNJ, «Empieza con» lleva el nombre y las coordenadas, sin columna', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1024, height: 800 })
+    await page.goto(`/${seedGuide.prerequisite.slug}`)
+    const header = page.locator('header.qhead')
+    const { npc, x, y } = seedGuide.prerequisite.start
+    await expect(header.locator('.qhead__start')).toContainText(`Empieza con ${npc}`)
+    await expect(header.locator('.qhead__start .coord')).toContainText(`${x},${y}`)
+    await expect(header.locator('figure.giver')).toHaveCount(0)
+    await expect(header).not.toHaveAttribute('data-giver')
+  })
+
   test('una guía sin bloques Paso se lee como prosa, sin pasos', async ({ page }) => {
     await page.goto(`/${seedGuide.prerequisite.slug}`)
     await expect(page.getByText('Habla con Hupe Esse.')).toBeVisible()

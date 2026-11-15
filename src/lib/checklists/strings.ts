@@ -167,7 +167,10 @@ export const checklistStrings = {
       'La clave del prerrequisito en el que se gasta, como l11. Al marcarlo, el objeto deja de faltar.',
     needPrerequisiteUnknown: (key: string) => `Ningún prerrequisito tiene la clave ${key}`,
     iconDescription: 'El icono del paso: la recompensa de su logro, su jefe o el icono del logro.',
-    figureDescription: 'La imagen del paso: un PNJ o una imagen subida.',
+    figureDescription:
+      'La imagen del paso: un PNJ o una imagen subida. Si pones las dos, se ve tu imagen.',
+    figureNameDescription:
+      'Opcional. Si lo dejas vacío, se usa el nombre del PNJ o el texto alternativo de la imagen.',
     figureRoleDescription: 'Qué papel tiene, como «Inicia el paso».',
     bossesDescription: 'Los jefes que hay que vencer en el paso.',
     stepDofusDescription:

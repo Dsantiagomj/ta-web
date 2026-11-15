@@ -772,6 +772,48 @@ describe('checklistView: el resto del paso', () => {
     )
   })
 
+  it('la imagen que subió Torre gana al render del PNJ, y su nombre a todos', () => {
+    const steps = [
+      // Un PNJ con render y una imagen subida: la de Torre.
+      step('a', {
+        figure: {
+          npc: { id: 4, name: 'Wello', renderRight: media(32, 'wello') },
+          image: media(34, 'wello-torre', 'Wello en su casa'),
+        },
+      }),
+      // Un PNJ sin render y una imagen subida: se ve la imagen, con el nombre del PNJ.
+      step('b', {
+        figure: { npc: { id: 5, name: 'Kerubim', renderRight: null }, image: media(35, 'kerubim') },
+      }),
+      // El nombre escrito por Torre manda sobre el del PNJ y el texto alternativo.
+      step('c', {
+        figure: {
+          name: 'El viejo Kerubim',
+          npc: { id: 5, name: 'Kerubim', renderRight: null },
+          image: media(35, 'kerubim', 'Kerubim'),
+        },
+      }),
+      // Solo nombre: sale sin imagen.
+      step('d', { figure: { name: 'Un aldeano' } }),
+    ]
+    const [a, b, c, d] = checklistView(data(steps)).steps
+
+    expect(a.figure).toEqual(
+      expect.objectContaining({
+        name: 'Wello',
+        image: expect.objectContaining({ src: '/media/wello-torre.png' }),
+      }),
+    )
+    expect(b.figure).toEqual(
+      expect.objectContaining({
+        name: 'Kerubim',
+        image: expect.objectContaining({ src: '/media/kerubim.png' }),
+      }),
+    )
+    expect(c.figure?.name).toBe('El viejo Kerubim')
+    expect(d.figure).toEqual({ name: 'Un aldeano' })
+  })
+
   it('lleva los avisos de los prerrequisitos y lo que piden, con el prerrequisito que lo gasta', () => {
     const view = checklistView(
       data([step('a')], {
