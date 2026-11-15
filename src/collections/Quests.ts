@@ -137,6 +137,23 @@ export const Quests: CollectionConfig = withTorreCorrection(
           dofusIds('spellIds', 'IDs de hechizos'),
           dofusIds('titleIds', 'IDs de títulos'),
           dofusIds('jobIds', 'IDs de oficios'),
+          {
+            name: 'byLevel',
+            label: 'Por nivel',
+            labels: { singular: 'Tramo', plural: 'Tramos' },
+            type: 'array',
+            admin: {
+              description:
+                'Lo que da según el nivel del personaje, cuando cambia (misiones de evento). La XP y los kamas son los del nivel más alto del tramo.',
+            },
+            fields: [
+              { name: 'levelMin', label: 'Desde el nivel', type: 'number', required: true },
+              { name: 'levelMax', label: 'Hasta el nivel', type: 'number', required: true },
+              { name: 'experience', label: 'Experiencia', type: 'number' },
+              { name: 'kamas', label: 'Kamas', type: 'number' },
+              quantities('items', 'Objetos', 'item'),
+            ],
+          },
         ],
       },
       {

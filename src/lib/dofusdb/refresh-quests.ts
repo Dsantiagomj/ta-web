@@ -273,6 +273,13 @@ function storedFields(doc: Quest) {
       spellIds: doc.rewards?.spellIds ?? [],
       titleIds: doc.rewards?.titleIds ?? [],
       jobIds: doc.rewards?.jobIds ?? [],
+      byLevel: (doc.rewards?.byLevel ?? []).map((tier) => ({
+        levelMin: tier.levelMin,
+        levelMax: tier.levelMax,
+        experience: tier.experience ?? null,
+        kamas: tier.kamas ?? null,
+        items: rows(tier.items, 'item'),
+      })),
     },
     needs: {
       items: rows(doc.needs?.items, 'item'),
@@ -406,12 +413,20 @@ export async function refreshQuests(
   async function saveQuest(quest: MappedQuest) {
     const { prerequisiteDofusIds: _prerequisites, rewards, needs, achievement, ...rest } = quest
     const rewardItems = linkRows(rewards.items, 'item', items.ids)
+    const tiers = rewards.byLevel.map((tier) => ({
+      ...tier,
+      linked: linkRows(tier.items, 'item', items.ids),
+    }))
     const needItems = linkRows(needs.items, 'item', items.ids)
     const needMonsters = linkRows(needs.monsters, 'monster', monsters.ids)
     const fields = {
       ...rest,
       achievement: achievementGroup(achievement),
-      rewards: { ...rewards, items: rewardItems.rows },
+      rewards: {
+        ...rewards,
+        items: rewardItems.rows,
+        byLevel: tiers.map(({ linked, ...tier }) => ({ ...tier, items: linked.rows })),
+      },
       needs: { items: needItems.rows, monsters: needMonsters.rows, walksMaps: needs.walksMaps },
     }
     const doc = byDofusId.get(quest.dofusId)
@@ -441,7 +456,8 @@ export async function refreshQuests(
     return {
       ...result,
       quest,
-      missingItems: rewardItems.missing + needItems.missing,
+      missingItems:
+        rewardItems.missing + needItems.missing + sum(tiers.map(({ linked }) => linked.missing)),
       missingMonsters: needMonsters.missing,
     }
   }
