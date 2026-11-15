@@ -22,11 +22,11 @@ async function cleanUp() {
   await payload.delete({ collection: 'quests', where: { dofusId: { in: QUESTS } } })
   await payload.delete({
     collection: 'dungeons',
-    where: { dofusId: { in: [990_131, 990_138, 990_139, 990_141] } },
+    where: { dofusId: { in: [990_131, 990_138, 990_139, 990_141, 990_142, 990_143] } },
   })
   await payload.delete({
     collection: 'monsters',
-    where: { dofusId: { in: [990_394, 990_903, 990_904, 990_905] } },
+    where: { dofusId: { in: [990_394, 990_903, 990_904, 990_905, 990_906, 990_907] } },
   })
   await payload.delete({ collection: 'items', where: { dofusId: { equals: 990_777 } } })
   await payload.delete({ collection: 'media', where: { alt: { like: '(informe)' } } })
@@ -286,5 +286,56 @@ describe('dungeonNoteReport', () => {
     // Por su jefe: el segundo. Por el nombre de la mazmorra: su primer jefe con imagen.
     expect(bosses.get('mazmorra gemelo segundo')?.id).toBe(second!.id)
     expect(bosses.get('mazmorra cripta de los gemelos')?.id).toBe(first!.id)
+  })
+
+  it('la corrección de Torre manda: nombre de la mazmorra, imagen y jefes ocultos', async () => {
+    const [own, boss] = await Promise.all(
+      ['Mazmorra de Torre (informe)', 'Jefe de Torre (informe)'].map((alt) =>
+        payload.create({ collection: 'media', data: { alt }, file: tinyPng() }),
+      ),
+    )
+    const [hidden, plain] = await Promise.all([
+      payload.create({
+        collection: 'monsters',
+        data: {
+          dofusId: 990_906,
+          name: 'Jefe oculto',
+          image: boss!.id,
+          correction: { hidden: true },
+        },
+      }),
+      payload.create({
+        collection: 'monsters',
+        data: { dofusId: 990_907, name: 'Jefe sin imagen', correction: { image: boss!.id } },
+      }),
+    ])
+    await payload.create({
+      collection: 'dungeons',
+      data: {
+        dofusId: 990_142,
+        name: 'Nombre raro de DofusDB',
+        bosses: [hidden.id, plain.id],
+        correction: { name: 'Guarida de Torre' },
+      },
+    })
+    await payload.create({
+      collection: 'dungeons',
+      data: {
+        dofusId: 990_143,
+        name: 'Sala con imagen propia',
+        bosses: [plain.id],
+        correction: { image: own!.id },
+      },
+    })
+
+    const bosses = await readDungeonBosses(
+      payload,
+      ['Mazmorra Guarida de Torre', 'Mazmorra Sala con imagen propia'],
+      { overrideAccess: true },
+    )
+    // Casa por el nombre de Torre; el jefe oculto no cuenta y el otro lleva la imagen de Torre.
+    expect(bosses.get('mazmorra guarida de torre')?.id).toBe(boss!.id)
+    // La imagen que Torre subió para la mazmorra gana a la de sus jefes.
+    expect(bosses.get('mazmorra sala con imagen propia')?.id).toBe(own!.id)
   })
 })

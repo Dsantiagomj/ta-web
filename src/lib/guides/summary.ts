@@ -2,6 +2,7 @@
 // Código puro, sin Payload: lo usan el servidor y los componentes del panel.
 
 import { itemsText, neededItems, prerequisitesText, rewardsText, type NeededItem } from './format'
+import type { Correction } from '../game-data/correction'
 import type { Media } from '../../payload-types'
 import { guideStrings } from './strings'
 
@@ -19,6 +20,8 @@ export interface LinkedItem extends NamedDoc {
   superTypeId?: number | null
   /** El icono importado de DofusDB (Media), si ya está. */
   image?: number | Media | null
+  /** Lo que Torre corrigió de este objeto (src/lib/game-data/correction.ts). */
+  correction?: Correction | null
 }
 
 export interface LinkedRewards {

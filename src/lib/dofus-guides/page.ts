@@ -25,6 +25,7 @@ import {
 } from '@/lib/guides/page'
 import { isDungeonNote, needKey, needNote } from '@/lib/guides/need-notes'
 import { youtubeId } from '@/lib/guides/video'
+import { corrected, hiddenByTorre, type Correction } from '@/lib/game-data/correction'
 import { mediaImageAsset } from '@/lib/media/image-asset'
 import { LEGACY_SITE_ORIGIN } from '@/lib/site/legacy'
 import type { Media } from '@/payload-types'
@@ -38,7 +39,9 @@ export const DOFUS_INDEX_PATH = '/guias-dofus'
 
 type Relation<T> = number | T | null | undefined
 type MediaRef = Relation<Media>
-type ItemRef = Relation<{ id: number; name?: string | null; image?: MediaRef }>
+/** Lo que Torre corrigió de un dato del juego (src/lib/game-data/correction.ts). */
+type Corrected = { correction?: Correction | null }
+type ItemRef = Relation<{ id: number; name?: string | null; image?: MediaRef } & Corrected>
 
 export type NeedRowDoc =
   | {
@@ -124,7 +127,7 @@ export type AchievementDoc = Pick<
   PageDoc,
   'id' | 'name' | 'slug' | 'state' | 'points' | 'quests'
 > & {
-  achievement?: Relation<{ icon?: MediaRef }>
+  achievement?: Relation<{ icon?: MediaRef } & Corrected>
 }
 
 /** Una guía de misión publicada de las partes, con su misión poblada. */
@@ -167,7 +170,7 @@ export interface DofusGuideData {
   /** La guía publicada de cada misión de esos logros, por ID de misión. */
   guideByQuest: Map<number, { slug: string }>
   /** Los PNJ que dan las misiones, por su ID de DofusDB, con sus renders. */
-  givers: Map<number, { renderRight?: MediaRef }>
+  givers: Map<number, { renderRight?: MediaRef } & Corrected>
   /** Todos los Dofus, en el orden de Torre: el anterior y el siguiente salen de aquí. */
   list: DofusListDoc[]
   /**
@@ -257,6 +260,12 @@ export interface DofusGuideView {
 
 function populated<T extends object>(value: Relation<T>): T | null {
   return value && typeof value === 'object' ? value : null
+}
+
+/** Un dato del juego con lo que Torre corrigió encima, o null si lo ocultó. */
+function shown<T extends object>(value: Relation<T>): T | null {
+  const doc = populated(value)
+  return doc && !hiddenByTorre(doc) ? (corrected(doc as never) as T) : null
 }
 
 const relationId = (value: Relation<{ id: number }>) =>
@@ -374,6 +383,8 @@ function needRows(
       const boss = image(bosses.get(needKey(label)))
       return [{ kind: 'note', text: row.text, dungeon: true, ...(boss && { boss }) }]
     }
+    // Un objeto que Torre ocultó no sale.
+    if (hiddenByTorre(row.item)) return []
     const linked = populated(row.item)
     const name = linked?.name || row.name
     if (!name) return []
@@ -466,9 +477,10 @@ function needsView(
 }
 
 /** El PNJ que da una misión y su nivel, de la misión de una guía. */
-function questFacts(data: DofusGuideData, quest: QuestGuideDoc['quest'] | undefined) {
+function questFacts(data: DofusGuideData, found: QuestGuideDoc['quest'] | undefined) {
+  const quest = found ? corrected(found) : found
   const npcId = quest?.startPositions?.find((start) => start.npcId != null)?.npcId
-  const giver = npcId != null ? image(data.givers.get(npcId)?.renderRight) : undefined
+  const giver = npcId != null ? image(shown(data.givers.get(npcId))?.renderRight) : undefined
   const level = quest?.levelMin && quest.levelMin > 0 ? quest.levelMin : undefined
   return { ...(level && { level }), ...(giver && { giver }) }
 }
@@ -549,7 +561,7 @@ function achievementPart(data: DofusGuideData, ref: AchievementRefDoc): Achievem
     : questCards(questRows(page), data.guideByQuest, data.givers)
   const levels = cardLevels(quests)
   const disabled = page.state !== 'published'
-  const icon = image(populated(page.achievement)?.icon)
+  const icon = image(shown(page.achievement)?.icon)
   const points = page.points && page.points > 0 ? page.points : undefined
   // En preparación no tiene página: el enlace de Torre lleva a la suya, en su web.
   const link = ref.link?.trim()
@@ -661,7 +673,7 @@ export function dofusGuideView(data: DofusGuideData): DofusGuideView {
   const at = published.findIndex((item) => item.current)
   const videoId = guide.video ? youtubeId(guide.video) : null
   const poster = image(guide.videoPoster)
-  const egg = image(populated(guide.dofus)?.image)
+  const egg = image(shown(guide.dofus)?.image)
   // La checklist de la web si está publicada; si no (En preparación), la de Squarespace.
   const checklistHref = data.checklist ? `/${data.checklist.slug}` : guide.checklist?.url
   const checklist =

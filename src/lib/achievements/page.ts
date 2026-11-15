@@ -6,6 +6,7 @@ import type { GameItem } from '@/components/game/types'
 import type { ImageAsset } from '@/components/ui/types'
 import { itemGroup } from '@/lib/dofus-guides/need-groups'
 import { neededItems } from '@/lib/guides/format'
+import { corrected, hiddenByTorre, type Correction } from '@/lib/game-data/correction'
 import { gameItem, needNote, type NeedNote, type QuestHeaderData } from '@/lib/guides/page'
 import { isDungeonNote, needKey, noteKey } from '@/lib/guides/need-notes'
 import type { LinkedNeeds } from '@/lib/guides/summary'
@@ -26,8 +27,10 @@ export const metalogroHref = (slug: string) =>
 
 type Relation<T> = number | T | null | undefined
 type MediaRef = Relation<Media | (Partial<Media> & { id: number })>
+/** Lo que Torre corrigió de un dato del juego (src/lib/game-data/correction.ts). */
+type Corrected = { correction?: Correction | null }
 
-export interface QuestDoc {
+export interface QuestDoc extends Corrected {
   id: number
   name?: string | null
   levelMin?: number | null
@@ -50,13 +53,14 @@ export interface PageDoc {
     kamas?: number | null
     items?:
       | {
-          item: Relation<{ id: number; name?: string | null; image?: MediaRef }>
+          item: Relation<{ id: number; name?: string | null; image?: MediaRef } & Corrected>
           quantity: number
         }[]
       | null
   } | null
   achievement?: Relation<{
     icon?: MediaRef
+    correction?: Correction | null
     countsFor?:
       | {
           name?: string | null
@@ -75,8 +79,8 @@ export interface SiblingDoc {
   name: string
   slug: string
   state: PageState
-  achievement?: Relation<{ icon?: MediaRef }>
-  quests?: { quests?: Relation<{ levelMin?: number | null }>[] | null }[] | null
+  achievement?: Relation<{ icon?: MediaRef } & Corrected>
+  quests?: { quests?: Relation<{ levelMin?: number | null } & Corrected>[] | null }[] | null
 }
 
 /** La guía publicada de una misión, con su Necesitarás. */
@@ -104,7 +108,7 @@ export interface AchievementPageData {
   /** Las guías publicadas de las misiones del logro y de sus prerrequisitos. */
   guides: GuideRef[]
   /** Los PNJ que dan las misiones, por su ID de DofusDB, con sus renders. */
-  givers: Map<number, { name?: string | null; renderRight?: MediaRef }>
+  givers: Map<number, { name?: string | null; renderRight?: MediaRef } & Corrected>
   /** Los objetos del juego que nombran las notas de Necesitarás, por su nombre exacto. */
   noteItems: Map<string, NoteItemDoc>
   /**
@@ -172,6 +176,15 @@ function populated<T extends object>(value: Relation<T>): T | null {
   return value && typeof value === 'object' ? value : null
 }
 
+/**
+ * Un dato del juego poblado tal como lo enseña la web: con lo que Torre corrigió encima, o
+ * null si lo ocultó.
+ */
+function shown<T extends object>(value: Relation<T>): T | null {
+  const doc = populated(value)
+  return doc && !hiddenByTorre(doc) ? (corrected(doc as never) as T) : null
+}
+
 const icon = (value: MediaRef) => mediaImageAsset(populated(value) as Media | null) ?? undefined
 const positive = (value: number | null | undefined) => (value && value > 0 ? value : undefined)
 
@@ -211,6 +224,7 @@ export type NoteItemDoc = {
   image?: Media | number | null
   dofusId?: number | null
   superTypeId?: number | null
+  correction?: Correction | null
 }
 
 /** Las notas de Necesitarás de unas guías, cada línea como la lee la página. */
@@ -345,6 +359,7 @@ function totalNeeds(
   })
   guides.forEach((guide, index) => {
     for (const { item, quantity } of neededItems(guide.needs as LinkedNeeds | null)) {
+      if (hiddenByTorre(item)) continue
       let known = items.get(item.id)
       if (!known) {
         const { dofusId, superTypeId } = item
@@ -363,7 +378,9 @@ function totalNeeds(
   for (const { note, asked } of notes.values()) {
     const { quantity, label } = note
     const linked = quantity == null ? undefined : itemByName.get(needKey(label))
-    const named = linked ? undefined : namedByKey.get(needKey(label))
+    const found = linked ? undefined : namedByKey.get(needKey(label))
+    // Un objeto que Torre ocultó no sale: su nota queda como texto.
+    const named = found && !hiddenByTorre(found) ? found : undefined
     if (named && !items.has(named.id)) {
       items.set(named.id, {
         item: gameItem(named),
@@ -401,11 +418,11 @@ function groupItem(doc: SiblingDoc, currentId: number): GroupItem {
   const disabled = doc.state !== 'published'
   const levels = levelRange(
     (doc.quests ?? []).map((row) => {
-      const known = (row.quests ?? []).flatMap((quest) => populated(quest)?.levelMin ?? [])
+      const known = (row.quests ?? []).flatMap((quest) => shown(quest)?.levelMin ?? [])
       return known.length ? Math.min(...known) : null
     }),
   )
-  const asset = icon(populated(doc.achievement)?.icon)
+  const asset = icon(shown(doc.achievement)?.icon)
   return {
     name: doc.name,
     ...(!current && !disabled && { href: `/${doc.slug}` }),
@@ -428,7 +445,7 @@ export function questRows(page: Pick<PageDoc, 'quests'>): QuestRow[] {
   return (page.quests ?? []).map((row) => ({
     name: row.name ?? '',
     quests: (row.quests ?? [])
-      .map((quest) => populated(quest))
+      .map((quest) => shown(quest))
       .filter((q): q is QuestDoc => q !== null),
   }))
 }
@@ -449,7 +466,7 @@ export function questCards(
     const only = row.quests.length === 1 ? row.quests[0]! : null
     const guide = only ? guideByQuest.get(only.id) : undefined
     const npcId = only?.startPositions?.find((position) => position.npcId != null)?.npcId
-    const giver = npcId != null ? icon(givers.get(npcId)?.renderRight) : undefined
+    const giver = npcId != null ? icon(shown(givers.get(npcId))?.renderRight) : undefined
     return {
       position: index + 1,
       ...(level && { level }),
@@ -526,7 +543,7 @@ export function achievementPageView(data: AchievementPageData): AchievementPageV
   const max = positive(page.rewards?.experience)
   const kamas = positive(page.rewards?.kamas)
   const items = (page.rewards?.items ?? []).flatMap(({ item, quantity }) => {
-    const doc = populated(item)
+    const doc = shown(item)
     return doc?.name
       ? [{ item: gameItem(doc as { name: string; image?: Media | null }), quantity }]
       : []
@@ -573,7 +590,7 @@ export function achievementPageView(data: AchievementPageData): AchievementPageV
     data.siteUrl,
   )
 
-  const pageIcon = icon(achievement?.icon)
+  const pageIcon = icon(shown(page.achievement)?.icon)
   return {
     title: page.name,
     ...(pageIcon && { icon: pageIcon }),

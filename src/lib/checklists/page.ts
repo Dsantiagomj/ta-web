@@ -9,6 +9,7 @@ import { questParents, routePrerequisites } from '@/lib/derive/checklist'
 import { questLevel, questPoints, stepWeights } from '@/lib/derive/weights'
 import type { RichTextState } from '@/lib/guides/page'
 import type { QuestObjectiveKind } from '@/lib/dofusdb/types'
+import { hiddenByTorre } from '@/lib/game-data/correction'
 import { mediaImageAsset } from '@/lib/media/image-asset'
 import { legacyRoute, type LegacyRoute } from '@/lib/site/legacy'
 import { fold } from '@/lib/text/fold'
@@ -17,7 +18,7 @@ import type { Checklist, DofusGuide, Media, Quest } from '@/payload-types'
 import { openStops } from './open-stops'
 import type { SoulsReadData } from './souls'
 import { objectiveText, type ObjectiveNames } from './objective-text'
-import { populated, relationId, type Relation } from './relations'
+import { populated, relationId, shown, type Relation } from './relations'
 import { checklistPageStrings as s, checklistStrings } from './strings'
 
 type Step = NonNullable<Checklist['steps']>[number]
@@ -319,7 +320,9 @@ type NeedOption = Pick<Need, 'item' | 'label' | 'quantity'>
  * para no cambiar la de las demás opciones. Null solo sin objeto ni texto.
  */
 function needOption(option: NeedOption): NeedOptionView | null {
-  const item = populated(option.item)
+  // Un objeto que Torre ocultó no sale.
+  if (hiddenByTorre(option.item)) return null
+  const item = shown(option.item)
   const stored = relationId(option.item ?? null)
   if (!item?.name && stored !== null) {
     return { kind: 'label', key: `item:${stored}`, name: s.unknownItem, quantity: option.quantity }
@@ -564,7 +567,7 @@ export function checklistView(data: ChecklistData): ChecklistView {
     )
 
     const figure = step.figure
-    const npc = populated(figure?.npc)
+    const npc = shown(figure?.npc)
     // Lo que subió o escribió Torre manda; el PNJ de DofusDB llena lo que falta.
     const figureImage = image(figure?.image) ?? image(npc?.renderRight)
     const figureName =
@@ -600,7 +603,7 @@ export function checklistView(data: ChecklistData): ChecklistView {
       quests,
       needs,
       bosses: (step.bosses ?? []).flatMap((boss) => {
-        const monster = populated(boss)
+        const monster = shown(boss)
         if (!monster) return []
         const picture = image(monster.image)
         return [{ name: monster.name, ...(picture && { image: picture }) }]
@@ -635,7 +638,7 @@ export function checklistView(data: ChecklistData): ChecklistView {
         return dofus.length ? [{ stepId: step.stepId ?? '', n: index + 1, dofus }] : []
       })
   const publishedGuide = guide?.state === 'published' ? guide : null
-  const egg = image(populated(guide?.dofus)?.image)
+  const egg = image(shown(guide?.dofus)?.image)
   const groups = (checklist.prerequisites?.groups ?? []).flatMap((group) => {
     const rows = (group.rows ?? []).map(({ key, text }) => ({ key, text }))
     return rows.length ? [{ title: group.title ?? '', rows }] : []

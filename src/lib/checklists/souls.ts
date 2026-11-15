@@ -4,11 +4,12 @@
 // silvestre-checklist, sin ninguna fila escrita a mano. Sin Payload ni React: se prueba solo.
 import type { ImageAsset } from '@/components/ui/types'
 import { buildBreadcrumb, type BreadcrumbData } from '@/lib/achievements/page'
+import { corrected, hiddenByTorre, type Correction } from '@/lib/game-data/correction'
 import { mediaImageAsset } from '@/lib/media/image-asset'
 import { fold } from '@/lib/text/fold'
 import type { Checklist, Media } from '@/payload-types'
 
-import { populated, type Relation } from './relations'
+import { populated, shown, type Relation } from './relations'
 import { checklistPageStrings as s, soulsStrings as o } from './strings'
 
 export type SoulType = 'boss' | 'archi' | 'other'
@@ -20,6 +21,8 @@ export interface SoulMonster {
   boss?: boolean | null
   archmonster?: boolean | null
   subAreaId?: number | null
+  /** Lo que Torre corrigió del monstruo (src/lib/game-data/correction.ts). */
+  correction?: Correction | null
 }
 
 /** Lo que lee la página de una checklist de almas (src/lib/checklists/queries.ts). */
@@ -146,11 +149,14 @@ export function soulsView(data: SoulsData): SoulsView {
       const id = objective.monsterId
       if (seen.has(id)) return []
       seen.add(id)
-      const monster = data.monsters[id]
-      if (!monster) {
+      const found = data.monsters[id]
+      if (!found) {
         missing.push(id)
         return []
       }
+      // Un monstruo que Torre ocultó no es alma; uno corregido sale con lo suyo.
+      if (hiddenByTorre(found)) return []
+      const monster = corrected(found)
       const dungeons = dungeonsOf.get(id) ?? []
       const dungeon = dungeons.length === 1 ? dungeons[0] : null
       const subarea = monster.subAreaId == null ? undefined : data.subareas[monster.subAreaId]
@@ -205,7 +211,7 @@ export function soulsView(data: SoulsData): SoulsView {
 
   const guide = populated(checklist.dofusGuide)
   const publishedGuide = guide?.state === 'published' ? guide : null
-  const egg = image(populated(guide?.dofus)?.image)
+  const egg = image(shown(guide?.dofus)?.image)
   const title = checklist.name
   return {
     id: checklist.id,

@@ -7,6 +7,7 @@ import type { GameItem, Monster, Quantity } from '@/components/game/types'
 import type { CalloutVariant } from '@/components/ui/strings'
 import type { ImageAsset } from '@/components/ui/types'
 import type { Coordinates } from '@/lib/guides/coordinates'
+import { corrected, hiddenByTorre, type Correction } from '@/lib/game-data/correction'
 import { mediaImageAsset } from '@/lib/media/image-asset'
 import type { Media, RichTextBlock } from '@/payload-types'
 
@@ -28,6 +29,7 @@ interface GuideQuest {
   id: number
   name?: string | null
   levelMin?: number | null
+  correction?: Correction | null
   zone?: string | null
   achievement?: {
     dofusId?: number | null
@@ -46,6 +48,7 @@ export interface GiverDoc {
   name?: string | null
   renderRight?: number | Media | null
   renderLeft?: number | Media | null
+  correction?: Correction | null
 }
 
 type ContentBlockDoc =
@@ -64,6 +67,7 @@ interface MonsterDoc {
   id: number
   name?: string | null
   image?: number | Media | null
+  correction?: Correction | null
 }
 
 /** Un paso: coordenadas si las tiene y sus propios bloques (DESIGN.md, Steps). */
@@ -132,8 +136,9 @@ export type GuideBlock =
       priorityImage?: true
     }
 
+/** La misión enlazada, con lo que Torre corrigió de ella (nombre y nivel). */
 function linkedQuest(guide: GuideDoc): GuideQuest | null {
-  return guide.quest && typeof guide.quest === 'object' ? guide.quest : null
+  return guide.quest && typeof guide.quest === 'object' ? corrected(guide.quest) : null
 }
 
 /** Las líneas no vacías de un texto del resumen. */
@@ -182,17 +187,27 @@ export function prerequisiteQuestIds(guide: GuideDoc): number[] {
   )
 }
 
-/** Un objeto o monstruo como lo pinta la página: su nombre y, si ya se importó, su icono. */
-export function gameItem(doc: { name?: string | null; image?: number | Media | null }): GameItem {
-  const icon = mediaImageAsset(doc.image)
-  return { name: doc.name ?? '', ...(icon && { icon }) }
+/**
+ * Un objeto o monstruo como lo pinta la página: su nombre y, si ya se importó, su icono, con
+ * lo que Torre corrigió encima.
+ */
+export function gameItem(doc: {
+  name?: string | null
+  image?: number | Media | null
+  correction?: Correction | null
+}): GameItem {
+  const shown = corrected(doc)
+  const icon = mediaImageAsset(shown.image)
+  return { name: shown.name ?? '', ...(icon && { icon }) }
 }
 
 /** Los objetos de Recompensas, con nombre, en el orden en que Torre los lista (al revés que DofusDB). */
 function rewardItems(guide: GuideDoc): Quantity<GameItem>[] {
   const items = [...(linkedQuest(guide)?.rewards?.items ?? [])].reverse()
   return items.flatMap(({ item, quantity }) =>
-    typeof item === 'object' && item.name ? [{ item: gameItem(item), quantity }] : [],
+    typeof item === 'object' && item.name && !hiddenByTorre(item)
+      ? [{ item: gameItem(item), quantity }]
+      : [],
   )
 }
 
@@ -275,10 +290,12 @@ export function questHeaderProps(
   // El nombre y la posición que escribió Torre mandan; DofusDB da el render y, si él no
   // escribió nombre, el del PNJ. Sin render, el PNJ sale solo como texto.
   let giver: QuestHeaderData['giver']
-  const giverName = summary.startNpc?.trim() || giverDoc?.name?.trim() || ''
+  // Un PNJ que Torre ocultó no se pinta: queda el nombre que él escribió en el resumen.
+  const shownGiver = giverDoc && !hiddenByTorre(giverDoc) ? corrected(giverDoc) : null
+  const giverName = summary.startNpc?.trim() || shownGiver?.name?.trim() || ''
   if (giverName) {
-    const right = mediaImageAsset(giverDoc?.renderRight)
-    const left = right && mediaImageAsset(giverDoc?.renderLeft)
+    const right = mediaImageAsset(shownGiver?.renderRight)
+    const left = right && mediaImageAsset(shownGiver?.renderLeft)
     const coordinates =
       summary.startX != null && summary.startY != null
         ? { x: summary.startX, y: summary.startY }
@@ -306,10 +323,9 @@ export function questHeaderProps(
   })
 
   const needs = {
-    items: neededItems(summary.needs).map(({ item, quantity }) => ({
-      item: gameItem(item),
-      quantity,
-    })),
+    items: neededItems(summary.needs).flatMap(({ item, quantity }) =>
+      hiddenByTorre(item) ? [] : [{ item: gameItem(item), quantity }],
+    ),
     notes: lines(summary.needs?.notes).map((line): NeedRow => {
       const note = needNote(line)
       if (!isDungeonNote(note.label)) return note
@@ -403,7 +419,7 @@ export function guideContent(
         ]
       case 'fight': {
         const monsters = (block.monsters ?? []).flatMap(({ monster, quantity }) =>
-          typeof monster === 'object' && monster?.name
+          typeof monster === 'object' && monster?.name && !hiddenByTorre(monster)
             ? [{ item: gameItem(monster), quantity }]
             : [],
         )
@@ -484,6 +500,7 @@ export interface NextQuestCardData {
 export interface NextQuestDoc {
   name?: string | null
   levelMin?: number | null
+  correction?: Correction | null
   startPositions?: { npcName?: string | null; x?: number | null; y?: number | null }[] | null
 }
 
@@ -536,7 +553,7 @@ export function nextQuestCard(
   guide: NextGuideDoc | null | undefined,
 ): NextQuestCardData | undefined {
   if (!guide) return undefined
-  const level = positive(quest.levelMin)
+  const level = positive(corrected(quest).levelMin)
   const start = quest.startPositions?.find((position) => position.npcName?.trim())
   const coordinates = start?.x != null && start.y != null ? { x: start.x, y: start.y } : undefined
   const art = firstImage(guide.body)

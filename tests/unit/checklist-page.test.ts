@@ -547,6 +547,29 @@ describe('checklistView: Necesitarás', () => {
     ],
   })
 
+  it('un objeto corregido sale con su nombre de Torre; uno oculto, no', () => {
+    const fixed = step('a', {
+      needs: [
+        {
+          item: { ...item(11, 'Cuerno'), correction: { name: 'Cuerno de Torre' } },
+          quantity: 2,
+          category: 'resources',
+          countsInTotal: true,
+        },
+        {
+          item: { ...item(12, 'Oculto'), correction: { hidden: true } },
+          quantity: 1,
+          category: 'resources',
+          countsInTotal: true,
+        },
+      ],
+    })
+    const [view] = checklistView(data([fixed])).steps
+    expect(view.needs.flatMap((group) => group.rows.map((row) => row.name))).toEqual([
+      'Cuerno de Torre',
+    ])
+  })
+
   it('agrupa las filas de cada paso por grupo, en el orden de los grupos y luego en el de Torre', () => {
     const [view] = checklistView(data([needsStep])).steps
 
@@ -770,6 +793,40 @@ describe('checklistView: el resto del paso', () => {
     expect(second.figure).toEqual(
       expect.objectContaining({ name: 'Dios Anutrof', role: 'Se habla con' }),
     )
+  })
+
+  it('la corrección de Torre: el PNJ y los jefes corregidos; los ocultos no salen', () => {
+    const steps = [
+      step('a', {
+        figure: {
+          npc: {
+            id: 4,
+            name: 'Wello',
+            renderRight: media(32, 'wello'),
+            correction: { name: 'Wello el sabio', image: media(36, 'wello-de-torre') },
+          },
+        },
+        bosses: [
+          { id: 6, name: 'Rey', image: media(33, 'nidas'), correction: { name: 'Rey Nidas' } },
+          { id: 7, name: 'Oculto', image: media(37, 'oculto'), correction: { hidden: true } },
+        ],
+      }),
+      step('b', {
+        figure: {
+          npc: { id: 5, name: 'Oculto', correction: { hidden: true } },
+          role: 'Se habla con',
+        },
+      }),
+    ]
+    const [a, b] = checklistView(data(steps)).steps
+    expect(a.figure).toEqual(
+      expect.objectContaining({
+        name: 'Wello el sabio',
+        image: expect.objectContaining({ src: '/media/wello-de-torre.png' }),
+      }),
+    )
+    expect(a.bosses).toEqual([expect.objectContaining({ name: 'Rey Nidas' })])
+    expect(b.figure).toBeUndefined()
   })
 
   it('la imagen que subió Torre gana al render del PNJ, y su nombre a todos', () => {

@@ -12,6 +12,12 @@ describe('el índice de búsqueda de las guías', () => {
 
   beforeAll(async () => {
     payload = await startPayload()
+    // Lo que dejó una pasada anterior en la misma base.
+    await payload.delete({ collection: 'quest-guides', where: { slug: { like: 'indice-' } } })
+    await payload.delete({
+      collection: 'quests',
+      where: { dofusId: { greater_than_equal: 970_000, less_than: 971_000 } },
+    })
   })
 
   const quest = (dofusId: number, extra: Record<string, unknown> = {}) =>
@@ -57,6 +63,20 @@ describe('el índice de búsqueda de las guías', () => {
       null,
       null,
     ])
+  })
+
+  it('el nivel que corrigió Torre gana al de DofusDB', async () => {
+    const q = await quest(970009, { levelMin: 30, correction: { level: 33 } })
+    await payload.create({
+      collection: 'quest-guides',
+      data: {
+        title: 'Índice corregida',
+        slug: 'indice-corregida',
+        quest: q.id,
+        _status: 'published',
+      },
+    })
+    expect((await bySlug()).get('indice-corregida')?.[3]).toBe(33)
   })
 
   it('nunca lleva un borrador ni una guía despublicada', async () => {

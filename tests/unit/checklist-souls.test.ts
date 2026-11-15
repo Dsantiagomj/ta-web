@@ -166,6 +166,36 @@ describe('soulsView', () => {
     expect(none?.subgroups).toEqual([{ key: 'archi:Sin zona', label: 'Sin zona', souls: [500] }])
   })
 
+  it('la corrección de Torre: nombre, nivel e imagen del monstruo; uno oculto no es alma', () => {
+    const base = data()
+    const view = soulsView({
+      ...base,
+      monsters: {
+        ...base.monsters,
+        928: { ...base.monsters[928]!, correction: { name: "Mob L'Éponge", level: 24 } },
+        500: { ...base.monsters[500]!, correction: { hidden: true } },
+      },
+    })
+    const souls = view.souls
+    expect(souls.find((soul) => soul.id === 928)).toMatchObject({ name: "Mob L'Éponge", level: 24 })
+    expect(souls.map((soul) => soul.id)).not.toContain(500)
+    // Oculta no es lo mismo que sin datos: no cuenta como que falta.
+    expect(view.missing).not.toContain(500)
+  })
+
+  it('el huevo de la cabecera con la imagen que corrigió Torre', () => {
+    const base = data()
+    const egg = { id: 1, url: '/media/huevo-de-torre.png', width: 64, height: 64 }
+    const checklist = {
+      ...base.checklist,
+      dofusGuide: {
+        ...(base.checklist.dofusGuide as object),
+        dofus: { id: 3, name: 'Dofus Ocre', image: null, correction: { image: egg } },
+      },
+    } as unknown as Checklist
+    expect(soulsView({ ...base, checklist }).egg?.src).toContain('huevo-de-torre')
+  })
+
   it('un monstruo que no está en la base no se adivina: su alma queda fuera y se cuenta', () => {
     const view = soulsView(data({ monsters: { 928: data().monsters[928] } }))
     expect(view.souls.map((soul) => soul.id)).toEqual([928])

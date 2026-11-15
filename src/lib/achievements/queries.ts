@@ -67,7 +67,10 @@ export async function readAchievementPage(
           sort: ['order', 'name'],
           // Sin select: con él, Payload no trae las relaciones de dentro del array. populate
           // limita lo que trae de cada logro y cada misión.
-          populate: { achievements: { icon: true }, quests: { levelMin: true } },
+          populate: {
+            achievements: { icon: true, correction: true },
+            quests: { levelMin: true, correction: true },
+          },
           depth: 2,
           pagination: false,
           ...access,
@@ -94,7 +97,7 @@ export async function readAchievementPage(
           select: { slug: true, quest: true, summary: { needs: true } },
           // Los objetos de Necesitarás con su nombre y su icono.
           populate: {
-            items: { name: true, dofusId: true, superTypeId: true, image: true },
+            items: { name: true, dofusId: true, superTypeId: true, image: true, correction: true },
             dungeons: { name: true },
           },
           depth: 2,
@@ -161,15 +164,18 @@ export async function readNoteItems(
   if (labels.length === 0) return noteItems
   const { docs } = await payload.find({
     collection: 'items',
-    where: { name: { in: labels } },
-    select: { name: true, dofusId: true, superTypeId: true, image: true },
+    // Por su nombre de DofusDB o por el que le dio Torre en su corrección.
+    where: { or: [{ name: { in: labels } }, { 'correction.name': { in: labels } }] },
+    select: { name: true, dofusId: true, superTypeId: true, image: true, correction: true },
     sort: 'dofusId',
     depth: 1,
     pagination: false,
     overrideAccess,
   })
   for (const item of docs) {
-    if (item.name && !noteItems.has(item.name)) noteItems.set(item.name, item as NoteItemDoc)
+    for (const name of [item.name, item.correction?.name?.trim()]) {
+      if (name && !noteItems.has(name)) noteItems.set(name, item as NoteItemDoc)
+    }
   }
   return noteItems
 }
@@ -227,7 +233,10 @@ export async function readMetalogrosIndex(payload: Payload): Promise<IndexData> 
   const groups = await payload.find({
     collection: 'achievement-groups',
     depth: 2,
-    populate: { npcs: { name: true, renderRight: true }, monsters: { name: true, image: true } },
+    populate: {
+      npcs: { name: true, renderRight: true, correction: true },
+      monsters: { name: true, image: true, correction: true },
+    },
     pagination: false,
     draft: false,
     overrideAccess: false,
@@ -238,7 +247,10 @@ export async function readMetalogrosIndex(payload: Payload): Promise<IndexData> 
     sort: ['order', 'name'],
     // Sin select: con él, Payload no trae las relaciones de dentro del array.
     depth: 2,
-    populate: { achievements: { icon: true }, quests: { name: true, levelMin: true } },
+    populate: {
+      achievements: { icon: true, correction: true },
+      quests: { name: true, levelMin: true, correction: true },
+    },
     pagination: false,
     draft: false,
     overrideAccess: false,

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { metalogrosIndexView, type IndexData } from '@/lib/achievements/metalogros'
+import type { Media } from '@/payload-types'
 
 const media = (id: number, name: string) => ({
   id,
@@ -201,5 +202,44 @@ describe('metalogrosIndexView', () => {
     expect(search.q).toContainEqual(['El safari de almas jaras', 1, ocasion])
     expect(search.q).toContainEqual(['Seis pies bajo tierra', 2, ocasion])
     expect(search.q.map((row) => row[0])).not.toContain('Trofeo de caza')
+  })
+})
+
+describe('la corrección de Torre en el índice de metalogros', () => {
+  const torre = media(77, 'de-torre') as unknown as Media
+  const zoneOf = (input: IndexData, name: string) =>
+    metalogrosIndexView(input)
+      .sections.flatMap((section) => section.zones)
+      .find((z) => z.name === name)!
+
+  it('el representante con la imagen de Torre; oculto, sin arte', () => {
+    const fixed = data()
+    const astrub = fixed.groups.find((group) => group.name === 'Astrub')!
+    astrub.representative = {
+      relationTo: 'npcs',
+      value: { name: 'Paula Sepe', renderRight: media(9, 'paula'), correction: { image: torre } },
+    }
+    expect(zoneOf(fixed, 'Astrub').art?.src).toBe('/api/media/file/de-torre.webp')
+    astrub.representative = {
+      relationTo: 'npcs',
+      value: { name: 'Paula Sepe', renderRight: media(9, 'paula'), correction: { hidden: true } },
+    }
+    expect(zoneOf(fixed, 'Astrub').art).toBeUndefined()
+  })
+
+  it('el icono y el nivel de cada logro, corregidos', () => {
+    const fixed = data()
+    const page = fixed.pages[0]!
+    page.achievement = { icon: media(5, 'logro'), correction: { image: torre } }
+    page.quests = [{ quests: [{ name: 'Una', levelMin: 10, correction: { level: 12 } }] }]
+    const achievement = metalogrosIndexView(fixed)
+      .sections.flatMap((section) => section.zones)
+      .flatMap((z) => z.achievements)
+      .find((a) => a.name === page.name)!
+    expect(achievement.icon?.src).toBe('/api/media/file/de-torre.webp')
+    expect(achievement.meta).toContain('12')
+    page.quests = [{ quests: [{ name: 'Una', correction: { name: 'Una de Torre' } }] }]
+    const names = metalogrosIndexView(fixed).search.q.map(([name]) => name)
+    expect(names).toContain('Una de Torre')
   })
 })

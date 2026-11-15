@@ -82,6 +82,16 @@ describe('checklistEntries', () => {
     expect(entry!.description).toBeUndefined()
   })
 
+  it('el huevo que corrigió Torre gana; si ocultó el Dofus, sin huevo', () => {
+    const torre = { ...egg, id: 6, url: '/media/de-torre.png' } as Media
+    const [fixed, hidden] = checklistEntries([
+      doc({ dofusGuide: { dofus: { image: egg, correction: { image: torre } } } }),
+      doc({ dofusGuide: { dofus: { image: egg, correction: { hidden: true } } } }),
+    ])
+    expect(fixed!.egg?.src).toContain('de-torre')
+    expect(hidden!.egg).toBeUndefined()
+  })
+
   it('sin la guía de su Dofus leída (sin publicar o sin enlazar), sin huevo ni color', () => {
     const [byId, none] = checklistEntries([doc({ dofusGuide: 7 }), doc({ dofusGuide: null })])
     for (const entry of [byId, none]) {

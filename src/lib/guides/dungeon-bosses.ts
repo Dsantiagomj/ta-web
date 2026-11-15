@@ -5,6 +5,7 @@
 
 import type { Payload } from 'payload'
 
+import { corrected, hiddenByTorre } from '@/lib/game-data/correction'
 import type { Media } from '@/payload-types'
 
 import { dungeonChooser, noteMatch, type NoteMatch } from './dungeons'
@@ -58,23 +59,33 @@ export async function chooseDungeonBosses(
   const result = new Map<string, NoteDungeon>()
   const notes = [...new Set(labels)]
   if (notes.length === 0) return result
+  // Con lo que Torre corrigió: el nombre (casa con sus notas), su imagen y lo que ocultó.
+  const dungeonImages = new Map<number, Media>()
   const dungeons = (
     await payload.find({
       collection: 'dungeons',
-      select: { name: true, bosses: true },
-      populate: { monsters: { name: true } },
+      select: { name: true, bosses: true, correction: true },
+      populate: { monsters: { name: true, correction: true } },
       depth: 1,
       pagination: false,
       overrideAccess,
     })
-  ).docs.map((doc) => {
-    const list = (doc.bosses ?? []).flatMap((boss) => (typeof boss === 'object' ? [boss] : []))
-    return {
-      id: doc.id,
-      name: doc.name,
-      bosses: list.flatMap((boss) => boss.name ?? []),
-      bossList: list.map((boss) => ({ id: boss.id, name: boss.name ?? null })),
-    }
+  ).docs.flatMap((raw) => {
+    if (hiddenByTorre(raw)) return []
+    const doc = corrected(raw)
+    const image = doc.correction?.image
+    if (image && typeof image === 'object') dungeonImages.set(doc.id, image)
+    const list = (doc.bosses ?? []).flatMap((boss) =>
+      typeof boss === 'object' && !hiddenByTorre(boss) ? [corrected(boss)] : [],
+    )
+    return [
+      {
+        id: doc.id,
+        name: doc.name,
+        bosses: list.flatMap((boss) => boss.name ?? []),
+        bossList: list.map((boss) => ({ id: boss.id, name: boss.name ?? null })),
+      },
+    ]
   })
   const choose = dungeonChooser(dungeons, (label) => picks.get(needKey(label)))
   const chosen = new Map<string, number[]>()
@@ -82,6 +93,12 @@ export async function chooseDungeonBosses(
     const choice = choose(label)
     result.set(needKey(label), { match: noteMatch(choice) })
     if (!choice.dungeon) continue
+    // La imagen que Torre subió para la mazmorra gana a la de sus jefes.
+    const own = dungeonImages.get(choice.dungeon.id)
+    if (own) {
+      result.set(needKey(label), { ...result.get(needKey(label))!, image: own })
+      continue
+    }
     // Si casó por un jefe concreto, su imagen va primero; detrás, los demás en su orden.
     const { bossList } = choice.dungeon
     const boss = 'boss' in choice ? choice.boss : undefined
@@ -96,16 +113,20 @@ export async function chooseDungeonBosses(
   if (ids.length === 0) return result
   const { docs } = await payload.find({
     collection: 'monsters',
-    where: { id: { in: ids }, image: { exists: true } },
-    select: { image: true },
+    where: {
+      id: { in: ids },
+      or: [{ image: { exists: true } }, { 'correction.image': { exists: true } }],
+    },
+    select: { image: true, correction: true },
     depth: 1,
     pagination: false,
     overrideAccess,
   })
   const images = new Map(
-    docs.flatMap((doc) =>
-      typeof doc.image === 'object' && doc.image ? [[doc.id, doc.image]] : [],
-    ),
+    docs.flatMap((raw) => {
+      const doc = corrected(raw)
+      return typeof doc.image === 'object' && doc.image ? [[doc.id, doc.image]] : []
+    }),
   )
   for (const [key, bossIds] of chosen) {
     const image = bossIds.map((id) => images.get(id)).find(Boolean)
