@@ -379,6 +379,10 @@ function strictHits({ words: list, tiers }: Variant, candidates: Candidate[]): H
   return []
 }
 
+// La franja de nivel con la que Torre abre algunas notas de las guías de Dofus: «Nivel 80 al
+// 114: Malefíscof.», «Nivel 180+: Templo del Dios Kao.». No es parte del nombre.
+const LEVEL_BAND = /^\s*nivel\s+\d+\s*(?:\+|(?:a|al)\s+\d+)\s*:\s*/iu
+
 /**
  * Las variantes de una parte (vuelta 3): primero el nombre entero con como mucho una palabra
  * de más y una errata (fits); si ningún nombre vale, un nombre de pila que solo tiene un jefe
@@ -414,6 +418,8 @@ function approximateHits(list: string[], { names, bosses }: LooseIndex): Hit[] {
  *    bebesita»). Aquí cuentan también las mazmorras sin jefe que no son la expedición de otra:
  *    nunca casan, pero si se parecen, hay duda.
  *
+ * Antes, una franja de nivel al principio de la nota («Nivel 80 al 114:») se quita.
+ *
  * En cada vuelta, una parte que da varias mazmorras duda; la nota casa si las partes que dan
  * una sola dan la misma, y si no hay ninguna así, duda entre las que salieron.
  */
@@ -438,7 +444,8 @@ export function dungeonMatches<T extends DungeonNames>(
       : null
   }
 
-  return (label) => {
+  return (note) => {
+    const label = note.replace(LEVEL_BAND, '')
     const strict = collect(noteVariants(label, false).map((v) => strictHits(v, index.strict)))
     const first = verdict(strict, false)
     if (first) return first
