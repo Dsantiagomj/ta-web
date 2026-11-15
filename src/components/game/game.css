@@ -355,6 +355,66 @@ ul.needs__notes {
   gap: 0.25rem 1.5rem;
 }
 
+/* Las recompensas por tramo de nivel (misiones de evento): un tramo por línea, a todo el
+   ancho de la franja, con «Nivel 1 a 109» encima en el móvil y delante con sitio, y sus
+   filas en una línea que se parte, como las de siempre. Una raya fina entre tramos; sin caja
+   ni barra de color. Nada se mueve. */
+.qhead__facts .rew-level {
+  display: grid;
+  flex: 1 1 100%;
+  gap: 0 1rem;
+  min-width: 0;
+}
+
+.qhead__facts .rew-level + .rew-level {
+  padding-top: 0.25rem;
+  border-top: 1px solid var(--color-line);
+}
+
+.rew-level__range {
+  padding-top: 0.5rem;
+  color: var(--color-ink-2);
+  font-size: 0.875rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.qhead__facts ul.rew-level__rows {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  min-width: 0;
+}
+
+/* Filas más juntas que las de siempre, con un hueco de 32px, como las notas de Necesitarás:
+   tres tramos no alargan la cabecera de más. */
+.qhead__facts .rew-level .row {
+  gap: 0.5rem;
+  min-height: 2.25rem;
+}
+
+.rew-level .well {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+}
+
+@container facts (min-width: 34rem) {
+  .qhead__facts .rew-level {
+    grid-template-columns: 8.5rem minmax(0, 1fr);
+  }
+
+  /* Delante de las filas, a la altura de la primera. */
+  .rew-level__range {
+    display: flex;
+    align-self: start;
+    align-items: center;
+    min-height: 2.25rem;
+    padding-top: 0;
+  }
+}
+
 /* ---------- la bolsa de recompensas ---------- */
 
 /* Los objetos de la recompensa en la bolsa del inventario: una fila como la XP y los kamas

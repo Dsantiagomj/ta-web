@@ -346,6 +346,110 @@ describe('questHeaderProps', () => {
   })
 })
 
+describe('questHeaderProps por tramos de nivel', () => {
+  const coupon = (id: number, name: string) => ({ item: item(id, name), quantity: 5 })
+  const tier = (levelMin: number, levelMax: number, id: number, name: string) => ({
+    levelMin,
+    levelMax,
+    experience: levelMax * 10_000,
+    kamas: levelMax * 100,
+    items: [coupon(id, name)],
+  })
+  // La crisis de fe: una recompensa por tramo, y la del nivel 200 en las cifras de siempre.
+  const event: GuideDoc = {
+    ...guide,
+    quest: {
+      id: 2056,
+      name: 'La crisis de fe',
+      rewards: {
+        experience: 2_000_000,
+        experienceMin: 2_000_000,
+        kamas: 20_000,
+        items: [coupon(3, 'Cupón praliné')],
+        byLevel: [
+          tier(1, 109, 1, 'Cupón chocolate'),
+          tier(110, 179, 2, 'Cupón avellana'),
+          tier(180, 200, 3, 'Cupón praliné'),
+        ],
+      },
+    },
+    summary: { rewardNotes: 'Emote: Saludar.' },
+  }
+
+  it('con dos tramos o más, un grupo por tramo en vez de XP, kamas y objetos sueltos', () => {
+    expect(questHeaderProps(event, []).rewards).toEqual({
+      levels: [
+        {
+          levelMin: 1,
+          levelMax: 109,
+          xp: 1_090_000,
+          kamas: 10_900,
+          items: [{ item: { name: 'Cupón chocolate' }, quantity: 5 }],
+        },
+        {
+          levelMin: 110,
+          levelMax: 179,
+          xp: 1_790_000,
+          kamas: 17_900,
+          items: [{ item: { name: 'Cupón avellana' }, quantity: 5 }],
+        },
+        {
+          levelMin: 180,
+          levelMax: 200,
+          xp: 2_000_000,
+          kamas: 20_000,
+          items: [{ item: { name: 'Cupón praliné' }, quantity: 5 }],
+        },
+      ],
+      items: [],
+      notes: ['Emote: Saludar'],
+    })
+  })
+
+  it('los tramos de Torre ganan a los de DofusDB', () => {
+    const torre = structuredClone(event)
+    torre.summary = {
+      ...torre.summary,
+      rewardLevels: [tier(1, 99, 1, 'Cupón chocolate'), tier(100, 200, 3, 'Cupón praliné')],
+    }
+    const levels = questHeaderProps(torre, []).rewards.levels
+    expect(levels?.map(({ levelMin, levelMax }) => [levelMin, levelMax])).toEqual([
+      [1, 99],
+      [100, 200],
+    ])
+  })
+
+  it('un tramo sin XP ni kamas solo lleva sus objetos; los ocultos no salen', () => {
+    const torre = structuredClone(event)
+    torre.summary = {
+      ...torre.summary,
+      rewardLevels: [
+        { levelMin: 1, levelMax: 109, experience: 0, items: [coupon(1, 'Cupón chocolate')] },
+        {
+          levelMin: 110,
+          levelMax: 200,
+          kamas: 5,
+          items: [
+            { item: { ...item(2, 'Cupón avellana'), correction: { hidden: true } }, quantity: 1 },
+          ],
+        },
+      ],
+    }
+    expect(questHeaderProps(torre, []).rewards.levels).toEqual([
+      { levelMin: 1, levelMax: 109, items: [{ item: { name: 'Cupón chocolate' }, quantity: 5 }] },
+      { levelMin: 110, levelMax: 200, kamas: 5, items: [] },
+    ])
+  })
+
+  it('con un solo tramo de Torre, las recompensas de siempre', () => {
+    const torre = structuredClone(event)
+    torre.summary = { ...torre.summary, rewardLevels: [tier(1, 200, 1, 'Cupón chocolate')] }
+    const rewards = questHeaderProps(torre, []).rewards
+    expect(rewards.levels).toBeUndefined()
+    expect(rewards).toMatchObject({ xp: { max: 2_000_000 }, kamas: 20_000 })
+  })
+})
+
 describe('questGiverId', () => {
   it('el PNJ de la primera posición de inicio que lo tiene', () => {
     const quest = { id: 1976, startPositions: [{ npcId: null }, { npcId: 4412 }, { npcId: 1 }] }

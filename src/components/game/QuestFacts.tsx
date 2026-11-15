@@ -70,13 +70,60 @@ export function PrerequisiteRows({ lines }: { lines: QuestFactsData['prerequisit
   ))
 }
 
-/** Si hay recompensas que enseñar: XP, kamas, objetos o notas. */
+/** Si hay recompensas que enseñar: XP, kamas, objetos, tramos de nivel o notas. */
 export const hasRewards = (rewards: QuestFactsData['rewards']) =>
-  Boolean(rewards.xp || rewards.kamas) || rewards.items.length > 0 || rewards.notes.length > 0
+  Boolean(rewards.xp || rewards.kamas) ||
+  rewards.items.length > 0 ||
+  Boolean(rewards.levels?.length) ||
+  rewards.notes.length > 0
+
+type RewardLevel = NonNullable<QuestFactsData['rewards']['levels']>[number]
 
 /**
- * Las filas de Recompensas: la XP, los kamas, la bolsa con los objetos y las notas. bagId
- * nombra la lista de la bolsa para su botón.
+ * Un tramo de nivel de la recompensa (DESIGN.md, Quest header): «Nivel 1 a 109» y, en la
+ * misma línea, su XP, sus kamas y sus objetos, sin bolsa: cada tramo da uno o dos. La lista
+ * lleva el tramo de nombre, y la etiqueta visible no se lee dos veces.
+ */
+function LevelRewards({ level }: { level: RewardLevel }) {
+  const label = s.levelRange(level.levelMin, level.levelMax)
+  return (
+    <li className="rew-level">
+      <span className="rew-level__range" aria-hidden="true">
+        {label}
+      </span>
+      <ul role="list" className="rew-level__rows" aria-label={label}>
+        {level.xp != null && (
+          <li className="row">
+            <IconWell icon="xp" />
+            <span>
+              <Amount value={level.xp} /> {s.xp}
+            </span>
+          </li>
+        )}
+        {level.kamas != null && (
+          <li className="row">
+            <IconWell icon="kamas" />
+            <span>
+              <Amount value={level.kamas} /> {s.kamas}
+            </span>
+          </li>
+        )}
+        {level.items.map(({ item, quantity }) => (
+          <li key={item.name} className="row">
+            <IconWell image={item.icon} />
+            <span>
+              <b>{s.quantity(quantity)}</b> {item.name}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </li>
+  )
+}
+
+/**
+ * Las filas de Recompensas: la XP, los kamas, la bolsa con los objetos (o un grupo por tramo
+ * de nivel) y las notas. bagId nombra la lista de la bolsa para su botón.
  */
 export function RewardRows({
   rewards,
@@ -110,6 +157,9 @@ export function RewardRows({
         </li>
       )}
       {rewards.items.length > 0 && <RewardBag id={bagId} items={rewards.items} />}
+      {rewards.levels?.map((level) => (
+        <LevelRewards key={level.levelMin} level={level} />
+      ))}
       {rewards.notes.map((note) => (
         <li key={note} className="row">
           <span>{note}</span>
