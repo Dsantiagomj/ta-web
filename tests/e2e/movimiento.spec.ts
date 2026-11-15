@@ -8,9 +8,9 @@ import { seedGuide } from './seed/guides.ts'
 
 const guide = `/${seedGuide.slug}`
 
-type Reveal = { transition: boolean; types: string[]; header: string }
+type Reveal = { path: string; transition: boolean; types: string[]; header: string }
 
-/** Anota cada página que se muestra: si llegó con transición de vista, sus tipos y el nombre de la cabecera. */
+/** Anota cada página que se muestra: su ruta, si llegó con transición de vista, sus tipos y el nombre de la cabecera. */
 async function recordReveals(page: Page) {
   await page.addInitScript(() => {
     // sessionStorage sobrevive a la navegación de la pestaña; si el navegador lo bloquea,
@@ -27,6 +27,7 @@ async function recordReveals(page: Page) {
       const transition = (event as Event & { viewTransition: ViewTransition | null }).viewTransition
       const header = document.querySelector('[data-site-header]')
       store({
+        path: location.pathname,
         transition: Boolean(transition),
         types: transition ? [...(transition.types ?? [])] : [],
         header: header ? getComputedStyle(header).viewTransitionName : '',
@@ -47,6 +48,16 @@ const reveals = (page: Page) =>
       throw new Error('Sin sessionStorage: no se pueden leer las páginas mostradas')
     }
   })
+
+/**
+ * Lo que vio la página `path` al mostrarse. La URL y el h1 de la página nueva están antes de
+ * su primer pintado, que es cuando llega `pagereveal`: en un CI cargado, leer la lista en
+ * cuanto se ve el h1 daba solo la página anterior. Se espera a que la nueva se muestre.
+ */
+async function revealOf(page: Page, path: string) {
+  await expect.poll(async () => (await reveals(page)).map((reveal) => reveal.path)).toContain(path)
+  return (await reveals(page)).filter((reveal) => reveal.path === path).at(-1)!
+}
 
 /**
  * Cierra un diálogo abierto y mira cómo queda en el primer fotograma de su salida: sigue
@@ -87,6 +98,33 @@ const settle = (page: Page) =>
     ),
   )
 
+/**
+ * La página `path` tarda en pintarse por primera vez, como en un CI cargado (2026-11-15): su
+ * DOM ya está, la URL cambió y el h1 se ve, pero su `pagereveal` aún no ha llegado. Una hoja
+ * de estilo lenta con `blocking="render"` retiene ese primer pintado sin frenar el parser.
+ */
+async function holdFirstRender(page: Page, path: string) {
+  await page.route('**/__primer-pintado-lento.css', async (route) => {
+    await new Promise((resolve) => setTimeout(resolve, 1_000))
+    await route.fulfill({ contentType: 'text/css', body: '' })
+  })
+  await page.addInitScript((path) => {
+    if (location.pathname !== path) return
+    const link = Object.assign(document.createElement('link'), {
+      rel: 'stylesheet',
+      href: '/__primer-pintado-lento.css',
+    })
+    link.setAttribute('blocking', 'render')
+    // Solo bloquea el pintado dentro del <head>, que el parser aún no ha creado.
+    const observer = new MutationObserver(() => {
+      if (!document.head) return
+      observer.disconnect()
+      document.head.append(link)
+    })
+    observer.observe(document, { childList: true, subtree: true })
+  }, path)
+}
+
 async function ready(page: Page, url: string) {
   await page.goto(url)
   await expect(page.locator('[data-site-header][data-ready]')).toHaveCount(1)
@@ -99,6 +137,7 @@ test.describe('entre páginas', () => {
     page,
   }) => {
     await recordReveals(page)
+    await holdFirstRender(page, '/metalogros')
     await ready(page, guide)
     await page.getByRole('button', { name: 'Misiones', exact: true }).click()
     await page
@@ -108,10 +147,10 @@ test.describe('entre páginas', () => {
     await expect(page).toHaveURL(/\/metalogros$/)
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
 
-    const last = (await reveals(page)).at(-1)!
-    expect(last.transition).toBe(true)
-    expect(last.types).toContain('pagina')
-    expect(last.header).toBe('site-hdr')
+    const metalogros = await revealOf(page, '/metalogros')
+    expect(metalogros.transition).toBe(true)
+    expect(metalogros.types).toContain('pagina')
+    expect(metalogros.header).toBe('site-hdr')
   })
 
   test('el logo también navega con transición, sin la navegación del cliente de Next', async ({
@@ -122,10 +161,10 @@ test.describe('entre páginas', () => {
     await page.getByRole('banner').getByRole('link', { name: 'Torrente Arcano' }).click()
     await expect(page).toHaveURL(/\/$/)
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
-    const all = await reveals(page)
+    const home = await revealOf(page, '/')
     // Dos páginas cargadas de verdad: la guía y la portada, que llega con transición.
-    expect(all).toHaveLength(2)
-    expect(all[1].transition).toBe(true)
+    expect((await reveals(page)).map((reveal) => reveal.path)).toEqual([guide, '/'])
+    expect(home.transition).toBe(true)
   })
 
   test('fuera de la transición, la cabecera no lleva nombre: el cambio de modo la revela con la página', async ({
@@ -148,7 +187,7 @@ test.describe('entre páginas con movimiento reducido', () => {
     await page.getByRole('banner').getByRole('link', { name: 'Torrente Arcano' }).click()
     await expect(page).toHaveURL(/\/$/)
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
-    expect((await reveals(page)).at(-1)!.transition).toBe(false)
+    expect((await revealOf(page, '/')).transition).toBe(false)
   })
 })
 
