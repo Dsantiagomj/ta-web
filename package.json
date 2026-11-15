@@ -36,6 +36,7 @@
     "fix:achievements": "NODE_OPTIONS=--no-deprecation payload run scripts/import/fix-achievements.ts --",
     "import:achievement-prose": "NODE_OPTIONS=--no-deprecation payload run scripts/import/import-achievement-prose.ts --",
     "guides:backfill": "NODE_OPTIONS=--no-deprecation payload run scripts/backfill-guides.ts --",
+    "panel:block-thumbs": "node scripts/build-block-thumbnails.ts",
     "media:sizes": "NODE_OPTIONS=--no-deprecation payload run scripts/media-sizes.ts --",
     "migrate": "NODE_OPTIONS=--no-deprecation DATABASE_CONNECTION=direct payload migrate",
     "migrate:create": "NODE_OPTIONS=--no-deprecation payload migrate:create",

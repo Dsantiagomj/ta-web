@@ -1,6 +1,7 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Locator } from '@playwright/test'
 
+import { BLOCK_THUMBNAIL_SIZE, blockThumbnailSlugs } from '../../src/lib/admin/block-thumbnails.ts'
 import { MODES, THEMES } from '../../src/lib/theme/theme.ts'
 
 // El catálogo de componentes (DESIGN.md, Component catalog). En producción da 404; el
@@ -28,6 +29,7 @@ const COMPONENTS = [
   'image',
   'checklists',
   'ambience',
+  'blocks',
 ]
 
 const sections = THEMES.flatMap((theme) => MODES.map((mode) => ({ theme, mode })))
@@ -96,6 +98,24 @@ test.describe('catálogo /sistema', () => {
     const plain = lists.first().locator('.lq__item:not([data-link])')
     await expect(plain).toHaveCount(1)
     await expect(plain.getByRole('link')).toHaveCount(0)
+  })
+
+  test('cada bloque del panel tiene su marco de 3:2, del que sale su miniatura', async ({
+    page,
+  }) => {
+    // pnpm panel:block-thumbs captura estos marcos (src/lib/admin/block-thumbnails.ts).
+    await page.goto('/sistema?tema=arcano&modo=dark')
+    const group = page.locator('[data-component="blocks"]')
+    const ratio = BLOCK_THUMBNAIL_SIZE.width / BLOCK_THUMBNAIL_SIZE.height
+    await expect(group.locator('[data-block-thumb]')).toHaveCount(blockThumbnailSlugs.length)
+    for (const slug of blockThumbnailSlugs) {
+      const frame = group.locator(`[data-block-thumb="${slug}"]`)
+      await expect(frame, slug).toBeVisible()
+      const box = (await frame.boundingBox())!
+      expect(box.width / box.height, slug).toBeCloseTo(ratio, 2)
+      // Con algo dentro: un marco vacío daría una miniatura en blanco.
+      expect(await frame.evaluate((node) => node.children.length), slug).toBeGreaterThan(0)
+    }
   })
 
   test('el CSS escrito a mano lee los colores del tema de su sección', async ({ page }) => {

@@ -133,8 +133,15 @@ function NeedRowsList({ rows }: { rows: NeedRows }) {
   )
 }
 
-/** Un grupo: su nombre y, por partes, el subtítulo de Torre encima de sus filas. */
-function NeedGroup({ group }: { group: NonNullable<DofusGuideView['needs']>['groups'][number] }) {
+/**
+ * Un grupo: su nombre y, por partes, el subtítulo de Torre encima de sus filas. El catálogo
+ * /sistema lo pinta solo, para la miniatura de las filas en el panel.
+ */
+export function DofusNeedGroup({
+  group,
+}: {
+  group: NonNullable<DofusGuideView['needs']>['groups'][number]
+}) {
   return (
     <div className="dg-needs__g">
       {group.name && <h3 className="dg-h3">{group.name}</h3>}
@@ -161,7 +168,7 @@ export function DofusNeeds({ needs }: { needs: NonNullable<DofusGuideView['needs
       </h2>
       {needs.note && <p className="dg-needs__note">{needs.note}</p>}
       {needs.groups.map((group, index) => (
-        <NeedGroup key={`${group.name ?? ''}-${index}`} group={group} />
+        <DofusNeedGroup key={`${group.name ?? ''}-${index}`} group={group} />
       ))}
     </section>
   )
@@ -253,7 +260,8 @@ function Achievement({ view, level }: { view: AchievementPartView; level: 'h3' |
   )
 }
 
-function Part({ part }: { part: PartView }) {
+/** Una parte de la guía: el bloque del panel tal cual. El catálogo /sistema la pinta sola. */
+export function DofusPart({ part }: { part: PartView }) {
   switch (part.kind) {
     case 'achievement':
       return <Achievement view={part.achievement} level="h3" />
@@ -304,7 +312,7 @@ export function DofusParts({ view }: { view: DofusGuideView }) {
         {onlyQuests ? s.questHeading : s.partsHeading(view.achievementCount)}
       </h2>
       {view.parts.map((part, index) => (
-        <Part key={index} part={part} />
+        <DofusPart key={index} part={part} />
       ))}
     </section>
   )
