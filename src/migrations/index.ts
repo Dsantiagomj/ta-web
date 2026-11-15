@@ -42,6 +42,7 @@ import * as migration_20261115_191357_editable_missing_fields from './20261115_1
 import * as migration_20261115_204940_quest_guide_rewards from './20261115_204940_quest_guide_rewards';
 import * as migration_20261115_211541_slug_redirects from './20261115_211541_slug_redirects';
 import * as migration_20261115_213351_game_data_refreshes from './20261115_213351_game_data_refreshes';
+import * as migration_20261115_215951_site_copy from './20261115_215951_site_copy';
 
 export const migrations = [
   {
@@ -262,6 +263,11 @@ export const migrations = [
   {
     up: migration_20261115_213351_game_data_refreshes.up,
     down: migration_20261115_213351_game_data_refreshes.down,
-    name: '20261115_213351_game_data_refreshes'
+    name: '20261115_213351_game_data_refreshes',
+  },
+  {
+    up: migration_20261115_215951_site_copy.up,
+    down: migration_20261115_215951_site_copy.down,
+    name: '20261115_215951_site_copy'
   },
 ];

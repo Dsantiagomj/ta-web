@@ -7,6 +7,7 @@ import { DOFUS_GUIDES_TAG } from '../lib/dofus-guides/cache'
 import { GUIDE_PAGES_TAG } from '../lib/guides/cache'
 import { PAGES_TAG } from '../lib/pages/cache'
 import { REDIRECTS_TAG } from '../lib/redirects/cache'
+import { SITE_COPY_TAG } from '../lib/site-copy/cache'
 
 /**
  * Caduca una etiqueta de la caché de páginas: la siguiente visita lee lo publicado, sin
@@ -53,6 +54,11 @@ export function revalidatePages(): void {
 /** Las redirecciones de dirección cambiada en caché (src/lib/redirects/cache.ts). */
 export function revalidateRedirects(): void {
   expire(REDIRECTS_TAG)
+}
+
+/** Los textos del sitio en caché: Ajustes del sitio, Portada e índices (src/lib/site-copy/cache.ts). */
+export function revalidateSiteCopy(): void {
+  expire(SITE_COPY_TAG)
 }
 
 // Las guías y Media salen en todas las páginas: una guía publicada enlaza su tarjeta en el

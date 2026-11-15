@@ -94,11 +94,16 @@ describe('las imágenes de un global', () => {
       },
     }) as unknown as PayloadRequest
 
-  it('la escena y el huevo de la tarjeta «???» del índice de checklists cuentan', () => {
+  it('la escena y el huevo de la tarjeta «???» y la imagen al compartir cuentan', () => {
     expect(GLOBAL_REFERRERS.media).toEqual([
       expect.objectContaining({
         global: 'checklists-index',
         paths: ['teaser.scene', 'teaser.egg'],
+      }),
+      expect.objectContaining({
+        global: 'site-settings',
+        title: 'Ajustes del sitio',
+        paths: ['ogImage'],
       }),
     ])
   })
