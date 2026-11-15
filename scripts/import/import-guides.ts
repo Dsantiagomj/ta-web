@@ -3,7 +3,7 @@
 // La carpeta es la del inventario (raw/pages/<slug>.html y out/quest_matches.csv). Sin
 // slugs importa las cinco de GUIDE_SLUGS. Escribe en la base de DATABASE_URL (vacía: la
 // de pnpm db:dev) y sube las imágenes adonde apunte el almacenamiento (disco o R2).
-// Corre con `payload run`, como scripts/refresh-quests.ts.
+// Corre con `payload run`, como scripts/refresh-game-data.ts.
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { getPayload } from 'payload'

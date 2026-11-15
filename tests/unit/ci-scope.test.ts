@@ -21,7 +21,7 @@ describe('ciScope', () => {
   it.each([
     [['scripts/import/import-dofus-guides.ts']],
     [['scripts/import/dofus-guides/catalog.ts', 'tests/unit/import-dofus-guide-parse.test.ts']],
-    [['scripts/refresh-quests.ts', 'tests/integration/import-achievements.test.ts']],
+    [['scripts/refresh-game-data.ts', 'tests/integration/import-achievements.test.ts']],
     [['scripts/dungeon-notes.ts', 'scripts/payload-script.ts']],
     [['scripts/hooks/gga-review.sh', 'tests/unit/gga-review-hook.test.ts']],
     [['scripts/review-release.ts', 'scripts/review-release-plan.ts']],
