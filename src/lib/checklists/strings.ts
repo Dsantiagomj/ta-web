@@ -183,6 +183,16 @@ export const checklistStrings = {
 
 /** La página de una checklist, /<slug> (prototipo A, tmp/mockups/checklist-a). */
 export const checklistPageStrings = {
+  /** El camino de Dofus del rush: la cabecera y la fila de la franja. */
+  road: {
+    title: 'Dofus del camino',
+    next: 'Siguiente Dofus: ',
+    at: (n: number) => `, en el paso ${n}.`,
+    done: 'Camino terminado: ',
+    last: (many: boolean) => (many ? ' fueron los últimos.' : ' fue el último.'),
+    and: ' y ',
+    stop: (names: string[], n: number) => `${names.join(' y ')}, paso ${n}`,
+  },
   title: (name: string) => `Checklist del ${name}`,
   lead: 'La guía de Torrente Arcano, paso a paso, con sus misiones y objetivos.',
   index: 'Guías de Dofus',

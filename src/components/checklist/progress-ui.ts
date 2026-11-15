@@ -36,6 +36,7 @@ import {
   safeStorage,
 } from './progress-shared'
 import { progressStrings as s } from './progress-strings'
+import { startRoad } from './road-ui'
 
 type Filter = 'todo' | 'done' | 'all'
 
@@ -73,6 +74,8 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
   const nameOf = (id: number) =>
     document.querySelector(`.ck-q[data-q="${id}"] .ck-q__t`)?.textContent ?? String(id)
   const { show: toast, clear: clearToast } = createToast()
+  // El camino de Dofus del rush; null en una checklist de un solo Dofus.
+  const road = startRoad()
 
   function save(next: Progress) {
     if (next === progress) return
@@ -81,7 +84,7 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
       warned = true
       toast(s.notSaved)
     }
-    render()
+    render(true)
     if (filter !== 'all') refilter()
   }
 
@@ -209,7 +212,8 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
     badge('obj', pending)
   }
 
-  function render() {
+  /** `animate`: lo pinta un cambio de la persona, no la carga ni otra pestaña. */
+  function render(animate = false) {
     const done = stepsDone(progress, m)
     const next = nextPending(progress, m)
     for (const box of $$<HTMLInputElement>('[data-step-check]')) {
@@ -256,6 +260,10 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
     }
     badge('pre', prereqsPending)
     renderItems()
+    road?.paint((stepId) => {
+      const index = m.index.get(stepId)
+      return index !== undefined && stepDone(progress, m, index)
+    }, animate)
   }
 
   // ---------- la copia de seguridad y el reinicio ----------
@@ -501,6 +509,7 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
     reload,
     destroy() {
       clearToast()
+      road?.destroy()
       document.removeEventListener('click', onClick)
       document.removeEventListener('change', onChange)
       document.removeEventListener('keydown', onKeyDown)

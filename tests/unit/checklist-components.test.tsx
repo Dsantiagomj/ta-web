@@ -1,8 +1,15 @@
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 
-import { ChecklistTabs, StepDetail, StepList, Totals } from '@/components/checklist/ChecklistParts'
-import type { QuestRowView, StepView } from '@/lib/checklists/page'
+import {
+  ChecklistHeader,
+  ChecklistTabs,
+  ProgressStrip,
+  StepDetail,
+  StepList,
+  Totals,
+} from '@/components/checklist/ChecklistParts'
+import type { ChecklistView, QuestRowView, RoadStopView, StepView } from '@/lib/checklists/page'
 
 // Las partes de la página de una checklist (prototipo A).
 
@@ -281,5 +288,75 @@ describe('revisión de #119', () => {
     expect(renderToStaticMarkup(<Totals view={view} />)).toContain(
       '<span class="ck-slot__g">Misión opcional</span>',
     )
+  })
+})
+
+describe('el camino de Dofus del rush', () => {
+  const egg = (name: string) => ({ src: `/media/${name}.png`, width: 128, height: 128, alt: '' })
+  const road: RoadStopView[] = [
+    {
+      stepId: 'a',
+      n: 5,
+      dofus: [{ name: 'Dofawa', color: '#ff9118', egg: egg('dofawa'), href: '/dofawa' }],
+    },
+    {
+      stepId: 'b',
+      n: 190,
+      dofus: [
+        { name: 'Dofus de los Hielos', color: '#47c4ff', egg: egg('hielos') },
+        { name: 'Dofus Centelleante', color: '#dee9f6', egg: egg('centelleante') },
+      ],
+    },
+  ]
+  const view = {
+    title: 'Checklist del Rush de todos los Dofus',
+    description: 'Del Dofawa al Vulbis.',
+    name: 'Rush de todos los Dofus',
+    steps: [],
+    road,
+  } as unknown as ChecklistView
+
+  it('la cabecera enseña el primer Dofus y su línea; los demás esperan ocultos', () => {
+    const html = renderToStaticMarkup(<ChecklistHeader view={view} />)
+    const eggs = [...html.matchAll(/data-road-egg="(\d+)"( hidden="")?/g)].map((m) => [
+      m[1],
+      Boolean(m[2]),
+    ])
+    expect(eggs).toEqual([
+      ['0', false],
+      ['1', true],
+    ])
+    // El 190 da dos: sus dos huevos van juntos.
+    expect(html.match(/class="ck-rh__e"/g)).toHaveLength(3)
+    expect(html).toContain(
+      'Siguiente Dofus: <a href="#paso-5" data-pick="5">Dofawa</a>, en el paso 5.',
+    )
+    expect(html).toContain(
+      'Siguiente Dofus: <a href="#paso-190" data-pick="190">Dofus de los Hielos</a> y <a href="#paso-190" data-pick="190">Dofus Centelleante</a>, en el paso 190.',
+    )
+    expect(html).toMatch(
+      /data-road-line="end" hidden="">Camino terminado: <a[^>]*>Dofus de los Hielos<\/a> y <a[^>]*>Dofus Centelleante<\/a> fueron los últimos\./,
+    )
+  })
+
+  it('la franja lleva «Dofus del camino»: cada paso con sus huevos y su número', () => {
+    const html = renderToStaticMarkup(<ProgressStrip view={view} />)
+    expect(html).toContain('Dofus del camino')
+    const stops = [...html.matchAll(/data-road-stop="(\d+)" data-road-step="(\w+)"/g)].map((m) => [
+      m[1],
+      m[2],
+    ])
+    expect(stops).toEqual([
+      ['0', 'a'],
+      ['1', 'b'],
+    ])
+    expect(html).toContain('aria-label="Dofus de los Hielos y Dofus Centelleante, paso 190"')
+    expect(html.match(/class="ck-road__egg"/g)).toHaveLength(3)
+  })
+
+  it('una checklist de un solo Dofus no lleva camino', () => {
+    const one = { ...view, road: undefined } as ChecklistView
+    expect(renderToStaticMarkup(<ProgressStrip view={one} />)).not.toContain('ck-road')
+    expect(renderToStaticMarkup(<ChecklistHeader view={one} />)).not.toContain('data-road')
   })
 })
