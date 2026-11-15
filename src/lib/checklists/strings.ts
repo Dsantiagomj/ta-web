@@ -170,6 +170,8 @@ export const checklistStrings = {
     figureDescription: 'La imagen del paso: un PNJ o una imagen subida.',
     figureRoleDescription: 'Qué papel tiene, como «Inicia el paso».',
     bossesDescription: 'Los jefes que hay que vencer en el paso.',
+    stepDofusDescription:
+      'Los Dofus que se consiguen al completar este paso, por su guía. Forman el camino de Dofus de la checklist.',
     bannerDescription: 'La imagen de cabecera del paso, normalmente el mapa donde empieza.',
     zoneDescription:
       'La zona del paso en la lista, como «Anutropía». Agrupa los pasos: no tiene por qué ser donde empiezan sus misiones.',

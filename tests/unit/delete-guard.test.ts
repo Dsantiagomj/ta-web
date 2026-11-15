@@ -49,6 +49,12 @@ describe('REFERRERS', () => {
     const checklists = REFERRERS.media.find((referrer) => referrer.collection === 'checklists')
     expect(checklists?.paths).toEqual(expect.arrayContaining(['card.scene', 'card.npc']))
   })
+
+  it('una guía de Dofus que da un paso de una checklist no se borra sin avisar', () => {
+    expect(REFERRERS['dofus-guides']).toEqual([
+      { collection: 'checklists', title: 'name', paths: ['dofusGuide', 'steps.dofus'] },
+    ])
+  })
 })
 
 describe('las imágenes de un global', () => {

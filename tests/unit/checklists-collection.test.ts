@@ -174,7 +174,7 @@ describe('colección checklists', () => {
     expect(Checklists.hooks?.beforeValidate).toHaveLength(2)
   })
 
-  it('cada paso guarda sus logros, misiones, objetos, figura, jefes y banner', () => {
+  it('cada paso guarda sus logros, misiones, objetos, figura, jefes, los Dofus que da y banner', () => {
     const achievements = field(steps.fields, 'achievements') as ArrayField
     // Un nombre de tabla corto: los identificadores de Postgres no pasan de 63 caracteres.
     expect(achievements.dbName).toBe('checklists_step_ach')
@@ -208,6 +208,11 @@ describe('colección checklists', () => {
     expect(field(figure.fields, 'npc')).toMatchObject({ relationTo: 'npcs' })
     expect(field(figure.fields, 'image')).toMatchObject({ type: 'upload', relationTo: 'media' })
     expect(field(steps.fields, 'bosses')).toMatchObject({ relationTo: 'monsters', hasMany: true })
+    expect(field(steps.fields, 'dofus')).toMatchObject({
+      type: 'relationship',
+      relationTo: 'dofus-guides',
+      hasMany: true,
+    })
     expect(field(steps.fields, 'banner')).toMatchObject({ type: 'upload', relationTo: 'media' })
     expect(field(steps.fields, 'note')).toMatchObject({ type: 'richText', localized: true })
     expect(field(steps.fields, 'icon')).toMatchObject({ type: 'upload', relationTo: 'media' })
@@ -226,7 +231,7 @@ describe('colección checklists', () => {
       ]),
     ).toEqual([
       ['Texto', false, ['zone', 'segments', 'closes', 'updates', 'note']],
-      ['Misiones y logros', false, ['quests', 'achievements', 'bosses']],
+      ['Misiones y logros', false, ['quests', 'achievements', 'bosses', 'dofus']],
       ['Necesitarás', false, ['needs']],
       ['Imágenes', false, ['banner', 'icon', 'figure']],
     ])
