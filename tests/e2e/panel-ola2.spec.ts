@@ -7,6 +7,9 @@ import { seedChecklists } from './seed/checklists.ts'
 import { seedDofus } from './seed/dofus-guides.ts'
 import { draftGuide } from './seed/guides.ts'
 
+const COLOR_INVALID = 'Tiene que ser un color hexadecimal de seis cifras: #2a5aaa'
+const VIDEO_INVALID = 'Tiene que ser un enlace https a un vídeo de YouTube'
+
 // El panel para Torre, ola 2 (docs/research/backlog.md, A-13 a A-22), con la segunda cuenta
 // del panel de la base de pruebas.
 
@@ -192,18 +195,21 @@ test.describe('el panel para Torre, ola 2', () => {
     await swatch.fill('#2a5aaa')
     await expect(page.locator('#field-color')).toHaveValue('#2a5aaa')
 
-    // Un color mal escrito no se publica: el servidor lo rechaza y el panel avisa del campo. Payload no valida en el navegador al guardar (disableValidationOnSubmit)
-    // y manda el formulario al servidor (form-state) un momento después de cada cambio. Si
-    // esa vuelta acaba antes del clic, como hace Torre y como pasaba con la máquina cargada,
-    // Payload solo enseña el aviso, sin el mensaje bajo el campo: se espera a esa vuelta para
-    // ver siempre lo mismo que él.
+    // Un color mal escrito no se publica, y el panel dice por qué bajo el campo: al salir de
+    // él, antes de guardar, y después del rechazo del servidor. Payload no valida en el
+    // navegador al guardar (disableValidationOnSubmit) y, si la vuelta del form-state acaba
+    // antes del clic, solo enseñaba el aviso «El siguiente campo es inválido: Ficha → Color».
+    // Se espera a esa vuelta, como le pasa a Torre.
+    const color = page.locator('.ta-color')
     const formState = page.waitForResponse(
       (response) =>
         response.request().method() === 'POST' &&
         response.url().includes(`/admin/collections/dofus-guides/${id}`),
     )
     await page.locator('#field-color').fill('azul')
+    await page.locator('#field-color').blur()
     await formState
+    await expect(color.getByText(COLOR_INVALID)).toBeVisible()
     const save = page.waitForResponse(
       (response) =>
         response.request().method() === 'PATCH' &&
@@ -212,8 +218,28 @@ test.describe('el panel para Torre, ola 2', () => {
     await page.getByRole('button', { name: 'Publicar cambios', exact: true }).click()
     expect((await save).status()).toBe(400)
     await expect(page.getByText('El siguiente campo es inválido: Ficha → Color')).toBeVisible()
+    await expect(color.getByText(COLOR_INVALID)).toBeVisible()
     const stored = await page.request.get(`/api/dofus-guides/${id}?depth=0&draft=true`)
     expect(((await stored.json()) as { color?: string }).color).not.toBe('azul')
+
+    // Corregido, el mensaje se va.
+    await page.locator('#field-color').fill('#2a5aaa')
+    await expect(color.getByText(COLOR_INVALID)).toHaveCount(0)
+
+    // Lo mismo con el vídeo: un enlace que no es de YouTube dice por qué bajo el campo.
+    const video = page.locator('#field-video')
+    const videoState = page.waitForResponse(
+      (response) =>
+        response.request().method() === 'POST' &&
+        response.url().includes(`/admin/collections/dofus-guides/${id}`),
+    )
+    await video.fill('https://vimeo.com/1')
+    await video.blur()
+    await videoState
+    const videoField = page.locator('.field-type.text', { has: video })
+    await expect(videoField.getByText(VIDEO_INVALID)).toBeVisible()
+    await page.getByRole('button', { name: 'Publicar cambios', exact: true }).click()
+    await expect(videoField.getByText(VIDEO_INVALID)).toBeVisible()
 
     await tabs.getByRole('button', { name: 'Necesitarás', exact: true }).click()
     await expect(page.getByText('Añadir Grupo')).toBeVisible()

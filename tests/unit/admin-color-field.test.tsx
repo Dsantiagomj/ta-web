@@ -9,20 +9,43 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 const form = vi.hoisted(() => ({
   value: '#d18b23' as unknown,
   disabled: false,
+  submitted: false,
   setValue: vi.fn(),
-  textFieldProps: {} as Record<string, unknown>,
+  inputProps: {} as Record<string, unknown>,
+  errorProps: {} as Record<string, unknown>,
 }))
 
 vi.mock('@payloadcms/ui', () => ({
-  useField: () => ({ value: form.value, setValue: form.setValue, disabled: form.disabled }),
-  TextField: (props: Record<string, unknown>) => {
-    form.textFieldProps = props
-    return <div data-text-field />
+  useField: () => ({
+    value: form.value,
+    setValue: form.setValue,
+    disabled: form.disabled,
+    path: 'color',
+    showError: false,
+    customComponents: { BeforeInput: <span data-before /> },
+  }),
+  useFormSubmitted: () => form.submitted,
+  withCondition: (component: unknown) => component,
+  FieldError: (props: Record<string, unknown>) => {
+    form.errorProps = props
+    return props.showError ? <p data-error>{String(props.message)}</p> : null
+  },
+  TextInput: (props: Record<string, unknown> & { Error: React.ReactNode }) => {
+    form.inputProps = props
+    return (
+      <div data-text-field>
+        <input data-input />
+        {props.Error}
+      </div>
+    )
   },
 }))
 
 const { ColorField, ColorSwatch } = await import('@/components/admin/ColorField')
 const { validateColor } = await import('@/lib/dofus-guides/color')
+const { VideoUrlField, OptionalVideoUrlField } =
+  await import('@/components/admin/ValidatedTextField')
+const { validateVideoUrl } = await import('@/lib/guides/video')
 
 ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
 
@@ -36,6 +59,7 @@ beforeEach(() => {
   form.setValue.mockClear()
   form.value = '#d18b23'
   form.disabled = false
+  form.submitted = false
 })
 
 afterEach(() => {
@@ -46,15 +70,63 @@ afterEach(() => {
 const field = { name: 'color', label: 'Color', type: 'text' } as never
 
 describe('ColorField', () => {
-  it('es el campo de texto de Payload, con la validación del color en el navegador', async () => {
+  const error = () => container.querySelector('[data-error]')
+  const leave = () =>
+    act(async () => {
+      container
+        .querySelector('[data-input]')!
+        .dispatchEvent(new FocusEvent('focusout', { bubbles: true }))
+    })
+
+  it('es el TextInput de Payload con lo que va antes del campo (el selector)', async () => {
     await act(async () => root.render(<ColorField field={field} path="color" />))
     expect(container.querySelector('[data-text-field]')).not.toBeNull()
-    expect(form.textFieldProps).toMatchObject({ field, path: 'color' })
-    const validate = form.textFieldProps.validate as (value: unknown) => true | string
-    expect(validate('#2a5aaa')).toBe(true)
-    expect(validate('')).toBe(true)
-    expect(validate('#2a5aa')).toBe(validateColor('#2a5aa'))
-    expect(validate('#2a5aa')).not.toBe(true)
+    expect(form.inputProps).toMatchObject({ path: 'color', label: 'Color', value: '#d18b23' })
+    expect(form.inputProps.BeforeInput).toBeTruthy()
+  })
+
+  it('un color mal escrito dice por qué bajo el campo al salir de él, antes de guardar', async () => {
+    form.value = 'azul'
+    await act(async () => root.render(<ColorField field={field} path="color" />))
+    // Mientras escribe, nada.
+    expect(error()).toBeNull()
+    await leave()
+    expect(error()?.textContent).toBe(validateColor('azul'))
+    expect(form.inputProps.showError).toBe(true)
+  })
+
+  it('después de guardar lo dice aunque no haya salido del campo', async () => {
+    form.value = 'azul'
+    form.submitted = true
+    await act(async () => root.render(<ColorField field={field} path="color" />))
+    expect(error()?.textContent).toBe(validateColor('azul'))
+  })
+
+  it('un color bueno o vacío no lleva mensaje', async () => {
+    for (const value of ['#2a5aaa', '']) {
+      form.value = value
+      form.submitted = true
+      await act(async () => root.render(<ColorField field={field} path="color" />))
+      expect(error()).toBeNull()
+    }
+  })
+})
+
+describe('los campos de vídeo', () => {
+  const videoField = { name: 'url', label: 'URL del vídeo', type: 'text' } as never
+
+  it('un enlace que no es de YouTube dice por qué; el opcional acepta el vacío', async () => {
+    form.submitted = true
+    form.value = 'https://vimeo.com/1'
+    await act(async () => root.render(<VideoUrlField field={videoField} path="url" />))
+    expect(container.querySelector('[data-error]')?.textContent).toBe(
+      validateVideoUrl('https://vimeo.com/1'),
+    )
+    form.value = ''
+    await act(async () => root.render(<OptionalVideoUrlField field={videoField} path="url" />))
+    expect(container.querySelector('[data-error]')).toBeNull()
+    await act(async () => root.render(<VideoUrlField field={videoField} path="url" />))
+    expect(container.querySelector('[data-error]')).not.toBeNull()
   })
 })
 

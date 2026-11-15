@@ -18,7 +18,10 @@ export const ProseVideoBlock: Block = {
       type: 'text',
       required: true,
       validate: validateVideoUrl,
-      admin: { description: 'Enlace al vídeo en YouTube (youtube.com o youtu.be).' },
+      admin: {
+        description: 'Enlace al vídeo en YouTube (youtube.com o youtu.be).',
+        components: { Field: '/components/admin/ValidatedTextField#VideoUrlField' },
+      },
     },
     {
       name: 'title',

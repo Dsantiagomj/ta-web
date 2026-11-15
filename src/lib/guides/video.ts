@@ -42,3 +42,20 @@ export function youtubeEmbedUrl(id: string): string {
 export function youtubeWatchUrl(id: string): string {
   return `https://www.youtube.com/watch?v=${id}`
 }
+
+const VIDEO_URL_INVALID = 'Tiene que ser un enlace https a un vídeo de YouTube'
+
+/**
+ * Un enlace https a un vídeo de YouTube, obligatorio: las guías solo llevan vídeos de
+ * YouTube. Devuelve true o el mensaje de error, como espera Payload. Sin dependencias del
+ * servidor: también valida en el navegador (src/components/admin/ValidatedTextField.tsx).
+ */
+export function validateVideoUrl(value: unknown): true | string {
+  if (typeof value !== 'string' || !/^https:\/\//i.test(value)) return VIDEO_URL_INVALID
+  return youtubeId(value) ? true : VIDEO_URL_INVALID
+}
+
+/** El vídeo opcional de una guía de Dofus: vacío, o un enlace como el del bloque de vídeo. */
+export function validateOptionalVideoUrl(value: unknown): true | string {
+  return value ? validateVideoUrl(value) : true
+}
