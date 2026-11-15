@@ -121,6 +121,20 @@ describe('checklistView: la cabecera', () => {
     expect(view.color).toBeUndefined()
     expect(view.breadcrumb.parents).toEqual([{ name: 'Guías de Dofus', href: '/guias-dofus' }])
   })
+
+  it('sin guía del Dofus (el rush), el color es el de su tarjeta', () => {
+    const view = checklistView(
+      data([step('a')], { dofusGuide: null, card: { color: '#e3c565' } } as never),
+    )
+
+    expect(view.color).toBe('#e3c565')
+  })
+
+  it('con guía del Dofus, su color gana al de la tarjeta, como hasta ahora', () => {
+    const view = checklistView(data([step('a')], { card: { color: '#e3c565' } } as never))
+
+    expect(view.color).toBe('#8f7ae0')
+  })
 })
 
 describe('checklistView: el texto de cada paso', () => {

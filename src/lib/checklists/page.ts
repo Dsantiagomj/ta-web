@@ -626,7 +626,10 @@ export function checklistView(data: ChecklistData): ChecklistView {
     title,
     description: checklist.description || s.lead,
     ...(egg && { egg }),
-    ...(guide?.color && { color: guide.color }),
+    // Sin guía de Dofus (el rush, que los da todos), el de su tarjeta.
+    ...((guide?.color || checklist.card?.color) && {
+      color: (guide?.color || checklist.card?.color)!,
+    }),
     breadcrumb: buildBreadcrumb(
       [
         { name: s.index, href: DOFUS_INDEX_PATH },
