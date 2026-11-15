@@ -939,7 +939,7 @@ export interface DofusGuide {
     [k: string]: unknown;
   } | null;
   /**
-   * Los logros y las misiones en el orden en que se hacen. Las misiones de cada logro salen de su página de logro: se cambian allí.
+   * Los logros y las misiones en el orden en que se hacen. Cada logro enseña tus misiones, como las escribes aquí, o las de su página de logro.
    */
   parts?: (DofusAchievementBlock | DofusMetalogroBlock | DofusQuestsBlock | DofusQuestBlock | DofusNoteBlock)[] | null;
   /**
@@ -1085,6 +1085,34 @@ export interface DofusAchievementBlock {
    * Una nota corta junto al nombre, como «(solo empezarla)».
    */
   note?: string | null;
+  /**
+   * Marcado: salen las misiones de la página del logro. Sin marcar: salen las de la lista de abajo, como las escribes tú, aunque esté vacía.
+   */
+  pageQuests?: boolean | null;
+  /**
+   * En el orden en que se hacen. Cuentan en las cifras de la guía y del índice.
+   */
+  ownQuests?:
+    | {
+        /**
+         * Tal como quieres que salga: «Heh, ¿dónde está Bizcana?» o «La fatalidad - El destino - La rivalidad».
+         */
+        title: string;
+        /**
+         * La guía a la que lleva. Con varias, cada trozo del texto separado por « - » o « o » lleva a la suya, en orden.
+         */
+        guides?: (number | QuestGuide)[] | null;
+        /**
+         * Una nota corta junto al nombre, como «(solo empezarla)».
+         */
+        note?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * La dirección del logro en tu web de siempre (/en-marcha-hacia-la-aventura). Mientras su página esté «En preparación», el nombre lleva allí.
+   */
+  link?: string | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'dofusAchievement';
@@ -1102,6 +1130,34 @@ export interface DofusMetalogroBlock {
          * Una nota corta junto al nombre, como «(solo empezarla)».
          */
         note?: string | null;
+        /**
+         * Marcado: salen las misiones de la página del logro. Sin marcar: salen las de la lista de abajo, como las escribes tú, aunque esté vacía.
+         */
+        pageQuests?: boolean | null;
+        /**
+         * En el orden en que se hacen. Cuentan en las cifras de la guía y del índice.
+         */
+        ownQuests?:
+          | {
+              /**
+               * Tal como quieres que salga: «Heh, ¿dónde está Bizcana?» o «La fatalidad - El destino - La rivalidad».
+               */
+              title: string;
+              /**
+               * La guía a la que lleva. Con varias, cada trozo del texto separado por « - » o « o » lleva a la suya, en orden.
+               */
+              guides?: (number | QuestGuide)[] | null;
+              /**
+               * Una nota corta junto al nombre, como «(solo empezarla)».
+               */
+              note?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * La dirección del logro en tu web de siempre (/en-marcha-hacia-la-aventura). Mientras su página esté «En preparación», el nombre lleva allí.
+         */
+        link?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -1117,7 +1173,15 @@ export interface DofusQuestsBlock {
   title?: string | null;
   quests?:
     | {
-        guide: number | QuestGuide;
+        guide?: (number | null) | QuestGuide;
+        /**
+         * Vacío: el título de la guía.
+         */
+        title?: string | null;
+        /**
+         * Si la fila no es una misión («Logro: Cazadores cazados»), a dónde lleva: /cazadores-cazados. Sale sin número.
+         */
+        link?: string | null;
         /**
          * Una nota corta junto al nombre, como «(solo empezarla)».
          */
@@ -1135,6 +1199,10 @@ export interface DofusQuestsBlock {
  */
 export interface DofusQuestBlock {
   guide: number | QuestGuide;
+  /**
+   * Vacío: el título de la guía.
+   */
+  title?: string | null;
   /**
    * Una nota corta junto al nombre, como «(solo empezarla)».
    */
@@ -2096,6 +2164,16 @@ export interface DofusGuidesSelect<T extends boolean = true> {
 export interface DofusAchievementBlockSelect<T extends boolean = true> {
   achievement?: T;
   note?: T;
+  pageQuests?: T;
+  ownQuests?:
+    | T
+    | {
+        title?: T;
+        guides?: T;
+        note?: T;
+        id?: T;
+      };
+  link?: T;
   id?: T;
   blockName?: T;
 }
@@ -2110,6 +2188,16 @@ export interface DofusMetalogroBlockSelect<T extends boolean = true> {
     | {
         achievement?: T;
         note?: T;
+        pageQuests?: T;
+        ownQuests?:
+          | T
+          | {
+              title?: T;
+              guides?: T;
+              note?: T;
+              id?: T;
+            };
+        link?: T;
         id?: T;
       };
   id?: T;
@@ -2125,6 +2213,8 @@ export interface DofusQuestsBlockSelect<T extends boolean = true> {
     | T
     | {
         guide?: T;
+        title?: T;
+        link?: T;
         note?: T;
         id?: T;
       };
@@ -2137,6 +2227,7 @@ export interface DofusQuestsBlockSelect<T extends boolean = true> {
  */
 export interface DofusQuestBlockSelect<T extends boolean = true> {
   guide?: T;
+  title?: T;
   note?: T;
   id?: T;
   blockName?: T;

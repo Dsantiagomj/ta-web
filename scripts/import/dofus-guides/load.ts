@@ -149,9 +149,19 @@ type ImportedField = (typeof IMPORTED_FIELDS)[number]
 type Imported = Partial<Record<ImportedField, unknown>>
 
 /**
- * El valor sin IDs de fila ni campos vacíos y con las claves en orden, para comparar lo
- * guardado con lo importado: Postgres guarda el texto enriquecido como jsonb, que reordena
- * las claves.
+ * Los valores por defecto de campos añadidos después de importar: la migración se los da a
+ * lo ya guardado, y no son un cambio de Torre (la casilla «Misiones de su página de logro»
+ * marcada y una lista de misiones vacía).
+ */
+const ADDED_DEFAULTS: Record<string, (item: unknown) => boolean> = {
+  pageQuests: (item) => item === true,
+  ownQuests: (item) => Array.isArray(item) && item.length === 0,
+}
+
+/**
+ * El valor sin IDs de fila, campos vacíos ni los valores por defecto de campos añadidos, y con
+ * las claves en orden, para comparar lo guardado con lo importado: Postgres guarda el texto
+ * enriquecido como jsonb, que reordena las claves.
  */
 export function comparable(value: unknown): unknown {
   if (Array.isArray(value)) return value.map(comparable)
@@ -159,6 +169,7 @@ export function comparable(value: unknown): unknown {
     return Object.fromEntries(
       Object.entries(value)
         .filter(([key, item]) => key !== 'id' && item !== null && item !== undefined)
+        .filter(([key, item]) => !ADDED_DEFAULTS[key]?.(item))
         .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
         .map(([key, item]) => [key, comparable(item)]),
     )
@@ -187,6 +198,32 @@ function segmentsHtml(segs: Segment[]): string {
       return seg.b ? `<strong>${html}</strong>` : html
     })
     .join('')
+}
+
+/** El punto final de la lista de Torre no es parte del texto; unos puntos suspensivos sí. */
+const unDot = (text: string) => text.replace(/(?<!\.)\.\s*$/u, '').trim()
+
+/**
+ * El texto de una fila de misiones de Torre, como lo escribió: hasta su último enlace (lo que
+ * sigue es su nota) o, sin enlaces, toda la fila, sin su número de paso. «La fatalidad - El
+ * destino - La rivalidad».
+ */
+export function rowTitle(ref: QuestRef): string {
+  const segs = ref.segs ?? []
+  const last = segs.map((seg) => seg.t).lastIndexOf('link')
+  if (last < 0) return ref.name
+  const text = segs
+    .slice(0, last + 1)
+    .map((seg) => seg.v)
+    .join('')
+  // «5) Hablar con el Dios Anutrof»: el número de paso de Torre no sale en la página.
+  return unDot(text.replace(/\s+/g, ' ').trim()).replace(/^\d+\)\s*/u, '')
+}
+
+/** El enlace de una fila que no es una guía de misión («/cazadores-cazados»), o null. */
+function linkOf(ref: QuestRef): string | null {
+  const link = (ref.segs ?? []).find((seg) => seg.t === 'link')
+  return link?.t === 'link' && link.href.startsWith('/') ? link.href : null
 }
 
 export async function loadDofusGuides(
@@ -261,15 +298,17 @@ export async function loadDofusGuides(
     const unmatched = (kind: 'logro' | 'misión' | 'objeto', name: string) =>
       report.unmatched.push({ slug: entry.slug, kind, name })
 
-    const guideOf = (ref: QuestRef): number | null => {
-      for (const candidate of ref.alternatives ?? [ref]) {
+    /** Las guías que enlaza una fila de Torre, en su orden: varias si junta alternativas. */
+    const guidesOf = (ref: QuestRef): number[] => {
+      const ids = (ref.alternatives ?? [ref]).flatMap((candidate) => {
         const id =
           (candidate.slug && guideBySlug.get(candidate.slug)) ||
           guideByName.get(fold(candidate.name))
-        if (id) return id
-      }
-      return null
+        return id ? [id] : []
+      })
+      return [...new Set(ids)]
     }
+    const guideOf = (ref: QuestRef): number | null => guidesOf(ref)[0] ?? null
 
     /**
      * Cada fila de una lista de misiones, mirada una vez: una misión con guía, una misión sin
@@ -306,7 +345,7 @@ export async function loadDofusGuides(
      */
     const questBlocks = (title: string | null, refs: QuestRef[]): Record<string, unknown>[] => {
       const blocks: Record<string, unknown>[] = []
-      let quests: { guide: number; note: string | null }[] = []
+      let quests: Record<string, unknown>[] = []
       let notes: QuestRef[] = []
       let titled = false
       const flushQuests = () => {
@@ -320,17 +359,22 @@ export async function loadDofusGuides(
         notes = []
       }
       for (const item of resolve(refs)) {
-        if (item.kind === 'note') {
+        const link = linkOf(item.ref)
+        if (item.kind === 'note' && !link) {
           flushQuests()
           notes.push(item.ref)
           continue
         }
-        if (item.kind === 'quest') {
-          unmatched('misión', item.ref.name)
+        flushNotes()
+        const row = { title: rowTitle(item.ref), note: item.ref.note ?? null }
+        if (item.kind === 'note') {
+          // Algo que Torre enlaza que no es una misión: queda en su lista, con su enlace.
+          quests.push({ guide: null, ...row, link })
           continue
         }
-        flushNotes()
-        quests.push({ guide: item.guide, note: item.ref.note ?? null })
+        // Una misión sin guía se avisa y queda en la lista de Torre, sin enlace.
+        if (item.kind === 'quest') unmatched('misión', item.ref.name)
+        quests.push({ guide: item.kind === 'guide' ? item.guide : null, ...row, link: null })
       }
       flushQuests()
       flushNotes()
@@ -358,19 +402,48 @@ export async function loadDofusGuides(
       return page
     }
 
+    /**
+     * Un logro de Torre con su página: sus misiones son las que él escribe, en su orden, con su
+     * texto y sus guías, aunque no escriba ninguna (pageQuests en false). Lo que no es una
+     * misión (Zanahowia: cómo hacer el logro) va como nota detrás. link es su enlace al logro,
+     * para cuando la página esté En preparación.
+     */
+    const achievementRef = (
+      part: Extract<Part, { type: 'achievement' }>,
+      page: NonNullable<ReturnType<typeof findAchievement>>,
+    ) => {
+      const known = new Set((page.quests ?? []).map((row) => fold(row.name ?? '')))
+      const resolved = resolve(part.quests, known)
+      const quests = resolved.flatMap((item) =>
+        item.kind === 'note'
+          ? []
+          : [
+              {
+                title: rowTitle(item.ref),
+                guides: guidesOf(item.ref),
+                note: item.ref.note ?? null,
+              },
+            ],
+      )
+      const notes = resolved.flatMap((item) => (item.kind === 'note' ? [item.ref] : []))
+      const ref = {
+        achievement: page.id,
+        note: null,
+        pageQuests: false,
+        ownQuests: quests,
+        link: part.slug ? `/${part.slug}` : null,
+      }
+      return { ref, notes }
+    }
+
     const toBlocks = (part: Part): Record<string, unknown>[] => {
       switch (part.type) {
         case 'achievement': {
           const page = findAchievement(part)
           if (page) {
-            // Las misiones salen de la página de logro; lo que no es una misión (Zanahowia:
-            // cómo hacer el logro) va como nota detrás.
-            const known = new Set((page.quests ?? []).map((row) => fold(row.name ?? '')))
-            const notes = resolve(part.quests, known).flatMap((item) =>
-              item.kind === 'note' ? [item.ref] : [],
-            )
+            const { ref, notes } = achievementRef(part, page)
             return [
-              { blockType: 'dofusAchievement', achievement: page.id, note: null },
+              { blockType: 'dofusAchievement', ...ref },
               ...(notes.length ? [questNote(notes)] : []),
             ]
           }
@@ -378,21 +451,33 @@ export async function loadDofusGuides(
           return questBlocks(part.name, part.quests)
         }
         case 'metalogro': {
-          const achievements = part.achievements.flatMap((inner) =>
-            inner.type === 'achievement'
-              ? [findAchievement(inner)].flatMap((page) =>
-                  page ? [{ achievement: page.id, note: null }] : [],
-                )
-              : [],
-          )
-          return [{ blockType: 'dofusMetalogro', name: part.name, achievements }]
+          const notes: QuestRef[] = []
+          const achievements = part.achievements.flatMap((inner) => {
+            if (inner.type !== 'achievement') return []
+            const page = findAchievement(inner)
+            if (!page) return []
+            const found = achievementRef(inner, page)
+            notes.push(...found.notes)
+            return [found.ref]
+          })
+          return [
+            { blockType: 'dofusMetalogro', name: part.name, achievements },
+            ...(notes.length ? [questNote(notes)] : []),
+          ]
         }
         case 'quests':
           return questBlocks(part.title, part.quests)
         case 'quest': {
           const [item] = resolve([part.quest])
           if (item!.kind === 'guide') {
-            return [{ blockType: 'dofusQuest', guide: item!.guide, note: part.quest.note ?? null }]
+            return [
+              {
+                blockType: 'dofusQuest',
+                guide: item!.guide,
+                title: rowTitle(part.quest),
+                note: part.quest.note ?? null,
+              },
+            ]
           }
           if (item!.kind === 'note') return [questNote([part.quest])]
           unmatched('misión', part.quest.name)

@@ -26,6 +26,7 @@ import {
 import { isDungeonNote, needKey, needNote } from '@/lib/guides/need-notes'
 import { youtubeId } from '@/lib/guides/video'
 import { mediaImageAsset } from '@/lib/media/image-asset'
+import { LEGACY_SITE_ORIGIN } from '@/lib/site/legacy'
 import type { Media } from '@/payload-types'
 
 import { isNeedGroup, NEED_GROUPS, type NeedGroup, needGroupLabel } from './need-groups'
@@ -48,19 +49,46 @@ export type NeedRowDoc =
     }
   | { blockType: 'needNote'; text: RichTextState }
 
+/** Una misión de la lista de un logro, como la escribe Torre: su texto y las guías que enlaza. */
+export interface QuestRowDoc {
+  title: string
+  guides?: Relation<{ id: number }>[] | null
+  note?: string | null
+}
+
+/**
+ * Un logro de las partes. Con pageQuests en false, sus misiones son las de Torre (ownQuests),
+ * aunque no haya ninguna; si no, las de su página de logro. link es el enlace de Torre al
+ * logro: lleva a su web mientras la página del logro está En preparación.
+ */
+export interface AchievementRefDoc {
+  achievement: Relation<{ id: number }>
+  note?: string | null
+  link?: string | null
+  pageQuests?: boolean | null
+  ownQuests?: QuestRowDoc[] | null
+}
+
+/** Una fila de una lista de misiones: una guía, o lo que Torre enlaza que no es una misión. */
+export interface LooseQuestDoc {
+  guide?: Relation<{ id: number }>
+  /** El texto de Torre; sin él, el título de la guía. */
+  title?: string | null
+  /** Un enlace que no es una guía de misión («Logro: Cazadores cazados»). */
+  link?: string | null
+  note?: string | null
+}
+
 export type PartDoc =
-  | { blockType: 'dofusAchievement'; achievement: Relation<{ id: number }>; note?: string | null }
+  | ({ blockType: 'dofusAchievement' } & AchievementRefDoc)
+  | { blockType: 'dofusMetalogro'; name: string; achievements?: AchievementRefDoc[] | null }
+  | { blockType: 'dofusQuests'; title?: string | null; quests?: LooseQuestDoc[] | null }
   | {
-      blockType: 'dofusMetalogro'
-      name: string
-      achievements?: { achievement: Relation<{ id: number }>; note?: string | null }[] | null
-    }
-  | {
-      blockType: 'dofusQuests'
+      blockType: 'dofusQuest'
+      guide: Relation<{ id: number }>
       title?: string | null
-      quests?: { guide: Relation<{ id: number }>; note?: string | null }[] | null
+      note?: string | null
     }
-  | { blockType: 'dofusQuest'; guide: Relation<{ id: number }>; note?: string | null }
   | { blockType: 'dofusNote'; text: RichTextState }
 
 /** Una guía de Dofus con depth 2: su objeto Dofus con la imagen y sus objetos de Necesitarás. */
@@ -164,10 +192,19 @@ export interface AchievementPartView {
   icon?: ImageAsset
   meta: string[]
   note?: string
-  quests: QuestCard[]
+  quests: DofusQuestCard[]
 }
 
-export type DofusQuestCard = QuestCard & { note?: string }
+/**
+ * Una fila de una lista de misiones. links parte el texto de Torre cuando enlaza varias
+ * guías («La fatalidad - El destino - La rivalidad»); kind 'link' es lo que Torre enlaza que no
+ * es una misión: sin número ni «Sin guía todavía».
+ */
+export type DofusQuestCard = QuestCard & {
+  note?: string
+  links?: { text: string; href?: string }[]
+  kind?: 'link'
+}
 
 export type PartView =
   | { kind: 'achievement'; achievement: AchievementPartView }
@@ -238,9 +275,18 @@ export function dofusMeta(counts: {
   ]
 }
 
+/** Torre escribió la lista de misiones del logro: salen las suyas, aunque no haya ninguna. */
+export const hasOwnQuests = (ref: Pick<AchievementRefDoc, 'pageQuests'>) => ref.pageQuests === false
+
+/** Una fila suelta que no es una misión, sino algo que Torre enlaza («Logro: …»). */
+const isLinkRow = (row: LooseQuestDoc) =>
+  relationId(row.guide ?? null) === null && Boolean(row.link)
+
 /**
  * Los logros y las misiones de unas partes, para las cifras de la lista: un logro cuenta si
- * questsOf lo conoce (el visitante lo ve) y una guía de misión si guideVisible lo dice.
+ * questsOf lo conoce (el visitante lo ve), con las misiones de Torre si las escribió o las de
+ * su página; una guía de misión suelta, si guideVisible lo dice, y una fila de Torre sin guía
+ * también, porque se pinta. Lo que no es una misión no cuenta.
  */
 export function countParts(
   parts: readonly PartDoc[],
@@ -249,25 +295,24 @@ export function countParts(
 ): { achievements: number; quests: number } {
   let achievements = 0
   let quests = 0
-  const addAchievement = (id: number | null) => {
+  const addAchievement = (ref: AchievementRefDoc) => {
+    const id = relationId(ref.achievement)
     const count = id === null ? null : questsOf(id)
     if (count === null) return
     achievements += 1
-    quests += count
+    quests += hasOwnQuests(ref) ? (ref.ownQuests ?? []).length : count
+  }
+  const addQuest = (guide: Relation<{ id: number }>, title?: string | null) => {
+    const id = relationId(guide ?? null)
+    if ((id !== null && guideVisible(id)) || title?.trim()) quests += 1
   }
   for (const part of parts) {
-    if (part.blockType === 'dofusAchievement') addAchievement(relationId(part.achievement))
+    if (part.blockType === 'dofusAchievement') addAchievement(part)
     else if (part.blockType === 'dofusMetalogro') {
-      for (const row of part.achievements ?? []) addAchievement(relationId(row.achievement))
+      for (const row of part.achievements ?? []) addAchievement(row)
     } else if (part.blockType === 'dofusQuests') {
-      for (const row of part.quests ?? []) {
-        const id = relationId(row.guide)
-        if (id !== null && guideVisible(id)) quests += 1
-      }
-    } else if (part.blockType === 'dofusQuest') {
-      const id = relationId(part.guide)
-      if (id !== null && guideVisible(id)) quests += 1
-    }
+      for (const row of part.quests ?? []) if (!isLinkRow(row)) addQuest(row.guide, row.title)
+    } else if (part.blockType === 'dofusQuest') addQuest(part.guide, part.title)
   }
   return { achievements, quests }
 }
@@ -413,54 +458,109 @@ function needsView(
   return { title: guide.needs?.title || s.needs, ...(note && { note }), groups }
 }
 
-/** Una guía de misión de una parte como tarjeta: su PNJ, su nivel y su título enlazado. */
+/** El PNJ que da una misión y su nivel, de la misión de una guía. */
+function questFacts(data: DofusGuideData, quest: QuestGuideDoc['quest'] | undefined) {
+  const npcId = quest?.startPositions?.find((start) => start.npcId != null)?.npcId
+  const giver = npcId != null ? image(data.givers.get(npcId)?.renderRight) : undefined
+  const level = quest?.levelMin && quest.levelMin > 0 ? quest.levelMin : undefined
+  return { ...(level && { level }), ...(giver && { giver }) }
+}
+
+const visibleGuide = (data: DofusGuideData, ref: Relation<{ id: number }>) => {
+  const id = relationId(ref ?? null)
+  return id === null ? undefined : data.questGuides.get(id)
+}
+
+/**
+ * Una misión de una parte como tarjeta: su PNJ, su nivel y su título enlazado a su guía. El
+ * título es el texto de Torre si lo hay. Sin guía visible, con texto de Torre, sale sin enlace
+ * («Sin guía todavía»); sin nada, no sale.
+ */
 function guideCard(
   data: DofusGuideData,
   guideRef: Relation<{ id: number }>,
   position: number,
-  note?: string | null,
+  extra: { title?: string | null; note?: string | null } = {},
 ): DofusQuestCard | null {
-  const id = relationId(guideRef)
-  const guide = id === null ? undefined : data.questGuides.get(id)
-  if (!guide) return null
-  const quest = guide.quest ?? null
-  const npcId = quest?.startPositions?.find((start) => start.npcId != null)?.npcId
-  const giver = npcId != null ? image(data.givers.get(npcId)?.renderRight) : undefined
-  const level = quest?.levelMin && quest.levelMin > 0 ? quest.levelMin : undefined
+  const guide = visibleGuide(data, guideRef)
+  const title = extra.title?.trim() || guide?.title
+  if (!title) return null
   return {
     position,
-    ...(level && { level }),
-    title: guide.title,
-    href: `/${guide.slug}`,
-    ...(giver && { giver }),
-    ...(note && { note }),
+    title,
+    ...(guide && { href: `/${guide.slug}`, ...questFacts(data, guide.quest) }),
+    ...(extra.note && { note: extra.note }),
   }
 }
 
-function achievementPart(
-  data: DofusGuideData,
-  ref: Relation<{ id: number }>,
-  note?: string | null,
-): AchievementPartView | null {
-  const id = relationId(ref)
+/** Los separadores con los que Torre junta varias misiones en una fila: « - », « o », « / ». */
+const ALTERNATIVES = /(\s+[-–—/]\s+|\s+o\s+)/u
+
+/**
+ * Una fila de la lista de un logro de Torre. Con una guía, como cualquier misión; con varias
+ * («La fatalidad - El destino - La rivalidad»), cada trozo del texto enlaza la suya, el nivel
+ * es el más bajo y no hay PNJ. Si los trozos no casan con las guías, el texto entero enlaza
+ * la primera.
+ */
+function torreRowCard(data: DofusGuideData, row: QuestRowDoc, position: number): DofusQuestCard {
+  const guides = (row.guides ?? []).flatMap((ref) => visibleGuide(data, ref) ?? [])
+  const title = row.title.trim()
+  const note = row.note ? { note: row.note } : {}
+  if (guides.length <= 1) {
+    return guideCard(data, guides[0]?.id ?? null, position, { title, ...note })!
+  }
+  const levels = guides.flatMap((guide) => questFacts(data, guide.quest).level ?? [])
+  const level = levels.length ? Math.min(...levels) : undefined
+  const pieces = title.split(ALTERNATIVES)
+  const texts = pieces.filter((_, index) => index % 2 === 0)
+  const card = { position, title, ...(level && { level }), ...note }
+  if (texts.length !== guides.length) return { ...card, href: `/${guides[0]!.slug}` }
+  const links = pieces.map((text, index) =>
+    index % 2 === 0 ? { text, href: `/${guides[index / 2]!.slug}` } : { text },
+  )
+  return { ...card, links }
+}
+
+/** Lo que Torre enlaza en una lista de misiones que no es una misión. */
+function linkCard(row: LooseQuestDoc, position: number): DofusQuestCard {
+  return {
+    kind: 'link',
+    position,
+    title: row.title?.trim() || row.link!,
+    href: row.link!,
+    ...(row.note && { note: row.note }),
+  }
+}
+
+function achievementPart(data: DofusGuideData, ref: AchievementRefDoc): AchievementPartView | null {
+  const id = relationId(ref.achievement)
   const page = id === null ? undefined : data.achievements.get(id)
   if (!page) return null
-  const quests = questCards(questRows(page), data.guideByQuest, data.givers)
+  const quests = hasOwnQuests(ref)
+    ? (ref.ownQuests ?? []).map((row, index) => torreRowCard(data, row, index + 1))
+    : questCards(questRows(page), data.guideByQuest, data.givers)
   const levels = cardLevels(quests)
   const disabled = page.state !== 'published'
   const icon = image(populated(page.achievement)?.icon)
   const points = page.points && page.points > 0 ? page.points : undefined
+  // En preparación no tiene página: el enlace de Torre lleva a la suya, en su web.
+  const link = ref.link?.trim()
+  const href = !disabled
+    ? `/${page.slug}`
+    : link?.startsWith('/') && !link.startsWith('//')
+      ? `${LEGACY_SITE_ORIGIN}${link}`
+      : undefined
   return {
     name: page.name,
-    ...(!disabled && { href: `/${page.slug}` }),
+    ...(href && { href }),
     disabled,
     ...(icon && { icon }),
     meta: [
-      s.quests(quests.length),
+      ...(quests.length > 0 ? [s.quests(quests.length)] : []),
       ...(levels ? [levels] : []),
       ...(points ? [s.points(points)] : []),
     ],
-    ...(note && { note }),
+    ...(ref.note && { note: ref.note }),
     quests,
   }
 }
@@ -470,12 +570,12 @@ function partsView(data: DofusGuideData): PartView[] {
   return (data.guide.parts ?? []).flatMap((part): PartView[] => {
     switch (part.blockType) {
       case 'dofusAchievement': {
-        const achievement = achievementPart(data, part.achievement, part.note)
+        const achievement = achievementPart(data, part)
         return achievement ? [{ kind: 'achievement', achievement }] : []
       }
       case 'dofusMetalogro': {
         const achievements = (part.achievements ?? []).flatMap((row) => {
-          const view = achievementPart(data, row.achievement, row.note)
+          const view = achievementPart(data, row)
           return view ? [view] : []
         })
         if (achievements.length === 0) return []
@@ -483,15 +583,19 @@ function partsView(data: DofusGuideData): PartView[] {
         return [{ kind: 'metalogro', number: metalogros, name: part.name, achievements }]
       }
       case 'dofusQuests': {
-        const quests = (part.quests ?? []).flatMap((row, index) => {
-          const card = guideCard(data, row.guide, index + 1, row.note)
+        // Las misiones van numeradas; lo que Torre enlaza que no es una misión, sin número.
+        let position = 0
+        const quests = (part.quests ?? []).flatMap((row) => {
+          if (isLinkRow(row)) return [linkCard(row, position)]
+          const card = guideCard(data, row.guide ?? null, position + 1, row)
+          if (card) position += 1
           return card ? [card] : []
         })
         if (quests.length === 0) return []
         return [{ kind: 'quests', ...(part.title && { title: part.title }), quests }]
       }
       case 'dofusQuest': {
-        const quest = guideCard(data, part.guide, 1, part.note)
+        const quest = guideCard(data, part.guide, 1, part)
         return quest ? [{ kind: 'quest', quest }] : []
       }
       case 'dofusNote':
@@ -535,7 +639,12 @@ export function dofusGuideView(data: DofusGuideData): DofusGuideView {
       achievementViews.reduce((total, view) => total + view.quests.length, 0) +
       parts.reduce(
         (total, part) =>
-          total + (part.kind === 'quests' ? part.quests.length : part.kind === 'quest' ? 1 : 0),
+          total +
+          (part.kind === 'quests'
+            ? part.quests.filter((quest) => quest.kind !== 'link').length
+            : part.kind === 'quest'
+              ? 1
+              : 0),
         0,
       ),
   }

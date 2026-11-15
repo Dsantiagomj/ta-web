@@ -167,7 +167,31 @@ export function DofusNeeds({ needs }: { needs: NonNullable<DofusGuideView['needs
   )
 }
 
+/** El título de Torre: entero, o en trozos si enlaza varias guías. */
+function QuestTitle({ quest }: { quest: DofusQuestCard }) {
+  if (quest.links) {
+    return quest.links.map((piece, index) =>
+      piece.href ? (
+        <a key={index} href={piece.href}>
+          {piece.text}
+        </a>
+      ) : (
+        <Fragment key={index}>{piece.text}</Fragment>
+      ),
+    )
+  }
+  return quest.href ? (
+    <a className="dg-ql__a" href={quest.href}>
+      {quest.title}
+    </a>
+  ) : (
+    quest.title
+  )
+}
+
 function QuestItem({ quest, kicker }: { quest: DofusQuestCard; kicker?: string }) {
+  // Lo que Torre enlaza que no es una misión («Logro: Cazadores cazados») va sin número.
+  const isLink = quest.kind === 'link'
   return (
     <li className={`dg-ql__i${quest.href ? ' dg-ql__i--link' : ''}`}>
       <span className="dg-ql__npc" aria-hidden="true">
@@ -178,18 +202,14 @@ function QuestItem({ quest, kicker }: { quest: DofusQuestCard; kicker?: string }
         )}
       </span>
       <div>
-        <p className="dg-ql__k">{kicker ?? s.questKicker(quest.position, quest.level)}</p>
+        {!isLink && (
+          <p className="dg-ql__k">{kicker ?? s.questKicker(quest.position, quest.level)}</p>
+        )}
         <p className="dg-ql__t">
-          {quest.href ? (
-            <a className="dg-ql__a" href={quest.href}>
-              {quest.title}
-            </a>
-          ) : (
-            quest.title
-          )}
+          <QuestTitle quest={quest} />
         </p>
         {quest.note && <p className="dg-qnote">{quest.note}</p>}
-        {!quest.href && <span className="ztag">{s.noGuide}</span>}
+        {!quest.href && !quest.links && <span className="ztag">{s.noGuide}</span>}
       </div>
     </li>
   )
@@ -198,8 +218,8 @@ function QuestItem({ quest, kicker }: { quest: DofusQuestCard; kicker?: string }
 function QuestList({ quests }: { quests: DofusQuestCard[] }) {
   return (
     <ol role="list" className={`dg-ql${quests.length > 3 ? ' dg-ql--cols' : ''}`}>
-      {quests.map((quest) => (
-        <QuestItem key={quest.position} quest={quest} />
+      {quests.map((quest, index) => (
+        <QuestItem key={index} quest={quest} />
       ))}
     </ol>
   )
@@ -228,7 +248,7 @@ function Achievement({ view, level }: { view: AchievementPartView; level: 'h3' |
         </div>
       </div>
       {view.note && <p className="dg-muted dg-ach__note">{view.note}</p>}
-      <QuestList quests={view.quests} />
+      {view.quests.length > 0 && <QuestList quests={view.quests} />}
     </section>
   )
 }

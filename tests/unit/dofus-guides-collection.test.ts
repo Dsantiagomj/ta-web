@@ -195,6 +195,44 @@ describe('colección dofus-guides', () => {
     })
   })
 
+  it('cada logro guarda las misiones de Torre: su texto, sus guías y su nota, editables', () => {
+    const parts = field(DofusGuides.fields, 'parts') as BlocksField
+    const achievement = parts.blocks.find((block) => block.slug === 'dofusAchievement')!
+    const metalogro = parts.blocks.find((block) => block.slug === 'dofusMetalogro')!
+    const inner = field(metalogro.fields, 'achievements') as { fields: Field[] }
+    for (const fields of [achievement.fields, inner.fields]) {
+      // Marcado (lo de siempre, y lo que se añade a mano): las de la página de logro.
+      expect(field(fields, 'pageQuests')).toMatchObject({ type: 'checkbox', defaultValue: true })
+      expect(field(fields, 'link')).toMatchObject({ type: 'text' })
+      const rows = field(fields, 'ownQuests') as { fields: Field[]; dbName?: string }
+      expect(field(rows.fields, 'title')).toMatchObject({
+        type: 'text',
+        required: true,
+        localized: true,
+      })
+      expect(field(rows.fields, 'guides')).toMatchObject({
+        type: 'relationship',
+        relationTo: 'quest-guides',
+        hasMany: true,
+      })
+      expect(field(rows.fields, 'note')).toMatchObject({ localized: true })
+    }
+    // Las misiones sueltas y las de un paso guardan el texto de Torre; una fila suelta puede
+    // ser algo que Torre enlaza que no es una misión («Logro: Cazadores cazados»).
+    const quests = parts.blocks.find((block) => block.slug === 'dofusQuests')!
+    const list = field(quests.fields, 'quests') as { fields: Field[] }
+    expect(field(list.fields, 'title')).toMatchObject({ type: 'text', localized: true })
+    expect(field(list.fields, 'link')).toMatchObject({ type: 'text' })
+    const guide = field(list.fields, 'guide') as { required?: boolean; validate?: Validate }
+    expect(guide.required).toBeFalsy()
+    expect(guide.validate?.(null, { siblingData: { title: 'Logro: Cazadores cazados' } })).toBe(
+      true,
+    )
+    expect(guide.validate?.(null, { siblingData: {} })).not.toBe(true)
+    const quest = parts.blocks.find((block) => block.slug === 'dofusQuest')!
+    expect(field(quest.fields, 'title')).toMatchObject({ type: 'text', localized: true })
+  })
+
   it('el cuerpo usa los bloques de las guías de misión', () => {
     const body = field(DofusGuides.fields, 'body') as BlocksField
     expect(blockSlugs(body)).toEqual(['richText', 'image', 'video', 'callout', 'fight', 'step'])
