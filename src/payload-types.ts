@@ -227,13 +227,26 @@ export interface QuestGuide {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Las misiones de DofusDB, con sus etapas y recompensas. Las eliges en tus guías. De solo lectura: lo pone al día un script.
+ * Las misiones de DofusDB, con sus etapas y recompensas. Las eliges en tus guías. Solo editas su «Corrección de Torre».
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "quests".
  */
 export interface Quest {
   id: number;
+  /**
+   * Si DofusDB se equivoca, corrígelo aquí: lo que escribas gana en todas las páginas donde sale este dato. Lo que dejes vacío sigue siendo de DofusDB, y el refresco de los datos del juego nunca lo toca.
+   */
+  correction?: {
+    /**
+     * Cómo se llama en la web. Vacío: el de DofusDB.
+     */
+    name?: string | null;
+    /**
+     * El nivel que enseña la web. Vacío: el de DofusDB.
+     */
+    level?: number | null;
+  };
   dofusId: number;
   name: string;
   levelMin?: number | null;
@@ -349,17 +362,42 @@ export interface Quest {
    * La pone el script de refresco.
    */
   refreshedAt?: string | null;
+  /**
+   * Se marca solo cuando hay algo en «Corrección de Torre». Fíltralo en la lista.
+   */
+  corrected?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
- * Los objetos de DofusDB, con su icono. Los eliges en «Necesitarás» y en los Dofus. De solo lectura: lo pone al día un script.
+ * Los objetos de DofusDB, con su icono. Los eliges en «Necesitarás» y en los Dofus. Solo editas su «Corrección de Torre».
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "items".
  */
 export interface Item {
   id: number;
+  /**
+   * Si DofusDB se equivoca, corrígelo aquí: lo que escribas gana en todas las páginas donde sale este dato. Lo que dejes vacío sigue siendo de DofusDB, y el refresco de los datos del juego nunca lo toca.
+   */
+  correction?: {
+    /**
+     * Cómo se llama en la web. Vacío: el de DofusDB.
+     */
+    name?: string | null;
+    /**
+     * El nivel que enseña la web. Vacío: el de DofusDB.
+     */
+    level?: number | null;
+    /**
+     * Sustituye la imagen de DofusDB en la web. Vacía: la de DofusDB.
+     */
+    image?: (number | null) | Media;
+    /**
+     * No sale en ninguna página: ni en los combates, ni en «Necesitarás», ni en las checklists o las almas.
+     */
+    hidden?: boolean | null;
+  };
   dofusId: number;
   name: string;
   level?: number | null;
@@ -380,6 +418,10 @@ export interface Item {
    * La pone el script de refresco.
    */
   refreshedAt?: string | null;
+  /**
+   * Se marca solo cuando hay algo en «Corrección de Torre». Fíltralo en la lista.
+   */
+  corrected?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -488,13 +530,34 @@ export interface Media {
   };
 }
 /**
- * Los monstruos de DofusDB, con su imagen. Los eliges en los bloques de combate. De solo lectura: lo pone al día un script.
+ * Los monstruos de DofusDB, con su imagen. Los eliges en los bloques de combate. Solo editas su «Corrección de Torre».
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "monsters".
  */
 export interface Monster {
   id: number;
+  /**
+   * Si DofusDB se equivoca, corrígelo aquí: lo que escribas gana en todas las páginas donde sale este dato. Lo que dejes vacío sigue siendo de DofusDB, y el refresco de los datos del juego nunca lo toca.
+   */
+  correction?: {
+    /**
+     * Cómo se llama en la web. Vacío: el de DofusDB.
+     */
+    name?: string | null;
+    /**
+     * El nivel que enseña la web. Vacío: el de DofusDB.
+     */
+    level?: number | null;
+    /**
+     * Sustituye la imagen de DofusDB en la web. Vacía: la de DofusDB.
+     */
+    image?: (number | null) | Media;
+    /**
+     * No sale en ninguna página: ni en los combates, ni en «Necesitarás», ni en las checklists o las almas.
+     */
+    hidden?: boolean | null;
+  };
   dofusId: number;
   name: string;
   /**
@@ -519,6 +582,10 @@ export interface Monster {
    * La pone el script de refresco.
    */
   refreshedAt?: string | null;
+  /**
+   * Se marca solo cuando hay algo en «Corrección de Torre». Fíltralo en la lista.
+   */
+  corrected?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -626,13 +693,34 @@ export interface StepBlock {
   blockType: 'step';
 }
 /**
- * Las mazmorras de DofusDB y sus jefes. Las eliges en las notas de las guías. De solo lectura: lo pone al día un script.
+ * Las mazmorras de DofusDB y sus jefes. Las eliges en las notas de las guías. Solo editas su «Corrección de Torre».
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "dungeons".
  */
 export interface Dungeon {
   id: number;
+  /**
+   * Si DofusDB se equivoca, corrígelo aquí: lo que escribas gana en todas las páginas donde sale este dato. Lo que dejes vacío sigue siendo de DofusDB, y el refresco de los datos del juego nunca lo toca.
+   */
+  correction?: {
+    /**
+     * Cómo se llama en la web. Vacío: el de DofusDB.
+     */
+    name?: string | null;
+    /**
+     * El nivel que enseña la web. Vacío: el de DofusDB.
+     */
+    level?: number | null;
+    /**
+     * Sustituye la imagen de DofusDB en la web. Vacía: la de DofusDB.
+     */
+    image?: (number | null) | Media;
+    /**
+     * No sale en ninguna página: ni en los combates, ni en «Necesitarás», ni en las checklists o las almas.
+     */
+    hidden?: boolean | null;
+  };
   dofusId: number;
   name: string;
   /**
@@ -647,6 +735,10 @@ export interface Dungeon {
    * La pone el script de refresco.
    */
   refreshedAt?: string | null;
+  /**
+   * Se marca solo cuando hay algo en «Corrección de Torre». Fíltralo en la lista.
+   */
+  corrected?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -745,13 +837,34 @@ export interface AchievementPage {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Los logros de DofusDB. Cada página de logro enlaza uno. De solo lectura: lo pone al día un script.
+ * Los logros de DofusDB. Cada página de logro enlaza uno. Solo editas su «Corrección de Torre».
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "achievements".
  */
 export interface Achievement {
   id: number;
+  /**
+   * Si DofusDB se equivoca, corrígelo aquí: lo que escribas gana en todas las páginas donde sale este dato. Lo que dejes vacío sigue siendo de DofusDB, y el refresco de los datos del juego nunca lo toca.
+   */
+  correction?: {
+    /**
+     * Cómo se llama en la web. Vacío: el de DofusDB.
+     */
+    name?: string | null;
+    /**
+     * El nivel que enseña la web. Vacío: el de DofusDB.
+     */
+    level?: number | null;
+    /**
+     * Sustituye la imagen de DofusDB en la web. Vacía: la de DofusDB.
+     */
+    image?: (number | null) | Media;
+    /**
+     * No sale en ninguna página: ni en los combates, ni en «Necesitarás», ni en las checklists o las almas.
+     */
+    hidden?: boolean | null;
+  };
   dofusId: number;
   name: string;
   icon?: (number | null) | Media;
@@ -800,6 +913,10 @@ export interface Achievement {
    * La pone el script de refresco.
    */
   refreshedAt?: string | null;
+  /**
+   * Se marca solo cuando hay algo en «Corrección de Torre». Fíltralo en la lista.
+   */
+  corrected?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -881,13 +998,30 @@ export interface AchievementGroup {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Los PNJ de DofusDB que dan misiones o salen en ellas, con sus dibujos. De solo lectura: lo pone al día un script.
+ * Los PNJ de DofusDB que dan misiones o salen en ellas, con sus dibujos. Solo editas su «Corrección de Torre».
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "npcs".
  */
 export interface Npc {
   id: number;
+  /**
+   * Si DofusDB se equivoca, corrígelo aquí: lo que escribas gana en todas las páginas donde sale este dato. Lo que dejes vacío sigue siendo de DofusDB, y el refresco de los datos del juego nunca lo toca.
+   */
+  correction?: {
+    /**
+     * Cómo se llama en la web. Vacío: el de DofusDB.
+     */
+    name?: string | null;
+    /**
+     * Sustituye la imagen de DofusDB en la web. Vacía: la de DofusDB.
+     */
+    image?: (number | null) | Media;
+    /**
+     * No sale en ninguna página: ni en los combates, ni en «Necesitarás», ni en las checklists o las almas.
+     */
+    hidden?: boolean | null;
+  };
   dofusId: number;
   name: string;
   /**
@@ -906,6 +1040,10 @@ export interface Npc {
    * La pone el script de refresco.
    */
   refreshedAt?: string | null;
+  /**
+   * Se marca solo cuando hay algo en «Corrección de Torre». Fíltralo en la lista.
+   */
+  corrected?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2664,6 +2802,12 @@ export interface MediaSelect<T extends boolean = true> {
  * via the `definition` "quests_select".
  */
 export interface QuestsSelect<T extends boolean = true> {
+  correction?:
+    | T
+    | {
+        name?: T;
+        level?: T;
+      };
   dofusId?: T;
   name?: T;
   levelMin?: T;
@@ -2752,6 +2896,7 @@ export interface QuestsSelect<T extends boolean = true> {
         id?: T;
       };
   refreshedAt?: T;
+  corrected?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2760,6 +2905,14 @@ export interface QuestsSelect<T extends boolean = true> {
  * via the `definition` "items_select".
  */
 export interface ItemsSelect<T extends boolean = true> {
+  correction?:
+    | T
+    | {
+        name?: T;
+        level?: T;
+        image?: T;
+        hidden?: T;
+      };
   dofusId?: T;
   name?: T;
   level?: T;
@@ -2768,6 +2921,7 @@ export interface ItemsSelect<T extends boolean = true> {
   iconId?: T;
   image?: T;
   refreshedAt?: T;
+  corrected?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2776,6 +2930,14 @@ export interface ItemsSelect<T extends boolean = true> {
  * via the `definition` "monsters_select".
  */
 export interface MonstersSelect<T extends boolean = true> {
+  correction?:
+    | T
+    | {
+        name?: T;
+        level?: T;
+        image?: T;
+        hidden?: T;
+      };
   dofusId?: T;
   name?: T;
   iconId?: T;
@@ -2785,6 +2947,7 @@ export interface MonstersSelect<T extends boolean = true> {
   archmonster?: T;
   subAreaId?: T;
   refreshedAt?: T;
+  corrected?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2793,11 +2956,20 @@ export interface MonstersSelect<T extends boolean = true> {
  * via the `definition` "dungeons_select".
  */
 export interface DungeonsSelect<T extends boolean = true> {
+  correction?:
+    | T
+    | {
+        name?: T;
+        level?: T;
+        image?: T;
+        hidden?: T;
+      };
   dofusId?: T;
   name?: T;
   bosses?: T;
   level?: T;
   refreshedAt?: T;
+  corrected?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2806,12 +2978,20 @@ export interface DungeonsSelect<T extends boolean = true> {
  * via the `definition` "npcs_select".
  */
 export interface NpcsSelect<T extends boolean = true> {
+  correction?:
+    | T
+    | {
+        name?: T;
+        image?: T;
+        hidden?: T;
+      };
   dofusId?: T;
   name?: T;
   look?: T;
   renderRight?: T;
   renderLeft?: T;
   refreshedAt?: T;
+  corrected?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2846,6 +3026,14 @@ export interface AchievementCategoriesSelect<T extends boolean = true> {
  * via the `definition` "achievements_select".
  */
 export interface AchievementsSelect<T extends boolean = true> {
+  correction?:
+    | T
+    | {
+        name?: T;
+        level?: T;
+        image?: T;
+        hidden?: T;
+      };
   dofusId?: T;
   name?: T;
   icon?: T;
@@ -2884,6 +3072,7 @@ export interface AchievementsSelect<T extends boolean = true> {
         id?: T;
       };
   refreshedAt?: T;
+  corrected?: T;
   updatedAt?: T;
   createdAt?: T;
 }

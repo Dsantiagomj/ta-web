@@ -8,6 +8,8 @@ export const SITE_HOST = 'torrentearcano.com'
 
 /** Las colecciones de DofusDB lo dicen en su línea: no se escriben a mano. */
 const readOnly = (text: string) => `${text} De solo lectura: lo pone al día un script.`
+/** Las que Torre corrige: de DofusDB, salvo su «Corrección de Torre». */
+const correctable = (text: string) => `${text} Solo editas su «Corrección de Torre».`
 
 export const panelStrings = {
   /** Los selectores de pasos y de objetivos de una checklist (A-19). */
@@ -61,26 +63,26 @@ export const panelStrings = {
       'Las páginas sueltas: emotes, cómo llegar a un sitio y los textos legales, con los ' +
       'bloques de las guías.',
     media: 'Todas las imágenes: las que subes tú y las del juego que trae DofusDB.',
-    quests: readOnly(
+    quests: correctable(
       'Las misiones de DofusDB, con sus etapas y recompensas. Las eliges en tus guías.',
     ),
-    items: readOnly(
+    items: correctable(
       'Los objetos de DofusDB, con su icono. Los eliges en «Necesitarás» y en los Dofus.',
     ),
-    monsters: readOnly(
+    monsters: correctable(
       'Los monstruos de DofusDB, con su imagen. Los eliges en los bloques de combate.',
     ),
-    dungeons: readOnly(
+    dungeons: correctable(
       'Las mazmorras de DofusDB y sus jefes. Las eliges en las notas de las guías.',
     ),
-    npcs: readOnly('Los PNJ de DofusDB que dan misiones o salen en ellas, con sus dibujos.'),
+    npcs: correctable('Los PNJ de DofusDB que dan misiones o salen en ellas, con sus dibujos.'),
     subareas: readOnly(
       'Las zonas de DofusDB, con su área. Dan el nombre de los sitios de cada misión.',
     ),
     'achievement-categories': readOnly(
       'Las categorías de logros de DofusDB, como «Astrub» o «Eventos».',
     ),
-    achievements: readOnly('Los logros de DofusDB. Cada página de logro enlaza uno.'),
+    achievements: correctable('Los logros de DofusDB. Cada página de logro enlaza uno.'),
     users: 'Las cuentas que pueden entrar en este panel.',
   },
   /**
@@ -147,8 +149,12 @@ export const panelStrings = {
         paragraphs: [
           'Las misiones, los objetos, los monstruos, las mazmorras, los PNJ, las zonas y los ' +
             'logros vienen de DofusDB. No se escriben aquí: los eliges en los campos de tus guías.',
-          'Por eso salen como «solo lectura». Se ponen al día con un proceso aparte, no desde el ' +
-            'panel. Si ves un dato del juego mal, avisa a quien lleva la parte técnica.',
+          'Se ponen al día con un proceso aparte, no desde el panel. Si ves un dato mal (un ' +
+            'nombre, un nivel o una imagen), búscalo por su nombre en su lista y corrígelo en ' +
+            '«Corrección de Torre», arriba del todo. Lo que escribas gana en todas las páginas ' +
+            'donde sale, y el proceso nunca lo toca. «Ocultar en la web» lo quita de todas.',
+          'Para encontrar lo que ya corregiste, filtra la lista por «Corregido por Torre». El ' +
+            'resto del dato no se cambia: es el de DofusDB.',
           'En los logros, lo que dejes vacío se rellena con DofusDB al guardar, y lo que escribas ' +
             'tú no lo pisa nadie. La nota bajo cada campo te dice de dónde viene.',
         ],
@@ -206,7 +212,7 @@ export const panelStrings = {
   groups: {
     content: 'Contenido',
     media: 'Imágenes',
-    gameData: 'Datos del juego (solo lectura)',
+    gameData: 'Datos del juego',
     settings: 'Ajustes',
   },
   /** El título de cada pestaña: «Guías de misiones · Torrente Arcano». */
@@ -395,6 +401,26 @@ export const panelStrings = {
     'achievement-groups': { subject: 'Este metalogro', feminine: false },
     'quest-guides': { subject: 'Esta guía de misión', feminine: true },
     'dofus-guides': { subject: 'Esta guía de Dofus', feminine: true },
+  },
+  /** «Corrección de Torre» en los datos de DofusDB (src/collections/torre-correction.ts). */
+  correction: {
+    label: 'Corrección de Torre',
+    help:
+      'Si DofusDB se equivoca, corrígelo aquí: lo que escribas gana en todas las páginas ' +
+      'donde sale este dato. Lo que dejes vacío sigue siendo de DofusDB, y el refresco de ' +
+      'los datos del juego nunca lo toca.',
+    name: 'Nombre',
+    nameHelp: 'Cómo se llama en la web. Vacío: el de DofusDB.',
+    level: 'Nivel',
+    levelHelp: 'El nivel que enseña la web. Vacío: el de DofusDB.',
+    image: 'Imagen',
+    imageHelp: 'Sustituye la imagen de DofusDB en la web. Vacía: la de DofusDB.',
+    hidden: 'Ocultar en la web',
+    hiddenHelp:
+      'No sale en ninguna página: ni en los combates, ni en «Necesitarás», ni en las ' +
+      'checklists o las almas.',
+    flag: 'Corregido por Torre',
+    flagHelp: 'Se marca solo cuando hay algo en «Corrección de Torre». Fíltralo en la lista.',
   },
   technical: {
     label: 'Datos técnicos',

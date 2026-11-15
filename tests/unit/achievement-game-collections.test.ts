@@ -3,7 +3,6 @@ import { describe, expect, it } from 'vitest'
 
 import { AchievementCategories } from '@/collections/AchievementCategories'
 import { Achievements } from '@/collections/Achievements'
-import { gameDataAccess } from '@/collections/game-data-access'
 
 function field(fields: Field[], name: string): Field {
   const found = fields.find((candidate) => 'name' in candidate && candidate.name === name)
@@ -15,12 +14,13 @@ describe.each([
   { collection: Achievements, slug: 'achievements' },
   { collection: AchievementCategories, slug: 'achievement-categories' },
 ])('colección $slug, datos de DofusDB', ({ collection, slug }) => {
-  it('es de solo lectura, en el grupo de datos del juego, sin borradores', () => {
+  it('es de solo lectura (salvo la corrección de Torre), en datos del juego, sin borradores', () => {
     expect(collection.slug).toBe(slug)
-    expect(collection.access).toBe(gameDataAccess)
+    expect(collection.access?.create?.({ req: { user: { id: 1 } } } as never)).toBe(false)
+    expect(collection.access?.update?.({ req: { user: null } } as never)).toBe(false)
     expect(collection.admin).toMatchObject({
       useAsTitle: 'name',
-      group: 'Datos del juego (solo lectura)',
+      group: 'Datos del juego',
     })
     expect(collection.versions).toBeUndefined()
   })

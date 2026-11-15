@@ -37,6 +37,7 @@ import * as migration_20261115_163339_checklist_step_dofus from './20261115_1633
 import * as migration_20261115_171343_quest_objective_show from './20261115_171343_quest_objective_show';
 import * as migration_20261115_174248_checklist_figure_name from './20261115_174248_checklist_figure_name';
 import * as migration_20261115_175400_quest_guides_import_snapshot from './20261115_175400_quest_guides_import_snapshot';
+import * as migration_20261115_182043_game_data_torre_corrections from './20261115_182043_game_data_torre_corrections';
 
 export const migrations = [
   {
@@ -232,6 +233,11 @@ export const migrations = [
   {
     up: migration_20261115_175400_quest_guides_import_snapshot.up,
     down: migration_20261115_175400_quest_guides_import_snapshot.down,
-    name: '20261115_175400_quest_guides_import_snapshot'
+    name: '20261115_175400_quest_guides_import_snapshot',
+  },
+  {
+    up: migration_20261115_182043_game_data_torre_corrections.up,
+    down: migration_20261115_182043_game_data_torre_corrections.down,
+    name: '20261115_182043_game_data_torre_corrections'
   },
 ];
