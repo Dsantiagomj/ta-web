@@ -78,5 +78,42 @@ export default defineRailway((ctx) => {
     },
   })
 
-  return project('ta-web', { resources: [web] })
+  // La tarea semanal que trae de DofusDB los datos del juego (pnpm data:refresh, que deja su
+  // fila en «Refrescos de datos»). Railway arranca el contenedor a su hora, corre el comando y
+  // lo apaga: entre una vez y otra no gasta nada, y Neon puede dormir. Solo en dev por ahora:
+  // producción no tiene fuente de GitHub, así que su tarea llegará con el workflow de release.
+  // Los secretos son referencias a los de la web (${{web.X}}): no hay ninguno nuevo que crear.
+  const gameData = service('game-data', {
+    source: github(REPO, { branch: 'main', checkSuites: false }),
+    // payload run transpila los scripts al vuelo: el build de Next no hace falta.
+    build: {
+      builder: 'RAILPACK',
+      buildCommand: 'echo "Sin build de Next: esta tarea solo corre pnpm data:refresh"',
+    },
+    start: 'pnpm data:refresh --schedule',
+    replicas: { [REGION]: 1 },
+    deploy: {
+      // Los miércoles a las 06:00 UTC (07:00 u 08:00 en Madrid): Ankama suele parchear el
+      // martes. Una vez por semana: cada vuelta despierta a Neon unos minutos.
+      cronSchedule: '0 6 * * 3',
+      // Un fallo no se reintenta solo: queda en «Refrescos de datos» y lo repite la semana
+      // siguiente o el botón del panel.
+      restartPolicyType: 'NEVER',
+    },
+    env: {
+      RAILPACK_NODE_VERSION: '24.22.2',
+      DATABASE_URL: web.env.DATABASE_URL,
+      PAYLOAD_SECRET: web.env.PAYLOAD_SECRET,
+      NEXT_PUBLIC_SITE_URL: web.env.NEXT_PUBLIC_SITE_URL,
+      S3_ENDPOINT: web.env.S3_ENDPOINT,
+      S3_BUCKET: web.env.S3_BUCKET,
+      S3_ACCESS_KEY_ID: web.env.S3_ACCESS_KEY_ID,
+      S3_SECRET_ACCESS_KEY: web.env.S3_SECRET_ACCESS_KEY,
+      MEDIA_BASE_URL: web.env.MEDIA_BASE_URL,
+      SENTRY_DSN: web.env.SENTRY_DSN,
+      APP_ENV: 'dev',
+    },
+  })
+
+  return project('ta-web', { resources: dev ? [web, gameData] : [web] })
 })
