@@ -201,7 +201,12 @@ describe('los logros y los metalogros', () => {
   })
 
   it('un índice sin logros ni metalogros sigue valiendo', () => {
-    expect(siteEntries({ guides: [] })).toEqual({ quests: [], achievements: [], metalogros: [] })
+    expect(siteEntries({ guides: [] })).toEqual({
+      quests: [],
+      achievements: [],
+      metalogros: [],
+      content: [],
+    })
   })
 
   it('rechaza un logro o un metalogro que no es una fila', () => {
@@ -243,6 +248,59 @@ describe('los logros y los metalogros', () => {
     expect(heroResults(found, 'zzzz').status).toBe(
       'Ninguna misión se llama «zzzz». Prueba con otra palabra.',
     )
+  })
+})
+
+describe('las guías de Dofus, las checklists y las páginas en la portada', () => {
+  // Llegan en el índice del servidor (content), con las mismas reglas que el menú: solo lo
+  // que se abre (searchIndex en nav.ts).
+  const content: SearchIndex = {
+    guides: [['Ocre de ámbar', 'ocre-de-ambar', null, null]],
+    content: [
+      ['dofus', 'Dofus Ocre', '/dofus-ocre', '/media/ocre.webp'],
+      ['checklist', 'Almas del Ocre', '/almas-del-ocre', null],
+      ['pagina', 'Emotes', '/emotes', null],
+    ],
+  }
+
+  it('cada fila es una entrada de su tipo, con su enlace y su huevo', () => {
+    expect(siteEntries(content).content).toEqual([
+      {
+        type: 'dofus',
+        name: 'Dofus Ocre',
+        href: '/dofus-ocre',
+        image: { src: '/media/ocre.webp', size: 128 },
+      },
+      { type: 'checklist', name: 'Almas del Ocre', href: '/almas-del-ocre' },
+      { type: 'pagina', name: 'Emotes', href: '/emotes' },
+    ])
+  })
+
+  it('una respuesta vieja sin content sigue valiendo', () => {
+    expect(siteEntries({ guides: [] }).content).toEqual([])
+  })
+
+  it('una fila de un tipo desconocido o sin enlace se rechaza', () => {
+    expect(() =>
+      siteEntries({ guides: [], content: [['clase', 'Feca', '/feca', null]] as never }),
+    ).toThrow()
+    expect(() =>
+      siteEntries({ guides: [], content: [['dofus', 'Ocre', 3, null]] as never }),
+    ).toThrow()
+  })
+
+  it('la portada las busca, cada una en su grupo, y las cuenta en la línea', () => {
+    const hero = heroResults(siteEntries(content), 'ocre')
+    expect(hero.groups.map((g) => g.type)).toEqual(['mision', 'dofus', 'checklist'])
+    expect(hero.items.map((e) => e.name)).toEqual(['Ocre de ámbar', 'Dofus Ocre', 'Almas del Ocre'])
+    expect(hero.status).toBe('1 misión · 1 Dofus · 1 checklist')
+    expect(heroResults(siteEntries(content), 'emotes').status).toBe('1 página')
+  })
+
+  it('el diálogo no las repite: ya las tiene del menú', () => {
+    const results = searchSite(index, siteEntries(content), 'ocre')
+    expect(results.groups.map((g) => g.type)).toEqual(['mision'])
+    expect(results.totals).toEqual({ mision: 1, logro: 0, metalogro: 0 })
   })
 })
 

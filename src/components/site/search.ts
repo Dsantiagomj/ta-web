@@ -4,7 +4,12 @@
 // así no pesa en el JavaScript inicial de ninguna página (150 KB).
 
 import { GAME_ICONS } from '@/components/game/game-icons'
-import { GUIDE_SEARCH_INDEX_URL, type SearchIndex } from '@/lib/search/guide-index'
+import {
+  CONTENT_TYPES,
+  type ContentType,
+  GUIDE_SEARCH_INDEX_URL,
+  type SearchIndex,
+} from '@/lib/search/guide-index'
 
 import type { SearchEntry, SearchType } from './nav'
 import { queryKind } from './search-query'
@@ -22,15 +27,20 @@ export interface SiteEntries {
   quests: SearchEntry[]
   achievements: SearchEntry[]
   metalogros: SearchEntry[]
+  /** Las guías de Dofus, las checklists y las páginas: el diálogo ya las tiene del menú. */
+  content: SearchEntry[]
 }
 
 /** Lo que se busca en el índice del servidor, cada cosa en su grupo. */
-type FoundType = 'mision' | 'logro' | 'metalogro'
+type FoundType = 'mision' | 'logro' | 'metalogro' | ContentType
+
+/** Lo que el diálogo busca en el índice del servidor; el resto lo saca del menú. */
+type DialogType = 'mision' | 'logro' | 'metalogro'
 
 export interface SearchResults {
   groups: SearchGroup[]
   /** Las misiones, los logros y los metalogros que encajan, se vean o no. */
-  totals: Record<FoundType, number>
+  totals: Record<DialogType, number>
   /** Lo que encontró en el menú. */
   navCount: number
 }
@@ -42,6 +52,9 @@ export interface HeroResults {
   items: SearchEntry[]
   status: string
 }
+
+/** El huevo de un Dofus o de una checklist: su archivo de 128px (src/lib/dofus-guides/nav.ts). */
+const EGG_SIZE = 128
 
 /** Hasta aquí se ven todas las misiones; con más, la línea pide seguir escribiendo. */
 export const MANY_QUESTS = 50
@@ -116,7 +129,32 @@ export function siteEntries(index: SearchIndex): SiteEntries {
       ...(typeof counts === 'string' && counts && { detail: counts }),
     }
   })
-  return { quests: questEntries(index.guides), achievements, metalogros }
+  return {
+    quests: questEntries(index.guides),
+    achievements,
+    metalogros,
+    content: contentEntries(index),
+  }
+}
+
+/** Las guías de Dofus, las checklists y las páginas del índice, como entradas. */
+function contentEntries(index: SearchIndex): SearchEntry[] {
+  return rows(index.content, 'contenido').map((row): SearchEntry => {
+    const [type, name, href, image] = row
+    if (
+      !(CONTENT_TYPES as readonly unknown[]).includes(type) ||
+      typeof name !== 'string' ||
+      typeof href !== 'string'
+    ) {
+      throw new Error('Fila no válida en el índice')
+    }
+    return {
+      type,
+      name,
+      href,
+      ...(typeof image === 'string' && image && { image: { src: image, size: EGG_SIZE } }),
+    }
+  })
 }
 
 /** Las guías del índice del servidor como entradas de la búsqueda, con su segunda línea. */
@@ -201,20 +239,30 @@ function rank(entries: SearchEntry[], query: string) {
 }
 
 // Los grupos del índice del servidor, en su orden a igualdad: lo que más se busca primero.
-const FOUND: [FoundType, keyof SiteEntries][] = [
-  ['mision', 'quests'],
-  ['logro', 'achievements'],
-  ['metalogro', 'metalogros'],
-]
+const DIALOG_FOUND: DialogType[] = ['mision', 'logro', 'metalogro']
+const HERO_FOUND: FoundType[] = [...DIALOG_FOUND, ...CONTENT_TYPES]
+
+/** Las entradas de un tipo del índice del servidor. */
+function entriesOf(entries: SiteEntries | undefined, type: FoundType): SearchEntry[] {
+  if (!entries) return []
+  if (type === 'mision') return entries.quests
+  if (type === 'logro') return entries.achievements
+  if (type === 'metalogro') return entries.metalogros
+  return entries.content.filter((entry) => entry.type === type)
+}
 
 type Ranked = { group: SearchGroup; best: number; rank: number }
 
-/** Las misiones, los logros y los metalogros que encajan, cada cosa en su grupo. */
-function rankFound(entries: SiteEntries | undefined, query: string) {
-  const totals: Record<FoundType, number> = { mision: 0, logro: 0, metalogro: 0 }
+/** Lo que encaja de cada tipo, cada cosa en su grupo, y cuántas de cada uno. */
+function rankFound<T extends FoundType>(
+  entries: SiteEntries | undefined,
+  query: string,
+  types: readonly T[],
+) {
+  const totals = Object.fromEntries(types.map((type) => [type, 0])) as Record<T, number>
   const groups: Ranked[] = []
-  FOUND.forEach(([type, key], rankIndex) => {
-    const found = rank(entries?.[key] ?? [], query)
+  types.forEach((type, rankIndex) => {
+    const found = rank(entriesOf(entries, type), query)
     totals[type] = found.total
     if (found.best !== null) {
       groups.push({ group: { type, items: found.items }, best: found.best, rank: rankIndex })
@@ -241,20 +289,24 @@ export function searchSite(
   }
   const terms = words(query)
   const best = (group: SearchGroup) => Math.min(...group.items.map((e) => score(e.name, terms)!))
-  const found = rankFound(entries, query)
+  const found = rankFound(entries, query, DIALOG_FOUND)
   const nav = searchNav(index, query).map((group) => ({
     group,
     best: best(group),
-    rank: FOUND.length,
+    rank: DIALOG_FOUND.length,
   }))
   const navCount = nav.reduce((n, g) => n + g.group.items.length, 0)
   const groups = [...found.groups, ...nav].sort(byScore)
   return { groups: groups.map((g) => g.group), totals: found.totals, navCount }
 }
 
-/** La búsqueda de la portada: lo mismo sin el menú, con su línea de estado. */
+/**
+ * La búsqueda de la portada: sin el menú, pero con todo el contenido que se abre (las
+ * misiones, los logros, los metalogros, las guías de Dofus, las checklists y las páginas),
+ * con su línea de estado.
+ */
 export function heroResults(entries: SiteEntries, query: string): HeroResults {
-  const found = rankFound(entries, query)
+  const found = rankFound(entries, query, HERO_FOUND)
   const groups = found.groups.sort(byScore).map((g) => g.group)
   return {
     groups,
@@ -304,7 +356,11 @@ export function highlight(name: string, terms: string[]): HighlightPart[] {
  * Lo que encontró, en la línea de estado: las misiones, los logros, los metalogros y, en el
  * diálogo, lo del menú. Sin misiones ni logros, lo del menú va tras «Ninguna misión».
  */
-function questStatus(query: string, totals: Record<FoundType, number>, navCount = 0): string {
+function questStatus(
+  query: string,
+  totals: Partial<Record<FoundType, number>>,
+  navCount = 0,
+): string {
   const nav = navCount ? s.nav(navCount) : ''
   // Con más de MANY_QUESTS solo se ven SHOWN_WHEN_MANY: la línea lo dice y pide afinar.
   let more = false
@@ -314,9 +370,12 @@ function questStatus(query: string, totals: Record<FoundType, number>, navCount 
     return s.over(say(MANY_QUESTS))
   }
   const parts = [
-    part(totals.mision, s.count),
-    part(totals.logro, s.achievements),
-    part(totals.metalogro, s.metalogros),
+    part(totals.mision ?? 0, s.count),
+    part(totals.logro ?? 0, s.achievements),
+    part(totals.metalogro ?? 0, s.metalogros),
+    part(totals.dofus ?? 0, s.dofus),
+    part(totals.checklist ?? 0, s.checklists),
+    part(totals.pagina ?? 0, s.pages),
   ].filter(Boolean)
   if (parts.length === 0) return nav ? s.noneWithNav(nav) : s.none(query.trim())
   const found = parts.join(' · ') + (more ? s.keepTyping : '')

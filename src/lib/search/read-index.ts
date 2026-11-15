@@ -1,14 +1,24 @@
 import type { Payload } from 'payload'
 
+import { searchIndex, type SearchEntry } from '@/components/site/nav'
 import { metalogrosIndexView, type IndexView } from '@/lib/achievements/metalogros'
 import { readMetalogrosIndex } from '@/lib/achievements/queries'
+import { checklistEntries, checklistNavItems } from '@/lib/checklists/list'
+import { readChecklists } from '@/lib/checklists/queries'
+import { dofusNavItems } from '@/lib/dofus-guides/nav'
+import { readDofusList } from '@/lib/dofus-guides/queries'
 import { corrected } from '@/lib/game-data/correction'
+import { pageNavItems } from '@/lib/pages/page'
+import { readPageNav } from '@/lib/pages/queries'
 
-import type {
-  AchievementIndexRow,
-  GuideIndexRow,
-  MetalogroIndexRow,
-  SearchIndex,
+import {
+  CONTENT_TYPES,
+  type AchievementIndexRow,
+  type ContentIndexRow,
+  type ContentType,
+  type GuideIndexRow,
+  type MetalogroIndexRow,
+  type SearchIndex,
 } from './guide-index'
 
 // Lee del servidor el índice de la búsqueda (guide-index.ts): lo sirve
@@ -62,11 +72,42 @@ export function achievementSearchRows(
   }
 }
 
+const isContent = (entry: SearchEntry): entry is SearchEntry & { type: ContentType } =>
+  (CONTENT_TYPES as readonly string[]).includes(entry.type)
+
+/**
+ * Las guías de Dofus, las checklists y las páginas, con las mismas reglas que la búsqueda del
+ * menú (searchIndex): solo lo que se abre, con el huevo que ve el visitante (el de Torre, o
+ * el del objeto con su corrección).
+ */
+export function contentRows(entries: SearchEntry[]): ContentIndexRow[] {
+  return entries
+    .filter(isContent)
+    .map(({ type, name, href, image }) => [type, name, href, image?.src ?? null])
+}
+
+/** Lo que enlaza el menú, leído como lo ve un visitante anónimo. */
+async function readContentRows(payload: Payload): Promise<ContentIndexRow[]> {
+  const [dofus, checklists, pages] = await Promise.all([
+    readDofusList(payload),
+    readChecklists(payload),
+    readPageNav(payload),
+  ])
+  return contentRows(
+    searchIndex(
+      dofusNavItems(dofus),
+      checklistNavItems(checklistEntries(checklists)),
+      pageNavItems(pages),
+    ),
+  )
+}
+
 /** El índice entero de la búsqueda, como lo ve un visitante anónimo. */
 export async function readSearchIndex(payload: Payload): Promise<SearchIndex> {
-  const [guides, metalogros] = await Promise.all([
+  const [guides, metalogros, content] = await Promise.all([
     readGuideRows(payload),
     readMetalogrosIndex(payload),
+    readContentRows(payload),
   ])
-  return { guides, ...achievementSearchRows(metalogrosIndexView(metalogros)) }
+  return { guides, ...achievementSearchRows(metalogrosIndexView(metalogros)), content }
 }

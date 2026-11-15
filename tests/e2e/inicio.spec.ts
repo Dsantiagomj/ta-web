@@ -75,14 +75,17 @@ test.describe('portada', () => {
     await expect(shown(page)).toHaveText('Escribe una letra más para buscar.')
     await expect(list(page)).toBeHidden()
     await field(page).fill('es')
-    await expect(shown(page)).toHaveText('2 misiones')
-    const options = list(page).getByRole('option')
+    // También las checklists y las páginas que lo llevan dentro; las misiones van primero.
+    await expect(shown(page)).toHaveText('2 misiones · 1 checklist · 2 páginas')
+    const options = list(page).getByRole('group', { name: 'Misiones' }).getByRole('option')
     await expect(options).toHaveCount(2)
     await expect(options.nth(0)).toContainText('Esto hace aguas')
     await expect(options.nth(0).locator('mark')).toHaveText(['Es'])
     await expect(field(page)).toHaveAttribute('aria-expanded', 'true')
     // El lector de pantalla lo oye en la región de estado, cuando se deja de escribir.
-    await expect(page.locator('.ask [role="status"]')).toHaveText('2 misiones')
+    await expect(page.locator('.ask [role="status"]')).toHaveText(
+      '2 misiones · 1 checklist · 2 páginas',
+    )
     await field(page).fill('zzzz')
     await expect(shown(page)).toHaveText('Ninguna misión se llama «zzzz». Prueba con otra palabra.')
   })
@@ -111,7 +114,9 @@ test.describe('portada', () => {
     await page.clock.install()
     await open(page)
     await field(page).fill('es')
-    await expect(list(page).getByRole('option')).toHaveCount(2)
+    await expect(
+      list(page).getByRole('group', { name: 'Misiones' }).getByRole('option'),
+    ).toHaveCount(2)
     await page.clock.runFor(200)
     await page.keyboard.press('ArrowDown')
     await page.keyboard.press('ArrowDown')
@@ -126,7 +131,9 @@ test.describe('portada', () => {
 
     await open(page)
     await field(page).fill('es')
-    await expect(list(page).getByRole('option')).toHaveCount(2)
+    await expect(
+      list(page).getByRole('group', { name: 'Misiones' }).getByRole('option'),
+    ).toHaveCount(2)
     await page.keyboard.press('Enter')
     await expect(page).toHaveURL(new RegExp(`/${seedGuide.prerequisite.slug}$`))
   })
@@ -136,12 +143,16 @@ test.describe('portada', () => {
   }) => {
     await open(page)
     await field(page).fill('es')
-    await expect(list(page).getByRole('option')).toHaveCount(2)
+    await expect(
+      list(page).getByRole('group', { name: 'Misiones' }).getByRole('option'),
+    ).toHaveCount(2)
     // «est» deja una sola misión; las flechas llegan antes de que se ordene la lista nueva.
     await page.keyboard.type('t')
     await page.keyboard.press('ArrowDown')
     await page.keyboard.press('ArrowDown')
-    await expect(list(page).getByRole('option')).toHaveCount(1)
+    await expect(
+      list(page).getByRole('group', { name: 'Misiones' }).getByRole('option'),
+    ).toHaveCount(1)
     await expect(field(page)).not.toHaveAttribute('aria-activedescendant')
     // Desde ahí, la flecha elige la que hay.
     await page.keyboard.press('ArrowDown')
@@ -296,6 +307,30 @@ test.describe('portada', () => {
     await expect(logros.getByRole('option')).toHaveAttribute('aria-selected', 'true')
     await page.keyboard.press('Enter')
     await expect(page).toHaveURL(/\/la-ocasion-hace-al-ladron$/)
+  })
+})
+
+test.describe('portada: todo el contenido y el teclado', () => {
+  test.use({ viewport: { width: 1440, height: 900 } })
+
+  test('encuentra también las guías de Dofus, las checklists y las páginas', async ({ page }) => {
+    await open(page)
+    await field(page).fill('emotes')
+    await expect(shown(page)).toHaveText('1 página')
+    await expect(list(page).getByRole('option')).toHaveText(['Emotes'])
+    await field(page).fill('nebuloso')
+    await expect(shown(page)).toHaveText('1 checklist')
+    await field(page).fill('dofus ocre')
+    await expect(shown(page)).toHaveText('1 Dofus')
+    await expect(list(page).getByRole('option')).toHaveText(['Dofus Ocre'])
+    // Lo que está En preparación no se busca.
+    await field(page).fill('jyfus')
+    await expect(shown(page)).toHaveText(/^Ninguna misión se llama «jyfus»/)
+    // Intro abre la página.
+    await field(page).fill('emotes')
+    await expect(list(page).getByRole('option')).toHaveText(['Emotes'])
+    await page.keyboard.press('Enter')
+    await expect(page).toHaveURL(/\/emotes$/)
   })
 })
 
