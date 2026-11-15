@@ -494,7 +494,11 @@ export async function loadDofusGuides(
     const gained = { withoutQuantity: [] as Gained[], singular: [] as Gained[] }
     const needRow = async (
       row: NeedRow,
-    ): Promise<{ block: Record<string, unknown>; superTypeId?: number | null }> => {
+    ): Promise<{
+      block: Record<string, unknown>
+      superTypeId?: number | null
+      unmatched?: boolean
+    }> => {
       if (row.name) {
         const withQuantity = row.quantity !== undefined
         const found = lookups.get(row.name) ?? { match: await options.findItem(row.name) }
@@ -519,7 +523,10 @@ export async function loadDofusGuides(
           return { block, superTypeId: match.superTypeId }
         }
         // Una fila sin cantidad que no es un objeto es una nota, como siempre: no se avisa.
-        if (withQuantity) unmatched('objeto', row.name)
+        if (withQuantity) {
+          unmatched('objeto', row.name)
+          return { block: noteBlock(row.segs), unmatched: true }
+        }
       }
       return { block: noteBlock(row.segs) }
     }
@@ -530,22 +537,29 @@ export async function loadDofusGuides(
 
     // Las filas de Torre con sus títulos encima, del más cercano al más lejano. Una fila con
     // filas debajo («1 x Mazmorra:», «Dependiendo de tu nivel:») es un subtítulo: sus filas
-    // van juntas y él encima, con la cantidad y el sentido que le dio Torre. Dos subtítulos
-    // anidados van seguidos: «1 x Mazmorra: Dependiendo de tu nivel».
+    // van juntas y él encima, con la cantidad y el sentido que le dio Torre. Con dos anidados,
+    // el de dentro es el subtítulo y el de fuera va encima, cada uno en su línea (lead).
     const entries = async (
       rows: NeedRow[],
       headings: (string | null)[],
       unit?: string,
+      lead: string[] = [],
     ): Promise<NeedEntry[]> => {
       const out: NeedEntry[] = []
       for (const row of rows) {
         if (!row.children?.length) {
-          out.push({ text: row.text, headings, ...(unit && { unit }), ...(await needRow(row)) })
+          out.push({
+            text: row.text,
+            headings,
+            ...(unit && { unit }),
+            ...(lead.length && { lead }),
+            ...(await needRow(row)),
+          })
           continue
         }
         const heading = row.text.replace(/[:.]\s*$/, '')
-        const inner = unit ? `${unit}: ${heading}` : heading
-        out.push(...(await entries(row.children, [heading, ...headings], inner)))
+        const outer = unit ? [...lead, unit] : lead
+        out.push(...(await entries(row.children, [heading, ...headings], heading, outer)))
       }
       return out
     }

@@ -294,3 +294,54 @@ describe('achievementName', () => {
     expect(achievementName('Cazamonturas.')).toBeNull()
   })
 })
+
+describe('normalizeNeeds: las filas de Torre no se mueven ni se juntan', () => {
+  /** Una fila «1 x …» que no casó con ningún objeto: queda como nota con el texto de Torre. */
+  const unmatched = (text: string, headings: (string | null)[] = []): NeedEntry => ({
+    ...note(text, headings),
+    unmatched: true,
+  })
+
+  it('un objeto sin casar se queda en el grupo de las filas de su lista (Vigilante, Plateado)', () => {
+    expect(
+      groupsOf([
+        item('1 x Píxel de kaxaco.', 9),
+        unmatched('1 x Píxel de transgolog.'),
+        item('1 x Píxel de recíxel.', 9),
+        item('1 x Anillo de bandido.', 3),
+      ]),
+    ).toEqual([
+      ['recursos', ['1 x Píxel de kaxaco.', '1 x Píxel de transgolog.', '1 x Píxel de recíxel.']],
+      ['equipables', ['1 x Anillo de bandido.']],
+    ])
+    // El primero de su lista toma el grupo de la fila que le sigue.
+    expect(
+      groupsOf([unmatched('1 x Flor de diente de león diabólico.'), item('1 x Gobio.', 9)]),
+    ).toEqual([['recursos', ['1 x Flor de diente de león diabólico.', '1 x Gobio.']]])
+    // Solo cuentan las filas de su misma lista de Torre.
+    expect(
+      groupsOf([item('1 x Gobio.', 9, ['Recursos']), unmatched('1 x Cosa rara.', ['Otros'])]),
+    ).toEqual([
+      ['recursos', ['1 x Gobio.']],
+      ['otros', ['1 x Cosa rara.']],
+    ])
+  })
+
+  it('una fila «Logro:» va a Logros aunque DofusDB no tenga ese nombre (Esmeralda)', () => {
+    expect(
+      groupsOf([note('Logro: “Cazamonturas”.'), note('Logro: “La primera montura”.')]),
+    ).toEqual([['logros', ['Logro: “Cazamonturas”.', 'Logro: “La primera montura”.']]])
+  })
+
+  it('dos títulos de Torre, uno dentro del otro, quedan los dos, cada uno en su línea (Vigilante)', () => {
+    const rows = ['Nivel 80 al 114: Malefíscof.', 'Nivel 115 al 139: Fraktal.'].map((text) => ({
+      ...note(text, ['Dependiendo de tu nivel', '1 x Mazmorra', null]),
+      unit: 'Dependiendo de tu nivel',
+      lead: ['1 x Mazmorra'],
+    }))
+    expect(groupsOf(rows)).toEqual([
+      ['mazmorras', '1 x Mazmorra', []],
+      ['mazmorras', 'Dependiendo de tu nivel', rows.map((row) => row.text)],
+    ])
+  })
+})
