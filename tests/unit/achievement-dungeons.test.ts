@@ -338,3 +338,30 @@ describe('dungeonChooser', () => {
     expect(chooser('Mazmorra Ben Ripata')).toMatchObject({ how: 'none', dungeon: null })
   })
 })
+
+// Las franjas de nivel de las guías de Dofus de dev (Cacao y Vigilante, 2026-11-15): «Nivel
+// 80 al 114: Malefíscof.» nombra la mazmorra detrás de la franja. La franja no es parte del
+// nombre: sin ella, la nota casa como cualquier otra.
+describe('dungeonMatches: una franja de nivel delante del nombre', () => {
+  const explain = dungeonMatches(DEV_DUNGEONS as DungeonNames[])
+  const dungeonOf = (label: string) => explain(label).dungeon?.name ?? null
+
+  it.each([
+    ['Nivel 20 a 119: Fundición de los waddictos', 'Fundición de los Waddictos'],
+    ['Nivel 129 a 179: Crocantería', 'Crocantería'],
+    ['Nivel 180+: Templo del Dios Kao', 'Templo del Dios Kao'],
+    ['Nivel 80 al 114: Malefíscof', 'Fábrica de Malefíscof'],
+    ['Nivel 115 al 139: Fraktal', 'Megalito de Fraktal'],
+    ['Nivel 140 al 164: Perfósil', 'Galería de Perfósil'],
+    ['Nivel 165 al 189: XLII', 'Relojarium de XLII'],
+    ['Nivel 190 al 200: Toxoliat', 'Cueva de Toxoliat'],
+  ])('«%s» es %s', (label, dungeon) => {
+    expect(dungeonOf(label)).toBe(dungeon)
+  })
+
+  it('solo la franja del principio: sin nombre detrás, o en medio de la nota, no casa', () => {
+    expect(dungeonOf('Nivel 20 a 119:')).toBeNull()
+    expect(dungeonOf('Mazmorras nivel 200')).toBeNull()
+    expect(dungeonOf('Hacer mazmorras de nivel 200 para un drop del 0,7% xD')).toBeNull()
+  })
+})
