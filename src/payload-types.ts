@@ -82,6 +82,7 @@ export interface Config {
     subareas: Subarea;
     'achievement-categories': AchievementCategory;
     achievements: Achievement;
+    'game-data-refreshes': GameDataRefresh;
     redirects: Redirect;
     users: User;
     'payload-kv': PayloadKv;
@@ -106,6 +107,7 @@ export interface Config {
     subareas: SubareasSelect<false> | SubareasSelect<true>;
     'achievement-categories': AchievementCategoriesSelect<false> | AchievementCategoriesSelect<true>;
     achievements: AchievementsSelect<false> | AchievementsSelect<true>;
+    'game-data-refreshes': GameDataRefreshesSelect<false> | GameDataRefreshesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -1998,25 +2000,33 @@ export interface Subarea {
   createdAt: string;
 }
 /**
- * Las direcciones viejas que llevan a la nueva. Se crean solas cuando publicas una página con otra dirección.
+ * Cada vez que se trajeron de DofusDB los datos del juego: cuándo, quién y cómo acabó.
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "redirects".
+ * via the `definition` "game-data-refreshes".
  */
-export interface Redirect {
+export interface GameDataRefresh {
   id: number;
+  startedAt: string;
+  finishedAt?: string | null;
+  status: 'running' | 'ok' | 'partial' | 'failed';
+  trigger: 'schedule' | 'panel' | 'script';
+  requestedBy?: (number | null) | User;
   /**
-   * La dirección que ya no tiene página, sin la barra: «aprendizaje-escudero». Quien la abra irá a la nueva.
+   * Lo creado, actualizado, sin cambios y fallido en cada colección.
    */
-  from: string;
-  /**
-   * Adónde lleva, también sin la barra. Si esa dirección ya lleva a otra, se guarda la última, para que nadie dé dos saltos.
-   */
-  to: string;
-  /**
-   * La web la crea sola cuando publicas una página con otra dirección. Puedes cambiarla o borrarla.
-   */
-  auto?: boolean | null;
+  report?: string | null;
+  error?: string | null;
+  summary?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  lock?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2055,6 +2065,29 @@ export interface User {
     | null;
   password?: string | null;
   collection: 'users';
+}
+/**
+ * Las direcciones viejas que llevan a la nueva. Se crean solas cuando publicas una página con otra dirección.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "redirects".
+ */
+export interface Redirect {
+  id: number;
+  /**
+   * La dirección que ya no tiene página, sin la barra: «aprendizaje-escudero». Quien la abra irá a la nueva.
+   */
+  from: string;
+  /**
+   * Adónde lleva, también sin la barra. Si esa dirección ya lleva a otra, se guarda la última, para que nadie dé dos saltos.
+   */
+  to: string;
+  /**
+   * La web la crea sola cuando publicas una página con otra dirección. Puedes cambiarla o borrarla.
+   */
+  auto?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2139,6 +2172,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'achievements';
         value: number | Achievement;
+      } | null)
+    | ({
+        relationTo: 'game-data-refreshes';
+        value: number | GameDataRefresh;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -3181,6 +3218,23 @@ export interface AchievementsSelect<T extends boolean = true> {
       };
   refreshedAt?: T;
   corrected?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "game-data-refreshes_select".
+ */
+export interface GameDataRefreshesSelect<T extends boolean = true> {
+  startedAt?: T;
+  finishedAt?: T;
+  status?: T;
+  trigger?: T;
+  requestedBy?: T;
+  report?: T;
+  error?: T;
+  summary?: T;
+  lock?: T;
   updatedAt?: T;
   createdAt?: T;
 }

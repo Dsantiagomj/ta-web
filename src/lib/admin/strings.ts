@@ -83,6 +83,8 @@ export const panelStrings = {
       'Las categorías de logros de DofusDB, como «Astrub» o «Eventos».',
     ),
     achievements: correctable('Los logros de DofusDB. Cada página de logro enlaza uno.'),
+    'game-data-refreshes':
+      'Cada vez que se trajeron de DofusDB los datos del juego: cuándo, quién y cómo acabó.',
     redirects:
       'Las direcciones viejas que llevan a la nueva. Se crean solas cuando publicas una ' +
       'página con otra dirección.',
@@ -409,6 +411,46 @@ export const panelStrings = {
     'dofus-guides': { subject: 'Esta guía de Dofus', feminine: true },
   },
   /** «Corrección de Torre» en los datos de DofusDB (src/collections/torre-correction.ts). */
+  /** «Refrescos de datos»: traer de DofusDB los datos del juego (refresh-runs.ts). */
+  gameDataRefresh: {
+    singular: 'Refresco de datos',
+    plural: 'Refrescos de datos',
+    startedAt: 'Empezó',
+    finishedAt: 'Acabó',
+    trigger: 'Lo lanzó',
+    triggers: {
+      schedule: 'La tarea semanal',
+      panel: 'El botón del panel',
+      script: 'Un script a mano',
+    },
+    status: 'Resultado',
+    statuses: {
+      running: 'En marcha',
+      ok: 'Hecho',
+      partial: 'Con filas fallidas',
+      failed: 'Falló',
+    },
+    requestedBy: 'Cuenta',
+    report: 'Resumen',
+    reportHelp: 'Lo creado, actualizado, sin cambios y fallido en cada colección.',
+    error: 'Error',
+    stale:
+      'Se cortó antes de acabar (el proceso se paró). El siguiente refresco sigue donde se quedó.',
+    // El recuadro de arriba de la lista (src/components/admin/GameDataRefresh.tsx).
+    title: 'Traer los datos de DofusDB',
+    help:
+      'Los datos del juego se ponen al día solos una vez por semana. Si Ankama sacó algo ' +
+      'nuevo y no quieres esperar, tráelos ahora: tarda unos minutos y tu «Corrección de ' +
+      'Torre» y tus guías no se tocan. Lo nuevo sale en la web en 10 minutos como mucho.',
+    button: 'Traer ahora',
+    starting: 'Empezando…',
+    started: 'Empezó. Tarda unos minutos: recarga la página para ver cómo va.',
+    busy: 'Ya hay uno en marcha. Espera a que acabe.',
+    failedToStart: 'No se pudo empezar. Prueba otra vez en un rato.',
+    adminOnly: 'Solo una cuenta de administrador puede traerlos a mano.',
+    never: 'Todavía no se ha traído nada desde el panel ni la tarea semanal.',
+    last: 'Último:',
+  },
   correction: {
     label: 'Corrección de Torre',
     help:

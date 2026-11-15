@@ -13,6 +13,7 @@ import { Checklists } from './collections/Checklists'
 import { Achievements } from './collections/Achievements'
 import { DofusGuides } from './collections/DofusGuides'
 import { Dungeons } from './collections/Dungeons'
+import { GameDataRefreshes } from './collections/GameDataRefreshes'
 import { Items } from './collections/Items'
 import { Media } from './collections/Media'
 import { Monsters } from './collections/Monsters'
@@ -90,6 +91,7 @@ export default buildConfig({
     SubAreas,
     AchievementCategories,
     Achievements,
+    GameDataRefreshes,
     Redirects,
     Users,
   ]),

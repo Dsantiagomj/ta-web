@@ -111,8 +111,10 @@ describe('A-03: el orden del menú', () => {
     ])
   })
 
-  it('los datos del juego, de solo lectura, van juntos', () => {
-    expect(navGroups()[2]?.slugs.sort()).toEqual([...GAME_DATA].sort())
+  it('los datos del juego van juntos, con sus refrescos al final', () => {
+    const slugs = navGroups()[2]?.slugs ?? []
+    expect(slugs.toSorted()).toEqual([...GAME_DATA, 'game-data-refreshes'].sort())
+    expect(slugs.at(-1)).toBe('game-data-refreshes')
   })
 
   it('ninguna colección se queda sin grupo («Colecciones» no dice nada)', () => {

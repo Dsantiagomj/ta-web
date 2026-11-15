@@ -6,6 +6,7 @@ import {
   summaryLines,
   type GameDataSummary,
 } from '@/lib/dofusdb/refresh-game-data'
+import { triggerFromArgs } from '@/lib/game-data/refresh-run-values'
 
 // El resumen del refresco de los datos del juego: una línea por colección, con lo creado,
 // actualizado, sin cambios y fallido, que imprime el script y guarda el panel.
@@ -53,5 +54,17 @@ describe('rowFailures', () => {
   it('una imagen que DofusDB no sirve no cuenta como fallo', () => {
     expect(summary().images.failed).toBeGreaterThan(0)
     expect(rowFailures(summary())).toBe(0)
+  })
+})
+
+describe('triggerFromArgs', () => {
+  it('sin opciones es un script a mano; con --schedule, la tarea semanal', () => {
+    expect(triggerFromArgs([])).toBe('script')
+    expect(triggerFromArgs(['--schedule'])).toBe('schedule')
+    expect(triggerFromArgs(['--', '--schedule'])).toBe('schedule')
+  })
+
+  it('una opción desconocida falla en vez de pasar por alto', () => {
+    expect(() => triggerFromArgs(['--shedule'])).toThrow(/--shedule/)
   })
 })
