@@ -101,6 +101,7 @@ const draftFor = (slug: string, overrides: Partial<ChecklistDraft> = {}): Checkl
         zone: 'Llanuras de prueba',
         closes: [],
         updates: [],
+        dofus: [],
       },
       {
         legacyNumber: 2,
@@ -134,6 +135,7 @@ const draftFor = (slug: string, overrides: Partial<ChecklistDraft> = {}): Checkl
         zone: 'Llanuras de prueba',
         closes: [],
         updates: [],
+        dofus: [],
       },
       {
         legacyNumber: 3,
@@ -152,6 +154,7 @@ const draftFor = (slug: string, overrides: Partial<ChecklistDraft> = {}): Checkl
         zone: 'Zona de prueba',
         closes: [],
         updates: [],
+        dofus: [],
       },
     ],
     legacy: {
@@ -242,7 +245,7 @@ async function cleanUp() {
   })
   await payload.delete({
     collection: 'items',
-    where: { dofusId: { in: [997_301, 997_302] } },
+    where: { dofusId: { in: [997_301, 997_302, 997_303] } },
     overrideAccess: true,
   })
   await payload.delete({
@@ -287,10 +290,21 @@ beforeAll(async () => {
   ids.boss = (
     await create({ collection: 'monsters', data: { dofusId: 997_501, name: 'Vórtex' } })
   ).id
+  // El huevo de la guía: el Dofus por el que la encuentra el camino de un paso.
+  const egg = await create({
+    collection: 'items',
+    data: { dofusId: 997_303, name: 'Dofus de prueba' },
+  })
   ids.guide = (
     await create({
       collection: 'dofus-guides',
-      data: { name: 'Dofus de prueba', slug: `${PREFIX}-guia`, order: 99, state: 'published' },
+      data: {
+        name: 'Dofus de prueba',
+        slug: `${PREFIX}-guia`,
+        order: 99,
+        state: 'published',
+        dofus: egg.id,
+      },
     })
   ).id
   ids.icon = (
@@ -1021,5 +1035,32 @@ describe('las checklists sin portar', () => {
     expect(report.unmatched).toEqual([
       { slug: ficha.slug, step: null, kind: 'guía de Dofus', name: 'no-existe' },
     ])
+  })
+})
+
+describe('el camino de Dofus y una checklist sin guía de Dofus (el rush)', () => {
+  const slug = `${PREFIX}-rush`
+
+  it('cada paso guarda los Dofus que da, por su guía; el que no tiene guía se dice', async () => {
+    const draft = draftFor(slug)
+    // El nombre del camino antiguo va en otra mayúscula que el del objeto.
+    draft.steps[0].dofus = ['dofus de PRUEBA', 'Dofus fantasma']
+    draft.steps[2].dofus = ['Dofus de prueba']
+    const { dofusGuide: _guide, ...withoutGuide } = draft
+    const rush = entry(slug, { dofusGuide: undefined })
+    const report = await loadChecklists(payload, options([{ entry: rush, draft: withoutGuide }]))
+    expect(report.created).toBe(1)
+    // Sin guía de Dofus no hay nada que avisar; el Dofus del camino sin guía, sí.
+    const mine = report.unmatched.filter((row) => row.slug === slug)
+    expect(mine.filter((row) => row.kind === 'guía de Dofus')).toEqual([])
+    expect(mine.filter((row) => row.kind === 'Dofus')).toEqual([
+      { slug, step: 1, kind: 'Dofus', name: 'Dofus fantasma' },
+    ])
+    const doc = (await read(slug))!
+    expect(doc.dofusGuide ?? null).toBeNull()
+    expect(doc.steps!.map((step) => step.dofus ?? [])).toEqual([[ids.guide], [], [ids.guide]])
+
+    const again = await loadChecklists(payload, options([{ entry: rush, draft: withoutGuide }]))
+    expect(again).toMatchObject({ created: 0, updated: 0, unchanged: 1 })
   })
 })

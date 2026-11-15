@@ -45,7 +45,11 @@ const entries: CardImportEntry[] = [
       npcFit: { height: 72, right: -30, top: 4 },
     },
   },
-  { slug: slugs.draft, card: { scene: { path: ART.scene, alt: 'Xelorium' } } },
+  // Sin guía de Dofus (el rush): su color viene del hub.
+  {
+    slug: slugs.draft,
+    card: { scene: { path: ART.scene, alt: 'Xelorium' }, color: '#e3c565' },
+  },
   // El nombre del hub: «Almas del Ocre» pasa a «Dofus Ocre» si Torre no lo cambió.
   { slug: slugs.ocre, name: 'Dofus Ocre', card: { scene: { path: ART.scene, alt: 'Xelorium' } } },
   // Una que todavía no está en la base: se avisa y no se crea.
@@ -229,6 +233,8 @@ describe('loadChecklistCards', () => {
       ['Amakna', stepIdBefore],
     ])
     expect(latest.card?.scene).toBe(scene)
+    expect(published.card?.color).toBe('#e3c565')
+    expect(latest.card?.color).toBe('#e3c565')
     expect(report.withDraft).toEqual([slugs.draft])
   })
 

@@ -1,8 +1,9 @@
 // El arte de las tarjetas del índice /checklists: el del hub de silvestre-checklist
 // (src/embeds/hub/manifest.js). Sube a Media cada imagen una vez (art.ts, con su clave en
 // media.gameAsset) y rellena la tarjeta de cada checklist (su escena, su PNJ y el encuadre) y la
-// tarjeta «???» del global checklists-index (su escena y su huevo). El color no se trae: vacío,
-// la tarjeta usa el de la guía de su Dofus. También pone el nombre del hub («Dofus Ocre») si el
+// tarjeta «???» del global checklists-index (su escena y su huevo). El color solo se trae para
+// la que no tiene guía de Dofus (el rush, en el oro del hub); vacío, la tarjeta usa el de la
+// guía de su Dofus. También pone el nombre del hub («Dofus Ocre») si el
 // guardado sigue siendo el que escribió la importación de las checklists.
 //
 // Un campo cambia solo si sigue como lo dejó la última importación: lo que escribió cada vez se
@@ -27,6 +28,8 @@ export interface CardArt {
   npc?: ArtRef
   /** En % de la tarjeta: alto, cuánto se sale por la derecha y desde arriba. */
   npcFit?: { height: number; right: number; top: number }
+  /** El color de la carta, solo si no tiene guía de Dofus de la que tomarlo (el rush). */
+  color?: string
 }
 
 export interface CardImportEntry {
@@ -174,6 +177,7 @@ const cardWanted = (entry: CardImportEntry): Record<string, Wanted> => ({
     npcRight: { value: entry.card.npcFit.right },
     npcTop: { value: entry.card.npcFit.top },
   }),
+  ...(entry.card.color && { color: { value: entry.card.color } }),
 })
 
 /** Lo que cambia en una versión: su tarjeta y su nombre. */
