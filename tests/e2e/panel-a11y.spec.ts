@@ -95,7 +95,9 @@ test.describe('el panel pasa axe sin excepciones', () => {
       await expect(page.locator('#field-title')).toBeVisible()
       // El último «Añadir Bloque» es el del cuerpo; los de antes, los de dentro de cada paso.
       await page.getByRole('button', { name: 'Añadir Bloque', exact: true }).last().click()
-      const drawer = page.locator('.blocks-drawer')
+      const drawer = page
+        .getByRole('dialog')
+        .filter({ has: page.getByRole('heading', { name: 'Añadir Bloque' }) })
       const images = drawer.locator('.blocks-drawer__default-image img')
       await expect(images).toHaveCount(6)
       for (const image of await images.all()) {

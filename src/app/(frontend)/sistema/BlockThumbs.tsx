@@ -232,7 +232,8 @@ const previews: Record<BlockThumbnailSlug, (prefix: string) => ReactNode> = {
 
 /**
  * Un marco por bloque, de ancho fijo y 3:2, con el bloque arriba y recortado abajo como una
- * captura. inert: son muestras, sin enlaces ni botones que enfocar.
+ * captura. Son muestras: inert y aria-hidden las sacan del foco y del árbol de accesibilidad,
+ * para que sus enlaces y botones no se repitan con los del resto del catálogo.
  */
 export function BlockThumbs({ prefix }: { prefix: string }) {
   return (
@@ -242,6 +243,7 @@ export function BlockThumbs({ prefix }: { prefix: string }) {
           <div
             data-block-thumb={slug}
             inert
+            aria-hidden="true"
             className="flex aspect-[3/2] w-[24rem] flex-col justify-center-safe overflow-hidden border border-line bg-bg p-5"
           >
             {DOFUS_BLOCKS.has(slug) ? (
