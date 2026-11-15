@@ -28,8 +28,13 @@ export interface RawQuestStep {
 }
 
 export interface RawQuestReward {
+  /** El tramo de nivel del personaje; -1 en los dos, para todos los niveles. */
+  levelMin?: number | null
+  levelMax?: number | null
   experienceRatio: number
   kamasRatio: number
+  /** Los kamas van con el nivel del personaje, no con el óptimo de la etapa. */
+  kamasScaleWithPlayerLevel?: boolean | null
   /** Pares [ID del objeto, cantidad]. */
   itemsReward?: number[][] | null
   emotesReward?: number[] | null
@@ -108,6 +113,20 @@ export interface QuestRewards {
   spellIds: number[]
   titleIds: number[]
   jobIds: number[]
+  /**
+   * Una recompensa por tramo de nivel, de menor a mayor, cuando los objetos cambian según el
+   * nivel (misiones de evento). Vacía si la misión da lo mismo a todos los niveles.
+   */
+  byLevel: QuestLevelRewards[]
+}
+
+/** Lo que da la misión a un personaje del tramo: la XP y los kamas de su nivel más alto. */
+export interface QuestLevelRewards {
+  levelMin: number
+  levelMax: number
+  experience: number
+  kamas: number
+  items: QuantityByDofusId[]
 }
 
 /** Lo que pide una misión, sacado de need.items y de los objetivos de sus etapas. */

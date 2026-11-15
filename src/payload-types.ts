@@ -335,6 +335,25 @@ export interface Quest {
     spellIds?: number[] | null;
     titleIds?: number[] | null;
     jobIds?: number[] | null;
+    /**
+     * Lo que da según el nivel del personaje, cuando cambia (misiones de evento). La XP y los kamas son los del nivel más alto del tramo.
+     */
+    byLevel?:
+      | {
+          levelMin: number;
+          levelMax: number;
+          experience?: number | null;
+          kamas?: number | null;
+          items?:
+            | {
+                item: number | Item;
+                quantity: number;
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[]
+      | null;
   };
   /**
    * Sacado de need.items y de los objetivos de las etapas en DofusDB.
@@ -3001,6 +3020,22 @@ export interface QuestsSelect<T extends boolean = true> {
         spellIds?: T;
         titleIds?: T;
         jobIds?: T;
+        byLevel?:
+          | T
+          | {
+              levelMin?: T;
+              levelMax?: T;
+              experience?: T;
+              kamas?: T;
+              items?:
+                | T
+                | {
+                    item?: T;
+                    quantity?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
       };
   needs?:
     | T

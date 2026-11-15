@@ -13,6 +13,7 @@ import mapPositions from '../fixtures/dofusdb/map-positions.json'
 import monsters from '../fixtures/dofusdb/monsters.json'
 import npcs from '../fixtures/dofusdb/npcs.json'
 import questsWithObjectives from '../fixtures/dofusdb/quests-objectives.json'
+import levelQuests from '../fixtures/dofusdb/quests-level-rewards.json'
 import questsWithSteps from '../fixtures/dofusdb/quests-steps.json'
 import quests from '../fixtures/dofusdb/quests.json'
 
@@ -405,6 +406,13 @@ describe('el resultado no depende de la concurrencia', () => {
             item: item(row.item),
             quantity: row.quantity,
           })),
+          byLevel: (doc.rewards?.byLevel ?? []).map((tier) => ({
+            ...strip(tier),
+            items: (tier.items ?? []).map((row) => ({
+              item: item(row.item),
+              quantity: row.quantity,
+            })),
+          })),
         },
         needs: {
           ...doc.needs,
@@ -666,5 +674,94 @@ describe('refresco de mazmorras desde DofusDB', () => {
     })
     const [casa] = await stored()
     expect(casa!.bosses).toEqual([await monsterId(second!.id), await monsterId(first!.id)])
+  })
+})
+
+// Las misiones de evento dan otra recompensa según el nivel: la misión guarda cada tramo con
+// sus objetos enlazados por ID de Payload.
+describe('recompensas por tramo de nivel', () => {
+  const QUEST_IDS = [2056, 1566]
+  const ITEM_IDS = [20915, 20916, 20917, 15206]
+
+  function levelData(): QuestData {
+    const named = (id: number, es: string) => ({
+      id,
+      name: { es },
+      level: 1,
+      typeId: 56,
+      iconId: 1,
+      type: { superTypeId: 9 },
+    })
+    return structuredClone({
+      quests: (levelQuests as RawQuest[]).filter((quest) => QUEST_IDS.includes(quest.id)),
+      npcs: [],
+      mapPositions: [],
+      items: [
+        named(20915, 'Cupón chocolate'),
+        named(20916, 'Cupón avellana'),
+        named(20917, 'Cupón praliné'),
+        named(15206, 'Oricor'),
+      ],
+      monsters: [],
+    })
+  }
+
+  async function removeLevelData() {
+    await payload.delete({ collection: 'quests', where: { dofusId: { in: QUEST_IDS } } })
+    await payload.delete({ collection: 'items', where: { dofusId: { in: ITEM_IDS } } })
+  }
+
+  beforeAll(removeLevelData)
+  afterAll(removeLevelData)
+
+  it('guarda cada tramo con su XP, sus kamas y sus objetos', async () => {
+    await refreshQuests(payload, levelData())
+    const found = await payload.find({
+      collection: 'quests',
+      where: { dofusId: { in: QUEST_IDS } },
+      pagination: false,
+      depth: 1,
+    })
+    const byId = new Map(found.docs.map((doc) => [doc.dofusId, doc]))
+    const tiers = byId.get(2056)!.rewards?.byLevel ?? []
+    expect(
+      tiers.map(({ levelMin, levelMax, experience, kamas, items }) => ({
+        levelMin,
+        levelMax,
+        experience,
+        kamas,
+        items: items?.map(({ item, quantity }) => [(item as Item).name, quantity]),
+      })),
+    ).toEqual([
+      {
+        levelMin: 1,
+        levelMax: 109,
+        experience: 1_329_586,
+        kamas: 14_041,
+        items: [['Cupón chocolate', 5]],
+      },
+      {
+        levelMin: 110,
+        levelMax: 179,
+        experience: 2_544_537,
+        kamas: 35_601,
+        items: [['Cupón avellana', 5]],
+      },
+      {
+        levelMin: 180,
+        levelMax: 200,
+        experience: 2_750_000,
+        kamas: 43_980,
+        items: [['Cupón praliné', 5]],
+      },
+    ])
+    expect(byId.get(1566)!.rewards?.byLevel?.map((tier) => tier.items?.[0]?.quantity)).toEqual([
+      50, 100,
+    ])
+  })
+
+  it('repetido con los mismos datos no cambia ninguna misión', async () => {
+    const again = await refreshQuests(payload, levelData())
+    expect(again.quests).toMatchObject({ created: 0, updated: 0 })
   })
 })

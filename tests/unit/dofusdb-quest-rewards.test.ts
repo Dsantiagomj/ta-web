@@ -3,10 +3,12 @@ import { describe, expect, it } from 'vitest'
 import { questRewards } from '@/lib/dofusdb/quest-rewards'
 import type { RawQuest } from '@/lib/dofusdb/types'
 
+import levelQuests from '../fixtures/dofusdb/quests-level-rewards.json'
 import quests from '../fixtures/dofusdb/quests-steps.json'
 
 function quest(id: number): RawQuest {
-  const found = (quests as RawQuest[]).find((candidate) => candidate.id === id)
+  const all = [...quests, ...levelQuests] as RawQuest[]
+  const found = all.find((candidate) => candidate.id === id)
   if (!found) throw new Error(`Falta la misión ${id} en los fixtures`)
   return structuredClone(found)
 }
@@ -26,6 +28,7 @@ describe('questRewards', () => {
       spellIds: [],
       titleIds: [],
       jobIds: [],
+      byLevel: [],
     })
   })
 
@@ -117,6 +120,116 @@ describe('questRewards', () => {
       spellIds: [],
       titleIds: [],
       jobIds: [],
+      byLevel: [],
     })
+  })
+})
+
+// Las misiones de evento dan una recompensa por tramo de nivel: Torre escribe cada tramo con
+// la XP y los kamas del nivel más alto del tramo, y su tramo 180 a 200 es el de nivel 200.
+describe('questRewards por tramos de nivel', () => {
+  it('da los tres tramos de La crisis de fe (2056) con las cifras de Torre', () => {
+    expect(questRewards(quest(2056)).byLevel).toEqual([
+      {
+        levelMin: 1,
+        levelMax: 109,
+        experience: 1_329_586,
+        kamas: 14_041,
+        items: [{ dofusId: 20915, quantity: 5 }],
+      },
+      {
+        levelMin: 110,
+        levelMax: 179,
+        experience: 2_544_537,
+        kamas: 35_601,
+        items: [{ dofusId: 20916, quantity: 5 }],
+      },
+      {
+        levelMin: 180,
+        levelMax: 200,
+        experience: 2_750_000,
+        kamas: 43_980,
+        items: [{ dofusId: 20917, quantity: 5 }],
+      },
+    ])
+  })
+
+  it('el tramo más alto da las cifras de nivel 200 de siempre', () => {
+    const rewards = questRewards(quest(2056))
+    expect(rewards).toMatchObject({
+      experience: 2_750_000,
+      kamas: 43_980,
+      items: [{ dofusId: 20917, quantity: 5 }],
+    })
+    expect(rewards.byLevel.at(-1)).toMatchObject({
+      experience: rewards.experience,
+      kamas: rewards.kamas,
+    })
+  })
+
+  it('la recompensa para todos los niveles va en cada tramo: Ka-Kao maravillao (2060)', () => {
+    // Una entrada sin tramo (-1) da la XP, los kamas y el caramelo; las de tramo, los cupones.
+    const rewards = questRewards(quest(2060))
+    expect(rewards).toMatchObject({
+      experience: 2_750_000,
+      kamas: 43_980,
+      items: [
+        { dofusId: 20857, quantity: 1 },
+        { dofusId: 20917, quantity: 5 },
+      ],
+    })
+    expect(rewards.byLevel.map((tier) => tier.items)).toEqual([
+      [
+        { dofusId: 20857, quantity: 1 },
+        { dofusId: 20915, quantity: 5 },
+      ],
+      [
+        { dofusId: 20857, quantity: 1 },
+        { dofusId: 20916, quantity: 5 },
+      ],
+      [
+        { dofusId: 20857, quantity: 1 },
+        { dofusId: 20917, quantity: 5 },
+      ],
+    ])
+  })
+
+  it('cambia la cantidad por tramo: Toma de sangre (1566)', () => {
+    expect(
+      questRewards(quest(1566)).byLevel.map(({ levelMin, levelMax, items }) => ({
+        levelMin,
+        levelMax,
+        items,
+      })),
+    ).toEqual([
+      { levelMin: 100, levelMax: 149, items: [{ dofusId: 15206, quantity: 50 }] },
+      { levelMin: 150, levelMax: 200, items: [{ dofusId: 15206, quantity: 100 }] },
+    ])
+  })
+
+  it('junta los tramos seguidos que dan los mismos objetos: Reparto de castañas (848)', () => {
+    // DofusDB da un tramo por nivel, del 20 al 200; los objetos cambian en el 81 y el 141.
+    const byLevel = questRewards(quest(848)).byLevel
+    expect(byLevel.map(({ levelMin, levelMax }) => [levelMin, levelMax])).toEqual([
+      [20, 80],
+      [81, 140],
+      [141, 200],
+    ])
+    expect(byLevel.map((tier) => tier.items[0]?.dofusId)).toEqual([12838, 12839, 12840])
+    // Cada tramo lleva la XP de su nivel más alto.
+    expect(byLevel[0]!.experience).toBeLessThan(byLevel[1]!.experience)
+    expect(byLevel[2]!.experience).toBe(questRewards(quest(848)).experience)
+  })
+
+  it('sin objetos distintos por tramo no hay tramos: ¡M.O. Pardy! (880)', () => {
+    // El fixture guarda tres de sus tramos de un nivel (20, 199 y 200); seguidos, son uno.
+    const raw = quest(880)
+    raw.steps![0]!.rewards![0]!.levelMax = 198
+    expect(questRewards(raw).byLevel).toEqual([])
+  })
+
+  it('una misión de recompensa única no tiene tramos', () => {
+    expect(questRewards(quest(1977)).byLevel).toEqual([])
+    expect(questRewards(quest(241)).byLevel).toEqual([])
   })
 })
