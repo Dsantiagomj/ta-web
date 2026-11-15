@@ -63,16 +63,19 @@ describe('<Ambience>', () => {
 })
 
 describe('el ambiente de cada checklist', () => {
-  it('el Hielos nieva y el Silvestre tiene las luciérnagas y hojas del hub antiguo', () => {
-    expect(checklistAmbience('hielos:')).toBe('snow')
-    expect(checklistAmbience('silvestre:')).toBe('forest')
+  it('el que elige Torre en el panel: nieve, luciérnagas y hojas, o motas de su Dofus', () => {
+    expect(checklistAmbience('snow')).toBe('snow')
+    expect(checklistAmbience('forest')).toBe('forest')
+    expect(checklistAmbience('egg')).toBe('egg')
   })
 
-  it('las demás, con o sin id antiguo, llevan motas del color de su Dofus', () => {
-    expect(checklistAmbience('nebuloso:')).toBe('egg')
-    expect(checklistAmbience('ocre:')).toBe('egg')
+  it('«Las del tema» no pone capa propia: queda la del sitio', () => {
+    expect(checklistAmbience('theme')).toBeUndefined()
+  })
+
+  it('sin elegir, o con un valor que no existe, las motas del color de su Dofus', () => {
     expect(checklistAmbience(null)).toBe('egg')
     expect(checklistAmbience(undefined)).toBe('egg')
-    expect(checklistAmbience('')).toBe('egg')
+    expect(checklistAmbience('hielos:')).toBe('egg')
   })
 })

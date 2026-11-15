@@ -1,10 +1,10 @@
 import type { Payload } from 'payload'
 
-import { corrected, hiddenByTorre } from '@/lib/game-data/correction'
 import { readDungeonBosses } from '@/lib/guides/dungeon-bosses'
 import { isGuideSlug } from '@/lib/guides/slug'
 import type { User } from '@/payload-types'
 
+import { dofusEgg } from './egg'
 import {
   countParts,
   dungeonNoteLabels,
@@ -72,6 +72,7 @@ export async function readDofusList(payload: Payload): Promise<DofusListDoc[]> {
       color: true,
       aliases: true,
       dofus: true,
+      egg: true,
       parts: true,
     },
     populate: { items: { image: true, correction: true } },
@@ -113,7 +114,6 @@ export async function readDofusList(payload: Payload): Promise<DofusListDoc[]> {
     : []
   const questCount = new Map(pages.map((page) => [page.id, (page.quests ?? []).length]))
   return docs.map((doc) => {
-    const dofus = doc.dofus && typeof doc.dofus === 'object' ? doc.dofus : null
     return {
       id: doc.id,
       name: doc.name,
@@ -123,8 +123,7 @@ export async function readDofusList(payload: Payload): Promise<DofusListDoc[]> {
       tag: doc.tag ?? null,
       color: doc.color ?? null,
       aliases: doc.aliases ?? null,
-      // El huevo con la imagen de Torre si la corrigió; ninguno si lo ocultó.
-      egg: dofus && !hiddenByTorre(dofus) ? (corrected(dofus).image ?? null) : null,
+      egg: dofusEgg(doc),
       ...countParts(
         (doc.parts ?? []) as PartDoc[],
         (id) => questCount.get(id) ?? null,

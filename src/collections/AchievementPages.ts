@@ -148,6 +148,32 @@ export const AchievementPages: CollectionConfig = {
                 },
               ],
             },
+            {
+              // Lo que calcula la página si queda vacío (src/lib/achievements/page.ts).
+              name: 'prerequisites',
+              label: 'Prerrequisitos',
+              labels: { singular: 'Prerrequisito', plural: 'Prerrequisitos' },
+              type: 'array',
+              admin: {
+                description: achievementStrings.admin.prerequisitesDescription,
+                initCollapsed: true,
+                components: rowLabel('RelationRowLabel', {
+                  singular: panelStrings.rowLabels.prerequisite,
+                  textField: 'text',
+                  relationField: 'guide',
+                  relationTo: 'quest-guides',
+                }),
+              },
+              fields: [
+                { name: 'text', label: 'Texto', type: 'text', required: true, localized: true },
+                {
+                  name: 'guide',
+                  label: 'Guía que enlaza',
+                  type: 'relationship',
+                  relationTo: 'quest-guides',
+                },
+              ],
+            },
           ],
         },
         {

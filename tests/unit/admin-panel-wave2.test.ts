@@ -97,6 +97,7 @@ describe('A-22: pestañas en los formularios largos', () => {
           'level',
           'tag',
           'color',
+          'egg',
           'aliases',
           'prerequisites',
           'rewards',
@@ -139,7 +140,7 @@ describe('A-22: pestañas en los formularios largos', () => {
 
   it('el logro: Misiones, Texto y Recompensas', () => {
     expect(tabsOf(AchievementPages.fields)).toEqual([
-      { label: 'Misiones', names: ['group', 'order', 'quests'] },
+      { label: 'Misiones', names: ['group', 'order', 'quests', 'prerequisites'] },
       { label: 'Texto', names: ['intro', 'outro'] },
       { label: 'Recompensas', names: ['points', 'rewards'] },
     ])

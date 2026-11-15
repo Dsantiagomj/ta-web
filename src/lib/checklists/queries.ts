@@ -270,8 +270,8 @@ export async function readChecklist(
     items: { dofusId: true, name: true, image: true, correction: true },
     achievements: { name: true },
     npcs: { name: true, renderRight: true, correction: true },
-    monsters: { name: true, image: true, correction: true },
-    'dofus-guides': { name: true, slug: true, state: true, color: true, dofus: true },
+    monsters: { dofusId: true, name: true, image: true, correction: true },
+    'dofus-guides': { name: true, slug: true, state: true, color: true, dofus: true, egg: true },
   })
   if (!checklist) return null
   // Una checklist de almas (el Ocre) no tiene pasos: sus almas salen de su misión.
@@ -572,7 +572,7 @@ export async function readChecklists(payload: Payload): Promise<ChecklistDoc[]> 
       ? payload.find({
           collection: 'dofus-guides',
           where: { id: { in: ids } },
-          select: { color: true, dofus: true },
+          select: { color: true, dofus: true, egg: true },
           populate: { items: { image: true, correction: true } },
           depth: 2,
           pagination: false,

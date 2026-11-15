@@ -329,6 +329,7 @@ export async function seedChecklistPages(payload: Payload): Promise<void> {
         ],
         completedBy: [{ quest: stop.id, by: [giverQuest.id] }],
         legacy: { prefix: 'hielos:', guideVersion: 1 },
+        ambience: 'snow',
         _status: 'published',
       },
     })
@@ -436,6 +437,7 @@ async function seedSilvestreDraft(
     data: {
       // Sin previousSteps: lo guardado va numerado como ahora (legacyNumber).
       legacy: { prefix: 'silvestre:', guideVersion: 4 },
+      ambience: 'forest',
       prerequisites: {
         groups: [{ title: 'Oficios', rows: [d.prerequisite] }],
         notes: [d.note],

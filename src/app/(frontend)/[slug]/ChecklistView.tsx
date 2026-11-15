@@ -37,7 +37,7 @@ export function ChecklistView({ data, preview }: { data: ChecklistData; preview:
   return (
     <div className="[--color-section:var(--color-sec-checklists)]" style={eggStyle(view.color)}>
       {/* Dentro, para que herede el color del Dofus (--egg). */}
-      <Ambience fx={checklistAmbience(data.checklist.legacy?.prefix)} />
+      <Ambience fx={checklistAmbience(data.checklist.ambience)} />
       {preview && <PreviewBar slug={view.slug} />}
       <main id="contenido" className="ck">
         <Breadcrumb {...view.breadcrumb} />

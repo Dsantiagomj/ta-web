@@ -50,6 +50,11 @@ describe('REFERRERS', () => {
     expect(checklists?.paths).toEqual(expect.arrayContaining(['card.scene', 'card.npc']))
   })
 
+  it('el huevo propio de una guía de Dofus no se borra sin avisar', () => {
+    const dofus = REFERRERS.media.find((referrer) => referrer.collection === 'dofus-guides')
+    expect(dofus?.paths).toContain('egg')
+  })
+
   it('una imagen de una «Corrección de Torre» no se borra sin avisar', () => {
     for (const collection of ['npcs', 'monsters', 'items', 'achievements', 'dungeons']) {
       expect(REFERRERS.media).toContainEqual({
@@ -58,6 +63,14 @@ describe('REFERRERS', () => {
         paths: ['correction.image'],
       })
     }
+  })
+
+  it('una guía que enlaza un Prerrequisito de una página de logro no se borra sin avisar', () => {
+    expect(REFERRERS['quest-guides']).toContainEqual({
+      collection: 'achievement-pages',
+      title: 'name',
+      paths: ['prerequisites.guide'],
+    })
   })
 
   it('una guía de Dofus que da un paso de una checklist no se borra sin avisar', () => {

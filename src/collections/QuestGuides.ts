@@ -215,6 +215,21 @@ const summaryFields: Field[] = [
   },
   { name: 'startX', label: 'X de inicio', type: 'number', admin: summaryAdmin('startX') },
   { name: 'startY', label: 'Y de inicio', type: 'number', admin: summaryAdmin('startY') },
+  // Lo que DofusDB no da o da mal: el subtítulo de la guía (src/lib/guides/page.ts).
+  {
+    name: 'zone',
+    label: 'Zona',
+    type: 'text',
+    localized: true,
+    admin: { description: guideStrings.admin.zoneDescription },
+  },
+  {
+    name: 'level',
+    label: 'Nivel',
+    type: 'number',
+    min: 1,
+    admin: { description: guideStrings.admin.levelDescription },
+  },
 ]
 
 export const questGuidesAccess = {

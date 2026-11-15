@@ -79,6 +79,21 @@ describe('el índice de búsqueda de las guías', () => {
     expect((await bySlug()).get('indice-corregida')?.[3]).toBe(33)
   })
 
+  it('el nivel que Torre escribió en la guía gana a todos', async () => {
+    const q = await quest(970010, { levelMin: 30, correction: { level: 33 } })
+    await payload.create({
+      collection: 'quest-guides',
+      data: {
+        title: 'Índice con nivel',
+        slug: 'indice-con-nivel',
+        quest: q.id,
+        summary: { level: 35 },
+        _status: 'published',
+      },
+    })
+    expect((await bySlug()).get('indice-con-nivel')?.[3]).toBe(35)
+  })
+
   it('nunca lleva un borrador ni una guía despublicada', async () => {
     const q = await quest(970002)
     await payload.create({

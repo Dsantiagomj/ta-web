@@ -23,6 +23,13 @@ const ROOT = path.resolve(__dirname, '../fixtures/silvestre-checklist')
 const hielos = CHECKLIST_CATALOG.find((entry) => entry.id === 'hielos')!
 
 let legacy: LegacyChecklist
+
+describe('el ambiente del Hielos en el catálogo', () => {
+  it('nieva, como en el hub antiguo', () => {
+    expect(hielos.ambience).toBe('snow')
+    expect(CHECKLIST_CATALOG.find((entry) => entry.id === 'silvestre')?.ambience).toBe('forest')
+  })
+})
 let draft: ChecklistDraft
 
 beforeAll(async () => {

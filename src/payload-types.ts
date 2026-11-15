@@ -201,6 +201,14 @@ export interface QuestGuide {
     startNpc?: string | null;
     startX?: number | null;
     startY?: number | null;
+    /**
+     * La zona del subtítulo de la guía, como «Astrub». Si la dejas vacía, sale la de DofusDB.
+     */
+    zone?: string | null;
+    /**
+     * El nivel del subtítulo, de la búsqueda y de la tarjeta de la misión. Si lo dejas vacío, sale el de DofusDB.
+     */
+    level?: number | null;
   };
   /**
    * Se rellena desde la misión al elegirla, si está vacío. Puedes cambiarlo cuando quieras.
@@ -770,6 +778,16 @@ export interface AchievementPage {
       }[]
     | null;
   /**
+   * Opcional. Vacío: salen solas las misiones previas de fuera del logro. Si escribes alguna fila, salen las tuyas, en tu orden. Elige su guía para enlazarla.
+   */
+  prerequisites?:
+    | {
+        text: string;
+        guide?: (number | null) | QuestGuide;
+        id?: string | null;
+      }[]
+    | null;
+  /**
    * Texto antes de las misiones. Opcional. Admite vídeos de YouTube: «+» o «/», Vídeo.
    */
   intro?: {
@@ -1117,6 +1135,10 @@ export interface DofusGuide {
    */
   color?: string | null;
   /**
+   * Opcional. Si la subes, este huevo sale en la tarjeta del índice, el menú, el póster de su checklist y la cabecera de la guía, en lugar del de DofusDB.
+   */
+  egg?: (number | null) | Media;
+  /**
    * Otros nombres con los que se busca, separados por comas (zanahoria, kaliptus).
    */
   aliases?: string | null;
@@ -1443,9 +1465,26 @@ export interface Checklist {
    */
   kind?: ('steps' | 'souls') | null;
   /**
+   * Las partículas detrás de la página. Vacío o sin tocar: motas del color de su Dofus.
+   */
+  ambience?: ('egg' | 'snow' | 'forest' | 'theme') | null;
+  /**
    * La misión cuyas almas se marcan («La eterna cosecha»). Las almas salen de sus objetivos y de sus monstruos: no se escriben aquí.
    */
   soulsQuest?: (number | null) | Quest;
+  /**
+   * Opcional. Para un alma de esta lista con la mazmorra, la subzona o la región mal, o que no debe salir. Lo que dejes vacío sale de DofusDB. El nombre, el nivel y la imagen se corrigen en el monstruo, en «Corrección de Torre».
+   */
+  soulOverrides?:
+    | {
+        monster: number | Monster;
+        dungeon?: string | null;
+        zone?: string | null;
+        region?: string | null;
+        hidden?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
   /**
    * La checklist en Squarespace mientras esta no esté lista. Deja de usarse al publicarla.
    */
@@ -2153,6 +2192,8 @@ export interface QuestGuidesSelect<T extends boolean = true> {
         startNpc?: T;
         startX?: T;
         startY?: T;
+        zone?: T;
+        level?: T;
       };
   seo?:
     | T
@@ -2257,6 +2298,13 @@ export interface AchievementPagesSelect<T extends boolean = true> {
         quests?: T;
         id?: T;
       };
+  prerequisites?:
+    | T
+    | {
+        text?: T;
+        guide?: T;
+        id?: T;
+      };
   intro?: T;
   outro?: T;
   points?: T;
@@ -2330,6 +2378,7 @@ export interface DofusGuidesSelect<T extends boolean = true> {
   level?: T;
   tag?: T;
   color?: T;
+  egg?: T;
   aliases?: T;
   prerequisites?: T;
   rewards?: T;
@@ -2480,7 +2529,18 @@ export interface ChecklistsSelect<T extends boolean = true> {
   slug?: T;
   state?: T;
   kind?: T;
+  ambience?: T;
   soulsQuest?: T;
+  soulOverrides?:
+    | T
+    | {
+        monster?: T;
+        dungeon?: T;
+        zone?: T;
+        region?: T;
+        hidden?: T;
+        id?: T;
+      };
   legacyHref?: T;
   order?: T;
   description?: T;

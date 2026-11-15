@@ -39,6 +39,9 @@ export const achievementStrings = {
       'vacío se rellena con sus datos; «Rellenar desde DofusDB» vuelve a copiar lo vacío ' +
       'cuando quieras. Sin categoría (Misiones de templo), el metalogro tiene solo guías o ' +
       'ninguna página.',
+    prerequisitesDescription:
+      'Opcional. Vacío: salen solas las misiones previas de fuera del logro. Si escribes ' +
+      'alguna fila, salen las tuyas, en tu orden. Elige su guía para enlazarla.',
     noAchievement: 'Sin logro de DofusDB: escribe tú este dato.',
     nameRequired: 'Escribe un nombre o enlaza el dato de DofusDB.',
     noCategory: 'Sin categoría de DofusDB: escribe tú este dato.',

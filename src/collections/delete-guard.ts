@@ -56,7 +56,7 @@ function prosePaths(fields: string[]): string[] {
 export const REFERRERS: Record<ReferencedCollection, Referrer[]> = {
   media: [
     { collection: 'quest-guides', title: 'title', paths: bodyImages },
-    { collection: 'dofus-guides', title: 'name', paths: ['videoPoster', ...bodyImages] },
+    { collection: 'dofus-guides', title: 'name', paths: ['videoPoster', 'egg', ...bodyImages] },
     {
       collection: 'checklists',
       title: 'name',
@@ -90,6 +90,7 @@ export const REFERRERS: Record<ReferencedCollection, Referrer[]> = {
       ],
     },
     { collection: 'achievement-groups', title: 'name', paths: ['guides'] },
+    { collection: 'achievement-pages', title: 'name', paths: ['prerequisites.guide'] },
   ],
   'achievement-groups': [{ collection: 'achievement-pages', title: 'name', paths: ['group'] }],
   'dofus-guides': [
