@@ -207,6 +207,8 @@ describe('colección checklists', () => {
     const figure = field(steps.fields, 'figure') as GroupField
     expect(field(figure.fields, 'npc')).toMatchObject({ relationTo: 'npcs' })
     expect(field(figure.fields, 'image')).toMatchObject({ type: 'upload', relationTo: 'media' })
+    expect(field(figure.fields, 'name')).toMatchObject({ type: 'text', localized: true })
+    expect(field(figure.fields, 'name')).not.toHaveProperty('required', true)
     expect(field(steps.fields, 'bosses')).toMatchObject({ relationTo: 'monsters', hasMany: true })
     expect(field(steps.fields, 'dofus')).toMatchObject({
       type: 'relationship',

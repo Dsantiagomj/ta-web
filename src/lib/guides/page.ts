@@ -227,8 +227,11 @@ export interface QuestHeaderData {
     level?: number
     achievement?: AchievementPlace
   }
-  /** El PNJ que da la misión: solo con su render. */
-  giver?: { name: string; right: ImageAsset; left?: ImageAsset; coordinates?: Coordinates }
+  /**
+   * El PNJ que da la misión: su nombre y dónde empieza, y su render cuando lo hay. Sin render
+   * la cabecera lleva solo la línea «Empieza con».
+   */
+  giver?: { name: string; right?: ImageAsset; left?: ImageAsset; coordinates?: Coordinates }
   prerequisites: { label: string; href?: string; quest: boolean }[]
   needs: { items: Quantity<GameItem>[]; notes: NeedRow[] }
   rewards: {
@@ -244,7 +247,7 @@ export interface QuestHeaderData {
 /**
  * La cabecera de la guía: subtítulo, PNJ y las tres columnas (Prerrequisitos, Necesitarás,
  * Recompensas). Lo que falta no se pinta ni se inventa: sin logro no hay «Misión k de n»,
- * sin render no hay PNJ. `linked` son las guías publicadas de las misiones previas. `place`
+ * sin render no hay columna del PNJ (su nombre y coordenadas siguen en «Empieza con»). `linked` son las guías publicadas de las misiones previas. `place`
  * es el lugar de la misión en su página de logro, cuando la tiene: cuenta las misiones como
  * Torre (la de clase es una); sin ella, el de DofusDB.
  */
@@ -269,17 +272,20 @@ export function questHeaderProps(
     meta.achievement = { position: achievement.position, total: achievement.total }
   }
 
+  // El nombre y la posición que escribió Torre mandan; DofusDB da el render y, si él no
+  // escribió nombre, el del PNJ. Sin render, el PNJ sale solo como texto.
   let giver: QuestHeaderData['giver']
-  const right = mediaImageAsset(giverDoc?.renderRight)
-  if (giverDoc && right) {
-    const left = mediaImageAsset(giverDoc.renderLeft)
+  const giverName = summary.startNpc?.trim() || giverDoc?.name?.trim() || ''
+  if (giverName) {
+    const right = mediaImageAsset(giverDoc?.renderRight)
+    const left = right && mediaImageAsset(giverDoc?.renderLeft)
     const coordinates =
       summary.startX != null && summary.startY != null
         ? { x: summary.startX, y: summary.startY }
         : undefined
     giver = {
-      name: summary.startNpc?.trim() || giverDoc.name?.trim() || '',
-      right,
+      name: giverName,
+      ...(right && { right }),
       ...(left && { left }),
       ...(coordinates && { coordinates }),
     }

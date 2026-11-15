@@ -435,8 +435,9 @@ export function questRows(page: Pick<PageDoc, 'quests'>): QuestRow[] {
 
 /**
  * Las tarjetas de las misiones de un logro, en orden: el PNJ que da la misión, su nivel y
- * su título, con enlace si su guía está publicada. Una fila de alternativas es una tarjeta
- * con el nombre de la fila y el nivel más bajo. Las comparte la guía de Dofus.
+ * su título (el nombre que Torre dio a la fila, o el de la misión si no le dio ninguno), con
+ * enlace si su guía está publicada. Una fila de alternativas es una tarjeta con el nombre de
+ * la fila y el nivel más bajo. Las comparte la guía de Dofus.
  */
 export function questCards(
   rows: QuestRow[],
@@ -452,7 +453,8 @@ export function questCards(
     return {
       position: index + 1,
       ...(level && { level }),
-      title: only?.name ?? row.name,
+      // El nombre que Torre dio a la fila manda; el de DofusDB, solo si la dejó vacía.
+      title: row.name.trim() || only?.name || row.name,
       ...(guide && { href: `/${guide.slug}` }),
       ...(giver && { giver }),
     }

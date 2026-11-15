@@ -31,7 +31,9 @@ function Sources({ image, media }: { image: ImageAsset; media?: string }) {
   )
 }
 
-function Giver({ giver }: { giver: NonNullable<QuestHeaderData['giver']> }) {
+type GiverData = NonNullable<QuestHeaderData['giver']>
+
+function Giver({ giver }: { giver: GiverData & { right: ImageAsset } }) {
   return (
     <figure className="giver">
       <picture>
@@ -52,7 +54,7 @@ function Giver({ giver }: { giver: NonNullable<QuestHeaderData['giver']> }) {
 }
 
 /** «Empieza con **Hupe Esse** [7,-19]», bajo el subtítulo: el render va solo. */
-function Start({ giver }: { giver: NonNullable<QuestHeaderData['giver']> }) {
+function Start({ giver }: { giver: GiverData }) {
   return (
     <p className="qhead__start">
       {s.giver}
@@ -91,7 +93,8 @@ function Subtitle({ meta }: { meta: QuestHeaderData['meta'] }) {
 /**
  * La cabecera de la guía (DESIGN.md, Quest header): el render del PNJ que da la misión
  * junto al título, el subtítulo, «Empieza con» el PNJ y sus coordenadas, y las tres partes con los iconos del juego en sus huecos. Lo que
- * falta no se pinta: sin render no hay columna del PNJ, sin datos no hay columna.
+ * falta no se pinta: sin render no hay columna del PNJ (su nombre va igual en «Empieza con»),
+ * sin datos no hay columna.
  */
 export function QuestHeader({
   title,
@@ -104,13 +107,14 @@ export function QuestHeader({
 }) {
   const Heading = `h${headingLevel}` as const
   const { meta, giver, prerequisites, needs, rewards } = data
+  const right = giver?.right
 
   return (
-    <header className="qhead" data-giver={giver ? '' : undefined}>
+    <header className="qhead" data-giver={right ? '' : undefined}>
       <Heading className="qhead__title">{title}</Heading>
       <Subtitle meta={meta} />
       {giver && <Start giver={giver} />}
-      {giver && <Giver giver={giver} />}
+      {giver && right && <Giver giver={{ ...giver, right }} />}
       <QuestFacts facts={{ prerequisites, needs, rewards }} headingLevel={headingLevel} />
     </header>
   )

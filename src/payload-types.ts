@@ -1645,11 +1645,15 @@ export interface Checklist {
          */
         icon?: (number | null) | Media;
         /**
-         * La imagen del paso: un PNJ o una imagen subida.
+         * La imagen del paso: un PNJ o una imagen subida. Si pones las dos, se ve tu imagen.
          */
         figure?: {
           npc?: (number | null) | Npc;
           image?: (number | null) | Media;
+          /**
+           * Opcional. Si lo dejas vacío, se usa el nombre del PNJ o el texto alternativo de la imagen.
+           */
+          name?: string | null;
           /**
            * Qué papel tiene, como «Inicia el paso».
            */
@@ -2474,6 +2478,7 @@ export interface ChecklistsSelect<T extends boolean = true> {
           | {
               npc?: T;
               image?: T;
+              name?: T;
               role?: T;
             };
         stepId?: T;

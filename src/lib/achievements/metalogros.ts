@@ -211,7 +211,8 @@ export function metalogrosIndexView(data: IndexData): IndexView {
         ) - 1
       rows.forEach((row, position) => {
         const quests = (row.quests ?? []).map(populated).filter((q) => q?.name)
-        const name = quests.length === 1 ? quests[0]!.name! : row.name
+        // El nombre que Torre dio a la fila manda, como en la página del logro.
+        const name = row.name?.trim() || (quests.length === 1 ? quests[0]!.name! : row.name)
         if (name) search.q.push([name, position + 1, index])
       })
     }

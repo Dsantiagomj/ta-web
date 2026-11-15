@@ -93,6 +93,8 @@ export const seedGuide = {
     // Una nota que no casa sola con ninguna mazmorra, con la suya elegida a mano en el panel
     // («Mazmorras de las notas»). La semilla solo tiene una mazmorra: la de Kumijo.
     pickedDungeon: '1 x Mazmorra Kodámade.',
+    // Quién la da, escrito por Torre: el PNJ no tiene render, así que va solo como texto.
+    start: { npc: 'Guardia de Astrub', x: 5, y: -18 },
   },
   // Un combate; una nota que es el nombre exacto de un objeto importado (el logro la pinta
   // como ese objeto) y otra que no es ni objeto ni combate («Otros» en el logro).
@@ -450,6 +452,9 @@ export async function seedGuides(payload: Payload): Promise<void> {
         quest: previous.id,
         _status: 'published',
         summary: {
+          startNpc: seedGuide.prerequisite.start.npc,
+          startX: seedGuide.prerequisite.start.x,
+          startY: seedGuide.prerequisite.start.y,
           needs: {
             notes: seedGuide.prerequisite.needsNote,
             dungeons: [{ note: seedGuide.prerequisite.pickedDungeon, dungeon: casa.id }],

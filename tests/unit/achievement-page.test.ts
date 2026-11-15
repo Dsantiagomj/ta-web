@@ -540,6 +540,21 @@ describe('achievementPageView', () => {
     expect(view.quests[1]!.giver?.src).toBe('/api/media/file/hupe.webp')
   })
 
+  it('una fila de una misión lleva el nombre que le dio Torre; sin él, el de DofusDB', () => {
+    const torre = achievementPageView(
+      data({
+        quests: [
+          { name: 'El safari de almas jaras', quests: [aguas] },
+          { name: '  ', quests: [seis] },
+        ],
+      }),
+    )
+    expect(torre.quests.map((card) => card.title)).toEqual([
+      'El safari de almas jaras',
+      'Seis pies bajo tierra',
+    ])
+  })
+
   it('una fila con alternativas lleva su nombre, sin enlace y con el nivel más bajo', () => {
     const clase = achievementPageView(
       data({
