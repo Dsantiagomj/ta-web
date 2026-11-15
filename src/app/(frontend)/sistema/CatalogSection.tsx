@@ -62,6 +62,7 @@ import {
   steps,
   video,
 } from './catalog-data'
+import { BlockThumbs } from './BlockThumbs'
 import { catalogStrings as s } from './strings'
 
 type GroupKey = keyof typeof s.groups
@@ -330,6 +331,10 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
                 caption={samples.hupeEsseCaption}
               />
             </div>
+          </Group>
+
+          <Group name="blocks" note={s.notes.blocks} wide>
+            <BlockThumbs prefix={key} />
           </Group>
         </div>
       </div>
