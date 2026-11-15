@@ -5,7 +5,8 @@
 // Sin --apply solo lista lo que haría (en seco). Una guía cuya última versión está publicada
 // se guarda publicada; si es un borrador, como borrador. Escribe en la base de DATABASE_URL
 // (vacía: la de pnpm db:dev); contra una base remota pide --remote, y en producción
-// --production. Va después de la migración quest_guide_rewards. Contra dev, en seco:
+// --production. Va después de la migración quest_guide_rewards; para llenar «Por nivel», después
+// de quest_guide_reward_levels y de pnpm data:refresh. Contra dev, en seco:
 // railway run --service web --environment dev pnpm guides:rewards --remote
 import { getPayload } from 'payload'
 

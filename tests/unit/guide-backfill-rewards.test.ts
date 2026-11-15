@@ -80,6 +80,103 @@ describe('rewardsToWrite', () => {
   })
 })
 
+describe('rewardsToWrite con tramos de nivel', () => {
+  const coupon = (id: number, name: string) => ({ item: item(id, name), quantity: 5 })
+  // La crisis de fe (2056), con sus tres tramos en DofusDB.
+  const crisis: LinkedQuest = {
+    name: 'La crisis de fe',
+    rewards: {
+      experience: 2_750_000,
+      experienceMin: 2_750_000,
+      kamas: 43_980,
+      items: [coupon(3, 'Cupón praliné')],
+      byLevel: [
+        {
+          levelMin: 1,
+          levelMax: 109,
+          experience: 1_329_586,
+          kamas: 14_041,
+          items: [coupon(1, 'Cupón chocolate')],
+        },
+        {
+          levelMin: 110,
+          levelMax: 179,
+          experience: 2_544_537,
+          kamas: 35_601,
+          items: [coupon(2, 'Cupón avellana')],
+        },
+        {
+          levelMin: 180,
+          levelMax: 200,
+          experience: 2_750_000,
+          kamas: 43_980,
+          items: [coupon(3, 'Cupón praliné')],
+        },
+      ],
+    },
+  }
+  const text = [
+    'Si eres nivel 1 a 109: 1 300 000 XP.14 041 kamas.5 x Cupón chocolate.',
+    'Si eres nivel 110 a 179: 2 544 537 XP.35 601 kamas.5 x Cupón avellana.',
+    'Si eres nivel 180 a 200: 2 750 000 XP.43 980 kamas.5 x Cupón praliné.',
+  ].join('\n')
+  // Como en dev tras la primera carga: las cifras sueltas ya están, «Por nivel» no.
+  const filled = {
+    rewardExperience: 2_750_000,
+    rewardExperienceMin: 2_750_000,
+    rewardKamas: 43_980,
+    rewardItems: [{ item: 3, quantity: 5 }],
+  }
+
+  it('llena «Por nivel» con los tramos de su texto y cuenta los que no son los de DofusDB', () => {
+    const result = rewardsToWrite(filled, text, crisis)
+    expect(result.fill).toEqual({
+      rewardLevels: [
+        {
+          levelMin: 1,
+          levelMax: 109,
+          experience: 1_300_000,
+          kamas: 14_041,
+          items: [{ item: 1, quantity: 5 }],
+        },
+        {
+          levelMin: 110,
+          levelMax: 179,
+          experience: 2_544_537,
+          kamas: 35_601,
+          items: [{ item: 2, quantity: 5 }],
+        },
+        {
+          levelMin: 180,
+          levelMax: 200,
+          experience: 2_750_000,
+          kamas: 43_980,
+          items: [{ item: 3, quantity: 5 }],
+        },
+      ],
+    })
+    expect(result.differences).toEqual([
+      { field: 'XP', level: 'Nivel 1 a 109', torre: 1_300_000, dofusDb: 1_329_586 },
+    ])
+    // Las cifras sueltas ya estaban: su texto por tramos no se avisa otra vez.
+    expect(result.unreadable).toBeUndefined()
+    expect(result.levelsFrom).toBe('torre')
+  })
+
+  it('sin tramos en su texto, «Por nivel» lleva los de DofusDB', () => {
+    const result = rewardsToWrite(filled, '2 750 000 XP.', crisis)
+    expect(result.fill.rewardLevels?.map((tier) => tier.experience)).toEqual([
+      1_329_586, 2_544_537, 2_750_000,
+    ])
+    expect(result.levelsFrom).toBe('dofusDb')
+  })
+
+  it('nunca toca un «Por nivel» con filas', () => {
+    const own = { ...filled, rewardLevels: [{ levelMin: 1, levelMax: 200, items: [] }] }
+    expect(rewardsToWrite(own, text, crisis).fill).toEqual({})
+  })
+})
+
 describe('rewardsReport', () => {
   const fill = (slug: string, decision: Partial<GuideRewardsFill>): GuideRewardsFill => ({
     slug,
@@ -93,7 +190,7 @@ describe('rewardsReport', () => {
   it('lista las diferencias que resuelve, lo que no se lee y los objetos sin casar', () => {
     const lines = rewardsReport(
       {
-        guides: 4,
+        guides: 6,
         fills: [
           fill('combate-de-calle', {
             differences: [
@@ -103,6 +200,8 @@ describe('rewardsReport', () => {
           }),
           fill('y-pum-un-chokipik', { status: 'draft', unreadable: 'Si eres nivel 1 a 109:' }),
           fill('vuelta-venenosa', { unmatchedItems: ['1 x Fragmento de ugahruleta.'] }),
+          fill('la-crisis-de-fe', { fill: { rewardLevels: [] }, levelsFrom: 'torre' }),
+          fill('reparto-de-castanas', { fill: { rewardLevels: [] }, levelsFrom: 'dofusDb' }),
         ],
         published: 0,
         drafts: 0,
@@ -113,9 +212,12 @@ describe('rewardsReport', () => {
       'Gana Torre en combate-de-calle: XP 2 750 000 (DofusDB 242 160); 12 x Perla (DofusDB 10)',
       'Sin leer en y-pum-un-chokipik (borrador): «Si eres nivel 1 a 109:». Van las de DofusDB; revísala a mano.',
       'Objeto sin casar en vuelta-venenosa: «1 x Fragmento de ugahruleta.». No se inventa; revísalo a mano.',
-      'Guías leídas: 4. Con campos por llenar: 3 (publicadas: 2, borradores: 1).',
+      '«Por nivel» en la-crisis-de-fe: los tramos de su texto.',
+      '«Por nivel» en reparto-de-castanas: los tramos de DofusDB.',
+      'Guías leídas: 6. Con campos por llenar: 5 (publicadas: 4, borradores: 1).',
       'Guías donde gana una cifra de Torre: 1 (XP: 1, kamas: 0, objetos: 1).',
       'Textos sin leer: 1. Líneas de objeto sin casar: 1.',
+      '«Por nivel» por llenar: 2 (de su texto: 1, de DofusDB: 1).',
       'En seco: sin --apply no se escribe nada.',
     ])
   })

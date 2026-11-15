@@ -3,7 +3,7 @@
 // admite dos lecturas: un texto por niveles, una XP con algo más o dos XP no se leen, y
 // quedan para revisarlos a mano. Código puro: lo usan la importación y la carga de una vez.
 
-import type { FilledRow, LinkedItem, LinkedQuest } from './summary'
+import type { FilledLevel, FilledRow, LinkedItem, LinkedQuest, LinkedRewards } from './summary'
 
 /** Una línea de objeto de Torre: su cantidad, el nombre y la línea tal cual. */
 export interface RewardLine {
@@ -98,13 +98,27 @@ type RewardItem = { item: LinkedItem & { id: number }; quantity: number }
 
 /** Los objetos de recompensa poblados de la misión, en el orden de Torre. */
 function questItems(quest: LinkedQuest | null | undefined): RewardItem[] {
-  return [...(quest?.rewards?.items ?? [])]
+  return populatedItems(quest?.rewards?.items)
+}
+
+function populatedItems(items: LinkedRewards['items']): RewardItem[] {
+  return [...(items ?? [])]
     .reverse()
     .flatMap(({ item, quantity }) =>
       typeof item === 'object' && typeof item.id === 'number'
         ? [{ item: { ...item, id: item.id }, quantity }]
         : [],
     )
+}
+
+/** El objeto de DofusDB que nombra su línea, por su nombre o por la corrección de Torre. */
+function findItem(given: RewardItem[], line: RewardLine): RewardItem | undefined {
+  const name = comparable(line.name)
+  return given.find(
+    ({ item }) =>
+      comparable(item.name ?? '') === name ||
+      (item.correction?.name && comparable(item.correction.name) === name),
+  )
 }
 
 /**
@@ -129,12 +143,7 @@ export function torreRewards(
   if (given.length) {
     const quantities = new Map<number, number>()
     for (const line of read.items) {
-      const name = comparable(line.name)
-      const match = given.find(
-        ({ item }) =>
-          comparable(item.name ?? '') === name ||
-          (item.correction?.name && comparable(item.correction.name) === name),
-      )
+      const match = findItem(given, line)
       if (!match) result.unmatchedItems.push(line.line)
       else if (line.quantity !== match.quantity) {
         quantities.set(match.item.id, line.quantity)
@@ -161,4 +170,114 @@ export function torreRewards(
   }
   if (notes.length) result.fields.rewardNotes = notes.join('\n')
   return result
+}
+
+// «Si eres nivel 1 a 109: 1 329 586 XP.14 041 kamas.5 x Cupón chocolate.»: un tramo y, tras
+// los dos puntos, sus cifras pegadas o en las líneas de debajo.
+const TIER = /^(?:si eres (?:de )?)?nivel(?:es)? (\d+) a (\d+)\s*:\s*(.*)$/i
+// Corta tras el punto de una palabra («XP.14 041»), no en los miles con punto (1.329.586).
+const TIER_PARTS = /(?<=[^\d\s]\.)\s*(?=\d)/
+
+/** Un tramo leído del texto de Torre. */
+interface ReadTier {
+  levelMin: number
+  levelMax: number
+  experience?: number
+  kamas?: number
+  items: RewardLine[]
+}
+
+/** Los tramos de su texto; la primera línea que no se lee sola, o ninguno sin dos tramos. */
+function readTiers(
+  text: string | null | undefined,
+): { tiers: ReadTier[] } | { unreadable: string } {
+  const tiers: ReadTier[] = []
+  // Cada cifra una vez por tramo: repetida igual (como la escribe él), vale; otra, no se lee.
+  const add = (tier: ReadTier, part: string): boolean => {
+    const experience = EXPERIENCE.exec(part)
+    const kamas = KAMAS.exec(part)
+    const item = ITEM.exec(part)
+    if (experience) {
+      const value = amount(experience[1]!)
+      if (tier.experience !== undefined && tier.experience !== value) return false
+      tier.experience = value
+    } else if (kamas) {
+      const value = amount(kamas[1]!)
+      if (tier.kamas !== undefined && tier.kamas !== value) return false
+      tier.kamas = value
+    } else if (item) {
+      const line = { quantity: amount(item[1]!), name: item[2]!.trim(), line: part }
+      const same = tier.items.find((seen) => comparable(seen.name) === comparable(line.name))
+      if (same && same.quantity !== line.quantity) return false
+      if (!same) tier.items.push(line)
+    } else {
+      return false
+    }
+    return true
+  }
+  for (const raw of (text ?? '').split('\n')) {
+    const line = raw.trim()
+    if (!line) continue
+    const header = TIER.exec(line)
+    if (header) {
+      tiers.push({ levelMin: Number(header[1]), levelMax: Number(header[2]), items: [] })
+    }
+    // Lo de antes del primer tramo («Depende del nivel:», un emote) no es de ningún tramo.
+    const current = tiers.at(-1)
+    if (!current) continue
+    const parts = header ? header[3]!.split(TIER_PARTS) : [line]
+    for (const part of parts.map((entry) => entry.trim()).filter(Boolean)) {
+      if (!add(current, part)) return { unreadable: part }
+    }
+  }
+  return { tiers: tiers.length >= 2 ? tiers : [] }
+}
+
+/** Los tramos de nivel que Torre escribió, para «Por nivel». */
+export interface TorreLevelRewards {
+  /** Con dos tramos o más que se leen; si no, nada. */
+  levels?: FilledLevel[]
+  /** La línea que impide leer sus tramos. */
+  unreadable?: string
+  /** Sus líneas de objeto sin objeto de DofusDB con ese nombre en el tramo. */
+  unmatchedItems: string[]
+}
+
+/**
+ * Los tramos del texto de Torre («Si eres nivel 1 a 109: …»). Sus cifras ganan; lo que no
+ * escribe de un tramo lo pone el mismo tramo de DofusDB. Los objetos son los del tramo de
+ * DofusDB, con la cantidad que él escribió para el mismo objeto; uno suyo que DofusDB no da
+ * en ese tramo no se inventa y se lista.
+ */
+export function torreLevelRewards(
+  text: string | null | undefined,
+  quest: LinkedQuest | null | undefined,
+): TorreLevelRewards {
+  const read = readTiers(text)
+  if ('unreadable' in read) return { unreadable: read.unreadable, unmatchedItems: [] }
+  if (!read.tiers.length) return { unmatchedItems: [] }
+  const unmatchedItems: string[] = []
+  const levels = read.tiers.map((tier): FilledLevel => {
+    const given = quest?.rewards?.byLevel?.find(
+      (candidate) => candidate.levelMin === tier.levelMin && candidate.levelMax === tier.levelMax,
+    )
+    const items = populatedItems(given?.items)
+    const quantities = new Map<number, number>()
+    for (const line of tier.items) {
+      const match = findItem(items, line)
+      if (match) quantities.set(match.item.id, line.quantity)
+      else unmatchedItems.push(line.line)
+    }
+    return {
+      levelMin: tier.levelMin,
+      levelMax: tier.levelMax,
+      experience: tier.experience ?? given?.experience ?? null,
+      kamas: tier.kamas ?? given?.kamas ?? null,
+      items: items.map(({ item, quantity }) => ({
+        item: item.id,
+        quantity: quantities.get(item.id) ?? quantity,
+      })),
+    }
+  })
+  return { levels, unmatchedItems }
 }
