@@ -48,7 +48,7 @@ describe('refreshSubAreas', () => {
   it('crea cada subzona con el nombre y el ID de su área', async () => {
     const counts = await refreshSubAreas(payload, { subAreas, areas })
 
-    expect(counts).toEqual({ created: 3, updated: 0, unchanged: 0 })
+    expect(counts).toEqual({ created: 3, updated: 0, unchanged: 0, failed: 0 })
     expect(await read(BASE + 1)).toMatchObject({
       name: 'Caminos rocosos',
       areaDofusId: BASE + 50,
@@ -65,7 +65,7 @@ describe('refreshSubAreas', () => {
 
     const counts = await refreshSubAreas(payload, { subAreas, areas })
 
-    expect(counts).toEqual({ created: 0, updated: 0, unchanged: 3 })
+    expect(counts).toEqual({ created: 0, updated: 0, unchanged: 3, failed: 0 })
     expect((await read(BASE + 1))?.updatedAt).toBe(before?.updatedAt)
   })
 
@@ -74,7 +74,7 @@ describe('refreshSubAreas', () => {
 
     const counts = await refreshSubAreas(payload, { subAreas: renamed, areas })
 
-    expect(counts).toEqual({ created: 0, updated: 1, unchanged: 0 })
+    expect(counts).toEqual({ created: 0, updated: 1, unchanged: 0, failed: 0 })
     expect((await read(BASE + 1))?.name).toBe('Caminos pedregosos')
     expect(await read(BASE + 2)).toBeDefined()
   })

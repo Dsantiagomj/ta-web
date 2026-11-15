@@ -99,7 +99,7 @@ describe('refreshNpcs', () => {
     const counts = await refreshNpcs(payload, [HUPE_ESSE], { fetchRender: renders.fetchRender })
 
     expect(counts).toEqual({
-      npcs: { created: 1, updated: 0, unchanged: 0 },
+      npcs: { created: 1, updated: 0, unchanged: 0, failed: 0 },
       renders: { imported: 2, reused: 0, failed: 0 },
     })
     expect(renders.calls).toHaveLength(2)
@@ -126,7 +126,7 @@ describe('refreshNpcs', () => {
     const counts = await refreshNpcs(payload, [HUPE_ESSE], { fetchRender: again.fetchRender })
 
     expect(counts).toEqual({
-      npcs: { created: 0, updated: 0, unchanged: 1 },
+      npcs: { created: 0, updated: 0, unchanged: 1, failed: 0 },
       renders: { imported: 0, reused: 0, failed: 0 },
     })
     expect(again.calls).toEqual([])

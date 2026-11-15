@@ -82,9 +82,9 @@ describe('refresco de logros desde DofusDB', () => {
       fetchImage: fetcher.fetchImage,
     })
 
-    expect(counts.categories).toEqual({ created: 6, updated: 0, unchanged: 0 })
+    expect(counts.categories).toEqual({ created: 6, updated: 0, unchanged: 0, failed: 0 })
     // 1671, 1677, 1678 y 1679 (Astrub, en Misiones) y 982 (Vulkania, en Eventos).
-    expect(counts.achievements).toEqual({ created: 5, updated: 0, unchanged: 0 })
+    expect(counts.achievements).toEqual({ created: 5, updated: 0, unchanged: 0, failed: 0 })
     // Los iconos 203, 82, 458 y 459, una vez cada uno: 982 comparte uno de ellos.
     expect(counts.icons).toEqual({ imported: 4, reused: 0, failed: 0 })
     expect(new Set(fetcher.calls).size).toBe(fetcher.calls.length)
@@ -135,8 +135,8 @@ describe('refresco de logros desde DofusDB', () => {
       now: new Date('2026-02-01T10:00:00.000Z'),
       fetchImage: fetcher.fetchImage,
     })
-    expect(counts.categories).toEqual({ created: 0, updated: 0, unchanged: 6 })
-    expect(counts.achievements).toEqual({ created: 0, updated: 0, unchanged: 5 })
+    expect(counts.categories).toEqual({ created: 0, updated: 0, unchanged: 6, failed: 0 })
+    expect(counts.achievements).toEqual({ created: 0, updated: 0, unchanged: 5, failed: 0 })
     expect(counts.icons).toEqual({ imported: 0, reused: 4, failed: 0 })
     expect(fetcher.calls).toEqual([])
     expect((await achievement(1671))!.refreshedAt).toBe(first.toISOString())
@@ -146,7 +146,7 @@ describe('refresco de logros desde DofusDB', () => {
     const changed = data()
     changed.achievements.find((raw) => raw.id === 1671)!.points = 15
     const counts = await refreshAchievements(payload, changed, { fetchImage: images().fetchImage })
-    expect(counts.achievements).toEqual({ created: 0, updated: 1, unchanged: 4 })
+    expect(counts.achievements).toEqual({ created: 0, updated: 1, unchanged: 4, failed: 0 })
     expect((await achievement(1671))!.points).toBe(15)
   })
 })
