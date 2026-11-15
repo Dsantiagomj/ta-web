@@ -79,6 +79,43 @@ test.describe('índice de las guías de Dofus', () => {
     await context.close()
   })
 
+  // El LCP (DESIGN.md, Performance budgets): con un `filter` en el huevo, Chrome lo contaba como un
+  // recuadro mayor que el que se ve. Su halo es un degradado detrás, sin `filter`.
+  test('el huevo de una tarjeta cuenta para el LCP por lo que se ve', async ({ browser }) => {
+    const context = await browser.newContext({
+      viewport: { width: 412, height: 823 },
+      deviceScaleFactor: 1.75,
+      isMobile: true,
+    })
+    try {
+      const page = await context.newPage()
+      await page.addInitScript(() => {
+        const w = window as unknown as { lcp: { element: Element; size: number }[] }
+        w.lcp = []
+        new PerformanceObserver((list) => {
+          for (const entry of list.getEntries() as LargestContentfulPaint[]) {
+            if (entry.element) w.lcp.push({ element: entry.element, size: entry.size })
+          }
+        }).observe({ type: 'largest-contentful-paint', buffered: true })
+      })
+      await page.goto('/guias-dofus', { waitUntil: 'networkidle' })
+      const eggs = page.locator('a.dcard .dcard__art img')
+      for (const egg of await eggs.all()) await expect(egg).toHaveCSS('filter', 'none')
+      const eggSizes = await page.evaluate(() => {
+        const w = window as unknown as { lcp: { element: Element; size: number }[] }
+        return w.lcp
+          .filter(({ element }) => element.matches('.dcard__art img'))
+          .map(({ element, size }) => {
+            const box = element.getBoundingClientRect()
+            return { size, drawn: box.width * box.height }
+          })
+      })
+      for (const { size, drawn } of eggSizes) expect(size).toBeLessThanOrEqual(drawn * 1.05)
+    } finally {
+      await context.close()
+    }
+  })
+
   for (const mode of MODES) {
     test(`pasa axe (WCAG 2.2 AA) en Arcano ${mode}`, async ({ page, context, baseURL }) => {
       await context.addCookies([{ name: 'ta-mode', value: mode, url: baseURL! }])
