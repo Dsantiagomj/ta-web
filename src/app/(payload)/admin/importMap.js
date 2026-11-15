@@ -43,6 +43,7 @@ import { SegmentLabel as SegmentLabel_a30613d846a340cabc3fc2ee7ca0f9f2 } from '.
 import { CopyValueDescription as CopyValueDescription_2baecbdeb96cc0bdee0814f26368c33f } from '../../../components/admin/CopyValueDescription'
 import { ChecklistStepLabel as ChecklistStepLabel_a30613d846a340cabc3fc2ee7ca0f9f2 } from '../../../components/admin/RowLabels'
 import { GameDataRefresh as GameDataRefresh_398c52d9c68a3fd4ff5823f52bf26eba } from '../../../components/admin/GameDataRefresh'
+import { LinkUrlField as LinkUrlField_74911af6ff3502b3c4545ebd0c3c16c1 } from '../../../components/admin/ValidatedTextField'
 import { PanelIcon as PanelIcon_b64368432b45f4624802cb0938bfd691 } from '../../../components/admin/PanelBrand'
 import { PanelLogo as PanelLogo_b64368432b45f4624802cb0938bfd691 } from '../../../components/admin/PanelBrand'
 import { PanelGuideNavLink as PanelGuideNavLink_bbc85789170169c628f99d40d0aa0d9d } from '../../../components/admin/PanelGuideNavLink'
@@ -100,6 +101,7 @@ export const importMap = {
   "/components/admin/CopyValueDescription#CopyValueDescription": CopyValueDescription_2baecbdeb96cc0bdee0814f26368c33f,
   "/components/admin/RowLabels#ChecklistStepLabel": ChecklistStepLabel_a30613d846a340cabc3fc2ee7ca0f9f2,
   "/components/admin/GameDataRefresh#GameDataRefresh": GameDataRefresh_398c52d9c68a3fd4ff5823f52bf26eba,
+  "/components/admin/ValidatedTextField#LinkUrlField": LinkUrlField_74911af6ff3502b3c4545ebd0c3c16c1,
   "/components/admin/PanelBrand#PanelIcon": PanelIcon_b64368432b45f4624802cb0938bfd691,
   "/components/admin/PanelBrand#PanelLogo": PanelLogo_b64368432b45f4624802cb0938bfd691,
   "/components/admin/PanelGuideNavLink#PanelGuideNavLink": PanelGuideNavLink_bbc85789170169c628f99d40d0aa0d9d,

@@ -114,6 +114,7 @@ export const GLOBAL_REFERRERS: Partial<Record<ReferencedCollection, GlobalReferr
       title: 'Índice de checklists',
       paths: ['teaser.scene', 'teaser.egg'],
     },
+    { global: 'site-settings', title: 'Ajustes del sitio', paths: ['ogImage'] },
   ],
 }
 

@@ -122,10 +122,14 @@ export interface Config {
   globals: {
     'dofus-guides-index': DofusGuidesIndex;
     'checklists-index': ChecklistsIndex;
+    'site-settings': SiteSetting;
+    'index-texts': IndexText;
   };
   globalsSelect: {
     'dofus-guides-index': DofusGuidesIndexSelect<false> | DofusGuidesIndexSelect<true>;
     'checklists-index': ChecklistsIndexSelect<false> | ChecklistsIndexSelect<true>;
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+    'index-texts': IndexTextsSelect<false> | IndexTextsSelect<true>;
   };
   locale: 'es';
   widgets: {
@@ -3389,6 +3393,165 @@ export interface ChecklistsIndex {
   createdAt?: string | null;
 }
 /**
+ * Lo que sale en todas las páginas: el nombre del sitio, lo que ven Google y las redes, el pie de página y tus redes. Si dejas un campo vacío, la web pone el texto de siempre.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: number;
+  /**
+   * El título de la portada en Google y en las pestañas, y el del © del pie.
+   */
+  name?: string | null;
+  /**
+   * La frase bajo el título de la portada en Google y al compartirla.
+   */
+  description?: string | null;
+  /**
+   * La que enseñan WhatsApp, Discord o X al pegar un enlace de la web. Mejor de 1200 × 630 píxeles, en JPG o PNG. Sin imagen, cada red elige.
+   */
+  ogImage?: (number | null) | Media;
+  footer?: {
+    bio?: string | null;
+    liveTitle?: string | null;
+    liveText?: string | null;
+    discordTitle?: string | null;
+    discordText?: string | null;
+    kofiTitle?: string | null;
+    kofiText?: string | null;
+    disclaimer?: string | null;
+  };
+  /**
+   * Los enlaces del pie, de la portada y del menú del móvil. El nombre de usuario es el que sale bajo cada red.
+   */
+  socials?: {
+    twitch?: {
+      /**
+       * La dirección completa, empezando por https://
+       */
+      url?: string | null;
+      handle?: string | null;
+    };
+    kick?: {
+      /**
+       * La dirección completa, empezando por https://
+       */
+      url?: string | null;
+      handle?: string | null;
+    };
+    youtube?: {
+      /**
+       * La dirección completa, empezando por https://
+       */
+      url?: string | null;
+      handle?: string | null;
+    };
+    discord?: {
+      /**
+       * La dirección completa, empezando por https://
+       */
+      url?: string | null;
+      handle?: string | null;
+    };
+    kofi?: {
+      /**
+       * La dirección completa, empezando por https://
+       */
+      url?: string | null;
+    };
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Los títulos, las entradillas y lo que ve Google de la portada y de los índices /metalogros, /guias-dofus y /checklists. Si dejas un campo vacío, la web pone el texto de siempre.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "index-texts".
+ */
+export interface IndexText {
+  id: number;
+  home?: {
+    eyebrow?: string | null;
+    title?: string | null;
+    lead?: string | null;
+    question?: string | null;
+    areas?: {
+      title?: string | null;
+      questsText?: string | null;
+      dofusText?: string | null;
+      checklistsText?: string | null;
+      classesText?: string | null;
+      dungeonsText?: string | null;
+    };
+    /**
+     * Cada punto lleva su número sobre la parte de la guía de muestra que explica.
+     */
+    tour?: {
+      title?: string | null;
+      lead?: string | null;
+      step1?: {
+        title?: string | null;
+        text?: string | null;
+      };
+      step2?: {
+        title?: string | null;
+        text?: string | null;
+      };
+      step3?: {
+        title?: string | null;
+        text?: string | null;
+      };
+      step4?: {
+        title?: string | null;
+        text?: string | null;
+      };
+      more?: string | null;
+    };
+    checklists?: {
+      title?: string | null;
+      lead?: string | null;
+    };
+    author?: {
+      title?: string | null;
+      lead?: string | null;
+      join?: string | null;
+      joinText?: string | null;
+      offlineTitle?: string | null;
+      offlineText?: string | null;
+    };
+  };
+  metalogros?: {
+    title?: string | null;
+    lead?: string | null;
+    seo?: {
+      title?: string | null;
+      description?: string | null;
+    };
+  };
+  dofusGuides?: {
+    eyebrow?: string | null;
+    title?: string | null;
+    seo?: {
+      title?: string | null;
+      description?: string | null;
+    };
+  };
+  checklists?: {
+    eyebrow?: string | null;
+    title?: string | null;
+    lead?: string | null;
+    empty?: string | null;
+    seo?: {
+      title?: string | null;
+      description?: string | null;
+    };
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "dofus-guides-index_select".
  */
@@ -3413,6 +3576,175 @@ export interface ChecklistsIndexSelect<T extends boolean = true> {
         egg?: T;
       };
   importSnapshot?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  ogImage?: T;
+  footer?:
+    | T
+    | {
+        bio?: T;
+        liveTitle?: T;
+        liveText?: T;
+        discordTitle?: T;
+        discordText?: T;
+        kofiTitle?: T;
+        kofiText?: T;
+        disclaimer?: T;
+      };
+  socials?:
+    | T
+    | {
+        twitch?:
+          | T
+          | {
+              url?: T;
+              handle?: T;
+            };
+        kick?:
+          | T
+          | {
+              url?: T;
+              handle?: T;
+            };
+        youtube?:
+          | T
+          | {
+              url?: T;
+              handle?: T;
+            };
+        discord?:
+          | T
+          | {
+              url?: T;
+              handle?: T;
+            };
+        kofi?:
+          | T
+          | {
+              url?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "index-texts_select".
+ */
+export interface IndexTextsSelect<T extends boolean = true> {
+  home?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        lead?: T;
+        question?: T;
+        areas?:
+          | T
+          | {
+              title?: T;
+              questsText?: T;
+              dofusText?: T;
+              checklistsText?: T;
+              classesText?: T;
+              dungeonsText?: T;
+            };
+        tour?:
+          | T
+          | {
+              title?: T;
+              lead?: T;
+              step1?:
+                | T
+                | {
+                    title?: T;
+                    text?: T;
+                  };
+              step2?:
+                | T
+                | {
+                    title?: T;
+                    text?: T;
+                  };
+              step3?:
+                | T
+                | {
+                    title?: T;
+                    text?: T;
+                  };
+              step4?:
+                | T
+                | {
+                    title?: T;
+                    text?: T;
+                  };
+              more?: T;
+            };
+        checklists?:
+          | T
+          | {
+              title?: T;
+              lead?: T;
+            };
+        author?:
+          | T
+          | {
+              title?: T;
+              lead?: T;
+              join?: T;
+              joinText?: T;
+              offlineTitle?: T;
+              offlineText?: T;
+            };
+      };
+  metalogros?:
+    | T
+    | {
+        title?: T;
+        lead?: T;
+        seo?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+            };
+      };
+  dofusGuides?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        seo?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+            };
+      };
+  checklists?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        lead?: T;
+        empty?: T;
+        seo?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+            };
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

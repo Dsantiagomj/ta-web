@@ -6,6 +6,7 @@ import { useCallback, useState } from 'react'
 
 import { validateColor } from '@/lib/dofus-guides/color'
 import { validateOptionalVideoUrl, validateVideoUrl } from '@/lib/guides/video'
+import { validateLinkUrl } from '@/lib/site-copy/link'
 
 type Validate = (value: unknown) => true | string
 
@@ -73,3 +74,6 @@ export const VideoUrlField = validatedTextField(validateVideoUrl)
 
 /** El vídeo opcional de una guía de Dofus. */
 export const OptionalVideoUrlField = validatedTextField(validateOptionalVideoUrl)
+
+/** El enlace de una red en «Ajustes del sitio»: vacío, o una dirección web completa. */
+export const LinkUrlField = validatedTextField(validateLinkUrl)

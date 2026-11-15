@@ -111,6 +111,10 @@ describe('A-03: el orden del menú', () => {
     ])
   })
 
+  it('en Ajustes, tras las redirecciones y las cuentas, los textos del sitio', () => {
+    expect(navGroups()[3]?.slugs).toEqual(['redirects', 'users', 'site-settings', 'index-texts'])
+  })
+
   it('los datos del juego van juntos, con sus refrescos al final', () => {
     const slugs = navGroups()[2]?.slugs ?? []
     expect([...slugs].sort()).toEqual([...GAME_DATA, 'game-data-refreshes'].sort())
