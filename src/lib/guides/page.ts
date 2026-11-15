@@ -11,7 +11,7 @@ import { mediaImageAsset } from '@/lib/media/image-asset'
 import type { Media, RichTextBlock } from '@/payload-types'
 
 import { formatThousands, neededItems } from './format'
-import { needNote, type NeedNote, rowText } from './need-notes'
+import { isDungeonNote, needKey, needNote, type NeedNote, rowText } from './need-notes'
 import type { GuideStart } from './step-nav'
 import { guideStrings } from './strings'
 import type { LinkedRewards, LinkedNeeds } from './summary'
@@ -202,6 +202,23 @@ export interface AchievementPlace {
   total: number
 }
 
+/**
+ * Una nota de Necesitarás en la cabecera. Una nota de mazmorra (dice «mazmorra») lleva en su
+ * hueco el jefe de la mazmorra que nombra (boss) o, si no nombra una sola, el icono de
+ * mazmorra, como «Necesitarás en total» de la página de logro (DESIGN.md, Quest header).
+ */
+export type NeedRow = NeedNote & { dungeon?: true; boss?: ImageAsset }
+
+/**
+ * Las notas de mazmorra de la guía, sin cantidad: las que se casan con una mazmorra
+ * (readDungeonBosses) para poner su jefe en la cabecera.
+ */
+export function guideDungeonNotes(guide: Pick<GuideDoc, 'summary'>): string[] {
+  return lines(guide.summary?.needs?.notes)
+    .map((line) => needNote(line).label)
+    .filter(isDungeonNote)
+}
+
 /** Datos de la cabecera de la guía (DESIGN.md, Quest header). */
 export interface QuestHeaderData {
   /** El subtítulo: «Misión de {zona} - Nivel {n} - Misión {k} de {total}». */
@@ -213,7 +230,7 @@ export interface QuestHeaderData {
   /** El PNJ que da la misión: solo con su render. */
   giver?: { name: string; right: ImageAsset; left?: ImageAsset; coordinates?: Coordinates }
   prerequisites: { label: string; href?: string; quest: boolean }[]
-  needs: { items: Quantity<GameItem>[]; notes: NeedNote[] }
+  needs: { items: Quantity<GameItem>[]; notes: NeedRow[] }
   rewards: {
     /** La XP del nivel óptimo (min) a la del tope (max), si son distintas. */
     xp?: { min?: number; max: number }
@@ -236,6 +253,7 @@ export function questHeaderProps(
   linked: QuestGuideLink[],
   giverDoc?: GiverDoc | null,
   place?: AchievementPlace | null,
+  dungeonBosses: ReadonlyMap<string, Media> = new Map(),
 ): QuestHeaderData {
   const quest = linkedQuest(guide)
   const summary = guide.summary ?? {}
@@ -286,7 +304,12 @@ export function questHeaderProps(
       item: gameItem(item),
       quantity,
     })),
-    notes: lines(summary.needs?.notes).map(needNote),
+    notes: lines(summary.needs?.notes).map((line): NeedRow => {
+      const note = needNote(line)
+      if (!isDungeonNote(note.label)) return note
+      const boss = mediaImageAsset(dungeonBosses.get(needKey(note.label)))
+      return { ...note, dungeon: true, ...(boss && { boss }) }
+    }),
   }
 
   const max = positive(quest?.rewards?.experience)

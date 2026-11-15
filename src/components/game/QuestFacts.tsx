@@ -44,6 +44,17 @@ function RewardBag({ id, items }: { id: string; items: QuestHeaderData['rewards'
   )
 }
 
+/**
+ * El hueco de una nota de Necesitarás: el jefe de la mazmorra que nombra o, si no nombra una
+ * sola, el icono de mazmorra; el icono de combate en un combate; nada en las demás.
+ */
+function NoteSlot({ note }: { note: QuestFactsData['needs']['notes'][number] }) {
+  if (note.dungeon) {
+    return note.boss ? <IconWell image={note.boss} /> : <IconWell icon="dungeon" />
+  }
+  return note.combat ? <IconWell icon="combat" /> : null
+}
+
 /** Una cifra en negrita, con los miles separados por un espacio que no se parte. */
 function Amount({ value }: { value: number }) {
   return <b>{formatAmount(value)}</b>
@@ -160,7 +171,7 @@ export function QuestFacts({
               <ul role="list" className="needs__notes">
                 {needs.notes.map((note) => (
                   <li key={note.label} className="row">
-                    {note.combat && <IconWell icon="combat" />}
+                    <NoteSlot note={note} />
                     <span>
                       {note.quantity != null && <b>{s.quantity(note.quantity)} </b>}
                       {note.label}

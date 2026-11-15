@@ -325,6 +325,17 @@ ul.needs__notes {
   line-height: 1.4;
 }
 
+/* Una nota con hueco (combate o mazmorra): el hueco a la altura de su primera línea, que
+   baja la mitad de lo que el hueco mide de más que su línea (como en «Necesitarás en
+   total» y en las guías de Dofus). Una nota de una línea queda igual que centrada. */
+.needs__notes > .row:has(> .well) {
+  align-items: flex-start;
+}
+
+.needs__notes > .row:has(> .well) > span:last-child {
+  padding-top: calc((1.75rem - 1lh) / 2);
+}
+
 .needs__notes .well {
   width: 1.75rem;
   height: 1.75rem;
