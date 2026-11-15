@@ -1580,6 +1580,10 @@ export interface Checklist {
          * Los jefes que hay que vencer en el paso.
          */
         bosses?: (number | Monster)[] | null;
+        /**
+         * Los Dofus que se consiguen al completar este paso, por su guía. Forman el camino de Dofus de la checklist.
+         */
+        dofus?: (number | DofusGuide)[] | null;
         needs?:
           | {
               /**
@@ -2440,6 +2444,7 @@ export interface ChecklistsSelect<T extends boolean = true> {
               id?: T;
             };
         bosses?: T;
+        dofus?: T;
         needs?:
           | T
           | {

@@ -446,6 +446,16 @@ const stepFieldList: Field[] = [
     admin: { description: s.bossesDescription },
   },
   {
+    // Los Dofus que se consiguen en el paso: el camino de Dofus de la checklist (el rush da
+    // 26, el 190 dos).
+    name: 'dofus',
+    label: 'Dofus que da',
+    type: 'relationship',
+    relationTo: 'dofus-guides',
+    hasMany: true,
+    admin: { description: s.stepDofusDescription },
+  },
+  {
     name: 'icon',
     label: 'Icono',
     type: 'upload',
@@ -472,7 +482,7 @@ const stepFields: Field[] = [
   legacyNumber,
   placeInTabs(visibleStepFields, [
     { label: tabsOf.text, names: ['zone', 'segments', 'closes', 'updates', 'note'] },
-    { label: tabsOf.quests, names: ['quests', 'achievements', 'bosses'] },
+    { label: tabsOf.quests, names: ['quests', 'achievements', 'bosses', 'dofus'] },
     { label: tabsOf.needs, names: ['needs'] },
     { label: tabsOf.images, names: ['banner', 'icon', 'figure'] },
   ]),
