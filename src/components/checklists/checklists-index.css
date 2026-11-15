@@ -216,7 +216,7 @@ a.poster:active .poster__frame {
     drop-shadow(0 0.75rem 0.75rem rgb(0 0 0 / 0.8));
 }
 
-/* El brillo holográfico: sigue al ratón (--fx, --fy, de posters-ui.ts). */
+/* El brillo holográfico: sigue al ratón (--fx, --fy, de src/components/ui/tilt.ts). */
 .poster__foil {
   position: absolute;
   inset: 0;

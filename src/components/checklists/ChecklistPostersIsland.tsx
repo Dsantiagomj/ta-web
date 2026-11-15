@@ -2,7 +2,9 @@
 
 import { useEffect } from 'react'
 
-import { hasProgress, startTilt } from './posters-ui'
+import { startTilt } from '@/components/ui/tilt'
+
+import { hasProgress } from './posters-ui'
 
 /** localStorage, o null si el navegador no deja tocarlo (modo privado estricto). */
 function browserStorage(): Storage | null {
@@ -14,7 +16,7 @@ function browserStorage(): Storage | null {
 }
 
 /**
- * La isla del índice /checklists: la inclinación hacia el ratón (posters-ui.ts) y, cuando el
+ * La isla del índice /checklists: la inclinación hacia el ratón (ui/tilt.ts) y, cuando el
  * navegador tiene progreso, el porcentaje de cada cartel (poster-progress-ui.ts, con import():
  * el motor y lo que pide no viajan a quien no ha marcado nada). Si el progreso aparece después,
  * en otra pestaña o al volver con atrás, arranca entonces. Sin ella los carteles se ven igual,
