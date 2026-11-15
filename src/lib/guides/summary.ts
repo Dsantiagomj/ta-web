@@ -26,6 +26,8 @@ export interface LinkedItem extends NamedDoc {
   /** Su ID en DofusDB, para cruzarlo con los objetivos de las misiones. */
   dofusId?: number | null
   superTypeId?: number | null
+  /** Su tipo en DofusDB: el 25 son los libros. */
+  typeId?: number | null
   /** El icono importado de DofusDB (Media), si ya está. */
   image?: number | Media | null
   /** Lo que Torre corrigió de este objeto (src/lib/game-data/correction.ts). */

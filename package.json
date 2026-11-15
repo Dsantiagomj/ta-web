@@ -40,6 +40,7 @@
     "guides:backfill": "NODE_OPTIONS=--no-deprecation payload run scripts/backfill-guides.ts --",
     "guides:shown-items": "NODE_OPTIONS=--no-deprecation payload run scripts/backfill-shown-items.ts --",
     "guides:rewards": "NODE_OPTIONS=--no-deprecation payload run scripts/backfill-guide-rewards.ts --",
+    "guides:reward-typos": "NODE_OPTIONS=--no-deprecation payload run scripts/fix-reward-typos.ts --",
     "seed:site-copy": "NODE_OPTIONS=--no-deprecation payload run scripts/seed-site-copy.ts --",
     "panel:block-thumbs": "node scripts/build-block-thumbnails.ts",
     "media:sizes": "NODE_OPTIONS=--no-deprecation payload run scripts/media-sizes.ts --",
