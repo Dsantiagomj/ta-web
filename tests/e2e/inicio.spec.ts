@@ -105,9 +105,14 @@ test.describe('portada', () => {
   })
 
   test('↓↓ e Intro abren la segunda; Intro sin elegir abre la primera', async ({ page }) => {
+    // El reloj en la mano: la lista se ordena 90 ms después de la última tecla y entonces
+    // suelta la opción activa, que apuntaba a la lista de antes. Con la máquina cargada, las
+    // flechas llegaban antes de ese momento y se perdían. Primero se ordena; luego, las flechas.
+    await page.clock.install()
     await open(page)
     await field(page).fill('es')
     await expect(list(page).getByRole('option')).toHaveCount(2)
+    await page.clock.runFor(200)
     await page.keyboard.press('ArrowDown')
     await page.keyboard.press('ArrowDown')
     const second = list(page).getByRole('option').nth(1)
@@ -266,6 +271,7 @@ test.describe('portada', () => {
   test('encuentra los logros publicados, en su grupo, y las flechas los recorren', async ({
     page,
   }) => {
+    await page.clock.install()
     await open(page)
     await field(page).fill('hace')
     await expect(shown(page)).toHaveText('1 misión · 1 logro')
@@ -280,9 +286,11 @@ test.describe('portada', () => {
     // Lo que está En preparación no se busca.
     await field(page).fill('biblioteca')
     await expect(shown(page)).toHaveText(/^Ninguna misión se llama «biblioteca»/)
-    // Las flechas pasan de un grupo al otro; Intro abre la página del logro.
+    // Las flechas pasan de un grupo al otro; Intro abre la página del logro. Antes, se deja
+    // ordenar lo escrito (90 ms), como en «↓↓ e Intro abren la segunda».
     await field(page).fill('hace')
     await expect(groups).toHaveCount(2)
+    await page.clock.runFor(200)
     await page.keyboard.press('ArrowDown')
     await page.keyboard.press('ArrowDown')
     await expect(logros.getByRole('option')).toHaveAttribute('aria-selected', 'true')
