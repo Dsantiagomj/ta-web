@@ -7,8 +7,8 @@
 // los que aún no están (la primera vez tarda: dos imágenes por PNJ), y los iconos de los
 // objetos y las imágenes de los monstruos que pinta alguna guía, también una sola vez.
 // También guarda las mazmorras con sus jefes, cuyas imágenes importa, y al final dice qué
-// filas de mazmorra de las páginas de logro publicadas llevan el icono genérico y cómo casó
-// cada nota (`pnpm data:dungeon-notes` imprime solo eso, sin escribir nada).
+// filas de mazmorra de lo publicado (páginas de logro, guías de Dofus y guías de misión)
+// llevan el icono genérico y cómo casó cada nota (`pnpm data:dungeon-notes` imprime solo eso, sin escribir nada).
 // Uso: pnpm data:quests. Escribe en la base de DATABASE_URL (vacía: la de pnpm db:dev).
 // DOFUSDB_WRITE_CONCURRENCY fija cuántas escrituras van a la vez (por defecto 8).
 // Corre con `payload run`, que carga .env y transpila TypeScript; el script arranca
@@ -132,7 +132,8 @@ try {
       `${counts.missingItems} objetos y ${counts.missingMonsters} monstruos que no existen.`,
   )
 
-  // Las filas de mazmorra de las páginas publicadas, clasificadas como las pinta la página:
+  // Las filas de mazmorra de las páginas de logro, guías de Dofus y guías de misión
+  // publicadas, clasificadas como las pinta cada página:
   // con el jefe solo si su imagen está en Media, y cómo casó cada nota. Las demás llevan el
   // icono genérico hasta que Torre escriba la mazmorra con su nombre o el de su jefe, o la
   // elija a mano en la guía («Mazmorras de las notas», en Necesitarás).
