@@ -8,7 +8,7 @@ import { E2E_PANEL_USER_4 } from './seed/guides.ts'
 // El Ocre, una checklist de almas, como queda en dev tras importarlo: la ficha publicada sigue
 // En preparación (a Squarespace) y la vista previa del panel enseña el borrador de almas. Tres
 // almas en dos etapas: Mob Lasponja (jefe, en el Castillo de Arena), Pikopi y Arakna Maja, con
-// un nombre largo que la tarjeta corta.
+// un nombre largo que la tarjeta corta. Las etapas (o las regiones) van al lado y se ve una.
 
 const ocre = indexChecklists.legacy
 const souls = indexChecklists.souls
@@ -16,24 +16,26 @@ const ARAKNA = souls.monsters[2].name
 
 // Su propia cuenta: cada inicio de sesión reescribe las sesiones de la cuenta, y otra spec que
 // entre a la vez con la misma puede borrar la suya (seed/guides.ts).
-async function preview(page: Page) {
+async function preview(page: Page, hash = '') {
   const login = await page.request.post('/api/users/login', { data: E2E_PANEL_USER_4 })
   expect(login.ok()).toBe(true)
   await page.goto(`/vista-previa?slug=${ocre.slug}`)
-  await expect(page).toHaveURL(new RegExp(`/${ocre.slug}$`))
+  await expect(page).toHaveURL(new RegExp(`/${ocre.slug}(#.*)?$`))
+  if (hash) await page.goto(`/${ocre.slug}${hash}`)
   // La isla está lista cuando suelta las casillas.
   await expect(page.locator('[data-sl-own]').first()).toBeEnabled()
 }
 
 // Cada alma sale en las dos vistas (por etapa y por región): se mira la que se ve.
 const soul = (page: Page, name: string) =>
-  page.locator('[data-sl-view]:visible .sl-soul', { hasText: name })
+  page.locator('[data-sl-panel]:visible .sl-soul:visible', { hasText: name })
 const visibleNames = (page: Page) =>
-  page.locator('[data-sl-view]:visible .sl-soul:visible .sl-soul__n').allTextContents()
+  page.locator('[data-sl-panel]:visible .sl-soul:visible .sl-soul__n').allTextContents()
+const panel = (page: Page) => page.locator('[data-sl-panel]:visible')
 const typeButton = (page: Page, name: RegExp) =>
   page.getByRole('group', { name: 'Tipo de alma' }).getByRole('button', { name })
-const stageButton = (page: Page, name: RegExp) =>
-  page.getByRole('navigation', { name: 'Etapas' }).getByRole('button', { name })
+const nav = (page: Page, name: 'Etapas' | 'Regiones') => page.getByRole('navigation', { name })
+const stageButton = (page: Page, name: RegExp) => nav(page, 'Etapas').getByRole('button', { name })
 const settled = (page: Page) =>
   page.waitForFunction(() =>
     document
@@ -42,6 +44,7 @@ const settled = (page: Page) =>
       .filter((a) => a.effect?.getComputedTiming().iterations !== Infinity)
       .every((a) => a.playState !== 'running'),
   )
+const hash = (page: Page) => page.evaluate(() => decodeURIComponent(location.hash))
 
 test.describe('el Ocre en la vista previa', () => {
   test('sin sesión, la ficha En preparación sigue llevando a Squarespace', async ({ request }) => {
@@ -50,61 +53,129 @@ test.describe('el Ocre en la vista previa', () => {
     expect(response.headers().location).toBe(ocre.legacyHref)
   })
 
-  test('las almas por etapa, con su nivel y dónde se luchan, y el aviso de Torre', async ({
+  test('una etapa a la vez: su título, lo que se tiene, el anillo y sus almas', async ({
     page,
   }) => {
     await preview(page)
     await expect(page.getByRole('heading', { level: 1, name: ocre.name })).toBeVisible()
     await expect(page.getByText(souls.intro)).toBeVisible()
-    const stage = page.locator('[data-sl-view="stage"] .sl-gh')
-    await expect(stage).toHaveText(['Etapa 1 · Jefes 0/1', 'Etapa 2 · Archis 0/2'])
-    // El jefe al nivel de su mazmorra (25), no al de su grado más alto.
-    await expect(soul(page, 'Mob Lasponja')).toContainText('Nv. 20 · Castillo de Arena')
-    await expect(soul(page, 'Pikopi')).toContainText('Nv. 55 · Bosque de Amakna')
+    await expect(panel(page)).toHaveCount(1)
+    await expect(panel(page).getByRole('heading', { level: 2 })).toHaveText('Etapa 1 · Jefes')
+    await expect(panel(page).locator('[data-sl-sum]')).toHaveText('0 de 1 almas')
+    await expect(panel(page).locator('[data-sl-ring]')).toHaveText('0 %')
+    expect(await visibleNames(page)).toEqual(['Mob Lasponja'])
+    // El jefe al nivel de su mazmorra (25), no al de su grado más alto; primero, dónde se lucha.
+    await expect(soul(page, 'Mob Lasponja')).toContainText('Castillo de Arena · Nv. 20')
+    await expect(stageButton(page, /Etapa 1/)).toHaveAttribute('aria-current', 'true')
+    await expect(stageButton(page, /Etapa 1/)).toContainText('0/1')
+    await expect(stageButton(page, /Etapa 2/)).toContainText('0/2')
     // Sin etiqueta de jefe o archi: el tipo solo filtra.
-    await expect(page.locator('.sl-tag')).toHaveCount(0)
+    await expect(panel(page).locator('.sl-soul')).not.toContainText(/\b(Jefe|Archi)\b/)
   })
 
-  test('marcar un alma cuenta en el porcentaje y en su grupo, y se guarda', async ({ page }) => {
+  test('anterior y siguiente, y la etapa elegida en la dirección, que sobrevive a recargar', async ({
+    page,
+  }) => {
     await preview(page)
+    const pager = page.getByRole('navigation', { name: 'Otras etapas' })
+    await expect(pager.getByRole('button', { name: /Anterior/ })).toBeHidden()
+    await pager.getByRole('button', { name: /Siguiente.*Etapa 2 · Archis/ }).click()
+    await expect(panel(page).getByRole('heading', { level: 2 })).toHaveText('Etapa 2 · Archis')
+    expect(await visibleNames(page)).toEqual(['Pikopi', ARAKNA])
+    await expect(pager.getByRole('button', { name: /Siguiente/ })).toBeHidden()
+    expect(await hash(page)).toBe('#etapa=2')
+    await page.reload()
+    await expect(page.locator('[data-sl-own]').first()).toBeEnabled()
+    await expect(panel(page).getByRole('heading', { level: 2 })).toHaveText('Etapa 2 · Archis')
+    await pager.getByRole('button', { name: /Anterior.*Etapa 1 · Jefes/ }).click()
+    expect(await visibleNames(page)).toEqual(['Mob Lasponja'])
+  })
+
+  test('el tipo cambia la lista de etapas y lo que cuenta cada una', async ({ page }) => {
+    await preview(page)
+    await typeButton(page, /^Archis/).click()
+    await expect(nav(page, 'Etapas').getByRole('button')).toHaveText([/Etapa 2.*0\/2/])
+    // La etapa elegida ya no se ve: se pasa a la primera que queda.
+    await expect(panel(page).getByRole('heading', { level: 2 })).toHaveText('Etapa 2 · Archis')
+    expect(await hash(page)).toBe('#etapa=2&tipo=archis')
+    await typeButton(page, /^Todas/).click()
+    await expect(nav(page, 'Etapas').getByRole('button')).toHaveCount(2)
+  })
+
+  test('por región, agrupada por mazmorra y subzona, y un enlace directo', async ({ page }) => {
+    await preview(page, '#region=Astrub')
+    await expect(page.getByRole('button', { name: 'Por región' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    )
+    await expect(nav(page, 'Regiones').getByRole('button')).toHaveText([
+      /Astrub.*0\/2/,
+      /Amakna.*0\/1/,
+    ])
+    await expect(panel(page).getByRole('heading', { level: 2 })).toHaveText('Astrub')
+    await expect(panel(page).locator('.sl-sub:visible .sl-sh')).toHaveText([
+      'Castillo de Arena 0/1',
+      'Playa de Arena 0/1',
+    ])
+    await typeButton(page, /^Archis/).click()
+    await expect(panel(page).locator('.sl-sub:visible .sl-sh')).toHaveText(['Playa de Arena 0/1'])
+    await expect(panel(page).locator('[data-sl-sum]')).toHaveText('0 de 1 almas')
+    expect(await hash(page)).toBe('#region=Astrub&tipo=archis')
+
+    await nav(page, 'Regiones')
+      .getByRole('button', { name: /Amakna/ })
+      .click()
+    expect(await visibleNames(page)).toEqual(['Pikopi'])
+    expect(await hash(page)).toBe('#region=Amakna&tipo=archis')
+  })
+
+  test('marcar un alma cuenta en el porcentaje, en su etapa y en el anillo, y se guarda', async ({
+    page,
+  }) => {
+    await preview(page, '#etapa=2')
     await soul(page, 'Pikopi').locator('label').click()
     await expect(page.locator('[data-sl-pct]')).toHaveText('33,3 %')
     await expect(page.locator('[data-sl-done]')).toHaveText('1')
-    await expect(page.locator('[data-sl-view="stage"] .sl-gh').nth(1)).toHaveText(
-      'Etapa 2 · Archis 1/2',
-    )
+    await expect(panel(page).locator('[data-sl-sum]')).toHaveText('1 de 2 almas')
+    await expect(panel(page).locator('[data-sl-ring]')).toHaveText('50 %')
+    await expect(stageButton(page, /Etapa 2/)).toContainText('1/2')
     await page.reload()
     await expect(soul(page, 'Pikopi').locator('[data-sl-own]')).toBeChecked()
     const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('ta-web:progress')!))
     expect(Object.keys(stored.souls)).toEqual(['991602'])
   })
 
-  test('por región, el tipo, el buscador y ocultar las que se tienen', async ({ page }) => {
-    await preview(page)
-    await page.getByRole('button', { name: 'Por región' }).click()
-    await expect(page.locator('[data-sl-view="region"] .sl-gh')).toHaveText([
-      'Astrub 0/2',
-      'Amakna 0/1',
-    ])
-    await expect(page.locator('[data-sl-view="stage"]')).toBeHidden()
-
-    await typeButton(page, /^Jefes/).click()
-    expect(await visibleNames(page)).toEqual(['Mob Lasponja'])
-    await typeButton(page, /^Todas/).click()
-
-    await page.getByRole('searchbox').fill('arakna')
-    expect(await visibleNames(page)).toEqual([ARAKNA])
-    await page.getByRole('searchbox').fill('')
-
-    await soul(page, ARAKNA).locator('label').click()
-    await page.getByRole('checkbox', { name: 'Ocultar las que tengo' }).check()
-    expect(await visibleNames(page)).toEqual(['Mob Lasponja', 'Pikopi'])
+  test('el botón de copiar copia el nombre y no marca el alma', async ({ page, context }) => {
+    await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+    await preview(page, '#etapa=2')
+    await soul(page, 'Pikopi').getByRole('button', { name: 'Copiar «Pikopi»' }).click()
+    await expect(page.locator('[data-ck-toast]')).toHaveText('Copiado: Pikopi')
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('Pikopi')
+    await expect(soul(page, 'Pikopi').locator('[data-sl-own]')).not.toBeChecked()
+    // Tocar la tarjeta, en cambio, la marca.
+    await soul(page, 'Pikopi').locator('.sl-soul__n').click()
+    await expect(soul(page, 'Pikopi').locator('[data-sl-own]')).toBeChecked()
   })
 
-  test('busca por alma, mazmorra, zona, región o nivel, también un rango', async ({ page }) => {
+  test('el buscador busca en todas las almas y las enseña bajo su etapa', async ({ page }) => {
     await preview(page)
     const search = page.getByRole('searchbox')
     await expect(search).toHaveAttribute('placeholder', 'Alma, mazmorra, zona, región o nivel')
+    await search.fill('arena')
+    // Encima de las etapas que coinciden, en la columna del panel: la lista sigue arriba.
+    const results = page.locator('[data-sl-results]:visible')
+    await expect(results).toContainText('Resultados de «arena»')
+    await expect(results).toContainText('2 almas')
+    const [side, header] = [
+      (await nav(page, 'Etapas').boundingBox())!,
+      (await results.boundingBox())!,
+    ]
+    expect(side.y).toBeLessThanOrEqual(header.y + 1)
+    await expect(panel(page).getByRole('heading', { level: 2 })).toHaveText([
+      'Etapa 1 · Jefes',
+      'Etapa 2 · Archis',
+    ])
+    expect(await visibleNames(page)).toEqual(['Mob Lasponja', ARAKNA])
     for (const [text, names] of [
       ['55', ['Pikopi']],
       ['nv. 20', ['Mob Lasponja']],
@@ -117,48 +188,61 @@ test.describe('el Ocre en la vista previa', () => {
       await search.fill(text)
       expect(await visibleNames(page), text).toEqual(names)
     }
+    await search.fill('')
+    await expect(page.locator('[data-sl-results]:visible')).toHaveCount(0)
+    await expect(panel(page)).toHaveCount(1)
   })
 
-  test('el panel de las etapas filtra la lista y «Todas» la devuelve; al lado en el escritorio', async ({
+  test('«Ocultar las que tengo» las quita con su animación y dice si la etapa está completa', async ({
     page,
   }) => {
-    await page.setViewportSize({ width: 1440, height: 900 })
-    await preview(page)
-    const panel = page.getByRole('navigation', { name: 'Etapas' })
-    const list = page.locator('.sl-staged__list')
-    const [panelBox, listBox] = [(await panel.boundingBox())!, (await list.boundingBox())!]
-    expect(panelBox.x + panelBox.width).toBeLessThanOrEqual(listBox.x)
-    await expect(stageButton(page, /Etapa 2/)).toContainText('0/2')
-
-    await stageButton(page, /Etapa 2/).click()
-    await expect(stageButton(page, /Etapa 2/)).toHaveAttribute('aria-pressed', 'true')
-    expect(await visibleNames(page)).toEqual(['Pikopi', ARAKNA])
-    await stageButton(page, /^Todas/).click()
-    expect(await visibleNames(page)).toEqual(['Mob Lasponja', 'Pikopi', ARAKNA])
+    await preview(page, '#etapa=2')
+    await soul(page, ARAKNA).locator('label').click()
+    await page.getByRole('checkbox', { name: 'Ocultar las que tengo' }).check()
+    // Se va con una animación (opacidad y escala), no de golpe.
+    await expect(page.locator('[data-sl-panel]:visible .sl-soul[data-leave]')).toHaveCount(1)
+    await expect.poll(() => visibleNames(page)).toEqual(['Pikopi'])
+    // Marcar con la casilla puesta: el alma se queda un momento y se va.
+    await soul(page, 'Pikopi').locator('label').click()
+    await expect.poll(() => visibleNames(page)).toEqual([])
+    await expect(page.locator('[data-sl-empty]:visible')).toHaveText(
+      'Ya tienes todas las almas de la etapa 2.',
+    )
   })
 
-  test('en el móvil las etapas son una fila encima de la lista, sin desbordar la página', async ({
+  test('en el escritorio las etapas van al lado de la etapa elegida', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await preview(page)
+    const [side, main] = [
+      (await nav(page, 'Etapas').boundingBox())!,
+      (await panel(page).boundingBox())!,
+    ]
+    expect(side.x + side.width).toBeLessThanOrEqual(main.x)
+    await expect(nav(page, 'Etapas').getByRole('heading', { name: 'Etapas' })).toBeVisible()
+  })
+
+  test('en el móvil las etapas son una fila encima de la etapa, sin desbordar la página', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 390, height: 844 })
     await preview(page)
-    const chips = page.getByRole('navigation', { name: 'Etapas' }).getByRole('button')
-    await expect(chips).toHaveCount(3)
+    const chips = nav(page, 'Etapas').getByRole('button')
+    await expect(chips).toHaveCount(2)
     const tops = await chips.evaluateAll((all) => all.map((el) => el.getBoundingClientRect().top))
     expect(new Set(tops).size).toBe(1)
-    const panel = (await page.getByRole('navigation', { name: 'Etapas' }).boundingBox())!
-    const list = (await page.locator('.sl-staged__list').boundingBox())!
-    expect(panel.y + panel.height).toBeLessThanOrEqual(list.y)
+    const row = (await nav(page, 'Etapas').boundingBox())!
+    const main = (await panel(page).boundingBox())!
+    expect(row.y + row.height).toBeLessThanOrEqual(main.y)
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
     ).toBe(true)
     // Con 18 etapas la fila se desliza: el texto para lectores de pantalla de cada botón tiene
     // que quedarse dentro de la fila, o ensancha la página (aquí, con dos, aún cabe todo).
     const escaped = await page
-      .locator('.sl-stages .sr-only')
+      .locator('.sl-nav .sr-only')
       .evaluateAll(
         (all) =>
-          all.filter((el) => !el.closest('.sl-stages')!.contains((el as HTMLElement).offsetParent))
+          all.filter((el) => !el.closest('.sl-nav')!.contains((el as HTMLElement).offsetParent))
             .length,
       )
     expect(escaped).toBe(0)
@@ -184,54 +268,65 @@ test.describe('el Ocre en la vista previa', () => {
   }
 
   for (const width of [390, 768, 1024, 1440]) {
-    test(`a ${width}px todas las tarjetas miden lo mismo y el nombre largo se corta en dos líneas`, async ({
+    test(`a ${width}px las tarjetas miden lo mismo, copiar y marcar van en las esquinas`, async ({
       page,
     }) => {
       await page.setViewportSize({ width, height: 900 })
-      await preview(page)
-      const cards = page.locator('[data-sl-view="stage"] .sl-soul__b')
+      await preview(page, '#etapa=2')
+      const cards = page.locator('[data-sl-panel]:visible .sl-soul__b')
       const heights = await cards.evaluateAll((all) =>
         all.map((el) => (el as HTMLElement).offsetHeight),
       )
       expect(new Set(heights).size).toBe(1)
-      // La casilla va encima de la tarjeta, sin ocupar sitio: cada fila mide lo que su tarjeta.
-      const gaps = await page
-        .locator('[data-sl-view="stage"] .sl-soul')
-        .evaluateAll((all) =>
-          all.map(
-            (li) =>
-              (li as HTMLElement).offsetHeight -
-              li.querySelector<HTMLElement>('.sl-soul__b')!.offsetHeight,
-          ),
-        )
-      expect(new Set(gaps)).toEqual(new Set([0]))
+      // Copiar arriba a la izquierda y la casilla arriba a la derecha, dentro de la tarjeta.
+      const corners = await page.locator('[data-sl-panel]:visible .sl-soul').evaluateAll((all) =>
+        all.map((li) => {
+          const card = li.querySelector('.sl-soul__b')!.getBoundingClientRect()
+          const copy = li.querySelector('.sl-soul__copy')!.getBoundingClientRect()
+          const box = li.querySelector('.sl-soul__chk')!.getBoundingClientRect()
+          const half = card.left + card.width / 2
+          return (
+            copy.left >= card.left &&
+            copy.right < half &&
+            box.left > half &&
+            box.right <= card.right &&
+            copy.top < card.top + card.height / 4 &&
+            box.top < card.top + card.height / 4
+          )
+        }),
+      )
+      expect(corners.every(Boolean)).toBe(true)
+      // La imagen, grande: más de la mitad del ancho que queda de texto en una fila de antes.
+      const image = await soul(page, 'Pikopi')
+        .locator('.sl-soul__img')
+        .evaluate((el) => el.getBoundingClientRect().width)
+      expect(image).toBeGreaterThanOrEqual(80)
       const name = soul(page, ARAKNA).locator('.sl-soul__n')
       const lines = await name.evaluate((el) => {
         const { lineHeight } = getComputedStyle(el)
-        return { shown: el.clientHeight / parseFloat(lineHeight), full: el.scrollHeight }
+        return el.clientHeight / parseFloat(lineHeight)
       })
-      expect(Math.round(lines.shown)).toBe(2)
+      expect(Math.round(lines)).toBe(2)
       // Entero en la casilla y al pasar el ratón.
       await expect(soul(page, ARAKNA).locator('[data-sl-own]')).toHaveAttribute(
         'aria-label',
-        `${ARAKNA}, Nv. 13 · Playa de Arena`,
+        `${ARAKNA}, Playa de Arena · Nv. 13`,
       )
       await expect(name).toHaveAttribute('title', ARAKNA)
-      // Ningún texto de la tarjeta queda en una columna de una palabra por línea.
-      const narrow = await page
-        .locator('[data-sl-view="stage"] .sl-soul__x')
-        .evaluateAll((all) => all.filter((el) => el.getBoundingClientRect().width < 120).length)
-      expect(narrow).toBe(0)
     })
   }
 
-  test('marcar anima el alma sin mover nada, y completar una etapa la celebra', async ({
+  test('cambiar de etapa se anima; marcar anima el alma sin mover nada y completar la celebra', async ({
     page,
   }) => {
-    await preview(page)
+    await preview(page, '#etapa=2')
+    await stageButton(page, /Etapa 1/).click()
+    await expect(panel(page)).toHaveAttribute('data-enter', 'prev')
+    await settled(page)
+    await expect(panel(page)).not.toHaveAttribute('data-enter')
     const layout = () =>
       page
-        .locator('[data-sl-view="stage"] .sl-soul, [data-sl-view="stage"] .sl-gh')
+        .locator('[data-sl-panel]:visible .sl-soul, [data-sl-panel]:visible .sl-ph')
         .evaluateAll((all) =>
           all.map((el) => [(el as HTMLElement).offsetTop, (el as HTMLElement).offsetLeft]),
         )
@@ -242,29 +337,21 @@ test.describe('el Ocre en la vista previa', () => {
     await expect(soul(page, 'Mob Lasponja')).toHaveAttribute('data-cheer', '')
     expect(await layout()).toEqual(before)
     await expect(page.locator('[data-ck-toast]')).toHaveText('¡Etapa 1 completa!')
-    const group = page.locator('[data-sl-view="stage"] [data-sl-group="1"]')
-    await expect(group).toHaveAttribute('data-complete', '')
+    await expect(panel(page)).toHaveAttribute('data-complete', '')
     await expect(stageButton(page, /Etapa 1/)).toHaveAttribute('data-complete', '')
-    // Acabada la animación, la tarjeta y la etapa quedan quietas.
     await settled(page)
     await expect(soul(page, 'Mob Lasponja')).not.toHaveAttribute('data-just')
-    await expect(group).not.toHaveAttribute('data-cheer')
+    await expect(panel(page)).not.toHaveAttribute('data-cheer')
     expect(await layout()).toEqual(before)
   })
 
-  test('con todas, «Todas» lo celebra y acaba; al cambiar de vista nada destella a destiempo', async ({
-    page,
-  }) => {
+  test('con todas lo celebra; al cambiar de vista nada destella a destiempo', async ({ page }) => {
     await preview(page)
-    for (const name of ['Mob Lasponja', 'Pikopi', ARAKNA]) {
-      await soul(page, name).locator('label').click()
-    }
+    await soul(page, 'Mob Lasponja').locator('label').click()
+    await stageButton(page, /Etapa 2/).click()
+    for (const name of ['Pikopi', ARAKNA]) await soul(page, name).locator('label').click()
     await expect(page.locator('[data-ck-toast]')).toHaveText('¡Tienes todas las almas!')
-    const all = stageButton(page, /^Todas/)
-    await expect(all).toHaveAttribute('data-complete', '')
-    // Su animación corre y, al acabar, quita el atributo; si no hubiera animación se quedaría.
     await settled(page)
-    await expect(all).not.toHaveAttribute('data-cheer')
     await page.getByRole('button', { name: 'Por región' }).click()
     await expect(page.locator('[data-sl-view="region"] [data-just]')).toHaveCount(0)
     await expect(page.locator('[data-sl-view="region"] [data-cheer]')).toHaveCount(0)
@@ -273,7 +360,10 @@ test.describe('el Ocre en la vista previa', () => {
   test('con movimiento reducido no se anima nada', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await preview(page)
+    await stageButton(page, /Etapa 2/).click()
+    await stageButton(page, /Etapa 1/).click()
     await soul(page, 'Mob Lasponja').locator('label').click()
+    await page.getByRole('checkbox', { name: 'Ocultar las que tengo' }).check()
     const running = await page.evaluate(
       () =>
         document
@@ -282,10 +372,13 @@ test.describe('el Ocre en la vista previa', () => {
     )
     expect(running).toBe(0)
     await expect(page.locator('[data-ck-toast]')).toHaveText('¡Etapa 1 completa!')
+    await expect(page.locator('[data-sl-empty]:visible')).toHaveText(
+      'Ya tienes todas las almas de la etapa 1.',
+    )
   })
 
   test('las almas de la checklist antigua («cosecha:done») se traen una vez', async ({ page }) => {
-    await preview(page)
+    await preview(page, '#etapa=2')
     await page.evaluate(() => localStorage.setItem('cosecha:done', JSON.stringify([991603, 7])))
     await page.reload()
     await expect(soul(page, ARAKNA).locator('[data-sl-own]')).toBeChecked()
@@ -300,7 +393,7 @@ test.describe('el Ocre en la vista previa', () => {
   })
 
   test('reiniciar quita las almas de esta checklist', async ({ page }) => {
-    await preview(page)
+    await preview(page, '#etapa=2')
     await soul(page, 'Pikopi').locator('label').click()
     await page.getByRole('button', { name: 'Más opciones' }).click()
     await page.getByRole('button', { name: 'Reiniciar el progreso' }).click()
@@ -312,21 +405,33 @@ test.describe('el Ocre en la vista previa', () => {
   })
 
   for (const mode of MODES) {
-    test(`pasa axe (WCAG 2.2 AA) en Arcano ${mode}`, async ({ page, context, baseURL }) => {
+    test(`pasa axe (WCAG 2.2 AA) en Arcano ${mode}, por etapa, por región y buscando`, async ({
+      page,
+      context,
+      baseURL,
+    }) => {
       await context.addCookies([{ name: 'ta-mode', value: mode, url: baseURL! }])
       await preview(page)
       await expect(page.locator('html')).toHaveAttribute('data-mode', mode)
-      await soul(page, 'Pikopi').locator('label').click()
+      const axe = async (where: string) => {
+        // Arriba, en reposo: lo que un clic dejó bajo la cabecera fija no cuenta como tapado.
+        await page.evaluate(() => window.scrollTo(0, 0))
+        await settled(page)
+        const results = await new AxeBuilder({ page })
+          .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
+          .analyze()
+        expect(
+          results.violations.map(({ id, nodes }) => ({ id, targets: nodes.map((n) => n.target) })),
+          where,
+        ).toEqual([])
+      }
       await stageButton(page, /Etapa 2/).click()
-      // Arriba, en reposo: lo que el clic dejó bajo la cabecera fija no cuenta como tapado.
-      await page.evaluate(() => window.scrollTo(0, 0))
-      await settled(page)
-      const results = await new AxeBuilder({ page })
-        .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
-        .analyze()
-      expect(
-        results.violations.map(({ id, nodes }) => ({ id, targets: nodes.map((n) => n.target) })),
-      ).toEqual([])
+      await soul(page, 'Pikopi').locator('label').click()
+      await axe('por etapa')
+      await page.getByRole('button', { name: 'Por región' }).click()
+      await axe('por región')
+      await page.getByRole('searchbox').fill('arena')
+      await axe('buscando')
     })
   }
 })

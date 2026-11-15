@@ -149,7 +149,14 @@ const label = (where: string, defects: LayoutDefect[]) =>
 async function lintOpenChecklist(page: Page, { slug, kind }: Checklist) {
   const path = `/${slug}`
   const found = label(path, await lintLayout(page))
-  if (kind === 'souls') return found
+  if (kind === 'souls') {
+    // Por región también: otra lista al lado y sus almas por mazmorra y subzona.
+    await page.getByRole('button', { name: 'Por región' }).click()
+    await expect(page.getByRole('navigation', { name: 'Regiones' })).toBeVisible()
+    await settle(page)
+    found.push(...label(`${path} por región`, await lintLayout(page)))
+    return found
+  }
   const steps = await page
     .locator('.ck-rows [data-pick]')
     .evaluateAll((links) => links.map((link) => Number((link as HTMLElement).dataset.pick)))
