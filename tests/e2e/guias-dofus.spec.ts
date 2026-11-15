@@ -79,6 +79,76 @@ test.describe('índice de las guías de Dofus', () => {
     await context.close()
   })
 
+  // La tarjeta en 3D (DESIGN.md, Dofus guides components): con el ratón se inclina hacia él y el
+  // brillo del color de su Dofus lo sigue, como los carteles de /checklists. Solo las publicadas.
+  test.describe('con el ratón', () => {
+    test.use({ viewport: { width: 1440, height: 900 } })
+
+    test('la tarjeta publicada se inclina hacia el puntero, con su brillo, y vuelve al salir', async ({
+      page,
+    }) => {
+      await page.goto('/guias-dofus')
+      const card = page.getByRole('link', { name: new RegExp(dofus.ocre.name) })
+      const foil = card.locator('.dcard__foil')
+      await expect(foil).toHaveCSS('opacity', '0')
+      const box = (await card.boundingBox())!
+      await page.mouse.move(box.x + box.width * 0.9, box.y + box.height * 0.1)
+      await expect(card).toHaveClass(/is-tilted/)
+      await expect(card).toHaveAttribute('style', /perspective\(800px\) rotateY\(\d/)
+      await expect(foil).toHaveCSS('opacity', '1')
+      expect(await axe(page)).toEqual([])
+      await page.mouse.move(0, 0)
+      await expect(card).not.toHaveClass(/is-tilted/)
+      await expect(foil).toHaveCSS('opacity', '0')
+    })
+
+    test('la «En preparación» no se inclina ni lleva brillo', async ({ page }) => {
+      await page.goto('/guias-dofus')
+      const off = page.locator('.dcard--off', { hasText: dofus.jyfus.name })
+      await expect(off).not.toHaveAttribute('data-tilt')
+      await expect(off.locator('.dcard__foil')).toHaveCount(0)
+      const box = (await off.boundingBox())!
+      await page.mouse.move(box.x + box.width * 0.9, box.y + box.height * 0.1)
+      await page.mouse.move(box.x + box.width * 0.8, box.y + box.height * 0.2)
+      await expect(off).not.toHaveClass(/is-tilted/)
+      await expect(off).toHaveCSS('transform', 'none')
+    })
+
+    test('con movimiento reducido no se inclina', async ({ page }) => {
+      await page.emulateMedia({ reducedMotion: 'reduce' })
+      await page.goto('/guias-dofus')
+      const card = page.getByRole('link', { name: new RegExp(dofus.ocre.name) })
+      const box = (await card.boundingBox())!
+      await page.mouse.move(box.x + box.width * 0.9, box.y + box.height * 0.1)
+      await page.mouse.move(box.x + box.width * 0.8, box.y + box.height * 0.2)
+      await expect(card).not.toHaveClass(/is-tilted/)
+      await expect(card).toHaveCSS('transform', 'none')
+      await expect(card.locator('.dcard__foil')).toHaveCSS('opacity', '0')
+    })
+  })
+
+  test('con el dedo no se inclina', async ({ browser }) => {
+    const context = await browser.newContext({ hasTouch: true, isMobile: true })
+    try {
+      const page = await context.newPage()
+      await page.goto('/guias-dofus')
+      const card = page.getByRole('link', { name: new RegExp(dofus.ocre.name) })
+      await expect(card).toHaveAttribute('data-tilt')
+      const box = (await card.boundingBox())!
+      for (const pointerType of ['touch', 'pen']) {
+        await card.dispatchEvent('pointermove', {
+          pointerType,
+          clientX: box.x + box.width * 0.9,
+          clientY: box.y + box.height * 0.1,
+        })
+      }
+      await expect(card).not.toHaveClass(/is-tilted/)
+      await expect(card).toHaveCSS('transform', 'none')
+    } finally {
+      await context.close()
+    }
+  })
+
   // El LCP (DESIGN.md, Performance budgets): con un `filter` en el huevo, Chrome lo contaba como un
   // recuadro mayor que el que se ve. Su halo es un degradado detrás, sin `filter`.
   test('el huevo de una tarjeta cuenta para el LCP por lo que se ve', async ({ browser }) => {

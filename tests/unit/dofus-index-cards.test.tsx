@@ -30,4 +30,14 @@ describe('DofusCards', () => {
     }
     for (const img of imgs.slice(4)) expect(img).toContain('loading="lazy"')
   })
+
+  it('solo las publicadas se inclinan: llevan data-tilt y la capa del brillo, oculta al lector', () => {
+    const off: DofusCard = { ...card(1), href: undefined, disabled: true }
+    const markup = renderToStaticMarkup(<DofusCards cards={[card(0), off]} />)
+    const [published, preparing] = markup.split('</li>')
+    expect(published).toMatch(/<a class="dcard"[^>]* data-tilt=""/)
+    expect(published).toContain('<span class="dcard__foil" aria-hidden="true"></span>')
+    expect(preparing).not.toContain('data-tilt')
+    expect(preparing).not.toContain('dcard__foil')
+  })
 })
