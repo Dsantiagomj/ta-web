@@ -75,12 +75,7 @@ test.describe('el panel para Torre', () => {
     await page.setViewportSize({ width: 1440, height: 900 })
     await page.goto('/admin')
     const groups = page.locator('nav .nav-group__label')
-    await expect(groups).toHaveText([
-      'Contenido',
-      'Imágenes',
-      'Datos del juego (solo lectura)',
-      'Ajustes',
-    ])
+    await expect(groups).toHaveText(['Contenido', 'Imágenes', 'Datos del juego', 'Ajustes'])
     const content = page.locator('nav .nav-group').first()
     await expect(content.getByRole('link')).toHaveText([
       'Guías de misiones',
