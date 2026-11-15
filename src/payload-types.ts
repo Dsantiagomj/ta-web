@@ -72,6 +72,7 @@ export interface Config {
     'achievement-groups': AchievementGroup;
     'dofus-guides': DofusGuide;
     checklists: Checklist;
+    pages: Page;
     media: Media;
     quests: Quest;
     items: Item;
@@ -94,6 +95,7 @@ export interface Config {
     'achievement-groups': AchievementGroupsSelect<false> | AchievementGroupsSelect<true>;
     'dofus-guides': DofusGuidesSelect<false> | DofusGuidesSelect<true>;
     checklists: ChecklistsSelect<false> | ChecklistsSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     quests: QuestsSelect<false> | QuestsSelect<true>;
     items: ItemsSelect<false> | ItemsSelect<true>;
@@ -1720,6 +1722,55 @@ export interface Checklist {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Las páginas sueltas: emotes, cómo llegar a un sitio y los textos legales, con los bloques de las guías.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  /**
+   * El título grande de la página.
+   */
+  title: string;
+  slug: string;
+  /**
+   * Publicada: se abre en su dirección. En preparación: no se abre aquí; si tiene «Enlace en Squarespace», su dirección y los enlaces del sitio llevan a tu web antigua. Lo decides tú. Además, pulsa «Publicar cambios» arriba para que lo que cambies salga en la web.
+   */
+  state: 'published' | 'preparing';
+  /**
+   * La página en Squarespace mientras esta no esté lista. Deja de usarse al publicarla.
+   */
+  legacyHref?: string | null;
+  /**
+   * Opcional. Sale en las migas encima del título, como «Emotes» sobre un emote.
+   */
+  parent?: (number | null) | Page;
+  /**
+   * El texto, las capturas y los vídeos, con los mismos bloques que las guías.
+   */
+  body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock | FightBlock | StepBlock)[] | null;
+  /**
+   * Opcional. Sin título SEO se usa el de la página; sin descripción, el principio del texto.
+   */
+  seo?: {
+    metaTitle?: string | null;
+    metaDescription?: string | null;
+  };
+  importSnapshot?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * Las zonas de DofusDB, con su área. Dan el nombre de los sitios de cada misión. De solo lectura: lo pone al día un script.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1817,6 +1868,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'checklists';
         value: number | Checklist;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: number | Page;
       } | null)
     | ({
         relationTo: 'media';
@@ -2435,6 +2490,37 @@ export interface ChecklistsSelect<T extends boolean = true> {
         previousSteps?: T;
         ownedMoves?: T;
         genericQuests?: T;
+      };
+  importSnapshot?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  state?: T;
+  legacyHref?: T;
+  parent?: T;
+  body?:
+    | T
+    | {
+        richText?: T | RichTextBlockSelect<T>;
+        image?: T | ImageBlockSelect<T>;
+        video?: T | VideoBlockSelect<T>;
+        callout?: T | CalloutBlockSelect<T>;
+        fight?: T | FightBlockSelect<T>;
+        step?: T | StepBlockSelect<T>;
+      };
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
       };
   importSnapshot?: T;
   updatedAt?: T;

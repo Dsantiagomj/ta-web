@@ -39,6 +39,7 @@ function fakePayload(answers: Record<string, Record<string, unknown>[]> = {}) {
         ['achievement-groups', 'Metalogro', 'Metalogros'],
         ['dofus-guides', 'Guía de Dofus', 'Guías de Dofus'],
         ['checklists', 'Checklist', 'Checklists'],
+        ['pages', 'Página', 'Páginas'],
       ].map(([slug, singular, plural]) => [
         slug,
         { config: { slug, labels: { singular, plural } } },
@@ -124,7 +125,7 @@ describe('readDashboard', () => {
     }
   })
 
-  it('no hace más de 19 consultas, todas a la vez', async () => {
+  it('no hace más de 23 consultas, todas a la vez', async () => {
     let running = 0
     let most = 0
     // Con borradores y Dofus sin checklist: antes, esas consultas esperaban a otras.
@@ -143,7 +144,7 @@ describe('readDashboard', () => {
       return find(args)
     }
     await readDashboard(payload, user)
-    expect(calls.length).toBeLessThanOrEqual(19)
+    expect(calls.length).toBeLessThanOrEqual(23)
     expect(most).toBe(calls.length)
   })
 
@@ -159,7 +160,27 @@ describe('readDashboard', () => {
       'achievement-pages',
       'checklists',
       'dofus-guides',
+      'pages',
       'quest-guides',
+    ])
+  })
+
+  it('las páginas En preparación salen en su grupo, con el enlace a su lista filtrada', async () => {
+    const { payload } = fakePayload({
+      [key('pages', false, published)]: [
+        { id: 1, title: 'Aviso Legal', state: 'preparing', updatedAt: '2026-11-15T10:00:00Z' },
+        { id: 2, title: 'Emotes', state: 'published', updatedAt: '2026-11-14T10:00:00Z' },
+      ],
+    })
+    const { preparing } = await readDashboard(payload, user)
+    expect(preparing).toEqual([
+      expect.objectContaining({
+        collection: 'pages',
+        label: 'Páginas',
+        total: 1,
+        items: [expect.objectContaining({ id: 1, title: 'Aviso Legal' })],
+        listHref: '/admin/collections/pages?where%5Bstate%5D%5Bequals%5D=preparing',
+      }),
     ])
   })
 

@@ -13,8 +13,9 @@ import { isLegacySource } from '../lib/redirects/table'
 /**
  * Las colecciones con página en la raíz del sitio, /<slug>: las guías y las páginas de
  * logro (src/app/(frontend)/[slug]), los metalogros, que usan los slugs de Torre
- * (metalogro-astrub), las guías de Dofus, con los slugs de su web (dofus-abisal), y las
- * checklists (checklist-nebuloso). Comparten un solo espacio de slugs.
+ * (metalogro-astrub), las guías de Dofus, con los slugs de su web (dofus-abisal), las
+ * checklists (checklist-nebuloso) y las páginas sueltas (aviso-legal). Comparten un solo
+ * espacio de slugs.
  */
 export const ROOT_SLUG_COLLECTIONS = [
   'quest-guides',
@@ -22,6 +23,7 @@ export const ROOT_SLUG_COLLECTIONS = [
   'achievement-groups',
   'dofus-guides',
   'checklists',
+  'pages',
 ] as const
 
 export type RootSlugCollection = (typeof ROOT_SLUG_COLLECTIONS)[number]
@@ -32,6 +34,7 @@ const OWNER: Record<RootSlugCollection, string> = {
   'achievement-groups': 'un metalogro',
   'dofus-guides': 'una guía de Dofus',
   checklists: 'una checklist',
+  pages: 'una página',
 }
 
 /**

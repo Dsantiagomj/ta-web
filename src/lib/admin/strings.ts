@@ -57,6 +57,9 @@ export const panelStrings = {
       'Una guía por Dofus: lo que pide, los logros y misiones que lo dan y su checklist.',
     checklists:
       'Las checklists paso a paso de cada Dofus. El progreso de cada visitante va por paso.',
+    pages:
+      'Las páginas sueltas: emotes, cómo llegar a un sitio y los textos legales, con los ' +
+      'bloques de las guías.',
     media: 'Todas las imágenes: las que subes tú y las del juego que trae DofusDB.',
     quests: readOnly(
       'Las misiones de DofusDB, con sus etapas y recompensas. Las eliges en tus guías.',
@@ -97,6 +100,8 @@ export const panelStrings = {
       { label: 'Una guía de Dofus', key: 'dofus-guides' },
       { label: 'Una checklist con dirección en la web antigua', key: 'checklistsLegacy' },
       { label: 'Una checklist sin ella', key: 'checklists' },
+      { label: 'Una página con enlace en Squarespace', key: 'pagesLegacy' },
+      { label: 'Una página sin él', key: 'pages' },
     ] as const,
     /** Bajo «Qué hay en cada parte»: qué cuenta tiene quien lee. Sin papel cuenta como editor. */
     yourRole: (role: string | null | undefined) =>
@@ -128,8 +133,8 @@ export const panelStrings = {
         id: 'en-preparacion',
         title: '«Visible en la web» y «En preparación»',
         paragraphs: [
-          'Los logros, los metalogros, las guías de Dofus y las checklists tienen además ' +
-            '«Visible en la web».',
+          'Los logros, los metalogros, las guías de Dofus, las checklists y las páginas tienen ' +
+            'además «Visible en la web».',
           'Publicada: se abre. En preparación: cómo sale en la web depende de lo que sea, y lo ' +
             'dice la línea «En la web» de cada página:',
           'Para que una página se abra hacen falta las dos cosas: «Visible en la web» en ' +
@@ -274,6 +279,18 @@ export const panelStrings = {
         detail:
           'Está En preparación y sin dirección en la web antigua: sale en el menú sin enlace. ' +
           'Cuando esté lista, pon «Visible en la web» en Publicada y publica.',
+      },
+      pagesLegacy: {
+        text: 'En la web: lleva a la página de Squarespace',
+        detail:
+          'Está En preparación: su dirección y los enlaces del sitio llevan a la página de la ' +
+          'web antigua. Cuando esté lista, pon «Visible en la web» en Publicada y publica.',
+      },
+      pages: {
+        text: 'En la web: no se abre',
+        detail:
+          'Está En preparación y sin enlace en Squarespace: su dirección no lleva a ningún ' +
+          'sitio. Cuando esté lista, pon «Visible en la web» en Publicada y publica.',
       },
     },
   },

@@ -64,7 +64,11 @@ describe('publishStatus', () => {
       'En la web: en el menú, lleva a la checklist de Squarespace',
     )
     expect(preparing('checklists').text).toBe('En la web: en el menú, apagada y sin enlace')
-    for (const collection of ['achievement-pages', 'dofus-guides', 'checklists']) {
+    expect(preparing('pages', 'https://www.torrentearcano.com/aviso-legal').text).toBe(
+      'En la web: lleva a la página de Squarespace',
+    )
+    expect(preparing('pages').text).toBe('En la web: no se abre')
+    for (const collection of ['achievement-pages', 'dofus-guides', 'checklists', 'pages']) {
       expect(preparing(collection).detail, collection).toContain('«Visible en la web»')
     }
   })

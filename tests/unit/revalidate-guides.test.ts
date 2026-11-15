@@ -11,12 +11,14 @@ import { AchievementPages } from '@/collections/AchievementPages'
 import { Checklists } from '@/collections/Checklists'
 import { DofusGuides } from '@/collections/DofusGuides'
 import { Media } from '@/collections/Media'
+import { Pages } from '@/collections/Pages'
 import { QuestGuides } from '@/collections/QuestGuides'
 import { revalidateGuidePages } from '@/collections/revalidate-guides'
 import { ACHIEVEMENT_PAGES_TAG } from '@/lib/achievements/cache'
 import { CHECKLISTS_TAG } from '@/lib/checklists/cache'
 import { DOFUS_GUIDES_TAG } from '@/lib/dofus-guides/cache'
 import { GUIDE_PAGES_TAG } from '@/lib/guides/cache'
+import { PAGES_TAG } from '@/lib/pages/cache'
 
 afterEach(() => revalidateTag.mockReset())
 
@@ -164,6 +166,27 @@ describe('checklists', () => {
       revalidateTag.mockReset()
       expect(await hook(hookArgs)).toEqual({ id: 1 })
       expect(revalidateTag).toHaveBeenCalledWith(CHECKLISTS_TAG, { expire: 0 })
+    }
+  })
+})
+
+describe('pages', () => {
+  const hookArgs = { doc: { id: 1 } } as never
+
+  it('una página guardada, publicada o borrada caduca su caché', async () => {
+    expect(PAGES_TAG).toBe('pages')
+    for (const hook of [...(Pages.hooks?.afterChange ?? []), ...(Pages.hooks?.afterDelete ?? [])]) {
+      revalidateTag.mockReset()
+      expect(await hook(hookArgs)).toEqual({ id: 1 })
+      expect(revalidateTag).toHaveBeenCalledWith(PAGES_TAG, { expire: 0 })
+    }
+  })
+
+  it('una imagen guardada o borrada caduca las páginas: salen en su cuerpo', async () => {
+    for (const hook of [...(Media.hooks?.afterChange ?? []), ...(Media.hooks?.afterDelete ?? [])]) {
+      revalidateTag.mockReset()
+      await hook(hookArgs)
+      expect(revalidateTag).toHaveBeenCalledWith(PAGES_TAG, { expire: 0 })
     }
   })
 })
