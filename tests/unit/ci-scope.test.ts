@@ -30,6 +30,7 @@ describe('ciScope', () => {
     [['scripts/backfill-shown-items.ts']],
     [['scripts/backfill-guide-rewards.ts']],
     [['scripts/fix-reward-typos.ts']],
+    [['scripts/prefer-dofusdb-rewards.ts']],
     [['scripts/seed-site-copy.ts']],
     [['tests/fixtures/dofusdb/quest.json']],
     [['lefthook.yml', '.gga', 'vitest.config.mts', 'eslint.config.mjs']],
