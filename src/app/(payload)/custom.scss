@@ -99,6 +99,23 @@ html[data-theme='dark'] {
   display: none;
 }
 
+/* «Rellenar desde DofusDB» bajo el enlace de una guía, un logro o un metalogro. */
+.ta-fill {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.ta-fill__button {
+  margin: 0;
+}
+
+.ta-fill__status:empty {
+  display: none;
+}
+
 /* El emblema (DESIGN.md, Brand): sombrero en acento, glifo en fondo y cara en tinta. */
 .ta-emblem [data-part='hat'] {
   fill: var(--ta-accent);

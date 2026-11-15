@@ -155,8 +155,11 @@ export const panelStrings = {
             'donde sale, y el proceso nunca lo toca. «Ocultar en la web» lo quita de todas.',
           'Para encontrar lo que ya corregiste, filtra la lista por «Corregido por Torre». El ' +
             'resto del dato no se cambia: es el de DofusDB.',
-          'En los logros, lo que dejes vacío se rellena con DofusDB al guardar, y lo que escribas ' +
-            'tú no lo pisa nadie. La nota bajo cada campo te dice de dónde viene.',
+          'En las guías y los logros, lo vacío se rellena con DofusDB al crearlos o al cambiar ' +
+            'su misión o su logro. Lo que escribas tú no lo pisa nadie, y lo que vacíes se queda ' +
+            'vacío. La nota bajo cada campo te dice de dónde viene.',
+          'Para volver a copiar lo vacío, pulsa «Rellenar desde DofusDB» bajo la misión o el ' +
+            'logro y luego guarda. Solo rellena lo vacío: lo escrito se queda como está.',
         ],
       },
       {
@@ -421,6 +424,14 @@ export const panelStrings = {
       'checklists o las almas.',
     flag: 'Corregido por Torre',
     flagHelp: 'Se marca solo cuando hay algo en «Corrección de Torre». Fíltralo en la lista.',
+  },
+  /** El botón que copia DofusDB en lo vacío, bajo el enlace de una guía o un logro. */
+  dofusDbFill: {
+    button: 'Rellenar desde DofusDB',
+    working: 'Rellenando…',
+    filled: 'Listo: se copió lo que estaba vacío. Guarda para conservarlo.',
+    nothing: 'No hay nada vacío que DofusDB pueda rellenar.',
+    error: 'No se pudieron cargar los datos de DofusDB. Prueba otra vez.',
   },
   technical: {
     label: 'Datos técnicos',

@@ -1,6 +1,7 @@
 // Lo que DofusDB da para cada campo de una página de logro o de un metalogro, el relleno
 // de los vacíos y la nota del panel. Como las guías con su misión (src/lib/guides/summary.ts):
-// Torre puede cambiarlo todo; lo vacío se rellena al guardar y lo escrito no se toca nunca.
+// Torre puede cambiarlo todo; lo vacío se rellena al crear el documento, al cambiar su enlace
+// o con el botón «Rellenar desde DofusDB», y lo escrito no se toca nunca.
 // Código puro, sin Payload: lo usan los hooks, el endpoint y el panel.
 
 import { guideStrings } from '../guides/strings'
@@ -117,6 +118,58 @@ export function fillFromValues<S extends ValuesSource>(
   return fill as Partial<Record<ValueField<S>, unknown>>
 }
 
+/** Dónde vive cada valor de DofusDB en el formulario del panel. */
+const FORM_PATHS: { [S in ValuesSource]: Record<ValueField<S>, string> } = {
+  achievement: {
+    name: 'name',
+    group: 'group',
+    order: 'order',
+    points: 'points',
+    quests: 'quests',
+    experience: 'rewards.experience',
+    kamas: 'rewards.kamas',
+    items: 'rewards.items',
+  },
+  group: { name: 'name', order: 'order', section: 'section', representative: 'representative' },
+}
+
+/** Los campos que son listas: el formulario las rellena fila a fila. */
+const LIST_FIELDS = new Set(['quests', 'items'])
+
+export interface ValuesFormFill {
+  /** Ruta del campo y valor, tal como se guarda. */
+  values: Record<string, unknown>
+  /** Las filas de cada lista vacía, por su ruta. */
+  rows: Record<string, Record<string, unknown>[]>
+}
+
+/**
+ * Lo que el botón «Rellenar desde DofusDB» copia en el formulario tal como está: lo vacío
+ * para lo que DofusDB da algo, nunca lo escrito. `read` lee un campo por su ruta; una lista
+ * puede llegar como filas o como su número de filas, que es lo que guarda el formulario.
+ */
+export function formFill<S extends ValuesSource>(
+  source: S,
+  values: Values<S>,
+  read: (path: string) => unknown,
+): ValuesFormFill {
+  const paths = FORM_PATHS[source] as Record<string, string>
+  const current = Object.fromEntries(
+    Object.entries(paths).map(([field, path]) => {
+      const value = read(path)
+      const rows = LIST_FIELDS.has(field) && typeof value === 'number'
+      return [field, rows ? Array.from({ length: value }) : value]
+    }),
+  ) as Partial<Record<ValueField<S>, unknown>>
+  const fill: ValuesFormFill = { values: {}, rows: {} }
+  for (const [field, value] of Object.entries(fillFromValues(source, values, current))) {
+    const path = paths[field]!
+    if (LIST_FIELDS.has(field)) fill.rows[path] = value as Record<string, unknown>[]
+    else fill.values[path] = value
+  }
+  return fill
+}
+
 /** Los valores de DofusDB tal como los ve el panel mientras Torre edita. */
 export type ValuesState<S extends ValuesSource> =
   | { status: 'none' }
@@ -176,7 +229,7 @@ function key(field: string, value: unknown): string {
 
 /**
  * La nota bajo un campo: si su valor es el de DofusDB, si Torre lo cambió (y qué da
- * DofusDB) o si está vacío y se rellenará al guardar. Los textos son los de las guías.
+ * DofusDB) o si está vacío (y qué copiaría el botón «Rellenar desde DofusDB»). Los textos son los de las guías.
  */
 export function dofusDbNote<S extends ValuesSource>(
   source: S,
@@ -196,6 +249,6 @@ export function dofusDbNote<S extends ValuesSource>(
   const given = state.values[field] as unknown
   if (isEmpty(given)) return isEmpty(current) ? admin.dofusDbEmpty : admin.dofusDbEmptyChanged
   const text = shown(field, given)
-  if (isEmpty(current)) return admin.emptyWillFill(text)
+  if (isEmpty(current)) return admin.emptyCanFill(text)
   return key(field, current) === key(field, stored(given)) ? admin.fromDofusDb : admin.changed(text)
 }

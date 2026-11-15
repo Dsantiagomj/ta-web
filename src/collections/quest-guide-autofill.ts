@@ -1,6 +1,11 @@
 import { ValidationError, type CollectionBeforeValidateHook } from 'payload'
 
-import { autofillFromQuest, availableSlug, linkedQuestId } from '../lib/guides/autofill'
+import {
+  autofillFromQuest,
+  availableSlug,
+  fillsFromDofusDb,
+  linkedQuestId,
+} from '../lib/guides/autofill'
 import { guideStrings } from '../lib/guides/strings'
 import {
   applySummaryFill,
@@ -18,14 +23,17 @@ function sent<T>(value: T | undefined, saved: T | undefined): T | undefined {
 }
 
 /**
- * Rellena el título, el slug, el SEO y el resumen vacíos desde la misión de DofusDB
- * enlazada. Nunca cambia lo que ya hay: las guías importadas conservan su slug y su
- * resumen de Squarespace. Al editar, `data` puede venir a medias, así que lo que falta se
- * busca en el documento guardado.
+ * Rellena lo vacío desde la misión de DofusDB enlazada. El SEO y el resumen, solo al crear
+ * la guía o al cambiar de misión: lo que Torre vacía después se queda vacío (el botón
+ * «Rellenar desde DofusDB» lo rellena a petición). El título y el slug, siempre que estén
+ * vacíos, porque son obligatorios. Nunca cambia lo que ya hay: las guías importadas
+ * conservan su slug y su resumen de Squarespace. Al editar, `data` puede venir a medias,
+ * así que lo que falta se busca en el documento guardado.
  */
 export const fillFromQuest: CollectionBeforeValidateHook<QuestGuide> = async ({
   collection,
   data,
+  operation,
   originalDoc,
   req,
 }) => {
@@ -44,8 +52,10 @@ export const fillFromQuest: CollectionBeforeValidateHook<QuestGuide> = async ({
     needs: { items: sent(data.summary?.needs?.items, saved?.summary?.needs?.items) },
   }
   const questId = linkedQuestId(sent(data.quest, saved?.quest))
+  const full = fillsFromDofusDb(operation, data.quest, saved?.quest)
+  const identityMissing = !current.title?.trim() || !current.slug?.trim()
 
-  if (questId !== null) {
+  if (questId !== null && (full || identityMissing)) {
     const quest = await req.payload.findByID({
       collection: 'quests',
       id: questId,
@@ -62,7 +72,7 @@ export const fillFromQuest: CollectionBeforeValidateHook<QuestGuide> = async ({
         isRootSlugTaken(req, slug, 'quest-guides', saved?.id),
       )
     }
-    if (fill.metaTitle || fill.metaDescription) {
+    if (full && (fill.metaTitle || fill.metaDescription)) {
       data.seo = {
         ...saved?.seo,
         ...data.seo,
@@ -70,7 +80,7 @@ export const fillFromQuest: CollectionBeforeValidateHook<QuestGuide> = async ({
         ...(fill.metaDescription && { metaDescription: fill.metaDescription }),
       }
     }
-    const summaryFill = summaryToFill(summary, quest)
+    const summaryFill = full ? summaryToFill(summary, quest) : {}
     if (Object.keys(summaryFill).length) {
       const merged = {
         ...saved?.summary,

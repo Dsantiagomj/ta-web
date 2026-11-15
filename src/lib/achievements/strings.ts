@@ -29,6 +29,16 @@ export const achievementStrings = {
   admin: {
     /** Las pestañas del formulario (A-22). */
     tabs: { quests: 'Misiones', text: 'Texto', rewards: 'Recompensas' },
+    achievementDescription:
+      'Al crear la página o cambiar de logro, lo vacío se rellena con sus datos. Lo que ' +
+      'cambies no lo pisa ningún refresco, y lo que vacíes se queda vacío; «Rellenar desde ' +
+      'DofusDB» vuelve a copiar lo vacío cuando quieras. Si el logro no está en DofusDB, ' +
+      'déjalo vacío y escribe el nombre y lo demás a mano.',
+    categoryDescription:
+      'Sus logros son los de esta categoría. Al crear el metalogro o cambiar de categoría, lo ' +
+      'vacío se rellena con sus datos; «Rellenar desde DofusDB» vuelve a copiar lo vacío ' +
+      'cuando quieras. Sin categoría (Misiones de templo), el metalogro tiene solo guías o ' +
+      'ninguna página.',
     noAchievement: 'Sin logro de DofusDB: escribe tú este dato.',
     nameRequired: 'Escribe un nombre o enlaza el dato de DofusDB.',
     noCategory: 'Sin categoría de DofusDB: escribe tú este dato.',

@@ -45,15 +45,18 @@ export const guideStrings = {
     /** Las pestañas del formulario (A-22). */
     tabs: { content: 'Contenido', summary: 'Resumen', seo: 'SEO' },
     questDescription:
-      'Elige primero la misión de DofusDB de la guía, solo una: rellena el título, la dirección, ' +
-      'el SEO y el resumen. Luego solo te queda escribir la guía. Cuando ya tiene una, solo un ' +
-      'administrador puede cambiarla: otra misión mezclaría sus datos con los de esta.',
+      'Elige primero la misión de DofusDB de la guía, solo una: al elegirla se rellenan el ' +
+      'título, la dirección, el SEO y el resumen que estén vacíos. Lo que vacíes después se ' +
+      'queda vacío; «Rellenar desde DofusDB» vuelve a copiar lo vacío cuando quieras. Cuando ' +
+      'ya tiene una, solo un administrador puede cambiarla: otra misión mezclaría sus datos ' +
+      'con los de esta.',
     titleDescription: 'Si lo dejas vacío, se usa el nombre de la misión.',
     slugDescription:
       'La de la guía, como aprendizaje-escudero. Si la dejas vacía, sale del nombre de la misión.',
     summaryDescription:
-      'Al elegir la misión, cada campo vacío se rellena con lo que da DofusDB. ' +
-      'Cámbialo con libertad: lo que escribas no se sobrescribe.',
+      'Al elegir la misión, cada campo vacío se rellena con lo que da DofusDB. Cámbialo con ' +
+      'libertad: lo que escribas no se sobrescribe, y lo que vacíes se queda vacío. Para ' +
+      'volver a copiar lo vacío, pulsa «Rellenar desde DofusDB» bajo la misión.',
     summaryPlaceholder: 'Se rellena con DofusDB al elegir la misión; si no da nada, escríbelo tú.',
     needsNotesDescription:
       'Lo que la lista de objetos no recoge, como «1 x Combate (solo)» o «Literalmente nada». ' +
@@ -67,14 +70,15 @@ export const guideStrings = {
     dungeonPickUnknownNote:
       'Copia aquí una nota de mazmorra de Notas, tal como está escrita (la cantidad da igual).',
     seoDescription:
-      'Se rellena solo desde la misión si lo dejas vacío. Puedes cambiarlo cuando quieras.',
+      'Se rellena desde la misión al elegirla, si está vacío. Puedes cambiarlo cuando quieras.',
     slugReserved: (slug: string) =>
       `/${slug} es una página del sitio: elige otra dirección para la guía.`,
     titleRequired: 'Escribe un título o elige una misión de DofusDB para sacarlo de ella.',
     fromDofusDb: 'Viene de DofusDB. Puedes cambiarlo.',
     changed: (value: string) => `Cambiado. DofusDB da: ${value}`,
-    emptyWillFill: (value: string) =>
-      `Vacío: al guardar se rellena con lo que da DofusDB: ${value}`,
+    // Sin punto doble: las recompensas de DofusDB ya terminan en punto.
+    emptyCanFill: (value: string) =>
+      `Vacío. DofusDB da: ${value.replace(/\.$/, '')}. «Rellenar desde DofusDB» lo copia aquí.`,
     dofusDbEmpty: 'DofusDB no da nada aquí; escríbelo tú.',
     dofusDbEmptyChanged: 'Escrito por ti: DofusDB no da nada aquí.',
     dofusDbLoading: 'Cargando los datos de DofusDB…',

@@ -4,6 +4,7 @@ import { validateSlug } from '@/collections/QuestGuides'
 import {
   autofillFromQuest,
   availableSlug,
+  fillsFromDofusDb,
   linkedQuestId,
   seoFromQuest,
   slugFromName,
@@ -110,5 +111,23 @@ describe('linkedQuestId', () => {
     expect(linkedQuestId(null)).toBeNull()
     expect(linkedQuestId(undefined)).toBeNull()
     expect(linkedQuestId('')).toBeNull()
+  })
+})
+
+describe('fillsFromDofusDb', () => {
+  it('al crear, siempre: lo vacío sale de DofusDB', () => {
+    expect(fillsFromDofusDb('create', 5, undefined)).toBe(true)
+  })
+
+  it('al editar, solo si cambia el enlace', () => {
+    expect(fillsFromDofusDb('update', 6, 5)).toBe(true)
+    expect(fillsFromDofusDb('update', { id: 6 }, 5)).toBe(true)
+    expect(fillsFromDofusDb('update', null, 5)).toBe(true)
+  })
+
+  it('al editar con el mismo enlace, o sin mandarlo, no rellena nada', () => {
+    expect(fillsFromDofusDb('update', 5, 5)).toBe(false)
+    expect(fillsFromDofusDb('update', { id: 5 }, 5)).toBe(false)
+    expect(fillsFromDofusDb('update', undefined, 5)).toBe(false)
   })
 })

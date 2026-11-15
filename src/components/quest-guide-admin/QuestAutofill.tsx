@@ -2,35 +2,35 @@
 
 import { FieldDescription, useDocumentInfo, useForm } from '@payloadcms/ui'
 import type { FieldDescriptionClientProps } from 'payload'
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
 import { availableSlug } from '@/lib/guides/autofill'
 import { NEEDS_PATH, plannedFormFill, stillEmpty } from '@/lib/guides/form-fill'
 import { guideStrings } from '@/lib/guides/strings'
 
+import { DofusDbFillButton, type FillOutcome } from '../admin/DofusDbFillButton'
 import { fetchLinkedQuest, slugTaken, useApiUrl, useSelectedQuestId } from './linked-quest'
 
 /**
  * Descripción del campo de la misión. Al elegir otra misión, rellena en el formulario el
- * título, el slug, el SEO y el resumen que estén vacíos, sin esperar a guardar. Al
- * guardar, el hook fillFromQuest hace lo mismo en el servidor por si esto no llegó a correr.
+ * título, el slug, el SEO y el resumen que estén vacíos, sin esperar a guardar; el botón
+ * «Rellenar desde DofusDB» hace lo mismo cuando Torre lo pide. Al guardar, el hook
+ * fillFromQuest rellena en el servidor solo al crear la guía o al cambiar de misión: lo que
+ * Torre vacía después se queda vacío.
  */
 export function QuestAutofill({ path }: FieldDescriptionClientProps) {
   const questId = useSelectedQuestId()
   const apiUrl = useApiUrl()
   const { id: docId } = useDocumentInfo()
   const { addFieldRow, dispatchFields, getDataByPath, setModified } = useForm()
-  // La misión con la que se abrió la guía no rellena nada: solo un cambio de Torre.
+  // La misión con la que se abrió la guía no rellena nada sola: solo un cambio de Torre.
   const lastQuestId = useRef(questId)
 
-  useEffect(() => {
-    if (questId === lastQuestId.current) return
-    lastQuestId.current = questId
-    if (questId === null) return
-
-    void (async () => {
-      const quest = await fetchLinkedQuest(apiUrl, questId)
-      if (!quest || lastQuestId.current !== questId) return
+  const fillEmpty = useCallback(
+    async (id: number): Promise<FillOutcome> => {
+      const quest = await fetchLinkedQuest(apiUrl, id)
+      if (!quest) return 'error'
+      if (lastQuestId.current !== id) return 'nothing'
       const read = (fieldPath: string) => getDataByPath(fieldPath)
       const planned = plannedFormFill(read, quest)
       const { slug } = planned.values
@@ -39,7 +39,7 @@ export function QuestAutofill({ path }: FieldDescriptionClientProps) {
           slugTaken(apiUrl, candidate, docId),
         )
       }
-      if (lastQuestId.current !== questId) return
+      if (lastQuestId.current !== id) return 'nothing'
 
       // Torre pudo escribir mientras se comprobaba el slug: solo se rellena lo que sigue vacío.
       const { values, needsItems } = stillEmpty(planned, read)
@@ -58,9 +58,24 @@ export function QuestAutofill({ path }: FieldDescriptionClientProps) {
           },
         })
       })
-      if (Object.keys(values).length || needsItems.length) setModified(true)
-    })()
-  }, [addFieldRow, apiUrl, docId, dispatchFields, getDataByPath, questId, setModified])
+      if (!Object.keys(values).length && !needsItems.length) return 'nothing'
+      setModified(true)
+      return 'filled'
+    },
+    [addFieldRow, apiUrl, docId, dispatchFields, getDataByPath, setModified],
+  )
 
-  return <FieldDescription path={path} description={guideStrings.admin.questDescription} />
+  // Sincroniza con el formulario de Payload: al elegir otra misión, se rellena lo vacío.
+  useEffect(() => {
+    if (questId === lastQuestId.current) return
+    lastQuestId.current = questId
+    if (questId !== null) void fillEmpty(questId)
+  }, [fillEmpty, questId])
+
+  return (
+    <>
+      <FieldDescription path={path} description={guideStrings.admin.questDescription} />
+      {questId !== null && <DofusDbFillButton onFill={() => fillEmpty(questId)} />}
+    </>
+  )
 }

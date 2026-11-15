@@ -24,6 +24,21 @@ export function dofusDbNote(source: ValuesSource, field: string, help?: string) 
 }
 
 /**
+ * La ayuda del enlace de DofusDB con el botón «Rellenar desde DofusDB», que copia lo que da
+ * DofusDB en lo vacío del formulario (src/components/achievement-admin/DofusDbFill.tsx).
+ */
+export function dofusDbFill(source: ValuesSource, description: string) {
+  return {
+    components: {
+      Description: {
+        path: '/components/achievement-admin/DofusDbFill#DofusDbFill',
+        clientProps: { source, description },
+      },
+    },
+  }
+}
+
+/**
  * Si la página se ve en el sitio. Es de Torre: el refresco de DofusDB la crea «En
  * preparación» y nunca la cambia.
  */

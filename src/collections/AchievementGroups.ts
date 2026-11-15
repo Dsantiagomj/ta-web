@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload'
 import { achievementStrings, type GroupSection } from '../lib/achievements/strings'
 import { fillAchievementGroup } from './achievement-autofill'
 import {
+  dofusDbFill,
   dofusDbNote,
   linkedNameValidator,
   linkedSlugValidator,
@@ -23,7 +24,8 @@ const note = (field: string) => dofusDbNote('group', field)
 const SECTIONS: GroupSection[] = ['stories', 'zones', 'seasonal']
 
 // Los metalogros del índice de Torre (/metalogros): una zona o historia del juego que agrupa
-// logros, casi siempre una categoría de DofusDB. Lo vacío se rellena con DofusDB al guardar.
+// logros, casi siempre una categoría de DofusDB. Lo vacío se rellena con DofusDB al crearlo,
+// al cambiar de categoría o con el botón «Rellenar desde DofusDB».
 export const AchievementGroups: CollectionConfig = {
   slug: 'achievement-groups',
   labels: { singular: 'Metalogro', plural: 'Metalogros' },
@@ -58,12 +60,10 @@ export const AchievementGroups: CollectionConfig = {
       relationTo: 'achievement-categories',
       unique: true,
       access: lockedOnceSet('category'),
-      admin: {
-        description:
-          'Sus logros son los de esta categoría. Sin categoría (Misiones de templo), el ' +
-          'metalogro tiene solo guías o ninguna página.' +
-          ` ${panelStrings.locks.dofusDb}`,
-      },
+      admin: dofusDbFill(
+        'group',
+        `${achievementStrings.admin.categoryDescription} ${panelStrings.locks.dofusDb}`,
+      ),
     },
     {
       name: 'name',

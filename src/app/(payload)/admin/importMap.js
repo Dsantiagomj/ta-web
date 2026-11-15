@@ -27,6 +27,7 @@ import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0
 import { VideoUrlField as VideoUrlField_74911af6ff3502b3c4545ebd0c3c16c1 } from '../../../components/admin/ValidatedTextField'
 import { SummaryNote as SummaryNote_666e24196e21524e3cb0a6dcd90c8518 } from '../../../components/quest-guide-admin/SummaryNote'
 import { RelationRowLabel as RelationRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2 } from '../../../components/admin/RowLabels'
+import { DofusDbFill as DofusDbFill_cc2d6f7bd3a13a5aca6ed38abfdd94d4 } from '../../../components/achievement-admin/DofusDbFill'
 import { DofusDbNote as DofusDbNote_ef522a00141bf02817f153aea2a46e82 } from '../../../components/achievement-admin/DofusDbNote'
 import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { TextRowLabel as TextRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2 } from '../../../components/admin/RowLabels'
@@ -82,6 +83,7 @@ export const importMap = {
   "/components/admin/ValidatedTextField#VideoUrlField": VideoUrlField_74911af6ff3502b3c4545ebd0c3c16c1,
   "/components/quest-guide-admin/SummaryNote#SummaryNote": SummaryNote_666e24196e21524e3cb0a6dcd90c8518,
   "/components/admin/RowLabels#RelationRowLabel": RelationRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2,
+  "/components/achievement-admin/DofusDbFill#DofusDbFill": DofusDbFill_cc2d6f7bd3a13a5aca6ed38abfdd94d4,
   "/components/achievement-admin/DofusDbNote#DofusDbNote": DofusDbNote_ef522a00141bf02817f153aea2a46e82,
   "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "/components/admin/RowLabels#TextRowLabel": TextRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2,

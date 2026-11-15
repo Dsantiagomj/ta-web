@@ -160,7 +160,7 @@ export interface UserAuthOperations {
 export interface QuestGuide {
   id: number;
   /**
-   * Elige primero la misión de DofusDB de la guía, solo una: rellena el título, la dirección, el SEO y el resumen. Luego solo te queda escribir la guía. Cuando ya tiene una, solo un administrador puede cambiarla: otra misión mezclaría sus datos con los de esta.
+   * Elige primero la misión de DofusDB de la guía, solo una: al elegirla se rellenan el título, la dirección, el SEO y el resumen que estén vacíos. Lo que vacíes después se queda vacío; «Rellenar desde DofusDB» vuelve a copiar lo vacío cuando quieras. Cuando ya tiene una, solo un administrador puede cambiarla: otra misión mezclaría sus datos con los de esta.
    */
   quest?: (number | null) | Quest;
   /**
@@ -170,7 +170,7 @@ export interface QuestGuide {
   slug: string;
   body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock | FightBlock | StepBlock)[] | null;
   /**
-   * Al elegir la misión, cada campo vacío se rellena con lo que da DofusDB. Cámbialo con libertad: lo que escribas no se sobrescribe.
+   * Al elegir la misión, cada campo vacío se rellena con lo que da DofusDB. Cámbialo con libertad: lo que escribas no se sobrescribe, y lo que vacíes se queda vacío. Para volver a copiar lo vacío, pulsa «Rellenar desde DofusDB» bajo la misión.
    */
   summary?: {
     prerequisites?: string | null;
@@ -203,7 +203,7 @@ export interface QuestGuide {
     startY?: number | null;
   };
   /**
-   * Se rellena solo desde la misión si lo dejas vacío. Puedes cambiarlo cuando quieras.
+   * Se rellena desde la misión al elegirla, si está vacío. Puedes cambiarlo cuando quieras.
    */
   seo?: {
     metaTitle?: string | null;
@@ -750,9 +750,6 @@ export interface Dungeon {
  */
 export interface AchievementPage {
   id: number;
-  /**
-   * Lo que esté vacío se rellena con sus datos al guardar. Lo que cambies no lo pisa ningún refresco. Si el logro no está en DofusDB, déjalo vacío y escribe el nombre y lo demás a mano. Cuando ya tiene uno, solo un administrador puede cambiarlo: de él salen los datos que se rellenan solos, y cambiarlo los mezclaría con los de otro.
-   */
   achievement?: (number | null) | Achievement;
   name: string;
   slug: string;
@@ -950,9 +947,6 @@ export interface AchievementCategory {
  */
 export interface AchievementGroup {
   id: number;
-  /**
-   * Sus logros son los de esta categoría. Sin categoría (Misiones de templo), el metalogro tiene solo guías o ninguna página. Cuando ya tiene uno, solo un administrador puede cambiarlo: de él salen los datos que se rellenan solos, y cambiarlo los mezclaría con los de otro.
-   */
   category?: (number | null) | AchievementCategory;
   name: string;
   slug: string;

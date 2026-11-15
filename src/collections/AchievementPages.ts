@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload'
 
 import { fillAchievementPage } from './achievement-autofill'
 import {
+  dofusDbFill,
   dofusDbNote,
   linkedNameValidator,
   linkedSlugValidator,
@@ -24,7 +25,8 @@ import { pagePreview, withPublishStatus } from '../lib/admin/live-preview'
 const note = (field: string) => dofusDbNote('achievement', field)
 
 // Las páginas de logro de Torre: cada una enlaza un logro de DofusDB (o ninguno, si DofusDB no
-// lo tiene) y copia lo que la página enseña. Lo vacío se rellena con DofusDB al guardar; lo escrito no se toca nunca,
+// lo tiene) y copia lo que la página enseña. Lo vacío se rellena con DofusDB al crearla o al
+// cambiar de logro, y con el botón «Rellenar desde DofusDB»; lo escrito no se toca nunca,
 // tampoco al refrescar los datos del juego (como las guías con su misión).
 export const AchievementPages: CollectionConfig = {
   slug: 'achievement-pages',
@@ -64,13 +66,10 @@ export const AchievementPages: CollectionConfig = {
       // con su nombre. Dos páginas no enlazan el mismo logro; varias pueden no enlazar ninguno.
       unique: true,
       access: lockedOnceSet('achievement'),
-      admin: {
-        description:
-          'Lo que esté vacío se rellena con sus datos al guardar. Lo que cambies no lo ' +
-          'pisa ningún refresco. Si el logro no está en DofusDB, déjalo vacío y escribe el ' +
-          'nombre y lo demás a mano.' +
-          ` ${panelStrings.locks.dofusDb}`,
-      },
+      admin: dofusDbFill(
+        'achievement',
+        `${achievementStrings.admin.achievementDescription} ${panelStrings.locks.dofusDb}`,
+      ),
     },
     {
       name: 'name',

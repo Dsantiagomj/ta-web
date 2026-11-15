@@ -4,6 +4,7 @@ import {
   type AchievementValues,
   dofusDbNote,
   fillFromValues,
+  formFill,
   type GroupValues,
   groupSection,
 } from '@/lib/achievements/dofusdb-values'
@@ -106,10 +107,10 @@ describe('fillFromValues', () => {
 describe('dofusDbNote', () => {
   const ready = { status: 'ready' as const, values: ocasion }
 
-  it('dice si el valor viene de DofusDB, si Torre lo cambió o si se rellenará', () => {
+  it('dice si el valor viene de DofusDB, si Torre lo cambió o si está vacío', () => {
     expect(dofusDbNote('achievement', ready, 'points', 10)).toBe(admin.fromDofusDb)
     expect(dofusDbNote('achievement', ready, 'points', 12)).toBe(admin.changed('10'))
-    expect(dofusDbNote('achievement', ready, 'points', null)).toBe(admin.emptyWillFill('10'))
+    expect(dofusDbNote('achievement', ready, 'points', null)).toBe(admin.emptyCanFill('10'))
   })
 
   it('compara una relación por su ID y enseña el nombre', () => {
@@ -138,7 +139,7 @@ describe('dofusDbNote', () => {
       admin.fromDofusDb,
     )
     expect(dofusDbNote('achievement', ready, 'items', [])).toBe(
-      admin.emptyWillFill('1 x Piel pachucha'),
+      admin.emptyCanFill('1 x Piel pachucha'),
     )
   })
 
@@ -173,5 +174,54 @@ describe('dofusDbNote', () => {
   it('la sección se enseña con su nombre del panel', () => {
     const ready = { status: 'ready' as const, values: astrub }
     expect(dofusDbNote('group', ready, 'section', 'stories')).toBe(admin.changed('Zonas'))
+  })
+})
+
+describe('formFill', () => {
+  const form =
+    (values: Record<string, unknown>) =>
+    (path: string): unknown =>
+      values[path]
+
+  it('rellena en el formulario lo vacío de una página de logro, con sus rutas', () => {
+    const fill = formFill(
+      'achievement',
+      ocasion,
+      form({ name: 'Mía', points: null, 'rewards.kamas': 0, quests: 0, 'rewards.items': [] }),
+    )
+    expect(fill.values).toEqual({
+      group: 7,
+      order: 9,
+      points: 10,
+      'rewards.experience': 102_128,
+    })
+    expect(fill.rows).toEqual({
+      quests: [
+        { name: 'Esto hace aguas', quests: [1] },
+        { name: 'Misión de clase', quests: [2, 3] },
+      ],
+      'rewards.items': [{ item: 31, quantity: 1 }],
+    })
+  })
+
+  it('una lista con filas en el formulario no se toca, venga como filas o como recuento', () => {
+    const fill = formFill('achievement', ocasion, form({ quests: 2, 'rewards.items': [{}] }))
+    expect(fill.rows).toEqual({})
+  })
+
+  it('un metalogro: el representante va con su colección', () => {
+    expect(formFill('group', astrub, form({})).values).toEqual({
+      name: 'Astrub',
+      order: 13,
+      section: 'zones',
+      representative: { relationTo: 'npcs', value: 40 },
+    })
+  })
+})
+
+describe('el texto de un campo vacío', () => {
+  it('dice lo que da DofusDB y que el botón lo copia', () => {
+    expect(admin.emptyCanFill('10')).toContain('10')
+    expect(admin.emptyCanFill('10')).toContain('«Rellenar desde DofusDB»')
   })
 })
