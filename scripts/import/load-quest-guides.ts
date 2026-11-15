@@ -8,6 +8,7 @@ import {
   type FightListBlock,
 } from '@/lib/guides/fight-lists'
 import { livePicks } from '@/lib/guides/need-notes'
+import { torreRewards } from '@/lib/guides/reward-text'
 import { applySummaryFill, summaryToFill } from '@/lib/guides/summary'
 import type { Quest, QuestGuide } from '@/payload-types'
 
@@ -78,6 +79,14 @@ function comparable(value: unknown): unknown {
 }
 
 const SUMMARY_FIELDS = ['prerequisites', 'rewards', 'startNpc', 'startX', 'startY'] as const
+// Las recompensas en campos: las cifras del texto de Torre y, donde no hay, las de DofusDB.
+const REWARD_FIELDS = [
+  'rewardExperience',
+  'rewardExperienceMin',
+  'rewardKamas',
+  'rewardItems',
+  'rewardNotes',
+] as const
 
 /**
  * Los campos que escribe la importación, cada uno con su valor en el snapshot. El resumen va
@@ -91,6 +100,7 @@ export const TRACKED_FIELDS = [
   'quest',
   'body',
   ...SUMMARY_FIELDS.map((field) => `summary.${field}` as const),
+  ...REWARD_FIELDS.map((field) => `summary.${field}` as const),
   'summary.needs.notes',
   'summary.needs.items',
 ] as const
@@ -137,7 +147,15 @@ function fullSummary(summary: GuideSummary) {
     SUMMARY_FIELDS.map((field) => [field, summary[field] ?? null]),
   ) as FullSummary
   // La lista de objetos va vacía: la rellena DofusDB (filledSummary y el hook al guardar).
-  return { ...full, needs: { notes: summary.needs?.notes ?? null, items: [] } }
+  return {
+    ...full,
+    rewardExperience: null as number | null,
+    rewardExperienceMin: null as number | null,
+    rewardKamas: null as number | null,
+    rewardItems: [] as { item: number; quantity: number }[],
+    rewardNotes: null as string | null,
+    needs: { notes: summary.needs?.notes ?? null, items: [] },
+  }
 }
 
 /**
@@ -146,7 +164,8 @@ function fullSummary(summary: GuideSummary) {
  * repetir la importación no guarda versiones nuevas.
  */
 function filledSummary(summary: GuideSummary, quest: Quest | undefined) {
-  const full = fullSummary(summary)
+  // Las cifras de su texto de recompensas primero: ganan a las de DofusDB.
+  const full = { ...fullSummary(summary), ...torreRewards(summary.rewards, quest).fields }
   return applySummaryFill(full, summaryToFill(full, quest))
 }
 
