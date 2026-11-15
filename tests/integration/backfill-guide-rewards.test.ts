@@ -1,7 +1,10 @@
 import type { Payload } from 'payload'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
-import { backfillGuideRewards } from '@/lib/guides/backfill-rewards'
+import {
+  backfillGuideRewards,
+  type BackfillGuideRewardsResult,
+} from '@/lib/guides/backfill-rewards'
 
 import { startPayload } from './payload'
 
@@ -14,12 +17,17 @@ describe('backfillGuideRewards', () => {
   let published: number
   let draft: number
   let edited: number
+  // Lo que ya había en la base compartida antes de este archivo (guías que dejó otro): las
+  // cuentas de abajo son solo de las tres guías que crea este.
+  let before: BackfillGuideRewardsResult
+  const OURS = ['combate-de-calle-borrador', 'combate-de-calle-editada', 'combate-de-calle-prueba']
 
   const reread = (id: number, draftVersion = false) =>
     payload.findByID({ collection: 'quest-guides', id, depth: 0, draft: draftVersion })
 
   beforeAll(async () => {
     payload = await startPayload()
+    before = await backfillGuideRewards(payload, { apply: false })
     const antenna = await payload.create({
       collection: 'items',
       data: { dofusId: 990_901, name: 'Antenas de vilinsekto', typeId: 47 },
@@ -85,12 +93,13 @@ describe('backfillGuideRewards', () => {
 
   it('en seco, cuenta lo que haría y las diferencias que resuelve, sin escribir', async () => {
     const result = await backfillGuideRewards(payload, { apply: false })
-    expect(result.guides).toBe(3)
-    expect(result.fills.map(({ slug }) => slug).sort()).toEqual([
-      'combate-de-calle-borrador',
-      'combate-de-calle-editada',
-      'combate-de-calle-prueba',
-    ])
+    expect(result.guides - before.guides).toBe(3)
+    expect(
+      result.fills
+        .map(({ slug }) => slug)
+        .filter((slug) => OURS.includes(slug))
+        .sort(),
+    ).toEqual(OURS)
     expect(result.fills.find(({ slug }) => slug === 'combate-de-calle-prueba')).toMatchObject({
       status: 'published',
       differences: [
@@ -103,7 +112,10 @@ describe('backfillGuideRewards', () => {
 
   it('con apply, escribe lo publicado publicado y el borrador como borrador', async () => {
     const result = await backfillGuideRewards(payload, { apply: true })
-    expect(result).toMatchObject({ published: 2, drafts: 1 })
+    const earlier = (status: 'published' | 'draft') =>
+      before.fills.filter((fill) => fill.status === status).length
+    expect(result.published - earlier('published')).toBe(2)
+    expect(result.drafts - earlier('draft')).toBe(1)
 
     const shown = await reread(published)
     expect(shown._status).toBe('published')
