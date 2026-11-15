@@ -26,7 +26,13 @@ const guide: ConvertedGuide = {
 }
 const completed: ConvertedGuide = {
   ...guide,
-  guide: { ...guide.guide, slug: `${slug}-terminada`, body: [] },
+  // Cada página de Squarespace tiene su URL: la carga busca las guías por ella.
+  guide: {
+    ...guide.guide,
+    slug: `${slug}-terminada`,
+    originalUrl: `https://www.torrentearcano.com/${slug}-terminada`,
+    body: [],
+  },
 }
 const slugs = [completed.guide.slug, slug, `${slug}-descarga`]
 let failedPid = 0
@@ -56,6 +62,7 @@ try {
       guide: {
         ...guide.guide,
         slug: `${slug}-descarga`,
+        originalUrl: `https://www.torrentearcano.com/${slug}-descarga`,
         body: [{ blockType: 'image', url: `${originalUrl}?descarga`, alt: 'Prueba' }],
       },
     }

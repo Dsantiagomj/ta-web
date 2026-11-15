@@ -213,6 +213,15 @@ export interface QuestGuide {
    * Dónde estaba en la web antigua. La pone la importación; no hace falta tocarla.
    */
   originalUrl?: string | null;
+  importSnapshot?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -2016,6 +2025,7 @@ export interface QuestGuidesSelect<T extends boolean = true> {
         metaDescription?: T;
       };
   originalUrl?: T;
+  importSnapshot?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

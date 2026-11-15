@@ -1,5 +1,5 @@
 import { isDeepStrictEqual } from 'node:util'
-import type { Payload } from 'payload'
+import type { Payload, Where } from 'payload'
 
 import { validateSlug } from '@/collections/QuestGuides'
 import {
@@ -54,6 +54,8 @@ export interface LoadQuestGuidesResult {
   media: { created: number; reused: number }
   /** Por slug: las rarezas de la conversión más las de la carga. */
   oddities: Record<string, string[]>
+  /** Los campos que Torre cambió en el panel y la importación deja como están. */
+  kept: { slug: string; field: TrackedField }[]
 }
 
 type BodyBlock = NonNullable<QuestGuide['body']>[number]
@@ -75,14 +77,56 @@ function comparable(value: unknown): unknown {
   return value
 }
 
-const COMPARED_FIELDS = ['title', 'slug', 'originalUrl', 'summary', 'quest', 'body'] as const
-
 const SUMMARY_FIELDS = ['prerequisites', 'rewards', 'startNpc', 'startX', 'startY'] as const
+
+/**
+ * Los campos que escribe la importación, cada uno con su valor en el snapshot. El resumen va
+ * campo a campo: Torre puede cambiar las recompensas y dejar que el resto siga a Squarespace.
+ * Las mazmorras elegidas a mano no están: son siempre de Torre.
+ */
+export const TRACKED_FIELDS = [
+  'title',
+  'slug',
+  'originalUrl',
+  'quest',
+  'body',
+  ...SUMMARY_FIELDS.map((field) => `summary.${field}` as const),
+  'summary.needs.notes',
+  'summary.needs.items',
+] as const
+export type TrackedField = (typeof TRACKED_FIELDS)[number]
+type Snapshot = Partial<Record<TrackedField, unknown>>
+
+/** El valor de un campo por su ruta («summary.needs.notes»). */
+function valueAt(doc: unknown, field: TrackedField): unknown {
+  return field
+    .split('.')
+    .reduce<unknown>(
+      (value, key) =>
+        value && typeof value === 'object' ? (value as Record<string, unknown>)[key] : undefined,
+      doc,
+    )
+}
+
+const same = (a: unknown, b: unknown) =>
+  isDeepStrictEqual(comparable(a) ?? null, comparable(b) ?? null)
+
+// Un campo vacío de una guía sin snapshot no lo escribió Torre: la importación lo llena.
+function isEmpty(value: unknown): boolean {
+  if (value === null || value === undefined) return true
+  if (typeof value === 'string') return !value.trim()
+  return Array.isArray(value) && value.length === 0
+}
+
+const snapshotOf = (data: unknown): Snapshot =>
+  Object.fromEntries(
+    TRACKED_FIELDS.map((field) => [field, comparable(valueAt(data, field)) ?? null]),
+  )
 
 /**
  * El resumen con todos sus campos: lo que la conversión no trae va como null. Payload
  * conserva los campos de un grupo que no se envían, así que sin esto un dato que
- * desaparece de la página seguiría guardado y cada pasada guardaría otra versión.
+ * desaparece de la página seguiría guardado.
  */
 type FullSummary = {
   [field in (typeof SUMMARY_FIELDS)[number]]-?: NonNullable<GuideSummary[field]> | null
@@ -106,12 +150,6 @@ function filledSummary(summary: GuideSummary, quest: Quest | undefined) {
   return applySummaryFill(full, summaryToFill(full, quest))
 }
 
-function sameGuide(stored: QuestGuide, data: Pick<QuestGuide, (typeof COMPARED_FIELDS)[number]>) {
-  return COMPARED_FIELDS.every((field) =>
-    isDeepStrictEqual(comparable(stored[field]), comparable(data[field])),
-  )
-}
-
 /**
  * Guarda las guías convertidas con la API local. Es un trabajo de confianza, así que
  * usa overrideAccess. Idempotente: las guías se buscan por slug y las imágenes por su
@@ -119,6 +157,12 @@ function sameGuide(stored: QuestGuide, data: Pick<QuestGuide, (typeof COMPARED_F
  * igual a su último borrador no se toca, para no sumar versiones vacías. Siempre
  * guarda borradores: una guía ya publicada recibe un borrador nuevo y sigue publicada
  * como estaba hasta que Torre lo publique.
+ *
+ * Nunca deshace lo que Torre cambió en el panel: lo que escribe cada vez se guarda en
+ * importSnapshot, y al repetir solo cambia un campo que sigue como lo dejó la última pasada.
+ * En una guía importada antes del snapshot, un campo con valor distinto del de Squarespace
+ * se trata como suyo. La guía se busca por su URL original, así que cambiarle la dirección
+ * no la duplica.
  */
 export async function loadQuestGuides(
   payload: Payload,
@@ -131,6 +175,7 @@ export async function loadQuestGuides(
     guides: { created: 0, updated: 0, unchanged: 0, skipped: 0 },
     media: { created: 0, reused: 0 },
     oddities: {},
+    kept: [],
   }
 
   const dofusIds = [...new Set(guides.flatMap(({ guide }) => guide.questDofusIds))]
@@ -271,64 +316,132 @@ export async function loadQuestGuides(
     // El cuerpo ya está en Lexical: se suelta el DOM de la conversión antes de la siguiente.
     await releaseDom()
 
-    const existing = await payload.find({
-      collection: 'quest-guides',
-      where: { slug: { equals: guide.slug } },
-      limit: 1,
-      depth: 0,
-      draft: true,
-      overrideAccess: true,
-    })
-    const current = existing.docs[0]
-    const summary = filledSummary(guide.summary, linked)
-    // Las mazmorras que Torre eligió a mano son suyas y se quedan, salvo las de una nota que
-    // ya no está en Notas: no elegirían nada y bloquearían la guía al guardarla.
-    const { live: dungeons, stale } = livePicks(
-      current?.summary?.needs?.dungeons ?? [],
-      summary.needs.notes,
-    )
-    for (const pick of stale) {
-      oddities.push(`Mazmorra elegida a mano quitada: «${pick.note}» ya no está en Notas`)
+    // Por su URL original: Torre puede cambiarle la dirección. Si no, por el slug.
+    const byUrl = await findGuide(payload, { originalUrl: { equals: guide.originalUrl } })
+    const current = byUrl ?? (await findGuide(payload, { slug: { equals: guide.slug } }))
+    if (current && !byUrl && current.originalUrl !== guide.originalUrl) {
+      // Una guía hecha a mano (o de otra página) con esa dirección: es de Torre, no se toca.
+      result.guides.skipped += 1
+      oddities.push(`Ya hay otra guía en /${guide.slug}: no se toca`)
+      log(`Guía ${guide.slug}: saltada, la dirección es de otra guía`)
+      continue
     }
-    const data = {
+    const summary = filledSummary(guide.summary, linked)
+    const imported = {
       title: guide.title,
       slug: guide.slug,
       originalUrl: guide.originalUrl,
-      summary: {
-        ...summary,
-        needs: { ...summary.needs, dungeons },
-      },
+      summary,
       quest: linked?.id ?? null,
       body,
-      _status: 'draft' as const,
     }
-    if (current && sameGuide(current, data)) {
-      result.guides.unchanged += 1
-      log(`Guía ${guide.slug}: sin cambios`)
-      continue
-    }
-    if (current) {
-      await payload.update({
-        collection: 'quest-guides',
-        id: current.id,
-        data,
-        draft: true,
-        depth: 0,
-        overrideAccess: true,
-      })
-      result.guides.updated += 1
-    } else {
+
+    if (!current) {
       await payload.create({
         collection: 'quest-guides',
-        data,
+        data: {
+          ...imported,
+          summary: { ...summary, needs: { ...summary.needs, dungeons: [] } },
+          importSnapshot: snapshotOf(imported),
+          _status: 'draft',
+        },
         draft: true,
         depth: 0,
         overrideAccess: true,
       })
       result.guides.created += 1
+      log(`Guía ${guide.slug}: creada, ${body.length} bloques`)
+      continue
     }
-    log(`Guía ${guide.slug}: ${current ? 'actualizada' : 'creada'}, ${body.length} bloques`)
+
+    // Un campo cambia solo si sigue como lo dejó la última importación.
+    const snapshot = (current.importSnapshot ?? {}) as Snapshot
+    const nextSnapshot: Snapshot = { ...snapshot }
+    const changes = new Map<TrackedField, unknown>()
+    for (const field of TRACKED_FIELDS) {
+      const stored = valueAt(current, field)
+      const value = valueAt(imported, field)
+      if (same(stored, value)) {
+        nextSnapshot[field] = comparable(value) ?? null
+        continue
+      }
+      const edited = field in snapshot ? !same(stored, snapshot[field]) : !isEmpty(stored)
+      if (edited) {
+        result.kept.push({ slug: guide.slug, field })
+        continue
+      }
+      changes.set(field, value)
+      nextSnapshot[field] = comparable(value) ?? null
+    }
+
+    // Las mazmorras que Torre eligió a mano son suyas y se quedan, salvo las de una nota que
+    // ya no está en Notas: no elegirían nada y bloquearían la guía al guardarla.
+    const notes = changes.has('summary.needs.notes')
+      ? summary.needs.notes
+      : (current.summary?.needs?.notes ?? null)
+    const { live: dungeons, stale } = livePicks(current.summary?.needs?.dungeons ?? [], notes)
+    for (const pick of stale) {
+      oddities.push(`Mazmorra elegida a mano quitada: «${pick.note}» ya no está en Notas`)
+    }
+    for (const { field } of result.kept.filter((kept) => kept.slug === guide.slug)) {
+      log(`Guía ${guide.slug}: ${field} se queda como lo dejó Torre`)
+    }
+
+    if (changes.size === 0 && stale.length === 0) {
+      if (!isDeepStrictEqual(snapshot, nextSnapshot)) {
+        // Sin cambios de contenido: solo se anota lo que ya coincide, con el estado que tenía.
+        const published = current._status === 'published'
+        await payload.update({
+          collection: 'quest-guides',
+          id: current.id,
+          data: { importSnapshot: nextSnapshot, _status: published ? 'published' : 'draft' },
+          draft: !published,
+          depth: 0,
+          overrideAccess: true,
+        })
+      }
+      result.guides.unchanged += 1
+      log(`Guía ${guide.slug}: sin cambios`)
+      continue
+    }
+
+    const data: Record<string, unknown> = {}
+    const summaryData: Record<string, unknown> = {}
+    const needsData: Record<string, unknown> = { dungeons }
+    for (const [field, value] of changes) {
+      const [head, sub, leaf] = field.split('.')
+      if (head !== 'summary') data[head!] = value
+      else if (sub !== 'needs') summaryData[sub!] = value
+      else needsData[leaf!] = value
+    }
+    await payload.update({
+      collection: 'quest-guides',
+      id: current.id,
+      data: {
+        ...data,
+        summary: { ...summaryData, needs: needsData },
+        importSnapshot: nextSnapshot,
+        _status: 'draft',
+      } as never,
+      draft: true,
+      depth: 0,
+      overrideAccess: true,
+    })
+    result.guides.updated += 1
+    log(`Guía ${guide.slug}: actualizada (${[...changes.keys()].join(', ') || 'mazmorras'})`)
   }
 
   return result
+}
+
+async function findGuide(payload: Payload, where: Where): Promise<QuestGuide | undefined> {
+  const found = await payload.find({
+    collection: 'quest-guides',
+    where,
+    limit: 1,
+    depth: 0,
+    draft: true,
+    overrideAccess: true,
+  })
+  return found.docs[0]
 }
