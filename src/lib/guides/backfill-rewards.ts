@@ -7,8 +7,16 @@ import type { Payload } from 'payload'
 import type { Quest, QuestGuide } from '../../payload-types'
 import { linkedQuestId } from './autofill'
 import { formatThousands } from './display'
-import { torreRewards } from './reward-text'
-import { summaryToFill, type FilledRow, type LinkedQuest, type NeedRow } from './summary'
+import { torreLevelRewards, torreRewards } from './reward-text'
+import { guideStrings } from './strings'
+import {
+  summaryToFill,
+  type FilledLevel,
+  type FilledRow,
+  type LevelRow,
+  type LinkedQuest,
+  type NeedRow,
+} from './summary'
 
 /** Los campos de recompensa de la guía, tal como están guardados. */
 export interface RewardFields {
@@ -16,6 +24,7 @@ export interface RewardFields {
   rewardExperienceMin?: number | null
   rewardKamas?: number | null
   rewardItems?: NeedRow[] | null
+  rewardLevels?: LevelRow[] | null
   rewardNotes?: string | null
 }
 
@@ -25,12 +34,16 @@ export interface RewardFill {
   rewardExperienceMin?: number
   rewardKamas?: number
   rewardItems?: FilledRow[]
+  rewardLevels?: FilledLevel[]
   rewardNotes?: string
 }
 
-/** Una cifra de Torre que no es la de DofusDB: la que ahora gana en la página. */
+/**
+ * Una cifra de Torre que no es la de DofusDB: la que ahora gana en la página. La de un tramo
+ * lleva su nombre («Nivel 1 a 109»).
+ */
 export type RewardDifference =
-  | { field: 'XP' | 'kamas'; torre: number; dofusDb: number }
+  | { field: 'XP' | 'kamas'; level?: string; torre: number; dofusDb: number }
   | { field: 'objeto'; name: string; torre: number; dofusDb: number }
 
 export interface RewardsDecision {
@@ -40,6 +53,8 @@ export interface RewardsDecision {
   unreadable?: string
   /** Sus líneas de objeto que no son un objeto de DofusDB de la misión. */
   unmatchedItems: string[]
+  /** De dónde salen los tramos de «Por nivel», si se llena. */
+  levelsFrom?: 'torre' | 'dofusDb'
 }
 
 const REWARD_FIELDS = [
@@ -47,8 +62,31 @@ const REWARD_FIELDS = [
   'rewardExperienceMin',
   'rewardKamas',
   'rewardItems',
+  'rewardLevels',
   'rewardNotes',
 ] as const
+
+// Las cifras sueltas: un texto por tramos no se lee para ellas y van las de DofusDB.
+const SINGLE_FIELDS = REWARD_FIELDS.filter((field) => field !== 'rewardLevels')
+
+/** Las cifras de sus tramos que no son las del mismo tramo de DofusDB. */
+function levelDifferences(levels: FilledLevel[], quest: LinkedQuest | null | undefined) {
+  const differences: RewardDifference[] = []
+  for (const tier of levels) {
+    const given = quest?.rewards?.byLevel?.find(
+      (candidate) => candidate.levelMin === tier.levelMin && candidate.levelMax === tier.levelMax,
+    )
+    const level = guideStrings.summary.levelRange(tier.levelMin, tier.levelMax)
+    for (const field of ['experience', 'kamas'] as const) {
+      const torre = tier[field]
+      const dofusDb = given?.[field]
+      if (torre != null && dofusDb && torre !== dofusDb) {
+        differences.push({ field: field === 'experience' ? 'XP' : 'kamas', level, torre, dofusDb })
+      }
+    }
+  }
+  return differences
+}
 
 function isEmpty(value: unknown): boolean {
   if (value === null || value === undefined) return true
@@ -66,10 +104,12 @@ export function rewardsToWrite(
   quest: LinkedQuest | null | undefined,
 ): RewardsDecision {
   const torre = torreRewards(text, quest)
+  const tiers = torreLevelRewards(text, quest)
   const fill: RewardFill = {}
   for (const [field, value] of Object.entries(torre.fields)) {
     if (isEmpty(current[field as keyof RewardFields])) Object.assign(fill, { [field]: value })
   }
+  if (tiers.levels && isEmpty(current.rewardLevels)) fill.rewardLevels = tiers.levels
   const fromDofusDb = summaryToFill({ ...current, ...fill }, quest)
   for (const field of REWARD_FIELDS) {
     const value = fromDofusDb[field as keyof typeof fromDofusDb]
@@ -88,11 +128,27 @@ export function rewardsToWrite(
   for (const change of torre.quantityChanges) {
     differences.push({ field: 'objeto', name: change.name, torre: change.to, dofusDb: change.from })
   }
+  if (tiers.levels && fill.rewardLevels === tiers.levels) {
+    differences.push(...levelDifferences(tiers.levels, quest))
+  }
+  // Su texto sin leer solo se avisa si llena alguna cifra suelta: esas van de DofusDB.
+  const unreadable = SINGLE_FIELDS.some((field) => fill[field] !== undefined)
+    ? (torre.unreadable ?? tiers.unreadable)
+    : undefined
+  const levelsFrom = fill.rewardLevels
+    ? fill.rewardLevels === tiers.levels
+      ? 'torre'
+      : 'dofusDb'
+    : undefined
   return {
     fill,
     differences,
-    ...(torre.unreadable !== undefined && { unreadable: torre.unreadable }),
-    unmatchedItems: torre.unmatchedItems,
+    ...(unreadable !== undefined && { unreadable }),
+    ...(levelsFrom && { levelsFrom }),
+    unmatchedItems: [
+      ...torre.unmatchedItems,
+      ...(fill.rewardLevels === tiers.levels ? tiers.unmatchedItems : []),
+    ],
   }
 }
 
@@ -185,7 +241,8 @@ function differenceText(difference: RewardDifference): string {
   if (difference.field === 'objeto') {
     return `${formatThousands(difference.torre)} x ${difference.name} ${dofusDb}`
   }
-  return `${difference.field} ${formatThousands(difference.torre)} ${dofusDb}`
+  const level = difference.level ? `${difference.level}: ` : ''
+  return `${level}${difference.field} ${formatThousands(difference.torre)} ${dofusDb}`
 }
 
 /** El informe de la carga: qué gana de Torre, qué no se lee y qué no casa, y los totales. */
@@ -213,6 +270,11 @@ export function rewardsReport(result: BackfillGuideRewardsResult, apply: boolean
       )
     }
   }
+  for (const fill of result.fills) {
+    if (!fill.levelsFrom) continue
+    const from = fill.levelsFrom === 'torre' ? 'los tramos de su texto' : 'los tramos de DofusDB'
+    lines.push(`«Por nivel» en ${fill.slug}${draft(fill)}: ${from}.`)
+  }
   const count = (field: RewardDifference['field']) =>
     result.fills.filter((fill) => fill.differences.some((d) => d.field === field)).length
   const drafts = result.fills.filter((fill) => fill.status === 'draft').length
@@ -223,6 +285,9 @@ export function rewardsReport(result: BackfillGuideRewardsResult, apply: boolean
       `(XP: ${count('XP')}, kamas: ${count('kamas')}, objetos: ${count('objeto')}).`,
     `Textos sin leer: ${result.fills.filter((f) => f.unreadable !== undefined).length}. ` +
       `Líneas de objeto sin casar: ${result.fills.reduce((sum, f) => sum + f.unmatchedItems.length, 0)}.`,
+    `«Por nivel» por llenar: ${result.fills.filter((f) => f.levelsFrom).length} ` +
+      `(de su texto: ${result.fills.filter((f) => f.levelsFrom === 'torre').length}, ` +
+      `de DofusDB: ${result.fills.filter((f) => f.levelsFrom === 'dofusDb').length}).`,
     apply
       ? `Guardadas: publicadas ${result.published} y borradores ${result.drafts}.`
       : 'En seco: sin --apply no se escribe nada.',

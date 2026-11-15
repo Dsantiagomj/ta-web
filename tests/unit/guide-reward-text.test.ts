@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { readRewardsText, torreRewards } from '@/lib/guides/reward-text'
+import { readRewardsText, torreLevelRewards, torreRewards } from '@/lib/guides/reward-text'
 import type { LinkedQuest } from '@/lib/guides/summary'
 
 describe('readRewardsText', () => {
@@ -169,6 +169,133 @@ describe('torreRewards', () => {
       fields: {},
       unreadable: 'Si eres nivel 1 a 109:',
       quantityChanges: [],
+      unmatchedItems: [],
+    })
+  })
+})
+
+// Los textos por tramo de Torre (los eventos de Pazcuak): cada tramo en una línea y, debajo,
+// sus cifras otra vez, una por línea.
+const CRISIS = [
+  'Si eres nivel 1 a 109: 1 329 586 XP.14 041 kamas.5 x Cupón chocolate.',
+  '1 329 586 XP.',
+  '14 041 kamas.',
+  '5 x Cupón chocolate.',
+  'Si eres nivel 110 a 179:2 544 537 XP.35 601 kamas.5 x Cupón avellana.',
+  '2 544 537 XP.',
+  '35 601 kamas.',
+  '5 x Cupón avellana.',
+  'Si eres nivel 180 a 200:2 750 000 XP.43 980 kamas.5 x Cupón praliné.',
+  '2 750 000 XP.',
+  '43 980 kamas.',
+  '5 x Cupón praliné.',
+].join('\n')
+
+const tierCoupon = (id: number, name: string, quantity = 5) => ({
+  item: { id, name },
+  quantity,
+})
+const crisisQuest: LinkedQuest = {
+  name: 'La crisis de fe',
+  rewards: {
+    byLevel: [
+      {
+        levelMin: 1,
+        levelMax: 109,
+        experience: 1,
+        kamas: 1,
+        items: [tierCoupon(1, 'Cupón chocolate')],
+      },
+      {
+        levelMin: 110,
+        levelMax: 179,
+        experience: 1,
+        kamas: 1,
+        items: [tierCoupon(2, 'Cupón avellana')],
+      },
+      {
+        levelMin: 180,
+        levelMax: 200,
+        experience: 1,
+        kamas: 1,
+        items: [tierCoupon(3, 'Cupón praliné')],
+      },
+    ],
+  },
+}
+
+describe('torreLevelRewards', () => {
+  it('lee cada tramo con su XP, sus kamas y sus objetos, casados con los de DofusDB', () => {
+    expect(torreLevelRewards(CRISIS, crisisQuest)).toEqual({
+      levels: [
+        {
+          levelMin: 1,
+          levelMax: 109,
+          experience: 1_329_586,
+          kamas: 14_041,
+          items: [{ item: 1, quantity: 5 }],
+        },
+        {
+          levelMin: 110,
+          levelMax: 179,
+          experience: 2_544_537,
+          kamas: 35_601,
+          items: [{ item: 2, quantity: 5 }],
+        },
+        {
+          levelMin: 180,
+          levelMax: 200,
+          experience: 2_750_000,
+          kamas: 43_980,
+          items: [{ item: 3, quantity: 5 }],
+        },
+      ],
+      unmatchedItems: [],
+    })
+  })
+
+  it('su cantidad gana; lo que no escribe de un tramo lo pone DofusDB', () => {
+    const text = 'Si eres nivel 1 a 109: 7 x Cupón chocolate.\nSi eres nivel 110 a 200: 9 XP.'
+    const quest: LinkedQuest = {
+      rewards: {
+        byLevel: [
+          {
+            levelMin: 1,
+            levelMax: 109,
+            experience: 5,
+            kamas: 6,
+            items: [tierCoupon(1, 'Cupón chocolate')],
+          },
+          {
+            levelMin: 110,
+            levelMax: 200,
+            experience: 8,
+            kamas: 9,
+            items: [tierCoupon(2, 'Cupón avellana')],
+          },
+        ],
+      },
+    }
+    expect(torreLevelRewards(text, quest).levels).toEqual([
+      { levelMin: 1, levelMax: 109, experience: 5, kamas: 6, items: [{ item: 1, quantity: 7 }] },
+      { levelMin: 110, levelMax: 200, experience: 9, kamas: 9, items: [{ item: 2, quantity: 5 }] },
+    ])
+  })
+
+  it('un objeto suyo que DofusDB no da en ese tramo no se inventa: se lista', () => {
+    const text = CRISIS.replace('5 x Cupón chocolate.\nSi', '5 x Cupón de menta.\nSi')
+    expect(torreLevelRewards(text, crisisQuest).unmatchedItems).toEqual(['5 x Cupón de menta.'])
+  })
+
+  it('sin dos tramos legibles no da tramos', () => {
+    expect(torreLevelRewards('2 750 000 XP.', crisisQuest)).toEqual({ unmatchedItems: [] })
+    expect(torreLevelRewards('Depende del nivel:\nAl 200: 1 375 000 XP.', crisisQuest)).toEqual({
+      unmatchedItems: [],
+    })
+    // Dos XP distintas en el mismo tramo: no se adivina cuál vale.
+    const twice = 'Si eres nivel 1 a 109: 1 XP.\n2 XP.\nSi eres nivel 110 a 200: 3 XP.'
+    expect(torreLevelRewards(twice, crisisQuest)).toEqual({
+      unreadable: '2 XP.',
       unmatchedItems: [],
     })
   })
