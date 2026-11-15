@@ -35,6 +35,7 @@
     "import:achievements": "NODE_OPTIONS=--no-deprecation payload run scripts/import/import-achievements.ts --",
     "fix:achievements": "NODE_OPTIONS=--no-deprecation payload run scripts/import/fix-achievements.ts --",
     "import:achievement-prose": "NODE_OPTIONS=--no-deprecation payload run scripts/import/import-achievement-prose.ts --",
+    "import:pages": "NODE_OPTIONS=--no-deprecation payload run scripts/import/import-pages.ts --",
     "guides:backfill": "NODE_OPTIONS=--no-deprecation payload run scripts/backfill-guides.ts --",
     "panel:block-thumbs": "node scripts/build-block-thumbnails.ts",
     "media:sizes": "NODE_OPTIONS=--no-deprecation payload run scripts/media-sizes.ts --",

@@ -22,6 +22,7 @@ openwiki/
 # Páginas de Squarespace recortadas: el parser las lee tal cual
 tests/fixtures/squarespace/
 tests/fixtures/dofus-guides/
+tests/fixtures/pages/
 
 # Datos del Nebuloso copiados tal cual de silvestre-checklist: la importación de las checklists
 tests/fixtures/silvestre-checklist/

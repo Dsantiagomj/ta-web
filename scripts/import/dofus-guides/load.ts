@@ -12,6 +12,7 @@ import type { ItemMatch } from './game-items'
 import { headingGroup, type NeedGroup } from '@/lib/dofus-guides/need-groups'
 
 import { fold } from './fold'
+import { liveSiteSlugs } from '../live-slugs'
 import { siteHref } from './site-links'
 import { needClassifiers, normalizeNeeds, type NeedEntry, type Placement } from './normalize-needs'
 import type { BodyItem, DofusGuideSource, NeedRow, Part, QuestRef, Segment } from './parse'
@@ -296,33 +297,9 @@ export async function loadDofusGuides(
     select: { name: true },
   })
   const questNames = new Set(quests.docs.map((doc) => fold(doc.name)))
-  // Lo que un visitante ve en /<slug>: lo publicado y, de los logros y las guías de Dofus, lo
-  // que no está En preparación. Una checklist En preparación redirige a la suya: también vale.
-  const [dofusPages, checklistPages] = await Promise.all([
-    payload.find({
-      collection: 'dofus-guides',
-      limit: 0,
-      depth: 0,
-      pagination: false,
-      overrideAccess: true,
-      select: { slug: true, state: true, _status: true },
-    }),
-    payload.find({
-      collection: 'checklists',
-      limit: 0,
-      depth: 0,
-      pagination: false,
-      overrideAccess: true,
-      select: { slug: true, _status: true },
-    }),
-  ])
-  const published = (doc: { _status?: string | null }) => doc._status === 'published'
-  for (const doc of [...guides.docs, ...checklistPages.docs]) {
-    if (published(doc)) live.add(doc.slug)
-  }
-  for (const doc of [...pages.docs, ...dofusPages.docs]) {
-    if (published(doc) && doc.state === 'published') live.add(doc.slug)
-  }
+  // Lo que un visitante ve en /<slug> (live-slugs.ts): un enlace de Torre a otra cosa lleva a
+  // su web.
+  for (const slug of await liveSiteSlugs(payload)) live.add(slug)
   const pageBySlug = new Map(pages.docs.map((doc) => [doc.slug, doc]))
   const pageByName = new Map(pages.docs.map((doc) => [fold(doc.name), doc]))
   const classify = needClassifiers(
