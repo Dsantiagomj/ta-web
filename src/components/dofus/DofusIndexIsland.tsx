@@ -4,8 +4,9 @@ import { useEffect, useId, useState } from 'react'
 
 import { startTilt } from '@/components/ui/tilt'
 import { smoothUpdate } from '@/components/ui/view-transition'
-import { matchesDofus, type DofusFilter, type DofusTag } from '@/lib/dofus-guides/index-view'
-import { dofusIndexStrings as s } from '@/lib/dofus-guides/strings'
+import { matchesDofus, type DofusFilter, type DofusTag } from '@/lib/dofus-guides/index-search'
+
+import { dofusIndexIslandStrings as s } from './index-island-strings'
 
 const SEARCH_ICON = (
   <svg viewBox="0 0 20 20" aria-hidden="true">
