@@ -17,7 +17,7 @@ import { PreviewBar } from './PreviewBar'
 
 /**
  * La página de un logro (DESIGN.md, Achievement page): las migas, la cabecera con el icono,
- * la ficha (Recompensas, Prerrequisitos y «Necesitarás en total») y, en logro__body, la
+ * la ficha (Prerrequisitos, «Necesitarás en total» y Recompensas) y, en logro__body, la
  * entrada de Torre, las misiones en orden, el cierre, «Cuenta para» y el logro anterior y el
  * siguiente. En el escritorio la ficha es una columna a la derecha y las misiones van justo
  * debajo del título (logro--sheet); en el móvil, la ficha va entre la cabecera y lo demás.

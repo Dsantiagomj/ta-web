@@ -65,6 +65,9 @@ test.describe('página de logro', () => {
       )
     }
     await beside()
+    // En la columna, Prerrequisitos y Necesitarás en total primero; las recompensas, al final.
+    const tops = await Promise.all([prerequisites, needs, rewards].map(top))
+    expect(tops).toEqual([...tops].sort((a, b) => a - b))
     await page.setViewportSize({ width: 1024, height: 768 })
     await beside()
 
@@ -78,7 +81,7 @@ test.describe('página de logro', () => {
     }
   })
 
-  test('en el móvil y la tableta: las recompensas a la vista, Prerrequisitos y Necesitarás en total plegados', async ({
+  test('en el móvil y la tableta: Prerrequisitos y Necesitarás en total plegados, las recompensas al final y a la vista', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 390, height: 844 })
@@ -103,11 +106,11 @@ test.describe('página de logro', () => {
     const [xp, kamas] = [(await rows.nth(0).boundingBox())!, (await rows.nth(1).boundingBox())!]
     expect(Math.abs(xp.y - kamas.y)).toBeLessThan(1)
 
-    // De arriba abajo: la cabecera, las recompensas, las dos filas, la entrada de Torre y
+    // De arriba abajo: la cabecera, las dos filas, las recompensas, la entrada de Torre y
     // las misiones.
     const y = async (locator: typeof needs) => (await locator.boundingBox())!.y
     const heading = quests.getByRole('heading', { level: 2 })
-    const order = [header, rewards, prerequisites, needs, page.getByText(logro.intro), heading]
+    const order = [header, prerequisites, needs, rewards, page.getByText(logro.intro), heading]
     const tops = await Promise.all(order.map(y))
     expect(tops).toEqual([...tops].sort((a, b) => a - b))
     expect((await y(page.locator('.logro__body'))) - (await y(crumbs))).toBeLessThan(470)

@@ -203,8 +203,8 @@ function NeedsGroups({ id, needs }: { id: string; needs: Needs }) {
 
 /**
  * La ficha del logro (DESIGN.md, Achievement page, opción C de «Logro más compacto»):
- * «Recompensas del logro», siempre a la vista, y Prerrequisitos y «Necesitarás en total»,
- * plegables. En el escritorio es una columna a la derecha de las misiones, abierta, que no
+ * Prerrequisitos y «Necesitarás en total», plegables, y al final «Recompensas del logro»,
+ * siempre a la vista. En el escritorio es una columna a la derecha de las misiones, abierta, que no
  * suma altura encima de ellas; en el móvil y la tableta va entre la cabecera y la página,
  * con las dos partes plegadas en una fila cada una. Una parte vacía no se pinta; sin nada,
  * no hay ficha.
@@ -216,16 +216,6 @@ export function AchievementSheet({ facts, needs }: { facts: SheetFacts; needs: N
   const { prerequisites, rewards } = facts
   return (
     <div className="lsheet">
-      {hasRewards(rewards) && (
-        <section className="lsheet__p" aria-labelledby={`${id}-rec`}>
-          <h2 className="lsheet__k" id={`${id}-rec`}>
-            {s.rewards}
-          </h2>
-          <ul role="list" className="lsheet__rew">
-            <RewardRows rewards={rewards} bagId={`${id}-bag`} />
-          </ul>
-        </section>
-      )}
       {prerequisites.length > 0 && (
         <SheetFold id={`${id}-pre`} label={gameStrings.header.prerequisites}>
           <ul role="list" className="lsheet__pre">
@@ -237,6 +227,16 @@ export function AchievementSheet({ facts, needs }: { facts: SheetFacts; needs: N
         <SheetFold id={`${id}-nec`} label={s.needsTotal} className="lsheet__p lneeds">
           <NeedsGroups id={id} needs={needs} />
         </SheetFold>
+      )}
+      {hasRewards(rewards) && (
+        <section className="lsheet__p" aria-labelledby={`${id}-rec`}>
+          <h2 className="lsheet__k" id={`${id}-rec`}>
+            {s.rewards}
+          </h2>
+          <ul role="list" className="lsheet__rew">
+            <RewardRows rewards={rewards} bagId={`${id}-bag`} />
+          </ul>
+        </section>
       )}
     </div>
   )

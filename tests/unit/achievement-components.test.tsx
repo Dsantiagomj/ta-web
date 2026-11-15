@@ -117,13 +117,13 @@ describe('AchievementSheet', () => {
       folds: body!.startsWith('<details'),
     }))
 
-  it('las recompensas, siempre a la vista; Prerrequisitos y Necesitarás en total, plegables', () => {
+  it('Prerrequisitos y Necesitarás en total, plegables; las recompensas al final, siempre a la vista', () => {
     const markup = sheet()
     expect(markup).toContain('<div class="lsheet">')
     expect(parts(markup)).toEqual([
-      { className: 'lsheet__p', heading: 'Recompensas del logro', folds: false },
       { className: 'lsheet__p', heading: 'Prerrequisitos', folds: true },
       { className: 'lsheet__p lneeds', heading: 'Necesitarás en total', folds: true },
+      { className: 'lsheet__p', heading: 'Recompensas del logro', folds: false },
     ])
     // Cerradas en el HTML: la isla las abre desde 64rem y el CSS ya las enseña antes.
     expect(markup.match(/<details class="lsheet__d" data-sheet="">/g)).toHaveLength(2)
