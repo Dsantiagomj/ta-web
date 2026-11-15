@@ -214,21 +214,39 @@ a.dcard:focus-visible {
   outline: 0.1875rem solid var(--color-ink);
   outline-offset: 0.25rem;
 }
-a.dcard:active {
-  transform: scale(0.98);
-  transition: transform var(--duration-press) var(--ease-out);
+/* Con el ratón, la isla la inclina hacia él (data-tilt, src/components/ui/tilt.ts) y al salir
+   vuelve en 150ms. Pulsada encoge con `scale`, que se suma a la inclinación del style en vez de
+   reemplazarla, como haría un `transform`. */
+a.dcard {
+  transform-style: preserve-3d;
+  transition:
+    border-color var(--duration-fast) var(--ease-standard),
+    transform 150ms var(--ease-out),
+    scale var(--duration-press) var(--ease-out);
 }
+a.dcard:active {
+  scale: 0.98;
+}
+/* El borde y el brillo del color del Dofus, con la sombra que la levanta: una capa que aparece,
+   sin animar la sombra. */
 .dcard::after {
   content: '';
   position: absolute;
   inset: -1px;
   border-radius: inherit;
   box-shadow:
-    0 0 0 1px var(--color-section),
-    0 0 1.375rem color-mix(in srgb, var(--color-section) 28%, transparent);
+    0 0 0 1px var(--egg, var(--color-section)),
+    0 0 1.5rem color-mix(in srgb, var(--egg, var(--color-section)) 38%, transparent),
+    0 1.125rem 1.75rem -0.5rem rgb(0 0 0 / 0.55);
   opacity: 0;
   pointer-events: none;
-  transition: opacity var(--duration-fast) var(--ease-standard);
+  transition: opacity 300ms var(--ease-standard);
+}
+[data-mode='light'] .dcard::after {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--egg, var(--color-section)) 80%, var(--color-ink)),
+    0 0 1.25rem color-mix(in srgb, var(--egg, var(--color-section)) 30%, transparent),
+    0 1rem 1.5rem -0.5rem rgb(0 0 0 / 0.22);
 }
 .dcard__art {
   position: relative;
@@ -237,6 +255,7 @@ a.dcard:active {
   width: 100%;
   aspect-ratio: 1.7;
   margin-bottom: 0.375rem;
+  transform-style: preserve-3d;
 }
 /* El halo del color del Dofus detrás del huevo. Es un degradado y no un `filter` en la imagen:
    con un filtro, Chrome cuenta el huevo como un recuadro mayor para el LCP. */
@@ -318,9 +337,72 @@ a.dcard:active {
 [data-mode='light'] .dcard--off .dcard__art img {
   filter: grayscale(1);
 }
+/* El brillo que sigue al ratón (--fx, --fy): una mancha bajo el puntero y dos bandas, blanca y
+   del color del Dofus, que se deslizan con él. Invisible hasta que la tarjeta se inclina, así
+   que una tarjeta quieta se ve igual que sin él. */
+.dcard__foil {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  opacity: 0;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(
+      circle at var(--fx, 50%) var(--fy, 50%),
+      color-mix(in srgb, var(--egg, var(--color-section)) 30%, transparent),
+      transparent 60%
+    ),
+    linear-gradient(115deg, transparent 30%, rgb(255 255 255 / 0.14) 45%, transparent 60%),
+    linear-gradient(
+      115deg,
+      transparent 38%,
+      color-mix(in srgb, var(--egg, var(--color-section)) 30%, transparent) 50%,
+      transparent 62%
+    );
+  background-size:
+    100% 100%,
+    250% 250%,
+    250% 250%;
+  background-position:
+    0 0,
+    var(--fx, 50%) var(--fy, 50%),
+    var(--fx, 50%) var(--fy, 50%);
+  pointer-events: none;
+  transition: opacity 300ms var(--ease-standard);
+}
+/* Sobre una tarjeta clara una banda blanca no se ve: solo el color del Dofus. */
+[data-mode='light'] .dcard__foil {
+  mix-blend-mode: multiply;
+  background:
+    radial-gradient(
+      circle at var(--fx, 50%) var(--fy, 50%),
+      color-mix(in srgb, var(--egg, var(--color-section)) 22%, transparent),
+      transparent 60%
+    ),
+    linear-gradient(
+      115deg,
+      transparent 38%,
+      color-mix(in srgb, var(--egg, var(--color-section)) 24%, transparent) 50%,
+      transparent 62%
+    );
+  background-size:
+    100% 100%,
+    250% 250%;
+  background-position:
+    0 0,
+    var(--fx, 50%) var(--fy, 50%);
+}
+a.dcard.is-tilted .dcard__foil {
+  opacity: 1;
+}
+
 @media (hover: hover) and (pointer: fine) {
   a.dcard:hover {
-    border-color: var(--color-section);
+    border-color: var(--egg, var(--color-section));
+  }
+  [data-mode='light'] a.dcard:hover {
+    border-color: color-mix(in srgb, var(--egg, var(--color-section)) 80%, var(--color-ink));
   }
   a.dcard:hover::after {
     opacity: 1;
@@ -331,6 +413,11 @@ a.dcard:active {
   }
   a.dcard:hover .dcard__art img {
     transform: none;
+  }
+  /* Inclinada, el huevo se adelanta un poco: se mueve contra la tarjeta. */
+  a.dcard.is-tilted .dcard__art img {
+    transform: translateZ(1.75rem) scale(1.06);
+    transition-duration: 300ms;
   }
 }
 
@@ -370,13 +457,17 @@ html:active-view-transition-type(guias-dofus)::view-transition-new(*.dcard):only
   .dg-seg__ind,
   .dg-pill,
   .dcard,
+  a.dcard,
   .dcard::after,
-  .dcard__art img {
+  .dcard__art img,
+  .dcard__foil {
     transition: none;
   }
-  .dg-pill:active,
-  a.dcard:active {
+  .dg-pill:active {
     transform: none;
+  }
+  a.dcard:active {
+    scale: none;
   }
 }
 @media (max-width: 40rem) {

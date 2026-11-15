@@ -15,6 +15,10 @@ import './dofus-index.css'
  */
 const ABOVE_THE_FOLD = 4
 
+/**
+ * Lo de dentro de una tarjeta. Una publicada lleva además el brillo que sigue al ratón cuando la
+ * isla la inclina (data-tilt, src/components/ui/tilt.ts); una «En preparación» no se mueve.
+ */
 function CardInner({ card, priority }: { card: DofusCard; priority: boolean }) {
   return (
     <>
@@ -25,6 +29,7 @@ function CardInner({ card, priority }: { card: DofusCard; priority: boolean }) {
       <span className="dcard__n">{card.name}</span>
       {card.meta && <span className="dcard__m">{card.meta}</span>}
       {card.disabled && <span className="ztag">{dofusPageStrings.preparing}</span>}
+      {card.href && <span className="dcard__foil" aria-hidden="true" />}
     </>
   )
 }
@@ -50,7 +55,7 @@ export function DofusCards({ cards }: { cards: DofusCard[] }) {
 function Card({ card, priority }: { card: DofusCard; priority: boolean }) {
   const style = (card.color ? { '--egg': card.color } : undefined) as CSSProperties | undefined
   return card.href ? (
-    <a className="dcard" href={card.href} style={style}>
+    <a className="dcard" href={card.href} style={style} data-tilt="">
       <CardInner card={card} priority={priority} />
     </a>
   ) : (
@@ -62,8 +67,8 @@ function Card({ card, priority }: { card: DofusCard; priority: boolean }) {
 
 /**
  * El índice de las guías de Dofus (DESIGN.md, Dofus guides index): el título, la entradilla
- * de Torre y una tarjeta por Dofus en su orden. La isla añade el buscador y los filtros; sin
- * JavaScript se ven todas las tarjetas. Ninguna cifra en el título: cambian con el tiempo.
+ * de Torre y una tarjeta por Dofus en su orden. La isla añade el buscador, los filtros y la
+ * inclinación de las tarjetas hacia el ratón; sin JavaScript se ven todas las tarjetas, quietas. Ninguna cifra en el título: cambian con el tiempo.
  */
 export function DofusIndex({ view, intro }: { view: DofusIndexView; intro: RichTextState | null }) {
   return (

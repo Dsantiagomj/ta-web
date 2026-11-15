@@ -1,7 +1,8 @@
 'use client'
 
-import { useId, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
 
+import { startTilt } from '@/components/ui/tilt'
 import { smoothUpdate } from '@/components/ui/view-transition'
 import { matchesDofus, type DofusFilter, type DofusTag } from '@/lib/dofus-guides/index-view'
 import { dofusIndexStrings as s } from '@/lib/dofus-guides/strings'
@@ -45,8 +46,12 @@ function applyFilter(query: string, filter: DofusFilter): number {
 /**
  * El buscador y los filtros del índice (Todos, Primordiales, Evento). Solo existen con
  * JavaScript; el aviso de cuántas quedan habla solo mientras hay una búsqueda o un filtro.
+ * También inclina hacia el ratón las tarjetas publicadas (data-tilt), como los carteles de
+ * /checklists.
  */
 export function DofusIndexIsland({ filters }: { filters: DofusFilter[] }) {
+  // Las tarjetas que pinta el servidor y los eventos del puntero sobre ellas.
+  useEffect(() => startTilt(document, window.matchMedia('(prefers-reduced-motion: reduce)')), [])
   const id = useId()
   const [query, setQuery] = useState('')
   const [filter, setFilter] = useState<DofusFilter>('all')
