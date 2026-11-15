@@ -23,8 +23,8 @@ import { pagePreview, withPublishStatus } from '../lib/admin/live-preview'
 
 const note = (field: string) => dofusDbNote('achievement', field)
 
-// Las páginas de logro de Torre: cada una enlaza un logro de DofusDB y copia lo que la
-// página enseña. Lo vacío se rellena con DofusDB al guardar; lo escrito no se toca nunca,
+// Las páginas de logro de Torre: cada una enlaza un logro de DofusDB (o ninguno, si DofusDB no
+// lo tiene) y copia lo que la página enseña. Lo vacío se rellena con DofusDB al guardar; lo escrito no se toca nunca,
 // tampoco al refrescar los datos del juego (como las guías con su misión).
 export const AchievementPages: CollectionConfig = {
   slug: 'achievement-pages',
@@ -60,13 +60,15 @@ export const AchievementPages: CollectionConfig = {
       label: 'Logro de DofusDB',
       type: 'relationship',
       relationTo: 'achievements',
-      required: true,
+      // Opcional: un logro que DofusDB no tiene (el metalogro de Krosmoz) se escribe a mano,
+      // con su nombre. Dos páginas no enlazan el mismo logro; varias pueden no enlazar ninguno.
       unique: true,
       access: lockedOnceSet('achievement'),
       admin: {
         description:
           'Lo que esté vacío se rellena con sus datos al guardar. Lo que cambies no lo ' +
-          'pisa ningún refresco.' +
+          'pisa ningún refresco. Si el logro no está en DofusDB, déjalo vacío y escribe el ' +
+          'nombre y lo demás a mano.' +
           ` ${panelStrings.locks.dofusDb}`,
       },
     },
