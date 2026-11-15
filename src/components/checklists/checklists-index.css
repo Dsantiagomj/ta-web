@@ -216,6 +216,59 @@ a.poster:active .poster__frame {
     drop-shadow(0 0.75rem 0.75rem rgb(0 0 0 / 0.8));
 }
 
+/* La corona del rush (el hub antiguo): el primer huevo grande arriba en el centro y los demás
+   alrededor, dos a cada lado y uno debajo. Posición y alto en % del ancho del cartel. */
+.poster__crown {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+}
+.poster__cegg {
+  --x: 50;
+  --y: 4.5;
+  --h: 40;
+  position: absolute;
+  top: calc(var(--y) * 1cqw);
+  left: calc(var(--x) * 1cqw);
+  height: calc(var(--h) * 1cqw);
+  transform: translateX(-50%);
+}
+.poster__cegg:first-child {
+  z-index: 1;
+}
+.poster__cegg:nth-child(2) {
+  --x: 14;
+  --y: 24;
+  --h: 22;
+}
+.poster__cegg:nth-child(3) {
+  --x: 28;
+  --y: 10.5;
+  --h: 22;
+}
+.poster__cegg:nth-child(4) {
+  --x: 72;
+  --y: 10.5;
+  --h: 22;
+}
+.poster__cegg:nth-child(5) {
+  --x: 86;
+  --y: 24;
+  --h: 22;
+}
+.poster__cegg:nth-child(6) {
+  --x: 50;
+  --y: 51;
+  --h: 18;
+}
+.poster__cegg img {
+  width: auto;
+  height: 100%;
+  max-width: none;
+  filter: drop-shadow(0 0 0.75rem var(--glow, var(--egg, var(--color-section))))
+    drop-shadow(0 0.5rem 0.5rem rgb(0 0 0 / 0.8));
+}
+
 /* El brillo holográfico: sigue al ratón (--fx, --fy, de src/components/ui/tilt.ts). */
 .poster__foil {
   position: absolute;
@@ -373,6 +426,12 @@ a.poster:active .poster__frame {
 [data-mode='light'] .poster__egg img {
   filter: drop-shadow(
       0 0 0.625rem color-mix(in srgb, var(--egg, var(--color-section)) 35%, transparent)
+    )
+    drop-shadow(0 0.25rem 0.5rem rgb(0 0 0 / 0.18));
+}
+[data-mode='light'] .poster__cegg img {
+  filter: drop-shadow(
+      0 0 0.5rem color-mix(in srgb, var(--glow, var(--egg, var(--color-section))) 35%, transparent)
     )
     drop-shadow(0 0.25rem 0.5rem rgb(0 0 0 / 0.18));
 }

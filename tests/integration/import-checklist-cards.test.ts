@@ -48,7 +48,11 @@ const entries: CardImportEntry[] = [
   // Sin guía de Dofus (el rush): su color viene del hub.
   {
     slug: slugs.draft,
-    card: { scene: { path: ART.scene, alt: 'Xelorium' }, color: '#e3c565' },
+    card: {
+      scene: { path: ART.scene, alt: 'Xelorium' },
+      color: '#e3c565',
+      crown: [`${PREFIX}-vulbis`, `${PREFIX}-esmeralda`],
+    },
   },
   // El nombre del hub: «Almas del Ocre» pasa a «Dofus Ocre» si Torre no lo cambió.
   { slug: slugs.ocre, name: 'Dofus Ocre', card: { scene: { path: ART.scene, alt: 'Xelorium' } } },
@@ -135,8 +139,27 @@ async function cleanUp() {
   })
 }
 
+/** Las guías de Dofus de la corona, por su slug. */
+const crownGuides: Record<string, number> = {}
+
 beforeAll(async () => {
   payload = await startPayload()
+  await payload.delete({
+    collection: 'dofus-guides',
+    where: { slug: { like: PREFIX } },
+    overrideAccess: true,
+  })
+  for (const [order, name] of [
+    [1, 'vulbis'],
+    [2, 'esmeralda'],
+  ] as const) {
+    const guide = await payload.create({
+      collection: 'dofus-guides',
+      data: { name, slug: `${PREFIX}-${name}`, order: 900 + order, state: 'published' },
+      overrideAccess: true,
+    })
+    crownGuides[name] = guide.id
+  }
 })
 
 beforeEach(async () => {
@@ -189,6 +212,11 @@ beforeEach(async () => {
 
 afterAll(async () => {
   await cleanUp()
+  await payload.delete({
+    collection: 'dofus-guides',
+    where: { slug: { like: PREFIX } },
+    overrideAccess: true,
+  })
 })
 
 describe('loadChecklistCards', () => {
@@ -235,6 +263,10 @@ describe('loadChecklistCards', () => {
     expect(latest.card?.scene).toBe(scene)
     expect(published.card?.color).toBe('#e3c565')
     expect(latest.card?.color).toBe('#e3c565')
+    // La corona, en el orden del catálogo: el primero va grande en el centro.
+    const crown = [crownGuides.vulbis, crownGuides.esmeralda]
+    expect(published.card?.crown).toEqual(crown)
+    expect(latest.card?.crown).toEqual(crown)
     expect(report.withDraft).toEqual([slugs.draft])
   })
 
@@ -372,5 +404,22 @@ describe('loadChecklistCards', () => {
     const again = await loadChecklistCards(payload, options())
     expect((await read(slugs.ocre)).name).toBe('Las almas')
     expect(again.kept).toEqual(expect.arrayContaining([{ slug: slugs.ocre, field: 'name' }]))
+  })
+})
+
+describe('la corona de huevos', () => {
+  it('con una guía de la corona que no está, lo dice y no escribe la corona', async () => {
+    const list: CardImportEntry[] = [
+      {
+        slug: slugs.plain,
+        card: {
+          scene: { path: ART.scene, alt: 'Xelorium' },
+          crown: [`${PREFIX}-vulbis`, `${PREFIX}-no-existe`],
+        },
+      },
+    ]
+    const report = await loadChecklistCards(payload, options(true, list))
+    expect(report.missingGuides).toEqual([`${PREFIX}-no-existe`])
+    expect((await read(slugs.plain)).card?.crown ?? []).toEqual([])
   })
 })

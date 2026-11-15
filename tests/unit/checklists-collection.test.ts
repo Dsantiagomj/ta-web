@@ -376,7 +376,7 @@ describe('colección checklists', () => {
 describe('checklists: la tarjeta del índice', () => {
   const card = field(Checklists.fields, 'card') as GroupField
 
-  it('es un grupo con la escena, el PNJ, su encuadre y el color', () => {
+  it('es un grupo con la escena, el PNJ, su encuadre, el color y la corona', () => {
     expect(card).toMatchObject({
       type: 'group',
       label: 'Tarjeta del índice',
@@ -389,8 +389,16 @@ describe('checklists: la tarjeta del índice', () => {
       'npcRight',
       'npcTop',
       'color',
+      'crown',
     ])
     expect(field(card.fields, 'scene')).toMatchObject({ type: 'upload', relationTo: 'media' })
+    // La corona del rush: el primero grande en el centro y hasta cinco alrededor, en su orden.
+    expect(field(card.fields, 'crown')).toMatchObject({
+      type: 'relationship',
+      relationTo: 'dofus-guides',
+      hasMany: true,
+      maxRows: 6,
+    })
     expect(field(card.fields, 'npc')).toMatchObject({ type: 'upload', relationTo: 'media' })
   })
 

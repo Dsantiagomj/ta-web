@@ -53,10 +53,19 @@ describe('el Rush de todos los Dofus en el catálogo', () => {
     ])
   })
 
-  it('su cartel lleva la escena de las misiones de mundo, sin PNJ, en el oro del hub', () => {
+  it('su cartel lleva la escena de las misiones de mundo y la corona de huevos, en el oro del hub', () => {
     expect(todos.card).toEqual({
       scene: { path: 'zones/misiones-de-mundo.jpg', alt: 'Las misiones de mundo' },
       color: '#e3c565',
+      // La corona del hub antiguo: el Vulbis grande y los cinco primordiales alrededor.
+      crown: [
+        'dofus-vulbis',
+        'dofus-esmeralda',
+        'dofus-purpura',
+        'dofus-turquesa',
+        'dofus-marfil',
+        'dofus-ebano',
+      ],
     })
   })
 })

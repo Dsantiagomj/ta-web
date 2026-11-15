@@ -91,6 +91,19 @@ export const seedChecklists = {
     second: 'Logro "Bienvenido a Frigost". Completo.',
     generic: 'Misión de clase',
   },
+  // El Rush de todos los Dofus, sin guía de Dofus: su camino (el paso 1 da el Dofawa, el 3 el
+  // Ocre y el Dofawa, como el 190 del rush) y la corona de su cartel.
+  rush: {
+    slug: 'checklist-todos-dofus',
+    name: 'Rush de todos los Dofus',
+    title: 'Checklist del Rush de todos los Dofus',
+    color: '#e3c565',
+    steps: [
+      'Logro "Un ciudadano modelo". Completo.',
+      'Logro "Escapadas y emboscadas". Completo.',
+      'Logro "El silencio es áureo". Completo.',
+    ],
+  },
   silvestre: {
     slug: 'checklist-silvestre',
     name: 'Dofus Silvestre',
@@ -318,6 +331,30 @@ export async function seedChecklistPages(payload: Payload): Promise<void> {
         legacy: { prefix: 'hielos:', guideVersion: 1 },
         _status: 'published',
       },
+    })
+  }
+
+  const rush = seedChecklists.rush
+  if (!(await findOne(payload, 'checklists', 'slug', rush.slug))) {
+    const dofawa = await findOne(payload, 'dofus-guides', 'slug', seedDofus.dofawa.slug)
+    if (!dofawa) throw new Error('Falta la guía del Dofawa: siembra antes las guías de Dofus')
+    const road = [[dofawa.id], [], [guide.id, dofawa.id]]
+    await payload.create({
+      collection: 'checklists',
+      data: {
+        name: rush.name,
+        slug: rush.slug,
+        order: 4,
+        state: 'published',
+        card: { color: rush.color, crown: [guide.id, dofawa.id] },
+        steps: rush.steps.map((text, index) => ({
+          legacyNumber: index + 1,
+          segments: [{ kind: 'plain', text }],
+          dofus: road[index],
+        })),
+        legacy: { prefix: 'todos:', guideVersion: 1 },
+        _status: 'published',
+      } as never,
     })
   }
 

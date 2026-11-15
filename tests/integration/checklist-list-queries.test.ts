@@ -70,7 +70,15 @@ beforeAll(async () => {
       dofusGuide: draftGuide.id,
       _status: 'published',
     },
-    { slug: `${PREFIX}-b`, name: 'Segunda', order: 2, state: 'preparing', _status: 'published' },
+    // Sin guía de Dofus, con su corona de huevos (el rush): una guía publicada y una en borrador.
+    {
+      slug: `${PREFIX}-b`,
+      name: 'Segunda',
+      order: 2,
+      state: 'preparing',
+      card: { crown: [draftGuide.id, guide.id] },
+      _status: 'published',
+    },
     {
       slug: `${PREFIX}-a`,
       name: 'Primera',
@@ -113,5 +121,17 @@ describe('readChecklists', () => {
     const [entry] = checklistEntries([doc])
     expect(entry).toMatchObject({ color: '#d18b23' })
     expect(entry!.egg?.src).toMatch(/\.(png|webp)$/)
+  })
+
+  it('la corona: los huevos y colores de sus guías, en su orden, también en borrador', async () => {
+    const docs = await readChecklists(payload)
+    const doc = docs.find((d) => d.slug === `${PREFIX}-b`)!
+    for (const art of doc.card?.crown ?? []) {
+      expect(Object.keys(art as object).sort()).toEqual(['color', 'dofus'])
+    }
+    expect(JSON.stringify(doc)).not.toContain('Guía sin publicar')
+    const [entry] = checklistEntries([doc])
+    expect(entry!.crown?.map((c) => c.color)).toEqual(['#d18b23', '#7fd6c2'])
+    expect(entry!.crown![0]!.egg.src).toMatch(/\.(png|webp)$/)
   })
 })
