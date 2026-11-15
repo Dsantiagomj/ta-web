@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { questNeeds } from '@/lib/dofusdb/quest-needs'
 import type { RawQuest, RawQuestObjective } from '@/lib/dofusdb/types'
 
+import shownItems from '../fixtures/dofusdb/quests-shown-items.json'
 import quests from '../fixtures/dofusdb/quests-steps.json'
 
 function quest(id: number): RawQuest {
@@ -61,6 +62,65 @@ describe('questNeeds', () => {
     ])
     raw.need = { items: [1746], quantities: [1] }
     expect(questNeeds(raw).items).toEqual([{ dofusId: 1746, quantity: 3 }])
+  })
+
+  describe('un objeto que solo hay que enseñar no se suma', () => {
+    // «Enséñale a {npc}: N x {item}» (typeId 2) no se queda el objeto: el mismo sirve para
+    // enseñarlo las veces que haga falta. DofusDB lo suma en need.items igualmente.
+    const shown = (id: number) => {
+      const found = (shownItems as RawQuest[]).find((candidate) => candidate.id === id)
+      if (!found) throw new Error(`Falta la misión ${id} en los fixtures`)
+      return structuredClone(found)
+    }
+
+    it('El forjador de leyenda enseña dos veces el Cocobur: 1', () => {
+      // need.items de DofusDB dice 2 × 20210 porque cuenta cada «Enséñale». El frasco
+      // (20211) sí se entrega.
+      expect(questNeeds(shown(2036)).items).toEqual([
+        { dofusId: 20210, quantity: 1 },
+        { dofusId: 20211, quantity: 1 },
+      ])
+    })
+
+    it('La espada de la roca enseña el Cocobur y un trozo, y entrega lo demás', () => {
+      expect(questNeeds(shown(2035)).items).toEqual([
+        { dofusId: 20210, quantity: 1 },
+        { dofusId: 20207, quantity: 1 },
+        { dofusId: 20208, quantity: 1 },
+        { dofusId: 20209, quantity: 3 },
+      ])
+    })
+
+    it('enseñarlo y luego entregarlo es el mismo objeto: 1', () => {
+      // Las llaves de la desgracia (1725): Enséñale 1 x 17792 y luego Entrégale 1 x 17792.
+      expect(questNeeds(shown(1725)).items).toEqual([{ dofusId: 17792, quantity: 1 }])
+    })
+
+    it('sin need.items, la mayor de las veces que se enseña', () => {
+      const raw = withObjectives([
+        { ...objective('BringItemToNpc', 6391, 10288, 2), typeId: 2 },
+        { ...objective('BringItemToNpc', 6391, 10288, 2), typeId: 2 },
+        { ...objective('BringItemToNpc', 6391, 10319, 1), typeId: 2 },
+      ])
+      expect(questNeeds(raw).items).toEqual([
+        { dofusId: 10288, quantity: 2 },
+        { dofusId: 10319, quantity: 1 },
+      ])
+    })
+
+    it('lo que need.items pide además de lo enseñado se queda', () => {
+      // Quien siembra vientos recoge Artempestad (1998): enseña 1 x 306 y DofusDB pide 3, dos de
+      // ellos por fabricar y entregar. Solo sale la parte del «Enséñale».
+      const raw = withObjectives([
+        {
+          ...objective('BringItemToNpc', 4344, 306, 1),
+          typeId: 2,
+          need: { generated: { items: [306], quantities: [1] } },
+        },
+      ])
+      raw.need = { items: [306], quantities: [3] }
+      expect(questNeeds(raw).items).toEqual([{ dofusId: 306, quantity: 2 }])
+    })
   })
 
   it('pide los monstruos de los combates, sumados por monstruo', () => {

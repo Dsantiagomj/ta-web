@@ -1,0 +1,1083 @@
+[
+  {
+    "id": 2035,
+    "name": {
+      "es": "La espada de la roca"
+    },
+    "need": {
+      "items": [20210],
+      "quantities": [1]
+    },
+    "steps": [
+      {
+        "id": 2687,
+        "optimalLevel": 120,
+        "duration": 2,
+        "objectives": [
+          {
+            "id": 14691,
+            "className": "QuestObjectiveFreeFormData",
+            "typeId": 0,
+            "parameters": {
+              "parameter0": 768991
+            },
+            "text": {
+              "es": "Lee la obra sobre la leyenda de Cocoburio"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14692,
+            "className": "QuestObjectiveGoToNpcData",
+            "typeId": 9,
+            "parameters": {
+              "parameter0": 2205
+            },
+            "text": {
+              "es": "Vuelve a ver a {npc,2205}"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14576,
+            "className": "QuestObjectiveDiscoverMapData",
+            "typeId": 4,
+            "parameters": {
+              "parameter0": 768645
+            },
+            "text": {
+              "es": "Descubre el mapa: Roca de la espada"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14577,
+            "className": "QuestObjectiveFreeFormData",
+            "typeId": 0,
+            "parameters": {
+              "parameter0": 768644
+            },
+            "text": {
+              "es": "Trata de sacar la espada de la roca"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14578,
+            "className": "QuestObjectiveFreeFormData",
+            "typeId": 0,
+            "parameters": {
+              "parameter0": 768646
+            },
+            "text": {
+              "es": "Examina la roca"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14579,
+            "className": "QuestObjectiveGoToNpcData",
+            "typeId": 9,
+            "parameters": {
+              "parameter0": 2205
+            },
+            "text": {
+              "es": "Vuelve a ver a {npc,2205}"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14693,
+            "className": "QuestObjectiveFreeFormData",
+            "typeId": 0,
+            "parameters": {
+              "parameter0": 848736
+            },
+            "text": {
+              "es": "Consigue polvo centelleante en la caja de maquillaje de Skonk"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14580,
+            "className": "QuestObjectiveFreeFormData",
+            "typeId": 0,
+            "parameters": {
+              "parameter0": 769004
+            },
+            "text": {
+              "es": "Fabrica polvos de Ubn-Ghazu en el crisol de Meriana"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14581,
+            "className": "QuestObjectiveFreeFormData",
+            "typeId": 0,
+            "parameters": {
+              "parameter0": 768648
+            },
+            "text": {
+              "es": "Utiliza los polvos mágicos en la roca de la espada"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14582,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "typeId": 2,
+            "parameters": {
+              "parameter0": 2205,
+              "parameter1": 20207,
+              "parameter2": 1
+            },
+            "text": {
+              "es": "Enséñale a {npc,2205}: 1 x {item,20207}"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14583,
+            "className": "QuestObjectiveFreeFormData",
+            "typeId": 0,
+            "parameters": {
+              "parameter0": 768651
+            },
+            "text": {
+              "es": "Encuentra al mago llamado Mirleen"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14584,
+            "className": "QuestObjectiveFreeFormData",
+            "typeId": 0,
+            "parameters": {
+              "parameter0": 768652
+            },
+            "text": {
+              "es": "Ve a la dimensión Xelorium"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14585,
+            "className": "QuestObjectiveFightMonsterData",
+            "typeId": 6,
+            "parameters": {
+              "parameter0": 3852,
+              "parameter1": 1
+            },
+            "text": {
+              "es": "Vence a 1 x {monster,3852} en un solo combate"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14586,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "typeId": 3,
+            "parameters": {
+              "parameter0": 6365,
+              "parameter1": 20208,
+              "parameter2": 1
+            },
+            "text": {
+              "es": "Entrégale a {npc,6365}: 1 x {item,20208}"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14587,
+            "className": "QuestObjectiveFreeFormData",
+            "typeId": 0,
+            "parameters": {
+              "parameter0": 768657
+            },
+            "text": {
+              "es": "Vence a un crujidor de cristal en la montaña de los crujidores"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14588,
+            "className": "QuestObjectiveFreeFormData",
+            "typeId": 0,
+            "parameters": {
+              "parameter0": 777297
+            },
+            "text": {
+              "es": "Vence a un crujidor de cristal en las llanuras rocosas"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14589,
+            "className": "QuestObjectiveFreeFormData",
+            "typeId": 0,
+            "parameters": {
+              "parameter0": 768659
+            },
+            "text": {
+              "es": "Vence a un crujidor de cristal en las llanuras herbosas"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14590,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "typeId": 3,
+            "parameters": {
+              "parameter0": 6365,
+              "parameter1": 20209,
+              "parameter2": 3
+            },
+            "text": {
+              "es": "Entrégale a {npc,6365}: 3 x {item,20209}"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14591,
+            "className": "QuestObjectiveFreeFormData",
+            "typeId": 0,
+            "parameters": {
+              "parameter0": 768660
+            },
+            "text": {
+              "es": "Coloca los fragmentos para romper el enlace entre la roca y la espada"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14595,
+            "className": "QuestObjectiveGoToNpcData",
+            "typeId": 1,
+            "parameters": {
+              "parameter0": 4633
+            },
+            "text": {
+              "es": "Ve a ver a {npc,4633}"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14596,
+            "className": "QuestObjectiveFightMonsterData",
+            "typeId": 6,
+            "parameters": {
+              "parameter0": 5381,
+              "parameter1": 1
+            },
+            "text": {
+              "es": "Vence a 1 x {monster,5381} en un solo combate"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14592,
+            "className": "QuestObjectiveFreeFormData",
+            "typeId": 0,
+            "parameters": {
+              "parameter0": 768661
+            },
+            "text": {
+              "es": "Retira la espada Cocobur de la roca"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14593,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "typeId": 2,
+            "parameters": {
+              "parameter0": 2205,
+              "parameter1": 20210,
+              "parameter2": 1
+            },
+            "text": {
+              "es": "Enséñale a {npc,2205}: 1 x {item,20210}"
+            },
+            "need": {
+              "generated": {
+                "items": [20210],
+                "quantities": [1]
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2036,
+    "name": {
+      "es": "El forjador de leyenda"
+    },
+    "need": {
+      "items": [20210],
+      "quantities": [2]
+    },
+    "steps": [
+      {
+        "id": 2688,
+        "optimalLevel": 120,
+        "duration": 2,
+        "objectives": [
+          {
+            "id": 14594,
+            "className": "QuestObjectiveFreeFormData",
+            "typeId": 0,
+            "parameters": {
+              "parameter0": 768665
+            },
+            "text": {
+              "es": "Encuentra un herrero capaz de reparar a Cocobur"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14697,
+            "className": "QuestObjectiveGoToNpcData",
+            "typeId": 1,
+            "parameters": {
+              "parameter0": 3923
+            },
+            "text": {
+              "es": "Ve a ver a {npc,3923}"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14597,
+            "className": "QuestObjectiveFreeFormData",
+            "typeId": 0,
+            "parameters": {
+              "parameter0": 769194
+            },
+            "text": {
+              "es": "Sumerge la espada en el lago helado de Frigost"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14598,
+            "className": "QuestObjectiveFreeFormData",
+            "typeId": 0,
+            "parameters": {
+              "parameter0": 768674
+            },
+            "text": {
+              "es": "Sumerge la espada en el horno de Fuegodala"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14599,
+            "className": "QuestObjectiveFreeFormData",
+            "typeId": 0,
+            "parameters": {
+              "parameter0": 768675
+            },
+            "text": {
+              "es": "Sumerge la espada en un cráter ácido de las tierras desoladas"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14600,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "typeId": 2,
+            "parameters": {
+              "parameter0": 3923,
+              "parameter1": 20210,
+              "parameter2": 1
+            },
+            "text": {
+              "es": "Enséñale a {npc,3923}: 1 x {item,20210}"
+            },
+            "need": {
+              "generated": {
+                "items": [20210],
+                "quantities": [1]
+              }
+            }
+          },
+          {
+            "id": 14601,
+            "className": "QuestObjectiveFreeFormData",
+            "typeId": 0,
+            "parameters": {
+              "parameter0": 768676
+            },
+            "text": {
+              "es": "Coloca la espada sobre el yunque de Volkaragnar"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14602,
+            "className": "QuestObjectiveFreeFormData",
+            "typeId": 0,
+            "parameters": {
+              "parameter0": 768677
+            },
+            "text": {
+              "es": "Asiste a Volkaragnar mientras vuelve a forjar la hoja de la espada"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14698,
+            "className": "QuestObjectiveGoToNpcData",
+            "typeId": 1,
+            "parameters": {
+              "parameter0": 3922
+            },
+            "text": {
+              "es": "Ve a ver a {npc,3922}"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14603,
+            "className": "QuestObjectiveFreeFormData",
+            "typeId": 0,
+            "parameters": {
+              "parameter0": 768678
+            },
+            "text": {
+              "es": "Encuentra una fuente de magia en los lagos encantados"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14604,
+            "className": "QuestObjectiveFreeFormData",
+            "typeId": 0,
+            "parameters": {
+              "parameter0": 768715
+            },
+            "text": {
+              "es": "Rellena un frasco con agua de la fuente de magia"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14605,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "typeId": 3,
+            "parameters": {
+              "parameter0": 3923,
+              "parameter1": 20211,
+              "parameter2": 1
+            },
+            "text": {
+              "es": "Entrégale a {npc,3923}: 1 x {item,20211}"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14699,
+            "className": "QuestObjectiveFreeFormData",
+            "typeId": 0,
+            "parameters": {
+              "parameter0": 769240
+            },
+            "text": {
+              "es": "Consulta a la joyera de Astrub"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14700,
+            "className": "QuestObjectiveFreeFormData",
+            "typeId": 0,
+            "parameters": {
+              "parameter0": 769241
+            },
+            "text": {
+              "es": "Encuentra a Cocópalo"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14701,
+            "className": "QuestObjectiveFreeFormData",
+            "typeId": 0,
+            "parameters": {
+              "parameter0": 769242
+            },
+            "text": {
+              "es": "Vence a los guardianes de la espada"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14702,
+            "className": "QuestObjectiveGoToNpcData",
+            "typeId": 1,
+            "parameters": {
+              "parameter0": 4651
+            },
+            "text": {
+              "es": "Ve a ver a {npc,4651}"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14703,
+            "className": "QuestObjectiveFreeFormData",
+            "typeId": 0,
+            "parameters": {
+              "parameter0": 769244
+            },
+            "text": {
+              "es": "Engasta una piedra de jade en la empuñadura de Cocobur"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14704,
+            "className": "QuestObjectiveGoToNpcData",
+            "typeId": 9,
+            "parameters": {
+              "parameter0": 3923
+            },
+            "text": {
+              "es": "Vuelve a ver a {npc,3923}"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14606,
+            "className": "QuestObjectiveDiscoverMapData",
+            "typeId": 4,
+            "parameters": {
+              "parameter0": 768738
+            },
+            "text": {
+              "es": "Descubre el mapa: Portal de la Mazmorra de los Dragohuevos"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14607,
+            "className": "QuestObjectiveFightMonsterData",
+            "typeId": 6,
+            "parameters": {
+              "parameter0": 854,
+              "parameter1": 1
+            },
+            "text": {
+              "es": "Vence a 1 x {monster,854} en un solo combate"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14695,
+            "className": "QuestObjectiveFreeFormData",
+            "typeId": 0,
+            "parameters": {
+              "parameter0": 769023
+            },
+            "text": {
+              "es": "Moja la espada con la sangre de Cocabulia"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14696,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "typeId": 2,
+            "parameters": {
+              "parameter0": 3923,
+              "parameter1": 20210,
+              "parameter2": 1
+            },
+            "text": {
+              "es": "Enséñale a {npc,3923}: 1 x {item,20210}"
+            },
+            "need": {
+              "generated": {
+                "items": [20210],
+                "quantities": [1]
+              }
+            }
+          },
+          {
+            "id": 14609,
+            "className": "QuestObjectiveGoToNpcData",
+            "typeId": 1,
+            "parameters": {
+              "parameter0": 4634
+            },
+            "text": {
+              "es": "Ve a ver a {npc,4634}"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 14610,
+            "className": "QuestObjectiveGoToNpcData",
+            "typeId": 1,
+            "parameters": {
+              "parameter0": 3923
+            },
+            "text": {
+              "es": "Ve a ver a {npc,3923}"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 1725,
+    "name": {
+      "es": "Las llaves de la desgracia"
+    },
+    "need": {
+      "items": [17792],
+      "quantities": [2]
+    },
+    "steps": [
+      {
+        "id": 2362,
+        "optimalLevel": 188,
+        "duration": 1,
+        "objectives": [
+          {
+            "id": 10882,
+            "className": "QuestObjectiveFreeFormData",
+            "typeId": 0,
+            "parameters": {
+              "parameter0": 888069
+            },
+            "text": {
+              "es": "Lee el libro «La invasión de Uk'Not'Allag'»"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 10883,
+            "className": "QuestObjectiveGoToNpcData",
+            "typeId": 1,
+            "parameters": {
+              "parameter0": 1013
+            },
+            "text": {
+              "es": "Ve a ver a {npc,1013}"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 10884,
+            "className": "QuestObjectiveGoToNpcData",
+            "typeId": 1,
+            "parameters": {
+              "parameter0": 1502
+            },
+            "text": {
+              "es": "Ve a ver a {npc,1502}"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 10885,
+            "className": "QuestObjectiveGoToNpcData",
+            "typeId": 1,
+            "parameters": {
+              "parameter0": 4325
+            },
+            "text": {
+              "es": "Ve a ver a {npc,4325}"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 10886,
+            "className": "QuestObjectiveGoToNpcData",
+            "typeId": 1,
+            "parameters": {
+              "parameter0": 1502
+            },
+            "text": {
+              "es": "Ve a ver a {npc,1502}"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 10887,
+            "className": "QuestObjectiveGoToNpcData",
+            "typeId": 1,
+            "parameters": {
+              "parameter0": 4361
+            },
+            "text": {
+              "es": "Ve a ver a {npc,4361}"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 10888,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "typeId": 2,
+            "parameters": {
+              "parameter0": 1502,
+              "parameter1": 17792,
+              "parameter2": 1
+            },
+            "text": {
+              "es": "Enséñale a {npc,1502}: 1 x {item,17792}"
+            },
+            "need": {
+              "generated": {
+                "items": [17792],
+                "quantities": [1]
+              }
+            }
+          },
+          {
+            "id": 10889,
+            "className": "QuestObjectiveBringItemToNpcData",
+            "typeId": 3,
+            "parameters": {
+              "parameter0": 4323,
+              "parameter1": 17792,
+              "parameter2": 1
+            },
+            "text": {
+              "es": "Entrégale a {npc,4323}: 1 x {item,17792}"
+            },
+            "need": {
+              "generated": {
+                "items": [17792],
+                "quantities": [1]
+              }
+            }
+          },
+          {
+            "id": 10890,
+            "className": "QuestObjectiveGoToNpcData",
+            "typeId": 1,
+            "parameters": {
+              "parameter0": 1013
+            },
+            "text": {
+              "es": "Ve a ver a {npc,1013}"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 10891,
+            "className": "QuestObjectiveGoToNpcData",
+            "typeId": 1,
+            "parameters": {
+              "parameter0": 176
+            },
+            "text": {
+              "es": "Ve a ver a {npc,176}"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 10892,
+            "className": "QuestObjectiveGoToNpcData",
+            "typeId": 1,
+            "parameters": {
+              "parameter0": 3085
+            },
+            "text": {
+              "es": "Ve a ver a {npc,3085}"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          },
+          {
+            "id": 10893,
+            "className": "QuestObjectiveGoToNpcData",
+            "typeId": 1,
+            "parameters": {
+              "parameter0": 3223
+            },
+            "text": {
+              "es": "Ve a ver a {npc,3223}"
+            },
+            "need": {
+              "generated": {
+                "items": [],
+                "quantities": []
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

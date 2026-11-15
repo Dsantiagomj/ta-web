@@ -183,6 +183,7 @@ export const Quests: CollectionConfig = {
                 { label: 'Libre', value: 'free' },
                 { label: 'Hablar con un PNJ', value: 'npc' },
                 { label: 'Entregar', value: 'bring' },
+                { label: 'Enseñar un objeto', value: 'show' },
                 { label: 'Pelear', value: 'fight' },
                 { label: 'Descubrir un mapa o una zona', value: 'map' },
                 { label: 'Fabricar', value: 'craft' },

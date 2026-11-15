@@ -42,6 +42,11 @@ export interface RawQuestReward {
 export interface RawQuestObjective {
   id: number
   className: string
+  /**
+   * El tipo de objetivo del juego. Separa lo que una misma clase junta: en
+   * QuestObjectiveBringItemToNpcData, 2 es «Enséñale» (el objeto se queda) y 3 «Entrégale».
+   */
+  typeId?: number | null
   parameters?: Partial<Record<`parameter${0 | 1 | 2 | 3 | 4}`, number>> | null
   /** Con marcas por nombrar, como «Entrégale a {npc,2646}: 4 x {item,15712}». */
   text?: LocalizedText | null
@@ -51,6 +56,8 @@ export interface RawQuestObjective {
   coords?: { x?: number | null; y?: number | null } | null
   /** El mapa del objetivo, que DofusDB añade por mapId. */
   map?: { posX?: number | null; posY?: number | null; subAreaId?: number | null } | null
+  /** Lo que el objetivo suma al need.items de la misión, según DofusDB. */
+  need?: { generated?: { items?: number[] | null; quantities?: number[] | null } | null } | null
 }
 
 export interface RawItem {
@@ -234,8 +241,11 @@ export interface MappedNpc {
   look: string | null
 }
 
-/** La clase de un objetivo, como la pinta el checklist: hablar, entregar, pelear… */
-export type QuestObjectiveKind = 'free' | 'npc' | 'bring' | 'fight' | 'map' | 'craft'
+/**
+ * La clase de un objetivo, como la pinta el checklist: hablar, entregar, enseñar, pelear…
+ * `bring` es entregar un objeto o llevar almas; `show`, enseñar un objeto que se queda.
+ */
+export type QuestObjectiveKind = 'free' | 'npc' | 'bring' | 'show' | 'fight' | 'map' | 'craft'
 
 /** Un objetivo de etapa, con los IDs de DofusDB de lo que nombra. */
 export interface MappedQuestObjective {
