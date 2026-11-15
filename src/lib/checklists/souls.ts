@@ -61,6 +61,8 @@ export interface SoulGroup {
   souls: number[]
   /** Solo en las etapas: «Jefes» o «Archis», lo que dice el panel de las etapas. */
   kind?: string
+  /** Solo en las regiones: sus almas por mazmorra (los jefes) y por subzona (los archis). */
+  subgroups?: SoulGroup[]
 }
 
 /** Lo único que recibe la isla: las almas, por su monstruo, y lo que necesita la migración. */
@@ -101,6 +103,27 @@ export function soulLevel(levels: number[], dungeonLevel: number | null): number
   if (!levels.length) return null
   const fit = levels.filter((level) => dungeonLevel == null || level <= dungeonLevel)
   return fit.length ? Math.max(...fit) : levels[levels.length - 1]
+}
+
+/**
+ * Las almas de una región por dónde se luchan, como la herramienta de Torre: los jefes por su
+ * mazmorra y después los archis por su subzona, cada parte de la A a la Z; lo que no tiene ni una
+ * ni otra, al final («Sin zona»).
+ */
+function subgroupsOf(souls: Omit<SoulView, 'search'>[]): SoulGroup[] {
+  const groups = new Map<string, SoulGroup & { rank: number }>()
+  for (const soul of souls) {
+    const where = soul.dungeon ?? soul.zone
+    const label = where ?? o.noZone
+    const key = `${soul.type}:${label}`
+    const rank = (where ? 0 : 2) + (soul.type === 'boss' ? 0 : 1)
+    const group = groups.get(key) ?? { key, label, souls: [], rank }
+    group.souls.push(soul.id)
+    groups.set(key, group)
+  }
+  return [...groups.values()]
+    .sort((a, b) => a.rank - b.rank || a.label.localeCompare(b.label, 'es'))
+    .map(({ key, label, souls }) => ({ key, label, souls }))
 }
 
 const image = (value: Relation<Media> | undefined) =>
@@ -169,11 +192,15 @@ export function soulsView(data: SoulsData): SoulsView {
   // Por regiones, de la que más almas tiene a la que menos; en empate, por su nombre.
   const regionNames = [...new Set(souls.map((soul) => soul.region ?? o.noRegion))]
   const regions = regionNames
-    .map((region) => ({
-      key: region,
-      label: region,
-      souls: souls.filter((soul) => (soul.region ?? o.noRegion) === region).map((soul) => soul.id),
-    }))
+    .map((region) => {
+      const inRegion = souls.filter((soul) => (soul.region ?? o.noRegion) === region)
+      return {
+        key: region,
+        label: region,
+        souls: inRegion.map((soul) => soul.id),
+        subgroups: subgroupsOf(inRegion),
+      }
+    })
     .sort((a, b) => b.souls.length - a.souls.length || a.label.localeCompare(b.label, 'es'))
 
   const guide = populated(checklist.dofusGuide)

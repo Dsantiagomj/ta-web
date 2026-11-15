@@ -136,6 +136,36 @@ describe('soulsView', () => {
     expect(view.counts).toEqual({ total: 4, boss: 2, archi: 2 })
   })
 
+  it('cada región, por mazmorra (los jefes) y por subzona (los archis), de la A a la Z', () => {
+    const view = soulsView(data())
+    expect(
+      view.regions.map((group) => [
+        group.label,
+        group.subgroups?.map((sub) => [sub.key, sub.label, sub.souls]),
+      ]),
+    ).toEqual([
+      [
+        'Astrub',
+        [
+          ['boss:Castillo de Arena', 'Castillo de Arena', [928]],
+          ['boss:Corte del Jalató Real', 'Corte del Jalató Real', [147]],
+          ['archi:Castillo de Arena', 'Castillo de Arena', [501]],
+        ],
+      ],
+      ['Amakna', [['archi:Bosque', 'Bosque', [500]]]],
+    ])
+    // Las etapas no se parten: se enseñan enteras.
+    expect(view.stages.every((group) => group.subgroups === undefined)).toBe(true)
+  })
+
+  it('un alma sin mazmorra ni subzona va a «Sin zona», al final de su región', () => {
+    const view = soulsView(
+      data({ monsters: { ...data().monsters, 500: { ...data().monsters[500], subAreaId: null } } }),
+    )
+    const none = view.regions.find((group) => group.key === 'Sin región')
+    expect(none?.subgroups).toEqual([{ key: 'archi:Sin zona', label: 'Sin zona', souls: [500] }])
+  })
+
   it('un monstruo que no está en la base no se adivina: su alma queda fuera y se cuenta', () => {
     const view = soulsView(data({ monsters: { 928: data().monsters[928] } }))
     expect(view.souls.map((soul) => soul.id)).toEqual([928])
