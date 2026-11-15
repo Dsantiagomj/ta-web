@@ -51,7 +51,7 @@ Quest guides are ported: 1,271 of 1,272, and the last one is now a Dofus guide. 
 
 | ID | Item | What and why | Owner | Size | Pri | Source | Status |
 |---|---|---|---|---|---|---|---|
-| S-21 | Rush de todos los Dofus | Added on 2026-11-15. The `silvestre-checklist` repo now has a fifth checklist: Sandglass's 200 steps through 26 Dofus up to the Vulbis, at `/todos/` there. Squarespace has no page for it yet (the old repo plans `/checklist-todos-dofus`). Add it to `scripts/import/checklists/catalog.ts` and check that its steps fit the schema | data + Torre (panel) | M | P1 | `silvestre-checklist` README | Not started |
+| S-21 | Rush de todos los Dofus | Added on 2026-11-15. The `silvestre-checklist` repo now has a fifth checklist: Sandglass's 200 steps through 26 Dofus up to the Vulbis, at `/todos/` there. Squarespace has no page for it yet (the old repo plans `/checklist-todos-dofus`). Add it to `scripts/import/checklists/catalog.ts` and check that its steps fit the schema | data + Torre (panel) | M | P1 | `silvestre-checklist` README | In progress. Squarespace has its page since then (`/checklist-todos-dofus`, which embeds `todos.js`). The importer brings it whole as a draft «En preparación», with the Dofus each step gives; the page's road of Dofus and its crown poster wait on the prototype (`DESIGN.md`, Open questions). Its quests have no Bonta or Brâkmar side (`sides: null`), so the side switch of the old global guide is not needed |
 
 ### Dofus guides
 
