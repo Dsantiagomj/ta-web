@@ -7,7 +7,7 @@
 
 const PREFIXED = /^([a-z][\w-]*):(done|questPos|questObjective|prereqs|owned)$/
 /** Las checklists antiguas que guardan progreso en este navegador, además de la de la página. */
-const KNOWN = ['silvestre', 'hielos', 'global', 'nebuloso']
+const KNOWN = ['silvestre', 'hielos', 'global', 'nebuloso', 'todos']
 const CLASSIC = /^dofus_(\w+?)_clean_v\d+$/
 export const SHARED_KEY = 'dofus-checklists:shared'
 /** Lo que se trae de las checklists antiguas que no son esta: sus misiones y sus objetos. */
