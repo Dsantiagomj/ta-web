@@ -1,5 +1,6 @@
 import type { Block } from 'payload'
 
+import { blockImages } from '../lib/admin/block-thumbnails'
 import { youtubeId } from '../lib/guides/video'
 
 /**
@@ -16,6 +17,7 @@ export function validateVideoUrl(value: string | null | undefined): true | strin
 export const VideoBlock: Block = {
   slug: 'video',
   interfaceName: 'VideoBlock',
+  admin: { images: blockImages('video') },
   labels: { singular: 'Vídeo', plural: 'Vídeos' },
   fields: [
     {

@@ -1,5 +1,6 @@
 import type { Block } from 'payload'
 
+import { blockImages } from '../lib/admin/block-thumbnails'
 import { validateVideoUrl } from './VideoBlock'
 
 // Un vídeo de YouTube dentro de un texto enriquecido (la entrada y el cierre de las páginas
@@ -8,6 +9,7 @@ import { validateVideoUrl } from './VideoBlock'
 export const ProseVideoBlock: Block = {
   slug: 'proseVideo',
   interfaceName: 'ProseVideoBlock',
+  admin: { images: blockImages('proseVideo', { icon: true }) },
   labels: { singular: 'Vídeo', plural: 'Vídeos' },
   fields: [
     {

@@ -9,6 +9,7 @@ import {
   waitForPanelNames,
   WCAG,
 } from './panel-helpers.ts'
+import { blockThumbnails } from '../../src/lib/admin/block-thumbnails.ts'
 import { E2E_PANEL_USER_3, seedGuide } from './seed/guides.ts'
 
 // A-21 (docs/research/backlog.md): axe WCAG 2.2 AA sobre cinco páginas del panel, en claro y
@@ -82,6 +83,35 @@ test.describe('el panel pasa axe sin excepciones', () => {
         await expectNoViolations(page)
       })
     }
+  }
+
+  // El selector de bloques: cada bloque con la miniatura de cómo se ve en la web, que carga, y
+  // su texto alternativo. En claro y en oscuro es la misma imagen.
+  for (const mode of ['light', 'dark'] as const) {
+    test(`el selector de bloques enseña cada bloque con su miniatura en ${mode}`, async () => {
+      await setMode(page, mode)
+      const id = await docId(page, 'quest-guides', seedGuide.slug)
+      await page.goto(`/admin/collections/quest-guides/${id}`)
+      await expect(page.locator('#field-title')).toBeVisible()
+      // El último «Añadir Bloque» es el del cuerpo; los de antes, los de dentro de cada paso.
+      await page.getByRole('button', { name: 'Añadir Bloque', exact: true }).last().click()
+      const drawer = page.locator('.blocks-drawer')
+      const images = drawer.locator('.blocks-drawer__default-image img')
+      await expect(images).toHaveCount(6)
+      for (const image of await images.all()) {
+        await expect(image).toHaveAttribute('src', /^\/img\/panel\/bloques\/\w+\.webp$/)
+        const src = (await image.getAttribute('src'))!
+        const slug = src.split('/').pop()!.replace('.webp', '') as keyof typeof blockThumbnails
+        await expect(image).toHaveAttribute('alt', blockThumbnails[slug])
+        await expect
+          .poll(() => image.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth))
+          .toBe(480)
+      }
+      await waitForPanelNames(page)
+      await expectNoViolations(page)
+      await page.keyboard.press('Escape')
+      await expect(drawer).toBeHidden()
+    })
   }
 
   test('con el teclado, el foco se ve: 2px en tinta', async () => {
