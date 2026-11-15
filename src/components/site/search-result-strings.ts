@@ -14,6 +14,9 @@ export const searchResultStrings = {
   level: (level: number) => `Nivel ${level}`,
   achievements: (n: number) => (n === 1 ? '1 logro' : `${n} logros`),
   metalogros: (n: number) => (n === 1 ? '1 metalogro' : `${n} metalogros`),
+  dofus: (n: number) => `${n} Dofus`,
+  checklists: (n: number) => (n === 1 ? '1 checklist' : `${n} checklists`),
+  pages: (n: number) => (n === 1 ? '1 página' : `${n} páginas`),
   types: {
     mision: 'Misiones',
     logro: 'Logros',
