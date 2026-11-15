@@ -21,8 +21,9 @@ import { checklistPageStrings } from '@/lib/checklists/strings'
 import { dofusPageStrings } from '@/lib/dofus-guides/strings'
 import { sitePageRoute, sitePageSeo } from '@/lib/pages/page'
 import { SITE_URL } from '@/lib/site/origin'
+import { openGraphDefaults } from '@/lib/site-copy/metadata'
 
-import { siteStrings } from '../strings'
+import { loadSiteSettings } from '../site-data'
 
 import { loadAchievementPage } from './achievement-data'
 import { AchievementView } from './AchievementView'
@@ -94,7 +95,7 @@ async function slugSeo(slug: string) {
 // /<slug> es una guía, un logro, una guía de Dofus, una página suelta o una checklist: los
 // slugs no chocan (src/collections/root-slug.ts).
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const found = await slugSeo((await params).slug)
+  const [found, settings] = await Promise.all([slugSeo((await params).slug), loadSiteSettings()])
   // Sin página, la página llama a notFound() y Next pone noindex.
   if (!found) return {}
   const { title, description, url, preview } = found
@@ -107,8 +108,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       url,
-      siteName: siteStrings.brand,
-      locale: 'es_ES',
+      // El nombre del sitio y la imagen al compartir, de «Ajustes del sitio».
+      ...openGraphDefaults(settings),
     },
     // Un borrador nunca se indexa.
     ...(preview && { robots: { index: false, follow: false } }),

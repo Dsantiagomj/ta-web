@@ -1,6 +1,7 @@
 import { Picture } from '@/components/ui/Picture'
 import type { IndexAchievement, IndexView, IndexZone } from '@/lib/achievements/metalogros'
 import { metalogrosStrings as s } from '@/lib/achievements/strings'
+import { indexTextDefaults, type IndexTexts } from '@/lib/site-copy/defaults'
 
 // Solo su propia hoja: importar también game.css y achievement.css hacía que Turbopack
 // partiera las de las guías y los logros en más trozos, y su LCP subía medio segundo.
@@ -140,13 +141,20 @@ function ZoneDetail({ zone }: { zone: IndexZone }) {
  * las fichas son enlaces a la lista de cada zona, que va debajo; con la isla, una ficha abre
  * esa lista en un panel a lo ancho de su fila y el buscador busca zonas, logros y misiones.
  */
-export function MetalogrosIndex({ view }: { view: IndexView }) {
+export function MetalogrosIndex({
+  view,
+  texts = indexTextDefaults.metalogros,
+}: {
+  view: IndexView
+  /** El título y la entradilla, de «Portada e índices». */
+  texts?: IndexTexts['metalogros']
+}) {
   const zones = view.sections.flatMap((section) => section.zones)
   return (
     <main id="contenido" className="idx vd">
       <header className="idx__head">
-        <h1 className="idx__t">{s.title}</h1>
-        <p className="idx__lead">{s.lead}</p>
+        <h1 className="idx__t">{texts.title}</h1>
+        <p className="idx__lead">{texts.lead}</p>
         <p className="idx__stats">{view.stats}</p>
       </header>
 

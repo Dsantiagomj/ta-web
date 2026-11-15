@@ -16,6 +16,7 @@ import { SiteFooter } from '@/components/site/SiteFooter'
 import { ChecklistCards, SiteHeader, Well } from '@/components/site/SiteHeader'
 import { searchNav } from '@/components/site/search'
 import { LEGACY_SITE_ORIGIN } from '@/lib/site/legacy'
+import { resolveSiteSettings } from '@/lib/site-copy/resolve'
 
 const html = (node: React.ReactNode) => renderToStaticMarkup(node)
 const counts = { guides: 1272, achievements: 274 }
@@ -458,5 +459,48 @@ describe('SiteFooter', () => {
     const links = hrefs(footer()).filter((h) => h !== '#' && h !== '/')
     expect(new Set(links).size).toBe(links.length)
     expect(footer()).not.toMatch(/instagram/i)
+  })
+})
+
+// Ajustes del sitio (src/globals/SiteSettings.ts): lo que Torre escribe en el panel sale en el pie.
+describe('SiteFooter con los Ajustes del sitio', () => {
+  const settings = resolveSiteSettings({
+    name: 'Torre Arcana',
+    footer: { bio: 'Otra frase de Torre.', disclaimer: 'Otro aviso.', kofiTitle: 'Invítame' },
+    socials: {
+      kick: { url: 'https://kick.com/otro', handle: 'otro' },
+      kofi: { url: 'https://ko-fi.com/otro' },
+    },
+  })
+  const markup = html(<SiteFooter year={2026} settings={settings} />)
+
+  it('pinta sus textos, su nombre y sus enlaces', () => {
+    expect(markup).toContain('Otra frase de Torre.')
+    expect(markup).toContain('Otro aviso.')
+    expect(markup).toContain('Invítame')
+    expect(markup).toContain('© 2026 Torre Arcana')
+    expect(markup).toContain('href="https://kick.com/otro"')
+    expect(markup).toContain('>otro</span>')
+    expect(markup).toContain('href="https://ko-fi.com/otro"')
+    expect(markup).not.toContain('torretv')
+  })
+
+  it('sin ajustes, el mismo pie que antes', () => {
+    expect(html(<SiteFooter year={2026} settings={resolveSiteSettings(null)} />)).toBe(footer())
+  })
+
+  it('el menú del móvil enlaza las mismas redes', () => {
+    const sheet = html(
+      <SiteHeader
+        counts={counts}
+        dofus={DOFUS}
+        checklists={CHECKLISTS}
+        initialMode="dark"
+        socials={settings.socials}
+      />,
+    )
+    expect(sheet).toContain('href="https://kick.com/otro"')
+    expect(sheet).toContain('href="https://ko-fi.com/otro"')
+    expect(sheet).not.toContain('https://kick.com/torretv')
   })
 })

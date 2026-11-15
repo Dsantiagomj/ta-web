@@ -6,6 +6,7 @@ import { ModeToggle } from '@/components/mode-toggle/ModeToggle'
 import { Amount } from '@/components/ui/Amount'
 import { iconSize } from '@/components/ui/icon-size'
 import type { PageNavItem } from '@/lib/pages/page'
+import type { SiteSocials } from '@/lib/site-copy/defaults'
 import type { Mode } from '@/lib/theme/theme'
 
 import { HeaderIsland } from './HeaderIsland'
@@ -20,10 +21,10 @@ import {
   KOFI_URL,
   type Section,
   type SectionKey,
-  SOCIALS,
   SECTIONS,
   searchIndex,
   section,
+  socialLinks,
 } from './nav'
 import { Soon } from './Soon'
 import { StaticImg } from './StaticImg'
@@ -390,10 +391,12 @@ function Sheet({
   counts,
   dofus,
   checklists,
+  socials,
 }: {
   counts: SiteCounts
   dofus: DofusNavItem[]
   checklists: ChecklistNavItem[]
+  socials?: SiteSocials
 }) {
   return (
     <dialog className="sheet" id="site-sheet" aria-label={s.menu}>
@@ -417,7 +420,7 @@ function Sheet({
           ))}
         </ul>
         <ul className="sheet__soc" role="list">
-          {SOCIALS.map((so) => (
+          {socialLinks(socials).map((so) => (
             <li key={so.key}>
               <a href={so.href} rel="noopener" aria-label={so.name}>
                 <SocialIcon name={so.key} />
@@ -425,7 +428,7 @@ function Sheet({
             </li>
           ))}
           <li>
-            <a href={KOFI_URL} rel="noopener" aria-label={s.socials.kofi}>
+            <a href={socials?.kofi.url ?? KOFI_URL} rel="noopener" aria-label={s.socials.kofi}>
               <SocialIcon name="kofi" />
             </a>
           </li>
@@ -447,6 +450,7 @@ export function SiteHeader({
   checklists,
   pages = [],
   initialMode,
+  socials,
 }: {
   counts: SiteCounts
   /** Los Dofus de la colección de guías, para el panel y la búsqueda (loadDofusNav). */
@@ -456,6 +460,8 @@ export function SiteHeader({
   /** Las páginas sueltas, solo para la búsqueda (loadPageNav). */
   pages?: PageNavItem[]
   initialMode: Mode
+  /** Las redes de «Ajustes del sitio», para el menú del móvil; sin ellas, las de siempre. */
+  socials?: SiteSocials
 }) {
   return (
     <>
@@ -528,7 +534,7 @@ export function SiteHeader({
           </div>
         </div>
       </header>
-      <Sheet counts={counts} dofus={dofus} checklists={checklists} />
+      <Sheet counts={counts} dofus={dofus} checklists={checklists} socials={socials} />
       <HeaderIsland index={searchIndex(dofus, checklists, pages)} />
     </>
   )

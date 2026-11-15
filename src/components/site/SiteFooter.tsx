@@ -3,14 +3,18 @@ import { useId } from 'react'
 import { Lockup } from '@/components/brand/Lockup'
 
 import { SocialIcon, UpIcon } from './icons'
-import { KOFI_URL, LEGAL_LINKS, type NavLink, SECTIONS, social, TOP_ANCHOR } from './nav'
+import { resolveSiteSettings, type SiteSettings } from '@/lib/site-copy/resolve'
+
+import { LEGAL_LINKS, type NavLink, SECTIONS, social, TOP_ANCHOR } from './nav'
 import { Soon } from './Soon'
 import { StaticImg } from './StaticImg'
 import { siteShellStrings } from './strings'
 import './site.css'
 
+const DEFAULT_SETTINGS = resolveSiteSettings(null)
+
 const s = siteShellStrings.footer
-const CHANNELS = (['twitch', 'kick', 'youtube'] as const).map(social)
+const CHANNELS = ['twitch', 'kick', 'youtube'] as const
 
 /**
  * El pie de todo el sitio (DESIGN.md, Layout: Footer). Arriba, tres columnas: Torre con
@@ -19,10 +23,21 @@ const CHANNELS = (['twitch', 'kick', 'youtube'] as const).map(social)
  * una sola vez: Discord y Ko-fi van en sus tarjetas y las casillas son los tres canales.
  * Sin estado del directo todavía: la tarjeta dice dónde emite, no si está emitiendo. Los
  * enlaces legales llegan de la colección pages (legalLinks); sin ellos, van a Squarespace.
+ * Los textos, el nombre del © y las redes son de «Ajustes del sitio» (loadSiteSettings).
  */
-export function SiteFooter({ year, legal = LEGAL_LINKS }: { year: number; legal?: NavLink[] }) {
+export function SiteFooter({
+  year,
+  legal = LEGAL_LINKS,
+  settings = DEFAULT_SETTINGS,
+}: {
+  year: number
+  legal?: NavLink[]
+  settings?: SiteSettings
+}) {
   // Ids propios: el catálogo /sistema pinta el pie una vez por tema y modo.
   const id = useId()
+  const f = settings.footer
+  const channels = CHANNELS.map((key) => social(key, settings.socials))
   return (
     <footer className="site-ft">
       <div className="site-ft__in">
@@ -39,12 +54,12 @@ export function SiteFooter({ year, legal = LEGAL_LINKS }: { year: number; legal?
             <h2 className="ft-torre__name" id={`${id}-ft-torre`}>
               {s.torre}
             </h2>
-            <p className="ft-torre__bio">{s.bio}</p>
+            <p className="ft-torre__bio">{f.bio}</p>
             <div className="live-card">
               <span className="live-card__dot" aria-hidden="true" />
               <p>
-                <span className="live-card__t">{s.liveTitle}</span>
-                <span className="live-card__d">{s.liveText}</span>
+                <span className="live-card__t">{f.liveTitle}</span>
+                <span className="live-card__d">{f.liveText}</span>
               </p>
             </div>
           </div>
@@ -73,25 +88,25 @@ export function SiteFooter({ year, legal = LEGAL_LINKS }: { year: number; legal?
           <h2 className="ft-h" id={`${id}-ft-com`}>
             {s.community}
           </h2>
-          <a className="ft-join" href={social('discord').href} rel="noopener">
+          <a className="ft-join" href={social('discord', settings.socials).href} rel="noopener">
             <span className="ft-join__i" aria-hidden="true">
               <SocialIcon name="discord" />
             </span>
             <span>
-              <span className="ft-join__t">{s.discordTitle}</span>
-              <span className="ft-join__d">{s.discordText}</span>
+              <span className="ft-join__t">{f.discordTitle}</span>
+              <span className="ft-join__d">{f.discordText}</span>
             </span>
           </a>
-          <a className="ft-kofi" href={KOFI_URL} rel="noopener">
+          <a className="ft-kofi" href={settings.socials.kofi.url} rel="noopener">
             <SocialIcon name="kofi" />
             <span>
-              <span className="ft-kofi__t">{s.kofiTitle}</span>
-              <span className="ft-kofi__d">{s.kofiText}</span>
+              <span className="ft-kofi__t">{f.kofiTitle}</span>
+              <span className="ft-kofi__d">{f.kofiText}</span>
             </span>
           </a>
           <h3 className="ft-h3">{s.follow}</h3>
           <ul className="slots" role="list">
-            {CHANNELS.map((c) => (
+            {channels.map((c) => (
               <li key={c.key}>
                 <a className="slot" href={c.href} rel="noopener">
                   <span className="slot__w" aria-hidden="true">
@@ -119,8 +134,8 @@ export function SiteFooter({ year, legal = LEGAL_LINKS }: { year: number; legal?
             </a>
           ))}
         </nav>
-        <p className="ft-copy">{s.copyright(year)}</p>
-        <p className="ft-disc">{s.disclaimer}</p>
+        <p className="ft-copy">{s.copyright(year, settings.name)}</p>
+        <p className="ft-disc">{f.disclaimer}</p>
       </div>
     </footer>
   )

@@ -3,22 +3,12 @@
 import { objectiveStrings } from './objective-strings'
 
 /** El índice /checklists (DESIGN.md, Checklists index). Sin cifras: Torre suma checklists. */
+// El antetítulo, el título, la entradilla, el aviso sin checklists y el SEO del índice son de
+// «Portada e índices» (src/lib/site-copy/defaults.ts).
 export const checklistIndexStrings = {
-  eyebrow: 'Paso a paso hasta tu Dofus',
-  title: 'Checklists',
-  lead:
-    'Marca lo hecho y ve lo que falta, de la primera misión al Dofus. Sin cuenta: el progreso ' +
-    'se guarda en tu navegador.',
   preparing: 'En preparación',
   /** Tras el porcentaje del cartel, para el lector de pantalla: «25 % hecho». */
   done: ' hecho',
-  empty: 'Todavía no hay checklists publicadas. Vuelve pronto: Torre está preparando la primera.',
-  seo: {
-    title: 'Checklists de Dofus',
-    description:
-      'Las checklists de Torre para conseguir cada Dofus paso a paso: marca lo hecho y ve lo ' +
-      'que falta.',
-  },
 } as const
 
 export const checklistStrings = {

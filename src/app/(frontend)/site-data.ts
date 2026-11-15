@@ -13,6 +13,8 @@ import { PAGES_REVALIDATE, PAGES_TAG } from '@/lib/pages/cache'
 import { pageNavItems } from '@/lib/pages/page'
 import { readPageNav } from '@/lib/pages/queries'
 import { countSiteGuides } from '@/lib/site/counts'
+import { SITE_COPY_REVALIDATE, SITE_COPY_TAG } from '@/lib/site-copy/cache'
+import { readIndexTexts, readSiteSettings } from '@/lib/site-copy/queries'
 
 // Las cifras de la cabecera cambian cuando cambian las guías: la misma etiqueta de caché
 // que las páginas de guía, que los hooks de quest-guides caducan al guardar.
@@ -55,4 +57,19 @@ export const loadPageNav = unstable_cache(
   async () => pageNavItems(await readPageNav(await getPayload({ config }))),
   ['page-nav'],
   { tags: [PAGES_TAG], revalidate: PAGES_REVALIDATE },
+)
+
+// «Ajustes del sitio»: el pie, las redes y los metadatos de todas las páginas. Su hook y el de
+// «Portada e índices» caducan esta etiqueta al guardar (src/lib/site-copy/cache.ts).
+export const loadSiteSettings = unstable_cache(
+  async () => readSiteSettings(await getPayload({ config })),
+  ['site-settings'],
+  { tags: [SITE_COPY_TAG], revalidate: SITE_COPY_REVALIDATE },
+)
+
+// «Portada e índices»: los títulos, entradillas y SEO de la portada y de los tres índices.
+export const loadIndexTexts = unstable_cache(
+  async () => readIndexTexts(await getPayload({ config })),
+  ['index-texts'],
+  { tags: [SITE_COPY_TAG], revalidate: SITE_COPY_REVALIDATE },
 )

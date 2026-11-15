@@ -6,6 +6,7 @@ import { Hero } from '@/components/home/Hero'
 import { HeroOptions } from '@/components/home/HeroResults'
 import { LiveStrip } from '@/components/home/LiveStrip'
 import { LEGACY_SITE_ORIGIN } from '@/lib/site/legacy'
+import { resolveIndexTexts, resolveSiteSettings } from '@/lib/site-copy/resolve'
 
 const hero = () => renderToStaticMarkup(<Hero />)
 
@@ -126,5 +127,27 @@ describe('el peso de la isla de la portada', () => {
       /^import (?!type )[^\n]*from '(@\/components\/site\/(search|SearchList)|\.\/HeroResults)'/m,
     )
     expect(island).not.toMatch(/from '\.\/strings'/)
+  })
+})
+
+describe('el hero y el directo con los textos de Torre', () => {
+  it('el hero pinta lo que escribió en «Portada e índices»', () => {
+    const texts = resolveIndexTexts({
+      home: { eyebrow: 'Otra cosa', title: 'Otro nombre', lead: 'Otra frase.', question: '¿Y tú?' },
+    }).home
+    const markup = renderToStaticMarkup(<Hero texts={texts} />)
+    expect(markup).toContain('<span class="hero__eyebrow">Otra cosa</span>')
+    expect(markup).toMatch(/<span class="hero__name"[^>]*>Otro nombre<\/span>/)
+    expect(markup).toContain('Otra frase.')
+    expect(markup).toMatch(/<label[^>]*for="buscar-mision"[^>]*>¿Y tú\?<\/label>/)
+  })
+
+  it('el directo enlaza su Twitch y dice su nombre', () => {
+    const { twitch } = resolveSiteSettings({
+      socials: { twitch: { url: 'https://www.twitch.tv/otro', handle: 'otro' } },
+    }).socials
+    const markup = renderToStaticMarkup(<LiveStrip live={{ live: true }} twitch={twitch} />)
+    expect(markup).toContain('href="https://www.twitch.tv/otro"')
+    expect(markup).toContain('Twitch · otro')
   })
 })

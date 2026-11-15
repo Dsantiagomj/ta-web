@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { indexTextDefaults, siteSettingsDefaults } from '@/lib/site-copy/defaults'
 import { validateLinkUrl } from '@/lib/site-copy/link'
+import { socialLinks } from '@/components/site/nav'
 import {
   copyFills,
   resolveIndexTexts,
@@ -77,6 +78,15 @@ describe('Ajustes del sitio', () => {
     // Sin poblar (solo el id) o sin archivo, no hay imagen.
     expect(resolveSiteSettings({ ogImage: 7 }).ogImage).toBeNull()
     expect(resolveSiteSettings({ ogImage: { url: null } }).ogImage).toBeNull()
+  })
+
+  it('las redes van en el orden del pie, con su nombre', () => {
+    const links = socialLinks(
+      resolveSiteSettings({ socials: { discord: { handle: 'otro' } } }).socials,
+    )
+    expect(links.map((link) => link.key)).toEqual(['twitch', 'kick', 'youtube', 'discord'])
+    expect(links.map((link) => link.name)).toEqual(['Twitch', 'Kick', 'YouTube', 'Discord'])
+    expect(links[3]).toMatchObject({ href: 'https://discord.gg/wgCxwd7b3r', handle: 'otro' })
   })
 })
 

@@ -100,22 +100,15 @@ export const siteShellStrings = {
     dofusTitle: 'Dofus y checklists',
     dofusBlurb: 'Las guías de Dofus y los checklists para conseguirlos.',
   },
+  // Los textos del pie que son de Torre (su frase, los directos, Discord, Ko-fi y el aviso)
+  // están en «Ajustes del sitio» (src/lib/site-copy/defaults.ts); aquí, los rótulos.
   footer: {
     torre: 'Torre',
-    bio: 'Juega a Dofus en directo y escribe todas las guías de esta web.',
-    liveTitle: 'Directos en Twitch y en Kick',
-    liveText: 'Si sigues el canal, Twitch te avisa cuando empieza.',
     explore: 'Explorar',
     community: 'Comunidad',
-    discordTitle: 'Únete al Discord',
-    discordText: 'Dudas de misiones y avisos de directos.',
-    kofiTitle: 'Apoya en Ko-fi',
-    kofiText: 'Las guías son gratis. Invita a Torre a un café.',
     follow: 'Sigue a Torre',
     up: 'Volver arriba',
     legal: 'Legal',
-    copyright: (year: number) => `© ${year} Torrente Arcano`,
-    disclaimer:
-      'Dofus es un MMORPG publicado por Ankama. Torrente Arcano es una página web no oficial y no está afiliada ni asociada con Ankama. Algunas ilustraciones y contenidos son propiedad de Ankama y de Dofus.',
+    copyright: (year: number, name: string) => `© ${year} ${name}`,
   },
 }

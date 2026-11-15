@@ -2,6 +2,7 @@ import { ArrowIcon, SearchIcon } from '@/components/site/icons'
 import { StaticImg } from '@/components/site/StaticImg'
 import { Picture } from '@/components/ui/Picture'
 import { legacyHref } from '@/lib/site/legacy'
+import { indexTextDefaults, type IndexTexts } from '@/lib/site-copy/defaults'
 
 import { KROSMOZ, ORBS, TORRE_ASK } from './art'
 import { HERO_SEARCH_ID } from './hero-search-strings'
@@ -12,9 +13,9 @@ import { homeStrings as s } from './strings'
  * El hero de la portada (DESIGN.md, Home): el nombre con lo que es, una frase, y Torre que
  * pregunta qué misión estás haciendo sobre la búsqueda de misiones. A un lado, la isla del
  * Krosmoz con los seis Dofus primordiales, que es la imagen principal en el móvil. Sin
- * JavaScript, la búsqueda va a la de la web de siempre.
+ * JavaScript, la búsqueda va a la de la web de siempre. Los textos son de «Portada e índices».
  */
-export function Hero() {
+export function Hero({ texts = indexTextDefaults.home }: { texts?: IndexTexts['home'] }) {
   return (
     <section className="hero" aria-labelledby="h-hero">
       <div className="home-wrap hero__in">
@@ -44,14 +45,14 @@ export function Hero() {
         </div>
         <div className="hero__txt">
           <h1 id="h-hero" className="hero__t">
-            <span className="hero__eyebrow">{s.eyebrow}</span>{' '}
+            <span className="hero__eyebrow">{texts.eyebrow}</span>{' '}
             {/* Fuera de la revisión de la maquetación: el nombre va a propósito una palabra por
                 línea (home.css, .hero__name), así no cambia de alto al llegar la fuente (CLS). */}
             <span className="hero__name" data-layout-lint-ignore="">
-              {s.title}
+              {texts.title}
             </span>
           </h1>
-          <p className="hero__lead">{s.lead}</p>
+          <p className="hero__lead">{texts.lead}</p>
           <form
             className="ask"
             role="search"
@@ -69,7 +70,7 @@ export function Hero() {
               <p className="ask__line">
                 <span className="ask__who">{s.who}</span>
                 <label className="ask__q" htmlFor={HERO_SEARCH_ID}>
-                  {s.question}
+                  {texts.question}
                 </label>
               </p>
             </div>
