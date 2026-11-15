@@ -102,12 +102,70 @@ const achievementField: Field = {
   required: true,
 }
 
-// Un logro con sus misiones: salen de su página de logro, que es donde se editan.
+type QuestRowSiblings = { siblingData?: { title?: unknown; link?: unknown } }
+
+/** Una fila de misiones sueltas necesita su guía o, si no es una misión, el texto de Torre. */
+function validateLooseQuest(value: unknown, { siblingData }: QuestRowSiblings): true | string {
+  const title = typeof siblingData?.title === 'string' ? siblingData.title.trim() : ''
+  if (value || title) return true
+  return s.looseQuestRequired
+}
+
+// Las misiones de un logro como las escribe Torre: su texto, las guías que enlaza y su nota.
+const ownQuestFields = (dbName: string): Field[] => [
+  {
+    name: 'pageQuests',
+    label: s.pageQuestsLabel,
+    type: 'checkbox',
+    defaultValue: true,
+    admin: { description: s.pageQuestsDescription },
+  },
+  {
+    name: 'ownQuests',
+    label: s.ownQuestsLabel,
+    labels: { singular: 'Misión', plural: 'Misiones' },
+    type: 'array',
+    // Un nombre de tabla corto: con el de siempre, los índices pasan de 63 caracteres.
+    dbName,
+    admin: {
+      description: s.ownQuestsDescription,
+      condition: (_, siblingData) => siblingData?.pageQuests === false,
+      components: rowLabel('TextRowLabel', { singular: 'Misión', field: 'title' }),
+    },
+    fields: [
+      {
+        name: 'title',
+        label: 'Texto',
+        type: 'text',
+        required: true,
+        localized: true,
+        admin: { description: s.ownQuestTitleDescription },
+      },
+      {
+        name: 'guides',
+        label: 'Guías',
+        type: 'relationship',
+        relationTo: 'quest-guides',
+        hasMany: true,
+        admin: { description: s.ownQuestGuidesDescription },
+      },
+      note,
+    ],
+  },
+  {
+    name: 'link',
+    label: s.achievementLinkLabel,
+    type: 'text',
+    admin: { description: s.achievementLinkDescription },
+  },
+]
+
+// Un logro con sus misiones: las de Torre o las de su página de logro.
 const AchievementPartBlock: Block = {
   slug: 'dofusAchievement',
   interfaceName: 'DofusAchievementBlock',
   labels: { singular: 'Logro', plural: 'Logros' },
-  fields: [achievementField, note],
+  fields: [achievementField, note, ...ownQuestFields('dofus_ach_quests')],
 }
 
 // Un metalogro con sus logros en orden, como el Plateado («Un comienzo ejemplar»).
@@ -125,9 +183,17 @@ const MetalogroPartBlock: Block = {
       // Con el nombre por defecto, el índice de su tabla de versiones pasa de los 63
       // caracteres de Postgres y se truncaría.
       dbName: 'dofus_meta_ach',
-      fields: [achievementField, note],
+      fields: [achievementField, note, ...ownQuestFields('dofus_meta_ach_q')],
     },
   ],
+}
+
+const questTitle: Field = {
+  name: 'title',
+  label: 'Texto',
+  type: 'text',
+  localized: true,
+  admin: { description: s.questTitleDescription },
 }
 
 // Una lista de misiones sueltas con su título, como «También algunas misiones random».
@@ -148,7 +214,14 @@ const QuestsPartBlock: Block = {
           label: 'Guía',
           type: 'relationship',
           relationTo: 'quest-guides',
-          required: true,
+          validate: validateLooseQuest,
+        },
+        questTitle,
+        {
+          name: 'link',
+          label: 'Enlace',
+          type: 'text',
+          admin: { description: s.looseQuestLinkDescription },
         },
         note,
       ],
@@ -169,6 +242,7 @@ const QuestPartBlock: Block = {
       relationTo: 'quest-guides',
       required: true,
     },
+    questTitle,
     note,
   ],
 }
@@ -189,7 +263,8 @@ const richText = (name: string, label: string): Field => ({
 })
 
 // Las guías de los Dofus de Torre: qué pide cada Dofus y qué logros y misiones lo dan. Son
-// de Torre, con borradores; las misiones de cada logro salen de su página de logro.
+// de Torre, con borradores; las misiones de cada logro son las que él escribe, o las de su
+// página de logro.
 export const DofusGuides: CollectionConfig = {
   slug: 'dofus-guides',
   labels: { singular: 'Guía de Dofus', plural: 'Guías de Dofus' },

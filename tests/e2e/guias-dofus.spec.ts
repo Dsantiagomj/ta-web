@@ -249,7 +249,7 @@ test.describe('página de una guía de Dofus', () => {
     expect(Math.abs(second!.x - first!.x)).toBeLessThan(2)
   })
 
-  test('el logro trae las misiones de su página de logro; la suelta lleva la nota de Torre', async ({
+  test('el logro trae las misiones como las escribe Torre; la suelta lleva su nota', async ({
     page,
   }) => {
     await page.goto(url)
@@ -258,23 +258,46 @@ test.describe('página de una guía de Dofus', () => {
       'href',
       `/${logro.slug}`,
     )
-    // La lista del logro: la primera; la de las misiones sueltas va después.
+    // Las misiones del logro son las de Torre, con su texto, no las de la página de logro.
+    const { torreQuests } = dofus.ocre
     const achievementQuests = parts.getByRole('list').first()
-    for (const quest of logro.quests) {
-      await expect(achievementQuests.getByText(quest.title, { exact: true })).toBeVisible()
-      if (quest.href) {
-        await expect(achievementQuests.getByRole('link', { name: quest.title })).toHaveAttribute(
-          'href',
-          quest.href,
-        )
-      }
-    }
+    await expect(achievementQuests.getByRole('listitem')).toHaveCount(3)
+    await expect(achievementQuests.getByRole('link', { name: torreQuests.own })).toHaveAttribute(
+      'href',
+      `/${seedGuide.prerequisite.slug}`,
+    )
+    // Una fila con dos guías: cada trozo de su texto enlaza la suya.
+    const [first, second] = torreQuests.pair
+    const pair = achievementQuests.getByRole('listitem').nth(1)
+    await expect(pair).toContainText(torreQuests.pair.join(' - '))
+    await expect(pair.getByRole('link', { name: first! })).toHaveAttribute(
+      'href',
+      `/${seedGuide.slug}`,
+    )
+    await expect(pair.getByRole('link', { name: second! })).toHaveAttribute(
+      'href',
+      `/${seedGuide.prerequisite.slug}`,
+    )
+    const noGuide = achievementQuests.getByRole('listitem').nth(2)
+    await expect(noGuide).toContainText(torreQuests.noGuide)
+    await expect(noGuide).toContainText('Sin guía todavía')
+    await expect(noGuide.getByRole('link')).toHaveCount(0)
+    // La página de logro tiene «El cazador cazado»: no sale, sale el texto de Torre.
+    await expect(parts.getByText('El cazador cazado', { exact: true })).toHaveCount(0)
+
     await expect(parts.getByRole('heading', { name: dofus.ocre.looseTitle })).toBeVisible()
     await expect(parts.getByText(dofus.ocre.looseNote)).toBeVisible()
     await expect(parts.getByRole('link', { name: seedGuide.title }).first()).toHaveAttribute(
       'href',
       `/${seedGuide.slug}`,
     )
+    // Lo que Torre enlaza que no es una misión queda en su lista, sin número de misión.
+    const linkRow = parts
+      .getByRole('listitem')
+      .filter({ has: page.getByRole('link', { name: dofus.ocre.looseLink.title }) })
+    await expect(linkRow.getByRole('link')).toHaveAttribute('href', dofus.ocre.looseLink.link)
+    await expect(linkRow).toContainText(dofus.ocre.looseLink.note)
+    await expect(linkRow).not.toContainText(/Misión \d/)
   })
 
   test('una sola columna, sin lista lateral, con el Dofus anterior', async ({ page }) => {

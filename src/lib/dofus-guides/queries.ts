@@ -8,6 +8,7 @@ import {
   countParts,
   dungeonNoteLabels,
   type AchievementDoc,
+  type AchievementRefDoc,
   type DofusGuideData,
   type DofusGuideDoc,
   type DofusListDoc,
@@ -37,10 +38,15 @@ function partIds(parts: readonly PartDoc[]) {
     const id = relationId(value)
     if (id !== null) set.add(id)
   }
+  // Un logro y las guías que enlazan las misiones que Torre escribe para él.
+  const addAchievement = (ref: AchievementRefDoc) => {
+    add(achievements, ref.achievement)
+    for (const row of ref.ownQuests ?? []) for (const guide of row.guides ?? []) add(guides, guide)
+  }
   for (const part of parts) {
-    if (part.blockType === 'dofusAchievement') add(achievements, part.achievement)
+    if (part.blockType === 'dofusAchievement') addAchievement(part)
     else if (part.blockType === 'dofusMetalogro') {
-      for (const row of part.achievements ?? []) add(achievements, row.achievement)
+      for (const row of part.achievements ?? []) addAchievement(row)
     } else if (part.blockType === 'dofusQuests') {
       for (const row of part.quests ?? []) add(guides, row.guide)
     } else if (part.blockType === 'dofusQuest') add(guides, part.guide)

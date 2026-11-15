@@ -430,7 +430,7 @@ export const dofusAchievementView: DofusGuideView = {
         href: '#la-ocasion',
         disabled: false,
         icon: achievement.icon,
-        meta: ['3 misiones', 'Niveles 15 a 25', '10 puntos'],
+        meta: ['4 misiones', 'Niveles 15 a 40', '10 puntos'],
         quests: [
           { position: 1, level: 15, title: 'Esto hace aguas', href: '#esto-hace-aguas' },
           {
@@ -441,8 +441,35 @@ export const dofusAchievementView: DofusGuideView = {
             giver: images.npcRight,
           },
           { position: 3, level: 25, title: 'El cazador cazado' },
+          // Una fila de Torre que enlaza varias guías, cada trozo la suya (el Hielos).
+          {
+            position: 4,
+            level: 40,
+            title: 'La fatalidad - El destino - La rivalidad',
+            links: [
+              { text: 'La fatalidad', href: '#la-fatalidad' },
+              { text: ' - ' },
+              { text: 'El destino', href: '#el-destino' },
+              { text: ' - ' },
+              { text: 'La rivalidad', href: '#la-rivalidad' },
+            ],
+          },
         ],
       },
+    },
+    // Lo que Torre enlaza en una lista que no es una misión (el Marfil): sin número.
+    {
+      kind: 'quests',
+      title: 'Prerrequisitos de misiones secundarias',
+      quests: [
+        {
+          kind: 'link',
+          position: 0,
+          title: 'Logro: Cazadores cazados',
+          href: '#cazadores-cazados',
+          note: 'completo',
+        },
+      ],
     },
   ],
   video: null,

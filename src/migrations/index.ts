@@ -31,6 +31,7 @@ import * as migration_20261114_022458_checklist_hielos from './20261114_022458_c
 import * as migration_20261114_122659_checklist_ocre from './20261114_122659_checklist_ocre';
 import * as migration_20261114_142119_checklist_cards from './20261114_142119_checklist_cards';
 import * as migration_20261114_163904_needs_group_select from './20261114_163904_needs_group_select';
+import * as migration_20261115_132426_dofus_torre_quest_rows from './20261115_132426_dofus_torre_quest_rows';
 
 export const migrations = [
   {
@@ -196,6 +197,11 @@ export const migrations = [
   {
     up: migration_20261114_163904_needs_group_select.up,
     down: migration_20261114_163904_needs_group_select.down,
-    name: '20261114_163904_needs_group_select'
+    name: '20261114_163904_needs_group_select',
+  },
+  {
+    up: migration_20261115_132426_dofus_torre_quest_rows.up,
+    down: migration_20261115_132426_dofus_torre_quest_rows.down,
+    name: '20261115_132426_dofus_torre_quest_rows'
   },
 ];

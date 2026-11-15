@@ -12,7 +12,7 @@ let payload: Payload
 let admin: User
 
 const PREFIX = 'prueba-referencias'
-const ACHIEVEMENT_IDS = [990_701, 990_702, 990_703, 990_704]
+const ACHIEVEMENT_IDS = [990_701, 990_702, 990_703, 990_704, 990_705]
 
 async function cleanUp() {
   // Primero lo que apunta a otros, para que nada quede referenciado.
@@ -371,6 +371,56 @@ describe('lo que enlazan las guías', () => {
     expect(message).toMatch(/^Esta guía de misión sale en 2 guías: /)
     expect(message).toContain('«Dofus Cawotte»')
     expect(message).toContain('«Alineamiento»')
+  })
+
+  it('una guía de misión que Torre pone en la lista de un logro de una guía de Dofus no se borra', async () => {
+    const achievement = await payload.create({
+      collection: 'achievements',
+      data: { dofusId: ACHIEVEMENT_IDS[4]!, name: 'Un alma helada' },
+    })
+    const page = await payload.create({
+      collection: 'achievement-pages',
+      data: {
+        achievement: achievement.id,
+        name: 'Un alma helada',
+        slug: slug(),
+        state: 'preparing',
+      },
+    })
+    const inList = await payload.create({
+      collection: 'quest-guides',
+      data: { title: 'El destino', slug: slug() },
+    })
+    const inMetalogro = await payload.create({
+      collection: 'quest-guides',
+      data: { title: 'Transporte único', slug: slug() },
+    })
+    const rows = (guide: number) => ({
+      pageQuests: false,
+      ownQuests: [{ title: 'La fatalidad - El destino', guides: [guide] }],
+    })
+    await payload.create({
+      collection: 'dofus-guides',
+      data: {
+        name: 'Dofus de los Hielos',
+        slug: slug(),
+        state: 'preparing',
+        order: 906,
+        parts: [
+          { blockType: 'dofusAchievement', achievement: page.id, ...rows(inList.id) },
+          {
+            blockType: 'dofusMetalogro',
+            name: 'Un comienzo ejemplar',
+            achievements: [{ achievement: page.id, ...rows(inMetalogro.id) }],
+          },
+        ],
+      },
+    })
+    for (const guide of [inList, inMetalogro]) {
+      expect(await refusal('quest-guides', guide.id)).toBe(
+        'Esta guía de misión sale en 1 guía: «Dofus de los Hielos». Quítala de ella antes de borrarla.',
+      )
+    }
   })
 
   it('a un editor que borra una guía suya que sale en otra le dice lo mismo', async () => {

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import {
+  countParts,
   dofusGuideView,
   dungeonNoteLabels,
   type DofusGuideData,
@@ -543,5 +544,228 @@ describe('Necesitarás: cada mazmorra con su jefe', () => {
       },
     }).guide
     expect(dungeonNoteLabels(guide)).toEqual(['Mazmorra Wey Wabbit', 'Mazmorras nivel 200'])
+  })
+})
+
+describe('dofusGuideView: las misiones de cada logro como las escribe Torre', () => {
+  // Las guías de misión que enlazan las filas de Torre, con su misión poblada.
+  const questGuides = new Map([
+    [
+      600,
+      {
+        id: 600,
+        slug: 'donde-esta-bizcana',
+        title: 'Hey, ¿dónde está Bizcana?',
+        quest: quest(10, 'Hey, ¿dónde está Bizcana?', 150, 77),
+      },
+    ],
+    [
+      601,
+      {
+        id: 601,
+        slug: 'la-fatalidad',
+        title: 'La fatalidad',
+        quest: quest(11, 'La fatalidad', 50),
+      },
+    ],
+    [602, { id: 602, slug: 'el-destino', title: 'El destino', quest: quest(12, 'El destino', 40) }],
+    [
+      603,
+      {
+        id: 603,
+        slug: 'la-rivalidad',
+        title: 'La rivalidad',
+        quest: quest(13, 'La rivalidad', 60),
+      },
+    ],
+  ])
+  const withRows = (
+    parts: DofusGuideDoc['parts'],
+    extra: Partial<DofusGuideData> = {},
+  ): DofusGuideData => {
+    const base = data({ parts })
+    return { ...base, questGuides: new Map([...base.questGuides, ...questGuides]), ...extra }
+  }
+  const achievementOf = (view: ReturnType<typeof dofusGuideView>, index = 0) => {
+    const part = view.parts[index]
+    if (part?.kind !== 'achievement') throw new Error('Se esperaba un logro')
+    return part.achievement
+  }
+
+  it('salen las filas de Torre, con su texto, en su orden, y cuentan ellas', () => {
+    const view = dofusGuideView(
+      withRows([
+        {
+          blockType: 'dofusAchievement',
+          achievement: 100,
+          note: null,
+          pageQuests: false,
+          ownQuests: [
+            { title: 'Heh, ¿dónde está Bizcana?', guides: [600], note: '(solo empezarla)' },
+            { title: 'Misión de clase', guides: [] },
+          ],
+        },
+      ]),
+    )
+    const achievement = achievementOf(view)
+    // El título es el de Torre, no el de la guía; el PNJ y el nivel, los de su misión.
+    expect(achievement.quests).toMatchObject([
+      {
+        position: 1,
+        level: 150,
+        title: 'Heh, ¿dónde está Bizcana?',
+        href: '/donde-esta-bizcana',
+        note: '(solo empezarla)',
+      },
+      { position: 2, title: 'Misión de clase' },
+    ])
+    expect(achievement.quests[0]!.giver).toBeDefined()
+    expect(achievement.quests[1]!.href).toBeUndefined()
+    // La página de ¡Plof! tiene otras dos misiones: cuentan las de Torre.
+    expect(achievement.meta).toEqual(['2 misiones', 'Nivel 150', '10 puntos'])
+    expect(view.meta).toEqual(['1 logro', '2 misiones', 'Nivel 180'])
+  })
+
+  it('una fila con varios enlaces los guarda todos, cada uno en su trozo del texto', () => {
+    const view = dofusGuideView(
+      withRows([
+        {
+          blockType: 'dofusAchievement',
+          achievement: 100,
+          note: null,
+          pageQuests: false,
+          ownQuests: [
+            { title: 'La fatalidad - El destino - La rivalidad', guides: [601, 602, 603] },
+          ],
+        },
+      ]),
+    )
+    const [row] = achievementOf(view).quests
+    expect(row).toMatchObject({ title: 'La fatalidad - El destino - La rivalidad', level: 40 })
+    expect(row!.href).toBeUndefined()
+    expect(row!.links).toEqual([
+      { text: 'La fatalidad', href: '/la-fatalidad' },
+      { text: ' - ' },
+      { text: 'El destino', href: '/el-destino' },
+      { text: ' - ' },
+      { text: 'La rivalidad', href: '/la-rivalidad' },
+    ])
+  })
+
+  it('un logro que Torre pone sin misiones no las saca de su página ni dice «0 misiones»', () => {
+    const view = dofusGuideView(
+      withRows([
+        { blockType: 'dofusAchievement', achievement: 100, note: null, pageQuests: false },
+      ]),
+    )
+    const achievement = achievementOf(view)
+    expect(achievement.quests).toEqual([])
+    expect(achievement.meta).toEqual(['10 puntos'])
+    expect(view.meta).toEqual(['1 logro', 'Nivel 180'])
+  })
+
+  it('una página de logro sin misiones tampoco dice «0 misiones»', () => {
+    const base = data({ parts: [{ blockType: 'dofusAchievement', achievement: 100, note: null }] })
+    const page = { ...base.achievements.get(100)!, quests: [] }
+    const view = dofusGuideView({ ...base, achievements: new Map([[100, page]]) })
+    expect(achievementOf(view).meta).toEqual(['10 puntos'])
+  })
+
+  it('un logro En preparación que Torre enlaza lleva a su página de siempre', () => {
+    const view = dofusGuideView(
+      withRows([
+        {
+          blockType: 'dofusMetalogro',
+          name: 'Un comienzo ejemplar',
+          achievements: [{ achievement: 101, note: null, link: '/al-partir' }],
+        },
+      ]),
+    )
+    const part = view.parts[0]
+    if (part?.kind !== 'metalogro') throw new Error('Se esperaba un metalogro')
+    expect(part.achievements[0]).toMatchObject({
+      disabled: true,
+      href: 'https://www.torrentearcano.com/al-partir',
+    })
+  })
+
+  it('las misiones sueltas y las de un paso salen con el texto de Torre', () => {
+    const view = dofusGuideView(
+      withRows([
+        { blockType: 'dofusQuest', guide: 600, title: 'Hablar con el Dios Anutrof', note: null },
+        {
+          blockType: 'dofusQuests',
+          title: 'Prerrequisitos de misiones secundarias',
+          quests: [
+            { guide: 600, title: 'Heh, ¿dónde está Bizcana?' },
+            // Lo que no es una misión pero Torre enlaza: queda en la lista, con su enlace.
+            {
+              title: '100 misiones de alineamiento Bonta o Brakmar + 5 misiones de rango',
+              link: '/metalogro-alineamiento',
+            },
+            { title: 'Logro: Cazadores cazados', link: '/cazadores-cazados', note: 'completo' },
+          ],
+        },
+      ]),
+    )
+    expect(view.parts[0]).toMatchObject({
+      kind: 'quest',
+      quest: { title: 'Hablar con el Dios Anutrof', href: '/donde-esta-bizcana' },
+    })
+    expect(view.parts[1]).toMatchObject({
+      kind: 'quests',
+      quests: [
+        { position: 1, title: 'Heh, ¿dónde está Bizcana?', href: '/donde-esta-bizcana' },
+        {
+          kind: 'link',
+          title: '100 misiones de alineamiento Bonta o Brakmar + 5 misiones de rango',
+          href: '/metalogro-alineamiento',
+        },
+        {
+          kind: 'link',
+          title: 'Logro: Cazadores cazados',
+          href: '/cazadores-cazados',
+          note: 'completo',
+        },
+      ],
+    })
+    // Lo que no es una misión no cuenta como misión.
+    expect(view.meta).toEqual(['2 misiones', 'Nivel 180'])
+  })
+
+  it('una misión de Torre cuya guía no se publicó sale sin enlace, con su texto', () => {
+    const view = dofusGuideView(
+      withRows([
+        {
+          blockType: 'dofusQuests',
+          title: null,
+          quests: [{ guide: 999, title: 'Misión sin guía publicada' }],
+        },
+      ]),
+    )
+    expect(view.parts[0]).toMatchObject({
+      kind: 'quests',
+      quests: [{ position: 1, title: 'Misión sin guía publicada' }],
+    })
+  })
+})
+
+describe('countParts', () => {
+  it('un logro con la lista de Torre cuenta sus filas, no las de su página', () => {
+    const parts: DofusGuideDoc['parts'] = [
+      {
+        blockType: 'dofusAchievement',
+        achievement: 100,
+        pageQuests: false,
+        ownQuests: [{ title: 'La manía de reciclar', guides: [1] }],
+      },
+      { blockType: 'dofusAchievement', achievement: 101, pageQuests: false },
+      { blockType: 'dofusAchievement', achievement: 102 },
+      {
+        blockType: 'dofusQuests',
+        quests: [{ guide: 5 }, { title: 'Logro: Cazadores cazados', link: '/cazadores-cazados' }],
+      },
+    ]
+    expect(countParts(parts ?? [], () => 9)).toEqual({ achievements: 3, quests: 11 })
   })
 })
