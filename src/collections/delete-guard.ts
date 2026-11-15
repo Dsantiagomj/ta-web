@@ -64,6 +64,12 @@ export const REFERRERS: Record<ReferencedCollection, Referrer[]> = {
     },
     { collection: 'achievement-pages', title: 'name', paths: prosePaths(['intro', 'outro']) },
     { collection: 'pages', title: 'title', paths: bodyImages },
+    // La imagen que Torre sube para corregir un dato del juego.
+    ...(['npcs', 'monsters', 'items', 'achievements', 'dungeons'] as const).map((collection) => ({
+      collection,
+      title: 'name',
+      paths: ['correction.image'],
+    })),
   ],
   'achievement-pages': [
     {

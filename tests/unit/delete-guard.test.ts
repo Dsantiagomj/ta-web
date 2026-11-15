@@ -50,6 +50,16 @@ describe('REFERRERS', () => {
     expect(checklists?.paths).toEqual(expect.arrayContaining(['card.scene', 'card.npc']))
   })
 
+  it('una imagen de una «Corrección de Torre» no se borra sin avisar', () => {
+    for (const collection of ['npcs', 'monsters', 'items', 'achievements', 'dungeons']) {
+      expect(REFERRERS.media).toContainEqual({
+        collection,
+        title: 'name',
+        paths: ['correction.image'],
+      })
+    }
+  })
+
   it('una guía de Dofus que da un paso de una checklist no se borra sin avisar', () => {
     expect(REFERRERS['dofus-guides']).toEqual([
       {

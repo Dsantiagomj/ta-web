@@ -121,17 +121,21 @@ describe('una línea de descripción por colección', () => {
   })
 
   it('las de los datos del juego dicen que son de solo lectura', () => {
+    for (const slug of ['subareas', 'achievement-categories'] as const) {
+      expect(collectionDescriptions[slug], slug).toContain('De solo lectura')
+    }
+  })
+
+  it('las que Torre corrige dicen que solo se edita su corrección', () => {
     for (const slug of [
       'quests',
       'items',
       'monsters',
       'dungeons',
       'npcs',
-      'subareas',
-      'achievement-categories',
       'achievements',
     ] as const) {
-      expect(collectionDescriptions[slug], slug).toContain('De solo lectura')
+      expect(collectionDescriptions[slug], slug).toContain('Solo editas su «Corrección de Torre».')
     }
   })
 

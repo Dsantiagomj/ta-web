@@ -5,8 +5,9 @@ import type { Quest, User } from '@/payload-types'
 
 import { createPanelUser, startPayload } from './payload'
 
-// Las misiones son datos de DofusDB de solo lectura: se leen sin sesión y solo las
-// escribe el script de refresco, con la API local y overrideAccess: true.
+// Las misiones son datos de DofusDB: se leen sin sesión y solo las escribe el script de
+// refresco, con la API local y overrideAccess: true. El panel solo guarda la «Corrección de
+// Torre».
 describe('permisos de quests', () => {
   let payload: Payload
   let editor: User
@@ -58,16 +59,15 @@ describe('permisos de quests', () => {
       expect(created.totalDocs).toBe(0)
     })
 
-    it('no edita misiones', async () => {
-      await expect(
-        payload.update({
-          collection: 'quests',
-          id: existing.id,
-          data: { name: 'Cambiada desde el panel' },
-          overrideAccess: false,
-          user: editor,
-        }),
-      ).rejects.toThrow(Forbidden)
+    it('no cambia lo de DofusDB: solo guarda la corrección de Torre', async () => {
+      const saved = await payload.update({
+        collection: 'quests',
+        id: existing.id,
+        data: { name: 'Cambiada desde el panel', correction: { level: 5 } },
+        overrideAccess: false,
+        user: editor,
+      })
+      expect(saved.correction?.level).toBe(5)
 
       const unchanged = await payload.findByID({ collection: 'quests', id: existing.id })
       expect(unchanged.name).toBe('Aprendizaje: Escudero')

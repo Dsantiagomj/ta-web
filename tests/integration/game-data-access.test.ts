@@ -5,9 +5,9 @@ import type { User } from '@/payload-types'
 
 import { createPanelUser, startPayload } from './payload'
 
-// Objetos, monstruos, logros y categorías de logros son datos de DofusDB de solo lectura,
-// como las misiones: se leen sin sesión y solo los escribe el script de refresco, con
-// overrideAccess: true.
+// Objetos, monstruos, logros y categorías de logros son datos de DofusDB, como las misiones:
+// se leen sin sesión y solo los escribe el script de refresco, con overrideAccess: true. De
+// los que Torre corrige, el panel solo escribe la «Corrección de Torre».
 describe('permisos de los datos del juego', () => {
   let payload: Payload
   let editor: User
@@ -23,11 +23,11 @@ describe('permisos de los datos del juego', () => {
 
   // Un campo propio de cada colección, para comprobar que se lee lo que guardó el script.
   describe.each([
-    { collection: 'items', extra: { iconId: 7 } },
-    { collection: 'monsters', extra: { iconId: 7 } },
-    { collection: 'achievements', extra: { points: 10 } },
-    { collection: 'achievement-categories', extra: { order: 13 } },
-  ] as const)('$collection', ({ collection, extra }) => {
+    { collection: 'items', extra: { iconId: 7 }, correctable: true },
+    { collection: 'monsters', extra: { iconId: 7 }, correctable: true },
+    { collection: 'achievements', extra: { points: 10 }, correctable: true },
+    { collection: 'achievement-categories', extra: { order: 13 }, correctable: false },
+  ] as const)('$collection', ({ collection, extra, correctable }) => {
     let existingId: number
 
     beforeAll(async () => {
@@ -65,16 +65,17 @@ describe('permisos de los datos del juego', () => {
       expect(created.totalDocs).toBe(0)
     })
 
-    it('un usuario del panel no los edita', async () => {
-      await expect(
-        payload.update({
-          collection,
-          id: existingId,
-          data: { name: 'Cambiado desde el panel' },
-          overrideAccess: false,
-          user: editor,
-        }),
-      ).rejects.toThrow(Forbidden)
+    it('un usuario del panel no cambia lo de DofusDB', async () => {
+      const attempt = payload.update({
+        collection,
+        id: existingId,
+        data: { name: 'Cambiado desde el panel' },
+        overrideAccess: false,
+        user: editor,
+      })
+      // Donde hay «Corrección de Torre» el panel guarda, pero solo esa corrección.
+      if (correctable) await attempt
+      else await expect(attempt).rejects.toThrow(Forbidden)
 
       const unchanged = await payload.findByID({ collection, id: existingId })
       expect(unchanged.name).toBe('Del script')

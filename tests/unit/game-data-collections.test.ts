@@ -22,7 +22,7 @@ describe.each([
   it('usa su slug, el nombre como título y el grupo de datos del juego', () => {
     expect(collection.slug).toBe(slug)
     expect(collection.admin?.useAsTitle).toBe('name')
-    expect(collection.admin?.group).toBe('Datos del juego (solo lectura)')
+    expect(collection.admin?.group).toBe('Datos del juego')
   })
 
   it('identifica cada fila por su ID de DofusDB, único e indexado', () => {
@@ -57,8 +57,9 @@ describe.each([
     expect(field(collection, 'refreshedAt')).not.toHaveProperty('required', true)
   })
 
-  it('es de solo lectura, como las misiones', () => {
-    expect(collection.access).toBe(gameDataAccess)
+  it('es de solo lectura salvo la corrección de Torre, que solo edita el panel', () => {
+    expect(collection.access).not.toBe(gameDataAccess)
+    expect(collection.access?.update?.({ req: { user: null } } as never)).toBe(false)
   })
 })
 
@@ -75,8 +76,8 @@ describe('colección npcs', () => {
   it('usa su slug, el nombre como título y el grupo de datos del juego', () => {
     expect(Npcs.slug).toBe('npcs')
     expect(Npcs.admin?.useAsTitle).toBe('name')
-    expect(Npcs.admin?.group).toBe('Datos del juego (solo lectura)')
-    expect(Npcs.access).toBe(gameDataAccess)
+    expect(Npcs.admin?.group).toBe('Datos del juego')
+    expect(Npcs.access?.update?.({ req: { user: null } } as never)).toBe(false)
   })
 
   it('identifica cada PNJ por su ID de DofusDB y guarda su nombre y su look', () => {
@@ -102,7 +103,7 @@ describe('colección subareas', () => {
   it('usa su slug, el nombre como título y el grupo de datos del juego, de solo lectura', () => {
     expect(SubAreas.slug).toBe('subareas')
     expect(SubAreas.admin?.useAsTitle).toBe('name')
-    expect(SubAreas.admin?.group).toBe('Datos del juego (solo lectura)')
+    expect(SubAreas.admin?.group).toBe('Datos del juego')
     expect(SubAreas.access).toBe(gameDataAccess)
   })
 

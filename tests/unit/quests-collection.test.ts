@@ -154,15 +154,18 @@ describe('etapas y objetivos de quests', () => {
 })
 
 describe('permisos de quests', () => {
+  const req = (user: unknown) => ({ req: { user } }) as never
+
   it('cualquiera lee las misiones, porque son datos públicos del juego', () => {
     expect(questsAccess.read()).toBe(true)
     expect(Quests.access?.read).toBe(questsAccess.read)
   })
 
-  it('nadie crea, edita ni borra misiones por la API ni el panel', () => {
+  it('nadie crea ni borra misiones; el panel solo edita la corrección de Torre', () => {
     expect(questsAccess.create()).toBe(false)
-    expect(questsAccess.update()).toBe(false)
     expect(questsAccess.delete()).toBe(false)
+    expect(questsAccess.update(req(null))).toBe(false)
+    expect(questsAccess.update(req({ id: 1 }))).toBe(true)
     expect(Quests.access).toBe(questsAccess)
   })
 })

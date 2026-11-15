@@ -96,7 +96,7 @@ describe('A-03: el orden del menú', () => {
     expect(navGroups().map((group) => group.label)).toEqual([
       'Contenido',
       'Imágenes',
-      'Datos del juego (solo lectura)',
+      'Datos del juego',
       'Ajustes',
     ])
   })
