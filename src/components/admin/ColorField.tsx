@@ -1,20 +1,20 @@
 'use client'
 
-import { TextField, useField } from '@payloadcms/ui'
-import type { TextFieldClientComponent, TextFieldClientProps } from 'payload'
+import { useField } from '@payloadcms/ui'
+import type { TextFieldClientProps } from 'payload'
 import { useEffect, useRef } from 'react'
 
 import { panelStrings } from '@/lib/admin/strings'
-import { HEX_COLOR, validateColor } from '@/lib/dofus-guides/color'
+import { HEX_COLOR } from '@/lib/dofus-guides/color'
+
+import { ColorTextField } from './ValidatedTextField'
 
 /**
  * El color del brillo de un Dofus (A-22): el campo de texto de Payload, con su etiqueta, su
- * ayuda, sus errores y sus estilos, que además valida el color en el navegador antes de
- * guardar. El selector va delante (`beforeInput`, ColorSwatch).
+ * ayuda, sus errores y sus estilos, que además valida el color en el navegador y dice por
+ * qué bajo el campo (ValidatedTextField). El selector va delante (`beforeInput`, ColorSwatch).
  */
-export const ColorField: TextFieldClientComponent = (props) => (
-  <TextField {...props} validate={validateColor} />
-)
+export const ColorField = ColorTextField
 
 type SwatchProps = Pick<TextFieldClientProps, 'field' | 'path' | 'readOnly'>
 

@@ -24,6 +24,7 @@ import { StrikethroughFeatureClient as StrikethroughFeatureClient_e70f5e05f09f93
 import { UnderlineFeatureClient as UnderlineFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { BoldFeatureClient as BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
+import { VideoUrlField as VideoUrlField_74911af6ff3502b3c4545ebd0c3c16c1 } from '../../../components/admin/ValidatedTextField'
 import { SummaryNote as SummaryNote_666e24196e21524e3cb0a6dcd90c8518 } from '../../../components/quest-guide-admin/SummaryNote'
 import { RelationRowLabel as RelationRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2 } from '../../../components/admin/RowLabels'
 import { DofusDbNote as DofusDbNote_ef522a00141bf02817f153aea2a46e82 } from '../../../components/achievement-admin/DofusDbNote'
@@ -31,6 +32,7 @@ import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0
 import { TextRowLabel as TextRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2 } from '../../../components/admin/RowLabels'
 import { ColorField as ColorField_f18d715b9f5ea63091d1361f9c46fa22 } from '../../../components/admin/ColorField'
 import { ColorSwatch as ColorSwatch_f18d715b9f5ea63091d1361f9c46fa22 } from '../../../components/admin/ColorField'
+import { OptionalVideoUrlField as OptionalVideoUrlField_74911af6ff3502b3c4545ebd0c3c16c1 } from '../../../components/admin/ValidatedTextField'
 import { NeedGroupLabel as NeedGroupLabel_a30613d846a340cabc3fc2ee7ca0f9f2 } from '../../../components/admin/RowLabels'
 import { LockedOnceSavedText as LockedOnceSavedText_e39bb667d9a84b668538928625e25395 } from '../../../components/admin/LockedOnceSavedText'
 import { StepOutline as StepOutline_860201d5ddeb43f10b04e6d780e8cd5d } from '../../../components/admin/StepOutline'
@@ -77,6 +79,7 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#UnderlineFeatureClient": UnderlineFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#BoldFeatureClient": BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#ItalicFeatureClient": ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  "/components/admin/ValidatedTextField#VideoUrlField": VideoUrlField_74911af6ff3502b3c4545ebd0c3c16c1,
   "/components/quest-guide-admin/SummaryNote#SummaryNote": SummaryNote_666e24196e21524e3cb0a6dcd90c8518,
   "/components/admin/RowLabels#RelationRowLabel": RelationRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2,
   "/components/achievement-admin/DofusDbNote#DofusDbNote": DofusDbNote_ef522a00141bf02817f153aea2a46e82,
@@ -84,6 +87,7 @@ export const importMap = {
   "/components/admin/RowLabels#TextRowLabel": TextRowLabel_a30613d846a340cabc3fc2ee7ca0f9f2,
   "/components/admin/ColorField#ColorField": ColorField_f18d715b9f5ea63091d1361f9c46fa22,
   "/components/admin/ColorField#ColorSwatch": ColorSwatch_f18d715b9f5ea63091d1361f9c46fa22,
+  "/components/admin/ValidatedTextField#OptionalVideoUrlField": OptionalVideoUrlField_74911af6ff3502b3c4545ebd0c3c16c1,
   "/components/admin/RowLabels#NeedGroupLabel": NeedGroupLabel_a30613d846a340cabc3fc2ee7ca0f9f2,
   "/components/admin/LockedOnceSavedText#LockedOnceSavedText": LockedOnceSavedText_e39bb667d9a84b668538928625e25395,
   "/components/admin/StepOutline#StepOutline": StepOutline_860201d5ddeb43f10b04e6d780e8cd5d,

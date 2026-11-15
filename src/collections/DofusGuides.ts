@@ -5,7 +5,8 @@ import { FightBlock } from '../blocks/FightBlock'
 import { ImageBlock } from '../blocks/ImageBlock'
 import { RichTextBlock } from '../blocks/RichTextBlock'
 import { StepBlock } from '../blocks/StepBlock'
-import { validateVideoUrl, VideoBlock } from '../blocks/VideoBlock'
+import { VideoBlock } from '../blocks/VideoBlock'
+import { validateOptionalVideoUrl } from '../lib/guides/video'
 import { validateColor } from '../lib/dofus-guides/color'
 import { needGroupOptions } from '../lib/dofus-guides/need-groups'
 import { siteOrWebHref } from '../lib/dofus-guides/links'
@@ -36,11 +37,6 @@ const s = dofusGuideStrings.admin
 
 /** El color del brillo: la misma regla al guardar que en el navegador (src/lib/dofus-guides/color.ts). */
 export { validateColor }
-
-/** El vídeo es opcional; si lo hay, un enlace https de YouTube, como el bloque de vídeo. */
-function validateOptionalVideo(value: string | null | undefined): true | string {
-  return value ? validateVideoUrl(value) : true
-}
 
 type SiblingOptions = { siblingData?: { item?: unknown } }
 
@@ -448,8 +444,14 @@ export const DofusGuides: CollectionConfig = {
               name: 'video',
               label: 'Vídeo',
               type: 'text',
-              validate: validateOptionalVideo,
-              admin: { description: s.videoDescription },
+              validate: validateOptionalVideoUrl,
+              admin: {
+                description: s.videoDescription,
+                // Valida en el navegador: el mensaje sale bajo el campo antes de guardar.
+                components: {
+                  Field: '/components/admin/ValidatedTextField#OptionalVideoUrlField',
+                },
+              },
             },
             {
               name: 'videoPoster',

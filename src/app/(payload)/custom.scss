@@ -486,6 +486,11 @@ html[data-theme='dark'] {
 
 /* El selector de color junto al hexadecimal (ColorField, A-22). */
 /* El selector y el campo en una fila; la ayuda y el error, debajo, a todo el ancho. */
+/* La envoltura de ValidatedTextField: escucha cuándo sale el foco y no ocupa sitio. */
+.ta-validated {
+  display: contents;
+}
+
 .ta-color .field-type__wrap {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
