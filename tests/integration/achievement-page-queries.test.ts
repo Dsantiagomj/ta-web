@@ -6,7 +6,10 @@ import {
   readAchievementPage,
   readMetalogrosIndex,
 } from '@/lib/achievements/queries'
+import { metalogrosIndexView } from '@/lib/achievements/metalogros'
+import { achievementPageView } from '@/lib/achievements/page'
 import { readSearchIndex } from '@/lib/search/read-index'
+import { readSitemapData } from '@/lib/seo/read-sitemap'
 import type { User } from '@/payload-types'
 
 import { createPanelUser, startPayload, tinyPng } from './payload'
@@ -286,5 +289,99 @@ describe('readSearchIndex', () => {
     expect(index.metalogros).toEqual([['Astrub', 'astrub', expect.stringMatching(/^3 logros/)]])
     // Las guías siguen ahí, como siempre.
     expect(index.guides.map((row) => row[1])).toContain('seis-pies-bajo-tierra')
+  })
+})
+
+// Torre puede escribir a mano una página de logro que DofusDB no tiene (el metalogro de
+// Krosmoz, «El guardián del puente de la muerte»): sin logro enlazado, con su nombre.
+describe('una página de logro sin logro de DofusDB', () => {
+  const SLUG = 'el-guardian-del-puente-de-la-muerte'
+
+  beforeAll(async () => {
+    const [group] = (
+      await payload.find({
+        collection: 'achievement-groups',
+        where: { slug: { equals: 'metalogro-astrub' } },
+        depth: 0,
+      })
+    ).docs
+    const [quest] = (
+      await payload.find({ collection: 'quests', where: { dofusId: { equals: 1977 } }, depth: 0 })
+    ).docs
+    // Hecha en el panel por un editor, sin slug: sale del nombre.
+    await payload.create({
+      collection: 'achievement-pages',
+      data: {
+        name: 'El guardián del puente de la muerte',
+        state: 'published',
+        group: group!.id,
+        order: 4,
+        quests: [{ name: 'El cazador cazado', quests: [quest!.id] }],
+        _status: 'published',
+      } as never,
+      overrideAccess: false,
+      user: editor,
+    })
+  })
+
+  it('se guarda con su nombre y el slug sale de él; sin nombre, no', async () => {
+    const { docs } = await payload.find({
+      collection: 'achievement-pages',
+      where: { slug: { equals: SLUG } },
+      depth: 0,
+    })
+    expect(docs[0]).toMatchObject({ name: 'El guardián del puente de la muerte' })
+    expect(docs[0]?.achievement ?? null).toBeNull()
+    await expect(
+      payload.create({
+        collection: 'achievement-pages',
+        data: { state: 'published', _status: 'published' } as never,
+        overrideAccess: false,
+        user: editor,
+      }),
+    ).rejects.toMatchObject({
+      data: { errors: [expect.objectContaining({ path: 'name' })] },
+    })
+  })
+
+  it('caben varias sin logro', async () => {
+    const other = await payload.create({
+      collection: 'achievement-pages',
+      data: { name: 'Logro: misiones extra de Vulkania', state: 'preparing' } as never,
+      overrideAccess: false,
+      user: editor,
+    })
+    expect(other.achievement ?? null).toBeNull()
+    await payload.delete({ collection: 'achievement-pages', id: other.id })
+  })
+
+  it('tiene página, con su nombre de título y sin «Cuenta para»', async () => {
+    const data = await readAchievementPage(payload, SLUG)
+    expect(data).not.toBeNull()
+    const view = achievementPageView({ ...data!, siteUrl: 'https://torrentearcano.com' })
+    expect(view.title).toBe('El guardián del puente de la muerte')
+    expect(view.countsFor).toEqual([])
+    expect(view.icon).toBeUndefined()
+    expect(view.quests.map((card) => card.title)).toEqual(['El cazador cazado'])
+    expect(view.group?.items.map((item) => item.name)).toContain(
+      'El guardián del puente de la muerte',
+    )
+  })
+
+  it('sale en el índice de metalogros, en la búsqueda y en el sitemap', async () => {
+    const index = metalogrosIndexView(await readMetalogrosIndex(payload))
+    const names = index.sections.flatMap((section) =>
+      section.zones.flatMap((zone) => zone.achievements.map((item) => item.name)),
+    )
+    expect(names).toContain('El guardián del puente de la muerte')
+    const search = await readSearchIndex(payload)
+    expect(search.achievements).toContainEqual([
+      'El guardián del puente de la muerte',
+      SLUG,
+      'Astrub',
+      1,
+    ])
+    const sitemap = await readSitemapData(payload)
+    expect(sitemap.achievementPages.map((page) => page.slug)).toContain(SLUG)
   })
 })

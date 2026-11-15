@@ -650,9 +650,9 @@ export interface Dungeon {
 export interface AchievementPage {
   id: number;
   /**
-   * Lo que esté vacío se rellena con sus datos al guardar. Lo que cambies no lo pisa ningún refresco. Cuando ya tiene uno, solo un administrador puede cambiarlo: de él salen los datos que se rellenan solos, y cambiarlo los mezclaría con los de otro.
+   * Lo que esté vacío se rellena con sus datos al guardar. Lo que cambies no lo pisa ningún refresco. Si el logro no está en DofusDB, déjalo vacío y escribe el nombre y lo demás a mano. Cuando ya tiene uno, solo un administrador puede cambiarlo: de él salen los datos que se rellenan solos, y cambiarlo los mezclaría con los de otro.
    */
-  achievement: number | Achievement;
+  achievement?: (number | null) | Achievement;
   name: string;
   slug: string;
   /**
