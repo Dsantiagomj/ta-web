@@ -30,6 +30,7 @@ import { Picture } from '@/components/ui/Picture'
 import { ProgressBar } from '@/components/ui/ProgressBar'
 import { StatTile } from '@/components/ui/StatTile'
 import { TagPill } from '@/components/ui/TagPill'
+import { Ambience } from '@/components/site/Ambience'
 import { MenuPanelPreview } from '@/components/site/SiteHeader'
 import { SiteFooter } from '@/components/site/SiteFooter'
 import type { Mode, Theme } from '@/lib/theme/theme'
@@ -289,6 +290,12 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
               <DofusNeeds needs={dofusNeeds} />
               <DofusBody content={dofusAchievementView.body} />
               <DofusParts view={dofusAchievementView} />
+            </div>
+          </Group>
+
+          <Group name="ambience" note={s.notes.ambience} wide>
+            <div className="relative isolate h-48 w-full overflow-hidden rounded-card border border-line">
+              <Ambience demo />
             </div>
           </Group>
 

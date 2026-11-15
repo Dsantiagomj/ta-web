@@ -1,0 +1,407 @@
+/*
+ * El ambiente (DESIGN.md, Ambience): partículas que suben hacia la cabecera en lo alto de
+ * cada página, como las luciérnagas del hub antiguo de las checklists. Decoración: detrás
+ * del contenido, sin clics, sin JavaScript, y solo se animan transform y opacity. Con
+ * movimiento reducido no hay ninguna.
+ *
+ * El tema y el modo deciden su aspecto con variables que se heredan, así que el elemento
+ * más cercano con data-theme manda (las secciones de /sistema ganan a <html>):
+ *   --amb-anim   la animación          --amb-bg, --amb-bg-2      el fondo (una de cada dos, el 2)
+ *   --amb-ease   su curva              --amb-glow, --amb-glow-2  el color del halo
+ *   --amb-pace   × la duración         --amb-shape, --amb-k      la forma y × el tamaño
+ *   --amb-start  inset-block: abajo si suben, arriba si caen
+ *   --amb-strength  la opacidad de toda la capa
+ */
+
+:root,
+[data-theme] {
+  --amb-anim: amb-rise;
+  --amb-ease: ease-in-out;
+  --amb-pace: 1;
+  --amb-shape: 50%;
+  --amb-k: 1;
+  --amb-start: auto -1rem;
+}
+
+:root,
+[data-mode='dark'] {
+  --amb-strength: 0.85;
+}
+
+[data-mode='light'] {
+  --amb-strength: 0.6;
+}
+
+/* Arcano: motas arcanas, del acento y del acento 2, que suben y se mecen. */
+:root,
+[data-theme='arcano'][data-mode='dark'] {
+  --amb-bg: radial-gradient(circle, #fff 0%, var(--t-accent) 42%, transparent 72%);
+  --amb-bg-2: radial-gradient(circle, #fff 0%, var(--t-accent-2) 42%, transparent 72%);
+  --amb-glow: color-mix(in srgb, var(--t-accent) 50%, transparent);
+  --amb-glow-2: color-mix(in srgb, var(--t-accent-2) 50%, transparent);
+}
+
+[data-theme='arcano'][data-mode='light'] {
+  --amb-bg: radial-gradient(circle, var(--t-accent) 0%, var(--t-accent) 35%, transparent 72%);
+  --amb-bg-2: radial-gradient(circle, var(--t-accent-2) 0%, var(--t-accent-2) 35%, transparent 72%);
+  --amb-glow: transparent;
+  --amb-glow-2: transparent;
+}
+
+/* Amakna: luciérnagas en el oscuro; hojas que caen en el claro. */
+[data-theme='amakna'][data-mode='dark'] {
+  --amb-bg: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--t-accent) 25%, #fff) 0%,
+    var(--t-accent) 40%,
+    transparent 72%
+  );
+  --amb-bg-2: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--t-accent-2) 25%, #fff) 0%,
+    var(--t-accent-2) 40%,
+    transparent 72%
+  );
+  --amb-glow: color-mix(in srgb, var(--t-accent) 55%, transparent);
+  --amb-glow-2: color-mix(in srgb, var(--t-accent-2) 55%, transparent);
+}
+
+[data-theme='amakna'][data-mode='light'] {
+  --amb-anim: amb-fall;
+  --amb-ease: linear;
+  --amb-shape: 0 100% 0 100%;
+  --amb-k: 1.8;
+  --amb-start: -1rem auto;
+  --amb-bg: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--t-accent-2) 60%, #fff),
+    var(--t-accent-2)
+  );
+  --amb-bg-2: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--t-accent) 60%, #fff),
+    var(--t-accent)
+  );
+  --amb-glow: transparent;
+  --amb-glow-2: transparent;
+}
+
+/* Bonta: motas de luz, blancas y doradas, que flotan despacio y titilan. */
+[data-theme='bonta'][data-mode='dark'] {
+  --amb-anim: amb-drift;
+  --amb-pace: 1.25;
+  --amb-bg: radial-gradient(
+    circle,
+    #fff 0%,
+    color-mix(in srgb, var(--t-accent-2) 70%, #fff) 45%,
+    transparent 72%
+  );
+  --amb-bg-2: radial-gradient(circle, #fff 0%, var(--t-accent) 45%, transparent 72%);
+  --amb-glow: color-mix(in srgb, var(--t-accent-2) 45%, transparent);
+  --amb-glow-2: color-mix(in srgb, var(--t-accent) 45%, transparent);
+}
+
+[data-theme='bonta'][data-mode='light'] {
+  --amb-anim: amb-drift;
+  --amb-pace: 1.25;
+  --amb-bg: radial-gradient(circle, var(--t-accent-2) 0%, var(--t-accent-2) 35%, transparent 72%);
+  --amb-bg-2: radial-gradient(circle, var(--t-accent) 0%, var(--t-accent) 35%, transparent 72%);
+  --amb-glow: transparent;
+  --amb-glow-2: transparent;
+}
+
+/* Brâkmar: brasas que suben deprisa, en zigzag, y parpadean. */
+[data-theme='brakmar'][data-mode='dark'] {
+  --amb-anim: amb-ember;
+  --amb-ease: ease-out;
+  --amb-pace: 0.65;
+  --amb-bg: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--t-accent-2) 40%, #fff) 0%,
+    var(--t-accent-2) 35%,
+    var(--t-accent) 55%,
+    transparent 75%
+  );
+  --amb-bg-2: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--t-accent-2) 40%, #fff) 0%,
+    var(--t-accent) 40%,
+    transparent 72%
+  );
+  --amb-glow: color-mix(in srgb, var(--t-accent) 55%, transparent);
+  --amb-glow-2: color-mix(in srgb, var(--t-accent) 55%, transparent);
+}
+
+[data-theme='brakmar'][data-mode='light'] {
+  --amb-anim: amb-ember;
+  --amb-ease: ease-out;
+  --amb-pace: 0.65;
+  --amb-bg: radial-gradient(circle, var(--t-accent-2) 0%, var(--t-accent) 45%, transparent 72%);
+  --amb-bg-2: radial-gradient(circle, var(--t-accent) 0%, var(--t-accent) 35%, transparent 72%);
+  --amb-glow: transparent;
+  --amb-glow-2: transparent;
+}
+
+/* Ocre: chispas ámbar que suben y destellan. */
+[data-theme='ocre'][data-mode='dark'] {
+  --amb-anim: amb-spark;
+  --amb-pace: 0.85;
+  --amb-bg: radial-gradient(circle, #fff 0%, var(--t-accent) 40%, transparent 72%);
+  --amb-bg-2: radial-gradient(circle, #fff 0%, var(--t-accent-2) 40%, transparent 72%);
+  --amb-glow: color-mix(in srgb, var(--t-accent) 55%, transparent);
+  --amb-glow-2: color-mix(in srgb, var(--t-accent-2) 55%, transparent);
+}
+
+[data-theme='ocre'][data-mode='light'] {
+  --amb-anim: amb-spark;
+  --amb-pace: 0.85;
+  --amb-bg: radial-gradient(circle, var(--t-accent) 0%, var(--t-accent) 35%, transparent 72%);
+  --amb-bg-2: radial-gradient(circle, var(--t-accent-2) 0%, var(--t-accent-2) 35%, transparent 72%);
+  --amb-glow: transparent;
+  --amb-glow-2: transparent;
+}
+
+/* Las checklists (fx de su config.js en el hub antiguo). La de la página oculta la del sitio. */
+.amb[data-fx='egg'] {
+  --amb-anim: amb-rise;
+  --amb-ease: ease-in-out;
+  --amb-pace: 1;
+  --amb-shape: 50%;
+  --amb-k: 1;
+  --amb-start: auto -1rem;
+  --amb-bg: radial-gradient(circle, #fff 0%, var(--egg, var(--t-accent)) 42%, transparent 72%);
+  --amb-bg-2: var(--amb-bg);
+  --amb-glow: color-mix(in srgb, var(--egg, var(--t-accent)) 55%, transparent);
+  --amb-glow-2: var(--amb-glow);
+}
+
+.amb[data-fx='snow'] {
+  --amb-anim: amb-snow;
+  --amb-ease: linear;
+  --amb-pace: 1;
+  --amb-shape: 50%;
+  --amb-k: 1;
+  --amb-start: -1rem auto;
+  --amb-bg: radial-gradient(circle, #fff 0%, rgb(228 245 255 / 0.92) 45%, transparent 72%);
+  --amb-bg-2: var(--amb-bg);
+  --amb-glow: rgb(190 230 255 / 0.55);
+  --amb-glow-2: var(--amb-glow);
+}
+
+[data-mode='light'] .amb[data-fx='snow'] {
+  --amb-strength: 0.85;
+  --amb-bg: radial-gradient(circle, #fff 0%, #dcf0fb 50%, transparent 74%);
+  --amb-glow: rgb(70 120 160 / 0.5);
+}
+
+.amb[data-fx='forest'] {
+  --amb-anim: amb-rise;
+  --amb-ease: ease-in-out;
+  --amb-pace: 1;
+  --amb-shape: 50%;
+  --amb-k: 1;
+  --amb-start: auto -1rem;
+  --amb-bg: radial-gradient(circle, #f6ffd8 0%, rgb(200 236 120 / 0.95) 40%, transparent 72%);
+  --amb-bg-2: var(--amb-bg);
+  --amb-glow: rgb(163 221 94 / 0.55);
+  --amb-glow-2: var(--amb-glow);
+}
+
+[data-mode='light'] .amb[data-fx='forest'] {
+  --amb-anim: amb-fall;
+  --amb-ease: linear;
+  --amb-shape: 0 100% 0 100%;
+  --amb-k: 1.8;
+  --amb-start: -1rem auto;
+  --amb-bg: linear-gradient(135deg, #f4b844, #c65a1e);
+  --amb-bg-2: linear-gradient(135deg, #a6d65a, #4f8a22);
+  --amb-glow: transparent;
+  --amb-glow-2: transparent;
+}
+
+/* La capa: la primera pantalla de la página, desde arriba, detrás de todo. Es contenedor de
+   tamaño, así que las animaciones recorren su altura (cqh) y no la de la ventana: la misma
+   sirve para la página y para la caja del catálogo. */
+.amb {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: -1;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  pointer-events: none;
+  contain: strict;
+  container-type: size;
+  opacity: var(--amb-strength);
+}
+
+.amb--demo {
+  height: 100%;
+}
+
+.amb i {
+  position: absolute;
+  inset-block: var(--amb-start);
+  left: var(--x);
+  width: calc(var(--s) * var(--amb-k));
+  height: calc(var(--s) * var(--amb-k));
+  border-radius: var(--amb-shape);
+  background: var(--amb-bg);
+  box-shadow: 0 0 calc(var(--s) * 2.2) calc(var(--s) * 0.4) var(--amb-glow);
+  opacity: 0;
+  animation: var(--amb-anim) calc(var(--t) * var(--amb-pace)) var(--amb-ease) var(--d) infinite;
+}
+
+.amb i:nth-child(even) {
+  background: var(--amb-bg-2);
+  box-shadow: 0 0 calc(var(--s) * 2.2) calc(var(--s) * 0.4) var(--amb-glow-2);
+}
+
+/* En el móvil, la mitad: la primera mitad ya cubre el ancho (ambience-data.ts). */
+@media (max-width: 39.9375rem) {
+  .amb i:nth-child(n + 8) {
+    display: none;
+  }
+}
+
+/* Una checklist con ambiente propio oculta el del sitio. */
+body:has(.amb--page) > .amb:not(.amb--page) {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .amb {
+    display: none;
+  }
+}
+
+@keyframes amb-rise {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.95;
+  }
+  45% {
+    transform: translate(2.125rem, -40cqh);
+    opacity: 0.35;
+  }
+  70% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(-1.375rem, -92cqh);
+    opacity: 0;
+  }
+}
+
+@keyframes amb-drift {
+  0% {
+    transform: translate(0, 0) scale(0.6);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.9;
+  }
+  50% {
+    transform: translate(0.75rem, -46cqh) scale(1.15);
+    opacity: 0.45;
+  }
+  80% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate(-0.5rem, -92cqh) scale(0.7);
+    opacity: 0;
+  }
+}
+
+@keyframes amb-spark {
+  0% {
+    transform: translate(0, 0) scale(0.5);
+    opacity: 0;
+  }
+  10% {
+    transform: translate(0.5rem, -9cqh) scale(1.3);
+    opacity: 1;
+  }
+  30% {
+    transform: translate(-0.5rem, -28cqh) scale(0.8);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translate(0.875rem, -46cqh) scale(1.2);
+    opacity: 0.95;
+  }
+  75% {
+    transform: translate(-0.25rem, -69cqh) scale(0.7);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translate(0.5rem, -92cqh) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes amb-ember {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  25% {
+    transform: translate(1rem, -23cqh);
+    opacity: 0.65;
+  }
+  40% {
+    opacity: 1;
+  }
+  55% {
+    transform: translate(-0.75rem, -51cqh);
+    opacity: 0.5;
+  }
+  70% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(0.5rem, -92cqh) scale(0.4);
+    opacity: 0;
+  }
+}
+
+@keyframes amb-fall {
+  0% {
+    transform: translate(0, 0) rotate(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(4.375rem, 92cqh) rotate(560deg);
+    opacity: 0;
+  }
+}
+
+@keyframes amb-snow {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.95;
+  }
+  50% {
+    transform: translate(1.75rem, 46cqh);
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-1rem, 92cqh);
+    opacity: 0;
+  }
+}

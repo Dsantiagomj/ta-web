@@ -28,7 +28,13 @@ const stored = (page: Page) =>
 
 // El paso abierto entra con un fundido: axe mide el contraste cuando ya ha terminado.
 const settled = (page: Page) =>
-  page.waitForFunction(() => document.getAnimations().every((a) => a.playState !== 'running'))
+  page.waitForFunction(() =>
+    document
+      .getAnimations()
+      // Sin los bucles infinitos del ambiente (DESIGN.md, Ambience), que nunca acaban.
+      .filter((a) => a.effect?.getComputedTiming().iterations !== Infinity)
+      .every((a) => a.playState !== 'running'),
+  )
 
 async function axe(page: Page) {
   const results = await new AxeBuilder({ page })

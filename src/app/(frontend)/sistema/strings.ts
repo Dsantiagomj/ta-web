@@ -38,12 +38,15 @@ export const catalogStrings = {
     image: 'Captura',
     dofus: 'Guías de Dofus',
     checklists: 'Índice de checklists',
+    ambience: 'Ambiente',
     achievement: 'Página de logro',
   },
   notes: {
     brand:
       'El emblema a 16, 30, 36 y 64 px; a 16 px, la versión simplificada. Después, el logo Sello de la cabecera y del pie: pasa el ratón y el sombrero se inclina. Toma los colores del tema y el modo de la sección.',
     site: 'El panel de Dofus y checklists del menú, abierto y quieto, y el pie del sitio.',
+    ambience:
+      'Las partículas que suben hacia la cabecera en lo alto de cada página, aquí en su caja, con el aspecto del tema y el modo de la sección. Con movimiento reducido no sale ninguna.',
     torre: 'El consejo de una guía: Torre hablando, con su avatar y un bocadillo.',
     header:
       'Seis pies bajo tierra, con el PNJ, el logro, el rango de XP, un objeto de Necesitarás (púlsalo: copia su nombre) y la bolsa de objetos (púlsala); Intoxicación profunda, sin PNJ ni logro y con un objeto sin icono.',
