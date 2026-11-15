@@ -300,7 +300,8 @@ function guideAsks(tally: ItemTally): number[] {
  * enlaza Necesitarás y cuatro Dofus (vulbis, zanahowia, moteado y de los vigilantes) se
  * entregan, y más de 300 filas de recursos se gastan sin objetivo de entrega (se fabrica
  * con ellos, abren una mazmorra). Sin ID de DofusDB no se puede comprobar la entrega, y se
- * suma como antes.
+ * suma como antes. Enseñar no es entregar: el Cocobur de Negro ébano solo se enseña
+ * (objetivo «show»), así que cuenta una vez.
  */
 function onlyHeld(tally: ItemTally, brought: Set<number>): boolean {
   return (
@@ -475,7 +476,8 @@ export function achievementNeeds(
   const single = questRows(data.page).flatMap((row) =>
     row.quests.length === 1 ? [row.quests[0]!] : [],
   )
-  // Los objetos que alguna de esas misiones se queda (objetivo «bring» de DofusDB).
+  // Los objetos que alguna de esas misiones se queda (objetivo «bring» de DofusDB). Los que
+  // solo se enseñan («show») no cuentan: el PNJ los devuelve.
   const brought = new Set(
     single.flatMap((quest) =>
       (quest.stages ?? []).flatMap((stage) =>

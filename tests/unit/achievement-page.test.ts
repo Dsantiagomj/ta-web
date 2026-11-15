@@ -7,6 +7,11 @@ import {
   type AchievementPageData,
   type NoteItemDoc,
 } from '@/lib/achievements/page'
+import { questNeeds } from '@/lib/dofusdb/quest-needs'
+import { questStages } from '@/lib/dofusdb/quest-stages'
+import type { RawQuest } from '@/lib/dofusdb/types'
+
+import shownItems from '../fixtures/dofusdb/quests-shown-items.json'
 
 // Una imagen de Media con su archivo, como la devuelve Payload con depth.
 function media(id: number, name: string) {
@@ -374,7 +379,7 @@ describe('achievementPageView', () => {
     })
 
     it('un Dofus que una misión pide entregar: la suma', () => {
-      // Amaknomalia entrega el Dofus vulbis (QuestObjectiveBringItemToNpcData).
+      // Una misión que se queda el Dofus: un objetivo «bring» con su ID de DofusDB.
       const bring = { stages: [{ objectives: [{ kind: 'bring', itemId: 21186 }] }] }
       const guides = [2, 3].map((id) => guide(id, { items: [{ item: vulbis, quantity: 1 }] }))
       const page = {
@@ -407,6 +412,56 @@ describe('achievementPageView', () => {
         guide(3, { notes: '1 x Dofus turquesa.' }),
       ]
       expect(totals(guides)).toEqual([['Dofus Turquesa', 1]])
+    })
+  })
+
+  describe('necesitarás en total: lo que solo se enseña no se suma (Negro ébano)', () => {
+    // Negro ébano en dev (2026-11-15) pedía «3 × Cocobur»: La espada de la roca (2035) y El
+    // forjador de leyenda (2036) dicen «Enséñale a {npc}: 1 x {item,20210}», una y dos veces.
+    // El PNJ solo mira la espada; con una basta. Datos reales de DofusDB y de las guías de dev.
+    const cocobur = { id: 2239, dofusId: 20210, name: 'Cocobur', superTypeId: 2 }
+    const raw = (id: number) => (shownItems as RawQuest[]).find((candidate) => candidate.id === id)!
+    const espada = raw(2035)
+    const forjador = raw(2036)
+    // Lo que la guía guarda al rellenarse desde su misión (summaryToFill): solo el Cocobur
+    // está en el catálogo de esta prueba.
+    const guideItems = (quest: RawQuest) =>
+      questNeeds(quest).items.flatMap(({ dofusId, quantity }) =>
+        dofusId === cocobur.dofusId ? [{ item: cocobur, quantity }] : [],
+      )
+    const page = {
+      quests: [
+        { name: 'La espada de la roca', quests: [{ ...aguas, stages: questStages(espada) }] },
+        { name: 'El forjador de leyenda', quests: [{ ...seis, stages: questStages(forjador) }] },
+      ],
+    }
+    const guides = [
+      {
+        questId: aguas.id,
+        slug: 'la-espada-de-la-roca',
+        needs: {
+          items: guideItems(espada),
+          notes:
+            '36 x Polvos mágicos.\n18 x Medida de sal.\n18 x Centeno.\n' +
+            '4 x Combates (realizables en grupo).\n1 x Mazmorra Skonk.\n1 x Mazmorra Fraktal.\n' +
+            'Misión: las primeras impresiones son engañosas.',
+        },
+      },
+      {
+        questId: seis.id,
+        slug: 'el-forjador-de-leyenda',
+        needs: {
+          items: guideItems(forjador),
+          notes:
+            '2 x Combates realizables en grupo.\n1 x Combate solitario.\n' +
+            '1 x Mazmorra Cocabulia.\nMisión: El daño de Búril.',
+        },
+      },
+    ]
+
+    it('1 × Cocobur', () => {
+      const { items } = achievementPageView({ ...data(page), guides }).needs
+      expect(items.map(({ item, quantity }) => [item.name, quantity])).toEqual([['Cocobur', 1]])
     })
   })
 
