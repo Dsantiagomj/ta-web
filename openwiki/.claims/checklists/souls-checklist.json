@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:68568c3bacd3bfa72547fc56eea429751b3b761b5b5c3f4feff72d3bd6c92945",
+  "claims": [
+    {
+      "id": "claim_c0ef47c0e85e4c61baed75dc10d7a3f7",
+      "statement": "A souls checklist stores no rows: readSouls reads its soulsQuest's stages, the monsters of its bring objectives, their subareas and the dungeons whose bosses include them, as a visitor.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/queries.ts#L356-L436",
+          "version": "repo-lines-v1:sha256:9b934ffd8feea0f68a7dbb2ca50d2283e8826002b3a472460ecf69e41041b451:eyJzZWxlY3RlZExpbmVDb3VudCI6ODEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUxMWE1OGUwMTliN2RlNDlhMDdiMDJjNmY2OGRlODk5YTFkMjBkYjc2ZmM0ZmNkNjY1YmJkNDU3YmYyMjM4ZjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE1MzJiYzRmMzA3ZDI2YTA3NjQ4NzEwNmJmOWM3Njg0NzE5NjhiMjEwMWUyMDAyNGVhNzNkOWFkNDNjMmZiMWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkxMTJjMGQ5MTg1M2ExNmI1NTNkZTY3MGQ1OTA1NGM2MzAwZDk4ODY2YTRiNDE5MjdlNWU5YTZmN2JkZjg4YWMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f84d62c0256a4b09b68d02fb278fdf5f",
+      "statement": "The monster mapping stores grade levels, boss from isBoss, archmonster from isMiniBoss and the first subarea id, and a dungeon stores DofusDB's optimal player level.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/dofusdb/map-items-monsters.ts#L25-L62",
+          "version": "repo-lines-v1:sha256:102dbcd60594cc495e943fe3ddcc562335a688911455938847e3b609e1d1fd00:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjMzNhMzVlNTJkZTk1NjBhNDEyMDI5ZGYzM2IxNjk0NmVjMmRiMjgxMzU0NTQ3NGJhZjBiODAxNjlmMTYxNzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM4ZTcwODJlODlhNWNkMmVmOThhYjU5NzM5NjZmMmQ5NzU0M2U5Mzc3OGMxOTAzYzY0Y2EyZmY0YzQ3ZGQ2OTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a3d88cc5dbf84eec8571b006757b71d9",
+      "statement": "soulsView turns each bring objective with a monster into one soul in its first stage, lists monsters missing from the database separately, and gives a boss a dungeon only when exactly one dungeon has it.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/souls.ts#L109-L155",
+          "version": "repo-lines-v1:sha256:7aa90cd2178875a7676c1b0ca9cb866f2861581ddb0f30cb9ff58fb43d111006:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4ODlmNDI1OWE0MDllNWY4ZjQ5ODYxZmM2OWM2MmNmOGUwMzFiY2VkYjAyMTczNDUxMWQ0ODllMmM4ZGJiODIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MjY3OTM1ZmM2MzM0NjVkODQ4YjQwYTRlZDY5NjdlN2I3YTMyM2Y4MWNkNTNjMTEwYWUyMTAyOTY4N2FhMTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAyMzllZjYzN2ZkNWM4YTQxMmU1NzU0YmRjZThiMTAwZGQ0NDgxYjI1YzliMjExNGY3ZmNiZjc2ZjUwMjI2MTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBlNTM4OTg3ZmQ2ZDk5M2QxOGMzNDk0YmZmMmQ4MjBjYmJjYTczNWVkMDZmYjgzZDRiNjc2OGFhOWFjYWNjMmMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_657f9f6d374241019c7b3ba17a6b5be5",
+      "statement": "A soul is a boss when it has a dungeon or is a DofusDB boss, an archi when it is an archmonster, and otherwise other.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/souls.ts#L131-L135",
+          "version": "repo-lines-v1:sha256:42d28570f5357a42b8bc4a773175da3625d8a04a5e3a813e91257e35dd93092b:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNWEwOTA0MjVkZTU1Y2U1NmNmZjgxZjQwZmIzYzhhZjM2ODdiNjVjMWUwMjc4MzFmNGNjNDYyOGEzMzFmNDY4ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmZiZmE4MDFhYzg4M2RiYzY4ZWZhMmVhMjYzNTBlNDM2NzhhZDBhODhiZDFmYWIzOGUzM2I4ZDMwZWM0Y2YwYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmQzNzAwNjYzNjAzNTdkMDkwNTNjMTRkODE2Y2Q3OWUzNDFiOWVmYzlkYmRiNWI1NTc0NmE2NWNkYzRhZmFkNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzc2MWQzNDRmYzQxNzlmY2I4MzU4YmRkODM5MTdkMWIxN2QwOTg1Yjk4OTgxOTk3ZDE5M2Y4YTM2ZTI1ZTIzOSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_d1366adcad3642debf3bb62df07cb701",
+      "statement": "soulLevel picks the highest grade that fits the dungeon level, the highest grade without a dungeon, and the last grade when none fits.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/souls.ts#L95-L104",
+          "version": "repo-lines-v1:sha256:43bb9d1ab029298c832155e0d3c044ce603bc3895f8fb2ca033fc42cd8be4529:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNmZDU3MGUyYTc0NzJkMmRiMTAzOTQ1MjI3NmU3ZDA3Y2FlNjA2M2VkMGVlN2FiNmNlZWFlYjY1ODRlNzlhOWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNhMzdlZWM1MmZmYzY1MWU3Yjg4MGNiMGU4YmEwOGU2MzIyYzE2MmE1NzUxNGUxODAwMTA3Y2IyZGQ1Y2NjNTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_cb85a842a144410e81938a4ecf547344",
+      "statement": "Souls are grouped by stage in quest order, labelled bosses when every soul is a boss and archis otherwise, and by region from most to fewest souls with ties by name.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/souls.ts#L157-L177",
+          "version": "repo-lines-v1:sha256:8e08d7d887f74606ea1e89f6b25b9e63030fe7ca98ee86162eed5ba5c2d392b1:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA5NTI3MTJhNWNiNDdiNjUzNjU4ZWJmYzY2OWIyNDE0MDFjYWIwNmUzYWU5ZTNhMzkxNmRmYjgzMDVlNTQ4NzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwNTg0MjI4ZjcyNjNlMmI4MGM2MmM5NWIwYTE3YTQ4OWRhNmJlZTFhOGRhMGE3ZDgzY2Y2MDhmYmI2M2Y3MGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVlMjAzYTJjY2VlNDVmODg1ODhhYWUzMjQwYzZiODMxNmYzMDNlZjZjMzU2OWU5ZTFkYTFiY2RlM2ZjZGFhNTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFlYTRmYjQzNjE2MTYzNDg3ODQ2MDI5NmRkNThmNmRjODM1ZmI0ZDU5NzE5ZDZiNzMwNjNlZDU5N2FiYzQ1NzYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_68f4943bf1624b76b54acb4829e50308",
+      "statement": "The souls island receives only the checklist id, slug, version, legacy data and the soul ids.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/souls.ts#L213-L219",
+          "version": "repo-lines-v1:sha256:8d9dffcd8283f9720a9d62a9edb7823d4fa0a067cc9ee03d01a609df0b6fcf4a:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWUwMGU1MTQ2ODY3NDQ1YTU0YzgzNWFkYjIyNzBmNzgzMjQ5OGYzM2Q2NTJkNDM5YjhkZmEyNzkwYjhjMDU4NiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDIxOWZkYjA3OTVmOGY2MGUwMzI0NGFmNGI3MTBjYjRhNzMxNGM2YTBhZmIwOTdjMTNkZmMzMmY3OTVmZGI2OSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjIsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGY3MzlhMDZjMWNiYjEyNDRlMzM2M2QzOGJjZjlmYTUwY2U4NGZlZDM5OWMyMTkzYTNjN2YwOGQ1OTkxOGIyYSJ9"
+        },
+        {
+          "resource": "repo://src/lib/checklists/souls.ts#L66-L73",
+          "version": "repo-lines-v1:sha256:79217c26cbf122e3e82faae03fd41e9de1f78c684938aceba7d0cf28dfe4ac77:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTYxODQ5N2IzYzc3ZjRiMTViMzlhNjQxNzI1ZDRkNTk1NzYwZTNhYzExOGVjYTRlZWUzYTc4ZjNiODMwNWIwMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODRhYzVkZDFhZWIwMjgyNzU4OWI3ZjdiMWMxMTEwYWZkNjk5OWU1MjczYjBmOTJkOTlhMGZhYWU4YzM2MGVhYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjY5NzdiYjJjMWI0Mzk5MzgyMGRkMWY3ODEyMTljY2FlOGRjZjc3MWVjMTg1YjdjNTBhOGU4NDUzMmQxMzk1NiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_11b7258423594d31b4f68d06b687451e",
+      "statement": "SoulsView renders on the server the breadcrumb, header, Torre's callouts and a window with the progress strip, tools and souls list, plus progress dialogs that reset only the souls and the souls island.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/SoulsView.tsx#L13-L46",
+          "version": "repo-lines-v1:sha256:508ceafde5417074aaa6b64eb86bf88818965ea151e0801841f8979747534e97:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2YTk3ZTQ5YjZlNTI4ZGE1OTI0ZGZlYzk3NjMxOTJjMWVmZDM3MjlhMTQwODA5ZjhiOTdmNTUwYzMwYzE0ZTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_870e46d28f7148178f1c686d94d07c9a",
+      "statement": "SoulsIsland loads souls-ui with import() because the /<slug> route ships its islands to other page types, and restarts only when the checklist version changes.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/checklist/SoulsIsland.tsx#L7-L29",
+          "version": "repo-lines-v1:sha256:2b4353d918f3d07c38317bc8ee42d449feac025e708c89529470d7a075c521f4:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNkMjlkOTdiZjczZTNjNmZhZWEyMTAyMmNmYmE0NGFhMmI2NWFmYmZhYWVhN2M1YzM5MTc2ZGU3ZTlkZjFlNDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7901d514e63c4c91bdc7aa3a75543633",
+      "statement": "souls-ui reads and writes souls in ta-web:progress, keeps the chosen view and type in attributes on .sl-win so a refresh keeps them, never moves React's nodes, and migrates cosecha:done once.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/checklist/souls-ui.ts#L1-L40",
+          "version": "repo-lines-v1:sha256:9b1ac072500f67b44b1078902b3b45deeff9ae6d22faabc7297d89d7530eb081:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjMDllZWE2MTQxZDlkYTVjYjg4YjZiZGRiMDI3MjJjNDgyN2Q3NTVkN2FkN2I1OGVmMWQxY2NiYTIwZTAwMmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ5Y2Y1MWVhNmI4YWNkZTU0ZmZiM2NmNDUxNDJkYmMxYWI1OGFjNjcwZTkxMzQ0YjQyYzUzODY2NTJiNGZlNDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEwMzI1OTQxNzVmYTFlNzE1ZDZhMTAxMWU5Y2Y4OWFjMmM0MjQ4NjI2NmI0NmVlMjdiMDA2OWYxYjZhZDBmNmIifQ"
+        },
+        {
+          "resource": "repo://src/components/checklist/souls-ui.ts#L398-L410",
+          "version": "repo-lines-v1:sha256:eba1cc675071d7c99ee4702361b5ff0ab0df04b336b680686a885acee83b9738:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmZDE3NDA5ZmIzOTYxM2E3OWU1ODYyZjA0NTI2NjY1MTkwNzEzNzVmMWUzNGU0NWQ2MWM0ODBhNDY5NzExYjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNmODJlMTI5MTM4Y2M5NzMwYTRhOWQzMTM5NGYzNzIyNmRiY2I2MDFjNzRjZTk1NTk2NDhiMmY0YzhiMjZkOTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQwNzVlYzlkNTQ0YTg4MjkyNjViOGVmYzRhZWFkZGQ2MTNhMGY5ZmVmZjZmY2FlN2M1NjI5MGI4YzQ5ZDkwZTkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_845daaad1edf4bf8aca3b2a21adae407",
+      "statement": "The souls search treats a lone number as a level or text, a number after nv. or nivel as only a level, two numbers as a range, a trailing dash as a lower bound, and anything else as folded text.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/souls-search.ts#L1-L45",
+          "version": "repo-lines-v1:sha256:e7a57cf62e2a18df9e446caf9d600e9f59c8356c51240241e476a9bba86ff1f0:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlNTc4MDIwZGY5MTIxMzU3YmVkNzE1NzBjMTQyZDJhN2Y4NTJjMjA3Yjg5MmJhNWE1Mzk5ZDk1MTliZjViOGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-15T11:00:17.514Z"
+  }
+}

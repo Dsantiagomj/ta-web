@@ -56,14 +56,16 @@ sources:
     resource: repo://src/proxy.ts
   - id: openwiki-source-15d81576125ffd9d62dc8605
     resource: repo://tests/e2e/app-server.ts
+  - id: openwiki-source-9484de14d1905b6558564507
+    resource: repo://tests/e2e/maquetacion.spec.ts
   - id: openwiki-source-ba0c02c20c1203ccdd8a9159
     resource: repo://tests/integration/env.ts
   - id: openwiki-source-e73350ef868f2379d51909ed
     resource: repo://tests/unit/dofusdb-write-concurrency.test.ts
-generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-14T11:00:46.827Z
+    at: 2026-11-15T11:00:17.514Z
 ---
 
 # Environment configuration
@@ -97,6 +99,7 @@ Each group of variables has one small resolver function that takes an `env` reco
 | `GGA_CLAUDE_MODEL` | `scripts/hooks/gga-review.sh`: exported as `ANTHROPIC_MODEL` for the per-commit gga review; empty means `claude-sonnet-5-5` | The shell; local tooling only, the app never reads it |
 | `LHCI_SHARD` | `lighthouserc.cjs`: `1/2` or `2/2` measures one contiguous part of the page list; unset measures every page; a malformed value or more parts than pages throws | CI's two budget jobs; unset locally |
 | `RELEASE_REVIEW_MODEL`, `RELEASE_REVIEW_JOBS`, `RELEASE_REVIEW_TIMEOUT_MINUTES`, `RELEASE_REVIEW_BATCH_CHARS` | `scripts/review-release.ts` (`pnpm review:release`): model, parallel batches, minutes per batch and diff characters per batch; empty means `fable`, 3, 20 and 120000 | The shell; local tooling only. See [Release review](../workflows/release-review.md) |
+| `LAYOUT_LINT_PANEL_LOGIN`, `LAYOUT_LINT_PANEL_EMAIL`, `LAYOUT_LINT_PANEL_PASSWORD`, `LAYOUT_LINT_PATHS` | `tests/e2e/maquetacion.spec.ts`, the layout review, when it runs against a deployment through `SMOKE_BASE_URL`. There it only reads, unless `LAYOUT_LINT_PANEL_LOGIN` is exactly `1` and both credentials are set: then it signs in to that environment's panel to lint the draft previews, which writes a session it closes at the end. `LAYOUT_LINT_PATHS` adds comma-separated routes. Locally the spec uses the seeded panel account and ignores the credentials | The process environment; local tooling only. See [Test suites](../testing/test-suites.md) |
 
 `NODE_ENV`, `NEXT_PHASE` and `CI` come from Next.js and GitHub Actions and are not listed in `.env.example`.
 

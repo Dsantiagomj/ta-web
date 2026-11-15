@@ -32,10 +32,10 @@ sources:
     resource: repo://src/payload.config.ts
   - id: openwiki-source-98d5ddb014a0fd4d678f6f2a
     resource: repo://tsconfig.json
-generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-14T11:00:46.827Z
+    at: 2026-11-15T11:00:17.514Z
 ---
 
 # Payload CMS configuration
@@ -49,11 +49,11 @@ Payload 3 runs inside the Next.js process. There is one config, `src/payload.con
 | `admin.user` | `users` | Panel accounts; see [Collections and access](collections.md) |
 | `admin.importMap.baseDir` | `src/` | Where `generate:importmap` resolves admin components |
 | `admin.dateFormat`, `admin.meta` | Spanish date format, title suffix and the site's icons | The panel carries Torrente Arcano's name and icons, not Payload's |
-| `admin.components` | `graphics.Logo`, `graphics.Icon` and `beforeLogin` from `PanelBrand` | The emblem and a login welcome instead of Payload's logo. See [Admin panel](admin-panel.md) |
-| `collections` | `[QuestGuides, AchievementPages, AchievementGroups, DofusGuides, Checklists, Media, Quests, Items, Monsters, Dungeons, Npcs, SubAreas, AchievementCategories, Achievements, Users]` | One file per collection in `src/collections/`. The order is the panel menu's: Torre's content first, then images, the read-only DofusDB game data and the panel accounts; each collection names its menu group in `admin.group`. See [Collections and access](collections.md) |
-| `globals` | `[DofusGuidesIndex]` | One file per global in `src/globals/`; the only one is the intro of the `/guias-dofus` index. See [Dofus guides index and menu](../dofus-guides/dofus-guides-index.md) |
+| `admin.components` | `graphics.Logo`, `graphics.Icon` and `beforeLogin` from `PanelBrand`; `views.dashboard` (`Dashboard`) and `views.panelGuide` (`PanelGuide` at `/guia`); `afterNavLinks` (`PanelGuideNavLink`); `providers` (`PanelA11y`) | The emblem and a login welcome instead of Payload's logo, the «Pendiente» dashboard instead of the collection grid, the panel guide linked after the menu, and accessible names for Payload's controls. See [Admin panel](admin-panel.md) and [Panel dashboard and editing aids](panel-editing-aids.md) |
+| `collections` | `withPanelDescriptions([QuestGuides, AchievementPages, AchievementGroups, DofusGuides, Checklists, Media, Quests, Items, Monsters, Dungeons, Npcs, SubAreas, AchievementCategories, Achievements, Users])` | One file per collection in `src/collections/`; `withPanelDescriptions` adds each collection's one-line description above its list. The order is the panel menu's: Torre's content first, then images, the read-only DofusDB game data and the panel accounts; each collection names its menu group in `admin.group`. See [Collections and access](collections.md) |
+| `globals` | `[DofusGuidesIndex, ChecklistsIndex]` | One file per global in `src/globals/`: the intro of the `/guias-dofus` index and the «???» teaser poster of `/checklists`. See [Dofus guides index and menu](../dofus-guides/dofus-guides-index.md) and [Checklists index](../checklists/checklists-index.md) |
 | `editor` | `lexicalEditor()` with the panel's Spanish placeholder | Default rich text editor; the guide body blocks use it (see [Guide body blocks](blocks.md)). Achievement page prose uses `proseEditor`, the same editor plus a YouTube block |
-| `endpoints` | `[healthEndpoint, readyEndpoint, searchIndexEndpoint, dofusDbValuesEndpoint]` | Custom endpoints, mounted under `/api`: `/api/health`, `/api/ready`, `/api/search/guides` and `/api/dofusdb-values/:source/:id`. The checklist details endpoint is mounted by its collection instead |
+| `endpoints` | `[healthEndpoint, readyEndpoint, searchIndexEndpoint, dofusDbValuesEndpoint]` | Custom endpoints, mounted under `/api`: `/api/health`, `/api/ready`, `/api/search/guides` and `/api/dofusdb-values/:source/:id`. The two checklist endpoints (details and poster progress) are mounted by their collection instead |
 | `i18n` | Spanish only, fallback `es`, with `panelStrings.translations` | The panel UI is in Spanish; some of Payload's own words are overridden so the header status only speaks of publishing |
 | `localization` | One locale, `es`, default and fallback | Content is Spanish; localized fields keep a second language possible |
 | `secret` | `PAYLOAD_SECRET` | Signs panel sessions |
@@ -86,7 +86,7 @@ Payload writes several files that are committed and must not be edited by hand:
 | File | Regenerate with | Notes |
 |---|---|---|
 | `src/app/(payload)/**` (layout, admin page, API routes) | Payload's Next template | Each file starts with "THIS FILE WAS GENERATED AUTOMATICALLY BY PAYLOAD" |
-| `src/app/(payload)/admin/importMap.js` | `pnpm generate:importmap` | Maps admin component paths to imports; today it holds the quest guide components (`QuestAutofill`, `SummaryNote`), the achievement panel note (`DofusDbNote`), the panel components of `src/components/admin/` (`SlugDescription`, the row labels, `LockedOnceSavedText`, `CopyValueDescription`, `PanelBrand`), the Lexical rich text components (field, cell, diff, the client feature toolbar entries and `BlocksFeatureClient` for the prose video block), `CollectionCards` and the S3 client upload handler |
+| `src/app/(payload)/admin/importMap.js` | `pnpm generate:importmap` | Maps admin component paths to imports; today it holds the quest guide components (`QuestAutofill`, `SummaryNote`), the achievement panel note (`DofusDbNote`), the panel components of `src/components/admin/` (`SlugDescription`, the row labels, `LockedOnceSavedText`, `CopyValueDescription`, `PanelBrand`, `Dashboard`, `PanelGuide`, `PanelGuideNavLink`, `PublishStatus`, `StepOutline`, `StepRefField`, `StopObjectiveField`, `ColorField` and `PanelA11y`), the Lexical rich text components (field, cell, diff, the client feature toolbar entries and `BlocksFeatureClient` for the prose video block), `CollectionCards` and the S3 client upload handler |
 | `src/payload-types.ts` | `pnpm generate:types` | CI regenerates it and fails on any diff |
 | `src/migrations/*` | `pnpm migrate:create <name>` | Schema history; see the database page |
 
@@ -117,7 +117,7 @@ The quest guide components are client components (`'use client'`) that read the 
 - **New custom endpoint**: add it under `src/endpoints/` and to `endpoints`. It is served under `/api/<path>` by the generated catch-all route.
 - **New admin component**: put it under `src/components/`, reference it by path from a collection or the config, then run `pnpm generate:importmap` and commit `importMap.js`.
 - **New guide body block**: add it under `src/blocks/` and to the collection's `blocks` field. See [Guide body blocks](blocks.md).
-- **New global**: add a file under `src/globals/`, add it to `globals`, then create a migration and regenerate types. `src/globals/` holds only `DofusGuidesIndex` today; the site settings global named in AGENTS.md is still planned.
+- **New global**: add a file under `src/globals/`, add it to `globals`, then create a migration and regenerate types. `src/globals/` holds `DofusGuidesIndex` and `ChecklistsIndex` today; the site settings global named in AGENTS.md is still planned.
 
 ## Related pages
 

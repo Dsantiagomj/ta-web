@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:be62ab6581e0350c67a4108413d0e32694717d6003b4ea2825384d6d3b7aa05a",
+  "pageVersion": "sha256:26aa48660381a4b871870a82dc284587c7aed22d52c526979b8db53873d6350d",
   "claims": [
     {
       "id": "claim_fd7ce3bd93db451db660f3db73a2994d",
@@ -47,8 +47,8 @@
       "statement": "The hero search form is server-rendered with role search and an action pointing at the legacy site's search, so it works without JavaScript.",
       "evidence": [
         {
-          "resource": "repo://src/components/home/Hero.tsx#L11-L84",
-          "version": "repo-lines-v1:sha256:465dc6e3ca2429104cef723ede3d93d71aa40ae568ed1b08bce05fc35b815b64:eyJzZWxlY3RlZExpbmVDb3VudCI6NzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM4NTliZDM0ZTIwZGYzZDZlMjc5N2JhZDlmZTdjNGZlOWNhZTg3NjJhOGVmNmQ3YjliZWU4ZjcwZGY2ZGYxYTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/components/home/Hero.tsx#L11-L88",
+          "version": "repo-lines-v1:sha256:11a6b699b812dfc351929a4e0f431ef42387ead1388ebdbd3822f326461c31e1:eyJzZWxlY3RlZExpbmVDb3VudCI6NzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM4NTliZDM0ZTIwZGYzZDZlMjc5N2JhZDlmZTdjNGZlOWNhZTg3NjJhOGVmNmQ3YjliZWU4ZjcwZGY2ZGYxYTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -225,10 +225,24 @@
           "version": "repo-lines-v1:sha256:f348d25f2f34243956e04c620fba618eb995c3e03dc78339c9aac779a6d97409:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdjYTcxNzg2NzRlMTdmMWY1MjExNTNlMWUxN2MwZDc1YWM0ODgyZTVlNDZmMTMyZTVmMzQ5NjI1NjZhMDMwZTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA2ZWZkMDU5ZjJmNmUxZDViYWNmNGVkZjMwMDZiM2E5MDczYTFhMDVmYzNiZjI0OGJkYTcyOGU3MjEzNTczMjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhkNWEyMTI5ODIxOTk3ODA0Mjc0ODA0NWZmOWFmYTQ0OWE5ZmZlYmFkMTc3NmQ0OGIxYjcyZTE4ZGJlN2M1NTcifQ"
         }
       ]
+    },
+    {
+      "id": "claim_552dfe939e714bd3b3d0afae1e08690b",
+      "statement": "The hero name and the checklist drawing of the areas carry data-layout-lint-ignore, because the name is one word per line on purpose and the drawing's rows are cut with ellipses like a thumbnail.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/home/Areas.tsx#L133-L140",
+          "version": "repo-lines-v1:sha256:294d79a8d47765334c932bc762324c7d30a5fd7911484e15eff6c668fe7616e9:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTgwODIzNTM2NmQ5MDNmZWQ4MDdlNGU0NWRkMjg1NGFjYjY4NTU5ODBjM2Y3YzczM2QxOTA1MTcyNzBhMjgzMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDU2N2I5ODJlMTNhZmEwOTI5Mjk3MTJhNTY0YzIzODZkNWY0YzgxZDk5ZThmZTJlZjNmMzg4ZDAwYWI1NDU0OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWI2NGI3ZTFiNjAzMmM3YmE5NWMzZDI0NGM2MzM0N2Q1YjE4OWI2MzcyN2ZmMTI2MmRkYTlhMmI3MjA5MjhjZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDJiN2E2MzI5MTMwZGJhZDZmNmQ2MGQ5ODA3Zjg1NTRmMzVjMjMwODVlMTFmMTMwMjcyYjVhM2JkOWQ2ODY5YyJ9"
+        },
+        {
+          "resource": "repo://src/components/home/Hero.tsx#L46-L52",
+          "version": "repo-lines-v1:sha256:81b1340620f107285e2b0ac13c205a91bd0cf4c217ac7fac2a9e5f938d710a56:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmI4YTZlMjZlNjRkMmUwODhiN2NhYTFiMDU5ZjcyY2JlY2I1MTAzYTU1NzE4ODRjNjBmNzk2M2IxOGMwZjhmZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGZkN2NlNWRjNzBmZjkxZWY4ZDliZWI4NDQzZjA2OGIzYmI4Mzk3ZTU2NGJjMzA0NmEyYmY0OTAzMzAzNGNiZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTg3NWUxMjE4OGIzOWVkNTg3M2JjMDJhNTM4MDNkZDUwMzU2MzVlMDdiZjBlZTk0ZjA0M2I4Y2JjYWJkNGQyNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDYxZmE2YWYzMmM3YWM0ZjM4NDAwNGE5MjYzYWM5NGEzYTc2MTRhOWU0MDgwZDU1Y2EwNmI5N2ViZTM4MDMxNSJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-14T11:00:46.827Z"
+    "at": "2026-11-15T11:00:17.514Z"
   }
 }

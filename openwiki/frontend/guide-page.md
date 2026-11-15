@@ -42,10 +42,10 @@ sources:
     resource: repo://tests/unit/guide-step-nav.test.ts
   - id: openwiki-source-bf9fb1ff7357ca38b1ad1283
     resource: repo://tests/unit/revalidate-guides.test.ts
-generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-14T11:00:46.827Z
+    at: 2026-11-15T11:00:17.514Z
 ---
 
 # Public quest guide page
@@ -119,7 +119,7 @@ The frontend layout reads the mode cookie, so every guide page is rendered per r
 - Blocks before the first step are the introduction; blocks after the last step are the closing. A loose block between two steps joins the end of the previous step, so the reading order never changes. A guide without step blocks is all introduction: the page never splits prose into steps itself.
 - Each step keeps its own blocks, including fight blocks with their monsters' images, and its coordinates only when both X and Y are set. Steps have no title (see [Guide body blocks](../cms/blocks.md#step)).
 - An image without a file is skipped; images with Payload's generated sizes get `srcset` (see [Media storage](../media/storage.md)). A video without a title gets one built from the guide's title (`guideStrings.page.videoTitle`).
-- The first image in document order, whether an image block or an image uploaded inside a text or callout, inside a step or not, gets `priority`: no lazy loading and `fetchPriority="high"`, because it is the LCP candidate. Only that one.
+- The first image in document order, whether an image block or an image uploaded inside a text or callout, inside a step or not, gets `priority`: no lazy loading and `fetchPriority="high"`, because it is the LCP candidate. Only that one. A caller can turn this off with `{ priority: false }`, as the Dofus guide page does for its step-by-step body, which sits below its header (see [Dofus guide page](../dofus-guides/dofus-guide-page.md)).
 
 The page renders the introduction and closing with `GuideBody`, and the steps with `GuideSteps`, which gives each the anchor `paso-N` and separates them with a line; they carry no visible number. Consecutive screenshots inside a step go together in a grid, two per row and the same size from 40rem, one per row on a phone; a screenshot outside the steps keeps the full column width. Rich text becomes server-rendered HTML with coordinate chips, a warning callout renders as `Callout` and a tip as Torre's tips. See [Design system components](design-system-components.md).
 

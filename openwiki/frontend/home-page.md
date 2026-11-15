@@ -40,10 +40,10 @@ sources:
     resource: repo://tests/unit/home-hero.test.tsx
   - id: openwiki-source-f5bb52b30eff93118a46d132
     resource: repo://tests/unit/home-sections.test.tsx
-generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-14T11:00:46.827Z
+    at: 2026-11-15T11:00:17.514Z
 ---
 
 # Home page
@@ -57,7 +57,7 @@ In order:
 | Section | Component | What it shows |
 |---|---|---|
 | Live strip | `LiveStrip` | Only while Torre is live: the first thing under the header, one line on phones so the search stays on the first screen. Nothing otherwise |
-| Hero | `Hero` | The name and what it is (the name one word per line with any font), a lead sentence, Torre asking which quest you are doing over the quest search, and the Krosmoz island with the six primordial Dofus around it, the main image on phones. The island comes before the text in the HTML, the order phones show: with the text first and the island moved up with `order`, Chrome's first paint of half-loaded HTML put the text on top and shifted it 240px when the island arrived |
+| Hero | `Hero` | The name and what it is (the name one word per line with any font, so its height does not change when the font arrives; it carries `data-layout-lint-ignore` so the layout review does not flag it as one word per line, see [Test suites](../testing/test-suites.md)), a lead sentence, Torre asking which quest you are doing over the quest search, and the Krosmoz island with the six primordial Dofus around it, the main image on phones. The island comes before the text in the HTML, the order phones show: with the text first and the island moved up with `order`, Chrome's first paint of half-loaded HTML put the text on top and shifted it 240px when the island arrived |
 | What you will find | `Areas` | First a full-width missions card, four NPCs on the Astrub square with the counts of published guides and achievements; then Dofus guides, Checklists, Classes and Dungeons, in 2 × 2 with only the title on phones. Each card is one link, the text of its `h3`, with an `::after` covering the card; the sentence describes it through `aria-describedby`. Cards link where the header menu links, so the Dofus guides card goes to `/guias-dofus` (see [Dofus guides index and menu](../dofus-guides/dofus-guides-index.md)). Classes and Dungeons have no pages yet (`soon` on their section in `nav.ts`): their cards are plain `li.area--soon` with no link, the «Próximamente» tag (`Soon`) after the title, the art in grayscale at 55 percent and no hover effect |
 | One guide per quest | `GuideTour` | Four points next to the real "Seis pies bajo tierra" guide in miniature, with the same numbers on each part. Where scroll-driven animations exist (`home.css`), the point crossing the middle of the screen frames its part, and so does hovering a point; with reduced motion, only the numbers |
 | Checklists | `ChecklistsSection` | The checklists of the menu, from their collection and in its order (`loadChecklistNav`), each with its egg and its sentence, without figures. A published checklist links to its page; one in preparation links to its old Squarespace page with a visually hidden note, or, without that link, is a `div` with `aria-disabled` and «En preparación» for screen readers. No checklists, no section |

@@ -40,6 +40,8 @@ sources:
     resource: repo://src/lib/site/legacy.ts
   - id: openwiki-source-427eacf7850519fc2b6f8403
     resource: repo://tests/e2e/cabecera.spec.ts
+  - id: openwiki-source-3bd66ce842612aa5530166a6
+    resource: repo://tests/e2e/checklists-index.spec.ts
   - id: openwiki-source-e57aa8deceed5152aa47af8a
     resource: repo://tests/integration/achievement-page-queries.test.ts
   - id: openwiki-source-1c14916aa5d794dc90f1b2c7
@@ -50,10 +52,10 @@ sources:
     resource: repo://tests/unit/site-search.test.ts
   - id: openwiki-source-252aed3da80ab24fac288bb7
     resource: repo://tests/unit/site-shell.test.tsx
-generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-14T11:00:46.827Z
+    at: 2026-11-15T11:00:17.514Z
 ---
 
 # Site header, footer and search
@@ -67,7 +69,7 @@ The frontend layout (`src/app/(frontend)/layout.tsx`) wraps every public page in
 - Five sections (`SECTIONS`): Misiones, Dofus, Checklists, Clases and Mazmorras, each with an accent color, art and links. Misiones links to the app's own `/metalogros`. Quests and achievements already live in the app, so no quest or achievement link goes to the old site.
 - **Próximamente.** Clases and Mazmorras have no pages yet, so their sections carry `soon: true`. That one flag drives four places: the header nav, the phone sheet, the footer's Explorar column and the home page cards all show the section greyed out, without a link, followed by the «Próximamente» tag (`Soon`, `src/components/site/Soon.tsx`, styled as `.soon` in `site.css`), and the header search does not find them, nor their classes and dungeons. The `CLASSES` and `DUNGEONS` lists stay in `nav.ts` for when the pages arrive; removing `soon` brings each section back.
 - **Dofus.** The Dofus section links to the app's own index, `/guias-dofus` (`DOFUS_INDEX_PATH`). The list of Dofus is not in `nav.ts`: it comes from the `dofus-guides` collection. The layout loads it with `loadDofusNav` (`src/app/(frontend)/site-data.ts`, cached under the `dofus-guides` tag) and passes it to `SiteHeader` as `dofus`, a list of `DofusNavItem` (name, the egg at 128 px when the Dofus item has an image, and `href` only when the guide's state is `published`). A Dofus Torre adds or publishes in the panel appears without a code change. `nav.ts` keeps only `DOFUS_FEATURED`, the three eggs of the panel's card, from `public/img/game/dofus/`. No text counts the Dofus, because Torre adds them over time. See [Dofus guides index and menu](../dofus-guides/dofus-guides-index.md).
-- **Checklists.** The Checklists section links to the app's own index, `/checklists` (`CHECKLISTS_INDEX_PATH`). The list of checklists is not in `nav.ts` either: `loadChecklists` (`site-data.ts`) is one cached read of the `checklists` collection, under the `checklists` tag, shared by the index, the menu, the footer, the search and the home page, and `loadChecklistNav` turns it into `ChecklistNavItem`s (`checklistNavItems`, `src/lib/checklists/list.ts`): name, slug, egg, sentence, and an `href` to its page when published, or to its Squarespace page when in preparation and it has one (`legacy`). See [Checklist page and index](../checklists/checklist-page.md).
+- **Checklists.** The Checklists section links to the app's own index, `/checklists` (`CHECKLISTS_INDEX_PATH`). The list of checklists is not in `nav.ts` either: `loadChecklists` (`site-data.ts`) is one cached read of the `checklists` collection, under the `checklists` tag, shared by the index, the menu, the footer, the search and the home page, and `loadChecklistNav` turns it into `ChecklistNavItem`s (`checklistNavItems`, `src/lib/checklists/list.ts`): name, slug, egg, sentence, and an `href` to its page when published, or to its Squarespace page when in preparation and it has one (`legacy`). See [Checklists index](../checklists/checklists-index.md).
 - Pages the app does not have yet link to Torre's current Squarespace site, through `legacyHref(slug)` (`src/lib/site/legacy.ts`, origin `https://www.torrentearcano.com`), with the same slug except where his page is named differently: legal pages, plus the class and dungeon links kept for later (Feca and Yopuka carry `-1` in their legacy slugs). When the app gets its own page, the link becomes relative.
 - Socials (Twitch, Kick, YouTube, Discord), Ko-fi and the legal links.
 - The game art is drawn at its file size or smaller: Dofus item icons (128 px), the Silvestre Dofus of the Checklists section, class heads from the Dofus 3 client export (64 px) and the Crunchidor.
@@ -81,6 +83,8 @@ The Dofus panel has the «Guías de Dofus» card (three featured eggs, `DOFUS_FE
 ## Footer
 
 `SiteFooter` has three columns on top: Torre with his streams, Explorar with the five sections (Misiones y logros, Dofus and Checklists as links, Clases and Mazmorras as `span.ft-soon` text with the «Próximamente» tag), and Comunidad with Discord, Ko-fi and his channels in inventory slots; below, the legal band. Each link appears once. There is no live state yet: the card says where he streams, not whether he is streaming.
+
+Torre's face in the footer gets its shadow from a radial gradient behind the image (`.ft-torre::before`), not from a CSS `filter`. With a `filter` on the image or an ancestor, Chrome counts the image as a larger box than it draws, and on a short page such as `/checklists` the lazy footer face became the phone LCP element. `tests/e2e/checklists-index.spec.ts` checks it is not.
 
 ## The header island
 

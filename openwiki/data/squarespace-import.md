@@ -66,10 +66,10 @@ sources:
     resource: repo://tests/unit/import-rich-text.test.ts
   - id: openwiki-source-299c190cabc2f0753a302110
     resource: repo://tests/unit/import-to-quest-guide.test.ts
-generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-14T11:00:46.827Z
+    at: 2026-11-15T11:00:17.514Z
 ---
 
 # Squarespace import
@@ -209,7 +209,7 @@ The command writes to whatever database `DATABASE_URL` names, with no confirmati
 
 `pnpm guides:backfill <inventory dir> [--apply] [--remote] [--production]` (`scripts/backfill-guides.ts`) brings guides imported before two importer changes up to what `pnpm import:guides` produces now:
 
-1. **Closing sentence.** `restoreClosings` (`scripts/import/restore-closings.ts`) reads each guide's cached page, `raw/pages/<slug>.html`, and finds its closing paragraph with `closingParagraph`. `restoreClosing` replaces the trimmed paragraph in the guide's closing (from the block after the last step, or the whole body without steps) with the full one. If the paragraph was only the sentence, it adds it as its own text block after the last step. If the closing already starts with the sentence, or the trimmed paragraph is no longer there because Torre changed it, it changes nothing and counts it.
+1. **Closing sentence.** `restoreClosings` (`scripts/import/restore-closings.ts`) reads each guide's cached page, `raw/pages/<slug>.html`, and finds its closing paragraphs, in order, with `closingParagraphs`: Torre sometimes leaves two (Leyenda del otoño). `restoreAll` handles them one after another with `restoreClosing`, which replaces the trimmed paragraph in the guide's closing (from the block after the last step, or the whole body without steps) with the full one. If the paragraph was only the sentence, it adds it as its own text block after the last step, or after the previous closing so several stay in order. A closing counts as present when the guide already has that whole paragraph, so two closings that start with the same sentence do not hide each other. If the trimmed paragraph is no longer there because Torre changed it, it changes nothing and reports why (no trimmed paragraph, no step to put it after, or an empty paragraph).
 2. **Fights.** `backfillFightLists` (`src/lib/guides/backfill-fights.ts`) runs the same `splitFightLists` as the loader over stored guides and, with `--apply`, imports the images of the monsters of every fight block (see [DofusDB refresh](dofusdb-refresh.md#game-images)).
 
 Both walk guides by their latest version. A guide whose latest version is published is saved published; one whose latest version is a draft is saved as a draft and left for Torre to publish. Without `--apply` the script only counts. It prints what it restored or converted and what it left alone (no closing on the page, no cached page, unmatched monster names). Re-running it changes nothing already done, and retries monster images that failed even when nothing is left to convert.

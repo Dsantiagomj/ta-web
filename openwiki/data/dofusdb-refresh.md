@@ -16,6 +16,10 @@ sources:
     resource: repo://package.json
   - id: openwiki-source-23775c3de52f3ab95a13cb8b
     resource: repo://README.md
+  - id: openwiki-source-b086b6b1802f507b0e5a4c8f
+    resource: repo://scripts/dungeon-notes.ts
+  - id: openwiki-source-fca54d456ab0ce8df7083ec2
+    resource: repo://scripts/payload-script.ts
   - id: openwiki-source-63cbcc482c18e4f9ce5d0888
     resource: repo://scripts/refresh-quests.ts
   - id: openwiki-source-30fb9110f08cd9302abaca1a
@@ -24,6 +28,8 @@ sources:
     resource: repo://src/collections/quest-guide-autofill.ts
   - id: openwiki-source-7a2723ea85824e431ff5eb54
     resource: repo://src/collections/QuestGuides.ts
+  - id: openwiki-source-8db870ce022f19bcd8eefdc9
+    resource: repo://src/lib/achievements/dungeon-report-lines.ts
   - id: openwiki-source-d44cdac9cd2322900519745e
     resource: repo://src/lib/achievements/dungeon-report.ts
   - id: openwiki-source-6fb0b5f4df5054d4e6c27dc0
@@ -90,10 +96,10 @@ sources:
     resource: repo://tests/unit/dofusdb-quest-rewards.test.ts
   - id: openwiki-source-e73350ef868f2379d51909ed
     resource: repo://tests/unit/dofusdb-write-concurrency.test.ts
-generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-14T11:00:46.827Z
+    at: 2026-11-15T11:00:17.514Z
 ---
 
 # DofusDB game data refresh
@@ -116,7 +122,7 @@ pnpm data:quests
        │    achievements (all pages, with objectives and rewards)
        │    achievement categories (all pages)
        │    items (all pages, only the stored fields)
-       │    monsters (all pages, id/name/gfxId)
+       │    monsters (all pages, id/name/gfxId/isBoss/isMiniBoss/subareas/grades.level)
        ├─ refreshQuests(payload, data, { concurrency })
                                       src/lib/dofusdb/refresh-quests.ts
             mapItem / mapMonster      src/lib/dofusdb/map-items-monsters.ts
@@ -173,7 +179,7 @@ A full run makes several hundred requests, mostly for the item catalog, and one 
 
 `fetchQuestData` loads every quest, collects the distinct `npcId` and `mapId` values from their `startPosition` entries plus the NPCs their objectives name (`objectiveNpcIds`: the NPC parameter of the objective's class and any `{npc,<id>}` marker in its text, without the 0 DofusDB uses for none), and fetches only those NPCs (`npcs`) and maps (`map-positions`). It downloads **every** sub-area (`id`, `name`, `areaId`) and area (`id`, `name`), because objectives fall in sub-areas that are no start map's (about 570), and every dungeon (`id`, `name`, `bosses`), because Torre's notes can name any dungeon. It downloads every achievement with `fetchAll('achievements', { select })`, because a quest's achievement can only be found by looking through the achievements' quest lists. The select keeps `id`, `name`, `slug`, `need`, `categoryId`, `iconId`, `points`, `level` and `order`, plus `objectiveIds` and `rewardIds`, without which DofusDB does not attach the objectives and rewards the achievement pages need. It also downloads every achievement category (`id`, `name`, `parentId`, `order`). It returns `{ quests, npcs, mapPositions, items, monsters, subAreas, areas, dungeons, achievements, achievementCategories }`.
 
-Items and monsters are different: `fetchQuestData` downloads the **whole item catalog** and the **whole monster catalog** with `fetchAll`, not only what quests name in rewards or needs, because Torre may name any item or monster in a guide, and fight blocks match monsters by name. Monsters keep only `id`, `name` and `gfxId`. A full run brings about 2,000 quests, 5,000 monsters and 21,500 items (README). The select list is `id`, `name`, `level`, `typeId`, `iconId` and `type`: only the fields the collection stores, plus `type`, the item type object DofusDB attaches through `typeId`, which carries the supertype. The whole row is roughly eight times heavier; with the select a page of 50 items is about 44 KB instead of about 375 KB.
+Items and monsters are different: `fetchQuestData` downloads the **whole item catalog** and the **whole monster catalog** with `fetchAll`, not only what quests name in rewards or needs, because Torre may name any item or monster in a guide, and fight blocks match monsters by name. Monsters keep only `id`, `name`, `gfxId`, `isBoss`, `isMiniBoss`, `subareas` and the level of each grade (`grades.level`, without the rest of the grade), which the souls checklist needs; dungeons keep `id`, `name`, `bosses` and `optimalPlayerLevel`. A full run brings about 2,000 quests, 5,000 monsters and 21,500 items (README). The select list is `id`, `name`, `level`, `typeId`, `iconId` and `type`: only the fields the collection stores, plus `type`, the item type object DofusDB attaches through `typeId`, which carries the supertype. The whole row is roughly eight times heavier; with the select a page of 50 items is about 44 KB instead of about 375 KB.
 
 Because items no longer come from quest references, a reward or need item that is missing from the catalog is still dropped and counted as a missing item when quests are written.
 
@@ -192,7 +198,7 @@ There is no index on the item name. Picking an item by name in the panel runs a 
 - **`rewards` and `needs`**: computed by `questRewards` and `questNeeds`, described below. They carry DofusDB item and monster IDs; the refresh swaps them for Payload IDs when it writes.
 - **`stages`**: computed by `questStages`, described below.
 
-`mapItem` and `mapMonster` (`src/lib/dofusdb/map-items-monsters.ts`) do the same for the catalog rows: Spanish name with French fallback, then `Objeto <id>` or `Monstruo <id>`; an item's `level`, `typeId` and `iconId`, plus `superTypeId` read from `type.superTypeId` (`null` when DofusDB sends no type); a monster's `gfxId` stored as `iconId`. `mapDungeon` names a dungeon the same way (`Mazmorra <id>` as fallback) and swaps its boss DofusDB IDs for Payload monster IDs, counting the bosses missing from `monsters`.
+`mapItem` and `mapMonster` (`src/lib/dofusdb/map-items-monsters.ts`) do the same for the catalog rows: Spanish name with French fallback, then `Objeto <id>` or `Monstruo <id>`; an item's `level`, `typeId` and `iconId`, plus `superTypeId` read from `type.superTypeId` (`null` when DofusDB sends no type); a monster's `gfxId` stored as `iconId`, plus its grade `levels`, `boss` (`isBoss`), `archmonster` (`isMiniBoss`) and its first `subAreaId`. `mapDungeon` names a dungeon the same way (`Mazmorra <id>` as fallback), keeps `optimalPlayerLevel` as `level`, and swaps its boss DofusDB IDs for Payload monster IDs, counting the bosses missing from `monsters`. The monster and dungeon fields feed the souls checklist (see [Souls checklist](../checklists/souls-checklist.md)).
 
 ### Stages and objectives
 
@@ -330,7 +336,11 @@ Achievement icons go through the same importer with the `achievement` kind.
 
 ### Dungeon report
 
-Last, `dungeonNoteReport` (`src/lib/achievements/dungeon-report.ts`) classifies the dungeon rows of «Necesitarás en total» on every published achievement page in the Publicada state. It reads the published guides of each page's quests and runs the same functions as the page (`achievementNeeds`, `readNoteItems`, `chooseDungeonBosses`), page by page, so it reports exactly what a visitor sees: a boss without an image in `media` counts as the generic icon. The script prints how many rows show their boss, how many of those Torre picked by hand in a guide («Mazmorras de las notas»), and how many show the generic icon, then lists each generic label with its pages. Torre fixes one by writing the dungeon or boss name in the note, or by picking the dungeon in the guide (see [Guide authoring](../cms/guide-authoring.md)).
+Last, `dungeonNoteReport` (`src/lib/achievements/dungeon-report.ts`) classifies the dungeon notes of «Necesitarás en total» on every published achievement page in the Publicada state. It reads the published guides of each page's quests and runs the same functions as the page (`achievementNeeds`, `readNoteItems`, `chooseDungeonBosses`), page by page, so it reports exactly what a visitor sees: a boss without an image in `media` counts as the generic icon. Each row carries how its note matched (`NoteMatch`): picked by hand, by name, by boss, or not at all, with the candidates when the matcher had a doubt.
+
+`dungeonReportLines` (`src/lib/achievements/dungeon-report-lines.ts`) turns it into text: one count line (rows with their boss, rows with the generic icon, and how many were picked by hand in the panel), then each note once, with all its pages, grouped as «Por nombre», «Por jefe», «A mano en el panel» and «Sin mazmorra, icono genérico». A matched row names its dungeon, the boss it matched by and «nombre parecido» for an approximate match, and says when the boss has no image; an unmatched row lists the dungeons it hesitated between. Torre fixes a row by writing the dungeon or boss name in the note, or by picking the dungeon in the guide (see [Guide authoring](../cms/guide-authoring.md)). The matching rules are in [Achievement page](../achievements/achievement-page.md).
+
+`pnpm data:dungeon-notes` (`scripts/dungeon-notes.ts`) prints only this report: no DofusDB download and no writes. Run against dev with `railway run --service web --environment dev pnpm data:dungeon-notes` to check how each note matches before or after a matcher change. It goes through `runPayloadScript` (`scripts/payload-script.ts`), which starts Payload, runs the task, shuts Payload down and exits with 1 when any of the three fails, because `payload run` exits 0 whenever a script returns.
 
 ### Write concurrency
 

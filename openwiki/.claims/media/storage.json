@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:e91ce3b591c5c132d9f334cefa66f3e8639c520bcaa46bc5042ec4afa858b1c6",
+  "pageVersion": "sha256:763febf756c7f660c68b40ab914aceb7b786a8fd3d06fe80d1802f398abed9c4",
   "claims": [
     {
       "id": "claim_7ea7c2a578564a0784fd3a8664a2173a",
@@ -11,7 +11,7 @@
           "version": "repo-lines-v1:sha256:3202c34bd79c019c13528c4d9d5a5c6cadc799fe6eb367dd89ab3b9d90387c1c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjExN2QwYTIxOTJhMjQ1MjQ0OTI2Mjg4ODlmNDVlM2Q2MTlhODA2M2NlZjE5NzllNDZiZTE4Zjk0NTEwNDI5NzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://src/payload.config.ts#L95-L95",
+          "resource": "repo://src/payload.config.ts#L143-L143",
           "version": "repo-lines-v1:sha256:b105a65af4c5e414afc188892061d1304c333e291cae423b479a91a40f8d3da8:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjEwNWE2NWFmNGM1ZTQxNGFmYzE4ODg5MjA2MWQxMzA0YzMzM2UyOTFjYWU0MjNiNDc5YTkxYTQwZjhkM2RhOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjEwNWE2NWFmNGM1ZTQxNGFmYzE4ODg5MjA2MWQxMzA0YzMzM2UyOTFjYWU0MjNiNDc5YTkxYTQwZjhkM2RhOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2I1MDI5ZWFiNGVlYjRmMmZlZDMzZTQ1MTcxNTE4MWIyOWJmODU2NmRhM2NiYzAwNTgyMGMzYzljNTBmODVjMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODU4MGI3NjUxOGRhZTk3OWZhZWJkMDIzNjdhMjkyOTJhNTBkOTc2MDkyMjUxYTM4YTZjZTMwODgwYmE0MjgyNSJ9"
         }
       ]
@@ -202,21 +202,25 @@
     },
     {
       "id": "claim_66408ab843c44cbc90697d5d1f6d0729",
-      "statement": "In the media collection any panel account can upload and edit, only an administrator can delete, and beforeDelete refuses to delete game art with a gameAsset key or an image used by a quest guide.",
+      "statement": "In the media collection any panel account can upload and edit, only an administrator can delete, and beforeDelete refuses to delete game art with a gameAsset key or an image that a guide, a checklist, achievement prose or the checklists index teaser uses.",
       "evidence": [
         {
           "resource": "repo://src/collections/Media.ts#L40-L60",
           "version": "repo-lines-v1:sha256:5b6e3d0d8162d85a32504f896913d5f4c6a46ce616b8c322a554ba93df8646fc:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3NmI4YTBlODgyZjhlMzdjODIwODVmZjE1NDk4MzcyODFhNTE4YmEwODM1MTVkZmU0YTAyMmIwNTJiMDQ0MjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc1MmNjYWY4NmE5ZjM1MzY4ZmU3ODdmNzg2MjU5N2ViMzZiMWFhNjIwMjBkZTExZjFkOWY3MmYxNzJkNmViYzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFhY2QxZGM1NjFkZDRhY2NkNjBkM2M2YjY4MGJhNzE1NWQ0ZTFmZTY0ZTljOWY1Yjk5ODI4YTgyMzgwZGRmNDQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjljNDUxNDMwYzM4NWI2MjRjYmIwNDE4MmRlOTI3MDk4ZTJiZGJiOWIzZDkwNGJiMWJhMjI2MjBhNjYzYmZkYzEifQ"
         },
         {
-          "resource": "repo://src/collections/delete-guard.ts#L79-L140",
-          "version": "repo-lines-v1:sha256:21419d72b3774117167dacaa8f8f41c96d022972d3f30c488998e50458770c46:eyJzZWxlY3RlZExpbmVDb3VudCI6NjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZmYWEwZDc1MTEzZTI1NjFkZDYwNWQ4Njg2YWNlYjQxMTdjYzc1ZDdlYmMyMWNjZjg3Mzk3ZTBiMmZhNWNhOGIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM3ZjM0YmEwNWQ4ZGM5MGM3YzhiM2Y2YTgxOGExOGYxZjNlYjlkYTI5NTExMTI5YzQ4MTg0NjAxZGYzYjVjYzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI5Yjg4NWZlODUyNTEwMjE4ODgxZWM0ZDBjYTIzM2ExMjNlM2Y1ODhkZjMyZWM1ZDMyN2I5MTE4ODc2YWE1YmYifQ"
+          "resource": "repo://src/collections/delete-guard.ts#L186-L202",
+          "version": "repo-lines-v1:sha256:f36f15e86fff75e2aafa4f1564a8e20ab073fbda143856caab36e90015b84dc2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/collections/delete-guard.ts#L53-L135",
+          "version": "repo-lines-v1:sha256:b311f320808add07b8e34b1aa7957bbcfec442051a4553c2f69ff0876d595771:eyJzZWxlY3RlZExpbmVDb3VudCI6ODMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0MGM1ZDNkYzNhNzczMDc5M2M4OTI3OTQ4YjU1OTY2NDIwN2Y3OWJhODc3NzNjMjE1MDA0NDMxOTYyZmQ0ODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg0ZjBlZTIzMjM2Yjg4MDNkOTQ3ZWMwOGJhZmU1OGEwNzllZjYzODcwOGE4YTE0YzNhODI2ZTRlY2RlNmU1MmQifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-14T11:00:46.827Z"
+    "at": "2026-11-15T11:00:17.514Z"
   }
 }

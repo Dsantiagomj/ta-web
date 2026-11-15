@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:fbec6136d9e57be6ed00b2a8c241b386402d0743409772388d3debc8a5fd70dc",
+  "pageVersion": "sha256:7bb42f7730b3abc5649d54384406e22faff965d1a2689953beff989d3db24ab1",
   "claims": [
     {
       "id": "claim_37b13ecf9b5544928a36841765b9fae7",
-      "statement": "All checklists share one browser progress store under ta-web:progress, with quests and items keyed by DofusDB id, steps by stepId, prerequisites by checklist id and row key, and each entry carrying a timestamp.",
+      "statement": "All checklists share one browser progress store under ta-web:progress, with quests and items keyed by DofusDB id, steps by stepId, prerequisites by checklist id and row key, souls by monster id, and each entry carrying a timestamp.",
       "evidence": [
         {
-          "resource": "repo://src/lib/checklists/progress/store.ts#L1-L42",
-          "version": "repo-lines-v1:sha256:9f2d5f9242f1a84d2fa62a5bb375b0451513c94d632afb77033e299eec60a505:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyYmE2YTNkOGU2YTUzYzY0MWNiNTI2MmYyNTAwNGYyNjJmMWRiNWJlMDdiNTZiODA5NTQ3YzVlZTNkMmYwOTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZiMTFiZjJjYmVlYTEzZWIyYjI1N2ZhM2JkZTkwNDk0ZjdiOGUyNTk5ODQ5ZTJiOTg5ZWQxYmQ0OTJiYTA4MDkifQ"
+          "resource": "repo://src/lib/checklists/progress/store.ts#L1-L57",
+          "version": "repo-lines-v1:sha256:c82c4baf4db445df0f1bea57f4507606b1bf6187b0101fea80136ca3e15ab53b:eyJzZWxlY3RlZExpbmVDb3VudCI6NTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyYmE2YTNkOGU2YTUzYzY0MWNiNTI2MmYyNTAwNGYyNjJmMWRiNWJlMDdiNTZiODA5NTQ3YzVlZTNkMmYwOTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZiMTFiZjJjYmVlYTEzZWIyYjI1N2ZhM2JkZTkwNDk0ZjdiOGUyNTk5ODQ5ZTJiOTg5ZWQxYmQ0OTJiYTA4MDkifQ"
         }
       ]
     },
@@ -17,12 +17,12 @@
       "statement": "parseProgress discards entries it does not understand and returns an empty store for invalid JSON or another version, and every localStorage read and write is wrapped in try/catch.",
       "evidence": [
         {
-          "resource": "repo://src/lib/checklists/progress/store.ts#L130-L146",
+          "resource": "repo://src/lib/checklists/progress/store.ts#L151-L167",
           "version": "repo-lines-v1:sha256:ef0404b06a78b768391c2337f872c0d168c852356c3c542992fd28d5f54dd81b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllZDk1YTc1ZDE0ZWU2ZDRlNmFkMTQ2YjIzMWVjNmY2Y2RkYTI2ZTg4MTQ3Zjk2NjcyOWU3YjY5MmJmNjM4M2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE5ZDcxOWE2MGZmOWMyZDI4YTIyN2Q1OGQ3NjM1ZDA2YWIxNjIxODFiNjllNjViZjllNzQwZjU0ODFhNzY0N2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://src/lib/checklists/progress/store.ts#L72-L89",
-          "version": "repo-lines-v1:sha256:f9e51ebbdfafc6847ba872525e8d5a43801d34bb45f3b89e9ac6ec6b66eb976e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRiZDJmNDc5ODdiNDMxZjNjNGNkYTlhZDNmNjIzN2Q4ODgyYmJlZmU0M2Y4YjhkMDU1MDVkZDVmOTRhMjIyYzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMyMWM4MjViZmNjYTA3NjMzY2M2NmQ5MTkyOGU1OWJiYzRkZWJkNjEyMzgwOTU3N2Q5N2M0MmI5YjM1NWUzNjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEwOWIzZGM4ZjBkZTBlMThkNDY3ZDI2OGZmMjE5N2QwZjJlNzM4YTViYmFjMGRiOGNhNjA2ZTdhYzJmNzFlNTMifQ"
+          "resource": "repo://src/lib/checklists/progress/store.ts#L88-L109",
+          "version": "repo-lines-v1:sha256:dc4525c6008b40bf8c758b688ecdbe77ccea325cf96be8e5317c85d503301fc8:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1MzIxZTAxMzJmNmI0NGNhM2NiZjAwMjRmN2U0NTNkNmVkNDM0Yzg0NjY4YWZiZjgwZmQ1Y2IzNTFlNTZkYzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAyN2NiNGMzZDg0Mjc2ZGU3OTAxM2M5NjJjNGY2YmU3MjQ2NjRiOTdlZmZjOGM5MWQxNzBjN2Q5NzQyODk1NjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI5NzQxZDM1YTA3M2NmYmQxOWQ5OThiYTBjZmQ3YWJiMWNhMzE5NDJlODhmZDYwNWI3ODMyYzc0YWZmNDAwMTcifQ"
         }
       ]
     },
@@ -31,8 +31,8 @@
       "statement": "parseBackup restores only an intact backup of the ta-web checklist-progress kind and version, never a partial one.",
       "evidence": [
         {
-          "resource": "repo://src/lib/checklists/progress/store.ts#L91-L128",
-          "version": "repo-lines-v1:sha256:9019c69e8eb8a5e6308bacc8988d7f1bbd5f2bc13f1aa6a9a1fc8d9d45a45e27:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzMTkyZTRjMzg0ZGQ1NTczNzY3OWFjODA5NWVmY2ExYzVkOGNjYmIxNTVlYjcyZWRiNmZkYWM5N2Y3NTNkZDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJiMzc5ZDY5ZGRlNjVjN2Y3ZDcwZjJjMTQ1MWE1ZDU2YWFlOWIyNTM4MzU3MmZiOTc3NjY2NzU2ODI3NjEwNmQifQ"
+          "resource": "repo://src/lib/checklists/progress/store.ts#L124-L150",
+          "version": "repo-lines-v1:sha256:b575d5bdc677e401778b475bafe7f0cd13566e10f5757ca49b0c0a2ce365bfab:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ5MGU2M2NmM2UxODVkNGY1M2E4NzZlYjUzNzAwNGY4MTI4OTlkN2NiNjgwOTMxOWZlZWQyMjg2YjZjYTRlM2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc3NDcyZGRjNDE4MmEyM2E3MmEwZDc4M2I4NDY2NTYzNjJmODQ2NzZkODBhM2MyZjRhZTUyMDJhZjBiY2I2NzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAzMzljMDUzYzk1YzY3NzM3ODhkZTE0MDIzOTQwYjNhNDVmZTQ0NmIxODE2MTM0ZmUxMjk5OTg0YmQ1MGI0NjQifQ"
         }
       ]
     },
@@ -51,8 +51,8 @@
       "statement": "progressPct adds a marked step's weight or the shares of an unmarked step's finished quests, returns 100 only when every step is marked, 0 only with nothing done, and otherwise a one-decimal value between 0.1 and 99.9.",
       "evidence": [
         {
-          "resource": "repo://src/lib/checklists/progress/engine.ts#L373-L392",
-          "version": "repo-lines-v1:sha256:b3a18dc7940122f6189f8d5623199e1fe05edae9195b65a6a9b3399f4f41b9db:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM3ZWUyM2QyMzFhZTRjYmQ4MmVjMjdlNTQ2NjgwMGI1NDhlMTZhNWI2MjkyOGE2ZmJmZGQ3YjZiZTQ2NTZjOTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhkM2NhMTRiZGIzZWJlNmVmNTk1NmViNDlkZGZiODAwMTZmODEwNTM1MTMwYjFlNjY0YWRmMzJjYzNlYjY3ZjQifQ"
+          "resource": "repo://src/lib/checklists/progress/engine.ts#L530-L545",
+          "version": "repo-lines-v1:sha256:180cbbf7039649d29f2293484fe489554d4db28621c372b5dd74462416c8ff54:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcwOWExMWE1NmNlMDkxYmVmNzFmZDFmODc2YjFhMzA5MzFlYTZiNmVlYTU3NzBjZGM0ODY1NjFiYTkxYmJjZjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM3YmE4MDUyNThiMTc3M2NkNmEwYWRiYWY0OGIxMGMzZWMxYjc3ZGVkNjMyZTBmMGZlZTRhNTg1N2VlMjViM2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVjNGRlODAwZjBiOTIwMjdiNjFlYzA4YTE4ODVlNDExZDgzMmUyNzIxYmJhODYzNDkyZjM3NDUyOTQ4MDliNmQifQ"
         }
       ]
     },
@@ -71,8 +71,8 @@
       "statement": "The weight level is Torre's level from his quest guide's prerequisites, else DofusDB's levelMin, else 1, and the checklist view computes weights on the server from stored quest data.",
       "evidence": [
         {
-          "resource": "repo://src/lib/checklists/page.ts#L500-L537",
-          "version": "repo-lines-v1:sha256:11eaf24d332eb89c9450631274e28f6f74a6548abe6cc9624220f55443bd26d6:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0NDBjYjFmZDM3NzY2MmNhMTZkMzZmYTVlOTJkMDUwODEwMWZmZDk2MTk0NmEyN2M4ZmIxMDk5MGIyZTU1YmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkyZWMxNzQ3MDE5MGYzODVhYjAwZjA1NjExNDQxYzlhOGUwNTQ2OTVmMGUxZThhODE2NGIxY2Y2NWFmZmQ3N2EiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRlZjViODM0ZDI3ODEyYWQ5YzQxYmVjZGZjMWQzZjkyMTA4Njk2ZDA0NjBiZGNkN2ZlYWI5YTcyNWQ1YzQ1NjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE1MWI3MTQxMzQ5ZDY4NzZiNGQyMjg3ZDZlMzIyYWZlNzI4MjkwYzU0MjE5ZmRmZjA0MzEzZDU3YTU5YTY1MmQifQ"
+          "resource": "repo://src/lib/checklists/page.ts#L788-L843",
+          "version": "repo-lines-v1:sha256:5d96f9ee9a162049c95394f9b909572670c958b0d5fc599bffec46b4c743e136:eyJzZWxlY3RlZExpbmVDb3VudCI6NTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE1ZDBlZjU4MTY4YTdlZjAyY2Y2MTEwZDA4ZTBiMjc5YmZiMmZmMjNjM2FkMTg4Y2VjY2NhNjYxODY2NzczNDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkyZWMxNzQ3MDE5MGYzODVhYjAwZjA1NjExNDQxYzlhOGUwNTQ2OTVmMGUxZThhODE2NGIxY2Y2NWFmZmQ3N2EiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg5ZDk1YWFjYjBmMTBiNGFmYjI5NTkzYmMzNDlmZTdkZTgzNzg3NjQxMTQxNWIyM2E1ZTEzZWZiMDFlNzg5ZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE1MWI3MTQxMzQ5ZDY4NzZiNGQyMjg3ZDZlMzIyYWZlNzI4MjkwYzU0MjE5ZmRmZjA0MzEzZDU3YTU5YTY1MmQifQ"
         },
         {
           "resource": "repo://src/lib/derive/weights.ts#L26-L44",
@@ -95,8 +95,8 @@
       "statement": "The progress UI checks for unmigrated silvestre-checklist keys and loads the migration with import() only when some exist.",
       "evidence": [
         {
-          "resource": "repo://src/components/checklist/progress-ui.ts#L526-L552",
-          "version": "repo-lines-v1:sha256:b94121774fcfc087372a469372100c95ab27aed2c8fd1cd83fe0e556ed22fb76:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRmMmEyZjk5NmYwOGU2ODBiZDI5MjEzNWE2ZmE0OTc4YmRhMjZlNjAyZDg0ZjMzY2IxZDU5NDc3NWQ0MzA0YjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZkOWRhNWNlZDE1NmU2MTI1NjY0M2QzNGNlZTkyOTEwZTA3OGEwMjYyYTAyNzVjYzFlMjcxZWIwZjU1OWIyYzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlkYjgyM2IyZDJiNDNiNGNhYzRmM2M3ODczMTMyMzU2Mjg5ZDBmMzkxYjI4NTZjZTU0OGY2NDYzZTY4ZWUyYjUifQ"
+          "resource": "repo://src/components/checklist/progress-ui.ts#L476-L495",
+          "version": "repo-lines-v1:sha256:4ec6299d1a6222219f18f80cb81f837e1215cdd6280013800b3b99eadf8cc7bb:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFhZTZlYjY3NDY1ZTU1NzU4ZDAwNmFmOTE0NTZiMDI1ZmJlNDI4NDhmMGY1OWIxNzYxNDVhMmQzMWNkM2RkYTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxYzgzNzkwZDA4MGJlYzdmMzcwN2NmNTJkMjgwNGU2NGJkNDg4MDk3MTkzZTBjYjdkYTU3OGQ0ZTU3YzQzOTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM3Y2FlZjgzNzQ4YzAyNmEwYTQ1ZmU1ZDZiODY2OThmNzc3NjNmOGQ4MGZiODc0ZWM1MjM2MThhMzhhM2U2NzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI1ZGFhZDk0YWJlNGViOWM1NzU5MGZlOThkOGZmZjQ3NjQ3Yzk5MjQxOGM0ZDVlOTIyZTlhMDcyMjBkYTJmMTEifQ"
         },
         {
           "resource": "repo://src/lib/checklists/progress/legacy-keys.ts#L1-L38",
@@ -113,8 +113,8 @@
           "version": "repo-lines-v1:sha256:65871df264a2c1adc2f1c0c6127c8f5a794833b9174c0543efbcc0bb4dc776ed:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgxNjIyZjhmNjI2MjM1YTg3NDE3ZmNlN2E5NmE1MzgwMjhlNDY0YWVlMjVmMWIyMDUzYzQ4MDAzOWU5N2U3NTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU2MjVkMDM5NDljNjlkYzQxNmY4ZGY2YmUzODg0MjI0Y2QxNmRkOWQ3M2Y3ODFkMmNlYzdiMGMwNTdlN2M5MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUxZWQyNjFmMDFmZDI5MWYzMzBiNDU5ZjY3YjViZTRiMjk1N2QyN2VjYWUxZmI4YjQxMjYwZGQ4OTIyYWZmODkifQ"
         },
         {
-          "resource": "repo://src/lib/checklists/progress/legacy.ts#L144-L160",
-          "version": "repo-lines-v1:sha256:a768cfdb39a9470c098cbb29cc5acdcd65acb6a64cffae283f43b9cfd698633d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI5NDJlM2JiMDY2YzkwMjFjYjhkMDhiNjA1ZTYzZDQ3Mjk0YjJlYWExYWYxMjJkZmYzNTQyYzllZTdmOGY1NmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjllYTJiZTUzNzAyZmM5YWNmOGU0MDQ0NWQyMTUxMDI2M2VmOThmMGZjNGYxNmU5ZWI3MjRjNjk1NmM0Y2NmNjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFmZWFmYmE2N2I1YTA5NDkwMTNlN2VlZDgyOTUwMmE2OTgxZDk3NTdjZjBmZDVhYzkxOTYwNjE1ZmM1ZWI2MTQifQ"
+          "resource": "repo://src/lib/checklists/progress/legacy.ts#L332-L352",
+          "version": "repo-lines-v1:sha256:a7b351d55b99754cc33207a5a8eada2a1b19963e15f3346540e59ec45c5ab334:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNhMDZmNTY4NGFiNGRkN2M3OWIzMmI2MzYwNmM0YzI1ZTYyMmVmMjc5MjZlNjg0MjQ5NTM1ZjUwOGE2OTE0ZGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0YWIzMzcyZWE0MzFmMmE0NjE2NTYzODI5YmE4NTkxMzg4YzFhY2RkMDBiNGViOWViMzZkZTk3OTgxYmMxNTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU2ZDViMTNkYmYzMTlmZjFiNTNmYTdiMDlkZDZhZjkxZWM4YTk4MzQ5YTJkMWZlZTkxYzFiMWQ3MDIwNTQ3YjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFkNzA4NzE3YzUwNzE3MGE1MmFkNzAyNjQ0ZTU3M2FmNzdjNDkyYjk0ZWQyY2U5ODZkZTE2ZjZjNzE1OWM5OGEifQ"
         }
       ]
     },
@@ -123,12 +123,12 @@
       "statement": "Progress saved in another tab appears without reload through the storage event, and a failed write shows a one-time toast.",
       "evidence": [
         {
-          "resource": "repo://src/components/checklist/progress-ui.ts#L498-L508",
-          "version": "repo-lines-v1:sha256:b7d6e7bf71ab17bc813f9444ea0d121df656b16caa4eac38cc255be06dcec8e3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFmYWU4YjZhNTVlYWY1ZTA0ZjUzMDZiZjc1ZWNkOTBkMWE4MzUwMTBjZTdlYTFhYWMxYWIzODJiN2ExY2U4MDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk3ZDg2MzJlNTRlOTI5OGFiYjk1ODcyN2UyZDUxNDA4YWJhZjEzNjYwMzUzNzkxMDE0MGFiZjY1YjMwYWI2MTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIwZjg4MDY0ZGUyY2VmZjI5OTJlZDNmMmE4MWFlYTk5MmNhYzJiZTFjMmZjM2FiZWRlZjZhOTA5ZDk0MDcyZmEifQ"
+          "resource": "repo://src/components/checklist/progress-ui.ts#L448-L466",
+          "version": "repo-lines-v1:sha256:623de8f7a59f29513525d31fec46971320880b85ddca83e33f09412a78436f70:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2YTIyNWEyYjljMTc0MTY4Njc1YjhmYTkyNGM0M2RiYTNiYWJlNGI0OGQ5ZGZlZTA3MjQ1OTI4ZGU0NmMxYjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFhNWQ2ZjQwNmE0NGFmN2RlODQ3NmI1OWJkYjlmNmVkMDM5MjQ3YjI5MTQ4NjI5YmNhNTk3NjY4OGEzNzU4ZGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIzYWIwODk4MjRiMWQzZTJiYzY1N2ViMDIyNjRhNDM0MWQ5MTk0Yzk2MWNjODlhZWE3NmEzOTg3YWZlNjI2MDkifQ"
         },
         {
-          "resource": "repo://src/components/checklist/progress-ui.ts#L97-L106",
-          "version": "repo-lines-v1:sha256:3ba5fb36b070dfcec11442de2a2a1d12d4a6c955c190c2ace664c1ccfa576bdc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZkOTk5MmFkMzU1NmZhMmI5MGRlYTFjNGMxYjQwOGI3N2FlMjA4NjExNmMwOTQyNjhmMmE4YzA1ZDliZGRjYzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFhMzc1ZDM5ZTNlZTIwMDlhZWU3ZTA0ZDlhZjVjMGY2ZGFiNDVkNDE0YWNmZDc4MjUzMjhkNzQ3OTkyODE1OTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRlZDMzMGZmNWFjZTEyNWIxZGMzMGNmZTFjMDYwNDUyZjc2YzliYjI1MjYzM2Q4ZjgyMWRiNzQ1ODI2OTAzZDcifQ"
+          "resource": "repo://src/components/checklist/progress-ui.ts#L75-L84",
+          "version": "repo-lines-v1:sha256:e5ebf16863b2bc89b7b426b4e496f7a1850ecc51fcf996446e2e83b2a47ea0c7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzZjcwZjA1NWZiMzVjYTJiMGI5NDI0YmJmZjQ5Y2U2NmRkMjFmMDdlNzM0NjRhYjhmZmJlMmI5ZDQ5MDg1NDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVjYjRjZTI0YmI3YWNjN2VmYWIwOTgzNTMzMDY3YmIzZjE2Mjc4ZTZjNzJkMjQ0ODUyNzE1MGZiM2E2MTExNjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgzZDliM2ZhMDFlNjY1MzdjNDM2YzJhZWFiZmQ5NTBjMzMyZGYwYWJjMmUyZjJjNTc0NDE5NzkzYmVlZjJlODAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ4YTU5NGVkMDA3OTYzOTgxMDIyNDAzYzNmZTg2OThmZjI5N2JiYzJiODVjOWNlNDA1ZDQ0YjZmNDFlZmJmZmQifQ"
         }
       ]
     },
@@ -141,10 +141,80 @@
           "version": "repo-lines-v1:sha256:75551fc5abeade9116c33f0179ecba9e7f2aee57d72350683893a320a968dca9:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjIzMWVkM2QwM2IyZmFmZDMxYzIxNzQ3ZWI2OWM0MzVjOWE3MzdmODMzZTMxM2E0ZWRmMzM2NmMzNTRkMGFmNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGFhOGUxZmZhYmI5NmE2NzQxZTI3OTQwMmE2MTMzMGM3ZDNlMmQwYzM5MDE5YWQ5YjRmNDkwYWExMGY1NGVlYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDc0ZDk2MjRlYjc0MzFkYTU5OTdkYzkyZWI2NTgxZjdkZWFlMjk0NGI1Nzc2YzVkNjAxMmVhOWEyMTkxMDQ1ZCJ9"
         }
       ]
+    },
+    {
+      "id": "claim_094f4a6cbef44993941c0b724e6ca397",
+      "statement": "A backup made before souls existed, without a souls map, is still accepted as intact.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/progress/store.ts#L137-L149",
+          "version": "repo-lines-v1:sha256:cf6d4fb31becc35392691cae4d02417ffa4a93dfdafea6349a6e720481c2f979:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQyODdmOGIxZWUyM2JmN2UyZmE1NTQyOTljOGQzMWEzNzI0NjcwZTU2ODA4MWQ3NWZkMDQwYTQ3OTE1NTA5NTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE4ZjEyMmNiODc3NTM4ZDc1MWVmM2ZjNWE2ZmIzZjYwYTc0YmZlYzA2MGI3Y2Y3MTMzNzA0YjVjOTU0MTEwZDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJiMzc5ZDY5ZGRlNjVjN2Y3ZDcwZjJjMTQ1MWE1ZDU2YWFlOWIyNTM4MzU3MmZiOTc3NjY2NzU2ODI3NjEwNmQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b916bc5b691040e2ac9cfda8bbac94ac",
+      "statement": "A generic row counts as finished when any of its quests is finished anywhere, and a quest in completedBy counts as finished once all the quests that finish it are, without that being stored.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/progress/engine.ts#L141-L209",
+          "version": "repo-lines-v1:sha256:2ddf789c4828392a41f990a7719edcbef338dab5e59367d9e353be3259d7183f:eyJzZWxlY3RlZExpbmVDb3VudCI6NjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUzMzJkM2RmM2MzMGYxY2EyYjIyMmZhMzU5NGUzNmI2ZjIyNTZjMzMzMTdjYjI5ZGI3MDk1ZDdjMTM0ODkwYmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJkMmQxYjRmOWU5M2MwZTc5YmZmNTIwM2M3OGRmMWIzYWMzNGY1N2NlYmVmZTg3YjgyM2ViMGY0Y2RmMTE3Y2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYxOWYzNjA3NzlhZDNiYmI2ZjExYjdlNTAyMTk0MzZjMDhhMGNmMGMxMmZjN2MwMDAxMzM4YmRmYmVkYzliMDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIyYjEyY2FjNTA3MzVmZGUxZmRiZjQxZTM4NTRkZGZjZTFjMTM3Y2U2ODEzOTNiNWIyZmJkMjU0Njk4NzBlOGUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_aba173edc0a04ec68da7653883560ab6",
+      "statement": "The engine receives only the stops the page left open; a stop a later step finishes is only brought to its stop when the step is closed, and the step counts complete with those quests at their stop.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/progress/engine.ts#L222-L290",
+          "version": "repo-lines-v1:sha256:70e7fd12da9621fbe20fed5ba479ecb28e122ef92cd4531f8d6356ac9b8e4d50:eyJzZWxlY3RlZExpbmVDb3VudCI6NjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk3MmE0MjkzODJiMmUxNDcxOGUwZTM3YjA1NzBhOGExNzAyOTkxZmNkODQ5OGNkODQwNjBhOGJmNGYwNTAxN2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY2NDMwZmI2YTY0N2E3NTMxMWI3NDQxMDg2MjFjYTYyZmZhMDgwMmMzZGJhZmYxMWUzNTQ3YzYyZGQ2YTdhMjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY3MjhmNjZmYzExYWQ2OWEzNzk3OWNhMjZlYmY0NGU4NGY4YjY1Y2IyZWM0YWMzZGVjZjQ3NTM2NWI5MTNkZDQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_023d3b5cae5b4a64acebe4360b6c72eb",
+      "statement": "partUsed treats a step's items as spent when the step is done, and the prerequisites' items as spent when their named prerequisites, or all prerequisites when none is named, are complete.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/progress/engine.ts#L285-L308",
+          "version": "repo-lines-v1:sha256:40202d2a1888296718bf9c89d54dc0262cd2bdb5d8b99a1bb3b5ccc3cd662ec2:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRkMmY1MjViZjQ5NzZjNjA0Y2ZmYzNlZjk4MDUzYTNkY2Q3MjU0MTc2YWJmODJmZWE0ZDQ3NTY0NDVjMjczYWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFlOTlhZGZiY2U2ODNlMWE4OGIwOTBhNjg1YmIxN2VjZGFmMmJiMjEzNjBiYzNmNzMwYWFlOWEwYzY4NzJiZGYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7d587f2cfb314aaf9fba394a539a5d69",
+      "statement": "Souls progress stores owned souls by monster id shared across souls checklists; soulsPct returns 100 only with all souls and 0 with none, resetSouls removes only this checklist's souls, and migrateSouls adds once what cosecha:done held without touching the old key.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/progress/souls.ts#L1-L68",
+          "version": "repo-lines-v1:sha256:3cbcaac04cb626111f34896b7c021f6ebc0f753a4e410356a686d39337553f37:eyJzZWxlY3RlZExpbmVDb3VudCI6NjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM1YWYwZTU0ZTgyMDA2NzBiNGRjYTEzNDBlOGU5MmRhZjI1ZTliMDQwMzdhZTg5ZjdlY2JmZWYzZmNiNzBkYjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5ed6477284ed4dc1832b6fdd74f83ae3",
+      "statement": "The migration maps old generic rows to the negated first-quest key of this checklist's row, keeps composite item keys only when they belong to a row of this checklist, and turns the prerequisites' part into #pre.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/progress/legacy.ts#L240-L262",
+          "version": "repo-lines-v1:sha256:5a5741258f3ca87271261277e443d3d3a5dc3cd1c15ae5c1fe143f21a705bfe4:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA5Y2U1MGE1YmJlOGVlNWVhNDNkOTI1MmY5YWQ4MDdlZmE2Nzk3M2JjMmI0YjU0NWQxZjRlNDhiMWI5NzFkN2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdhNjUzM2I5ZmM2NjdjMGJhYmNmN2Y2ZGQxZTU4Njg1MjMyYjRiNDJmODZmNjc0NDFjYWQ3M2Q4MTM2ZmY1MWMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b173e84e5a7b47f18d816e626d47124d",
+      "statement": "Safe localStorage access, the toast, the backup and the dialogs are shared by the steps and souls progress UIs in progress-shared.ts, which loads with them and never with the island.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/checklist/progress-shared.ts#L1-L56",
+          "version": "repo-lines-v1:sha256:0bc001ec9c9f6ef5c26707c03fe05768285aa5c244d703b5120e78c579eabf5d:eyJzZWxlY3RlZExpbmVDb3VudCI6NTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2OTgwOTI4NTE0Y2M4ZmYwNDA1M2MyOGJmZjUyNDliMTQ4MDVkMjEwZGI3YjRlY2Y0NDcwZDQ1MDc4NWQ3MjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjYTFhZjAwZmQ5ZmFmMDRmYjhhNGRjMmJjODg3NmYzZTBhNTQ3MDMwNjU5OWYyNjJjMzVkN2VhMjAyNjZjYmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY1MDA4MzUwNjk3MzdhZTRmNGE0Y2E2OTE5MTE1MWFmNWY1YThhMmIzYzcyYjY0YjE1NzNlZjE5YzFjNzlkOWUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-14T11:00:46.827Z"
+    "at": "2026-11-15T11:00:17.514Z"
   }
 }

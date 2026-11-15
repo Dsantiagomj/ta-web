@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:3902be2bd50c862f2b333be60b6c1b05079243ee3aa750a870c36740380d9618",
+  "claims": [
+    {
+      "id": "claim_83f904341aaf4f7d8436ad4d265eeefe",
+      "statement": "loadChecklists is one cached read with the checklists tag shared by /checklists, the menu, footer, search and home page, and loadChecklistNav maps it to menu items; the teaser is read under the same tag.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/checklists/page.tsx#L26-L34",
+          "version": "repo-lines-v1:sha256:ade62bddc361ebc985b6ea0931c2b0d72a936843f0f29e9c1ca4c2229ee87250:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTRmMDEzOGUzMjg2ZmM1YWMzNWRhNDEwMjNmNDlkN2RiNTZjMjA0NzZlMDYwMjk0YThlYTJiOTYyMTNhN2UwZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://src/app/(frontend)/site-data.ts#L33-L47",
+          "version": "repo-lines-v1:sha256:2558d3b3dbc2d21eae0c22976ebcf2cada32518070eb91a27a50eaee5238280a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjM2NhY2JkMTgwMTFlZGM0NTc0YTIyNjZjYmI4NGZiMjBlMDdiNGEwZWUxYTgxMmM4NzA0MjUwMDg4YWFlZWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZkMzAyMDBkMzhhZWIyMTdlYjA3M2VkZGI3OGVmODgwZWMxOTdjMDU3NjBlMDhiMjRiOTE5OTc3MGYzMTZjN2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7b705e2d50424fd883c5331cea29f996",
+      "statement": "readChecklists lists published checklists including preparing ones, ordered by order and name and without steps, reads the card images in one Media query, and reads only the color and egg of each Dofus guide with overrideAccess so a draft guide's other content never reaches visitors.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/queries.ts#L519-L580",
+          "version": "repo-lines-v1:sha256:a87f02b0e3c580ab5c56024a78423d26dd30898e6f76ecda58bd4f5951b53c83:eyJzZWxlY3RlZExpbmVDb3VudCI6NjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJhZTE4MzVkYzIyODM2ZDE1MmFlMTQ1MDNjN2Y0Y2I0NGFiYzBiZTAzYTY0YjgzZThlMzc3NjRhYjhkMGQ1YjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e91c576caca948c5bbd2121adefb905a",
+      "statement": "An index or menu entry links a published checklist to /<slug>, a preparing one to its legacyHref marked as legacy, and nothing when it has no link; the card color wins over the Dofus guide's color.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/list.ts#L92-L139",
+          "version": "repo-lines-v1:sha256:2179127c948c8244539d088e592cab2c54b501961deb474e45da7659c5ca631f:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlMjRjZGIxM2YzMWFmNmM3ODJlY2Q1YmQ3ZjFkYjY3YjQxYWVjNzViYzk2YWY5OTI2ZjBmYzY0NTBmNDM2NTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhiZmI0ZGRhZTNjZGU3ODUzNGIyZTg4YmNmY2E5YjlmOTgxM2I0OWU4MmYwYzM1ZmJjMTk2ZGRiMzA3NzMwZjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlhZDNiOWIwMjNkYjNjODQ0YTAwODhlMDVkYTY4ZTNkMzExYjc4ZTc1ZTc3MmRhZjY1ZDkyYTkzOTQ2NDJmNTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2e99a7b7bbcc4b28a53be6a3bdbb278f",
+      "statement": "posterInk keeps the egg color when it reaches 4.5:1 against the poster shade of each mode and otherwise mixes it with white for dark mode or black for light mode just enough to reach that contrast.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/poster-ink.ts#L1-L14",
+          "version": "repo-lines-v1:sha256:0e42a6cd7092a8837d92f7ed3a0504ca71fe3d659f49386c211dfe2bcd931df0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwMzQ5MzBhODRkNGY5YjhlYmNjMjEyZDJmNmFkNTBhNTZiYTk1NDY4MjA1YTU0OTIwMWUzNGUxN2QzNzIyMjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ2ZDY0NjM0MzRlNjMzYmU0OGFhYTI0Mjc2Nzc4MjM4NjExNWI1OGVjZDAxNzUwYzBmZWViNjY4ODc2MGZjNGQifQ"
+        },
+        {
+          "resource": "repo://src/lib/checklists/poster-ink.ts#L65-L74",
+          "version": "repo-lines-v1:sha256:5de3bc8032b904ade2af7a25d779614c2622fb8cf03864a190c134a3636a5f05:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQyZTY0ZGI4ZmViMjFjMDI0NzkyNDJjMjUzMzBhYzVkMzc0NWE1Y2QwMjg3MDgyOTBjNmJmMTZlZDBlNmJiZWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUzYjQ4NDkxZGJkMTA4Mzg0MDNiZDEzZjkxZTk3YjUxMWViMGM1MDM0YmMyZWM3OTc4YzU1MzM2NWQ1OGFlNjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_45d1deda01f44a68a806f6bce871fdf3",
+      "statement": "A poster without a link is dimmed and aria-disabled with the preparing pill, a published checklist's poster carries a hidden progress ring, and the first two posters load their scene and egg with priority.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/checklists/ChecklistsIndex.tsx#L12-L16",
+          "version": "repo-lines-v1:sha256:6c9b3b3ffd2c7e3a2f0ff79979be681c5bf557f256c1c1895d3100839268fa5a:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzg3NzVhYjJiMDMwMTgyN2MzZTNmMTljOTA5YjgwOGVmZGY2ZDM1NDk5ZTM4NGQ4NDMyOGE5MzM0NjEwMGI1ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjYxNTUxNjdhOGY3YjUzYjkwNjA5ZGIxMzhmZjFjYzE4OTRmYTQ0OTNjYzlkNmNkNzE4OWFkZjI4Y2M4ZTkyOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTIzNmM3ZjEzZWNhMTRmNjkwOTQ4NjYwMTRiNmE0NTgyMjQ1YmE3ZDliZTFlZjAxOTA4ZTEwZDRlOTEyY2I0NSJ9"
+        },
+        {
+          "resource": "repo://src/components/checklists/ChecklistsIndex.tsx#L84-L154",
+          "version": "repo-lines-v1:sha256:40c0eaba73fac1f2544727ae782f4dc3670111ac113131623781dfa879670b83:eyJzZWxlY3RlZExpbmVDb3VudCI6NzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlM2NjOTFiNGU5ZWQ1MmQ0NDllZTBmMzEzNDg4NDRjYWNkMjFmNTM3ZDVhOGQ5MjFiZjhmMDE2ZWUzMjU4MmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0MGM1ZDNkYzNhNzczMDc5M2M4OTI3OTQ4YjU1OTY2NDIwN2Y3OWJhODc3NzNjMjE1MDA0NDMxOTYyZmQ0ODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImViZmJmYTYxYjk3NTU2ZDgxOGI1ZmI4NmY1NGFhOGY3YWRmZGNjYThhMGRmYmI2YmRhNDViZmM3MmFlY2Y3YTkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_84b3c083e8394abb8e720902f9039ce5",
+      "statement": "The checklists-index global holds the «???» teaser poster, readable by anyone and updatable by panel users, and saving it expires the checklists cache tag; checklistTeaser returns it only when enabled and with text.",
+      "evidence": [
+        {
+          "resource": "repo://src/globals/ChecklistsIndex.ts#L10-L86",
+          "version": "repo-lines-v1:sha256:a3e7101da84a4a56876118f905a88db1ab450535888c926a554f2bf4191d14ba:eyJzZWxlY3RlZExpbmVDb3VudCI6NzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1ZWE5ZDgzYzYyN2RkNTQ4ZTE2ZDUxYTE5ZTJmMzJkODE4YjEzNWM5NGU4MjJmYmEyYjVhN2E4MTc1MWQxODQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAwNzY5YjY3ZWQ5N2U0ZjEwYTc5ZmFmZThjN2M1ZWE4YTY4OWU2M2I0ODMzNjNiZmJmYWY5NjY4ODYyZWVjMzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/checklists/list.ts#L140-L157",
+          "version": "repo-lines-v1:sha256:2da5af5302b4b1eb38ef455f782608b136f0e23cebf9091dad63e268e9230ff5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBiMzdmODYzNWZmNTFjZTJkOTdiZDZmMDkxOTAyYTc0NDY2OTEyYzc0OWM5MzM3MDA0Mzc3NDA1NWZmMGE3ZmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRjZjk1ZjJhMmZmNDU0NDJlMTM1ZDA0ZjY2ZmIyNTRiYTcwMTBlZTMyYmU4YjNhY2EwMDI3M2UxNzdkMDlmMjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIwOTk0YmQ4ZmUyZjgyYzRhODQzMTgzNzJiYzc5NDZjZWY3ZmFmMmE4OGRkZWVmMGEwNDNiMzM5ZGJlOGQ0YzMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4452492a43c84482ba80fc46edbaa228",
+      "statement": "The posters island tilts posters toward a mouse pointer unless reduced motion is set, and loads poster-progress-ui with import() only when localStorage holds the ta-web:progress key, starting later on storage or pageshow if progress appears.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/checklists/ChecklistPostersIsland.tsx#L16-L59",
+          "version": "repo-lines-v1:sha256:4dc7cb28aabbc7986c16b58c294d6bd6caf46bc10671d6861a68100d915a8360:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/components/checklists/posters-ui.ts#L1-L53",
+          "version": "repo-lines-v1:sha256:5a83ee0b84ea6f353f03dd82490c36ce0b4c304cdcb696be0dcd6986d4b20285:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllMDdiMDk5YjRiZTFlOTNkYWZiYzg2ODAyOTU3YjY0ZDFkZTg2Y2ZlNjEzZWI4NjEzNWFmZDI2NjRhY2Q4N2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_059b4af10f5644a080522b9c9a648263",
+      "statement": "poster-progress-ui fetches the poster models once, paints each published checklist's percentage from browser progress, hides a ring at 0, and repaints on storage and pageshow events.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/checklists/poster-progress-ui.ts#L1-L78",
+          "version": "repo-lines-v1:sha256:03a87673e82857d7541e80832acba265d3c4a467f19d5a84cf890ddb62fc9953:eyJzZWxlY3RlZExpbmVDb3VudCI6NzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5NmFmYmQ5YTM1MmM5NDRlOTMxZjc3MWNhZjNlZjlkMDEzZTE5YTcwMDBmYTExMGEyMGZiNzE2OGI3ZGFhZmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8d8490d782ab4f50991240b5afb8856a",
+      "statement": "The poster models are cut down from what each checklist page's island receives (steps, weights, objectives, prerequisites, generic rows and quests completed on their own, or the souls) and are built from the same cached published read as the checklist page.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/poster-models.ts#L1-L30",
+          "version": "repo-lines-v1:sha256:691032152930ba8620a77e3ec94410f9579dad912f037245c8a100912f208d00:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQyN2UxYzBhMTRlZWVjZThjZTE3MzE3NzQ2N2JmMWYzZDgzNzZkNDY1OTRlY2I0MDI0M2EwNjg5ODUwYTdlOTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/checklists/poster-progress.ts#L1-L60",
+          "version": "repo-lines-v1:sha256:c1f3755808777a18d937a1b62d6d3aca7c9520e6be5f6f09096d47f32a70d24e:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3NWQ4ZTE4MjVkZDMwYTc5Y2JmZDg0N2VlNmIwOTFmN2EwZDE3NmFiODUyMTI5NjUwMjhiMzcxYTQxNDRiMzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk3MWQ1NDYzZGQwNTIxN2Q3YmVkYjJhNTVhNDUwZDcwY2E5MGQ1MzUwNjg5NjU5NDczZTQ3NjFlYWJmNTQ3ODkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c2d2d0cfe11a44f9b234b54f7eb5424e",
+      "statement": "posterPct computes a poster's percentage with the checklist page's engine: soulsPct for a souls checklist and the steps engine otherwise.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/poster-progress.ts#L65-L95",
+          "version": "repo-lines-v1:sha256:7d902c1e739e2654313858604baf009c62a3b2daa8511b6c2d4c1d37b816a5da:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMzNTFiNTIxMjI5NDgyMmQ4ODQyMTRmNWZkYjc4NGM5ZmM3MGUzMjY3YzQwMTI4MDFhYTZmN2MxNjViYzk1ZDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc4YWQwYmZjMDlhZGE4NmZmMzgwYjJhOTllNTdlZTI4MGFiZTYwOTYxZjA0OWUyYjA5MGZmZTRjMDYyMzAxNmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_273e5a0c341446209151406d095f3933",
+      "statement": "pnpm import:checklist-cards uploads the old hub's scene, NPC and framing for each catalog card and the teaser's scene and egg once each, leaves the color empty, and changes a field only while it still equals what the last import wrote, keeping Torre's draft edits unpublished.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/checklists/cards.ts#L1-L20",
+          "version": "repo-lines-v1:sha256:375437265f7d4982fec568c3ce3d6beccdd0dc8035e0c60df544b575ea13ae1f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1MTBmNmQ0MTI4ZjJlMjQ1NTBkMTQzZDJlNjNlNGQwMzY1ZmM5NTUwNWNjMzgwN2EyYjM3OTRmYjg5YTAzMDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZkNDcwMzYxZWRkOWQ5YjNlZGJiN2JkMThjMDRiYWFmZTE3ZTU5NjA0M2U5NTk5YWRiYzc2MDZhNmUzZThhZTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM2NGVjM2I4NGI1ZDljZTY3ZGE4NjRmZjM5MzliOTc0MDQxZDU0YWM0OGE3YmNmYmNiZGZlNjdlOGFhYzQ0OTEifQ"
+        },
+        {
+          "resource": "repo://scripts/import/import-checklist-cards.ts#L1-L40",
+          "version": "repo-lines-v1:sha256:5fcee278d77d1e304373456df3f6d5014e9bc8a7ec92868bc234e34753e1ae76:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhZDhhOGVkMjhjYmQ1MWEyYTc5MDBiYmMyOTUyODNjZTYzYzhlMDI2MjNiODFlZGI0NDE4NjhjMDk3OGNkZGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU4OTk1N2IyYzFmMDk3NzI4MWY3YmY1Y2U1ZmUzNTFiMzgxZDEzNjc5N2Q4ZGUwMmUyYjFkMjViNTRjNjk1YTkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_74865b80fabf4625bcd7d02ce8b4b070",
+      "statement": "The E2E spec checks poster order with the teaser last, card art and color precedence, links and the dimmed poster, priority loading, tilt and reduced motion, the percentage after ticking a step, axe, and the menu and footer entries.",
+      "evidence": [
+        {
+          "resource": "repo://tests/e2e/checklists-index.spec.ts#L43-L363",
+          "version": "repo-lines-v1:sha256:3ecfae0e96bf9d4a4160b57899f48ec49350fd25f5f7f27226e3867de2784138:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIwODFiMGMwN2ZjN2E0MzE5MTQxYzc2OWQ1MGVlYWE2MWQ4MmFiMDliNDkyYzEyNTgxZDNkYjVkZjM3NTYyOTM5IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI1OGEwM2E0NTgzYjBkMzVmYjUyZjQ1MmUyMDViNzMwZWFiMTUzMjI3MzkwZDhjMzVhMjBhMWMxNDZlOTlkOTcyIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-15T11:00:17.514Z"
+  }
+}

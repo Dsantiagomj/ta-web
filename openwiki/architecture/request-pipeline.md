@@ -26,20 +26,24 @@ sources:
     resource: repo://src/collections/Checklists.ts
   - id: openwiki-source-3565ad21d65bf23ebb27b148
     resource: repo://src/endpoints/checklist-details.ts
+  - id: openwiki-source-1e1f10541d2f60e6ad8364a8
+    resource: repo://src/endpoints/checklist-poster-progress.ts
   - id: openwiki-source-e6259e232b376ac021274244
     resource: repo://src/endpoints/health.ts
   - id: openwiki-source-2dcb4ef15a24888e2bf6e8b3
     resource: repo://src/instrumentation.ts
+  - id: openwiki-source-9f27f890e8ed62d0c9064556
+    resource: repo://src/lib/checklists/poster-progress-url.ts
   - id: openwiki-source-66d7fca83a6f05e9ffb3f658
     resource: repo://src/lib/guides/slug.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
     resource: repo://src/payload.config.ts
   - id: openwiki-source-f34ac1e549d94dc3ac475ae4
     resource: repo://src/proxy.ts
-generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-14T11:00:46.827Z
+    at: 2026-11-15T11:00:17.514Z
 ---
 
 # Request pipeline
@@ -64,7 +68,8 @@ request
             ├─ admin/[[...segments]]      /admin panel
             ├─ api/[...slug]              REST + custom endpoints (/api/health, /api/ready,
             │                               /api/search/guides, /api/dofusdb-values,
-            │                               /api/checklists/:slug/details)
+            │                               /api/checklists/:slug/details,
+            │                               /api/checklists/poster-progress)
             ├─ api/graphql                GraphQL POST
             └─ api/graphql-playground
 errors → src/instrumentation.ts → Sentry (server only, when configured)
@@ -90,10 +95,10 @@ The App Router tree has two route groups, each with its own root layout.
 The group holds:
 
 - the [home page](../frontend/home-page.md) at `/`;
-- `/[slug]`, which tries in order a quest guide, a published achievement page, a published Dofus guide and a checklist, loading each once per request, and calls `notFound()` when none exists. A checklist «En preparación» redirects to its Squarespace page instead. Guides, achievement pages, metalogros, Dofus guides and checklists share one slug space, so they never collide. See [Public quest guide page](../frontend/guide-page.md), [Achievement page](../achievements/achievement-page.md), [Dofus guide page](../dofus-guides/dofus-guide-page.md) and [Checklist page and index](../checklists/checklist-page.md);
+- `/[slug]`, which tries in order a quest guide, a published achievement page, a published Dofus guide and a checklist, loading each once per request, and calls `notFound()` when none exists. A checklist «En preparación» redirects to its Squarespace page instead, and a souls checklist renders `SoulsView` instead of `ChecklistView`. Guides, achievement pages, metalogros, Dofus guides and checklists share one slug space, so they never collide. See [Public quest guide page](../frontend/guide-page.md), [Achievement page](../achievements/achievement-page.md), [Dofus guide page](../dofus-guides/dofus-guide-page.md) and [Checklist page](../checklists/checklist-page.md) and [Souls checklist](../checklists/souls-checklist.md);
 - the [metalogros index](../achievements/metalogros-index.md) at `/metalogros`;
 - the [Dofus guides index](../dofus-guides/dofus-guides-index.md) at `/guias-dofus`;
-- the [checklists index](../checklists/checklist-page.md) at `/checklists`;
+- the [checklists index](../checklists/checklists-index.md) at `/checklists`;
 - the `/vista-previa` routes that turn Next's draft mode on and off for editors;
 - the `/sistema` component catalog outside production.
 
@@ -120,7 +125,10 @@ Endpoints listed in the Payload config's `endpoints` array are mounted under `/a
 | `GET /api/search/guides` | `src/endpoints/search-index.ts` | The header and home page search index of published guides, fetched by the browser on first use. See [Site header, footer and search](../frontend/site-shell-and-search.md) |
 | `GET /api/dofusdb-values/:source/:id` | `src/endpoints/dofusdb-values.ts` | What DofusDB gives for an achievement page or a metalogro, for the panel notes; panel users only. See [Achievement data model](../achievements/achievement-data.md) |
 
-A collection can mount its own endpoints under its slug. The `checklists` collection mounts `GET /api/checklists/:slug/details` (`src/endpoints/checklist-details.ts`): the quest givers, coordinates and objectives the checklist island loads after the page paints. See [Checklist page and index](../checklists/checklist-page.md).
+A collection can mount its own endpoints under its slug. The `checklists` collection mounts two:
+
+- `GET /api/checklists/:slug/details` (`src/endpoints/checklist-details.ts`): the quest givers, coordinates and objectives the checklist island loads after the page paints. See [Checklist page](../checklists/checklist-page.md).
+- `GET /api/checklists/poster-progress` (`src/endpoints/checklist-poster-progress.ts`): what the progress engine of each poster on `/checklists` needs, for every published checklist. It reads as a visitor through `unstable_cache` under the `checklists` tag, gzips the JSON when the browser accepts it (Next does not compress Payload's API), and lets the browser keep it for five minutes. The index island requests it only when the browser has saved progress. See [Checklists index](../checklists/checklists-index.md).
 
 New endpoints belong in `src/endpoints/` and get added to the config's array or to their collection.
 

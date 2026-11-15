@@ -22,16 +22,24 @@ sources:
     resource: repo://scripts/lhci-env.ts
   - id: openwiki-source-95f46342bb37caacc4ce1dbc
     resource: repo://scripts/lhci.ts
+  - id: openwiki-source-e6d5c185a004809eb4e5ff36
+    resource: repo://src/components/checklists/ChecklistPostersIsland.tsx
+  - id: openwiki-source-4e414ad143c55ca67c07d9ae
+    resource: repo://src/components/checklists/ChecklistsIndex.tsx
   - id: openwiki-source-4d5101e22a43d90e5f3610c9
     resource: repo://src/components/dofus/DofusGuideParts.tsx
   - id: openwiki-source-fdce55e7847bc02f550db2a4
     resource: repo://src/components/dofus/DofusIndex.tsx
+  - id: openwiki-source-2527b990816180ac80987e20
+    resource: repo://src/components/site/site.css
+  - id: openwiki-source-3bd66ce842612aa5530166a6
+    resource: repo://tests/e2e/checklists-index.spec.ts
   - id: openwiki-source-cf83a6bbb1b6a5159842a86a
     resource: repo://tests/unit/lighthouse-ci.test.ts
-generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-14T11:00:46.827Z
+    at: 2026-11-15T11:00:17.514Z
 ---
 
 # Performance budgets (Lighthouse CI)
@@ -99,6 +107,8 @@ DESIGN.md names the mechanisms: server components, fonts through `next/font` wit
 - The guide and achievement pages ship one small client island (see [Design system components](../frontend/design-system-components.md)).
 - Both searches load their engine, results and the search index (guides, achievement pages and metalogros) with `import()` on first use, never with the page. The guide page and the home page each sat at about 149,700 bytes of script on 2026-11-07, just under the 150,000-byte limit, so search and result code must stay out of the islands, and a module imported by both an island and a lazy chunk ships whole with the island (see [Site header, footer and search](../frontend/site-shell-and-search.md#keeping-it-out-of-the-initial-javascript)).
 - Render-blocking CSS is kept small: the home page avoids importing `game.css`, `Amount` styles live in `globals.css` rather than `ui.css`, and `/metalogros` imports only `metalogros.css`, because importing the guide and achievement stylesheets split them into more chunks and raised its LCP by about half a second. The Dofus guide styles live inside `achievement.css`, so `/<slug>` still loads four render-blocking stylesheets, and `/guias-dofus` loads only `dofus-index.css` (with its own copy of the «En preparación» pill) and three stylesheets in all; a separate `dofus.css` had pushed the guide pages past 2.5 s of LCP in CI. Every page may load at most four stylesheets, which `tests/e2e/hojas-de-estilo.spec.ts` checks on each page of `lighthouserc.cjs`; the breadcrumb's styles moved into `game.css` for that (see [Styles, tokens and site shell](../frontend/styles-and-shell.md#stylesheets-per-page)). On the index the first cards' eggs are the LCP and are not lazy-loaded (see [Home page](../frontend/home-page.md#budget) and [Metalogros index](../achievements/metalogros-index.md#server-html)).
+- `/checklists` keeps the progress engine out of the page: its posters island loads the engine and requests the poster models only when the browser already has saved checklist progress, so a first visit downloads neither. The first two posters load their scene and egg with priority, because on a phone one of them is the LCP image (see [Checklists index](../checklists/checklists-index.md)).
+- On a short page such as `/checklists` the footer's lazy portrait of Torre once became the phone LCP: a CSS `filter` (its drop shadow) made Chrome count the image as a box larger than the posters. The shadow is now a gradient behind the image, and `tests/e2e/checklists-index.spec.ts` checks the footer face is not the LCP on the Lighthouse phone (see [Site header, footer and search](../frontend/site-shell-and-search.md#footer)).
 
 ## Tests
 

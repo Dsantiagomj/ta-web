@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:0cc0e20a15ce0de8e5c39cf035715267abb2447f978fa34b1e482b79642cd0f9",
+  "pageVersion": "sha256:d54d2463374ecfd67065585f2a930ebb95092de0a809203e5768e44b5f49dce2",
   "claims": [
     {
       "id": "claim_0af932fbfb274b178987c452ca10c5c5",
@@ -407,16 +407,16 @@
       "statement": "loadChecklists is one unstable_cache read of the checklists collection under the checklists tag, and loadChecklistNav maps it to menu items that link a published checklist to its page and an in-preparation one to its legacy page when it has one.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/site-data.ts#L30-L40",
-          "version": "repo-lines-v1:sha256:90b017eef7ee98d0565b836a9cd1c00053b32aba85b1135700efaeb4e4f77468:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNjM2ZlNWI4Yjg0ZGU5YjIyOTIyOWMyNWFjN2E3ZjY5MWU0ZWM5MTdlYjNkM2QyM2U0MGU4MmM5MWUzYjc1MzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUyNTEzMjRlOTRjMzlhODJlMWJkZGVmMGZlYjhjMGQ5MjkxYzQ4YjUxNWRiOTBjMDAyYjc5NzYwNTFjM2ZhN2YiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjczM2Q1YjVkODBmZDNjOWU1NmFiMTMzOTI5ODg1ZjA3M2FlOTZjOTc1ODM2OWU0MDY2YmRlMDRmYmFkNDhjMzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/app/(frontend)/site-data.ts#L33-L40",
+          "version": "repo-lines-v1:sha256:bca68f894cdef4aaecdbdd7e6bd2ec7d671d00813073d834a71033fe6a0b5664:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWMzY2FjYmQxODAxMWVkYzQ1NzRhMjI2NmNiYjg0ZmIyMGUwN2I0YTBlZTFhODEyYzg3MDQyNTAwODhhYWVlYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTI1MTMyNGU5NGMzOWE4MmUxYmRkZWYwZmViOGMwZDkyOTFjNDhiNTE1ZGI5MGMwMDJiNzk3NjA1MWMzZmE3ZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmQzMDIwMGQzOGFlYjIxN2ViMDczZWRkYjc4ZWY4ODBlYzE5N2MwNTc2MGUwOGIyNGI5MTk5NzcwZjMxNmM3YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTY3OTQ4NzM3Y2UyYjQzYWI5MzdmMTZhYjNjOTQ3ZjRiM2E2ODdjZjIxZDM4ODFlZmU4Y2RjYzM4ZWVkYTlkNiJ9"
         },
         {
           "resource": "repo://src/components/site/nav.ts#L70-L85",
           "version": "repo-lines-v1:sha256:8fffa72046264c162404a4b27216a24c376681b93b362e749ad4c465c483a20d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4Mzc4OWIzYjM4MDM5M2JhNjc5NGFiYmY3YTYyZTVlZjQ5Mjc3Njc5MGViYmI2YTg1YTg1MzFmYzNkYWVjOTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkxMzU2NTdiZWFmNzNmMzY2MTRhMGU0ODNmNmRmNThlZmYyYWMxOTFkMGFlZDQxZjlmNjZiMzQwNzA0NzcwNGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFiNjA1OTJmMjU4ZWI0N2U5Y2ZjYTY0MzMxOTU1MWQyMDdmYWRhY2MyMjNjYmJhZTNjZWQwZjM0MDQ1OGZlM2YifQ"
         },
         {
-          "resource": "repo://src/lib/checklists/list.ts",
-          "version": "repo-file-v1:sha256:915c59d75df9b941b22428e0db91de9b7142ed4b4cb24f3eb225bfca7043c571"
+          "resource": "repo://src/lib/checklists/list.ts#L92-L168",
+          "version": "repo-lines-v1:sha256:a6db60aabda9fef37a263e84df29f93526a084938dea7beeb4670c86fd9426d8:eyJzZWxlY3RlZExpbmVDb3VudCI6NzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlMjRjZGIxM2YzMWFmNmM3ODJlY2Q1YmQ3ZjFkYjY3YjQxYWVjNzViYzk2YWY5OTI2ZjBmYzY0NTBmNDM2NTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhiZmI0ZGRhZTNjZGU3ODUzNGIyZTg4YmNmY2E5YjlmOTgxM2I0OWU4MmYwYzM1ZmJjMTk2ZGRiMzA3NzMwZjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -437,10 +437,24 @@
           "version": "repo-lines-v1:sha256:b29ae2e611d8dfb9f658fa3d1a12efd6ba81017127535b86d576642e220d5c9e:eyJzZWxlY3RlZExpbmVDb3VudCI6NjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0ZDhhOWY1MjJkYzc2ZDQ2YjczODVmZjhmZmY3Y2NlYjkxZjMyMzU4YjU5MmVhYjljYjQ0M2ExMzgyMWUzOWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFjNjQ1ZTIwZGU5MDUzNTE3YzUxZGNlOWI3ZDczMzc0NDMxYTMyYjgyMGUzZDhjYTJjZjM1MWI3ZDdjZWUzZDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJkNDUzYWIxZDRmMzA0ZjkxYjM3Yjc5N2M4NDg1NmI4ZjExM2EwMDRiZTRiNzMxOWQxZjg2OWQ2ZDQxYTY2NmYifQ"
         }
       ]
+    },
+    {
+      "id": "claim_ab64d65e0cf74fe6a9976c2a3292e3d0",
+      "statement": "The footer face's shadow is a radial gradient behind the image rather than a CSS filter, because with a filter Chrome counted the lazy footer image as a larger box and it became the phone LCP on /checklists.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/site/site.css#L1336-L1351",
+          "version": "repo-lines-v1:sha256:8bd3c1a3e0c583460ea8252e5652fcd00d28de9c601c54f370864d61994bb3ec:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdjODkzOTM3ZTg4M2IxYzcxZjZiODMwM2NlMTg2OWY2NzQxNjMzYjYyYWRiZDY5ODU1N2RiNTNjMGU5Yzk4YTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmZmNhMGNlOWQ2OWQ2MzY3N2Q4NmFlZDQ4YWIyNmYyM2QwYTRiNzU3NmNjOGE1YjY0ZDI0NWE3Y2NmNjVlOTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVjM2UwYzk5MjVlYjQ2NWJjNTkyNDI4ZmI3YzZjZjhhYTE3ZGZhZTM1N2ZiYzA5NTQ2N2U0MDE1ZDlmYjUzMjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhlMDQ4Y2I4MzcxYjA3MDZhNTkyMTliZDkwODBlNDljNzNkNGVkNWIxNDQyM2I1ZjJlNjY3ZmI3NDdkNWViOTEifQ"
+        },
+        {
+          "resource": "repo://tests/e2e/checklists-index.spec.ts#L181-L214",
+          "version": "repo-lines-v1:sha256:b0f3dd3f841521b2b25bd33ddde7943044133d9f1694995a7a59d4d0296ad278:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU1ZTQxOGVjMjk4NmFjYTNiYTkzMGZkNzI3ZGYxMDIxOTcwZWU2YWNkY2NlOGYwYjc2NDNmY2QyMDBmMjUxMTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY5MWUzMTNiZTViODc2ZGUzMjdhNDU4Mzk5OWM0ZTNhYTBjNGM3ZjY0ZGYxMjk0MjFiMThlMGEzYWRkNTAyMTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZiNGY0NTAzNGYxZmJkODM3NGYwZDBhYjk5MmExNTVhMjlmODBlNGM0MWI0ZTU3NGFiMzc0ODIxOGJiNTQ0NmYifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-14T11:00:46.827Z"
+    "at": "2026-11-15T11:00:17.514Z"
   }
 }

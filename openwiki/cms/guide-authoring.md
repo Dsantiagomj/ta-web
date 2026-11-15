@@ -50,15 +50,15 @@ sources:
     resource: repo://tests/unit/guide-summary.test.ts
   - id: openwiki-source-1970468d3fcc651d5071b312
     resource: repo://tests/unit/quest-guides-collection.test.ts
-generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-14T11:00:46.827Z
+    at: 2026-11-15T11:00:17.514Z
 ---
 
 # Writing a quest guide
 
-A quest guide starts from its DofusDB quest. `quest`, labelled "Misión de DofusDB", is the first field of the guide form, in the main area. It is an optional single relationship to `quests`: a guide links one quest or none. Once Torre picks a quest, every empty field the quest can answer is filled: the title, the slug, the two SEO fields and the summary (prerequisites, the "Necesitarás" item list, rewards, start NPC and coordinates). What is left to write is the guide itself: the body blocks, the "Necesitarás" notes, and anything DofusDB does not give.
+A quest guide starts from its DofusDB quest. `quest`, labelled "Misión de DofusDB", is the first field of the guide form, in the main area, above the title, the slug and the form's three tabs: «Contenido» (the body blocks), «Resumen» (the summary) and «SEO». The tabs have no name, so they only arrange the form and the stored data keeps its paths. It is an optional single relationship to `quests`: a guide links one quest or none. Once Torre picks a quest, every empty field the quest can answer is filled: the title, the slug, the two SEO fields and the summary (prerequisites, the "Necesitarás" item list, rewards, start NPC and coordinates). What is left to write is the guide itself: the body blocks, the "Necesitarás" notes, and anything DofusDB does not give.
 
 The fill happens twice with the same rules: live in the form when the quest is picked, and again on the server when the guide is saved. Both only fill **empty** fields. A value that is already there, typed by Torre or brought by the Squarespace import, is never overwritten.
 

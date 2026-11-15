@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:e2f7f228debdac163d6c063372e20ade0d7856d12ceaf7077b92010c5cfce9bd",
+  "pageVersion": "sha256:012f577f3c20260a5c618c41ef035d370b66be2520882e07253472b64b50c305",
   "claims": [
     {
       "id": "claim_685bcfe3a19741d7a516302d001cb6fe",
@@ -163,8 +163,8 @@
       "statement": "The Dofus guide styles live in achievement.css and the /guias-dofus index imports only dofus-index.css, keeping the number of render-blocking stylesheets low on /<slug> and the index.",
       "evidence": [
         {
-          "resource": "repo://src/components/dofus/DofusGuideParts.tsx#L1-L31",
-          "version": "repo-lines-v1:sha256:dfd92302e9947d2f7d41c316cbe99a0188dcffe3b70e504c259832bc0428cf33:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk3MmNkODkwNTU4NjgwYmU3OGQxOTJmNGJlZTlkNGJhYWM3YjQzMWQ5MTQwMWUxMmFhZGQwNzViYWJjYWNjODIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc2MDY0ZTYxYWRkZTU5YWIyNjdkNTNmZTQ2MjAyMzAxNGY5ZGRjYjc1MjMyOTY1ZGRmYjBkZmVjMzAyYzliMTcifQ"
+          "resource": "repo://src/components/dofus/DofusGuideParts.tsx#L1-L23",
+          "version": "repo-lines-v1:sha256:61cd87cbfa89498d452ed7fa893baf94ff1072a59c1674481f8e7f7a10f64a65:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2Mjc1MmFmMDFlNmU2OGFjOTE5MGEzNTg5ZDRjOTk0ZDlkM2FjODVlZGZhMGIxMjY4ZDhlNmZlZDFhNzNjNzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZiODg0NWIxOTRkMWI0MWMxMGM3YzMyOTI5NzA4NGQ0OWYzZTMxNzZmYWEwNzRkZjc2YzcxMzYwNGYyNGY0NjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM4MDQ0NzA4NDU4ZGI2YWFjNjU2MWVmYmJjYWMxMjBmZjVlNThkZDk2YTFiNzkxY2I3NmMyN2VlZGY1NTU1YzYifQ"
         },
         {
           "resource": "repo://src/components/dofus/DofusIndex.tsx#L1-L14",
@@ -203,10 +203,38 @@
           "version": "repo-lines-v1:sha256:8146b4973ba054b961cf9156282a56cc12a3ca0c15a48ff128dc91cbdb0b646a:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGJjOTU2YThmNTVmOGNiNjQxNDdhYWIyMjQ1NzgxNWUyOWZiZTlkNzg4MmE3NmRmZTBlMzM1N2FjZTJkMDFmYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjhmZDRmZjY5NGVjYTA4ZDZiZTg3MGM2ZjIzN2FlMDU5N2JjNTNjMTU1YWQ4ODA1NjVjNmZiMThlOGIyMTMyNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOGVmNTI3NDcwOTNlZGYxYzE5ODQ0MDc5YWY4YzY1ZGE4Mjc4MjJmNzM0ODdiOTU2MzA2YTg3MWNmNjk1M2IwMSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_2c62a356df04421aae4e7aa8cd82ad76",
+      "statement": "On /checklists the progress engine and poster models load only when the browser has saved progress, and the first two posters load their images with priority as LCP candidates.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/checklists/ChecklistPostersIsland.tsx#L16-L49",
+          "version": "repo-lines-v1:sha256:52359608f52489740827c50fbeb1e3e3fad5c72c50186eff5e2bbd06c795410c:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmZWM5YjQzMjFkZTVlMjQyYjlhNWMzZjFhMGExNzNhNzkwOGU1MWNkMGQ0ZjRhMzNiNWU1OTI0ZDMyYTIxMDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNmZDFjNGVjYjJlNWZiNTlhNDNiNTM2ZDczYTAzYzgxZDMyY2QxZWFhNjhkZGM5YzhkMTc1MjkwYzBjZWM2YjMifQ"
+        },
+        {
+          "resource": "repo://src/components/checklists/ChecklistsIndex.tsx#L12-L16",
+          "version": "repo-lines-v1:sha256:6c9b3b3ffd2c7e3a2f0ff79979be681c5bf557f256c1c1895d3100839268fa5a:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzg3NzVhYjJiMDMwMTgyN2MzZTNmMTljOTA5YjgwOGVmZGY2ZDM1NDk5ZTM4NGQ4NDMyOGE5MzM0NjEwMGI1ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjYxNTUxNjdhOGY3YjUzYjkwNjA5ZGIxMzhmZjFjYzE4OTRmYTQ0OTNjYzlkNmNkNzE4OWFkZjI4Y2M4ZTkyOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTIzNmM3ZjEzZWNhMTRmNjkwOTQ4NjYwMTRiNmE0NTgyMjQ1YmE3ZDliZTFlZjAxOTA4ZTEwZDRlOTEyY2I0NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_987470fde9a947eea8dcf41175a67df4",
+      "statement": "The footer face's shadow is a gradient rather than a CSS filter so the lazy footer image is not the phone LCP on /checklists, which the checklists index E2E spec checks.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/site/site.css#L1336-L1345",
+          "version": "repo-lines-v1:sha256:0e3ecf6dfc4fe942f834eee30a938c6269795ef12b9138d7c93b363aa4bcaa7d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdjODkzOTM3ZTg4M2IxYzcxZjZiODMwM2NlMTg2OWY2NzQxNjMzYjYyYWRiZDY5ODU1N2RiNTNjMGU5Yzk4YTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVjM2UwYzk5MjVlYjQ2NWJjNTkyNDI4ZmI3YzZjZjhhYTE3ZGZhZTM1N2ZiYzA5NTQ2N2U0MDE1ZDlmYjUzMjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA2MmM0MGY4OTQwY2UyOWQ1OGEwZTcxNzdhMWQ3ZGY5YjJiNzE1YTg4YTk3OWI1ZmIyY2MxOTEzNjBhZjFkNWEifQ"
+        },
+        {
+          "resource": "repo://tests/e2e/checklists-index.spec.ts#L181-L214",
+          "version": "repo-lines-v1:sha256:b0f3dd3f841521b2b25bd33ddde7943044133d9f1694995a7a59d4d0296ad278:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU1ZTQxOGVjMjk4NmFjYTNiYTkzMGZkNzI3ZGYxMDIxOTcwZWU2YWNkY2NlOGYwYjc2NDNmY2QyMDBmMjUxMTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY5MWUzMTNiZTViODc2ZGUzMjdhNDU4Mzk5OWM0ZTNhYTBjNGM3ZjY0ZGYxMjk0MjFiMThlMGEzYWRkNTAyMTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZiNGY0NTAzNGYxZmJkODM3NGYwZDBhYjk5MmExNTVhMjlmODBlNGM0MWI0ZTU3NGFiMzc0ODIxOGJiNTQ0NmYifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-14T11:00:46.827Z"
+    "at": "2026-11-15T11:00:17.514Z"
   }
 }

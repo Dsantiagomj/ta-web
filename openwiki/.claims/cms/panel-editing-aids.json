@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:2d35b919e12a091290a73c8b2d399d293c59db10e8bdc577471e04bf4e135de6",
+  "claims": [
+    {
+      "id": "claim_a4fe83c8b9444aa4a544cc932d96d44d",
+      "statement": "The Payload config replaces the dashboard with the Dashboard component, adds the panel guide view at /guia linked after the menu, and wraps the panel in the PanelA11y provider.",
+      "evidence": [
+        {
+          "resource": "repo://src/payload.config.ts#L55-L70",
+          "version": "repo-lines-v1:sha256:4e584e0c03dd49c5ac65830dbf9e529759d224600caabc784a2807fd78b0c4dc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhYTc1NmE2ZmU3YzNiMDkzMmFlMjE3MzczNDg4OGI5NjI3ZjcyMTU3Zjg2M2E4NjViNGU4ZWJiNDA5YjMxYjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVjMjUyMTFkNjExZjgxYTA4MGQxMWVmYjhhNzkyYjkwOGY0YWYwYWNlMTc0NWUyYmY3OTI1MWM2ZGQyMGM1MGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFmM2Y2YThjYTFkMzYwMGRhM2I0MWU0OTA2NTU2YzI5MWM0MWNmOGNlMzgzZWVjZTNhYjZmOWI5NmRjMDdhZTQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5d8552d9f855435ab24fbef3b3edc3ec",
+      "statement": "readDashboard reads as the signed-in account with overrideAccess false over the five editorial collections and returns capped lists of drafts, preparing documents, Dofus guides without a checklist card and recent changes.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/admin/dashboard.ts#L1-L30",
+          "version": "repo-lines-v1:sha256:5807c9319c9c47c4c6c79c62e6d292bcdc85fe5ef8ec13ae1f37e72f21311e54:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjMmQ4ODViNjZmYjBkNDg4YWVmNjNiNzhkMTYxMjQyZGRiYmFiYWMxMjIwNmJiY2YxNjcwNDU4MzY2M2Y5NDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg3NzlkNzkxNzg0N2Q2NTI3OTBlNGI4MWM3YjU3M2U1YzUyYmIwNzQyMDY2Mzg2YzQ5NTBiYjZjZGY3MzRlZjcifQ"
+        },
+        {
+          "resource": "repo://src/lib/admin/dashboard.ts#L120-L261",
+          "version": "repo-lines-v1:sha256:47e4b955d2ef4f3cbd0c78004bc572e157460a9ee66b6ec4d9a7dda01e1e60ce:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQyLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlYzFjYmVkYzNjNzk3ZDc3YzRlMTE5Y2UxNDE4ZWJmOWY1YzU1MDYwNGM3MjJmMDAzZTJmMTU5ODIxMjBmNDU5IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI3MGU1NTQ5YzYyYzFlODNjZWNiMTZiNWI0NjVlYmI0NTA4ZWRlZjI4ZjYxZjllMDgzZDM4MWNjZTgxMjdiMzQ3IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_0b8d441de66341718a2eb910ecf6195c",
+      "statement": "The dashboard counts preparing achievement pages and metalogros and shows only the latest, while Dofus guides and checklists are read whole once, and a Dofus guide lacks a checklist card when its checklist name or URL is empty.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/admin/dashboard.ts#L107-L110",
+          "version": "repo-lines-v1:sha256:85c51dde5480e43a5a06afe86de004042ee944b38039ddd9cb8e747bc3179357:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGRkYzZkOTg0ZTIwZWU3NjMxYzI5NmQ5NTIxODNhODUxODUxNzJlODhhMmJjYjM4MWIyZjcwM2I5MDUyMGRkYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGQ0NzU0ZTViNjc3MTY3OTdhOGU1MjExYzYzYmVjOTM3NGViODZlZjJhMTE3Y2FmMGZhY2ZiOTljMTMzZWFmNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzMyMGE2MDFlMDZjODM4NWU2MGFhOTVmMDczNThmNWY0Y2M2MWYyNmM5NmMyMDE5OGE2ZDEwOWNkYTViYzkwNSJ9"
+        },
+        {
+          "resource": "repo://src/lib/admin/dashboard.ts#L196-L222",
+          "version": "repo-lines-v1:sha256:73c13c2d652274e6d76879ce7e08312b70f7963b56fd530ec186a87c626ebf06:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc0ZjEzYzFjMzYwYTIyYTU0NTcxNmJiZWEwMWNjMzg5MWU5ZWEyMzc1ODJhOTA4MGRhYzZjYWU1NDVkNTY3NGIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFhYTYwN2E5YTY5OGEwYmY4ZGQ5NTNjYjUyN2Q4NDNkN2ZmNmI2NTk4ZDZjNTc0ZjMwN2QxZmU4Y2NhNTVhNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEzYjdiZWE2YWFkMzBkYzViMzFjYTIxZWFlYzIyMDMzYTc0MDdmZjY4NTlkM2I4NTZmN2NkZDk1Zjk4ZjVlYmMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6f6ac54cffbc403fa66918256263701e",
+      "statement": "The panel guide view redirects to the login without a user and lists only the collections the account can see, while withPanelDescriptions sets each collection's admin description from panelStrings.collections.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/admin/PanelGuide.tsx#L1-L40",
+          "version": "repo-lines-v1:sha256:bd88eaaba480da327be8811350e5d4b9f9a93fa88d40b1b13c7d04ce4e2d6970:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI2NjAxZjAwMjZjNzIxYzAxZDk5ZjEwNzdjNmIwZDdlMmRkNDI4ZWFjYmZkZjE2NDE1YzJiZDMxMTg5MTBmZjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3MjE2ZThlOWMwYTFhNjhkMDZjMmZiYWE1ZmQyMTM5NDgyYjhlZmQwYTE5MzE1YjkxNWU2Y2NlODQ5ZDg5ZGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY4ZDZiMzk4ODg1ZTIzMzRjM2Y4M2EzY2U4MDkxMTFhYjZmMWRlMzk5ZjJlZTBjZmU2ZmYxODQ1OTE0NGY0OTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/admin/panel-guide.ts#L1-L30",
+          "version": "repo-lines-v1:sha256:da92cbc620f3cccdc110c91e2abb60de8ca1b7bb61d93f713ae0b10aa3875ef4:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIyOGFjZWZjNzRmNDY2MGNhYzA0OTgzMTBkMzZiMTQwOGU0MmU5NGFiZjUzOGZlYzYyYWQ3N2ZhNDE5YTQxNzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5e8209c377764cf6bc845b3b97ddad4b",
+      "statement": "withPublishStatus inserts the publishStatus UI field as the first sidebar field, and publishStatus derives a hidden, loading, preparing, pending or live tone from the published version, with drafts saved after it marking pending.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/admin/live-preview.ts#L33-L55",
+          "version": "repo-lines-v1:sha256:b09265cb543829ffcacb753a4cd6ba1b3921ded32431372ae8d2b29b4adff1b1:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc3NDhiY2Q4Mjg3YjZjZGI4MzliZmIxNjEzNzg5ZGNiNTM4NzA4YzUwODU3MmI3Yjc5ZWIzOTJhYzJmYjA2NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/admin/publish-status.ts#L1-L73",
+          "version": "repo-lines-v1:sha256:bc38fbce836438242fbd2299acf53e4a7cb9f78e39be239f7c0ac565328c236c:eyJzZWxlY3RlZExpbmVDb3VudCI6NzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI5MDFlZmIwM2QxNjg5YTA2ZjRlOThjY2Y5MWZiZTJlZWU3ZDZlYzc5MWQzMjk2MWI2NTE4NDM3OGViOGE2YzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_73105b27236948469f6d965629a80405",
+      "statement": "The PublishStatus component fetches the published version from the REST API, because that is what a visitor sees.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/admin/PublishStatus.tsx#L1-L40",
+          "version": "repo-lines-v1:sha256:a0f46557a6f0d9d15ed26eb698111684197463d642cebf73070c0fdc62b69a06:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NjRlMDBlYTU3ZWMzOWQ4OGZjM2Y2OTM0YzRiNzA5MWRiMDU2YTZjMmQ1YjExYTk3MTIzMDBkMDZmOGQyM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlN2NkZjZhMTIzZDlkODYyZWRjNzM0OGU5NTU4YTJkZjhiNjMzZGE3ZjA5Y2QxOTFkODFmZWVmZDUyYmY4NWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBkYzEzNjkyMDY1MDBhZjY2NzE4OTNiODNlM2UwYjI2ZTkwMDUxYTg1MTNkNzViYWY1MjZkMTRjYzMwMTg2NjgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_06133c3c1bd2419886c3a36479dc5f08",
+      "statement": "pagePreview opens /vista-previa with the latest draft and offers 390x844, 1024x768 and 1440x900 live preview sizes.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/admin/live-preview.ts#L11-L31",
+          "version": "repo-lines-v1:sha256:0b6287df0234925cdcf84a94fa59aeba917648decc0bfb12ba0282a1070ae7f6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU2OWMzMGIxMzEyYTkwODFhZmI3MGY0ZTNiZWY1MDJmMmNmNmYzYmFhMTU0MjI1MzM3YjczMmFlYjdiNmRmMWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ0NDAwOWU0ZTFmMjE2ODUwOGMxNjg5NThiMGY3ODUyODBjYjIxMDE3NzcyNzg3ZGM4MzYxNmZmODBjNzEwYjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAyMTRhMzYwMTg3ZjQ0Zjg5YThhZGI5Yzc1OWQxNjRmNzY1OTljMmJlYmIyNWViMDc3ZDlmOTA2ZjgyNDkwZTcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_02f49069325440e5be9d8cd74025d62c",
+      "statement": "placeInTabs places named fields in unnamed tabs and throws if a field is in two tabs, does not exist, or is in no tab, because a missing field would drop from the schema.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/field-tabs.ts#L1-L29",
+          "version": "repo-lines-v1:sha256:6c7fd46a56f77537adfdaad5378832c6b0b829d9247aa2a78d633d0d792db4f1:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ3YmRjZDNiZjJkYmFhNjQ2NDdiNDBlMzY2Y2U4NDhkZDFhODUwNjJjYmQyNjQ1OWRmNGMwYWUyODUxNzY2NTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2e1b7ab53ebc419aa772f1e05e992533",
+      "statement": "Row labels name a checklist step by its first segment's text or its zone, a segment by its text and kind, and other rows by a text or relationship field.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/admin/row-labels.ts#L1-L45",
+          "version": "repo-lines-v1:sha256:47ba6981bd48ba10c77295ec1aefb7c7c68e5f6d3c7885a816abd2c9c2026343:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0MjA2Mjk5YzczZjRiZWU5NzQwMWVjNWQwOTFkZjZmNmUzNzRlYjBjMjNlMjA3NjVkZjBkZjE2ZGI4YzUxN2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3MDY4NDk0NWIwYjYwMjczY2M3OTA1ZGE1MjdhNjc0MTc3MDA5NDc2MDcxMDllYmUzZTFkN2MwZjM2OWQ2MzUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM2ODQyZTc0ODI1OWM5MzYzMzA3YmUzZjhlNjA1MjI1NjczYjgxNGQyNTU0ZWU4YWZkOTdhNmE1YmM2OGU1ZTMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_465a938777d245618eec0004bc567228",
+      "statement": "The step outline moves checklist step rows with buttons or Alt with the arrow keys, Home and End, like the drag handle, so each step keeps its stepId and nothing changes until saving.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/admin/StepOutline.tsx#L1-L30",
+          "version": "repo-lines-v1:sha256:f884f6ce0d190c69c9ce9cb292b807df9c57bd1dbdc2e754c3cf314093dcd131:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NjRlMDBlYTU3ZWMzOWQ4OGZjM2Y2OTM0YzRiNzA5MWRiMDU2YTZjMmQ1YjExYTk3MTIzMDBkMDZmOGQyM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ2ZWYwYWM5OTQwMDJjZGJkMzI0OGI1ZDA0YjgxYmE3NDQwODBiZjZiZTkxMGM5ODllM2M3OGM1ODY2NWI5NjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJjYzQxNDBjOTlmMmE4OTFkZmQ0ZmMxYmE1OTI0MjgwYmRjODAyYTU5YmE1ODA3YTIzMjU0NTVkYzQxODI4MDkifQ"
+        },
+        {
+          "resource": "repo://src/lib/admin/step-outline.ts#L1-L10",
+          "version": "repo-lines-v1:sha256:3dfb0b26299e15cbb25e2114a4027df6ce24a528adcb294824db766ea2329fae:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjMzUyZDM0MzMzMDgzYTk2ODhlYzlmNGFmYTAzMTE1MjM0ZGIwYmJmODI0NDJkNTFmM2Q1NTBjZWI4NDc2YmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNkNjRiZjQ2NzY5ZDQzMjA0ZWQzODRmYzgwM2FiOWZhYjEzOThlNDE5MzI2NzIzZTdlYjg2NTVhNWJiMjhmNTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkwYjQ5Zjc3ZTUyMzczZDI2ODg4MGFlOWJhZDU1ZjVkYzQ5MWQ2ZmZhOWJlYzQ0ZDY3ZTY3YThhN2NiMjJjZWMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_37bf64d3c16a40b6bcbf516bad6e8671",
+      "statement": "StepRefField picks steps by name and still stores stepIds, and StopObjectiveField picks the stop objective by text numbered from 1 while storing the index from 0, always showing the saved value.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/admin/StepRefField.tsx#L1-L30",
+          "version": "repo-lines-v1:sha256:097fd46c5883315cdd6b66450a36d412f8fedfe1e81d9a63f31da0997dca0bc7:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NjRlMDBlYTU3ZWMzOWQ4OGZjM2Y2OTM0YzRiNzA5MWRiMDU2YTZjMmQ1YjExYTk3MTIzMDBkMDZmOGQyM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1NDU1Yzc2NzMxYjliYmEwYzFjNmZkOWNmN2EwYTVhNjYxOGU3N2Y3MThlZmNlOWY2MjhmMjhiOWJkMWQ1ZjEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdhMGI0Yjk0YWQzNzNjMmQ3ZTAzYmYzMzQ4MWY2YTJjM2U5MjJhYjkxY2EyYWUzYTRhZGMyMzVmMGUxNWE0MzcifQ"
+        },
+        {
+          "resource": "repo://src/components/admin/StopObjectiveField.tsx#L1-L40",
+          "version": "repo-lines-v1:sha256:099e469961e3eaba948921c8f7f4650bc767ed7a74dab2ec2e9047d2d8875a90:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NjRlMDBlYTU3ZWMzOWQ4OGZjM2Y2OTM0YzRiNzA5MWRiMDU2YTZjMmQ1YjExYTk3MTIzMDBkMDZmOGQyM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5ZjM3Y2Q0ZTdmNzkzNTQ2MzAyZjMyNDYyZTE1ZmVmM2ZjMDc0YWYwOWNjNjk5NTQwZDJlYTY1NzEwNDc2MzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQxYmI0ZDZiYWRmMDZmMTg0NWQ5MGEyZjU4MDZmZmUzODgwMDJmZWYyYWFmY2ZlZTdlYWZjOTk2ZmQ3ZGE0NGUifQ"
+        },
+        {
+          "resource": "repo://src/lib/admin/checklist-pickers.ts#L1-L80",
+          "version": "repo-lines-v1:sha256:3b4b020948f347b34521a0dedeff0f14fb355ec003ff1243ce0b755aa1ae2a45:eyJzZWxlY3RlZExpbmVDb3VudCI6ODAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVjOGJhNmNkZTgxMDM0NWM5MDRlYzA5ZTNhYTM5OGJkNWI5OWU2NDI5YTA4N2YzNDM3ZTQ1NWU1ZDc2ZWYxYTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c3f830b698e84a32a14e31330a1c58a5",
+      "statement": "ColorField wraps Payload's text field and validates the color in the browser, and ColorSwatch writes the picked color into the same field once on release.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/DofusGuides.ts#L325-L332",
+          "version": "repo-lines-v1:sha256:0125319af130b93a8e3e0008100258735d829811b3f8dc2fff09e367134f40c9:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjZkYmJjZmNhNTI2Mjg0MjE1NTI3N2I2MmJhOTJhNDE3MmE4YjFjNjY1NjY1NTBlZjQzOWFiYTU5MzUwOTk5ZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWZmNDNkOGYxZGE3MDFkZTYzZWFhYjhiZGExZWY3MGUzMzdhZWNhODRiOTBjM2RhMDY4OWU5NjU0YjBhMjdjOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTRmMDZiYThlYWQ2MmIyZDFhZWZkYmFiZDQ5YjI0YzhjMWZlNjE1NDhiNmFlNzI2MGZmMjYzMmZlYmUwOGZkZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjU1NGE4NDQxMDdkZGJkY2M4YzAxNGQ3ZjgzZDhhN2QxMDI3NTNiZWU3OGY1YzU2YTY2NzQ0ODNhY2I1MTlmZSJ9"
+        },
+        {
+          "resource": "repo://src/components/admin/ColorField.tsx#L1-L56",
+          "version": "repo-lines-v1:sha256:76d8b0917fae12437c94bdd7341536346694e18b226f36f797e25ca7f49d81e3:eyJzZWxlY3RlZExpbmVDb3VudCI6NTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NjRlMDBlYTU3ZWMzOWQ4OGZjM2Y2OTM0YzRiNzA5MWRiMDU2YTZjMmQ1YjExYTk3MTIzMDBkMDZmOGQyM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f76babc2b61f4a43b76d33cd2d0970f7",
+      "statement": "PanelA11y names Payload controls that lack an accessible name, marking every name it writes with data-ta attributes so names Payload set are never overwritten, and recomputing content-dependent names on each pass.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/admin/PanelA11y.tsx#L1-L51",
+          "version": "repo-lines-v1:sha256:82b46be21922202e12600865d5d7a8ceee470d8b3a371e4013c628df1428fd62:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NjRlMDBlYTU3ZWMzOWQ4OGZjM2Y2OTM0YzRiNzA5MWRiMDU2YTZjMmQ1YjExYTk3MTIzMDBkMDZmOGQyM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/admin/a11y-fixes.ts#L1-L20",
+          "version": "repo-lines-v1:sha256:d87262181c2e2534e5b7c84c52c0b16842447548e16fe0ac30c96460fb8fdaa6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjczOTMxNTIyNDE4NDhjMDViMzNiNDIzYTA1ZTg0OTk3MDgzOTYzZTRlM2FmNTY2MGRkMjRlY2NiNmQ4NjRlOTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY0ZjBjMmM0ZTFmZDY0NzI4ODE1OTIyMGYwZjNkOGRjNjE3NWRkMWNhNDU0YjUzYzNiN2ZmZTg3ODI1MjRjNzkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_78d7a4ecef1743be9fd76b5a805e9887",
+      "statement": "The panel E2E spec checks the publish status line, the live preview sizes, the dashboard with its shortcuts and axe, the panel guide and the line above each list.",
+      "evidence": [
+        {
+          "resource": "repo://tests/e2e/panel-ola2.spec.ts#L47-L180",
+          "version": "repo-lines-v1:sha256:20bc6c0586e644d9b5f1e547f37ab2cad56707682b5c32461b5fb1d61ecb21a2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTM0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJjODFjMjdhYWM3ZTQwMWRkMDM2NDA2ZDNjMWJhMmY1MDdjODRkOTQwNTM2OWEwZjQ1ZmZlMzY3OGM0YzYzOTEzIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MDZlM2MxNzRmZTVjNDk3YWM2MzYwY2M3MjE3N2E1NjRmZmNjZWVkOWIwOWEyYzg0N2ZjMDU5YTY3NGIwZjdmIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI0NzU4MTgzNDkyNjFjMjkyNTRkMDk1N2IyYjFkYmI2YTVlMDI1MTgzNmU5ODU1MmJhNjJkYWJkNzA1MTlkMjUxIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIxOTAwZGEzNmQwNjQ2YWNiNGMwNWZiOTA1ZDNiMTQ1N2E3YmU4OWFjZjhiOTU3MDQ3ZDQ2NDYwZTQ2NmQ3M2NmIn0"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-15T11:00:17.514Z"
+  }
+}
