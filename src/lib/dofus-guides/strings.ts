@@ -1,4 +1,5 @@
 import { achievementPageStrings } from '../achievements/strings'
+import { dofusIndexIslandStrings } from '@/components/dofus/index-island-strings'
 
 // Los textos de las guías de Dofus: el panel, la página de cada Dofus y el índice. Un
 // segundo idioma sería traducir este módulo.
@@ -91,13 +92,7 @@ export const dofusNeedGroupLabels = {
 export const dofusIndexStrings = {
   title: 'Guías de Dofus',
   eyebrow: 'Misiones y logros de cada Dofus',
-  filters: { all: 'Todos', primordial: 'Primordiales', event: 'Evento' },
-  filtersLabel: 'Filtrar por tipo',
-  search: 'Buscar un Dofus',
-  searchLabel: 'Buscar un Dofus por su nombre',
-  found: (count: number) => (count === 1 ? '1 encontrado' : `${count} encontrados`),
-  none: (query: string) =>
-    query ? `Ningún Dofus se llama «${query}».` : 'Ningún Dofus con este filtro.',
+  ...dofusIndexIslandStrings,
   seo: {
     title: 'Guías de Dofus',
     description:

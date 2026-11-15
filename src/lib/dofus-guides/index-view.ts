@@ -9,8 +9,9 @@ import type { Media } from '@/payload-types'
 import { dofusMeta, type DofusListDoc } from './page'
 import { dofusGuideStrings, dofusPageStrings } from './strings'
 
-export type DofusTag = 'primordial' | 'event'
-export type DofusFilter = 'all' | DofusTag
+import { foldText, type DofusFilter, type DofusTag } from './index-search'
+
+export { foldText, matchesDofus, type DofusFilter, type DofusTag } from './index-search'
 
 export interface DofusCard {
   name: string
@@ -32,10 +33,6 @@ export interface DofusIndexView {
   /** Los filtros que tienen sentido: ninguno si ningún Dofus lleva etiqueta. */
   filters: DofusFilter[]
 }
-
-/** Minúsculas y sin tildes, para buscar como se escribe. */
-export const foldText = (text: string) =>
-  text.normalize('NFD').replace(/\p{M}/gu, '').toLocaleLowerCase('es').trim()
 
 export function dofusIndexView(docs: DofusListDoc[]): DofusIndexView {
   const cards = docs.map((doc): DofusCard => {
@@ -61,15 +58,4 @@ export function dofusIndexView(docs: DofusListDoc[]): DofusIndexView {
     cards.some((card) => card.tag === tag),
   )
   return { cards, filters: tags.length ? ['all', ...tags] : [] }
-}
-
-/** Si una tarjeta pasa la búsqueda (cada palabra, en cualquier orden) y el filtro. */
-export function matchesDofus(
-  card: { search: string; tag?: DofusTag },
-  query: string,
-  filter: DofusFilter,
-): boolean {
-  if (filter !== 'all' && card.tag !== filter) return false
-  const words = foldText(query).split(/\s+/).filter(Boolean)
-  return words.every((word) => card.search.includes(word))
 }
