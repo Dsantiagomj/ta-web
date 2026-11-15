@@ -49,6 +49,11 @@ export const fillFromQuest: CollectionBeforeValidateHook<QuestGuide> = async ({
     ...Object.fromEntries(
       FILLABLE_FIELDS.map((field) => [field, sent(data.summary?.[field], saved?.summary?.[field])]),
     ),
+    rewardExperienceMin: sent(
+      data.summary?.rewardExperienceMin,
+      saved?.summary?.rewardExperienceMin,
+    ),
+    rewardItems: sent(data.summary?.rewardItems, saved?.summary?.rewardItems),
     needs: { items: sent(data.summary?.needs?.items, saved?.summary?.needs?.items) },
   }
   const questId = linkedQuestId(sent(data.quest, saved?.quest))

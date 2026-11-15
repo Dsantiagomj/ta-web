@@ -4,14 +4,20 @@ import { useFormFields } from '@payloadcms/ui'
 import type { FieldDescriptionClientProps } from 'payload'
 import { useMemo } from 'react'
 
-import { summaryNote, type NeedRow, type NotedField, type NotedValue } from '@/lib/guides/summary'
+import {
+  isListField,
+  summaryNote,
+  type NeedRow,
+  type NotedField,
+  type NotedValue,
+} from '@/lib/guides/summary'
 
 import { useLinkedQuest } from './linked-quest'
 
 type Props = FieldDescriptionClientProps & { summaryField: NotedField }
 
 /**
- * El valor del campo en el formulario. Para la lista de Necesitarás, sus filas como JSON:
+ * El valor del campo en el formulario. Para una lista de objetos, sus filas como JSON:
  * un texto estable evita volver a pintar la nota con cada cambio del formulario.
  */
 function useFieldValue(path: string, isList: boolean): string {
@@ -33,7 +39,7 @@ function useFieldValue(path: string, isList: boolean): string {
 /** Bajo un campo del resumen: si su valor viene de DofusDB o Torre lo cambió. */
 export function SummaryNote({ path, summaryField }: Props) {
   const state = useLinkedQuest()
-  const json = useFieldValue(path, summaryField === 'needs')
+  const json = useFieldValue(path, isListField(summaryField))
   const value = useMemo(() => JSON.parse(json) as NotedValue, [json])
   return (
     // field-note (custom.scss): recompensas, prerrequisitos y lista van en varias líneas

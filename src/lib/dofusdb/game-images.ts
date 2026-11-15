@@ -278,11 +278,12 @@ export async function gameImageTargets(
     pagination: false,
     depth: 0,
     draft: true,
-    select: { body: true, summary: { needs: { items: true } } },
+    select: { body: true, summary: { needs: { items: true }, rewardItems: true } },
     overrideAccess: true,
   })
   for (const guide of guides.docs) {
     for (const id of relationIds(guide.summary?.needs?.items, 'item')) items.add(id)
+    for (const id of relationIds(guide.summary?.rewardItems, 'item')) items.add(id)
     for (const id of fightMonsters(guide.body as BodyBlock[])) monsters.add(id)
   }
   return { items: [...items], monsters: [...monsters] }

@@ -5,7 +5,7 @@ import type { FieldDescriptionClientProps } from 'payload'
 import { useCallback, useEffect, useRef } from 'react'
 
 import { availableSlug } from '@/lib/guides/autofill'
-import { NEEDS_PATH, plannedFormFill, stillEmpty } from '@/lib/guides/form-fill'
+import { NEEDS_PATH, REWARD_ITEMS_PATH, plannedFormFill, stillEmpty } from '@/lib/guides/form-fill'
 import { guideStrings } from '@/lib/guides/strings'
 
 import { DofusDbFillButton, type FillOutcome } from '../admin/DofusDbFillButton'
@@ -42,23 +42,31 @@ export function QuestAutofill({ path }: FieldDescriptionClientProps) {
       if (lastQuestId.current !== id) return 'nothing'
 
       // Torre pudo escribir mientras se comprobaba el slug: solo se rellena lo que sigue vacío.
-      const { values, needsItems } = stillEmpty(planned, read)
+      const { values, needsItems, rewardItems } = stillEmpty(planned, read)
       for (const [fieldPath, value] of Object.entries(values)) {
         dispatchFields({ type: 'UPDATE', path: fieldPath, value, valid: true })
       }
       // Una fila por objeto, ya con su objeto y su cantidad.
-      needsItems.forEach(({ item, quantity }, rowIndex) => {
-        addFieldRow({
-          path: NEEDS_PATH,
-          rowIndex,
-          schemaPath: NEEDS_PATH,
-          subFieldState: {
-            item: { initialValue: item, value: item, valid: true },
-            quantity: { initialValue: quantity, value: quantity, valid: true },
-          },
+      const lists = [
+        [NEEDS_PATH, needsItems],
+        [REWARD_ITEMS_PATH, rewardItems],
+      ] as const
+      for (const [listPath, rows] of lists) {
+        rows.forEach(({ item, quantity }, rowIndex) => {
+          addFieldRow({
+            path: listPath,
+            rowIndex,
+            schemaPath: listPath,
+            subFieldState: {
+              item: { initialValue: item, value: item, valid: true },
+              quantity: { initialValue: quantity, value: quantity, valid: true },
+            },
+          })
         })
-      })
-      if (!Object.keys(values).length && !needsItems.length) return 'nothing'
+      }
+      if (!Object.keys(values).length && !needsItems.length && !rewardItems.length) {
+        return 'nothing'
+      }
       setModified(true)
       return 'filled'
     },

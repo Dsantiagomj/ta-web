@@ -41,6 +41,17 @@ export function rewardsText(rewards: LinkedRewards | null | undefined): string |
   ])
 }
 
+/**
+ * Los objetos de recompensa poblados, en el orden de Torre: al revés que DofusDB. Los de
+ * misión también cuentan: los da la misión.
+ */
+export function rewardedItems(rewards: LinkedRewards | null | undefined): NeededItem[] {
+  return [...(rewards?.items ?? [])].reverse().flatMap(({ item, quantity }) => {
+    const doc = populated<LinkedItem>(item)
+    return typeof doc?.id === 'number' ? [{ item: { ...doc, id: doc.id }, quantity }] : []
+  })
+}
+
 /** Un objeto que pide la misión, poblado, con su cantidad. */
 export interface NeededItem {
   item: LinkedItem & { id: number }

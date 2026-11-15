@@ -197,6 +197,20 @@ export interface QuestGuide {
           }[]
         | null;
     };
+    rewardExperience?: number | null;
+    rewardExperienceMin?: number | null;
+    rewardKamas?: number | null;
+    rewardItems?:
+      | {
+          item: number | Item;
+          quantity: number;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Lo que no es XP, kamas ni un objeto del juego, como «Emote: Facepalm». Una por línea. No se rellena solo.
+     */
+    rewardNotes?: string | null;
     rewards?: string | null;
     startNpc?: string | null;
     startX?: number | null;
@@ -2188,6 +2202,17 @@ export interface QuestGuidesSelect<T extends boolean = true> {
                     id?: T;
                   };
             };
+        rewardExperience?: T;
+        rewardExperienceMin?: T;
+        rewardKamas?: T;
+        rewardItems?:
+          | T
+          | {
+              item?: T;
+              quantity?: T;
+              id?: T;
+            };
+        rewardNotes?: T;
         rewards?: T;
         startNpc?: T;
         startX?: T;

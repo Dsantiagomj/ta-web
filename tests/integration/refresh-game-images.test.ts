@@ -244,6 +244,24 @@ describe('gameImageTargets', () => {
     }
   })
 
+  it('los objetos que Torre pone en las recompensas de una guía, borradores incluidos', async () => {
+    const guide = await payload.create({
+      collection: 'quest-guides',
+      data: {
+        title: 'Guía de prueba de imágenes',
+        slug: 'guia-prueba-imagenes',
+        summary: { rewardItems: [{ item: items[2]!.id, quantity: 1 }] },
+      },
+      draft: true,
+      depth: 0,
+    })
+    try {
+      expect((await gameImageTargets(payload)).items).toContain(items[2]!.id)
+    } finally {
+      await payload.delete({ collection: 'quest-guides', id: guide.id })
+    }
+  })
+
   it('el monstruo que representa a un metalogro', async () => {
     const group = await payload.create({
       collection: 'achievement-groups',

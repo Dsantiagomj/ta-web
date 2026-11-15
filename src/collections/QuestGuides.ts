@@ -101,6 +101,17 @@ function noteComponent(summaryField: NotedField) {
   }
 }
 
+/** Una cifra de las recompensas, con su nota de DofusDB. */
+function rewardNumber(name: NotedField, label: string): Field {
+  return {
+    name,
+    label,
+    type: 'number',
+    min: 0,
+    admin: { components: { Description: noteComponent(name) } },
+  }
+}
+
 function summaryAdmin(summaryField: FillableField) {
   return {
     placeholder: guideStrings.admin.summaryPlaceholder,
@@ -200,11 +211,68 @@ const summaryFields: Field[] = [
     ],
   },
   {
-    name: 'rewards',
+    // Las recompensas de la cabecera: lo que Torre escribe gana a DofusDB (src/lib/guides/page.ts).
+    type: 'collapsible',
     label: 'Recompensas',
-    type: 'textarea',
-    localized: true,
-    admin: summaryAdmin('rewards'),
+    admin: { description: guideStrings.admin.rewardsDescription },
+    fields: [
+      {
+        type: 'row',
+        fields: [
+          rewardNumber('rewardExperience', 'XP'),
+          rewardNumber('rewardExperienceMin', 'XP mínima'),
+          rewardNumber('rewardKamas', 'Kamas'),
+        ],
+      },
+      {
+        name: 'rewardItems',
+        label: 'Objetos',
+        labels: { singular: 'Objeto', plural: 'Objetos' },
+        type: 'array',
+        admin: {
+          components: {
+            Description: noteComponent('rewardItems'),
+            ...rowLabel('RelationRowLabel', {
+              singular: panelStrings.rowLabels.need,
+              relationField: 'item',
+              relationTo: 'items',
+            }),
+          },
+        },
+        fields: [
+          {
+            name: 'item',
+            label: 'Objeto',
+            type: 'relationship',
+            relationTo: 'items',
+            required: true,
+          },
+          {
+            name: 'quantity',
+            label: 'Cantidad',
+            type: 'number',
+            required: true,
+            min: 1,
+            defaultValue: 1,
+          },
+        ],
+      },
+      {
+        name: 'rewardNotes',
+        label: 'Otras recompensas',
+        type: 'textarea',
+        localized: true,
+        admin: { description: guideStrings.admin.rewardNotesDescription },
+      },
+      {
+        // El texto de Squarespace, tal cual: la web lo enseña solo si no hay nada arriba.
+        name: 'rewards',
+        label: 'Recompensas en texto',
+        type: 'textarea',
+        localized: true,
+        admin: summaryAdmin('rewards'),
+      },
+    ],
   },
   {
     name: 'startNpc',

@@ -3,9 +3,18 @@
 // (el slug libre) y Torre puede haber escrito en algún campo.
 
 import { autofillFromQuest } from './autofill'
-import { FILLABLE_FIELDS, summaryToFill, type LinkedQuest, type NeedRow } from './summary'
+import {
+  FILLABLE_FIELDS,
+  summaryToFill,
+  type FilledRow,
+  type LinkedQuest,
+  type NeedRow,
+} from './summary'
 
 export const NEEDS_PATH = 'summary.needs.items'
+export const REWARD_ITEMS_PATH = 'summary.rewardItems'
+const EXPERIENCE_PATH = 'summary.rewardExperience'
+const EXPERIENCE_MIN_PATH = 'summary.rewardExperienceMin'
 
 /** Lee el valor actual de un campo por su ruta, como getDataByPath del formulario. */
 export type ReadField = (path: string) => unknown
@@ -14,7 +23,9 @@ export interface FormFill {
   /** Ruta del campo y valor. El slug sale sin comprobar que esté libre. */
   values: Record<string, string | number>
   /** Las filas para la lista vacía de Necesitarás. */
-  needsItems: { item: number; quantity: number }[]
+  needsItems: FilledRow[]
+  /** Las filas para la lista vacía de objetos de recompensa. */
+  rewardItems: FilledRow[]
 }
 
 function isBlank(value: unknown): boolean {
@@ -41,11 +52,13 @@ export function plannedFormFill(read: ReadField, quest: LinkedQuest): FormFill {
     },
     quest,
   )
-  const { needs, ...summary } = summaryToFill(
+  const { needs, rewardItems, ...summary } = summaryToFill(
     {
       ...Object.fromEntries(
         FILLABLE_FIELDS.map((field) => [field, read(`summary.${field}`) as string | number]),
       ),
+      rewardExperienceMin: read(EXPERIENCE_MIN_PATH) as number | null | undefined,
+      rewardItems: rows(read(REWARD_ITEMS_PATH)),
       needs: { items: rows(read(NEEDS_PATH)) },
     },
     quest,
@@ -63,15 +76,22 @@ export function plannedFormFill(read: ReadField, quest: LinkedQuest): FormFill {
   ]
   const values: FormFill['values'] = {}
   for (const [path, value] of candidates) if (!isBlank(value)) values[path] = value!
-  return { values, needsItems: needs?.items ?? [] }
+  return { values, needsItems: needs?.items ?? [], rewardItems: rewardItems ?? [] }
 }
 
-/** Lo planeado que sigue vacío en el formulario: lo que Torre escribió entre medias se queda. */
+/**
+ * Lo planeado que sigue vacío en el formulario: lo que Torre escribió entre medias se queda.
+ * La XP mínima de DofusDB va solo si la XP sigue vacía o es la de DofusDB.
+ */
 export function stillEmpty(planned: FormFill, read: ReadField): FormFill {
+  const values = Object.fromEntries(
+    Object.entries(planned.values).filter(([path]) => isBlank(read(path))),
+  )
+  const typed = read(EXPERIENCE_PATH)
+  if (!isBlank(typed) && EXPERIENCE_PATH in planned.values) delete values[EXPERIENCE_MIN_PATH]
   return {
-    values: Object.fromEntries(
-      Object.entries(planned.values).filter(([path]) => isBlank(read(path))),
-    ),
+    values,
     needsItems: rows(read(NEEDS_PATH)).length ? [] : planned.needsItems,
+    rewardItems: rows(read(REWARD_ITEMS_PATH)).length ? [] : planned.rewardItems,
   }
 }

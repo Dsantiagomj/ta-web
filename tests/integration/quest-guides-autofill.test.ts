@@ -17,6 +17,8 @@ describe('guía de misión rellenada desde DofusDB', () => {
   let editor: User
   let hunter: Quest
   let tofuBeakId: number
+  let fangsId: number
+  let leatherId: number
 
   beforeAll(async () => {
     payload = await startPayload()
@@ -38,6 +40,8 @@ describe('guía de misión rellenada desde DofusDB', () => {
       data: { dofusId: 366, name: 'Pico de tofu', typeId: 47, superTypeId: 9 },
     })
     tofuBeakId = tofuBeak.id
+    fangsId = fangs.id
+    leatherId = leather.id
     // Objeto de misión (supertipo 14): lo da el juego, no hay que llevarlo
     const bag = await payload.create({
       collection: 'items',
@@ -61,6 +65,7 @@ describe('guía de misión rellenada desde DofusDB', () => {
         // En el orden de DofusDB; Torre los lista al revés
         rewards: {
           experience: 24_316,
+          experienceMin: 14_062,
           kamas: 552,
           items: [
             { item: fangs.id, quantity: 2 },
@@ -171,6 +176,45 @@ describe('guía de misión rellenada desde DofusDB', () => {
       { item: tofuBeakId, quantity: 3 },
     ])
     expect(guide.summary?.needs?.notes ?? null).toBeNull()
+  })
+
+  it('al crearla, copia las recompensas de DofusDB a sus campos, en el orden de Torre', async () => {
+    const guide = await createGuide({ quest: hunter.id })
+    expect(guide.summary).toMatchObject({
+      rewardExperience: 24_316,
+      rewardExperienceMin: 14_062,
+      rewardKamas: 552,
+    })
+    expect(guide.summary?.rewardItems?.map(({ item, quantity }) => ({ item, quantity }))).toEqual([
+      { item: leatherId, quantity: 2 },
+      { item: fangsId, quantity: 2 },
+    ])
+  })
+
+  it('nunca toca las recompensas de Torre: su XP va sin la mínima de DofusDB', async () => {
+    const guide = await createGuide({
+      quest: hunter.id,
+      summary: {
+        rewardExperience: 30_000,
+        rewardKamas: 0,
+        rewardItems: [{ item: tofuBeakId, quantity: 5 }],
+      },
+    })
+    expect(guide.summary).toMatchObject({ rewardExperience: 30_000, rewardKamas: 0 })
+    expect(guide.summary?.rewardExperienceMin ?? null).toBeNull()
+    expect(guide.summary?.rewardItems?.map(({ item, quantity }) => ({ item, quantity }))).toEqual([
+      { item: tofuBeakId, quantity: 5 },
+    ])
+  })
+
+  it('una recompensa que Torre vacía se queda vacía al guardar', async () => {
+    const guide = await createGuide({ quest: hunter.id })
+    const updated = await editorUpdate(guide.id, {
+      summary: { rewardKamas: null, rewardItems: [] },
+    })
+    expect(updated.summary?.rewardKamas ?? null).toBeNull()
+    expect(updated.summary?.rewardItems ?? []).toEqual([])
+    expect(updated.summary?.rewardExperience).toBe(24_316)
   })
 
   it('nunca toca una lista de Necesitarás con objetos', async () => {

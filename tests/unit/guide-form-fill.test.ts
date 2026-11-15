@@ -1,12 +1,17 @@
 import { describe, expect, it } from 'vitest'
 
-import { NEEDS_PATH, plannedFormFill, stillEmpty } from '@/lib/guides/form-fill'
+import { NEEDS_PATH, REWARD_ITEMS_PATH, plannedFormFill, stillEmpty } from '@/lib/guides/form-fill'
 import type { LinkedQuest } from '@/lib/guides/summary'
 
 const hunter: LinkedQuest = {
   name: 'El cazador cazado',
   levelMin: 25,
-  rewards: { experience: 24_316, kamas: 552 },
+  rewards: {
+    experience: 24_316,
+    experienceMin: 14_062,
+    kamas: 552,
+    items: [{ item: { id: 7, name: 'Colmillos de ratas' }, quantity: 2 }],
+  },
   startPositions: [{ npcName: 'Kerubim Crepin', x: 3, y: -17 }],
   needs: { items: [{ item: { id: 5, name: 'Pico de tofu', superTypeId: 9 }, quantity: 3 }] },
 }
@@ -23,13 +28,32 @@ describe('plannedFormFill', () => {
       title: 'El cazador cazado',
       slug: 'el-cazador-cazado',
       'seo.metaTitle': 'El cazador cazado: guía de la misión de Dofus',
-      'summary.rewards': '24 316 XP.\n552 kamas.',
+      'summary.rewards': '24 316 XP.\n552 kamas.\n2 x Colmillos de ratas.',
+      'summary.rewardExperience': 24_316,
+      'summary.rewardExperienceMin': 14_062,
+      'summary.rewardKamas': 552,
       'summary.startNpc': 'Kerubim Crepin',
       'summary.startX': 3,
       'summary.startY': -17,
     })
     expect(planned.values).toHaveProperty('seo.metaDescription')
     expect(planned.needsItems).toEqual([{ item: 5, quantity: 3 }])
+    expect(planned.rewardItems).toEqual([{ item: 7, quantity: 2 }])
+  })
+
+  it('no toca las recompensas escritas, y la XP mínima solo va con la XP de DofusDB', () => {
+    const planned = plannedFormFill(
+      form({
+        'summary.rewardExperience': 30_000,
+        'summary.rewardKamas': 0,
+        [REWARD_ITEMS_PATH]: [{ item: 9, quantity: 1 }],
+      }),
+      hunter,
+    )
+    expect(planned.values).not.toHaveProperty('summary.rewardExperience')
+    expect(planned.values).not.toHaveProperty('summary.rewardExperienceMin')
+    expect(planned.values).not.toHaveProperty('summary.rewardKamas')
+    expect(planned.rewardItems).toEqual([])
   })
 
   it('no planea nada para lo que ya está escrito', () => {
@@ -69,5 +93,20 @@ describe('stillEmpty', () => {
     const apply = stillEmpty(planned, form({ title: '   ', [NEEDS_PATH]: [] }))
     expect(apply.values).toHaveProperty('title', 'El cazador cazado')
     expect(apply.needsItems).toEqual([{ item: 5, quantity: 3 }])
+    expect(apply.rewardItems).toEqual([{ item: 7, quantity: 2 }])
+  })
+
+  it('si Torre escribe la XP entre medias, la mínima de DofusDB no se copia', () => {
+    const planned = plannedFormFill(form(), hunter)
+    const apply = stillEmpty(planned, form({ 'summary.rewardExperience': 30_000 }))
+    expect(apply.values).not.toHaveProperty('summary.rewardExperience')
+    expect(apply.values).not.toHaveProperty('summary.rewardExperienceMin')
+    expect(apply.values).toHaveProperty('summary.rewardKamas', 552)
+  })
+
+  it('una lista de recompensas que Torre llenó entre medias no se pisa', () => {
+    const planned = plannedFormFill(form(), hunter)
+    const apply = stillEmpty(planned, form({ [REWARD_ITEMS_PATH]: 1 }))
+    expect(apply.rewardItems).toEqual([])
   })
 })

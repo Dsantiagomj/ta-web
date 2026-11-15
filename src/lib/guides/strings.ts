@@ -63,6 +63,13 @@ export const guideStrings = {
     levelDescription:
       'El nivel del subtítulo, de la búsqueda y de la tarjeta de la misión. Si lo dejas vacío, ' +
       'sale el de DofusDB.',
+    rewardsDescription:
+      'Lo que sale en Recompensas, en la cabecera de la guía. Lo que escribas aquí gana a ' +
+      'DofusDB; lo que dejes vacío lo pone DofusDB, y un 0 quita la cifra. Con XP mínima, la ' +
+      'web enseña el rango «mínima a XP».',
+    rewardNotesDescription:
+      'Lo que no es XP, kamas ni un objeto del juego, como «Emote: Facepalm». Una por línea. ' +
+      'No se rellena solo.',
     needsNotesDescription:
       'Lo que la lista de objetos no recoge, como «1 x Combate (solo)» o «Literalmente nada». ' +
       'No se rellena solo.',
