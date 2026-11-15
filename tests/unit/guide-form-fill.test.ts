@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest'
 
-import { NEEDS_PATH, REWARD_ITEMS_PATH, plannedFormFill, stillEmpty } from '@/lib/guides/form-fill'
+import {
+  NEEDS_PATH,
+  REWARD_ITEMS_PATH,
+  REWARD_LEVELS_PATH,
+  plannedFormFill,
+  stillEmpty,
+} from '@/lib/guides/form-fill'
 import type { LinkedQuest } from '@/lib/guides/summary'
 
 const hunter: LinkedQuest = {
@@ -108,5 +114,47 @@ describe('stillEmpty', () => {
     const planned = plannedFormFill(form(), hunter)
     const apply = stillEmpty(planned, form({ [REWARD_ITEMS_PATH]: 1 }))
     expect(apply.rewardItems).toEqual([])
+  })
+})
+
+describe('«Por nivel» en el formulario', () => {
+  const coupon = (id: number) => ({ item: { id, name: `Cupón ${id}` }, quantity: 5 })
+  const tiered: LinkedQuest = {
+    name: 'La crisis de fe',
+    rewards: {
+      byLevel: [
+        { levelMin: 1, levelMax: 109, experience: 1_329_586, kamas: 14_041, items: [coupon(1)] },
+        { levelMin: 110, levelMax: 200, experience: 2_750_000, kamas: 43_980, items: [coupon(2)] },
+      ],
+    },
+  }
+  const rows = [
+    {
+      levelMin: 1,
+      levelMax: 109,
+      experience: 1_329_586,
+      kamas: 14_041,
+      items: [{ item: 1, quantity: 5 }],
+    },
+    {
+      levelMin: 110,
+      levelMax: 200,
+      experience: 2_750_000,
+      kamas: 43_980,
+      items: [{ item: 2, quantity: 5 }],
+    },
+  ]
+
+  it('planea los tramos de DofusDB para «Por nivel» vacío, fuera de los valores sueltos', () => {
+    const planned = plannedFormFill(form(), tiered)
+    expect(planned.rewardLevels).toEqual(rows)
+    expect(Object.keys(planned.values)).not.toContain(REWARD_LEVELS_PATH)
+  })
+
+  it('no toca «Por nivel» con filas, ni las que Torre añade mientras tanto', () => {
+    expect(plannedFormFill(form({ [REWARD_LEVELS_PATH]: 1 }), tiered).rewardLevels).toEqual([])
+    const planned = plannedFormFill(form(), tiered)
+    expect(stillEmpty(planned, form({ [REWARD_LEVELS_PATH]: [rows[0]] })).rewardLevels).toEqual([])
+    expect(stillEmpty(planned, form()).rewardLevels).toEqual(rows)
   })
 })

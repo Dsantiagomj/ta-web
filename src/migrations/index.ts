@@ -44,6 +44,7 @@ import * as migration_20261115_211541_slug_redirects from './20261115_211541_slu
 import * as migration_20261115_213351_game_data_refreshes from './20261115_213351_game_data_refreshes';
 import * as migration_20261115_215951_site_copy from './20261115_215951_site_copy';
 import * as migration_20261115_234346_quest_rewards_by_level from './20261115_234346_quest_rewards_by_level';
+import * as migration_20261115_234449_quest_guide_reward_levels from './20261115_234449_quest_guide_reward_levels';
 
 export const migrations = [
   {
@@ -274,6 +275,11 @@ export const migrations = [
   {
     up: migration_20261115_234346_quest_rewards_by_level.up,
     down: migration_20261115_234346_quest_rewards_by_level.down,
-    name: '20261115_234346_quest_rewards_by_level'
+    name: '20261115_234346_quest_rewards_by_level',
+  },
+  {
+    up: migration_20261115_234449_quest_guide_reward_levels.up,
+    down: migration_20261115_234449_quest_guide_reward_levels.down,
+    name: '20261115_234449_quest_guide_reward_levels'
   },
 ];

@@ -313,4 +313,38 @@ describe('guía de misión rellenada desde DofusDB', () => {
     })
     expect(updated.title).toBe('El cazador cazado')
   })
+
+  it('al crear la guía rellena «Por nivel» con los tramos de DofusDB; nunca pisa los de Torre', async () => {
+    const tier = (levelMin: number, levelMax: number, item: number) => ({
+      levelMin,
+      levelMax,
+      experience: levelMax * 1000,
+      kamas: levelMax,
+      items: [{ item, quantity: 5 }],
+    })
+    const event = await payload.create({
+      collection: 'quests',
+      data: {
+        dofusId: 990_778,
+        name: 'Misión de evento',
+        rewards: { byLevel: [tier(1, 109, fangsId), tier(110, 200, leatherId)] },
+      },
+    })
+    const guide = await createGuide({ quest: event.id })
+    expect(
+      guide.summary?.rewardLevels?.map(({ levelMin, levelMax, experience, kamas, items }) => ({
+        levelMin,
+        levelMax,
+        experience,
+        kamas,
+        items: items?.map(({ item, quantity }) => ({ item, quantity })),
+      })),
+    ).toEqual([tier(1, 109, fangsId), tier(110, 200, leatherId)])
+
+    const own = await createGuide({
+      quest: event.id,
+      summary: { rewardLevels: [tier(1, 50, fangsId)] },
+    })
+    expect(own.summary?.rewardLevels?.map((row) => row.levelMax)).toEqual([50])
+  })
 })

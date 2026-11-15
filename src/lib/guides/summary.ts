@@ -4,10 +4,13 @@
 import {
   formatThousands,
   itemsText,
+  levelRewards,
+  levelRewardsText,
   neededItems,
   prerequisitesText,
   rewardedItems,
   rewardsText,
+  type LevelReward,
   type NeededItem,
 } from './format'
 import type { Correction } from '../game-data/correction'
@@ -40,6 +43,17 @@ export interface LinkedRewards {
   experienceMin?: number | null
   kamas?: number | null
   items?: { item: Relation<LinkedItem>; quantity: number }[] | null
+  /** Lo que da por tramo de nivel, cuando cambia con el nivel (misiones de evento). */
+  byLevel?: LinkedLevelRewards[] | null
+}
+
+/** Un tramo de nivel de la misión: la XP y los kamas de su nivel más alto. */
+export interface LinkedLevelRewards {
+  levelMin: number
+  levelMax: number
+  experience?: number | null
+  kamas?: number | null
+  items?: { item: Relation<LinkedItem>; quantity: number }[] | null
 }
 
 export interface LinkedNeeds {
@@ -68,6 +82,8 @@ export interface SummaryValues {
   rewardKamas: number | null
   /** Los objetos de recompensa en el orden de Torre. */
   rewardItems: NeededItem[]
+  /** Los tramos de nivel, de menor a mayor; vacío si da lo mismo a todos los niveles. */
+  rewardLevels: LevelReward[]
   startNpc: string | null
   startX: number | null
   startY: number | null
@@ -88,6 +104,7 @@ export function summaryFromQuest(quest: LinkedQuest | null | undefined): Summary
     rewardExperienceMin: quest?.rewards?.experienceMin || null,
     rewardKamas: quest?.rewards?.kamas || null,
     rewardItems: rewardedItems(quest?.rewards),
+    rewardLevels: levelRewards(quest?.rewards),
     startNpc: start?.npcName || null,
     startX: start?.x ?? null,
     startY: start?.y ?? null,
@@ -125,10 +142,20 @@ export interface NeedRow {
   quantity: number | null | undefined
 }
 
+/** Una fila de «Por nivel», guardada o del formulario. */
+export interface LevelRow {
+  levelMin?: number | null
+  levelMax?: number | null
+  experience?: number | null
+  kamas?: number | null
+  items?: NeedRow[] | null
+}
+
 /** Lo que hay en el resumen de la guía, tal como lo leen el hook, el panel y la importación. */
 export type CurrentSummary = Partial<Record<FillableField, FillableValue>> & {
   rewardExperienceMin?: number | null
   rewardItems?: NeedRow[] | null
+  rewardLevels?: LevelRow[] | null
   needs?: { items?: NeedRow[] | null } | null
 }
 
@@ -138,14 +165,34 @@ export interface FilledRow {
   quantity: number
 }
 
+/** Un tramo rellenado: sus niveles, sus cifras y sus objetos como IDs de items. */
+export interface FilledLevel {
+  levelMin: number
+  levelMax: number
+  experience: number | null
+  kamas: number | null
+  items: FilledRow[]
+}
+
 /** Lo que DofusDB rellena en el resumen. Las listas de objetos guardan IDs de items. */
 export type SummaryFill = Partial<Pick<SummaryValues, FillableField | 'rewardExperienceMin'>> & {
   rewardItems?: FilledRow[]
+  rewardLevels?: FilledLevel[]
   needs?: { items: FilledRow[] }
 }
 
 const filledRows = (rows: NeededItem[]): FilledRow[] =>
   rows.map(({ item, quantity }) => ({ item: item.id, quantity }))
+
+/** Los tramos de DofusDB como filas de «Por nivel». */
+export const filledLevels = (levels: LevelReward[]): FilledLevel[] =>
+  levels.map(({ levelMin, levelMax, experience, kamas, items }) => ({
+    levelMin,
+    levelMax,
+    experience,
+    kamas,
+    items: filledRows(items),
+  }))
 
 // El 0 es una coordenada válida; un texto con solo espacios cuenta como vacío.
 function isEmpty(value: FillableValue): boolean {
@@ -180,9 +227,11 @@ export function summaryToFill(
   }
   const needs = !current.needs?.items?.length && fromQuest.needs.length
   const rewardItems = !current.rewardItems?.length && fromQuest.rewardItems.length
+  const rewardLevels = !current.rewardLevels?.length && fromQuest.rewardLevels.length
   return {
     ...(fill as SummaryFill),
     ...(rewardItems && { rewardItems: filledRows(fromQuest.rewardItems) }),
+    ...(rewardLevels && { rewardLevels: filledLevels(fromQuest.rewardLevels) }),
     ...(needs && { needs: { items: filledRows(fromQuest.needs) } }),
   }
 }
@@ -207,8 +256,9 @@ export type LinkedQuestState =
   | { status: 'error' }
   | { status: 'ready'; quest: LinkedQuest }
 
-/** Los campos que llevan nota en el panel: los rellenables y las listas de objetos. */
-export type NotedField = FillableField | 'rewardExperienceMin' | 'rewardItems' | 'needs'
+/** Los campos que llevan nota en el panel: los rellenables, las listas de objetos y los tramos. */
+export type NotedField =
+  FillableField | 'rewardExperienceMin' | 'rewardItems' | 'rewardLevels' | 'needs'
 
 /** Las listas de objetos del resumen, que se comparan como conjunto. */
 const LIST_FIELDS = new Set<NotedField>(['needs', 'rewardItems'])
@@ -235,8 +285,21 @@ function rowsKey(rows: { item: NeedRow['item']; quantity: NeedRow['quantity'] }[
     .join(',')
 }
 
+// Los tramos se comparan fila a fila, en orden, con sus objetos como conjunto.
+function levelsKey(rows: LevelRow[]): string {
+  return JSON.stringify(
+    rows.map((row) => [
+      row.levelMin ?? null,
+      row.levelMax ?? null,
+      row.experience ?? null,
+      row.kamas ?? null,
+      rowsKey(row.items ?? []),
+    ]),
+  )
+}
+
 /** El valor del campo para la nota: texto o número, o las filas de la lista. */
-export type NotedValue = FillableValue | NeedRow[]
+export type NotedValue = FillableValue | NeedRow[] | LevelRow[]
 
 /**
  * La nota bajo un campo del resumen: si su valor es el de DofusDB, si Torre lo cambió
@@ -253,8 +316,19 @@ export function summaryNote(
   if (state.status === 'error') return admin.dofusDbUnavailable
   const fromQuest = summaryFromQuest(state.quest)
 
+  if (field === 'rewardLevels') {
+    const rows = (Array.isArray(current) ? current : []) as LevelRow[]
+    const given = fromQuest.rewardLevels
+    if (!given.length) return rows.length ? admin.sameAtEveryLevelChanged : admin.sameAtEveryLevel
+    const shown = levelRewardsText(given)
+    if (!rows.length) return admin.emptyCanFill(shown)
+    return levelsKey(rows) === levelsKey(filledLevels(given))
+      ? admin.fromDofusDb
+      : admin.changed(shown)
+  }
+
   if (field === 'needs' || field === 'rewardItems') {
-    const rows = Array.isArray(current) ? current : []
+    const rows = (Array.isArray(current) ? current : []) as NeedRow[]
     const given = fromQuest[field]
     const shown = itemsText(given)
     if (shown === null) return rows.length ? admin.dofusDbEmptyChanged : admin.dofusDbEmpty

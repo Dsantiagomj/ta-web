@@ -6,13 +6,16 @@ import { autofillFromQuest } from './autofill'
 import {
   FILLABLE_FIELDS,
   summaryToFill,
+  type FilledLevel,
   type FilledRow,
+  type LevelRow,
   type LinkedQuest,
   type NeedRow,
 } from './summary'
 
 export const NEEDS_PATH = 'summary.needs.items'
 export const REWARD_ITEMS_PATH = 'summary.rewardItems'
+export const REWARD_LEVELS_PATH = 'summary.rewardLevels'
 const EXPERIENCE_PATH = 'summary.rewardExperience'
 const EXPERIENCE_MIN_PATH = 'summary.rewardExperienceMin'
 
@@ -26,6 +29,8 @@ export interface FormFill {
   needsItems: FilledRow[]
   /** Las filas para la lista vacía de objetos de recompensa. */
   rewardItems: FilledRow[]
+  /** Los tramos para «Por nivel» vacío, cada uno con sus objetos. */
+  rewardLevels: FilledLevel[]
 }
 
 function isBlank(value: unknown): boolean {
@@ -52,13 +57,14 @@ export function plannedFormFill(read: ReadField, quest: LinkedQuest): FormFill {
     },
     quest,
   )
-  const { needs, rewardItems, ...summary } = summaryToFill(
+  const { needs, rewardItems, rewardLevels, ...summary } = summaryToFill(
     {
       ...Object.fromEntries(
         FILLABLE_FIELDS.map((field) => [field, read(`summary.${field}`) as string | number]),
       ),
       rewardExperienceMin: read(EXPERIENCE_MIN_PATH) as number | null | undefined,
       rewardItems: rows(read(REWARD_ITEMS_PATH)),
+      rewardLevels: rows(read(REWARD_LEVELS_PATH)) as LevelRow[],
       needs: { items: rows(read(NEEDS_PATH)) },
     },
     quest,
@@ -76,7 +82,12 @@ export function plannedFormFill(read: ReadField, quest: LinkedQuest): FormFill {
   ]
   const values: FormFill['values'] = {}
   for (const [path, value] of candidates) if (!isBlank(value)) values[path] = value!
-  return { values, needsItems: needs?.items ?? [], rewardItems: rewardItems ?? [] }
+  return {
+    values,
+    needsItems: needs?.items ?? [],
+    rewardItems: rewardItems ?? [],
+    rewardLevels: rewardLevels ?? [],
+  }
 }
 
 /**
@@ -93,5 +104,6 @@ export function stillEmpty(planned: FormFill, read: ReadField): FormFill {
     values,
     needsItems: rows(read(NEEDS_PATH)).length ? [] : planned.needsItems,
     rewardItems: rows(read(REWARD_ITEMS_PATH)).length ? [] : planned.rewardItems,
+    rewardLevels: rows(read(REWARD_LEVELS_PATH)).length ? [] : planned.rewardLevels,
   }
 }

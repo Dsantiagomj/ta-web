@@ -262,6 +262,37 @@ describe('gameImageTargets', () => {
     }
   })
 
+  it('los objetos de cada tramo de nivel de las misiones y de las guías', async () => {
+    const tier = { levelMin: 1, levelMax: 109, experience: 10, kamas: 5 }
+    const quest = await payload.create({
+      collection: 'quests',
+      data: {
+        dofusId: 990_202,
+        name: 'Misión de prueba de tramos',
+        rewards: { byLevel: [{ ...tier, items: [{ item: items[1]!.id, quantity: 5 }] }] },
+      },
+      depth: 0,
+    })
+    const guide = await payload.create({
+      collection: 'quest-guides',
+      data: {
+        title: 'Guía de prueba de tramos',
+        slug: 'guia-prueba-tramos',
+        summary: { rewardLevels: [{ ...tier, items: [{ item: items[2]!.id, quantity: 5 }] }] },
+      },
+      draft: true,
+      depth: 0,
+    })
+    try {
+      expect((await gameImageTargets(payload)).items).toEqual(
+        expect.arrayContaining([items[1]!.id, items[2]!.id]),
+      )
+    } finally {
+      await payload.delete({ collection: 'quest-guides', id: guide.id })
+      await payload.delete({ collection: 'quests', id: quest.id })
+    }
+  })
+
   it('el monstruo que representa a un metalogro', async () => {
     const group = await payload.create({
       collection: 'achievement-groups',
