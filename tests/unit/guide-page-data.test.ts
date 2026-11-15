@@ -128,6 +128,19 @@ describe('questHeaderProps', () => {
     })
   })
 
+  it('la zona y el nivel que escribió Torre ganan a los de DofusDB', () => {
+    const own = { ...withData, summary: { ...withData.summary, zone: ' Cementerio ', level: 22 } }
+    expect(questHeaderProps(own, []).meta).toMatchObject({ zone: 'Cementerio', level: 22 })
+    expect(guideLevel(own)).toBe(22)
+    // Sin zona de DofusDB, la de Torre.
+    expect(
+      questHeaderProps({ ...guide, summary: { ...guide.summary, zone: 'Astrub' } }, []).meta,
+    ).toMatchObject({ zone: 'Astrub' })
+    // Vacío o en blanco, la de DofusDB.
+    const blank = { ...withData, summary: { ...withData.summary, zone: '  ', level: null } }
+    expect(questHeaderProps(blank, []).meta).toMatchObject({ zone: 'Astrub', level: 20 })
+  })
+
   it('con página de logro, la posición y el total salen de sus misiones', () => {
     // Un ciudadano modelo: DofusDB cuenta 24 misiones; la página, 6 (la de clase es una).
     expect(questHeaderProps(withData, [], null, { position: 4, total: 6 }).meta).toMatchObject({
@@ -689,6 +702,14 @@ describe('la corrección de Torre gana a DofusDB en la guía', () => {
         quantity: 1,
       },
     ])
+  })
+
+  it('la tarjeta de la siguiente misión lleva el nivel que Torre escribió en su guía', () => {
+    const card = nextQuestCard(
+      { name: 'Siguiente', levelMin: 20 },
+      { title: 'Siguiente', slug: 'siguiente', body: [], summary: { level: 24 } },
+    )
+    expect(card?.level).toBe(24)
   })
 
   it('la tarjeta de la siguiente misión lleva el nivel corregido', () => {

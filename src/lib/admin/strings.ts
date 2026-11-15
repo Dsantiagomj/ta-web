@@ -476,6 +476,8 @@ export const panelStrings = {
     note: 'Aviso',
     achievement: 'Logro',
     dungeon: 'Mazmorra',
+    prerequisite: 'Prerrequisito',
+    soul: 'Alma',
     /** Tras el nombre de la primera de varias misiones alternativas. */
     alternatives: (more: number) => ` (o ${more} más)`,
   },

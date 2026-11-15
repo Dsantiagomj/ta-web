@@ -9,6 +9,7 @@ import { questParents, routePrerequisites } from '@/lib/derive/checklist'
 import { questLevel, questPoints, stepWeights } from '@/lib/derive/weights'
 import type { RichTextState } from '@/lib/guides/page'
 import type { QuestObjectiveKind } from '@/lib/dofusdb/types'
+import { dofusEgg } from '@/lib/dofus-guides/egg'
 import { hiddenByTorre } from '@/lib/game-data/correction'
 import { mediaImageAsset } from '@/lib/media/image-asset'
 import { legacyRoute, type LegacyRoute } from '@/lib/site/legacy'
@@ -638,7 +639,7 @@ export function checklistView(data: ChecklistData): ChecklistView {
         return dofus.length ? [{ stepId: step.stepId ?? '', n: index + 1, dofus }] : []
       })
   const publishedGuide = guide?.state === 'published' ? guide : null
-  const egg = image(shown(guide?.dofus)?.image)
+  const egg = image(dofusEgg(guide))
   const groups = (checklist.prerequisites?.groups ?? []).flatMap((group) => {
     const rows = (group.rows ?? []).map(({ key, text }) => ({ key, text }))
     return rows.length ? [{ title: group.title ?? '', rows }] : []

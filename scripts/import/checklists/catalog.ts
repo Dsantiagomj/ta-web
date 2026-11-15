@@ -28,6 +28,11 @@ export interface ChecklistCatalogEntry {
   soulsQuest?: number
   /** El arte de su tarjeta en el índice, el del hub antiguo (pnpm import:checklist-cards). */
   card?: CardArt
+  /**
+   * El ambiente con que se crea (el del hub antiguo); después es de Torre y la importación no
+   * lo vuelve a tocar. Sin él, el de siempre: motas del color de su Dofus.
+   */
+  ambience?: 'snow' | 'forest'
 }
 
 const entry = (fields: Omit<ChecklistCatalogEntry, 'legacyHref'>): ChecklistCatalogEntry => ({
@@ -44,6 +49,7 @@ export const CHECKLIST_CATALOG: ChecklistCatalogEntry[] = [
     order: 1,
     dofusGuide: 'dofus-silvestre',
     ported: true,
+    ambience: 'forest',
     card: {
       scene: { path: 'zones/reino-de-amakna.jpg', alt: 'El Reino de Amakna' },
       npc: { path: 'hub/silvosse.png', alt: 'Silvosse' },
@@ -57,6 +63,7 @@ export const CHECKLIST_CATALOG: ChecklistCatalogEntry[] = [
     order: 2,
     dofusGuide: 'dofus-de-los-hielos',
     ported: true,
+    ambience: 'snow',
     card: {
       scene: { path: 'zones/isla-de-frigost.jpg', alt: 'La isla de Frigost' },
       // Su imagen es cuadrada y la figura estrecha: más grande y más a la derecha, que asome.

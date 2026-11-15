@@ -93,6 +93,9 @@ export interface GuideDoc {
     startNpc?: string | null
     startX?: number | null
     startY?: number | null
+    /** La zona y el nivel que escribió Torre: ganan a los de DofusDB. */
+    zone?: string | null
+    level?: number | null
   }
   body?: BodyBlockDoc[] | null
   seo?: { metaTitle?: string | null; metaDescription?: string | null }
@@ -137,7 +140,7 @@ export type GuideBlock =
     }
 
 /** La misión enlazada, con lo que Torre corrigió de ella (nombre y nivel). */
-function linkedQuest(guide: GuideDoc): GuideQuest | null {
+function linkedQuest(guide: Pick<GuideDoc, 'quest'>): GuideQuest | null {
   return guide.quest && typeof guide.quest === 'object' ? corrected(guide.quest) : null
 }
 
@@ -163,8 +166,9 @@ function positive(value: number | null | undefined): number | undefined {
 }
 
 /** El nivel del subtítulo: el mínimo de la misión enlazada (DESIGN.md, Quest header). */
-export function guideLevel(guide: GuideDoc): number | undefined {
-  return positive(linkedQuest(guide)?.levelMin)
+export function guideLevel(guide: Pick<GuideDoc, 'quest' | 'summary'>): number | undefined {
+  // El nivel que escribió Torre gana al de DofusDB.
+  return positive(guide.summary?.level) ?? positive(linkedQuest(guide)?.levelMin)
 }
 
 /** El ID de DofusDB del PNJ que da la misión: el de su primera posición de inicio. */
@@ -277,7 +281,8 @@ export function questHeaderProps(
   const summary = guide.summary ?? {}
 
   const meta: QuestHeaderData['meta'] = {}
-  const zone = quest?.zone?.trim()
+  // La zona que escribió Torre gana a la de DofusDB.
+  const zone = summary.zone?.trim() || quest?.zone?.trim()
   if (zone) meta.zone = zone
   const level = guideLevel(guide)
   if (level) meta.level = level
@@ -509,6 +514,7 @@ export interface NextGuideDoc {
   title: string
   slug: string
   body?: BodyBlockDoc[] | null
+  summary?: { level?: number | null } | null
 }
 
 /** La primera imagen subida de un texto, en orden de lectura, que tiene archivo y tamaño. */
@@ -553,7 +559,7 @@ export function nextQuestCard(
   guide: NextGuideDoc | null | undefined,
 ): NextQuestCardData | undefined {
   if (!guide) return undefined
-  const level = positive(corrected(quest).levelMin)
+  const level = positive(guide.summary?.level) ?? positive(corrected(quest).levelMin)
   const start = quest.startPositions?.find((position) => position.npcName?.trim())
   const coordinates = start?.x != null && start.y != null ? { x: start.x, y: start.y } : undefined
   const art = firstImage(guide.body)

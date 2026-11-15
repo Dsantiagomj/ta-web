@@ -30,6 +30,7 @@ import { mediaImageAsset } from '@/lib/media/image-asset'
 import { LEGACY_SITE_ORIGIN } from '@/lib/site/legacy'
 import type { Media } from '@/payload-types'
 
+import { dofusEgg } from './egg'
 import { siteOrWebHref } from './links'
 import { isNeedGroup, NEED_GROUPS, type NeedGroup, needGroupLabel } from './need-groups'
 import { dofusGuideStrings, dofusPageStrings as s } from './strings'
@@ -105,6 +106,8 @@ export interface DofusGuideDoc {
   tag?: 'primordial' | 'event' | null
   color?: string | null
   dofus?: ItemRef
+  /** El huevo que subió Torre: gana a la imagen del objeto Dofus (dofusEgg). */
+  egg?: MediaRef
   prerequisites?: RichTextState | null
   needs?: {
     title?: string | null
@@ -673,7 +676,7 @@ export function dofusGuideView(data: DofusGuideData): DofusGuideView {
   const at = published.findIndex((item) => item.current)
   const videoId = guide.video ? youtubeId(guide.video) : null
   const poster = image(guide.videoPoster)
-  const egg = image(shown(guide.dofus)?.image)
+  const egg = image(dofusEgg(guide))
   // La checklist de la web si está publicada; si no (En preparación), la de Squarespace.
   const checklistHref = data.checklist ? `/${data.checklist.slug}` : guide.checklist?.url
   const checklist =

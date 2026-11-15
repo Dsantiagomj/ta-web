@@ -23,7 +23,7 @@ async function readGuideRows(payload: Payload): Promise<GuideIndexRow[]> {
   const { docs } = await payload.find({
     collection: 'quest-guides',
     where: { _status: { equals: 'published' } },
-    select: { title: true, slug: true, quest: true },
+    select: { title: true, slug: true, quest: true, summary: { level: true } },
     populate: { quests: { levelMin: true, achievement: { name: true }, correction: true } },
     depth: 1,
     draft: false,
@@ -37,7 +37,8 @@ async function readGuideRows(payload: Payload): Promise<GuideIndexRow[]> {
       guide.title,
       guide.slug,
       quest?.achievement?.name?.trim() || null,
-      quest?.levelMin ?? null,
+      // El nivel que escribió Torre en la guía gana al de la misión.
+      guide.summary?.level || (quest?.levelMin ?? null),
     ]
   })
   return guides.sort((a, b) => a[0].localeCompare(b[0], 'es'))

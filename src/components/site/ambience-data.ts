@@ -47,13 +47,18 @@ export const AMBIENCE_PARTICLES: readonly AmbienceParticle[] = [
  */
 export type ChecklistAmbience = 'snow' | 'forest' | 'egg'
 
-const BY_LEGACY_ID: Record<string, ChecklistAmbience> = {
-  hielos: 'snow',
-  silvestre: 'forest',
-}
+/** Lo que Torre elige en el panel; «theme» deja la capa del sitio, la del tema. */
+export type ChecklistAmbienceChoice = ChecklistAmbience | 'theme'
 
-/** El de una checklist según su id en silvestre-checklist («hielos:»), como en su config.js. */
-export function checklistAmbience(legacyPrefix: string | null | undefined): ChecklistAmbience {
-  const id = (legacyPrefix ?? '').replace(/:$/, '')
-  return BY_LEGACY_ID[id] ?? 'egg'
+const OWN: readonly ChecklistAmbience[] = ['snow', 'forest', 'egg']
+
+/**
+ * El ambiente de una checklist según lo que eligió Torre (su campo «Ambiente»): sin elegir,
+ * las motas del color de su Dofus; «theme», ninguno propio.
+ */
+export function checklistAmbience(
+  choice: string | null | undefined,
+): ChecklistAmbience | undefined {
+  if (choice === 'theme') return undefined
+  return OWN.find((own) => own === choice) ?? 'egg'
 }

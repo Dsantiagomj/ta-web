@@ -7,6 +7,7 @@ import { layoutFields } from './helpers/fields'
 import { Checklists } from '@/collections/Checklists'
 import { isPanelUser, readPublishedOrAll } from '@/collections/editorial-access'
 import { validateSlug } from '@/collections/QuestGuides'
+import { checklistStrings } from '@/lib/checklists/strings'
 import { ROOT_SLUG_COLLECTIONS } from '@/collections/root-slug'
 
 function field(fields: Field[], name: string): Field {
@@ -425,5 +426,49 @@ describe('checklists: la tarjeta del índice', () => {
     for (const child of card.fields) {
       expect((child as { admin?: { description?: string } }).admin?.description).toBeTruthy()
     }
+  })
+})
+
+describe('el ambiente de una checklist', () => {
+  it('Torre lo elige; por defecto, las motas del color de su Dofus', () => {
+    const ambience = field(Checklists.fields, 'ambience') as SelectField
+    expect(ambience).toMatchObject({
+      type: 'select',
+      label: 'Ambiente',
+      defaultValue: 'egg',
+      admin: { position: 'sidebar', description: checklistStrings.admin.ambienceDescription },
+    })
+    expect(ambience.options).toEqual([
+      { value: 'egg', label: checklistStrings.ambiences.egg },
+      { value: 'snow', label: checklistStrings.ambiences.snow },
+      { value: 'forest', label: checklistStrings.ambiences.forest },
+      { value: 'theme', label: checklistStrings.ambiences.theme },
+    ])
+  })
+})
+
+describe('las almas que Torre corrige en una lista de almas', () => {
+  it('una fila por monstruo, con mazmorra, subzona, región y ocultar; solo en las de almas', () => {
+    const overrides = field(Checklists.fields, 'soulOverrides') as ArrayField
+    expect(overrides).toMatchObject({
+      type: 'array',
+      label: 'Almas corregidas',
+      admin: { description: checklistStrings.admin.soulOverridesDescription },
+    })
+    const condition = overrides.admin?.condition as (data: unknown) => boolean
+    expect(condition({ kind: 'souls' })).toBe(true)
+    expect(condition({ kind: 'steps' })).toBe(false)
+    expect(overrides.fields.map((inner) => ('name' in inner ? inner.name : null))).toEqual([
+      'monster',
+      'dungeon',
+      'zone',
+      'region',
+      'hidden',
+    ])
+    expect(overrides.fields[0]).toMatchObject({
+      type: 'relationship',
+      relationTo: 'monsters',
+      required: true,
+    })
   })
 })

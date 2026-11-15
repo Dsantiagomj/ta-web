@@ -35,6 +35,13 @@ export const checklistStrings = {
     steps: 'Pasos de una guía',
     souls: 'Almas de una misión',
   },
+  /** El ambiente de la página (DESIGN.md, Ambience): las partículas detrás del contenido. */
+  ambiences: {
+    egg: 'Motas del color de su Dofus',
+    snow: 'Nieve',
+    forest: 'Luciérnagas y hojas',
+    theme: 'Las del tema de la web',
+  },
   questKinds: {
     mandatory: 'Obligatoria',
     optional: 'Opcional',
@@ -55,6 +62,12 @@ export const checklistStrings = {
   },
   admin: {
     nameDescription: 'El nombre de la checklist, como sale en su página y en el menú.',
+    soulOverridesDescription:
+      'Opcional. Para un alma de esta lista con la mazmorra, la subzona o la región mal, o que ' +
+      'no debe salir. Lo que dejes vacío sale de DofusDB. El nombre, el nivel y la imagen se ' +
+      'corrigen en el monstruo, en «Corrección de Torre».',
+    ambienceDescription:
+      'Las partículas detrás de la página. Vacío o sin tocar: motas del color de su Dofus.',
     kindDescription:
       'Pasos de una guía, como el Silvestre, o las almas que pide una misión, como el Ocre.',
     soulsQuestDescription:

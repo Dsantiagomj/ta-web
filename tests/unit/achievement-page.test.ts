@@ -621,6 +621,39 @@ describe('achievementPageView', () => {
   })
 })
 
+describe('los Prerrequisitos que escribe Torre', () => {
+  it('sus filas sustituyen a las calculadas, con enlace si su guía se ve', () => {
+    const view = achievementPageView(
+      data({
+        prerequisites: [
+          { text: 'Nivel 50', guide: null },
+          { text: 'Archi y sus principios', guide: { slug: 'archi-y-sus-principios' } },
+          // Una guía sin publicar llega sin poblar: la fila sale sin enlace.
+          { text: 'Una misión suelta', guide: 77 },
+        ],
+      }),
+    )
+    expect(view.facts.prerequisites).toEqual([
+      { label: 'Nivel 50', quest: false },
+      { label: 'Archi y sus principios', href: '/archi-y-sus-principios', quest: true },
+      { label: 'Una misión suelta', quest: true },
+    ])
+  })
+
+  it('sin filas, salen las calculadas', () => {
+    expect(achievementPageView(data({ prerequisites: [] })).facts.prerequisites).toEqual([
+      { label: 'Archi y sus principios', href: '/archi-y-sus-principios', quest: true },
+    ])
+  })
+
+  it('una fila en blanco no cuenta', () => {
+    expect(
+      achievementPageView(data({ prerequisites: [{ text: '  ', guide: null }] })).facts
+        .prerequisites,
+    ).toEqual([{ label: 'Archi y sus principios', href: '/archi-y-sus-principios', quest: true }])
+  })
+})
+
 describe('la corrección de Torre gana a DofusDB en la página de logro', () => {
   const torre = media(77, 'de-torre') as unknown as Media
 

@@ -196,6 +196,34 @@ describe('soulsView', () => {
     expect(soulsView({ ...base, checklist }).egg?.src).toContain('huevo-de-torre')
   })
 
+  it('lo que Torre corrige del alma en esta lista: mazmorra, subzona, región u ocultarla', () => {
+    const base = data()
+    const checklist = {
+      ...base.checklist,
+      soulOverrides: [
+        {
+          monster: { id: 1, dofusId: 147 },
+          dungeon: 'Guarida del Jalató',
+          zone: ' ',
+          region: 'Amakna',
+        },
+        { monster: { id: 2, dofusId: 501 }, hidden: true },
+        // Sin poblar no se sabe de qué alma es: no cambia nada.
+        { monster: 3, dungeon: 'Ninguna' },
+      ],
+    } as unknown as Checklist
+    const view = soulsView({ ...base, checklist })
+    expect(view.souls.find((soul) => soul.id === 147)).toMatchObject({
+      dungeon: 'Guarida del Jalató',
+      // En blanco: la de DofusDB.
+      zone: 'Corte del Jalató',
+      region: 'Amakna',
+    })
+    expect(view.souls.map((soul) => soul.id)).not.toContain(501)
+    expect(view.missing).not.toContain(501)
+    expect(view.souls.find((soul) => soul.id === 147)?.search).toContain('guarida')
+  })
+
   it('un monstruo que no está en la base no se adivina: su alma queda fuera y se cuenta', () => {
     const view = soulsView(data({ monsters: { 928: data().monsters[928] } }))
     expect(view.souls.map((soul) => soul.id)).toEqual([928])

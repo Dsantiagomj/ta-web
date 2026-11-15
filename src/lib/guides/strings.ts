@@ -58,6 +58,11 @@ export const guideStrings = {
       'libertad: lo que escribas no se sobrescribe, y lo que vacíes se queda vacío. Para ' +
       'volver a copiar lo vacío, pulsa «Rellenar desde DofusDB» bajo la misión.',
     summaryPlaceholder: 'Se rellena con DofusDB al elegir la misión; si no da nada, escríbelo tú.',
+    zoneDescription:
+      'La zona del subtítulo de la guía, como «Astrub». Si la dejas vacía, sale la de DofusDB.',
+    levelDescription:
+      'El nivel del subtítulo, de la búsqueda y de la tarjeta de la misión. Si lo dejas vacío, ' +
+      'sale el de DofusDB.',
     needsNotesDescription:
       'Lo que la lista de objetos no recoge, como «1 x Combate (solo)» o «Literalmente nada». ' +
       'No se rellena solo.',

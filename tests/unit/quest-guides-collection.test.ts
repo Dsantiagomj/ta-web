@@ -131,6 +131,23 @@ describe('colección quest-guides', () => {
     expect(field('startY', summary.fields)).toMatchObject({ type: 'number' })
   })
 
+  it('una zona y un nivel propios, opcionales, que ganan a los de DofusDB en el subtítulo', () => {
+    const summary = field('summary') as GroupField
+    expect(field('zone', summary.fields)).toMatchObject({
+      type: 'text',
+      label: 'Zona',
+      localized: true,
+      admin: { description: guideStrings.admin.zoneDescription },
+    })
+    expect(field('level', summary.fields)).toMatchObject({
+      type: 'number',
+      label: 'Nivel',
+      min: 1,
+      admin: { description: guideStrings.admin.levelDescription },
+    })
+    expect(field('zone', summary.fields)).not.toHaveProperty('required', true)
+  })
+
   it('Necesitarás es una lista de objetos del juego con su cantidad, más notas libres', () => {
     const needs = field('needs', (field('summary') as GroupField).fields) as GroupField
     expect(needs).toMatchObject({ type: 'group', label: 'Necesitarás' })

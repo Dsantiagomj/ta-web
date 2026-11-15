@@ -71,6 +71,8 @@ export interface PageDoc {
       | null
   }>
   group?: Relation<{ name: string; slug: string }>
+  /** Los Prerrequisitos que escribió Torre; sin filas, se calculan de las misiones. */
+  prerequisites?: { text?: string | null; guide?: Relation<{ slug: string }> }[] | null
 }
 
 /** Un logro del mismo metalogro, para la columna y el anterior y el siguiente. */
@@ -514,6 +516,21 @@ export function achievementNeeds(
   )
 }
 
+/**
+ * Los Prerrequisitos que escribió Torre, cada fila con el enlace a su guía si un visitante la
+ * ve (sin publicar llega sin poblar: sin enlace). Null si no escribió ninguna.
+ */
+function ownPrerequisites(page: PageDoc): QuestHeaderData['prerequisites'] | null {
+  const rows = (page.prerequisites ?? []).flatMap((row) => {
+    const label = row.text?.trim()
+    if (!label) return []
+    const guide = populated(row.guide)
+    if (guide) return [{ label, href: `/${guide.slug}`, quest: true }]
+    return [{ label, quest: row.guide != null }]
+  })
+  return rows.length ? rows : null
+}
+
 /** Lo que pinta la página de un logro. */
 export function achievementPageView(data: AchievementPageData): AchievementPageView {
   const { page } = data
@@ -521,10 +538,12 @@ export function achievementPageView(data: AchievementPageData): AchievementPageV
   const rows = questRows(page)
   const ownQuests = new Set(rows.flatMap((row) => row.quests.map((quest) => quest.id)))
 
-  // Prerrequisitos: las misiones previas de fuera del logro, sin repetir.
-  const prerequisites: QuestHeaderData['prerequisites'] = []
+  // Prerrequisitos: los que escribió Torre; sin ellos, las misiones previas de fuera del
+  // logro, sin repetir.
+  const own = ownPrerequisites(page)
+  const prerequisites: QuestHeaderData['prerequisites'] = own ?? []
   const seen = new Set<number>()
-  for (const quest of rows.flatMap((row) => row.quests)) {
+  for (const quest of own ? [] : rows.flatMap((row) => row.quests)) {
     for (const previous of quest.prerequisites ?? []) {
       const doc = populated(previous)
       if (!doc?.name || ownQuests.has(doc.id) || seen.has(doc.id)) continue

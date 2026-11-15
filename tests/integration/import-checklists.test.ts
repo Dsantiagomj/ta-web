@@ -1064,3 +1064,23 @@ describe('el camino de Dofus y una checklist sin guía de Dofus (el rush)', () =
     expect(again).toMatchObject({ created: 0, updated: 0, unchanged: 1 })
   })
 })
+
+describe('el ambiente de una checklist importada', () => {
+  const slug = `${PREFIX}-ambiente`
+
+  it('se crea con el del catálogo (el Hielos nieva) y una pasada nueva no pisa el de Torre', async () => {
+    const hielos = entry(slug, { ambience: 'snow', ported: false })
+    await loadChecklists(payload, options([{ entry: hielos, draft: null }]))
+    const created = (await read(slug))!
+    expect(created.ambience).toBe('snow')
+
+    await payload.update({
+      collection: 'checklists',
+      id: created.id,
+      data: { ambience: 'theme' },
+      overrideAccess: true,
+    })
+    await loadChecklists(payload, options([{ entry: hielos, draft: null }]))
+    expect((await read(slug))!.ambience).toBe('theme')
+  })
+})

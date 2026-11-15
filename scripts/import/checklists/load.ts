@@ -722,6 +722,8 @@ export async function loadChecklists(
             ...data,
             slug: entry.slug,
             state: 'preparing',
+            // Solo al crearla: después el ambiente es de Torre.
+            ...(entry.ambience && { ambience: entry.ambience }),
             importSnapshot: snapshotOf(data),
             _status: status,
           } as never,

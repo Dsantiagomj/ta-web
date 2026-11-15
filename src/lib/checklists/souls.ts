@@ -4,12 +4,13 @@
 // silvestre-checklist, sin ninguna fila escrita a mano. Sin Payload ni React: se prueba solo.
 import type { ImageAsset } from '@/components/ui/types'
 import { buildBreadcrumb, type BreadcrumbData } from '@/lib/achievements/page'
+import { dofusEgg } from '@/lib/dofus-guides/egg'
 import { corrected, hiddenByTorre, type Correction } from '@/lib/game-data/correction'
 import { mediaImageAsset } from '@/lib/media/image-asset'
 import { fold } from '@/lib/text/fold'
 import type { Checklist, Media } from '@/payload-types'
 
-import { populated, shown, type Relation } from './relations'
+import { populated, type Relation } from './relations'
 import { checklistPageStrings as s, soulsStrings as o } from './strings'
 
 export type SoulType = 'boss' | 'archi' | 'other'
@@ -132,6 +133,27 @@ function subgroupsOf(souls: Omit<SoulView, 'search'>[]): SoulGroup[] {
 const image = (value: Relation<Media> | undefined) =>
   mediaImageAsset(populated(value ?? null)) ?? undefined
 
+/** Lo que Torre corrige de un alma en esta lista (el campo «Almas corregidas»). */
+interface SoulOverride {
+  dungeon?: string | null
+  zone?: string | null
+  region?: string | null
+  hidden?: boolean | null
+}
+
+/**
+ * Las correcciones de Torre por el ID de DofusDB de su monstruo. Una fila cuyo monstruo llega
+ * sin poblar no se sabe de qué alma es: no cuenta.
+ */
+function soulOverrides(checklist: Checklist): Map<number, SoulOverride> {
+  const result = new Map<number, SoulOverride>()
+  for (const row of checklist.soulOverrides ?? []) {
+    const monster = populated(row.monster)
+    if (monster?.dofusId != null) result.set(monster.dofusId, row)
+  }
+  return result
+}
+
 export function soulsView(data: SoulsData): SoulsView {
   const { checklist } = data
   // La mazmorra de cada jefe: la única que lo tiene. Con dos o más no se elige ninguna.
@@ -140,6 +162,7 @@ export function soulsView(data: SoulsData): SoulsView {
     for (const boss of dungeon.bosses)
       dungeonsOf.set(boss, [...(dungeonsOf.get(boss) ?? []), dungeon])
   }
+  const overrides = soulOverrides(checklist)
   const missing: number[] = []
   // Un monstruo que la misión pide más de una vez es una sola alma, en la primera etapa.
   const seen = new Set<number>()
@@ -154,8 +177,10 @@ export function soulsView(data: SoulsData): SoulsView {
         missing.push(id)
         return []
       }
-      // Un monstruo que Torre ocultó no es alma; uno corregido sale con lo suyo.
-      if (hiddenByTorre(found)) return []
+      // Un monstruo que Torre ocultó (en el juego o en esta lista) no es alma; uno corregido
+      // sale con lo suyo.
+      const own = overrides.get(id)
+      if (hiddenByTorre(found) || own?.hidden) return []
       const monster = corrected(found)
       const dungeons = dungeonsOf.get(id) ?? []
       const dungeon = dungeons.length === 1 ? dungeons[0] : null
@@ -169,9 +194,9 @@ export function soulsView(data: SoulsData): SoulsView {
         ...(picture && { image: picture }),
         level: soulLevel(monster.levels ?? [], dungeon?.level ?? null),
         type,
-        dungeon: dungeon?.name ?? null,
-        zone: subarea?.name ?? null,
-        region: subarea?.areaName ?? null,
+        dungeon: own?.dungeon?.trim() || (dungeon?.name ?? null),
+        zone: own?.zone?.trim() || (subarea?.name ?? null),
+        region: own?.region?.trim() || (subarea?.areaName ?? null),
         stage: index + 1,
       }
       return [
@@ -211,7 +236,7 @@ export function soulsView(data: SoulsData): SoulsView {
 
   const guide = populated(checklist.dofusGuide)
   const publishedGuide = guide?.state === 'published' ? guide : null
-  const egg = image(shown(guide?.dofus)?.image)
+  const egg = image(dofusEgg(guide))
   const title = checklist.name
   return {
     id: checklist.id,

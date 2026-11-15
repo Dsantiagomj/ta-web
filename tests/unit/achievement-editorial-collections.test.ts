@@ -1,4 +1,4 @@
-import type { Field, SelectField } from 'payload'
+import type { ArrayField, Field, SelectField } from 'payload'
 import { describe, expect, it } from 'vitest'
 
 import { layoutFields } from './helpers/fields'
@@ -10,6 +10,7 @@ import { proseEditor } from '@/collections/prose-editor'
 import { AchievementGroups } from '@/collections/AchievementGroups'
 import { AchievementPages } from '@/collections/AchievementPages'
 import { validateSlug } from '@/collections/QuestGuides'
+import { achievementStrings } from '@/lib/achievements/strings'
 import { panelStrings } from '@/lib/admin/strings'
 
 function field(fields: Field[], name: string): Field {
@@ -179,5 +180,21 @@ describe('la entrada y el cierre de las páginas de logro', () => {
       type: 'json',
       admin: { hidden: true },
     })
+  })
+})
+
+describe('los Prerrequisitos propios de una página de logro', () => {
+  it('una lista opcional de filas: texto y, si quiere, la guía que enlaza', () => {
+    const prerequisites = field(AchievementPages.fields, 'prerequisites') as ArrayField
+    expect(prerequisites).toMatchObject({
+      type: 'array',
+      label: 'Prerrequisitos',
+      admin: { description: achievementStrings.admin.prerequisitesDescription },
+    })
+    expect(prerequisites).not.toHaveProperty('required', true)
+    expect(prerequisites.fields).toEqual([
+      expect.objectContaining({ name: 'text', type: 'text', required: true, localized: true }),
+      expect.objectContaining({ name: 'guide', type: 'relationship', relationTo: 'quest-guides' }),
+    ])
   })
 })

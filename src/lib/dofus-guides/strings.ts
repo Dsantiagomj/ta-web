@@ -12,6 +12,9 @@ export const dofusGuideStrings = {
   admin: {
     dofusDescription:
       'El objeto Dofus de DofusDB: de él sale el huevo de la tarjeta, del menú y de la página.',
+    eggDescription:
+      'Opcional. Si la subes, este huevo sale en la tarjeta del índice, el menú, el póster de ' +
+      'su checklist y la cabecera de la guía, en lugar del de DofusDB.',
     nameDescription: 'El nombre del Dofus, como sale en la tarjeta y en el título de la página.',
     slugDescription: 'La de la guía, la misma que en tu web: dofus-abisal.',
     orderDescription: 'Su lugar en la lista de guías: el 1 sale primero.',

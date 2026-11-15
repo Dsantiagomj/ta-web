@@ -69,6 +69,15 @@ describe('colección dofus-guides', () => {
     })
   })
 
+  it('un huevo propio, opcional, subido a Media, que gana al de DofusDB', () => {
+    expect(field(DofusGuides.fields, 'egg')).toMatchObject({
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Huevo',
+    })
+    expect(field(DofusGuides.fields, 'egg')).not.toHaveProperty('required', true)
+  })
+
   it('guarda nombre y slug, el slug con las reglas de las guías', () => {
     expect(field(DofusGuides.fields, 'name')).toMatchObject({ required: true, localized: true })
     expect(field(DofusGuides.fields, 'slug')).toMatchObject({ required: true, unique: true })

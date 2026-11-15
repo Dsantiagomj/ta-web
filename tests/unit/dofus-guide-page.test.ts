@@ -881,6 +881,12 @@ describe('dofusGuideView: la corrección de Torre gana a DofusDB', () => {
     expect(rows).toEqual([{ kind: 'item', item: { name: 'Pepita de oro' }, quantity: 200 }])
   })
 
+  it('el huevo que Torre subió en la guía gana al del objeto', () => {
+    expect(dofusGuideView(data({ egg: media(98, 'huevo-propio') })).egg?.src).toContain(
+      'huevo-propio',
+    )
+  })
+
   it('un logro con el icono de Torre, y el PNJ oculto no sale en sus misiones', () => {
     const base = data()
     const plof = base.achievements.get(100)!

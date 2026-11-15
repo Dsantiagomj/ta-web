@@ -422,6 +422,14 @@ export const DofusGuides: CollectionConfig = {
               ],
             },
             {
+              // Gana a la imagen del objeto Dofus (src/lib/dofus-guides/egg.ts).
+              name: 'egg',
+              label: 'Huevo',
+              type: 'upload',
+              relationTo: 'media',
+              admin: { description: s.eggDescription },
+            },
+            {
               name: 'aliases',
               label: 'Otros nombres',
               type: 'text',

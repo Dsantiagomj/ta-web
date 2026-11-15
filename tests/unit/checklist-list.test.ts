@@ -92,6 +92,12 @@ describe('checklistEntries', () => {
     expect(hidden!.egg).toBeUndefined()
   })
 
+  it('el huevo que Torre subió en la guía del Dofus gana al del objeto', () => {
+    const own = { ...egg, id: 7, url: '/media/huevo-propio.png' } as Media
+    const [entry] = checklistEntries([doc({ dofusGuide: { egg: own, dofus: { image: egg } } })])
+    expect(entry!.egg?.src).toContain('huevo-propio')
+  })
+
   it('sin la guía de su Dofus leída (sin publicar o sin enlazar), sin huevo ni color', () => {
     const [byId, none] = checklistEntries([doc({ dofusGuide: 7 }), doc({ dofusGuide: null })])
     for (const entry of [byId, none]) {
@@ -309,7 +315,7 @@ describe('readChecklists', () => {
       overrideAccess: true,
     })
     // ...pero solo el color y el objeto del Dofus, con su imagen.
-    expect(args.select).toEqual({ color: true, dofus: true })
+    expect(args.select).toEqual({ color: true, dofus: true, egg: true })
     expect(withGuide!.dofusGuide).toEqual({ color: '#7fd6c2', dofus: { image: egg } })
     expect(withoutGuide!.dofusGuide).toBeNull()
   })

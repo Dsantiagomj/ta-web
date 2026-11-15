@@ -559,6 +559,18 @@ export const Checklists: CollectionConfig = {
       admin: { position: 'sidebar', description: s.kindDescription },
     },
     {
+      // Sustituye al reparto por el id antiguo (hielos nieva, silvestre tiene luciérnagas).
+      name: 'ambience',
+      label: 'Ambiente',
+      type: 'select',
+      defaultValue: 'egg',
+      options: (['egg', 'snow', 'forest', 'theme'] as const).map((value) => ({
+        value,
+        label: checklistStrings.ambiences[value],
+      })),
+      admin: { position: 'sidebar', description: s.ambienceDescription },
+    },
+    {
       name: 'soulsQuest',
       label: 'Misión de las almas',
       type: 'relationship',
@@ -568,6 +580,37 @@ export const Checklists: CollectionConfig = {
         condition: (data) => data?.kind === 'souls',
         description: s.soulsQuestDescription,
       },
+    },
+    {
+      // Lo propio de un alma en esta lista (src/lib/checklists/souls.ts). Su nombre, nivel e
+      // imagen van en la corrección del monstruo, para que valga en toda la web.
+      name: 'soulOverrides',
+      label: 'Almas corregidas',
+      labels: { singular: 'Alma', plural: 'Almas' },
+      type: 'array',
+      admin: {
+        condition: (data) => data?.kind === 'souls',
+        description: s.soulOverridesDescription,
+        initCollapsed: true,
+        components: rowLabel('RelationRowLabel', {
+          singular: panelStrings.rowLabels.soul,
+          relationField: 'monster',
+          relationTo: 'monsters',
+        }),
+      },
+      fields: [
+        {
+          name: 'monster',
+          label: 'Monstruo',
+          type: 'relationship',
+          relationTo: 'monsters',
+          required: true,
+        },
+        { name: 'dungeon', label: 'Mazmorra', type: 'text', localized: true },
+        { name: 'zone', label: 'Subzona', type: 'text', localized: true },
+        { name: 'region', label: 'Región', type: 'text', localized: true },
+        { name: 'hidden', label: 'Ocultar en esta lista', type: 'checkbox' },
+      ],
     },
     {
       name: 'legacyHref',
