@@ -8,6 +8,7 @@ import { StepBlock } from '../blocks/StepBlock'
 import { validateVideoUrl, VideoBlock } from '../blocks/VideoBlock'
 import { validateColor } from '../lib/dofus-guides/color'
 import { needGroupOptions } from '../lib/dofus-guides/need-groups'
+import { siteOrWebHref } from '../lib/dofus-guides/links'
 import { dofusGuideStrings } from '../lib/dofus-guides/strings'
 import { stateField } from './achievement-fields'
 import { refuseReferencedDelete } from './delete-guard'
@@ -102,7 +103,13 @@ const achievementField: Field = {
   required: true,
 }
 
-type QuestRowSiblings = { siblingData?: { title?: unknown; link?: unknown } }
+type QuestRowSiblings = { siblingData?: { title?: unknown } }
+
+/** Un enlace escrito a mano: una dirección del sitio (/cazadores-cazados) o una web. */
+export function validateSiteLink(value: string | null | undefined): true | string {
+  if (!value?.trim() || siteOrWebHref(value)) return true
+  return s.siteLinkInvalid
+}
 
 /** Una fila de misiones sueltas necesita su guía o, si no es una misión, el texto de Torre. */
 function validateLooseQuest(value: unknown, { siblingData }: QuestRowSiblings): true | string {
@@ -156,6 +163,7 @@ const ownQuestFields = (dbName: string): Field[] => [
     name: 'link',
     label: s.achievementLinkLabel,
     type: 'text',
+    validate: validateSiteLink,
     admin: { description: s.achievementLinkDescription },
   },
 ]
@@ -221,6 +229,7 @@ const QuestsPartBlock: Block = {
           name: 'link',
           label: 'Enlace',
           type: 'text',
+          validate: validateSiteLink,
           admin: { description: s.looseQuestLinkDescription },
         },
         note,
