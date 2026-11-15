@@ -95,6 +95,8 @@ export interface StepDraft {
   banner: ArtRef | null
   /** La zona de Torre: agrupa los pasos en la lista. */
   zone: string
+  /** Los Dofus que se consiguen en el paso, por su nombre (DOFUS_ROAD): el 190 del rush da dos. */
+  dofus: string[]
 }
 
 export interface ChecklistDraft {
@@ -103,8 +105,8 @@ export interface ChecklistDraft {
   description: string
   order: number
   legacyHref: string
-  /** El slug de la guía de su Dofus. */
-  dofusGuide: string
+  /** El slug de la guía de su Dofus; el rush no tiene. */
+  dofusGuide?: string
   prerequisites: {
     intro: string
     groups: { title: string; rows: { key: string; text: string }[] }[]
@@ -190,6 +192,32 @@ function splitText(step: LegacyStep): { kind: MarkKind; text: string; raw?: stri
 }
 
 const CALL_KINDS = new Set<string>(['note', 'tip', 'must', 'includes'])
+
+// Lo que un verde dice terminar: «terminar la misión del inciso 143», «se terminan las misiones
+// de los incisos 69, 70 y 71».
+const FINISHES =
+  /termin\w*\s+(?:de\s+\w+\s+)?(?:la|las)\s+misi(?:ón|ones)\s+de(?:l|\s+los)\s+incisos?\s+(\d+(?:(?:\s*,\s*|\s+y\s+)\d+)*)/gi
+
+/**
+ * Los pasos que cierra cada verde. Con uno solo, todos los del paso. Con varios, cada paso va
+ * al verde que dice terminar su misión (el 144 del rush); si alguno no lo dice o lo dicen dos,
+ * no se adivina: lanza.
+ */
+function greenCloses(step: LegacyStep): number[][] {
+  const greens = (step.marks ?? []).filter(([kind]) => kind === 'done').map(([, text]) => text)
+  const closes = step.closes ?? []
+  if (greens.length <= 1 || closes.length === 0) return greens.map(() => closes)
+  const named = greens.map((green) =>
+    [...green.matchAll(FINISHES)].flatMap((match) => match[1].split(/\s*,\s*|\s+y\s+/).map(Number)),
+  )
+  const owners = closes.map((n) =>
+    named.flatMap((list, index) => (list.includes(n) ? [index] : [])),
+  )
+  if (owners.some((list) => list.length !== 1)) {
+    throw new Error(`Paso ${step.n}: varios verdes y no se sabe cuál cierra cada paso`)
+  }
+  return greens.map((_, index) => closes.filter((_, at) => owners[at][0] === index))
+}
 
 /** Una parada como la guarda el tramo: la misión y el objetivo, y sus opciones si las tiene. */
 const stopDraft = (point: StopPoint | undefined): StopDraft => ({
@@ -306,14 +334,24 @@ export function toChecklistDraft(
     }
   }
 
+  // Los Dofus del camino, por paso. Uno en un paso que no existe no se pierde sin decirlo.
+  const numbers = new Set(legacy.steps.map((step) => step.n))
+  const road = new Map<number, string[]>()
+  for (const dofus of legacy.assets.DOFUS_ROAD ?? []) {
+    if (!numbers.has(dofus.step)) {
+      throw new Error(
+        `El Dofus del camino «${dofus.name}» va en el paso ${dofus.step}, que no existe`,
+      )
+    }
+    road.set(dofus.step, [...(road.get(dofus.step) ?? []), dofus.name])
+  }
+
   const steps = legacy.steps.map((step): StepDraft => {
     const quests = questsOf(step.n)
     const stops = stepStops(step, quests, journal.stopAt)
     let red = 0
-    const greens = (step.marks ?? []).filter(([kind]) => kind === 'done').length
-    if (greens > 1 && step.closes?.length) {
-      throw new Error(`Paso ${step.n}: varios verdes y no se sabe cuál cierra cada paso`)
-    }
+    const closesOf = greenCloses(step)
+    let green = 0
     const segments = splitText(step).flatMap((part): SegmentDraft[] => {
       if (part.kind === 'plain' || CALL_KINDS.has(part.kind)) {
         return [{ kind: part.kind as 'plain' | CallKind, text: part.text }]
@@ -329,7 +367,7 @@ export function toChecklistDraft(
           },
         ]
       }
-      const closes = step.closes ?? []
+      const closes = closesOf[green++]
       // El verde que deja una parada nueva («…hasta tener que pasar Kodámade»): esa parte es
       // un «detente aquí» detrás del «aquí se resuelve».
       const follow = part.raw?.match(FOLLOW_UP)
@@ -392,6 +430,7 @@ export function toChecklistDraft(
           ? { path: zone.img, alt: step.zone }
           : null,
       zone: step.zone,
+      dofus: road.get(step.n) ?? [],
     }
   })
 
@@ -401,7 +440,7 @@ export function toChecklistDraft(
     description: entry.description,
     order: entry.order,
     legacyHref: entry.legacyHref,
-    dofusGuide: entry.dofusGuide,
+    ...(entry.dofusGuide && { dofusGuide: entry.dofusGuide }),
     prerequisites: {
       intro: legacy.prerequisites.intro,
       groups: legacy.prerequisites.groups

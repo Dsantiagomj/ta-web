@@ -334,7 +334,7 @@ describe('la checklist', () => {
 })
 
 describe('el catálogo', () => {
-  it('las cuatro checklists de Torre con su slug de Squarespace; todas se portan; el Ocre, como checklist de almas', () => {
+  it('las cinco checklists de Torre con su slug de Squarespace; todas se portan; el Ocre, como checklist de almas', () => {
     expect(
       CHECKLIST_CATALOG.map(({ id, slug, legacyHref, ported }) => [id, slug, legacyHref, ported]),
     ).toEqual([
@@ -351,6 +351,12 @@ describe('el catálogo', () => {
         true,
       ],
       ['nebuloso', 'checklist-nebuloso', 'https://www.torrentearcano.com/checklist-nebuloso', true],
+      [
+        'todos',
+        'checklist-todos-dofus',
+        'https://www.torrentearcano.com/checklist-todos-dofus',
+        true,
+      ],
       ['ocre', 'lista-ocre', 'https://www.torrentearcano.com/lista-ocre', true],
     ])
     for (const entry of CHECKLIST_CATALOG) expect(entry.description).not.toMatch(/\d/)
@@ -366,6 +372,7 @@ describe('el catálogo', () => {
       'silvestre',
       'hielos',
       'nebuloso',
+      'todos',
     ])
   })
 })

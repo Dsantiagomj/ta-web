@@ -15,8 +15,8 @@ export interface ChecklistCatalogEntry {
   name: string
   description: string
   order: number
-  /** El slug de la guía de su Dofus en dofus-guides. */
-  dofusGuide: string
+  /** El slug de la guía de su Dofus en dofus-guides; sin él, la checklist no es de un solo Dofus. */
+  dofusGuide?: string
   legacyHref: string
   /** Si se trae entera desde silvestre-checklist. */
   ported: boolean
@@ -80,11 +80,25 @@ export const CHECKLIST_CATALOG: ChecklistCatalogEntry[] = [
     },
   }),
   entry({
+    // La guía de Sandglass no lleva a un Dofus, los da todos: sin guía de Dofus. El huevo y
+    // el color salen de los Dofus de cada paso (su camino) y del oro de su carta en el hub.
+    id: 'todos',
+    slug: 'checklist-todos-dofus',
+    name: 'Rush de todos los Dofus',
+    description: 'Del Dofawa al Vulbis en una sola ruta por todo el Mundo de los Doce.',
+    order: 4,
+    ported: true,
+    card: {
+      scene: { path: 'zones/misiones-de-mundo.jpg', alt: 'Las misiones de mundo' },
+      color: '#e3c565',
+    },
+  }),
+  entry({
     id: 'ocre',
     slug: 'lista-ocre',
     name: 'Dofus Ocre',
     description: 'Las almas de la eterna cosecha, una a una, hasta el Dofus Ocre.',
-    order: 4,
+    order: 5,
     dofusGuide: 'dofus-ocre',
     ported: true,
     // «La eterna cosecha»: las 337 almas, de los objetivos que guarda la misión.

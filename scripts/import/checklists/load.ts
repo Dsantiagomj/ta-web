@@ -48,7 +48,16 @@ export interface LoadChecklistsOptions {
 }
 
 export type UnmatchedKind =
-  'misión' | 'logro' | 'PNJ' | 'jefe' | 'imagen' | 'guía de Dofus' | 'objetivo' | 'parada' | 'paso'
+  | 'misión'
+  | 'logro'
+  | 'PNJ'
+  | 'jefe'
+  | 'imagen'
+  | 'guía de Dofus'
+  | 'Dofus'
+  | 'objetivo'
+  | 'parada'
+  | 'paso'
 
 export interface LoadChecklistsReport {
   created: number
@@ -191,6 +200,28 @@ async function byDofusId(
   return new Map((docs as GameDoc[]).map((doc) => [doc.dofusId!, doc]))
 }
 
+/**
+ * Las guías de Dofus por el nombre de su Dofus, sin mayúsculas: el camino antiguo los nombra
+ * así («Dofus de los vigilantes»), con el nombre del objeto del juego.
+ */
+async function guidesByDofusName(payload: Payload, names: string[]): Promise<Map<string, number>> {
+  if (names.length === 0) return new Map()
+  const { docs } = await payload.find({
+    collection: 'dofus-guides',
+    pagination: false,
+    depth: 1,
+    draft: true,
+    overrideAccess: true,
+    select: { dofus: true },
+  })
+  const byName = new Map<string, number>()
+  for (const guide of docs) {
+    const item = guide.dofus
+    if (item && typeof item === 'object' && item.name) byName.set(item.name.toLowerCase(), guide.id)
+  }
+  return byName
+}
+
 const objectiveCount = (quest: GameDoc) =>
   (quest.stages ?? []).reduce((total, stage) => total + (stage.objectives?.length ?? 0), 0)
 
@@ -244,6 +275,10 @@ async function resolveSteps(
     payload,
     'monsters',
     all.flatMap((step) => step.bosses),
+  )
+  const guides = await guidesByDofusName(
+    payload,
+    all.flatMap((step) => step.dofus),
   )
 
   // El stepId de cada número antiguo: el del paso guardado o uno nuevo.
@@ -407,6 +442,11 @@ async function resolveSteps(
       icon: await art(n, step.icon),
       banner: await art(n, step.banner),
       zone: step.zone,
+      dofus: step.dofus.flatMap((name) => {
+        const found = guides.get(name.toLowerCase())
+        if (found === undefined) unmatched(n, 'Dofus', name)
+        return found === undefined ? [] : [found]
+      }),
     }
   }
 
@@ -596,17 +636,21 @@ export async function loadChecklists(
 
     // La ficha sale del borrador si lo hay (lo deriva del catálogo) y si no, del catálogo.
     const head = draft ?? entry
-    const guides = await payload.find({
-      collection: 'dofus-guides',
-      where: { slug: { equals: head.dofusGuide } },
-      limit: 1,
-      depth: 0,
-      draft: true,
-      overrideAccess: true,
-      select: { slug: true },
-    })
-    const dofusGuide = guides.docs[0]?.id ?? null
-    if (dofusGuide === null) unmatched(null, 'guía de Dofus', head.dofusGuide)
+    // Sin guía de Dofus (el rush, que los da todos) no hay nada que buscar ni que avisar.
+    let dofusGuide: number | null = null
+    if (head.dofusGuide) {
+      const guides = await payload.find({
+        collection: 'dofus-guides',
+        where: { slug: { equals: head.dofusGuide } },
+        limit: 1,
+        depth: 0,
+        draft: true,
+        overrideAccess: true,
+        select: { slug: true },
+      })
+      dofusGuide = guides.docs[0]?.id ?? null
+      if (dofusGuide === null) unmatched(null, 'guía de Dofus', head.dofusGuide)
+    }
 
     // Primero solo la ficha: el documento entero se lee si existe. La consulta corta no toca
     // las tablas de los prerrequisitos ni de los pasos, así que la pasada en seco funciona

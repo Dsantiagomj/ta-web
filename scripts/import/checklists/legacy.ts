@@ -138,6 +138,8 @@ export interface LegacyChecklist {
         bosses?: { id: number; name: string }[]
       }
     >
+    /** Los Dofus que se consiguen por el camino, en orden: su nombre, su icono y el paso. */
+    DOFUS_ROAD?: { name: string; img: string; step: number; achievement?: string }[]
   }
   zones: Record<string, { map: number; img: string; thumb: string }>
 }
