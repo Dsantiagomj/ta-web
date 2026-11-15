@@ -29,6 +29,7 @@ import { mediaImageAsset } from '@/lib/media/image-asset'
 import { LEGACY_SITE_ORIGIN } from '@/lib/site/legacy'
 import type { Media } from '@/payload-types'
 
+import { siteOrWebHref } from './links'
 import { isNeedGroup, NEED_GROUPS, type NeedGroup, needGroupLabel } from './need-groups'
 import { dofusGuideStrings, dofusPageStrings as s } from './strings'
 
@@ -523,11 +524,12 @@ function torreRowCard(data: DofusGuideData, row: QuestRowDoc, position: number):
 
 /** Lo que Torre enlaza en una lista de misiones que no es una misión. */
 function linkCard(row: LooseQuestDoc, position: number): DofusQuestCard {
+  const href = siteOrWebHref(row.link)
   return {
     kind: 'link',
     position,
     title: row.title?.trim() || row.link!,
-    href: row.link!,
+    ...(href && { href }),
     ...(row.note && { note: row.note }),
   }
 }

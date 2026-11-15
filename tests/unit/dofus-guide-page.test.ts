@@ -769,3 +769,36 @@ describe('countParts', () => {
     expect(countParts(parts ?? [], () => 9)).toEqual({ achievements: 3, quests: 11 })
   })
 })
+
+describe('dofusGuideView: los enlaces que se escriben en el panel', () => {
+  it('un enlace que no es una dirección del sitio ni web no se pinta como enlace', () => {
+    const view = dofusGuideView(
+      data({
+        parts: [
+          {
+            blockType: 'dofusQuests',
+            quests: [
+              { title: 'Malo', link: 'javascript:alert(1)' },
+              { title: 'Otro sitio sin protocolo', link: '//ejemplo.com' },
+              { title: 'Bueno', link: 'https://www.torrentearcano.com/emote-x' },
+            ],
+          },
+          {
+            blockType: 'dofusAchievement',
+            achievement: 101,
+            link: 'javascript:alert(1)',
+          },
+        ],
+      }),
+    )
+    const [quests, achievement] = view.parts
+    if (quests?.kind !== 'quests') throw new Error('Se esperaban misiones sueltas')
+    expect(quests.quests.map((quest) => quest.href)).toEqual([
+      undefined,
+      undefined,
+      'https://www.torrentearcano.com/emote-x',
+    ])
+    if (achievement?.kind !== 'achievement') throw new Error('Se esperaba un logro')
+    expect(achievement.achievement.href).toBeUndefined()
+  })
+})
