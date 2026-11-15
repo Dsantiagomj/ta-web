@@ -6,6 +6,7 @@ import { StaticImg } from '@/components/site/StaticImg'
 import { Amount } from '@/components/ui/Amount'
 import { Picture } from '@/components/ui/Picture'
 import { formatCoordinates } from '@/lib/guides/coordinates'
+import { indexTextDefaults, type IndexTexts } from '@/lib/site-copy/defaults'
 
 import { GIVER_LEFT, GIVER_RIGHT, REWARD_ITEMS, STEP_SHOT } from './art'
 import { homeStrings } from './strings'
@@ -34,20 +35,27 @@ const Well = ({ icon, alt = '' }: { icon: GameIconFile; alt?: string }) => {
  * de «Seis pies bajo tierra» en pequeño, con los mismos números sobre cada parte. Sin
  * JavaScript: los números emparejan cada punto con su parte. Donde hay animaciones ligadas
  * al scroll (home.css), el punto que pasa por el centro de la pantalla enmarca su parte, y
- * pasar el ratón por un punto también; con movimiento reducido, solo los números.
+ * pasar el ratón por un punto también; con movimiento reducido, solo los números. El título,
+ * la entradilla, los puntos y el botón son de «Portada e índices»; la guía de muestra es un
+ * dibujo de la de verdad y sigue aquí.
  */
-export function GuideTour() {
+export function GuideTour({
+  texts = indexTextDefaults.home.tour,
+}: {
+  texts?: IndexTexts['home']['tour']
+}) {
+  const steps = [texts.step1, texts.step2, texts.step3, texts.step4]
   return (
     <section className="home-sec" aria-labelledby="h-tour">
       <div className="home-wrap tour">
         <div className="tour__txt">
           <h2 id="h-tour" className="home-h2 rv">
-            {s.title}
+            {texts.title}
           </h2>
-          <p className="tour__lead rv">{s.lead}</p>
+          <p className="tour__lead rv">{texts.lead}</p>
           <ol className="tour__steps">
-            {s.steps.map((step, i) => (
-              <li key={step.title} className="tour__step" data-tour-step={i + 1}>
+            {steps.map((step, i) => (
+              <li key={`step${i + 1}`} className="tour__step" data-tour-step={i + 1}>
                 <span className="tour__n" aria-hidden="true">
                   {i + 1}
                 </span>
@@ -59,7 +67,7 @@ export function GuideTour() {
             ))}
           </ol>
           <a className="go rv" href={section('misiones').href}>
-            {s.more}
+            {texts.more}
             <ArrowIcon className="go__arrow" />
           </a>
         </div>

@@ -2,25 +2,15 @@ import type { Metadata } from 'next'
 
 import { ChecklistsIndex } from '@/components/checklists/ChecklistsIndex'
 import { CHECKLISTS_INDEX_PATH } from '@/lib/checklists/path'
-import { checklistIndexStrings } from '@/lib/checklists/strings'
+import { indexMetadata } from '@/lib/site-copy/metadata'
 
-import { loadChecklists, loadChecklistTeaser } from '../site-data'
-import { siteStrings } from '../strings'
+import { loadChecklists, loadChecklistTeaser, loadIndexTexts, loadSiteSettings } from '../site-data'
 
-const s = checklistIndexStrings.seo
-
-export const metadata: Metadata = {
-  title: s.title,
-  description: s.description,
-  alternates: { canonical: CHECKLISTS_INDEX_PATH },
-  openGraph: {
-    type: 'website',
-    title: s.title,
-    description: s.description,
-    url: CHECKLISTS_INDEX_PATH,
-    siteName: siteStrings.brand,
-    locale: 'es_ES',
-  },
+// El título y la descripción son de «Portada e índices»; el nombre del sitio y la imagen al
+// compartir, de «Ajustes del sitio».
+export async function generateMetadata(): Promise<Metadata> {
+  const [texts, settings] = await Promise.all([loadIndexTexts(), loadSiteSettings()])
+  return indexMetadata(CHECKLISTS_INDEX_PATH, texts.checklists.seo, settings)
 }
 
 /**
@@ -29,6 +19,10 @@ export const metadata: Metadata = {
  * isla, solo si el navegador tiene progreso (GET /api/checklists/poster-progress).
  */
 export default async function ChecklistsPage() {
-  const [entries, teaser] = await Promise.all([loadChecklists(), loadChecklistTeaser()])
-  return <ChecklistsIndex entries={entries} teaser={teaser} />
+  const [entries, teaser, texts] = await Promise.all([
+    loadChecklists(),
+    loadChecklistTeaser(),
+    loadIndexTexts(),
+  ])
+  return <ChecklistsIndex entries={entries} teaser={teaser} texts={texts.checklists} />
 }

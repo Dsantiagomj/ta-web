@@ -3,8 +3,9 @@ import type { CSSProperties } from 'react'
 
 import { Picture } from '@/components/ui/Picture'
 import type { DofusCard, DofusIndexView } from '@/lib/dofus-guides/index-view'
-import { dofusIndexStrings as s, dofusPageStrings } from '@/lib/dofus-guides/strings'
+import { dofusPageStrings } from '@/lib/dofus-guides/strings'
 import type { RichTextState } from '@/lib/guides/page'
+import { indexTextDefaults, type IndexTexts } from '@/lib/site-copy/defaults'
 
 import { DofusIndexIsland } from './DofusIndexIsland'
 import './dofus-index.css'
@@ -70,12 +71,21 @@ function Card({ card, priority }: { card: DofusCard; priority: boolean }) {
  * de Torre y una tarjeta por Dofus en su orden. La isla añade el buscador, los filtros y la
  * inclinación de las tarjetas hacia el ratón; sin JavaScript se ven todas las tarjetas, quietas. Ninguna cifra en el título: cambian con el tiempo.
  */
-export function DofusIndex({ view, intro }: { view: DofusIndexView; intro: RichTextState | null }) {
+export function DofusIndex({
+  view,
+  intro,
+  texts = indexTextDefaults.dofusGuides,
+}: {
+  view: DofusIndexView
+  intro: RichTextState | null
+  /** El antetítulo y el título, de «Portada e índices». */
+  texts?: IndexTexts['dofusGuides']
+}) {
   return (
     <main id="contenido" className="dg-index">
       <header className="dg-hero">
-        <p className="dg-eyebrow">{s.eyebrow}</p>
-        <h1 className="dg-h1">{s.title}</h1>
+        <p className="dg-eyebrow">{texts.eyebrow}</p>
+        <h1 className="dg-h1">{texts.title}</h1>
         {intro && <RichText className="dg-lead" data={intro} />}
       </header>
       <DofusIndexIsland filters={view.filters} />

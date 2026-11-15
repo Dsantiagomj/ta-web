@@ -9,27 +9,33 @@ import { SiteHeader } from '@/components/site/SiteHeader'
 import { modeScript } from '@/lib/theme/mode-script'
 import { MODE_COOKIE, resolveMode, resolveTheme } from '@/lib/theme/theme'
 import { SITE_URL } from '@/lib/site/origin'
+import { siteMetadata } from '@/lib/site-copy/metadata'
 import { fontVariables } from '@/styles/fonts'
 import '@/styles/globals.css'
 
-import { loadChecklistNav, loadDofusNav, loadPageNav, loadSiteCounts } from './site-data'
-import { siteStrings } from './strings'
+import {
+  loadChecklistNav,
+  loadDofusNav,
+  loadPageNav,
+  loadSiteCounts,
+  loadSiteSettings,
+} from './site-data'
 
-export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: siteStrings.brand,
-  description: siteStrings.description,
+// El nombre, la descripción y la imagen al compartir son de «Ajustes del sitio».
+export async function generateMetadata(): Promise<Metadata> {
+  return { metadataBase: new URL(SITE_URL), ...siteMetadata(await loadSiteSettings()) }
 }
 
 export default async function FrontendLayout({ children }: { children: ReactNode }) {
   const mode = resolveMode((await cookies()).get(MODE_COOKIE)?.value)
   // Todavía no hay miembros: nadie tiene el derecho a un tema premium.
   const theme = resolveTheme(undefined, { premium: false })
-  const [counts, dofus, checklists, pages] = await Promise.all([
+  const [counts, dofus, checklists, pages, settings] = await Promise.all([
     loadSiteCounts(),
     loadDofusNav(),
     loadChecklistNav(),
     loadPageNav(),
+    loadSiteSettings(),
   ])
 
   // data-scroll-behavior: el desplazamiento suave (globals.css) es para las anclas de la
@@ -53,9 +59,10 @@ export default async function FrontendLayout({ children }: { children: ReactNode
           checklists={checklists}
           pages={pages}
           initialMode={mode}
+          socials={settings.socials}
         />
         {children}
-        <SiteFooter year={new Date().getFullYear()} legal={legalLinks(pages)} />
+        <SiteFooter year={new Date().getFullYear()} legal={legalLinks(pages)} settings={settings} />
         <Ambience />
       </body>
     </html>

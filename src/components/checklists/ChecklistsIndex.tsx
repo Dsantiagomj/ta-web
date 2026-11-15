@@ -4,6 +4,7 @@ import { Picture } from '@/components/ui/Picture'
 import type { ImageAsset } from '@/components/ui/types'
 import type { ChecklistEntry, ChecklistTeaser } from '@/lib/checklists/list'
 import { checklistIndexStrings as s } from '@/lib/checklists/strings'
+import { indexTextDefaults, type IndexTexts } from '@/lib/site-copy/defaults'
 
 import { ChecklistPostersIsland } from './ChecklistPostersIsland'
 
@@ -200,16 +201,19 @@ export function ChecklistPosters({
 export function ChecklistsIndex({
   entries,
   teaser,
+  texts = indexTextDefaults.checklists,
 }: {
   entries: ChecklistEntry[]
   teaser: ChecklistTeaser | null
+  /** El antetítulo, el título, la entradilla y el aviso sin checklists, de «Portada e índices». */
+  texts?: IndexTexts['checklists']
 }) {
   return (
     <main id="contenido" className="ck-index">
       <header className="ck-hero">
-        <p className="ck-eyebrow">{s.eyebrow}</p>
-        <h1 className="ck-h1">{s.title}</h1>
-        <p className="ck-lead">{s.lead}</p>
+        <p className="ck-eyebrow">{texts.eyebrow}</p>
+        <h1 className="ck-h1">{texts.title}</h1>
+        <p className="ck-lead">{texts.lead}</p>
       </header>
       {entries.length ? (
         <>
@@ -217,7 +221,7 @@ export function ChecklistsIndex({
           <ChecklistPostersIsland />
         </>
       ) : (
-        <p className="ck-empty">{s.empty}</p>
+        <p className="ck-empty">{texts.empty}</p>
       )}
     </main>
   )

@@ -6,6 +6,7 @@ import { StaticImg } from '@/components/site/StaticImg'
 import { Amount } from '@/components/ui/Amount'
 import { Picture } from '@/components/ui/Picture'
 import type { SiteGuideCounts } from '@/lib/site/counts'
+import { indexTextDefaults, type IndexTexts } from '@/lib/site-copy/defaults'
 
 import { ASTRUB, CAST, CLASS_HEADS, CROCANTERIA, CRUNCHIDOR, DOFUS_TRIO } from './art'
 import { homeStrings } from './strings'
@@ -66,14 +67,21 @@ const lazyImg = { loading: 'lazy', width: 128, height: 128 } as const
  * «Qué vas a encontrar» (DESIGN.md, Home): primero el cartel de las misiones a todo el ancho,
  * cuatro PNJ en la plaza de Astrub con las cifras de las guías publicadas y de sus logros;
  * después Guías de Dofus, Checklists, Clases y Mazmorras, en 2 × 2 con solo el título en el
- * móvil. Las cifras son las de la cabecera (loadSiteCounts), así que nunca discrepan.
+ * móvil. Las cifras son las de la cabecera (loadSiteCounts), así que nunca discrepan. Los
+ * textos son de «Portada e índices», menos los nombres de las secciones, que son los del menú.
  */
-export function Areas({ counts }: { counts: SiteGuideCounts }) {
+export function Areas({
+  counts,
+  texts = indexTextDefaults.home.areas,
+}: {
+  counts: SiteGuideCounts
+  texts?: IndexTexts['home']['areas']
+}) {
   return (
     <section className="home-sec" aria-labelledby="h-areas">
       <div className="home-wrap">
         <h2 id="h-areas" className="home-h2 rv">
-          {s.title}
+          {texts.title}
         </h2>
         <ul className="areas" role="list">
           <Area
@@ -88,6 +96,7 @@ export function Areas({ counts }: { counts: SiteGuideCounts }) {
                 <Amount value={counts.achievements} />
               </span>,
               counts,
+              texts.questsText,
             )}
             art={
               <>
@@ -115,7 +124,7 @@ export function Areas({ counts }: { counts: SiteGuideCounts }) {
           <Area
             sectionKey="dofus"
             title={s.dofus}
-            text={s.dofusText}
+            text={texts.dofusText}
             art={
               <span className="area__zone area__zone--plain">
                 <span className="trio-eggs">
@@ -129,7 +138,7 @@ export function Areas({ counts }: { counts: SiteGuideCounts }) {
           <Area
             sectionKey="checklists"
             title={s.checklists}
-            text={s.checklistsText}
+            text={texts.checklistsText}
             art={
               <span className="area__zone area__zone--plain">
                 {/* Fuera de la revisión de la maquetación: es un dibujo de una checklist, oculto
@@ -155,7 +164,7 @@ export function Areas({ counts }: { counts: SiteGuideCounts }) {
           <Area
             sectionKey="clases"
             title={s.classes}
-            text={s.classesText}
+            text={texts.classesText}
             art={
               <span className="area__zone area__zone--plain">
                 <span className="heads">
@@ -171,7 +180,7 @@ export function Areas({ counts }: { counts: SiteGuideCounts }) {
           <Area
             sectionKey="mazmorras"
             title={s.dungeons}
-            text={s.dungeonsText}
+            text={texts.dungeonsText}
             art={
               <>
                 <span className="area__zone">

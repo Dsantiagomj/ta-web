@@ -2,9 +2,7 @@ import type { ChecklistNavItem } from '@/components/site/nav'
 import { StaticImg } from '@/components/site/StaticImg'
 import { siteShellStrings } from '@/components/site/strings'
 
-import { homeStrings } from './strings'
-
-const s = homeStrings.checklists
+import { indexTextDefaults, type IndexTexts } from '@/lib/site-copy/defaults'
 
 function Inner({ checklist }: { checklist: ChecklistNavItem }) {
   return (
@@ -33,18 +31,25 @@ function Inner({ checklist }: { checklist: ChecklistNavItem }) {
 /**
  * «Checklists para ir a por tu Dofus» (DESIGN.md, Home): las checklists del menú, de su
  * colección y en su orden (loadChecklistNav), cada una con su huevo y su frase. Sin cifras:
- * los pasos cambian y Torre suma checklists con el tiempo.
+ * los pasos cambian y Torre suma checklists con el tiempo. El título y la entradilla son de
+ * «Portada e índices».
  */
-export function ChecklistsSection({ checklists }: { checklists: ChecklistNavItem[] }) {
+export function ChecklistsSection({
+  checklists,
+  texts = indexTextDefaults.home.checklists,
+}: {
+  checklists: ChecklistNavItem[]
+  texts?: IndexTexts['home']['checklists']
+}) {
   if (!checklists.length) return null
   return (
     <section className="home-sec" aria-labelledby="h-cl">
       <div className="home-wrap cl">
         <div>
           <h2 id="h-cl" className="home-h2 rv">
-            {s.title}
+            {texts.title}
           </h2>
-          <p className="cl__lead rv">{s.lead}</p>
+          <p className="cl__lead rv">{texts.lead}</p>
         </div>
         <ul className="trio" role="list">
           {checklists.map((checklist) => (

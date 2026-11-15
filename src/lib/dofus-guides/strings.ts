@@ -93,15 +93,9 @@ export const dofusNeedGroupLabels = {
 
 /** El índice de las guías de Dofus, /guias-dofus (DESIGN.md, Dofus guides index). */
 export const dofusIndexStrings = {
-  title: 'Guías de Dofus',
-  eyebrow: 'Misiones y logros de cada Dofus',
+  // El antetítulo, el título y el SEO del índice son de «Portada e índices»
+  // (src/lib/site-copy/defaults.ts).
   ...dofusIndexIslandStrings,
-  seo: {
-    title: 'Guías de Dofus',
-    description:
-      'Las guías de Torre para conseguir cada Dofus: qué pide, qué logros y misiones lo dan y ' +
-      'en qué orden hacerlos.',
-  },
 } as const
 
 /** La página de una guía de Dofus, /<slug> (DESIGN.md, Dofus guide page). */

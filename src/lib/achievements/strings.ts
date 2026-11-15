@@ -95,8 +95,6 @@ export const achievementPageStrings = {
 /** El índice de metalogros, /metalogros (DESIGN.md, Metalogros index). */
 export const metalogrosStrings = {
   ...indexIslandStrings,
-  title: 'Todos los metalogros',
-  lead: 'Busca una zona, un logro o una misión, o elige una zona para ver sus logros.',
   zones: (count: number) => (count === 1 ? '1 zona' : `${formatAmount(count)} zonas`),
   achievements: (count: number) => (count === 1 ? '1 logro' : `${formatAmount(count)} logros`),
   quests: (count: number) => (count === 1 ? '1 misión' : `${formatAmount(count)} misiones`),
@@ -116,10 +114,4 @@ export const metalogrosStrings = {
   searchLabel: 'Busca una zona, un logro o una misión',
   searchPlaceholder: 'Por ejemplo, Esto hace aguas',
   results: 'Resultados',
-  seo: {
-    title: 'Todos los metalogros de Dofus',
-    description:
-      'Los metalogros de Dofus por zona, con sus logros y sus misiones en orden. Busca una ' +
-      'zona, un logro o una misión.',
-  },
 } as const

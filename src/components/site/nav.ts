@@ -16,6 +16,7 @@ import { CHECKLISTS_INDEX_PATH } from '@/lib/checklists/path'
 import { DOFUS_INDEX_PATH } from '@/lib/dofus-guides/page'
 import type { PageNavItem } from '@/lib/pages/page'
 import { legacyHref } from '@/lib/site/legacy'
+import { type SiteSocials, siteSettingsDefaults } from '@/lib/site-copy/defaults'
 
 import { siteShellStrings } from './strings'
 
@@ -160,31 +161,27 @@ export interface Social {
   handle: string
 }
 
-export const SOCIALS: Social[] = [
-  {
-    key: 'twitch',
-    name: t.socials.twitch,
-    href: 'https://www.twitch.tv/torrentearcano',
-    handle: 'torrentearcano',
-  },
-  { key: 'kick', name: t.socials.kick, href: 'https://kick.com/torretv', handle: 'torretv' },
-  {
-    key: 'youtube',
-    name: t.socials.youtube,
-    href: 'https://www.youtube.com/@TorrenteArcano',
-    handle: '@TorrenteArcano',
-  },
-  {
-    key: 'discord',
-    name: t.socials.discord,
-    href: 'https://discord.gg/wgCxwd7b3r',
-    handle: 'discord.gg/wgCxwd7b3r',
-  },
-]
+const SOCIAL_KEYS: SocialKey[] = ['twitch', 'kick', 'youtube', 'discord']
 
-export const social = (key: SocialKey) => SOCIALS.find((s) => s.key === key)!
+/**
+ * Las redes de Torre en el orden del pie, con su nombre, de «Ajustes del sitio»
+ * (resolveSiteSettings); sin ajustes, las de siempre.
+ */
+export function socialLinks(socials: SiteSocials = siteSettingsDefaults.socials): Social[] {
+  return SOCIAL_KEYS.map((key) => ({
+    key,
+    name: t.socials[key],
+    href: socials[key].url,
+    handle: socials[key].handle,
+  }))
+}
 
-export const KOFI_URL = 'https://ko-fi.com/torrentearcano'
+export const SOCIALS: Social[] = socialLinks()
+
+export const social = (key: SocialKey, socials?: SiteSocials) =>
+  socialLinks(socials).find((s) => s.key === key)!
+
+export const KOFI_URL = siteSettingsDefaults.socials.kofi.url
 
 /** Las páginas legales del pie, por su slug en la colección pages (backlog B-10). */
 const LEGAL_PAGES = [

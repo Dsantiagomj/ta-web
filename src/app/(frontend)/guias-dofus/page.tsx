@@ -8,25 +8,16 @@ import { DOFUS_GUIDES_REVALIDATE, DOFUS_GUIDES_TAG } from '@/lib/dofus-guides/ca
 import { dofusIndexView } from '@/lib/dofus-guides/index-view'
 import { DOFUS_INDEX_PATH } from '@/lib/dofus-guides/page'
 import { readDofusList } from '@/lib/dofus-guides/queries'
-import { dofusIndexStrings } from '@/lib/dofus-guides/strings'
 import type { RichTextState } from '@/lib/guides/page'
+import { indexMetadata } from '@/lib/site-copy/metadata'
 
-import { siteStrings } from '../strings'
+import { loadIndexTexts, loadSiteSettings } from '../site-data'
 
-const s = dofusIndexStrings.seo
-
-export const metadata: Metadata = {
-  title: s.title,
-  description: s.description,
-  alternates: { canonical: DOFUS_INDEX_PATH },
-  openGraph: {
-    type: 'website',
-    title: s.title,
-    description: s.description,
-    url: DOFUS_INDEX_PATH,
-    siteName: siteStrings.brand,
-    locale: 'es_ES',
-  },
+// El título y la descripción son de «Portada e índices»; el nombre del sitio y la imagen al
+// compartir, de «Ajustes del sitio».
+export async function generateMetadata(): Promise<Metadata> {
+  const [texts, settings] = await Promise.all([loadIndexTexts(), loadSiteSettings()])
+  return indexMetadata(DOFUS_INDEX_PATH, texts.dofusGuides.seo, settings)
 }
 
 // Las tarjetas y la entradilla, en caché con la etiqueta de las guías de Dofus: la caducan
@@ -46,6 +37,6 @@ const readIndex = unstable_cache(
 
 /** El índice de las guías de Dofus (DESIGN.md, Dofus guides index). */
 export default async function DofusGuidesPage() {
-  const { view, intro } = await readIndex()
-  return <DofusIndex view={view} intro={intro} />
+  const [{ view, intro }, texts] = await Promise.all([readIndex(), loadIndexTexts()])
+  return <DofusIndex view={view} intro={intro} texts={texts.dofusGuides} />
 }

@@ -7,6 +7,7 @@ import { Author } from '@/components/home/Author'
 import { ChecklistsSection } from '@/components/home/ChecklistsSection'
 import { GuideTour } from '@/components/home/GuideTour'
 import { type ChecklistNavItem, section, social } from '@/components/site/nav'
+import { resolveIndexTexts, resolveSiteSettings } from '@/lib/site-copy/resolve'
 
 const html = (node: React.ReactNode) => renderToStaticMarkup(node)
 const thin = '<span class="amount__th"> </span>'
@@ -154,5 +155,65 @@ describe('Las guías son de Torre', () => {
     const live = html(<Author live={{ live: true }} />)
     expect(live).toContain('En directo ahora en Twitch')
     expect(live).not.toContain('Ahora no está en directo.')
+  })
+})
+
+// Portada e índices (src/globals/IndexTexts.ts): lo que Torre escribe en el panel sale en la portada.
+describe('la portada con los textos de Torre', () => {
+  const texts = resolveIndexTexts({
+    home: {
+      areas: { title: 'Lo que hay', questsText: 'Otra frase.', dofusText: 'Otra de Dofus.' },
+      tour: { title: 'Así es', step2: { title: 'Copiar', text: 'Un clic.' }, more: 'Ir' },
+      checklists: { title: 'Listas', lead: 'Otra entradilla.' },
+      author: { title: 'De Torre', join: 'Ven al Discord', offlineTitle: 'Descansando.' },
+    },
+  })
+  const settings = resolveSiteSettings({
+    socials: { discord: { url: 'https://discord.gg/otro' }, kick: { handle: 'otro' } },
+  })
+
+  it('Qué vas a encontrar', () => {
+    const markup = html(<Areas counts={{ guides: 2, achievements: 1 }} texts={texts.home.areas} />)
+    expect(markup).toMatch(/<h2[^>]*>Lo que hay<\/h2>/)
+    expect(markup).toContain(' logro. Otra frase.')
+    expect(markup).toContain('Otra de Dofus.')
+  })
+
+  it('Una guía para cada misión', () => {
+    const markup = html(<GuideTour texts={texts.home.tour} />)
+    expect(markup).toMatch(/<h2[^>]*>Así es<\/h2>/)
+    expect(markup).toContain('<h3>Copiar</h3><p>Un clic.</p>')
+    expect(markup).toContain('<h3>Lo que hace falta, arriba del todo</h3>')
+    expect(markup).toMatch(/>Ir<svg/)
+  })
+
+  it('las checklists', () => {
+    const markup = html(
+      <ChecklistsSection
+        checklists={[{ name: 'Ocre', slug: 'ocre' }]}
+        texts={texts.home.checklists}
+      />,
+    )
+    expect(markup).toMatch(/<h2[^>]*>Listas<\/h2>/)
+    expect(markup).toContain('Otra entradilla.')
+  })
+
+  it('Torre, con sus redes', () => {
+    const markup = html(
+      <Author live={{ live: false }} texts={texts.home.author} socials={settings.socials} />,
+    )
+    expect(markup).toMatch(/<h2[^>]*>De Torre<\/h2>/)
+    expect(markup).toContain('Ven al Discord')
+    expect(markup).toContain('<strong>Descansando.</strong> Emite en Twitch y en Kick')
+    expect(markup).toContain('href="https://discord.gg/otro"')
+    expect(markup).toContain('otro · directos')
+  })
+
+  it('sin textos guardados, la portada de siempre', () => {
+    const plain = resolveIndexTexts(null).home
+    expect(html(<GuideTour texts={plain.tour} />)).toBe(html(<GuideTour />))
+    expect(html(<Author live={{ live: false }} texts={plain.author} />)).toBe(
+      html(<Author live={{ live: false }} />),
+    )
   })
 })
