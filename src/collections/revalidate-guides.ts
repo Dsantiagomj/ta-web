@@ -6,6 +6,7 @@ import { CHECKLISTS_TAG } from '../lib/checklists/cache'
 import { DOFUS_GUIDES_TAG } from '../lib/dofus-guides/cache'
 import { GUIDE_PAGES_TAG } from '../lib/guides/cache'
 import { PAGES_TAG } from '../lib/pages/cache'
+import { REDIRECTS_TAG } from '../lib/redirects/cache'
 
 /**
  * Caduca una etiqueta de la caché de páginas: la siguiente visita lee lo publicado, sin
@@ -47,6 +48,11 @@ export function revalidateChecklists(): void {
 /** Las páginas sueltas en caché (src/lib/pages/cache.ts). */
 export function revalidatePages(): void {
   expire(PAGES_TAG)
+}
+
+/** Las redirecciones de dirección cambiada en caché (src/lib/redirects/cache.ts). */
+export function revalidateRedirects(): void {
+  expire(REDIRECTS_TAG)
 }
 
 // Las guías y Media salen en todas las páginas: una guía publicada enlaza su tarjeta en el

@@ -17,6 +17,7 @@ import {
   revalidateAchievementPagesAfterDelete,
 } from './revalidate-guides'
 import { rejectSharedSlug } from './root-slug'
+import { applySlugMove, trackSlugMove } from './slug-redirects'
 import { rowLabel } from './row-label'
 import { SLUG_LABEL, slugAdmin } from './slug-field'
 import { panelStrings } from '../lib/admin/strings'
@@ -51,7 +52,8 @@ export const AchievementPages: CollectionConfig = {
   hooks: {
     beforeValidate: [fillAchievementPage, rejectSharedSlug('achievement-pages')],
     // Borradores incluidos: es barato y cubre despublicar.
-    afterChange: [revalidateAchievementPagesAfterChange],
+    beforeChange: [trackSlugMove('achievement-pages')],
+    afterChange: [revalidateAchievementPagesAfterChange, applySlugMove('achievement-pages')],
     // No se borra una página de logro que sale en una guía de Dofus (A-17).
     beforeDelete: [refuseReferencedDelete('achievement-pages')],
     afterDelete: [revalidateAchievementPagesAfterDelete],

@@ -4,6 +4,7 @@ import { expect, test } from '@playwright/test'
 
 import { seedAchievement } from './seed/achievements'
 import { draftGuide, seedGuide } from './seed/guides'
+import { seedRedirect } from './seed/redirects'
 
 // Las URL antiguas de Squarespace (src/lib/redirects/legacy-urls.json) y lo que necesita
 // Search Console el día del corte: /sitemap.xml, robots.txt que lo anuncia y la canónica.
@@ -43,6 +44,19 @@ test('un esbozo vacío con logro publicado redirige a su página con 307 hasta e
 
   expect(response.status()).toBe(307)
   expect(location(response.headers())).toBe(to)
+})
+
+test('una dirección que Torre cambió da un 308 a la nueva, que abre su página', async ({
+  page,
+  request,
+}) => {
+  const response = await request.get(`/${seedRedirect.from}`, { maxRedirects: 0 })
+  expect(response.status()).toBe(308)
+  expect(location(response.headers())).toBe(`/${seedRedirect.to}`)
+
+  await page.goto(`/${seedRedirect.from}`)
+  await expect(page).toHaveURL(new RegExp(`/${seedRedirect.to}$`))
+  await expect(page.getByRole('heading', { level: 1, name: seedGuide.title })).toBeVisible()
 })
 
 test('una URL retirada da 410 con una página corta en español', async ({ page }) => {

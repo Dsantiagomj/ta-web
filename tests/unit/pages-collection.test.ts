@@ -7,6 +7,7 @@ import { layoutFields } from './helpers/fields'
 import { isPanelUser, readPublishedOrAll } from '@/collections/editorial-access'
 import { Pages } from '@/collections/Pages'
 import { ROOT_SLUG_COLLECTIONS } from '@/collections/root-slug'
+import { isSlugMoveHook } from '@/collections/slug-redirects'
 import { panelStrings } from '@/lib/admin/strings'
 
 // Las páginas sueltas de Torre (backlog B-09): emotes, cómo llegar a un sitio y los textos
@@ -51,7 +52,9 @@ describe('colección pages', () => {
   it('comparte el espacio de slugs de la raíz y caduca su caché al guardar y al borrar', () => {
     expect(ROOT_SLUG_COLLECTIONS).toContain('pages')
     expect(Pages.hooks?.beforeValidate).toHaveLength(1)
-    expect(Pages.hooks?.afterChange).toHaveLength(1)
+    // La que revalida y la que guarda la redirección al cambiar la dirección.
+    expect(Pages.hooks?.afterChange).toHaveLength(2)
+    expect(Pages.hooks?.afterChange?.filter(isSlugMoveHook)).toHaveLength(1)
     expect(Pages.hooks?.afterDelete).toHaveLength(1)
   })
 

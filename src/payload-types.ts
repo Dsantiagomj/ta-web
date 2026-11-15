@@ -82,6 +82,7 @@ export interface Config {
     subareas: Subarea;
     'achievement-categories': AchievementCategory;
     achievements: Achievement;
+    redirects: Redirect;
     users: User;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -105,6 +106,7 @@ export interface Config {
     subareas: SubareasSelect<false> | SubareasSelect<true>;
     'achievement-categories': AchievementCategoriesSelect<false> | AchievementCategoriesSelect<true>;
     achievements: AchievementsSelect<false> | AchievementsSelect<true>;
+    redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -1996,6 +1998,29 @@ export interface Subarea {
   createdAt: string;
 }
 /**
+ * Las direcciones viejas que llevan a la nueva. Se crean solas cuando publicas una página con otra dirección.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "redirects".
+ */
+export interface Redirect {
+  id: number;
+  /**
+   * La dirección que ya no tiene página, sin la barra: «aprendizaje-escudero». Quien la abra irá a la nueva.
+   */
+  from: string;
+  /**
+   * Adónde lleva, también sin la barra. Si esa dirección ya lleva a otra, se guarda la última, para que nadie dé dos saltos.
+   */
+  to: string;
+  /**
+   * La web la crea sola cuando publicas una página con otra dirección. Puedes cambiarla o borrarla.
+   */
+  auto?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Las cuentas que pueden entrar en este panel.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2114,6 +2139,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'achievements';
         value: number | Achievement;
+      } | null)
+    | ({
+        relationTo: 'redirects';
+        value: number | Redirect;
       } | null)
     | ({
         relationTo: 'users';
@@ -3152,6 +3181,17 @@ export interface AchievementsSelect<T extends boolean = true> {
       };
   refreshedAt?: T;
   corrected?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "redirects_select".
+ */
+export interface RedirectsSelect<T extends boolean = true> {
+  from?: T;
+  to?: T;
+  auto?: T;
   updatedAt?: T;
   createdAt?: T;
 }

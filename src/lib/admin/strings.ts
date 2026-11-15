@@ -83,6 +83,9 @@ export const panelStrings = {
       'Las categorías de logros de DofusDB, como «Astrub» o «Eventos».',
     ),
     achievements: correctable('Los logros de DofusDB. Cada página de logro enlaza uno.'),
+    redirects:
+      'Las direcciones viejas que llevan a la nueva. Se crean solas cuando publicas una ' +
+      'página con otra dirección.',
     users: 'Las cuentas que pueden entrar en este panel.',
   },
   /**
