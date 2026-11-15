@@ -1,5 +1,5 @@
-// Dice, sin escribir nada, a qué mazmorra va cada nota de mazmorra de las páginas de logro
-// publicadas y cómo casó: por nombre, por jefe, a mano en el panel o nada (el mismo informe
+// Dice, sin escribir nada, a qué mazmorra va cada nota de mazmorra de lo publicado (páginas
+// de logro, guías de Dofus y guías de misión) y cómo casó: por nombre, por jefe, a mano en el panel o nada (el mismo informe
 // que imprime `pnpm data:quests` al final, sin traer nada de DofusDB).
 // Uso: pnpm data:dungeon-notes. Lee la base de DATABASE_URL. Contra dev:
 // railway run --service web --environment dev pnpm data:dungeon-notes

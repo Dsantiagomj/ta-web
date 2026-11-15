@@ -6,11 +6,12 @@ import type { DungeonNoteReport, DungeonRow } from '@/lib/achievements/dungeon-r
 // Lo que imprime `pnpm data:quests` (y `pnpm data:dungeon-notes`) de cada nota de mazmorra:
 // a qué mazmorra va y cómo casó, para que Torre vea qué falta escribir o elegir a mano.
 
-const row = (page: string, label: string, match: DungeonRow['match']): DungeonRow => ({
-  page,
-  label,
-  match,
-})
+const row = (
+  page: string,
+  label: string,
+  match: DungeonRow['match'],
+  source: DungeonRow['source'] = 'achievement',
+): DungeonRow => ({ source, page, label, match })
 
 const kumijo = row('logro-a', 'Mazmorra Kumijo', {
   how: 'boss',
@@ -82,6 +83,10 @@ describe('dungeonReportLines', () => {
     expect(dungeonReportLines(REPORT)).toEqual([
       'Filas de mazmorra en las páginas de logro publicadas: 8 con su jefe y 4 con el icono ' +
         'genérico; 2 con la mazmorra elegida a mano en el panel.',
+      'Filas de mazmorra en las guías de Dofus publicadas: 0 con su jefe y 0 con el icono ' +
+        'genérico.',
+      'Filas de mazmorra en las guías de misión publicadas: 0 con su jefe y 0 con el icono ' +
+        'genérico; 0 con la mazmorra elegida a mano en el panel.',
       'Por nombre (2 notas):',
       '  «Mazmorra Ring Eskarlata» → Ring del Capitán Eskarlata, nombre parecido (logro-b)',
       '  «Mazmorra Kodámade» → Bambusería de Kodámade (logro-a)',
@@ -107,6 +112,38 @@ describe('dungeonReportLines', () => {
     expect(dungeonReportLines({ withBoss: [], generic: [] })).toEqual([
       'Filas de mazmorra en las páginas de logro publicadas: 0 con su jefe y 0 con el icono ' +
         'genérico; 0 con la mazmorra elegida a mano en el panel.',
+      'Filas de mazmorra en las guías de Dofus publicadas: 0 con su jefe y 0 con el icono ' +
+        'genérico.',
+      'Filas de mazmorra en las guías de misión publicadas: 0 con su jefe y 0 con el icono ' +
+        'genérico; 0 con la mazmorra elegida a mano en el panel.',
+    ])
+  })
+
+  it('las guías de Dofus y de misión van en el mismo informe, cada una con su recuento', () => {
+    const dofus = row('dofus-turquesa', 'Mazmorra Kumijo', kumijo.match, 'dofus')
+    // La misma nota en una guía de misión, con su mazmorra elegida a mano: otra línea.
+    const quest = row(
+      'esto-hace-aguas',
+      'Mazmorra Kumijo',
+      { how: 'manual', dungeon: 'Cil' },
+      'quest',
+    )
+    const questNone = row('esto-hace-aguas', 'Mazmorras nivel 200', { how: 'none' }, 'quest')
+    expect(
+      dungeonReportLines({ withBoss: [kumijo, dofus, quest], generic: [generic, questNone] }),
+    ).toEqual([
+      'Filas de mazmorra en las páginas de logro publicadas: 1 con su jefe y 1 con el icono ' +
+        'genérico; 0 con la mazmorra elegida a mano en el panel.',
+      'Filas de mazmorra en las guías de Dofus publicadas: 1 con su jefe y 0 con el icono ' +
+        'genérico.',
+      'Filas de mazmorra en las guías de misión publicadas: 1 con su jefe y 1 con el icono ' +
+        'genérico; 1 con la mazmorra elegida a mano en el panel.',
+      'Por jefe (1 nota):',
+      '  «Mazmorra Kumijo» → Casa de los Espíritus, por Kumijo (logro-a, dofus-turquesa)',
+      'A mano en el panel (1 nota):',
+      '  «Mazmorra Kumijo» → Cil (esto-hace-aguas)',
+      'Sin mazmorra, icono genérico (1 nota):',
+      '  «Mazmorras nivel 200» (logro-c, esto-hace-aguas)',
     ])
   })
 })

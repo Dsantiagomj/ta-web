@@ -16,6 +16,7 @@ let payload: Payload
 
 async function cleanUp() {
   await payload.delete({ collection: 'achievement-pages', where: { slug: { like: 'informe-' } } })
+  await payload.delete({ collection: 'dofus-guides', where: { slug: { like: 'informe-' } } })
   await payload.delete({ collection: 'achievements', where: { dofusId: { in: ACHIEVEMENTS } } })
   await payload.delete({ collection: 'quest-guides', where: { slug: { like: 'informe-' } } })
   await payload.delete({ collection: 'quests', where: { dofusId: { in: QUESTS } } })
@@ -114,6 +115,51 @@ beforeAll(async () => {
     })
   }
   await page(990_901, 'informe-logro', [uno!.id, dos!.id, tres!.id])
+  // Una guía de Dofus: sus notas del grupo Mazmorras y las de Combates que dicen «mazmorra».
+  const note = (text: string) => ({
+    blockType: 'needNote' as const,
+    text: {
+      root: {
+        type: 'root',
+        direction: null,
+        format: '' as const,
+        indent: 0,
+        version: 1,
+        children: [
+          {
+            type: 'paragraph',
+            direction: null,
+            format: '',
+            indent: 0,
+            version: 1,
+            children: [{ type: 'text', text, version: 1 }],
+          },
+        ],
+      },
+    },
+  })
+  const dofus = (slug: string, order: number, published: boolean) =>
+    payload.create({
+      collection: 'dofus-guides',
+      data: {
+        name: slug,
+        slug,
+        order,
+        state: 'published',
+        level: 180,
+        needs: {
+          groups: [
+            { name: 'mazmorras', rows: [note('1 x Mazmorra Kumijo'), note('Mazmorras nivel 200')] },
+            { name: 'combates', rows: [note('1 x Combate solitario')] },
+          ],
+        },
+        _status: published ? 'published' : 'draft',
+      },
+      draft: !published,
+    })
+  await dofus('informe-dofus', 990_801, true)
+  // Un borrador no cuenta.
+  await dofus('informe-dofus-borrador', 990_802, false)
   // Una misión con alternativas no suma: la página no pinta su Necesitarás.
   await page(990_902, 'informe-alternativas', [])
   await payload.update({
@@ -134,19 +180,25 @@ describe('dungeonNoteReport', () => {
     const ours = (rows: DungeonRow[]) => rows.filter((row) => row.page.startsWith('informe-'))
     // Cada fila dice cómo casó su nota: por nombre, por jefe, a mano o nada.
     const kumijo = {
+      source: 'achievement',
       page: 'informe-logro',
       label: 'Mazmorra Kumijo',
       match: { how: 'boss', dungeon: 'Casa de los Espíritus', boss: 'Kumijo', approximate: false },
     }
     const ripata = {
+      source: 'achievement',
       page: 'informe-logro',
       label: 'Mazmorra Ben Ripata',
       match: { how: 'manual', dungeon: 'Casa de los Espíritus' },
     }
-    expect(ours(report.withBoss)).toEqual([kumijo, ripata])
+    expect(ours(report.withBoss).filter((row) => row.source === 'achievement')).toEqual([
+      kumijo,
+      ripata,
+    ])
     // Casa, pero su jefe no tiene imagen: icono genérico.
-    expect(ours(report.generic)).toEqual([
+    expect(ours(report.generic).filter((row) => row.source === 'achievement')).toEqual([
       {
+        source: 'achievement',
         page: 'informe-logro',
         label: 'Mazmorra de Grunob',
         match: {
@@ -157,6 +209,26 @@ describe('dungeonNoteReport', () => {
         },
       },
     ])
+  })
+
+  it('también las guías de Dofus y de misión publicadas, cada una con su casado', async () => {
+    const report = await dungeonNoteReport(payload)
+    const rows = (list: DungeonRow[], source: DungeonRow['source']) =>
+      list
+        .filter((row) => row.source === source && row.page.startsWith('informe-'))
+        .map((row) => `${row.page}: ${row.label} (${row.match.how})`)
+    // La guía de Dofus casa por nombre o jefe, sin elegidas a mano; un combate no cuenta.
+    expect(rows(report.withBoss, 'dofus')).toEqual(['informe-dofus: Mazmorra Kumijo (boss)'])
+    expect(rows(report.generic, 'dofus')).toEqual(['informe-dofus: Mazmorras nivel 200 (none)'])
+    // Cada guía de misión con lo que pinta su cabecera, por slug: su elegida a mano gana al
+    // nombre.
+    expect(rows(report.withBoss, 'quest')).toEqual([
+      'informe-dos: MAZMORRA KUMIJO (boss)',
+      'informe-dos: Mazmorra Ben Ripata (manual)',
+      'informe-uno: Mazmorra Kumijo (boss)',
+      'informe-uno: Llave de la mazmorra Kumijo (boss)',
+    ])
+    expect(rows(report.generic, 'quest')).toEqual(['informe-dos: Mazmorra de Grunob (boss)'])
   })
 
   it('una mazmorra elegida que se borra no impide publicar la guía: su fila se quita', async () => {
