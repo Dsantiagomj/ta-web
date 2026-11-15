@@ -1,5 +1,6 @@
 import type { Block } from 'payload'
 
+import { blockImages } from '../lib/admin/block-thumbnails'
 import { guideStrings } from '../lib/guides/strings'
 
 const s = guideStrings.admin.fight
@@ -10,6 +11,7 @@ const s = guideStrings.admin.fight
 export const FightBlock: Block = {
   slug: 'fight',
   interfaceName: 'FightBlock',
+  admin: { images: blockImages('fight') },
   labels: { singular: s.singular, plural: s.plural },
   fields: [
     {

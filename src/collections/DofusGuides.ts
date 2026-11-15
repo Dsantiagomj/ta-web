@@ -30,6 +30,7 @@ import { rowLabel } from './row-label'
 import { SLUG_LABEL, slugAdmin } from './slug-field'
 import { panelStrings } from '../lib/admin/strings'
 import { pagePreview, withPublishStatus } from '../lib/admin/live-preview'
+import { blockImages } from '../lib/admin/block-thumbnails'
 
 const s = dofusGuideStrings.admin
 
@@ -64,6 +65,7 @@ const note: Field = {
 const NeedItemBlock: Block = {
   slug: 'needItem',
   interfaceName: 'DofusNeedItemBlock',
+  admin: { images: blockImages('needItem') },
   labels: { singular: 'Objeto', plural: 'Objetos' },
   fields: [
     { name: 'item', label: 'Objeto', type: 'relationship', relationTo: 'items' },
@@ -91,6 +93,7 @@ const NeedItemBlock: Block = {
 const NeedNoteBlock: Block = {
   slug: 'needNote',
   interfaceName: 'DofusNeedNoteBlock',
+  admin: { images: blockImages('needNote') },
   labels: { singular: 'Nota', plural: 'Notas' },
   fields: [{ name: 'text', label: 'Texto', type: 'richText', required: true, localized: true }],
 }
@@ -172,6 +175,7 @@ const ownQuestFields = (dbName: string): Field[] => [
 const AchievementPartBlock: Block = {
   slug: 'dofusAchievement',
   interfaceName: 'DofusAchievementBlock',
+  admin: { images: blockImages('dofusAchievement') },
   labels: { singular: 'Logro', plural: 'Logros' },
   fields: [achievementField, note, ...ownQuestFields('dofus_ach_quests')],
 }
@@ -180,6 +184,7 @@ const AchievementPartBlock: Block = {
 const MetalogroPartBlock: Block = {
   slug: 'dofusMetalogro',
   interfaceName: 'DofusMetalogroBlock',
+  admin: { images: blockImages('dofusMetalogro') },
   labels: { singular: 'Metalogro', plural: 'Metalogros' },
   fields: [
     { name: 'name', label: 'Nombre', type: 'text', required: true, localized: true },
@@ -208,6 +213,7 @@ const questTitle: Field = {
 const QuestsPartBlock: Block = {
   slug: 'dofusQuests',
   interfaceName: 'DofusQuestsBlock',
+  admin: { images: blockImages('dofusQuests') },
   labels: { singular: 'Misiones sueltas', plural: 'Misiones sueltas' },
   fields: [
     { name: 'title', label: 'Título', type: 'text', localized: true },
@@ -242,6 +248,7 @@ const QuestsPartBlock: Block = {
 const QuestPartBlock: Block = {
   slug: 'dofusQuest',
   interfaceName: 'DofusQuestBlock',
+  admin: { images: blockImages('dofusQuest') },
   labels: { singular: 'Misión', plural: 'Misiones' },
   fields: [
     {
@@ -260,6 +267,7 @@ const QuestPartBlock: Block = {
 const NotePartBlock: Block = {
   slug: 'dofusNote',
   interfaceName: 'DofusNoteBlock',
+  admin: { images: blockImages('dofusNote') },
   labels: { singular: 'Nota', plural: 'Notas' },
   fields: [{ name: 'text', label: 'Texto', type: 'richText', required: true, localized: true }],
 }

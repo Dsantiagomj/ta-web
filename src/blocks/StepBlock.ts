@@ -1,5 +1,6 @@
 import type { Block } from 'payload'
 
+import { blockImages } from '../lib/admin/block-thumbnails'
 import { guideStrings } from '../lib/guides/strings'
 import { CalloutBlock } from './CalloutBlock'
 import { FightBlock } from './FightBlock'
@@ -29,6 +30,7 @@ export function validateStepCoordinate(
 export const StepBlock: Block = {
   slug: 'step',
   interfaceName: 'StepBlock',
+  admin: { images: blockImages('step') },
   labels: { singular: s.singular, plural: s.plural },
   fields: [
     {

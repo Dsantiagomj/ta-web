@@ -20,7 +20,7 @@ import {
 } from './catalog-data'
 
 // Los bloques del panel tal como los pinta la web, cada uno en su marco de 3:2: de aquí salen
-// las miniaturas del selector de bloques (scripts/block-thumbnails.ts, que captura cada
+// las miniaturas del selector de bloques (scripts/build-block-thumbnails.ts, que captura cada
 // [data-block-thumb]). Los componentes son los de las páginas; el contenido, el del catálogo.
 
 type Piece = string | { bold: string }
