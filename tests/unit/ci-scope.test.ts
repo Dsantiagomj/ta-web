@@ -28,6 +28,7 @@ describe('ciScope', () => {
     [['scripts/redirects/build-stub-redirects.ts', 'scripts/redirects/stub-map.ts']],
     [['scripts/backfill-guides.ts', 'scripts/media-sizes.ts', 'scripts/build-icons.ts']],
     [['scripts/backfill-shown-items.ts']],
+    [['scripts/backfill-guide-rewards.ts']],
     [['tests/fixtures/dofusdb/quest.json']],
     [['lefthook.yml', '.gga', 'vitest.config.mts', 'eslint.config.mjs']],
     [['scripts/import/x.ts', 'AGENTS.md']],

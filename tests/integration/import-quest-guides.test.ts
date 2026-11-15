@@ -158,6 +158,8 @@ describe('carga de guías importadas de Squarespace', () => {
         // Distinta de la de la página de Torre, para ver de dónde sale cada dato
         startPositions: [{ npcName: 'Kerubim Crepin', x: 4, y: -18 }],
         needs: { items: [{ item: tofuBeak.id, quantity: 3 }] },
+        // Distinta de la de su texto (24 316 XP): gana la de Torre
+        rewards: { experience: 20_000, experienceMin: 14_062, kamas: 600 },
       },
     })
   })
@@ -219,6 +221,19 @@ describe('carga de guías importadas de Squarespace', () => {
 
     const firstText = flat(hunter.body).find((block) => block.blockType === 'richText')
     expect(lexicalText(firstText)).toContain('Dirígete a la Biblioteca de Astrub')
+  })
+
+  it('las cifras de su texto van a los campos de recompensa y ganan a las de DofusDB', async () => {
+    const hunter = (await guidesBySlug()).get('el-cazador-cazado')!
+    expect(hunter.summary).toMatchObject({
+      rewardExperience: 24_316,
+      rewardKamas: 552,
+      // Sin objetos de recompensa en DofusDB, sus líneas de objeto quedan como notas
+      rewardNotes: '2 x Cuero de miserata strubiense.\n2 x Colmillos de ratas.',
+      rewards: '24 316 XP.\n552 kamas.\n2 x Cuero de miserata strubiense.\n2 x Colmillos de ratas.',
+    })
+    // Su XP no es la de DofusDB: la mínima de DofusDB no va con ella
+    expect(hunter.summary?.rewardExperienceMin ?? null).toBeNull()
   })
 
   it('guarda cada imagen en media con su URL original y su texto alternativo', async () => {
@@ -532,6 +547,25 @@ describe('carga de guías importadas de Squarespace', () => {
       const again = await loadQuestGuides(payload, guides, { fetchImage })
       expect(again.guides).toMatchObject({ updated: 0, unchanged: 5 })
       expect(await versionCount()).toBe(versionsBefore)
+    })
+
+    it('una recompensa que Torre cambia en el panel se queda al reimportar', async () => {
+      const hunter = (await guidesBySlug()).get('el-cazador-cazado')!
+      await payload.update({
+        collection: 'quest-guides',
+        id: hunter.id,
+        data: { summary: { rewardExperience: 25_000 }, _status: 'published' },
+        depth: 0,
+      })
+
+      const result = await loadQuestGuides(payload, converted(), { fetchImage })
+
+      expect(result.kept).toContainEqual({
+        slug: 'el-cazador-cazado',
+        field: 'summary.rewardExperience',
+      })
+      const after = (await guidesBySlug()).get('el-cazador-cazado')!
+      expect(after.summary).toMatchObject({ rewardExperience: 25_000, rewardKamas: 552 })
     })
 
     it('si Torre cambia la dirección, la guía se encuentra por su URL original y no se duplica', async () => {
