@@ -235,16 +235,16 @@ describe('loadDofusGuides', () => {
       videoPoster: ids.poster,
       originalUrl: `https://www.torrentearcano.com/${SLUG}`,
     })
-    // Necesitarás en los grupos fijos: los objetos por su tipo, las notas por sus datos.
+    // Necesitarás en los grupos fijos: los objetos por su tipo, las notas por sus datos. Lo
+    // que no casa con un objeto se queda, como nota, en el grupo de las filas de su lista.
     const groups = doc.needs?.groups ?? []
     expect(groups.map((group) => [group.name, group.rows?.map((row) => row.blockType)])).toEqual([
       ['combates', ['needNote']],
-      ['recursos', ['needItem', 'needItem']],
+      ['recursos', ['needItem', 'needNote', 'needItem']],
       ['equipables', ['needItem']],
       ['oficios', ['needNote']],
-      ['otros', ['needNote']],
     ])
-    const [pepita, pepitas] = groups[1]!.rows!
+    const [pepita, , pepitas] = groups[1]!.rows!
     expect(pepita).toMatchObject({ item: ids.pepita, quantity: 200 })
     expect(pepitas).toMatchObject({ item: ids.pepita, quantity: 8 })
     // Sin «1 x», el único objeto que se llama así, con cantidad 1; lo que no casa, nota.
@@ -252,13 +252,13 @@ describe('loadDofusGuides', () => {
     expect(report.withoutQuantity).toEqual([
       { slug: SLUG, text: 'Varita pitusa.', item: 'Varita pitusa' },
     ])
-    // Cada fila suelta dice a qué grupo fue y por qué; lo que no se clasifica, a Otros.
+    // Cada fila suelta dice a qué grupo fue y por qué.
     expect(report.needGroups).toContainEqual({
       slug: SLUG,
       text: '1 x Objeto que no existe.',
       from: null,
-      to: 'otros',
-      reason: 'sin clasificar',
+      to: 'recursos',
+      reason: 'su lista',
     })
     expect(report.needGroups).toContainEqual({
       slug: SLUG,
@@ -546,6 +546,61 @@ describe('loadDofusGuides: grupos de Necesitarás', () => {
     expect(report.mixedSubtitles).toEqual([
       { slug, subtitle: 'Para el final', groups: ['combates', 'oficios'] },
     ])
+  })
+
+  it('dos títulos de Torre anidados quedan los dos; lo que no casa, en el grupo de su lista', async () => {
+    const slug = 'prueba-dofus-vigilante'
+    const option = (text: string) => ({ text, segs: [{ t: 'text' as const, v: text }] })
+    const quantity = (count: number, name: string) => ({
+      ...option(`${count} x ${name}.`),
+      quantity: count,
+      name,
+    })
+    await loadDofusGuides(
+      payload,
+      options([
+        guideWith(slug, 918074, {
+          title: 'Necesitarás',
+          note: null,
+          groups: [
+            {
+              name: null,
+              rows: [
+                quantity(200, 'Pepita'),
+                // El Vigilante: «Píxel de transgolog» no casa con ningún objeto.
+                quantity(1, 'Objeto que no existe'),
+                {
+                  ...option('1 x Mazmorra:'),
+                  children: [
+                    {
+                      ...option('Dependiendo de tu nivel:'),
+                      children: [
+                        option('Nivel 80 al 114: Malefíscof.'),
+                        option('Nivel 115 al 139: Fraktal.'),
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        }),
+      ]),
+    )
+    const doc = await read(slug)
+    expect(
+      doc.needs?.groups?.map((group) => [
+        group.name,
+        group.subtitle ?? null,
+        group.rows?.map((row) => row.blockType),
+      ]),
+    ).toEqual([
+      ['mazmorras', '1 x Mazmorra', []],
+      ['mazmorras', 'Dependiendo de tu nivel', ['needNote', 'needNote']],
+      ['recursos', null, ['needItem', 'needNote']],
+    ])
+    // La fila que no casa queda con el texto de Torre, sin enlace a un objeto.
+    expect(JSON.stringify(doc.needs?.groups?.[2]?.rows?.[1])).toContain('1 x Objeto que no existe.')
   })
 
   it('una guía con todo suelto queda en los grupos fijos, y repetirla no cambia nada', async () => {
