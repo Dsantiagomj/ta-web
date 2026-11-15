@@ -12,6 +12,7 @@ import type { ItemMatch } from './game-items'
 import { headingGroup, type NeedGroup } from '@/lib/dofus-guides/need-groups'
 
 import { fold } from './fold'
+import { siteHref } from './site-links'
 import { needClassifiers, normalizeNeeds, type NeedEntry, type Placement } from './normalize-needs'
 import type { BodyItem, DofusGuideSource, NeedRow, Part, QuestRef, Segment } from './parse'
 
@@ -189,12 +190,15 @@ export { fold } from './fold'
 const escapeHtml = (text: string) =>
   text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
-/** Los trozos de Torre como HTML: los enlaces a su web quedan relativos (/slug). */
-function segmentsHtml(segs: Segment[]): string {
+/**
+ * Los trozos de Torre como HTML. Los enlaces a su web quedan relativos (/slug) si este sitio
+ * ya tiene esa página; si no, href los lleva a la de siempre (site-links.ts).
+ */
+function segmentsHtml(segs: Segment[], href: (link: string) => string): string {
   return segs
     .map((seg) => {
       const text = escapeHtml(seg.v)
-      const html = seg.t === 'link' ? `<a href="${escapeHtml(seg.href)}">${text}</a>` : text
+      const html = seg.t === 'link' ? `<a href="${escapeHtml(href(seg.href))}">${text}</a>` : text
       return seg.b ? `<strong>${html}</strong>` : html
     })
     .join('')
@@ -250,13 +254,17 @@ export async function loadDofusGuides(
     options.guides.flatMap(({ source }) => allNeedRows(source).flatMap((row) => row.name ?? [])),
     options.findItem,
   )
-  const lexical = (html: string) => (html ? options.htmlToLexical(html) : null)
+  // Las páginas que este sitio enseña, por slug: un enlace de Torre a otra cosa lleva a su web.
+  const live = new Set<string>()
+  const linkFor = (href: string) => siteHref(href, (slug) => live.has(slug))
+  const html = (segs: Segment[]) => segmentsHtml(segs, linkFor)
+  const lexical = (source: string) => (source ? options.htmlToLexical(source) : null)
   const list = (rows: Segment[][]) =>
     rows.length
-      ? lexical(`<ul>${rows.map((segs) => `<li>${segmentsHtml(segs)}</li>`).join('')}</ul>`)
+      ? lexical(`<ul>${rows.map((segs) => `<li>${html(segs)}</li>`).join('')}</ul>`)
       : null
   const paragraphs = (rows: Segment[][]) =>
-    rows.length ? lexical(rows.map((segs) => `<p>${segmentsHtml(segs)}</p>`).join('')) : null
+    rows.length ? lexical(rows.map((segs) => `<p>${html(segs)}</p>`).join('')) : null
 
   // Las guías de misión y las páginas de logro de la base, por slug y por nombre plegado.
   const guides = await payload.find({
@@ -265,7 +273,7 @@ export async function loadDofusGuides(
     depth: 0,
     pagination: false,
     overrideAccess: true,
-    select: { slug: true, title: true },
+    select: { slug: true, title: true, _status: true },
   })
   const guideBySlug = new Map(guides.docs.map((doc) => [doc.slug, doc.id]))
   const guideByName = new Map(guides.docs.map((doc) => [fold(doc.title), doc.id]))
@@ -275,7 +283,7 @@ export async function loadDofusGuides(
     depth: 0,
     pagination: false,
     overrideAccess: true,
-    select: { slug: true, name: true, quests: true },
+    select: { slug: true, name: true, quests: true, state: true, _status: true },
   })
   // Los nombres de las misiones de DofusDB: una fila que se llama así es una misión, aunque
   // aún no tenga guía.
@@ -288,6 +296,33 @@ export async function loadDofusGuides(
     select: { name: true },
   })
   const questNames = new Set(quests.docs.map((doc) => fold(doc.name)))
+  // Lo que un visitante ve en /<slug>: lo publicado y, de los logros y las guías de Dofus, lo
+  // que no está En preparación. Una checklist En preparación redirige a la suya: también vale.
+  const [dofusPages, checklistPages] = await Promise.all([
+    payload.find({
+      collection: 'dofus-guides',
+      limit: 0,
+      depth: 0,
+      pagination: false,
+      overrideAccess: true,
+      select: { slug: true, state: true, _status: true },
+    }),
+    payload.find({
+      collection: 'checklists',
+      limit: 0,
+      depth: 0,
+      pagination: false,
+      overrideAccess: true,
+      select: { slug: true, _status: true },
+    }),
+  ])
+  const published = (doc: { _status?: string | null }) => doc._status === 'published'
+  for (const doc of [...guides.docs, ...checklistPages.docs]) {
+    if (published(doc)) live.add(doc.slug)
+  }
+  for (const doc of [...pages.docs, ...dofusPages.docs]) {
+    if (published(doc) && doc.state === 'published') live.add(doc.slug)
+  }
   const pageBySlug = new Map(pages.docs.map((doc) => [doc.slug, doc]))
   const pageByName = new Map(pages.docs.map((doc) => [fold(doc.name), doc]))
   const classify = needClassifiers(
@@ -331,10 +366,10 @@ export async function loadDofusGuides(
 
     const questNote = (refs: QuestRef[]): Record<string, unknown> => {
       for (const ref of refs) report.leftovers.push({ slug: entry.slug, text: ref.name })
-      const html = refs
-        .map((ref) => `<p>${segmentsHtml(ref.segs ?? [{ t: 'text', v: ref.name }])}</p>`)
+      const paragraphs = refs
+        .map((ref) => `<p>${html(ref.segs ?? [{ t: 'text', v: ref.name }])}</p>`)
         .join('')
-      return { blockType: 'dofusNote', text: lexical(html) }
+      return { blockType: 'dofusNote', text: lexical(paragraphs) }
     }
 
     /**
@@ -367,9 +402,9 @@ export async function loadDofusGuides(
         }
         flushNotes()
         const row = { title: rowTitle(item.ref), note: item.ref.note ?? null }
-        if (item.kind === 'note') {
+        if (item.kind === 'note' && link) {
           // Algo que Torre enlaza que no es una misión: queda en su lista, con su enlace.
-          quests.push({ guide: null, ...row, link })
+          quests.push({ guide: null, ...row, link: linkFor(link) })
           continue
         }
         // Una misión sin guía se avisa y queda en la lista de Torre, sin enlace.
@@ -484,7 +519,7 @@ export async function loadDofusGuides(
           return []
         }
         case 'note':
-          return [{ blockType: 'dofusNote', text: lexical(`<p>${segmentsHtml(part.segs)}</p>`) }]
+          return [{ blockType: 'dofusNote', text: lexical(`<p>${html(part.segs)}</p>`) }]
       }
     }
 
@@ -532,7 +567,7 @@ export async function loadDofusGuides(
     }
     const noteBlock = (segs: Segment[]) => ({
       blockType: 'needNote',
-      text: lexical(`<p>${segmentsHtml(segs)}</p>`),
+      text: lexical(`<p>${html(segs)}</p>`),
     })
 
     // Las filas de Torre con sus títulos encima, del más cercano al más lejano. Una fila con
@@ -590,7 +625,7 @@ export async function loadDofusGuides(
         if (item.type === 'paragraph') {
           blocks.push({
             blockType: 'richText',
-            content: lexical(`<p>${segmentsHtml(item.segs)}</p>`),
+            content: lexical(`<p>${html(item.segs)}</p>`),
           })
         } else {
           blocks.push({
