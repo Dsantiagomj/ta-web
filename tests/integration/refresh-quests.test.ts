@@ -74,10 +74,10 @@ describe('refresco de misiones desde DofusDB', () => {
     const counts = await refreshQuests(payload, fixtureData(), { now: firstRun })
 
     expect(counts).toEqual({
-      quests: { created: 6, updated: 0, unchanged: 0 },
-      items: { created: 0, updated: 0, unchanged: 0 },
-      monsters: { created: 0, updated: 0, unchanged: 0 },
-      dungeons: { created: 0, updated: 0, unchanged: 0 },
+      quests: { created: 6, updated: 0, unchanged: 0, failed: 0 },
+      items: { created: 0, updated: 0, unchanged: 0, failed: 0 },
+      monsters: { created: 0, updated: 0, unchanged: 0, failed: 0 },
+      dungeons: { created: 0, updated: 0, unchanged: 0, failed: 0 },
       missingPrerequisites: 3,
       // Los objetos de need.items de 879, 89, 275 y 674, que estos datos no traen
       missingItems: 6,
@@ -108,7 +108,7 @@ describe('refresco de misiones desde DofusDB', () => {
     })
 
     expect(counts).toMatchObject({
-      quests: { created: 0, updated: 0, unchanged: 6 },
+      quests: { created: 0, updated: 0, unchanged: 6, failed: 0 },
       missingPrerequisites: 3,
     })
 
@@ -130,7 +130,7 @@ describe('refresco de misiones desde DofusDB', () => {
     const counts = await refreshQuests(payload, data, { now: thirdRun })
 
     expect(counts).toMatchObject({
-      quests: { created: 1, updated: 2, unchanged: 4 },
+      quests: { created: 1, updated: 2, unchanged: 4, failed: 0 },
       missingPrerequisites: 2,
     })
 
@@ -199,9 +199,9 @@ describe('recompensas y requisitos desde DofusDB', () => {
     const counts = await refreshQuests(payload, stepData(), { now: firstRun })
 
     expect(counts).toMatchObject({
-      quests: { created: 9, updated: 0, unchanged: 0 },
-      items: { created: 24, updated: 0, unchanged: 0 },
-      monsters: { created: 34, updated: 0, unchanged: 0 },
+      quests: { created: 9, updated: 0, unchanged: 0, failed: 0 },
+      items: { created: 24, updated: 0, unchanged: 0, failed: 0 },
+      monsters: { created: 34, updated: 0, unchanged: 0, failed: 0 },
       missingItems: 0,
       missingMonsters: 0,
     })
@@ -264,9 +264,9 @@ describe('recompensas y requisitos desde DofusDB', () => {
     })
 
     expect(counts).toMatchObject({
-      quests: { created: 0, updated: 0, unchanged: 9 },
-      items: { created: 0, updated: 0, unchanged: 24 },
-      monsters: { created: 0, updated: 0, unchanged: 34 },
+      quests: { created: 0, updated: 0, unchanged: 9, failed: 0 },
+      items: { created: 0, updated: 0, unchanged: 24, failed: 0 },
+      monsters: { created: 0, updated: 0, unchanged: 34, failed: 0 },
     })
     const savedItems = await byDofusId<Item>('items', itemIds)
     expect(savedItems.size).toBe(24)
@@ -325,8 +325,8 @@ describe('recompensas y requisitos desde DofusDB', () => {
     const counts = await refreshQuests(payload, data, { now: new Date('2026-02-03T10:00:00Z') })
 
     expect(counts).toMatchObject({
-      items: { created: 0, updated: 1, unchanged: 23 },
-      quests: { created: 0, updated: 1, unchanged: 8 },
+      items: { created: 0, updated: 1, unchanged: 23, failed: 0 },
+      quests: { created: 0, updated: 1, unchanged: 8, failed: 0 },
       missingItems: 1,
     })
     const savedItems = await byDofusId<Item>('items', itemIds)
@@ -493,7 +493,7 @@ describe('catálogo completo de objetos', () => {
     const counts = await refreshQuests(payload, catalogData(), { now: firstRun })
 
     expect(counts).toMatchObject({
-      items: { created: catalog.length, updated: 0, unchanged: 0 },
+      items: { created: catalog.length, updated: 0, unchanged: 0, failed: 0 },
       missingItems: 0,
     })
     const saved = await savedItems()
@@ -519,8 +519,8 @@ describe('catálogo completo de objetos', () => {
     })
 
     expect(counts).toMatchObject({
-      items: { created: 0, updated: 0, unchanged: catalog.length },
-      quests: { created: 0, updated: 0, unchanged: questIds.length },
+      items: { created: 0, updated: 0, unchanged: catalog.length, failed: 0 },
+      quests: { created: 0, updated: 0, unchanged: questIds.length, failed: 0 },
     })
     for (const item of (await savedItems()).values()) {
       expect(item.refreshedAt).toBe(firstRun.toISOString())
@@ -562,7 +562,7 @@ describe('etapas y objetivos desde DofusDB', () => {
 
   it('guarda las etapas con sus objetivos en orden y el nivel mínimo', async () => {
     const counts = await refreshQuests(payload, objectiveData())
-    expect(counts.quests).toEqual({ created: raw.length, updated: 0, unchanged: 0 })
+    expect(counts.quests).toEqual({ created: raw.length, updated: 0, unchanged: 0, failed: 0 })
 
     const saved = await savedQuests()
     for (const quest of raw) {
@@ -579,7 +579,7 @@ describe('etapas y objetivos desde DofusDB', () => {
   it('una segunda pasada con los mismos datos no cambia nada', async () => {
     const before = await savedQuests()
     const counts = await refreshQuests(payload, objectiveData())
-    expect(counts.quests).toEqual({ created: 0, updated: 0, unchanged: raw.length })
+    expect(counts.quests).toEqual({ created: 0, updated: 0, unchanged: raw.length, failed: 0 })
     const after = await savedQuests()
     for (const id of questIds) expect(after.get(id)?.updatedAt).toBe(before.get(id)?.updatedAt)
   })
@@ -589,7 +589,7 @@ describe('etapas y objetivos desde DofusDB', () => {
     const changed = data.quests.find((quest) => quest.id === 1575)!
     changed.steps![0].objectives![0].parameters!.parameter2 = 5
     const counts = await refreshQuests(payload, data)
-    expect(counts.quests).toEqual({ created: 0, updated: 1, unchanged: raw.length - 1 })
+    expect(counts.quests).toEqual({ created: 0, updated: 1, unchanged: raw.length - 1, failed: 0 })
     const saved = await savedQuests()
     expect(saved.get(1575)?.stages?.[0].objectives?.[0].quantity).toBe(5)
   })
@@ -646,7 +646,7 @@ describe('refresco de mazmorras desde DofusDB', () => {
   it('guarda cada mazmorra con su nombre en español y enlaza sus jefes en su orden', async () => {
     const counts = await refreshQuests(payload, dungeonData([first!.id]))
     expect(counts).toMatchObject({
-      dungeons: { created: 2, updated: 0, unchanged: 0 },
+      dungeons: { created: 2, updated: 0, unchanged: 0, failed: 0 },
       missingBosses: 1,
     })
     const [casa, expedicion] = await stored()
@@ -659,10 +659,10 @@ describe('refresco de mazmorras desde DofusDB', () => {
 
   it('repetido no cambia nada; con otro jefe delante, lo guarda en el orden de DofusDB', async () => {
     expect(await refreshQuests(payload, dungeonData([first!.id]))).toMatchObject({
-      dungeons: { created: 0, updated: 0, unchanged: 2 },
+      dungeons: { created: 0, updated: 0, unchanged: 2, failed: 0 },
     })
     expect(await refreshQuests(payload, dungeonData([second!.id, first!.id]))).toMatchObject({
-      dungeons: { created: 0, updated: 1, unchanged: 1 },
+      dungeons: { created: 0, updated: 1, unchanged: 1, failed: 0 },
     })
     const [casa] = await stored()
     expect(casa!.bosses).toEqual([await monsterId(second!.id), await monsterId(first!.id)])

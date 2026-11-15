@@ -5,7 +5,7 @@ import type { Media, Npc } from '../../payload-types'
 import { mapWithConcurrency } from '../concurrency'
 import { spanish } from './map-quest'
 import { npcRenderKey, npcRenderUrl, RENDER_DIRECTIONS, type RenderDirection } from './npc-render'
-import type { UpsertCounts } from './refresh-quests'
+import { countStatuses, rowGuard, type UpsertCounts } from './refresh-quests'
 import type { RawNpc } from './types'
 
 /** Descarga un render de DofusDB; lanza si no llega una imagen. */
@@ -137,7 +137,11 @@ export async function refreshNpcs(
     }
   }
 
-  const statuses = await mapWithConcurrency([...unique.values()], concurrency, async (raw) => {
+  const guard = rowGuard('PNJ', log)
+  const statuses = await mapWithConcurrency([...unique.values()], concurrency, (raw) =>
+    guard.run(raw.id, () => saveNpc(raw)),
+  )
+  async function saveNpc(raw: RawNpc) {
     const doc: Npc | undefined = byDofusId.get(raw.id)
     const name = spanish(raw.name) ?? `PNJ ${raw.id}`
     const look = raw.look?.trim() || null
@@ -185,9 +189,11 @@ export async function refreshNpcs(
     // haber elegido en una guía, y borrarlos rompería esa imagen. Un look cambia muy pocas
     // veces, así que lo que sobra es poco.
     return status
-  })
+  }
 
-  const npcs = { created: 0, updated: 0, unchanged: 0 }
-  for (const status of statuses) npcs[status] += 1
+  const npcs = {
+    ...countStatuses(statuses.filter((status) => status !== undefined)),
+    failed: guard.failed,
+  }
   return { npcs, renders }
 }

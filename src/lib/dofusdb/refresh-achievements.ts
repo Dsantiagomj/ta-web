@@ -5,7 +5,12 @@ import type { Achievement, AchievementCategory } from '../../payload-types'
 import { mapWithConcurrency } from '../concurrency'
 import { type FetchImage, gameImageImporter, type ImportCounts } from './game-images'
 import { countsForIndex, mapAchievement, mapAchievementCategory } from './map-achievement'
-import { DEFAULT_WRITE_CONCURRENCY, type UpsertCounts } from './refresh-quests'
+import {
+  countStatuses,
+  DEFAULT_WRITE_CONCURRENCY,
+  rowGuard,
+  type UpsertCounts,
+} from './refresh-quests'
 import type {
   MappedAchievement,
   MappedAchievementCategory,
@@ -43,12 +48,6 @@ export interface RefreshAchievementsCounts {
 
 type Status = keyof UpsertCounts
 type Relation = number | { id: number } | null | undefined
-
-function countStatuses(statuses: Status[]): UpsertCounts {
-  const counts = { created: 0, updated: 0, unchanged: 0 }
-  for (const status of statuses) counts[status] += 1
-  return counts
-}
 
 const id = (value: Relation): number | null =>
   value == null ? null : typeof value === 'number' ? value : value.id
@@ -88,6 +87,7 @@ async function refreshCategories(
   payload: Payload,
   rows: MappedAchievementCategory[],
   refreshedAt: string,
+  log: (message: string) => void,
 ): Promise<{ counts: UpsertCounts; ids: Map<number, number> }> {
   const existing = await payload.find({
     collection: 'achievement-categories',
@@ -100,7 +100,13 @@ async function refreshCategories(
   const statuses = new Map<number, Status>()
 
   // Primero las filas; luego la categoría madre, que necesita el ID de Payload de todas.
+  const guard = rowGuard('Categorías de logros', log)
+  const failed = new Set<number>()
   for (const { parentDofusId: _parent, ...row } of rows) {
+    const saved = await guard.run(row.dofusId, () => saveRow(row))
+    if (saved === undefined) failed.add(row.dofusId)
+  }
+  async function saveRow(row: Omit<MappedAchievementCategory, 'parentDofusId'>) {
     const doc = byDofusId.get(row.dofusId)
     const stored = doc && { dofusId: doc.dofusId, name: doc.name, order: doc.order ?? null }
     if (!doc) {
@@ -122,22 +128,27 @@ async function refreshCategories(
       })
       statuses.set(row.dofusId, 'updated')
     } else statuses.set(row.dofusId, 'unchanged')
+    return true
   }
   for (const row of rows) {
+    if (failed.has(row.dofusId)) continue
     const parent = row.parentDofusId == null ? null : (ids.get(row.parentDofusId) ?? null)
     const doc = byDofusId.get(row.dofusId) as AchievementCategory | undefined
     if (doc && id(doc.parent) === parent) continue
     if (!doc && parent === null) continue
-    await payload.update({
-      collection: 'achievement-categories',
-      id: ids.get(row.dofusId)!,
-      data: { parent, refreshedAt },
-      depth: 0,
-      overrideAccess: true,
-    })
-    if (statuses.get(row.dofusId) === 'unchanged') statuses.set(row.dofusId, 'updated')
+    const linked = await guard.run(row.dofusId, () =>
+      payload.update({
+        collection: 'achievement-categories',
+        id: ids.get(row.dofusId)!,
+        data: { parent, refreshedAt },
+        depth: 0,
+        overrideAccess: true,
+      }),
+    )
+    if (linked === undefined) statuses.delete(row.dofusId)
+    else if (statuses.get(row.dofusId) === 'unchanged') statuses.set(row.dofusId, 'updated')
   }
-  return { counts: countStatuses([...statuses.values()]), ids }
+  return { counts: { ...countStatuses(statuses.values()), failed: guard.failed }, ids }
 }
 
 // Lo que el refresco escribe en un logro, salvo la fecha, para saber si cambió.
@@ -188,7 +199,7 @@ export async function refreshAchievements(
   const concurrency = options.concurrency ?? DEFAULT_WRITE_CONCURRENCY
 
   const categoryRows = data.categories.map(mapAchievementCategory)
-  const categories = await refreshCategories(payload, categoryRows, refreshedAt)
+  const categories = await refreshCategories(payload, categoryRows, refreshedAt, log)
   const inScope = questCategoryIds(categoryRows)
 
   const countsFor = countsForIndex(data.achievements)
@@ -236,7 +247,11 @@ export async function refreshAchievements(
   })
   const byDofusId = new Map(existing.docs.map((doc) => [doc.dofusId, doc]))
 
-  const statuses = await mapWithConcurrency(rows, concurrency, async (row): Promise<Status> => {
+  const guard = rowGuard('Logros', log)
+  const statuses = await mapWithConcurrency(rows, concurrency, (row) =>
+    guard.run(row.dofusId, () => saveAchievement(row)),
+  )
+  async function saveAchievement(row: MappedAchievement): Promise<Status> {
     const fields = {
       dofusId: row.dofusId,
       name: row.name,
@@ -284,11 +299,14 @@ export async function refreshAchievements(
       overrideAccess: true,
     })
     return 'updated'
-  })
+  }
 
   return {
     categories: categories.counts,
-    achievements: countStatuses(statuses),
+    achievements: {
+      ...countStatuses(statuses.filter((status) => status !== undefined)),
+      failed: guard.failed,
+    },
     icons: importer.counts,
     missingQuests,
     missingItems,

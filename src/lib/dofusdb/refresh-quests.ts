@@ -20,6 +20,8 @@ export interface UpsertCounts {
   created: number
   updated: number
   unchanged: number
+  /** Filas que no se pudieron guardar; el siguiente refresco las reintenta. */
+  failed: number
 }
 
 export interface RefreshQuestsCounts {
@@ -63,10 +65,51 @@ export interface RefreshQuestsOptions {
 
 type Status = keyof UpsertCounts
 
-function countStatuses(statuses: Iterable<Status>): UpsertCounts {
-  const counts = { created: 0, updated: 0, unchanged: 0 }
+export function countStatuses(statuses: Iterable<Status>): UpsertCounts {
+  const counts = { created: 0, updated: 0, unchanged: 0, failed: 0 }
   for (const status of statuses) counts[status] += 1
   return counts
+}
+
+/**
+ * Filas que pueden fallar en una colección antes de parar el refresco. Unas pocas son
+ * datos raros de DofusDB y se cuentan; muchas son un problema de fondo, como la base caída.
+ */
+export const MAX_ROW_FAILURES = 20
+/** Fallos que se escriben en el registro, para no llenarlo con el mismo error. */
+const LOGGED_FAILURES = 5
+
+const errorText = (error: unknown) => (error instanceof Error ? error.message : String(error))
+
+/**
+ * Guarda una fila sin que su fallo pare las demás: `run` devuelve undefined si la escritura
+ * lanza y lleva la cuenta en `failed`. Pasados MAX_ROW_FAILURES fallos, lanza.
+ */
+export function rowGuard(label: string, log: (message: string) => void) {
+  let failed = 0
+  return {
+    get failed() {
+      return failed
+    },
+    async run<T>(dofusId: number, save: () => Promise<T>): Promise<T | undefined> {
+      try {
+        return await save()
+      } catch (error) {
+        failed += 1
+        if (failed <= LOGGED_FAILURES) {
+          log(`${label}: la fila ${dofusId} de DofusDB no se pudo guardar: ${errorText(error)}`)
+        }
+        if (failed > MAX_ROW_FAILURES) {
+          throw new Error(
+            `${label}: más de ${MAX_ROW_FAILURES} filas no se pudieron guardar; ` +
+              `se para el refresco. Último error: ${errorText(error)}`,
+            { cause: error },
+          )
+        }
+        return undefined
+      }
+    },
+  }
 }
 
 function relationId(value: number | { id: number }): number
@@ -147,6 +190,8 @@ export async function refreshCatalog<
 
   // Payload no estrecha el tipo de data con una unión de colecciones; las filas ya tienen
   // la forma de la colección que toca.
+  const label = CATALOG_LABEL[collection]
+  const guard = rowGuard(label, log)
   const save = async (row: T): Promise<{ dofusId: number; id: number; status: Status }> => {
     const doc = byDofusId.get(row.dofusId)
     const data = { ...row, refreshedAt } as never
@@ -161,18 +206,19 @@ export async function refreshCatalog<
     return { dofusId: row.dofusId, id: doc.id, status: 'unchanged' }
   }
 
-  const label = CATALOG_LABEL[collection]
   let done = 0
   const results = await mapWithConcurrency([...unique.values()], concurrency, async (row) => {
-    const result = await save(row)
+    const result = await guard.run(row.dofusId, () => save(row))
     done += 1
     if (done % 2000 === 0) log(`${label} guardados: ${done} de ${unique.size}`)
     return result
   })
 
+  const saved = results.filter((result) => result !== undefined)
   const ids = new Map([...byDofusId].map(([dofusId, doc]) => [dofusId, doc.id]))
-  for (const { dofusId, id } of results) ids.set(dofusId, id)
-  return { counts: countStatuses(results.map((result) => result.status)), ids }
+  for (const { dofusId, id } of saved) ids.set(dofusId, id)
+  const counts = countStatuses(saved.map((result) => result.status))
+  return { counts: { ...counts, failed: guard.failed }, ids }
 }
 
 /** El grupo achievement de la colección: sin logro, todos sus campos vacíos. */
@@ -353,7 +399,11 @@ export async function refreshQuests(
 
   // Solo para el progreso: los totales salen de lo que devuelve cada escritura.
   let done = 0
-  const saved = await mapWithConcurrency([...quests.values()], concurrency, async (quest) => {
+  const questGuard = rowGuard('Misiones', log)
+  const savedOrFailed = await mapWithConcurrency([...quests.values()], concurrency, (quest) =>
+    questGuard.run(quest.dofusId, () => saveQuest(quest)),
+  )
+  async function saveQuest(quest: MappedQuest) {
     const { prerequisiteDofusIds: _prerequisites, rewards, needs, achievement, ...rest } = quest
     const rewardItems = linkRows(rewards.items, 'item', items.ids)
     const needItems = linkRows(needs.items, 'item', items.ids)
@@ -394,11 +444,15 @@ export async function refreshQuests(
       missingItems: rewardItems.missing + needItems.missing,
       missingMonsters: needMonsters.missing,
     }
-  })
+  }
+  const saved = savedOrFailed.filter((result) => result !== undefined)
   for (const { doc } of saved) byDofusId.set(doc.dofusId, doc)
 
   // Los prerrequisitos van después de crear todas las misiones: apuntan a sus IDs.
-  const linked = await mapWithConcurrency(saved, concurrency, async ({ quest, doc, status }) => {
+  const linkedOrFailed = await mapWithConcurrency(saved, concurrency, (row) =>
+    questGuard.run(row.quest.dofusId, () => linkPrerequisites(row)),
+  )
+  async function linkPrerequisites({ quest, doc, status }: (typeof saved)[number]) {
     const ids: number[] = []
     let missing = 0
     for (const dofusId of quest.prerequisiteDofusIds) {
@@ -416,10 +470,11 @@ export async function refreshQuests(
       overrideAccess: true,
     })
     return { status: status === 'unchanged' ? ('updated' as const) : status, missing }
-  })
+  }
+  const linked = linkedOrFailed.filter((result) => result !== undefined)
 
   return {
-    quests: countStatuses(linked.map((result) => result.status)),
+    quests: { ...countStatuses(linked.map((result) => result.status)), failed: questGuard.failed },
     items: items.counts,
     monsters: monsters.counts,
     dungeons: dungeons.counts,
