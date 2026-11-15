@@ -147,7 +147,7 @@ test.describe('página de una guía de Dofus', () => {
   }) => {
     await page.goto(url)
     const parts = page.getByRole('region', { name: 'El logro' })
-    await expect(parts.getByRole('link', { name: logro.name })).toHaveAttribute(
+    await expect(parts.getByRole('link', { name: logro.name, exact: true })).toHaveAttribute(
       'href',
       `/${logro.slug}`,
     )
