@@ -958,6 +958,58 @@ describe('loadDofusGuides: guías importadas antes de las listas de Torre', () =
   })
 })
 
+describe('loadDofusGuides: los enlaces de Torre a su web', () => {
+  it('a una página que este sitio aún no tiene llevan a la de siempre, no a un 404', async () => {
+    const slug = 'prueba-dofus-enlaces'
+    // Una guía publicada la tiene; una en borrador (las demás de estas pruebas), aún no.
+    await payload.create({
+      collection: 'quest-guides',
+      data: { slug: 'prueba-publicada', title: 'Publicada', _status: 'published' },
+    })
+    const withLinks: DofusGuideSource = {
+      ...source(),
+      intro: [
+        [
+          { t: 'text', v: 'Necesitarás el ' },
+          { t: 'link', v: 'emote Señalar con el dedo', href: '/prueba-emote-sealar-con-el-dedo' },
+          { t: 'text', v: ' y hacer ' },
+          { t: 'link', v: 'esta misión', href: '/prueba-publicada' },
+          { t: 'text', v: ' o ' },
+          { t: 'link', v: 'esta otra', href: '/prueba-a-la-pesca' },
+          { t: 'text', v: '.' },
+        ],
+      ],
+      parts: [
+        {
+          type: 'quests',
+          title: 'Prerrequisitos',
+          quests: [
+            {
+              name: 'Logro: Algo que aún no está',
+              slug: 'prueba-logro-por-portar',
+              segs: [
+                { t: 'link', v: 'Logro: Algo que aún no está', href: '/prueba-logro-por-portar' },
+              ],
+            },
+          ],
+        },
+      ],
+    }
+    await loadDofusGuides(
+      payload,
+      options([{ entry: { ...entry, slug, dofusId: 918075 }, source: withLinks }]),
+    )
+    const doc = await read(slug)
+    const intro = JSON.stringify(doc.intro)
+    expect(intro).toContain('"https://www.torrentearcano.com/prueba-emote-sealar-con-el-dedo"')
+    expect(intro).toContain('"/prueba-publicada"')
+    expect(intro).toContain('"https://www.torrentearcano.com/prueba-a-la-pesca"')
+    expect(doc.parts?.[0]).toMatchObject({
+      quests: [{ link: 'https://www.torrentearcano.com/prueba-logro-por-portar' }],
+    })
+  })
+})
+
 describe('loadDofusIndexIntro', () => {
   it('pone la entradilla de Torre en el índice solo si está vacía', async () => {
     await payload.updateGlobal({ slug: 'dofus-guides-index', data: { intro: null } })
