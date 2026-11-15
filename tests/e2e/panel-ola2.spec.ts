@@ -192,13 +192,28 @@ test.describe('el panel para Torre, ola 2', () => {
     await swatch.fill('#2a5aaa')
     await expect(page.locator('#field-color')).toHaveValue('#2a5aaa')
 
-    // Un color mal escrito lo marca el navegador al publicar (un borrador no se valida),
-    // antes de llegar al servidor, que también lo rechazaría. No se guarda nada.
-    await page.locator('#field-color').fill('azul')
-    await page.getByRole('button', { name: 'Publicar cambios', exact: true }).click()
-    await expect(page.locator('.ta-color')).toContainText(
-      'Tiene que ser un color hexadecimal de seis cifras',
+    // Un color mal escrito no se publica: el servidor lo rechaza y el panel avisa del campo. Payload no valida en el navegador al guardar (disableValidationOnSubmit)
+    // y manda el formulario al servidor (form-state) un momento después de cada cambio. Si
+    // esa vuelta acaba antes del clic, como hace Torre y como pasaba con la máquina cargada,
+    // Payload solo enseña el aviso, sin el mensaje bajo el campo: se espera a esa vuelta para
+    // ver siempre lo mismo que él.
+    const formState = page.waitForResponse(
+      (response) =>
+        response.request().method() === 'POST' &&
+        response.url().includes(`/admin/collections/dofus-guides/${id}`),
     )
+    await page.locator('#field-color').fill('azul')
+    await formState
+    const save = page.waitForResponse(
+      (response) =>
+        response.request().method() === 'PATCH' &&
+        response.url().includes(`/api/dofus-guides/${id}`),
+    )
+    await page.getByRole('button', { name: 'Publicar cambios', exact: true }).click()
+    expect((await save).status()).toBe(400)
+    await expect(page.getByText('El siguiente campo es inválido: Ficha → Color')).toBeVisible()
+    const stored = await page.request.get(`/api/dofus-guides/${id}?depth=0&draft=true`)
+    expect(((await stored.json()) as { color?: string }).color).not.toBe('azul')
 
     await tabs.getByRole('button', { name: 'Necesitarás', exact: true }).click()
     await expect(page.getByText('Añadir Grupo')).toBeVisible()
