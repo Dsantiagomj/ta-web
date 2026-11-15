@@ -171,7 +171,7 @@ export async function readDofusGuide(
   const ids = partIds(guide.parts ?? [])
   // Lo enlazado siempre como lo ve un visitante: un logro o una guía sin publicar no sale.
   const visitor = { draft: false, overrideAccess: false } as const
-  const [achievementDocs, guideDocs, list, dungeonBosses] = await Promise.all([
+  const [achievementDocs, guideDocs, list, dungeonBosses, checklists] = await Promise.all([
     ids.achievements.length
       ? payload.find({
           collection: 'achievement-pages',
@@ -201,6 +201,17 @@ export async function readDofusGuide(
     readDofusList(payload),
     // Las guías de Dofus no eligen mazmorras a mano: casan por nombre o por jefe.
     readDungeonBosses(payload, dungeonNoteLabels(guide)),
+    // La checklist de este Dofus publicada en la web, la primera en el orden de Torre.
+    payload.find({
+      collection: 'checklists',
+      where: { dofusGuide: { equals: guide.id }, state: { equals: 'published' } },
+      select: { slug: true },
+      sort: 'order',
+      limit: 1,
+      depth: 0,
+      pagination: false,
+      ...visitor,
+    }),
   ])
   const achievements = new Map(
     (achievementDocs.docs as unknown as AchievementDoc[]).map((doc) => [doc.id, doc]),
@@ -260,5 +271,15 @@ export async function readDofusGuide(
     : []
   const givers = new Map(npcs.map((npc) => [npc.dofusId, { renderRight: npc.renderRight }]))
 
-  return { guide, achievements, questGuides, guideByQuest, givers, list, dungeonBosses }
+  const checklist = checklists.docs[0]
+  return {
+    guide,
+    achievements,
+    questGuides,
+    guideByQuest,
+    givers,
+    list,
+    dungeonBosses,
+    ...(checklist && { checklist: { slug: checklist.slug } }),
+  }
 }

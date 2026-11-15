@@ -456,6 +456,20 @@ describe('dofusGuideView', () => {
     expect(dofusGuideView(data()).checklist).toBeNull()
   })
 
+  it('la checklist lleva a la de la web cuando está publicada; si no, a la de siempre', () => {
+    const guide = {
+      checklist: { name: 'Checklist Dofus Ocre', url: 'https://www.torrentearcano.com/lista-ocre' },
+    }
+    expect(dofusGuideView({ ...data(guide), checklist: { slug: 'lista-ocre' } }).checklist).toEqual(
+      { name: 'Checklist Dofus Ocre', href: '/lista-ocre' },
+    )
+    // En preparación (el Hielos): la consulta no la trae y queda la de Squarespace.
+    expect(dofusGuideView(data(guide)).checklist).toEqual({
+      name: 'Checklist Dofus Ocre',
+      href: 'https://www.torrentearcano.com/lista-ocre',
+    })
+  })
+
   it('el anterior y el siguiente son los Dofus publicados de alrededor, con sus cifras', () => {
     const view = dofusGuideView(data())
     // El Jyfus, En preparación, se salta: no tiene página.
