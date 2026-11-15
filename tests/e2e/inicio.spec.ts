@@ -138,25 +138,38 @@ test.describe('portada', () => {
     await expect(page).toHaveURL(new RegExp(`/${seedGuide.prerequisite.slug}$`))
   })
 
-  test('una flecha pulsada mientras llega la lista nueva no deja una opción fantasma', async ({
+  test('las flechas pulsadas mientras se ordena lo escrito recorren la lista nueva', async ({
     page,
   }) => {
+    // Un índice propio y el reloj en la mano: las flechas llegan dentro de los 90 ms de espera.
+    await page.route(`**${INDEX}`, (route) =>
+      route.fulfill({
+        json: {
+          guides: [
+            ['Ab cd', 'ab-cd', null, 1],
+            ['Ab ef', 'ab-ef', null, 1],
+            ['Ab gh', 'ab-gh', null, 1],
+          ],
+        },
+      }),
+    )
+    await page.clock.install()
     await open(page)
-    await field(page).fill('es')
-    await expect(
-      list(page).getByRole('group', { name: 'Misiones' }).getByRole('option'),
-    ).toHaveCount(2)
-    // «est» deja una sola misión; las flechas llegan antes de que se ordene la lista nueva.
-    await page.keyboard.type('t')
+    await field(page).fill('ab')
+    await expect(list(page).getByRole('option')).toHaveCount(3)
+    await page.clock.runFor(200)
+    // «ab e» deja una sola: ↓↓ la eligen a ella, nunca una opción de la lista de antes.
+    await field(page).fill('ab e')
     await page.keyboard.press('ArrowDown')
     await page.keyboard.press('ArrowDown')
-    await expect(
-      list(page).getByRole('group', { name: 'Misiones' }).getByRole('option'),
-    ).toHaveCount(1)
-    await expect(field(page)).not.toHaveAttribute('aria-activedescendant')
-    // Desde ahí, la flecha elige la que hay.
-    await page.keyboard.press('ArrowDown')
-    await expect(list(page).getByRole('option').first()).toHaveAttribute('aria-selected', 'true')
+    await page.clock.runFor(200)
+    const only = list(page).getByRole('option')
+    await expect(only).toHaveText(['Ab ef'])
+    await expect(only).toHaveAttribute('aria-selected', 'true')
+    await expect(field(page)).toHaveAttribute(
+      'aria-activedescendant',
+      (await only.getAttribute('id'))!,
+    )
   })
 
   test('Intro durante la espera abre la primera de lo escrito, no la de la lista vieja', async ({
@@ -331,6 +344,23 @@ test.describe('portada: todo el contenido y el teclado', () => {
     await expect(list(page).getByRole('option')).toHaveText(['Emotes'])
     await page.keyboard.press('Enter')
     await expect(page).toHaveURL(/\/emotes$/)
+  })
+
+  test('una flecha pulsada antes de que se ordene lo escrito no se pierde', async ({ page }) => {
+    await page.clock.install()
+    await open(page)
+    await field(page).fill('seis')
+    await expect(shown(page)).toHaveText('1 misión')
+    await page.clock.runFor(200)
+    // Escribir y pulsar ↓ en menos de 90 ms: la flecha va a la lista nueva y se queda.
+    await field(page).fill('esto')
+    await page.keyboard.press('ArrowDown')
+    await page.clock.runFor(200)
+    const first = list(page).getByRole('option').first()
+    await expect(first).toContainText('Esto hace aguas')
+    await expect(first).toHaveAttribute('aria-selected', 'true')
+    await page.keyboard.press('Enter')
+    await expect(page).toHaveURL(new RegExp(`/esto-hace-aguas$`))
   })
 })
 

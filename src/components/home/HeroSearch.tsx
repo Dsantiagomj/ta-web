@@ -35,6 +35,8 @@ export function HeroSearch({ icon, arrow }: { icon: ReactNode; arrow: ReactNode 
   const live = useRef<HTMLParagraphElement>(null)
   const input = useRef<HTMLInputElement>(null)
   const rankTimer = useRef(0)
+  // Si hay un orden esperando (los 90 ms): una flecha lo adelanta (arrowItems).
+  const rankPending = useRef(false)
   const loading = useRef(false)
   const [query, setQuery] = useState('')
   // Lo que se ordena: el texto, 90 ms después de la última tecla (junta las teclas rápidas).
@@ -129,14 +131,30 @@ export function HeroSearch({ icon, arrow }: { icon: ReactNode; arrow: ReactNode 
     else window.location.assign(entry.href)
   }
 
+  /**
+   * Las opciones por las que se mueven las flechas. Si lo escrito aún espera a ordenarse (los
+   * 90 ms), se ordena ya: la flecha va a la lista nueva y la espera no la suelta después.
+   */
+  function arrowItems(): { list: SearchEntry[]; from: number } {
+    if (!rankPending.current) return { list: items, from: active }
+    window.clearTimeout(rankTimer.current)
+    rankPending.current = false
+    setRanked(query)
+    if (rankBy === query || !search.run || !search.entries || kind !== 'search') {
+      return { list: items, from: active }
+    }
+    return { list: search.run.heroResults(search.entries, query).items, from: -1 }
+  }
+
   function onKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
-    const n = items.length
     if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       event.preventDefault()
       if (!expanded) return show(query)
+      const { list, from } = arrowItems()
+      const n = list.length
       if (n === 0) return
       const down = event.key === 'ArrowDown'
-      const next = active < 0 ? (down ? 0 : n - 1) : (active + (down ? 1 : -1) + n) % n
+      const next = from < 0 ? (down ? 0 : n - 1) : (from + (down ? 1 : -1) + n) % n
       setActive(next)
       requestAnimationFrame(() =>
         document.getElementById(optionId(next))?.scrollIntoView({ block: 'nearest' }),
@@ -229,9 +247,11 @@ export function HeroSearch({ icon, arrow }: { icon: ReactNode; arrow: ReactNode 
             setActive(-1)
             start()
             window.clearTimeout(rankTimer.current)
-            // Al llegar la lista nueva, ninguna opción queda activa: una flecha pulsada durante
-            // la espera apuntaba a la lista anterior.
+            rankPending.current = true
+            // Al llegar la lista nueva, ninguna opción queda activa: el ratón pudo marcar una de
+            // la lista anterior. Una flecha pulsada durante la espera la adelanta y la cancela.
             rankTimer.current = window.setTimeout(() => {
+              rankPending.current = false
               setRanked(value)
               setActive(-1)
             }, 90)
