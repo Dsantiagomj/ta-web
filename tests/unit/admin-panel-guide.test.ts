@@ -68,6 +68,8 @@ describe('la guía del panel', () => {
       'Una checklist con dirección en la web antigua: en el menú, lleva a la checklist de ' +
         'Squarespace.',
       'Una checklist sin ella: en el menú, apagada y sin enlace.',
+      'Una página con enlace en Squarespace: lleva a la página de Squarespace.',
+      'Una página sin él: no se abre.',
     ])
   })
 

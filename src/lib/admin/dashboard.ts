@@ -12,6 +12,7 @@ export const EDITORIAL_COLLECTIONS = [
   'achievement-groups',
   'dofus-guides',
   'checklists',
+  'pages',
 ] as const satisfies readonly CollectionSlug[]
 
 export type EditorialCollection = (typeof EDITORIAL_COLLECTIONS)[number]
@@ -140,7 +141,7 @@ export async function readDashboard(payload: Payload, user: User): Promise<Dashb
     }
   }
 
-  // Las cinco colecciones tienen tipos distintos; aquí solo se leen campos comunes.
+  // Las colecciones tienen tipos distintos; aquí solo se leen campos comunes.
   const find = async (
     collection: EditorialCollection,
     options: Record<string, unknown>,
@@ -206,25 +207,29 @@ export async function readDashboard(payload: Payload, user: User): Promise<Dashb
     }),
   )
 
-  // Las guías de Dofus y las checklists son pocas: se leen enteras, una vez, y de ellas sale
-  // todo lo demás.
+  // Las guías de Dofus, las checklists y las páginas son pocas: se leen enteras, una vez, y
+  // de ellas sale todo lo demás.
   const dofusGuides = find('dofus-guides', { where: PUBLISHED, sort: 'order', pagination: false })
   const checklists = find('checklists', { where: PUBLISHED, sort: 'order', pagination: false })
+  const sitePages = find('pages', { where: PUBLISHED, sort: '-updatedAt', pagination: false })
 
-  const [collections, large, dofus, lists] = await Promise.all([
+  const [collections, large, dofus, lists, pages] = await Promise.all([
     perCollection,
     preparingLarge,
     dofusGuides,
     checklists,
+    sitePages,
   ])
 
   const byState = (docs: Doc[]) => docs.filter((doc) => doc.state === 'preparing')
   const preparingDofus = byState(dofus.docs)
   const preparingLists = byState(lists.docs)
+  const preparingPages = byState(pages.docs)
   const preparing = [
     ...large,
     preparingGroup('dofus-guides', preparingDofus, preparingDofus.length),
     preparingGroup('checklists', preparingLists, preparingLists.length),
+    preparingGroup('pages', preparingPages, preparingPages.length),
   ].filter((group) => group.total > 0)
 
   // La primera checklist publicada, en el orden de Torre, que apunta a cada Dofus.

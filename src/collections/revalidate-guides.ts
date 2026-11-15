@@ -5,6 +5,7 @@ import { ACHIEVEMENT_PAGES_TAG } from '../lib/achievements/cache'
 import { CHECKLISTS_TAG } from '../lib/checklists/cache'
 import { DOFUS_GUIDES_TAG } from '../lib/dofus-guides/cache'
 import { GUIDE_PAGES_TAG } from '../lib/guides/cache'
+import { PAGES_TAG } from '../lib/pages/cache'
 
 /**
  * Caduca una etiqueta de la caché de páginas: la siguiente visita lee lo publicado, sin
@@ -43,14 +44,20 @@ export function revalidateChecklists(): void {
   expire(CHECKLISTS_TAG)
 }
 
+/** Las páginas sueltas en caché (src/lib/pages/cache.ts). */
+export function revalidatePages(): void {
+  expire(PAGES_TAG)
+}
+
 // Las guías y Media salen en todas las páginas: una guía publicada enlaza su tarjeta en el
 // logro, su fila en la guía de Dofus y su misión en la checklist, y un archivo es el icono o
-// el render de todas.
+// el render de todas y una captura de las páginas sueltas.
 export const revalidateGuidePagesAfterChange: CollectionAfterChangeHook = ({ doc }) => {
   revalidateGuidePages()
   revalidateAchievementPages()
   revalidateDofusGuides()
   revalidateChecklists()
+  revalidatePages()
   return doc
 }
 
@@ -59,6 +66,7 @@ export const revalidateGuidePagesAfterDelete: CollectionAfterDeleteHook = ({ doc
   revalidateAchievementPages()
   revalidateDofusGuides()
   revalidateChecklists()
+  revalidatePages()
   return doc
 }
 
@@ -109,5 +117,17 @@ export const revalidateChecklistsAfterChange: CollectionAfterChangeHook = ({ doc
 export const revalidateChecklistsAfterDelete: CollectionAfterDeleteHook = ({ doc }) => {
   revalidateChecklists()
   revalidateDofusGuides()
+  return doc
+}
+
+// Una página suelta guardada, publicada o borrada: la siguiente visita lee la nueva, también
+// el pie (los enlaces legales), la búsqueda y el sitemap, que leen con la misma etiqueta.
+export const revalidatePagesAfterChange: CollectionAfterChangeHook = ({ doc }) => {
+  revalidatePages()
+  return doc
+}
+
+export const revalidatePagesAfterDelete: CollectionAfterDeleteHook = ({ doc }) => {
+  revalidatePages()
   return doc
 }

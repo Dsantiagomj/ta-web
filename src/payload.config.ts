@@ -17,6 +17,7 @@ import { Items } from './collections/Items'
 import { Media } from './collections/Media'
 import { Monsters } from './collections/Monsters'
 import { Npcs } from './collections/Npcs'
+import { Pages } from './collections/Pages'
 import { SubAreas } from './collections/SubAreas'
 import { QuestGuides } from './collections/QuestGuides'
 import { Quests } from './collections/Quests'
@@ -78,6 +79,7 @@ export default buildConfig({
     AchievementGroups,
     DofusGuides,
     Checklists,
+    Pages,
     Media,
     Quests,
     Items,

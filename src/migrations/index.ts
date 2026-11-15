@@ -32,6 +32,7 @@ import * as migration_20261114_122659_checklist_ocre from './20261114_122659_che
 import * as migration_20261114_142119_checklist_cards from './20261114_142119_checklist_cards';
 import * as migration_20261114_163904_needs_group_select from './20261114_163904_needs_group_select';
 import * as migration_20261115_132426_dofus_torre_quest_rows from './20261115_132426_dofus_torre_quest_rows';
+import * as migration_20261115_151745_pages from './20261115_151745_pages';
 
 export const migrations = [
   {
@@ -202,6 +203,11 @@ export const migrations = [
   {
     up: migration_20261115_132426_dofus_torre_quest_rows.up,
     down: migration_20261115_132426_dofus_torre_quest_rows.down,
-    name: '20261115_132426_dofus_torre_quest_rows'
+    name: '20261115_132426_dofus_torre_quest_rows',
+  },
+  {
+    up: migration_20261115_151745_pages.up,
+    down: migration_20261115_151745_pages.down,
+    name: '20261115_151745_pages'
   },
 ];
