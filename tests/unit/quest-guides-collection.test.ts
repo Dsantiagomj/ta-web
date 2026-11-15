@@ -131,6 +131,68 @@ describe('colección quest-guides', () => {
     expect(field('startY', summary.fields)).toMatchObject({ type: 'number' })
   })
 
+  it('las recompensas de la cabecera son campos de Torre: XP, kamas, objetos y otras', () => {
+    const summary = field('summary') as GroupField
+    const box = summary.fields.find((candidate) => candidate.type === 'collapsible')
+    expect(box).toMatchObject({
+      label: 'Recompensas',
+      admin: { description: guideStrings.admin.rewardsDescription },
+    })
+    const note = (summaryField: string) => ({
+      Description: {
+        path: '/components/quest-guide-admin/SummaryNote#SummaryNote',
+        clientProps: { summaryField },
+      },
+    })
+    expect(field('rewardExperience', summary.fields)).toMatchObject({
+      type: 'number',
+      label: 'XP',
+      min: 0,
+      admin: { components: note('rewardExperience') },
+    })
+    expect(field('rewardExperienceMin', summary.fields)).toMatchObject({
+      type: 'number',
+      label: 'XP mínima',
+      min: 0,
+      admin: { components: note('rewardExperienceMin') },
+    })
+    expect(field('rewardKamas', summary.fields)).toMatchObject({
+      type: 'number',
+      label: 'Kamas',
+      min: 0,
+      admin: { components: note('rewardKamas') },
+    })
+    const items = field('rewardItems', summary.fields) as ArrayField
+    expect(items).toMatchObject({
+      type: 'array',
+      label: 'Objetos',
+      labels: { singular: 'Objeto', plural: 'Objetos' },
+      admin: { components: note('rewardItems') },
+    })
+    expect(field('item', items.fields)).toMatchObject({
+      type: 'relationship',
+      relationTo: 'items',
+      required: true,
+    })
+    expect(field('quantity', items.fields)).toMatchObject({
+      type: 'number',
+      required: true,
+      min: 1,
+      defaultValue: 1,
+    })
+    expect(field('rewardNotes', summary.fields)).toMatchObject({
+      type: 'textarea',
+      label: 'Otras recompensas',
+      localized: true,
+      admin: { description: guideStrings.admin.rewardNotesDescription },
+    })
+    // Su texto de Squarespace sigue dentro, intacto.
+    expect(field('rewards', layoutFields((box as { fields: Field[] }).fields))).toMatchObject({
+      type: 'textarea',
+      label: 'Recompensas en texto',
+    })
+  })
+
   it('una zona y un nivel propios, opcionales, que ganan a los de DofusDB en el subtítulo', () => {
     const summary = field('summary') as GroupField
     expect(field('zone', summary.fields)).toMatchObject({

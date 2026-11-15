@@ -269,6 +269,70 @@ describe('questHeaderProps', () => {
     expect(questHeaderProps(same, []).rewards.xp).toEqual({ max: 16380 })
   })
 
+  it('las recompensas de Torre ganan a las de DofusDB, campo a campo', () => {
+    const torre = structuredClone(withData)
+    torre.summary = {
+      ...torre.summary,
+      rewardExperience: 15000,
+      rewardKamas: 400,
+      rewardItems: [{ item: item(500, 'Ala de tofu'), quantity: 3 }],
+      rewardNotes: 'Emote: Facepalm.\n\n',
+    }
+    expect(questHeaderProps(torre, []).rewards).toEqual({
+      // Su XP va sin la mínima de DofusDB: sería mezclar dos cifras que no casan.
+      xp: { max: 15000 },
+      kamas: 400,
+      items: [{ item: { name: 'Ala de tofu' }, quantity: 3 }],
+      notes: ['Emote: Facepalm'],
+    })
+  })
+
+  it('su XP mínima va con su XP; lo que deja vacío lo pone DofusDB', () => {
+    const torre = structuredClone(withData)
+    torre.summary = { ...torre.summary, rewardExperience: 15000, rewardExperienceMin: 9000 }
+    expect(questHeaderProps(torre, []).rewards).toEqual({
+      xp: { min: 9000, max: 15000 },
+      kamas: 390,
+      items: [
+        { item: { name: 'Pico de tofu' }, quantity: 2 },
+        { item: { name: 'Intestino de araknáusea' }, quantity: 1 },
+      ],
+      notes: [],
+    })
+  })
+
+  it('un 0 de Torre quita la cifra: no la rellena DofusDB', () => {
+    const torre = structuredClone(withData)
+    torre.summary = { ...torre.summary, rewardExperience: 0, rewardKamas: 0 }
+    const rewards = questHeaderProps(torre, []).rewards
+    expect(rewards.xp).toBeUndefined()
+    expect(rewards.kamas).toBeUndefined()
+  })
+
+  it('un objeto que Torre ocultó no sale en sus recompensas', () => {
+    const torre = structuredClone(withData)
+    torre.summary = {
+      ...torre.summary,
+      rewardItems: [
+        { item: { ...item(500, 'Ala de tofu'), correction: { hidden: true } }, quantity: 1 },
+      ],
+    }
+    expect(questHeaderProps(torre, []).rewards.items).toEqual([])
+  })
+
+  it('sin misión, sus recompensas en campos, sin sus líneas de texto', () => {
+    const noQuest = {
+      ...guide,
+      quest: null,
+      summary: { rewards: '2 000 XP.\n', rewardExperience: 2000 },
+    }
+    expect(questHeaderProps(noQuest, []).rewards).toEqual({
+      xp: { max: 2000 },
+      items: [],
+      notes: [],
+    })
+  })
+
   it('sin recompensas de DofusDB, las líneas que escribió Torre, sin inventar filas', () => {
     const noQuest = {
       ...guide,

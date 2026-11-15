@@ -39,6 +39,7 @@ import * as migration_20261115_174248_checklist_figure_name from './20261115_174
 import * as migration_20261115_175400_quest_guides_import_snapshot from './20261115_175400_quest_guides_import_snapshot';
 import * as migration_20261115_182043_game_data_torre_corrections from './20261115_182043_game_data_torre_corrections';
 import * as migration_20261115_191357_editable_missing_fields from './20261115_191357_editable_missing_fields';
+import * as migration_20261115_204940_quest_guide_rewards from './20261115_204940_quest_guide_rewards';
 
 export const migrations = [
   {
@@ -244,6 +245,11 @@ export const migrations = [
   {
     up: migration_20261115_191357_editable_missing_fields.up,
     down: migration_20261115_191357_editable_missing_fields.down,
-    name: '20261115_191357_editable_missing_fields'
+    name: '20261115_191357_editable_missing_fields',
+  },
+  {
+    up: migration_20261115_204940_quest_guide_rewards.up,
+    down: migration_20261115_204940_quest_guide_rewards.down,
+    name: '20261115_204940_quest_guide_rewards'
   },
 ];

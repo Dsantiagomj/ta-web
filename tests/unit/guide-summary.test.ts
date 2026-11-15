@@ -229,12 +229,28 @@ describe('itemsText', () => {
   })
 })
 
+// Las recompensas de El cazador cazado (1977), en el orden de Torre, con los IDs de DofusDB.
+const HUNTER_REWARD_ROWS = linkedQuest(1977)
+  .rewards!.items!.map(({ item, quantity }) => ({
+    item: (item as { id: number }).id,
+    quantity,
+  }))
+  .reverse()
+
 describe('summaryFromQuest', () => {
   it('saca de DofusDB todo el resumen de El cazador cazado (1977)', () => {
     expect(summaryFromQuest(linkedQuest(1977))).toEqual({
       prerequisites: 'Seis pies bajo tierra.',
       needs: [],
       rewards: '24 316 XP.\n552 kamas.\n2 x Cuero de miserata strubiense.\n2 x Colmillos de ratas.',
+      rewardExperience: 24316,
+      rewardExperienceMin: 14062,
+      rewardKamas: 552,
+      // En el orden de Torre: al revés que DofusDB.
+      rewardItems: [
+        { item: expect.objectContaining({ name: 'Cuero de miserata strubiense' }), quantity: 2 },
+        { item: expect.objectContaining({ name: 'Colmillos de ratas' }), quantity: 2 },
+      ],
       startNpc: 'Kerubim Crepin',
       startX: 3,
       startY: -17,
@@ -246,6 +262,10 @@ describe('summaryFromQuest', () => {
       prerequisites: null,
       needs: [],
       rewards: null,
+      rewardExperience: null,
+      rewardExperienceMin: null,
+      rewardKamas: null,
+      rewardItems: [],
       startNpc: null,
       startX: null,
       startY: null,
@@ -258,10 +278,36 @@ describe('summaryToFill', () => {
     expect(summaryToFill({}, linkedQuest(1977))).toEqual({
       prerequisites: 'Seis pies bajo tierra.',
       rewards: '24 316 XP.\n552 kamas.\n2 x Cuero de miserata strubiense.\n2 x Colmillos de ratas.',
+      rewardExperience: 24316,
+      rewardExperienceMin: 14062,
+      rewardKamas: 552,
+      rewardItems: HUNTER_REWARD_ROWS,
       startNpc: 'Kerubim Crepin',
       startX: 3,
       startY: -17,
     })
+  })
+
+  it('nunca toca una recompensa escrita; un 0 de Torre cuenta como escrito', () => {
+    const fill = summaryToFill(
+      { rewardExperience: 0, rewardKamas: 600, rewardItems: [{ item: 1, quantity: 1 }] },
+      linkedQuest(1977),
+    )
+    expect(fill).not.toHaveProperty('rewardExperience')
+    expect(fill).not.toHaveProperty('rewardKamas')
+    expect(fill).not.toHaveProperty('rewardItems')
+  })
+
+  it('la XP mínima de DofusDB solo va con su XP: no con otra que escribió Torre', () => {
+    expect(summaryToFill({ rewardExperience: 30000 }, linkedQuest(1977))).not.toHaveProperty(
+      'rewardExperienceMin',
+    )
+    expect(summaryToFill({ rewardExperience: 24316 }, linkedQuest(1977))).toMatchObject({
+      rewardExperienceMin: 14062,
+    })
+    expect(summaryToFill({ rewardExperienceMin: 100 }, linkedQuest(1977))).not.toHaveProperty(
+      'rewardExperienceMin',
+    )
   })
 
   it('nunca toca un campo escrito; el 0 es una coordenada, y solo espacios cuenta como vacío', () => {
@@ -276,7 +322,14 @@ describe('summaryToFill', () => {
         },
         linkedQuest(1977),
       ),
-    ).toEqual({ prerequisites: 'Seis pies bajo tierra.', startNpc: 'Kerubim Crepin' })
+    ).toEqual({
+      prerequisites: 'Seis pies bajo tierra.',
+      startNpc: 'Kerubim Crepin',
+      rewardExperience: 24316,
+      rewardExperienceMin: 14062,
+      rewardKamas: 552,
+      rewardItems: HUNTER_REWARD_ROWS,
+    })
   })
 
   it('rellena la lista vacía de Necesitarás con los objetos de DofusDB y sus cantidades', () => {
@@ -346,6 +399,27 @@ describe('summaryNote', () => {
     expect(summaryNote({ status: 'none' }, 'startNpc', null)).toBe(admin.noQuest)
     expect(summaryNote({ status: 'loading' }, 'startNpc', null)).toBe(admin.dofusDbLoading)
     expect(summaryNote({ status: 'error' }, 'startNpc', null)).toBe(admin.dofusDbUnavailable)
+  })
+})
+
+describe('summaryNote para las recompensas', () => {
+  const ready = { status: 'ready', quest: linkedQuest(1977) } as const
+  const { admin } = guideStrings
+
+  it('compara las cifras con las de DofusDB, con los miles separados', () => {
+    expect(summaryNote(ready, 'rewardExperience', 24316)).toBe(admin.fromDofusDb)
+    expect(summaryNote(ready, 'rewardExperience', 30000)).toBe(admin.changed('24 316'))
+    expect(summaryNote(ready, 'rewardKamas', null)).toBe(admin.emptyCanFill('552'))
+    expect(summaryNote(ready, 'rewardExperienceMin', 14062)).toBe(admin.fromDofusDb)
+  })
+
+  it('compara la lista de objetos como conjunto y enseña la de DofusDB', () => {
+    expect(summaryNote(ready, 'rewardItems', [...HUNTER_REWARD_ROWS].reverse())).toBe(
+      admin.fromDofusDb,
+    )
+    expect(summaryNote(ready, 'rewardItems', [])).toBe(
+      admin.emptyCanFill('2 x Cuero de miserata strubiense.\n2 x Colmillos de ratas.'),
+    )
   })
 })
 

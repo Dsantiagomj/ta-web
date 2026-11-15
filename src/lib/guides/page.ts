@@ -90,6 +90,16 @@ export interface GuideDoc {
     prerequisites?: string | null
     rewards?: string | null
     needs?: { items?: LinkedNeeds['items']; notes?: string | null }
+    /**
+     * Las recompensas que escribió Torre: cada una gana a la de DofusDB; la que deja vacía
+     * la pone DofusDB. Un 0 quita la cifra.
+     */
+    rewardExperience?: number | null
+    rewardExperienceMin?: number | null
+    rewardKamas?: number | null
+    rewardItems?: LinkedRewards['items']
+    /** Lo que no es XP, kamas ni objeto (emotes, títulos), una línea cada una. */
+    rewardNotes?: string | null
     startNpc?: string | null
     startX?: number | null
     startY?: number | null
@@ -207,7 +217,9 @@ export function gameItem(doc: {
 
 /** Los objetos de Recompensas, con nombre, en el orden en que Torre los lista (al revés que DofusDB). */
 function rewardItems(guide: GuideDoc): Quantity<GameItem>[] {
-  const items = [...(linkedQuest(guide)?.rewards?.items ?? [])].reverse()
+  // Las de Torre van en su orden; las de DofusDB, al revés, como las lista él.
+  const own = guide.summary?.rewardItems ?? []
+  const items = own.length ? own : [...(linkedQuest(guide)?.rewards?.items ?? [])].reverse()
   return items.flatMap(({ item, quantity }) =>
     typeof item === 'object' && item.name && !hiddenByTorre(item)
       ? [{ item: gameItem(item), quantity }]
@@ -258,7 +270,10 @@ export interface QuestHeaderData {
     xp?: { min?: number; max: number }
     kamas?: number
     items: Quantity<GameItem>[]
-    /** Sin recompensas de DofusDB, las líneas que escribió Torre. */
+    /**
+     * Sus otras recompensas (emotes, títulos) o, sin ninguna recompensa en campos ni de
+     * DofusDB, las líneas de su texto.
+     */
     notes: string[]
   }
 }
@@ -339,17 +354,21 @@ export function questHeaderProps(
     }),
   }
 
-  const max = positive(quest?.rewards?.experience)
-  const min = positive(quest?.rewards?.experienceMin)
-  const kamas = positive(quest?.rewards?.kamas)
+  // La XP de Torre va con su mínima, nunca con la de DofusDB: serían dos cifras que no casan.
+  const ownXp = summary.rewardExperience != null
+  const max = positive(ownXp ? summary.rewardExperience : quest?.rewards?.experience)
+  const min = positive(ownXp ? summary.rewardExperienceMin : quest?.rewards?.experienceMin)
+  const kamas = positive(summary.rewardKamas ?? quest?.rewards?.kamas)
   const items = rewardItems(guide)
+  const notes = lines(summary.rewardNotes).map(rowText)
+  const set = ownXp || summary.rewardKamas != null
   const rewards: QuestHeaderData['rewards'] =
-    max || kamas || items.length
+    set || max || kamas || items.length || notes.length
       ? {
           ...(max && { xp: min && min < max ? { min, max } : { max } }),
           ...(kamas && { kamas }),
           items,
-          notes: [],
+          notes,
         }
       : { items: [], notes: lines(summary.rewards).map(rowText) }
 
