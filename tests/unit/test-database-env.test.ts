@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { E2E_DATABASE_URL } from '../../src/lib/db/dev-database'
 import { appWebServers } from '../e2e/app-server'
-import { integrationEnv } from '../integration/env'
+import { faultInjectionRefusal, integrationEnv } from '../integration/env'
 
 // `pnpm migrate` prefiere DATABASE_URL_DIRECT: si las pruebas no la fijan, una URL
 // directa del shell mandaría sus migraciones a una base real.
@@ -23,6 +23,38 @@ describe('integrationEnv', () => {
 
     expect(env.DATABASE_URL).toBe('postgres://ci@localhost/pruebas')
     expect(env.DATABASE_URL_DIRECT).toBe('postgres://ci@localhost/pruebas')
+  })
+})
+
+describe('faultInjectionRefusal', () => {
+  const suite = (DATABASE_URL: string) => ({ ...integrationEnv({ DATABASE_URL }) })
+
+  it('acepta cualquier base local de las pruebas de integración, se llame como se llame', () => {
+    for (const url of [
+      'postgres://postgres:postgres@127.0.0.1:54329/ta_web_integration',
+      'postgres://postgres:postgres@127.0.0.1:54329/ta_web_int_t3_4c855ee7',
+      'postgres://postgres:postgres@localhost:5432/ta_web',
+    ]) {
+      expect(faultInjectionRefusal(suite(url)), url).toBeUndefined()
+    }
+  })
+
+  it('rechaza una base remota', () => {
+    expect(faultInjectionRefusal(suite('postgres://u:p@remote.invalid/ta_web'))).toMatch(
+      /solo permite Postgres local/,
+    )
+  })
+
+  it('rechaza la base de desarrollo de pnpm db:dev', () => {
+    expect(
+      faultInjectionRefusal(suite('postgres://postgres:postgres@localhost:54329/ta_web')),
+    ).toMatch(/base de desarrollo/)
+  })
+
+  it('rechaza una base local fuera de las pruebas de integración', () => {
+    expect(
+      faultInjectionRefusal({ DATABASE_URL: 'postgres://postgres:postgres@localhost/otra_base' }),
+    ).toMatch(/solo dentro de pnpm test:integration/)
   })
 })
 

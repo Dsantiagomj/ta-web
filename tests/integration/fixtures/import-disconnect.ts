@@ -2,14 +2,13 @@ import assert from 'node:assert/strict'
 import { sql, type PostgresAdapter } from '@payloadcms/db-postgres'
 import { getPayload } from 'payload'
 import config from '../../../src/payload.config'
-import { isLocalDatabaseUrl } from '../../../src/lib/db/database-url'
 import { loadQuestGuides } from '../../../scripts/import/load-quest-guides'
 import type { ConvertedGuide } from '../../../scripts/import/squarespace/to-quest-guide'
+import { faultInjectionRefusal } from '../env'
 import { tinyPng } from '../payload'
 
-const url = new URL(process.env.DATABASE_URL!)
-assert.ok(isLocalDatabaseUrl(url.href), 'La inyección de fallos solo permite Postgres local')
-assert.ok(['/ta_web_integration', '/ta_web'].includes(url.pathname), 'Base de pruebas no permitida')
+const refusal = faultInjectionRefusal(process.env)
+assert.ok(!refusal, refusal)
 const payload = await getPayload({ config })
 const adapter = payload.db as unknown as PostgresAdapter
 const slug = 'prueba-desconexion-importador'
