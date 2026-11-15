@@ -14,6 +14,7 @@ import { Media } from '@/collections/Media'
 import { Pages } from '@/collections/Pages'
 import { QuestGuides } from '@/collections/QuestGuides'
 import { revalidateGuidePages } from '@/collections/revalidate-guides'
+import { isSlugMoveHook } from '@/collections/slug-redirects'
 import { ACHIEVEMENT_PAGES_TAG } from '@/lib/achievements/cache'
 import { CHECKLISTS_TAG } from '@/lib/checklists/cache'
 import { DOFUS_GUIDES_TAG } from '@/lib/dofus-guides/cache'
@@ -21,6 +22,9 @@ import { GUIDE_PAGES_TAG } from '@/lib/guides/cache'
 import { PAGES_TAG } from '@/lib/pages/cache'
 
 afterEach(() => revalidateTag.mockReset())
+
+/** Los hooks afterChange que revalidan: sin el que guarda las redirecciones de slug. */
+const own = <T extends object>(hooks: T[] = []) => hooks.filter((hook) => !isSlugMoveHook(hook))
 
 describe('revalidateGuidePages', () => {
   it('marca caducadas las guías en caché: la siguiente visita ya lee lo publicado', () => {
@@ -47,19 +51,19 @@ describe('hooks de revalidación', () => {
 
   it('una guía guardada, publicada o borrada revalida las páginas de guía', async () => {
     for (const hook of [
-      ...(QuestGuides.hooks?.afterChange ?? []),
+      ...own(QuestGuides.hooks?.afterChange),
       ...(QuestGuides.hooks?.afterDelete ?? []),
     ]) {
       revalidateTag.mockReset()
       expect(await hook(hookArgs)).toEqual({ id: 1 })
       expect(revalidateTag).toHaveBeenCalledWith(GUIDE_PAGES_TAG, { expire: 0 })
     }
-    expect(QuestGuides.hooks?.afterChange).toHaveLength(1)
+    expect(own(QuestGuides.hooks?.afterChange)).toHaveLength(1)
     expect(QuestGuides.hooks?.afterDelete).toHaveLength(1)
   })
 
   it('un archivo de media cambiado también: su texto alternativo sale en las guías', async () => {
-    expect(Media.hooks?.afterChange).toHaveLength(1)
+    expect(own(Media.hooks?.afterChange)).toHaveLength(1)
     expect(Media.hooks?.afterDelete).toHaveLength(1)
     await Media.hooks?.afterChange?.[0](hookArgs)
     expect(revalidateTag).toHaveBeenCalledWith(GUIDE_PAGES_TAG, { expire: 0 })
@@ -84,7 +88,7 @@ describe('páginas de logro', () => {
     '%s guardado o borrado caduca las páginas de logro y las guías, por sus migas',
     async (_, collection) => {
       for (const hook of [
-        ...(collection.hooks?.afterChange ?? []),
+        ...own(collection.hooks?.afterChange),
         ...(collection.hooks?.afterDelete ?? []),
       ]) {
         revalidateTag.mockReset()
@@ -92,7 +96,7 @@ describe('páginas de logro', () => {
         expect(revalidateTag).toHaveBeenCalledWith(ACHIEVEMENT_PAGES_TAG, { expire: 0 })
         expect(revalidateTag).toHaveBeenCalledWith(GUIDE_PAGES_TAG, { expire: 0 })
       }
-      expect(collection.hooks?.afterChange).toHaveLength(1)
+      expect(own(collection.hooks?.afterChange)).toHaveLength(1)
       expect(collection.hooks?.afterDelete).toHaveLength(1)
     },
   )
@@ -103,7 +107,7 @@ describe('guías de Dofus', () => {
 
   it('una guía de Dofus guardada o borrada caduca su caché y la de las guías: el menú la lista', async () => {
     for (const hook of [
-      ...(DofusGuides.hooks?.afterChange ?? []),
+      ...own(DofusGuides.hooks?.afterChange),
       ...(DofusGuides.hooks?.afterDelete ?? []),
     ]) {
       revalidateTag.mockReset()
@@ -111,7 +115,7 @@ describe('guías de Dofus', () => {
       expect(revalidateTag).toHaveBeenCalledWith(DOFUS_GUIDES_TAG, { expire: 0 })
       expect(revalidateTag).toHaveBeenCalledWith(GUIDE_PAGES_TAG, { expire: 0 })
     }
-    expect(DofusGuides.hooks?.afterChange).toHaveLength(1)
+    expect(own(DofusGuides.hooks?.afterChange)).toHaveLength(1)
     expect(DofusGuides.hooks?.afterDelete).toHaveLength(1)
   })
 
@@ -122,7 +126,7 @@ describe('guías de Dofus', () => {
     ['media', Media],
   ])('%s guardado o borrado caduca las guías de Dofus: las muestran', async (_, collection) => {
     for (const hook of [
-      ...(collection.hooks?.afterChange ?? []),
+      ...own(collection.hooks?.afterChange),
       ...(collection.hooks?.afterDelete ?? []),
     ]) {
       revalidateTag.mockReset()
@@ -138,7 +142,7 @@ describe('checklists', () => {
   it('una checklist guardada, publicada o borrada caduca su caché', async () => {
     expect(CHECKLISTS_TAG).toBe('checklists')
     for (const hook of [
-      ...(Checklists.hooks?.afterChange ?? []),
+      ...own(Checklists.hooks?.afterChange),
       ...(Checklists.hooks?.afterDelete ?? []),
     ]) {
       revalidateTag.mockReset()
@@ -147,7 +151,7 @@ describe('checklists', () => {
       // La guía de su Dofus enlaza la checklist publicada en la web: cambia con ella.
       expect(revalidateTag).toHaveBeenCalledWith(DOFUS_GUIDES_TAG, { expire: 0 })
     }
-    expect(Checklists.hooks?.afterChange).toHaveLength(1)
+    expect(own(Checklists.hooks?.afterChange)).toHaveLength(1)
     expect(Checklists.hooks?.afterDelete).toHaveLength(1)
   })
 
@@ -157,10 +161,7 @@ describe('checklists', () => {
     ['dofus-guides', DofusGuides],
     ['media', Media],
   ])('%s guardado o borrado caduca las checklists: su página lo enseña', async (_, collection) => {
-    const hooks = [
-      ...(collection.hooks?.afterChange ?? []),
-      ...(collection.hooks?.afterDelete ?? []),
-    ]
+    const hooks = [...own(collection.hooks?.afterChange), ...(collection.hooks?.afterDelete ?? [])]
     expect(hooks.length).toBeGreaterThan(0)
     for (const hook of hooks) {
       revalidateTag.mockReset()
@@ -175,7 +176,7 @@ describe('pages', () => {
 
   it('una página guardada, publicada o borrada caduca su caché', async () => {
     expect(PAGES_TAG).toBe('pages')
-    for (const hook of [...(Pages.hooks?.afterChange ?? []), ...(Pages.hooks?.afterDelete ?? [])]) {
+    for (const hook of [...own(Pages.hooks?.afterChange), ...(Pages.hooks?.afterDelete ?? [])]) {
       revalidateTag.mockReset()
       expect(await hook(hookArgs)).toEqual({ id: 1 })
       expect(revalidateTag).toHaveBeenCalledWith(PAGES_TAG, { expire: 0 })
@@ -183,7 +184,7 @@ describe('pages', () => {
   })
 
   it('una imagen guardada o borrada caduca las páginas: salen en su cuerpo', async () => {
-    for (const hook of [...(Media.hooks?.afterChange ?? []), ...(Media.hooks?.afterDelete ?? [])]) {
+    for (const hook of [...own(Media.hooks?.afterChange), ...(Media.hooks?.afterDelete ?? [])]) {
       revalidateTag.mockReset()
       await hook(hookArgs)
       expect(revalidateTag).toHaveBeenCalledWith(PAGES_TAG, { expire: 0 })

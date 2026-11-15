@@ -30,6 +30,7 @@ import {
   revalidateChecklistsAfterDelete,
 } from './revalidate-guides'
 import { rejectSharedSlug } from './root-slug'
+import { applySlugMove, trackSlugMove } from './slug-redirects'
 import { rowLabel } from './row-label'
 import { SLUG_LABEL, slugAdmin } from './slug-field'
 import { panelStrings } from '../lib/admin/strings'
@@ -521,7 +522,8 @@ export const Checklists: CollectionConfig = {
     beforeOperation: [rememberRowsWithoutId('prerequisites.groups.rows')],
     beforeValidate: [rejectSharedSlug('checklists'), keepStepIds],
     // Borradores incluidos: es barato y cubre despublicar.
-    afterChange: [revalidateChecklistsAfterChange],
+    beforeChange: [trackSlugMove('checklists')],
+    afterChange: [revalidateChecklistsAfterChange, applySlugMove('checklists')],
     afterDelete: [revalidateChecklistsAfterDelete],
   },
   fields: withPublishStatus([

@@ -35,6 +35,7 @@ import { DofusGuideView } from './DofusGuideView'
 import { LivePreviewRefresh } from './LivePreviewRefresh'
 import { loadSitePage } from './page-data'
 import { PreviewBar } from './PreviewBar'
+import { redirectOrNotFound } from './redirect-data'
 import { SitePageView } from './SitePageView'
 
 type Props = { params: Promise<{ slug: string }> }
@@ -114,7 +115,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-/** Una guía, un logro, una guía de Dofus, una página suelta o una checklist; si no, 404. */
+/**
+ * Una guía, un logro, una guía de Dofus, una página suelta o una checklist; si no, un 308 a
+ * su dirección nueva si Torre la cambió, o 404.
+ */
 export default async function SlugPage({ params }: Props) {
   const slug = (await params).slug
   const page = await loadGuidePage(slug)
@@ -133,7 +137,7 @@ export default async function SlugPage({ params }: Props) {
     return <SitePageView page={site.page} preview={site.preview} />
   }
   const checklist = await loadChecklist(slug)
-  if (!checklist) notFound()
+  if (!checklist) return redirectOrNotFound(slug)
   // Una checklist En preparación no tiene página: lleva a la de Squarespace.
   const route = checklistRoute(checklist.checklist, checklist.preview, SITE_URL)
   if (route.kind === 'legacy') redirect(route.href)

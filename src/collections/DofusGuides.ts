@@ -27,6 +27,7 @@ import {
   revalidateDofusGuidesAfterDelete,
 } from './revalidate-guides'
 import { rejectSharedSlug } from './root-slug'
+import { applySlugMove, trackSlugMove } from './slug-redirects'
 import { rowLabel } from './row-label'
 import { SLUG_LABEL, slugAdmin } from './slug-field'
 import { panelStrings } from '../lib/admin/strings'
@@ -302,7 +303,8 @@ export const DofusGuides: CollectionConfig = {
   hooks: {
     beforeValidate: [rejectSharedSlug('dofus-guides')],
     // Borradores incluidos: es barato y cubre despublicar.
-    afterChange: [revalidateDofusGuidesAfterChange],
+    beforeChange: [trackSlugMove('dofus-guides')],
+    afterChange: [revalidateDofusGuidesAfterChange, applySlugMove('dofus-guides')],
     // No se borra una guía de Dofus que enlaza una checklist (A-17).
     beforeDelete: [refuseReferencedDelete('dofus-guides')],
     afterDelete: [revalidateDofusGuidesAfterDelete],

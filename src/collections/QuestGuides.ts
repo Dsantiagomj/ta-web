@@ -25,6 +25,7 @@ import {
   revalidateGuidePagesAfterDelete,
 } from './revalidate-guides'
 import { rejectSharedSlug } from './root-slug'
+import { applySlugMove, trackSlugMove } from './slug-redirects'
 import { rowLabel } from './row-label'
 import { SLUG_LABEL, slugAdmin } from './slug-field'
 import { slugFormatProblem } from '../lib/admin/slug'
@@ -329,7 +330,8 @@ export const QuestGuides: CollectionConfig = {
     // Primero el slug sale de la misión; luego no puede ser el de un logro o un metalogro.
     beforeValidate: [fillFromQuest, rejectSharedSlug('quest-guides')],
     // Borradores incluidos: es barato y cubre despublicar.
-    afterChange: [revalidateGuidePagesAfterChange],
+    beforeChange: [trackSlugMove('quest-guides')],
+    afterChange: [revalidateGuidePagesAfterChange, applySlugMove('quest-guides')],
     // No se borra una guía que sale en una guía de Dofus o en un metalogro (A-17).
     beforeDelete: [refuseReferencedDelete('quest-guides')],
     afterDelete: [revalidateGuidePagesAfterDelete],

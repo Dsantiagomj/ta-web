@@ -20,6 +20,7 @@ import { validateOptionalUrl } from './Media'
 import { validateSlug } from './QuestGuides'
 import { revalidatePagesAfterChange, revalidatePagesAfterDelete } from './revalidate-guides'
 import { rejectSharedSlug } from './root-slug'
+import { applySlugMove, trackSlugMove } from './slug-redirects'
 import { SLUG_LABEL, slugAdmin } from './slug-field'
 
 const s = sitePageStrings.admin
@@ -50,7 +51,8 @@ export const Pages: CollectionConfig = {
   hooks: {
     beforeValidate: [rejectSharedSlug('pages')],
     // Borradores incluidos: es barato y cubre despublicar.
-    afterChange: [revalidatePagesAfterChange],
+    beforeChange: [trackSlugMove('pages')],
+    afterChange: [revalidatePagesAfterChange, applySlugMove('pages')],
     afterDelete: [revalidatePagesAfterDelete],
   },
   fields: withPublishStatus([

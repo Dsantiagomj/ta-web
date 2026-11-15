@@ -20,6 +20,7 @@ import { Npcs } from './collections/Npcs'
 import { Pages } from './collections/Pages'
 import { SubAreas } from './collections/SubAreas'
 import { QuestGuides } from './collections/QuestGuides'
+import { Redirects } from './collections/Redirects'
 import { Quests } from './collections/Quests'
 import { Users } from './collections/Users'
 import { dofusDbValuesEndpoint } from './endpoints/dofusdb-values'
@@ -89,6 +90,7 @@ export default buildConfig({
     SubAreas,
     AchievementCategories,
     Achievements,
+    Redirects,
     Users,
   ]),
   globals: [DofusGuidesIndex, ChecklistsIndex],
