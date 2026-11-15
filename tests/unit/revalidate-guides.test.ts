@@ -142,6 +142,8 @@ describe('checklists', () => {
       revalidateTag.mockReset()
       expect(await hook(hookArgs)).toEqual({ id: 1 })
       expect(revalidateTag).toHaveBeenCalledWith(CHECKLISTS_TAG, { expire: 0 })
+      // La guía de su Dofus enlaza la checklist publicada en la web: cambia con ella.
+      expect(revalidateTag).toHaveBeenCalledWith(DOFUS_GUIDES_TAG, { expire: 0 })
     }
     expect(Checklists.hooks?.afterChange).toHaveLength(1)
     expect(Checklists.hooks?.afterDelete).toHaveLength(1)

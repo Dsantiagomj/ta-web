@@ -175,6 +175,8 @@ export interface DofusGuideData {
    * clave (needKey): solo las casadas cuyo jefe tiene imagen (readDungeonBosses).
    */
   dungeonBosses: Map<string, MediaRef>
+  /** La checklist de este Dofus publicada en la web, si la hay: la tarjeta lleva a ella. */
+  checklist?: { slug: string }
   siteUrl: string
 }
 
@@ -660,9 +662,11 @@ export function dofusGuideView(data: DofusGuideData): DofusGuideView {
   const videoId = guide.video ? youtubeId(guide.video) : null
   const poster = image(guide.videoPoster)
   const egg = image(populated(guide.dofus)?.image)
+  // La checklist de la web si está publicada; si no (En preparación), la de Squarespace.
+  const checklistHref = data.checklist ? `/${data.checklist.slug}` : guide.checklist?.url
   const checklist =
-    guide.checklist?.name && guide.checklist.url
-      ? { name: guide.checklist.name, href: guide.checklist.url }
+    guide.checklist?.name && checklistHref
+      ? { name: guide.checklist.name, href: checklistHref }
       : null
 
   return {

@@ -5,6 +5,7 @@ import { MODES } from '../../src/lib/theme/theme.ts'
 import { expectNeedsColumns } from './needs-layout.ts'
 import { seedAchievement as logro } from './seed/achievements.ts'
 import { seedDofus as dofus } from './seed/dofus-guides.ts'
+import { seedChecklists } from './seed/checklists.ts'
 import { seedGuide } from './seed/guides.ts'
 
 // Las guías de Dofus (DESIGN.md, Dofus guides index y Dofus guide page), sobre las que siembra
@@ -108,9 +109,11 @@ test.describe('página de una guía de Dofus', () => {
     await expect(header.locator('.qhead__meta')).toContainText(dofus.ocre.tag)
     await expect(header.getByRole('heading', { name: 'Prerrequisitos' })).toBeVisible()
     await expect(header.getByText(dofus.ocre.prerequisite)).toBeVisible()
+    // La checklist de su Dofus publicada en la web (la semilla del Nebuloso apunta a esta
+    // guía), no la de Squarespace que guarda la guía.
     await expect(
       page.getByRole('link', { name: new RegExp(dofus.ocre.checklist.name) }),
-    ).toHaveAttribute('href', dofus.ocre.checklist.url)
+    ).toHaveAttribute('href', `/${seedChecklists.nebuloso.slug}`)
     await expect(page.getByText(dofus.ocre.intro)).toBeVisible()
   })
 
