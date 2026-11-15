@@ -12,7 +12,7 @@ import {
   migrateQuestPos,
   readClassic,
 } from '@/lib/checklists/progress/legacy'
-import { pendingLegacy } from '@/lib/checklists/progress/legacy-keys'
+import { legacySource, pendingLegacy } from '@/lib/checklists/progress/legacy-keys'
 import { emptyProgress, type Progress } from '@/lib/checklists/progress/store'
 
 import { islandData, nebulosoDraft, stepId } from './helpers/nebuloso'
@@ -62,6 +62,14 @@ describe('pendingLegacy: si hay que cargar la migración', () => {
     expect(pendingLegacy(['dofus_nebuloso_clean_v1'], 'nebuloso', {})).toBe(true)
     expect(pendingLegacy(['dofus-checklists:shared'], 'nebuloso', {})).toBe(true)
     expect(pendingLegacy(['global:questObjective'], 'nebuloso', {})).toBe(true)
+  })
+
+  it('el rush: lo suyo en su página, y sus misiones y objetos en las demás', () => {
+    expect(pendingLegacy(['todos:done'], 'todos', {})).toBe(true)
+    expect(legacySource('todos:questObjective', 'silvestre')).toBe('todos:quests')
+    expect(legacySource('todos:owned', 'nebuloso')).toBe('todos:quests')
+    expect(legacySource('todos:done', 'silvestre')).toBeNull()
+    expect(legacySource('silvestre:questObjective', 'todos')).toBe('silvestre:quests')
   })
 
   it('ya migrado, sin claves antiguas o con claves que no llevan progreso, no', () => {
