@@ -317,7 +317,7 @@ export interface Quest {
         objectives?:
           | {
               dofusId: number;
-              kind: 'free' | 'npc' | 'bring' | 'fight' | 'map' | 'craft';
+              kind: 'free' | 'npc' | 'bring' | 'show' | 'fight' | 'map' | 'craft';
               /**
                * Tal cual lo da DofusDB, con marcas como {npc,2646} sin resolver.
                */

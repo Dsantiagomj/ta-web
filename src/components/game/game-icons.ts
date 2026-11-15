@@ -49,6 +49,8 @@ export const TORRE_AVATAR = { src: '/img/torre/avatar.webp', size: 144 }
 export const OBJECTIVE_ICONS: Record<QuestObjectiveKind, GameIconFile> = {
   npc: { src: '/img/game/objetivos/npc.webp', size: 64 },
   bring: { src: '/img/game/objetivos/bring.webp', size: 64 },
+  // La checklist antigua pintaba igual enseñar y entregar: el mismo icono.
+  show: { src: '/img/game/objetivos/bring.webp', size: 64 },
   map: { src: '/img/game/objetivos/map.webp', size: 64 },
   craft: { src: '/img/game/objetivos/craft.webp', size: 64 },
   free: { src: '/img/game/objetivos/free.webp', size: 64 },

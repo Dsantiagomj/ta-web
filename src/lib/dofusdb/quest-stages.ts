@@ -23,7 +23,7 @@ const SHAPES: Record<string, ObjectiveShape> = {
   QuestObjectiveFreeFormData: { kind: 'free' },
   // Ve a ver a {npc}
   QuestObjectiveGoToNpcData: { kind: 'npc', npc: 'parameter0' },
-  // Entrégale a {npc}: N x {item}
+  // Entrégale a {npc}: N x {item}. «Enséñale» comparte la clase (showsItem).
   QuestObjectiveBringItemToNpcData: {
     kind: 'bring',
     npc: 'parameter0',
@@ -53,6 +53,16 @@ const SHAPES: Record<string, ObjectiveShape> = {
   QuestObjectiveDiscoverSubAreaData: { kind: 'map' },
   // Fabrica N {item}
   QuestObjectiveCraftItemData: { kind: 'craft', item: 'parameter0', quantity: 'parameter1' },
+}
+
+// El typeId de «Enséñale a {npc}: N x {item}» (texto 56296 de DofusDB): el PNJ mira el
+// objeto y no se lo queda. «Entrégale» (texto 114533) es el 3. En 2026-11 son 323 objetivos
+// de 175 misiones, y ninguno de los dos typeId sale con otro texto.
+const SHOW_ITEM_TYPE_ID = 2
+
+/** Si el objetivo pide enseñar un objeto a un PNJ, que se lo devuelve: no se gasta. */
+export function showsItem(raw: Pick<RawQuestObjective, 'className' | 'typeId'>): boolean {
+  return raw.className === 'QuestObjectiveBringItemToNpcData' && raw.typeId === SHOW_ITEM_TYPE_ID
 }
 
 /**
@@ -85,7 +95,7 @@ function mapObjective(raw: RawQuestObjective): MappedQuestObjective {
   const map = raw.map ?? null
   return {
     dofusId: raw.id,
-    kind: shape.kind,
+    kind: showsItem(raw) ? 'show' : shape.kind,
     text: spanish(raw.text),
     npcId: parameter(shape.npc),
     monsterId: parameter(shape.monster),

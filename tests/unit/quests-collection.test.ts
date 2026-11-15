@@ -136,7 +136,7 @@ describe('etapas y objetivos de quests', () => {
     const kind = field('kind', objectives.fields)
     expect(kind).toMatchObject({ type: 'select', required: true })
     const values = (kind as { options: { value: string }[] }).options.map((option) => option.value)
-    expect(values).toEqual(['free', 'npc', 'bring', 'fight', 'map', 'craft'])
+    expect(values).toEqual(['free', 'npc', 'bring', 'show', 'fight', 'map', 'craft'])
     expect(field('text', objectives.fields)).toMatchObject({ type: 'text', localized: true })
     for (const name of [
       'npcId',

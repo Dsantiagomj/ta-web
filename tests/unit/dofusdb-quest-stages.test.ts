@@ -5,6 +5,7 @@ import { objectiveNpcIds, questStages } from '@/lib/dofusdb/quest-stages'
 import type { RawQuest, RawQuestObjective } from '@/lib/dofusdb/types'
 
 import questsWithObjectives from '../fixtures/dofusdb/quests-objectives.json'
+import shownItems from '../fixtures/dofusdb/quests-shown-items.json'
 
 function quest(id: number): RawQuest {
   const found = (questsWithObjectives as RawQuest[]).find((candidate) => candidate.id === id)
@@ -141,6 +142,39 @@ describe('questStages', () => {
     for (const [objective, expected] of cases) {
       expect(only(withObjective(objective)), objective.className).toMatchObject(expected)
     }
+  })
+
+  it('separa enseñar un objeto de entregarlo por el typeId de DofusDB', () => {
+    // El forjador de leyenda (2036): la misma clase para «Enséñale» (typeId 2, el objeto se
+    // queda) y para «Entrégale» (typeId 3, el PNJ se lo queda).
+    const forjador = (shownItems as RawQuest[]).find((candidate) => candidate.id === 2036)!
+    const objectives = questStages(forjador).flatMap((stage) => stage.objectives)
+    expect(
+      objectives
+        .filter((objective) => objective.itemId !== null)
+        .map(({ dofusId, kind, npcId, itemId, quantity }) => ({
+          dofusId,
+          kind,
+          npcId,
+          itemId,
+          quantity,
+        })),
+    ).toEqual([
+      { dofusId: 14600, kind: 'show', npcId: 3923, itemId: 20210, quantity: 1 },
+      { dofusId: 14605, kind: 'bring', npcId: 3923, itemId: 20211, quantity: 1 },
+      { dofusId: 14696, kind: 'show', npcId: 3923, itemId: 20210, quantity: 1 },
+    ])
+  })
+
+  it('una entrega sin typeId sigue siendo una entrega', () => {
+    expect(
+      only(
+        withObjective({
+          className: 'QuestObjectiveBringItemToNpcData',
+          parameters: { parameter0: 2646, parameter1: 15712, parameter2: 4 },
+        }),
+      ),
+    ).toMatchObject({ kind: 'bring', npcId: 2646, itemId: 15712, quantity: 4 })
   })
 
   it('toma las coordenadas del mapa del objetivo y, sin mapa, las de coords', () => {
