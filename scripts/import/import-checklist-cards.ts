@@ -58,6 +58,11 @@ try {
   for (const file of report.missingArt) {
     console.log(`No está en la copia de silvestre-checklist: public/img/${file}`)
   }
+  for (const slug of report.missingGuides) {
+    console.log(
+      `La guía de Dofus «${slug}» de una corona no está en la base: esa corona no se escribe.`,
+    )
+  }
   for (const { slug, field } of report.kept) {
     console.log(`Se respeta lo que cambió Torre en ${slug}: ${field}`)
   }

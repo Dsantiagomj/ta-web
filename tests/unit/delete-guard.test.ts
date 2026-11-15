@@ -52,7 +52,11 @@ describe('REFERRERS', () => {
 
   it('una guía de Dofus que da un paso de una checklist no se borra sin avisar', () => {
     expect(REFERRERS['dofus-guides']).toEqual([
-      { collection: 'checklists', title: 'name', paths: ['dofusGuide', 'steps.dofus'] },
+      {
+        collection: 'checklists',
+        title: 'name',
+        paths: ['dofusGuide', 'steps.dofus', 'card.crown'],
+      },
     ])
   })
 })

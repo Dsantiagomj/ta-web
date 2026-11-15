@@ -30,6 +30,11 @@ export interface CardArt {
   npcFit?: { height: number; right: number; top: number }
   /** El color de la carta, solo si no tiene guía de Dofus de la que tomarlo (el rush). */
   color?: string
+  /**
+   * La corona de huevos en vez del PNJ (el rush): las guías de Dofus por su slug, la primera
+   * grande en el centro y las demás alrededor.
+   */
+  crown?: string[]
 }
 
 export interface CardImportEntry {
@@ -75,27 +80,44 @@ export interface LoadChecklistCardsReport {
   kept: { slug: string; field: string }[]
   /** Imágenes que no están en la copia de silvestre-checklist. */
   missingArt: string[]
+  /** Guías de Dofus de una corona que no están en la base: esa corona no se escribe. */
+  missingGuides: string[]
   /** Imágenes que se subirían (en seco) o que se subieron. */
   pendingArt: number
   teaser: 'updated' | 'unchanged' | 'skipped'
 }
 
-type Value = number | string | null
+type Value = number | string | number[] | null
 type Values = Record<string, Value>
 type Snapshot = Record<string, unknown> & { card?: Values; teaser?: Values; name?: string }
 
 /** Lo importado de un campo: un valor, o una imagen que hay que buscar o subir. */
 type Wanted = { value: Value } | { art: ArtRef }
 
-const valueOf = (value: unknown): Value => {
-  if (typeof value === 'number' || typeof value === 'string') return value
+const idOf = (value: unknown): number | null => {
+  if (typeof value === 'number') return value
   if (value && typeof value === 'object' && 'id' in value && typeof value.id === 'number') {
     return value.id
   }
   return null
 }
 
-const empty = (value: Value) => value === null || value === ''
+const valueOf = (value: unknown): Value => {
+  if (typeof value === 'number' || typeof value === 'string') return value
+  // Una relación de varios (la corona): sus IDs, en su orden.
+  if (Array.isArray(value)) return value.map(idOf).filter((id): id is number => id !== null)
+  if (value && typeof value === 'object' && 'id' in value && typeof value.id === 'number') {
+    return value.id
+  }
+  return null
+}
+
+const empty = (value: Value) =>
+  value === null || value === '' || (Array.isArray(value) && value.length === 0)
+
+/** Dos valores iguales; una lista, por su contenido y su orden. */
+const equal = (a: Value | undefined, b: Value | undefined) =>
+  JSON.stringify(a ?? null) === JSON.stringify(b ?? null)
 
 const same = (a: unknown, b: unknown) => JSON.stringify(a ?? {}) === JSON.stringify(b ?? {})
 
@@ -125,7 +147,7 @@ async function plan(
     const current = valueOf(stored[field])
     const known = snapshot !== undefined && field in snapshot
     // Torre lo cambió desde la última importación.
-    if (known && current !== snapshot[field]) {
+    if (known && !equal(current, snapshot[field])) {
       result.kept.push(field)
       continue
     }
@@ -140,7 +162,7 @@ async function plan(
       }
       value = id
     } else value = want.value
-    if (current === value) {
+    if (equal(current, value)) {
       result.next[field] = value
       continue
     }
@@ -169,7 +191,7 @@ async function upload(target: Plan, art: CardArtStore, pending: Set<string>, app
 
 type Version = Pick<Checklist, 'name' | 'card' | 'importSnapshot'>
 
-const cardWanted = (entry: CardImportEntry): Record<string, Wanted> => ({
+const cardWanted = (entry: CardImportEntry, crown: number[] | null): Record<string, Wanted> => ({
   scene: { art: entry.card.scene },
   ...(entry.card.npc && { npc: { art: entry.card.npc } }),
   ...(entry.card.npcFit && {
@@ -178,18 +200,20 @@ const cardWanted = (entry: CardImportEntry): Record<string, Wanted> => ({
     npcTop: { value: entry.card.npcFit.top },
   }),
   ...(entry.card.color && { color: { value: entry.card.color } }),
+  ...(crown && { crown: { value: crown } }),
 })
 
 /** Lo que cambia en una versión: su tarjeta y su nombre. */
 async function planVersion(
   entry: CardImportEntry,
+  crown: number[] | null,
   version: Version,
   art: CardArtStore,
   missingArt: Set<string>,
 ) {
   const snapshot = (version.importSnapshot ?? {}) as Snapshot
   const card = await plan(
-    cardWanted(entry),
+    cardWanted(entry, crown),
     (version.card ?? {}) as Record<string, unknown>,
     snapshot.card,
     art,
@@ -236,6 +260,32 @@ function dataOf(version: Version, p: VersionPlan) {
 
 const SELECT = { name: true, card: true, importSnapshot: true, _status: true } as const
 
+/**
+ * Los IDs de las guías de la corona, en su orden. Si falta alguna, la corona no se escribe:
+ * una a medias movería los huevos de sitio. Las que faltan van al informe.
+ */
+async function crownIds(
+  payload: Payload,
+  entry: CardImportEntry,
+  missing: string[],
+): Promise<number[] | null> {
+  const slugs = entry.card.crown
+  if (!slugs?.length) return null
+  const { docs } = await payload.find({
+    collection: 'dofus-guides',
+    where: { slug: { in: slugs } },
+    pagination: false,
+    depth: 0,
+    draft: true,
+    overrideAccess: true,
+    select: { slug: true },
+  })
+  const bySlug = new Map(docs.map((guide) => [guide.slug, guide.id]))
+  const absent = slugs.filter((slug) => !bySlug.has(slug))
+  for (const slug of absent) if (!missing.includes(slug)) missing.push(slug)
+  return absent.length ? null : slugs.map((slug) => bySlug.get(slug)!)
+}
+
 export async function loadChecklistCards(
   payload: Payload,
   options: LoadChecklistCardsOptions,
@@ -249,6 +299,7 @@ export async function loadChecklistCards(
     renamed: [],
     kept: [],
     missingArt: [],
+    missingGuides: [],
     pendingArt: 0,
     teaser: 'skipped',
   }
@@ -294,8 +345,11 @@ export async function loadChecklistCards(
         })) as Version)
       : null
 
-    const draftPlan = await planVersion(entry, latest, options.art, missingArt)
-    const pubPlan = published ? await planVersion(entry, published, options.art, missingArt) : null
+    const crown = await crownIds(payload, entry, report.missingGuides)
+    const draftPlan = await planVersion(entry, crown, latest, options.art, missingArt)
+    const pubPlan = published
+      ? await planVersion(entry, crown, published, options.art, missingArt)
+      : null
     const plans = pubPlan ? [pubPlan, draftPlan] : [draftPlan]
     for (const p of plans) keep(entry.slug, [...p.card.kept, ...(p.name?.kept ?? [])])
     if (!plans.some(touches)) {

@@ -87,7 +87,7 @@ export const REFERRERS: Record<ReferencedCollection, Referrer[]> = {
   ],
   'achievement-groups': [{ collection: 'achievement-pages', title: 'name', paths: ['group'] }],
   'dofus-guides': [
-    { collection: 'checklists', title: 'name', paths: ['dofusGuide', 'steps.dofus'] },
+    { collection: 'checklists', title: 'name', paths: ['dofusGuide', 'steps.dofus', 'card.crown'] },
   ],
 }
 

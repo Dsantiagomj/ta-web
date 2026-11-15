@@ -80,6 +80,9 @@ export const checklistStrings = {
       color:
         'El color del borde, del brillo y del nombre, en hexadecimal (#c3b1f5). Vacío: el de la ' +
         'guía de su Dofus. Si no se lee bien, la web lo aclara o lo oscurece en el nombre.',
+      crown:
+        'Para una checklist sin guía de Dofus, como el rush: los huevos de la tarjeta en vez del ' +
+        'PNJ. El primero sale grande en el centro y los demás alrededor, en este orden.',
     },
     teaser: {
       indexDescription:

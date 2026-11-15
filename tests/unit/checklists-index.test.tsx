@@ -77,6 +77,28 @@ describe('ChecklistsIndex', () => {
     expect(markup.match(/<img [^>]*>/g)!.every((img) => img.includes('alt=""'))).toBe(true)
   })
 
+  it('el rush lleva la corona de huevos en vez del PNJ y el huevo: cada uno con su brillo', () => {
+    const rush: ChecklistEntry = {
+      name: 'Rush de todos los Dofus',
+      slug: 'checklist-todos-dofus',
+      state: 'published',
+      href: '/checklist-todos-dofus',
+      color: '#e3c565',
+      scene: asset('/media/mundo.jpg', 960),
+      crown: [
+        { egg: asset('/media/vulbis.png'), color: '#eb4623' },
+        { egg: asset('/media/esmeralda.png'), color: '#2ecd68' },
+      ],
+    }
+    const markup = render([rush])
+    expect(markup).toMatch(/<a class="poster poster--crown"/)
+    expect(markup).not.toContain('poster__npc')
+    expect(markup).not.toContain('poster__egg')
+    const eggs = [...markup.matchAll(/<span class="poster__cegg" style="--glow:([^"]+)">/g)]
+    expect(eggs.map((m) => m[1])).toEqual(['#eb4623', '#2ecd68'])
+    expect(markup.indexOf('vulbis.png')).toBeLessThan(markup.indexOf('esmeralda.png'))
+  })
+
   it('el color del Dofus, el del nombre en cada modo y el encuadre del PNJ van como datos', () => {
     const markup = render([published])
     expect(markup).toContain('--egg:#875cd2')

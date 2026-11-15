@@ -46,20 +46,52 @@ function npcVars(fit: ChecklistEntry['npcFit']): Vars | undefined {
   }
 }
 
-/** Lo pintado dentro del cartel: la escena, el PNJ, la sombra, el huevo y el brillo. */
+/**
+ * Lo pintado dentro del cartel: la escena, el PNJ, la sombra, el huevo y el brillo. Con corona
+ * (el rush, que da todos los Dofus), sus huevos en vez del PNJ y el huevo.
+ */
 function Art({
   scene,
   npc,
   fit,
   egg,
+  crown,
   priority,
 }: {
   scene?: ImageAsset
   npc?: ImageAsset
   fit?: ChecklistEntry['npcFit']
   egg?: ImageAsset
+  crown?: ChecklistEntry['crown']
   priority: boolean
 }) {
+  if (crown) {
+    return (
+      <>
+        <span className="poster__art" aria-hidden="true">
+          {scene && <Picture image={scene} alt="" sizes={SCENE_SIZES} priority={priority} />}
+        </span>
+        <span className="poster__shade" aria-hidden="true" />
+        <span className="poster__crown" aria-hidden="true">
+          {crown.map((item, index) => (
+            <span
+              className="poster__cegg"
+              style={item.color ? ({ '--glow': item.color } as Vars) : undefined}
+              key={index}
+            >
+              <Picture
+                image={item.egg}
+                alt=""
+                sizes={EGG_SIZES}
+                priority={priority && index === 0}
+              />
+            </span>
+          ))}
+        </span>
+        <span className="poster__foil" aria-hidden="true" />
+      </>
+    )
+  }
   return (
     <>
       <span className="poster__art" aria-hidden="true">
@@ -89,6 +121,7 @@ function Poster({ entry, priority }: { entry: ChecklistEntry; priority: boolean 
         npc={entry.npc}
         fit={entry.npcFit}
         egg={entry.egg}
+        crown={entry.crown}
         priority={priority}
       />
       {extra}
@@ -110,7 +143,12 @@ function Poster({ entry, priority }: { entry: ChecklistEntry; priority: boolean 
     )
   }
   return (
-    <a className="poster" href={entry.href} style={posterVars(entry)} data-tilt="">
+    <a
+      className={entry.crown ? 'poster poster--crown' : 'poster'}
+      href={entry.href}
+      style={posterVars(entry)}
+      data-tilt=""
+    >
       {inner(null)}
     </a>
   )

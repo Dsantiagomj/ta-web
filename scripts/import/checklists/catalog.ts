@@ -91,6 +91,16 @@ export const CHECKLIST_CATALOG: ChecklistCatalogEntry[] = [
     card: {
       scene: { path: 'zones/misiones-de-mundo.jpg', alt: 'Las misiones de mundo' },
       color: '#e3c565',
+      // Sin PNJ ni un solo huevo: la corona del hub, el Vulbis del paso 200 en grande con los
+      // cinco Dofus primordiales alrededor (el Ébano, debajo).
+      crown: [
+        'dofus-vulbis',
+        'dofus-esmeralda',
+        'dofus-purpura',
+        'dofus-turquesa',
+        'dofus-marfil',
+        'dofus-ebano',
+      ],
     },
   }),
   entry({

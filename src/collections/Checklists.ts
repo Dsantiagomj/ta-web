@@ -668,6 +668,15 @@ export const Checklists: CollectionConfig = {
             },
           },
         },
+        {
+          name: 'crown',
+          label: 'Corona de huevos',
+          type: 'relationship',
+          relationTo: 'dofus-guides',
+          hasMany: true,
+          maxRows: 6,
+          admin: { description: s.card.crown },
+        },
       ],
     },
     {

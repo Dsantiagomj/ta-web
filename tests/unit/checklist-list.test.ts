@@ -125,6 +125,43 @@ describe('checklistEntries: el arte de la tarjeta', () => {
     expect(entry!.npcFit).toBeUndefined()
   })
 
+  it('la corona: los huevos de sus guías en su orden, con su color; uno sin huevo no sale', () => {
+    const egg = (name: string) =>
+      ({
+        id: 1,
+        url: `/media/${name}.png`,
+        filename: `${name}.png`,
+        width: 128,
+        height: 128,
+        sizes: {},
+      }) as unknown as Media
+    const [entry] = checklistEntries([
+      doc({
+        dofusGuide: null,
+        card: {
+          scene,
+          color: '#e3c565',
+          crown: [
+            { color: '#eb4623', dofus: { image: egg('vulbis') } },
+            { color: '#2ecd68', dofus: { image: egg('esmeralda') } },
+            { color: '#000000', dofus: null },
+            7,
+          ],
+        },
+      }),
+    ])
+    expect(entry!.crown?.map((c) => [c.egg.src, c.color])).toEqual([
+      [expect.stringContaining('vulbis'), '#eb4623'],
+      [expect.stringContaining('esmeralda'), '#2ecd68'],
+    ])
+    expect(entry!.egg).toBeUndefined()
+  })
+
+  it('sin corona, ninguna', () => {
+    const [entry] = checklistEntries([doc({ card: { scene } })])
+    expect(entry!.crown).toBeUndefined()
+  })
+
   it('sin la imagen leída (solo su ID), ni escena ni PNJ', () => {
     const [entry] = checklistEntries([doc({ card: { scene: 8, npc: null } })])
     expect(entry!.scene).toBeUndefined()

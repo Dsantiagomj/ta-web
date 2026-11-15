@@ -546,8 +546,13 @@ export async function readChecklists(payload: Payload): Promise<ChecklistDoc[]> 
     draft: false,
     overrideAccess: false,
   })
+  // La guía de su Dofus y las de su corona (el rush): de cada una, su color y su huevo.
   const ids = [
-    ...new Set(docs.map((doc) => relationId(doc.dofusGuide)).filter((id) => id !== null)),
+    ...new Set(
+      docs
+        .flatMap((doc) => [doc.dofusGuide, ...(doc.card?.crown ?? [])].map(relationId))
+        .filter((id) => id !== null),
+    ),
   ]
   // Las dos lecturas a la vez: esta lista va en el menú de cada página.
   const [media, guides] = await Promise.all([
@@ -571,9 +576,15 @@ export async function readChecklists(payload: Payload): Promise<ChecklistDoc[]> 
   }
   return docs.map((doc) => {
     const id = relationId(doc.dofusGuide)
+    const crown = (doc.card?.crown ?? []).flatMap((relation) => {
+      const found = art.get(relationId(relation) ?? -1)
+      return found ? [found] : []
+    })
     return {
       ...doc,
-      ...(doc.card && { card: withCardMedia(doc.card, media) }),
+      ...(doc.card && {
+        card: { ...withCardMedia(doc.card, media), ...(crown.length > 0 && { crown }) },
+      }),
       dofusGuide: id === null ? null : (art.get(id) ?? null),
     } as ChecklistDoc
   })

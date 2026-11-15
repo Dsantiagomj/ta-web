@@ -30,11 +30,19 @@ export interface ChecklistDoc {
     npcRight?: number | null
     npcTop?: number | null
     color?: string | null
+    /** La corona de huevos (el rush): sus guías de Dofus, con su color y su huevo. */
+    crown?: Relation<GuideArtDoc>[] | null
   } | null
   dofusGuide?: Relation<{
     color?: string | null
     dofus?: Relation<{ image?: Relation<Media> }>
   }>
+}
+
+/** Lo que la tarjeta lee de una guía de Dofus: su color y su huevo. */
+export interface GuideArtDoc {
+  color?: string | null
+  dofus?: Relation<{ image?: Relation<Media> }>
 }
 
 /** Una checklist del índice. */
@@ -61,6 +69,11 @@ export interface ChecklistEntry {
   npc?: ImageAsset
   /** Su encuadre, en % de la tarjeta; lo que falte, el de siempre. */
   npcFit?: { height?: number; right?: number; top?: number }
+  /**
+   * La corona del rush en vez del PNJ y el huevo: el primero grande en el centro, los demás
+   * alrededor (checklists-index.css).
+   */
+  crown?: { egg: ImageAsset; color?: string }[]
 }
 
 /** La tarjeta «???» del final del índice: la siguiente checklist que prepara Torre. */
@@ -121,6 +134,12 @@ export function checklistEntries(docs: readonly ChecklistDoc[]): ChecklistEntry[
     const scene = image(doc.card?.scene)
     const npc = image(doc.card?.npc)
     const fit = npcFit(doc.card)
+    const crown = (doc.card?.crown ?? []).flatMap((relation) => {
+      const art = object(relation)
+      const crownEgg = image(object(art?.dofus ?? null)?.image)
+      const crownColor = text(art?.color)
+      return crownEgg ? [{ egg: crownEgg, ...(crownColor && { color: crownColor }) }] : []
+    })
     return {
       name: doc.name,
       slug: doc.slug,
@@ -133,6 +152,7 @@ export function checklistEntries(docs: readonly ChecklistDoc[]): ChecklistEntry[
       ...(scene && { scene }),
       ...(npc && { npc }),
       ...(fit && { npcFit: fit }),
+      ...(crown.length > 0 && { crown }),
     }
   })
 }
