@@ -2,7 +2,7 @@ import type { Payload } from 'payload'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 import { dungeonNoteReport, type DungeonRow } from '@/lib/achievements/dungeon-report'
-import { readDungeonBosses } from '@/lib/achievements/queries'
+import { readDungeonBosses } from '@/lib/guides/dungeon-bosses'
 
 import { startPayload, tinyPng } from './payload'
 

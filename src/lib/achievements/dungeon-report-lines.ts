@@ -4,7 +4,7 @@
 import { needKey } from '@/lib/guides/need-notes'
 
 import type { DungeonNoteReport, DungeonRow } from './dungeon-report'
-import type { NoteMatch } from './dungeons'
+import type { NoteMatch } from '@/lib/guides/dungeons'
 
 type How = NoteMatch['how']
 

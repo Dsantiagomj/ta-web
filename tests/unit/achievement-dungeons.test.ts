@@ -5,7 +5,7 @@ import {
   dungeonIndex,
   dungeonMatches,
   type DungeonNames,
-} from '@/lib/achievements/dungeons'
+} from '@/lib/guides/dungeons'
 
 import DEV_DUNGEONS from '../fixtures/dofusdb/dungeons.json'
 
