@@ -115,7 +115,11 @@ async function settle(page: Page) {
   await page.waitForLoadState('networkidle')
   await page.evaluate(() => document.fonts.ready)
   await page.waitForFunction(() =>
-    document.getAnimations().every((animation) => animation.playState !== 'running'),
+    document
+      .getAnimations()
+      // Sin los bucles infinitos del ambiente (DESIGN.md, Ambience), que nunca acaban.
+      .filter((a) => a.effect?.getComputedTiming().iterations !== Infinity)
+      .every((animation) => animation.playState !== 'running'),
   )
 }
 

@@ -12,6 +12,8 @@ import {
   Totals,
 } from '@/components/checklist/ChecklistParts'
 import { PageEnhancements } from '@/components/game/PageEnhancements'
+import { Ambience } from '@/components/site/Ambience'
+import { checklistAmbience } from '@/components/site/ambience-data'
 import { Breadcrumb } from '@/components/site/Breadcrumb'
 import { checklistView, type ChecklistData } from '@/lib/checklists/page'
 import { checklistPageStrings as s } from '@/lib/checklists/strings'
@@ -34,6 +36,8 @@ export function ChecklistView({ data, preview }: { data: ChecklistData; preview:
   const last = view.steps.length
   return (
     <div className="[--color-section:var(--color-sec-checklists)]" style={eggStyle(view.color)}>
+      {/* Dentro, para que herede el color del Dofus (--egg). */}
+      <Ambience fx={checklistAmbience(data.checklist.legacy?.prefix)} />
       {preview && <PreviewBar slug={view.slug} />}
       <main id="contenido" className="ck">
         <Breadcrumb {...view.breadcrumb} />

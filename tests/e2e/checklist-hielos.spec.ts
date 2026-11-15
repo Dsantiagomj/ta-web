@@ -17,7 +17,13 @@ const quest = (page: Page, n: number, name: string) =>
     .locator('.ck-q')
     .filter({ has: page.getByText(name, { exact: true }) })
 const settled = (page: Page) =>
-  page.waitForFunction(() => document.getAnimations().every((a) => a.playState !== 'running'))
+  page.waitForFunction(() =>
+    document
+      .getAnimations()
+      // Sin los bucles infinitos del ambiente (DESIGN.md, Ambience), que nunca acaban.
+      .filter((a) => a.effect?.getComputedTiming().iterations !== Infinity)
+      .every((a) => a.playState !== 'running'),
+  )
 
 test.describe('el Hielos', () => {
   test('la fila genérica dice con cuántas misiones vale y no enlaza ninguna guía', async ({

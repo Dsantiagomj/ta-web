@@ -1,3 +1,7 @@
+/* El ambiente de lo alto de cada página (Ambience.tsx) viaja con la cabecera, que sale en
+   todas: sin una hoja más que pedir (tests/e2e/hojas-de-estilo.spec.ts). */
+@import './ambience.css';
+
 /*
  * La cabecera y el pie de todo el sitio (DESIGN.md, Layout: Header y Footer), según el
  * prototipo cabecera-final (https://ta-prototipos.netlify.app/cabecera-final/).

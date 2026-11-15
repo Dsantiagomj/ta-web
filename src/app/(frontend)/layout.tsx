@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { cookies } from 'next/headers'
 import type { ReactNode } from 'react'
 
+import { Ambience } from '@/components/site/Ambience'
 import { SiteFooter } from '@/components/site/SiteFooter'
 import { TOP_ANCHOR } from '@/components/site/nav'
 import { SiteHeader } from '@/components/site/SiteHeader'
@@ -48,6 +49,7 @@ export default async function FrontendLayout({ children }: { children: ReactNode
         <SiteHeader counts={counts} dofus={dofus} checklists={checklists} initialMode={mode} />
         {children}
         <SiteFooter year={new Date().getFullYear()} />
+        <Ambience />
       </body>
     </html>
   )

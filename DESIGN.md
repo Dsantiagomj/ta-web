@@ -365,6 +365,7 @@ In light mode, shadows drop to half their alpha.
 
 | Token | Value | Use |
 |---|---|---|
+| (none) | -1 | the ambience layer, under everything in the page (Ambience) |
 | `--z-base` | 0 | content |
 | `--z-raised` | 10 | sticky table heads, sticky side column |
 | `--z-header` | 50 | site header |
@@ -731,7 +732,7 @@ Exits run at about 70 percent of the enter duration (a 220ms dropdown closes in 
 ### Rules
 
 - Animate `transform` and `opacity` only. Color and fill transitions on hover are the one exception; no animation of `width`, `height`, `top`, `left`, `margin`, `filter` or `box-shadow` size.
-- No layout animation on content pages. Nothing on a guide page moves after it renders, except in response to the reader.
+- No layout animation on content pages. Nothing on a guide page moves after it renders, except in response to the reader. The one exception is the ambience (below), which sits behind the content and moves none of it.
 - Enter: from `opacity: 0; transform: translateY(8px)` to rest, `--duration-enter`, `--ease-out`. Stagger siblings by 40ms, at most 6 items; the rest appear with the last one.
 - Never animate the LCP element (the hero image or title) in from zero opacity.
 - Everything that opens also closes with motion, never by vanishing. Elements toggled with `hidden` and native `<dialog>`s do it in CSS alone: `@starting-style` gives the enter its first frame, and `display` (plus `overlay` for dialogs) transitions with `transition-behavior: allow-discrete`, so the element stays painted until its exit ends. While leaving it takes no pointer events. Browsers without discrete transitions still get the enter and close at once.
@@ -746,6 +747,37 @@ Exits run at about 70 percent of the enter duration (a 220ms dropdown closes in 
 - Page transitions (decided 2026-11-09, replacing "none at first"): every link of the site is a plain `<a>` and loads the whole page, so the browser crosses pages with a cross-document view transition (`@view-transition { navigation: auto; types: pagina }` in `globals.css`). The header and footer get a `view-transition-name` only while a «pagina» transition runs and do not move; the new page sits under the old one at full opacity and rises 8px over `--duration-base` while the old one fades out on top over 160ms with `--ease-in`, so the LCP element never enters from zero opacity. The lockup and the 404 link use `<a>` too (`next/link`'s client navigation would skip the transition). Browsers without cross-document view transitions (Firefox today) load the page as before. The mode switch is another view transition without that type, so the header is revealed with the rest of the page.
 - Same-document view transitions run from an island through `smoothUpdate` (`src/components/ui/view-transition.ts`), with a type the page's CSS keys on through `:active-view-transition-type()`. Without support or under reduced motion the change applies at once.
 - Reduced motion: under `prefers-reduced-motion: reduce` every transition and animation drops to 0.01ms or is removed, scroll reveals are off, smooth scrolling becomes `auto`, page transitions are off (the `@view-transition` rule only exists without reduced motion) and the islands skip their view transitions. Progress fills jump to their value.
+
+### Ambience
+
+Decided 2026-11-15, at the user's request: the particles of the old checklist hub (`silvestre-checklist`, `Hero.jsx`) on every page. `Ambience` in `src/components/site/` renders a layer of 14 empty `<i>` at the end of `<body>` from the `(frontend)` layout. Each particle has a fixed start (`--x`), delay, duration and size (4 to 7px) from `ambience-data.ts`, never random, so the server renders the same markup on every visit. The CSS lives in `ambience.css`, which `site.css` imports, so it adds no stylesheet. There is no JavaScript.
+
+- **Where**: the first screen of the page (`position: absolute` from the top, `100svh` tall, full width, `overflow: hidden`), at `z-index: -1`. It paints over the page background and under everything else, so a surface (a card, the checklist window) covers it and text always sits on top. The header is transparent at the top of the page, so the particles rise into it. The layer scrolls away with the page, so a reader deep in a guide never sees it.
+- **Motion**: particles rise from the bottom of the layer to just under the top and fade in and out on the way (falling leaves and snow go the other way). Only `transform` and `opacity` animate. The keyframes use `cqh` (the layer is a size container), so the same animation fits the page layer and the catalog box. The halo is a static `box-shadow`, never a `filter`.
+- **Decoration only**: `aria-hidden`, no text, `pointer-events: none`, `contain: strict`. It cannot shift layout or become the LCP element (empty boxes with gradient backgrounds).
+- **Phones**: below 640px only the first 7 particles show; they still span the width.
+- **Reduced motion**: `display: none`. No particles at all.
+- **Strength**: the layer is at 85 percent opacity in dark mode and 60 percent in light mode, on top of each particle's own fade. Light mode drops the halos.
+
+Each theme and mode sets custom properties (`--amb-anim`, `--amb-bg`, `--amb-glow`, `--amb-shape` and the rest, listed at the top of `ambience.css`) on the element that carries `data-theme` and `data-mode`. They inherit, so the nearest element wins: a `/sistema` section shows its own theme inside an Arcano page. Every other particle uses the second color. The colors come from the theme's `--t-accent` and `--t-accent-2`.
+
+| Theme | Dark | Light |
+|---|---|---|
+| Arcano | arcane motes in `accent` and `accent-2` with a white core and a halo, rising and swaying (`amb-rise`) | the same motes in the darker light-mode accents, no halo |
+| Amakna | fireflies: a pale core in `accent` green and `accent-2` gold, with a halo (`amb-rise`, the old hub's dark mode) | leaves in `accent-2` and `accent` that fall from the top and spin (`amb-fall`, the old hub's light mode) |
+| Bonta | white and gold light motes that float up slowly and twinkle (`amb-drift`, 1.25 times slower) | gold and blue dust, same motion |
+| Brâkmar | embers with a hot core, from `accent-2` to `accent`, rising fast in a zigzag and flickering (`amb-ember`, 0.65 times the duration) | dark red and amber embers, same motion |
+| Ocre | amber and coral sparks that flash as they rise (`amb-spark`) | the same sparks in the darker amber |
+
+**Checklists** keep the old hub's per-checklist effect. `ChecklistView` and `SoulsView` render their own layer (`Ambience fx`) inside the wrapper that carries the Dofus color (`--egg`), and the site layer hides (`body:has(.amb--page)`). `checklistAmbience` picks it from the checklist's old id (`legacy.prefix`):
+
+| Checklist | Effect |
+|---|---|
+| Hielos | snow that falls slowly, in both modes (`amb-snow`) |
+| Silvestre | the old hub's default: fireflies in dark mode, autumn leaves in light mode |
+| Any other (Nebuloso, Ocre, new ones) | motes in the Dofus color, rising like the fireflies |
+
+The catalog shows the layer in a 12rem box in every theme and mode (`Ambience demo`). E2E waits for "every animation finished" skip infinite animations, since the ambience never ends; `tests/e2e/ambiente.spec.ts` covers the layer itself.
 
 ## Imagery
 

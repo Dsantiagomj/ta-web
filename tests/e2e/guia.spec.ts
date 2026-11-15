@@ -13,7 +13,11 @@ const url = `/${seedGuide.slug}`
 /** Espera a que acabe la entrada escalonada: el contraste se mide en reposo. */
 async function settled(page: Page) {
   await page.waitForFunction(() =>
-    document.getAnimations().every((animation) => animation.playState === 'finished'),
+    document
+      .getAnimations()
+      // Sin los bucles infinitos del ambiente (DESIGN.md, Ambience), que nunca acaban.
+      .filter((a) => a.effect?.getComputedTiming().iterations !== Infinity)
+      .every((animation) => animation.playState === 'finished'),
   )
 }
 

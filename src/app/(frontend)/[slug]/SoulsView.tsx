@@ -2,6 +2,8 @@ import { ChecklistHeader, eggStyle, ProgressDialogs } from '@/components/checkli
 import { progressStrings as p } from '@/components/checklist/progress-strings'
 import { SoulsIntro, SoulsList, SoulsStrip, SoulsTools } from '@/components/checklist/SoulsParts'
 import { SoulsIsland } from '@/components/checklist/SoulsIsland'
+import { Ambience } from '@/components/site/Ambience'
+import { checklistAmbience } from '@/components/site/ambience-data'
 import { Breadcrumb } from '@/components/site/Breadcrumb'
 import type { ChecklistData } from '@/lib/checklists/page'
 import { soulsView } from '@/lib/checklists/souls'
@@ -27,6 +29,8 @@ export function SoulsView({ data, preview }: { data: ChecklistData; preview: boo
   })
   return (
     <div className="[--color-section:var(--color-sec-checklists)]" style={eggStyle(view.color)}>
+      {/* Dentro, para que herede el color del Dofus (--egg). */}
+      <Ambience fx={checklistAmbience(data.checklist.legacy?.prefix)} />
       {preview && <PreviewBar slug={view.slug} />}
       <main id="contenido" className="ck sl">
         <Breadcrumb {...view.breadcrumb} />
