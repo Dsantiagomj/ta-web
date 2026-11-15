@@ -200,7 +200,8 @@ function fightMonsters(blocks: BodyBlock[] | null | undefined): number[] {
 }
 
 /**
- * Lo que pinta alguna página: los objetos de las recompensas y requisitos de las misiones,
+ * Lo que pinta alguna página: los objetos de las recompensas (también por tramo de nivel) y
+ * requisitos de las misiones,
  * los de las recompensas de los logros y de sus páginas, los que piden las guías en su
  * resumen, y los
  * monstruos de los requisitos de las misiones, de los combates de las guías, los que
@@ -215,11 +216,17 @@ export async function gameImageTargets(
     collection: 'quests',
     pagination: false,
     depth: 0,
-    select: { rewards: { items: true }, needs: { items: true, monsters: true } },
+    select: {
+      rewards: { items: true, byLevel: true },
+      needs: { items: true, monsters: true },
+    },
     overrideAccess: true,
   })
   for (const quest of quests.docs) {
     for (const id of relationIds(quest.rewards?.items, 'item')) items.add(id)
+    for (const tier of quest.rewards?.byLevel ?? []) {
+      for (const id of relationIds(tier.items, 'item')) items.add(id)
+    }
     for (const id of relationIds(quest.needs?.items, 'item')) items.add(id)
     for (const id of relationIds(quest.needs?.monsters, 'monster')) monsters.add(id)
   }
@@ -278,12 +285,18 @@ export async function gameImageTargets(
     pagination: false,
     depth: 0,
     draft: true,
-    select: { body: true, summary: { needs: { items: true }, rewardItems: true } },
+    select: {
+      body: true,
+      summary: { needs: { items: true }, rewardItems: true, rewardLevels: true },
+    },
     overrideAccess: true,
   })
   for (const guide of guides.docs) {
     for (const id of relationIds(guide.summary?.needs?.items, 'item')) items.add(id)
     for (const id of relationIds(guide.summary?.rewardItems, 'item')) items.add(id)
+    for (const tier of guide.summary?.rewardLevels ?? []) {
+      for (const id of relationIds(tier.items, 'item')) items.add(id)
+    }
     for (const id of fightMonsters(guide.body as BodyBlock[])) monsters.add(id)
   }
   return { items: [...items], monsters: [...monsters] }

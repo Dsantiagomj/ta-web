@@ -10,6 +10,7 @@ export const guideStrings = {
     kamas: (amount: string) => `${amount} kamas`,
     quantity: (quantity: number, name: string) => `${quantity} x ${name}`,
     requiredLevel: (level: number) => `Nivel mínimo ${level}`,
+    levelRange: (from: number, to: number) => `Nivel ${from} a ${to}`,
     walksMaps: 'Caminar mapas',
   },
   seo: {
@@ -66,7 +67,10 @@ export const guideStrings = {
     rewardsDescription:
       'Lo que sale en Recompensas, en la cabecera de la guía. Lo que escribas aquí gana a ' +
       'DofusDB; lo que dejes vacío lo pone DofusDB, y un 0 quita la cifra. Con XP mínima, la ' +
-      'web enseña el rango «mínima a XP».',
+      'web enseña el rango «mínima a XP». «Por nivel» es solo para misiones que dan otra cosa ' +
+      'según el nivel, como las de evento: un tramo por fila, con la XP y los kamas del nivel ' +
+      'más alto del tramo. Con dos tramos o más, la web los enseña en vez de la XP, los kamas ' +
+      'y los objetos.',
     rewardNotesDescription:
       'Lo que no es XP, kamas ni un objeto del juego, como «Emote: Facepalm». Una por línea. ' +
       'No se rellena solo.',
@@ -93,6 +97,8 @@ export const guideStrings = {
       `Vacío. DofusDB da: ${value.replace(/\.$/, '')}. «Rellenar desde DofusDB» lo copia aquí.`,
     dofusDbEmpty: 'DofusDB no da nada aquí; escríbelo tú.',
     dofusDbEmptyChanged: 'Escrito por ti: DofusDB no da nada aquí.',
+    sameAtEveryLevel: 'DofusDB da lo mismo a todos los niveles: déjalo vacío.',
+    sameAtEveryLevelChanged: 'Escrito por ti: DofusDB da lo mismo a todos los niveles.',
     dofusDbLoading: 'Cargando los datos de DofusDB…',
     dofusDbUnavailable: 'No se pudieron cargar los datos de DofusDB.',
     noQuest: 'Sin misión de DofusDB: escribe tú este dato.',

@@ -64,7 +64,11 @@ function linkedQuest(dofusId: number): LinkedQuest {
       return found ? { name: found.name.es } : id
     }),
     startPositions: mapped.startPositions,
-    rewards: { ...mapped.rewards, items: mapped.rewards.items.map(item) },
+    rewards: {
+      ...mapped.rewards,
+      items: mapped.rewards.items.map(item),
+      byLevel: mapped.rewards.byLevel.map((tier) => ({ ...tier, items: tier.items.map(item) })),
+    },
     needs: {
       items: mapped.needs.items.map(item),
       monsters: mapped.needs.monsters.map(monster),
@@ -251,6 +255,7 @@ describe('summaryFromQuest', () => {
         { item: expect.objectContaining({ name: 'Cuero de miserata strubiense' }), quantity: 2 },
         { item: expect.objectContaining({ name: 'Colmillos de ratas' }), quantity: 2 },
       ],
+      rewardLevels: [],
       startNpc: 'Kerubim Crepin',
       startX: 3,
       startY: -17,
@@ -266,6 +271,7 @@ describe('summaryFromQuest', () => {
       rewardExperienceMin: null,
       rewardKamas: null,
       rewardItems: [],
+      rewardLevels: [],
       startNpc: null,
       startX: null,
       startY: null,
@@ -449,5 +455,113 @@ describe('summaryNote para la lista de Necesitarás', () => {
     const hunter = { status: 'ready', quest: linkedQuest(1977) } as const
     expect(summaryNote(hunter, 'needs', [])).toBe(admin.dofusDbEmpty)
     expect(summaryNote(hunter, 'needs', [{ item: 1, quantity: 1 }])).toBe(admin.dofusDbEmptyChanged)
+  })
+})
+
+// Una misión de evento: otra recompensa por tramo de nivel (La crisis de fe, 2056).
+const coupon = (id: number, name: string) => ({ item: { id, name }, quantity: 5 })
+const TIERED_QUEST: LinkedQuest = {
+  name: 'La crisis de fe',
+  rewards: {
+    experience: 2_750_000,
+    experienceMin: 2_750_000,
+    kamas: 43_980,
+    items: [coupon(3, 'Cupón praliné')],
+    byLevel: [
+      {
+        levelMin: 1,
+        levelMax: 109,
+        experience: 1_329_586,
+        kamas: 14_041,
+        items: [coupon(1, 'Cupón chocolate')],
+      },
+      {
+        levelMin: 110,
+        levelMax: 179,
+        experience: 2_544_537,
+        kamas: 35_601,
+        items: [coupon(2, 'Cupón avellana')],
+      },
+      {
+        levelMin: 180,
+        levelMax: 200,
+        experience: 2_750_000,
+        kamas: 43_980,
+        items: [coupon(3, 'Cupón praliné')],
+      },
+    ],
+  },
+}
+
+const TIERED_ROWS = [
+  {
+    levelMin: 1,
+    levelMax: 109,
+    experience: 1_329_586,
+    kamas: 14_041,
+    items: [{ item: 1, quantity: 5 }],
+  },
+  {
+    levelMin: 110,
+    levelMax: 179,
+    experience: 2_544_537,
+    kamas: 35_601,
+    items: [{ item: 2, quantity: 5 }],
+  },
+  {
+    levelMin: 180,
+    levelMax: 200,
+    experience: 2_750_000,
+    kamas: 43_980,
+    items: [{ item: 3, quantity: 5 }],
+  },
+]
+
+describe('recompensas por tramo de nivel en el resumen', () => {
+  const { admin } = guideStrings
+
+  it('summaryFromQuest da los tramos de DofusDB con sus objetos poblados', () => {
+    const levels = summaryFromQuest(TIERED_QUEST).rewardLevels
+    expect(levels.map(({ levelMin, levelMax }) => [levelMin, levelMax])).toEqual([
+      [1, 109],
+      [110, 179],
+      [180, 200],
+    ])
+    expect(levels[0]).toMatchObject({
+      experience: 1_329_586,
+      kamas: 14_041,
+      items: [{ item: { id: 1, name: 'Cupón chocolate' }, quantity: 5 }],
+    })
+  })
+
+  it('rellena «Por nivel» vacío con los tramos de DofusDB, como IDs de objeto', () => {
+    expect(summaryToFill({}, TIERED_QUEST).rewardLevels).toEqual(TIERED_ROWS)
+  })
+
+  it('nunca toca un «Por nivel» con filas', () => {
+    const fill = summaryToFill({ rewardLevels: [TIERED_ROWS[0]!] }, TIERED_QUEST)
+    expect(fill).not.toHaveProperty('rewardLevels')
+  })
+
+  it('sin tramos en DofusDB no rellena nada', () => {
+    expect(summaryToFill({}, linkedQuest(1977))).not.toHaveProperty('rewardLevels')
+  })
+
+  it('la nota compara los tramos con los de DofusDB y los enseña', () => {
+    const ready = { status: 'ready', quest: TIERED_QUEST } as const
+    const shown =
+      'Nivel 1 a 109: 1 329 586 XP, 14 041 kamas, 5 x Cupón chocolate.\n' +
+      'Nivel 110 a 179: 2 544 537 XP, 35 601 kamas, 5 x Cupón avellana.\n' +
+      'Nivel 180 a 200: 2 750 000 XP, 43 980 kamas, 5 x Cupón praliné.'
+    expect(summaryNote(ready, 'rewardLevels', TIERED_ROWS)).toBe(admin.fromDofusDb)
+    expect(summaryNote(ready, 'rewardLevels', [])).toBe(admin.emptyCanFill(shown))
+    const changed = [{ ...TIERED_ROWS[0]!, kamas: 14_000 }, ...TIERED_ROWS.slice(1)]
+    expect(summaryNote(ready, 'rewardLevels', changed)).toBe(admin.changed(shown))
+  })
+
+  it('la nota de una misión sin tramos dice que da lo mismo a todos los niveles', () => {
+    const ready = { status: 'ready', quest: linkedQuest(1977) } as const
+    expect(summaryNote(ready, 'rewardLevels', [])).toBe(admin.sameAtEveryLevel)
+    expect(summaryNote(ready, 'rewardLevels', TIERED_ROWS)).toBe(admin.sameAtEveryLevelChanged)
   })
 })

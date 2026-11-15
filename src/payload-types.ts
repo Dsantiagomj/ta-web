@@ -215,6 +215,22 @@ export interface QuestGuide {
           id?: string | null;
         }[]
       | null;
+    rewardLevels?:
+      | {
+          levelMin: number;
+          levelMax: number;
+          experience?: number | null;
+          kamas?: number | null;
+          items?:
+            | {
+                item: number | Item;
+                quantity: number;
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[]
+      | null;
     /**
      * Lo que no es XP, kamas ni un objeto del juego, como «Emote: Facepalm». Una por línea. No se rellena solo.
      */
@@ -2299,6 +2315,22 @@ export interface QuestGuidesSelect<T extends boolean = true> {
           | {
               item?: T;
               quantity?: T;
+              id?: T;
+            };
+        rewardLevels?:
+          | T
+          | {
+              levelMin?: T;
+              levelMax?: T;
+              experience?: T;
+              kamas?: T;
+              items?:
+                | T
+                | {
+                    item?: T;
+                    quantity?: T;
+                    id?: T;
+                  };
               id?: T;
             };
         rewardNotes?: T;

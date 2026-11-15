@@ -259,6 +259,69 @@ const summaryFields: Field[] = [
         ],
       },
       {
+        // Las misiones de evento dan otra cosa según el nivel: un tramo por fila.
+        name: 'rewardLevels',
+        label: 'Por nivel',
+        labels: { singular: 'Tramo', plural: 'Tramos' },
+        type: 'array',
+        admin: { components: { Description: noteComponent('rewardLevels') } },
+        fields: [
+          {
+            type: 'row',
+            fields: [
+              {
+                name: 'levelMin',
+                label: 'Desde el nivel',
+                type: 'number',
+                required: true,
+                min: 1,
+              },
+              {
+                name: 'levelMax',
+                label: 'Hasta el nivel',
+                type: 'number',
+                required: true,
+                min: 1,
+              },
+              { name: 'experience', label: 'XP', type: 'number', min: 0 },
+              { name: 'kamas', label: 'Kamas', type: 'number', min: 0 },
+            ],
+          },
+          {
+            name: 'items',
+            label: 'Objetos',
+            labels: { singular: 'Objeto', plural: 'Objetos' },
+            type: 'array',
+            // Sin él, los nombres de sus tablas de versiones pasan de los 63 caracteres de Postgres.
+            dbName: 'qg_reward_level_items',
+            admin: {
+              components: rowLabel('RelationRowLabel', {
+                singular: panelStrings.rowLabels.need,
+                relationField: 'item',
+                relationTo: 'items',
+              }),
+            },
+            fields: [
+              {
+                name: 'item',
+                label: 'Objeto',
+                type: 'relationship',
+                relationTo: 'items',
+                required: true,
+              },
+              {
+                name: 'quantity',
+                label: 'Cantidad',
+                type: 'number',
+                required: true,
+                min: 1,
+                defaultValue: 1,
+              },
+            ],
+          },
+        ],
+      },
+      {
         name: 'rewardNotes',
         label: 'Otras recompensas',
         type: 'textarea',

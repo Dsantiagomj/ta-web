@@ -52,6 +52,40 @@ export function rewardedItems(rewards: LinkedRewards | null | undefined): Needed
   })
 }
 
+/** Un tramo de nivel de la misión, con sus objetos poblados en el orden de Torre. */
+export interface LevelReward {
+  levelMin: number
+  levelMax: number
+  experience: number | null
+  kamas: number | null
+  items: NeededItem[]
+}
+
+/** Los tramos de nivel de la misión, de menor a mayor; un 0 de DofusDB no es cifra. */
+export function levelRewards(rewards: LinkedRewards | null | undefined): LevelReward[] {
+  return (rewards?.byLevel ?? []).map((tier) => ({
+    levelMin: tier.levelMin,
+    levelMax: tier.levelMax,
+    experience: tier.experience || null,
+    kamas: tier.kamas || null,
+    items: rewardedItems(tier),
+  }))
+}
+
+/** «Nivel 1 a 109: 1 329 586 XP, 14 041 kamas, 5 x Cupón chocolate.», un tramo por línea. */
+export function levelRewardsText(levels: LevelReward[]): string {
+  return levels
+    .map((tier) => {
+      const parts = [
+        tier.experience ? text.experience(formatThousands(tier.experience)) : null,
+        tier.kamas ? text.kamas(formatThousands(tier.kamas)) : null,
+        ...tier.items.map(({ item, quantity }) => quantityLine(quantity, item)),
+      ].filter((part): part is string => Boolean(part))
+      return text.line(`${text.levelRange(tier.levelMin, tier.levelMax)}: ${parts.join(', ')}`)
+    })
+    .join('\n')
+}
+
 /** Un objeto que pide la misión, poblado, con su cantidad. */
 export interface NeededItem {
   item: LinkedItem & { id: number }
