@@ -98,13 +98,16 @@ export const revalidateDofusGuidesAfterDelete: CollectionAfterDeleteHook = ({ do
   return doc
 }
 
-// Una checklist guardada, publicada o borrada: la siguiente visita lee la nueva.
+// Una checklist guardada, publicada o borrada: la siguiente visita lee la nueva, también en
+// la guía de su Dofus, que enlaza la checklist cuando está publicada en la web.
 export const revalidateChecklistsAfterChange: CollectionAfterChangeHook = ({ doc }) => {
   revalidateChecklists()
+  revalidateDofusGuides()
   return doc
 }
 
 export const revalidateChecklistsAfterDelete: CollectionAfterDeleteHook = ({ doc }) => {
   revalidateChecklists()
+  revalidateDofusGuides()
   return doc
 }

@@ -283,3 +283,33 @@ describe('las misiones que Torre escribe para un logro', () => {
     expect([torre?.achievements, torre?.quests]).toEqual([1, 2])
   })
 })
+
+describe('la checklist de la guía', () => {
+  const created: number[] = []
+  afterAll(async () => {
+    for (const id of created) await payload.delete({ collection: 'checklists', id })
+  })
+
+  it('trae la checklist publicada en la web que apunta a su Dofus; En preparación, ninguna', async () => {
+    const guide = (await readDofusGuide(payload, 'prueba-dq-abisal'))!.guide
+    const checklist = (slug: string, state: 'published' | 'preparing', order: number) =>
+      payload.create({
+        collection: 'checklists',
+        data: {
+          name: `Checklist ${slug}`,
+          slug,
+          state,
+          order,
+          dofusGuide: guide.id,
+          legacyHref: `https://www.torrentearcano.com/${slug}`,
+          _status: 'published',
+        },
+      })
+    created.push((await checklist('prueba-dq-lista-preparando', 'preparing', 901)).id)
+    expect((await readDofusGuide(payload, 'prueba-dq-abisal'))!.checklist).toBeUndefined()
+    created.push((await checklist('prueba-dq-lista', 'published', 902)).id)
+    expect((await readDofusGuide(payload, 'prueba-dq-abisal'))!.checklist).toEqual({
+      slug: 'prueba-dq-lista',
+    })
+  })
+})
