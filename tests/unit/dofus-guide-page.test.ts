@@ -227,6 +227,29 @@ describe('dofusGuideView', () => {
     ])
   })
 
+  it('dos títulos de Torre anidados salen los dos, cada uno en su línea (Vigilante)', () => {
+    expect(
+      groupsOf([
+        { name: 'mazmorras', subtitle: '1 x Mazmorra', rows: [] },
+        {
+          name: 'mazmorras',
+          subtitle: 'Dependiendo de tu nivel',
+          rows: [note('Nivel 80 al 114: Malefíscof.'), note('Nivel 115 al 139: Fraktal.')],
+        },
+        // Un título sin filas debajo en todo su grupo no sale.
+        { name: 'otros', subtitle: 'Nada', rows: [] },
+      ]),
+    ).toEqual([
+      [
+        'Mazmorras',
+        [
+          ['1 × Mazmorra:', 0],
+          ['Dependiendo de tu nivel:', 2],
+        ],
+      ],
+    ])
+  })
+
   it('un subtítulo que solo repite el nombre del grupo no sale', () => {
     expect(
       groupsOf([{ name: 'combates', subtitle: 'Combates', rows: [note('2 x combates.')] }]),

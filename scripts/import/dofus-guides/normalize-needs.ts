@@ -2,7 +2,9 @@
 // (src/lib/dofus-guides/need-groups.ts), con datos y sin adivinar:
 // - un objeto, por su supertipo en DofusDB (recursos, equipables, consumibles);
 // - una nota bajo un título de Torre que ya es un grupo («Combates»), en ese grupo;
-// - si no, un logro, una mazmorra, un combate o un oficio por su nombre en los datos del juego;
+// - si no, un logro (por su nombre, o porque Torre escribe «Logro:»), una mazmorra, un combate
+//   o un oficio por su nombre en los datos del juego;
+// - un objeto que no casó, en el grupo de las filas de su misma lista de Torre;
 // - lo demás, a «Otros», y la importación lo lista.
 // Las filas conservan el orden de Torre dentro de cada grupo. Código puro.
 import { dungeonMatches, type DungeonNames } from '@/lib/guides/dungeons'
@@ -32,6 +34,13 @@ export interface NeedEntry {
    */
   unit?: string
   /**
+   * Los títulos de Torre que van encima del subtítulo, sin filas propias («1 x Mazmorra:» sobre
+   * «Dependiendo de tu nivel:»): salen cada uno en su línea, encima de él, en su mismo grupo.
+   */
+  lead?: string[]
+  /** Una fila «1 x …» que no casó con ningún objeto: queda como nota, en el grupo de su lista. */
+  unmatched?: boolean
+  /**
    * El título de Torre del grupo de la fila cuando mezcla grupos («Recursos y otras movidas»):
    * queda de subtítulo del grupo que se lleva más filas suyas.
    */
@@ -47,6 +56,7 @@ export type PlacementReason =
   | 'monstruo'
   | 'oficio'
   | 'subtítulo'
+  | 'su lista'
   | 'sin clasificar'
 
 /** A dónde va una fila, desde qué título de Torre y por qué. */
@@ -97,7 +107,10 @@ export function needClassifiers(data: {
     return found.how === 'none' ? null : found.how
   }
   return {
-    achievement: (text) => achievements.has(fold(labelOf(text).replace(/^logro\s*:\s*/iu, ''))),
+    // Torre lo dice («Logro: “La primera monta”.»), o es un logro por su nombre.
+    achievement: (text) =>
+      achievementName(text) !== null ||
+      achievements.has(fold(labelOf(text).replace(/^logro\s*:\s*/iu, ''))),
     // Lo que dice «Mazmorra» o «Llave» («1 x Mazmorra Le chuko», «1 x Llave del Ring
     // Eskarlata»), o el nombre de una mazmorra de DofusDB («Antro del Dragocerdo»). El nombre
     // de un jefe solo es un combate.
@@ -168,11 +181,33 @@ export function normalizeNeeds(
   mixed: MixedUnit[]
 } {
   const placed = entries.map((entry) => place(entry, classify))
+  // Un objeto que no casó va al grupo de la fila de su lista de Torre más cercana: la de antes
+  // o, si es la primera, la de después. Solo cuentan las que se clasificaron con datos.
+  const sameList = (a: NeedEntry, b: NeedEntry) =>
+    a.unit === b.unit && a.headings.join('\u0000') === b.headings.join('\u0000')
+  entries.forEach((entry, index) => {
+    if (!entry.unmatched || placed[index]!.reason !== 'sin clasificar') return
+    const known = (other: number) =>
+      sameList(entries[other]!, entry) &&
+      !['sin clasificar', 'su lista'].includes(placed[other]!.reason)
+    const order = [
+      ...Array.from({ length: index }, (_, step) => index - 1 - step),
+      ...Array.from({ length: entries.length - index - 1 }, (_, step) => index + 1 + step),
+    ]
+    const neighbour = order.find(known)
+    if (neighbour !== undefined) placed[index] = { to: placed[neighbour]!.to, reason: 'su lista' }
+  })
   const mixed: MixedUnit[] = []
   for (let start = 0; start < entries.length;) {
     const unit = entries[start]!.unit
+    const runKey = (entry: NeedEntry) => [...(entry.lead ?? []), entry.unit ?? ''].join('\u0000')
     let end = start + 1
-    while (end < entries.length && unit !== undefined && entries[end]!.unit === unit) end += 1
+    while (
+      end < entries.length &&
+      unit !== undefined &&
+      runKey(entries[end]!) === runKey(entries[start]!)
+    )
+      end += 1
     if (unit !== undefined) {
       const run = placed.slice(start, end)
       const counts = new Map<NeedGroup, number>()
@@ -214,7 +249,14 @@ export function normalizeNeeds(
     const parts = byName.get(to) ?? new Map<string, NormalizedGroup & { texts: string[] }>()
     byName.set(to, parts)
     const subtitle = subtitleOf(entry, to)
-    const key = subtitle ?? ''
+    // Los títulos de Torre encima del subtítulo, cada uno en su línea y sin filas.
+    const leadKey: string[] = []
+    for (const lead of entry.lead ?? []) {
+      leadKey.push(lead)
+      const key = leadKey.join('\u0000')
+      if (!parts.has(key)) parts.set(key, { name: to, subtitle: lead, rows: [], texts: [] })
+    }
+    const key = [...(entry.lead ?? []), subtitle ?? ''].join('\u0000')
     const part = parts.get(key) ?? {
       name: to,
       ...(subtitle && { subtitle }),

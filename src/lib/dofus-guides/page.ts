@@ -424,9 +424,11 @@ function needsView(
   guide: DofusGuideDoc,
   bosses: DofusGuideData['dungeonBosses'],
 ): DofusGuideView['needs'] {
+  // Un título de Torre sin filas («1 x Mazmorra:» sobre «Dependiendo de tu nivel:») se queda,
+  // encima de las de su grupo; sin nada debajo en todo el grupo, no sale.
   const stored = (guide.needs?.groups ?? []).flatMap((group) => {
     const rows = needRows(group.rows ?? [], group.name, bosses)
-    return rows.length ? [{ ...group, rows }] : []
+    return rows.length || group.subtitle?.trim() ? [{ ...group, rows }] : []
   })
   const legacy = stored.some((group) => !isNeedGroup(group.name))
   const groups: NeedGroupView[] = []
@@ -444,6 +446,8 @@ function needsView(
     if (!part.subtitle && !last.subtitle) last.rows.push(...part.rows)
     else same.parts.push(part)
   }
+  const shown = groups.filter((group) => group.parts.some((part) => part.rows.length > 0))
+  groups.splice(0, groups.length, ...shown)
   if (groups.length === 0) return null
   if (!legacy) {
     groups.sort(
