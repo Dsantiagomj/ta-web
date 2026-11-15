@@ -113,7 +113,7 @@ describe('A-03: el orden del menú', () => {
 
   it('los datos del juego van juntos, con sus refrescos al final', () => {
     const slugs = navGroups()[2]?.slugs ?? []
-    expect(slugs.toSorted()).toEqual([...GAME_DATA, 'game-data-refreshes'].sort())
+    expect([...slugs].sort()).toEqual([...GAME_DATA, 'game-data-refreshes'].sort())
     expect(slugs.at(-1)).toBe('game-data-refreshes')
   })
 

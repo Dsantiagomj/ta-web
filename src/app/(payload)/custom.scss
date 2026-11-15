@@ -580,3 +580,24 @@ html .rs__control--is-focused {
   min-width: 24px;
   min-height: 24px;
 }
+
+/* «Traer los datos de DofusDB», arriba de «Refrescos de datos» (GameDataRefresh.tsx). */
+.ta-refresh {
+  max-width: 48rem;
+  margin-bottom: 1.5rem;
+}
+
+.ta-refresh__title {
+  margin: 0 0 0.5rem;
+}
+
+.ta-refresh__help,
+.ta-refresh__last,
+.ta-refresh__note,
+.ta-refresh__error {
+  margin: 0 0 0.5rem;
+}
+
+.ta-refresh__error {
+  color: var(--theme-error-500);
+}

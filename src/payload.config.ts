@@ -25,6 +25,7 @@ import { Redirects } from './collections/Redirects'
 import { Quests } from './collections/Quests'
 import { Users } from './collections/Users'
 import { dofusDbValuesEndpoint } from './endpoints/dofusdb-values'
+import { gameDataRefreshEndpoint } from './endpoints/game-data-refresh'
 import { ChecklistsIndex } from './globals/ChecklistsIndex'
 import { DofusGuidesIndex } from './globals/DofusGuidesIndex'
 import { healthEndpoint } from './endpoints/health'
@@ -101,7 +102,14 @@ export default buildConfig({
   // GET /api/ready, la de la base, para los smoke tests tras un despliegue;
   // GET /api/search/guides, el índice de la búsqueda de la cabecera.
   // GET /api/dofusdb-values/…, lo que da DofusDB para las notas del panel de logros.
-  endpoints: [healthEndpoint, readyEndpoint, searchIndexEndpoint, dofusDbValuesEndpoint],
+  // POST /api/game-data/refresh, el botón «Traer ahora» de «Refrescos de datos».
+  endpoints: [
+    healthEndpoint,
+    readyEndpoint,
+    searchIndexEndpoint,
+    dofusDbValuesEndpoint,
+    gameDataRefreshEndpoint,
+  ],
   // Panel en español.
   // Algunas palabras de Payload cambian: el estado de la cabecera dice si lo guardado ya está
   // en la web, de tú (src/lib/admin/strings.ts).

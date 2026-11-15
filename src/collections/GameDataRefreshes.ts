@@ -21,6 +21,8 @@ export const GameDataRefreshes: CollectionConfig = {
     group: panelStrings.groups.gameData,
     hideAPIURL: true,
     defaultColumns: ['startedAt', 'status', 'trigger', 'finishedAt'],
+    // Cómo acabó el último y el botón para traerlos ahora.
+    components: { beforeList: ['/components/admin/GameDataRefresh#GameDataRefresh'] },
   },
   defaultSort: '-startedAt',
   access: {
