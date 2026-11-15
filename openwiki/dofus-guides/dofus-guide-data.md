@@ -16,6 +16,12 @@ sources:
     resource: repo://src/globals/DofusGuidesIndex.ts
   - id: openwiki-source-98fb658ab637ba5e751fb194
     resource: repo://src/lib/dofus-guides/cache.ts
+  - id: openwiki-source-9c81b515d209a3ac7b95cba8
+    resource: repo://src/lib/dofus-guides/color.ts
+  - id: openwiki-source-651d65b97f9c21955a79c567
+    resource: repo://src/lib/dofus-guides/need-groups.ts
+  - id: openwiki-source-9660b854ff872f4ab63d720d
+    resource: repo://src/lib/dofus-guides/strings.ts
   - id: openwiki-source-66d7fca83a6f05e9ffb3f658
     resource: repo://src/lib/guides/slug.ts
   - id: openwiki-source-923f2de442e5ba235acca1ce
@@ -26,10 +32,10 @@ sources:
     resource: repo://tests/unit/dofus-guides-index-global.test.ts
   - id: openwiki-source-bf9fb1ff7357ca38b1ad1283
     resource: repo://tests/unit/revalidate-guides.test.ts
-generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-14T11:00:46.827Z
+    at: 2026-11-15T11:00:17.514Z
 ---
 
 # Dofus guide data model
@@ -59,10 +65,10 @@ Two states matter and they are different things. `_status` (draft or published) 
 | `slug` | text, required, unique, indexed, not localized | `/<slug>`, the same as on Torre's site (`dofus-abisal`). Validated by `validateSlug` from quest guides; in the sidebar |
 | `state` | select | `published` or `preparing` (see above) |
 | `order` | number, required | Position in the index, the menu and previous/next; 1 is first |
-| `level`, `tag`, `color` | number, select, text | One row. `tag` is `primordial` or `event` (labels "Primordial" and "Evento"), or empty; it drives the index filters. `color` is the glow behind the egg, validated by `validateColor` as a six-digit hex such as `#2a5aaa` |
+| `level`, `tag`, `color` | number, select, text | One row. `tag` is `primordial` or `event` (labels "Primordial" and "Evento"), or empty; it drives the index filters. `color` is the glow behind the egg, validated by `validateColor` (`src/lib/dofus-guides/color.ts`) as a six-digit hex such as `#2a5aaa`, in the browser too, with a color picker in front of the field (see [Panel dashboard and editing aids](../cms/panel-editing-aids.md)) |
 | `aliases` | text, localized | Other names, matched by the index search |
 | `prerequisites` | rich text, localized | Torre's text with its links |
-| `needs` | group | Necesitarás: an optional `title` (empty means "Necesitarás") and `groups` (below) |
+| `needs` | group | Necesitarás: an optional `title` (empty means "Necesitarás"), an optional `note` over all of it, and `groups` (below) |
 | `rewards`, `intro`, `outro` | rich text, localized | |
 | `parts` | blocks | The achievements and quests, in order (below) |
 | `body` | blocks | "Paso a paso", for step-by-step guides such as the Piñata de pino. Uses the quest guide blocks: rich text, image, video, callout, fight and step (see [Guide body blocks](../cms/blocks.md)) |
@@ -72,12 +78,20 @@ Two states matter and they are different things. `_status` (draft or published) 
 | `importSnapshot` | json, hidden | What the import last wrote per field, so a rerun never overwrites Torre's edits (see [Dofus guides import](../data/dofus-guides-import.md)) |
 | `originalUrl` | text | The Squarespace URL, in the sidebar |
 
+The form arranges these fields in three unnamed tabs, which only order the form: «Contenido» (intro, parts, body and outro), «Ficha» (level, tag, color, prerequisites, rewards, aliases, checklist, video and poster) and «Necesitarás». The Dofus item, name, slug, state and order sit above the tabs.
+
 ### Necesitarás groups
 
-`needs.groups` is an array of groups ("Mazmorras", "Recursos"), each with an optional localized `name` and `rows` of two block types:
+`needs.groups` is an array of groups, each with:
+
+- `name`: required, chosen from a fixed list (`NEED_GROUPS` in `src/lib/dofus-guides/need-groups.ts`): «Combates», «Mazmorras», «Recursos», «Equipables», «Consumibles», «Oficios», «Emotes», «Logros» and «Otros», the order of the guides Torre has well arranged. The page renders groups in that order, and a group added in the panel lands where an imported one would. The panel labels each row by its group («Grupo 3: Consumibles»).
+- `subtitle`: optional, localized, shown under the group name above its rows, such as «1 x Mazmorra» or «Dependiendo de tu nivel».
+- `rows` of two block types:
 
 - `needItem`: an `item` relationship to `items`, a required `quantity` (at least 1, default 1), a localized `name` and a short `note` such as "(solo empezarla)". A row without a linked item must have a name (`validateNeedName`), or it would render empty.
 - `needNote`: a required localized rich `text` for what is not an item, such as a job, a dungeon or kamas.
+
+Before migration `20261114_163904_needs_group_select` the group name was free text. The migration moved the old name to `subtitle` and derived the group from it (see [Database](../data/database.md)). `itemGroup` maps a DofusDB item supertype to «Recursos», «Consumibles» or «Equipables», and `headingGroup` reads a group from a heading of Torre's, singular or plural; the import uses both to place rows (see [Dofus guides import](../data/dofus-guides-import.md)).
 
 ### Parts
 
@@ -119,11 +133,13 @@ The hooks run on drafts too, which is cheap and also covers unpublishing. Outsid
 - `20261110_000232_dofus_guides` creates `dofus_guides` with its locales and relations, the Necesitarás group tables, one table per part and body block, `dofus_meta_ach`, and the `_dofus_guides_v` version tables.
 - `20261110_052805_dofus_guides_import` adds `video_poster_id` and `import_snapshot`.
 - `20261110_131101_dofus_guides_index` creates the global's tables.
+- `20261114_163904_needs_group_select` turns the group name into the fixed list and keeps the old name as the subtitle.
 
 See [Database and migrations](../data/database.md).
 
 ## Tests
 
+- `tests/unit/dofus-need-groups.test.ts`: the fixed list, `headingGroup` and `itemGroup`.
 - `tests/unit/dofus-guides-collection.test.ts`: the panel group, drafts and versions, access, the shared slug space and the reserved `/guias-dofus`, preview, every field and its validation, the part and body blocks, the hidden import snapshot.
 - `tests/unit/dofus-guides-index-global.test.ts`: the global's group and access, the rich-text intro, and that saving it expires the cache.
 - `tests/integration/dofus-guides.test.ts`: visitors read only published guides and cannot write; Necesitarás groups and parts are saved in order; a Dofus guide cannot take a quest guide's slug or the reverse, nor a site route.

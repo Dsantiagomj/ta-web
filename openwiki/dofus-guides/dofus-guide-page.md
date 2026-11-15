@@ -22,10 +22,10 @@ sources:
     resource: repo://tests/integration/dofus-guide-queries.test.ts
   - id: openwiki-source-dfcb2081da061b860bb5cf7e
     resource: repo://tests/unit/dofus-guide-page.test.ts
-generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-14T11:00:46.827Z
+    at: 2026-11-15T11:00:17.514Z
 ---
 
 # Dofus guide page
@@ -62,8 +62,11 @@ A guide in state `preparing` has no page: the query filters it out for visitors,
 
 `dofusGuideView` (`src/lib/dofus-guides/page.ts`) is pure code that turns the loaded documents into what the components render.
 
+- **Body** (`dofusBody`): the step-by-step body through the quest guide's `guideContent` (intro, steps and closing), without priority on its first screenshot because it sits below the header. A step with no blocks to render and no coordinates is dropped.
 - **Header**: the egg, the name, the color (the glow behind the egg), the tag label and the meta line "N logros - N misiones - Nivel N", built by `dofusMeta`, which leaves out a zero count or a missing level. The counts are of what the page actually shows.
-- **Necesitarás**: groups with their rows. An item row takes the linked item's name and icon, or the typed name when no item is linked; a row with neither is dropped. A group with no rows is dropped, and with no groups the section is not rendered. The title is the guide's own or "Necesitarás".
+- **Necesitarás** (`needsView`): groups with their rows. An item row takes the linked item's name and icon, or the typed name when no item is linked; a row with neither is dropped. A group with no rows is dropped, and with no groups the section is not rendered. The title is the guide's own or "Necesitarás", and the guide's `note` goes above the groups.
+  - When every group has a group from the fixed list (see [Dofus guide data model](dofus-guide-data.md)), groups with the same group are merged and sorted in the list's order, each shown with its Spanish name. Inside a group, each part keeps Torre's subtitle above its rows, and loose rows of the same group run together. A subtitle that only repeats the group name («Combates» under Combates) is hidden; one like «1 x Mazmorra» shows as «1 × Mazmorra:». A lone «Otros» group without subtitles shows without a title.
+  - If any group has no fixed group (a migrated guide the import has not sorted yet), everything stays in its stored order, without moving rows.
 - **Parts**, in Torre's order:
   - An achievement shows its name, icon, a meta line (quests, level range, points) and its quest cards, built by the achievement page's `questRows` and `questCards` (see [Achievement page](../achievements/achievement-page.md)): each with the giver NPC's render, the level and the title, linked when the quest has a published guide. An achievement page that is not `published` is shown disabled, without a link, with "En preparación".
   - A metalogro is numbered ("Metalogro 1", in the order metalogros appear) and lists its achievements the same way.
@@ -81,8 +84,8 @@ A guide in state `preparing` has no page: the query filters it out for visitors,
 
 - `DofusHeader`: the egg (`Picture` with `priority`, the LCP image), the title, the meta line with the tag pill, and the Prerrequisitos and Recompensas columns, Torre's rich text with its links.
 - `DofusChecklist`: the checklist card with the egg.
-- `DofusNeeds`: one block per group; in each, the item rows in columns (icon well, "N ×" and the name) and then the notes, each in Torre's order. Every item name is a `CopyName`, which copies it to search in the game.
-- `DofusBody`: the step-by-step body through the quest guide's `GuideBody`.
+- `DofusNeeds`: the title, the guide's note, then one block per group with its name; in each part, the subtitle and then the item rows in columns (icon well, "N ×" and the name) followed by the notes, each in Torre's order. Every item name is a `CopyName`, which copies it to search in the game.
+- `DofusBody`: the «Paso a paso» section, rendered with the quest guide's `GuideSections` at heading level 3; nothing when the body is empty.
 - `DofusParts`: the metalogro and the achievement are headings and the quests a ruled list, with no boxes inside boxes. A quest without a published guide shows "Sin guía todavía".
 - `DofusVideo`: the guides' `VideoFacade`, which loads YouTube only on click.
 - `DofusNav`: previous and next as cards, like the next-quest card of a guide.
@@ -93,4 +96,4 @@ The only client island is the guides' `PageEnhancements` (copy buttons, the vide
 
 - `tests/unit/dofus-guide-page.test.ts`: the header meta, Necesitarás groups and title, achievement and metalogro parts with their quest cards, loose quests and notes, hidden parts, the video and checklist, previous and next, the breadcrumb.
 - `tests/integration/dofus-guide-queries.test.ts`: the guide with its published achievements, quests, guides and givers; a `preparing` guide hidden from visitors but visible in preview; no query for a non-guide slug; the list in Torre's order with its counts.
-- `tests/e2e/guias-dofus.spec.ts` (guide part): breadcrumb, header with the egg, prerequisites, checklist and intro; Necesitarás items that copy their name and render in columns with the notes after them; achievement quests from the achievement page and the loose quest's note; one column with the previous Dofus; 404 for a `preparing` Dofus; axe (WCAG 2.2 AA) in both modes.
+- `tests/e2e/guias-dofus.spec.ts` (guide part): breadcrumb, header with the egg, prerequisites, checklist and intro; Necesitarás items that copy their name and render in columns with the notes after them; achievement quests from the achievement page and the loose quest's note; one column with the previous Dofus; the step-by-step body (prose, screenshot, step and closing); 404 for a `preparing` Dofus; axe (WCAG 2.2 AA) in both modes.

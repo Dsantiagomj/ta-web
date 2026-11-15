@@ -26,10 +26,16 @@ sources:
     resource: repo://tests/e2e/brand.spec.ts
   - id: openwiki-source-427eacf7850519fc2b6f8403
     resource: repo://tests/e2e/cabecera.spec.ts
+  - id: openwiki-source-7bdfd1e280a0f7acbb93545d
+    resource: repo://tests/e2e/checklist-hielos.spec.ts
   - id: openwiki-source-288ad9891b2c39dd489ccb9b
     resource: repo://tests/e2e/checklist-migracion.spec.ts
+  - id: openwiki-source-afa72ff3c5a7f2e5a3f125de
+    resource: repo://tests/e2e/checklist-ocre.spec.ts
   - id: openwiki-source-6212fdd267ee82835596b325
     resource: repo://tests/e2e/checklist-progreso.spec.ts
+  - id: openwiki-source-ae814eafa72f4753869aeeb8
+    resource: repo://tests/e2e/checklist-silvestre.spec.ts
   - id: openwiki-source-e658a4e440d3afffbd1102c8
     resource: repo://tests/e2e/checklist.spec.ts
   - id: openwiki-source-3bd66ce842612aa5530166a6
@@ -42,14 +48,22 @@ sources:
     resource: repo://tests/e2e/guias-dofus.spec.ts
   - id: openwiki-source-1ad069df7a453770f4cdef35
     resource: repo://tests/e2e/inicio.spec.ts
+  - id: openwiki-source-f282069309be3e71d0f9abfa
+    resource: repo://tests/e2e/layout-lint.ts
   - id: openwiki-source-1f65cb688406ef2eb6ebe494
     resource: repo://tests/e2e/logro.spec.ts
+  - id: openwiki-source-9484de14d1905b6558564507
+    resource: repo://tests/e2e/maquetacion.spec.ts
   - id: openwiki-source-cf2cbbdb1dcdabf3a2d7fb52
     resource: repo://tests/e2e/metalogros.spec.ts
   - id: openwiki-source-0d3ca97f277fd81c10735a75
     resource: repo://tests/e2e/movimiento.spec.ts
   - id: openwiki-source-8678a106da2f0cdc8cdcbe91
     resource: repo://tests/e2e/needs-layout.ts
+  - id: openwiki-source-b64702b83579d77dfa9a4750
+    resource: repo://tests/e2e/panel-a11y.spec.ts
+  - id: openwiki-source-555fe60f70722da3d8252927
+    resource: repo://tests/e2e/panel-ola2.spec.ts
   - id: openwiki-source-558d32d2c7f599abb54614a4
     resource: repo://tests/e2e/panel-papeles.spec.ts
   - id: openwiki-source-ea417dee8b5fd3c2b35d3972
@@ -58,6 +72,8 @@ sources:
     resource: repo://tests/e2e/robots.spec.ts
   - id: openwiki-source-22571714391cf8b566f6ad43
     resource: repo://tests/e2e/seed/achievements.ts
+  - id: openwiki-source-57882e039abf8b13e0b204d3
+    resource: repo://tests/e2e/seed/checklist-cards.ts
   - id: openwiki-source-a9ba4f37c99dcf623c31a1f3
     resource: repo://tests/e2e/seed/checklists-index.ts
   - id: openwiki-source-2b41d7c025a0d947e6c1bbda
@@ -186,10 +202,10 @@ sources:
     resource: repo://vitest.config.mts
   - id: openwiki-source-57da85ca1bb457973a5594ff
     resource: repo://vitest.integration.config.mts
-generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-14T11:00:46.827Z
+    at: 2026-11-15T11:00:17.514Z
 ---
 
 # Test suites
@@ -251,7 +267,7 @@ Real Payload (`getPayload`) against a real Postgres with the committed migration
 - `refresh-quests.test.ts` runs `refreshQuests` three times against the integration database: the first run creates the fixture quests and skips missing prerequisites, a second run with the same data changes nothing and keeps `refreshedAt`, and a third run updates only what changed and links a prerequisite that now exists. A second block does the same for rewards and needs: it creates the fixture items and monsters and links rewards and needs by Payload ID, a rerun changes nothing, and a third run updates only the renamed item and the changed quest and skips an item DofusDB did not return. A third block runs the refresh over both fixtures with 1 write at a time and then, after deleting the rows, with 8, and expects the same counts and the same stored data, with relationships compared by DofusDB ID. A fourth block feeds the whole fixture catalog, including items no quest names, and checks that every item is created with its `superTypeId` and that a second run writes no item and keeps `refreshedAt`. It deletes its fixture quests, items and monsters before and after. See [DofusDB game data refresh](../data/dofusdb-refresh.md).
 - `import-quest-guides.test.ts` runs the Squarespace loader on the five fixture pages with a fake `fetchImage` that returns a 1×1 PNG. It checks drafts with their blocks and the existing quest linked, steps with their coordinates and screenshots, an `ETAPA n:` title saved as the step's bold first paragraph, fight lists turned into fight blocks (and an unknown monster leaving the list as text), one `media` record per image with its URL and alt, the oddities, a second run that changes, downloads and versions nothing, one new draft for a changed guide, the "Necesitarás" text saved as `needs.notes`, a summary field that disappears being filled from the linked quest (its start position and needed item) without extra versions on the next run, no drafts visible to anonymous readers, an invalid slug skipped, and a guide with two DofusDB IDs saved with no quest and the "Varias misiones de DofusDB" oddity. It cleans up its guides, media, quests and item before and after. See [Squarespace import](../data/squarespace-import.md#loading-into-payload).
 - `import-disconnect.test.ts` runs `tests/integration/fixtures/import-disconnect.ts` with `corepack pnpm payload run` (25 s limit), with `127.0.0.1` in `DATABASE_URL` rewritten to `localhost`, and expects `RECOVERY_OK` on stdout. The fixture checks that image download failures with network codes stay oddities, then kills the importer's own Postgres backend from a `media` `beforeChange` hook and checks that the load fails, no transaction session or half-saved guide or image is left, and the next load reconciles. Because it injects faults, the fixture refuses any non-local URL (`isLocalDatabaseUrl`) and any database other than `ta_web_integration` or CI's `ta_web`; two more cases assert those refusals. See [Squarespace import](../data/squarespace-import.md#tests).
-- `migrations.test.ts` checks that the latest migration rolls back and re-applies: it runs the Payload CLI (`pnpm payload migrate:down`, then `pnpm payload migrate`) with `integrationEnv` and `DATABASE_CONNECTION=direct`, leaving the database as it was. It starts the CLI twice, so it has its own 120 s timeout instead of the suite's 30 s. See [Database and migrations](../data/database.md#migrations).
+- `migrations.test.ts` checks that the migrations roll back and re-apply: it runs the Payload CLI (`pnpm payload migrate:down`, which reverts the last batch, every migration in the test database, then `pnpm payload migrate`) with `integrationEnv` and `DATABASE_CONNECTION=direct`, leaving the database as it was, and asserts the output names the latest migration. Before that it saves a checklist with a «Nota» segment and an achievement row «Hasta una misión», enum values later migrations added, so a `down` that cannot drop a value in use fails here. It starts the CLI twice, so it has its own 180 s timeout instead of the suite's 30 s. See [Database and migrations](../data/database.md#migrations).
 - `needs-list-migration.test.ts` calls the `20261104_195910_needs_list` migration's `down` and `up` directly on a guide with notes, writes text into the old columns of the guide and its version in between, and checks that after `up` both read it as `summary.needs.notes` with an empty item list. `up` runs in a `finally` so the database never stays on the old schema.
 - Newer files: `checklists.test.ts`, `checklist-page-queries.test.ts`, `checklist-list-queries.test.ts` and `import-checklists.test.ts` (the checklists collection, its page and index reads, and the import); `panel-roles.test.ts`, `users-access.test.ts`, `users-roles-migration.test.ts`, `delete-references.test.ts` and `field-locks.test.ts` (roles, the last-admin guard, refused deletes and locked fields; `createPanelUser` takes a role and defaults to an administrator); `legacy-slugs.test.ts` (no slug shadowed by the redirect table), `sitemap-read.test.ts` (the sitemap read as a visitor) and `preview-target.test.ts` (`findPreviewSlug`); `import-achievement-prose.test.ts`, `dungeon-report.test.ts` and `refresh-subareas.test.ts`.
 - `guide-single-quest-migration.test.ts` calls the `20261104_210644_guide_single_quest` migration's `down` and `up` directly on a guide linked to one quest. After `down` it checks the quest is a relation row for the guide and its version, then adds a second quest behind it; after `up` (in a `finally`) it checks that `quest_id`, `version_quest_id` and Payload's `quest` on the guide and its versions hold the first quest.
@@ -263,7 +279,7 @@ Real Payload (`getPayload`) against a real Postgres with the committed migration
 1. `pnpm build` (skipped with `E2E_SKIP_BUILD=1`).
 2. With no `DATABASE_URL` (a blank or whitespace-only value counts as none, as in `pnpm test:lhci`): start `pnpm db:dev` (reusing a running one) and reset `ta_web_e2e` with `scripts/db-e2e-reset.ts`.
 3. `pnpm migrate` on the empty database.
-4. `pnpm seed:e2e`: the test guides from `tests/e2e/seed/guides.ts` ("Seis pies bajo tierra" published with an introduction, three steps and a closing, its zone, achievement, XP range and the NPC with renders; its prerequisite's published guide; an unpublished draft), the achievement data from `tests/e2e/seed/achievements.ts` ("La ocasión hace al ladrón" in the Astrub metalogro with the three seeded guides' quests, a published achievement before it and one in preparation after it, and a metalogro with nothing published), the Dofus guides from `tests/e2e/seed/dofus-guides.ts` (the full "Dofus Ocre" with its egg, prerequisites, Necesitarás, the seeded achievement with its quests, a loose quest with Torre's note, the checklist and the video; "Dofawa" published without achievements; "Jyfus" in preparation; and the index intro) a panel user for the preview tests, the checklists from `tests/e2e/seed/checklists.ts` (a trimmed «Dofus Nebuloso» with three real steps, prerequisites and Necesitarás; «Dofus de los Hielos» published and sharing a quest with it; «Silvestre» in preparation linking to Squarespace) and the extra index entries from `tests/e2e/seed/checklists-index.ts` (one in preparation with a legacy link, one without, and a draft that never shows). Rerunning the seed duplicates nothing. `scripts/seed-e2e.ts` refuses any database that is not local (`isLocalDatabaseUrl`).
+4. `pnpm seed:e2e`: the test guides from `tests/e2e/seed/guides.ts` ("Seis pies bajo tierra" published with an introduction, three steps and a closing, its zone, achievement, XP range and the NPC with renders; its prerequisite's published guide; an unpublished draft), the achievement data from `tests/e2e/seed/achievements.ts` ("La ocasión hace al ladrón" in the Astrub metalogro with the three seeded guides' quests, a published achievement before it and one in preparation after it, and a metalogro with nothing published), the Dofus guides from `tests/e2e/seed/dofus-guides.ts` (the full "Dofus Ocre" with its egg, prerequisites, Necesitarás, the seeded achievement with its quests, a loose quest with Torre's note, the checklist and the video; "Dofawa" published without achievements; "Jyfus" in preparation; and the index intro) the panel users for the preview and panel tests (several, because each sign-in rewrites the account's sessions and specs running at once would log each other out), the checklists from `tests/e2e/seed/checklists.ts` (a trimmed «Dofus Nebuloso» with three real steps, prerequisites and Necesitarás; «Dofus de los Hielos» published, sharing a quest with it, with a generic row and a quest the game finishes on its own; «Silvestre» in preparation linking to Squarespace, with a draft holding what the import brings), the extra index entries from `tests/e2e/seed/checklists-index.ts` (one in preparation with a legacy link, one without, a draft that never shows, and «Almas del Ocre» in preparation with a souls draft) and the poster art from `tests/e2e/seed/checklist-cards.ts` (scenes, an NPC and its framing, and the «???» teaser on). Rerunning the seed duplicates nothing. `scripts/seed-e2e.ts` refuses any database that is not local (`isLocalDatabaseUrl`).
 5. `scripts/clear-data-cache.ts` empties Next's data cache, so no guide cached by an earlier run hides the fresh database.
 6. `pnpm start --port 3100` (`E2E_PORT`), a port of its own so a running `pnpm dev` on 3000 is never reused by mistake.
 
@@ -276,8 +292,9 @@ Specs:
 - `guia.spec.ts`: the public guide page on the seeded guides (header with Prerrequisitos and Necesitarás side by side, the mobile NPC with «Empieza con» and breadcrumb, the 10 % larger root from 1024px, steps with screenshots two per row, fight block, next quest card, the single 55rem column, the rewards bag by keyboard, without JavaScript and without horizontal scroll, prose-only guide, SEO, 404, reserved routes, viewer, video at 390px, coordinate copy, axe in Arcano dark and light) and draft preview.
 - `logro.spec.ts` and `metalogros.spec.ts`: the achievement page and the metalogros index on the seeded achievement data. See [Achievement page](../achievements/achievement-page.md#tests) and [Metalogros index](../achievements/metalogros-index.md#budget-and-tests).
 - `guias-dofus.spec.ts`: the Dofus guides index (cards in order, filter and search, no search box without JavaScript, axe), the seeded Dofus guide (header, Necesitarás that copies item names and lays out in columns, achievement quests, one column, 404 in preparation, axe) and the header's Dofus panel linking published guides. See [Dofus guides index and menu](../dofus-guides/dofus-guides-index.md#tests) and [Dofus guide page](../dofus-guides/dofus-guide-page.md#tests). `needs-layout.ts` is the shared check that Necesitarás puts items in columns with the notes below at 1440, 390 and 320 px, also used by the guide and achievement specs.
-- `checklist.spec.ts`, `checklist-progreso.spec.ts`, `checklist-migracion.spec.ts` and `checklists-index.spec.ts`: the checklist page, its progress in the browser, the merge of the old app's keys, and the `/checklists` index. See [Checklist page and index](../checklists/checklist-page.md) and [Checklist progress engine](../checklists/progress.md).
-- `panel.spec.ts` and `panel-papeles.spec.ts`: the panel as Torre sees it, and what an editor and an administrator may do. See [Admin panel](../cms/admin-panel.md).
+- `checklist.spec.ts`, `checklist-progreso.spec.ts`, `checklist-migracion.spec.ts` and `checklists-index.spec.ts`: the checklist page, its progress in the browser, the merge of the old app's keys, and the `/checklists` posters. `checklist-silvestre.spec.ts` and `checklist-ocre.spec.ts` open the Silvestre and Ocre drafts through the panel preview, as they look in dev after the import, while the published documents still lead to Squarespace; `checklist-hielos.spec.ts` checks the generic row and the quest that finishes on its own. See [Checklist page](../checklists/checklist-page.md), [Souls checklist](../checklists/souls-checklist.md), [Checklists index](../checklists/checklists-index.md) and [Checklist progress engine](../checklists/progress.md).
+- `panel.spec.ts` and `panel-papeles.spec.ts`: the panel as Torre sees it (menu, labels, the checklist step outline and pickers, axe on the edit view and the login), and what an editor and an administrator may do. `panel-ola2.spec.ts` covers the publish status line, the preview sizes, the dashboard and the panel guide with its own panel account, and `panel-a11y.spec.ts` runs axe (WCAG 2.2 AA) on five panel pages in both modes with no exceptions. `panel-helpers.ts` holds the shared sign-in and navigation. See [Admin panel](../cms/admin-panel.md) and [Panel dashboard and editing aids](../cms/panel-editing-aids.md).
+- `maquetacion.spec.ts`: the layout review. It loads every public page type (home, a guide, an achievement page, a Dofus guide, each checklist with every step opened and its Prerrequisitos and Objetos, the Ocre souls page, `/metalogros`, `/checklists` and `/guias-dofus`) at 390, 768, 1024 and 1440 px and runs `lintLayout` (`tests/e2e/layout-lint.ts`), a generic check that knows no component. It flags a page wider than the window, an element whose content overflows it, text clipped by `overflow` or cut with an ellipsis without the full text in `aria-label` or `title`, a text of three or more words broken one word per line, a broken text of two or more words in a box narrower than about 8ch, and overlapping siblings. An element with `data-layout-lint-ignore` is skipped with its subtree, only with a comment that says why. Against a deployment (`SMOKE_BASE_URL`) it reads published pages through Payload's API and signs in to the panel for the previews only with `LAYOUT_LINT_PANEL_LOGIN=1` and its credentials; `LAYOUT_LINT_PATHS` adds routes (see [Environment configuration](../architecture/configuration.md)).
 - `redirecciones.spec.ts`: legacy redirects and 410s, `/sitemap.xml`, `robots.txt` and the home canonical URL. See [Legacy redirects, sitemap and robots.txt](../operations/redirects-and-seo.md).
 - `hojas-de-estilo.spec.ts`: at most four stylesheets on every page of `lighthouserc.cjs`. See [Styles, tokens and site shell](../frontend/styles-and-shell.md#stylesheets-per-page).
 - `movimiento.spec.ts`: motion with and without reduced motion: page view transitions with a still header, panels, the search dialog and results, the phone menu, the viewer, the video player and the metalogros tiles. See [Styles, tokens and site shell](../frontend/styles-and-shell.md#motion).

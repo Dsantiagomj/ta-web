@@ -14,6 +14,8 @@ sources:
     resource: repo://README.md
   - id: openwiki-source-71c840280649a7620f8e010f
     resource: repo://scripts/db-dev.ts
+  - id: openwiki-source-b086b6b1802f507b0e5a4c8f
+    resource: repo://scripts/dungeon-notes.ts
   - id: openwiki-source-fd0bec8778f0f03626754905
     resource: repo://scripts/import/squarespace/to-quest-guide.ts
   - id: openwiki-source-63cbcc482c18e4f9ce5d0888
@@ -30,10 +32,10 @@ sources:
     resource: repo://src/collections/QuestGuides.ts
   - id: openwiki-source-2f2b90aba3af4142e443ba84
     resource: repo://src/lib/guides/strings.ts
-generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-14T11:00:46.827Z
+    at: 2026-11-15T11:00:17.514Z
 ---
 
 # Quickstart
@@ -67,6 +69,7 @@ Node 24 (≥ 24.22.1) and pnpm 11. No Docker. Details in [Local development](wor
 | Change Payload settings, add an endpoint or admin component | [Payload CMS configuration](cms/payload-config.md) |
 | Add or change a collection, or its access rules | [Collections and access](cms/collections.md) |
 | Change how the panel looks and behaves for Torre: labels, menu groups, admin and editor roles, refused deletes, fields that lock once saved | [Admin panel](cms/admin-panel.md) |
+| Change the «Pendiente» dashboard, the panel guide, the «En la web» status line, the preview sizes, form tabs, row labels, the checklist step outline and pickers, the color picker or the accessible names added to Payload's controls | [Panel dashboard and editing aids](cms/panel-editing-aids.md) |
 | Write a quest guide in the panel, or change what its DofusDB quest fills in (title, slug, SEO, summary, the "Necesitarás" list) and the notes under each field | [Writing a quest guide](cms/guide-authoring.md) |
 | Add or change a block in a guide body (rich text, image, YouTube video, callout, fight, step) | [Guide body blocks](cms/blocks.md) |
 | Change how a published guide renders at `/<slug>`, its breadcrumb, header, steps or next quest card, draft preview or cache revalidation | [Public quest guide page](frontend/guide-page.md) |
@@ -76,13 +79,15 @@ Node 24 (≥ 24.22.1) and pnpm 11. No Docker. Details in [Local development](wor
 | Change the Dofus guides collection or the index global (fields, Necesitarás groups, achievement and quest parts, slugs, cache tag) | [Dofus guide data model](dofus-guides/dofus-guide-data.md) |
 | Change how a Dofus guide renders at `/<slug>` (header, Necesitarás, achievements and quests, video, previous and next) | [Dofus guide page](dofus-guides/dofus-guide-page.md) |
 | Change the `/guias-dofus` index, its search and filters, or the Dofus in the header menu | [Dofus guides index and menu](dofus-guides/dofus-guides-index.md) |
-| Change the checklists collection, its steps and their identifiers, or import Torre's checklists (`pnpm import:checklists`) | [Checklist data and import](checklists/checklist-data.md) |
-| Change how a checklist renders at `/<slug>`, its island and details, or the `/checklists` index and menu entries | [Checklist page and index](checklists/checklist-page.md) |
-| Change how checklist progress is stored in the browser, or how the old app's progress is merged | [Checklist progress engine](checklists/progress.md) |
+| Change the checklists collection (steps or souls kind), its steps and their identifiers, or import Torre's checklists (`pnpm import:checklists`) | [Checklist data and import](checklists/checklist-data.md) |
+| Change how a steps checklist renders at `/<slug>`: the route lines inside each quest, «Objetos», its island and details | [Checklist page](checklists/checklist-page.md) |
+| Change the souls checklist (the Ocre): souls derived from a quest and its monsters, stages, regions, the level search and its island | [Souls checklist (Ocre)](checklists/souls-checklist.md) |
+| Change the `/checklists` posters, their art (`pnpm import:checklist-cards`), the «???» teaser, the poster progress or the menu entries | [Checklists index](checklists/checklists-index.md) |
+| Change how checklist and souls progress is stored in the browser, or how the old app's progress is merged | [Checklist progress engine](checklists/progress.md) |
 | Change the site header, footer, menu links (the Dofus and the checklists come from their collections), the search dialog or the `/api/search/guides` index | [Site header, footer and search](frontend/site-shell-and-search.md) |
 | Change the home page or its hero quest search | [Home page](frontend/home-page.md) |
 | Change the schema, connect to Neon, reset local data | [Database and migrations](data/database.md) |
-| Load or refresh DofusDB quests, the monster and item catalogs, achievements and the quest-giving NPCs, import game images, change how quest rewards, needs, zone and achievement are computed, or change how DofusDB requests are retried (`pnpm data:quests`) | [DofusDB game data refresh](data/dofusdb-refresh.md) |
+| Load or refresh DofusDB quests, the monster and item catalogs, achievements and the quest-giving NPCs, import game images, change how quest rewards, needs, zone and achievement are computed, or change how DofusDB requests are retried (`pnpm data:quests`); print how dungeon notes match (`pnpm data:dungeon-notes`) | [DofusDB game data refresh](data/dofusdb-refresh.md) |
 | Change how Squarespace pages become quest guides, import them (`pnpm import:guides`) or bring imported guides up to date (`pnpm guides:backfill`) | [Squarespace import](data/squarespace-import.md) |
 | Import Torre's metalogros index onto the achievement pages (`pnpm import:achievements`) or apply targeted fixes afterwards (`pnpm fix:achievements`) | [Importing Torre's achievement pages](data/achievements-import.md) |
 | Import the prose of Torre's achievement pages (`pnpm import:achievement-prose`) | [Achievement prose import](data/achievement-prose-import.md) |
@@ -92,7 +97,7 @@ Node 24 (≥ 24.22.1) and pnpm 11. No Docker. Details in [Local development](wor
 | Use design tokens, rem units and the root size, fonts, the four-stylesheet limit, the page shell, the emblem or the favicon, or change page transitions and motion | [Styles, tokens and site shell](frontend/styles-and-shell.md) |
 | Use or change a button, callout, figure, amount or a quest guide component (quest header, rewards bag, icon wells, fight block, steps, next quest card, Torre's tips, video), or the island that copies coordinates and item names, opens images fullscreen and opens the rewards bag | [Design system components](frontend/design-system-components.md) |
 | See every component in every theme, or add a new one to the catalog (`/sistema`) | [Component catalog (/sistema)](frontend/component-catalog.md) |
-| Run or write tests | [Test suites](testing/test-suites.md) |
+| Run or write tests, or the layout review that checks every public page type at four widths (`maquetacion.spec.ts`) | [Test suites](testing/test-suites.md) |
 | Fix a failing Lighthouse budget (LCP, CLS, JavaScript, images) or add a page to `pnpm test:lhci` | [Performance budgets](testing/performance-budgets.md) |
 | Fix a failing CI job or a git hook | [CI and quality gates](workflows/ci-and-quality-gates.md) |
 | Review everything entering a release with AI before releasing (`pnpm review:release`) | [Release review](workflows/release-review.md) |

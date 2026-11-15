@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:3613e46d7e5eaeaf080418528a0cc616708801ff709c88ab3b56cbe68a23092c",
+  "pageVersion": "sha256:baa09f6db5d76061219ea6af7a9cdeb8eb47d4b34395a14870f25218be723195",
   "claims": [
     {
       "id": "claim_c4d0210fcc834f69a874cfcee7b4d598",
@@ -80,11 +80,11 @@
     },
     {
       "id": "claim_08141421a97143cc8073d709e4bf1805",
-      "statement": "There are twenty-eight migrations today, from 20261103_030359_initial to 20261114_011851_users_roles, including those for quest stages, checklists, subareas, dungeons, the achievement prose snapshot, dungeon picks and panel roles, registered in src/migrations/index.ts.",
+      "statement": "There are thirty-three migrations today, from 20261103_030359_initial to 20261114_163904_needs_group_select, including those for quest stages, checklists and their Silvestre, Hielos, Ocre and card additions, subareas, dungeons, the achievement prose snapshot, dungeon picks, panel roles and the fixed Dofus guide need groups, registered in src/migrations/index.ts.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/index.ts#L1-L171",
-          "version": "repo-lines-v1:sha256:93f605d10d2b2d9e220b4cedf386e0c53d77ed67cfe3d024a7c955bbd8268ae5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5NDUxNjQyYmM1OWNhMTA2MjdjOWM1YzE3NmE0NTA0NzE0ZThjZTI3ODBlYTgzNjZiZDc2YzYyMTdjMTE1OGFlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiMDJkMmMwZDZkYzVlNzRkOTJmYTE0YjkxZGJlYTI2NDA5MGJlYjM1ZmRiOTE4OGQ5YjM0MTE4MWRjZTlmNGNlIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://src/migrations/index.ts#L1-L201",
+          "version": "repo-lines-v1:sha256:a9520e2e7dc418602de7508889292153de2a5cb1aa5c344066b9363dc23f93b6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5NDUxNjQyYmM1OWNhMTA2MjdjOWM1YzE3NmE0NTA0NzE0ZThjZTI3ODBlYTgzNjZiZDc2YzYyMTdjMTE1OGFlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiMDJkMmMwZDZkYzVlNzRkOTJmYTE0YjkxZGJlYTI2NDA5MGJlYjM1ZmRiOTE4OGQ5YjM0MTE4MWRjZTlmNGNlIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -113,8 +113,8 @@
       "statement": "The Postgres pool uses a 5 second connection timeout and logs pool errors instead of crashing.",
       "evidence": [
         {
-          "resource": "repo://src/payload.config.ts#L106-L130",
-          "version": "repo-lines-v1:sha256:d24c552ada683316dafb1fc97e8332a061aa77022461747e5b02e6cd2cee6ef1:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0MWVjZWZhMDgyNTAxMzE0NWYwNjBhMThkNTFkN2Q1OTE0NGY3MDg4NmQ3NDBhODkwZmZiMzI0ZjFjN2M2MjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1N2U3YzQ4YjRhMzQzODIxNmU2OGVlMDAyZjJhYmQzZGZjYmFiMzEyMmQwNDk0MjNlMDAwZjE5ZjlhMmYyYTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg0OGQ2NzZjNjJjNzA1ODYwNGE1Yjg1MDE4NTcyZDk5OWVlMTk1NzY2Y2ExM2U1NWY0OWVmYWFiNWNlOGVmMDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNmNGZlZjZhMGM4OTI5ZWY5MGZkNTZiY2EzYWY2YTMxZGMxNmMyYzEwMTVkOWU1ODRjNGM1NDM3NzE5NjFmMGQifQ"
+          "resource": "repo://src/payload.config.ts#L118-L141",
+          "version": "repo-lines-v1:sha256:cc597782e1f004a6a5464e8c3903060ea10d6d4ad4e820be431918f138e7854d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0MWVjZWZhMDgyNTAxMzE0NWYwNjBhMThkNTFkN2Q1OTE0NGY3MDg4NmQ3NDBhODkwZmZiMzI0ZjFjN2M2MjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg0OGQ2NzZjNjJjNzA1ODYwNGE1Yjg1MDE4NTcyZDk5OWVlMTk1NzY2Y2ExM2U1NWY0OWVmYWFiNWNlOGVmMDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUyNThlMDc1NzNjMmMzODBmMWM4YWFmNmU5M2U1YjZhODdkMzM3OWE3YTY4ZjYyNjNhNDE5NGMxZTA2NTJmM2YifQ"
         }
       ]
     },
@@ -140,15 +140,15 @@
     },
     {
       "id": "claim_3b03251807784c48ab08eadec2a4d409",
-      "statement": "tests/integration/migrations.test.ts runs pnpm payload migrate:down and then pnpm payload migrate against the integration database with DATABASE_CONNECTION=direct, asserting the latest migration in src/migrations/index.ts is rolled back and re-applied.",
+      "statement": "tests/integration/migrations.test.ts runs pnpm payload migrate:down, which reverts the last batch (every migration in the test database, newest first), and then pnpm payload migrate against the integration database with DATABASE_CONNECTION=direct, asserting the output names the latest migration in src/migrations/index.ts.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/index.ts#L1-L171",
-          "version": "repo-lines-v1:sha256:93f605d10d2b2d9e220b4cedf386e0c53d77ed67cfe3d024a7c955bbd8268ae5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5NDUxNjQyYmM1OWNhMTA2MjdjOWM1YzE3NmE0NTA0NzE0ZThjZTI3ODBlYTgzNjZiZDc2YzYyMTdjMTE1OGFlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiMDJkMmMwZDZkYzVlNzRkOTJmYTE0YjkxZGJlYTI2NDA5MGJlYjM1ZmRiOTE4OGQ5YjM0MTE4MWRjZTlmNGNlIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://src/migrations/index.ts#L1-L201",
+          "version": "repo-lines-v1:sha256:a9520e2e7dc418602de7508889292153de2a5cb1aa5c344066b9363dc23f93b6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5NDUxNjQyYmM1OWNhMTA2MjdjOWM1YzE3NmE0NTA0NzE0ZThjZTI3ODBlYTgzNjZiZDc2YzYyMTdjMTE1OGFlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiMDJkMmMwZDZkYzVlNzRkOTJmYTE0YjkxZGJlYTI2NDA5MGJlYjM1ZmRiOTE4OGQ5YjM0MTE4MWRjZTlmNGNlIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         },
         {
-          "resource": "repo://tests/integration/migrations.test.ts#L8-L39",
-          "version": "repo-lines-v1:sha256:125f58f1145ae0bd5a47acc2412aa40daec4bb78ae4da7c79cf5425022b2d4a1:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0ZjdkOTcyMDJkYTA2YThkYzAwZjU0NWNkODMzOWEyYmU2ZDgzYTc1ODkxMjJjOGUzYWM4ODJkZmJkZjU4ZjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU2NDU4M2IyMjgwZTkzZGY0NTI2YTJiZjA4NjZjNjkxZjg3Mjk3NTM3MDFlNGVlOWUwYWZmOGI0MTRmMzdlYzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://tests/integration/migrations.test.ts#L9-L74",
+          "version": "repo-lines-v1:sha256:0003ca57b97454fefed00773ddbe0cf598170db674ee60d611f55d6d719e81e5:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0ZjdkOTcyMDJkYTA2YThkYzAwZjU0NWNkODMzOWEyYmU2ZDgzYTc1ODkxMjJjOGUzYWM4ODJkZmJkZjU4ZjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1MDU1YTc4MmU0M2I0NmE2NTc5OTZmZWVkZDk3ZWE1M2VlM2NjYzNiYzYzZjJlMWI0YWExNjU2ZGMzZWI0OWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFhMGRhNjk5ZmNlMGFlNzU0ZjhmNzc3MmM0Y2U0YjljYjkyMTNhMGM5OTE2NTg3MTdkYjg4OWY3MGQ4OGI5ZjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBlNjgyMWFkOGMxMmRkNDRhY2FkMzUzOGM3YWU1YzJjYTU3ZWMzZTIzOGQ2NmM5ZGU3ZWQ0ZGJiOTFhY2IxYTQifQ"
         }
       ]
     },
@@ -157,12 +157,12 @@
       "statement": "The migrations test uses the Payload CLI because Payload imports migrations with Node rather than Vitest, and avoids migrate:refresh because in Payload 3.92 it rolls back oldest first and fails.",
       "evidence": [
         {
-          "resource": "repo://package.json#L43-L43",
-          "version": "repo-lines-v1:sha256:73cb884a392e05d5835e4c9f3d5e463c40e971b6188e03500910a6146c5f3f09:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzNjYjg4NGEzOTJlMDVkNTgzNWU0YzlmM2Q1ZTQ2M2M0MGU5NzFiNjE4OGUwMzUwMDkxMGE2MTQ2YzVmM2YwOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzNjYjg4NGEzOTJlMDVkNTgzNWU0YzlmM2Q1ZTQ2M2M0MGU5NzFiNjE4OGUwMzUwMDkxMGE2MTQ2YzVmM2YwOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWRlNDkzODM0MzZmMDc4OGVjNDkxNDQ0NjI4MGM3YmU3YjhmNDE3NWQ1OTg2NTM5ZmIxZTAxM2E0OGJlZGRkMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjI4ZDY5OGVkZTMwZmRmZmNiMGZlODViOWY4MDYyMjU4MDEzYTM1OGFjMGI2N2UwNDBlNGQ4NTBhMjdmNjRiNSJ9"
+          "resource": "repo://package.json#L45-L45",
+          "version": "repo-lines-v1:sha256:0f8974c4247608bda11da3912f7a99dea72a30687f17cc434b0b9bf2d5c9b8df:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGY4OTc0YzQyNDc2MDhiZGExMWRhMzkxMmY3YTk5ZGVhNzJhMzA2ODdmMTdjYzQzNGIwYjliZjJkNWM5YjhkZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGY4OTc0YzQyNDc2MDhiZGExMWRhMzkxMmY3YTk5ZGVhNzJhMzA2ODdmMTdjYzQzNGIwYjliZjJkNWM5YjhkZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODFlMTk0ODE1MTAwZjUzNjk5NDgzNDRkMWQwMzc2MGNkYTVlMGVkOGJjZGI2YzhkM2NiMzllZGM4MDkxYWUzNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmI1MTIzNzNkOTUwYTU2Mjc5MjllYTBjNjA5MWIzZjg3NmM4NWZlM2FkZWQ3MjMyZTVjYjNiZDNkNzM4NWM2ZSJ9"
         },
         {
-          "resource": "repo://tests/integration/migrations.test.ts#L22-L28",
-          "version": "repo-lines-v1:sha256:78d42c28e4acb67fa646d6628758ad613825d19ee434df2b605eab7c72764bb5:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzg1M2RiNGY2MzY5MDFiN2M1ODZjZjdmNTM3Y2JlYTJhNWU5NzIxNjkzNWZlYTAwZWEzNzEyOWVjOWY2ZTRiNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODhmMWVmZWM4YzRkY2MwNmVlZWZlZDViZjI3YzY0ZDQ0NTk1NjFlY2FlNTRlNDVkZDFkN2FiNTIzM2UxOWRkMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmI1ODBlOTY0ZjgzYTQ3M2Y0M2Q0NDM4NDYyOTQ5ZDY4YjU2MDBmZGE3ODdmMTYzNzQ1ZDAwZGU4OWNiZjM2YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTUzZTMwNzQ0ZjVkMzI1NjhjNjcwMzUzNGViZjM2ZmRmNzIyMTQ5NDRhMjhjZWFiMDY2MWIzYzYxNDgwNWEyZSJ9"
+          "resource": "repo://tests/integration/migrations.test.ts#L23-L28",
+          "version": "repo-lines-v1:sha256:7b1498230704e270464fa91b7fa2036fbbab2bd7e04ee9d779c3d2218abc004d:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzg1M2RiNGY2MzY5MDFiN2M1ODZjZjdmNTM3Y2JlYTJhNWU5NzIxNjkzNWZlYTAwZWEzNzEyOWVjOWY2ZTRiNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGRiZGUxZDIwZDAwODZhNDlhYjFiZjg0MDYxNzIxNTE5Y2MwYzAzYzQ0ZTlhOWFhNmViYzM5ZWEzOWE4YmM2MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmI1ODBlOTY0ZjgzYTQ3M2Y0M2Q0NDM4NDYyOTQ5ZDY4YjU2MDBmZGE3ODdmMTYzNzQ1ZDAwZGU4OWNiZjM2YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjg3MDhjZjU0NGYxYjdkZDUxNGExZWIwYjJjOWUxYjE1Y2ExYTViMGZjZjdmZDIzMDA2MTEyOTFkOTcyNDIwZiJ9"
         }
       ]
     },
@@ -171,7 +171,7 @@
       "statement": "When a Payload CLI command fails, the migrations test rethrows an error that includes the command's stdout and stderr.",
       "evidence": [
         {
-          "resource": "repo://tests/integration/migrations.test.ts#L15-L19",
+          "resource": "repo://tests/integration/migrations.test.ts#L16-L20",
           "version": "repo-lines-v1:sha256:13485947fcd7bb5ef4e1964efe1bd9af1e00c7b19301df22f08c06c798add6a0:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGVkYmY4Mzg3NTM2ODk2NmYzMTNhZTYzOTUzOWM0MDM3MDA0NWJhNTNlMmUyY2VlOTNiYjY3ZDVkYTE3Yjk4MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjdlNTc4OGQ1ZDlkNzNkMjRhODFkYmMwYTVhNzRiZmE4MmM5YzNiM2FmOTllNTJhZjc5NmU5MGI0NjhhOGEzZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTZhNzY3ODEyMzA1MjJjNTg0ZjM0MTVmNzgyZTliYmE0YmU0Y2M1Y2VmYTIxYjBkNDQyODE0NWM0NmFhYmFhYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzI3YzA3ZGNjMzViZGNkYjFiOGVjOTNlNjA1NzdiNzQ1M2JkOTkzN2ZhODNkYzdiMTUxMmVjNDZkNGViOTY2MiJ9"
         }
       ]
@@ -202,11 +202,11 @@
     },
     {
       "id": "claim_488757d054ec43aca597ef6bb07d3e65",
-      "statement": "The migrations test sets its own 120-second timeout because it starts the Payload CLI twice, which can exceed the 30-second default on a loaded machine.",
+      "statement": "The migrations test sets its own 180-second timeout because it starts the Payload CLI twice, which can exceed the 30-second default on a loaded machine.",
       "evidence": [
         {
-          "resource": "repo://tests/integration/migrations.test.ts#L35-L38",
-          "version": "repo-lines-v1:sha256:7c6ce74919c8c2f861060e8f3c7e4265a3a804238621794a948dba470d681615:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNThhZmRkMzIwZmFlOWVjYmY1YmZkNmM4OTFkY2Y1ZGM3ZjU0ZWJlNDEwYmJkZDgxMjg5NzkwYzEzOGE5NTQzNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGExZDM4YmQ3YTE3YmMzNmE0MjdiMzU5MzBkMWEyNjExZGY5M2ZkNmE1YTVmOGFjYmM3MTAxYmE4ZDBkYjI5OSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjIyMjQwNDYzYzRhM2FlNmIzZDY3ODRjNDVlNGNjODdhY2JjNDkwNTM3NzRlM2I4M2EwMjY3OTY1YTA3NDdhMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODU4MGI3NjUxOGRhZTk3OWZhZWJkMDIzNjdhMjkyOTJhNTBkOTc2MDkyMjUxYTM4YTZjZTMwODgwYmE0MjgyNSJ9"
+          "resource": "repo://tests/integration/migrations.test.ts#L74-L74",
+          "version": "repo-lines-v1:sha256:65055a782e43b46a657996feedd97ea53ee3ccc3bc63f2e1b4aa1656dc3eb49e:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjUwNTVhNzgyZTQzYjQ2YTY1Nzk5NmZlZWRkOTdlYTUzZWUzY2NjM2JjNjNmMmUxYjRhYTE2NTZkYzNlYjQ5ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjUwNTVhNzgyZTQzYjQ2YTY1Nzk5NmZlZWRkOTdlYTUzZWUzY2NjM2JjNjNmMmUxYjRhYTE2NTZkYzNlYjQ5ZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWU3OWZiMTAzNGM4NDNkNThlNGY0NTUwYzliMjhlYmFmOTUwOWU2MmE5NDc3YmRhYjhhMGFjNDZkNDA1ZTJjNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMGU2ODIxYWQ4YzEyZGQ0NGFjYWQzNTM4YzdhZTVjMmNhNTdlYzNlMjM4ZDY2YzlkZTdlZDRkYmI5MWFjYjFhNCJ9"
         }
       ]
     },
@@ -383,8 +383,8 @@
       "statement": "A Postgres client lost while checked out for a transaction is logged by the per-client error listener installed in pool.onConnect instead of crashing the process; the transaction owner receives the error and the transaction is not retried.",
       "evidence": [
         {
-          "resource": "repo://src/payload.config.ts#L113-L120",
-          "version": "repo-lines-v1:sha256:46c713f1c25885edcc8019021498aba8c91ac003e0b70fc36f2c51e50e03155f:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWQ2YTdhYjlhOWNlMDZkNjY4NTBjNTk3Y2ZkOGIyNWRmZWRjNzdmYWNmZGUxYzA3ZjZlYmIyN2FkNmYwMTUxOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjk3OGUyNTAzYjhjZjM3YTA2ZjdkNmYwYTNhNmI2ZmUzNTY5MWZiY2FiNTBiODc3NWNhYjZmYWJjNzFjNTkyYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGU4MDhiY2ZjZTU0OGIxYTkwODgzOWQzNjdlYmNkZGRhNWM2NDEzZjRjMDJhZWU2MjJlY2RmNmUyMmJlZmQwMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzg5ZTBjMDgzNzcyNWI0N2IwODkwNTAyY2EzZTVhYzk3NTUwN2E5Mzg3NGE5NTc3MDMzMmZkNTI0OTA4OWI1MyJ9"
+          "resource": "repo://src/payload.config.ts#L125-L131",
+          "version": "repo-lines-v1:sha256:c7a31a5f6d090bc1a86058f2ca5c411615fd85f9e3c522550bf2afe29b8898c1:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWQ2YTdhYjlhOWNlMDZkNjY4NTBjNTk3Y2ZkOGIyNWRmZWRjNzdmYWNmZGUxYzA3ZjZlYmIyN2FkNmYwMTUxOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjliMTk4MmU4ZGQ3NDgxMTgxNDZiMzlhMmQwMDYyZjQwODFlMzQ3NzliODY3NWMyMzRjNGZiMTI0ZGMzOTM5MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGU4MDhiY2ZjZTU0OGIxYTkwODgzOWQzNjdlYmNkZGRhNWM2NDEzZjRjMDJhZWU2MjJlY2RmNmUyMmJlZmQwMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTMyMWU1MGMyYzY0YzgxYzc2ZTc2ZGE3ZTIzY2NhOTNhOTUwMDMyYzIzNjI0NGI4YjExYzE3MDBkMTI3OGRkYyJ9"
         },
         {
           "resource": "repo://tests/integration/fixtures/import-disconnect.ts#L35-L49",
@@ -471,10 +471,52 @@
           "version": "repo-file-v1:sha256:f9b744c9c2900a575a6ba36e53b2c8d28f2736a9afd66c733be2fa25e39dcfe1"
         }
       ]
+    },
+    {
+      "id": "claim_a42a2baa0704460f908557a7d154bfae",
+      "statement": "The needs_group_select migration turns each Dofus guide need group's free-text name into one of the fixed groups, keeps the old name as the group's subtitle by renaming the locale column, rewrites importSnapshot the same way, and its down restores the names.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261114_163904_needs_group_select.ts#L1-L80",
+          "version": "repo-lines-v1:sha256:773a4bd6df9d4c768273f63e24c3d7e0eabd081f3ef99a06a6c27fb3b4f006b3:eyJzZWxlY3RlZExpbmVDb3VudCI6ODAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc0NDE4Y2UzYjFiMGUzY2RjZDlmYTA3NjRmNDBkODc4ODMzYjRhMzY5MmNhODQ4NzAyNTQ5OGFjMGMwZjdkNGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAzYWM3YzdkYjhiZjkxOTZiZjE1NTUxMTE0NGE5ZDc2NmQ3NjE2MTU1M2M5NTM1OGE1MDAwMGJiMmZjM2MzMDgifQ"
+        },
+        {
+          "resource": "repo://src/migrations/20261114_163904_needs_group_select.ts#L160-L166",
+          "version": "repo-lines-v1:sha256:80c87ecec658d88024c5782f3a22a74bebb7724e3e33e7b44d0376e6c9234c3a:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGU0OGI2MDUxYjQ5MzU1ZWIxODAzZjJlYzAxYTNiNDRlMWY4YmIxZDlmY2QxMTdkMDM0NTI1M2JlYWVhNzg0ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZDY5NThiNTY0Y2I4ZGExMmUwODZiMjFkYzQxYjAxYWYxZjkwMTk3MWY1OWVjNDNhNDQyNjE1MWVlM2MwMThiMSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmFlZTFjZjJiNGY1MjUyYmY2ZGRmZjFhYzQ4ZDcxN2M5YmUwNWJkNjE0YWZjMTZhZDczYWY3OTdkMmFkNjYxNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODFmMDZlN2IxMmYwMzI0NTg0NGU3MzgxMjM0ZjE2ZDZhODdlNjQ5NWMyOWFmZDIyYTg2OGIzYTQ3NTMxZTg0MCJ9"
+        },
+        {
+          "resource": "repo://tests/unit/migration-needs-group-select.test.ts",
+          "version": "repo-file-v1:sha256:17f43e3da98568acb2f9d930cfe1b246158881cc6031699848373fa651cb4e68"
+        }
+      ]
+    },
+    {
+      "id": "claim_7fd8a09b77ea4354bfb3bbfc58b2ad1f",
+      "statement": "The checklist_silvestre migration adds the note, tip, must and includes segment kinds and the upto achievement mode, and the checklist_ocre migration adds the steps or souls kind with steps as the default.",
+      "evidence": [
+        {
+          "resource": "repo://src/migrations/20261114_022136_checklist_silvestre.ts#L5-L16",
+          "version": "repo-lines-v1:sha256:acaabbffc18362186683bb8dbea96483dfccba060b083abe544aa38ced064b8f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjczY2Q4OTc3YmM2ZmFlMmY2NmIxMDI3NWZlZDE3MjhkMmY3NWZjZDcxN2Q3NTJmZWJlZjc1YmQzMmJjNDJlNmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3YzY5MGM3NmFkZmIzNzYxY2EyZGNkM2JlMGM3NzQ0NjczMzlkOGNkYmI1OWUyMWMwMjc1OWNlNDZjYjI3MGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM0N2Q1ZDkxZTEwZTFlN2U3ZDBiYmFhMTNmOGFkZjU4ZGQ1NTBlYjllMzY4MGY2NTA4Y2I4YTc2Mjg3MTFlYjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEwNjViYTAxOGUwMmI2NjY1M2RiNDdjMzU1NTUzZWU0NjJmNWQ5ZWFjYjY3YzA2YTYzNjhhN2Q1YzJmMTg2MmYifQ"
+        },
+        {
+          "resource": "repo://src/migrations/20261114_122659_checklist_ocre.ts#L5-L21",
+          "version": "repo-lines-v1:sha256:ec4e782dce0ca9a3819cc49045e530d5b6ea37e7a0c608219869875ed10a1aaa:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU3NTIwMDhjOGNlN2Y5ZWJkZjI5OWUzYWNkZjQ2MTE2NWEyZjRmZWNmZTIxYmJhNDFhMTVkYzYzOGUxY2NkMDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ3OTg3YWUxYTRhYjg5MWI4YjM0MjYxMzYzYjdkOTA2ZGM3NjU0OWMxMWM5OWJmODkxOGQwNjNmNzNmZWY5MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM0N2Q1ZDkxZTEwZTFlN2U3ZDBiYmFhMTNmOGFkZjU4ZGQ1NTBlYjllMzY4MGY2NTA4Y2I4YTc2Mjg3MTFlYjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM0ODNmY2I0OTRlOGViZmI2ZmQxYTNlMTAzZDM4YWQyNGU0OTkzMTYxMzM5YTI4OGIwNGUyMTY2NWQyOWFiMjUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_40dcc88ed6d84f1a8d82892499f3a44e",
+      "statement": "Before rolling back, the migrations test saves a checklist with a note segment and an upto achievement row, so reverting the migration that added those enum values must not fail on rows that use them.",
+      "evidence": [
+        {
+          "resource": "repo://tests/integration/migrations.test.ts#L30-L60",
+          "version": "repo-lines-v1:sha256:0c2015e4a691918b2135938120a18143a32591793e1e8937269b07aaba3db912:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1ZGE1ZWEyM2M4YjkzZTZjMTliMDU4NGE1N2RkNjc4YjJjNGNhNmM5MzZmOGM5MGJiNGE3ZWNlZTExNzMxNDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmNWEyNjAyYzdiOGYzMDZjNTYwZDUyMTY0MjI5NzgxZTczODFkMWFmZDM0NjRkMDMzNWYwZGMwMGRkYWE5YzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk3ZjhlZDk5NzI4N2FhODg2ZmNhODJmNDFiZDBlOTgzZDRmOTgzNWRmYWU1ZmYyNGI3MTRhN2Q2YzhhYWYwOTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAxNDEzY2E1M2FlZmVkYzg3MmVlOTkyNDFmNDQ5ZTFkNjJjY2I0YmUxMzM0N2ZiYWVjNjU0ODA4NDE0MDhhNDEifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-14T11:00:46.827Z"
+    "at": "2026-11-15T11:00:17.514Z"
   }
 }

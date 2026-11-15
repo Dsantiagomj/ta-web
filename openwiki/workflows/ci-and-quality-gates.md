@@ -38,10 +38,10 @@ sources:
     resource: repo://tests/unit/commit-msg.test.ts
   - id: openwiki-source-ced3a64571b8d5ee005bfe33
     resource: repo://tests/unit/gga-review-hook.test.ts
-generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-14T11:00:46.827Z
+    at: 2026-11-15T11:00:17.514Z
 ---
 
 # CI and quality gates
@@ -105,7 +105,7 @@ The `changes` job decides which jobs a change needs. On a pull request it lists 
 | Scope | Files | Jobs |
 |---|---|---|
 | `docs` | `docs/`, `openwiki/`, and Markdown anywhere except `src/` and `public/` | `install`, `lint`, `audit` |
-| `offline` | What never enters the build or the E2E and Lighthouse servers: the import and redirect scripts, hooks and a few other scripts, `tests/unit`, `tests/integration`, fixtures, the Vitest, ESLint, lefthook, gga and Prettier configs, `.claude/`, `.railway/` | adds `typecheck`, `unit`, `integration` |
+| `offline` | What never enters the build or the E2E and Lighthouse servers: the import and redirect scripts, hooks and a few other scripts (the release review, `backfill-guides`, `refresh-quests`, `dungeon-notes`, `payload-script`, `media-sizes` and the `build-*` image scripts), `tests/unit`, `tests/integration`, fixtures, the Vitest, ESLint, lefthook, gga and Prettier configs, `.claude/`, `.railway/` | adds `typecheck`, `unit`, `integration` |
 | `full` | Everything else, including anything unrecognized | adds `build`, `e2e`, `lighthouse` |
 
 A push to `main`, an empty file list or a diff that cannot be computed runs everything (`CI_SCOPE_FULL=1`). The audit runs in every scope, so a new critical advisory blocks every PR. A new script under `scripts/` counts as `full` until it is added to the offline list. If the script writes no `jobs`, the job fails. `tests/unit/ci-scope.test.ts` covers the rules.

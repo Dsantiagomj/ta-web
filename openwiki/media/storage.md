@@ -34,10 +34,10 @@ sources:
     resource: repo://tests/unit/media-regenerate.test.ts
   - id: openwiki-source-034e7fb4a132a9270c2ca2d0
     resource: repo://tests/unit/media-storage.test.ts
-generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-14T11:00:46.827Z
+    at: 2026-11-15T11:00:17.514Z
 ---
 
 # Media storage
@@ -117,7 +117,7 @@ Media records also keep alt text and credits (both localized) and the original S
 
 ## In the panel
 
-The panel calls the collection «Imágenes» and lists the file name, alt text and last change, searchable by alt and file name. Any panel account can upload and edit; only an administrator can delete. Two `beforeDelete` guards from `src/collections/delete-guard.ts` refuse a delete even then: `refuseGameAssetDelete` keeps game art (a record with `gameAsset`), which only the DofusDB refresh brings and its data links, from being deleted by any signed-in account, and `refuseReferencedDelete('media')` refuses while any quest guide uses the image, in its published version or its latest draft (an image block, an image inside rich text, or a video poster). The `gameAsset` field shows only on game art, and `originalUrl` shows read-only only on imported records. See [Admin panel](../cms/admin-panel.md).
+The panel calls the collection «Imágenes» and lists the file name, alt text and last change, searchable by alt and file name. Any panel account can upload and edit; only an administrator can delete. Two `beforeDelete` guards from `src/collections/delete-guard.ts` refuse a delete even then: `refuseGameAssetDelete` keeps game art (a record with `gameAsset`), which only the DofusDB refresh brings and its data links, from being deleted by any signed-in account, and `refuseReferencedDelete('media')` refuses while anything uses the image, in its published version or its latest draft: a quest guide's body image, a Dofus guide's video poster or body image, a checklist step's figure, icon or banner, a checklist's index card scene or NPC, an image or video poster in achievement page prose, or the scene or egg of the checklists index teaser. The `gameAsset` field shows only on game art, and `originalUrl` shows read-only only on imported records. See [Admin panel](../cms/admin-panel.md).
 
 ## Tests
 

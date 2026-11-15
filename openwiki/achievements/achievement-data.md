@@ -5,7 +5,7 @@ description: The four achievement collections (DofusDB achievements and categori
 tags: [achievements, payload, collections, dofusdb, autofill, slugs]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-14T11:00:46.827Z
+    at: 2026-11-15T11:00:17.514Z
 sources:
   - id: openwiki-source-63cbcc482c18e4f9ce5d0888
     resource: repo://scripts/refresh-quests.ts
@@ -31,6 +31,8 @@ sources:
     resource: repo://src/lib/achievements/dofusdb-values.ts
   - id: openwiki-source-cccb36aaa2b11479c43f1674
     resource: repo://src/lib/achievements/ensure-pages.ts
+  - id: openwiki-source-5adac35ccfda79779c93cc21
+    resource: repo://src/lib/achievements/strings.ts
   - id: openwiki-source-589bfa7373a4546b25115691
     resource: repo://src/lib/admin/strings.ts
   - id: openwiki-source-849ba98bed9aabb2bf862269
@@ -43,7 +45,7 @@ sources:
     resource: repo://tests/integration/legacy-slugs.test.ts
   - id: openwiki-source-69a5fa7edb72294e823509c1
     resource: repo://tests/unit/achievement-dofusdb-values.test.ts
-generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
 ---
 
 # Achievement data model
@@ -75,6 +77,8 @@ Both collections are panel-readable and script-written, like quests, items and m
 ## Editorial collections
 
 `achievement-pages` (`src/collections/AchievementPages.ts`) is one page per achievement, rendered at `/<slug>` (see [Achievement page](achievement-page.md)). It links one DofusDB achievement (`achievement`, required and unique) and carries `name`, `slug` (labelled «Dirección en la web»), `state`, `group` (its metalogro), `order` in that metalogro, `quests`, `points`, `rewards`, and optional `intro` and `outro` rich text. It has live preview and preview URLs through the same `/vista-previa` route as guides.
+
+The page form arranges its fields in three unnamed tabs (A-22): «Misiones» (metalogro, order and quests), «Texto» (intro and outro) and «Recompensas» (points and rewards). Unnamed tabs only order the form; the data is stored exactly as before. The quest rows start collapsed and show the quest's name as their label, and the form shows the one-line publish status like every editorial collection (see [Panel dashboard and editing aids](../cms/panel-editing-aids.md)).
 
 `intro` and `outro` use the shared prose editor (`src/collections/prose-editor.ts`), which adds a YouTube «Vídeo» block (`ProseVideoBlock`) to the rich text toolbar; the page renders it as the video facade. A hidden `importSnapshot` JSON field keeps what `pnpm import:achievement-prose` last wrote into those two fields, so a rerun leaves alone any field Torre changed since (see [Achievement prose import](../data/achievement-prose-import.md)).
 

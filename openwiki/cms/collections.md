@@ -1,7 +1,7 @@
 ---
 type: component
 title: Collections and access
-description: The fifteen Payload collections and the one global that exist today - Users for panel accounts, Media for uploads, Quests, Items, Monsters, Dungeons, NPCs, Sub-areas, Achievements and Achievement categories for read-only DofusDB game data, and Quest guides, Achievement pages, Metalogros, Dofus guides and Checklists for Torre's editorial content with drafts - with their fields, validation, localization, access rules and the tests that pin them down.
+description: The fifteen Payload collections and the two globals that exist today - Users for panel accounts, Media for uploads, Quests, Items, Monsters, Dungeons, NPCs, Sub-areas, Achievements and Achievement categories for read-only DofusDB game data, and Quest guides, Achievement pages, Metalogros, Dofus guides and Checklists for Torre's editorial content with drafts - with their fields, validation, localization, access rules and the tests that pin them down.
 tags: [payload, collections, access-control, media, users, quest-guides, game-data]
 sources:
   - id: openwiki-source-164e2da859b5277df81c7d94
@@ -46,8 +46,12 @@ sources:
     resource: repo://src/collections/SubAreas.ts
   - id: openwiki-source-c46dfd6e94656494b7d9df7b
     resource: repo://src/collections/Users.ts
+  - id: openwiki-source-0dfc60e4771d54c856d97933
+    resource: repo://src/globals/ChecklistsIndex.ts
   - id: openwiki-source-b450986b88b66a930e94b109
     resource: repo://src/globals/DofusGuidesIndex.ts
+  - id: openwiki-source-21608b24def9c73939548b30
+    resource: repo://src/lib/admin/live-preview.ts
   - id: openwiki-source-d7f7bf5d3e0f69a0ae70820b
     resource: repo://src/lib/admin/slug.ts
   - id: openwiki-source-54227c78b7c2e57bc6f3d29b
@@ -100,10 +104,10 @@ sources:
     resource: repo://tests/unit/quest-guides-collection.test.ts
   - id: openwiki-source-6678095e74d244708e64ddd4
     resource: repo://tests/unit/quests-collection.test.ts
-generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-14T12:41:45.223Z
+    at: 2026-11-15T11:00:17.514Z
 ---
 
 # Collections and access
@@ -117,7 +121,7 @@ Payload collections live one per file in `src/collections/` and are registered i
 | «Datos del juego (solo lectura)» | `quests`, `items`, `monsters`, `dungeons`, `npcs`, `subareas`, `achievement-categories`, `achievements` |
 | «Ajustes» | `users` |
 
-The config also registers one global, `dofus-guides-index`, the intro of the `/guias-dofus` index. The eight game data collections are read-only copies of DofusDB. The four achievement collections are described in [Achievement data model](../achievements/achievement-data.md), the Dofus guides in [Dofus guide data model](../dofus-guides/dofus-guide-data.md) and the checklists in [Checklist data and import](../checklists/checklist-data.md). Roles, delete protection and locked fields, which cut across the editorial collections, are in [Admin panel](admin-panel.md). The other collections listed in AGENTS.md (classes, pages) are planned and not in the code yet.
+The config also registers two globals: `dofus-guides-index`, the intro of the `/guias-dofus` index, and `checklists-index`, the «???» teaser poster of `/checklists` (see [Checklists index](../checklists/checklists-index.md)). Each collection's list shows a one-line description from `withPanelDescriptions` (see [Panel dashboard and editing aids](panel-editing-aids.md)). The eight game data collections are read-only copies of DofusDB. The four achievement collections are described in [Achievement data model](../achievements/achievement-data.md), the Dofus guides in [Dofus guide data model](../dofus-guides/dofus-guide-data.md) and the checklists in [Checklist data and import](../checklists/checklist-data.md). Roles, delete protection and locked fields, which cut across the editorial collections, are in [Admin panel](admin-panel.md). The other collections listed in AGENTS.md (classes, pages) are planned and not in the code yet.
 
 ## Users: panel accounts
 
@@ -211,7 +215,12 @@ The only writer is the DofusDB refresh, `pnpm data:quests` (`scripts/refresh-que
 | `superTypeId` | yes | no | Optional DofusDB item supertype ID, read from the `type` object DofusDB attaches to each item. Supertype 14 is quest items, the whole family those types belong to; the guide fill leaves them out of a guide's needs list |
 | `iconId` | yes | yes | Optional number. For items it is DofusDB's `iconId`; for monsters, DofusDB's `gfxId` |
 | `image` | yes | yes | Upload to `media` ("Icono" for items, "Imagen" for monsters), imported once by the refresh |
+| `levels` | no | yes | The level of each grade, in DofusDB's order (`hasMany` number) |
+| `boss`, `archmonster` | no | yes | Checkboxes from DofusDB's `isBoss` and `isMiniBoss` |
+| `subAreaId` | no | yes | The first subarea the monster lives in; its name and area come from `subareas` |
 | `refreshedAt` | yes | yes | Optional date, set by the refresh |
+
+The four monster fields after `image` feed the souls checklist (see [Souls checklist](../checklists/souls-checklist.md)).
 
 The refresh imports into Media, once, the icons of the items and the images of the monsters that a quest, an achievement or a guide shows, keyed by `media.gameAsset`; `iconId` keeps the DofusDB ID it came from. Nothing is loaded from DofusDB or Ankama when the site serves a page (AGENTS.md). See [DofusDB refresh](../data/dofusdb-refresh.md).
 
@@ -221,7 +230,7 @@ The refresh imports into Media, once, the icons of the items and the images of t
 
 Two more game data collections, written by the same refresh:
 
-- `dungeons` (`src/collections/Dungeons.ts`): DofusDB dungeons with a unique `dofusId`, a localized `name`, their `bosses` (relationships to `monsters`) and `refreshedAt`. «Necesitarás en total» on an achievement page shows the boss of the dungeon a guide note names, and a quest guide's summary can pick a dungeon by hand (see [Achievement page](../achievements/achievement-page.md)).
+- `dungeons` (`src/collections/Dungeons.ts`): DofusDB dungeons with a unique `dofusId`, a localized `name`, their `bosses` (relationships to `monsters`), a `level` (DofusDB's `optimalPlayerLevel`) and `refreshedAt`. «Necesitarás en total» on an achievement page shows the boss of the dungeon a guide note names, and a quest guide's summary can pick a dungeon by hand (see [Achievement page](../achievements/achievement-page.md)).
 - `subareas` (`src/collections/SubAreas.ts`): DofusDB subareas («Caminos rocosos») with a unique `dofusId`, a localized `name`, `areaDofusId` and the localized `areaName` («Llanuras de Cania»). A quest objective stores only its `subAreaId`; its name and area come from here by `dofusId`.
 
 ## NPCs: quest givers and their renders
@@ -242,11 +251,11 @@ The renders are imported into `media` once, keyed by `gameAsset`; nothing is loa
 
 `src/collections/QuestGuides.ts` defines `quest-guides`, Torre's quest guides. It is the first editorial collection: people write it in the panel, unlike `quests`, which only the refresh writes. In the panel it sits under the «Contenido» group, uses `title` as the title, shows `title`, `_status` and `updatedAt` as default columns and searches by title and slug.
 
-Fields, in the order the panel shows them:
+The fields. `quest`, `title` and `slug` sit above three unnamed tabs: «Contenido» (`body`), «Resumen» (`summary`) and «SEO» (`seo`). Unnamed tabs only arrange the form; the data paths stay the same. The publish status line sits at the top of the sidebar:
 
 | Field | Type | Notes |
 |---|---|---|
-| `quest` | relationship to `quests` (single) | Optional; the one DofusDB quest the guide covers, labelled "Misión de DofusDB". First field, in the main area (not the sidebar), with the `QuestAutofill` component as its description. Locked once set (`lockedOnceSet('quest')`): only an admin changes it |
+| `quest` | relationship to `quests` (single) | Optional; the one DofusDB quest the guide covers, labelled "Misión de DofusDB". First field, in the main area (not the sidebar), above the tabs, with the `QuestAutofill` component as its description. Locked once set (`lockedOnceSet('quest')`): only an admin changes it |
 | `title` | text | Required, localized; validated by `validateGuideTitle` |
 | `slug` | text | «Dirección en la web». Required, unique and indexed, not localized (the URL is the same in every language); validated by `validateGuideSlug`; in the sidebar with the full address shown live (`slugAdmin`) |
 | `summary` | group | `prerequisites`, `rewards` (localized textareas), `needs` (group, below), `startNpc` (localized text), `startX`, `startY` (numbers) |
@@ -288,7 +297,7 @@ Guides share `/<slug>` with achievement pages and metalogros. After `fillFromQue
 
 ### Preview and revalidation
 
-The admin config sets `livePreview` (with a 390 × 844 "Móvil" breakpoint) and `preview` to `guidePreviewUrl`, which points at `/vista-previa?slug=…` so editors see the public page with the current draft. `afterChange` and `afterDelete` hooks expire the cached guide pages, achievement pages, Dofus guides and checklists on every save, drafts included, which also covers unpublishing: an achievement page, a Dofus guide and a checklist link the published guides of their quests. See [Public quest guide page](../frontend/guide-page.md).
+The admin config spreads `pagePreview` (`src/lib/admin/live-preview.ts`), shared by the editorial collections that have their own page (quest guides, achievement pages, Dofus guides and checklists): `livePreview` with three breakpoints (390 × 844 «Móvil», 1024 × 768 «Tableta» and 1440 × 900 «Escritorio») and `preview`, both through `guidePreviewUrl`, which points at `/vista-previa?slug=…` so editors see the public page with the current draft. `afterChange` and `afterDelete` hooks expire the cached guide pages, achievement pages, Dofus guides and checklists on every save, drafts included, which also covers unpublishing: an achievement page, a Dofus guide and a checklist link the published guides of their quests. See [Public quest guide page](../frontend/guide-page.md).
 
 ### Access
 
@@ -310,7 +319,7 @@ The `dofus-guides-index` global (`src/globals/DofusGuidesIndex.ts`) has one loca
 
 ## Checklists: editorial routes with drafts
 
-`checklists` (`src/collections/Checklists.ts`) holds Torre's step-by-step checklist for each Dofus, rendered at `/<slug>` and listed on `/checklists`. It shares the editorial read rules, drafts with up to 50 versions and live preview; delete uses `adminOrNotImported('importSnapshot')`, and the collection cannot be duplicated because a copy would share its step identifiers. It mounts the `GET /api/checklists/:slug/details` endpoint. Its steps, validation rules and import are in [Checklist data and import](../checklists/checklist-data.md).
+`checklists` (`src/collections/Checklists.ts`) holds Torre's step-by-step checklist for each Dofus, rendered at `/<slug>` and listed on `/checklists`. It shares the editorial read rules, drafts with up to 50 versions and live preview; delete uses `adminOrNotImported('importSnapshot')`, and the collection cannot be duplicated because a copy would share its step identifiers. It mounts the `GET /api/checklists/:slug/details` and `GET /api/checklists/poster-progress` endpoints. A checklist is either a steps or a souls checklist (`kind`). Its steps, validation rules and import are in [Checklist data and import](../checklists/checklist-data.md).
 
 ## Localization in the schema
 

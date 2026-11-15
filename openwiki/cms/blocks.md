@@ -56,15 +56,15 @@ sources:
     resource: repo://tests/unit/quest-guides-collection.test.ts
   - id: openwiki-source-d474a682c3ea9ebeaa53059c
     resource: repo://tests/unit/video-url.test.ts
-generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-14T11:00:46.827Z
+    at: 2026-11-15T11:00:17.514Z
 ---
 
 # Guide body blocks
 
-A quest guide's body is a Payload `blocks` field: an ordered list where each item is one of a fixed set of block types. The block definitions live one per file in `src/blocks/`, and `src/collections/QuestGuides.ts` puts six of them in its `body` field, in this order: `RichTextBlock`, `ImageBlock`, `VideoBlock`, `CalloutBlock`, `FightBlock`, `StepBlock`. An editor in `/admin` adds, reorders and removes blocks freely; the panel labels the list "Contenido" and each item "Bloque".
+A quest guide's body is a Payload `blocks` field: an ordered list where each item is one of a fixed set of block types. The block definitions live one per file in `src/blocks/`, and `src/collections/QuestGuides.ts` puts six of them in its `body` field, in this order: `RichTextBlock`, `ImageBlock`, `VideoBlock`, `CalloutBlock`, `FightBlock`, `StepBlock`. An editor in `/admin` adds, reorders and removes blocks freely; the panel labels the list "Contenido" and each item "Bloque". The field sits in the guide form's «Contenido» tab, one of three unnamed tabs («Contenido», «Resumen», «SEO») that only arrange the form, so the data path is still `body` (see [Guide authoring](guide-authoring.md)).
 
 The public guide page at `/[slug]` renders them: `GuideBody` maps each block to a component (`Callout`, `Figure`, `VideoFacade`, `FightBlock`, the rich text renderer), and the steps render one after another, separated by a line. See [Public quest guide page](../frontend/guide-page.md).
 

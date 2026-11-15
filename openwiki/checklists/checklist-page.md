@@ -1,11 +1,8 @@
 ---
 type: feature
-title: Checklist page and index
-description: How /<slug> renders a published checklist (route order, cached loader with the checklists tag, draft preview, the redirect of a checklist «En preparación»), the server-rendered window, the details endpoint the island fetches after paint, the island and its lazily loaded progress UI, and the /checklists index and menu entries built from one cached read.
+title: Checklist page
+description: How /<slug> renders a published steps checklist (route order, the cached loader with the checklists tag, draft preview, the redirect of a checklist «En preparación»), the server-rendered window with Torre's route lines inside each quest, the totals in «Objetos», the details endpoint the island fetches after paint, and the island with its lazily loaded progress UI.
 tags: [checklists, nextjs, routing, caching, island, endpoint]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-14T11:00:46.827Z
 sources:
   - id: openwiki-source-7382aecd8b46a81ca66efc96
     resource: repo://lighthouserc.cjs
@@ -15,14 +12,14 @@ sources:
     resource: repo://src/app/(frontend)/%5Bslug%5D/ChecklistView.tsx
   - id: openwiki-source-cb49e3c4d1015b8673e71275
     resource: repo://src/app/(frontend)/%5Bslug%5D/page.tsx
-  - id: openwiki-source-5f0afecf4f0bcd886ec62fb5
-    resource: repo://src/app/(frontend)/checklists/page.tsx
-  - id: openwiki-source-e662deaf5fc4b6bc8b7128a5
-    resource: repo://src/app/(frontend)/site-data.ts
   - id: openwiki-source-4f2e53306895c158accd92ec
     resource: repo://src/collections/revalidate-guides.ts
   - id: openwiki-source-18319f256508213c34533c97
     resource: repo://src/components/checklist/ChecklistIsland.tsx
+  - id: openwiki-source-4c3255dd987453003d4232f4
+    resource: repo://src/components/checklist/ChecklistParts.tsx
+  - id: openwiki-source-d8923fbcfbb18e49399b9348
+    resource: repo://src/components/checklist/progress-strings.ts
   - id: openwiki-source-3565ad21d65bf23ebb27b148
     resource: repo://src/endpoints/checklist-details.ts
   - id: openwiki-source-7c15ae8d86f1d3a4af1d4666
@@ -31,18 +28,21 @@ sources:
     resource: repo://src/lib/checklists/details-url.ts
   - id: openwiki-source-b302606a8cc84af7a30d22cd
     resource: repo://src/lib/checklists/details.ts
-  - id: openwiki-source-765af2a447d91c2278b95582
-    resource: repo://src/lib/checklists/list.ts
   - id: openwiki-source-0cb986b9dee2806b719ee720
     resource: repo://src/lib/checklists/page.ts
+  - id: openwiki-source-371e358f6a2c7ae51f93192b
+    resource: repo://src/lib/checklists/published.ts
   - id: openwiki-source-64cb67184a332f58fce45aeb
     resource: repo://src/lib/checklists/queries.ts
-generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-15T11:00:17.514Z
 ---
 
-# Checklist page and index
+# Checklist page
 
-A checklist (see [Checklist data and import](checklist-data.md)) renders at `/<slug>`, the route it shares with quest guides, achievement pages and Dofus guides. `/checklists` lists every checklist, and the header menu, footer, search and home page show the same list.
+A checklist (see [Checklist data and import](checklist-data.md)) renders at `/<slug>`, the route it shares with quest guides, achievement pages and Dofus guides. This page covers a steps checklist; a souls checklist renders `SoulsView` (see [Souls checklist](souls-checklist.md)). The `/checklists` index has its own page (see [Checklists index](checklists-index.md)).
 
 ## Route
 
@@ -50,17 +50,17 @@ A checklist (see [Checklist data and import](checklist-data.md)) renders at `/<s
 
 | Case | Result |
 |---|---|
-| Preview, or `state` is `published` | Render `ChecklistView` |
+| Preview, or `state` is `published` | Render `SoulsView` for a souls checklist, `ChecklistView` otherwise |
 | `preparing` with a `legacyHref` on another origin | `redirect()` to the Squarespace checklist |
 | `preparing` with no link, an invalid link, or a link to this same site (it would loop) | 404 |
 
-`generateMetadata` uses the same rule: only a checklist that would render gets a title (`checklistPageStrings.title`), its description (or a default) and a canonical `/<slug>`.
+`generateMetadata` uses the same rule: only a checklist that would render gets a title (`checklistPageStrings.title`, or the plain name for a souls checklist such as «Almas del Ocre»), its description (or a default) and a canonical `/<slug>`.
 
 ## Loading and caching
 
-`loadChecklist` (`src/app/(frontend)/[slug]/checklist-data.ts`) is wrapped in React `cache`. With Next's draft mode and a panel session it reads the latest draft without any cache; otherwise it reads the published document through `unstable_cache` with the `checklists` tag and a 600-second `revalidate` (`src/lib/checklists/cache.ts`). The published read includes checklists «En preparación», because the route decides what to do with them.
+`loadChecklist` (`src/app/(frontend)/[slug]/checklist-data.ts`) is wrapped in React `cache`. With Next's draft mode and a panel session it reads the latest draft without any cache. Otherwise it calls `readPublishedChecklist` (`src/lib/checklists/published.ts`), which wraps `readChecklist` in `unstable_cache` with the `checklists` tag and a 600-second `revalidate` (`src/lib/checklists/cache.ts`). The poster progress endpoint of the index reuses the same cached read. The published read includes checklists «En preparación», because the route decides what to do with them.
 
-`readChecklist` (`src/lib/checklists/queries.ts`) loads the checklist with its quests (name and level), the «Necesitarás» items, achievements, figures, bosses and images, its Dofus guide with the egg, and the slugs of the published quest guides and achievement pages it links. Linked guides and pages are always read as a visitor would, so an unpublished one never becomes a link. `readQuestGraph` adds what the progress engine needs: each quest's objectives, start criteria and prerequisites, following prerequisites outside the checklist to the end of the chain in at most two queries.
+`readChecklist` (`src/lib/checklists/queries.ts`) loads the checklist with its quests (name and level), the «Necesitarás» items, achievements, figures, bosses and images, its Dofus guide with the egg, and the slugs of the published quest guides and achievement pages it links. Linked guides and pages are always read as a visitor would, so an unpublished one never becomes a link. It also reads the stages of every quest a step stops in (including «Más paradas»), with the names of the NPCs, items and monsters their objectives mention (`readObjectiveNames`), so the page can print the objectives as text. `readQuestGraph` adds what the progress engine needs: each quest's objectives, start criteria and prerequisites, following prerequisites outside the checklist to the end of the chain in at most two queries. A souls checklist skips all of this and reads its souls instead.
 
 The tag is expired by the hooks of `checklists`, `quest-guides`, `achievement-pages`, `dofus-guides` and `media` (`src/collections/revalidate-guides.ts`). Quests and subareas change only through `pnpm data:quests`, outside the server, so they show within the 10-minute `revalidate`.
 
@@ -69,12 +69,40 @@ The tag is expired by the hooks of `checklists`, `quest-guides`, `achievement-pa
 `checklistView` turns the data into what `ChecklistView` (`src/app/(frontend)/[slug]/ChecklistView.tsx`) renders. Everything is rendered on the server and readable without JavaScript, one part after another:
 
 - the breadcrumb and `ChecklistHeader`, with the Dofus egg and its color (`eggStyle` passes the color as a CSS custom property);
-- a window (`ck-win`) with the progress strip and three tabs: «Diario» (the step list and the open step; on phones the step opens in a sheet), «Prerrequisitos» (only when there are rows) and «Objetos» (the totals, only when some row counts);
+- a window (`ck-win`) with the progress strip and three tabs: «Diario» (the step list and the open step; on phones the step opens in a sheet), «Prerrequisitos» (when there are groups, callouts or items) and «Objetos» (the totals, only when some row counts);
 - the step sheet and progress dialogs, used by the island.
 
-Each step shows its zone, its text segments (a quoted achievement name becomes a link to its published page), its quests, notes, art and «Necesitarás» rows grouped by category. «Objetos» sums every row that counts in the totals by item, or by text when the row is not an item, lists the steps that ask for it, and puts it in the group of the first step that does.
+### A step
 
-The view hands the island only structure, never text (`ChecklistIslandData`): the checklist id, slug and version, each step's stepId, old number and quests (with any stop objective), the steps each one closes, the `legacy` migration data, the progress weights, each quest's objective count, prerequisites and parent quests, and the names and old ids of every checklist.
+Each step (`StepDetail`) shows:
+
+- a banner header with the step number, its zone, the figure and the step icon, and its label (the achievement it quotes or its first sentence);
+- Torre's text as segments, with the red «detente aquí», the green «aquí se resuelve» and the callouts; a quoted achievement name becomes a link to its published page;
+- tags that link related steps: «se cierra en el N» (the step that closes this one), «cierra el N», «avanza el N» and «se retoma en el N»;
+- its quests, each linked to its published guide. A generic row shows its label and how many quests satisfy it (`anyOf`);
+- for every quest a step stops in, the route (`Route`): the quest's objectives as text, with Torre's line placed before the objective where it stops. `routeLines` follows the old checklist: without a green segment each stop is where to stop (red); with one, the red is where the quest resumes and the line is the green text (or `resumeLine`), except when another step closes this one and the green leaves no stop of its own. A stop after a green segment and a `later` stop stay red. Child quests of the same step that start inside the quest show at the objective where they start;
+- the note, the «Necesitarás» rows grouped by category and sub-group (with their alternatives, «Pandaburg o Pandapils»), and the bosses.
+
+The step does not list its achievements.
+
+### Prerrequisitos and Objetos
+
+«Prerrequisitos» shows Torre's intro, his callouts (start the Dofus Ocre early, the alignment order) and his groups, each row with its tick, plus the items the prerequisites ask for with the prerequisite that spends each one.
+
+«Objetos» (`totalRows`) sums what the prerequisites (as step 0) and every step ask for, one row per item, or per text when the row is not an item, keyed like its tick. Rows with `countsInTotal` off are left out. A row marked reusable in any step takes the largest quantity of each option instead of the sum. Each row remembers the steps that ask for it and sits in the group of the first one. The server renders it in three groups: «Tus próximos pasos» (without progress, what the prerequisites and the first five steps that ask for something need), «Más adelante» and «Ya utilizados» (empty on the server). The island moves each row to its group from the saved progress and filters by category.
+
+### What the island receives
+
+The view hands the island only structure, never text (`ChecklistIslandData`):
+
+- the checklist id, slug and version;
+- each step's stepId, old number and quests, where a quest carries the objective where the step leaves it open and whether a later step finishes it (`openStops` in `src/lib/checklists/open-stops.ts`);
+- the steps each one closes (its resolve segments and its `closes`), the optional quests each step finishes, the generic rows with every quest that satisfies them, and the quests that finish on their own (`completedBy`);
+- the prerequisite keys and the composite keys of rows with alternatives or a sub-group, which the migration needs;
+- the `legacy` migration data, the progress weights, each quest's objective count, prerequisites and parent quests;
+- the names and old ids of every checklist.
+
+A generic row's progress key is the DofusDB id of its first quest, negated (`questRowKey`), so ticking it never marks one specific class quest as done.
 
 ## The details endpoint
 
@@ -91,18 +119,10 @@ What the page does not put in its HTML (who gives each quest and where, each obj
 
 The `/<slug>` route ships this island to quest guides, achievement pages and Dofus guides too, which sit close to their 150 KB JavaScript budget. So the island loads the progress UI (`progress-ui.ts`, with its strings in `progress-strings.ts`) with `import()`, and only on a checklist page. See [Checklist progress engine](progress.md). Lighthouse CI gives checklist pages 180 KB of JavaScript instead of 150 KB (see [Performance budgets](../testing/performance-budgets.md)).
 
-## Index and menu
-
-`loadChecklists` (`src/app/(frontend)/site-data.ts`) is one cached read, with the `checklists` tag, shared by `/checklists`, the header menu, the footer, the search and the home page. `readChecklists` returns every published checklist, «En preparación» included, ordered by `order` then `name`, without steps, with the egg and color of its Dofus guide. It reads that egg and color even when the guide is still a draft, because they are game data, and selects nothing else from it.
-
-`checklistEntries` (`src/lib/checklists/list.ts`) decides where each entry links: a published checklist to `/<slug>`, one «En preparación» to its `legacyHref` marked as legacy, or nowhere when it has no link. `loadChecklistNav` maps the same entries to the menu items (`checklistNavItems`), with a 128px egg.
-
-`/checklists` (`src/app/(frontend)/checklists/page.tsx`) renders `ChecklistsIndex` (`src/components/checklists/ChecklistsIndex.tsx`, styled in `checklists-index.css`): one card per checklist with its egg, name, description and, for one «En preparación», a tag and a note that it opens the old site. The first two eggs load with priority because one may be the LCP image. `checklists` is a reserved slug segment (`src/lib/guides/slug.ts`).
-
 ## Tests
 
-- `tests/unit/checklist-page.test.ts`, `tests/unit/checklist-helpers.test.ts` and `tests/unit/checklist-quest-graph.test.ts`: the view model, `checklistRoute` and the quest graph.
+- `tests/unit/checklist-page.test.ts`, `tests/unit/checklist-helpers.test.ts`, `tests/unit/checklist-quest-graph.test.ts` and `tests/unit/checklist-open-stops.test.ts`: the view model, `checklistRoute`, the quest graph and the open stops.
 - `tests/unit/checklist-details.test.ts`, `checklist-details-query.test.ts` and `checklist-details-fill.test.ts`: the details payload, the endpoint and how the island paints them.
-- `tests/unit/checklist-components.test.tsx`, `checklist-island.test.tsx`, `checklist-list.test.ts` and `checklists-index.test.tsx`: the parts, the island, the entries and the index.
-- `tests/integration/checklist-page-queries.test.ts` and `checklist-list-queries.test.ts`: the queries with real access rules.
-- `tests/e2e/checklist.spec.ts` and `tests/e2e/checklists-index.spec.ts`: the seeded Nebuloso page and the index, with axe; `scripts/seed-e2e.ts` seeds them from `tests/e2e/seed/checklists.ts` and `checklists-index.ts`.
+- `tests/unit/checklist-components.test.tsx` and `checklist-island.test.tsx`: the parts and the island.
+- `tests/integration/checklist-page-queries.test.ts`: the queries with real access rules.
+- `tests/e2e/checklist.spec.ts`, `checklist-silvestre.spec.ts` and `checklist-hielos.spec.ts`: the seeded Nebuloso, Silvestre and Hielos pages, with axe; `scripts/seed-e2e.ts` seeds them from `tests/e2e/seed/checklists.ts`.

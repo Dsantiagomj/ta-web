@@ -1,7 +1,7 @@
 ---
 type: feature
 title: Achievement page
-description: How the shared /<slug> route renders a published achievement page, what it loads and caches, how the view model builds the header, quest cards, metalogro column and breadcrumb, and how a guide shows its achievement in its breadcrumb and "Misión N de M".
+description: How the shared /<slug> route renders a published achievement page, what it loads and caches, how the view model builds the header, the side sheet with «Necesitarás en total», the quest list and breadcrumb, and how a guide shows its achievement in its breadcrumb and "Misión N de M".
 tags: [achievements, nextjs, routing, caching, breadcrumb, frontend]
 sources:
   - id: openwiki-source-acca2e871fe004f24b362dc3
@@ -12,8 +12,12 @@ sources:
     resource: repo://src/app/(frontend)/%5Bslug%5D/page.tsx
   - id: openwiki-source-4f2e53306895c158accd92ec
     resource: repo://src/collections/revalidate-guides.ts
+  - id: openwiki-source-10b98fc83fb5e49b777c3566
+    resource: repo://src/components/achievement/achievement.css
   - id: openwiki-source-f22b7bdcf1597ce881ef1073
     resource: repo://src/components/achievement/AchievementParts.tsx
+  - id: openwiki-source-2c139f34b50dd107e988159d
+    resource: repo://src/components/game/PageEnhancements.tsx
   - id: openwiki-source-2a67994ef743619f0decb35a
     resource: repo://src/components/site/Breadcrumb.tsx
   - id: openwiki-source-014c13a445f559e314d219dd
@@ -28,10 +32,10 @@ sources:
     resource: repo://src/lib/dofus-guides/page.ts
   - id: openwiki-source-1f65cb688406ef2eb6ebe494
     resource: repo://tests/e2e/logro.spec.ts
-generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-14T11:00:46.827Z
+    at: 2026-11-15T11:00:17.514Z
 ---
 
 # Achievement page
@@ -45,7 +49,7 @@ An achievement page (`achievement-pages`, see [Achievement data model](achieveme
 1. `loadGuidePage(slug)`: if a guide exists, render the guide (see [Guide page](../frontend/guide-page.md)).
 2. Otherwise `loadAchievementPage(slug)`: if found, render `AchievementView`.
 3. Otherwise `loadDofusGuide(slug)`: if found, render the Dofus guide (see [Dofus guide page](../dofus-guides/dofus-guide-page.md)).
-4. Otherwise `loadChecklist(slug)`: if found, render the checklist or redirect to its legacy page (see [Checklist page and index](../checklists/checklist-page.md)).
+4. Otherwise `loadChecklist(slug)`: if found, render the checklist (`SoulsView` for a souls checklist, `ChecklistView` otherwise) or redirect to its legacy page (see [Checklist page](../checklists/checklist-page.md) and [Souls checklist](../checklists/souls-checklist.md)).
 5. None of them: `notFound()`.
 
 `generateMetadata` follows the same order through `slugSeo`. For an achievement the title and description come from `achievementPageStrings.seo` with the page name and its number of quests; the canonical URL is `/<slug>` and Open Graph uses type `article`. A preview sets `robots: { index: false, follow: false }`.
@@ -84,12 +88,12 @@ Outside a Next request (scripts, the import, tests) `revalidateTag` throws a "st
 `achievementPageView` (`src/lib/achievements/page.ts`) is pure code: it turns the loaded documents into what the components render and never invents a missing value.
 
 - **Header meta**: "N misiones", the level range of the quest rows when known (a row's level is the lowest `levelMin` of its alternatives), and the points when positive.
-- **Facts** (the guide's fact columns, reused from `QuestFacts`): Prerrequisitos and Recompensas. "Necesitarás" is not a header column on this page; it has its own zone.
+- **Facts** (reused from the guide's `QuestFacts` data): Prerrequisitos and Recompensas. They go in the side sheet with «Necesitarás en total», not in the header.
   - Prerequisites: quests required by the page's quests that are not part of the achievement, deduplicated, each linked to its published guide when there is one.
   - Rewards: experience, kamas and items from the page's `rewards`.
 - **Necesitarás en total** (`achievementNeeds`, below).
 - **Quest cards**: one per quest row, built by the exported `questCards`, with its number, level, title and the NPC render of its giver. The card links to the guide only when the row has one quest and that quest has a published guide. The [Dofus guide page](../dofus-guides/dofus-guide-page.md) reuses `questRows`, `questCards` and `cardLevels` for the quests of each achievement it lists.
-- **Metalogro list**: the metalogro's pages in order (`group.items`). The current one is marked; one that is not `published` is disabled, without a link. The page does not render this list as a column; it only feeds previous and next.
+- **Metalogro list**: the metalogro's pages in order (`group.items`). The current one is marked; one that is not `published` is disabled, without a link. The page does not render this list; it only feeds previous and next.
 - **Previous and next**: the neighbours of the current page in that list. A neighbour that is not published shows dimmed with "En preparación" and no link.
 - **Counts for**: the game achievements that require this one, from the DofusDB achievement's `countsFor`.
 
@@ -101,23 +105,50 @@ Outside a Next request (scripts, the import, tests) `revalidateTag` throws a "st
 
 | Group | What goes in |
 |---|---|
-| «Objetos» | the items the guides link, summed by item; a quantified note that names one of them ("2 x Dragopavo pelirrojo.") adds to it; a note whose text is the exact name of a game item becomes that item, with its icon |
+| «Objetos» | the items the guides link; a quantified note that names one of them ("2 x Dragopavo pelirrojo.") counts for it; a note whose text is the exact name of a game item becomes that item, with its icon |
 | «Combates y mazmorras» | combat notes and dungeon notes; a dungeon note carries its boss image when one is known |
 | «Otros» | every other note, as Torre wrote it |
 
 Notes with a quantity ("1 x Combate (solo).") are summed by their normalised label; notes without one ("Hechizo Captura de almas.") show once even when several guides repeat them, so nothing Torre wrote is lost. A note with and without a quantity are separate rows. Matching ignores case, accents and extra spaces and happens after every guide is read, so the result does not depend on the order of the guides.
 
-A dungeon note's boss image comes from `chooseDungeonBosses`. If Torre picked a dungeon for that note in a quest guide's summary (`needs.dungeons`, «Mazmorras de las notas», see [Guide authoring](../cms/guide-authoring.md)), the pick wins; `dungeonPicks` joins the picks across guides by note key and drops a note whose guides picked different dungeons. Otherwise `dungeonChooser` (`src/lib/achievements/dungeons.ts`) matches the note to a single dungeon by name, boss or name ending, and gives up when more than one could match. The image is the first boss of that dungeon that has one. A row with no dungeon or no boss image shows the generic dungeon icon.
+Item quantities are counted per guide first:
+
+- **Same guide, linked and noted.** When one guide links an item and also writes it in a note ("25 x Esquíritu majestuoso." in a guide that links 25), that is the same request: `guideAsks` takes the larger of the two, never their sum.
+- **Consumed items sum across guides.** Each guide's ask is added up.
+- **Items you only hold count once.** `onlyHeld` treats an item as held when DofusDB groups it as equipment (`itemGroup(superTypeId) === 'equipables'`: gear, pets, Dofus, trophies) and no single-quest row of the achievement has a `bring` objective for it. A quest that checks you own a Dofus Turquesa does not keep it, so the total takes the largest single ask instead of summing. An item without a DofusDB ID cannot be checked and sums as before. `achievementNeeds` builds the set of brought item IDs from the stored quest objectives.
+
+A dungeon note's boss image comes from `chooseDungeonBosses` (`src/lib/achievements/queries.ts`). If Torre picked a dungeon for that note in a quest guide's summary (`needs.dungeons`, «Mazmorras de las notas», see [Guide authoring](../cms/guide-authoring.md)), the pick wins; `dungeonPicks` joins the picks across guides by note key and drops a note whose guides picked different dungeons. Otherwise `dungeonChooser` (`src/lib/achievements/dungeons.ts`) asks `dungeonMatches`, which runs up to three passes and stops at the first that finds anything:
+
+1. Each part of the note (outside and inside parentheses) is compared, longest prefix first, with each dungeon's full name, then with its bosses' names, then with the endings of those names ("Mazmorra de Grunob" is the dungeon of Director Grunob). A one-word ending only counts when it is the whole part.
+2. The same without filler words, in the note and in the names ("Mazmorra Ben Ripata").
+3. Only for parts that say "Mazmorra" in the singular: a name variant (two or more words in order, at most one extra word and one typo, such as "Ring Eskarlata"), or else the given name of a single boss in the whole game.
+
+A part that yields several dungeons is a doubt, and any doubt means the note does not match. The image is that of the boss the note matched by, when it has one, and otherwise the first boss of the dungeon with an image. A row with no dungeon or no boss image shows the generic dungeon icon. The same choice, with how each note matched, feeds the dungeon report of `pnpm data:quests` and `pnpm data:dungeon-notes` (see [DofusDB refresh](../data/dofusdb-refresh.md)).
 
 ## Components
 
-`AchievementView` (`src/app/(frontend)/[slug]/AchievementView.tsx`) lays out one centered column: the breadcrumb, `AchievementHeader`, `AchievementNeeds`, Torre's `intro`, `AchievementQuests` (the numbered quest list), his `outro`, `AchievementCountsFor` ("Cuenta para") and `AchievementNav` (previous and next, labelled "Logros de <metalogro>"). There is no side list of the metalogro's pages. The parts live in `src/components/achievement/AchievementParts.tsx` and their styles in `achievement.css`, which the Dofus guide page shares (`logro`, `logro__main`, `logro__prose`). The page's section color is `--color-sec-logros`.
+`AchievementView` (`src/app/(frontend)/[slug]/AchievementView.tsx`) renders the breadcrumb, `AchievementHeader` (the achievement icon, title and "3 misiones - Niveles 15 a 25 - 10 puntos"), `AchievementSheet`, and a `logro__body` with Torre's `intro`, `AchievementQuests` (the numbered quest list), his `outro`, `AchievementCountsFor` ("Cuenta para") and `AchievementNav` (previous and next, labelled "Logros de <metalogro>"). There is no list of the metalogro's pages. The parts live in `src/components/achievement/AchievementParts.tsx` and their styles in `achievement.css`, which the Dofus guide page shares (`logro`, `logro__main`, `logro__prose`). The page's section color is `--color-sec-logros`.
 
-`AchievementNeeds` renders each non-empty group with its title; without any rows there is no zone. Items and combats keep a 44px icon slot, a matched dungeon shows its boss, and «Otros» has no icon. `needsLayout` asks `needsColumns` how to split the lists across up to three columns, giving extra columns to the tallest list. When a list splits, the main element gets `logro--needs-wide` and the zone widens to the site width; otherwise it stays in the reading column.
+### The sheet
+
+`AchievementSheet` is the page's "ficha" (option C of the compact achievement design in `DESIGN.md`). It holds, in this order:
+
+1. «Prerrequisitos», foldable.
+2. «Necesitarás en total», foldable, with its groups.
+3. «Recompensas del logro», always visible, last.
+
+An empty part is not rendered; with nothing to show there is no sheet (`hasSheet`), and the page stays one column. When the sheet exists, the main element gets `logro--sheet`:
+
+- **From 64rem (desktop)** the sheet is a column to the right of the quests, which sit right under the title. The CSS shows its parts open, and `PageEnhancements` sets every `details[data-sheet]` open and stops a click on its summary from folding it, so the open state is also what assistive tech reads.
+- **Below 64rem (phone and tablet)** the sheet sits between the header and the rest of the page, with Prerrequisitos and «Necesitarás en total» as one collapsed row each that opens on tap. The rewards stay visible at the end.
+
+The folds are `<details>` elements closed in the HTML, so the page works without JavaScript.
+
+Inside «Necesitarás en total», each non-empty group has its title. Items and combats keep an icon slot aligned with the first line of text, a matched dungeon shows its boss, and a quantity renders as a bold "3 ×" before the text. «Otros» has no icons. Item names use `CopyName`, so a click copies the name for the game's search.
 
 The intro and outro render through `GuideRichText`, so a «Vídeo» block in Torre's prose shows as the video facade that loads YouTube only on click.
 
-The page's only client island is the guide's `PageEnhancements`, here for the rewards bag; `LivePreviewRefresh` renders only in preview.
+The page's only client island is the guide's `PageEnhancements`, here for the rewards bag, copying names and the sheet's open state; `LivePreviewRefresh` renders only in preview.
 
 ## Breadcrumb
 
@@ -138,4 +169,4 @@ The guide loader calls `findGuideAchievement(payload, questId)` alongside its ot
 - `tests/unit/achievement-dungeons.test.ts`: dungeon matching and Torre's picks.
 - `tests/unit/achievement-components.test.tsx`: the parts.
 - `tests/integration/achievement-page-queries.test.ts`: the queries with real access rules.
-- `tests/e2e/logro.spec.ts`: breadcrumb and header with Prerrequisitos and Recompensas only; the «Necesitarás en total» zone with its three groups and columns; quest cards linking only published guides; one centered column with no metalogro side list, "Cuenta para" and the previous/next nav; Torre's prose with the video facade; a hand-picked dungeon showing its boss; 404 for a `preparing` page; the phone breadcrumb; axe (WCAG 2.2 AA) in both modes.
+- `tests/e2e/logro.spec.ts`: breadcrumb and header with the sheet beside the quests on desktop; on phone and tablet, Prerrequisitos and «Necesitarás en total» collapsed and the rewards last and visible; the sheet without JavaScript; fold animation and reduced motion; the three needs groups with «Otros» on one line; copying a name without layout shift; quest cards linking only published guides; no metalogro list, with "Cuenta para" and previous/next in the quest column; Torre's prose with the video facade; a hand-picked dungeon showing its boss; 404 for a `preparing` page; the phone breadcrumb; axe (WCAG 2.2 AA) in both modes.

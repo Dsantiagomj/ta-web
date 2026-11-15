@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:710e70b4ab0415498b1cd7abbb24277ffda582f4a09f4f147cd057b1fed61a72",
+  "pageVersion": "sha256:6afdcf67e8191723ea20976fd0982b92064f07e4679e768576f617fcc743dff8",
   "claims": [
     {
       "id": "claim_f3ff1b5273ca4d9da69117d030c9914e",
@@ -142,15 +142,15 @@
     },
     {
       "id": "claim_4039938161414c15898cb094958dba01",
-      "statement": "The catalog shows the Torre emblem and Sello lockup, the site menu panel and footer, the quest header with and without NPC data, the game icon wells, the steps, the next quest card, the Dofus guide cards, Necesitarás and achievement parts, the checklist index cards and the achievement page parts among its component groups.",
+      "statement": "The catalog shows the Torre emblem and Sello lockup, the site menu panel and footer, the quest header with and without NPC data, the game icon wells, the steps, the next quest card, the Dofus guide cards, Necesitarás, body and achievement parts, the checklist index posters and the achievement page sheet and quests among its component groups.",
       "evidence": [
         {
           "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L107-L126",
-          "version": "repo-lines-v1:sha256:535e63f9c3ad0c4907a5838467f6b6b9576a6e81c4a6835bbf20fcd35acd2b07:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjczYjJlMzk5ZGVmZmMxODVmYjRlNmNkZjljYmQzMTlkYWRhOTE3Y2IxNzIxMzQ0NGY2ODY0MDc2Yjc5MmZkYzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmNzRkY2QxYTY4ZGVlY2ZmNmNjM2E1NDFhMzhmZTU2NzRjYmMyZGY0Y2U4MTA5ZDEwNmMwYTQyY2Y3NjMzNWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY1ZTFjZTk1N2VjNGIwM2Y4NmE0ZWQ0MzA1NTYzMjM0NmZhMTUwYzg4OTJkYWYzOWQzMGE3NTk2YjFjODhiNTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU0YTIwNTFhYWFhMWU5ZDhjYTUwMzJkZjRjNjg5NjM0ZWM4MmZhNDY5YmZkYjhmM2MwYjdiOGQ1ZDdkNjRlNDMifQ"
+          "version": "repo-lines-v1:sha256:5654940425cd9b9f32f16fc8e41f7dad2bf866a1fee2b4b78804a94c2b2cc52c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4NjBkNjhhOTkxOGViY2NmMzcwZDA2NDljNWFlYzUyZTBjZTM3NWY3ZGE1OTA2OGU4YjRjOTAzZDg4ZDA0ODYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzMjljNDkyNDhlNmMzZmFhMjUzY2RlOTcxYjdlZGNiOWI2MTczYTU0MTlmOWMzZjFmNGFiZmY1ZWJhODFkZjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNlNDA5N2NhMzlkMTQ2MmFhZjFhYmEzNDJkM2YyNGE2NmFjN2RkZjM0YWYxNDc1NGE4ZDc0MDVmNmZjOTg3OGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA2YTQ4Njc4MGJmMmNhNDYyMjQ1NjVjZDhkYWRiOTAyYmNjZWZmYjM4YTc5MDliMDFlYmVjY2ZiMzJjNGU0NWUifQ"
         },
         {
-          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L225-L305",
-          "version": "repo-lines-v1:sha256:d3ccfccfe5437c2ce8d79acacb75e5d1eebdddb3b82460c10c4afb8af3beca68:eyJzZWxlY3RlZExpbmVDb3VudCI6ODEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3ODNhOTk4NmJmMWMzOTUxOWNlOWVjYTU5YzZlMjcwOTI1OGMyOWVjNDJhODBhOTk5MjY3M2JmMzA5M2YzODYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmNzRkY2QxYTY4ZGVlY2ZmNmNjM2E1NDFhMzhmZTU2NzRjYmMyZGY0Y2U4MTA5ZDEwNmMwYTQyY2Y3NjMzNWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI1MzNhYzExNzVkOTliYWY4ZWQ2ZWQ5ZWU3OTIzZWFjZWFmMjI2YjM3MzJhZDU5MjI1YjBlOWQwYzU1NzM2ZDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk0OWM3ZjYxN2NkMTZhN2E3N2EyNzRkNTM0MGE3NWMxODk1MzQwMzk0YzNlZTYyNDg3Y2VlNGVjYzhhYWM5YTMifQ"
+          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L228-L316",
+          "version": "repo-lines-v1:sha256:a5a2ef1e4cf968dc68a932b1f56f16951d71e327ed84372c0b892455f06eb1c0:eyJzZWxlY3RlZExpbmVDb3VudCI6ODksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3ODNhOTk4NmJmMWMzOTUxOWNlOWVjYTU5YzZlMjcwOTI1OGMyOWVjNDJhODBhOTk5MjY3M2JmMzA5M2YzODYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmNzRkY2QxYTY4ZGVlY2ZmNmNjM2E1NDFhMzhmZTU2NzRjYmMyZGY0Y2U4MTA5ZDEwNmMwYTQyY2Y3NjMzNWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI1MzNhYzExNzVkOTliYWY4ZWQ2ZWQ5ZWU3OTIzZWFjZWFmMjI2YjM3MzJhZDU5MjI1YjBlOWQwYzU1NzM2ZDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk0OWM3ZjYxN2NkMTZhN2E3N2EyNzRkNTM0MGE3NWMxODk1MzQwMzk0YzNlZTYyNDg3Y2VlNGVjYzhhYWM5YTMifQ"
         }
       ]
     },
@@ -176,11 +176,11 @@
     },
     {
       "id": "claim_474452f3277a4bfab5a74642d22ef1a2",
-      "statement": "The catalog shows the achievement page's grouped Necesitás en total and numbered quests, and an E2E test checks them.",
+      "statement": "The catalog shows the achievement page's sheet with the grouped Necesitarás en total and the numbered quests, and an E2E test checks them.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L297-L305",
-          "version": "repo-lines-v1:sha256:ed937fb37012bd13903f7127e8b9eac503d20c5e25cdc351417922fda2c4a414:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTU3ZGIxMzQ1NjU3YTk3NWEzMGM4OTNiMmYwOTdjMDA5NmRlNmJhMTM0YTM0NWQwZDE0MmNhZGI2NDkwNTFhZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWY3NGRjZDFhNjhkZWVjZmY2Y2MzYTU0MWEzOGZlNTY3NGNiYzJkZjRjZTgxMDlkMTA2YzBhNDJjZjc2MzM1ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTk3YjIyZTU5NzQwNWI0Njc1NDhhYzEyZDBhYTE1YThhMTBiNDY1NGQ1MzI0MDcyMjg3NWJkYWY3NGIwMDc0ZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTQ5YzdmNjE3Y2QxNmE3YTc3YTI3NGQ1MzQwYTc1YzE4OTUzNDAzOTRjM2VlNjI0ODdjZWU0ZWNjOGFhYzlhMyJ9"
+          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L301-L316",
+          "version": "repo-lines-v1:sha256:d172b1d4d224a30d71aa046f680437e96aa3054305c27df56d1676297e709303:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1N2RiMTM0NTY1N2E5NzVhMzBjODkzYjJmMDk3YzAwOTZkZTZiYTEzNGEzNDVkMGQxNDJjYWRiNjQ5MDUxYWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmNzRkY2QxYTY4ZGVlY2ZmNmNjM2E1NDFhMzhmZTU2NzRjYmMyZGY0Y2U4MTA5ZDEwNmMwYTQyY2Y3NjMzNWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE5N2IyMmU1OTc0MDViNDY3NTQ4YWMxMmQwYWExNWE4YTEwYjQ2NTRkNTMyNDA3MjI4NzViZGFmNzRiMDA3NGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk0OWM3ZjYxN2NkMTZhN2E3N2EyNzRkNTM0MGE3NWMxODk1MzQwMzk0YzNlZTYyNDg3Y2VlNGVjYzhhYWM5YTMifQ"
         },
         {
           "resource": "repo://tests/e2e/sistema.spec.ts#L70-L99",
@@ -191,6 +191,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-14T11:00:46.827Z"
+    "at": "2026-11-15T11:00:17.514Z"
   }
 }
