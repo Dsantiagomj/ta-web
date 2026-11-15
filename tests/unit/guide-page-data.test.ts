@@ -5,6 +5,7 @@ import {
   guideStart,
   nextQuestCard,
   guideContent,
+  guideDungeonNotes,
   guideLevel,
   guideSeo,
   prerequisiteQuestIds,
@@ -184,6 +185,38 @@ describe('questHeaderProps', () => {
     expect(questHeaderProps(other, []).needs.notes).toEqual([
       { label: 'Literalmente nada', combat: false },
       { quantity: 2, label: 'Combates', combat: true },
+    ])
+  })
+
+  it('Necesitarás: una nota de mazmorra lleva el jefe que nombra, o el icono si no nombra una', () => {
+    const notes = '1 x Mazmorra Kumijo.\nMazmorras nivel 200\n1 x Combate en la mazmorra.\nHechizo.'
+    const dungeonGuide = { ...guide, summary: { ...guide.summary, needs: { notes } } }
+    const kumijo = render(9, 'monster-2097')
+    const header = questHeaderProps(
+      dungeonGuide,
+      [],
+      null,
+      null,
+      new Map([['mazmorra kumijo', kumijo]]),
+    )
+    expect(header.needs.notes).toEqual([
+      {
+        quantity: 1,
+        label: 'Mazmorra Kumijo',
+        combat: false,
+        dungeon: true,
+        boss: expect.objectContaining({ src: '/api/media/file/monster-2097.webp' }),
+      },
+      { label: 'Mazmorras nivel 200', combat: false, dungeon: true },
+      // Dice «mazmorra»: va como mazmorra aunque también diga «combate», como en el logro.
+      { quantity: 1, label: 'Combate en la mazmorra', combat: true, dungeon: true },
+      { label: 'Hechizo', combat: false },
+    ])
+    // Las que se buscan: solo las de mazmorra, sin cantidad.
+    expect(guideDungeonNotes(dungeonGuide)).toEqual([
+      'Mazmorra Kumijo',
+      'Mazmorras nivel 200',
+      'Combate en la mazmorra',
     ])
   })
 

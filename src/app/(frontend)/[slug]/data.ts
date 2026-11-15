@@ -4,9 +4,16 @@ import { draftMode, headers } from 'next/headers'
 import { getPayload } from 'payload'
 import { cache } from 'react'
 
+import { dungeonPicks } from '@/lib/achievements/page'
 import { findGuideAchievement } from '@/lib/achievements/queries'
+import { readDungeonBosses } from '@/lib/guides/dungeon-bosses'
 import { GUIDE_PAGES_REVALIDATE, GUIDE_PAGES_TAG } from '@/lib/guides/cache'
-import { guideAchievement, prerequisiteQuestIds, questGiverId } from '@/lib/guides/page'
+import {
+  guideAchievement,
+  guideDungeonNotes,
+  prerequisiteQuestIds,
+  questGiverId,
+} from '@/lib/guides/page'
 import {
   findGuideBySlug,
   findNextQuest,
@@ -21,14 +28,20 @@ async function readGuide(slug: string, options: FindGuideOptions = {}) {
   const guide = await findGuideBySlug(payload, slug, options)
   if (!guide) return null
   const questId = typeof guide.quest === 'object' && guide.quest ? guide.quest.id : null
-  const [links, giver, next, achievement] = await Promise.all([
+  const [links, giver, next, achievement, dungeonBosses] = await Promise.all([
     findPublishedGuideLinks(payload, prerequisiteQuestIds(guide)),
     findQuestGiver(payload, questGiverId(guide)),
     findNextQuest(payload, guideAchievement(guide)),
     // Su página de logro: las migas y «Misión 2 de 3».
     findGuideAchievement(payload, questId),
+    // El jefe de cada nota de mazmorra: la mazmorra que Torre eligió en esta guía y, si no,
+    // la que casa por nombre, como en la página de logro.
+    readDungeonBosses(payload, guideDungeonNotes(guide), {
+      picks: dungeonPicks([{ needs: guide.summary?.needs ?? null }]),
+    }),
   ])
-  return { guide, links, giver, next, achievement }
+  // unstable_cache guarda JSON: los jefes van como pares y se vuelven a juntar al pintar.
+  return { guide, links, giver, next, achievement, dungeonBosses: [...dungeonBosses] }
 }
 
 // Lo publicado se guarda en caché con la etiqueta de las guías: los hooks de la colección

@@ -157,6 +157,8 @@ function QuestGuideView({
   page: NonNullable<Awaited<ReturnType<typeof loadGuidePage>>>
 }) {
   const { guide, links, giver, next, preview, achievement } = page
+  // Una entrada de la caché guardada antes de los jefes no los trae: el icono de mazmorra.
+  const bosses = new Map(page.dungeonBosses ?? [])
   const crumbs = guideBreadcrumb(achievement, guide, SITE_URL)
   const place = achievement && { position: achievement.position, total: achievement.total }
   const card = next && nextQuestCard(next.quest, next.guide)
@@ -167,7 +169,10 @@ function QuestGuideView({
       <main id="contenido" className="quest">
         <article>
           {crumbs && <Breadcrumb {...crumbs} />}
-          <QuestHeader title={guide.title} data={questHeaderProps(guide, links, giver, place)} />
+          <QuestHeader
+            title={guide.title}
+            data={questHeaderProps(guide, links, giver, place, bosses)}
+          />
           <GuideSections
             content={guideContent(guide)}
             start={guideStart(guide)}

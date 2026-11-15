@@ -132,6 +132,53 @@ test.describe('página de guía', () => {
     await expectNeedsColumns(page, needs, { desktopColumns: 1 })
   })
 
+  test('Necesitarás: una nota de mazmorra lleva el jefe que nombra, o el icono de mazmorra', async ({
+    page,
+  }) => {
+    await page.goto(url)
+    const needs = page.locator('header.qhead').getByRole('region', { name: 'Necesitarás' })
+    const row = (text: string) => needs.locator('.needs__notes > li').filter({ hasText: text })
+    // La que nombra la Casa de los Espíritus: su jefe, importado a Media.
+    const boss = row('Mazmorra Kumijo').locator('.well img')
+    await expect(boss).toHaveAttribute('src', /\/api\/media\/file\//)
+    await expect
+      .poll(() => boss.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth))
+      .toBeGreaterThan(0)
+    // La que no nombra una sola mazmorra: el icono de mazmorra.
+    await expect(row('Mazmorras nivel 200').locator('.well img')).toHaveAttribute(
+      'src',
+      '/img/game/jefes/crunchidor.webp',
+    )
+    // Un combate sigue con el suyo, y una nota cualquiera, sin hueco.
+    await expect(row('Combate (solo)').locator('.well img')).toHaveAttribute(
+      'src',
+      '/img/game/combate.webp',
+    )
+    await expect(row('Hechizo Captura de almas').locator('.well')).toHaveCount(0)
+    // El hueco va a la altura de la primera línea de la nota.
+    const slot = (await row('Mazmorra Kumijo').locator('.well').boundingBox())!
+    const text = row('Mazmorra Kumijo').locator('> span:not(.well)')
+    const line = await text.evaluate((node) => {
+      const range = document.createRange()
+      range.selectNodeContents(node)
+      const first = range.getClientRects()[0]!
+      return { y: first.y, height: first.height }
+    })
+    expect(Math.abs(slot.y + slot.height / 2 - (line.y + line.height / 2))).toBeLessThan(2)
+
+    // La mazmorra que Torre eligió a mano en la guía («Mazmorras de las notas») gana al
+    // nombre, que solo no casa con ninguna; la de Grunob no está en la semilla.
+    await page.goto(`/${seedGuide.prerequisite.slug}`)
+    await expect(row('Mazmorra Kodámade').locator('.well img')).toHaveAttribute(
+      'src',
+      /\/api\/media\/file\//,
+    )
+    await expect(row('Mazmorra de Grunob').locator('.well img')).toHaveAttribute(
+      'src',
+      '/img/game/jefes/crunchidor.webp',
+    )
+  })
+
   test('en el móvil, el PNJ mira a la izquierda junto al título y «Empieza con» va debajo', async ({
     page,
   }) => {
