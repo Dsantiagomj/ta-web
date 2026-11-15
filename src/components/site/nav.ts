@@ -14,6 +14,7 @@
 import { GAME_ICONS } from '@/components/game/game-icons'
 import { CHECKLISTS_INDEX_PATH } from '@/lib/checklists/path'
 import { DOFUS_INDEX_PATH } from '@/lib/dofus-guides/page'
+import type { PageNavItem } from '@/lib/pages/page'
 import { legacyHref } from '@/lib/site/legacy'
 
 import { siteShellStrings } from './strings'
@@ -185,14 +186,38 @@ export const social = (key: SocialKey) => SOCIALS.find((s) => s.key === key)!
 
 export const KOFI_URL = 'https://ko-fi.com/torrentearcano'
 
-export const LEGAL_LINKS: NavLink[] = [
-  { name: t.legal.notice, href: legacyHref('aviso-legal') },
-  { name: t.legal.cookies, href: legacyHref('politica-de-cookies') },
-  { name: t.legal.privacy, href: legacyHref('politica-de-privacidad') },
-]
+/** Las páginas legales del pie, por su slug en la colección pages (backlog B-10). */
+const LEGAL_PAGES = [
+  { name: t.legal.notice, slug: 'aviso-legal' },
+  { name: t.legal.cookies, slug: 'politica-de-cookies' },
+  { name: t.legal.privacy, slug: 'politica-de-privacidad' },
+] as const
+
+/**
+ * Los enlaces legales del pie: a su página de la colección pages si está Publicada, a su
+ * página de Squarespace si está En preparación, y sin página aquí, a la de Squarespace con
+ * el mismo slug, como hasta ahora (loadPageNav).
+ */
+export function legalLinks(pages: PageNavItem[] = []): NavLink[] {
+  return LEGAL_PAGES.map(({ name, slug }) => ({
+    name,
+    href: pages.find((page) => page.slug === slug)?.href ?? legacyHref(slug),
+  }))
+}
+
+/** Los enlaces legales sin leer la colección: el catálogo /sistema. */
+export const LEGAL_LINKS: NavLink[] = legalLinks()
 
 export type SearchType =
-  'mision' | 'logro' | 'metalogro' | 'seccion' | 'dofus' | 'checklist' | 'clase' | 'mazmorra'
+  | 'mision'
+  | 'logro'
+  | 'metalogro'
+  | 'seccion'
+  | 'dofus'
+  | 'checklist'
+  | 'clase'
+  | 'mazmorra'
+  | 'pagina'
 
 export interface SearchEntry {
   type: SearchType
@@ -212,11 +237,13 @@ export const TOP_ANCHOR = 'arriba'
 /**
  * Lo que enlaza el menú, para la búsqueda de la cabecera. Las misiones llegan aparte. Lo que
  * aún no tiene página (Clases, Mazmorras, los Dofus en preparación) no se encuentra; una
- * checklist En preparación, solo si enlaza a Squarespace, como en el menú.
+ * checklist En preparación, solo si enlaza a Squarespace, como en el menú. Las páginas
+ * sueltas (loadPageNav), solo las que se abren aquí.
  */
 export function searchIndex(
   dofus: DofusNavItem[] = [],
   checklists: ChecklistNavItem[] = [],
+  pages: PageNavItem[] = [],
 ): SearchEntry[] {
   return [
     ...SECTIONS.filter((sec) => !sec.soon).map(({ title, href, icon }) => ({
@@ -230,6 +257,9 @@ export function searchIndex(
     ),
     ...checklists.flatMap(({ name, href, image }) =>
       href ? [{ type: 'checklist' as const, name, href, image }] : [],
+    ),
+    ...pages.flatMap(({ name, href, legacy }) =>
+      href && !legacy ? [{ type: 'pagina' as const, name, href }] : [],
     ),
   ]
 }

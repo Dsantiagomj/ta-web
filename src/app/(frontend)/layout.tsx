@@ -4,7 +4,7 @@ import type { ReactNode } from 'react'
 
 import { Ambience } from '@/components/site/Ambience'
 import { SiteFooter } from '@/components/site/SiteFooter'
-import { TOP_ANCHOR } from '@/components/site/nav'
+import { legalLinks, TOP_ANCHOR } from '@/components/site/nav'
 import { SiteHeader } from '@/components/site/SiteHeader'
 import { modeScript } from '@/lib/theme/mode-script'
 import { MODE_COOKIE, resolveMode, resolveTheme } from '@/lib/theme/theme'
@@ -12,7 +12,7 @@ import { SITE_URL } from '@/lib/site/origin'
 import { fontVariables } from '@/styles/fonts'
 import '@/styles/globals.css'
 
-import { loadChecklistNav, loadDofusNav, loadSiteCounts } from './site-data'
+import { loadChecklistNav, loadDofusNav, loadPageNav, loadSiteCounts } from './site-data'
 import { siteStrings } from './strings'
 
 export const metadata: Metadata = {
@@ -25,10 +25,11 @@ export default async function FrontendLayout({ children }: { children: ReactNode
   const mode = resolveMode((await cookies()).get(MODE_COOKIE)?.value)
   // Todavía no hay miembros: nadie tiene el derecho a un tema premium.
   const theme = resolveTheme(undefined, { premium: false })
-  const [counts, dofus, checklists] = await Promise.all([
+  const [counts, dofus, checklists, pages] = await Promise.all([
     loadSiteCounts(),
     loadDofusNav(),
     loadChecklistNav(),
+    loadPageNav(),
   ])
 
   // data-scroll-behavior: el desplazamiento suave (globals.css) es para las anclas de la
@@ -46,9 +47,15 @@ export default async function FrontendLayout({ children }: { children: ReactNode
         <script dangerouslySetInnerHTML={{ __html: modeScript }} />
       </head>
       <body id={TOP_ANCHOR}>
-        <SiteHeader counts={counts} dofus={dofus} checklists={checklists} initialMode={mode} />
+        <SiteHeader
+          counts={counts}
+          dofus={dofus}
+          checklists={checklists}
+          pages={pages}
+          initialMode={mode}
+        />
         {children}
-        <SiteFooter year={new Date().getFullYear()} />
+        <SiteFooter year={new Date().getFullYear()} legal={legalLinks(pages)} />
         <Ambience />
       </body>
     </html>

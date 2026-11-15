@@ -3,7 +3,7 @@ import { useId } from 'react'
 import { Lockup } from '@/components/brand/Lockup'
 
 import { SocialIcon, UpIcon } from './icons'
-import { KOFI_URL, LEGAL_LINKS, SECTIONS, social, TOP_ANCHOR } from './nav'
+import { KOFI_URL, LEGAL_LINKS, type NavLink, SECTIONS, social, TOP_ANCHOR } from './nav'
 import { Soon } from './Soon'
 import { StaticImg } from './StaticImg'
 import { siteShellStrings } from './strings'
@@ -17,9 +17,10 @@ const CHANNELS = (['twitch', 'kick', 'youtube'] as const).map(social)
  * los directos; Explorar, con las cinco secciones; y Comunidad, con el Discord, Ko-fi y
  * los canales de Torre en casillas de inventario. Abajo, la banda legal. Cada enlace sale
  * una sola vez: Discord y Ko-fi van en sus tarjetas y las casillas son los tres canales.
- * Sin estado del directo todavía: la tarjeta dice dónde emite, no si está emitiendo.
+ * Sin estado del directo todavía: la tarjeta dice dónde emite, no si está emitiendo. Los
+ * enlaces legales llegan de la colección pages (legalLinks); sin ellos, van a Squarespace.
  */
-export function SiteFooter({ year }: { year: number }) {
+export function SiteFooter({ year, legal = LEGAL_LINKS }: { year: number; legal?: NavLink[] }) {
   // Ids propios: el catálogo /sistema pinta el pie una vez por tema y modo.
   const id = useId()
   return (
@@ -112,7 +113,7 @@ export function SiteFooter({ year }: { year: number }) {
       <div className="site-ft__legal">
         <Lockup size="footer" />
         <nav className="ft-legal" aria-label={s.legal}>
-          {LEGAL_LINKS.map((l) => (
+          {legal.map((l) => (
             <a key={l.href} href={l.href}>
               {l.name}
             </a>

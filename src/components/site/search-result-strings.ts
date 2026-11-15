@@ -23,5 +23,6 @@ export const searchResultStrings = {
     checklist: 'Checklists',
     clase: 'Clases',
     mazmorra: 'Mazmorras',
+    pagina: 'Páginas',
   } satisfies Record<SearchType, string>,
 }

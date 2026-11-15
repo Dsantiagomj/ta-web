@@ -9,6 +9,9 @@ import { DOFUS_GUIDES_REVALIDATE, DOFUS_GUIDES_TAG } from '@/lib/dofus-guides/ca
 import { dofusNavItems } from '@/lib/dofus-guides/nav'
 import { readDofusList } from '@/lib/dofus-guides/queries'
 import { GUIDE_PAGES_REVALIDATE, GUIDE_PAGES_TAG } from '@/lib/guides/cache'
+import { PAGES_REVALIDATE, PAGES_TAG } from '@/lib/pages/cache'
+import { pageNavItems } from '@/lib/pages/page'
+import { readPageNav } from '@/lib/pages/queries'
 import { countSiteGuides } from '@/lib/site/counts'
 
 // Las cifras de la cabecera cambian cuando cambian las guías: la misma etiqueta de caché
@@ -44,4 +47,12 @@ export const loadChecklistTeaser = unstable_cache(
   async () => checklistTeaser(await readChecklistTeaser(await getPayload({ config }))),
   ['checklist-teaser'],
   { tags: [CHECKLISTS_TAG], revalidate: CHECKLISTS_REVALIDATE },
+)
+
+// Las páginas sueltas para el pie (los enlaces legales) y la búsqueda: las caducan los hooks
+// de las páginas (src/lib/pages/cache.ts).
+export const loadPageNav = unstable_cache(
+  async () => pageNavItems(await readPageNav(await getPayload({ config }))),
+  ['page-nav'],
+  { tags: [PAGES_TAG], revalidate: PAGES_REVALIDATE },
 )

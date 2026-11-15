@@ -25,6 +25,8 @@ export interface SitemapData {
   /** La introducción de Torre en /guias-dofus (global dofus-guides-index). */
   dofusIndexUpdatedAt: string | null
   checklists: StateDoc[]
+  /** Las páginas sueltas: emotes, cómo llegar a un sitio y los textos legales. */
+  pages: StateDoc[]
 }
 
 const published = (doc: { _status?: Status }) => doc._status !== 'draft'
@@ -71,7 +73,8 @@ export function sitemapEntries(data: SitemapData, siteUrl: string): MetadataRout
   add(METALOGROS_PATH, metalogros)
   add(DOFUS_INDEX_PATH, dofus)
   add(CHECKLISTS_INDEX_PATH, checklists)
-  for (const docs of [data.questGuides, data.achievementPages, data.dofusGuides, data.checklists]) {
+  const pages = [data.questGuides, data.achievementPages, data.dofusGuides, data.checklists]
+  for (const docs of [...pages, data.pages ?? []]) {
     for (const doc of docs as (Doc | StateDoc)[]) {
       if (isPage(doc)) add(`/${doc.slug}`, latest([doc.updatedAt]))
     }

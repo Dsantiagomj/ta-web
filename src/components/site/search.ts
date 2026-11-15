@@ -48,7 +48,7 @@ export const MANY_QUESTS = 50
 /** Las misiones que se ven cuando encajan más de MANY_QUESTS. */
 export const SHOWN_WHEN_MANY = 20
 
-const ORDER: SearchType[] = ['seccion', 'dofus', 'checklist', 'clase', 'mazmorra']
+const ORDER: SearchType[] = ['seccion', 'dofus', 'checklist', 'clase', 'mazmorra', 'pagina']
 
 /** Sin tildes ni mayúsculas: «ebano» encuentra «Dofus Ébano». */
 export const fold = (text: string) =>

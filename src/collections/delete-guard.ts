@@ -63,6 +63,7 @@ export const REFERRERS: Record<ReferencedCollection, Referrer[]> = {
       paths: ['steps.figure.image', 'steps.icon', 'steps.banner', 'card.scene', 'card.npc'],
     },
     { collection: 'achievement-pages', title: 'name', paths: prosePaths(['intro', 'outro']) },
+    { collection: 'pages', title: 'title', paths: bodyImages },
   ],
   'achievement-pages': [
     {

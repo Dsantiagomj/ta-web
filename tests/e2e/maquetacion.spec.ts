@@ -6,6 +6,7 @@ import { indexChecklists } from './seed/checklists-index.ts'
 import { seedChecklists } from './seed/checklists.ts'
 import { seedDofus } from './seed/dofus-guides.ts'
 import { E2E_PANEL_USER_5, seedGuide } from './seed/guides.ts'
+import { seedPages } from './seed/pages.ts'
 
 // La revisión de la maquetación (AGENTS.md, Workflow): cada tipo de página pública a 390, 768,
 // 1024 y 1440px, sin desbordes, sin textos de una palabra por línea, sin cajas que se pisen y
@@ -97,6 +98,13 @@ const pages: { name: string; path: (page: Page) => Promise<string> }[] = [
       remote
         ? firstPublished(page, 'achievement-pages', 'where[state][equals]=published')
         : Promise.resolve(`/${seedAchievement.slug}`),
+  },
+  {
+    name: 'una página suelta',
+    path: (page) =>
+      remote
+        ? firstPublished(page, 'pages', 'where[state][equals]=published')
+        : Promise.resolve(`/${seedPages.emote.slug}`),
   },
   { name: 'los metalogros', path: async () => '/metalogros' },
   { name: 'el índice de checklists', path: async () => '/checklists' },

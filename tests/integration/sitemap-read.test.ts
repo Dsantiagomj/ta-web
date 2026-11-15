@@ -22,6 +22,7 @@ async function cleanUp() {
     where: { slug: { in: ['mapa-logro', 'mapa-logro-preparando'] } },
   })
   await payload.delete({ collection: 'achievements', where: { dofusId: { in: ACHIEVEMENTS } } })
+  await payload.delete({ collection: 'pages', where: { slug: { like: 'mapa-pagina' } } })
 }
 
 beforeAll(async () => {
@@ -58,6 +59,15 @@ beforeAll(async () => {
       data: { achievement: achievement.id, name: slug, slug, state, _status: 'published' },
     })
   }
+  for (const [slug, state] of [
+    ['mapa-pagina', 'published'],
+    ['mapa-pagina-preparando', 'preparing'],
+  ] as const) {
+    await payload.create({
+      collection: 'pages',
+      data: { title: slug, slug, state, _status: 'published' },
+    })
+  }
 })
 
 afterAll(async () => {
@@ -85,5 +95,12 @@ describe('readSitemapData', () => {
     expect(urls).toContain(`${SITE}/mapa-logro`)
     expect(urls).not.toContain(`${SITE}/mapa-logro-preparando`)
     expect(urls).not.toContain(`${SITE}/mapa-borrador`)
+  })
+
+  it('lleva las páginas sueltas publicadas y no las En preparación', async () => {
+    const urls = sitemapEntries(await readSitemapData(payload), SITE).map((entry) => entry.url)
+
+    expect(urls).toContain(`${SITE}/mapa-pagina`)
+    expect(urls).not.toContain(`${SITE}/mapa-pagina-preparando`)
   })
 })
