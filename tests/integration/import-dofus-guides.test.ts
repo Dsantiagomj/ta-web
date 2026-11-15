@@ -693,9 +693,9 @@ describe('loadDofusGuides: texto que no es una misión', () => {
       payload,
       options([{ entry: { ...entry, slug, dofusId: 918071 }, source: withNotes }]),
     )
+    // Lo que Torre enlaza sin ser una misión queda en su lista; solo la prosa pasa a nota.
     expect(report.leftovers).toEqual([
       { slug, text: explanation.replace(/\.$/, '') },
-      { slug, text: '100 misiones de alineamiento' },
       { slug, text: 'Hazla antes de la siguiente' },
     ])
     const unmatched = report.unmatched.filter((row) => row.slug === slug && row.kind !== 'objeto')
@@ -710,16 +710,196 @@ describe('loadDofusGuides: texto que no es una misión', () => {
       'dofusNote',
       'dofusQuests',
     ])
+    // Las misiones del logro son las de Torre, también la que aún no tiene guía.
+    expect(parts[0]).toMatchObject({
+      achievement: ids.page,
+      pageQuests: false,
+      ownQuests: [
+        { title: 'A la pesca de información', guides: [ids.pesca] },
+        { title: 'Otra misión de la página', guides: [] },
+      ],
+    })
     expect(JSON.stringify(parts[1])).toContain('Hacerse pasar por el Wey Wabbit')
     expect(JSON.stringify(parts[1])).not.toContain('Otra misión de la página')
     expect(parts[2]).toMatchObject({
       title: 'Prerrequisitos de misiones secundarias',
-      quests: [{ guide: ids.luces }],
+      quests: [
+        { guide: ids.luces, title: 'Luces y sombra' },
+        { title: '100 misiones de alineamiento', link: '/metalogro-alineamiento' },
+      ],
     })
-    expect(JSON.stringify(parts[3])).toContain('/metalogro-alineamiento')
     expect(JSON.stringify(parts[3])).toContain('Hazla antes de la siguiente')
-    expect(parts[4]).toMatchObject({ quests: [{ guide: ids.heroe }] })
+    // Una misión de DofusDB sin guía se queda en la lista de Torre, sin enlace.
+    expect(parts[4]).toMatchObject({
+      quests: [
+        { guide: ids.heroe, title: 'El héroe de Sufokia' },
+        { title: '¡No... puedes... bajar!' },
+      ],
+    })
     expect((parts[4] as { title?: string | null }).title ?? null).toBeNull()
+  })
+})
+
+describe('loadDofusGuides: las misiones de cada logro, como las escribe Torre', () => {
+  const extra = { fatalidad: 0, destino: 0, rivalidad: 0, dios: 0 }
+  beforeAll(async () => {
+    const guide = async (slug: string, title: string) =>
+      (await payload.create({ collection: 'quest-guides', data: { slug, title } })).id
+    extra.fatalidad = await guide('prueba-la-fatalidad', 'La fatalidad')
+    extra.destino = await guide('prueba-el-destino', 'El destino')
+    extra.rivalidad = await guide('prueba-la-rivalidad', 'La rivalidad')
+    extra.dios = await guide('prueba-hablar-dios', 'HABLAR CON EL DIOS ANUTROF')
+  })
+
+  const link = (v: string, href: string) => ({ t: 'link' as const, v, href, b: true })
+
+  it('guarda sus filas, su texto, todas sus guías y su enlace; sin filas, ninguna', async () => {
+    const slug = 'prueba-dofus-filas'
+    const rows: DofusGuideSource = {
+      ...source(),
+      parts: [
+        {
+          type: 'achievement',
+          name: '¡Plof!',
+          slug: 'prueba-plof',
+          quests: [
+            // Hielos: tres misiones en una fila, cada una con su enlace.
+            {
+              name: 'La fatalidad',
+              slug: 'prueba-la-fatalidad',
+              alternatives: [
+                { name: 'La fatalidad', slug: 'prueba-la-fatalidad' },
+                { name: 'El destino', slug: 'prueba-el-destino' },
+                { name: 'La rivalidad', slug: 'prueba-la-rivalidad' },
+              ],
+              segs: [
+                link('La fatalidad', '/prueba-la-fatalidad'),
+                { t: 'text', v: ' - ', b: true },
+                link('El destino', '/prueba-el-destino'),
+                { t: 'text', v: ' - ', b: true },
+                link('La rivalidad.', '/prueba-la-rivalidad'),
+              ],
+            },
+            // El texto de Torre, aunque la guía se llame de otra forma.
+            {
+              name: 'Heh, la pesca de información',
+              slug: 'prueba-a-la-pesca',
+              note: '(solo empezarla)',
+              segs: [
+                link('Heh, la pesca de información.', '/prueba-a-la-pesca'),
+                { t: 'text', v: ' (solo empezarla).' },
+              ],
+            },
+          ],
+        },
+        // Dorigami: el logro sin misiones debajo. No salen las de su página.
+        { type: 'achievement', name: '¡Plof!', slug: null, quests: [] },
+        {
+          type: 'metalogro',
+          name: 'Un comienzo ejemplar',
+          achievements: [
+            {
+              type: 'achievement',
+              name: '¡Plof!',
+              slug: 'prueba-plof',
+              quests: [{ name: 'El héroe de Sufokia', slug: 'prueba-el-heroe' }],
+            },
+          ],
+        },
+        // Nebuloso: una misión sola, con el texto de Torre y no el de la guía, sin el número
+        // de paso, que la página no enseña en ninguna parte.
+        {
+          type: 'quest',
+          number: 5,
+          quest: {
+            name: 'Hablar con el Dios Anutrof',
+            slug: 'prueba-hablar-dios',
+            segs: [
+              { t: 'text', v: '5) ', b: true },
+              link('Hablar con el Dios Anutrof.', '/prueba-hablar-dios'),
+            ],
+          },
+        },
+      ],
+    }
+    await loadDofusGuides(
+      payload,
+      options([{ entry: { ...entry, slug, dofusId: 918072 }, source: rows }]),
+    )
+    const parts = (await read(slug)).parts ?? []
+    expect(parts.map((part) => part.blockType)).toEqual([
+      'dofusAchievement',
+      'dofusAchievement',
+      'dofusMetalogro',
+      'dofusQuest',
+    ])
+    expect(parts[0]).toMatchObject({
+      achievement: ids.page,
+      link: '/prueba-plof',
+      pageQuests: false,
+      ownQuests: [
+        {
+          title: 'La fatalidad - El destino - La rivalidad',
+          guides: [extra.fatalidad, extra.destino, extra.rivalidad],
+        },
+        { title: 'Heh, la pesca de información', guides: [ids.pesca], note: '(solo empezarla)' },
+      ],
+    })
+    expect(parts[1]).toMatchObject({ achievement: ids.page, pageQuests: false, ownQuests: [] })
+    expect((parts[1] as { link?: string | null }).link ?? null).toBeNull()
+    expect(parts[2]).toMatchObject({
+      name: 'Un comienzo ejemplar',
+      achievements: [
+        {
+          achievement: ids.page,
+          link: '/prueba-plof',
+          pageQuests: false,
+          ownQuests: [{ title: 'El héroe de Sufokia', guides: [ids.heroe] }],
+        },
+      ],
+    })
+    expect(parts[3]).toMatchObject({ guide: extra.dios, title: 'Hablar con el Dios Anutrof' })
+
+    // Repetirla no cambia nada.
+    const again = await loadDofusGuides(
+      payload,
+      options([{ entry: { ...entry, slug, dofusId: 918072 }, source: rows }]),
+    )
+    expect(again).toMatchObject({ updated: 0, unchanged: 1, kept: [] })
+  })
+})
+
+describe('loadDofusGuides: guías importadas antes de las listas de Torre', () => {
+  it('se actualizan: los valores por defecto de los campos nuevos no son cambios de Torre', async () => {
+    const slug = 'prueba-dofus-antes'
+    const guides = [{ entry: { ...entry, slug, dofusId: 918073 }, source: source() }]
+    await loadDofusGuides(payload, options(guides))
+    const doc = await read(slug)
+    // Como la dejó la importación de antes: el logro sin la lista de Torre, y así su foto.
+    const before = (doc.parts ?? []).map((part) =>
+      part.blockType === 'dofusAchievement'
+        ? { blockType: part.blockType, achievement: part.achievement, note: null }
+        : part,
+    )
+    await payload.update({
+      collection: 'dofus-guides',
+      id: doc.id,
+      data: {
+        parts: before,
+        importSnapshot: { ...(doc.importSnapshot as object), parts: comparable(before) },
+      } as never,
+      overrideAccess: true,
+    })
+    // Al guardar, el logro toma los valores por defecto (la casilla marcada, sin filas).
+    expect((await read(slug)).parts?.[0]).toMatchObject({ pageQuests: true })
+
+    const report = await loadDofusGuides(payload, options(guides))
+    expect(report.kept).toEqual([])
+    expect(report.updated).toBe(1)
+    expect((await read(slug)).parts?.[0]).toMatchObject({
+      pageQuests: false,
+      ownQuests: [{ title: 'A la pesca de información' }, { title: 'El héroe de Sufokia' }],
+    })
   })
 })
 

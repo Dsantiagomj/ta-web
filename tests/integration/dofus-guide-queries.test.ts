@@ -244,3 +244,42 @@ describe('readDofusList', () => {
     ])
   })
 })
+
+describe('las misiones que Torre escribe para un logro', () => {
+  beforeAll(async () => {
+    await payload.create({
+      collection: 'dofus-guides',
+      data: {
+        level: 60,
+        _status: 'published',
+        name: 'Dofus con lista de Torre',
+        slug: 'prueba-dq-torre',
+        order: 3,
+        state: 'published',
+        parts: [
+          {
+            blockType: 'dofusAchievement',
+            achievement: ids.page,
+            pageQuests: false,
+            ownQuests: [
+              { title: 'Luces, como lo escribe Torre', guides: [ids.loose] },
+              { title: 'Una misión sin guía' },
+            ],
+          },
+        ],
+      },
+    })
+  })
+
+  it('la página trae las guías de sus filas, con su misión, para el PNJ y el nivel', async () => {
+    const data = await readDofusGuide(payload, 'prueba-dq-torre')
+    expect([...data!.questGuides.keys()]).toEqual([ids.loose])
+    expect(data!.questGuides.get(ids.loose)?.quest).toMatchObject({ levelMin: 160 })
+  })
+
+  it('la lista cuenta sus filas, no las de la página de logro', async () => {
+    const list = await readDofusList(payload)
+    const torre = list.find((doc) => doc.slug === 'prueba-dq-torre')
+    expect([torre?.achievements, torre?.quests]).toEqual([1, 2])
+  })
+})

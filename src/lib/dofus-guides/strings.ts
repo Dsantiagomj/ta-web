@@ -33,8 +33,30 @@ export const dofusGuideStrings = {
       'El nombre si el objeto no está enlazado. Enlazado, sale el nombre del objeto.',
     needItemNameRequired: 'Enlaza el objeto o escribe su nombre',
     partsDescription:
-      'Los logros y las misiones en el orden en que se hacen. Las misiones de cada logro ' +
-      'salen de su página de logro: se cambian allí.',
+      'Los logros y las misiones en el orden en que se hacen. Cada logro enseña tus misiones, ' +
+      'como las escribes aquí, o las de su página de logro.',
+    pageQuestsLabel: 'Misiones de su página de logro',
+    pageQuestsDescription:
+      'Marcado: salen las misiones de la página del logro. Sin marcar: salen las de la lista ' +
+      'de abajo, como las escribes tú, aunque esté vacía.',
+    ownQuestsLabel: 'Tus misiones',
+    ownQuestsDescription:
+      'En el orden en que se hacen. Cuentan en las cifras de la guía y del índice.',
+    ownQuestTitleDescription:
+      'Tal como quieres que salga: «Heh, ¿dónde está Bizcana?» o «La fatalidad - El destino - ' +
+      'La rivalidad».',
+    ownQuestGuidesDescription:
+      'La guía a la que lleva. Con varias, cada trozo del texto separado por « - » o « o » ' +
+      'lleva a la suya, en orden.',
+    achievementLinkLabel: 'Enlace mientras esté en preparación',
+    achievementLinkDescription:
+      'La dirección del logro en tu web de siempre (/en-marcha-hacia-la-aventura). Mientras ' +
+      'su página esté «En preparación», el nombre lleva allí.',
+    questTitleDescription: 'Vacío: el título de la guía.',
+    looseQuestLinkDescription:
+      'Si la fila no es una misión («Logro: Cazadores cazados»), a dónde lleva: ' +
+      '/cazadores-cazados. Sale sin número.',
+    looseQuestRequired: 'Elige la guía o escribe el texto',
     noteDescription: 'Una nota corta junto al nombre, como «(solo empezarla)».',
     bodyDescription: 'Para las guías paso a paso, como la Piñata de pino.',
     videoDescription: 'Enlace al vídeo de la guía en YouTube (youtube.com o youtu.be).',

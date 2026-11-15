@@ -1052,6 +1052,17 @@
   inset: 0;
   border-radius: 0.625rem;
 }
+/* Una fila que enlaza varias guías («La fatalidad - El destino - La rivalidad»): cada trozo es
+   su enlace, subrayado, y la fila no se abre entera. */
+.dg-ql__t a:not(.dg-ql__a) {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.1875rem;
+}
+.dg-ql__t a:not(.dg-ql__a):hover {
+  text-decoration-thickness: 2px;
+}
 .dg-ql__a:focus-visible {
   outline: none;
 }

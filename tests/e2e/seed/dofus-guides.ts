@@ -1,6 +1,7 @@
 // Las guías de Dofus de prueba de las E2E y Lighthouse CI: el «Dofus Ocre» completo (su huevo,
-// Prerrequisitos, Necesitarás, el logro sembrado «La ocasión hace al ladrón» con sus misiones,
-// una misión suelta con la nota de Torre, la checklist y el vídeo), el «Dofawa» publicado sin
+// Prerrequisitos, Necesitarás, el logro sembrado «La ocasión hace al ladrón» con las misiones
+// que escribe Torre, una misión suelta con la nota de Torre y un enlace que no es una misión,
+// la checklist y el vídeo), el «Dofawa» publicado sin
 // logros y el «Jyfus» En preparación; y la entradilla del índice. Se siembra después de las
 // guías y del logro; repetirlo no duplica nada.
 import path from 'node:path'
@@ -53,8 +54,22 @@ export const seedDofus = {
     needsNote: 'Piedras de alma de jefes de mazmorra y archimonstruos.',
     // La misma nota sigue en un segundo párrafo: los dos van uno debajo del otro.
     needsNoteMore: 'También sirven las del mercadillo.',
+    // Las misiones del logro como las escribe Torre, no las de su página: su texto, una fila
+    // que enlaza dos guías (como «La fatalidad - El destino - La rivalidad» del Hielos) y una
+    // misión sin guía. Son tres, como las de la página: las cifras no cambian.
+    torreQuests: {
+      own: '¡Esto hace aguas!',
+      pair: ['Seis pies bajo tierra', 'Esto hace aguas'],
+      noGuide: 'El cazador cazado (en la web de siempre)',
+    },
     looseTitle: 'También algunas misiones random',
     looseNote: '(solo empezarla)',
+    // Lo que Torre enlaza en una lista que no es una misión (el Marfil): sin número.
+    looseLink: {
+      title: 'Logro: La ocasión hace al ladrón',
+      link: '/la-ocasion-hace-al-ladron',
+      note: 'completo',
+    },
     checklist: { name: 'Almas del Ocre', url: 'https://www.torrentearcano.com/lista-ocre' },
     video: 'https://www.youtube.com/watch?v=ovPAxnBdKYQ',
   },
@@ -95,10 +110,11 @@ async function findOne<T extends { id: number }>(
 export async function seedDofusGuides(payload: Payload): Promise<void> {
   const achievement = await findOne(payload, 'achievement-pages', 'slug', seedAchievement.slug)
   const loose = await findOne(payload, 'quest-guides', 'slug', seedGuide.slug)
+  const previous = await findOne(payload, 'quest-guides', 'slug', seedGuide.prerequisite.slug)
   const needItems = await Promise.all(
     seedDofus.ocre.needsItems.map(({ name }) => findOne(payload, 'items', 'name', name)),
   )
-  if (!achievement || !loose || needItems.some((item) => !item)) {
+  if (!achievement || !loose || !previous || needItems.some((item) => !item)) {
     throw new Error('Faltan el logro, la guía o el objeto de prueba: siembra antes las guías')
   }
 
@@ -198,11 +214,20 @@ export async function seedDofusGuides(payload: Payload): Promise<void> {
         ],
       },
       parts: [
-        { blockType: 'dofusAchievement' as const, achievement: achievement.id },
+        {
+          blockType: 'dofusAchievement' as const,
+          achievement: achievement.id,
+          pageQuests: false,
+          ownQuests: [
+            { title: ocre.torreQuests.own, guides: [previous.id] },
+            { title: ocre.torreQuests.pair.join(' - '), guides: [loose.id, previous.id] },
+            { title: ocre.torreQuests.noGuide, guides: [] },
+          ],
+        },
         {
           blockType: 'dofusQuests' as const,
           title: ocre.looseTitle,
-          quests: [{ guide: loose.id, note: ocre.looseNote }],
+          quests: [{ guide: loose.id, note: ocre.looseNote }, ocre.looseLink],
         },
       ],
       checklist: ocre.checklist,

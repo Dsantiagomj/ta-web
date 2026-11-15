@@ -72,7 +72,16 @@ export const REFERRERS: Record<ReferencedCollection, Referrer[]> = {
     },
   ],
   'quest-guides': [
-    { collection: 'dofus-guides', title: 'name', paths: ['parts.guide', 'parts.quests.guide'] },
+    {
+      collection: 'dofus-guides',
+      title: 'name',
+      paths: [
+        'parts.guide',
+        'parts.quests.guide',
+        'parts.ownQuests.guides',
+        'parts.achievements.ownQuests.guides',
+      ],
+    },
     { collection: 'achievement-groups', title: 'name', paths: ['guides'] },
   ],
   'achievement-groups': [{ collection: 'achievement-pages', title: 'name', paths: ['group'] }],
