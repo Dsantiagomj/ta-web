@@ -57,6 +57,9 @@ export const dofusGuideStrings = {
       'Si la fila no es una misión («Logro: Cazadores cazados»), a dónde lleva: ' +
       '/cazadores-cazados. Sale sin número.',
     looseQuestRequired: 'Elige la guía o escribe el texto',
+    siteLinkInvalid:
+      'Tiene que ser una dirección de la web que empiece por / (/cazadores-cazados) o una URL ' +
+      'que empiece por http:// o https://',
     noteDescription: 'Una nota corta junto al nombre, como «(solo empezarla)».',
     bodyDescription: 'Para las guías paso a paso, como la Piñata de pino.',
     videoDescription: 'Enlace al vídeo de la guía en YouTube (youtube.com o youtu.be).',

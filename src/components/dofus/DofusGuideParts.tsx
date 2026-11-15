@@ -209,7 +209,7 @@ function QuestItem({ quest, kicker }: { quest: DofusQuestCard; kicker?: string }
           <QuestTitle quest={quest} />
         </p>
         {quest.note && <p className="dg-qnote">{quest.note}</p>}
-        {!quest.href && !quest.links && <span className="ztag">{s.noGuide}</span>}
+        {!isLink && !quest.href && !quest.links && <span className="ztag">{s.noGuide}</span>}
       </div>
     </li>
   )

@@ -266,3 +266,14 @@ describe('colección dofus-guides', () => {
     expect(field(DofusGuides.fields, 'originalUrl')).toMatchObject({ type: 'text' })
   })
 })
+
+describe('los enlaces escritos a mano en una guía de Dofus', () => {
+  it('solo una dirección del sitio o una web', async () => {
+    const { validateSiteLink } = await import('@/collections/DofusGuides')
+    expect(validateSiteLink('/cazadores-cazados')).toBe(true)
+    expect(validateSiteLink('https://www.torrentearcano.com/x')).toBe(true)
+    expect(validateSiteLink('')).toBe(true)
+    expect(validateSiteLink('javascript:alert(1)')).not.toBe(true)
+    expect(validateSiteLink('//ejemplo.com')).not.toBe(true)
+  })
+})
