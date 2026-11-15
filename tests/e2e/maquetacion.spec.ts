@@ -152,7 +152,7 @@ async function lintOpenChecklist(page: Page, { slug, kind }: Checklist) {
   if (kind === 'souls') {
     // Por región también: otra lista al lado y sus almas por mazmorra y subzona.
     await page.getByRole('button', { name: 'Por región' }).click()
-    await expect(page.getByRole('navigation', { name: 'Regiones' })).toBeVisible()
+    await expect(page.getByRole('navigation', { name: 'Regiones', exact: true })).toBeVisible()
     await settle(page)
     found.push(...label(`${path} por región`, await lintLayout(page)))
     return found
