@@ -2,7 +2,7 @@
 // aparte de los textos de las secciones (strings.ts), que no deben viajar en el JavaScript de
 // la isla. Los de pedir otra letra, carga y error son los del diálogo (search-strings.ts).
 export const heroSearchStrings = {
-  placeholder: 'Una misión, un logro o un Dofus',
+  placeholder: 'Misión, logro o Dofus',
   submit: 'Buscar',
   list: 'Resultados',
 }

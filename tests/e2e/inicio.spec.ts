@@ -3,6 +3,7 @@ import { expect, test, type Page } from '@playwright/test'
 
 import { indexChecklists } from './seed/checklists-index.ts'
 import { seedGuide } from './seed/guides.ts'
+import { seedPages } from './seed/pages.ts'
 
 // La portada (DESIGN.md, Layout: Home) y su búsqueda de misiones, un combobox con lista
 // (SEARCH-SPEC de inicio v9). Las guías publicadas de la semilla son «Seis pies bajo tierra» y
@@ -164,7 +165,7 @@ test.describe('portada', () => {
     await page.keyboard.press('ArrowDown')
     await page.clock.runFor(200)
     const only = list(page).getByRole('option')
-    await expect(only).toHaveText(['Ab ef'])
+    await expect(only).toHaveText([/^Ab ef/])
     await expect(only).toHaveAttribute('aria-selected', 'true')
     await expect(field(page)).toHaveAttribute(
       'aria-activedescendant',
@@ -172,7 +173,7 @@ test.describe('portada', () => {
     )
   })
 
-  test('Intro durante la espera abre la primera de lo escrito, no la de la lista vieja', async ({
+  test('durante la espera, Intro abre la primera de lo escrito y las flechas van a la lista nueva', async ({
     page,
   }) => {
     // Un índice con dos títulos que cambian de orden según lo buscado, y el reloj en la mano
@@ -192,12 +193,21 @@ test.describe('portada', () => {
     await field(page).fill('ab')
     await page.clock.runFor(200)
     await expect(list(page).getByRole('option').first()).toContainText('Ab cd')
-    // Antes de que se ordene «cd», dos flechas eligen la segunda de la lista vieja.
+    // Antes de que se ordene «cd», Intro abre la primera de «cd», no la de «ab».
+    await field(page).fill('cd')
+    await page.keyboard.press('Enter')
+    await expect(page).toHaveURL(/\/cd-ab$/)
+
+    // Y dos flechas recorren la lista de «cd» (Cd ab, Ab cd): la segunda es Ab cd.
+    await open(page)
+    await field(page).fill('ab')
+    await page.clock.runFor(200)
+    await expect(list(page).getByRole('option').first()).toContainText('Ab cd')
     await field(page).fill('cd')
     await page.keyboard.press('ArrowDown')
     await page.keyboard.press('ArrowDown')
     await page.keyboard.press('Enter')
-    await expect(page).toHaveURL(/\/cd-ab$/)
+    await expect(page).toHaveURL(/\/ab-cd$/)
   })
 
   test('Esc cierra, otro Esc borra; un clic fuera cierra', async ({ page }) => {
@@ -343,7 +353,7 @@ test.describe('portada: todo el contenido y el teclado', () => {
     await field(page).fill('emotes')
     await expect(list(page).getByRole('option')).toHaveText(['Emotes'])
     await page.keyboard.press('Enter')
-    await expect(page).toHaveURL(/\/emotes$/)
+    await expect(page).toHaveURL(new RegExp(`/${seedPages.emotes.slug}$`))
   })
 
   test('una flecha pulsada antes de que se ordene lo escrito no se pierde', async ({ page }) => {
