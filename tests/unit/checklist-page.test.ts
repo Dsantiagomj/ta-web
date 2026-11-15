@@ -1348,3 +1348,70 @@ describe('revisión de #122: la clave de una fila genérica en todas partes', ()
     expect(view.quests[0].name).toBe('Recolección en los campos de hielo')
   })
 })
+
+describe('checklistView: el camino de Dofus (el rush)', () => {
+  const guide = (id: number, name: string, slug: string, color: string, state = 'published') => ({
+    id,
+    name,
+    slug,
+    state,
+    color,
+    dofus: { id: id + 100, name, image: media(id + 100, `egg-${slug}`) },
+  })
+  const rush = (steps: Step[]) =>
+    checklistView(data(steps, { dofusGuide: null, card: { color: '#e3c565' } } as never))
+
+  it('sin guía de Dofus, el camino son los pasos que dan Dofus, en orden y con sus huevos', () => {
+    const view = rush([
+      step('a'),
+      step('b', { dofus: [guide(1, 'Dofawa', 'dofawa', '#ff9118')] }),
+      step('c', {
+        dofus: [
+          guide(2, 'Dofus de los Hielos', 'dofus-de-los-hielos', '#47c4ff'),
+          guide(3, 'Dofus Centelleante', 'dofus-centelleante', '#dee9f6', 'preparing'),
+        ],
+      }),
+    ])
+
+    expect(view.road).toEqual([
+      {
+        stepId: 'b',
+        n: 2,
+        dofus: [
+          {
+            name: 'Dofawa',
+            color: '#ff9118',
+            href: '/dofawa',
+            egg: expect.objectContaining({ src: '/media/egg-dofawa.png' }),
+          },
+        ],
+      },
+      {
+        stepId: 'c',
+        n: 3,
+        dofus: [
+          expect.objectContaining({ name: 'Dofus de los Hielos', href: '/dofus-de-los-hielos' }),
+          // Su guía sigue En preparación: sin enlace.
+          expect.not.objectContaining({ href: expect.anything() }),
+        ],
+      },
+    ])
+    // La cabecera no tiene un solo huevo: lo pone el camino.
+    expect(view.egg).toBeUndefined()
+  })
+
+  it('un Dofus sin poblar (una guía en borrador) no sale', () => {
+    const view = rush([step('a', { dofus: [5] }), step('b', { dofus: [] })])
+    expect(view.road).toBeUndefined()
+  })
+
+  it('con guía de su Dofus, la checklist enseña su huevo y no el camino', () => {
+    const view = checklistView(
+      data([
+        step('a', { dofus: [guide(1, 'Dofus de los vigilantes', 'dofus-vigilante', '#1fdcd1')] }),
+      ]),
+    )
+    expect(view.road).toBeUndefined()
+    expect(view.egg?.src).toBe('/media/egg.png')
+  })
+})

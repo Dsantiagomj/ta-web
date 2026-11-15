@@ -12,7 +12,7 @@ import type { QuestObjectiveKind } from '@/lib/dofusdb/types'
 import { mediaImageAsset } from '@/lib/media/image-asset'
 import { legacyRoute, type LegacyRoute } from '@/lib/site/legacy'
 import { fold } from '@/lib/text/fold'
-import type { Checklist, Media, Quest } from '@/payload-types'
+import type { Checklist, DofusGuide, Media, Quest } from '@/payload-types'
 
 import { openStops } from './open-stops'
 import type { SoulsReadData } from './souls'
@@ -225,6 +225,21 @@ export interface ChecklistIslandData {
   legacyIds: Record<string, number>
 }
 
+/** Un Dofus del camino: su huevo, su color y su guía si está publicada. */
+export interface RoadDofusView {
+  name: string
+  color?: string
+  egg?: ImageAsset
+  href?: string
+}
+
+/** Un paso que da Dofus (el 190 del rush da dos). */
+export interface RoadStopView {
+  stepId: string
+  n: number
+  dofus: RoadDofusView[]
+}
+
 export interface ChecklistView {
   id: number
   slug: string
@@ -233,6 +248,11 @@ export interface ChecklistView {
   description: string
   egg?: ImageAsset
   color?: string
+  /**
+   * El camino de Dofus de una checklist sin guía de Dofus (el rush, que los da todos): los pasos
+   * que dan Dofus, en orden. Su cabecera enseña el siguiente y la franja, todos.
+   */
+  road?: RoadStopView[]
   breadcrumb: BreadcrumbData
   steps: StepView[]
   prerequisites: {
@@ -595,6 +615,25 @@ export function checklistView(data: ChecklistData): ChecklistView {
   )
 
   const guide = populated(checklist.dofusGuide)
+  // Una guía en borrador no llega poblada a un visitante: no sale en el camino.
+  const road = guide
+    ? []
+    : rawSteps.flatMap((step, index): RoadStopView[] => {
+        const dofus = (step.dofus ?? []).flatMap((relation): RoadDofusView[] => {
+          const found = populated(relation as Relation<DofusGuide>)
+          if (!found) return []
+          const egg = image(populated(found.dofus)?.image)
+          return [
+            {
+              name: found.name,
+              ...(found.color && { color: found.color }),
+              ...(egg && { egg }),
+              ...(found.state === 'published' && { href: `/${found.slug}` }),
+            },
+          ]
+        })
+        return dofus.length ? [{ stepId: step.stepId ?? '', n: index + 1, dofus }] : []
+      })
   const publishedGuide = guide?.state === 'published' ? guide : null
   const egg = image(populated(guide?.dofus)?.image)
   const groups = (checklist.prerequisites?.groups ?? []).flatMap((group) => {
@@ -628,6 +667,7 @@ export function checklistView(data: ChecklistData): ChecklistView {
     title,
     description: checklist.description || s.lead,
     ...(egg && { egg }),
+    ...(road.length > 0 && { road }),
     // Sin guía de Dofus (el rush, que los da todos), el de su tarjeta.
     ...((guide?.color || checklist.card?.color) && {
       color: (guide?.color || checklist.card?.color)!,

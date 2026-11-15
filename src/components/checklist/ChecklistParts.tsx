@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react'
+import { Fragment, type CSSProperties } from 'react'
 
 import { OBJECTIVE_ICONS, GAME_ICONS } from '@/components/game/game-icons'
 import { GuideRichText } from '@/components/game/GuideRichText'
@@ -13,6 +13,7 @@ import type {
   NeedOptionView,
   NeedRowView,
   QuestRowView,
+  RoadStopView,
   StepView,
   TextPart,
   TotalRowView,
@@ -59,22 +60,105 @@ export const DOTS = (
   </svg>
 )
 
-/** El huevo del Dofus en la cabecera, sin marco, con el brillo de su color. */
+/** Los Dofus de un paso del camino, cada uno enlazando su paso: «A y B». */
+function RoadNames({ stop }: { stop: RoadStopView }) {
+  return stop.dofus.map((dofus, index) => (
+    <Fragment key={index}>
+      {index > 0 && s.road.and}
+      <a href={`#paso-${stop.n}`} data-pick={stop.n}>
+        {dofus.name}
+      </a>
+    </Fragment>
+  ))
+}
+
+/**
+ * El huevo del Dofus en la cabecera, sin marco, con el brillo de su color. Sin un solo Dofus
+ * (el rush), el siguiente del camino: el servidor pinta el primero y la isla enseña el que toca
+ * (road-ui.ts), con la línea que lo nombra.
+ */
 export function ChecklistHeader({
   view,
 }: {
-  view: Pick<ChecklistView, 'egg' | 'title' | 'description'>
+  view: Pick<ChecklistView, 'egg' | 'title' | 'description' | 'road'>
 }) {
+  const road = view.road
+  const last = road?.at(-1)
   return (
-    <header className="ck-head">
-      <span className="ck-egg" aria-hidden="true">
+    <header className="ck-head" {...(road && { 'data-road-hero': '' })}>
+      <span className={road ? 'ck-egg ck-egg--road' : 'ck-egg'} aria-hidden="true">
         {view.egg && <Picture image={view.egg} alt="" priority />}
+        {road?.map((stop, index) => (
+          <span className="ck-rh" data-road-egg={index} hidden={index > 0} key={stop.stepId}>
+            {stop.dofus.map((dofus, at) => (
+              <span className="ck-rh__e" style={eggStyle(dofus.color)} key={at}>
+                {dofus.egg && <Picture image={dofus.egg} alt="" priority={index === 0} />}
+              </span>
+            ))}
+          </span>
+        ))}
       </span>
       <div>
         <h1 className="ck-head__t">{view.title}</h1>
         <p className="ck-head__m">{view.description}</p>
+        {road?.map((stop, index) => (
+          <p className="ck-head__road" data-road-line={index} hidden={index > 0} key={stop.stepId}>
+            {s.road.next}
+            <RoadNames stop={stop} />
+            {s.road.at(stop.n)}
+          </p>
+        ))}
+        {last && (
+          <p className="ck-head__road" data-road-line="end" hidden>
+            {s.road.done}
+            <RoadNames stop={last} />
+            {s.road.last(last.dofus.length > 1)}
+          </p>
+        )}
       </div>
     </header>
+  )
+}
+
+/** «Dofus del camino»: todos los Dofus del rush con su paso; la isla enciende los conseguidos. */
+function RoadRow({ road }: { road: RoadStopView[] }) {
+  return (
+    <div className="ck-road">
+      <p className="ck-road__h" id="ck-road-h">
+        {s.road.title}
+      </p>
+      <ol className="ck-road__list" aria-labelledby="ck-road-h">
+        {road.map((stop, index) => (
+          <li
+            className="ck-road__stop"
+            data-road-stop={index}
+            data-road-step={stop.stepId}
+            key={stop.stepId}
+          >
+            <a
+              className="ck-road__a hit-target"
+              href={`#paso-${stop.n}`}
+              data-pick={stop.n}
+              aria-label={s.road.stop(
+                stop.dofus.map((dofus) => dofus.name),
+                stop.n,
+              )}
+            >
+              <span className="ck-road__eggs" aria-hidden="true">
+                {stop.dofus.map((dofus, at) => (
+                  <span className="ck-road__egg" style={eggStyle(dofus.color)} key={at}>
+                    {dofus.egg && <Picture image={dofus.egg} alt="" />}
+                  </span>
+                ))}
+              </span>
+              <span className="ck-road__n" aria-hidden="true">
+                {stop.n}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </div>
   )
 }
 
@@ -111,6 +195,7 @@ export function ProgressStrip({ view }: { view: ChecklistView }) {
         {p.next} <span data-ck-next-n>1</span>
         {chevron('M6 3.5 10.5 8 6 12.5')}
       </button>
+      {view.road && <RoadRow road={view.road} />}
     </div>
   )
 }
