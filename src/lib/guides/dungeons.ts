@@ -1,5 +1,6 @@
 // Qué mazmorra de DofusDB nombra una nota de Necesitarás («Mazmorra Kumijo»), para pintar
-// su jefe en «Necesitarás en total» (DESIGN.md, Achievement page components). Código puro:
+// su jefe en «Necesitarás en total» de las páginas de logro y en Necesitarás de las guías de
+// Dofus (DESIGN.md, Achievement page components y Dofus guides components). Código puro:
 // casa por el nombre de la mazmorra o el de su jefe, y ante cualquier duda no casa: un jefe
 // equivocado es peor que el icono genérico.
 

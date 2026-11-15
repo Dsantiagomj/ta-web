@@ -5,7 +5,7 @@
 // - si no, un logro, una mazmorra, un combate o un oficio por su nombre en los datos del juego;
 // - lo demás, a «Otros», y la importación lo lista.
 // Las filas conservan el orden de Torre dentro de cada grupo. Código puro.
-import { dungeonMatches, type DungeonNames } from '@/lib/achievements/dungeons'
+import { dungeonMatches, type DungeonNames } from '@/lib/guides/dungeons'
 import {
   headingGroup,
   NEED_GROUPS,

@@ -6,16 +6,19 @@
 // icono genérico. Solo lee.
 import type { Payload } from 'payload'
 
+import { chooseDungeonBosses } from '@/lib/guides/dungeon-bosses'
+import type { NoteMatch } from '@/lib/guides/dungeons'
+
 import {
   achievementNeeds,
   dungeonPicks,
   type GuideRef,
+  isDungeonNote,
   needKey,
   noteLabels,
   type PageDoc,
 } from './page'
-import type { NoteMatch } from './dungeons'
-import { chooseDungeonBosses, readNoteItems } from './queries'
+import { readNoteItems } from './queries'
 
 export interface DungeonRow {
   /** El slug de la página de logro. */
@@ -79,7 +82,7 @@ export async function dungeonNoteReport(payload: Payload): Promise<DungeonNoteRe
     : []
   const labels = noteLabels(guides)
   const noteItems = await readNoteItems(payload, labels, { overrideAccess: true })
-  const chosen = await chooseDungeonBosses(payload, labels, {
+  const chosen = await chooseDungeonBosses(payload, labels.filter(isDungeonNote), {
     overrideAccess: true,
     picks: dungeonPicks(guides),
   })
