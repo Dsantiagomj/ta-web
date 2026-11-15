@@ -15,7 +15,7 @@ import { formatThousands, neededItems } from './format'
 import { isDungeonNote, needKey, needNote, type NeedNote, rowText } from './need-notes'
 import type { GuideStart } from './step-nav'
 import { guideStrings } from './strings'
-import type { LinkedRewards, LinkedNeeds } from './summary'
+import type { LinkedLevelRewards, LinkedRewards, LinkedNeeds } from './summary'
 
 export { needNote, type NeedNote } from './need-notes'
 
@@ -98,6 +98,8 @@ export interface GuideDoc {
     rewardExperienceMin?: number | null
     rewardKamas?: number | null
     rewardItems?: LinkedRewards['items']
+    /** Sus tramos de nivel: con dos o más, ganan a los de DofusDB y a las cifras sueltas. */
+    rewardLevels?: LinkedLevelRewards[] | null
     /** Lo que no es XP, kamas ni objeto (emotes, títulos), una línea cada una. */
     rewardNotes?: string | null
     startNpc?: string | null
@@ -215,16 +217,44 @@ export function gameItem(doc: {
   return { name: shown.name ?? '', ...(icon && { icon }) }
 }
 
-/** Los objetos de Recompensas, con nombre, en el orden en que Torre los lista (al revés que DofusDB). */
-function rewardItems(guide: GuideDoc): Quantity<GameItem>[] {
-  // Las de Torre van en su orden; las de DofusDB, al revés, como las lista él.
-  const own = guide.summary?.rewardItems ?? []
-  const items = own.length ? own : [...(linkedQuest(guide)?.rewards?.items ?? [])].reverse()
+/** Los objetos con nombre que no ocultó Torre, listos para sus filas. */
+function shownItems(items: NonNullable<LinkedRewards['items']>): Quantity<GameItem>[] {
   return items.flatMap(({ item, quantity }) =>
     typeof item === 'object' && item.name && !hiddenByTorre(item)
       ? [{ item: gameItem(item), quantity }]
       : [],
   )
+}
+
+/** Los objetos de Recompensas, con nombre, en el orden en que Torre los lista (al revés que DofusDB). */
+function rewardItems(guide: GuideDoc): Quantity<GameItem>[] {
+  // Las de Torre van en su orden; las de DofusDB, al revés, como las lista él.
+  const own = guide.summary?.rewardItems ?? []
+  return shownItems(own.length ? own : [...(linkedQuest(guide)?.rewards?.items ?? [])].reverse())
+}
+
+/**
+ * Los tramos de nivel de Recompensas: los de Torre si escribió dos o más; si no escribió
+ * ninguno, los de DofusDB, con sus objetos en el orden de Torre. Con menos de dos, nada: la
+ * misión da lo mismo a todos los niveles y van las cifras de siempre.
+ */
+function rewardLevels(guide: GuideDoc): RewardLevel[] | undefined {
+  const own = guide.summary?.rewardLevels ?? []
+  const fromQuest = !own.length
+  const tiers = fromQuest ? (linkedQuest(guide)?.rewards?.byLevel ?? []) : own
+  if (tiers.length < 2) return undefined
+  return tiers.map((tier) => {
+    const xp = positive(tier.experience)
+    const kamas = positive(tier.kamas)
+    const items = tier.items ?? []
+    return {
+      levelMin: tier.levelMin,
+      levelMax: tier.levelMax,
+      ...(xp && { xp }),
+      ...(kamas && { kamas }),
+      items: shownItems(fromQuest ? [...items].reverse() : items),
+    }
+  })
 }
 
 /** El lugar de la misión en su logro: la misión 2 de 3. */
@@ -250,6 +280,15 @@ export function guideDungeonNotes(guide: Pick<GuideDoc, 'summary'>): string[] {
     .filter(isDungeonNote)
 }
 
+/** Lo que da la misión a un tramo de nivel: la XP y los kamas de su nivel más alto. */
+export interface RewardLevel {
+  levelMin: number
+  levelMax: number
+  xp?: number
+  kamas?: number
+  items: Quantity<GameItem>[]
+}
+
 /** Datos de la cabecera de la guía (DESIGN.md, Quest header). */
 export interface QuestHeaderData {
   /** El subtítulo: «Misión de {zona} - Nivel {n} - Misión {k} de {total}». */
@@ -270,6 +309,11 @@ export interface QuestHeaderData {
     xp?: { min?: number; max: number }
     kamas?: number
     items: Quantity<GameItem>[]
+    /**
+     * Un grupo por tramo de nivel, cuando la misión da otra cosa según el nivel: entonces no
+     * hay XP, kamas ni objetos sueltos.
+     */
+    levels?: RewardLevel[]
     /**
      * Sus otras recompensas (emotes, títulos) o, sin ninguna recompensa en campos ni de
      * DofusDB, las líneas de su texto.
@@ -354,13 +398,24 @@ export function questHeaderProps(
     }),
   }
 
+  const notes = lines(summary.rewardNotes).map(rowText)
+  const levels = rewardLevels(guide)
+  if (levels) {
+    return {
+      meta,
+      ...(giver && { giver }),
+      prerequisites,
+      needs,
+      rewards: { levels, items: [], notes },
+    }
+  }
+
   // La XP de Torre va con su mínima, nunca con la de DofusDB: serían dos cifras que no casan.
   const ownXp = summary.rewardExperience != null
   const max = positive(ownXp ? summary.rewardExperience : quest?.rewards?.experience)
   const min = positive(ownXp ? summary.rewardExperienceMin : quest?.rewards?.experienceMin)
   const kamas = positive(summary.rewardKamas ?? quest?.rewards?.kamas)
   const items = rewardItems(guide)
-  const notes = lines(summary.rewardNotes).map(rowText)
   const set = ownXp || summary.rewardKamas != null
   const rewards: QuestHeaderData['rewards'] =
     set || max || kamas || items.length || notes.length

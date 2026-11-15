@@ -384,6 +384,44 @@ describe('QuestHeader', () => {
     expect(markup).toMatch(/<li class="row"><span>Nivel mínimo 20<\/span><\/li>/)
   })
 
+  it('por tramos de nivel: un grupo por tramo con su XP, sus kamas y sus objetos, sin bolsa', () => {
+    const tiers: QuestHeaderData = {
+      ...data,
+      rewards: {
+        levels: [
+          {
+            levelMin: 1,
+            levelMax: 109,
+            xp: 1_329_586,
+            kamas: 14_041,
+            items: [{ item: { name: 'Cupón chocolate', icon }, quantity: 5 }],
+          },
+          {
+            levelMin: 180,
+            levelMax: 200,
+            xp: 2_750_000,
+            items: [{ item: { name: 'Cupón praliné' }, quantity: 5 }],
+          },
+        ],
+        items: [],
+        notes: ['Emote: Saludar'],
+      },
+    }
+    const markup = html(<QuestHeader title="x" data={tiers} />)
+    expect(markup).not.toContain('data-bag')
+    const groups = markup.split('class="rew-level"').slice(1)
+    expect(groups).toHaveLength(2)
+    expect(text(groups[0]!)).toContain('Nivel 1 a 109')
+    expect(text(groups[0]!)).toContain('1 329 586 XP')
+    expect(text(groups[0]!)).toContain('14 041 kamas')
+    expect(text(groups[0]!)).toContain('5 × Cupón chocolate')
+    expect(text(groups[1]!)).toContain('Nivel 180 a 200')
+    expect(text(groups[1]!)).not.toContain('kamas')
+    // Cada tramo es una lista con nombre: el lector de pantalla dice de qué niveles es.
+    expect(markup).toContain('aria-label="Nivel 1 a 109"')
+    expect(text(markup)).toContain('Emote: Saludar')
+  })
+
   it('sin datos no pinta las columnas', () => {
     const empty: QuestHeaderData = {
       meta: {},

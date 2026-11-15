@@ -35,6 +35,8 @@ export const gameStrings = {
     xp: 'XP',
     /** «9 800 a 16 380 XP»: de la XP del nivel óptimo a la del tope. */
     xpRangeJoin: 'a',
+    /** El tramo de nivel de una recompensa que cambia con el nivel. */
+    levelRange: (from: number, to: number) => `Nivel ${from} a ${to}`,
     /** La bolsa con los objetos de la recompensa: «4 objetos», con la cifra aparte. */
     bagCount: (count: number) => (count === 1 ? 'objeto' : 'objetos'),
     bagList: 'Objetos de recompensa',
