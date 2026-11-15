@@ -13,6 +13,9 @@ const port = Number(process.env.E2E_PORT ?? 3100)
 const smokeBaseUrl = process.env.SMOKE_BASE_URL?.trim() || undefined
 const baseURL = smokeBaseUrl ?? `http://localhost:${port}`
 
+/** Los archivos de pruebas que abren documentos del panel de Payload. */
+const PANEL_DOCUMENTS = /panel(-[a-z0-9]+)?\.spec\.ts$/
+
 export default defineConfig({
   testDir: './tests/e2e',
   forbidOnly: !!process.env.CI,
@@ -26,6 +29,16 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
+      testIgnore: PANEL_DOCUMENTS,
+      use: { ...devices['Desktop Chrome'] },
+    },
+    // Payload bloquea el documento que una cuenta tiene abierto: dos archivos que abren el
+    // mismo documento del panel con cuentas distintas, a la vez, se encuentran «Documento
+    // bloqueado». Estos van de uno en uno (tests/unit/playwright-projects.test.ts).
+    {
+      name: 'panel',
+      testMatch: PANEL_DOCUMENTS,
+      workers: 1,
       use: { ...devices['Desktop Chrome'] },
     },
   ],
