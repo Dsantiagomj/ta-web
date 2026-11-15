@@ -10,6 +10,7 @@ import { questLevel, questPoints, stepWeights } from '@/lib/derive/weights'
 import type { RichTextState } from '@/lib/guides/page'
 import type { QuestObjectiveKind } from '@/lib/dofusdb/types'
 import { mediaImageAsset } from '@/lib/media/image-asset'
+import { legacyRoute, type LegacyRoute } from '@/lib/site/legacy'
 import { fold } from '@/lib/text/fold'
 import type { Checklist, Media, Quest } from '@/payload-types'
 
@@ -857,25 +858,18 @@ export function islandData(data: ChecklistData): ChecklistIslandData {
   }
 }
 
-export type ChecklistRoute = { kind: 'page' } | { kind: 'legacy'; href: string } | { kind: 'none' }
+export type ChecklistRoute = LegacyRoute
 
 /**
  * Qué hace /<slug> con una checklist: la Publicada tiene página; la En preparación no
  * (como una guía de Dofus En preparación) y lleva a la de Squarespace, salvo que ese enlace
  * sea esta misma web, que daría vueltas sin fin. La vista previa del panel siempre la pinta.
+ * La misma regla que las páginas sueltas (src/lib/site/legacy.ts).
  */
 export function checklistRoute(
   checklist: Pick<Checklist, 'state' | 'legacyHref'>,
   preview: boolean,
   siteUrl: string,
 ): ChecklistRoute {
-  if (preview || checklist.state === 'published') return { kind: 'page' }
-  const href = checklist.legacyHref
-  if (!href) return { kind: 'none' }
-  try {
-    if (new URL(href).origin === new URL(siteUrl).origin) return { kind: 'none' }
-  } catch {
-    return { kind: 'none' }
-  }
-  return { kind: 'legacy', href }
+  return legacyRoute(checklist, preview, siteUrl)
 }

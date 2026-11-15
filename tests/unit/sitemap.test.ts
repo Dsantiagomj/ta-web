@@ -38,6 +38,10 @@ const data = (extra: Partial<SitemapData> = {}): SitemapData => ({
     { slug: 'checklist-nebuloso', updatedAt: '2026-11-07T10:00:00.000Z', state: 'published' },
     { slug: 'checklist-silvestre', updatedAt: '2026-11-08T10:00:00.000Z', state: 'preparing' },
   ],
+  pages: [
+    { slug: 'emotes-global', updatedAt: '2026-11-09T10:00:00.000Z', state: 'published' },
+    { slug: 'aviso-legal', updatedAt: '2026-11-10T10:00:00.000Z', state: 'preparing' },
+  ],
   ...extra,
 })
 
@@ -55,12 +59,19 @@ describe('sitemapEntries', () => {
       `${SITE}/suelta`,
       `${SITE}/dofus-ocre`,
       `${SITE}/checklist-nebuloso`,
+      `${SITE}/emotes-global`,
     ])
   })
 
   it('deja fuera los borradores y lo En preparación', () => {
     const list = urls(data())
-    for (const slug of ['borrador', 'correccional', 'jyfus', 'checklist-silvestre']) {
+    for (const slug of [
+      'borrador',
+      'correccional',
+      'jyfus',
+      'checklist-silvestre',
+      'aviso-legal',
+    ]) {
       expect(list).not.toContain(`${SITE}/${slug}`)
     }
   })
@@ -109,6 +120,7 @@ describe('sitemapEntries', () => {
         dofusGuides: [],
         dofusIndexUpdatedAt: null,
         checklists: [],
+        pages: [],
       },
       SITE,
     )

@@ -5,6 +5,7 @@ import { GAME_ICONS } from '@/components/game/game-icons'
 import { ModeToggle } from '@/components/mode-toggle/ModeToggle'
 import { Amount } from '@/components/ui/Amount'
 import { iconSize } from '@/components/ui/icon-size'
+import type { PageNavItem } from '@/lib/pages/page'
 import type { Mode } from '@/lib/theme/theme'
 
 import { HeaderIsland } from './HeaderIsland'
@@ -444,6 +445,7 @@ export function SiteHeader({
   counts,
   dofus,
   checklists,
+  pages = [],
   initialMode,
 }: {
   counts: SiteCounts
@@ -451,6 +453,8 @@ export function SiteHeader({
   dofus: DofusNavItem[]
   /** Las checklists de su colección, para el panel y la búsqueda (loadChecklistNav). */
   checklists: ChecklistNavItem[]
+  /** Las páginas sueltas, solo para la búsqueda (loadPageNav). */
+  pages?: PageNavItem[]
   initialMode: Mode
 }) {
   return (
@@ -525,7 +529,7 @@ export function SiteHeader({
         </div>
       </header>
       <Sheet counts={counts} dofus={dofus} checklists={checklists} />
-      <HeaderIsland index={searchIndex(dofus, checklists)} />
+      <HeaderIsland index={searchIndex(dofus, checklists, pages)} />
     </>
   )
 }

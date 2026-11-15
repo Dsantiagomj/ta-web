@@ -37,6 +37,14 @@ describe('refuseReferencedDelete', () => {
 })
 
 describe('REFERRERS', () => {
+  it('una captura del cuerpo de una página suelta no se borra sin avisar', () => {
+    expect(REFERRERS.media).toContainEqual({
+      collection: 'pages',
+      title: 'title',
+      paths: ['body.image'],
+    })
+  })
+
   it('una imagen de la tarjeta de una checklist (escena o PNJ) no se borra sin avisar', () => {
     const checklists = REFERRERS.media.find((referrer) => referrer.collection === 'checklists')
     expect(checklists?.paths).toEqual(expect.arrayContaining(['card.scene', 'card.npc']))

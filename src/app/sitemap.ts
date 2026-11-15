@@ -7,20 +7,21 @@ import { ACHIEVEMENT_PAGES_TAG } from '@/lib/achievements/cache'
 import { CHECKLISTS_TAG } from '@/lib/checklists/cache'
 import { DOFUS_GUIDES_TAG } from '@/lib/dofus-guides/cache'
 import { GUIDE_PAGES_REVALIDATE, GUIDE_PAGES_TAG } from '@/lib/guides/cache'
+import { PAGES_TAG } from '@/lib/pages/cache'
 import { readSitemapData } from '@/lib/seo/read-sitemap'
 import { sitemapEntries } from '@/lib/seo/sitemap'
 import { SITE_URL } from '@/lib/site/origin'
 
 // Se pinta en cada petición, como robots.txt: el build no tiene base. Lo que se guarda es la
 // lectura, con las etiquetas de lo que lista: los hooks de guías, logros, metalogros, guías de
-// Dofus y checklists la caducan al publicar, y lo de fuera del panel se ve en diez minutos.
+// Dofus, checklists y páginas la caducan al publicar, y lo de fuera del panel se ve en diez minutos.
 export const dynamic = 'force-dynamic'
 
 const readData = unstable_cache(
   async () => readSitemapData(await getPayload({ config })),
   ['sitemap'],
   {
-    tags: [GUIDE_PAGES_TAG, ACHIEVEMENT_PAGES_TAG, DOFUS_GUIDES_TAG, CHECKLISTS_TAG],
+    tags: [GUIDE_PAGES_TAG, ACHIEVEMENT_PAGES_TAG, DOFUS_GUIDES_TAG, CHECKLISTS_TAG, PAGES_TAG],
     revalidate: GUIDE_PAGES_REVALIDATE,
   },
 )
