@@ -59,7 +59,8 @@ try {
   const { guides: g, media: m } = result
   console.log(
     `Listo en ${seconds()} s: ${g.created} guías creadas, ${g.updated} actualizadas, ` +
-      `${g.unchanged} sin cambios, ${g.skipped} saltadas; ${m.created} imágenes subidas, ${m.reused} reutilizadas.`,
+      `${g.unchanged} sin cambios, ${g.skipped} saltadas; ${m.created} imágenes subidas, ${m.reused} reutilizadas; ` +
+      `${result.kept.length} campos cambiados en el panel se quedan como los dejó Torre.`,
   )
   await payload.destroy()
 } catch (error) {

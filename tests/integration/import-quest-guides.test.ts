@@ -112,7 +112,20 @@ describe('carga de guías importadas de Squarespace', () => {
   }
 
   async function cleanUp() {
-    await payload.delete({ collection: 'quest-guides', where: { slug: { in: [...GUIDE_SLUGS] } } })
+    // También por la URL original: una prueba le cambia la dirección a una guía.
+    await payload.delete({
+      collection: 'quest-guides',
+      where: {
+        or: [
+          { slug: { in: [...GUIDE_SLUGS] } },
+          {
+            originalUrl: {
+              in: GUIDE_SLUGS.map((slug) => `https://www.torrentearcano.com/${slug}`),
+            },
+          },
+        ],
+      },
+    })
     await payload.delete({
       collection: 'media',
       where: { originalUrl: { contains: 'images.squarespace-cdn.com' } },
@@ -436,6 +449,12 @@ describe('carga de guías importadas de Squarespace', () => {
 
   it('un monstruo que no está en la base deja la lista en texto y lo anota', async () => {
     await payload.delete({ collection: 'monsters', where: { dofusId: { equals: 5283 } } })
+    // La guía se importa de cero: guardada, su combate ya perdió el monstruo borrado y no
+    // coincide con lo que escribió la importación, así que contaría como un cambio de Torre.
+    await payload.delete({
+      collection: 'quest-guides',
+      where: { slug: { equals: 'seis-pies-bajo-tierra' } },
+    })
     try {
       const six = converted().find(({ guide }) => guide.slug === 'seis-pies-bajo-tierra')!
       const result = await loadQuestGuides(payload, [six], { fetchImage })
@@ -448,5 +467,97 @@ describe('carga de guías importadas de Squarespace', () => {
     } finally {
       await payload.create({ collection: 'monsters', data: FAMISHED[2]! })
     }
+  })
+  // El snapshot (importSnapshot) guarda lo último que escribió la importación: un campo que
+  // ya no coincide con él lo cambió Torre en el panel y no se toca (como en las guías de Dofus).
+  describe('lo que Torre cambia en el panel', () => {
+    const SLUG = 'intoxicacion-profunda'
+    const guideFor = (guides: ConvertedGuide[]) => guides.find(({ guide }) => guide.slug === SLUG)!
+
+    async function torreEdits(data: Record<string, unknown>) {
+      const current = await saved()
+      return payload.update({
+        collection: 'quest-guides',
+        id: current.id,
+        data: { ...data, _status: 'published' } as never,
+        depth: 0,
+      })
+    }
+
+    async function saved(): Promise<QuestGuide> {
+      const found = await payload.find({
+        collection: 'quest-guides',
+        where: { originalUrl: { equals: `https://www.torrentearcano.com/${SLUG}` } },
+        depth: 0,
+        draft: true,
+      })
+      expect(found.docs).toHaveLength(1)
+      return found.docs[0]!
+    }
+
+    it('sobrevive a otra importación; lo que no tocó sigue a Squarespace', async () => {
+      await loadQuestGuides(payload, converted(), { fetchImage })
+      const before = await saved()
+      const torreBody = (before.body ?? []).slice(0, -1)
+      await torreEdits({
+        title: 'Intoxicación profunda, por Torre',
+        summary: { rewards: 'Su recompensa' },
+        body: torreBody,
+      })
+
+      const guides = converted()
+      const source = guideFor(guides).guide
+      source.title = 'Intoxicación profunda (nuevo en Squarespace)'
+      source.summary.rewards = 'Otra recompensa en Squarespace'
+      source.summary.startNpc = 'Un PNJ nuevo'
+
+      const result = await loadQuestGuides(payload, guides, { fetchImage })
+
+      expect(result.guides).toMatchObject({ updated: 1 })
+      expect(result.kept).toEqual(
+        expect.arrayContaining([
+          { slug: SLUG, field: 'title' },
+          { slug: SLUG, field: 'summary.rewards' },
+          { slug: SLUG, field: 'body' },
+        ]),
+      )
+      const after = await saved()
+      expect(after.title).toBe('Intoxicación profunda, por Torre')
+      expect(after.summary?.rewards).toBe('Su recompensa')
+      expect(after.summary?.startNpc).toBe('Un PNJ nuevo')
+      expect(after.body).toHaveLength(torreBody.length)
+
+      // Repetir con lo mismo no guarda nada más.
+      const versionsBefore = await versionCount()
+      const again = await loadQuestGuides(payload, guides, { fetchImage })
+      expect(again.guides).toMatchObject({ updated: 0, unchanged: 5 })
+      expect(await versionCount()).toBe(versionsBefore)
+    })
+
+    it('si Torre cambia la dirección, la guía se encuentra por su URL original y no se duplica', async () => {
+      await torreEdits({ slug: 'intoxicacion-profunda-de-torre' })
+
+      const result = await loadQuestGuides(payload, converted(), { fetchImage })
+
+      expect(result.guides.created).toBe(0)
+      expect(result.kept).toContainEqual({ slug: SLUG, field: 'slug' })
+      expect((await saved()).slug).toBe('intoxicacion-profunda-de-torre')
+      await torreEdits({ slug: SLUG })
+    })
+
+    it('en una guía importada antes del snapshot, un campo distinto de Squarespace se queda', async () => {
+      await torreEdits({ title: 'Título que Torre puso antes', importSnapshot: null })
+
+      const result = await loadQuestGuides(payload, converted(), { fetchImage })
+
+      expect(result.kept).toContainEqual({ slug: SLUG, field: 'title' })
+      expect((await saved()).title).toBe('Título que Torre puso antes')
+      // Lo que ya coincidía queda anotado una vez, sin cambiar el contenido.
+      const versionsBefore = await versionCount()
+      const again = await loadQuestGuides(payload, converted(), { fetchImage })
+      expect(again.guides).toMatchObject({ updated: 0, unchanged: 5 })
+      expect(await versionCount()).toBe(versionsBefore)
+      expect((await saved()).title).toBe('Título que Torre puso antes')
+    })
   })
 })

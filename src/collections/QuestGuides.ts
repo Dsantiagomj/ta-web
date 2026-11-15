@@ -347,5 +347,13 @@ export const QuestGuides: CollectionConfig = {
       hooks: { beforeDuplicate: [clearOnDuplicate] },
       admin: { ...originalUrlAdmin, position: 'sidebar' },
     },
+    {
+      // Lo último que escribió `pnpm import:guides`, campo a campo: al repetirla, un campo que
+      // ya no coincide lo cambió Torre y no se toca. La copia es del editor que la hace.
+      name: 'importSnapshot',
+      type: 'json',
+      hooks: { beforeDuplicate: [clearOnDuplicate] },
+      admin: { hidden: true },
+    },
   ]),
 }
