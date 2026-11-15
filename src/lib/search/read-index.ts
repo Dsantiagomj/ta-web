@@ -2,6 +2,7 @@ import type { Payload } from 'payload'
 
 import { metalogrosIndexView, type IndexView } from '@/lib/achievements/metalogros'
 import { readMetalogrosIndex } from '@/lib/achievements/queries'
+import { corrected } from '@/lib/game-data/correction'
 
 import type {
   AchievementIndexRow,
@@ -15,21 +16,23 @@ import type {
 
 /**
  * Las guías que ve un visitante anónimo: solo lo publicado (overrideAccess: false, sin
- * usuario, draft: false). Lee de la misión solo el nivel y el nombre del logro.
+ * usuario, draft: false). Lee de la misión solo el nivel, con la corrección de Torre, y el
+ * nombre del logro.
  */
 async function readGuideRows(payload: Payload): Promise<GuideIndexRow[]> {
   const { docs } = await payload.find({
     collection: 'quest-guides',
     where: { _status: { equals: 'published' } },
     select: { title: true, slug: true, quest: true },
-    populate: { quests: { levelMin: true, achievement: { name: true } } },
+    populate: { quests: { levelMin: true, achievement: { name: true }, correction: true } },
     depth: 1,
     draft: false,
     pagination: false,
     overrideAccess: false,
   })
   const guides = docs.map((guide): GuideIndexRow => {
-    const quest = typeof guide.quest === 'object' ? guide.quest : null
+    // El nivel con la corrección de Torre, si la hay.
+    const quest = guide.quest && typeof guide.quest === 'object' ? corrected(guide.quest) : null
     return [
       guide.title,
       guide.slug,

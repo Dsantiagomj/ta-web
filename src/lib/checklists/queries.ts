@@ -1,5 +1,6 @@
 import type { Payload, Where } from 'payload'
 
+import { corrected, hiddenByTorre } from '@/lib/game-data/correction'
 import { isGuideSlug } from '@/lib/guides/slug'
 import type { Checklist, Media, User } from '@/payload-types'
 
@@ -82,12 +83,13 @@ async function readObjectiveNames(
       const { docs } = await payload.find({
         collection: NAME_COLLECTIONS[kind],
         where: { dofusId: { in: [...wanted[kind]] } },
-        select: { dofusId: true, name: true },
+        select: { dofusId: true, name: true, correction: true },
         depth: 0,
         pagination: false,
         ...visitor,
       })
-      for (const doc of docs) names[kind][doc.dofusId] = doc.name
+      // El nombre que Torre corrigió gana al de DofusDB.
+      for (const doc of docs) names[kind][doc.dofusId] = corrected(doc).name
     }),
   )
   return names
@@ -264,10 +266,11 @@ export async function readChecklist(
 ): Promise<Omit<ChecklistData, 'siteUrl'> | null> {
   const checklist = await findChecklist(payload, slug, preview, 3, {
     quests: { dofusId: true, name: true, levelMin: true },
-    items: { dofusId: true, name: true, image: true },
+    // Con la corrección de Torre de cada dato del juego (src/lib/game-data/correction.ts).
+    items: { dofusId: true, name: true, image: true, correction: true },
     achievements: { name: true },
-    npcs: { name: true, renderRight: true },
-    monsters: { name: true, image: true },
+    npcs: { name: true, renderRight: true, correction: true },
+    monsters: { name: true, image: true, correction: true },
     'dofus-guides': { name: true, slug: true, state: true, color: true, dofus: true },
   })
   if (!checklist) return null
@@ -389,6 +392,7 @@ async function readSouls(payload: Payload, checklist: Checklist): Promise<SoulsR
       boss: true,
       archmonster: true,
       subAreaId: true,
+      correction: true,
     },
     depth: 1,
     pagination: false,
@@ -412,7 +416,7 @@ async function readSouls(payload: Payload, checklist: Checklist): Promise<SoulsR
       ? payload.find({
           collection: 'dungeons',
           where: { bosses: { in: monsters.map((m) => m.id) } },
-          select: { name: true, level: true, bosses: true },
+          select: { name: true, level: true, bosses: true, correction: true },
           depth: 0,
           pagination: false,
           ...visitor,
@@ -424,14 +428,21 @@ async function readSouls(payload: Payload, checklist: Checklist): Promise<SoulsR
     stages,
     monsters: Object.fromEntries(monsters.map((m) => [m.dofusId, m])),
     subareas: Object.fromEntries(subareas.docs.map((sub) => [sub.dofusId, sub])),
-    dungeons: dungeons.docs.map((dungeon) => ({
-      name: dungeon.name,
-      level: dungeon.level ?? null,
-      bosses: (dungeon.bosses ?? []).flatMap((boss) => {
-        const id = dofusIdOf.get(relationId(boss) ?? -1)
-        return id === undefined ? [] : [id]
-      }),
-    })),
+    // Con la corrección de Torre; una mazmorra que ocultó no cuenta.
+    dungeons: dungeons.docs.flatMap((found) => {
+      if (hiddenByTorre(found)) return []
+      const dungeon = corrected(found)
+      return [
+        {
+          name: dungeon.name,
+          level: dungeon.level ?? null,
+          bosses: (dungeon.bosses ?? []).flatMap((boss) => {
+            const id = dofusIdOf.get(relationId(boss) ?? -1)
+            return id === undefined ? [] : [id]
+          }),
+        },
+      ]
+    }),
   }
 }
 
@@ -562,7 +573,7 @@ export async function readChecklists(payload: Payload): Promise<ChecklistDoc[]> 
           collection: 'dofus-guides',
           where: { id: { in: ids } },
           select: { color: true, dofus: true },
-          populate: { items: { image: true } },
+          populate: { items: { image: true, correction: true } },
           depth: 2,
           pagination: false,
           draft: false,

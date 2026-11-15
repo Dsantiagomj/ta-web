@@ -11,6 +11,8 @@ import { questNeeds } from '@/lib/dofusdb/quest-needs'
 import { questStages } from '@/lib/dofusdb/quest-stages'
 import type { RawQuest } from '@/lib/dofusdb/types'
 
+import type { Media } from '@/payload-types'
+
 import shownItems from '../fixtures/dofusdb/quests-shown-items.json'
 
 // Una imagen de Media con su archivo, como la devuelve Payload con depth.
@@ -616,6 +618,74 @@ describe('achievementPageView', () => {
     expect(alone.breadcrumb.parents).toHaveLength(1)
     expect(alone.group).toBeNull()
     expect(alone.previous).toBeNull()
+  })
+})
+
+describe('la corrección de Torre gana a DofusDB en la página de logro', () => {
+  const torre = media(77, 'de-torre') as unknown as Media
+
+  it('el icono del logro y el de sus hermanos; oculto, sin icono', () => {
+    const view = achievementPageView({
+      ...data({ achievement: { icon: media(1, 'logro-203'), correction: { image: torre } } }),
+      siblings: [
+        {
+          ...sibling(1, 'Un ciudadano modelo', 'un-ciudadano-modelo', 'published'),
+          achievement: { icon: media(101, 'logro-1'), correction: { hidden: true } },
+        },
+      ],
+    })
+    expect(view.icon?.src).toBe('/api/media/file/de-torre.webp')
+    expect(view.group?.items[0]?.icon).toBeUndefined()
+  })
+
+  it('las misiones: nombre y nivel corregidos; el PNJ, con su imagen o sin él si lo ocultó', () => {
+    const view = achievementPageView({
+      ...data({
+        quests: [
+          { name: '', quests: [{ ...seis, correction: { name: 'Seis pies', level: 21 } }] },
+          { name: 'Esto hace aguas', quests: [aguas] },
+        ],
+      }),
+      givers: new Map([
+        [30, { name: 'Hupe Esse', renderRight: media(30, 'hupe'), correction: { image: torre } }],
+        [20, { name: 'Oculto', renderRight: media(20, 'oculto'), correction: { hidden: true } }],
+      ]),
+    })
+    expect(view.quests[0]).toMatchObject({
+      title: 'Seis pies',
+      level: 21,
+      giver: { src: '/api/media/file/de-torre.webp' },
+    })
+    expect(view.quests[1]?.giver).toBeUndefined()
+  })
+
+  it('necesitarás en total y recompensas: objetos corregidos; los ocultos, fuera', () => {
+    const view = achievementPageView({
+      ...data({
+        rewards: {
+          items: [
+            { item: { id: 9, name: 'Piel', correction: { name: 'Piel pachucha' } }, quantity: 1 },
+            { item: { id: 8, name: 'Oculto', correction: { hidden: true } }, quantity: 1 },
+          ],
+        },
+      }),
+      guides: [
+        {
+          questId: 3,
+          slug: 'seis-pies-bajo-tierra',
+          needs: {
+            items: [
+              { item: { id: 5, name: 'Pico', correction: { name: 'Pico de tofu' } }, quantity: 2 },
+              { item: { id: 4, name: 'Oculto', correction: { hidden: true } }, quantity: 1 },
+            ],
+          },
+        },
+      ],
+    })
+    expect(view.facts.rewards.items).toEqual([{ item: { name: 'Piel pachucha' }, quantity: 1 }])
+    expect(view.needs.items.map(({ item, quantity }) => [item.name, quantity])).toEqual([
+      ['Pico de tofu', 2],
+    ])
   })
 })
 

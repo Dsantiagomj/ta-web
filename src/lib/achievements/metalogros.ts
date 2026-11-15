@@ -3,6 +3,7 @@
 // página carga los documentos y esto decide qué se pinta.
 
 import type { ImageAsset } from '@/components/ui/types'
+import { corrected, hiddenByTorre, type Correction } from '@/lib/game-data/correction'
 import { mediaImageAsset } from '@/lib/media/image-asset'
 import type { Media } from '@/payload-types'
 
@@ -11,6 +12,8 @@ import { achievementStrings, metalogrosStrings, type GroupSection, type PageStat
 
 type MediaRef = number | Media | (Partial<Media> & { id: number }) | null | undefined
 type Relation<T> = number | T | null | undefined
+/** Lo que Torre corrigió de un dato del juego (src/lib/game-data/correction.ts). */
+type Corrected = { correction?: Correction | null }
 
 export interface IndexGroupDoc {
   id: number
@@ -20,8 +23,14 @@ export interface IndexGroupDoc {
   order?: number | null
   state: PageState
   representative?:
-    | { relationTo: 'npcs'; value: Relation<{ name?: string | null; renderRight?: MediaRef }> }
-    | { relationTo: 'monsters'; value: Relation<{ name?: string | null; image?: MediaRef }> }
+    | {
+        relationTo: 'npcs'
+        value: Relation<{ name?: string | null; renderRight?: MediaRef } & Corrected>
+      }
+    | {
+        relationTo: 'monsters'
+        value: Relation<{ name?: string | null; image?: MediaRef } & Corrected>
+      }
     | null
   guides?: Relation<{ id: number }>[] | null
 }
@@ -32,11 +41,11 @@ export interface IndexPageDoc {
   slug: string
   state: PageState
   group?: Relation<{ id: number }>
-  achievement?: Relation<{ icon?: MediaRef }>
+  achievement?: Relation<{ icon?: MediaRef } & Corrected>
   quests?:
     | {
         name?: string | null
-        quests?: Relation<{ name?: string | null; levelMin?: number | null }>[] | null
+        quests?: Relation<{ name?: string | null; levelMin?: number | null } & Corrected>[] | null
       }[]
     | null
 }
@@ -91,12 +100,17 @@ const relationId = (value: Relation<{ id: number }>) =>
   value == null ? null : typeof value === 'number' ? value : value.id
 const populated = <T extends object>(value: Relation<T>): T | null =>
   value && typeof value === 'object' ? value : null
+/** Un dato del juego con lo que Torre corrigió encima, o null si lo ocultó. */
+const shown = <T extends object>(value: Relation<T>): T | null => {
+  const doc = populated(value)
+  return doc && !hiddenByTorre(doc) ? (corrected(doc as never) as T) : null
+}
 const asset = (value: MediaRef) => mediaImageAsset(populated(value) as Media | null) ?? undefined
 const collator = new Intl.Collator('es', { sensitivity: 'base' })
 
 function levels(page: IndexPageDoc): string | null {
   const known = (page.quests ?? []).flatMap((row) => {
-    const found = (row.quests ?? []).flatMap((quest) => populated(quest)?.levelMin ?? [])
+    const found = (row.quests ?? []).flatMap((quest) => shown(quest)?.levelMin ?? [])
     return found.length ? [Math.min(...found)] : []
   })
   if (!known.length) return null
@@ -107,8 +121,8 @@ function levels(page: IndexPageDoc): string | null {
 function art(group: IndexGroupDoc): ImageAsset | undefined {
   const chosen = group.representative
   if (!chosen) return undefined
-  if (chosen.relationTo === 'npcs') return asset(populated(chosen.value)?.renderRight)
-  return asset(populated(chosen.value)?.image)
+  if (chosen.relationTo === 'npcs') return asset(shown(chosen.value)?.renderRight)
+  return asset(shown(chosen.value)?.image)
 }
 
 /** Lo que pinta el índice de metalogros y lo que busca su buscador. */
@@ -126,7 +140,7 @@ export function metalogrosIndexView(data: IndexData): IndexView {
       const off = page.state !== 'published'
       const quests = (page.quests ?? []).length
       const meta = [quests ? s.quests(quests) : '', levels(page) ?? ''].filter(Boolean).join(' · ')
-      const icon = asset(populated(page.achievement)?.icon)
+      const icon = asset(shown(page.achievement)?.icon)
       return {
         name: page.name,
         ...(!off && { href: `/${page.slug}` }),
@@ -210,7 +224,7 @@ export function metalogrosIndexView(data: IndexData): IndexView {
             : [page.name, zone.name, href, rows.length],
         ) - 1
       rows.forEach((row, position) => {
-        const quests = (row.quests ?? []).map(populated).filter((q) => q?.name)
+        const quests = (row.quests ?? []).map((quest) => shown(quest)).filter((q) => q?.name)
         // El nombre que Torre dio a la fila manda, como en la página del logro.
         const name = row.name?.trim() || (quests.length === 1 ? quests[0]!.name! : row.name)
         if (name) search.q.push([name, position + 1, index])

@@ -4,6 +4,7 @@
 import type { ChecklistNavItem } from '@/components/site/nav'
 import type { ImageAsset } from '@/components/ui/types'
 import type { PageState } from '@/lib/achievements/strings'
+import { corrected, hiddenByTorre, type Correction } from '@/lib/game-data/correction'
 import { mediaImageAsset } from '@/lib/media/image-asset'
 import type { Media } from '@/payload-types'
 
@@ -35,7 +36,7 @@ export interface ChecklistDoc {
   } | null
   dofusGuide?: Relation<{
     color?: string | null
-    dofus?: Relation<{ image?: Relation<Media> }>
+    dofus?: Relation<{ image?: Relation<Media>; correction?: Correction | null }>
   }>
 }
 
@@ -127,7 +128,9 @@ function npcFit(card: ChecklistDoc['card']): ChecklistEntry['npcFit'] {
 export function checklistEntries(docs: readonly ChecklistDoc[]): ChecklistEntry[] {
   return docs.map((doc) => {
     const guide = object(doc.dofusGuide)
-    const egg = image(object(guide?.dofus)?.image)
+    // El huevo con la imagen de Torre si la corrigió; ninguno si ocultó el Dofus.
+    const dofus = object(guide?.dofus)
+    const egg = dofus && !hiddenByTorre(dofus) ? image(corrected(dofus).image) : null
     const description = text(doc.description)
     const color = text(doc.card?.color) ?? text(guide?.color)
     const ink = posterInk(color)

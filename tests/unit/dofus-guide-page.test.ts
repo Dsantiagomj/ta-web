@@ -839,3 +839,59 @@ describe('dofusGuideView: los enlaces que se escriben en el panel', () => {
     expect(achievement.achievement.href).toBeUndefined()
   })
 })
+
+describe('dofusGuideView: la corrección de Torre gana a DofusDB', () => {
+  const torre = media(99, 'de-torre')
+
+  it('el huevo del Dofus y los objetos de Necesitarás corregidos; los ocultos, fuera', () => {
+    const view = dofusGuideView(
+      data({
+        dofus: {
+          id: 9,
+          name: 'Dofus abisal',
+          image: media(90, 'abisal'),
+          correction: { image: torre },
+        },
+        needs: {
+          title: null,
+          groups: [
+            {
+              name: 'recursos',
+              rows: [
+                {
+                  blockType: 'needItem',
+                  item: { id: 7, name: 'Pepita', correction: { name: 'Pepita de oro' } },
+                  quantity: 200,
+                  note: null,
+                },
+                {
+                  blockType: 'needItem',
+                  item: { id: 8, name: 'Oculto', correction: { hidden: true } },
+                  quantity: 1,
+                  note: null,
+                },
+              ],
+            },
+          ],
+        },
+      }),
+    )
+    expect(view.egg?.src).toContain('de-torre')
+    const rows = view.needs!.groups[0]!.parts[0]!.rows
+    expect(rows).toEqual([{ kind: 'item', item: { name: 'Pepita de oro' }, quantity: 200 }])
+  })
+
+  it('un logro con el icono de Torre, y el PNJ oculto no sale en sus misiones', () => {
+    const base = data()
+    const plof = base.achievements.get(100)!
+    base.achievements.set(100, {
+      ...plof,
+      achievement: { icon: media(60, 'plof'), correction: { image: torre } },
+    })
+    base.givers = new Map([[77, { renderRight: media(77, 'pnj'), correction: { hidden: true } }]])
+    const view = dofusGuideView(base)
+    const part = view.parts.find((candidate) => candidate.kind === 'achievement')
+    expect(JSON.stringify(part)).toContain('de-torre')
+    expect(JSON.stringify(part)).not.toContain('pnj')
+  })
+})

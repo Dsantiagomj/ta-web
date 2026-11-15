@@ -617,6 +617,111 @@ describe('iconos de los objetos y monstruos', () => {
   })
 })
 
+describe('la corrección de Torre gana a DofusDB en la guía', () => {
+  const icon = (id: number): Media => ({
+    id,
+    alt: 'De Torre',
+    url: `/api/media/file/torre-${id}.png`,
+    filename: `torre-${id}.png`,
+    mimeType: 'image/png',
+    width: 128,
+    height: 128,
+    updatedAt: '',
+    createdAt: '',
+  })
+
+  it('el nivel de la misión que corrigió Torre', () => {
+    const quest = guide.quest as Exclude<GuideDoc['quest'], number | null | undefined>
+    expect(guideLevel({ ...guide, quest: { ...quest, correction: { level: 22 } } })).toBe(22)
+  })
+
+  it('el PNJ: su nombre y su imagen corregidos; oculto, sin render', () => {
+    const giver = { name: 'Hupe', renderRight: render(1, 'r'), renderLeft: render(2, 'l') }
+    const plain = { ...guide, summary: { ...guide.summary, startNpc: null } }
+    const fixed = questHeaderProps(plain, [], {
+      ...giver,
+      correction: { name: 'Hupe Esse', image: icon(9) },
+    })
+    expect(fixed.giver).toMatchObject({
+      name: 'Hupe Esse',
+      right: { src: '/api/media/file/torre-9.png' },
+      left: { src: '/api/media/file/torre-9.png' },
+    })
+    const hidden = questHeaderProps(guide, [], { ...giver, correction: { hidden: true } })
+    expect(hidden.giver).toEqual({ name: 'Hupe Esse', coordinates: { x: 7, y: -19 } })
+  })
+
+  it('los objetos de Necesitarás y Recompensas: nombre e icono corregidos; ocultos, fuera', () => {
+    const withFixes: GuideDoc = {
+      ...guide,
+      quest: {
+        id: 1976,
+        rewards: {
+          items: [
+            { item: { ...item(366, 'Pico'), correction: { name: 'Pico de tofu' } }, quantity: 1 },
+            { item: { ...item(373, 'Intestino'), correction: { hidden: true } }, quantity: 1 },
+          ],
+        },
+      },
+      summary: {
+        needs: {
+          items: [
+            {
+              item: {
+                ...item(737, 'Dofus'),
+                correction: { name: 'Dofus Esmeralda', image: icon(8) },
+              },
+              quantity: 1,
+            },
+            { item: { ...item(738, 'Oculto'), correction: { hidden: true } }, quantity: 1 },
+          ],
+        },
+      },
+    }
+    const header = questHeaderProps(withFixes, [])
+    expect(header.rewards.items).toEqual([{ item: { name: 'Pico de tofu' }, quantity: 1 }])
+    expect(header.needs.items).toEqual([
+      {
+        item: {
+          name: 'Dofus Esmeralda',
+          icon: { src: '/api/media/file/torre-8.png', width: 128, height: 128 },
+        },
+        quantity: 1,
+      },
+    ])
+  })
+
+  it('la tarjeta de la siguiente misión lleva el nivel corregido', () => {
+    const card = nextQuestCard(
+      { name: 'Siguiente', levelMin: 20, correction: { level: 21 } },
+      { title: 'Siguiente', slug: 'siguiente', body: [] },
+    )
+    expect(card?.level).toBe(21)
+  })
+
+  it('un combate: el monstruo corregido; uno oculto no sale', () => {
+    const content = guideContent({
+      ...guide,
+      body: [
+        {
+          blockType: 'fight',
+          id: 'f',
+          monsters: [
+            {
+              monster: { id: 1, name: 'Raman', correction: { name: 'Ramán famélico' } },
+              quantity: 1,
+            },
+            { monster: { id: 2, name: 'Oculto', correction: { hidden: true } }, quantity: 2 },
+          ],
+        },
+      ],
+    })
+    expect(content.intro).toEqual([
+      { kind: 'fight', key: 'f', monsters: [{ item: { name: 'Ramán famélico' }, quantity: 1 }] },
+    ])
+  })
+})
+
 describe('nextQuestCard', () => {
   const art = {
     id: 9,

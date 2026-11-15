@@ -1,5 +1,6 @@
 import type { Payload } from 'payload'
 
+import { corrected, hiddenByTorre } from '@/lib/game-data/correction'
 import { readDungeonBosses } from '@/lib/guides/dungeon-bosses'
 import { isGuideSlug } from '@/lib/guides/slug'
 import type { User } from '@/payload-types'
@@ -73,7 +74,7 @@ export async function readDofusList(payload: Payload): Promise<DofusListDoc[]> {
       dofus: true,
       parts: true,
     },
-    populate: { items: { image: true } },
+    populate: { items: { image: true, correction: true } },
     depth: 2,
     pagination: false,
     draft: false,
@@ -122,7 +123,8 @@ export async function readDofusList(payload: Payload): Promise<DofusListDoc[]> {
       tag: doc.tag ?? null,
       color: doc.color ?? null,
       aliases: doc.aliases ?? null,
-      egg: dofus?.image ?? null,
+      // El huevo con la imagen de Torre si la corrigió; ninguno si lo ocultó.
+      egg: dofus && !hiddenByTorre(dofus) ? (corrected(dofus).image ?? null) : null,
       ...countParts(
         (doc.parts ?? []) as PartDoc[],
         (id) => questCount.get(id) ?? null,
@@ -156,7 +158,7 @@ export async function readDofusGuide(
     // El objeto Dofus y los de Necesitarás con su imagen; logros y guías solo como ID: se
     // leen aparte, con lo que hace falta de cada uno.
     populate: {
-      items: { name: true, image: true },
+      items: { name: true, image: true, correction: true },
       'achievement-pages': { name: true },
       'quest-guides': { slug: true },
     },
@@ -179,8 +181,8 @@ export async function readDofusGuide(
           // Sin select: con él, Payload no puebla las relaciones de dentro del array de
           // misiones. populate limita lo que trae de cada logro y cada misión.
           populate: {
-            achievements: { icon: true },
-            quests: { name: true, levelMin: true, startPositions: true },
+            achievements: { icon: true, correction: true },
+            quests: { name: true, levelMin: true, startPositions: true, correction: true },
           },
           depth: 2,
           pagination: false,
@@ -192,7 +194,9 @@ export async function readDofusGuide(
           collection: 'quest-guides',
           where: { id: { in: ids.guides } },
           select: { slug: true, title: true, quest: true },
-          populate: { quests: { name: true, levelMin: true, startPositions: true } },
+          populate: {
+            quests: { name: true, levelMin: true, startPositions: true, correction: true },
+          },
           depth: 1,
           pagination: false,
           ...visitor,
@@ -262,14 +266,16 @@ export async function readDofusGuide(
         await payload.find({
           collection: 'npcs',
           where: { dofusId: { in: npcIds } },
-          select: { dofusId: true, renderRight: true },
+          select: { dofusId: true, renderRight: true, correction: true },
           depth: 1,
           pagination: false,
           ...visitor,
         })
       ).docs
     : []
-  const givers = new Map(npcs.map((npc) => [npc.dofusId, { renderRight: npc.renderRight }]))
+  const givers = new Map(
+    npcs.map((npc) => [npc.dofusId, { renderRight: npc.renderRight, correction: npc.correction }]),
+  )
 
   const checklist = checklists.docs[0]
   return {
