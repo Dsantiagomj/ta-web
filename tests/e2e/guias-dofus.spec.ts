@@ -193,6 +193,35 @@ test.describe('página de una guía de Dofus', () => {
     await expect(body.getByText(dofus.dofawa.bodyOutro)).toBeVisible()
   })
 
+  test('Necesitarás: cada mazmorra lleva el jefe que nombra, o el icono de mazmorra', async ({
+    page,
+  }) => {
+    await page.goto(`/${dofus.dofawa.slug}`)
+    const needs = page.getByRole('region', { name: 'Necesitarás' })
+    const [kumijo, generic] = dofus.dofawa.needsDungeons
+    const row = (text: string) => needs.locator('.needs__notes > li').filter({ hasText: text })
+    // La nota de Torre, tal cual; a su lado, el jefe de la Casa de los Espíritus.
+    await expect(row(kumijo!)).toHaveText(kumijo!)
+    const boss = row(kumijo!).locator('.well img')
+    await expect(boss).toHaveAttribute('src', /\/api\/media\/file\//)
+    await boss.scrollIntoViewIfNeeded()
+    await expect
+      .poll(() => boss.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth))
+      .toBeGreaterThan(0)
+    // La que no nombra una sola mazmorra: el icono de mazmorra.
+    await expect(row(generic!).locator('.well img')).toHaveAttribute(
+      'src',
+      '/img/game/jefes/crunchidor.webp',
+    )
+    // Un combate no es una mazmorra: sin hueco.
+    await expect(row(dofus.dofawa.needsCombat).locator('.well')).toHaveCount(0)
+    // El hueco va a la altura de la primera línea de la nota.
+    const slot = await row(kumijo!).locator('.well').boundingBox()
+    // La nota de una línea: su párrafo, sin el relleno que la baja.
+    const line = await row(kumijo!).locator('.dg-note__t > *').first().boundingBox()
+    expect(Math.abs(slot!.y + slot!.height / 2 - (line!.y + line!.height / 2))).toBeLessThan(2)
+  })
+
   test('un Dofus En preparación no tiene página', async ({ page }) => {
     const response = await page.goto(`/${dofus.jyfus.slug}`)
     expect(response?.status()).toBe(404)

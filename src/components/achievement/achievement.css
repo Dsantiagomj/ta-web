@@ -881,6 +881,23 @@
 .needs__notes > .row.dg-note {
   display: block;
 }
+/* Una mazmorra: el hueco con su jefe a la altura de la primera línea de la nota, que baja la
+   mitad de lo que el hueco mide de más que su línea (como en «Necesitarás en total»). */
+.needs__notes > .row.dg-note--slot {
+  display: flex;
+  align-items: flex-start;
+}
+.dg-note__t {
+  min-width: 0;
+  padding-top: calc((1.75rem - 1lh) / 2);
+}
+/* El texto va al lado del hueco, no debajo: sin el hueco entre párrafos de .dg-note. */
+.dg-note--slot > .dg-note__t {
+  margin-top: 0;
+}
+.dg-note__t > * + * {
+  margin-top: 0.25rem;
+}
 .dg-note :where(p) {
   margin: 0;
 }

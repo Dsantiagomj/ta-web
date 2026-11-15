@@ -10,7 +10,8 @@ import { readDofusGuide, type ReadDofusGuideOptions } from '@/lib/dofus-guides/q
 import { SITE_URL } from '@/lib/site/origin'
 import type { User } from '@/payload-types'
 
-// unstable_cache guarda JSON: los mapas van como pares y se vuelven a juntar al leer.
+// unstable_cache guarda JSON: los mapas van como pares y se vuelven a juntar al leer. Una
+// entrada guardada antes de dungeonBosses da un Map vacío.
 async function read(slug: string, options?: ReadDofusGuideOptions) {
   const payload = await getPayload({ config })
   const data = await readDofusGuide(payload, slug, options)
@@ -21,6 +22,7 @@ async function read(slug: string, options?: ReadDofusGuideOptions) {
       questGuides: [...data.questGuides],
       guideByQuest: [...data.guideByQuest],
       givers: [...data.givers],
+      dungeonBosses: [...data.dungeonBosses],
     }
   )
 }
@@ -56,6 +58,7 @@ export const loadDofusGuide = cache(
       questGuides: new Map(stored.questGuides),
       guideByQuest: new Map(stored.guideByQuest),
       givers: new Map(stored.givers),
+      dungeonBosses: new Map(stored.dungeonBosses ?? []),
       siteUrl: SITE_URL,
       preview,
     }

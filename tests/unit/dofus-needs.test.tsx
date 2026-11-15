@@ -106,3 +106,47 @@ describe('DofusNeeds', () => {
     expect(plain.indexOf('1 x Mazmorra Rey Nidas.')).toBeLessThan(plain.indexOf('1 × Mazmorra:'))
   })
 })
+
+// Una mazmorra (DESIGN.md, Dofus guides components): el jefe de la mazmorra que nombra en su
+// hueco, o el icono de mazmorra, y al lado la nota de Torre tal cual.
+describe('DofusNeeds: las mazmorras con su jefe', () => {
+  const boss = { src: '/api/media/file/wey-wabbit.png', width: 128, height: 128 }
+  const dungeons = renderToStaticMarkup(
+    <DofusNeeds
+      needs={{
+        title: 'Necesitarás',
+        groups: [
+          {
+            key: 'mazmorras',
+            name: 'Mazmorras',
+            parts: [
+              {
+                rows: [
+                  { kind: 'note', text: note('1 x Mazmorra Wey Wabbit.'), dungeon: true, boss },
+                  { kind: 'note', text: note('Mazmorras nivel 200'), dungeon: true },
+                  { kind: 'note', text: note('Un par de combates.') },
+                ],
+              },
+            ],
+          },
+        ],
+      }}
+    />,
+  )
+  const rows = dungeons.split(/<li(?=[ >])/).slice(1)
+
+  it('la mazmorra casada lleva la imagen de su jefe en su hueco, y su texto tal cual', () => {
+    expect(rows[0]).toContain('class="well"')
+    expect(rows[0]).toContain('wey-wabbit.png')
+    expect(text(`<li${rows[0]}`)).toBe('1 x Mazmorra Wey Wabbit.')
+  })
+
+  it('la que no nombra una sola mazmorra lleva el icono de mazmorra', () => {
+    expect(rows[1]).toContain('/img/game/jefes/crunchidor.webp')
+    expect(text(`<li${rows[1]}`)).toBe('Mazmorras nivel 200')
+  })
+
+  it('una nota que no va como mazmorra no lleva hueco', () => {
+    expect(rows[2]).not.toContain('class="well"')
+  })
+})

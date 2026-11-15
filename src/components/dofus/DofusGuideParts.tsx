@@ -83,6 +83,29 @@ function NeedItem({ row }: { row: NeedItemRow }) {
   )
 }
 
+/**
+ * Una nota de Torre tal cual. Si va como mazmorra, a su lado el hueco con el jefe de la
+ * mazmorra que nombra, o el icono de mazmorra si no nombra una sola (como en «Necesitarás en
+ * total» de las páginas de logro).
+ */
+function NeedNote({ row }: { row: NeedNoteRow }) {
+  if (!row.dungeon) {
+    return (
+      <li className="row dg-note">
+        <GuideRichText content={row.text} />
+      </li>
+    )
+  }
+  return (
+    <li className="row dg-note dg-note--slot">
+      {row.boss ? <IconWell image={row.boss} /> : <IconWell icon="dungeon" />}
+      <div className="dg-note__t">
+        <GuideRichText content={row.text} />
+      </div>
+    </li>
+  )
+}
+
 /** Un grupo: sus objetos en columnas y después sus notas, cada uno en el orden de Torre. */
 type NeedRows = NonNullable<DofusGuideView['needs']>['groups'][number]['parts'][number]['rows']
 
@@ -102,9 +125,7 @@ function NeedRowsList({ rows }: { rows: NeedRows }) {
       {notes.length > 0 && (
         <ul role="list" className="needs__notes">
           {notes.map((row, index) => (
-            <li key={index} className="row dg-note">
-              <GuideRichText content={row.text} />
-            </li>
+            <NeedNote key={index} row={row} />
           ))}
         </ul>
       )}

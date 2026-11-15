@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import {
   dofusGuideView,
+  dungeonNoteLabels,
   type DofusGuideData,
   type DofusGuideDoc,
   type DofusListDoc,
@@ -159,6 +160,7 @@ function data(overrides: Partial<DofusGuideDoc> = {}): DofusGuideData {
     ]),
     guideByQuest: new Map([[1, { slug: 'a-la-pesca-de-informacion' }]]),
     givers: new Map([[77, { renderRight: media(77, 'pnj') }]]),
+    dungeonBosses: new Map(),
     list: [
       listDoc({ id: 2, name: 'Dofawa', slug: 'dofawa', level: 6, achievements: 0, quests: 1 }),
       listDoc({ id: 3, name: 'Jyfus', slug: 'jyfus', state: 'preparing', level: 20 }),
@@ -452,5 +454,94 @@ describe('dofusGuideView', () => {
       name: 'Dofus Abisal',
       item: 'https://www.torrentearcano.com/dofus-abisal',
     })
+  })
+})
+
+// Como en «Necesitarás en total» de las páginas de logro (DESIGN.md, Achievement page
+// components): cada mazmorra lleva el jefe de la mazmorra que nombra, o el icono de mazmorra
+// si no nombra una sola. La nota sigue tal cual la escribió Torre.
+describe('Necesitarás: cada mazmorra con su jefe', () => {
+  const note = (line: string) => ({ blockType: 'needNote' as const, text: text(line) })
+  type Groups = NonNullable<DofusGuideDoc['needs']>['groups']
+  const viewOf = (groups: Groups, bosses: [string, Media][] = []) =>
+    dofusGuideView({ ...data({ needs: { title: null, groups } }), dungeonBosses: new Map(bosses) })
+      .needs!.groups
+
+  it('una nota de «Mazmorras» lleva la imagen del jefe de su mazmorra, por la clave de la nota', () => {
+    const [group] = viewOf(
+      [
+        {
+          name: 'mazmorras',
+          rows: [
+            note('1 x Mazmorra Wey Wabbit.'),
+            note('Mazmorras nivel 200'),
+            note('1 x Antro del Dragocerdo.'),
+          ],
+        },
+      ],
+      [
+        ['mazmorra wey wabbit', media(31, 'wey-wabbit')],
+        ['antro del dragocerdo', media(32, 'dragocerdo')],
+      ],
+    )
+    const rows = group!.parts[0]!.rows
+    expect(rows).toHaveLength(3)
+    expect(rows[0]).toMatchObject({
+      kind: 'note',
+      dungeon: true,
+      boss: { src: '/media/wey-wabbit.png' },
+    })
+    // Sin una sola mazmorra casada: el icono de mazmorra, sin jefe.
+    expect(rows[1]).toMatchObject({ kind: 'note', dungeon: true })
+    expect(rows[1]).not.toHaveProperty('boss')
+    // En el grupo «Mazmorras», la nota es una mazmorra aunque no diga «Mazmorra».
+    expect(rows[2]).toMatchObject({
+      kind: 'note',
+      dungeon: true,
+      boss: { src: '/media/dragocerdo.png' },
+    })
+    // El texto de Torre, el mismo que guardó.
+    expect(rows[0]).toMatchObject({ text: text('1 x Mazmorra Wey Wabbit.') })
+  })
+
+  it('en «Combates» solo va como mazmorra una nota que dice «mazmorra»', () => {
+    const [group] = viewOf(
+      [{ name: 'combates', rows: [note('2 x combates (solo).'), note('1 x Mazmorra Kumijo.')] }],
+      [['mazmorra kumijo', media(33, 'kumijo')]],
+    )
+    const [combat, dungeon] = group!.parts[0]!.rows
+    expect(combat).not.toHaveProperty('dungeon')
+    expect(dungeon).toMatchObject({ dungeon: true, boss: { src: '/media/kumijo.png' } })
+  })
+
+  it('en los demás grupos una nota sale tal cual, aunque nombre una mazmorra', () => {
+    const groups = viewOf(
+      [
+        { name: 'otros', rows: [note('Piedras de alma de jefes de mazmorra.')] },
+        { name: 'recursos', rows: [note('1 x Mazmorra Kumijo.')] },
+      ],
+      [['mazmorra kumijo', media(33, 'kumijo')]],
+    )
+    for (const group of groups) {
+      expect(group.parts[0]!.rows[0]).not.toHaveProperty('dungeon')
+      expect(group.parts[0]!.rows[0]).not.toHaveProperty('boss')
+    }
+  })
+
+  it('dungeonNoteLabels: las notas que van como mazmorra, sin cantidad, una vez cada una', () => {
+    const guide = data({
+      needs: {
+        title: null,
+        groups: [
+          {
+            name: 'mazmorras',
+            rows: [note('1 x Mazmorra Wey Wabbit.'), note('Mazmorras nivel 200')],
+          },
+          { name: 'combates', rows: [note('2 x combates.'), note('1 x Mazmorra Wey Wabbit.')] },
+          { name: 'otros', rows: [note('Piedras de alma de jefes de mazmorra.')] },
+        ],
+      },
+    }).guide
+    expect(dungeonNoteLabels(guide)).toEqual(['Mazmorra Wey Wabbit', 'Mazmorras nivel 200'])
   })
 })
