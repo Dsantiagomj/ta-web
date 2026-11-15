@@ -21,7 +21,13 @@ async function preview(page: Page, hash = '') {
   expect(login.ok()).toBe(true)
   await page.goto(`/vista-previa?slug=${ocre.slug}`)
   await expect(page).toHaveURL(new RegExp(`/${ocre.slug}(#.*)?$`))
-  if (hash) await page.goto(`/${ocre.slug}${hash}`)
+  // Un enlace con lo elegido se abre de cero, como lo abre quien lo recibe: ir a la dirección
+  // con otro # desde la misma página no recarga, y el router de Next, que aún no ha arrancado,
+  // la cambiaría por la suya.
+  if (hash) {
+    await page.goto('about:blank')
+    await page.goto(`/${ocre.slug}${hash}`)
+  }
   // La isla está lista cuando suelta las casillas.
   await expect(page.locator('[data-sl-own]').first()).toBeEnabled()
 }
@@ -34,7 +40,9 @@ const visibleNames = (page: Page) =>
 const panel = (page: Page) => page.locator('[data-sl-panel]:visible')
 const typeButton = (page: Page, name: RegExp) =>
   page.getByRole('group', { name: 'Tipo de alma' }).getByRole('button', { name })
-const nav = (page: Page, name: 'Etapas' | 'Regiones') => page.getByRole('navigation', { name })
+// Exacto: «Otras etapas» (anterior y siguiente) también contiene «etapas».
+const nav = (page: Page, name: 'Etapas' | 'Regiones') =>
+  page.getByRole('navigation', { name, exact: true })
 const stageButton = (page: Page, name: RegExp) => nav(page, 'Etapas').getByRole('button', { name })
 const settled = (page: Page) =>
   page.waitForFunction(() =>

@@ -119,7 +119,7 @@ export function startSouls(data: SoulsIslandData): () => void {
     if (found.type) type = found.type
     return Object.keys(found).length > 0
   }
-  fromHash()
+  const hashed = fromHash()
   const search = document.querySelector<HTMLInputElement>('[data-sl-q]')
   let query = soulQuery(search?.value ?? '')
   let hide = document.querySelector<HTMLInputElement>('[data-sl-hide]')?.checked ?? false
@@ -167,7 +167,8 @@ export function startSouls(data: SoulsIslandData): () => void {
     const hash = soulsHash({ by, at: shown[by], type })
     if (window.location.hash === hash) return
     const url = `${window.location.pathname}${window.location.search}${hash}`
-    window.history.replaceState(window.history.state, '', url)
+    // Con null, como pide Next: así pasa la dirección a su router y no la pisa al refrescar.
+    window.history.replaceState(null, '', url)
   }
 
   /**
@@ -606,7 +607,11 @@ export function startSouls(data: SoulsIslandData): () => void {
 
   // Una dirección escrita a mano o un enlace a otra etapa en la misma página.
   function onHashChange() {
-    if (fromHash()) refilter('fade')
+    if (!fromHash()) return
+    refilter('fade')
+    // El router de Next no ve un cambio de la dirección hecho a mano: se le pasa, o al refrescar
+    // la página (la vista previa del panel) volvería a la dirección sin lo elegido.
+    writeHash()
   }
 
   // El servidor pinta las casillas y botones desactivados: ya está aquí el código que los atiende.
@@ -624,6 +629,8 @@ export function startSouls(data: SoulsIslandData): () => void {
   document.addEventListener('animationcancel', onAnimationDone)
   resetDialog?.addEventListener('close', onResetClose)
   render()
+  // Un enlace con lo elegido: su dirección pasa también al router de Next (onHashChange).
+  if (hashed) writeHash()
   const startView = views[by]
   if (startView) scrollChip(startView, 'auto')
   migrateLegacy()
