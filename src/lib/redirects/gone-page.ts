@@ -14,8 +14,8 @@ export const goneStrings = {
 
 export const GONE_COLORS: Record<Mode, { bg: string; ink: string; ink2: string; accent: string }> =
   {
-    dark: { bg: '#0f0d1a', ink: '#ece9ff', ink2: '#bdb6e6', accent: '#6fe3ff' },
-    light: { bg: '#f4f2fb', ink: '#1b1630', ink2: '#3f3763', accent: '#0a6a85' },
+    dark: { bg: '#110f1b', ink: '#f1eeff', ink2: '#cdc6e8', accent: '#6fe3ff' },
+    light: { bg: '#f3f1fa', ink: '#1b1630', ink2: '#3f3763', accent: '#0a6a85' },
   }
 
 /** El HTML del 410, en el modo del visitante (oscuro por defecto, como el sitio). */
