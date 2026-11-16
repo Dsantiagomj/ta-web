@@ -2,8 +2,9 @@ import { expect, test, type Page } from '@playwright/test'
 
 import { seedGuide } from './seed/guides.ts'
 
-// Las fuentes de src/styles/fonts.ts: un solo archivo precargado, Montserrat, una fuente
-// variable de la que salen todos los pesos, sin negritas sintetizadas.
+// Las fuentes de src/styles/fonts.ts: dos archivos precargados, Montserrat (el texto, una
+// fuente variable de la que salen todos los pesos) y Rowdies (el h1), sin negritas
+// sintetizadas. Lexend, la interfaz, llega cuando algo la usa.
 
 /** Las @font-face de la página: URL del archivo, familia y peso. */
 function fontFaces(page: Page) {
@@ -27,7 +28,7 @@ function fontFaces(page: Page) {
 }
 
 for (const path of ['/', `/${seedGuide.slug}`]) {
-  test(`${path} precarga solo el archivo de Montserrat`, async ({ page }) => {
+  test(`${path} precarga solo los archivos de Montserrat y Rowdies`, async ({ page }) => {
     await page.goto(path)
     const preloads = await page
       .locator('link[rel="preload"][as="font"]')
@@ -35,7 +36,7 @@ for (const path of ['/', `/${seedGuide.slug}`]) {
     const faces = await fontFaces(page)
     const preloaded = preloads.map((url) => faces.find((face) => face.url === url)?.family)
 
-    expect(preloaded).toEqual(['Montserrat'])
+    expect(preloaded.sort()).toEqual(['Montserrat', 'Rowdies'])
   })
 }
 
@@ -75,4 +76,29 @@ test('todos los pesos de Montserrat salen de su archivo, en una sola familia', a
       .map((face) => face.weight),
   )
   expect(loaded).toEqual(expect.arrayContaining(['400', '700', '800']))
+})
+
+test('el título de la guía es Rowdies 700 y los encabezados de sus partes, Lexend', async ({
+  page,
+}) => {
+  await page.goto(`/${seedGuide.slug}`)
+  await page.evaluate(() => document.fonts.ready)
+  const font = (selector: string) =>
+    page
+      .locator(selector)
+      .first()
+      .evaluate((el) => {
+        const s = getComputedStyle(el)
+        return { family: s.fontFamily.split(',')[0].replaceAll('"', ''), weight: s.fontWeight }
+      })
+  expect(await font('h1')).toEqual({ family: 'Rowdies', weight: '700' })
+  expect(await font('.qhead__facts h2')).toEqual({ family: 'Lexend', weight: '700' })
+  // Los dos con su archivo, sin una negrita sintetizada del 400.
+  const loaded = await page.evaluate(() =>
+    [...document.fonts]
+      .filter((face) => face.status === 'loaded')
+      .map((face) => `${face.family.replaceAll('"', '')} ${face.weight}`),
+  )
+  expect(loaded).toContain('Rowdies 700')
+  expect(loaded.some((face) => face.startsWith('Lexend '))).toBe(true)
 })
