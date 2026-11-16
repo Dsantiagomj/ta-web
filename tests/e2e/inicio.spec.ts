@@ -1,6 +1,7 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
 
+import { expectFilledButton } from './filled-button.ts'
 import { indexChecklists } from './seed/checklists-index.ts'
 import { seedGuide } from './seed/guides.ts'
 import { seedPages } from './seed/pages.ts'
@@ -51,6 +52,17 @@ test.describe('portada', () => {
     await expect
       .poll(() => isle.evaluate((img: HTMLImageElement) => img.currentSrc))
       .toMatch(/krosmoz-\d+\.avif$/)
+  })
+
+  test('«Buscar» es el botón relleno, en mayúsculas y de 3rem de alto', async ({ page }) => {
+    await open(page)
+    const go = page.locator('.ask__go')
+    await expect(go).toHaveCSS('text-transform', 'uppercase')
+    const rem = await page.evaluate(() =>
+      parseFloat(getComputedStyle(document.documentElement).fontSize),
+    )
+    expect((await go.boundingBox())!.height / rem).toBeCloseTo(3)
+    await expectFilledButton(go)
   })
 
   test('no pide el índice al cargar, sino al enfocar el campo', async ({ page }) => {
