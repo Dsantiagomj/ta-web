@@ -26,6 +26,19 @@ const stepBox = (page: Page, n: number) => page.getByRole('checkbox', { name: `P
 const stored = (page: Page) =>
   page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? 'null'), KEY)
 
+/** El huevo de la cabecera: si está en gris, la opacidad de su brillo y sus animaciones. */
+const egg = (page: Page) =>
+  page.locator('.ck-head .ck-egg').evaluate((el) => {
+    const img = getComputedStyle(el.querySelector('img')!)
+    const glow = getComputedStyle(el, '::before')
+    return {
+      gray: img.filter.includes('grayscale(1)'),
+      glow: glow.opacity,
+      animation: img.animationName,
+      glowAnimation: glow.animationName,
+    }
+  })
+
 // El paso abierto entra con un fundido: axe mide el contraste cuando ya ha terminado.
 const settled = (page: Page) =>
   page.waitForFunction(() =>
@@ -252,7 +265,41 @@ test.describe('progreso de una checklist', () => {
     await expect(page.locator('.ck-strip')).toBeHidden()
     await expect(page.locator('[data-step-check]').first()).toBeHidden()
     await expect(page.locator('[data-q-hit]').first()).toBeHidden()
+    // Sin saber cómo va, el huevo de la cabecera se queda apagado y quieto.
+    expect(await egg(page)).toMatchObject({ gray: true, glow: '0', animation: 'none' })
     await context.close()
+  })
+
+  test('el huevo de la cabecera sigue apagado hasta el 100 % y entonces se enciende', async ({
+    page,
+  }) => {
+    await page.goto(url)
+    const state = page.locator('main.ck')
+    await expect(state).toHaveAttribute('data-ck-state', 'todo')
+    // Sin empezar y en curso: en gris, sin brillo, y solo flota.
+    expect(await egg(page)).toMatchObject({ gray: true, glow: '0', animation: 'ck-egg-float' })
+    await stepBox(page, 1).check()
+    await expect(state).toHaveAttribute('data-ck-state', 'doing')
+    expect(await egg(page)).toMatchObject({ gray: true, glow: '0', animation: 'ck-egg-float' })
+    await stepBox(page, 2).check()
+    await stepBox(page, 3).check()
+    await expect(pct(page)).toHaveText('100 %')
+    await expect(state).toHaveAttribute('data-ck-state', 'done')
+    // Completa: en su color, con su brillo, y lo celebra.
+    expect(await egg(page)).toMatchObject({ gray: false, animation: 'ck-egg-done' })
+    expect((await egg(page)).glowAnimation).toBe('ck-egg-pulse')
+    await stepBox(page, 3).uncheck()
+    await expect(state).toHaveAttribute('data-ck-state', 'doing')
+    expect(await egg(page)).toMatchObject({ gray: true, glow: '0' })
+  })
+
+  test('con movimiento reducido, el huevo completo se enciende sin moverse', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.goto(url)
+    expect(await egg(page)).toMatchObject({ gray: true, animation: 'none' })
+    for (const n of [1, 2, 3]) await stepBox(page, n).check()
+    await expect(page.locator('main.ck')).toHaveAttribute('data-ck-state', 'done')
+    expect(await egg(page)).toMatchObject({ gray: false, animation: 'none', glowAnimation: 'none' })
   })
 
   test('cerrar el reinicio sin elegir (Escape o un clic fuera) después de reiniciar no vuelve a borrar', async ({
