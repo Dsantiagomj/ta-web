@@ -1,13 +1,13 @@
 import { expect, test } from '@playwright/test'
 
 test.describe('portada', () => {
-  test('pinta el título en Arcano oscuro por defecto @smoke', async ({ page }) => {
+  test('pinta el título en Amakna oscuro por defecto @smoke', async ({ page }) => {
     await page.goto('/')
 
     await expect(page.getByRole('heading', { level: 1, name: 'Torrente Arcano' })).toBeVisible()
     const html = page.locator('html')
     await expect(html).toHaveAttribute('lang', 'es')
-    await expect(html).toHaveAttribute('data-theme', 'arcano')
+    await expect(html).toHaveAttribute('data-theme', 'amakna')
     await expect(html).toHaveAttribute('data-mode', 'dark')
   })
 

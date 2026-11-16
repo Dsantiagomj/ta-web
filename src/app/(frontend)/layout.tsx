@@ -7,7 +7,7 @@ import { SiteFooter } from '@/components/site/SiteFooter'
 import { classLinks, dungeonLinks, legalLinks, TOP_ANCHOR } from '@/components/site/nav'
 import { SiteHeader } from '@/components/site/SiteHeader'
 import { modeScript } from '@/lib/theme/mode-script'
-import { MODE_COOKIE, resolveMode, resolveTheme } from '@/lib/theme/theme'
+import { MODE_COOKIE, resolveMode, resolveTheme, THEME_COOKIE } from '@/lib/theme/theme'
 import { SITE_URL } from '@/lib/site/origin'
 import { siteMetadata } from '@/lib/site-copy/metadata'
 import { fontVariables } from '@/styles/fonts'
@@ -29,9 +29,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function FrontendLayout({ children }: { children: ReactNode }) {
-  const mode = resolveMode((await cookies()).get(MODE_COOKIE)?.value)
-  // Todavía no hay miembros: nadie tiene el derecho a un tema premium.
-  const theme = resolveTheme(undefined, { premium: false })
+  const jar = await cookies()
+  const mode = resolveMode(jar.get(MODE_COOKIE)?.value)
+  // El tema gratis elegido en la cabecera. Todavía no hay miembros: nadie tiene el derecho
+  // al Ocre, así que una cookie con él pinta Amakna.
+  const theme = resolveTheme(jar.get(THEME_COOKIE)?.value, { premium: false })
   const [counts, dofus, checklists, pages, settings, nav, sectionNav] = await Promise.all([
     loadSiteCounts(),
     loadDofusNav(),
