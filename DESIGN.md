@@ -9,7 +9,7 @@ The visual rules for the new torrentearcano.com. Structure, density and motion f
 3. **Dense, not cramped.** Lists of 50 quests and checklists of 100 steps must fit on a screen without feeling like a spreadsheet. Small gaps inside components, generous gaps between sections.
 4. **Fast by default.** Guide pages are server-rendered with no client JavaScript beyond the shell and one small island that copies coordinates, loads videos on click and opens guide images fullscreen. Motion is CSS unless it lives inside a client island.
 5. **One job per color.** `accent` marks progress, links, coordinates and the primary action; `accent-2` marks featured numbers and tags; the section accent marks details. No color is ever a button fill.
-6. **Arcano, dark, by default.** Five themes, each with a dark and a light mode. Arcano is free for everyone; Amakna, Bonta, Brâkmar and Ocre are premium. Every text pair passes WCAG AA in every theme and mode.
+6. **Amakna, dark, by default.** Five themes, each with a dark and a light mode. Amakna, Torrente Arcano, Bonta and Brâkmar are free for everyone; Ocre is premium. Every text pair passes WCAG AA in every theme and mode.
 
 ## Tokens
 
@@ -25,17 +25,19 @@ Tokens are CSS custom properties declared in a Tailwind v4 `@theme` block in `sr
 
 ### Themes
 
-Decided 2026-11-02. Five themes named after Dofus places and the Dofus Ocre, each with a dark and a light mode:
+Decided 2026-11-02; changed 2026-11-16 with Torre's color design (option D of the prototype `tmp/mockups/color/`, published at https://ta-prototipos.netlify.app/color/). Five themes named after Dofus places and the Dofus Ocre, each with a dark and a light mode:
 
 | Theme | Access |
 |---|---|
-| Arcano | free, the default for everyone |
-| Amakna, Bonta, Brâkmar, Ocre | premium |
+| Amakna | free, the default for everyone |
+| Torrente Arcano (`arcano`), Bonta, Brâkmar | free |
+| Ocre | premium, not offered in the theme picker yet |
 
 The **theme** and the **mode** are two separate settings.
 
-- **Theme** lives on `<html data-theme="arcano|amakna|bonta|brakmar|ocre">`. The server renders it from the member's saved setting, and only renders a premium theme when the member's entitlement allows it. Visitors, free members and members whose entitlement lapsed get `arcano`. A client-side switch to a premium theme is never honored without the entitlement: the server ignores the value and the page renders Arcano.
-- **Mode** lives on `<html data-mode="dark|light">` and is free for everyone. It is stored in a cookie (so the server can render it) and mirrored in `localStorage`. A small inline `<head>` script sets `data-mode` before first paint; it never sets the theme. Default `dark`. The same script sets `data-js`, so CSS can tell when JavaScript runs (the rewards bag, Quest header).
+- **Theme** lives on `<html data-theme="amakna|arcano|bonta|brakmar|ocre">`. Anyone picks one of the four free themes in the header's theme picker (Components). It is stored like the mode: a `ta-theme` cookie (so the server can render it) mirrored in `localStorage`. With no cookie, or an unknown value, the page renders Amakna. Ocre renders only when the member's entitlement allows it; a cookie, `localStorage` or client value asking for it is ignored and the page renders Amakna.
+- **Mode** lives on `<html data-mode="dark|light">` and is free for everyone. It is stored in a `ta-mode` cookie and mirrored in `localStorage`. Default `dark`.
+- A small inline `<head>` script sets both before first paint when the cookie is missing and `localStorage` has a valid value (for the theme, only a free one), and rewrites the cookie. The same script sets `data-js`, so CSS can tell when JavaScript runs (the rewards bag, Quest header).
 
 Tokens are CSS custom properties under one selector per theme and mode. Semantic tokens point at them through `@theme inline`, so utilities and plain CSS read the same names:
 
@@ -46,16 +48,16 @@ Tokens are CSS custom properties under one selector per theme and mode. Semantic
   --color-accent: var(--t-accent);
   /* one line per semantic color */
 }
-[data-theme="arcano"][data-mode="dark"] { --t-bg: #0f0d1a; --t-surface: #17142a; /* … */ }
-[data-theme="arcano"][data-mode="light"] { --t-bg: #f4f2fb; --t-surface: #ffffff; /* … */ }
-/* the same two blocks for amakna, bonta, brakmar, ocre */
+[data-theme="amakna"][data-mode="dark"] { --t-bg: #14110e; --t-surface: #1f1a16; /* … */ }
+[data-theme="amakna"][data-mode="light"] { --t-bg: #f5f0e6; --t-surface: #fffdf8; /* … */ }
+/* the same two blocks for arcano, bonta, brakmar, ocre */
 ```
 
-The Arcano dark block is also the fallback on `:root`, so a page with a missing or unknown attribute still renders correctly.
+The Amakna dark block is also the fallback on `:root`, so a page with a missing or unknown attribute still renders correctly.
 
 ### Color
 
-Contrast ratios are WCAG 2.x. AA needs 4.5:1 for body text, 3:1 for large text (24px, or 18.66px bold) and for UI parts such as control borders, progress fills and check marks. All twelve palettes below were checked as given and pass; no hex needed adjusting.
+Contrast ratios are WCAG 2.x. AA needs 4.5:1 for body text, 3:1 for large text (24px, or 18.66px bold) and for UI parts such as control borders, progress fills and check marks. All ten palettes below were checked as given and pass; no hex needed adjusting. `tests/unit/theme-css.test.ts` checks every text pair in the tables at 4.5:1 and the check mark at 3:1.
 
 Roles:
 
@@ -70,136 +72,192 @@ Roles:
 | `--color-muted` | meta, counts, micro labels; also checkbox and input borders (at least 4.92:1 everywhere, well over 3:1) |
 | `--color-accent` | progress fills, links and coordinates, the checked checkbox (with a check mark in `--color-bg`), the primary button outline (accent text and border, transparent fill), the eyebrow, the theme switch knob, the current nav item, the active tab, focus rings on accent controls |
 | `--color-accent-2` | Lilita One featured numbers, tag pills (outline) |
+| `--color-btn`, `--color-btn-hi` | the fill of a filled button and its hover fill (option D; the components adopt it in a later change) |
+| `--color-btn-ink` | text and icons on `btn` and `btn-hi` |
+| `--color-chip`, `--color-chip-hi` | the fill of pills such as the header search, and its hover fill; text on them is `ink` |
+| `--color-bar` | the header and footer bar, and the theme picker's swatch behind the hat |
 
 Focus rings use `--color-ink` (at least 13:1 on bg in every mode) unless the control itself is accent-colored.
 
-#### Arcano (`arcano`, free, the default for everyone)
+#### Amakna (`amakna`, free, the default for everyone)
 
 | Token | Dark | Light |
 |---|---|---|
-| `--color-bg` | `#0f0d1a` | `#f4f2fb` |
-| `--color-surface` | `#17142a` | `#ffffff` |
-| `--color-raised` | `#221e3b` | `#e9e5f7` |
-| `--color-line` | `#363160` | `#c9c2e6` |
-| `--color-ink` | `#ece9ff` | `#1b1630` |
-| `--color-ink-2` | `#bdb6e6` | `#3f3763` |
-| `--color-muted` | `#9089ba` | `#5f5782` |
+| `--color-bg` | `#14110e` | `#f5f0e6` |
+| `--color-surface` | `#1f1a16` | `#fffdf8` |
+| `--color-raised` | `#2a241f` | `#ebe3d5` |
+| `--color-line` | `#3a332c` | `#d5c9b5` |
+| `--color-ink` | `#f6f2ea` | `#1d1813` |
+| `--color-ink-2` | `#d6cdc0` | `#43392f` |
+| `--color-muted` | `#ab9f90` | `#6b5f52` |
+| `--color-accent` | `#b5e04a` | `#3f6d0c` |
+| `--color-accent-2` | `#f2c14e` | `#8a5d00` |
+| `--color-btn` | `#b5e04a` | `#a8d63c` |
+| `--color-btn-hi` | `#c4ea62` | `#b7e24f` |
+| `--color-btn-ink` | `#141a05` | `#172105` |
+| `--color-chip` | `#4a413a` | `#ddd1bd` |
+| `--color-chip-hi` | `#5a5048` | `#d2c4ad` |
+| `--color-bar` | `#000000` | `#fffdf8` |
+
+
+| Pair | Dark | Light |
+|---|---|---|
+| ink on bg | 16.85 | 15.51 |
+| ink on surface | 15.45 | 17.33 |
+| ink on raised | 13.72 | 13.82 |
+| ink-2 on bg | 11.96 | 9.91 |
+| ink-2 on surface | 10.97 | 11.08 |
+| ink-2 on raised | 9.74 | 8.84 |
+| muted on bg | 7.25 | 5.46 |
+| muted on surface | 6.65 | 6.10 |
+| muted on raised | 5.91 | 4.87 |
+| accent on surface | 11.27 | 6.07 |
+| accent on raised | 10.01 | 4.84 |
+| accent-2 on surface | 10.28 | 5.67 |
+| accent-2 on raised | 9.13 | 4.52 |
+| btn-ink on btn | 11.64 | 9.83 |
+| btn-ink on btn-hi | 12.96 | 11.15 |
+| ink on chip | 8.92 | 11.68 |
+| ink on chip-hi | 7.03 | 10.27 |
+| ink on bar | 18.81 | 17.33 |
+| accent on bar | 13.73 | 6.07 |
+| accent as a border on surface (3:1) | 11.27 | 6.07 |
+| bg check mark on an accent fill (3:1) | 12.30 | 5.43 |
+
+#### Torrente Arcano (`arcano`, free)
+
+| Token | Dark | Light |
+|---|---|---|
+| `--color-bg` | `#110f1b` | `#f3f1fa` |
+| `--color-surface` | `#1b1828` | `#ffffff` |
+| `--color-raised` | `#252136` | `#e7e3f5` |
+| `--color-line` | `#383252` | `#cdc6e6` |
+| `--color-ink` | `#f1eeff` | `#1b1630` |
+| `--color-ink-2` | `#cdc6e8` | `#3f3763` |
+| `--color-muted` | `#9d95bd` | `#5f5782` |
 | `--color-accent` | `#6fe3ff` | `#0a6a85` |
 | `--color-accent-2` | `#c79bff` | `#6b3fc0` |
+| `--color-btn` | `#6fe3ff` | `#0a6a85` |
+| `--color-btn-hi` | `#94ebff` | `#0d7c9b` |
+| `--color-btn-ink` | `#06222b` | `#ffffff` |
+| `--color-chip` | `#3b3456` | `#d9d2ee` |
+| `--color-chip-hi` | `#4a4268` | `#cdc4e8` |
+| `--color-bar` | `#07060d` | `#ffffff` |
+
 
 | Pair | Dark | Light |
 |---|---|---|
-| ink on bg | 16.17 | 15.73 |
-| ink on surface | 15.10 | 17.44 |
-| ink on raised | 13.42 | 14.13 |
-| ink-2 on bg | 10.06 | 9.77 |
-| ink-2 on surface | 9.40 | 10.84 |
-| ink-2 on raised | 8.35 | 8.78 |
-| muted on bg | 5.92 | 5.97 |
-| muted on surface | 5.53 | 6.62 |
-| muted on raised | 4.92 | 5.36 |
-| accent on surface | 12.06 | 6.15 |
-| accent on raised | 10.71 | 4.99 |
-| accent-2 on surface | 8.17 | 6.78 |
-| accent-2 on raised | 7.26 | 5.49 |
-| accent as a border on surface (3:1) | 12.06 | 6.15 |
-| bg check mark on an accent fill (3:1) | 12.91 | 5.55 |
+| ink on bg | 16.62 | 15.59 |
+| ink on surface | 15.24 | 17.44 |
+| ink on raised | 13.65 | 13.87 |
+| ink-2 on bg | 11.59 | 9.69 |
+| ink-2 on surface | 10.63 | 10.84 |
+| ink-2 on raised | 9.51 | 8.62 |
+| muted on bg | 6.74 | 5.92 |
+| muted on surface | 6.18 | 6.62 |
+| muted on raised | 5.53 | 5.27 |
+| accent on surface | 11.68 | 6.15 |
+| accent on raised | 10.45 | 4.89 |
+| accent-2 on surface | 7.92 | 6.78 |
+| accent-2 on raised | 7.08 | 5.39 |
+| btn-ink on btn | 11.10 | 6.15 |
+| btn-ink on btn-hi | 12.26 | 4.80 |
+| ink on chip | 10.16 | 11.96 |
+| ink on chip-hi | 8.11 | 10.51 |
+| ink on bar | 17.69 | 17.44 |
+| accent on bar | 13.55 | 6.15 |
+| accent as a border on surface (3:1) | 11.68 | 6.15 |
+| bg check mark on an accent fill (3:1) | 12.73 | 5.50 |
 
-#### Amakna (`amakna`, premium)
-
-| Token | Dark | Light |
-|---|---|---|
-| `--color-bg` | `#0c120e` | `#f3f5ec` |
-| `--color-surface` | `#131c16` | `#fdfef9` |
-| `--color-raised` | `#1c2a21` | `#e6ecdb` |
-| `--color-line` | `#2c4033` | `#c3cfb2` |
-| `--color-ink` | `#eef3e8` | `#172014` |
-| `--color-ink-2` | `#c3d1bd` | `#34452d` |
-| `--color-muted` | `#90a48b` | `#54644c` |
-| `--color-accent` | `#a3dd5e` | `#3a6812` |
-| `--color-accent-2` | `#f2c86b` | `#875a0c` |
-
-| Pair | Dark | Light |
-|---|---|---|
-| ink on bg | 16.80 | 15.23 |
-| ink on surface | 15.45 | 16.54 |
-| ink on raised | 13.28 | 13.87 |
-| ink-2 on bg | 11.89 | 9.38 |
-| ink-2 on surface | 10.93 | 10.18 |
-| ink-2 on raised | 9.39 | 8.54 |
-| muted on bg | 7.10 | 5.78 |
-| muted on surface | 6.53 | 6.27 |
-| muted on raised | 5.61 | 5.26 |
-| accent on surface | 10.84 | 6.54 |
-| accent on raised | 9.31 | 5.49 |
-| accent-2 on surface | 10.99 | 5.92 |
-| accent-2 on raised | 9.45 | 4.97 |
-| accent as a border on surface (3:1) | 10.84 | 6.54 |
-| bg check mark on an accent fill (3:1) | 11.78 | 6.02 |
-
-#### Bonta (`bonta`, premium)
+#### Bonta (`bonta`, free)
 
 | Token | Dark | Light |
 |---|---|---|
-| `--color-bg` | `#0c1220` | `#f3f5fa` |
-| `--color-surface` | `#131b2e` | `#ffffff` |
-| `--color-raised` | `#1b2640` | `#e5eaf4` |
-| `--color-line` | `#2c3b5c` | `#c3cde0` |
-| `--color-ink` | `#eef2fb` | `#111a2c` |
-| `--color-ink-2` | `#bfc9de` | `#33415c` |
-| `--color-muted` | `#8c99b5` | `#55627d` |
+| `--color-bg` | `#0e1320` | `#f2f5fb` |
+| `--color-surface` | `#171f31` | `#ffffff` |
+| `--color-raised` | `#20293f` | `#e3e9f5` |
+| `--color-line` | `#323f5c` | `#c5cfe2` |
+| `--color-ink` | `#eef3fc` | `#111a2c` |
+| `--color-ink-2` | `#c4cde0` | `#33415c` |
+| `--color-muted` | `#8f9bb6` | `#55627d` |
 | `--color-accent` | `#8fb8ff` | `#1f4fa8` |
 | `--color-accent-2` | `#f0c75e` | `#8a5d00` |
+| `--color-btn` | `#8fb8ff` | `#1f4fa8` |
+| `--color-btn-hi` | `#a8c8ff` | `#2a5ebf` |
+| `--color-btn-ink` | `#0a1730` | `#ffffff` |
+| `--color-chip` | `#2f3b57` | `#d3dcee` |
+| `--color-chip-hi` | `#3b4969` | `#c6d1e8` |
+| `--color-bar` | `#060912` | `#ffffff` |
+
 
 | Pair | Dark | Light |
 |---|---|---|
-| ink on bg | 16.68 | 15.94 |
-| ink on surface | 15.30 | 17.38 |
-| ink on raised | 13.40 | 14.41 |
-| ink-2 on bg | 11.24 | 9.38 |
-| ink-2 on surface | 10.32 | 10.24 |
-| ink-2 on raised | 9.03 | 8.49 |
-| muted on bg | 6.53 | 5.61 |
-| muted on surface | 6.00 | 6.12 |
-| muted on raised | 5.25 | 5.08 |
-| accent on surface | 8.55 | 7.66 |
-| accent on raised | 7.49 | 6.35 |
-| accent-2 on surface | 10.65 | 5.76 |
-| accent-2 on raised | 9.33 | 4.77 |
-| accent as a border on surface (3:1) | 8.55 | 7.66 |
-| bg check mark on an accent fill (3:1) | 9.32 | 7.02 |
+| ink on bg | 16.65 | 15.92 |
+| ink on surface | 14.77 | 17.38 |
+| ink on raised | 13.00 | 14.27 |
+| ink-2 on bg | 11.61 | 9.37 |
+| ink-2 on surface | 10.30 | 10.24 |
+| ink-2 on raised | 9.07 | 8.40 |
+| muted on bg | 6.65 | 5.61 |
+| muted on surface | 5.90 | 6.12 |
+| muted on raised | 5.19 | 5.03 |
+| accent on surface | 8.20 | 7.66 |
+| accent on raised | 7.22 | 6.29 |
+| accent-2 on surface | 10.21 | 5.76 |
+| accent-2 on raised | 8.99 | 4.73 |
+| btn-ink on btn | 8.89 | 7.66 |
+| btn-ink on btn-hi | 10.50 | 6.08 |
+| ink on chip | 10.01 | 12.62 |
+| ink on chip-hi | 8.05 | 11.33 |
+| ink on bar | 17.87 | 17.38 |
+| accent on bar | 9.92 | 7.66 |
+| accent as a border on surface (3:1) | 8.20 | 7.66 |
+| bg check mark on an accent fill (3:1) | 9.24 | 7.01 |
 
-#### Brâkmar (`brakmar`, premium)
+#### Brâkmar (`brakmar`, free)
 
 | Token | Dark | Light |
 |---|---|---|
-| `--color-bg` | `#130c0c` | `#f7f1ef` |
-| `--color-surface` | `#1c1212` | `#ffffff` |
-| `--color-raised` | `#281a19` | `#efe3e0` |
-| `--color-line` | `#42292a` | `#d6c1bc` |
-| `--color-ink` | `#f6ecea` | `#22120f` |
-| `--color-ink-2` | `#d6c1be` | `#4b2c27` |
-| `--color-muted` | `#a8908c` | `#6e4f49` |
-| `--color-accent` | `#ff5f52` | `#a8231a` |
+| `--color-bg` | `#150d0c` | `#f8f1ee` |
+| `--color-surface` | `#211514` | `#ffffff` |
+| `--color-raised` | `#2d1d1b` | `#f0e3df` |
+| `--color-line` | `#48302d` | `#dbc5bf` |
+| `--color-ink` | `#f8eeec` | `#22120f` |
+| `--color-ink-2` | `#dac5c1` | `#4b2c27` |
+| `--color-muted` | `#ad938e` | `#6e4f49` |
+| `--color-accent` | `#ff6a52` | `#a8231a` |
 | `--color-accent-2` | `#ffb347` | `#8a4f00` |
+| `--color-btn` | `#ff6a52` | `#b3261c` |
+| `--color-btn-hi` | `#ff8470` | `#c8342a` |
+| `--color-btn-ink` | `#2a0703` | `#ffffff` |
+| `--color-chip` | `#4a2f2b` | `#e8d2cc` |
+| `--color-chip-hi` | `#5c3a35` | `#dfc4bd` |
+| `--color-bar` | `#070302` | `#ffffff` |
+
 
 | Pair | Dark | Light |
 |---|---|---|
-| ink on bg | 16.68 | 16.17 |
-| ink on surface | 15.82 | 18.08 |
-| ink on raised | 14.46 | 14.41 |
-| ink-2 on bg | 11.27 | 11.12 |
-| ink-2 on surface | 10.69 | 12.44 |
-| ink-2 on raised | 9.77 | 9.91 |
-| muted on bg | 6.48 | 6.53 |
-| muted on surface | 6.14 | 7.30 |
-| muted on raised | 5.62 | 5.82 |
-| accent on surface | 6.12 | 7.19 |
-| accent on raised | 5.60 | 5.73 |
-| accent-2 on surface | 10.30 | 6.56 |
-| accent-2 on raised | 9.42 | 5.23 |
-| accent as a border on surface (3:1) | 6.12 | 7.19 |
-| bg check mark on an accent fill (3:1) | 6.46 | 6.43 |
+| ink on bg | 16.84 | 16.19 |
+| ink on surface | 15.59 | 18.08 |
+| ink on raised | 14.14 | 14.43 |
+| ink-2 on bg | 11.64 | 11.14 |
+| ink-2 on surface | 10.78 | 12.44 |
+| ink-2 on raised | 9.77 | 9.92 |
+| muted on bg | 6.71 | 6.54 |
+| muted on surface | 6.21 | 7.30 |
+| muted on raised | 5.63 | 5.82 |
+| accent on surface | 6.29 | 7.19 |
+| accent on raised | 5.71 | 5.74 |
+| accent-2 on surface | 9.98 | 6.56 |
+| accent-2 on raised | 9.05 | 5.24 |
+| btn-ink on btn | 6.58 | 6.54 |
+| btn-ink on btn-hi | 7.77 | 5.28 |
+| ink on chip | 10.64 | 12.50 |
+| ink on chip-hi | 8.73 | 10.99 |
+| ink on bar | 18.02 | 18.08 |
+| accent on bar | 7.27 | 7.19 |
+| accent as a border on surface (3:1) | 6.29 | 7.19 |
+| bg check mark on an accent fill (3:1) | 6.79 | 6.44 |
 
 #### Ocre (`ocre`, premium, after the Dofus Ocre)
 
@@ -214,6 +272,13 @@ Focus rings use `--color-ink` (at least 13:1 on bg in every mode) unless the con
 | `--color-muted` | `#a8977a` | `#6b5838` |
 | `--color-accent` | `#ffb534` | `#8a5300` |
 | `--color-accent-2` | `#ff8a5c` | `#a3410f` |
+| `--color-btn` | `#ffb534` | `#8a5300` |
+| `--color-btn-hi` | `#ffc35a` | `#a06200` |
+| `--color-btn-ink` | `#2a1a00` | `#ffffff` |
+| `--color-chip` | `#4a3b25` | `#e6d4ae` |
+| `--color-chip-hi` | `#5a4830` | `#dcc79c` |
+| `--color-bar` | `#080603` | `#fffaf0` |
+
 
 | Pair | Dark | Light |
 |---|---|---|
@@ -230,13 +295,19 @@ Focus rings use `--color-ink` (at least 13:1 on bg in every mode) unless the con
 | accent on raised | 9.20 | 4.93 |
 | accent-2 on surface | 7.66 | 6.08 |
 | accent-2 on raised | 6.98 | 4.93 |
+| btn-ink on btn | 9.56 | 6.33 |
+| btn-ink on btn-hi | 10.60 | 4.95 |
+| ink on chip | 9.46 | 11.85 |
+| ink on chip-hi | 7.64 | 10.45 |
+| ink on bar | 17.71 | 16.61 |
+| accent on bar | 11.48 | 6.08 |
 | accent as a border on surface (3:1) | 10.08 | 6.08 |
 | bg check mark on an accent fill (3:1) | 10.75 | 5.63 |
 
 Rules that follow from the numbers:
 
-- The lowest muted pair is Arcano dark muted on raised at 4.92:1, so muted text works on every surface in every theme.
-- Accent and accent-2 pass as text on surface and raised everywhere (lowest: Bonta light accent-2 on raised at 4.77:1), so the eyebrow, links, tags and numbers need no theme-specific exceptions.
+- The lowest muted pair is Amakna light muted on raised at 4.87:1, so muted text works on every surface in every theme.
+- Accent and accent-2 pass as text on surface and raised everywhere (lowest: Amakna light accent-2 on raised at 4.52:1), so the eyebrow, links, tags and numbers need no theme-specific exceptions.
 - Text over game art always sits on a shade. Never put text straight on an image, and never use `--color-muted` on art cards (see Imagery).
 
 ### Shared colors
@@ -245,10 +316,10 @@ Status colors and section accents are fixed per mode and shared by all five them
 
 | Token | Dark | Worst case | Light | Worst case |
 |---|---|---|---|---|
-| `--color-success` | `#a9d266` | 8.63 (Amakna raised) | `#3d6914` | 5.07 (Ocre raised) |
-| `--color-warning` | `#f2c14e` | 8.92 (Amakna raised) | `#7a5600` | 5.18 (Ocre raised) |
-| `--color-danger` | `#f28466` | 5.89 (Amakna raised) | `#a8381f` | 5.03 (Ocre raised) |
-| `--color-info` | `#8fc3e8` | 7.94 (Amakna raised) | `#1d5f86` | 5.39 (Ocre raised) |
+| `--color-success` | `#a9d266` | 8.34 (Bonta raised) | `#3d6914` | 5.07 (Ocre raised) |
+| `--color-warning` | `#f2c14e` | 8.63 (Bonta raised) | `#7a5600` | 5.18 (Ocre raised) |
+| `--color-danger` | `#f28466` | 5.70 (Bonta raised) | `#a8381f` | 5.03 (Ocre raised) |
+| `--color-info` | `#8fc3e8` | 7.68 (Bonta raised) | `#1d5f86` | 5.39 (Ocre raised) |
 
 ### Section accents
 
@@ -256,15 +327,15 @@ Decided 2026-11-02: each section gets a subtle accent of its own. It is used onl
 
 | Section | Token | Dark | Worst case | Light | Worst case |
 |---|---|---|---|---|---|
-| Misiones | `--color-sec-misiones` | `#e3c565` | 8.87 | `#77600f` | 4.72 |
-| Logros | `--color-sec-logros` | `#f0b45a` | 8.11 | `#8f560a` | 4.67 |
-| Guías de Dofus | `--color-sec-dofus` | `#b7dc69` | 9.59 | `#4b6e12` | 4.62 |
-| Checklists | `--color-sec-checklists` | `#7fd6c2` | 8.77 | `#17695a` | 5.11 |
-| Clases | `--color-sec-clases` | `#ef8a6a` | 6.07 | `#a23c22` | 5.10 |
-| Mazmorras | `--color-sec-mazmorras` | `#b99af2` | 6.39 | `#6a43b8` | 5.27 |
-| Herramientas | `--color-sec-herramientas` | `#9fc7f0` | 8.49 | `#2a5f93` | 5.18 |
+| Misiones | `--color-sec-misiones` | `#e3c565` | 8.58 | `#77600f` | 4.72 |
+| Logros | `--color-sec-logros` | `#f0b45a` | 7.85 | `#8f560a` | 4.67 |
+| Guías de Dofus | `--color-sec-dofus` | `#b7dc69` | 9.28 | `#4b6e12` | 4.62 |
+| Checklists | `--color-sec-checklists` | `#7fd6c2` | 8.48 | `#17695a` | 5.11 |
+| Clases | `--color-sec-clases` | `#ef8a6a` | 5.87 | `#a23c22` | 5.10 |
+| Mazmorras | `--color-sec-mazmorras` | `#b99af2` | 6.18 | `#6a43b8` | 5.27 |
+| Herramientas | `--color-sec-herramientas` | `#9fc7f0` | 8.21 | `#2a5f93` | 5.18 |
 
-Worst cases are on `raised` of Amakna dark and Ocre light. Every value is at least 4.5:1, so the same hex works as label text and as a border (which needs 3:1). A new section, or a new theme, gets these pairs rechecked before it ships.
+Worst cases are on `raised` of Bonta dark and Ocre light. Every value is at least 4.5:1, so the same hex works as label text and as a border (which needs 3:1). A new section, or a new theme, gets these pairs rechecked before it ships.
 
 ### Icon wells
 
@@ -277,7 +348,7 @@ Decided 2026-11-05 with guide v4. Game icons sit in wells, like the slots of the
 | `--color-slot` | same as `--color-well` | same as `--color-well` | the well behind a full-colour game icon |
 | `--color-slot-line` | same as `--color-well-line` | same as `--color-well-line` | its border |
 
-Slots follow the mode (changed 2026-11-12): a dark slot looked out of place in light mode, and the game outlines its icons, so pale ones (the XP arrow, a gold coin, Frostizz, Grasa gelatinosa) still read on a light slot. Wells and slots are decorative (`aria-hidden`, icons with `alt=""`); the text next to them carries the meaning, so their edges need no ratio. Text on a well: ink at least 13.47:1 (Ocre light) and accent at least 4.93:1 (Ocre light, the coordinates chip).
+Slots follow the mode (changed 2026-11-12): a dark slot looked out of place in light mode, and the game outlines its icons, so pale ones (the XP arrow, a gold coin, Frostizz, Grasa gelatinosa) still read on a light slot. Wells and slots are decorative (`aria-hidden`, icons with `alt=""`); the text next to them carries the meaning, so their edges need no ratio. Text on a well: ink at least 13.47:1 (Ocre light) and accent at least 4.84:1 (Amakna light, the coordinates chip).
 
 ### Typography
 
@@ -404,7 +475,7 @@ Decided 2026-11-05: Torre chose proposal C, "Emblema" (https://ta-prototipos.net
 | Glyph on the hat | `--color-bg`, so it reads as a cut through the hat |
 | Eyes and grin | `--color-ink` |
 
-- **Theme colors**: `<Emblem>` paints with the `fill-accent`, `stroke-bg`, `stroke-ink` and `fill-ink` utilities, so it follows the theme and mode of the nearest `data-theme` and `data-mode`. No hex in the markup. Across the ten palettes accent on bg is at least 5.55:1 (Arcano light) and ink on bg at least 15.23:1, over the 3:1 a graphic needs. The emblem sits on `--color-bg`; on another fill the glyph shows bg, not that fill.
+- **Theme colors**: `<Emblem>` paints with the `fill-accent`, `stroke-bg`, `stroke-ink` and `fill-ink` utilities, so it follows the theme and mode of the nearest `data-theme` and `data-mode`. No hex in the markup. Across the ten palettes accent on bg is at least 5.43:1 (Amakna light) and ink on bg at least 15.37:1, over the 3:1 a graphic needs. The emblem sits on `--color-bg`; on another fill the glyph shows bg, not that fill.
 - **Decorative**: `aria-hidden="true"` and `focusable="false"`. The text next to it carries the name, so the header link keeps "Torrente Arcano" as its accessible name.
 - **Lockup** (decided 2026-11-07, "Sello"): `<Lockup>` (`src/components/brand/Lockup.tsx`) puts the emblem to the left of the name set in two tight lines, "Torrente" in `--color-ink` and "Arcano" in `--color-accent`, Montserrat 700 at 15px (17px in the desktop header). The whole lockup is one link to the home page named "Torrente Arcano". On hover or focus the hat tilts 9 degrees and the eyes blink once; nothing moves under reduced motion. The header and the footer's legal band use it.
 - **Sizes**: 36px in the desktop header and 30px under 768px, 8px from the wordmark (10px from 768px), to its left; 32px in the footer. The full drawing needs 24px or more. Smaller sizes use `variant="simple"`: a taller hat and a bigger grin, with no glyph and no eyes.
@@ -417,7 +488,7 @@ Decided 2026-11-05: Torre chose proposal C, "Emblema" (https://ta-prototipos.net
   - **Left**: the Sello lockup (see Brand), then one nav button per section with its game icon and a chevron: Misiones and Dofus. From 1120px; below that the burger opens the sheet.
   - **Próximamente** (decided 2026-11-09, prototype `tmp/mockups/guias-dofus/`, published at https://ta-prototipos.netlify.app/guias-dofus/): Clases and Mazmorras have no pages yet. They stay in the nav after Dofus as plain text (`.np--soon`, `aria-disabled="true"`, a greyed icon, no chevron, no panel, no link, never focused) followed by the «Próximamente» tag (`Soon`: 20px pill, `--color-raised`, `--color-ink-2`, 600 at 0.625rem). The phone sheet shows them as tiles that do not fold, the footer's Explorar lists them as text with the tag, and the home page cards are disabled the same way. The header search does not find them, nor their classes and dungeons. `soon: true` on the section in `nav.ts` drives all four; removing it brings each back once its pages exist.
   - **Panels**: 20px radius, `--color-surface`, 1px border in the section accent at 35 percent. Each one is a section tile on the left (the section icon in a 64px well, the name and a line with its counts in bold) and the section's art on the right: Misiones has the search button and "Ver todo", its only link, to `/metalogros` (the phone sheet repeats both). No quest or achievement link goes to the old site. Dofus and Checklists share one panel: on the left the «Guías de Dofus» card, the checklists of the `checklists` collection in Torre's order (`loadChecklistNav` in `src/app/(frontend)/site-data.ts`, mapped from `loadChecklists`, cached with the `checklists` and `dofus-guides` tags) and «Ver todas las checklists», which goes to `/checklists`; on the right «Todos los Dofus», the eggs of the Dofus guides collection in Torre's order (`loadDofusNav` in `src/app/(frontend)/site-data.ts`, cached with the `dofus-guides` tag, so a Dofus Torre adds or publishes in the panel appears without a code change), each linking to its page, and «Ver todas las guías de Dofus», which goes to `/guias-dofus`. A Dofus whose guide is not published («En preparación») is a plain `.egg-soon` element with `aria-disabled`, its egg in grayscale at 45 percent and «(en preparación)» for screen readers; the search does not find it. A Publicada checklist links to its page (`/<slug>`). An «En preparación» one with a `legacyHref` links to its Squarespace checklist and tells screen readers «(en preparación: se abre en la web anterior)»; one without it is a plain `.chk__off` element with `aria-disabled`, its egg in grayscale. Each row shows the egg from the checklist's Dofus guide and Torre's one-line description. No text counts the Dofus or the checklists: Torre adds them over time. There is no separate Checklists button. The phone sheet repeats the checklists and «Ver todas las checklists». With no checklist to list, the panel and the sheet leave out the «Checklists» heading, the rows and the link. The guide count is the published guides and the achievement count the published achievement pages in the Publicada state, the same achievements `/metalogros` links (`src/lib/site/counts.ts`), cached with the `guide-pages` tag, which the achievement page and metalogro hooks also expire.
-  - **Right**: the search trigger (a pill with "Buscar" and `Ctrl K` from 1360px, 44px tall and 240px wide with the shortcut at its right end; an icon button below), the mode switch (`ModeToggle`, unchanged), and the burger below 1120px. No "Entrar" button until member accounts exist.
+  - **Right**: the search trigger (a pill with "Buscar" and `Ctrl K` from 1440px, 44px tall and 240px wide with the shortcut at its right end; an icon button below; it was 1360px before the theme picker took its room), the theme picker (`ThemePicker`, Components), the mode switch (`ModeToggle`, unchanged), and the burger below 1120px. No "Entrar" button until member accounts exist.
   - **Behavior** (`HeaderIsland`, the one client island of the shell): a click opens a panel and closes any other; Esc closes it and returns focus to its button; a click outside or focus leaving the item closes it. `Ctrl K` or `/` opens the search dialog.
   - **Under 768px**: a floating bar inset 12px from the edges with 16px radius. The burger opens a full-height `<dialog>` with one card per section ("Dofus y checklists" for the shared one), each opening in place; the social links sit at the bottom.
   - **Search**: the dialog searches the published quest guides by title, the published achievement pages (Publicada only; one «En preparación» has no page, so it is not searchable) and the metalogros that open, plus what the menu links (sections, Dofus, checklists, classes, dungeons) and the site pages in the Publicada state («Páginas», after the menu groups), accent-insensitive, every word in any order, grouped by type: «Misiones», «Logros», «Metalogros», then the menu groups. Groups go from the best match to the worst with the same title-start ranking; on a tie quests come first, then achievements, metalogros and the menu. An achievement links to its page (`/<slug>`) with «{metalogro} · {n} misiones» as its second line; a metalogro links to its panel (`/metalogros#<anchor>`) with its counts. The status line adds « · {n} logros» and « · {n} metalogros» after the quests. Any group with more than 50 matches shows its best 20, and the line says so for each («más de 50 logros») and ends the found part with «: sigue escribiendo». It shares one engine with the home page's hero search (`src/components/site/search.ts`; spec in the prototype's `tmp/mockups/inicio-v9/SEARCH-SPEC.md`, decided 2026-11-07 with home v9). The hero leaves out the menu's sections, classes and dungeons but searches every other public content type: after quests, achievements and metalogros come the Dofus guides, the checklists and the site pages, with the same rules as the menu (a Dofus or site page only in the Publicada state, a checklist «En preparación» only when it links to Squarespace), from the `content` rows of the shared index, and the status line counts them too (« · {n} Dofus», « · {n} checklists», « · {n} páginas»). With more than one group, each is a listbox group with its title (ARIA APG grouped options), and the arrow keys walk all options in the order they show. The engine and the index load the first time either search is used, and both share one request (see `AGENTS.md`, Next rules). Until the index arrives, the status line says "Cargando las misiones…", also before anything is typed, and the "Ir a" list appears once the search code is in. If loading fails, the line says "No se pudieron cargar las misiones. Vuelve a intentarlo." and the next opening retries.
@@ -503,7 +574,7 @@ Every interactive component has these states: default, hover (mouse only), focus
 | Dialog | native `<dialog>` with `showModal()`, 16px radius, `--shadow-dialog`, title in display 600, actions bottom right | confirm destructive actions with a dialog, never `confirm()`; offer "Deshacer" in a toast for 8 seconds after |
 | Toast | bottom center, pill or 12px radius, `--color-raised` | auto-dismiss 4 seconds (8 with an undo action); `role="status"` |
 | Mode switch | the egg medallion from Dofus Tools, now the dark and light toggle within the chosen theme. The ivory and ebony egg art stay as its two icons; the medallion takes the search pill's fill and border (`--color-surface`, `--color-line`), so it is light in light mode and dark in dark mode (changed 2026-11-12: a fixed dark fill looked out of place in light mode). The knob ring is `--color-accent` | `role="switch"` with `aria-checked`; the mode change uses the corner reveal of the old site where View Transitions exist, a plain swap otherwise |
-| Theme picker | five swatch cards in a grid (three per row from 640px, two below): a strip of the theme's bg, surface, accent and accent-2, the theme name in display 600, and on the four premium ones a lock icon and a "Premium" label. The current theme has a `--color-accent` border and a check | entitled member: choosing saves the theme to the profile and the server re-renders the page with it. Everyone else: hover or focus shows a preview inside the card (a mini page in that theme's colors, scoped to the card with its own `data-theme`) without changing the page; choosing a premium theme opens the premium explainer, and nothing is saved |
+| Theme picker | in the header, right before the mode switch (decided 2026-11-16, option D of the color prototype). A round 40px button (44px on touch screens) with a 1px `--color-line` border and the emblem's hat in `--color-accent`, plus a chevron in `--color-muted` from 768px. Its menu (`--color-surface`, 1px `--color-line`, `--radius-md`, `--shadow-float`, 256px wide under the button; under 768px a fixed panel 16px from the sides, just under the floating header) has the micro label «Tema» and one row per free theme: a swatch (the hat in that theme's accent on its `--color-bar`, with its own `data-theme` and the page's `data-mode`, so the tokens resolve inside it), the name, and a check in `--color-accent` on the current one, whose row has the `--color-raised` fill. Ocre is not listed. `src/components/theme-picker/`: the markup is rendered on the server, styles in `theme-picker.css`, which `site.css` imports, and the header island loads its logic (`picker-ui.ts`) with `import()` on first use | a menu button (`aria-haspopup="menu"`, `aria-expanded`, `aria-controls`, named «Tema: <theme>»); rows are `menuitemradio`. Opening focuses the current theme; arrows, Home and End move; Enter or a click applies the theme and keeps the menu open; Escape and a click outside close it and return focus to the button; Tab closes it. Applying sets `data-theme` on `<html>`, writes the `ta-theme` cookie and `localStorage`, and the new colors fade in over the old page with a View Transition (`vt-tema`, 400ms), a plain swap without View Transitions or under reduced motion |
 | Tag pill | 22 to 26px pill, `--text-xs`, transparent fill, 1px `--color-accent-2` border and text | static, or a link with a hover fill of `--color-raised` |
 | Skeleton | blocks in `--color-raised` matching the final layout, used only in client islands and `loading.tsx` | a 1.2s opacity pulse; static under reduced motion |
 | Empty state | game art (an NPC or icon), one sentence, one action | e.g. "Aún no has marcado ninguna misión" with "Ver la guía" |
@@ -532,17 +603,17 @@ Rules shared by all of them:
 
 #### New contrast pairs
 
-Worst case over the five themes, in WCAG 2.x ratios.
+Worst case over the five themes, in WCAG 2.x ratios (rechecked 2026-11-16 with the option D palettes; the overlays are measured over white in dark mode and black in light mode).
 
 | Pair | Dark | Light | Needs |
 |---|---|---|---|
-| accent on well (coordinates chip text) | 6.32 Brâkmar | 4.93 Ocre | 4.5 |
-| accent on bg (chip border, links) | 6.46 Brâkmar | 5.55 Arcano | 3 / 4.5 |
-| ink-2 on bg (subtitle) | 10.06 Arcano | 9.38 Amakna | 4.5 |
-| ink on surface (rewards bag list) | 15.10 Arcano | 16.54 Amakna | 4.5 |
-| ink on warning, danger or info at 9 % over bg (callouts) | 13.91 Arcano | 13.31 Amakna | 4.5 |
-| ink on bg 82% over the video poster (play glyph) | 9.60 Arcano | 10.02 Amakna | 3 |
-| ink on bg 92% over the page (viewer caption on the backdrop) | 13.42 Arcano | 12.75 Amakna | 4.5 |
+| accent on well (coordinates chip text) | 6.57 Brâkmar | 4.84 Amakna | 4.5 |
+| accent on bg (chip border, links) | 6.79 Brâkmar | 5.43 Amakna | 3 / 4.5 |
+| ink-2 on bg (subtitle) | 11.59 Arcano | 9.37 Bonta | 4.5 |
+| ink on surface (rewards bag list) | 14.77 Bonta | 16.61 Ocre | 4.5 |
+| ink on warning, danger or info at 9 % over bg (callouts) | 14.09 Ocre | 13.43 Ocre | 4.5 |
+| ink on bg 82% over the video poster (play glyph) | 9.75 Bonta | 10.14 Ocre | 3 |
+| ink on bg 92% over the page (viewer caption on the backdrop) | 13.59 Bonta | 12.89 Ocre | 4.5 |
 
 #### Quest header
 
@@ -874,7 +945,7 @@ What keeps them: server components, fonts through `next/font` with fallback metr
 2. The user picks. Nothing gets implemented before that.
 3. A functional prototype outside `src/` when a flow is unclear (sticky behavior, a multi-step interaction).
 4. Implementation, test first (see `AGENTS.md`).
-5. Screenshots at 1440, 1024 and 390 px, in Arcano dark and light (plus any theme the change touches), in `tmp/shots/`, each next to its approved mockup in the PR report.
+5. Screenshots at 1440, 1024 and 390 px, in Amakna dark and light (plus any theme the change touches), in `tmp/shots/`, each next to its approved mockup in the PR report.
 
 ## Anti-patterns
 
