@@ -243,6 +243,65 @@ test.describe('página de guía', () => {
     await expect(items.first().locator('img[fetchpriority="high"]')).toHaveCount(1)
   })
 
+  // Opción D de Torre: cada parte de la cabecera con su tono, los huecos en rombos con el marco
+  // de lo que llevan y el bocadillo de Torre en una línea de 2px, cola incluida.
+  for (const [width, tail] of [
+    [1440, 'left'],
+    [390, 'top'],
+  ] as const) {
+    test(`los tonos de la cabecera, los rombos y el bocadillo de Torre a ${width}px`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width, height: 900 })
+      await page.goto(url)
+      const hue = (n: number) =>
+        page.evaluate(
+          (token) => getComputedStyle(document.documentElement).getPropertyValue(token).trim(),
+          `--color-hue-${n}`,
+        )
+      const rgb = (hex: string) =>
+        `rgb(${[1, 3, 5].map((at) => parseInt(hex.slice(at, at + 2), 16)).join(', ')})`
+      const facts = page.locator('.qhead__facts')
+      await expect(facts.getByRole('heading', { name: 'Prerrequisitos' })).toHaveCSS(
+        'color',
+        rgb(await hue(5)),
+      )
+      await expect(facts.getByRole('heading', { name: 'Necesitarás' })).toHaveCSS(
+        'color',
+        rgb(await hue(1)),
+      )
+      await expect(facts.getByRole('heading', { name: 'Recompensas' })).toHaveCSS(
+        'color',
+        rgb(await hue(2)),
+      )
+      const frame = (selector: string) =>
+        facts
+          .locator(selector)
+          .first()
+          .evaluate((el) => getComputedStyle(el, '::before').borderTopColor)
+      expect(await frame('.well[data-icon="xp"]')).toBe(rgb(await hue(3)))
+      expect(await frame('.well[data-icon="kamas"]')).toBe(rgb(await hue(2)))
+
+      const box = page.locator('.torre__box')
+      await expect(box).toHaveCSS('border-top-width', '2px')
+      await expect(box).toHaveCSS('border-top-color', rgb(await hue(6)))
+      const cola = await box.evaluate((el) => {
+        const s = getComputedStyle(el, '::before')
+        return { left: s.borderLeftWidth, bottom: s.borderBottomWidth, top: s.borderTopWidth }
+      })
+      expect(cola).toEqual({ left: '2px', bottom: '2px', top: '0px' })
+      // La cola sale por la izquierda en el escritorio y por arriba en el móvil, centrada en
+      // el borde de la caja.
+      const where = await box.evaluate((el) => {
+        const s = getComputedStyle(el, '::before')
+        return { left: parseFloat(s.left), top: parseFloat(s.top) }
+      })
+      const edge = tail === 'left' ? where.left : where.top
+      expect(edge).toBeLessThan(-8)
+      expect(edge).toBeGreaterThan(-10)
+    })
+  }
+
   test('el combate: una fila por monstruo, con su imagen y «1 × Nombre»', async ({ page }) => {
     await page.goto(url)
     const fight = page.locator('ul.mobs')

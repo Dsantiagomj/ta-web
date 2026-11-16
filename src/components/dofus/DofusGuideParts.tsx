@@ -98,7 +98,7 @@ function NeedNote({ row }: { row: NeedNoteRow }) {
   }
   return (
     <li className="row dg-note dg-note--slot">
-      {row.boss ? <IconWell image={row.boss} /> : <IconWell icon="dungeon" />}
+      {row.boss ? <IconWell image={row.boss} kind="dungeon" /> : <IconWell icon="dungeon" />}
       <div className="dg-note__t">
         <GuideRichText content={row.text} />
       </div>

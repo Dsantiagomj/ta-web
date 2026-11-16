@@ -828,7 +828,7 @@ html.hs-on .site-hdr .sbtn {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  border-radius: 1.125rem;
+  border-radius: 0.5rem;
   background: #000;
 }
 
@@ -846,7 +846,8 @@ html.hs-on .site-hdr .sbtn {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-section) 55%, transparent);
+  /* Un marco de 2px por dentro, en el color de su sección (opción D de Torre). */
+  box-shadow: inset 0 0 0 2px var(--color-section);
   pointer-events: none;
   transition: box-shadow var(--duration-fast) var(--ease-standard);
 }
@@ -1267,6 +1268,17 @@ html.hs-on .site-hdr .sbtn {
   color: var(--color-ink);
   font: 700 1.125rem/1 var(--font-display);
   font-variant-numeric: tabular-nums;
+}
+
+/* El número de cada paso en su tono, número y borde (opción D de Torre). En el modo claro el
+   hueco es raised, donde un tono hondo baja de 4,5:1: ahí va sobre la superficie. */
+.tour__n {
+  border-color: var(--v);
+  color: var(--v);
+}
+
+[data-mode='light'] .tour__n {
+  background: var(--color-surface);
 }
 
 @media (max-width: 63.99rem) {
@@ -1779,9 +1791,10 @@ html.hs-on .site-hdr .sbtn {
   width: 70%;
   height: 16%;
   border-radius: 50%;
+  /* La luz del suelo, en el tono de su checklist (--v). */
   background: radial-gradient(
     closest-side,
-    color-mix(in srgb, var(--color-sec-checklists) 40%, transparent),
+    color-mix(in srgb, var(--v, var(--color-sec-checklists)) 40%, transparent),
     transparent
   );
   translate: -50% 0;
@@ -2195,4 +2208,32 @@ body:has(main.home) .ft-kofi {
 body:has(main.home) .ft-kofi > svg {
   width: 1.5rem;
   height: 1.5rem;
+}
+
+/* ---------- la variedad: cada paso del recorrido y cada checklist, su tono (opción D) ---------- */
+
+/* Uno de los ocho tonos de theme.css en orden, en --v. */
+:is(.tour__step, .trio > li, .spec__items > *):nth-child(8n + 1) {
+  --v: var(--color-hue-1);
+}
+:is(.tour__step, .trio > li, .spec__items > *):nth-child(8n + 2) {
+  --v: var(--color-hue-2);
+}
+:is(.tour__step, .trio > li, .spec__items > *):nth-child(8n + 3) {
+  --v: var(--color-hue-3);
+}
+:is(.tour__step, .trio > li, .spec__items > *):nth-child(8n + 4) {
+  --v: var(--color-hue-4);
+}
+:is(.tour__step, .trio > li, .spec__items > *):nth-child(8n + 5) {
+  --v: var(--color-hue-5);
+}
+:is(.tour__step, .trio > li, .spec__items > *):nth-child(8n + 6) {
+  --v: var(--color-hue-6);
+}
+:is(.tour__step, .trio > li, .spec__items > *):nth-child(8n + 7) {
+  --v: var(--color-hue-7);
+}
+:is(.tour__step, .trio > li, .spec__items > *):nth-child(8n + 8) {
+  --v: var(--color-hue-8);
 }

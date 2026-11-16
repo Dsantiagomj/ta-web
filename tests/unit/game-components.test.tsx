@@ -471,6 +471,14 @@ describe('IconWell', () => {
     // Un archivo más pequeño que el hueco no pasa de su tamaño con la raíz al 110 %.
     expect(html(<IconWell icon="xp" />)).toContain('style="--icon:min(1.5rem, 24px)"')
   })
+
+  it('dice qué lleva, para el color de su marco de rombo (game.css)', () => {
+    expect(html(<IconWell icon="kamas" />)).toContain('<span class="well" data-icon="kamas"')
+    // El jefe de una mazmorra es una imagen, pero su marco es el de las mazmorras.
+    const boss = { src: '/media/jefe.webp', width: 120, height: 144 }
+    expect(html(<IconWell image={boss} kind="dungeon" />)).toContain('data-icon="dungeon"')
+    expect(html(<IconWell image={boss} />)).not.toContain('data-icon')
+  })
 })
 
 describe('QuestSteps', () => {
