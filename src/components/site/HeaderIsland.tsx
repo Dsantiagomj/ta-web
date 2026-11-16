@@ -75,8 +75,7 @@ const typing = (target: EventTarget | null) =>
  * encuentra lo que enlaza el menú, las guías de misiones, las páginas de logro publicadas y
  * los metalogros. La primera vez que
  * se abre (nunca al cargar la página) carga con import() la búsqueda y sus resultados
- * (SearchList.tsx y search.ts) y pide el índice de la búsqueda; los guarda en memoria. Marca
- * la cabecera al bajar la página para que pase a opaca.
+ * (SearchList.tsx y search.ts) y pide el índice de la búsqueda; los guarda en memoria.
  */
 export function HeaderIsland({ index }: { index: SearchEntry[] }) {
   const dialog = useRef<HTMLDialogElement>(null)
@@ -93,7 +92,7 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
     [search, index, query],
   )
 
-  // Escucha los clics, las teclas, el foco y el scroll del documento (delegación).
+  // Escucha los clics, las teclas y el foco del documento (delegación).
   useEffect(() => {
     const header = document.querySelector<HTMLElement>('[data-site-header]')
     const sheet = document.getElementById('site-sheet') as HTMLDialogElement | null
@@ -202,7 +201,6 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
       if (item && !item.contains(event.relatedTarget as Node | null)) closePanels()
     }
 
-    const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8)
     const restore = (which: keyof typeof openers) => () => {
       openers[which]?.focus()
       openers[which] = null
@@ -210,7 +208,6 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
     const restoreSheet = restore('sheet')
     const restoreSearch = restore('search')
 
-    onScroll()
     // El script del <head> pudo cambiar el tema desde localStorage: el selector se pone al día.
     const picker = document.querySelector<HTMLElement>('[data-theme-picker]')
     if (picker && picker.dataset.current !== document.documentElement.dataset.theme)
@@ -220,7 +217,6 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
     document.addEventListener('click', onClick)
     document.addEventListener('keydown', onKey)
     document.addEventListener('focusout', onFocusOut)
-    window.addEventListener('scroll', onScroll, { passive: true })
     sheet?.addEventListener('close', restoreSheet)
     const search = dialog.current
     search?.addEventListener('close', restoreSearch)
@@ -229,7 +225,6 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
       document.removeEventListener('click', onClick)
       document.removeEventListener('keydown', onKey)
       document.removeEventListener('focusout', onFocusOut)
-      window.removeEventListener('scroll', onScroll)
       sheet?.removeEventListener('close', restoreSheet)
       search?.removeEventListener('close', restoreSearch)
     }

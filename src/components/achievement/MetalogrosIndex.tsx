@@ -1,3 +1,4 @@
+import { pageSection } from '@/components/site/nav'
 import { Picture } from '@/components/ui/Picture'
 import type { IndexAchievement, IndexView, IndexZone } from '@/lib/achievements/metalogros'
 import { metalogrosStrings as s } from '@/lib/achievements/strings'
@@ -151,7 +152,7 @@ export function MetalogrosIndex({
 }) {
   const zones = view.sections.flatMap((section) => section.zones)
   return (
-    <main id="contenido" className="idx vd">
+    <main id="contenido" className="idx vd" {...pageSection('misiones')}>
       <header className="idx__head">
         <h1 className="idx__t">{texts.title}</h1>
         <p className="idx__lead">{texts.lead}</p>

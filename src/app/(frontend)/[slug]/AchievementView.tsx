@@ -9,6 +9,7 @@ import {
 import { GuideRichText } from '@/components/game/GuideRichText'
 import { PageEnhancements } from '@/components/game/PageEnhancements'
 import { Breadcrumb } from '@/components/site/Breadcrumb'
+import { pageSection } from '@/components/site/nav'
 import { achievementPageView, type AchievementPageData } from '@/lib/achievements/page'
 import type { RichTextState } from '@/lib/guides/page'
 
@@ -42,6 +43,7 @@ export function AchievementView({
       <main
         id="contenido"
         className={hasSheet(view.facts, view.needs) ? 'logro logro--sheet' : 'logro'}
+        {...pageSection('misiones')}
       >
         <article className="logro__main">
           <Breadcrumb {...view.breadcrumb} />

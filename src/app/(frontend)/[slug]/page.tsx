@@ -14,6 +14,7 @@ import {
 } from '@/lib/guides/page'
 
 import { Breadcrumb } from '@/components/site/Breadcrumb'
+import { pageSection } from '@/components/site/nav'
 import { guideBreadcrumb } from '@/lib/achievements/page'
 import { achievementPageStrings } from '@/lib/achievements/strings'
 import { checklistRoute } from '@/lib/checklists/page'
@@ -171,7 +172,7 @@ function QuestGuideView({
   return (
     <div className="[--color-section:var(--color-sec-misiones)]">
       {preview && <PreviewBar slug={guide.slug} />}
-      <main id="contenido" className="quest">
+      <main id="contenido" className="quest" {...pageSection('misiones')}>
         <article>
           {crumbs && <Breadcrumb {...crumbs} />}
           <QuestHeader

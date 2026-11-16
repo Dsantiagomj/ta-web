@@ -520,7 +520,12 @@ export function SiteHeader({
             <ul role="list">
               {menuSections(sections).map((sec) =>
                 sec.soon ? (
-                  <li key={sec.key} className="site-nav__item" style={accent(sec)}>
+                  <li
+                    key={sec.key}
+                    className="site-nav__item"
+                    data-section={sec.key}
+                    style={accent(sec)}
+                  >
                     <span className="np np--soon" aria-disabled="true">
                       <StaticImg
                         className="np__i"
@@ -533,7 +538,12 @@ export function SiteHeader({
                     </span>
                   </li>
                 ) : !hasPanel(sec) ? (
-                  <li key={sec.key} className="site-nav__item" style={accent(sec)}>
+                  <li
+                    key={sec.key}
+                    className="site-nav__item"
+                    data-section={sec.key}
+                    style={accent(sec)}
+                  >
                     <a className="np" href={sec.href}>
                       <StaticImg
                         className="np__i"
@@ -546,7 +556,12 @@ export function SiteHeader({
                     </a>
                   </li>
                 ) : (
-                  <li key={sec.key} className="site-nav__item" style={accent(sec)}>
+                  <li
+                    key={sec.key}
+                    className="site-nav__item"
+                    data-section={sec.key}
+                    style={accent(sec)}
+                  >
                     <button
                       type="button"
                       className="np"
