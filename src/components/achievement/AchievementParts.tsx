@@ -168,7 +168,7 @@ function NeedsGroups({ id, needs }: { id: string; needs: Needs }) {
           {tasks.map(({ quantity, label, kind, boss }) => (
             <li key={label} className="row">
               {boss ? (
-                <IconWell image={boss} />
+                <IconWell image={boss} kind="dungeon" />
               ) : (
                 <IconWell icon={kind === 'dungeon' ? 'dungeon' : 'combat'} />
               )}

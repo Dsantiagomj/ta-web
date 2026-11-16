@@ -416,6 +416,39 @@ test.describe('página de logro', () => {
     }
   })
 
+  // Opción D de Torre: cada misión, cada fila de Necesitarás y cada tarjeta lleva uno de los
+  // ocho tonos en orden (--v); el número de la misión es un rombo lleno con la tinta de los tonos.
+  test('las misiones en rombos de su tono y las tarjetas de anterior y siguiente con su borde', async ({
+    page,
+  }) => {
+    await page.goto(url)
+    const rgb = (hex: string) =>
+      `rgb(${[1, 3, 5].map((at) => parseInt(hex.slice(at, at + 2), 16)).join(', ')})`
+    const token = (name: string) =>
+      page.evaluate(
+        (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim(),
+        name,
+      )
+    const numbers = page.locator('.lq__n')
+    for (const [at, n] of [
+      [0, 1],
+      [1, 2],
+    ] as const) {
+      const diamond = await numbers.nth(at).evaluate((el) => {
+        const s = getComputedStyle(el, '::before')
+        return { fill: s.backgroundColor, rotate: s.rotate, ink: getComputedStyle(el).color }
+      })
+      expect(diamond).toEqual({
+        fill: rgb(await token(`--color-hue-${n}`)),
+        rotate: '45deg',
+        ink: rgb(await token('--color-on-hue')),
+      })
+    }
+    const cards = page.locator('.lnav__card')
+    await expect(cards.first()).toHaveCSS('border-top-width', '2px')
+    await expect(cards.first()).toHaveCSS('border-top-color', rgb(await token('--color-hue-1')))
+  })
+
   test('la prosa de Torre: la entrada antes de las misiones y el cierre con su vídeo en fachada', async ({
     page,
   }) => {
