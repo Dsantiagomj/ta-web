@@ -234,6 +234,29 @@
   gap: 0.5rem;
 }
 
+/* Cada parte de la cabecera lleva su tono (opción D de Torre; theme.css, los tonos): lo toma
+   su título y el marco de los huecos de Prerrequisitos; el resto del texto sigue en tinta.
+   También en la ficha del logro (.lsheet) y en la guía de Dofus. Nunca en las checklists. */
+:is(.qhead__facts, .lsheet) section[aria-labelledby$='-pre'] {
+  --v: var(--color-hue-5);
+}
+
+:is(.qhead__facts, .lsheet) section[aria-labelledby$='-nec'] {
+  --v: var(--color-hue-1);
+}
+
+:is(.qhead__facts, .lsheet) section[aria-labelledby$='-rec'] {
+  --v: var(--color-hue-2);
+}
+
+:is(.qhead__facts, .lsheet) section[aria-labelledby] > :is(h2, h3) {
+  color: var(--v, var(--color-ink));
+}
+
+:is(.qhead__facts, .lsheet) section[aria-labelledby$='-pre'] .well {
+  --dia: var(--color-hue-5);
+}
+
 /* Las filas de la banda, en la misma línea de 40px: las primeras filas de cada parte
    quedan alineadas. */
 .facts .row {
@@ -342,7 +365,6 @@ ul.needs__notes {
 .needs__notes .well {
   width: 1.75rem;
   height: 1.75rem;
-  border-radius: 0.4375rem;
 }
 
 .needs__notes .well img {
@@ -399,7 +421,6 @@ ul.needs__notes {
 .rew-level .well {
   width: 2rem;
   height: 2rem;
-  border-radius: 0.5rem;
 }
 
 @container facts (min-width: 34rem) {
@@ -461,7 +482,7 @@ ul.needs__notes {
   }
 
   .bag__btn:hover .well {
-    border-color: var(--color-accent);
+    --dia: var(--color-accent);
   }
 }
 
@@ -554,20 +575,56 @@ ul.needs__notes {
 }
 
 /* El hueco de un icono a todo color, como una casilla del inventario (theme.css,
-   --color-slot). El icono nunca se recolorea. */
+   --color-slot), en un marco de rombo (opción D de Torre): un cuadrado girado detrás del
+   icono, con el relleno del hueco y un borde de 2px en el color del marco, --dia. Por
+   defecto, la línea del hueco; la XP, los kamas, los combates y mazmorras, la bolsa y los
+   Prerrequisitos llevan su tono, y un elemento de una lista con tono (--v), el suyo. El
+   icono nunca se recolorea. */
 .well {
+  --dia: var(--color-well-line);
+  position: relative;
+  isolation: isolate;
   display: grid;
   place-items: center;
   flex: none;
   width: 2.75rem;
   height: 2.75rem;
-  border: 1px solid var(--color-slot-line);
-  border-radius: 0.625rem;
-  background: var(--color-slot);
+}
+
+.well::before {
+  content: '';
+  position: absolute;
+  inset: 14%;
+  z-index: -1;
+  rotate: 45deg;
+  border: 2px solid var(--dia);
+  border-radius: 0.25rem;
+  background: var(--color-well);
+  transition: border-color var(--duration-fast) var(--ease-standard);
 }
 
 .well img {
   object-fit: contain;
+}
+
+:where(.lneeds__list > li, .metas > li, .dg-ql__i, .acards > li, .lnav__card) .well {
+  --dia: var(--v);
+}
+
+.well[data-icon='xp'] {
+  --dia: var(--color-hue-3);
+}
+
+.well[data-icon='kamas'] {
+  --dia: var(--color-hue-2);
+}
+
+.well:is([data-icon='combat'], [data-icon='dungeon']) {
+  --dia: var(--color-hue-1);
+}
+
+.well[data-icon='bag'] {
+  --dia: var(--color-hue-4);
 }
 
 /* ---------- combate ---------- */
@@ -600,11 +657,14 @@ ul.needs__notes {
   margin-top: 1.5rem;
   overflow: hidden;
   border: 1px solid var(--color-well-line);
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   background: var(--color-surface);
   color: var(--color-ink);
   text-decoration: none;
-  transition: border-color var(--duration-fast) var(--ease-standard);
+  transition:
+    border-color var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-out);
 }
 
 @media (min-width: 40rem) {
@@ -662,8 +722,10 @@ ul.needs__notes {
 }
 
 @media (hover: hover) and (pointer: fine) {
+  /* Las fichas que no se inclinan se realzan y, con movimiento, suben un poco (opción D). */
   .nextq:hover {
     border-color: var(--color-accent);
+    background: var(--color-raised);
   }
 
   .nextq .nextq__art img {
@@ -672,6 +734,12 @@ ul.needs__notes {
 
   .nextq:hover .nextq__art img {
     transform: none;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .nextq:hover {
+    transform: translateY(-0.125rem);
   }
 }
 
@@ -827,8 +895,12 @@ ul.needs__notes {
   opacity: 1;
 }
 
-.copyhost:has(.copyname[role='button']:focus-visible) :is(.well, .copywell) {
+.copyhost:has(.copyname[role='button']:focus-visible) .copywell {
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-accent) 55%, transparent);
+}
+
+.copyhost:has(.copyname[role='button']:focus-visible) .well {
+  --dia: var(--color-accent);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -844,8 +916,12 @@ ul.needs__notes {
     opacity: 1;
   }
 
-  .copyhost:has(.copyname[role='button']:hover) :is(.well, .copywell) {
+  .copyhost:has(.copyname[role='button']:hover) .copywell {
     box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-accent) 55%, transparent);
+  }
+
+  .copyhost:has(.copyname[role='button']:hover) .well {
+    --dia: var(--color-accent);
   }
 }
 
@@ -961,11 +1037,15 @@ ul.needs__notes {
   object-fit: cover;
 }
 
+/* El bocadillo entero, cola incluida, en una línea de 2px del tono 6 (opción D de Torre). La
+   cola lleva el borde en sus dos lados de fuera y su centro cae en medio del borde de la
+   caja (-0.5rem - 1px), así que tapa el borde de la caja por dentro y la línea nunca se
+   corta. */
 .torre__box {
   position: relative;
   padding: 1.125rem 1.375rem 1.25rem;
-  border: 1px solid var(--color-well-line);
-  border-radius: 1rem;
+  border: 2px solid var(--color-hue-6);
+  border-radius: 0.5rem;
   background: var(--color-surface);
   color: var(--color-ink);
 }
@@ -974,11 +1054,12 @@ ul.needs__notes {
   content: '';
   position: absolute;
   top: 1.625rem;
-  left: -0.5625rem;
+  left: calc(-0.5rem - 1px);
   width: 1rem;
   height: 1rem;
-  border-bottom: 1px solid var(--color-well-line);
-  border-left: 1px solid var(--color-well-line);
+  border: 0 solid var(--color-hue-6);
+  border-bottom-width: 2px;
+  border-left-width: 2px;
   background: var(--color-surface);
   transform: rotate(45deg);
 }
@@ -1022,7 +1103,7 @@ ul.needs__notes {
   }
 
   .torre__box::before {
-    top: -0.5625rem;
+    top: calc(-0.5rem - 1px);
     left: 2.125rem;
     transform: rotate(135deg);
   }

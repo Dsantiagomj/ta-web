@@ -50,7 +50,7 @@ function RewardBag({ id, items }: { id: string; items: QuestHeaderData['rewards'
  */
 function NoteSlot({ note }: { note: QuestFactsData['needs']['notes'][number] }) {
   if (note.dungeon) {
-    return note.boss ? <IconWell image={note.boss} /> : <IconWell icon="dungeon" />
+    return note.boss ? <IconWell image={note.boss} kind="dungeon" /> : <IconWell icon="dungeon" />
   }
   return note.combat ? <IconWell icon="combat" /> : null
 }

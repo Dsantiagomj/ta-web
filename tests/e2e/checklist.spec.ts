@@ -71,6 +71,49 @@ test.describe('página de una checklist', () => {
     await expectFilledButton(complete)
   })
 
+  // Opción D de Torre: una checklist va en un solo color, el acento; ningún tono por elemento.
+  test('un solo color: los números y el paso abierto en el acento, las misiones con su línea', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto(url)
+    const token = (name: string) =>
+      page.evaluate((n) => {
+        const probe = document.createElement('span')
+        probe.style.color = `var(${n})`
+        document.body.append(probe)
+        const value = getComputedStyle(probe).color
+        probe.remove()
+        return value
+      }, name)
+    const accent = await token('--color-accent')
+    for (const n of await page.locator('.ck-row__n').all())
+      await expect(n).toHaveCSS('color', accent)
+    await expect(page.locator('.ck-row__z').first()).toHaveCSS(
+      'color',
+      await token('--color-muted'),
+    )
+    await expect(page.locator('.ck-row[aria-current="true"]')).toHaveCSS(
+      'box-shadow',
+      `${accent} 0px 0px 0px 2px inset`,
+    )
+    const quest = step(page, 1).locator('.ck-q').first()
+    await expect(quest).toHaveCSS('border-top-width', '1px')
+    await expect(quest).toHaveCSS('border-top-color', await token('--color-line'))
+    await quest.hover()
+    await expect(quest).toHaveCSS('border-top-color', accent)
+    await expect(page.locator('.ck .progress__fill')).toHaveCSS('background-color', accent)
+    // Ningún elemento de la página lleva un tono de la variedad.
+    expect(
+      await page.evaluate(
+        () =>
+          [...document.querySelectorAll('main *')].filter(
+            (el) => getComputedStyle(el).getPropertyValue('--v').trim() !== '',
+          ).length,
+      ),
+    ).toBe(0)
+  })
+
   test('el texto de Torre tal cual, con el logro enlazado, y la misión con su guía y su nivel', async ({
     page,
   }) => {
