@@ -3,11 +3,12 @@ import type { CSSProperties, ReactNode } from 'react'
 import { Lockup } from '@/components/brand/Lockup'
 import { GAME_ICONS } from '@/components/game/game-icons'
 import { ModeToggle } from '@/components/mode-toggle/ModeToggle'
+import { ThemePicker } from '@/components/theme-picker/ThemePicker'
 import { Amount } from '@/components/ui/Amount'
 import { iconSize } from '@/components/ui/icon-size'
 import type { PageNavItem } from '@/lib/pages/page'
 import type { SiteSocials } from '@/lib/site-copy/defaults'
-import type { Mode } from '@/lib/theme/theme'
+import { DEFAULT_THEME, type Mode, type Theme } from '@/lib/theme/theme'
 
 import { HeaderIsland } from './HeaderIsland'
 import { ArrowIcon, ChevronIcon, CloseIcon, MenuIcon, SearchIcon, SocialIcon } from './icons'
@@ -476,7 +477,7 @@ function Sheet({
  * La cabecera de todo el sitio (DESIGN.md, Layout: Header): el logo Sello, un desplegable
  * por sección con su ficha y su arte (Dofus y checklists comparten panel), en el orden y con
  * los nombres de «Navegación», la búsqueda con
- * Ctrl K, el interruptor de modo y, por debajo de 1120px, el menú del móvil. Todo se pinta
+ * Ctrl K, el selector de tema, el interruptor de modo y, por debajo de 1120px, el menú del móvil. Todo se pinta
  * en el servidor; la isla abre y cierra los paneles, el menú y la búsqueda.
  */
 export function SiteHeader({
@@ -485,6 +486,7 @@ export function SiteHeader({
   checklists,
   pages = [],
   initialMode,
+  initialTheme = DEFAULT_THEME,
   socials,
   sections = SECTIONS,
   featured = DOFUS_FEATURED,
@@ -497,6 +499,8 @@ export function SiteHeader({
   /** Las páginas sueltas, solo para la búsqueda (loadPageNav). */
   pages?: PageNavItem[]
   initialMode: Mode
+  /** El tema que pintó el servidor; sin él, el de por defecto. */
+  initialTheme?: Theme
   /** Las redes de «Ajustes del sitio», para el menú del móvil; sin ellas, las de siempre. */
   socials?: SiteSocials
   /** Las secciones de «Navegación», en su orden y sin las ocultas (resolveNavigation). */
@@ -580,6 +584,7 @@ export function SiteHeader({
             <button type="button" className="ib sbtn" aria-label={s.searchLabel} data-open-search>
               <SearchIcon />
             </button>
+            <ThemePicker initialTheme={initialTheme} initialMode={initialMode} />
             <ModeToggle initialMode={initialMode} />
             <button
               type="button"

@@ -33,7 +33,6 @@
 }
 
 /* Arcano: motas arcanas, del acento y del acento 2, que suben y se mecen. */
-:root,
 [data-theme='arcano'][data-mode='dark'] {
   --amb-bg: radial-gradient(circle, #fff 0%, var(--t-accent) 42%, transparent 72%);
   --amb-bg-2: radial-gradient(circle, #fff 0%, var(--t-accent-2) 42%, transparent 72%);
@@ -48,7 +47,8 @@
   --amb-glow-2: transparent;
 }
 
-/* Amakna: luciérnagas en el oscuro; hojas que caen en el claro. */
+/* Amakna, el tema por defecto: luciérnagas en el oscuro; hojas que caen en el claro. */
+:root,
 [data-theme='amakna'][data-mode='dark'] {
   --amb-bg: radial-gradient(
     circle,
