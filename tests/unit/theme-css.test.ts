@@ -191,3 +191,79 @@ describe('los colores del pie de theme.css', () => {
     }
   })
 })
+
+// Los ocho tonos de la variedad (opción D): cada elemento de una lista, una ficha o un
+// apartado de la cabecera lleva uno, como texto de su título, borde o relleno. Iguales en
+// todos los temas, por modo: vivos en el oscuro, hondos en el claro. on-hue es la tinta
+// sobre un relleno de tono (el número de una misión del logro, la etiqueta de un Dofus).
+describe('los tonos de theme.css', () => {
+  const HUES = ['hue-1', 'hue-2', 'hue-3', 'hue-4', 'hue-5', 'hue-6', 'hue-7', 'hue-8'] as const
+  const TEXT_GROUNDS = ['bg', 'surface'] as const
+
+  it('son los del prototipo, con la tinta oscura en el modo oscuro y blanca en el claro', () => {
+    expect(modeValues('dark')).toMatchObject({
+      'hue-1': '#ff6b5a',
+      'hue-2': '#f2c14e',
+      'hue-3': '#b5e04a',
+      'hue-4': '#5cb8ff',
+      'hue-5': '#45cdb9',
+      'hue-6': '#b08bff',
+      'hue-7': '#ff9d47',
+      'hue-8': '#ff7fb6',
+      'on-hue': '#14110e',
+    })
+    expect(modeValues('light')).toMatchObject({
+      'hue-1': '#c23a28',
+      'hue-2': '#946400',
+      'hue-3': '#4b7610',
+      'hue-4': '#1d68ae',
+      'hue-5': '#0f7a6a',
+      'hue-6': '#6744c4',
+      'hue-7': '#ad540c',
+      'hue-8': '#b23672',
+      'on-hue': '#ffffff',
+    })
+  })
+
+  // Como texto, un tono va sobre el fondo o la superficie (los títulos de los apartados, el
+  // antetítulo de una ficha). Sobre raised (el hover de una ficha, el hueco de un icono en
+  // el modo claro) solo va como borde o marco, que pide 3:1: los tonos hondos del claro
+  // bajan a 4,01 sobre el raised del Ocre.
+  it('cada tono se lee como texto (4,5:1) sobre el fondo y la superficie de cada tema, y como borde (3:1) sobre raised', () => {
+    for (const theme of THEMES) {
+      for (const mode of MODES) {
+        const hues = modeValues(mode)
+        const values = palette[`${theme}-${mode}`]
+        for (const hue of HUES) {
+          for (const ground of TEXT_GROUNDS) {
+            expect(
+              contrastRatio(hues[hue], values[ground]),
+              `${theme}-${mode}: ${hue} sobre ${ground}`,
+            ).toBeGreaterThanOrEqual(4.5)
+          }
+          expect(
+            contrastRatio(hues[hue], values.raised),
+            `${theme}-${mode}: ${hue} sobre raised`,
+          ).toBeGreaterThanOrEqual(3)
+        }
+      }
+    }
+  })
+
+  it('la tinta on-hue se lee (4,5:1) sobre cada tono', () => {
+    for (const mode of MODES) {
+      const values = modeValues(mode)
+      for (const hue of HUES) {
+        expect(
+          contrastRatio(values['on-hue'], values[hue]),
+          `${mode}: on-hue sobre ${hue}`,
+        ).toBeGreaterThanOrEqual(4.5)
+      }
+    }
+  })
+
+  it('expone los tonos como tokens semánticos', () => {
+    const tokens = semanticTokens.map(({ token }) => token)
+    for (const token of [...HUES, 'on-hue']) expect(tokens).toContain(`--color-${token}`)
+  })
+})
