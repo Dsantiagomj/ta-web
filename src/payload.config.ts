@@ -29,6 +29,7 @@ import { gameDataRefreshEndpoint } from './endpoints/game-data-refresh'
 import { ChecklistsIndex } from './globals/ChecklistsIndex'
 import { DofusGuidesIndex } from './globals/DofusGuidesIndex'
 import { IndexTexts } from './globals/IndexTexts'
+import { Navigation } from './globals/Navigation'
 import { SiteSettings } from './globals/SiteSettings'
 import { healthEndpoint } from './endpoints/health'
 import { readyEndpoint } from './endpoints/ready'
@@ -98,7 +99,7 @@ export default buildConfig({
     Redirects,
     Users,
   ]),
-  globals: [DofusGuidesIndex, ChecklistsIndex, SiteSettings, IndexTexts],
+  globals: [DofusGuidesIndex, ChecklistsIndex, SiteSettings, IndexTexts, Navigation],
   editor: lexicalEditor({ admin: { placeholder: panelStrings.editorPlaceholder } }),
   // GET /api/health, la comprobación de vida que llaman los monitores (nunca toca la base);
   // GET /api/ready, la de la base, para los smoke tests tras un despliegue;

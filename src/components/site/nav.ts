@@ -16,7 +16,12 @@ import { CHECKLISTS_INDEX_PATH } from '@/lib/checklists/path'
 import { DOFUS_INDEX_PATH } from '@/lib/dofus-guides/page'
 import type { PageNavItem } from '@/lib/pages/page'
 import { legacyHref } from '@/lib/site/legacy'
-import { type SiteSocials, siteSettingsDefaults } from '@/lib/site-copy/defaults'
+import {
+  navigationDefaults,
+  type SectionKey,
+  type SiteSocials,
+  siteSettingsDefaults,
+} from '@/lib/site-copy/defaults'
 
 import { siteShellStrings } from './strings'
 
@@ -35,7 +40,7 @@ export interface NavLink {
   description?: string
 }
 
-export type SectionKey = 'misiones' | 'dofus' | 'checklists' | 'clases' | 'mazmorras'
+export type { SectionKey }
 
 export interface Section {
   key: SectionKey
@@ -43,6 +48,8 @@ export interface Section {
   label: string
   /** El nombre completo, el del pie y la ficha del panel. */
   title: string
+  /** La frase bajo el nombre en el panel y el móvil; vacía, la cifra de la sección. */
+  description: string
   href: string
   icon: GameImage
   /** El acento de la sección (DESIGN.md, Section accents). */
@@ -64,10 +71,11 @@ export interface DofusNavItem {
   image?: GameImage
 }
 
-/** Los tres huevos de la tarjeta de las guías de Dofus del menú. */
-export const DOFUS_FEATURED: GameImage[] = (
-  ['dofus-turquesa', 'dofus-esmeralda', 'dofus-ocre'] as const
-).map(egg)
+/**
+ * Los tres huevos de siempre de la tarjeta de las guías de Dofus del menú, mientras Torre no
+ * elija otros en «Navegación» (resolveNavigation).
+ */
+export const DOFUS_FEATURED: GameImage[] = navigationDefaults.featuredDofus.map(egg)
 
 /**
  * Una checklist del menú, del pie y de la portada, de su colección (loadChecklistNav): con
@@ -108,47 +116,55 @@ export const DUNGEONS: NavLink[] = [
   { name: t.dungeons.kao, href: legacyHref('mazmorra-templo-del-dios-kao') },
 ]
 
-// Clases y Mazmorras aún no tienen páginas aquí: salen con «Próximamente» y sin enlace en el
-// menú, el móvil, el pie y la portada. Sus listas siguen aquí para cuando lleguen.
-export const SECTIONS: Section[] = [
-  {
-    key: 'misiones',
-    ...t.sections.misiones,
-    href: '/metalogros',
-    icon: GAME_ICONS.quest,
-    accent: 'var(--color-sec-misiones)',
-  },
-  {
-    key: 'dofus',
-    ...t.sections.dofus,
+/** Lo que va en el código de cada sección: su dirección, su icono y su color. */
+const SECTION_CODE: Record<SectionKey, Pick<Section, 'href' | 'icon' | 'accent'>> = {
+  misiones: { href: '/metalogros', icon: GAME_ICONS.quest, accent: 'var(--color-sec-misiones)' },
+  dofus: {
     href: DOFUS_INDEX_PATH,
     icon: egg('dofus-esmeralda'),
     accent: 'var(--color-sec-dofus)',
   },
-  {
-    key: 'checklists',
-    ...t.sections.checklists,
+  checklists: {
     href: CHECKLISTS_INDEX_PATH,
     icon: { src: '/img/game/checklists/silvestre.webp', size: 200 },
     accent: 'var(--color-sec-checklists)',
   },
-  {
-    key: 'clases',
-    ...t.sections.clases,
+  clases: {
     href: legacyHref('clases-1'),
     icon: head('feca'),
     accent: 'var(--color-sec-clases)',
-    soon: true,
   },
-  {
-    key: 'mazmorras',
-    ...t.sections.mazmorras,
+  mazmorras: {
     href: DUNGEONS[1].href,
     icon: DUNGEONS[1].image!,
     accent: 'var(--color-sec-mazmorras)',
-    soon: true,
   },
-]
+}
+
+/**
+ * Una sección con lo que Torre escribe en «Navegación» (los nombres, la frase, si está
+ * próximamente) y lo que va en el código.
+ */
+export function navSection({
+  key,
+  label,
+  title,
+  description,
+  soon,
+}: {
+  key: SectionKey
+  label: string
+  title: string
+  description: string
+  soon: boolean
+}): Section {
+  return { key, label, title, description, ...SECTION_CODE[key], ...(soon && { soon: true }) }
+}
+
+// Las secciones de siempre, en su orden: las del menú mientras Torre no guarde «Navegación».
+// Clases y Mazmorras aún no tienen páginas aquí: salen con «Próximamente» y sin enlace en el
+// menú, el móvil, el pie y la portada. Sus listas siguen aquí para cuando lleguen.
+export const SECTIONS: Section[] = navigationDefaults.sections.map(navSection)
 
 export const section = (key: SectionKey) => SECTIONS.find((s) => s.key === key)!
 
@@ -235,20 +251,23 @@ export const TOP_ANCHOR = 'arriba'
  * Lo que enlaza el menú, para la búsqueda de la cabecera. Las misiones llegan aparte. Lo que
  * aún no tiene página (Clases, Mazmorras, los Dofus en preparación) no se encuentra; una
  * checklist En preparación, solo si enlaza a Squarespace, como en el menú. Las páginas
- * sueltas (loadPageNav), solo las que se abren aquí.
+ * sueltas (loadPageNav), solo las que se abren aquí. Las secciones, las de «Navegación».
  */
 export function searchIndex(
   dofus: DofusNavItem[] = [],
   checklists: ChecklistNavItem[] = [],
   pages: PageNavItem[] = [],
+  sections: Section[] = SECTIONS,
 ): SearchEntry[] {
   return [
-    ...SECTIONS.filter((sec) => !sec.soon).map(({ title, href, icon }) => ({
-      type: 'seccion' as const,
-      name: title,
-      href,
-      image: icon,
-    })),
+    ...sections
+      .filter((sec) => !sec.soon)
+      .map(({ title, href, icon }) => ({
+        type: 'seccion' as const,
+        name: title,
+        href,
+        image: icon,
+      })),
     ...dofus.flatMap(({ name, href, image }) =>
       href ? [{ type: 'dofus' as const, name, href, image }] : [],
     ),

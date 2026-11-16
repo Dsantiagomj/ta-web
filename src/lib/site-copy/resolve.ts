@@ -11,10 +11,11 @@ import { isWebUrl } from './link'
 
 type Stored = Record<string, unknown>
 
-const asRecord = (value: unknown): Stored =>
+export const asRecord = (value: unknown): Stored =>
   value && typeof value === 'object' && !Array.isArray(value) ? (value as Stored) : {}
 
-const filled = (value: unknown): value is string => typeof value === 'string' && !!value.trim()
+export const filled = (value: unknown): value is string =>
+  typeof value === 'string' && !!value.trim()
 
 /**
  * Los textos de siempre con lo guardado encima, campo a campo: un texto escrito gana, uno

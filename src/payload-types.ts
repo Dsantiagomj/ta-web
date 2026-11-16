@@ -124,12 +124,14 @@ export interface Config {
     'checklists-index': ChecklistsIndex;
     'site-settings': SiteSetting;
     'index-texts': IndexText;
+    navigation: Navigation;
   };
   globalsSelect: {
     'dofus-guides-index': DofusGuidesIndexSelect<false> | DofusGuidesIndexSelect<true>;
     'checklists-index': ChecklistsIndexSelect<false> | ChecklistsIndexSelect<true>;
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
     'index-texts': IndexTextsSelect<false> | IndexTextsSelect<true>;
+    navigation: NavigationSelect<false> | NavigationSelect<true>;
   };
   locale: 'es';
   widgets: {
@@ -3619,6 +3621,50 @@ export interface IndexText {
   createdAt?: string | null;
 }
 /**
+ * Las secciones del menú de arriba, del menú del móvil, del pie y de la portada: su nombre, su frase, su orden y si salen. También los tres Dofus de la tarjeta de las guías de Dofus del menú. Si dejas un nombre vacío, la web pone el de siempre.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "navigation".
+ */
+export interface Navigation {
+  id: number;
+  /**
+   * Arrastra una sección para cambiar su sitio en el menú y en el pie. Lo que no cambia es adónde lleva, su dibujo ni su color.
+   */
+  sections?:
+    | {
+        key: 'misiones' | 'dofus' | 'checklists' | 'clases' | 'mazmorras';
+        /**
+         * El botón del menú de arriba, en el ordenador. Mejor corto.
+         */
+        label?: string | null;
+        /**
+         * En el pie, en el menú del móvil y en la búsqueda.
+         */
+        title?: string | null;
+        /**
+         * Bajo el nombre, en el menú. Si la dejas vacía, sale la cifra de guías, de clases o de mazmorras.
+         */
+        description?: string | null;
+        /**
+         * Desmárcala para quitar la sección del menú, del pie y de la portada.
+         */
+        visible?: boolean | null;
+        /**
+         * Sale apagada, con «Próximamente» y sin enlace: para lo que aún no tiene páginas.
+         */
+        soon?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Los tres huevos de la tarjeta «Guías de Dofus» del menú de arriba, en este orden. Elige tres guías publicadas, o ninguna para dejar los de siempre.
+   */
+  featuredDofus?: (number | DofusGuide)[] | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "dofus-guides-index_select".
  */
@@ -3812,6 +3858,27 @@ export interface IndexTextsSelect<T extends boolean = true> {
               description?: T;
             };
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "navigation_select".
+ */
+export interface NavigationSelect<T extends boolean = true> {
+  sections?:
+    | T
+    | {
+        key?: T;
+        label?: T;
+        title?: T;
+        description?: T;
+        visible?: T;
+        soon?: T;
+        id?: T;
+      };
+  featuredDofus?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

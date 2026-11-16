@@ -116,6 +116,8 @@ export const GLOBAL_REFERRERS: Partial<Record<ReferencedCollection, GlobalReferr
     },
     { global: 'site-settings', title: 'Ajustes del sitio', paths: ['ogImage'] },
   ],
+  // Los huevos de la tarjeta de las guías de Dofus del menú.
+  'dofus-guides': [{ global: 'navigation', title: 'Navegación', paths: ['featuredDofus'] }],
 }
 
 const at = (doc: unknown, path: string): unknown =>
@@ -144,7 +146,9 @@ async function globalReferences(
         overrideAccess: true,
         req,
       })
-      return paths.some((path) => String(idOf(at(doc, path))) === String(id)) ? [title] : []
+      // Un campo de varios (los Dofus destacados) guarda una lista.
+      const ids = paths.flatMap((path) => [at(doc, path)].flat().map(idOf))
+      return ids.some((value) => String(value) === String(id)) ? [title] : []
     }),
   )
   return names.flat()
