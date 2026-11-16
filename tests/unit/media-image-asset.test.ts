@@ -118,6 +118,34 @@ describe('mediaImageAsset', () => {
     })
   })
 
+  it('un GIF animado solo tiene WebP (animados): sin AVIF, y el visor abre el GIF', () => {
+    const asset = mediaImageAsset(
+      media({
+        url: '/api/media/file/espada.gif',
+        filename: 'espada.gif',
+        mimeType: 'image/gif',
+        width: 800,
+        height: 477,
+        sizes: {
+          'webp-480': variant('webp', 480, 286),
+          'webp-800': variant('webp', 800, 477),
+          'avif-480': empty,
+          'avif-800': empty,
+        },
+      }),
+    )
+    expect(asset).toEqual({
+      src: '/api/media/file/zaap-800x477.webp',
+      width: 800,
+      height: 477,
+      srcSet: [
+        { src: '/api/media/file/zaap-480x286.webp', width: 480 },
+        { src: '/api/media/file/zaap-800x477.webp', width: 800 },
+      ],
+      original: { src: '/api/media/file/espada.gif', width: 800, height: 477 },
+    })
+  })
+
   it('sin variantes, el original con su tamaño, hasta que se generen', () => {
     expect(mediaImageAsset(media({ sizes: undefined }))).toEqual({
       src: '/api/media/file/zaap.png',

@@ -22,3 +22,9 @@ overrides:
   # Solo la rama 10 (typescript-eslint). La rama 3 la usan plugins de ESLint que llaman
   # a minimatch como función, y la 11 ya no lo permite.
   minimatch@10: 11.0.1
+
+# Arreglos propios sobre dependencias. Al subir de versión, pnpm falla si el parche no aplica:
+# hay que rehacerlo (pnpm patch) o quitarlo si la versión nueva ya lo trae.
+patchedDependencies:
+  # Sin AVIF para imágenes animadas: sharp apila los fotogramas en una tira (AGENTS.md, Media).
+  payload@3.92.1: patches/payload@3.92.1.patch

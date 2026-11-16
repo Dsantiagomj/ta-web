@@ -1,0 +1,18 @@
+diff --git a/dist/uploads/image-resizing/createImageSizes.js b/dist/uploads/image-resizing/createImageSizes.js
+index 9fa23ae83b25a515bbb55d563a40aefd25396ee8..efa6ca2f1bf88b528b0b18845e46ea5a7ba69a87 100644
+--- a/dist/uploads/image-resizing/createImageSizes.js
++++ b/dist/uploads/image-resizing/createImageSizes.js
+@@ -60,6 +60,13 @@ export async function createImageSizes({ config, dimensions, file, focalPoint, m
+             sizes[imageResizeConfig.name] = createImageSize({});
+             return;
+         }
++        // ta-web: el AVIF de sharp (libheif) no tiene animación. Con una entrada de varios
++        // fotogramas (GIF, WebP o TIFF animado) escribiría una tira con los fotogramas apilados,
++        // y falla con «heifsave: image too large» en cuanto pasa de 16384 px. Se omite el AVIF.
++        if (fileIsAnimatedType && (originalImageMeta.pages ?? 1) > 1 && imageResizeConfig.formatOptions?.format === 'avif') {
++            sizes[imageResizeConfig.name] = createImageSize({});
++            return;
++        }
+         const imageToResize = sharpBase.clone();
+         let resized = imageToResize;
+         if (resizeAction === 'resizeWithFocalPoint') {
