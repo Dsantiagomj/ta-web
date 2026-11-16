@@ -444,6 +444,18 @@ test.describe('página de logro', () => {
         ink: rgb(await token('--color-on-hue')),
       })
     }
+    // Los títulos de la ficha, cada uno en el tono de su parte.
+    const sheet = page.locator('.lsheet')
+    for (const [name, n] of [
+      ['Prerrequisitos', 5],
+      ['Necesitarás en total', 1],
+      ['Recompensas del logro', 2],
+    ] as const) {
+      await expect(sheet.getByRole('heading', { name, exact: true })).toHaveCSS(
+        'color',
+        rgb(await token(`--color-hue-${n}`)),
+      )
+    }
     const cards = page.locator('.lnav__card')
     await expect(cards.first()).toHaveCSS('border-top-width', '2px')
     await expect(cards.first()).toHaveCSS('border-top-color', rgb(await token('--color-hue-1')))
