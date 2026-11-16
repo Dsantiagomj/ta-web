@@ -321,6 +321,19 @@ Status colors and section accents are fixed per mode and shared by all five them
 | `--color-danger` | `#f28466` | 5.70 (Bonta raised) | `#a8381f` | 5.03 (Ocre raised) |
 | `--color-info` | `#8fc3e8` | 7.68 (Bonta raised) | `#1d5f86` | 5.39 (Ocre raised) |
 
+### Footer brand colors
+
+Decided 2026-11-16 with Torre's color design (option D): the footer's Discord and Ko-fi cards are flat fills in their brand colors, the same in every theme, per mode. They are tokens in `theme.css` (`[data-mode]` blocks), and `tests/unit/theme-css.test.ts` checks each text pair at 4.5:1, hover included.
+
+| Token | Dark | Light | Text on it |
+|---|---|---|---|
+| `--color-discord` | `#7c52e8` | `#6a42d8` | `--color-discord-ink` `#ffffff`: 4.97 dark, 6.21 light |
+| `--color-discord-hi` (hover) | `#8259ec` | `#7650e2` | 4.58 dark, 5.23 light |
+| `--color-kofi` | `#f2c14e` | `#f2c14e` | `--color-kofi-ink` `#241a00`: 10.23 |
+| `--color-kofi-hi` (hover) | `#f6cf6e` | `#f6cf6e` | 11.51 |
+
+The prototype's dark Discord hover, `#8a63f0`, gives white text 4.10:1; `#8259ec` is the lightest step of the same violet that keeps 4.5:1.
+
 ### Section accents
 
 Decided 2026-11-02: each section gets a subtle accent of its own. It is used only for details: the card border, the ring of the icon well in the menu, and the section label. It never fills a button, never colors body text and never replaces `accent` or `accent-2` in their jobs. Pages set it once with `--color-section` on the section's root, so components read one variable.
@@ -503,10 +516,10 @@ Decided 2026-11-05: Torre chose proposal C, "Emblema" (https://ta-prototipos.net
     - **Cap and status**: up to 50 matching quests all show and the line counts them ("1 misión", "12 misiones"); above 50 the best 20 show and the line says "Más de 50 misiones: sigue escribiendo". Menu matches add " · 2 resultados del menú". With no quest: "Ninguna misión se llama «…». Prueba con otra palabra.", or "Ninguna misión; 2 resultados del menú." when the menu matches.
     - **Results**: each quest has the quest icon, the title and a second line with its level and achievement ("Nivel 20 · La ocasión hace al ladrón"). Every occurrence of every word is marked (`<mark class="hit">`: weight 800 and a 2px `--color-accent` underline, no fill), matched accent-insensitive on the original text. Groups order by their best match, with Misiones first on a tie and the menu groups after it in menu order. The Misiones panel button reads "Buscar una misión".
   - **Links**: pages the app does not have yet link to the Squarespace site with the same slug (`src/lib/site/legacy.ts`).
-- **Footer** (decided 2026-11-07, same prototype). `SiteFooter` in `src/components/site/`. Three columns from 1120px, two from 768px, one below:
+- **Footer** (decided 2026-11-07, same prototype; colors from Torre's color design, option D, 2026-11-16). `SiteFooter` in `src/components/site/`. Its background is `--color-bar` with a 1px `--color-line` top border in dark mode, and `--color-raised` with no border in light mode. Three columns from 1120px, two from 768px, one below:
   - **Torre**: his cut-out avatar (lazy; its shadow is a radial gradient behind it, never a CSS `filter`: with a filter Chrome counts the image as a larger box than it draws, and on a short page like `/checklists` the late portrait became the phone LCP, 3.6 s in Lighthouse CI), "Torre" in `--color-accent-2`, "Juega a Dofus en directo y escribe todas las guías de esta web." and a card that says where he streams. It shows "Torre está en directo" only once the Twitch live state exists (planned in `src/globals/`).
   - **Explorar**: the five sections under an accent eyebrow: Misiones y logros, Dofus and Checklists as plain links, Clases and Mazmorras as text with the «Próximamente» tag (see Header).
-  - **Comunidad**: the "Únete al Discord" card, the "Apoya en Ko-fi" card (accent outline), then "Sigue a Torre" with Twitch, Kick and YouTube as inventory slots with their handles, and "Volver arriba". Each link appears once in the footer.
+  - **Comunidad**: the "Únete al Discord" card (a flat `--color-discord` fill, hover `--color-discord-hi`, with its title, line and icon in white; the icon sits in a 20 percent black well), the "Apoya en Ko-fi" card (a flat `--color-kofi` fill, hover `--color-kofi-hi`, with the title, the line and the cup in `--color-kofi-ink`; until 2026-11-16 it had an accent outline and the cup in `--color-accent`, illegible lime on gold once filled), both with a 10px radius, Lexend 700 titles, no border or shadow and `scale(.97)` when pressed, then "Sigue a Torre" with Twitch, Kick and YouTube as inventory slots with their handles, and "Volver arriba". Each link appears once in the footer.
   - **Volver arriba** links to `#arriba`, the id of `<body>`. The page scrolls smoothly to the top (`scroll-behavior: smooth` on `html` under `prefers-reduced-motion: no-preference`; it jumps under reduced motion), and the next Tab lands on the skip link, as on a fresh load. `<html data-scroll-behavior="smooth">` tells Next to turn smooth scrolling off during route changes.
   - **Legal band**: the small Sello lockup, Aviso legal, Política de cookies, Política de privacidad, the copyright year, and the Ankama disclaimer. Each legal link goes to its site page once it is Publicada, and to Torre's Squarespace page while it is «En preparación» or does not exist yet (`legalLinks` in `nav.ts`, from `loadPageNav`).
   - No Instagram, no floating support button.

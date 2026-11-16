@@ -128,3 +128,66 @@ describe('las paletas de theme.css', () => {
     }
   })
 })
+
+// Los colores de marca del pie, iguales en los cuatro temas: el Discord violeta y el Ko-fi
+// dorado (opción D). Van por modo, en los bloques [data-mode] de theme.css.
+const modeValues = (mode: string) => {
+  const values: Record<string, string> = {}
+  const blocks = css.matchAll(/(?::root,\s*)?\[data-mode='(\w+)'\]\s*\{([^}]*)\}/g)
+  for (const [, blockMode, body] of blocks) {
+    if (blockMode !== mode) continue
+    for (const [, name, value] of body.matchAll(/--t-([\w-]+):\s*([^;]+);/g)) {
+      values[name] = value.trim()
+    }
+  }
+  return values
+}
+
+describe('los colores del pie de theme.css', () => {
+  const BRAND_PAIRS = [
+    ['discord-ink', 'discord'],
+    ['discord-ink', 'discord-hi'],
+    ['kofi-ink', 'kofi'],
+    ['kofi-ink', 'kofi-hi'],
+  ] as const
+
+  it('el Discord es violeta, el Ko-fi dorado con tinta oscura, en los dos modos', () => {
+    expect(modeValues('dark')).toMatchObject({
+      discord: '#7c52e8',
+      'discord-ink': '#ffffff',
+      kofi: '#f2c14e',
+      'kofi-hi': '#f6cf6e',
+      'kofi-ink': '#241a00',
+    })
+    expect(modeValues('light')).toMatchObject({
+      discord: '#6a42d8',
+      'discord-ink': '#ffffff',
+      kofi: '#f2c14e',
+      'kofi-hi': '#f6cf6e',
+      'kofi-ink': '#241a00',
+    })
+  })
+
+  it('cada texto sobre su relleno, también al pasar el ratón, pasa el AA (4,5:1)', () => {
+    for (const mode of MODES) {
+      const values = modeValues(mode)
+      for (const [fg, bg] of BRAND_PAIRS) {
+        expect(
+          contrastRatio(values[fg], values[bg]),
+          `${mode}: ${fg} sobre ${bg}`,
+        ).toBeGreaterThanOrEqual(4.5)
+      }
+      // Al pasar el ratón, un poco más claro.
+      expect(contrastRatio('#ffffff', values['discord-hi']), mode).toBeLessThan(
+        contrastRatio('#ffffff', values.discord),
+      )
+    }
+  })
+
+  it('expone los colores del pie como tokens semánticos', () => {
+    const tokens = semanticTokens.map(({ token }) => token)
+    for (const token of ['discord', 'discord-hi', 'discord-ink', 'kofi', 'kofi-hi', 'kofi-ink']) {
+      expect(tokens).toContain(`--color-${token}`)
+    }
+  })
+})
