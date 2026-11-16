@@ -1,6 +1,7 @@
 import { Forbidden, ValidationError, type Payload } from 'payload'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
+import { readSectionNav } from '@/lib/section-pages/queries'
 import type { User } from '@/payload-types'
 
 import { createPanelUser, startPayload } from './payload'
@@ -70,6 +71,20 @@ describe.each(COLLECTIONS)('%s', (collection) => {
     expect(panel.docs.map((found) => found.slug).sort()).toEqual([
       slug('borrador'),
       slug('publicada'),
+    ])
+  })
+
+  it('el menú lee solo lo publicado, con lo que necesita', async () => {
+    const read = (await readSectionNav(payload, collection)).filter((found) =>
+      found.slug.startsWith(`${PREFIX}-${collection}`),
+    )
+    expect(read).toEqual([
+      expect.objectContaining({
+        slug: slug('publicada'),
+        state: 'preparing',
+        legacyHref: `https://www.torrentearcano.com/${slug('publicada')}`,
+        inMenu: true,
+      }),
     ])
   })
 

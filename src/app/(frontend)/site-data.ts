@@ -12,6 +12,8 @@ import { GUIDE_PAGES_REVALIDATE, GUIDE_PAGES_TAG } from '@/lib/guides/cache'
 import { PAGES_REVALIDATE, PAGES_TAG } from '@/lib/pages/cache'
 import { pageNavItems } from '@/lib/pages/page'
 import { readPageNav } from '@/lib/pages/queries'
+import { SECTION_PAGES_REVALIDATE, SECTION_PAGES_TAG } from '@/lib/section-pages/cache'
+import { readSectionNav } from '@/lib/section-pages/queries'
 import { countSiteGuides } from '@/lib/site/counts'
 import { SITE_COPY_REVALIDATE, SITE_COPY_TAG } from '@/lib/site-copy/cache'
 import { readIndexTexts, readNavigation, readSiteSettings } from '@/lib/site-copy/queries'
@@ -57,6 +59,21 @@ export const loadPageNav = unstable_cache(
   async () => pageNavItems(await readPageNav(await getPayload({ config }))),
   ['page-nav'],
   { tags: [PAGES_TAG], revalidate: PAGES_REVALIDATE },
+)
+
+// Las clases y mazmorras publicadas, para las listas del menú (classLinks, dungeonLinks): las
+// caducan los hooks de sus colecciones (src/lib/section-pages/cache.ts).
+export const loadSectionNav = unstable_cache(
+  async () => {
+    const payload = await getPayload({ config })
+    const [classes, dungeons] = await Promise.all([
+      readSectionNav(payload, 'class-pages'),
+      readSectionNav(payload, 'dungeon-pages'),
+    ])
+    return { classes, dungeons }
+  },
+  ['section-nav'],
+  { tags: [SECTION_PAGES_TAG], revalidate: SECTION_PAGES_REVALIDATE },
 )
 
 // «Ajustes del sitio»: el pie, las redes y los metadatos de todas las páginas. Su hook y el de

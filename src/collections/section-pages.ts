@@ -19,6 +19,10 @@ import {
 } from './editorial-access'
 import { validateOptionalUrl } from './Media'
 import { validateSlug } from './QuestGuides'
+import {
+  revalidateSectionPagesAfterChange,
+  revalidateSectionPagesAfterDelete,
+} from './revalidate-guides'
 import { rejectSharedSlug } from './root-slug'
 import { applySlugMove, trackSlugMove } from './slug-redirects'
 import { SLUG_LABEL, slugAdmin } from './slug-field'
@@ -105,7 +109,9 @@ export function sectionPageCollection(options: SectionPageOptions): CollectionCo
     hooks: {
       beforeValidate: [rejectSharedSlug(slug)],
       beforeChange: [trackSlugMove(slug)],
-      afterChange: [applySlugMove(slug)],
+      // El menú lee lo publicado con caché: guardar o borrar la caduca.
+      afterChange: [revalidateSectionPagesAfterChange, applySlugMove(slug)],
+      afterDelete: [revalidateSectionPagesAfterDelete],
     },
     fields: withPublishStatus([
       {

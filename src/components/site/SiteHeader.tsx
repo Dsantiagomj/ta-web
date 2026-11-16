@@ -36,6 +36,9 @@ export interface SiteCounts {
   guides: number
   /** Logros distintos de esas guías. */
   achievements: number
+  /** Clases y mazmorras del menú (classLinks, dungeonLinks); sin ellas, las de siempre. */
+  classes?: number
+  dungeons?: number
 }
 
 const p = s.panels
@@ -215,9 +218,9 @@ function sectionBlurb(sec: Section, counts: SiteCounts): ReactNode {
     case 'misiones':
       return <MisionesBlurb counts={counts} />
     case 'clases':
-      return <Blurb parts={p.clasesBlurb} value={String(CLASSES.length)} />
+      return <Blurb parts={p.clasesBlurb} value={String(counts.classes ?? CLASSES.length)} />
     case 'mazmorras':
-      return <Blurb parts={p.mazmorrasBlurb} value={String(DUNGEONS.length)} />
+      return <Blurb parts={p.mazmorrasBlurb} value={String(counts.dungeons ?? DUNGEONS.length)} />
     default:
       return null
   }

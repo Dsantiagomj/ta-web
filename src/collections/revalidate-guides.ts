@@ -7,6 +7,7 @@ import { DOFUS_GUIDES_TAG } from '../lib/dofus-guides/cache'
 import { GUIDE_PAGES_TAG } from '../lib/guides/cache'
 import { PAGES_TAG } from '../lib/pages/cache'
 import { REDIRECTS_TAG } from '../lib/redirects/cache'
+import { SECTION_PAGES_TAG } from '../lib/section-pages/cache'
 import { SITE_COPY_TAG } from '../lib/site-copy/cache'
 
 /**
@@ -49,6 +50,11 @@ export function revalidateChecklists(): void {
 /** Las páginas sueltas en caché (src/lib/pages/cache.ts). */
 export function revalidatePages(): void {
   expire(PAGES_TAG)
+}
+
+/** Las clases y mazmorras del menú en caché (src/lib/section-pages/cache.ts). */
+export function revalidateSectionPages(): void {
+  expire(SECTION_PAGES_TAG)
 }
 
 /** Las redirecciones de dirección cambiada en caché (src/lib/redirects/cache.ts). */
@@ -141,5 +147,15 @@ export const revalidatePagesAfterChange: CollectionAfterChangeHook = ({ doc }) =
 
 export const revalidatePagesAfterDelete: CollectionAfterDeleteHook = ({ doc }) => {
   revalidatePages()
+  return doc
+}
+
+export const revalidateSectionPagesAfterChange: CollectionAfterChangeHook = ({ doc }) => {
+  revalidateSectionPages()
+  return doc
+}
+
+export const revalidateSectionPagesAfterDelete: CollectionAfterDeleteHook = ({ doc }) => {
+  revalidateSectionPages()
   return doc
 }
