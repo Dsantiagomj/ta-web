@@ -40,7 +40,9 @@
 }
 .idx__t {
   color: var(--color-ink);
-  font: 600 var(--text-4xl)/1 var(--font-display);
+  font: 700 var(--text-4xl) / 1.02 var(--font-title);
+  letter-spacing: 0;
+  text-transform: uppercase;
   text-wrap: balance;
 }
 .idx__lead {
@@ -375,7 +377,7 @@
   min-width: 0;
 }
 .acard__n {
-  font: 600 1rem/1.25 var(--font-display);
+  font: 600 1rem/1.25 var(--font-ui);
 }
 .acard__m {
   color: var(--color-ink-2);
@@ -457,7 +459,7 @@
 }
 .vd-group__h {
   color: var(--color-ink);
-  font: 600 1.5rem/1.2 var(--font-display);
+  font: 700 1.5rem/1.2 var(--font-ui);
   text-wrap: balance;
 }
 .vd-group__n {
@@ -520,7 +522,7 @@
   max-height: 7.5rem;
 }
 .vd-tile__n {
-  font: 600 1rem/1.2 var(--font-display);
+  font: 600 1rem/1.2 var(--font-ui);
   text-wrap: balance;
 }
 .vd-tile__c {

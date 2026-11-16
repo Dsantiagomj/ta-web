@@ -25,9 +25,9 @@
 
   --spacing: 0.25rem;
 
-  --text-hero: clamp(3rem, 2rem + 4vw, 5.5rem);
-  --text-hero--line-height: 0.92;
-  --text-hero--font-weight: 600;
+  --text-hero: clamp(3rem, 2rem + 4.2vw, 5.75rem);
+  --text-hero--line-height: 1.02;
+  --text-hero--font-weight: 700;
   --text-hero--letter-spacing: 0;
   --text-4xl: clamp(2.25rem, 1.75rem + 2vw, 3rem);
   --text-4xl--line-height: 1;
@@ -123,12 +123,20 @@
   --color-sec-mazmorras: var(--t-sec-mazmorras);
   --color-sec-herramientas: var(--t-sec-herramientas);
 
-  /* La variable --font-montserrat la define next/font en <html>. Detrás van los respaldos
-     sin Arial de fonts-fallback.css (ver allí). Montserrat es a la vez texto y titulares. */
+  /* Las variables --font-* de cada familia las define next/font en <html>. Detrás van los
+     respaldos sin Arial de fonts-fallback.css (ver allí). Montserrat es el texto; Rowdies, los
+     títulos de página (--font-title); Lexend, la interfaz (--font-ui). --font-display queda
+     para lo que aún no ha cambiado de familia. */
   --font-display:
     var(--font-montserrat), 'Montserrat Fallback Linux', 'Montserrat', system-ui, sans-serif;
   --font-body:
     var(--font-montserrat), 'Montserrat Fallback Linux', 'Montserrat', system-ui, -apple-system,
+    sans-serif;
+  --font-title:
+    var(--font-rowdies), 'Rowdies Fallback Linux', 'Rowdies', var(--font-montserrat), system-ui,
+    sans-serif;
+  --font-ui:
+    var(--font-lexend), 'Lexend Fallback Linux', 'Lexend', var(--font-montserrat), system-ui,
     sans-serif;
   --font-accent:
     var(--font-lilita-one), 'Lilita One Fallback Linux', 'Lilita One', 'Montserrat', system-ui,
