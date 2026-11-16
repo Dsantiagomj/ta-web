@@ -9,7 +9,7 @@
 
 .idx {
   --gutter: 1rem;
-  --sticky-top: 4.75rem; /* bajo la cabecera flotante del móvil */
+  --sticky-top: 3.5rem; /* bajo la barra de la cabecera del móvil */
   box-sizing: content-box;
   max-width: 75rem;
   margin-inline: auto;

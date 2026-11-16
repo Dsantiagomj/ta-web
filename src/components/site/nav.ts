@@ -186,6 +186,13 @@ export const SECTIONS: Section[] = navigationDefaults.sections.map(navSection)
 
 export const section = (key: SectionKey) => SECTIONS.find((s) => s.key === key)!
 
+/**
+ * La sección de una página, en su <main>: la cabecera pinta el botón de esa sección en su
+ * color (site.css). Las checklists van dentro de Dofus en el menú, así que marcan «dofus».
+ */
+export const pageSection = (key: Extract<SectionKey, 'misiones' | 'dofus'>) =>
+  ({ 'data-section': key }) as const
+
 export type SocialKey = 'twitch' | 'kick' | 'youtube' | 'discord'
 
 export interface Social {

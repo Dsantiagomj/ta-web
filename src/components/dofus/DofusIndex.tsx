@@ -1,6 +1,7 @@
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import type { CSSProperties } from 'react'
 
+import { pageSection } from '@/components/site/nav'
 import { Picture } from '@/components/ui/Picture'
 import type { DofusCard, DofusIndexView } from '@/lib/dofus-guides/index-view'
 import { dofusPageStrings } from '@/lib/dofus-guides/strings'
@@ -82,7 +83,7 @@ export function DofusIndex({
   texts?: IndexTexts['dofusGuides']
 }) {
   return (
-    <main id="contenido" className="dg-index">
+    <main id="contenido" className="dg-index" {...pageSection('dofus')}>
       <header className="dg-hero">
         <p className="dg-eyebrow">{texts.eyebrow}</p>
         <h1 className="dg-h1">{texts.title}</h1>

@@ -5,6 +5,7 @@ import { SoulsIsland } from '@/components/checklist/SoulsIsland'
 import { Ambience } from '@/components/site/Ambience'
 import { checklistAmbience } from '@/components/site/ambience-data'
 import { Breadcrumb } from '@/components/site/Breadcrumb'
+import { pageSection } from '@/components/site/nav'
 import type { ChecklistData } from '@/lib/checklists/page'
 import { soulsView } from '@/lib/checklists/souls'
 import { soulsStrings as o } from '@/lib/checklists/strings'
@@ -32,7 +33,7 @@ export function SoulsView({ data, preview }: { data: ChecklistData; preview: boo
       {/* Dentro, para que herede el color del Dofus (--egg). */}
       <Ambience fx={checklistAmbience(data.checklist.ambience)} />
       {preview && <PreviewBar slug={view.slug} />}
-      <main id="contenido" className="ck sl">
+      <main id="contenido" className="ck sl" {...pageSection('dofus')}>
         <Breadcrumb {...view.breadcrumb} />
         <ChecklistHeader view={view} />
         <SoulsIntro view={view} />

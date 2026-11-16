@@ -7,6 +7,7 @@ import {
   CLASSES,
   type DofusNavItem,
   DUNGEONS,
+  pageSection,
   SECTIONS,
   SOCIALS,
   TOP_ANCHOR,
@@ -200,6 +201,16 @@ describe('SiteHeader', () => {
         ),
       )
     }
+  })
+
+  it('cada elemento del menú dice su sección, para pintar la de la página en su color', () => {
+    const nav = header().slice(0, header().indexOf('</nav>'))
+    const items = [...nav.matchAll(/<li class="site-nav__item" data-section="([a-z]+)"/g)]
+    expect(items.map((m) => m[1])).toEqual(['misiones', 'dofus', 'clases', 'mazmorras'])
+  })
+
+  it('una página marca su sección en su <main> con pageSection', () => {
+    expect(html(<main {...pageSection('dofus')} />)).toBe('<main data-section="dofus"></main>')
   })
 
   it('nada de la cabecera enlaza a las clases ni a las mazmorras', () => {

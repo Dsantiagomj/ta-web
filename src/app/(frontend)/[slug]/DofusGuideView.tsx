@@ -10,6 +10,7 @@ import {
 import { GuideRichText } from '@/components/game/GuideRichText'
 import { PageEnhancements } from '@/components/game/PageEnhancements'
 import { Breadcrumb } from '@/components/site/Breadcrumb'
+import { pageSection } from '@/components/site/nav'
 import { dofusGuideView, type DofusGuideData } from '@/lib/dofus-guides/page'
 
 import { LivePreviewRefresh } from './LivePreviewRefresh'
@@ -27,7 +28,7 @@ export function DofusGuideView({ data, preview }: { data: DofusGuideData; previe
   return (
     <div className="dg-page">
       {preview && <PreviewBar slug={data.guide.slug} />}
-      <main id="contenido" className="logro dg-page">
+      <main id="contenido" className="logro dg-page" {...pageSection('dofus')}>
         <article className="logro__main">
           <Breadcrumb {...view.breadcrumb} />
           <DofusHeader view={view} />
