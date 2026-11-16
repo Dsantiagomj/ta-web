@@ -45,6 +45,7 @@ import {
   closeOnOutsideClick,
   createBackup,
   createToast,
+  paintProgressState,
   progressDialog,
   safeStorage,
 } from './progress-shared'
@@ -218,6 +219,7 @@ export function startSouls(data: SoulsIslandData): () => void {
     const pct = soulsPct(progress, data)
     const pctEl = document.querySelector('[data-sl-pct]')
     if (pctEl) pctEl.textContent = s.pct(pct)
+    paintProgressState(pct)
     const bar = document.querySelector<HTMLElement>('[data-sl-bar]')
     if (bar) {
       bar.setAttribute('aria-valuenow', String(pct))
