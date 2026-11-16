@@ -29,3 +29,21 @@
   line-gap-override: 0%;
   size-adjust: 96.01%;
 }
+
+@font-face {
+  font-family: 'Rowdies Fallback Linux';
+  src: local('Liberation Sans'), local('Arimo'), local('Roboto');
+  ascent-override: 91.27%;
+  descent-override: 22.43%;
+  line-gap-override: 0%;
+  size-adjust: 109.24%;
+}
+
+@font-face {
+  font-family: 'Lexend Fallback Linux';
+  src: local('Liberation Sans'), local('Arimo'), local('Roboto');
+  ascent-override: 90.98%;
+  descent-override: 22.74%;
+  line-gap-override: 0%;
+  size-adjust: 109.91%;
+}
