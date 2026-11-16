@@ -120,3 +120,33 @@ describe('las imágenes de un global', () => {
     await expect(hook({ id: 8, req: req({ scene: 3, egg: 7 }) } as never)).resolves.toBeUndefined()
   })
 })
+
+describe('los Dofus destacados de «Navegación»', () => {
+  const req = (featuredDofus: unknown[]) =>
+    ({
+      payload: {
+        find: async () => ({ docs: [], totalDocs: 0 }),
+        findGlobal: async ({ slug }: { slug: string }) =>
+          slug === 'navigation' ? { featuredDofus } : {},
+      },
+    }) as unknown as PayloadRequest
+
+  it('cuentan como referencia de su guía de Dofus', () => {
+    expect(GLOBAL_REFERRERS['dofus-guides']).toEqual([
+      { global: 'navigation', title: 'Navegación', paths: ['featuredDofus'] },
+    ])
+  })
+
+  it('no borra una guía destacada, y dice dónde sale', async () => {
+    const hook = refuseReferencedDelete('dofus-guides')
+    await expect(hook({ id: 5, req: req([4, 5, 6]) } as never)).rejects.toThrow(/«Navegación»/)
+    await expect(
+      hook({ id: 5, req: req([{ id: 5 }, { id: 6 }, { id: 7 }]) } as never),
+    ).rejects.toThrow(/«Navegación»/)
+  })
+
+  it('otra guía se borra', async () => {
+    const hook = refuseReferencedDelete('dofus-guides')
+    await expect(hook({ id: 9, req: req([4, 5, 6]) } as never)).resolves.toBeUndefined()
+  })
+})

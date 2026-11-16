@@ -1,8 +1,8 @@
-// Los textos del sitio que Torre edita en el panel (src/globals/SiteSettings.ts e
-// IndexTexts.ts), con el texto de siempre: el valor de partida de cada campo, lo que sale
-// en la web mientras el campo está vacío y lo que escribe pnpm seed:site-copy. Lo que no es
-// contenido (botones, etiquetas para lectores de pantalla, avisos de error, los nombres de
-// las secciones del menú) sigue en el módulo de textos de cada parte.
+// Los textos del sitio que Torre edita en el panel (src/globals/SiteSettings.ts,
+// IndexTexts.ts y Navigation.ts), con el texto de siempre: el valor de partida de cada campo,
+// lo que sale en la web mientras el campo está vacío y lo que escribe pnpm seed:site-copy. Lo
+// que no es contenido (botones, etiquetas para lectores de pantalla, avisos de error) sigue en
+// el módulo de textos de cada parte.
 
 /** Ajustes del sitio: lo que sale en todas las páginas. */
 export const siteSettingsDefaults = {
@@ -116,6 +116,51 @@ export const indexTextDefaults = {
         'que falta.',
     },
   },
+}
+
+/** Las secciones del menú, en el orden de siempre. Su dirección, icono y color van en el código. */
+export const NAV_SECTION_KEYS = ['misiones', 'dofus', 'checklists', 'clases', 'mazmorras'] as const
+
+export type SectionKey = (typeof NAV_SECTION_KEYS)[number]
+
+export interface NavSectionRow {
+  key: SectionKey
+  /** El nombre corto, el del botón del menú. */
+  label: string
+  /** El nombre completo: el pie, el panel del menú, el móvil y la búsqueda. */
+  title: string
+  /**
+   * La frase bajo el nombre en el panel del menú y en el móvil. Vacía, la web pone la cifra de
+   * guías (Misiones), de clases o de mazmorras.
+   */
+  description: string
+  visible: boolean
+  /** Aún sin páginas: sale con «Próximamente», sin enlace ni panel. */
+  soon: boolean
+}
+
+const navRow = (
+  key: SectionKey,
+  label: string,
+  title: string,
+  { description = '', soon = false }: { description?: string; soon?: boolean } = {},
+): NavSectionRow => ({ key, label, title, description, visible: true, soon })
+
+/**
+ * Navegación: las secciones del menú, el móvil, el pie y la portada, y los tres Dofus de la
+ * tarjeta de las guías de Dofus del menú, por el slug de su guía.
+ */
+export const navigationDefaults = {
+  sections: [
+    navRow('misiones', 'Misiones', 'Misiones y logros'),
+    navRow('dofus', 'Dofus', 'Dofus', {
+      description: 'Las guías de Dofus y los checklists para conseguirlos.',
+    }),
+    navRow('checklists', 'Checklists', 'Checklists'),
+    navRow('clases', 'Clases', 'Clases', { soon: true }),
+    navRow('mazmorras', 'Mazmorras', 'Mazmorras', { soon: true }),
+  ],
+  featuredDofus: ['dofus-turquesa', 'dofus-esmeralda', 'dofus-ocre'],
 }
 
 export type SiteSettingsTexts = typeof siteSettingsDefaults

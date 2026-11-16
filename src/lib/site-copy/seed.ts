@@ -1,14 +1,15 @@
 import type { Payload } from 'payload'
 
-import { indexTextDefaults, siteSettingsDefaults } from './defaults'
+import { indexTextDefaults, navigationDefaults, siteSettingsDefaults } from './defaults'
+import { navigationSeed } from './navigation'
 import { copyFills, withDefaults } from './resolve'
 import { siteCopyStrings } from './strings'
 
-// pnpm seed:site-copy (scripts/seed-site-copy.ts): escribe en «Ajustes del sitio» y «Portada e
-// índices» el texto de siempre en cada campo vacío, para que Torre lo vea en el panel y lo
-// cambie. Lo que ya escribió no se toca, así que repetirla no cambia nada.
+// pnpm seed:site-copy (scripts/seed-site-copy.ts): escribe en «Ajustes del sitio», «Portada e
+// índices» y «Navegación» el texto de siempre en cada campo vacío, para que Torre lo vea en el
+// panel y lo cambie. Lo que ya escribió no se toca, así que repetirla no cambia nada.
 
-type SiteCopyGlobal = 'site-settings' | 'index-texts'
+type SiteCopyGlobal = 'site-settings' | 'index-texts' | 'navigation'
 
 const GLOBALS: { global: SiteCopyGlobal; label: string; defaults: object }[] = [
   {
@@ -29,6 +30,27 @@ export interface SeedPlan {
    * hay fila. Se guarda entero, para que el texto quede en la base.
    */
   unsaved: boolean
+  /** Lo que la carga no pudo hacer (una guía de Dofus que no está). */
+  notes?: string[]
+}
+
+/** «Navegación»: las secciones y, sin destacados elegidos, los tres Dofus de siempre. */
+async function seedNavigation(payload: Payload, apply: boolean): Promise<SeedPlan> {
+  const stored = await payload.findGlobal({ slug: 'navigation', depth: 0, overrideAccess: true })
+  const unsaved = !stored?.createdAt
+  const { docs: guides } = await payload.find({
+    collection: 'dofus-guides',
+    where: { slug: { in: navigationDefaults.featuredDofus } },
+    select: { slug: true, name: true },
+    depth: 0,
+    pagination: false,
+    overrideAccess: true,
+  })
+  const { fills, notes, data } = navigationSeed(unsaved ? {} : stored, guides)
+  if (apply && fills.length) {
+    await payload.updateGlobal({ slug: 'navigation', data, overrideAccess: true })
+  }
+  return { global: 'navigation', label: siteCopyStrings.navigation.label, fills, unsaved, notes }
 }
 
 export async function seedSiteCopy(
@@ -50,12 +72,14 @@ export async function seedSiteCopy(
       overrideAccess: true,
     })
   }
+  plans.push(await seedNavigation(payload, apply))
   return plans
 }
 
 export function seedReport(plans: SeedPlan[], apply: boolean): string[] {
   const lines = apply ? [] : ['En seco: no se escribe nada. Repite con --apply para escribir.']
-  for (const { label, fills, unsaved } of plans) {
+  for (const { label, fills, unsaved, notes = [] } of plans) {
+    for (const note of notes) lines.push(`${label}: ${note}`)
     if (!fills.length) {
       lines.push(`${label}: nada que llenar.`)
       continue
