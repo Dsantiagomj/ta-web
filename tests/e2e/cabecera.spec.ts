@@ -667,6 +667,48 @@ test.describe('pie', () => {
     expect(hrefs.join(' ')).not.toMatch(/instagram/i)
   })
 
+  for (const mode of MODES) {
+    test(`el pie va en la barra (oscuro) o en raised (claro), con Discord y Ko-fi rellenos, en Amakna ${mode}`, async ({
+      page,
+      context,
+      baseURL,
+    }) => {
+      await context.addCookies([{ name: 'ta-mode', value: mode, url: baseURL! }])
+      await open(page)
+      const footer = page.getByRole('contentinfo')
+      /** El color de un token, resuelto dentro del pie. */
+      const token = (name: string) =>
+        footer.evaluate((el, value) => {
+          const probe = document.createElement('i')
+          probe.style.color = `var(${value})`
+          el.append(probe)
+          const out = getComputedStyle(probe).color
+          probe.remove()
+          return out
+        }, name)
+      const css = (selector: string, prop: 'backgroundColor' | 'color') =>
+        footer
+          .locator(selector)
+          .first()
+          .evaluate((el, p) => getComputedStyle(el)[p], prop)
+
+      expect(await footer.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe(
+        await token(mode === 'dark' ? '--color-bar' : '--color-raised'),
+      )
+
+      expect(await css('.ft-join', 'backgroundColor')).toBe(await token('--color-discord'))
+      for (const part of ['.ft-join__t', '.ft-join__d', '.ft-join__i svg']) {
+        expect(await css(part, 'color'), part).toBe('rgb(255, 255, 255)')
+      }
+
+      expect(await css('.ft-kofi', 'backgroundColor')).toBe(await token('--color-kofi'))
+      // La taza en la misma tinta oscura que el texto: en el acento no se leía sobre el oro.
+      for (const part of ['.ft-kofi__t', '.ft-kofi__d', '.ft-kofi > svg']) {
+        expect(await css(part, 'color'), part).toBe(await token('--color-kofi-ink'))
+      }
+    })
+  }
+
   test('ningún icono del juego se pinta más grande que su archivo', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
     await open(page)
