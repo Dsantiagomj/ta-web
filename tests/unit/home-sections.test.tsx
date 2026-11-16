@@ -7,6 +7,7 @@ import { Author } from '@/components/home/Author'
 import { ChecklistsSection } from '@/components/home/ChecklistsSection'
 import { GuideTour } from '@/components/home/GuideTour'
 import { type ChecklistNavItem, section, social } from '@/components/site/nav'
+import { resolveNavigation } from '@/lib/site-copy/navigation'
 import { resolveIndexTexts, resolveSiteSettings } from '@/lib/site-copy/resolve'
 
 const html = (node: React.ReactNode) => renderToStaticMarkup(node)
@@ -39,6 +40,27 @@ describe('Qué vas a encontrar', () => {
     expect(markup.match(/<li class="area area--soon"/g)).toHaveLength(2)
     expect(markup).not.toContain(`href="${section('clases').href}"`)
     expect(markup).not.toContain(`href="${section('mazmorras').href}"`)
+  })
+
+  it('sigue la navegación de Torre: sin la sección oculta y con su «Próximamente»', () => {
+    const { sections } = resolveNavigation({
+      sections: [
+        { key: 'dofus', visible: false },
+        { key: 'clases', soon: false },
+      ],
+    })
+    const custom = html(<Areas counts={{ guides: 2, achievements: 1 }} sections={sections} />)
+    expect(custom).not.toContain('Guías de Dofus')
+    expect(custom).toContain(`href="${section('clases').href}"`)
+    expect(custom.match(/<li class="area area--soon"/g)).toHaveLength(1)
+    expect(
+      html(
+        <Areas
+          counts={{ guides: 2, achievements: 1 }}
+          sections={resolveNavigation(null).sections}
+        />,
+      ),
+    ).toBe(html(<Areas counts={{ guides: 2, achievements: 1 }} />))
   })
 
   it('las cifras del cartel salen del servidor, con el espacio fino de los miles', () => {

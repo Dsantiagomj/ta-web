@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-import { section, type SectionKey } from '@/components/site/nav'
+import { type Section, type SectionKey, SECTIONS } from '@/components/site/nav'
 import { Soon } from '@/components/site/Soon'
 import { StaticImg } from '@/components/site/StaticImg'
 import { Amount } from '@/components/ui/Amount'
@@ -20,19 +20,23 @@ const s = homeStrings.areas
  * sección aún sin páginas (Clases, Mazmorras) sale apagada, sin enlace y con «Próximamente».
  */
 function Area({
+  sections,
   sectionKey,
   title,
   text,
   art,
   big = false,
 }: {
+  sections: Section[]
   sectionKey: SectionKey
   title: string
   text: ReactNode
   art: ReactNode
   big?: boolean
 }) {
-  const sec = section(sectionKey)
+  // Una sección que Torre ocultó en «Navegación» tampoco sale aquí.
+  const sec = sections.find((item) => item.key === sectionKey)
+  if (!sec) return null
   const id = `area-${sectionKey}`
   const style = { '--color-section': sec.accent } as React.CSSProperties
   if (sec.soon) {
@@ -68,14 +72,18 @@ const lazyImg = { loading: 'lazy', width: 128, height: 128 } as const
  * cuatro PNJ en la plaza de Astrub con las cifras de las guías publicadas y de sus logros;
  * después Guías de Dofus, Checklists, Clases y Mazmorras, en 2 × 2 con solo el título en el
  * móvil. Las cifras son las de la cabecera (loadSiteCounts), así que nunca discrepan. Los
- * textos son de «Portada e índices», menos los nombres de las secciones, que son los del menú.
+ * textos son de «Portada e índices». Qué tarjetas salen y cuáles están «Próximamente» es de
+ * «Navegación», como en el menú; el orden es el del diseño.
  */
 export function Areas({
   counts,
   texts = indexTextDefaults.home.areas,
+  sections = SECTIONS,
 }: {
   counts: SiteGuideCounts
   texts?: IndexTexts['home']['areas']
+  /** Las secciones de «Navegación» que salen (resolveNavigation). */
+  sections?: Section[]
 }) {
   return (
     <section className="home-sec" aria-labelledby="h-areas">
@@ -85,6 +93,7 @@ export function Areas({
         </h2>
         <ul className="areas" role="list">
           <Area
+            sections={sections}
             big
             sectionKey="misiones"
             title={s.quests}
@@ -122,6 +131,7 @@ export function Areas({
             }
           />
           <Area
+            sections={sections}
             sectionKey="dofus"
             title={s.dofus}
             text={texts.dofusText}
@@ -136,6 +146,7 @@ export function Areas({
             }
           />
           <Area
+            sections={sections}
             sectionKey="checklists"
             title={s.checklists}
             text={texts.checklistsText}
@@ -162,6 +173,7 @@ export function Areas({
             }
           />
           <Area
+            sections={sections}
             sectionKey="clases"
             title={s.classes}
             text={texts.classesText}
@@ -178,6 +190,7 @@ export function Areas({
             }
           />
           <Area
+            sections={sections}
             sectionKey="mazmorras"
             title={s.dungeons}
             text={texts.dungeonsText}

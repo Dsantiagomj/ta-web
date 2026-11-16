@@ -208,8 +208,10 @@ function MisionesBlurb({ counts }: { counts: SiteCounts }) {
   )
 }
 
-function sectionBlurb(key: SectionKey, counts: SiteCounts): ReactNode {
-  switch (key) {
+/** La frase de Torre bajo el nombre; sin ella, la cifra de la sección. */
+function sectionBlurb(sec: Section, counts: SiteCounts): ReactNode {
+  if (sec.description) return sec.description
+  switch (sec.key) {
     case 'misiones':
       return <MisionesBlurb counts={counts} />
     case 'clases':
@@ -217,7 +219,7 @@ function sectionBlurb(key: SectionKey, counts: SiteCounts): ReactNode {
     case 'mazmorras':
       return <Blurb parts={p.mazmorrasBlurb} value={String(DUNGEONS.length)} />
     default:
-      return s.sheet.dofusBlurb
+      return null
   }
 }
 
@@ -227,7 +229,7 @@ function SectionTile({ sec, counts }: { sec: Section; counts: SiteCounts }) {
     <div className="panel__tile">
       <Well image={sec.icon} size={46} className="site-well--xl" />
       <p className="panel__t">{sec.title}</p>
-      <p className="panel__d">{sectionBlurb(sec.key, counts)}</p>
+      <p className="panel__d">{sectionBlurb(sec, counts)}</p>
     </div>
   )
 }
@@ -239,9 +241,11 @@ function SectionTile({ sec, counts }: { sec: Section; counts: SiteCounts }) {
 function DofusPanel({
   dofus: list,
   checklists,
+  featured,
 }: {
   dofus: DofusNavItem[]
   checklists: ChecklistNavItem[]
+  featured: GameImage[]
 }) {
   const dofus = section('dofus')
   return (
@@ -250,7 +254,7 @@ function DofusPanel({
         <p className="panel__h">{p.dofusFeatured}</p>
         <a className="feat" href={dofus.href}>
           <span className="feat__art" aria-hidden="true">
-            {DOFUS_FEATURED.map((image) => (
+            {featured.map((image) => (
               <StaticImg
                 key={image.src}
                 src={image.src}
@@ -283,18 +287,26 @@ function DofusPanel({
   )
 }
 
-const NAV = SECTIONS.filter((sec) => sec.key !== 'checklists')
+/** Las secciones del menú de arriba y del móvil: Checklists va dentro del panel de Dofus. */
+const menuSections = (sections: Section[]) => sections.filter((sec) => sec.key !== 'checklists')
+
+/**
+ * Las secciones que abren un panel. Las demás, si no están «Próximamente», son un enlace a su
+ * página (Clases y Mazmorras, mientras no tengan panel).
+ */
+const hasPanel = (sec: Section) => !sec.soon && (sec.key === 'misiones' || sec.key === 'dofus')
 
 type PanelProps = {
   sec: Section
   counts: SiteCounts
   dofus: DofusNavItem[]
   checklists: ChecklistNavItem[]
+  featured?: GameImage[]
 }
 
-function PanelContent({ sec, counts, dofus, checklists }: PanelProps) {
+function PanelContent({ sec, counts, dofus, checklists, featured = DOFUS_FEATURED }: PanelProps) {
   return sec.key === 'dofus' ? (
-    <DofusPanel dofus={dofus} checklists={checklists} />
+    <DofusPanel dofus={dofus} checklists={checklists} featured={featured} />
   ) : (
     <>
       <SectionTile sec={sec} counts={counts} />
@@ -342,6 +354,7 @@ function SheetSection({
 }: PanelProps & { open: boolean }) {
   const dofus = sec.key === 'dofus'
   const id = `sheet-${sec.key}`
+  const blurb = sectionBlurb(sec, counts)
   if (sec.soon) {
     return (
       <li className="stile" style={accent(sec)}>
@@ -351,9 +364,22 @@ function SheetSection({
             <span className="stile__t">
               {sec.title} <Soon />
             </span>
-            <span className="stile__d">{sectionBlurb(sec.key, counts)}</span>
+            {blurb && <span className="stile__d">{blurb}</span>}
           </span>
         </div>
+      </li>
+    )
+  }
+  if (!hasPanel(sec)) {
+    return (
+      <li className="stile" style={accent(sec)}>
+        <a className="stile__b" href={sec.href}>
+          <Well image={sec.icon} size={36} className="site-well--lg" />
+          <span className="stile__x">
+            <span className="stile__t">{sec.title}</span>
+            {blurb && <span className="stile__d">{blurb}</span>}
+          </span>
+        </a>
       </li>
     )
   }
@@ -363,7 +389,7 @@ function SheetSection({
         <Well image={sec.icon} size={36} className="site-well--lg" />
         <span className="stile__x">
           <span className="stile__t">{dofus ? s.sheet.dofusTitle : sec.title}</span>
-          <span className="stile__d">{sectionBlurb(sec.key, counts)}</span>
+          {blurb && <span className="stile__d">{blurb}</span>}
         </span>
         <ChevronIcon className="stile__c" />
       </button>
@@ -392,12 +418,17 @@ function Sheet({
   dofus,
   checklists,
   socials,
+  sections,
 }: {
   counts: SiteCounts
   dofus: DofusNavItem[]
   checklists: ChecklistNavItem[]
   socials?: SiteSocials
+  sections: Section[]
 }) {
+  const nav = menuSections(sections)
+  // Abierta de entrada, la primera que tiene panel.
+  const open = nav.find(hasPanel)?.key
   return (
     <dialog className="sheet" id="site-sheet" aria-label={s.menu}>
       <div className="sheet__top">
@@ -408,14 +439,14 @@ function Sheet({
       </div>
       <div className="sheet__body">
         <ul className="stiles" role="list">
-          {NAV.map((sec, i) => (
+          {nav.map((sec) => (
             <SheetSection
               key={sec.key}
               sec={sec}
               counts={counts}
               dofus={dofus}
               checklists={checklists}
-              open={i === 0}
+              open={sec.key === open}
             />
           ))}
         </ul>
@@ -440,7 +471,8 @@ function Sheet({
 
 /**
  * La cabecera de todo el sitio (DESIGN.md, Layout: Header): el logo Sello, un desplegable
- * por sección con su ficha y su arte (Dofus y checklists comparten panel), la búsqueda con
+ * por sección con su ficha y su arte (Dofus y checklists comparten panel), en el orden y con
+ * los nombres de «Navegación», la búsqueda con
  * Ctrl K, el interruptor de modo y, por debajo de 1120px, el menú del móvil. Todo se pinta
  * en el servidor; la isla abre y cierra los paneles, el menú y la búsqueda.
  */
@@ -451,6 +483,8 @@ export function SiteHeader({
   pages = [],
   initialMode,
   socials,
+  sections = SECTIONS,
+  featured = DOFUS_FEATURED,
 }: {
   counts: SiteCounts
   /** Los Dofus de la colección de guías, para el panel y la búsqueda (loadDofusNav). */
@@ -462,6 +496,10 @@ export function SiteHeader({
   initialMode: Mode
   /** Las redes de «Ajustes del sitio», para el menú del móvil; sin ellas, las de siempre. */
   socials?: SiteSocials
+  /** Las secciones de «Navegación», en su orden y sin las ocultas (resolveNavigation). */
+  sections?: Section[]
+  /** Los huevos de la tarjeta de las guías de Dofus, de «Navegación». */
+  featured?: GameImage[]
 }) {
   return (
     <>
@@ -473,7 +511,7 @@ export function SiteHeader({
           <Lockup />
           <nav className="site-nav" aria-label={s.nav}>
             <ul role="list">
-              {NAV.map((sec) =>
+              {menuSections(sections).map((sec) =>
                 sec.soon ? (
                   <li key={sec.key} className="site-nav__item" style={accent(sec)}>
                     <span className="np np--soon" aria-disabled="true">
@@ -486,6 +524,19 @@ export function SiteHeader({
                       />
                       {sec.label} <Soon />
                     </span>
+                  </li>
+                ) : !hasPanel(sec) ? (
+                  <li key={sec.key} className="site-nav__item" style={accent(sec)}>
+                    <a className="np" href={sec.href}>
+                      <StaticImg
+                        className="np__i"
+                        src={sec.icon.src}
+                        width={22}
+                        height={22}
+                        alt=""
+                      />
+                      {sec.label}
+                    </a>
                   </li>
                 ) : (
                   <li key={sec.key} className="site-nav__item" style={accent(sec)}>
@@ -505,7 +556,13 @@ export function SiteHeader({
                       {sec.label}
                       <ChevronIcon className="np__c" />
                     </button>
-                    <Panel sec={sec} counts={counts} dofus={dofus} checklists={checklists} />
+                    <Panel
+                      sec={sec}
+                      counts={counts}
+                      dofus={dofus}
+                      checklists={checklists}
+                      featured={featured}
+                    />
                   </li>
                 ),
               )}
@@ -534,8 +591,14 @@ export function SiteHeader({
           </div>
         </div>
       </header>
-      <Sheet counts={counts} dofus={dofus} checklists={checklists} socials={socials} />
-      <HeaderIsland index={searchIndex(dofus, checklists, pages)} />
+      <Sheet
+        counts={counts}
+        dofus={dofus}
+        checklists={checklists}
+        socials={socials}
+        sections={sections}
+      />
+      <HeaderIsland index={searchIndex(dofus, checklists, pages, sections)} />
     </>
   )
 }
