@@ -1408,6 +1408,45 @@ html:not([data-js]) .ck-js {
   padding: 0 1.125rem;
 }
 
+/* «Siguiente» y «Completar»: el botón principal relleno (DESIGN.md, Components: Button,
+   primary). El borde queda transparente, para que el paso hecho no cambie de tamaño. */
+.ck-btn:is(.ck-next, .ck-complete) {
+  border-color: transparent;
+  border-radius: 0.625rem;
+  background: var(--color-btn);
+  color: var(--color-btn-ink);
+  font: 700 var(--text-sm) / 1.2 var(--font-ui);
+}
+
+.ck-btn:is(.ck-next, .ck-complete):hover {
+  background: var(--color-btn-hi);
+}
+
+.ck-btn:is(.ck-next, .ck-complete):focus-visible {
+  outline-color: var(--color-ink);
+}
+
+.ck-btn:is(.ck-next, .ck-complete):active {
+  transform: scale(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ck-btn:is(.ck-next, .ck-complete):active {
+    transform: none;
+  }
+}
+
+/* El paso ya hecho: «Completar» se apaga a un contorno con su marca, ya no es la acción. */
+.ck-btn.ck-complete[data-done] {
+  border-color: var(--color-line);
+  background: transparent;
+  color: var(--color-ink-2);
+}
+
+.ck-btn.ck-complete[data-done]:hover {
+  background: var(--color-raised);
+}
+
 .ck-tools {
   position: relative;
   margin-left: auto;

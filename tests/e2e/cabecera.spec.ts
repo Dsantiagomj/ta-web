@@ -4,6 +4,7 @@ import { expect, test, type Page } from '@playwright/test'
 import { MODES } from '../../src/lib/theme/theme.ts'
 import { seedAchievement } from './seed/achievements.ts'
 import { seedChecklists } from './seed/checklists.ts'
+import { expectFilledButton } from './filled-button.ts'
 import { indexChecklists } from './seed/checklists-index.ts'
 import { seedDofus } from './seed/dofus-guides.ts'
 import { draftGuide, seedGuide } from './seed/guides.ts'
@@ -94,6 +95,14 @@ test.describe('cabecera', () => {
     await expect(page.locator('#menu-misiones')).toBeVisible()
     await page.mouse.click(1300, 700)
     await expect(page.locator('#menu-misiones')).toBeHidden()
+  })
+
+  test('los «Ver todas…» del panel de Dofus son botones rellenos', async ({ page }) => {
+    await open(page)
+    await page.locator('.np[aria-controls="menu-dofus"]').click()
+    const links = page.locator('#menu-dofus .all-link')
+    await expect(links).toHaveCount(2)
+    for (const link of await links.all()) await expectFilledButton(link)
   })
 
   test('con el teclado: Tab entra al panel y salir con Tab lo cierra', async ({ page }) => {

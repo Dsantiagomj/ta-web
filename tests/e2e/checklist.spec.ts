@@ -2,6 +2,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
 
 import { MODES } from '../../src/lib/theme/theme.ts'
+import { expectFilledButton } from './filled-button.ts'
 import { formatDefects, lintLayout } from './layout-lint.ts'
 import { seedAchievement } from './seed/achievements.ts'
 import { seedChecklists } from './seed/checklists.ts'
@@ -58,6 +59,16 @@ test.describe('página de una checklist', () => {
     await expect(step(page, 1).locator('.ck-dh__zone')).toHaveText(neb.zone)
     await expect(step(page, 1)).toBeVisible()
     await expect(step(page, 2)).toBeHidden()
+  })
+
+  test('«Siguiente» y «Completar» son los botones rellenos', async ({ page }) => {
+    await page.goto(url)
+    const next = page.locator('.ck-next')
+    const complete = step(page, 1).locator('.ck-complete')
+    await expect(next).toBeEnabled()
+    await expect(complete).toBeEnabled()
+    await expectFilledButton(next)
+    await expectFilledButton(complete)
   })
 
   test('el texto de Torre tal cual, con el logro enlazado, y la misión con su guía y su nivel', async ({
