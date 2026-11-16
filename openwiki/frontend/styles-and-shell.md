@@ -18,8 +18,16 @@ sources:
     resource: repo://src/components/dofus/DofusIndexIsland.tsx
   - id: openwiki-source-7ba3e6f5057719fdf70c6941
     resource: repo://src/components/game/game.css
+  - id: openwiki-source-ff969cbe7dbd2b4725e09a96
+    resource: repo://src/components/site/ambience-data.ts
+  - id: openwiki-source-fdb8507841c70256a18047a2
+    resource: repo://src/components/site/ambience.css
+  - id: openwiki-source-8de9a16d715677f858df8f3f
+    resource: repo://src/components/site/Ambience.tsx
   - id: openwiki-source-2a67994ef743619f0decb35a
     resource: repo://src/components/site/Breadcrumb.tsx
+  - id: openwiki-source-2527b990816180ac80987e20
+    resource: repo://src/components/site/site.css
   - id: openwiki-source-2f580cf8b5193905cc52f99b
     resource: repo://src/components/ui/view-transition.ts
   - id: openwiki-source-ebaecf0b9cf2bccc008459f4
@@ -32,6 +40,8 @@ sources:
     resource: repo://src/styles/globals.css
   - id: openwiki-source-8728a958dd5a79ae9c3ca846
     resource: repo://src/styles/theme.css
+  - id: openwiki-source-af25dd8eebdd9233b223bd95
+    resource: repo://tests/e2e/ambiente.spec.ts
   - id: openwiki-source-f2beaf80b1decf5de1f10e4c
     resource: repo://tests/e2e/hojas-de-estilo.spec.ts
   - id: openwiki-source-0d3ca97f277fd81c10735a75
@@ -46,10 +56,10 @@ sources:
     resource: repo://tests/unit/theme-css.test.ts
   - id: openwiki-source-a6bbe9fe2145f44825758407
     resource: repo://tests/unit/view-transition.test.ts
-generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-14T11:00:46.827Z
+    at: 2026-11-16T11:00:16.891Z
 ---
 
 # Styles, tokens and site shell
@@ -133,16 +143,26 @@ Every link of the site loads the whole page (there is no client-side navigation 
 
 Components animate their own entries and exits with CSS: menu panels and the search results panel use `@starting-style` and a `display` transition with `allow-discrete` so the exit is visible (see [Site header, footer and search](site-shell-and-search.md)); the fullscreen viewer keeps its image while it closes and the video player fades in over its poster (see [Design system components](design-system-components.md)).
 
-`tests/e2e/movimiento.spec.ts` checks all of this in Chromium: a link and the logo open the next page with a view transition and a still header; outside the transition the header has no name; with reduced motion the next page arrives without a transition; header panels, the search dialog and its results, the phone menu and its sections enter and leave with opacity and transform, and do not take clicks while leaving; buttons and links change color with a transition; the fullscreen image closes with a transition and the video player fades in; and on `/metalogros` opening and closing a zone moves the tiles with a view transition. `tests/unit/view-transition.test.ts` covers `smoothUpdate` with a type, without view transitions, with reduced motion and with a callback-only browser.
+`tests/e2e/movimiento.spec.ts` checks all of this in Chromium: a link and the logo open the next page with a view transition and a still header; outside the transition the header has no name; with reduced motion the next page arrives without a transition; header panels, the search dialog and its results, the phone menu and its sections enter and leave with opacity and transform, and do not take clicks while leaving; buttons and links change color with a transition; the fullscreen image closes with a transition and the video player fades in; and on `/metalogros` opening and closing a zone moves the tiles with a view transition. It reads each page's `pagereveal` by its path and waits for the new page's own record, because on a loaded CI machine the new page's URL and `h1` are ready before its first paint fires `pagereveal`. `tests/e2e/ambiente.spec.ts` checks the ambience: decorative, behind the content and at the top, each theme and mode with its own look, the half on phones, none with reduced motion, no layout shift or extra width, and the Hielos snow and the Nebuloso's egg-colored motes on their checklists. `tests/unit/view-transition.test.ts` covers `smoothUpdate` with a type, without view transitions, with reduced motion and with a callback-only browser.
 
 ## Site shell
 
 `src/app/(frontend)/layout.tsx` is the root layout of the public site. It:
 
-- builds `metadata` with `metadataBase` from `NEXT_PUBLIC_SITE_URL`, and the title and description from `siteStrings`;
+- builds its metadata in `generateMetadata`: `metadataBase` from `NEXT_PUBLIC_SITE_URL`, and the title, description and Open Graph share image from «Ajustes del sitio» (`siteMetadata`, see [Site settings and index texts](../cms/site-copy.md));
 - renders `<html lang="es">` with `data-theme`, `data-mode`, `data-scroll-behavior`, the font variables and `suppressHydrationWarning` (the inline script may change `data-mode` and set `data-js` before hydration);
 - injects the mode script into `<head>`;
-- loads the header counts (`loadSiteCounts()`) and the Dofus of the menu (`loadDofusNav()`, from the `dofus-guides` collection) in parallel and renders `SiteHeader` (the Sello lockup, the section menus, the search and the mode switch), the page and `SiteFooter`, with the `arriba` anchor on `<body>`. See [Site header, footer and search](site-shell-and-search.md).
+- loads in parallel the header counts (`loadSiteCounts()`), the Dofus of the menu (`loadDofusNav()`), the checklists (`loadChecklistNav()`), the standalone pages (`loadPageNav()`) and the site settings (`loadSiteSettings()`), and renders `SiteHeader` (the Sello lockup, the section menus, the search and the mode switch), the page, `SiteFooter` and the site's `Ambience`, with the `arriba` anchor on `<body>`. See [Site header, footer and search](site-shell-and-search.md).
+
+### Ambience
+
+`Ambience` (`src/components/site/Ambience.tsx`, DESIGN.md, Ambience) draws particles that rise toward the header at the top of every page, as the old checklist hub's fireflies did. It is markup and CSS only, with no JavaScript: 14 `<i>` elements whose position, delay, duration and size come from the fixed list `AMBIENCE_PARTICLES` (`src/components/site/ambience-data.ts`), the same on every render. Its styles are in `ambience.css`, which `site.css` imports, so it adds no stylesheet to the page.
+
+- **Layer.** `.amb` is absolute at the top of the page, one small viewport tall (`100svh`), behind the content (`z-index: -1`), `aria-hidden`, without pointer events, with `contain: strict` and a size container so its keyframes measure the layer. Only `transform` and `opacity` animate, so it causes no layout shift and never widens the page.
+- **Theme.** Each theme and mode sets inherited variables (`--amb-anim`, `--amb-bg`, `--amb-glow`, `--amb-shape`, `--amb-pace`, `--amb-start` and others), so the nearest `data-theme` decides its look: Arcano's motes, Amakna's fireflies by night and falling leaves by day, and so on. Light mode lowers the layer's opacity.
+- **Phones and reduced motion.** Below 40rem only the first half of the particles show (that half covers the full width). With `prefers-reduced-motion` there are none.
+- **Checklists.** A checklist page renders its own `Ambience fx` (`snow`, `forest` or `egg`, from the checklist's «Ambiente» field through `checklistAmbience`, with `theme` keeping the site's) inside the page so it inherits the Dofus color; `body:has(.amb--page)` then hides the site's layer. See [Checklist page](../checklists/checklist-page.md).
+- **Catalog.** `demo` boxes the layer inside its container for `/sistema`.
 
 The favicon and the iOS icon are files in `src/app/(frontend)/` that Next links by name: `icon2.svg` (the simple emblem on an Arcano dark tile, light under a light color scheme), `icon1.png` (a 32 px fallback) and `apple-icon.png` (180 px, the full emblem on a square tile). `node scripts/build-icons.ts` generates them from the emblem drawing in `src/components/brand/emblem-art.ts` and the Arcano colors read from `theme.css` by `readPalette` (`src/lib/theme/palette.ts`). `tests/unit/emblem.test.tsx` checks that the committed `icon2.svg` matches what the script generates. See [Design system components](design-system-components.md#brand-srccomponentsbrand).
 

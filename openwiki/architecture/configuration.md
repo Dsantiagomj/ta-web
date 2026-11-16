@@ -24,8 +24,8 @@ sources:
     resource: repo://scripts/lhci-env.ts
   - id: openwiki-source-95f46342bb37caacc4ce1dbc
     resource: repo://scripts/lhci.ts
-  - id: openwiki-source-63cbcc482c18e4f9ce5d0888
-    resource: repo://scripts/refresh-quests.ts
+  - id: openwiki-source-13a4a70459b559cdd8e4d8fd
+    resource: repo://scripts/refresh-game-data.ts
   - id: openwiki-source-b6d2ac28f484617caef7e1ad
     resource: repo://scripts/review-release.ts
   - id: openwiki-source-7a2845694b67f1018000b585
@@ -62,10 +62,10 @@ sources:
     resource: repo://tests/integration/env.ts
   - id: openwiki-source-e73350ef868f2379d51909ed
     resource: repo://tests/unit/dofusdb-write-concurrency.test.ts
-generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
+generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-15T11:00:17.514Z
+    at: 2026-11-16T11:00:16.891Z
 ---
 
 # Environment configuration
@@ -87,7 +87,7 @@ Each group of variables has one small resolver function that takes an `env` reco
 | `S3_ENDPOINT`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_REGION`, `MEDIA_BASE_URL` | `readS3Settings` (`src/lib/media/storage.ts`) | Railway |
 | `SENTRY_DSN` | `sentryServerOptions` (`src/lib/monitoring/sentry.ts`) | Railway |
 | `SENTRY_AUTH_TOKEN` | `next.config.ts`, at build time | Railway (declared, not yet populated) |
-| `DOFUSDB_WRITE_CONCURRENCY` | `writeConcurrencyFromEnv` (`src/lib/dofusdb/refresh-quests.ts`), only for `pnpm data:quests` | `.env` or the shell; empty means 8 |
+| `DOFUSDB_WRITE_CONCURRENCY` | `writeConcurrencyFromEnv` (`src/lib/dofusdb/refresh-quests.ts`), only for `pnpm data:refresh` (alias `pnpm data:quests`) | `.env` or the shell; empty means 8 |
 | `GIT_COMMIT_SHA` | `deployedCommit` (`src/lib/deploy/commit.ts`) | The release workflow, for production |
 | `APP_VERSION` | `resolveVersion` (`src/endpoints/health.ts`) | The release workflow, for production; falls back to the `package.json` version |
 | `RAILWAY_GIT_COMMIT_SHA`, `RAILWAY_ENVIRONMENT_NAME` | `deployedCommit`, `isDevEnvironment`, Sentry | Injected by Railway |
@@ -142,11 +142,13 @@ Each group of variables has one small resolver function that takes an `env` reco
 
 ### DofusDB write concurrency
 
-`writeConcurrencyFromEnv` reads `DOFUSDB_WRITE_CONCURRENCY` for `pnpm data:quests`. Empty or unset gives `DEFAULT_WRITE_CONCURRENCY`, 8. Any value that is not a whole number of at least 1 (`0`, `-2`, `1.5`, `ocho`) throws instead of falling back to the default. The script reads it before starting Payload, so a typo fails at once. Each concurrent write holds one connection from the Postgres pool, which keeps pg's default of 10, so `.env.example` advises staying at 9 or below. See [DofusDB game data refresh](../data/dofusdb-refresh.md#write-concurrency).
+`writeConcurrencyFromEnv` reads `DOFUSDB_WRITE_CONCURRENCY` for `pnpm data:refresh` (`scripts/refresh-game-data.ts`; `pnpm data:quests` is an alias). Empty or unset gives `DEFAULT_WRITE_CONCURRENCY`, 8. Any value that is not a whole number of at least 1 (`0`, `-2`, `1.5`, `ocho`) throws instead of falling back to the default. The script reads it before starting Payload, so a typo fails at once. Each concurrent write holds one connection from the Postgres pool, which keeps pg's default of 10, so `.env.example` advises staying at 9 or below. See [DofusDB game data refresh](../data/dofusdb-refresh.md#write-concurrency).
 
 ## Railway variable declarations
 
 `.railway/railway.ts` declares every Railway variable for the `web` service. Secrets use `preserve()`, which keeps the value already stored in Railway and never creates one, so secrets are entered in the Railway dashboard. A variable missing from this file is deleted by `railway config apply`, so any new Railway variable must be declared here first. The file sets `APP_ENV=dev` only for `dev`, and `GIT_COMMIT_SHA` and `APP_VERSION` only for `production`.
+
+In `dev` the file also declares the `game-data` service, the weekly `pnpm data:refresh --schedule` cron task. Its variables are references to the `web` service's (`web.env.DATABASE_URL`, `PAYLOAD_SECRET`, the `S3_*` set, `MEDIA_BASE_URL`, `SENTRY_DSN` and `NEXT_PUBLIC_SITE_URL`), plus `APP_ENV=dev` and `RAILPACK_NODE_VERSION`, so it needs no secret of its own (see [Deployment](../operations/deployment.md)).
 
 ## Test isolation from real databases
 

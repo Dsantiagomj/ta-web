@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:68568c3bacd3bfa72547fc56eea429751b3b761b5b5c3f4feff72d3bd6c92945",
+  "pageVersion": "sha256:a675441a2b159b7eb2fd756519295bc0dd3345a6b7b3312d28b1ac7472a6d815",
   "claims": [
     {
       "id": "claim_c0ef47c0e85e4c61baed75dc10d7a3f7",
       "statement": "A souls checklist stores no rows: readSouls reads its soulsQuest's stages, the monsters of its bring objectives, their subareas and the dungeons whose bosses include them, as a visitor.",
       "evidence": [
         {
-          "resource": "repo://src/lib/checklists/queries.ts#L356-L436",
-          "version": "repo-lines-v1:sha256:9b934ffd8feea0f68a7dbb2ca50d2283e8826002b3a472460ecf69e41041b451:eyJzZWxlY3RlZExpbmVDb3VudCI6ODEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUxMWE1OGUwMTliN2RlNDlhMDdiMDJjNmY2OGRlODk5YTFkMjBkYjc2ZmM0ZmNkNjY1YmJkNDU3YmYyMjM4ZjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE1MzJiYzRmMzA3ZDI2YTA3NjQ4NzEwNmJmOWM3Njg0NzE5NjhiMjEwMWUyMDAyNGVhNzNkOWFkNDNjMmZiMWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkxMTJjMGQ5MTg1M2ExNmI1NTNkZTY3MGQ1OTA1NGM2MzAwZDk4ODY2YTRiNDE5MjdlNWU5YTZmN2JkZjg4YWMifQ"
+          "resource": "repo://src/lib/checklists/queries.ts#L359-L440",
+          "version": "repo-lines-v1:sha256:34d715f3e4ef5633854ad27df00627c5b725096316e4f704e61a2a3934b9c36d:eyJzZWxlY3RlZExpbmVDb3VudCI6ODIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUxMWE1OGUwMTliN2RlNDlhMDdiMDJjNmY2OGRlODk5YTFkMjBkYjc2ZmM0ZmNkNjY1YmJkNDU3YmYyMjM4ZjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg2NjgzNTJmNjhiZTY4MGFkZjBmZjYwZWIwNGRiNmNkMTQyNjM4NjUxNmYwNzc1ZDhhZDQ3ZmYxNzU2M2ZmYTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE1MzJiYzRmMzA3ZDI2YTA3NjQ4NzEwNmJmOWM3Njg0NzE5NjhiMjEwMWUyMDAyNGVhNzNkOWFkNDNjMmZiMWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE3YWU2MTEwMDM5M2EwNjliYmY0MDhkZGY5NzUxODlkODkzZWFiYzRlMTE0ZDVmYjhkNDZiZjJhMTQ0NTE0NTAifQ"
         }
       ]
     },
@@ -27,8 +27,8 @@
       "statement": "soulsView turns each bring objective with a monster into one soul in its first stage, lists monsters missing from the database separately, and gives a boss a dungeon only when exactly one dungeon has it.",
       "evidence": [
         {
-          "resource": "repo://src/lib/checklists/souls.ts#L109-L155",
-          "version": "repo-lines-v1:sha256:7aa90cd2178875a7676c1b0ca9cb866f2861581ddb0f30cb9ff58fb43d111006:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4ODlmNDI1OWE0MDllNWY4ZjQ5ODYxZmM2OWM2MmNmOGUwMzFiY2VkYjAyMTczNDUxMWQ0ODllMmM4ZGJiODIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MjY3OTM1ZmM2MzM0NjVkODQ4YjQwYTRlZDY5NjdlN2I3YTMyM2Y4MWNkNTNjMTEwYWUyMTAyOTY4N2FhMTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAyMzllZjYzN2ZkNWM4YTQxMmU1NzU0YmRjZThiMTAwZGQ0NDgxYjI1YzliMjExNGY3ZmNiZjc2ZjUwMjI2MTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBlNTM4OTg3ZmQ2ZDk5M2QxOGMzNDk0YmZmMmQ4MjBjYmJjYTczNWVkMDZmYjgzZDRiNjc2OGFhOWFjYWNjMmMifQ"
+          "resource": "repo://src/lib/checklists/souls.ts#L157-L210",
+          "version": "repo-lines-v1:sha256:543f19c31cafa5881fdaa8bf584d5578cffacc110abaa4123f823677038e73d3:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4ODlmNDI1OWE0MDllNWY4ZjQ5ODYxZmM2OWM2MmNmOGUwMzFiY2VkYjAyMTczNDUxMWQ0ODllMmM4ZGJiODIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2YTY3Y2NmOGYwYjZhODZlMDdmMGUyMjVkMzY3NjlmYjNiOWM2OGFmMjEyMTAwYzgzODdkOGI5M2EwODYwMGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjliY2JlY2QzOThkMjdlZGYxZjNjMjM5OWE5YjY2YjkwM2E1ZGIxN2YwNzg5ZmM3MGRkYTQyN2FmYzE1OWQyODUifQ"
         }
       ]
     },
@@ -57,8 +57,8 @@
       "statement": "Souls are grouped by stage in quest order, labelled bosses when every soul is a boss and archis otherwise, and by region from most to fewest souls with ties by name.",
       "evidence": [
         {
-          "resource": "repo://src/lib/checklists/souls.ts#L157-L177",
-          "version": "repo-lines-v1:sha256:8e08d7d887f74606ea1e89f6b25b9e63030fe7ca98ee86162eed5ba5c2d392b1:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA5NTI3MTJhNWNiNDdiNjUzNjU4ZWJmYzY2OWIyNDE0MDFjYWIwNmUzYWU5ZTNhMzkxNmRmYjgzMDVlNTQ4NzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIwNTg0MjI4ZjcyNjNlMmI4MGM2MmM5NWIwYTE3YTQ4OWRhNmJlZTFhOGRhMGE3ZDgzY2Y2MDhmYmI2M2Y3MGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVlMjAzYTJjY2VlNDVmODg1ODhhYWUzMjQwYzZiODMxNmYzMDNlZjZjMzU2OWU5ZTFkYTFiY2RlM2ZjZGFhNTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFlYTRmYjQzNjE2MTYzNDg3ODQ2MDI5NmRkNThmNmRjODM1ZmI0ZDU5NzE5ZDZiNzMwNjNlZDU5N2FiYzQ1NzYifQ"
+          "resource": "repo://src/lib/checklists/souls.ts#L212-L236",
+          "version": "repo-lines-v1:sha256:07f57720c42f2946de313c5e04e7f8b8bc425c234a9280f5fe6d0a69cb88aa39:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNkOWRmYTg5YTAyMTUwODM2MjVmYjEzZWVlNjRkZjI2MWY3YjA5N2FhNjQzMDFjZDRlZGI5YWVhOTA3MTc3NjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIyZDgwYzY3NGZmNTFlMWMwZGExY2Y5MWY4NWY2MjVhMTIwYWEyNTYzNGNmZjc2OWUxNjE1NzgyNzI2NmJiNmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFjMTg2MjE0MDk4ZmE0MTQzNDcxYzdjOTlmYjRhODVmOTU0MDdiOWUzYTQwNTIxYTZhMGU0YjBkNGY1ODMyZGIifQ"
         }
       ]
     },
@@ -78,11 +78,11 @@
     },
     {
       "id": "claim_11b7258423594d31b4f68d06b687451e",
-      "statement": "SoulsView renders on the server the breadcrumb, header, Torre's callouts and a window with the progress strip, tools and souls list, plus progress dialogs that reset only the souls and the souls island.",
+      "statement": "SoulsView renders on the server the breadcrumb, header, ambience particles, Torre's callouts and a window with the progress strip, tools and souls list, plus progress dialogs that reset only the souls and the souls island.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/%5Bslug%5D/SoulsView.tsx#L13-L46",
-          "version": "repo-lines-v1:sha256:508ceafde5417074aaa6b64eb86bf88818965ea151e0801841f8979747534e97:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2YTk3ZTQ5YjZlNTI4ZGE1OTI0ZGZlYzk3NjMxOTJjMWVmZDM3MjlhMTQwODA5ZjhiOTdmNTUwYzMwYzE0ZTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/app/(frontend)/%5Bslug%5D/SoulsView.tsx#L13-L50",
+          "version": "repo-lines-v1:sha256:f28ac3a6a40572261b5d08a4321be01178659fece23b9eac9b53b252cc5a1ea6:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBkZTliNmQ4MjcxZDZmZDBjN2YzMTMwYjBlNjFjYzczZTZlMzViMGNiNzg5Y2Q0NmJlODk5MDhlOTNiOGRjNTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY2ZmMwMTIwZDFmNGVkY2U1Yzg2MDMyNDNiY2U1MDU3MjlmNjhlMTkyNGJiOGY2MDgxYjk0MzQxZjJmODFlZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -101,12 +101,8 @@
       "statement": "souls-ui reads and writes souls in ta-web:progress, keeps the chosen view and type in attributes on .sl-win so a refresh keeps them, never moves React's nodes, and migrates cosecha:done once.",
       "evidence": [
         {
-          "resource": "repo://src/components/checklist/souls-ui.ts#L1-L40",
-          "version": "repo-lines-v1:sha256:9b1ac072500f67b44b1078902b3b45deeff9ae6d22faabc7297d89d7530eb081:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjMDllZWE2MTQxZDlkYTVjYjg4YjZiZGRiMDI3MjJjNDgyN2Q3NTVkN2FkN2I1OGVmMWQxY2NiYTIwZTAwMmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ5Y2Y1MWVhNmI4YWNkZTU0ZmZiM2NmNDUxNDJkYmMxYWI1OGFjNjcwZTkxMzQ0YjQyYzUzODY2NTJiNGZlNDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEwMzI1OTQxNzVmYTFlNzE1ZDZhMTAxMWU5Y2Y4OWFjMmM0MjQ4NjI2NmI0NmVlMjdiMDA2OWYxYjZhZDBmNmIifQ"
-        },
-        {
-          "resource": "repo://src/components/checklist/souls-ui.ts#L398-L410",
-          "version": "repo-lines-v1:sha256:eba1cc675071d7c99ee4702361b5ff0ab0df04b336b680686a885acee83b9738:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmZDE3NDA5ZmIzOTYxM2E3OWU1ODYyZjA0NTI2NjY1MTkwNzEzNzVmMWUzNGU0NWQ2MWM0ODBhNDY5NzExYjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNmODJlMTI5MTM4Y2M5NzMwYTRhOWQzMTM5NGYzNzIyNmRiY2I2MDFjNzRjZTk1NTk2NDhiMmY0YzhiMjZkOTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQwNzVlYzlkNTQ0YTg4MjkyNjViOGVmYzRhZWFkZGQ2MTNhMGY5ZmVmZjZmY2FlN2M1NjI5MGI4YzQ5ZDkwZTkifQ"
+          "resource": "repo://src/components/checklist/souls-ui.ts#L1-L45",
+          "version": "repo-lines-v1:sha256:07c4238f970830cfb292000db110526f2dccf7c0216b45a61f64f8cbc0a30614:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjMDllZWE2MTQxZDlkYTVjYjg4YjZiZGRiMDI3MjJjNDgyN2Q3NTVkN2FkN2I1OGVmMWQxY2NiYTIwZTAwMmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNjNWMwMDU0MGU3ZjU5NWE2YjBjZTJlNjg2MTQyNDYzMjllNzJjYmQ4NjBiOWE1MjA5ODg4YjUwMGU0MWZjZjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZlZjcwYmFjMDcxZjUwZWIxMDQ4YzY1MWI3YThjYjdiNjI4ZDY1N2E2YWY5MjBlMDlkYjBmZDRmZTIwYWVjNGMifQ"
         }
       ]
     },
@@ -119,10 +115,44 @@
           "version": "repo-lines-v1:sha256:e7a57cf62e2a18df9e446caf9d600e9f59c8356c51240241e476a9bba86ff1f0:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlNTc4MDIwZGY5MTIxMzU3YmVkNzE1NzBjMTQyZDJhN2Y4NTJjMjA3Yjg5MmJhNWE1Mzk5ZDk1MTliZjViOGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_4d95c2999c2242f890ff205a3c393a97",
+      "statement": "A monster Torre hid in its correction or in the checklist's soulOverrides is not a soul; otherwise his corrected name, level and image apply, and a soulOverrides row's dungeon, zone or region text replaces DofusDB's for that list only.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/souls.ts#L136-L156",
+          "version": "repo-lines-v1:sha256:f539912adfa6ffec55d1e37b53305935993a3f6e24e4ca5c91055133a8a36939:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ0MDExNmRkMGVlNTlmNzZjNjQwYjcxNmRmYjYzZmIyZGY2ODE0Y2UwODBiNDg3M2Q1MmUxZGI4OTM2Mzc2YTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAyMzllZjYzN2ZkNWM4YTQxMmU1NzU0YmRjZThiMTAwZGQ0NDgxYjI1YzliMjExNGY3ZmNiZjc2ZjUwMjI2MTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg4ODM1MjExMzZjMTcwMDI5NGZhNDVlNmY4MDg3YTA2Y2EyOWIwNGQ2MDM0NjljOTU2M2Q0Y2VhZGY3NTgxYTMifQ"
+        },
+        {
+          "resource": "repo://src/lib/checklists/souls.ts#L169-L205",
+          "version": "repo-lines-v1:sha256:4599ea997619ebcd2d468bc5dcba20f3a48b19c352f163d8006381b5931f1e75:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzZTkwMzQyZGVhYjEzZTljM2NlMDczMDI1YzFhYmVlYzAxY2JiYWNiNWFlNGE5ZWEzZDhiZDcxZDE1NmNhZGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYyZmYwZGI2NmZiYzIxNmVlNTE3YTBiYmI1NGYwN2M3NzIwYzg0MjI2YTY3YmIwOWQ0ZWYyNTUyNmNmZjY4ZmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU3MzRkZjZkODc5ZTBjY2I4MTBmYmMzNDMzY2ExNmNmYTc5M2QxM2E5ZWIyNWM2ZTRlZGZkNGY2ZmVhN2U0MTkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ2NWYzMGQ4ZmU5ZDVjMGIzMDEwMTQxODMzZjc5MjdmYTg5MTQyYzMxYTc0MDcxYTZhNDJiYjY4ZGEwYmEwNjUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ffba4f83a6b5413fae446cf340d7cc72",
+      "statement": "Inside a region, souls are split into bosses by dungeon and then archmonsters by subarea, each part sorted A to Z, with souls that have neither last.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/souls.ts#L112-L134",
+          "version": "repo-lines-v1:sha256:9ec90d977e155f56df0a1e505fb82919b90c16333d311fbadf68aba0acdd0c50:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFmZjgwNTBhYWFhMWIwZTFjMmIyNzY5MDdmOTE5ZGI4NTFlNWYxM2EyNzdlNWMwYWY3MWU1ZTJiZDE4MTBmYWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0ZmRhZjczZDhiNWNlYmRhMGNhNjMxZGMxYTdhMDU4NjFhNjIyYWJlYTc2NDRmODRmZTYwOTdhZmE2N2FiZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImExMThlZTljODkxZTk4YTcyZmYyMDY1MWMzYzJkMDE2NDg3Yzg1MGM2YTAzMzc3ODkxNTNkOTYyYTAwOWUxNTMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_47efd242e5994464bd2851f48c1a4a83",
+      "statement": "The souls navigation counts each group's owned souls only for the chosen type, hides groups without souls of that type, falls back to the first shown group, moves between shown neighbours, and records the view, group and type in the URL hash.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/checklists/souls-nav.ts#L1-L84",
+          "version": "repo-lines-v1:sha256:2ae83be089b7a767cdede3eb5266b38421b3dace49606250b5a6e8e8ff405885:eyJzZWxlY3RlZExpbmVDb3VudCI6ODQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVkZjYzZmQ0OGNhZTM1N2JhODMzNTk0MjZhMjAzMGRhOGQ5ZWE5N2ZhYTBkOTg2ODZlYzUwNmI2NGRjMzFkZDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-15T11:00:17.514Z"
+    "at": "2026-11-16T11:00:16.891Z"
   }
 }

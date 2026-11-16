@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:194173d7a7aba6b05a84c1e99c1bd37e763de3fa99893da6d07b71d7dee676f4",
+  "claims": [
+    {
+      "id": "claim_b7363d714d21414a86a3e5db4e0c28e6",
+      "statement": "A quest guide's summary holds XP, minimum XP, kamas, reward items, level tiers, other rewards and the Squarespace rewards text as separate fields, with the item tier table renamed through dbName.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/QuestGuides.ts#L205-L340",
+          "version": "repo-lines-v1:sha256:8618a087f410c50372aff9f4c35755e87089fc8138315560d0ea1f4bf203744c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTM2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI1ZGQ0YzBiYzA2NzNiMWNhNWE4YjhiNzgxNGUxMTk4YzU2NDRiNDU1MjA4ZGNkMGY5MjRjYTc3NmVhOTQ2Y2ZkIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0ZDVjZDJmYjRmM2RmODg0NTE1MjU1YjM5NTIzZjJmOGI1NDcyYmVlYTlmNTY2ZmZjYTIwNGRiODAyNTYxMDQxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI1MmRiYjczNWU0ZThmYmI2YmY5N2I1YWM4YmQ2MTBlYjUwNTJmYTE2OTkxMTZhNDBkMjI4OTZjZDZhMjdmMmFjIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI2MTk5YTMzYWM4ODY2MzFjNGFlMjQ3YzU5ZDYxYjIzOWRlOGE2YjJhYWYyZmM1ZjRiZjM3ZDBlMDc5ZTcxODE4In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_2d9a26fbb60e4a04b7b980653b26fe59",
+      "statement": "The guide header shows level tiers when Torre wrote two or more or, without his, DofusDB's tiers with items in Torre's order; otherwise Torre's XP with his own minimum or DofusDB's XP and minimum, his or DofusDB's kamas and items, and only when nothing is given, the lines of the rewards text.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/guides/page.ts#L236-L258",
+          "version": "repo-lines-v1:sha256:9c028c0c2147a5042ec39b0832e96bd4be1252fd466cba113b51f6fecbb94237:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI3MzliNDczYmExY2JlOTBhNWYxMzM1MmUyNmFhMzkwMTE0Y2YyNDNhN2QwZThhNjM4OTkwNjE0ZWI2MDg0ZDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkxYTQzZTI1NzVjYTYyNjQxNmFjNjJhNTE1YTJmYTg2M2NhZDcxNjhjMzBhMGM3OTI4ZTM3YWMzM2Y1YjMwYmMifQ"
+        },
+        {
+          "resource": "repo://src/lib/guides/page.ts#L401-L430",
+          "version": "repo-lines-v1:sha256:117fbe0feac41e74534825c3b22fa6258ad33257885407a9c547ebd3e0a8597f:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3Yjc5MDAzM2U4ZDgxZjNjMDVjMjRkZmJkNjY3ZDYyZDliY2Q4ODQ4YzhkOWM4ZjRlZTQwM2RjMTdmYzIzYTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlYTFkNGYwZWU4NWIxMDA3MWZlNTg3ZjNkNmEzOGQwNTA0ZmNlOTEzYTY3MWNiOThkOGFhYmUzZDllNDYwNWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUxMzZlOGEyMjAxMDFkZDVjMGI2ZWM5Yzc4ZGM2ZjkyNDNlNTkwMjE1ZjM4NzhhZDFhOGIyMTljYzc0NTc4NjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwYjA0OTYwNzM5NjA5N2VkMjViYWIxNjlkY2UzMzM4NzI4Yzc5ZDNiZjdkZjE4NTYyODkyZGUzOWQyNzYwMTAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ed11ab07e029468b995f4a3461638074",
+      "statement": "readRewardsText reads only rewards text with a single reading (XP, kamas and item lines) and leaves text by level, shared XP or two XP lines for manual review.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/guides/reward-text.ts#L1-L80",
+          "version": "repo-lines-v1:sha256:26a3b3e94e6072861d8668783d0ec71a8377f37df16299efcd44b2bff5662ddf:eyJzZWxlY3RlZExpbmVDb3VudCI6ODAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkMDYxNzVmYmNlZTU0NGYzMDA1NmNhZDAyYjVlNjU0YzYzN2VjNWIwNzY1NTE0NThiNzIzYzk2NjVhODk2YWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3NmIzNDE3NmNmOTIxMmNkMDYzZGM1MGY1NDhkNjdmNzMzM2M5ZTMwOWYyYjhiZGI3MDI4NDVjMTRjNzk1NDkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwZjA5NjA5MTVjOTM4ZDA0M2QyMTM0YjE1NTYyNzY5MTc5MGU4ZmY4NWU1ZmM4ZDNhYTcyYTQ5MjU1MDEzZGYifQ"
+        },
+        {
+          "resource": "repo://tests/unit/guide-reward-text.test.ts#L1-L120",
+          "version": "repo-lines-v1:sha256:eed35a4ea611010ea1bd9f6af154b7818cdb8c47e3a9cb33513c7f536c424a75:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIwLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJiNjAzNzczODZiMzY1YzkyNDcyMmM1NDM0YWQ0NGU5NWMzNGJkOTBhM2U5OGY5ZDMwOTY3YmJjNjg0ZGNmNWQ0IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI1NjJlNWQ5ZGQ3NzNiN2QwMTVkNTU4OWNiNmRiNDEzYzI5ZWY2NGNkN2EwZWNiMGU5MzUwOTg4MTAwMTc1ZGE3IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI2YjhiYzUzMTJlODY0NzFjZDc5ZWEzMmU3YjE2N2NjNDBiMTlhYTczYmNhMTgwMTIwYThhM2Y0YjcxOGFjNDc5In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_5f595b5d51e34ee3a6a2eac99b893e8f",
+      "statement": "pnpm guides:rewards fills only the empty reward fields of every guide from Torre's text where it reads and DofusDB elsewhere, fills an empty Por nivel from his per-tier text or DofusDB's tiers, and lists what needs review.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/backfill-guide-rewards.ts#L1-L35",
+          "version": "repo-lines-v1:sha256:2c689815c5fb60f272c27deefc5f094746ccdb4674206663f8939abcb7ac1deb:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZlNDUyMmQyYzIxNTA4ZDNiNTU2ODkwMGY2MTU0OWJmZWNiMDQ3NGQ2YTU4NGRlNzJmMTk4MWQ2OTE1MmZjZmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/guides/backfill-rewards.ts#L1-L155",
+          "version": "repo-lines-v1:sha256:1fee64ed095648a3cdc6f5b0ecf7f256d8c1c8ac0fd4b5b10b8f72bfa61d95b5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTU1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5NGIzNGQxOTk5YTVjY2M5NGUzM2NlOGZiN2FhM2MxMTUyOTNiNzE5ZDMwNmFjYjg0ZDRmMDBhNTRiMDA4ODYwIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIyYjFhNTY4YzMxZWViMGMxZGZiZWNiMTE2YTU1Y2UzNzZmZTI0ODEzNTgyMDY2NDZmZGNkZTY2YjA1NjU0ZTc0IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI2NjE0YTE1Y2EyYWExZGMwNjBjMDRjNjA0ZDY1ZDlkMjE0ZTkzNjgyZDhhZTQxNDBmM2U0OWFhMmRkOWNhZmM2In0"
+        },
+        {
+          "resource": "repo://tests/integration/backfill-guide-rewards.test.ts#L1-L155",
+          "version": "repo-lines-v1:sha256:a3b8969b76cd9d18991f213cda9df1999db3251a15afb08833e1a6f1b27ed17a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTU1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIzOWFkNGM3NWJiMzk5YWUwMTkzNGY2MGRkNDg0OWJiMmIyZDllMDI5NjllNzNiMzAzZjYxZmJiYTIxN2Q2MTdkIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_faf9b0f32fa3409d8b49fa106f2171ac",
+      "statement": "pnpm guides:rewards-dofusdb switches a Torre figure to DofusDB's when it is within 10 percent of it for the same tier, keeps and lists a larger difference, leaves a 0 of his alone, and never touches the rewards text.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/prefer-dofusdb-rewards.ts#L1-L34",
+          "version": "repo-lines-v1:sha256:c2fcf647959b5c46eef48071a4267df1459e33e3535ff523a2ba97d771614b2b:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2VlNDIwY2ZmMTU2ZjVhNDFiMmYwZDZmOGVhYTRhNmVkOWM1YWVjOWQ0ZTNkZWNhMTM4Y2Q1NDE5Y2I5MWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/guides/prefer-dofusdb.ts#L1-L100",
+          "version": "repo-lines-v1:sha256:d6cfa436c6d8f03cffe879e2a4f852928cc45a559ab827e1e5bc716a7984f31c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAwLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIxNTFhOWMyYmQ1ZTU4ZWVhYmM0NzA3M2ExY2Q3ZDQ4NmI3Yjk0OWNlNjFlNzMyMTY0NjJmM2FjNzhjMmU5MDI0IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJhMDExZjI5OWRiZTllMzhkYTg3ZmU3ZTg0YjFkNDQzODBhYTMzNmYzODUwNmJiODY5MjhkMmQ2NTU3NGU3YzVkIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJkZmJjNWU4NTc0M2YxYjZmMGY2NmEyNmNmOWFmYmFmNGFlZTg1ZDhiZGQ4MzVkZDFlOGY1NmI5YzhlZmE0YTUxIn0"
+        },
+        {
+          "resource": "repo://tests/unit/guide-prefer-dofusdb.test.ts#L1-L214",
+          "version": "repo-lines-v1:sha256:ba83bae1a8c2df066c60e80b90b3845ccbb44c6813f80c1453e85a1766e8fe8f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjE0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJiNjAzNzczODZiMzY1YzkyNDcyMmM1NDM0YWQ0NGU5NWMzNGJkOTBhM2U5OGY5ZDMwOTY3YmJjNjg0ZGNmNWQ0IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_7e5e59d5317a44c89faa25a1e6cad979",
+      "statement": "pnpm guides:reward-typos replaces an item name in the rewards text with DofusDB's (or Torre's correction) only when it is a clear typo of exactly one reward item of the quest with the same quantity, adds its row to a non-empty reward item list, and lists books, notes and other lines it leaves.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/fix-reward-typos.ts#L1-L36",
+          "version": "repo-lines-v1:sha256:4b7186808c2fd1ba7bb80a47e47131bee5cbbc9ea5521ada4a943de840d5be25:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0N2Y0MDA1ZGJjYzY0YmFkZTRmOTI1YmQ4MmM5Y2M0NGExYTk5MTFmMGIxZThiYWFlYzExOTRjMTM4YjE0OTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/guides/reward-typos.ts#L1-L180",
+          "version": "repo-lines-v1:sha256:4bc6add0e1671de40c8dc0d52fa109bd817f0f62540e70aeedf9c25c75abc26c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgwLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlOGFmZDIwZmYyMDcxMTU2ODZkODgxOGQzMzFmMjM2ZTFjOWE5NmQwNTU4ZmNkZDY1ZGI4MzJhNzk4MjI0NWJiIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIzNmI1NGRhYjg3Yzg1YjQ5ZDNiMzhmMDFkZmQ0OGE4ZjM1YWM0Y2I1NjVkNTIwNzU3NTY0MWY5ZDU3YzA3ZDVkIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2RkNzZmMDhiMDg1YjZjMDVlOTVjNjIyZDJmN2QwNDdjOTg2Nzk1MGQ1MGFlYzkzMjVjODg1MTllNjQ1YjhiIn0"
+        },
+        {
+          "resource": "repo://tests/integration/fix-reward-typos.test.ts#L1-L95",
+          "version": "repo-lines-v1:sha256:e1bd860a0e9a8ec2c79051aa47500664d00e4794a377c17ca672882e64c3b3d8:eyJzZWxlY3RlZExpbmVDb3VudCI6OTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5YWQ0Yzc1YmIzOTlhZTAxOTM0ZjYwZGQ0ODQ5YmIyYjJkOWUwMjk2OWU3M2IzMDNmNjFmYmJhMjE3ZDYxN2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_90cbb5a5b4c34f50b2c6b7f43439854a",
+      "statement": "pnpm guides:shown-items rewrites a guide's Necesitás item list only when it still equals what the old autofill wrote by summing every show objective, reading the quests from DofusDB, and lists the lists Torre changed.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/backfill-shown-items.ts#L1-L58",
+          "version": "repo-lines-v1:sha256:01be120f7d32a51a7f60a1fa80e0796251b63991c4e984da528ae8a9e4c411e9:eyJzZWxlY3RlZExpbmVDb3VudCI6NTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhjNzlhM2JkMjk4MGNmZDc3ZjNiODcwYjllNGJmZGQyYWIwN2Y5ZGU1ZTBhMTY5NTcwMTU3OTQ5YzMwODM3ZjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/guides/shown-items.ts#L1-L107",
+          "version": "repo-lines-v1:sha256:314f284331b4938b8787cffa1b595d742abfa0bdf4d8aeedf27f6a09349513ab:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIxOTYyZmUyOWMzZmQ3ZDU3OWI4ZThiZmViMzNkYjI4YjI0NGFkOWI0MzMxZGJhNjg1NmNkZjYwNTAyZTJlMzZkIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJjYTJhMmJhNjRkNGUyZjlhM2Q1ZDkxZjEyOTgyZDBkNTAxMTg3ZjE1M2NjODY1MTU0OGVjZDNlM2JiMjE2NWE3IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJjNTU0M2FhNTU3ZjE0NjIwM2M5MjNhZGYzZjBhYzljNTgzMmY0NDM2ZmYyNDg4Zjk3NjYwYjdjOWY5Njk3YmQ4In0"
+        },
+        {
+          "resource": "repo://tests/integration/backfill-shown-items.test.ts#L1-L142",
+          "version": "repo-lines-v1:sha256:a0d531566c637c05259653b5872c175683aad67671993f2175c16203b1f23e2c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQyLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIzOWFkNGM3NWJiMzk5YWUwMTkzNGY2MGRkNDg0OWJiMmIyZDllMDI5NjllNzNiMzAzZjYxZmJiYTIxN2Q2MTdkIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_ec806e79521b487ca86e45667367b3d4",
+      "statement": "Each rewards maintenance script refuses remote or production databases without their flags and only lists what it would do unless --apply is passed.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/backfill-guide-rewards.ts#L14-L26",
+          "version": "repo-lines-v1:sha256:8e47cbbea8aba21bdd2317981b1d646bdf78b432fd9a500897c373ff6e8edd92:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ3M2MyMjk2ZTRiOWU2MDgzOTM1MmUyODlmNTYxYWY4ZWYyYzk5MGY1ZDgxNDE4YjI4ZWRkNWI4ZjIzMDZkYTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4MjRkZDcwNmU3ZjYzOWEwMGY3MzRkOTcxZmY2NzYwN2I2ZDg2OWE1ZGI2MmMzZWVjNzdjMGMzZTEyMjFiZmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImViNTgyOGQ1ZGY4OGE4MDRmOGFhYjg3MTk0YWJjNzQ3NTllMDZmNWFlYjY4YWZkZWM2MTM2NWJhMzkwNTQ2OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE2YzkzNzFjZGU3Njk4Y2Q1N2ViMGY1MzIyNjBhN2NjMTFhYmQ1MjYxN2FjZGNkZmE4NWY3YjY3M2ZmZDhhNGYifQ"
+        },
+        {
+          "resource": "repo://scripts/backfill-shown-items.ts#L14-L28",
+          "version": "repo-lines-v1:sha256:134127438ade6b2748ba4da45a75b1489f6370ab63f95d8b0e6587bcdab92913:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ3M2MyMjk2ZTRiOWU2MDgzOTM1MmUyODlmNTYxYWY4ZWYyYzk5MGY1ZDgxNDE4YjI4ZWRkNWI4ZjIzMDZkYTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4MjRkZDcwNmU3ZjYzOWEwMGY3MzRkOTcxZmY2NzYwN2I2ZDg2OWE1ZGI2MmMzZWVjNzdjMGMzZTEyMjFiZmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImViNTgyOGQ1ZGY4OGE4MDRmOGFhYjg3MTk0YWJjNzQ3NTllMDZmNWFlYjY4YWZkZWM2MTM2NWJhMzkwNTQ2OTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwMGZjNzYwNzlkNDZiMDAxYzA5ZTBhMjRjNzExOWUzMjhjMGY1YTY4ZWY2ODgzNGQ0NjM5NTdjMzQ4NmRlZTIifQ"
+        },
+        {
+          "resource": "repo://scripts/fix-reward-typos.ts#L7-L27",
+          "version": "repo-lines-v1:sha256:55b3b618a8427a59a41fa847924b2f303d05ae4d20ad07049540aa678b87cf93:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE0MDQ4N2RiMzcxMDAzN2Y3YjI0N2IxODU5NTEyMzQ0MTEyZjYzMGI4MjdkNDM0NGNiZGYxMzRkNjljNTA2OTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4MjRkZDcwNmU3ZjYzOWEwMGY3MzRkOTcxZmY2NzYwN2I2ZDg2OWE1ZGI2MmMzZWVjNzdjMGMzZTEyMjFiZmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg3MGMxZTJlMTU4MWYxZGRmMzEyOWVmNzlmMDY3NDIyNjk1NzkzNzY4OTA3OTdmMzhkMzU2YWFkZTYxZTMwMzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE2YzkzNzFjZGU3Njk4Y2Q1N2ViMGY1MzIyNjBhN2NjMTFhYmQ1MjYxN2FjZGNkZmE4NWY3YjY3M2ZmZDhhNGYifQ"
+        },
+        {
+          "resource": "repo://scripts/prefer-dofusdb-rewards.ts#L5-L25",
+          "version": "repo-lines-v1:sha256:98a5fa98326f159b616ddd6dd80af405ff08ae186462d8429d59caa3bd925ff9:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNkNjQ1NDFmMGIzMzgwNGNkM2I4NmUyMzUyMGE1MjE2OTE5NWFmOWVjZjEyODJjNDY1MGRhN2ZmYTRkNGQzOWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4MjRkZDcwNmU3ZjYzOWEwMGY3MzRkOTcxZmY2NzYwN2I2ZDg2OWE1ZGI2MmMzZWVjNzdjMGMzZTEyMjFiZmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU4YmQzM2Y0MTFiOWNiZjBhOWQzZGE3MzVmN2ZhZDdiZTljY2ZjNTczOWMwZGUxN2FjYTk1ODFlZjQ3MjkzYzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE2YzkzNzFjZGU3Njk4Y2Q1N2ViMGY1MzIyNjBhN2NjMTFhYmQ1MjYxN2FjZGNkZmE4NWY3YjY3M2ZmZDhhNGYifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-16T11:00:16.891Z"
+  }
+}

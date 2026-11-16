@@ -12,12 +12,16 @@ sources:
     resource: repo://src/collections/QuestGuides.ts
   - id: openwiki-source-a93f1ff2ed8916a30885274d
     resource: repo://src/collections/root-slug.ts
+  - id: openwiki-source-a4be7e390668173418ccf0b8
+    resource: repo://src/components/admin/DofusDbFillButton.tsx
   - id: openwiki-source-5e8f77fd185a0f97b7ae1c42
     resource: repo://src/components/quest-guide-admin/linked-quest.ts
   - id: openwiki-source-96b94ee077b0d0a0987ef203
     resource: repo://src/components/quest-guide-admin/QuestAutofill.tsx
   - id: openwiki-source-0a4faad5eab8d765028627d7
     resource: repo://src/components/quest-guide-admin/SummaryNote.tsx
+  - id: openwiki-source-589bfa7373a4546b25115691
+    resource: repo://src/lib/admin/strings.ts
   - id: openwiki-source-50dfb7dff241d2a5f45927cb
     resource: repo://src/lib/dofusdb/criterion.ts
   - id: openwiki-source-4b87b2bd0648fe28c52dc5e5
@@ -50,28 +54,28 @@ sources:
     resource: repo://tests/unit/guide-summary.test.ts
   - id: openwiki-source-1970468d3fcc651d5071b312
     resource: repo://tests/unit/quest-guides-collection.test.ts
-generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
+generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-15T11:00:17.514Z
+    at: 2026-11-16T11:00:16.891Z
 ---
 
 # Writing a quest guide
 
-A quest guide starts from its DofusDB quest. `quest`, labelled "Misión de DofusDB", is the first field of the guide form, in the main area, above the title, the slug and the form's three tabs: «Contenido» (the body blocks), «Resumen» (the summary) and «SEO». The tabs have no name, so they only arrange the form and the stored data keeps its paths. It is an optional single relationship to `quests`: a guide links one quest or none. Once Torre picks a quest, every empty field the quest can answer is filled: the title, the slug, the two SEO fields and the summary (prerequisites, the "Necesitarás" item list, rewards, start NPC and coordinates). What is left to write is the guide itself: the body blocks, the "Necesitarás" notes, and anything DofusDB does not give.
+A quest guide starts from its DofusDB quest. `quest`, labelled "Misión de DofusDB", is the first field of the guide form, in the main area, above the title, the slug and the form's three tabs: «Contenido» (the body blocks), «Resumen» (the summary) and «SEO». The tabs have no name, so they only arrange the form and the stored data keeps its paths. It is an optional single relationship to `quests`: a guide links one quest or none. Once Torre picks a quest, every empty field the quest can answer is filled: the title, the slug, the two SEO fields and the summary (prerequisites, the "Necesitarás" item list, the rewards, start NPC and coordinates). What is left to write is the guide itself: the body blocks, the "Necesitarás" notes, and anything DofusDB does not give.
 
-The fill happens twice with the same rules: live in the form when the quest is picked, and again on the server when the guide is saved. Both only fill **empty** fields. A value that is already there, typed by Torre or brought by the Squarespace import, is never overwritten.
+The fill uses one rule set in three places: live in the form when Torre picks another quest, on request with the «Rellenar desde DofusDB» button under the quest field, and on the server when a guide is created or its quest changes. All three fill only **empty** fields. A value that is already there, typed by Torre or brought by the Squarespace import, is never overwritten, and a field Torre empties later stays empty until he asks for the fill again (only the required title and slug come back on their own).
 
 The collection schema itself (field types, validators, access) is in [Collections and access](collections.md#quest-guides-editorial-guides-with-drafts).
 
 ## The flow in the panel
 
-1. Create a guide under «Contenido» and pick the quest in "Misión de DofusDB". The description under the field reads "Elige primero la misión de DofusDB de la guía, solo una: rellena el título, la dirección, el SEO y el resumen. Luego solo te queda escribir la guía. Cuando ya tiene una, solo un administrador puede cambiarla: otra misión mezclaría sus datos con los de esta." Once saved, the quest is locked for editors (`lockedOnceSet('quest')`, see [Admin panel](admin-panel.md)).
+1. Create a guide under «Contenido» and pick the quest in "Misión de DofusDB". The description under the field reads "Elige primero la misión de DofusDB de la guía, solo una: al elegirla se rellenan el título, la dirección, el SEO y el resumen que estén vacíos. Lo que vacíes después se queda vacío; «Rellenar desde DofusDB» vuelve a copiar lo vacío cuando quieras. Cuando ya tiene una, solo un administrador puede cambiarla: otra misión mezclaría sus datos con los de esta." Once saved, the quest is locked for editors (`lockedOnceSet('quest')`, see [Admin panel](admin-panel.md)).
 2. The form fills the empty title, slug, SEO and summary fields right away, without saving, and marks the form as modified.
 3. Under each summary field, a note says where its value comes from (see [The notes under the summary](#the-notes-under-the-summary)). Torre edits whatever reads wrong; nothing typed is replaced later.
 4. Write the "Necesitarás" notes and, if a dungeon note shows the generic dungeon icon on the achievement page, pick its dungeon under «Mazmorras de las notas» (below). Then write the body: an introduction, the walkthrough as "Paso" blocks (each with optional X and Y and its own text, images, videos, callouts and fights; a step has no title, so a heading goes in bold at the start of its text), "Combate" blocks for fights (monsters from DofusDB with their quantities, introduced by the text before them) and a closing. See [Guide body blocks](blocks.md).
 5. Check the draft with the panel's live preview (desktop or the 390 px "Móvil" breakpoint) or the preview button, both of which open the public page through `/vista-previa` with the current draft. See [Public quest guide page](../frontend/guide-page.md#draft-preview).
-6. Save a draft or publish. The save hook fills anything still empty, such as a field Torre cleared on purpose. Every save expires the cached guide pages, so a published change shows on the next visit.
+6. Save a draft or publish. On a guide's first save the hook fills anything still empty; later saves fill only an empty title or slug, so a field Torre cleared on purpose stays cleared. Every save expires the cached guide pages, so a published change shows on the next visit.
 
 A guide links a single quest, and that quest feeds the fill and the notes. One quest per guide fits the existing content: of Torre's 1,272 Squarespace guides, 1,234 match exactly one DofusDB quest, 29 match none and 9 are ambiguous, and none matches more than one. The [Squarespace import](../data/squarespace-import.md#loading-into-payload) leaves a guide that names several quest IDs unlinked for Torre to choose.
 
@@ -99,7 +103,7 @@ All rules are pure functions in `src/lib/guides/`, without Payload, so the serve
 | `seo.metaTitle` | `<name>: guía de la misión de Dofus` |
 | `seo.metaDescription` | `Guía paso a paso de la misión <name> de Dofus, de nivel <levelMin>: requisitos, recompensas (<XP> XP) y cómo completarla.` The level and XP parts are dropped when missing. Cut at a word boundary with `…` so it never exceeds 160 characters |
 
-If the slug is taken by another guide, an achievement page or a metalogro (they all live at `/<slug>`, drafts included), or is one of the reserved top-level routes (`admin`, `api`, `sistema`, `vista-previa`, `metalogros`), `availableSlug` tries `-2`, `-3`… until one is free. The guide being edited does not count as a collision. See [Achievement data model](../achievements/achievement-data.md#one-slug-space-at-the-root). A quest with an empty name fills nothing.
+If the slug is taken by another guide, an achievement page, a metalogro, a Dofus guide, a checklist or a standalone page (they all live at `/<slug>`, drafts included), or is one of the reserved top-level routes (`admin`, `api`, `sistema`, `vista-previa`, `metalogros`), `availableSlug` tries `-2`, `-3`… until one is free. The guide being edited does not count as a collision. See [Achievement data model](../achievements/achievement-data.md#one-slug-space-at-the-root). A quest with an empty name fills nothing.
 
 Guides migrated from Squarespace already have a slug, so they keep their old URL.
 
@@ -110,13 +114,17 @@ Guides migrated from Squarespace already have a slug, so they keep their old URL
 | Field | From DofusDB | Example |
 |---|---|---|
 | `prerequisites` | "Nivel mínimo N." when the start criterion always requires `PL>M` (N = M + 1), then the name of each prerequisite quest. "Always requires" means the `PL>` term is joined with `&` at the top level or inside `&`-only brackets, as read by the shared criterion parser `requiredTerms` (see [DofusDB game data refresh](../data/dofusdb-refresh.md#prerequisite-rule)): `PL>189&Qf=123` gives level 190, but `PL>189\|Qf=123` and `(PL>50\|PL>60)&Qf=1` give no level. The `prerequisites` relation holds only the mandatory quests (see [DofusDB game data refresh](../data/dofusdb-refresh.md#prerequisite-rule)) | `Nivel mínimo 190.`<br>`Toma de conciencia.` |
-| `rewards` | Experience, kamas, then `N x Item` lines with the items in the **reverse** of DofusDB's order, as Torre lists them. Zero amounts are skipped | `24 316 XP.`<br>`552 kamas.`<br>`2 x Cuero de miserata strubiense.`<br>`2 x Colmillos de ratas.` |
+| `rewardExperience`, `rewardKamas` | The quest's XP and kamas; a DofusDB `0` gives nothing to copy | `24316`, `552` |
+| `rewardExperienceMin` | DofusDB's XP at the optimal level, the start of the XP range; filled only together with DofusDB's own XP, never beside a figure Torre wrote | `20 000` |
+| `rewardItems` | The reward items in the **reverse** of DofusDB's order, as Torre lists them, as rows `{ item, quantity }` | rows |
+| `rewardLevels` | The level tiers of a quest whose reward changes with the level (event quests), lowest first, each with its XP, kamas and items; empty for a fixed reward | rows |
+| `rewards` | «Recompensas en texto»: experience, kamas, then `N x Item` lines, as above. Zero amounts are skipped. The guide header shows it only when the structured fields are empty (see [Quest guide rewards](../data/guide-rewards.md)) | `24 316 XP.`<br>`552 kamas.`<br>`2 x Cuero de miserata strubiense.`<br>`2 x Colmillos de ratas.` |
 | `needs.items` | The quest's needed items with their quantities, in DofusDB's order, **without quest items** (`superTypeId === 14`): the game hands those out during the quest. Monsters and map walking do not fit an item list and are left out | rows `{ item, quantity }` |
 | `startNpc`, `startX`, `startY` | The first start position. DofusDB can give one per class | `Kerubim Crepin`, `3`, `-17` |
 
 A relation that is not populated has no name and is skipped rather than shown as an ID. A field DofusDB gives nothing for stays empty.
 
-"Empty" means `null`, `undefined`, or text with only spaces. `0` is a valid coordinate and counts as written. The item list counts as empty only when it has no rows; a list with any row is left alone. `needs.notes` is never filled: it holds what an item list cannot express, such as "1 x Combate (solo)" or "Literalmente nada".
+"Empty" means `null`, `undefined`, or text with only spaces. `0` is a valid coordinate and counts as written. A list (`needs.items`, `rewardItems`, `rewardLevels`) counts as empty only when it has no rows; a list with any row is left alone. `rewardNotes` («Otras recompensas») is never filled. `needs.notes` is never filled: it holds what an item list cannot express, such as "1 x Combate (solo)" or "Literalmente nada".
 
 The output matches Torre's own pages. For El cazador cazado (1977) and Seis pies bajo tierra (1976), `rewardsText` gives exactly the rewards the Squarespace import read from Torre's guides, and the 1977 prerequisites and the 1433 minimum level match too. The unit tests compare against those parsed pages.
 
@@ -124,27 +132,27 @@ The output matches Torre's own pages. For El cazador cazado (1977) and Seis pies
 
 ### Live in the form: `QuestAutofill`
 
-`src/components/quest-guide-admin/QuestAutofill.tsx` is the `Description` component of the `quest` field. It watches the selected quest ID through `useFormFields`. When the ID changes:
+`src/components/quest-guide-admin/QuestAutofill.tsx` is the `Description` component of the `quest` field. It watches the selected quest ID and renders the field description plus, once a quest is selected, the shared «Rellenar desde DofusDB» button (`src/components/admin/DofusDbFillButton.tsx`). When the ID changes, or when Torre presses the button, `fillEmpty`:
 
 1. It loads the quest from the REST API, `GET <serverURL><api>/quests/<id>?depth=1` with the session cookie, through `fetchLinkedQuest` in `linked-quest.ts`. Requests are cached per URL while the page is open; a failed one is dropped from the cache so the next attempt retries.
-2. It plans the fill with `plannedFormFill(read, quest)`, where `read` is the form's `getDataByPath`. The plan runs `autofillFromQuest` and `summaryToFill` on the current form values and returns the field paths to fill with their values (blank values dropped) plus the rows for an empty "Necesitarás" list (`summary.needs.items`, exported as `NEEDS_PATH`).
+2. It plans the fill with `plannedFormFill(read, quest)`, where `read` is the form's `getDataByPath`. The plan runs `autofillFromQuest` and `summaryToFill` on the current form values and returns the field paths to fill with their values (blank values dropped) plus the rows for each empty list: "Necesitarás" (`summary.needs.items`, `NEEDS_PATH`), the reward items (`REWARD_ITEMS_PATH`) and the level tiers (`REWARD_LEVELS_PATH`).
 3. For the planned slug it calls `availableSlug` with `slugTaken`, which queries `quest-guides` by slug and ignores the guide's own ID. If that query fails it answers "not taken" and lets the server reject a duplicate. It does not look at achievement pages or metalogros: if the form fills a slug one of them uses, saving fails with `rejectSharedSlug`'s message on the slug field, and Torre changes it or empties it so the save hook picks a free one.
-4. It re-reads the form with `stillEmpty(planned, read)`: only planned fields that are still blank are kept, and the needs rows only when the list still has no rows. Torre can type while the slug check is in flight, and whatever was typed in that window stays.
-5. It dispatches an `UPDATE` for each remaining value and adds one `summary.needs.items` row per remaining needed item with its item and quantity, then marks the form modified if it filled anything.
+4. It re-reads the form with `stillEmpty(planned, read)`: only planned fields that are still blank are kept, and each list's rows only when that list still has no rows. Torre can type while the slug check is in flight, and whatever was typed in that window stays.
+5. It dispatches an `UPDATE` for each remaining value, adds one row per needed item and per reward item with its item and quantity, and one row per level tier with its figures and then its own item rows, then marks the form modified if it filled anything. It returns `filled`, `nothing` or `error`, which the button announces in a `role="status"` line («Listo: se copió lo que estaba vacío. Guarda para conservarlo.», «No hay nada vacío que DofusDB pueda rellenar.» or a load error).
 
-The quest the guide was opened with fills nothing: only a change Torre makes in the form triggers it. If Torre picks another quest while a request is in flight, the stale result is discarded.
+The quest the guide was opened with fills nothing on its own: only a change Torre makes in the form or the button triggers it. If Torre picks another quest while a request is in flight, the stale result is discarded.
 
 `plannedFormFill` and `stillEmpty` use the same "blank" rule as the rest of the fill: `null`, `undefined` or whitespace-only text is blank, and a number (such as a `0` coordinate) is written. A needs list that Payload reports as a row count instead of an array is read as that many empty rows.
 
 ### On save: `fillFromQuest`
 
-`src/collections/quest-guide-autofill.ts` is the collection's `beforeValidate` hook. It runs on every create and update through any API, the importer included. It builds the current values from `data`, falling back to the saved document for fields `data` does not carry (an update may send only what changed; an explicit `null` in `data` wins). It loads the linked quest with `payload.findByID` at `depth: 1`, fills the empty title, slug and SEO fields, checks the slug with `isRootSlugTaken` (`src/collections/root-slug.ts`: other guides, achievement pages and metalogros, stored or in their latest draft, and reserved routes), and merges the summary fill into the saved and sent summary, keeping the needs notes.
+`src/collections/quest-guide-autofill.ts` is the collection's `beforeValidate` hook. It runs on every create and update through any API, the importer included. It builds the current values from `data`, falling back to the saved document for fields `data` does not carry (an update may send only what changed; an explicit `null` in `data` wins). `fillsFromDofusDb(operation, sent, saved)` (`src/lib/guides/autofill.ts`) decides how far it goes: a full fill on create or when the request sends a different quest; otherwise only an empty title or slug. With a fill to do, it loads the linked quest with `payload.findByID` at `depth: 1`, fills the empty title and slug (and, on a full fill, the SEO fields), checks the slug with `isRootSlugTaken` (`src/collections/root-slug.ts`: the whole root slug space, stored or in the latest draft, the redirect table and reserved routes), and on a full fill merges the summary fill, rewards included, into the saved and sent summary, keeping the needs notes.
 
-The hook is the backstop: it covers guides created outside the panel, a form where the client fill never ran, and fields cleared before saving. After the fill, if the title is still empty it throws a `ValidationError` on `title`, because Payload saves drafts without field validation.
+The hook is the backstop: it covers guides created outside the panel and a form where the client fill never ran. After the fill, if the title is still empty it throws a `ValidationError` on `title`, because Payload saves drafts without field validation.
 
 ## The notes under the summary
 
-`src/components/quest-guide-admin/SummaryNote.tsx` is the `Description` of each fillable summary field and of the `needs.items` list. It loads the linked quest with `useLinkedQuest` (same cached request) and renders `summaryNote(state, field, value)`, keeping line breaks so multi-line rewards stay readable:
+`src/components/quest-guide-admin/SummaryNote.tsx` is the `Description` of each fillable summary field, of the reward figures and lists and of the `needs.items` list. It loads the linked quest with `useLinkedQuest` (same cached request) and renders `summaryNote(state, field, value)`, keeping line breaks so multi-line rewards stay readable:
 
 | Situation | Note |
 |---|---|
@@ -152,11 +160,11 @@ The hook is the backstop: it covers guides created outside the panel, a form whe
 | Quest loading / failed | Cargando los datos de DofusDB… / No se pudieron cargar los datos de DofusDB. |
 | Value equals DofusDB's | Viene de DofusDB. Puedes cambiarlo. |
 | Value differs | Cambiado. DofusDB da: `<DofusDB's value>` |
-| Field empty, DofusDB has a value | Vacío: al guardar se rellena con lo que da DofusDB: `<value>` |
+| Field empty, DofusDB has a value | Vacío. DofusDB da: `<value>`. «Rellenar desde DofusDB» lo copia aquí. |
 | DofusDB gives nothing, field empty | DofusDB no da nada aquí; escríbelo tú. |
 | DofusDB gives nothing, field written | Escrito por ti: DofusDB no da nada aquí. |
 
-Text compares after trimming. The item list compares as a set of item and quantity pairs: row order does not matter, and a populated item counts as its ID. For the list, the DofusDB value shown is one `N x Item.` line per item.
+Text compares after trimming and reward figures show with thousands separated. An item list (`needs.items`, `rewardItems`) compares as a set of item and quantity pairs: row order does not matter, and a populated item counts as its ID; the DofusDB value shown is one `N x Item.` line per item. Level tiers compare row by row, in order, with their items as a set.
 
 ## Picking the dungeon of a note
 
@@ -165,15 +173,15 @@ An achievement page's «Necesitarás en total» shows the boss of the dungeon a 
 - `validatePickedDungeonNote` accepts only a dungeon note that appears in the guide's Notes, ignoring the quantity, case and accents (`isDungeonNoteIn` in `src/lib/guides/need-notes.ts`).
 - `withoutDeletedDungeons`, a `beforeValidate` field hook, drops rows whose dungeon was deleted (the foreign key left it null), so the guide still saves; a row Torre just emptied stays so the panel asks for it.
 - The Squarespace import keeps Torre's picks when it rewrites Notes, except a pick whose note is no longer there (`livePicks`), which it removes and reports as an oddity.
-- `pnpm data:quests` ends with a report of the dungeon rows that still show the generic icon and counts the rows a pick resolved (see [DofusDB refresh](../data/dofusdb-refresh.md)).
+- `pnpm data:refresh` ends with a report of the dungeon rows that still show the generic icon and counts the rows a pick resolved (see [DofusDB refresh](../data/dofusdb-refresh.md)).
 
 ## Trade-off: values are copied
 
-The fill copies values into the guide. Later changes to the quest in DofusDB, brought in by `pnpm data:quests`, do not update existing guides on their own. That keeps Torre's edits safe and the guide stable, at the cost of drift: when DofusDB changes, the note under the affected field turns into "Cambiado. DofusDB da: …" and shows the new value, and Torre decides whether to take it. Emptying a field and saving takes DofusDB's current value again.
+The fill copies values into the guide. Later changes to the quest in DofusDB, brought in by `pnpm data:refresh`, do not update existing guides on their own. That keeps Torre's edits safe and the guide stable, at the cost of drift: when DofusDB changes, the note under the affected field turns into "Cambiado. DofusDB da: …" and shows the new value, and Torre decides whether to take it. Emptying a field and pressing «Rellenar desde DofusDB» takes DofusDB's current value again. Maintenance scripts fill or correct rewards in bulk (see [Quest guide rewards](../data/guide-rewards.md)).
 
 ## Importer
 
-The Squarespace importer runs the same `summaryToFill` and `applySummaryFill` before comparing a converted guide with the stored one, so the stored guide (filled by the hook) and the converted one compare equal and a rerun saves no new version. Squarespace's "Necesitarás" text lands in `needs.notes`, and the dungeon picks whose notes are still there are kept. See [Squarespace import](../data/squarespace-import.md#loading-into-payload).
+The Squarespace importer runs the same `summaryToFill` and `applySummaryFill` before comparing a converted guide with the stored one, so the stored guide and the converted one compare equal and a rerun saves no new version. It records what it wrote in the hidden `importSnapshot` and leaves alone any field Torre changed since. Squarespace's "Necesitarás" text lands in `needs.notes`, and the dungeon picks whose notes are still there are kept. See [Squarespace import](../data/squarespace-import.md#loading-into-payload).
 
 ## Tests
 
@@ -181,7 +189,7 @@ The Squarespace importer runs the same `summaryToFill` and `applySummaryFill` be
 - `tests/unit/guide-form-fill.test.ts` checks that `plannedFormFill` plans every empty field from quest 1977's data and nothing for fields already written, and that `stillEmpty` drops a title, a rewards text and a needs list Torre typed during the slug check while still filling the slug and the start NPC, treating whitespace-only text and a list with no rows as empty.
 - `tests/unit/guide-autofill.test.ts` covers `slugFromName` on Torre's slugs and odd names, `availableSlug` suffixes, `seoFromQuest` with and without level and XP and the 160-character cut, `autofillFromQuest` never touching written fields, and `linkedQuestId` reading an ID or a populated document and returning `null` without a quest.
 - `tests/unit/guide-slug.test.ts` checks that reserved slugs are rejected with their own message and count as taken, so `sistema` becomes `sistema-2`.
-- `tests/integration/quest-guides-autofill.test.ts` saves guides through the local API as a panel user: a guide with only the quest gets title, slug, SEO and the full summary (the quest item left out of the needs list, notes empty); a second one gets `-2`; written title, slug, SEO, summary fields and needs lists stay; a guide without title and quest is rejected with the Spanish message; editing an imported guide keeps its Squarespace slug and SEO title; and a summary field emptied on update is filled again.
+- `tests/integration/quest-guides-autofill.test.ts` saves guides through the local API as a panel user: a guide with only the quest gets title, slug, SEO and the full summary (the quest item left out of the needs list, notes empty); a second one gets `-2`; written title, slug, SEO, summary fields and needs lists stay; a guide without title and quest is rejected with the Spanish message; editing an imported guide keeps its Squarespace slug and SEO title; creating a guide copies DofusDB's rewards and level tiers in Torre's order, while Torre's own XP never gets DofusDB's minimum beside it; a reward, a summary field or the only «Necesitarás» row emptied on update stays empty; an emptied title comes back from the quest; and changing the quest fills only what is empty from the new one.
 
 ## Related pages
 

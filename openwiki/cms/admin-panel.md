@@ -34,10 +34,10 @@ sources:
     resource: repo://src/migrations/20261114_011851_users_roles.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
     resource: repo://src/payload.config.ts
-generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
+generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-15T11:00:17.514Z
+    at: 2026-11-16T11:00:16.891Z
 ---
 
 # Admin panel for editors
@@ -47,7 +47,7 @@ The Payload panel at `/admin` is where Torre, who came from Squarespace and is n
 ## How the panel speaks
 
 - **Plain Spanish, with tú and no jargon.** Labels, descriptions and messages live in `src/lib/admin/strings.ts` (`panelStrings`) and collection strings files. The slug field is «Dirección en la web» (`SLUG_LABEL` in `src/collections/slug-field.ts`); Torre's `state` field is «Visible en la web». `panelStrings.translations` overrides some of Payload's own Spanish words, so the header's «Estado» only means Payload's publish status («Borrador, sin publicar», «Publicado en la web», «Con cambios sin publicar»).
-- **Menu order and groups.** The menu follows the order of the `collections` array in `src/payload.config.ts`, and each collection names its group through `panelStrings.groups`: «Contenido» (quest guides, achievement pages, metalogros, Dofus guides, checklists, and the «Índice de guías de Dofus» and «Índice de checklists» globals), «Imágenes» (media), «Datos del juego (solo lectura)» (quests, items, monsters, dungeons, NPCs, subareas, achievement categories, achievements) and «Ajustes» (panel accounts).
+- **Menu order and groups.** The menu follows the order of the `collections` array in `src/payload.config.ts`, and each collection names its group through `panelStrings.groups`: «Contenido» (quest guides, achievement pages, metalogros, Dofus guides, checklists, standalone pages, and the «Índice de guías de Dofus» and «Índice de checklists» globals), «Imágenes» (media), «Datos del juego» (quests, items, monsters, dungeons, NPCs, subareas, achievement categories, achievements and «Refrescos de datos») and «Ajustes» (redirects, panel accounts, and the «Ajustes del sitio» and «Portada e índices» globals). The game data group lost its «(solo lectura)» suffix when quests, items, monsters, dungeons, NPCs and achievements gained the editable «Corrección de Torre» group (see [Torre corrections to DofusDB data](../data/torre-corrections.md)); their DofusDB fields stay read-only.
 - **Hidden until it means something.** Every collection sets `hideAPIURL: true`. With one locale, `src/app/(payload)/custom.scss` hides the locale switch and the «— Español» suffix of localized fields; `tests/unit/admin-panel-config.test.ts` fails if a second locale is added without removing that rule.
 - **Branding.** `PanelBrand.tsx` replaces Payload's logo and icon with the Torrente Arcano emblem and adds a welcome above the login form; the panel uses the site's icons and a title suffix.
 - **A line per collection.** `withPanelDescriptions` (`src/lib/admin/panel-guide.ts`) puts one plain sentence above each collection's list saying what it holds.
@@ -93,13 +93,13 @@ Deleting something a guide uses used to leave a hole with no warning (A-17). `re
 
 | Target | Referenced from |
 |---|---|
-| `media` | quest guide body images, a Dofus guide's `videoPoster` and body images, a checklist step's figure image, icon and banner, a checklist's index card scene and NPC, achievement page prose, and the scene and egg of the checklists index teaser |
+| `media` | quest guide body images, a Dofus guide's `videoPoster`, `egg` and body images, a standalone page's body images, the `correction.image` of NPCs, monsters, items, achievements and dungeons, a checklist step's figure image, icon and banner, a checklist's index card scene and NPC, achievement page prose, the scene and egg of the checklists index teaser, and the «Ajustes del sitio» share image (`ogImage`) |
 | `achievement-pages` | Dofus guide achievement parts |
-| `quest-guides` | Dofus guide quest parts, a metalogro's `guides` |
+| `quest-guides` | Dofus guide quest parts and the guides of their own quest rows (`parts.ownQuests.guides`, `parts.achievements.ownQuests.guides`), a metalogro's `guides`, an achievement page's `prerequisites.guide` |
 | `achievement-groups` | an achievement page's `group` |
-| `dofus-guides` | a checklist's `dofusGuide` |
+| `dofus-guides` | a checklist's `dofusGuide`, its steps' `dofus` and its card's `crown` |
 
-For every referrer it queries both the published documents and the latest drafts (a draft published later would leave the same hole), all at once, each limited to 10 names plus a total. Globals have no drafts and cannot be queried, so `GLOBAL_REFERRERS` lists their paths and the hook reads each global whole (today the `checklists-index` teaser's scene and egg, named «Índice de checklists»). If anything refers to the target, the hook throws a 409 with a message naming up to 10 guides or globals and the count («Esta imagen sale en 4 guías: …», `src/lib/admin/references.ts`).
+For every referrer it queries both the published documents and the latest drafts (a draft published later would leave the same hole), all at once, each limited to 10 names plus a total. Globals have no drafts and cannot be queried, so `GLOBAL_REFERRERS` lists their paths and the hook reads each global whole (today the `checklists-index` teaser's scene and egg, named «Índice de checklists», and the `site-settings` share image, named «Ajustes del sitio»). If anything refers to the target, the hook throws a 409 with a message naming up to 10 guides or globals and the count («Esta imagen sale en 4 guías: …», `src/lib/admin/references.ts`).
 
 Achievement page prose is Lexical JSON, which Payload cannot query as a tree. `prosePaths` asks for upload nodes (`value`) and the `poster` of video blocks at each depth down to `PROSE_DEPTH` (6) levels. Images in other rich text are not counted. A new relationship or upload field that points at one of these collections must add its path to `REFERRERS`.
 

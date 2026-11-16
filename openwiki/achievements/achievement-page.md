@@ -10,6 +10,8 @@ sources:
     resource: repo://src/app/(frontend)/%5Bslug%5D/AchievementView.tsx
   - id: openwiki-source-cb49e3c4d1015b8673e71275
     resource: repo://src/app/(frontend)/%5Bslug%5D/page.tsx
+  - id: openwiki-source-14ca87abed0f0ffc69067570
+    resource: repo://src/app/(frontend)/%5Bslug%5D/redirect-data.ts
   - id: openwiki-source-4f2e53306895c158accd92ec
     resource: repo://src/collections/revalidate-guides.ts
   - id: openwiki-source-10b98fc83fb5e49b777c3566
@@ -22,25 +24,29 @@ sources:
     resource: repo://src/components/site/Breadcrumb.tsx
   - id: openwiki-source-014c13a445f559e314d219dd
     resource: repo://src/lib/achievements/cache.ts
-  - id: openwiki-source-f09b43593b4e26ac43d24662
-    resource: repo://src/lib/achievements/dungeons.ts
   - id: openwiki-source-6c5141b803eb1f150eb8e36d
     resource: repo://src/lib/achievements/page.ts
   - id: openwiki-source-e73131df56ebe53f18c77bc5
     resource: repo://src/lib/achievements/queries.ts
   - id: openwiki-source-af2465572edd8138ad48c4b8
     resource: repo://src/lib/dofus-guides/page.ts
+  - id: openwiki-source-d118161b5d38ff2095848286
+    resource: repo://src/lib/game-data/correction.ts
+  - id: openwiki-source-9e58d800f77e4c8aeaa3ca2e
+    resource: repo://src/lib/guides/dungeon-bosses.ts
+  - id: openwiki-source-e103be6c7e1a74cdcb0bea91
+    resource: repo://src/lib/guides/dungeons.ts
   - id: openwiki-source-1f65cb688406ef2eb6ebe494
     resource: repo://tests/e2e/logro.spec.ts
-generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
+generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-15T11:00:17.514Z
+    at: 2026-11-16T11:00:16.891Z
 ---
 
 # Achievement page
 
-An achievement page (`achievement-pages`, see [Achievement data model](achievement-data.md)) renders at `/<slug>`, the same route as quest guides, Dofus guides and checklists. Slugs never collide across those collections, so the route tries one after another.
+An achievement page (`achievement-pages`, see [Achievement data model](achievement-data.md)) renders at `/<slug>`, the same route as quest guides, Dofus guides, standalone pages and checklists. Slugs never collide across those collections, so the route tries one after another.
 
 ## Route and metadata
 
@@ -49,10 +55,11 @@ An achievement page (`achievement-pages`, see [Achievement data model](achieveme
 1. `loadGuidePage(slug)`: if a guide exists, render the guide (see [Guide page](../frontend/guide-page.md)).
 2. Otherwise `loadAchievementPage(slug)`: if found, render `AchievementView`.
 3. Otherwise `loadDofusGuide(slug)`: if found, render the Dofus guide (see [Dofus guide page](../dofus-guides/dofus-guide-page.md)).
-4. Otherwise `loadChecklist(slug)`: if found, render the checklist (`SoulsView` for a souls checklist, `ChecklistView` otherwise) or redirect to its legacy page (see [Checklist page](../checklists/checklist-page.md) and [Souls checklist](../checklists/souls-checklist.md)).
-5. None of them: `notFound()`.
+4. Otherwise `loadSitePage(slug)`: if found, render the standalone page or redirect to its legacy page (see [Standalone pages](../pages/standalone-pages.md)).
+5. Otherwise `loadChecklist(slug)`: if found, render the checklist (`SoulsView` for a souls checklist, `ChecklistView` otherwise) or redirect to its legacy page (see [Checklist page](../checklists/checklist-page.md) and [Souls checklist](../checklists/souls-checklist.md)).
+6. None of them: `redirectOrNotFound(slug)` (`redirect-data.ts`) answers a 308 to the page's new address when Torre changed its slug, and otherwise `notFound()` (see [Redirects, sitemap and robots](../operations/redirects-and-seo.md)).
 
-`generateMetadata` follows the same order through `slugSeo`. For an achievement the title and description come from `achievementPageStrings.seo` with the page name and its number of quests; the canonical URL is `/<slug>` and Open Graph uses type `article`. A preview sets `robots: { index: false, follow: false }`.
+`generateMetadata` follows the same order through `slugSeo`. For an achievement the title and description come from `achievementPageStrings.seo` with the page name and its number of quests; the canonical URL is `/<slug>` and Open Graph uses type `article`, with the site name and share image from «Ajustes del sitio» (`openGraphDefaults`, see [Site settings and index texts](../cms/site-copy.md)). A preview sets `robots: { index: false, follow: false }`.
 
 An achievement page in state `preparing` has no public page: the query filters it out for visitors, so the route returns 404.
 
@@ -69,16 +76,16 @@ An achievement page in state `preparing` has no public page: the query filters i
 
 1. Return null for a reserved or malformed slug (`isGuideSlug`).
 2. Find the page by slug at depth 2. A visitor gets `draft: false` and `state: published` only.
-3. Load the pages of the same metalogro, sorted by `order` then `name`, with only the achievement icon and quest `levelMin` populated.
+3. Load the pages of the same metalogro, sorted by `order` then `name`, with only the achievement icon, quest `levelMin` and their Torre corrections populated.
 4. Load the published guides of the page's quests and of their prerequisites, with each guide's "Necesitarás" items, notes and dungeon picks.
 5. Load the NPCs that start each quest, keyed by DofusDB ID.
-6. Read the game items whose exact name a note uses (`readNoteItems`) and the boss image of each dungeon note (`readDungeonBosses`).
+6. Read the game items whose exact name a note uses (`readNoteItems`) and the boss image of each dungeon note (`readDungeonBosses` in `src/lib/guides/dungeon-bosses.ts`).
 
 ### Revalidation
 
 `src/collections/revalidate-guides.ts` expires the tags from every side, because each page type shows the others:
 
-- Saves and deletes of `quest-guides` and `media` expire `guide-pages`, `achievement-pages`, `dofus-guides` and `checklists`. A published guide makes its quest card a link on the achievement page, on the Dofus guide and on the checklist, and a media file is an icon or a render on all of them.
+- Saves and deletes of `quest-guides` and `media` expire `guide-pages`, `achievement-pages`, `dofus-guides`, `checklists` and `pages`. A published guide makes its quest card a link on the achievement page, on the Dofus guide and on the checklist, and a media file is an icon or a render on all of them and a screenshot on standalone pages.
 - Saves and deletes of `achievement-pages` and `achievement-groups` expire the same four tags: a guide shows its achievement page in its breadcrumb and "Misión 2 de 3", a Dofus guide lists each achievement's quests, and a checklist links each achievement.
 
 Outside a Next request (scripts, the import, tests) `revalidateTag` throws a "static generation store missing" invariant; `expire` ignores that one error and rethrows any other. Writes made outside the server show within the 10-minute `revalidate`.
@@ -89,17 +96,19 @@ Outside a Next request (scripts, the import, tests) `revalidateTag` throws a "st
 
 - **Header meta**: "N misiones", the level range of the quest rows when known (a row's level is the lowest `levelMin` of its alternatives), and the points when positive.
 - **Facts** (reused from the guide's `QuestFacts` data): Prerrequisitos and Recompensas. They go in the side sheet with «Necesitarás en total», not in the header.
-  - Prerequisites: quests required by the page's quests that are not part of the achievement, deduplicated, each linked to its published guide when there is one.
+  - Prerequisites: the rows Torre wrote in the page's «Prerrequisitos», each linked to its guide when a visitor can see it. With no rows, the quests required by the page's quests that are not part of the achievement, deduplicated, each linked to its published guide when there is one.
   - Rewards: experience, kamas and items from the page's `rewards`.
 - **Necesitarás en total** (`achievementNeeds`, below).
-- **Quest cards**: one per quest row, built by the exported `questCards`, with its number, level, title and the NPC render of its giver. The card links to the guide only when the row has one quest and that quest has a published guide. The [Dofus guide page](../dofus-guides/dofus-guide-page.md) reuses `questRows`, `questCards` and `cardLevels` for the quests of each achievement it lists.
+- **Quest cards**: one per quest row, built by the exported `questCards`, with its number, level, title and the NPC render of its giver. The title is the name Torre gave the row, or the quest's name when he left it empty. The card links to the guide only when the row has one quest and that quest has a published guide. The [Dofus guide page](../dofus-guides/dofus-guide-page.md) reuses `questRows`, `questCards` and `cardLevels` for the quests of each achievement it lists.
 - **Metalogro list**: the metalogro's pages in order (`group.items`). The current one is marked; one that is not `published` is disabled, without a link. The page does not render this list; it only feeds previous and next.
 - **Previous and next**: the neighbours of the current page in that list. A neighbour that is not published shows dimmed with "En preparación" and no link.
 - **Counts for**: the game achievements that require this one, from the DofusDB achievement's `countsFor`.
 
+Every game record the view model reads (quests, the achievement icon, NPC renders, items) goes through `shown`: `corrected` puts Torre's correction (name, level, image) on top, and a record he hid (`hiddenByTorre`) is dropped, so a hidden quest leaves its row and a hidden item leaves «Necesitarás en total», where its note stays as text (see [Torre corrections to DofusDB data](../data/torre-corrections.md)).
+
 ### Necesitarás en total
 
-`achievementNeeds` gathers what the published guides of the single-quest rows ask for. Rows with alternatives are skipped, because nobody knows which class quest you will do. The same function feeds the dungeon report of `pnpm data:quests` (see [DofusDB refresh](../data/dofusdb-refresh.md)), so the page and the report agree.
+`achievementNeeds` gathers what the published guides of the single-quest rows ask for. Rows with alternatives are skipped, because nobody knows which class quest you will do. The same function feeds the dungeon report of `pnpm data:refresh` (see [Achievement data model](achievement-data.md#dungeon-report)), so the page and the report agree.
 
 `totalNeeds` sorts everything into three groups (`AchievementNeeds`):
 
@@ -115,15 +124,15 @@ Item quantities are counted per guide first:
 
 - **Same guide, linked and noted.** When one guide links an item and also writes it in a note ("25 x Esquíritu majestuoso." in a guide that links 25), that is the same request: `guideAsks` takes the larger of the two, never their sum.
 - **Consumed items sum across guides.** Each guide's ask is added up.
-- **Items you only hold count once.** `onlyHeld` treats an item as held when DofusDB groups it as equipment (`itemGroup(superTypeId) === 'equipables'`: gear, pets, Dofus, trophies) and no single-quest row of the achievement has a `bring` objective for it. A quest that checks you own a Dofus Turquesa does not keep it, so the total takes the largest single ask instead of summing. An item without a DofusDB ID cannot be checked and sums as before. `achievementNeeds` builds the set of brought item IDs from the stored quest objectives.
+- **Items you only hold count once.** `onlyHeld` treats an item as held when DofusDB groups it as equipment (`itemGroup(superTypeId) === 'equipables'`: gear, pets, Dofus, trophies) and no single-quest row of the achievement has a `bring` objective for it. A quest that checks you own a Dofus Turquesa does not keep it, so the total takes the largest single ask instead of summing. A `show` objective («Enséñale») is not a `bring`: the NPC gives the item back, so it counts once too. An item without a DofusDB ID cannot be checked and sums as before. `achievementNeeds` builds the set of brought item IDs from the stored quest objectives.
 
-A dungeon note's boss image comes from `chooseDungeonBosses` (`src/lib/achievements/queries.ts`). If Torre picked a dungeon for that note in a quest guide's summary (`needs.dungeons`, «Mazmorras de las notas», see [Guide authoring](../cms/guide-authoring.md)), the pick wins; `dungeonPicks` joins the picks across guides by note key and drops a note whose guides picked different dungeons. Otherwise `dungeonChooser` (`src/lib/achievements/dungeons.ts`) asks `dungeonMatches`, which runs up to three passes and stops at the first that finds anything:
+A dungeon note's boss image comes from `chooseDungeonBosses` (`src/lib/guides/dungeon-bosses.ts`, shared with quest guides and Dofus guides). If Torre picked a dungeon for that note in a quest guide's summary (`needs.dungeons`, «Mazmorras de las notas», see [Guide authoring](../cms/guide-authoring.md)), the pick wins; `dungeonPicks` joins the picks across guides by note key and drops a note whose guides picked different dungeons. Otherwise `dungeonChooser` (`src/lib/guides/dungeons.ts`) asks `dungeonMatches`, which runs up to three passes and stops at the first that finds anything:
 
 1. Each part of the note (outside and inside parentheses) is compared, longest prefix first, with each dungeon's full name, then with its bosses' names, then with the endings of those names ("Mazmorra de Grunob" is the dungeon of Director Grunob). A one-word ending only counts when it is the whole part.
 2. The same without filler words, in the note and in the names ("Mazmorra Ben Ripata").
 3. Only for parts that say "Mazmorra" in the singular: a name variant (two or more words in order, at most one extra word and one typo, such as "Ring Eskarlata"), or else the given name of a single boss in the whole game.
 
-A part that yields several dungeons is a doubt, and any doubt means the note does not match. The image is that of the boss the note matched by, when it has one, and otherwise the first boss of the dungeon with an image. A row with no dungeon or no boss image shows the generic dungeon icon. The same choice, with how each note matched, feeds the dungeon report of `pnpm data:quests` and `pnpm data:dungeon-notes` (see [DofusDB refresh](../data/dofusdb-refresh.md)).
+A part that yields several dungeons is a doubt, and any doubt means the note does not match. The image is that of the boss the note matched by, when it has one, and otherwise the first boss of the dungeon with an image. A row with no dungeon or no boss image shows the generic dungeon icon. The same choice, with how each note matched, feeds the dungeon report of `pnpm data:refresh` and `pnpm data:dungeon-notes`.
 
 ## Components
 

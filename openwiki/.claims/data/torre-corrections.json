@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:85cb94e14eeaef3e9c3067f5c65e7600e1b18afa0637507c4c4d468b328e6190",
+  "claims": [
+    {
+      "id": "claim_eccffb3ebcc84bb8964b0e0776f7288e",
+      "statement": "withTorreCorrection wraps quests, items, monsters, dungeons, NPCs and achievements, with a level only where the record shows one (not NPCs) and an image and hidden flag only where it shows an image (not quests).",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/Npcs.ts#L57-L57",
+          "version": "repo-lines-v1:sha256:8ccc24e3766b43aac5e387409ac4a2cd3c76466b228e7a653e52c87a4c9b7558:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGNjYzI0ZTM3NjZiNDNhYWM1ZTM4NzQwOWFjNGEyY2QzYzc2NDY2YjIyOGU3YTY1M2U1MmM4N2E0YzliNzU1OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOGNjYzI0ZTM3NjZiNDNhYWM1ZTM4NzQwOWFjNGEyY2QzYzc2NDY2YjIyOGU3YTY1M2U1MmM4N2E0YzliNzU1OCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWNmOTdhOGU4YjA4YjUwMjY3MDEwNWY3MzMzNmFlNDhkZWZhN2VhZWZjNzQ0NmY1Njg4MWY2MjBkYjMxOTQ3NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmFmYmEwNTI3YzM5NTNjNGI2ZTBlNWI1NzM5YmE4MzYxMmY4MDUzYmNkYzk0NjY3MzAxOTNjZDFkNTkwYjQwOCJ9"
+        },
+        {
+          "resource": "repo://src/collections/Quests.ts#L241-L241",
+          "version": "repo-lines-v1:sha256:93bd6f60f0f8fec53a7038ff9ef90743ac29c60b77f1b05b3c5edf38cf93f01c:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTNiZDZmNjBmMGY4ZmVjNTNhNzAzOGZmOWVmOTA3NDNhYzI5YzYwYjc3ZjFiMDViM2M1ZWRmMzhjZjkzZjAxYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTNiZDZmNjBmMGY4ZmVjNTNhNzAzOGZmOWVmOTA3NDNhYzI5YzYwYjc3ZjFiMDViM2M1ZWRmMzhjZjkzZjAxYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWNmOTdhOGU4YjA4YjUwMjY3MDEwNWY3MzMzNmFlNDhkZWZhN2VhZWZjNzQ0NmY1Njg4MWY2MjBkYjMxOTQ3NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjEsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmFmYmEwNTI3YzM5NTNjNGI2ZTBlNWI1NzM5YmE4MzYxMmY4MDUzYmNkYzk0NjY3MzAxOTNjZDFkNTkwYjQwOCJ9"
+        },
+        {
+          "resource": "repo://src/collections/torre-correction.ts#L26-L70",
+          "version": "repo-lines-v1:sha256:0ed5362b063cd07dd181135364b12d5627dc902722f8d3961bff8ae51add8f60:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc3YmI2NDI4ZWZjZWY1ZjZkYjJmMThhNjM5N2JlYWNkNGQ2ZjVhNTMxM2FiMmQ2ZWY1NjhjNjQxZTFmMzU5MDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMxODE0NjI0NTI4NGQxNWI0ZDM2NDUxMDE2YmYzYTRiYjI1MTJlYzZhMTIwNmQ3MzVhN2RjMDhlODMyNTM4YWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNiZTA2NmRjYjBhY2EzNjE1ZDNlYTIyMTlkNmUxZjM0NzkzY2YwZjllNWZjYWNhMGVhZjczNzIxMGI2N2YwMGEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_898cf5877c3a4c55881573b58ecb06ef",
+      "statement": "The wrapper puts the correction group first, makes every other field read-only, adds an indexed read-only Corregido por Torre flag as a list column, searches by both names, and gives anyone read, panel accounts update and nobody create or delete.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/torre-correction.ts#L18-L24",
+          "version": "repo-lines-v1:sha256:33a0e75d1dde13151b3c038cda1b2bf9ec6f927d33e735cf355e18da052cc92b:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTY5ZDRmMGFhNGEyYzEzYzVjZWY2Y2FkMGZhMWRjNDQ3MTNmOWNiYzA5NDMxOWFiZWE5YWY4Yzk0ODc5YmM2OCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTU4ODAwOTEwOTA2NDhhNTBkZWQwMjMxNTgwZGJhYjI4NjFjMGIwOTI4ZjZkODFkOTk5OTdlY2Y0YmExNzdkYSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDI0NDZlZDNkOTE0ZmQ3ZDJjOGE0YjQxMzM1MDM1MzY5NmYyOGJlYTZlNzBiNTdjNjcwYWVkYjIwNGM5MGNlZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTlhOWRmZDUzZGRhZDA0YzAzZjNmOGY3ZGNhMmM4ZGM1NjJjMjJmMDk4ZTJiMTdjYWRjNThjZWIzN2JjZjUwMiJ9"
+        },
+        {
+          "resource": "repo://src/collections/torre-correction.ts#L98-L136",
+          "version": "repo-lines-v1:sha256:021d9b0b0acc45e808bd3b0b44b36c67cfef929b7427623d418fbb370cfb0280:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1YmE0ZDc2NDdiMzAzZDE3NDg0YzRmNzE0NDMxZmIxZTA3NWYzNWY1ZjE3YTY3Njc1NWMxNjZhMzRkN2M2N2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY1YzZhYWVhYjE2MTU0MWFlOWQyYjA2ODY3YmE1YjNiMWE0ODI1MGM2ODk0YTFlYTA0ZmM4ZjUxYjdjODBmZmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/torre-correction.test.ts#L38-L94",
+          "version": "repo-lines-v1:sha256:199f6928f6931dbe019de2255b8b60fd2c9a236ce69b1a17f059440f9385f573:eyJzZWxlY3RlZExpbmVDb3VudCI6NTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdjM2I0MzAzNDQ4NDQ3ZjJiMWRhNzJlNDQ5MTQzMDEyZTg1ZTMwOTcyMWNiYWE2MDI3YTgwZDJlMWMyMjJkODgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJkMGZjNTllY2I5MmFmNmFiZjBhZjI4ZjU4MzI3OTAyMWZhNzFjODQ4YjIxMWE3NjA4MGJmNzMyYzIzNGI0MDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRiY2NhN2FhMjcyNmM3MTBjNGVmNjg3M2Y2YjliOWM3NWI0MmRiMTY2YWM2MzkwNTE2OTMyZWQ1NDhhZTY5OWYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_48f545f691b44ac992b64714a436547e",
+      "statement": "scopeCorrectionWrite restores every field but the correction to its saved value for an update with a user, restores the correction for an update without a user, stores everything on create, and recomputes the corrected flag from hasCorrection.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/torre-correction.ts#L72-L96",
+          "version": "repo-lines-v1:sha256:3f355ecec7664183e01db0a242568bafc11ada732683c2bfe443a7b63a39b7d4:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEyYmNhM2JkY2EwZWFmYzcyNWZlODU0YmQ4NGQxZmEzYTE5MjcxMmU0NDNhZWM5NWYxM2FiMzExZTE5M2EzNTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNkODQyZGRmYTE3MWJmNTRlMjViYTExNTI3YzRkM2M5ZmIzZDUwZTk2MmVmNWYyNDdlNjBlODZjODRjYjExOTAifQ"
+        },
+        {
+          "resource": "repo://src/lib/game-data/correction.ts#L67-L76",
+          "version": "repo-lines-v1:sha256:6df1e618b65ad9bb7853b19ce959df48f0646c47ea238070d30a7bcca36380f6:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUyZmY5NzgzNTkwZDI4ZjhjMTZiZDE3NTRjMjg4MzEyMTA1MzBmODI3YmJkNmE0N2U1YmFiZDY3MTAwNzZjMzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdkZjYyMmQ1YzhkMTA4NWM5N2ZhMWIwNWY0ZjNhNDc3Y2IxMzM5NDQ5NDlmMWNjZGNmNTVjYTYzOWYwZTU3YmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/torre-correction.test.ts#L95-L145",
+          "version": "repo-lines-v1:sha256:82610167dd01140ddd6983f3b6b05b17f71111c9b79560f0b8595d482a20ead7:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5OTc5Y2QwMjljMWFkNmRiYjk1ZmQ0ZDg4MTkyYzkwNWVmYzRkOGNkMzNlNTgzY2Q0Yjg2ZDk2ZjJjMzg5ZmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZlNDUxMzY0ZDA0NTNlOGQ4ZmI1YmQ4OWRhMGFhNjM1OTM2MWJkMWQ2ZTY1NDJkMTA3Mzk4NjMyMTFiZGZjZGUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_35a27fc7ab6848e8a8693020a378585c",
+      "statement": "corrected puts Torre's non-blank name, level (as levelMin, a single monster grade or level) and image (both NPC renders, an achievement icon or the image) over the record, and hiddenByTorre is true only when the populated record's correction is hidden.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/game-data/correction.ts#L34-L65",
+          "version": "repo-lines-v1:sha256:4be053f926219a836d0ab538a35e0e4c367b908266d3b50bd3a763ca6e79f975:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQyY2M3Mjg4OGUwMWZlYzY5ZjI4YWVmNjk3Njc5ZTRkZjJjN2JkY2IxZTk4ZWQwMzI4ZmU3MWIwNDNmN2U5YjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFhNWJlMzlmOTJiNzQ2NTdmMWQ4ZGQwMTYyYjQyYmMzOTMyMWRjZmE2OGFjMTg2OWFhMzYyMjZjNjFmYjRhNzUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/torre-correction.test.ts#L146-L193",
+          "version": "repo-lines-v1:sha256:d4ebe51e4d82137abfa09b39bb2d02dee2c5859786b4ceedd20c0e02abaadbb1:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY4NzA2NDViYjg1ZGFlZjIwYjBkYzA1YmM3M2VkMDE1MjQ0ZDczNWQxNmY4MTE3ODRmY2EzNzdlMDVhNmMwNTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d308d4da00dd4c2ab2cc5b0e8538bfe0",
+      "statement": "Pages apply corrections when they read game data: the quest guide, its items and the search index use corrected, and dungeon bosses skip hidden ones.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/guides/dungeon-bosses.ts#L70-L130",
+          "version": "repo-lines-v1:sha256:5042c94ef63c070771523f5b47ee4bf3a13b89afa2bb7e54ff4ae65333544e85:eyJzZWxlY3RlZExpbmVDb3VudCI6NjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQzMGZlMjRlYWM3OWE2ZmYxYzQ5ZmY0ZWVhMzIyMmUyMTI3ZTBlMjg1ZmZlNGJhODgxMWJlY2VmNzM1MzA1MDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MjY3OTM1ZmM2MzM0NjVkODQ4YjQwYTRlZDY5NjdlN2I3YTMyM2Y4MWNkNTNjMTEwYWUyMTAyOTY4N2FhMTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc1YTU2MWVmNjcxN2FmMjA4ZjBmZmYwYTAxM2I2ODNmYTI5ZmM2ZGM2Zjg0MjU2NTViNWNhNjEwYTliNmNlYjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE0NDNjYTM5ZjBlNGZlNzg1MThkYjQ0OThmNzhjZDQyNzk5YTllYmZkYzA4NDAwYmZkNGQxMzg4M2NhMjExYTYifQ"
+        },
+        {
+          "resource": "repo://src/lib/guides/page.ts#L150-L230",
+          "version": "repo-lines-v1:sha256:6693785351f835c23f677dde89cb8928a410ff3cec0f0071e6d72934924c78ee:eyJzZWxlY3RlZExpbmVDb3VudCI6ODEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJjODY1MTA2NDA5OGFjNDZlNmZmNjQ0ZDc1MDI4YWQyMzU0OTAxYWRhMmZjMGRhNzQ3Y2FhNTM1NjNiNjFkZmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1N2NhZDFmZjA1NjgwMjczZDE1N2EzNjQxMTkwOWY4YWQzNWIzN2Y2MDI3YjVhMzcxMjg0NTJhZjY1Mzk2ZjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEwMGJhZDgxZjc1MGVmYjUyYmQxNDFlZGZhZTExY2QyYmE1MjExYzMzOTU3MTBmOGZhNGFlMGZkOGQwZjJlYjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQwMTc1NWU2MzNmNGIyZmI1OTg2MmFjOTcyNDE3YjBiOTIyOWUwODQ1ZjNlOTk3ZGFjMGEzYjYxNTY2ZGJhMTAifQ"
+        },
+        {
+          "resource": "repo://src/lib/search/read-index.ts#L40-L50",
+          "version": "repo-lines-v1:sha256:ee14eb429ab6974fef637a8ba0e7b3eceec2467b7b9e2ec5e909bb363325f7a6:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1YjQ0NDg5MWM1MmY5ODYwZjE3MjY0YTJhNDAyMmE4NzdlNjI0ZTRlMjBjMDY2MmQwMjQyNTYxNmI1MjZkOWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUyYTE3NDM5ZjBmZTM5MDcyMmU3NmVhMDdlODRlYzA1M2Y1MjBhMzFjMGJmMzNlNzkxNTkxYzhkOGNhMWI2MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA3YzhjNzVhYjdlZmZlNjJhNjk1OWFlNzNkNDgwYzI1NzE0Mjk4NGJhZThlYzhjMjEzZjFiMTk4YzQxNmYzNDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI2MTE4OWIyMzA5YzVlZWUyYjI0OTBiZGFjYTE5MWZhMWUyNGIxZWU0NmYwZjVjNDFlNjgxOTJiN2FhMjg2YjEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_12672bcfbfdb4199a2f38a87fd2c2d12",
+      "statement": "Integration tests show the panel saves only the correction and flags the record, nothing is corrected without a session, a record is found by Torre's name, and refreshes change DofusDB values while leaving corrections.",
+      "evidence": [
+        {
+          "resource": "repo://tests/integration/torre-corrections.test.ts#L59-L166",
+          "version": "repo-lines-v1:sha256:0ee35553e0a986130ba4d5a7cbaebe64fa1a08d2e686ab9a3d66c2ce35086048:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA4LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI2OWU3MTc3MWRmMDY2YmVkM2YyZjIwMTVlNDM0YjkyMmUxY2FhYTE0ZTY2MjY0NTM1ODYyYjMzMTJkM2RhNjExIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmMDEyNzg2OGNhOTMyNGZmZjBlNjg5MGE0YjJiNGM1ODgwN2Q5YjA5NjZiODI0Mjk4OTkyMWIxYzE0MzFlN2VjIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_2130ff17eeed49de93c1fe7a1e9479e9",
+      "statement": "The delete guard treats the correction image of NPCs, monsters, items, achievements and dungeons as a use of the media file.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/delete-guard.ts#L34-L40",
+          "version": "repo-lines-v1:sha256:da6bfb1501d0bc1df731b4d7fb2fa844e7e606511193dc175122b2b3b1698328:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMGJjZmQ5MzM3NjliMDc3NTQ0OTU0YWQwNTI3ZWFhMGI3MWQ2YzkyMjI1OTc1MjlhYWM1OWQ5YjhjMDkxYWFlMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzAwYzk5MjY5NjMzNzczZGI3MjM4YTY5OThiMjA2Zjc3MDJkYTFmZmVhYTRhYTcyYmIxOGMyYjQxYjFkZWE4YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYTI2ZDQzNDBiYTViMTJhNzcxNDEwN2FkMDU4YWJmOWUxYjAxNTNjZDkyNmYwNmUzZTYyNWI4YWEzYmRkYWFkMiJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.4.3",
+    "at": "2026-11-16T11:00:16.891Z"
+  }
+}

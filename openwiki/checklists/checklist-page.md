@@ -20,6 +20,10 @@ sources:
     resource: repo://src/components/checklist/ChecklistParts.tsx
   - id: openwiki-source-d8923fbcfbb18e49399b9348
     resource: repo://src/components/checklist/progress-strings.ts
+  - id: openwiki-source-7d0703f319f0f8dba577fd0a
+    resource: repo://src/components/checklist/progress-ui.ts
+  - id: openwiki-source-3d2f7744bdd8a581e6cbd2c0
+    resource: repo://src/components/checklist/road-ui.ts
   - id: openwiki-source-3565ad21d65bf23ebb27b148
     resource: repo://src/endpoints/checklist-details.ts
   - id: openwiki-source-7c15ae8d86f1d3a4af1d4666
@@ -34,10 +38,16 @@ sources:
     resource: repo://src/lib/checklists/published.ts
   - id: openwiki-source-64cb67184a332f58fce45aeb
     resource: repo://src/lib/checklists/queries.ts
-generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
+  - id: openwiki-source-7a2e3264c126bbd868a1abd9
+    resource: repo://src/lib/checklists/relations.ts
+  - id: openwiki-source-6744ab0739caa2a85b3bb571
+    resource: repo://src/lib/checklists/road.ts
+  - id: openwiki-source-fb8279296835a1a58ec3f427
+    resource: repo://src/lib/site/legacy.ts
+generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-15T11:00:17.514Z
+    at: 2026-11-16T11:00:16.891Z
 ---
 
 # Checklist page
@@ -46,7 +56,7 @@ A checklist (see [Checklist data and import](checklist-data.md)) renders at `/<s
 
 ## Route
 
-`src/app/(frontend)/[slug]/page.tsx` tries a quest guide, an achievement page and a Dofus guide first, then `loadChecklist(slug)`. With no checklist it returns 404. Otherwise `checklistRoute` (`src/lib/checklists/page.ts`) decides:
+`src/app/(frontend)/[slug]/page.tsx` tries a quest guide, an achievement page, a Dofus guide and a standalone page first, then `loadChecklist(slug)`. With no checklist it answers a 308 to a changed slug's new address or 404 (`redirectOrNotFound`). Otherwise `checklistRoute` (`src/lib/checklists/page.ts`) decides through `legacyRoute` (`src/lib/site/legacy.ts`), the rule standalone pages share:
 
 | Case | Result |
 |---|---|
@@ -62,15 +72,27 @@ A checklist (see [Checklist data and import](checklist-data.md)) renders at `/<s
 
 `readChecklist` (`src/lib/checklists/queries.ts`) loads the checklist with its quests (name and level), the «Necesitarás» items, achievements, figures, bosses and images, its Dofus guide with the egg, and the slugs of the published quest guides and achievement pages it links. Linked guides and pages are always read as a visitor would, so an unpublished one never becomes a link. It also reads the stages of every quest a step stops in (including «Más paradas»), with the names of the NPCs, items and monsters their objectives mention (`readObjectiveNames`), so the page can print the objectives as text. `readQuestGraph` adds what the progress engine needs: each quest's objectives, start criteria and prerequisites, following prerequisites outside the checklist to the end of the chain in at most two queries. A souls checklist skips all of this and reads its souls instead.
 
-The tag is expired by the hooks of `checklists`, `quest-guides`, `achievement-pages`, `dofus-guides` and `media` (`src/collections/revalidate-guides.ts`). Quests and subareas change only through `pnpm data:quests`, outside the server, so they show within the 10-minute `revalidate`.
+The tag is expired by the hooks of `checklists`, `quest-guides`, `achievement-pages`, `dofus-guides` and `media` (`src/collections/revalidate-guides.ts`). Quests and subareas change only through `pnpm data:refresh`, outside the request that renders the page, so they show within the 10-minute `revalidate`.
+
+Game records go through `shown` (`src/lib/checklists/relations.ts`): Torre's correction wins and a record he hid is left out; a hidden item drops out of «Necesitarás» (see [Torre corrections to DofusDB data](../data/torre-corrections.md)). A step figure shows Torre's uploaded image before the NPC's render, and its `name` before the NPC's name or the image's alt text.
 
 ## The page
 
 `checklistView` turns the data into what `ChecklistView` (`src/app/(frontend)/[slug]/ChecklistView.tsx`) renders. Everything is rendered on the server and readable without JavaScript, one part after another:
 
-- the breadcrumb and `ChecklistHeader`, with the Dofus egg and its color (`eggStyle` passes the color as a CSS custom property);
+- the breadcrumb and `ChecklistHeader`, with the Dofus egg and its color (`eggStyle` passes the color as a CSS custom property). The color is the Dofus guide's, or, for a checklist without one (the rush), its card's `color`;
+- the ambience particles behind the page (`Ambience`, with `checklistAmbience(checklist.ambience)`), rendered inside the page so they inherit the egg color; `theme` leaves the site's own (see [Styles and layout shell](../frontend/styles-and-shell.md));
 - a window (`ck-win`) with the progress strip and three tabs: «Diario» (the step list and the open step; on phones the step opens in a sheet), «Prerrequisitos» (when there are groups, callouts or items) and «Objetos» (the totals, only when some row counts);
 - the step sheet and progress dialogs, used by the island.
+
+### The Dofus road
+
+A checklist without a Dofus guide (the rush) gets a `road`: the steps whose `dofus` field names Dofus guides, in order, each with the Dofus's name, color, egg and, when the guide is published, its link. A draft guide reaches a visitor unpopulated, so it is left out.
+
+- `ChecklistHeader` renders one egg and one «Siguiente Dofus: …, en el paso N.» line per road stop, all hidden but the first, plus a «Camino terminado» line.
+- `RoadRow` renders «Dofus del camino» at the end of the progress strip: every road stop as a link to its step, with its eggs.
+
+`startRoad` (`src/components/checklist/road-ui.ts`), started by the progress island, paints both from the saved progress: it marks done and next stops in the strip and shows in the header the first Dofus whose step is not done (`roadState` in `src/lib/checklists/road.ts`), or the last one lit once all are done. When a tick completes the header's Dofus, its egg lights and flashes and the next one enters after 900 ms; with reduced motion the change is immediate. A checklist with a Dofus guide has no road.
 
 ### A step
 

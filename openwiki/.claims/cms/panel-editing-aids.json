@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:2d35b919e12a091290a73c8b2d399d293c59db10e8bdc577471e04bf4e135de6",
+  "pageVersion": "sha256:4dd59ec675e43bef13fd4438901f0c41e7f787048f1b54374b29dadbcda9b7cb",
   "claims": [
     {
       "id": "claim_a4fe83c8b9444aa4a544cc932d96d44d",
@@ -14,29 +14,29 @@
     },
     {
       "id": "claim_5d8552d9f855435ab24fbef3b3edc3ec",
-      "statement": "readDashboard reads as the signed-in account with overrideAccess false over the five editorial collections and returns capped lists of drafts, preparing documents, Dofus guides without a checklist card and recent changes.",
+      "statement": "readDashboard reads as the signed-in account with overrideAccess false over the six editorial collections and returns capped lists of drafts, preparing documents, Dofus guides without a checklist card and recent changes.",
       "evidence": [
         {
-          "resource": "repo://src/lib/admin/dashboard.ts#L1-L30",
-          "version": "repo-lines-v1:sha256:5807c9319c9c47c4c6c79c62e6d292bcdc85fe5ef8ec13ae1f37e72f21311e54:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjMmQ4ODViNjZmYjBkNDg4YWVmNjNiNzhkMTYxMjQyZGRiYmFiYWMxMjIwNmJiY2YxNjcwNDU4MzY2M2Y5NDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg3NzlkNzkxNzg0N2Q2NTI3OTBlNGI4MWM3YjU3M2U1YzUyYmIwNzQyMDY2Mzg2YzQ5NTBiYjZjZGY3MzRlZjcifQ"
+          "resource": "repo://src/lib/admin/dashboard.ts#L1-L32",
+          "version": "repo-lines-v1:sha256:cb10496c45f5770e2be6d9410e814a153e19f0f5b343e3dd00d619b0d63bdff8:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjMmQ4ODViNjZmYjBkNDg4YWVmNjNiNzhkMTYxMjQyZGRiYmFiYWMxMjIwNmJiY2YxNjcwNDU4MzY2M2Y5NDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgxYzBlOTZjNWZjMzM2OGFlZDBjNGExZjE2MmY2ZTlmOGY0ZDBkNThmMDdlMGNmMTEwMTYzMzJhODJhMmE2MDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI0YzlmMGYzMjk1Y2RhZWZlZDQ3NmYzZTU3NmU4MTQwNGRkMGU3MjNmNzIzMzk0OWJhMmIzZmQ3MzM5ZTJkMWQifQ"
         },
         {
-          "resource": "repo://src/lib/admin/dashboard.ts#L120-L261",
-          "version": "repo-lines-v1:sha256:47e4b955d2ef4f3cbd0c78004bc572e157460a9ee66b6ec4d9a7dda01e1e60ce:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQyLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlYzFjYmVkYzNjNzk3ZDc3YzRlMTE5Y2UxNDE4ZWJmOWY1YzU1MDYwNGM3MjJmMDAzZTJmMTU5ODIxMjBmNDU5IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI3MGU1NTQ5YzYyYzFlODNjZWNiMTZiNWI0NjVlYmI0NTA4ZWRlZjI4ZjYxZjllMDgzZDM4MWNjZTgxMjdiMzQ3IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://src/lib/admin/dashboard.ts#L121-L266",
+          "version": "repo-lines-v1:sha256:d4b6ce70f5490d0af85b32fead677b4b6d2247ea91e6746718a8926d3d6de5e4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQ2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlYzFjYmVkYzNjNzk3ZDc3YzRlMTE5Y2UxNDE4ZWJmOWY1YzU1MDYwNGM3MjJmMDAzZTJmMTU5ODIxMjBmNDU5IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI3MGU1NTQ5YzYyYzFlODNjZWNiMTZiNWI0NjVlYmI0NTA4ZWRlZjI4ZjYxZjllMDgzZDM4MWNjZTgxMjdiMzQ3IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
     {
       "id": "claim_0b8d441de66341718a2eb910ecf6195c",
-      "statement": "The dashboard counts preparing achievement pages and metalogros and shows only the latest, while Dofus guides and checklists are read whole once, and a Dofus guide lacks a checklist card when its checklist name or URL is empty.",
+      "statement": "The dashboard counts preparing achievement pages and metalogros and shows only the latest, while Dofus guides, checklists and standalone pages are read whole once, and a Dofus guide lacks a checklist card when its checklist name or URL is empty.",
       "evidence": [
         {
           "resource": "repo://src/lib/admin/dashboard.ts#L107-L110",
-          "version": "repo-lines-v1:sha256:85c51dde5480e43a5a06afe86de004042ee944b38039ddd9cb8e747bc3179357:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOGRkYzZkOTg0ZTIwZWU3NjMxYzI5NmQ5NTIxODNhODUxODUxNzJlODhhMmJjYjM4MWIyZjcwM2I5MDUyMGRkYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGQ0NzU0ZTViNjc3MTY3OTdhOGU1MjExYzYzYmVjOTM3NGViODZlZjJhMTE3Y2FmMGZhY2ZiOTljMTMzZWFmNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzMyMGE2MDFlMDZjODM4NWU2MGFhOTVmMDczNThmNWY0Y2M2MWYyNmM5NmMyMDE5OGE2ZDEwOWNkYTViYzkwNSJ9"
+          "version": "repo-lines-v1:sha256:686aa1c7221766994f3fa9e24617fa28fc9730b551effa70923c5ee68e77c804:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTdjNjE0YjM4YTE4NjA1ZTg0ZGQwODU3MDhjNWRiMDMzNTRkOWZlOGJmOThmNTU2YmZlYTQxNDI3Njc4ZTdlMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzFhZjBjNGU1YzM4NWU1ZWI5OGRmYjIwMDgwZWNjOGZjZjgwZmZmNDUwMjA2YWQ2ZGM0ZmFkYmU2Mzg3ODNkZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTllNWVkMjY3ZDJiMzM3OTFjZDA4Y2M2NWZlNjA5NzcwNzQyYWM2MGY3MzM2ZGYxMWFjYWJmMWM3MTIwNTIxNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGUwNGIyY2Q1MTFhZmM4OTQ3YzU3ZDUxNzRjOWQ5OGQ0MGVhMWVlYzgwMzUzZjYzOWQ1ZjFmMTY4YWUxMmYwOCJ9"
         },
         {
-          "resource": "repo://src/lib/admin/dashboard.ts#L196-L222",
-          "version": "repo-lines-v1:sha256:73c13c2d652274e6d76879ce7e08312b70f7963b56fd530ec186a87c626ebf06:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc0ZjEzYzFjMzYwYTIyYTU0NTcxNmJiZWEwMWNjMzg5MWU5ZWEyMzc1ODJhOTA4MGRhYzZjYWU1NDVkNTY3NGIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFhYTYwN2E5YTY5OGEwYmY4ZGQ5NTNjYjUyN2Q4NDNkN2ZmNmI2NTk4ZDZjNTc0ZjMwN2QxZmU4Y2NhNTVhNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEzYjdiZWE2YWFkMzBkYzViMzFjYTIxZWFlYzIyMDMzYTc0MDdmZjY4NTlkM2I4NTZmN2NkZDk1Zjk4ZjVlYmMifQ"
+          "resource": "repo://src/lib/admin/dashboard.ts#L196-L240",
+          "version": "repo-lines-v1:sha256:df903d5b6699c6237dae7a6d620f27e8b34af58b4f21fa3063be7b74a1f964f2:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MjY3OTM1ZmM2MzM0NjVkODQ4YjQwYTRlZDY5NjdlN2I3YTMyM2Y4MWNkNTNjMTEwYWUyMTAyOTY4N2FhMTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI0Zjc2OGE3YjhjMWFlNmRkOGE3NWRjMTJkMjA4MjI2NmY0MTZkMzhmZmI2NThhM2JiY2VkYmE2MTZmMzM4ZWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc3ZjVkMDYwYTdiMWIzOGQ1ODE0YzMwODc3MDRjZGQxODQ2NmUyZGY4ZjgyNDQzOGMwN2Q3MDY2YTg4NTliMjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBiYzE3MGE5NGY4ZTA2ODA3NjdkZTU4MzU5MDk4NjAyZGRjNWIyMzM0YzkyZDVjOTIyN2Q3NzE4NmFkMWY4YTYifQ"
         }
       ]
     },
@@ -63,8 +63,8 @@
           "version": "repo-lines-v1:sha256:b09265cb543829ffcacb753a4cd6ba1b3921ded32431372ae8d2b29b4adff1b1:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc3NDhiY2Q4Mjg3YjZjZGI4MzliZmIxNjEzNzg5ZGNiNTM4NzA4YzUwODU3MmI3Yjc5ZWIzOTJhYzJmYjA2NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://src/lib/admin/publish-status.ts#L1-L73",
-          "version": "repo-lines-v1:sha256:bc38fbce836438242fbd2299acf53e4a7cb9f78e39be239f7c0ac565328c236c:eyJzZWxlY3RlZExpbmVDb3VudCI6NzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI5MDFlZmIwM2QxNjg5YTA2ZjRlOThjY2Y5MWZiZTJlZWU3ZDZlYzc5MWQzMjk2MWI2NTE4NDM3OGViOGE2YzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/lib/admin/publish-status.ts#L1-L74",
+          "version": "repo-lines-v1:sha256:61c04e49e4deda8d1145d1a0f3ae51ed478a85a777ccb6f6c8790514df6b1dd2:eyJzZWxlY3RlZExpbmVDb3VudCI6NzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI5MDFlZmIwM2QxNjg5YTA2ZjRlOThjY2Y5MWZiZTJlZWU3ZDZlYzc5MWQzMjk2MWI2NTE4NDM3OGViOGE2YzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -142,7 +142,7 @@
     },
     {
       "id": "claim_c3f830b698e84a32a14e31330a1c58a5",
-      "statement": "ColorField wraps Payload's text field and validates the color in the browser, and ColorSwatch writes the picked color into the same field once on release.",
+      "statement": "ColorField is the validated text field that checks the color in the browser and shows its message under the field, and ColorSwatch writes the picked color into the same field once on release.",
       "evidence": [
         {
           "resource": "repo://src/collections/DofusGuides.ts#L325-L332",
@@ -150,7 +150,7 @@
         },
         {
           "resource": "repo://src/components/admin/ColorField.tsx#L1-L56",
-          "version": "repo-lines-v1:sha256:76d8b0917fae12437c94bdd7341536346694e18b226f36f797e25ca7f49d81e3:eyJzZWxlY3RlZExpbmVDb3VudCI6NTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NjRlMDBlYTU3ZWMzOWQ4OGZjM2Y2OTM0YzRiNzA5MWRiMDU2YTZjMmQ1YjExYTk3MTIzMDBkMDZmOGQyM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:49ae9a2bcc41473d223de2893a79a9d897652976973cb0be89f315bbca405797:eyJzZWxlY3RlZExpbmVDb3VudCI6NTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NjRlMDBlYTU3ZWMzOWQ4OGZjM2Y2OTM0YzRiNzA5MWRiMDU2YTZjMmQ1YjExYTk3MTIzMDBkMDZmOGQyM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -177,10 +177,38 @@
           "version": "repo-lines-v1:sha256:20bc6c0586e644d9b5f1e547f37ab2cad56707682b5c32461b5fb1d61ecb21a2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTM0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJjODFjMjdhYWM3ZTQwMWRkMDM2NDA2ZDNjMWJhMmY1MDdjODRkOTQwNTM2OWEwZjQ1ZmZlMzY3OGM0YzYzOTEzIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MDZlM2MxNzRmZTVjNDk3YWM2MzYwY2M3MjE3N2E1NjRmZmNjZWVkOWIwOWEyYzg0N2ZjMDU5YTY3NGIwZjdmIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI0NzU4MTgzNDkyNjFjMjkyNTRkMDk1N2IyYjFkYmI2YTVlMDI1MTgzNmU5ODU1MmJhNjJkYWJkNzA1MTlkMjUxIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIxOTAwZGEzNmQwNjQ2YWNiNGMwNWZiOTA1ZDNiMTQ1N2E3YmU4OWFjZjhiOTU3MDQ3ZDQ2NDYwZTQ2NmQ3M2NmIn0"
         }
       ]
+    },
+    {
+      "id": "claim_9574936b488a41dab2101355e3ccff68",
+      "statement": "validatedTextField builds a panel text field from Payload's TextInput that runs the server's validator on the current value and shows the message under the field once the user leaves it or after a save, used for colors, video links and social links.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/admin/ValidatedTextField.tsx#L1-L79",
+          "version": "repo-lines-v1:sha256:960c10a91e9abef47f432714bb8447db799942ea85be52f39eb929f7b580798d:eyJzZWxlY3RlZExpbmVDb3VudCI6NzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NjRlMDBlYTU3ZWMzOWQ4OGZjM2Y2OTM0YzRiNzA5MWRiMDU2YTZjMmQ1YjExYTk3MTIzMDBkMDZmOGQyM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkzMGZkNmM2ZWM2ZGVmYTFlMmUxYTYwMjVjNDhhNmVkNTNlNjczYjZhYmMxNWMyNjcxODFiOGIxZWExNDRmNjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a352b31ac84b41e087b94c282f297457",
+      "statement": "Above the game data refreshes list, the panel shows how the last refresh ended and, only for an admin, a «Traer ahora» button that posts to the refresh endpoint without waiting for it to finish.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/admin/GameDataRefresh.tsx#L1-L39",
+          "version": "repo-lines-v1:sha256:4cd7f1c345b0c631f3e182e867d4d248b33003dd144a614b1391dded218258d8:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3YzU5ZTNlOGNiZDg5NDJhZmZkNWY2MDExNzBmZGZkMWZjOTI2M2RmMGU0YzlhYWQ5ODhjMGJmNTgyZmU0N2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/components/admin/GameDataRefreshButton.tsx#L1-L52",
+          "version": "repo-lines-v1:sha256:83d097cc080450e465a2633f2435c1dbea40bd518fb133e38d27384c3658d58c:eyJzZWxlY3RlZExpbmVDb3VudCI6NTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NjRlMDBlYTU3ZWMzOWQ4OGZjM2Y2OTM0YzRiNzA5MWRiMDU2YTZjMmQ1YjExYTk3MTIzMDBkMDZmOGQyM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/e2e/panel-refrescos.spec.ts#L15-L39",
+          "version": "repo-lines-v1:sha256:4112401745d72afc646cf87e6cbf9d884643494d88808b00ed7491bc8c83315c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmYTZhMTQyODE5MjU0ZTIwN2UyOWFlNzM5ZDNiYjk1NTAwMzdkODI2YmMwMTdlODU0ZGMxMGRmYTk1MmQ2ZWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIyZDEwN2Q2ZDg2Yjc0MjY4NDJmMTRiOGNmNzljMjI4YTI5Zjc0MjQ3ZjU1YzljZGJmZWUzM2NjOTJhOWY2Y2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-15T11:00:17.514Z"
+    "at": "2026-11-16T11:00:16.891Z"
   }
 }

@@ -30,16 +30,20 @@ sources:
     resource: repo://src/components/dofus/DofusGuideParts.tsx
   - id: openwiki-source-fdce55e7847bc02f550db2a4
     resource: repo://src/components/dofus/DofusIndex.tsx
+  - id: openwiki-source-abb20cd71cbe6f9faaed0ea7
+    resource: repo://src/components/dofus/DofusIndexIsland.tsx
   - id: openwiki-source-2527b990816180ac80987e20
     resource: repo://src/components/site/site.css
   - id: openwiki-source-3bd66ce842612aa5530166a6
     resource: repo://tests/e2e/checklists-index.spec.ts
+  - id: openwiki-source-349bba9237ee8f6bb526add4
+    resource: repo://tests/unit/dofus-index-island.test.ts
   - id: openwiki-source-cf83a6bbb1b6a5159842a86a
     resource: repo://tests/unit/lighthouse-ci.test.ts
-generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
+generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-15T11:00:17.514Z
+    at: 2026-11-16T11:00:16.891Z
 ---
 
 # Performance budgets (Lighthouse CI)
@@ -105,9 +109,10 @@ DESIGN.md names the mechanisms: server components, fonts through `next/font` wit
 - `src/styles/fonts.ts` preloads only Montserrat, one variable latin file with every weight, and `fonts-fallback.css` adds metric fallbacks for systems without Arial (see [Styles, tokens and site shell](../frontend/styles-and-shell.md)).
 - `Picture` always writes `width` and `height` and adds an AVIF source and `srcset` when the asset has them; the guide's first image is loaded with priority.
 - The guide and achievement pages ship one small client island (see [Design system components](../frontend/design-system-components.md)).
-- Both searches load their engine, results and the search index (guides, achievement pages and metalogros) with `import()` on first use, never with the page. The guide page and the home page each sat at about 149,700 bytes of script on 2026-11-07, just under the 150,000-byte limit, so search and result code must stay out of the islands, and a module imported by both an island and a lazy chunk ships whole with the island (see [Site header, footer and search](../frontend/site-shell-and-search.md#keeping-it-out-of-the-initial-javascript)).
+- Both searches load their engine, results and the search index (guides, achievement pages, metalogros and the menu's Dofus guides, checklists and standalone pages) with `import()` on first use, never with the page. The guide page and the home page each sat at about 149,700 bytes of script on 2026-11-07, just under the 150,000-byte limit, so search and result code must stay out of the islands, and a module imported by both an island and a lazy chunk ships whole with the island (see [Site header, footer and search](../frontend/site-shell-and-search.md#keeping-it-out-of-the-initial-javascript)).
 - Render-blocking CSS is kept small: the home page avoids importing `game.css`, `Amount` styles live in `globals.css` rather than `ui.css`, and `/metalogros` imports only `metalogros.css`, because importing the guide and achievement stylesheets split them into more chunks and raised its LCP by about half a second. The Dofus guide styles live inside `achievement.css`, so `/<slug>` still loads four render-blocking stylesheets, and `/guias-dofus` loads only `dofus-index.css` (with its own copy of the «En preparación» pill) and three stylesheets in all; a separate `dofus.css` had pushed the guide pages past 2.5 s of LCP in CI. Every page may load at most four stylesheets, which `tests/e2e/hojas-de-estilo.spec.ts` checks on each page of `lighthouserc.cjs`; the breadcrumb's styles moved into `game.css` for that (see [Styles, tokens and site shell](../frontend/styles-and-shell.md#stylesheets-per-page)). On the index the first cards' eggs are the LCP and are not lazy-loaded (see [Home page](../frontend/home-page.md#budget) and [Metalogros index](../achievements/metalogros-index.md#server-html)).
-- `/checklists` keeps the progress engine out of the page: its posters island loads the engine and requests the poster models only when the browser already has saved checklist progress, so a first visit downloads neither. The first two posters load their scene and egg with priority, because on a phone one of them is the LCP image (see [Checklists index](../checklists/checklists-index.md)).
+- `/guias-dofus` sat at about 145 KB of script on 2026-11-15, close to its 150 KB budget. Its island (`DofusIndexIsland`: search, filters and the cards' tilt toward the mouse) imports only `src/lib/dofus-guides/index-search.ts` (`matchesDofus`, dependency-free), its own strings in `src/components/dofus/index-island-strings.ts` and the shared `src/components/ui/tilt.ts`; it used to pull in the strings of every Dofus guide (panel ones included), the achievement and metalogros strings and Payload's image size config. `tests/unit/dofus-index-island.test.ts` walks the island's runtime import graph and fails if any of those come back (see [Dofus guides index and menu](../dofus-guides/dofus-guides-index.md)).
+- `/checklists` keeps the progress engine out of the page: its posters island (which shares the tilt code in `src/components/ui/tilt.ts` with the Dofus index) loads the engine and requests the poster models only when the browser already has saved checklist progress, so a first visit downloads neither. The first two posters load their scene and egg with priority, because on a phone one of them is the LCP image (see [Checklists index](../checklists/checklists-index.md)).
 - On a short page such as `/checklists` the footer's lazy portrait of Torre once became the phone LCP: a CSS `filter` (its drop shadow) made Chrome count the image as a box larger than the posters. The shadow is now a gradient behind the image, and `tests/e2e/checklists-index.spec.ts` checks the footer face is not the LCP on the Lighthouse phone (see [Site header, footer and search](../frontend/site-shell-and-search.md#footer)).
 
 ## Tests
@@ -124,6 +129,8 @@ DESIGN.md names the mechanisms: server components, fonts through `next/font` wit
 - `lhciEnv` uses its own embedded database without `DATABASE_URL`, points the direct URL at the same database, sets the public origin to the measured app, and starts without the dev mode and without R2;
 - `pagesForShard` measures every page without `LHCI_SHARD`, splits contiguous, even parts with the larger first, fails clearly with more parts than pages, and CI's two parts together cover the whole list.
 
+`tests/unit/dofus-index-island.test.ts` guards the `/guias-dofus` island's import graph, and `tests/e2e/hojas-de-estilo.spec.ts` the stylesheet count per page.
+
 ## Related pages
 
 - [Test suites](test-suites.md)
@@ -132,4 +139,5 @@ DESIGN.md names the mechanisms: server components, fonts through `next/font` wit
 - [Styles, tokens and site shell](../frontend/styles-and-shell.md)
 - [Home page](../frontend/home-page.md)
 - [Site header, footer and search](../frontend/site-shell-and-search.md)
+- [Dofus guides index and menu](../dofus-guides/dofus-guides-index.md)
 - [Environment configuration](../architecture/configuration.md)

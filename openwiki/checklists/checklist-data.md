@@ -24,23 +24,25 @@ sources:
     resource: repo://src/collections/editorial-access.ts
   - id: openwiki-source-14b74cda6fb31c51d7062a0d
     resource: repo://src/collections/locked-once-saved.ts
+  - id: openwiki-source-4f2e53306895c158accd92ec
+    resource: repo://src/collections/revalidate-guides.ts
   - id: openwiki-source-32333eb2cc7b26611e0b6e10
     resource: repo://src/lib/checklists/step-ids.ts
   - id: openwiki-source-08cbe0247863351418b06e35
     resource: repo://src/lib/checklists/strings.ts
   - id: openwiki-source-7a4e3f6c5cd439edff79c99b
     resource: repo://tests/integration/import-checklists.test.ts
-generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
+generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-15T11:00:17.514Z
+    at: 2026-11-16T11:00:16.891Z
 ---
 
 # Checklist data and import
 
 A checklist is Torre's route to one Dofus. There are two kinds (`kind`):
 
-- **Steps** (`steps`, the default): every quest, objective and item in order, with his notes. The Silvestre, the Dofus de los Hielos and the Nebuloso are this kind.
+- **Steps** (`steps`, the default): every quest, objective and item in order, with his notes. The Silvestre, the Dofus de los Hielos, the Nebuloso and the «Rush de todos los Dofus» (`checklist-todos-dofus`, a route that gives every Dofus rather than one) are this kind.
 - **Souls** (`souls`): the souls one quest asks for, such as the Dofus Ocre. Its rows are not stored; they come from the quest and its monsters (see [Souls checklist](souls-checklist.md)).
 
 Checklists live in the `checklists` collection (`src/collections/Checklists.ts`) and render at `/<slug>` (see [Checklist page](checklist-page.md)). Progress is kept in the browser per step (see [Checklist progress engine](progress.md)), so the one thing a step must never lose is its identifier.
@@ -51,15 +53,17 @@ Checklists live in the `checklists` collection (`src/collections/Checklists.ts`)
 
 | Field | What it holds |
 |---|---|
-| `name`, `slug` | The title and the address. The slug shares the root slug space with guides, achievement pages, metalogros and Dofus guides (`rejectSharedSlug('checklists')`, see [Achievement data model](../achievements/achievement-data.md)) |
+| `name`, `slug` | The title and the address. The slug shares the root slug space with guides, achievement pages, metalogros, Dofus guides and standalone pages (`rejectSharedSlug('checklists')`, see [Achievement data model](../achievements/achievement-data.md)) |
 | `state` | «Publicada» or «En preparación», Torre's own field («Visible en la web»), shared with achievement pages |
 | `kind` | «Pasos de una guía» (`steps`, default, so older documents stay steps) or «Almas de una misión» (`souls`), in the sidebar |
+| `ambience` | «Ambiente», in the sidebar: the particles behind the page, `egg` (default: specks in its Dofus color), `snow`, `forest` or `theme` (the site theme's own). It replaced the old choice by checklist ID (see [Styles and layout shell](../frontend/styles-and-shell.md)) |
 | `soulsQuest` | Only for a souls checklist: the quest whose souls are ticked («La eterna cosecha») |
+| `soulOverrides` | «Almas corregidas», only for a souls checklist: rows naming a `monster` with this list's own `dungeon`, `zone` or `region` text, or `hidden` to leave it out. A soul's name, level and image are corrected on the monster itself, in «Corrección de Torre» (see [Souls checklist](souls-checklist.md)) |
 | `legacyHref` | Shown only while `state` is `preparing`: the Squarespace checklist that `/<slug>` redirects a visitor to |
 | `order` | Position in `/checklists` and the menu; required and locked once set (`lockedOnceSet('order')`) |
 | `description` | The sentence of its index card and menu entry, with no step or quest counts |
-| `dofusGuide` | The Dofus guide it belongs to, the source of its egg, color and breadcrumb |
-| `card` | «Tarjeta del índice», in the sidebar: the background `scene`, the `npc` that peeks in from the right with its height and offsets in percent, and a hex `color` with the color picker. Empty values take the defaults of `checklists-index.css` and the Dofus guide's color (see [Checklists index](checklists-index.md)) |
+| `dofusGuide` | The Dofus guide it belongs to, the source of its egg, color and breadcrumb. Optional: the rush has none, and takes its color from its card and its eggs from the Dofus of its steps (see [Checklist page](checklist-page.md)) |
+| `card` | «Tarjeta del índice», in the sidebar: the background `scene`, the `npc` that peeks in from the right with its height and offsets in percent, a hex `color` with the color picker, and `crown`, up to six Dofus guides whose eggs replace the NPC (the rush's crown of eggs). Empty values take the defaults of `checklists-index.css` and the Dofus guide's color (see [Checklists index](checklists-index.md)) |
 | `prerequisites` | An intro, groups of rows (each row has a `key` and a text), callouts (`notes`) and a «Necesitarás» list whose rows can name the `prerequisite` key they are spent on |
 | `stepOutline` | A UI field, not stored: the outline that reorders steps with buttons and the keyboard (see [Panel dashboard and editing aids](../cms/panel-editing-aids.md)) |
 | `steps` | The route itself (below) |
@@ -69,7 +73,7 @@ Checklists live in the `checklists` collection (`src/collections/Checklists.ts`)
 
 Access follows the editorial rules: visitors read published documents, panel users read everything and create and update. Deleting uses `adminOrNotImported('importSnapshot')`: an admin deletes any checklist, an editor only one the import did not create (see [Admin panel](../cms/admin-panel.md)). The collection sets `disableDuplicate: true`, because a copy would carry the same step identifiers and two checklists would share progress.
 
-The collection mounts `GET /api/checklists/:slug/details` and `GET /api/checklists/poster-progress`, and expires the `checklists` cache tag on every save and delete, drafts included.
+The collection mounts `GET /api/checklists/:slug/details` and `GET /api/checklists/poster-progress`, and expires the `checklists` and `dofus-guides` cache tags on every save and delete, drafts included (a Dofus guide links its checklist once it is published). When a published checklist changes its slug, `trackSlugMove` and `applySlugMove` add a redirect from the old address (see [Redirects, sitemap and robots](../operations/redirects-and-seo.md)).
 
 ### Steps
 
@@ -78,7 +82,7 @@ A step's fields sit in four unnamed tabs (`placeInTabs` in `src/collections/fiel
 | Tab | Fields |
 |---|---|
 | «Texto» | `zone`, `segments`, `closes`, `updates`, `note` |
-| «Misiones» | `quests`, `achievements`, `bosses` |
+| «Misiones» | `quests`, `achievements`, `bosses`, `dofus` |
 | «Necesitarás» | `needs` |
 | «Imágenes» | `banner`, `icon`, `figure` |
 
@@ -100,7 +104,8 @@ Below the tabs, a collapsed technical section holds `stepId`. The fields:
   - `countsInTotal`, and `reusable` («Se conserva»: the totals take the largest quantity instead of the sum);
   - the `quests` that need it.
   The import never drops a row: what does not match an item stays as text.
-- **Art**: a `figure` (an NPC or an image, with a role), `bosses`, an `icon` and a `banner`.
+- **`dofus`** («Dofus que da»): the Dofus guides of the Dofus the step gives. Together they are the checklist's Dofus road (the rush gives 26; one of its steps gives two).
+- **Art**: a `figure` (an NPC or an image, with an optional `name` that falls back to the NPC's name or the image's alt text, and a role), `bosses`, an `icon` and a `banner`.
 - **`legacyNumber`**: hidden, the step's number in the old checklist, for the progress migration.
 - **`stepId`**: read-only, with a copy button (`CopyValueDescription`). It is born with the row (`defaultValue` is a new UUID), so a step added in the panel can be picked right away in «Pasos que termina».
 
@@ -138,15 +143,15 @@ A prerequisite row's `key` holds each member's tick for that row, so it never ch
 
 ## Migrations
 
-The schema arrived in several migrations: `20261113_151549_checklists` (the collection), `20261113_160051_checklist_needs` (label rows, group and totals), `20261113_175047_checklist_step_zone` (the step `zone`), `20261114_000512_checklist_owned_moves` (`legacy.ownedMoves`), `20261114_022136_checklist_silvestre` (what the Silvestre needs: callout segments, the «Hasta una misión» achievement mode, stop options and «Más paradas», «Necesitarás» alternatives and reusable rows, prerequisite callouts and needs), `20261114_022458_checklist_hielos` (generic rows and `completedBy`), `20261114_122659_checklist_ocre` (the souls kind and monster game data) and `20261114_142119_checklist_cards` (the index card and the `checklists-index` global). See [Database](../data/database.md).
+The schema arrived in several migrations: `20261113_151549_checklists` (the collection), `20261113_160051_checklist_needs` (label rows, group and totals), `20261113_175047_checklist_step_zone` (the step `zone`), `20261114_000512_checklist_owned_moves` (`legacy.ownedMoves`), `20261114_022136_checklist_silvestre` (what the Silvestre needs: callout segments, the «Hasta una misión» achievement mode, stop options and «Más paradas», «Necesitarás» alternatives and reusable rows, prerequisite callouts and needs), `20261114_022458_checklist_hielos` (generic rows and `completedBy`), `20261114_122659_checklist_ocre` (the souls kind and monster game data), `20261114_142119_checklist_cards` (the index card and the `checklists-index` global), `20261115_163339_checklist_step_dofus` (the step `dofus` road), `20261115_174248_checklist_figure_name` (the figure `name`) and `20261115_191357_editable_missing_fields` (among others, `ambience`, `soulOverrides` and the card `crown`). See [Database](../data/database.md).
 
 ## The import
 
 `pnpm import:checklists --from <silvestre-checklist> [--only <id>] [--apply] [--remote] [--production]` (`scripts/import/import-checklists.ts`) brings Torre's checklists over from a local copy of the old `silvestre-checklist` repo.
 
-**What it imports.** `CHECKLIST_CATALOG` (`scripts/import/checklists/catalog.ts`) lists every checklist in the order of the old hub, with its slug, name, order, Dofus guide, Squarespace link and card art. Four entries are `ported`:
+**What it imports.** `CHECKLIST_CATALOG` (`scripts/import/checklists/catalog.ts`) lists every checklist in the order of the old hub, with its slug, name, order, Dofus guide, Squarespace link and card art. Five entries are `ported`:
 
-- the Silvestre, the Dofus de los Hielos and the Nebuloso come in whole, with their steps (`hasLegacySteps`);
+- the Silvestre, the Dofus de los Hielos, the Nebuloso and the «Rush de todos los Dofus» (`todos`) come in whole, with their steps (`hasLegacySteps`). The rush has no `dofusGuide`; its card carries a gold `color` and a `crown` of six Dofus. Each step's `dofus` comes from the old checklist's `DOFUS_ROAD` asset, matched by the Dofus item's name to its guide; a road entry on a step that does not exist throws;
 - the Ocre is a souls checklist (`kind: 'souls'`, `soulsQuest` is the DofusDB quest ID): the import writes only its card fields, kind, quest and `legacy.prefix` (`cosecha:`), because its souls come from the quest.
 
 A new ported checklist is created as a draft in «En preparación», so Torre reviews it before it shows. The other entries are created published, «En preparación» and without steps, as entries that link to Squarespace. When an entry that was created that way is ported later, the ported content goes to a draft: the published document stays the link entry until Torre reviews it.
@@ -156,7 +161,7 @@ A new ported checklist is created as a draft in «En preparación», so Torre re
 1. Refuse to run against a remote database without `--remote`, or production without `--production` (`databaseScriptRefusal`), before starting Payload.
 2. `readLegacyChecklist` (`legacy.ts`) reads the old `src/dofus/<id>/` folder of each checklist with steps: `steps.js` and `config.js` through `import()`, plus the JSON files the old build scripts produced.
 3. Generic rows. The old checklist has rows that are not one quest but any of several (`clase` for the class quest, `alt:<achievement>:<objective>` for one per alignment or profession). `genericAlternatives` (`generic.ts`) asks DofusDB for the achievement objective that counts each row and reads its quests from the objective's criterion, once for all checklists. The row is stored with the first quest, a `label` and the rest as `alternatives`, and `legacy.genericQuests` keeps the mapping for the progress migration. A generic row DofusDB does not resolve is left out and reported.
-4. `toChecklistDraft` (`to-checklist.ts`) converts each checklist without touching the database. Torre's texts, notes and prerequisites are copied as is and in order. Each step's text is cut into segments around its highlights; it throws if a highlight is missing or the segments do not join back into the original text, so no word is lost or changed. Callout highlights become `note`, `tip`, `must` or `includes` segments. `stepStops` (`stops.ts`) places each «Detente aquí» on the same objective index the old checklist used: first the stops written by hand in `config.js` (with their `later`, `line` and `resumeLine` options), otherwise the one deduced from the text. The quests that finish on their own come from the old `COMPLETED_BY`.
+4. `toChecklistDraft` (`to-checklist.ts`) converts each checklist without touching the database. Torre's texts, notes and prerequisites are copied as is and in order. Each step's text is cut into segments around its highlights; it throws if a highlight is missing or the segments do not join back into the original text, so no word is lost or changed. Callout highlights become `note`, `tip`, `must` or `includes` segments. `stepStops` (`stops.ts`) places each «Detente aquí» on the same objective index the old checklist used: first the stops written by hand in `config.js` (with their `later`, `line` and `resumeLine` options), otherwise the one deduced from the text. The quests that finish on their own come from the old `COMPLETED_BY`. A step with one green mark gives it every step it closes; with several, `greenCloses` gives each closed step to the green that says it finishes that step's quest («terminar la misión del inciso 143»), and throws when a closed step has no such green or two.
 5. `loadChecklists` (`load.ts`) resolves every reference against Payload (quests, achievements, items, NPCs, bosses, the Dofus guide and art) and writes. Missing items and NPCs come from DofusDB with their icons and renders; start maps, zone images and figures that are not NPCs are uploaded to Media once, keyed by `media.gameAsset` (`art.ts`), so reruns never duplicate files. For a souls checklist, `resolveSouls` finds the quest, counts the distinct monsters of its `bring` objectives and reports the monsters missing from the database and those without the level or subarea the page needs.
 
 **Dry run first, always.** The script runs `loadChecklists` with `apply: false` and prints:
@@ -164,12 +169,12 @@ A new ported checklist is created as a draft in «En preparación», so Torre re
 - what did not match (quests, achievements, NPCs, bosses, images);
 - the «Detente aquí» segments with no quest to stop in (kept as warnings);
 - the «Necesitarás» rows that will be kept as text, and plural names matched to a singular item;
-- for each souls checklist, its soul count and the monsters missing or lacking game data (run `pnpm data:quests` before publishing it);
+- for each souls checklist, its soul count and the monsters missing or lacking game data (run `pnpm data:refresh` before publishing it);
 - what it would fetch and upload.
 
 Only with `--apply` does it write.
 
-**Reruns keep Torre's edits.** Each write stores what the import wrote per field in `importSnapshot`. On a rerun a field is rewritten only when its stored value still equals the snapshot; a field Torre changed is left alone and reported. The fields depend on the entry: a ported checklist with steps writes name, description, order, Dofus guide, Squarespace link, prerequisites, steps, `completedBy` and `legacy`; a souls checklist the entry fields plus kind, quest and `legacy`; a link entry only the entry fields. Step zones are tracked separately per stepId, so a new zone reaches a step even when Torre edited other fields of the steps, while a zone he changed stays. A rerun with no changes writes nothing. If Torre has a draft in progress, the change goes to his draft and is not published. A step keeps its stepId through reimports via its `legacyNumber`, and the resolve segments, step references and optional quests are written with those stepIds.
+**Reruns keep Torre's edits.** Each write stores what the import wrote per field in `importSnapshot`. On a rerun a field is rewritten only when its stored value still equals the snapshot; a field Torre changed is left alone and reported. The fields depend on the entry: a ported checklist with steps writes name, description, order, Dofus guide, Squarespace link, prerequisites, steps, `completedBy` and `legacy`; a souls checklist the entry fields plus kind, quest and `legacy`; a link entry only the entry fields. Step zones are tracked separately per stepId, so a new zone reaches a step even when Torre edited other fields of the steps, while a zone he changed stays. A rerun with no changes writes nothing. The catalog's `ambience` (`forest` for the Silvestre, `snow` for the Hielos) is written only when the checklist is created; after that the field is Torre's. If Torre has a draft in progress, the change goes to his draft and is not published. A step keeps its stepId through reimports via its `legacyNumber`, and the resolve segments, step references and optional quests are written with those stepIds.
 
 The card art of each entry is imported by a separate command, `pnpm import:checklist-cards` (see [Checklists index](checklists-index.md)).
 

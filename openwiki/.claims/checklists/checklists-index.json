@@ -1,28 +1,28 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:3902be2bd50c862f2b333be60b6c1b05079243ee3aa750a870c36740380d9618",
+  "pageVersion": "sha256:58a2629acabdae2df5394fb6fd01fad8bd1d5b3aea6d77bafef789e8fd1af17a",
   "claims": [
     {
       "id": "claim_83f904341aaf4f7d8436ad4d265eeefe",
       "statement": "loadChecklists is one cached read with the checklists tag shared by /checklists, the menu, footer, search and home page, and loadChecklistNav maps it to menu items; the teaser is read under the same tag.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/checklists/page.tsx#L26-L34",
-          "version": "repo-lines-v1:sha256:ade62bddc361ebc985b6ea0931c2b0d72a936843f0f29e9c1ca4c2229ee87250:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTRmMDEzOGUzMjg2ZmM1YWMzNWRhNDEwMjNmNDlkN2RiNTZjMjA0NzZlMDYwMjk0YThlYTJiOTYyMTNhN2UwZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+          "resource": "repo://src/app/(frontend)/checklists/page.tsx#L16-L28",
+          "version": "repo-lines-v1:sha256:9cb41481e4cdf0bc2bf03c2c1ebfb0b7a4db6ccf87530c3ab20e25f516a2505d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYzYzY4N2EzMWZhMmVlOThmZjE1MzlkMTBmZTViYWIxY2JmYzRmNWNhYjQ1YTEwYzhiZDNmNzdjNzM0OGRlMjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://src/app/(frontend)/site-data.ts#L33-L47",
-          "version": "repo-lines-v1:sha256:2558d3b3dbc2d21eae0c22976ebcf2cada32518070eb91a27a50eaee5238280a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjM2NhY2JkMTgwMTFlZGM0NTc0YTIyNjZjYmI4NGZiMjBlMDdiNGEwZWUxYTgxMmM4NzA0MjUwMDg4YWFlZWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZkMzAyMDBkMzhhZWIyMTdlYjA3M2VkZGI3OGVmODgwZWMxOTdjMDU3NjBlMDhiMjRiOTE5OTc3MGYzMTZjN2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/app/(frontend)/site-data.ts#L35-L52",
+          "version": "repo-lines-v1:sha256:22bae8faa6e7e616a4e593d7b2962c0244f49bafd967757ee71387becc677836:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNjM2ZlNWI4Yjg0ZGU5YjIyOTIyOWMyNWFjN2E3ZjY5MWU0ZWM5MTdlYjNkM2QyM2U0MGU4MmM5MWUzYjc1MzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjczM2Q1YjVkODBmZDNjOWU1NmFiMTMzOTI5ODg1ZjA3M2FlOTZjOTc1ODM2OWU0MDY2YmRlMDRmYmFkNDhjMzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ3OGY0OTk3OTE4ZTRjODM5MjMyNTdmNzA3Mjk4YjM5MjU5YjZhNDBhMmU0Mjc5YjI2NzkwOTdkMzAxZDRjMzQifQ"
         }
       ]
     },
     {
       "id": "claim_7b705e2d50424fd883c5331cea29f996",
-      "statement": "readChecklists lists published checklists including preparing ones, ordered by order and name and without steps, reads the card images in one Media query, and reads only the color and egg of each Dofus guide with overrideAccess so a draft guide's other content never reaches visitors.",
+      "statement": "readChecklists lists published checklists including preparing ones, ordered by order and name and without steps, reads the card images in one Media query, and reads only the color and egg of each Dofus guide (its own and its crown's) with overrideAccess so a draft guide's other content never reaches visitors.",
       "evidence": [
         {
-          "resource": "repo://src/lib/checklists/queries.ts#L519-L580",
-          "version": "repo-lines-v1:sha256:a87f02b0e3c580ab5c56024a78423d26dd30898e6f76ecda58bd4f5951b53c83:eyJzZWxlY3RlZExpbmVDb3VudCI6NjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJhZTE4MzVkYzIyODM2ZDE1MmFlMTQ1MDNjN2Y0Y2I0NGFiYzBiZTAzYTY0YjgzZThlMzc3NjRhYjhkMGQ1YjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/lib/checklists/queries.ts#L541-L602",
+          "version": "repo-lines-v1:sha256:dd6c2ef3ad0fc445345f7824c6e73539884b9678d636e0a77139d2531758d003:eyJzZWxlY3RlZExpbmVDb3VudCI6NjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ4OTY5NjgzYWI4ZWRhNjdlZTVmMmQ4ZGM1Y2E0NGE4YmZiZjRjMTdjOWE4M2JlM2JkN2U5MTliMDU4ZmQyZDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY2YmM5YzFkMTllOTJiMTEwZDU2ZTFlN2Q0YzUxZWNjMmU3ZDEzN2ViOTNlMDc1NGYzOGRhZWM3MWI2NDdlYTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -31,8 +31,8 @@
       "statement": "An index or menu entry links a published checklist to /<slug>, a preparing one to its legacyHref marked as legacy, and nothing when it has no link; the card color wins over the Dofus guide's color.",
       "evidence": [
         {
-          "resource": "repo://src/lib/checklists/list.ts#L92-L139",
-          "version": "repo-lines-v1:sha256:2179127c948c8244539d088e592cab2c54b501961deb474e45da7659c5ca631f:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlMjRjZGIxM2YzMWFmNmM3ODJlY2Q1YmQ3ZjFkYjY3YjQxYWVjNzViYzk2YWY5OTI2ZjBmYzY0NTBmNDM2NTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhiZmI0ZGRhZTNjZGU3ODUzNGIyZTg4YmNmY2E5YjlmOTgxM2I0OWU4MmYwYzM1ZmJjMTk2ZGRiMzA3NzMwZjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlhZDNiOWIwMjNkYjNjODQ0YTAwODhlMDVkYTY4ZTNkMzExYjc4ZTc1ZTc3MmRhZjY1ZDkyYTkzOTQ2NDJmNTEifQ"
+          "resource": "repo://src/lib/checklists/list.ts#L104-L162",
+          "version": "repo-lines-v1:sha256:fdfe84e095259b131312aa5663e00b6b3efb50c6984d7fe183e7d386ae4e36d2:eyJzZWxlY3RlZExpbmVDb3VudCI6NTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNiOTYyMTM4OGU4ODAxNjJmYTU5ZDA4ODc3MmU3ZmY0ZDI1OTBjM2VjODllMmZmZWYzODUzMzM0YTRlMDAzNzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0YWVlYTlkOTdjNzNjOWQ1ZDI4NWRmOGIxOTYxZDJmY2UwYmM1ODg0N2I1YTViMGJiMjk2MzQ5YjZmNGVjMjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlhZDNiOWIwMjNkYjNjODQ0YTAwODhlMDVkYTY4ZTNkMzExYjc4ZTc1ZTc3MmRhZjY1ZDkyYTkzOTQ2NDJmNTEifQ"
         }
       ]
     },
@@ -55,12 +55,12 @@
       "statement": "A poster without a link is dimmed and aria-disabled with the preparing pill, a published checklist's poster carries a hidden progress ring, and the first two posters load their scene and egg with priority.",
       "evidence": [
         {
-          "resource": "repo://src/components/checklists/ChecklistsIndex.tsx#L12-L16",
-          "version": "repo-lines-v1:sha256:6c9b3b3ffd2c7e3a2f0ff79979be681c5bf557f256c1c1895d3100839268fa5a:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFmMjJjZjA3MzI1OTJjMjQ3MTQxY2JlNjFlZmExMTAxMjYxMmY1YTMxMjJiOWFmOWJiYWY1MmY1NzI0ZDE5NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzg3NzVhYjJiMDMwMTgyN2MzZTNmMTljOTA5YjgwOGVmZGY2ZDM1NDk5ZTM4NGQ4NDMyOGE5MzM0NjEwMGI1ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjYxNTUxNjdhOGY3YjUzYjkwNjA5ZGIxMzhmZjFjYzE4OTRmYTQ0OTNjYzlkNmNkNzE4OWFkZjI4Y2M4ZTkyOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTIzNmM3ZjEzZWNhMTRmNjkwOTQ4NjYwMTRiNmE0NTgyMjQ1YmE3ZDliZTFlZjAxOTA4ZTEwZDRlOTEyY2I0NSJ9"
+          "resource": "repo://src/components/checklists/ChecklistsIndex.tsx#L110-L195",
+          "version": "repo-lines-v1:sha256:d55e98690d3cc6750640214b1c44129303f0a1ca7f0ff3cc2dc205f12b90160a:eyJzZWxlY3RlZExpbmVDb3VudCI6ODYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1YjdhZjg0N2MzZTI3YzQ1OTk2NTdhNzkzOGYyMjc1M2UxMmM4YjAxNzQyMzVkOWQyZmQxMmVlODg1ZDU5NWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI2NWNiZjZiNWUzZWZiMDRiZGNiNjU5MWQ1ZjliMDEzMzE5N2E4ZDQ0OWM5ZTIxZjg3ZmZjNmFiOGM4YmFiOTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIxNmRmNjViODEyNDhjMDI0ZWQwNDY2NWE4YTA4ZDM2YzEzMTcyNTc5Njg2ZjBhYTNhZjcxZGU5NzMyYjc3MmIifQ"
         },
         {
-          "resource": "repo://src/components/checklists/ChecklistsIndex.tsx#L84-L154",
-          "version": "repo-lines-v1:sha256:40c0eaba73fac1f2544727ae782f4dc3670111ac113131623781dfa879670b83:eyJzZWxlY3RlZExpbmVDb3VudCI6NzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlM2NjOTFiNGU5ZWQ1MmQ0NDllZTBmMzEzNDg4NDRjYWNkMjFmNTM3ZDVhOGQ5MjFiZjhmMDE2ZWUzMjU4MmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0MGM1ZDNkYzNhNzczMDc5M2M4OTI3OTQ4YjU1OTY2NDIwN2Y3OWJhODc3NzNjMjE1MDA0NDMxOTYyZmQ0ODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImViZmJmYTYxYjk3NTU2ZDgxOGI1ZmI4NmY1NGFhOGY3YWRmZGNjYThhMGRmYmI2YmRhNDViZmM3MmFlY2Y3YTkifQ"
+          "resource": "repo://src/components/checklists/ChecklistsIndex.tsx#L12-L16",
+          "version": "repo-lines-v1:sha256:0e18720bb25e3c885647012c4094628e539723404aabcdc85ce19d6609c6563a:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTcyYTQyOTM4MmIyZTE0NzE4ZTBlMzdiMDU3MGE4YTE3MDI5OTFmY2Q4NDk4Y2Q4NDA2MGE4YmY0ZjA1MDE3YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGU0MDBhZGUyMTc0MzZhNzRmN2YxNmRjM2Y0ZWRjY2RmYmM4OGQyZjNhODRmZTc3ZWQ3ZmFjODQ2NDdmYzdiZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2Q2MDJmMWJkZmQyZDBhMDkwM2M1MGZhNWI0NmQ5MzA2MmZlYjI0YjQ1MzY3YjA0YTNkMmFmZDVhNjk4N2I0NyJ9"
         }
       ]
     },
@@ -80,15 +80,19 @@
     },
     {
       "id": "claim_4452492a43c84482ba80fc46edbaa228",
-      "statement": "The posters island tilts posters toward a mouse pointer unless reduced motion is set, and loads poster-progress-ui with import() only when localStorage holds the ta-web:progress key, starting later on storage or pageshow if progress appears.",
+      "statement": "The posters island tilts posters toward a mouse pointer with the shared tilt unless reduced motion is set, and loads poster-progress-ui with import() only when localStorage holds the ta-web:progress key, starting later on storage or pageshow if progress appears.",
       "evidence": [
         {
-          "resource": "repo://src/components/checklists/ChecklistPostersIsland.tsx#L16-L59",
-          "version": "repo-lines-v1:sha256:4dc7cb28aabbc7986c16b58c294d6bd6caf46bc10671d6861a68100d915a8360:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/components/checklists/ChecklistPostersIsland.tsx#L1-L61",
+          "version": "repo-lines-v1:sha256:1cac284fbe8f2220c933cdec289a41fd3a42c57b0ae8d1ead5a2a2bcb0866b47:eyJzZWxlY3RlZExpbmVDb3VudCI6NjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NjRlMDBlYTU3ZWMzOWQ4OGZjM2Y2OTM0YzRiNzA5MWRiMDU2YTZjMmQ1YjExYTk3MTIzMDBkMDZmOGQyM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://src/components/checklists/posters-ui.ts#L1-L53",
-          "version": "repo-lines-v1:sha256:5a83ee0b84ea6f353f03dd82490c36ce0b4c304cdcb696be0dcd6986d4b20285:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllMDdiMDk5YjRiZTFlOTNkYWZiYzg2ODAyOTU3YjY0ZDFkZTg2Y2ZlNjEzZWI4NjEzNWFmZDI2NjRhY2Q4N2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/components/checklists/posters-ui.ts#L1-L14",
+          "version": "repo-lines-v1:sha256:16c74b6e8d237f52bab4ddf67e2a269ba499296de57a906481b211ab1c276a7e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZlN2M3M2QxNmM5Zjk0YzZjZTcyZTE0NTNkNWMzYzI2MDcyMzAxYjM2MjMzNzZmNDRhMGNkOTgzZGE4YzM3ZTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/components/ui/tilt.ts#L1-L43",
+          "version": "repo-lines-v1:sha256:6b59ea48a1de265a8b33855b631b5bb1dda6fddeee31f41f2900b63198be4ddd:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMzZjkzZTM5YmM5NDQzMzAzN2ExZjUwZTEzNjg2MDg3YjA4YjU3ZDUwZTFlZWY4N2ZiZTQwODJhOWRjM2E0ZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -128,11 +132,11 @@
     },
     {
       "id": "claim_273e5a0c341446209151406d095f3933",
-      "statement": "pnpm import:checklist-cards uploads the old hub's scene, NPC and framing for each catalog card and the teaser's scene and egg once each, leaves the color empty, and changes a field only while it still equals what the last import wrote, keeping Torre's draft edits unpublished.",
+      "statement": "pnpm import:checklist-cards uploads the old hub's scene, NPC and framing for each catalog card and the teaser's scene and egg once each, imports a color only for an entry without a Dofus guide, and changes a field only while it still equals what the last import wrote, keeping Torre's draft edits unpublished.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/checklists/cards.ts#L1-L20",
-          "version": "repo-lines-v1:sha256:375437265f7d4982fec568c3ce3d6beccdd0dc8035e0c60df544b575ea13ae1f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1MTBmNmQ0MTI4ZjJlMjQ1NTBkMTQzZDJlNjNlNGQwMzY1ZmM5NTUwNWNjMzgwN2EyYjM3OTRmYjg5YTAzMDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZkNDcwMzYxZWRkOWQ5YjNlZGJiN2JkMThjMDRiYWFmZTE3ZTU5NjA0M2U5NTk5YWRiYzc2MDZhNmUzZThhZTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM2NGVjM2I4NGI1ZDljZTY3ZGE4NjRmZjM5MzliOTc0MDQxZDU0YWM0OGE3YmNmYmNiZGZlNjdlOGFhYzQ0OTEifQ"
+          "resource": "repo://scripts/import/checklists/cards.ts#L1-L40",
+          "version": "repo-lines-v1:sha256:fc042cd43916cce5c50ea87108c84f0617be19bddc20818748a9d5cc84a72fd6:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1MTBmNmQ0MTI4ZjJlMjQ1NTBkMTQzZDJlNjNlNGQwMzY1ZmM5NTUwNWNjMzgwN2EyYjM3OTRmYjg5YTAzMDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUxOTE3OWM0MWIwODcwMTAyMzAwMzRlNjUzOTUwZDAxM2I2MjUwZjBiZjZhOWIyM2QyOTJiYmFiYTg2NjkwYTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ0MTdiNGViNTJmMTY4OGJhNDA2MGNhOWZmODQzNjllMjRiYThiMDYzZDJhYjE5MWQxZTQ5NTY1M2VhMTRiOWIifQ"
         },
         {
           "resource": "repo://scripts/import/import-checklist-cards.ts#L1-L40",
@@ -149,10 +153,54 @@
           "version": "repo-lines-v1:sha256:3ecfae0e96bf9d4a4160b57899f48ec49350fd25f5f7f27226e3867de2784138:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIxLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIwODFiMGMwN2ZjN2E0MzE5MTQxYzc2OWQ1MGVlYWE2MWQ4MmFiMDliNDkyYzEyNTgxZDNkYjVkZjM3NTYyOTM5IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI1OGEwM2E0NTgzYjBkMzVmYjUyZjQ1MmUyMDViNzMwZWFiMTUzMjI3MzkwZDhjMzVhMjBhMWMxNDZlOTlkOTcyIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
+    },
+    {
+      "id": "claim_1ae0ca7056ec4c5fb2ab118c9273833b",
+      "statement": "A card with a crown renders the crown guides' eggs, each glowing in its guide's color, instead of the NPC and the single egg.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/checklists/ChecklistsIndex.tsx#L60-L100",
+          "version": "repo-lines-v1:sha256:5e79da5c147a39a9c84ca32647eac36cc85d078efab9ac6948ac1a6fc9ad0ab0:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAzOTgwOGJlOTI0YTkyNTI3NWI4NDVhMTM2MTBkNjNhYWZiNDM0YzNkMmJmMGFiOGFmYWJkNTBhMDNlYTU5YWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE1MmJhZTNkZWQ2NjliNjg3ZTkyNWNlMGYyODM1OTNkMjUyMGFhNDdmOTlmYTFiOWVhNmE1YzBkYWEwNGZmM2YiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMyN2Y0YzJkNWZlZTJhNGI2ZWY1NzE0MmFjMzNlNjNiYjAyZGJmZTVkZDBiMjMxM2ZlOTY4YzlhYmJkNjBiZDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIxZDY2ZjdlNjU0N2VmOTEwMGNlZDU0ZjNiZDY1MTU0YTQwY2E2YzcxMThlOWI5ZmY5Y2EzMjk4YmUxMDcyODYifQ"
+        },
+        {
+          "resource": "repo://src/lib/checklists/list.ts#L140-L158",
+          "version": "repo-lines-v1:sha256:d0f2b8b76b1ce8f5f9aaf8471bbb869dd6c15cfbf085a66d59019a53987ae68c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQyNzUwZjA5NDcxZDIyMmE4MDM0MWFhYWUxZWQ2MDNjMjRhNjU4ODg1YTQ4MzMwOWQ2MDMyMmY4ZmJjN2YyYTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MDA4ZTAxZjIzYTljMjY5ZGQ2ZWVjM2U2NGYxYTZiNDgyZWFiMmYwMGYzZDZmZDI5YzAzMDgwNGE2NWVhNTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQzNzFhOTVmZjMzMTNmZTI3ZGU0ZmYxNTBkYmRmYmI2NmI4YWNlZTA1MGUwOGVmODFlZmM2NzJkZTMzZDE1NzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBmYzhjZGI5NGU0OTUxMmFiMTkxNWMxYTNhMTRmMDFiZWRkOTYwYTNlNTUxMTU4YTAxMDUzYjU1NzdmNWNkOGEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8d9183a8a1a446ab9c31af9079d2d77a",
+      "statement": "The card import writes a crown only when every crown guide slug resolves to a Dofus guide, keeping the catalog order, and reports the missing ones otherwise.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/checklists/cards.ts#L262-L290",
+          "version": "repo-lines-v1:sha256:daf10c8bd213e6280d048d2ae3e4da9e66ea4c4f905dea4800153099dabf0248:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmNTBhZDU3NWQyZDliZTY0MmQ0ZTRjZTIyNTJmYzc4ODU5OTgxMzJlMGE3NzYzY2U0NjhhYjg0YWE2MGQwMjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk0NTgzYTc2NDNjYzE5YjJmNTA3ZWVlODI4NThlYWYwY2MxNGNmMjRjZDU3MDkwNWNhNjBkN2Y5YmU2MjMwYjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJmMjA5NjhhZDFlNDE0NDg3MmI3YzgyNjg5ODg3MjdjOGRkZmRiZjFiMGY3OTI1YzMzMzI5M2ZkNTZiMjU5ZjIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0262a2c33f1144be8f0bd6927f275301",
+      "statement": "The checklists index takes its eyebrow, title, lead, empty message and SEO text from the «Portada e índices» global and its share defaults from «Ajustes del sitio».",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/checklists/page.tsx#L1-L28",
+          "version": "repo-lines-v1:sha256:ad0c5467ce362a9ab6260f2fbb5ed56301afeb1509edf21a3029fd413d2540b6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdjYTcxNzg2NzRlMTdmMWY1MjExNTNlMWUxN2MwZDc1YWM0ODgyZTVlNDZmMTMyZTVmMzQ5NjI1NjZhMDMwZTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a457b9cc06e24c48bee7ff17a2cf28ca",
+      "statement": "A Dofus egg is the egg Torre uploaded on the Dofus guide, or else the Dofus item's image with his correction, or none when he hid the item.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/dofus-guides/egg.ts#L1-L29",
+          "version": "repo-lines-v1:sha256:183964f6717f8ca64e23972e645365a963f2586c340bef40b282d86fbc393a4d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNjMGJhOWZjMmRiZDNkMjZlZTQ4NWY2ZGZjODczNWQyNGIxZDhlZWMzZDUzY2VmMjg4MWU4MWU0YzE3YmEzZTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-15T11:00:17.514Z"
+    "at": "2026-11-16T11:00:16.891Z"
   }
 }
