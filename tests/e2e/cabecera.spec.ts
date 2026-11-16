@@ -313,7 +313,7 @@ test.describe('cabecera', () => {
   })
 
   for (const mode of MODES) {
-    test(`la cabecera abierta y el pie pasan axe en Arcano ${mode}`, async ({
+    test(`la cabecera abierta y el pie pasan axe en Amakna ${mode}`, async ({
       page,
       context,
       baseURL,
@@ -325,7 +325,7 @@ test.describe('cabecera', () => {
       expect(await axe(page, 'body > footer')).toEqual([])
     })
 
-    test(`el interruptor de modo lleva el fondo y el borde de la búsqueda en Arcano ${mode}`, async ({
+    test(`el interruptor de modo lleva el fondo y el borde de la búsqueda en Amakna ${mode}`, async ({
       page,
       context,
       baseURL,
@@ -342,7 +342,7 @@ test.describe('cabecera', () => {
       expect(track.image).toBe('none')
     })
 
-    test(`los huecos de los iconos llevan el fondo del chip de coordenadas en Arcano ${mode}`, async ({
+    test(`los huecos de los iconos llevan el fondo del chip de coordenadas en Amakna ${mode}`, async ({
       page,
       context,
       baseURL,
