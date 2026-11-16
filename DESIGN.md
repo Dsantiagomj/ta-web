@@ -8,7 +8,7 @@ The visual rules for the new torrentearcano.com. Structure, density and motion f
 2. **Reading first.** Most visits are a player with the game open beside the browser, following one quest. Body text stays at 1rem (16px, 17.6px from 1024px), steps are easy to scan, coordinates copy in one click.
 3. **Dense, not cramped.** Lists of 50 quests and checklists of 100 steps must fit on a screen without feeling like a spreadsheet. Small gaps inside components, generous gaps between sections.
 4. **Fast by default.** Guide pages are server-rendered with no client JavaScript beyond the shell and one small island that copies coordinates, loads videos on click and opens guide images fullscreen. Motion is CSS unless it lives inside a client island.
-5. **One job per color.** `accent` marks progress, links and coordinates; `btn` fills the primary action; `accent-2` marks featured numbers and tags; the section accent marks details. Until 2026-11-16 no color filled a button; Torre's color design (option D) made the primary action a flat fill.
+5. **One job per color.** `accent` marks progress, links, coordinates and eyebrows; `btn` fills the primary action; `accent-2` marks featured numbers and tags; the section accent marks details. Until 2026-11-16 no color filled a button; Torre's color design (option D) made the primary action a flat fill.
 6. **Amakna, dark, by default.** Five themes, each with a dark and a light mode. Amakna, Torrente Arcano, Bonta and Brâkmar are free for everyone; Ocre is premium. Every text pair passes WCAG AA in every theme and mode.
 
 ## Tokens
@@ -404,6 +404,7 @@ Rules:
 - Page titles (decided 2026-11-16 with Torre's color design, option D): Rowdies 700 (`--font-title`) in uppercase, line height 1.02, no tracking, on every `h1` (`.hero__t`, `.qhead__title` on guides, achievement pages, Dofus guides and site pages, `.idx__t`, `.dg-h1`, `.ck-h1`, `.ck-head__t`, the 404) and the home section titles (`.home-h2`). Written in normal case in the source; CSS sets the capitals. They replaced Montserrat 600 to 700 in normal case (guide v5, 2026-11-06), which had replaced uppercase Barlow Condensed (guide v4).
 - Part headings (Prerrequisitos, Necesitarás, Recompensas, «Cuenta para», the section `h2`s of achievement pages, Dofus guides and the metalogros index, the checklist's `h3`s) are Lexend 700 (`--font-ui`) in sentence case, no tracking; the Necesitarás group names are Lexend 600. Card names (metalogros, Dofus index cards, next quest card) and the home section cards are Lexend 600 to 700. The wordmark stays Montserrat.
 - Eyebrows and micro labels stay uppercase as in the table, written in normal case in the source.
+- Eyebrows (`.hero__eyebrow`, `.dg-eyebrow`, `.ck-eyebrow`), breadcrumb links and the coordinates chip (1.5px border and text, 8px radius) are in `--color-accent`; the eyebrows are Lexend (decided 2026-11-16, option D; the Dofus and checklists index eyebrows were in the section color before).
 - Guide pages set body text at 1rem with a 1.65 line height; elsewhere it stays at `--text-base`.
 - Lilita One is for featured numbers and the words that belong to them ("30 guías"), never for titles or labels. In tables and aligned columns, numbers stay in Montserrat with tabular figures.
 - The last word of a list page title may go in `--color-accent` ("Todas las *misiones*").
