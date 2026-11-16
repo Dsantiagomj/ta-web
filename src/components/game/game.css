@@ -249,7 +249,8 @@
   --v: var(--color-hue-2);
 }
 
-:is(.qhead__facts, .lsheet) section[aria-labelledby] > :is(h2, h3) {
+:is(.qhead__facts, .lsheet) section[aria-labelledby] > :is(h2, h3),
+.lsheet section[aria-labelledby] .lsheet__k {
   color: var(--v, var(--color-ink));
 }
 
