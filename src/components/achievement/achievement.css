@@ -84,8 +84,17 @@
   }
 
   .logro--sheet .qhead.lhead--logro {
+    container-type: inline-size;
     padding-bottom: 0;
     border-bottom: 0;
+  }
+
+  /* Junto a la ficha, el título tiene poco ancho hasta unos 1150px, y Rowdies en mayúsculas
+     ocupa más que el Montserrat de antes: «La ocasión hace al ladrón» pasaba a tres líneas a
+     1024px. Ahí el título se ajusta al ancho de la cabecera (8,2cqi); nunca pasa del tamaño
+     del de la guía, así que desde unos 1150px no cambia. */
+  .logro--sheet .lhead--logro .qhead__title {
+    font-size: clamp(2rem, min(1.45rem + 2.1vw, 8.2cqi), 3rem);
   }
 
   .logro--sheet .lq {
