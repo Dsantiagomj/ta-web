@@ -3,9 +3,6 @@ type: operations
 title: Legacy redirects, sitemap and robots.txt
 description: How old Squarespace URLs are answered with a 301, 307 or 410 by src/proxy.ts from one validated table, how the generated stubs section is rebuilt, what /sitemap.xml lists and how it is cached, and what robots.txt says in each environment.
 tags: [seo, redirects, proxy, sitemap, robots, cutover]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-14T11:00:46.827Z
 sources:
   - id: openwiki-source-7ad9a198e69c253980868284
     resource: repo://scripts/redirects/build-stub-redirects.ts
@@ -13,18 +10,30 @@ sources:
     resource: repo://scripts/redirects/stub-map.ts
   - id: openwiki-source-394f592b7129d91f3031a0e2
     resource: repo://scripts/redirects/stubs.ts
+  - id: openwiki-source-14ca87abed0f0ffc69067570
+    resource: repo://src/app/(frontend)/%5Bslug%5D/redirect-data.ts
   - id: openwiki-source-90182fdeabeb5c115ecbd1e9
     resource: repo://src/app/sitemap.ts
+  - id: openwiki-source-9b463f6e95f19dbe107025a0
+    resource: repo://src/collections/Redirects.ts
   - id: openwiki-source-a93f1ff2ed8916a30885274d
     resource: repo://src/collections/root-slug.ts
+  - id: openwiki-source-a3a5ee234cca72cd23e5a201
+    resource: repo://src/collections/slug-redirects.ts
   - id: openwiki-source-d7f7bf5d3e0f69a0ae70820b
     resource: repo://src/lib/admin/slug.ts
   - id: openwiki-source-2ce84534e6026072681beb8b
     resource: repo://src/lib/dev-gate/robots.ts
+  - id: openwiki-source-5b8e10db0e9c77418822b1a4
+    resource: repo://src/lib/redirects/cache.ts
   - id: openwiki-source-ccfbe498557680796b2d7513
     resource: repo://src/lib/redirects/gone-page.ts
   - id: openwiki-source-c60c97b53b228e22a84074aa
     resource: repo://src/lib/redirects/legacy-urls.json
+  - id: openwiki-source-4d67b0f7b982e950838bad5a
+    resource: repo://src/lib/redirects/queries.ts
+  - id: openwiki-source-2d620fc50059960f72ea2ef8
+    resource: repo://src/lib/redirects/slug-redirects.ts
   - id: openwiki-source-ad90cd8e9adaf3420039eb76
     resource: repo://src/lib/redirects/strings.ts
   - id: openwiki-source-d1e24e2e789285adcf1d4076
@@ -39,6 +48,8 @@ sources:
     resource: repo://src/proxy.ts
   - id: openwiki-source-a976bd3068a0e57bcc18a4a6
     resource: repo://tests/e2e/redirecciones.spec.ts
+  - id: openwiki-source-a1af73d9f0a035c2bd1e32e3
+    resource: repo://tests/integration/slug-redirects.test.ts
   - id: openwiki-source-ce5bd0fd9f05fa81040e778e
     resource: repo://tests/unit/legacy-redirects-proxy.test.ts
   - id: openwiki-source-0c8031c037c760eff8d2923b
@@ -47,14 +58,19 @@ sources:
     resource: repo://tests/unit/robots.test.ts
   - id: openwiki-source-7d83132159a0b5463b4737b0
     resource: repo://tests/unit/sitemap.test.ts
+  - id: openwiki-source-903f34c0649a5042a4e32af3
+    resource: repo://tests/unit/slug-redirects.test.ts
   - id: openwiki-source-bdd83d0bfa58ad00bbe25676
     resource: repo://tests/unit/stub-redirects.test.ts
-generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-16T11:00:16.891Z
 ---
 
 # Legacy redirects, sitemap and robots.txt
 
-On cutover day every URL of Torre's Squarespace site must either render or redirect (backlog B-03 to B-08). Most old slugs keep working because the new pages use the same flat slugs at `/<slug>` (see [Public quest guide page](../frontend/guide-page.md)). The URLs that have no page of their own live in one table, and the proxy answers them before Next renders anything. The same work added a sitemap and pointed `robots.txt` at it.
+On cutover day every URL of Torre's Squarespace site must either render or redirect (backlog B-03 to B-08). Most old slugs keep working because the new pages use the same flat slugs at `/<slug>` (see [Public quest guide page](../frontend/guide-page.md)). The URLs that have no page of their own live in one table, and the proxy answers them before Next renders anything. The same work added a sitemap and pointed `robots.txt` at it. Separately, when Torre changes the slug of a published page in the panel, the old address keeps working through the `redirects` collection (below).
 
 ## The table: `src/lib/redirects/legacy-urls.json`
 
@@ -106,7 +122,7 @@ In the dev environment the proxy then adds the `noindex` header to every respons
 
 A page whose slug is a table source would never be seen, because the proxy answers first. So:
 
-- The root-slug hook (`src/collections/root-slug.ts`) rejects saving a quest guide, achievement page, Dofus guide or checklist whose slug is in the table, and the slug field's validator (`src/lib/admin/slug.ts`) shows Torre `legacySlugStrings.taken`: the address is in the redirect table, the page would never show, and he should ask for the row to be removed. Metalogros are exempt: their slug is the anchor of their panel on `/metalogros`, not a page. See [Admin panel](../cms/admin-panel.md).
+- The root-slug hook (`src/collections/root-slug.ts`) rejects saving a quest guide, achievement page, Dofus guide, checklist or standalone page whose slug is in the table, and the slug field's validator (`src/lib/admin/slug.ts`) shows Torre `legacySlugStrings.taken`: the address is in the redirect table, the page would never show, and he should ask for the row to be removed. Metalogros are exempt: their slug is the anchor of their panel on `/metalogros`, not a page. See [Admin panel](../cms/admin-panel.md).
 - `/sitemap.xml` never lists a table source.
 
 ## The stubs section
@@ -124,16 +140,24 @@ Squarespace had 166 empty stub pages (`scripts/redirects/stubs.ts`, from the 202
 
 Rerun it after Torre publishes achievement pages. On cutover day it runs against production with `--cutover`, which drops `permanent: false` so the stub redirects become 301. `tests/unit/stub-redirects.test.ts` covers the matching, the outcomes, the section and the report.
 
+## Changed slugs: the `redirects` collection
+
+The legacy table is code; slugs Torre changes after cutover live in data. When a published page of a collection with its own page (`SLUG_REDIRECT_COLLECTIONS` in `src/lib/redirects/slug-redirects.ts`: quest guides, achievement pages, Dofus guides, checklists and standalone pages; not metalogros, whose slug is an anchor) gets a new slug, `/<old>` answers a 308 to `/<new>`.
+
+- **Recording a move.** Each of those collections runs `trackSlugMove` (`beforeChange`) and `applySlugMove` (`afterChange`) from `src/collections/slug-redirects.ts`. `trackSlugMove` reads the stored row, which holds the published version (saving a draft only writes versions), and `slugMove` reports a move only when the save publishes with a slug different from the one that was published; a draft or a page never published has no address to keep. `applySlugMove`, after a publish, deletes any row whose `from` is the page's new slug (a page that publishes an old address takes it back) and, for a move, creates or updates the row `from: old, to: new` with `auto: true`. An old address that can no longer redirect (now a site route, or answered first by the legacy table) is skipped and never blocks publishing.
+- **The collection.** `redirects` (`src/collections/Redirects.ts`, «Redirecciones» in «Ajustes») lets Torre see and edit the rows; anyone reads it, panel accounts write it. `validateRow` lowercases both slugs, rejects an invalid slug or one the legacy table owns (`redirectProblem`), rejects a loop, rejects a `from` that a published page still uses (the page would always win), and shortens the target to the end of any chain (`chainEnd`: A → B with B → C is saved as A → C). `collapseChains` then points rows that led to this row's `from` at its `to`, so the table has no chains. Every change expires the `redirects` cache tag.
+- **Answering.** `/[slug]` consults the table last, only when nothing published has that slug: `redirectOrNotFound` (`src/app/(frontend)/[slug]/redirect-data.ts`) reads all rows as a visitor through `unstable_cache` under the `redirects` tag (600-second `revalidate`), follows the chain with `redirectTarget` (null on a loop), and calls `permanentRedirect` (308) to `/<target>`, or `notFound()`. So an old row never hides a page. See [Request pipeline](../architecture/request-pipeline.md).
+
 ## `/sitemap.xml`
 
 `src/app/sitemap.ts` is `force-dynamic`, like `robots.txt`: the build has no database. `sitemapEntries` (`src/lib/seo/sitemap.ts`, pure code) lists, with absolute URLs on `SITE_URL` and no duplicates:
 
 - the home page, `/metalogros`, `/guias-dofus` and `/checklists`;
-- every published quest guide, and every published achievement page, Dofus guide and checklist in Torre's `published` state, whose slug is a valid page slug and not a table source.
+- every published quest guide, and every published achievement page, Dofus guide, checklist and standalone page in Torre's `published` state, whose slug is a valid page slug and not a table source.
 
 Each page carries `lastModified` from its `updatedAt`. An index's date is the latest change among what it shows, its «En preparación» cards included because they appear on it (achievement pages count only when they belong to a metalogro; the Dofus index also counts its introduction global, `dofus-guides-index`). The home page's date is the latest of the guides and the three indexes. An index with nothing to show has no date.
 
-`readSitemapData` (`src/lib/seo/read-sitemap.ts`) reads as an anonymous visitor (`overrideAccess: false`, `draft: false`, `_status: published`), selecting only slugs, dates, states and the achievement page's group. The read is wrapped in `unstable_cache` tagged `guide-pages`, `achievement-pages`, `dofus-guides` and `checklists` with the guide pages' 600-second `revalidate`, so a publish in the panel expires it and writes outside the panel show within ten minutes. Drafts, the panel, the API, the `/sistema` catalog and the preview route are never listed.
+`readSitemapData` (`src/lib/seo/read-sitemap.ts`) reads as an anonymous visitor (`overrideAccess: false`, `draft: false`, `_status: published`), selecting only slugs, dates, states and the achievement page's group. The read is wrapped in `unstable_cache` tagged `guide-pages`, `achievement-pages`, `dofus-guides`, `checklists` and `pages` with the guide pages' 600-second `revalidate`, so a publish in the panel expires it and writes outside the panel show within ten minutes. Drafts, the panel, the API, the `/sistema` catalog and the preview route are never listed.
 
 ## `robots.txt`
 
@@ -146,9 +170,10 @@ The home page also sets its canonical URL to `/`, without the query string.
 - `tests/unit/redirect-table.test.ts`: `buildLegacyTable` (301 and 410 merged across sections, 307 with `permanent: false`, repeated sources, chains, non-slug sources, reserved routes, off-site and backslash or whitespace targets), `loadLegacyTable` falling back to an empty table, `isLegacySource`, `legacyKey`, `lookupLegacyUrl`, and the real file: it builds, each section has a description, the hubs and metalogros go where expected with 301, the stubs use 307 or 410, a pending stub has no row, and pages still on Squarespace are not redirected.
 - `tests/unit/legacy-redirects-proxy.test.ts`: the proxy's 301 without the query and with the public origin, the stub's 307, the metalogro anchor, case and trailing slash, the 410 page, pass-through, `noindex` on redirects in dev, and the 410 page's standalone markup and Arcano colors in both modes.
 - `tests/unit/stub-redirects.test.ts`: stub matching and the generated section.
+- `tests/unit/slug-redirects.test.ts` and `tests/integration/slug-redirects.test.ts`: following chains and loops, row validation, when a save moves an address, and the hooks writing, updating and releasing rows on real publishes.
 - `tests/unit/sitemap.test.ts`: the entries (home, indexes, published pages), drafts and «En preparación» left out, no panel or API, per-page and per-index dates, no table sources, no duplicates.
 - `tests/unit/robots.test.ts`: `robotsFor` in and out of dev, the sitemap pointer and the production failure without `NEXT_PUBLIC_SITE_URL`.
-- `tests/e2e/redirecciones.spec.ts`: a hub's 301, a metalogro landing on its panel, a published stub's 307, the 410 page, a stub with no page (410) and one whose page is in preparation (404), `/sitemap.xml` without drafts, the panel or the API, `robots.txt` pointing at the sitemap, and the home page's canonical URL.
+- `tests/e2e/redirecciones.spec.ts`: a hub's 301, a metalogro landing on its panel, a published stub's 307, the 410 page, a stub with no page (410) and one whose page is in preparation (404), `/sitemap.xml` without drafts, the panel or the API, `robots.txt` pointing at the sitemap, the home page's canonical URL, and a changed slug answering a 308 to its new address, which opens its page.
 
 ## Related pages
 

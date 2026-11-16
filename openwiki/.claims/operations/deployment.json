@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:adb6772d2fbca41889ff84459e5dd3b3bdd8f58f00db113ccd3cc7d8419db0bc",
+  "pageVersion": "sha256:db32911140f2d9566c50d05468cdc07f643449b9d26a0b8d9e381ac5bc70c053",
   "claims": [
     {
       "id": "claim_ef4f404736644b89ae37b4f3e616fbb9",
@@ -189,10 +189,24 @@
           "version": "repo-lines-v1:sha256:c76eb101ea2ff88fbf376b96f6e3ef972ed4e5c0817805d3c6dcf15893bdda1c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE1Y2JmMjFmYWY1MTQ0MDc2YzczMDRlMzQ5MGU3NjQxY2NiMWZiNGFiZWNlZGIwZWZiMmRjODI5Mjg5OWQ5N2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE4OTVmNTQwYWM3MmVkNTM0MThhN2ExYmI2ODFkZGRmYWE1ZWJkMGRiNWQ0NTFkNTk2NGM2NDJiMTk4YjMxNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_607f8339d546442ab6879ee4839c6653",
+      "statement": "In dev only, the Railway IaC declares a game-data service that deploys main, skips the Next build, runs pnpm data:refresh --schedule on the cron 0 6 * * 3 with a NEVER restart policy, and takes the web's variables by reference.",
+      "evidence": [
+        {
+          "resource": "repo://.railway/railway.ts#L81-L119",
+          "version": "repo-lines-v1:sha256:7f91e303cd178ab493eba82c900d65d3042f8380a11139ff4be41a7f56c86cf2:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhZGQ4ZGJmZTNkMjk3MGFjODJjZWM2NDZjYzFjNTQyMzYwNjIzODRjYzVmNmE2ZWYzYjA1NWFjMjk4YmMwMWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0NTJiNWI5N2M1M2MxOTBjN2Y4ZmJhYjA4ZTRhNzJlNjMzOTdkNjFhNzA3MzZiNDUyYjNjMWRiYTA0ZWM1ZTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/railway-config.test.ts#L145-L203",
+          "version": "repo-lines-v1:sha256:68e952acb21342452a4bdfa47387a5f95af5ce5898f54777e93e4d64ad8a7b0d:eyJzZWxlY3RlZExpbmVDb3VudCI6NTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI5NThlNDA4YmUyMTAwNDg4M2EwOGNhMmQzYTQyOTIwYTFhMGRmNzQyZmYyMTQ2MDEwZTVmMTZjMzhmMDMyMGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEwZDVlYTU3MDI4ZTdjYjVlZDQ0MzEyYzgxYzI0ODcwYmNlZmYwYTI1OWE4YWUzMDQ0NGI4MjVhNjJmYTUwY2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-14T11:00:46.827Z"
+    "at": "2026-11-16T11:00:16.891Z"
   }
 }

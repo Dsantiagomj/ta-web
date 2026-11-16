@@ -3,9 +3,6 @@ type: feature
 title: Checklists index
 description: How /checklists renders every checklist as a row of posters (art from each checklist's index card, ink color checked for contrast, the «???» teaser from the checklists-index global), the one cached read it shares with the menu, and the island that tilts posters and loads the progress engine and the poster progress endpoint only when the browser has saved progress.
 tags: [checklists, index, posters, progress, island, performance]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-15T11:00:17.514Z
 sources:
   - id: openwiki-source-095e24824745f80306ff1562
     resource: repo://scripts/import/checklists/cards.ts
@@ -23,6 +20,8 @@ sources:
     resource: repo://src/components/checklists/poster-progress-ui.ts
   - id: openwiki-source-901293d1995c83a143fd5fae
     resource: repo://src/components/checklists/posters-ui.ts
+  - id: openwiki-source-6bf04cbb0aa0ee8a237c4b83
+    resource: repo://src/components/ui/tilt.ts
   - id: openwiki-source-0dfc60e4771d54c856d97933
     resource: repo://src/globals/ChecklistsIndex.ts
   - id: openwiki-source-765af2a447d91c2278b95582
@@ -35,9 +34,14 @@ sources:
     resource: repo://src/lib/checklists/poster-progress.ts
   - id: openwiki-source-64cb67184a332f58fce45aeb
     resource: repo://src/lib/checklists/queries.ts
+  - id: openwiki-source-2237e095c005029df3a25713
+    resource: repo://src/lib/dofus-guides/egg.ts
   - id: openwiki-source-3bd66ce842612aa5530166a6
     resource: repo://tests/e2e/checklists-index.spec.ts
-generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
+generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-16T11:00:16.891Z
 ---
 
 # Checklists index
@@ -51,20 +55,20 @@ generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
 `readChecklists` (`src/lib/checklists/queries.ts`) reads as a visitor: every published checklist, «En preparación» included, ordered by `order` then `name`, without steps. In parallel it reads:
 
 - the scene and NPC images of every index card in one Media query;
-- the color and egg (the Dofus item's image) of each checklist's Dofus guide, with `overrideAccess`, even when the guide is still a draft. They are game data, and nothing else is selected from the guide, so unpublished content never reaches a visitor.
+- the color and egg of each checklist's Dofus guide and of each guide in its card's `crown`, with `overrideAccess`, even when the guide is still a draft. The poster's egg is `dofusEgg` (`src/lib/dofus-guides/egg.ts`): the egg Torre uploaded on the guide, or else the Dofus item's image with his correction, or none if he hid the item. A crown egg is the crown guide's Dofus item image. They are game data, and nothing else is selected from the guide, so unpublished content never reaches a visitor.
 
 `checklistEntries` (`src/lib/checklists/list.ts`) turns each document into an entry:
 
 - **Link.** A published checklist links to `/<slug>`, one «En preparación» to its `legacyHref` marked as legacy, and one with no link to nothing.
 - **Color.** The card's own color wins over the Dofus guide's color.
 - **Ink.** `posterInk` (`src/lib/checklists/poster-ink.ts`) decides the name's color on the server: the egg color as is when it reaches 4.5:1 against the poster shade of each mode, otherwise mixed with white (dark mode) or black (light mode) just enough to reach it. The shades are the worst case of `.poster__shade` (`POSTER_SHADE`).
-- **Art.** The card's scene, NPC and the NPC framing (height, right and top offsets in percent), when set.
+- **Art.** The card's scene, NPC and the NPC framing (height, right and top offsets in percent), when set. A card with a `crown` (the rush, which gives every Dofus) gets the crown's eggs, each with its guide's color, instead of the NPC and the single egg.
 
 ## The page
 
-`src/app/(frontend)/checklists/page.tsx` loads the entries and the teaser in parallel and renders `ChecklistsIndex` (`src/components/checklists/ChecklistsIndex.tsx`, styled in `checklists-index.css`): a title, a lead and a list of posters. With no checklist it shows a message instead of an empty row. Nothing in the copy counts checklists.
+`src/app/(frontend)/checklists/page.tsx` loads the entries, the teaser and the «Portada e índices» texts in parallel and renders `ChecklistsIndex` (`src/components/checklists/ChecklistsIndex.tsx`, styled in `checklists-index.css`): an eyebrow, a title, a lead and a list of posters. The eyebrow, title, lead, empty message and SEO title and description come from that global, and `generateMetadata` (`indexMetadata`) adds the site name and share image from «Ajustes del sitio» (see [Site settings and index texts](../cms/site-copy.md)); without the global the component uses `indexTextDefaults.checklists`. With no checklist it shows a message instead of an empty row. Nothing in the copy counts checklists.
 
-Each poster (3:4) layers the scene, the NPC peeking in from the right, a shade, the Dofus egg, a holographic foil and the name in its ink color. The poster's color and ink travel as CSS custom properties (`--egg`, `--egg-ink-dark`, `--egg-ink-light`), and the NPC framing as `--npc-h`, `--npc-r` and `--npc-t`.
+Each poster (3:4) layers the scene, the NPC peeking in from the right, a shade, the Dofus egg, a holographic foil and the name in its ink color. A crown poster (`poster--crown`) layers the scene, the shade, the crown of eggs (the first large in the centre, the rest around it, each glowing in its color) and the foil instead. The poster's color and ink travel as CSS custom properties (`--egg`, `--egg-ink-dark`, `--egg-ink-light`), and the NPC framing as `--npc-h`, `--npc-r` and `--npc-t`.
 
 - A poster with a link is an `<a>`. A preparing checklist with a Squarespace link is a poster like any other.
 - A poster without a link is dimmed, `aria-disabled`, with the «En preparación» pill.
@@ -79,7 +83,7 @@ The last poster is the teaser from the `checklists-index` global (`src/globals/C
 
 `ChecklistPostersIsland` is a client component that renders nothing. Without it the posters look the same, without tilt or percentage.
 
-- **Tilt.** `startTilt` (`posters-ui.ts`) tilts a poster toward the mouse pointer up to 9° per side and moves the foil highlight with it (`--fx`, `--fy`), then resets on leave. It ignores touch and pen, and does nothing under reduced motion.
+- **Tilt.** `startTilt`, the shared tilt of `src/components/ui/tilt.ts` (also used by the Dofus guides index), tilts each `[data-tilt]` poster toward the mouse pointer and moves the foil highlight with it (`--fx`, `--fy`), then resets on leave. It ignores touch and pen, and does nothing under reduced motion (see [Design system components](../frontend/design-system-components.md)).
 - **Progress, only when there is some.** `hasProgress` checks whether `localStorage` has the `ta-web:progress` key. Only then does the island load `poster-progress-ui.ts` with `import()`. That module fetches `GET /api/checklists/poster-progress` once and paints each published checklist's percentage with the same engine as the checklist page. A visitor who never ticked anything downloads neither the engine nor the models. If progress appears later (another tab writes it, or the page comes back from the back-forward cache), the `storage` and `pageshow` listeners start it then.
 - **Repaint.** Once started, it repaints on `storage` and `pageshow`. A percentage of 0 hides the ring; 100 marks it done.
 
@@ -96,14 +100,14 @@ The last poster is the teaser from the `checklists-index` global (`src/globals/C
 
 `pnpm import:checklist-cards --from <silvestre-checklist> [--apply] [--remote] [--production]` (`scripts/import/import-checklist-cards.ts`) brings the poster art of the old hub: the scene, NPC and framing of each catalog entry with a `card`, and the scene and egg of the teaser. It runs after `pnpm import:checklists`.
 
-`loadChecklistCards` (`scripts/import/checklists/cards.ts`) uploads each image to Media once (keyed through `media.gameAsset`, like the checklist art) and fills the card fields. It does not import the color, so the poster uses the Dofus guide's. It also sets the hub's name («Dofus Ocre») when the stored name is still the one `pnpm import:checklists` wrote.
+`loadChecklistCards` (`scripts/import/checklists/cards.ts`) uploads each image to Media once (keyed through `media.gameAsset`, like the checklist art) and fills the card fields. It imports a card `color` only for an entry without a Dofus guide (the rush's gold); otherwise the color stays empty and the poster uses the Dofus guide's. It writes the `crown` as the catalog's Dofus guide slugs resolved to IDs in order; if any of them is missing, it writes no crown and reports the missing guides, since half a crown would move the eggs. Lists compare by content and order when deciding whether Torre changed a field. It also sets the hub's name («Dofus Ocre») when the stored name is still the one `pnpm import:checklists` wrote.
 
 Reruns follow the import rule: a field changes only while it still equals what the last import wrote (`importSnapshot`, `card` on the checklist and `teaser` on the global). A field that already had a value with nothing imported before is Torre's and stays. A checklist with a draft in progress is decided twice: the published version against the published values, and the draft against the draft, so Torre's unpublished edits are not published. Without `--apply` it only counts. It refuses remote and production databases without their flags.
 
 ## Tests
 
 - `tests/unit/checklist-list.test.ts`, `checklist-poster-ink.test.ts` and `checklists-index.test.tsx`: the entries, the ink and the posters.
-- `tests/unit/checklists-posters-ui.test.ts`, `checklist-poster-progress.test.ts` and `checklist-poster-progress-endpoint.test.ts`: tilt, `hasProgress`, painting, the models and the endpoint.
+- `tests/unit/checklists-posters-ui.test.ts`, `tilt.test.ts`, `checklist-poster-progress.test.ts` and `checklist-poster-progress-endpoint.test.ts`: tilt, `hasProgress`, painting, the models and the endpoint.
 - `tests/unit/checklists-index-global.test.ts`: the global.
 - `tests/integration/checklist-list-queries.test.ts` and `import-checklist-cards.test.ts`: the queries with real access rules and the card import.
 - `tests/e2e/checklists-index.spec.ts`: one poster per checklist in Torre's order with the teaser last, the card art and framing, color precedence, links, the dimmed poster, no gap above the footer, the footer portrait not being the phone LCP, priority loading, tilt and reduced motion, the percentage after ticking a step, axe in both modes, and the menu, footer and phone menu entries.

@@ -22,6 +22,8 @@ sources:
     resource: repo://README.md
   - id: openwiki-source-9f5c4ea9e246f4ab67e69333
     resource: repo://scripts/backfill-guides.ts
+  - id: openwiki-source-df920c845ac739b66691fa24
+    resource: repo://scripts/build-block-thumbnails.ts
   - id: openwiki-source-71c840280649a7620f8e010f
     resource: repo://scripts/db-dev.ts
   - id: openwiki-source-b086b6b1802f507b0e5a4c8f
@@ -40,14 +42,18 @@ sources:
     resource: repo://scripts/import/import-dofus-guides.ts
   - id: openwiki-source-9e87f9929ce6181cecc80fe9
     resource: repo://scripts/import/import-guides.ts
+  - id: openwiki-source-8d7caf59736b532597a45b23
+    resource: repo://scripts/import/import-pages.ts
   - id: openwiki-source-95f46342bb37caacc4ce1dbc
     resource: repo://scripts/lhci.ts
   - id: openwiki-source-52bd7f492006181f268b8ce3
     resource: repo://scripts/media-sizes.ts
   - id: openwiki-source-7ad9a198e69c253980868284
     resource: repo://scripts/redirects/build-stub-redirects.ts
-  - id: openwiki-source-63cbcc482c18e4f9ce5d0888
-    resource: repo://scripts/refresh-quests.ts
+  - id: openwiki-source-13a4a70459b559cdd8e4d8fd
+    resource: repo://scripts/refresh-game-data.ts
+  - id: openwiki-source-92731ee12f8edc4d50be198e
+    resource: repo://scripts/seed-site-copy.ts
   - id: openwiki-source-102ac9d3e731f9c02830d89f
     resource: repo://src/app/(frontend)/sistema/page.tsx
   - id: openwiki-source-2ad419cae2f45e97a3ca23d7
@@ -58,10 +64,10 @@ sources:
     resource: repo://src/lib/dofusdb/refresh-quests.ts
   - id: openwiki-source-f34ac1e549d94dc3ac475ae4
     resource: repo://src/proxy.ts
-generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
+generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-15T11:00:17.514Z
+    at: 2026-11-16T11:00:16.891Z
 ---
 
 # Local development
@@ -109,12 +115,12 @@ Commit both with the change. CI fails when `src/payload-types.ts` is stale. Afte
 | `pnpm lint`, `pnpm format`, `pnpm format:check` | ESLint and Prettier |
 | `pnpm typecheck` | `next typegen`, then `tsc --noEmit` |
 | `pnpm test`, `pnpm test:integration`, `pnpm test:e2e`, `pnpm test:e2e:dev-gate`, `pnpm test:smoke` | The test suites; see [Test suites](../testing/test-suites.md) |
-| `pnpm seed:e2e` | Seeds the E2E test guides, the test achievement page and metalogros, the test Dofus guides with the index intro, the test checklists and extra `/checklists` index entries, and a panel user (`tests/e2e/seed/`); refuses any database that is not local. The E2E and Lighthouse runs call it themselves |
+| `pnpm seed:e2e` | Seeds the E2E test guides, the test achievement page and metalogros, the test Dofus guides with the index intro, the test checklists and extra `/checklists` index entries, the test standalone pages, a slug redirect, and the panel users (`tests/e2e/seed/`); refuses any database that is not local. The E2E and Lighthouse runs call it themselves |
 | `pnpm test:lhci` | Lighthouse CI against the `DESIGN.md` budgets on the production path (port 3110, its own `ta_web_lhci` database); needs Playwright's Chromium (`pnpm exec playwright install chromium`) or `CHROME_PATH`. See [Performance budgets](../testing/performance-budgets.md) |
 | `pnpm db:dev` | Embedded Postgres in the foreground; `--verbose` prints its log; Ctrl+C stops it |
 | `pnpm migrate` | Applies pending migrations, using `DATABASE_URL_DIRECT` when set, else `DATABASE_URL` |
-| `pnpm data:quests` | Downloads every quest from the public DofusDB API (about 2,000), the whole monster catalog (about 5,000) and the whole item catalog (about 21,500), and writes them to `quests`, `items` and `monsters` in the `DATABASE_URL` database (the `pnpm db:dev` one when empty). Then it saves every achievement category and the achievements under Misiones and Eventos with their icons, saves the quest-giving NPCs to `npcs` with their renders (the first run takes a while: two images per NPC), creates the missing metalogros and achievement pages «En preparación», saves the sub-areas with their areas and the dungeons with their bosses, and imports the images of the items and monsters some page shows, dungeon bosses included, into `media`. Monsters also get their grade levels, boss and archmonster flags and subarea, and dungeons their level, for the souls checklist. At the end it prints the dungeon report: how each dungeon note of the published achievement pages matched (by name, by boss, picked in the panel or not at all) and which rows still carry the generic icon. The quest download takes about two and a half minutes; writing takes seconds. Failed requests are retried. Writes 8 rows at a time; `DOFUSDB_WRITE_CONCURRENCY` changes that. Never against production without the owner's yes; see [DofusDB game data refresh](../data/dofusdb-refresh.md) |
-| `pnpm data:dungeon-notes` | Prints only the dungeon report of `pnpm data:quests`: no DofusDB download, no writes. Against dev: `railway run --service web --environment dev pnpm data:dungeon-notes`, to check how each «Necesitarás» dungeon note matches before or after a matcher change. See [DofusDB game data refresh](../data/dofusdb-refresh.md#dungeon-report) |
+| `pnpm data:refresh [--schedule]` (old name `pnpm data:quests`) | Downloads every quest from the public DofusDB API (about 2,000), the whole monster catalog (about 5,000) and the whole item catalog (about 21,500), and writes them to `quests`, `items` and `monsters` in the `DATABASE_URL` database (the `pnpm db:dev` one when empty). Then it saves every achievement category and the achievements under Misiones and Eventos with their icons, saves the quest-giving NPCs to `npcs` with their renders (the first run takes a while: two images per NPC), creates the missing metalogros and achievement pages «En preparación», saves the sub-areas with their areas and the dungeons with their bosses, and imports the images of the items and monsters some page shows, dungeon bosses included, into `media`. Monsters also get their grade levels, boss and archmonster flags and subarea, and dungeons their level, for the souls checklist. At the end it prints the dungeon report: how each dungeon note of the published achievement pages matched (by name, by boss, picked in the panel or not at all) and which rows still carry the generic icon. The quest download takes about two and a half minutes; writing takes seconds. Failed requests are retried. Writes 8 rows at a time; `DOFUSDB_WRITE_CONCURRENCY` changes that. It never touches Torre's corrections, leaves a row in the panel's «Refrescos de datos», does nothing when another refresh is running, ends with one line per collection, and exits 1 if the refresh failed or a row could not be saved. The weekly Railway cron passes `--schedule`. Never against production without the owner's yes; see [DofusDB game data refresh](../data/dofusdb-refresh.md) |
+| `pnpm data:dungeon-notes` | Prints only the dungeon report of `pnpm data:refresh`: no DofusDB download, no writes. Against dev: `railway run --service web --environment dev pnpm data:dungeon-notes`, to check how each «Necesitarás» dungeon note matches before or after a matcher change. See [DofusDB game data refresh](../data/dofusdb-refresh.md#dungeon-report) |
 | `pnpm import:guides <dir> [slug…]` | Imports Squarespace quest pages from the migration inventory folder into `quest-guides` as drafts, with their images in `media`; without slugs, the five demo guides. Writes to the `DATABASE_URL` database (the `pnpm db:dev` one when empty). Run `pnpm data:quests` first so quests link. Never against production without the owner's yes; see [Squarespace import](../data/squarespace-import.md#running-it) |
 | `pnpm import:achievements <datos.json> [--apply] [--remote] [--production]` | Copies Torre's metalogros index (order, names, slugs, states, hand-picked representatives, loose guides) onto `achievement-groups` and `achievement-pages`. Dry run without `--apply`; run after `pnpm data:quests`. See [Importing Torre's achievement pages](../data/achievements-import.md) |
 | `pnpm fix:achievements [--apply] [--remote] [--production]` | Applies the targeted fixes in `TORRE_FIXES` to a database that already ran `pnpm import:achievements`, without running the import again: representatives, an achievement page's state, name, slug and position, loose guides. Skips anything with an unpublished draft; a second run changes nothing. Dry run without `--apply`. See [Importing Torre's achievement pages](../data/achievements-import.md#targeted-fixes) |
@@ -122,6 +128,10 @@ Commit both with the change. CI fails when `src/payload-types.ts` is stale. Afte
 | `pnpm import:checklists --from <silvestre-checklist> [--only <id>] [--apply] [--remote] [--production]` | Loads Torre's checklists from a copy of the old `silvestre-checklist` app into `checklists`: the ported ones (the Silvestre, the Hielos and the Nebuloso whole, the Ocre as a souls checklist built from its quest) as drafts «En preparación», the rest as «En preparación» cards linking to Squarespace. Run `pnpm data:quests` first on an environment refreshed before the monster game data existed, or the Ocre's souls are reported without it. A rerun keeps Torre's panel edits and each step's identifier. Fetches missing items and NPCs from DofusDB and uploads start maps and figures to `media`. Dry run without `--apply`. See [Checklist data and import](../checklists/checklist-data.md) |
 | `pnpm import:checklist-cards --from <silvestre-checklist> [--apply] [--remote] [--production]` | Brings the poster art of the old checklists hub: each checklist's scene, NPC and framing, and the scene and egg of the «???» teaser, uploaded to `media` once. Keeps what Torre changed in the panel. Run after `pnpm import:checklists`; dry run without `--apply`. See [Checklists index](../checklists/checklists-index.md#card-art-import) |
 | `pnpm import:achievement-prose [--from <dir>] [--apply] [--remote] [--production]` | Copies the prose of each achievement page's Squarespace page (introduction and closing, with screenshots and videos in place) onto the achievement pages, without overwriting what Torre wrote in the panel; `--from` reads cached `<dir>/<slug>.html`. Dry run without `--apply`. See [Achievement prose import](../data/achievement-prose-import.md) |
+| `pnpm import:pages [--from <dir>] [--apply] [--remote] [--production]` | Brings Torre's loose Squarespace pages (emotes, how-tos, the legal pages) into `pages`, creating the missing ones and, on a rerun, leaving alone what Torre changed. Dry run without `--apply`. See [Standalone pages](../pages/standalone-pages.md) |
+| `pnpm guides:rewards`, `pnpm guides:rewards-dofusdb`, `pnpm guides:reward-typos`, `pnpm guides:shown-items` (each `[--apply] [--remote] [--production]`) | One-off maintenance of quest guides: fill the empty reward fields from Torre's text and DofusDB, prefer DofusDB's figure when Torre's is within 10 %, fix item-name typos in the rewards text, and correct «Necesitarás» lists that counted every «Enséñale» objective. Dry run without `--apply`; idempotent. See [Quest guide rewards](../data/guide-rewards.md) |
+| `pnpm seed:site-copy [--apply] [--remote] [--production]` | Writes the built-in site copy into every empty field of «Ajustes del sitio» and «Portada e índices», never a field with a value. Dry run without `--apply`. See [Site settings and index texts](../cms/site-copy.md) |
+| `pnpm panel:block-thumbs [--url <origin>]` | Captures each frame of the «Bloques del panel» group of `/sistema` in Arcano dark as a 480 × 320 WebP in `public/img/panel/bloques`, the thumbnails of the panel's block picker. Needs `pnpm dev` running. See [Guide body blocks](../cms/blocks.md) |
 | `pnpm redirects:stubs [--from <origin>] [--dry-run] [--cutover]` | Rewrites the `stubs` section of the legacy redirect table from a deployed site's public API (dev by default). See [Legacy redirects, sitemap and robots.txt](../operations/redirects-and-seo.md#the-stubs-section) |
 | `pnpm guides:backfill <dir> [--apply] [--remote] [--production]` | Brings guides imported before two importer changes up to date: restores the closing sentence from the cached Squarespace page and turns monster lists into fight blocks. Dry run without `--apply`; run after `pnpm data:quests`. See [Squarespace import](../data/squarespace-import.md#bringing-imported-guides-up-to-date) |
 | `pnpm media:sizes [--remote] [--production]` | Generates the missing AVIF/WebP sizes of `media` files uploaded before Payload generated them; safe to rerun. Against a non-local database it needs `--remote`, in production `--production`. See [Media storage](../media/storage.md#backfilling-missing-sizes-pnpm-mediasizes) |
@@ -173,5 +183,6 @@ Feature branches do not touch `openwiki/`. A scheduled task outside the repo ref
 - [CI and quality gates](ci-and-quality-gates.md)
 - [Environment configuration](../architecture/configuration.md)
 - [DofusDB game data refresh](../data/dofusdb-refresh.md)
+- [Quest guide rewards](../data/guide-rewards.md)
 - [Performance budgets](../testing/performance-budgets.md)
 - [Component catalog (/sistema)](../frontend/component-catalog.md)

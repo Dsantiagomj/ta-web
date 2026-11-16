@@ -1,7 +1,7 @@
 ---
 type: workflow
 title: DofusDB game data refresh
-description: How pnpm data:quests fills the read-only quests, items and monsters collections from the public DofusDB API (every quest, the whole item catalog and the monsters quests name), how the client retries failed requests, how quests, prerequisites, level-200 rewards and needs are derived, why a rerun changes nothing, how writes run several at a time under DOFUSDB_WRITE_CONCURRENCY, and how to run it without touching production by accident.
+description: How pnpm data:refresh, the weekly Railway task and the panel's «Traer ahora» refresh every game data collection from the public DofusDB API in one logged, single-at-a-time run, how the client retries, how quests, prerequisites, level-200 rewards, level tiers and needs are derived, why a rerun changes nothing, how failed rows are counted, how writes run several at a time, and how to run it without touching production by accident.
 tags: [dofusdb, game-data, quests, items, monsters, rewards, payload, scripts, concurrency, retries]
 sources:
   - id: openwiki-source-5f5b95b3d6a215fa02ceb945
@@ -10,8 +10,6 @@ sources:
     resource: repo://AGENTS.md
   - id: openwiki-source-2615540ec7553288b52f775d
     resource: repo://docs/legacy/infra.md
-  - id: openwiki-source-d2cae621c91b518c9e5f5e6d
-    resource: repo://docs/legacy/plan.md
   - id: openwiki-source-5b54a58d1b51cd490b0e7162
     resource: repo://package.json
   - id: openwiki-source-23775c3de52f3ab95a13cb8b
@@ -20,10 +18,8 @@ sources:
     resource: repo://scripts/dungeon-notes.ts
   - id: openwiki-source-fca54d456ab0ce8df7083ec2
     resource: repo://scripts/payload-script.ts
-  - id: openwiki-source-63cbcc482c18e4f9ce5d0888
-    resource: repo://scripts/refresh-quests.ts
-  - id: openwiki-source-30fb9110f08cd9302abaca1a
-    resource: repo://src/collections/Items.ts
+  - id: openwiki-source-13a4a70459b559cdd8e4d8fd
+    resource: repo://scripts/refresh-game-data.ts
   - id: openwiki-source-f6a77b87c2cce3530ab6695f
     resource: repo://src/collections/quest-guide-autofill.ts
   - id: openwiki-source-7a2723ea85824e431ff5eb54
@@ -58,12 +54,18 @@ sources:
     resource: repo://src/lib/dofusdb/quest-stages.ts
   - id: openwiki-source-cabbbdb69c4af80c58320870
     resource: repo://src/lib/dofusdb/refresh-achievements.ts
+  - id: openwiki-source-09d6fe64c97ce6ea0a1d16e8
+    resource: repo://src/lib/dofusdb/refresh-game-data.ts
   - id: openwiki-source-021869cfa5f88cdea6c24dce
     resource: repo://src/lib/dofusdb/refresh-npcs.ts
   - id: openwiki-source-4ce5bfd40fc86e2e8680d71f
     resource: repo://src/lib/dofusdb/refresh-quests.ts
   - id: openwiki-source-d11abb61b5a8238b73d35352
     resource: repo://src/lib/dofusdb/refresh-subareas.ts
+  - id: openwiki-source-163038e86b54f8d7813a51eb
+    resource: repo://src/lib/game-data/refresh-run-values.ts
+  - id: openwiki-source-cd29d8198da688bc7a189c53
+    resource: repo://src/lib/game-data/refresh-runs.ts
   - id: openwiki-source-d5cdfb9f4d8e25639ff82c78
     resource: repo://src/lib/guides/format.ts
   - id: openwiki-source-89155127340f422ef94e950a
@@ -72,8 +74,12 @@ sources:
     resource: repo://src/payload.config.ts
   - id: openwiki-source-f771f456156fbf6bde7862c2
     resource: repo://tests/fixtures/dofusdb/quests.json
+  - id: openwiki-source-6e7179b9a85bcdbee371aa04
+    resource: repo://tests/integration/game-data-refresh-runs.test.ts
   - id: openwiki-source-a1ceebf6ddd8d9e71ec23176
     resource: repo://tests/integration/refresh-achievements.test.ts
+  - id: openwiki-source-6cef77982b159f9bf926dfcc
+    resource: repo://tests/integration/refresh-game-data.test.ts
   - id: openwiki-source-1d413a1c9f24b6810283a923
     resource: repo://tests/integration/refresh-game-images.test.ts
   - id: openwiki-source-b851e65e44a5d48a33bfb854
@@ -96,59 +102,63 @@ sources:
     resource: repo://tests/unit/dofusdb-quest-rewards.test.ts
   - id: openwiki-source-e73350ef868f2379d51909ed
     resource: repo://tests/unit/dofusdb-write-concurrency.test.ts
-generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
+  - id: openwiki-source-90a6758868d3dc51a18e2373
+    resource: repo://tests/unit/refresh-game-data-summary.test.ts
+  - id: openwiki-source-88f72b375a7085219ea4b361
+    resource: repo://tests/unit/refresh-row-failures.test.ts
+generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-15T11:00:17.514Z
+    at: 2026-11-16T11:00:16.891Z
 ---
 
 # DofusDB game data refresh
 
-Game data in ta-web (quests, items, monsters, quest-giver NPCs, achievements and achievement categories today; the rest later) comes from DofusDB, is read-only in the panel and is refreshed by a script. Torre picks it from guides through relationship fields (AGENTS.md). The quest refresh is the first of these scripts and the only writer of the `quests`, `items`, `monsters`, `npcs`, `achievements` and `achievement-categories` collections described in [Collections and access](../cms/collections.md#quests-dofusdb-game-data) and [Achievement data model](../achievements/achievement-data.md). It also creates the metalogros and achievement pages that are missing, and never changes existing ones.
+Game data in ta-web (quests, items, monsters, dungeons, quest-giver NPCs, sub-areas, achievements and achievement categories today; the rest later) comes from DofusDB and is refreshed by one job, `refreshGameData` (`src/lib/dofusdb/refresh-game-data.ts`). Torre picks it from guides through relationship fields (AGENTS.md). The refresh is the only writer of the DofusDB fields of the `quests`, `items`, `monsters`, `dungeons`, `npcs`, `subareas`, `achievements` and `achievement-categories` collections described in [Collections and access](../cms/collections.md#quests-dofusdb-game-data) and [Achievement data model](../achievements/achievement-data.md). In the panel those fields are read-only; on six of the collections Torre can edit only a «Corrección de Torre» group on top, which the refresh never writes because it writes without a user (see [Torre corrections to DofusDB data](torre-corrections.md)). The refresh also creates the metalogros and achievement pages that are missing, and never changes existing ones.
 
-Nothing loads from DofusDB at runtime. The script copies the data into our Postgres; the site reads only that copy. The art the site shows is imported into `media` once by the refresh and served from there: NPC renders, achievement icons, and the icons of the items and the images of the monsters that some page shows. Each file has a `gameAsset` key, so reruns never upload one twice.
+Nothing loads from DofusDB at runtime. The refresh copies the data into our Postgres; the site reads only that copy. The art the site shows is imported into `media` once by the refresh and served from there: NPC renders, achievement icons, and the icons of the items and the images of the monsters that some page shows. Each file has a `gameAsset` key, so reruns never upload one twice.
+
+Three things start a refresh, and all of them go through `startGameDataRefresh` (`src/lib/game-data/refresh-runs.ts`), which logs the run in «Refrescos de datos» and lets only one run at a time:
+
+| Trigger | How | Where it runs |
+|---|---|---|
+| `script` | `pnpm data:refresh` by hand (`pnpm data:quests` is an alias) | wherever the command runs |
+| `schedule` | the weekly Railway cron task, `pnpm data:refresh --schedule` (see [Deployment](../operations/deployment.md)) | its own `game-data` container in dev |
+| `panel` | «Traer ahora» above the «Refrescos de datos» list, admins only (`POST /api/game-data/refresh`) | the web server process |
 
 ## Pipeline
 
 ```
-pnpm data:quests
-  └─ scripts/refresh-quests.ts        DOFUSDB_WRITE_CONCURRENCY, getPayload, timing, exit code
-       ├─ createDofusDbClient({ log })  src/lib/dofusdb/client.ts (retries, timeout)
-       ├─ fetchQuestData(client)      src/lib/dofusdb/fetch-quest-data.ts
+pnpm data:refresh [--schedule]        POST /api/game-data/refresh (admin)
+  └─ scripts/refresh-game-data.ts     └─ src/endpoints/game-data-refresh.ts
+       DOFUSDB_WRITE_CONCURRENCY,
+       triggerFromArgs, exit code
+          └──────────── startGameDataRefresh ────────────┘   src/lib/game-data/refresh-runs.ts
+                          row in game-data-refreshes (running, unique lock)
+                          └─ refreshGameData(payload, { concurrency, log })
+                                                       src/lib/dofusdb/refresh-game-data.ts
+       ├─ fetchQuestData(createDofusDbClient({ log }))   src/lib/dofusdb/fetch-quest-data.ts
        │    quests (all pages) → NPCs named in start positions and objectives
        │                       → maps named in start positions
-       │    sub-areas and areas (all pages)
-       │    dungeons (all pages, with their bosses)
-       │    achievements (all pages, with objectives and rewards)
-       │    achievement categories (all pages)
-       │    items (all pages, only the stored fields)
-       │    monsters (all pages, id/name/gfxId/isBoss/isMiniBoss/subareas/grades.level)
-       ├─ refreshQuests(payload, data, { concurrency })
-                                      src/lib/dofusdb/refresh-quests.ts
-            mapItem / mapMonster      src/lib/dofusdb/map-items-monsters.ts
-            items, then monsters, then dungeons: create/update by dofusId
-            (each step: mapWithConcurrency, src/lib/concurrency.ts)
-            mapQuest per quest        src/lib/dofusdb/map-quest.ts
-              questRewards            src/lib/dofusdb/quest-rewards.ts
-              questNeeds              src/lib/dofusdb/quest-needs.ts
-              questStages             src/lib/dofusdb/quest-stages.ts
-            pass 1: create/update quest fields by dofusId
-            pass 2: link prerequisites by Payload ID
-       ├─ refreshSubAreas(payload, …)       src/lib/dofusdb/refresh-subareas.ts
-            every sub-area with its area name, create/update by dofusId
-       ├─ refreshAchievements(payload, …)   src/lib/dofusdb/refresh-achievements.ts
-            categories (all), then achievements under Misiones and Eventos
-            mapAchievement                 src/lib/dofusdb/map-achievement.ts
-            icons → media (gameImageImporter)
-       ├─ refreshNpcs(payload, data.npcs)   src/lib/dofusdb/refresh-npcs.ts
-            npcRenderUrl / npcRenderKey      src/lib/dofusdb/npc-render.ts
-            per NPC: renders (right, left) → media, then create/update by dofusId
-       ├─ ensureAchievementPages(payload)   src/lib/achievements/ensure-pages.ts
-            missing metalogros and achievement pages, «En preparación»
-       ├─ gameImageTargets → refreshGameImages   src/lib/dofusdb/game-images.ts
+       │    sub-areas and areas, dungeons (with their bosses), achievements (with
+       │    objectives and rewards), achievement categories, items, monsters (all pages)
+       ├─ refreshQuests(payload, data, write)            src/lib/dofusdb/refresh-quests.ts
+       │    items, then monsters, then dungeons: create/update by dofusId
+       │    mapQuest per quest (questRewards, questNeeds, questStages)
+       │    pass 1: create/update quest fields; pass 2: link prerequisites
+       │    (each step: mapWithConcurrency; each row: rowGuard)
+       ├─ refreshSubAreas(payload, …)                    src/lib/dofusdb/refresh-subareas.ts
+       ├─ refreshAchievements(payload, …)                src/lib/dofusdb/refresh-achievements.ts
+       │    categories (all), then achievements under Misiones and Eventos, icons → media
+       ├─ refreshNpcs(payload, data.npcs)                src/lib/dofusdb/refresh-npcs.ts
+       │    per NPC: renders (right, left) → media, then create/update by dofusId
+       ├─ ensureAchievementPages(payload)                src/lib/achievements/ensure-pages.ts
+       │    missing metalogros and achievement pages, «En preparación»
+       └─ gameImageTargets → refreshGameImages           src/lib/dofusdb/game-images.ts
             item icons and monster images some page shows, and every dungeon boss → media
-       └─ dungeonNoteReport(payload)        src/lib/achievements/dungeon-report.ts
-            dungeon rows of published achievement pages: with their boss or generic
+       → GameDataSummary: per-collection counts, images, new pages, missing references
+                          row closed as ok, partial or failed, with its report
+  (script only) dungeonNoteReport → printed       src/lib/achievements/dungeon-report.ts
 ```
 
 `src/lib/dofusdb/types.ts` types only the fields the pipeline reads from DofusDB rows (`RawQuest` with its `need` summary and `steps`, `RawQuestStep`, `RawQuestReward`, `RawQuestObjective`, `RawItem`, `RawMonster`, `RawNpc`, `RawMapPosition`, `RawSubArea`, `RawArea`, `RawAchievement`, `RawAchievementCategory`, and `LocalizedText` for the `{ es, fr, en, de, pt }` texts) and the `MappedQuest`, `MappedItem`, `MappedMonster`, `MappedAchievement` and `MappedAchievementCategory` shapes written to the collections.
@@ -173,7 +183,7 @@ A full run makes several hundred requests, mostly for the item catalog, and one 
 - **Up to 4 retries** (5 attempts in total). The wait doubles from 0.5 s: 0.5, 1, 2 and 4 s, each plus up to 25 % random jitter so retries do not line up.
 - **`Retry-After`**: on a 429, a `Retry-After` header in seconds or as an HTTP date replaces the computed wait, capped at 60 s so an outsized value cannot stall the script. A missing or unreadable header falls back to the backoff.
 - **Final error**: after the last attempt, or on a non-retried status, the client throws `DofusDB respondió <status> <statusText> en <url> tras <n> intentos` or, for a network failure, `DofusDB no respondió en <url> tras <n> intentos: <error>` with the original error as `cause`. The message names the URL and the number of attempts.
-- **Logging**: the optional `log` callback gets one Spanish line per retry, such as `DofusDB respondió 503 … en <url>; reintento 1 de 4 en 0.6 s`. By default nothing is logged; `pnpm data:quests` passes `console.log`.
+- **Logging**: the optional `log` callback gets one Spanish line per retry, such as `DofusDB respondió 503 … en <url>; reintento 1 de 4 en 0.6 s`. By default nothing is logged; `refreshGameData` passes its run log, so `pnpm data:refresh` prints each retry.
 
 ### Fetching
 
@@ -202,7 +212,7 @@ There is no index on the item name. Picking an item by name in the panel runs a 
 
 ### Stages and objectives
 
-`questStages` (`src/lib/dofusdb/quest-stages.ts`) keeps each quest's stages with their objectives, in DofusDB's order. Each objective gets a `kind` from its DofusDB class, with the same classes as the old checklist: `free`, `npc` (go to an NPC), `bring` (items or souls to an NPC), `fight`, `map` (discover a map or sub-area) and `craft`; an unknown class is `free`. It also keeps the NPC, monster or item the class names in its parameters, the quantity, the map with its coordinates, the `subAreaId`, and the raw Spanish text with markers such as `{npc,2646}` unresolved. A DofusDB value of 0 means none and is stored as `null`.
+`questStages` (`src/lib/dofusdb/quest-stages.ts`) keeps each quest's stages with their objectives, in DofusDB's order. Each objective gets a `kind` from its DofusDB class, with the same classes as the old checklist: `free`, `npc` (go to an NPC), `bring` (items or souls to an NPC), `show` (show an item to an NPC, which shares the bring class with `typeId` 2), `fight`, `map` (discover a map or sub-area) and `craft`; an unknown class is `free`. It also keeps the NPC, monster or item the class names in its parameters, the quantity, the map with its coordinates, the `subAreaId`, and the raw Spanish text with markers such as `{npc,2646}` unresolved. A DofusDB value of 0 means none and is stored as `null`.
 
 Checklist progress counts objectives by their position in this flattened order, so it must match the old checklist. `CHECKLIST_OBJECTIVE_ORDER` reorders the two stages where the old checklist did objectives in a different order (quests 1660 and 1661, from the Silvestre); if DofusDB changes such a stage, DofusDB's own order wins. A checklist «Detente aquí» validates its objective index against these stored stages (see [Checklist data and import](../checklists/checklist-data.md)).
 
@@ -231,30 +241,36 @@ Requiring one of several alternatives cannot be expressed as a plain list of que
 
 `questRewards(raw)` (`src/lib/dofusdb/quest-rewards.ts`) computes what a quest gives a **level-200 character**. That is the convention dofusdb.fr displays and the one Torre's guides use, so the stored numbers match both. The formula is the Dofus client's (decompiled), the same one DofusDB and Ganymede use, and the results were checked digit for digit against dofusdb.fr.
 
-Each quest step has several `rewards` entries, one per level bracket; the **last** one is the highest bracket and the only one used. For each step, with `L` the level, `opt` the step's `optimalLevel`, `duration` its duration and the entry's ratios:
+Each quest step has one or more `rewards` entries. An entry with both `levelMin` and `levelMax` set (not `-1`) belongs to that level tier; one without is for every level. For a character of level `P`, `rewardsAt` takes the step's untiered entries plus the entry whose tier contains `P`; at level 200, when no tier contains 200, it takes the last tiered entry, the highest. For each entry, with `opt` the step's `optimalLevel`, `duration` its duration and the entry's ratios:
 
 ```
 fixe(L)  = L × (100 + 2L)² / 20 × duration × experienceRatio
 
-XP       = fixe(200)                                        when opt ≥ 200
-         = 0.3 × fixe(opt) + 0.7 × fixe(min(200, opt × 1.5)) when opt < 200
+lower    = min(P, opt)
+upper    = min(max(P, opt), lower × 1.5)
+XP       = 0.3 × fixe(lower) + 0.7 × fixe(upper)
 
-kamas    = (opt² + 20 × opt − 20) × kamasRatio × duration
+kamas    = (K² + 20 × K − 20) × kamasRatio × duration
+           K = min(P, opt) when the entry's kamasScaleWithPlayerLevel is set, else opt
 ```
 
-- The reward level above the optimum is capped at 1.5 times the optimum and not truncated, so a step with optimum 25 counts level 37.5.
-- Kamas use the optimal level, as DofusDB shows them, even though in the game they scale with the character's level.
-- XP and kamas are floored **per step** and then summed, as DofusDB does. Flooring only the total gives a different number: quest 241 (five steps) gives 5,679,336 XP, not 5,679,337.
+- The reward level above the optimum is capped at 1.5 times the lower level and not truncated, so at level 200 a step with optimum 25 counts level 37.5. At the optimum, XP is the fixed XP of that level.
+- Kamas use the optimal level, as DofusDB shows them, unless the entry says they scale with the player's level.
+- XP and kamas are floored **per step and entry** and then summed, as DofusDB does. Flooring only the total gives a different number: quest 241 (five steps) gives 5,679,336 XP, not 5,679,337.
 - A step with no `rewards` entry adds nothing; a quest with no steps gets zeros and empty lists.
 
-`questRewards` also computes `experienceMin`, the XP of a character at each step's optimal level (capped at 200), floored per step and summed. It is the start of the XP range the guide page shows ("9 800 a 16 380" for quest 1976); the level-200 `experience` is already the top of that range, because the reward level stops rising at 1.5 times the optimum. For a step whose optimum is 200, both values match.
+`questRewards` also computes `experienceMin`, the XP of a character at each step's optimal level (capped at 200), floored per step and summed. It is the start of the XP range the guide page shows ("9 800 a 16 380" for quest 1976); the level-200 `experience` is already the top of that range. For a step whose optimum is 200, both values match.
 
 Worked example, quest 1977 (*El cazador cazado*): one step, optimum 25, duration 0.5, both ratios 1. `fixe(25) = 14,062.5` and `fixe(37.5) = 28,710.94`, so XP is `0.3 × 14,062.5 + 0.7 × 28,710.94 = 24,316.4`, floored to **24,316**; kamas are `(625 + 500 − 20) × 0.5 = 552.5`, floored to **552**. Torre's guide gives the same figures.
 
-The same last entry also gives:
+The same entries also give:
 
 - **items**: `itemsReward` pairs `[itemId, quantity]`, summed by item across steps (the same item in two steps becomes one line);
 - **emote, spell, title and job IDs**: `emotesReward`, `spellsReward`, `titlesReward` and `jobsReward`, deduplicated in order. They are stored as plain DofusDB IDs; there is no collection behind them yet.
+
+#### Rewards by level
+
+Event quests give different rewards at different levels. `levelRewards` builds `byLevel` for them: it cuts the level range at every tier boundary of every step (up to 200), keeps the segments some tier covers, computes each segment's totals at its highest level, and merges consecutive segments that give the same items and IDs and differ only in XP and kamas (DofusDB gives one tier per level in the Nawidad events). Each tier stores `levelMin`, `levelMax`, the XP and kamas of its highest level, and its items. A quest with fewer than two tiers gets an empty list. Torre's own figures per tier match (1,329,586 XP and 14,041 kamas at level 109 in *La crisis de fe*). Quest guides copy these tiers into their «Por nivel» rewards (see [Quest guide rewards](guide-rewards.md)).
 
 ### Needs
 
@@ -262,7 +278,7 @@ The same last entry also gives:
 
 | Objective `className` | Feeds | Parameters read |
 |---|---|---|
-| `QuestObjectiveBringItemToNpcData` ("Entrégale a {npc}: N x {item}") | `needs.items` | item in `parameter1`, quantity in `parameter2` (1 if missing) |
+| `QuestObjectiveBringItemToNpcData` ("Entrégale a {npc}: N x {item}"; with `typeId` 2 it is "Enséñale", show an item) | `needs.items` | item in `parameter1`, quantity in `parameter2` (1 if missing) |
 | `QuestObjectiveFightMonsterData`, `QuestObjectiveMultiFightMonsterData`, `QuestObjectiveFightMonstersOnMapData` | `needs.monsters` | monster in `parameter0`, quantity in `parameter1` (1 if missing) |
 | `QuestObjectiveBringSoulToNpcData` (bring N souls of a monster to an NPC) | `needs.monsters` | NPC first: monster in `parameter1`, quantity in `parameter2` |
 | `QuestObjectiveDiscoverMapData`, `QuestObjectiveDiscoverSubAreaData` | `needs.walksMaps = true` | none |
@@ -272,6 +288,8 @@ Monsters are summed by monster across all objectives and steps.
 
 **Items take the larger quantity, not the sum.** `need.items` (with `need.quantities` in the same order) is DofusDB's summary of the items a quest asks for, and it already includes the items you deliver. So `questNeeds` starts from `need.items` and, for each delivered item, keeps the larger of the two quantities instead of adding them. Quest 245 lists 2 × item 8993 in `need.items` and delivers 1 × 8993 in an objective: it needs 2, not 3. Deliveries of the same item in several objectives are summed among themselves first. A delivered item missing from `need.items` is appended.
 
+**Showing is not spending.** A "show" objective (`showsItem`: the bring class with `typeId` 2) hands the item back. DofusDB still adds it to `need.items` as if it were spent, so `questNeeds` subtracts that generated part (`need.generated` of the objective) from `need.items`, and the item then needs the larger of what is given and the largest single show, without summing them: an item shown and later given is the same item.
+
 #### What the refreshed data means for a guide
 
 A quest guide copies its summary from the linked quest when the guide's fields are empty (see [Writing a quest guide](../cms/guide-authoring.md)). The prerequisites come from `prerequisites` and the `PL>` level that `startCriterion` always requires, the rewards from `rewards`, the start point from the first `startPositions` entry, and the guide's "Necesitarás" item list from `needs.items`. Quest items are left out of that list: they carry their own item types (`typeId` 129, 133 and 155 in the fixtures), all under supertype 14, and the game hands them out during the quest, so the guide filters them by `superTypeId === 14`. About 3,900 of the catalog's items are quest items. Needed monsters and `walksMaps` do not fit an item list and are not copied.
@@ -280,13 +298,15 @@ Torre's "Necesitarás" lines are partly editorial (which fights to expect, what 
 
 ### Writing: items and monsters first, then two passes over quests
 
-`refreshQuests(payload, data, { now, log, concurrency })` is the only code that writes quests, items and monsters, so every call uses the local API with `overrideAccess: true`; the collections' access rules refuse everyone else.
+`refreshQuests(payload, data, { now, log, concurrency })` is the only code that writes the DofusDB fields of quests, items, monsters and dungeons. It uses the local API with `overrideAccess: true` and no user, which the collections' `scopeCorrectionWrite` hook reads as a script: it writes DofusDB's fields and keeps the stored Torre correction.
+
+Every row write goes through `rowGuard(label, log)`: a row that throws is counted as `failed`, the first five failures per collection are logged with their DofusDB ID and error, and the refresh goes on. More than `MAX_ROW_FAILURES` (20) failures in one collection stop the refresh, since that points at a real problem rather than one bad row.
 
 1. **Items, then monsters, then dungeons.** `refreshCatalog` maps the rows, keeps one per DofusDB ID, loads the existing rows in one query, creates the missing ones and updates an existing one only when its stored fields differ under a deep comparison. It returns the counts and a map from DofusDB ID to Payload ID that also covers rows from earlier runs that DofusDB no longer returned. This comes first because quest rewards and needs point at item and monster Payload IDs, and dungeons point at their boss monsters. Progress is logged every 2,000 rows (`Objetos guardados: <n> de <total>`), which matters for the item catalog of more than 20,000 rows.
 2. It maps every quest, keeping one entry per DofusDB ID in case a quest repeats across pages, and loads all existing quests in one query. `linkRows` swaps each reward and need item or monster for its Payload ID; an ID with no stored row is dropped from the list and counted as a missing item or monster.
 3. **Pass 1** walks the mapped quests by `dofusId`. A missing quest is created. An existing one is updated only when its stored fields (name, levels, category, criterion, start positions, zone, achievement, rewards, needs and stages) differ from the mapped ones under a deep comparison; otherwise it is left alone. Progress is logged every 250 quests.
 4. **Pass 2** resolves each quest's prerequisite DofusDB IDs to Payload IDs, now that every quest exists. A prerequisite that is not in the collection is skipped and counted. The relationship is written only when the resolved list differs from the stored one; a quest unchanged in pass 1 then counts as updated.
-5. It returns `{ created, updated, unchanged }` for each of `quests`, `items`, `monsters` and `dungeons`, plus `missingPrerequisites`, `missingItems`, `missingMonsters` and `missingBosses`. Every write returns its own status and missing counts, and the totals are summed from those results afterwards, so no shared counter is updated by concurrent writes. The only shared counter left is the progress count behind the every-250 log line.
+5. It returns `{ created, updated, unchanged, failed }` for each of `quests`, `items`, `monsters` and `dungeons`, plus `missingPrerequisites`, `missingItems`, `missingMonsters` and `missingBosses`. Every write returns its own status and missing counts, and the totals are summed from those results afterwards, so no shared counter is updated by concurrent writes. The only shared counter left is the progress count behind the every-250 log line.
 
 Consequences:
 
@@ -301,7 +321,7 @@ After the quests, `refreshSubAreas` (`src/lib/dofusdb/refresh-subareas.ts`) writ
 
 ### NPCs and their renders
 
-After the achievements, `pnpm data:quests` runs `refreshNpcs(payload, data.npcs)`, the only writer of `npcs`. The NPCs include those that give a quest and those a quest objective names. It loads every stored NPC once and processes the DofusDB NPCs four at a time (each one downloads, trims and uploads two images).
+After the achievements, `refreshGameData` runs `refreshNpcs(payload, data.npcs)`, the only writer of the DofusDB fields of `npcs`. The NPCs include those that give a quest and those a quest objective names. It loads every stored NPC once and processes the DofusDB NPCs four at a time (each one downloads, trims and uploads two images).
 
 For each NPC with a look, and for each direction (right and left), it resolves a `media` document:
 
@@ -310,7 +330,7 @@ For each NPC with a look, and for each direction (right and left), it resolves a
 3. Otherwise it downloads `npcRenderUrl(look, direction)` from `renderer.dofusdb.fr` (the look hex-encoded, full body, direction 1 for right and 3 for left), with a 30 s timeout and only accepting an image. sharp trims the transparent margin and caps the height at 720 px, and the PNG is uploaded to `media` with the NPC's name as `alt` and the key as `gameAsset`.
 4. If the download fails, it logs one line, counts a failure and keeps the render the NPC already had, so an old look's render beats none; the next refresh tries again.
 
-An NPC without a look is saved without renders and nothing is requested. The NPC row (`dofusId`, Spanish name with `PNJ <id>` as fallback, `look`, `renderRight`, `renderLeft`) is created, or updated only when it differs, with `refreshedAt`. Renders from an earlier look stay in `media`: an editor may have picked one in a guide, and deleting it would break that image. The script prints NPC counts and how many renders were imported, reused from `media` or missing.
+An NPC without a look is saved without renders and nothing is requested. The NPC row (`dofusId`, Spanish name with `PNJ <id>` as fallback, `look`, `renderRight`, `renderLeft`) is created, or updated only when it differs, with `refreshedAt`. Renders from an earlier look stay in `media`: an editor may have picked one in a guide, and deleting it would break that image. The summary counts NPCs and adds their renders to the image counts (imported, reused from `media` or missing).
 
 ### Achievements
 
@@ -322,7 +342,7 @@ After the NPCs, `ensureAchievementPages` creates a metalogro for each category u
 
 ### Game images
 
-Then `gameImageTargets(payload)` collects the items and monsters some page shows: items in quest rewards and needs, in achievement rewards, in achievement page rewards and in guide needs lists; monsters in quest needs, in guide fight blocks (also inside steps), a metalogro's representative when it is a monster, and every dungeon boss (about 140), so a dungeon note shows its boss whichever guide names it. Drafts count. The whole catalog is tens of thousands of items, so only these are imported.
+Then `gameImageTargets(payload)` collects the items and monsters some page shows: items in quest rewards (level tiers included) and needs, in achievement rewards, in achievement page rewards, in guide needs lists and in a guide's reward items and level tiers; monsters in quest needs, in guide fight blocks (also inside steps), a metalogro's representative when it is a monster, and every dungeon boss (about 140), so a dungeon note shows its boss whichever guide names it. Drafts count. The whole catalog is tens of thousands of items, so only these are imported.
 
 `refreshGameImages` (`src/lib/dofusdb/game-images.ts`) then imports their art into `media`, four at a time:
 
@@ -336,7 +356,7 @@ Achievement icons go through the same importer with the `achievement` kind.
 
 ### Dungeon report
 
-Last, `dungeonNoteReport` (`src/lib/achievements/dungeon-report.ts`) classifies the dungeon notes of «Necesitarás en total» on every published achievement page in the Publicada state. It reads the published guides of each page's quests and runs the same functions as the page (`achievementNeeds`, `readNoteItems`, `chooseDungeonBosses`), page by page, so it reports exactly what a visitor sees: a boss without an image in `media` counts as the generic icon. Each row carries how its note matched (`NoteMatch`): picked by hand, by name, by boss, or not at all, with the candidates when the matcher had a doubt.
+After the refresh, `scripts/refresh-game-data.ts` prints `dungeonNoteReport` (`src/lib/achievements/dungeon-report.ts`), which classifies the dungeon rows of published pages: «Necesitarás en total» on achievement pages, Necesitarás on Dofus guides and the quest guide header. It runs the same functions as each page, page by page, so it reports exactly what a visitor sees: a boss without an image in `media` counts as the generic icon. Each row carries how its note matched (`NoteMatch`): picked by hand, by name, by boss, or not at all, with the candidates when the matcher had a doubt.
 
 `dungeonReportLines` (`src/lib/achievements/dungeon-report-lines.ts`) turns it into text: one count line (rows with their boss, rows with the generic icon, and how many were picked by hand in the panel), then each note once, with all its pages, grouped as «Por nombre», «Por jefe», «A mano en el panel» and «Sin mazmorra, icono genérico». A matched row names its dungeon, the boss it matched by and «nombre parecido» for an approximate match, and says when the boss has no image; an unmatched row lists the dungeons it hesitated between. Torre fixes a row by writing the dungeon or boss name in the note, or by picking the dungeon in the guide (see [Guide authoring](../cms/guide-authoring.md)). The matching rules are in [Achievement page](../achievements/achievement-page.md).
 
@@ -344,7 +364,7 @@ Last, `dungeonNoteReport` (`src/lib/achievements/dungeon-report.ts`) classifies 
 
 ### Write concurrency
 
-Each Payload write is several round trips to the database. Written one at a time, a run against Neon took about half an hour (comment on `refreshQuests`). So within each step (items, monsters, quest pass 1, quest pass 2) the refresh writes several rows at a time with `mapWithConcurrency(items, limit, fn)` from `src/lib/concurrency.ts`:
+Each Payload write is several round trips to the database. Written one at a time, a run against Neon took about half an hour (comment on `refreshQuests`). So within each step (items, monsters, dungeons, quest pass 1, quest pass 2) the refresh writes several rows at a time with `mapWithConcurrency(items, limit, fn)` from `src/lib/concurrency.ts`:
 
 - It returns the results in input order, whatever order the writes finish in.
 - At most `limit` calls run at once.
@@ -353,7 +373,7 @@ Each Payload write is several round trips to the database. Written one at a time
 
 The steps stay in the same order as before: items and monsters finish before any quest is written, and pass 2 starts only once pass 1 has saved every quest. Concurrency only changes how rows inside one step overlap, so a run with 1 write at a time and a run with 8 store the same rows and return the same counts; the integration test checks exactly that.
 
-The limit comes from `options.concurrency`, which defaults to `DEFAULT_WRITE_CONCURRENCY` (8). `pnpm data:quests` sets it from `DOFUSDB_WRITE_CONCURRENCY` through `writeConcurrencyFromEnv`: empty or unset gives 8, and anything that is not an integer of at least 1 throws before Payload starts. See [Environment configuration](../architecture/configuration.md#dofusdb-write-concurrency).
+The limit comes from `options.concurrency`, which defaults to `DEFAULT_WRITE_CONCURRENCY` (8). `pnpm data:refresh` sets it from `DOFUSDB_WRITE_CONCURRENCY` through `writeConcurrencyFromEnv`: empty or unset gives 8, and anything that is not an integer of at least 1 throws before Payload starts. See [Environment configuration](../architecture/configuration.md#dofusdb-write-concurrency).
 
 Each concurrent write holds one connection from the Postgres pool. `src/payload.config.ts` sets no `max` on the pool, so pg's default of 10 applies; 8 leaves room for the reads the refresh also makes, and `.env.example` advises not going above 9.
 
@@ -362,22 +382,36 @@ Measured locally, the write phase took 8.3 s with 1 write at a time and 4.5 s wi
 ## Running it
 
 ```sh
-pnpm data:quests
+pnpm data:refresh             # by hand: trigger «script»
+pnpm data:refresh --schedule  # what the weekly Railway task runs: trigger «schedule»
 ```
 
-`package.json` runs `payload run scripts/refresh-quests.ts`, which loads `.env` and transpiles TypeScript. The script reads `DOFUSDB_WRITE_CONCURRENCY` before anything else, so a bad value fails at once, then starts Payload itself with `getPayload`. It creates the DofusDB client with `console.log` as its logger, so each retry prints a line. It prints how many quests, NPCs, maps, items and monsters it downloaded, how many writes it runs at once, the item and quest progress lines, how long the write phase took (`Escritura: <n> s.`), then the total elapsed time, the created, updated and unchanged counts for quests, items and monsters, and the skipped references. A full run downloads about 2,000 quests, the whole monster catalog of about 5,000 and the whole item catalog of about 21,500 items (README). After the quests it prints the achievement counts (categories and achievements created, updated and unchanged; icons imported, reused or missing; quests and items the achievements name but the database lacks), the NPC counts, the metalogros and achievement pages it created «en preparación», and the item and monster image counts (imported, reused from Media, linked, unchanged and missing).
+`package.json` runs `payload run scripts/refresh-game-data.ts --`, which loads `.env` and transpiles TypeScript; `pnpm data:quests` is kept as an alias. The script reads `DOFUSDB_WRITE_CONCURRENCY` and its arguments before anything else (`triggerFromArgs` accepts only `--schedule` and throws on any other option), so a bad value fails at once. Then it starts Payload and calls `startGameDataRefresh` with the real `refreshGameData`, logging to the console.
 
-The download dominates the run time, and most of it is the item catalog. Measured locally, the download took about two and a half minutes. Writing took about 10 seconds on a first run against `pnpm db:dev`, which creates every item, and under a second on a rerun that changes nothing, so a repeat run still takes about as long as the download.
+- **Already running**: if another refresh holds the lock, the script prints when that one started and exits 0 without starting a second.
+- **Output**: progress lines from each step (downloads, catalog progress every 2,000 rows, quests every 250, retries), the total time, the run's report (one line per collection with created, updated, unchanged and failed rows, then images imported, reused and missing, metalogros and achievement pages created «en preparación», and skipped references), then the dungeon report.
+- **Exit code**: 1 when the refresh failed or finished with failed rows (`partial`), through `runPayloadScript`, because `payload run` exits 0 whenever a script returns.
 
-- **Write concurrency**: `DOFUSDB_WRITE_CONCURRENCY=4 pnpm data:quests` (or the same line in `.env`) changes how many rows are written at once; empty means 8. See [Write concurrency](#write-concurrency).
+A full run downloads about 2,000 quests, the whole monster catalog of about 5,000 and the whole item catalog of about 21,500 items. The download dominates the run time, and most of it is the item catalog; writing takes seconds locally, and a rerun that changes nothing writes nothing.
+
+- **Write concurrency**: `DOFUSDB_WRITE_CONCURRENCY=4 pnpm data:refresh` (or the same line in `.env`) changes how many rows are written at once; empty means 8. See [Write concurrency](#write-concurrency).
 - **Target database**: whatever `DATABASE_URL` points to, or the `ta_web` database of `pnpm db:dev` when it is empty. See [Database and migrations](database.md).
-- **Schema first**: the `quests`, `items` and `monsters` tables must exist. Schema push only happens under `next dev`, so on a fresh database run `pnpm migrate` (or `pnpm dev` once) before the refresh.
-- **Failure**: any error is printed as `El refresco de misiones falló:` with the cause, Payload is shut down, and the process exits with code 1. The explicit exit matters because `payload run` exits 0 whenever the script returns without throwing.
-- **When**: on demand, after an Ankama patch changes the game data (docs/legacy/plan.md).
+- **Schema first**: the tables must exist. Schema push only happens under `next dev`, so on a fresh database run `pnpm migrate` (or `pnpm dev` once) before the refresh.
+- **When**: every Wednesday at 06:00 UTC in dev through the Railway task, after Ankama's usual Tuesday patch; on demand with the panel button or the command.
+
+### The run log and the lock
+
+`game-data-refreshes` («Refrescos de datos», in «Datos del juego») keeps one row per run: `trigger`, `requestedBy` (the panel account, for the button), `startedAt`, `finishedAt`, `status` and, when it ends, the text `report` and the JSON `summary`, or the `error`. Panel accounts read it; nobody writes it through the API (see [Collections and access](../cms/collections.md#game-data-refreshes)).
+
+`startGameDataRefresh` first closes any run that has been «running» for more than `STALE_AFTER_MS` (two hours) as failed, because its process died without recording the end (a deploy, a restart). Then it creates the new row as `running` with `lock: 'running'`. `lock` is unique in the database, so a second refresh cannot start while another holds it, even from another process: the weekly task runs in its own container and the button in the web's. If the create fails because the lock is taken, it returns `busy` with the running row. Otherwise it returns `started` at once with a `done` promise that runs the refresh and closes the row, clearing `lock`: `ok`, `partial` when `rowFailures(summary)` counts failed rows (a missing image does not count), or `failed` with the error. `done` never rejects; if even closing the row fails, the row stays «running» and is closed as stale later.
+
+### The panel button
+
+Above the «Refrescos de datos» list, `GameDataRefresh` shows how the last refresh ended (`refreshStatusLine`) with its error when it failed. An admin also sees «Traer ahora» (`GameDataRefreshButton`), which posts to `POST /api/game-data/refresh` and does not wait. The endpoint (`src/endpoints/game-data-refresh.ts`) answers 401 without a session, 403 for an editor, 409 with the running row's start time when a refresh is already running, and 202 with the new row's ID otherwise, and always sends `Cache-Control: no-store`. The refresh then runs in the web server's process and its row says how it ended. See [Panel dashboard and editing aids](../cms/panel-editing-aids.md).
 
 ### Never against production without the owner's yes
 
-The script writes to whatever database `DATABASE_URL` names, with no confirmation prompt. The infrastructure access rules (docs/legacy/infra.md, section 8) give agents full access to dev and read access to prod: prod writes, database changes included, go through `release.yml` or need Daniel's explicit yes for that one action. Do not point `DATABASE_URL` at the Neon `main` branch and run `pnpm data:quests` without that yes. Run it locally, or against the Neon `dev` branch.
+The script writes to whatever database `DATABASE_URL` names, with no confirmation prompt. The infrastructure access rules (docs/legacy/infra.md, section 8) give agents full access to dev and read access to prod: prod writes, database changes included, go through `release.yml` or need Daniel's explicit yes for that one action. Do not point `DATABASE_URL` at the Neon `main` branch and run `pnpm data:refresh` without that yes. Run it locally, or against the Neon `dev` branch. The weekly task exists only in dev for now.
 
 ## Tests
 
@@ -386,12 +420,17 @@ The script writes to whatever database `DATABASE_URL` names, with no confirmatio
 | `tests/unit/dofusdb-client.test.ts` | Pages of 50 until the total, a 50 ms pause between pages and none after the last, stop on an empty page, `$select[]` fields in the URL, the User-Agent, deduplicated IDs in chunks of 40, no request for an empty ID list, the error message on a 404. Retries: a network error and 502, 503 and 504 retried with waits of 500, 1,000, 2,000 and 4,000 ms and one log line each, jitter between 500 and 750 ms with `random` 0.5, giving up after 5 attempts with the URL and attempt count in the error (for a status and for repeated network failures), no retry on 400 or 404, and a 429's `Retry-After: 7` waited as 7,000 ms |
 | `tests/unit/dofusdb-map-quest.test.ts` | Spanish name with French fallback, every start position with NPC names and coordinates, `null`s for missing lookups, rewards and needs taken from the steps, the zone (the area of the start map's sub-area, `null` when unknown), the achievement (position in DofusDB order, the lowest ID when several, a slug from the name when DofusDB has none, `null` without one), and the prerequisite rule: `Qf=` joined by `&`, alternatives, `Qa=`, nested groups, unbalanced parentheses, duplicates and self-references |
 | `tests/unit/dofusdb-criterion.test.ts` | `requiredTerms`: terms joined by `&` in order, a level with `\|` giving nothing (`PL>189\|Qf=123` gives none, `(PL>50\|PL>60)&Qf=1` gives `Qf=1`), `&`-only brackets entered while `\|` groups are skipped, and no terms for a `null` or empty criterion |
-| `tests/unit/dofusdb-quest-rewards.test.ts` | Torre's and dofusdb.fr's figures for quests 1977 (24,316 XP, 552 kamas) and 1976, the 1.5 × optimum cap (332), the level-200 case (1433), the XP range of 1976 (9,800 to 16,380) and a minimum equal to the maximum for 1433, per-step flooring (241), items summed across steps, the last reward entry (880), emote and title IDs, and empty steps |
-| `tests/unit/dofusdb-quest-needs.test.ts` | Delivered items, `need.items` without deliveries, the larger-quantity rule (245), deliveries summed across objectives, every fight objective and souls, `walksMaps` for map and sub-area discovery, and the ignored objectives |
+| `tests/unit/dofusdb-quest-rewards.test.ts` | Torre's and dofusdb.fr's figures for quests 1977 (24,316 XP, 552 kamas) and 1976, the 1.5 × optimum cap (332), the level-200 case (1433), the XP range of 1976 (9,800 to 16,380) and a minimum equal to the maximum for 1433, per-step flooring (241), items summed across steps, the last reward entry at level 200 (880), emote and title IDs, empty steps, and the level tiers: *La crisis de fe* (2056) with Torre's figures, the top tier equal to the level-200 figures, untiered rewards in every tier (2060), quantities per tier (1566), merged tiers (848) and no tiers when nothing differs (880) |
+| `tests/unit/dofusdb-quest-needs.test.ts` | Delivered items, `need.items` without deliveries, the larger-quantity rule (245), deliveries summed across objectives, shown items not summed, every fight objective and souls, `walksMaps` for map and sub-area discovery, and the ignored objectives |
+| `tests/unit/refresh-row-failures.test.ts` | A failed row is counted and logged while the others are saved, only the first failures are logged, and more than `MAX_ROW_FAILURES` stop the refresh |
+| `tests/unit/refresh-game-data-summary.test.ts` | `summaryLines`, `rowFailures` (a missing image is not a failure) and `triggerFromArgs` |
+| `tests/unit/game-data-refresh-endpoint.test.ts` | The endpoint's 401, 403, 409 and 202 answers |
+| `tests/integration/refresh-game-data.test.ts` | `refreshGameData` saves every game data collection with its counts, a rerun changes nothing, and a change from DofusDB never touches Torre's correction or what Torre wrote |
+| `tests/integration/game-data-refresh-runs.test.ts` | The run row while running and when done, no second run while one runs, a failure recorded with its error and the lock released, `partial` with failed rows, a stale run closed, `lastGameDataRefresh`, and that panel accounts read the log but nobody writes it |
 | `tests/unit/dofusdb-fetch-quest-data.test.ts` | Only the NPCs and maps named in start positions are looked up by ID; the whole monster catalog and the whole item catalog, including items no quest names, come from `fetchAll` with their select lists; the sub-areas of the start maps and their areas are looked up by ID; every achievement comes from `fetchAll` with what its page needs, and every achievement category too |
 | `tests/unit/dofusdb-quest-stages.test.ts` | Stages and objectives in DofusDB order, the objective kinds and the parameters each names, 0 as none, the reordered Silvestre stages, and the NPCs objectives name |
 | `tests/integration/refresh-subareas.test.ts` | Sub-areas saved with their area name, an idempotent rerun, and changes applied |
-| `tests/integration/dungeon-report.test.ts` | The dungeon rows of published achievement pages classified as the page shows them: with their boss, picked by hand, or generic |
+| `tests/integration/dungeon-report.test.ts` | The dungeon rows of published pages classified as each page shows them: with their boss, picked by hand, or generic |
 | `tests/unit/dofusdb-map-achievement.test.ts` | Objective quests and alternatives, no quests from other objectives, the experience figures of Torre's pages, rewards for level 200 only, one row per quest objective in game order, alternatives counted as one quest, `countsFor` through another achievement, and category mapping |
 | `tests/integration/refresh-achievements.test.ts` | Every category and the achievements under Misiones and Eventos are saved; quests, category, items, icon and `countsFor` are linked; a missing quest is skipped and counted; a rerun changes and downloads nothing; DofusDB changes are applied |
 | `tests/unit/dofusdb-game-images.test.ts` | The 128 px PNG URL per kind and one key per image |

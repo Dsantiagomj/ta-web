@@ -18,6 +18,10 @@ sources:
     resource: repo://src/lib/dofus-guides/cache.ts
   - id: openwiki-source-9c81b515d209a3ac7b95cba8
     resource: repo://src/lib/dofus-guides/color.ts
+  - id: openwiki-source-2237e095c005029df3a25713
+    resource: repo://src/lib/dofus-guides/egg.ts
+  - id: openwiki-source-174a8ca60339af6e6c022a42
+    resource: repo://src/lib/dofus-guides/links.ts
   - id: openwiki-source-651d65b97f9c21955a79c567
     resource: repo://src/lib/dofus-guides/need-groups.ts
   - id: openwiki-source-9660b854ff872f4ab63d720d
@@ -32,17 +36,17 @@ sources:
     resource: repo://tests/unit/dofus-guides-index-global.test.ts
   - id: openwiki-source-bf9fb1ff7357ca38b1ad1283
     resource: repo://tests/unit/revalidate-guides.test.ts
-generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
+generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-15T11:00:17.514Z
+    at: 2026-11-16T11:00:16.891Z
 ---
 
 # Dofus guide data model
 
 Torre's Dofus guides say what each Dofus asks for and which achievements and quests give it. They live in the `dofus-guides` collection (`src/collections/DofusGuides.ts`, "Guías de Dofus" in the panel group «Contenido», searchable by name, slug and aliases), one document per Dofus. Each published guide renders at `/<slug>` (see [Dofus guide page](dofus-guide-page.md)), and every guide, published or not, has a card on `/guias-dofus` (see [Dofus guides index and menu](dofus-guides-index.md)). The [Dofus guides import](../data/dofus-guides-import.md) seeds them from Torre's current site.
 
-A Dofus guide does not copy quests. It points to achievement pages and quest guides, and the page reads their quests and links at render time. Editing an achievement page's quests therefore changes every Dofus guide that lists it.
+An achievement in a Dofus guide shows either the quests of its achievement page, read at render time, or the quest rows Torre wrote for that guide, as his own text with the guides each row links (`pageQuests` and `ownQuests`, below). Loose quests point to quest guides or carry his own text and link.
 
 ## Editorial rules
 
@@ -60,7 +64,8 @@ Two states matter and they are different things. `_status` (draft or published) 
 
 | Field | Type | Notes |
 |---|---|---|
-| `dofus` | relationship to `items`, unique | The Dofus item in DofusDB. Its image is the egg on the card, the header and the menu |
+| `dofus` | relationship to `items`, unique | The Dofus item in DofusDB. Its image, with Torre's correction, is the egg on the card, the header and the menu unless `egg` is set |
+| `egg` | upload to `media` | «Huevo», optional: Torre's own egg, which wins over the Dofus item's image on the index card, the menu, the checklist poster and the guide header (`dofusEgg` in `src/lib/dofus-guides/egg.ts`) |
 | `name` | text, required, localized | The card and page title |
 | `slug` | text, required, unique, indexed, not localized | `/<slug>`, the same as on Torre's site (`dofus-abisal`). Validated by `validateSlug` from quest guides; in the sidebar |
 | `state` | select | `published` or `preparing` (see above) |
@@ -72,13 +77,13 @@ Two states matter and they are different things. `_status` (draft or published) 
 | `rewards`, `intro`, `outro` | rich text, localized | |
 | `parts` | blocks | The achievements and quests, in order (below) |
 | `body` | blocks | "Paso a paso", for step-by-step guides such as the Piñata de pino. Uses the quest guide blocks: rich text, image, video, callout, fight and step (see [Guide body blocks](../cms/blocks.md)) |
-| `video` | text | Optional YouTube URL, validated like the video block |
+| `video` | text | Optional YouTube URL, validated like the video block (`validateOptionalVideoUrl`), in the browser too through `OptionalVideoUrlField` |
 | `videoPoster` | upload to `media` | The video's poster, stored in Media so the page never fetches it from YouTube |
 | `checklist` | group of `name` and `url` | The checklist card on the page; `url` is validated by `validateOptionalUrl` |
 | `importSnapshot` | json, hidden | What the import last wrote per field, so a rerun never overwrites Torre's edits (see [Dofus guides import](../data/dofus-guides-import.md)) |
 | `originalUrl` | text | The Squarespace URL, in the sidebar |
 
-The form arranges these fields in three unnamed tabs, which only order the form: «Contenido» (intro, parts, body and outro), «Ficha» (level, tag, color, prerequisites, rewards, aliases, checklist, video and poster) and «Necesitarás». The Dofus item, name, slug, state and order sit above the tabs.
+The form arranges these fields in three unnamed tabs, which only order the form: «Contenido» (intro, parts, body and outro), «Ficha» (level, tag, color, egg, prerequisites, rewards, aliases, checklist, video and poster) and «Necesitarás». The Dofus item, name, slug, state and order sit above the tabs.
 
 ### Necesitarás groups
 
@@ -99,17 +104,25 @@ Before migration `20261114_163904_needs_group_select` the group name was free te
 
 | Block | Holds | Example |
 |---|---|---|
-| `dofusAchievement` | a required `achievement` (an achievement page) and a `note` | A single achievement with its quests |
-| `dofusMetalogro` | a required `name` and an array of `achievements`, each with a `note` | "Un comienzo ejemplar" in the Plateado |
-| `dofusQuests` | an optional `title` and an array of `quests`, each a required quest guide with a `note` | "También algunas misiones random" |
-| `dofusQuest` | one required quest guide and a `note` | A quest that is a step on its own, such as the Nebuloso's gods |
+| `dofusAchievement` | a required `achievement` (an achievement page), a `note`, and the own quest fields below | A single achievement with its quests |
+| `dofusMetalogro` | a required `name` and an array of `achievements`, each with a `note` and the own quest fields | "Un comienzo ejemplar" in the Plateado |
+| `dofusQuests` | an optional `title` and an array of `quests`, each with a quest guide, a `title` (empty means the guide's title), a `link` and a `note`; a row needs its guide or, when it is not a quest, Torre's text (`validateLooseQuest`) | "También algunas misiones random" |
+| `dofusQuest` | one required quest guide, a `title` and a `note` | A quest that is a step on its own, such as the Nebuloso's gods |
 | `dofusNote` | required rich `text` | One of Torre's tips between achievements |
 
-The quests of an achievement come from its achievement page, where they are edited. The metalogro's achievement array has `dbName: 'dofus_meta_ach'`: with the default name, the index of its version table passes Postgres's 63-character limit and would be truncated.
+Each achievement (alone or in a metalogro) carries `ownQuestFields`:
+
+- `pageQuests` («Misiones de su página de logro»), checked by default: the quests come from the achievement page, where they are edited.
+- `ownQuests` («Tus misiones»), shown only when `pageQuests` is unchecked: Torre's rows in his order, each with a required localized `title` as he wants it shown («La fatalidad - El destino - La rivalidad»), the quest `guides` it links (several when he joins alternatives) and a `note`. Unchecked with no rows means no quests. They count in the guide's and the index's figures.
+- `link`: his link to the achievement on his old site (`/en-marcha-hacia-la-aventura`), used while the achievement page is «En preparación».
+
+A hand-written `link` (on an achievement or a loose quest row) must be a site path or an http(s) address (`validateSiteLink`, using `siteOrWebHref` in `src/lib/dofus-guides/links.ts`); anything else is rejected, and the page draws only a link that passes the same check.
+
+Short table names keep Postgres's 63-character limit: the metalogro's achievement array has `dbName: 'dofus_meta_ach'`, and the own quest arrays `dofus_ach_quests` and `dofus_meta_ach_q`. The panel's block picker shows a thumbnail for each part and «Necesitarás» row (see [Guide body blocks](../cms/blocks.md#picker-thumbnails)).
 
 ## One slug space at the root
 
-Dofus guides share `/<slug>` with quest guides, achievement pages, metalogros and checklists. `dofus-guides` is one of the five `ROOT_SLUG_COLLECTIONS` in `src/collections/root-slug.ts`, and the collection runs `rejectSharedSlug('dofus-guides')` in `beforeValidate`: a slug another of the five collections uses, stored or in its latest draft, is rejected with a message naming the owner ("una guía de Dofus" from the other side), and so is a source of the legacy redirect table. `/guias-dofus` is a reserved route segment, so no document of any of the five can take it. Unlike the achievement pages, a Dofus guide's slug is never filled automatically. See [Achievement data model](../achievements/achievement-data.md#one-slug-space-at-the-root).
+Dofus guides share `/<slug>` with quest guides, achievement pages, metalogros, checklists and standalone pages. `dofus-guides` is one of the six `ROOT_SLUG_COLLECTIONS` in `src/collections/root-slug.ts`, and the collection runs `rejectSharedSlug('dofus-guides')` in `beforeValidate`: a slug another of the six collections uses, stored or in its latest draft, is rejected with a message naming the owner ("una guía de Dofus" from the other side), and so is a source of the legacy redirect table. `/guias-dofus` is a reserved route segment, so no document of any of the six can take it. Unlike the achievement pages, a Dofus guide's slug is never filled automatically. When a published guide changes its slug, `trackSlugMove` and `applySlugMove` add a redirect from the old address (see [Redirects, sitemap and robots](../operations/redirects-and-seo.md)). See [Achievement data model](../achievements/achievement-data.md#one-slug-space-at-the-root).
 
 ## The index global
 
@@ -125,6 +138,7 @@ Every reader of Dofus guide data caches it under the `dofus-guides` tag with a 6
 | The index global | `dofus-guides` |
 | A quest guide or a Media file | `guide-pages`, `achievement-pages`, `dofus-guides` and `checklists` |
 | An achievement page or a metalogro | `achievement-pages`, `guide-pages`, `dofus-guides` and `checklists` |
+| A checklist | `checklists` and `dofus-guides` (a Dofus guide links its checklist once it is published) |
 
 The hooks run on drafts too, which is cheap and also covers unpublishing. Outside a Next request (the import, scripts, tests) `revalidateTag` throws a "static generation store missing" invariant, which `expire` ignores. Writes made outside the server, such as the import, show within ten minutes.
 
@@ -134,6 +148,8 @@ The hooks run on drafts too, which is cheap and also covers unpublishing. Outsid
 - `20261110_052805_dofus_guides_import` adds `video_poster_id` and `import_snapshot`.
 - `20261110_131101_dofus_guides_index` creates the global's tables.
 - `20261114_163904_needs_group_select` turns the group name into the fixed list and keeps the old name as the subtitle.
+- `20261115_132426_dofus_torre_quest_rows` adds `pageQuests`, `ownQuests` and `link` to the achievement parts, and `title` and `link` to the loose quest rows.
+- `20261115_191357_editable_missing_fields` adds the `egg` upload.
 
 See [Database and migrations](../data/database.md).
 

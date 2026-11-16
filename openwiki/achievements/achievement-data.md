@@ -1,14 +1,16 @@
 ---
 type: data model
 title: Achievement data model
-description: The four achievement collections (DofusDB achievements and categories, Torre's achievement pages and metalogros), the root slug space they share with quest guides and Dofus guides, how empty fields fill from DofusDB, the panel notes, and how the DofusDB refresh creates missing pages.
+description: The four achievement collections (DofusDB achievements and categories, Torre's achievement pages and metalogros), the root slug space they share with the other page collections, how empty fields fill from DofusDB on create, link change or the fill button, the panel notes, how the DofusDB refresh creates missing pages, and the dungeon report.
 tags: [achievements, payload, collections, dofusdb, autofill, slugs]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-15T11:00:17.514Z
+    at: 2026-11-16T11:00:16.891Z
 sources:
-  - id: openwiki-source-63cbcc482c18e4f9ce5d0888
-    resource: repo://scripts/refresh-quests.ts
+  - id: openwiki-source-b086b6b1802f507b0e5a4c8f
+    resource: repo://scripts/dungeon-notes.ts
+  - id: openwiki-source-13a4a70459b559cdd8e4d8fd
+    resource: repo://scripts/refresh-game-data.ts
   - id: openwiki-source-33faba74e5e6f56a08fcb35f
     resource: repo://src/collections/achievement-autofill.ts
   - id: openwiki-source-44aeca5f08eb84b9d5189371
@@ -25,12 +27,20 @@ sources:
     resource: repo://src/collections/editorial-access.ts
   - id: openwiki-source-a93f1ff2ed8916a30885274d
     resource: repo://src/collections/root-slug.ts
+  - id: openwiki-source-c59753480751a9469ce8e192
+    resource: repo://src/collections/torre-correction.ts
+  - id: openwiki-source-a034fdee8bbd1156be43f216
+    resource: repo://src/components/achievement-admin/DofusDbFill.tsx
   - id: openwiki-source-2d2a5acdd3240297c5f42f27
     resource: repo://src/endpoints/dofusdb-values.ts
   - id: openwiki-source-ad5f614f83919569e05c45bd
     resource: repo://src/lib/achievements/dofusdb-values.ts
+  - id: openwiki-source-d44cdac9cd2322900519745e
+    resource: repo://src/lib/achievements/dungeon-report.ts
   - id: openwiki-source-cccb36aaa2b11479c43f1674
     resource: repo://src/lib/achievements/ensure-pages.ts
+  - id: openwiki-source-6c5141b803eb1f150eb8e36d
+    resource: repo://src/lib/achievements/page.ts
   - id: openwiki-source-5adac35ccfda79779c93cc21
     resource: repo://src/lib/achievements/strings.ts
   - id: openwiki-source-589bfa7373a4546b25115691
@@ -39,13 +49,19 @@ sources:
     resource: repo://src/lib/dofusdb/map-achievement.ts
   - id: openwiki-source-cabbbdb69c4af80c58320870
     resource: repo://src/lib/dofusdb/refresh-achievements.ts
+  - id: openwiki-source-09d6fe64c97ce6ea0a1d16e8
+    resource: repo://src/lib/dofusdb/refresh-game-data.ts
+  - id: openwiki-source-4ce5bfd40fc86e2e8680d71f
+    resource: repo://src/lib/dofusdb/refresh-quests.ts
+  - id: openwiki-source-4b87b2bd0648fe28c52dc5e5
+    resource: repo://src/lib/guides/autofill.ts
   - id: openwiki-source-4d4ac9e1e628bf6a685e4bf2
     resource: repo://tests/integration/achievement-pages.test.ts
   - id: openwiki-source-1abfd2c4434a55eb5477aebf
     resource: repo://tests/integration/legacy-slugs.test.ts
   - id: openwiki-source-69a5fa7edb72294e823509c1
     resource: repo://tests/unit/achievement-dofusdb-values.test.ts
-generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
+generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
 ---
 
 # Achievement data model
@@ -54,10 +70,10 @@ Achievements come in two layers, the same split the quest guides use with their 
 
 | Layer | Collections | Owner | Editable in the panel |
 |---|---|---|---|
-| Game data | `achievements`, `achievement-categories` | DofusDB, written by `pnpm data:quests` | No (read-only, `gameDataAccess`, menu group «Datos del juego (solo lectura)») |
+| Game data | `achievements`, `achievement-categories` | DofusDB, written by `pnpm data:refresh` | Achievements: only the «Corrección de Torre» group. Categories: no. Menu group «Datos del juego» |
 | Editorial | `achievement-pages` ("Logros"), `achievement-groups` ("Metalogros") | Torre | Yes, with drafts, menu group «Contenido» |
 
-Each editorial document links one game record and copies what its page shows. An empty field fills from DofusDB on save; a field Torre wrote is never overwritten, not by a later save and not by a refresh.
+Each editorial document links one game record and copies what its page shows. An empty field fills from DofusDB when the document is created, when its DofusDB link changes, or when Torre presses «Rellenar desde DofusDB»; a field Torre wrote is never overwritten, not by a later save and not by a refresh.
 
 ## Game data collections
 
@@ -68,7 +84,7 @@ Each editorial document links one game record and copies what its page shows. An
 - `countsFor`: the game achievements that require this one, directly or through another.
 - `icon`: an upload to Media.
 
-Both collections are panel-readable and script-written, like quests, items and monsters (see [Collections](../cms/collections.md)).
+`achievements` is wrapped in `withTorreCorrection` (`src/collections/torre-correction.ts`), like quests, items, monsters, dungeons and NPCs: the DofusDB fields are read-only in the panel, and a «Corrección de Torre» group on top holds Torre's name, level, image and hidden flag, which the refresh never writes. See [Torre corrections to DofusDB data](../data/torre-corrections.md). Categories stay read-only (see [Collections](../cms/collections.md)).
 
 ### Reward figures
 
@@ -76,9 +92,13 @@ Both collections are panel-readable and script-written, like quests, items and m
 
 ## Editorial collections
 
-`achievement-pages` (`src/collections/AchievementPages.ts`) is one page per achievement, rendered at `/<slug>` (see [Achievement page](achievement-page.md)). It links one DofusDB achievement (`achievement`, required and unique) and carries `name`, `slug` (labelled «Dirección en la web»), `state`, `group` (its metalogro), `order` in that metalogro, `quests`, `points`, `rewards`, and optional `intro` and `outro` rich text. It has live preview and preview URLs through the same `/vista-previa` route as guides.
+`achievement-pages` (`src/collections/AchievementPages.ts`) is one page per achievement, rendered at `/<slug>` (see [Achievement page](achievement-page.md)). It links one DofusDB achievement (`achievement`, optional and unique) and carries `name`, `slug` (labelled «Dirección en la web»), `state`, `group` (its metalogro), `order` in that metalogro, `quests`, `prerequisites`, `points`, `rewards`, and optional `intro` and `outro` rich text. It has live preview and preview URLs through the same `/vista-previa` route as guides.
 
-The page form arranges its fields in three unnamed tabs (A-22): «Misiones» (metalogro, order and quests), «Texto» (intro and outro) and «Recompensas» (points and rewards). Unnamed tabs only order the form; the data is stored exactly as before. The quest rows start collapsed and show the quest's name as their label, and the form shows the one-line publish status like every editorial collection (see [Panel dashboard and editing aids](../cms/panel-editing-aids.md)).
+The link is optional because DofusDB lacks some achievements Torre documents (the Krosmoz metalogro): such a page is written by hand with its name. Two pages cannot link the same achievement, but several can link none.
+
+`prerequisites` is a list of rows with a text and an optional quest guide to link. When it has rows, the page shows them instead of the prerequisites it computes from the quests (`ownPrerequisites` in `src/lib/achievements/page.ts`).
+
+The page form arranges its fields in three unnamed tabs (A-22): «Misiones» (metalogro, order, quests and prerequisites), «Texto» (intro and outro) and «Recompensas» (points and rewards). Unnamed tabs only order the form; the data is stored exactly as before. The quest rows start collapsed and show the quest's name as their label, and the form shows the one-line publish status like every editorial collection (see [Panel dashboard and editing aids](../cms/panel-editing-aids.md)).
 
 `intro` and `outro` use the shared prose editor (`src/collections/prose-editor.ts`), which adds a YouTube «Vídeo» block (`ProseVideoBlock`) to the rich text toolbar; the page renders it as the video facade. A hidden `importSnapshot` JSON field keeps what `pnpm import:achievement-prose` last wrote into those two fields, so a rerun leaves alone any field Torre changed since (see [Achievement prose import](../data/achievement-prose-import.md)).
 
@@ -100,12 +120,13 @@ The DofusDB link (`achievement` on a page, `category` on a metalogro) and `order
 
 `fillAchievementPage` and `fillAchievementGroup` (`src/collections/achievement-autofill.ts`) run as `beforeValidate` hooks:
 
-1. Read the linked record's values through `achievementValues` or `groupValues` (`src/lib/achievements/dofusdb-source.ts`).
-2. Pass them with the document's current values to `fillFromValues` (`src/lib/achievements/dofusdb-values.ts`), which returns only the fields that are empty in the document and non-empty in DofusDB. An empty value is null, blank text or a list with no rows; `0` is a value.
-3. Write those fields. Reward fields go into the `rewards` group.
-4. Require a name, then fill an empty slug.
+1. Decide how much to fill with `fillsFromDofusDb` (`src/lib/guides/autofill.ts`): a full fill on create or when the request sends a different link; otherwise only the name, and only if it is blank.
+2. Read the linked record's values through `achievementValues` or `groupValues` (`src/lib/achievements/dofusdb-source.ts`).
+3. Pass them with the document's current values to `fillFromValues` (`src/lib/achievements/dofusdb-values.ts`), which returns only the fields that are empty in the document and non-empty in DofusDB. An empty value is null, blank text or a list with no rows; `0` is a value.
+4. Write those fields (`keepFillable` drops all but the name when the fill is not full). Reward fields go into the `rewards` group.
+5. Require a name, then fill an empty slug.
 
-A value present in the request wins, even `null` (Torre cleared the field, so it fills again); a value absent from the request comes from the saved document. The page's state is never filled.
+So a field Torre empties on a later save stays empty; only the required name comes back from DofusDB. A value present in the request wins over the saved document, and a value absent from the request comes from the saved document. The page's state is never filled.
 
 The fields an achievement page fills are name, metalogro (the one linked to the achievement's category), order, points, experience, kamas, items and quests. A metalogro fills name, order, section and representative.
 
@@ -113,32 +134,42 @@ The fields an achievement page fills are name, metalogro (the one linked to the 
 
 The name and slug validators (`linkedNameValidator`, `linkedSlugValidator`) accept an empty value while a DofusDB record is linked, because the hook fills it on save.
 
+### «Rellenar desde DofusDB»
+
+The DofusDB link field's description is `DofusDbFill` (`src/components/achievement-admin/DofusDbFill.tsx`, mounted through `dofusDbFill` in `src/collections/achievement-fields.ts`). Its button reads the linked record's values and copies them into the form as it stands, without saving: `formFill` in `src/lib/achievements/dofusdb-values.ts` maps each value to its form path (rewards under `rewards.*`) and fills only empty fields, list fields (quests and reward items) row by row. The shared button is `src/components/admin/DofusDbFillButton.tsx`, also used by quest guides (see [Writing a quest guide](../cms/guide-authoring.md)).
+
 ## The panel notes
 
-Each copied field shows a note under it (`dofusDbNote` in `src/collections/achievement-fields.ts` mounts `src/components/achievement-admin/DofusDbNote.tsx` as the field's description). The note says whether the value is DofusDB's, whether Torre changed it (and what DofusDB gives), or that it is empty and will fill on save. The comparison is in `dofusDbNote` in `src/lib/achievements/dofusdb-values.ts`: relations compare by ID, reward items as a set, quest rows in order with their alternatives as a set.
+Each copied field shows a note under it (`dofusDbNote` in `src/collections/achievement-fields.ts` mounts `src/components/achievement-admin/DofusDbNote.tsx` as the field's description). The note says whether the value is DofusDB's, whether Torre changed it (and what DofusDB gives), or that it is empty and what «Rellenar desde DofusDB» would copy. The comparison is in `dofusDbNote` in `src/lib/achievements/dofusdb-values.ts`: relations compare by ID, reward items as a set, quest rows in order with their alternatives as a set.
 
 The client component reads the values through `GET /api/dofusdb-values/:source/:id` (`src/endpoints/dofusdb-values.ts`), where `source` is `achievement` or `group`. The endpoint returns 401 without a panel session, 400 for an unknown source or a non-numeric ID, 404 when the record does not exist, and always sends `Cache-Control: no-store`. It loads through the same `dofusdb-source.ts` functions as the hooks, so the note and the save never disagree.
 
 ## One slug space at the root
 
-Quest guides, achievement pages, metalogros, Dofus guides and checklists all live at `/<slug>` (metalogros keep Torre's `metalogro-…` slugs, Dofus guides the slugs of Torre's site, such as `dofus-abisal`, and checklists slugs such as `checklist-nebuloso`), so `src/collections/root-slug.ts` treats them as one slug space (`ROOT_SLUG_COLLECTIONS`):
+Quest guides, achievement pages, metalogros, Dofus guides, checklists and standalone pages all live at `/<slug>` (metalogros keep Torre's `metalogro-…` slugs, Dofus guides the slugs of Torre's site, such as `dofus-abisal`, checklists slugs such as `checklist-nebuloso`, and pages slugs such as `aviso-legal`), so `src/collections/root-slug.ts` treats them as one slug space (`ROOT_SLUG_COLLECTIONS`):
 
 - Each collection keeps its own `slug` unique in the database.
-- `rejectSharedSlug(collection)`, a `beforeValidate` hook on all five, rejects a slug another of the five already uses, naming which kind of page owns it. See [Dofus guide data model](../dofus-guides/dofus-guide-data.md) and [Checklist data](../checklists/checklist-data.md) for the other two.
+- `rejectSharedSlug(collection)`, a `beforeValidate` hook on all six, rejects a slug another of the six already uses, naming which kind of page owns it. See [Dofus guide data model](../dofus-guides/dofus-guide-data.md), [Checklist data](../checklists/checklist-data.md) and [Standalone pages](../pages/standalone-pages.md) for the others.
 - The same hook rejects a slug that is a source in the legacy redirect table, because `src/proxy.ts` would answer that URL before the page (see [Redirects, sitemap and robots](../operations/redirects-and-seo.md)). Metalogros are exempt: their slug is the anchor of their panel on `/metalogros`, not a page.
 - A slug counts as used when a stored document has it or when the latest draft does, so publishing a renamed draft cannot collide later.
 - `isRootSlugTaken` also treats reserved route segments (`/sistema`, `/metalogros`, `/guias-dofus`, `/checklists` and the others in `src/lib/guides/slug.ts`) and, except for metalogros, redirect table sources as taken, so slug autofill skips them.
 
 When the hook fills a slug, it takes the first free candidate: for an achievement page the slugified name, then `logro-<name>`, then the name with `-2`, `-3` and so on; for a metalogro `metalogro-<name>` and then numbered suffixes.
 
+When a published achievement page changes its slug, `trackSlugMove` (`beforeChange`) and `applySlugMove` (`afterChange`) from `src/collections/slug-redirects.ts` add a redirect from the old address to the new one (see [Redirects, sitemap and robots](../operations/redirects-and-seo.md)).
+
 ## What the refresh writes
 
-`pnpm data:quests` (`scripts/refresh-quests.ts`, see [DofusDB refresh](../data/dofusdb-refresh.md)) writes achievements after quests and items:
+`pnpm data:refresh` (`scripts/refresh-game-data.ts` running `refreshGameData` in `src/lib/dofusdb/refresh-game-data.ts`, see [DofusDB refresh](../data/dofusdb-refresh.md)) writes achievements after quests, items and subareas:
 
-1. `refreshAchievements` (`src/lib/dofusdb/refresh-achievements.ts`) upserts every category, then sets parents in a second pass because they need every Payload ID. It upserts the achievements of the categories under Misiones and Eventos (`QUEST_ROOT_CATEGORIES = [8, 9]`), so a new zone or achievement there arrives with the next refresh. It imports achievement icons to Media once, links quests and items already stored, counts the ones DofusDB names but the database lacks, writes only what changed, and never deletes.
+1. `refreshAchievements` (`src/lib/dofusdb/refresh-achievements.ts`) upserts every category, then sets parents in a second pass because they need every Payload ID. It upserts the achievements of the categories under Misiones and Eventos (`QUEST_ROOT_CATEGORIES = [8, 9]`), so a new zone or achievement there arrives with the next refresh. It imports achievement icons to Media once, links quests and items already stored, counts the ones DofusDB names but the database lacks, writes only what changed, and never deletes. Each row's write goes through `rowGuard`: a row that fails to save is logged and counted as `failed`, and the refresh goes on unless more than 20 rows of the collection fail (a category that failed skips its parent pass).
 2. After NPCs, `ensureAchievementPages` (`src/lib/achievements/ensure-pages.ts`) creates a metalogro for each category under those roots with none, and an achievement page for each achievement with at least one quest and no page. It creates them as `state: preparing` and lets the fill hooks copy the rest. It never changes or deletes an existing one. It runs after NPCs because the default representative is an NPC.
 
 Torre's existing pages and states come from his site through a separate import (see [Importing Torre's achievement pages](../data/achievements-import.md)).
+
+## Dungeon report
+
+`dungeonNoteReport` (`src/lib/achievements/dungeon-report.ts`) lists the dungeon rows of published pages: «Necesitarás en total» on achievement pages, Necesitarás on Dofus guides and the quest guide header. It splits them into rows that show their dungeon's boss and rows that fall back to the generic icon, with how each note matched. It classifies through the same functions the pages use, so it reports what readers see. `pnpm data:refresh` prints it after the refresh, and `pnpm data:dungeon-notes` prints it alone.
 
 ## Tests
 
@@ -146,7 +177,8 @@ Torre's existing pages and states come from his site through a separate import (
 - `tests/unit/dofusdb-map-achievement.test.ts`: objectives, rewards and `countsFor`.
 - `tests/unit/dofusdb-values-endpoint.test.ts`: the endpoint's status codes.
 - `tests/unit/achievement-editorial-collections.test.ts` and `tests/unit/achievement-game-collections.test.ts`: collection config.
-- `tests/integration/achievement-pages.test.ts`: values from the database, sections at any depth, `ensureAchievementPages` (including idempotence), Torre's edits surviving, a cleared field refilling, and the shared slug rules.
+- `tests/integration/achievement-pages.test.ts`: values from the database, sections at any depth, `ensureAchievementPages` (including idempotence), Torre's edits surviving, a cleared field staying empty, a cleared name coming back, a new link filling, and the shared slug rules.
 - `tests/integration/legacy-slugs.test.ts`: slugs in the redirect table are rejected and skipped by autofill.
 - `tests/integration/panel-roles.test.ts`, `tests/integration/delete-references.test.ts` and `tests/integration/field-locks.test.ts`: admin-only deletes, the delete guard and the locked fields.
 - `tests/integration/refresh-achievements.test.ts`: the refresh against fixtures in `tests/fixtures/dofusdb/`.
+- `tests/integration/dungeon-report.test.ts` and `tests/unit/dungeon-report-lines.test.ts`: the dungeon report.

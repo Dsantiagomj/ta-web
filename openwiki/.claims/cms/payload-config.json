@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:21faba3c2f3154951973c2b210d086f9587171ff36dfe013652cdd7125e5b190",
+  "pageVersion": "sha256:6a2dc7446884766735cd511fab8a2248858ef2682b69cae5a8a17dd68496463e",
   "claims": [
     {
       "id": "claim_35fde34cdf674edca408fee7ff5d2483",
-      "statement": "src/payload.config.ts configures the admin user collection, the import map base directory, the panel branding, dashboard, panel guide and accessibility provider, fifteen collections in menu order, the DofusGuidesIndex and ChecklistsIndex globals, the Lexical editor, the health, ready, guide search index and DofusDB values endpoints, Spanish-only i18n with overridden strings and localization, PAYLOAD_SECRET, the generated types output file, sharp and the media storage plugin.",
+      "statement": "src/payload.config.ts configures the admin user collection, the import map base directory, the panel branding, dashboard, panel guide and accessibility provider, eighteen collections in menu order, the DofusGuidesIndex, ChecklistsIndex, SiteSettings and IndexTexts globals, the Lexical editor, the health, ready, guide search index, DofusDB values and game data refresh endpoints, Spanish-only i18n with overridden strings and localization, PAYLOAD_SECRET, the generated types output file, sharp and the media storage plugin.",
       "evidence": [
         {
-          "resource": "repo://src/payload.config.ts#L39-L144",
-          "version": "repo-lines-v1:sha256:194babe3dcabde0748dca0aebe418fad0427320a0c7c60884276123b178ed6c6:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI3ODI3ZWU0ZGNjM2NjNDZkOGQ1NDY4NTNiZjVkYTkxYmM4M2VhNzFjYjlhY2VlM2ZlODJkMTlkMTcyYzAzODU0IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJjNWVhYmYzODkxMzIyZDBjMzE1NTQ5NGQ1YmYyNTk0MTE4ZDM1YmEwYmZhZTRkYWQyODM5NDA3MWQ5N2Q5N2FiIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://src/payload.config.ts#L45-L160",
+          "version": "repo-lines-v1:sha256:b49267b313a92a2c963c957cd443307ba58fe05c02fbf1f4a69cecf064e6a3b7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTE2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI3ODI3ZWU0ZGNjM2NjNDZkOGQ1NDY4NTNiZjVkYTkxYmM4M2VhNzFjYjlhY2VlM2ZlODJkMTlkMTcyYzAzODU0IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJjNWVhYmYzODkxMzIyZDBjMzE1NTQ5NGQ1YmYyNTk0MTE4ZDM1YmEwYmZhZTRkYWQyODM5NDA3MWQ5N2Q5N2FiIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -54,11 +54,11 @@
     },
     {
       "id": "claim_0788bbcfc16141f2be648685d5c9d452",
-      "statement": "The generated admin import map registers the project's QuestAutofill, SummaryNote and DofusDbNote components, the panel components from src/components/admin, the Lexical rich text field, cell, diff and client feature components including BlocksFeatureClient, Payload's CollectionCards and the S3 client upload handler.",
+      "statement": "The generated admin import map registers the project's QuestAutofill, SummaryNote, DofusDbNote and DofusDbFill components, the panel components from src/components/admin including the validated text fields and GameDataRefresh, the Lexical rich text field, cell, diff and client feature components including BlocksFeatureClient, Payload's CollectionCards and the S3 client upload handler.",
       "evidence": [
         {
-          "resource": "repo://src/app/(payload)/admin/importMap.js#L1-L104",
-          "version": "repo-lines-v1:sha256:a0f0bba8897eb0b861092fe6b70fd449fed18375fca6db02f4cbb47f31237195:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIxNTBjZjlhNTE2ZjA2NzY3YmU0OGFlN2E3NDBiMmU4ZDkyMmRmZDJjNmVhZGFkNTk3MmU3MDg3NjlhNTUyZTdmIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://src/app/(payload)/admin/importMap.js#L1-L114",
+          "version": "repo-lines-v1:sha256:ac4e50eeb928f951ea8f88f12b44b26a2ff70094c999464b91c7fcbc4dd5987e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTE0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIxNTBjZjlhNTE2ZjA2NzY3YmU0OGFlN2E3NDBiMmU4ZDkyMmRmZDJjNmVhZGFkNTk3MmU3MDg3NjlhNTUyZTdmIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -118,18 +118,18 @@
     },
     {
       "id": "claim_8c32bfe129a34152848575e39a97abc4",
-      "statement": "The quest guide collection references its admin components by path string relative to src with an export suffix: QuestAutofill as the quest field description and SummaryNote, with a summaryField client prop, as the description of each summary field and the needs items list.",
+      "statement": "The quest guide collection references its admin components by path string relative to src with an export suffix: QuestAutofill as the quest field description and SummaryNote, with a summaryField client prop, as the description of each summary field, reward figure and list and the needs items list.",
       "evidence": [
         {
           "resource": "repo://src/collections/QuestGuides.ts#L254-L269",
-          "version": "repo-lines-v1:sha256:3ce4b97b5b9ae766c878d3a03a4643dd710c1c7194d87609dbd37dc3e6fd724e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ5NmUyODg5ZDc3NTRlOWVkZmQwN2U5NjY1MmE3MjRiMWQ2NjQ3NzcyNDM0MmZmN2MyOTgyOWIzYzkxNDk2OTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZhMDg3NGRiNGEzZmZiZGRkMWI0NzBmOGE1YjAwNDczNzYyOTM3OGU3ZjNlYjNlM2JmNzZlNzRhYmFiNTZlZTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFjNzZiNzQyMTU3N2E5YThlZDFlMzZkZTM3NTg3NjI4MThkZTk3OWZlMzczNDgwOTRkN2FiY2M5OWVjNzNhNzcifQ"
+          "version": "repo-lines-v1:sha256:71219aa28a6d0e81d0e5656a4c7f992af37dfd6cf8943ee42985a7d8436b7db6:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNiYTczZmRmMWM1ODQ4M2M4MWQ5ZTI4NmUyZjVlZmJlMjM1NjE4OWQyNzVhZjUzNTI3ODgwODU2NTM0MzE1MmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmOGExOGE4ZmJlMjIyMzdlMTg1OGRkZWNiODc3NzI2NWYwYTgwYzlhN2RiYTY4Y2Y5Y2Q1NjMwMjZkMGM2OWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ5YTc3NmVkNGMwMmNhOGI1NTFkNTE5ZTY2M2RhOTk1YWZhNWRmZjU4MzU1YzBmMDg2NzM3OGJmZGFlY2RjN2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkMGZkNTY5YjVhOGM2OGYxMTkzNzM3NzQyYzAzNDNkZTY3OWQwYmJjMmQwYTM0YTMwZTZmYTUzMzAzYzg1YTYifQ"
         },
         {
-          "resource": "repo://src/collections/QuestGuides.ts#L97-L110",
-          "version": "repo-lines-v1:sha256:36de6c279c03adc2e1dd178af8ca8c7746ab3c908cc92e875e14d0fc7fa9d3e7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2Y2YwZjdjZjM3YzU1NTllZmM3ZmJiYzFkZWQ3MWM3NWE2Y2NlZTM2YTczODgzNzU2NzExMWI3MDQ4ZTFkMTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZhM2Y1MTBmNGRmYzI5OTI3Mjc5MGExNzhlZWU3M2Q0YmVmOWRhMjZmYjMyYWFlYmM4NzQ3YmU5NTgyZjM0ODMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgxOTkyZTkyOGZlMzZmZjE1ZGFhMDYwMDQyZTc5YTE0MWU4OWYwNGQ4OWZiNzMxMDczMGI3NjFjYmQwYmZkMDEifQ"
+          "resource": "repo://src/collections/QuestGuides.ts#L96-L122",
+          "version": "repo-lines-v1:sha256:e6a9aa42f4cefa43ca099600947148930545fc11f61627ff69c678d8b7971c62:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRkODhkZDljODY1ODE3MmY3YTJhNTJkM2VjNDJhY2Y1ZWZjYjQyNDdkYTU2NWU5YjJiOGRkNGM5MDUwZjFmOWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgxOTkyZTkyOGZlMzZmZjE1ZGFhMDYwMDQyZTc5YTE0MWU4OWYwNGQ4OWZiNzMxMDczMGI3NjFjYmQwYmZkMDEifQ"
         },
         {
-          "resource": "repo://src/payload.config.ts#L40-L44",
+          "resource": "repo://src/payload.config.ts#L46-L50",
           "version": "repo-lines-v1:sha256:f69612075485b6181de3f374e2ded25193b6d06c7b5982020ee9db54bf3d8381:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDc2YjhhMGU4ODJmOGUzN2M4MjA4NWZmMTU0OTgzNzI4MWE1MThiYTA4MzUxNWRmZTRhMDIyYjA1MmIwNDQyMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWYwY2RiOTcyYTdiZmI3ZWQyNDZmOWZmNjcyMzg1ZTU1ZjQ5NjhmYzExMDQzZGM1YjY4NGQ1MWRmYTMxZGJjYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmU2MzBmNjVlMzUxNTk1ZWE3OTg1NWU3ZTFiOGM3NmY4ZmVhOGJkZWI5MGRlODQwY2ZlMTk5YjVkNTViMGYxZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDk2Mjg2MzRhNGYxNGU2MmE2OWQxODAwYzIzYjcyMDYxYTEyNmVmNWNiNjQ2YTUwZWIzODM5ZTJkODg5NGYxNSJ9"
         }
       ]
@@ -139,12 +139,12 @@
       "statement": "QuestAutofill and SummaryNote are client components that read the form through @payloadcms/ui hooks and load the linked quest from the REST API with the session cookie.",
       "evidence": [
         {
-          "resource": "repo://src/components/quest-guide-admin/QuestAutofill.tsx#L1-L22",
-          "version": "repo-lines-v1:sha256:d031475d9a910615158d31f70e5d05b3280d52d6d07614aaa943874a22b6f6b6:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NjRlMDBlYTU3ZWMzOWQ4OGZjM2Y2OTM0YzRiNzA5MWRiMDU2YTZjMmQ1YjExYTk3MTIzMDBkMDZmOGQyM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwNzRlODdjMWIxNDJjMzFmMzQ1NzM4MDU4NGI4NmE3MzE3NGE4ZWIzZDQyY2M5NDA2ZjQzYmU3Yzk1ZTgxOGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZkOGJmNTU1OTE0ODZiMmU4NDJhODNmZDA0ZDAzNWI2ZjUwZTUwMmJhNDc5MDM0YzEzZDQzN2ZhZWQxOTk2YTUifQ"
+          "resource": "repo://src/components/quest-guide-admin/QuestAutofill.tsx#L1-L30",
+          "version": "repo-lines-v1:sha256:a0b440cf09606e1948b2c72c8ff6e964b635177898b0ea554b16781d47c85797:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2NjRlMDBlYTU3ZWMzOWQ4OGZjM2Y2OTM0YzRiNzA5MWRiMDU2YTZjMmQ1YjExYTk3MTIzMDBkMDZmOGQyM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRmN2YxZjRhNTNlM2JkNjYyMzY5NzFkYTJjYTA2MTliMWQ4OTdlNThlMGFjNTM5Nzc2YjViOGM3OTM2MTYwZjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM5MTAyMjdlZWQ2OGNlNDE2ZmEyNGQwOWM4YWE0MzkxMzFlMTIzMDdkMjg0ZWM1ZmZjMmNiNzllOWUwYmMwYmYifQ"
         },
         {
           "resource": "repo://src/components/quest-guide-admin/SummaryNote.tsx#L1-L9",
-          "version": "repo-lines-v1:sha256:8a93794ac54e70b2236dc561103cc8d32f1f0bd0554d6d8f5d1d8fb66fef2aea:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDY2NGUwMGVhNTdlYzM5ZDg4ZmMzZjY5MzRjNGI3MDkxZGIwNTZhNmMyZDViMTFhOTcxMjMwMGQwNmY4ZDIzYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDAzYzA1ZmRiYWI0ZDRjZGMxYmYwMTY1ZGNlNWIzZmRkNzRkOGJiODYzNDI3MGE3ZjBkMGFlM2QyNjg2YTk5MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDIxYzE3ZGVkY2NiMTA3NjFkMmEzYTU5ZjM3ZTg1OGZjNDBkMjU0NWQxMDg1NGZhNzc0NGZkM2EwNDg0YzNlNiJ9"
+          "version": "repo-lines-v1:sha256:dcad9966e8e0be43d66ff8e5466d8865f3f718871b75356ca2a4bb45262e59b7:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDY2NGUwMGVhNTdlYzM5ZDg4ZmMzZjY5MzRjNGI3MDkxZGIwNTZhNmMyZDViMTFhOTcxMjMwMGQwNmY4ZDIzYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTMxYjUwODNiYWM4NmVkNWEyMTVjMTg3MDdmZGIxYWI4NTNmMmIzYTQ5MmU1MTYyZDA1YzhmMjNjZjMzODJlZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjE4MjZhZGUzMGVhMzNmYTBkZGVlZjg0MWY5YzMzOGJhNjczNzYwMGQyYmIwYTdlMTU0ZDQxYjY1ZTU2YmI3ZiJ9"
         },
         {
           "resource": "repo://src/components/quest-guide-admin/linked-quest.ts#L1-L27",
@@ -195,10 +195,20 @@
           "version": "repo-lines-v1:sha256:dff5205c549b529309f8f5ad4208b876829634d7ccca691142d888df6a7f3369:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDI3YTJkNzJlN2VkOTM1NWUxYTRjZGMyN2VlMWM1MTU4OTE4MjM2ZDJhMzQ5Y2EwMzEwYTM3MTQ3MTA0MTE1MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiODZlMzcxMTIwNGVlMTIwMzVkYmE1ZmFhMjYxNDE4MTNlNTdiODZhNDM0ODk1NDRkZDk0N2Y0MGU3YTc4MmU2YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTg0YzEyYTg4MjFlNDY1ZmIyOTMyNDEzYjcxZDhlZDViY2NiMWZkNDZjMzdjMGIwZTI2ZGJjODliNDI1MzMyZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjkxNWM4ZTk2ZDk0NGY0N2VjNWU2MGNiNTg1NjQ0OGNlMzVlYmY2MmFmOWRiNTZhMWQyNDkzNWUwZjFjYTY1YSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_4426e8f03fef4e788c10566c2a9e2038",
+      "statement": "The game data refresh endpoint POST /api/game-data/refresh answers 401 without a user and 403 for a non-admin, starts the refresh in the server process and reports a refresh already running instead of starting another.",
+      "evidence": [
+        {
+          "resource": "repo://src/endpoints/game-data-refresh.ts#L1-L51",
+          "version": "repo-lines-v1:sha256:ee2d97ddcbf865c52c73d4d9404d3828cd6259f67113ba2a1acdf9b124a55dbe:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkwY2I4OTMxNTNkMDhkYTU1MzdmZjg5ZGY4MjQ4YTU4ZWZmMjlkMjkyZDhhOWQ3NjNiMTg2MzMxMmYxYThlMmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-15T11:00:17.514Z"
+    "at": "2026-11-16T11:00:16.891Z"
   }
 }

@@ -3,9 +3,6 @@ type: feature
 title: Metalogros index
 description: The /metalogros page that lists Torre's metalogros in three groups with their achievement pages and guides, how its view is computed and cached, and its one client island for the tile panel and the lazily loaded search.
 tags: [achievements, metalogros, frontend, search, caching, islands]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-09T11:00:21.744Z
 sources:
   - id: openwiki-source-7382aecd8b46a81ca66efc96
     resource: repo://lighthouserc.cjs
@@ -27,7 +24,10 @@ sources:
     resource: repo://tests/e2e/metalogros.spec.ts
   - id: openwiki-source-e57aa8deceed5152aa47af8a
     resource: repo://tests/integration/achievement-page-queries.test.ts
-generated: { by: "claude-code", at: "2026-11-09T11:00:21.744Z" }
+generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-16T11:00:16.891Z
 ---
 
 # Metalogros index
@@ -36,7 +36,7 @@ generated: { by: "claude-code", at: "2026-11-09T11:00:21.744Z" }
 
 ## Route and cache
 
-`src/app/(frontend)/metalogros/page.tsx` has static metadata (canonical `/metalogros`, Open Graph type `website`) and renders `MetalogrosIndex` in the achievements section color.
+`src/app/(frontend)/metalogros/page.tsx` builds its metadata with `indexMetadata` (canonical `/metalogros`, Open Graph type `website`): the title and description come from the «Portada e índices» global and the site name and share image from «Ajustes del sitio» (see [Site settings and index texts](../cms/site-copy.md)). It renders `MetalogrosIndex` in the achievements section color, passing the index's title and lead from the same global; without them the component falls back to `indexTextDefaults.metalogros`.
 
 The whole computed view is cached: `unstable_cache` wraps `metalogrosIndexView(await readMetalogrosIndex(payload))` under the `achievement-pages` tag with the same 600-second `revalidate` as achievement pages. The hooks that expire that tag (achievement pages, metalogros, quest guides and media) therefore also refresh the index; see [Achievement page](achievement-page.md#revalidation).
 
@@ -56,6 +56,8 @@ The whole computed view is cached: `unstable_cache` wraps `metalogrosIndexView(a
 - **Guides**: the metalogro's loose guides, linked.
 - **Anchor**: the slug without `metalogro-` (`metalogro-astrub` becomes `#astrub`).
 - **Art**: the representative's image; if none, the icon of the first achievement with one.
+
+Game records go through `shown`, as on the achievement page: Torre's correction (name, level, image) wins, and a quest, representative or achievement he hid is left out (see [Torre corrections to DofusDB data](../data/torre-corrections.md)).
 - **Counts**: "N logros · M misiones", where quests are the pages' quest rows plus the loose guides. A zone with no achievements shows its quest count instead.
 - **Preparing**: a metalogro whose `state` is not `published` gets a quiet label, either "En preparación" or "En preparación: X de sus Y logros" when some of its pages are published. It is fully `off`, with no panel, only when it is preparing and has no published page and no guide.
 
@@ -67,7 +69,7 @@ The view also builds the search data, compact so it can ship inside the page:
 |---|---|
 | `z` | zone name, anchor, counts, `1` when off |
 | `a` | achievement name, zone name, href, quest count, `1` when off |
-| `q` | quest name, position in its achievement, index of the achievement in `a` |
+| `q` | quest name (the name Torre gave the row, or the single quest's name), position in its achievement, index of the achievement in `a` |
 
 An achievement is off when its zone is off or the page is not published.
 

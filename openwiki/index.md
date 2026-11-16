@@ -4,7 +4,7 @@ okf_version: "0.2"
 
 # Files
 
-- [Project overview](overview.md) - What ta-web is, the stack it runs on, which parts exist in code today and which are still planned, and how the subsystems connect.
+- [Project overview](overview.md) - What ta-web is, the stack it runs on, which parts exist in code today (guides, achievements, Dofus guides, checklists, standalone pages, editable site copy, DofusDB game data with Torre's corrections) and which are still planned, and how the subsystems connect.
 - [Quickstart](quickstart.md) - Entry point to the ta-web wiki. What the repo is, the four commands to get it running, and which page to read for each kind of task.
 
 # Directories
@@ -18,5 +18,6 @@ okf_version: "0.2"
 - [frontend](frontend/)
 - [media](media/)
 - [operations](operations/)
+- [pages](pages/)
 - [testing](testing/)
 - [workflows](workflows/)

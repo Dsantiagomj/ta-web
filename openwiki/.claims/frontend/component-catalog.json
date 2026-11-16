@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:6afdcf67e8191723ea20976fd0982b92064f07e4679e768576f617fcc743dff8",
+  "pageVersion": "sha256:358e1b30cf48cf4fe0d3254065a293dd9b214568d4345680428720a102cfc293",
   "claims": [
     {
       "id": "claim_f3ff1b5273ca4d9da69117d030c9914e",
@@ -122,11 +122,11 @@
     },
     {
       "id": "claim_e32138f229c4466ea67964e756fea18e",
-      "statement": "The E2E spec runs axe with the WCAG 2.0, 2.1 and 2.2 A and AA tags on the open viewer and on the whole catalog after all animations finish, and expects no violations.",
+      "statement": "The E2E spec runs axe with the WCAG 2.0, 2.1 and 2.2 A and AA tags on the open viewer and on the whole catalog after all finite animations finish, and expects no violations.",
       "evidence": [
         {
-          "resource": "repo://tests/e2e/sistema.spec.ts#L282-L326",
-          "version": "repo-lines-v1:sha256:0f322191a188dfb2837210ebb4467628a8a73cfd5750210cd487f5e75baabb28:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg2M2MyOTU1YzAyMzc0ZmE4OWQ0MmM1ZjVjYThjNzM4ZmZmMTc5OTJhNzczZTMyMDRhYzg4MjJhY2RmMzRiMzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU1MmViNDE5NWI3ZGMxN2Y0MTNlZjc2NDVmOWRhY2Q4OTdjYWY0NWNiNTcyZjE2MjYyNDJkZWM3MDFjY2FlNzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEyNGM0ZTJhYjRlYzcwNGFkOGU5YTNmYTA4MTg3NWRmNzcwZjNkOTZjMzQ5MzMxNTcwZWQzNzUyZmNlNjNiMzMifQ"
+          "resource": "repo://tests/e2e/sistema.spec.ts#L303-L355",
+          "version": "repo-lines-v1:sha256:a754980b706b2cfb2d0160776891fbb136ebf587dffe0a2596b77a3d8b737e89:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg2M2MyOTU1YzAyMzc0ZmE4OWQ0MmM1ZjVjYThjNzM4ZmZmMTc5OTJhNzczZTMyMDRhYzg4MjJhY2RmMzRiMzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU1MmViNDE5NWI3ZGMxN2Y0MTNlZjc2NDVmOWRhY2Q4OTdjYWY0NWNiNTcyZjE2MjYyNDJkZWM3MDFjY2FlNzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEyNGM0ZTJhYjRlYzcwNGFkOGU5YTNmYTA4MTg3NWRmNzcwZjNkOTZjMzQ5MzMxNTcwZWQzNzUyZmNlNjNiMzMifQ"
         }
       ]
     },
@@ -142,15 +142,15 @@
     },
     {
       "id": "claim_4039938161414c15898cb094958dba01",
-      "statement": "The catalog shows the Torre emblem and Sello lockup, the site menu panel and footer, the quest header with and without NPC data, the game icon wells, the steps, the next quest card, the Dofus guide cards, Necesitarás, body and achievement parts, the checklist index posters and the achievement page sheet and quests among its component groups.",
+      "statement": "The catalog shows the Torre emblem and Sello lockup, the site menu panel and footer, the quest header with and without NPC data, the game icon wells, the steps, the next quest card, the Dofus guide cards, Necesitás, body and achievement parts, the checklist index posters, the achievement page sheet and quests, and the panel block frames among its component groups.",
       "evidence": [
         {
           "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L107-L126",
-          "version": "repo-lines-v1:sha256:5654940425cd9b9f32f16fc8e41f7dad2bf866a1fee2b4b78804a94c2b2cc52c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4NjBkNjhhOTkxOGViY2NmMzcwZDA2NDljNWFlYzUyZTBjZTM3NWY3ZGE1OTA2OGU4YjRjOTAzZDg4ZDA0ODYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEzMjljNDkyNDhlNmMzZmFhMjUzY2RlOTcxYjdlZGNiOWI2MTczYTU0MTlmOWMzZjFmNGFiZmY1ZWJhODFkZjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNlNDA5N2NhMzlkMTQ2MmFhZjFhYmEzNDJkM2YyNGE2NmFjN2RkZjM0YWYxNDc1NGE4ZDc0MDVmNmZjOTg3OGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA2YTQ4Njc4MGJmMmNhNDYyMjQ1NjVjZDhkYWRiOTAyYmNjZWZmYjM4YTc5MDliMDFlYmVjY2ZiMzJjNGU0NWUifQ"
+          "version": "repo-lines-v1:sha256:59a37e883a3c9564641240dcb2dc06a58ce755e571a9ad45fb5496345d27417d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJmZWNiOTI2NDM4MTNjY2MxYTMxZDA0NjJmYTA3OWFkY2QwNDAxODUzYTZkMmNlOWExMDBhMzJlNzNiYWZiOGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliODc2NDc0MWQyMGQzODQ4YmExMzU1NDc0MmJlYzU4N2YzOWQ4MjgxM2I3NjcyMjcwODkxNzQ1ZWFhMGUzM2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY5ZGU1NDIyNjdhYmM2YTQ0OWM1YjM4NDJhNTVmZWIzMTI0NGM2NzU5NmY2MmU4NjQ5MGExNzQ2MzAwMDU5Y2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIwOWUwZDU1YjI2OTZkZGMzODcwMWRiODA1NTdhOGZkZDVlYTllMzU3MDBmNDQyZjk1ZGQyMWRmODY3M2QyZjYifQ"
         },
         {
-          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L228-L316",
-          "version": "repo-lines-v1:sha256:a5a2ef1e4cf968dc68a932b1f56f16951d71e327ed84372c0b892455f06eb1c0:eyJzZWxlY3RlZExpbmVDb3VudCI6ODksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3ODNhOTk4NmJmMWMzOTUxOWNlOWVjYTU5YzZlMjcwOTI1OGMyOWVjNDJhODBhOTk5MjY3M2JmMzA5M2YzODYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmNzRkY2QxYTY4ZGVlY2ZmNmNjM2E1NDFhMzhmZTU2NzRjYmMyZGY0Y2U4MTA5ZDEwNmMwYTQyY2Y3NjMzNWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI1MzNhYzExNzVkOTliYWY4ZWQ2ZWQ5ZWU3OTIzZWFjZWFmMjI2YjM3MzJhZDU5MjI1YjBlOWQwYzU1NzM2ZDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk0OWM3ZjYxN2NkMTZhN2E3N2EyNzRkNTM0MGE3NWMxODk1MzQwMzk0YzNlZTYyNDg3Y2VlNGVjYzhhYWM5YTMifQ"
+          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L228-L343",
+          "version": "repo-lines-v1:sha256:0b3ee18a0161f9d36e5eb35e2ae09f758318aa5f0ab0eda60b25bc476d69e1c3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTE2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5Zjc0ZGNkMWE2OGRlZWNmZjZjYzNhNTQxYTM4ZmU1Njc0Y2JjMmRmNGNlODEwOWQxMDZjMGE0MmNmNzYzMzVkIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI0NWFmNTc0NjVhMWRjYmJmZjFhZWJlMWJmMDczNGExN2M3MmZhMTE1ZGE0NWVhNGZlOGEwZmFiNGFkN2EwNmJjIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -176,7 +176,7 @@
     },
     {
       "id": "claim_474452f3277a4bfab5a74642d22ef1a2",
-      "statement": "The catalog shows the achievement page's sheet with the grouped Necesitarás en total and the numbered quests, and an E2E test checks them.",
+      "statement": "The catalog shows the achievement page's sheet with the grouped Necesitás en total and the numbered quests, and an E2E test checks them.",
       "evidence": [
         {
           "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L301-L316",
@@ -187,10 +187,38 @@
           "version": "repo-lines-v1:sha256:a4fbb71956aaea022902f4d1a8be1933c7c2fa14f4d3b7dab352d728513c9c93:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU0MTUwOTM4ZGNlMTMxMWU4NjI4MzhhMjY5NWJjMWMwZTg4ZWE0YzMxNTQyMjZmZGQ3YjNhZTgyOGI0ZTNkMDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhZDE3OGNjMzZiMmMyZDRiNmY5ZmY1OWY0Nzk0M2UzNDJhMzY3ZmU5YzVlMGY3Y2ExMzc1ZjA1NzM2MzZkZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM4NWY3NmUzODliZjRlYjkyZjUyYzg5YTFiMDRiMGRhNjU3NjQ3NmQ4YjFlZWE5NjIzMTk2NDllYzc3NzAzMjgifQ"
         }
       ]
+    },
+    {
+      "id": "claim_a0548fa0e0bb4e7e91de12bf49598e59",
+      "statement": "BlockThumbs draws every panel block slug in a fixed-width 3:2 frame marked data-block-thumb with the page components and catalog content, inert and aria-hidden so its controls stay out of focus and the accessibility tree.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/sistema/BlockThumbs.tsx#L1-L30",
+          "version": "repo-lines-v1:sha256:91c4ac4e231559b2145e787bfd0675abf0f83a8e09b6cb254b88e74ec21a50de:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3Y2U2MjRmYzU2NzRlZGVlN2ViYjc4OWFlMGZlZWI0NTc0MzIwMDRlOWIyOTRiNzY0MzljMmIzNDU3YzlmNTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4ZDcwZDc2MzkxZDRhMWQxNmMwZmEyN2JhMzE3ODU1MzgzNWE2YjVhOThkYTI5N2UzNzFjMzJmMDFiMGNiMWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk4YmRiODhlNmNlNzU5ZTFkMzQ4ZDQ3NmQxNjI0MzIxMmQyNzI1OWM4ZWMzYmRiOGE3YjViMjY4Mzc0OGJiMTUifQ"
+        },
+        {
+          "resource": "repo://src/app/(frontend)/sistema/BlockThumbs.tsx#L233-L260",
+          "version": "repo-lines-v1:sha256:ee5a65ab0ad7deeb2c3d2710221f54cb3b0ad65c84ae460b5c9e60ab1011f7ce:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNmZDkwNDk4ZjU3MjRiNGM2MmYxMzhlOTZkOTE0ZGZiMzM2MzkyZWZjNjNjNjkzYTM0YWFhYWQyYzk3ZWI3NDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/app/(frontend)/sistema/CatalogSection.tsx#L336-L338",
+          "version": "repo-lines-v1:sha256:8a7d7dc535753c3c47c46feb74a6be5c4e05ee0ea6878f4c068c496a476a55e4:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGY2NjY0MTEyNmNiZDUwOTJkMTI2MmVhYzI4NGJkNjkxOTU4YmMzNGQ2OGRlNTViOTZlYWMyMTg0NTJmNTI4YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWY3NGRjZDFhNjhkZWVjZmY2Y2MzYTU0MWEzOGZlNTY3NGNiYzJkZjRjZTgxMDlkMTA2YzBhNDJjZjc2MzM1ZCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTk3YjIyZTU5NzQwNWI0Njc1NDhhYzEyZDBhYTE1YThhMTBiNDY1NGQ1MzI0MDcyMjg3NWJkYWY3NGIwMDc0ZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTJlNDUxNmE5MzFiZjVlMmRiMzhhOWE1ZjEwZDhhODQ0MTk1NGY5OGQ1NTBjMWFjYzExZTg2OTRhMTM3Y2I3NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_5ddb4fb587d144eaba2ee5c8f8196d42",
+      "statement": "An E2E test checks that every panel block has its 3:2 frame with content, so no picker thumbnail comes out blank.",
+      "evidence": [
+        {
+          "resource": "repo://tests/e2e/sistema.spec.ts#L103-L120",
+          "version": "repo-lines-v1:sha256:1e277f60ea48c1415e22bc8c5ade103dfe8828ed1fcaf24e97f56d7d735de4d8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMxYjhmYzc1NWU0ODM4ODYzNTMzZWIyNDU5ZTRlMDE2MTYyNjg0ZDY1ZDQxYmY3YmMxZmUwY2ZiZTg0Y2VlNTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM2ZmI2NDlmYmI5ZmNmMTJkOGM4NTAyNTZkYmU2M2Q5MjkzNzZkOGY3MWY5Y2U3MjQwODM3MDJlZmExOTIzZmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM4NWY3NmUzODliZjRlYjkyZjUyYzg5YTFiMDRiMGRhNjU3NjQ3NmQ4YjFlZWE5NjIzMTk2NDllYzc3NzAzMjgifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-15T11:00:17.514Z"
+    "at": "2026-11-16T11:00:16.891Z"
   }
 }

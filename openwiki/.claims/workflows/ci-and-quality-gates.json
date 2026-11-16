@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:0a3d3480844e0e604a3dad367a8293fee9f0eef719f03439b576281cb91c2594",
+  "pageVersion": "sha256:7b8383196e67b88f10139fd71843c42e193e2182be609d5603f83ff540db6a7b",
   "claims": [
     {
       "id": "claim_cb74801dca844af99590395d68fa512d",
@@ -118,11 +118,11 @@
     },
     {
       "id": "claim_5881d6485a664dc0bbf24d5137353535",
-      "statement": "Prettier ignores all Markdown files, the generated openwiki/ directory and the saved Squarespace pages in tests/fixtures/squarespace/.",
+      "statement": "Prettier ignores all Markdown files, the generated openwiki/ directory and the saved Squarespace pages the import parsers read in tests/fixtures/squarespace/, tests/fixtures/dofus-guides/ and tests/fixtures/pages/.",
       "evidence": [
         {
-          "resource": "repo://.prettierignore#L16-L23",
-          "version": "repo-lines-v1:sha256:8d578331ea486c05d6b5881b8cb930718dd012599937d202e8fbfc2432a05d01:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjk4MTljZjdiMzdhMjU1OGI2YWFkZDBkYTVmOWJkMGM0MWY5OTQ5NjFiZjVmMGE0NmZjNGRlOGEzNDAwMjVlMyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDg4MzU3YzQzMjgyM2EwNjYyNjExODg4MzhmZGJkYTBiOWQzNjY3NGI3ODMwODQzZmE0MmNkNGJkMWNmZmU2NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDNhNGY5NzE3M2Q0NzQ5ZjVkNWYwNjFlMzJiYTZiNGNiODg4YzUzZTdjNzllOTIwMjc1Mjg5NDUzYjk1MDM1NiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+          "resource": "repo://.prettierignore#L16-L25",
+          "version": "repo-lines-v1:sha256:44e21ded2cc99c2d05c76dfdb0e71a24e7542ddf66e058928c0e130de21a364a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5ODE5Y2Y3YjM3YTI1NThiNmFhZGQwZGE1ZjliZDBjNDFmOTk0OTYxYmY1ZjBhNDZmYzRkZThhMzQwMDI1ZTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjczNTcyNDI5N2UyNjZkZTJmNGJkODQ4MGE3MzEyOGI5YTIyYTEzNWJlNWZkNjA0ZjM5NGM1OTI2ZGIyOTExMDAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQzYTRmOTcxNzNkNDc0OWY1ZDVmMDYxZTMyYmE2YjRjYjg4OGM1M2U3Yzc5ZTkyMDI3NTI4OTQ1M2I5NTAzNTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkxYmNjMGZhYWE0YmE3OTZjYTJhYzc5ZGU3ZWI2MGI0MGVlMTZhMGI2ZDhmY2M3NDdhZDgwMWY4M2EzNTFhODUifQ"
         }
       ]
     },
@@ -212,11 +212,11 @@
       "evidence": [
         {
           "resource": "repo://scripts/ci/ci-scope.ts#L1-L75",
-          "version": "repo-lines-v1:sha256:b04b8ef598d7396e6b623d3b3b404251e752c11ab270e46de30e3ef1256c330c:eyJzZWxlY3RlZExpbmVDb3VudCI6NzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmMWE5YzFkNDAxNzY0NzAyYjY1MzgxOWVkNmUyZmI1NjQ5NDcwZGViYzc3MGIzMWU2MjY4MjljZDUzM2RmMGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYxNGFmZmQzM2U0OWY3NGQxNmM4NjY3MTIwZTk5ZGI0ZTA0NTkwOTIxZGNiYmI2OWI5ODZmNTMwZTYwN2JiNzUifQ"
+          "version": "repo-lines-v1:sha256:34c248a50040c3b794f0f9373a40c6284f19638daaa2ec31888a4d46ead6db49:eyJzZWxlY3RlZExpbmVDb3VudCI6NzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmMWE5YzFkNDAxNzY0NzAyYjY1MzgxOWVkNmUyZmI1NjQ5NDcwZGViYzc3MGIzMWU2MjY4MjljZDUzM2RmMGEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYxNGFmZmQzM2U0OWY3NGQxNmM4NjY3MTIwZTk5ZGI0ZTA0NTkwOTIxZGNiYmI2OWI5ODZmNTMwZTYwN2JiNzUifQ"
         },
         {
           "resource": "repo://tests/unit/ci-scope.test.ts#L1-L162",
-          "version": "repo-lines-v1:sha256:4a4cf6121e0a34a441bbf8ee36418e9d383e441bbb0ce6877c33767311f8e251:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYyLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI0ZjMxODcyZjI0N2IzZjg0MmY4MzhkN2VjZTVhMWRiYTJmMGNiZjk1NTBkMTgxNjA5MjJkODRkODVlYTRmZTljIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "version": "repo-lines-v1:sha256:886002028fb3d7e1b96a44215ca0d5198ef8bea6a9235911104dca886fd6e98c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTY3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI0ZjMxODcyZjI0N2IzZjg0MmY4MzhkN2VjZTVhMWRiYTJmMGNiZjk1NTBkMTgxNjA5MjJkODRkODVlYTRmZTljIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -250,17 +250,17 @@
     },
     {
       "id": "claim_65a97e5bb9d841ca8304b8cee6e0825c",
-      "statement": "The offline scope lists the dungeon-notes and payload-script scripts with the other offline scripts.",
+      "statement": "The offline scope lists the refresh-game-data, guide reward, shown-items, seed-site-copy, dungeon-notes and payload-script scripts with the other offline scripts.",
       "evidence": [
         {
           "resource": "repo://scripts/ci/ci-scope.ts#L28-L33",
-          "version": "repo-lines-v1:sha256:f9e5dd34d38f7caafca7b17e77e203b198c1be6e8538dbbe8acdedb59d6c3a82:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGRhYzUwYWRkMGU1YmUwNTMzMDZlOTBhNjI2YTNmYmVlODMwZWE3ZjYyNDMzYjJmYzQ3YjhjMjE3Nzg4MjhhYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjMxMDE1NTQ0ZWMyNmM3NjY4NjY3YmYwMmJlMGY4NzEzMDkwYjBiNDIxZThiYTY2M2I5NTkyYmM5NjY1ODhkZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDA5M2QxZTFhN2YwYWNlZTRhM2NlZTk5ZWVkNmFmNzg3YjNkZGEwZTY1ZDEwN2EyZjhmMWJmMjI4MDhkY2FlMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjRhMmIwNzVkZjExY2QzZWVjNjhjOTdhODg0OGU2MDE5ZjRlNmU5ZTFlZWZlNDc2OGRhZjRkMTU4MmU3NjMwNCJ9"
+          "version": "repo-lines-v1:sha256:bfd203cf419089908cb1115cf2728bd3c5165a6d4a6a00fed219bc0cff221a83:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMGRhYzUwYWRkMGU1YmUwNTMzMDZlOTBhNjI2YTNmYmVlODMwZWE3ZjYyNDMzYjJmYzQ3YjhjMjE3Nzg4MjhhYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYjMxMDE1NTQ0ZWMyNmM3NjY4NjY3YmYwMmJlMGY4NzEzMDkwYjBiNDIxZThiYTY2M2I5NTkyYmM5NjY1ODhkZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDA5M2QxZTFhN2YwYWNlZTRhM2NlZTk5ZWVkNmFmNzg3YjNkZGEwZTY1ZDEwN2EyZjhmMWJmMjI4MDhkY2FlMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjRhMmIwNzVkZjExY2QzZWVjNjhjOTdhODg0OGU2MDE5ZjRlNmU5ZTFlZWZlNDc2OGRhZjRkMTU4MmU3NjMwNCJ9"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-15T11:00:17.514Z"
+    "at": "2026-11-16T11:00:16.891Z"
   }
 }

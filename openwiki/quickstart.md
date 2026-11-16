@@ -16,10 +16,12 @@ sources:
     resource: repo://scripts/db-dev.ts
   - id: openwiki-source-b086b6b1802f507b0e5a4c8f
     resource: repo://scripts/dungeon-notes.ts
+  - id: openwiki-source-9e87f9929ce6181cecc80fe9
+    resource: repo://scripts/import/import-guides.ts
   - id: openwiki-source-fd0bec8778f0f03626754905
     resource: repo://scripts/import/squarespace/to-quest-guide.ts
-  - id: openwiki-source-63cbcc482c18e4f9ce5d0888
-    resource: repo://scripts/refresh-quests.ts
+  - id: openwiki-source-13a4a70459b559cdd8e4d8fd
+    resource: repo://scripts/refresh-game-data.ts
   - id: openwiki-source-cb49e3c4d1015b8673e71275
     resource: repo://src/app/(frontend)/%5Bslug%5D/page.tsx
   - id: openwiki-source-5f0afecf4f0bcd886ec62fb5
@@ -32,15 +34,15 @@ sources:
     resource: repo://src/collections/QuestGuides.ts
   - id: openwiki-source-2f2b90aba3af4142e443ba84
     resource: repo://src/lib/guides/strings.ts
-generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
+generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-15T11:00:17.514Z
+    at: 2026-11-16T11:00:16.891Z
 ---
 
 # Quickstart
 
-ta-web is the new torrentearcano.com: a Next.js 16 app with Payload CMS 3 inside it, Postgres, Cloudflare R2 and Railway. The skeleton, the site header and footer with search, the home page, quest guide pages, achievement pages, the metalogros index, the Dofus guides with their index, the checklists with their index, the legacy URL redirects and the sitemap are built; member features are still planned. Start with the [Project overview](overview.md).
+ta-web is the new torrentearcano.com: a Next.js 16 app with Payload CMS 3 inside it, Postgres, Cloudflare R2 and Railway. The skeleton, the site header and footer with search, the home page, quest guide pages, achievement pages, the metalogros index, the Dofus guides with their index, the checklists with their index, standalone pages, the editable site copy, Torre's corrections to DofusDB data, the legacy and changed-slug redirects and the sitemap are built; member features are still planned. Start with the [Project overview](overview.md).
 
 ## Run it
 
@@ -73,6 +75,9 @@ Node 24 (≥ 24.22.1) and pnpm 11. No Docker. Details in [Local development](wor
 | Write a quest guide in the panel, or change what its DofusDB quest fills in (title, slug, SEO, summary, the "Necesitarás" list) and the notes under each field | [Writing a quest guide](cms/guide-authoring.md) |
 | Add or change a block in a guide body (rich text, image, YouTube video, callout, fight, step) | [Guide body blocks](cms/blocks.md) |
 | Change how a published guide renders at `/<slug>`, its breadcrumb, header, steps or next quest card, draft preview or cache revalidation | [Public quest guide page](frontend/guide-page.md) |
+| Change a quest guide's reward fields (XP, kamas, items, level tiers, other rewards), how the header picks between them and DofusDB, or run the reward maintenance scripts (`pnpm guides:rewards`, `guides:rewards-dofusdb`, `guides:reward-typos`, `guides:shown-items`) | [Quest guide rewards](data/guide-rewards.md) |
+| Add or change a standalone page (emotes, how-tos, legal pages), how `/<slug>` renders it or sends it to Squarespace, or import them (`pnpm import:pages`) | [Standalone pages](pages/standalone-pages.md) |
+| Change the site name, description, share image, footer, social links or the home and index copy Torre edits in «Ajustes del sitio» and «Portada e índices», or seed them (`pnpm seed:site-copy`) | [Site settings and index texts](cms/site-copy.md) |
 | Change the achievement collections (DofusDB achievements, achievement pages, metalogros, dungeons), their fill from DofusDB and panel notes, or the shared root slug space | [Achievement data model](achievements/achievement-data.md) |
 | Change how an achievement page renders at `/<slug>`, or a guide's achievement breadcrumb and "Misión 2 de 3" | [Achievement page](achievements/achievement-page.md) |
 | Change the metalogros index at `/metalogros` or its search | [Metalogros index](achievements/metalogros-index.md) |
@@ -87,7 +92,8 @@ Node 24 (≥ 24.22.1) and pnpm 11. No Docker. Details in [Local development](wor
 | Change the site header, footer, menu links (the Dofus and the checklists come from their collections), the search dialog or the `/api/search/guides` index | [Site header, footer and search](frontend/site-shell-and-search.md) |
 | Change the home page or its hero quest search | [Home page](frontend/home-page.md) |
 | Change the schema, connect to Neon, reset local data | [Database and migrations](data/database.md) |
-| Load or refresh DofusDB quests, the monster and item catalogs, achievements and the quest-giving NPCs, import game images, change how quest rewards, needs, zone and achievement are computed, or change how DofusDB requests are retried (`pnpm data:quests`); print how dungeon notes match (`pnpm data:dungeon-notes`) | [DofusDB game data refresh](data/dofusdb-refresh.md) |
+| Load or refresh DofusDB quests, the monster and item catalogs, achievements and the NPCs, import game images, change how quest rewards (including per level tier), needs, zone and achievement are computed, change how DofusDB requests are retried, or work on the refresh runs (the «Refrescos de datos» list, «Traer ahora», the weekly cron) (`pnpm data:refresh`); print how dungeon notes match (`pnpm data:dungeon-notes`) | [DofusDB game data refresh](data/dofusdb-refresh.md) |
+| Let Torre override a DofusDB name, level or image, or hide a record, and apply that on every page | [Torre corrections to DofusDB data](data/torre-corrections.md) |
 | Change how Squarespace pages become quest guides, import them (`pnpm import:guides`) or bring imported guides up to date (`pnpm guides:backfill`) | [Squarespace import](data/squarespace-import.md) |
 | Import Torre's metalogros index onto the achievement pages (`pnpm import:achievements`) or apply targeted fixes afterwards (`pnpm fix:achievements`) | [Importing Torre's achievement pages](data/achievements-import.md) |
 | Import the prose of Torre's achievement pages (`pnpm import:achievement-prose`) | [Achievement prose import](data/achievement-prose-import.md) |
@@ -103,7 +109,7 @@ Node 24 (≥ 24.22.1) and pnpm 11. No Docker. Details in [Local development](wor
 | Review everything entering a release with AI before releasing (`pnpm review:release`) | [Release review](workflows/release-review.md) |
 | Deploy to dev or release to production | [Deployment and releases](operations/deployment.md) |
 | Check or monitor app health (`/api/health`, `/api/ready`) | [Health and readiness endpoints](operations/health-check.md) |
-| Redirect or retire an old Squarespace URL, regenerate the stubs (`pnpm redirects:stubs`), or change `/sitemap.xml` or `robots.txt` | [Legacy redirects, sitemap and robots.txt](operations/redirects-and-seo.md) |
+| Redirect or retire an old Squarespace URL, regenerate the stubs (`pnpm redirects:stubs`), change how a changed slug answers its old address, or change `/sitemap.xml` or `robots.txt` | [Legacy redirects, sitemap and robots.txt](operations/redirects-and-seo.md) |
 | Understand why dev is public but never indexed | [Dev environment](operations/dev-gate.md) |
 | Find a server error | [Error monitoring with Sentry](operations/error-monitoring.md) |
 | Set up a laptop | [Local development](workflows/local-development.md) |

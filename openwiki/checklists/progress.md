@@ -26,10 +26,12 @@ sources:
     resource: repo://src/lib/derive/weights.ts
   - id: openwiki-source-593566627930c1980a42dd12
     resource: repo://tests/unit/checklist-progress-parity.test.ts
-generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
+  - id: openwiki-source-451433a2fc814a425a9fc7e3
+    resource: repo://tests/unit/checklist-progress-todos.test.ts
+generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-15T11:00:17.514Z
+    at: 2026-11-16T11:00:16.891Z
 ---
 
 # Checklist progress engine
@@ -66,6 +68,8 @@ Every entry carries a time (`at`), so it can one day merge with server-side prog
 **Backups.** `backupFile` wraps the progress in a file tagged with the app, kind and version; `parseBackup` restores only an intact backup of that exact shape, because a partial one would erase what is there. A backup made before souls existed has no `souls` map and is still accepted. The UI remembers when the last backup was made (`ta-web:backup-at`) and shows its age.
 
 **Other tabs.** `progress-ui` listens to the `storage` event, so what another tab saves (another checklist) appears without a reload.
+
+**The Dofus road.** On a checklist with a Dofus road (the rush), every render also repaints the road through `startRoad` (`road-ui.ts`, see [Checklist page](checklist-page.md#the-dofus-road)). Only a render caused by the visitor's own tick animates it; the first paint and a change from another tab do not.
 
 ## The engine
 
@@ -122,7 +126,7 @@ Nothing about weight or quest relations is written by hand. `checklistView` (`sr
 
 ## Migrating old steps progress
 
-Visitors of the old `silvestre-checklist` site may still have its keys in the same browser. `legacy-keys.ts` rides with the progress UI and only answers whether any old key from a checklist not yet migrated exists: the checklist's own keys (`nebuloso:done` and the other per-checklist keys), its classic checklist key (`dofus_nebuloso_clean_v1`), the shared key (`dofus-checklists:shared`), and the quest and item keys of the other old checklists (`silvestre`, `hielos`, `global`). Only then does the UI load the migration (`legacy.ts`) with `import()`.
+Visitors of the old `silvestre-checklist` site may still have its keys in the same browser. `legacy-keys.ts` rides with the progress UI and only answers whether any old key from a checklist not yet migrated exists: the checklist's own keys (`nebuloso:done` and the other per-checklist keys), its classic checklist key (`dofus_nebuloso_clean_v1`), the shared key (`dofus-checklists:shared`), and the quest and item keys of the other old checklists (`silvestre`, `hielos`, `global`, `nebuloso` and the rush's `todos`), so the rush picks up what was ticked in the old rush and in the other old checklists. Only then does the UI load the migration (`legacy.ts`) with `import()`.
 
 `migrateLegacy` runs once per old source and records it in `migrated`. It adds by union: it never deletes or changes the old keys, and never removes or undoes anything already in `ta-web:progress`. For the checklist on the page it applies the old guide-version renumbering (`previousSteps`), the old quest model (`questPos`), item keys that moved (`ownedMoves`), the classic checklist, done steps by old number (`legacyNumber`), quest objectives, prerequisites and items (`#n` becomes `#<stepId>`). From other old checklists it brings only quests and items, because their steps cannot map without their structure; a quest from another checklist is never allowed to overwrite what this one has.
 
@@ -133,6 +137,7 @@ Old generic rows (`clase`, `alt:…`) map to the key of this checklist's row, th
 - `tests/unit/checklist-progress.test.ts` and `tests/unit/checklist-progress-silvestre.test.ts`: the engine, including the Silvestre's stops, generic rows and quests that finish on their own.
 - `tests/unit/checklist-souls-progress.test.ts`: souls progress and its migration.
 - `tests/unit/checklist-progress-parity.test.ts`: the same percentage as the old calculation on the real Nebuloso.
+- `tests/unit/checklist-progress-todos.test.ts`: quests finished in the Silvestre, the Hielos and the Nebuloso show done in the rush, which repeats them, including what was stored under the old `nebuloso` id.
 - `tests/unit/checklist-weights.test.ts` and `tests/unit/derive-checklist.test.ts`: weights and quest relations.
 - `tests/unit/checklist-legacy.test.ts` and `tests/unit/legacy-objective-indices.test.ts`: the migration, against fixtures in `tests/fixtures/legacy-checklist/`.
 - `tests/unit/checklist-backup-age.test.ts`: the backup age text.

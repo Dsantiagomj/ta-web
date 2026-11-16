@@ -40,15 +40,15 @@ sources:
     resource: repo://tests/unit/home-hero.test.tsx
   - id: openwiki-source-f5bb52b30eff93118a46d132
     resource: repo://tests/unit/home-sections.test.tsx
-generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
+generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-15T11:00:17.514Z
+    at: 2026-11-16T11:00:16.891Z
 ---
 
 # Home page
 
-`src/app/(frontend)/page.tsx` renders the home page (DESIGN.md, Layout: Home). It is a server component; its only client island is the hero's quest search. Its styles are in `src/components/home/home.css`. Its `metadata` sets the canonical URL to `/`, without the query (`?directo=…`); the title and description come from the layout.
+`src/app/(frontend)/page.tsx` renders the home page (DESIGN.md, Layout: Home). It is a server component; its only client island is the hero's quest search. Its styles are in `src/components/home/home.css`. Its `metadata` sets the canonical URL to `/`, without the query (`?directo=…`); the title and description come from the layout, which takes them from «Ajustes del sitio». The page reads the «Portada e índices» texts and «Ajustes del sitio» on the server alongside its data and passes each section its texts (`home.*`) and Torre's links (`socials`): the hero, the areas, the tour, the checklists section and the author section show what Torre wrote in the panel, falling back to `indexTextDefaults.home` and `siteSettingsDefaults` when rendered without them (see [Site settings and index texts](../cms/site-copy.md)). This adds no JavaScript.
 
 ## Sections
 
@@ -67,18 +67,18 @@ In order:
 
 - **Counts.** `loadSiteCounts()` (`src/app/(frontend)/site-data.ts`) is the same cached read the header uses, so the two never disagree. `countSiteGuides` (`src/lib/site/counts.ts`) counts, as a visitor (`overrideAccess: false`), published quest guides and achievement pages that are published and in state `published`, the same ones the metalogros index links. The read is cached with the `guide-pages` tag and the guide pages' 600-second `revalidate`.
 - **Checklists.** `loadChecklistNav()` (`site-data.ts`) turns the cached checklists read (`loadChecklists`) into menu items with `checklistNavItems`, the same list the header menu and footer use (see [Checklist data](../checklists/checklist-data.md)).
-- **Live state.** `liveState` (`src/lib/site/live.ts`) does not read Twitch yet, so Torre is never live. In development or the dev environment, `?directo=1` simulates it to see the page in that state; in production it does nothing.
+- **Live state.** `LiveStrip` and `Author` link Torre's Twitch and other channels from «Ajustes del sitio». `liveState` (`src/lib/site/live.ts`) does not read Twitch yet, so Torre is never live. In development or the dev environment, `?directo=1` simulates it to see the page in that state; in production it does nothing.
 
 ## Hero search
 
 The hero's form is server-rendered by `Hero`: `role="search"`, its label and help text, and `action` pointing at the legacy site's search (`legacyHref('search')`). Without JavaScript, submitting goes to the search on torrentearcano.com.
 
-`HeroSearch` (`src/components/home/HeroSearch.tsx`) is the client island: the field (placeholder "Una misión o un logro") of a WAI-ARIA combobox with a listbox whose results float under it, so opening it, typing or loading never moves the page. The results panel (`.cbx`) drops in and out like a menu (DESIGN.md, Motion): it fades and slides 6 px with a slight scale, entering with `@starting-style` and leaving through a `display` transition with `allow-discrete`.
+`HeroSearch` (`src/components/home/HeroSearch.tsx`) is the client island: the field (placeholder "Misión, logro o Dofus") of a WAI-ARIA combobox with a listbox whose results float under it, so opening it, typing or loading never moves the page. The results panel (`.cbx`) drops in and out like a menu (DESIGN.md, Motion): it fades and slides 6 px with a slight scale, entering with `@starting-style` and leaving through a `display` transition with `allow-discrete`.
 
-- **Lazy loading.** The result rows (`HeroResults.tsx`) and the search engine (`src/components/site/search.ts`) arrive with `import()` the first time the field gets focus, never on page load. The search index (guides, achievement pages and metalogros) is fetched then too. The engine and the index are shared with the header's search dialog: one request per page between the two (see [Site header, footer and search](site-shell-and-search.md)).
-- **Matching.** One letter asks for another; from two letters `heroResults` (in `search.ts`) ranks the quests, the published achievement pages and the metalogros that open, the same groups as the header dialog without the menu, with the matches in `<mark>`, as text, never as `innerHTML`. An achievement in «En preparación» has no page and is not found. The status line counts each group ("1 misión · 1 logro").
-- **Groups.** The listbox is named "Resultados". With one group the options are listed directly; with more than one, `HeroOptions` (`HeroResults.tsx`) wraps each in a `role="group"` labelled by its title (Misiones, Logros, Metalogros), the ARIA APG grouped-options pattern. Option ids run on across groups, so the arrow keys walk every option in the order shown. Groups go from best match to worst, quests first on a tie.
-- **Keyboard.** The arrows move the active option; Enter opens it, and Enter with nothing chosen opens the first result. Enter while a new list is still loading opens the first result for what was typed, not one from the old list. Esc closes, a second Esc clears, and a click outside closes. With Ctrl, Cmd or the middle button a result opens in a new tab.
+- **Lazy loading.** The result rows (`HeroResults.tsx`) and the search engine (`src/components/site/search.ts`) arrive with `import()` the first time the field gets focus, never on page load. The search index (guides, achievement pages, metalogros, and the Dofus guides, checklists and standalone pages of `content`) is fetched then too. The engine and the index are shared with the header's search dialog: one request per page between the two (see [Site header, footer and search](site-shell-and-search.md)).
+- **Matching.** One letter asks for another; from two letters `heroResults` (in `search.ts`) ranks everything that opens: the quests, the published achievement pages, the metalogros, the Dofus guides, the checklists and the standalone pages (the header dialog's groups without the menu sections), with the matches in `<mark>`, as text, never as `innerHTML`. A page in «En preparación» has no page here and is not found. The status line counts each group ("1 misión · 1 logro").
+- **Groups.** The listbox is named "Resultados". With one group the options are listed directly; with more than one, `HeroOptions` (`HeroResults.tsx`) wraps each in a `role="group"` labelled by its title (Misiones, Logros, Metalogros, Guías de Dofus, Checklists, Páginas), the ARIA APG grouped-options pattern. Option ids run on across groups, so the arrow keys walk every option in the order shown. Groups go from best match to worst, quests first on a tie.
+- **Keyboard.** The arrows move the active option; Enter opens it, and Enter with nothing chosen opens the first result. Enter while a new list is still loading opens the first result for what was typed, not one from the old list. A typed query waits 90 ms before it is ranked; an arrow pressed in that window ranks it at once (`arrowItems`) and moves into the new list, so the keystroke is never lost. Esc closes, a second Esc clears, and a click outside closes. With Ctrl, Cmd or the middle button a result opens in a new tab.
 - **Errors.** If the index fails to load, the panel says so and the next focus retries.
 - **Header button.** While the field is visible, the header's search button steps aside (`html.hs-on`).
 - **Mobile.** The field rises under the header and the panel fits in what is visible above the keyboard.

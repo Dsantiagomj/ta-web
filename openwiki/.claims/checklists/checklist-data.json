@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:507f6c980cefedfe6813506e479d11b1a0580b0b66a4c2346c094cfbe6bdf847",
+  "pageVersion": "sha256:1d3f5295a5c88d365728f5de6373d40375b8a1ebaa7b6e3338ad1d655788ff15",
   "claims": [
     {
       "id": "claim_07a0fdb5e1c84279a898734e68b74496",
@@ -52,7 +52,7 @@
     },
     {
       "id": "claim_4c7f0f8dcc98425cbfe9f377662c2a7d",
-      "statement": "A Necesitarás row is a game item or a text label, with a quantity, alternatives, one of six categories and an optional group, whether it counts in the totals, whether it is reusable, and the quests that need it; validateNeedItem requires an item or a non-blank label.",
+      "statement": "A Necesitás row is a game item or a text label, with a quantity, alternatives, one of six categories and an optional group, whether it counts in the totals, whether it is reusable, and the quests that need it; validateNeedItem requires an item or a non-blank label.",
       "evidence": [
         {
           "resource": "repo://src/collections/Checklists.ts#L194-L285",
@@ -143,8 +143,8 @@
           "version": "repo-lines-v1:sha256:249ce30b1e9241353a491a00bb574c5177c451ad42f1ad41438c62b729c3404b:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOWVhZTZmMjdhZDMyYWNlYjIxMThlMTUwNzVlYTMxYmQzM2RhZWEyZDc3NDk3ODU2NmQ5M2YyOTdkM2Y4OTU5ZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzJlMTE0YmIyMTI2YzYyY2UyZTQ1OTNlNzdkOGNjZWRhZmU1YmIzMGI5NzAzOTZiMjJiNTY2MWQ4YjM1MzM4YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmMyYWIxN2YyMGYzOTE3YzY3ZTc1M2YyYmY4ZDViZmU0NTBmMWQwZWUzZmFjZDU1NDliZGFiYjZjYzBhZjBjMSJ9"
         },
         {
-          "resource": "repo://scripts/import/checklists/load.ts#L673-L692",
-          "version": "repo-lines-v1:sha256:fedaa44a6fa4ceaf8d4d8364df5e24ac85420c86dcc0fc6127083db85967672f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRmMGEwZTNmYzg0OGQxZmU4ODEyZWIzYzNhYzViZWU1ZGUzNWMxMjE2Njk2NjljNmJiMDRkNTI2YjYyYzFjMjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdlZjUyNTc3NDQ2NTAxZWY5YmZmMjU4M2FlMGQyMmQ5NDU3NzBmYzQ2MWMwZDFkZmZkNmJlZjQ0NWExM2U0NTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk1NzFmYzhhMjI4ODc2OTljZmIxZmFhNmU4NmMxM2JmNzJiZGM0OGNjYzU4MDg4Yzc4YmMwODJkMjcwMjhkOWEifQ"
+          "resource": "repo://scripts/import/checklists/load.ts#L715-L735",
+          "version": "repo-lines-v1:sha256:edc9b4fd194fb3ed2c5d863fb6da0d236d9f84c59a689be2d47b4ec9ced60e55:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNiMDNmYmVkYWFkNThkMDNjNjkzNTVjMjAzZWQ4ODJjMTAwM2IxODU4MzgxYWY1YmE1NWEyYTZlODExNDhiYTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQyOTU3N2VkMDVjMGFhYThhOTY0MzQ5MjE3NjgzMzE2ZjM2YWJjZGRjZDgxZTgzZjFiOTg4YmY4ZGQ2NTQ0MTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEzM2YxNGVlMWQ5YTg1NzQxZjJlYjU3NDhlY2IyYmUzZmFjMDljYjY2MjNiMDVmYjJiZTAwNTMyZTBlNDM2NzIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUxYTMxZGY3MmNkYzgxMDY0OWExZDU1MjdlNDg3ZjgxYjg2YmQ4N2ZjNzMyNDliZTFlYjI0ZmZiOTQ0NWVjMWYifQ"
         }
       ]
     },
@@ -191,12 +191,12 @@
       "statement": "A checklist's kind is steps (the default) or souls, and a souls checklist names the quest whose souls are ticked in soulsQuest, shown only for that kind.",
       "evidence": [
         {
-          "resource": "repo://src/collections/Checklists.ts#L537-L560",
-          "version": "repo-lines-v1:sha256:90fc4e191fd6433524018e0c8e15c4039cf89528d3ce9af99df36f19aca051b9:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5Y2E4OTFiZmY3YWMxZjdjZWFhZTQwZWYwNTEwNjZiZTllZmU0N2I0ZTQyODFlODZjMzE5YmUyYzU1ZWJjZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRkZGZjODQwYmI0ZWYxZDMwZWVmYzEwOTcxNDM1MzgwYmE4ZDJkNzE4OTM4YjNmNmRmMTZhZmFkZGJhMGIxMzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVmNzRkODYzMTRkZTIxMTNmM2YwMTBhYWFmZDZkNTI5MjBmNTI2Njg2MTFiYjg4NzdlMDBkN2ZiZjI5MDIyZTcifQ"
+          "resource": "repo://src/collections/Checklists.ts#L550-L587",
+          "version": "repo-lines-v1:sha256:32a925fb80722d2f4208612dad450a781ca4d71c526f59991392cd6a9ebe2fd8:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5Y2E4OTFiZmY3YWMxZjdjZWFhZTQwZWYwNTEwNjZiZTllZmU0N2I0ZTQyODFlODZjMzE5YmUyYzU1ZWJjZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyZmEwNDdiYTNkNGNmYzNmY2YzN2IyZTcwYTk0MWEzMjVlNTNiODZhMWQ4ZDQyOTkxYWMwMGFiOTNmMjcwY2YiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRkZGZjODQwYmI0ZWYxZDMwZWVmYzEwOTcxNDM1MzgwYmE4ZDJkNzE4OTM4YjNmNmRmMTZhZmFkZGJhMGIxMzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk0Y2I4ZGFmYjZlZjkwODZjYjM3Y2Y2YjhiOWM5YWQyZTM4ZWZjMzFlYTQyNjdmMzkwNjQwYTdkYmFmYjlmZmMifQ"
         },
         {
           "resource": "repo://src/lib/checklists/strings.ts#L34-L37",
-          "version": "repo-lines-v1:sha256:0041020a4b75c5c2c8d0b7084a6d611a2e27638103558e9980f9759e8898ccd7:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGFhNjA4OGU5ZmNlNzVkNjVlYmFmOTkxOWIxYjNmOWQ2YzRkNTFjZmM0Y2QwZmU3OTBkNmEwZThkNzEwYTc4MCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGRhZjIxMjU2OTQwMDU1ZGE3ZjMzNjBjMWFjODBkYWEyYjRmYjExMzhkMzI0N2FlMDI1ZmZiNWNhOTY3OTgxMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmIyMzdjYWZkODZhZmJhOTNiY2YwZDBhMzA3YzNjMzFiMGRmZDNiMGUxNjAzOTdkYTNkYjhjZDM4Y2ZiNjE2MiJ9"
+          "version": "repo-lines-v1:sha256:5a0333c0e26c394c7df39e06b4da45d25865f7388f67b2c05cddd1587f0a3326:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjg1NjUzOTQ4ZDUxY2YwMDhjMTYwZjMzNmExNzA4Nzk0NmUzYzNkMDg5ZmE0ODU1OGRkNzVhMmM3YTE1OGM0ZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDVhNzNlM2M4MDA3YzIxZDIyZmYwMTNiZjVjZThlZjEwNTc1YzIzNjY5YjI2MTlkZDYzZGZmN2JlZDQzMmM3ZiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZGQ5NTEyMzAxMjlkZTc2ZWU5MjkzNzg0YjU0NTJkOTE3YTRjM2NhM2FkNjI3ZTM1MmNmOWY4MDYyNzNlNTA3ZCJ9"
         }
       ]
     },
@@ -212,15 +212,15 @@
     },
     {
       "id": "claim_ae298656acd34ca08b457e36db24df17",
-      "statement": "A step's visible fields are placed in four unnamed tabs (Texto, Misiones, Necesitarás, Imágenes) that only arrange the panel form, with the stepId in a collapsed technical section after them.",
+      "statement": "A step's visible fields are placed in four unnamed tabs (Texto, Misiones, Necesitás, Imágenes) that only arrange the panel form, with the stepId in a collapsed technical section after them.",
       "evidence": [
         {
           "resource": "repo://src/collections/Checklists.ts#L165-L192",
-          "version": "repo-lines-v1:sha256:153587964ba6a5412da8f7f451e2f9c80f798f8bb38e1a20955709b91ab70a77:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2NGQ4YzA3MzQyOTg5MzEwMTU3NmQ4OGQ5OTEyN2U4OWQ2ODkxZDNiMTdlODlkZjAyZWM5YWU3MDcwNWQ4YmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQxNDNmOTg2NmRjZThjMDM4N2E1ZGNhMGM0YmMxNmY1ZTA0NjVjNzJhNTE1NjA0ZmZjOGUwZTcxNGMzMTZmNTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg3NzFhMjgyZTk4YzVjNjZkZDJjNDhhYTczMzA4YWNiNTQ2ZDQwMTVhNmQ3MGNiMDFhMjQ0MDI1MWU0ODEzZjYifQ"
+          "version": "repo-lines-v1:sha256:ca98a79bd6c679e54f37076ee3f66f16b94804ad9931ed7186be3726e3fc3bf5:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5NDE2ZTA5Zjc4YmEzMTZjMDMyNTY4MjEzYjg1NWVlNzU2ZTQxNTY1ZDkxOGYwOTUxOWM4MWZkNjIwZjQwNjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEwOTc0MGEzOTcwOTBjNjZiN2EyYzMxMmU1NmI2NWVhOGNiNjUyMmU3ZjEwYTU2NDBjODI0YTFhYmFmNGY5ZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEyMDRjNGUyNzA0YjI5MTExMjBiYTc3MTQwMzM0ZTg5YmE5MGVkYzI1MDI5YWIxZmEwZGM2ZjdkODM1OTViNzcifQ"
         },
         {
-          "resource": "repo://src/collections/Checklists.ts#L465-L480",
-          "version": "repo-lines-v1:sha256:9798c5708e0f9ce607bc513a3bfbe2ee263c4cc2904bfb4f71cedb275ffe96b0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmYzBhNDk3YzE4MWFhNGJhZWZiYmE0NWM2ODEzZTM4NzQ2M2I4OTM0NjVlMzYzYjk3M2YyMDc5MTk5YTE1YzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5NDE2ZTA5Zjc4YmEzMTZjMDMyNTY4MjEzYjg1NWVlNzU2ZTQxNTY1ZDkxOGYwOTUxOWM4MWZkNjIwZjQwNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNjYjhhMjE5ZTQzYjU3ODRmODVhNGI2MjQ3MDI3OThiNjI3YzFkY2JmMzcwOWE3MTk1NDI2MDIxYjhhNWI2MGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE5OGI1MDg1OTI0N2JlMDdlN2U4OGRmYzRkNTQ2ZTAyODFiYTlkNGIzZTc4MjRkYTYwNTk2NzhlMjZmZWE2OGUifQ"
+          "resource": "repo://src/collections/Checklists.ts#L480-L496",
+          "version": "repo-lines-v1:sha256:ef945965b789bf5dc618eb9744dd061b000e5c69d8ae5386d6ee2997c8ad3418:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRjYTkyOTk2YTNlYzRmZDIxNTVkNWNkZDhkYmNiNzRkMTQ5ZWE3NzM2YjE4ZTQ4ZmNiZTUxYzJkZjRlZmExZDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhNWIzMzFmZmI2OGE2ZDk4ZTRiMWU2YmM2YzI5NDM4NmEyM2Y3NGNkMjEyNTQ1MzQ1YTBmMmE1ZWJlNzMxNjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFkZmUyMmZkMTdhMjNjZmVkOGQ1OWFjYmJkYTJlMWM1N2JmYzAyYjc5ODM4NzE0YTI1YWUzZWI4YjM1ZmQ1N2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVmZjY0ZWYxNWI5MTRlZThhYWY0MmNkOGI5NzU1ZTk4NDJlODUzN2U0NmE3NGM5NDQ0YTY1MTFlN2JmOWJkMTMifQ"
         }
       ]
     },
@@ -254,19 +254,19 @@
     },
     {
       "id": "claim_f786a71be3f84a73aaa5bbc79269e73a",
-      "statement": "The catalog ports the Silvestre, Hielos and Nebuloso with their steps and the Ocre as a souls checklist; for a souls entry the import writes only the entry fields, kind, soulsQuest and legacy, and reports the soul count and missing or incomplete monsters.",
+      "statement": "The catalog ports the Silvestre, Hielos, Nebuloso and the Rush de todos los Dofus with their steps and the Ocre as a souls checklist; for a souls entry the import writes only the entry fields, kind, soulsQuest and legacy, and reports the soul count and missing or incomplete monsters.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/checklists/catalog.ts#L38-L104",
-          "version": "repo-lines-v1:sha256:7c61e5c89049382eb12488584992c035bd3d429091419d25a5b9664ea65fffa4:eyJzZWxlY3RlZExpbmVDb3VudCI6NjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4ZjVhZDRhMGZhM2Q1ODQ4M2UyNjA1YThjNTkzOTUwZTM1MzJhZDNiMzZhMWViODdhZTQ2NjI2YjQzMTI2ZjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZhMzJkNzI4MmUwYjM2ZmViOTlkYzVlNTNmY2VjYTA1ZDA3M2NhZDJmYzZjNDQ2YTdmOGIxMGNiNDkzNTM2YmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVhOTliOGY1M2U5N2JiODIyZjczOWM3MTE0MWE1ZTc1ZjM5OTUzYWRhZWEzODg0NTc0NWU0Nzc3MDA4ZDYyZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://scripts/import/checklists/catalog.ts#L43-L131",
+          "version": "repo-lines-v1:sha256:f6a58be6e791a78510bd65451c8328eea8149d2bd4b3d6d50d9ec6e56b673722:eyJzZWxlY3RlZExpbmVDb3VudCI6ODksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4ZjVhZDRhMGZhM2Q1ODQ4M2UyNjA1YThjNTkzOTUwZTM1MzJhZDNiMzZhMWViODdhZTQ2NjI2YjQzMTI2ZjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5NDE2ZTA5Zjc4YmEzMTZjMDMyNTY4MjEzYjg1NWVlNzU2ZTQxNTY1ZDkxOGYwOTUxOWM4MWZkNjIwZjQwNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVhOTliOGY1M2U5N2JiODIyZjczOWM3MTE0MWE1ZTc1ZjM5OTUzYWRhZWEzODg0NTc0NWU0Nzc3MDA4ZDYyZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJkNGQ4M2E4M2YyM2E3MWZlNWYyNTU1MjRkMzg0YzZmNmM0MDRmYTVkZWFmMTQzNTBhOGQ1ZTczMWRiZjE0NjAifQ"
         },
         {
           "resource": "repo://scripts/import/checklists/load.ts#L499-L565",
-          "version": "repo-lines-v1:sha256:1a68c2ad9ea10c15d1e40fb49707ec074a988e5c5cebd327012add4f6d47b1da:eyJzZWxlY3RlZExpbmVDb3VudCI6NjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZhMWJiMGMxZmE0NTAzNDllNjE2MTg2OTBiZmZlMTUwMjkwZWJhNWFjN2YxYzhkODNmN2ZiMjI1NDlkMjI0NTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFkMjg0MjA2ZDhiMzNiNzY0ZWFmMTM1OTNkMTk3MDkyNzcyYWM2YTJiZjM0ZGY1YWU1MmM1ZDQ2MmVjNDE1ODEifQ"
+          "version": "repo-lines-v1:sha256:5947cfa9910b274ca501daea2779ed5924a906dd5ef89cb56880f459fe199f31:eyJzZWxlY3RlZExpbmVDb3VudCI6NjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwNjNhMTU1ZTkxZDFlNTNhYWIzMWQwYTkxYWNkMDUwOWJmM2E0ZGY2MjMwNjIzYzcwZGZlZGZiOGQ0YzVmNjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgxMDc1YjcyNTUzODE3MjJiZGEwOWZkOWZkMWM3M2FhZjZlM2I3YzQwMjNkNThiMGNiM2VjNGUwMDlmYjYwYzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZlZjMwMzZkZWVmZjM2ZjE2ZDIzNWU5ZjEzZDRiYjc1MWY1YjMzZmEzN2Q0YzkyODc1Yzc1MGFmZDliNjg0MWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdmMjgxYTQ4MDEyNTE5ZTYzNjA0MDdlZWQxM2MxYzgwMjgwNjUwMGIzZGUzNjg0MDI1NTdjMTRhMjAwNWNjN2MifQ"
         },
         {
           "resource": "repo://scripts/import/checklists/load.ts#L82-L97",
-          "version": "repo-lines-v1:sha256:4b8bc3c075e0e3bfe558fd4b2cd4dfb2eddc4d962f7210cd93d07cb5ffde379e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM1NWZjMWEyZWI0ZGU0NDliMmJiYmQxZWQ0MmU1ZjBiMzFmMmU5NmM5Mjk4NDU3Y2UxMTE0NTlmNDY0NjgwYWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI0YTFhMTZkOTkyNWJjMjQxMDRiZjJiOGJhYTM5OTRhYWU1MzkzOTRiNGRiODM0ZmZkZjIwYjlkOTc4MTJkM2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIyNzZkZjI5ZjlmNDE0NmE4Y2E2NDdjMDkyYmJlZDU0YWY0MzgzYzM3NDk5MWExZGE2ZGJlYjE5MTAwMDVjMjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYyZTdkODcxOTg4ZjY3YWUzMjIzMWYxZDNhNWJhZTc2ZDk0NmM0OTJhMjU3YzQ5ZGFiYmJiZTg0YzJiYmNjN2EifQ"
+          "version": "repo-lines-v1:sha256:93bfa1976d20f698804935138e5c192bd5b35d16c6341c31838d859409df10c8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImViMDY5MGI3YTk2N2Y5NmYwYzViZmFlNDAyNzlmMDY2OGVlNTg3MmE1ODg3OTRlMzA3MzFiNTQyN2VlOGY1MGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImExNzdjZWQ3ZjY1MDJjODU5OTU1ZDkzOWI1YjM3M2ViN2I0ZTc0NjViMDVkMjM4NjMwNmZmZjJlZjQ5ODBiNDUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZlNmI0MDNiMGRmZDE1NDczNzUyODQ4NzdkY2UzOTQ2MTUwMjU0Mzk2MTFlZGQwZmUwMGE0OWNlYzU0YWJlMTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA3NzJiMTI2MTljY2Q3MjI4OWUxODZlYzJlZGU5N2ZmMjYxMjFhNTM0YzMxMWZjYjdjM2RkNDJmZWZiZjA5OWQifQ"
         }
       ]
     },
@@ -293,10 +293,90 @@
           "version": "repo-lines-v1:sha256:964c3af768db67f33fed24dcefa8e7f11193bb6bc41cdbce194e4914058035e0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ5MmQ1YWRlM2Y1YjUwNWI1OTZkYzc1Mjg1Y2RhODdiMTQ5YzQ4ZDc5MjZjY2FkNjRkZDFmY2E3MTViNDJhMjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUxNjY5YzVkNTM2YmZhM2M5YTRhZmFkZWUzNWE4NDlkODRiOWZmM2Q5ZmViYmQwYTMyZjI3OWZjMjdjYzgzNDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk4MjQxYzdjY2NlYWU3YTI5YjI1MmFlZDVhOTIzMjlmMGRjMjllYzY0YzM2NDljYzQ4ODAzYzBhYmQ2ZTZmOTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVkMDEyMzZlNDE3MWM1NjMzODliMzlkYjQ0ZGU4NGI2YmNkOGEyOTcxNzNhNmRkMDFiNDI4ZWE1MGM5Y2U2MDIifQ"
         }
       ]
+    },
+    {
+      "id": "claim_2de60a99c78c4ad2aed52b05a06a6f1a",
+      "statement": "A checklist step lists the Dofus guides of the Dofus it gives in its dofus field, and the import fills it from the old checklist's DOFUS_ROAD by Dofus item name, throwing when a road entry names a step that does not exist.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/checklists/to-checklist.ts#L335-L350",
+          "version": "repo-lines-v1:sha256:e4780838a082a785574db96ac692f516a2c2967d70d3cfd4ce805b4626e1c548:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI3NWY1ODc3NzUyNGQwMDJjNGNhZDQwOTRjYjgyMjRlYTJjODM4NWI2NjM1ZTYzMTMyOTIxYzNiOGIxMzBmMDkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIxOWNhNzllYmZiNmM0NGU5ZTU4NWE5NDQ1YWFkYWQ2NjJiNTllNTMyMTg5ZGQwZmUwYmM0Mzg3MDJmNTAxYmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBkYTFmYzY1ZjI3NjE2YzlhZGRkMGRiNDZiZDNkOTM2OGU5NDM2ZTA1ZjZhYmVmNjYxOTA0MWY2NzFmMWI2MzAifQ"
+        },
+        {
+          "resource": "repo://src/collections/Checklists.ts#L450-L460",
+          "version": "repo-lines-v1:sha256:f9386e0d05c268bfc699623e545455de9b63991942547e4d8e92c82d3b8cf85d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIxMTFmMjM5YWM2NWM5ZmVjZDRmNzk3NWQ0ZWUwYzY3N2I1OGE4ZWE2Nzg1MmVhMjVkMjc5MjM5MjUxOGQyZjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIxMTFmMjM5YWM2NWM5ZmVjZDRmNzk3NWQ0ZWUwYzY3N2I1OGE4ZWE2Nzg1MmVhMjVkMjc5MjM5MjUxOGQyZjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVkZTE5MDkwYTVlYzcyODI0MzNlZDg1NTQ4ZDY4MjdhNjA2Mjk2NGJhYjE5MThiMjViZjllOGQyNWQ5ODY4MTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUyNDZmZjAwYTk4OTViYzQ3YjNiNjFlOWRiYjk0OGM3NWYzYzJkZjZiMjhmMzgwNmFhZTY1OTIwNWRlMmM3MWMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_042ce374d8704b2dbbae1679772e8d85",
+      "statement": "A checklist's dofusGuide is optional: the rush entry has none, and its card carries a gold color and a crown of up to six Dofus guides.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/checklists/catalog.ts#L89-L112",
+          "version": "repo-lines-v1:sha256:3457fe83ff1f2f358ab878b675694cd90c305f40bb0b47b806f406382e12416e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwZTFkN2I2NGVmMjJmNDI1MDJmMGJlZTZiN2MzNzliOGUxOWFiZDhiMzIxYzA2N2VhODk1YzY5YTlmN2NiMzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQyZTZmY2RkNGQ3Mjc0ODdlOGI4ZDdhNDM3N2YwNjJjZDFiY2U1OTQ0NGQ2ZDczYWE4OGNhNTg0OGY5NGI0ZTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUxODg5ZGU4MDJiY2UzZGZkZTA1YjcyYmZhZmVkOTkzNGM1Yzg2ZDQ5NTAwMTk3NGRkNzY3M2VjMGE1ZDVkOTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMwMGE0YzVlZjVlNDkzNzcyOTgzNmM2ZWY0MDYyODcxMTc5M2IzODAwOTdjYTkzYjVjOTg1MDMxZjlkMDE4M2MifQ"
+        },
+        {
+          "resource": "repo://src/collections/Checklists.ts#L716-L724",
+          "version": "repo-lines-v1:sha256:359236c1bc27f14e26d201de32be6fc6793d97b728107e3d015bb613c443a57c:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTkzZmM5Nzg5NDE0MDYyMzA5NmNhOWRiNzE1NDQyMmQ0MDQ0Y2RkYmZjOTVhZDQwZGFhNzg1ZjliOTM0MmNmYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMWU2NzNhYmQ0NTdhOTdlZWExN2E2MDA2MmViMGZhZWE2YmRmMDk0ODY4Y2M2YjhmOGMwZWJkYTJmNjFlZDQyZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNmU3ZmUzNjIyYTIwMjRjYjY3Mzk0NGZiOGFmN2MyYTNjYzcyZGQ0NzVlYThmZTg0NmZjZjdiYmNhNzZhZTRkNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTdkYjUyZTY2NTJjNTYzMjc2ZWMwY2Y4NWMzZmM3YTk2MWM0Y2EwYTY1NmFkMDg2YTM3YjE1YjViNDk4MGYyYSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_7dcdbb87a5de4c84ad351ecd0c7b3f1e",
+      "statement": "The ambience field picks the particles behind a checklist page (egg, snow, forest or theme, default egg), and the import writes the catalog's ambience only when it creates the checklist.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/checklists/load.ts#L720-L728",
+          "version": "repo-lines-v1:sha256:5e245dc19100a710c1d13bf58fa4c8b3bb0ca33352eb88eeb8e315b5d7b09d8a:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2RlNzQ2Y2Q5YzhkMjEzNmM1ZjY5ZjQ3OTc2OGM4NjY1OWNkN2U2MzFhNGUwMWZlNjcxZjI2NjExYTdkNmJmMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTUzYTEzNTI0YjdiNGU2MWVjZmI2MDI0MGJjZjU0ODY5YTBlYWM1Y2EzNTdlNDM5YmQwMzNkNzhjM2FjMTJhYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTUxNzU2NmUwYjFiZDdiNWEzZjdmMDEwNTg4OTdmZWY4YzZhOGZiZmJjOTI4MmY2OTIzODQ0MDc1ZTFmYTdjMSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZmJiNzRmZGNjNDQxM2JjNTUxZDk5MjY2MjMwNjQwMTRhZTBlMjhiYzVmZGM5Y2YxZGFjMTQ3ZDcwNTMzYmY3OCJ9"
+        },
+        {
+          "resource": "repo://src/collections/Checklists.ts#L563-L575",
+          "version": "repo-lines-v1:sha256:fff445878c2a5d82229228bf630b88939336d41bc47ebfc07d21b07fad69af35:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5Y2E4OTFiZmY3YWMxZjdjZWFhZTQwZWYwNTEwNjZiZTllZmU0N2I0ZTQyODFlODZjMzE5YmUyYzU1ZWJjZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5Y2E4OTFiZmY3YWMxZjdjZWFhZTQwZWYwNTEwNjZiZTllZmU0N2I0ZTQyODFlODZjMzE5YmUyYzU1ZWJjZTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI5NTFkNzcyNjVlMzc3NzZmZTA1ZmI5NjAyMGQ5MjExYmUyOWFlZWNjNTk5ZjM0OWQ0YTMxOGYwODFjZmZkY2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNiMjY2ZWY3YmU3M2U3YzE5MGVjODIzZDA4NzdmYmIyNDYyOTBhZjBiYTkwNDhmOWFmYjJhMzIwMmUwYWVjYmQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ef40258f53d64583b8ea8deffed7cb44",
+      "statement": "A souls checklist's soulOverrides rows give one monster this list's own dungeon, zone or region text or hide it, while the soul's name, level and image are corrected on the monster.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/Checklists.ts#L586-L616",
+          "version": "repo-lines-v1:sha256:744e420d3fa8a22d7f2d68b0715c839110c030a18b3973d1ab1e51362bc5a186:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5Y2E4OTFiZmY3YWMxZjdjZWFhZTQwZWYwNTEwNjZiZTllZmU0N2I0ZTQyODFlODZjMzE5YmUyYzU1ZWJjZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmMGNkYjk3MmE3YmZiN2VkMjQ2ZjlmZjY3MjM4NWU1NWY0OTY4ZmMxMTA0M2RjNWI2ODRkNTFkZmEzMWRiY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg5ZGEzZDYwNGNiMDkxZGY2ZTYzZGIxMTZjZTBlMzBiMjg3NDA0YzNiMjU2MzY4ZGQ1MzM4MWFhMTJiYjExNTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVmNzRkODYzMTRkZTIxMTNmM2YwMTBhYWFmZDZkNTI5MjBmNTI2Njg2MTFiYjg4NzdlMDBkN2ZiZjI5MDIyZTcifQ"
+        },
+        {
+          "resource": "repo://src/lib/checklists/strings.ts#L55-L58",
+          "version": "repo-lines-v1:sha256:2dfac9045701e3713a9a6be859d6c4b2078d46cc2ec9f315d95f88c7133e6fa1:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjk4NTc2ZDVkZGQ0YTQ2NGM5ZjJmYjhmZmJjY2ZhNTQ2MmJlNTM0NzE0YjBiYjUxNDM0ZmUyMWNhZTQyMWRlZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzU3OTc1ZTcxYzFkMjEyZWNkNjg0NGI0NWRjN2YxNjE1ZDAyOGM4ODYyNGM0NGM4Y2ZjNTU2ZDY1ZWVmNmE3NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGUwOTAyMGQ3YmVmM2UxZmQ5ZTAxMWFhZGViNGIyMTIwOTgwODFkYTQ0ODg4OTViYzRkZDQyODVjYmM2MmI5YyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmRiYTY5OGJiYjMwMTRlMDAyYzAxYmU1YzBkODIxYzk1YWI5YzdkOWVmYWJjYmQyZWM5YzBlMjI2NDAzZDc5MSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_15455130a9a24d43b3650cf20e780118",
+      "statement": "When a step has several green marks, the import gives each closed step to the green that names its quest's step number, and throws when a closed step has no such green or more than one.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/checklists/to-checklist.ts#L196-L220",
+          "version": "repo-lines-v1:sha256:8e89055201a486a1d3d2856d0e636179a246e4b683bd1ab4dd6dbca3c17456a5:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdhZGFmZmYxNzhiYTkzNDAxMmEwMWQ4NTE5NmE4Y2E3OWY2OGM4YWRlN2IxMGFkYjIxM2JjNmIyYzY5ZTcxODMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYTY2YTQ2MDgzMTYxZDI1OTIzYWJkYzg5YTkwYjI5ODRjMDFjNTg3NzFhY2UzZmVmODc2YjFkZWQ1M2NhNjQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjViYzhkOTk5ODdmNDAxOGEwNDhmY2FkNjRhZTcyMjRkZmEyZDc5ZGZhZWNhYWViZDY3OGI3NTAxODE1OWM1ZGUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c2db63209bec4104888a1453976860ed",
+      "statement": "Saving or deleting a checklist expires both the checklists and dofus-guides cache tags, and a slug change adds a redirect from the old address.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/Checklists.ts#L520-L530",
+          "version": "repo-lines-v1:sha256:0ff185166e70cf7532ef6308aa75d741a97e511209a63a3f9b13d3a603436a56:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4ZmI4ZjdmMTk3MzVhZjI4ODNmODJiOWJjYzEyZmNjM2I4NTU5M2EyMjlhNjY2ZjU5YTk5YjcyNGY5YjFjMzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5Y2E4OTFiZmY3YWMxZjdjZWFhZTQwZWYwNTEwNjZiZTllZmU0N2I0ZTQyODFlODZjMzE5YmUyYzU1ZWJjZTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIwMjVjMDEyYWJhYjhkNTU3YWY0ZTdhOTk0ZmVjMTA1Mzc0YTg3MjdiMDk4YTE4NTI0MTZlZTRhYjQyZGNkMDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjcyNGVlZGEzYmUzZjI3ZDAzYWUxNmU2NDczY2FkNmI5ZWRkNGZkMzQzNGUwMWEwOGZiODQ0ZmJjMjJlOTZmOGEifQ"
+        },
+        {
+          "resource": "repo://src/collections/revalidate-guides.ts#L121-L133",
+          "version": "repo-lines-v1:sha256:15abdf3f07f149503efa2141dd797751e673e37034e80d95a642874d7eddb25d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJlMDNhMDU1NTllYzQwOTljZGRhODRjZmRmNDdmNGUxMTQ5MTViYjI3OTQzYzdiNmUzYjk3MDljMzY4ZTE4M2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY0MjIxZTgwNTBjZWEwMTI1NDc2OWM5NGRjMDUxNjBjZmJhNzBjMzBiNWUwM2Q3MWNmMTc3OWZiYzkyZTJmODkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjczZmFlOWFjZGQ2NWQ1ZDk4ODdhN2Y0ZjkzMDBiODBkN2YzNzU5YWRmZjA4ZGEyMzI0MzE0MTUzMWQ1MWU2ZTMifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-15T11:00:17.514Z"
+    "at": "2026-11-16T11:00:16.891Z"
   }
 }

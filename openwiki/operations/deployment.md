@@ -20,15 +20,15 @@ sources:
     resource: repo://tests/e2e/smoke.spec.ts
   - id: openwiki-source-6d7290acd85912e8a5ebb6cc
     resource: repo://tests/unit/railway-config.test.ts
-generated: { by: "claude-code", at: "2026-11-14T11:00:46.827Z" }
+generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-14T11:00:46.827Z
+    at: 2026-11-16T11:00:16.891Z
 ---
 
 # Deployment and releases
 
-The app runs as one long-lived Node container per environment on Railway: service `web`, environments `dev` and `production`. The same build serves both; behavior that differs (the dev `noindex` header, robots, the `/sistema` catalog, the Sentry environment) is read from the environment at runtime.
+The app runs as one long-lived Node container per environment on Railway: service `web`, environments `dev` and `production`. `dev` also has a `game-data` cron service that refreshes the DofusDB data once a week. The same build serves both; behavior that differs (the dev `noindex` header, robots, the `/sistema` catalog, the Sentry environment) is read from the environment at runtime.
 
 ```
 PR ──▶ CI (Pruebas required) ──▶ merge to main
@@ -56,7 +56,23 @@ The service is described as code with `railway/iac`. Railway does not read this 
 
 The function throws for any environment other than `dev` or `production` rather than guessing. Secrets use `preserve()`, which keeps the value stored in Railway and never writes one; `config apply` deletes undeclared variables, so declare a new variable here before creating it. See [Environment configuration](../architecture/configuration.md).
 
-`tests/unit/railway-config.test.ts` evaluates the file for both environments: build and start commands, migration with timeout, health check and restart policy, region, secrets preserved, dev wired to GitHub `main` with `checkSuites: false`, `APP_ENV=dev` and no basic-auth variables, production without a GitHub source and with `GIT_COMMIT_SHA` and `APP_VERSION`, and unknown environments rejected.
+### The weekly game data task (dev only)
+
+In `dev` the file also declares the `game-data` service, and the project lists it only there (`resources: dev ? [web, gameData] : [web]`):
+
+| Setting | Value |
+|---|---|
+| Source | GitHub `main` with `checkSuites: false`, like the web |
+| Build | Railpack with `RAILPACK_NODE_VERSION=24.22.2`; the build command only echoes, because `payload run` transpiles the script and the Next build is not needed |
+| Start | `pnpm data:refresh --schedule` |
+| Cron | `0 6 * * 3`: Wednesdays at 06:00 UTC, after Ankama's usual Tuesday patch |
+| Restart policy | `NEVER`: a failed run is not retried; it stays in «Refrescos de datos» until next week or the panel's «Traer ahora» |
+| Replicas | 1, in the same region |
+| Variables | References to the web's (`web.env.DATABASE_URL`, `PAYLOAD_SECRET`, `NEXT_PUBLIC_SITE_URL`, the `S3_*` set, `MEDIA_BASE_URL`, `SENTRY_DSN`) plus `APP_ENV=dev`, so no secret has to be created by hand |
+
+Railway starts the container at the scheduled time, runs the command and stops it, so it costs nothing between runs and Neon can sleep; once a week because each run wakes Neon for a few minutes. It never migrates: the web's pre-deploy migration owns the schema. Production has no such task yet, because it has no GitHub source; it needs a step in the release workflow first. The refresh it runs, its run log and its lock against a concurrent panel run are in [DofusDB game data refresh](../data/dofusdb-refresh.md).
+
+`tests/unit/railway-config.test.ts` evaluates the file for both environments: build and start commands, migration with timeout, health check and restart policy, region, secrets preserved, dev wired to GitHub `main` with `checkSuites: false`, `APP_ENV=dev` and no basic-auth variables, production without a GitHub source and with `GIT_COMMIT_SHA` and `APP_VERSION`, unknown environments rejected, and the dev `game-data` task (its weekly cron and command, no retry, deploying `main` without the Next build, the web's secrets by reference) with no such task in production.
 
 ### What protects a deploy
 

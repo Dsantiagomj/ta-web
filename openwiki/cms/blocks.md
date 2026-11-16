@@ -6,6 +6,10 @@ tags: [payload, blocks, quest-guides, lexical, content-model]
 sources:
   - id: openwiki-source-8037e2358a2c4f9b2c722a11
     resource: repo://AGENTS.md
+  - id: openwiki-source-5b54a58d1b51cd490b0e7162
+    resource: repo://package.json
+  - id: openwiki-source-df920c845ac739b66691fa24
+    resource: repo://scripts/build-block-thumbnails.ts
   - id: openwiki-source-4cb726c5c0ec08529a89bf26
     resource: repo://src/blocks/CalloutBlock.ts
   - id: openwiki-source-1e3208624c299657cbf60465
@@ -24,10 +28,16 @@ sources:
     resource: repo://src/collections/delete-guard.ts
   - id: openwiki-source-d58a4d3cf178bb2fa2e94831
     resource: repo://src/collections/Media.ts
+  - id: openwiki-source-85b41a41ce498767de963f3a
+    resource: repo://src/collections/Pages.ts
   - id: openwiki-source-38614666f550e90edceb8c65
     resource: repo://src/collections/prose-editor.ts
   - id: openwiki-source-7a2723ea85824e431ff5eb54
     resource: repo://src/collections/QuestGuides.ts
+  - id: openwiki-source-adf44973ef388bebd9654b5b
+    resource: repo://src/components/admin/ValidatedTextField.tsx
+  - id: openwiki-source-76694de563dbbd721057a4a7
+    resource: repo://src/lib/admin/block-thumbnails.ts
   - id: openwiki-source-7c8d27e389afcc66bc579a2f
     resource: repo://src/lib/guides/step-nav.ts
   - id: openwiki-source-2f2b90aba3af4142e443ba84
@@ -56,15 +66,15 @@ sources:
     resource: repo://tests/unit/quest-guides-collection.test.ts
   - id: openwiki-source-d474a682c3ea9ebeaa53059c
     resource: repo://tests/unit/video-url.test.ts
-generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
+generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-15T11:00:17.514Z
+    at: 2026-11-16T11:00:16.891Z
 ---
 
 # Guide body blocks
 
-A quest guide's body is a Payload `blocks` field: an ordered list where each item is one of a fixed set of block types. The block definitions live one per file in `src/blocks/`, and `src/collections/QuestGuides.ts` puts six of them in its `body` field, in this order: `RichTextBlock`, `ImageBlock`, `VideoBlock`, `CalloutBlock`, `FightBlock`, `StepBlock`. An editor in `/admin` adds, reorders and removes blocks freely; the panel labels the list "Contenido" and each item "Bloque". The field sits in the guide form's «Contenido» tab, one of three unnamed tabs («Contenido», «Resumen», «SEO») that only arrange the form, so the data path is still `body` (see [Guide authoring](guide-authoring.md)).
+A quest guide's body is a Payload `blocks` field: an ordered list where each item is one of a fixed set of block types. The block definitions live one per file in `src/blocks/`, and `src/collections/QuestGuides.ts` puts six of them in its `body` field, in this order: `RichTextBlock`, `ImageBlock`, `VideoBlock`, `CalloutBlock`, `FightBlock`, `StepBlock`. An editor in `/admin` adds, reorders and removes blocks freely; the panel labels the list "Contenido" and each item "Bloque". Standalone pages (`src/collections/Pages.ts`) offer the same six blocks in their own `body` (see [Standalone pages](../pages/standalone-pages.md)). The field sits in the guide form's «Contenido» tab, one of three unnamed tabs («Contenido», «Resumen», «SEO») that only arrange the form, so the data path is still `body` (see [Guide authoring](guide-authoring.md)).
 
 The public guide page at `/[slug]` renders them: `GuideBody` maps each block to a component (`Callout`, `Figure`, `VideoFacade`, `FightBlock`, the rich text renderer), and the steps render one after another, separated by a line. See [Public quest guide page](../frontend/guide-page.md).
 
@@ -91,13 +101,13 @@ Each block sets a `slug` (stored as the item's `blockType`), Spanish panel label
 
 ### Video
 
-`VideoBlock` stores a link to a YouTube video. Guides carry YouTube videos only: DESIGN.md records that all 44 video embeds in the legacy Squarespace pages are YouTube. The panel description reads "Enlace al vídeo en YouTube (youtube.com o youtu.be)". `validateVideoUrl` follows Payload's validator contract (return `true` or an error string):
+`VideoBlock` stores a link to a YouTube video. Guides carry YouTube videos only: DESIGN.md records that all 44 video embeds in the legacy Squarespace pages are YouTube. The panel description reads "Enlace al vídeo en YouTube (youtube.com o youtu.be)". `validateVideoUrl` (`src/lib/guides/video.ts`, re-exported from `VideoBlock.ts`) follows Payload's validator contract (return `true` or an error string):
 
 - an empty value (`undefined`, `null`, `''`) fails, because the URL is required;
 - a value that does not start with `https://` fails, so plain `http:` links and bare `youtube.com/...` strings are rejected;
 - otherwise the value passes only when `youtubeId` (`src/lib/guides/video.ts`) extracts an 11-character video ID from it. That accepts `youtube.com/watch?v=`, `youtu.be/`, `/embed/` and `/shorts/` links on the YouTube and `youtube-nocookie.com` hosts, and rejects other sites (Vimeo) and YouTube links that do not point at a video (a channel page, a `v=` value of the wrong length).
 
-Every failure returns the same Spanish message, "Tiene que ser un enlace https a un vídeo de YouTube".
+Every failure returns the same Spanish message, "Tiene que ser un enlace https a un vídeo de YouTube". The `url` field renders through `VideoUrlField` (`src/components/admin/ValidatedTextField.tsx`), which runs the same validator in the browser, so the message shows under the field before saving (see [Panel dashboard and editing aids](panel-editing-aids.md)).
 
 The block is meant to be rendered by `VideoFacade`, which loads nothing from YouTube until the reader clicks. See [Design system components](../frontend/design-system-components.md).
 
@@ -120,6 +130,12 @@ The step title existed until the `20261107_143215_remove_step_title` migration. 
 ## Video inside prose
 
 `ProseVideoBlock` (`src/blocks/ProseVideoBlock.ts`, `blockType` `proseVideo`) is not a body block. It is a Lexical block that the shared prose editor (`src/collections/prose-editor.ts`) adds to the default features through `BlocksFeature`, so Torre can drop a YouTube video between paragraphs of an achievement page's intro and outro. It has a required `url` (validated by the same `validateVideoUrl`), a required `title` (shown under the video and read by screen readers) and an optional `poster` upload; without a poster the facade shows the title. It is separate from `VideoBlock` because it carries its own poster. The page renders it as the video facade, so nothing loads from YouTube until a click. See [Achievement page](../achievements/achievement-page.md).
+
+## Picker thumbnails
+
+Each block sets `admin.images` through `blockImages(slug)` (`src/lib/admin/block-thumbnails.ts`), so Payload's block picker shows how the block looks on the site instead of a generic tile. The thumbnail is `/img/panel/bloques/<slug>.webp`, 480 × 320 (Payload asks for 3:2), with an alt text that describes what it shows. `ProseVideoBlock` also passes `icon: true` for a square SVG icon (`proseVideo-icono.svg`), because Lexical's slash menu would otherwise shrink the thumbnail to 20 px. The same list of slugs covers the Dofus guide part blocks and the «Necesitarás» rows (`needItem`, `needNote`, `dofusAchievement`, `dofusMetalogro`, `dofusQuests`, `dofusQuest`, `dofusNote`).
+
+The images are screenshots, not drawings. `pnpm panel:block-thumbs [--url http://localhost:3000]` (`scripts/build-block-thumbnails.ts`) opens `/sistema` in Arcano dark with reduced motion, finds each `[data-block-thumb="<slug>"]` frame of the catalog's «Bloques del panel» group, captures it at twice the size and writes the WebP to `public/img/panel/bloques`. It needs the app running with the catalog open (`pnpm dev`) and fails when a frame is missing. See [Component catalog](../frontend/component-catalog.md).
 
 ## How blocks are stored
 

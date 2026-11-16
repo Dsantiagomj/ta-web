@@ -18,6 +18,8 @@ sources:
     resource: repo://scripts/reset-dev-database.ts
   - id: openwiki-source-b8d2cb44b5c8224f8b87d0ce
     resource: repo://scripts/seed-e2e.ts
+  - id: openwiki-source-7a2723ea85824e431ff5eb54
+    resource: repo://src/collections/QuestGuides.ts
   - id: openwiki-source-2ad419cae2f45e97a3ca23d7
     resource: repo://src/lib/db/database-url.ts
   - id: openwiki-source-ad9e301a598e436556d400c8
@@ -66,6 +68,12 @@ sources:
     resource: repo://src/migrations/20261114_122659_checklist_ocre.ts
   - id: openwiki-source-16333d0c8d30d6015b723b83
     resource: repo://src/migrations/20261114_163904_needs_group_select.ts
+  - id: openwiki-source-e20f3144beaf2396b53ae227
+    resource: repo://src/migrations/20261115_171343_quest_objective_show.ts
+  - id: openwiki-source-e7198a0bc174c24caa0ef860
+    resource: repo://src/migrations/20261115_182043_game_data_torre_corrections.ts
+  - id: openwiki-source-5b463abd84facf2c65782464
+    resource: repo://src/migrations/20261115_234449_quest_guide_reward_levels.ts
   - id: openwiki-source-c306fbe28866186a2df852b4
     resource: repo://src/migrations/index.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
@@ -84,10 +92,10 @@ sources:
     resource: repo://tests/unit/database-url.test.ts
   - id: openwiki-source-da43a4e7d1afe009d8ad52b0
     resource: repo://tests/unit/migration-needs-group-select.test.ts
-generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
+generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-15T11:00:17.514Z
+    at: 2026-11-16T11:00:16.891Z
 ---
 
 # Database and migrations
@@ -154,7 +162,7 @@ This means E2E and CI exercise the same path as production: an empty database pl
 
 ## Migrations
 
-Migrations live in `src/migrations/` and are listed in `src/migrations/index.ts`. Each has a `.ts` file with `up` and `down` (raw SQL through `db.execute(sql\`…\`)`) and a `.json` snapshot Payload uses to compute the next diff. There are thirty-three today:
+Migrations live in `src/migrations/` and are listed in `src/migrations/index.ts`. Each has a `.ts` file with `up` and `down` (raw SQL through `db.execute(sql\`…\`)`) and a `.json` snapshot Payload uses to compute the next diff. There are forty-seven today:
 
 - `20261103_030359_initial` creates the `users`, `users_sessions`, `media`, `media_variants`, `media_locales` and Payload system tables (`payload_kv`, `payload_locked_documents`, `payload_preferences`, `payload_migrations` and their relation tables).
 - `20261104_070541_quests` adds the [quests collection](../cms/collections.md): `quests` with a unique index on `dofus_id`, `quests_locales`, `quests_rels` (for `prerequisites`), `quests_start_positions` and `quests_start_positions_locales`, plus a `quests_id` column on `payload_locked_documents_rels`. Its `down` drops all of them. It does not drop the `payload_locked_documents_rels_quests_fk` constraint separately, because `DROP TABLE "quests" CASCADE` already removes it and a second drop would make the rollback fail.
@@ -189,6 +197,18 @@ Migrations live in `src/migrations/` and are listed in `src/migrations/index.ts`
 - `20261114_122659_checklist_ocre` adds the checklist `kind` (`steps` or `souls`) and `soulsQuest`, and the monster and dungeon game data the souls page needs (grade levels, boss, archmonster, subarea, dungeon level).
 - `20261114_142119_checklist_cards` adds a checklist's index `card` and creates the `checklists_index` global. See [Checklists index](../checklists/checklists-index.md).
 - `20261114_163904_needs_group_select` turns a Dofus guide's «Necesitarás» group name from free text into the fixed list (`src/lib/dofus-guides/need-groups.ts`) without losing what Torre wrote: the old name stays as the group's subtitle (the locale column is renamed, not dropped), the group comes from the name («Combates», «1 x Mazmorra» go to their group, anything else to «otros»), a group without a name stays without one, and the copy in `importSnapshot` changes the same way so the import does not think Torre edited every guide. It logs each name and its group before writing, and copies the rule into the migration on purpose so it always does the same thing. `down` restores the names. `tests/unit/migration-needs-group-select.test.ts` checks the rule. See [Dofus guide data model](../dofus-guides/dofus-guide-data.md).
+- The fourteen migrations of 2026-11-15 follow one feature each:
+  - `20261115_132426_dofus_torre_quest_rows`: the quest rows Torre writes for each achievement and metalogro of a Dofus guide (`dofus_ach_quests`, `dofus_meta_ach_q`, with version twins and `dofus_guides_rels`; see [Dofus guide data model](../dofus-guides/dofus-guide-data.md)).
+  - `20261115_151745_pages`: the `pages` collection with its body block tables, locales and `_pages_v` versions (see [Standalone pages](../pages/standalone-pages.md)).
+  - `20261115_163339_checklist_step_dofus` and `20261115_174248_checklist_figure_name`: a checklist step's Dofus road and its figure's name (see [Checklist data and import](../checklists/checklist-data.md)).
+  - `20261115_171343_quest_objective_show`: adds the `show` objective kind before `fight`, kept apart from `bring`; `down` turns every `show` back into `bring` and rebuilds the enum without it.
+  - `20261115_175400_quest_guides_import_snapshot`: a quest guide's `import_snapshot` (see [Squarespace import](squarespace-import.md)).
+  - `20261115_182043_game_data_torre_corrections`: the `correction_*` columns and the `corrected` flag on the game data collections (see [Torre corrections to DofusDB data](torre-corrections.md)).
+  - `20261115_191357_editable_missing_fields`: what Torre could not yet edit, such as a quest guide's `summary_zone` and `summary_level`, a Dofus guide's `egg`, a checklist's `ambience`, `soulOverrides` and card crown, and an achievement page's `prerequisites`.
+  - `20261115_204940_quest_guide_rewards`, `20261115_234346_quest_rewards_by_level` and `20261115_234449_quest_guide_reward_levels`: a guide's structured rewards and the level tiers of quests and guides (see [Quest guide rewards](guide-rewards.md)). The guide's tier item table is named `qg_reward_level_items` through `dbName`, because the default names of its version tables exceed Postgres's 63 characters.
+  - `20261115_211541_slug_redirects`: the `redirects` table (see [Redirects, sitemap and robots](../operations/redirects-and-seo.md)).
+  - `20261115_213351_game_data_refreshes`: the refresh log (see [DofusDB game data refresh](dofusdb-refresh.md)).
+  - `20261115_215951_site_copy`: the `site_settings` and `index_texts` globals with their locales (see [Site settings and index texts](../cms/site-copy.md)).
 
 Every migration must roll back cleanly: if a `down` fails, a bad deploy has no way back. `tests/integration/migrations.test.ts` checks this. It runs the Payload CLI, `pnpm payload migrate:down` and then `pnpm payload migrate`, against the integration database with `DATABASE_CONNECTION=direct`. `migrate:down` reverts the last batch, which in the test database is every migration, newest first, and `migrate` applies them again, so the database ends as it started; the test asserts the output names the latest migration (the last entry in `src/migrations/index.ts`). Before rolling back it saves a checklist with a segment and an achievement row that use enum values added by later migrations (a «Nota» segment, an achievement «Hasta una misión»), because reverting the migration that added a value must not fail on rows that use it. It uses the CLI because Payload imports migration files with Node, not Vitest. It avoids `migrate:refresh`, which in Payload 3.92 rolls back oldest first and fails. When a command fails, the test rethrows with the CLI's stdout and stderr so the Postgres error is visible. Starting the CLI twice can pass the suite's 30 s default on a loaded machine, so this test has its own 180 s timeout.
 

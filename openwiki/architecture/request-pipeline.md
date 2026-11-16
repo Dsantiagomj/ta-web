@@ -10,6 +10,8 @@ sources:
     resource: repo://src/app/(frontend)/%5Bslug%5D/data.ts
   - id: openwiki-source-cb49e3c4d1015b8673e71275
     resource: repo://src/app/(frontend)/%5Bslug%5D/page.tsx
+  - id: openwiki-source-14ca87abed0f0ffc69067570
+    resource: repo://src/app/(frontend)/%5Bslug%5D/redirect-data.ts
   - id: openwiki-source-7a2845694b67f1018000b585
     resource: repo://src/app/(frontend)/layout.tsx
   - id: openwiki-source-e662deaf5fc4b6bc8b7128a5
@@ -40,10 +42,10 @@ sources:
     resource: repo://src/payload.config.ts
   - id: openwiki-source-f34ac1e549d94dc3ac475ae4
     resource: repo://src/proxy.ts
-generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
+generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-15T11:00:17.514Z
+    at: 2026-11-16T11:00:16.891Z
 ---
 
 # Request pipeline
@@ -58,7 +60,8 @@ request
        ├─ src/app/sitemap.ts              /sitemap.xml, computed per request, cached data
        ├─ src/app/(frontend)/…            public site (server components)
        │    ├─ page.tsx                   home page
-       │    ├─ [slug]                     quest guide, achievement page, Dofus guide or checklist
+       │    ├─ [slug]                     quest guide, achievement page, Dofus guide,
+       │    │                               standalone page or checklist; else slug redirect or 404
        │    ├─ metalogros                 metalogros index
        │    ├─ guias-dofus                Dofus guides index
        │    ├─ checklists                 checklists index
@@ -68,6 +71,7 @@ request
             ├─ admin/[[...segments]]      /admin panel
             ├─ api/[...slug]              REST + custom endpoints (/api/health, /api/ready,
             │                               /api/search/guides, /api/dofusdb-values,
+            │                               /api/game-data/refresh,
             │                               /api/checklists/:slug/details,
             │                               /api/checklists/poster-progress)
             ├─ api/graphql                GraphQL POST
@@ -90,12 +94,12 @@ It never asks for credentials and never queries the database.
 
 The App Router tree has two route groups, each with its own root layout.
 
-**`src/app/(frontend)/`** is the public site. Its layout reads the mode cookie, resolves the theme on the server, renders `<html lang="es" data-theme data-mode>` and injects the pre-paint mode script; see [Theme and mode](../frontend/theme-and-mode.md). It wraps every page in the site header and footer, and loads in parallel the header's guide counts (`loadSiteCounts`, `unstable_cache` under the `guide-pages` tag), the Dofus of the menu and search (`loadDofusNav`, under the `dofus-guides` tag, from the `dofus-guides` collection) and the checklists of the menu (`loadChecklistNav`, mapped from `loadChecklists` under the `checklists` tag); see [Site header, footer and search](../frontend/site-shell-and-search.md). Because it reads a cookie, every page renders per request; what is cached is the data.
+**`src/app/(frontend)/`** is the public site. Its layout reads the mode cookie, resolves the theme on the server, renders `<html lang="es" data-theme data-mode>` and injects the pre-paint mode script; see [Theme and mode](../frontend/theme-and-mode.md). It wraps every page in the site header and footer, adds the ambience particles (`Ambience`) after the footer, and loads in parallel, from `src/app/(frontend)/site-data.ts`, the header's guide counts (`loadSiteCounts`, `unstable_cache` under the `guide-pages` tag), the Dofus of the menu and search (`loadDofusNav`, under the `dofus-guides` tag, from the `dofus-guides` collection), the checklists of the menu (`loadChecklistNav`, mapped from `loadChecklists` under the `checklists` tag), the standalone pages for the footer's legal links (`loadPageNav`, under the `pages` tag) and «Ajustes del sitio» (`loadSiteSettings`, under the `site-copy` tag) for the footer, the social links and the site-wide metadata. Its `generateMetadata` builds `metadataBase` from `SITE_URL` and the site name, description and share image from those settings (see [Site settings and index texts](../cms/site-copy.md)); see [Site header, footer and search](../frontend/site-shell-and-search.md). Because it reads a cookie, every page renders per request; what is cached is the data.
 
 The group holds:
 
 - the [home page](../frontend/home-page.md) at `/`;
-- `/[slug]`, which tries in order a quest guide, a published achievement page, a published Dofus guide and a checklist, loading each once per request, and calls `notFound()` when none exists. A checklist «En preparación» redirects to its Squarespace page instead, and a souls checklist renders `SoulsView` instead of `ChecklistView`. Guides, achievement pages, metalogros, Dofus guides and checklists share one slug space, so they never collide. See [Public quest guide page](../frontend/guide-page.md), [Achievement page](../achievements/achievement-page.md), [Dofus guide page](../dofus-guides/dofus-guide-page.md) and [Checklist page](../checklists/checklist-page.md) and [Souls checklist](../checklists/souls-checklist.md);
+- `/[slug]`, which tries in order a quest guide, a published achievement page, a published Dofus guide, a standalone page and a checklist, loading each once per request. When none exists, `redirectOrNotFound` (`src/app/(frontend)/[slug]/redirect-data.ts`) looks the slug up in the cached table of changed slugs and answers a 308 to the page's current address, or calls `notFound()`; it runs last, so a page that takes an old address wins over its redirect row. A standalone page or checklist «En preparación» redirects to its Squarespace page instead, and a souls checklist renders `SoulsView` instead of `ChecklistView`. Guides, achievement pages, metalogros, Dofus guides, checklists and standalone pages share one slug space, so they never collide. See [Public quest guide page](../frontend/guide-page.md), [Achievement page](../achievements/achievement-page.md), [Dofus guide page](../dofus-guides/dofus-guide-page.md), [Standalone pages](../pages/standalone-pages.md), [Checklist page](../checklists/checklist-page.md), [Souls checklist](../checklists/souls-checklist.md) and [Redirects, sitemap and robots](../operations/redirects-and-seo.md);
 - the [metalogros index](../achievements/metalogros-index.md) at `/metalogros`;
 - the [Dofus guides index](../dofus-guides/dofus-guides-index.md) at `/guias-dofus`;
 - the [checklists index](../checklists/checklists-index.md) at `/checklists`;
@@ -112,11 +116,11 @@ AGENTS.md defines the conventions: server components by default, data fetched on
 
 `src/app/robots.ts` is marked `force-dynamic` so it is computed per request: the environment is only known when the container starts, not at build time. It returns `robotsFor(process.env)`, which disallows everything in dev and, elsewhere, allows everything except `/admin` and points to `<public origin>/sitemap.xml`.
 
-`src/app/sitemap.ts` is `force-dynamic` too, because the build has no database. Its data read (`readSitemapData`) goes through `unstable_cache` with the `guide-pages`, `achievement-pages`, `dofus-guides` and `checklists` tags, so publishing expires it like the pages themselves. See [Redirects, sitemap and robots](../operations/redirects-and-seo.md).
+`src/app/sitemap.ts` is `force-dynamic` too, because the build has no database. Its data read (`readSitemapData`) goes through `unstable_cache` with the `guide-pages`, `achievement-pages`, `dofus-guides`, `checklists` and `pages` tags, so publishing expires it like the pages themselves. See [Redirects, sitemap and robots](../operations/redirects-and-seo.md).
 
 ## 4. Custom endpoints
 
-Endpoints listed in the Payload config's `endpoints` array are mounted under `/api` by the REST catch-all route. `src/payload.config.ts` registers four:
+Endpoints listed in the Payload config's `endpoints` array are mounted under `/api` by the REST catch-all route. `src/payload.config.ts` registers five:
 
 | Endpoint | File | Purpose |
 |---|---|---|
@@ -124,6 +128,7 @@ Endpoints listed in the Payload config's `endpoints` array are mounted under `/a
 | `GET /api/ready` | `src/endpoints/ready.ts` | The database check, for deploy smoke checks and manual checks only |
 | `GET /api/search/guides` | `src/endpoints/search-index.ts` | The header and home page search index of published guides, fetched by the browser on first use. See [Site header, footer and search](../frontend/site-shell-and-search.md) |
 | `GET /api/dofusdb-values/:source/:id` | `src/endpoints/dofusdb-values.ts` | What DofusDB gives for an achievement page or a metalogro, for the panel notes; panel users only. See [Achievement data model](../achievements/achievement-data.md) |
+| `POST /api/game-data/refresh` | `src/endpoints/game-data-refresh.ts` | The panel's «Traer ahora»: starts a full DofusDB refresh in the server process; admins only. See [DofusDB game data refresh](../data/dofusdb-refresh.md) |
 
 A collection can mount its own endpoints under its slug. The `checklists` collection mounts two:
 

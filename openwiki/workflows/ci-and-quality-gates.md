@@ -38,10 +38,10 @@ sources:
     resource: repo://tests/unit/commit-msg.test.ts
   - id: openwiki-source-ced3a64571b8d5ee005bfe33
     resource: repo://tests/unit/gga-review-hook.test.ts
-generated: { by: "claude-code", at: "2026-11-15T11:00:17.514Z" }
+generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-15T11:00:17.514Z
+    at: 2026-11-16T11:00:16.891Z
 ---
 
 # CI and quality gates
@@ -56,7 +56,7 @@ Checks run in two places: git hooks on the developer's machine, and the `CI` wor
 
 Runs in order (`piped: true`) and stops at the first failure:
 
-1. **formato**: `prettier --write --ignore-unknown` on staged `ts, tsx, js, mjs, cjs, json, css, yml, yaml` files; fixes are re-staged. Markdown is not in the list, so doc tables keep their hand alignment. `.prettierignore` also skips every `*.md` file, the whole `openwiki/` directory, which OpenWiki generates, and `tests/fixtures/squarespace/`, the saved Squarespace pages the import parser reads as they are.
+1. **formato**: `prettier --write --ignore-unknown` on staged `ts, tsx, js, mjs, cjs, json, css, yml, yaml` files; fixes are re-staged. Markdown is not in the list, so doc tables keep their hand alignment. `.prettierignore` also skips every `*.md` file, the whole `openwiki/` directory, which OpenWiki generates, and the saved Squarespace pages the import parsers read as they are (`tests/fixtures/squarespace/`, `tests/fixtures/dofus-guides/` and `tests/fixtures/pages/`).
 2. **lint**: `eslint --fix` on staged JS/TS files; fixes are re-staged.
 3. **gga**: `scripts/hooks/gga-review.sh` runs `gga run`, an AI review of the staged files against `AGENTS.md`. If `gga` is not installed it prints a warning and lets the commit through. gga calls `claude --print` without a model, which would use Claude Code's default model, possibly an expensive one, so the hook exports `ANTHROPIC_MODEL` as `GGA_CLAUDE_MODEL` or `claude-sonnet-5-5`; an `ANTHROPIC_MODEL` already in the shell does not change it (`tests/unit/gga-review-hook.test.ts`).
 
@@ -105,7 +105,7 @@ The `changes` job decides which jobs a change needs. On a pull request it lists 
 | Scope | Files | Jobs |
 |---|---|---|
 | `docs` | `docs/`, `openwiki/`, and Markdown anywhere except `src/` and `public/` | `install`, `lint`, `audit` |
-| `offline` | What never enters the build or the E2E and Lighthouse servers: the import and redirect scripts, hooks and a few other scripts (the release review, `backfill-guides`, `refresh-quests`, `dungeon-notes`, `payload-script`, `media-sizes` and the `build-*` image scripts), `tests/unit`, `tests/integration`, fixtures, the Vitest, ESLint, lefthook, gga and Prettier configs, `.claude/`, `.railway/` | adds `typecheck`, `unit`, `integration` |
+| `offline` | What never enters the build or the E2E and Lighthouse servers: the import and redirect scripts, hooks and a few other scripts (the release review, `backfill-guides`, the guide reward and shown-items scripts (`backfill-guide-rewards`, `prefer-dofusdb-rewards`, `fix-reward-typos`, `backfill-shown-items`), `seed-site-copy`, `refresh-game-data`, `dungeon-notes`, `payload-script`, `media-sizes` and the `build-*` image scripts), `tests/unit`, `tests/integration`, fixtures, the Vitest, ESLint, lefthook, gga and Prettier configs, `.claude/`, `.railway/` | adds `typecheck`, `unit`, `integration` |
 | `full` | Everything else, including anything unrecognized | adds `build`, `e2e`, `lighthouse` |
 
 A push to `main`, an empty file list or a diff that cannot be computed runs everything (`CI_SCOPE_FULL=1`). The audit runs in every scope, so a new critical advisory blocks every PR. A new script under `scripts/` counts as `full` until it is added to the offline list. If the script writes no `jobs`, the job fails. `tests/unit/ci-scope.test.ts` covers the rules.
