@@ -93,7 +93,6 @@ test.describe('selector de tema', () => {
     // La lógica del menú llega con import() al primer clic.
     await expect(menu(page)).toBeVisible()
     await expect(picker(page)).toHaveAttribute('aria-expanded', 'true')
-    await expect(menu(page)).toBeVisible()
     const items = menu(page).getByRole('menuitemradio')
     await expect(items).toHaveText(NAMES)
     await expect(menu(page).getByRole('menuitemradio', { name: 'Amakna' })).toHaveAttribute(
