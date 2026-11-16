@@ -49,6 +49,8 @@ test.describe('tema antes del primer pintado', () => {
     })
     await page.goto(url)
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'brakmar')
+    // El servidor pintó Amakna en el botón; la isla de la cabecera lo pone al día.
+    await expect(picker(page)).toHaveAccessibleName('Tema: Brâkmar')
     const cookies = await context.cookies()
     expect(cookies.find((cookie) => cookie.name === 'ta-theme')?.value).toBe('brakmar')
   })
@@ -88,6 +90,8 @@ test.describe('selector de tema', () => {
   }) => {
     await open(page)
     await picker(page).click()
+    // La lógica del menú llega con import() al primer clic.
+    await expect(menu(page)).toBeVisible()
     await expect(picker(page)).toHaveAttribute('aria-expanded', 'true')
     await expect(menu(page)).toBeVisible()
     const items = menu(page).getByRole('menuitemradio')
@@ -105,6 +109,8 @@ test.describe('selector de tema', () => {
   }) => {
     await open(page)
     await picker(page).click()
+    // La lógica del menú llega con import() al primer clic.
+    await expect(menu(page)).toBeVisible()
     const swatches = menu(page).locator('[data-theme]')
     await expect(swatches).toHaveCount(4)
     const seen = new Set<string>()
@@ -126,6 +132,9 @@ test.describe('selector de tema', () => {
   }) => {
     await open(page)
     await picker(page).click()
+    // La lógica del menú llega con import() al primer clic.
+    await expect(menu(page)).toBeVisible()
+    await expect(menu(page).getByRole('menuitemradio', { name: 'Amakna' })).toBeFocused()
     await page.keyboard.press('ArrowDown')
     const arcano = menu(page).getByRole('menuitemradio', { name: 'Torrente Arcano' })
     await expect(arcano).toBeFocused()
@@ -155,14 +164,26 @@ test.describe('selector de tema', () => {
       page.evaluate(() => getComputedStyle(document.documentElement).backgroundColor)
     const before = await background()
     await picker(page).click()
+    // La lógica del menú llega con import() al primer clic.
+    await expect(menu(page)).toBeVisible()
     await menu(page).getByRole('menuitemradio', { name: 'Bonta' }).click()
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'bonta')
     await expect.poll(background).not.toBe(before)
   })
 
+  test('la flecha abajo en el botón abre el menú en el tema actual', async ({ page }) => {
+    await open(page)
+    await picker(page).focus()
+    await page.keyboard.press('ArrowDown')
+    await expect(menu(page)).toBeVisible()
+    await expect(menu(page).getByRole('menuitemradio', { name: 'Amakna' })).toBeFocused()
+  })
+
   test('Escape cierra y devuelve el foco al botón', async ({ page }) => {
     await open(page)
     await picker(page).click()
+    // La lógica del menú llega con import() al primer clic.
+    await expect(menu(page)).toBeVisible()
     await page.keyboard.press('Escape')
     await expect(menu(page)).toBeHidden()
     await expect(picker(page)).toHaveAttribute('aria-expanded', 'false')
@@ -172,6 +193,8 @@ test.describe('selector de tema', () => {
   test('un clic fuera cierra y devuelve el foco al botón', async ({ page }) => {
     await open(page)
     await picker(page).click()
+    // La lógica del menú llega con import() al primer clic.
+    await expect(menu(page)).toBeVisible()
     await page.mouse.click(700, 600)
     await expect(menu(page)).toBeHidden()
     await expect(picker(page)).toBeFocused()
@@ -182,6 +205,8 @@ test.describe('selector de tema', () => {
     await page.getByRole('switch', { name: 'Modo claro' }).click()
     await expect(page.locator('html')).toHaveAttribute('data-mode', 'light')
     await picker(page).click()
+    // La lógica del menú llega con import() al primer clic.
+    await expect(menu(page)).toBeVisible()
     for (const swatch of await menu(page).locator('[data-theme]').all()) {
       await expect(swatch).toHaveAttribute('data-mode', 'light')
     }
@@ -194,6 +219,8 @@ test.describe('selector de tema en un móvil', () => {
   test('el menú es un panel fijo bajo la cabecera, dentro de la pantalla', async ({ page }) => {
     await open(page)
     await picker(page).click()
+    // La lógica del menú llega con import() al primer clic.
+    await expect(menu(page)).toBeVisible()
     const header = (await page.locator('[data-site-header]').boundingBox())!
     const box = (await menu(page).boundingBox())!
     expect(box.y).toBeGreaterThanOrEqual(header.y + header.height)

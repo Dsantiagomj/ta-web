@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs'
+
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 
@@ -58,5 +60,20 @@ describe('strings del selector', () => {
       ocre: 'Ocre',
     })
     expect(themePickerLabel('brakmar')).toBe('Tema: Brâkmar')
+  })
+})
+
+describe('el JavaScript del selector', () => {
+  // Las páginas de guía están al borde de sus 150 KB (AGENTS.md, Next rules): el selector se
+  // pinta en el servidor y su lógica llega con import() al primer uso.
+  it('no es una isla: se pinta en el servidor', () => {
+    const source = readFileSync('src/components/theme-picker/ThemePicker.tsx', 'utf8')
+    expect(source).not.toMatch(/['"]use client['"]/)
+  })
+
+  it('la isla de la cabecera carga picker-ui solo con import()', () => {
+    const island = readFileSync('src/components/site/HeaderIsland.tsx', 'utf8')
+    expect(island).toContain("import('../theme-picker/picker-ui')")
+    expect(island).not.toMatch(/^import .*picker-ui/m)
   })
 })

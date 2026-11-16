@@ -15,6 +15,9 @@ const openers: { sheet: HTMLElement | null; search: HTMLElement | null } = {
   search: null,
 }
 
+/** El selector de tema (picker-ui.ts): se carga la primera vez que se usa su botón. */
+const themePicker = () => import('../theme-picker/picker-ui')
+
 function closePanels(except?: HTMLButtonElement, restore = false) {
   for (const button of document.querySelectorAll<HTMLButtonElement>('.np[aria-expanded="true"]')) {
     if (button === except) continue
@@ -145,6 +148,11 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
       if (panelButton) return togglePanel(panelButton)
       const search = target.closest<HTMLElement>('[data-open-search]')
       if (search) return openSearch(search)
+      const picker = target.closest<HTMLElement>('.tp-btn')?.parentElement
+      if (picker) {
+        closePanels()
+        return void themePicker().then((ui) => ui.toggle(picker))
+      }
       const burger = target.closest<HTMLElement>('[data-open-sheet]')
       if (burger && sheet) {
         openers.sheet = burger
@@ -176,6 +184,12 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
         event.preventDefault()
         return openSearch(document.activeElement as HTMLElement | null)
       }
+      const picker = (event.target as HTMLElement).closest?.('.tp-btn')?.parentElement
+      if (picker && (event.key === 'ArrowDown' || event.key === 'ArrowUp')) {
+        event.preventDefault()
+        const focus = event.key === 'ArrowUp' ? 'last' : 'checked'
+        return void themePicker().then((ui) => ui.open(picker, focus))
+      }
       const open = document.querySelector<HTMLButtonElement>('.np[aria-expanded="true"]')
       if (!open) return
       if (event.key === 'Escape') return closePanels(undefined, true)
@@ -197,6 +211,10 @@ export function HeaderIsland({ index }: { index: SearchEntry[] }) {
     const restoreSearch = restore('search')
 
     onScroll()
+    // El script del <head> pudo cambiar el tema desde localStorage: el selector se pone al día.
+    const picker = document.querySelector<HTMLElement>('[data-theme-picker]')
+    if (picker && picker.dataset.current !== document.documentElement.dataset.theme)
+      void themePicker().then((ui) => ui.sync(picker))
     // Las pruebas esperan a esta marca antes de usar el teclado.
     header?.setAttribute('data-ready', '')
     document.addEventListener('click', onClick)
