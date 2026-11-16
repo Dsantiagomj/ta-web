@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react'
 
+import { startTilt } from '@/components/ui/tilt'
 import { smoothUpdate } from '@/components/ui/view-transition'
 
 import type { IndexSearchData, IndexSearchResult } from '@/lib/achievements/metalogros-search'
@@ -36,6 +37,8 @@ function enhanceTiles(root: HTMLElement) {
     button.type = 'button'
     button.className = link.className
     button.dataset.zone = link.dataset.zone
+    // La ficha sigue inclinándose hacia el ratón como botón (data-tilt, startTilt).
+    if (link.hasAttribute('data-tilt')) button.dataset.tilt = ''
     button.innerHTML = link.innerHTML
     button.setAttribute('aria-expanded', 'false')
     button.setAttribute('aria-controls', region.id)
@@ -308,9 +311,12 @@ export function MetalogrosIsland() {
     if (!root) return
     const tiles = enhanceTiles(root)
     const stopSearch = enhanceSearch(tiles.openZone)
+    // Después de cambiar los enlaces por botones: se inclinan los botones.
+    const stopTilt = startTilt(root, window.matchMedia('(prefers-reduced-motion: reduce)'))
     return () => {
       tiles.cleanup()
       stopSearch()
+      stopTilt()
     }
   }, [])
   return null

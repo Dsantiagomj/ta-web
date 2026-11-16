@@ -9,6 +9,10 @@ import { seedAchievement as logro } from './seed/achievements.ts'
 
 const url = '/metalogros'
 
+/** «#45cdb9» como lo da getComputedStyle: «rgb(69, 205, 185)». */
+const hexToRgb = (hex: string) =>
+  `rgb(${[1, 3, 5].map((at) => parseInt(hex.slice(at, at + 2), 16)).join(', ')})`
+
 test.describe('índice de metalogros', () => {
   test('una ficha abre los logros de su zona en un panel, y el ancla la sigue', async ({
     page,
@@ -63,6 +67,68 @@ test.describe('índice de metalogros', () => {
     await input.press('ArrowDown')
     await input.press('Enter')
     await expect(page).toHaveURL(new RegExp(`/${logro.slug}$`))
+  })
+
+  // Las fichas que abren su zona se inclinan como las tarjetas de /guias-dofus (DESIGN.md,
+  // Metalogros index), con un brillo de su tono; la apagada no se mueve.
+  test.describe('con el ratón', () => {
+    test.use({ viewport: { width: 1440, height: 900 } })
+
+    test('la ficha se inclina hacia el puntero, con su brillo, y vuelve al salir', async ({
+      page,
+    }) => {
+      await page.goto(url)
+      const tile = page.locator('button.vd-tile[data-zone="astrub"]')
+      await expect(tile).toHaveAttribute('data-tilt', '')
+      const foil = tile.locator('.vd-tile__foil')
+      await expect(foil).toHaveCSS('opacity', '0')
+      const box = (await tile.boundingBox())!
+      await page.mouse.move(box.x + box.width * 0.9, box.y + box.height * 0.1)
+      await expect(tile).toHaveClass(/is-tilted/)
+      await expect(tile).toHaveAttribute('style', /perspective\(800px\) rotateY\(\d/)
+      await expect(foil).toHaveCSS('opacity', '1')
+      await page.mouse.move(0, 0)
+      await expect(tile).not.toHaveClass(/is-tilted/)
+      await expect(foil).toHaveCSS('opacity', '0')
+      // Abrirla con un clic sigue funcionando.
+      await tile.click()
+      await expect(tile).toHaveAttribute('aria-expanded', 'true')
+    })
+
+    test('la apagada no se inclina ni lleva brillo; con movimiento reducido, ninguna', async ({
+      page,
+    }) => {
+      await page.goto(url)
+      const off = page.locator('.vd-tile--off')
+      await expect(off).not.toHaveAttribute('data-tilt')
+      await expect(off.locator('.vd-tile__foil')).toHaveCount(0)
+      const offBox = (await off.boundingBox())!
+      await page.mouse.move(offBox.x + offBox.width * 0.9, offBox.y + offBox.height * 0.1)
+      await page.mouse.move(offBox.x + offBox.width * 0.8, offBox.y + offBox.height * 0.2)
+      await expect(off).not.toHaveClass(/is-tilted/)
+
+      await page.emulateMedia({ reducedMotion: 'reduce' })
+      await page.reload()
+      const tile = page.locator('button.vd-tile[data-zone="astrub"]')
+      const box = (await tile.boundingBox())!
+      await page.mouse.move(box.x + box.width * 0.9, box.y + box.height * 0.1)
+      await page.mouse.move(box.x + box.width * 0.8, box.y + box.height * 0.2)
+      await expect(tile).not.toHaveClass(/is-tilted/)
+      await expect(tile).toHaveCSS('transform', 'none')
+    })
+  })
+
+  test('cada ficha lleva su tono en el borde, y la apagada un borde de trazos', async ({
+    page,
+  }) => {
+    await page.goto(url)
+    const tile = page.locator('button.vd-tile[data-zone="astrub"]')
+    await expect(tile).toHaveCSS('border-top-width', '2px')
+    await expect(tile).toHaveCSS('border-top-style', 'solid')
+    const hue = await tile.evaluate((el) => getComputedStyle(el).getPropertyValue('--v').trim())
+    expect(hue).toMatch(/^#[0-9a-f]{6}$/)
+    await expect(tile).toHaveCSS('border-top-color', hexToRgb(hue))
+    await expect(page.locator('.vd-tile--off')).toHaveCSS('border-top-style', 'dashed')
   })
 
   test('el ancla abre su zona al llegar', async ({ page }) => {
