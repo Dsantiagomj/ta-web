@@ -73,6 +73,18 @@ describe('publishStatus', () => {
     }
   })
 
+  it('una clase o una mazmorra En preparación dice adónde lleva el menú, sin pedir Publicada', () => {
+    const preparing = (collection: string, legacyHref?: string) =>
+      publishStatus({ ...live, collection, published: { state: 'preparing', legacyHref } })
+    for (const collection of ['class-pages', 'dungeon-pages']) {
+      const legacy = preparing(collection, 'https://www.torrentearcano.com/feca-1')
+      expect(legacy.text).toBe('En la web: el menú lleva a la página de Squarespace')
+      expect(preparing(collection).text).toBe('En la web: el menú lleva a tu web antigua')
+      expect(legacy.detail).not.toContain('Publicada')
+      expect(preparing(collection).detail).not.toContain('Publicada')
+    }
+  })
+
   it('nunca publicada: es un borrador y no se ve', () => {
     const status = publishStatus({ ...live, published: null, unpublishedVersionCount: 3 })
     expect(status).toMatchObject({ tone: 'hidden', text: 'No se ve en la web: es un borrador' })

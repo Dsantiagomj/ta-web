@@ -40,6 +40,8 @@ function fakePayload(answers: Record<string, Record<string, unknown>[]> = {}) {
         ['dofus-guides', 'Guía de Dofus', 'Guías de Dofus'],
         ['checklists', 'Checklist', 'Checklists'],
         ['pages', 'Página', 'Páginas'],
+        ['class-pages', 'Clase', 'Clases'],
+        ['dungeon-pages', 'Mazmorra', 'Mazmorras'],
       ].map(([slug, singular, plural]) => [
         slug,
         { config: { slug, labels: { singular, plural } } },
@@ -125,7 +127,7 @@ describe('readDashboard', () => {
     }
   })
 
-  it('no hace más de 23 consultas, todas a la vez', async () => {
+  it('no hace más de 31 consultas, todas a la vez', async () => {
     let running = 0
     let most = 0
     // Con borradores y Dofus sin checklist: antes, esas consultas esperaban a otras.
@@ -144,7 +146,7 @@ describe('readDashboard', () => {
       return find(args)
     }
     await readDashboard(payload, user)
-    expect(calls.length).toBeLessThanOrEqual(23)
+    expect(calls.length).toBeLessThanOrEqual(31)
     expect(most).toBe(calls.length)
   })
 
@@ -159,9 +161,27 @@ describe('readDashboard', () => {
       'achievement-groups',
       'achievement-pages',
       'checklists',
+      'class-pages',
       'dofus-guides',
+      'dungeon-pages',
       'pages',
       'quest-guides',
+    ])
+  })
+
+  it('las clases y las mazmorras En preparación salen en su grupo', async () => {
+    const { payload } = fakePayload({
+      [key('class-pages', false, published)]: [
+        { id: 3, title: 'Feca', state: 'preparing', updatedAt: '2026-11-15T10:00:00Z' },
+      ],
+      [key('dungeon-pages', false, published)]: [
+        { id: 4, title: 'Crocantería', state: 'preparing', updatedAt: '2026-11-15T10:00:00Z' },
+      ],
+    })
+    const { preparing } = await readDashboard(payload, user)
+    expect(preparing.map((group) => [group.collection, group.label, group.total])).toEqual([
+      ['class-pages', 'Clases', 1],
+      ['dungeon-pages', 'Mazmorras', 1],
     ])
   })
 

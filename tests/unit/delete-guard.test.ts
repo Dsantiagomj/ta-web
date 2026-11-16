@@ -45,6 +45,19 @@ describe('REFERRERS', () => {
     })
   })
 
+  it('una build o una captura de una clase o una mazmorra no se borra sin avisar', () => {
+    expect(REFERRERS.media).toContainEqual({
+      collection: 'class-pages',
+      title: 'title',
+      paths: ['pvmBuilds.image', 'pvpBuilds.image', 'body.image'],
+    })
+    expect(REFERRERS.media).toContainEqual({
+      collection: 'dungeon-pages',
+      title: 'title',
+      paths: ['body.image'],
+    })
+  })
+
   it('una imagen de la tarjeta de una checklist (escena o PNJ) no se borra sin avisar', () => {
     const checklists = REFERRERS.media.find((referrer) => referrer.collection === 'checklists')
     expect(checklists?.paths).toEqual(expect.arrayContaining(['card.scene', 'card.npc']))

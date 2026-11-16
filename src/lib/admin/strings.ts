@@ -62,6 +62,12 @@ export const panelStrings = {
     pages:
       'Las páginas sueltas: emotes, cómo llegar a un sitio y los textos legales, con los ' +
       'bloques de las guías.',
+    'class-pages':
+      'Una página por clase: sus builds de PVM y PVP y su guía, si la escribes. Mientras no ' +
+      'tenga página aquí, el menú lleva a tu web antigua.',
+    'dungeon-pages':
+      'Una página por mazmorra: los monstruos, el jefe y tus consejos. Mientras no tenga ' +
+      'página aquí, el menú lleva a tu web antigua.',
     media: 'Todas las imágenes: las que subes tú y las del juego que trae DofusDB.',
     quests: correctable(
       'Las misiones de DofusDB, con sus etapas y recompensas. Las eliges en tus guías.',
@@ -299,6 +305,18 @@ export const panelStrings = {
         detail:
           'Está En preparación: su dirección y los enlaces del sitio llevan a la página de la ' +
           'web antigua. Cuando esté lista, pon «Visible en la web» en Publicada y publica.',
+      },
+      sectionPagesLegacy: {
+        text: 'En la web: el menú lleva a la página de Squarespace',
+        detail:
+          'Está En preparación: el menú lleva a esta página en la web antigua. Su página en ' +
+          'esta web llega más adelante.',
+      },
+      sectionPages: {
+        text: 'En la web: el menú lleva a tu web antigua',
+        detail:
+          'Está En preparación y sin «Enlace en Squarespace»: si el menú ya la tenía, sigue ' +
+          'llevando a la de siempre; si no, no sale. Su página en esta web llega más adelante.',
       },
       pages: {
         text: 'En la web: no se abre',

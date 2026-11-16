@@ -10,8 +10,10 @@ import { AchievementCategories } from './collections/AchievementCategories'
 import { AchievementGroups } from './collections/AchievementGroups'
 import { AchievementPages } from './collections/AchievementPages'
 import { Checklists } from './collections/Checklists'
+import { ClassPages } from './collections/ClassPages'
 import { Achievements } from './collections/Achievements'
 import { DofusGuides } from './collections/DofusGuides'
+import { DungeonPages } from './collections/DungeonPages'
 import { Dungeons } from './collections/Dungeons'
 import { GameDataRefreshes } from './collections/GameDataRefreshes'
 import { Items } from './collections/Items'
@@ -86,6 +88,8 @@ export default buildConfig({
     DofusGuides,
     Checklists,
     Pages,
+    ClassPages,
+    DungeonPages,
     Media,
     Quests,
     Items,
