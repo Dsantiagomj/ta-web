@@ -61,8 +61,10 @@ function Tile({ zone }: { zone: IndexZone }) {
           {inner}
         </div>
       ) : (
-        <a className="vd-tile" href={`#${zone.anchor}`} data-zone={zone.anchor}>
+        // Se inclina hacia el ratón (data-tilt, MetalogrosIsland) con un brillo de su tono.
+        <a className="vd-tile" href={`#${zone.anchor}`} data-zone={zone.anchor} data-tilt="">
           {inner}
+          <span className="vd-tile__foil" aria-hidden="true" />
         </a>
       )}
     </li>
