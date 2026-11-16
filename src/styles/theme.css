@@ -110,6 +110,13 @@
   --color-danger: var(--t-danger);
   --color-info: var(--t-info);
 
+  --color-discord: var(--t-discord);
+  --color-discord-hi: var(--t-discord-hi);
+  --color-discord-ink: var(--t-discord-ink);
+  --color-kofi: var(--t-kofi);
+  --color-kofi-hi: var(--t-kofi-hi);
+  --color-kofi-ink: var(--t-kofi-ink);
+
   --color-well: var(--t-well);
   --color-well-line: var(--t-well-line);
   --color-slot: var(--t-slot);
@@ -391,6 +398,29 @@
   --t-sec-herramientas: #2a5f93;
 }
 
+/* Los colores de marca del pie, iguales en todos los temas (opción D de Torre): el Discord
+   violeta con texto blanco y el Ko-fi dorado con tinta oscura, también para la taza, que en
+   el acento del tema no se leía sobre el oro. El hover del Discord oscuro es el violeta más
+   claro que aún da 4,5:1 con el blanco (el del prototipo, #8a63f0, daba 4,10). */
+:root,
+[data-mode='dark'] {
+  --t-discord: #7c52e8;
+  --t-discord-hi: #8259ec;
+  --t-discord-ink: #ffffff;
+  --t-kofi: #f2c14e;
+  --t-kofi-hi: #f6cf6e;
+  --t-kofi-ink: #241a00;
+}
+
+[data-mode='light'] {
+  --t-discord: #6a42d8;
+  --t-discord-hi: #7650e2;
+  --t-discord-ink: #ffffff;
+  --t-kofi: #f2c14e;
+  --t-kofi-hi: #f6cf6e;
+  --t-kofi-ink: #241a00;
+}
+
 /* Sombras: en modo claro, la mitad de alfa. */
 :root,
 [data-mode='dark'] {
@@ -454,6 +484,12 @@
     --color-warning: var(--t-warning);
     --color-danger: var(--t-danger);
     --color-info: var(--t-info);
+    --color-discord: var(--t-discord);
+    --color-discord-hi: var(--t-discord-hi);
+    --color-discord-ink: var(--t-discord-ink);
+    --color-kofi: var(--t-kofi);
+    --color-kofi-hi: var(--t-kofi-hi);
+    --color-kofi-ink: var(--t-kofi-ink);
     --color-well: var(--t-well);
     --color-well-line: var(--t-well-line);
     --color-slot: var(--t-slot);
