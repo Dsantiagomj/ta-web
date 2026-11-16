@@ -15,6 +15,7 @@ import { GAME_ICONS } from '@/components/game/game-icons'
 import { CHECKLISTS_INDEX_PATH } from '@/lib/checklists/path'
 import { DOFUS_INDEX_PATH } from '@/lib/dofus-guides/page'
 import type { PageNavItem } from '@/lib/pages/page'
+import { type SectionNavDoc, sectionNavLinks } from '@/lib/section-pages/nav'
 import { legacyHref } from '@/lib/site/legacy'
 import {
   navigationDefaults,
@@ -92,29 +93,46 @@ export interface ChecklistNavItem {
   image?: GameImage
 }
 
-// En la web de siempre, Feca y Yopuka llevan un -1 en el slug.
-export const CLASSES: NavLink[] = (Object.keys(t.classes) as (keyof typeof t.classes)[]).map(
-  (slug) => ({
-    name: t.classes[slug],
-    href: legacyHref(slug),
-    image: head(slug.replace(/-1$/, '')),
-  }),
+/** Una clase o una mazmorra de siempre, con el slug de su página en la web de Torre. */
+export type SectionLink = NavLink & { slug: string }
+
+const legacyLink = (slug: string, name: string, image?: GameImage): SectionLink => ({
+  slug,
+  name,
+  href: legacyHref(slug),
+  ...(image && { image }),
+})
+
+// Las de siempre: lo que sale sin nada en las colecciones de clases y mazmorras. En la web de
+// siempre, Feca y Yopuka llevan un -1 en el slug.
+export const CLASSES: SectionLink[] = (Object.keys(t.classes) as (keyof typeof t.classes)[]).map(
+  (slug) => legacyLink(slug, t.classes[slug], head(slug.replace(/-1$/, ''))),
 )
 
-export const DUNGEONS: NavLink[] = [
-  { name: t.dungeons.acuadomo, href: legacyHref('mazmorra-acuadomo-de-merkator') },
-  {
-    name: t.dungeons.crocanteria,
-    href: legacyHref('mazmorra-crunchidor'),
-    image: { src: '/img/game/jefes/crunchidor.webp', size: 120 },
-  },
-  { name: t.dungeons.fundicion, href: legacyHref('mazmorra-fundicion-de-los-waddictos') },
-  { name: t.dungeons.meno, href: legacyHref('mazmorra-nave-del-capitan-meno') },
-  { name: t.dungeons.nawidad, href: legacyHref('mazmorras-de-nawidad') },
-  { name: t.dungeons.pikabeto, href: legacyHref('pikabeto') },
-  { name: t.dungeons.kutulu, href: legacyHref('mazmorra-templo-de-kutulu') },
-  { name: t.dungeons.kao, href: legacyHref('mazmorra-templo-del-dios-kao') },
+export const DUNGEONS: SectionLink[] = [
+  legacyLink('mazmorra-acuadomo-de-merkator', t.dungeons.acuadomo),
+  legacyLink('mazmorra-crunchidor', t.dungeons.crocanteria, {
+    src: '/img/game/jefes/crunchidor.webp',
+    size: 120,
+  }),
+  legacyLink('mazmorra-fundicion-de-los-waddictos', t.dungeons.fundicion),
+  legacyLink('mazmorra-nave-del-capitan-meno', t.dungeons.meno),
+  legacyLink('mazmorras-de-nawidad', t.dungeons.nawidad),
+  legacyLink('pikabeto', t.dungeons.pikabeto),
+  legacyLink('mazmorra-templo-de-kutulu', t.dungeons.kutulu),
+  legacyLink('mazmorra-templo-del-dios-kao', t.dungeons.kao),
 ]
+
+/**
+ * Las clases del menú, de su colección (loadSectionNav): Publicada lleva a su página, En
+ * preparación a su enlace de Squarespace y, sin página, al de siempre. Sin ninguna, CLASSES.
+ */
+export const classLinks = (docs: SectionNavDoc[] = []): SectionLink[] =>
+  sectionNavLinks(CLASSES, docs)
+
+/** Las mazmorras del menú, de su colección, con la misma regla que las clases. */
+export const dungeonLinks = (docs: SectionNavDoc[] = []): SectionLink[] =>
+  sectionNavLinks(DUNGEONS, docs)
 
 /** Lo que va en el código de cada sección: su dirección, su icono y su color. */
 const SECTION_CODE: Record<SectionKey, Pick<Section, 'href' | 'icon' | 'accent'>> = {

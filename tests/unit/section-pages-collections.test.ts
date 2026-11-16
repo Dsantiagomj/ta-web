@@ -72,6 +72,11 @@ describe.each(BOTH)('colección %s', (slug, collection, singular, plural) => {
     expect(collection.hooks?.afterChange?.filter(isSlugMoveHook)).toHaveLength(1)
   })
 
+  it('caduca la caché del menú al guardar y al borrar', () => {
+    expect(collection.hooks?.afterChange).toHaveLength(2)
+    expect(collection.hooks?.afterDelete).toHaveLength(1)
+  })
+
   it('título, dirección de Squarespace y estado, en español', () => {
     expect(field(collection.fields, 'title')).toMatchObject({
       type: 'text',

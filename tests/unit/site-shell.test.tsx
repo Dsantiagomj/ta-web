@@ -68,6 +68,21 @@ const PREPARING = DOFUS.filter((d) => !d.href).map((d) => d.name)
 const READY = DOFUS.filter((d) => d.href)
 
 describe('los datos del menú', () => {
+  it('las cifras de clases y mazmorras siguen a sus listas; sin ellas, las de hoy', () => {
+    const custom = html(
+      <SiteHeader
+        counts={{ ...counts, classes: 18, dungeons: 9 }}
+        dofus={DOFUS}
+        checklists={CHECKLISTS}
+        initialMode="dark"
+      />,
+    )
+    expect(custom).toContain('Las <b>18</b> clases')
+    expect(custom).toContain('Las <b>9</b> mazmorras')
+    expect(header()).toContain(`Las <b>${CLASSES.length}</b> clases`)
+    expect(header()).toContain(`Las <b>${DUNGEONS.length}</b> mazmorras`)
+  })
+
   it('lista las 19 clases y las 8 mazmorras; los Dofus y las checklists llegan de sus colecciones', () => {
     expect(CLASSES).toHaveLength(19)
     expect(DUNGEONS).toHaveLength(8)
@@ -534,6 +549,27 @@ describe('la navegación de Torre (global Navegación)', () => {
         featured={featured}
       />,
     )
+
+  it('sin «Próximamente», Clases y Mazmorras enlazan su sección y cuentan sus listas', () => {
+    const open = resolveNavigation({
+      sections: [row('clases', { soon: false }), row('mazmorras', { soon: false })],
+    })
+    const markup = html(
+      <SiteHeader
+        counts={{ ...counts, classes: 18, dungeons: 9 }}
+        dofus={DOFUS}
+        checklists={CHECKLISTS}
+        initialMode="dark"
+        sections={open.sections}
+        featured={open.featured}
+      />,
+    )
+    expect(markup).not.toContain('class="np np--soon"')
+    expect(markup).toContain(`href="${LEGACY_SITE_ORIGIN}/clases-1"`)
+    expect(markup).toContain(`href="${LEGACY_SITE_ORIGIN}/mazmorra-crunchidor"`)
+    expect(markup).toContain('Las <b>18</b> clases')
+    expect(markup).toContain('Las <b>9</b> mazmorras')
+  })
 
   it('sin navegación guardada, la misma cabecera y el mismo pie que antes', () => {
     const none = resolveNavigation(null)

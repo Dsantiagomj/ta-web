@@ -4,7 +4,7 @@ import type { ReactNode } from 'react'
 
 import { Ambience } from '@/components/site/Ambience'
 import { SiteFooter } from '@/components/site/SiteFooter'
-import { legalLinks, TOP_ANCHOR } from '@/components/site/nav'
+import { classLinks, dungeonLinks, legalLinks, TOP_ANCHOR } from '@/components/site/nav'
 import { SiteHeader } from '@/components/site/SiteHeader'
 import { modeScript } from '@/lib/theme/mode-script'
 import { MODE_COOKIE, resolveMode, resolveTheme } from '@/lib/theme/theme'
@@ -18,6 +18,7 @@ import {
   loadDofusNav,
   loadNavigation,
   loadPageNav,
+  loadSectionNav,
   loadSiteCounts,
   loadSiteSettings,
 } from './site-data'
@@ -31,14 +32,18 @@ export default async function FrontendLayout({ children }: { children: ReactNode
   const mode = resolveMode((await cookies()).get(MODE_COOKIE)?.value)
   // Todavía no hay miembros: nadie tiene el derecho a un tema premium.
   const theme = resolveTheme(undefined, { premium: false })
-  const [counts, dofus, checklists, pages, settings, nav] = await Promise.all([
+  const [counts, dofus, checklists, pages, settings, nav, sectionNav] = await Promise.all([
     loadSiteCounts(),
     loadDofusNav(),
     loadChecklistNav(),
     loadPageNav(),
     loadSiteSettings(),
     loadNavigation(),
+    loadSectionNav(),
   ])
+  // Las listas de clases y mazmorras: de momento el menú solo enseña cuántas hay.
+  const classes = classLinks(sectionNav.classes)
+  const dungeons = dungeonLinks(sectionNav.dungeons)
 
   // data-scroll-behavior: el desplazamiento suave (globals.css) es para las anclas de la
   // página; Next lo apaga al cambiar de ruta, que salta arriba sin animación.
@@ -56,7 +61,7 @@ export default async function FrontendLayout({ children }: { children: ReactNode
       </head>
       <body id={TOP_ANCHOR}>
         <SiteHeader
-          counts={counts}
+          counts={{ ...counts, classes: classes.length, dungeons: dungeons.length }}
           dofus={dofus}
           checklists={checklists}
           pages={pages}
