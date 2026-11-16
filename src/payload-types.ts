@@ -73,6 +73,8 @@ export interface Config {
     'dofus-guides': DofusGuide;
     checklists: Checklist;
     pages: Page;
+    'class-pages': ClassPage;
+    'dungeon-pages': DungeonPage;
     media: Media;
     quests: Quest;
     items: Item;
@@ -98,6 +100,8 @@ export interface Config {
     'dofus-guides': DofusGuidesSelect<false> | DofusGuidesSelect<true>;
     checklists: ChecklistsSelect<false> | ChecklistsSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
+    'class-pages': ClassPagesSelect<false> | ClassPagesSelect<true>;
+    'dungeon-pages': DungeonPagesSelect<false> | DungeonPagesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     quests: QuestsSelect<false> | QuestsSelect<true>;
     items: ItemsSelect<false> | ItemsSelect<true>;
@@ -2022,6 +2026,150 @@ export interface Page {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Una página por clase: sus builds de PVM y PVP y su guía, si la escribes. Mientras no tenga página aquí, el menú lleva a tu web antigua.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "class-pages".
+ */
+export interface ClassPage {
+  id: number;
+  /**
+   * El título grande de la página.
+   */
+  title: string;
+  slug: string;
+  /**
+   * Su página en esta web llega más adelante: de momento déjala En preparación. Con «Enlace en Squarespace», el menú lleva a tu web antigua. Pulsa «Publicar cambios» arriba para que lo que cambies salga en la web.
+   */
+  state: 'published' | 'preparing';
+  /**
+   * La página en Squarespace mientras esta no esté lista. Deja de usarse al publicarla.
+   */
+  legacyHref?: string | null;
+  /**
+   * Quítalo para que no salga en la lista del menú.
+   */
+  inMenu?: boolean | null;
+  /**
+   * Opcional. Vacío: el nombre de siempre del menú o, si no tiene, el título.
+   */
+  menuName?: string | null;
+  /**
+   * Cada build es una imagen y, si quieres, el enlace al que lleva.
+   */
+  pvmBuilds?:
+    | {
+        /**
+         * Opcional: el nombre de la fila en el panel, como «Fuego».
+         */
+        name?: string | null;
+        image: number | Media;
+        /**
+         * Adónde lleva la imagen, como la build en Dofusbook.
+         */
+        link?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Cada build es una imagen y, si quieres, el enlace al que lleva.
+   */
+  pvpBuilds?:
+    | {
+        /**
+         * Opcional: el nombre de la fila en el panel, como «Fuego».
+         */
+        name?: string | null;
+        image: number | Media;
+        /**
+         * Adónde lleva la imagen, como la build en Dofusbook.
+         */
+        link?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Opcional: la guía de la clase, con los mismos bloques que las guías.
+   */
+  body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock | FightBlock | StepBlock)[] | null;
+  /**
+   * Opcional. Sin título SEO se usa el de la página; sin descripción, el principio del texto.
+   */
+  seo?: {
+    metaTitle?: string | null;
+    metaDescription?: string | null;
+  };
+  importSnapshot?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Una página por mazmorra: los monstruos, el jefe y tus consejos. Mientras no tenga página aquí, el menú lleva a tu web antigua.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "dungeon-pages".
+ */
+export interface DungeonPage {
+  id: number;
+  /**
+   * El título grande de la página.
+   */
+  title: string;
+  slug: string;
+  /**
+   * Su página en esta web llega más adelante: de momento déjala En preparación. Con «Enlace en Squarespace», el menú lleva a tu web antigua. Pulsa «Publicar cambios» arriba para que lo que cambies salga en la web.
+   */
+  state: 'published' | 'preparing';
+  /**
+   * La página en Squarespace mientras esta no esté lista. Deja de usarse al publicarla.
+   */
+  legacyHref?: string | null;
+  /**
+   * Quítalo para que no salga en la lista del menú.
+   */
+  inMenu?: boolean | null;
+  /**
+   * Opcional. Vacío: el nombre de siempre del menú o, si no tiene, el título.
+   */
+  menuName?: string | null;
+  /**
+   * Opcional: la mazmorra de DofusDB, con sus jefes y su nivel.
+   */
+  dungeon?: (number | null) | Dungeon;
+  /**
+   * El texto, las capturas y los vídeos, con los mismos bloques que las guías.
+   */
+  body?: (RichTextBlock | ImageBlock | VideoBlock | CalloutBlock | FightBlock | StepBlock)[] | null;
+  /**
+   * Opcional. Sin título SEO se usa el de la página; sin descripción, el principio del texto.
+   */
+  seo?: {
+    metaTitle?: string | null;
+    metaDescription?: string | null;
+  };
+  importSnapshot?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * Las zonas de DofusDB, con su área. Dan el nombre de los sitios de cada misión. De solo lectura: lo pone al día un script.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2177,6 +2325,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'pages';
         value: number | Page;
+      } | null)
+    | ({
+        relationTo: 'class-pages';
+        value: number | ClassPage;
+      } | null)
+    | ({
+        relationTo: 'dungeon-pages';
+        value: number | DungeonPage;
       } | null)
     | ({
         relationTo: 'media';
@@ -2871,6 +3027,87 @@ export interface PagesSelect<T extends boolean = true> {
   state?: T;
   legacyHref?: T;
   parent?: T;
+  body?:
+    | T
+    | {
+        richText?: T | RichTextBlockSelect<T>;
+        image?: T | ImageBlockSelect<T>;
+        video?: T | VideoBlockSelect<T>;
+        callout?: T | CalloutBlockSelect<T>;
+        fight?: T | FightBlockSelect<T>;
+        step?: T | StepBlockSelect<T>;
+      };
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+      };
+  importSnapshot?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "class-pages_select".
+ */
+export interface ClassPagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  state?: T;
+  legacyHref?: T;
+  inMenu?: T;
+  menuName?: T;
+  pvmBuilds?:
+    | T
+    | {
+        name?: T;
+        image?: T;
+        link?: T;
+        id?: T;
+      };
+  pvpBuilds?:
+    | T
+    | {
+        name?: T;
+        image?: T;
+        link?: T;
+        id?: T;
+      };
+  body?:
+    | T
+    | {
+        richText?: T | RichTextBlockSelect<T>;
+        image?: T | ImageBlockSelect<T>;
+        video?: T | VideoBlockSelect<T>;
+        callout?: T | CalloutBlockSelect<T>;
+        fight?: T | FightBlockSelect<T>;
+        step?: T | StepBlockSelect<T>;
+      };
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+      };
+  importSnapshot?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "dungeon-pages_select".
+ */
+export interface DungeonPagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  state?: T;
+  legacyHref?: T;
+  inMenu?: T;
+  menuName?: T;
+  dungeon?: T;
   body?:
     | T
     | {

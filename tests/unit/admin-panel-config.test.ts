@@ -106,6 +106,8 @@ describe('A-03: el orden del menú', () => {
       ...EDITORIAL,
       'checklists',
       'pages',
+      'class-pages',
+      'dungeon-pages',
       'dofus-guides-index',
       'checklists-index',
     ])
@@ -366,7 +368,15 @@ describe('cada campo que Torre ve tiene etiqueta propia', () => {
 
   it('en el contenido de Torre, ninguno sale con el nombre técnico que pondría Payload', () => {
     const content = sanitized.collections.filter((collection) =>
-      [...EDITORIAL, 'checklists', 'pages', 'media', 'users'].includes(collection.slug),
+      [
+        ...EDITORIAL,
+        'checklists',
+        'pages',
+        'class-pages',
+        'dungeon-pages',
+        'media',
+        'users',
+      ].includes(collection.slug),
     )
     const unlabelled = content
       .flatMap((collection) => visibleFields(collection.fields, collection.slug))

@@ -19,6 +19,8 @@ export const SLUG_REDIRECT_COLLECTIONS = [
   'dofus-guides',
   'checklists',
   'pages',
+  'class-pages',
+  'dungeon-pages',
 ] as const satisfies readonly RootSlugCollection[]
 
 export type SlugRedirectCollection = (typeof SLUG_REDIRECT_COLLECTIONS)[number]

@@ -43,6 +43,9 @@ function preparingText(collection: string, published: PublishedVersion) {
   const p = s.preparing
   if (collection === 'checklists') return published.legacyHref ? p.checklistsLegacy : p.checklists
   if (collection === 'pages') return published.legacyHref ? p.pagesLegacy : p.pages
+  if (collection === 'class-pages' || collection === 'dungeon-pages') {
+    return published.legacyHref ? p.sectionPagesLegacy : p.sectionPages
+  }
   if (collection === 'achievement-groups') return p['achievement-groups']
   if (collection === 'dofus-guides') return p['dofus-guides']
   return p['achievement-pages']

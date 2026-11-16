@@ -84,6 +84,8 @@ test.describe('el panel para Torre', () => {
       'Guías de Dofus',
       'Checklists',
       'Páginas',
+      'Clases',
+      'Mazmorras',
       'Índice de guías de Dofus',
       'Índice de checklists',
     ])

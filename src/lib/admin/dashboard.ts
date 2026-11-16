@@ -13,6 +13,8 @@ export const EDITORIAL_COLLECTIONS = [
   'dofus-guides',
   'checklists',
   'pages',
+  'class-pages',
+  'dungeon-pages',
 ] as const satisfies readonly CollectionSlug[]
 
 export type EditorialCollection = (typeof EDITORIAL_COLLECTIONS)[number]
@@ -211,25 +213,31 @@ export async function readDashboard(payload: Payload, user: User): Promise<Dashb
   // de ellas sale todo lo demás.
   const dofusGuides = find('dofus-guides', { where: PUBLISHED, sort: 'order', pagination: false })
   const checklists = find('checklists', { where: PUBLISHED, sort: 'order', pagination: false })
-  const sitePages = find('pages', { where: PUBLISHED, sort: '-updatedAt', pagination: false })
+  const latest = (collection: 'pages' | 'class-pages' | 'dungeon-pages') =>
+    find(collection, { where: PUBLISHED, sort: '-updatedAt', pagination: false })
 
-  const [collections, large, dofus, lists, pages] = await Promise.all([
+  const [collections, large, dofus, lists, pages, classes, dungeons] = await Promise.all([
     perCollection,
     preparingLarge,
     dofusGuides,
     checklists,
-    sitePages,
+    latest('pages'),
+    latest('class-pages'),
+    latest('dungeon-pages'),
   ])
 
   const byState = (docs: Doc[]) => docs.filter((doc) => doc.state === 'preparing')
-  const preparingDofus = byState(dofus.docs)
-  const preparingLists = byState(lists.docs)
-  const preparingPages = byState(pages.docs)
+  const small = (collection: EditorialCollection, docs: Doc[]) => {
+    const found = byState(docs)
+    return preparingGroup(collection, found, found.length)
+  }
   const preparing = [
     ...large,
-    preparingGroup('dofus-guides', preparingDofus, preparingDofus.length),
-    preparingGroup('checklists', preparingLists, preparingLists.length),
-    preparingGroup('pages', preparingPages, preparingPages.length),
+    small('dofus-guides', dofus.docs),
+    small('checklists', lists.docs),
+    small('pages', pages.docs),
+    small('class-pages', classes.docs),
+    small('dungeon-pages', dungeons.docs),
   ].filter((group) => group.total > 0)
 
   // La primera checklist publicada, en el orden de Torre, que apunta a cada Dofus.
