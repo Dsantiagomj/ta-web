@@ -117,6 +117,16 @@
   --color-kofi-hi: var(--t-kofi-hi);
   --color-kofi-ink: var(--t-kofi-ink);
 
+  --color-hue-1: var(--t-hue-1);
+  --color-hue-2: var(--t-hue-2);
+  --color-hue-3: var(--t-hue-3);
+  --color-hue-4: var(--t-hue-4);
+  --color-hue-5: var(--t-hue-5);
+  --color-hue-6: var(--t-hue-6);
+  --color-hue-7: var(--t-hue-7);
+  --color-hue-8: var(--t-hue-8);
+  --color-on-hue: var(--t-on-hue);
+
   --color-well: var(--t-well);
   --color-well-line: var(--t-well-line);
   --color-slot: var(--t-slot);
@@ -421,6 +431,36 @@
   --t-kofi-ink: #241a00;
 }
 
+/* Los ocho tonos de la variedad (opción D de Torre): cada elemento de una lista, una ficha o
+   un apartado de la cabecera lleva uno (--v), como texto de su título, borde o relleno.
+   Iguales en todos los temas: vivos en el oscuro, hondos en el claro; cada uno da al menos
+   4,5:1 sobre bg, surface y raised de cada tema en su modo. on-hue es la tinta sobre un
+   relleno de tono, también a 4,5:1 (tests/unit/theme-css.test.ts). */
+:root,
+[data-mode='dark'] {
+  --t-hue-1: #ff6b5a;
+  --t-hue-2: #f2c14e;
+  --t-hue-3: #b5e04a;
+  --t-hue-4: #5cb8ff;
+  --t-hue-5: #45cdb9;
+  --t-hue-6: #b08bff;
+  --t-hue-7: #ff9d47;
+  --t-hue-8: #ff7fb6;
+  --t-on-hue: #14110e;
+}
+
+[data-mode='light'] {
+  --t-hue-1: #c23a28;
+  --t-hue-2: #946400;
+  --t-hue-3: #4b7610;
+  --t-hue-4: #1d68ae;
+  --t-hue-5: #0f7a6a;
+  --t-hue-6: #6744c4;
+  --t-hue-7: #ad540c;
+  --t-hue-8: #b23672;
+  --t-on-hue: #ffffff;
+}
+
 /* Sombras: en modo claro, la mitad de alfa. */
 :root,
 [data-mode='dark'] {
@@ -490,6 +530,15 @@
     --color-kofi: var(--t-kofi);
     --color-kofi-hi: var(--t-kofi-hi);
     --color-kofi-ink: var(--t-kofi-ink);
+    --color-hue-1: var(--t-hue-1);
+    --color-hue-2: var(--t-hue-2);
+    --color-hue-3: var(--t-hue-3);
+    --color-hue-4: var(--t-hue-4);
+    --color-hue-5: var(--t-hue-5);
+    --color-hue-6: var(--t-hue-6);
+    --color-hue-7: var(--t-hue-7);
+    --color-hue-8: var(--t-hue-8);
+    --color-on-hue: var(--t-on-hue);
     --color-well: var(--t-well);
     --color-well-line: var(--t-well-line);
     --color-slot: var(--t-slot);
