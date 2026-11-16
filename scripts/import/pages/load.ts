@@ -5,7 +5,7 @@
 // «Visible en la web», no se tocan nunca. Una página con un borrador suyo a medias tampoco.
 import { ValidationError, type Payload } from 'payload'
 
-import { ROOT_SLUG_COLLECTIONS } from '@/collections/root-slug'
+import { ROOT_SLUG_COLLECTIONS, type RootSlugCollection } from '@/collections/root-slug'
 import { isLegacySource } from '@/lib/redirects/table'
 import { legacyHref } from '@/lib/site/legacy'
 
@@ -53,11 +53,11 @@ export interface LoadSitePagesReport {
 type Block = Record<string, unknown>
 type StoredPage = Record<string, unknown> & { id: number; slug: string; _status?: string | null }
 
-const same = (a: unknown, b: unknown) =>
+export const same = (a: unknown, b: unknown) =>
   JSON.stringify(comparable(a) ?? null) === JSON.stringify(comparable(b) ?? null)
 
 /** Vacío: nada guardado, o un valor sin nada dentro. */
-const isEmpty = (value: unknown) => {
+export const isEmpty = (value: unknown) => {
   const plain = comparable(value)
   return (
     plain === undefined ||
@@ -74,7 +74,7 @@ const isEmpty = (value: unknown) => {
  * aún no está en Media va con el ID 0: sirve para comparar y nunca se escribe. Una captura que
  * no se pudo traer se anota y se queda fuera.
  */
-async function buildBody(
+export async function buildBody(
   pieces: PagePiece[],
   name: string,
   upload: boolean,
@@ -243,15 +243,17 @@ const snapshotOf = (data: Values): Values =>
   Object.fromEntries(FIELDS.map((field) => [field, comparable(data[field]) ?? null]))
 
 /** Si Payload rechazó el slug (lo usa otra colección o la tabla de redirecciones). */
-const slugRejected = (error: ValidationError) =>
+export const slugRejected = (error: ValidationError) =>
   (error.data?.errors ?? []).some((problem) => problem.path === 'slug')
 
-const OTHER_ROOT_COLLECTIONS = ROOT_SLUG_COLLECTIONS.filter((collection) => collection !== 'pages')
-
 /** Si otra colección de la raíz, publicada o en borrador, o la tabla de redirecciones usa el slug. */
-async function takenElsewhere(payload: Payload, slug: string): Promise<boolean> {
+export async function takenElsewhere(
+  payload: Payload,
+  slug: string,
+  self: RootSlugCollection = 'pages',
+): Promise<boolean> {
   if (isLegacySource(slug)) return true
-  for (const collection of OTHER_ROOT_COLLECTIONS) {
+  for (const collection of ROOT_SLUG_COLLECTIONS.filter((other) => other !== self)) {
     const { docs } = await payload.find({
       collection,
       where: { slug: { equals: slug } },

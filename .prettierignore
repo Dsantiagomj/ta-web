@@ -23,6 +23,7 @@ openwiki/
 tests/fixtures/squarespace/
 tests/fixtures/dofus-guides/
 tests/fixtures/pages/
+tests/fixtures/section-pages/
 
 # Datos del Nebuloso copiados tal cual de silvestre-checklist: la importación de las checklists
 tests/fixtures/silvestre-checklist/

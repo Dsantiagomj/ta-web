@@ -10,7 +10,7 @@ import type { PageEntry } from './catalog'
 
 export type PagePiece =
   | { type: 'html'; html: string }
-  | { type: 'image'; url: string; alt: string }
+  | { type: 'image'; url: string; alt: string; link?: string }
   | { type: 'video'; url: string; title?: string }
 
 export interface ConvertedPage {
