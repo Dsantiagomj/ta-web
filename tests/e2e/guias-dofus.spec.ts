@@ -124,6 +124,37 @@ test.describe('índice de las guías de Dofus', () => {
     expect(look.family.replaceAll('"', '')).toBe('Lexend')
   })
 
+  // Opción D de Torre: el borde de 2px en el color de su Dofus, la apagada de trazos, y las
+  // etiquetas rellenas: «Evento» en el tono 6 y el primordial en el 2, con la tinta de los tonos.
+  test('cada tarjeta con el borde de su Dofus y las etiquetas rellenas de su tono', async ({
+    page,
+  }) => {
+    await page.goto('/guias-dofus')
+    const token = (name: string) =>
+      page.evaluate((n) => {
+        const probe = document.createElement('span')
+        probe.style.color = `var(${n})`
+        document.body.append(probe)
+        const value = getComputedStyle(probe).color
+        probe.remove()
+        return value
+      }, name)
+    const ocre = page.getByRole('link', { name: new RegExp(dofus.ocre.name) })
+    await expect(ocre).toHaveCSS('border-top-width', '2px')
+    await expect(ocre).toHaveCSS('border-top-color', 'rgb(209, 139, 35)')
+    await expect(ocre.locator('.dcard__tag')).toHaveCSS(
+      'background-color',
+      await token('--color-hue-2'),
+    )
+    await expect(ocre.locator('.dcard__tag')).toHaveCSS('color', await token('--color-on-hue'))
+    const off = page.locator('.dcard--off', { hasText: dofus.jyfus.name })
+    await expect(off).toHaveCSS('border-top-style', 'dashed')
+    await expect(off.locator('.dcard__tag')).toHaveCSS(
+      'background-color',
+      await token('--color-hue-6'),
+    )
+  })
+
   test('sin JavaScript se ven todas las tarjetas y no sale el buscador', async ({ browser }) => {
     const context = await browser.newContext({ javaScriptEnabled: false })
     const page = await context.newPage()
