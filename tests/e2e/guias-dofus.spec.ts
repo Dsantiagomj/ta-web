@@ -71,6 +71,31 @@ test.describe('índice de las guías de Dofus', () => {
     await expect(status).toHaveText('Ningún Dofus se llama «zurcarak».')
   })
 
+  test('los antetítulos del índice, de /checklists y de la portada van en el acento y Lexend', async ({
+    page,
+  }) => {
+    for (const [path, selector] of [
+      ['/guias-dofus', '.dg-eyebrow'],
+      ['/checklists', '.ck-eyebrow'],
+      ['/', '.hero__eyebrow'],
+    ]) {
+      await page.goto(path)
+      const look = await page.locator(selector).evaluate((el) => {
+        const probe = document.createElement('i')
+        probe.style.color = 'var(--color-accent)'
+        el.append(probe)
+        const accent = getComputedStyle(probe).color
+        probe.remove()
+        const s = getComputedStyle(el)
+        return {
+          accent: s.color === accent,
+          family: s.fontFamily.split(',')[0].replaceAll('"', ''),
+        }
+      })
+      expect(look, path).toEqual({ accent: true, family: 'Lexend' })
+    }
+  })
+
   test('el filtro elegido va sobre el relleno de los botones, con su tinta', async ({ page }) => {
     await page.goto('/guias-dofus')
     const all = page.getByRole('button', { name: 'Todos' })
