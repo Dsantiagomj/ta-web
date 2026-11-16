@@ -9,7 +9,7 @@ export interface TextElement {
 
 export type PageBlock =
   | { type: 'text'; elements: TextElement[] }
-  | { type: 'image'; url: string; alt: string }
+  | { type: 'image'; url: string; alt: string; link?: string }
   | { type: 'video'; url: string; title?: string }
   | { type: 'unknown'; sqspType: string }
 
@@ -72,7 +72,14 @@ function imageBlock(block: Element): PageBlock {
   const url = image?.getAttribute('data-image') || image?.getAttribute('data-src') || ''
   if (!image || !url) return { type: 'unknown', sqspType: 'image' }
   // Sin parámetros de tamaño: la URL del original es la que identifica la imagen.
-  return { type: 'image', url: url.split('?')[0]!, alt: image.getAttribute('alt')?.trim() ?? '' }
+  const found = {
+    type: 'image' as const,
+    url: url.split('?')[0]!,
+    alt: image.getAttribute('alt')?.trim() ?? '',
+  }
+  // Adónde lleva al pulsarla, si Torre le puso enlace (las builds de las clases).
+  const link = block.querySelector('a[href]')?.getAttribute('href')?.trim()
+  return link ? { ...found, link } : found
 }
 
 /** URL https del vídeo. Embedly envuelve el vídeo de YouTube y lleva la URL original en `url`. */
