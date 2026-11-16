@@ -377,17 +377,19 @@ test.describe('cabecera a 1120px', () => {
   })
 })
 
-test.describe('cabecera a 1360px, donde aparece el botón ancho de búsqueda', () => {
-  test.use({ viewport: { width: 1360, height: 800 } })
+test.describe('cabecera a 1440px, donde aparece el botón ancho de búsqueda', () => {
+  test.use({ viewport: { width: 1440, height: 800 } })
 
   test('el menú y la búsqueda caben sin tocarse', async ({ page }) => {
     await open(page)
     const nav = (await page.getByRole('navigation', { name: 'Principal' }).boundingBox())!
     const pill = (await page.locator('.spill').boundingBox())!
+    const theme = (await page.getByRole('button', { name: /^Tema: / }).boundingBox())!
     const mode = (await page.locator('.mode-switch').boundingBox())!
     expect(nav.x + nav.width).toBeLessThan(pill.x)
-    expect(pill.x + pill.width).toBeLessThanOrEqual(mode.x)
-    expect(mode.x + mode.width).toBeLessThanOrEqual(1360)
+    expect(pill.x + pill.width).toBeLessThanOrEqual(theme.x)
+    expect(theme.x + theme.width).toBeLessThanOrEqual(mode.x)
+    expect(mode.x + mode.width).toBeLessThanOrEqual(1440)
     expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBe(0)
   })
 })

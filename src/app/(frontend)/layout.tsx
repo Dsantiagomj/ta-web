@@ -68,6 +68,7 @@ export default async function FrontendLayout({ children }: { children: ReactNode
           checklists={checklists}
           pages={pages}
           initialMode={mode}
+          initialTheme={theme}
           socials={settings.socials}
           sections={nav.sections}
           featured={nav.featured}

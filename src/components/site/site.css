@@ -1,6 +1,8 @@
 /* El ambiente de lo alto de cada página (Ambience.tsx) viaja con la cabecera, que sale en
    todas: sin una hoja más que pedir (tests/e2e/hojas-de-estilo.spec.ts). */
 @import './ambience.css';
+/* El selector de tema, que también sale en todas las cabeceras. */
+@import '../theme-picker/theme-picker.css';
 
 /*
  * La cabecera y el pie de todo el sitio (DESIGN.md, Layout: Header y Footer), según el
@@ -109,6 +111,10 @@ html {
 @media (max-width: 22.49rem) {
   .site-hdr {
     margin-inline: 0.5rem !important;
+  }
+
+  .site-hdr__in {
+    gap: 0.25rem;
   }
 
   .site-hdr__act {
@@ -222,7 +228,8 @@ html {
   }
 }
 
-@media (min-width: 85rem) {
+/* La píldora ancha, desde 1440px: por debajo no cabe junto al menú y el selector de tema. */
+@media (min-width: 90rem) {
   .spill {
     display: inline-flex;
   }
