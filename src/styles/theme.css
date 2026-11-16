@@ -98,6 +98,12 @@
   --color-muted: var(--t-muted);
   --color-accent: var(--t-accent);
   --color-accent-2: var(--t-accent-2);
+  --color-btn: var(--t-btn);
+  --color-btn-hi: var(--t-btn-hi);
+  --color-btn-ink: var(--t-btn-ink);
+  --color-chip: var(--t-chip);
+  --color-chip-hi: var(--t-chip-hi);
+  --color-bar: var(--t-bar);
 
   --color-success: var(--t-success);
   --color-warning: var(--t-warning);
@@ -160,104 +166,156 @@
   --width-prose: 50rem;
 }
 
-/* Paletas: cinco temas, cada uno con modo oscuro y claro. Arcano oscuro también es el
-   valor de :root, para que una página sin atributos o con uno desconocido se vea bien. */
+/* Paletas: cinco temas, cada uno con modo oscuro y claro. Amakna, Arcano, Bonta y Brâkmar son
+   los de la opción D de Torre (tmp/mockups/color/final.css); el Ocre, premium, es el de antes.
+   btn, btn-hi y btn-ink: el relleno de los botones, al pasar el ratón y su texto; chip y
+   chip-hi: el de las píldoras; bar: el de la barra de la cabecera y el pie.
+   Amakna oscuro, el tema por defecto, también es el valor de :root, para que una página sin
+   atributos o con uno desconocido se vea bien. */
 
 :root,
+[data-theme='amakna'][data-mode='dark'] {
+  --t-bg: #14110e;
+  --t-surface: #1f1a16;
+  --t-raised: #2a241f;
+  --t-line: #3a332c;
+  --t-ink: #f6f2ea;
+  --t-ink-2: #d6cdc0;
+  --t-muted: #ab9f90;
+  --t-accent: #b5e04a;
+  --t-accent-2: #f2c14e;
+  --t-btn: #b5e04a;
+  --t-btn-hi: #c4ea62;
+  --t-btn-ink: #141a05;
+  --t-chip: #4a413a;
+  --t-chip-hi: #5a5048;
+  --t-bar: #000000;
+}
+
+[data-theme='amakna'][data-mode='light'] {
+  --t-bg: #f5f0e6;
+  --t-surface: #fffdf8;
+  --t-raised: #ebe3d5;
+  --t-line: #d5c9b5;
+  --t-ink: #1d1813;
+  --t-ink-2: #43392f;
+  --t-muted: #6b5f52;
+  --t-accent: #3f6d0c;
+  --t-accent-2: #8a5d00;
+  --t-btn: #a8d63c;
+  --t-btn-hi: #b7e24f;
+  --t-btn-ink: #172105;
+  --t-chip: #ddd1bd;
+  --t-chip-hi: #d2c4ad;
+  --t-bar: #fffdf8;
+}
+
 [data-theme='arcano'][data-mode='dark'] {
-  --t-bg: #0f0d1a;
-  --t-surface: #17142a;
-  --t-raised: #221e3b;
-  --t-line: #363160;
-  --t-ink: #ece9ff;
-  --t-ink-2: #bdb6e6;
-  --t-muted: #9089ba;
+  --t-bg: #110f1b;
+  --t-surface: #1b1828;
+  --t-raised: #252136;
+  --t-line: #383252;
+  --t-ink: #f1eeff;
+  --t-ink-2: #cdc6e8;
+  --t-muted: #9d95bd;
   --t-accent: #6fe3ff;
   --t-accent-2: #c79bff;
+  --t-btn: #6fe3ff;
+  --t-btn-hi: #94ebff;
+  --t-btn-ink: #06222b;
+  --t-chip: #3b3456;
+  --t-chip-hi: #4a4268;
+  --t-bar: #07060d;
 }
 
 [data-theme='arcano'][data-mode='light'] {
-  --t-bg: #f4f2fb;
+  --t-bg: #f3f1fa;
   --t-surface: #ffffff;
-  --t-raised: #e9e5f7;
-  --t-line: #c9c2e6;
+  --t-raised: #e7e3f5;
+  --t-line: #cdc6e6;
   --t-ink: #1b1630;
   --t-ink-2: #3f3763;
   --t-muted: #5f5782;
   --t-accent: #0a6a85;
   --t-accent-2: #6b3fc0;
-}
-
-[data-theme='amakna'][data-mode='dark'] {
-  --t-bg: #0c120e;
-  --t-surface: #131c16;
-  --t-raised: #1c2a21;
-  --t-line: #2c4033;
-  --t-ink: #eef3e8;
-  --t-ink-2: #c3d1bd;
-  --t-muted: #90a48b;
-  --t-accent: #a3dd5e;
-  --t-accent-2: #f2c86b;
-}
-
-[data-theme='amakna'][data-mode='light'] {
-  --t-bg: #f3f5ec;
-  --t-surface: #fdfef9;
-  --t-raised: #e6ecdb;
-  --t-line: #c3cfb2;
-  --t-ink: #172014;
-  --t-ink-2: #34452d;
-  --t-muted: #54644c;
-  --t-accent: #3a6812;
-  --t-accent-2: #875a0c;
+  --t-btn: #0a6a85;
+  --t-btn-hi: #0d7c9b;
+  --t-btn-ink: #ffffff;
+  --t-chip: #d9d2ee;
+  --t-chip-hi: #cdc4e8;
+  --t-bar: #ffffff;
 }
 
 [data-theme='bonta'][data-mode='dark'] {
-  --t-bg: #0c1220;
-  --t-surface: #131b2e;
-  --t-raised: #1b2640;
-  --t-line: #2c3b5c;
-  --t-ink: #eef2fb;
-  --t-ink-2: #bfc9de;
-  --t-muted: #8c99b5;
+  --t-bg: #0e1320;
+  --t-surface: #171f31;
+  --t-raised: #20293f;
+  --t-line: #323f5c;
+  --t-ink: #eef3fc;
+  --t-ink-2: #c4cde0;
+  --t-muted: #8f9bb6;
   --t-accent: #8fb8ff;
   --t-accent-2: #f0c75e;
+  --t-btn: #8fb8ff;
+  --t-btn-hi: #a8c8ff;
+  --t-btn-ink: #0a1730;
+  --t-chip: #2f3b57;
+  --t-chip-hi: #3b4969;
+  --t-bar: #060912;
 }
 
 [data-theme='bonta'][data-mode='light'] {
-  --t-bg: #f3f5fa;
+  --t-bg: #f2f5fb;
   --t-surface: #ffffff;
-  --t-raised: #e5eaf4;
-  --t-line: #c3cde0;
+  --t-raised: #e3e9f5;
+  --t-line: #c5cfe2;
   --t-ink: #111a2c;
   --t-ink-2: #33415c;
   --t-muted: #55627d;
   --t-accent: #1f4fa8;
   --t-accent-2: #8a5d00;
+  --t-btn: #1f4fa8;
+  --t-btn-hi: #2a5ebf;
+  --t-btn-ink: #ffffff;
+  --t-chip: #d3dcee;
+  --t-chip-hi: #c6d1e8;
+  --t-bar: #ffffff;
 }
 
 [data-theme='brakmar'][data-mode='dark'] {
-  --t-bg: #130c0c;
-  --t-surface: #1c1212;
-  --t-raised: #281a19;
-  --t-line: #42292a;
-  --t-ink: #f6ecea;
-  --t-ink-2: #d6c1be;
-  --t-muted: #a8908c;
-  --t-accent: #ff5f52;
+  --t-bg: #150d0c;
+  --t-surface: #211514;
+  --t-raised: #2d1d1b;
+  --t-line: #48302d;
+  --t-ink: #f8eeec;
+  --t-ink-2: #dac5c1;
+  --t-muted: #ad938e;
+  --t-accent: #ff6a52;
   --t-accent-2: #ffb347;
+  --t-btn: #ff6a52;
+  --t-btn-hi: #ff8470;
+  --t-btn-ink: #2a0703;
+  --t-chip: #4a2f2b;
+  --t-chip-hi: #5c3a35;
+  --t-bar: #070302;
 }
 
 [data-theme='brakmar'][data-mode='light'] {
-  --t-bg: #f7f1ef;
+  --t-bg: #f8f1ee;
   --t-surface: #ffffff;
-  --t-raised: #efe3e0;
-  --t-line: #d6c1bc;
+  --t-raised: #f0e3df;
+  --t-line: #dbc5bf;
   --t-ink: #22120f;
   --t-ink-2: #4b2c27;
   --t-muted: #6e4f49;
   --t-accent: #a8231a;
   --t-accent-2: #8a4f00;
+  --t-btn: #b3261c;
+  --t-btn-hi: #c8342a;
+  --t-btn-ink: #ffffff;
+  --t-chip: #e8d2cc;
+  --t-chip-hi: #dfc4bd;
+  --t-bar: #ffffff;
 }
 
 [data-theme='ocre'][data-mode='dark'] {
@@ -270,6 +328,12 @@
   --t-muted: #a8977a;
   --t-accent: #ffb534;
   --t-accent-2: #ff8a5c;
+  --t-btn: #ffb534;
+  --t-btn-hi: #ffc35a;
+  --t-btn-ink: #2a1a00;
+  --t-chip: #4a3b25;
+  --t-chip-hi: #5a4830;
+  --t-bar: #080603;
 }
 
 [data-theme='ocre'][data-mode='light'] {
@@ -282,6 +346,12 @@
   --t-muted: #6b5838;
   --t-accent: #8a5300;
   --t-accent-2: #a3410f;
+  --t-btn: #8a5300;
+  --t-btn-hi: #a06200;
+  --t-btn-ink: #ffffff;
+  --t-chip: #e6d4ae;
+  --t-chip-hi: #dcc79c;
+  --t-bar: #fffaf0;
 }
 
 :root,
@@ -366,6 +436,12 @@
     --color-muted: var(--t-muted);
     --color-accent: var(--t-accent);
     --color-accent-2: var(--t-accent-2);
+    --color-btn: var(--t-btn);
+    --color-btn-hi: var(--t-btn-hi);
+    --color-btn-ink: var(--t-btn-ink);
+    --color-chip: var(--t-chip);
+    --color-chip-hi: var(--t-chip-hi);
+    --color-bar: var(--t-bar);
     --color-success: var(--t-success);
     --color-warning: var(--t-warning);
     --color-danger: var(--t-danger);

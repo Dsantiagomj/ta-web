@@ -97,7 +97,7 @@ describe('los colores del 410', () => {
   it('son los de Arcano en theme.css, en los dos modos', () => {
     const css = readFileSync('src/styles/theme.css', 'utf8')
     const block = (selector: string) => css.slice(css.indexOf(selector)).split('}')[0]
-    const dark = block(":root,\n[data-theme='arcano'][data-mode='dark']")
+    const dark = block("[data-theme='arcano'][data-mode='dark']")
     const light = block("[data-theme='arcano'][data-mode='light']")
     for (const [mode, tokens] of [
       ['dark', dark],

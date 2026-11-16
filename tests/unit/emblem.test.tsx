@@ -14,9 +14,9 @@ describe('readPalette', () => {
   it('lee los valores crudos de cada tema y modo de theme.css', () => {
     expect(Object.keys(palette)).toHaveLength(10)
     expect(palette['arcano-dark']).toMatchObject({
-      bg: '#0f0d1a',
+      bg: '#110f1b',
       accent: '#6fe3ff',
-      ink: '#ece9ff',
+      ink: '#f1eeff',
     })
     expect(palette['ocre-light'].bg).toMatch(/^#[0-9a-f]{6}$/)
   })
