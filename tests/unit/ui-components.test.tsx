@@ -162,6 +162,13 @@ describe('Picture', () => {
     expect(markup).toMatch(/<img [^>]*src="\/img\/b-800\.webp"[^>]*width="800"[^>]*height="400"/)
   })
 
+  it('sin AVIF (un GIF animado) no escribe su source: el navegador toma el WebP', () => {
+    const { avif: _avif, avifSrcSet: _avifSrcSet, ...webpOnly } = responsive
+    const markup = html(<Picture image={webpOnly} alt="" sizes="100vw" />)
+    expect(markup).not.toContain('<source')
+    expect(markup).toMatch(/<img [^>]*srcSet="\/img\/b-480\.webp 480w, \/img\/b-800\.webp 800w"/)
+  })
+
   it('con un solo ancho no escribe srcset ni sizes', () => {
     const markup = html(<Picture image={image} alt="" sizes="100vw" />)
     expect(markup).not.toMatch(/srcSet="[^"]* \d+w/)
