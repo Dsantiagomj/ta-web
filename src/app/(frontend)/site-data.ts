@@ -14,7 +14,7 @@ import { pageNavItems } from '@/lib/pages/page'
 import { readPageNav } from '@/lib/pages/queries'
 import { countSiteGuides } from '@/lib/site/counts'
 import { SITE_COPY_REVALIDATE, SITE_COPY_TAG } from '@/lib/site-copy/cache'
-import { readIndexTexts, readSiteSettings } from '@/lib/site-copy/queries'
+import { readIndexTexts, readNavigation, readSiteSettings } from '@/lib/site-copy/queries'
 
 // Las cifras de la cabecera cambian cuando cambian las guías: la misma etiqueta de caché
 // que las páginas de guía, que los hooks de quest-guides caducan al guardar.
@@ -72,4 +72,13 @@ export const loadIndexTexts = unstable_cache(
   async () => readIndexTexts(await getPayload({ config })),
   ['index-texts'],
   { tags: [SITE_COPY_TAG], revalidate: SITE_COPY_REVALIDATE },
+)
+
+// «Navegación»: las secciones del menú, el pie y la portada, y los Dofus de la tarjeta del
+// menú. Caduca al guardarla (la etiqueta de los textos del sitio) y con las guías de Dofus y sus
+// huevos, de donde salen los destacados.
+export const loadNavigation = unstable_cache(
+  async () => readNavigation(await getPayload({ config })),
+  ['navigation'],
+  { tags: [SITE_COPY_TAG, DOFUS_GUIDES_TAG], revalidate: SITE_COPY_REVALIDATE },
 )

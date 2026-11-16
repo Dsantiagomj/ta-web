@@ -16,6 +16,7 @@ import '@/styles/globals.css'
 import {
   loadChecklistNav,
   loadDofusNav,
+  loadNavigation,
   loadPageNav,
   loadSiteCounts,
   loadSiteSettings,
@@ -30,12 +31,13 @@ export default async function FrontendLayout({ children }: { children: ReactNode
   const mode = resolveMode((await cookies()).get(MODE_COOKIE)?.value)
   // Todavía no hay miembros: nadie tiene el derecho a un tema premium.
   const theme = resolveTheme(undefined, { premium: false })
-  const [counts, dofus, checklists, pages, settings] = await Promise.all([
+  const [counts, dofus, checklists, pages, settings, nav] = await Promise.all([
     loadSiteCounts(),
     loadDofusNav(),
     loadChecklistNav(),
     loadPageNav(),
     loadSiteSettings(),
+    loadNavigation(),
   ])
 
   // data-scroll-behavior: el desplazamiento suave (globals.css) es para las anclas de la
@@ -60,9 +62,16 @@ export default async function FrontendLayout({ children }: { children: ReactNode
           pages={pages}
           initialMode={mode}
           socials={settings.socials}
+          sections={nav.sections}
+          featured={nav.featured}
         />
         {children}
-        <SiteFooter year={new Date().getFullYear()} legal={legalLinks(pages)} settings={settings} />
+        <SiteFooter
+          year={new Date().getFullYear()}
+          legal={legalLinks(pages)}
+          settings={settings}
+          sections={nav.sections}
+        />
         <Ambience />
       </body>
     </html>

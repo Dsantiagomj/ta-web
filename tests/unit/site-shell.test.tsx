@@ -11,11 +11,13 @@ import {
   SOCIALS,
   TOP_ANCHOR,
   searchIndex,
+  section,
 } from '@/components/site/nav'
 import { SiteFooter } from '@/components/site/SiteFooter'
 import { ChecklistCards, SiteHeader, Well } from '@/components/site/SiteHeader'
 import { searchNav } from '@/components/site/search'
 import { LEGACY_SITE_ORIGIN } from '@/lib/site/legacy'
+import { resolveNavigation } from '@/lib/site-copy/navigation'
 import { resolveSiteSettings } from '@/lib/site-copy/resolve'
 
 const html = (node: React.ReactNode) => renderToStaticMarkup(node)
@@ -502,5 +504,103 @@ describe('SiteFooter con los Ajustes del sitio', () => {
     expect(sheet).toContain('href="https://kick.com/otro"')
     expect(sheet).toContain('href="https://ko-fi.com/otro"')
     expect(sheet).not.toContain('https://kick.com/torretv')
+  })
+})
+
+describe('la navegación de Torre (global Navegación)', () => {
+  const row = (key: string, extra: Record<string, unknown> = {}) => ({ id: key, key, ...extra })
+  const nav = resolveNavigation({
+    sections: [
+      row('dofus'),
+      row('misiones', { label: 'Guías', title: 'Todas las guías', description: 'Paso a paso.' }),
+      row('checklists'),
+      row('clases', { visible: false }),
+      row('mazmorras', { soon: false, description: 'Las de siempre.' }),
+    ],
+  })
+  const featured = [
+    { src: '/media/a.webp', size: 128 },
+    { src: '/media/b.webp', size: 128 },
+    { src: '/media/c.webp', size: 128 },
+  ]
+  const custom = () =>
+    html(
+      <SiteHeader
+        counts={counts}
+        dofus={DOFUS}
+        checklists={CHECKLISTS}
+        initialMode="dark"
+        sections={nav.sections}
+        featured={featured}
+      />,
+    )
+
+  it('sin navegación guardada, la misma cabecera y el mismo pie que antes', () => {
+    const none = resolveNavigation(null)
+    expect(
+      html(
+        <SiteHeader
+          counts={counts}
+          dofus={DOFUS}
+          checklists={CHECKLISTS}
+          initialMode="dark"
+          sections={none.sections}
+          featured={none.featured}
+        />,
+      ),
+    ).toBe(header())
+    expect(html(<SiteFooter year={2026} sections={none.sections} />)).toBe(footer())
+  })
+
+  it('la cabecera sigue su orden, sus nombres y quita lo oculto', () => {
+    const markup = custom()
+    const nav = markup.slice(markup.indexOf('class="site-nav"'), markup.indexOf('</nav>'))
+    expect(nav.indexOf('aria-controls="menu-dofus"')).toBeLessThan(
+      nav.indexOf('aria-controls="menu-misiones"'),
+    )
+    expect(nav).toContain('Guías<svg')
+    expect(markup).not.toContain('Clases')
+    expect(markup).toContain('Todas las guías')
+    expect(markup).toContain('Paso a paso.')
+  })
+
+  it('una sección sin «Próximamente» y sin panel enlaza a su página', () => {
+    const markup = custom()
+    const mazmorras = section('mazmorras')
+    const nav = markup.slice(markup.indexOf('class="site-nav"'), markup.indexOf('</nav>'))
+    expect(nav).toContain(`<a class="np" href="${mazmorras.href}">`)
+    const sheet = markup.slice(markup.indexOf('id="site-sheet"'))
+    expect(sheet).toContain(`<a class="stile__b" href="${mazmorras.href}">`)
+    expect(sheet).toContain('Las de siempre.')
+    expect(markup).not.toContain('Mazmorras <span class="soon">')
+  })
+
+  it('en el móvil se abre la primera sección con panel', () => {
+    const sheet = custom().slice(custom().indexOf('id="site-sheet"'))
+    expect(sheet).toMatch(/aria-expanded="true" aria-controls="sheet-dofus"/)
+    expect(sheet).toMatch(/aria-expanded="false" aria-controls="sheet-misiones"/)
+  })
+
+  it('la tarjeta de Dofus pinta los tres huevos elegidos', () => {
+    const markup = custom()
+    const art = markup.slice(markup.indexOf('feat__art'), markup.indexOf('feat__t'))
+    expect([...art.matchAll(/src="([^"]+)"/g)].map((m) => m[1])).toEqual(
+      featured.map((egg) => egg.src),
+    )
+  })
+
+  it('el pie y la búsqueda siguen la misma navegación', () => {
+    const markup = html(<SiteFooter year={2026} sections={nav.sections} />)
+    const explore = markup.slice(markup.indexOf('ft-explore'), markup.indexOf('ft-com'))
+    expect(explore).not.toContain('Clases')
+    expect(explore).toContain(`<a href="${section('mazmorras').href}">Mazmorras</a>`)
+    expect(explore.indexOf('Dofus')).toBeLessThan(explore.indexOf('Todas las guías'))
+    const sections = searchIndex([], [], [], nav.sections).filter((e) => e.type === 'seccion')
+    expect(sections.map((e) => e.name)).toEqual([
+      'Dofus',
+      'Todas las guías',
+      'Checklists',
+      'Mazmorras',
+    ])
   })
 })

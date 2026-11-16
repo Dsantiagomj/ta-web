@@ -5,7 +5,7 @@ import { Lockup } from '@/components/brand/Lockup'
 import { SocialIcon, UpIcon } from './icons'
 import { resolveSiteSettings, type SiteSettings } from '@/lib/site-copy/resolve'
 
-import { LEGAL_LINKS, type NavLink, SECTIONS, social, TOP_ANCHOR } from './nav'
+import { LEGAL_LINKS, type NavLink, type Section, SECTIONS, social, TOP_ANCHOR } from './nav'
 import { Soon } from './Soon'
 import { StaticImg } from './StaticImg'
 import { siteShellStrings } from './strings'
@@ -18,21 +18,24 @@ const CHANNELS = ['twitch', 'kick', 'youtube'] as const
 
 /**
  * El pie de todo el sitio (DESIGN.md, Layout: Footer). Arriba, tres columnas: Torre con
- * los directos; Explorar, con las cinco secciones; y Comunidad, con el Discord, Ko-fi y
+ * los directos; Explorar, con las secciones; y Comunidad, con el Discord, Ko-fi y
  * los canales de Torre en casillas de inventario. Abajo, la banda legal. Cada enlace sale
  * una sola vez: Discord y Ko-fi van en sus tarjetas y las casillas son los tres canales.
  * Sin estado del directo todavía: la tarjeta dice dónde emite, no si está emitiendo. Los
  * enlaces legales llegan de la colección pages (legalLinks); sin ellos, van a Squarespace.
- * Los textos, el nombre del © y las redes son de «Ajustes del sitio» (loadSiteSettings).
+ * Los textos, el nombre del © y las redes son de «Ajustes del sitio» (loadSiteSettings); las
+ * secciones de Explorar, en su orden y sin las ocultas, de «Navegación» (loadNavigation).
  */
 export function SiteFooter({
   year,
   legal = LEGAL_LINKS,
   settings = DEFAULT_SETTINGS,
+  sections = SECTIONS,
 }: {
   year: number
   legal?: NavLink[]
   settings?: SiteSettings
+  sections?: Section[]
 }) {
   // Ids propios: el catálogo /sistema pinta el pie una vez por tema y modo.
   const id = useId()
@@ -70,7 +73,7 @@ export function SiteFooter({
             {s.explore}
           </h2>
           <ul role="list">
-            {SECTIONS.map((sec) => (
+            {sections.map((sec) => (
               <li key={sec.key}>
                 {sec.soon ? (
                   <span className="ft-soon" aria-disabled="true">

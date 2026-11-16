@@ -1,6 +1,5 @@
-import type { SectionKey } from './nav'
-
-// Los textos de la cabecera y el pie del sitio (AGENTS.md, Language).
+// Los textos de la cabecera y el pie del sitio (AGENTS.md, Language). Los nombres y las frases
+// de las secciones son de «Navegación» (src/lib/site-copy/defaults.ts).
 export const siteShellStrings = {
   /** Las 19 clases, por su slug (Feca y Yopuka llevan un -1 en la web de siempre). */
   classes: {
@@ -47,13 +46,6 @@ export const siteShellStrings = {
   preparing: ' (en preparación)',
   /** Lo que lee un lector de pantalla tras una checklist que aún enlaza a Squarespace. */
   legacyChecklist: ' (en preparación: se abre en la web anterior)',
-  sections: {
-    misiones: { label: 'Misiones', title: 'Misiones y logros' },
-    dofus: { label: 'Dofus', title: 'Dofus' },
-    checklists: { label: 'Checklists', title: 'Checklists' },
-    clases: { label: 'Clases', title: 'Clases' },
-    mazmorras: { label: 'Mazmorras', title: 'Mazmorras' },
-  } satisfies Record<SectionKey, { label: string; title: string }>,
   legal: {
     notice: 'Aviso legal',
     cookies: 'Política de cookies',
@@ -98,7 +90,6 @@ export const siteShellStrings = {
   },
   sheet: {
     dofusTitle: 'Dofus y checklists',
-    dofusBlurb: 'Las guías de Dofus y los checklists para conseguirlos.',
   },
   // Los textos del pie que son de Torre (su frase, los directos, Discord, Ko-fi y el aviso)
   // están en «Ajustes del sitio» (src/lib/site-copy/defaults.ts); aquí, los rótulos.
