@@ -42,6 +42,18 @@ describe('Button', () => {
     expect(html(<Button disabled>Entrar</Button>)).toContain('disabled=""')
   })
 
+  it('el primario va relleno de --color-btn con su tinta, en Lexend 700 y 0,625rem de radio', () => {
+    const classes = (variant: 'primary' | 'secondary') =>
+      /class="([^"]*)"/.exec(html(<Button variant={variant}>Entrar</Button>))![1].split(' ')
+    const primary = classes('primary')
+    for (const name of ['bg-btn', 'text-btn-ink', 'hover:bg-btn-hi', 'font-ui', 'font-bold'])
+      expect(primary).toContain(name)
+    expect(primary).toContain('rounded-[0.625rem]')
+    // Sin borde ni la píldora: esas son del secundario y el fantasma.
+    expect(primary.join(' ')).not.toMatch(/\bborder|\brounded-pill\b|text-accent/)
+    expect(classes('secondary')).toContain('rounded-pill')
+  })
+
   it('como enlace es un <a> con la misma pinta', () => {
     const markup = html(
       <ButtonLink href="/entrar" variant="secondary">

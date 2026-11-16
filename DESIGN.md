@@ -8,7 +8,7 @@ The visual rules for the new torrentearcano.com. Structure, density and motion f
 2. **Reading first.** Most visits are a player with the game open beside the browser, following one quest. Body text stays at 1rem (16px, 17.6px from 1024px), steps are easy to scan, coordinates copy in one click.
 3. **Dense, not cramped.** Lists of 50 quests and checklists of 100 steps must fit on a screen without feeling like a spreadsheet. Small gaps inside components, generous gaps between sections.
 4. **Fast by default.** Guide pages are server-rendered with no client JavaScript beyond the shell and one small island that copies coordinates, loads videos on click and opens guide images fullscreen. Motion is CSS unless it lives inside a client island.
-5. **One job per color.** `accent` marks progress, links, coordinates and the primary action; `accent-2` marks featured numbers and tags; the section accent marks details. No color is ever a button fill.
+5. **One job per color.** `accent` marks progress, links and coordinates; `btn` fills the primary action; `accent-2` marks featured numbers and tags; the section accent marks details. Until 2026-11-16 no color filled a button; Torre's color design (option D) made the primary action a flat fill.
 6. **Amakna, dark, by default.** Five themes, each with a dark and a light mode. Amakna, Torrente Arcano, Bonta and Brâkmar are free for everyone; Ocre is premium. Every text pair passes WCAG AA in every theme and mode.
 
 ## Tokens
@@ -70,9 +70,9 @@ Roles:
 | `--color-ink` | titles, body |
 | `--color-ink-2` | lead text, secondary body |
 | `--color-muted` | meta, counts, micro labels; also checkbox and input borders (at least 4.92:1 everywhere, well over 3:1) |
-| `--color-accent` | progress fills, links and coordinates, the checked checkbox (with a check mark in `--color-bg`), the primary button outline (accent text and border, transparent fill), the eyebrow, the theme switch knob, the current nav item, the active tab, focus rings on accent controls |
+| `--color-accent` | progress fills, links and coordinates, the checked checkbox (with a check mark in `--color-bg`), the eyebrow, the theme switch knob, the current nav item, the active tab, focus rings on accent controls |
 | `--color-accent-2` | Lilita One featured numbers, tag pills (outline) |
-| `--color-btn`, `--color-btn-hi` | the fill of a filled button and its hover fill (option D; the components adopt it in a later change) |
+| `--color-btn`, `--color-btn-hi` | the fill of the primary button and its hover fill (option D): the home «Buscar», the header panels' «Ver todo», the Dofus index filter's indicator, the checklist's «Siguiente» and «Completar» |
 | `--color-btn-ink` | text and icons on `btn` and `btn-hi` |
 | `--color-chip`, `--color-chip-hi` | the fill of pills such as the header search, and its hover fill; text on them is `ink` |
 | `--color-bar` | the header and footer bar, and the theme picker's swatch behind the hat |
@@ -575,7 +575,7 @@ Every interactive component has these states: default, hover (mouse only), focus
 
 | Component | Anatomy | States |
 |---|---|---|
-| Button, primary | pill, 44px high, 24px side padding, display 600 at `--text-sm` in normal case, transparent fill, 1.5px `--color-accent` border, `--color-accent` text (at least 6.08:1 on surface in every theme and mode). One per view. No color is ever a button fill | hover: `--color-raised` fill behind the same text and border (at least 4.93:1); pressed: `scale(.96)`; disabled: 40 percent opacity, no pointer |
+| Button, primary | decided 2026-11-16 with Torre's color design (option D), replacing the accent outline: a flat `--color-btn` fill with `--color-btn-ink` text (at least 4.5:1 in every theme and mode, `tests/unit/theme-css.test.ts`), Lexend 700, 10px radius, no border, no shadow; 44px high with 24px side padding (`Button`), or the size of its place: the home «Buscar» is 48px and uppercase, «Ver todo» 44px, the checklist's «Siguiente» and «Completar» 40 to 44px. One per view | hover: `--color-btn-hi` fill; pressed: `scale(.97)` over `--duration-press`, none under reduced motion; focus: the 2px `--color-ink` ring; disabled: 40 percent opacity, no pointer. «Completar» on a done step drops to a `--color-line` outline with `--color-ink-2` text and its tick |
 | Button, secondary | pill, 40px, `--color-raised` fill, `--color-ink` text, optional leading icon | hover: `--color-line` fill (ink on line at least 9.62); pressed: scale |
 | Button, ghost | pill, 36px, no fill, `--color-ink-2` text | hover: `--color-raised` fill |
 | Icon button | 40px circle (44px under `pointer: coarse`), `aria-label` required | as secondary |
@@ -585,7 +585,7 @@ Every interactive component has these states: default, hover (mouse only), focus
 | Card, collection (Dofus, class, dungeon) | the whole card is one `<a>`; art layer, shade, name in display 600, one line of meta; 1px border in `--color-section`; optional progress ring top right in `--color-accent` with the percentage in Lilita One and `--color-accent-2`. Light-mode treatment below | hover: a soft glow in `--color-section` around the border, art settles from `scale(1.04)` to 1; done: success ring; locked premium: lock badge and the meta says why |
 | Stat tile | 14px radius, `--color-raised` fill, optional game icon, number in Lilita One at `--text-figure` in `--color-accent-2` (`white-space: nowrap`), micro label in `--color-ink-2`. The guide page no longer uses it (the XP and kamas rows of Recompensas replaced the Botín tiles); it stays in the catalog for the achievement and checklist pages | static |
 | Chip | 22 to 26px pill, `--text-xs`, `--color-raised` fill, `--color-ink-2` text, optional 16px game icon | static; the coordinates chip is its own component (Quest guide components) |
-| Segmented tabs | pill track in `--color-raised`; active segment `--color-surface` with `--color-accent` text | selected uses `aria-selected`; arrow keys move between tabs |
+| Segmented tabs | pill track in `--color-raised`; active segment `--color-surface` with `--color-accent` text. The Dofus index filter follows option D instead: a `--color-surface` track with a 1px `--color-line` inset ring and a 12px radius, segments in Lexend 600, and the sliding indicator in `--color-btn` (8px radius, no shadow) with the pressed segment's text in `--color-btn-ink` | selected uses `aria-selected` (`aria-pressed` on the filter); arrow keys move between tabs |
 | Checkbox | 22px, `--radius-sm`, `--color-muted` border | checked: `--color-accent` fill with a `--color-bg` check mark (at least 5.55:1); pressed: `scale(.9)` for 100ms |
 | Progress bar | 10 to 14px track in `--color-bg` (dark) or `--color-raised` with a hairline (light), `--color-accent` fill (at least 4.93:1 against raised, over the 3:1 a fill needs), optional chapter ticks, percentage beside it in Lilita One and `--color-accent-2` | animates `transform: scaleX()` on the fill, never `width` |
 | Callout | `--radius-md`, 2px border in its color, its color at 9 percent over `--color-bg`, `16px 20px 18px` padding, `role="note"` named by its title. The title is a plain heading inside the box (Montserrat 600, 1.25rem, `--color-ink`): no ribbon, no tab, no glyph (decided 2026-11-05, guide v4). Text in `--color-ink` (at least 13.31:1 on every fill). In guides, the tip variant renders as Torre's tips instead (Quest guide components) | warning ("¡Importante!"), stop ("¡Alto!"), tip ("Consejo", outside guides) |
@@ -974,7 +974,7 @@ Carried over from Dofus Tools reviews, plus what the duffus study ruled out.
 | Rejected | Do instead |
 |---|---|
 | A side border accent on the active item | a raised fill or the `--shadow-glow` frame |
-| Gradient pill buttons, or any color as a button fill | the accent outline for the primary action |
+| Gradient pill buttons, or a fill on secondary actions | a flat `--color-btn` fill for the primary action only |
 | "Entrar →" text on a card that is already a link | the whole card is the link; the meta line says where it goes |
 | Emoji or generic icons when a game asset exists | the game asset in an icon well |
 | The same motif on two neighboring cards | one motif per card |

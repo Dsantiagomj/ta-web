@@ -71,6 +71,34 @@ test.describe('índice de las guías de Dofus', () => {
     await expect(status).toHaveText('Ningún Dofus se llama «zurcarak».')
   })
 
+  test('el filtro elegido va sobre el relleno de los botones, con su tinta', async ({ page }) => {
+    await page.goto('/guias-dofus')
+    const all = page.getByRole('button', { name: 'Todos' })
+    await expect(all).toHaveAttribute('aria-pressed', 'true')
+    const look = await page.locator('.dg-seg').evaluate((seg) => {
+      const probe = document.createElement('i')
+      seg.append(probe)
+      const token = (name: string) => {
+        probe.style.color = `var(${name})`
+        return getComputedStyle(probe).color
+      }
+      const out = {
+        btn: token('--color-btn'),
+        ink: token('--color-btn-ink'),
+        indicator: getComputedStyle(seg.querySelector('.dg-seg__ind')!).backgroundColor,
+        shadow: getComputedStyle(seg.querySelector('.dg-seg__ind')!).boxShadow,
+        pressed: getComputedStyle(seg.querySelector('[aria-pressed="true"]')!).color,
+        family: getComputedStyle(seg.querySelector('.dg-pill')!).fontFamily.split(',')[0],
+      }
+      probe.remove()
+      return out
+    })
+    expect(look.indicator).toBe(look.btn)
+    expect(look.pressed).toBe(look.ink)
+    expect(look.shadow).toBe('none')
+    expect(look.family.replaceAll('"', '')).toBe('Lexend')
+  })
+
   test('sin JavaScript se ven todas las tarjetas y no sale el buscador', async ({ browser }) => {
     const context = await browser.newContext({ javaScriptEnabled: false })
     const page = await context.newPage()
