@@ -15,6 +15,7 @@ import { PageEnhancements } from '@/components/game/PageEnhancements'
 import { Ambience } from '@/components/site/Ambience'
 import { checklistAmbience } from '@/components/site/ambience-data'
 import { Breadcrumb } from '@/components/site/Breadcrumb'
+import { pageSection } from '@/components/site/nav'
 import { checklistView, type ChecklistData } from '@/lib/checklists/page'
 import { checklistPageStrings as s } from '@/lib/checklists/strings'
 
@@ -39,7 +40,7 @@ export function ChecklistView({ data, preview }: { data: ChecklistData; preview:
       {/* Dentro, para que herede el color del Dofus (--egg). */}
       <Ambience fx={checklistAmbience(data.checklist.ambience)} />
       {preview && <PreviewBar slug={view.slug} />}
-      <main id="contenido" className="ck">
+      <main id="contenido" className="ck" {...pageSection('dofus')}>
         <Breadcrumb {...view.breadcrumb} />
         <ChecklistHeader view={view} />
         <section className="ck-win" aria-label={s.windowLabel}>

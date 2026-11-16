@@ -2,8 +2,12 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
 
 import { MODES } from '../../src/lib/theme/theme.ts'
+import { seedAchievement } from './seed/achievements.ts'
+import { seedChecklists } from './seed/checklists.ts'
 import { indexChecklists } from './seed/checklists-index.ts'
+import { seedDofus } from './seed/dofus-guides.ts'
 import { draftGuide, seedGuide } from './seed/guides.ts'
+import { seedPages } from './seed/pages.ts'
 
 // La cabecera y el pie de todo el sitio (DESIGN.md, Layout: Header y Footer).
 
@@ -304,12 +308,91 @@ test.describe('cabecera', () => {
     await expect(viewer).toBeVisible()
   })
 
-  test('la cabecera se vuelve opaca al bajar la página', async ({ page }) => {
+  test('la cabecera es una barra plana y opaca desde arriba de la página', async ({ page }) => {
     await open(page)
-    const header = page.locator('header.site-hdr')
-    await expect(header).not.toHaveClass(/is-scrolled/)
+    const bar = () =>
+      page.locator('header.site-hdr').evaluate((header) => {
+        const before = getComputedStyle(header, '::before')
+        const probe = document.createElement('i')
+        probe.style.color = 'var(--color-bar)'
+        header.append(probe)
+        const barColor = getComputedStyle(probe).color
+        probe.style.color = 'var(--color-line)'
+        const lineColor = getComputedStyle(probe).color
+        probe.remove()
+        return {
+          opacity: before.opacity,
+          background: before.backgroundColor === barColor,
+          border: before.borderBottomColor === lineColor && before.borderBottomWidth === '1px',
+          blur: before.backdropFilter,
+          shadow: before.boxShadow,
+          radius: before.borderTopLeftRadius,
+        }
+      })
+    const flat = { opacity: '1', background: true, border: true, blur: 'none', shadow: 'none' }
+    expect(await bar()).toMatchObject({ ...flat, radius: '0px' })
+    // Al bajar no cambia nada.
     await page.mouse.wheel(0, 800)
-    await expect(header).toHaveClass(/is-scrolled/)
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0)
+    expect(await bar()).toMatchObject({ ...flat, radius: '0px' })
+  })
+
+  test('la sección en la que estás toma su color en el menú', async ({ page }) => {
+    const pages: [string, string | null][] = [
+      ['/', null],
+      [`/${seedGuide.slug}`, 'misiones'],
+      [`/${seedAchievement.slug}`, 'misiones'],
+      ['/metalogros', 'misiones'],
+      ['/guias-dofus', 'dofus'],
+      [`/${seedDofus.ocre.slug}`, 'dofus'],
+      ['/checklists', 'dofus'],
+      [`/${seedChecklists.nebuloso.slug}`, 'dofus'],
+      [`/${seedPages.emotes.slug}`, null],
+    ]
+    for (const [path, current] of pages) {
+      await page.goto(path)
+      const colors = await page.locator('.site-nav__item:has(> button.np)').evaluateAll((items) =>
+        items.map((item) => {
+          const probe = document.createElement('i')
+          probe.style.color = 'var(--color-section)'
+          item.append(probe)
+          const section = getComputedStyle(probe).color
+          probe.remove()
+          const np = item.querySelector('.np')!
+          return [item.getAttribute('data-section'), getComputedStyle(np).color === section]
+        }),
+      )
+      expect(colors, path).toEqual([
+        ['misiones', current === 'misiones'],
+        ['dofus', current === 'dofus'],
+      ])
+    }
+  })
+
+  test('el menú va en Lexend 600 y en tinta; al pasar, en el color de la sección', async ({
+    page,
+  }) => {
+    await page.goto('/')
+    const item = page.locator('.site-nav__item[data-section="dofus"]')
+    const np = item.locator('> .np')
+    const look = () =>
+      np.evaluate((el) => {
+        const s = getComputedStyle(el)
+        return { family: s.fontFamily.split(',')[0].replaceAll('"', ''), weight: s.fontWeight }
+      })
+    expect(await look()).toEqual({ family: 'Lexend', weight: '600' })
+    const color = (expr: string) =>
+      item.evaluate((el, value) => {
+        const probe = document.createElement('i')
+        probe.style.color = value
+        el.append(probe)
+        const out = getComputedStyle(probe).color
+        probe.remove()
+        return out
+      }, expr)
+    await expect(np).toHaveCSS('color', await color('var(--color-ink)'))
+    await np.hover()
+    await expect(np).toHaveCSS('color', await color('var(--color-section)'))
   })
 
   for (const mode of MODES) {
@@ -325,7 +408,7 @@ test.describe('cabecera', () => {
       expect(await axe(page, 'body > footer')).toEqual([])
     })
 
-    test(`el interruptor de modo lleva el fondo y el borde de la búsqueda en Amakna ${mode}`, async ({
+    test(`la búsqueda va rellena del chip y el interruptor de modo, en la superficie, en Amakna ${mode}`, async ({
       page,
       context,
       baseURL,
@@ -335,10 +418,36 @@ test.describe('cabecera', () => {
       const look = (selector: string) =>
         page.locator(selector).evaluate((el) => {
           const s = getComputedStyle(el)
-          return { background: s.backgroundColor, image: s.backgroundImage, border: s.borderColor }
+          const probe = document.createElement('i')
+          const token = (value: string) => {
+            probe.style.color = value
+            return getComputedStyle(probe).color
+          }
+          el.append(probe)
+          const tokens = {
+            chip: token('var(--color-chip)'),
+            surface: token('var(--color-surface)'),
+            line: token('var(--color-line)'),
+          }
+          probe.remove()
+          return {
+            background: s.backgroundColor,
+            image: s.backgroundImage,
+            border: s.borderTopColor,
+            // En rem: desde 1024px la raíz mide el 110 %.
+            radius:
+              parseFloat(s.borderTopLeftRadius) /
+              parseFloat(getComputedStyle(document.documentElement).fontSize),
+            tokens,
+          }
         })
+      const spill = await look('.spill')
+      expect(spill.background).toBe(spill.tokens.chip)
+      expect(spill.border).toBe('rgba(0, 0, 0, 0)')
+      expect(spill.radius).toBeCloseTo(0.625)
       const track = await look('.mode-switch [data-part="track"]')
-      expect(track).toEqual(await look('.spill'))
+      expect(track.background).toBe(track.tokens.surface)
+      expect(track.border).toBe(track.tokens.line)
       expect(track.image).toBe('none')
     })
 
@@ -411,6 +520,20 @@ test.describe('cabecera en una pantalla baja', () => {
 
 test.describe('cabecera en el móvil', () => {
   test.use({ viewport: { width: 390, height: 844 } })
+
+  test('la barra va pegada arriba y de borde a borde, sin esquinas ni sombra', async ({ page }) => {
+    await open(page)
+    const header = page.locator('[data-site-header]')
+    expect(await header.boundingBox()).toMatchObject({ x: 0, y: 0, width: 390 })
+    const before = await header.evaluate((el) => {
+      const s = getComputedStyle(el, '::before')
+      return { radius: s.borderTopLeftRadius, shadow: s.boxShadow, left: s.borderLeftWidth }
+    })
+    expect(before).toEqual({ radius: '0px', shadow: 'none', left: '0px' })
+    // Al bajar sigue arriba del todo.
+    await page.mouse.wheel(0, 600)
+    await expect.poll(async () => (await header.boundingBox())?.y).toBe(0)
+  })
 
   test('la hamburguesa abre el menú con las secciones, que se abren de una en una', async ({
     page,

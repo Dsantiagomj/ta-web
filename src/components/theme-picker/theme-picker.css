@@ -218,7 +218,7 @@
   }
 }
 
-/* En el móvil, un panel fijo a lo ancho bajo la barra flotante de la cabecera. */
+/* En el móvil, un panel fijo a lo ancho bajo la barra de la cabecera (56px). */
 @media (max-width: 47.99rem) {
   .tp {
     position: static;
@@ -226,7 +226,7 @@
 
   .tp-pop {
     position: fixed;
-    top: 4.75rem;
+    top: 4rem;
     right: 1rem;
     left: 1rem;
     width: auto;

@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react'
 
+import { pageSection } from '@/components/site/nav'
 import { Picture } from '@/components/ui/Picture'
 import type { ImageAsset } from '@/components/ui/types'
 import type { ChecklistEntry, ChecklistTeaser } from '@/lib/checklists/list'
@@ -209,7 +210,7 @@ export function ChecklistsIndex({
   texts?: IndexTexts['checklists']
 }) {
   return (
-    <main id="contenido" className="ck-index">
+    <main id="contenido" className="ck-index" {...pageSection('dofus')}>
       <header className="ck-hero">
         <p className="ck-eyebrow">{texts.eyebrow}</p>
         <h1 className="ck-h1">{texts.title}</h1>
