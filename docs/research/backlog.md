@@ -1,6 +1,6 @@
 # ta-web backlog
 
-Date: 2026-11-15. First written on 2026-11-13 as one prioritized list built from three research reports written that day:
+Date: 2026-11-16. First written on 2026-11-13 as one prioritized list built from three research reports written that day:
 
 - **squarespace**: what Torre's Squarespace site has that ta-web does not, cited by report section (§).
 - **duffus**: gaps against duffus.fr, which now has a full Spanish version at `/es` and competes for the same audience, cited by gap number (#) and a sample URL.
@@ -8,7 +8,7 @@ Date: 2026-11-15. First written on 2026-11-13 as one prioritized list built from
 
 The raw reports stay in the git-ignored `tmp/work/` of the main checkout. Decisions already taken come from `docs/legacy/plan.md` (cited as plan §).
 
-On 2026-11-15 every row was checked against `main`, the merged PRs and the dev site (https://ta-web-dev.up.railway.app). Rows that are fully done moved to section 7 with their IDs; the others carry a status.
+On 2026-11-15 every row was checked against `main`, the merged PRs and the dev site (https://ta-web-dev.up.railway.app). Rows that are fully done moved to section 7 with their IDs; the others carry a status. On 2026-11-16 the rows were checked again after #151 to #180.
 
 ## How to read it
 
@@ -26,22 +26,25 @@ The cutover is plan phase 3: the domain moves from Squarespace to ta-web, and Sq
 
 ## 1. Cutover blockers
 
-What must exist before the domain moves. The open P0 rows of section 3 (achievements, classes, dungeons, emotes and how-tos) block it as well.
+What must exist before the domain moves. The open P0 rows of section 3 (achievements, classes and dungeons) block it as well.
 
 | ID | Item | What and why | Owner | Size | Pri | Source | Status |
 |---|---|---|---|---|---|---|---|
-| B-01 | Links that point at torrentearcano.com | `src/lib/site/legacy.ts` sends checklists, legal pages and the hidden classes and dungeons to `https://www.torrentearcano.com/<slug>`. Once DNS moves, those links point at ta-web itself and 404. Each one needs its page or its removal | code | S | P0 | squarespace §12 | Partly done. Checklists and Dofus guides link the ta-web page once it is published (#97, #148). `src/components/site/nav.ts` still sends the classes hub, the dungeons and the legal pages to Squarespace. The home search form's no-JS `action` is `torrentearcano.com/search` (`src/components/home/Hero.tsx`), and ta-web has no `/search` route. Torre's links in guide text go to the old site while their page is missing (`GuideRichText.tsx`, #148). Each closes with its page: S-10, S-11, B-10 |
+| B-01 | Links that point at torrentearcano.com | `src/lib/site/legacy.ts` sends checklists, legal pages and the hidden classes and dungeons to `https://www.torrentearcano.com/<slug>`. Once DNS moves, those links point at ta-web itself and 404. Each one needs its page or its removal | code | S | P0 | squarespace §12 | Partly done. Checklists and Dofus guides link the ta-web page once it is published (#97, #148). `src/components/site/nav.ts` still sends the classes hub and the dungeons to Squarespace, and the legal pages go there while they are «En preparación» (B-10). The home search form's no-JS `action` is `torrentearcano.com/search` (`src/components/home/Hero.tsx`), and ta-web has no `/search` route. Torre's links in guide text go to the old site while their page is missing (`GuideRichText.tsx`, #148). Each closes with its page: S-10, S-11, B-10 |
 | B-04 | Empty stubs | 301 to the stub's achievement page when one exists, 410 otherwise. Generate the map from DofusDB (quest to achievement) and give Torre the list | data | S | P0 | squarespace §9; plan §12.6 | Partly done. `pnpm redirects:stubs` (#110) maps the 166 stubs it finds; today 40 redirect (307 until cutover) and 35 answer 410. The rest wait for their achievement page (S-05) or a `STUB_OVERRIDES` entry. Rerun after each publishing batch, and with `--cutover` against production on cutover day |
 | B-06 | Old hubs, test pages and `/cart` | 301 `/home`, `/index` and `/inicio-20` to `/`, and `/logros` to `/metalogros`. 410 for `/wip`, `/hielos-test`, `/pruebas`, the three `-datos` pages and `/cart`. `/subscribe` needs a 410 or a redirect until S-20 ships | code | S | P0 | squarespace §4, §7, §8; plan §12.8 | Partly done. Everything except `/subscribe` ships in #110; dev answers 301 for `/home` and 410 for `/cart`. `/subscribe` still answers 404 and stays out of the table until S-20 or Torre drops it (`AGENTS.md`, Redirects) |
 | B-07 | GitHub Pages redirect | `dsantiagomj.github.io/silvestre-checklist/**`, embed URLs included, redirects to the new domain. The change lives in the `silvestre-checklist` repo | code | S | P0 | squarespace §12; plan §8.8 | Not started. Cutover-day work. The old repo now also serves `/todos/` and `/cosecha/` (S-21, S-04), so the redirect covers them too |
-| B-08 | Old URL to new page map | Each Squarespace URL maps to the page that replaces it. We fill the map as each section is ported, so it grows with the S- items and is complete on cutover day | code | S | P0 | squarespace §12 | Partly done. The table (#110) has the `hubs`, `metalogros` and `stubs` sections. Quest guides, achievement pages, Dofus guides and checklists keep their slugs and need no row. Classes, dungeons, legal pages, emotes and tools add their section as each is ported |
-| B-09 | Generic pages collection | The legal pages, emotes, how-tos and articles (D-02) need a home. `AGENTS.md` already plans a `pages` collection with the guide blocks | code | M | P0 | squarespace §8; duffus #23 | In progress on a branch: a generic `pages` collection with emotes, how-tos and legal pages |
-| B-10 | Legal pages rewrite | `/aviso-legal`, `/politica-de-cookies` and `/politica-de-privacidad` on B-09. The cookie policy still describes ads and a cookie banner, and the privacy policy has to cover accounts and payments | Torre (panel) | M | P0 | squarespace §8; plan §6 | In progress on the B-09 branch for the page structure. The rewritten text is Torre's, so it then waits on him |
+| B-08 | Old URL to new page map | Each Squarespace URL maps to the page that replaces it. We fill the map as each section is ported, so it grows with the S- items and is complete on cutover day | code | S | P0 | squarespace §12 | Partly done. The table (#110) has the `hubs`, `metalogros` and `stubs` sections. Quest guides, achievement pages, Dofus guides and checklists keep their slugs and need no row. Pages in the `pages` collection keep their slugs too (#152). Classes, dungeons and tools add their section as each is ported |
+| B-10 | Legal pages rewrite | `/aviso-legal`, `/politica-de-cookies` and `/politica-de-privacidad` on B-09. The cookie policy still describes ads and a cookie banner, and the privacy policy has to cover accounts and payments | Torre (panel) | M | P0 | squarespace §8; plan §6 | Blocked on Torre. The three pages are in `pages` with his old text, «En preparación» (#155); dev answers 307 to Squarespace for each. He rewrites and publishes them |
 | B-13 | Fate of the inline tools | `/mascotas`, `/team-builder` and `/sets-y-clases` are HTML apps inside a code block. Torre decides which ones stay. Those get ported (S-13), the rest a 410 | Torre | S | P0 | squarespace §7 | Blocked on Torre. No decision yet; the three URLs answer 404 on dev |
 
 ## 2. Payload panel for Torre
 
-All 23 rows (A-01 to A-23) are done; they are in section 7. Panel work since then comes from Torre's use of it, not from the audit. Block thumbnails in the panel are in progress on a branch.
+All 23 rows (A-01 to A-23) are done; they are in section 7. Panel work since then comes from Torre's use of it, not from the audit. Merged since: block previews in the block picker (#151), DofusDB autofill only on create or on request (#165), «Corrección de Torre» on DofusDB data (#167), the missing fields so Torre can write everything (#168), reward fields that are his (#169, #175 to #180), redirects when a slug changes (#170), the weekly data refresh with its «Traer ahora» button (#172), and the «Ajustes del sitio» and «Portada e índices» globals (#173, #174).
+
+| ID | Item | What and why | Owner | Size | Pri | Source | Status |
+|---|---|---|---|---|---|---|---|
+| P-01 | Navigation menu in the panel | The menu sections (name, description, order, hidden, «Próximamente») and the three featured Dofus are hard-coded in `src/components/site/nav.ts`. A «Navegación» global under «Ajustes» moves them to the panel. Keys, links, icons and colors stay in code | code | M | P1 | Owner request, 2026-11-16 | In progress on a branch |
 
 ## 3. Content still to port from Squarespace
 
@@ -51,7 +54,7 @@ Quest guides are ported: 1,271 of 1,272, and the last one is now a Dofus guide. 
 
 | ID | Item | What and why | Owner | Size | Pri | Source | Status |
 |---|---|---|---|---|---|---|---|
-| S-21 | Rush de todos los Dofus | Added on 2026-11-15. The `silvestre-checklist` repo now has a fifth checklist: Sandglass's 200 steps through 26 Dofus up to the Vulbis, at `/todos/` there. Squarespace has no page for it yet (the old repo plans `/checklist-todos-dofus`). Add it to `scripts/import/checklists/catalog.ts` and check that its steps fit the schema | data + Torre (panel) | M | P1 | `silvestre-checklist` README | In progress. Squarespace has its page since then (`/checklist-todos-dofus`, which embeds `todos.js`). The importer brings it whole as a draft «En preparación», with the Dofus each step gives; the page's road of Dofus and its crown poster wait on the prototype (`DESIGN.md`, Open questions). Its quests have no Bonta or Brâkmar side (`sides: null`), so the side switch of the old global guide is not needed |
+| S-21 | Rush de todos los Dofus | Added on 2026-11-15. The `silvestre-checklist` repo now has a fifth checklist: Sandglass's 200 steps through 26 Dofus up to the Vulbis, at `/todos/` there. Squarespace has no page for it yet (the old repo plans `/checklist-todos-dofus`). Add it to `scripts/import/checklists/catalog.ts` and check that its steps fit the schema | Torre (panel) | M | P1 | `silvestre-checklist` README | Blocked on Torre. The import (#158) and the page's road of Dofus and crown (#166) are merged. On dev it is a draft «En preparación» and `/checklist-todos-dofus` answers 404 until he reviews and publishes it. Its quests have no Bonta or Brâkmar side (`sides: null`), so the side switch of the old global guide is not needed |
 
 ### Dofus guides
 
@@ -71,14 +74,13 @@ Quest guides are ported: 1,271 of 1,272, and the last one is now a Dofus guide. 
 
 | ID | Item | What and why | Owner | Size | Pri | Source | Status |
 |---|---|---|---|---|---|---|---|
-| S-10 | Classes | A collection (or B-09), the route and the `/clases-1` hub for 19 pages. 17 are build screenshots under PVM and PVP; `/yopuka-1` and `/selotrop` have long text. About 150 images. Decide whether the `-1` slugs stay or get a 301. Spell data comes later (D-07) | code + Torre (panel) | M | P0 | squarespace §5; duffus #10 | Not started. `/clases-1` and `/yopuka-1` answer 404 on dev, and the menu links Squarespace |
-| S-11 | Dungeons and bosses | A collection (or B-09), route and index. Six pages have content (`/mazmorra-templo-del-dios-kao`, `/mazmorra-crunchidor`, `/pikabeto`, `/mazmorras-de-nawidad`, `/gruente`, `/minotobola-de-nawidad`), five are 36-word placeholders. Monsters reuse the fight block; DofusDB stats come later (D-06) | code + Torre (panel) | M | P0 | squarespace §6; duffus #9 | Not started. DofusDB dungeons with their bosses and level are already stored (`src/collections/Dungeons.ts`, #98) and feed «Necesitarás». No page collection or route yet |
+| S-10 | Classes | A collection (or B-09), the route and the `/clases-1` hub for 19 pages. 17 are build screenshots under PVM and PVP; `/yopuka-1` and `/selotrop` have long text. About 150 images. Decide whether the `-1` slugs stay or get a 301. Spell data comes later (D-07) | code + Torre (panel) | M | P0 | squarespace §5; duffus #10 | In progress on a branch: the panel collection, an importer that brings each page as «En preparación», and menu links from the collection. The public page and the hub wait on a prototype. `/clases-1` and `/yopuka-1` answer 404 on dev, and the menu links Squarespace |
+| S-11 | Dungeons and bosses | A collection (or B-09), route and index. Six pages have content (`/mazmorra-templo-del-dios-kao`, `/mazmorra-crunchidor`, `/pikabeto`, `/mazmorras-de-nawidad`, `/gruente`, `/minotobola-de-nawidad`), five are 36-word placeholders. Monsters reuse the fight block; DofusDB stats come later (D-06) | code + Torre (panel) | M | P0 | squarespace §6; duffus #9 | In progress on a branch: a page collection beside the DofusDB `dungeons` data (`src/collections/Dungeons.ts`, #98), an importer that brings each page as «En preparación», and menu links from the collection. The public page and the index wait on a prototype |
 
 ### Other pages
 
 | ID | Item | What and why | Owner | Size | Pri | Source | Status |
 |---|---|---|---|---|---|---|---|
-| S-12 | Emotes and how-tos | `/emotes-global`, `/emote-soltar-los-gases`, `/emote-sealar-con-el-dedo`, `/acceso-pandala-3` and `/camino-a-stim-power`, as generic pages (B-09) or guides without a quest. Check whether `/weyes-magos` duplicates `/ayudar-a-los-weyes-magos` | Torre (panel) | S | P0 | squarespace §7 | In progress on the B-09 branch |
 | S-13 | Inline tools as native pages | The tools B-13 keeps become React islands, as plan §8.6 says. About M each, so L for all three | code | L | P1 | squarespace §7 | Blocked on Torre. Waits for B-13 |
 | S-14 | 17 guides without a DofusDB quest | They get no summary from DofusDB. Link a quest where one exists; the how-to pages are expected to have none | Torre (panel) | S | P2 | squarespace §1 | Not started |
 | S-15 | Golden-page import test | Nobody compared the guides block by block. The planned `pnpm test:import` checks 30 golden pages against Squarespace before the delta import | code | M | P1 | squarespace §1; plan §8.1 | Not started. No `pnpm test:import` script. The 30 Dofus guides were audited by hand against Squarespace on 2026-11-15 (#145, #148); the quest guides were not |
@@ -87,11 +89,11 @@ Quest guides are ported: 1,271 of 1,272, and the last one is now a Dofus guide. 
 
 | ID | Item | What and why | Owner | Size | Pri | Source | Status |
 |---|---|---|---|---|---|---|---|
-| S-16 | Site settings global and announcement bar | Navigation, socials, the Ko-fi URL (hard-coded as `KOFI_URL`) and the Twitch card are hard-coded. A global moves them to the panel and adds the announcement bar, which Squarespace shows with Torre's donation message | code + Torre (panel) | M | P1 | squarespace §10 | Not started. `KOFI_URL` is still in `src/components/site/nav.ts`, and `src/globals/` holds only the two index globals |
 | S-17 | Twitch live card | `src/lib/site/live.ts` is a stub that is never live. Call the existing Cloudflare Worker | code | S | P1 | squarespace §10 | Not started. `src/lib/site/live.ts` is still the stub |
 | S-18 | Analytics | Plausible or Umami, cookieless. Before cutover, so traffic can be compared with Squarespace | code | S | P1 | squarespace §10; plan §4 | Not started. No analytics script in the app |
-| S-19 | `og:image` and richer JSON-LD | Shared links show no image, and only breadcrumbs have JSON-LD. Add `og:image` and Article or HowTo data | code | S | P1 | squarespace §12 | Not started. Dev pages have `og:title`, `og:description` and `og:type` but no `og:image`. The only JSON-LD is the breadcrumb (`src/components/site/Breadcrumb.tsx`) |
+| S-19 | `og:image` and richer JSON-LD | Shared links show no image, and only breadcrumbs have JSON-LD. Add `og:image` and Article or HowTo data | code + Torre (panel) | S | P1 | squarespace §12 | Partly done. «Ajustes del sitio» has a share image field (#173), but dev has none uploaded, so pages still have no `og:image`. The only JSON-LD is the breadcrumb (`src/components/site/Breadcrumb.tsx`); Article or HowTo data is not started |
 | S-20 | Newsletter | The plan names a newsletter but no provider. Pick one, then a form for `/subscribe`. There is no subscriber list to bring over | code + Torre | M | P2 | squarespace §10 | Not started |
+| S-23 | Weekly game data refresh in production | `pnpm data:refresh` runs every Wednesday at 06:00 UTC on dev through the `game-data` cron service (#172; `railway config apply` on 2026-11-16). Production has no GitHub source, so its service has to come from the release workflow | code | S | P1 | #172 | Not started. `release.yml` has no `game-data` step |
 
 ## 4. New features inspired by duffus.fr
 
@@ -100,7 +102,7 @@ Duffus covers most of the game in machine-translated Spanish. What it lacks is T
 | ID | Item | What and why | Owner | Size | Pri | Source | Status |
 |---|---|---|---|---|---|---|---|
 | D-01 | Member accounts and cloud progress | Plan phase 4. Google, Discord and magic link; one progress set per member, so a quest ticked anywhere shows done in guides, achievements, Dofus guides and checklists, with a percentage on the Dofus index cards. Offers to import the `localStorage` of the checklists (needs S-02) | code | L | P1 | duffus #1, #2 ([/es/guias](https://www.duffus.fr/es/guias)); squarespace §11; plan §6 | Not started. Better Auth is not installed yet |
-| D-02 | Articles with a table block | Tutorials and event guides (duffus has a 146-row pets table) are Torre's natural format. B-09 plus a table block, then Torre writes | code + Torre (panel) | S | P1 | duffus #23 ([/tutoriels/familiers](https://www.duffus.fr/tutoriels/familiers)) | Not started. Waits for B-09; `src/blocks/` has no table block |
+| D-02 | Articles with a table block | Tutorials and event guides (duffus has a 146-row pets table) are Torre's natural format. B-09 plus a table block, then Torre writes | code + Torre (panel) | S | P1 | duffus #23 ([/tutoriels/familiers](https://www.duffus.fr/tutoriels/familiers)) | Not started. B-09 is done (#152); `src/blocks/` has no table block |
 | D-03 | «Actualizado el» date | Show when a guide last changed. Payload already stores `updatedAt`; it is a trust signal and helps SEO | code | S | P1 | duffus #25 | Not started |
 | D-04 | Quest overlay | A Document Picture-in-Picture window that floats over the game with the steps, «Necesitarás» and coordinates. Chromium only, with a popup window elsewhere. The most distinctive idea in the duffus report; plan §6 lists overlay extras as a premium candidate | code | M | P2 | duffus #3 ([quest page](https://www.duffus.fr/es/mision/gobstination-dun-grobelin)) | Not started |
 | D-05 | Quest list page | Find a quest by name, zone or achievement and filter by type. "Hide done" comes with D-01 | code + data | M | P2 | duffus #5 ([/es/misiones](https://www.duffus.fr/es/misiones)) | Not started |
@@ -136,6 +138,7 @@ These rows need no owner, size or priority. The redirects for their URLs are in 
 | Item | Why | Source |
 |---|---|---|
 | Ads: AdSense, Flower Ads, the AMP script, Seedtag | Removed; revenue comes from premium and Ko-fi (plan §6, §12.2). | squarespace §10 |
+| Announcement bar | Dropped by the owner on 2026-11-16: the new site has no ads (was part of S-16) | squarespace §10 |
 | Cookie banner | No ads and cookieless analytics need no consent banner (plan §4, Consent) | squarespace §10 |
 | Store and `/cart` | The store was never live and is removed; `/cart` gets a 410 (plan §12.8) | squarespace §8, §10 |
 | The three `-datos` pages and the daily guide sync | They feed the embeds, which retire at cutover (plan §2, Embeds; goal 2) | squarespace §4 |
@@ -180,6 +183,9 @@ Rows finished since 2026-11-13, with the PR that closed each one. Stacked PRs cl
 | S-01 | Nebuloso checklist page | code + Torre (panel) | #96. Published; `/checklist-nebuloso` answers 200 on dev |
 | S-02 | Progress, locking and weighted percentage | code | #109 (engine, page, migration of the old `localStorage`), #125 (Silvestre progress) |
 | S-03 | Checklist index and menu | code | #97, then the poster row in #134, #136 and #138 |
-| S-04 | Silvestre, Hielos and La eterna cosecha | data + Torre (panel) | Silvestre and Hielos in #125; La eterna cosecha is the Ocre souls checklist, `/lista-ocre` (#127, #131, #147). All four checklists are published on dev on 2026-11-15. Open issue: at 15:10 UTC `/checklist-silvestre` and `/checklist-dofus-de-los-hielos` still answered 307 to Squarespace while the REST API reports them published, and `/checklists` still links them there. Probably a stale page cache; not investigated |
+| S-04 | Silvestre, Hielos and La eterna cosecha | data + Torre (panel) | Silvestre and Hielos in #125; La eterna cosecha is the Ocre souls checklist, `/lista-ocre` (#127, #131, #147). All four checklists are published on dev on 2026-11-15; on 2026-11-16 `/checklist-silvestre` and `/checklist-dofus-de-los-hielos` answer 200 |
 | S-07 | Torre's prose and 11 videos | code + Torre (panel) | #111 (`pnpm import:achievement-prose`); 30 pages have an `outro` on dev. Left for Torre: the dungeon rows with a generic icon that `pnpm data:quests` lists |
 | S-09 | «Necesitarás en total» fix | code | #98, #104, #129, #137; the same bosses on Dofus guides in #142 |
+| B-09 | Generic pages collection | code | #152 (collection and public page), #155 (`pnpm import:pages`) |
+| S-12 | Emotes and how-tos | Torre (panel) | #155. The five pages and `/weyes-magos` are published on dev and answer 200; whether `/weyes-magos` duplicates `/ayudar-a-los-weyes-magos` is still unchecked |
+| S-16 | Site settings global | code + Torre (panel) | #173, #174: share image, footer, socials and the Ko-fi link in «Ajustes del sitio», home and index texts in «Portada e índices». The menu moved to P-01, the Twitch card is S-17, and the announcement bar was dropped (section 6) |
