@@ -473,7 +473,21 @@ test.describe('cabecera', () => {
           .first()
           .evaluate((el) => getComputedStyle(el).backgroundColor)
       const chip = await fill('main .coord')
-      expect(await fill('main .well')).toBe(chip)
+      // El hueco es un rombo (opción D de Torre): un cuadrado girado detrás del icono, con el
+      // fondo y un marco de 2px; la caja del hueco no pinta nada.
+      const well = await page
+        .locator('main .well')
+        .first()
+        .evaluate((el) => {
+          const diamond = getComputedStyle(el, '::before')
+          return {
+            box: getComputedStyle(el).backgroundColor,
+            fill: diamond.backgroundColor,
+            border: diamond.borderTopWidth,
+            rotate: diamond.rotate,
+          }
+        })
+      expect(well).toEqual({ box: 'rgba(0, 0, 0, 0)', fill: chip, border: '2px', rotate: '45deg' })
       await page.getByRole('button', { name: 'Misiones', exact: true }).click()
       expect(await fill('#menu-misiones .site-well')).toBe(chip)
     })

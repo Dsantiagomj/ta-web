@@ -14,13 +14,23 @@ const ICON_PX = 34
 
 /**
  * El hueco de un icono del juego, como una casilla del inventario (DESIGN.md, Icon wells),
- * con el fondo del modo. Sin icono, el hueco queda vacío; nunca un sustituto.
+ * con el fondo del modo. Sin icono, el hueco queda vacío; nunca un sustituto. `data-icon`
+ * dice qué lleva (el icono, o `kind` para una imagen como el jefe de una mazmorra), y el
+ * marco de rombo toma su tono (game.css).
  */
-export function IconWell({ icon, image }: { icon?: GameIconName; image?: ImageAsset }) {
+export function IconWell({
+  icon,
+  image,
+  kind = icon,
+}: {
+  icon?: GameIconName
+  image?: ImageAsset
+  kind?: GameIconName
+}) {
   const file = icon && GAME_ICONS[icon]
   const px = file ? Math.min(ICON_PX, file.size) : ICON_PX
   return (
-    <span className="well" aria-hidden="true">
+    <span className="well" data-icon={kind} aria-hidden="true">
       {file && (
         // eslint-disable-next-line @next/next/no-img-element -- archivo estático ya en WebP
         <img
