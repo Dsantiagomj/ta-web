@@ -3,10 +3,11 @@ import path from 'node:path'
 
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import type { Payload } from 'payload'
+import sharp from 'sharp'
 
 import type { Media } from '../../payload-types'
 import { databaseScriptRefusal } from '../db/script-guard'
-import { missingImageSizes } from './sizes'
+import { mayBeAnimated, missingImageSizes } from './sizes'
 import { mediaObjectKey, readS3Settings, s3ClientConfig } from './storage'
 
 type Env = Record<string, string | undefined>
@@ -19,7 +20,7 @@ export function regenerationRefusal(env: Env, args: readonly string[]): string |
 export interface RegenerationResult {
   /** Archivos a los que se les generaron variantes. */
   regenerated: Media['id'][]
-  /** Archivos que ya tenían todas sus variantes (o no son imágenes): no se tocaron. */
+  /** Archivos que ya tenían todas sus variantes (o no son imágenes): no se subieron. */
   complete: number
   failed: { id: Media['id']; error: string }[]
 }
@@ -79,6 +80,12 @@ export function originalReader(
 
 const PAGE_SIZE = 50
 
+/** Si el archivo tiene más de un fotograma: un GIF, WebP o TIFF animado. */
+export async function isAnimated(data: Buffer): Promise<boolean> {
+  const { pages = 1 } = await sharp(data, { animated: true }).metadata()
+  return pages > 1
+}
+
 /**
  * Genera las variantes que les faltan a los archivos de media volviendo a subir su
  * original a través de Payload, con el mismo nombre: Payload crea las variantes con sharp y
@@ -102,13 +109,19 @@ export async function regenerateImageSizes(
       sort: 'id',
     })
     for (const media of docs) {
-      const missing = missingImageSizes(media)
-      if (missing.length === 0) {
+      if (missingImageSizes(media).length === 0) {
         result.complete++
         continue
       }
       try {
         const data = await readOriginal(media)
+        // Un archivo animado no lleva AVIF (sizes.ts): solo el archivo dice si lo es.
+        const animated = mayBeAnimated(media) && (await isAnimated(data))
+        const missing = missingImageSizes(media, { animated })
+        if (missing.length === 0) {
+          result.complete++
+          continue
+        }
         await payload.update({
           collection: 'media',
           id: media.id,
