@@ -32,6 +32,7 @@ import {
   closeOnOutsideClick,
   createBackup,
   createToast,
+  paintProgressState,
   progressDialog,
   safeStorage,
 } from './progress-shared'
@@ -235,6 +236,7 @@ export function startProgress(data: ChecklistIslandData, { pick, refilter }: Opt
     const pct = progressPct(progress, m)
     const pctText = s.pct(pct)
     for (const el of $$('[data-ck-pct]')) el.textContent = pctText
+    paintProgressState(pct)
     const bar = document.querySelector<HTMLElement>('[data-ck-bar]')
     if (bar) {
       bar.style.setProperty('--ratio', String(pct / 100))

@@ -89,11 +89,13 @@ beforeEach(() => {
   document.documentElement.setAttribute('data-js', '')
   document.body.innerHTML = renderToStaticMarkup(
     <>
-      <section className="ck-win sl-win">
-        <SoulsStrip view={view} />
-        <SoulsTools view={view} />
-        <SoulsList view={view} />
-      </section>
+      <main className="ck sl">
+        <section className="ck-win sl-win">
+          <SoulsStrip view={view} />
+          <SoulsTools view={view} />
+          <SoulsList view={view} />
+        </section>
+      </main>
       <div className="ck-toast" role="status" data-ck-toast hidden />
     </>,
   )
@@ -243,6 +245,20 @@ describe('marcar se nota', () => {
     tick(501)
     expect(panel('2').hasAttribute('data-complete')).toBe(false)
     expect(panel('2').hasAttribute('data-cheer')).toBe(false)
+  })
+
+  it('la raíz dice si está sin empezar, en curso o completa, para el huevo de la cabecera', () => {
+    const state = () => $('main').dataset.ckState
+    stop = startSouls(view.island)
+    expect(state()).toBe('todo')
+    tick(928)
+    expect(state()).toBe('doing')
+    click(stage('2'))
+    tick(500)
+    tick(501)
+    expect(state()).toBe('done')
+    tick(501)
+    expect(state()).toBe('doing')
   })
 
   it('una etapa que ya estaba completa al cargar se ve completa, sin celebrarla', () => {

@@ -7,8 +7,18 @@ import {
   type Progress,
   type ProgressStorage,
 } from '@/lib/checklists/progress/store'
+import { progressState } from '@/lib/checklists/progress/state'
 
 import { calendarDaysBetween, progressStrings as s } from './progress-strings'
+
+/**
+ * Escribe en la raíz de la checklist (`main.ck`) cómo va, `data-ck-state`: el huevo de la
+ * cabecera se enciende solo con 'done'. Sin JavaScript, o antes de pintar, no hay atributo y
+ * el huevo se queda apagado (checklist.css).
+ */
+export function paintProgressState(pct: number) {
+  document.querySelector<HTMLElement>('main.ck')?.setAttribute('data-ck-state', progressState(pct))
+}
 
 /** Cuándo se descargó la última copia de seguridad. */
 const BACKUP_AT_KEY = 'ta-web:backup-at'
