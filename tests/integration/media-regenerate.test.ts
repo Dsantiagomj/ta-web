@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto'
 import { existsSync } from 'node:fs'
-import { rm } from 'node:fs/promises'
+import { readFile, rm } from 'node:fs/promises'
 import path from 'node:path'
 
 import type { Payload } from 'payload'
@@ -24,6 +24,19 @@ async function png(width: number, height: number) {
     .toBuffer()
   return { data, mimetype: 'image/png', name: `antiguo-${randomUUID()}.png`, size: data.length }
 }
+
+async function animatedGif() {
+  const data = await readFile(path.resolve('tests/fixtures/media/animado.gif'))
+  return { data, mimetype: 'image/gif', name: `hechizo-${randomUUID()}.gif`, size: data.length }
+}
+
+const emptySizes = () =>
+  Object.fromEntries(
+    mediaImageSizes.map(({ name }) => [
+      name,
+      { url: null, width: null, height: null, mimeType: null, filesize: null, filename: null },
+    ]),
+  )
 
 const size = (media: Media, name: string) =>
   (media.sizes as Record<string, { filename?: string | null; width?: number | null }>)[name]
@@ -94,6 +107,39 @@ describe('regenerateImageSizes', () => {
     const result = await regenerateImageSizes(payload, { log: () => {} })
     expect(result.failed.map((failure) => failure.id)).toEqual([media.id])
     expect(result.failed[0].error).toMatch(/No está en media/)
+    await payload.delete({ collection: 'media', id: media.id })
+  })
+
+  it('un GIF animado, sin AVIF porque no debe tenerlo, está completo: no se vuelve a subir', async () => {
+    const media = await payload.create({
+      collection: 'media',
+      data: { alt: 'Hechizo animado' },
+      file: await animatedGif(),
+    })
+    const result = await regenerateImageSizes(payload, { log: () => {} })
+    expect(result.regenerated).not.toContain(media.id)
+    expect(result.failed).toEqual([])
+    await payload.delete({ collection: 'media', id: media.id })
+  })
+
+  it('a un GIF animado sin variantes le genera sus WebP animados y ningún AVIF, una vez', async () => {
+    const media = await payload.create({
+      collection: 'media',
+      data: { alt: 'Hechizo antiguo' },
+      file: await animatedGif(),
+    })
+    await payload.db.updateOne({ collection: 'media', id: media.id, data: { sizes: emptySizes() } })
+
+    const first = await regenerateImageSizes(payload, { log: () => {} })
+    expect(first.regenerated).toContain(media.id)
+    const after = await payload.findByID({ collection: 'media', id: media.id })
+    expect(size(after, 'avif-480').filename).toBeNull()
+    const webp = path.join(MEDIA_DIR, size(after, 'webp-480').filename!)
+    expect((await sharp(webp, { animated: true }).metadata()).pages).toBe(420)
+
+    const second = await regenerateImageSizes(payload, { log: () => {} })
+    expect(second.regenerated).not.toContain(media.id)
+    expect(second.failed).toEqual([])
     await payload.delete({ collection: 'media', id: media.id })
   })
 })

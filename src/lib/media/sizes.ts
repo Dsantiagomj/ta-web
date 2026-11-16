@@ -59,15 +59,38 @@ export interface MediaFileRecord {
   sizes?: Record<string, SizeRecord> | null
 }
 
+// Los tipos que Payload lee con todos sus fotogramas (isAnimatedImage de Payload). Con más de
+// uno, el parche de Payload (patches/payload@3.92.1.patch) no genera sus AVIF: sharp los
+// apilaría en una tira. Sus WebP sí salen animados.
+const ANIMATABLE_MIME_TYPES = ['image/gif', 'image/webp', 'image/tiff']
+
+const isAvif = (name: string) => name.startsWith('avif-')
+
 /**
  * Las variantes que le faltan a un archivo: las que Payload generaría para su ancho y no
- * tienen archivo. Vacío si no es una imagen que sharp convierte o si ya están todas.
+ * tienen archivo. Vacío si no es una imagen que sharp convierte o si ya están todas. Una
+ * imagen animada (`animated`, que solo se sabe leyendo el archivo) no lleva AVIF.
  */
-export function missingImageSizes(media: MediaFileRecord): string[] {
+export function missingImageSizes(
+  media: MediaFileRecord,
+  { animated = false }: { animated?: boolean } = {},
+): string[] {
   const { mimeType, width } = media
   if (!mimeType || !RESIZABLE_MIME_TYPES.includes(mimeType) || !width) return []
   return mediaImageSizes
     .filter((size) => size.withoutEnlargement || size.width! <= width)
     .map((size) => size.name)
+    .filter((name) => !(animated && isAvif(name)))
     .filter((name) => !media.sizes?.[name]?.filename)
+}
+
+/**
+ * Si le falta un AVIF a un archivo de un tipo que puede ser animado: entonces solo el
+ * archivo dice si ese AVIF falta de verdad o no debe existir (missingImageSizes con
+ * `animated`).
+ */
+export function mayBeAnimated(media: MediaFileRecord): boolean {
+  return (
+    ANIMATABLE_MIME_TYPES.includes(media.mimeType ?? '') && missingImageSizes(media).some(isAvif)
+  )
 }

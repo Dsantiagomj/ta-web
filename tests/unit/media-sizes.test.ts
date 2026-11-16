@@ -4,6 +4,7 @@ import {
   IMAGE_FORMATS,
   IMAGE_WIDTHS,
   imageSizeName,
+  mayBeAnimated,
   mediaImageSizes,
   missingImageSizes,
 } from '@/lib/media/sizes'
@@ -100,5 +101,37 @@ describe('missingImageSizes', () => {
   it('lo que no es una imagen que sharp convierte no necesita variantes', () => {
     expect(missingImageSizes({ mimeType: 'application/pdf', width: null, sizes: {} })).toEqual([])
     expect(missingImageSizes({ mimeType: 'image/svg+xml', width: 800, sizes: {} })).toEqual([])
+  })
+
+  it('una imagen animada no necesita AVIF: solo sus WebP', () => {
+    expect(
+      missingImageSizes({ mimeType: 'image/gif', width: 1000, sizes: {} }, { animated: true }),
+    ).toEqual(['webp-480', 'webp-800'])
+    const webpOnly = Object.fromEntries(
+      Object.entries(allSizes(600)).map(([name, size]) => [
+        name,
+        name.startsWith('avif-') ? { filename: null, width: null } : size,
+      ]),
+    )
+    expect(
+      missingImageSizes({ mimeType: 'image/gif', width: 600, sizes: webpOnly }, { animated: true }),
+    ).toEqual([])
+  })
+})
+
+describe('mayBeAnimated', () => {
+  const noAvif = { 'webp-480': { filename: 'hechizo-480.webp' }, 'avif-480': { filename: null } }
+
+  it('un GIF, WebP o TIFF al que le falta un AVIF puede ser animado: hay que mirar el archivo', () => {
+    for (const mimeType of ['image/gif', 'image/webp', 'image/tiff']) {
+      expect(mayBeAnimated({ mimeType, width: 400, sizes: noAvif })).toBe(true)
+    }
+  })
+
+  it('con sus AVIF, o en un formato sin animación, no hace falta mirar el archivo', () => {
+    const complete = { 'webp-480': { filename: 'a.webp' }, 'avif-480': { filename: 'a.avif' } }
+    expect(mayBeAnimated({ mimeType: 'image/gif', width: 400, sizes: complete })).toBe(false)
+    expect(mayBeAnimated({ mimeType: 'image/png', width: 400, sizes: noAvif })).toBe(false)
+    expect(mayBeAnimated({ mimeType: 'image/jpeg', width: 400, sizes: {} })).toBe(false)
   })
 })
