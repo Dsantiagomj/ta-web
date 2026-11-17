@@ -2,6 +2,7 @@ import { RichText } from '@payloadcms/richtext-lexical/react'
 import type { CSSProperties } from 'react'
 
 import { pageSection } from '@/components/site/nav'
+import { MetaParts } from '@/components/ui/MetaParts'
 import { Picture } from '@/components/ui/Picture'
 import type { DofusCard, DofusIndexView } from '@/lib/dofus-guides/index-view'
 import { dofusPageStrings } from '@/lib/dofus-guides/strings'
@@ -29,7 +30,11 @@ function CardInner({ card, priority }: { card: DofusCard; priority: boolean }) {
       </span>
       {card.tagLabel && <span className="dcard__tag">{card.tagLabel}</span>}
       <span className="dcard__n">{card.name}</span>
-      {card.meta && <span className="dcard__m">{card.meta}</span>}
+      {card.meta.length > 0 && (
+        <span className="dcard__m">
+          <MetaParts parts={card.meta} separator={dofusPageStrings.metaSeparator} />
+        </span>
+      )}
       {card.disabled && <span className="ztag">{dofusPageStrings.preparing}</span>}
       {card.href && <span className="dcard__foil" aria-hidden="true" />}
     </>
