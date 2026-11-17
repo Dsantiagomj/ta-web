@@ -336,6 +336,19 @@ test.describe('página de una guía de Dofus', () => {
     expect(Math.abs(second!.x - first!.x)).toBeLessThan(2)
   })
 
+  test('Necesitarás: una nota sola no se aprieta en una columna; llega a la medida del texto', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto(url)
+    const notes = page.getByRole('region', { name: 'Necesitarás' }).locator('.needs__notes > li')
+    await expect(notes).toHaveCount(1)
+    const note = (await notes.first().boundingBox())!
+    // Una columna de objetos mide 15rem (264px a la raíz del 110 %); la medida del texto, 50rem.
+    expect(note.width).toBeGreaterThan(30 * 17.6)
+    expect(note.width).toBeLessThanOrEqual(50 * 17.6 + 1)
+  })
+
   test('el logro trae las misiones como las escribe Torre; la suelta lleva su nota', async ({
     page,
   }) => {
