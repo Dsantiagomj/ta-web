@@ -4,15 +4,24 @@
  * opacity y colores, y la regla global de reduced motion lo apaga.
  */
 
-/* Aviso: borde de 2px en su color y su color al 9 % sobre bg; el título dentro de la caja,
-   en ink, sin cinta ni glifo (guía v4). El texto, en ink. */
+/* Aviso: borde de 2px en su color y su color sobre un suelo neutro del modo (12 % sobre casi
+   negro, 10 % sobre blanco); el título dentro de la caja, en ink, sin cinta ni glifo (guía v4).
+   El texto, en ink. Con el fondo del tema como suelo, el dorado de «¡Importante!» salía gris
+   sobre los fondos azulados (tests/unit/callout-fill.test.ts). */
 .callout {
   --c: var(--color-info);
+  --callout-ground: #141414;
+  --callout-tint: 12%;
   padding: 1rem 1.25rem 1.125rem;
   border: 2px solid var(--c);
   border-radius: var(--radius-md);
-  background: color-mix(in srgb, var(--c) 9%, var(--color-bg));
+  background: color-mix(in srgb, var(--c) var(--callout-tint), var(--callout-ground));
   color: var(--color-ink);
+}
+
+[data-mode='light'] .callout {
+  --callout-ground: #ffffff;
+  --callout-tint: 10%;
 }
 
 .callout[data-variant='warning'] {
