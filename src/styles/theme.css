@@ -185,9 +185,7 @@
   --duration-slow: 320ms;
   --duration-enter: 400ms;
 
-  --width-wide: 87.5rem;
   --width-page: 75rem;
-  --width-hero: 68.75rem;
   --width-prose: 50rem;
   /* Las páginas van a todo el ancho, a la izquierda (DESIGN.md, Layout). Solo la columna de
      las guías se para: dos capturas de 36rem (634px con la raíz al 110 %, las de la web
