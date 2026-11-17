@@ -239,12 +239,12 @@ export function BlockThumbs({ prefix }: { prefix: string }) {
   return (
     <ul role="list" className="flex w-full flex-wrap gap-6">
       {blockThumbnailSlugs.map((slug) => (
-        <li key={slug} className="grid gap-2">
+        <li key={slug} className="grid w-full max-w-[24rem] gap-2">
           <div
             data-block-thumb={slug}
             inert
             aria-hidden="true"
-            className="flex aspect-[3/2] w-[24rem] flex-col justify-center-safe overflow-hidden border border-line bg-bg p-5"
+            className="flex aspect-[3/2] w-full flex-col justify-center-safe overflow-hidden border border-line bg-bg p-5"
           >
             {DOFUS_BLOCKS.has(slug) ? (
               <div className="dg-page">{previews[slug](prefix)}</div>

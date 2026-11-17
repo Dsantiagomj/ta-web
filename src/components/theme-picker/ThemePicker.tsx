@@ -23,10 +23,15 @@ function Hat({ className }: { className?: string }) {
 export function ThemePicker({
   initialTheme,
   initialMode,
+  idPrefix = '',
 }: {
   initialTheme: Theme
   initialMode: Mode
+  /** Para pintar varios en una página (el catálogo /sistema) sin repetir ids. */
+  idPrefix?: string
 }) {
+  const menuId = `${idPrefix}${THEME_MENU_ID}`
+  const titleId = `${idPrefix}${THEME_TITLE_ID}`
   return (
     <div className="tp" data-theme-picker data-current={initialTheme}>
       <button
@@ -35,7 +40,7 @@ export function ThemePicker({
         aria-label={themePickerLabel(initialTheme)}
         aria-haspopup="menu"
         aria-expanded="false"
-        aria-controls={THEME_MENU_ID}
+        aria-controls={menuId}
       >
         <Hat className="tp-hat" />
         <svg className="tp-chev" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
@@ -43,10 +48,10 @@ export function ThemePicker({
         </svg>
       </button>
       <div className="tp-pop" hidden>
-        <p className="tp-pop__h" id={THEME_TITLE_ID}>
+        <p className="tp-pop__h" id={titleId}>
           {s.menu}
         </p>
-        <div id={THEME_MENU_ID} role="menu" aria-labelledby={THEME_TITLE_ID}>
+        <div id={menuId} role="menu" aria-labelledby={titleId}>
           {FREE_THEMES.map((option) => (
             <button
               key={option}
