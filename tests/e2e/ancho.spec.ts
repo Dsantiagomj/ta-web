@@ -91,3 +91,18 @@ test('los carteles de las checklists empiezan a la izquierda, no en el centro', 
   const first = (await page.locator('[data-checklist-grid] > li').first().boundingBox())!
   expect(first.x).toBeCloseTo(GUTTER, 0)
 })
+
+// El vídeo y las capturas sueltas de la prosa no crecen con la columna: hasta --width-media
+// (55rem, 968px con la raíz al 110 %), lo que medía la columna de la guía antes.
+for (const { name, path } of [
+  { name: 'la guía de misión', path: `/${seedGuide.slug}` },
+  { name: 'la guía de Dofus', path: `/${seedDofus.ocre.slug}` },
+]) {
+  test(`el vídeo de ${name} no pasa de 55rem`, async ({ page }) => {
+    await page.setViewportSize({ width: 1920, height: 900 })
+    await page.goto(path)
+    const video = (await page.locator('.video__frame').first().boundingBox())!
+    expect(video.width).toBeCloseTo(55 * 17.6, 0)
+    expect(video.x).toBeCloseTo(GUTTER, 0)
+  })
+}
