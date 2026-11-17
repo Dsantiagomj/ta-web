@@ -1066,16 +1066,17 @@ ul.needs__notes {
   }
 }
 
-/* Un grupo con menos capturas que columnas no las encoge al ancho de una columna: ocupa una
-   columna por captura, de 40rem como mucho, y lo que sobra queda a la derecha. Una sola, de
-   --width-shot (634px). Una pareja a 1728px mide 704px por captura, no 529. */
+/* Una pareja llena la fila en cualquier pantalla: media fila cada una, y la segunda acaba en
+   el margen derecho. Una sola se queda en --width-shot (634px). Un grupo de tres o cuatro con
+   sitio para más columnas ocupa una por captura, de 40rem como mucho, y lo que sobra queda a
+   la derecha. */
 @container step (min-width: 81rem) {
   .figs:has(> figure:only-child) {
     grid-template-columns: var(--width-shot);
   }
 
   .figs:has(> figure:nth-child(2):last-child) {
-    grid-template-columns: repeat(2, minmax(0, var(--width-shot-max)));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

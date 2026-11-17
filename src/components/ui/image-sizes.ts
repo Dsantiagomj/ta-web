@@ -21,10 +21,9 @@ export const IMAGE_SIZES = {
     '(min-width: 185.9rem) calc(20vw - 35px), (min-width: 140.8rem) calc(25vw - 40px), ' +
     '(min-width: 95.7rem) calc(33.33vw - 47px), (min-width: 64rem) calc(50vw - 62px), ' +
     '(min-width: 40rem) calc(50vw - 32px), calc(100vw - 32px)',
-  // Una pareja: dos columnas, de 40rem (704px) como mucho desde que la fila mide 81rem.
-  pair:
-    '(min-width: 95.7rem) 704px, (min-width: 64rem) calc(50vw - 62px), ' +
-    '(min-width: 40rem) calc(50vw - 32px), calc(100vw - 32px)',
+  // Una pareja: media fila menos medio hueco en cualquier pantalla; la segunda acaba en el
+  // margen derecho. A 2560px, 1218px (2437 a 2x: la variante de 1600).
+  pair: '(min-width: 64rem) calc(50vw - 62px), (min-width: 40rem) calc(50vw - 32px), calc(100vw - 32px)',
   // Una sola: media fila, hasta 36rem (633,6px), el tamaño de la web anterior, que alcanza
   // con la ventana a 1390,4px.
   single:

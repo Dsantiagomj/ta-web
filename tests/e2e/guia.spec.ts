@@ -439,11 +439,13 @@ test.describe('página de guía', () => {
     await pair(column(1440, 2))
     expect(await shots.nth(1).evaluate((img) => getComputedStyle(img).objectFit)).toBe('cover')
 
-    // Con sitio para tres o más columnas, una pareja no encoge a una columna de la rejilla ni
-    // se estira a media fila: 40rem (704px) cada una.
-    for (const width of [1728, 2560]) {
+    // Una pareja llena la fila en cualquier pantalla: media fila menos medio hueco cada una, y
+    // la segunda acaba en el margen derecho.
+    for (const width of [1728, 1920, 2560]) {
       await page.setViewportSize({ width, height: 900 })
-      await pair(40 * 17.6)
+      await pair(column(width, 2))
+      const second = (await shots.nth(1).boundingBox())!
+      expect(width - GUTTER - (second.x + second.width), `${width}px`).toBeLessThanOrEqual(GAP)
     }
 
     await page.setViewportSize({ width: 1024, height: 900 })
@@ -481,7 +483,8 @@ test.describe('página de guía', () => {
       expect(first, `${width}px`).toHaveLength(perRow)
       for (const box of first) {
         expect(box.width, `${width}px`).toBeCloseTo(column(width, perRow), 0)
-        expect(box.width, `${width}px`).toBeLessThanOrEqual(40 * 17.6 + 0.5)
+        // Ninguna pasa de media fila.
+        expect(box.width, `${width}px`).toBeLessThanOrEqual(column(width, 2) + 0.5)
       }
       expect(first[0]!.x).toBeCloseTo(GUTTER, 0)
       const last = first.at(-1)!

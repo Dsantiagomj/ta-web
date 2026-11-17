@@ -454,11 +454,11 @@ describe('IMAGE_SIZES', () => {
     )
   })
 
-  // Una pareja ocupa dos columnas de 40rem como mucho (704px), con la ventana a 1531,2px.
-  it('una pareja de capturas: media fila hasta 704px', () => {
+  // Una pareja llena la fila en cualquier pantalla: media fila menos medio hueco.
+  it('una pareja de capturas: media fila en cualquier pantalla', () => {
     expect(IMAGE_SIZES.pair).toBe(
-      '(min-width: 95.7rem) 704px, (min-width: 64rem) calc(50vw - 62px), ' +
-        '(min-width: 40rem) calc(50vw - 32px), calc(100vw - 32px)',
+      '(min-width: 64rem) calc(50vw - 62px), (min-width: 40rem) calc(50vw - 32px), ' +
+        'calc(100vw - 32px)',
     )
   })
 
