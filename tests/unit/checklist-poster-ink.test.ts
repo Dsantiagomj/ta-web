@@ -1,6 +1,8 @@
+import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 
 import { contrastRatio, POSTER_SHADE, posterInk } from '@/lib/checklists/poster-ink'
+import { readPalette } from '@/lib/theme/palette'
 
 // El nombre de la tarjeta del índice /checklists va en el color de su Dofus sobre la sombra de
 // abajo (DESIGN.md, Checklists index): con el color tal cual si se lee, aclarado en el modo
@@ -10,8 +12,49 @@ describe('contrastRatio', () => {
   it('es el de WCAG 2.x', () => {
     expect(contrastRatio('#000000', '#ffffff')).toBeCloseTo(21, 5)
     expect(contrastRatio('#ffffff', '#ffffff')).toBeCloseTo(1, 5)
-    // Arcano oscuro: ink sobre bg, 16,17 en DESIGN.md.
-    expect(contrastRatio('#ece9ff', '#0f0d1a')).toBeCloseTo(16.17, 1)
+    // Arcano oscuro: ink sobre bg, 16,62 en DESIGN.md.
+    expect(contrastRatio('#f1eeff', '#110f1b')).toBeCloseTo(16.62, 1)
+  })
+})
+
+// La sombra del peor caso sale de theme.css, no de una paleta vieja: la oscura, el fondo de
+// cada tema oscuro al 96 % sobre arte blanco, el más claro; la clara, la superficie de cada tema
+// claro al 92 % sobre arte negro, la más oscura (checklists-index.css, .poster__shade).
+describe('POSTER_SHADE', () => {
+  const palette = readPalette(readFileSync('src/styles/theme.css', 'utf8'))
+  const channels = (hex: string) => [1, 3, 5].map((at) => parseInt(hex.slice(at, at + 2), 16))
+  const over = (color: string, art: number, share: number) =>
+    `#${channels(color)
+      .map((c) =>
+        Math.round(c * share + art * (1 - share))
+          .toString(16)
+          .padStart(2, '0'),
+      )
+      .join('')}`
+  const shades = (mode: 'dark' | 'light') =>
+    Object.entries(palette)
+      .filter(([key]) => key.endsWith(`-${mode}`))
+      .map(([, values]) =>
+        mode === 'dark' ? over(values.bg!, 255, 0.96) : over(values.surface!, 0, 0.92),
+      )
+
+  it('la oscura es la más clara de los temas oscuros y la clara la más oscura de los claros', () => {
+    const byWhite = (a: string, b: string) =>
+      contrastRatio(a, '#ffffff') - contrastRatio(b, '#ffffff')
+    expect(POSTER_SHADE.dark).toBe(shades('dark').sort(byWhite)[0])
+    expect(POSTER_SHADE.light).toBe(shades('light').sort(byWhite).at(-1))
+  })
+
+  it('un nombre que pasa sobre la sombra pasa sobre la de cada tema', () => {
+    for (const color of ['#875cd2', '#47c4ff', '#d18b23', '#b0d62d']) {
+      const ink = posterInk(color)!
+      for (const shade of shades('dark')) {
+        expect(contrastRatio(ink.dark, shade), `${color} ${shade}`).toBeGreaterThanOrEqual(4.5)
+      }
+      for (const shade of shades('light')) {
+        expect(contrastRatio(ink.light, shade), `${color} ${shade}`).toBeGreaterThanOrEqual(4.5)
+      }
+    }
   })
 })
 
