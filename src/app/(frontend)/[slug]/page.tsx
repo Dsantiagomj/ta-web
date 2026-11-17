@@ -151,7 +151,7 @@ export default async function SlugPage({ params }: Props) {
 }
 
 /**
- * Guía de misión, v5 (DESIGN.md, Quest guide): una columna de lectura centrada con la
+ * Guía de misión, v5 (DESIGN.md, Quest guide): una columna de lectura a la izquierda con la
  * cabecera (el PNJ que da la misión, el título, el subtítulo y Prerrequisitos, Necesitarás
  * y Recompensas, con los objetos en la bolsa), la entrada, los pasos separados por una
  * línea y el cierre. Lo que la guía no guarda no se pinta. Una sola isla de cliente; la de
