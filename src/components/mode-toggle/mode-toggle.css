@@ -1,9 +1,10 @@
 /*
  * El medallón de huevos de Dofus Tools (DESIGN.md, Mode switch): Dofus Marfil para el
  * modo claro y Dofus Ébano para el oscuro. El huevo del modo actual va grande a la
- * izquierda, dentro del aro en --color-accent; el otro, pequeño y apagado. El medallón
- * lleva el fondo y el borde de la búsqueda de al lado: claro en el modo claro, oscuro en el
- * oscuro.
+ * izquierda, dentro del aro en --color-accent; el otro, pequeño y apagado. El medallón va
+ * en --color-surface con un borde de control (3:1 sobre la barra), así que es claro en el
+ * modo claro y oscuro en el oscuro. Plano: sin brillos alrededor de los huevos ni de las
+ * chispas, que van en los acentos del tema.
  * Solo se animan transform y opacity; el borde cambia de color al pasar el ratón.
  */
 .mode-switch {
@@ -35,7 +36,7 @@
 .mode-switch [data-part='track'] {
   position: absolute;
   inset: 0;
-  border: 1px solid var(--color-line);
+  border: 1px solid color-mix(in srgb, var(--color-muted) 70%, var(--color-line));
   border-radius: var(--radius-pill);
   background: var(--color-surface);
   transition: border-color var(--duration-fast) var(--ease-standard);
@@ -75,19 +76,13 @@
   filter: grayscale(0.6);
 }
 
-/* El huevo activo: grande, dentro del aro, con su brillo. */
-.mode-switch [data-egg='dark'] {
-  z-index: 2;
-  transform: none;
-  opacity: 1;
-  filter: drop-shadow(0 0 0.375rem rgb(255 90 130 / 0.55));
-}
-
+/* El huevo activo: grande, dentro del aro. */
+.mode-switch [data-egg='dark'],
 .mode-switch[aria-checked='true'] [data-egg='light'] {
   z-index: 2;
   transform: none;
   opacity: 1;
-  filter: drop-shadow(0 0 0.3125rem rgb(255 226 130 / 0.85));
+  filter: none;
 }
 
 /* Al cambiar: el que se va sube en arco, el que llega baja y rebota. */
@@ -130,13 +125,11 @@
   border-radius: 50%;
   pointer-events: none;
   opacity: 0;
-  background: #ff9fb8;
-  box-shadow: 0 0 0.375rem #ff5a82;
+  background: var(--color-accent);
 }
 
 .mode-switch[aria-checked='true'] [data-part='spark'] {
-  background: #ffe8a3;
-  box-shadow: 0 0 0.375rem #ffd76a;
+  background: var(--color-accent-2);
 }
 
 .mode-switch.pop [data-part='spark'] {

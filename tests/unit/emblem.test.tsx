@@ -43,10 +43,13 @@ describe('Emblem', () => {
     expect(markup).toContain('style="--emblem:2.25rem"')
   })
 
-  it('toma los colores del tema: sombrero en accent, glifo en bg y cara en ink', () => {
+  it('toma los colores del tema: sombrero en accent, glifo en lo que tiene debajo y cara en ink', () => {
     const markup = html(<Emblem />)
     expect(markup).toContain('data-part="hat" class="fill-accent"')
-    expect(markup).toMatch(/data-part="glyph" class="stroke-bg"/)
+    // El glifo es un corte: la barra en la cabecera y el pie (--emblem-cut), si no el fondo.
+    expect(markup).toMatch(
+      /data-part="glyph" class="\[stroke:var\(--emblem-cut,var\(--color-bg\)\)\]"/,
+    )
     expect(markup).toMatch(/data-part="eyes" class="stroke-ink"/)
     expect(markup).toContain('data-part="grin" class="fill-ink"')
     expect(markup).not.toMatch(/#[0-9a-f]{6}/i)
