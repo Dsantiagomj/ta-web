@@ -46,6 +46,7 @@
     "seed:site-copy": "NODE_OPTIONS=--no-deprecation payload run scripts/seed-site-copy.ts --",
     "panel:block-thumbs": "node scripts/build-block-thumbnails.ts",
     "media:sizes": "NODE_OPTIONS=--no-deprecation payload run scripts/media-sizes.ts --",
+    "zones:backgrounds": "NODE_OPTIONS=--no-deprecation payload run scripts/zone-backgrounds.ts --",
     "migrate": "NODE_OPTIONS=--no-deprecation DATABASE_CONNECTION=direct payload migrate",
     "migrate:create": "NODE_OPTIONS=--no-deprecation payload migrate:create",
     "payload": "NODE_OPTIONS=--no-deprecation payload",
