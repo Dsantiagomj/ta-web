@@ -388,7 +388,8 @@ html:not([data-js]) .ck-panel + .ck-panel {
 
 .ck-row__b {
   display: grid;
-  grid-template-columns: 1.75rem minmax(0, 1fr);
+  /* Cabe un número de tres cifras («100») sin tocar el nombre del paso. */
+  grid-template-columns: 2.25rem minmax(0, 1fr);
   align-items: center;
   gap: 0.5rem;
   min-height: 3rem;
@@ -2188,6 +2189,16 @@ html:not([data-js]) .sl-panel + .sl-panel {
 .sl-nav__l > li {
   flex: none;
   scroll-snap-align: start;
+}
+
+/* Por debajo de 1024px la fila de chips llega hasta el borde de la ventana: recortada en el
+   relleno de .sl-groups, el último chip se cortaba a 0,75rem del borde. */
+@media (width < 64rem) {
+  .sl-nav__l {
+    margin-inline: -0.75rem;
+    padding-inline: 0.75rem;
+    scroll-padding-inline: 0.75rem;
+  }
 }
 
 .sl-st {
