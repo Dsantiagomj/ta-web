@@ -408,43 +408,46 @@ test.describe('página de guía', () => {
     expect(await root()).toBe('16px')
   })
 
-  // Del tamaño de las de torrentearcano.com en Squarespace (Torre, 2026-11-16): allí miden
-  // 634 × 374 a 1440px, 455 de ancho a 1024 y 343 a 390. Aquí, media columna menos medio
-  // hueco, hasta 36rem (633,6px con la raíz al 110 %), a 17:10, recortadas y centradas.
-  test('las capturas de un paso, de dos en dos, del mismo tamaño que en la web anterior; en el móvil, una por fila', async ({
+  // Las capturas de un paso llenan la fila de margen a margen (Torre, 2026-11-17), a 17:10,
+  // recortadas y centradas: columnas iguales con huecos de 1rem (17,6px con la raíz al
+  // 110 %), dos hasta una fila de 81rem, tres hasta 122rem y cuatro después, así que ninguna
+  // pasa de 40rem (704px). La fila mide la ventana menos los márgenes de 52,8px.
+  const GAP = 17.6
+  const GUTTER = 52.8
+  const column = (width: number, columns: number) =>
+    (width - 2 * GUTTER - (columns - 1) * GAP) / columns
+
+  test('las capturas de un paso, de dos en dos a 1440px y 17:10; en el móvil, una por fila', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
     await page.goto(url)
     const shots = page.locator('#paso-1 .figs img')
     await expect(shots).toHaveCount(2)
-    const measure = async () => ({
-      first: (await shots.nth(0).boundingBox())!,
-      second: (await shots.nth(1).boundingBox())!,
-      text: (await page.locator('#paso-1 .qstep__body p').first().boundingBox())!,
-    })
     const pair = async (expected: number) => {
-      const { first, second, text } = await measure()
+      const first = (await shots.nth(0).boundingBox())!
+      const second = (await shots.nth(1).boundingBox())!
       expect(first.width).toBeCloseTo(expected, 0)
       expect(first.height).toBeCloseTo((first.width * 10) / 17, 0)
       expect(Math.abs(first.y - second.y)).toBeLessThan(1)
       // Las dos iguales, salvo el redondeo de los subpíxeles.
       expect(second.width).toBeCloseTo(first.width, 1)
       expect(second.height).toBeCloseTo(first.height, 1)
-      // El texto del paso empieza donde la primera y acaba donde la segunda.
-      expect(first.x).toBeCloseTo(text.x, 0)
-      expect(second.x + second.width).toBeCloseTo(text.x + text.width, 0)
+      expect(first.x).toBeCloseTo(GUTTER, 0)
+      expect(second.x - (first.x + first.width)).toBeCloseTo(GAP, 0)
     }
-    await pair(633.6)
+    await pair(column(1440, 2))
     expect(await shots.nth(1).evaluate((img) => getComputedStyle(img).objectFit)).toBe('cover')
 
-    // En una pantalla muy ancha no crecen: la fila y el texto se quedan a la izquierda.
-    await page.setViewportSize({ width: 2560, height: 900 })
-    await pair(633.6)
-    expect((await measure()).first.x).toBeCloseTo(52.8, 0)
+    // Con sitio para tres o más columnas, una pareja no encoge a una columna de la rejilla ni
+    // se estira a media fila: 40rem (704px) cada una.
+    for (const width of [1728, 2560]) {
+      await page.setViewportSize({ width, height: 900 })
+      await pair(40 * 17.6)
+    }
 
     await page.setViewportSize({ width: 1024, height: 900 })
-    await pair((1024 - 2 * 52.8 - 17.6) / 2)
+    await pair(column(1024, 2))
 
     await page.setViewportSize({ width: 390, height: 844 })
     const [top, below] = [(await shots.nth(0).boundingBox())!, (await shots.nth(1).boundingBox())!]
@@ -452,10 +455,9 @@ test.describe('página de guía', () => {
     expect(below.y).toBeGreaterThan(top.y + top.height)
   })
 
-  // Con más de dos capturas seguidas, la fila mete tantas como quepan, cada una de 36rem
-  // como mucho (633,6px): dos a 1440px y a 1920px, tres a 2560px, a la izquierda y con el
-  // mismo hueco de 1rem.
-  test('las capturas de un paso llenan la fila con más columnas en una pantalla ancha, sin crecer', async ({
+  // Con una fila llena, la última captura acaba a un hueco del margen derecho como mucho, y
+  // ninguna pasa de 40rem: dos a 1440px, tres a 1728 y 1920px, cuatro a 2560px.
+  test('las capturas de un paso llenan la fila hasta el margen derecho, sin pasar de 40rem', async ({
     page,
   }) => {
     const shots = page.locator('#paso-4 .figs img')
@@ -466,23 +468,29 @@ test.describe('página de guía', () => {
       const top = boxes[0]!.y
       return boxes.filter((box) => Math.abs(box.y - top) < 1)
     }
+    await page.goto(url)
     for (const [width, perRow] of [
       [1440, 2],
-      [1920, 2],
-      [2560, 3],
+      [1728, 3],
+      [1920, 3],
+      [2560, 4],
     ] as const) {
       await page.setViewportSize({ width, height: 900 })
-      await page.goto(url)
       await expect(shots).toHaveCount(4)
       const first = await row()
       expect(first, `${width}px`).toHaveLength(perRow)
-      for (const box of first) expect(box.width, `${width}px`).toBeCloseTo(633.6, 0)
-      expect(first[0]!.x).toBeCloseTo(52.8, 0)
-      expect(first[1]!.x - (first[0]!.x + first[0]!.width)).toBeCloseTo(17.6, 0)
+      for (const box of first) {
+        expect(box.width, `${width}px`).toBeCloseTo(column(width, perRow), 0)
+        expect(box.width, `${width}px`).toBeLessThanOrEqual(40 * 17.6 + 0.5)
+      }
+      expect(first[0]!.x).toBeCloseTo(GUTTER, 0)
+      const last = first.at(-1)!
+      expect(width - GUTTER - (last.x + last.width), `${width}px`).toBeLessThanOrEqual(GAP)
     }
   })
 
-  test('un paso con una sola captura: el texto encima y la captura debajo, del mismo tamaño', async ({
+  // Una sola, debajo del texto, del tamaño de la web anterior: 36rem (633,6px) como mucho.
+  test('un paso con una sola captura: el texto encima y la captura debajo, de 634px como mucho', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
@@ -490,12 +498,16 @@ test.describe('página de guía', () => {
     const alone = page.locator('#paso-3 .figs img')
     await expect(alone).toHaveCount(1)
     const shot = (await alone.boundingBox())!
-    const pairShot = (await page.locator('#paso-1 .figs img').first().boundingBox())!
     const text = (await page.locator('#paso-3 .qstep__body p').first().boundingBox())!
-    expect(shot.width).toBeCloseTo(pairShot.width, 1)
-    expect(shot.height).toBeCloseTo(pairShot.height, 1)
+    expect(shot.width).toBeCloseTo(36 * 17.6, 0)
+    expect(shot.height).toBeCloseTo((shot.width * 10) / 17, 0)
     expect(shot.x).toBeCloseTo(text.x, 0)
     expect(shot.y).toBeGreaterThan(text.y + text.height)
+
+    await page.setViewportSize({ width: 2560, height: 900 })
+    expect((await alone.boundingBox())!.width).toBeCloseTo(36 * 17.6, 0)
+    await page.setViewportSize({ width: 1024, height: 900 })
+    expect((await alone.boundingBox())!.width).toBeCloseTo(column(1024, 2), 0)
   })
 
   // A 1024px, en ¿Dónde está mi samurái?, la lista cerrada de la bolsa (solo invisible) salía

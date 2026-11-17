@@ -174,13 +174,17 @@
 
   --width-prose: 50rem;
   /* Las páginas van a todo el ancho, a la izquierda, hasta el margen derecho (DESIGN.md,
-     Layout). Una captura de un paso mide como mucho 36rem (634px con la raíz al 110 %, las de
-     la web anterior a 1440px); la fila de dos y el hueco de 1rem, 73rem, es la medida del
-     texto de los pasos, de los avisos y de lo que no debe estirarse. Las capturas sueltas de
-     la prosa y el vídeo, a 55rem. */
+     Layout). Las capturas de un paso llenan la fila y miden como mucho 40rem; una sola, 36rem
+     (634px con la raíz al 110 %, las de la web anterior a 1440px). El vídeo, hasta dos
+     capturas de 40rem y su hueco. El texto corrido, a 75ch. --width-guide (73rem) es donde se
+     paran las filas de misiones de la checklist y las tarjetas de anterior y siguiente. Las
+     capturas sueltas de la prosa, a 55rem. */
   --width-shot: 36rem;
+  --width-shot-max: 40rem;
   --width-guide: calc(2 * var(--width-shot) + 1rem);
+  --width-video: calc(2 * var(--width-shot-max) + 1rem);
   --width-media: 55rem;
+  --measure: 75ch;
 }
 
 /* Paletas: cinco temas, cada uno con modo oscuro y claro. Amakna, Arcano, Bonta y Brâkmar son

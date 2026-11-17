@@ -93,8 +93,8 @@ test('los carteles de las checklists empiezan a la izquierda, no en el centro', 
 })
 
 // Ninguna columna se para antes del margen derecho (Torre, 2026-11-17): con la ventana más
-// ancha que 1440px no queda una franja vacía a la derecha de la página. Cada caso dice qué
-// caja llega al borde derecho de su contenedor.
+// ancha que 1440px (la de Torre mide 1728px) no queda una franja vacía a la derecha de la
+// página. Cada caso dice qué caja llega al borde derecho de su contenedor.
 const columns: { name: string; path: string; column: string; edge: string }[] = [
   {
     name: 'una guía de misión',
@@ -125,7 +125,7 @@ const columns: { name: string; path: string; column: string; edge: string }[] = 
   },
 ]
 
-for (const width of [1920, 2560]) {
+for (const width of [1728, 1920, 2560]) {
   test.describe(`sin franja vacía a la derecha a ${width}px`, () => {
     test.use({ viewport: { width, height: 1000 } })
 
@@ -148,48 +148,61 @@ for (const width of [1920, 2560]) {
   })
 }
 
-// El texto corrido conserva una medida de lectura aunque la columna llegue al margen: el de
-// los pasos, lo que mide la fila de dos capturas (73rem, como a 1440px); la entrada y el
-// cierre, 72ch. Los avisos y los consejos de Torre, como el texto de los pasos.
-test('el texto corrido no crece con la columna en una pantalla ancha', async ({ page }) => {
+// El texto corrido conserva una medida de lectura aunque la columna llegue al margen: 75ch
+// en los pasos y dentro de los avisos y los consejos de Torre, cuyas cajas van de margen a
+// margen; 72ch en la entrada y el cierre.
+test('el texto corrido no crece con la columna en una pantalla ancha; las cajas, sí', async ({
+  page,
+}) => {
   await page.setViewportSize({ width: 2560, height: 1000 })
   await page.goto(`/${seedGuide.slug}`)
-  const row = 73 * 17.6
-  for (const selector of ['#paso-1 .qstep__body p', '#paso-2 .callout', '#paso-2 .torre']) {
-    const box = (await page.locator(selector).first().boundingBox())!
-    expect(box.width, selector).toBeLessThanOrEqual(row + 1)
+  const measure = (selector: string, chars: number) =>
+    page
+      .locator(selector)
+      .first()
+      .evaluate((node, chars) => {
+        const probe = document.createElement('span')
+        probe.textContent = '0'.repeat(chars)
+        probe.style.whiteSpace = 'nowrap'
+        node.append(probe)
+        const width = probe.getBoundingClientRect().width
+        probe.remove()
+        return { width, max: parseFloat(getComputedStyle(node).maxWidth) }
+      }, chars)
+  for (const selector of [
+    '#paso-1 .qstep__body p',
+    '#paso-2 .callout__body > p',
+    '#paso-2 .torre__body > p',
+  ]) {
+    const { width, max } = await measure(selector, 75)
+    expect(max, selector).toBeLessThanOrEqual(width + 1)
   }
-  const intro = page.locator('.quest__intro p').first()
-  const measure = await intro.evaluate((p) => {
-    const probe = document.createElement('span')
-    probe.textContent = '0'.repeat(72)
-    probe.style.whiteSpace = 'nowrap'
-    p.append(probe)
-    const width = probe.getBoundingClientRect().width
-    probe.remove()
-    return width
-  })
-  expect(await intro.evaluate((p) => parseFloat(getComputedStyle(p).maxWidth))).toBeLessThanOrEqual(
-    measure + 1,
-  )
+  const intro = await measure('.quest__intro p', 72)
+  expect(intro.max).toBeLessThanOrEqual(intro.width + 1)
 
-  // En una página del sitio, el aviso tampoco se estira.
-  await page.goto(`/${seedPages.emote.slug}`)
-  const callout = (await page.locator('.guide-body .callout').first().boundingBox())!
-  expect(callout.width).toBeLessThanOrEqual(row + 1)
+  // Las cajas de los avisos y de los consejos de Torre, hasta el margen derecho.
+  for (const selector of ['#paso-2 .callout', '#paso-2 .torre']) {
+    const box = (await page.locator(selector).first().boundingBox())!
+    expect(2560 - GUTTER - (box.x + box.width), selector).toBeLessThan(1)
+  }
 })
 
-// El vídeo y las capturas sueltas de la prosa no crecen con la columna: hasta --width-media
-// (55rem, 968px con la raíz al 110 %), lo que medía la columna de la guía antes.
+// El vídeo crece con la fila de capturas hasta dos de 40rem y su hueco (81rem, 1425,6px con
+// la raíz al 110 %): ni pequeño junto a la rejilla ni de margen a margen.
 for (const { name, path } of [
   { name: 'la guía de misión', path: `/${seedGuide.slug}` },
   { name: 'la guía de Dofus', path: `/${seedDofus.ocre.slug}` },
 ]) {
-  test(`el vídeo de ${name} no pasa de 55rem`, async ({ page }) => {
+  test(`el vídeo de ${name} llega a 81rem y no pasa de ahí`, async ({ page }) => {
     await page.setViewportSize({ width: 1920, height: 900 })
     await page.goto(path)
     const video = (await page.locator('.video__frame').first().boundingBox())!
-    expect(video.width).toBeCloseTo(55 * 17.6, 0)
+    expect(video.width).toBeCloseTo(81 * 17.6, 0)
     expect(video.x).toBeCloseTo(GUTTER, 0)
+    await page.setViewportSize({ width: 1440, height: 900 })
+    expect((await page.locator('.video__frame').first().boundingBox())!.width).toBeCloseTo(
+      1440 - 2 * GUTTER,
+      0,
+    )
   })
 }
