@@ -12,13 +12,9 @@
 
 /* ---------- página ---------- */
 
+/* A todo el ancho de la ventana y a la izquierda, como la guía (DESIGN.md, Layout). */
 .logro {
   --gutter: 1rem;
-  /* La columna de lectura de la página, la de la guía (880px a 16px de raíz). */
-  --logro-col: 55rem;
-  box-sizing: content-box;
-  max-width: var(--logro-col);
-  margin-inline: auto;
   padding: 1.25rem var(--gutter) 4rem;
   font-size: 1rem;
   line-height: 1.65;
@@ -37,8 +33,10 @@
   }
 }
 
+/* La columna de la página, la de la guía: hasta --width-guide, a la izquierda. */
 .logro__main {
   min-width: 0;
+  max-width: var(--width-guide);
   container-type: inline-size;
 }
 
@@ -59,13 +57,12 @@
    altura encima de las misiones. La última fila es flexible, así que una ficha más alta que
    las migas y la cabecera solo alarga esa fila, sin separar las de arriba. */
 @media (min-width: 64rem) {
-  .logro--sheet {
-    max-width: 78rem;
-  }
-
+  /* La columna de las misiones crece hasta --width-guide y la ficha va pegada a ella: en una
+     pantalla muy ancha lo que sobra queda a la derecha, no entre las dos. */
   .logro--sheet > .logro__main {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 20rem;
+    max-width: none;
+    grid-template-columns: minmax(0, var(--width-guide)) 20rem;
     grid-template-rows: auto auto 1fr;
     column-gap: 3rem;
   }

@@ -23,10 +23,8 @@
   }
 }
 
+/* A todo el ancho y a la izquierda (DESIGN.md, Layout). */
 .home-wrap {
-  box-sizing: content-box;
-  max-width: var(--width-wide);
-  margin-inline: auto;
   padding-inline: var(--gutter);
 }
 
@@ -666,6 +664,16 @@ html.hs-on .site-hdr .sbtn {
     grid-area: 1 / 2;
     aspect-ratio: 5 / 4;
     margin: 0 calc(var(--gutter) * -1) 0 -2.5rem;
+  }
+}
+
+/* En una pantalla ancha la portada va a todo el ancho, pero el texto y la isla no crecen más
+   que cuando la portada medía 87,5rem: el texto a la izquierda y la isla contra el borde
+   derecho. */
+@media (min-width: 100rem) {
+  .hero__in {
+    grid-template-columns: minmax(0, 42.75rem) minmax(0, 42.75rem);
+    justify-content: space-between;
   }
 }
 
@@ -1331,6 +1339,15 @@ html.hs-on .site-hdr .sbtn {
 
   .tour .go {
     margin-top: 1rem;
+  }
+}
+
+/* Ni los puntos ni la copia de la guía crecen más que cuando la portada medía 87,5rem: la
+   copia no es más ancha que una guía de verdad. Se reparten a los dos lados. */
+@media (min-width: 100rem) {
+  .tour {
+    grid-template-columns: minmax(0, 35.25rem) minmax(0, 47.75rem);
+    justify-content: space-between;
   }
 }
 
