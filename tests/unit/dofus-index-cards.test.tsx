@@ -13,7 +13,7 @@ const card = (index: number): DofusCard => ({
   href: `/dofus-${index}`,
   disabled: false,
   egg: { src: `/img/game/dofus/${index}.webp`, width: 128, height: 128 },
-  meta: 'Nivel 100',
+  meta: ['Nivel 100'],
   search: `dofus ${index}`,
 })
 

@@ -1,4 +1,5 @@
 import { srcSetValue } from '@/components/ui/srcset'
+import { MetaParts } from '@/components/ui/MetaParts'
 import type { ImageAsset } from '@/components/ui/types'
 import type { QuestHeaderData } from '@/lib/guides/page'
 
@@ -71,21 +72,19 @@ function Start({ giver }: { giver: GiverData }) {
   )
 }
 
-/** El subtítulo: «Misión de Astrub - Nivel 20 - Misión 2 de 3». El logro va en las migas. */
+/**
+ * El subtítulo: «Misión de Astrub - Nivel 20 - Misión 2 de 3». El logro va en las migas. En
+ * el móvil se parte entre sus partes, nunca con el guion al empezar la línea (MetaParts).
+ */
 function Subtitle({ meta }: { meta: QuestHeaderData['meta'] }) {
-  const parts: React.ReactNode[] = []
+  const parts: string[] = []
   if (meta.zone) parts.push(s.zone(meta.zone))
   if (meta.level) parts.push(s.level(meta.level))
   if (meta.achievement) parts.push(s.achievement(meta.achievement.position, meta.achievement.total))
   if (parts.length === 0) return null
   return (
     <p className="qhead__meta">
-      {parts.map((part, index) => (
-        <span key={index}>
-          {index > 0 && s.separator}
-          {part}
-        </span>
-      ))}
+      <MetaParts parts={parts} separator={s.separator} />
     </p>
   )
 }

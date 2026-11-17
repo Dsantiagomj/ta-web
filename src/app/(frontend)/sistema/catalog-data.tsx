@@ -267,7 +267,7 @@ export const dofusCards: DofusCard[] = [
     color: '#2ecd68',
     tag: 'primordial',
     tagLabel: 'Primordial',
-    meta: '1 logro - 8 misiones - Nivel 100',
+    meta: ['1 logro', '8 misiones', 'Nivel 100'],
     search: 'dofus esmeralda',
   },
   {
@@ -277,7 +277,7 @@ export const dofusCards: DofusCard[] = [
     egg: eggArt('jyfus'),
     tag: 'event',
     tagLabel: 'Evento',
-    meta: 'Nivel 20',
+    meta: ['Nivel 20'],
     search: 'jyfus',
   },
 ]
