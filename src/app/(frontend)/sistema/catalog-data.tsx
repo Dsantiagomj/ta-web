@@ -9,6 +9,7 @@ import type { AchievementNeeds, QuestCard } from '@/lib/achievements/page'
 import { ASTRUB, CAST, CROCANTERIA, KROSMOZ } from '@/components/home/art'
 import type { ChecklistEntry, ChecklistTeaser } from '@/lib/checklists/list'
 import { posterInk } from '@/lib/checklists/poster-ink'
+import { eggLine } from '@/lib/dofus-guides/egg-line'
 import type { DofusCard } from '@/lib/dofus-guides/index-view'
 import type { DofusGuideView } from '@/lib/dofus-guides/page'
 import type { NextQuestCardData, QuestHeaderData } from '@/lib/guides/page'
@@ -265,6 +266,7 @@ export const dofusCards: DofusCard[] = [
     disabled: false,
     egg: eggArt('dofus-esmeralda'),
     color: '#2ecd68',
+    line: eggLine('#2ecd68'),
     tag: 'primordial',
     tagLabel: 'Primordial',
     meta: ['1 logro', '8 misiones', 'Nivel 100'],

@@ -60,7 +60,18 @@ export function DofusCards({ cards }: { cards: DofusCard[] }) {
 }
 
 function Card({ card, priority }: { card: DofusCard; priority: boolean }) {
-  const style = (card.color ? { '--egg': card.color } : undefined) as CSSProperties | undefined
+  // El halo va en el color de Torre; el borde, en el de cada modo que llega a 3:1 (egg-line.ts).
+  const style = (
+    card.color
+      ? {
+          '--egg': card.color,
+          ...(card.line && {
+            '--egg-line-dark': card.line.dark,
+            '--egg-line-light': card.line.light,
+          }),
+        }
+      : undefined
+  ) as CSSProperties | undefined
   return card.href ? (
     <a className="dcard" href={card.href} style={style} data-tilt="">
       <CardInner card={card} priority={priority} />

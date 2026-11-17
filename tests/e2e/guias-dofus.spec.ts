@@ -1,6 +1,7 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
 
+import { contrastRatio } from '../../src/lib/checklists/poster-ink.ts'
 import { MODES } from '../../src/lib/theme/theme.ts'
 import { visualLines } from './meta-lines.ts'
 import { expectNeedsColumns } from './needs-layout.ts'
@@ -12,6 +13,13 @@ import { seedGuide } from './seed/guides.ts'
 // Las guías de Dofus (DESIGN.md, Dofus guides index y Dofus guide page), sobre las que siembra
 // scripts/seed-e2e.ts: el Dofus Ocre completo, el Dofawa sin logros y el Jyfus En preparación.
 // Todo lo que se ve sale de la colección dofus-guides y de su índice.
+
+/** «rgb(209, 139, 35)» → «#d18b23». */
+const rgbHex = (rgb: string) =>
+  `#${(rgb.match(/\d+/g) ?? [])
+    .slice(0, 3)
+    .map((channel) => Number(channel).toString(16).padStart(2, '0'))
+    .join('')}`
 
 async function axe(page: Page) {
   const results = await new AxeBuilder({ page })
@@ -154,6 +162,25 @@ test.describe('índice de las guías de Dofus', () => {
       'background-color',
       await token('--color-hue-6'),
     )
+  })
+
+  // El color de un Dofus lo elige Torre: en el modo claro, el borde se oscurece lo justo para
+  // llegar a 3:1 sobre el fondo y la tarjeta (el Dofus Plateado casi no se veía).
+  test('en el modo claro el borde de cada tarjeta se ve: 3:1 sobre el fondo', async ({
+    page,
+    context,
+    baseURL,
+  }) => {
+    await context.addCookies([{ name: 'ta-mode', value: 'light', url: baseURL! }])
+    await page.goto('/guias-dofus')
+    await expect(page.locator('html')).toHaveAttribute('data-mode', 'light')
+    const ocre = page.getByRole('link', { name: new RegExp(dofus.ocre.name) })
+    const [border, background] = await ocre.evaluate((card) => [
+      getComputedStyle(card).borderTopColor,
+      getComputedStyle(document.body).backgroundColor,
+    ])
+    expect(border).not.toBe('rgb(209, 139, 35)')
+    expect(contrastRatio(rgbHex(border!), rgbHex(background!))).toBeGreaterThanOrEqual(3)
   })
 
   test('en el móvil, las cifras de una tarjeta se parten entre sus partes, sin empezar por el guion', async ({
