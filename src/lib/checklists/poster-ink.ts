@@ -5,10 +5,11 @@
 
 /**
  * La sombra bajo el nombre en el peor caso (checklists-index.css, `.poster__shade`): la oscura,
- * el fondo más claro de los temas oscuros (Arcano) al 96 % sobre arte blanco; la clara, la
- * superficie más oscura de los temas claros (Ocre) al 92 % sobre arte negro al 55 %.
+ * el fondo de cada tema oscuro al 96 % sobre arte blanco, la más clara (Bonta); la clara, la
+ * superficie de cada tema claro al 92 % sobre arte negro, la más oscura (Ocre).
+ * tests/unit/checklist-poster-ink.test.ts las saca de theme.css.
  */
-export const POSTER_SHADE = { dark: '#1a1824', light: '#e8e3da' } as const
+export const POSTER_SHADE = { dark: '#181c29', light: '#ebe6dd' } as const
 
 const AA = 4.5
 
