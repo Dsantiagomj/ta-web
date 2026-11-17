@@ -25,6 +25,9 @@ export const seedAchievement = {
     { title: 'El cazador cazado', kicker: 'Nivel 25' },
   ],
   previous: { name: 'Un ciudadano modelo', slug: 'un-ciudadano-modelo' },
+  // Su fondo propio (el de Anutropía, como en el prototipo), que gana al de la zona de su
+  // primera misión, que no tiene. El logro anterior sale sin fondo.
+  background: { alt: 'Paisaje de Anutropía', file: 'tests/fixtures/zones/anutropia.jpg' },
   next: { name: 'La gran biblioteca', slug: 'la-gran-biblioteca' },
   countsFor: { name: 'Periplo astrubiense', points: 20, achievements: 6 },
   // La prosa de Torre, como la deja pnpm import:achievement-prose: la entrada antes de las
@@ -96,6 +99,13 @@ export async function seedAchievements(payload: Payload): Promise<void> {
       data: { alt: 'Portada del vídeo', originalUrl: video.posterUrl },
       filePath: path.resolve(video.poster),
     }))
+  const background =
+    (await findOne(payload, 'media', 'alt', seedAchievement.background.alt)) ??
+    (await payload.create({
+      collection: 'media',
+      data: { alt: seedAchievement.background.alt },
+      filePath: path.resolve(seedAchievement.background.file),
+    }))
   const prose = {
     intro: richText(paragraph(seedAchievement.intro)),
     outro: richText(
@@ -147,6 +157,7 @@ export async function seedAchievements(payload: Payload): Promise<void> {
       slug: seedAchievement.previous.slug,
       state: 'published' as const,
       quests: [quests[0]!],
+      background: undefined,
       intro: undefined,
       outro: undefined,
     },
@@ -156,6 +167,7 @@ export async function seedAchievements(payload: Payload): Promise<void> {
       slug: seedAchievement.slug,
       state: 'published' as const,
       quests,
+      background: background.id,
       ...prose,
     },
     {
@@ -164,6 +176,7 @@ export async function seedAchievements(payload: Payload): Promise<void> {
       slug: seedAchievement.next.slug,
       state: 'preparing' as const,
       quests: [quests[2]!],
+      background: undefined,
       intro: undefined,
       outro: undefined,
     },
@@ -193,6 +206,7 @@ export async function seedAchievements(payload: Payload): Promise<void> {
         points: 10,
         quests: page.quests.map((quest) => ({ quests: [quest.id] })),
         rewards: { experience: 102_128, kamas: 1_105 },
+        background: page.background,
         intro: page.intro as never,
         outro: page.outro as never,
         _status: 'published',

@@ -114,6 +114,16 @@ export const seedGuide = {
     name: 'Casa de los Espíritus',
     boss: { dofusId: 6394, name: 'Kumijo', gfxId: 2097 },
   },
+  // El fondo de zona (DESIGN.md, Zone background): la subzona del mapa de inicio, con el render
+  // del mapa del PNJ recortado como lo guarda «Traer fondo de DofusDB». La guía previa no
+  // tiene mapa de inicio, así que sale sin fondo.
+  zoneBackground: {
+    subAreaId: 95,
+    name: 'Ciudad de Astrub',
+    area: 'Astrub',
+    mapId: 188746755,
+    file: 'tests/fixtures/zones/astrub.jpg',
+  },
   // Los objetos de Necesitarás, de los de la recompensa: dos, para ver sus columnas.
   needsItems: [
     { name: 'Intestino de araknáusea', quantity: 2 },
@@ -347,6 +357,33 @@ export async function seedGuides(payload: Payload): Promise<void> {
     if (!found) throw new Error(`Falta el objeto de Necesitarás ${name}`)
     return { item: found.id, quantity }
   })
+  const zone = seedGuide.zoneBackground
+  const zoneImage = await media(
+    payload,
+    `dofusdb-map-render:${zone.mapId}`,
+    zone.file,
+    `Paisaje de ${zone.name}, en ${zone.area}`,
+  )
+  await findOrCreate(
+    () =>
+      payload.find({
+        collection: 'subareas',
+        where: { dofusId: { equals: zone.subAreaId } },
+        limit: 1,
+      }),
+    () =>
+      payload.create({
+        collection: 'subareas',
+        data: {
+          dofusId: zone.subAreaId,
+          name: zone.name,
+          areaDofusId: 18,
+          areaName: zone.area,
+          background: zoneImage.id,
+          backgroundMapId: zone.mapId,
+        },
+      }),
+  )
   const main = await quest(payload, {
     dofusId: 1976,
     name: seedGuide.title,
@@ -361,6 +398,7 @@ export async function seedGuides(payload: Payload): Promise<void> {
         mapId: 192415748,
         x: 7,
         y: -19,
+        subAreaId: seedGuide.zoneBackground.subAreaId,
       },
     ],
     rewards: {
