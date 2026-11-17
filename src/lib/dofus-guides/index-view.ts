@@ -7,7 +7,7 @@ import { mediaImageAsset } from '@/lib/media/image-asset'
 import type { Media } from '@/payload-types'
 
 import { dofusMeta, type DofusListDoc } from './page'
-import { dofusGuideStrings, dofusPageStrings } from './strings'
+import { dofusGuideStrings } from './strings'
 
 import { foldText, type DofusFilter, type DofusTag } from './index-search'
 
@@ -22,8 +22,8 @@ export interface DofusCard {
   color?: string
   tag?: DofusTag
   tagLabel?: string
-  /** «7 logros - 40 misiones - Nivel 180»; solo «Nivel 20» si está En preparación. */
-  meta: string
+  /** «7 logros», «40 misiones», «Nivel 180»; solo «Nivel 20» si está En preparación. */
+  meta: string[]
   /** El nombre y los otros nombres, sin tildes ni mayúsculas, para la búsqueda. */
   search: string
 }
@@ -50,7 +50,7 @@ export function dofusIndexView(docs: DofusListDoc[]): DofusIndexView {
       ...(egg && { egg }),
       ...(doc.color && { color: doc.color }),
       ...(tag && { tag, tagLabel: dofusGuideStrings.tags[tag] }),
-      meta: meta.join(dofusPageStrings.metaSeparator),
+      meta,
       search: foldText([doc.name, doc.aliases ?? ''].join(' ')),
     }
   })
