@@ -12,8 +12,9 @@
 /* ---------- página ---------- */
 
 /* Una página plana: el contenido sobre el fondo, sin tarjeta alrededor, a todo el ancho de la
-   ventana y a la izquierda (Torre, 2026-11-16). La columna de la guía llega hasta
-   --width-guide, lo que mide la fila de dos capturas, y no crece más en una pantalla ancha. */
+   ventana y a la izquierda (Torre, 2026-11-16). La columna llega al margen derecho en
+   cualquier pantalla (Torre, 2026-11-17): lo que no debe estirarse (el texto, los avisos, las
+   capturas) se para dentro de ella. */
 .quest {
   --gutter: 1rem;
   padding: 1.75rem var(--gutter) 3.5rem;
@@ -32,10 +33,6 @@
     --gutter: 3rem;
     padding-top: 2.5rem;
   }
-}
-
-.quest > article {
-  max-width: var(--width-guide);
 }
 
 /* Los enlaces de la cabecera y de la prosa van subrayados: el color solo no basta. */
@@ -205,7 +202,8 @@
 
 /* Las partes en una banda que mide su propia columna (QuestFacts las envuelve en .facts):
    una debajo de otra en el móvil; con sitio, Prerrequisitos y Necesitarás lado a lado, con
-   un filete entre ellas, y Recompensas en una franja debajo de las dos. La guía de Dofus
+   un filete entre ellas, y Recompensas en una franja debajo de las dos; en una pantalla
+   grande, las tres lado a lado. La guía de Dofus
    pone sus dos partes directamente en .qhead__facts (achievement.css). */
 .qhead__facts {
   grid-area: facts;
@@ -305,6 +303,24 @@
   .facts ul.needs__items,
   .facts ul.needs__notes {
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr));
+  }
+}
+
+/* Con la columna a todo el ancho de una pantalla grande (desde unos 1600px), Recompensas va
+   al lado de las otras dos en vez de en una franja debajo: la cabecera no se alarga. A 1440px
+   y menos, igual que antes. */
+@container facts (min-width: 72rem) {
+  /* Prerrequisitos y Recompensas a su medida (hasta 18rem y 30rem); Necesitarás, que suele
+     ser la lista larga, con el resto. */
+  .facts:has(> section:nth-child(3)) {
+    grid-template-columns: fit-content(18rem) minmax(0, 1fr) fit-content(30rem);
+  }
+
+  .facts > section:nth-child(3) {
+    grid-column: auto;
+    padding: 0 0 0 1.25rem;
+    border-top: 0;
+    border-left: 1px solid var(--zone-rule, var(--color-line));
   }
 }
 
@@ -966,9 +982,11 @@ ul.needs__notes {
   margin-bottom: 0;
 }
 
-/* El texto de un paso llega tan lejos como la fila de capturas que tiene debajo. */
+/* El texto de un paso llega tan lejos como la fila de dos capturas (--width-guide, 73rem):
+   a 1440px, lo mismo que la fila de debajo; en una pantalla más ancha, donde caben más
+   capturas por fila, el texto no sigue creciendo. */
 .qstep__body.prose-guide :is(p, ul, ol) {
-  max-width: none;
+  max-width: var(--width-guide);
 }
 
 .qstep__body.prose-guide p {
@@ -981,10 +999,10 @@ ul.needs__notes {
   box-shadow: var(--shadow-art);
 }
 
-/* Las capturas seguidas de un paso (GuideBlocks, .figs): una por fila en el móvil, dos
-   desde 40rem. Una sola ocupa también media columna, debajo del texto. Como la columna de la
-   guía para en --width-guide, cada una mide como mucho --width-shot: 634px a 1440px, las de
-   torrentearcano.com en Squarespace. */
+/* Las capturas seguidas de un paso (GuideBlocks, .figs): una por fila en el móvil; desde
+   40rem, dos por fila de media columna hasta que cada una llega a --width-shot (634px a
+   1440px, las de torrentearcano.com en Squarespace), y desde ahí tantas de --width-shot como
+   quepan: tres a 2560px. Una sola mide lo mismo que una de la pareja, debajo del texto. */
 .figs {
   display: grid;
   gap: 1rem;
@@ -1002,8 +1020,15 @@ ul.needs__notes {
 }
 
 @media (min-width: 40rem) {
+  /* Cada columna mide media fila menos medio hueco, o --width-shot si es menos: con la fila
+     estrecha caben dos que se reparten la fila; con sitio, todas las de --width-shot que
+     quepan, y lo que sobra queda a la derecha. Un tamaño fijo y no minmax(): auto-fill cuenta
+     las columnas con el máximo. Los 0.1px evitan que el redondeo deje una sola. */
   .figs {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(
+      auto-fill,
+      min(var(--width-shot), calc((100% - 1rem) / 2 - 0.1px))
+    );
   }
 
   /* Todas las cajas del mismo tamaño: 17:10, el recorte de la web anterior (634 × 374 a
@@ -1119,6 +1144,12 @@ ul.needs__notes {
    que medía la columna de la guía antes de ir a todo el ancho. */
 :is(.guide-body, .prose-guide) > figure {
   max-width: var(--width-media);
+}
+
+/* Los avisos y los consejos de Torre, como el texto de los pasos: hasta la fila de dos
+   capturas, no de margen a margen. */
+:is(.guide-body, .prose-guide) > :is(.callout, .torre) {
+  max-width: var(--width-guide);
 }
 
 /* Prosa dentro de un paso: bloques separados. */

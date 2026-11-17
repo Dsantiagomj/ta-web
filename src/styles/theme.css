@@ -173,10 +173,11 @@
   --duration-enter: 400ms;
 
   --width-prose: 50rem;
-  /* Las páginas van a todo el ancho, a la izquierda (DESIGN.md, Layout). Solo la columna de
-     las guías se para: dos capturas de 36rem (634px con la raíz al 110 %, las de la web
-     anterior a 1440px) y el hueco de 1rem entre ellas. Las capturas sueltas de la prosa y el
-     vídeo, a 55rem. */
+  /* Las páginas van a todo el ancho, a la izquierda, hasta el margen derecho (DESIGN.md,
+     Layout). Una captura de un paso mide como mucho 36rem (634px con la raíz al 110 %, las de
+     la web anterior a 1440px); la fila de dos y el hueco de 1rem, 73rem, es la medida del
+     texto de los pasos, de los avisos y de lo que no debe estirarse. Las capturas sueltas de
+     la prosa y el vídeo, a 55rem. */
   --width-shot: 36rem;
   --width-guide: calc(2 * var(--width-shot) + 1rem);
   --width-media: 55rem;

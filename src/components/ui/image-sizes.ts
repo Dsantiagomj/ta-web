@@ -11,10 +11,11 @@ export const IMAGE_SIZES = {
   prose:
     '(min-width: 67.1rem) 968px, (min-width: 64rem) calc(100vw - 106px), ' +
     '(min-width: 58rem) 880px, (min-width: 40rem) calc(100vw - 48px), calc(100vw - 32px)',
-  // Las capturas de un paso, de dos en dos desde 40rem (DESIGN.md, Steps): media columna
-  // menos la mitad del hueco de 1rem (17,6px con la raíz al 110 %). La columna va a todo el
-  // ancho hasta --width-guide (73rem, 1284,8px), así que cada una para en 36rem (633,6px) con
-  // la ventana a 1390,4px. En el móvil, una por fila. A 2x pide 1268px: la variante de 1600.
+  // Las capturas de un paso desde 40rem (DESIGN.md, Steps): dos por fila, de media columna
+  // menos la mitad del hueco de 1rem (17,6px con la raíz al 110 %), hasta que cada una llega
+  // a 36rem (633,6px), con la ventana a 1390,4px; desde ahí la fila mete más capturas, todas
+  // de 36rem, así que ninguna pasa de 634px en ninguna pantalla. En el móvil, una por fila.
+  // A 2x pide 1268px: la variante de 1600.
   half:
     '(min-width: 86.9rem) 634px, (min-width: 64rem) calc(50vw - 62px), ' +
     '(min-width: 40rem) calc(50vw - 32px), calc(100vw - 32px)',

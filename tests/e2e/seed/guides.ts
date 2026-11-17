@@ -150,7 +150,12 @@ export const seedGuide = {
   // Lo que hace cada paso, en orden; el bloque Paso no guarda título. La captura del
   // primero es la primera imagen: va con prioridad. El tercero no lleva negrita, como
   // muchos pasos importados.
-  steps: ['Habla con Hupe Esse', 'Combate: protege a las anutrof', 'Escolta a las anutrof'],
+  steps: [
+    'Habla con Hupe Esse',
+    'Combate: protege a las anutrof',
+    'Escolta a las anutrof',
+    'Vuelve con Hupe Esse',
+  ],
   tips: 'En la preparación del combate, ordénalas lo más lejos posible.',
   outro: 'Aquí termina la misión. Espero haberte ayudado.',
   image: {
@@ -601,6 +606,26 @@ export async function seedGuides(payload: Payload): Promise<void> {
                 ),
               },
               // Una sola captura: debajo del texto, del tamaño de las de la pareja del paso 1.
+              { blockType: 'image', image: secondImage.id },
+            ],
+          },
+          {
+            // Cuatro capturas seguidas: en una pantalla ancha caben más de dos por fila.
+            blockType: 'step',
+            body: [
+              {
+                blockType: 'richText',
+                content: richText(
+                  paragraph(
+                    text('Vuelve con '),
+                    text(seedGuide.start.npc, BOLD),
+                    text(' para terminar la misión.'),
+                  ),
+                ),
+              },
+              { blockType: 'image', image: image.id },
+              { blockType: 'image', image: secondImage.id },
+              { blockType: 'image', image: image.id },
               { blockType: 'image', image: secondImage.id },
             ],
           },
