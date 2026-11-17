@@ -347,7 +347,9 @@ a.dcard:active {
   white-space: nowrap;
 }
 .dcard--off {
-  border: 2px dashed var(--color-line);
+  /* El trazo, a 3:1 sobre el fondo y la tarjeta en los dos modos: con --color-line, en el modo
+     claro apenas se veía el contorno de la tarjeta. */
+  border: 2px dashed color-mix(in srgb, var(--color-muted) 70%, var(--color-line));
   color: var(--color-ink-2);
 }
 .dcard--off .dcard__art img {
