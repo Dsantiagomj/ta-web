@@ -432,13 +432,13 @@
 .zart--none::before {
   display: none;
 }
-.zart--icon .well {
-  /* El icono cabe entero dentro del rombo (su cuadrado inscrito es la mitad del hueco): con un
-     icono de 3rem en un hueco de 4rem, las puntas del rombo asomaban por los lados. */
+.idx .zart--icon .well {
+  /* El icono cabe entero dentro del rombo (su cuadrado inscrito es la mitad del hueco): con el
+     icono de 3rem en el hueco de 2,75rem de .idx .well, las puntas del rombo asomaban. */
   width: 5.5rem;
   height: 5.5rem;
 }
-.zart--icon .well img {
+.idx .zart--icon .well img {
   width: 2.75rem;
   height: 2.75rem;
 }
