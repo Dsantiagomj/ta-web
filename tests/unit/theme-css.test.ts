@@ -267,3 +267,44 @@ describe('los tonos de theme.css', () => {
     for (const token of [...HUES, 'on-hue']) expect(tokens).toContain(`--color-${token}`)
   })
 })
+
+// Los colores de estado y de sección son los mismos en todos los temas de un modo (DESIGN.md,
+// Shared colors y Section accents): cada uno se lee como texto sobre el fondo, la superficie y
+// raised de cada tema. El de la sección también va en el menú de la cabecera, sobre la barra.
+describe('los colores compartidos de theme.css', () => {
+  const STATUS = ['success', 'warning', 'danger', 'info'] as const
+  const SECTIONS = ['misiones', 'logros', 'dofus', 'checklists', 'clases', 'mazmorras'] as const
+
+  it('cada color de estado y de sección pasa 4,5:1 sobre bg, surface y raised de cada tema', () => {
+    for (const theme of THEMES) {
+      for (const mode of MODES) {
+        const shared = modeValues(mode)
+        const values = palette[`${theme}-${mode}`]
+        for (const token of [...STATUS, ...SECTIONS.map((s) => `sec-${s}`)]) {
+          expect(shared[token], `${mode}: ${token}`).toMatch(/^#[0-9a-f]{6}$/)
+          for (const ground of ['bg', 'surface', 'raised'] as const) {
+            expect(
+              contrastRatio(shared[token], values[ground]),
+              `${theme}-${mode}: ${token} sobre ${ground}`,
+            ).toBeGreaterThanOrEqual(4.5)
+          }
+        }
+      }
+    }
+  })
+
+  it('el color de cada sección se lee sobre la barra de la cabecera', () => {
+    for (const theme of THEMES) {
+      for (const mode of MODES) {
+        const shared = modeValues(mode)
+        const bar = palette[`${theme}-${mode}`].bar
+        for (const section of SECTIONS) {
+          expect(
+            contrastRatio(shared[`sec-${section}`], bar),
+            `${theme}-${mode}: sec-${section} sobre bar`,
+          ).toBeGreaterThanOrEqual(4.5)
+        }
+      }
+    }
+  })
+})
