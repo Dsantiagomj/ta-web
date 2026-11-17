@@ -40,4 +40,19 @@ describe('DofusCards', () => {
     expect(preparing).not.toContain('data-tilt')
     expect(preparing).not.toContain('dcard__foil')
   })
+
+  it('el borde va en el color de su Dofus para cada modo, y las cifras en bloques que no se parten', () => {
+    const plateado: DofusCard = {
+      ...card(0),
+      color: '#dce1c9',
+      line: { dark: '#dce1c9', light: '#6f735f' },
+      meta: ['12 logros', 'Nivel 20'],
+    }
+    const markup = renderToStaticMarkup(<DofusCards cards={[plateado]} />)
+    expect(markup).toContain('--egg:#dce1c9;--egg-line-dark:#dce1c9;--egg-line-light:#6f735f')
+    expect(markup).toContain(
+      '<span class="dcard__m"><span class="inline-block">12 logros -</span> ' +
+        '<span class="inline-block">Nivel 20</span></span>',
+    )
+  })
 })
