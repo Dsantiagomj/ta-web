@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:7170329cddf5add0e76985db756275357127113cbb270f3d1bb5c3e4e6d46ab3",
+  "pageVersion": "sha256:6f4c08874bf2b85a0082831a20514a2f70eb00156d45da5d8962bd1ae56466e6",
   "claims": [
     {
       "id": "claim_2f6535236bd34c0a96b8ef8fea40832d",
@@ -17,8 +17,8 @@
       "statement": "The frontend root layout resolves the mode from the mode cookie and the theme on the server without premium entitlement, renders html with lang es, data-theme and data-mode, and injects the inline mode script in head.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/layout.tsx#L29-L54",
-          "version": "repo-lines-v1:sha256:f763661d213d32663613299d2692a4339669bb525c24007793d004a153425e6b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0YWZiNGRhMmYyMjEzMDdkMDhiMzMyMGI5MTk4YzcwYjAzNTc3MWZjMzUyZjdhZDQxYzFlNThhNjYwNTAxZDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2OTAzNTFjY2FhNjhkYWUzZDEyMTgyNDYxMTc2ZTkwMGY2YTZiMDNlZGZkMzllMDRjOTkzMDY5YjU3Y2VkNTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjljMWU3ZjQ1ZDZmNWEzZjdjYjhhN2U5NGJlNWFmOTBmNGIzZTA0YjYzYTg5ZGExZjU1MmFkYzdlYzcxYWVjMTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVmYWYyMWQ0MDk0MmVhODgwNjNhOWMyZGE3YjRjYmU2YmI5MWRiYzhkM2QwM2FjZjEzY2UxZmI5NjJmMzMzODUifQ"
+          "resource": "repo://src/app/(frontend)/layout.tsx#L31-L61",
+          "version": "repo-lines-v1:sha256:6fddea6538f6dce25dcff42327f56d7f50147b5b656b660db06cd06af702a0f3:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0YWZiNGRhMmYyMjEzMDdkMDhiMzMyMGI5MTk4YzcwYjAzNTc3MWZjMzUyZjdhZDQxYzFlNThhNjYwNTAxZDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2OTAzNTFjY2FhNjhkYWUzZDEyMTgyNDYxMTc2ZTkwMGY2YTZiMDNlZGZkMzllMDRjOTkzMDY5YjU3Y2VkNTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjljMWU3ZjQ1ZDZmNWEzZjdjYjhhN2U5NGJlNWFmOTBmNGIzZTA0YjYzYTg5ZGExZjU1MmFkYzdlYzcxYWVjMTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIyM2MzNjA2ZmE1MDQ3MGZiYzA0ZDdhZDg1ZDcxMGJmNDAwNjc2ZGUwNTk3ZTA4MjJkMDJiMGFmMDZmYTk4YzIifQ"
         }
       ]
     },
@@ -110,15 +110,15 @@
     },
     {
       "id": "claim_d50188badac94bc6accd6d6a3002c1c1",
-      "statement": "The frontend layout wraps every page in SiteHeader and SiteFooter and loads in parallel the header's guide counts under the guide-pages tag, the Dofus menu items under the dofus-guides tag, the checklist menu items under the checklists tag, the standalone page links under the pages tag and the site settings under the site-copy tag.",
+      "statement": "The frontend layout wraps every page in SiteHeader and SiteFooter and loads in parallel the header's guide counts under the guide-pages tag, the Dofus menu items under the dofus-guides tag, the checklist menu items under the checklists tag, the standalone page links under the pages tag, the site settings under the site-copy tag, the Navegación global under the site-copy and dofus-guides tags and the published class and dungeon pages under the section-pages tag.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/layout.tsx#L29-L70",
-          "version": "repo-lines-v1:sha256:cc3653e2d66edc604937db631fe60d2d1bb01ffacb4129b6f7c9cdfe1dba8075:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0YWZiNGRhMmYyMjEzMDdkMDhiMzMyMGI5MTk4YzcwYjAzNTc3MWZjMzUyZjdhZDQxYzFlNThhNjYwNTAxZDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjljMWU3ZjQ1ZDZmNWEzZjdjYjhhN2U5NGJlNWFmOTBmNGIzZTA0YjYzYTg5ZGExZjU1MmFkYzdlYzcxYWVjMTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/app/(frontend)/layout.tsx#L31-L84",
+          "version": "repo-lines-v1:sha256:7531841338db416a28939d7cb4acf9fd5c177698b1c708ba69fe745d4e2ce2e4:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0YWZiNGRhMmYyMjEzMDdkMDhiMzMyMGI5MTk4YzcwYjAzNTc3MWZjMzUyZjdhZDQxYzFlNThhNjYwNTAxZDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjljMWU3ZjQ1ZDZmNWEzZjdjYjhhN2U5NGJlNWFmOTBmNGIzZTA0YjYzYTg5ZGExZjU1MmFkYzdlYzcxYWVjMTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://src/app/(frontend)/site-data.ts#L19-L75",
-          "version": "repo-lines-v1:sha256:29aa4b532c89476e5d574e7d56de81cc1868582cdae5d1e675b505702a8cb002:eyJzZWxlY3RlZExpbmVDb3VudCI6NTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5ODZiZmZlNzNhZDQ4ZTA1ZTdiNGQwYWJjYTQ0OGI3Y2QyZTE1YTNhNWM1NTNmNzBmMTU0OWI1ODVhZDQzNDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY1YWQ1NGIyODZhY2ZjNjIwYjUxMDNmNjM2NDExNjg3MDVhYTgxNzc0NDJkNDI2OTJiNTY1OThhMjVmMmI3YTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/app/(frontend)/site-data.ts#L21-L101",
+          "version": "repo-lines-v1:sha256:b776c4e47b7b22324113c78ff5627db94589209b320d86d0b6aedebdce9b3ded:eyJzZWxlY3RlZExpbmVDb3VudCI6ODEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5ODZiZmZlNzNhZDQ4ZTA1ZTdiNGQwYWJjYTQ0OGI3Y2QyZTE1YTNhNWM1NTNmNzBmMTU0OWI1ODVhZDQzNDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg3MmU1ZGM0NWVhY2NhOTA3MTcxYmIwOTY5MmE2YWU2MTllNTdjZTViNDI1ZGU0MDI4YTA1Y2E5MWJlMTJmODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -127,12 +127,12 @@
       "statement": "The Payload config registers five custom endpoints: health, ready, the guide search index, the DofusDB values endpoint for the panel notes and the game data refresh endpoint.",
       "evidence": [
         {
-          "resource": "repo://src/payload.config.ts#L108-L114",
-          "version": "repo-lines-v1:sha256:218a254dc39359976d10002277ee81160e33210e6527d244fba1217fdd435d2b:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTQxZjM2OTlmZTUxNThlN2IyZGZkYWM0MTg3ZGUxYzI4NWIxMGU0NDE1MmNiOTA0ZjFhNGRlM2U2MzBkYTdjOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTY0ZDhjMDczNDI5ODkzMTAxNTc2ZDg4ZDk5MTI3ZTg5ZDY4OTFkM2IxN2U4OWRmMDJlYzlhZTcwNzA1ZDhiZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2M4NjFmZWE5ZjI0MTM1NDBiZTY4NzQxNDE4MGRjOGM2NmQ0Yjk5NGMxYjk4MjE3NDZiZDljMTcwZjRiYTUyYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDc1ZDBlNjkyYmI3NzY0OTBiM2JkOTU5YjA2ODcwODk3ZGRkMzVmMjRlMTQ5NWNlZWQ5YjU2MDQxYjAxNDFjYiJ9"
+          "resource": "repo://src/payload.config.ts#L108-L119",
+          "version": "repo-lines-v1:sha256:d22dc1207507ebb39181210b0f9dc2c6cb2a9c4a23bdf31c501cc4d59ed73404:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2YjI2YzRkZmM1ZGM1NTc2MzE0Mzk1ZTdkNDVjMWIxNDYwZTE4ZTMwM2I3ZDVlZDE4ZmViMzQwYTg3YjZjN2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2NGQ4YzA3MzQyOTg5MzEwMTU3NmQ4OGQ5OTEyN2U4OWQ2ODkxZDNiMTdlODlkZjAyZWM5YWU3MDcwNWQ4YmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk1Njg1ZWViN2FlZGFkZjdmOTBkYWY5ZDJmMzY0NDkxYjU2MjQwMGM5NGQxZjkxYWZjYmMyZWJkMjRlYjkzOWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ3NWQwZTY5MmJiNzc2NDkwYjNiZDk1OWIwNjg3MDg5N2RkZDM1ZjI0ZTE0OTVjZWVkOWI1NjA0MWIwMTQxY2IifQ"
         },
         {
-          "resource": "repo://src/payload.config.ts#L27-L35",
-          "version": "repo-lines-v1:sha256:2a5150e15f5b3af4a85221a66815570e42fe807d16cc08fa9c5f0ae69318d058:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWVhMjE3ODRiZTUwZWQ4MmVkMGMxY2MzNGFmMTJiY2Y4YmFhMWE4YWFlYjliODI0M2RhYTU0OWU0ODI3NTE4NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZTgwMTMyOGQ1OGFkYjA2MWY2OWEyODhhYjdlZWJkZWM5Mjc2MmVlNzBiMWNkNzM4ZWM1NTllYWUwMzY2OTI5NSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzdmZTc5MDljOTVkMjYyMjA0MTg0NzMxZTJlZTFiNTM2OWFkYmVhMjRiYjNlODg5MGY3OTQzNzJkYWFjMjhmYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzEwYjk0YjM5Y2EzODU3ODJmMGUyMTMzZWVjMzU4N2Q1YTQyYTI2OTg4ZTM3ZTJmNTA1ZGMyMjViNTRkOTJmZCJ9"
+          "resource": "repo://src/payload.config.ts#L29-L38",
+          "version": "repo-lines-v1:sha256:759e0f82251c00f7e211b278d68b084dac0678ca17be7a053fc7faf9a50d5fc8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFlYTIxNzg0YmU1MGVkODJlZDBjMWNjMzRhZjEyYmNmOGJhYTFhOGFhZWI5YjgyNDNkYWE1NDllNDgyNzUxODQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4MDEzMjhkNThhZGIwNjFmNjlhMjg4YWI3ZWViZGVjOTI3NjJlZTcwYjFjZDczOGVjNTU5ZWFlMDM2NjkyOTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM3ZmU3OTA5Yzk1ZDI2MjIwNDE4NDczMWUyZWUxYjUzNjlhZGJlYTI0YmIzZTg4OTBmNzk0MzcyZGFhYzI4ZmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMxMGI5NGIzOWNhMzg1NzgyZjBlMjEzM2VlYzM1ODdkNWE0MmEyNjk4OGUzN2UyZjUwNWRjMjI1YjU0ZDkyZmQifQ"
         }
       ]
     },
@@ -203,18 +203,18 @@
       "statement": "The frontend layout's generateMetadata builds metadataBase from SITE_URL and takes the site name, description and share image from the «Ajustes del sitio» global.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/layout.tsx#L24-L27",
+          "resource": "repo://src/app/(frontend)/layout.tsx#L26-L29",
           "version": "repo-lines-v1:sha256:aed97ef06b4da87f7604e86bb39215740701f6b36302d59aa9baf3bf9409d5d3:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiN2Y0NmQ0ZDRmMDdkYzZkMGQ4MTQ5ZWFhZWRkOTg2NTZhZjM5MzkyNDQwZmVhMWFkNzQ2ZTFkZWRlNTNhNTE1NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTAxYjgyMWE5YTcxYmFmNDljODg4Y2NhYjAyY2E3MWZhNGI2ZjkyMTYwYTBiNTA5ZWJmNjJlMWM4YWFjZjZlNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2EwZDc3YmI3M2U2YTVmNDA0ZmZhYjYyNmU5M2RiOTk2YzNiMGI5OGFiOTU4YTQyMjM1OTVjMDZmMTVkZmMxMSJ9"
         },
         {
-          "resource": "repo://src/app/(frontend)/site-data.ts#L62-L68",
-          "version": "repo-lines-v1:sha256:e743278f39cf474a539ea6b4d57c5b90a2f87c6184c04e3a467ce0c1dcda847b:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmM5Nzg5MWY1MWJmNTkyNDU0MDMxNjE0MThkYjNkODI4NThhNWQ1YmQ0ZDg1NDc4ZTU2NTUyYmM0NWUzZTM4ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmFmYmEwNTI3YzM5NTNjNGI2ZTBlNWI1NzM5YmE4MzYxMmY4MDUzYmNkYzk0NjY3MzAxOTNjZDFkNTkwYjQwOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzNlODE3NzAyNTk1NDg4YjExNjNlODc2ZmMxYWMxOWI2MjZjNjM2Y2I4ZjlmZjE2ZGFiNmExMTIyNWQ4OTkwNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMTc1ODUzZjU0YTRkNzdmNjQ0MjM3ZTE5NDY5YjUwMzg0NGI3ODE3ZGQzZjk4NDBhNDRiMWYzMTA4MGVjNCJ9"
+          "resource": "repo://src/app/(frontend)/site-data.ts#L79-L85",
+          "version": "repo-lines-v1:sha256:e743278f39cf474a539ea6b4d57c5b90a2f87c6184c04e3a467ce0c1dcda847b:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmM5Nzg5MWY1MWJmNTkyNDU0MDMxNjE0MThkYjNkODI4NThhNWQ1YmQ0ZDg1NDc4ZTU2NTUyYmM0NWUzZTM4ZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmFmYmEwNTI3YzM5NTNjNGI2ZTBlNWI1NzM5YmE4MzYxMmY4MDUzYmNkYzk0NjY3MzAxOTNjZDFkNTkwYjQwOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzFhZmJjODg5Y2QxMjJmMDk2Y2QxNjE3MTljMjE4NGEzNDg5OTQ4ODZhOTUxNzI4YzdmMTk5ZThmMGRkNjgzMCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMTc1ODUzZjU0YTRkNzdmNjQ0MjM3ZTE5NDY5YjUwMzg0NGI3ODE3ZGQzZjk4NDBhNDRiMWYzMTA4MGVjNCJ9"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-16T11:00:16.891Z"
+    "at": "2026-11-17T11:00:20.552Z"
   }
 }

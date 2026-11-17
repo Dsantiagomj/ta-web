@@ -6,6 +6,10 @@ tags: [media, storage, cloudflare-r2, s3, images]
 sources:
   - id: openwiki-source-50a18d054b596a7ed0eeffb0
     resource: repo://next.config.ts
+  - id: openwiki-source-1f1fccc1624794a21587226f
+    resource: repo://patches/payload%403.92.1.patch
+  - id: openwiki-source-40275cb92c3610938f16ade3
+    resource: repo://pnpm-workspace.yaml
   - id: openwiki-source-baf8ef0ad43916de8d10e9b0
     resource: repo://scripts/build-mode-eggs.ts
   - id: openwiki-source-3fc9f0484081f9ab441d6219
@@ -30,14 +34,18 @@ sources:
     resource: repo://src/lib/media/storage.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
     resource: repo://src/payload.config.ts
+  - id: openwiki-source-e23fdf54a39358c494ec8932
+    resource: repo://tests/integration/media-regenerate.test.ts
+  - id: openwiki-source-4c9b27d1a40129a469ae6ca5
+    resource: repo://tests/integration/media-sizes.test.ts
   - id: openwiki-source-35c9ea6f75f53bd3fad443d0
     resource: repo://tests/unit/media-regenerate.test.ts
   - id: openwiki-source-034e7fb4a132a9270c2ca2d0
     resource: repo://tests/unit/media-storage.test.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
+    at: 2026-11-17T11:00:20.552Z
 ---
 
 # Media storage
@@ -82,11 +90,15 @@ The app does not optimize images when they are requested. `next.config.ts` sets 
 
 `mediaImageSizes` (`src/lib/media/sizes.ts`) is the collection's `imageSizes`: every width in `IMAGE_WIDTHS` (480, 800, 1200 and 1600) in AVIF (quality 50) and WebP (quality 80), named `<format>-<width>` (`avif-480`, `webp-1600`). Only the width is fixed, so the height follows the original's proportions. Payload skips a size wider than the original; the 480 size sets `withoutEnlargement`, so even a 96px icon gets one AVIF and one WebP at its own width. The panel thumbnail is the narrowest WebP. Each size adds URL, width, height, MIME type, file size and filename columns on `media` (migration `20261105_103713_media_image_sizes`).
 
+### Animated images
+
+Payload reads a GIF, WebP or TIFF with all its frames. sharp's AVIF encoder (libheif) has no animation, so for a file with more than one frame it would write one tall strip with the frames stacked, and fails with «heifsave: image too large» once that strip passes 16384 px. A pnpm patch, `patches/payload@3.92.1.patch`, applied through `patchedDependencies` in `pnpm-workspace.yaml`, makes Payload's `createImageSizes` skip every AVIF size of an animated upload and leave it empty. The WebP sizes stay animated, with the height of one frame. A single-frame GIF gets its AVIF and WebP like any image. Since an animated file has no AVIF variant, `Picture` writes no AVIF `<source>` for it and the browser takes the animated WebP. When Payload is upgraded, pnpm fails if the patch no longer applies: it must be redone with `pnpm patch` or removed if the new version handles animated files.
+
 `mediaImageAsset(media)` (`src/lib/media/image-asset.ts`) turns a populated media document into the `ImageAsset` that `Picture` and `Figure` render: the widest WebP as the main file with its size, the uploaded file as `original` with its own size (the fullscreen viewer opens it), the widest AVIF, and `srcSet` and `avifSrcSet` lists when a format has more than one width. A record without variants falls back to the original; an unpopulated relation or a file without URL or size gives `null`. See [Design system components](../frontend/design-system-components.md).
 
 ### Backfilling missing sizes: `pnpm media:sizes`
 
-Files uploaded before Payload generated sizes have none. `pnpm media:sizes` (`scripts/media-sizes.ts`) pages through `media`, asks `missingImageSizes` which sizes a record should have for its width and MIME type but has no file for, and re-uploads the original through Payload with the same filename and `overwriteExistingFiles`, so Payload creates the sizes and guides that link the file do not change. Records that are complete, or are not images `sharp` converts, are left alone, so the command can be rerun at no cost. It prints counts and exits with code 1 when any file failed.
+Files uploaded before Payload generated sizes have none. `pnpm media:sizes` (`scripts/media-sizes.ts`) pages through `media`, asks `missingImageSizes` which sizes a record should have for its width and MIME type but has no file for, and re-uploads the original through Payload with the same filename and `overwriteExistingFiles`, so Payload creates the sizes and guides that link the file do not change. Records that are complete, or are not images `sharp` converts, are left alone, so the command can be rerun at no cost. Only the file says whether a GIF, WebP or TIFF is animated, so when such a record lacks an AVIF size (`mayBeAnimated`), the command reads the original and checks its frame count with sharp (`isAnimated`) before deciding: an animated file with all its WebP sizes counts as complete and is not re-uploaded, since its AVIF sizes must not exist. It prints counts and exits with code 1 when any file failed.
 
 `originalReader` finds each original where it lives:
 
@@ -117,7 +129,7 @@ Media records also keep alt text and credits (both localized) and the original S
 
 ## In the panel
 
-The panel calls the collection «Imágenes» and lists the file name, alt text and last change, searchable by alt and file name. Any panel account can upload and edit; only an administrator can delete. Two `beforeDelete` guards from `src/collections/delete-guard.ts` refuse a delete even then: `refuseGameAssetDelete` keeps game art (a record with `gameAsset`), which only the DofusDB refresh brings and its data links, from being deleted by any signed-in account, and `refuseReferencedDelete('media')` refuses while anything uses the image, in its published version or its latest draft: a quest guide's body image, a Dofus guide's video poster, egg or body image, a standalone page's body image, the «Corrección de Torre» image of an NPC, monster, item, achievement or dungeon, a checklist step's figure, icon or banner, a checklist's index card scene or NPC, an image or video poster in achievement page prose, the scene or egg of the checklists index teaser, or the share image of «Ajustes del sitio». The `gameAsset` field shows only on game art, and `originalUrl` shows read-only only on imported records. See [Admin panel](../cms/admin-panel.md).
+The panel calls the collection «Imágenes» and lists the file name, alt text and last change, searchable by alt and file name. Any panel account can upload and edit; only an administrator can delete. Two `beforeDelete` guards from `src/collections/delete-guard.ts` refuse a delete even then: `refuseGameAssetDelete` keeps game art (a record with `gameAsset`), which only the DofusDB refresh brings and its data links, from being deleted by any signed-in account, and `refuseReferencedDelete('media')` refuses while anything uses the image, in its published version or its latest draft: a quest guide's body image, a Dofus guide's video poster, egg or body image, a standalone page's body image, a class page's build or body image, a dungeon page's body image, the «Corrección de Torre» image of an NPC, monster, item, achievement or dungeon, a checklist step's figure, icon or banner, a checklist's index card scene or NPC, an image or video poster in achievement page prose, the scene or egg of the checklists index teaser, or the share image of «Ajustes del sitio». The `gameAsset` field shows only on game art, and `originalUrl` shows read-only only on imported records. See [Admin panel](../cms/admin-panel.md).
 
 ## Tests
 

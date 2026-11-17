@@ -34,15 +34,15 @@ sources:
     resource: repo://src/collections/QuestGuides.ts
   - id: openwiki-source-2f2b90aba3af4142e443ba84
     resource: repo://src/lib/guides/strings.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
+    at: 2026-11-17T11:00:20.552Z
 ---
 
 # Quickstart
 
-ta-web is the new torrentearcano.com: a Next.js 16 app with Payload CMS 3 inside it, Postgres, Cloudflare R2 and Railway. The skeleton, the site header and footer with search, the home page, quest guide pages, achievement pages, the metalogros index, the Dofus guides with their index, the checklists with their index, standalone pages, the editable site copy, Torre's corrections to DofusDB data, the legacy and changed-slug redirects and the sitemap are built; member features are still planned. Start with the [Project overview](overview.md).
+ta-web is the new torrentearcano.com: a Next.js 16 app with Payload CMS 3 inside it, Postgres, Cloudflare R2 and Railway. The skeleton, the site header and footer with search, the home page, quest guide pages, achievement pages, the metalogros index, the Dofus guides with their index, the checklists with their index, standalone pages, the editable site copy and menu navigation, the class and dungeon pages in the panel, Torre's corrections to DofusDB data, the legacy and changed-slug redirects and the sitemap are built; member features are still planned. Start with the [Project overview](overview.md).
 
 ## Run it
 
@@ -77,7 +77,8 @@ Node 24 (≥ 24.22.1) and pnpm 11. No Docker. Details in [Local development](wor
 | Change how a published guide renders at `/<slug>`, its breadcrumb, header, steps or next quest card, draft preview or cache revalidation | [Public quest guide page](frontend/guide-page.md) |
 | Change a quest guide's reward fields (XP, kamas, items, level tiers, other rewards), how the header picks between them and DofusDB, or run the reward maintenance scripts (`pnpm guides:rewards`, `guides:rewards-dofusdb`, `guides:reward-typos`, `guides:shown-items`) | [Quest guide rewards](data/guide-rewards.md) |
 | Add or change a standalone page (emotes, how-tos, legal pages), how `/<slug>` renders it or sends it to Squarespace, or import them (`pnpm import:pages`) | [Standalone pages](pages/standalone-pages.md) |
-| Change the site name, description, share image, footer, social links or the home and index copy Torre edits in «Ajustes del sitio» and «Portada e índices», or seed them (`pnpm seed:site-copy`) | [Site settings and index texts](cms/site-copy.md) |
+| Change the class or dungeon pages in the panel (builds, «Sale en el menú»), the menu's class and dungeon lists, or import them (`pnpm import:section-pages`) | [Class and dungeon pages](pages/class-and-dungeon-pages.md) |
+| Change the site name, description, share image, footer, social links, the home and index copy or the menu sections and featured Dofus Torre edits in «Ajustes del sitio», «Portada e índices» and «Navegación», or seed them (`pnpm seed:site-copy`) | [Site settings, index texts and navigation](cms/site-copy.md) |
 | Change the achievement collections (DofusDB achievements, achievement pages, metalogros, dungeons), their fill from DofusDB and panel notes, or the shared root slug space | [Achievement data model](achievements/achievement-data.md) |
 | Change how an achievement page renders at `/<slug>`, or a guide's achievement breadcrumb and "Misión 2 de 3" | [Achievement page](achievements/achievement-page.md) |
 | Change the metalogros index at `/metalogros` or its search | [Metalogros index](achievements/metalogros-index.md) |

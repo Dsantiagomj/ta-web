@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:e89a098494a4cc1fcf6e72b58f560d3d9609f3c5bea95e77b1330d5b2283e8e8",
+  "pageVersion": "sha256:17ff3573b4ee09f5a8117a5a3f9a277b177fe61d076a1d9ebe3faced0875b4c3",
   "claims": [
     {
       "id": "claim_7b28f62adc5e40749aa22aeb92186936",
@@ -53,8 +53,8 @@
       "statement": "Saving or deleting a quest guide or media document expires the guide-pages, achievement-pages, dofus-guides, checklists and pages tags; outside a Next request the missing static generation store error is ignored, so imports and scripts show up after at most the revalidate period.",
       "evidence": [
         {
-          "resource": "repo://src/collections/revalidate-guides.ts#L1-L83",
-          "version": "repo-lines-v1:sha256:12782e12b7f2862923cdd794489e50ea356e1f8e5d26b1a7c4330a3d164ee1fb:eyJzZWxlY3RlZExpbmVDb3VudCI6ODMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxM2UyNzZmMTc4YTJhZWQzNzk4YWZkZjAwZTkzZWMxMWIyOTdkMDM2ZTM4ZTAzNjUyY2M2Zjk2OTdmODJhNmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVhZjQ0MmU5YjY0NzU1M2QxMjk0YTQyYjg4NmQ2MzMxODg0NTMwZjZmYWM5YTMzYWM0YzczMmViZTRmMzY3MzYifQ"
+          "resource": "repo://src/collections/revalidate-guides.ts#L1-L90",
+          "version": "repo-lines-v1:sha256:6ab32ad04ef09440705d34a8f0022465a715610b22b315590f285cd01fb22182:eyJzZWxlY3RlZExpbmVDb3VudCI6OTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkxM2UyNzZmMTc4YTJhZWQzNzk4YWZkZjAwZTkzZWMxMWIyOTdkMDM2ZTM4ZTAzNjUyY2M2Zjk2OTdmODJhNmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI1MzM5NmM0ODFhZDdiZWJmNDkzZmM0OTJkNjcxZDE5MTFkZTc3NWU2MjE1OTY0OGI2OTI0ZjBlNzJjYzcwMGQifQ"
         },
         {
           "resource": "repo://src/lib/guides/cache.ts#L3-L12",
@@ -269,6 +269,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-16T11:00:16.891Z"
+    "at": "2026-11-17T11:00:20.552Z"
   }
 }

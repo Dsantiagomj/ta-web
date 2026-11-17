@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:130137b97a127a1f7dcd5602c4dfeed1373ca364b49641c78a030bcf77d12bae",
+  "pageVersion": "sha256:b7b16be574578458d64a65ac44f62d838fc581188fcd6f3a4d4a7d161018fdd3",
   "claims": [
     {
       "id": "claim_a8a2dc96072746c7b9eae417993922de",
@@ -102,15 +102,15 @@
     },
     {
       "id": "claim_d235a6e438184eec9647dcd362cb7af6",
-      "statement": "dofus-guides is one of the six ROOT_SLUG_COLLECTIONS and rejects in beforeValidate a slug another of them already uses, stored or in its latest draft.",
+      "statement": "dofus-guides is one of the eight ROOT_SLUG_COLLECTIONS and rejects in beforeValidate a slug another of them already uses, stored or in its latest draft.",
       "evidence": [
         {
-          "resource": "repo://src/collections/root-slug.ts#L109-L128",
+          "resource": "repo://src/collections/root-slug.ts#L114-L133",
           "version": "repo-lines-v1:sha256:f8fd3b54e737caffee598414533e6c31abb7967eb0ac93e2c5691f8a159366b8:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJhZjlkYTI2NGJmYzFjMDIzMDkwYWUzMjc5ZGI1NDNmZmVkNzczNTE5OWQ3YWIzMzk1NDgxNjZiYjU2YWNjZDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQzZWRjYmZkYmE3NTg4NjQ5MzQ5YzU2YjM3NTNiZTQwYWFkNGQwZDJlZDJlM2ZhZWI4ZjA4NjUwMGU0YjczYzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
           "resource": "repo://src/collections/root-slug.ts#L13-L91",
-          "version": "repo-lines-v1:sha256:e386da908ca9441475a2027f5560e434909f7d08c674666a8f7deeba30fb27ff:eyJzZWxlY3RlZExpbmVDb3VudCI6NzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI5ZTZkMDA3NjZmMmE4ZDU4OGNmMThmOTgzN2RhZmYzMDZhYzM1ZTFkMjgzODIxYWFhN2IwZDM1NzhhNGQ0Y2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFiMzBkOGQ1NmVlODFlNmUyMTIzOTAwNmJhZTdlODVlOTEzZjExNjgxOWE3ZmU4NGM2OTQyMWY2OWU5MDZiMGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM1MjYwZTVhMDk4NThiNmU1ZTczMjZiMjMxYzY5ODYzYWJkNGZmZjRjZjgzN2E4ZGFkOWU1MjMwYzE4Y2VjOWMifQ"
+          "version": "repo-lines-v1:sha256:b3b5a24ba914f9a271304cd402f2993b648f42efb9562ac70b0b7d98bc5019c8:eyJzZWxlY3RlZExpbmVDb3VudCI6NzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFiMzBkOGQ1NmVlODFlNmUyMTIzOTAwNmJhZTdlODVlOTEzZjExNjgxOWE3ZmU4NGM2OTQyMWY2OWU5MDZiMGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNhNjJhOGM5MWQ4OWVlNDMwNjRlNzNiMDIzMjNjZTk0YTc0Yjk5YjgyMmFlNWE4ZWQ0ODA1MDQyNjcxYmFjMWQifQ"
         },
         {
           "resource": "repo://tests/integration/dofus-guides.test.ts#L138-L178",
@@ -263,6 +263,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-16T11:00:16.891Z"
+    "at": "2026-11-17T11:00:20.552Z"
   }
 }

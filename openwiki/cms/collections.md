@@ -1,7 +1,7 @@
 ---
 type: component
 title: Collections and access
-description: The fifteen Payload collections and the two globals that exist today - Users for panel accounts, Media for uploads, Quests, Items, Monsters, Dungeons, NPCs, Sub-areas, Achievements and Achievement categories for read-only DofusDB game data, and Quest guides, Achievement pages, Metalogros, Dofus guides and Checklists for Torre's editorial content with drafts - with their fields, validation, localization, access rules and the tests that pin them down.
+description: The twenty Payload collections and five globals that exist today - Users for panel accounts, Media for uploads, the DofusDB game data collections, and Quest guides, Achievement pages, Metalogros, Dofus guides, Checklists, standalone pages and class and dungeon pages for Torre's editorial content with drafts - with their fields, validation, localization, access rules and the tests that pin them down.
 tags: [payload, collections, access-control, media, users, quest-guides, game-data]
 sources:
   - id: openwiki-source-164e2da859b5277df81c7d94
@@ -16,8 +16,12 @@ sources:
     resource: repo://scripts/refresh-game-data.ts
   - id: openwiki-source-c74463529d89880b13383ea1
     resource: repo://src/collections/Checklists.ts
+  - id: openwiki-source-97b983a867f232780d665912
+    resource: repo://src/collections/ClassPages.ts
   - id: openwiki-source-708be0163b21a8d064e79c3c
     resource: repo://src/collections/DofusGuides.ts
+  - id: openwiki-source-456fa8d56bb86f8a4a80bff2
+    resource: repo://src/collections/DungeonPages.ts
   - id: openwiki-source-6d69d2c11646d2ef6e809c67
     resource: repo://src/collections/Dungeons.ts
   - id: openwiki-source-eec436a9dcb7734a62bf153f
@@ -46,6 +50,8 @@ sources:
     resource: repo://src/collections/revalidate-guides.ts
   - id: openwiki-source-a93f1ff2ed8916a30885274d
     resource: repo://src/collections/root-slug.ts
+  - id: openwiki-source-899ad2bd146eda3e8bb742c7
+    resource: repo://src/collections/section-pages.ts
   - id: openwiki-source-4563c6781f32461806ff9616
     resource: repo://src/collections/SubAreas.ts
   - id: openwiki-source-c59753480751a9469ce8e192
@@ -110,24 +116,24 @@ sources:
     resource: repo://tests/unit/quest-guides-collection.test.ts
   - id: openwiki-source-6678095e74d244708e64ddd4
     resource: repo://tests/unit/quests-collection.test.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
+    at: 2026-11-17T11:00:20.552Z
 ---
 
 # Collections and access
 
-Payload collections live one per file in `src/collections/` and are registered in `src/payload.config.ts`, whose `collections` order is also the panel menu order. Eighteen exist today:
+Payload collections live one per file in `src/collections/` and are registered in `src/payload.config.ts`, whose `collections` order is also the panel menu order. Twenty exist today:
 
 | Menu group | Collections |
 |---|---|
-| «Contenido» (editorial, with drafts) | `quest-guides`, `achievement-pages`, `achievement-groups` (metalogros), `dofus-guides`, `checklists`, `pages` |
+| «Contenido» (editorial, with drafts) | `quest-guides`, `achievement-pages`, `achievement-groups` (metalogros), `dofus-guides`, `checklists`, `pages`, `class-pages` («Clases»), `dungeon-pages` («Mazmorras») |
 | «Imágenes» | `media` |
 | «Datos del juego» | `quests`, `items`, `monsters`, `dungeons`, `npcs`, `subareas`, `achievement-categories`, `achievements`, `game-data-refreshes` |
 | «Ajustes» | `redirects`, `users` |
 
-The config also registers four globals: `dofus-guides-index`, the intro of the `/guias-dofus` index, `checklists-index`, the «???» teaser poster of `/checklists` (see [Checklists index](../checklists/checklists-index.md)), and `site-settings` («Ajustes del sitio») and `index-texts` («Portada e índices»), the site-wide copy (see [Site settings and index texts](site-copy.md)). Each collection's list shows a one-line description from `withPanelDescriptions` (see [Panel dashboard and editing aids](panel-editing-aids.md)). The eight game data collections are copies of DofusDB that only the refresh writes; six of them (quests, items, monsters, dungeons, NPCs and achievements) let a panel account edit a «Corrección de Torre» group on top, and subareas and achievement categories are fully read-only. The four achievement collections are described in [Achievement data model](../achievements/achievement-data.md), the Dofus guides in [Dofus guide data model](../dofus-guides/dofus-guide-data.md) and the checklists in [Checklist data and import](../checklists/checklist-data.md). Roles, delete protection and locked fields, which cut across the editorial collections, are in [Admin panel](admin-panel.md). Standalone pages are in [Standalone pages](../pages/standalone-pages.md). The classes collection listed in AGENTS.md is planned and not in the code yet.
+The config also registers five globals: `dofus-guides-index`, the intro of the `/guias-dofus` index, `checklists-index`, the «???» teaser poster of `/checklists` (see [Checklists index](../checklists/checklists-index.md)), and `site-settings` («Ajustes del sitio»), `index-texts` («Portada e índices») and `navigation` («Navegación»), the site-wide copy and the menu sections (see [Site settings and index texts](site-copy.md)). Each collection's list shows a one-line description from `withPanelDescriptions` (see [Panel dashboard and editing aids](panel-editing-aids.md)). The eight game data collections are copies of DofusDB that only the refresh writes; six of them (quests, items, monsters, dungeons, NPCs and achievements) let a panel account edit a «Corrección de Torre» group on top, and subareas and achievement categories are fully read-only. The four achievement collections are described in [Achievement data model](../achievements/achievement-data.md), the Dofus guides in [Dofus guide data model](../dofus-guides/dofus-guide-data.md) and the checklists in [Checklist data and import](../checklists/checklist-data.md). Roles, delete protection and locked fields, which cut across the editorial collections, are in [Admin panel](admin-panel.md). Standalone pages are in [Standalone pages](../pages/standalone-pages.md), and the class and dungeon pages in [Class and dungeon pages](../pages/class-and-dungeon-pages.md).
 
 ## Users: panel accounts
 
@@ -334,6 +340,10 @@ The `dofus-guides-index` global (`src/globals/DofusGuidesIndex.ts`) has one loca
 ## Standalone pages
 
 `pages` (`src/collections/Pages.ts`) holds Torre's loose pages (emotes, how to reach a place, the legal texts) at `/<slug>`. It follows the editorial rules: drafts with up to 50 versions, `readPublishedOrAll`, create and update for panel users, delete through `adminOrNotImported('importSnapshot')`, live preview, `rejectSharedSlug('pages')`, the slug move hooks and `afterChange`/`afterDelete` hooks that expire the `pages` tag. Its fields are a title, slug, `state` with a `legacyHref`, an optional `parent` page, the same body blocks as quest guides, SEO and a hidden `importSnapshot`. See [Standalone pages](../pages/standalone-pages.md).
+
+## Class and dungeon pages
+
+`class-pages` (`src/collections/ClassPages.ts`) and `dungeon-pages` (`src/collections/DungeonPages.ts`) hold Torre's class and dungeon pages. Both come from `sectionPageCollection` in `src/collections/section-pages.ts`, so they share the editorial rules of `pages`: drafts with up to 50 versions, `readPublishedOrAll`, create and update for panel users, delete through `adminOrNotImported('importSnapshot')`, `rejectSharedSlug`, the slug move hooks, and `afterChange`/`afterDelete` hooks that expire the `section-pages` tag (`revalidateSectionPagesAfterChange`, `revalidateSectionPagesAfterDelete`). Their fields are a title, slug, `state` with a `legacyHref`, «Sale en el menú» (`inMenu`) and «Nombre en el menú» (`menuName`), the quest guide body blocks, SEO and a hidden `importSnapshot`. Class pages add PVM and PVP build rows (an image and an optional link each); dungeon pages add an optional link to the DofusDB dungeon. Neither has a public page yet, so `state` refuses «Publicada» and they have no live preview. See [Class and dungeon pages](../pages/class-and-dungeon-pages.md).
 
 ## Game data refreshes
 

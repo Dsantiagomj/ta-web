@@ -90,10 +90,10 @@ sources:
     resource: repo://tests/unit/ui-components.test.tsx
   - id: openwiki-source-b58f839a189d87a7e1f37d39
     resource: repo://vitest.config.mts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
+    at: 2026-11-17T11:00:20.552Z
 ---
 
 # Design system components
@@ -136,7 +136,7 @@ Controls drawn smaller than 40px carry the `hit-target` class together with Tail
 | `ProgressBar` | A server-rendered `role="progressbar"` bar with its percentage; the value is clamped to 0–100 percent and the fill moves with `transform`, never `width` |
 | `Checkbox` | A native checkbox inside its label |
 | `Card` | A surface panel; with `href` the whole card is one link (never a link inside another) and the border takes the section color on hover |
-| `Picture` | A `<picture>` with an AVIF `<source>` when present and a WebP `<img>` with explicit `width` and `height`. With narrower widths it writes `srcset` and `sizes` in both formats. It is lazy by default; `priority` drops lazy loading and sets `fetchPriority="high"` |
+| `Picture` | A `<picture>` with an AVIF `<source>` when present (an animated GIF has none, so the browser takes the animated WebP) and a WebP `<img>` with explicit `width` and `height`. With narrower widths it writes `srcset` and `sizes` in both formats. It is lazy by default; `priority` drops lazy loading and sets `fetchPriority="high"` |
 | `Figure` | A guide screenshot with an optional caption, sized with `IMAGE_SIZES.prose` by default or a narrower `sizes` when it sits in a step's two-column grid. The image is wrapped in a link to the uploaded original (`image.original`, falling back to the widest WebP) with `data-image-viewer`, the original's `data-image-width` and `data-image-height` and a `zoom-in` cursor, named "Ver imagen a pantalla completa: {alt}". `priority` marks the screenshot that may be the LCP |
 | `startTilt` (`tilt.ts`) | The pointer tilt shared by the `/checklists` posters and the `/guias-dofus` cards: every `[data-tilt]` element inside a root turns toward a mouse pointer up to 9° per side (perspective 800px), sets `--fx` and `--fy` so the sheen inside follows the pointer, and adds `is-tilted`; leaving resets it. Touch, pen and reduced motion get nothing. It returns a function that removes the listeners. The sheen, shadow and 150ms return are CSS on `is-tilted`. See [Checklists index](../checklists/checklists-index.md) and [Dofus guides index](../dofus-guides/dofus-guides-index.md) |
 | `Amount` | A figure with its thousands separated by a narrow no-break space (U+202F): "1 272", never "1.272" and never split across lines (DESIGN.md, Typography: Numbers). Montserrat and Lilita One lack that character, so each separator sits in its own `span.amount__th`. Its styles are in `globals.css`, because the site header uses it on every page and `ui.css` would be one more render-blocking stylesheet |

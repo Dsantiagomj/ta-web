@@ -68,10 +68,10 @@ sources:
     resource: repo://tests/unit/import-rich-text.test.ts
   - id: openwiki-source-299c190cabc2f0753a302110
     resource: repo://tests/unit/import-to-quest-guide.test.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
+    at: 2026-11-17T11:00:20.552Z
 ---
 
 # Squarespace import
@@ -106,7 +106,7 @@ happy-dom was already in the tree through `@lexical/headless`, pinned by a secur
 | Squarespace type | Parsed as |
 |---|---|
 | `text` | `text`, with each top-level element's tag, outer HTML and normalized text |
-| `image` | `image`, with the original URL (`data-image`, else `data-src`) without its query string, and the trimmed `alt` (empty when missing) |
+| `image` | `image`, with the original URL (`data-image`, else `data-src`) without its query string, the trimmed `alt` (empty when missing) and, when Torre linked the image, the `link` of its first `a[href]` (the class pages' builds use it) |
 | `embed` | `video`, with an `https` URL. An Embedly wrapper is unwrapped to the YouTube URL in its `url` (or `src`) parameter. A URL that does not end up as `https`, such as `javascript:` or `data:` (also inside Embedly's `url`), is not a video. The iframe's `title` is kept as the video's title when Squarespace copied YouTube's title there, but not Embedly's generic «YouTube embed»; the achievement prose import uses it |
 | anything else, or an image or embed without a usable URL | `unknown`, keeping the Squarespace type; the converter lists it as an oddity |
 
@@ -252,4 +252,6 @@ See [Test suites](../testing/test-suites.md).
 - [DofusDB game data refresh](dofusdb-refresh.md)
 - [Importing Torre's achievement pages](achievements-import.md)
 - [Importing Torre's Dofus guides](dofus-guides-import.md)
+- [Standalone pages](../pages/standalone-pages.md)
+- [Class and dungeon pages](../pages/class-and-dungeon-pages.md)
 - [Test suites](../testing/test-suites.md)

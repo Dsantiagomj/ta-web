@@ -24,6 +24,8 @@ sources:
     resource: repo://src/lib/dofus-guides/index-view.ts
   - id: openwiki-source-423248a3a9612f01d4a80a72
     resource: repo://src/lib/dofus-guides/nav.ts
+  - id: openwiki-source-811b90631e6a253e11b290ca
+    resource: repo://src/lib/site-copy/navigation.ts
   - id: openwiki-source-0541138ab33ba7b069dd2d9c
     resource: repo://tests/e2e/guias-dofus.spec.ts
   - id: openwiki-source-030fff9a24dad34718a579b7
@@ -34,10 +36,10 @@ sources:
     resource: repo://tests/unit/dofus-index-view.test.ts
   - id: openwiki-source-b9fc2eac8ee9b162727decdc
     resource: repo://tests/unit/dofus-nav.test.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
+    at: 2026-11-17T11:00:20.552Z
 ---
 
 # Dofus guides index and menu
@@ -74,7 +76,7 @@ The server renders every card with `data-search` and `data-tag`. On each change 
 
 The frontend layout loads `loadDofusNav` (`src/app/(frontend)/site-data.ts`) alongside the guide counts. It runs `readDofusList` and `dofusNavItems` (`src/lib/dofus-guides/nav.ts`) under the `dofus-guides` cache tag. Each item has the Dofus name, the egg at its 128 px size (it is drawn at 44 px at most), and a link to `/<slug>` only when the guide's state is `published`.
 
-- The Dofus section of the header links to `/guias-dofus`, and its panel shows every Dofus in Torre's order as an egg grid: published ones are links; the rest have no link, `aria-disabled` and a screen-reader "En preparación". "Ver todas las guías de Dofus" goes to the index.
+- The Dofus section of the header links to `/guias-dofus`, and its panel shows every Dofus in Torre's order as an egg grid: published ones are links; the rest have no link, `aria-disabled` and a screen-reader "En preparación". "Ver todas las guías de Dofus" goes to the index. The panel's featured card shows three eggs chosen by Torre in the «Navegación» global (the published guides' eggs, falling back to Turquesa, Esmeralda and Ocre); see [Site settings, index texts and navigation](../cms/site-copy.md).
 - The site search index (`readSearchIndex`, `src/lib/search/read-index.ts`) passes the same `dofusNavItems` through `searchIndex` (`src/components/site/nav.ts`), which keeps only the Dofus with a link, so a Dofus in preparation is never found.
 
 See [Site header, footer and search](../frontend/site-shell-and-search.md).

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:4b272a7aa8ea3a5a5422cb989980ac30d90b2326e7a2a81686302c55a28c0df2",
+  "pageVersion": "sha256:7e7c1036221b1d3f9d9a9e88c6b3bdbf440681e1f04a6738c372e9433cf599ee",
   "claims": [
     {
       "id": "claim_15a2bbeb947d4f7eb83b31e21c6da94c",
@@ -155,8 +155,8 @@
       "statement": "The page conversion keeps Torre's text, screenshots and videos in order and his Squarespace SEO, and turns the first heading into the title only when the catalog title is that heading with other capitals.",
       "evidence": [
         {
-          "resource": "repo://scripts/import/pages/convert.ts#L1-L30",
-          "version": "repo-lines-v1:sha256:b180218e132fa71075dc97876150fb69cdb899c77cc3e282e0a9107d80619fcb:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg5MTA4MDMyZWVlNmQ2MDExYjQ5MTRlODYxZDBhYzllOGVjODNmZjI2NjJiZjAzOTZiODkxNmQ3Yjc0OTQ2NGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVhYjkzZmFmODkyMjA0YTAwYWZjMTBiOGI1NDYwODc3OTI4NGMzZDhlYTM4NTQyZTYzZWYyYmJjNTViN2M2MjkifQ"
+          "resource": "repo://scripts/import/pages/convert.ts#L1-L114",
+          "version": "repo-lines-v1:sha256:3b07cc25d57a9639cee5c68a9347fa06ccdc6c8a8f89e6bfb239a0e4890916db:eyJzZWxlY3RlZExpbmVDb3VudCI6MTE0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI4OTEwODAzMmVlZTZkNjAxMWI0OTE0ZTg2MWQwYWM5ZThlYzgzZmYyNjYyYmYwMzk2Yjg5MTZkN2I3NDk0NjRkIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIyMjcwMzMzMDdjMmUyNTRhYTgwM2RlYmEyNzNhOTgxYWY4NjE2OGQxNTE5YjFhYzE2ZmZmZDFlYzdmYjcwNGI3IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MSwiZm9sbG93aW5nQ29udGV4dEhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIn0"
         }
       ]
     },
@@ -169,10 +169,28 @@
           "version": "repo-lines-v1:sha256:afdfa8e97e9ebfa9bc336b5e48a51157ecdb3a7460c6d783a403303651860093:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMzI3YmVlMDQwOGZhMGE1ODU5MTRlYjIzODViZTY5ZTlmYjMwMTUwNTA5ZDExNTA3Mzg5MDQwZTA0MzA5YmNjZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMmRlMjkxZmVhZDc4YzdmZjMyMzAxNTQwYzk2NDJhNjdjNTQwNmZlYjk2MWNmOTI2NTI2ZDRjMTliMjkxZWJjYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTg2YWRkZTEzZmQzYjkyOWQ0Y2ExOWY5OTZkNDY2ZGQ3MzIwYjdhMTUyZTI4OWVhOGVhNmNkYTQ2ODc0MGZiYSJ9"
         }
       ]
+    },
+    {
+      "id": "claim_0f48088830404588a050bafbb53c32d6",
+      "statement": "The class and dungeon import reuses the page loader's buildBody, same, isEmpty, slugRejected and takenElsewhere helpers, and takenElsewhere takes the importing collection so it checks every other root collection and the redirect table.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/import/pages/load.ts#L245-L269",
+          "version": "repo-lines-v1:sha256:c9c06376221e821e257652239727a9f33e9377d443ccee9f4592d58517e1327e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFlMDhiMDQ3MTJlNDQ2NWI1YzZlNjIxMzFlYWZmZmUzY2RjNjJhYTgxMTVmY2FmNDFhY2QyZmMzN2RjNWQ3MTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFkYWE2ZTBlYWI3YzliYmMzNTdjYzVjZjc5NDFiZmYxMjc1NzlhNmM5YmRhNWZiZGFkYWE4MzljN2UzNWU3N2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://scripts/import/pages/load.ts#L56-L80",
+          "version": "repo-lines-v1:sha256:8efd7d15aaa46524f9979c9618b092f3d850dcda3816d1348859433611c83644:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhhNGQzNmE0ZWQ2NjhlYTIyOGQ5YWQ3YmJkMDc3N2IzZDNmNGZiMTRjMGYyMmJjYzdiMzEyMzMxNTE4Nzk3NzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmYzBjNjE1MjcxMDkxNjRkYjlmODJkY2NkZmZkZjljZjQ5NzFhOGQwMmNhMjcwNWM1NWE5MDg4ZGU1ZTJjYjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ2NDdiNWI3YmExM2NmOTY1MmM3ZDhlNDBlMTA5ODJiNzkwNjhmZDdhOTEwOGU2NGE5NmE5ZjAwN2M5MjBlNzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ3Zjc3ZTZjY2M5ZjE3NDRhOGFlYThmNmQ2MWRmOGUzZGMzNmFhYThlMTcwN2ViZWEzMDlmMTBmZWE1NWU2MzMifQ"
+        },
+        {
+          "resource": "repo://scripts/import/section-pages/load.ts#L7-L22",
+          "version": "repo-lines-v1:sha256:74f9fa4f7a23ed5c4ad19dc04794ed546985a441084e0a8f7598f1b7276e35cb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcxM2Y3MmFkYjE4NWI3MmQzMDBmNTc4YTg2N2RiOWUzOGUwMGZjZWRhOTA5NjA1MjM3NWM0YjQ2YjRlNjdiODQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1NzA2ZjA3YjdlNDcxY2Q5MTM5NDVjNzgzYzdiMjYyMDYxMjJlMTg3YjljMGE1MTBkMzI2MjlkNTE1ZDgxYjEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjliYTk3ZjlhMDM0MjMyNzg1MDIyYTQ0Mjk1YTQyZGQyNTgxOGFkNGY0ZTMyN2U1YzlmYzljMjliYjQ4NGNmNGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjU5YzNkOGY5MTUyYmUwYzk3YjkyZWQwNjc1ZmFkMGUyZDkyMWYxOWM2N2RkYzAzNDNjMGY0MThmZDNmNDZhYWMifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-16T11:00:16.891Z"
+    "at": "2026-11-17T11:00:20.552Z"
   }
 }

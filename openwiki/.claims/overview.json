@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:e9cc4433b46660b38857b12c1bbc98c8488d3d375127ef76114df19796840234",
+  "pageVersion": "sha256:423a799504e346fe1546e3c1e696802b30069cae955ecbec2855d32810b45f22",
   "claims": [
     {
       "id": "claim_46a7ecf7c01f4151af666d14fb666d91",
@@ -17,8 +17,8 @@
       "statement": "The app runs Next.js 16, React 19 and Payload CMS 3.92 with the Postgres adapter, S3 storage and Sentry, on Node 24 and pnpm 11.",
       "evidence": [
         {
-          "resource": "repo://package.json#L1-L86",
-          "version": "repo-lines-v1:sha256:4d8c04c076a829c6e0038d19960b4fad13a06b7d408da5275e0bd956851abaaf:eyJzZWxlY3RlZExpbmVDb3VudCI6OTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2ZmIwOGZkYTFhY2I5NTdiNjExNmJkMzc4MTFhMWZlNDFhMDE2MTFjMDYzMWVkYmY3ODZkNjg4OWEyN2E1NWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://package.json#L1-L87",
+          "version": "repo-lines-v1:sha256:8b0358f0d6a735bdaf747fbe9e219cd1383428f87fba6e587399ed78364d7e00:eyJzZWxlY3RlZExpbmVDb3VudCI6ODcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2ZmIwOGZkYTFhY2I5NTdiNjExNmJkMzc4MTFhMWZlNDFhMDE2MTFjMDYzMWVkYmY3ODZkNjg4OWEyN2E1NWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4M2Y3Mjk2ZTAyZjIwZjM2ZDljOGJhMGViMWQ5MTI3YTc2ZTBhOTFiNzE1NWU0ZjA5YThkMWEzMTczYTI5NzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU1MzZmZmUxMmQ2NjVhZjI5YjJmMzNmNTYxYzNhNzdhOGQ0NjRkY2ZkMGJiMmZjMzU5NzU5NzIzMGI2NjVkZDkifQ"
         }
       ]
     },
@@ -44,11 +44,11 @@
     },
     {
       "id": "claim_5aaf51ac373143478ea8aaa893b86cee",
-      "statement": "The Payload config registers eighteen collections (quest guides, achievement pages, achievement groups, Dofus guides, checklists, pages, media, quests, items, monsters, dungeons, NPCs, sub-areas, achievement categories, achievements, game data refreshes, redirects and users) and four globals (the Dofus guides index, the checklists index, site settings and index texts).",
+      "statement": "The Payload config registers twenty collections (quest guides, achievement pages, achievement groups, Dofus guides, checklists, pages, class pages, dungeon pages, media, quests, items, monsters, dungeons, NPCs, sub-areas, achievement categories, achievements, game data refreshes, redirects and users) and five globals (the Dofus guides index, the checklists index, site settings, index texts and navigation).",
       "evidence": [
         {
-          "resource": "repo://src/payload.config.ts#L81-L101",
-          "version": "repo-lines-v1:sha256:ef93291d7b04b3e9a92f9bfe447c5171632348ba928b538d31188f8ebdd6ab48:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE5ZWE4NmY5YmE1NzkxYWNmNDFiZTFiOTllNDAzNDA0ZjFiYTAyZTRjZmZkMjA4NDJkMThlZWQwNDMwYmQ0ODkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZkNTkyYmY5YzQwNDgwNGE0NzYwZWRjMDVmNjUwYmIyZmQ2YTgwMzFhMWJhNzI3MWUzZWU0N2IxNWVjZDVmOGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI0NDA4YjUwODYzOGQwZjIzNDYwYTk1M2E1NDBjOTVjMGI2NjdiZjllZWYwMTcyMTJhMGJkZjBhMDEwZjY3NWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhMWJiNjBhN2VhNDdjN2ExMzFlZDhmYWJlZTM4YjhhMTcxNWFkZDVhOTkwZTBkNWI3OGI1MmJiMzMwNWYzNTYifQ"
+          "resource": "repo://src/payload.config.ts#L84-L106",
+          "version": "repo-lines-v1:sha256:20463ed62334f3e5bac4f9c2fd2839016559858855c4b4506fb567b2fe30e6ad:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE5ZWE4NmY5YmE1NzkxYWNmNDFiZTFiOTllNDAzNDA0ZjFiYTAyZTRjZmZkMjA4NDJkMThlZWQwNDMwYmQ0ODkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdkYzYxMTNiYTQ3ZjYxMjQ5MmI0ZGIyOTU5MjZjNTcxMmM4MmE0MGNmYTQ0NTRkNGVkNWE4NjFjOGExMTZlMjEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI0NDA4YjUwODYzOGQwZjIzNDYwYTk1M2E1NDBjOTVjMGI2NjdiZjllZWYwMTcyMTJhMGJkZjBhMDEwZjY3NWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhMWJiNjBhN2VhNDdjN2ExMzFlZDhmYWJlZTM4YjhhMTcxNWFkZDVhOTkwZTBkNWI3OGI1MmJiMzMwNWYzNTYifQ"
         }
       ]
     },
@@ -57,8 +57,8 @@
       "statement": "The home page renders a live strip, a hero with the quest search, the areas, a guide tour, the checklists and the author section.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/page.tsx#L1-L48",
-          "version": "repo-lines-v1:sha256:661ac8f46bf4987d3a8c5787f4a53c583ce3aaad57111fdd99e8493b324f7cb5:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdjYTcxNzg2NzRlMTdmMWY1MjExNTNlMWUxN2MwZDc1YWM0ODgyZTVlNDZmMTMyZTVmMzQ5NjI1NjZhMDMwZTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/app/(frontend)/page.tsx#L1-L55",
+          "version": "repo-lines-v1:sha256:c7ef1f71ba4d88a996adf3dc0d1879084a5c10ef885eb44ec216b0101c86bf50:eyJzZWxlY3RlZExpbmVDb3VudCI6NTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdjYTcxNzg2NzRlMTdmMWY1MjExNTNlMWUxN2MwZDc1YWM0ODgyZTVlNDZmMTMyZTVmMzQ5NjI1NjZhMDMwZTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -152,11 +152,11 @@
     },
     {
       "id": "claim_cfca24e2c650490dae201eda92faef01",
-      "statement": "There are forty-seven committed migrations today.",
+      "statement": "There are forty-nine committed migrations today.",
       "evidence": [
         {
-          "resource": "repo://src/migrations/index.ts#L1-L285",
-          "version": "repo-lines-v1:sha256:2fb45482f22c12cdff2e2386b8542196f4a6c2eff273fc12836bbd78a0a917f4:eyJzZWxlY3RlZExpbmVDb3VudCI6Mjg1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5NDUxNjQyYmM1OWNhMTA2MjdjOWM1YzE3NmE0NTA0NzE0ZThjZTI3ODBlYTgzNjZiZDc2YzYyMTdjMTE1OGFlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiMDJkMmMwZDZkYzVlNzRkOTJmYTE0YjkxZGJlYTI2NDA5MGJlYjM1ZmRiOTE4OGQ5YjM0MTE4MWRjZTlmNGNlIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://src/migrations/index.ts#L1-L297",
+          "version": "repo-lines-v1:sha256:4d92d033f65901f1160c0256ae288bb680971b0741ec184d6174bb500c21bfa8:eyJzZWxlY3RlZExpbmVDb3VudCI6Mjk3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5NDUxNjQyYmM1OWNhMTA2MjdjOWM1YzE3NmE0NTA0NzE0ZThjZTI3ODBlYTgzNjZiZDc2YzYyMTdjMTE1OGFlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJiMDJkMmMwZDZkYzVlNzRkOTJmYTE0YjkxZGJlYTI2NDA5MGJlYjM1ZmRiOTE4OGQ5YjM0MTE4MWRjZTlmNGNlIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -490,17 +490,35 @@
     },
     {
       "id": "claim_0c7e371a79894a78a5157b3572bd4d1c",
-      "statement": "The home page reads its copy from the «Portada e índices» global and Torre's social links from «Ajustes del sitio».",
+      "statement": "The home page reads its copy from the «Portada e índices» global, Torre's social links from «Ajustes del sitio» and its area sections from «Navegación».",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/page.tsx#L18-L48",
-          "version": "repo-lines-v1:sha256:06846ffbbc18b0b3ba1c2475c43380eeb857aa59831b329386da4bb7c1ddda9c:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg3OGEwOGE4NzIzNjc2MDk1MmE2ODY4NTYyZjIwNjllNWQxNzE5MmRjMTZmMWEzOGFkZTBlZjVjYTJmNWE1M2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/app/(frontend)/page.tsx#L24-L55",
+          "version": "repo-lines-v1:sha256:41db27b549fc51b1520bf9737695b889d0a829636bbee98c966cb195ce364d74:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg3OGEwOGE4NzIzNjc2MDk1MmE2ODY4NTYyZjIwNjllNWQxNzE5MmRjMTZmMWEzOGFkZTBlZjVjYTJmNWE1M2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_33214d0316544803a06f52912775a7f1",
+      "statement": "The class-pages and dungeon-pages collections hold Torre's class builds and dungeon pages without a public page yet, feeding the menu's class and dungeon lists, and the navigation global holds the menu sections and the featured Dofus.",
+      "evidence": [
+        {
+          "resource": "repo://src/collections/section-pages.ts#L29-L37",
+          "version": "repo-lines-v1:sha256:f7067c86a94a7a9e39b3631628b7247f8e595d581dd10895e3cdcaad31056ab0:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGE5MDUxZTg0YWNjMDBhNmM0MjA2ZDA1ZGFkM2UxZDY5M2ZlYjExNmM3M2JkNmFhNGE4NTc4N2EwOTk1MDIwZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzU3NjlhOTA3ZDBlZTJkNGM4MTk3OTI5NDc1ZjkwOGRhMjc0YTk4YjA0YzJmMzFlNjk5MDFjZjQ4MWUwMjNjYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiM2M4MWVjODEyMTRlYzM5ZWFjMTM2NWY0NzJhZDBmNWY0NjVlMTkzMGMyMTM3MDI5NGVkZDdhMzAzMGM1MzkwOSJ9"
+        },
+        {
+          "resource": "repo://src/components/site/nav.ts#L126-L135",
+          "version": "repo-lines-v1:sha256:bac9d312f2e0aed4189a436572a6f2d27c0400dff6fd7169efcbb50c072af25e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBlNGViNjU3Y2Q1NzI5MThhYzA5ZjE3ODNjZjljNDU4MjRjYWE4MTk2MDU3MmFmYTNlMGQ4ZGVmYmQ2MmRhMjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU0ZmZjZWE5YzgyM2YxNDQ0M2I1ODYxY2E5ZWRkYjZkNGFmODI4Yzk3ZTU0OGIzNGViMmM1ZDY0OWY2OTc4OGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIyMDYzMmYyMGJhZGZjMWIzNDZiNTJjMmNiMGMyMzcxZmZlMTU0ZjBhY2UyMWQ2ZWJjOWZmZDY1Y2I0ZGQ2ZmUifQ"
+        },
+        {
+          "resource": "repo://src/globals/Navigation.ts#L58-L67",
+          "version": "repo-lines-v1:sha256:bf44cd2fb4d6be2704f0bc0efc75e8045b414810f3f370f790b207e33450cc71:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5NDE2ZTA5Zjc4YmEzMTZjMDMyNTY4MjEzYjg1NWVlNzU2ZTQxNTY1ZDkxOGYwOTUxOWM4MWZkNjIwZjQwNjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZiZjMzYjdjNjUyN2RjNjk1MjhjMzZjMDQ5Y2FmOGYxOWIxNjZkYTA2MmE5OWU4ZjI4MjhmNWJkMjZhOTQ1NjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI0OTM0MDQzZGI0NGJmYzNmZTM2ZDUzOThhNTA0ZjZkMjIzZjE0MjRjYWEyN2M4MTk2MDI1OWFkNGIyMDVkMDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIyODM3NjBlMjY2YTI0ZmZmZWQwYjljNTI2OGZhMmM2OTBlY2UyNWZkMzk0M2EzMzA5YTE0ZWMzNzA1Y2Y3OTEifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-16T11:00:16.891Z"
+    "at": "2026-11-17T11:00:20.552Z"
   }
 }

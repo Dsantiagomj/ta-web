@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:42754909442a8cffd0d10fecfeadf64a22c13250a966f81fda2cb41d53d61943",
+  "pageVersion": "sha256:5074bf14d14906720a59fcada4a3d12f4fafc9cba714b72e65018d4649c9c0a9",
   "claims": [
     {
       "id": "claim_fd7ce3bd93db451db660f3db73a2994d",
-      "statement": "The home page renders the live strip, hero, areas, guide tour, checklists and author sections, with counts from the same loadSiteCounts the header uses, checklists from the same loadChecklistNav the menu uses, and texts and social links from the Portada e índices and Ajustes del sitio globals.",
+      "statement": "The home page renders the live strip, hero, areas, guide tour, checklists and author sections, with counts from the same loadSiteCounts the header uses, checklists from the same loadChecklistNav the menu uses, texts and social links from the Portada e índices and Ajustes del sitio globals, and the area sections from the Navegación global.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/page.tsx#L1-L48",
-          "version": "repo-lines-v1:sha256:661ac8f46bf4987d3a8c5787f4a53c583ce3aaad57111fdd99e8493b324f7cb5:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdjYTcxNzg2NzRlMTdmMWY1MjExNTNlMWUxN2MwZDc1YWM0ODgyZTVlNDZmMTMyZTVmMzQ5NjI1NjZhMDMwZTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/app/(frontend)/page.tsx#L1-L55",
+          "version": "repo-lines-v1:sha256:c7ef1f71ba4d88a996adf3dc0d1879084a5c10ef885eb44ec216b0101c86bf50:eyJzZWxlY3RlZExpbmVDb3VudCI6NTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdjYTcxNzg2NzRlMTdmMWY1MjExNTNlMWUxN2MwZDc1YWM0ODgyZTVlNDZmMTMyZTVmMzQ5NjI1NjZhMDMwZTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -103,8 +103,8 @@
       "statement": "Each area card is a single link on its h3 text, described by aria-describedby, with an ::after covering the card, linking where the header menu links.",
       "evidence": [
         {
-          "resource": "repo://src/components/home/Areas.tsx#L15-L61",
-          "version": "repo-lines-v1:sha256:b67a61d1c236146ecb012b66da0f70290d66d9a42af7cdc58c2ffecc5f3d9e34:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhhYTQzYzA4YWZjNjJiNjY0MWVjNjYwNzVkMTk3ZTUwZGY1MDljYWU2ODRhNzhiZWIzNjQwODU3ODg4MGI5NzIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ3YjA1ZDUyZTgwNTZlNWRhOGUwNjJiM2QzYzA3ZGRjOGE2OTZiZjMyMjAxNDAwMDJlNWM4MDVkNTE2N2ZmYTUifQ"
+          "resource": "repo://src/components/home/Areas.tsx#L18-L66",
+          "version": "repo-lines-v1:sha256:d8a029e703dddf8f3538d6784aed675f7b7801a0eb08b3d92627774a082f553f:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY3NmE1YWM5MjJjNjNkNjBhNTUyZDQ3ODY0ZWUyMTliZWQwNTUyOTQxYjdjNTc5YTI1MDA0Yjc4MWZjMDY0NTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZlY2IxYjY4M2E1MDEyYTRkYWU4MzZkNzgwMzIyY2M2Yjg0ZmUyNThlNzBlYjU1ZjA3ZDcwOTg1YWYyYzJmMTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ3YjA1ZDUyZTgwNTZlNWRhOGUwNjJiM2QzYzA3ZGRjOGE2OTZiZjMyMjAxNDAwMDJlNWM4MDVkNTE2N2ZmYTUifQ"
         }
       ]
     },
@@ -148,23 +148,23 @@
     },
     {
       "id": "claim_229311256d904312b45aab6ef88cce78",
-      "statement": "An area card whose section is marked soon (Classes and Dungeons) renders as a plain li.area--soon with no link and the Próximamente tag after its title, with its art greyed out and no hover effect.",
+      "statement": "An area card whose section is marked soon (Classes and Dungeons by default) renders as a plain li.area--soon with no link and the Próximamente tag after its title, with its art greyed out and no hover effect.",
       "evidence": [
         {
-          "resource": "repo://src/components/home/Areas.tsx#L34-L47",
-          "version": "repo-lines-v1:sha256:6e45f40eede0de205d83091726a901254fc8259e636c3bd5456dbfad262ad17d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ5ZGUxNzIwNzVjZjA0Yzc0OTYxYzJiOGY0ZjIyMDlkN2M3OGI5NGFkYzNiMmFmYmE5ZTBlMDQzNjg4YzY2YmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVlYWEwZTIyNWQ1MzFkMjQ4OWM5ZmVjOGMyN2NiZjk2YWEzNWZlMDY1NmIxYmFmZTU0NzM0NDk4MmNkYzNhZTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAyNDdjNzEzYmVjNDI5ZGE3MzJiNmZjNzk1NGI4OGE1MzE3YjcyNDc3Y2I5ZGRlOWUzZDhiODI5NDEyMjExNGIifQ"
+          "resource": "repo://src/components/home/Areas.tsx#L36-L52",
+          "version": "repo-lines-v1:sha256:7e6feab76b9cf6426df94f37f13f772c3247e5af432276c0b97d07699c78a8b4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZiMTdhYzRjZDU0YjMwNmMxZDc3NjFmZjRiODM4NTE3ZGYwNWU2YmJiZWQzM2RjM2RhNzI2YTk0ZWJkOWE5YzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM4YTk0MTEzYWRjOTE4ZmQ2YWI1YjZmMWIxMGZkYzllNzI4M2U4OWEwOTVhNGRhODMxYjczNmQzYmM0NmU5ODAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAyNDdjNzEzYmVjNDI5ZGE3MzJiNmZjNzk1NGI4OGE1MzE3YjcyNDc3Y2I5ZGRlOWUzZDhiODI5NDEyMjExNGIifQ"
         },
         {
           "resource": "repo://src/components/home/home.css#L794-L810",
           "version": "repo-lines-v1:sha256:0d74db40aeee4336777463fca8bc2d660e4f910745a464ae1dba75512b745f65:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmMTYzYzExNTJjNjRiNTAxNWFiMDc0MjJhMzE0NzkwOGFkMTc1MzQwZTI2YjEzZjY0MDE1MTlhNzVkMDgxZDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1ZmFiN2M3YmJlMjIzY2U0ZmM0NmZmNjVlYWE1ZjNmNjEwZWJiYmY5MzQxOGYwNWJkOGRlYmIwM2M2NGI3MDciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMxOTZhNzIyM2Y0NTZkMzNjYjRlZGRhNzMzMGM4NDFlNWIzMGFiNGFiYTUyMjdmZGVkOTU1OWIxNjIyZDIwOTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZkZDE4NjYwYWNmYTQyYTUzYjhkYWU4NTFiNmVlMDljYzliMTFlZWQ5ZTg0OWExNTFjMDA1NzM5ZGQyNDI2NDUifQ"
         },
         {
-          "resource": "repo://src/components/site/nav.ts#L112-L150",
-          "version": "repo-lines-v1:sha256:d6fc38d149fe89a8220a193820b0fb826c12b95e4a8f03ad08029c11f9c40084:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIxMTFmMjM5YWM2NWM5ZmVjZDRmNzk3NWQ0ZWUwYzY3N2I1OGE4ZWE2Nzg1MmVhMjVkMjc5MjM5MjUxOGQyZjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVlMzU2M2Q1MzUzZmQ0MDljMjk2YmUxNWQxMjkzN2M1MmVhYjFhYjFjYTUyOTY2YjQxOGEwMDE5MDBiOTgxMjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZjNDIyMGY0MzRkYjE4YTM4MDZlNzA5MDYwYjkwZTEzYTQxOWE5NWE5OWQ3YjQ1YTRiZDIxN2I1YmFkZTYyNzAifQ"
+          "resource": "repo://src/lib/site-copy/defaults.ts#L151-L164",
+          "version": "repo-lines-v1:sha256:39470cd769db23be0c40403dd350a3efcd71a434b17ae378ce8e9c0ca6a0fcaf:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4ZGJkYTMxOWMxZjM0MDg4MDgxZTNkNTRjYzdlZDJjZTcwNTdlYWVmMDVmMDZkMGJmYTBmMjQxMDM4ZmU0MmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVmMmI0NTZkZGEyZTAyODk4YTk4NGEwMjU3NzkxZjUyMTM3NmM4NTFiY2EyMjAzNmVjOGUxMzQzMWJjNjkzOTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU0NWQxOGJhMjljZDVjZWI5MDUzMjFhYjExMzExNWU0NmM4YzE2MDg0YjFkMjUwNDU3NjViOTI2MTRhODE3NzgifQ"
         },
         {
-          "resource": "repo://tests/unit/home-sections.test.tsx#L31-L42",
-          "version": "repo-lines-v1:sha256:d8b1cacd20e23ca92a6b0ed1e1377f7aaf8df179bf77382ca2f5825b58be0389:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4ZDFhZDYyZTU0NTk1N2JmODNhMmVmNjg2MzkyNDQ5OGZmMmJlYzQzM2JkZGVlYWMyOGU3NmMyYTkyNzljNzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFjNjQ1ZTIwZGU5MDUzNTE3YzUxZGNlOWI3ZDczMzc0NDMxYTMyYjgyMGUzZDhjYTJjZjM1MWI3ZDdjZWUzZDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM5ZjkxMjU4MzU5Y2EwMWY5ZjI0MGE3YTIxOTQzNzAzNGE3MGFiNTcxMmIzNmViZTFkYmFmMTg3NDgyZWZhYmIifQ"
+          "resource": "repo://tests/unit/home-sections.test.tsx#L31-L44",
+          "version": "repo-lines-v1:sha256:7ebebb014eea9134c42ed143e4ec68cc159bf0b9024ce7b28ca2ad3a6d82e1fb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIyMzUyNTg5YzM0ZDNjNjA2ODU5MzFiNmVjYzRkNTA5OTFhN2M1NmM4ZmJhMjg5NDExNDY1NzY5MDI3MmNhYzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRlMjFhMzczOWM5Mjg2MDNiNzdjNjEzY2UxZGE1ZDZlNjc0MjRhZTUyNjNlNmVkZmZkODU5NTZlYzg5MjFiNjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdlODA1ZjY4YzQ2N2I5M2NmNGFlN2VhYThiZWY1ZjE3NTczOTUzYmQwY2YyY2M4ZDNiYzQ4MjIyNDBjOTdhODkifQ"
         }
       ]
     },
@@ -173,8 +173,8 @@
       "statement": "The Dofus section of the site navigation, which the home's Dofus guides card follows, links to the /guias-dofus index.",
       "evidence": [
         {
-          "resource": "repo://src/components/site/nav.ts#L119-L125",
-          "version": "repo-lines-v1:sha256:a111b987148c862f1ad8f4ca49be6821cf38a8d2ec399f39dd9c6d0ce46f8d21:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjExMWYyMzlhYzY1YzlmZWNkNGY3OTc1ZDRlZTBjNjc3YjU4YThlYTY3ODUyZWEyNWQyNzkyMzkyNTE4ZDJmOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNGQ1Y2QyZmI0ZjNkZjg4NDUxNTI1NWIzOTUyM2YyZjhiNTQ3MmJlZWE5ZjU2NmZmY2EyMDRkYjgwMjU2MTA0MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDIxZTFiMmExNjVmZDEwMjc5Yzc2ZDBlYTYyNTM1NzY5ZTlkNGM3MzU5ZDA0ZDYwYTllNDZkOTE3NDhiZjRkNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiN2UwMDI5NjIzY2U5ZGQwMTJlMTU5YzFlNzdjMDUyODlkNmE4MmY0ZTE5ZjgwY2M0ZWE4ZmE0YjM2MGMxOTk2OSJ9"
+          "resource": "repo://src/components/site/nav.ts#L138-L145",
+          "version": "repo-lines-v1:sha256:3e12748b005184622543cd82a66f772a3c43b93d2b7afdf4ddaa44f65dde4134:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNGI2MGQ0YmJiYjRkZjUzODczYmNmZTQzZmJlYmU3MmVhODU3YTg4YTljM2EyNTk0M2ZjMzhkOTZkN2Q5M2VmNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDRhNzFlNmZlNzYxN2ZmOGMwYzRjODY5ZjFiMmEyNjJlZjYxZTA0YWMyNzZmZDFjOTEzNTY2ZDhkOGRmODI5YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2NiN2U5YTI5ZTUzZGQzMzA3MGMxZDMyNTFhNmIyODhmYjI0NThmZDlhYzVkMTU4ZGJiYjQxZjlhM2I2NmFmZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzVmNzU4NWNmYWRjYzNiNGZkNWZhZTlkYzcyODUwMTkyMGI4YTYzZmIwMjg2YWNlNmExOTk1Yjk4NzFiYjZkNiJ9"
         }
       ]
     },
@@ -253,10 +253,28 @@
           "version": "repo-lines-v1:sha256:a435e3f32f09d5564b1abb167b268f8e09d2f6ada0526fe16a2425d80edd7125:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYTAyNmY1Nzg5MmM1NDJkZGFjNTY4Nzc2ODU3YjgwNDVlOWI0ZGRiZjk1ODk1ZDc3MmZhNTk5MjI0NTJhYmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY1YWM3OWY3N2M2YmU4MzI2ZDE0NWUzNTkzYzRmNDczM2Q5YWZlZWI4NDQxZDBhMjkxMzUzMGJkMDIwNzc3MWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI3MTU5OGNjMzQ1ZDZiNTk4YmFlMTgzY2MyYmYxZDEzOThlMjA0YWQ2YmNmNzUzMGVlYWE4NWM4NjkwYTU4NmIifQ"
         }
       ]
+    },
+    {
+      "id": "claim_6eb2abec3e58424d95822cee87e2943f",
+      "statement": "The home areas follow the Navegación global: a section Torre hides there gets no card and an unticked «Próximamente» turns the card into a link, while the card order stays the design's.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/home/Areas.tsx#L36-L41",
+          "version": "repo-lines-v1:sha256:0b1ac23198b06cd0163c9dfbd67db4ca0b2ee971f31e8fb0e99786ecd1f3f3a5:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmIxN2FjNGNkNTRiMzA2YzFkNzc2MWZmNGI4Mzg1MTdkZjA1ZTZiYmJlZDMzZGMzZGE3MjZhOTRlYmQ5YTljNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNWExYzU4YjI4ZTIyMTM0NzQ4YTYyZjQ1NGJjZmI0ZjFmZmVkZWNjNmYzYjQ4N2I5NzdjNWIyNjUxMTQ0MzIyNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzhhOTQxMTNhZGM5MThmZDZhYjViNmYxYjEwZmRjOWU3MjgzZTg5YTA5NWE0ZGE4MzFiNzM2ZDNiYzQ2ZTk4MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjA2MWExYzJhY2FiNjZhZjQzZTk5MDkzYTc5YmY5YzQxOGQyODFlYzk3MGE2OTcwMzllZDBhODg0M2Y0M2QyNiJ9"
+        },
+        {
+          "resource": "repo://src/components/home/Areas.tsx#L72-L96",
+          "version": "repo-lines-v1:sha256:39deba6e19dec796b14b411005b3d27f3764c404111bdbf8e1d166695545cebb:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRlYjQ2NzRlZTcwODRjZGI5NWZjMzc2NGJjYTIxZjg5NDdmNjZlNTRmYTcxMjVlM2JiYTE2MmMxYzM4NjI5MGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM2MzUzZmJjNGY1MmFkYmRjMzNlOTFiZjBmMTc4OTJlZWFkOWRlMGQ5MzNiMGY5YWQ1NDZjNmI3NGIxZDBhNzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU5ZTczMzk0NGNjNGZhYjFkYjM0ODBlMjMzZWU1N2Y4ZDBmMzJhNzcyOWE5ZGIyYWQwYzU3OTg3MmUzMmZjMTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNjYjQyMWY0YjMwYmFjZTMyOTExNmMzNzJkZTljNDNkZjgzZjg2MDIzNWE3NTk5YzFmOWJlZGQwZTM5NzE0MTEifQ"
+        },
+        {
+          "resource": "repo://tests/unit/home-sections.test.tsx#L45-L65",
+          "version": "repo-lines-v1:sha256:8c840189dd5332303efdfadcd27c9b76ca0b2fbb944f72f7d70c89f708abed09:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYxMjZmNDJhNzFjM2Q2YzRjN2M1NGVhMjA2ZTBlYzM2ZjYyNWQ1YzQxNjViMTBmOTdiNWIxMWJhMjRlZGZmMDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2MzBjMzNiMDU5NzlmZThjNDkxOTRkN2U2MmYyOTdlZTA2ZjczZmQ3Zjg4M2U4MjMxZDczZDQ5ZWY4NmZkNzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM5ZjkxMjU4MzU5Y2EwMWY5ZjI0MGE3YTIxOTQzNzAzNGE3MGFiNTcxMmIzNmViZTFkYmFmMTg3NDgyZWZhYmIifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-16T11:00:16.891Z"
+    "at": "2026-11-17T11:00:20.552Z"
   }
 }

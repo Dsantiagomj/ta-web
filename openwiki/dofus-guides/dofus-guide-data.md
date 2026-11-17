@@ -36,10 +36,10 @@ sources:
     resource: repo://tests/unit/dofus-guides-index-global.test.ts
   - id: openwiki-source-bf9fb1ff7357ca38b1ad1283
     resource: repo://tests/unit/revalidate-guides.test.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
+    at: 2026-11-17T11:00:20.552Z
 ---
 
 # Dofus guide data model
@@ -122,7 +122,7 @@ Short table names keep Postgres's 63-character limit: the metalogro's achievemen
 
 ## One slug space at the root
 
-Dofus guides share `/<slug>` with quest guides, achievement pages, metalogros, checklists and standalone pages. `dofus-guides` is one of the six `ROOT_SLUG_COLLECTIONS` in `src/collections/root-slug.ts`, and the collection runs `rejectSharedSlug('dofus-guides')` in `beforeValidate`: a slug another of the six collections uses, stored or in its latest draft, is rejected with a message naming the owner ("una guía de Dofus" from the other side), and so is a source of the legacy redirect table. `/guias-dofus` is a reserved route segment, so no document of any of the six can take it. Unlike the achievement pages, a Dofus guide's slug is never filled automatically. When a published guide changes its slug, `trackSlugMove` and `applySlugMove` add a redirect from the old address (see [Redirects, sitemap and robots](../operations/redirects-and-seo.md)). See [Achievement data model](../achievements/achievement-data.md#one-slug-space-at-the-root).
+Dofus guides share `/<slug>` with quest guides, achievement pages, metalogros, checklists, standalone pages and the class and dungeon pages. `dofus-guides` is one of the eight `ROOT_SLUG_COLLECTIONS` in `src/collections/root-slug.ts`, and the collection runs `rejectSharedSlug('dofus-guides')` in `beforeValidate`: a slug another of the eight collections uses, stored or in its latest draft, is rejected with a message naming the owner ("una guía de Dofus" from the other side), and so is a source of the legacy redirect table. `/guias-dofus` is a reserved route segment, so no document of any of the eight can take it. Unlike the achievement pages, a Dofus guide's slug is never filled automatically. When a published guide changes its slug, `trackSlugMove` and `applySlugMove` add a redirect from the old address (see [Redirects, sitemap and robots](../operations/redirects-and-seo.md)). See [Achievement data model](../achievements/achievement-data.md#one-slug-space-at-the-root).
 
 ## The index global
 
