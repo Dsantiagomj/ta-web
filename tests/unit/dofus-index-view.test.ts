@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
+import { eggLine } from '@/lib/dofus-guides/egg-line'
 import { dofusIndexView, matchesDofus } from '@/lib/dofus-guides/index-view'
 import type { DofusListDoc } from '@/lib/dofus-guides/page'
 
@@ -53,6 +54,11 @@ describe('dofusIndexView', () => {
     })
     expect(view.cards[1]).toMatchObject({ tag: 'event', tagLabel: 'Evento' })
     expect(view.cards[2]!.tag).toBeUndefined()
+  })
+
+  it('el borde de cada tarjeta, en el color de su Dofus, llega a 3:1 en los dos modos', () => {
+    expect(view.cards[0]!.line).toEqual(eggLine('#2ecd68'))
+    expect(view.cards[2]!.line).toBeUndefined()
   })
 
   it('los filtros solo salen si hay Dofus con esa etiqueta', () => {

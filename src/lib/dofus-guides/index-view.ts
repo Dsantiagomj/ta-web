@@ -6,6 +6,7 @@ import type { ImageAsset } from '@/components/ui/types'
 import { mediaImageAsset } from '@/lib/media/image-asset'
 import type { Media } from '@/payload-types'
 
+import { eggLine } from './egg-line'
 import { dofusMeta, type DofusListDoc } from './page'
 import { dofusGuideStrings } from './strings'
 
@@ -20,6 +21,8 @@ export interface DofusCard {
   disabled: boolean
   egg?: ImageAsset
   color?: string
+  /** El borde en su color, oscurecido o aclarado hasta 3:1 en cada modo (egg-line.ts). */
+  line?: { dark: string; light: string }
   tag?: DofusTag
   tagLabel?: string
   /** «7 logros», «40 misiones», «Nivel 180»; solo «Nivel 20» si está En preparación. */
@@ -39,6 +42,7 @@ export function dofusIndexView(docs: DofusListDoc[]): DofusIndexView {
     const disabled = doc.state !== 'published'
     const egg = mediaImageAsset(doc.egg && typeof doc.egg === 'object' ? (doc.egg as Media) : null)
     const tag = doc.tag ?? undefined
+    const line = eggLine(doc.color)
     const meta = disabled
       ? dofusMeta({ achievements: 0, quests: 0, level: doc.level })
       : dofusMeta(doc)
@@ -49,6 +53,7 @@ export function dofusIndexView(docs: DofusListDoc[]): DofusIndexView {
       disabled,
       ...(egg && { egg }),
       ...(doc.color && { color: doc.color }),
+      ...(line && { line }),
       ...(tag && { tag, tagLabel: dofusGuideStrings.tags[tag] }),
       meta,
       search: foldText([doc.name, doc.aliases ?? ''].join(' ')),
