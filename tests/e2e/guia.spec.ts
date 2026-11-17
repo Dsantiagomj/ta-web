@@ -129,7 +129,9 @@ test.describe('página de guía', () => {
       await expect(needs.getByRole('button', { name: `Copiar ${name}` })).toBeVisible()
       await expect(needs).toContainText(`${quantity} × ${name}`)
     }
-    await expectNeedsColumns(page, needs, { desktopColumns: 1 })
+    // Con la columna de la guía a 73rem, Necesitarás tiene sitio para dos columnas de objetos
+    // al lado de Prerrequisitos.
+    await expectNeedsColumns(page, needs)
   })
 
   test('Necesitarás: una nota de mazmorra lleva el jefe que nombra, o el icono de mazmorra', async ({
@@ -332,17 +334,29 @@ test.describe('página de guía', () => {
     await expect(page.locator('a.nextq')).toHaveCount(0)
   })
 
-  // Desde 64rem la raíz es el 110 %: la columna de 55rem mide 968px y todo crece igual.
-  test('una sola columna de lectura de 55rem, con los pasos separados por una línea', async ({
+  // Desde 64rem la raíz es el 110 %: la columna de la guía (--width-guide, 73rem: dos capturas
+  // de 36rem y el hueco de 1rem) mide 1284,8px, a la izquierda, tras el margen de 52,8px.
+  // Por debajo de eso, todo el ancho menos los márgenes (Torre, 2026-11-16).
+  test('una sola columna a la izquierda, de 73rem como mucho, con los pasos separados por una línea', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
     await page.goto(url)
     // Sin la lista «Pasos» al lado.
     await expect(page.getByRole('navigation', { name: 'Pasos' })).toHaveCount(0)
-    const article = (await page.locator('main.quest > article').boundingBox())!
-    expect(Math.round(article.width)).toBe(968)
-    expect(Math.round(article.x)).toBe((1440 - 968) / 2)
+    const article = () => page.locator('main.quest > article').boundingBox()
+    let box = (await article())!
+    expect(box.width).toBeCloseTo(73 * 17.6, 0)
+    expect(box.x).toBeCloseTo(52.8, 0)
+
+    await page.setViewportSize({ width: 2560, height: 900 })
+    box = (await article())!
+    expect(box.width).toBeCloseTo(73 * 17.6, 0)
+    expect(box.x).toBeCloseTo(52.8, 0)
+
+    await page.setViewportSize({ width: 1024, height: 900 })
+    box = (await article())!
+    expect(box.width).toBeCloseTo(1024 - 2 * 52.8, 0)
 
     const items = page.getByRole('region', { name: 'Pasos' }).locator('ol > li')
     const border = (index: number) =>
@@ -369,28 +383,64 @@ test.describe('página de guía', () => {
     expect(await root()).toBe('16px')
   })
 
-  test('las capturas de un paso, de dos en dos y del mismo tamaño; en el móvil, una por fila', async ({
+  // Del tamaño de las de torrentearcano.com en Squarespace (Torre, 2026-11-16): allí miden
+  // 634 × 374 a 1440px, 455 de ancho a 1024 y 343 a 390. Aquí, media columna menos medio
+  // hueco, hasta 36rem (633,6px con la raíz al 110 %), a 17:10, recortadas y centradas.
+  test('las capturas de un paso, de dos en dos, del mismo tamaño que en la web anterior; en el móvil, una por fila', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
     await page.goto(url)
     const shots = page.locator('#paso-1 .figs img')
     await expect(shots).toHaveCount(2)
-    const [first, second] = [
-      (await shots.nth(0).boundingBox())!,
-      (await shots.nth(1).boundingBox())!,
-    ]
-    // Media columna menos medio hueco, a 16:10, recortadas y centradas: las dos iguales.
-    expect(first.width).toBeCloseTo((968 - 17.6) / 2, 0)
-    expect(first.height).toBeCloseTo((first.width * 10) / 16, 0)
-    expect(Math.abs(first.y - second.y)).toBeLessThan(1)
-    expect([second.width, second.height]).toEqual([first.width, first.height])
+    const measure = async () => ({
+      first: (await shots.nth(0).boundingBox())!,
+      second: (await shots.nth(1).boundingBox())!,
+      text: (await page.locator('#paso-1 .qstep__body p').first().boundingBox())!,
+    })
+    const pair = async (expected: number) => {
+      const { first, second, text } = await measure()
+      expect(first.width).toBeCloseTo(expected, 0)
+      expect(first.height).toBeCloseTo((first.width * 10) / 17, 0)
+      expect(Math.abs(first.y - second.y)).toBeLessThan(1)
+      // Las dos iguales, salvo el redondeo de los subpíxeles.
+      expect(second.width).toBeCloseTo(first.width, 1)
+      expect(second.height).toBeCloseTo(first.height, 1)
+      // El texto del paso empieza donde la primera y acaba donde la segunda.
+      expect(first.x).toBeCloseTo(text.x, 0)
+      expect(second.x + second.width).toBeCloseTo(text.x + text.width, 0)
+    }
+    await pair(633.6)
     expect(await shots.nth(1).evaluate((img) => getComputedStyle(img).objectFit)).toBe('cover')
+
+    // En una pantalla muy ancha no crecen: la fila y el texto se quedan a la izquierda.
+    await page.setViewportSize({ width: 2560, height: 900 })
+    await pair(633.6)
+    expect((await measure()).first.x).toBeCloseTo(52.8, 0)
+
+    await page.setViewportSize({ width: 1024, height: 900 })
+    await pair((1024 - 2 * 52.8 - 17.6) / 2)
 
     await page.setViewportSize({ width: 390, height: 844 })
     const [top, below] = [(await shots.nth(0).boundingBox())!, (await shots.nth(1).boundingBox())!]
     expect(Math.round(top.width)).toBe(390 - 32)
     expect(below.y).toBeGreaterThan(top.y + top.height)
+  })
+
+  test('un paso con una sola captura: el texto encima y la captura debajo, del mismo tamaño', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto(url)
+    const alone = page.locator('#paso-3 .figs img')
+    await expect(alone).toHaveCount(1)
+    const shot = (await alone.boundingBox())!
+    const pairShot = (await page.locator('#paso-1 .figs img').first().boundingBox())!
+    const text = (await page.locator('#paso-3 .qstep__body p').first().boundingBox())!
+    expect(shot.width).toBeCloseTo(pairShot.width, 1)
+    expect(shot.height).toBeCloseTo(pairShot.height, 1)
+    expect(shot.x).toBeCloseTo(text.x, 0)
+    expect(shot.y).toBeGreaterThan(text.y + text.height)
   })
 
   // A 1024px, en ¿Dónde está mi samurái?, la lista cerrada de la bolsa (solo invisible) salía
