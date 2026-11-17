@@ -1,7 +1,8 @@
 // La inclinación hacia el ratón sobre el HTML del servidor: cada elemento con data-tilt se
 // inclina hacia el puntero hasta 9° por lado y el brillo que lleva dentro lo sigue (--fx, --fy),
 // como la carta de silvestre-checklist (src/lib/tilt.js). La usan los carteles de /checklists
-// (ChecklistPostersIsland) y las tarjetas de /guias-dofus (DofusIndexIsland). Solo con ratón y
+// (ChecklistPostersIsland), las tarjetas de /guias-dofus (DofusIndexIsland) y las fichas de
+// /metalogros que abren una zona (MetalogrosIsland). Solo con ratón y
 // sin movimiento reducido; al salir vuelve a su sitio. El resto (el brillo, la sombra, el
 // regreso de 150ms) es CSS, que se agarra a la clase is-tilted.
 

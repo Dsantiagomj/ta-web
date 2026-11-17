@@ -112,14 +112,32 @@ test.describe('página de guía', () => {
     ).toBe('1px')
     expect(rec.y).toBeGreaterThanOrEqual(Math.max(pre.y + pre.height, nec.y + nec.height))
     expect(rec.x).toBeCloseTo(pre.x, 0)
-    // Los títulos se leen como títulos: Montserrat 700 en tinta, sin mayúsculas.
+    // Los títulos se leen como títulos: Lexend 700 sin mayúsculas, en el tono fijo de su
+    // parte (DESIGN.md, Item hues): Necesitarás, el 1.
     const title = await region('Necesitarás')
       .getByRole('heading')
       .evaluate((node) => {
         const style = getComputedStyle(node)
-        return [style.fontWeight, style.textTransform, style.fontSize]
+        const probe = document.createElement('i')
+        probe.style.color = 'var(--color-hue-1)'
+        node.append(probe)
+        const hue = getComputedStyle(probe).color
+        probe.remove()
+        return {
+          family: style.fontFamily.split(',')[0].replaceAll('"', ''),
+          weight: style.fontWeight,
+          transform: style.textTransform,
+          size: style.fontSize,
+          hued: style.color === hue,
+        }
       })
-    expect(title).toEqual(['700', 'none', `${1.125 * 17.6}px`])
+    expect(title).toEqual({
+      family: 'Lexend',
+      weight: '700',
+      transform: 'none',
+      size: `${1.125 * 17.6}px`,
+      hued: true,
+    })
 
     await page.setViewportSize({ width: 390, height: 844 })
     const [preM, necM, recM] = await boxes()
