@@ -456,3 +456,40 @@ test('una checklist En preparación lleva a la de Squarespace', async ({ request
   expect(response.status()).toBe(307)
   expect(response.headers().location).toBe(silvestre.legacyHref)
 })
+
+// Una checklist es de un solo color (DESIGN.md, Dofus checklist): un jefe sin imagen lleva el
+// icono de combate, que fuera de las checklists va en un rombo del tono 1, y aquí en el neutro.
+test('el hueco del combate de un jefe sin imagen lleva el rombo neutro', async ({ page }) => {
+  await page.goto(url)
+  const [frame, neutral] = await page.locator('main.ck').evaluate((main) => {
+    const well = document.createElement('span')
+    well.className = 'well'
+    well.dataset.icon = 'combat'
+    const probe = document.createElement('i')
+    probe.style.color = 'var(--color-well-line)'
+    main.append(well, probe)
+    const out = [getComputedStyle(well, '::before').borderTopColor, getComputedStyle(probe).color]
+    well.remove()
+    probe.remove()
+    return out
+  })
+  expect(frame).toBe(neutral)
+})
+
+test('la ventana lleva el radio de 8px y el filete de las líneas, como el prototipo', async ({
+  page,
+}) => {
+  await page.goto(url)
+  const look = await page.locator('.ck-win').evaluate((win) => {
+    const probe = document.createElement('i')
+    probe.style.color = 'var(--color-line)'
+    win.append(probe)
+    const line = getComputedStyle(probe).color
+    probe.remove()
+    const s = getComputedStyle(win)
+    const rem = parseFloat(getComputedStyle(document.documentElement).fontSize)
+    return { border: s.borderTopColor, line, radius: parseFloat(s.borderTopLeftRadius) / rem }
+  })
+  expect(look.border).toBe(look.line)
+  expect(look.radius).toBeCloseTo(0.5)
+})
