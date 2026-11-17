@@ -54,6 +54,14 @@ describe('Button', () => {
     expect(classes('secondary')).toContain('rounded-pill')
   })
 
+  it('el secundario y el fantasma también van en Lexend, la letra de la interfaz', () => {
+    for (const variant of ['secondary', 'ghost'] as const) {
+      const markup = html(<Button variant={variant}>Entrar</Button>)
+      expect(markup, variant).toContain('font-ui')
+      expect(markup, variant).not.toContain('font-display')
+    }
+  })
+
   it('como enlace es un <a> con la misma pinta', () => {
     const markup = html(
       <ButtonLink href="/entrar" variant="secondary">

@@ -120,7 +120,7 @@
   display: block;
   margin-bottom: 0.5rem;
   color: var(--color-ink);
-  font: 600 1.125rem/1.3 var(--font-display);
+  font: 600 1.125rem/1.3 var(--font-ui);
 }
 .combo__box {
   position: relative;
@@ -228,7 +228,7 @@
 .combo__n {
   grid-area: n;
   color: var(--color-ink);
-  font: 600 1rem/1.3 var(--font-display);
+  font: 600 1rem/1.3 var(--font-ui);
 }
 .combo__m {
   grid-area: m;
@@ -279,7 +279,7 @@
 }
 .zone__t {
   color: var(--color-ink);
-  font: 600 var(--text-2xl)/1.1 var(--font-display);
+  font: 600 var(--text-2xl)/1.1 var(--font-ui);
   text-wrap: balance;
 }
 .zone__t:focus {
