@@ -197,9 +197,10 @@
 
 /* ---------- la ventana ---------- */
 
+/* Como en el prototipo de color (opción D): 8px de radio y el filete de las líneas. */
 .ck-win {
-  border: 1px solid var(--color-well-line);
-  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
   background: var(--color-surface);
   overflow: clip;
 }
@@ -1041,7 +1042,13 @@ a.ck-q__t:focus-visible {
 .ck-o__ic.well {
   width: 2.125rem;
   height: 2.125rem;
-  border-radius: 50%;
+}
+
+/* Una checklist es de un solo color (DESIGN.md, Dofus checklist): sus huecos de icono llevan el
+   rombo neutro también cuando dicen lo que tienen (el combate de un jefe sin imagen, que en
+   game.css va en el tono 1). */
+.ck .well[data-icon] {
+  --dia: var(--color-well-line);
 }
 
 .ck-o__t {
@@ -3210,6 +3217,13 @@ html[data-js] [data-road-hero]:not([data-road-ready]) :is(.ck-egg--road, .ck-hea
   transition:
     filter 600ms var(--ease-out),
     opacity 600ms var(--ease-out);
+}
+
+/* En el modo claro, gris al 60 % casi desaparecía sobre la ventana crema: el huevo pendiente
+   va más oscuro y casi opaco, y sigue apagado frente a los hechos, a todo color. */
+[data-mode='light'] .ck-road__egg img {
+  filter: grayscale(1) brightness(0.8);
+  opacity: 0.9;
 }
 
 .ck-road__n {
