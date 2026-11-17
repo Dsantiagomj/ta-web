@@ -302,8 +302,13 @@ test.describe('cabecera', () => {
     await open(page)
     const pill = (await page.locator('.spill').boundingBox())!
     expect(pill.height).toBeGreaterThanOrEqual(44)
-    // 240px, menos lo que cede a 1440px para no pasar del margen derecho: 12,5rem.
-    expect(pill.width).toBeGreaterThanOrEqual(219.5)
+    // De 1440 a 1599px, sin «Ctrl K» y con 11rem como mínimo: la cabecera deja holgura para
+    // el texto más ancho de Linux. Desde 1600px, con el atajo y 12,5rem como mínimo.
+    expect(pill.width).toBeGreaterThanOrEqual(11 * 17.6 - 0.5)
+    await expect(page.locator('.spill kbd')).toBeHidden()
+    await page.setViewportSize({ width: 1600, height: 900 })
+    expect((await page.locator('.spill').boundingBox())!.width).toBeGreaterThanOrEqual(219.5)
+    await expect(page.locator('.spill kbd')).toBeVisible()
   })
 
   test('la búsqueda abierta desde el panel de Misiones devuelve el foco a su botón', async ({
@@ -559,6 +564,34 @@ for (const width of [1120, 1200, 1280, 1440, 1600]) {
         Math.max(...[...el.children].map((child) => child.getBoundingClientRect().right)),
       )
     expect(right).toBeLessThanOrEqual(frame(width).right + 0.5)
+  })
+}
+
+// Holgura antes del margen derecho: el texto sale unos 9px más ancho en Linux (CI) que en
+// macOS, así que la fila de la cabecera deja sitio de sobra a cada ancho. Cuenta el hueco
+// entre el menú y los botones de la derecha, más lo que la píldora de búsqueda aún puede
+// ceder hasta su ancho mínimo. En macOS mide al menos 24px; aquí se pide la mitad larga.
+for (const width of [
+  1200, 1240, 1279, 1280, 1360, 1439, 1440, 1460, 1500, 1536, 1583, 1584, 1600, 1728,
+]) {
+  test(`a ${width}px la cabecera deja holgura antes del margen derecho`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 800 })
+    await open(page)
+    const slack = await page.evaluate(() => {
+      const visible = (el: Element) => el.getBoundingClientRect().width > 0
+      const nav = document.querySelector('.site-nav')!
+      const left = visible(nav)
+        ? nav.getBoundingClientRect().right
+        : document.querySelector('.site-hdr .lockup')!.getBoundingClientRect().right
+      const act = [...document.querySelector('.site-hdr__act')!.children].filter(visible)
+      const gap = parseFloat(getComputedStyle(document.querySelector('.site-hdr__in')!).columnGap)
+      const pill = document.querySelector('.site-hdr .spill')!
+      const give = visible(pill)
+        ? pill.getBoundingClientRect().width - parseFloat(getComputedStyle(pill).minWidth)
+        : 0
+      return act[0]!.getBoundingClientRect().left - left - gap + give
+    })
+    expect(slack).toBeGreaterThanOrEqual(15)
   })
 }
 
