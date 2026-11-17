@@ -495,6 +495,35 @@ test('la ventana lleva el radio de 8px y el filete de las líneas, como el proto
   expect(look.radius).toBeCloseTo(0.5)
 })
 
+// «Marcar todo», la copia de seguridad y reiniciar son botones secundarios (DESIGN.md,
+// Components): relleno raised y tinta, no el contorno en el acento de antes de la opción D.
+test('«Marcar todo» es el botón secundario, sin el contorno en el acento', async ({ page }) => {
+  await page.goto(url)
+  const button = page.locator('[data-ck-pre="all"]')
+  await expect(button).toBeAttached()
+  const look = await button.evaluate((el) => {
+    const probe = document.createElement('i')
+    el.parentElement!.append(probe)
+    const token = (name: string) => {
+      probe.style.color = `var(${name})`
+      return getComputedStyle(probe).color
+    }
+    const out = {
+      raised: token('--color-raised'),
+      ink: token('--color-ink'),
+      accent: token('--color-accent'),
+      background: getComputedStyle(el).backgroundColor,
+      color: getComputedStyle(el).color,
+      border: getComputedStyle(el).borderTopColor,
+    }
+    probe.remove()
+    return out
+  })
+  expect(look.background).toBe(look.raised)
+  expect(look.color).toBe(look.ink)
+  expect(look.border).not.toBe(look.accent)
+})
+
 // La × de borrar de los campos de búsqueda salía azul del navegador en el modo claro. Chrome no
 // da su estilo calculado, así que se mira la captura: ningún píxel azul en el campo.
 test('la × del buscador va en el color del tema, no en el azul del navegador', async ({
