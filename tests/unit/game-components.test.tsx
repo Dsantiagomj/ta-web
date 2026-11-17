@@ -442,13 +442,39 @@ describe('IMAGE_SIZES', () => {
     )
   })
 
-  // La columna de la guía va a todo el ancho hasta 73rem (1284,8px a 17,6px de raíz): cada
-  // captura es media columna menos medio hueco, y no pasa de 36rem (633,6px), que se alcanza
-  // con la ventana a 1390,4px (86,9rem de 16px, como las media queries del CSS).
-  it('las capturas de un paso van de dos en dos desde 40rem: media columna menos el hueco, hasta 634px', () => {
+  // La fila del paso va de margen a margen y sus capturas la llenan: dos columnas, tres desde
+  // una fila de 81rem, cuatro desde 122rem y cinco desde 163rem, ninguna de más de 40rem
+  // (704px). Las media queries de sizes van en rem de 16px: la ventana es la fila más los
+  // márgenes de 52,8px.
+  it('las capturas de un paso llenan la fila: dos, tres, cuatro o cinco por fila, hasta 704px', () => {
     expect(IMAGE_SIZES.half).toBe(
+      '(min-width: 185.9rem) calc(20vw - 35px), (min-width: 140.8rem) calc(25vw - 40px), ' +
+        '(min-width: 95.7rem) calc(33.33vw - 47px), (min-width: 64rem) calc(50vw - 62px), ' +
+        '(min-width: 40rem) calc(50vw - 32px), calc(100vw - 32px)',
+    )
+  })
+
+  // Una pareja ocupa dos columnas de 40rem como mucho (704px), con la ventana a 1531,2px.
+  it('una pareja de capturas: media fila hasta 704px', () => {
+    expect(IMAGE_SIZES.pair).toBe(
+      '(min-width: 95.7rem) 704px, (min-width: 64rem) calc(50vw - 62px), ' +
+        '(min-width: 40rem) calc(50vw - 32px), calc(100vw - 32px)',
+    )
+  })
+
+  // Una sola: media fila hasta 36rem (633,6px), con la ventana a 1390,4px.
+  it('una captura sola: media fila hasta 634px', () => {
+    expect(IMAGE_SIZES.single).toBe(
       '(min-width: 86.9rem) 634px, (min-width: 64rem) calc(50vw - 62px), ' +
         '(min-width: 40rem) calc(50vw - 32px), calc(100vw - 32px)',
+    )
+  })
+
+  // El vídeo crece hasta 81rem (1425,6px), que alcanza con la ventana a 1531,2px.
+  it('el vídeo ocupa la columna hasta 81rem', () => {
+    expect(IMAGE_SIZES.video).toBe(
+      '(min-width: 95.7rem) 1426px, (min-width: 64rem) calc(100vw - 106px), ' +
+        '(min-width: 40rem) calc(100vw - 48px), calc(100vw - 32px)',
     )
   })
 })
@@ -577,7 +603,7 @@ describe('VideoFacade', () => {
       />,
     )
     expect(markup).toContain('srcSet="/img/v-480.webp 480w, /img/v-800.webp 800w"')
-    expect(markup).toContain(`sizes="${IMAGE_SIZES.prose}"`)
+    expect(markup).toContain(`sizes="${IMAGE_SIZES.video}"`)
   })
 
   it('un dato guardado que no es de YouTube: un enlace normal, solo por si acaso', () => {

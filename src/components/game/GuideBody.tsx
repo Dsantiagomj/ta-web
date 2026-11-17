@@ -13,8 +13,8 @@ import { QuestSteps } from './QuestSteps'
 import { TorreTips } from './TorreTips'
 import { VideoFacade } from './VideoFacade'
 
-/** Un bloque de la guía con su componente. half: la captura ocupa media columna. */
-function guideBlock(block: GuideBlock, minHeading: 2 | 3, half = false): ReactNode {
+/** Un bloque de la guía con su componente. sizes: el de una captura en su rejilla (.figs). */
+function guideBlock(block: GuideBlock, minHeading: 2 | 3, sizes?: string): ReactNode {
   switch (block.kind) {
     case 'richText':
       return (
@@ -33,7 +33,7 @@ function guideBlock(block: GuideBlock, minHeading: 2 | 3, half = false): ReactNo
           alt={block.alt}
           caption={block.caption}
           priority={block.priority}
-          {...(half && { sizes: IMAGE_SIZES.half })}
+          {...(sizes && { sizes })}
         />
       )
     case 'video':
@@ -60,7 +60,7 @@ function guideBlock(block: GuideBlock, minHeading: 2 | 3, half = false): ReactNo
  * Los bloques en orden, sin envoltorio: prosa, capturas, vídeos y avisos. minHeading es el
  * nivel más alto de los títulos del texto: 3 dentro de un paso, bajo el h2 «Pasos»; 4
  * dentro de un aviso, bajo su h3. Con figures, las capturas seguidas van juntas en una
- * rejilla (.figs), de dos en dos desde 40rem (DESIGN.md, Steps); una sola, también.
+ * rejilla (.figs) que llena la fila desde 40rem (DESIGN.md, Steps); una sola, también.
  */
 export function GuideBlocks({
   blocks,
@@ -76,9 +76,12 @@ export function GuideBlocks({
   let run: Extract<GuideBlock, { kind: 'image' }>[] = []
   const flush = () => {
     if (run.length === 0) return
+    // Lo que mide cada una depende de cuántas van juntas (game.css, .figs).
+    const sizes =
+      run.length === 1 ? IMAGE_SIZES.single : run.length === 2 ? IMAGE_SIZES.pair : IMAGE_SIZES.half
     out.push(
       <div key={`figs-${run[0]!.key}`} className="figs">
-        {run.map((image) => guideBlock(image, minHeading, true))}
+        {run.map((image) => guideBlock(image, minHeading, sizes))}
       </div>,
     )
     run = []

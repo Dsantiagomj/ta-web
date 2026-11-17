@@ -33,7 +33,7 @@ export function VideoFacade({
     )
   }
   return (
-    <figure>
+    <figure className="video">
       <div className="video__frame">
         <a
           className="video__link"
@@ -43,7 +43,7 @@ export function VideoFacade({
           aria-label={s.watch(title)}
         >
           {poster ? (
-            <Picture image={poster} alt="" sizes={IMAGE_SIZES.prose} className="video__poster" />
+            <Picture image={poster} alt="" sizes={IMAGE_SIZES.video} className="video__poster" />
           ) : (
             <span className="video__title">{title}</span>
           )}

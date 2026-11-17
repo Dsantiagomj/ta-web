@@ -483,11 +483,15 @@ html:not([data-js]) .ck-step + .ck-step {
 }
 
 /* El paso llena su panel, de margen a margen (Torre, 2026-11-17). Solo las filas de las
-   misiones se paran en la fila de dos capturas de las guías (--width-guide): en una pantalla
-   ancha una misión no separa su nombre de sus coordenadas. El texto, igual que el de los
-   pasos de una guía. */
-.ck-step__scroll :is(.ck-qs, p) {
+   misiones se paran en --width-guide (73rem): en una pantalla ancha una misión no separa su
+   nombre de sus coordenadas. El texto, a la medida de lectura, como el de los pasos de una
+   guía. */
+.ck-step__scroll .ck-qs {
   max-width: var(--width-guide);
+}
+
+.ck-step__scroll p {
+  max-width: var(--measure);
 }
 
 html[data-js] .ck-step[data-open] .ck-step__scroll {

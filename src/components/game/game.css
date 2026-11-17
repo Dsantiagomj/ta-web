@@ -982,11 +982,14 @@ ul.needs__notes {
   margin-bottom: 0;
 }
 
-/* El texto de un paso llega tan lejos como la fila de dos capturas (--width-guide, 73rem):
-   a 1440px, lo mismo que la fila de debajo; en una pantalla más ancha, donde caben más
-   capturas por fila, el texto no sigue creciendo. */
+/* El texto de un paso, a una medida de lectura (--measure, 75ch), aunque la fila de capturas
+   de debajo llegue al margen. El cuerpo del paso es el contenedor de esa fila. */
+.qstep__body {
+  container: step / inline-size;
+}
+
 .qstep__body.prose-guide :is(p, ul, ol) {
-  max-width: var(--width-guide);
+  max-width: var(--measure);
 }
 
 .qstep__body.prose-guide p {
@@ -1000,9 +1003,9 @@ ul.needs__notes {
 }
 
 /* Las capturas seguidas de un paso (GuideBlocks, .figs): una por fila en el móvil; desde
-   40rem, dos por fila de media columna hasta que cada una llega a --width-shot (634px a
-   1440px, las de torrentearcano.com en Squarespace), y desde ahí tantas de --width-shot como
-   quepan: tres a 2560px. Una sola mide lo mismo que una de la pareja, debajo del texto. */
+   40rem, columnas que llenan la fila, cada una de --width-shot-max (40rem) como mucho: dos a
+   1440px, tres a 1728 y 1920px, cuatro a 2560px. Una sola, debajo del texto, como mucho
+   --width-shot (634px, el tamaño de la web anterior). */
 .figs {
   display: grid;
   gap: 1rem;
@@ -1020,15 +1023,12 @@ ul.needs__notes {
 }
 
 @media (min-width: 40rem) {
-  /* Cada columna mide media fila menos medio hueco, o --width-shot si es menos: con la fila
-     estrecha caben dos que se reparten la fila; con sitio, todas las de --width-shot que
-     quepan, y lo que sobra queda a la derecha. Un tamaño fijo y no minmax(): auto-fill cuenta
-     las columnas con el máximo. Los 0.1px evitan que el redondeo deje una sola. */
   .figs {
-    grid-template-columns: repeat(
-      auto-fill,
-      min(var(--width-shot), calc((100% - 1rem) / 2 - 0.1px))
-    );
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .figs > figure:only-child {
+    max-width: var(--width-shot);
   }
 
   /* Todas las cajas del mismo tamaño: 17:10, el recorte de la web anterior (634 × 374 a
@@ -1041,6 +1041,53 @@ ul.needs__notes {
     height: auto;
     object-fit: cover;
     object-position: center;
+  }
+}
+
+/* Una columna más cada vez que las de la fila pasarían de --width-shot-max (40rem) con el
+   hueco de 1rem: 81rem es dos de 40rem y un hueco, 122rem tres y dos, 163rem cuatro y tres.
+   La fila llena el paso de margen a margen y ninguna captura pasa de 40rem (704px). Las
+   consultas de contenedor no aceptan var(). */
+@container step (min-width: 81rem) {
+  .figs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@container step (min-width: 122rem) {
+  .figs {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@container step (min-width: 163rem) {
+  .figs {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+/* Un grupo con menos capturas que columnas no las encoge al ancho de una columna: ocupa una
+   columna por captura, de 40rem como mucho, y lo que sobra queda a la derecha. Una sola, de
+   --width-shot (634px). Una pareja a 1728px mide 704px por captura, no 529. */
+@container step (min-width: 81rem) {
+  .figs:has(> figure:only-child) {
+    grid-template-columns: var(--width-shot);
+  }
+
+  .figs:has(> figure:nth-child(2):last-child) {
+    grid-template-columns: repeat(2, minmax(0, var(--width-shot-max)));
+  }
+}
+
+@container step (min-width: 122rem) {
+  .figs:has(> figure:nth-child(3):last-child) {
+    grid-template-columns: repeat(3, minmax(0, var(--width-shot-max)));
+  }
+}
+
+@container step (min-width: 163rem) {
+  .figs:has(> figure:nth-child(4):last-child) {
+    grid-template-columns: repeat(4, minmax(0, var(--width-shot-max)));
   }
 }
 
@@ -1146,10 +1193,16 @@ ul.needs__notes {
   max-width: var(--width-media);
 }
 
-/* Los avisos y los consejos de Torre, como el texto de los pasos: hasta la fila de dos
-   capturas, no de margen a margen. */
-:is(.guide-body, .prose-guide) > :is(.callout, .torre) {
-  max-width: var(--width-guide);
+/* El vídeo crece con la fila de capturas hasta dos de ellas (--width-video, 81rem): ni
+   pequeño junto a una rejilla de margen a margen ni de 2000px. */
+:is(.guide-body, .prose-guide) > figure.video {
+  max-width: var(--width-video);
+}
+
+/* Los avisos y los consejos de Torre van de margen a margen; su texto, a la medida de
+   lectura. */
+:is(.callout__body, .torre__body) > * {
+  max-width: var(--measure);
 }
 
 /* Prosa dentro de un paso: bloques separados. */

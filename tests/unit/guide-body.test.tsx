@@ -320,7 +320,23 @@ describe('GuideSteps', () => {
       expect(markup).toMatch(
         /<p>Habla con Luci\.<\/p><div class="figs"><figure>.*a-800\.webp.*<\/figure><figure>.*b-800\.webp.*<\/figure><\/div>/,
       )
-      expect(markup.match(new RegExp(`sizes="${escape(IMAGE_SIZES.half)}"`, 'g'))).toHaveLength(2)
+      // Una pareja: dos columnas de 40rem como mucho, aunque la fila tenga sitio para más.
+      expect(markup.match(new RegExp(`sizes="${escape(IMAGE_SIZES.pair)}"`, 'g'))).toHaveLength(2)
+    })
+
+    it('con tres o más, la rejilla que llena la fila; una sola, hasta 634px', () => {
+      const markup = html(
+        <GuideSteps
+          steps={[
+            {
+              key: 'p',
+              blocks: [shot('a'), shot('b'), shot('c'), prose('t', 'Luego.'), shot('d')],
+            },
+          ]}
+        />,
+      )
+      expect(markup.match(new RegExp(`sizes="${escape(IMAGE_SIZES.half)}"`, 'g'))).toHaveLength(3)
+      expect(markup.match(new RegExp(`sizes="${escape(IMAGE_SIZES.single)}"`, 'g'))).toHaveLength(1)
     })
 
     it('el texto entre dos capturas las separa; una sola va también en su rejilla, debajo', () => {
