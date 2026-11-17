@@ -881,6 +881,10 @@
   margin-top: 2.5rem;
   container-type: inline-size;
 }
+/* El vídeo de Torre, como el de la guía: hasta --width-media, aunque la columna sea más ancha. */
+.dg-sec > figure {
+  max-width: var(--width-media);
+}
 .dg-h3 {
   margin: 0 0 0.5rem;
   color: var(--color-section);
