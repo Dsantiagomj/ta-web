@@ -1,5 +1,6 @@
 import { expect, test, type Page } from '@playwright/test'
 
+import { seedChecklists } from './seed/checklists.ts'
 import { seedGuide } from './seed/guides.ts'
 
 // Las fuentes de src/styles/fonts.ts: dos archivos precargados, Montserrat (el texto, una
@@ -101,4 +102,37 @@ test('el título de la guía es Rowdies 700 y los encabezados de sus partes, Lex
   )
   expect(loaded).toContain('Rowdies 700')
   expect(loaded.some((face) => face.startsWith('Lexend '))).toBe(true)
+})
+
+// Los títulos de tarjeta, los botones y los antetítulos van en Lexend y el título de la guía en
+// Rowdies (DESIGN.md, Typography): no quedan en el Montserrat de antes de la opción D.
+test('los títulos de las tarjetas, los botones y los antetítulos van en Lexend', async ({
+  page,
+}) => {
+  const family = (selector: string) =>
+    page
+      .locator(selector)
+      .first()
+      .evaluate((el) => getComputedStyle(el).fontFamily.split(',')[0].replaceAll('"', ''))
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/')
+  for (const selector of [
+    '.tour__step h3',
+    '.trio__t',
+    '.join__t',
+    '.ask__q',
+    '.ft-h',
+    '.ft-eyebrow',
+  ]) {
+    expect(await family(selector), selector).toBe('Lexend')
+  }
+  expect(await family('.spec__t'), '.spec__t').toBe('Rowdies')
+  await page.locator('.np[aria-controls="menu-dofus"]').click()
+  for (const selector of ['#menu-dofus .panel__h', '#menu-dofus .feat__t', '#menu-dofus .chk__t']) {
+    expect(await family(selector), selector).toBe('Lexend')
+  }
+  await page.goto(`/${seedChecklists.nebuloso.slug}`)
+  for (const selector of ['.ck-seg__b', '.ck-btn']) {
+    expect(await family(selector), selector).toBe('Lexend')
+  }
 })
