@@ -11,7 +11,6 @@ import { soulsView } from '@/lib/checklists/souls'
 import { soulsStrings as o } from '@/lib/checklists/strings'
 
 import { LivePreviewRefresh } from './LivePreviewRefresh'
-import { PreviewBar } from './PreviewBar'
 
 /**
  * Una checklist de almas (el Ocre, «La eterna cosecha»): las migas, la cabecera con el huevo,
@@ -32,7 +31,6 @@ export function SoulsView({ data, preview }: { data: ChecklistData; preview: boo
     <div className="[--color-section:var(--color-sec-checklists)]" style={eggStyle(view.color)}>
       {/* Dentro, para que herede el color del Dofus (--egg). */}
       <Ambience fx={checklistAmbience(data.checklist.ambience)} />
-      {preview && <PreviewBar slug={view.slug} />}
       <main id="contenido" className="ck sl" {...pageSection('dofus')}>
         <Breadcrumb {...view.breadcrumb} />
         <ChecklistHeader view={view} />
