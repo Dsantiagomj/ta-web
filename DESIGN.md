@@ -977,6 +977,10 @@ Decided 2026-11-16 by Torre, from the full-page variant of the `/color/` prototy
 - Picking a zone background for a character: the character must read against the area where it sits. Avoid a zone in the same hue as the character; keep text over the darker part of the image or on a shade.
 - Alt text comes from the media record. Decorative art (backgrounds, ornaments) has `alt=""`.
 
+## Print
+
+A printed guide is readable on paper whatever the screen's theme or mode (`@media print` at the end of `globals.css`, no extra stylesheet). The page takes Amakna's light tokens with the page, surface and bar in white, and `color-scheme: light`. The header (with the theme picker and the mode switch), the footer, the ambience, the zone background, the skip link and the draft preview notice are not printed. Shadows go, and a figure, a callout, Torre's tips or the next quest card is not split across two sheets, nor a heading left at the bottom of one. `tests/unit/print-css.test.ts` checks the tokens against `theme.css` and the hidden parts.
+
 ## Accessibility
 
 - WCAG 2.2 AA in every theme and mode. The color tables above list every text pair; new pairs get a ratio before they ship.
