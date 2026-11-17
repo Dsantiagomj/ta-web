@@ -374,6 +374,26 @@ test.describe('página de una checklist', () => {
     await expect(dialog).not.toHaveAttribute('open')
   })
 
+  test('en el móvil, «Más opciones» va en la fila del buscador, no sola debajo', async ({
+    page,
+  }) => {
+    for (const width of [390, 320]) {
+      await page.setViewportSize({ width, height: 844 })
+      await page.goto(url)
+      const search = (await page.locator('.ck-find').boundingBox())!
+      const more = page.locator('[data-ck-more]')
+      await expect(more).toBeEnabled()
+      const button = (await more.boundingBox())!
+      expect(Math.abs(button.y + button.height / 2 - (search.y + search.height / 2))).toBeLessThan(
+        2,
+      )
+      expect(button.x).toBeGreaterThan(search.x + search.width)
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
+        width,
+      )
+    }
+  })
+
   test('en el móvil, las flechas recorren la lista y Intro abre el paso', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 })
     await page.goto(url)
