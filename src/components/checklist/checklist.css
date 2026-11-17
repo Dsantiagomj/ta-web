@@ -2192,10 +2192,18 @@ html:not([data-js]) .sl-panel + .sl-panel {
 }
 
 /* Por debajo de 1024px la fila de chips llega hasta el borde de la ventana: recortada en el
-   relleno de .sl-groups, el último chip se cortaba a 0,75rem del borde. */
+   relleno de .sl-groups, el último chip se cortaba a 0,75rem del borde. El relleno lateral
+   pasa de .sl-groups a lo que hay dentro, y la fila lo lleva dentro de su desplazamiento. */
 @media (width < 64rem) {
+  .sl-groups {
+    padding-inline: 0;
+  }
+
+  .sl-view > :not(.sl-nav) {
+    padding-inline: 0.75rem;
+  }
+
   .sl-nav__l {
-    margin-inline: -0.75rem;
     padding-inline: 0.75rem;
     scroll-padding-inline: 0.75rem;
   }
