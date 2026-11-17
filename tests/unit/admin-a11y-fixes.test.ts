@@ -80,6 +80,15 @@ describe('applyPanelA11yFixes', () => {
     expect($('#suelto').getAttribute('aria-label')).toBe('Texto')
   })
 
+  it('el campo de fecha toma la etiqueta de su campo', () => {
+    render(`
+      <div class="field-type date-time-field"><label class="field-label">Actualizado el</label>
+        <div class="date-time-picker"><div class="react-datepicker__input-container">
+          <input type="text" value="" id="fecha"></div></div></div>
+    `)
+    expect($('#fecha').getAttribute('aria-label')).toBe('Actualizado el')
+  })
+
   it('la vista previa en vivo tiene título', () => {
     render('<iframe id="live-preview-iframe"></iframe>')
     expect($('iframe').getAttribute('title')).toBe('Vista previa de la página')
