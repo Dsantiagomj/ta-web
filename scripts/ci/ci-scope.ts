@@ -29,7 +29,7 @@ const OFFLINE: RegExp[] = [
   /^scripts\/import\//,
   /^scripts\/hooks\//,
   /^scripts\/redirects\//,
-  /^scripts\/(review-release|review-release-plan|backfill-guides|backfill-shown-items|backfill-guide-rewards|fix-reward-typos|prefer-dofusdb-rewards|seed-site-copy|refresh-game-data|dungeon-notes|payload-script|media-sizes)\.ts$/,
+  /^scripts\/(review-release|review-release-plan|backfill-guides|backfill-shown-items|backfill-guide-rewards|fix-reward-typos|prefer-dofusdb-rewards|seed-site-copy|refresh-game-data|dungeon-notes|payload-script|media-sizes|zone-backgrounds)\.ts$/,
   /^scripts\/build-[\w-]+\.ts$/,
   /^tests\/(unit|integration|fixtures)\//,
   /^vitest(\.integration)?\.config\.mts$/,
