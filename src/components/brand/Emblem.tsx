@@ -6,7 +6,8 @@ import { EMBLEM_ART, EMBLEM_VIEWBOX, type EmblemVariant } from './emblem-art'
 
 /**
  * El emblema de Torrente Arcano (DESIGN.md, Brand): sombrero en --color-accent, glifo en
- * --color-bg y cara en --color-ink, así que sigue el tema y el modo de donde se pinte.
+ * el color de lo que tiene debajo (--emblem-cut: la barra en la cabecera y el pie;
+ * sin ella, --color-bg) y cara en --color-ink, así que sigue el tema y el modo de donde se pinte.
  * Decorativo: el nombre lo da el texto que lo acompaña. `simple` es la versión de 16 px.
  * width y height reservan el hueco; el CSS lo pinta a `size` en rem (--emblem), así que
  * crece con la fuente raíz.
@@ -42,7 +43,7 @@ export function Emblem({
         <>
           <g
             data-part="glyph"
-            className="stroke-bg"
+            className="[stroke:var(--emblem-cut,var(--color-bg))]"
             fill="none"
             strokeWidth={EMBLEM_ART.glyphWidth}
             strokeLinecap="round"

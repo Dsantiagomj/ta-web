@@ -8,6 +8,8 @@
   align-items: center;
   gap: 0.5rem;
   min-height: 2.75rem;
+  /* El anillo de foco sigue esta esquina, como el de los demás botones de la cabecera. */
+  border-radius: var(--radius-sm);
   color: var(--color-ink);
   text-decoration: none;
 }
