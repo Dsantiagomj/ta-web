@@ -26,7 +26,9 @@ describe('mapQuest', () => {
       levelMax: 200,
       categoryId: 26,
       startCriterion: 'PL>19',
-      startPositions: [{ npcId: 1545, npcName: 'Paco Dekarbón', mapId: 66062340, x: -30, y: -84 }],
+      startPositions: [
+        { npcId: 1545, npcName: 'Paco Dekarbón', mapId: 66062340, x: -30, y: -84, subAreaId: null },
+      ],
       prerequisiteDofusIds: [],
       // Estos fixtures no traen etapas
       zone: null,
@@ -63,15 +65,24 @@ describe('mapQuest', () => {
 
   it('guarda todas las posiciones de inicio', () => {
     expect(mapQuest(quest(89), lookups).startPositions).toEqual([
-      { npcId: 201, npcName: 'Larry Poller', mapId: 212730368, x: -34, y: -58 },
-      { npcId: 6364, npcName: 'Danathor', mapId: 219153408, x: -36, y: -60 },
+      { npcId: 201, npcName: 'Larry Poller', mapId: 212730368, x: -34, y: -58, subAreaId: null },
+      { npcId: 6364, npcName: 'Danathor', mapId: 219153408, x: -36, y: -60, subAreaId: null },
     ])
   })
 
   it('deja vacío lo que no está en las búsquedas, sin fallar', () => {
     expect(mapQuest(quest(89), noLookups).startPositions).toEqual([
-      { npcId: 201, npcName: null, mapId: 212730368, x: null, y: null },
-      { npcId: 6364, npcName: null, mapId: 219153408, x: null, y: null },
+      { npcId: 201, npcName: null, mapId: 212730368, x: null, y: null, subAreaId: null },
+      { npcId: 6364, npcName: null, mapId: 219153408, x: null, y: null, subAreaId: null },
+    ])
+  })
+
+  it('guarda la subzona del mapa de inicio: de ella sale el fondo de zona', () => {
+    const raw = quest(878)
+    raw.startPosition = [{ mapId: 188746755, npcId: 4412 }]
+    const withMap = indexLookups(npcs, [{ id: 188746755, posX: 7, posY: -19, subAreaId: 95 }])
+    expect(mapQuest(raw, withMap).startPositions).toEqual([
+      { npcId: 4412, npcName: null, mapId: 188746755, x: 7, y: -19, subAreaId: 95 },
     ])
   })
 

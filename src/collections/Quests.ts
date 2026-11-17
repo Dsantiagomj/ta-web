@@ -93,6 +93,12 @@ export const Quests: CollectionConfig = withTorreCorrection(
           { name: 'mapId', label: 'ID del mapa', type: 'number' },
           { name: 'x', label: 'X', type: 'number' },
           { name: 'y', label: 'Y', type: 'number' },
+          {
+            name: 'subAreaId',
+            label: 'ID de la subzona',
+            type: 'number',
+            admin: { description: 'La subzona del mapa: de ella sale el fondo de la guía.' },
+          },
         ],
       },
       {
