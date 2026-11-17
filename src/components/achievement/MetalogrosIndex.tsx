@@ -44,7 +44,8 @@ function ZoneArt({ zone, className }: { zone: IndexZone; className: string }) {
   return <span className={`${className} ${className}--none`} aria-hidden="true" />
 }
 
-function Tile({ zone }: { zone: IndexZone }) {
+/** Exportada para el catálogo /sistema. */
+export function Tile({ zone }: { zone: IndexZone }) {
   const inner = (
     <>
       <ZoneArt zone={zone} className="zart" />
@@ -71,7 +72,8 @@ function Tile({ zone }: { zone: IndexZone }) {
   )
 }
 
-function AchievementCard({ achievement }: { achievement: IndexAchievement }) {
+/** Exportada para el catálogo /sistema. */
+export function AchievementCard({ achievement }: { achievement: IndexAchievement }) {
   const inner = (
     <>
       <span className="well acard__icon" aria-hidden="true">

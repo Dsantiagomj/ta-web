@@ -222,7 +222,7 @@
   gap: 1rem;
 }
 
-/* Los títulos de las partes se leen como títulos: Montserrat 700 en tinta, sin mayúsculas
+/* Los títulos de las partes se leen como títulos: Lexend 700 en tinta, sin mayúsculas
    ni nada delante; solo la tipografía da la jerarquía. Los usan también el logro y la guía
    de Dofus. */
 .qhead__facts :is(h2, h3) {
@@ -1486,12 +1486,12 @@ ul.needs__notes {
    página, y cualquier sombra del mapa los bajaba: sobre el velo se oscurecen un 16 %.
    Los separadores entre partes (--zone-rule) mezclan muted con line para llegar a 3:1 sobre
    el velo; --color-line solo se perdía contra el paisaje. */
-.zone-bg ~ main {
+.zone-bg ~ * {
   --zone-rule-muted: 70%;
   --zone-rule: color-mix(in srgb, var(--color-muted) var(--zone-rule-muted), var(--color-line));
 }
 
-[data-mode='light'] .zone-bg ~ main {
+[data-mode='light'] .zone-bg ~ * {
   --zone-ink-shift: 16%;
   --color-muted: color-mix(in srgb, var(--t-muted), #000 var(--zone-ink-shift));
   --color-accent: color-mix(in srgb, var(--t-accent), #000 var(--zone-ink-shift));

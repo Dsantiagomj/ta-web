@@ -23,6 +23,7 @@ export const catalogStrings = {
     chips: 'Chips y etiquetas',
     callouts: 'Avisos',
     figures: 'Fichas y progreso',
+    theme: 'Selector de tema',
     checkbox: 'Casilla',
     cards: 'Tarjetas',
     torre: 'Recomendaciones de Torre',
@@ -38,6 +39,8 @@ export const catalogStrings = {
     image: 'Captura',
     dofus: 'Guías de Dofus',
     checklists: 'Índice de checklists',
+    eggs: 'Huevo de la checklist',
+    zone: 'Fondo de zona',
     ambience: 'Ambiente',
     achievement: 'Página de logro',
     blocks: 'Bloques del panel',
@@ -54,7 +57,13 @@ export const catalogStrings = {
     items:
       'El chip y la casilla de un objeto: en reposo, como siempre; con el ratón encima, el nombre se subraya en accent y aparece el icono de copiar. Pulsar el nombre o el icono copia el nombre, sin la cantidad, para buscarlo en el juego. Sin JavaScript son texto.',
     wells:
-      'Los iconos del juego en sus huecos, oscuros también en modo claro; el último, sin icono, queda vacío.',
+      'Los iconos del juego en su rombo: el marco toma el color de lo que llevan (la XP en el tono 3, los kamas en el 2, el combate y la mazmorra en el 1) y el resto, el neutro. El último, sin icono, queda vacío.',
+    cards:
+      'Un panel; las fichas del índice de metalogros (con su PNJ y la capa de brillo que en el índice sigue al ratón; solo con el icono de su logro; apagada) y sus tarjetas de logro; y el logro anterior y el siguiente de una página de logro, el siguiente En preparación.',
+    theme:
+      'El botón de la cabecera con el sombrero en el acento del tema; su menú lista los cuatro temas gratis. Aquí no se abre: lo abre la isla de la cabecera.',
+    eggs: 'El huevo de la cabecera de una checklist sin empezar, a medias y terminada (data-ck-state): apagado y flotando hasta el 100 %, encendido con su brillo al terminar.',
+    zone: 'El paisaje de la zona de una guía o un logro bajo el velo plano del fondo, con texto en tinta, en muted y en un tono encima.',
     coordinates:
       'Los [x,y] de la prosa se convierten en chips; pulsar copia /travel x,y. Sin JavaScript son texto.',
     steps:
@@ -123,7 +132,8 @@ export const catalogStrings = {
     done: 'Hecha',
     unavailable: 'No disponible',
     panel: 'Un panel sobre surface, sin borde ni sombra.',
-    nextEyebrow: 'Siguiente misión del logro',
-    nextMeta: 'Kerubim Crepin te la da al terminar esta.',
+    zoneText: 'Habla con Hupe Esse para empezar la misión.',
+    zoneMuted: 'Misión de Astrub - Nivel 20',
+    zoneHeading: 'Recompensas',
   },
 }
