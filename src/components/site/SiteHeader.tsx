@@ -10,6 +10,7 @@ import type { SiteSocials } from '@/lib/site-copy/defaults'
 import { DEFAULT_THEME, type Mode, type Theme } from '@/lib/theme/theme'
 
 import { HeaderIsland } from './HeaderIsland'
+import { KofiHeaderButton } from './Kofi'
 import { ArrowIcon, ChevronIcon, CloseIcon, MenuIcon, SearchIcon, SocialIcon } from './icons'
 import {
   type ChecklistNavItem,
@@ -468,9 +469,9 @@ function Sheet({
 /**
  * La cabecera de todo el sitio (DESIGN.md, Layout: Header): el logo Sello, un desplegable
  * por sección con su ficha y su arte (Dofus y checklists comparten panel), en el orden y con
- * los nombres de «Navegación», la búsqueda con
- * Ctrl K, el selector de tema, el interruptor de modo y, por debajo de 1200px, el menú del móvil. Todo se pinta
- * en el servidor; la isla abre y cierra los paneles, el menú y la búsqueda.
+ * los nombres de «Navegación», el Ko-fi de Torre, la búsqueda con Ctrl K, el selector de tema,
+ * el interruptor de modo y, por debajo de 1200px, el menú del móvil. Todo se pinta en el
+ * servidor; la isla abre y cierra los paneles, el menú y la búsqueda.
  */
 export function SiteHeader({
   counts,
@@ -493,7 +494,7 @@ export function SiteHeader({
   initialMode: Mode
   /** El tema que pintó el servidor; sin él, el de por defecto. */
   initialTheme?: Theme
-  /** Las redes de «Ajustes del sitio», para el menú del móvil; sin ellas, las de siempre. */
+  /** Las redes de «Ajustes del sitio», para el Ko-fi y el menú del móvil; sin ellas, las de siempre. */
   socials?: SiteSocials
   /** Las secciones de «Navegación», en su orden y sin las ocultas (resolveNavigation). */
   sections?: Section[]
@@ -583,6 +584,8 @@ export function SiteHeader({
             </ul>
           </nav>
           <div className="site-hdr__act">
+            {/* Junto a la búsqueda; en el móvil no sale, porque lo cubre el flotante. */}
+            <KofiHeaderButton url={socials?.kofi.url ?? KOFI_URL} />
             <button type="button" className="spill" data-open-search>
               <SearchIcon />
               <span>{s.search}</span>

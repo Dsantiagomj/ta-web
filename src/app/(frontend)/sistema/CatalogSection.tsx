@@ -36,6 +36,8 @@ import { ProgressBar } from '@/components/ui/ProgressBar'
 import { StatTile } from '@/components/ui/StatTile'
 import { TagPill } from '@/components/ui/TagPill'
 import { Ambience } from '@/components/site/Ambience'
+import { KofiFab, KofiHeaderButton } from '@/components/site/Kofi'
+import { KOFI_URL } from '@/components/site/nav'
 import { MenuPanelPreview } from '@/components/site/SiteHeader'
 import { SiteFooter } from '@/components/site/SiteFooter'
 import { ThemePicker } from '@/components/theme-picker/ThemePicker'
@@ -141,6 +143,15 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
             <div className="w-full">
               <SiteFooter year={2026} />
             </div>
+          </Group>
+
+          <Group name="kofi" note={s.notes.kofi}>
+            {/* Sobre la barra de la cabecera, como en el sitio. */}
+            <div className="kofi-demo">
+              <KofiHeaderButton url={KOFI_URL} />
+              <KofiHeaderButton url={KOFI_URL} iconOnly />
+            </div>
+            <KofiFab url={KOFI_URL} label={d.kofi} />
           </Group>
 
           <Group name="buttons">

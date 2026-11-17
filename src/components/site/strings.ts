@@ -62,6 +62,13 @@ export const siteShellStrings = {
   search: 'Buscar',
   searchShortcut: 'Ctrl K',
   searchLabel: 'Buscar (Ctrl K)',
+  /** El Ko-fi de la cabecera: la taza y «Ko-fi»; el nombre completo, para el lector de pantalla. */
+  kofi: {
+    label: 'Ko-fi',
+    name: 'Apoya a Torre en Ko-fi',
+  },
+  /** Lo que lee un lector de pantalla tras un enlace que se abre en otra pestaña. */
+  newTab: ' (se abre en otra pestaña)',
   panels: {
     misionesBlurb: (guides: number, achievements: number) =>
       [

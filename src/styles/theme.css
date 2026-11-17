@@ -109,6 +109,7 @@
   --color-kofi: var(--t-kofi);
   --color-kofi-hi: var(--t-kofi-hi);
   --color-kofi-ink: var(--t-kofi-ink);
+  --color-kofi-line: var(--t-kofi-line);
 
   --color-hue-1: var(--t-hue-1);
   --color-hue-2: var(--t-hue-2);
@@ -162,6 +163,7 @@
 :root {
   --z-base: 0;
   --z-raised: 10;
+  --z-float: 40;
   --z-header: 50;
   --z-menu: 60;
   --z-toast: 90;
@@ -405,7 +407,9 @@
 /* Los colores de marca del pie, iguales en todos los temas (opción D de Torre): el Discord
    violeta con texto blanco y el Ko-fi dorado con tinta oscura, también para la taza, que en
    el acento del tema no se leía sobre el oro. El hover del Discord oscuro es el violeta más
-   claro que aún da 4,5:1 con el blanco (el del prototipo, #8a63f0, daba 4,10). */
+   claro que aún da 4,5:1 con el blanco (el del prototipo, #8a63f0, daba 4,10). El borde de los
+   botones de Ko-fi de la cabecera y el flotante (kofi-line) los separa de la barra y de la
+   página con 3:1: en oscuro basta el oro; en claro, el oro sobre blanco daba 1,3:1. */
 :root,
 [data-mode='dark'] {
   --t-discord: #7c52e8;
@@ -414,6 +418,7 @@
   --t-kofi: #f2c14e;
   --t-kofi-hi: #f6cf6e;
   --t-kofi-ink: #241a00;
+  --t-kofi-line: #f2c14e;
 }
 
 [data-mode='light'] {
@@ -423,6 +428,7 @@
   --t-kofi: #f2c14e;
   --t-kofi-hi: #f6cf6e;
   --t-kofi-ink: #241a00;
+  --t-kofi-line: #9a6b00;
 }
 
 /* Los ocho tonos de la variedad (opción D de Torre): cada elemento de una lista, una ficha o
@@ -525,6 +531,7 @@
     --color-kofi: var(--t-kofi);
     --color-kofi-hi: var(--t-kofi-hi);
     --color-kofi-ink: var(--t-kofi-ink);
+    --color-kofi-line: var(--t-kofi-line);
     --color-hue-1: var(--t-hue-1);
     --color-hue-2: var(--t-hue-2);
     --color-hue-3: var(--t-hue-3);

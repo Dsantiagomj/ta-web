@@ -7,6 +7,7 @@ import {
   CLASSES,
   type DofusNavItem,
   DUNGEONS,
+  KOFI_URL,
   pageSection,
   SECTIONS,
   SOCIALS,
@@ -14,6 +15,7 @@ import {
   searchIndex,
   section,
 } from '@/components/site/nav'
+import { KofiFloat } from '@/components/site/Kofi'
 import { SiteFooter } from '@/components/site/SiteFooter'
 import { ChecklistCards, SiteHeader, Well } from '@/components/site/SiteHeader'
 import { searchNav } from '@/components/site/search'
@@ -649,5 +651,71 @@ describe('la navegación de Torre (global Navegación)', () => {
       'Checklists',
       'Mazmorras',
     ])
+  })
+})
+
+// El Ko-fi de Torre, además de en el pie: un botón junto a la búsqueda de la cabecera y otro
+// flotante abajo a la derecha de todo el sitio (DESIGN.md, Layout: Ko-fi).
+describe('el Ko-fi de la cabecera', () => {
+  const kofi = (markup: string) => /<a class="hkofi"[^>]*>.*?<\/a>/.exec(markup)?.[0] ?? ''
+
+  it('enlaza el Ko-fi de siempre en otra pestaña, con nombre y el aviso para el lector', () => {
+    const link = kofi(header())
+    expect(link).toContain(`href="${KOFI_URL}"`)
+    expect(link).toContain('target="_blank"')
+    expect(link).toContain('rel="noopener"')
+    expect(link).toContain('aria-label="Apoya a Torre en Ko-fi (se abre en otra pestaña)"')
+    expect(link).toContain('<span class="hkofi__t">Ko-fi</span>')
+  })
+
+  it('va junto a la búsqueda, antes del selector de tema', () => {
+    const markup = header()
+    const at = (needle: string) => markup.indexOf(needle)
+    expect(at('class="hkofi"')).toBeGreaterThan(at('class="site-hdr__act"'))
+    expect(at('class="hkofi"')).toBeLessThan(at('class="spill"'))
+    expect(at('class="hkofi"')).toBeLessThan(at('class="tp"'))
+  })
+
+  it('sigue el enlace de «Ajustes del sitio»', () => {
+    const settings = resolveSiteSettings({ socials: { kofi: { url: 'https://ko-fi.com/otro' } } })
+    const markup = html(
+      <SiteHeader
+        counts={counts}
+        dofus={DOFUS}
+        checklists={CHECKLISTS}
+        initialMode="dark"
+        socials={settings.socials}
+      />,
+    )
+    expect(kofi(markup)).toContain('href="https://ko-fi.com/otro"')
+  })
+})
+
+describe('el Ko-fi flotante', () => {
+  const settings = resolveSiteSettings(null)
+  const fab = (url = settings.socials.kofi.url, label = settings.footer.kofiTitle) =>
+    html(<KofiFloat url={url} label={label} />)
+
+  it('es un enlace con el título del pie de Torre, en otra pestaña y avisado', () => {
+    const markup = fab()
+    expect(markup).toMatch(/^<div class="kofi-dock"><a class="kofi-fab"/)
+    expect(markup).toContain(`href="${KOFI_URL}"`)
+    expect(markup).toContain('target="_blank"')
+    expect(markup).toContain('rel="noopener"')
+    expect(markup).toContain('<span class="kofi-fab__t">Apoya en Ko-fi</span>')
+    expect(markup).toContain('<span class="sr-only"> (se abre en otra pestaña)</span>')
+    // El nombre es el texto que se ve: nada de aria-label que lo contradiga.
+    expect(markup).not.toContain('aria-label')
+  })
+
+  it('lleva la taza decorativa, la misma del pie', () => {
+    expect(fab()).toContain('aria-hidden="true"')
+    expect(footer()).toContain(fab().match(/<svg[^>]*>.*?<\/svg>/)?.[0])
+  })
+
+  it('sigue el enlace y el título de «Ajustes del sitio»', () => {
+    const markup = fab('https://ko-fi.com/otro', 'Invítame')
+    expect(markup).toContain('href="https://ko-fi.com/otro"')
+    expect(markup).toContain('<span class="kofi-fab__t">Invítame</span>')
   })
 })

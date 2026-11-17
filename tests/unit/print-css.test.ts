@@ -43,8 +43,16 @@ describe('la hoja de impresión', () => {
     expect(printBlock).toMatch(/color-scheme:\s*light/)
   })
 
-  it('esconde la cabecera, el pie, las partículas, el selector de tema y el fondo de zona', () => {
-    for (const selector of ['.site-hdr', '.site-ft', '.amb', '.tp', '.zone-bg', '.skip-link']) {
+  it('esconde la cabecera, el pie, las partículas, el selector de tema, el fondo de zona y el Ko-fi flotante', () => {
+    for (const selector of [
+      '.site-hdr',
+      '.site-ft',
+      '.amb',
+      '.tp',
+      '.zone-bg',
+      '.skip-link',
+      '.kofi-dock',
+    ]) {
       expect(printBlock, selector).toContain(selector)
     }
     expect(printBlock).toMatch(/display:\s*none\s*!important/)
