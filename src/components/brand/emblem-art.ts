@@ -1,4 +1,5 @@
 import type { Palette } from '@/lib/theme/palette'
+import type { Theme } from '@/lib/theme/theme'
 
 // El dibujo del emblema (la propuesta C, elegida por Torre): el sombrero cónico con su
 // glifo, los ojos y la sonrisa, en una caja de 64 × 64. Lo comparten el componente
@@ -83,12 +84,13 @@ export function emblemSvg({
 }
 
 /**
- * El favicon SVG: la versión simplificada sobre una placa redondeada de Arcano, el tema
- * por defecto. Oscuro, y claro si el navegador usa el esquema claro.
+ * El favicon SVG: la versión simplificada sobre una placa redondeada del tema por defecto
+ * (Amakna, DEFAULT_THEME; aquí literal porque scripts/build-icons.ts lo carga con node, sin los
+ * alias de rutas). Oscuro, y claro si el navegador usa el esquema claro.
  */
-export function faviconSvg(palette: Palette) {
-  const dark = palette['arcano-dark']
-  const light = palette['arcano-light']
+export function faviconSvg(palette: Palette, theme: Theme = 'amakna') {
+  const dark = palette[`${theme}-dark`]
+  const light = palette[`${theme}-light`]
   const fills = (p: Record<string, string>) =>
     `.t{fill:${p.bg}}.h{fill:${p.accent}}.f{fill:${p.ink}}`
   return (
