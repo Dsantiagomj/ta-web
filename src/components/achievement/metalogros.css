@@ -7,12 +7,11 @@
  * de CSS con las guías y los logros.
  */
 
+/* A todo el ancho y a la izquierda (DESIGN.md, Layout): las fichas llenan la fila con más
+   columnas. */
 .idx {
   --gutter: 1rem;
   --sticky-top: 3.5rem; /* bajo la barra de la cabecera del móvil */
-  box-sizing: content-box;
-  max-width: 75rem;
-  margin-inline: auto;
   padding: 1.5rem var(--gutter) 4.5rem;
   font-size: 1rem;
   line-height: 1.5;
