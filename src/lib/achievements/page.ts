@@ -118,6 +118,11 @@ export interface AchievementPageData {
    * (needKey): solo las casadas cuyo jefe tiene imagen (readDungeonBosses).
    */
   dungeonBosses: Map<string, MediaRef>
+  /**
+   * El fondo de zona (src/lib/zones/read.ts), o null. Una entrada de la caché guardada antes
+   * de él no lo trae: sin fondo.
+   */
+  zoneBackground?: ImageAsset | null
   /** El origen público del sitio, para el JSON-LD. */
   siteUrl: string
 }
