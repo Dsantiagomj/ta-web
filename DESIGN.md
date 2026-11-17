@@ -991,6 +991,7 @@ A printed guide is readable on paper whatever the screen's theme or mode (`@medi
 - Never nest interactive elements: a card is one `<a>`; a checkbox next to a link is a sibling, not a child.
 - Menus, tabs and the search dialog follow the WAI-ARIA patterns (arrow keys, Esc, focus return).
 - State is never color alone: done has a tick and text, premium has a lock and a sentence.
+- **Forced colors** (Windows high contrast, `@media (forced-colors: active)`): the browser replaces palette fills and shadows with system colors, so what marks a state uses system colors on purpose: the Dofus index filter's indicator and the checked checkbox in `Highlight` with `HighlightText` on them, the progress fills (bars and the souls ring) in `Highlight`, and the open checklist step a 2px `Highlight` outline instead of its inset accent ring (`forced-color-adjust: none` where a fill must stay). `tests/e2e/colores-forzados.spec.ts` covers them.
 - Toasts use `role="status"`; errors use `role="alert"`.
 - Wrap every `localStorage` access in `try/catch`; the page works unsaved in strict private mode.
 
