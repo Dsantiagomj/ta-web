@@ -56,7 +56,7 @@ describe('colección quests', () => {
       type: 'text',
       localized: true,
     })
-    for (const name of ['mapId', 'x', 'y']) {
+    for (const name of ['mapId', 'x', 'y', 'subAreaId']) {
       expect(field(name, startPositions.fields)).toMatchObject({ type: 'number' })
     }
   })

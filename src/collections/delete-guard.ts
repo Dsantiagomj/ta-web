@@ -55,14 +55,18 @@ function prosePaths(fields: string[]): string[] {
  */
 export const REFERRERS: Record<ReferencedCollection, Referrer[]> = {
   media: [
-    { collection: 'quest-guides', title: 'title', paths: bodyImages },
+    { collection: 'quest-guides', title: 'title', paths: ['background', ...bodyImages] },
     { collection: 'dofus-guides', title: 'name', paths: ['videoPoster', 'egg', ...bodyImages] },
     {
       collection: 'checklists',
       title: 'name',
       paths: ['steps.figure.image', 'steps.icon', 'steps.banner', 'card.scene', 'card.npc'],
     },
-    { collection: 'achievement-pages', title: 'name', paths: prosePaths(['intro', 'outro']) },
+    {
+      collection: 'achievement-pages',
+      title: 'name',
+      paths: ['background', ...prosePaths(['intro', 'outro'])],
+    },
     { collection: 'pages', title: 'title', paths: bodyImages },
     {
       collection: 'class-pages',
@@ -70,6 +74,8 @@ export const REFERRERS: Record<ReferencedCollection, Referrer[]> = {
       paths: ['pvmBuilds.image', 'pvpBuilds.image', ...bodyImages],
     },
     { collection: 'dungeon-pages', title: 'title', paths: bodyImages },
+    // El fondo de zona de una subzona (src/lib/zones/).
+    { collection: 'subareas', title: 'name', paths: ['background'] },
     // La imagen que Torre sube para corregir un dato del juego.
     ...(['npcs', 'monsters', 'items', 'achievements', 'dungeons'] as const).map((collection) => ({
       collection,

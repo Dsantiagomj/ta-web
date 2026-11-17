@@ -22,6 +22,7 @@ import { rowLabel } from './row-label'
 import { SLUG_LABEL, slugAdmin } from './slug-field'
 import { panelStrings } from '../lib/admin/strings'
 import { pagePreview, withPublishStatus } from '../lib/admin/live-preview'
+import { pageBackgroundField } from './zone-background-field'
 
 const note = (field: string) => dofusDbNote('achievement', field)
 
@@ -97,6 +98,7 @@ export const AchievementPages: CollectionConfig = {
       ),
     },
     stateField,
+    pageBackgroundField,
     // Pestañas sin nombre: solo ordenan el formulario; los datos se guardan igual (A-22).
     {
       type: 'tabs',

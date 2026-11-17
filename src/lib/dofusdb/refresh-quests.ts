@@ -251,6 +251,7 @@ function storedFields(doc: Quest) {
       mapId: position.mapId ?? null,
       x: position.x ?? null,
       y: position.y ?? null,
+      subAreaId: position.subAreaId ?? null,
     })),
     zone: doc.zone ?? null,
     achievement: achievementGroup(
