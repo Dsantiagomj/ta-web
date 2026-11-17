@@ -81,3 +81,16 @@ test.describe('el camino de Dofus del rush', () => {
     await expect(poster.locator('.poster__npc')).toHaveCount(0)
   })
 })
+
+test('en el modo claro, los huevos pendientes del camino se ven sobre la ventana', async ({
+  page,
+  context,
+  baseURL,
+}) => {
+  await context.addCookies([{ name: 'ta-mode', value: 'light', url: baseURL! }])
+  await page.goto(url)
+  const egg = page.locator('.ck-road__stop:not([data-done]) .ck-road__egg img').first()
+  await expect(egg).toBeAttached()
+  const opacity = Number(await egg.evaluate((img) => getComputedStyle(img).opacity))
+  expect(opacity).toBeGreaterThanOrEqual(0.85)
+})
