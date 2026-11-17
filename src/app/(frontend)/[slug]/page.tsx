@@ -37,7 +37,6 @@ import { loadDofusGuide } from './dofus-data'
 import { DofusGuideView } from './DofusGuideView'
 import { LivePreviewRefresh } from './LivePreviewRefresh'
 import { loadSitePage } from './page-data'
-import { PreviewBar } from './PreviewBar'
 import { redirectOrNotFound } from './redirect-data'
 import { SitePageView } from './SitePageView'
 
@@ -173,7 +172,6 @@ function QuestGuideView({
   return (
     <div className="[--color-section:var(--color-sec-misiones)]">
       {page.zoneBackground && <ZoneBackground image={page.zoneBackground} />}
-      {preview && <PreviewBar slug={guide.slug} />}
       <main id="contenido" className="quest" {...pageSection('misiones')}>
         <article>
           {crumbs && <Breadcrumb {...crumbs} />}
