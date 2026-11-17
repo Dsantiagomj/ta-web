@@ -1,3 +1,5 @@
+import type { CSSProperties } from 'react'
+
 import type { ChecklistNavItem } from '@/components/site/nav'
 import { StaticImg } from '@/components/site/StaticImg'
 import { siteShellStrings } from '@/components/site/strings'
@@ -51,7 +53,7 @@ export function ChecklistsSection({
           </h2>
           <p className="cl__lead rv">{texts.lead}</p>
         </div>
-        <ul className="trio" role="list">
+        <ul className="trio" role="list" style={{ '--n': checklists.length } as CSSProperties}>
           {checklists.map((checklist) => (
             <li key={checklist.slug}>
               {checklist.href ? (
