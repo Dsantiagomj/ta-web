@@ -635,3 +635,20 @@ for (const viewport of [
     })
   })
 }
+
+// Las checklists de la portada van en filas parejas: ninguna se queda sola en la última fila
+// mientras haya otra fila con más de una (seis van tres y tres, no cinco y una).
+for (const width of [390, 768, 1024, 1440]) {
+  test(`a ${width}px las checklists de la portada no dejan una sola en la última fila`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 })
+    await page.goto('/')
+    const tops = await page
+      .locator('.trio > li')
+      .evaluateAll((items) => items.map((item) => Math.round(item.getBoundingClientRect().top)))
+    const rows = [...new Set(tops)].map((top) => tops.filter((t) => t === top).length)
+    if (rows.length > 1) expect(rows.at(-1), rows.join(' + ')).toBeGreaterThan(1)
+    expect(Math.max(...rows) - Math.min(...rows), rows.join(' + ')).toBeLessThanOrEqual(1)
+  })
+}
