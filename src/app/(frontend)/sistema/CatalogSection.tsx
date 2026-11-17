@@ -1,6 +1,11 @@
 import type { ReactNode } from 'react'
 
-import { AchievementQuests, AchievementSheet } from '@/components/achievement/AchievementParts'
+import {
+  AchievementNav,
+  AchievementQuests,
+  AchievementSheet,
+} from '@/components/achievement/AchievementParts'
+import { AchievementCard, Tile } from '@/components/achievement/MetalogrosIndex'
 import { Emblem } from '@/components/brand/Emblem'
 import { Lockup } from '@/components/brand/Lockup'
 import { AchievementChain } from '@/components/game/AchievementChain'
@@ -13,6 +18,7 @@ import { QuestHeader } from '@/components/game/QuestHeader'
 import { QuestSteps } from '@/components/game/QuestSteps'
 import { TorreTips } from '@/components/game/TorreTips'
 import { VideoFacade } from '@/components/game/VideoFacade'
+import { ZoneBackground } from '@/components/game/ZoneBackground'
 import { DofusBody, DofusNeeds, DofusParts } from '@/components/dofus/DofusGuideParts'
 import { ChecklistPosters } from '@/components/checklists/ChecklistsIndex'
 import { DofusCards } from '@/components/dofus/DofusIndex'
@@ -25,7 +31,6 @@ import { Checkbox } from '@/components/ui/Checkbox'
 import { Chip } from '@/components/ui/Chip'
 import { Figure } from '@/components/ui/Figure'
 import { IconButton } from '@/components/ui/IconButton'
-import { IMAGE_SIZES } from '@/components/ui/image-sizes'
 import { Picture } from '@/components/ui/Picture'
 import { ProgressBar } from '@/components/ui/ProgressBar'
 import { StatTile } from '@/components/ui/StatTile'
@@ -33,6 +38,7 @@ import { TagPill } from '@/components/ui/TagPill'
 import { Ambience } from '@/components/site/Ambience'
 import { MenuPanelPreview } from '@/components/site/SiteHeader'
 import { SiteFooter } from '@/components/site/SiteFooter'
+import { ThemePicker } from '@/components/theme-picker/ThemePicker'
 import type { Mode, Theme } from '@/lib/theme/theme'
 
 import {
@@ -57,6 +63,10 @@ import {
   images,
   items,
   longChain,
+  metalogroCards,
+  metalogroTiles,
+  navNext,
+  navPrevious,
   prose,
   samples,
   steps,
@@ -79,8 +89,8 @@ function Group({
   children: ReactNode
 }) {
   return (
-    <div data-component={name} className={wide ? 'col-span-full' : undefined}>
-      <h3 className="mb-1 font-display text-xl text-ink">{s.groups[name]}</h3>
+    <div data-component={name} className={wide ? 'col-span-full min-w-0' : 'min-w-0'}>
+      <h3 className="mb-1 font-ui text-xl font-bold text-ink">{s.groups[name]}</h3>
       {note && <p className="mb-3 text-sm text-ink-2">{note}</p>}
       <div className="mt-3 flex flex-wrap items-center gap-3">{children}</div>
     </div>
@@ -104,8 +114,8 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
       aria-labelledby={`${key}-h`}
       className="bg-bg px-4 py-12 text-ink [--color-section:var(--color-sec-misiones)] sm:px-6 lg:px-12"
     >
-      <div className="mx-auto max-w-(--width-page)">
-        <h2 id={`${key}-h`} className="mb-8 font-display text-2xl text-ink">
+      <div className="max-w-(--width-guide)">
+        <h2 id={`${key}-h`} className="mb-8 font-ui text-2xl font-bold text-ink">
           {label}
         </h2>
         <div className="grid gap-x-8 gap-y-12 lg:grid-cols-2">
@@ -119,12 +129,15 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
           </Group>
 
           <Group name="site" note={s.notes.site} wide>
-            <MenuPanelPreview
-              sectionKey="dofus"
-              counts={s.demo.siteCounts}
-              dofus={s.demo.dofusNav}
-              checklists={s.demo.checklistNav}
-            />
+            {/* El panel del menú es de escritorio: en un móvil se desplaza en su caja. */}
+            <div className="w-full overflow-x-auto">
+              <MenuPanelPreview
+                sectionKey="dofus"
+                counts={s.demo.siteCounts}
+                dofus={s.demo.dofusNav}
+                checklists={s.demo.checklistNav}
+              />
+            </div>
             <div className="w-full">
               <SiteFooter year={2026} />
             </div>
@@ -190,31 +203,35 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
             </div>
           </Group>
 
+          <Group name="theme" note={s.notes.theme}>
+            <div className="site-hdr__act !ml-0">
+              <ThemePicker initialTheme={theme} initialMode={mode} idPrefix={`${key}-`} />
+            </div>
+          </Group>
+
           <Group name="checkbox">
             <Checkbox label={d.hideDone} />
             <Checkbox label={d.done} defaultChecked />
             <Checkbox label={d.unavailable} disabled />
           </Group>
 
-          <Group name="cards" wide>
+          <Group name="cards" note={s.notes.cards} wide>
             <Card className="p-5 text-sm text-ink-2">{d.panel}</Card>
-            <Card href="#el-cazador-cazado" className="grid w-full sm:grid-cols-[15rem_1fr]">
-              <span className="block aspect-video overflow-hidden">
-                <Picture
-                  image={images.kerubim}
-                  alt=""
-                  sizes={IMAGE_SIZES.card}
-                  className="size-full scale-104 object-cover transition-transform duration-600 ease-out group-hover:scale-100"
-                />
-              </span>
-              <span className="grid content-center gap-1.5 px-5.5 py-4.5">
-                <span className="font-display text-micro text-muted uppercase">
-                  {d.nextEyebrow}
-                </span>
-                <span className="font-display text-2xl text-ink">El cazador cazado</span>
-                <span className="text-sm text-ink-2">{d.nextMeta}</span>
-              </span>
-            </Card>
+            <div className="idx grid w-full gap-6 !p-0">
+              <ul className="vd-grid !mt-0" role="list">
+                {metalogroTiles.map((zone) => (
+                  <Tile key={zone.anchor} zone={zone} />
+                ))}
+              </ul>
+              <ul className="acards" role="list">
+                {metalogroCards.map((card) => (
+                  <AchievementCard key={card.name} achievement={card} />
+                ))}
+              </ul>
+            </div>
+            <div className="logro__main w-full">
+              <AchievementNav group={achievement.name} previous={navPrevious} next={navNext} />
+            </div>
           </Group>
 
           <Group name="items" note={s.notes.items}>
@@ -291,6 +308,35 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
               <DofusNeeds needs={dofusNeeds} />
               <DofusBody content={dofusAchievementView.body} />
               <DofusParts view={dofusAchievementView} />
+            </div>
+          </Group>
+
+          <Group name="eggs" note={s.notes.eggs} wide>
+            {(['todo', 'doing', 'done'] as const).map((state) => (
+              <div
+                key={state}
+                className="ck grid justify-items-center gap-2 !p-0"
+                data-ck-state={state}
+              >
+                <span className="ck-egg" aria-hidden="true">
+                  <Picture image={items.esmeralda.icon} alt="" />
+                </span>
+                <code className="text-sm text-ink-2">{state}</code>
+              </div>
+            ))}
+          </Group>
+
+          <Group name="zone" note={s.notes.zone} wide>
+            {/* El fondo es fijo a la ventana; aquí, una caja con transform lo contiene. */}
+            <div className="quest relative isolate h-64 w-full overflow-hidden rounded-card border border-line !p-6 [transform:translateZ(0)] [&_.zone-bg]:h-full">
+              <ZoneBackground image={images.combat} />
+              <div className="grid gap-2">
+                <p className="text-(--color-ink)">{s.demo.zoneText}</p>
+                <p className="text-(--color-muted)">{s.demo.zoneMuted}</p>
+                <p className="font-ui text-lg font-bold text-(--color-hue-2)">
+                  {s.demo.zoneHeading}
+                </p>
+              </div>
             </div>
           </Group>
 

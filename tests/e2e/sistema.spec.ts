@@ -30,6 +30,9 @@ const COMPONENTS = [
   'checklists',
   'ambience',
   'blocks',
+  'theme',
+  'eggs',
+  'zone',
 ]
 
 const sections = THEMES.flatMap((theme) => MODES.map((mode) => ({ theme, mode })))
@@ -349,6 +352,39 @@ test.describe('catálogo /sistema', () => {
     expect(
       results.violations.map(({ id, nodes }) => ({ id, targets: nodes.map((n) => n.target) })),
     ).toEqual([])
+  })
+})
+
+test.describe('catálogo /sistema con el aspecto de la opción D', () => {
+  test('los títulos van en Rowdies y Lexend, y las secciones a la izquierda', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto('/sistema?tema=amakna&modo=dark')
+    const family = (selector: string) =>
+      page
+        .locator(selector)
+        .first()
+        .evaluate((el) => getComputedStyle(el).fontFamily.split(',')[0].replaceAll('"', ''))
+    expect(await family('h1')).toBe('Rowdies')
+    expect(await family('section h2')).toBe('Lexend')
+    expect(await family('[data-component] h3')).toBe('Lexend')
+    const h1 = (await page.locator('h1').boundingBox())!
+    expect(h1.x).toBeCloseTo(3 * 17.6, 0)
+  })
+
+  test('el huevo de la checklist se apaga hasta terminarla', async ({ page }) => {
+    await page.goto('/sistema?tema=amakna&modo=dark')
+    const egg = (state: string) =>
+      page
+        .locator(`[data-component="eggs"] [data-ck-state="${state}"] .ck-egg img`)
+        .evaluate((img) => getComputedStyle(img).filter)
+    expect(await egg('todo')).toMatch(/grayscale/)
+    expect(await egg('done')).not.toMatch(/grayscale/)
+  })
+
+  test('a 390px no se sale de la pantalla', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/sistema?tema=amakna&modo=dark')
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
   })
 })
 
