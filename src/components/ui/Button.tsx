@@ -14,14 +14,13 @@ interface ButtonLook {
 
 // DESIGN.md, Components: el primario va relleno de --color-btn con su tinta (diseño de
 // color de Torre, opción D), en Lexend 700 con 0,625rem de radio; el secundario y el
-// fantasma siguen siendo píldoras.
+// fantasma siguen siendo píldoras, también en Lexend, la letra de la interfaz.
 const VARIANTS: Record<ButtonVariant, string> = {
   primary:
     'h-11 px-6 rounded-[0.625rem] bg-btn text-btn-ink font-ui font-bold hover:bg-btn-hi motion-safe:active:scale-97',
   secondary:
-    'h-10 px-5 rounded-pill bg-raised text-ink font-display font-semibold hover:bg-line active:scale-96',
-  ghost:
-    'h-9 px-4 rounded-pill text-ink-2 font-display font-semibold hover:bg-raised active:scale-96',
+    'h-10 px-5 rounded-pill bg-raised text-ink font-ui font-semibold hover:bg-line active:scale-96',
+  ghost: 'h-9 px-4 rounded-pill text-ink-2 font-ui font-semibold hover:bg-raised active:scale-96',
 }
 
 export function buttonClass({
