@@ -11,13 +11,11 @@
 
 /* ---------- página ---------- */
 
-/* Una página plana: el contenido sobre el fondo, sin tarjeta alrededor, en una sola
-   columna de lectura centrada de 880px. */
+/* Una página plana: el contenido sobre el fondo, sin tarjeta alrededor, a todo el ancho de la
+   ventana y a la izquierda (Torre, 2026-11-16). La columna de la guía llega hasta
+   --width-guide, lo que mide la fila de dos capturas, y no crece más en una pantalla ancha. */
 .quest {
   --gutter: 1rem;
-  box-sizing: content-box;
-  max-width: 55rem;
-  margin-inline: auto;
   padding: 1.75rem var(--gutter) 3.5rem;
   font-size: 1rem;
   line-height: 1.65;
@@ -34,6 +32,10 @@
     --gutter: 3rem;
     padding-top: 2.5rem;
   }
+}
+
+.quest > article {
+  max-width: var(--width-guide);
 }
 
 /* Los enlaces de la cabecera y de la prosa van subrayados: el color solo no basta. */
@@ -980,7 +982,9 @@ ul.needs__notes {
 }
 
 /* Las capturas seguidas de un paso (GuideBlocks, .figs): una por fila en el móvil, dos
-   desde 40rem. Una sola ocupa también media columna, debajo del texto. */
+   desde 40rem. Una sola ocupa también media columna, debajo del texto. Como la columna de la
+   guía para en --width-guide, cada una mide como mucho --width-shot: 634px a 1440px, las de
+   torrentearcano.com en Squarespace. */
 .figs {
   display: grid;
   gap: 1rem;
@@ -1002,12 +1006,13 @@ ul.needs__notes {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  /* Todas las cajas del mismo tamaño: 16:10, cerca de la mediana de las capturas de Torre
-     (1,56 a 1,58; van de 1,35 a 1,71), rellenas y centradas, como el «rellenar» de
-     Squarespace. Recorta como mucho un 8 % arriba y abajo de la más cuadrada; el visor
-     enseña el original entero. En el móvil, una por fila, no se recorta nada. */
+  /* Todas las cajas del mismo tamaño: 17:10, el recorte de la web anterior (634 × 374 a
+     1440px), rellenas y centradas, como el «rellenar» de Squarespace. Las capturas de Torre
+     van de 1,35 a 1,71 (mediana 1,57): a la mediana le quita un 4 % arriba y abajo, y a la
+     más cuadrada un 10 %. El visor enseña el original entero. En el móvil, una por fila, no
+     se recorta nada. */
   .figs img {
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 17 / 10;
     height: auto;
     object-fit: cover;
     object-position: center;
@@ -1108,6 +1113,12 @@ ul.needs__notes {
     left: 2.125rem;
     transform: rotate(135deg);
   }
+}
+
+/* Las capturas sueltas de la prosa y los vídeos no crecen con la página: hasta 55rem, lo
+   que medía la columna de la guía antes de ir a todo el ancho. */
+:is(.guide-body, .prose-guide) > figure {
+  max-width: var(--width-media);
 }
 
 /* Prosa dentro de un paso: bloques separados. */

@@ -562,6 +562,8 @@ export async function seedGuides(payload: Payload): Promise<void> {
                   ),
                 ),
               },
+              // Una sola captura: debajo del texto, del tamaño de las de la pareja del paso 1.
+              { blockType: 'image', image: secondImage.id },
             ],
           },
           { blockType: 'video', url: seedGuide.video.url, title: seedGuide.video.title },

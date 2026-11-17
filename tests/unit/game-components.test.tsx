@@ -442,10 +442,13 @@ describe('IMAGE_SIZES', () => {
     )
   })
 
-  it('las capturas de un paso van de dos en dos desde 40rem: media columna menos el hueco', () => {
+  // La columna de la guía va a todo el ancho hasta 73rem (1284,8px a 17,6px de raíz): cada
+  // captura es media columna menos medio hueco, y no pasa de 36rem (633,6px), que se alcanza
+  // con la ventana a 1390,4px (86,9rem de 16px, como las media queries del CSS).
+  it('las capturas de un paso van de dos en dos desde 40rem: media columna menos el hueco, hasta 634px', () => {
     expect(IMAGE_SIZES.half).toBe(
-      '(min-width: 67.1rem) 476px, (min-width: 64rem) calc(50vw - 62px), ' +
-        '(min-width: 58rem) 432px, (min-width: 40rem) calc(50vw - 32px), calc(100vw - 32px)',
+      '(min-width: 86.9rem) 634px, (min-width: 64rem) calc(50vw - 62px), ' +
+        '(min-width: 40rem) calc(50vw - 32px), calc(100vw - 32px)',
     )
   })
 })
