@@ -2,6 +2,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
 
 import { MODES } from '../../src/lib/theme/theme.ts'
+import { visualLines } from './meta-lines.ts'
 import { expectNeedsColumns } from './needs-layout.ts'
 import { draftGuide, E2E_PANEL_USER, seedGuide } from './seed/guides.ts'
 
@@ -198,6 +199,17 @@ test.describe('página de guía', () => {
     await expect(start).toHaveText(`Empieza con ${seedGuide.start.npc}`, { useInnerText: true })
     await expect(start.locator('.coord')).toBeHidden()
     expect((await start.boundingBox())!.y).toBeGreaterThan(title.y + title.height)
+  })
+
+  test('en el móvil, el subtítulo se parte entre sus partes y ninguna línea empieza por el guion', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto(url)
+    const meta = page.locator('.qhead__meta')
+    await expect(meta).toHaveText(seedGuide.subtitle)
+    // «Misión de Astrub - Nivel 20 -» y «Misión 2 de 3»: ni «Misión» sola al final ni «- Nivel».
+    expect(await visualLines(meta)).toEqual(['Misión de Astrub - Nivel 20 -', 'Misión 2 de 3'])
   })
 
   test('en el móvil, las migas son solo el logro, como enlace de vuelta', async ({ page }) => {
