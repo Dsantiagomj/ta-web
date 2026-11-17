@@ -433,13 +433,14 @@
   display: none;
 }
 .zart--icon .well {
-  width: 4rem;
-  height: 4rem;
-  border-radius: 0.875rem;
+  /* El icono cabe entero dentro del rombo (su cuadrado inscrito es la mitad del hueco): con un
+     icono de 3rem en un hueco de 4rem, las puntas del rombo asomaban por los lados. */
+  width: 5.5rem;
+  height: 5.5rem;
 }
 .zart--icon .well img {
-  width: 3rem;
-  height: 3rem;
+  width: 2.75rem;
+  height: 2.75rem;
 }
 
 /* Un logro En preparación: se lista, sin enlace. */
@@ -509,6 +510,13 @@
   .vd-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.625rem;
+  }
+}
+/* Con el ancho de la raíz al 110 %, 10,5rem por ficha daba cuatro a 1024px: de 1024 a 1440px,
+   cinco, y desde ahí las que quepan (seis a 1440px). */
+@media (min-width: 64rem) and (max-width: 89.99rem) {
+  .vd-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }
 
@@ -582,8 +590,8 @@
   height: 0.875rem;
   translate: -50% 0;
   rotate: 45deg;
-  border-top: 1px solid var(--color-accent);
-  border-left: 1px solid var(--color-accent);
+  border-top: 2px solid var(--color-accent);
+  border-left: 2px solid var(--color-accent);
   background: var(--color-surface);
   z-index: 1;
 }
@@ -610,8 +618,9 @@
   position: relative;
   margin-top: 0.375rem;
   padding: 1.25rem 1.5rem 1.5rem;
-  border: 1px solid var(--color-accent);
-  border-radius: 1rem;
+  /* Plano como las fichas: 2px y 8px de radio. */
+  border: 2px solid var(--color-accent);
+  border-radius: 0.5rem;
   background: var(--color-surface);
   scroll-margin-top: calc(var(--sticky-top) + 1rem);
   scroll-margin-bottom: 1rem;
