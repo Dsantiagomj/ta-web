@@ -80,6 +80,8 @@ const FIXED: {
   // El editor de texto de Lexical y los desplegables de react-select, con su campo.
   { selector: '.ContentEditable__root', label: (editor) => fieldLabel(editor) ?? s.text },
   { selector: 'input.rs__input', label: (input) => fieldLabel(input) ?? s.select },
+  // El campo de fecha (react-datepicker) no enlaza su etiqueta con el input.
+  { selector: '.date-time-picker input', label: (input) => fieldLabel(input) },
   // La vista previa en vivo y su ancho y alto.
   { selector: 'iframe#live-preview-iframe', label: () => s.previewFrame, attribute: 'title' },
   { selector: 'input[name="live-preview-width"]', label: () => s.previewWidth },
