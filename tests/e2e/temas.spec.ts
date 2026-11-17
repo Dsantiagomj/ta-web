@@ -233,3 +233,31 @@ function hexToRgb(hex: string) {
   const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16))
   return `rgb(${r}, ${g}, ${b})`
 }
+
+// La barra del navegador del móvil toma el color de la barra de la cabecera (--color-bar):
+// el servidor la pinta con las cookies y la página la pone al día al cambiar de modo o tema.
+test.describe('color de la barra del navegador', () => {
+  test('el servidor la pinta del tema y el modo de las cookies', async ({ browser, baseURL }) => {
+    const context = await browser.newContext({ javaScriptEnabled: false })
+    await context.addCookies([
+      { name: 'ta-theme', value: 'bonta', url: baseURL! },
+      { name: 'ta-mode', value: 'light', url: baseURL! },
+    ])
+    const page = await context.newPage()
+    await page.goto(url)
+    await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#ffffff')
+    await context.close()
+  })
+
+  test('sin cookies es la barra de Amakna oscuro, y sigue al interruptor de modo', async ({
+    page,
+  }) => {
+    await open(page)
+    const meta = page.locator('meta[name="theme-color"]')
+    // El CSS compilado puede acortar el negro a #000: los dos son el mismo color.
+    await expect(meta).toHaveAttribute('content', /^#000(000)?$/)
+    await page.locator('.mode-switch').click()
+    await expect(page.locator('html')).toHaveAttribute('data-mode', 'light')
+    await expect(meta).toHaveAttribute('content', '#fffdf8')
+  })
+})
