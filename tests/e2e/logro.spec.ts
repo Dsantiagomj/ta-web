@@ -401,11 +401,12 @@ test.describe('página de logro', () => {
     await expect(off).toContainText(logro.next.name)
     await expect(off).toContainText('En preparación')
 
-    // Centrada: el mismo margen a cada lado en el escritorio. Cuenta para y la navegación,
-    // en la columna de las misiones, no bajo la ficha.
+    // A la izquierda y a todo el ancho (Torre, 2026-11-16): tras el margen de 52,8px, hasta el
+    // otro margen. Cuenta para y la navegación, en la columna de las misiones, no bajo la ficha.
     await page.setViewportSize({ width: 1440, height: 900 })
     const box = (await article.boundingBox())!
-    expect(Math.abs(box.x - (1440 - box.x - box.width))).toBeLessThan(24)
+    expect(box.x).toBeCloseTo(52.8, 0)
+    expect(box.x + box.width).toBeCloseTo(1440 - 52.8, 0)
     const quests = (await page
       .getByRole('region', { name: 'Las misiones, en orden' })
       .boundingBox())!

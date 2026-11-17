@@ -9,8 +9,9 @@ import { E2E_PANEL_USER_5, seedGuide } from './seed/guides.ts'
 import { seedPages } from './seed/pages.ts'
 
 // La revisión de la maquetación (AGENTS.md, Workflow): cada tipo de página pública a 390, 768,
-// 1024 y 1440px, sin desbordes, sin textos de una palabra por línea, sin cajas que se pisen y
-// sin texto recortado (layout-lint.ts). En las checklists de pasos se abre cada paso, con
+// 1024, 1440 y 2560px (las páginas van a todo el ancho de la ventana), sin desbordes, sin
+// textos de una palabra por línea, sin cajas que se pisen y sin texto recortado
+// (layout-lint.ts). En las checklists de pasos se abre cada paso, con
 // Prerrequisitos y Objetos; en el Ocre, la página de almas.
 //
 // En local, sobre la base sembrada, con las vistas previas del Silvestre y del Ocre. Con
@@ -19,7 +20,7 @@ import { seedPages } from './seed/pages.ts'
 // LAYOUT_LINT_PANEL_EMAIL y LAYOUT_LINT_PANEL_PASSWORD): iniciar sesión escribe la sesión de la
 // cuenta, y al acabar la cierra. LAYOUT_LINT_PATHS añade rutas separadas por comas.
 
-const WIDTHS = [390, 768, 1024, 1440] as const
+const WIDTHS = [390, 768, 1024, 1440, 2560] as const
 const remote = Boolean(process.env.SMOKE_BASE_URL?.trim())
 
 const panelAccount = remote

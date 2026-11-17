@@ -76,14 +76,13 @@ html {
   background: var(--color-bar);
 }
 
+/* De margen a margen, como las páginas (DESIGN.md, Layout): el logo empieza donde empieza el
+   contenido y los botones acaban donde acaba. */
 .site-hdr__in {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  box-sizing: content-box;
-  max-width: var(--width-wide);
   height: 100%;
-  margin-inline: auto;
   padding-inline: var(--gutter);
 }
 
@@ -1299,9 +1298,6 @@ mark.hit {
 
 .site-ft__in,
 .site-ft__legal {
-  box-sizing: content-box;
-  max-width: var(--width-wide);
-  margin-inline: auto;
   padding-inline: var(--gutter);
 }
 
@@ -1329,6 +1325,16 @@ mark.hit {
 
   .ft-torre {
     grid-column: auto;
+  }
+}
+
+/* En una pantalla ancha las columnas se quedan como a 1440px (las tarjetas de Comunidad no
+   pasan de 24rem) y se reparten: Torre a la izquierda y Comunidad contra el margen derecho,
+   como los botones de la cabecera. */
+@media (min-width: 100rem) {
+  .site-ft__in {
+    grid-template-columns: minmax(0, 32.5rem) minmax(0, 13.25rem) minmax(0, 24rem);
+    justify-content: space-between;
   }
 }
 
