@@ -6,12 +6,10 @@
    El color del Dofus (--egg, de su guía) es solo una capa de identidad: brillos, bordes y
    el fondo del banner. Los textos usan los tokens, que pasan AA en todos los temas. */
 
+/* A todo el ancho y a la izquierda (DESIGN.md, Layout). */
 .ck {
   --dofus: var(--egg, var(--color-section));
   --gut: 1rem;
-  box-sizing: content-box;
-  max-width: var(--width-wide);
-  margin-inline: auto;
   padding: 1rem var(--gut) 4rem;
 }
 
@@ -480,6 +478,12 @@ html:not([data-js]) .ck-step + .ck-step {
   padding: 1.25rem 1.5rem 1.75rem;
   overflow-y: auto;
   overscroll-behavior: contain;
+}
+
+/* La ventana va a todo el ancho, pero lo de dentro de un paso se para en la columna de las
+   guías: en una pantalla ancha una misión no separa su nombre de sus coordenadas. */
+.ck-step__scroll > * {
+  max-width: var(--width-guide);
 }
 
 html[data-js] .ck-step[data-open] .ck-step__scroll {
