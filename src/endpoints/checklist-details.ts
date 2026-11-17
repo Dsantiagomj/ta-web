@@ -1,13 +1,11 @@
 import { unstable_cache } from 'next/cache'
 import { draftMode } from 'next/headers'
-import { gzipSync } from 'node:zlib'
 import type { Endpoint, PayloadRequest } from 'payload'
 
 import { CHECKLISTS_REVALIDATE, CHECKLISTS_TAG } from '../lib/checklists/cache'
 import type { ChecklistDetails } from '../lib/checklists/details'
 import { readChecklistDetails } from '../lib/checklists/queries'
 import type { User } from '../payload-types'
-import { acceptsGzip } from './search-index'
 
 // GET /api/checklists/<slug>/details: lo que la isla de la página de una checklist carga
 // después de pintarla (quién da cada misión, dónde, y sus objetivos con coordenadas). Va en
@@ -20,21 +18,15 @@ import { acceptsGzip } from './search-index'
 
 export const CHECKLIST_DETAILS_CACHE_CONTROL = 'public, max-age=300, stale-while-revalidate=3600'
 
-/** La respuesta, comprimida con gzip si el navegador lo acepta: Next no comprime la API de Payload. */
+/** La respuesta, en JSON tal cual: la comprime Next (ver searchIndexResponse). */
 export function checklistDetailsResponse(
   details: ChecklistDetails,
-  acceptEncoding: string | null,
   privateRead: boolean,
 ): Response {
-  const json = JSON.stringify(details)
-  const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-    'Cache-Control': privateRead ? 'private, no-store' : CHECKLIST_DETAILS_CACHE_CONTROL,
-    Vary: 'Accept-Encoding',
-  }
-  if (!acceptsGzip(acceptEncoding)) return new Response(json, { headers })
-  return new Response(new Uint8Array(gzipSync(json)), {
-    headers: { ...headers, 'Content-Encoding': 'gzip' },
+  return Response.json(details, {
+    headers: {
+      'Cache-Control': privateRead ? 'private, no-store' : CHECKLIST_DETAILS_CACHE_CONTROL,
+    },
   })
 }
 
@@ -71,6 +63,6 @@ export const checklistDetailsEndpoint: Endpoint = {
       ? await readChecklistDetails(req.payload, slug, { preview: { user } })
       : await readPublished(req, slug)
     if (!details) return Response.json({ error: 'not found' }, { status: 404 })
-    return checklistDetailsResponse(details, req.headers.get('accept-encoding'), Boolean(user))
+    return checklistDetailsResponse(details, Boolean(user))
   },
 }

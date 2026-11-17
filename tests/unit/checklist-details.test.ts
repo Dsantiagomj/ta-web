@@ -1,4 +1,3 @@
-import { gunzipSync } from 'node:zlib'
 import { describe, expect, it } from 'vitest'
 
 import { checklistDetailsResponse, previewUser } from '@/endpoints/checklist-details'
@@ -70,26 +69,17 @@ describe('checklistDetails', () => {
 describe('checklistDetailsResponse', () => {
   const details = { q: { 1: [null, 1, 2, []] as [null, number, number, []] } }
 
-  it('es JSON público que el navegador guarda cinco minutos, comprimido si lo acepta', () => {
-    const response = checklistDetailsResponse(details, 'gzip, br', false)
+  it('es JSON público que el navegador guarda cinco minutos, sin comprimir a mano', async () => {
+    const response = checklistDetailsResponse(details, false)
 
     expect(response.headers.get('Content-Type')).toBe('application/json')
     expect(response.headers.get('Cache-Control')).toMatch(/^public, max-age=300\b/)
-    expect(response.headers.get('Content-Encoding')).toBe('gzip')
-    return response.arrayBuffer().then((body) => {
-      expect(JSON.parse(gunzipSync(Buffer.from(body)).toString())).toEqual(details)
-    })
-  })
-
-  it('sin gzip va sin comprimir', async () => {
-    const response = checklistDetailsResponse(details, null, false)
-
     expect(response.headers.get('Content-Encoding')).toBeNull()
     expect(await response.json()).toEqual(details)
   })
 
   it('lo que lee un usuario del panel (un borrador) no se guarda en ninguna caché', () => {
-    const response = checklistDetailsResponse(details, null, true)
+    const response = checklistDetailsResponse(details, true)
 
     expect(response.headers.get('Cache-Control')).toBe('private, no-store')
   })

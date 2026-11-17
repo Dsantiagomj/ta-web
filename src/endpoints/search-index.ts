@@ -1,5 +1,4 @@
 import { unstable_cache } from 'next/cache'
-import { gzipSync } from 'node:zlib'
 import type { Endpoint } from 'payload'
 
 import { ACHIEVEMENT_PAGES_TAG } from '../lib/achievements/cache'
@@ -21,35 +20,12 @@ import { readSearchIndex } from '../lib/search/read-index'
 
 export const SEARCH_INDEX_CACHE_CONTROL = 'public, max-age=300, stale-while-revalidate=3600'
 
-/** gzip aceptado, salvo que lo rechace con q=0. */
-export const acceptsGzip = (header: string | null) =>
-  (header ?? '')
-    .split(',')
-    .map((part) => part.trim().toLowerCase().split(';'))
-    .some(
-      ([coding, ...params]) =>
-        coding === 'gzip' && !params.some((p) => /^q=0(\.0*)?$/.test(p.trim())),
-    )
-
-// El último índice comprimido: mientras no cambia, no se vuelve a comprimir.
-let compressed: { json: string; gzip: Buffer } | undefined
-
 /**
- * La respuesta, comprimida con gzip si el navegador lo acepta: Next comprime las páginas,
- * pero no las respuestas de la API de Payload, y el índice pesa unos 100 KB sin comprimir.
+ * La respuesta, en JSON tal cual. La comprime Next, como cualquier respuesta (y añade
+ * `Vary: Accept-Encoding`); un `Content-Encoding` puesto aquí lo descarta Next desde 16.4.5.
  */
-export function searchIndexResponse(index: SearchIndex, acceptEncoding: string | null): Response {
-  const json = JSON.stringify(index)
-  const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-    'Cache-Control': SEARCH_INDEX_CACHE_CONTROL,
-    Vary: 'Accept-Encoding',
-  }
-  if (!acceptsGzip(acceptEncoding)) return new Response(json, { headers })
-  if (compressed?.json !== json) compressed = { json, gzip: gzipSync(json) }
-  return new Response(new Uint8Array(compressed.gzip), {
-    headers: { ...headers, 'Content-Encoding': 'gzip' },
-  })
+export function searchIndexResponse(index: SearchIndex): Response {
+  return Response.json(index, { headers: { 'Cache-Control': SEARCH_INDEX_CACHE_CONTROL } })
 }
 
 export const searchIndexEndpoint: Endpoint = {
@@ -67,6 +43,6 @@ export const searchIndexEndpoint: Endpoint = {
         revalidate: GUIDE_PAGES_REVALIDATE,
       },
     )()
-    return searchIndexResponse(index, req.headers.get('accept-encoding'))
+    return searchIndexResponse(index)
   },
 }
