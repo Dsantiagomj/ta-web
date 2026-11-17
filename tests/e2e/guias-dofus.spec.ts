@@ -2,7 +2,8 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
 
 import { contrastRatio } from '../../src/lib/checklists/poster-ink.ts'
-import { MODES } from '../../src/lib/theme/theme.ts'
+import { FREE_THEMES, MODES } from '../../src/lib/theme/theme.ts'
+import { computedContrast } from './colors.ts'
 import { visualLines } from './meta-lines.ts'
 import { expectNeedsColumns } from './needs-layout.ts'
 import { seedAchievement as logro } from './seed/achievements.ts'
@@ -120,7 +121,6 @@ test.describe('índice de las guías de Dofus', () => {
         btn: token('--color-btn'),
         ink: token('--color-btn-ink'),
         indicator: getComputedStyle(seg.querySelector('.dg-seg__ind')!).backgroundColor,
-        shadow: getComputedStyle(seg.querySelector('.dg-seg__ind')!).boxShadow,
         pressed: getComputedStyle(seg.querySelector('[aria-pressed="true"]')!).color,
         family: getComputedStyle(seg.querySelector('.dg-pill')!).fontFamily.split(',')[0],
       }
@@ -129,9 +129,55 @@ test.describe('índice de las guías de Dofus', () => {
     })
     expect(look.indicator).toBe(look.btn)
     expect(look.pressed).toBe(look.ink)
-    expect(look.shadow).toBe('none')
     expect(look.family.replaceAll('"', '')).toBe('Lexend')
   })
+
+  // El relleno del elegido no llega a 3:1 sobre la pista en todos los temas (el lima de Amakna
+  // claro da 1,67): lleva un filete en la tinta de los botones, y uno de los dos, el filete o el
+  // relleno, pasa 3:1 sobre la pista (WCAG 1.4.11).
+  for (const theme of FREE_THEMES) {
+    for (const mode of MODES) {
+      test(`el filtro elegido se distingue de la pista (3:1) en ${theme} ${mode}`, async ({
+        page,
+        context,
+        baseURL,
+      }) => {
+        await context.addCookies([
+          { name: 'ta-theme', value: theme, url: baseURL! },
+          { name: 'ta-mode', value: mode, url: baseURL! },
+        ])
+        await page.goto('/guias-dofus')
+        const [track, fill, ring] = await page.locator('.dg-seg').evaluate((seg) => {
+          const indicator = getComputedStyle(seg.querySelector('.dg-seg__ind')!)
+          return [
+            getComputedStyle(seg).backgroundColor,
+            indicator.backgroundColor,
+            /^(rgb\([^)]*\)|color\([^)]*\))/.exec(indicator.boxShadow)?.[1] ?? '',
+          ]
+        })
+        expect(ring).not.toBe('')
+        expect(
+          Math.max(computedContrast(fill, track), computedContrast(ring, track)),
+        ).toBeGreaterThanOrEqual(3)
+      })
+    }
+  }
+
+  for (const width of [360, 390]) {
+    test(`a ${width}px la etiqueta de la tarjeta no tapa el huevo`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 })
+      await page.goto('/guias-dofus')
+      const card = page.getByRole('link', { name: new RegExp(dofus.ocre.name) })
+      const tag = (await card.locator('.dcard__tag').boundingBox())!
+      const egg = (await card.locator('.dcard__art img').boundingBox())!
+      const overlaps =
+        tag.x < egg.x + egg.width &&
+        egg.x < tag.x + tag.width &&
+        tag.y < egg.y + egg.height &&
+        egg.y < tag.y + tag.height
+      expect(overlaps).toBe(false)
+    })
+  }
 
   // Opción D de Torre: el borde de 2px en el color de su Dofus, la apagada de trazos, y las
   // etiquetas rellenas: «Evento» en el tono 6 y el primordial en el 2, con la tinta de los tonos.
