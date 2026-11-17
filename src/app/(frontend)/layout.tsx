@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { cookies, draftMode } from 'next/headers'
 import type { ReactNode } from 'react'
 
@@ -7,6 +7,7 @@ import { SiteFooter } from '@/components/site/SiteFooter'
 import { classLinks, dungeonLinks, legalLinks, TOP_ANCHOR } from '@/components/site/nav'
 import { SiteHeader } from '@/components/site/SiteHeader'
 import { modeScript } from '@/lib/theme/mode-script'
+import { themeViewport } from '@/lib/theme/theme-color'
 import { MODE_COOKIE, resolveMode, resolveTheme, THEME_COOKIE } from '@/lib/theme/theme'
 import { SITE_URL } from '@/lib/site/origin'
 import { siteMetadata } from '@/lib/site-copy/metadata'
@@ -27,6 +28,15 @@ import {
 // El nombre, la descripción y la imagen al compartir son de «Ajustes del sitio».
 export async function generateMetadata(): Promise<Metadata> {
   return { metadataBase: new URL(SITE_URL), ...siteMetadata(await loadSiteSettings()) }
+}
+
+// La barra del navegador del móvil toma el color de la barra de la cabecera, en el tema y el
+// modo de las cookies, como el resto de la página.
+export async function generateViewport(): Promise<Viewport> {
+  const jar = await cookies()
+  const mode = resolveMode(jar.get(MODE_COOKIE)?.value)
+  const theme = resolveTheme(jar.get(THEME_COOKIE)?.value, { premium: false })
+  return themeViewport(theme, mode)
 }
 
 export default async function FrontendLayout({ children }: { children: ReactNode }) {
