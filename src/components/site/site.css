@@ -107,10 +107,11 @@ html {
   margin-left: auto;
 }
 
-/* A 320px (o con mucho zoom) la barra se aprieta para no desbordar. */
+/* A 320px (o con mucho zoom) la barra se aprieta para no desbordar: 4px a cada lado, que
+   Chromium en Linux pinta el logo unos píxeles más ancho que en macOS. */
 @media (max-width: 22.49rem) {
   .site-hdr {
-    margin-inline: 0.5rem !important;
+    margin-inline: 0.25rem !important;
   }
 
   .site-hdr__in {
