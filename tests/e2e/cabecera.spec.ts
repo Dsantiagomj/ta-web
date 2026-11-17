@@ -302,11 +302,11 @@ test.describe('cabecera', () => {
     await open(page)
     const pill = (await page.locator('.spill').boundingBox())!
     expect(pill.height).toBeGreaterThanOrEqual(44)
-    // De 1440 a 1599px, sin «Ctrl K» y con 11rem como mínimo: la cabecera deja holgura para
-    // el texto más ancho de Linux. Desde 1600px, con el atajo y 12,5rem como mínimo.
+    // De 1440 a 1663px, sin «Ctrl K» y con 11rem como mínimo: la cabecera deja holgura para
+    // el texto más ancho de Linux. Desde 1664px, con el atajo y 12,5rem como mínimo.
     expect(pill.width).toBeGreaterThanOrEqual(11 * 17.6 - 0.5)
     await expect(page.locator('.spill kbd')).toBeHidden()
-    await page.setViewportSize({ width: 1600, height: 900 })
+    await page.setViewportSize({ width: 1664, height: 900 })
     expect((await page.locator('.spill').boundingBox())!.width).toBeGreaterThanOrEqual(219.5)
     await expect(page.locator('.spill kbd')).toBeVisible()
   })
@@ -572,7 +572,7 @@ for (const width of [1120, 1200, 1280, 1440, 1600]) {
 // entre el menú y los botones de la derecha, más lo que la píldora de búsqueda aún puede
 // ceder hasta su ancho mínimo. En macOS mide al menos 24px; aquí se pide la mitad larga.
 for (const width of [
-  1200, 1240, 1279, 1280, 1360, 1439, 1440, 1460, 1500, 1536, 1583, 1584, 1600, 1728,
+  1200, 1240, 1279, 1280, 1360, 1439, 1440, 1460, 1500, 1536, 1583, 1584, 1600, 1663, 1664, 1728,
 ]) {
   test(`a ${width}px la cabecera deja holgura antes del margen derecho`, async ({ page }) => {
     await page.setViewportSize({ width, height: 800 })
