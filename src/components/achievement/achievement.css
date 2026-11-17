@@ -77,7 +77,10 @@
     grid-row: 1 / span 3;
     align-self: start;
     padding-left: 2rem;
-    border-left: 1px solid var(--color-line);
+    /* Separa dos columnas, no dos filas: 3:1 sobre el fondo y la superficie en cada tema, que
+       con --color-line no daba y casi no se veía sobre el fondo de zona
+       (tests/unit/achievement-sheet-rule.test.ts). */
+    border-left: 1px solid color-mix(in srgb, var(--color-muted) 70%, var(--color-line));
   }
 
   .logro--sheet .qhead.lhead--logro {
