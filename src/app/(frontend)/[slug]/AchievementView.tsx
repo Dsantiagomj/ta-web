@@ -15,7 +15,6 @@ import { achievementPageView, type AchievementPageData } from '@/lib/achievement
 import type { RichTextState } from '@/lib/guides/page'
 
 import { LivePreviewRefresh } from './LivePreviewRefresh'
-import { PreviewBar } from './PreviewBar'
 
 /**
  * La página de un logro (DESIGN.md, Achievement page): las migas, la cabecera con el icono,
@@ -41,7 +40,6 @@ export function AchievementView({
   return (
     <div className="[--color-section:var(--color-sec-logros)]">
       {data.zoneBackground && <ZoneBackground image={data.zoneBackground} />}
-      {preview && <PreviewBar slug={data.page.slug} />}
       <main
         id="contenido"
         className={hasSheet(view.facts, view.needs) ? 'logro logro--sheet' : 'logro'}
