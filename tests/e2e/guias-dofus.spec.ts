@@ -163,6 +163,23 @@ test.describe('índice de las guías de Dofus', () => {
     }
   }
 
+  test('en el modo claro la tarjeta En preparación se ve: su trazo llega a 3:1', async ({
+    page,
+    context,
+    baseURL,
+  }) => {
+    await context.addCookies([{ name: 'ta-mode', value: 'light', url: baseURL! }])
+    await page.goto('/guias-dofus')
+    const [border, background] = await page
+      .locator('.dcard--off')
+      .first()
+      .evaluate((card) => [
+        getComputedStyle(card).borderTopColor,
+        getComputedStyle(document.documentElement).backgroundColor,
+      ])
+    expect(computedContrast(border, background)).toBeGreaterThanOrEqual(3)
+  })
+
   for (const width of [360, 390]) {
     test(`a ${width}px la etiqueta de la tarjeta no tapa el huevo`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 })
@@ -223,7 +240,7 @@ test.describe('índice de las guías de Dofus', () => {
     const ocre = page.getByRole('link', { name: new RegExp(dofus.ocre.name) })
     const [border, background] = await ocre.evaluate((card) => [
       getComputedStyle(card).borderTopColor,
-      getComputedStyle(document.body).backgroundColor,
+      getComputedStyle(document.documentElement).backgroundColor,
     ])
     expect(border).not.toBe('rgb(209, 139, 35)')
     expect(contrastRatio(rgbHex(border!), rgbHex(background!))).toBeGreaterThanOrEqual(3)
