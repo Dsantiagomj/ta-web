@@ -39,9 +39,9 @@ describe('dofusIndexView', () => {
 
   it('cada tarjeta enlaza su guía con sus cifras; una En preparación no enlaza', () => {
     expect(view.cards.map((card) => [card.name, card.href, card.disabled, card.meta])).toEqual([
-      ['Dofus Esmeralda', '/dofus-esmeralda', false, '7 logros - 40 misiones - Nivel 180'],
-      ['Jyfus', undefined, true, 'Nivel 20'],
-      ['Dofus Zanahowia', '/dofus-zanahowia', false, '3 logros - 11 misiones - Nivel 180'],
+      ['Dofus Esmeralda', '/dofus-esmeralda', false, ['7 logros', '40 misiones', 'Nivel 180']],
+      ['Jyfus', undefined, true, ['Nivel 20']],
+      ['Dofus Zanahowia', '/dofus-zanahowia', false, ['3 logros', '11 misiones', 'Nivel 180']],
     ])
   })
 
