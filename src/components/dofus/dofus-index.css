@@ -198,8 +198,11 @@
   display: none;
 }
 
-/* Tarjeta de colección (DESIGN.md, Card, collection): toda la tarjeta es el enlace. */
+/* Tarjeta de colección (DESIGN.md, Card, collection): toda la tarjeta es el enlace. El borde
+   va en el color de su Dofus aclarado u oscurecido para llegar a 3:1 en cada modo
+   (src/lib/dofus-guides/egg-line.ts); el halo y el brillo, en el color tal cual. */
 .dcard {
+  --egg-edge: var(--egg-line-dark, var(--egg, var(--color-section)));
   position: relative;
   display: grid;
   align-content: start;
@@ -208,7 +211,7 @@
   height: 100%;
   padding: 0.875rem 0.75rem 1rem;
   border-radius: 0.5rem;
-  border: 2px solid var(--egg, var(--color-section));
+  border: 2px solid var(--egg-edge);
   background: var(--color-surface);
   color: var(--color-ink);
   text-align: center;
@@ -216,6 +219,9 @@
   transition:
     border-color var(--duration-fast) var(--ease-standard),
     background-color var(--duration-fast) var(--ease-standard);
+}
+[data-mode='light'] .dcard {
+  --egg-edge: var(--egg-line-light, var(--egg, var(--color-section)));
 }
 a.dcard:focus-visible {
   outline: 0.1875rem solid var(--color-ink);
@@ -243,7 +249,7 @@ a.dcard:active {
   inset: -2px;
   border-radius: inherit;
   box-shadow:
-    0 0 0 1px var(--egg, var(--color-section)),
+    0 0 0 1px var(--egg-edge),
     0 0 1.5rem color-mix(in srgb, var(--egg, var(--color-section)) 38%, transparent),
     0 1.125rem 1.75rem -0.5rem rgb(0 0 0 / 0.55);
   opacity: 0;
@@ -252,7 +258,7 @@ a.dcard:active {
 }
 [data-mode='light'] .dcard::after {
   box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--egg, var(--color-section)) 80%, var(--color-ink)),
+    0 0 0 1px color-mix(in srgb, var(--egg-edge) 80%, var(--color-ink)),
     0 0 1.25rem color-mix(in srgb, var(--egg, var(--color-section)) 30%, transparent),
     0 1rem 1.5rem -0.5rem rgb(0 0 0 / 0.22);
 }
@@ -410,11 +416,11 @@ a.dcard.is-tilted .dcard__foil {
 
 @media (hover: hover) and (pointer: fine) {
   a.dcard:hover {
-    border-color: var(--egg, var(--color-section));
+    border-color: var(--egg-edge);
     background: var(--color-raised);
   }
   [data-mode='light'] a.dcard:hover {
-    border-color: color-mix(in srgb, var(--egg, var(--color-section)) 80%, var(--color-ink));
+    border-color: color-mix(in srgb, var(--egg-edge) 80%, var(--color-ink));
   }
   a.dcard:hover::after {
     opacity: 1;
