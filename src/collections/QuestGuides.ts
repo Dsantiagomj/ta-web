@@ -31,6 +31,7 @@ import { SLUG_LABEL, slugAdmin } from './slug-field'
 import { slugFormatProblem } from '../lib/admin/slug'
 import { panelStrings } from '../lib/admin/strings'
 import { pagePreview, withPublishStatus } from '../lib/admin/live-preview'
+import { pageBackgroundField } from './zone-background-field'
 
 /**
  * Slug plano en ASCII: minúsculas, cifras y guiones sueltos, sin guiones en los extremos.
@@ -495,6 +496,7 @@ export const QuestGuides: CollectionConfig = {
       hooks: { beforeDuplicate: [clearOnDuplicate] },
       admin: { ...originalUrlAdmin, position: 'sidebar' },
     },
+    pageBackgroundField,
     {
       // Lo último que escribió `pnpm import:guides`, campo a campo: al repetirla, un campo que
       // ya no coincide lo cambió Torre y no se toca. La copia es del editor que la hace.

@@ -121,6 +121,8 @@ export function mapQuest(raw: RawQuest, lookups: QuestLookups): MappedQuest {
         mapId,
         x: map?.posX ?? null,
         y: map?.posY ?? null,
+        // La subzona del mapa: de ella sale el fondo de zona de la guía (src/lib/zones/).
+        subAreaId: map?.subAreaId ?? null,
       },
     ]
   })

@@ -304,6 +304,8 @@ export interface MappedQuest {
     mapId: number | null
     x: number | null
     y: number | null
+    /** La subzona del mapa, de map-positions. */
+    subAreaId: number | null
   }[]
   /** El área del mapa de inicio («Astrub»), o null. */
   zone: string | null
