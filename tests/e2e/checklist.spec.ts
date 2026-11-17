@@ -1,5 +1,6 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
+import sharp from 'sharp'
 
 import { MODES } from '../../src/lib/theme/theme.ts'
 import { expectFilledButton } from './filled-button.ts'
@@ -492,4 +493,26 @@ test('la ventana lleva el radio de 8px y el filete de las líneas, como el proto
   })
   expect(look.border).toBe(look.line)
   expect(look.radius).toBeCloseTo(0.5)
+})
+
+// La × de borrar de los campos de búsqueda salía azul del navegador en el modo claro. Chrome no
+// da su estilo calculado, así que se mira la captura: ningún píxel azul en el campo.
+test('la × del buscador va en el color del tema, no en el azul del navegador', async ({
+  page,
+  context,
+  baseURL,
+}) => {
+  await context.addCookies([{ name: 'ta-mode', value: 'light', url: baseURL! }])
+  await page.goto(url)
+  const search = page.locator('input[type="search"]:visible').first()
+  await search.fill('ab')
+  const { data, info } = await sharp(await search.screenshot())
+    .raw()
+    .toBuffer({ resolveWithObject: true })
+  let blue = 0
+  for (let at = 0; at < data.length; at += info.channels) {
+    const [r, g, b] = [data[at], data[at + 1], data[at + 2]]
+    if (b > r + 60 && b > g + 30) blue += 1
+  }
+  expect(blue).toBe(0)
 })
