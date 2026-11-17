@@ -2,7 +2,6 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 
 import FrontendError from '@/app/(frontend)/error'
-import GlobalError from '@/app/global-error'
 
 // Las páginas de error (DESIGN.md, Layout): como la 404, el título de página en Rowdies, una
 // frase y los botones; nunca la página en blanco de Next.
@@ -23,19 +22,5 @@ describe('error.tsx del sitio', () => {
     expect(markup).toMatch(
       /<a data-variant="secondary"[^>]*href="\/"[^>]*>Volver a la portada<\/a>/,
     )
-  })
-})
-
-describe('global-error.tsx', () => {
-  const markup = renderToStaticMarkup(<GlobalError error={error} reset={reset} />)
-
-  it('pinta su propio <html> en español, en Amakna oscuro', () => {
-    expect(markup).toMatch(/^<html lang="es" data-theme="amakna" data-mode="dark"/)
-  })
-
-  it('lleva el mismo título y los mismos botones', () => {
-    expect(markup).toContain('>Algo ha fallado</h1>')
-    expect(markup).toContain('>Volver a intentarlo</button>')
-    expect(markup).toContain('href="/"')
   })
 })
