@@ -773,8 +773,18 @@ test.describe('vista previa de borradores', () => {
   })
 
   test('el JavaScript de la vista previa no llega a los visitantes', async ({ page }) => {
+    const scripts: Promise<string>[] = []
+    page.on('response', (response) => {
+      if (response.request().resourceType() === 'script') scripts.push(response.text())
+    })
     await page.goto(url)
+    await page.waitForLoadState('networkidle')
     expect(await page.content()).not.toContain('LivePreviewRefresh')
+    // El aviso con el que la página le dice al panel que está lista: solo lo lleva el código de
+    // la vista previa en vivo de Payload, que pesa unos 5 KB y no cabe en el presupuesto.
+    const bodies = await Promise.all(scripts)
+    expect(bodies.length).toBeGreaterThan(0)
+    expect(bodies.filter((body) => body.includes('payload-live-preview')).length).toBe(0)
     await expect(page.getByRole('complementary', { name: 'Vista previa' })).toHaveCount(0)
   })
 })
