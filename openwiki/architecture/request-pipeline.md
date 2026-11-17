@@ -42,10 +42,10 @@ sources:
     resource: repo://src/payload.config.ts
   - id: openwiki-source-f34ac1e549d94dc3ac475ae4
     resource: repo://src/proxy.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
+    at: 2026-11-17T11:00:20.552Z
 ---
 
 # Request pipeline
@@ -94,7 +94,7 @@ It never asks for credentials and never queries the database.
 
 The App Router tree has two route groups, each with its own root layout.
 
-**`src/app/(frontend)/`** is the public site. Its layout reads the mode cookie, resolves the theme on the server, renders `<html lang="es" data-theme data-mode>` and injects the pre-paint mode script; see [Theme and mode](../frontend/theme-and-mode.md). It wraps every page in the site header and footer, adds the ambience particles (`Ambience`) after the footer, and loads in parallel, from `src/app/(frontend)/site-data.ts`, the header's guide counts (`loadSiteCounts`, `unstable_cache` under the `guide-pages` tag), the Dofus of the menu and search (`loadDofusNav`, under the `dofus-guides` tag, from the `dofus-guides` collection), the checklists of the menu (`loadChecklistNav`, mapped from `loadChecklists` under the `checklists` tag), the standalone pages for the footer's legal links (`loadPageNav`, under the `pages` tag) and «Ajustes del sitio» (`loadSiteSettings`, under the `site-copy` tag) for the footer, the social links and the site-wide metadata. Its `generateMetadata` builds `metadataBase` from `SITE_URL` and the site name, description and share image from those settings (see [Site settings and index texts](../cms/site-copy.md)); see [Site header, footer and search](../frontend/site-shell-and-search.md). Because it reads a cookie, every page renders per request; what is cached is the data.
+**`src/app/(frontend)/`** is the public site. Its layout reads the mode cookie, resolves the theme on the server, renders `<html lang="es" data-theme data-mode>` and injects the pre-paint mode script; see [Theme and mode](../frontend/theme-and-mode.md). It wraps every page in the site header and footer, adds the ambience particles (`Ambience`) after the footer, and loads in parallel, from `src/app/(frontend)/site-data.ts`, the header's guide counts (`loadSiteCounts`, `unstable_cache` under the `guide-pages` tag), the Dofus of the menu and search (`loadDofusNav`, under the `dofus-guides` tag, from the `dofus-guides` collection), the checklists of the menu (`loadChecklistNav`, mapped from `loadChecklists` under the `checklists` tag), the standalone pages for the footer's legal links (`loadPageNav`, under the `pages` tag), «Ajustes del sitio» (`loadSiteSettings`, under the `site-copy` tag) for the footer, the social links and the site-wide metadata, «Navegación» (`loadNavigation`, under the `site-copy` and `dofus-guides` tags) for the menu sections and the featured Dofus eggs, and the published class and dungeon pages (`loadSectionNav`, under the `section-pages` tag), whose menu lists only give the header its class and dungeon counts for now. Its `generateMetadata` builds `metadataBase` from `SITE_URL` and the site name, description and share image from those settings (see [Site settings and index texts](../cms/site-copy.md) and [Class and dungeon pages](../pages/class-and-dungeon-pages.md)); see [Site header, footer and search](../frontend/site-shell-and-search.md). Because it reads a cookie, every page renders per request; what is cached is the data.
 
 The group holds:
 

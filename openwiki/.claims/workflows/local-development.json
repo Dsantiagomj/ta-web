@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:6fca5bfd9c229a062c32d9d1ad7feead985cbb4d424b914a0d386e9319d13314",
+  "pageVersion": "sha256:ff0c6058fec678b25e71541c5edcb684b74cd278e68766b830ff4f7ac02ae033",
   "claims": [
     {
       "id": "claim_b918f6d1cc124cf385437a508e649e6b",
@@ -44,11 +44,11 @@
     },
     {
       "id": "claim_8571efb5af9941e49928afd36ba57734",
-      "statement": "The package scripts define dev, build, start, lint, format, typecheck, the test suites including test:lhci, review:release, seed:e2e, db:dev, data:refresh with data:quests as its alias, data:dungeon-notes, the import scripts (guides, Dofus guides, checklists, checklist cards, achievements, achievement prose, pages), fix:achievements, the guides:* maintenance scripts, seed:site-copy, panel:block-thumbs, media:sizes, migrate, migrate:create, payload, generate:types, generate:importmap and redirects:stubs, with build raising the Node heap to 8000 MB.",
+      "statement": "The package scripts define dev, build, start, lint, format, typecheck, the test suites including test:lhci, review:release, seed:e2e, db:dev, data:refresh with data:quests as its alias, data:dungeon-notes, the import scripts (guides, Dofus guides, checklists, checklist cards, achievements, achievement prose, pages, section pages), fix:achievements, the guides:* maintenance scripts, seed:site-copy, panel:block-thumbs, media:sizes, migrate, migrate:create, payload, generate:types, generate:importmap and redirects:stubs, with build raising the Node heap to 8000 MB.",
       "evidence": [
         {
-          "resource": "repo://package.json#L12-L55",
-          "version": "repo-lines-v1:sha256:721daf85fefa102f34a36252d183cdaa74ae988790416691c972bfc7234ec73d:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0ODMzZDU5NDljMDNhNDBjYTk1MjQ5MTYxMGE2NjU5NjQ0YjNhYTQ2NjM2MmY3OTkwMjBkYmYxOTgxNTQ3ZGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU3MzhmMDQyOWU5N2Y0ODI2MWJjZjM1NmYzOWIyZjJlNDVmMWFhZjA2NGY3Yjg2MTQ0YjcxZjE3ODU0NjE4OWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjViNDQwZDkzMjUxZDhlNzY0Y2IzNjMzMjFhNjY2YjljNjgxNjM3YjNhMWY4ZWVkMDJlNDc3OTE3NTFhMDI2YTMifQ"
+          "resource": "repo://package.json#L12-L56",
+          "version": "repo-lines-v1:sha256:69ca2775a3861cb19728b6468e285a6d61703c7061a103b743fe9139ac68f022:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM0ODMzZDU5NDljMDNhNDBjYTk1MjQ5MTYxMGE2NjU5NjQ0YjNhYTQ2NjM2MmY3OTkwMjBkYmYxOTgxNTQ3ZGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNWNkMmZiNGYzZGY4ODQ1MTUyNTViMzk1MjNmMmY4YjU0NzJiZWVhOWY1NjZmZmNhMjA0ZGI4MDI1NjEwNDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU3MzhmMDQyOWU5N2Y0ODI2MWJjZjM1NmYzOWIyZjJlNDVmMWFhZjA2NGY3Yjg2MTQ0YjcxZjE3ODU0NjE4OWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjViNDQwZDkzMjUxZDhlNzY0Y2IzNjMzMjFhNjY2YjljNjgxNjM3YjNhMWY4ZWVkMDJlNDc3OTE3NTFhMDI2YTMifQ"
         }
       ]
     },
@@ -205,7 +205,7 @@
       "statement": "pnpm media:sizes regenerates missing media sizes and takes --remote and --production flags passed through to the script.",
       "evidence": [
         {
-          "resource": "repo://package.json#L47-L47",
+          "resource": "repo://package.json#L48-L48",
           "version": "repo-lines-v1:sha256:a190c5a8c97660309b192adbbe882b861dee8ddbd08d5efb78a9e0b50b606fcc:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTE5MGM1YThjOTc2NjAzMDliMTkyYWRiYmU4ODJiODYxZGVlOGRkYmQwOGQ1ZWZiNzhhOWUwYjUwYjYwNmZjYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTE5MGM1YThjOTc2NjAzMDliMTkyYWRiYmU4ODJiODYxZGVlOGRkYmQwOGQ1ZWZiNzhhOWUwYjUwYjYwNmZjYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2E1MWRmNzhlN2FjMWVhOGYxMzQ2ZWZkMjI1YmE4YTcwYjk0ZjY5ZDAyNGYyM2ZlNGQ5ZWEzZGZmOGIzNGFkZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDU3MjkxNGYxYjQ1ZjcxOWMzZmExNGVjOTQ0NTI2YjI1N2Q5OGMxNmQ3MjYyMWIwMzY5NTU2ZWJlNzU4YTU4NSJ9"
         },
         {
@@ -243,8 +243,8 @@
       "statement": "pnpm import:achievements, pnpm fix:achievements and pnpm guides:backfill are payload run scripts that pass their flags through and only count or report without --apply.",
       "evidence": [
         {
-          "resource": "repo://package.json#L36-L40",
-          "version": "repo-lines-v1:sha256:0aa059a0fbe56768242fb27462b34cf6873c9a82c4bb7af46738b5f5ed3b7c60:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTA0ODc3MDU5ZDBjYWQ3NTYzNzk3NDdlYTU2MmU0YzIwZTQ3YjlmOGNjODI2YTc3MzBkZTgzNjQxYjczMjdlYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmM1ZTk2ZDM1NWUwMGU0ZDdmYThiYzFhOTI3NDc2MDVhNGU4MTE1OTRlMDllOTY4MTU2NTEwNzEzYzM0OTE3NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2M0ZTU5ZjdjYzk4M2I3NzEwZDViMzZkZDVkNDc0YTc1NGE1YTc5MzBhODFhZDkwYTkzMGE0ZTRiMDdjZThhNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWVmZjNmN2E1YzRjM2U2NzczZDhmNzA5Mzc2M2E3MmQyYTRjYjZkYzhmMDgyOGFhYzgyYWRkYTE5ZDRjMTE5NCJ9"
+          "resource": "repo://package.json#L36-L41",
+          "version": "repo-lines-v1:sha256:18d543b942eaa112dfe1a4510e966cc63309ae0f673547d786221920f617b9b5:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTA0ODc3MDU5ZDBjYWQ3NTYzNzk3NDdlYTU2MmU0YzIwZTQ3YjlmOGNjODI2YTc3MzBkZTgzNjQxYjczMjdlYSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmM1ZTk2ZDM1NWUwMGU0ZDdmYThiYzFhOTI3NDc2MDVhNGU4MTE1OTRlMDllOTY4MTU2NTEwNzEzYzM0OTE3NiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiN2M0ZTU5ZjdjYzk4M2I3NzEwZDViMzZkZDVkNDc0YTc1NGE1YTc5MzBhODFhZDkwYTkzMGE0ZTRiMDdjZThhNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYWVmZjNmN2E1YzRjM2U2NzczZDhmNzA5Mzc2M2E3MmQyYTRjYjZkYzhmMDgyOGFhYzgyYWRkYTE5ZDRjMTE5NCJ9"
         },
         {
           "resource": "repo://scripts/backfill-guides.ts#L8-L12",
@@ -279,8 +279,8 @@
       "statement": "pnpm import:checklists, pnpm import:checklist-cards and pnpm import:achievement-prose are payload run scripts that pass their flags through and only count without --apply, and pnpm redirects:stubs rewrites the stubs section of the legacy redirect table.",
       "evidence": [
         {
-          "resource": "repo://package.json#L34-L54",
-          "version": "repo-lines-v1:sha256:35f4f57ef93183dab12f8f91e5b110904e593eebaffae82ca15565fa6ed4bec0:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc1ZjI4ODViYmYxZGJiOTI4YWZiOTIwNzU2YTc2M2NmODgyYjc4ZDUyZmQ2Y2I0MTAyNDUwMmUyNGZhMDNlNzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0NzM2ZmZmYTE4YWIyMmY0YzJjMjk1NDNmZGI3OTY5ZTYxZTFhZTQzMTlhNDg3ZjQ1MmEwYjBiZTJlMDdkMGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQxNWE2MWNlYjRiZThiYzI3YWZlODE4NjYyYTUwYjFhNTQwZDVlN2Q0NjY1ZmRkNTUwNDUzMGQwNWQyNzM4YWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYxM2ZkNzA1ODAzNmVjNzE5ZTIyNzRjMjEwOWE1ZWNhZGU4MzY4NjdlNWUzMjU3YmJlMjcwZjhlNmM4MjFlZTEifQ"
+          "resource": "repo://package.json#L34-L55",
+          "version": "repo-lines-v1:sha256:f54d1a38bf0ddbd231bc1ca7633b4eebbf0a5a346ffa2ac3356015a2d78480d7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc1ZjI4ODViYmYxZGJiOTI4YWZiOTIwNzU2YTc2M2NmODgyYjc4ZDUyZmQ2Y2I0MTAyNDUwMmUyNGZhMDNlNzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0NzM2ZmZmYTE4YWIyMmY0YzJjMjk1NDNmZGI3OTY5ZTYxZTFhZTQzMTlhNDg3ZjQ1MmEwYjBiZTJlMDdkMGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQxNWE2MWNlYjRiZThiYzI3YWZlODE4NjYyYTUwYjFhNTQwZDVlN2Q0NjY1ZmRkNTUwNDUzMGQwNWQyNzM4YWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYxM2ZkNzA1ODAzNmVjNzE5ZTIyNzRjMjEwOWE1ZWNhZGU4MzY4NjdlNWUzMjU3YmJlMjcwZjhlNmM4MjFlZTEifQ"
         },
         {
           "resource": "repo://scripts/import/import-achievement-prose.ts#L1-L10",
@@ -344,15 +344,19 @@
     },
     {
       "id": "claim_7446369c97904f37bb04f9b459c43315",
-      "statement": "pnpm seed:site-copy writes the built-in text only into empty fields of «Ajustes del sitio» and «Portada e índices», so a rerun changes nothing, and lists what it would do without --apply.",
+      "statement": "pnpm seed:site-copy writes the built-in text only into empty fields of «Ajustes del sitio», «Portada e índices» and «Navegación», so a rerun changes nothing, and lists what it would do without --apply.",
       "evidence": [
         {
-          "resource": "repo://package.json#L45-L45",
+          "resource": "repo://package.json#L46-L46",
           "version": "repo-lines-v1:sha256:ef93d10c95fa08e2ec379726567c033c208a7bc87b92b9a38637aaea30193cd2:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWY5M2QxMGM5NWZhMDhlMmVjMzc5NzI2NTY3YzAzM2MyMDhhN2JjODdiOTJiOWEzODYzN2FhZWEzMDE5M2NkMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWY5M2QxMGM5NWZhMDhlMmVjMzc5NzI2NTY3YzAzM2MyMDhhN2JjODdiOTJiOWEzODYzN2FhZWEzMDE5M2NkMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmYxNzYzNjlkYjMzZTQxOTBkOGI4MDFmMjE0M2JjODE1N2IwMDFiYzdjZWIyNDZjYzQ1ZjdjYjkxMGNiNWYzYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWZmOThhNGFmNGRjMTFkYWYyZTA2MmYxYWQ3YTc0ZWRkMDUxYjg2NzBjYzFmOTc2ZWUzOTU5MmE4OTIyN2M1YyJ9"
         },
         {
           "resource": "repo://scripts/seed-site-copy.ts#L1-L8",
           "version": "repo-lines-v1:sha256:cb67560038e5c553bf144e3d94bb9444572cafc221496355b7f99f902c709ce3:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDllMjU1NzgzNTlhZGE5NmI0YTIzZDAwNWIxZGI5MzJmOTVhODhiZjIxNmE1ZjMzNTk3NzZkODJjMTdhM2U0OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzU5NjJkMmI3MWY2NmVhMGIxOWUwZTBlMzFiYzliN2ExZjhlOWM1N2I5YWZlOGZlZDZmMzlhODkyZDM5NmVmOSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZWI1ODI4ZDVkZjg4YTgwNGY4YWFiODcxOTRhYmM3NDc1OWUwNmY1YWViNjhhZmRlYzYxMzY1YmEzOTA1NDY5MiJ9"
+        },
+        {
+          "resource": "repo://src/lib/site-copy/seed.ts#L1-L12",
+          "version": "repo-lines-v1:sha256:e123b554f0534aa647f1fa08793e1c45b0f55722b25813c177ba86925ad79ce5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5YWQ0Yzc1YmIzOTlhZTAxOTM0ZjYwZGQ0ODQ5YmIyYjJkOWUwMjk2OWU3M2IzMDNmNjFmYmJhMjE3ZDYxN2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5NmM0NWExYzQ1NGU0NzE1ZTE2ZDEyYzNiMjdkNTlmM2ZmNmI5MzE3MzA1YWZjMzFhNTY5MTBhNWJmOWM5ZTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIzNzEzM2I5YmM0YjFkNzNmYzQ5Yzc1YThiMDEzYmM1ZjM1ZjIwOWZhZjEwZDNmZDA4ZTJkZGQ5M2ZhZjc3NzQifQ"
         }
       ]
     },
@@ -361,7 +365,7 @@
       "statement": "pnpm panel:block-thumbs captures each frame of the «Bloques del panel» group of /sistema in Arcano dark as a 480 by 320 WebP in public/img/panel/bloques and needs the app running.",
       "evidence": [
         {
-          "resource": "repo://package.json#L46-L46",
+          "resource": "repo://package.json#L47-L47",
           "version": "repo-lines-v1:sha256:3b3d11bb8c065c4dd06086089b16e231211b05c3c8af61403dc3152cf00ccb5c:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2IzZDExYmI4YzA2NWM0ZGQwNjA4NjA4OWIxNmUyMzEyMTFiMDVjM2M4YWY2MTQwM2RjMzE1MmNmMDBjY2I1YyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiM2IzZDExYmI4YzA2NWM0ZGQwNjA4NjA4OWIxNmUyMzEyMTFiMDVjM2M4YWY2MTQwM2RjMzE1MmNmMDBjY2I1YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2E2NjljYWQyN2I2M2ZhNmIwYTNlZTNiNjllN2YyNmMzZGY4NGM1Y2Q1NDlmMzQxNTlmMTk3M2QwYjViMmQ0MSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTYzYjg1MjI1ZTQxZjZiMjBiNTdkYTQzNGRiYzFiMzI5NTJlNzgyOTc1OTc2ZmM3MzgwZTM1ZTM5NjkwMzhkMSJ9"
         },
         {
@@ -375,14 +379,28 @@
       "statement": "The guides:rewards, guides:rewards-dofusdb, guides:reward-typos and guides:shown-items scripts are payload run maintenance scripts for quest guides that pass their flags through.",
       "evidence": [
         {
-          "resource": "repo://package.json#L41-L44",
-          "version": "repo-lines-v1:sha256:9892b8ddce3ae4e9cc755bfc621d1fdf0b355b922bb6cad814daae38ab4cd6e1:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWI5ODViYzk4NWVkNmU3YjY3YTM3ZjRlNzlmZTMyYjIxY2Q4YWY4YmY1MGQxMGYwYjQ4NTViNDIwYTJkYzBiNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGZiOTQxOTI1YjBhZTc3ZDc5MDY3YTAxNDRkY2UyYzM3YTk0ZjE4ZjEyMmU2NWJjNDgxMGU3Njg4NzhhYjJkMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDkzNzZiZDRiNmY1MWU5YmVlMTQxZDAxOTk5YjBiN2ZkMTkwYWUyMTM3ZTk3NWRjMWFmNWI2MzlkYTg5NzUwYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODIxOTFlY2FhZDNhNDc3Mjk1NGVhMTUwZWJmMGVhMTMzYzFmZDViODQyYjc1MzZiNzU3YzA3YzQzOGZiYzgyYyJ9"
+          "resource": "repo://package.json#L42-L45",
+          "version": "repo-lines-v1:sha256:9892b8ddce3ae4e9cc755bfc621d1fdf0b355b922bb6cad814daae38ab4cd6e1:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMWI5ODViYzk4NWVkNmU3YjY3YTM3ZjRlNzlmZTMyYjIxY2Q4YWY4YmY1MGQxMGYwYjQ4NTViNDIwYTJkYzBiNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGZiOTQxOTI1YjBhZTc3ZDc5MDY3YTAxNDRkY2UyYzM3YTk0ZjE4ZjEyMmU2NWJjNDgxMGU3Njg4NzhhYjJkMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNGJkZTY1NmJjYmU4MGI4YThkZWQ0NTM2OTQ3MDk4NjA3MTJhMjgzNGYzZGE4ZGQxMmMzMzdlZTAxOGQyMzUzMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODIxOTFlY2FhZDNhNDc3Mjk1NGVhMTUwZWJmMGVhMTMzYzFmZDViODQyYjc1MzZiNzU3YzA3YzQzOGZiYzgyYyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_9edf7b677c5b495cabd99cb1fb41ddb8",
+      "statement": "pnpm import:section-pages is a payload run script that passes its flags through, reads saved HTML with --from and only counts without --apply.",
+      "evidence": [
+        {
+          "resource": "repo://package.json#L40-L40",
+          "version": "repo-lines-v1:sha256:785cb2105a5339ce273e41f28a639f2ef3bb0689a4822f825821e0ba1c450ec5:eyJzZWxlY3RlZExpbmVDb3VudCI6MSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzg1Y2IyMTA1YTUzMzljZTI3M2U0MWYyOGE2MzlmMmVmM2JiMDY4OWE0ODIyZjgyNTgyMWUwYmExYzQ1MGVjNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNzg1Y2IyMTA1YTUzMzljZTI3M2U0MWYyOGE2MzlmMmVmM2JiMDY4OWE0ODIyZjgyNTgyMWUwYmExYzQ1MGVjNSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGJmMjc0YWRkZjc4NmQ1YjM2ZDgwY2ZkODE0Y2Q0YzA0MjhiYzVjYTBjMGY5ZGZhZTVlNDEyYjE2MWJhZTAxNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTA3MzZkMWE3Y2FlNDIxYTVmNGY4ZGY4OTAwODQ5Y2M4MjE1ODQ1OGQ0YmVlZTA3MGQ4M2FiZjkzZWMxOWY2MiJ9"
+        },
+        {
+          "resource": "repo://scripts/import/import-section-pages.ts#L1-L10",
+          "version": "repo-lines-v1:sha256:002c8d6d966011693c40b1b5dfa243b6da010c8bc1293692decee76ff8e04a2f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjN2RkYTJmZWVmZDE1MWMxMTYyOWQ2YjEyZDQ2MGRmMzQ1MGMyMTNlY2NmZTdhY2U0MTJkOTFkNzM1MjE0YjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE1YTc0Nzc0MzAzYjI5ODBmMWM4NWVkMmY4NjkxZWI1YTM2YmVjYzM2ZGM4YzQ5MDIxZTJlNmJmN2I4M2U4OWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRjNDBlNjQ0YWEwMGVmOGFhYmNkNTY5ZGM5NmNhNTM5OGQ3MWVhZjI5Y2NmY2MwYjRkN2FmZGEwZmUxY2I2YjAifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-16T11:00:16.891Z"
+    "at": "2026-11-17T11:00:20.552Z"
   }
 }

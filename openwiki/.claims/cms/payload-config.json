@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:6a2dc7446884766735cd511fab8a2248858ef2682b69cae5a8a17dd68496463e",
+  "pageVersion": "sha256:78d7cf4891c72214068f4d7f2d562e5f7ff2c01bb14270d470c34d126d5d27ee",
   "claims": [
     {
       "id": "claim_35fde34cdf674edca408fee7ff5d2483",
-      "statement": "src/payload.config.ts configures the admin user collection, the import map base directory, the panel branding, dashboard, panel guide and accessibility provider, eighteen collections in menu order, the DofusGuidesIndex, ChecklistsIndex, SiteSettings and IndexTexts globals, the Lexical editor, the health, ready, guide search index, DofusDB values and game data refresh endpoints, Spanish-only i18n with overridden strings and localization, PAYLOAD_SECRET, the generated types output file, sharp and the media storage plugin.",
+      "statement": "src/payload.config.ts configures the admin user collection, the import map base directory, the panel branding, dashboard, panel guide and accessibility provider, twenty collections in menu order, the DofusGuidesIndex, ChecklistsIndex, SiteSettings, IndexTexts and Navigation globals, the Lexical editor, the health, ready, guide search index, DofusDB values and game data refresh endpoints, Spanish-only i18n with overridden strings and localization, PAYLOAD_SECRET, the generated types output file, sharp and the media storage plugin.",
       "evidence": [
         {
-          "resource": "repo://src/payload.config.ts#L45-L160",
-          "version": "repo-lines-v1:sha256:b49267b313a92a2c963c957cd443307ba58fe05c02fbf1f4a69cecf064e6a3b7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTE2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI3ODI3ZWU0ZGNjM2NjNDZkOGQ1NDY4NTNiZjVkYTkxYmM4M2VhNzFjYjlhY2VlM2ZlODJkMTlkMTcyYzAzODU0IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJjNWVhYmYzODkxMzIyZDBjMzE1NTQ5NGQ1YmYyNTk0MTE4ZDM1YmEwYmZhZTRkYWQyODM5NDA3MWQ5N2Q5N2FiIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://src/payload.config.ts#L48-L165",
+          "version": "repo-lines-v1:sha256:5f1442727d6744cf226566f7e1a7b8b4cdaacee5fb9ae6384d6632de9bcf1cb6:eyJzZWxlY3RlZExpbmVDb3VudCI6MTE4LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI3ODI3ZWU0ZGNjM2NjNDZkOGQ1NDY4NTNiZjVkYTkxYmM4M2VhNzFjYjlhY2VlM2ZlODJkMTlkMTcyYzAzODU0IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJjNWVhYmYzODkxMzIyZDBjMzE1NTQ5NGQ1YmYyNTk0MTE4ZDM1YmEwYmZhZTRkYWQyODM5NDA3MWQ5N2Q5N2FiIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
@@ -205,10 +205,24 @@
           "version": "repo-lines-v1:sha256:ee2d97ddcbf865c52c73d4d9404d3828cd6259f67113ba2a1acdf9b124a55dbe:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkwY2I4OTMxNTNkMDhkYTU1MzdmZjg5ZGY4MjQ4YTU4ZWZmMjlkMjkyZDhhOWQ3NjNiMTg2MzMxMmYxYThlMmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_e24ac9ef6a0842b99a62a2abeab9259a",
+      "statement": "pnpm-workspace.yaml applies patches/payload@3.92.1.patch to Payload through patchedDependencies, so Payload's createImageSizes skips AVIF sizes for animated GIF, WebP or TIFF uploads with more than one frame.",
+      "evidence": [
+        {
+          "resource": "repo://patches/payload%403.92.1.patch#L1-L18",
+          "version": "repo-lines-v1:sha256:f6f4027994dba9c5f173d99d4e60e02b3784d602732f08898c203cd536fa910c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJiYmFlZWQ3MGU4YjRjNDUyODk2ZmQ5OGY4ODIxMGIzMDg3NWNkNzU0NThmZWRkMjYxZjY3MzM1NDVjNzVkNjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjZjA3NDg2Y2FlNmI5NThlYWFlMTdiM2NmYzQyNmVlNGU0NzEyNDY2MTJiODA4YjNlYmFhYTQ3MDczNGVhOGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://pnpm-workspace.yaml#L26-L30",
+          "version": "repo-lines-v1:sha256:61ab84ae394c65c236391cab1379764ed71e458b858753e4bf274355140d0e4c:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODIzMjEyNzZjMzE1MDM0ZWI5NTEyY2UwMTg4OWU3MjU3NzI4YzdlODNkNGUzMDE0Yzg5Y2Y0ODJiOTkzNjYxNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjU4ZjhiZDVjNmFjNjdkY2VmNTEyOTFiMTM3ZWExYTQ5MjYwZTE1Nzk0MmMwOWNhNDY1ZDFmYjI5MDc0NjVlNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDIxMWUwNzlkMTNmMGZlZWIwMWUxZDQ4OGNmNDYxODVmMzhhYzU1ZTUwMGJmMGI3OWI5ODE4NTJiMzljZTAxOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-16T11:00:16.891Z"
+    "at": "2026-11-17T11:00:20.552Z"
   }
 }

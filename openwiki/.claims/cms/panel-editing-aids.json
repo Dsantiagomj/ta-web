@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:4dd59ec675e43bef13fd4438901f0c41e7f787048f1b54374b29dadbcda9b7cb",
+  "pageVersion": "sha256:09835a7dd1cc7886447ae83194f3fc8b81bfd2934499564b9d4740966e08bfd3",
   "claims": [
     {
       "id": "claim_a4fe83c8b9444aa4a544cc932d96d44d",
@@ -14,29 +14,29 @@
     },
     {
       "id": "claim_5d8552d9f855435ab24fbef3b3edc3ec",
-      "statement": "readDashboard reads as the signed-in account with overrideAccess false over the six editorial collections and returns capped lists of drafts, preparing documents, Dofus guides without a checklist card and recent changes.",
+      "statement": "readDashboard reads as the signed-in account with overrideAccess false over the eight editorial collections and returns capped lists of drafts, preparing documents, Dofus guides without a checklist card and recent changes.",
       "evidence": [
         {
-          "resource": "repo://src/lib/admin/dashboard.ts#L1-L32",
-          "version": "repo-lines-v1:sha256:cb10496c45f5770e2be6d9410e814a153e19f0f5b343e3dd00d619b0d63bdff8:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjMmQ4ODViNjZmYjBkNDg4YWVmNjNiNzhkMTYxMjQyZGRiYmFiYWMxMjIwNmJiY2YxNjcwNDU4MzY2M2Y5NDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgxYzBlOTZjNWZjMzM2OGFlZDBjNGExZjE2MmY2ZTlmOGY0ZDBkNThmMDdlMGNmMTEwMTYzMzJhODJhMmE2MDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI0YzlmMGYzMjk1Y2RhZWZlZDQ3NmYzZTU3NmU4MTQwNGRkMGU3MjNmNzIzMzk0OWJhMmIzZmQ3MzM5ZTJkMWQifQ"
+          "resource": "repo://src/lib/admin/dashboard.ts#L1-L34",
+          "version": "repo-lines-v1:sha256:441ee7ca5d3296b602723547a342dcdd9325f53deef61b5c3af946f0f57e814e:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjMmQ4ODViNjZmYjBkNDg4YWVmNjNiNzhkMTYxMjQyZGRiYmFiYWMxMjIwNmJiY2YxNjcwNDU4MzY2M2Y5NDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgxYzBlOTZjNWZjMzM2OGFlZDBjNGExZjE2MmY2ZTlmOGY0ZDBkNThmMDdlMGNmMTEwMTYzMzJhODJhMmE2MDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI0YzlmMGYzMjk1Y2RhZWZlZDQ3NmYzZTU3NmU4MTQwNGRkMGU3MjNmNzIzMzk0OWJhMmIzZmQ3MzM5ZTJkMWQifQ"
         },
         {
-          "resource": "repo://src/lib/admin/dashboard.ts#L121-L266",
-          "version": "repo-lines-v1:sha256:d4b6ce70f5490d0af85b32fead677b4b6d2247ea91e6746718a8926d3d6de5e4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQ2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlYzFjYmVkYzNjNzk3ZDc3YzRlMTE5Y2UxNDE4ZWJmOWY1YzU1MDYwNGM3MjJmMDAzZTJmMTU5ODIxMjBmNDU5IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI3MGU1NTQ5YzYyYzFlODNjZWNiMTZiNWI0NjVlYmI0NTA4ZWRlZjI4ZjYxZjllMDgzZDM4MWNjZTgxMjdiMzQ3IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://src/lib/admin/dashboard.ts#L123-L274",
+          "version": "repo-lines-v1:sha256:055707ad630b4471fe5a0fa304eb1c8785fbfb327b149a9014aa3eae295cc857:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUyLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlYzFjYmVkYzNjNzk3ZDc3YzRlMTE5Y2UxNDE4ZWJmOWY1YzU1MDYwNGM3MjJmMDAzZTJmMTU5ODIxMjBmNDU5IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI3MGU1NTQ5YzYyYzFlODNjZWNiMTZiNWI0NjVlYmI0NTA4ZWRlZjI4ZjYxZjllMDgzZDM4MWNjZTgxMjdiMzQ3IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         }
       ]
     },
     {
       "id": "claim_0b8d441de66341718a2eb910ecf6195c",
-      "statement": "The dashboard counts preparing achievement pages and metalogros and shows only the latest, while Dofus guides, checklists and standalone pages are read whole once, and a Dofus guide lacks a checklist card when its checklist name or URL is empty.",
+      "statement": "The dashboard counts preparing achievement pages and metalogros and shows only the latest, while Dofus guides, checklists, standalone pages, class pages and dungeon pages are read whole once, and a Dofus guide lacks a checklist card when its checklist name or URL is empty.",
       "evidence": [
         {
-          "resource": "repo://src/lib/admin/dashboard.ts#L107-L110",
-          "version": "repo-lines-v1:sha256:686aa1c7221766994f3fa9e24617fa28fc9730b551effa70923c5ee68e77c804:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMTdjNjE0YjM4YTE4NjA1ZTg0ZGQwODU3MDhjNWRiMDMzNTRkOWZlOGJmOThmNTU2YmZlYTQxNDI3Njc4ZTdlMSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzFhZjBjNGU1YzM4NWU1ZWI5OGRmYjIwMDgwZWNjOGZjZjgwZmZmNDUwMjA2YWQ2ZGM0ZmFkYmU2Mzg3ODNkZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMTllNWVkMjY3ZDJiMzM3OTFjZDA4Y2M2NWZlNjA5NzcwNzQyYWM2MGY3MzM2ZGYxMWFjYWJmMWM3MTIwNTIxNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNGUwNGIyY2Q1MTFhZmM4OTQ3YzU3ZDUxNzRjOWQ5OGQ0MGVhMWVlYzgwMzUzZjYzOWQ1ZjFmMTY4YWUxMmYwOCJ9"
+          "resource": "repo://src/lib/admin/dashboard.ts#L107-L113",
+          "version": "repo-lines-v1:sha256:9da1b0171db0149d0efbe837574cd26f5338308099acce7c47dc444e2e41dd44:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNmMwOTI1MTU2ZTZkZDg3MmNiZGY4ZTRiMzRmMGYxZmJhNDhmNWE5NTkzOGViZjJkODcyYTZlNmRiYjE0NDVlNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiY2RhNzkxZjBhMWY3ZmNkMTQ5YzUxMDZiYTQ5Yzk1MWEwMTk2OWY2NmY4MjgyODQwNjY0ZmNlY2Y5MGZkMDc2NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzMyMGE2MDFlMDZjODM4NWU2MGFhOTVmMDczNThmNWY0Y2M2MWYyNmM5NmMyMDE5OGE2ZDEwOWNkYTViYzkwNSJ9"
         },
         {
-          "resource": "repo://src/lib/admin/dashboard.ts#L196-L240",
-          "version": "repo-lines-v1:sha256:df903d5b6699c6237dae7a6d620f27e8b34af58b4f21fa3063be7b74a1f964f2:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MjY3OTM1ZmM2MzM0NjVkODQ4YjQwYTRlZDY5NjdlN2I3YTMyM2Y4MWNkNTNjMTEwYWUyMTAyOTY4N2FhMTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI0Zjc2OGE3YjhjMWFlNmRkOGE3NWRjMTJkMjA4MjI2NmY0MTZkMzhmZmI2NThhM2JiY2VkYmE2MTZmMzM4ZWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc3ZjVkMDYwYTdiMWIzOGQ1ODE0YzMwODc3MDRjZGQxODQ2NmUyZGY4ZjgyNDQzOGMwN2Q3MDY2YTg4NTliMjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBiYzE3MGE5NGY4ZTA2ODA3NjdkZTU4MzU5MDk4NjAyZGRjNWIyMzM0YzkyZDVjOTIyN2Q3NzE4NmFkMWY4YTYifQ"
+          "resource": "repo://src/lib/admin/dashboard.ts#L208-L250",
+          "version": "repo-lines-v1:sha256:dab8cb94e3cb8d95f496d1e2dbbfbfbab5f3e7f524611192204fe647d6867838:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2ZDRkMWUwOWNkYjk0MzBhZjE5N2VhZjk1Zjk0MjEwMmI2NjhkNDFjNDg4MThlMjU0OGEyMDMxZjQ3MGQ5ZGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUzOTI3M2VmOWEzNWNmYTdjMmU2ZGI5NTNlMGE5YTliNjk2NzM0MDA4MDQ3ZDQ0NTI2ZTY0ZmU4MGQ5NDIzYzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFjNDEzY2RmNWZjMjAwMmE2YmZmZjg0MjM2OTBhYTNhNDllODE4YWI5OTcxMmIyZWUyNmZmMmEyNTE0NzlmZTkifQ"
         }
       ]
     },
@@ -63,8 +63,8 @@
           "version": "repo-lines-v1:sha256:b09265cb543829ffcacb753a4cd6ba1b3921ded32431372ae8d2b29b4adff1b1:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc3NDhiY2Q4Mjg3YjZjZGI4MzliZmIxNjEzNzg5ZGNiNTM4NzA4YzUwODU3MmI3Yjc5ZWIzOTJhYzJmYjA2NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://src/lib/admin/publish-status.ts#L1-L74",
-          "version": "repo-lines-v1:sha256:61c04e49e4deda8d1145d1a0f3ae51ed478a85a777ccb6f6c8790514df6b1dd2:eyJzZWxlY3RlZExpbmVDb3VudCI6NzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI5MDFlZmIwM2QxNjg5YTA2ZjRlOThjY2Y5MWZiZTJlZWU3ZDZlYzc5MWQzMjk2MWI2NTE4NDM3OGViOGE2YzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/lib/admin/publish-status.ts#L1-L77",
+          "version": "repo-lines-v1:sha256:e25ec24fe57618543caf8299c1ef310fb28c32d4ad54180cf8a64360259a0f7c:eyJzZWxlY3RlZExpbmVDb3VudCI6NzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI5MDFlZmIwM2QxNjg5YTA2ZjRlOThjY2Y5MWZiZTJlZWU3ZDZlYzc5MWQzMjk2MWI2NTE4NDM3OGViOGE2YzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -205,10 +205,24 @@
           "version": "repo-lines-v1:sha256:4112401745d72afc646cf87e6cbf9d884643494d88808b00ed7491bc8c83315c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmYTZhMTQyODE5MjU0ZTIwN2UyOWFlNzM5ZDNiYjk1NTAwMzdkODI2YmMwMTdlODU0ZGMxMGRmYTk1MmQ2ZWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIyZDEwN2Q2ZDg2Yjc0MjY4NDJmMTRiOGNmNzljMjI4YTI5Zjc0MjQ3ZjU1YzljZGJmZWUzM2NjOTJhOWY2Y2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_5d126c5b723d40b3a1d264ebd196eaea",
+      "statement": "A preparing class or dungeon page's publish status says the menu takes visitors to its Squarespace page when it has a legacyHref, and otherwise that the menu keeps its usual link or leaves it out.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/admin/publish-status.ts#L42-L52",
+          "version": "repo-lines-v1:sha256:28814d31a6a2ac5a201bf6d4a24d21b4ac2089940a7e6e0bf3791af32db970ef:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3NjBiZmVmODVhZWE0NTRmZjBmNjBlNWIzZDIwM2ZjYzZmZWM0YjI4OTNlNjhkNTZmNjU0YWNjNjdmMjBhN2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZlZmY1NzQxYjhkYTQ3ZDZmNmNmZDNjMWNmNTMwNjFiZDdlMmJlYjEwN2EyMjc2OTcyN2U5ZjU3MGQ4ZTA1OTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjczNGIwMTA0MWI5MDAxNWIxNGU2OGFhYjllOGUwMjI1NzY5ZGVjYjRjOWIzMWQzMjk1OWY0YjdhMjQyZTJkYzMifQ"
+        },
+        {
+          "resource": "repo://src/lib/admin/strings.ts#L309-L320",
+          "version": "repo-lines-v1:sha256:7017519f4f413000fccf4fdf2c88167bcf7cfcd72ce580f903ff2cecf9923590:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhiNmQ1ZGQ3ZTZmYzdkYmY4NTFjYTczYzBlNjg1NzNkYjkzNzY3ZDQ5ZTlhMjQ1NjZiNjllNzIwN2MzZGMzYjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5NzhlMjUwM2I4Y2YzN2EwNmY3ZDZmMGEzYTZiNmZlMzU2OTFmYmNhYjUwYjg3NzVjYWI2ZmFiYzcxYzU5MmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFmMGZiODAyYWM2YmJlODExOTA3NzZkMjFmMTVhMDkxY2YyMjQzYTA1NDM1MDEwMzc3OTA1YjU2ZDNlNTkwMjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVhNzVlNjVjOTVkZjVmZTk2NDM2MjBmYzYyM2IyMjA0YzU3OGJhOWRhMWRjYWI3MDUwZDk1ZTdjZDY5NDcwYTQifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-16T11:00:16.891Z"
+    "at": "2026-11-17T11:00:20.552Z"
   }
 }

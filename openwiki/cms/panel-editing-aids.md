@@ -44,16 +44,18 @@ sources:
     resource: repo://src/lib/admin/row-labels.ts
   - id: openwiki-source-a15ada278555c9db5f9be92c
     resource: repo://src/lib/admin/step-outline.ts
+  - id: openwiki-source-589bfa7373a4546b25115691
+    resource: repo://src/lib/admin/strings.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
     resource: repo://src/payload.config.ts
   - id: openwiki-source-555fe60f70722da3d8252927
     resource: repo://tests/e2e/panel-ola2.spec.ts
   - id: openwiki-source-993f89ea470e9a6cd87d8250
     resource: repo://tests/e2e/panel-refrescos.spec.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
+    at: 2026-11-17T11:00:20.552Z
 ---
 
 # Panel dashboard and editing aids
@@ -62,12 +64,12 @@ Beyond roles, delete protection and locked fields (see [Admin panel](admin-panel
 
 ## «Pendiente», the dashboard (A-13)
 
-`src/payload.config.ts` replaces Payload's dashboard view with `Dashboard` (`src/components/admin/Dashboard.tsx`). Instead of the grid of collections, which the menu already has, it answers what to work on today. `readDashboard` (`src/lib/admin/dashboard.ts`) reads everything as the signed-in account (`overrideAccess: false`), so it shows what that account would see in the lists. It covers the six editorial collections (`EDITORIAL_COLLECTIONS`, standalone pages included) and returns four parts, each capped (`DASHBOARD_LIMITS`):
+`src/payload.config.ts` replaces Payload's dashboard view with `Dashboard` (`src/components/admin/Dashboard.tsx`). Instead of the grid of collections, which the menu already has, it answers what to work on today. `readDashboard` (`src/lib/admin/dashboard.ts`) reads everything as the signed-in account (`overrideAccess: false`), so it shows what that account would see in the lists. It covers the eight editorial collections (`EDITORIAL_COLLECTIONS`, standalone, class and dungeon pages included) and returns four parts, each capped (`DASHBOARD_LIMITS`):
 
 | Part | What it lists |
 |---|---|
 | «Borradores sin publicar» (8) | The latest drafts across the collections, newest first, marked «Nunca publicada» or «Cambios sin publicar» |
-| «En preparación» (5 per collection) | Published documents whose `state` is `preparing`, per collection, with a link to the filtered list. Achievement pages and metalogros can number in the hundreds, so they are counted and only the latest are shown; Dofus guides, checklists and standalone pages are few and read whole |
+| «En preparación» (5 per collection) | Published documents whose `state` is `preparing`, per collection, with a link to the filtered list. Achievement pages and metalogros can number in the hundreds, so they are counted and only the latest are shown; Dofus guides, checklists, standalone pages, class pages and dungeon pages are few and read whole |
 | «Guías de Dofus sin checklist» (12) | Dofus guides whose page has no checklist card, with a hint when a published checklist already points at that Dofus |
 | «Cambios recientes» (8) | The latest saved versions across the collections |
 
@@ -89,7 +91,7 @@ The client component fetches the published version from the REST API, because th
 |---|---|
 | `hidden` | in the trash, not saved yet, never published (a draft), or the check failed |
 | `loading` | the published version is still on its way |
-| `preparing` | the published version is «En preparación»; the text depends on the collection (an achievement page shows dimmed without a page, a checklist or a standalone page links to its Squarespace page or not) |
+| `preparing` | the published version is «En preparación»; the text depends on the collection (an achievement page shows dimmed without a page, a checklist or a standalone page links to its Squarespace page or not, and a class or dungeon page says whether the menu takes visitors to Torre's old site) |
 | `pending` | visible, with drafts saved after the published version |
 | `live` | visible, nothing pending |
 

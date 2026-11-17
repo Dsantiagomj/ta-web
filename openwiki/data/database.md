@@ -74,6 +74,10 @@ sources:
     resource: repo://src/migrations/20261115_182043_game_data_torre_corrections.ts
   - id: openwiki-source-5b463abd84facf2c65782464
     resource: repo://src/migrations/20261115_234449_quest_guide_reward_levels.ts
+  - id: openwiki-source-dd0d14c4c0ee3b94d824ef07
+    resource: repo://src/migrations/20261116_115937_navigation.ts
+  - id: openwiki-source-81c9fdc1fa2e4b7baf4bd6a7
+    resource: repo://src/migrations/20261116_122735_class_and_dungeon_pages.ts
   - id: openwiki-source-c306fbe28866186a2df852b4
     resource: repo://src/migrations/index.ts
   - id: openwiki-source-2c42ff828c6d8e213a2f7416
@@ -92,10 +96,10 @@ sources:
     resource: repo://tests/unit/database-url.test.ts
   - id: openwiki-source-da43a4e7d1afe009d8ad52b0
     resource: repo://tests/unit/migration-needs-group-select.test.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
+    at: 2026-11-17T11:00:20.552Z
 ---
 
 # Database and migrations
@@ -162,7 +166,7 @@ This means E2E and CI exercise the same path as production: an empty database pl
 
 ## Migrations
 
-Migrations live in `src/migrations/` and are listed in `src/migrations/index.ts`. Each has a `.ts` file with `up` and `down` (raw SQL through `db.execute(sql\`…\`)`) and a `.json` snapshot Payload uses to compute the next diff. There are forty-seven today:
+Migrations live in `src/migrations/` and are listed in `src/migrations/index.ts`. Each has a `.ts` file with `up` and `down` (raw SQL through `db.execute(sql\`…\`)`) and a `.json` snapshot Payload uses to compute the next diff. There are forty-nine today:
 
 - `20261103_030359_initial` creates the `users`, `users_sessions`, `media`, `media_variants`, `media_locales` and Payload system tables (`payload_kv`, `payload_locked_documents`, `payload_preferences`, `payload_migrations` and their relation tables).
 - `20261104_070541_quests` adds the [quests collection](../cms/collections.md): `quests` with a unique index on `dofus_id`, `quests_locales`, `quests_rels` (for `prerequisites`), `quests_start_positions` and `quests_start_positions_locales`, plus a `quests_id` column on `payload_locked_documents_rels`. Its `down` drops all of them. It does not drop the `payload_locked_documents_rels_quests_fk` constraint separately, because `DROP TABLE "quests" CASCADE` already removes it and a second drop would make the rollback fail.
@@ -209,6 +213,8 @@ Migrations live in `src/migrations/` and are listed in `src/migrations/index.ts`
   - `20261115_211541_slug_redirects`: the `redirects` table (see [Redirects, sitemap and robots](../operations/redirects-and-seo.md)).
   - `20261115_213351_game_data_refreshes`: the refresh log (see [DofusDB game data refresh](dofusdb-refresh.md)).
   - `20261115_215951_site_copy`: the `site_settings` and `index_texts` globals with their locales (see [Site settings and index texts](../cms/site-copy.md)).
+  - `20261116_115937_navigation`: the `navigation` global with its `navigation_sections` rows and their locales, and `navigation_rels` for the featured Dofus (see [Site settings, index texts and navigation](../cms/site-copy.md)).
+  - `20261116_122735_class_and_dungeon_pages`: the `class_pages` and `dungeon_pages` collections with their build rows, body block tables and version tables (see [Class and dungeon pages](../pages/class-and-dungeon-pages.md)).
 
 Every migration must roll back cleanly: if a `down` fails, a bad deploy has no way back. `tests/integration/migrations.test.ts` checks this. It runs the Payload CLI, `pnpm payload migrate:down` and then `pnpm payload migrate`, against the integration database with `DATABASE_CONNECTION=direct`. `migrate:down` reverts the last batch, which in the test database is every migration, newest first, and `migrate` applies them again, so the database ends as it started; the test asserts the output names the latest migration (the last entry in `src/migrations/index.ts`). Before rolling back it saves a checklist with a segment and an achievement row that use enum values added by later migrations (a «Nota» segment, an achievement «Hasta una misión»), because reverting the migration that added a value must not fail on rows that use it. It uses the CLI because Payload imports migration files with Node, not Vitest. It avoids `migrate:refresh`, which in Payload 3.92 rolls back oldest first and fails. When a command fails, the test rethrows with the CLI's stdout and stderr so the Postgres error is visible. Starting the CLI twice can pass the suite's 30 s default on a loaded machine, so this test has its own 180 s timeout.
 

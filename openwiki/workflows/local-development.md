@@ -44,6 +44,8 @@ sources:
     resource: repo://scripts/import/import-guides.ts
   - id: openwiki-source-8d7caf59736b532597a45b23
     resource: repo://scripts/import/import-pages.ts
+  - id: openwiki-source-53ddc95dcdb8a37d238a41f3
+    resource: repo://scripts/import/import-section-pages.ts
   - id: openwiki-source-95f46342bb37caacc4ce1dbc
     resource: repo://scripts/lhci.ts
   - id: openwiki-source-52bd7f492006181f268b8ce3
@@ -62,12 +64,14 @@ sources:
     resource: repo://src/lib/dofusdb/client.ts
   - id: openwiki-source-4ce5bfd40fc86e2e8680d71f
     resource: repo://src/lib/dofusdb/refresh-quests.ts
+  - id: openwiki-source-4cd5acba535d7e293dbbf2dd
+    resource: repo://src/lib/site-copy/seed.ts
   - id: openwiki-source-f34ac1e549d94dc3ac475ae4
     resource: repo://src/proxy.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
+    at: 2026-11-17T11:00:20.552Z
 ---
 
 # Local development
@@ -129,8 +133,9 @@ Commit both with the change. CI fails when `src/payload-types.ts` is stale. Afte
 | `pnpm import:checklist-cards --from <silvestre-checklist> [--apply] [--remote] [--production]` | Brings the poster art of the old checklists hub: each checklist's scene, NPC and framing, and the scene and egg of the «???» teaser, uploaded to `media` once. Keeps what Torre changed in the panel. Run after `pnpm import:checklists`; dry run without `--apply`. See [Checklists index](../checklists/checklists-index.md#card-art-import) |
 | `pnpm import:achievement-prose [--from <dir>] [--apply] [--remote] [--production]` | Copies the prose of each achievement page's Squarespace page (introduction and closing, with screenshots and videos in place) onto the achievement pages, without overwriting what Torre wrote in the panel; `--from` reads cached `<dir>/<slug>.html`. Dry run without `--apply`. See [Achievement prose import](../data/achievement-prose-import.md) |
 | `pnpm import:pages [--from <dir>] [--apply] [--remote] [--production]` | Brings Torre's loose Squarespace pages (emotes, how-tos, the legal pages) into `pages`, creating the missing ones and, on a rerun, leaving alone what Torre changed. Dry run without `--apply`. See [Standalone pages](../pages/standalone-pages.md) |
+| `pnpm import:section-pages [--from <dir>] [--apply] [--remote] [--production]` | Brings Torre's class and dungeon pages from Squarespace into `class-pages` and `dungeon-pages` as drafts «En preparación», with the class builds and their links, and on a rerun leaves alone what Torre changed. Dry run without `--apply`. See [Class and dungeon pages](../pages/class-and-dungeon-pages.md) |
 | `pnpm guides:rewards`, `pnpm guides:rewards-dofusdb`, `pnpm guides:reward-typos`, `pnpm guides:shown-items` (each `[--apply] [--remote] [--production]`) | One-off maintenance of quest guides: fill the empty reward fields from Torre's text and DofusDB, prefer DofusDB's figure when Torre's is within 10 %, fix item-name typos in the rewards text, and correct «Necesitarás» lists that counted every «Enséñale» objective. Dry run without `--apply`; idempotent. See [Quest guide rewards](../data/guide-rewards.md) |
-| `pnpm seed:site-copy [--apply] [--remote] [--production]` | Writes the built-in site copy into every empty field of «Ajustes del sitio» and «Portada e índices», never a field with a value. Dry run without `--apply`. See [Site settings and index texts](../cms/site-copy.md) |
+| `pnpm seed:site-copy [--apply] [--remote] [--production]` | Writes the built-in site copy into every empty field of «Ajustes del sitio», «Portada e índices» and «Navegación» (and, with none chosen, the three default featured Dofus), never a field with a value. Dry run without `--apply`. See [Site settings, index texts and navigation](../cms/site-copy.md) |
 | `pnpm panel:block-thumbs [--url <origin>]` | Captures each frame of the «Bloques del panel» group of `/sistema` in Arcano dark as a 480 × 320 WebP in `public/img/panel/bloques`, the thumbnails of the panel's block picker. Needs `pnpm dev` running. See [Guide body blocks](../cms/blocks.md) |
 | `pnpm redirects:stubs [--from <origin>] [--dry-run] [--cutover]` | Rewrites the `stubs` section of the legacy redirect table from a deployed site's public API (dev by default). See [Legacy redirects, sitemap and robots.txt](../operations/redirects-and-seo.md#the-stubs-section) |
 | `pnpm guides:backfill <dir> [--apply] [--remote] [--production]` | Brings guides imported before two importer changes up to date: restores the closing sentence from the cached Squarespace page and turns monster lists into fight blocks. Dry run without `--apply`; run after `pnpm data:quests`. See [Squarespace import](../data/squarespace-import.md#bringing-imported-guides-up-to-date) |

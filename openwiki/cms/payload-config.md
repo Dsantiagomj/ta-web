@@ -8,6 +8,10 @@ sources:
     resource: repo://.gga
   - id: openwiki-source-50a18d054b596a7ed0eeffb0
     resource: repo://next.config.ts
+  - id: openwiki-source-1f1fccc1624794a21587226f
+    resource: repo://patches/payload%403.92.1.patch
+  - id: openwiki-source-40275cb92c3610938f16ade3
+    resource: repo://pnpm-workspace.yaml
   - id: openwiki-source-098744f35eb292781a6734eb
     resource: repo://src/app/(payload)/admin/importMap.js
   - id: openwiki-source-44aeca5f08eb84b9d5189371
@@ -34,10 +38,10 @@ sources:
     resource: repo://src/payload.config.ts
   - id: openwiki-source-98d5ddb014a0fd4d678f6f2a
     resource: repo://tsconfig.json
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
+    at: 2026-11-17T11:00:20.552Z
 ---
 
 # Payload CMS configuration
@@ -52,8 +56,8 @@ Payload 3 runs inside the Next.js process. There is one config, `src/payload.con
 | `admin.importMap.baseDir` | `src/` | Where `generate:importmap` resolves admin components |
 | `admin.dateFormat`, `admin.meta` | Spanish date format, title suffix and the site's icons | The panel carries Torrente Arcano's name and icons, not Payload's |
 | `admin.components` | `graphics.Logo`, `graphics.Icon` and `beforeLogin` from `PanelBrand`; `views.dashboard` (`Dashboard`) and `views.panelGuide` (`PanelGuide` at `/guia`); `afterNavLinks` (`PanelGuideNavLink`); `providers` (`PanelA11y`) | The emblem and a login welcome instead of Payload's logo, the «Pendiente» dashboard instead of the collection grid, the panel guide linked after the menu, and accessible names for Payload's controls. See [Admin panel](admin-panel.md) and [Panel dashboard and editing aids](panel-editing-aids.md) |
-| `collections` | `withPanelDescriptions([QuestGuides, AchievementPages, AchievementGroups, DofusGuides, Checklists, Pages, Media, Quests, Items, Monsters, Dungeons, Npcs, SubAreas, AchievementCategories, Achievements, GameDataRefreshes, Redirects, Users])` | One file per collection in `src/collections/`; `withPanelDescriptions` adds each collection's one-line description above its list. The order is the panel menu's: Torre's content first, then images, the DofusDB game data with its refresh log, the redirects and the panel accounts; each collection names its menu group in `admin.group`. See [Collections and access](collections.md) |
-| `globals` | `[DofusGuidesIndex, ChecklistsIndex, SiteSettings, IndexTexts]` | One file per global in `src/globals/`: the intro of the `/guias-dofus` index, the «???» teaser poster of `/checklists`, «Ajustes del sitio» (footer, social links, share defaults) and «Portada e índices» (home and index titles, leads and SEO). See [Dofus guides index and menu](../dofus-guides/dofus-guides-index.md), [Checklists index](../checklists/checklists-index.md) and [Site settings and index texts](site-copy.md) |
+| `collections` | `withPanelDescriptions([QuestGuides, AchievementPages, AchievementGroups, DofusGuides, Checklists, Pages, ClassPages, DungeonPages, Media, Quests, Items, Monsters, Dungeons, Npcs, SubAreas, AchievementCategories, Achievements, GameDataRefreshes, Redirects, Users])` | One file per collection in `src/collections/`; `withPanelDescriptions` adds each collection's one-line description above its list. The order is the panel menu's: Torre's content first, then images, the DofusDB game data with its refresh log, the redirects and the panel accounts; each collection names its menu group in `admin.group`. See [Collections and access](collections.md) |
+| `globals` | `[DofusGuidesIndex, ChecklistsIndex, SiteSettings, IndexTexts, Navigation]` | One file per global in `src/globals/`: the intro of the `/guias-dofus` index, the «???» teaser poster of `/checklists`, «Ajustes del sitio» (footer, social links, share defaults) «Portada e índices» (home and index titles, leads and SEO) and «Navegación» (the menu sections and the featured Dofus). See [Dofus guides index and menu](../dofus-guides/dofus-guides-index.md), [Checklists index](../checklists/checklists-index.md) and [Site settings and index texts](site-copy.md) |
 | `editor` | `lexicalEditor()` with the panel's Spanish placeholder | Default rich text editor; the guide body blocks use it (see [Guide body blocks](blocks.md)). Achievement page prose uses `proseEditor`, the same editor plus a YouTube block |
 | `endpoints` | `[healthEndpoint, readyEndpoint, searchIndexEndpoint, dofusDbValuesEndpoint, gameDataRefreshEndpoint]` | Custom endpoints, mounted under `/api`: `/api/health`, `/api/ready`, `/api/search/guides`, `/api/dofusdb-values/:source/:id` and `POST /api/game-data/refresh` (the admin-only «Traer ahora», see [DofusDB game data refresh](../data/dofusdb-refresh.md)). The two checklist endpoints (details and poster progress) are mounted by their collection instead |
 | `i18n` | Spanish only, fallback `es`, with `panelStrings.translations` | The panel UI is in Spanish; some of Payload's own words are overridden so the header status only speaks of publishing |
@@ -62,7 +66,7 @@ Payload 3 runs inside the Next.js process. There is one config, `src/payload.con
 | `typescript.outputFile` | `src/payload-types.ts` | Generated types, committed |
 | `db` | `postgresAdapter` | See below |
 | `onInit` | Pool error listener | See below |
-| `sharp` | `sharp` | Reads image dimensions on upload |
+| `sharp` | `sharp` | Reads image dimensions and generates the image sizes on upload. A pnpm patch (`patches/payload@3.92.1.patch`, listed under `patchedDependencies` in `pnpm-workspace.yaml`) makes Payload skip the AVIF sizes of an animated GIF, WebP or TIFF; see [Media storage](../media/storage.md) |
 | `plugins` | `[mediaStorage()]` | The S3/R2 storage adapter for `media` |
 
 ### Database adapter
@@ -119,7 +123,7 @@ The quest guide components are client components (`'use client'`) that read the 
 - **New custom endpoint**: add it under `src/endpoints/` and to `endpoints`. It is served under `/api/<path>` by the generated catch-all route.
 - **New admin component**: put it under `src/components/`, reference it by path from a collection or the config, then run `pnpm generate:importmap` and commit `importMap.js`.
 - **New guide body block**: add it under `src/blocks/` and to the collection's `blocks` field. See [Guide body blocks](blocks.md).
-- **New global**: add a file under `src/globals/`, add it to `globals`, then create a migration and regenerate types. `src/globals/` holds `DofusGuidesIndex`, `ChecklistsIndex`, `SiteSettings` and `IndexTexts` today.
+- **New global**: add a file under `src/globals/`, add it to `globals`, then create a migration and regenerate types. `src/globals/` holds `DofusGuidesIndex`, `ChecklistsIndex`, `SiteSettings`, `IndexTexts` and `Navigation` today.
 
 ## Related pages
 

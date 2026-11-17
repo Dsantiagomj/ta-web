@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:7dc139dbf0fb7ead7b545143130b8de5336a60a12f16be67f29a3ec376c495de",
+  "pageVersion": "sha256:40d71c96616b497367ece12d405e722bfdeacd130f19344db2f854f05400e351",
   "claims": [
     {
       "id": "claim_a1f066f59b4545ba84536e9305fee505",
@@ -148,19 +148,19 @@
     },
     {
       "id": "claim_d9b74f4cc20e4bbd833fb731a6ebf1f8",
-      "statement": "Quest guides, achievement pages, metalogros, Dofus guides, checklists and standalone pages share one root slug space: rejectSharedSlug rejects a slug another of the six collections already uses, counting the latest draft as well as stored documents.",
+      "statement": "Quest guides, achievement pages, metalogros, Dofus guides, checklists, standalone pages, class pages and dungeon pages share one root slug space: rejectSharedSlug rejects a slug another of the eight collections already uses, counting the latest draft as well as stored documents.",
       "evidence": [
         {
-          "resource": "repo://src/collections/root-slug.ts#L109-L128",
+          "resource": "repo://src/collections/root-slug.ts#L114-L133",
           "version": "repo-lines-v1:sha256:f8fd3b54e737caffee598414533e6c31abb7967eb0ac93e2c5691f8a159366b8:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJhZjlkYTI2NGJmYzFjMDIzMDkwYWUzMjc5ZGI1NDNmZmVkNzczNTE5OWQ3YWIzMzk1NDgxNjZiYjU2YWNjZDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQzZWRjYmZkYmE3NTg4NjQ5MzQ5YzU2YjM3NTNiZTQwYWFkNGQwZDJlZDJlM2ZhZWI4ZjA4NjUwMGU0YjczYzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://src/collections/root-slug.ts#L13-L38",
-          "version": "repo-lines-v1:sha256:a6f9d2d829b25b5301ad1a2674b0060d8e14fe01f56172e4a99900693e5c9d45:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFiMzBkOGQ1NmVlODFlNmUyMTIzOTAwNmJhZTdlODVlOTEzZjExNjgxOWE3ZmU4NGM2OTQyMWY2OWU5MDZiMGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk4MGU4MzNiMDdhZDIwY2Q5ZGM3ZmZiOTc2NzNiMTNmMmZlZGE0OTE4YTkzODU5MjUxNzhiZmRmYTI2MDljNGIifQ"
+          "resource": "repo://src/collections/root-slug.ts#L13-L43",
+          "version": "repo-lines-v1:sha256:a59d9a8548ba52e72c6dedcf71396cd52285ce3cb570374e08e543b5570fc529:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFiMzBkOGQ1NmVlODFlNmUyMTIzOTAwNmJhZTdlODVlOTEzZjExNjgxOWE3ZmU4NGM2OTQyMWY2OWU5MDZiMGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk4MGU4MzNiMDdhZDIwY2Q5ZGM3ZmZiOTc2NzNiMTNmMmZlZGE0OTE4YTkzODU5MjUxNzhiZmRmYTI2MDljNGIifQ"
         },
         {
-          "resource": "repo://src/collections/root-slug.ts#L45-L91",
-          "version": "repo-lines-v1:sha256:d6eaa53d40f9b3a23f9f2595d87b437042ba796df1c75631ebe1e1558fec6f66:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE1ZmY4YjQzNzA1YzYwMmI5MWYyYWY5MjEzN2JmODIwMDAyYmMzNWYxNjkyNGQ3YjA0MGEzOTEzMDU2ODdmNWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI5ZTZkMDA3NjZmMmE4ZDU4OGNmMThmOTgzN2RhZmYzMDZhYzM1ZTFkMjgzODIxYWFhN2IwZDM1NzhhNGQ0Y2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ2NTcyNDE1MmU5MDQ1MzRhZDMxNmJiYjgwZjEwZTRjMzBiYWM1ZmU4MWIzMGQ0Y2FkZmY5YWZjZTQxM2Y4NTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM1MjYwZTVhMDk4NThiNmU1ZTczMjZiMjMxYzY5ODYzYWJkNGZmZjRjZjgzN2E4ZGFkOWU1MjMwYzE4Y2VjOWMifQ"
+          "resource": "repo://src/collections/root-slug.ts#L53-L91",
+          "version": "repo-lines-v1:sha256:b2d603b96ba037f37a9f8860a02524d5d9b516eb9e1d24f347a031b013de8fe4:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI3YzRjNjcyZjgzYzVkMmRjODM4M2Y1OTVhNDRiYmRmNTRlZmIwNTU2NTJiZTViODc1YWY0ZmVjNjQ5YTFkNDAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNhNjJhOGM5MWQ4OWVlNDMwNjRlNzNiMDIzMjNjZTk0YTc0Yjk5YjgyMmFlNWE4ZWQ0ODA1MDQyNjcxYmFjMWQifQ"
         }
       ]
     },
@@ -365,6 +365,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-16T11:00:16.891Z"
+    "at": "2026-11-17T11:00:20.552Z"
   }
 }

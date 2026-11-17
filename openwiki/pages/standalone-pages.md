@@ -3,9 +3,6 @@ type: feature
 title: Standalone pages
 description: The `pages` collection for Torre's loose pages (emotes, how-tos, the legal pages), how `/<slug>` renders them or sends an «En preparación» page to Squarespace, their SEO, breadcrumb, cache and footer links, and `pnpm import:pages`, which brings them from Squarespace.
 tags: [pages, payload, frontend, squarespace, import, seo]
-verified:
-  - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
 sources:
   - id: openwiki-source-5b54a58d1b51cd490b0e7162
     resource: repo://package.json
@@ -17,6 +14,8 @@ sources:
     resource: repo://scripts/import/pages/convert.ts
   - id: openwiki-source-88197bfd87b02251ea3cb861
     resource: repo://scripts/import/pages/load.ts
+  - id: openwiki-source-7295db4ccc1c910ecc16cce8
+    resource: repo://scripts/import/section-pages/load.ts
   - id: openwiki-source-85326c2edd09ecaf8cb69ad7
     resource: repo://src/app/(frontend)/%5Bslug%5D/page-data.ts
   - id: openwiki-source-cb49e3c4d1015b8673e71275
@@ -37,7 +36,10 @@ sources:
     resource: repo://src/lib/pages/queries.ts
   - id: openwiki-source-fb8279296835a1a58ec3f427
     resource: repo://src/lib/site/legacy.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
+verified:
+  - by: openwiki/0.4.3
+    at: 2026-11-17T11:00:20.552Z
 ---
 
 # Standalone pages
@@ -89,9 +91,11 @@ The `[slug]` route tries, in order, a quest guide, an achievement page, a Dofus 
 `pnpm import:pages [--from <dir>] [--apply] [--remote] [--production]`:
 
 - It downloads each page from the Squarespace site, or reads `<dir>/<slug>.html` with `--from`.
-- `convertPage` (`pages/convert.ts`) keeps Torre's text, screenshots and videos in his order and drops empty spacer paragraphs. The first heading becomes the title only when the catalog title is that heading with other capitals; otherwise the heading stays in the body and is reported. Links to his own site stay relative only where this site serves the path. The Squarespace SEO title and description are kept when he wrote them.
+- `convertPage` (`pages/convert.ts`) keeps Torre's text, screenshots and videos in his order and drops empty spacer paragraphs. The first heading becomes the title only when the catalog title is that heading with other capitals; otherwise the heading stays in the body and is reported. Links to his own site stay relative only where this site serves the path. The Squarespace SEO title and description are kept when he wrote them. An image piece also keeps the link Torre put on it, which the class pages' builds use.
 - `loadSitePages` (`pages/load.ts`) creates the missing pages in the catalog's state (the legal pages with their `legacyHref`), never changes `state`, rewrites only a field that still holds what the last import wrote (`importSnapshot`), leaves alone a page with an unpublished draft, and skips a slug another collection already uses. Screenshots go to Media once, reused by their source URL.
 - Without `--apply` it only counts and reports. It refuses a remote database without `--remote` and production without `--production`.
+
+The class and dungeon import reuses this conversion and the loader's helpers (`buildBody`, `same`, `isEmpty`, `slugRejected` and `takenElsewhere`, which takes the importing collection so it checks every other root collection). See [Class and dungeon pages](class-and-dungeon-pages.md).
 
 ## Tests
 

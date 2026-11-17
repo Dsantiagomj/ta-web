@@ -5,7 +5,7 @@ description: The four achievement collections (DofusDB achievements and categori
 tags: [achievements, payload, collections, dofusdb, autofill, slugs]
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
+    at: 2026-11-17T11:00:20.552Z
 sources:
   - id: openwiki-source-b086b6b1802f507b0e5a4c8f
     resource: repo://scripts/dungeon-notes.ts
@@ -61,7 +61,7 @@ sources:
     resource: repo://tests/integration/legacy-slugs.test.ts
   - id: openwiki-source-69a5fa7edb72294e823509c1
     resource: repo://tests/unit/achievement-dofusdb-values.test.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
 ---
 
 # Achievement data model
@@ -146,10 +146,10 @@ The client component reads the values through `GET /api/dofusdb-values/:source/:
 
 ## One slug space at the root
 
-Quest guides, achievement pages, metalogros, Dofus guides, checklists and standalone pages all live at `/<slug>` (metalogros keep Torre's `metalogro-…` slugs, Dofus guides the slugs of Torre's site, such as `dofus-abisal`, checklists slugs such as `checklist-nebuloso`, and pages slugs such as `aviso-legal`), so `src/collections/root-slug.ts` treats them as one slug space (`ROOT_SLUG_COLLECTIONS`):
+Quest guides, achievement pages, metalogros, Dofus guides, checklists, standalone pages, class pages and dungeon pages all live, or will live, at `/<slug>` (metalogros keep Torre's `metalogro-…` slugs, Dofus guides the slugs of Torre's site, such as `dofus-abisal`, checklists slugs such as `checklist-nebuloso`, pages slugs such as `aviso-legal`, and class and dungeon pages Torre's slugs such as `feca-1` and `mazmorra-crunchidor`, although they have no public page yet), so `src/collections/root-slug.ts` treats them as one slug space (`ROOT_SLUG_COLLECTIONS`):
 
 - Each collection keeps its own `slug` unique in the database.
-- `rejectSharedSlug(collection)`, a `beforeValidate` hook on all six, rejects a slug another of the six already uses, naming which kind of page owns it. See [Dofus guide data model](../dofus-guides/dofus-guide-data.md), [Checklist data](../checklists/checklist-data.md) and [Standalone pages](../pages/standalone-pages.md) for the others.
+- `rejectSharedSlug(collection)`, a `beforeValidate` hook on all eight, rejects a slug another of the eight already uses, naming which kind of page owns it. See [Dofus guide data model](../dofus-guides/dofus-guide-data.md), [Checklist data](../checklists/checklist-data.md), [Standalone pages](../pages/standalone-pages.md) and [Class and dungeon pages](../pages/class-and-dungeon-pages.md) for the others.
 - The same hook rejects a slug that is a source in the legacy redirect table, because `src/proxy.ts` would answer that URL before the page (see [Redirects, sitemap and robots](../operations/redirects-and-seo.md)). Metalogros are exempt: their slug is the anchor of their panel on `/metalogros`, not a page.
 - A slug counts as used when a stored document has it or when the latest draft does, so publishing a renamed draft cannot collide later.
 - `isRootSlugTaken` also treats reserved route segments (`/sistema`, `/metalogros`, `/guias-dofus`, `/checklists` and the others in `src/lib/guides/slug.ts`) and, except for metalogros, redirect table sources as taken, so slug autofill skips them.

@@ -62,10 +62,10 @@ sources:
     resource: repo://tests/unit/slug-redirects.test.ts
   - id: openwiki-source-bdd83d0bfa58ad00bbe25676
     resource: repo://tests/unit/stub-redirects.test.ts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
+    at: 2026-11-17T11:00:20.552Z
 ---
 
 # Legacy redirects, sitemap and robots.txt
@@ -142,7 +142,7 @@ Rerun it after Torre publishes achievement pages. On cutover day it runs against
 
 ## Changed slugs: the `redirects` collection
 
-The legacy table is code; slugs Torre changes after cutover live in data. When a published page of a collection with its own page (`SLUG_REDIRECT_COLLECTIONS` in `src/lib/redirects/slug-redirects.ts`: quest guides, achievement pages, Dofus guides, checklists and standalone pages; not metalogros, whose slug is an anchor) gets a new slug, `/<old>` answers a 308 to `/<new>`.
+The legacy table is code; slugs Torre changes after cutover live in data. When a published page of a collection with its own page (`SLUG_REDIRECT_COLLECTIONS` in `src/lib/redirects/slug-redirects.ts`: quest guides, achievement pages, Dofus guides, checklists, standalone pages, and the class and dungeon pages, whose public pages are still to come; not metalogros, whose slug is an anchor) gets a new slug, `/<old>` answers a 308 to `/<new>`.
 
 - **Recording a move.** Each of those collections runs `trackSlugMove` (`beforeChange`) and `applySlugMove` (`afterChange`) from `src/collections/slug-redirects.ts`. `trackSlugMove` reads the stored row, which holds the published version (saving a draft only writes versions), and `slugMove` reports a move only when the save publishes with a slug different from the one that was published; a draft or a page never published has no address to keep. `applySlugMove`, after a publish, deletes any row whose `from` is the page's new slug (a page that publishes an old address takes it back) and, for a move, creates or updates the row `from: old, to: new` with `auto: true`. An old address that can no longer redirect (now a site route, or answered first by the legacy table) is skipped and never blocks publishing.
 - **The collection.** `redirects` (`src/collections/Redirects.ts`, «Redirecciones» in «Ajustes») lets Torre see and edit the rows; anyone reads it, panel accounts write it. `validateRow` lowercases both slugs, rejects an invalid slug or one the legacy table owns (`redirectProblem`), rejects a loop, rejects a `from` that a published page still uses (the page would always win), and shortens the target to the end of any chain (`chainEnd`: A → B with B → C is saved as A → C). `collapseChains` then points rows that led to this row's `from` at its `to`, so the table has no chains. Every change expires the `redirects` cache tag.

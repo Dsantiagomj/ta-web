@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:6c974fd68058b5931d80815d91fd277de16d8ae92795c6bc73bbb4f63a6fa424",
+  "pageVersion": "sha256:32bf4bd54ca4e00e21790ae7f1fef7e7c3aabc8289b92c150e6f508a2432ac8a",
   "claims": [
     {
       "id": "claim_764b0485963845c99d60b85472ceccba",
@@ -863,8 +863,8 @@
           "version": "repo-file-v1:sha256:23383c20f9d615df837e1fe0c3aeeb2ef365e1f263211c37955b357830ed530c"
         },
         {
-          "resource": "repo://tests/e2e/panel.spec.ts#L40-L244",
-          "version": "repo-lines-v1:sha256:d76250b178220b9a97d82677ec0dd1d7676fcf001d6572499f25bf9a3346bded:eyJzZWxlY3RlZExpbmVDb3VudCI6MjA1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJhOTA0NjkwY2Y0OTFiMWZhNmJlODE3NTA2MmRmNDQ3Y2YyOTkwODkxNmUyNjdhOTlkYWUxMTRlNjFiMzk0YzFlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIwMjNlYmRmMzY3OWY4OGJjNmMxZTkwM2Y1YTJhZjIwNmEzMTMxNDgyMGViNzU2ODE5OTU4ZmU2N2FiYWIxMjY2IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+          "resource": "repo://tests/e2e/panel.spec.ts#L40-L246",
+          "version": "repo-lines-v1:sha256:d000bbcd3161f9c0d58c84d31c762b14474757f2297d309fa35044b1dafb1a66:eyJzZWxlY3RlZExpbmVDb3VudCI6MjA3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJhOTA0NjkwY2Y0OTFiMWZhNmJlODE3NTA2MmRmNDQ3Y2YyOTkwODkxNmUyNjdhOTlkYWUxMTRlNjFiMzk0YzFlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIwMjNlYmRmMzY3OWY4OGJjNmMxZTkwM2Y1YTJhZjIwNmEzMTMxNDgyMGViNzU2ODE5OTU4ZmU2N2FiYWIxMjY2IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
         },
         {
           "resource": "repo://tests/integration/delete-references.test.ts",
@@ -941,10 +941,20 @@
           "version": "repo-lines-v1:sha256:4112401745d72afc646cf87e6cbf9d884643494d88808b00ed7491bc8c83315c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmYTZhMTQyODE5MjU0ZTIwN2UyOWFlNzM5ZDNiYjk1NTAwMzdkODI2YmMwMTdlODU0ZGMxMGRmYTk1MmQ2ZWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIyZDEwN2Q2ZDg2Yjc0MjY4NDJmMTRiOGNmNzljMjI4YTI5Zjc0MjQ3ZjU1YzljZGJmZWUzM2NjOTJhOWY2Y2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
+    },
+    {
+      "id": "claim_6b29bd02494a4339afef2a010c22db40",
+      "statement": "The panel-navegacion E2E spec changes the Dofus phrase of the Navegación global in the panel, checks the mobile menu shows it, and restores the built-in navigation afterwards.",
+      "evidence": [
+        {
+          "resource": "repo://tests/e2e/panel-navegacion.spec.ts#L22-L45",
+          "version": "repo-lines-v1:sha256:1fe8d88a7c35ab78b0f2b1a99165713d18a241d95908bee11b27d3857b78ed5c:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhY2NlNDNhM2VhODk2NDkzZDRmZjEzMzQ3MDE4NGYxOTllZGE5YjRmYTM1ZDZhYjE0ZWZmMWMxOTM4YWE0OGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ2OWUzNGQyMWI4N2E3ZThhNGI1Y2ViMzZkNDMzMDJlMjlhMTc5ODFlYTgwZDU5YTRiYTkyNGU5MmVjYmZlNDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-16T11:00:16.891Z"
+    "at": "2026-11-17T11:00:20.552Z"
   }
 }

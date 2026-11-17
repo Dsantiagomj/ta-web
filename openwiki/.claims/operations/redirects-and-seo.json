@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:2f9dc68b35a824e5cbb882cbec9e3cda6b733d49febc68d060d22bfa801fa3ff",
+  "pageVersion": "sha256:7ec2658eebac8d4357ac3e89cd2cde2071c91c71763f891a903bf2f6c9649196",
   "claims": [
     {
       "id": "claim_71d31459773d4adb9c99087735a1162c",
@@ -244,19 +244,19 @@
     },
     {
       "id": "claim_ca8c222cfdce4421ba32928451a8d9ad",
-      "statement": "When a published page of quest guides, achievement pages, Dofus guides, checklists or standalone pages is published with a different slug, the slug move hooks store a redirects row from the old slug to the new one marked auto, and any row whose source is the newly published slug is deleted.",
+      "statement": "When a published page of quest guides, achievement pages, Dofus guides, checklists, standalone pages, class pages or dungeon pages is published with a different slug, the slug move hooks store a redirects row from the old slug to the new one marked auto, and any row whose source is the newly published slug is deleted.",
       "evidence": [
         {
           "resource": "repo://src/collections/slug-redirects.ts#L1-L99",
           "version": "repo-lines-v1:sha256:dce23d0fbfc0232721486f55e0408067f9b7f0900f3af28d672ef1ecb8e8e645:eyJzZWxlY3RlZExpbmVDb3VudCI6OTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhNjcwNWQ3NDQ4NTc4NzUzYmJlZTE2ODlmMjhhYmU2OGJiN2Q4MmE4ZTZjMjNjZDZlNTQ1NDY0MjRkNDFhNDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://src/lib/redirects/slug-redirects.ts#L12-L24",
-          "version": "repo-lines-v1:sha256:d7fa7212a7646840aeb5300a47a9e430be56425d23395b08f0ff1eec6f6b722f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI1ZmUyZjI5YjkwMmQyMmRkNDViYjhhN2NjYTQ5Y2NjMDY0YzcwZTQzNTY0ZmNmMGEzMDc2MGQ3NzQxMTJkZGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllMDVhZDAxNmEwMjZjZmEyMTNiOGFmMGEzNGEwNDllOTg3YmE4MzNkNjJiNTg5MTY4OWI5M2Y0MDI5NjMwNTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdhNjM5YzAxNDQ2NWZjNzdiYjA4ZTQ1YmQyZTYwMGE5Mzc2OWI1ZmY1OWMxNTQ4MjM2MTg1NGZjMTk5MWU1MGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI4MjVkNmRiYThkYThhMGVlYzA4YjllY2NiNDNhYzcwOTkxYjI3OWRiZjU4MzZlMmY0ZTViMjYzYWVjMGRlNDQifQ"
+          "resource": "repo://src/lib/redirects/slug-redirects.ts#L11-L24",
+          "version": "repo-lines-v1:sha256:d55246df7e69ce4e5738e1f7b04376d9485e059570abf495a71828ac918b123c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM3MWY5MTM1MGI0MjFlNzliODY4OTlmYzQ5NTA4MTVkY2JmNjRmMjQzYjk5Yzg0ZjllNTMzN2QzNDlhMjY5ODciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgyMTUxZTBkNWQzNjgzYWM2ZDBiYTNiMTFiNzI2OWI5NmE0NzM0ZGU3ZGVmZDkzMTgzNDY2MGQyODc2M2RkZTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJlOThkZmM3NTk2MGZhZjM3MDhmYWMwMWI2OWViYzE5YzA4MGQ2NWE2YTA1OTMxMGM0ZGE1ZDc0Y2JkZDE1MDkifQ"
         },
         {
           "resource": "repo://src/lib/redirects/slug-redirects.ts#L82-L100",
-          "version": "repo-lines-v1:sha256:da0bf9134708794f4efbfafebf53fda4825d78d9b4b2d1a286a2405cb20deebe:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0NWRhNDQwZDA3Y2U0MGI0MWY5M2YzNGYwMmNlOGY0YzFhMTQyNjRlYTcyNTIyYWZmYjNkYmQ4N2MyNjU4MTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg0ZmI1Yjc4ZmE2N2I3NGRjYTc5YzQwZDgxNTZmZTI0Y2VlYWMxMDA1ZDQ0NTAyZDU4NjVjM2RlNTMxMjI0NmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:cce993fc3eedcf613a48bd411a1bfa55a6b143830fde69da8f61c247ea47b110:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImViMzgyMjQ2MDJhZmYzMDk5NjQyZjliNWU0ZDNlZTZlMDRhYmYzNTQ0MmI0NDRhOWFlNGY4ZDJlZjE1NTQ0MTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiOTMyZDIxZjIwNzYyODA1ZGE4MjEwZjViMzRmYTM1MmUzODk5NzM3NzFmMDkzMTMzOTg3MjI2ODhjMTljNzIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZiNzczZmYyZTkzOTc0MTJhYmNjODU2Nzg0MTc2MTE3ZjE5MWE3ODBkMTFjNzExYjk1MDhiYzdlZGMyMjhiY2QifQ"
         },
         {
           "resource": "repo://tests/integration/slug-redirects.test.ts#L1-L227",
@@ -303,6 +303,6 @@
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-16T11:00:16.891Z"
+    "at": "2026-11-17T11:00:20.552Z"
   }
 }

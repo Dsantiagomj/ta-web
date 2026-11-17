@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ac594e8a7b365bc1f569867f298967609d8ac5de0304b9b81b7df21d9a08b3ba",
+  "pageVersion": "sha256:09e33712755b3e046ebd7d21cc9c3b4385ef8efaa70b2d64358e62d897635549",
   "claims": [
     {
       "id": "claim_2d93ccec07cb4611835a5c6ca78e0fdc",
@@ -79,16 +79,16 @@
       "statement": "readSiteSettings and readIndexTexts read the globals as a visitor, and the frontend caches both reads under the site-copy tag with a 600-second revalidate.",
       "evidence": [
         {
-          "resource": "repo://src/app/(frontend)/site-data.ts#L62-L75",
-          "version": "repo-lines-v1:sha256:ed99fafe26bfdb58a9105398d7c2eeefa18697b9872a490804a83cb4edd04156:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJjOTc4OTFmNTFiZjU5MjQ1NDAzMTYxNDE4ZGIzZDgyODU4YTVkNWJkNGQ4NTQ3OGU1NjU1MmJjNDVlM2UzOGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjczZTgxNzcwMjU5NTQ4OGIxMTYzZTg3NmZjMWFjMTliNjI2YzYzNmNiOGY5ZmYxNmRhYjZhMTEyMjVkODk5MDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/app/(frontend)/site-data.ts#L79-L92",
+          "version": "repo-lines-v1:sha256:ed99fafe26bfdb58a9105398d7c2eeefa18697b9872a490804a83cb4edd04156:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJjOTc4OTFmNTFiZjU5MjQ1NDAzMTYxNDE4ZGIzZDgyODU4YTVkNWJkNGQ4NTQ3OGU1NjU1MmJjNDVlM2UzOGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMxYWZiYzg4OWNkMTIyZjA5NmNkMTYxNzE5YzIxODRhMzQ4OTk0ODg2YTk1MTcyOGM3ZjE5OWU4ZjBkZDY4MzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZkZTM3ZjAzZDM3MWRlNjM0ZWNhYTA3YTMxNjEyYjViYWYwMzkxNWY5ZWRmMjRjOTZiMGNhNWUyMDliNDM5MGMifQ"
         },
         {
           "resource": "repo://src/lib/site-copy/cache.ts#L1-L9",
           "version": "repo-lines-v1:sha256:44ec8da1b882783e664001ba9729634537290d4c89e04912f10fb9313c516192:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTA3ZjQwMDJmYTU5ODVjZjJkMzdlZWNiODFkYzI4MmI0OWNlZTJlNThhYmQ5ZjQ3OGQ3ZTQ1NzE0NGVhMTgxMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWQzZTk5YmRjYjExZjFlMDk5MjY0OTFmMTM2MzhjYWM4NDEzNTc5Y2Q0NDlhZDM1ODY5NDI2YTdiNWRkZWExZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
         },
         {
-          "resource": "repo://src/lib/site-copy/queries.ts#L1-L20",
-          "version": "repo-lines-v1:sha256:5bf29fd3e1e4e9ab5407fd4f26c05e0e914bd5ff0a411852c7d9066caced56d8:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5YWQ0Yzc1YmIzOTlhZTAxOTM0ZjYwZGQ0ODQ5YmIyYjJkOWUwMjk2OWU3M2IzMDNmNjFmYmJhMjE3ZDYxN2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/lib/site-copy/queries.ts#L1-L21",
+          "version": "repo-lines-v1:sha256:2e8c974bb5ae33104a803103c4ffe8ebdb638742d02771c90d2e33dd2b7a2ec7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5YWQ0Yzc1YmIzOTlhZTAxOTM0ZjYwZGQ0ODQ5YmIyYjJkOWUwMjk2OWU3M2IzMDNmNjFmYmJhMjE3ZDYxN2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY3OGY3MjRlM2Y1NTZmMmQwMDVhMzA4YTA2NzY4YzNlZDQ0NGM4MzAwYjI0ZmIxNmM0MTcxYmJjZTU4ZWJhNjgifQ"
         }
       ]
     },
@@ -104,7 +104,7 @@
     },
     {
       "id": "claim_a13bd3c9fa274fb69ebcf872c6cf9839",
-      "statement": "pnpm seed:site-copy refuses remote or production databases without their flags, lists the empty text fields of both globals in a dry run, and with --apply writes the built-in text only into empty fields, saving an unsaved global whole and leaving non-text fields alone.",
+      "statement": "pnpm seed:site-copy refuses remote or production databases without their flags, lists the empty text fields of the three globals in a dry run, and with --apply writes the built-in text only into empty fields, saving an unsaved global whole and leaving non-text fields alone.",
       "evidence": [
         {
           "resource": "repo://scripts/seed-site-copy.ts#L1-L34",
@@ -112,11 +112,11 @@
         },
         {
           "resource": "repo://src/lib/site-copy/resolve.ts#L34-L47",
-          "version": "repo-lines-v1:sha256:0549d67a1a10ec5590aef13f16b33c0a1b4dfa5732abccf27b6c6445f73bcaa0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYwNWMwYjQ4NDI5MDBjMjIyZWMyMTg3NDY2NDRlOTgzNmFlNjgyYjViMGFkMWI0MjhhZTFiMGE5NTU0NGRhNWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQzOWI1NmM5ZTc5NzEwMTdhOWI3ZGJmOGE2NjRlMTU5NWUzZTM5MWYxYjFiMTVlNTZkYzljNzFjZDVlMDRiNDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ0MjdhMDlmMzIzNmRiNDc1MjhmYThjY2Y3ZDRlZWI0OGY5Zjc5MjM2YWYyNWY2YTFmZTM1N2E4ZTAwZjZkM2QifQ"
+          "version": "repo-lines-v1:sha256:af15e200d7246aba1e20cf8794f5d9a5035a2ba4ffa3721699f669f9f2e588c9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MjY3OTM1ZmM2MzM0NjVkODQ4YjQwYTRlZDY5NjdlN2I3YTMyM2Y4MWNkNTNjMTEwYWUyMTAyOTY4N2FhMTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFiZTVhOGZiZTc5MTM1MGRlZDU4YjYwNDNkYmQwZTNhMzQxMTQ4ZDliMTZjMzk4MzMwZTdjZmUwOGVjYzYxN2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNiZGZhNGI2ZjQ4MTYwYmE3MWU2ZWE2YWFjOWFiNDg1YTk2M2FiY2RmN2E1YTljMjE3MDI4YTFjNmY4M2M0OWYifQ"
         },
         {
-          "resource": "repo://src/lib/site-copy/seed.ts#L1-L75",
-          "version": "repo-lines-v1:sha256:13be5f0c494b7f2e1e529f7bdff73d8cc5f9d0a04b08c8fc936f60b0fc826c28:eyJzZWxlY3RlZExpbmVDb3VudCI6NzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5YWQ0Yzc1YmIzOTlhZTAxOTM0ZjYwZGQ0ODQ5YmIyYjJkOWUwMjk2OWU3M2IzMDNmNjFmYmJhMjE3ZDYxN2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/lib/site-copy/seed.ts#L1-L99",
+          "version": "repo-lines-v1:sha256:a08a9737681f58f7a7e67c3cdc1aadd264be8030d913aacd57161d6e0d8e6346:eyJzZWxlY3RlZExpbmVDb3VudCI6OTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5YWQ0Yzc1YmIzOTlhZTAxOTM0ZjYwZGQ0ODQ5YmIyYjJkOWUwMjk2OWU3M2IzMDNmNjFmYmJhMjE3ZDYxN2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -125,8 +125,8 @@
       "statement": "The delete guard treats the site settings share image as a use of its media file.",
       "evidence": [
         {
-          "resource": "repo://src/collections/delete-guard.ts#L115-L119",
-          "version": "repo-lines-v1:sha256:13302335816356809b33e71d7ee1d2df1a0df2189b96c2f28de75e5b3621455e:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDUxNGZmM2QwNmM4OTljNzAyMTY3MDg1MWM3ZjViZDRjZTg0OTA1ODFhNWNlZDdlZjNkNTU4YmEzODg1NmNiYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMmYyNTNkYTIyMzE0NmFjZjRlODU0ZjU1ODA0NzIzNWVjNjllNGVkZGFkY2I2NGMzYWRlNmM4MDkzODA2YzA0YSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmQ5ODczYzMyMWJmZGFlNTgzMzMwMjZjYmE3NDA1MjVkMDUzMDQwZDg3ZDEwM2RhNjc4OWMxZTJjNTIzZjM5NiJ9"
+          "resource": "repo://src/collections/delete-guard.ts#L116-L124",
+          "version": "repo-lines-v1:sha256:b4c149fef63d52f87b04bfe0326b6686724a8d81f6eda5390ca08a00c2c41b3f:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNzQzYTE4YjViZTgwN2FiODFhZWE3MjNhODI2YWViMmU1NmI5NWM2OGNjY2FmOGMwMzZlNzk3YWQzNDA1ZGUzOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTY0ZDhjMDczNDI5ODkzMTAxNTc2ZDg4ZDk5MTI3ZTg5ZDY4OTFkM2IxN2U4OWRmMDJlYzlhZTcwNzA1ZDhiZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYmY3YTI0NzdhOWZkODc5ZWZkNmM0OWNmZGQxODM1MzJiZTg5ZDUzNjM1MTQzMjE4ZTNjYjgxZTdkNWJhNmIzZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDAzZTEwNGZkNWMyNzI0ZjU3ZTgwYTY2MjMxODNiZDkyZTJmMDVhNjk5ZmI2MjY3MDhmNmZjZDNkMzRmODc5YSJ9"
         }
       ]
     },
@@ -147,14 +147,96 @@
           "version": "repo-lines-v1:sha256:4752d459f44132ae839d5e7fb41415824e46b15e34eb30b2558092e4de88023f:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3OWU0OGUwZTk5YmIzNTQ2ZTMwMmJmMjc2ZTcwNGE5ZTUyZDUzYWExMjU0MDU5NDc0NTZjNTQ4ZmRmZTFjOGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAzMTE0YWYzYjZhNDg4YzcwYjhjYjE3OTBlN2U3MWFkYTJmYjA1N2IwYWRlMmQ2ZjNhOTI5ZjliNjA4ZWYxMWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFiYmI2YjI1MWQ5ZjNiNDUwYmI0MTVkOGY0YzRiMWNkMDkwMWVmYzI1ZjU4ZDQ3YjRlNGM4MDkzZDk3MjA5Y2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY0ZmYzZmY2NTVmMjM0ZDYwNDZmZTc2YWUzOTM1MTZhNWUzMzJjNDIyY2EzMWQxNjU1ZTNjNGEyMmIzN2FkYzIifQ"
         },
         {
-          "resource": "repo://tests/unit/site-copy-seed.test.ts#L21-L59",
-          "version": "repo-lines-v1:sha256:49efddcaecfbd35d9357bdf5be20619d4e07e14243957eb098f919ea9025ce84:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJkZTQ5OTJlZmUzNGRiMjFmZjhhNjU1ZDIwMmViODkzOWNkZGNjYjM2MDJjMmVlODdkNThiODQ1MjI0MDk4ZTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRmMjQ0YjVhOGE4OTA5Mjc4ZDM2NGRlNjA0ODc2YmI2Zjk4NWViOTg1NzJiNTg4ZmMwNjBmODhiODc1MzhhNTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://tests/unit/site-copy-seed.test.ts#L1-L177",
+          "version": "repo-lines-v1:sha256:095b0a99093fa6da036af67a60db01872dbf6b31df59cce2a59eaa78eef05539:eyJzZWxlY3RlZExpbmVDb3VudCI6MTc3LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIzOWFkNGM3NWJiMzk5YWUwMTkzNGY2MGRkNDg0OWJiMmIyZDllMDI5NjllNzNiMzAzZjYxZmJiYTIxN2Q2MTdkIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4NTgwYjc2NTE4ZGFlOTc5ZmFlYmQwMjM2N2EyOTI5MmE1MGQ5NzYwOTIyNTFhMzhhNmNlMzA4ODBiYTQyODI1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MCwicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_67853c83782848b58fa9f55ad5cfe812",
+      "statement": "The navigation global sits in Ajustes, is readable by anyone and updatable by panel accounts, expires the site-copy tag on save, and holds exactly one row per section (key, label, title, description, visible, soon) plus up to three featured Dofus guides, validated so no section is missing or repeated and the featured list has three guides or none.",
+      "evidence": [
+        {
+          "resource": "repo://src/globals/Navigation.ts#L61-L103",
+          "version": "repo-lines-v1:sha256:795533c14a455246b2feb5c183a60988b9114c9ec4cf044f19698fbfcfd55ab6:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFlMGUwOTJkYTUyNzgyOGE2ZDAyNTcyOTViZWZhMTgzNGNjYzQzNWEwMzQ5YTlkMDkxZmExZjUzYjE3YzUwZjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk4MjVlNDE1YWQ5MDgzOTYxOWVlNGJjM2QwZTU2OGMxY2ViZmMyOGZhODM4YzNiMDdiNDM0ODQ2ZmYxMjhlMjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/site-copy/navigation.ts#L102-L116",
+          "version": "repo-lines-v1:sha256:211e6cfb7af0c2f0a4939e544fc48b75ce63a4ef81a6bc8c609bd169d22688e6:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE1ZGI3MzYzM2I4ZDljODI3ZTY3ZGIzYmRiMjRjNzRjMjhjY2ZmMWNmYzE3Yjc2MDY0YTMwNmMzNmRhYTUwZDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJkZWFiYTgxNjNkZWE4ZGQzNGZjNDUwY2Q4YjVmZTdlNmMzODlmNWYxYmI3MmQ2MDljMTQ5NzZjODA1ZDNjMGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU1ZjFlZWU4MzdmY2IyYjA4M2JjOGI3OTNjNmQ0YzQyZmI0MWMzODdlMmNjZmEzYmZmOGFkNjc3MGEyMDJkY2MifQ"
+        },
+        {
+          "resource": "repo://tests/unit/navigation.test.ts#L115-L195",
+          "version": "repo-lines-v1:sha256:98fd3d732eb3f41374e237dd779d072b520df2847f6b74ea926832a2626c7692:eyJzZWxlY3RlZExpbmVDb3VudCI6ODEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ0MTY3YjI5NTRhNDhkOTAwOTQwNmIxMTYxMzE3YzA5ZjA0NjNiN2JhNjJhZWMxM2UwOTU1ZmZkYzA1MDBiNDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0b2babe322c24b9985095af2ab657fb5",
+      "statement": "resolveNavigation follows Torre's row order, ignores unknown or repeated keys, appends missing sections in the default order, fills empty texts and unset checkboxes from navigationDefaults, drops hidden sections, and falls back to the three default eggs when no featured guide is published with an egg.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/site-copy/defaults.ts#L121-L164",
+          "version": "repo-lines-v1:sha256:65963ab5f44eac40e261c5f21d4a65da8013b1086424cccdf43133d500f57ac6:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgxNWQxZjBjODA2NzRiYzk4OWQwOTFiNTNhYTNmYThmNzNhNTk4OWRlNzVhYzg2MTA0ZTA5NTg0OGRiZWE1ODYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE0ZjAxMzhlMzI4NmZjNWFjMzVkYTQxMDIzZjQ5ZDdkYjU2YzIwNDc2ZTA2MDI5NGE4ZWEyYjk2MjEzYTdlMGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU0NWQxOGJhMjljZDVjZWI5MDUzMjFhYjExMzExNWU0NmM4YzE2MDg0YjFkMjUwNDU3NjViOTI2MTRhODE3NzgifQ"
+        },
+        {
+          "resource": "repo://src/lib/site-copy/navigation.ts#L36-L100",
+          "version": "repo-lines-v1:sha256:f3376895688e9da083f8a9153f30519c8c3ab5a77dde6ab663039f9b5e6cc6c0:eyJzZWxlY3RlZExpbmVDb3VudCI6NjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3NGQyMTgzYjUyNWZiMjA5YWVhZGFjNWUzZDJmOTE3OWZlYzExNjBmZGRiMjVjZjA0ZjM2NTY3MmNhMTcxMjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFhMzYyMTRiZDdjODk0MDI0NDUzN2YxODY0MmJlOTI2YzljMWQ4NGM1MjFkYzBlZWFjZTczOTI2NDdkYTdmZmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQzZDY2YTQ2ZTk3ZWUzNTQ0Y2VjMmZhYzQ5ZjEzNjRhNjg4YWY4OGUwZDliMzk0NjQ2ZGMxNTUzOTRlN2Q5YzQifQ"
+        },
+        {
+          "resource": "repo://tests/unit/navigation.test.ts#L32-L113",
+          "version": "repo-lines-v1:sha256:2e064c67143003c95f14b376290d3f16b54c2fee3372bb6ea210fe4e49cb078d:eyJzZWxlY3RlZExpbmVDb3VudCI6ODIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU1Mjg3ZjZjMDZmZjYzYmE5NDY5YWJjYzAxMDMwM2FiYTcyOTZhMTBmNjQyOTc3NzcwMGVhZTQ1NTg5MTAyZDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRiMDgyMjAxNDA1MzE5ZWQwMzM4YjBkM2MxYzVmMzc0MmVkMjgyMWMyMTU4ZDIxY2Y5MDEwODgxZmQyM2UyNmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjcxYTZlZTdlNTU5MmVmMDMwNmM0YTExMzk2ZWIzNmUxNDM0NDAxYzgxOGYxZTNkMGIyYmY5MTgwMDU2ZDM1YmEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b9ef685bda1048aca9070f9f5bb2a898",
+      "statement": "Section addresses, icons and accent colors stay in code: navSection merges the global's names, phrase and soon flag with SECTION_CODE from src/components/site/nav.ts.",
+      "evidence": [
+        {
+          "resource": "repo://src/components/site/nav.ts#L136-L185",
+          "version": "repo-lines-v1:sha256:a7c1b8c2c73b5cab0412e1ae74186b63608f500ae0c1289cc579c33bd30f2db1:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliNGEzOTZiOTc3N2MwNzIxNGEwZWI2Y2ViZGNkYjgzNGExNGRjYjU5YmI3ZTk3OGJmMjg1Yzk0ZjE2ODc1OTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI1YWM2YWY3NDljODI5ZmZjY2I3OWRhMTljNDg3ODUyNjdiZjU5NGQwY2JkNzAzNDMzYjEyOWZlNTcyMjE2ZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJkMGQzNjc5MzY2M2NlZmIzMDgzNjNlNmMxZGUxMDVlZjU0NzIzMjAwZTU3YmU5ZTIxNTVkYzU3Y2Q2MTE4ODEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_eea2d99a4eab4c9ea689023d94d245ce",
+      "statement": "readNavigation reads the navigation global as a visitor with draft false, populating the featured guides' name, egg and item, and loadNavigation caches it under the site-copy and dofus-guides tags.",
+      "evidence": [
+        {
+          "resource": "repo://src/app/(frontend)/site-data.ts#L94-L101",
+          "version": "repo-lines-v1:sha256:f07b6526c11575f3a725026fb7385cb0c82d2ada4a6eef55e0f9450f8f38d8fc:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDQyMDU4NGMwNTI0MGI5MDUxZDRiYzAwNmY5YjhhYmEzZjI2ZDgyZjUxZjUyMTllNGFkYTBjYWJlODVlMTMzOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZmFmYmEwNTI3YzM5NTNjNGI2ZTBlNWI1NzM5YmE4MzYxMmY4MDUzYmNkYzk0NjY3MzAxOTNjZDFkNTkwYjQwOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWZiM2Q4ZWNkYTMzNDU1MDAzMzRiOTFhMmEyOGU3ZDI2MzQwMjFmMmIzYTA0N2ZlODlkZjNhNzBlOTJkYTQ2ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://src/lib/site-copy/queries.ts#L23-L40",
+          "version": "repo-lines-v1:sha256:b6fcb91e55d651416e66e9c7364309de6292de3411c444db4b366fda743e8463:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0MGM1ZDNkYzNhNzczMDc5M2M4OTI3OTQ4YjU1OTY2NDIwN2Y3OWJhODc3NzNjMjE1MDA0NDMxOTYyZmQ0ODgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/integration/navigation.test.ts#L123-L170",
+          "version": "repo-lines-v1:sha256:3d958923104733b5e46cef0cce179fef3d21ec89be5b23f62d1e1d56e160378c:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmMDJlYzcyZGNmN2Q5YjFmZjUwZjQxODU2ZmU1YjVkZjk0M2NjYjA1NTVkZDRhNDczMWIwNTU4M2VmYmRhNGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE2YTBlNDU0MTQwNTU0YzcxYTA2MTUxMmI0YzgwNjZiMDJiZmM1MDE0NWJkMzg4MDYzNmQ4YzI4ZGNkOGFjMTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_2125854593d5496d8395469c85b8663f",
+      "statement": "For the navigation global, the seed fills empty section texts, appends missing sections, keeps Torre's order and checkboxes, and picks the guides of the three default featured Dofus by slug only when none are chosen and all three guides exist, noting the missing slugs otherwise.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/site-copy/navigation.ts#L134-L171",
+          "version": "repo-lines-v1:sha256:c940e119f7e75d4c909ca9e0e6ab00528d8a30b69e93aedc30d3a8d9756d84cc:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyNzQzMTkwODhjNGVhZmQ5NDA5ZmQ1MjFkZWVjOGMyYzljZWJhYTZlYzg0YTA4OWYzNmQzNzdkNDVjMTliZjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ3Njk4OWE2M2M1Yjk3NWMzZDMxZmJjYzE5OGE5NDk3YmMzYWFjYjZiZGQzMzgyN2U3Mzk4ZGFjMjgzNzk0NmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/lib/site-copy/seed.ts#L37-L54",
+          "version": "repo-lines-v1:sha256:5755043666cfe4591ba7ef89d814a18e15992dbe9dc7cb283fbac67f18f87f55:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjYzhhYWZlYzBjYzRkOWQ0MzRiOTRmODU3OTc3NTU3ZWM5MTUxNTc1ZDEzNTlmMzc3OThiNWU5N2QyMGQ0NjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhkNzA1ODMxZTQzMjM0N2RkYzkzZGVhMjRmZmI2MjcxMzY1NzJlMzc5ZTQ4MGU0M2QxODk0Mzk4OGU0M2Y1MWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNjOGMyNjliZTQxY2VmYzUyNGEwNTI2YWU3MTlhNjdlZDljZDg3YjFiMGY2OWFiZDUyMDE5NjFhNDM3NzJiZmUifQ"
+        },
+        {
+          "resource": "repo://tests/integration/navigation.test.ts#L172-L194",
+          "version": "repo-lines-v1:sha256:85ae74011d24e421a29b97b34da0ee6be5ae978e3514a495daa8fb98dda3e0b7:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU1ZGVkODU2YjI3OTBlNTlkYjcxYWIxMTAyNDA1YzM2YzMzYzNjOGZiZTRmY2FjMzk5OGU5MjNlZjc0YTQxYWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlZjBiOWRjMmI1ZTFiOWFiZWNiZjJmMTAxNWE0NTIzY2IyYTc1MWVlZDgyNDQyYTBhNzA4ODBmZmNhZjliZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-16T11:00:16.891Z"
+    "at": "2026-11-17T11:00:20.552Z"
   }
 }

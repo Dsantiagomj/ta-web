@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:8af34f10daa8f22dc90a76ad3a5d4693158d5f26673b6d588e2dfc3c6ed211ae",
+  "pageVersion": "sha256:5fe3c79807cd252ab91106d5732e53d77db1a325ec59d359c2826f71767eb42d",
   "claims": [
     {
       "id": "claim_7ea7c2a578564a0784fd3a8664a2173a",
@@ -141,12 +141,12 @@
           "version": "repo-lines-v1:sha256:8b7044a71fa3b14624a547e5f8cbbf850997f346f0b12b1319fed1c5548069c3:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAwMGRkYjczM2FmYTM5YjkzYzQzOTRjMGU5MGY3NWEwNWZiN2IzY2ZjNzllNmIxYWI2Mjc4MjI3MzZhMzVmZTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjoxLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdmOTkyY2FmNzU1NTc1MWJmZTgwNTg1NGU1Mjg0NDU3ZjNhZGU5N2I4NWFiOTI0YmViZjA1YjI2ODVlMWU3MmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://src/lib/media/regenerate.ts#L80-L132",
-          "version": "repo-lines-v1:sha256:48eec94448be9ad1e306ad70dde5f33d3d450f444a7f7744eb5e6032d1f8c45b:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI4OTEwYmQyNDM3MDNjNWExZmFmMDRiZDNjODk0NDBlZjZmNDI1MjRkODM1MDg2MTJmY2I2MWRiZTFlN2YwMWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/lib/media/regenerate.ts#L89-L145",
+          "version": "repo-lines-v1:sha256:fc3bcdc87345534c3e34b194219d05e2560ecf718f26f5e029394b6ae168e22f:eyJzZWxlY3RlZExpbmVDb3VudCI6NTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdmMDc3NDVjMzk5NmIyMGUyNDFjNGVmZDAyZmE5ZGIwNmIxNzkxNTY4MzJlNGU3MWY2Yzg2ZGM3N2E4NDRmMWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://src/lib/media/sizes.ts#L62-L73",
-          "version": "repo-lines-v1:sha256:810f76d0425b1e75462dda2e642b912b5bcc48264d4bfd1aeb3b8e0f3c435478:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhZjIyY2YwNzMyNTkyYzI0NzE0MWNiZTYxZWZhMTEwMTI2MTJmNWEzMTIyYjlhZjliYmFmNTJmNTcyNGQxOTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjllN2UwMWRkZTEzZTlmM2NlZGFkNGFhMzgyNDI1OTkzMTZjNTEyNGU2NmZkYWUyMjNjMjMwNjcwZjE2MmUxZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "resource": "repo://src/lib/media/sizes.ts#L62-L96",
+          "version": "repo-lines-v1:sha256:dedf4adc58c6b1e7ebd932625e0a890e220ce2760e452acb1f620e2c5a4c5aab:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg5YWYxOTNiOTJkYWJhNzFjYTEzMzM0YmEwNmE5NDEyMTBmNzY5YTE1ZTA5NmM3ODM0OTkzMzBiN2IwMWJmZDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjllN2UwMWRkZTEzZTlmM2NlZGFkNGFhMzgyNDI1OTkzMTZjNTEyNGU2NmZkYWUyMjNjMjMwNjcwZjE2MmUxZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     },
@@ -202,7 +202,7 @@
     },
     {
       "id": "claim_66408ab843c44cbc90697d5d1f6d0729",
-      "statement": "In the media collection any panel account can upload and edit, only an administrator can delete, and beforeDelete refuses to delete game art with a gameAsset key or an image that a guide, a standalone page, a Torre correction, a checklist, achievement prose, the checklists index teaser or the site settings share image uses.",
+      "statement": "In the media collection any panel account can upload and edit, only an administrator can delete, and beforeDelete refuses to delete game art with a gameAsset key or an image that a guide, a standalone page, a class or dungeon page, a Torre correction, a checklist, achievement prose, the checklists index teaser or the site settings share image uses.",
       "evidence": [
         {
           "resource": "repo://src/collections/Media.ts#L40-L60",
@@ -210,17 +210,53 @@
         },
         {
           "resource": "repo://src/collections/delete-guard.ts#L186-L222",
-          "version": "repo-lines-v1:sha256:d9af9962f008e503bf735dd32d7eab5370b1db6818f0d49de118713e9465de00:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImViZDc0ZDQ0NWU0ZmU2OWFlNTk1MWMxMmJiNzFiNGU3ZTUzYzAxY2U0MjVlNDBmYTY0ZDYzYWUxN2U4Nzg5OTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ5OGZlMWM0NTgyOWZmYjE3MzM2OGNlY2ExNDE0NmUwYjY2NmNkNWViNTBiODNmN2Q3ZWNhZGU0MDIwYTI3OTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+          "version": "repo-lines-v1:sha256:c8957807df9869fbbd0b71a424ae5633aba62b1518190c5d7dd3cd2f9d1e96a6:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU3NDViYWQ1ZWUyYzI2NjA4MWRkODVjMzRhZDU4NWVmY2M3NTliMjZhYzQ2ZGU4MmQ5NmJjYmI5ZmNmNTgxYTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1NDcwZDM1MGY5M2ZlZDEwOGJlYjkzY2Y0OWU0MmQxNzBiOWY1NWYzNDRmMWZjZThjZWU5MGFmYTc1ZmY2NzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMwNWI2MzUxODRlZmFkNDllYmY2NmMyMjc4Mjk4MDRkOWUwMzIyZTY5NWQxYmQ5MzNjNTE2MzQ3NDRjMDYyNjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQzMTgwZGFlNTUwNTFkMWU3ZGEyNzAxODdmZDg5YjhiYjVmZmIxYzM2ODcyOGIzMTVlNTRiZTQ5NWRmNDdlZjYifQ"
         },
         {
-          "resource": "repo://src/collections/delete-guard.ts#L28-L162",
-          "version": "repo-lines-v1:sha256:682a75531e467238bdd4f211dca85b5adb670f1fe8925874743b1fe75e0e66e8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTM1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlYWYyMmNmMDczMjU5MmMyNDcxNDFjYmU2MWVmYTExMDEyNjEyZjVhMzEyMmI5YWY5YmJhZjUyZjU3MjRkMTk0IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI5NzJhNDI5MzgyYjJlMTQ3MThlMGUzN2IwNTcwYThhMTcwMjk5MWZjZDg0OThjZDg0MDYwYThiZjRmMDUwMTdiIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI4ZTYwYTI5OTNhNjJmMDI4YTIyZGVhZWRiMzJlZjgzZGI3ZWM2YTUyMmY0ZWIyYTIwM2EyNTU1MzkxYzEzY2I0IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIwOTM3YTAwY2NlMzIzYWU5YjAwOTk3NTgzOThhZjU4NDc1MWYzNGE0NDYwYjc4ZDdmZjRiMjczNzQxY2EwZTEyIn0"
+          "resource": "repo://src/collections/delete-guard.ts#L28-L171",
+          "version": "repo-lines-v1:sha256:3b2e6a58f1fc8057d9fb2f45cca89da7664ea758b6323c528fb70f9f7d5b898f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQ0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlYWYyMmNmMDczMjU5MmMyNDcxNDFjYmU2MWVmYTExMDEyNjEyZjVhMzEyMmI5YWY5YmJhZjUyZjU3MjRkMTk0IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJhNzI1ZWQ0ZTljNWVhZmFmYzcwZTBjZjQxMTFmZGVjYTdmNjE5NmRkMDE4YTNiZjk1NTU0MWExODgwNTg2MzA1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI4ZTYwYTI5OTNhNjJmMDI4YTIyZGVhZWRiMzJlZjgzZGI3ZWM2YTUyMmY0ZWIyYTIwM2EyNTU1MzkxYzEzY2I0IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI5NDFlOTgwYzk4YTExNDViZDY3ZTljOTgwMzM5ZDYwNDk2MjRiYmU4ZDIwNmY5MmE3YmQ3YzQ5NmI0OWVhNzE3In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_594bdf92268b4eda9e4b732355ccb3a4",
+      "statement": "A pnpm patch of Payload 3.92.1, applied through patchedDependencies, makes createImageSizes skip the AVIF sizes of a GIF, WebP or TIFF with more than one frame, because sharp's AVIF encoder would stack the frames into one strip, while the WebP sizes stay animated.",
+      "evidence": [
+        {
+          "resource": "repo://patches/payload%403.92.1.patch#L1-L18",
+          "version": "repo-lines-v1:sha256:f6f4027994dba9c5f173d99d4e60e02b3784d602732f08898c203cd536fa910c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJiYmFlZWQ3MGU4YjRjNDUyODk2ZmQ5OGY4ODIxMGIzMDg3NWNkNzU0NThmZWRkMjYxZjY3MzM1NDVjNzVkNjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRjZjA3NDg2Y2FlNmI5NThlYWFlMTdiM2NmYzQyNmVlNGU0NzEyNDY2MTJiODA4YjNlYmFhYTQ3MDczNGVhOGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://pnpm-workspace.yaml#L26-L30",
+          "version": "repo-lines-v1:sha256:61ab84ae394c65c236391cab1379764ed71e458b858753e4bf274355140d0e4c:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODIzMjEyNzZjMzE1MDM0ZWI5NTEyY2UwMTg4OWU3MjU3NzI4YzdlODNkNGUzMDE0Yzg5Y2Y0ODJiOTkzNjYxNiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjU4ZjhiZDVjNmFjNjdkY2VmNTEyOTFiMTM3ZWExYTQ5MjYwZTE1Nzk0MmMwOWNhNDY1ZDFmYjI5MDc0NjVlNyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMDIxMWUwNzlkMTNmMGZlZWIwMWUxZDQ4OGNmNDYxODVmMzhhYzU1ZTUwMGJmMGI3OWI5ODE4NTJiMzljZTAxOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://tests/integration/media-sizes.test.ts#L110-L152",
+          "version": "repo-lines-v1:sha256:c5f6cc54b4999b05b8c31e371878a0cafba44718027dd85e5ba2caa94dbd7481:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmOGI3NzE0NDdhNmE5ZjYzNDZjZTMyNTJkN2VlODA5OGE4YmI4YzdjOTdiOTFkMzlmMjNhN2YzNzY5NGFkY2QiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY2NzZmMGUwNjNkZjJlZmQwYzk2YWM4MWZlOGYxMWZjNWEyNmM1NDU0ZDBiNjkyZDU0OGMzZGZlMTQ4ZDNiNDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZlNWQ5ZmVhMzU1NDk2NzIyOTdjYjJkMmI3NjlkMTRmZTQwNzRhMDMyMzYwZDllMmFmMTE3MTQyNWI3MDE5NTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhlMmUwYmM0MjBhZjZmODM4MDdjY2ZmYWY2YjMyNmNhMGU4OTY3OTViMTE5NDk4OTJiOTljMTA2ZTg4ZWJjNzkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_67c45733c8124516868567ce1f1a5b58",
+      "statement": "For a GIF, WebP or TIFF record missing an AVIF size, pnpm media:sizes reads the original and counts its frames with sharp before deciding, so an animated file with all its WebP sizes counts as complete and is not re-uploaded.",
+      "evidence": [
+        {
+          "resource": "repo://src/lib/media/regenerate.ts#L83-L132",
+          "version": "repo-lines-v1:sha256:5242344dfdd2b2779489d8d29b4f5a6e0d842e85b87aaea065382126beb72d0a:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc4ZWFjNzA0ZDYzN2MxZGMwZmUyMWRjYjA5ZGY0N2I3ZjI2YTU5YTM5ZWMyMjMxMjE4NjNhNWJjMmEwOWNkZWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyNjMyMmRlY2RiMzdhNTI3Y2NkMzkyZGM3MzUwMzI1MzI2MmRmNzQ3ZTVkNmRiYzFiNTAxYjJhY2FhMGE2MzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwY2JhOTRiMDI0ODM2YjJhZGRjMGY5ZDNjOTE4NDVjNGU0MmYyMmE2MGJkNThhMmUxYjYwMmE5NmNhOTczMGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNjMGUyNmExNTBjOGNlM2JiOGFiZWY0N2NkNDFjNThhMzNjNjBlOTM4OTM3MjlkOTE4MTgxMTVjOGNmZGZhNjcifQ"
+        },
+        {
+          "resource": "repo://src/lib/media/sizes.ts#L62-L96",
+          "version": "repo-lines-v1:sha256:dedf4adc58c6b1e7ebd932625e0a890e220ce2760e452acb1f620e2c5a4c5aab:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg5YWYxOTNiOTJkYWJhNzFjYTEzMzM0YmEwNmE5NDEyMTBmNzY5YTE1ZTA5NmM3ODM0OTkzMzBiN2IwMWJmZDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjllN2UwMWRkZTEzZTlmM2NlZGFkNGFhMzgyNDI1OTkzMTZjNTEyNGU2NmZkYWUyMjNjMjMwNjcwZjE2MmUxZmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/integration/media-regenerate.test.ts#L113-L145",
+          "version": "repo-lines-v1:sha256:5246d2b2c159e49cc31df19d68da9367ac7baa429bed7dcb7d44ada2e0b9ffef:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQwM2E1N2VkMDNlM2ZkNDJjZjI0ZjE0MTA1ZGUwNzNlYjRiZTQ3YmM2ZWFjMDgwZGQ1N2E4ZjYxZDUyZTQwZmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ODBiNzY1MThkYWU5NzlmYWViZDAyMzY3YTI5MjkyYTUwZDk3NjA5MjI1MWEzOGE2Y2UzMDg4MGJhNDI4MjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcyZjU3OTUzZTBhNGU5MTA5MDhkZTcwZjBmOTM1MjI1Yjc3MmE4ZGVmOTFjYmFlZDgwODI0Nzg4NDA2NmQ5Y2MiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         }
       ]
     }
   ],
   "verification": {
     "by": "openwiki/0.4.3",
-    "at": "2026-11-16T11:00:16.891Z"
+    "at": "2026-11-17T11:00:20.552Z"
   }
 }

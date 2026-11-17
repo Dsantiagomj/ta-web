@@ -60,6 +60,8 @@ sources:
     resource: repo://tests/e2e/needs-layout.ts
   - id: openwiki-source-b64702b83579d77dfa9a4750
     resource: repo://tests/e2e/panel-a11y.spec.ts
+  - id: openwiki-source-627e78b53ddd1ca56967a800
+    resource: repo://tests/e2e/panel-navegacion.spec.ts
   - id: openwiki-source-555fe60f70722da3d8252927
     resource: repo://tests/e2e/panel-ola2.spec.ts
   - id: openwiki-source-558d32d2c7f599abb54614a4
@@ -210,10 +212,10 @@ sources:
     resource: repo://vitest.config.mts
   - id: openwiki-source-57da85ca1bb457973a5594ff
     resource: repo://vitest.integration.config.mts
-generated: { by: "claude-code", at: "2026-11-16T11:00:16.891Z" }
+generated: { by: "claude-code", at: "2026-11-17T11:00:20.552Z" }
 verified:
   - by: openwiki/0.4.3
-    at: 2026-11-16T11:00:16.891Z
+    at: 2026-11-17T11:00:20.552Z
 ---
 
 # Test suites
@@ -304,10 +306,10 @@ Specs:
 - `logro.spec.ts` and `metalogros.spec.ts`: the achievement page and the metalogros index on the seeded achievement data. See [Achievement page](../achievements/achievement-page.md#tests) and [Metalogros index](../achievements/metalogros-index.md#budget-and-tests).
 - `guias-dofus.spec.ts`: the Dofus guides index (cards in order, filter and search, no search box without JavaScript, axe), the seeded Dofus guide (header, Necesitarás that copies item names and lays out in columns, achievement quests, one column, 404 in preparation, axe) and the header's Dofus panel linking published guides. See [Dofus guides index and menu](../dofus-guides/dofus-guides-index.md#tests) and [Dofus guide page](../dofus-guides/dofus-guide-page.md#tests). `needs-layout.ts` is the shared check that Necesitarás puts items in columns with the notes below at 1440, 390 and 320 px, also used by the guide and achievement specs.
 - `checklist.spec.ts`, `checklist-progreso.spec.ts`, `checklist-migracion.spec.ts` and `checklists-index.spec.ts`: the checklist page, its progress in the browser, the merge of the old app's keys, and the `/checklists` posters. `checklist-silvestre.spec.ts` and `checklist-ocre.spec.ts` open the Silvestre and Ocre drafts through the panel preview, as they look in dev after the import, while the published documents still lead to Squarespace; `checklist-hielos.spec.ts` checks the generic row and the quest that finishes on its own. See [Checklist page](../checklists/checklist-page.md), [Souls checklist](../checklists/souls-checklist.md), [Checklists index](../checklists/checklists-index.md) and [Checklist progress engine](../checklists/progress.md).
-- `panel.spec.ts` and `panel-papeles.spec.ts`: the panel as Torre sees it (menu, labels, the checklist step outline and pickers, axe on the edit view and the login), and what an editor and an administrator may do. `panel-ola2.spec.ts` covers the publish status line, the preview sizes, the dashboard and the panel guide with its own panel account, and `panel-a11y.spec.ts` runs axe (WCAG 2.2 AA) on five panel pages in both modes with no exceptions. `panel-helpers.ts` holds the shared sign-in and navigation. See [Admin panel](../cms/admin-panel.md) and [Panel dashboard and editing aids](../cms/panel-editing-aids.md).
+- `panel.spec.ts` and `panel-papeles.spec.ts`: the panel as Torre sees it (menu, including «Clases» and «Mazmorras», labels, the checklist step outline and pickers, axe on the edit view and the login), and what an editor and an administrator may do. `panel-ola2.spec.ts` covers the publish status line, the preview sizes, the dashboard and the panel guide with its own panel account, and `panel-a11y.spec.ts` runs axe (WCAG 2.2 AA) on five panel pages in both modes with no exceptions. `panel-helpers.ts` holds the shared sign-in and navigation. See [Admin panel](../cms/admin-panel.md) and [Panel dashboard and editing aids](../cms/panel-editing-aids.md).
 - `maquetacion.spec.ts`: the layout review. It loads every public page type (home, a guide, an achievement page, a Dofus guide, each checklist with every step opened and its Prerrequisitos and Objetos, the Ocre souls page, `/metalogros`, `/checklists` and `/guias-dofus`) at 390, 768, 1024 and 1440 px and runs `lintLayout` (`tests/e2e/layout-lint.ts`), a generic check that knows no component. It flags a page wider than the window, an element whose content overflows it, text clipped by `overflow` or cut with an ellipsis without the full text in `aria-label` or `title`, a text of three or more words broken one word per line, a broken text of two or more words in a box narrower than about 8ch, and overlapping siblings. An element with `data-layout-lint-ignore` is skipped with its subtree, only with a comment that says why. Against a deployment (`SMOKE_BASE_URL`) it reads published pages through Payload's API and signs in to the panel for the previews only with `LAYOUT_LINT_PANEL_LOGIN=1` and its credentials; `LAYOUT_LINT_PATHS` adds routes (see [Environment configuration](../architecture/configuration.md)).
 - `redirecciones.spec.ts`: legacy redirects and 410s, `/sitemap.xml`, `robots.txt` and the home canonical URL. See [Legacy redirects, sitemap and robots.txt](../operations/redirects-and-seo.md).
-- `paginas.spec.ts`: standalone pages (see [Standalone pages](../pages/standalone-pages.md#tests)); `panel-textos.spec.ts`: editing the site copy in the panel and seeing it on the site; `panel-refrescos.spec.ts`: the last refresh in «Refrescos de datos» and the «Traer ahora» button, which only an administrator sees and the API refuses to an editor; `checklist-rush.spec.ts`: the rush checklist's Dofus road; `ambiente.spec.ts`: the ambience particles.
+- `paginas.spec.ts`: standalone pages (see [Standalone pages](../pages/standalone-pages.md#tests)); `panel-textos.spec.ts`: editing the site copy in the panel and seeing it on the site; `panel-navegacion.spec.ts`: changing the Dofus phrase of the mobile menu in «Navegación» and seeing it on the site; `panel-refrescos.spec.ts`: the last refresh in «Refrescos de datos» and the «Traer ahora» button, which only an administrator sees and the API refuses to an editor; `checklist-rush.spec.ts`: the rush checklist's Dofus road; `ambiente.spec.ts`: the ambience particles.
 - `hojas-de-estilo.spec.ts`: at most four stylesheets on every page of `lighthouserc.cjs`. See [Styles, tokens and site shell](../frontend/styles-and-shell.md#stylesheets-per-page).
 - `movimiento.spec.ts`: motion with and without reduced motion: page view transitions with a still header, panels, the search dialog and results, the phone menu, the viewer, the video player and the metalogros tiles. See [Styles, tokens and site shell](../frontend/styles-and-shell.md#motion).
 - `cabecera.spec.ts`: the site header, footer and search dialog, including achievements and metalogros in the search, the Dofus panel built from the collection, and Clases and Mazmorras shown as «Próximamente» without a panel or link. See [Site header, footer and search](../frontend/site-shell-and-search.md#tests).
