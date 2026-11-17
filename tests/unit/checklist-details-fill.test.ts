@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 import { describe, expect, it } from 'vitest'
 
-import { fillDetails } from '@/components/checklist/ChecklistIsland'
+import { fillDetails } from '@/components/checklist/checklist-ui'
 import type { ChecklistDetails, ObjectiveDetail } from '@/lib/checklists/details-url'
 
 // Lo que la isla pinta con los detalles en la ruta de una misión: la subzona de cada objetivo,
