@@ -20,7 +20,6 @@ import { checklistView, type ChecklistData } from '@/lib/checklists/page'
 import { checklistPageStrings as s } from '@/lib/checklists/strings'
 
 import { LivePreviewRefresh } from './LivePreviewRefresh'
-import { PreviewBar } from './PreviewBar'
 
 /**
  * La checklist de un Dofus (prototipo A, tmp/mockups/checklist-a): las migas, la cabecera
@@ -39,7 +38,6 @@ export function ChecklistView({ data, preview }: { data: ChecklistData; preview:
     <div className="[--color-section:var(--color-sec-checklists)]" style={eggStyle(view.color)}>
       {/* Dentro, para que herede el color del Dofus (--egg). */}
       <Ambience fx={checklistAmbience(data.checklist.ambience)} />
-      {preview && <PreviewBar slug={view.slug} />}
       <main id="contenido" className="ck" {...pageSection('dofus')}>
         <Breadcrumb {...view.breadcrumb} />
         <ChecklistHeader view={view} />

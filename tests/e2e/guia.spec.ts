@@ -741,7 +741,14 @@ test.describe('vista previa de borradores', () => {
     await expect(page.locator('meta[name="robots"]:not([content*="noindex"])')).toHaveCount(0)
 
     const bar = page.getByRole('complementary', { name: 'Vista previa' })
-    await bar.getByRole('button', { name: 'Salir de la vista previa' }).click()
+    // Encima de la cabecera, y la salida es un botón fantasma (DESIGN.md, Draft preview).
+    const barBox = (await bar.boundingBox())!
+    const header = (await page.locator('[data-site-header]').boundingBox())!
+    expect(barBox.y).toBe(0)
+    expect(barBox.y + barBox.height).toBeLessThanOrEqual(header.y + 0.5)
+    const exit = bar.getByRole('button', { name: 'Salir de la vista previa' })
+    await expect(exit).toHaveAttribute('data-variant', 'ghost')
+    await exit.click()
     await expect(
       page.getByRole('heading', { level: 1, name: 'Página no encontrada' }),
     ).toBeVisible()
