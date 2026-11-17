@@ -1,5 +1,4 @@
 import { unstable_cache } from 'next/cache'
-import { gzipSync } from 'node:zlib'
 import type { Endpoint, PayloadRequest } from 'payload'
 
 import { CHECKLISTS_REVALIDATE, CHECKLISTS_TAG } from '../lib/checklists/cache'
@@ -8,7 +7,6 @@ import type { PosterProgressModel } from '../lib/checklists/poster-progress'
 import { POSTER_PROGRESS_PATH } from '../lib/checklists/poster-progress-url'
 import { readChecklists } from '../lib/checklists/queries'
 import { CHECKLIST_DETAILS_CACHE_CONTROL } from './checklist-details'
-import { acceptsGzip } from './search-index'
 
 // GET /api/checklists/poster-progress: lo que pide el motor del porcentaje de cada cartel del
 // índice /checklists, de cada checklist Publicada (src/lib/checklists/poster-models.ts). La
@@ -17,21 +15,9 @@ import { acceptsGzip } from './search-index'
 // ruta. Se lee como un visitante, en caché con la etiqueta de las checklists, y el navegador lo
 // guarda cinco minutos.
 
-/** La respuesta, comprimida con gzip si el navegador lo acepta: Next no comprime la API de Payload. */
-export function posterProgressResponse(
-  models: PosterProgressModel[],
-  acceptEncoding: string | null,
-): Response {
-  const json = JSON.stringify(models)
-  const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-    'Cache-Control': CHECKLIST_DETAILS_CACHE_CONTROL,
-    Vary: 'Accept-Encoding',
-  }
-  if (!acceptsGzip(acceptEncoding)) return new Response(json, { headers })
-  return new Response(new Uint8Array(gzipSync(json)), {
-    headers: { ...headers, 'Content-Encoding': 'gzip' },
-  })
+/** La respuesta, en JSON tal cual: la comprime Next (ver searchIndexResponse). */
+export function posterProgressResponse(models: PosterProgressModel[]): Response {
+  return Response.json(models, { headers: { 'Cache-Control': CHECKLIST_DETAILS_CACHE_CONTROL } })
 }
 
 const readModels = (req: PayloadRequest) =>
@@ -49,6 +35,5 @@ const readModels = (req: PayloadRequest) =>
 export const checklistPosterProgressEndpoint: Endpoint = {
   path: POSTER_PROGRESS_PATH,
   method: 'get',
-  handler: async (req) =>
-    posterProgressResponse(await readModels(req), req.headers.get('accept-encoding')),
+  handler: async (req) => posterProgressResponse(await readModels(req)),
 }
