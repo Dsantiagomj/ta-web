@@ -5,6 +5,7 @@ import { GuideSections } from '@/components/game/GuideBody'
 import { NextQuestCard } from '@/components/game/NextQuestCard'
 import { PageEnhancements } from '@/components/game/PageEnhancements'
 import { QuestHeader } from '@/components/game/QuestHeader'
+import { ZoneBackground } from '@/components/game/ZoneBackground'
 import {
   guideContent,
   guideSeo,
@@ -171,6 +172,7 @@ function QuestGuideView({
 
   return (
     <div className="[--color-section:var(--color-sec-misiones)]">
+      {page.zoneBackground && <ZoneBackground image={page.zoneBackground} />}
       {preview && <PreviewBar slug={guide.slug} />}
       <main id="contenido" className="quest" {...pageSection('misiones')}>
         <article>

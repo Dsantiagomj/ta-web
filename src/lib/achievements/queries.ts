@@ -6,7 +6,9 @@ import type { Payload } from 'payload'
 
 import { readDungeonBosses } from '@/lib/guides/dungeon-bosses'
 import { isGuideSlug } from '@/lib/guides/slug'
-import type { User } from '@/payload-types'
+import { achievementZoneQuest, type ZoneQuest } from '@/lib/zones/background'
+import { readZoneBackground } from '@/lib/zones/read'
+import type { Media, User } from '@/payload-types'
 
 import type { IndexData } from './metalogros'
 import {
@@ -135,6 +137,11 @@ export async function readAchievementPage(
   const dungeonBosses = await readDungeonBosses(payload, labels.filter(isDungeonNote), {
     picks: dungeonPicks(guides),
   })
+  // El fondo de zona: el propio de la página o el de la subzona de su primera misión.
+  const zoneBackground = await readZoneBackground(payload, {
+    override: (page as { background?: Media | number | null }).background,
+    quest: achievementZoneQuest(page.quests as { quests?: (ZoneQuest | number | null)[] }[]),
+  })
 
   return {
     page,
@@ -143,6 +150,7 @@ export async function readAchievementPage(
     givers: new Map(npcs.map((npc) => [npc.dofusId, npc])),
     noteItems,
     dungeonBosses,
+    zoneBackground,
   }
 }
 

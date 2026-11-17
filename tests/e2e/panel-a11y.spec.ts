@@ -12,7 +12,7 @@ import {
 import { blockThumbnails } from '../../src/lib/admin/block-thumbnails.ts'
 import { E2E_PANEL_USER_3, seedGuide } from './seed/guides.ts'
 
-// A-21 (docs/research/backlog.md): axe WCAG 2.2 AA sobre cinco páginas del panel, en claro y
+// A-21 (docs/research/backlog.md): axe WCAG 2.2 AA sobre seis páginas del panel, en claro y
 // en oscuro, sin excepciones. Payload pinta controles sin nombre que se arreglan en
 // src/lib/admin/a11y-fixes.ts; si Payload cambia su HTML, esto falla.
 
@@ -69,6 +69,19 @@ test.describe('el panel pasa axe sin excepciones', () => {
       ready: '#field-title',
     },
     { name: 'la guía del panel', path: async () => '/admin/guia', ready: 'h1' },
+    {
+      // Con su fondo de zona y el botón «Traer fondo de DofusDB».
+      name: 'una subzona',
+      path: async (p) => {
+        const subAreaId = seedGuide.zoneBackground.subAreaId
+        const response = await p.request.get(
+          `/api/subareas?where[dofusId][equals]=${subAreaId}&depth=0`,
+        )
+        const { docs } = (await response.json()) as { docs: { id: number }[] }
+        return `/admin/collections/subareas/${docs[0]!.id}`
+      },
+      ready: 'button:has-text("Traer fondo de DofusDB")',
+    },
   ]
 
   for (const mode of ['light', 'dark'] as const) {
