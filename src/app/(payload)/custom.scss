@@ -9,7 +9,7 @@
  */
 :root {
   --color-base-0: #ffffff;
-  --color-base-50: #f4f2fb;
+  --color-base-50: #f3f1fa;
   --color-base-100: #e9e5f7;
   --color-base-150: #dedbeb;
   --color-base-200: #d1cee3;
@@ -26,27 +26,27 @@
   --color-base-750: #363160;
   --color-base-800: #221e3b;
   --color-base-850: #17142a;
-  --color-base-900: #0f0d1a;
+  --color-base-900: #110f1b;
   --color-base-950: #07060b;
   --color-base-1000: #000000;
 
   /* Los tokens de Arcano claro que usan la marca y las notas. */
-  --ta-bg: #f4f2fb;
+  --ta-bg: #f3f1fa;
   --ta-ink: #1b1630;
   --ta-muted: #5f5782;
   --ta-accent: #0a6a85;
 }
 
 html[data-theme='dark'] {
-  --ta-bg: #0f0d1a;
-  --ta-ink: #ece9ff;
-  --ta-muted: #9089ba;
+  --ta-bg: #110f1b;
+  --ta-ink: #f1eeff;
+  --ta-muted: #9d95bd;
   --ta-accent: #6fe3ff;
 }
 
 /*
  * La ayuda bajo los campos: Payload usa un gris que en claro no llega a 4.5:1. El muted de
- * Arcano pasa en los dos modos (5.97 y 5.92 sobre el fondo).
+ * Arcano pasa en los dos modos (6.74 y 5.92 sobre el fondo).
  */
 .field-description {
   color: var(--ta-muted);
@@ -62,9 +62,18 @@ html[data-theme='dark'] {
  * campo traducible dicen nada. No vuelven solos: con un segundo idioma hay que quitar esta
  * regla, y tests/unit/admin-panel-config.test.ts falla hasta que se quite.
  */
+/* Payload 3 lo pinta con .localizer-button en la cabecera: sin él, en un móvil la ficha de una
+   guía se salía 76px a lo ancho. */
 .localizer,
+.localizer-button,
 .field-label .localized {
   display: none;
+}
+
+/* Las migas de la cabecera ceden su sitio a la cuenta en un móvil en vez de empujarla fuera. */
+.app-header__step-nav-wrapper {
+  min-width: 0;
+  overflow: hidden;
 }
 
 /* La dirección completa bajo «Dirección en la web» (SlugDescription), debajo de la ayuda. */
