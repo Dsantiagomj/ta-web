@@ -1,6 +1,6 @@
 'use client'
 
-import { type CSSProperties, useRef, useSyncExternalStore } from 'react'
+import { type CSSProperties, useEffect, useRef, useSyncExternalStore } from 'react'
 import { flushSync } from 'react-dom'
 
 import { MODE_COOKIE, type Mode, modeCookie, resolveMode } from '@/lib/theme/theme'
@@ -32,6 +32,17 @@ function applyMode(mode: Mode) {
     // Modo privado estricto: la cookie basta.
   }
   flushSync(() => listeners.forEach((listener) => listener()))
+}
+
+/**
+ * La barra del navegador del móvil (<meta name="theme-color">) sigue a la de la cabecera: el
+ * servidor la pinta con el tema y el modo de las cookies, y aquí se pone al día cuando cambian
+ * en la página (este interruptor, el selector de tema o el script del <head>).
+ */
+function syncThemeColor() {
+  const meta = document.querySelector('meta[name="theme-color"]')
+  const bar = getComputedStyle(document.documentElement).getPropertyValue('--color-bar').trim()
+  if (meta && bar) meta.setAttribute('content', bar)
 }
 
 const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -69,6 +80,16 @@ export function ModeToggle({ initialMode }: { initialMode: Mode }) {
   const mode = useSyncExternalStore(subscribe, currentMode, () => initialMode)
   const button = useRef<HTMLButtonElement>(null)
   const light = mode === 'light'
+
+  useEffect(() => {
+    syncThemeColor()
+    const observer = new MutationObserver(syncThemeColor)
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme', 'data-mode'],
+    })
+    return () => observer.disconnect()
+  }, [])
 
   function toggle() {
     const next: Mode = light ? 'dark' : 'light'
