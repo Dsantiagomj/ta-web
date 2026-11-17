@@ -915,6 +915,15 @@
 .dg-needs .needs__items .dg-muted {
   grid-column: 2;
 }
+/* Las notas de Torre son frases, no nombres: las columnas se reparten la fila (auto-fit), así
+   que una nota sola o dos no se aprietan en columnas de 15rem con la fila vacía al lado. Cada
+   una, como mucho a la medida del texto. */
+.dg-needs ul.needs__notes {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+}
+.dg-needs .needs__notes > .dg-note {
+  max-width: var(--width-prose);
+}
 /* Una nota de Torre puede traer varios párrafos o una lista: van uno debajo del otro, no en
    la fila flex de .row. */
 .needs__notes > .row.dg-note {
