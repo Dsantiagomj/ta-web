@@ -32,10 +32,16 @@ describe('ZoneBackground', () => {
     expect(markup).not.toContain('fetchPriority="high"')
   })
 
-  it('ofrece AVIF y WebP a lo ancho de la ventana', () => {
+  it('ofrece AVIF y WebP a lo ancho que la imagen cubre', () => {
     expect(markup).toContain('type="image/avif"')
     expect(markup).toContain('/media/fondo-1200.avif 1200w, /media/fondo-1600.avif 1600w')
     expect(markup).toContain('/media/fondo-1200.webp 1200w, /media/fondo-1600.webp 1600w')
-    expect(markup.match(/sizes="100vw"/g)).toHaveLength(2)
+    // Con object-fit: cover, en una ventana más alta que la imagen (un móvil) la imagen llena
+    // la altura y su ancho es el alto de la ventana por su proporción: con 100vw el móvil
+    // bajaba la de 800px y la estiraba unas cuatro veces.
+    const sizes = '(max-aspect-ratio: 1600/769) 208vh, 100vw'
+    expect(
+      markup.match(new RegExp(`sizes="${sizes.replace(/[()/]/g, '\\$&')}"`, 'g')),
+    ).toHaveLength(2)
   })
 })
