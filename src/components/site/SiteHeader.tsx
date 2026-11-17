@@ -1,7 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react'
 
 import { Lockup } from '@/components/brand/Lockup'
-import { GAME_ICONS } from '@/components/game/game-icons'
 import { ModeToggle } from '@/components/mode-toggle/ModeToggle'
 import { ThemePicker } from '@/components/theme-picker/ThemePicker'
 import { Amount } from '@/components/ui/Amount'
@@ -184,14 +183,7 @@ function MisionesBody() {
         </span>
         <kbd>{s.searchShortcut}</kbd>
       </button>
-      <ul className="hub-l" role="list">
-        <li>
-          <a href={section('misiones').href}>
-            <Well image={GAME_ICONS.achievement} size={28} />
-            <span>{p.misionesAll}</span>
-          </a>
-        </li>
-      </ul>
+      <AllLink href={section('misiones').href}>{p.misionesAll}</AllLink>
     </>
   )
 }
@@ -477,7 +469,7 @@ function Sheet({
  * La cabecera de todo el sitio (DESIGN.md, Layout: Header): el logo Sello, un desplegable
  * por sección con su ficha y su arte (Dofus y checklists comparten panel), en el orden y con
  * los nombres de «Navegación», la búsqueda con
- * Ctrl K, el selector de tema, el interruptor de modo y, por debajo de 1120px, el menú del móvil. Todo se pinta
+ * Ctrl K, el selector de tema, el interruptor de modo y, por debajo de 1200px, el menú del móvil. Todo se pinta
  * en el servidor; la isla abre y cierra los paneles, el menú y la búsqueda.
  */
 export function SiteHeader({
