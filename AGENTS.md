@@ -189,7 +189,7 @@ A new script under `scripts/` runs everything until it is added to the list in `
 
 ## Redirects
 
-Every Squarespace URL must render or redirect on cutover day (backlog B-03 to B-08). Old URLs that have no page of their own live in one table, `src/lib/redirects/legacy-urls.json`. `src/proxy.ts` looks each request up in a `Map` built once at startup: one lookup per request, no database. A hit answers before Next renders anything, with a redirect straight to the new page or a 410 with a short Spanish page (`src/lib/redirects/gone-page.ts`, no stylesheet). The `Location` uses the public origin, `NEXT_PUBLIC_SITE_URL` (`src/lib/site/origin.ts`), because behind Railway's proxy the request only knows the internal host. Paths match lowercased and without a trailing slash, and the old query string is dropped.
+Every Squarespace URL must render or redirect on cutover day (backlog B-03 to B-08). Old URLs that have no page of their own live in one table, `src/lib/redirects/legacy-urls.json`. `src/proxy.ts` looks each request up in a `Map` built once at startup: one lookup per request, no database. A hit answers before Next renders anything, with a redirect straight to the new page or a 410 with a short Spanish page (`src/lib/redirects/gone-page.ts`, no stylesheet, in the visitor's free theme and mode, Amakna dark by default, left aligned like every page, with the system fonts and «Volver a la portada» as the filled primary button). The `Location` uses the public origin, `NEXT_PUBLIC_SITE_URL` (`src/lib/site/origin.ts`), because behind Railway's proxy the request only knows the internal host. Paths match lowercased and without a trailing slash, and the old query string is dropped.
 
 | Rule | Detail |
 |---|---|

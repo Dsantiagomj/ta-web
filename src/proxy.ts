@@ -4,7 +4,7 @@ import { NOINDEX_HEADER, isDevEnvironment } from '@/lib/dev-gate/dev-gate'
 import { gonePage } from '@/lib/redirects/gone-page'
 import { lookupLegacyUrl } from '@/lib/redirects/table'
 import { siteUrl } from '@/lib/site/origin'
-import { MODE_COOKIE, resolveMode } from '@/lib/theme/theme'
+import { MODE_COOKIE, THEME_COOKIE, isFreeTheme, resolveMode } from '@/lib/theme/theme'
 
 // Proxy de Next (antes middleware), en el runtime de Node: lee el entorno en cada
 // petición, no al compilar. Sin matcher, para cubrir también los estáticos, la API y el
@@ -29,7 +29,10 @@ function legacyResponse(request: NextRequest): NextResponse | null {
     return NextResponse.redirect(new URL(rule.to, origin), rule.status)
   }
   const mode = resolveMode(request.cookies.get(MODE_COOKIE)?.value)
-  return new NextResponse(gonePage(mode), {
+  // El tema del visitante si es uno gratis; el Ocre, premium, pide el derecho: Amakna.
+  const saved = request.cookies.get(THEME_COOKIE)?.value
+  const theme = isFreeTheme(saved) ? saved : 'amakna'
+  return new NextResponse(gonePage(mode, theme), {
     status: 410,
     headers: { 'Content-Type': 'text/html; charset=utf-8' },
   })
