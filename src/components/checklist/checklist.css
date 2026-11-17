@@ -482,9 +482,11 @@ html:not([data-js]) .ck-step + .ck-step {
   overscroll-behavior: contain;
 }
 
-/* La ventana va a todo el ancho, pero lo de dentro de un paso se para en la columna de las
-   guías: en una pantalla ancha una misión no separa su nombre de sus coordenadas. */
-.ck-step__scroll > * {
+/* El paso llena su panel, de margen a margen (Torre, 2026-11-17). Solo las filas de las
+   misiones se paran en la fila de dos capturas de las guías (--width-guide): en una pantalla
+   ancha una misión no separa su nombre de sus coordenadas. El texto, igual que el de los
+   pasos de una guía. */
+.ck-step__scroll :is(.ck-qs, p) {
   max-width: var(--width-guide);
 }
 

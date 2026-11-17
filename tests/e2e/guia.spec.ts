@@ -365,10 +365,10 @@ test.describe('página de guía', () => {
     await expect(page.locator('a.nextq')).toHaveCount(0)
   })
 
-  // Desde 64rem la raíz es el 110 %: la columna de la guía (--width-guide, 73rem: dos capturas
-  // de 36rem y el hueco de 1rem) mide 1284,8px, a la izquierda, tras el margen de 52,8px.
-  // Por debajo de eso, todo el ancho menos los márgenes (Torre, 2026-11-16).
-  test('una sola columna a la izquierda, de 73rem como mucho, con los pasos separados por una línea', async ({
+  // A todo el ancho de la ventana y a la izquierda, tras el margen de 52,8px (3rem con la raíz
+  // al 110 % desde 64rem), en cualquier pantalla: sin franja vacía a la derecha (Torre,
+  // 2026-11-17). Lo que no debe estirarse (el texto, las capturas) se para dentro.
+  test('una sola columna a la izquierda, a todo el ancho, con los pasos separados por una línea', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
@@ -376,18 +376,12 @@ test.describe('página de guía', () => {
     // Sin la lista «Pasos» al lado.
     await expect(page.getByRole('navigation', { name: 'Pasos' })).toHaveCount(0)
     const article = () => page.locator('main.quest > article').boundingBox()
-    let box = (await article())!
-    expect(box.width).toBeCloseTo(73 * 17.6, 0)
-    expect(box.x).toBeCloseTo(52.8, 0)
-
-    await page.setViewportSize({ width: 2560, height: 900 })
-    box = (await article())!
-    expect(box.width).toBeCloseTo(73 * 17.6, 0)
-    expect(box.x).toBeCloseTo(52.8, 0)
-
-    await page.setViewportSize({ width: 1024, height: 900 })
-    box = (await article())!
-    expect(box.width).toBeCloseTo(1024 - 2 * 52.8, 0)
+    for (const width of [1440, 2560, 1024]) {
+      await page.setViewportSize({ width, height: 900 })
+      const box = (await article())!
+      expect(box.width, `${width}px`).toBeCloseTo(width - 2 * 52.8, 0)
+      expect(box.x, `${width}px`).toBeCloseTo(52.8, 0)
+    }
 
     const items = page.getByRole('region', { name: 'Pasos' }).locator('ol > li')
     const border = (index: number) =>
@@ -456,6 +450,36 @@ test.describe('página de guía', () => {
     const [top, below] = [(await shots.nth(0).boundingBox())!, (await shots.nth(1).boundingBox())!]
     expect(Math.round(top.width)).toBe(390 - 32)
     expect(below.y).toBeGreaterThan(top.y + top.height)
+  })
+
+  // Con más de dos capturas seguidas, la fila mete tantas como quepan, cada una de 36rem
+  // como mucho (633,6px): dos a 1440px y a 1920px, tres a 2560px, a la izquierda y con el
+  // mismo hueco de 1rem.
+  test('las capturas de un paso llenan la fila con más columnas en una pantalla ancha, sin crecer', async ({
+    page,
+  }) => {
+    const shots = page.locator('#paso-4 .figs img')
+    const row = async () => {
+      const boxes = await Promise.all(
+        (await shots.all()).map(async (shot) => (await shot.boundingBox())!),
+      )
+      const top = boxes[0]!.y
+      return boxes.filter((box) => Math.abs(box.y - top) < 1)
+    }
+    for (const [width, perRow] of [
+      [1440, 2],
+      [1920, 2],
+      [2560, 3],
+    ] as const) {
+      await page.setViewportSize({ width, height: 900 })
+      await page.goto(url)
+      await expect(shots).toHaveCount(4)
+      const first = await row()
+      expect(first, `${width}px`).toHaveLength(perRow)
+      for (const box of first) expect(box.width, `${width}px`).toBeCloseTo(633.6, 0)
+      expect(first[0]!.x).toBeCloseTo(52.8, 0)
+      expect(first[1]!.x - (first[0]!.x + first[0]!.width)).toBeCloseTo(17.6, 0)
+    }
   })
 
   test('un paso con una sola captura: el texto encima y la captura debajo, del mismo tamaño', async ({

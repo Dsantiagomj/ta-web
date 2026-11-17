@@ -33,10 +33,9 @@
   }
 }
 
-/* La columna de la página, la de la guía: hasta --width-guide, a la izquierda. */
+/* La columna de la página, como la de la guía: a la izquierda y hasta el margen derecho. */
 .logro__main {
   min-width: 0;
-  max-width: var(--width-guide);
   container-type: inline-size;
 }
 
@@ -57,12 +56,11 @@
    altura encima de las misiones. La última fila es flexible, así que una ficha más alta que
    las migas y la cabecera solo alarga esa fila, sin separar las de arriba. */
 @media (min-width: 64rem) {
-  /* La columna de las misiones crece hasta --width-guide y la ficha va pegada a ella: en una
-     pantalla muy ancha lo que sobra queda a la derecha, no entre las dos. */
+  /* La columna de las misiones crece con la ventana y la ficha va pegada al margen derecho
+     (Torre, 2026-11-17): en una pantalla muy ancha no queda una franja vacía a la derecha. */
   .logro--sheet > .logro__main {
     display: grid;
-    max-width: none;
-    grid-template-columns: minmax(0, var(--width-guide)) 20rem;
+    grid-template-columns: minmax(0, 1fr) 20rem;
     grid-template-rows: auto auto 1fr;
     column-gap: 3rem;
   }
@@ -641,9 +639,11 @@
 
 /* ---------- logro anterior y siguiente: la tarjeta de siguiente misión, con el icono ---------- */
 
+/* Dos tarjetas, no una banda: hasta la fila de dos capturas, aunque la columna sea más ancha. */
 .lnav {
   display: grid;
   gap: 1rem;
+  max-width: var(--width-guide);
   margin-top: 3rem;
 }
 
