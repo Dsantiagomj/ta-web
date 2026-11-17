@@ -499,16 +499,17 @@ body:has(main[data-section='dofus']) .site-nav__item[data-section='dofus'] > .np
 }
 
 /* Holgura para el texto más ancho de Linux (unos 9px más que en macOS): de 1200 a 1279px, con
-   el menú completo y sin el Ko-fi, cada entrada lleva 0,25rem a los lados; de 1440 a 1599px la
-   píldora de búsqueda no enseña «Ctrl K» y puede ceder hasta 11rem. Así quedan al menos 24px
-   libres antes del margen derecho a cualquier ancho (tests/e2e/cabecera.spec.ts). */
+   el menú completo y sin el Ko-fi, cada entrada lleva 0,25rem a los lados; de 1440 a 1663px la
+   píldora de búsqueda no enseña «Ctrl K» y puede ceder hasta 11rem (con el atajo, a 1600px en
+   Linux solo quedaban 10px). Así quedan al menos 24px libres antes del margen derecho a
+   cualquier ancho (tests/e2e/cabecera.spec.ts). */
 @media (min-width: 75rem) and (max-width: 79.99rem) {
   .np {
     padding-inline: 0.25rem;
   }
 }
 
-@media (min-width: 90rem) and (max-width: 99.99rem) {
+@media (min-width: 90rem) and (max-width: 103.99rem) {
   .spill {
     min-width: 11rem;
   }

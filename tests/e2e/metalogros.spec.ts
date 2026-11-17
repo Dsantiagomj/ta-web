@@ -208,6 +208,14 @@ test.describe('índice de metalogros', () => {
       await page.goto(`${url}#astrub`)
       await expect(page.locator('html')).toHaveAttribute('data-mode', mode)
       await expect(page.getByRole('region', { name: logro.group.name })).toBeVisible()
+      // Que el panel acabe de entrar: a media animación axe mide el botón de cerrar más
+      // pequeño o tapado y da target-size en .vd-close. Sin los bucles del ambiente.
+      await page.waitForFunction(() =>
+        document
+          .getAnimations()
+          .filter((a) => a.effect?.getComputedTiming().iterations !== Infinity)
+          .every((a) => a.playState !== 'running'),
+      )
       const results = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
         .analyze()
