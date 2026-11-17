@@ -1456,3 +1456,50 @@ ul.needs__notes {
     margin-top: 0.1875rem;
   }
 }
+
+/* Fondo de zona (DESIGN.md, Zone background): el paisaje de la subzona de la guía o del logro,
+   fijo detrás de toda la página mientras el contenido se desplaza. Un elemento fijo y no
+   background-attachment: fixed, que iOS no respeta. Encima, un velo plano del fondo de la
+   página (80 % en oscuro, 84 % en claro, sin degradados), así que el texto sobre él conserva
+   su contraste y las superficies (tarjetas, ficha, cabecera) siguen opacas. Va por debajo del
+   ambiente (z-index -1) y de todo lo demás. */
+.zone-bg {
+  --zone-veil: 80%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -2;
+  width: 100%;
+  /* El viewport grande: al plegarse la barra del navegador móvil no queda un hueco abajo. */
+  height: 100vh;
+  height: 100lvh;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+[data-mode='light'] .zone-bg {
+  --zone-veil: 84%;
+}
+
+.zone-bg__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.zone-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--color-bg) var(--zone-veil), transparent);
+}
+
+/* Sin el paisaje: quien pide menos datos o menos transparencias, y al imprimir. Con
+   display: none la imagen diferida ni se descarga. */
+@media (prefers-reduced-data: reduce), (prefers-reduced-transparency: reduce), print {
+  .zone-bg {
+    display: none;
+  }
+}
