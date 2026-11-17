@@ -12,6 +12,7 @@ import './game.css'
 export function ZoneBackground({ image }: { image: ImageAsset }) {
   const webpSet = srcSetValue(image.srcSet)
   const avifSet = srcSetValue(image.avifSrcSet)
+  const sizes = coverSizes(image)
   return (
     <div className="zone-bg" aria-hidden="true">
       <picture>
@@ -19,14 +20,14 @@ export function ZoneBackground({ image }: { image: ImageAsset }) {
           <source
             type="image/avif"
             srcSet={avifSet ?? image.avif}
-            sizes={avifSet ? '100vw' : undefined}
+            sizes={avifSet ? sizes : undefined}
           />
         )}
         <img
           className="zone-bg__img"
           src={image.src}
           srcSet={webpSet}
-          sizes={webpSet ? '100vw' : undefined}
+          sizes={webpSet ? sizes : undefined}
           width={image.width}
           height={image.height}
           alt=""
@@ -37,4 +38,14 @@ export function ZoneBackground({ image }: { image: ImageAsset }) {
       </picture>
     </div>
   )
+}
+
+/**
+ * El ancho que pinta la imagen con object-fit: cover a toda la ventana: el de la ventana, o,
+ * cuando la ventana es más alta que la imagen (un móvil), su alto por la proporción de la
+ * imagen. Con 100vw un móvil de 390px bajaba la de 800px y la estiraba unas cuatro veces.
+ */
+function coverSizes({ width, height }: ImageAsset): string {
+  if (!width || !height) return '100vw'
+  return `(max-aspect-ratio: ${width}/${height}) ${Math.round((width / height) * 100)}vh, 100vw`
 }

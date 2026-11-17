@@ -76,7 +76,7 @@
   /* «Empieza con» va también sin render del PNJ: solo texto, sin columna. */
   grid-template-areas: 'title' 'meta' 'start' 'facts';
   padding-bottom: 2rem;
-  border-bottom: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--zone-rule, var(--color-line));
 }
 
 .qhead[data-giver] {
@@ -290,7 +290,7 @@
 
   .facts > section + section {
     padding-left: 1.25rem;
-    border-left: 1px solid var(--color-line);
+    border-left: 1px solid var(--zone-rule, var(--color-line));
   }
 
   /* La franja de Recompensas, bajo las dos. */
@@ -298,7 +298,7 @@
     grid-column: 1 / -1;
     padding: 0.75rem 0 0;
     border-left: 0;
-    border-top: 1px solid var(--color-line);
+    border-top: 1px solid var(--zone-rule, var(--color-line));
   }
 
   /* Los objetos de Necesitarás en la banda: una columna, salvo que haya sitio para dos. */
@@ -395,7 +395,7 @@ ul.needs__notes {
 
 .qhead__facts .rew-level + .rew-level {
   padding-top: 0.25rem;
-  border-top: 1px solid var(--color-line);
+  border-top: 1px solid var(--zone-rule, var(--color-line));
 }
 
 .rew-level__range {
@@ -943,7 +943,7 @@ ul.needs__notes {
 
 .qstep {
   padding-block: 2rem;
-  border-top: 1px solid var(--color-line);
+  border-top: 1px solid var(--zone-rule, var(--color-line));
   scroll-margin-top: 5.5rem;
 }
 
@@ -1223,7 +1223,7 @@ ul.needs__notes {
 }
 
 :is(.guide-body, .prose-guide) hr {
-  border-color: var(--color-line);
+  border-color: var(--zone-rule, var(--color-line));
 }
 
 :is(.guide-body, .prose-guide) .callout__body > * + * {
@@ -1460,11 +1460,11 @@ ul.needs__notes {
 /* Fondo de zona (DESIGN.md, Zone background): el paisaje de la subzona de la guía o del logro,
    fijo detrás de toda la página mientras el contenido se desplaza. Un elemento fijo y no
    background-attachment: fixed, que iOS no respeta. Encima, un velo plano del fondo de la
-   página (80 % en oscuro, 84 % en claro, sin degradados), así que el texto sobre él conserva
-   su contraste y las superficies (tarjetas, ficha, cabecera) siguen opacas. Va por debajo del
-   ambiente (z-index -1) y de todo lo demás. */
+   página (88 % en los dos modos, sin degradados): con el 80 y el 84 % del prototipo el texto
+   bajaba a 3,1:1 sobre un mapa claro u oscuro. Las superficies (tarjetas, ficha, cabecera)
+   siguen opacas. Va por debajo del ambiente (z-index -1) y de todo lo demás. */
 .zone-bg {
-  --zone-veil: 80%;
+  --zone-veil: 88%;
   position: fixed;
   top: 0;
   left: 0;
@@ -1478,7 +1478,32 @@ ul.needs__notes {
 }
 
 [data-mode='light'] .zone-bg {
-  --zone-veil: 84%;
+  --zone-veil: 88%;
+}
+
+/* El texto sobre el velo (tests/unit/zone-veil.test.ts): con el 88 % todo pasa 4,5:1 en el
+   modo oscuro. En el claro los tonos y los acentos dan 4,5:1 justos sobre el fondo de la
+   página, y cualquier sombra del mapa los bajaba: sobre el velo se oscurecen un 16 %.
+   Los separadores entre partes (--zone-rule) mezclan muted con line para llegar a 3:1 sobre
+   el velo; --color-line solo se perdía contra el paisaje. */
+.zone-bg ~ main {
+  --zone-rule-muted: 70%;
+  --zone-rule: color-mix(in srgb, var(--color-muted) var(--zone-rule-muted), var(--color-line));
+}
+
+[data-mode='light'] .zone-bg ~ main {
+  --zone-ink-shift: 16%;
+  --color-muted: color-mix(in srgb, var(--t-muted), #000 var(--zone-ink-shift));
+  --color-accent: color-mix(in srgb, var(--t-accent), #000 var(--zone-ink-shift));
+  --color-accent-2: color-mix(in srgb, var(--t-accent-2), #000 var(--zone-ink-shift));
+  --color-hue-1: color-mix(in srgb, var(--t-hue-1), #000 var(--zone-ink-shift));
+  --color-hue-2: color-mix(in srgb, var(--t-hue-2), #000 var(--zone-ink-shift));
+  --color-hue-3: color-mix(in srgb, var(--t-hue-3), #000 var(--zone-ink-shift));
+  --color-hue-4: color-mix(in srgb, var(--t-hue-4), #000 var(--zone-ink-shift));
+  --color-hue-5: color-mix(in srgb, var(--t-hue-5), #000 var(--zone-ink-shift));
+  --color-hue-6: color-mix(in srgb, var(--t-hue-6), #000 var(--zone-ink-shift));
+  --color-hue-7: color-mix(in srgb, var(--t-hue-7), #000 var(--zone-ink-shift));
+  --color-hue-8: color-mix(in srgb, var(--t-hue-8), #000 var(--zone-ink-shift));
 }
 
 .zone-bg__img {
