@@ -41,6 +41,52 @@ test.describe('índice de metalogros', () => {
     await expect(tile).toBeFocused()
   })
 
+  test('el panel abierto es plano como las fichas: 2px de borde y 8px de radio', async ({
+    page,
+  }) => {
+    await page.goto(url)
+    await page.locator('button.vd-tile[data-zone="astrub"]').click()
+    const panel = page.locator('.vd-panel:not([hidden])')
+    await expect(panel).toBeVisible()
+    const look = await panel.evaluate((node) => {
+      const s = getComputedStyle(node)
+      const rem = parseFloat(getComputedStyle(document.documentElement).fontSize)
+      return { width: s.borderTopWidth, radius: parseFloat(s.borderTopLeftRadius) / rem }
+    })
+    expect(look.width).toBe('2px')
+    expect(look.radius).toBeCloseTo(0.5)
+  })
+
+  test('cinco fichas por fila a 1024px y seis a 1440px', async ({ page }) => {
+    for (const [width, columns] of [
+      [1024, 5],
+      [1440, 6],
+    ] as const) {
+      await page.setViewportSize({ width, height: 900 })
+      await page.goto(url)
+      const tracks = await page
+        .locator('.vd-grid')
+        .first()
+        .evaluate((grid) => getComputedStyle(grid).gridTemplateColumns.split(' ').length)
+      expect(tracks, `${width}px`).toBe(columns)
+    }
+  })
+
+  test('el icono de una ficha sin personaje cabe dentro de su rombo', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto(url)
+    const wells = page.locator('.zart--icon .well')
+    test.skip((await wells.count()) === 0, 'Ninguna ficha sembrada lleva solo el icono')
+    const [well, icon] = await wells
+      .first()
+      .evaluate((node) => [
+        node.getBoundingClientRect().width,
+        node.querySelector('img')!.getBoundingClientRect().width,
+      ])
+    // El cuadrado inscrito en el rombo (72 % del hueco, girado) mide la mitad del hueco.
+    expect(icon).toBeLessThanOrEqual((well * 0.72) / Math.SQRT2 + 0.5)
+  })
+
   test('un metalogro sin nada publicado se ve apagado, sin enlace ni panel', async ({ page }) => {
     await page.goto(url)
     const off = page.locator('.vd-tile[aria-disabled="true"]')
