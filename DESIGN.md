@@ -484,6 +484,7 @@ In light mode, shadows drop to half their alpha.
 
 | Token | Value | Use |
 |---|---|---|
+| (none) | -2 | the zone background of quest guides and achievement pages, under the ambience (Zone background) |
 | (none) | -1 | the ambience layer, under everything in the page (Ambience) |
 | `--z-base` | 0 | content |
 | `--z-raised` | 10 | sticky table heads, sticky side column |
@@ -930,6 +931,19 @@ Each theme and mode sets custom properties (`--amb-anim`, `--amb-bg`, `--amb-glo
 | Las del tema de la web (`theme`) | no layer of its own: the site's layer, as on any other page |
 
 The catalog shows the layer in a 12rem box in every theme and mode (`Ambience demo`). E2E waits for "every animation finished" skip infinite animations, since the ambience never ends; `tests/e2e/ambiente.spec.ts` covers the layer itself.
+
+## Zone background
+
+Decided 2026-11-16 by Torre, from the full-page variant of the `/color/` prototype (`tmp/mockups/color/final.css`, `html[data-zona][data-fondo='pagina']`). A quest guide or an achievement page shows the landscape of its zone behind the whole page. `ZoneBackground` (`src/components/game/ZoneBackground.tsx`, styles at the end of `game.css`) renders it first inside the page wrapper. It is server markup with no JavaScript.
+
+- **Which image**: the page's own «Fondo de la página» (`background` on the quest guide or achievement page) wins. Without one, the page uses the «Fondo de la zona» of its subarea (`subareas.background`). A quest guide's subarea is the one of its quest's first start map that has one (`startPositions.subAreaId`, saved by `pnpm data:refresh` from DofusDB's map positions), else the first objective's. An achievement page uses the first quest of its list. `readZoneBackground` (`src/lib/zones/read.ts`) resolves it inside the page's cached read, so a visit never queries DofusDB and costs no extra query. No image means the page as before.
+- **The image**: DofusDB has no art per zone, so the background is the render of one of the subarea's maps (`https://api.dofusdb.fr/img/maps/1/{mapId}.jpg`, about 1910 × 970). Its «DofusDB» watermark sits 17 to 50px above the bottom edge, so the stored file drops the bottom 7 percent and the right 2 percent (`watermarkCrop`), about 1872 × 902. Payload makes the usual AVIF and WebP variants. The map comes from the subarea's «Mapa del fondo» (`backgroundMapId`) if set. Otherwise it is an outdoor map where the quest of a published guide starts, then the outdoor map of the subarea's main world map nearest the subarea's center (`pickBackgroundMap` in `src/lib/zones/background.ts`). Outdoor maps read as places; indoor ones are mostly black.
+- **Layer**: a `position: fixed` element at the top left, the full width and `100lvh` tall, at `z-index: -2`. It sits under the ambience and every surface, and stays still while the page scrolls. It is not `background-attachment: fixed`, which iOS ignores. The `<img>` covers it with `object-fit: cover`, centered.
+- **Veil**: a flat `::after` of `--color-bg` at 80 percent in dark mode and 84 percent in light mode (`--zone-veil`), with no gradient. Text sits on a ground within 20 percent of the page color, so the text pairs of the color tables keep their ratios. The header bar, the sheet, cards and wells keep their own opaque surfaces. It works the same in every theme, because the veil is the theme's own `--color-bg`.
+- **Quest header**: the prototype's variant drops the panel behind the quest header (`.qhead` with `background: none`). The quest header here has no panel, so nothing changes.
+- **Loading**: decorative, so `aria-hidden`, `alt=""`, `loading="lazy"`, `decoding="async"` and `fetchpriority="low"`, never preloaded. `sizes="100vw"` over the 480 to 1600 variants: a phone takes the 480 or 800 AVIF, a 1440px desktop the 1600 one. The text paints first and stays the LCP element: on 2026-11-16 the seeded guide and achievement had the same LCP element (the title) and the same 145,530 bytes of script with and without the background, at 412 and 1440px, and `tests/e2e/fondo-zona.spec.ts` checks the LCP element.
+- **Skipped**: under `prefers-reduced-data: reduce`, `prefers-reduced-transparency: reduce` and in print the layer is `display: none`, which also keeps the lazy image from downloading.
+- **Panel**: in a subarea («Subzonas de DofusDB»), an admin presses «Traer fondo de DofusDB» under «Mapa del fondo». The server picks the map, downloads its render, crops it and saves it in Media once per map (`media.gameAsset` `dofusdb-map-render:{mapId}`, alt «Paisaje de {subzona}, en {área}»), then fills both fields. To change it, Torre types another map and presses again, or uploads his own image in «Fondo de la zona». `pnpm zones:backgrounds` does the same for every subarea a published page uses (AGENTS.md).
 
 ## Imagery
 
