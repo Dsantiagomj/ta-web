@@ -3,9 +3,9 @@ import { buttonClass } from '@/components/ui/Button'
 import { errorStrings as s } from './strings'
 
 /**
- * Lo que enseñan error.tsx y global-error.tsx, como la 404: el título de página, una frase y
- * dos botones. Sin estado ni efectos: lo usan dos islas de cliente que Next carga en cada
- * página, así que pesa lo mínimo.
+ * Lo que enseña error.tsx, como la 404: el título de página, una frase y dos botones. Sin
+ * estado ni efectos: error.tsx es una isla de cliente que Next carga en cada página, así que
+ * pesa lo mínimo.
  */
 export function ErrorView({ reset }: { reset: () => void }) {
   return (
