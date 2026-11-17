@@ -436,6 +436,8 @@ test.describe('portada en el móvil', () => {
 test('a 1024px el texto de ayuda del buscador cabe entero', async ({ page }) => {
   await page.setViewportSize({ width: 1024, height: 800 })
   await page.goto('/')
+  // Con las fuentes ya puestas: el ancho del botón y el del texto dependen de ellas.
+  await page.evaluate(() => document.fonts.ready)
   const [text, room] = await page.locator('.ask__in').evaluate((input: HTMLInputElement) => {
     const s = getComputedStyle(input)
     const canvas = document.createElement('canvas').getContext('2d')!
