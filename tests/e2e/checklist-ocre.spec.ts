@@ -443,3 +443,18 @@ test.describe('el Ocre en la vista previa', () => {
     })
   }
 })
+
+test('a 390px la fila de etapas llega al borde de la ventana, sin cortarse en el relleno', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await preview(page)
+  const [row, win] = await page
+    .locator('.sl-nav__l:visible')
+    .evaluate((list) => [
+      list.getBoundingClientRect().right,
+      list.closest('.ck-win')!.getBoundingClientRect().right,
+    ])
+  // Hasta el borde de la ventana (su filete de 1px), no 0,75rem antes.
+  expect(win - row).toBeLessThanOrEqual(1.5)
+})

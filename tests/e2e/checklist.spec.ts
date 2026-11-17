@@ -545,3 +545,20 @@ test('la × del buscador va en el color del tema, no en el azul del navegador', 
   }
   expect(blue).toBe(0)
 })
+
+test('a 390px un número de paso de tres cifras no toca el nombre del paso', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto(url)
+  const row = page.locator('.ck-row__b').first()
+  await expect(row).toBeVisible()
+  const gap = await row.evaluate((button) => {
+    const number = button.querySelector('.ck-row__n')!
+    number.textContent = '188'
+    const name = button.querySelector('.ck-row__x')!
+    const range = document.createRange()
+    range.selectNodeContents(number)
+    return name.getBoundingClientRect().left - range.getBoundingClientRect().right
+  })
+  // El número cabe en su columna: entre él y el nombre queda al menos el hueco de la rejilla.
+  expect(gap).toBeGreaterThanOrEqual(8)
+})
