@@ -212,16 +212,21 @@ test.describe('catálogo /sistema', () => {
     for (const theme of THEMES) {
       const section = page.locator(`#${theme}-light`)
       const well = section.locator('[data-component="wells"] .well').first()
-      expect(await well.evaluate((node) => getComputedStyle(node).backgroundColor)).not.toBe(
-        await rawToken(section, '--t-bg'),
+      // Lo que pinta el hueco es su rombo (::before, opción D de Torre); la caja no pinta nada.
+      const fill = (node: Element) => getComputedStyle(node, '::before').backgroundColor
+      expect(await well.evaluate((node) => getComputedStyle(node).backgroundColor)).toBe(
+        'rgba(0, 0, 0, 0)',
       )
-      // El color del hueco en 0-255, sea rgb() o color(srgb …), que da color-mix.
-      const [r, g, b] = await well.evaluate((node) => {
+      expect(await well.evaluate(fill)).not.toBe(await rawToken(section, '--t-bg'))
+      // El color del rombo en 0-255, sea rgb() o color(srgb …), que da color-mix.
+      const [r, g, b, a] = await well.evaluate((node) => {
         const canvas = document.createElement('canvas').getContext('2d')!
-        canvas.fillStyle = getComputedStyle(node).backgroundColor
+        canvas.fillStyle = getComputedStyle(node, '::before').backgroundColor
         canvas.fillRect(0, 0, 1, 1)
         return [...canvas.getImageData(0, 0, 1, 1).data]
       })
+      // Opaco: un relleno transparente daría 0 y no diría nada.
+      expect(a).toBe(255)
       // Claro, como el chip de coordenadas (DESIGN.md, Icon wells).
       expect((r! + g! + b!) / 3).toBeGreaterThan(180)
     }
