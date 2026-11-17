@@ -264,3 +264,23 @@
     transform: translateY(0.75rem) scale(0.98);
   }
 }
+
+/* Colores forzados (Windows en contraste alto): el navegador cambia los fondos por Canvas y la
+   casilla marcada y el relleno de las barras se quedaban en blanco. Se pintan con los colores
+   del sistema, así que el estado sigue viéndose. */
+@media (forced-colors: active) {
+  .checkbox:checked {
+    forced-color-adjust: none;
+    border-color: Highlight;
+    background: Highlight;
+  }
+
+  .checkbox:checked::after {
+    border-color: HighlightText;
+  }
+
+  .progress__fill {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
+}
