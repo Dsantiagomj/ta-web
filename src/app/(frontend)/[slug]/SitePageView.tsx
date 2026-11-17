@@ -6,7 +6,6 @@ import { sitePageBreadcrumb, type SitePageDoc } from '@/lib/pages/page'
 import { SITE_URL } from '@/lib/site/origin'
 
 import { LivePreviewRefresh } from './LivePreviewRefresh'
-import { PreviewBar } from './PreviewBar'
 
 /**
  * Una página suelta (DESIGN.md, Site page): la página plana de las guías de misión, con las
@@ -17,7 +16,6 @@ import { PreviewBar } from './PreviewBar'
 export function SitePageView({ page, preview }: { page: SitePageDoc; preview: boolean }) {
   return (
     <div>
-      {preview && <PreviewBar slug={page.slug} />}
       <main id="contenido" className="quest">
         <article>
           <Breadcrumb {...sitePageBreadcrumb(page, SITE_URL)} />
