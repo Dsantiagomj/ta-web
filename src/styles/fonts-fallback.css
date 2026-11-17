@@ -47,3 +47,52 @@
   line-gap-override: 0%;
   size-adjust: 109.91%;
 }
+
+/*
+ * Lexend no se precarga y sus títulos van en 600 y 700. Las caras de arriba (y la «Lexend
+ * Fallback» de next/font) son la normal de Arial, y sin negritas sintetizadas (globals.css) esos
+ * títulos se pintaban en normal, un 3 por ciento más estrechos que Lexend 700: al llegar Lexend,
+ * «Misiones generales e historias» pasaba a dos líneas y movía /metalogros (CLS 0,12 en
+ * Lighthouse CI). Estas caras dan la negrita de Arial con el ancho de Lexend en cada peso:
+ * size-adjust es el ancho de Lexend 600 o 700 entre el de Arial Bold en los textos de la
+ * interfaz, y los overrides, el ascent (1) y el descent (0,25) de Lexend entre ese size-adjust.
+ */
+@font-face {
+  font-family: 'Lexend Fallback';
+  src: local('Arial Bold'), local('Arial-BoldMT');
+  font-weight: 600;
+  ascent-override: 96.14%;
+  descent-override: 24.04%;
+  line-gap-override: 0%;
+  size-adjust: 104.01%;
+}
+
+@font-face {
+  font-family: 'Lexend Fallback';
+  src: local('Arial Bold'), local('Arial-BoldMT');
+  font-weight: 700 800;
+  ascent-override: 94.47%;
+  descent-override: 23.62%;
+  line-gap-override: 0%;
+  size-adjust: 105.85%;
+}
+
+@font-face {
+  font-family: 'Lexend Fallback Linux';
+  src: local('Liberation Sans Bold'), local('Arimo Bold'), local('Roboto Bold');
+  font-weight: 600;
+  ascent-override: 96.14%;
+  descent-override: 24.04%;
+  line-gap-override: 0%;
+  size-adjust: 104.01%;
+}
+
+@font-face {
+  font-family: 'Lexend Fallback Linux';
+  src: local('Liberation Sans Bold'), local('Arimo Bold'), local('Roboto Bold');
+  font-weight: 700 800;
+  ascent-override: 94.47%;
+  descent-override: 23.62%;
+  line-gap-override: 0%;
+  size-adjust: 105.85%;
+}

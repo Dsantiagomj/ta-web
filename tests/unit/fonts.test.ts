@@ -123,6 +123,24 @@ describe('respaldos y tokens de las fuentes', () => {
     }
   })
 
+  it('Lexend tiene respaldos en negrita, con el ancho de Lexend 600 y 700', () => {
+    // Sin ellos, los títulos de Lexend 700 se pintan con la cara normal de Arial (no se
+    // sintetizan negritas), más estrecha: al llegar Lexend cambian de líneas y mueven la página
+    // (CLS 0,12 en /metalogros en Lighthouse CI).
+    const faces = [...fallbacks.matchAll(/@font-face\s*\{([^}]*)\}/g)].map(([, body]) => body)
+    const bold = (family: string, weight: string) =>
+      faces.find(
+        (body) =>
+          body.includes(`font-family: '${family}';`) && body.includes(`font-weight: ${weight};`),
+      ) ?? ''
+    for (const family of ['Lexend Fallback', 'Lexend Fallback Linux']) {
+      expect(bold(family, '600'), family).toMatch(/size-adjust: 104\.01%;/)
+      expect(bold(family, '700 800'), family).toMatch(/size-adjust: 105\.85%;/)
+    }
+    expect(bold('Lexend Fallback', '700 800')).toContain("local('Arial Bold')")
+    expect(bold('Lexend Fallback Linux', '700 800')).toContain("local('Liberation Sans Bold')")
+  })
+
   it('--font-title es Rowdies y --font-ui es Lexend, con sus respaldos', () => {
     const token = (name: string) =>
       new RegExp(`${name}:\\s*([^;]+);`).exec(theme)?.[1].replace(/\s+/g, ' ') ?? ''
