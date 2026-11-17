@@ -32,6 +32,7 @@ describe('ciScope', () => {
     [['scripts/fix-reward-typos.ts']],
     [['scripts/prefer-dofusdb-rewards.ts']],
     [['scripts/seed-site-copy.ts']],
+    [['scripts/zone-backgrounds.ts']],
     [['tests/fixtures/dofusdb/quest.json']],
     [['lefthook.yml', '.gga', 'vitest.config.mts', 'eslint.config.mjs']],
     [['scripts/import/x.ts', 'AGENTS.md']],
