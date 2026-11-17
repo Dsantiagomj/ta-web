@@ -6,26 +6,18 @@
    El color del Dofus (--egg, de su guía) es solo una capa de identidad: brillos, bordes y
    el fondo del banner. Los textos usan los tokens, que pasan AA en todos los temas. */
 
-/* A todo el ancho y a la izquierda (DESIGN.md, Layout). */
+/* A todo el ancho del marco y a la izquierda (DESIGN.md, Layout). */
 .ck {
   --dofus: var(--egg, var(--color-section));
-  --gut: 1rem;
-  padding: 1rem var(--gut) 4rem;
+  padding: 1rem var(--frame-pad) 4rem;
 }
 
 [data-mode='light'] .ck {
   --dofus: color-mix(in srgb, var(--egg, var(--color-section)) 65%, #000);
 }
 
-@media (min-width: 40rem) {
-  .ck {
-    --gut: 1.5rem;
-  }
-}
-
 @media (min-width: 64rem) {
   .ck {
-    --gut: 3rem;
     padding-top: 1.5rem;
   }
 }

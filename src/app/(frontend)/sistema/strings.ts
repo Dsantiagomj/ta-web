@@ -50,7 +50,7 @@ export const catalogStrings = {
     brand:
       'El emblema a 16, 30, 36 y 64 px; a 16 px, la versión simplificada. Después, el logo Sello de la cabecera y del pie: pasa el ratón y el sombrero se inclina. Toma los colores del tema y el modo de la sección.',
     site: 'El panel de Dofus y checklists del menú, abierto y quieto, y el pie del sitio.',
-    kofi: 'El botón de la cabecera sobre su barra, con su texto y con la taza sola (de 1280 a 1535px), y el flotante, que en el sitio va abajo a la derecha y se va al llegar al pie. En el móvil, el flotante es solo la taza.',
+    kofi: 'El botón de la cabecera sobre su barra, con su texto y con la taza sola (de 1280 a 1583px), y el flotante, que en el sitio va abajo a la derecha y se va al llegar al pie. En el móvil, el flotante es solo la taza.',
     ambience:
       'Las partículas que suben hacia la cabecera en lo alto de cada página, aquí en su caja, con el aspecto del tema y el modo de la sección. Con movimiento reducido no sale ninguna.',
     torre: 'El consejo de una guía: Torre hablando, con su avatar y un bocadillo.',

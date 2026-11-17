@@ -2,7 +2,6 @@
    con los tokens de theme.css; la cabecera y el pie son los de todo el sitio. */
 
 .home {
-  --gutter: 1rem;
   --shade: 0.45;
   color: var(--color-ink-2);
 }
@@ -11,21 +10,9 @@
   --shade: 0.225;
 }
 
-@media (min-width: 40rem) {
-  .home {
-    --gutter: 1.5rem;
-  }
-}
-
-@media (min-width: 64rem) {
-  .home {
-    --gutter: 3rem;
-  }
-}
-
-/* A todo el ancho y a la izquierda (DESIGN.md, Layout). */
+/* A todo el ancho del marco y a la izquierda (DESIGN.md, Layout). */
 .home-wrap {
-  padding-inline: var(--gutter);
+  padding-inline: var(--frame-pad);
 }
 
 /* ---------- el directo: lo primero bajo la cabecera, solo mientras Torre emite ---------- */
@@ -2167,7 +2154,10 @@ html.hs-on .site-hdr .sbtn {
   }
 }
 
-@media (min-width: 52rem) and (max-width: 79.99rem) {
+/* Los tres canales en fila solo desde 92rem (1472px): miden unos 800px y, con el margen
+   lateral del 5 %, su columna no llega a eso hasta unos 1460px (a 1280px la fila pasaba 35px
+   de la pantalla; a 1440px, 7px de su columna). */
+@media (min-width: 52rem) and (max-width: 91.99rem) {
   .chan {
     grid-template-columns: 1fr;
   }

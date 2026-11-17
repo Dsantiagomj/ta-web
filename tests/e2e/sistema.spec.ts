@@ -3,6 +3,7 @@ import { expect, test, type Locator } from '@playwright/test'
 
 import { BLOCK_THUMBNAIL_SIZE, blockThumbnailSlugs } from '../../src/lib/admin/block-thumbnails.ts'
 import { MODES, THEMES } from '../../src/lib/theme/theme.ts'
+import { frame } from './frame.ts'
 
 // El catálogo de componentes (DESIGN.md, Component catalog). En producción da 404; el
 // servidor de estas pruebas lo abre con E2E_DESIGN_CATALOG=1 (playwright.config.ts).
@@ -369,7 +370,7 @@ test.describe('catálogo /sistema con el aspecto de la opción D', () => {
     expect(await family('section h2')).toBe('Lexend')
     expect(await family('[data-component] h3')).toBe('Lexend')
     const h1 = (await page.locator('h1').boundingBox())!
-    expect(h1.x).toBeCloseTo(3 * 17.6, 0)
+    expect(h1.x).toBeCloseTo(frame(1440).left, 0)
   })
 
   test('el huevo de la checklist se apaga hasta terminarla', async ({ page }) => {

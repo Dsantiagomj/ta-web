@@ -3,6 +3,7 @@ import { expect, test, type Page } from '@playwright/test'
 
 import { FREE_THEMES, MODES } from '../../src/lib/theme/theme.ts'
 import { computedContrast } from './colors.ts'
+import { frame } from './frame.ts'
 import { seedChecklists } from './seed/checklists.ts'
 import { seedGuide } from './seed/guides.ts'
 
@@ -16,16 +17,13 @@ const FAB_NAME = 'Apoya en Ko-fi (se abre en otra pestaña)'
 const WCAG = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']
 const url = `/${seedGuide.slug}`
 
-/** El margen lateral de la cabecera a cada ancho (DESIGN.md, Breakpoints and containers). */
-const gutter = (width: number) => (width >= 1024 ? 3 * 17.6 : width >= 640 ? 24 : 16)
-
 async function open(page: Page, path = url) {
   await page.goto(path)
   await expect(page.locator('[data-site-header][data-ready]')).toHaveCount(1)
 }
 
 // Qué enseña la cabecera a cada ancho: con su texto, solo la taza o nada. En el móvil lo cubre
-// el flotante; de 1200 a 1279px el menú completo no le deja sitio, y de 1280 a 1535px solo
+// el flotante; de 1200 a 1279px el menú completo no le deja sitio, y de 1280 a 1583px solo
 // cabe la taza junto a la búsqueda.
 const HEADER_STATES = [
   [390, 'none'],
@@ -39,7 +37,10 @@ const HEADER_STATES = [
   [1366, 'icon'],
   [1440, 'icon'],
   [1535, 'icon'],
-  [1536, 'text'],
+  [1536, 'icon'],
+  [1583, 'icon'],
+  [1584, 'text'],
+  [1600, 'text'],
   [1728, 'text'],
   [2560, 'text'],
 ] as const
@@ -90,7 +91,7 @@ test.describe('el Ko-fi de la cabecera', () => {
         expect(boxes.act[i - 1].right, boxes.act[i].name).toBeLessThanOrEqual(boxes.act[i].left)
       }
       if (width >= 768) {
-        expect(boxes.act.at(-1)!.right).toBeLessThanOrEqual(width - gutter(width) + 0.5)
+        expect(boxes.act.at(-1)!.right).toBeLessThanOrEqual(frame(width).right + 0.5)
       }
     })
   }
@@ -148,8 +149,8 @@ test.describe('el Ko-fi flotante', () => {
     await expect(fab).toHaveAttribute('rel', 'noopener')
     await expect(fab.locator('.kofi-fab__t')).toBeVisible()
     const box = (await fab.boundingBox())!
-    expect(box.x + box.width).toBeLessThanOrEqual(1440 - gutter(1440) + 0.5)
-    expect(box.x + box.width).toBeGreaterThan(1440 - gutter(1440) - 2)
+    expect(box.x + box.width).toBeLessThanOrEqual(frame(1440).right + 0.5)
+    expect(box.x + box.width).toBeGreaterThan(frame(1440).right - 2)
     expect(900 - (box.y + box.height)).toBeGreaterThanOrEqual(16)
     expect(900 - (box.y + box.height)).toBeLessThanOrEqual(32)
   })

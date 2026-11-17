@@ -114,7 +114,7 @@ export function CatalogSection({ theme, mode }: { theme: Theme; mode: Mode }) {
       data-theme={theme}
       data-mode={mode}
       aria-labelledby={`${key}-h`}
-      className="bg-bg px-4 py-12 text-ink [--color-section:var(--color-sec-misiones)] sm:px-6 lg:px-12"
+      className="bg-bg px-(--frame-pad) py-12 text-ink [--color-section:var(--color-sec-misiones)]"
     >
       <div className="max-w-(--width-guide)">
         <h2 id={`${key}-h`} className="mb-8 font-ui text-2xl font-bold text-ink">

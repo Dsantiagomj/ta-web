@@ -434,46 +434,49 @@ describe('QuestHeader', () => {
 })
 
 describe('IMAGE_SIZES', () => {
-  // Desde 64rem la raíz es el 110 %: la columna de 55rem mide 968px y los márgenes, 52,8px.
+  // Desde 64rem la raíz es el 110 % y el margen lateral, el 5 % de la ventana (3rem entre 1024
+  // y 1056px): la fila del contenido mide el 90 % de la ventana hasta 110rem (1936px), que
+  // alcanza a 2151px. La columna de 55rem mide 968px.
   it('las capturas ocupan la columna de lectura: 880px, 968px con la raíz al 110 %', () => {
     expect(IMAGE_SIZES.prose).toBe(
-      '(min-width: 67.1rem) 968px, (min-width: 64rem) calc(100vw - 106px), ' +
+      '(min-width: 67.3rem) 968px, (min-width: 64rem) 90vw, ' +
         '(min-width: 58rem) 880px, (min-width: 40rem) calc(100vw - 48px), calc(100vw - 32px)',
     )
   })
 
-  // La fila del paso va de margen a margen y sus capturas la llenan: dos columnas, tres desde
-  // una fila de 81rem, cuatro desde 122rem y cinco desde 163rem, ninguna de más de 40rem
-  // (704px). Las media queries de sizes van en rem de 16px: la ventana es la fila más los
-  // márgenes de 52,8px.
-  it('las capturas de un paso llenan la fila: dos, tres, cuatro o cinco por fila, hasta 704px', () => {
+  // La fila del paso va de margen a margen y sus capturas la llenan: dos columnas y tres desde
+  // una fila de 81rem (ventana de 1584px), ninguna de más de 40rem (704px). Con el contenido
+  // parado en 110rem (desde 2152px) caben tres de 634px. Las media queries de sizes van en
+  // rem de 16px.
+  it('las capturas de un paso llenan la fila: dos o tres por fila, hasta 704px', () => {
     expect(IMAGE_SIZES.half).toBe(
-      '(min-width: 185.9rem) calc(20vw - 35px), (min-width: 140.8rem) calc(25vw - 40px), ' +
-        '(min-width: 95.7rem) calc(33.33vw - 47px), (min-width: 64rem) calc(50vw - 62px), ' +
+      '(min-width: 134.5rem) 634px, (min-width: 99rem) calc(30vw - 12px), ' +
+        '(min-width: 64rem) calc(45vw - 9px), ' +
         '(min-width: 40rem) calc(50vw - 32px), calc(100vw - 32px)',
     )
   })
 
-  // Una pareja llena la fila en cualquier pantalla: media fila menos medio hueco.
+  // Una pareja llena la fila en cualquier pantalla: media fila menos medio hueco, 959px con
+  // el contenido parado en 110rem.
   it('una pareja de capturas: media fila en cualquier pantalla', () => {
     expect(IMAGE_SIZES.pair).toBe(
-      '(min-width: 64rem) calc(50vw - 62px), (min-width: 40rem) calc(50vw - 32px), ' +
-        'calc(100vw - 32px)',
-    )
-  })
-
-  // Una sola: media fila hasta 36rem (633,6px), con la ventana a 1390,4px.
-  it('una captura sola: media fila hasta 634px', () => {
-    expect(IMAGE_SIZES.single).toBe(
-      '(min-width: 86.9rem) 634px, (min-width: 64rem) calc(50vw - 62px), ' +
+      '(min-width: 134.5rem) 959px, (min-width: 64rem) calc(45vw - 9px), ' +
         '(min-width: 40rem) calc(50vw - 32px), calc(100vw - 32px)',
     )
   })
 
-  // El vídeo crece hasta 81rem (1425,6px), que alcanza con la ventana a 1531,2px.
+  // Una sola: media fila hasta 36rem (633,6px), con la ventana a 1427,6px.
+  it('una captura sola: media fila hasta 634px', () => {
+    expect(IMAGE_SIZES.single).toBe(
+      '(min-width: 89.3rem) 634px, (min-width: 64rem) calc(45vw - 9px), ' +
+        '(min-width: 40rem) calc(50vw - 32px), calc(100vw - 32px)',
+    )
+  })
+
+  // El vídeo crece hasta 81rem (1425,6px), que alcanza con la ventana a 1584px.
   it('el vídeo ocupa la columna hasta 81rem', () => {
     expect(IMAGE_SIZES.video).toBe(
-      '(min-width: 95.7rem) 1426px, (min-width: 64rem) calc(100vw - 106px), ' +
+      '(min-width: 99rem) 1426px, (min-width: 64rem) 90vw, ' +
         '(min-width: 40rem) calc(100vw - 48px), calc(100vw - 32px)',
     )
   })

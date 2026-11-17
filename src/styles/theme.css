@@ -187,6 +187,30 @@
   --width-video: calc(2 * var(--width-shot-max) + 1rem);
   --width-media: 55rem;
   --measure: 75ch;
+
+  /* El marco de todas las páginas (DESIGN.md, Layout): la cabecera, el contenido y el pie
+     tienen los mismos bordes. --gutter es el margen lateral: 1rem en el móvil, 1,5rem en la
+     tableta y, desde 64rem, el 5 % de la ventana entre 3rem y 8rem (72px a 1440px, 96px a
+     1920px, 128px a 2560px). El contenido no pasa de --frame-max (110rem, 1936px con la raíz
+     al 110 %): más allá va centrado. --frame-pad es el relleno lateral de una caja a todo el
+     ancho cuyo contenido va en el marco; su 100 % es el ancho de esa caja, así que solo vale
+     en cajas de borde a borde (la barra, el pie, el <main>), y los fondos siguen llegando a
+     los bordes. Lo que sangra dentro de una página usa --gutter. */
+  --gutter: 1rem;
+  --frame-max: 110rem;
+  --frame-pad: max(var(--gutter), calc((100% - var(--frame-max)) / 2));
+}
+
+@media (min-width: 40rem) {
+  :root {
+    --gutter: 1.5rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  :root {
+    --gutter: clamp(3rem, 5vw, 8rem);
+  }
 }
 
 /* Paletas: cinco temas, cada uno con modo oscuro y claro. Amakna, Arcano, Bonta y Brâkmar son

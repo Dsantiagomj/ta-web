@@ -12,34 +12,6 @@
  * siempre opaca. El menú de secciones aparece desde 1200px y, hasta ahí, lo abre la
  * hamburguesa: con el selector de tema, a 1120px no cabía y los botones se salían.
  */
-.site-hdr,
-.site-ft,
-.sheet,
-.sdlg,
-.kofi-dock {
-  --gutter: 1rem;
-}
-
-@media (min-width: 40rem) {
-  .site-hdr,
-  .site-ft,
-  .sheet,
-  .sdlg,
-  .kofi-dock {
-    --gutter: 1.5rem;
-  }
-}
-
-@media (min-width: 64rem) {
-  .site-hdr,
-  .site-ft,
-  .sheet,
-  .sdlg,
-  .kofi-dock {
-    --gutter: 3rem;
-  }
-}
-
 html {
   scroll-padding-top: 5rem;
 }
@@ -81,14 +53,14 @@ html {
   background: var(--color-bar);
 }
 
-/* De margen a margen, como las páginas (DESIGN.md, Layout): el logo empieza donde empieza el
-   contenido y los botones acaban donde acaba. */
+/* En el marco de las páginas (--frame-pad, theme.css; DESIGN.md, Layout): el logo empieza
+   donde empieza el contenido y los botones acaban donde acaba. La barra, de borde a borde. */
 .site-hdr__in {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   height: 100%;
-  padding-inline: var(--gutter);
+  padding-inline: var(--frame-pad);
 }
 
 .site-hdr__act {
@@ -269,7 +241,9 @@ html {
 
 /* En la cabecera, junto a la búsqueda. En el móvil no sale: lo cubre el flotante. Con la
    hamburguesa (768 a 1199px) cabe con su texto; de 1200 a 1279px el menú completo no le deja
-   sitio; de 1280 a 1535px cabe la taza sola, y desde 1536px otra vez con su texto. */
+   sitio; de 1280 a 1583px cabe la taza sola, y desde 1584px otra vez con su texto. Era 1536px
+   hasta que el margen lateral creció con la ventana (el 5 %): de 1536 a 1583px los botones
+   pasaban del margen derecho. */
 .hkofi {
   display: none;
   flex: none;
@@ -288,7 +262,7 @@ html {
   }
 }
 
-@media (min-width: 80rem) and (max-width: 95.99rem) {
+@media (min-width: 80rem) and (max-width: 98.99rem) {
   .hkofi {
     width: 2.75rem;
     padding: 0;
@@ -341,7 +315,8 @@ html {
   align-items: flex-end;
   justify-content: flex-end;
   height: 0;
-  padding-right: calc(var(--gutter) + env(safe-area-inset-right, 0px));
+  /* Acaba donde acaba el contenido, también con el contenido centrado de una pantalla ancha. */
+  padding-right: calc(var(--frame-pad) + env(safe-area-inset-right, 0px));
   pointer-events: none;
 }
 
@@ -510,8 +485,8 @@ body:has(main[data-section='dofus']) .site-nav__item[data-section='dofus'] > .np
   transform: rotate(180deg);
 }
 
-/* El menú apretado hasta 1535px: el Ko-fi de la cabecera necesita su sitio junto a la búsqueda. */
-@media (min-width: 75rem) and (max-width: 95.99rem) {
+/* El menú apretado hasta 1583px: el Ko-fi de la cabecera necesita su sitio junto a la búsqueda. */
+@media (min-width: 75rem) and (max-width: 98.99rem) {
   .np {
     gap: 0.25rem;
     padding: 0.375rem;
@@ -1083,7 +1058,7 @@ body:has(main[data-section='dofus']) .site-nav__item[data-section='dofus'] > .np
 @media (min-width: 48rem) {
   .sheet__top {
     height: 4rem;
-    padding-inline: var(--gutter);
+    padding-inline: var(--frame-pad);
   }
 }
 
@@ -1481,7 +1456,7 @@ mark.hit {
 
 .site-ft__in,
 .site-ft__legal {
-  padding-inline: var(--gutter);
+  padding-inline: var(--frame-pad);
 }
 
 .site-ft__in {

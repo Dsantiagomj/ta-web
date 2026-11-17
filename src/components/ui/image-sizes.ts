@@ -3,36 +3,41 @@
  * Imagery): cuánto ocupa en la ventana, para que el navegador elija el archivo.
  */
 export const IMAGE_SIZES = {
-  // Las capturas sueltas de la prosa (--width-media): 55rem. Desde 64rem la raíz
-  // es el 110 %, así que miden 968px y los márgenes de 3rem, 52,8px; hasta que caben enteras
-  // (1073,6px), la ventana menos los márgenes. Entre 928px y 1024px, 880px; por debajo, la ventana menos los
-  // márgenes de 24px y, en el móvil, menos los de 16px. Las media queries de sizes van en rem
-  // de 16px, como las del CSS.
+  // La fila del contenido (DESIGN.md, Layout): la ventana menos los márgenes de 16px en el
+  // móvil y 24px en la tableta; desde 64rem (raíz al 110 %), el 90 % de la ventana, porque el
+  // margen es el 5 % (3rem, 52,8px, entre 1024 y 1056px: sizes da 3px de más ahí), hasta que
+  // el contenido llega a 110rem (1936px) con la ventana a 2151px. Las media queries de sizes
+  // van en rem de 16px, como las del CSS.
+  //
+  // Las capturas sueltas de la prosa (--width-media, 55rem): 968px desde que caben enteras
+  // (ventana de 1075,6px); entre 928px y 1024px, 880px.
   prose:
-    '(min-width: 67.1rem) 968px, (min-width: 64rem) calc(100vw - 106px), ' +
+    '(min-width: 67.3rem) 968px, (min-width: 64rem) 90vw, ' +
     '(min-width: 58rem) 880px, (min-width: 40rem) calc(100vw - 48px), calc(100vw - 32px)',
-  // Tres o más capturas de un paso desde 40rem (DESIGN.md, Steps): columnas que llenan la fila del
-  // paso, la ventana menos los márgenes (3rem, 52,8px desde 64rem; 24px y 16px debajo), con
-  // huecos de 1rem (17,6px con la raíz al 110 %). Dos columnas; tres desde que la fila mide
-  // 81rem (1425,6px, ventana de 1531,2px), cuatro desde 122rem (2147,2px, ventana de
-  // 2252,8px) y cinco desde 163rem (2868,8px, ventana de 2974,4px): ninguna pasa de 40rem
-  // (704px). En el móvil, una por fila. A 2x piden como mucho 1408px: la variante de 1600.
+  // Tres o más capturas de un paso desde 40rem (DESIGN.md, Steps): columnas que llenan la fila
+  // con huecos de 1rem (17,6px con la raíz al 110 %). Dos columnas; tres desde que la fila
+  // mide 81rem (1425,6px, ventana de 1584px). Con el contenido parado en 110rem (ventana de
+  // 2152px) son tres de 634px: la fila nunca llega a las 122rem de la cuarta. Ninguna pasa de
+  // 40rem (704px); a 2x piden como mucho 1408px: la variante de 1600. En el móvil, una por
+  // fila.
   half:
-    '(min-width: 185.9rem) calc(20vw - 35px), (min-width: 140.8rem) calc(25vw - 40px), ' +
-    '(min-width: 95.7rem) calc(33.33vw - 47px), (min-width: 64rem) calc(50vw - 62px), ' +
+    '(min-width: 134.5rem) 634px, (min-width: 99rem) calc(30vw - 12px), ' +
+    '(min-width: 64rem) calc(45vw - 9px), ' +
     '(min-width: 40rem) calc(50vw - 32px), calc(100vw - 32px)',
   // Una pareja: media fila menos medio hueco en cualquier pantalla; la segunda acaba en el
-  // margen derecho. A 2560px, 1218px (2437 a 2x: la variante de 1600).
-  pair: '(min-width: 64rem) calc(50vw - 62px), (min-width: 40rem) calc(50vw - 32px), calc(100vw - 32px)',
-  // Una sola: media fila, hasta 36rem (633,6px), el tamaño de la web anterior, que alcanza
-  // con la ventana a 1390,4px.
-  single:
-    '(min-width: 86.9rem) 634px, (min-width: 64rem) calc(50vw - 62px), ' +
+  // margen derecho. Con el contenido parado en 110rem, 959px (1918 a 2x: la variante de 1600).
+  pair:
+    '(min-width: 134.5rem) 959px, (min-width: 64rem) calc(45vw - 9px), ' +
     '(min-width: 40rem) calc(50vw - 32px), calc(100vw - 32px)',
-  // El vídeo (--width-video, 81rem: 1425,6px desde 64rem): la columna menos los márgenes
-  // hasta que cabe entero, con la ventana a 1531,2px.
+  // Una sola: media fila, hasta 36rem (633,6px), el tamaño de la web anterior, que alcanza
+  // con la ventana a 1427,6px.
+  single:
+    '(min-width: 89.3rem) 634px, (min-width: 64rem) calc(45vw - 9px), ' +
+    '(min-width: 40rem) calc(50vw - 32px), calc(100vw - 32px)',
+  // El vídeo (--width-video, 81rem: 1425,6px desde 64rem): la fila hasta que cabe entero,
+  // con la ventana a 1584px.
   video:
-    '(min-width: 95.7rem) 1426px, (min-width: 64rem) calc(100vw - 106px), ' +
+    '(min-width: 99rem) 1426px, (min-width: 64rem) 90vw, ' +
     '(min-width: 40rem) calc(100vw - 48px), calc(100vw - 32px)',
   // Arte de cabecera: a sangre, de borde a borde.
   hero: '100vw',
