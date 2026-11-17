@@ -5,7 +5,8 @@ import type { Achievement, GameItem, Monster } from '@/components/game/types'
 import { Callout } from '@/components/ui/Callout'
 import { Figure } from '@/components/ui/Figure'
 import type { ImageAsset } from '@/components/ui/types'
-import type { AchievementNeeds, QuestCard } from '@/lib/achievements/page'
+import type { IndexAchievement, IndexZone } from '@/lib/achievements/metalogros'
+import type { AchievementNeeds, GroupItem, QuestCard } from '@/lib/achievements/page'
 import { ASTRUB, CAST, CROCANTERIA, KROSMOZ } from '@/components/home/art'
 import type { ChecklistEntry, ChecklistTeaser } from '@/lib/checklists/list'
 import { posterInk } from '@/lib/checklists/poster-ink'
@@ -541,3 +542,61 @@ export const achievementQuestsLong: QuestCard[] = [
   { position: 4, level: 25, title: 'Intoxicación profunda', href: '#intoxicacion' },
   { position: 5, level: 30, title: 'La ocasión hace al ladrón', href: '#la-ocasion' },
 ]
+
+/** Fichas del índice de metalogros: con su PNJ (y su brillo), solo con el icono de
+ * su primer logro (el icono, entero dentro del rombo) y apagada, sin nada publicado. */
+const zone = (z: Partial<IndexZone> & Pick<IndexZone, 'name' | 'anchor'>): IndexZone => ({
+  preparing: false,
+  off: false,
+  count: '7 logros',
+  counts: '7 logros · 50 misiones',
+  quests: 50,
+  achievements: [],
+  guides: [],
+  ...z,
+})
+
+export const metalogroTiles: IndexZone[] = [
+  zone({ name: 'Astrub', anchor: 'cat-astrub', art: images.npcRight }),
+  zone({ name: 'General', anchor: 'cat-general', icon: achievement.icon, count: '2 logros' }),
+  zone({
+    name: 'Misiones de templo',
+    anchor: 'cat-templo',
+    icon: achievement.icon,
+    off: true,
+    preparing: true,
+    count: '',
+  }),
+]
+
+/** Las tarjetas de logro del panel de una zona: una con enlace y otra En preparación. */
+export const metalogroCards: IndexAchievement[] = [
+  {
+    name: 'La ocasión hace al ladrón',
+    href: '#logro',
+    meta: '3 misiones · Niv. 15–25',
+    off: false,
+    icon: achievement.icon,
+  },
+  { name: 'La gran biblioteca', meta: '1 misión · Niv. 25', off: true, icon: achievement.icon },
+]
+
+/** El logro anterior y el siguiente de una página de logro; el siguiente, En preparación. */
+export const navPrevious: GroupItem = {
+  name: 'Un ciudadano modelo',
+  href: '#anterior',
+  current: false,
+  disabled: false,
+  icon: achievement.icon,
+  quests: 1,
+  levels: 'Nivel 15',
+}
+
+export const navNext: GroupItem = {
+  name: 'La gran biblioteca',
+  current: false,
+  disabled: true,
+  icon: achievement.icon,
+  quests: 1,
+  levels: 'Nivel 25',
+}
