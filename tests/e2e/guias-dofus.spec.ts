@@ -2,6 +2,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
 
 import { MODES } from '../../src/lib/theme/theme.ts'
+import { visualLines } from './meta-lines.ts'
 import { expectNeedsColumns } from './needs-layout.ts'
 import { seedAchievement as logro } from './seed/achievements.ts'
 import { seedDofus as dofus } from './seed/dofus-guides.ts'
@@ -153,6 +154,24 @@ test.describe('índice de las guías de Dofus', () => {
       'background-color',
       await token('--color-hue-6'),
     )
+  })
+
+  test('en el móvil, las cifras de una tarjeta se parten entre sus partes, sin empezar por el guion', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/guias-dofus')
+    const meta = page.getByRole('link', { name: new RegExp(dofus.ocre.name) }).locator('.dcard__m')
+    await expect(meta).toHaveText(dofus.ocre.meta)
+    // Del móvil más estrecho al más ancho, la tarjeta cambia de ancho y la línea se parte en
+    // otro sitio: en ninguno empieza una línea por el guion.
+    for (let width = 320; width <= 440; width += 4) {
+      await page.setViewportSize({ width, height: 844 })
+      const lines = await visualLines(meta)
+      expect(lines.length, `${width}px`).toBeGreaterThan(1)
+      for (const line of lines) expect(line, `${width}px`).not.toMatch(/^-/)
+      expect(lines.join(' '), `${width}px`).toBe(dofus.ocre.meta)
+    }
   })
 
   test('sin JavaScript se ven todas las tarjetas y no sale el buscador', async ({ browser }) => {
