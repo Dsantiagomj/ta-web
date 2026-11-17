@@ -163,3 +163,84 @@ html:active-view-transition-type(pagina)::view-transition-new(root) {
     transform: translateY(0.5rem);
   }
 }
+
+/* Al imprimir (DESIGN.md, Print): la guía en claro sobre papel blanco, sea cual sea el tema o
+   el modo de la pantalla. Los tokens claros de Amakna, el tema por defecto, con el fondo y las
+   superficies en blanco (tests/unit/print-css.test.ts), y fuera lo que solo sirve en pantalla:
+   la cabecera con el selector de tema, el pie, las partículas, el fondo de zona y el aviso de
+   la vista previa. Sin sombras y sin partir una captura, un paso o un aviso entre dos hojas. */
+@media print {
+  html[data-theme][data-mode],
+  html[data-theme][data-mode] [data-theme],
+  html[data-theme][data-mode] [data-mode] {
+    color-scheme: light;
+    --t-success: #3d6914;
+    --t-warning: #7a5600;
+    --t-danger: #a8381f;
+    --t-info: #1d5f86;
+    --t-sec-misiones: #77600f;
+    --t-sec-logros: #8f560a;
+    --t-sec-dofus: #4b6e12;
+    --t-sec-checklists: #17695a;
+    --t-sec-clases: #a23c22;
+    --t-sec-mazmorras: #6a43b8;
+    --t-discord: #6a42d8;
+    --t-discord-hi: #7650e2;
+    --t-discord-ink: #ffffff;
+    --t-kofi: #f2c14e;
+    --t-kofi-hi: #f6cf6e;
+    --t-kofi-ink: #241a00;
+    --t-hue-1: #c23a28;
+    --t-hue-2: #946400;
+    --t-hue-3: #4b7610;
+    --t-hue-4: #1d68ae;
+    --t-hue-5: #0f7a6a;
+    --t-hue-6: #6744c4;
+    --t-hue-7: #ad540c;
+    --t-hue-8: #b23672;
+    --t-on-hue: #ffffff;
+    --t-shadow-alpha-1: 0.15;
+    --t-shadow-alpha-2: 0.175;
+    --t-shadow-alpha-3: 0.225;
+    --t-shadow-alpha-4: 0.275;
+    --t-well: var(--t-raised);
+    --t-well-line: var(--t-line);
+    --t-slot: var(--t-well);
+    --t-slot-line: var(--t-well-line);
+    --t-bg: #ffffff;
+    --t-surface: #ffffff;
+    --t-raised: #ebe3d5;
+    --t-line: #d5c9b5;
+    --t-ink: #1d1813;
+    --t-ink-2: #43392f;
+    --t-muted: #6b5f52;
+    --t-accent: #3f6d0c;
+    --t-accent-2: #8a5d00;
+    --t-btn: #a8d63c;
+    --t-btn-hi: #b7e24f;
+    --t-btn-ink: #172105;
+    --t-chip: #ddd1bd;
+    --t-chip-hi: #d2c4ad;
+    --t-bar: #ffffff;
+  }
+
+  :is(.site-hdr, .site-ft, .amb, .tp, .zone-bg, .skip-link, aside[aria-label='Vista previa']) {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff;
+  }
+
+  * {
+    box-shadow: none !important;
+  }
+
+  :is(figure, .callout, .torre, .nextq) {
+    break-inside: avoid;
+  }
+
+  :is(h1, h2, h3) {
+    break-after: avoid;
+  }
+}
