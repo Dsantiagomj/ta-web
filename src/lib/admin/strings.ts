@@ -82,9 +82,9 @@ export const panelStrings = {
       'Las mazmorras de DofusDB y sus jefes. Las eliges en las notas de las guías.',
     ),
     npcs: correctable('Los PNJ de DofusDB que dan misiones o salen en ellas, con sus dibujos.'),
-    subareas: readOnly(
-      'Las zonas de DofusDB, con su área. Dan el nombre de los sitios de cada misión.',
-    ),
+    subareas:
+      'Las zonas de DofusDB, con su área. Solo editas su fondo, que sale detrás de sus guías ' +
+      'y logros.',
     'achievement-categories': readOnly(
       'Las categorías de logros de DofusDB, como «Astrub» o «Eventos».',
     ),
@@ -487,6 +487,29 @@ export const panelStrings = {
       'checklists o las almas.',
     flag: 'Corregido por Torre',
     flagHelp: 'Se marca solo cuando hay algo en «Corrección de Torre». Fíltralo en la lista.',
+  },
+  /** El fondo de zona de una subzona (src/components/admin/ZoneBackgroundButton.tsx). */
+  zoneBackground: {
+    background: 'Fondo de la zona',
+    backgroundHelp:
+      'Sale detrás de las guías de misión y las páginas de logro de esta zona, bajo un velo ' +
+      'del color de la página. Puedes subir tu propia imagen o traerla de DofusDB.',
+    mapId: 'Mapa del fondo',
+    mapIdHelp:
+      'El número del mapa de DofusDB cuyo dibujo es el fondo. Escribe otro y pulsa el botón ' +
+      'para cambiarlo; vacío, se elige uno solo.',
+    button: 'Traer fondo de DofusDB',
+    working: 'Trayendo el fondo…',
+    done: 'Listo: el fondo ya sale en las guías y los logros de esta zona.',
+    error: 'No se pudo traer el fondo de DofusDB. Prueba otra vez o con otro mapa.',
+    noMaps: 'DofusDB no da ningún mapa para esta zona. Escribe uno en «Mapa del fondo».',
+    forbidden: 'Solo una cuenta de administrador puede traer el fondo.',
+    signIn: 'Inicia sesión en el panel.',
+    invalid: 'Subzona o mapa no válidos.',
+    pageOverride: 'Fondo de la página',
+    pageOverrideHelp:
+      'Opcional. Sale detrás de toda la página en lugar del fondo de su zona. Vacío, la ' +
+      'página usa el de la zona de su misión, si lo tiene.',
   },
   /** El botón que copia DofusDB en lo vacío, bajo el enlace de una guía o un logro. */
   dofusDbFill: {

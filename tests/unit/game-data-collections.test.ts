@@ -100,11 +100,56 @@ describe('colección npcs', () => {
 })
 
 describe('colección subareas', () => {
-  it('usa su slug, el nombre como título y el grupo de datos del juego, de solo lectura', () => {
+  it('usa su slug, el nombre como título y el grupo de datos del juego', () => {
     expect(SubAreas.slug).toBe('subareas')
     expect(SubAreas.admin?.useAsTitle).toBe('name')
     expect(SubAreas.admin?.group).toBe('Datos del juego')
-    expect(SubAreas.access).toBe(gameDataAccess)
+  })
+
+  it('cualquiera la lee, nadie la crea ni la borra y solo un administrador la edita', () => {
+    const access = SubAreas.access!
+    const as = (role?: 'admin' | 'editor') =>
+      ({ req: { user: role ? { id: 1, role } : null } }) as never
+    expect(access.read!(as())).toBe(true)
+    expect(access.create!(as('admin'))).toBe(false)
+    expect(access.delete!(as('admin'))).toBe(false)
+    expect(access.update!(as('admin'))).toBe(true)
+    expect(access.update!(as('editor'))).toBe(false)
+    expect(access.update!(as())).toBe(false)
+  })
+
+  it('guarda el fondo de zona: una imagen de Media y el mapa de DofusDB de su render', () => {
+    expect(field(SubAreas, 'background')).toMatchObject({ type: 'upload', relationTo: 'media' })
+    expect(field(SubAreas, 'background')).not.toHaveProperty('required', true)
+    expect(field(SubAreas, 'backgroundMapId')).toMatchObject({ type: 'number' })
+  })
+
+  it('una cuenta del panel solo cambia el fondo; lo de DofusDB vuelve a lo guardado', async () => {
+    const hook = SubAreas.hooks!.beforeChange![0]!
+    const originalDoc = { id: 1, dofusId: 95, name: 'Ciudad de Astrub', background: null }
+    const data = await hook({
+      data: { dofusId: 1, name: 'Otro', background: 7, backgroundMapId: 188746755 },
+      originalDoc,
+      operation: 'update',
+      req: { user: { id: 1, role: 'admin' } },
+    } as never)
+    expect(data).toEqual({
+      dofusId: 95,
+      name: 'Ciudad de Astrub',
+      background: 7,
+      backgroundMapId: 188746755,
+    })
+  })
+
+  it('un script sin cuenta escribe lo que manda', async () => {
+    const hook = SubAreas.hooks!.beforeChange![0]!
+    const data = await hook({
+      data: { name: 'Nuevo nombre' },
+      originalDoc: { id: 1, name: 'Viejo', background: 7 },
+      operation: 'update',
+      req: { user: null },
+    } as never)
+    expect(data).toEqual({ name: 'Nuevo nombre' })
   })
 
   it('identifica cada subzona por su ID de DofusDB y guarda su nombre y el de su área', () => {
