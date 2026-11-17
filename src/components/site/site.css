@@ -15,7 +15,8 @@
 .site-hdr,
 .site-ft,
 .sheet,
-.sdlg {
+.sdlg,
+.kofi-dock {
   --gutter: 1rem;
 }
 
@@ -23,7 +24,8 @@
   .site-hdr,
   .site-ft,
   .sheet,
-  .sdlg {
+  .sdlg,
+  .kofi-dock {
     --gutter: 1.5rem;
   }
 }
@@ -32,7 +34,8 @@
   .site-hdr,
   .site-ft,
   .sheet,
-  .sdlg {
+  .sdlg,
+  .kofi-dock {
     --gutter: 3rem;
   }
 }
@@ -214,6 +217,191 @@ html {
   }
 }
 
+/* ---------- el Ko-fi de Torre: en la cabecera y flotante (DESIGN.md, Layout: Ko-fi) ---------- */
+/* Píldoras en el oro del Ko-fi con la taza y el texto en su tinta oscura, como la tarjeta del
+   pie. El borde (kofi-line) las separa con 3:1 de la barra y de la página: en oscuro es el
+   mismo oro; en claro, un oro hondo. */
+.hkofi,
+.kofi-fab {
+  align-items: center;
+  justify-content: center;
+  gap: 0.4375rem;
+  height: 2.75rem;
+  border: 1px solid var(--color-kofi-line);
+  border-radius: var(--radius-pill);
+  background: var(--color-kofi);
+  color: var(--color-kofi-ink);
+  font: 700 0.9375rem/1 var(--font-ui);
+  white-space: nowrap;
+  text-decoration: none;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-press) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hkofi:hover,
+  .kofi-fab:hover {
+    background: var(--color-kofi-hi);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hkofi:active,
+  .kofi-fab:active {
+    transform: scale(0.97);
+  }
+}
+
+.hkofi > svg,
+.kofi-fab > svg {
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+@media (forced-colors: active) {
+  .hkofi,
+  .kofi-fab {
+    border-color: LinkText;
+  }
+}
+
+/* En la cabecera, junto a la búsqueda. En el móvil no sale: lo cubre el flotante. Con la
+   hamburguesa (768 a 1199px) cabe con su texto; de 1200 a 1279px el menú completo no le deja
+   sitio; de 1280 a 1535px cabe la taza sola, y desde 1536px otra vez con su texto. */
+.hkofi {
+  display: none;
+  flex: none;
+  padding: 0 1rem 0 0.8125rem;
+}
+
+@media (min-width: 48rem) {
+  .hkofi {
+    display: inline-flex;
+  }
+}
+
+@media (min-width: 75rem) and (max-width: 79.99rem) {
+  .hkofi {
+    display: none;
+  }
+}
+
+@media (min-width: 80rem) and (max-width: 95.99rem) {
+  .hkofi {
+    width: 2.75rem;
+    padding: 0;
+  }
+
+  .hkofi__t {
+    display: none;
+  }
+}
+
+/* El catálogo /sistema enseña los dos estados a cualquier ancho, sobre la barra. */
+.kofi-demo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: var(--color-bar);
+}
+
+.kofi-demo .hkofi {
+  display: inline-flex;
+  width: auto;
+  padding: 0 1rem 0 0.8125rem;
+}
+
+.kofi-demo .hkofi__t {
+  display: inline;
+}
+
+.kofi-demo .hkofi--icon {
+  width: 2.75rem;
+  padding: 0;
+}
+
+.kofi-demo .hkofi--icon .hkofi__t {
+  display: none;
+}
+
+/* El flotante, abajo a la derecha de todas las páginas. Su caja (kofi-dock) va justo antes del
+   pie, sin alto y pegada (sticky) al borde de abajo de la pantalla: el botón sobresale hacia
+   arriba, viaja con la pantalla por toda la página y, cuando llega el pie, se queda encima de
+   él. Sin JavaScript. */
+.kofi-dock {
+  position: sticky;
+  z-index: var(--z-float);
+  bottom: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  height: 0;
+  padding-right: calc(var(--gutter) + env(safe-area-inset-right, 0px));
+  pointer-events: none;
+}
+
+.kofi-fab {
+  display: inline-flex;
+  margin-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  padding: 0 1.125rem 0 0.9375rem;
+  box-shadow: var(--shadow-float);
+  pointer-events: auto;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-press) var(--ease-out),
+    opacity var(--duration-base) var(--ease-out),
+    visibility var(--duration-base);
+}
+
+/* En el móvil, solo la taza: el texto queda para el lector de pantalla. */
+@media (max-width: 39.99rem) {
+  .kofi-fab {
+    width: 2.75rem;
+    padding: 0;
+  }
+
+  .kofi-fab__t {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* Aparcado sobre el pie (la caja ya no va pegada abajo: scroll-state), se desvanece. Sin
+   esas consultas (Safari y Firefox hoy) se queda aparcado y se va con la página. */
+.kofi-dock {
+  container-type: scroll-state;
+}
+
+@container not scroll-state(stuck: bottom) {
+  .kofi-fab {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* Con la lista de resultados de la búsqueda de la portada abierta, se aparta: no tapa ninguno. */
+body:has(.ask__field > .cbx:not([hidden])) .kofi-dock {
+  display: none;
+}
+
+/* En una checklist, desde 1024px, la ventana del diario mide lo que la pantalla y su pie
+   («Completar paso», el paso siguiente) quedaría debajo del botón: ahí no sale. Queda el de la
+   cabecera. */
+@media (min-width: 64rem) {
+  html[data-js] body:has(.ck-diary) .kofi-dock {
+    display: none;
+  }
+}
+
 /* ---------- el menú: un desplegable por sección ---------- */
 .site-nav {
   display: none;
@@ -322,7 +510,8 @@ body:has(main[data-section='dofus']) .site-nav__item[data-section='dofus'] > .np
   transform: rotate(180deg);
 }
 
-@media (min-width: 75rem) and (max-width: 79.99rem) {
+/* El menú apretado hasta 1535px: el Ko-fi de la cabecera necesita su sitio junto a la búsqueda. */
+@media (min-width: 75rem) and (max-width: 95.99rem) {
   .np {
     gap: 0.25rem;
     padding: 0.375rem;

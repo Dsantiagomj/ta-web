@@ -167,8 +167,8 @@ html:active-view-transition-type(pagina)::view-transition-new(root) {
 /* Al imprimir (DESIGN.md, Print): la guía en claro sobre papel blanco, sea cual sea el tema o
    el modo de la pantalla. Los tokens claros de Amakna, el tema por defecto, con el fondo y las
    superficies en blanco (tests/unit/print-css.test.ts), y fuera lo que solo sirve en pantalla:
-   la cabecera con el selector de tema, el pie, las partículas, el fondo de zona y el aviso de
-   la vista previa. Sin sombras y sin partir una captura, un paso o un aviso entre dos hojas. */
+   la cabecera con el selector de tema, el pie, el Ko-fi flotante, las partículas, el fondo de
+   zona y el aviso de la vista previa. Sin sombras y sin partir una captura, un paso o un aviso entre dos hojas. */
 @media print {
   html[data-theme][data-mode],
   html[data-theme][data-mode] [data-theme],
@@ -190,6 +190,7 @@ html:active-view-transition-type(pagina)::view-transition-new(root) {
     --t-kofi: #f2c14e;
     --t-kofi-hi: #f6cf6e;
     --t-kofi-ink: #241a00;
+    --t-kofi-line: #9a6b00;
     --t-hue-1: #c23a28;
     --t-hue-2: #946400;
     --t-hue-3: #4b7610;
@@ -224,7 +225,16 @@ html:active-view-transition-type(pagina)::view-transition-new(root) {
     --t-bar: #ffffff;
   }
 
-  :is(.site-hdr, .site-ft, .amb, .tp, .zone-bg, .skip-link, aside[aria-label='Vista previa']) {
+  :is(
+    .site-hdr,
+    .site-ft,
+    .kofi-dock,
+    .amb,
+    .tp,
+    .zone-bg,
+    .skip-link,
+    aside[aria-label='Vista previa']
+  ) {
     display: none !important;
   }
 

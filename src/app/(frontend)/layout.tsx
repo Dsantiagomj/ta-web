@@ -3,6 +3,7 @@ import { cookies, draftMode } from 'next/headers'
 import type { ReactNode } from 'react'
 
 import { Ambience } from '@/components/site/Ambience'
+import { KofiFloat } from '@/components/site/Kofi'
 import { SiteFooter } from '@/components/site/SiteFooter'
 import { classLinks, dungeonLinks, legalLinks, TOP_ANCHOR } from '@/components/site/nav'
 import { SiteHeader } from '@/components/site/SiteHeader'
@@ -88,6 +89,9 @@ export default async function FrontendLayout({ children }: { children: ReactNode
           featured={nav.featured}
         />
         {children}
+        {/* El Ko-fi flotante va justo antes del pie: pegado abajo, se queda encima de él al
+            llegar y se va mientras entra (DESIGN.md, Layout: Ko-fi). */}
+        <KofiFloat url={settings.socials.kofi.url} label={settings.footer.kofiTitle} />
         <SiteFooter
           year={new Date().getFullYear()}
           legal={legalLinks(pages)}

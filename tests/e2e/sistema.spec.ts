@@ -11,6 +11,7 @@ const COMPONENTS = [
   'achievement',
   'brand',
   'site',
+  'kofi',
   'buttons',
   'chips',
   'callouts',

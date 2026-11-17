@@ -184,9 +184,37 @@ describe('los colores del pie de theme.css', () => {
     }
   })
 
+  // Los botones de Ko-fi de la cabecera y el flotante van sobre la barra y sobre la página: su
+  // borde (kofi-line) los separa de ella con 3:1 en cada tema. En claro el oro sobre blanco
+  // daba 1,3:1; en oscuro el propio oro ya se ve, así que el borde es el relleno.
+  it('el borde del Ko-fi se ve (3:1) sobre la barra, el fondo y las superficies de cada tema', () => {
+    for (const mode of MODES) {
+      const line = modeValues(mode)['kofi-line']
+      expect(line, mode).toMatch(/^#[0-9a-f]{6}$/)
+      for (const theme of THEMES) {
+        const values = palette[`${theme}-${mode}`]
+        for (const ground of ['bar', 'bg', 'surface', 'raised'] as const) {
+          expect(
+            contrastRatio(line, values[ground]),
+            `${theme}-${mode}: kofi-line sobre ${ground}`,
+          ).toBeGreaterThanOrEqual(3)
+        }
+      }
+    }
+    expect(modeValues('dark')['kofi-line']).toBe(modeValues('dark').kofi)
+  })
+
   it('expone los colores del pie como tokens semánticos', () => {
     const tokens = semanticTokens.map(({ token }) => token)
-    for (const token of ['discord', 'discord-hi', 'discord-ink', 'kofi', 'kofi-hi', 'kofi-ink']) {
+    for (const token of [
+      'discord',
+      'discord-hi',
+      'discord-ink',
+      'kofi',
+      'kofi-hi',
+      'kofi-ink',
+      'kofi-line',
+    ]) {
       expect(tokens).toContain(`--color-${token}`)
     }
   })
