@@ -513,3 +513,16 @@ html:active-view-transition-type(guias-dofus)::view-transition-new(*.dcard):only
     margin-bottom: 0.5rem;
   }
 }
+
+/* Colores forzados: el indicador del filtro elegido perdía su relleno; va en Highlight, con el
+   texto del elegido en HighlightText. */
+@media (forced-colors: active) {
+  .dg-seg__ind {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
+  .dg-pill[aria-pressed='true'] {
+    forced-color-adjust: none;
+    color: HighlightText;
+  }
+}
