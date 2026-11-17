@@ -403,7 +403,8 @@
 
 /* A 1024px la columna del texto deja la barra en unos 440px y el botón en mayúsculas cortaba el
    texto de ayuda («Misión, logro o Do»): en una barra estrecha el botón pierde la flecha y algo
-   de relleno, como en el móvil. */
+   de relleno y de margen, como en el móvil. Chromium en Linux pinta el texto unos píxeles más
+   ancho que en macOS: con 16px de relleno, allí aún faltaban 5px. */
 .ask__bar {
   container-type: inline-size;
 }
@@ -414,7 +415,8 @@
   }
 
   .ask__go {
-    padding: 0 1rem;
+    margin-right: 0.25rem;
+    padding: 0 0.75rem;
   }
 }
 
