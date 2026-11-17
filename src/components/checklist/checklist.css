@@ -3312,3 +3312,23 @@ html[data-js] [data-road-hero]:not([data-road-ready]) :is(.ck-egg--road, .ck-hea
     animation: none;
   }
 }
+
+/* Colores forzados (Windows en contraste alto): sin sombras ni fondos de la paleta, el paso
+   abierto perdía su anillo y las barras y el anillo de las almas su relleno. El paso abierto
+   lleva un contorno del sistema y los rellenos van en Highlight. */
+@media (forced-colors: active) {
+  .ck-row[aria-current='true'] {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+
+  .ck .ck-bar .progress__fill,
+  .sl-st__fill {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
+
+  .sl-ring__f {
+    stroke: Highlight;
+  }
+}
