@@ -265,6 +265,10 @@ export interface QuestGuide {
    * Dónde estaba en la web antigua. La pone la importación; no hace falta tocarla.
    */
   originalUrl?: string | null;
+  /**
+   * Opcional. Sale detrás de toda la página en lugar del fondo de su zona. Vacío, la página usa el de la zona de su misión, si lo tiene.
+   */
+  background?: (number | null) | Media;
   importSnapshot?:
     | {
         [k: string]: unknown;
@@ -319,6 +323,10 @@ export interface Quest {
         mapId?: number | null;
         x?: number | null;
         y?: number | null;
+        /**
+         * La subzona del mapa: de ella sale el fondo de la guía.
+         */
+        subAreaId?: number | null;
         id?: string | null;
       }[]
     | null;
@@ -828,6 +836,10 @@ export interface AchievementPage {
    * Publicada: se ve y se puede abrir. En preparación: se ve apagada, sin enlace, con la etiqueta «En preparación». Lo decides tú; el refresco de DofusDB no lo cambia. Además, pulsa «Publicar cambios» arriba para que lo que cambies salga en la web.
    */
   state: 'published' | 'preparing';
+  /**
+   * Opcional. Sale detrás de toda la página en lugar del fondo de su zona. Vacío, la página usa el de la zona de su misión, si lo tiene.
+   */
+  background?: (number | null) | Media;
   group?: (number | null) | AchievementGroup;
   order?: number | null;
   quests?:
@@ -2170,13 +2182,21 @@ export interface DungeonPage {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Las zonas de DofusDB, con su área. Dan el nombre de los sitios de cada misión. De solo lectura: lo pone al día un script.
+ * Las zonas de DofusDB, con su área. Solo editas su fondo, que sale detrás de sus guías y logros.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "subareas".
  */
 export interface Subarea {
   id: number;
+  /**
+   * Sale detrás de las guías de misión y las páginas de logro de esta zona, bajo un velo del color de la página. Puedes subir tu propia imagen o traerla de DofusDB.
+   */
+  background?: (number | null) | Media;
+  /**
+   * El número del mapa de DofusDB cuyo dibujo es el fondo. Escribe otro y pulsa el botón para cambiarlo; vacío, se elige uno solo.
+   */
+  backgroundMapId?: number | null;
   dofusId: number;
   name: string;
   areaDofusId?: number | null;
@@ -2506,6 +2526,7 @@ export interface QuestGuidesSelect<T extends boolean = true> {
         metaDescription?: T;
       };
   originalUrl?: T;
+  background?: T;
   importSnapshot?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2593,6 +2614,7 @@ export interface AchievementPagesSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
   state?: T;
+  background?: T;
   group?: T;
   order?: T;
   quests?:
@@ -3262,6 +3284,7 @@ export interface QuestsSelect<T extends boolean = true> {
         mapId?: T;
         x?: T;
         y?: T;
+        subAreaId?: T;
         id?: T;
       };
   zone?: T;
@@ -3455,6 +3478,8 @@ export interface NpcsSelect<T extends boolean = true> {
  * via the `definition` "subareas_select".
  */
 export interface SubareasSelect<T extends boolean = true> {
+  background?: T;
+  backgroundMapId?: T;
   dofusId?: T;
   name?: T;
   areaDofusId?: T;
