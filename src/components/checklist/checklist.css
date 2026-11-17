@@ -1217,8 +1217,10 @@ a.ck-q__t:focus-visible {
     padding: 0.625rem 0.75rem;
   }
 
+  /* El buscador en su propia fila, con «Más opciones» (2.5rem y el hueco de la fila) a su
+     lado: a todo el ancho, el botón bajaba solo a otra fila. */
   .ck-search {
-    flex-basis: 100%;
+    flex-basis: calc(100% - 3.5rem);
     max-width: none;
   }
 
