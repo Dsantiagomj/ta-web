@@ -189,6 +189,13 @@
   --width-page: 75rem;
   --width-hero: 68.75rem;
   --width-prose: 50rem;
+  /* Las páginas van a todo el ancho, a la izquierda (DESIGN.md, Layout). Solo la columna de
+     las guías se para: dos capturas de 36rem (634px con la raíz al 110 %, las de la web
+     anterior a 1440px) y el hueco de 1rem entre ellas. Las capturas sueltas de la prosa y el
+     vídeo, a 55rem. */
+  --width-shot: 36rem;
+  --width-guide: calc(2 * var(--width-shot) + 1rem);
+  --width-media: 55rem;
 }
 
 /* Paletas: cinco temas, cada uno con modo oscuro y claro. Amakna, Arcano, Bonta y Brâkmar son
