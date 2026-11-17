@@ -51,24 +51,36 @@ export function contrastRatio(a: string, b: string): number {
 const mix = (from: Rgb, to: Rgb, amount: number): Rgb =>
   from.map((channel, index) => channel + (to[index] - channel) * amount) as Rgb
 
-/** El color mezclado con `toward` lo justo (en pasos del 2 %) para llegar a 4,5:1 sobre `on`. */
-function readable(color: Rgb, toward: Rgb, on: Rgb): string {
+/** El color mezclado con `toward` lo justo (en pasos del 2 %) para llegar a `target` sobre `on`. */
+function readable(color: Rgb, toward: Rgb, on: Rgb, target = AA): string {
   for (let step = 0; step <= 50; step += 1) {
     const candidate = mix(color, toward, step / 50)
     const rounded = parse(toHex(candidate))!
-    if (ratio(rounded, on) >= AA) return toHex(rounded)
+    if (ratio(rounded, on) >= target) return toHex(rounded)
   }
   return toHex(toward)
+}
+
+/**
+ * Un color de Torre en cada modo, aclarado en el oscuro u oscurecido en el claro lo justo para
+ * llegar a `target` sobre el fondo de ese modo; undefined sin un color válido.
+ */
+export function contrastedColor(
+  color: string | null | undefined,
+  on: { dark: string; light: string },
+  target: number,
+): { dark: string; light: string } | undefined {
+  const rgb = parse(color)
+  if (!rgb) return undefined
+  return {
+    dark: readable(rgb, [255, 255, 255], parse(on.dark)!, target),
+    light: readable(rgb, [0, 0, 0], parse(on.light)!, target),
+  }
 }
 
 /** El color del nombre en cada modo, o undefined sin un color válido (la tinta del tema). */
 export function posterInk(
   color: string | null | undefined,
 ): { dark: string; light: string } | undefined {
-  const rgb = parse(color)
-  if (!rgb) return undefined
-  return {
-    dark: readable(rgb, [255, 255, 255], parse(POSTER_SHADE.dark)!),
-    light: readable(rgb, [0, 0, 0], parse(POSTER_SHADE.light)!),
-  }
+  return contrastedColor(color, POSTER_SHADE, AA)
 }
