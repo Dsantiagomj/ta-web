@@ -2,6 +2,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
 
 import { MODES } from '../../src/lib/theme/theme.ts'
+import { expectFilledButton } from './filled-button.ts'
 import { visualLines } from './meta-lines.ts'
 import { expectNeedsColumns } from './needs-layout.ts'
 import { draftGuide, E2E_PANEL_USER, seedGuide } from './seed/guides.ts'
@@ -619,6 +620,13 @@ test.describe('página de guía', () => {
       ).toBeVisible()
       await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/)
     }
+  })
+
+  test('la 404 vuelve a la portada con el botón principal relleno', async ({ page }) => {
+    await page.goto('/no-existe')
+    const home = page.getByRole('link', { name: 'Volver a la portada' })
+    await expect(home).toHaveAttribute('href', '/')
+    await expectFilledButton(home)
   })
 
   test('las rutas propias del sitio siguen ganando a /[slug]', async ({ request }) => {
