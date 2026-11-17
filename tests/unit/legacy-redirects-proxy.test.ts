@@ -5,6 +5,8 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { NOINDEX_HEADER } from '@/lib/dev-gate/dev-gate'
 import { GONE_COLORS, gonePage } from '@/lib/redirects/gone-page'
+import { readPalette } from '@/lib/theme/palette'
+import { FREE_THEMES, MODES } from '@/lib/theme/theme'
 import { proxy } from '@/proxy'
 
 // El proxy aplica la tabla de URL antiguas (src/lib/redirects/table.ts) antes de llegar a la
@@ -93,28 +95,57 @@ describe('gonePage', () => {
   })
 })
 
+describe('el aspecto del 410', () => {
+  it('va a la izquierda, con los márgenes del sitio, no en una columna centrada', () => {
+    const html = gonePage()
+    expect(html).not.toMatch(/margin:\s*0 auto/)
+    expect(html).toMatch(/max-width:62ch/)
+  })
+
+  it('no pide Montserrat por su nombre: la página no carga fuentes, usa las del sistema', () => {
+    expect(gonePage()).not.toMatch(/Montserrat/)
+    expect(gonePage()).toMatch(/system-ui/)
+  })
+
+  it('«Volver a la portada» es el botón principal relleno', () => {
+    expect(gonePage()).toMatch(/<a class="btn" href="\/">Volver a la portada<\/a>/)
+  })
+})
+
 describe('los colores del 410', () => {
-  it('son los de Arcano en theme.css, en los dos modos', () => {
-    const css = readFileSync('src/styles/theme.css', 'utf8')
-    const block = (selector: string) => css.slice(css.indexOf(selector)).split('}')[0]
-    const dark = block("[data-theme='arcano'][data-mode='dark']")
-    const light = block("[data-theme='arcano'][data-mode='light']")
-    for (const [mode, tokens] of [
-      ['dark', dark],
-      ['light', light],
-    ] as const) {
-      const c = GONE_COLORS[mode]
-      expect(tokens).toContain(`--t-bg: ${c.bg};`)
-      expect(tokens).toContain(`--t-ink: ${c.ink};`)
-      expect(tokens).toContain(`--t-ink-2: ${c.ink2};`)
-      expect(tokens).toContain(`--t-accent: ${c.accent};`)
+  it('son los de cada tema gratis en theme.css, en los dos modos', () => {
+    const palette = readPalette(readFileSync('src/styles/theme.css', 'utf8'))
+    for (const theme of FREE_THEMES) {
+      for (const mode of MODES) {
+        const t = palette[`${theme}-${mode}`]
+        expect(GONE_COLORS[`${theme}-${mode}`], `${theme} ${mode}`).toEqual({
+          bg: t.bg,
+          ink: t.ink,
+          ink2: t['ink-2'],
+          btn: t.btn,
+          btnInk: t['btn-ink'],
+        })
+      }
     }
   })
 
-  it('sigue el modo del visitante', () => {
+  it('sin cookie es Amakna oscuro, el tema por defecto', () => {
+    expect(gonePage()).toContain(`background:${GONE_COLORS['amakna-dark'].bg}`)
+  })
+
+  it('sigue el modo y el tema del visitante', () => {
     const response = proxy(
-      new NextRequest('http://localhost:3000/cart', { headers: { cookie: 'ta-mode=light' } }),
+      new NextRequest('http://localhost:3000/cart', {
+        headers: { cookie: 'ta-mode=light; ta-theme=bonta' },
+      }),
     )
-    return response.text().then((html) => expect(html).toBe(gonePage('light')))
+    return response.text().then((html) => expect(html).toBe(gonePage('light', 'bonta')))
+  })
+
+  it('el Ocre, premium, pinta Amakna como el resto del sitio sin el derecho', () => {
+    const response = proxy(
+      new NextRequest('http://localhost:3000/cart', { headers: { cookie: 'ta-theme=ocre' } }),
+    )
+    return response.text().then((html) => expect(html).toBe(gonePage('dark', 'amakna')))
   })
 })
