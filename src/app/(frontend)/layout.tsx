@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { cookies } from 'next/headers'
+import { cookies, draftMode } from 'next/headers'
 import type { ReactNode } from 'react'
 
 import { Ambience } from '@/components/site/Ambience'
@@ -13,6 +13,7 @@ import { siteMetadata } from '@/lib/site-copy/metadata'
 import { fontVariables } from '@/styles/fonts'
 import '@/styles/globals.css'
 
+import { PreviewBar } from './PreviewBar'
 import {
   loadChecklistNav,
   loadDofusNav,
@@ -34,6 +35,8 @@ export default async function FrontendLayout({ children }: { children: ReactNode
   // El tema gratis elegido en la cabecera. Todavía no hay miembros: nadie tiene el derecho
   // al Ocre, así que una cookie con él pinta Amakna.
   const theme = resolveTheme(jar.get(THEME_COOKIE)?.value, { premium: false })
+  // La vista previa de un borrador (abierta desde el panel): su aviso va encima de la cabecera.
+  const preview = (await draftMode()).isEnabled
   const [counts, dofus, checklists, pages, settings, nav, sectionNav] = await Promise.all([
     loadSiteCounts(),
     loadDofusNav(),
@@ -62,6 +65,7 @@ export default async function FrontendLayout({ children }: { children: ReactNode
         <script dangerouslySetInnerHTML={{ __html: modeScript }} />
       </head>
       <body id={TOP_ANCHOR}>
+        {preview && <PreviewBar />}
         <SiteHeader
           counts={{ ...counts, classes: classes.length, dungeons: dungeons.length }}
           dofus={dofus}

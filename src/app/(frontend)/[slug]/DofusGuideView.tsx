@@ -14,7 +14,6 @@ import { pageSection } from '@/components/site/nav'
 import { dofusGuideView, type DofusGuideData } from '@/lib/dofus-guides/page'
 
 import { LivePreviewRefresh } from './LivePreviewRefresh'
-import { PreviewBar } from './PreviewBar'
 
 /**
  * La guía de un Dofus (DESIGN.md, Dofus guide page): las migas, la cabecera con el huevo,
@@ -27,7 +26,6 @@ export function DofusGuideView({ data, preview }: { data: DofusGuideData; previe
   const view = dofusGuideView(data)
   return (
     <div className="dg-page">
-      {preview && <PreviewBar slug={data.guide.slug} />}
       <main id="contenido" className="logro dg-page" {...pageSection('dofus')}>
         <article className="logro__main">
           <Breadcrumb {...view.breadcrumb} />

@@ -4,8 +4,12 @@ import { guideStrings } from '@/lib/guides/strings'
 
 const s = guideStrings.page.preview
 
-/** Aviso de la vista previa, con el botón para salir. Solo se pinta en draft mode. */
-export function PreviewBar({ slug }: { slug: string }) {
+/**
+ * Aviso de la vista previa, encima de la cabecera (DESIGN.md, Quest guide: Draft preview), con
+ * el botón fantasma para salir. Lo pinta el layout solo en draft mode; la salida vuelve a la
+ * página desde la que se pulsa (src/app/(frontend)/vista-previa/salir/route.ts).
+ */
+export function PreviewBar() {
   return (
     <aside
       aria-label={s.label}
@@ -13,7 +17,6 @@ export function PreviewBar({ slug }: { slug: string }) {
     >
       <p>{s.note}</p>
       <form method="post" action={EXIT_PREVIEW_PATH}>
-        <input type="hidden" name="slug" value={slug} />
         <Button type="submit" variant="ghost">
           {s.exit}
         </Button>
