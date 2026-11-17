@@ -398,6 +398,8 @@ test.describe('página de una checklist', () => {
   test('en el móvil, las flechas recorren la lista y Intro abre el paso', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 })
     await page.goto(url)
+    // La isla llega con import(): las pestañas pasan a serlo cuando ya escucha el teclado.
+    await expect(page.getByRole('tablist')).toBeVisible()
     const links = page.getByRole('list', { name: 'Pasos' }).getByRole('link')
     await links.first().focus()
     await page.keyboard.press('ArrowDown')

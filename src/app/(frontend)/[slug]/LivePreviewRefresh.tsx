@@ -1,15 +1,22 @@
 'use client'
 
-import { RefreshRouteOnSave } from '@payloadcms/live-preview-react'
 import { useRouter } from 'next/navigation'
-import { useCallback, useSyncExternalStore } from 'react'
+import { lazy, Suspense, useCallback, useSyncExternalStore } from 'react'
 
 const noSubscription = () => () => {}
 
+// El componente de Payload llega con import() al pintarse: la ruta /<slug> manda sus islas a
+// todas sus páginas, aunque esta solo se pinte en draft mode.
+const RefreshRouteOnSave = lazy(() =>
+  import('@payloadcms/live-preview-react').then(({ RefreshRouteOnSave }) => ({
+    default: RefreshRouteOnSave,
+  })),
+)
+
 /**
  * Vista previa en vivo del panel: avisa al panel de que la página está lista y la vuelve a
- * pintar en el servidor cada vez que Torre guarda. Solo se pinta en draft mode, así que su
- * JavaScript no llega a los visitantes.
+ * pintar en el servidor cada vez que Torre guarda. Solo se pinta en draft mode y el código de
+ * Payload llega con import(), así que no llega a los visitantes.
  */
 export function LivePreviewRefresh() {
   const router = useRouter()
@@ -21,5 +28,9 @@ export function LivePreviewRefresh() {
     () => null,
   )
   if (!origin) return null
-  return <RefreshRouteOnSave refresh={refresh} serverURL={origin} />
+  return (
+    <Suspense>
+      <RefreshRouteOnSave refresh={refresh} serverURL={origin} />
+    </Suspense>
+  )
 }
