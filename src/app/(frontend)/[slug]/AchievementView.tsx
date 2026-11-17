@@ -8,6 +8,7 @@ import {
 } from '@/components/achievement/AchievementParts'
 import { GuideRichText } from '@/components/game/GuideRichText'
 import { PageEnhancements } from '@/components/game/PageEnhancements'
+import { ZoneBackground } from '@/components/game/ZoneBackground'
 import { Breadcrumb } from '@/components/site/Breadcrumb'
 import { pageSection } from '@/components/site/nav'
 import { achievementPageView, type AchievementPageData } from '@/lib/achievements/page'
@@ -39,6 +40,7 @@ export function AchievementView({
   }
   return (
     <div className="[--color-section:var(--color-sec-logros)]">
+      {data.zoneBackground && <ZoneBackground image={data.zoneBackground} />}
       {preview && <PreviewBar slug={data.page.slug} />}
       <main
         id="contenido"

@@ -21,6 +21,7 @@ import {
   findQuestGiver,
   type FindGuideOptions,
 } from '@/lib/guides/queries'
+import { readZoneBackground } from '@/lib/zones/read'
 import type { User } from '@/payload-types'
 
 async function readGuide(slug: string, options: FindGuideOptions = {}) {
@@ -28,7 +29,7 @@ async function readGuide(slug: string, options: FindGuideOptions = {}) {
   const guide = await findGuideBySlug(payload, slug, options)
   if (!guide) return null
   const questId = typeof guide.quest === 'object' && guide.quest ? guide.quest.id : null
-  const [links, giver, next, achievement, dungeonBosses] = await Promise.all([
+  const [links, giver, next, achievement, dungeonBosses, zoneBackground] = await Promise.all([
     findPublishedGuideLinks(payload, prerequisiteQuestIds(guide)),
     findQuestGiver(payload, questGiverId(guide)),
     findNextQuest(payload, guideAchievement(guide)),
@@ -39,9 +40,19 @@ async function readGuide(slug: string, options: FindGuideOptions = {}) {
     readDungeonBosses(payload, guideDungeonNotes(guide), {
       picks: dungeonPicks([{ needs: guide.summary?.needs ?? null }]),
     }),
+    // El fondo de zona: el propio de la guía o el de la subzona de su misión.
+    readZoneBackground(payload, { override: guide.background, quest: guide.quest }),
   ])
   // unstable_cache guarda JSON: los jefes van como pares y se vuelven a juntar al pintar.
-  return { guide, links, giver, next, achievement, dungeonBosses: [...dungeonBosses] }
+  return {
+    guide,
+    links,
+    giver,
+    next,
+    achievement,
+    dungeonBosses: [...dungeonBosses],
+    zoneBackground,
+  }
 }
 
 // Lo publicado se guarda en caché con la etiqueta de las guías: los hooks de la colección
