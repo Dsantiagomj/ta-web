@@ -420,6 +420,29 @@ test.describe('portada en el móvil', () => {
     await open(page)
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
   })
+
+  test('con el panel abierto, un velo cubre la página bajo el campo', async ({ page }) => {
+    await open(page)
+    const veil = () =>
+      page.locator('.ask__field').evaluate((el) => getComputedStyle(el, '::before').opacity)
+    expect(await veil()).toBe('0')
+    await field(page).click()
+    await page.keyboard.type('es')
+    await expect(list(page)).toBeVisible()
+    await expect.poll(veil).toBe('1')
+  })
+})
+
+test('a 1024px el texto de ayuda del buscador cabe entero', async ({ page }) => {
+  await page.setViewportSize({ width: 1024, height: 800 })
+  await page.goto('/')
+  const [text, room] = await page.locator('.ask__in').evaluate((input: HTMLInputElement) => {
+    const s = getComputedStyle(input)
+    const canvas = document.createElement('canvas').getContext('2d')!
+    canvas.font = `500 ${s.fontSize} ${s.fontFamily}`
+    return [canvas.measureText(input.placeholder).width, input.clientWidth]
+  })
+  expect(text).toBeLessThanOrEqual(room)
 })
 
 test.describe('portada: las secciones', () => {
