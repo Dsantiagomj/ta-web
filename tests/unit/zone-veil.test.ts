@@ -54,8 +54,8 @@ const veil = {
 }
 // En el modo claro, el texto sobre el velo se oscurece un poco: los tonos claros del diseño
 // dan 4,5:1 justos sobre el fondo y cualquier sombra del mapa los bajaba.
-const lightShift = percent("[data-mode='light'] .zone-bg ~ main", '--zone-ink-shift')
-const ruleShare = percent('.zone-bg ~ main', '--zone-rule-muted')
+const lightShift = percent("[data-mode='light'] .zone-bg ~ *", '--zone-ink-shift')
+const ruleShare = percent('.zone-bg ~ *', '--zone-rule-muted')
 
 const MAPS = { blanco: '#ffffff', gris: '#808080', negro: '#000000' }
 const TEXT = [

@@ -34,8 +34,8 @@ export default async function DesignCatalogPage({
 
   return (
     <main id="contenido">
-      <div className="mx-auto max-w-(--width-page) px-4 py-12 sm:px-6 lg:px-12">
-        <h1 className="font-display text-4xl text-ink">{s.title}</h1>
+      <div className="px-4 py-12 sm:px-6 lg:px-12">
+        <h1 className="font-title text-4xl text-ink uppercase">{s.title}</h1>
         <p className="mt-3 max-w-[72ch] text-lg text-ink-2">{s.lead}</p>
         <nav aria-label={s.jump} className="mt-6">
           <ul className="flex flex-wrap gap-2" role="list">
