@@ -41,10 +41,15 @@ describe('ChecklistIsland', () => {
     const fetch = vi.fn(() => new Promise<Response>(() => {}))
     vi.stubGlobal('fetch', fetch)
     const root = createRoot(document.getElementById('root')!)
-    await act(async () => root.render(<ChecklistIsland data={island('1')} />))
-    await act(async () => root.render(<ChecklistIsland data={island('1')} />))
+    // La isla carga checklist-ui.ts con import(): cada paso espera a que llegue.
+    const render = async (data: ChecklistIslandData) => {
+      await act(async () => root.render(<ChecklistIsland data={data} />))
+      await act(() => vi.dynamicImportSettled())
+    }
+    await render(island('1'))
+    await render(island('1'))
     expect(fetch).toHaveBeenCalledTimes(1)
-    await act(async () => root.render(<ChecklistIsland data={island('2')} />))
+    await render(island('2'))
     expect(fetch).toHaveBeenCalledTimes(2)
     await act(async () => root.unmount())
   })
