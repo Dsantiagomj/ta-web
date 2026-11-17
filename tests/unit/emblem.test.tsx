@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest'
 
 import { Emblem } from '@/components/brand/Emblem'
 import { emblemSvg, faviconSvg } from '@/components/brand/emblem-art'
+import { DEFAULT_THEME } from '@/lib/theme/theme'
 import { readPalette } from '@/lib/theme/palette'
 
 const html = (node: React.ReactNode) => renderToStaticMarkup(node)
@@ -99,10 +100,12 @@ describe('emblemSvg', () => {
 })
 
 describe('favicon', () => {
-  it('es la versión simplificada sobre una placa de Arcano oscuro, y claro con el esquema claro', () => {
+  // El tema por defecto es Amakna: la pestaña no sabe el tema del visitante y enseña el de todos.
+  it('es la versión simplificada sobre una placa de Amakna oscuro, y claro con el esquema claro', () => {
+    expect(DEFAULT_THEME).toBe('amakna')
     const svg = faviconSvg(palette)
-    const dark = palette['arcano-dark']
-    const light = palette['arcano-light']
+    const dark = palette['amakna-dark']
+    const light = palette['amakna-light']
     expect(svg).toContain(`.t{fill:${dark.bg}}.h{fill:${dark.accent}}.f{fill:${dark.ink}}`)
     expect(svg).toContain(
       `@media (prefers-color-scheme:light){.t{fill:${light.bg}}.h{fill:${light.accent}}.f{fill:${light.ink}}}`,
