@@ -3,6 +3,7 @@ import { expect, test, type Page } from '@playwright/test'
 
 import { MODES } from '../../src/lib/theme/theme.ts'
 import { expectFilledButton } from './filled-button.ts'
+import { frame } from './frame.ts'
 import { visualLines } from './meta-lines.ts'
 import { expectNeedsColumns } from './needs-layout.ts'
 import { draftGuide, E2E_PANEL_USER, seedGuide } from './seed/guides.ts'
@@ -365,9 +366,10 @@ test.describe('página de guía', () => {
     await expect(page.locator('a.nextq')).toHaveCount(0)
   })
 
-  // A todo el ancho de la ventana y a la izquierda, tras el margen de 52,8px (3rem con la raíz
-  // al 110 % desde 64rem), en cualquier pantalla: sin franja vacía a la derecha (Torre,
-  // 2026-11-17). Lo que no debe estirarse (el texto, las capturas) se para dentro.
+  // A todo el ancho de la ventana y a la izquierda, tras el margen lateral (tests/e2e/frame.ts),
+  // en cualquier pantalla: sin franja vacía a la derecha (Torre, 2026-11-17). Por encima de
+  // 110rem de contenido, centrado. Lo que no debe estirarse (el texto, las capturas) se para
+  // dentro.
   test('una sola columna a la izquierda, a todo el ancho, con los pasos separados por una línea', async ({
     page,
   }) => {
@@ -379,8 +381,8 @@ test.describe('página de guía', () => {
     for (const width of [1440, 2560, 1024]) {
       await page.setViewportSize({ width, height: 900 })
       const box = (await article())!
-      expect(box.width, `${width}px`).toBeCloseTo(width - 2 * 52.8, 0)
-      expect(box.x, `${width}px`).toBeCloseTo(52.8, 0)
+      expect(box.width, `${width}px`).toBeCloseTo(frame(width).width, 0)
+      expect(box.x, `${width}px`).toBeCloseTo(frame(width).left, 0)
     }
 
     const items = page.getByRole('region', { name: 'Pasos' }).locator('ol > li')
@@ -410,12 +412,11 @@ test.describe('página de guía', () => {
 
   // Las capturas de un paso llenan la fila de margen a margen (Torre, 2026-11-17), a 17:10,
   // recortadas y centradas: columnas iguales con huecos de 1rem (17,6px con la raíz al
-  // 110 %), dos hasta una fila de 81rem, tres hasta 122rem y cuatro después, así que ninguna
-  // pasa de 40rem (704px). La fila mide la ventana menos los márgenes de 52,8px.
+  // 110 %), dos hasta una fila de 81rem y tres después, así que ninguna pasa de 40rem
+  // (704px). La fila es el contenido del marco (tests/e2e/frame.ts), de 110rem como mucho.
   const GAP = 17.6
-  const GUTTER = 52.8
   const column = (width: number, columns: number) =>
-    (width - 2 * GUTTER - (columns - 1) * GAP) / columns
+    (frame(width).width - (columns - 1) * GAP) / columns
 
   test('las capturas de un paso, de dos en dos a 1440px y 17:10; en el móvil, una por fila', async ({
     page,
@@ -433,7 +434,7 @@ test.describe('página de guía', () => {
       // Las dos iguales, salvo el redondeo de los subpíxeles.
       expect(second.width).toBeCloseTo(first.width, 1)
       expect(second.height).toBeCloseTo(first.height, 1)
-      expect(first.x).toBeCloseTo(GUTTER, 0)
+      expect(first.x).toBeCloseTo(frame(page.viewportSize()!.width).left, 0)
       expect(second.x - (first.x + first.width)).toBeCloseTo(GAP, 0)
     }
     await pair(column(1440, 2))
@@ -445,7 +446,7 @@ test.describe('página de guía', () => {
       await page.setViewportSize({ width, height: 900 })
       await pair(column(width, 2))
       const second = (await shots.nth(1).boundingBox())!
-      expect(width - GUTTER - (second.x + second.width), `${width}px`).toBeLessThanOrEqual(GAP)
+      expect(frame(width).right - (second.x + second.width), `${width}px`).toBeLessThanOrEqual(GAP)
     }
 
     await page.setViewportSize({ width: 1024, height: 900 })
@@ -458,7 +459,8 @@ test.describe('página de guía', () => {
   })
 
   // Con una fila llena, la última captura acaba a un hueco del margen derecho como mucho, y
-  // ninguna pasa de 40rem: dos a 1440px, tres a 1728 y 1920px, cuatro a 2560px.
+  // ninguna pasa de 40rem: dos a 1440px, tres a 1728, 1920 y 2560px (el contenido se para en
+  // 110rem, donde caben tres de 36rem).
   test('las capturas de un paso llenan la fila hasta el margen derecho, sin pasar de 40rem', async ({
     page,
   }) => {
@@ -475,7 +477,7 @@ test.describe('página de guía', () => {
       [1440, 2],
       [1728, 3],
       [1920, 3],
-      [2560, 4],
+      [2560, 3],
     ] as const) {
       await page.setViewportSize({ width, height: 900 })
       await expect(shots).toHaveCount(4)
@@ -486,9 +488,9 @@ test.describe('página de guía', () => {
         // Ninguna pasa de media fila.
         expect(box.width, `${width}px`).toBeLessThanOrEqual(column(width, 2) + 0.5)
       }
-      expect(first[0]!.x).toBeCloseTo(GUTTER, 0)
+      expect(first[0]!.x).toBeCloseTo(frame(width).left, 0)
       const last = first.at(-1)!
-      expect(width - GUTTER - (last.x + last.width), `${width}px`).toBeLessThanOrEqual(GAP)
+      expect(frame(width).right - (last.x + last.width), `${width}px`).toBeLessThanOrEqual(GAP)
     }
   })
 

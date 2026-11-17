@@ -6,6 +6,7 @@ import { computedContrast } from './colors.ts'
 import { seedAchievement } from './seed/achievements.ts'
 import { seedChecklists } from './seed/checklists.ts'
 import { expectFilledButton } from './filled-button.ts'
+import { frame } from './frame.ts'
 import { indexChecklists } from './seed/checklists-index.ts'
 import { seedDofus } from './seed/dofus-guides.ts'
 import { draftGuide, seedGuide } from './seed/guides.ts'
@@ -552,13 +553,12 @@ for (const width of [1120, 1200, 1280, 1440, 1600]) {
   }) => {
     await page.setViewportSize({ width, height: 800 })
     await open(page)
-    const gutter = 3 * 17.6
     const right = await page
       .locator('.site-hdr__act')
       .evaluate((el) =>
         Math.max(...[...el.children].map((child) => child.getBoundingClientRect().right)),
       )
-    expect(right).toBeLessThanOrEqual(width - gutter + 0.5)
+    expect(right).toBeLessThanOrEqual(frame(width).right + 0.5)
   })
 }
 

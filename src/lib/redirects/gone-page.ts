@@ -94,7 +94,7 @@ html{color-scheme:${mode}}
 body{margin:0;background:${c.bg};color:${c.ink};font:1.125rem/1.6 system-ui,-apple-system,'Segoe UI',sans-serif}
 main{padding:4rem 1rem}
 @media (min-width:40rem){main{padding-inline:1.5rem}}
-@media (min-width:64rem){main{padding-inline:3rem}}
+@media (min-width:64rem){main{padding-inline:max(clamp(3rem,5vw,8rem),calc((100% - 121rem) / 2))}}
 h1{margin:0 0 1rem;font-size:clamp(2.25rem,1.75rem + 2vw,3rem);font-weight:800;line-height:1.02;text-transform:uppercase}
 p{max-width:62ch;margin:0 0 1.5rem;color:${c.ink2}}
 .btn{display:inline-flex;align-items:center;min-height:2.75rem;padding:0 1.5rem;border-radius:.625rem;background:${c.btn};color:${c.btnInk};font-weight:700;text-decoration:none}

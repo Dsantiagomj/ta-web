@@ -34,7 +34,7 @@ export default async function DesignCatalogPage({
 
   return (
     <main id="contenido">
-      <div className="px-4 py-12 sm:px-6 lg:px-12">
+      <div className="px-(--frame-pad) py-12">
         <h1 className="font-title text-4xl text-ink uppercase">{s.title}</h1>
         <p className="mt-3 max-w-[72ch] text-lg text-ink-2">{s.lead}</p>
         <nav aria-label={s.jump} className="mt-6">

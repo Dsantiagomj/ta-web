@@ -2,6 +2,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
 import { MODES } from '../../src/lib/theme/theme.ts'
+import { frame } from './frame.ts'
 import { seedAchievement as logro } from './seed/achievements.ts'
 import { outsidePrerequisite, seedGuide } from './seed/guides.ts'
 
@@ -401,12 +402,12 @@ test.describe('página de logro', () => {
     await expect(off).toContainText(logro.next.name)
     await expect(off).toContainText('En preparación')
 
-    // A la izquierda y a todo el ancho (Torre, 2026-11-16): tras el margen de 52,8px, hasta el
-    // otro margen. Cuenta para y la navegación, en la columna de las misiones, no bajo la ficha.
+    // A la izquierda y a todo el ancho (Torre, 2026-11-16): tras el margen lateral, hasta el
+    // otro margen (tests/e2e/frame.ts). Cuenta para y la navegación, en la columna de las misiones, no bajo la ficha.
     await page.setViewportSize({ width: 1440, height: 900 })
     const box = (await article.boundingBox())!
-    expect(box.x).toBeCloseTo(52.8, 0)
-    expect(box.x + box.width).toBeCloseTo(1440 - 52.8, 0)
+    expect(box.x).toBeCloseTo(frame(1440).left, 0)
+    expect(box.x + box.width).toBeCloseTo(frame(1440).right, 0)
     const quests = (await page
       .getByRole('region', { name: 'Las misiones, en orden' })
       .boundingBox())!

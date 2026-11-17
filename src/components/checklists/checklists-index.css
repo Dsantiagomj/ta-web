@@ -4,20 +4,13 @@
    Con el ratón se inclina hacia él y el brillo holográfico lo sigue (posters-ui.ts). Va aparte
    de los estilos de la checklist, que el índice no necesita. */
 
-/* A todo el ancho y a la izquierda (DESIGN.md, Layout). */
+/* A todo el ancho del marco y a la izquierda (DESIGN.md, Layout). */
 .ck-index {
   --color-section: var(--color-sec-checklists);
-  --gut: 1rem;
-  padding: 1.75rem var(--gut) 1.5rem;
-}
-@media (min-width: 40rem) {
-  .ck-index {
-    --gut: 1.5rem;
-  }
+  padding: 1.75rem var(--frame-pad) 1.5rem;
 }
 @media (min-width: 64rem) {
   .ck-index {
-    --gut: 3rem;
     padding-top: 2.5rem;
   }
 }
@@ -68,12 +61,12 @@
   grid-auto-columns: minmax(var(--poster-min), 13.5rem);
   justify-content: start;
   gap: var(--poster-gap);
-  margin: -0.75rem calc(-1 * var(--gut)) -0.75rem;
-  padding: 1.75rem var(--gut) 3rem;
+  margin: -0.75rem calc(-1 * var(--gutter)) -0.75rem;
+  padding: 1.75rem var(--gutter) 3rem;
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
-  scroll-padding-inline: var(--gut);
+  scroll-padding-inline: var(--gutter);
   scrollbar-width: thin;
   list-style: none;
 }

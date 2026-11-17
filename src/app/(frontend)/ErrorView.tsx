@@ -9,7 +9,7 @@ import { errorStrings as s } from './strings'
  */
 export function ErrorView({ reset }: { reset: () => void }) {
   return (
-    <main id="contenido" className="flex flex-col gap-4 px-4 py-16 sm:px-6 lg:px-12">
+    <main id="contenido" className="flex flex-col gap-4 px-(--frame-pad) py-16">
       <h1 className="font-title text-4xl text-ink uppercase">{s.title}</h1>
       <p className="max-w-[60ch] text-lg text-ink-2">{s.lead}</p>
       <p className="flex flex-wrap gap-3">

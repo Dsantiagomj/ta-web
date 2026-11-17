@@ -16,21 +16,13 @@
    cualquier pantalla (Torre, 2026-11-17): lo que no debe estirarse (el texto, los avisos, las
    capturas) se para dentro de ella. */
 .quest {
-  --gutter: 1rem;
-  padding: 1.75rem var(--gutter) 3.5rem;
+  padding: 1.75rem var(--frame-pad) 3.5rem;
   font-size: 1rem;
   line-height: 1.65;
 }
 
-@media (min-width: 40rem) {
-  .quest {
-    --gutter: 1.5rem;
-  }
-}
-
 @media (min-width: 64rem) {
   .quest {
-    --gutter: 3rem;
     padding-top: 2.5rem;
   }
 }

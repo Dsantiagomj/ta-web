@@ -12,23 +12,15 @@
 
 /* ---------- página ---------- */
 
-/* A todo el ancho de la ventana y a la izquierda, como la guía (DESIGN.md, Layout). */
+/* A todo el ancho del marco y a la izquierda, como la guía (DESIGN.md, Layout). */
 .logro {
-  --gutter: 1rem;
-  padding: 1.25rem var(--gutter) 4rem;
+  padding: 1.25rem var(--frame-pad) 4rem;
   font-size: 1rem;
   line-height: 1.65;
 }
 
-@media (min-width: 40rem) {
-  .logro {
-    --gutter: 1.5rem;
-  }
-}
-
 @media (min-width: 64rem) {
   .logro {
-    --gutter: 3rem;
     padding-top: 1.75rem;
   }
 }
