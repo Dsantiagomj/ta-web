@@ -1,7 +1,8 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
 
-import { MODES } from '../../src/lib/theme/theme.ts'
+import { FREE_THEMES, MODES } from '../../src/lib/theme/theme.ts'
+import { computedContrast } from './colors.ts'
 import { seedAchievement } from './seed/achievements.ts'
 import { seedChecklists } from './seed/checklists.ts'
 import { expectFilledButton } from './filled-button.ts'
@@ -103,6 +104,23 @@ test.describe('cabecera', () => {
     const links = page.locator('#menu-dofus .all-link')
     await expect(links).toHaveCount(2)
     for (const link of await links.all()) await expectFilledButton(link)
+  })
+
+  test('el «Ver todo» del panel de Misiones es el mismo botón relleno', async ({ page }) => {
+    await open(page)
+    await page.locator('.np[aria-controls="menu-misiones"]').click()
+    const link = page.locator('#menu-misiones').getByRole('link', { name: 'Ver todo' })
+    await expect(link).toHaveClass(/all-link/)
+    await expectFilledButton(link)
+  })
+
+  test('la ficha de cada panel es plana, sin degradado', async ({ page }) => {
+    await open(page)
+    for (const key of ['misiones', 'dofus']) {
+      await page.locator(`.np[aria-controls="menu-${key}"]`).click()
+      const tile = page.locator(`#menu-${key} .panel__tile`)
+      await expect(tile).toHaveCSS('background-image', 'none')
+    }
   })
 
   test('con el teclado: Tab entra al panel y salir con Tab lo cierra', async ({ page }) => {
@@ -283,7 +301,8 @@ test.describe('cabecera', () => {
     await open(page)
     const pill = (await page.locator('.spill').boundingBox())!
     expect(pill.height).toBeGreaterThanOrEqual(44)
-    expect(pill.width).toBeGreaterThanOrEqual(240)
+    // 240px, menos lo que cede a 1440px para no pasar del margen derecho: 12,5rem.
+    expect(pill.width).toBeGreaterThanOrEqual(219.5)
   })
 
   test('la búsqueda abierta desde el panel de Misiones devuelve el foco a su botón', async ({
@@ -456,7 +475,8 @@ test.describe('cabecera', () => {
       expect(spill.radius).toBeCloseTo(0.625)
       const track = await look('.mode-switch [data-part="track"]')
       expect(track.background).toBe(track.tokens.surface)
-      expect(track.border).toBe(track.tokens.line)
+      // El borde de un control, más fuerte que --color-line (3:1 sobre la barra, más abajo).
+      expect(track.border).not.toBe(track.tokens.line)
       expect(track.image).toBe('none')
     })
 
@@ -494,8 +514,8 @@ test.describe('cabecera', () => {
   }
 })
 
-test.describe('cabecera a 1120px', () => {
-  test.use({ viewport: { width: 1120, height: 800 } })
+test.describe('cabecera a 1200px, donde aparece el menú', () => {
+  test.use({ viewport: { width: 1200, height: 800 } })
 
   test('ningún panel se sale de la pantalla', async ({ page }) => {
     await open(page)
@@ -503,7 +523,7 @@ test.describe('cabecera a 1120px', () => {
       await page.locator(`.np[aria-controls="menu-${key}"]`).click()
       const box = (await page.locator(`#menu-${key}`).boundingBox())!
       expect(box.x, key).toBeGreaterThanOrEqual(0)
-      expect(box.x + box.width, key).toBeLessThanOrEqual(1120)
+      expect(box.x + box.width, key).toBeLessThanOrEqual(1200)
       await page.keyboard.press('Escape')
     }
   })
@@ -526,6 +546,97 @@ test.describe('cabecera a 1440px, donde aparece el botón ancho de búsqueda', (
   })
 })
 
+for (const width of [1120, 1200, 1280, 1440, 1600]) {
+  test(`a ${width}px los botones de la derecha acaban en el margen, no lo pasan`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 800 })
+    await open(page)
+    const gutter = 3 * 17.6
+    const right = await page
+      .locator('.site-hdr__act')
+      .evaluate((el) =>
+        Math.max(...[...el.children].map((child) => child.getBoundingClientRect().right)),
+      )
+    expect(right).toBeLessThanOrEqual(width - gutter + 0.5)
+  })
+}
+
+test.describe('los controles de la cabecera', () => {
+  for (const theme of FREE_THEMES) {
+    for (const mode of MODES) {
+      test(`el selector de tema y el interruptor de modo se ven sobre la barra (3:1) en ${theme} ${mode}`, async ({
+        page,
+        context,
+        baseURL,
+      }) => {
+        await context.addCookies([
+          { name: 'ta-theme', value: theme, url: baseURL! },
+          { name: 'ta-mode', value: mode, url: baseURL! },
+        ])
+        await page.goto(url)
+        const bar = await page
+          .locator('.site-hdr')
+          .evaluate((el) => getComputedStyle(el, '::before').backgroundColor)
+        for (const selector of ['.tp-btn', '.mode-switch [data-part="track"]']) {
+          const border = await page
+            .locator(selector)
+            .evaluate((el) => getComputedStyle(el).borderTopColor)
+          expect(computedContrast(border, bar), selector).toBeGreaterThanOrEqual(3)
+        }
+        // El glifo del logo es un corte: del color de la barra que tiene debajo.
+        const glyph = await page
+          .locator('.site-hdr .lockup [data-part="glyph"]')
+          .evaluate((el) => getComputedStyle(el).stroke)
+        expect(glyph).toBe(bar)
+      })
+    }
+  }
+
+  test('los huevos del interruptor de modo no llevan brillo', async ({ page }) => {
+    await page.goto(url)
+    const filters = await page
+      .locator('.mode-switch [data-part="egg"]')
+      .evaluateAll((eggs) => eggs.map((egg) => getComputedStyle(egg).filter))
+    for (const filter of filters) expect(filter).not.toMatch(/drop-shadow/)
+  })
+
+  test('el anillo de foco del logo tiene las esquinas redondas', async ({ page }) => {
+    await page.goto(url)
+    const radius = await page
+      .locator('.site-hdr .lockup')
+      .evaluate((el) => parseFloat(getComputedStyle(el).borderTopLeftRadius))
+    expect(radius).toBeGreaterThan(0)
+  })
+
+  test('el menú de temas va en Lexend', async ({ page }) => {
+    await open(page)
+    await page.getByRole('button', { name: /^Tema: / }).click()
+    for (const selector of ['.tp-pop__h', '.tp-opt']) {
+      const family = await page
+        .locator(selector)
+        .first()
+        .evaluate((el) => getComputedStyle(el).fontFamily.split(',')[0].replaceAll('"', ''))
+      expect(family, selector).toBe('Lexend')
+    }
+  })
+
+  test('en el móvil, el selector de tema abierto se distingue del cerrado', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await open(page)
+    const button = page.getByRole('button', { name: /^Tema: / })
+    const look = () =>
+      button.evaluate((el) => {
+        const s = getComputedStyle(el)
+        return `${s.backgroundColor} ${s.borderTopColor}`
+      })
+    const closed = await look()
+    await button.dispatchEvent('click')
+    await expect(button).toHaveAttribute('aria-expanded', 'true')
+    await expect.poll(look).not.toBe(closed)
+  })
+})
+
 test.describe('cabecera en una pantalla baja', () => {
   test.use({ viewport: { width: 1440, height: 560 } })
 
@@ -543,6 +654,28 @@ test.describe('cabecera en una pantalla baja', () => {
 
 test.describe('cabecera en el móvil', () => {
   test.use({ viewport: { width: 390, height: 844 } })
+
+  for (const width of [390, 1024]) {
+    test(`a ${width}px, la barra del menú abierto es la de la cabecera: el logo no salta`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width, height: 800 })
+      await open(page)
+      const header = await page.locator('.site-hdr__in > .lockup').boundingBox()
+      const bar = await page
+        .locator('.site-hdr')
+        .evaluate((el) => getComputedStyle(el, '::before').backgroundColor)
+      await page.getByRole('button', { name: 'Menú' }).click()
+      const top = page.locator('.sheet__top')
+      await expect(top).toBeVisible()
+      await expect(top).toHaveCSS('background-color', bar)
+      // El menú baja desde arriba: se mide cuando ha llegado.
+      await expect.poll(async () => (await top.boundingBox())?.y).toBe(0)
+      const sheet = (await top.locator('.lockup').boundingBox())!
+      expect(sheet.x).toBeCloseTo(header!.x, 0)
+      expect(sheet.y).toBeCloseTo(header!.y, 0)
+    })
+  }
 
   test('la barra va pegada arriba y de borde a borde, sin esquinas ni sombra', async ({ page }) => {
     await open(page)
@@ -731,6 +864,22 @@ test.describe('pie', () => {
       }
     })
   }
+
+  test('en el modo claro, «Próximamente» se ve sobre el pie', async ({
+    page,
+    context,
+    baseURL,
+  }) => {
+    await context.addCookies([{ name: 'ta-mode', value: 'light', url: baseURL! }])
+    await open(page)
+    const footer = page.getByRole('contentinfo')
+    const background = await footer.evaluate((el) => getComputedStyle(el).backgroundColor)
+    const pill = await footer
+      .locator('.soon')
+      .first()
+      .evaluate((el) => getComputedStyle(el).backgroundColor)
+    expect(pill).not.toBe(background)
+  })
 
   test('ningún icono del juego se pinta más grande que su archivo', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
