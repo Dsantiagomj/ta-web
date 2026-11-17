@@ -5,7 +5,7 @@ import { seedGuide } from './seed/guides.ts'
 
 // El fondo de zona (DESIGN.md, Zone background): una guía de misión o una página de logro
 // con fondo lleva detrás de toda la página el paisaje de su zona, fijo al desplazarse, bajo
-// un velo plano del fondo de la página (80 % en oscuro, 84 % en claro). Sin fondo, la página
+// un velo plano del fondo de la página (88 % en los dos modos). Sin fondo, la página
 // de siempre. Nunca es el LCP: la imagen va diferida y con prioridad baja.
 
 const withBackground = [
@@ -73,7 +73,7 @@ for (const { name, path, file } of withBackground) {
 }
 
 for (const mode of ['dark', 'light'] as const) {
-  test(`el velo es el fondo de la página al ${mode === 'dark' ? '80' : '84'} % en modo ${mode}`, async ({
+  test(`el velo es el fondo de la página al 88 % en modo ${mode}`, async ({
     page,
     context,
     baseURL,
@@ -85,9 +85,65 @@ for (const mode of ['dark', 'light'] as const) {
       .evaluate((node) => getComputedStyle(node, '::after').backgroundColor)
     // color-mix con transparente: el color del fondo con su alfa, el último número.
     const alpha = Number(/([\d.]+)\)$/.exec(veil)?.[1])
-    expect(alpha).toBeCloseTo(mode === 'dark' ? 0.8 : 0.84, 2)
+    expect(alpha).toBeCloseTo(0.88, 2)
   })
 }
+
+/** Un color de getComputedStyle como [r, g, b, alfa]. */
+function channels(color: string): number[] {
+  const values = (/\(([^)]+)\)/.exec(color)?.[1] ?? '').split(/[\s,/]+/).filter(Boolean)
+  const numbers = values.map(Number)
+  return numbers.length === 3 ? [...numbers, 1] : numbers
+}
+
+test('sobre el velo, los separadores no son el --color-line que se perdía en el paisaje', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(`/${seedAchievement.slug}`)
+  const [line, rule] = await page.locator('.lcuenta').evaluate((node) => {
+    const style = getComputedStyle(node)
+    const probe = document.createElement('i')
+    probe.style.color = 'var(--color-line)'
+    node.append(probe)
+    const color = getComputedStyle(probe).color
+    probe.remove()
+    return [color, style.borderTopColor]
+  })
+  expect(rule).not.toBe(line)
+})
+
+test('la tarjeta del siguiente logro En preparación es opaca sobre el fondo de zona', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(`/${seedAchievement.slug}`)
+  const off = page.locator('.lnav__card--off')
+  await expect(off).toHaveCount(1)
+  const background = await off.evaluate((node) => getComputedStyle(node).backgroundColor)
+  expect(channels(background)[3]).toBe(1)
+})
+
+test('en modo claro, el texto en tono sobre el velo se oscurece para pasar 4,5:1', async ({
+  page,
+  context,
+  baseURL,
+}) => {
+  await context.addCookies([{ name: 'ta-mode', value: 'light', url: baseURL! }])
+  await page.goto(`/${seedGuide.slug}`)
+  const [page_, onVeil] = await page.evaluate(() => {
+    const probe = (parent: Element) => {
+      const node = document.createElement('i')
+      node.style.color = 'var(--color-hue-2)'
+      parent.append(node)
+      const color = getComputedStyle(node).color
+      node.remove()
+      return color
+    }
+    return [probe(document.body), probe(document.querySelector('main')!)]
+  })
+  expect(onVeil).not.toBe(page_)
+})
 
 for (const { name, path } of withoutBackground) {
   test(`${name} no lleva fondo de zona`, async ({ page }) => {
