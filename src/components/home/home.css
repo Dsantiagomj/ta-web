@@ -1818,6 +1818,56 @@ html.hs-on .site-hdr .sbtn {
   list-style: none;
 }
 
+/* Filas parejas: con las que caben por fila (--max, según el ancho) se cuentan las filas que
+   hacen falta y se reparten por igual, así que seis checklists van tres y tres, no cinco y una
+   sola debajo. --n, el número de checklists, lo pone ChecklistsSection. Sin round(), la
+   rejilla de arriba. */
+@supports (width: calc(round(up, 1.5, 1) * 1px)) {
+  .trio {
+    container-type: inline-size;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .trio > li {
+    --max: 2;
+    --rows: round(up, calc(var(--n, 1) / var(--max)), 1);
+    --cols: round(up, calc(var(--n, 1) / var(--rows)), 1);
+    flex: 0 0 calc((100% - (var(--cols) - 1) * 1rem) / var(--cols));
+    min-width: 0;
+  }
+
+  @container (min-width: 21.5rem) {
+    .trio > li {
+      --max: 3;
+    }
+  }
+
+  @container (min-width: 28rem) {
+    .trio > li {
+      --max: 4;
+    }
+  }
+
+  @container (min-width: 34.5rem) {
+    .trio > li {
+      --max: 5;
+    }
+  }
+
+  @container (min-width: 41rem) {
+    .trio > li {
+      --max: 6;
+    }
+  }
+
+  @container (min-width: 47.5rem) {
+    .trio > li {
+      --max: 7;
+    }
+  }
+}
+
 .trio a,
 .trio__off {
   display: grid;
