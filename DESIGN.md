@@ -69,7 +69,7 @@ Roles:
 | `--color-line` | hairlines between rows (decorative, no ratio needed) |
 | `--color-ink` | titles, body |
 | `--color-ink-2` | lead text, secondary body |
-| `--color-muted` | meta, counts, micro labels; also checkbox and input borders (at least 4.92:1 everywhere, well over 3:1) |
+| `--color-muted` | meta, counts, micro labels; also checkbox and input borders (at least 4.87:1 everywhere, well over 3:1) |
 | `--color-accent` | progress fills, links and coordinates, the checked checkbox (with a check mark in `--color-bg`), the eyebrow, the theme switch knob, the current nav item, the active tab, focus rings on accent controls |
 | `--color-accent-2` | Lilita One featured numbers, tag pills (outline) |
 | `--color-btn`, `--color-btn-hi` | the fill of the primary button and its hover fill (option D): the home «Buscar», the header panels' «Ver todo», the Dofus index filter's indicator, the checklist's «Siguiente» and «Completar» |
@@ -346,7 +346,6 @@ Decided 2026-11-02: each section gets a subtle accent of its own. It is used onl
 | Checklists | `--color-sec-checklists` | `#7fd6c2` | 8.48 | `#17695a` | 5.11 |
 | Clases | `--color-sec-clases` | `#ef8a6a` | 5.87 | `#a23c22` | 5.10 |
 | Mazmorras | `--color-sec-mazmorras` | `#b99af2` | 6.18 | `#6a43b8` | 5.27 |
-| Herramientas | `--color-sec-herramientas` | `#9fc7f0` | 8.21 | `#2a5f93` | 5.18 |
 
 Worst cases are on `raised` of Bonta dark and Ocre light. Every value is at least 4.5:1, so the same hex works as label text and as a border (which needs 3:1). A new section, or a new theme, gets these pairs rechecked before it ships.
 
@@ -414,8 +413,7 @@ The scale and rhythm come from duffus.fr (study, typography). Sizes are rem on a
 | Token | Size | Line height | Weight | Tracking | Family | Use |
 |---|---|---|---|---|---|---|
 | `--text-hero` | `clamp(3rem, 2rem + 4.2vw, 5.75rem)` | 1.02 | 700 | 0 | title, uppercase | home title only |
-| `--text-4xl` | `clamp(2.25rem, 1.75rem + 2vw, 3rem)` | 1.02 | 700 | 0 | title, uppercase | page title (`h1`); the guide, Dofus index, checklist and checklists index titles have their own clamp of about the same range |
-| `--text-3xl` | 2.25rem | 1.02 | 700 | 0 | title, uppercase | home section title (`.home-h2`, up to 3rem) |
+| `--text-4xl` | `clamp(2.25rem, 1.75rem + 2vw, 3rem)` | 1.02 | 700 | 0 | title, uppercase | page title (`h1`) where no clamp of its own is set (the metalogros index, the 404, the catalog); the guide, Dofus index, checklist and checklists index titles and the home section titles (`.home-h2`, `clamp(2rem, 1.45rem + 2.2vw, 3rem)`) have their own clamp of about the same range |
 | `--text-2xl` | 1.875rem | 1.1 | 600 | 0 | display | list page title, `h2` in guide prose |
 | `--text-xl` | 1.375rem | 1.2 | 600 | 0 | display | card and block title, `h3`, the wordmark |
 | `--text-lg` | 1.125rem | 1.4 | 600 | 0 | body | lead paragraph |
@@ -424,7 +422,6 @@ The scale and rhythm come from duffus.fr (study, typography). Sizes are rem on a
 | `--text-xs` | 0.78rem | 1.45 | 500 to 600 | 0 | body | chips, meta, tab labels |
 | `--text-eyebrow` | 0.8125rem | 1.4 | 600 | 0.16em | display, uppercase | eyebrow above a title |
 | `--text-micro` | 0.6875rem | 1.4 | 600 | 0.12em | display, uppercase | section labels, table heads, stat labels |
-| `--text-figure-lg` | 2.5rem | 1 | 400 | 0 | accent | hero counters ("30 guías") |
 | `--text-figure` | 1.375rem | 1 | 400 | 0 | accent | levels, percentages, stat tile numbers, "0/100" |
 
 Rules:
@@ -464,7 +461,6 @@ Torre's tips bubble uses `18px 22px 20px` padding; everything else stays on the 
 | `--radius-md` | 12px | list rows, inputs that are not pills, tooltips, secondary buttons |
 | `--radius-card` | 16px | panels, dropdowns |
 | `--radius-lg` | 20px | dungeon and class cards |
-| `--radius-xl` | 28px | hero cards |
 | `--radius-pill` | 999px | buttons, chips, search, nav items, tabs |
 
 ### Shadows
@@ -476,7 +472,6 @@ The interface is mostly flat; depth comes from surface steps. Shadows go under g
 | `--shadow-art` | `0 2px 6px rgb(0 0 0 / .3), 0 14px 32px rgb(0 0 0 / .35)` | map and step screenshots |
 | `--shadow-float` | `0 12px 32px rgb(0 0 0 / .45)` | dropdowns, popovers, the search dialog |
 | `--shadow-dialog` | `0 24px 64px rgb(0 0 0 / .55)` | modal dialogs |
-| `--shadow-glow` | `0 0 0 1px color-mix(in srgb, var(--color-accent) 55%, transparent), 0 0 18px -4px var(--color-accent)` | active or selected card |
 
 In light mode, shadows drop to half their alpha.
 
@@ -490,8 +485,6 @@ In light mode, shadows drop to half their alpha.
 | `--z-raised` | 10 | sticky table heads, sticky side column |
 | `--z-header` | 50 | site header |
 | `--z-menu` | 60 | dropdowns, popovers, tooltips |
-| `--z-overlay` | 70 | dialog and sheet backdrops |
-| `--z-dialog` | 80 | dialogs, mobile nav sheet, search |
 | `--z-toast` | 90 | toasts |
 
 ### Breakpoints and containers
@@ -510,7 +503,6 @@ Components that can sit in different widths (cards in a side column, the checkli
 | `--width-shot` | 576px (633.6px with the 110 percent root) | one step screenshot at most |
 | `--width-guide` | 1168px (1284.8px): two shots and the 16px gap | the column of quest guides, site pages, achievement pages and Dofus guides, and the content of an open checklist step |
 | `--width-media` | 880px (968px) | screenshots outside steps and the video |
-| `--width-page` | 1200px | the `/sistema` catalog |
 | `--width-prose` | 800px | catalog prose |
 
 **Full width, left aligned** (Torre, 2026-11-16). Every page uses the whole viewport minus the side gutters, and its content starts at the left gutter. No page is a centered column any more: the header and footer rows, the guides, the achievement pages, the indexes, the checklists and the home all run from gutter to gutter, so the header's logo starts where the content starts. What would grow without bound stops instead and leaves the rest of the row empty on the right:
@@ -621,14 +613,14 @@ Every interactive component has these states: default, hover (mouse only), focus
 | Button, ghost | pill, 36px, no fill, `--color-ink-2` text, Lexend 600 | hover: `--color-raised` fill |
 | Icon button | 40px circle (44px under `pointer: coarse`), `aria-label` required | as secondary |
 | Nav link | pill, 36px, `6px 14px` padding, Lexend 600 in `--color-ink` | hover: `--color-raised` fill and the section color; current section: the section color (Layout, Header) |
-| Dropdown panel | 16px radius, `--color-surface` at 92 percent with blur, 12px padding, rows of 40px with a 24px game icon | enter and exit per the motion table; Esc and outside click close; arrow keys move |
+| Dropdown panel | 16px radius, opaque `--color-surface` with no blur (the header panels use 20px, Layout), 12px padding, rows of 40px with a 24px game icon | enter and exit per the motion table; Esc and outside click close; arrow keys move |
 | Search dialog | native `<dialog>`, 640px wide, input at top, results grouped by type (misión, logro, Dofus, clase) with icons, keyboard selection. The clear × of this and every other search field (checklist, Ocre, Dofus index) is a 16px cross in `--color-muted`, `--color-ink` on hover, never the browser's blue (`globals.css`) | opens on `Ctrl K` or `/`; empty state with recent searches; no-results state with a suggestion |
 | Card, collection (Dofus, class, dungeon) | the whole card is one `<a>`; art layer, shade, name in display 600, one line of meta; 1px border in `--color-section`; optional progress ring top right in `--color-accent` with the percentage in Lilita One and `--color-accent-2`. Light-mode treatment below | hover: a soft glow in `--color-section` around the border, art settles from `scale(1.04)` to 1; done: success ring; locked premium: lock badge and the meta says why |
 | Stat tile | 14px radius, `--color-raised` fill, optional game icon, number in Lilita One at `--text-figure` in `--color-accent-2` (`white-space: nowrap`), micro label in `--color-ink-2`. The guide page no longer uses it (the XP and kamas rows of Recompensas replaced the Botín tiles); it stays in the catalog for the achievement and checklist pages | static |
 | Chip | 22 to 26px pill, `--text-xs`, `--color-raised` fill, `--color-ink-2` text, optional 16px game icon | static; the coordinates chip is its own component (Quest guide components) |
 | Segmented tabs | pill track in `--color-raised`; active segment `--color-surface` with `--color-accent` text. The Dofus index filter follows option D instead: a `--color-surface` track with a 1px `--color-line` inset ring and a 12px radius, segments in Lexend 600, and the sliding indicator in `--color-btn` (8px radius, no drop shadow) with the pressed segment's text in `--color-btn-ink`. The fill alone gives 1.67:1 on the track in Amakna light, so the indicator carries an inset 1.5px ring in `--color-btn-ink`: where that ink fades into the track (white on white), the fill itself passes 3:1, so the selected segment always has a 3:1 edge | selected uses `aria-selected` (`aria-pressed` on the filter); arrow keys move between tabs |
-| Checkbox | 22px, `--radius-sm`, `--color-muted` border | checked: `--color-accent` fill with a `--color-bg` check mark (at least 5.55:1); pressed: `scale(.9)` for 100ms |
-| Progress bar | 10 to 14px track in `--color-bg` (dark) or `--color-raised` with a hairline (light), `--color-accent` fill (at least 4.93:1 against raised, over the 3:1 a fill needs), optional chapter ticks, percentage beside it in Lilita One and `--color-accent-2` | animates `transform: scaleX()` on the fill, never `width` |
+| Checkbox | 22px, `--radius-sm`, `--color-muted` border | checked: `--color-accent` fill with a `--color-bg` check mark (at least 5.43:1); pressed: `scale(.9)` for 100ms |
+| Progress bar | 10 to 14px track in `--color-bg` (dark) or `--color-raised` with a hairline (light), `--color-accent` fill (at least 4.84:1 against raised, over the 3:1 a fill needs), optional chapter ticks, percentage beside it in Lilita One and `--color-accent-2` | animates `transform: scaleX()` on the fill, never `width` |
 | Callout | `--radius-md`, 2px border in its color, its color over a neutral ground of the mode (12 percent over `#141414` in dark mode, 10 percent over white in light mode; until 2026-11-17 it was 9 percent over `--color-bg`, and the gold of «¡Importante!» turned a muddy grey on the bluish grounds of Arcano light and Bonta, `tests/unit/callout-fill.test.ts` keeps each fill within 15 degrees of its color's hue), `16px 20px 18px` padding, `role="note"` named by its title. The title is a plain heading inside the box (Montserrat 600, 1.25rem, `--color-ink`): no ribbon, no tab, no glyph (decided 2026-11-05, guide v4). Text in `--color-ink` (at least 12.64:1 on every fill). In guides, the tip variant renders as Torre's tips instead (Quest guide components) | warning ("¡Importante!"), stop ("¡Alto!"), tip ("Consejo", outside guides) |
 | Table | 44px rows, 1px `--color-line` between rows, sticky head row in micro labels, checkbox column first, numbers right-aligned | row hover: `--color-raised`; done rows keep their place and tick |
 | Tooltip | `--color-raised`, 12px radius, `--text-xs`, 8px offset | shows on hover after 300ms and on focus; never holds the only copy of information |
@@ -686,7 +678,7 @@ Revised 2026-11-12 after Torre's review (prototype `tmp/mockups/paginas-guia/`, 
 - **Subtitle**: exactly "Misión de {zona} - Nivel {n} - Misión {k} de {total}", the parts joined with " - ", with no trophy and no link: the breadcrumb names the achievement. The zone is the one Torre wrote in the guide's summary (`summary.zone`) or, when empty, the area of the quest's start map in DofusDB (`quests.zone`, "Astrub"); the level is Torre's (`summary.level`) or the quest's minimum level; the position and the total are the quest's place among the quests of its achievement page (a row of alternatives, such as the class quest, counts as one), or DofusDB's (`quests.achievement`) when the quest has no achievement page. A missing part is left out ("Nivel 20" alone when the quest has no zone and no achievement); with no part at all there is no subtitle. On phones the subtitle wraps between parts, not inside one while it fits, and the " -" ends the line before the break, so a wrapped line never starts with it (`MetaParts` in `src/components/ui/`: each part an inline block, the separator at the end of the previous one).
 - **Quest giver**: the NPC that starts the quest, rendered by DofusDB and imported once into Media (see Imagery). From 576px: the render facing right (direction 1) at 84px wide (92px from 1024px), on a flat oval "floor" in `--color-raised` fading to transparent, with nothing under it: the name and the chip are in the start line. Under 576px the header flips: the render facing left (direction 3), 50px wide in a 56px column at least 136px tall (what it took with the name under it), centered, stands right of the title and subtitle, and the start line runs under both. That height absorbs a two-line title that was one line in the fallback font, so the start line and the facts do not move when Montserrat arrives (CLS). The picture uses `<source media="(max-width: 35.99rem)">` for the left-facing render. The render is decorative (`alt=""`). No render, no column: never a placeholder; the start line stays.
 - **Facts** (one band since 2026-11-12; stacked from 2026-11-11 until then): three `<section>`s named by their `h2`, in `.facts` inside `.qhead__facts`, which is an inline-size container (`facts`). Under 34rem of band width (phones) they stack, 16px apart. From 34rem, Prerrequisitos and Necesitarás sit side by side (`minmax(0, 1fr) minmax(0, 1.6fr)`, 14px row and 20px column gap) with a 1px `--color-line` rule and 20px before the second, and Recompensas runs as a strip under both, 12px under a 1px `--color-line` rule. With only two facts they share the row (the first `fit-content(18rem)`). Three columns were tried and dropped: an XP range («1 411 200 a 2 173 360 XP») and a few needed items no longer fit in a third of the band. Each line is a row at least 40px tall, so the first rows of the facts line up: a 44px slot with the icon, then the text in `--color-ink`, the amounts in Montserrat 800 with tabular figures ("**1 ×** Pico de tofu", "**9 800** a **16 380** XP"). Recompensas has its rows in a wrapping flex line (4px row gap, 24px column gap).
-- **Fact titles** (2026-11-12, the same on the achievement and Dofus guide pages): they read as headings, Lexend 700 at 1.125rem, line height 1.3, `--color-ink`, normal case, 6px above the rows. Nothing before them: no bar, chip or accent (the user rejected that as decoration); type alone gives the hierarchy.
+- **Fact titles** (2026-11-12, the same on the achievement and Dofus guide pages): they read as headings, Lexend 700 at 1.125rem, line height 1.3, normal case, 6px above the rows, in the fixed hue of their part (Item hues: Prerrequisitos hue 5, Necesitarás hue 1, Recompensas hue 2). Nothing before them: no bar, chip or accent (the user rejected that as decoration); type alone gives the hierarchy.
   - **Prerrequisitos**: one row per line of the guide's summary, without the final period. A line that names one of the quest's prerequisite quests gets the quest book icon, and links to that quest's guide when it is published. Other lines ("Nivel mínimo 20") are plain text rows with no slot.
   - **Necesitarás**: two lists, items first, then notes, with no box around either.
     - **Items**: the needed items (never quest items, DofusDB super type 14) with their item icon, each copying its name (Item chip and item slot, Copy), in columns of at least 15rem (`repeat(auto-fill, minmax(min(100%, 15rem), 1fr))`, 8px row gap, 24px column gap), at least 13rem inside the band from 34rem: one column beside Prerrequisitos on a guide with a quest giver, two when Necesitarás is wider, one on phones. The quantity keeps its own column, so a name too long for its column wraps under itself, not under «2 ×».
@@ -742,7 +734,7 @@ Decided 2026-11-06 with guide v5: a fight is a list of rows like the header's, n
 
 #### Coordinates chip
 
-- **Anatomy**: an inline 32px chip, 8px radius, `--color-well` fill, a 1.5px `--color-accent` border, a 16px pin icon then the coordinates in Montserrat 800 at 0.9375rem with tabular figures, in `--color-accent` (at least 4.93:1 on the well). The label is the game's notation, `[7,-19]`.
+- **Anatomy**: an inline 32px chip, 8px radius, `--color-well` fill, a 1.5px `--color-accent` border, a 16px pin icon then the coordinates in Montserrat 800 at 0.9375rem with tabular figures, in `--color-accent` (at least 4.84:1 on the well). The label is the game's notation, `[7,-19]`.
 - **What it copies**: `/travel 7,-19`. Pasted in the game chat it sets the autopilot, which is what a reader following a guide wants. The `[x,y]` map link stays as the visible label only; there is no second control to copy it. The start position uses the same chip, under the quest giver.
 - **Coordinates in prose**: the renderer of the guide body turns every `[x,y]` written in a text node into a chip. The pattern is two signed integers in square brackets with optional spaces (`[7,-19]`, `[ -1 , 17 ]`); anything else stays text: decimals, a single number, three numbers, or coordinates inside a link or code. A step whose own X and Y do not appear in its text shows them as a chip on the first line of the step.
 - **Without JavaScript**: the chip renders as plain text, readable and selectable. The island then turns each chip into a button (`role="button"`, `tabindex="0"`, Enter and Space) and gives it the name `[7,-19], copiar /travel 7,-19`, which starts with the visible text.
@@ -911,7 +903,7 @@ Decided 2026-11-15, at the user's request: the particles of the old checklist hu
 - **Reduced motion**: `display: none`. No particles at all.
 - **Strength**: the layer is at 85 percent opacity in dark mode and 60 percent in light mode, on top of each particle's own fade. Light mode drops the halos.
 
-Each theme and mode sets custom properties (`--amb-anim`, `--amb-bg`, `--amb-glow`, `--amb-shape` and the rest, listed at the top of `ambience.css`) on the element that carries `data-theme` and `data-mode`. They inherit, so the nearest element wins: a `/sistema` section shows its own theme inside an Arcano page. Every other particle uses the second color. The colors come from the theme's `--t-accent` and `--t-accent-2`.
+Each theme and mode sets custom properties (`--amb-anim`, `--amb-bg`, `--amb-glow`, `--amb-shape` and the rest, listed at the top of `ambience.css`) on the element that carries `data-theme` and `data-mode`. They inherit, so the nearest element wins: a `/sistema` section shows its own theme inside an Amakna page. Every other particle uses the second color. The colors come from the theme's `--t-accent` and `--t-accent-2`.
 
 | Theme | Dark | Light |
 |---|---|---|
@@ -1028,7 +1020,7 @@ Carried over from Dofus Tools reviews, plus what the duffus study ruled out.
 
 | Rejected | Do instead |
 |---|---|
-| A side border accent on the active item | a raised fill or the `--shadow-glow` frame |
+| A side border accent on the active item | a raised fill or a flat border in the accent |
 | Gradient pill buttons, or a fill on secondary actions | a flat `--color-btn` fill for the primary action only |
 | "Entrar →" text on a card that is already a link | the whole card is the link; the meta line says where it goes |
 | Emoji or generic icons when a game asset exists | the game asset in an icon well |
